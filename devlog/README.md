@@ -8,3 +8,12 @@ good work for today.
 23/06/24
 reading and understanding scripts. some people poured a lot of love and effort on this game. the Cinema script is very impressive.
 Really hope I can make this work on Godot.
+...
+Neat. The title is starting to look right. I basically just copied some code, and everything worked.
+One funny thing was that some values needed a bit of tweaking. The screen resolution should be the same, maybe the way stuff are drawn to the screen is the issue?
+On the title screen, there are those litthe stars (oTitleStarpass), i just copied the code, pasted and it worked. That makes me pretty confident about this project.
+
+Now, here is a big problem: fonts. Barkley2 uses spritefonts and Im having a hard time finding a way to use it on godot.
+Converting it to standart font is also hard. No idea what to do.
+
+My Border() Script is half baked. Need to fix it soon to write dialog.
