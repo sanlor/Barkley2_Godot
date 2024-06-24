@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=48 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -36,6 +36,7 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_bg_movement.gd" id="34_odgkf"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_Zigg_movement.gd" id="35_rovkd"]
 [ext_resource type="PackedScene" uid="uid://b3nt7m31bvw40" path="res://barkley2/scenes/border/sBorder.tscn" id="36_5qb0r"]
+[ext_resource type="FontFile" uid="uid://l8m2ya0lushw" path="res://barkley2/assets/fonts/f_fn1.png" id="37_eppep"]
 [ext_resource type="Texture2D" uid="uid://cxdpbqs5mgey8" path="res://barkley2/assets/sTitle/s_barkley2_logo_0.png" id="37_wemyq"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_barkley2_logo.gd" id="38_gb871"]
 [ext_resource type="Texture2D" uid="uid://sewkqtaqmu0i" path="res://barkley2/assets/sTitle/s_jankyDemo01_0.png" id="39_mjgjm"]
@@ -158,6 +159,10 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tk2xj"]
+font = ExtResource("37_eppep")
+font_size = 20
 
 [node name="r_title" type="Control"]
 layout_mode = 3
@@ -295,3 +300,12 @@ offset_right = 176.0
 offset_bottom = 54.0
 texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 175.0
+offset_right = 127.0
+offset_bottom = 210.0
+text = "Sample Text"
+label_settings = SubResource("LabelSettings_tk2xj")

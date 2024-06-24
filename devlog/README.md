@@ -14,6 +14,9 @@ One funny thing was that some values needed a bit of tweaking. The screen resolu
 On the title screen, there are those litthe stars (oTitleStarpass), i just copied the code, pasted and it worked. That makes me pretty confident about this project.
 
 Now, here is a big problem: fonts. Barkley2 uses spritefonts and Im having a hard time finding a way to use it on godot.
-Converting it to standart font is also hard. No idea what to do.
+Converting it to standart font is also hard... No idea what to do. scrath that, just figured out.
+Basically I used a program called http://www.rw-designer.com/image-grid and made a big PNG file, and godot can read it.
+check res://barkley2/assets/fonts/f_fn1.png
+The font reminds me a big if the Terranigma font: https://www.spriters-resource.com/snes/terranigma/sheet/35455/
 
 My Border() Script is half baked. Need to fix it soon to write dialog.
