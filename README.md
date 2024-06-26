@@ -10,9 +10,9 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
     - [ ] TBD
 > [!NOTE]
 > Discover what else need to be migrated.
-   
-  - [ ] Recreate the game´s cursor.
+
   - [ ] Recreate all of the game´s fonts. The original font is just a bunch of animated sprites.
+  - [ ] Recreate the game´s cursor.
     - [ ] Add the blinking animation
     - [ ] Add the "blur" when you move it too fast.
   - [ ] Recreate the game´s title screen
