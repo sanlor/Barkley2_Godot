@@ -20,3 +20,6 @@ check res://barkley2/assets/fonts/f_fn1.png
 The font reminds me a big if the Terranigma font: https://www.spriters-resource.com/snes/terranigma/sheet/35455/
 
 My Border() Script is half baked. Need to fix it soon to write dialog.
+
+24/06/24
+Uploaded the original code to github and done some documentation,

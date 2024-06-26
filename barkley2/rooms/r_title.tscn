@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=47 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -36,11 +36,11 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_bg_movement.gd" id="34_odgkf"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_Zigg_movement.gd" id="35_rovkd"]
 [ext_resource type="PackedScene" uid="uid://b3nt7m31bvw40" path="res://barkley2/scenes/border/sBorder.tscn" id="36_5qb0r"]
-[ext_resource type="FontFile" uid="uid://l8m2ya0lushw" path="res://barkley2/assets/fonts/f_fn1.png" id="37_eppep"]
 [ext_resource type="Texture2D" uid="uid://cxdpbqs5mgey8" path="res://barkley2/assets/sTitle/s_barkley2_logo_0.png" id="37_wemyq"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_barkley2_logo.gd" id="38_gb871"]
 [ext_resource type="Texture2D" uid="uid://sewkqtaqmu0i" path="res://barkley2/assets/sTitle/s_jankyDemo01_0.png" id="39_mjgjm"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_jankyDemo01.gd" id="40_dgu6u"]
+[ext_resource type="PackedScene" uid="uid://dhe47n2vkcdrw" path="res://barkley2/scenes/border/sBorderButton.tscn" id="41_hg8da"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -160,10 +160,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_tk2xj"]
-font = ExtResource("37_eppep")
-font_size = 20
-
 [node name="r_title" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -264,21 +260,6 @@ script = ExtResource("35_rovkd")
 is_Ziggurat = true
 movement_limit = 96
 
-[node name="sBorderBG" parent="." instance=ExtResource("36_5qb0r")]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -58.0
-offset_top = -90.0
-offset_right = 58.0
-offset_bottom = -15.0
-grow_horizontal = 2
-grow_vertical = 0
-border_size = Vector2(116, 75)
-
 [node name="s_barkley2_logo" type="TextureRect" parent="."]
 z_index = 10
 layout_mode = 1
@@ -301,11 +282,21 @@ offset_bottom = 54.0
 texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 175.0
-offset_right = 127.0
-offset_bottom = 210.0
-text = "Sample Text"
-label_settings = SubResource("LabelSettings_tk2xj")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="sBorderBG" parent="CanvasLayer" instance=ExtResource("36_5qb0r")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -58.0
+offset_top = -90.0
+offset_right = 58.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 0
+border_size = Vector2(116, 75)
+
+[node name="sBorderButton" parent="CanvasLayer/sBorderBG" instance=ExtResource("41_hg8da")]
+layout_mode = 2
