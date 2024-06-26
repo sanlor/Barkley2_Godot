@@ -4,6 +4,8 @@ extends Control
 # This also forces the resolution to 384 x 240.
 # This scene tries to recreate the room r_title, with the object oTitle.
 
+@export var debug_data := false
+
 ## Godot Specific:
 
 #region Images
@@ -14,6 +16,13 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 #endregion
 
 # region Panels
+
+@onready var title_panel = $????
+@onready var settings_general_panel = $????
+@onready var settings_keys_panel = $????
+@onready var settings_gamepad_panel = $????
+@onready var gameslot_panel = $????
+@onready var characters_panel = $????
 
 # Menu Panels
 var title_box
@@ -60,80 +69,79 @@ var mode = "basic" :# "basic", "settings", "keymap", "gamepad", "gameslot","dest
 #region Bunch of stupid variables related to the menus layout
 
 ## Basic title
-	var title_x = 142
-	var title_y = 170
+var title_x = 142
+var title_y = 170
 
-	var title_row = 16
-	var title_gap = 0
+var title_row = 16
+var title_gap = 0
 
-	# Draw buttons
+# Draw buttons
 
-	## Game slots
-	var gameslot_width = 344 - 8;
-	
-	var gameslot_x = 30;
-	var gameslot_y = 10; 
-	
-	var gameslot_row = 60 - 2;
-	var gameslot_gap = 10;
+## Game slots
+var gameslot_width = 344 - 8;
 
+var gameslot_x = 30;
+var gameslot_y = 10; 
 
-	# Obliterate button
-	var gameslot_destruct_x = 244;
-	var gameslot_destruct_y = 214;
+var gameslot_row = 60 - 2;
+var gameslot_gap = 10;
 
-	# back button
-	var gameslot_back_x = 40;
-	var gameslot_back_y = 214;
+# Obliterate button
+var gameslot_destruct_x = 244;
+var gameslot_destruct_y = 214;
 
-	## Character Select ## "Create Character", "Play as X114JAM9", "Skip the Stupid Prologue", "Return"
-	var character_x = 20;
-	var character_y = 20;
-	var character_row = 20;
-	var character_gap = 5;
+# back button
+var gameslot_back_x = 40;
+var gameslot_back_y = 214;
 
-	## Draw Settings
-	var settings_x = 40;
-	var settings_y = 64 - 6;
-	var settings_row = 16;
-	var settings_gap = 0;
-	var settings_width = (24 * 8);
-	var settings_option_x = 143 - 32;
-	
-	var settings_tab_y = settings_y - 48;
-	var settings_return_y = settings_y + settings_row * 9 + settings_gap * 9 + 0;
+## Character Select ## "Create Character", "Play as X114JAM9", "Skip the Stupid Prologue", "Return"
+var character_x = 20;
+var character_y = 20;
+var character_row = 20;
+var character_gap = 5;
 
-	# Draw General
-	var slider_mx = 200; # Music
-	var slider_sx = 200; # Sfx
-	var slider_my = 40; # Music
-	var slider_sy = 60; # Sfx
+## Draw Settings
+var settings_x = 40;
+var settings_y = 64 - 6;
+var settings_row = 16;
+var settings_gap = 0;
+var settings_width = (24 * 8);
+var settings_option_x = 143 - 32;
 
-	# Draw Gamepad Menu
+var settings_tab_y = settings_y - 48;
+var settings_return_y = settings_y + settings_row * 9 + settings_gap * 9 + 0;
 
-	# Draw Keymap
-	var key_get = -1;
-	var key_lag = 0;
-	var key_x = 40;
-	var key_y = 64 - 6; ## 24;
-	var key_row = 16;
-	var key_gap = 0;
-	
-	## Stock Ticker ## Maybe this isnt usedin the "final" game?
-	stock_x[0] = 20;
-	stock_x[1] = 100;
-	stock_x[2] = 180;
-	stock_x[3] = 260;
-	stock_x[4] = 340;
-	stock_x[5] = 420;
-	stock_x[6] = 500;
-	stock_y = 225;
+# Draw General
+var slider_mx = 200; # Music
+var slider_sx = 200; # Sfx
+var slider_my = 40; # Music
+var slider_sy = 60; # Sfx
 
-	## Other garbage ##
-	var confirm_x = 132;
-	var confirm_y = 150;
-	var confirm_width = 50;
-	var confirm_gap = 20;
+# Draw Gamepad Menu
+
+# Draw Keymap
+var key_get = -1;
+var key_lag = 0;
+var key_x = 40;
+var key_y = 64 - 6; ## 24;
+var key_row = 16;
+var key_gap = 0;
+
+## Stock Ticker ## Maybe this isnt usedin the "final" game?
+stock_x[0] = 20;
+stock_x[1] = 100;
+stock_x[2] = 180;
+stock_x[3] = 260;
+stock_x[4] = 340;
+stock_x[5] = 420;
+stock_x[6] = 500;
+stock_y = 225;
+
+## Other garbage ##
+var confirm_x = 132;
+var confirm_y = 150;
+var confirm_width = 50;
+var confirm_gap = 20;
 
 #endregion
 
@@ -188,10 +196,24 @@ func _ready():
 	init_menus()
 	change_menu()
 
-func init_menus(): ## THis is just to alling with the old code. There are better ways to do this.
-	pass
+func init_menus(): ## This is just to alling with the old code. There are better ways to do this.
+	## Settings
+	# gamepad
+	var l_
+	settings_gamepad_panel
+	
+@onready var title_panel = $????
+@onready var settings_general_panel = $????
+@onready var settings_keys_panel = $????
+@onready var settings_gamepad_panel = $????
+@onready var gameslot_panel = $????
+@onready var characters_panel = $????
 
-func change_menu():
+func change_menu(): # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character"
+	match mode:
+		"basic":
+			add_child(title_panel)
+			
 	pass
 
 func _input(event):
