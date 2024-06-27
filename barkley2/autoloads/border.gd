@@ -16,5 +16,6 @@ extends Node
 ## Border("draw", 0, x, y);
 
 ## NOTE This might need to be changed
-func generate( id, width, height):
+#func generate( id, width, height):
+func generate( width, height):
 	pass

@@ -1,14 +1,9 @@
 @tool
 extends Control
 
-## NOTE I was forced to change some stuff. This is mostly original code.
-## Some files (corners) needed to me modified.
-
 const S_BORDER_CORNERS = preload("res://barkley2/resources/Border/sBorderCorners.tres")
 const S_BORDER_LEFT_RIGHT = preload("res://barkley2/resources/Border/sBorderLeftRight.tres")
 const S_BORDER_TOP_BOTTOM = preload("res://barkley2/resources/Border/sBorderTopBottom.tres")
-
-const S_BORDER_BG_0 = preload("res://barkley2/assets/Border/sBorderBG_0.png")
 
 var corner_sprite_size := Vector2(25,25)
 
@@ -27,27 +22,15 @@ const border_v_tile_3 := 3
 const border_v_tile_4 := 4
 const border_v_tile_6 := 6
 
-@export_category("DEBUG")
-@export var disable_corner := false
-@export var disable_sides := false
-@export var disable_bottom := false
-@export var disable_bg := false
+var border_size : Vector2
 
-@export var resize := false:
-	set(a):
-		queue_redraw()
-		
-@export var border_size := Vector2(50,50)
+@onready var parent = get_parent()
+
+func _ready():
+	border_size = parent.border_size
 
 func _draw():
-	size = border_size
-	
-	if not disable_bg:
-		## BG
-		var bg_rect := Rect2( Vector2(2,2), border_size - Vector2(4,4) ) # Small offset to hide the BG
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.5), false )
-	
-	if not disable_sides:
+	if not parent.disable_sides:
 		## Horizontal
 		var avaiable_h_space := border_size.y - (corner_sprite_size.y * 2)
 		for i : int in int(avaiable_h_space / border_h_tile_size.y) + 1:
@@ -58,7 +41,7 @@ func _draw():
 			draw_texture( h_corner_left, Vector2(0, (border_h_tile_size.y * i) + corner_sprite_size.y), Color.WHITE )
 			draw_texture( h_corner_left, Vector2(border_size.x - border_h_tile_size.x, (border_h_tile_size.y * i) + corner_sprite_size.y), Color.WHITE )
 	
-	if not disable_bottom:
+	if not parent.disable_bottom:
 		## Vertical
 		var avaiable_v_space := border_size.x - (corner_sprite_size.x * 2)
 		for i : int in int(avaiable_v_space / border_v_tile_size.x) + 1:
@@ -70,7 +53,7 @@ func _draw():
 			draw_texture( v_corner_left, Vector2( (border_v_tile_size.x * i) + corner_sprite_size.x, 0), Color.WHITE )
 			draw_texture( v_corner_left, Vector2( (border_v_tile_size.x * i) + corner_sprite_size.x, border_size.y - border_v_tile_size.y), Color.WHITE )
 	
-	if not disable_corner:
+	if not parent.disable_corner:
 		## Corners
 		var corner_top_left : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
 		corner_top_left.region.position += Vector2( randi_range(0,3), 0 ) * corner_sprite_size

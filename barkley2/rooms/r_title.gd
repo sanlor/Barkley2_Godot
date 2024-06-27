@@ -13,16 +13,45 @@ extends Control
 @onready var bg = $bg
 const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.tscn")
 
+@onready var s_barkley_2_logo = $s_barkley2_logo
+@onready var s_janky_demo_01 = $s_jankyDemo01
+
+# Animated
+@onready var s_title_starfield_bright = $bg/sTitleStarfieldBright
+@onready var s_title_nebula_red_smoke = $bg/sTitleNebulaRedSmoke
+@onready var s_title_nebula_red_faces = $bg/sTitleNebulaRedFaces
+@onready var s_title_hell_mouth = $bg/sTitleHellMouth
+@onready var s_title_ziggurat = $bg/sTitleZiggurat
+
+# Static
+@onready var s_title_starfield_dim = $bg/sTitleStarfieldDim
+@onready var s_title_nebula_blue_mid = $bg/sTitleNebulaBlueMid
+@onready var s_title_nebula_blue = $bg/sTitleNebulaBlue
+@onready var s_title_nebula_blue_bottom = $bg/sTitleNebulaBlueBottom
+@onready var s_title_nebula_red = $bg/sTitleNebulaRed
+@onready var s_title_nebula_red_hell = $bg/sTitleNebulaRedHell
+
 #endregion
 
 # region Panels
 
-@onready var title_panel = $????
-@onready var settings_general_panel = $????
-@onready var settings_keys_panel = $????
-@onready var settings_gamepad_panel = $????
-@onready var gameslot_panel = $????
-@onready var characters_panel = $????
+@onready var title_panel = $CanvasLayer/title_panel
+
+@onready var start_button = $CanvasLayer/title_panel/start_button
+@onready var settings_button = $CanvasLayer/title_panel/settings_button
+@onready var quit_button = $CanvasLayer/title_panel/quit_button
+
+@onready var title_buttons := [
+	start_button,
+	settings_button,
+	quit_button
+]
+
+@onready var settings_general_panel = null
+@onready var settings_keys_panel = null
+@onready var settings_gamepad_panel = null
+@onready var gameslot_panel = null
+@onready var characters_panel = null
 
 # Menu Panels
 var title_box
@@ -46,7 +75,7 @@ var stock_x := Array() # for the stock ticker
 # region Color stuff
 
 var text_color_normal := Color.GRAY # c_gray; // For text that cannot be interacted with
-var text_color_button := Color.LIGHTGRAY # c_ltgray; // Text that can be clicked
+var text_color_button := Color.LIGHT_GRAY # c_ltgray; // Text that can be clicked
 var text_color_hover  := Color.WHITE # c_white;
 var text_color_select := Color.ORANGE # c_orange;
 
@@ -128,14 +157,14 @@ var key_row = 16;
 var key_gap = 0;
 
 ## Stock Ticker ## Maybe this isnt usedin the "final" game?
-stock_x[0] = 20;
-stock_x[1] = 100;
-stock_x[2] = 180;
-stock_x[3] = 260;
-stock_x[4] = 340;
-stock_x[5] = 420;
-stock_x[6] = 500;
-stock_y = 225;
+#stock_x[0] = 20;
+#stock_x[1] = 100;
+#stock_x[2] = 180;
+#stock_x[3] = 260;
+#stock_x[4] = 340;
+#stock_x[5] = 420;
+#stock_x[6] = 500;
+#stock_y = 225;
 
 ## Other garbage ##
 var confirm_x = 132;
@@ -162,10 +191,20 @@ func _ready():
 		star.position = Vector2( randf_range(0, get_viewport_rect().end.x), randf_range(0, get_viewport_rect().end.y) )
 		star.name = "star" + str(i)
 		add_child(star)
-
+	
+	## Decorations
+	# Barkley logo
+	#draw_sprite(s_jankyDemo01, 0, SCREEN_WIDTH/1.5, SCREEN_HEIGHT/2 - 20);
+	s_janky_demo_01.global_position = Vector2(get_viewport_rect().end.x / 1.5, get_viewport_rect().end.y /2 - 20) - (s_janky_demo_01.size / 2)
+	
+	
 	## Create Panels / Borders
 	# Border("generate", 0, 100 + 16, 60 + 16 - 1); // Title Box
-	title_box = Border.generate(100 + 16, 60 + 16 - 1)
+	title_panel.set_panel_size( 100 + 16, 60 + 16 - 1 )
+	title_panel.global_position = Vector2( title_x - 8, title_y - 15 )
+	for i in range( title_buttons.size() ): # Set the button positions
+		title_buttons[i].size = Vector2(100, title_row + 1)
+		title_buttons[i].global_position = Vector2(title_x + 50, title_y + (title_row * i) + (title_gap * i) + 4) - ( title_buttons[i].size / 2 )
 
 	# for (i = 1; i &lt; 4; i += 1) Border("generate", i, 344, 66); // Game Slot
 	game_slot_1 = Border.generate( 344, 66 )
@@ -195,19 +234,18 @@ func _ready():
 
 	init_menus()
 	change_menu()
+	queue_redraw()
 
 func init_menus(): ## This is just to alling with the old code. There are better ways to do this.
 	## Settings
-	# gamepad
-	var l_
-	settings_gamepad_panel
+	pass
 	
-@onready var title_panel = $????
-@onready var settings_general_panel = $????
-@onready var settings_keys_panel = $????
-@onready var settings_gamepad_panel = $????
-@onready var gameslot_panel = $????
-@onready var characters_panel = $????
+#title_panel
+#settings_general_panel
+#settings_keys_panel
+#settings_gamepad_panel
+#gameslot_panel
+#characters_panel
 
 func change_menu(): # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character"
 	match mode:
@@ -225,3 +263,17 @@ func _process(delta):
 		#if n.has_method("move_left"):
 			#n.move_left( 80 * delta )
 	pass
+
+func _draw():
+	var qrx = 150;
+	var qry = 100 + 15 + 5 ; # + 5 was added by me.
+	var font := preload("res://barkley2/assets/fonts/Perfect DOS VGA 437 Win.ttf")
+	#draw_text(qrx, qry, "DEMO game for backers.");
+	draw_string( font, Vector2(qrx,qry), "DEMO game for backers.",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color.YELLOW)
+	qry += 14; 
+	#draw_text(qrx, qry, "Substantial levels of WONK and JANK.");
+	draw_string( font, Vector2(qrx,qry), "Substantial levels of WONK and JANK.",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color.YELLOW)
+	qry += 14; 
+	#draw_text(qrx, qry, "Experience accordingly.");
+	draw_string( font, Vector2(qrx,qry), "Experience accordingly.",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color.YELLOW)
+	

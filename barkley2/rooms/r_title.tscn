@@ -35,12 +35,12 @@
 [ext_resource type="Texture2D" uid="uid://caid8ad5egdlo" path="res://barkley2/assets/sTitle/sTitleZiggurat_4.png" id="29_hdhpx"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_bg_movement.gd" id="34_odgkf"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/sTitle_Zigg_movement.gd" id="35_rovkd"]
-[ext_resource type="PackedScene" uid="uid://b3nt7m31bvw40" path="res://barkley2/scenes/border/sBorder.tscn" id="36_5qb0r"]
+[ext_resource type="PackedScene" uid="uid://b3nt7m31bvw40" path="res://barkley2/scenes/border/B2_panel.tscn" id="36_5qb0r"]
 [ext_resource type="Texture2D" uid="uid://cxdpbqs5mgey8" path="res://barkley2/assets/sTitle/s_barkley2_logo_0.png" id="37_wemyq"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_barkley2_logo.gd" id="38_gb871"]
 [ext_resource type="Texture2D" uid="uid://sewkqtaqmu0i" path="res://barkley2/assets/sTitle/s_jankyDemo01_0.png" id="39_mjgjm"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_jankyDemo01.gd" id="40_dgu6u"]
-[ext_resource type="PackedScene" uid="uid://dhe47n2vkcdrw" path="res://barkley2/scenes/border/sBorderButton.tscn" id="41_hg8da"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="41_fj155"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -170,6 +170,7 @@ grow_vertical = 2
 script = ExtResource("1_w55ib")
 
 [node name="bg" type="ColorRect" parent="."]
+z_index = -10
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -284,7 +285,7 @@ script = ExtResource("40_dgu6u")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="sBorderBG" parent="CanvasLayer" instance=ExtResource("36_5qb0r")]
+[node name="title_panel" parent="CanvasLayer" instance=ExtResource("36_5qb0r")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -296,7 +297,32 @@ offset_right = 58.0
 offset_bottom = -15.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("41_fj155")
 border_size = Vector2(116, 75)
 
-[node name="sBorderButton" parent="CanvasLayer/sBorderBG" instance=ExtResource("41_hg8da")]
-layout_mode = 2
+[node name="start_button" type="Button" parent="CanvasLayer/title_panel"]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -41.0
+offset_right = 32.0
+offset_bottom = -27.0
+action_mode = 0
+text = "Game Time"
+
+[node name="settings_button" type="Button" parent="CanvasLayer/title_panel"]
+layout_mode = 0
+offset_left = -72.0
+offset_top = 2.0
+offset_right = -4.0
+offset_bottom = 16.0
+action_mode = 0
+text = "Settings"
+
+[node name="quit_button" type="Button" parent="CanvasLayer/title_panel"]
+layout_mode = 0
+offset_left = -57.0
+offset_top = 43.0
+offset_right = -23.0
+offset_bottom = 57.0
+action_mode = 0
+text = "Quit"

@@ -17,6 +17,7 @@ extends TextureRect
 	#draw_set_alpha(1);
 
 func _ready():
-	position.x = get_viewport_rect().end.x / 2.3
-	position.y = get_viewport_rect().end.y / 2 - 40
+	pass
+	#position.x = get_viewport_rect().end.x / 2.3
+	#position.y = get_viewport_rect().end.y / 2 - 40
 
