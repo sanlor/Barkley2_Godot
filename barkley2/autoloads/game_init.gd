@@ -106,17 +106,17 @@ var idvisible = 1;
 
 ## fonts
 ## CRITICAL This is weird. s_fn1 is a sprite set ("..\Barkley2.gmx\mvc\sprites\s_fn1\"), each letter is a sprite? I dont have a single font file for the text to import on godot... Fuck.
-var fn_1 : FontFile = preload("res://barkley2/assets/fonts/f_fn1.png") #font_add_sprite_ext(s_fn1, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]¨_´abcdefghijklmnopqrstuvwxyz{|}~ ÿÓíüú£§", 1, -1); ##was 0 spacing - Note font
-var fn_1b : FontFile = preload("res://barkley2/assets/fonts/f_fn1b.png") # = font_add_sprite(s_fn1b, ord(" "), 1, -1);
-var fn_1o : FontFile = preload("res://barkley2/assets/fonts/f_fn1o.png") # font_add_sprite(s_fn1o, ord(" "), 1, 1); ##was 0 spacing
+#var fn_1 : FontFile = preload("res://barkley2/assets/fonts/f_fn1.png") #font_add_sprite_ext(s_fn1, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]¨_´abcdefghijklmnopqrstuvwxyz{|}~ ÿÓíüú£§", 1, -1); ##was 0 spacing - Note font
+#var fn_1b : FontFile = preload("res://barkley2/assets/fonts/f_fn1b.png") # = font_add_sprite(s_fn1b, ord(" "), 1, -1);
+#var fn_1o : FontFile = preload("res://barkley2/assets/fonts/f_fn1o.png") # font_add_sprite(s_fn1o, ord(" "), 1, 1); ##was 0 spacing
 ###var fn_2 = font_add_sprite(s_fn2, ord(" "), 1, 0); ##was 0 spacing
-var fn_2 : FontFile = preload("res://barkley2/assets/fonts/f_fn2.png") # font_add_sprite_ext(s_fn2, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]¨_´abcdefghijklmnopqrstuvwxyz{|}~ ÿÓíüú£§", 1, 0); ##was 0 spacing
+#var fn_2 : FontFile = preload("res://barkley2/assets/fonts/f_fn2.png") # font_add_sprite_ext(s_fn2, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]¨_´abcdefghijklmnopqrstuvwxyz{|}~ ÿÓíüú£§", 1, 0); ##was 0 spacing
 #
 #var fn_3 = font_add_sprite(s_fn3, ord("!"), 0, 1); ## PROGRESSION IS - '!"' + "    '  *+,-. 0123456789:    ? ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-var fn_small : FontFile = preload("res://barkley2/assets/fonts/f_fn_small.png") # font_add_sprite_ext(s_fn_small, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 0, 1); ##was 0,2 spacing, and string was was ord("!") for second argument befoer 1.4.9999
-var fn_smallc : FontFile = preload("res://barkley2/assets/fonts/f_fn_small.png") # font_add_sprite_ext(s_fn_small, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 0, 0); ##used to be 1,1 before version 1.4.9999
+#var fn_small : FontFile = preload("res://barkley2/assets/fonts/f_fn_small.png") # font_add_sprite_ext(s_fn_small, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 0, 1); ##was 0,2 spacing, and string was was ord("!") for second argument befoer 1.4.9999
+#var fn_smallc : FontFile = preload("res://barkley2/assets/fonts/f_fn_small.png") # font_add_sprite_ext(s_fn_small, ' !"' + "#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~", 0, 0); ##used to be 1,1 before version 1.4.9999
 #
-var fn_2c : FontFile = fn_2 # font_add_sprite(s_fn2, ord(" "), 1, -1); ##condensed font
+#var fn_2c : FontFile = fn_2 # font_add_sprite(s_fn2, ord(" "), 1, -1); ##condensed font
 #var fn_2o = font_add_sprite(s_fn2o, ord(" "), 0, 0); ##outline only
 #var fn_2f = font_add_sprite(s_fn2f, ord(" "), 0, 0); ##fill only
 ## NOTE uncomment above when the font stuff is sorted.

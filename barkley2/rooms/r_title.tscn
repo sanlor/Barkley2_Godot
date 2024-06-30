@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=55 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -40,7 +40,9 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_barkley2_logo.gd" id="38_gb871"]
 [ext_resource type="Texture2D" uid="uid://sewkqtaqmu0i" path="res://barkley2/assets/sTitle/s_jankyDemo01_0.png" id="39_mjgjm"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/s_jankyDemo01.gd" id="40_dgu6u"]
+[ext_resource type="Script" path="res://barkley2/scripts/sTitle/title_window.gd" id="40_yg4vf"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="41_fj155"]
+[ext_resource type="Script" path="res://barkley2/scripts/sTitle/settings_window.gd" id="42_iyvkj"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -160,6 +162,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_l7avw"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_a1hoj"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_dc4ss"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_5uuhn"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_ehj5d"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_pnmst"]
+
 [node name="r_title" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -211,7 +225,7 @@ movement_limit = 600
 
 [node name="sTitleStarfieldBright" type="AnimatedSprite2D" parent="bg"]
 sprite_frames = SubResource("SpriteFrames_wvayj")
-frame_progress = 0.0831298
+frame_progress = 0.700706
 centered = false
 script = ExtResource("34_odgkf")
 movement_limit = 150
@@ -233,6 +247,7 @@ movement_limit = 1100
 [node name="sTitleNebulaRedSmoke" type="AnimatedSprite2D" parent="bg"]
 position = Vector2(1363, 0)
 sprite_frames = SubResource("SpriteFrames_ndsxu")
+frame_progress = 0.617577
 centered = false
 script = ExtResource("34_odgkf")
 movement_limit = 1200
@@ -240,6 +255,7 @@ movement_limit = 1200
 [node name="sTitleNebulaRedFaces" type="AnimatedSprite2D" parent="bg"]
 position = Vector2(1220, 0)
 sprite_frames = SubResource("SpriteFrames_drgns")
+frame_progress = 0.617577
 centered = false
 script = ExtResource("34_odgkf")
 movement_limit = 1200
@@ -247,7 +263,7 @@ movement_limit = 1200
 [node name="sTitleHellMouth" type="AnimatedSprite2D" parent="bg"]
 position = Vector2(1210, 0)
 sprite_frames = SubResource("SpriteFrames_sv2df")
-frame_progress = 0.720552
+frame_progress = 0.338136
 centered = false
 script = ExtResource("34_odgkf")
 movement_limit = 1000
@@ -255,7 +271,7 @@ movement_limit = 1000
 [node name="sTitleZiggurat" type="AnimatedSprite2D" parent="bg"]
 position = Vector2(0, 30)
 sprite_frames = SubResource("SpriteFrames_bc5jr")
-frame_progress = 0.721781
+frame_progress = 0.339365
 centered = false
 script = ExtResource("35_rovkd")
 is_Ziggurat = true
@@ -278,12 +294,15 @@ script = ExtResource("38_gb871")
 [node name="s_jankyDemo01" type="TextureRect" parent="."]
 z_index = 10
 layout_mode = 0
-offset_right = 176.0
-offset_bottom = 54.0
+offset_left = 742.667
+offset_top = 205.5
+offset_right = 918.667
+offset_bottom = 259.5
 texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("40_yg4vf")
 
 [node name="title_panel" parent="CanvasLayer" instance=ExtResource("36_5qb0r")]
 anchors_preset = 7
@@ -292,9 +311,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -58.0
-offset_top = -90.0
+offset_top = -85.0
 offset_right = 58.0
-offset_bottom = -15.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("41_fj155")
@@ -302,27 +321,363 @@ border_size = Vector2(116, 75)
 
 [node name="start_button" type="Button" parent="CanvasLayer/title_panel"]
 layout_mode = 0
-offset_left = -40.0
-offset_top = -41.0
-offset_right = 32.0
-offset_bottom = -27.0
+offset_left = 8.0
+offset_top = 10.5
+offset_right = 108.0
+offset_bottom = 27.5
 action_mode = 0
 text = "Game Time"
 
 [node name="settings_button" type="Button" parent="CanvasLayer/title_panel"]
 layout_mode = 0
-offset_left = -72.0
-offset_top = 2.0
-offset_right = -4.0
-offset_bottom = 16.0
+offset_left = 8.0
+offset_top = 26.5
+offset_right = 108.0
+offset_bottom = 43.5
 action_mode = 0
 text = "Settings"
 
 [node name="quit_button" type="Button" parent="CanvasLayer/title_panel"]
 layout_mode = 0
-offset_left = -57.0
-offset_top = 43.0
-offset_right = -23.0
-offset_bottom = 57.0
+offset_left = 8.0
+offset_top = 42.5
+offset_right = 108.0
+offset_bottom = 59.5
 action_mode = 0
 text = "Quit"
+
+[node name="settings_layer" type="CanvasLayer" parent="."]
+visible = false
+script = ExtResource("42_iyvkj")
+
+[node name="settings_bg" type="ColorRect" parent="settings_layer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="general_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
+offset_left = 32.0
+offset_top = 10.0
+offset_right = 138.0
+offset_bottom = 42.0
+border_size = Vector2(106, 32)
+
+[node name="settings_general_button" type="Button" parent="settings_layer/general_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("41_fj155")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_l7avw")
+text = "General"
+
+[node name="keys_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
+offset_left = 143.0
+offset_top = 10.0
+offset_right = 249.0
+offset_bottom = 42.0
+border_size = Vector2(106, 32)
+
+[node name="settings_keys_button" type="Button" parent="settings_layer/keys_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("41_fj155")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l7avw")
+text = "Controls"
+
+[node name="gamepad_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
+offset_left = 254.0
+offset_top = 10.0
+offset_right = 360.0
+offset_bottom = 42.0
+border_size = Vector2(106, 32)
+
+[node name="settings_gamepad_button" type="Button" parent="settings_layer/gamepad_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("41_fj155")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_l7avw")
+text = "Gamepad"
+
+[node name="settings_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
+offset_left = 32.0
+offset_top = 43.0
+offset_right = 360.0
+offset_bottom = 197.0
+theme = ExtResource("41_fj155")
+border_size = Vector2(328, 154)
+
+[node name="general" type="Control" parent="settings_layer/settings_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="settings_name_0" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 72.0
+offset_bottom = 42.0
+text = "Music:"
+
+[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+text = "<"
+
+[node name="music_slider" type="HSlider" parent="settings_layer/settings_panel/general/settings_name_0"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 108.0
+offset_bottom = 16.0
+step = 5.0
+value = 100.0
+
+[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+text = ">"
+
+[node name="settings_name_1" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 35.0
+offset_right = 72.0
+offset_bottom = 58.0
+text = "Sound:"
+
+[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+text = "<"
+
+[node name="sound_slider" type="HSlider" parent="settings_layer/settings_panel/general/settings_name_1"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 108.0
+offset_bottom = 16.0
+step = 5.0
+value = 100.0
+
+[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+text = ">"
+
+[node name="settings_name_3" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 67.0
+offset_right = 77.0
+offset_bottom = 90.0
+text = "Filter:"
+
+[node name="crt_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 126.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_a1hoj")
+text = "CRT"
+
+[node name="bloom_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 143.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_a1hoj")
+text = "BLOOM"
+
+[node name="none_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 134.0
+offset_bottom = 14.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_a1hoj")
+text = "NONE"
+
+[node name="settings_name_4" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 83.0
+offset_right = 74.0
+offset_bottom = 106.0
+text = "Joke's:"
+
+[node name="joke_on_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 117.0
+offset_bottom = 14.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_dc4ss")
+text = "ON"
+
+[node name="joke_off_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 126.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_dc4ss")
+text = "OFF"
+
+[node name="settings_name_5" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 99.0
+offset_right = 102.0
+offset_bottom = 122.0
+text = "Language:"
+
+[node name="english_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 210.0
+offset_bottom = 14.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_5uuhn")
+text = "ANGLOAMERICAN"
+
+[node name="albhed_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 155.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_5uuhn")
+text = "AL BHED"
+
+[node name="settings_name_6" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 115.0
+offset_right = 122.0
+offset_bottom = 138.0
+text = "Fullscreen:"
+
+[node name="fullscreen_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 185.0
+offset_bottom = 14.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_ehj5d")
+text = "FULLSCREEN"
+
+[node name="window_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 168.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ehj5d")
+text = "WINDOWED"
+
+[node name="settings_name_7" type="Label" parent="settings_layer/settings_panel/general"]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 131.0
+offset_right = 87.0
+offset_bottom = 154.0
+text = "Scaling:"
+
+[node name="2x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 117.0
+offset_bottom = 14.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_pnmst")
+text = "2x"
+
+[node name="3x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 117.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pnmst")
+text = "3x"
+
+[node name="4x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 117.0
+offset_bottom = 14.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pnmst")
+text = "4x"
+
+[node name="keys" type="Control" parent="settings_layer/settings_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="gamepad" type="Control" parent="settings_layer/settings_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="return_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
+offset_left = 32.0
+offset_top = 202.0
+offset_right = 360.0
+offset_bottom = 234.0
+border_size = Vector2(328, 32)
+
+[node name="settings_return_button" type="Button" parent="settings_layer/return_panel"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+theme = ExtResource("41_fj155")
+text = "Return"
+
+[connection signal="pressed" from="CanvasLayer/title_panel/start_button" to="CanvasLayer" method="_on_start_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/title_panel/settings_button" to="CanvasLayer" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/title_panel/quit_button" to="CanvasLayer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="settings_layer/general_panel/settings_general_button" to="settings_layer" method="_on_settings_general_button_pressed"]
+[connection signal="pressed" from="settings_layer/keys_panel/settings_keys_button" to="settings_layer" method="_on_settings_keys_button_pressed"]
+[connection signal="pressed" from="settings_layer/gamepad_panel/settings_gamepad_button" to="settings_layer" method="_on_settings_gamepad_button_pressed"]
+[connection signal="pressed" from="settings_layer/return_panel/settings_return_button" to="settings_layer" method="_on_settings_return_button_pressed"]
