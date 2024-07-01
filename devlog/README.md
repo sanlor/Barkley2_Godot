@@ -27,3 +27,7 @@ Uploaded the original code to github and done some documentation,
 27/06/24
 Migrated the main menu and part of the settings menu. Just copying code around. No Idea how far cain I take this method.
 Font issue is back. Cant ise the monospaced font that I came up with it. Still, not sure what I will do.
+
+30/06/24
+Font issue is mostly solved. Had to install a plugin to make it work. The plugin itself doesnt work perfectly, but it does its job (along with spitting lots of errors).
+Title screen is going OK. Once the graphics are done, Im going to start working on the audio.

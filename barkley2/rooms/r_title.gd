@@ -170,8 +170,8 @@ var slider_sy = 60; # Sfx
 # Draw Keymap
 var key_get = -1;
 var key_lag = 0;
-var key_x = 40;
-var key_y = 64 - 6; ## 24;
+var key_x = 40 / 4 					## / 4 added by me
+var key_y = (64 - 6) / 4; ## 24; 	## / 4 added by me
 var key_row = 16;
 var key_gap = 0;
 
@@ -190,6 +190,9 @@ var confirm_x = 132;
 var confirm_y = 150;
 var confirm_width = 50;
 var confirm_gap = 20;
+
+var drx
+var dry
 
 #endregion
 
@@ -242,12 +245,12 @@ func _ready():
 		# for (i = 8; i &lt; 11; i += 1) Border("generate", i, 106, 32); // 8, 9, 10 = General, Controls, Dicks
 		settings_panels[i].set_panel_size(106, 32)
 		# Border("draw back", 8 + i, drx, dry);
-		var drx = settings_x - 8 + (i * 111);
-		var dry = settings_tab_y;
+		drx = settings_x - 8 + (i * 111);
+		dry = settings_tab_y;
 		settings_panels[i].global_position = Vector2(drx, dry)
 		#draw_sprite_ext(s1x1, 0, drx, dry + 4, 102, 24, 0, c_white, 0.25);
 		#draw_sprite_ext(s1x1, 0, drx, dry + 4, 102, 24, 0, c_orange, 0.25);
-		settings_buttons[i].size = Vector2(102, 24)
+		settings_buttons[i].set_size( Vector2(102, 24) )
 		settings_buttons[i].global_position = Vector2(drx, dry + 4,)# - (settings_buttons[i].size / 2)
 		pass ## NOTE Incomplete
 		
@@ -256,7 +259,7 @@ func _ready():
 	# drx = settings_x - 8; #dry = settings_return_y; #Border("draw back", 7, drx, dry);
 	settings_return_panel.global_position = Vector2(settings_x - 8, settings_return_y)
 	# draw_sprite_ext(s1x1, 0, drx, dry + 4, 320, 24, 0, c_white, 0.25);
-	settings_return_button.size = Vector2(320, 24)
+	settings_return_button.set_size( Vector2(320, 24) )
 	settings_return_button.global_position = Vector2(settings_x - 8, settings_return_y + 4)
 	
 	var settings_name_0 = $settings_layer/settings_panel/general/settings_name_0
@@ -268,14 +271,14 @@ func _ready():
 	var settings_name_7 = $settings_layer/settings_panel/general/settings_name_7
 	var set_names := general_options.get_children() # should be 7 labels
 
-	var dry = settings_y + settings_row * 0 + settings_gap * 0;
+	dry = settings_y + settings_row * 0 + settings_gap * 0;
 	
 	## Set settings labels
 	for l in 7:
 		if l == 2:
 			## Add a blank space
 			dry += 16
-		var drx = settings_x + settings_option_x + 16;
+		drx = settings_x + settings_option_x + 16;
 		set_names[l].global_position = Vector2(settings_x + xsp, dry + 4)
 		set_names[l].size = Vector2(drx + (10 * 8), dry + 4)
 		dry += 16
@@ -285,7 +288,7 @@ func _ready():
 	## Set the options buttons. THIS IS A MESS
 	var volume_keys := [$settings_layer/settings_panel/general/settings_name_0/minus, $settings_layer/settings_panel/general/settings_name_0/plus, $settings_layer/settings_panel/general/settings_name_1/minus, $settings_layer/settings_panel/general/settings_name_1/plus]
 	dry = settings_y + settings_row * 0 + settings_gap * 0;
-	var drx = settings_x + settings_option_x;
+	drx = settings_x + settings_option_x;
 	for v in 4: ## Slider buttons (four of them)
 		volume_keys[v].global_position = Vector2(drx, dry)
 		volume_keys[v].size = Vector2(16,16) #
@@ -303,6 +306,7 @@ func _ready():
 	## Filter
 	dry = settings_y + settings_row * 3 + settings_gap * 3;
 	drx = settings_x + settings_option_x;
+	@warning_ignore("integer_division")
 	var spc = settings_width / 3
 	
 	set_buttons[2].global_position = Vector2(drx, dry)
@@ -318,6 +322,7 @@ func _ready():
 	
 	## Jokes
 	drx = settings_x + settings_option_x;
+	@warning_ignore("integer_division")
 	spc = settings_width / 2
 	set_buttons[5].global_position = Vector2(drx, dry)
 	set_buttons[5].size = Vector2(spc - 1, 15)
@@ -329,6 +334,7 @@ func _ready():
 	
 	## Language
 	drx = settings_x + settings_option_x;
+	@warning_ignore("integer_division")
 	spc = settings_width / 2
 	set_buttons[7].global_position = Vector2(drx, dry)
 	set_buttons[7].size = Vector2(spc - 1, 15)
@@ -340,6 +346,7 @@ func _ready():
 	
 	## Full Screen
 	drx = settings_x + settings_option_x;
+	@warning_ignore("integer_division")
 	spc = settings_width / 2
 	set_buttons[9].global_position = Vector2(drx, dry)
 	set_buttons[9].size = Vector2(spc - 1, 15)
@@ -351,6 +358,7 @@ func _ready():
 	
 	## Scaling
 	drx = settings_x + settings_option_x;
+	@warning_ignore("integer_division")
 	spc = settings_width / 3
 	set_buttons[11].global_position = Vector2(drx, dry)
 	set_buttons[11].size = Vector2(spc - 1, 15)
@@ -365,8 +373,51 @@ func _ready():
 	
 	#breakpoint
 	# Border("generate", 11, 256, 64); // Get key ## TODO # Still inside the settings menu
-	#endregion
 	
+	#endregion
+	#  initial pos
+	xsp = 11; ## Space for Music, Sound, Language, etc text
+	#draw_sprite_ext(s1x1, 0, drx + 76, dry, 65, 17, 0, c_white, 0.25);
+	
+	var dirty_inputs := InputMap.get_actions() ## has a lot of internal keymappings
+	var clean_inputs := Array()
+	for i in dirty_inputs:
+		if not i.begins_with(&"ui_"):
+			clean_inputs.append(i)
+		
+	# Action name
+	for l in 16:
+		drx = key_x + xsp + ( (l / 8) * 144 )
+		var h = l % 8;
+		dry = key_y + key_row * h + key_gap * h; ## + 4;
+		
+		var label := Label.new()
+		label.text = clean_inputs[l]
+		label.name = clean_inputs[l] + "_label"
+		label.set_deferred("size", Vector2(70, 15) ) # size is weird. THis only is set on the next frame or something.
+		label.global_position = Vector2(drx, dry + 4)
+		#label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		
+		keys_options.add_child(label)
+		
+		var button := RemapButton.new()
+		button.set_size( Vector2(65, 15) )
+		#button.set_size( Vector2(drx + 76 + 64, dry + 15) )
+		button.global_position = Vector2(drx + 75, dry + 4) ## drx + 80
+		#button.text = InputMap.action_get_events( clean_inputs[l] ).front().as_text()
+		button.action = clean_inputs[l] #InputMap.action_get_events( clean_inputs[l] ).front().as_text()
+		button.name = clean_inputs[l] + "_button"
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		if clean_inputs[l] == "Pause": button.disabled = true
+		keys_options.add_child(button)
+		
+	
+	#region key settings menu
+	
+	
+	
+	#endregion
 func init_menus(): ## This is just to alling with the old code. There are better ways to do this.
 	## Settings
 	pass
@@ -391,7 +442,7 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		pass
 
-func _process(delta):
+func _process(_delta):
 	#for n in bg.get_children():
 		#if n.has_method("move_left"):
 			#n.move_left( 80 * delta )

@@ -59,7 +59,9 @@ func _physics_process(delta):
 	
 	if position.x < -16:
 		#event_user(0);
+		@warning_ignore("narrowing_conversion")
 		position.y = randi_range(0, get_viewport_rect().end.y)
+		@warning_ignore("narrowing_conversion")
 		position.x = get_viewport_rect().end.x + randi_range(0,50)
 		
 
