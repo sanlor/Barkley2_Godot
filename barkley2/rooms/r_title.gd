@@ -88,6 +88,9 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 
 var stock_x := Array() # for the stock ticker
 
+## Character Slots
+@onready var gameslot_layer = $gameslot_layer
+
 #endregion
 
 # region Color stuff
@@ -170,7 +173,9 @@ var slider_sy = 60; # Sfx
 # Draw Keymap
 var key_get = -1;
 var key_lag = 0;
+@warning_ignore("integer_division")
 var key_x = 40 / 4 					## / 4 added by me
+@warning_ignore("integer_division")
 var key_y = (64 - 6) / 4; ## 24; 	## / 4 added by me
 var key_row = 16;
 var key_gap = 0;
@@ -207,6 +212,10 @@ func _ready():
 	var w_scale := 2
 	get_window().position /= w_scale
 	get_window().size *= w_scale
+	
+	## Music
+	B2_Music.room_get( "r_title" )
+	mode = "basic" ## default state of the game.
 	
 	for i in 40:
 		var star = O_TITLE_STARPASS.instantiate()
@@ -379,6 +388,8 @@ func _ready():
 	xsp = 11; ## Space for Music, Sound, Language, etc text
 	#draw_sprite_ext(s1x1, 0, drx + 76, dry, 65, 17, 0, c_white, 0.25);
 	
+	#region key settings menu
+	
 	var dirty_inputs := InputMap.get_actions() ## has a lot of internal keymappings
 	var clean_inputs := Array()
 	for i in dirty_inputs:
@@ -387,6 +398,7 @@ func _ready():
 		
 	# Action name
 	for l in 16:
+		@warning_ignore("integer_division")
 		drx = key_x + xsp + ( (l / 8) * 144 )
 		var h = l % 8;
 		dry = key_y + key_row * h + key_gap * h; ## + 4;
@@ -411,42 +423,35 @@ func _ready():
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		if clean_inputs[l] == "Pause": button.disabled = true
 		keys_options.add_child(button)
-		
-	
-	#region key settings menu
-	
-	
-	
+
 	#endregion
+	
+	
 func init_menus(): ## This is just to alling with the old code. There are better ways to do this.
 	## Settings
 	pass
 	
-#title_panel
-#settings_general_panel
-#settings_keys_panel
-#settings_gamepad_panel
-#gameslot_panel
-#characters_panel
-
+	
 func change_menu(): # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character"
 	match mode:
 		"basic":
 			title_layer.show()
+			settings_layer.hide()
+			gameslot_layer.hide()
 		"settings", "keymap", "gamepad":
 			title_layer.hide()
 			settings_layer.show()
-
-
+			gameslot_layer.hide()
+		"gameslot", "destruct_confirm":
+			title_layer.hide()
+			settings_layer.hide()
+			gameslot_layer.show()
+		_: ## Catch all
+			push_error("Unknown mode called: ", mode)
+			
 func _input(event):
 	if event is InputEventMouseMotion:
 		pass
-
-func _process(_delta):
-	#for n in bg.get_children():
-		#if n.has_method("move_left"):
-			#n.move_left( 80 * delta )
-	pass
 
 func _draw():
 	var qrx = 150;

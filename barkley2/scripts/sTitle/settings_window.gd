@@ -6,10 +6,27 @@ extends CanvasLayer
 @onready var keys = $settings_panel/keys
 @onready var gamepad = $settings_panel/gamepad
 
+@onready var music_slider = $settings_panel/general/settings_name_0/music_slider
+@onready var sound_slider = $settings_panel/general/settings_name_1/sound_slider
+
 
 func _ready():
-	pass
+	music_slider.value = B2_Music.get_volume()
 	
+	## Default state
+	general.show()
+	keys.hide()
+	gamepad.hide()
+
+func _on_music_slider_value_changed(value):
+	B2_Music.set_volume( value )
+
+func _on_music_minus_pressed():
+	music_slider.value -= 5.0
+
+func _on_music_plus_pressed():
+	music_slider.value += 5.0
+
 # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character" ## NOTE This reeeealy should be an enum.
 func _on_settings_general_button_pressed():
 	r_title.mode = "settings"

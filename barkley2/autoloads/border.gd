@@ -17,5 +17,5 @@ extends Node
 
 ## NOTE This might need to be changed
 #func generate( id, width, height):
-func generate( width, height):
+func generate( _width, _height):
 	pass

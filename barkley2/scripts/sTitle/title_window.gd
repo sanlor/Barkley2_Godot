@@ -4,7 +4,8 @@ extends CanvasLayer
 
 # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character" ## NOTE This reeeealy should be an enum.
 func _on_start_button_pressed():
-	pass # Replace with function body.
+	r_title.mode = "gameslot"
+	hide()
 
 func _on_settings_button_pressed():
 	r_title.mode = "settings"

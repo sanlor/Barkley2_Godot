@@ -1,18 +1,21 @@
 extends Node
 
+enum SCALE {X2,X3,X5}
+enum FILTER {OFF,CRT,SCANLINE}
+
 ## NOTES
 # GMS Is a mess. Godot can also read/write ini files, check this: https://docs.godotengine.org/en/stable/classes/class_configfile.html
 # null is TEMPORARY
 
-var vsync = null
-var AlBhed = null
-var fullscreen = null
-var screen_scale = null
-var currentFilter = null
+var vsync := false
+var AlBhed := false
+var fullscreen := false
+var screen_scale := SCALE.X2
+var currentFilter := FILTER.OFF
 var scanlines = null
 #
-var sfx_gain_master = null
-var bgm_gain_master = null
+var sfx_gain_master := 0.0
+var bgm_gain_master := 0.0
 var music = null
 var sounds = null
 

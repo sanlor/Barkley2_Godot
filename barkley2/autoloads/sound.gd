@@ -32,7 +32,7 @@ var soundHealth := Array()
 func _init():
 	init()
 
-func play(soundID, priority, loops):
+func play(soundID, _priority, _loops):
 	## Sound("play" / "at" / "on", etc...)
 	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
 	if check(soundID, -999, -999) == 0:
@@ -41,7 +41,7 @@ func play(soundID, priority, loops):
 	else:
 		return -1;
 
-func at( soundID, x, y, z, fallDist, fallMax, fallFactor, loops, priority ):
+func at( soundID, x, y, _z, _fallDist, _fallMax, _fallFactor, _loops, _priority ):
 	## Sound("at", 1 = soundID, 2 = x, 3 = y, 4 = z, 5 = fallDist, 6 = fallMax, 7 = fallFactor, 8 = loops, 9 = priority)
 	if check( soundID, floor( x / 32) * 32, floor( y / 32) * 32) == 0:
 		# audio_sound_gain_ext(argument[1],1,0);  ## TODO Port this script / function
@@ -49,7 +49,7 @@ func at( soundID, x, y, z, fallDist, fallMax, fallFactor, loops, priority ):
 	else:
 		return -1;
 
-func on(emitterID, soundID, loops, priority):
+func on(_emitterID, soundID, _loops, _priority):
 	## Sound("on", 1 = emitterID, 2 = soundID, 3 = loops, 4 = priority)
 	# if check( soundID, audio_emitter_get_x( emitterID ), audio_emitter_get_y( emitterID ) == 0): ## TODO Port this script / function
 	if check( soundID, 0, 0 == 0):
