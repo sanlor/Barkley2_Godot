@@ -11,9 +11,11 @@ extends CanvasLayer
 
 ## Settings panel
 @onready var settings_panel = $settings_panel
+
 @onready var settings_general_panel = $general_panel
 @onready var settings_keys_panel = $keys_panel
 @onready var settings_gamepad_panel = $gamepad_panel
+
 @onready var settings_return_panel = $return_panel
 
 ## Inside the Settings panel
@@ -264,11 +266,153 @@ func _ready():
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		if clean_inputs[l] == "Pause": button.disabled = true
 		keys_options.add_child(button)
-
 	#endregion
 	
 	#region gamepad settings menu
+	const S_XBOX_BUTTONS_A = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_0.png")
+	const S_XBOX_BUTTONS_B = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_1.png")
+	const S_XBOX_BUTTONS_X = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_2.png")
+	const S_XBOX_BUTTONS_Y = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_3.png")
+	const S_XBOX_BUTTONS_LB = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_4.png")
+	const S_XBOX_BUTTONS_RB = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_5.png")
+	const S_XBOX_BUTTONS_LT = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_6.png")
+	const S_XBOX_BUTTONS_RT = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_7.png")
+	const S_XBOX_BUTTONS_SEL = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_8.png")
+	const S_XBOX_BUTTONS_STA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_9.png")
+	const S_XBOX_BUTTONS_RA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_10.png")
+	const S_XBOX_BUTTONS_LA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_11.png")
+	const S_XBOX_BUTTONS_UP = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_12.png")
+	const S_XBOX_BUTTONS_RG = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_13.png")
+	const S_XBOX_BUTTONS_DW = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_14.png")
+	const S_XBOX_BUTTONS_LF = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_15.png")
 	
+	drx = key_x + 11 - 3; # + 5;
+	dry = key_y + 4;
+	
+	var gamepad_buttons := []
+	var gamepad_labels := []
+	
+	for tex in 14:
+		gamepad_buttons.append( TextureRect.new() )
+	for lb in 14:
+		var l = Label.new()
+		l.self_modulate = Color.DARK_GRAY
+		gamepad_labels.append( l )
+		
+	gamepad_buttons[0].texture = S_XBOX_BUTTONS_LA
+	gamepad_buttons[0].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[0] )
+	gamepad_labels[0].text = "Movement"
+	gamepad_labels[0].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[0] )
+	dry += key_row * 1.5;
+	
+	gamepad_buttons[1].texture = S_XBOX_BUTTONS_RA
+	gamepad_buttons[1].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[1] )
+	gamepad_labels[1].text = "Aiming"
+	gamepad_labels[1].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[1] )
+	dry += key_row * 1.5;
+	
+	gamepad_buttons[2].texture = S_XBOX_BUTTONS_RB
+	gamepad_buttons[2].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[2] )
+	gamepad_labels[2].text = "Action"
+	gamepad_labels[2].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[2] )
+	dry += key_row;
+	
+	gamepad_buttons[3].texture = S_XBOX_BUTTONS_B
+	gamepad_buttons[3].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[3] )
+	gamepad_labels[3].text = "Holster"
+	gamepad_labels[3].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[3] )
+	dry += key_row;
+	
+	gamepad_buttons[4].texture = S_XBOX_BUTTONS_LB
+	gamepad_buttons[4].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[4] )
+	gamepad_labels[4].text = "Roll"
+	gamepad_labels[4].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[4] )
+	dry += key_row;
+	
+	gamepad_buttons[5].texture = S_XBOX_BUTTONS_Y
+	gamepad_buttons[5].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[5] )
+	gamepad_labels[5].text = "Quickmenu"
+	gamepad_labels[5].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[5] )
+	dry += key_row;
+	
+	gamepad_buttons[6].texture = S_XBOX_BUTTONS_LF
+	gamepad_buttons[6].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[6] )
+	gamepad_labels[6].text = "Weapon >"
+	gamepad_labels[6].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[6] )
+	dry += key_row;
+	
+	drx = key_x + 11 - 3 + 144;
+	dry = key_y + 4;
+	
+	gamepad_buttons[7].texture = S_XBOX_BUTTONS_UP
+	gamepad_buttons[7].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[7] )
+	gamepad_labels[7].text = "Gun'sbag"
+	gamepad_labels[7].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[7] )
+	dry += key_row;
+	
+	gamepad_buttons[8].texture = S_XBOX_BUTTONS_DW
+	gamepad_buttons[8].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[8] )
+	gamepad_labels[8].text = "Item Next"
+	gamepad_labels[8].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[8] )
+	dry += key_row;
+	
+	gamepad_buttons[9].texture = S_XBOX_BUTTONS_X
+	gamepad_buttons[9].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[9] )
+	gamepad_labels[9].text = "Item Use"
+	gamepad_labels[9].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[9] )
+	dry += key_row;
+	
+	gamepad_buttons[10].texture = S_XBOX_BUTTONS_RG
+	gamepad_buttons[10].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[10] )
+	gamepad_labels[10].text = "Zauber Next"
+	gamepad_labels[10].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[10] )
+	dry += key_row;
+	
+	gamepad_buttons[11].texture = S_XBOX_BUTTONS_RT
+	gamepad_buttons[11].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[11] )
+	gamepad_labels[11].text = "Zauber Use"
+	gamepad_labels[11].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[11] )
+	dry += key_row * 1.5;
+	
+	gamepad_buttons[12].texture = S_XBOX_BUTTONS_LT
+	gamepad_buttons[12].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[12] )
+	gamepad_labels[12].text = "Free Look"
+	gamepad_labels[12].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[12] )
+	dry += key_row * 1.5;
+	
+	gamepad_buttons[13].texture = S_XBOX_BUTTONS_STA
+	gamepad_buttons[13].global_position = Vector2(drx,dry)
+	gamepad_options.add_child( gamepad_buttons[13] )
+	gamepad_labels[13].text = "Pause"
+	gamepad_labels[13].global_position = Vector2( drx + (8 * 6) - 5, dry )
+	gamepad_options.add_child( gamepad_labels[13] )
+	dry += key_row;
 	#endregion
 
 func _on_music_slider_value_changed(value):
@@ -280,25 +424,48 @@ func _on_music_minus_pressed():
 func _on_music_plus_pressed():
 	music_slider.value += 5.0
 
+func toggle_buttons():
+	match r_title.mode:
+		"settings":
+			#settings_general_button.is_pressed 	= true
+			settings_keys_button.is_pressed 		= false
+			settings_gamepad_button.is_pressed 		= false
+		"keymap":
+			settings_general_button.is_pressed 		= false
+		#	settings_keys_button.is_pressed 		= true
+			settings_gamepad_button.is_pressed 		= false
+		"gamepad":
+			settings_general_button.is_pressed 		= false
+			settings_keys_button.is_pressed 		= false
+			#settings_gamepad_button.is_pressed 	= true
+		_:
+			#settings_general_button.is_pressed 	= true
+			settings_keys_button.is_pressed 		= false
+			settings_gamepad_button.is_pressed 		= false
+
 # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character" ## NOTE This reeeealy should be an enum.
 func _on_settings_general_button_pressed():
 	r_title.mode = "settings"
 	general.show()
 	keys.hide()
 	gamepad.hide()
+	toggle_buttons()
 
 func _on_settings_keys_button_pressed():
 	r_title.mode = "keymap"
 	general.hide()
 	keys.show()
 	gamepad.hide()
+	toggle_buttons()
 	
 func _on_settings_gamepad_button_pressed():
 	r_title.mode = "gamepad"
 	general.hide()
 	keys.hide()
 	gamepad.show()
+	toggle_buttons()
 	
 func _on_settings_return_button_pressed():
 	r_title.mode = "basic"
+	toggle_buttons()
 	hide()

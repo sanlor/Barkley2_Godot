@@ -54,7 +54,7 @@ func _draw():
 	## BG
 	var bg_rect := Rect2( Vector2(4,4), border_size - Vector2(8,8) ) # Small offset to hide the BG
 	if not disable_bg:
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.5), false )
+		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false )
 	
 	if is_first_draw: ## avoid updating the border decorations
 		b_2_panel_fg.queue_redraw()

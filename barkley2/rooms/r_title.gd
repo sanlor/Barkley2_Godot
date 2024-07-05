@@ -38,15 +38,16 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 # region Panels
 
 ## Title panel
-@onready var title_layer = $CanvasLayer
+@onready var title_layer = $title_layer
 @onready var settings_layer = $settings_layer
+@onready var character_layer = $character_layer
 
-@onready var title_panel = $CanvasLayer/title_panel
+@onready var title_panel = $title_layer/title_panel
 
 ## Inside the Title panel
-@onready var start_button = $CanvasLayer/title_panel/start_button
-@onready var settings_button = $CanvasLayer/title_panel/settings_button
-@onready var quit_button = $CanvasLayer/title_panel/quit_button
+@onready var start_button = $title_layer/title_panel/start_button
+@onready var settings_button = $title_layer/title_panel/settings_button
+@onready var quit_button = $title_layer/title_panel/quit_button
 
 @onready var title_buttons := [
 	start_button,
@@ -96,11 +97,7 @@ var title_gap = 0
 
 # Draw buttons
 
-## Character Select ## "Create Character", "Play as X114JAM9", "Skip the Stupid Prologue", "Return"
-var character_x = 20;
-var character_y = 20;
-var character_row = 20;
-var character_gap = 5;
+
 
 ## Stock Ticker ## Maybe this isnt usedin the "final" game?
 #stock_x[0] = 20;
@@ -171,14 +168,22 @@ func change_menu(): # "basic", "settings", "keymap", "gamepad", "gameslot","dest
 			title_layer.show()
 			settings_layer.hide()
 			gameslot_layer.hide()
+			character_layer.hide()
 		"settings", "keymap", "gamepad":
 			title_layer.hide()
 			settings_layer.show()
 			gameslot_layer.hide()
+			character_layer.hide()
 		"gameslot", "destruct_confirm":
 			title_layer.hide()
 			settings_layer.hide()
 			gameslot_layer.show()
+			character_layer.hide()
+		"gamestart_character":
+			title_layer.hide()
+			settings_layer.hide()
+			gameslot_layer.hide()
+			character_layer.show()
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
 			

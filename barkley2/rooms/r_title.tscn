@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=57 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -45,6 +45,7 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/settings_window.gd" id="42_iyvkj"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/gameslot_window.gd" id="43_8a3yi"]
 [ext_resource type="Script" path="res://barkley2/scripts/sBorder/B2_panel_bg_button.gd" id="44_01hgr"]
+[ext_resource type="Script" path="res://barkley2/scripts/sTitle/character_window.gd" id="46_rtgnt"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -302,10 +303,10 @@ offset_bottom = 259.5
 texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="title_layer" type="CanvasLayer" parent="."]
 script = ExtResource("40_yg4vf")
 
-[node name="title_panel" parent="CanvasLayer" instance=ExtResource("36_5qb0r")]
+[node name="title_panel" parent="title_layer" instance=ExtResource("36_5qb0r")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -320,7 +321,7 @@ grow_vertical = 0
 theme = ExtResource("41_fj155")
 border_size = Vector2(116, 75)
 
-[node name="start_button" type="Button" parent="CanvasLayer/title_panel"]
+[node name="start_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 10.5
@@ -329,7 +330,7 @@ offset_bottom = 27.5
 action_mode = 0
 text = "Game Time"
 
-[node name="settings_button" type="Button" parent="CanvasLayer/title_panel"]
+[node name="settings_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 26.5
@@ -338,7 +339,7 @@ offset_bottom = 43.5
 action_mode = 0
 text = "Settings"
 
-[node name="quit_button" type="Button" parent="CanvasLayer/title_panel"]
+[node name="quit_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 42.5
@@ -398,6 +399,8 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+bg_highlight_color = Color(1, 0.647059, 0, 1)
 
 [node name="settings_layer" type="CanvasLayer" parent="."]
 visible = false
@@ -418,6 +421,11 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+bg_selected_color = Color(1, 1, 1, 1)
+bg_highlight_color = Color(1, 0.647059, 0, 1)
+can_toggle = true
+is_pressed = true
 
 [node name="keys_panel" type="Control" parent="settings_layer"]
 layout_mode = 3
@@ -426,6 +434,10 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+bg_selected_color = Color(1, 1, 1, 1)
+bg_highlight_color = Color(1, 0.647059, 0, 1)
+can_toggle = true
 
 [node name="gamepad_panel" type="Control" parent="settings_layer"]
 layout_mode = 3
@@ -434,6 +446,10 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+bg_selected_color = Color(1, 1, 1, 1)
+bg_highlight_color = Color(1, 0.647059, 0, 1)
+can_toggle = true
 
 [node name="settings_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
 offset_left = 32.0
@@ -444,7 +460,6 @@ theme = ExtResource("41_fj155")
 border_size = Vector2(328, 154)
 
 [node name="general" type="Control" parent="settings_layer/settings_panel"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -663,6 +678,7 @@ button_group = SubResource("ButtonGroup_pnmst")
 text = "4x"
 
 [node name="keys" type="Control" parent="settings_layer/settings_panel"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -695,9 +711,60 @@ offset_bottom = 8.0
 theme = ExtResource("41_fj155")
 text = "Return"
 
-[connection signal="pressed" from="CanvasLayer/title_panel/start_button" to="CanvasLayer" method="_on_start_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/title_panel/settings_button" to="CanvasLayer" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/title_panel/quit_button" to="CanvasLayer" method="_on_quit_button_pressed"]
+[node name="character_layer" type="CanvasLayer" parent="."]
+script = ExtResource("46_rtgnt")
+
+[node name="character_bg" type="ColorRect" parent="character_layer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CC_Button" type="Control" parent="character_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("41_fj155")
+script = ExtResource("44_01hgr")
+can_toggle = null
+border_size = Vector2(100, 100)
+
+[node name="X1_Button" type="Control" parent="character_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+theme = ExtResource("41_fj155")
+script = ExtResource("44_01hgr")
+can_toggle = null
+border_size = Vector2(100, 100)
+
+[node name="Skip_Button" type="Control" parent="character_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+theme = ExtResource("41_fj155")
+script = ExtResource("44_01hgr")
+can_toggle = null
+border_size = Vector2(100, 100)
+
+[node name="Return_Button" type="Control" parent="character_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+theme = ExtResource("41_fj155")
+script = ExtResource("44_01hgr")
+can_toggle = null
+border_size = Vector2(100, 100)
+
+[connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
+[connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
 [connection signal="button_pressed" from="gameslot_layer/game_slot_1" to="gameslot_layer" method="_on_game_slot_1_button_pressed"]
 [connection signal="button_pressed" from="gameslot_layer/game_slot_2" to="gameslot_layer" method="_on_game_slot_2_button_pressed"]
 [connection signal="button_pressed" from="gameslot_layer/game_slot_3" to="gameslot_layer" method="_on_game_slot_3_button_pressed"]
@@ -710,3 +777,7 @@ text = "Return"
 [connection signal="value_changed" from="settings_layer/settings_panel/general/settings_name_0/music_slider" to="settings_layer" method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/plus" to="settings_layer" method="_on_music_plus_pressed"]
 [connection signal="pressed" from="settings_layer/return_panel/settings_return_button" to="settings_layer" method="_on_settings_return_button_pressed"]
+[connection signal="button_pressed" from="character_layer/CC_Button" to="character_layer" method="_on_cc_button_button_pressed"]
+[connection signal="button_pressed" from="character_layer/X1_Button" to="character_layer" method="_on_x_1_button_button_pressed"]
+[connection signal="button_pressed" from="character_layer/Skip_Button" to="character_layer" method="_on_skip_button_button_pressed"]
+[connection signal="button_pressed" from="character_layer/Return_Button" to="character_layer" method="_on_return_button_button_pressed"]

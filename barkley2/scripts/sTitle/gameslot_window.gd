@@ -42,7 +42,9 @@ func _ready():
 	var deletelabel := backlabel.duplicate()
 	deletelabel.text = "Obliterate"
 	game_slot_delete_panel.add_decorations(deletelabel)
-	game_slot_delete_panel.selected_color = Color.RED
+	
+	game_slot_delete_panel.content_selected_color = Color.RED
+	game_slot_delete_panel.content_highlight_color = Color.RED
 	
 	load_slots()
 	
@@ -79,13 +81,16 @@ func load_slots():
 		slots[i].add_decorations(label)
 	
 func _on_game_slot_1_button_pressed():
-	pass # Replace with function body.
+	r_title.mode = "gamestart_character"
+	hide()
 
 func _on_game_slot_2_button_pressed():
-	pass # Replace with function body.
+	r_title.mode = "gamestart_character"
+	hide()
 
 func _on_game_slot_3_button_pressed():
-	pass # Replace with function body.
+	r_title.mode = "gamestart_character"
+	hide()
 
 func _on_back_panel_button_pressed():
 	r_title.mode = "basic"
