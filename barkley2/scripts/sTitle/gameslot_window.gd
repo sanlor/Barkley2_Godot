@@ -26,11 +26,10 @@ var gameslot_back_x = 40;
 var gameslot_back_y = 214;
 
 func _ready():
-	
 	#region Character Slots
-	var slots := [game_slot_1,game_slot_2,game_slot_3]
-	game_slot_back_panel.border_size = Vector2(100, 32)
+	game_slot_back_panel.set_panel_size(100, 32)
 	game_slot_back_panel.set_global_position( Vector2(gameslot_back_x - 8, gameslot_back_y - 8) )
+	
 	var backlabel := Label.new()
 	backlabel.text = "Back"
 	backlabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -38,21 +37,35 @@ func _ready():
 	backlabel.size = Vector2(100, 32)
 	game_slot_back_panel.add_decorations(backlabel)
 	
-	game_slot_delete_panel.border_size = Vector2(100, 32)
+	game_slot_delete_panel.set_panel_size(100, 32)
 	game_slot_delete_panel.set_global_position( Vector2(gameslot_destruct_x - 8, gameslot_destruct_y - 8) )
 	var deletelabel := backlabel.duplicate()
 	deletelabel.text = "Obliterate"
 	game_slot_delete_panel.add_decorations(deletelabel)
 	game_slot_delete_panel.selected_color = Color.RED
+	
+	load_slots()
+	
+	# endregion
+func load_slots():
 	## Character Slots
+	var slots := [game_slot_1,game_slot_2,game_slot_3]
+	for slot in slots:
+		for child in slot.get_children():
+			if child is B2_Border_Foreground:
+				continue
+			
+			(child as Label).queue_free()
+				
 	for i in 3:
 		var dry = gameslot_y + gameslot_row * i + gameslot_gap * i;
-		slots[i].border_size = Vector2( 344, 66 )
+		slots[i].set_panel_size( 344, 66 )
 		slots[i].monitor_mouse = true
 		slots[i].set_global_position( Vector2(gameslot_x - 8, dry - 8) )
+		
 		var label := Label.new()
 		label.text = "Vacant Slot"
-		label.size = slots[i].size
+		label.size = slots[i].get_panel_size()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		if i == 0:
@@ -64,8 +77,7 @@ func _ready():
 			pass
 			
 		slots[i].add_decorations(label)
-	# endregion
-
+	
 func _on_game_slot_1_button_pressed():
 	pass # Replace with function body.
 
