@@ -19,6 +19,9 @@ var bgmCheck = 1; ## was 5
 #if (argument[0] == "get")
 
 func _ready():
+	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
+	
+	print(Time.get_ticks_msec())
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
 	for file in  _music_folder.get_files():
@@ -32,11 +35,12 @@ func _ready():
 			#push_warning("Unknown file at ", music_folder, file, ".")
 	pass
 
-func set_volume( raw_value : float):
-	audio_stream_player.volume_db = linear_to_db( raw_value / 100 )
+func set_volume( raw_value : float): # 0 - 100
+	B2_Config.bgm_gain_master = raw_value / 100
+	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 
 func get_volume() -> float:
-	return db_to_linear( audio_stream_player.volume_db ) * 100
+	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
 
 func room_get( room_name : String):
 	# global.bgm_check = bgmCheck; ## WARNING Check what is this.
@@ -183,7 +187,7 @@ func queue( track_name : String): ## track name should exist in the Music Bank d
 	audio_stream_player.play()
 	
 	tween = create_tween()
-	tween.tween_property(audio_stream_player, "volume_db", 0.0, 1.0)
+	tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), 1.0)
 	await tween.finished
 	
 	bgm_music = track_name # argument[1];

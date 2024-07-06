@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=58 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -46,6 +46,7 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/gameslot_window.gd" id="43_8a3yi"]
 [ext_resource type="Script" path="res://barkley2/scripts/sBorder/B2_panel_bg_button.gd" id="44_01hgr"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/character_window.gd" id="46_rtgnt"]
+[ext_resource type="PackedScene" uid="uid://dkqmhxi70d2o7" path="res://barkley2/scenes/confirm/b2_confirm.tscn" id="47_5d8jr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -402,6 +403,8 @@ script = ExtResource("44_01hgr")
 content_highlight_color = Color(1, 0.647059, 0, 1)
 bg_highlight_color = Color(1, 0.647059, 0, 1)
 
+[node name="B2_confirm" parent="gameslot_layer" instance=ExtResource("47_5d8jr")]
+
 [node name="settings_layer" type="CanvasLayer" parent="."]
 visible = false
 script = ExtResource("42_iyvkj")
@@ -712,6 +715,7 @@ theme = ExtResource("41_fj155")
 text = "Return"
 
 [node name="character_layer" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("46_rtgnt")
 
 [node name="character_bg" type="ColorRect" parent="character_layer"]
@@ -725,41 +729,37 @@ color = Color(0, 0, 0, 1)
 [node name="CC_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 100.0
+offset_bottom = 100.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
-can_toggle = null
 border_size = Vector2(100, 100)
 
 [node name="X1_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_right = 100.0
+offset_bottom = 100.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
-can_toggle = null
 border_size = Vector2(100, 100)
 
 [node name="Skip_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_right = 100.0
+offset_bottom = 100.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
-can_toggle = null
 border_size = Vector2(100, 100)
 
 [node name="Return_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_right = 100.0
+offset_bottom = 100.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_01hgr")
-can_toggle = null
 border_size = Vector2(100, 100)
 
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]

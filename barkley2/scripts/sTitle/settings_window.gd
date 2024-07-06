@@ -61,6 +61,7 @@ var slider_sy = 60; # Sfx
 # Draw Gamepad Menu
 
 # Draw Keymap
+var key_highlight_color := Color(240, 50, 255)
 var key_get = -1;
 var key_lag = 0;
 @warning_ignore("integer_division")
@@ -72,7 +73,7 @@ var key_gap = 0;
 
 
 func _ready():
-	music_slider.value = B2_Music.get_volume()
+	music_slider.value = B2_Music.get_volume() * 100
 	
 	## Default state
 	general.show()
@@ -269,7 +270,7 @@ func _ready():
 	#endregion
 	
 	#region gamepad settings menu
-	const S_XBOX_BUTTONS_A = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_0.png")
+	##const S_XBOX_BUTTONS_A = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_0.png")
 	const S_XBOX_BUTTONS_B = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_1.png")
 	const S_XBOX_BUTTONS_X = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_2.png")
 	const S_XBOX_BUTTONS_Y = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_3.png")
@@ -277,7 +278,7 @@ func _ready():
 	const S_XBOX_BUTTONS_RB = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_5.png")
 	const S_XBOX_BUTTONS_LT = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_6.png")
 	const S_XBOX_BUTTONS_RT = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_7.png")
-	const S_XBOX_BUTTONS_SEL = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_8.png")
+	##const S_XBOX_BUTTONS_SEL = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_8.png")
 	const S_XBOX_BUTTONS_STA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_9.png")
 	const S_XBOX_BUTTONS_RA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_10.png")
 	const S_XBOX_BUTTONS_LA = preload("res://barkley2/assets/sTitle/gamepad/sXBOXButtons_11.png")
@@ -468,4 +469,5 @@ func _on_settings_gamepad_button_pressed():
 func _on_settings_return_button_pressed():
 	r_title.mode = "basic"
 	toggle_buttons()
+	B2_Config.game_save()
 	hide()

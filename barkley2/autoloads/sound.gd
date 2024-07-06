@@ -7,6 +7,7 @@ extends Node
 ## scr_music_init()
 ## get duplicate sounds
 
+@warning_ignore("unused_variable")
 @onready var _tim = Time.get_ticks_msec()
 
 var dsmSound = Dictionary() ## ds_map_create();
@@ -29,8 +30,27 @@ var sizTot = 0
 var soundPlayed := Array()
 var soundHealth := Array()
 
+## Godot stuff
+var sound_pool 				:= []
+var sound_pool_directional 	:= []
+var sound_pool_amount 		:= 25
+
 func _init():
 	init()
+
+func set_volume( raw_value : float): # 0 - 100
+	B2_Config.sfx_gain_master = raw_value / 100
+	for sound in sound_pool:
+		sound.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+
+func get_volume() -> float:
+	return B2_Config.sfx_gain_master
+
+func _ready():
+	for i in sound_pool_amount:
+		sound_pool.append( 					AudioStreamPlayer.new() 	)
+		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
+	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
 
 func play(soundID, _priority, _loops):
 	## Sound("play" / "at" / "on", etc...)
