@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dkqmhxi70d2o7"]
+[gd_scene load_steps=6 format=3 uid="uid://dkqmhxi70d2o7"]
 
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_0rjsi"]
 [ext_resource type="Script" path="res://barkley2/scripts/oConfirm/B2_confirm.gd" id="1_fxqd4"]
 [ext_resource type="Texture2D" uid="uid://dueq0vi38g65c" path="res://barkley2/assets/Confirm/s_diag_bg.png" id="2_u66b0"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="4_c6n12"]
+[ext_resource type="Script" path="res://barkley2/scripts/Button/B2_Button.gd" id="5_6dj68"]
 
 [node name="B2_confirm" type="Control"]
 z_index = 100
@@ -26,22 +28,42 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
 [node name="dialog" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.75)
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_top = -8.0
-offset_bottom = 8.0
+offset_top = -119.0
+offset_bottom = -119.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_u66b0")
+expand_mode = 1
 stretch_mode = 1
 
-[node name="Label" type="Label" parent="."]
+[node name="confirm_text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -69.5
+offset_top = 93.0
+offset_right = 69.5
+offset_bottom = 116.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_c6n12")
+text = "PLACEHOLDER TEXT"
+
+[node name="option_1" type="Button" parent="."]
 layout_mode = 0
-offset_left = 103.0
-offset_top = 117.0
-offset_right = 242.0
-offset_bottom = 140.0
-text = "ewerwerwerwerwerwer"
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_6dj68")
+
+[node name="option_2" type="Button" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_6dj68")

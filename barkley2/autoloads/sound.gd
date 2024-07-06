@@ -10,6 +10,8 @@ extends Node
 @warning_ignore("unused_variable")
 @onready var _tim = Time.get_ticks_msec()
 
+
+
 var dsmSound = Dictionary() ## ds_map_create();
 var dslSoundRecent = Array() ##ds_list_create(); # original # debug
 var dsmSoundLength = Dictionary() ## ds_map_create();
@@ -31,14 +33,35 @@ var soundPlayed := Array()
 var soundHealth := Array()
 
 ## Godot stuff
-var sound_pool 				:= []
-var sound_pool_directional 	:= []
+@export var audio_folder := "res://barkley2/assets/b2_original/_audio/"
+
+var sound_bank := {} ## all sounds that the game has.
+
+var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
+var sound_pool_directional 	:= [] ## a whole bunch of AudioStreamPlayer2D, to enable far away sounds and such.
 var sound_pool_amount 		:= 25
 
 func _init():
 	init()
 
-func set_volume( raw_value : float): # 0 - 100
+func _init_sound_banks():
+	print("init sound banks started: ", Time.get_ticks_msec())
+	
+	## Load audio tracks (SFX)
+	var _audio_folder := DirAccess.open( audio_folder )
+	for folder in _audio_folder.get_directories():
+		var _folder := DirAccess.open( audio_folder + "/" +folder ) # Recursive search
+		for file in  _folder.get_files():
+			if file.ends_with(".import"): # ignore godot files
+				continue
+			if not file.begins_with("sn_"): # only allow sn_ prefix music
+				continue
+			if file.ends_with(".wav"):
+				sound_bank[ file.rstrip(".wav") ] = str(audio_folder + "/" + folder + "/" + file)
+
+	print("init sound banks ended: ", Time.get_ticks_msec(), " - ", sound_bank.size(), " sound_bank entries")
+	
+func set_volume( raw_value : float ): # 0 - 100
 	B2_Config.sfx_gain_master = raw_value / 100
 	for sound in sound_pool:
 		sound.volume_db = linear_to_db( B2_Config.sfx_gain_master )
@@ -47,19 +70,38 @@ func get_volume() -> float:
 	return B2_Config.sfx_gain_master
 
 func _ready():
+	_init_sound_banks()
+	
 	for i in sound_pool_amount:
 		sound_pool.append( 					AudioStreamPlayer.new() 	)
 		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
 	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
 
-func play(soundID, _priority, _loops):
+func play(soundID : String, _priority := false, _loops := 1):
 	## Sound("play" / "at" / "on", etc...)
 	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
-	if check(soundID, -999, -999) == 0:
+	if sound_bank.has(soundID):
+		queue(soundID)
+	#if check(soundID, -999, -999) == 0:
 		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
 		return 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
 		return -1;
+
+func queue(soundID : String):
+	var sfx : AudioStreamPlayer = sound_pool.pop_back()
+	var sound : AudioStreamWAV = load( sound_bank[soundID] )
+	sfx.stream = sound
+	sfx.finished.connect( _finished_playing.bind(sfx) )
+	add_child(sfx)
+	sfx.play()
+	print("player ",sfx," added.")
+
+func _finished_playing( sfx : AudioStreamPlayer):
+	sfx.finished.disconnect( _finished_playing.bind(sfx) )
+	remove_child( sfx )
+	sound_pool.push_back( sfx )
+	print("player ",sfx," removed.")
 
 func at( soundID, x, y, _z, _fallDist, _fallMax, _fallFactor, _loops, _priority ):
 	## Sound("at", 1 = soundID, 2 = x, 3 = y, 4 = z, 5 = fallDist, 6 = fallMax, 7 = fallFactor, 8 = loops, 9 = priority)

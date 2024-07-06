@@ -21,7 +21,7 @@ var bgmCheck = 1; ## was 5
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 	
-	print(Time.get_ticks_msec())
+	print("init music banks started: ", Time.get_ticks_msec())
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
 	for file in  _music_folder.get_files():
@@ -33,7 +33,7 @@ func _ready():
 			music_bank[ file.rstrip(".ogg") ] = str(music_folder + "/" + file)
 		#else:
 			#push_warning("Unknown file at ", music_folder, file, ".")
-	pass
+	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
 
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100

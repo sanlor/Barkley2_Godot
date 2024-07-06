@@ -4,8 +4,8 @@ extends Node
 ## Its only use is to save and load settings, along with emiting signals to let the other nodes know (if needed).
 ## The settings.ini file that this game makes if cross compatible with the original. cool, aint it?
 
-enum SCALE {X2 = 2,X3 = 3,X5 = 5} ## The original game uses floats for values. Because of that, Im using Enums with specific values, even for boolean checks.
-enum FILTER {OFF, CRT, SCANLINE}
+enum SCALE {X2 = 2,X3 = 3,X4 = 4} ## The original game uses floats for values. Because of that, Im using Enums with specific values, even for boolean checks.
+enum FILTER {OFF, CRT, BLOOM}
 enum {OFF,ON}
 
 ## NOTES
@@ -36,9 +36,40 @@ func _init():
 	# We can load with default values.
 	# We also save immediately just to ensure the file is editable by devs on initial boot.
 	game_load()
+	apply_config(false)
 	
 func _ready():
 	pass
+
+func apply_config( _save := true):
+	if vsync == ON:
+		DisplayServer.window_set_vsync_mode( DisplayServer.VSYNC_ENABLED )
+	else:
+		DisplayServer.window_set_vsync_mode( DisplayServer.VSYNC_DISABLED )
+		
+	if AlBhed == ON: ## TODO
+		pass
+	else:
+		pass
+		
+	if fullscreen == ON:
+		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_FULLSCREEN )
+	else:
+		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_WINDOWED )
+		DisplayServer.window_set_size( Vector2i(384, 240) * screen_scale )
+		
+	if currentFilter == ON: ## TODO
+		pass
+	else:
+		pass
+	
+	if scanlines == ON: ## TODO
+		pass
+	else:
+		pass
+		
+	if _save:
+		game_save()
 
 func game_load():
 	var config = ConfigFile.new()

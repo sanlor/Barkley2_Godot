@@ -2,11 +2,11 @@ extends CanvasLayer
 
 @onready var r_title = $".."
 
-@onready var cc_button : B2_Border_Button = 		$CC_Button
-@onready var x1_button : B2_Border_Button = 		$X1_Button
-@onready var skip_button : B2_Border_Button = 		$Skip_Button
+@onready var cc_button 		: B2_Border_Button = 		$CC_Button
+@onready var x1_button 		: B2_Border_Button = 		$X1_Button
+@onready var skip_button 	: B2_Border_Button = 		$Skip_Button
 
-@onready var return_button : B2_Border_Button = 	$Return_Button
+@onready var return_button 	: B2_Border_Button = 		$Return_Button
 
 ## Character Select ## "Create Character", "Play as X114JAM9", "Skip the Stupid Prologue", "Return"
 var character_x = 20;
@@ -29,6 +29,11 @@ var settings_tab_y = settings_y - 48;
 var settings_return_y = settings_y + settings_row * 9 + settings_gap * 9 + 0;
 
 func _ready():
+	cc_button.button_pressed.connect( _on_cc_button_button_pressed )
+	x1_button.button_pressed.connect( _on_x_1_button_button_pressed )
+	skip_button.button_pressed.connect( _on_skip_button_button_pressed )
+	return_button.button_pressed.connect( _on_return_button_button_pressed )
+	
 	var drx = (get_viewport().get_visible_rect().size.x / 2) - 90; ## settings_x - 8;
 	#print(get_viewport().get_visible_rect())
 	var dry = gameslot_y + 40; ## settings_return_y;

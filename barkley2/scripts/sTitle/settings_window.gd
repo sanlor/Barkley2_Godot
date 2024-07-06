@@ -29,9 +29,9 @@ extends CanvasLayer
 	settings_gamepad_panel,
 ]
 
-@onready var settings_general_button = $general_panel
-@onready var settings_keys_button = $keys_panel
-@onready var settings_gamepad_button = $gamepad_panel
+@onready var settings_general_button 	: B2_Border_Button = $general_panel
+@onready var settings_keys_button 		: B2_Border_Button = $keys_panel
+@onready var settings_gamepad_button 	: B2_Border_Button = $gamepad_panel
 
 @onready var settings_buttons := [
 	settings_general_button,
@@ -71,14 +71,86 @@ var key_y = (64 - 6) / 4; ## 24; 	## / 4 added by me
 var key_row = 16;
 var key_gap = 0;
 
+@onready var crt_button = $settings_panel/general/settings_name_3/crt_button
+@onready var bloom_button = $settings_panel/general/settings_name_3/bloom_button
+@onready var none_button = $settings_panel/general/settings_name_3/none_button
+
+@onready var joke_on_button = $settings_panel/general/settings_name_4/joke_on_button
+@onready var joke_off_button = $settings_panel/general/settings_name_4/joke_off_button
+
+@onready var english_button = $settings_panel/general/settings_name_5/english_button
+@onready var albhed_button = $settings_panel/general/settings_name_5/albhed_button
+
+@onready var fullscreen_button = $settings_panel/general/settings_name_6/fullscreen_button
+@onready var window_button = $settings_panel/general/settings_name_6/window_button
+
+@onready var _2x_button = $"settings_panel/general/settings_name_7/2x_button"
+@onready var _3x_button = $"settings_panel/general/settings_name_7/3x_button"
+@onready var _4x_button = $"settings_panel/general/settings_name_7/4x_button"
+
 
 func _ready():
+#region Apply settings on startup
 	music_slider.value = B2_Music.get_volume() * 100
+	sound_slider.value = B2_Sound.get_volume() * 100
 	
+	var scale_option = $settings_panel/general/settings_name_7
+	
+	match B2_Config.currentFilter: ## TODO
+		B2_Config.FILTER.CRT:
+			crt_button.button_pressed = true
+		B2_Config.FILTER.BLOOM:
+			bloom_button.button_pressed = true
+		B2_Config.FILTER.CRT:
+			crt_button.button_pressed = true
+	## Joke doesnt do anything. doesnt even set any variables.
+	match B2_Config.AlBhed: ## TODO
+		B2_Config.OFF:
+			english_button.button_pressed = true
+		B2_Config.ON:
+			albhed_button.button_pressed = true
+	match B2_Config.fullscreen:
+		B2_Config.ON:
+			fullscreen_button.button_pressed = true
+			scale_option.visible = false
+		B2_Config.OFF:
+			window_button.button_pressed = true
+			scale_option.visible = true
+	match B2_Config.screen_scale:
+		B2_Config.SCALE.X2:
+			_2x_button.button_pressed = true
+		B2_Config.SCALE.X3:
+			_3x_button.button_pressed = true
+		B2_Config.SCALE.X4:
+			_4x_button.button_pressed = true
+		
+#endregion
+		
 	## Default state
 	general.show()
 	keys.hide()
 	gamepad.hide()
+	
+	settings_general_button.button_pressed.connect( _on_settings_general_button_pressed )
+	settings_keys_button.button_pressed.connect( _on_settings_keys_button_pressed )
+	settings_gamepad_button.button_pressed.connect( _on_settings_gamepad_button_pressed )
+	
+	crt_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.CRT; 		B2_Config.apply_config() )
+	bloom_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.BLOOM; 		B2_Config.apply_config() )
+	none_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.CRT; 		B2_Config.apply_config() )
+	
+	joke_on_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
+	joke_off_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
+	
+	english_button.pressed.connect( 	func(): B2_Config.AlBhed = B2_Config.OFF; 						B2_Config.apply_config() )
+	albhed_button.pressed.connect( 		func(): B2_Config.AlBhed = B2_Config.ON; 						B2_Config.apply_config() )
+	
+	fullscreen_button.pressed.connect( 	func(): B2_Config.fullscreen = B2_Config.ON; 	scale_option.visible = false;		B2_Config.apply_config() ) ## The "scale" option should disappear when in fullscreen
+	window_button.pressed.connect( 		func(): B2_Config.fullscreen = B2_Config.OFF; 	scale_option.visible = true;		B2_Config.apply_config() ) ## The "scale" option should disappear when in fullscreen
+	
+	_2x_button.pressed.connect( 		func(): B2_Config.screen_scale = B2_Config.SCALE.X2; 			B2_Config.apply_config() )
+	_3x_button.pressed.connect( 		func(): B2_Config.screen_scale = B2_Config.SCALE.X3; 			B2_Config.apply_config() )
+	_4x_button.pressed.connect( 		func(): B2_Config.screen_scale = B2_Config.SCALE.X4; 			B2_Config.apply_config() )
 	
 	## Layout stuff
 	var drx
@@ -418,12 +490,17 @@ func _ready():
 
 func _on_music_slider_value_changed(value):
 	B2_Music.set_volume( value )
-
 func _on_music_minus_pressed():
 	music_slider.value -= 5.0
-
 func _on_music_plus_pressed():
 	music_slider.value += 5.0
+
+func _on_sound_slider_value_changed(value):
+	B2_Sound.set_volume( value )
+func _on_sound_minus_pressed():
+	sound_slider.value -= 5.0
+func _on_sound_plus_pressed():
+	sound_slider.value += 5.0
 
 func toggle_buttons():
 	match r_title.mode:
@@ -471,3 +548,9 @@ func _on_settings_return_button_pressed():
 	toggle_buttons()
 	B2_Config.game_save()
 	hide()
+
+
+
+
+
+

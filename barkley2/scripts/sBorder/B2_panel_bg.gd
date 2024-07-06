@@ -1,4 +1,3 @@
-@tool
 extends Control
 class_name B2_Border
 
@@ -37,10 +36,12 @@ func _ready():
 	size = border_size
 	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
 
+# Decorations are children that this node can control, change color and such
 func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
 	decorations.append(node)
 	add_child(node)
 
+# This replaces que Border("generate") argument
 func set_panel_size(x, y):
 	border_size = Vector2(x,y)
 	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)

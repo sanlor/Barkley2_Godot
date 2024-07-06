@@ -2,11 +2,11 @@ extends CanvasLayer
 
 @onready var r_title = get_parent()
 
-@onready var game_slot_1 = $game_slot_1
-@onready var game_slot_2 = $game_slot_2
-@onready var game_slot_3 = $game_slot_3
-@onready var game_slot_back_panel = $back_panel
-@onready var game_slot_delete_panel = $delete_panel
+@onready var game_slot_1 				: B2_Border_Button = $game_slot_1
+@onready var game_slot_2 				: B2_Border_Button = $game_slot_2
+@onready var game_slot_3 				: B2_Border_Button = $game_slot_3
+@onready var game_slot_back_panel 		: B2_Border_Button = $back_panel
+@onready var game_slot_delete_panel 	: B2_Border_Button = $delete_panel
 
 ## Game slots
 var gameslot_width = 344 - 8;
@@ -25,7 +25,19 @@ var gameslot_destruct_y = 214;
 var gameslot_back_x = 40;
 var gameslot_back_y = 214;
 
+## Godot
+var selected_gameslot := 0 
+
 func _ready():
+	r_title.mode_change.connect( change_delete_button )
+	
+	game_slot_1.button_pressed.connect( _on_game_slot_1_button_pressed )
+	game_slot_2.button_pressed.connect( _on_game_slot_2_button_pressed )
+	game_slot_3.button_pressed.connect( _on_game_slot_3_button_pressed )
+	
+	game_slot_back_panel.button_pressed.connect( _on_back_panel_button_pressed )
+	game_slot_delete_panel .button_pressed.connect( _on_delete_panel_button_pressed )
+	
 	#region Character Slots
 	game_slot_back_panel.set_panel_size(100, 32)
 	game_slot_back_panel.set_global_position( Vector2(gameslot_back_x - 8, gameslot_back_y - 8) )
@@ -79,22 +91,51 @@ func load_slots():
 			pass
 			
 		slots[i].add_decorations(label)
-	
+
+func change_delete_button():
+	if r_title.mode == "destruct_confirm":
+		game_slot_delete_panel.is_pressed = true
+	else:
+		game_slot_delete_panel.is_pressed = false
+
+func show_delete_confirmation():
+	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
+	oConfirm.option1_pressed.connect( delete_gameslot 						) # Yes
+	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false 	) # No
+	add_child(oConfirm)
+
+func delete_gameslot():
+	# selected_gameslot ## TODO Delete the gameslot ##### CRITICAL UNFINISHED!!!!!!
+	game_slot_delete_panel.is_pressed = false
+	r_title.mode = "gameslot"
+
 func _on_game_slot_1_button_pressed():
-	r_title.mode = "gamestart_character"
-	hide()
+	selected_gameslot = 0
+	if r_title.mode == "destruct_confirm":
+		show_delete_confirmation()
+	else:
+		r_title.mode = "gamestart_character"
+		hide()
 
 func _on_game_slot_2_button_pressed():
-	r_title.mode = "gamestart_character"
-	hide()
+	selected_gameslot = 1
+	if r_title.mode == "destruct_confirm":
+		show_delete_confirmation()
+	else:
+		r_title.mode = "gamestart_character"
+		hide()
 
 func _on_game_slot_3_button_pressed():
-	r_title.mode = "gamestart_character"
-	hide()
+	selected_gameslot = 2
+	if r_title.mode == "destruct_confirm":
+		show_delete_confirmation()
+	else:
+		r_title.mode = "gamestart_character"
+		hide()
 
 func _on_back_panel_button_pressed():
 	r_title.mode = "basic"
 	hide()
 
 func _on_delete_panel_button_pressed():
-	pass # Replace with function body.
+	r_title.mode = "destruct_confirm"

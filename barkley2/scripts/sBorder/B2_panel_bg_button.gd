@@ -1,4 +1,3 @@
-@tool
 extends B2_Border
 class_name B2_Border_Button
 
@@ -14,6 +13,7 @@ const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
 @export var bg_selected_color 				:= Color.ORANGE
 @export var bg_highlight_color 				:= Color.WHITE
 @export var can_toggle 						:= false
+
 @export var is_pressed 						:= false :
 	set(p):
 		is_pressed = p
@@ -34,12 +34,12 @@ func _gui_input(event):
 	if monitor_mouse:
 		if event is InputEventMouseButton: ## Allow window to be pressed, if the mouse is being monitored.
 			if event.is_action_pressed("Action"):
-				button_pressed.emit()
 				if can_toggle:
 					is_pressed = not is_pressed
 			if event.is_action_released("Action"):
 				if not can_toggle:
 					is_pressed = false
+				button_pressed.emit()
 				
 func _draw():
 	## BG

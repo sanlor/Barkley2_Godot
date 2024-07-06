@@ -127,11 +127,6 @@ func _ready():
 		if n is AnimatedSprite2D:
 			n.play("default")
 	
-	## Debug
-	var w_scale := 2
-	get_window().position /= w_scale
-	get_window().size *= w_scale
-	
 	## Music
 	B2_Music.room_get( "r_title" )
 	mode = "basic" ## default state of the game.
