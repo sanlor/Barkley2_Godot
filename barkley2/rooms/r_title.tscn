@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=59 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -45,6 +45,7 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/settings_window.gd" id="42_iyvkj"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/gameslot_window.gd" id="43_8a3yi"]
 [ext_resource type="Script" path="res://barkley2/scripts/sBorder/B2_panel_bg_button.gd" id="44_f8qw8"]
+[ext_resource type="Script" path="res://barkley2/scripts/Button/B2_Button.gd" id="46_cs6wg"]
 [ext_resource type="Script" path="res://barkley2/scripts/Audio_Slider/B2_Audio_Slider.gd" id="46_r8obs"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/character_window.gd" id="46_rtgnt"]
 
@@ -421,6 +422,8 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_f8qw8")
+can_toggle = true
+is_pressed = true
 
 [node name="keys_panel" type="Control" parent="settings_layer"]
 layout_mode = 3
@@ -429,6 +432,7 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_f8qw8")
+can_toggle = true
 
 [node name="gamepad_panel" type="Control" parent="settings_layer"]
 layout_mode = 3
@@ -437,6 +441,7 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme = ExtResource("41_fj155")
 script = ExtResource("44_f8qw8")
+can_toggle = true
 
 [node name="settings_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
 offset_left = 32.0
@@ -463,11 +468,13 @@ offset_right = 72.0
 offset_bottom = 42.0
 text = "Music:"
 
-[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0"]
+[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 text = "<"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="music_slider" type="HSlider" parent="settings_layer/settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
@@ -480,11 +487,13 @@ value = 100.0
 script = ExtResource("46_r8obs")
 linked_label = NodePath("..")
 
-[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0"]
+[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 text = ">"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_1" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -494,11 +503,13 @@ offset_right = 72.0
 offset_bottom = 58.0
 text = "Sound:"
 
-[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1"]
+[node name="minus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 text = "<"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="sound_slider" type="HSlider" parent="settings_layer/settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
@@ -511,11 +522,13 @@ value = 100.0
 script = ExtResource("46_r8obs")
 linked_label = NodePath("..")
 
-[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1"]
+[node name="plus" type="Button" parent="settings_layer/settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 text = ">"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_3" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -525,7 +538,7 @@ offset_right = 77.0
 offset_bottom = 90.0
 text = "Filter:"
 
-[node name="crt_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+[node name="crt_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 126.0
@@ -533,8 +546,10 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_a1hoj")
 text = "CRT"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="bloom_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+[node name="bloom_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 143.0
@@ -542,8 +557,10 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_a1hoj")
 text = "BLOOM"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="none_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3"]
+[node name="none_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 134.0
@@ -552,6 +569,8 @@ toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_a1hoj")
 text = "NONE"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_4" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -561,7 +580,7 @@ offset_right = 74.0
 offset_bottom = 106.0
 text = "Joke's:"
 
-[node name="joke_on_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4"]
+[node name="joke_on_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 117.0
@@ -570,8 +589,10 @@ toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_dc4ss")
 text = "ON"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="joke_off_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4"]
+[node name="joke_off_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_4" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 126.0
@@ -579,6 +600,8 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_dc4ss")
 text = "OFF"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_5" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -588,7 +611,7 @@ offset_right = 102.0
 offset_bottom = 122.0
 text = "Language:"
 
-[node name="english_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5"]
+[node name="english_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 210.0
@@ -597,8 +620,10 @@ toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_5uuhn")
 text = "ANGLOAMERICAN"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="albhed_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5"]
+[node name="albhed_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_5" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 155.0
@@ -606,6 +631,8 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_5uuhn")
 text = "AL BHED"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_6" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -615,7 +642,7 @@ offset_right = 122.0
 offset_bottom = 138.0
 text = "Fullscreen:"
 
-[node name="fullscreen_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6"]
+[node name="fullscreen_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 185.0
@@ -624,8 +651,10 @@ toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_ehj5d")
 text = "FULLSCREEN"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="window_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6"]
+[node name="window_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_6" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 168.0
@@ -633,6 +662,8 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ehj5d")
 text = "WINDOWED"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="settings_name_7" type="Label" parent="settings_layer/settings_panel/general"]
 layout_mode = 0
@@ -642,7 +673,7 @@ offset_right = 87.0
 offset_bottom = 154.0
 text = "Scaling:"
 
-[node name="2x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+[node name="2x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 117.0
@@ -651,8 +682,10 @@ toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_pnmst")
 text = "2x"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="3x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+[node name="3x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 117.0
@@ -660,8 +693,10 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_pnmst")
 text = "3x"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
-[node name="4x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7"]
+[node name="4x_button" type="Button" parent="settings_layer/settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 100.0
 offset_right = 117.0
@@ -669,6 +704,8 @@ offset_bottom = 14.0
 toggle_mode = true
 button_group = SubResource("ButtonGroup_pnmst")
 text = "4x"
+script = ExtResource("46_cs6wg")
+linked_label = NodePath("..")
 
 [node name="keys" type="Control" parent="settings_layer/settings_panel"]
 visible = false
