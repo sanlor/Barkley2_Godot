@@ -172,7 +172,7 @@ func room_get( room_name : String):
 func queue( track_name : String): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
-		track_name = "mus_blankTEMP"
+		track_name = music_folder + "/mus_blankTEMP.ogg"
 
 	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
 	next_music.loop = true

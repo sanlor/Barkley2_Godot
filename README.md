@@ -3,18 +3,18 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 
 # Stage 0 - Recreate the title screen, with all original features:
   - [ ] Migrate important scripts and objects to Godot´s autoloads
-	- [ ] Migrate the Audio() Script, responsible for the Music
-	- [x] Migrate the Sound() Script, responsible for the Sfx
-	- [ ] Migrate the Border() Script, responsible for the panel, windows, buttons and dialog boxes.
+	- [ ] Migrate the Audio() Script, responsible for the Music -> 25% done
+	- [x] Migrate the Sound() Script, responsible for the Sfx -> 50% done
+	- [x] Migrate the Border() Script, responsible for the panel, windows, buttons and dialog boxes.
 	  - [ ] Generate the panel, with its "random" border decorrations
 	- [ ] TBD
 > [!NOTE]
 > Discover what else need to be migrated.
 
-  - [ ] Recreate all of the game´s fonts. The original font is just a bunch of animated sprites.
-  - [ ] Recreate the game´s cursor.
-	- [ ] Add the blinking animation
-	- [ ] Add the "blur" when you move it too fast.
+  - [x] Recreate all of the game´s fonts. The original font is just a bunch of animated sprites.
+  - [x] Recreate the game´s cursor.
+	- [x] Add the blinking animation
+	- [x] Add the "blur" when you move it too fast.
   - [ ] Recreate the game´s title screen
 	- [x] Add Ziggurat, bobing up and down
 	- [x] Add other decorations, with their own animations
@@ -25,8 +25,8 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [x] Add Saved Game Slots
 	  - [ ] Add saving capabilities, compatible with the original´s game save file
 	  - [ ] Add loading capabilities, compatible with the original´s game save file
-		- [ ] Add the 3 Options, but dont do anything after that.
-		- [ ] Add the return Button
+		- [x] Add the 3 Options, but dont do anything after that.
+		- [x] Add the return Button
 	- [ ] Add Settings Window
 	  - [x] Add General Tab
 		- [x] Add Working Music Slider
@@ -38,7 +38,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 		- [x] Add Working Fullscreen option
 		- [x] Add Working Scaling option
 	  - [x] Add Controls Tab
-		- [ ] Add all key actions, along with remapable keys
+		- [x] Add all key actions, along with remapable keys
 	  - [x] Add Gamepad Tab
 		- [ ] Add all key actions, along with remapable keys
 	  - [x] Add Working Return Key

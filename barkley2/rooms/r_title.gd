@@ -5,7 +5,7 @@ extends Control
 # This scene tries to recreate the room r_title, with the object oTitle.
 
 @export var debug_data := false
-
+@export var hide_demo_msg := false
 ## Godot Specific:
 
 signal mode_change(String)
@@ -187,6 +187,8 @@ func _input(event):
 		pass
 
 func _draw():
+	if hide_demo_msg:
+		return
 	var qrx = 150;
 	var qry = 100 + 15# + 5 ; # + 5 was added by me.
 	var font := preload("res://barkley2/resources/fonts/fn_small.tres")

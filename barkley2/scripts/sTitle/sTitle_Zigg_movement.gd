@@ -18,7 +18,7 @@ func move_left( amount : float ):
 	if moved_amount <= movement_limit:
 		position.x += amount
 
-func _process(delta):
+func _physics_process(delta):
 	if is_Ziggurat:
 		## Original code
 		#dry = 240 / 2;
