@@ -33,7 +33,7 @@ var soundPlayed := Array()
 var soundHealth := Array()
 
 ## Godot stuff
-@export var audio_folder := "res://barkley2/assets/b2_original/_audio/"
+@export var audio_folder := "res://barkley2/assets/b2_original/audio/"
 
 var sound_bank := {} ## all sounds that the game has.
 

@@ -2,7 +2,7 @@ extends Node
 
 @onready var audio_stream_player = $AudioStreamPlayer
 
-@export var music_folder := "res://barkley2/assets/b2_original/_audio/Music/"
+@export var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
 
 var music_bank := {
 	}
@@ -24,13 +24,16 @@ func _ready():
 	print("init music banks started: ", Time.get_ticks_msec())
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
+	print( _music_folder.get_files() )
 	for file in  _music_folder.get_files():
 		if file.ends_with(".import"):
 			continue
+			#music_bank[ file.rstrip(".ogg.import") ] = str(music_folder + file)
+		print(file)
 		if not file.begins_with("mus_"):
 			continue
 		if file.ends_with(".ogg"):
-			music_bank[ file.rstrip(".ogg") ] = str(music_folder + "/" + file)
+			music_bank[ file.rstrip(".ogg") ] = str(music_folder + file)
 		#else:
 			#push_warning("Unknown file at ", music_folder, file, ".")
 	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
@@ -172,9 +175,9 @@ func room_get( room_name : String):
 func queue( track_name : String): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
-		track_name = music_folder + "/mus_blankTEMP.ogg"
+		track_name = music_folder + "mus_blankTEMP.ogg"
 
-	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
+	var next_music : AudioStreamOggVorbis = load( track_name )
 	next_music.loop = true
 	
 	if audio_stream_player.playing:
