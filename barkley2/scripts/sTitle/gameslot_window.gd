@@ -100,6 +100,7 @@ func change_delete_button():
 
 func show_delete_confirmation():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
+	oConfirm.givTxt = "Is this the game you want to destruct?"
 	oConfirm.option1_pressed.connect( delete_gameslot 						) # Yes
 	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false 	) # No
 	add_child(oConfirm)

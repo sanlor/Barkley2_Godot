@@ -1,6 +1,9 @@
 extends Control
 class_name B2_Confirm
 
+enum MODE{CONFIRM, NOTICE}
+var curr_mode := MODE.CONFIRM
+
 const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
 const BG1 = preload("res://barkley2/assets/Confirm/sButtonPapers_0.png")
 const BG2 = preload("res://barkley2/assets/Confirm/sButtonPapers_6.png")
@@ -17,6 +20,7 @@ const NO = preload("res://barkley2/assets/Confirm/sButtonPapers_5.png")
 
 @onready var option_1 : B2_Button = $option_1
 @onready var option_2 : B2_Button = $option_2
+@onready var option_3 : B2_Button = $option_3
 
 
 ## Godot stuff
@@ -24,6 +28,7 @@ var dialog_max_size := 65.0
 
 signal option1_pressed
 signal option2_pressed
+signal option3_pressed
 
 ## Create
 var soundHoverLight = "sn_debug_one"; ## Hover over buttons
@@ -63,27 +68,8 @@ func _ready():
 	full_screen_bg.modulate 	= Color.TRANSPARENT
 	dialog.modulate 			= Color.TRANSPARENT
 	
-	option_1.add_textures(YES)
-	option_2.add_textures(NO)
-	
-	option_1.pressed.connect( func(): option1_pressed.emit(); B2_Sound.play(soundClickExit); collapse() )
-	option_2.pressed.connect( func(): option2_pressed.emit(); B2_Sound.play(soundClickExit); collapse() )
-	
-	option_1.mouse_entered.connect( func(): B2_Sound.play(soundHoverLight) )
-	option_2.mouse_entered.connect( func(): B2_Sound.play(soundHoverLight) )
-	
-	option_1.size = Vector2(81, 17)
-	option_2.size = Vector2(81, 17)
-	
-	## Holy shit.
-	var y := get_viewport_rect().size.y / 2
-	var givHei = (2 * 12) + 44;
-	givHei -= 3
-	givHei = round(givHei)
-	y -= givHei / 2
-	y = floor(y)
 	var fuck_this_y := 93.0
-	
+			
 	confirm_text.size.x = 340.0
 	confirm_text.text = givTxt
 	confirm_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -93,11 +79,50 @@ func _ready():
 	confirm_text.position.y = fuck_this_y
 	
 	var fuck_this_y_also := 128.0
-	option_1.global_position = Vector2(givX_1, fuck_this_y_also)
-	option_2.global_position = Vector2(givX_0, fuck_this_y_also)
 	
-	_expand()
-	
+	match curr_mode:
+		MODE.CONFIRM:
+			option_3.queue_free()
+			
+			option_1.add_textures(YES)
+			option_2.add_textures(NO)
+			
+			option_1.pressed.connect( func(): option1_pressed.emit(); B2_Sound.play(soundClickExit); collapse() )
+			option_2.pressed.connect( func(): option2_pressed.emit(); B2_Sound.play(soundClickExit); collapse() )
+			
+			option_1.mouse_entered.connect( func(): B2_Sound.play(soundHoverLight) )
+			option_2.mouse_entered.connect( func(): B2_Sound.play(soundHoverLight) )
+			
+			option_1.size = Vector2(81, 17)
+			option_2.size = Vector2(81, 17)
+			
+			## Holy shit.
+			#var y := get_viewport_rect().size.y / 2
+			#var givHei = (2 * 12) + 44;
+			#givHei -= 3
+			#givHei = round(givHei)
+			#y -= givHei / 2
+			#y = floor(y)
+			
+			option_1.global_position = Vector2(givX_1, fuck_this_y_also)
+			option_2.global_position = Vector2(givX_0, fuck_this_y_also)
+			
+			_expand()
+		MODE.NOTICE:
+			option_1.queue_free()
+			option_2.queue_free()
+			
+			option_3.add_textures(EXIT)
+			
+			option_3.pressed.connect( func(): option1_pressed.emit(); B2_Sound.play(soundClickExit); collapse() )
+			
+			option_3.mouse_entered.connect( func(): B2_Sound.play(soundHoverLight) )
+			
+			option_3.size = Vector2(81, 17)
+			
+			option_3.global_position = Vector2( (get_viewport_rect().size.x / 2) - (option_3.size.x / 2), fuck_this_y_also )
+			
+			_expand()
 	
 func _expand(): # When its diplayed, the menu opens up.
 	var tween := create_tween()
@@ -109,15 +134,25 @@ func _expand(): # When its diplayed, the menu opens up.
 	tween.parallel().tween_property(dialog, "position:y", (get_viewport_rect().end.y / 2) - (dialog_max_size / 2), givSpd)
 	
 	tween.tween_property(confirm_text, 	"modulate", Color.WHITE, givSpd)
-	tween.parallel().tween_property(option_1,		"modulate", Color.WHITE, givSpd)
-	tween.parallel().tween_property(option_2,		"modulate", Color.WHITE, givSpd)
+	
+	match curr_mode:
+		MODE.CONFIRM:
+			tween.parallel().tween_property(option_1,		"modulate", Color.WHITE, givSpd)
+			tween.parallel().tween_property(option_2,		"modulate", Color.WHITE, givSpd)
+		MODE.NOTICE:
+			tween.parallel().tween_property(option_3,		"modulate", Color.WHITE, givSpd)
 	
 func collapse():
 	var tween := create_tween()
 	
 	tween.tween_property(confirm_text, 	"modulate", Color.TRANSPARENT, givSpd)
-	tween.parallel().tween_property(option_1,		"modulate", Color.TRANSPARENT, givSpd)
-	tween.parallel().tween_property(option_2,		"modulate", Color.TRANSPARENT, givSpd)
+	
+	match curr_mode:
+		MODE.CONFIRM:
+			tween.parallel().tween_property(option_1,		"modulate", Color.TRANSPARENT, givSpd)
+			tween.parallel().tween_property(option_2,		"modulate", Color.TRANSPARENT, givSpd)
+		MODE.NOTICE:
+			tween.parallel().tween_property(option_3,		"modulate", Color.TRANSPARENT, givSpd)
 	
 	tween.tween_property(full_screen_bg, 	"modulate", Color.TRANSPARENT, givSpd)
 	tween.parallel().tween_property(dialog, 			"modulate", Color.TRANSPARENT, givSpd)

@@ -8,7 +8,7 @@ extends CanvasLayer
 @onready var mouse = $mouse
 @onready var trail = $trail
 
-var max_trail := 3
+var max_trail := 2 # 3 is pretty cool
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -24,4 +24,3 @@ func _process(_delta):
 	trail.add_point( mouse.position )
 	if trail.get_point_count() > max_trail:
 		trail.remove_point( 0 )
-	

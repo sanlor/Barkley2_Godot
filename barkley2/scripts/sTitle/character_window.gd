@@ -72,10 +72,17 @@ func _on_return_button_button_pressed():
 	hide()
 
 func _on_cc_button_button_pressed():
-	pass # Replace with function body.
+	show_notice()
 
 func _on_x_1_button_button_pressed():
-	pass # Replace with function body.
+	show_notice()
 
 func _on_skip_button_button_pressed():
-	pass # Replace with function body.
+	show_notice()
+
+func show_notice():
+	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
+	oConfirm.givTxt = "This is the end of the game (for now)."
+	oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
+	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
+	add_child(oConfirm)
