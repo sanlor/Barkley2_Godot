@@ -18,7 +18,17 @@ var vsync := OFF
 var AlBhed := OFF
 var fullscreen := OFF
 var screen_scale := SCALE.X2
-var currentFilter := FILTER.OFF
+
+var currentFilter := FILTER.OFF :
+	set(filter):
+		currentFilter = filter
+		if currentFilter == FILTER.CRT:
+			B2_Shaders.toggle_crt_shader( true )
+		if currentFilter == FILTER.BLOOM:
+			B2_Shaders.toggle_crt_shader( false )
+		if currentFilter == FILTER.OFF:
+			B2_Shaders.toggle_crt_shader( false )
+			
 var scanlines := OFF ## I think its an unused variable. Since the original game saves this variable, im doing it too.
 #
 var sfx_gain_master := 1.0
@@ -30,12 +40,12 @@ signal game_settings_saved
 signal game_settings_loaded
 
 var configsavefolder 	:= "user://_resources/"
-var configsavefile 	:= "settings.ini"
+var configsavefile 		:= "settings.ini"
 
 ## User Profile
-var selected_slot := 0
-var usersavefile : Dictionary
-var usersavefolder 	:= "user://"
+var selected_slot 		:= 0
+var usersavefile 		: Dictionary
+var usersavefolder 		:= "user://"
 
 func _init():
 	## Original comments VV

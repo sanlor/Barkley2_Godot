@@ -5,15 +5,23 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u4q0a"]
 shader = ExtResource("2_7a5yw")
+shader_parameter/scanline_count = 120.0
+shader_parameter/scale = 1.0
+shader_parameter/red_offset = 1.0
+shader_parameter/blue_offset = 1.0
+shader_parameter/green_offset = 1.0
+shader_parameter/bypass_scale = true
 
 [node name="shaders" type="CanvasLayer"]
-visible = false
+layer = 10
 script = ExtResource("1_naf6h")
 
 [node name="shader_canvas" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_u4q0a")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2

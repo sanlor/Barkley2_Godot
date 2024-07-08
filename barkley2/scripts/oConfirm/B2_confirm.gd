@@ -132,6 +132,7 @@ func _expand(): # When its diplayed, the menu opens up.
 	
 	tween.parallel().tween_property(dialog, "size:y", dialog_max_size, givSpd)
 	tween.parallel().tween_property(dialog, "position:y", (get_viewport_rect().end.y / 2) - (dialog_max_size / 2), givSpd)
+	#tween.tween_interval(0)
 	
 	tween.tween_property(confirm_text, 	"modulate", Color.WHITE, givSpd)
 	

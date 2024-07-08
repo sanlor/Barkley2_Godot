@@ -137,7 +137,7 @@ func _ready():
 	
 	crt_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.CRT; 		B2_Config.apply_config() )
 	bloom_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.BLOOM; 		B2_Config.apply_config() )
-	none_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.CRT; 		B2_Config.apply_config() )
+	none_button.pressed.connect( 		func(): B2_Config.currentFilter = B2_Config.FILTER.OFF; 		B2_Config.apply_config() )
 	
 	joke_on_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
 	joke_off_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
