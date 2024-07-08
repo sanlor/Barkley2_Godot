@@ -1,0 +1,105 @@
+[gd_scene load_steps=4 format=3 uid="uid://5gab3ljcl8ya"]
+
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_aua0i"]
+[ext_resource type="Script" path="res://barkley2/scripts/sTitle/custom/about_menu.gd" id="1_dpin5"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="3_v2wkv"]
+
+[node name="about_bg" type="ColorRect"]
+top_level = true
+z_index = 200
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="about_menu" type="Control" parent="."]
+z_index = 200
+custom_minimum_size = Vector2(200, 190)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.5
+offset_top = -42.5
+offset_right = 87.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_aua0i")
+script = ExtResource("1_dpin5")
+border_size = Vector2(210, 200)
+
+[node name="MarginContainer" type="MarginContainer" parent="about_menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="about_menu/MarginContainer"]
+layout_mode = 2
+
+[node name="mouse_tim" type="CheckButton" parent="about_menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 20)
+layout_mode = 2
+text = "Enable mouse tim"
+
+[node name="unused" type="CheckButton" parent="about_menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(160, 20)
+layout_mode = 2
+text = "Nothing!"
+
+[node name="stupid text" type="ScrollContainer" parent="about_menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="about_menu/MarginContainer/VBoxContainer/stupid text"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="about_menu/MarginContainer/VBoxContainer/stupid text"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="about_menu/MarginContainer/VBoxContainer/stupid text/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/line_separation = 2
+theme_override_fonts/normal_font = ExtResource("3_v2wkv")
+theme_override_font_sizes/normal_font_size = 12
+text = "Barkley 2 - Godot port of the janky demo.
+
+Programmer (and everything else:
+Sanlo M.
+
+Original game by:
+Tale´s of Games
+
+This project source code can be found here: https://github.com/sanlor/Barkley2_Godot
+
+The original source code can be found here:
+https://github.com/sanlor/Barkley2_Original"
+
+[node name="close" type="Button" parent="about_menu/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+text = "Close"
+
+[connection signal="pressed" from="about_menu/MarginContainer/VBoxContainer/close" to="about_menu" method="_on_close_pressed"]

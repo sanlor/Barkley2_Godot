@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=60 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
 [ext_resource type="Texture2D" uid="uid://14gs381whatf" path="res://barkley2/assets/sTitle/sTitleStarfieldBright_0.png" id="2_3w55g"]
@@ -43,6 +43,7 @@
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/title_window.gd" id="40_yg4vf"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="41_fj155"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/settings_window.gd" id="42_iyvkj"]
+[ext_resource type="Script" path="res://barkley2/scripts/sTitle/custom/OOC_button.gd" id="43_4mace"]
 [ext_resource type="Script" path="res://barkley2/scripts/sTitle/gameslot_window.gd" id="43_8a3yi"]
 [ext_resource type="Script" path="res://barkley2/scripts/sBorder/B2_panel_bg_button.gd" id="44_f8qw8"]
 [ext_resource type="Script" path="res://barkley2/scripts/Button/B2_Button.gd" id="46_cs6wg"]
@@ -349,6 +350,22 @@ offset_right = 108.0
 offset_bottom = 59.5
 action_mode = 0
 text = "Quit"
+
+[node name="OOC_button" type="Button" parent="title_layer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -37.0
+offset_top = -37.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("41_fj155")
+text = "?"
+script = ExtResource("43_4mace")
 
 [node name="gameslot_layer" type="CanvasLayer" parent="."]
 visible = false
@@ -791,6 +808,7 @@ script = ExtResource("44_f8qw8")
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="title_layer/OOC_button" to="title_layer/OOC_button" method="_on_pressed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/minus" to="settings_layer" method="_on_music_minus_pressed"]
 [connection signal="value_changed" from="settings_layer/settings_panel/general/settings_name_0/music_slider" to="settings_layer" method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/plus" to="settings_layer" method="_on_music_plus_pressed"]
