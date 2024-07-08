@@ -4,6 +4,8 @@ extends Node
 ## Its only use is to save and load settings, along with emiting signals to let the other nodes know (if needed).
 ## The settings.ini file that this game makes if cross compatible with the original. cool, aint it?
 
+## TODO port script scr_player_newPlayerIdentity()
+
 enum SCALE {X2 = 2,X3 = 3,X4 = 4} ## The original game uses floats for values. Because of that, Im using Enums with specific values, even for boolean checks.
 enum FILTER {OFF, CRT, BLOOM}
 enum {OFF,ON}
@@ -27,20 +29,92 @@ var sounds = null
 signal game_settings_saved
 signal game_settings_loaded
 
-var savefolder 	:= "user://_resources/"
-var savefile 	:= "settings.ini"
+var configsavefolder 	:= "user://_resources/"
+var configsavefile 	:= "settings.ini"
 
+## User Profile
+var selected_slot := 0
+var usersavefile : Dictionary
+var usersavefolder 	:= "user://"
 
 func _init():
 	## Original comments VV
 	# We can load with default values.
 	# We also save immediately just to ensure the file is editable by devs on initial boot.
-	game_load()
+	config_load()
 	apply_config(false)
 	
 func _ready():
 	pass
 
+func has_user_save( slot ): # slot -> 0 to 2
+	assert( slot >= 0 or slot <= 2)
+	var savefile := "save%s.b2" % str(slot)
+	if FileAccess.file_exists(usersavefolder + savefile ):
+		return true
+	else:
+		return false
+	
+func select_user_slot( slot ):
+	assert( slot >= 0 or slot <= 2)
+	selected_slot = slot
+	
+	usersavefile.clear()
+	
+	var file := "save%s.b2" % str( slot )
+	if FileAccess.file_exists( usersavefolder + file ):
+		var savefile := FileAccess.open( usersavefolder + file, FileAccess.READ )
+		var json := JSON.new()
+		var parse_error := json.parse( savefile.get_as_text() )
+		if parse_error == OK:
+			usersavefile = json.get_data()
+		else:
+			push_error( "cant load save file:", parse_error )
+	
+# scr_savedata_put()
+func get_user_save_data( path : String ):
+	if usersavefile.is_empty():
+		push_error("No save data to get!")
+		return
+				
+	## This is a similar script to the scr_savedata_get
+	var temp_dict := usersavefile
+	var path_array := path.split(".")
+	var loops := 0
+	for i in path_array:
+		if temp_dict.has(i):
+			loops += 1
+			if loops == path_array.size():
+				return temp_dict[i]
+			else:
+				temp_dict = temp_dict[i]
+		else:
+			push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
+	
+func set_user_save_data( path : String, value ):
+	assert(not usersavefile.is_empty(), "Game not loaded. No place to save.")
+	
+	var temp_dict := usersavefile
+	var path_array := path.split(".")
+	var loops := 0
+	for i in path_array:
+		if temp_dict.has(i):
+			loops += 1
+			if loops == path_array.size():
+				temp_dict[i] = value
+			else:
+				temp_dict = temp_dict[i]
+		else:
+			push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
+	
+func delete_user_save_data( slot : int ):
+	assert( slot >= 0 or slot <= 2)
+	var file := "save%s.b2" % str( slot )
+	if FileAccess.file_exists( usersavefolder + file ):
+		DirAccess.remove_absolute(usersavefolder + file)
+	else:
+		push_warning("Tried to remove a save that doesnt exist: ", usersavefolder + file)
+	
 func apply_config( _save := true):
 	if vsync == ON:
 		DisplayServer.window_set_vsync_mode( DisplayServer.VSYNC_ENABLED )
@@ -69,15 +143,15 @@ func apply_config( _save := true):
 		pass
 		
 	if _save:
-		game_save()
+		config_save()
 
-func game_load():
+func config_load():
 	var config = ConfigFile.new()
-	var error := config.load( savefolder + savefile )
+	var error := config.load( configsavefolder + configsavefile )
 	
 	if error != OK:
 		push_warning("No config file exist. Creating a new one.")
-		game_save()
+		config_save()
 		return
 		
 	vsync 				= str_to_var( config.get_value("settings","vsync") 			)
@@ -93,7 +167,7 @@ func game_load():
 	game_settings_loaded.emit()
 	print( "Settings loaded! ", Time.get_ticks_msec() )
 
-func game_save(): # //key, value
+func config_save(): # //key, value
 	var config = ConfigFile.new()
 	config.set_value("settings", "MusicLevel", 		var_to_str(bgm_gain_master) 		)
 	config.set_value("settings", "ScanLines", 		var_to_str(scanlines) 				)
@@ -105,10 +179,10 @@ func game_save(): # //key, value
 	config.set_value("settings", "Filter", 			var_to_str(currentFilter) 			)
 	config.set_value("settings", "SoundLevel", 		var_to_str(sfx_gain_master) 		)
 	
-	if not DirAccess.dir_exists_absolute(savefolder): ## make sure that the _resource folder exists.
-		DirAccess.make_dir_absolute( savefolder )
+	if not DirAccess.dir_exists_absolute( configsavefolder ): ## make sure that the _resource folder exists.
+		DirAccess.make_dir_absolute( configsavefolder )
 	
-	var err := config.save(savefolder + savefile)
+	var err := config.save(configsavefolder + configsavefile)
 	if err == OK:
 		game_settings_saved.emit()
 	else:

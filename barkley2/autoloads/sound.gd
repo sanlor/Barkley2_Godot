@@ -8,9 +8,7 @@ extends Node
 ## get duplicate sounds
 
 @warning_ignore("unused_variable")
-@onready var _tim = Time.get_ticks_msec()
-
-
+@onready var tim = Time.get_ticks_msec()
 
 var dsmSound = Dictionary() ## ds_map_create();
 var dslSoundRecent = Array() ##ds_list_create(); # original # debug
@@ -50,14 +48,12 @@ func _init_sound_banks():
 	## Load audio tracks (SFX)
 	var _audio_folder := DirAccess.open( audio_folder )
 	for folder in _audio_folder.get_directories():
-		var _folder := DirAccess.open( audio_folder + "/" +folder ) # Recursive search
+		var _folder := DirAccess.open( audio_folder + "/" + folder ) # Recursive search
 		for file in  _folder.get_files():
-			if file.ends_with(".import"): # ignore godot files
-				continue
 			if not file.begins_with("sn_"): # only allow sn_ prefix music
 				continue
-			if file.ends_with(".wav"):
-				sound_bank[ file.rstrip(".wav") ] = str(audio_folder + "/" + folder + "/" + file)
+			if file.ends_with(".wav.import"): # ignore godot files
+				sound_bank[ file.rstrip(".wav.import") ] = str(audio_folder + "/" + folder + "/" + file.replace(".import",""))
 
 	print("init sound banks ended: ", Time.get_ticks_msec(), " - ", sound_bank.size(), " sound_bank entries")
 	

@@ -18,25 +18,21 @@ var bgm_music : String = ""
 var bgmCheck = 1; ## was 5
 #if (argument[0] == "get")
 
-func _ready():
-	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
-	
+func _init():
 	print("init music banks started: ", Time.get_ticks_msec())
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
 	print( _music_folder.get_files() )
 	for file in  _music_folder.get_files():
-		if file.ends_with(".import"):
-			continue
-			#music_bank[ file.rstrip(".ogg.import") ] = str(music_folder + file)
-		print(file)
 		if not file.begins_with("mus_"):
 			continue
-		if file.ends_with(".ogg"):
-			music_bank[ file.rstrip(".ogg") ] = str(music_folder + file)
-		#else:
-			#push_warning("Unknown file at ", music_folder, file, ".")
+		if file.ends_with(".ogg.import"):
+			music_bank[ file.replace(".ogg.import","") ] = str(music_folder + file.replace(".import",""))
+
 	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
+
+func _ready():
+	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100
@@ -177,7 +173,7 @@ func queue( track_name : String): ## track name should exist in the Music Bank d
 		push_warning("Invalid track name: ", track_name)
 		track_name = music_folder + "mus_blankTEMP.ogg"
 
-	var next_music : AudioStreamOggVorbis = load( track_name )
+	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
 	next_music.loop = true
 	
 	if audio_stream_player.playing:

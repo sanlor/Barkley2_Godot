@@ -186,6 +186,15 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		pass
 
+func _process(_delta):
+	#// Stock ticker //
+	#for (i = 0; i < 6; i += 1) 
+	#{
+		#if (stock_x[i] > -80) stock_x[i] -= 20 * dt_sec();
+		#else stock_x[i] = 500;
+	#}
+	pass
+
 func _draw():
 	if hide_demo_msg:
 		return

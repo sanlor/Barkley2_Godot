@@ -1,6 +1,9 @@
 extends B2_Border
 class_name B2_Border_Button
 
+## This node is part of the translation of the Border() script.
+# THis one also acts like a button.
+
 signal button_pressed
 
 const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
@@ -54,12 +57,19 @@ func _draw():
 		
 	if change_children_color:
 		for n in decorations:
+			if n == null:
+				continue
+				
 			if is_highlighted:
 				n.modulate = content_highlight_color
+			else:
+				if decorations_color.has(n):
+					n.modulate = decorations_color[n]
+				else:
+					decorations_color.erase(n)
 			if is_pressed:
 				n.modulate = content_selected_color
-			else:
-				n.modulate = Color.WHITE
+			
 	
 	if is_first_draw: ## avoid updating the border decorations
 		b_2_panel_fg.queue_redraw()

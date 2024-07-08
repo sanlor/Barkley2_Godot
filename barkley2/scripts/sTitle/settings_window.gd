@@ -302,6 +302,12 @@ func _ready():
 	drx += spc
 	dry += 16
 	
+	## Scaling doesnt work on HTML5. Disable these buttons just for fun.
+	if OS.has_feature("web"):
+		set_buttons[11].disabled = true
+		set_buttons[12].disabled = true
+		set_buttons[13].disabled = true
+	
 	xsp = 11; ## Space for Music, Sound, Language, etc text
 #endregion
 
@@ -546,7 +552,7 @@ func _on_settings_gamepad_button_pressed():
 func _on_settings_return_button_pressed():
 	r_title.mode = "basic"
 	toggle_buttons()
-	B2_Config.game_save()
+	B2_Config.config_save()
 	hide()
 
 

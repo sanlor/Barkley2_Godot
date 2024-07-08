@@ -1,6 +1,8 @@
 extends Control
 class_name B2_Border
 
+## This node is part of the translation of the Border() script.
+# This is the base class for most nodes that rely on the old Border() script
 ## NOTE I was forced to change some stuff. This is mostly original code.
 ## Some files (corners) needed to me modified.
 
@@ -17,7 +19,7 @@ const S_BORDER_BG_0 = preload("res://barkley2/assets/Border/sBorderBG_0.png")
 var is_first_draw := true
 
 var decorations := []
-var decoration_prev_colors : Array[Color] = []
+var decorations_color := {}
 
 @export var resize := false:
 	set(a):
@@ -39,7 +41,9 @@ func _ready():
 # Decorations are children that this node can control, change color and such
 func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
 	decorations.append(node)
+	decorations_color[node] = node.modulate
 	add_child(node)
+	move_child(b_2_panel_fg, -1)
 
 # This replaces que Border("generate") argument
 func set_panel_size(x, y):
@@ -61,3 +65,5 @@ func _draw():
 		b_2_panel_fg.queue_redraw()
 		is_first_draw = false
 	
+func _on_child_entered_tree(_node):
+	b_2_panel_fg.queue_redraw()
