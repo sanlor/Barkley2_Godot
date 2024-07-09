@@ -59,11 +59,9 @@ var stock_x := Array() # for the stock ticker
 
 ## Character Slots
 @onready var gameslot_layer = $gameslot_layer
-
 #endregion
 
 # region Color stuff
-
 var text_color_normal := Color.GRAY # c_gray; // For text that cannot be interacted with
 var text_color_button := Color.LIGHT_GRAY # c_ltgray; // Text that can be clicked
 var text_color_hover  := Color.WHITE # c_white;
@@ -94,10 +92,6 @@ var title_y = 170
 
 var title_row = 16
 var title_gap = 0
-
-# Draw buttons
-
-
 
 ## Stock Ticker ## Maybe this isnt usedin the "final" game?
 #stock_x[0] = 20;
@@ -187,6 +181,14 @@ func _input(event):
 		pass
 
 func _process(_delta):
+	if B2_Config.tim_follow_mouse:
+		
+		tim = get_global_mouse_position().x / 384
+		
+		for child in bg.get_children():
+			if child.has_method("apply_tim"):
+				child.apply_tim( tim )
+				
 	#// Stock ticker //
 	#for (i = 0; i < 6; i += 1) 
 	#{

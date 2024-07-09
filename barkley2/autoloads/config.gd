@@ -47,6 +47,9 @@ var selected_slot 		:= 0
 var usersavefile 		: Dictionary
 var usersavefolder 		:= "user://"
 
+## Main menu stuff
+var tim_follow_mouse := false
+
 func _init():
 	## Original comments VV
 	# We can load with default values.
