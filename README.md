@@ -38,7 +38,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 		- [x] Add Filter Option
 		  - [ ] Add Working filters ## CRT is the only one working. Even that ist all that good.
 		- [x] Add Joke´s option, along wit its functionality (no idea what it does)
-		- [x] Add Working language option
+		- [x] Add Working language option # Ym Prat myhkiyka yttat, Bnaddo cina huputo ajah kuehk du ica ed.
 		- [x] Add Working Fullscreen option
 		- [x] Add Working Scaling option
 	  - [x] Add Controls Tab

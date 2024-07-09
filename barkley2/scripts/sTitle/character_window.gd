@@ -48,11 +48,11 @@ func _ready():
 		label.vertical_alignment 	= VERTICAL_ALIGNMENT_CENTER
 		label.size = character_buttons[i].get_panel_size()
 		if i == 0:
-			label.text = "Create Character"
+			label.text = Text.pr("Create Character")
 		elif i == 1:
-			label.text = "Play as X114JAM9"
+			label.text = Text.pr("Play as X114JAM9")
 		elif i == 2:
-			label.text = "Skip the Stupid Prologue"
+			label.text = Text.pr("Skip the Stupid Prologue")
 		character_buttons[i].add_decorations(label)
 		dry += 40;
 	
@@ -60,7 +60,7 @@ func _ready():
 	return_button.global_position = Vector2(settings_x - 8, settings_return_y)
 	
 	var returnlabel := Label.new()
-	returnlabel.text = "Return"
+	returnlabel.text = Text.pr("Return")
 	returnlabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	returnlabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	returnlabel.size = return_button.get_panel_size()
@@ -82,7 +82,7 @@ func _on_skip_button_button_pressed():
 
 func show_notice():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	oConfirm.givTxt = "This is the end of the game (for now)."
+	oConfirm.givTxt = Text.pr("This is the end of the game (for now).")
 	oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
 	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
 	add_child(oConfirm)

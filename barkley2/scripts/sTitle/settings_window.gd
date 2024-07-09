@@ -16,7 +16,8 @@ extends CanvasLayer
 @onready var settings_keys_panel = $keys_panel
 @onready var settings_gamepad_panel = $gamepad_panel
 
-@onready var settings_return_panel = $return_panel
+@onready var settings_return_panel = 	$settings_panel/return_panel_button
+@onready var settings_return_button = 	$settings_panel/return_panel_button
 
 ## Inside the Settings panel
 @onready var general_options = $settings_panel/general
@@ -38,7 +39,7 @@ extends CanvasLayer
 	settings_keys_button,
 	settings_gamepad_button
 ]
-@onready var settings_return_button = $return_panel/settings_return_button
+
 
 
 ## Draw Settings
@@ -142,8 +143,8 @@ func _ready():
 	joke_on_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
 	joke_off_button.pressed.connect( 	func(): pass ) ## Joke doesnt do anything.
 	
-	english_button.pressed.connect( 	func(): B2_Config.AlBhed = B2_Config.OFF; 						B2_Config.apply_config() )
-	albhed_button.pressed.connect( 		func(): B2_Config.AlBhed = B2_Config.ON; 						B2_Config.apply_config() )
+	english_button.pressed.connect( 	func(): B2_Config.AlBhed = B2_Config.OFF; 	B2_Config.apply_config(); get_tree().reload_current_scene() )
+	albhed_button.pressed.connect( 		func(): B2_Config.AlBhed = B2_Config.ON; 	B2_Config.apply_config(); get_tree().reload_current_scene() )
 	
 	fullscreen_button.pressed.connect( 	func(): B2_Config.fullscreen = B2_Config.ON; 	scale_option.visible = false;		B2_Config.apply_config() ) ## The "scale" option should disappear when in fullscreen
 	window_button.pressed.connect( 		func(): B2_Config.fullscreen = B2_Config.OFF; 	scale_option.visible = true;		B2_Config.apply_config() ) ## The "scale" option should disappear when in fullscreen
@@ -162,7 +163,7 @@ func _ready():
 	var xsp = 11; ## Space for Music, Sound, Language, etc text ## NOTE No Idea what this is.
 	#Border("draw back", 6, settings_x - 8, settings_y - 8 - 2 - 5);
 	settings_panel.global_position = Vector2(settings_x - 8, settings_y - 8 - 2 - 5) # - (settings_panel.size / 2) ## NOTE WTF! some stuff assume a center origin position and other the top left.
-	var settings_tab_names := ["General","Controls","Gamepad"]
+	var settings_tab_names := [Text.pr("General"), Text.pr("Controls"), Text.pr("Gamepad")]
 	for i in range(settings_panels.size()):
 		# for (i = 8; i &lt; 11; i += 1) Border("generate", i, 106, 32); // 8, 9, 10 = General, Controls, Dicks
 		settings_panels[i].set_panel_size(106, 32)
@@ -193,6 +194,13 @@ func _ready():
 	settings_return_button.set_size( Vector2(320, 24) )
 	settings_return_button.global_position = Vector2(settings_x - 8, settings_return_y + 4)
 	
+	var returnlabel := Label.new()
+	returnlabel.text = Text.pr("Return")
+	returnlabel.size = settings_return_panel.get_panel_size()
+	returnlabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	returnlabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	settings_return_button.add_decorations(returnlabel)
+	
 	var settings_name_0 = $settings_panel/general/settings_name_0
 	var settings_name_1 = $settings_panel/general/settings_name_1
 	var settings_name_3 = $settings_panel/general/settings_name_3
@@ -210,6 +218,7 @@ func _ready():
 			## Add a blank space
 			dry += 16
 		drx = settings_x + settings_option_x + 16;
+		set_names[l].text = Text.pr( set_names[l].text )
 		set_names[l].global_position = Vector2(settings_x + xsp, dry + 4)
 		set_names[l].size = Vector2(drx + (10 * 8), dry + 4)
 		dry += 16
@@ -240,12 +249,15 @@ func _ready():
 	@warning_ignore("integer_division")
 	var spc = settings_width / 3
 	
+	set_buttons[2].text = Text.pr( set_buttons[2].text )
 	set_buttons[2].global_position = Vector2(drx, dry)
 	set_buttons[2].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[3].text = Text.pr( set_buttons[3].text )
 	set_buttons[3].global_position = Vector2(drx, dry)
 	set_buttons[3].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[4].text = Text.pr( set_buttons[4].text )
 	set_buttons[4].global_position = Vector2(drx, dry)
 	set_buttons[4].size = Vector2(spc - 1, 15)
 	drx += spc
@@ -255,9 +267,11 @@ func _ready():
 	drx = settings_x + settings_option_x;
 	@warning_ignore("integer_division")
 	spc = settings_width / 2
+	set_buttons[5].text = Text.pr( set_buttons[5].text )
 	set_buttons[5].global_position = Vector2(drx, dry)
 	set_buttons[5].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[6].text = Text.pr( set_buttons[6].text )
 	set_buttons[6].global_position = Vector2(drx, dry)
 	set_buttons[6].size = Vector2(spc - 1, 15)
 	drx += spc
@@ -267,9 +281,11 @@ func _ready():
 	drx = settings_x + settings_option_x;
 	@warning_ignore("integer_division")
 	spc = settings_width / 2
+	set_buttons[7].text = set_buttons[7].text
 	set_buttons[7].global_position = Vector2(drx, dry)
 	set_buttons[7].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[8].text = set_buttons[8].text
 	set_buttons[8].global_position = Vector2(drx, dry)
 	set_buttons[8].size = Vector2(spc - 1, 15)
 	drx += spc
@@ -279,9 +295,11 @@ func _ready():
 	drx = settings_x + settings_option_x;
 	@warning_ignore("integer_division")
 	spc = settings_width / 2
+	set_buttons[9].text = Text.pr( set_buttons[9].text )
 	set_buttons[9].global_position = Vector2(drx, dry)
 	set_buttons[9].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[10].text = Text.pr( set_buttons[10].text )
 	set_buttons[10].global_position = Vector2(drx, dry)
 	set_buttons[10].size = Vector2(spc - 1, 15)
 	drx += spc
@@ -291,12 +309,15 @@ func _ready():
 	drx = settings_x + settings_option_x;
 	@warning_ignore("integer_division")
 	spc = settings_width / 3
+	set_buttons[11].text = Text.pr( set_buttons[11].text )
 	set_buttons[11].global_position = Vector2(drx, dry)
 	set_buttons[11].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[12].text = Text.pr( set_buttons[12].text )
 	set_buttons[12].global_position = Vector2(drx, dry)
 	set_buttons[12].size = Vector2(spc - 1, 15)
 	drx += spc
+	set_buttons[13].text = Text.pr( set_buttons[13].text )
 	set_buttons[13].global_position = Vector2(drx, dry)
 	set_buttons[13].size = Vector2(spc - 1, 15)
 	drx += spc
@@ -381,7 +402,7 @@ func _ready():
 	gamepad_buttons[0].texture = S_XBOX_BUTTONS_LA
 	gamepad_buttons[0].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[0] )
-	gamepad_labels[0].text = "Movement"
+	gamepad_labels[0].text = Text.pr("Movement")
 	gamepad_labels[0].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[0] )
 	dry += key_row * 1.5;
@@ -389,7 +410,7 @@ func _ready():
 	gamepad_buttons[1].texture = S_XBOX_BUTTONS_RA
 	gamepad_buttons[1].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[1] )
-	gamepad_labels[1].text = "Aiming"
+	gamepad_labels[1].text = Text.pr("Aiming")
 	gamepad_labels[1].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[1] )
 	dry += key_row * 1.5;
@@ -397,7 +418,7 @@ func _ready():
 	gamepad_buttons[2].texture = S_XBOX_BUTTONS_RB
 	gamepad_buttons[2].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[2] )
-	gamepad_labels[2].text = "Action"
+	gamepad_labels[2].text = Text.pr("Action")
 	gamepad_labels[2].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[2] )
 	dry += key_row;
@@ -405,7 +426,7 @@ func _ready():
 	gamepad_buttons[3].texture = S_XBOX_BUTTONS_B
 	gamepad_buttons[3].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[3] )
-	gamepad_labels[3].text = "Holster"
+	gamepad_labels[3].text = Text.pr("Holster")
 	gamepad_labels[3].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[3] )
 	dry += key_row;
@@ -413,7 +434,7 @@ func _ready():
 	gamepad_buttons[4].texture = S_XBOX_BUTTONS_LB
 	gamepad_buttons[4].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[4] )
-	gamepad_labels[4].text = "Roll"
+	gamepad_labels[4].text = Text.pr("Roll")
 	gamepad_labels[4].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[4] )
 	dry += key_row;
@@ -421,7 +442,7 @@ func _ready():
 	gamepad_buttons[5].texture = S_XBOX_BUTTONS_Y
 	gamepad_buttons[5].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[5] )
-	gamepad_labels[5].text = "Quickmenu"
+	gamepad_labels[5].text = Text.pr("Quickmenu")
 	gamepad_labels[5].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[5] )
 	dry += key_row;
@@ -429,7 +450,7 @@ func _ready():
 	gamepad_buttons[6].texture = S_XBOX_BUTTONS_LF
 	gamepad_buttons[6].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[6] )
-	gamepad_labels[6].text = "Weapon >"
+	gamepad_labels[6].text = Text.pr("Weapon >")
 	gamepad_labels[6].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[6] )
 	dry += key_row;
@@ -440,7 +461,7 @@ func _ready():
 	gamepad_buttons[7].texture = S_XBOX_BUTTONS_UP
 	gamepad_buttons[7].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[7] )
-	gamepad_labels[7].text = "Gun'sbag"
+	gamepad_labels[7].text = Text.pr("Gun'sbag")
 	gamepad_labels[7].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[7] )
 	dry += key_row;
@@ -448,7 +469,7 @@ func _ready():
 	gamepad_buttons[8].texture = S_XBOX_BUTTONS_DW
 	gamepad_buttons[8].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[8] )
-	gamepad_labels[8].text = "Item Next"
+	gamepad_labels[8].text = Text.pr("Item Next")
 	gamepad_labels[8].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[8] )
 	dry += key_row;
@@ -456,7 +477,7 @@ func _ready():
 	gamepad_buttons[9].texture = S_XBOX_BUTTONS_X
 	gamepad_buttons[9].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[9] )
-	gamepad_labels[9].text = "Item Use"
+	gamepad_labels[9].text = Text.pr("Item Use")
 	gamepad_labels[9].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[9] )
 	dry += key_row;
@@ -464,7 +485,7 @@ func _ready():
 	gamepad_buttons[10].texture = S_XBOX_BUTTONS_RG
 	gamepad_buttons[10].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[10] )
-	gamepad_labels[10].text = "Zauber Next"
+	gamepad_labels[10].text = Text.pr("Zauber Next")
 	gamepad_labels[10].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[10] )
 	dry += key_row;
@@ -472,7 +493,7 @@ func _ready():
 	gamepad_buttons[11].texture = S_XBOX_BUTTONS_RT
 	gamepad_buttons[11].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[11] )
-	gamepad_labels[11].text = "Zauber Use"
+	gamepad_labels[11].text = Text.pr("Zauber Use")
 	gamepad_labels[11].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[11] )
 	dry += key_row * 1.5;
@@ -480,7 +501,7 @@ func _ready():
 	gamepad_buttons[12].texture = S_XBOX_BUTTONS_LT
 	gamepad_buttons[12].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[12] )
-	gamepad_labels[12].text = "Free Look"
+	gamepad_labels[12].text = Text.pr("Free Look")
 	gamepad_labels[12].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[12] )
 	dry += key_row * 1.5;
@@ -488,7 +509,7 @@ func _ready():
 	gamepad_buttons[13].texture = S_XBOX_BUTTONS_STA
 	gamepad_buttons[13].global_position = Vector2(drx,dry)
 	gamepad_options.add_child( gamepad_buttons[13] )
-	gamepad_labels[13].text = "Pause"
+	gamepad_labels[13].text = Text.pr("Pause")
 	gamepad_labels[13].global_position = Vector2( drx + (8 * 6) - 5, dry )
 	gamepad_options.add_child( gamepad_labels[13] )
 	dry += key_row;

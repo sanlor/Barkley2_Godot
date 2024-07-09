@@ -45,9 +45,9 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var title_panel = $title_layer/title_panel
 
 ## Inside the Title panel
-@onready var start_button = $title_layer/title_panel/start_button
-@onready var settings_button = $title_layer/title_panel/settings_button
-@onready var quit_button = $title_layer/title_panel/quit_button
+@onready var start_button 		= $title_layer/title_panel/start_button
+@onready var settings_button 	= $title_layer/title_panel/settings_button
+@onready var quit_button 		= $title_layer/title_panel/quit_button
 
 @onready var title_buttons := [
 	start_button,
@@ -121,6 +121,8 @@ func _ready():
 		if n is AnimatedSprite2D:
 			n.play("default")
 	
+	B2_Config.language_changed.connect( set_title_names )
+	
 	## Music
 	B2_Music.room_get( "r_title" )
 	mode = "basic" ## default state of the game.
@@ -146,6 +148,14 @@ func _ready():
 	for i in range( title_buttons.size() ): # Set the button positions
 		title_buttons[i].size = Vector2(100, title_row + 1)
 		title_buttons[i].global_position = Vector2(title_x + 50, title_y + (title_row * i) + (title_gap * i) + 4) - ( title_buttons[i].size / 2 )
+	
+	set_title_names()
+
+# Translate the title menu to albhed, if necessary
+func set_title_names():
+	start_button.text		= Text.pr("Game Time")
+	settings_button.text	= Text.pr("Settings")
+	quit_button.text		= Text.pr("Quit")
 	
 func init_menus(): ## This is just to alling with the old code. There are better ways to do this.
 	## Settings
@@ -204,11 +214,11 @@ func _draw():
 	var qry = 100 + 15# + 5 ; # + 5 was added by me.
 	var font := preload("res://barkley2/resources/fonts/fn_small.tres")
 	#draw_text(qrx, qry, "DEMO game for backers.");
-	draw_string( font, Vector2(qrx,qry), "DEMO game for backers.",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("DEMO game for backers.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
 	qry += 14; 
 	#draw_text(qrx, qry, "Substantial levels of WONK and JANK.");
-	draw_string( font, Vector2(qrx,qry), "Substantial levels of WONK and JANK.",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("Substantial levels of WONK and JANK.")	,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
 	qry += 14; 
 	#draw_text(qrx, qry, "Experience accordingly.");
-	draw_string( font, Vector2(qrx,qry), "Experience accordingly.",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
 	

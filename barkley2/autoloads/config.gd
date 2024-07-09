@@ -15,7 +15,11 @@ enum {OFF,ON}
 # null is TEMPORARY
 
 var vsync := OFF
-var AlBhed := OFF
+var AlBhed := OFF :
+	set(al):
+		AlBhed = al
+		language_changed.emit()
+		
 var fullscreen := OFF
 var screen_scale := SCALE.X2
 
@@ -38,6 +42,8 @@ var sounds = null
 
 signal game_settings_saved
 signal game_settings_loaded
+
+signal language_changed
 
 var configsavefolder 	:= "user://_resources/"
 var configsavefile 		:= "settings.ini"

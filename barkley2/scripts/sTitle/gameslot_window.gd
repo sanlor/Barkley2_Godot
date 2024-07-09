@@ -34,6 +34,8 @@ var slot_has_data := [
 
 
 func _ready():
+	B2_Config.language_changed.connect( load_slots )
+	
 	r_title.mode_change.connect( change_delete_button )
 	
 	game_slot_1.button_pressed.connect( _on_game_slot_1_button_pressed )
@@ -48,7 +50,7 @@ func _ready():
 	game_slot_back_panel.set_global_position( Vector2(gameslot_back_x - 8, gameslot_back_y - 8) )
 	
 	var backlabel := Label.new()
-	backlabel.text = "Back"
+	backlabel.text = Text.pr("Back")
 	backlabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	backlabel.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	backlabel.size = Vector2(100, 32)
@@ -57,7 +59,7 @@ func _ready():
 	game_slot_delete_panel.set_panel_size(100, 32)
 	game_slot_delete_panel.set_global_position( Vector2(gameslot_destruct_x - 8, gameslot_destruct_y - 8) )
 	var deletelabel := backlabel.duplicate()
-	deletelabel.text = "Obliterate"
+	deletelabel.text = Text.pr("Obliterate")
 	game_slot_delete_panel.add_decorations(deletelabel)
 	
 	game_slot_delete_panel.content_selected_color = Color.RED
@@ -88,13 +90,13 @@ func load_slots():
 			slot_has_data[i] = true
 			var spc = 12;
 			
-			var gameslot_name = str( B2_Config.get_user_save_data("quest.vars.playerNameFull") ) ## string(scr_savedata_get("quest.vars.playerNameFull"));
-			var gameslot_mood = "Crestfallen"; # scr_savedata_get();
-			var gameslot_level = "Level " + str( B2_Config.get_user_save_data("player.xp.level") )## string(scr_savedata_get("player.xp.level"));
-			var gameslot_chapter = "Chapter name";
+			var gameslot_name = Text.pr( str( B2_Config.get_user_save_data("quest.vars.playerNameFull") ) )## string(scr_savedata_get("quest.vars.playerNameFull"));
+			var gameslot_mood = Text.pr( "Crestfallen" ); # scr_savedata_get();
+			var gameslot_level = Text.pr( "Level " + str( B2_Config.get_user_save_data("player.xp.level") ) )## string(scr_savedata_get("player.xp.level"));
+			var gameslot_chapter = Text.pr( "Chapter name" );
 			var gameslot_gormstones = 1; # scr_savedata_get("money");
-			var gameslot_gametime = str( B2_Config.get_user_save_data("clock.time") ) ## string(scr_savedata_get("clock.time"));
-			var gameslot_location = str( B2_Config.get_user_save_data("map.room") ) ## string(scr_savedata_get("map.room"));
+			var gameslot_gametime = Text.pr( str( B2_Config.get_user_save_data("clock.time") ) )## string(scr_savedata_get("clock.time"));
+			var gameslot_location = Text.pr( str( B2_Config.get_user_save_data("map.room") ) )## string(scr_savedata_get("map.room"));
 			var my_tim = ( 24 - B2_Config.get_user_save_data("clock.time") / 3600) / 24 ## if(i == 0) tim = (24 - real(scr_savedata_get("clock.time")) / 3600)/24;
 			r_title.tim = max(r_title.tim, my_tim)
 			
@@ -166,12 +168,12 @@ func load_slots():
 		else:									# this slot has no saved game. show vacant slot
 			slot_has_data[i] = false
 			var label := Label.new()
-			label.text = "Vacant Slot"
+			label.text = Text.pr( "Vacant Slot" )
 			label.size = slots[i].get_panel_size()
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 			if i == 0:
-				label.text += "\n(Canon Playthrough, do not steal)"
+				label.text += Text.pr( "\n(Canon Playthrough, do not steal)" )
 				label.position.y += (35.0 / 4.0)
 				#label.set_position( Vector2(gameslot_x + 170, gameslot_y + gameslot_row * i + gameslot_gap * i + 35) ) ## 170
 			else:
@@ -188,7 +190,7 @@ func change_delete_button():
 
 func show_delete_confirmation():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	oConfirm.givTxt = "Is this the game you want to destruct?"
+	oConfirm.givTxt = Text.pr("Is this the game you want to destruct?")
 	oConfirm.option1_pressed.connect( delete_gameslot 						) # Yes
 	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false 	) # No
 	add_child(oConfirm)
@@ -205,7 +207,7 @@ func delete_gameslot():
 
 func start_saved_game():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	oConfirm.givTxt = "This demo can't load saved games. Sorry."
+	oConfirm.givTxt = Text.pr( "This demo can't load saved games. Sorry." )
 	oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
 	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
 	add_child(oConfirm)
