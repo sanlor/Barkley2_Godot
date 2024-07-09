@@ -1,6 +1,6 @@
 This is a personal project, trying to port the unfinished game Barkley2 to Godot.
 I just want to dig through the barkley 2´s code, learn a few things about gamedev. My plan is to be able to make an exact copy of the janky demo: https://talesofgames.itch.io/barkley-2
-## NOTE - As of the time of this writing, this port is not cannon. Sorry.
+#### NOTE - As of the time of this writing, this port is not cannon. Sorry.
 
 
 # Stage 0 - AN OLD PROMISSE.........FORGOTTEN.
