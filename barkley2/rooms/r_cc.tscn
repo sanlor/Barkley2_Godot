@@ -1,0 +1,108 @@
+[gd_scene load_steps=19 format=3 uid="uid://chautipuptxsr"]
+
+[ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_wtwdn"]
+[ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
+[ext_resource type="Texture2D" uid="uid://dgcwh0q0qhpbo" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_1.png" id="3_n05hd"]
+[ext_resource type="Texture2D" uid="uid://cil7i7fabngg7" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_2.png" id="4_danrs"]
+[ext_resource type="Texture2D" uid="uid://dhpqxruaeeflo" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_3.png" id="5_2suog"]
+[ext_resource type="Texture2D" uid="uid://du0e15ovmkw45" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_4.png" id="6_crewa"]
+[ext_resource type="Texture2D" uid="uid://chl23nwhh1b75" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_5.png" id="7_7jhaj"]
+[ext_resource type="Texture2D" uid="uid://cssw60gvvbo41" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_6.png" id="8_do6li"]
+[ext_resource type="Texture2D" uid="uid://dc17pmf0k6idl" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_emote_0.png" id="9_3580o"]
+[ext_resource type="Texture2D" uid="uid://dukuldhi6nglb" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_emote_1.png" id="10_sqs4h"]
+[ext_resource type="Texture2D" uid="uid://s1hj8brolltg" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_emote_2.png" id="11_3et3t"]
+[ext_resource type="Texture2D" uid="uid://1ee0at520nd6" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_0.png" id="12_ptjro"]
+[ext_resource type="Texture2D" uid="uid://eb2rfqs6ybpt" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_1.png" id="13_n4apk"]
+[ext_resource type="Texture2D" uid="uid://3sxfpclea4ah" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_2.png" id="14_1jm6f"]
+[ext_resource type="Texture2D" uid="uid://d5qjkhlb21v0" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_3.png" id="15_sms1u"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j2u3l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_w2hsl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n05hd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_danrs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_2suog")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_crewa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7jhaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_do6li")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wkbug"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_3580o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_sqs4h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_3et3t")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lo7fh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_ptjro")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_n4apk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_1jm6f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_sms1u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="r_cc" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wtwdn")
+
+[node name="cc_wizard_base" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_j2u3l")
+frame = 6
+offset = Vector2(192, 120)
+
+[node name="cc_wizard_emote" type="AnimatedSprite2D" parent="."]
+position = Vector2(193, 77)
+sprite_frames = SubResource("SpriteFrames_wkbug")
+
+[node name="cc_wizard_talk" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(193, 93)
+sprite_frames = SubResource("SpriteFrames_lo7fh")
+frame = 1
+frame_progress = 0.974349
