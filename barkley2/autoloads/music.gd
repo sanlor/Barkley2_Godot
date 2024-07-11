@@ -166,7 +166,10 @@ func room_get( room_name : String):
 		#global.bgm_interior_effect = Goto(global.bgm_interior_effect, effDes, dt_sec());
 		_:
 			push_error("Invalid room name: ", room_name)
-#}
+
+func play( track_name : String):
+	queue( music_bank.get(track_name, "") )
+
 #else if (argument[0] == "queue")
 func queue( track_name : String): ## track name should exist in the Music Bank dict.
 	if track_name == "":

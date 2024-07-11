@@ -85,19 +85,22 @@ func play(soundID : String, _priority := false, _loops := 1):
 		return -1;
 
 func queue(soundID : String):
+	if sound_pool.is_empty():
+		push_error("No audiostreen on the pool. This is CRITICAL!")
+		return
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound : AudioStreamWAV = load( sound_bank[soundID] )
 	sfx.stream = sound
 	sfx.finished.connect( _finished_playing.bind(sfx) )
 	add_child(sfx)
 	sfx.play()
-	print("player ",sfx," added.")
+	#print("player ",sfx," added.")
 
 func _finished_playing( sfx : AudioStreamPlayer):
 	sfx.finished.disconnect( _finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )
-	print("player ",sfx," removed.")
+	#print("player ",sfx," removed.")
 
 func at( soundID, x, y, _z, _fallDist, _fallMax, _fallFactor, _loops, _priority ):
 	## Sound("at", 1 = soundID, 2 = x, 3 = y, 4 = z, 5 = fallDist, 6 = fallMax, 7 = fallFactor, 8 = loops, 9 = priority)

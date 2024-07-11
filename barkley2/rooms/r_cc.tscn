@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://chautipuptxsr"]
+[gd_scene load_steps=38 format=3 uid="uid://chautipuptxsr"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_wtwdn"]
 [ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
@@ -15,6 +15,103 @@
 [ext_resource type="Texture2D" uid="uid://eb2rfqs6ybpt" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_1.png" id="13_n4apk"]
 [ext_resource type="Texture2D" uid="uid://3sxfpclea4ah" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_2.png" id="14_1jm6f"]
 [ext_resource type="Texture2D" uid="uid://d5qjkhlb21v0" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_3.png" id="15_sms1u"]
+[ext_resource type="Texture2D" uid="uid://csbe7re716n5r" path="res://barkley2/assets/b2_original/images/cc/s_effect_smog_0.png" id="16_pogbg"]
+[ext_resource type="Texture2D" uid="uid://bvei53mpti8fk" path="res://barkley2/assets/b2_original/images/cc/s_cc_textbox_backdrop_0.png" id="17_m08jc"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="17_x0byy"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_textbox.gd" id="18_eb1t7"]
+[ext_resource type="Texture2D" uid="uid://dfyis3nxj6m30" path="res://barkley2/assets/b2_original/images/cc/s_cc_textbox_frames_0.png" id="19_516sa"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="20_s2777"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_name.gd" id="22_lmj2y"]
+[ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="22_u0mf0"]
+[ext_resource type="Texture2D" uid="uid://bc4g3q5uehqut" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_frames_0.png" id="23_qko30"]
+[ext_resource type="Texture2D" uid="uid://b67mn8m7hlgws" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_frames_1.png" id="24_w1xl7"]
+[ext_resource type="Texture2D" uid="uid://7u6r26ugc54c" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_entry_cursor_0.png" id="26_18d7w"]
+
+[sub_resource type="Animation" id="Animation_udt4g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fade_texture:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cc_wizard_base:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ug17v"]
+resource_name = "wizard_intro"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fade_texture:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("cc_wizard_base:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 0, 6]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["sn_cc_wizard_arms"],
+"method": &"play_sfx"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("cc_textbox")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8q3bw"]
+_data = {
+"RESET": SubResource("Animation_udt4g"),
+"wizard_intro": SubResource("Animation_ug17v")
+}
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j2u3l"]
 animations = [{
@@ -79,8 +176,32 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
+
+[sub_resource type="Gradient" id="Gradient_abx13"]
+offsets = PackedFloat32Array(0, 0.0810811, 0.694981, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.811765, 0.811765, 0.811765, 0.901961, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dpijd"]
+gradient = SubResource("Gradient_abx13")
+
+[sub_resource type="Curve" id="Curve_ixo6u"]
+max_value = 3.0
+_data = [Vector2(0, 0.462518), 0.0, 0.0, 0, 0, Vector2(1, 2.97242), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7pj5b"]
+curve = SubResource("Curve_ixo6u")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ummrq"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 5.0
+gravity = Vector3(0, -3, 0)
+scale_curve = SubResource("CurveTexture_7pj5b")
+color_ramp = SubResource("GradientTexture1D_dpijd")
 
 [node name="r_cc" type="Control"]
 layout_mode = 3
@@ -91,12 +212,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wtwdn")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8q3bw")
+}
+
 [node name="cc_wizard_base" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_j2u3l")
-frame = 6
 offset = Vector2(192, 120)
 
 [node name="cc_wizard_emote" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(193, 77)
 sprite_frames = SubResource("SpriteFrames_wkbug")
 
@@ -104,5 +230,145 @@ sprite_frames = SubResource("SpriteFrames_wkbug")
 visible = false
 position = Vector2(193, 93)
 sprite_frames = SubResource("SpriteFrames_lo7fh")
-frame = 1
-frame_progress = 0.974349
+
+[node name="cc_effect_crystal" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.25)
+position = Vector2(194, 190)
+process_material = SubResource("ParticleProcessMaterial_ummrq")
+texture = ExtResource("16_pogbg")
+lifetime = 3.0
+speed_scale = 0.5
+
+[node name="cc_textbox" type="TextureRect" parent="." node_paths=PackedStringArray("wizard_cc")]
+visible = false
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(0, 0, 0.451, 0.7)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -70.0
+offset_right = 180.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("17_x0byy")
+texture = ExtResource("17_m08jc")
+script = ExtResource("18_eb1t7")
+wizard_cc = NodePath("..")
+
+[node name="default_type_timer" type="Timer" parent="cc_textbox"]
+wait_time = 0.08
+one_shot = true
+
+[node name="textbox" type="RichTextLabel" parent="cc_textbox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 6.0
+offset_right = -1.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_separation = 3
+theme_override_fonts/normal_font = ExtResource("20_s2777")
+theme_override_font_sizes/normal_font_size = 12
+bbcode_enabled = true
+scroll_active = false
+
+[node name="cc_textbox_fg" type="TextureRect" parent="cc_textbox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -41.5
+offset_right = 192.0
+offset_bottom = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_516sa")
+
+[node name="cc_name" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("22_u0mf0")
+script = ExtResource("22_lmj2y")
+
+[node name="bg" type="ColorRect" parent="cc_name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="cc_name_box" type="TextureRect" parent="cc_name"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -101.0
+offset_right = 120.0
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_qko30")
+
+[node name="cc_name_box_fg" type="TextureRect" parent="cc_name/cc_name_box"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("24_w1xl7")
+
+[node name="cc_name_prompt" type="Control" parent="cc_name"]
+anchors_preset = 0
+offset_right = 102.0
+offset_bottom = 20.0
+
+[node name="prompt_text" type="Label" parent="cc_name/cc_name_prompt"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 20.0
+text = "PLACE"
+vertical_alignment = 1
+
+[node name="prompt_cursor" type="TextureRect" parent="cc_name/cc_name_prompt"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_left = -38.0
+offset_right = 46.0
+offset_bottom = 20.0
+mouse_filter = 2
+texture = ExtResource("26_18d7w")
+
+[node name="fade_texture" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="cc_textbox/default_type_timer" to="cc_textbox" method="_on_default_type_timer_timeout"]
