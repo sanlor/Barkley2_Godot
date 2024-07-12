@@ -16,8 +16,8 @@ var color_event = Color8(60, 0, 90);
 var color_question_hover = Color8(255, 0, 0);
 var color_question_nohover = Color8(255, 190, 0);
 
-var textbox_pause = 0.08 #0.16;
-var textbox_wizard_cooldown = 0.08 #0.16;
+var textbox_pause = 0.02 #0.16;
+var textbox_wizard_cooldown = 0.04 #0.16;
 
 var my_text := ""
 

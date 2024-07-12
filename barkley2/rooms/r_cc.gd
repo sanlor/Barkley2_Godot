@@ -14,7 +14,9 @@ extends Control
 @export_category("DEBUG")
 @export var skip_hands := false
 @export var skip_name := false
-@export var skip_zodiac := false
+@export var skip_zodiac_pre_dialog := false
+@export var skip_zodiac_input := false
+@export var skip_zodiac_pos_dialog := false
 
 @onready var animation_player = $AnimationPlayer
 
@@ -26,8 +28,9 @@ extends Control
 
 @onready var cc_textbox = $cc_textbox
 
-@onready var cc_name = preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
-@onready var cc_zodiac = $cc_zodiac
+# all stages are preloaded and instantiated. they are added to the scene wehn needed
+@onready var cc_name 		= preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
+@onready var cc_zodiac 		= preload("res://barkley2/scenes/CC/cc_zodiac.tscn").instantiate()
 
 
 ## Timers //
@@ -68,6 +71,7 @@ func wizard_is_emoting():
 	
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "wizard_intro":
+		#animation_player.stop( )
 		cc_process()
 		
 func cc_process():
@@ -85,7 +89,7 @@ func cc_process():
 		add_child( cc_name )
 		await cc_name.name_entered
 	
-	if not skip_zodiac:
+	if not skip_zodiac_pre_dialog:
 		cc_textbox.display_text( Text.pr( "It is by light that the troglodyte emerged from the#cave to become man and it is by light that man#navigates the cosmos to become more." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "The stars, the heavens, tiny specks of flame that#illuminate the night, have guided human thought#and imagination since the dawn of our race." ) )
@@ -94,6 +98,40 @@ func cc_process():
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "It is the incandescent mind of man that imprinted#its legends in the stars - the Zodiacs. Tell me your#birthday, so I may tell you your star..." ) )
 		await cc_textbox.finished_typing
+		
+	if not skip_zodiac_input:
+		# Show a black screen, add cc_zodiac
+		var z_tween : Tween
+		
+		z_tween = create_tween()
+		fade_texture.show()
+		fade_texture.color.a = 0.0
+		z_tween.tween_property(fade_texture, "color:a", 1.0, timer_alpha_in )
+		await z_tween.finished
+		
+		add_child(cc_zodiac)
+		
+		z_tween = create_tween()
+		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
+		await z_tween.finished
+		fade_texture.hide()
+		
+		# wait for the player to set the cc_zodiac
+		await cc_zodiac.zodiac_entered
+		
+		# Show a black screen, remove cc_zodiac
+		fade_texture.show()
+		fade_texture.color.a = 0.0
+		z_tween = create_tween()
+		z_tween.tween_property(fade_texture, "color:a", 1.0, timer_alpha_in )
+		await z_tween.finished
+		
+		remove_child(cc_zodiac)
+		
+		z_tween = create_tween()
+		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
+		await z_tween.finished
+		fade_texture.hide()
 		
 	breakpoint
 		

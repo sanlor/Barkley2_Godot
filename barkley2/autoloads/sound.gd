@@ -73,32 +73,34 @@ func _ready():
 		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
 	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
 
-func play(soundID : String, _priority := false, _loops := 1):
+func play(soundID : String, start_at := 0.0, _priority := false, _loops := 1) -> AudioStreamPlayer:
 	## Sound("play" / "at" / "on", etc...)
 	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
 	if sound_bank.has(soundID):
-		queue(soundID)
+		
 	#if check(soundID, -999, -999) == 0:
 		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
-		return 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
+		return queue(soundID, start_at) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
 		push_warning("Invalid SoundID: ", soundID)
-		return -1;
+		return AudioStreamPlayer.new() # -1;
 
-func queue(soundID : String):
+func queue(soundID : String, start_at := 0.0) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
 		push_error("No audiostreen on the pool. This is CRITICAL!")
-		return
+		return AudioStreamPlayer.new()
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound : AudioStreamWAV = load( sound_bank[soundID] )
 	sfx.stream = sound
-	sfx.finished.connect( _finished_playing.bind(sfx) )
+	sfx.name = soundID + "_" + str(randi())
+	sfx.finished.connect( finished_playing.bind(sfx) )
 	add_child(sfx)
-	sfx.play()
+	sfx.play( start_at )
+	return sfx
 	#print("player ",sfx," added.")
 
-func _finished_playing( sfx : AudioStreamPlayer):
-	sfx.finished.disconnect( _finished_playing.bind(sfx) )
+func finished_playing( sfx : AudioStreamPlayer):
+	sfx.finished.disconnect( finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )
 	#print("player ",sfx," removed.")

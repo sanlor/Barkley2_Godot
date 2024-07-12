@@ -22,6 +22,7 @@ var character_name = "Bob";
 var character_name_type = 0;
 var character_race = "Sludge Elf";
 var character_class = "Janitor";
+var character_zodiac := 0
 var character_zodiac_index = 0;
 var character_zodiac_year = str("0000");
 var character_zodiac_month = 0;
