@@ -3,7 +3,7 @@ class_name Text
 
 ## NOTE This Resource replaces the TextProcessor() script 
 
-static func pr( text : String ) -> String:
+static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 	if B2_Config.AlBhed:
 		var out_text = "";
 		var length = text.length()

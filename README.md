@@ -47,7 +47,23 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 		- [ ] Add all key actions, along with remapable keys
 	  - [x] Add Working Return Key
 	  
-# Stage 1 - TBD
+# Stage 1 - BROKEN AND BURIED ON A OPEN GRAVE
 ( Recreate the Character Creation - CC )
-  - [ ] TBD
-
+- [x] o_cc_name
+	- [x] Dialog pre input
+	- [x] Input
+- [x] o_cc_zodiac
+	- [x] Dialog pre input
+	- [x] Input
+	- [x] Huge Dialog
+- [ ] o_cc_blood
+- [ ] o_cc_gender
+- [ ] o_cc_alignment
+- [ ] o_cc_crest
+- [ ] o_cc_tarot
+- [ ] o_cc_gumball
+- [ ] o_cc_placenta1
+- [ ] o_cc_placenta2
+- [ ] o_cc_placenta3
+- [ ] o_cc_placenta4
+- [ ] o_cc_placenta5

@@ -1,6 +1,11 @@
 @tool
 extends TextureRect
 
+## This is a very janky imitation of the original script.
+#The original script is very weird. It feels "old" comparing it to the title screen code.
+# I wornt reuse this code on the acual game, so I decided to half ass this.
+# TODO fix text skip.
+
 @onready var cc_textbox_fg = $cc_textbox_fg
 @onready var textbox = $textbox
 
@@ -77,7 +82,7 @@ func texbox_hide():
 	textbox.text = ""
 	hide()
 	
-func display_text( text : String):
+func display_text( text : String): # Remember to pre-process the text via Text.pr() before sending it here.
 	if not visible:
 		texbox_show()
 	textbox.text = text
