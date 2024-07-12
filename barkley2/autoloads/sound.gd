@@ -53,7 +53,7 @@ func _init_sound_banks():
 			if not file.begins_with("sn_"): # only allow sn_ prefix music
 				continue
 			if file.ends_with(".wav.import"): # ignore godot files
-				sound_bank[ file.rstrip(".wav.import") ] = str(audio_folder + "/" + folder + "/" + file.replace(".import",""))
+				sound_bank[ file.trim_suffix(".wav.import") ] = str(audio_folder + folder + "/" + file.replace(".import",""))
 
 	print("init sound banks ended: ", Time.get_ticks_msec(), " - ", sound_bank.size(), " sound_bank entries")
 	
@@ -82,6 +82,7 @@ func play(soundID : String, _priority := false, _loops := 1):
 		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
 		return 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
+		push_warning("Invalid SoundID: ", soundID)
 		return -1;
 
 func queue(soundID : String):

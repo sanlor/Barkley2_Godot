@@ -1,0 +1,231 @@
+[gd_scene load_steps=13 format=3 uid="uid://d33niese7yawa"]
+
+[ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="1_xuhj4"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_name.gd" id="2_q6uyb"]
+[ext_resource type="Texture2D" uid="uid://bc4g3q5uehqut" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_frames_0.png" id="3_lv1pw"]
+[ext_resource type="Texture2D" uid="uid://b67mn8m7hlgws" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_frames_1.png" id="4_dp18h"]
+[ext_resource type="Texture2D" uid="uid://7u6r26ugc54c" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_entry_cursor_0.png" id="5_ua0kw"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="6_ncsux"]
+[ext_resource type="Texture2D" uid="uid://blvrdpuawpq43" path="res://barkley2/assets/b2_original/images/cc/s_cc_name_generate_button_0.png" id="7_djrfc"]
+[ext_resource type="Texture2D" uid="uid://b7f0orkkaro4" path="res://barkley2/assets/b2_original/images/cc/s_cc_button_accept_0.png" id="8_y1w8e"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_1mtdu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pw0g0"]
+bg_color = Color(0.173, 0.024, 0.298, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ekmag"]
+bg_color = Color(0.184, 0.302, 0.361, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ul7t"]
+bg_color = Color(0.306, 0.067, 0.129, 0.5)
+
+[node name="cc_name" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xuhj4")
+script = ExtResource("2_q6uyb")
+
+[node name="bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="cc_name_box" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -101.0
+offset_right = 120.0
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_lv1pw")
+
+[node name="cc_name_box_fg" type="TextureRect" parent="cc_name_box"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("4_dp18h")
+
+[node name="cc_name_prompt" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 101.0
+offset_top = 38.0
+offset_right = 203.0
+offset_bottom = 58.0
+
+[node name="prompt_cursor" type="TextureRect" parent="cc_name_prompt"]
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_left = -38.0
+offset_right = 46.0
+offset_bottom = 20.0
+mouse_filter = 2
+texture = ExtResource("5_ua0kw")
+
+[node name="lowecase_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 111.0
+offset_top = 137.0
+offset_right = 185.0
+offset_bottom = 157.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+toggle_mode = true
+button_group = SubResource("ButtonGroup_1mtdu")
+text = "Lowercase"
+
+[node name="uppercase_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 137.0
+offset_right = 273.0
+offset_bottom = 157.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+toggle_mode = true
+button_group = SubResource("ButtonGroup_1mtdu")
+text = "Uppercase"
+
+[node name="gen_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 183.0
+offset_right = 194.0
+offset_bottom = 201.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_ncsux")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pw0g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ekmag")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ul7t")
+text = "Generate"
+
+[node name="btn_frame" type="TextureRect" parent="gen_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_djrfc")
+
+[node name="premade_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 211.0
+offset_right = 194.0
+offset_bottom = 229.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_ncsux")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pw0g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ekmag")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ul7t")
+text = "Premade"
+
+[node name="btn_frame" type="TextureRect" parent="premade_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -5.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_djrfc")
+
+[node name="clear_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 206.5
+offset_top = 184.0
+offset_right = 265.5
+offset_bottom = 200.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_ncsux")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pw0g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ekmag")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ul7t")
+text = "Clear"
+
+[node name="btn_frame" type="TextureRect" parent="clear_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 10.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_y1w8e")
+
+[node name="accept_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 206.5
+offset_top = 212.0
+offset_right = 265.5
+offset_bottom = 228.0
+theme = ExtResource("1_xuhj4")
+theme_type_variation = &"cc_name_btn"
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("6_ncsux")
+theme_override_styles/normal = SubResource("StyleBoxFlat_pw0g0")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ekmag")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_5ul7t")
+text = "Accept"
+
+[node name="btn_frame" type="TextureRect" parent="accept_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.0
+offset_top = -6.0
+offset_right = 10.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_y1w8e")

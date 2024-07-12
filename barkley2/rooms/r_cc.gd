@@ -11,6 +11,11 @@ extends Control
 # o_cc_name - Player adds its name and handles text displaying
 ## FOCUS ON THESE ONES ^^^^^^^^
 
+@export_category("DEBUG")
+@export var skip_hands := false
+@export var skip_name := false
+@export var skip_zodiac := false
+
 @onready var animation_player = $AnimationPlayer
 
 @onready var fade_texture = $fade_texture
@@ -20,6 +25,10 @@ extends Control
 @onready var cc_wizard_talk = $cc_wizard_talk
 
 @onready var cc_textbox = $cc_textbox
+
+@onready var cc_name = preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
+@onready var cc_zodiac = $cc_zodiac
+
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -59,14 +68,34 @@ func wizard_is_emoting():
 	
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "wizard_intro":
+		cc_process()
+		
+func cc_process():
+	if not skip_hands: # Wizard waves its hands and talks a lot.
 		cc_textbox.display_text( Text.pr( "Greetings, young one. I have been awaiting your#arrival for some time now. The world has been#waiting for your arrival. Ah, but my manners...#Please, take a seat and make yourself comfortable.") )
 		await cc_textbox.finished_typing
+		
 		cc_textbox.display_text( Text.pr( "Tell me about yourself... Yes, your name... What is#your name?") )
 		await cc_textbox.finished_typing
+		
 		cc_textbox.texbox_hide()
 		await cc_textbox.visibility_changed
+	
+	if not skip_name: # name prompt apears, waiting for you to type yourt name.
+		add_child( cc_name )
+		await cc_name.name_entered
+	
+	if not skip_zodiac:
+		cc_textbox.display_text( Text.pr( "It is by light that the troglodyte emerged from the#cave to become man and it is by light that man#navigates the cosmos to become more." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "The stars, the heavens, tiny specks of flame that#illuminate the night, have guided human thought#and imagination since the dawn of our race." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "We find our way, draw our energy, build our#civilizations through their luminescence. And we#find ourselves through them." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "It is the incandescent mind of man that imprinted#its legends in the stars - the Zodiacs. Tell me your#birthday, so I may tell you your star..." ) )
+		await cc_textbox.finished_typing
 		
-		breakpoint
+	breakpoint
 		
 		
 #text[1] = "Tell me about yourself... Yes, your name... What is#your name?";   

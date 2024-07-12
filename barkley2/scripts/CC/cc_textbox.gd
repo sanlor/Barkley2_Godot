@@ -27,7 +27,7 @@ var period_pause := 1.1 #2.2
 var dash_pause := 0.4 #0.8
 
 var normal_typing := 1.0
-var fast_typing := 0.025
+var fast_typing := 0.01
 var curr_typing_speed := normal_typing
 
 signal finished_typing
@@ -44,11 +44,17 @@ func _ready():
 	default_type_timer.wait_time = textbox_pause
 	_init_textbox()
 	
-func _process(delta):
+func _process(_delta):
 	if not Engine.is_editor_hint():
 		if 	Input.is_action_just_pressed("Action"):
 			curr_typing_speed = fast_typing
-			input_pressed.emit()
+			if textbox.visible_ratio == 1.0:
+				input_pressed.emit()
+			else:
+				textbox.visible_ratio = 1.0
+				wizard_cc.wizard_is_silent()
+				B2_Sound.play( wizard_sounds.pick_random() )
+				
 		if Input.is_action_just_released("Action"):
 			curr_typing_speed = normal_typing
 		
@@ -82,6 +88,7 @@ func display_text( text : String):
 func _on_default_type_timer_timeout():
 	if textbox.visible_ratio == 1.0:
 		await input_pressed
+		wizard_cc.wizard_is_silent()
 		finished_typing.emit()
 		return
 		
@@ -101,7 +108,10 @@ func _on_default_type_timer_timeout():
 			add_wait = dash_pause
 			wizard_cc.wizard_is_silent()
 		_:
-			B2_Sound.play( wizard_sounds.pick_random() )
+			# Avoid playing sounds when players skips
+			if curr_typing_speed == normal_typing:
+				B2_Sound.play( wizard_sounds.pick_random() )
+				
 			wizard_cc.wizard_is_talking()
 			
 	textbox.visible_characters += 1

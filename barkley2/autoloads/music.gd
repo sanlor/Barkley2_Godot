@@ -27,7 +27,7 @@ func _init():
 		if not file.begins_with("mus_"):
 			continue
 		if file.ends_with(".ogg.import"):
-			music_bank[ file.replace(".ogg.import","") ] = str(music_folder + file.replace(".import",""))
+			music_bank[ file.trim_suffix(".ogg.import") ] = str( music_folder + file.trim_suffix(".import") )
 
 	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
 
