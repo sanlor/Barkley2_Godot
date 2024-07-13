@@ -56,7 +56,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [x] Dialog pre input
 	- [x] Input
 	- [x] Huge Dialog
-- [ ] o_cc_blood
+- [x] o_cc_blood
 - [ ] o_cc_gender
 - [ ] o_cc_alignment
 - [ ] o_cc_crest

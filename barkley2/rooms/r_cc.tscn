@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://chautipuptxsr"]
+[gd_scene load_steps=37 format=3 uid="uid://chautipuptxsr"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_wtwdn"]
 [ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
@@ -21,6 +21,10 @@
 [ext_resource type="Script" path="res://barkley2/scripts/CC/cc_textbox.gd" id="18_eb1t7"]
 [ext_resource type="Texture2D" uid="uid://dfyis3nxj6m30" path="res://barkley2/assets/b2_original/images/cc/s_cc_textbox_frames_0.png" id="19_516sa"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="20_s2777"]
+[ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="22_calbi"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_gender.gd" id="23_3goaa"]
+[ext_resource type="Texture2D" uid="uid://c62b8wbaiwg16" path="res://barkley2/assets/b2_original/images/cc/s_cc_gender_frames_0.png" id="24_f2pvu"]
+[ext_resource type="Texture2D" uid="uid://b7f0orkkaro4" path="res://barkley2/assets/b2_original/images/cc/s_cc_button_accept_0.png" id="24_lckpo"]
 
 [sub_resource type="Animation" id="Animation_udt4g"]
 length = 0.001
@@ -272,6 +276,103 @@ offset_bottom = 41.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("19_516sa")
+
+[node name="cc_gender" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("22_calbi")
+script = ExtResource("23_3goaa")
+
+[node name="gender_bg" type="ColorRect" parent="cc_gender"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="blood_frame_bg" type="ColorRect" parent="cc_gender"]
+offset_left = 128.0
+offset_top = 39.0
+offset_right = 258.0
+offset_bottom = 176.0
+color = Color(0.235, 0, 0.353, 0.5)
+
+[node name="accept_btn_bg" type="ColorRect" parent="cc_gender"]
+offset_left = 162.0
+offset_top = 188.0
+offset_right = 222.0
+offset_bottom = 213.0
+color = Color(0.235, 0, 0.353, 0.5)
+
+[node name="gender_frame" type="TextureRect" parent="cc_gender"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -96.0
+offset_right = 72.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_f2pvu")
+
+[node name="gender_image_frame" type="TextureRect" parent="cc_gender"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -96.0
+offset_right = 72.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("24_f2pvu")
+
+[node name="accept_btn" type="TextureRect" parent="cc_gender"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = 60.0
+offset_right = 40.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("24_lckpo")
+
+[node name="accept_lbl" type="Label" parent="cc_gender/accept_btn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -11.5
+offset_right = 26.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("20_s2777")
+text = "Accept"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="fade_texture" type="ColorRect" parent="."]
 visible = false
