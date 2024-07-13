@@ -18,6 +18,8 @@ extends Control
 @export var skip_zodiac_input := false
 @export var skip_zodiac_pos_dialog := false
 @export var skip_blood := false
+@export var skip_gender := false
+@export var skip_alignment := false
 
 
 @onready var animation_player = $AnimationPlayer
@@ -34,6 +36,7 @@ extends Control
 @onready var cc_name 		= preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
 @onready var cc_zodiac 		= preload("res://barkley2/scenes/CC/cc_zodiac.tscn").instantiate()
 @onready var cc_blood 		= preload("res://barkley2/scenes/CC/cc_blood.tscn").instantiate()
+@onready var cc_gender 		= preload("res://barkley2/scenes/CC/cc_gender.tscn").instantiate()
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -69,7 +72,10 @@ func wizard_is_silent():
 	pass
 	
 func wizard_is_emoting():
-	pass
+	cc_wizard_emote.show()
+	cc_wizard_emote.frame = randi_range(0,2)
+	await get_tree().create_timer(2).timeout
+	cc_wizard_emote.hide()
 	
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "wizard_intro":
@@ -314,7 +320,19 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "Yes, yes... the blood of warriors, the blood of kings.#Your heritage is one of greatness and it confers in#you much strength. Perhaps enough to save us all..." ) )
 		await cc_textbox.finished_typing
 		
-	breakpoint
+	if not skip_gender:
+		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
+		await cc_textbox.finished_typing
+		
+		add_child(cc_gender)
+		await cc_gender.accept_pressed
+		
+		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
+		await cc_textbox.finished_typing
+		
+	if not skip_alignment:
+		pass
+	##breakpoint
 		
 		
 #text[1] = "Tell me about yourself... Yes, your name... What is#your name?";   

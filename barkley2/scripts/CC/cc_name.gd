@@ -17,6 +17,8 @@ signal name_entered
 @onready var lowecase_btn = $lowecase_btn
 @onready var uppercase_btn = $uppercase_btn
 
+@onready var r_cc = get_parent()
+
 var generated_piece_one := 		["Bok","Aa","Tro","Leep","Erp","Ool","Pos","Qax","Xor","Eee","Tek","A","Eo"]
 var generated_piece_two := 		["app","aza","o","iop","iino","xoxa","pel","stu","rea","ope","x","a","wert"]
 var generated_piece_three := 	["tep","ax","rol","aa","bac","x","nera","aaop","asax","e","etra","et","oo"]
@@ -160,6 +162,7 @@ func accept_name():
 	B2_Playerdata.character_name = player_name
 	
 	B2_Sound.play("sn_cc_button_accept")
+	r_cc.wizard_is_emoting()
 	namebox_hide()
 
 func namebox_show():

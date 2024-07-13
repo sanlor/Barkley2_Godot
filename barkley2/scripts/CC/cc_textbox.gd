@@ -30,6 +30,8 @@ var my_text := ""
 var comma_pause := 0.4 #0.8
 var period_pause := 1.1 #2.2
 var dash_pause := 0.4 #0.8
+var question_pause := 0.7 #2.2 ## Added by no, not on the original.
+var exclamation_pause := 0.7 #2.2 ## Added by no, not on the original.
 
 var normal_typing := 1.0
 var fast_typing := 0.01
@@ -111,6 +113,12 @@ func _on_default_type_timer_timeout():
 			wizard_cc.wizard_is_silent()
 		"-":
 			add_wait = dash_pause
+			wizard_cc.wizard_is_silent()
+		"!":
+			add_wait = exclamation_pause
+			wizard_cc.wizard_is_silent()
+		"?":
+			add_wait = question_pause
 			wizard_cc.wizard_is_silent()
 		_:
 			# Avoid playing sounds when players skips
