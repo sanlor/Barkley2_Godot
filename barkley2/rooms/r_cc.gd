@@ -17,6 +17,8 @@ extends Control
 @export var skip_zodiac_pre_dialog := false
 @export var skip_zodiac_input := false
 @export var skip_zodiac_pos_dialog := false
+@export var skip_blood := false
+
 
 @onready var animation_player = $AnimationPlayer
 
@@ -31,7 +33,7 @@ extends Control
 # all stages are preloaded and instantiated. they are added to the scene wehn needed
 @onready var cc_name 		= preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
 @onready var cc_zodiac 		= preload("res://barkley2/scenes/CC/cc_zodiac.tscn").instantiate()
-
+@onready var cc_blood 		= preload("res://barkley2/scenes/CC/cc_blood.tscn").instantiate()
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -299,6 +301,19 @@ func cc_process():
 				cc_textbox.display_text( Text.pr( "The empathic kinship with all Life within you is#perhaps the most powerful force that can exist,#more than 1,000 atomic bombs, and for this reason#it is your greatest strength" ) )
 				await cc_textbox.finished_typing
 				
+	if not skip_blood:
+		cc_textbox.display_text( Text.pr( "And what blood runs through your veins?" ) )
+		await cc_textbox.finished_typing
+		
+		await get_tree().create_timer(1.0).timeout
+		add_child( cc_blood )
+		await cc_blood.accept_pressed
+		remove_child( cc_blood )
+		await get_tree().create_timer(1.0).timeout
+		
+		cc_textbox.display_text( Text.pr( "Yes, yes... the blood of warriors, the blood of kings.#Your heritage is one of greatness and it confers in#you much strength. Perhaps enough to save us all..." ) )
+		await cc_textbox.finished_typing
+		
 	breakpoint
 		
 		
