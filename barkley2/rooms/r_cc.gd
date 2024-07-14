@@ -23,6 +23,7 @@ extends Control
 @export var skip_gender := false
 @export var skip_alignment := false
 @export var skip_alignment_questions := false
+@export var skip_crest := false
 
 
 @onready var animation_player = $AnimationPlayer
@@ -42,6 +43,7 @@ extends Control
 @onready var cc_gender 		= preload("res://barkley2/scenes/CC/cc_gender.tscn").instantiate()
 @onready var cc_alignment	= preload("res://barkley2/scenes/CC/cc_alignment.tscn").instantiate()
 @onready var cc_death		= preload("res://barkley2/scenes/CC/cc_death.tscn")
+@onready var cc_crest 		= preload("res://barkley2/scenes/CC/cc_crest.tscn").instantiate()
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -368,7 +370,7 @@ func cc_process():
 			var tween := create_tween()
 			tween.tween_interval(5)
 			tween.parallel().tween_property(self, "modulate", Color.BLACK, 5.0)
-			tween.tween_property(self, "modulate.a", Color.TRANSPARENT, 5.0)
+			tween.tween_property(self, "modulate:a", Color.TRANSPARENT, 5.0)
 			tween.tween_interval(2.5)
 			tween.tween_callback( get_tree().quit )
 			
@@ -471,6 +473,20 @@ func cc_process():
 				await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
 		
+	if not skip_crest:
+		cc_textbox.display_text( Text.pr( "Your family crest represents where you've come#from and who you are. Draw your family's#heraldry on this shield." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
+		
+		add_child( cc_crest )
+		await cc_crest.crest_finished
+		await get_tree().create_timer(1).timeout
+		
+		cc_textbox.display_text( Text.pr( "Yes, yes... interesting. There is an understated#dignity to your family crest, hints of a noble and#glorious past. Yes, your heraldry truly depicts the#greatness of your line." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "And perhaps... it portends an even greater future." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 	##breakpoint
 		
 		

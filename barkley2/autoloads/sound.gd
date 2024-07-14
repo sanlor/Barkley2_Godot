@@ -54,8 +54,8 @@ func _init_sound_banks():
 		for file in  _folder.get_files():
 			if not file.begins_with("sn_"): # only allow sn_ prefix music
 				continue
-			if file.ends_with(".wav.import"): # ignore godot files
-				sound_bank[ file.trim_suffix(".wav.import") ] = str(audio_folder + folder + "/" + file.replace(".import",""))
+			if file.ends_with(".import"): # ignore godot files
+				sound_bank[ file.trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str(audio_folder + folder + "/" + file.replace(".import",""))
 
 	print("init sound banks ended: ", Time.get_ticks_msec(), " - ", sound_bank.size(), " sound_bank entries")
 	
@@ -78,7 +78,8 @@ func _ready():
 func stop(sfx : AudioStreamPlayer): # stop the player from playing, emit a signal to force a graceful stop
 	if sound_loop.has(sfx):
 		sound_loop[sfx] = 0
-	sfx.finished.emit()
+	if sfx != null:
+		sfx.finished.emit()
 
 func play(soundID : String, start_at := 0.0, priority := false, loops := 1) -> AudioStreamPlayer:
 	## Sound("play" / "at" / "on", etc...)
@@ -97,7 +98,7 @@ func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1) ->
 		push_error("No audiostreen on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
-	var sound : AudioStreamWAV = load( sound_bank[soundID] )
+	var sound := load( sound_bank[soundID] )
 	sfx.stream = sound
 	sfx.name = soundID + "_" + str(randi())
 	sfx.finished.connect( finished_playing.bind(sfx) )

@@ -33,7 +33,7 @@ func _ready():
 	await get_tree().create_timer(4).timeout
 	stopped_smoke.emit()
 	
-func _process(delta):
+func _process(_delta):
 	
 	pass
 	#// Setup stuff //
