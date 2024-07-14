@@ -39,6 +39,8 @@ var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
 var sound_pool_directional 	:= [] ## a whole bunch of AudioStreamPlayer2D, to enable far away sounds and such.
 var sound_pool_amount 		:= 25
 
+var sound_loop				:= {} ## Keep track of the loops
+
 func _init():
 	init()
 
@@ -73,19 +75,24 @@ func _ready():
 		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
 	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
 
-func play(soundID : String, start_at := 0.0, _priority := false, _loops := 1) -> AudioStreamPlayer:
+func stop(sfx : AudioStreamPlayer): # stop the player from playing, emit a signal to force a graceful stop
+	if sound_loop.has(sfx):
+		sound_loop[sfx] = 0
+	sfx.finished.emit()
+
+func play(soundID : String, start_at := 0.0, priority := false, loops := 1) -> AudioStreamPlayer:
 	## Sound("play" / "at" / "on", etc...)
 	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
 	if sound_bank.has(soundID):
 		
 	#if check(soundID, -999, -999) == 0:
 		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
-		return queue(soundID, start_at) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
+		return queue(soundID, start_at, priority, loops) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 
-func queue(soundID : String, start_at := 0.0) -> AudioStreamPlayer:
+func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
 		push_error("No audiostreen on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
@@ -94,12 +101,21 @@ func queue(soundID : String, start_at := 0.0) -> AudioStreamPlayer:
 	sfx.stream = sound
 	sfx.name = soundID + "_" + str(randi())
 	sfx.finished.connect( finished_playing.bind(sfx) )
+	
+	## Loop Setup
+	sound_loop[sfx] = loops
+	
 	add_child(sfx)
 	sfx.play( start_at )
 	return sfx
 	#print("player ",sfx," added.")
 
-func finished_playing( sfx : AudioStreamPlayer):
+func finished_playing( sfx : AudioStreamPlayer ):
+	if sound_loop.has(sfx):
+		sound_loop[sfx] -= 1
+		if sound_loop[sfx] > 0:
+			sfx.play()
+			return
 	sfx.finished.disconnect( finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )

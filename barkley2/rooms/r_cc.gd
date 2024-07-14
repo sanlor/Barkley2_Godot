@@ -40,6 +40,8 @@ extends Control
 @onready var cc_zodiac 		= preload("res://barkley2/scenes/CC/cc_zodiac.tscn").instantiate()
 @onready var cc_blood 		= preload("res://barkley2/scenes/CC/cc_blood.tscn").instantiate()
 @onready var cc_gender 		= preload("res://barkley2/scenes/CC/cc_gender.tscn").instantiate()
+@onready var cc_alignment	= preload("res://barkley2/scenes/CC/cc_alignment.tscn").instantiate()
+@onready var cc_death		= preload("res://barkley2/scenes/CC/cc_death.tscn")
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -345,12 +347,130 @@ func cc_process():
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "I will make a series of statements and I will ask you#whether you agree, disagree or have no opinion#at all. It is through this method we will determine#the code by which you live." ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
+
+	if not skip_alignment_questions:
+		add_child(cc_alignment)
+		var death : bool = await cc_alignment.input_finished
+		
+		# you chose strongly agree on option 12
+		if death:
+			# stupid options, rarely seem by anione. took me about 1 hour to port with minimal effort.
+			var death_scene = cc_death.instantiate()
+			add_child(death_scene)
+			await death_scene.stopped_smoke
+			cc_alignment.queue_free()
+			
+			cc_textbox.display_text( Text.pr( "And I had such great hopes for you... I suppose#we shall just have to wait for a new champion to#arise. Goodbye " + str( B2_Playerdata.character_name )+ "..." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+			var tween := create_tween()
+			tween.tween_interval(5)
+			tween.parallel().tween_property(self, "modulate", Color.BLACK, 5.0)
+			tween.tween_property(self, "modulate.a", Color.TRANSPARENT, 5.0)
+			tween.tween_interval(2.5)
+			tween.tween_callback( get_tree().quit )
+			
+			await tween.finished
+			
+		
+		await get_tree().create_timer(1).timeout
+		
 		cc_textbox.display_text( Text.pr( "Yes, it is all becoming very clear now. Your#answers have revealed to me the fundamental core#of your beliefs. You are..." ) )
 		await cc_textbox.finished_typing
-		cc_textbox.texbox_hide()
-	
-	if not skip_alignment_questions:
-		pass
+		
+		var character_alignment_x := B2_Playerdata.character_alignment_x
+		var character_alignment_y := B2_Playerdata.character_alignment_y
+		print("alignment x: ",character_alignment_x)
+		print("alignment y: ",character_alignment_y)
+		
+		## Good
+		if character_alignment_x >= 0 and character_alignment_x <= 2:
+			## Lawful
+			if character_alignment_y >= 0 and character_alignment_y <= 2:
+				cc_textbox.display_text( Text.pr( "Lawful Good. You are a paragon of virtue, morality#and order on the chaotic streets of the#Post-Cyberpocalypse." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "You routinely put others before yourself and#always act out of a sense of honor and compassion.#You feel it is your duty to protect those that can't#protect themselves." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Lawful Good is the alignment most found in#nanorevelators and digital Magi. Dracula and#Popeye are both Lawful Good." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Neutral
+			if character_alignment_y >= 3 and character_alignment_y <= 6:
+				cc_textbox.display_text( Text.pr( "Neutral Good. People who are Neutral Good follow#their conscience and code of ethics but do not#necessarily feel obligated to do so within the#boundary of the law." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "You feel that the law is a good thing, but can be#misused in the wrong hands. You generally try to#defend the poor and weak of the#Post-Cyberpocalypse." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Neutral Good is the alignment most found in#cyberpilgrims and Afrofuturists. Dracula and#Popeye are both Neutral Good." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Chaotic
+			if character_alignment_y >= 7 and character_alignment_y <= 9:
+				cc_textbox.display_text( Text.pr( "Chaotic Good. You follow a strict moral code of#helping others and social justice. You believe that#government and authority hinder the general#welfare and often find yourself at odds with -" ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( " - bureaucracy. Many consider you to be a#Post-Cyberpocalyptic Robin Hood. Chaotic Good is#the alignment most found in hacktivists and#cracktivists." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Dracula and Popeye are both Chaotic Good." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+		## Neutral
+		if character_alignment_x >= 3 and character_alignment_x <= 6:
+			## Lawful
+			if character_alignment_y >= 0 and character_alignment_y <= 2:
+				cc_textbox.display_text( Text.pr( "Lawful Neutral. You believe firmly that law is the#only thing that keeps the Post-Cyberpocalypse#from permanently imploding into chaos." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "For you, morality is not part of the equation, only#that justice as dictated by the CyberNET Mainframe#is executed. Lawful Neutral is the alignment most#found in technosavants and cryptoartificers." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Dracula and Popeye are both Lawful Neutral." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Neutral
+			if character_alignment_y >= 3 and character_alignment_y <= 6:
+				cc_textbox.display_text( Text.pr( "True Neutral. Most of the wayfarers who traverse#the CyberNET Mainframe aren't attached to any#strict ideology or belief system." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "You understand the harsh realities of Augmented#Reality, appreciate that all humans share in their#suffering, and have adopted a live-and-let-live#approach to the Post-Cyberpocalypse." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Dracula and Popeye are both True Neutral." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Chaotic
+			if character_alignment_y >= 7 and character_alignment_y <= 9:
+				cc_textbox.display_text( Text.pr( "Chaotic Neutral. You believe strongly that all#people should be free to live how they choose and#that no authority can dictate right from wrong." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Good and evil are nebulous, artificial concepts,#often one in the same, and it is disingenuous to#try to categorize all human behavior as one or the#other. You tend to favor bitcoins." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Chaotic Neutral is the alignment most found in#cryptozauberists and virtual smugglers. Dracula#and Popeye are both Chaotic Neutral." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+		## Evil
+		if character_alignment_x >= 7 and character_alignment_x <= 9:
+			## Lawful
+			if character_alignment_y >= 0 and character_alignment_y <= 2:
+				cc_textbox.display_text( Text.pr( "Lawful Evil. You work within the boundaries of the#law to serve yourself. You find the easiest and#best way to gain power is through climbing the#hierarchy and exploiting the people beneath you." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Kindness and charity do not matter to you and you#are not averse to manipulating the law or abusing#loopholes to get what you want. Lawful Evil is the#alignment most found in cybershaman." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Dracula and Popeye are both Lawful Evil." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Neutral
+			if character_alignment_y >= 3 and character_alignment_y <= 6:
+				cc_textbox.display_text( Text.pr( "Neutral Evil. You exist solely to serve yourself#and view people as stepping stones to further#your personal goals." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "You have no problem acting outside the law but#you do not revel in anarchy like those of the#Chaotic alignment. You do not help others unless#you directly benefit from it." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Neutral Evil is the alignment most found in digital#yeomen and webmasters. Dracula and Popeye are#both Neutral Evil." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+			## Chaotic
+			if character_alignment_y >= 7 and character_alignment_y <= 9:
+				cc_textbox.display_text( Text.pr( "Chaotic Evil. You do whatever you want whenever#you want with no thought of consequences or the#people you hurt. You are aggressive, impulsive and#enjoy destruction for its own sake." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Chaotic Evil is the alignment most found in#datamancers, B.I.O. guerrillas and techno#decapitators. Dracula and Popeye are both Chaotic#Evil." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+		
 	##breakpoint
 		
 		

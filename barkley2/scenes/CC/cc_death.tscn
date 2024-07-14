@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://bwja7lj4h1ke"]
+
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_death.gd" id="1_6pxk4"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_fooeo"]
+[ext_resource type="Texture2D" uid="uid://dww72nakn27se" path="res://barkley2/assets/b2_original/images/cc/s_cc_death_backdrop_0.png" id="1_fvtbm"]
+[ext_resource type="Texture2D" uid="uid://bdhjh2qgqfnhj" path="res://barkley2/assets/b2_original/images/gml_explosion.png" id="3_y8dlw"]
+
+[sub_resource type="Curve" id="Curve_pct6o"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67766, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lh6iq"]
+curve = SubResource("Curve_pct6o")
+
+[sub_resource type="Gradient" id="Gradient_vqvmg"]
+offsets = PackedFloat32Array(0, 0.323383, 1)
+colors = PackedColorArray(0.11056, 2.77955e-06, 0.0881953, 1, 0.247546, 0.087917, 0.207594, 1, 0.282398, 0.100405, 0.236863, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5k1np"]
+gradient = SubResource("Gradient_vqvmg")
+width = 10
+
+[sub_resource type="Curve" id="Curve_vwy4b"]
+max_value = 4.0
+_data = [Vector2(0, 0.395604), 0.0, 0.0, 0, 0, Vector2(0.279476, 2.59341), 6.71062, 6.71062, 0, 0, Vector2(1, 4), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjjmb"]
+curve = SubResource("Curve_vwy4b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0y55d"]
+particle_flag_disable_z = true
+spread = 180.0
+flatness = 0.5
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_max = 100.0
+damping_max = 0.375
+scale_curve = SubResource("CurveTexture_fjjmb")
+color_ramp = SubResource("GradientTexture1D_5k1np")
+alpha_curve = SubResource("CurveTexture_lh6iq")
+
+[node name="cc_death" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_fooeo")
+script = ExtResource("1_6pxk4")
+
+[node name="death_screen" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="backdrop" type="TextureRect" parent="death_screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 344.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fvtbm")
+
+[node name="name_label" type="Label" parent="death_screen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "PLAYER NAME"
+
+[node name="date_birth_label" type="Label" parent="death_screen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="date_death_label" type="Label" parent="death_screen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Particle_1" type="GPUParticles2D" parent="."]
+position = Vector2(192, 120)
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_0y55d")
+texture = ExtResource("3_y8dlw")
+lifetime = 2.0
+preprocess = 5.0
+speed_scale = 0.5

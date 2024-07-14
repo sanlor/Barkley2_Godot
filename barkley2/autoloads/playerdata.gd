@@ -30,7 +30,13 @@ var character_zodiac_day = 0;
 var character_zodiac_era = 0;
 var character_blood = 0;
 var character_gender := [false,false,false,false,false,false]
+
 var character_alignment = 0;
+var character_alignment_x := 0;
+var character_alignment_y := 0;
+var character_moral = 0;		# New variables, original are on the script Quest()
+var character_ethical = 0;		# New variables, original are on the script Quest()
+
 var character_crest = false;
 var character_lottery = false;
 var character_gumball = 0;

@@ -167,11 +167,11 @@ func room_get( room_name : String):
 		_:
 			push_error("Invalid room name: ", room_name)
 
-func play( track_name : String):
-	queue( music_bank.get(track_name, "") )
+func play( track_name : String, speed := 1.0 ):
+	queue( music_bank.get(track_name, ""), speed )
 
 #else if (argument[0] == "queue")
-func queue( track_name : String): ## track name should exist in the Music Bank dict.
+func queue( track_name : String, speed := 1.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
 		track_name = music_folder + "mus_blankTEMP.ogg"
@@ -181,7 +181,7 @@ func queue( track_name : String): ## track name should exist in the Music Bank d
 	
 	if audio_stream_player.playing:
 		tween = create_tween()
-		tween.tween_property(audio_stream_player, "volume_db", -80.0, 1.0)
+		tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
 		await tween.finished
 		audio_stream_player.stop()
 		
@@ -189,7 +189,7 @@ func queue( track_name : String): ## track name should exist in the Music Bank d
 	audio_stream_player.play()
 	
 	tween = create_tween()
-	tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), 1.0)
+	tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), speed)
 	await tween.finished
 	
 	bgm_music = track_name # argument[1];
