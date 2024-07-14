@@ -99,7 +99,7 @@ func _ready():
 	
 	change_gender_image()
 
-func toggle_buttons( selected_node : TextureRect ):
+func toggle_buttons( _selected_node : TextureRect ):
 	B2_Sound.play("sn_cc_generic_button1")
 	var index := 0
 	for btn in gender_checkbox:
@@ -162,6 +162,7 @@ func check_selected_genders():
 		#Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw));
 		
 		B2_Playerdata.character_gender = selected_genders
+		genderbox_hide()
 		
 func genderbox_hide():
 	var tween := create_tween()

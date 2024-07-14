@@ -69,6 +69,7 @@ func accept_blood():
 		index += 1
 	
 	if selected < blood_checkbox.size():
+		@warning_ignore("narrowing_conversion")
 		option_selected = selected
 		B2_Playerdata.character_blood = option_selected
 		B2_Sound.play("sn_cc_button_accept")

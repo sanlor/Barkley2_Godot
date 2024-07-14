@@ -11,6 +11,8 @@ extends Control
 # o_cc_name - Player adds its name and handles text displaying
 ## FOCUS ON THESE ONES ^^^^^^^^
 
+# cc_death seems imporant
+
 @export_category("DEBUG")
 @export var skip_hands := false
 @export var skip_name := false
@@ -20,6 +22,7 @@ extends Control
 @export var skip_blood := false
 @export var skip_gender := false
 @export var skip_alignment := false
+@export var skip_alignment_questions := false
 
 
 @onready var animation_player = $AnimationPlayer
@@ -106,6 +109,7 @@ func cc_process():
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "It is the incandescent mind of man that imprinted#its legends in the stars - the Zodiacs. Tell me your#birthday, so I may tell you your star..." ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 		
 	if not skip_zodiac_input:
 		# Show a black screen, add cc_zodiac
@@ -310,6 +314,7 @@ func cc_process():
 	if not skip_blood:
 		cc_textbox.display_text( Text.pr( "And what blood runs through your veins?" ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 		
 		await get_tree().create_timer(1.0).timeout
 		add_child( cc_blood )
@@ -319,18 +324,32 @@ func cc_process():
 		
 		cc_textbox.display_text( Text.pr( "Yes, yes... the blood of warriors, the blood of kings.#Your heritage is one of greatness and it confers in#you much strength. Perhaps enough to save us all..." ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 		
 	if not skip_gender:
 		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 		
 		add_child(cc_gender)
 		await cc_gender.accept_pressed
 		
-		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
-		await cc_textbox.finished_typing
-		
 	if not skip_alignment:
+		cc_textbox.display_text( Text.pr( "We all live by codes, whether or not we realize it.#Some struggle to uphold the values of our society#- the lawful - while others choose to follow their#whims and desires - the chaotic." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "Some reach outward through acts of charity and#kindness - the good - and others delve inward,#indulging in the pleasures of our earthly existence#- the evil." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "It has been said that the differences between#these groups - ah, no, these... archetypes, these#fundamental paradigms of human capability - are#irreconcilable." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "I do not believe so - but I digress." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "I will make a series of statements and I will ask you#whether you agree, disagree or have no opinion#at all. It is through this method we will determine#the code by which you live." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "Yes, it is all becoming very clear now. Your#answers have revealed to me the fundamental core#of your beliefs. You are..." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
+	
+	if not skip_alignment_questions:
 		pass
 	##breakpoint
 		
