@@ -60,7 +60,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 - [x] o_cc_gender
 - [x] o_cc_alignment
 - [x] o_cc_death
-- [ ] o_cc_crest
+- [x] o_cc_crest
 - [ ] o_cc_tarot
 - [ ] o_cc_gumball
 - [ ] o_cc_placenta1

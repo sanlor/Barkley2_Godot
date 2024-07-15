@@ -24,6 +24,7 @@ extends Control
 @export var skip_alignment := false
 @export var skip_alignment_questions := false
 @export var skip_crest := false
+@export var skip_tarot := false
 
 
 @onready var animation_player = $AnimationPlayer
@@ -44,6 +45,7 @@ extends Control
 @onready var cc_alignment	= preload("res://barkley2/scenes/CC/cc_alignment.tscn").instantiate()
 @onready var cc_death		= preload("res://barkley2/scenes/CC/cc_death.tscn")
 @onready var cc_crest 		= preload("res://barkley2/scenes/CC/cc_crest.tscn").instantiate()
+@onready var cc_tarot 		= preload("res://barkley2/scenes/CC/cc_tarot.tscn").instantiate()
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -487,6 +489,31 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "And perhaps... it portends an even greater future." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+		
+	if not skip_tarot:
+		add_child(cc_tarot)
+		cc_tarot.spin_cards()
+		cc_textbox.display_text( Text.pr( "Gaze upon these cards I hold in my hand, my child.#More than mere playing cards, the tarot are#indescribably powerful divinatory tools, a product#of ancient Hermetic wizards who sought the true, -" ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "- forbidden knowledge of humanity and the greater#universe through the invokation of their god Thoth." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "The eternal figures that emblazon these card faces#are but notes singing the ancient refrain that has#endlessly reverberated in the minds of mankind#since our descent from the stars." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "They provide a conduit between the earthly domain#we inhabit and the oceanic depths of our collective#unconscious, and the drawing of these cards#forges an inviolable covenant between the -" ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "- endless past, your boundless destiny, and the#divine energies which shape our untold future." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "With this warning, I ask that you choose one card#at a time from the four that I will place in front of#you." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "The first card drawn is very important. Take its#image into your mind, and hold it close to your#heart." ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_text( Text.pr( "This is the Significator, and will serve as your#representation, or avatar, within this mystic#tableau." ) )
+		await cc_textbox.finished_typing
+		
+		cc_tarot.hide_cards()
+		await cc_tarot.cards_hidden
+		pass
+		
 	##breakpoint
 		
 		

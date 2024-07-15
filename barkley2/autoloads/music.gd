@@ -22,7 +22,7 @@ func _init():
 	print("init music banks started: ", Time.get_ticks_msec())
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
-	print( _music_folder.get_files() )
+	#print( _music_folder.get_files() )
 	for file in  _music_folder.get_files():
 		if not file.begins_with("mus_"):
 			continue
