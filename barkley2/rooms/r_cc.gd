@@ -89,9 +89,9 @@ func wizard_is_emoting():
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "wizard_intro":
 		#animation_player.stop( )
-		cc_process()
-		
-func cc_process():
+		wiz_hands()
+	
+func wiz_hands():
 	if not skip_hands: # Wizard waves its hands and talks a lot.
 		cc_textbox.display_text( Text.pr( "Greetings, young one. I have been awaiting your#arrival for some time now. The world has been#waiting for your arrival. Ah, but my manners...#Please, take a seat and make yourself comfortable.") )
 		await cc_textbox.finished_typing
@@ -101,11 +101,15 @@ func cc_process():
 		
 		cc_textbox.texbox_hide()
 		await cc_textbox.visibility_changed
+		wiz_name()
 	
+func wiz_name():
 	if not skip_name: # name prompt apears, waiting for you to type yourt name.
 		add_child( cc_name )
 		await cc_name.name_entered
-	
+	wiz_zodiac_pre_dialog()
+		
+func wiz_zodiac_pre_dialog():
 	if not skip_zodiac_pre_dialog:
 		cc_textbox.display_text( Text.pr( "It is by light that the troglodyte emerged from the#cave to become man and it is by light that man#navigates the cosmos to become more." ) )
 		await cc_textbox.finished_typing
@@ -116,7 +120,9 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "It is the incandescent mind of man that imprinted#its legends in the stars - the Zodiacs. Tell me your#birthday, so I may tell you your star..." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+	wiz_zodiac_input()
 		
+func wiz_zodiac_input():
 	if not skip_zodiac_input:
 		# Show a black screen, add cc_zodiac
 		var z_tween : Tween
@@ -150,7 +156,9 @@ func cc_process():
 		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
 		await z_tween.finished
 		fade_texture.hide()
-		
+	wiz_zodiac_pos_dialog()
+	
+func wiz_zodiac_pos_dialog():
 	if not skip_zodiac_pos_dialog:
 		# holy shit, I hate this! vvvvvv
 		assert( B2_Playerdata.character_zodiac in range(1,12) )
@@ -316,7 +324,9 @@ func cc_process():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "The empathic kinship with all Life within you is#perhaps the most powerful force that can exist,#more than 1,000 atomic bombs, and for this reason#it is your greatest strength" ) )
 				await cc_textbox.finished_typing
+	wiz_blood()
 				
+func wiz_blood():
 	if not skip_blood:
 		cc_textbox.display_text( Text.pr( "And what blood runs through your veins?" ) )
 		await cc_textbox.finished_typing
@@ -331,7 +341,9 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "Yes, yes... the blood of warriors, the blood of kings.#Your heritage is one of greatness and it confers in#you much strength. Perhaps enough to save us all..." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
-		
+	wiz_gender()
+
+func wiz_gender():
 	if not skip_gender:
 		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
 		await cc_textbox.finished_typing
@@ -339,7 +351,9 @@ func cc_process():
 		
 		add_child(cc_gender)
 		await cc_gender.accept_pressed
+	wiz_alignment()
 		
+func wiz_alignment():
 	if not skip_alignment:
 		cc_textbox.display_text( Text.pr( "We all live by codes, whether or not we realize it.#Some struggle to uphold the values of our society#- the lawful - while others choose to follow their#whims and desires - the chaotic." ) )
 		await cc_textbox.finished_typing
@@ -352,7 +366,9 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "I will make a series of statements and I will ask you#whether you agree, disagree or have no opinion#at all. It is through this method we will determine#the code by which you live." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+	wiz_alignment_questions()
 
+func wiz_alignment_questions():
 	if not skip_alignment_questions:
 		add_child(cc_alignment)
 		var death : bool = await cc_alignment.input_finished
@@ -474,7 +490,9 @@ func cc_process():
 				cc_textbox.display_text( Text.pr( "Chaotic Evil is the alignment most found in#datamancers, B.I.O. guerrillas and techno#decapitators. Dracula and Popeye are both Chaotic#Evil." ) )
 				await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
-		
+	wiz_crest()
+
+func wiz_crest():
 	if not skip_crest:
 		cc_textbox.display_text( Text.pr( "Your family crest represents where you've come#from and who you are. Draw your family's#heraldry on this shield." ) )
 		await cc_textbox.finished_typing
@@ -489,10 +507,11 @@ func cc_process():
 		cc_textbox.display_text( Text.pr( "And perhaps... it portends an even greater future." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+	wiz_tarot()
 		
+func wiz_tarot():
 	if not skip_tarot:
 		add_child(cc_tarot)
-		#cc_tarot.spin_cards()
 		
 		cc_textbox.display_text( Text.pr( "Gaze upon these cards I hold in my hand, my child.#More than mere playing cards, the tarot are#indescribably powerful divinatory tools, a product#of ancient Hermetic wizards who sought the true, -" ) )
 		await cc_textbox.finished_typing
@@ -514,6 +533,8 @@ func cc_process():
 		
 		cc_tarot.hide_cards()
 		await cc_tarot.cards_hidden
+		
+		
 		pass
 		
 	##breakpoint
