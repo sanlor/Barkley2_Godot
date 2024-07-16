@@ -1,0 +1,122 @@
+[gd_scene load_steps=21 format=3 uid="uid://di6uf6vaeg7s8"]
+
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_gumball.gd" id="1_8qnnr"]
+[ext_resource type="Texture2D" uid="uid://bdhjh2qgqfnhj" path="res://barkley2/assets/b2_original/images/gml_explosion.png" id="2_rss0u"]
+[ext_resource type="Texture2D" uid="uid://dbalxp861xltf" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_table_0.png" id="3_eubln"]
+[ext_resource type="Texture2D" uid="uid://5njxjgk7d707" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_0.png" id="4_o68q8"]
+[ext_resource type="Texture2D" uid="uid://3gjbc7btdhh5" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_1.png" id="5_cks64"]
+[ext_resource type="Texture2D" uid="uid://d0q8k1cbv6eh2" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_2.png" id="6_3yrda"]
+[ext_resource type="Texture2D" uid="uid://drdihiy32oh80" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_3.png" id="7_daci3"]
+[ext_resource type="Texture2D" uid="uid://by0oxv2hngiif" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_4.png" id="8_3u1m1"]
+[ext_resource type="Texture2D" uid="uid://cff2tsy18npga" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_machine_5.png" id="9_e60tw"]
+[ext_resource type="Texture2D" uid="uid://bamjdvt0sdorm" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_0.png" id="10_8bm1s"]
+[ext_resource type="Texture2D" uid="uid://d03lv2gboppyf" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_1.png" id="11_m6ti8"]
+[ext_resource type="Texture2D" uid="uid://bbdj0jrv6lhnd" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_2.png" id="12_7l6qg"]
+[ext_resource type="Texture2D" uid="uid://bvf5217ygsp0k" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_3.png" id="13_ccx1t"]
+
+[sub_resource type="Curve" id="Curve_r8ebi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67766, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lh6iq"]
+curve = SubResource("Curve_r8ebi")
+
+[sub_resource type="Gradient" id="Gradient_slxq8"]
+offsets = PackedFloat32Array(0, 0.323383, 1)
+colors = PackedColorArray(0.11056, 2.77955e-06, 0.0881953, 1, 0.247546, 0.087917, 0.207594, 1, 0.282398, 0.100405, 0.236863, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5k1np"]
+gradient = SubResource("Gradient_slxq8")
+width = 10
+
+[sub_resource type="Curve" id="Curve_t1cff"]
+max_value = 4.0
+_data = [Vector2(0, 0.395604), 0.0, 0.0, 0, 0, Vector2(0.279476, 2.59341), 6.71062, 6.71062, 0, 0, Vector2(1, 4), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjjmb"]
+curve = SubResource("Curve_t1cff")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mfbk4"]
+particle_flag_disable_z = true
+spread = 180.0
+flatness = 0.5
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_max = 100.0
+damping_max = 0.375
+scale_curve = SubResource("CurveTexture_fjjmb")
+color_ramp = SubResource("GradientTexture1D_5k1np")
+alpha_curve = SubResource("CurveTexture_lh6iq")
+
+[node name="cc_gumball" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8qnnr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Particle_1" type="GPUParticles2D" parent="."]
+position = Vector2(192, 120)
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_mfbk4")
+texture = ExtResource("2_rss0u")
+lifetime = 2.0
+preprocess = 5.0
+speed_scale = 0.5
+
+[node name="tarot_table" type="Sprite2D" parent="."]
+position = Vector2(193, 194)
+texture = ExtResource("3_eubln")
+
+[node name="SCcTarotCandle0" type="Sprite2D" parent="."]
+position = Vector2(65, 139)
+texture = ExtResource("10_8bm1s")
+
+[node name="SCcTarotCandle1" type="Sprite2D" parent="."]
+position = Vector2(65, 139)
+texture = ExtResource("11_m6ti8")
+
+[node name="SCcTarotCandle2" type="Sprite2D" parent="."]
+position = Vector2(65, 139)
+texture = ExtResource("12_7l6qg")
+
+[node name="SCcTarotCandle3" type="Sprite2D" parent="."]
+position = Vector2(65, 139)
+texture = ExtResource("13_ccx1t")
+
+[node name="SCcGumballMachine0" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("4_o68q8")
+
+[node name="SCcGumballMachine1" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("5_cks64")
+
+[node name="SCcGumballMachine2" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("6_3yrda")
+
+[node name="SCcGumballMachine3" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("7_daci3")
+
+[node name="SCcGumballMachine4" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("8_3u1m1")
+
+[node name="SCcGumballMachine5" type="Sprite2D" parent="."]
+position = Vector2(200, 84)
+texture = ExtResource("9_e60tw")

@@ -10,6 +10,7 @@ var sound_playing := false
 var sound_stream : AudioStreamPlayer
 
 func _ready():
+	@warning_ignore("narrowing_conversion")
 	image_canvas = Image.create( image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
 	image_canvas.fill( Color.TRANSPARENT )
 

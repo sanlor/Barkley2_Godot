@@ -6,6 +6,7 @@ extends AnimatedSprite2D
 
 signal card_pressed
 
+var was_selected := false
 var can_be_selected := false
 var is_hovering := false
 
@@ -15,19 +16,20 @@ func _ready():
 	pass
 	
 func _process(_delta):
-	if can_be_selected:
+	if can_be_selected and not was_selected:
 		if Input.is_action_just_pressed("Action"):
 			if is_hovering:
 				card_pressed.emit()
 				mouse_exited()
+				was_selected = true
 				can_be_selected =  false
 	
 func mouse_entered():
-	if can_be_selected:
+	if can_be_selected and not was_selected:
 		is_hovering = true
 		frame = 1
 	
 func mouse_exited():
-	if can_be_selected:
+	if can_be_selected and not was_selected:
 		is_hovering = false
 		frame = 0

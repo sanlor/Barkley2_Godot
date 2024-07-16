@@ -6,10 +6,11 @@ extends ColorRect
 
 signal choice_has_been_made(bool)
 var choice := false
+var button_space := 0.0
 
-var popup_warning 	:= "Warning!##Gender limit exceeded.#Continue anyway?";
-var popup_yes 		:= "Yes";
-var popup_no 		:= "No";
+var popup_warning 	:= "Forgot to add a warning text#Jackass!";
+var popup_yes 		:= "Ops";
+var popup_no 		:= "Sorry";
 
 func _ready():
 	modulate.a = 0
@@ -22,11 +23,11 @@ func _ready():
 	
 	accept_btn.text = Text.pr( popup_yes )
 	accept_btn.size = Vector2(50,20)
-	accept_btn.global_position = Vector2( 160, 142 ) - (accept_btn.size / 2)
+	accept_btn.global_position = Vector2( 160 - button_space, 142 ) - (accept_btn.size / 2)
 	
 	deny_btn.text = Text.pr( popup_no )
 	deny_btn.size = Vector2(50,20)
-	deny_btn.global_position = Vector2( 210, 142 ) - (deny_btn.size / 2)
+	deny_btn.global_position = Vector2( 210 + button_space, 142 ) - (deny_btn.size / 2)
 	
 	accept_btn.pressed.connect( func(): choice = true; gender_warning_hide() )
 	deny_btn.pressed.connect( func(): choice = false; gender_warning_hide() )

@@ -30,7 +30,7 @@ const S_CC_GENDER_CHECKMARK_0 = preload("res://barkley2/assets/b2_original/image
 
 @onready var r_cc = get_parent()
 
-const GENDER_WARNING = preload("res://barkley2/scenes/CC/gender_warning_bg.tscn")
+const GENDER_WARNING = preload("res://barkley2/scenes/CC/warning_bg.tscn")
 
 var avaiable_genders := ["Male", "Female", "Dwarf", "Eunuch", "Other", "Mega Eunuch"] # Mega Eunuch? looks like its something unfinished.
 var selected_genders := [false, false, false, false, false, false]
@@ -140,6 +140,11 @@ func check_selected_genders():
 		B2_Sound.play("sn_cc_button_accept")
 		## TODO display popup - too many genders
 		var warning = GENDER_WARNING.instantiate()
+		
+		warning.popup_warning 	= Text.pr("Warning!##Gender limit exceeded.#Continue anyway?")
+		warning.popup_yes 		= Text.pr("Yes");
+		warning.popup_no 		= Text.pr("No");
+		
 		add_child( warning )
 		var choice = await warning.choice_has_been_made
 		

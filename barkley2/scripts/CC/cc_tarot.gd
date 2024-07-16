@@ -18,12 +18,13 @@ const CC_TAROT_CARD = preload("res://barkley2/scenes/CC/cc_tarot_card.tscn")
 var card_nodes := []
 
 signal cards_hidden
-signal card_selected( card_id )
+signal card_selected( card_id, _cards_picked )
 signal all_cards_selected
 
 const tarot_dir := Vector2(80,0)
 var target_tarot_dir := tarot_dir
-var spin_speed := 0.25
+var orbit_speed := 0.25
+var spin_speed := 0.08
 var time_goes_on := 0.0
 
 var is_orbiting := true
@@ -39,9 +40,18 @@ var cards_picked := 0
 var card_presenting_positions := [ Vector2(54, 32), Vector2(124, 32), Vector2(196, 32), Vector2(266, 32) ]
 
 func _ready():
+	@warning_ignore("narrowing_conversion")
 	spinning_audio = B2_Sound.play( "sn_cc_tarot_sync", 0.0, false, INF )
 	## Similar setup to the original.
 	
+	orbit_cards()
+
+func shuffle_cards():
+	for card in card_nodes:
+		card.was_selected = false
+		card.can_be_selected = true
+		card.frame = 0
+	cards_picked = 0
 	var shuffled_deck := []
 	var shuffled_special_deck := []
 	for i in 22: # Original comment -> // was 22, now 21 to remove babe in the woods ## I decided to add it back in. no idea why it was removed.
@@ -55,7 +65,7 @@ func _ready():
 	shuffled_deck.shuffle()
 	shuffled_special_deck.shuffle()
 	
-	card_index[0] = 2 + shuffled_deck[0]
+	card_index[0] = 2 + shuffled_deck[0] ## 11 17 debug
 	card_index[1] = 2 + shuffled_deck[1]
 	card_index[2] = 2 + shuffled_deck[2]
 	card_index[3] = 2 + shuffled_deck[3]
@@ -68,11 +78,10 @@ func _ready():
 		 
 	# Maybe there was a special card... // Reroll cards for a sepcial card. If it happens, it happens #
 	var card_special = randi_range(0,100);
-	if card_special <= 4: card_index[0] = 26 + shuffled_special_deck[0] #ds_list_find_value(card_list_2, 0);
-	elif card_special <= 8: card_index[1] = 26 + shuffled_special_deck[1] #ds_list_find_value(card_list_2, 1);
-	elif card_special <= 12: card_index[2] = 26 + shuffled_special_deck[2]# ds_list_find_value(card_list_2, 2);
+	if card_special <= 4: card_index[0] = 26 + shuffled_special_deck[0]
+	elif card_special <= 8: card_index[1] = 26 + shuffled_special_deck[1]
+	elif card_special <= 12: card_index[2] = 26 + shuffled_special_deck[2]
 	
-	orbit_cards()
 
 func _process(delta):
 	if debug:
@@ -91,12 +100,12 @@ func _process(delta):
 		time_goes_on = wrapf(time_goes_on, 0, TAU) # no leaky memory, ok?
 		
 		for i in 16:
-			card_nodes[i].position = target_tarot_dir.rotated( TAU / 16 * i + time_goes_on * spin_speed)
+			card_nodes[i].position = target_tarot_dir.rotated( TAU / 16 * i + time_goes_on * orbit_speed)
 
 
 func spin_card( card_id : int ):
 	spinning_card = card_id
-	var spin_speed := 0.08
+	#var spin_speed := 0.08
 	B2_Sound.play("sn_cc_tarot_flip")
 	var card : AnimatedSprite2D = card_nodes[spinning_card]
 	var spin_tween := create_tween()
@@ -109,12 +118,14 @@ func spin_card( card_id : int ):
 			spin_tween.tween_callback( flip_card.bind(card, card_index[ cards_picked ], false) )
 			spin_tween.tween_property(card, "scale:x", 1.0, spin_speed)
 			
+	await spin_tween.finished
 	card_selection(false)
 	# check if all cards are picked
-	if cards_picked > 3:
+	if cards_picked > 2:
+		card_selected.emit( card_index[ cards_picked ], cards_picked )
 		all_cards_selected.emit()
 	else: # if not, continue
-		card_selected.emit( card_index[ cards_picked ] )
+		card_selected.emit( card_index[ cards_picked ], cards_picked )
 		cards_picked += 1
 
 func flip_card(card : AnimatedSprite2D, frame : int, is_flipped : bool ):
@@ -190,5 +201,5 @@ func present_four_cards():
 	await tween.finished
 	for card in card_nodes:
 		card.can_be_selected = true
-		
+	shuffle_cards()
 	cards_hidden.emit()

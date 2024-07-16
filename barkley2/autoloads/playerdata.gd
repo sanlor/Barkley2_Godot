@@ -40,6 +40,8 @@ var character_ethical = 0;		# New variables, original are on the script Quest()
 var character_crest = false;
 var character_crest_data := PackedByteArray()
 
+var character_tarot_cards := [] # New variables, original are on the script Quest()
+
 var character_lottery = false;
 var character_gumball = 0;
 var character_stats_race = 0;

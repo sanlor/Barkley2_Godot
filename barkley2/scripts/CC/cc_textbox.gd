@@ -81,6 +81,7 @@ func texbox_show():
 func texbox_hide():
 	var tween := create_tween()
 	tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.25)
+	await tween.finished
 	textbox.text = ""
 	hide()
 	

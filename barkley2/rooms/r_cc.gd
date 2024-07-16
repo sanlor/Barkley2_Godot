@@ -25,6 +25,7 @@ extends Control
 @export var skip_alignment_questions := false
 @export var skip_crest := false
 @export var skip_tarot := false
+@export var skip_gumball := false
 
 
 @onready var animation_player = $AnimationPlayer
@@ -46,6 +47,7 @@ extends Control
 @onready var cc_death		= preload("res://barkley2/scenes/CC/cc_death.tscn")
 @onready var cc_crest 		= preload("res://barkley2/scenes/CC/cc_crest.tscn").instantiate()
 @onready var cc_tarot 		= preload("res://barkley2/scenes/CC/cc_tarot.tscn").instantiate()
+@onready var cc_gumball 	= preload("res://barkley2/scenes/CC/cc_gumball.tscn").instantiate()
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -101,7 +103,7 @@ func wiz_hands():
 		
 		cc_textbox.texbox_hide()
 		await cc_textbox.visibility_changed
-		wiz_name()
+	wiz_name()
 	
 func wiz_name():
 	if not skip_name: # name prompt apears, waiting for you to type yourt name.
@@ -533,10 +535,246 @@ func wiz_tarot():
 		
 		cc_tarot.hide_cards()
 		await cc_tarot.cards_hidden
+		cc_tarot.card_selected.connect( wiz_tarot_parse_drawn_card )
 		
+	else: 
+		cc_tarot.queue_free()
+		wiz_gumball()
 		
-		pass
+func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
+	var text_card := Array()
+	print("card_id: ", card_id)
+	print("cards_picked: ", cards_picked)
+	match card_id - 2: ## Offset due to the frame 0 and 1 being the back of the card.
+		0:
+			text_card.resize( 5 )
+			text_card[0] = "A great current of wind sends you hurtling through#the air. Your helpless body swings this way and#that, without reason. You are a leaf on a blustering#wind."; 
+			text_card[1] = "You cease motion on a branch on a tree on a hilltop,#for a moment, then you're off."; 
+			text_card[2] = "... " + str(B2_Playerdata.character_name) + "... " + str(B2_Playerdata.character_name) + "!"; 
+			text_card[3] = "Did you fall asleep on me? It is important you#concentrate on the reading! The fool in the#Present."; 
+			text_card[4] = "The fool lives in and savors an ever-changing#present, with no thought of the past, the forces of#Air propelling him into the future."; 
+		1:
+			text_card.resize( 2 )
+			text_card[0] = "Our story begins at twilight, when the Moon rises#in the sky to begin reflecting, and the Popess'#visions are strongest. She beckons you towards#her, to inhabit the spot between two pillars."
+			text_card[1] = "You are safe here, for the present. When you find#yourself in sanctuary, direct your learning#inwards, like the Popess. Solitude and self-#awareness are the path to her conduit with God."; 
+		2:
+			text_card.resize( 2 )
+			text_card[0] = "Ah, the lovely Empress smiles! The most fecund of#cards. Mother Earth offers forth her bounty. Figs,#dates, and satsumas abound.";
+			text_card[1] = "The numeral III indicates the stability and hardiness#of nature, as well as its dynamism. The Vines are#heavy-laden with grapes, and the Empress squashes#them to wine with her mighty gams."; 
+		3:
+			text_card.resize( 3 )
+			text_card[0] = "On this day, the Emperor rules. Your journey will#take you through the jurisdictions of powerful#authorities and dynasties."; 
+			text_card[1] = "The scepter in the elder dwarf's right hand#indicates the Emperor's strict orthodoxy, and his#left-hand globus is his reserved, spontaneous#might. Befriend these powers or beware them."; 
+			text_card[2] = "Do neither, and bemoan your pitiful end.";
+		4:
+			text_card.resize( 3 )
+			text_card[0] = "The hierophant has devoted his life to Clispaeth. He#subjects his body and soul to extreme trials, and#renews himself with his unwavering piety."; 
+			text_card[1] = "His disquieting presence is an indication of how far#he has passed outside of this world and into a#divine one."; 
+			text_card[2] = "Imitating his spiritual ardor and legendary humility#will be fruitful if you face like ordeals.";
+		5:
+			text_card.resize( 2 )
+			text_card[0] = "Lovers. Two beings in constant interaction, whose#whole reality is dependent on that of the other.#The arena you step into is shifting and dynamic.#There is another side to everything." 
+			text_card[1] = "Causality will be hard to pin down, so claim the#advantage by anticipating this. Banana trees#indicate pride and its other half, shame."
+		6:
+			text_card.resize( 1 )
+			text_card[0] = "The nature of the world is that of the Chariot.#Wheels within wheels, constantly turning. Make#each of your moments count. That's all this card#says."; 
+		7:
+			text_card.resize( 1 )
+			text_card[0] = "Equilibrium… set the scales off balance?"; 
+		8:
+			text_card.resize( 3 )
+			text_card[0] = "The hermit! We are in an era of solitude, but under#His watchful eye in the Valley of the Hermit. Want#something more exciting?" 
+			text_card[1] = "The Hermit is the patron card of all loners, exiles,#bad boys, rebels and outcasts of yesterday and#today.";
+			text_card[2] = "All bosozoku, raggare, and greasers receive a#passive initiative bonus, extending to the end of#their next recovery phase."; 
+		9: ## ATTENTION
+			text_card.resize( 1 )
+			text_card[0] = "This card doesn't tell us much with nothing else on#the table. May I draw another?"; 
+			## TODO Present special screen
+			
+		10:
+			text_card.resize( 2 )
+			text_card[0] = "Barbarians, brigands, and brasters rejoice! Might#flexes his muscle before us. Lifting, carrying, and#toting. Pushing, pulling, and shoving. Tossing,#throwing, and hurling." 
+			text_card[1] = "These actions and more fall under dominion of#Might. What will you tote?"
+		11:
+			text_card.resize( 2 )
+			text_card[0] = "A falling motion, inversion, hanging, waiting,#'hanging out'. The environment is out of balance,#in fact, the opposite of way things could be. I#wouldn't worry about it, " + str(B2_Playerdata.character_name) + "."; 
+			text_card[1] = "It could be that the world is waiting for you to#right it, but try seeing if you can get along well#within it, even if it's not something you're used#to. The letter M and water elementals."; 
+		12:
+			
+			text_card.resize( 3 )
+			text_card[0] = "Low-intoned speech whispered between covens#suggests that every time you turn over a Death#card, someone, somewhere, perishes at the exact#moment.";
+			text_card[1] = "Does the drawing of the card force the actual#death to occur, or vice versa? Is it just a#statistically-ensured probability, given the#enormous size of the universe?"; 
+			text_card[2] = "That's all I can think about when this card arrives#here."; 
+		13:
+			text_card.resize( 3 )
+			text_card[0] = "Temperance, as a member of the Tarot, strikes a#balance. Immediately a let down when you see it#dealt, but it makes up for this with a few perks.";
+			text_card[1] = "Along with boredom is volatility... perfect blandness#cannot be achieved without its constituent#elements constantly reacting in perfect synthesis.";
+			text_card[2] = "The dwarf on the card slowly churns butter. A#deliberate, measured churn returns the highest#creamy yield, Remember this, my child."; 
+		14:
+			text_card.resize( 2 )
+			text_card[0] = "Please, speak in hushed tones about the era of the#Devil! The dark lord's sigil has aligned itself over#the cosmic torus. Saturn's ring ignites in white#flame."; 
+			text_card[1] = "Ambition, wickedness, and sulphurous vapours are#the hallmark of this dismal time."; 
+		15: ## ATTENTION
+			text_card.resize( 4 )
+			text_card[0] = "An ominous sign. The Crack'd Dome. Something is#fractured and edges closer to complete#obliteration."; 
+			text_card[1] = "I can't tell what it is - an open seam, metaphysical#glitch, or foreign entity - but it is terribly wrong,#and only getting worse."; 
+			text_card[2] = "You must find this problem and stop it, purge it#from the stream of existence, " + str(B2_Playerdata.character_name) +"."; 
+			text_card[3] = "You have no more time to waste here. I'm putting#the cards away now."; 
+			## This is a special card. no idea what it does, but it does something.
+		16:
+			text_card.resize( 4 )
+			text_card[0] = "Polaris, the Lodestar guided the ancient Pilgrims#across the seas to their their home in the New#World, at Yerusharim." 
+			text_card[1] = "Their crude sextants were fashioned out of animal#furs, chewed sinew, and sod."; 
+			text_card[2] = "Hundreds of technological revolutions later,#modern Cyberpilgrims can be gravitationally guided#by any of trillions of stars."; 
+			text_card[3] = "Still, the star’s role remains the same - to watch#over and silently judge us, cruel voyeurs of#history. This uneasy give-and-take between man#and star has persisted for eons. Is change coming?"; 
+		17:
+			text_card.resize( 4 )
+			text_card[0] = "The moon card is the most potent symbol of wisdom#in the tarot, and also a symbol of madness.";
+			text_card[1] = "Much like how moonlight is originally the sun's,#and not its own, so is the wisdom we find in the#moon just a mirror of our own intuition."; 
+			text_card[2] = "In the river, we can see the reflection repeated,#and of course, distorted. Mirroring of mirrors#continually confuses and separates the vision#of the original source.";
+			text_card[3] = "Similarly, we must keep in mind that subjectivity#can ruin the truth in reflection. If you're#looking for answers, be a still surface, and let#the moon look into you, not the other way around.";
+		18:
+			text_card.resize( 3 )
+			text_card[0] = "Yes! What a great omen the sun card is! The look#on the sun's satisfied visage suggests he can do#no wrong. What a beneficent face! The sun makes#the flowers and plants grow.";
+			text_card[1] = "Thanks to the sun, it's warm enough to go to the#beach. By harnessing renewable solar energy,#anything made possible by fossil fuels could one#day be run entirely on the sun's clean energy."; 
+			text_card[2] = "There's nothing in this world that the sun doesn't#have a hand in. This is a really great draw,#youngster. I mean it.";
+		19:
+			text_card.resize( 3 )
+			text_card[0] = "Karma is the ethereal force of judgment and#harmony that pervades existence. It represents#justice on an eternal scale and with a focus that#is individual and universal at once.";
+			text_card[1] = "Maybe drawing this card doesn't mean much to you,#but I believe what it is trying to tell you is that#everything that occurs is known to occur.";
+			text_card[2] = "The world is not meaningless! Everything that#comes to pass today will come to pass again. What#you do on your journey will be remembered, child."; 
+		20:
+			text_card.resize( 3 )
+			text_card[0] = "The universe card is the final card in the tarot#deck. It represents finality and totality. The end,#and everything at the end.";
+			text_card[1] = "Your journey has not yet begun, and yet I can tell#you are destined for many great adventures. Who#knows where they will take you? Wherever you go,#I would hesitate to think of an 'end,' youngster.";
+			text_card[2] = "You have so far to go and infinite potential.#Wherever your journey concludes, I don't think it#will be the 'end' for you."; 
+		21: # Babe!
+			text_card.resize( 3 )
+			text_card[0] = "Oh my... what you have drawn just now is the fabled#babe in the woods... Without more context I cannot#tell what this card signifies for you or the journey#ahead of you but..."; 
+			text_card[1] = "Do not be alarmed, youngster. It is not an ill omen#that you have drawn this card. More so it is a#mystery, much like the babe itself. Why is the babe#in the woods? Who put the babe in the woods?"; 
+			text_card[2] = "Are there more babes abound, or is this the only#one? This card predicts a deep pondering and self-#discovery in your future, youngster."; 
+		22:
+			text_card.resize( 2 )
+			text_card[0] = "Ah, the Official Rules! It looks like fate is#smiling upon you, youngster. This card represents#society becoming more than the sum of its parts,#guided by justice and the rule of law."; 
+			text_card[1] = "I have no doubt that in time you too will find#greatness within yourself, but only by abiding the#rules that your elders have laid out for you..."; 
+		23: 
+			text_card.resize( 1 )
+			text_card[0] = "Oh, look youngster! Look what you have drawn!#Treasure, gemstones and goblets... Epic loot!#Greatest of fortunes will be bestowed upon you.#That is what this card tells me.";
+		24:
+			text_card.resize( 4 )
+			text_card[0] = "Ah, the card of the juggler. It seems that nearly#every culture has its own juggling legends, and#this archetypical figure is usually depicted as a#crafty rogue who dazzles god and man alike with - ";
+			text_card[1] = " - a fusion of dynamic sporting moves and#entertainment sensibility. His accompanying form is#the dark juggler, a malevolent acrobat who tosses#its bowling-pins and kerchiefs with ill-intent.";
+			text_card[2] = "Notice the juggler's workshop spans a river. The#river's mists imply Maya, the fog of illusion that#hangs over the sporting world.";
+			text_card[3] = "Both jugglers and dark jugglers alike profess that#they are looking for the truth. It will be up to you#to decide who you believe.";; 
+		25:
+			text_card.resize( 5 )
+			text_card[0] = "Shown here is the mountebank, a fiend in the guise#of a knave. The mountebank is talented at knowing,#and tirelessly schemes to gain advantages through#control of the forces of knowledge and ignorance."; 
+			text_card[1] = "Notice that his worktable spans a river, suggesting#Lethe. It forms a bridge between the world of#memory and amnesia. With his deck, the mountebank#can divine truths with the tarot, or deceive -";
+			text_card[2] = " - others in his treasured game, Monte. See the#candle with which he can selectively illumine truths,#and the three magic mirrors that grant him#perspective. He is also armed with a cup of -";
+			text_card[3] = " - intoxicating tinctures. The mountebank is a#cheater, of course. His red scarf of guilt clings to#his neck like an albatross.";
+			text_card[4] = "It would be wise to advance prudently in your#pursuit of knowledge, youngster.";
+		26:
+			text_card.resize( 4 )
+			text_card[0] = "Shown here is the magician, a figure of arcane#power. The magician, through study and sacrifice,#has conquered the divide between the world of#thoughts and that of physical existence."; 
+			text_card[1] = "His alchemical rites use the power of word and#ideal to twist and shape the universe. Notice that#his worktable spans a river. The magician's sorcery#creates a bridge between the phenomenal and -";
+			text_card[2] = " - noumenal worlds. With his magic wand, the#magician levitates three azure zaubers. All are#glowing with the divine spark.";
+			text_card[3] = "The clear absence of jugglers in this picture#precludes juggling as an explanation. An#admittedly shallow read suggests zaubermancy in#your future... could it be?";
+			
+	## Zodiac modifiers
+	match B2_Playerdata.character_zodiac_index:
+		0: # // Aries //
+			text_card.append( "Like you, the Emperor card looks skyward to the#Aries constellation. Take note of this. Perhaps the#power they wield is there for your usurpation?" )
+		1: # // Taurus //
+			text_card.append( "Imitating his spiritual ardor and legendary humility#will be fruitful if you face like ordeals. Taurus#grounds, lends bull energy." )
+		2: # // Gemini //
+			text_card.append( "Causality will be hard to pin down, so claim the#advantage by anticipating this. Gemini, your#traditional duality is now quadrality. Banana#trees indicate pride and its other half, shame." )
+		3: # // Cancer //
+			text_card.append( "The nature of the world is that of the Chariot.#Wheels within wheels, constantly turning." )
+			text_card.append( "Earths and galaxies spin through space and time,#and we witness the cycles of nature, life and death,#death and rebirth… as represented by Chariot’s twin steeds,#Dimensionality and Metempsychosis." )
+			text_card.append( "Make each of your moments count. That's all this#card says." )
+		4: # // Leo //
+			text_card.append( "Barbarians, brigands, and brasters rejoice! Might#flexes his muscle before us. Lifting, carrying, and#toting. Pushing, pulling, and shoving. Tossing,#throwing, and hurling." )
+			text_card.append(  "These actions and more fall under dominion of#Might. And it seems Might has left indelible imprint#on your past." )
+			text_card.append( "The dim, throbbing light in your eye tells of a#mighty event not long ago, an eruption of might#whose effects wracked the cosmos and stretch#to the present." )
+			text_card.append( "Such pure might... pursuit of this might is the game,#" + str( B2_Playerdata.character_name ) + ", and the pieces are set." )
+			text_card.append( "Which will you tote?" )
+		5: # // Virgo //
+			text_card.append( "Virgins, monks, and hikkikomori earn the same and#get a unique trophy." )
+		6: # // Libra //
+			pass
+		7: # // Scorpio //
+			text_card.append( "That's all I can think about when this card arrives#here. I don’t think the Death card would hurt you,#though." )
+		8: # // Ouphicius //
+			pass
+		9: # // Sagittarius //
+			text_card.append( "Hold... I see butter reflected in your wan#complexion. Interesting..." )
+		10: # // Capricorn //
+			text_card.append( "Ambition, wickedness, and sulphurous vapours are#the hallmark of this dismal time. Those aligned to#Capricorn - bearers of great sins - feel the loads#of guilt they carry lightening." )
+		11: # // Aquarius //
+			text_card.append( "Is… is it you?" )
+		12: # // Pisces //
+			pass
+
+	for text in text_card:
+		cc_textbox.display_text( Text.pr( text ) )
+		await cc_textbox.finished_typing
+	cc_textbox.texbox_hide()
+	
+	if card_id == 11:
+		var warning = preload("res://barkley2/scenes/CC/warning_bg.tscn").instantiate()
+		warning.button_space	= 20.0
+		warning.popup_warning 	= ""
+		warning.popup_yes 		= Text.pr("New card");
+		warning.popup_no 		= Text.pr("Keep it");
+		add_child(warning)
+		var choice = await warning.choice_has_been_made
 		
+		if choice == true:
+			cc_tarot.shuffle_cards()
+			return
+			
+	# Force the tarot  script to end
+	if card_id == 17:
+		cards_picked = 3
+		
+	await get_tree().create_timer(0.5).timeout
+	match cards_picked:
+		0:
+			cc_textbox.display_text( Text.pr( "The card you draw next is the Herald, and will give#us a glimpse into your future." ) )
+			await cc_textbox.finished_typing
+		1:
+			cc_textbox.display_text( Text.pr( "Now it is time to draw the Mirror. It will show to you#your deepest desires, or your worst fears." ) )
+			await cc_textbox.finished_typing
+		2:
+			cc_textbox.display_text( Text.pr( "The final card. The World. This card will serve as a#conduit between all the cards that came before it.#All that you have seen here will be linked by the#World." ) )
+			await cc_textbox.finished_typing
+		3:
+			# Finished picking cards
+			B2_Playerdata.character_tarot_cards = cc_tarot.card_index ## picked Cards
+			await get_tree().create_timer(1.5).timeout
+			
+			cc_tarot.queue_free()
+			wiz_gumball()
+			return
+			
+	cc_textbox.texbox_hide()
+	cc_tarot.card_selection( true ) ## cards can be clicked again.
+	
+func wiz_gumball():
+	if not skip_gumball:
+		# Fade do black, add gumball, fade back.
+		fade_texture.show()
+		fade_texture.color.a = 0.0
+		var t_tween := create_tween()
+		t_tween.tween_property( fade_texture, "color:a", 1.0, timer_alpha_in )
+		t_tween.tween_callback( add_child.bind(cc_gumball) )
+		t_tween.tween_property( fade_texture, "color:a", 0.0, timer_alpha_in )
+		await t_tween.finished
+		fade_texture.hide()
+		
+		breakpoint
+	pass
+	
 	##breakpoint
 		
 		
