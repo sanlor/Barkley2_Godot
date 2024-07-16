@@ -75,9 +75,15 @@ func _ready():
 		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
 	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
 
-func stop(sfx : AudioStreamPlayer): # stop the player from playing, emit a signal to force a graceful stop
+## stop the player from playing, emit a signal to force a graceful stop
+## You can also do some fancy stuff, like fading aout the audio before stopping it.
+func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0): 
 	if sound_loop.has(sfx):
 		sound_loop[sfx] = 0
+	if fade:
+		var fade_tween := create_tween()
+		fade_tween.tween_property(sfx, "volume_db", linear_to_db(0.01), fade_time )
+		await fade_tween.finished
 	if sfx != null:
 		sfx.finished.emit()
 
@@ -102,7 +108,7 @@ func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1) ->
 	sfx.stream = sound
 	sfx.name = soundID + "_" + str(randi())
 	sfx.finished.connect( finished_playing.bind(sfx) )
-	
+	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
 	## Loop Setup
 	sound_loop[sfx] = loops
 	

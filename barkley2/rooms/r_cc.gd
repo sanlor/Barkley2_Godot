@@ -492,7 +492,8 @@ func cc_process():
 		
 	if not skip_tarot:
 		add_child(cc_tarot)
-		cc_tarot.spin_cards()
+		#cc_tarot.spin_cards()
+		
 		cc_textbox.display_text( Text.pr( "Gaze upon these cards I hold in my hand, my child.#More than mere playing cards, the tarot are#indescribably powerful divinatory tools, a product#of ancient Hermetic wizards who sought the true, -" ) )
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "- forbidden knowledge of humanity and the greater#universe through the invokation of their god Thoth." ) )
@@ -509,6 +510,7 @@ func cc_process():
 		await cc_textbox.finished_typing
 		cc_textbox.display_text( Text.pr( "This is the Significator, and will serve as your#representation, or avatar, within this mystic#tableau." ) )
 		await cc_textbox.finished_typing
+		cc_textbox.texbox_hide()
 		
 		cc_tarot.hide_cards()
 		await cc_tarot.cards_hidden
