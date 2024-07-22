@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://di6uf6vaeg7s8"]
+[gd_scene load_steps=27 format=3 uid="uid://di6uf6vaeg7s8"]
 
 [ext_resource type="Script" path="res://barkley2/scripts/CC/cc_gumball.gd" id="1_8qnnr"]
 [ext_resource type="Texture2D" uid="uid://bdhjh2qgqfnhj" path="res://barkley2/assets/b2_original/images/gml_explosion.png" id="2_rss0u"]
@@ -13,6 +13,11 @@
 [ext_resource type="Texture2D" uid="uid://d03lv2gboppyf" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_1.png" id="11_m6ti8"]
 [ext_resource type="Texture2D" uid="uid://bbdj0jrv6lhnd" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_2.png" id="12_7l6qg"]
 [ext_resource type="Texture2D" uid="uid://bvf5217ygsp0k" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_candle_3.png" id="13_ccx1t"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_gumball_balls.gd" id="14_7vepn"]
+[ext_resource type="Texture2D" uid="uid://dkscuylsfcakq" path="res://barkley2/assets/b2_original/images/cc/s_cc_identity_gumball_0.png" id="15_jgtrh"]
+[ext_resource type="Texture2D" uid="uid://b58oks1crsc6a" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_large_0.png" id="16_egsvr"]
+[ext_resource type="Texture2D" uid="uid://3cbb2um48k6c" path="res://barkley2/assets/b2_original/images/cc/s_cc_gumball_quarter_0.png" id="16_o20c5"]
+[ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="17_4hfpu"]
 
 [sub_resource type="Curve" id="Curve_r8ebi"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67766, 0.0, 0, 0]
@@ -50,6 +55,12 @@ scale_curve = SubResource("CurveTexture_fjjmb")
 color_ramp = SubResource("GradientTexture1D_5k1np")
 alpha_curve = SubResource("CurveTexture_lh6iq")
 
+[sub_resource type="Curve2D" id="Curve2D_6a6v1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 193, 107, 0, 0, 0, 0, 192, 123, 0, 0, 0, 0, 184, 125, 0, 0, 0, 0, 178, 128, 0, 0, 0, 0, 176, 134, 0, 0, 0, 0, 183, 138, 0, 0, 0, 0, 191, 140, 0, 0, 0, 0, 202, 141, 0, 0, 0, 0, 207, 140, 0, 0, 0, 0, 211, 134, 0, 0, 0, 0, 204, 131, 0, 0, 0, 0, 197, 132, 0, 0, 0, 0, 196, 136, 0, 0, 0, 0, 193, 137, 0, 0, 0, 0, 191, 147, 0, 0, 0, 0, 192, 149)
+}
+point_count = 16
+
 [node name="cc_gumball" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -57,6 +68,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_8qnnr")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -66,6 +78,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
 [node name="Particle_1" type="GPUParticles2D" parent="."]
@@ -78,45 +91,104 @@ preprocess = 5.0
 speed_scale = 0.5
 
 [node name="tarot_table" type="Sprite2D" parent="."]
-position = Vector2(193, 194)
+position = Vector2(192, 198)
 texture = ExtResource("3_eubln")
 
 [node name="SCcTarotCandle0" type="Sprite2D" parent="."]
-position = Vector2(65, 139)
+position = Vector2(40, 148)
 texture = ExtResource("10_8bm1s")
 
 [node name="SCcTarotCandle1" type="Sprite2D" parent="."]
-position = Vector2(65, 139)
+position = Vector2(344, 148)
 texture = ExtResource("11_m6ti8")
 
 [node name="SCcTarotCandle2" type="Sprite2D" parent="."]
-position = Vector2(65, 139)
+position = Vector2(60, 133)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("12_7l6qg")
 
 [node name="SCcTarotCandle3" type="Sprite2D" parent="."]
-position = Vector2(65, 139)
+position = Vector2(324, 133)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("13_ccx1t")
 
+[node name="balls" type="Node2D" parent="."]
+position = Vector2(192, 55)
+script = ExtResource("14_7vepn")
+
 [node name="SCcGumballMachine0" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+position = Vector2(192, 97.5)
 texture = ExtResource("4_o68q8")
 
 [node name="SCcGumballMachine1" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+modulate = Color(1, 1, 1, 0.25)
+position = Vector2(192, 97.5)
 texture = ExtResource("5_cks64")
 
 [node name="SCcGumballMachine2" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+modulate = Color(1, 1, 1, 0.25)
+position = Vector2(192, 97.5)
 texture = ExtResource("6_3yrda")
 
 [node name="SCcGumballMachine3" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+position = Vector2(192, 97.5)
 texture = ExtResource("7_daci3")
 
+[node name="gunball_animation" type="Path2D" parent="."]
+curve = SubResource("Curve2D_6a6v1")
+
+[node name="gumball_path" type="PathFollow2D" parent="gunball_animation"]
+position = Vector2(193, 107)
+rotation = 1.63322
+rotates = false
+loop = false
+
+[node name="gumball" type="Sprite2D" parent="gunball_animation/gumball_path"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_jgtrh")
+
 [node name="SCcGumballMachine4" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+modulate = Color(1, 1, 1, 0.5)
+position = Vector2(192, 97.5)
 texture = ExtResource("8_3u1m1")
 
 [node name="SCcGumballMachine5" type="Sprite2D" parent="."]
-position = Vector2(200, 84)
+position = Vector2(192, 97.5)
 texture = ExtResource("9_e60tw")
+
+[node name="gumball_expand" type="Node2D" parent="."]
+position = Vector2(192, 72)
+
+[node name="gumball_sprite" type="Sprite2D" parent="gumball_expand"]
+texture = ExtResource("16_egsvr")
+
+[node name="gumball_text" type="Label" parent="gumball_expand"]
+offset_left = -96.0
+offset_top = 40.0
+offset_right = 96.0
+offset_bottom = 63.0
+pivot_offset = Vector2(96, 0)
+theme = ExtResource("17_4hfpu")
+text = "Acquired Gumball"
+horizontal_alignment = 1
+
+[node name="quarter_anim" type="Sprite2D" parent="."]
+visible = false
+z_index = 10
+position = Vector2(192, 100)
+texture = ExtResource("16_o20c5")
+
+[node name="quarter_anim_text" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 122.0
+offset_top = 140.0
+offset_right = 262.0
+offset_bottom = 160.0
+pivot_offset = Vector2(70, 10)
+theme = ExtResource("17_4hfpu")
+text = "Acquired Quarter"
+horizontal_alignment = 1
+
+[node name="reference" type="Marker2D" parent="."]
+position = Vector2(192, 167)

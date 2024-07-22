@@ -12,10 +12,14 @@ var popup_warning 	:= "Forgot to add a warning text#Jackass!";
 var popup_yes 		:= "Ops";
 var popup_no 		:= "Sorry";
 
+var popup_color		:= Color.WHITE
+
 func _ready():
 	modulate.a = 0
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, 0.75)
+	
+	warning_text.modulate = popup_color
 	
 	warning_text.text = Text.pr( popup_warning )
 	warning_text.modulate = Color.RED

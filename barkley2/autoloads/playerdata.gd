@@ -78,3 +78,17 @@ var character_zodiac_year1 = 0;
 ## Other shit ##
 var placenta_status = -1;
 var transition_timer = 25; ## was 14 (bhroom 190529))
+
+## This func replaces the Quests script.
+# /// Quest(name, value?);
+# // Quest("myQuest") - Returns value of myQuest
+# // Quest("myQuest", 1) - Sets value of myQuest
+
+func quests(key : String, value := ""):
+	var questpath = "quest.vars." + key;
+	
+	if value == "":
+		return B2_Config.get_user_save_data(questpath)
+	else:
+		B2_Config.set_user_save_data(questpath, value)
+		return true

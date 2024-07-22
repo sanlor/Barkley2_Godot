@@ -91,7 +91,7 @@ func select_user_slot( slot ):
 			push_error( "cant load save file:", parse_error )
 	
 # scr_savedata_put()
-func get_user_save_data( path : String ):
+func get_user_save_data( path : String ): ## retuyrn false if its invalid
 	if usersavefile.is_empty():
 		push_error("No save data to get!")
 		return
@@ -109,6 +109,7 @@ func get_user_save_data( path : String ):
 				temp_dict = temp_dict[i]
 		else:
 			push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
+			return false
 	
 func set_user_save_data( path : String, value ):
 	assert(not usersavefile.is_empty(), "Game not loaded. No place to save.")

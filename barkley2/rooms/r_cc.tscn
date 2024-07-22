@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://chautipuptxsr"]
+[gd_scene load_steps=29 format=3 uid="uid://chautipuptxsr"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_wtwdn"]
 [ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
@@ -16,11 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://3sxfpclea4ah" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_2.png" id="14_1jm6f"]
 [ext_resource type="Texture2D" uid="uid://d5qjkhlb21v0" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_3.png" id="15_sms1u"]
 [ext_resource type="Texture2D" uid="uid://csbe7re716n5r" path="res://barkley2/assets/b2_original/images/cc/s_effect_smog_0.png" id="16_pogbg"]
-[ext_resource type="Texture2D" uid="uid://bvei53mpti8fk" path="res://barkley2/assets/b2_original/images/cc/s_cc_textbox_backdrop_0.png" id="17_m08jc"]
-[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="17_x0byy"]
-[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_textbox.gd" id="18_eb1t7"]
-[ext_resource type="Texture2D" uid="uid://dfyis3nxj6m30" path="res://barkley2/assets/b2_original/images/cc/s_cc_textbox_frames_0.png" id="19_516sa"]
-[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="20_s2777"]
+[ext_resource type="PackedScene" uid="uid://cepuphnto8jxf" path="res://barkley2/scenes/CC/cc_textbox.tscn" id="17_vgl63"]
 
 [sub_resource type="Animation" id="Animation_udt4g"]
 length = 0.001
@@ -221,66 +217,24 @@ texture = ExtResource("16_pogbg")
 lifetime = 3.0
 speed_scale = 0.5
 
-[node name="cc_textbox" type="TextureRect" parent="." node_paths=PackedStringArray("wizard_cc")]
-visible = false
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(0, 0, 0.451, 0.7)
-z_index = 100
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -180.0
-offset_top = -70.0
-offset_right = 180.0
-offset_bottom = -12.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("17_x0byy")
-texture = ExtResource("17_m08jc")
-script = ExtResource("18_eb1t7")
+[node name="cc_textbox" parent="." node_paths=PackedStringArray("wizard_cc") instance=ExtResource("17_vgl63")]
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 12.0
+offset_top = 170.0
+offset_right = 372.0
+offset_bottom = 228.0
+grow_horizontal = 1
+grow_vertical = 1
+mouse_filter = 2
 wizard_cc = NodePath("..")
 
-[node name="default_type_timer" type="Timer" parent="cc_textbox"]
-process_callback = 0
-wait_time = 0.02
-one_shot = true
-
-[node name="textbox" type="RichTextLabel" parent="cc_textbox"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 9.0
-offset_top = 6.0
-offset_right = -1.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/line_separation = 3
-theme_override_fonts/normal_font = ExtResource("20_s2777")
-theme_override_font_sizes/normal_font_size = 12
-bbcode_enabled = true
-scroll_active = false
-
-[node name="cc_textbox_fg" type="TextureRect" parent="cc_textbox"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -41.5
-offset_right = 192.0
-offset_bottom = 41.5
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("19_516sa")
-
 [node name="fade_texture" type="ColorRect" parent="."]
+visible = false
 z_index = 100
 layout_mode = 1
 anchors_preset = 15
@@ -292,4 +246,3 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="cc_textbox/default_type_timer" to="cc_textbox" method="_on_default_type_timer_timeout"]

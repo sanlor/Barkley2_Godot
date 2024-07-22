@@ -127,37 +127,18 @@ func wiz_zodiac_pre_dialog():
 func wiz_zodiac_input():
 	if not skip_zodiac_input:
 		# Show a black screen, add cc_zodiac
-		var z_tween : Tween
-		
-		z_tween = create_tween()
-		fade_texture.show()
-		fade_texture.color.a = 0.0
-		z_tween.tween_property(fade_texture, "color:a", 1.0, timer_alpha_in )
-		await z_tween.finished
-		
+		await darken_screen( true )
 		add_child(cc_zodiac)
-		
-		z_tween = create_tween()
-		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
-		await z_tween.finished
-		fade_texture.hide()
+		await darken_screen( false )
 		
 		# wait for the player to set the cc_zodiac
 		await cc_zodiac.zodiac_entered
 		
 		# Show a black screen, remove cc_zodiac
-		fade_texture.show()
-		fade_texture.color.a = 0.0
-		z_tween = create_tween()
-		z_tween.tween_property(fade_texture, "color:a", 1.0, timer_alpha_in )
-		await z_tween.finished
-		
+		await darken_screen( true )
 		remove_child(cc_zodiac)
+		await darken_screen( false )
 		
-		z_tween = create_tween()
-		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
-		await z_tween.finished
-		fade_texture.hide()
 	wiz_zodiac_pos_dialog()
 	
 func wiz_zodiac_pos_dialog():
@@ -721,7 +702,7 @@ func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
 	cc_textbox.texbox_hide()
 	
 	if card_id == 11:
-		var warning = preload("res://barkley2/scenes/CC/warning_bg.tscn").instantiate()
+		var warning 			= preload("res://barkley2/scenes/CC/warning_bg.tscn").instantiate()
 		warning.button_space	= 20.0
 		warning.popup_warning 	= ""
 		warning.popup_yes 		= Text.pr("New card");
@@ -753,7 +734,6 @@ func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
 			B2_Playerdata.character_tarot_cards = cc_tarot.card_index ## picked Cards
 			await get_tree().create_timer(1.5).timeout
 			
-			cc_tarot.queue_free()
 			wiz_gumball()
 			return
 			
@@ -767,16 +747,255 @@ func wiz_gumball():
 		fade_texture.color.a = 0.0
 		var t_tween := create_tween()
 		t_tween.tween_property( fade_texture, "color:a", 1.0, timer_alpha_in )
+		cc_tarot.queue_free() ## Cleanup
 		t_tween.tween_callback( add_child.bind(cc_gumball) )
 		t_tween.tween_property( fade_texture, "color:a", 0.0, timer_alpha_in )
 		await t_tween.finished
 		fade_texture.hide()
 		
-		breakpoint
-	pass
+		## Gumball vars (maybe unneeded)
+		var cc_quarter_choice = false;
+		var quarter_scale = 0;
+		var gumball_coin := false; ## // If 1 you took coin ## you got the coin, but chose not to use it.
+		var gumball_abstain := false; ## // If 1 you abstained ## You denied the gumball. absolute madlad.
+		var gumball_animation = 0;
+		var gumball = 0;
+		var gumball_choice := -1; ## // was 0;
+		
+		cc_textbox.display_text( Text.pr( "You are a candy enthusiast - am I correct? Ah,#yes... a gumball lover! Surely you'd like a gumball,#wouldn't you?" ) )
+		await cc_textbox.finished_typing
+		cc_textbox.display_question( Text.pr( "What do you say, do you want a gumball?" ), "Yes", "No" )
+		var choice = await cc_textbox.awnsered_question
+		if choice:
+			# Take the gumball
+			cc_textbox.display_text( Text.pr( "Ah, I thought so! I also enjoy the occasional#gumball. Here, take this quarter. It will aid your#endeavor to acquire a gumball." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+			cc_gumball.show_quarter()
+			await cc_gumball.quarter_anim_finished
+			
+			var warning 			= preload("res://barkley2/scenes/CC/warning_bg.tscn").instantiate()
+			warning.popup_color		= Color.RED
+			warning.button_space	= 20.0
+			warning.popup_warning 	= Text.pr("WARNING!##Only one quarter remaining.#Continue anyway?")
+			warning.popup_yes 		= Text.pr("Yes");
+			warning.popup_no 		= Text.pr("No");
+			add_child(warning)
+			
+			## TODO quarter animation
+			
+			var quarter_choice : bool = await warning.choice_has_been_made # false ## false is TEMP. TODO add quarter choice
+			if quarter_choice:
+				# Use the quarter
+				## TODO add gumball animation
+				cc_gumball.drop_gumball()
+				var ball_chosen : int = await cc_gumball.gumball_anim_finished
+				
+				match ball_chosen:
+					0: ## // Werthers //
+						cc_textbox.display_text( Text.pr( "How fortunate you are! This butterscotch gumball#has a delectable caramel flavor. It also shares#a color with a fabled candy: Werther's Original.#Imagine, a Werther's Original gumball..." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_text( Text.pr( "If only we could be so blessed!" ) )
+						await cc_textbox.finished_typing
+						## TODO
+						
+					1: ## // Foul //
+						cc_textbox.display_text( Text.pr( "Disgusting... an ancient, weathered gumball,#wearing scars earned from millenia of erosion#and decay." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "This antediluvian gumball is surely a cursed relic#which will bring about misfortune. Shall I destroy it?" ), Text.pr("Destroy the gumball immediately!"), Text.pr("I want to keep this gumball") ) ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						gumball_choice = flavor_choice
+						
+						if flavor_choice: # // Foul destroy //
+							cc_textbox.display_text( Text.pr( "Good. Such a foul gumball should not be permitted#to exist!" ) )
+							await cc_textbox.finished_typing
+						else: # // Foul keep //
+							cc_textbox.display_text( Text.pr( "You fool! No good can come from that ball..." ) )
+							await cc_textbox.finished_typing
+						
+					2: ## // Transparent //
+						cc_textbox.display_text( Text.pr( "How curious, a fully transparent gumball. What#magic or natural processes created this gumball#may never be known, but we've been given a rare#window into an heretofore unseen microcosm." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_text( Text.pr( "A truly priceless artifact for any gumball hobbyist#or scholar." ) )
+						await cc_textbox.finished_typing
+						## TODO
+						
+					3: ## // Winner //
+						cc_textbox.display_text( Text.pr( "Congratulations, child! The recipient's ownership#and then subsequent forfeiture of this WINNER#gumball to a contest organizer entitles the#recipient to one prize." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_text( Text.pr( "Let it be known, you're in a very enviable position#while you possess this gumball." ) )
+						await cc_textbox.finished_typing
+						## TODO
+						
+					4: ## // Steel //
+						cc_textbox.display_text( Text.pr( "How did that get there?... a solid steel gumball! I#don't envy your pockets, youngster! Let's hope#they're double-stitched if they're going to be#laden with this weighty gumball." ) )
+						await cc_textbox.finished_typing
+						## TODO
+						
+					5: ## // Red //
+						cc_textbox.display_text( Text.pr( "Nothing makes you feel young again quite like a red#gumball. This sanguine gumball arouses slumbering#memories with its bold looks and classic fruit#flavor." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "What gumball from your past do you wish to#remember?" ), Text.pr("Strawberry"), Text.pr("Cherry")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Red - Strawberry //
+							cc_textbox.display_text( Text.pr( "Delicious choice. But keep in mind, the delicate skin#of a strawberry gumball can bruise easily from the#slightest impact. I think you need to chew it,#pronto." ) )
+							await cc_textbox.finished_typing
+						else: # // Red - Cherry //
+							cc_textbox.display_text( Text.pr( "So, you prefer the complex, dusky taste of a#cherry gumball, do you? I can tell you made that#choice after much deliberation, my child. Your#wrinkled brow betrays your consternation." ) )
+							await cc_textbox.finished_typing
+							cc_textbox.display_text( Text.pr( "Thankfully, the act of making any decision at all#usually lightens the burden." ) )
+							await cc_textbox.finished_typing
+							
+						## TODO
+						
+					6: ## // Yellow //
+						cc_textbox.display_text( Text.pr( "A gleaming gumball, the color of the sun. It would#be prudent to expect a bright, perhaps illuminating#flavor from a yellow gumball. It is nearing dawn.#Take it in your hand." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "You should feel your hopes rising with the sun.#What flavor are your hopes set on?" ), Text.pr("Banana"), Text.pr("Lemon")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Yellow - banana //
+							cc_textbox.display_text( Text.pr( "Then I trust that's what you'll find, youngster.#Banana is a common flavor in the gumball canon.#It's banana, undoubtedly." ) )
+							await cc_textbox.finished_typing
+						else: # // Yellow - Lemon //
+							cc_textbox.display_text( Text.pr( "So, you prefer the complex, dusky taste of a#cherry gumball, do you? I can tell you made that#choice after much deliberation, my child. Your#wrinkled brow betrays your consternation." ) )
+							await cc_textbox.finished_typing
+							cc_textbox.display_text( Text.pr( "Interesting. Even... quite interesting. A lemon#gumball... by Clispaeth..." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					7: ## // Blue //
+						cc_textbox.display_text( Text.pr( "What a splendid find! Your new blue gumball#glitters on the horizon like the Ishtar Gate, a#timeless monument of flavor. What fruit is depicted#in the bas-relief adorning this mighty gumball?" ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "What flavor do you expect thig gumball to be?" ), Text.pr("Blueberry"), Text.pr("Raspberry")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Blue - Blueberries //
+							cc_textbox.display_text( Text.pr( "Right you are. The chaotic war scenes on the south#side of the gumball transition through detailed#scenes of manufacturing and eventually tranquil#depictions of domestic life in antiquity." ) )
+							await cc_textbox.finished_typing
+							cc_textbox.display_text( Text.pr( "That each of these scenes revolves around#blueberries is a testament to their vast economic#clout, and this sculpture's hidden truth." ) )
+							await cc_textbox.finished_typing
+						else: # // Blue - Raspberries //
+							cc_textbox.display_text( Text.pr( "Indeed, indeed. The pastoral scenes that grace#this indigo treat clearly depict blue raspberries." ) )
+							await cc_textbox.finished_typing
+							cc_textbox.display_text( Text.pr( "In particular, the sculptures of villagers casting#lots demonstrates the ritual and legal importance#of the blue raspberry to early civilization." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					8: ## // White //
+						cc_textbox.display_text( Text.pr( "A white gumball, nature's pearl. Some say this#shimmering husk is all that remains of a gumball#when its flavor has been fully drained. They're#commonly derided as 'dead gumbs'." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "But what say you, my child? Examine the gumball.#How much flavor still remains?" ), Text.pr("There is no flavor left"), Text.pr("There is still flavor left")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // White - No flavor //
+							cc_textbox.display_text( Text.pr( "Your supposition is almost certainly correct,#youngster. It's doubtful there's even a single#flavor to be found in this, the palest gumball." ) )
+							await cc_textbox.finished_typing
+						else: # // White - Flavor //
+							cc_textbox.display_text( Text.pr( "I trust your keen senses. If you suspect the#presence of a flavor locked within this alabastrine#gumball, I'll take your word for it." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					9: ## // Green //
+						cc_textbox.display_text( Text.pr( "Ah, look what we have here! A deep green gumball.#The color of vegetation and nature... this gumball#must be a fruit! But I shall let you tell me what#the flavor is." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "So youngster, which fruit flavor lies inside this#ball?"  ), Text.pr("Apple"), Text.pr("Watermelon")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Green - Apple //
+							cc_textbox.display_text( Text.pr( "Yes, chomping into this sour apple gumball will#deliver an extremely satisfying noise and an#equally satisfying crunch, but its tartness will#surely pucker your lips. Be wary, little one." ) )
+							await cc_textbox.finished_typing
+						else: # // Green - Watermelon //
+							cc_textbox.display_text( Text.pr( "Yes, yes of course! The green carapace of this#gumball belies a juicy red interior. Perhaps there#are even seeds in a watermelon gumball. You could#be the first one to find out." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					10: ## // Orange //
+						cc_textbox.display_text( Text.pr( "An orange gumball... tasty, but rather predictable.#What else could an orange gumball be but an orange#gumball? You have both a refined palate and a#refined palette, youngster." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "Tell me, how do you suspect this gumball tastes?#Like the fruit or like the color?"  ), Text.pr("Orange, the fruit"), Text.pr("Orange, the color")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Orange - fruit //
+							cc_textbox.display_text( Text.pr( "Bergamot, blood, Valencia! mandarin, navel,#satsuma!... unfortunately none of these fruits#carry the smoky bouquet or fresh herbal notes of#orange, the color. All in all, a poor choice." ) )
+							await cc_textbox.finished_typing
+						else: # // Orange- Color //
+							cc_textbox.display_text( Text.pr( "You're quite right, this gumball burns with radiant#orange color! The flavor in this gumball is#unmistakeable. Its the crisp bite and inimitable#vibrancy of the color orange." ) )
+							await cc_textbox.finished_typing
+							cc_textbox.display_text( Text.pr( "I'm extremely pleased with this outcome." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					11: ## // Black //
+						cc_textbox.display_text( Text.pr( "A magnificent black gumball. These gumballs are#known to plumb the depths of flavor, finally#returning to the surface with impossible bounties." ) )
+						await cc_textbox.finished_typing
+						cc_textbox.display_question( Text.pr( "What bounty do you suspect lurks inside this#gumball?"  ), Text.pr("Liquorice"), Text.pr("Coffee")  )  ## question
+						var flavor_choice : bool = await cc_textbox.awnsered_question
+						
+						if flavor_choice: # // Black - Liquorice //
+							cc_textbox.display_text( Text.pr( "Hmm, you've picked a very heady flavor, licorice.#Few in the world have the intelligence and will to#fully 'grok' its intricacies. I hope you know what#you're getting yourself into, youngster." ) )
+							await cc_textbox.finished_typing
+						else: # // Black - Coffee //
+							cc_textbox.display_text( Text.pr( "I could tell you were a coffee lover, just like#myself. I surmise this jack'd gumball is just the#pick-me-up you'll need for the travails that await#you." ) )
+							await cc_textbox.finished_typing
+						## TODO
+						
+					12: ## // Grape //
+						cc_textbox.display_text( Text.pr( "Oh Lord, do I ever want that grape gumball. How#I long for that grape gumball! Looks like you know#my weakness now, youngster. Please... let's move#on." ) )
+						await cc_textbox.finished_typing
+						## TODO
+						
+						
+				
+			else:
+				# Do not use the quarter
+				cc_textbox.display_text( Text.pr( "Oh... you have changed your mind? That is very#interesting... By denying yourself this delicious#treat, you have shown me what incredible restraint#you possess." ) )
+				await cc_textbox.finished_typing
+				gumball_coin = true
+		else:
+			# Deny the gumball
+			cc_textbox.display_text( Text.pr( "Oh... excuse me. I thought you were a candy#well-wisher, but it seems I was mistaken. I#apologize for the error..." ) )
+			await cc_textbox.finished_typing
+			gumball_abstain = true
+			cc_textbox.texbox_hide()
+			## TODO end sequence
+	
+		cc_textbox.texbox_hide()
+		## save data
+		B2_Playerdata.character_gumball = gumball_choice ## Save gumball
+		
+		if gumball_abstain:
+			B2_Playerdata.quests("playerCCGumball", "Abstain")
+		if gumball_coin:
+			B2_Playerdata.quests("playerCCGumball", "Special Coin")
+			
+		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumExt[gumball_choice] )
+		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumNam[gumball_choice] )
+	
+	await darken_screen( true )
+	breakpoint
+	
 	
 	##breakpoint
 		
+func darken_screen( action : bool ):
+	if action:
+		fade_texture.show()
+		fade_texture.color.a = 0.0
+		var z_tween := create_tween()
+		z_tween.tween_property(fade_texture, "color:a", 1.0, timer_alpha_in )
+		await z_tween.finished
+		return
+	else:
+		fade_texture.color.a = 1.0
+		var z_tween := create_tween()
+		z_tween.tween_property(fade_texture, "color:a", 0.0, timer_alpha_in )
+		await z_tween.finished
+		fade_texture.hide()
+		return
 		
 #text[1] = "Tell me about yourself... Yes, your name... What is#your name?";   
 #text[2] = "Yes, an ancient name... a noble name. It has been#some time since I've heard that name. And yet, I#knew you carried it as soon as I laid eyes on you.";
