@@ -338,6 +338,8 @@ func wiz_gender():
 		
 		add_child(cc_gender)
 		await cc_gender.accept_pressed
+		await get_tree().create_timer(1.5).timeout
+		
 	wiz_alignment()
 		
 func wiz_alignment():

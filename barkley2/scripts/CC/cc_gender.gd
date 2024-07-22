@@ -167,7 +167,7 @@ func check_selected_genders():
 	#Quest("playerCCGender", genderRaw);
 	#Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw));
 	
-	B2_Playerdata.character_gender = selected_genders
+	B2_Playerdata.character_gender = selected_genders ## TODO save this setting to profile
 	genderbox_hide()
 		
 func genderbox_hide():
