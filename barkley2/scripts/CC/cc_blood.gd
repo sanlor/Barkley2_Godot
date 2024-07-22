@@ -84,6 +84,5 @@ func toggle_buttons( selected_node : TextureRect ):
 func blood_hide():
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
-	await tween.finished
-	accept_pressed.emit()
-	queue_free()
+	tween.tween_callback( emit_signal.bind("accept_pressed") )
+	tween.tween_callback( queue_free )

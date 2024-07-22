@@ -39,6 +39,7 @@ var curr_typing_speed := normal_typing
 
 var type_timer := 0.0
 var can_type := false
+var is_typing := false
 
 ## Question stuff
 var is_question := false
@@ -78,12 +79,13 @@ func _process(delta):
 		
 		if textbox.visible_ratio == 1.0:
 			can_type = false
+			wizard_cc.wizard_is_silent()
 			
 			if is_question:
 				_type_questions()
 			else:
 				await input_pressed # we dont wait for inputs on questions
-			wizard_cc.wizard_is_silent()
+				
 			finished_typing.emit()
 		
 func _init_textbox():
@@ -95,21 +97,27 @@ func texbox_show():
 	modulate = Color.TRANSPARENT
 	show()
 	var tween := create_tween()
-	tween.tween_property(self, "modulate", Color.WHITE, 0.25)
+	tween.tween_property(self, "modulate", Color.WHITE, 0.10)
 	await tween.finished
 	
 ## Text box tweens out.
 func texbox_hide():
 	var tween := create_tween()
-	tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.25)
+	tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.10)
+	tween.tween_callback( hide )
 	await tween.finished
-	textbox.text = ""
-	hide()
+	can_type = false
+	await get_tree().create_timer(0.10).timeout
+	return
 	
 func display_text( text : String): # Remember to pre-process the text via Text.pr() before sending it here.
+	if can_type:
+		breakpoint
+		
 	get_parent().move_child( self, -1 ) # make sure that the text box is always on top of the tree.
 	if not visible:
 		texbox_show()
+		
 	textbox.text = text
 	textbox.visible_characters = 0
 	type_timer = textbox_pause * curr_typing_speed
@@ -122,6 +130,10 @@ func display_question( text : String, _option1 : String, _option2 : String): # R
 	display_text( text )
 	
 func _type_next_letter(delta):
+	if not visible:
+		push_error("The text box is bugging out! carefull with the timing of the hide and show tweens.")
+		texbox_show()
+		
 	if type_timer > 0.0: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
@@ -164,22 +176,6 @@ func _type_questions():
 	is_question = false
 	awnsered_question.emit( choice )
 	
-func _on_default_type_timer_timeout():
-	if textbox.visible_ratio == 1.0:
-		pass
-		
-	#default_type_timer.start( (textbox_pause + add_wait) * curr_typing_speed )
-	
-#draw_sprite_ext(s_cc_textbox_backdrop, 0, view_xview + 12, view_yview + 170, 1, 1, 0, o_cc_data.color_textbox, alpha_textbox);
-#draw_sprite_ext(s_cc_textbox_frames, 0, 192, 198, 1, 1, 0, c_white, alpha_textbox * 2);
-#
-#// Text for texboxes //
-#draw_set_color(c_white);
-#draw_set_alpha(alpha_textbox * 2);
-#draw_set_font(global.fn_2);
-#draw_set_halign(fa_left);
-#draw_set_valign(fa_top);
-#draw_text(21, 176, textbox_written);
 
 
 

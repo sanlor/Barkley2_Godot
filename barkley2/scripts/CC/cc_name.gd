@@ -171,6 +171,7 @@ func namebox_show():
 func namebox_hide():
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
+	tween.tween_interval(1.0)
 	await tween.finished
 	name_entered.emit()
 	queue_free()

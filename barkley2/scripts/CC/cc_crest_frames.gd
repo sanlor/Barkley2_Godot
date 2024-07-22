@@ -8,14 +8,16 @@ var brush_size		:= Vector2( 6, 6 )
 
 var sound_playing := false
 var sound_stream : AudioStreamPlayer
+var can_draw := false
 
 func _ready():
 	@warning_ignore("narrowing_conversion")
+	get_parent().fade_finished.connect( func(): can_draw = true )
 	image_canvas = Image.create( image_size.x, image_size.y, false, Image.FORMAT_RGBA8)
 	image_canvas.fill( Color.TRANSPARENT )
 
 func _physics_process(_delta):
-	if Input.is_action_pressed("Action"):
+	if Input.is_action_pressed("Action") and can_draw:
 		if Rect2(global_position, image_size).has_point( get_global_mouse_position() ):
 			var brush_pos := get_global_mouse_position() - global_position
 			for x in brush_size.x:

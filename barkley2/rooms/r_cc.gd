@@ -144,7 +144,7 @@ func wiz_zodiac_input():
 func wiz_zodiac_pos_dialog():
 	if not skip_zodiac_pos_dialog:
 		# holy shit, I hate this! vvvvvv
-		assert( B2_Playerdata.character_zodiac in range(1,12) )
+		assert( B2_Playerdata.character_zodiac in range(1,13) )
 		match B2_Playerdata.character_zodiac: # Should be 1 to 12
 			1:
 				cc_textbox.display_text( Text.pr( "Ahh, the brash Aries, boastful to a fault, quick to#anger... but steadfastly loyal, you put your#companions before yourself." ) )
@@ -230,6 +230,8 @@ func wiz_zodiac_pos_dialog():
 				
 				cc_textbox.display_text( Text.pr( "But you do not walk the path ahead of you alone.#Can you learn to fight for those beside you? Can the#shield fight without the sword?" ) )
 				await cc_textbox.finished_typing
+			_:
+				breakpoint
 				
 		var china = floor( B2_Playerdata.character_zodiac_year % 10 ) ## china = floor(year mod 10);
 		match china: 
@@ -318,12 +320,14 @@ func wiz_blood():
 		await get_tree().create_timer(1.0).timeout
 		add_child( cc_blood )
 		await cc_blood.accept_pressed
-		remove_child( cc_blood )
+		#remove_child( cc_blood )
 		await get_tree().create_timer(1.0).timeout
 		
 		cc_textbox.display_text( Text.pr( "Yes, yes... the blood of warriors, the blood of kings.#Your heritage is one of greatness and it confers in#you much strength. Perhaps enough to save us all..." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+		await get_tree().create_timer(1.0).timeout
+		
 	wiz_gender()
 
 func wiz_gender():
@@ -473,6 +477,8 @@ func wiz_alignment_questions():
 				cc_textbox.display_text( Text.pr( "Chaotic Evil is the alignment most found in#datamancers, B.I.O. guerrillas and techno#decapitators. Dracula and Popeye are both Chaotic#Evil." ) )
 				await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
+				
+	await get_tree().create_timer(1.0).timeout
 	wiz_crest()
 
 func wiz_crest():
@@ -490,6 +496,8 @@ func wiz_crest():
 		cc_textbox.display_text( Text.pr( "And perhaps... it portends an even greater future." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
+		
+	await get_tree().create_timer(1.0).timeout
 	wiz_tarot()
 		
 func wiz_tarot():
@@ -520,6 +528,7 @@ func wiz_tarot():
 		
 	else: 
 		cc_tarot.queue_free()
+		await get_tree().create_timer(1.0).timeout
 		wiz_gumball()
 		
 func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
@@ -747,7 +756,7 @@ func wiz_gumball():
 		fade_texture.color.a = 0.0
 		var t_tween := create_tween()
 		t_tween.tween_property( fade_texture, "color:a", 1.0, timer_alpha_in )
-		cc_tarot.queue_free() ## Cleanup
+		t_tween.tween_callback( cc_tarot.queue_free ) ## Cleanup
 		t_tween.tween_callback( add_child.bind(cc_gumball) )
 		t_tween.tween_property( fade_texture, "color:a", 0.0, timer_alpha_in )
 		await t_tween.finished
@@ -976,7 +985,9 @@ func wiz_gumball():
 		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumNam[gumball_choice] )
 	
 	await darken_screen( true )
-	breakpoint
+	
+	debug_end_cc()
+	#breakpoint
 	
 	
 	##breakpoint
@@ -997,6 +1008,8 @@ func darken_screen( action : bool ):
 		fade_texture.hide()
 		return
 		
+func debug_end_cc(): ## Debug action the the CC ends
+	get_tree().change_scene_to_file( "res://barkley2/rooms/r_title.tscn" )
 #text[1] = "Tell me about yourself... Yes, your name... What is#your name?";   
 #text[2] = "Yes, an ancient name... a noble name. It has been#some time since I've heard that name. And yet, I#knew you carried it as soon as I laid eyes on you.";
 #text[3] = "It is a name that bears much strength, but also#much sorrow. It is a name with a tragic history, a#glorious history. And it is a name with history yet#unwritten...";   

@@ -1,6 +1,9 @@
 extends CanvasLayer
 
+const R_CC = preload("res://barkley2/rooms/r_cc.tscn")
+
 @onready var r_title = $".."
+@onready var fade_out = $fade_out
 
 @onready var cc_button 		: B2_Border_Button = 		$CC_Button
 @onready var x1_button 		: B2_Border_Button = 		$X1_Button
@@ -71,8 +74,14 @@ func _on_return_button_button_pressed():
 	r_title.mode = "gameslot"
 	hide()
 
-func _on_cc_button_button_pressed():
-	show_notice()
+func _on_cc_button_button_pressed(): ## Open the CC. Good luck
+	#show_notice()
+	fade_out.show()
+	fade_out.modulate.a = 0.0
+	var tween := create_tween()
+	tween.tween_property(fade_out, "modulate:a", 1.0, 1.0)
+	tween.tween_interval(2.5)
+	tween.tween_callback( get_tree().change_scene_to_packed.bind(R_CC) )
 
 func _on_x_1_button_button_pressed():
 	show_notice()

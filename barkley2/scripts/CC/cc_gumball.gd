@@ -47,6 +47,7 @@ var gumNam : Array[String] ## Array of Gumball names
 var gumExt : Array[String] ## Array of Gumball Descriptions
 var gumCol : Array[Color] ## Array of Gumball Colors
 var gumSub : Array[CompressedTexture2D] ## Array of Gumball Textures
+var gumSub2 : Array[CompressedTexture2D] ## Array of large Gumball Textures
 
 var candle_offset := Vector2(0,-50)
 
@@ -57,6 +58,7 @@ func _ready():
 	gumNam.resize(13)
 	gumCol.resize(13)
 	gumSub.resize(13)
+	gumSub2.resize(13)
 	gumExt.resize(16)
 	
 #region gunNam
@@ -129,6 +131,21 @@ func _ready():
 	
 
 #endregion
+#region gumSub2
+	gumSub2[0] = S_CC_GUMBALL_LARGE_0
+	gumSub2[1] = S_CC_GUMBALL_LARGE_1
+	gumSub2[2] = S_CC_GUMBALL_LARGE_2
+	gumSub2[3] = S_CC_GUMBALL_LARGE_3
+	gumSub2[4] = S_CC_GUMBALL_LARGE_4
+	gumSub2[5] = S_CC_GUMBALL_LARGE_0
+	gumSub2[6] = S_CC_GUMBALL_LARGE_0
+	gumSub2[7] = S_CC_GUMBALL_LARGE_0
+	gumSub2[8] = S_CC_GUMBALL_LARGE_0
+	gumSub2[9] = S_CC_GUMBALL_LARGE_0
+	gumSub2[10] = S_CC_GUMBALL_LARGE_0
+	gumSub2[11] = S_CC_GUMBALL_LARGE_0
+	gumSub2[12] = S_CC_GUMBALL_LARGE_0
+#endregion
 
 #endregion
 	var drx := 0.0
@@ -179,7 +196,7 @@ func drop_gumball():
 	# add texture to sprites
 	gumball_anim.texture 				= gumSub[ chosen_gumball ]
 	gumball_anim.modulate 				= gumCol[ chosen_gumball ]
-	gumball_expand_sprite.texture 		= S_CC_GUMBALL_LARGE[ chosen_gumball ] # gumSub[ chosen_gumball ]
+	gumball_expand_sprite.texture 		= gumSub2[ chosen_gumball ] # gumSub[ chosen_gumball ]
 	gumball_expand_sprite.modulate 		= gumCol[ chosen_gumball ]
 	print( "gummball: ", chosen_gumball, " - ", gumNam[ chosen_gumball ] )
 	

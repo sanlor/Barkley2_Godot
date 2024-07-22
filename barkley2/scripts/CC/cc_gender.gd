@@ -149,25 +149,26 @@ func check_selected_genders():
 		var choice = await warning.choice_has_been_made
 		
 		if not choice:
+			# did not accept the gender limit. return.
 			return
 		
 	elif n == 0: ## This was disabled in the original code, I added it for fun.
 		B2_Sound.play("sn_cc_button_cancel")
 		push_warning("No gender selected. this should not be possible.")
 		return
-	else:
-		B2_Sound.play("sn_cc_button_accept")
-		r_cc.wizard_is_emoting()
-		
-		## TODO port this.
-		#// Get gender raw and gender name
-		#genderRaw = "";
-		#for (i=0; i<6; i+=1;) if (option_checked[i]) genderRaw += option[i];
-		#Quest("playerCCGender", genderRaw);
-		#Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw));
-		
-		B2_Playerdata.character_gender = selected_genders
-		genderbox_hide()
+	
+	B2_Sound.play("sn_cc_button_accept")
+	r_cc.wizard_is_emoting()
+	
+	## TODO port this.
+	#// Get gender raw and gender name
+	#genderRaw = "";
+	#for (i=0; i<6; i+=1;) if (option_checked[i]) genderRaw += option[i];
+	#Quest("playerCCGender", genderRaw);
+	#Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw));
+	
+	B2_Playerdata.character_gender = selected_genders
+	genderbox_hide()
 		
 func genderbox_hide():
 	var tween := create_tween()

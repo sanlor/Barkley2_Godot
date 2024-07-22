@@ -5,7 +5,7 @@ extends Control
 # You can press the right button to erase the paint.
 
 signal crest_finished
-
+signal fade_finished
 @onready var crest_frames = $crest_frames
 
 @onready var red_btn = $red_btn
@@ -20,7 +20,7 @@ signal crest_finished
 @onready var accept_btn = $accept_btn
 
 var drawn_something := false
-
+var can_draw := false
 var accept_is_hovering := false
 var selected_color	:= Color.RED
 
@@ -61,6 +61,7 @@ func crest_show():
 	modulate.a = 0
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 1.0, 1.0)
+	tween.tween_callback( emit_signal.bind( "fade_finished" ))
 
 func crest_hide():
 	var tween := create_tween()

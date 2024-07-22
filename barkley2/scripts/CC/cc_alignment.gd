@@ -375,6 +375,6 @@ func get_alignment():
 	animation_player.play("end_animation")
 	await animation_player.animation_finished
 	
-	input_finished.emit(false)
+	input_finished.emit( false )
 	queue_free()
 	
