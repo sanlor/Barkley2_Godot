@@ -112,7 +112,9 @@ func get_user_save_data( path : String ): ## retuyrn false if its invalid
 			return false
 	
 func set_user_save_data( path : String, value ):
-	assert(not usersavefile.is_empty(), "Game not loaded. No place to save.")
+	if usersavefile.is_empty():
+		push_error("Game not loaded. No place to save. discarting data: " + str(path) + " - " + str(value) )
+		return
 	
 	var temp_dict := usersavefile
 	var path_array := path.split(".")

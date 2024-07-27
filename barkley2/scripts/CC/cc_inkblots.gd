@@ -163,4 +163,4 @@ func fade_out():
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.5)
 	tween.tween_callback( emit_signal.bind("inkblot_finished") )
-	tween.tween_callback( queue_free )
+	#tween.tween_callback( queue_free )

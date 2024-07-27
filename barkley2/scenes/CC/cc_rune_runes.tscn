@@ -1,0 +1,118 @@
+[gd_scene load_steps=22 format=3 uid="uid://ckicd8kmtl7xy"]
+
+[ext_resource type="Shader" path="res://barkley2/resources/shaders/cc_rune_outline.gdshader" id="1_tkfbo"]
+[ext_resource type="Texture2D" uid="uid://bu6xa5d8fqyp8" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_8.png" id="2_ao2mt"]
+[ext_resource type="Texture2D" uid="uid://t0rm116m2vgw" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_9.png" id="3_4yd26"]
+[ext_resource type="Texture2D" uid="uid://4yphmuxvnb5r" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_10.png" id="4_h7h4e"]
+[ext_resource type="Texture2D" uid="uid://b7yc3n5rimifq" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_11.png" id="5_nh3a8"]
+[ext_resource type="Texture2D" uid="uid://cchof02fyvc3g" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_12.png" id="6_c075q"]
+[ext_resource type="Texture2D" uid="uid://bxok7np5sfw3x" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_13.png" id="7_1uxb0"]
+[ext_resource type="Texture2D" uid="uid://do1r87a4tepb0" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_14.png" id="8_6vrny"]
+[ext_resource type="Texture2D" uid="uid://ddgq435g6cxj1" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_15.png" id="9_38drn"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_rune_runes.gd" id="10_6thlo"]
+[ext_resource type="Texture2D" uid="uid://dvsbhgod4blns" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_0.png" id="11_0ygmo"]
+[ext_resource type="Texture2D" uid="uid://c851rcpi2rj57" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_1.png" id="12_crjdv"]
+[ext_resource type="Texture2D" uid="uid://q8fjlvilcped" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_2.png" id="13_djr7j"]
+[ext_resource type="Texture2D" uid="uid://c4qwrjy72pae5" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_3.png" id="14_vmw2u"]
+[ext_resource type="Texture2D" uid="uid://ctdtca5n40mnb" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_4.png" id="15_6b2xh"]
+[ext_resource type="Texture2D" uid="uid://dn7yorkcqb7i3" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_5.png" id="16_o61uh"]
+[ext_resource type="Texture2D" uid="uid://dv67tqw5dsfi0" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_6.png" id="17_4obm4"]
+[ext_resource type="Texture2D" uid="uid://bl46l2joec10i" path="res://barkley2/assets/b2_original/images/cc/s_cc_runes_7.png" id="18_t3q1a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f108m"]
+resource_local_to_scene = true
+shader = ExtResource("1_tkfbo")
+shader_parameter/is_enabled = false
+shader_parameter/thickness = 1.5
+shader_parameter/ring_count = 6
+shader_parameter/ring_offset = 1.0
+shader_parameter/outline_color = Color(1, 1, 1, 1)
+shader_parameter/border_clipping_fix = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/square_border = false
+shader_parameter/offset = Vector2(0, 0)
+shader_parameter/max_or_add = true
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_muqjf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ao2mt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4yd26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_h7h4e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nh3a8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_c075q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1uxb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6vrny")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_38drn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ufptc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_0ygmo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_crjdv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_djr7j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_vmw2u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_6b2xh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_o61uh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_4obm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_t3q1a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="cc_rune_runes" type="AnimatedSprite2D"]
+material = SubResource("ShaderMaterial_f108m")
+sprite_frames = SubResource("SpriteFrames_muqjf")
+script = ExtResource("10_6thlo")
+
+[node name="rune_top" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ufptc")
+
+[node name="mouse_detector" type="Control" parent="."]
+custom_minimum_size = Vector2(62, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -31.0
+offset_top = -32.0
+offset_right = 31.0
+offset_bottom = 32.0
+
+[connection signal="mouse_entered" from="mouse_detector" to="." method="_on_mouse_detector_mouse_entered"]
+[connection signal="mouse_exited" from="mouse_detector" to="." method="_on_mouse_detector_mouse_exited"]

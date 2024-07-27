@@ -94,7 +94,7 @@ func _ready():
 # // Quest("myQuest") - Returns value of myQuest
 # // Quest("myQuest", 1) - Sets value of myQuest
 
-func quests(key : String, value := ""):
+func Quest(key : String, value := ""):
 	var questpath = "quest.vars." + key;
 	
 	if value == "":

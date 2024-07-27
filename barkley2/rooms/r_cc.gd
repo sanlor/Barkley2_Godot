@@ -58,10 +58,11 @@ const CC_HAND_SCANNER 		= preload("res://barkley2/scenes/CC/cc_hand_scanner.tscn
 
 ## Placenta stuff
 var placenta_array := [ 
+	CC_RUNE,
 	CC_HAND_SCANNER,
 	CC_INKBLOTS,
 	CC_LOTTERY, 
-	CC_RUNE, 
+	 
 	]
 
 ## Timers //
@@ -1081,12 +1082,24 @@ func wiz_placenta_choice( placenta_id : int ):
 				)
 			var rune_choice : bool = await cc_textbox.awnsered_question
 			if rune_choice:		# "Yes."
+				cc_textbox.display_text( Text.pr( "A courageous answer. I will present to you my#modest collection. All you need to do is draw the#runestone you feel most attuned to. I wish you well,#youngster." ) ); await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
+				
+				my_placenta.show_runes()
+				await my_placenta.rune_selected
+				await get_tree().create_timer(1.0).timeout
+				
+				cc_textbox.display_text( Text.pr( "Ah, I hope the ancient wisdoms have enlightened#your path as much as they have mine." ) ); await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+				await get_tree().create_timer(1.5).timeout
+				
 				pass ## TODO
 			else:				# "Nah."
 				cc_textbox.texbox_hide()
 				await get_tree().create_timer(1.5).timeout ## little dramatic delay
 				cc_textbox.display_text( Text.pr( "Yes, maybe you are right. It has been said that#discretion is the better part of valor. Perhaps it#is best if the secrets of the runes remain#forgotten..." ) ); await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
+				await get_tree().create_timer(0.5).timeout
 		
 		"cc_lottery":
 			cc_textbox.display_text( Text.pr( "Throughout the ages, mankind has used the art of#calculus to explore geometry, physics, astronomy,#theology, the cornerstones of modern society,#science and candy." ) ); await cc_textbox.finished_typing
@@ -1192,6 +1205,7 @@ func wiz_placenta_choice( placenta_id : int ):
 			
 	## Restart the placenta proceadure
 	await darken_screen( true )
+	my_placenta.queue_free()
 	wiz_placenta()
 	
 func darken_screen( action : bool ):
