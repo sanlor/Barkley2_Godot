@@ -47,11 +47,15 @@ var character_gumball = 0;
 var character_stats_race = 0;
 #for (i=0; i<9; i+=1;) character_dropdown_likes[i] = 0;
 #for (i=0; i<7; i+=1;) character_dropdown_favorites[i] = 0;
-#for (i=0; i<10; i+=1;) character_scanner[i] = 0;
-#for (i=0; i<16; i+=1;) character_inkblots[i] = 0;
 #for (i=0; i<44; i+=1;) character_multiple[i] = 0;
 #for (i=0; i<10; i+=1;) character_palm[i] = 0;
 #for (i=0; i<4; i+=1;) character_tarot[i] = 0;
+
+var character_dropdown_likes := Array()
+var character_dropdown_favorites := Array()
+var character_inkblots := Array()
+var character_scanner := Array() ## Hand scanner stats
+
 var character_stat_might = 1;
 var character_stat_guts = 1;
 var character_stat_acrobatics = 1; 
@@ -78,6 +82,12 @@ var character_zodiac_year1 = 0;
 ## Other shit ##
 var placenta_status = -1;
 var transition_timer = 25; ## was 14 (bhroom 190529))
+
+func _ready():
+	character_inkblots.resize( 16 )
+	character_scanner.resize( 10 )
+	character_dropdown_likes.resize( 9 )
+	character_dropdown_favorites.resize( 7 )
 
 ## This func replaces the Quests script.
 # /// Quest(name, value?);

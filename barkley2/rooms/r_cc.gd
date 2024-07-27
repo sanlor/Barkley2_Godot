@@ -26,6 +26,7 @@ extends Control
 @export var skip_crest := false
 @export var skip_tarot := false
 @export var skip_gumball := false
+@export var shuffle_placenta := true
 
 
 @onready var animation_player = $AnimationPlayer
@@ -48,6 +49,20 @@ extends Control
 @onready var cc_crest 		= preload("res://barkley2/scenes/CC/cc_crest.tscn").instantiate()
 @onready var cc_tarot 		= preload("res://barkley2/scenes/CC/cc_tarot.tscn").instantiate()
 @onready var cc_gumball 	= preload("res://barkley2/scenes/CC/cc_gumball.tscn").instantiate()
+@onready var cc_placenta 	= preload("res://barkley2/scenes/CC/cc_placenta.tscn").instantiate()
+
+const CC_RUNE 				= preload("res://barkley2/scenes/CC/cc_rune.tscn")
+const CC_LOTTERY 			= preload("res://barkley2/scenes/CC/cc_lottery.tscn")
+const CC_INKBLOTS 			= preload("res://barkley2/scenes/CC/cc_inkblots.tscn")
+const CC_HAND_SCANNER 		= preload("res://barkley2/scenes/CC/cc_hand_scanner.tscn")
+
+## Placenta stuff
+var placenta_array := [ 
+	CC_HAND_SCANNER,
+	CC_INKBLOTS,
+	CC_LOTTERY, 
+	CC_RUNE, 
+	]
 
 ## Timers //
 var timer_alpha_in 			= 10.0 / 10
@@ -64,13 +79,14 @@ func play_sfx(track_name : String):
 
 func _ready():
 	fade_texture.show()
-	#await get_tree().create_timer(8.0).timeout
 	
 	B2_Music.play			( "mus_charcreate" )
 	animation_player.play	( "wizard_intro" )
-	#var tween := create_tween()
-	#tween.tween_property(fade_texture, "modulate:a", 0.0, timer_alpha_in )
-	#B2_Sound.play("sn_cc_wizard_arms")
+	
+	# Shuffle placenta array.
+	if shuffle_placenta: # should always be on, unless debug.
+		placenta_array.shuffle()
+	
 	
 func wizard_is_talking():
 	cc_wizard_talk.show()
@@ -480,7 +496,7 @@ func wiz_alignment_questions():
 				await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
 				
-	await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.0).timeout
 	wiz_crest()
 
 func wiz_crest():
@@ -499,7 +515,7 @@ func wiz_crest():
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
 		
-	await get_tree().create_timer(1.0).timeout
+		await get_tree().create_timer(1.0).timeout
 	wiz_tarot()
 		
 func wiz_tarot():
@@ -527,10 +543,10 @@ func wiz_tarot():
 		cc_tarot.hide_cards()
 		await cc_tarot.cards_hidden
 		cc_tarot.card_selected.connect( wiz_tarot_parse_drawn_card )
-		
+		await get_tree().create_timer(1.0).timeout
 	else: 
 		cc_tarot.queue_free()
-		await get_tree().create_timer(1.0).timeout
+		
 		wiz_gumball()
 		
 func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
@@ -987,13 +1003,197 @@ func wiz_gumball():
 		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumNam[gumball_choice] )
 	
 	await darken_screen( true )
-	
-	debug_end_cc()
+	wiz_placenta()
+	#debug_end_cc()
 	#breakpoint
 	
+func wiz_placenta():
+	add_child( cc_placenta )
+	cc_placenta.next_stage()
+	await darken_screen( false )
+	var stage : int = cc_placenta.get_stage()
 	
-	##breakpoint
+#region note
+	#text_placenta[0] = "The cool days of Spring grow warmer as Summer#approaches. A gentle breeze tickles the budding#leaves of your branches."
+	#text_placenta[1] = "The rays of the sun shine down and nourish you#with their warmth. You grow stronger every day.";
+	#text_placenta[2] = "Your powerful branches caress the sky and provide#shade for others. A baby bird sings its first song#as it waits anxiously for its mother's return.";
+	#//text_placenta[3] = "Autumn's crisp winds tinge your leaves red and#orange. A young girl sits at your trunk and enjoys#the sweet apple you have given her."
+	#//text_placenta[4] = "The dry, crackly leaves at your venerable trunk#paint the ground a rusty brown. The leaves still#clinging to your branches shudder at the#impending cold of Winter."
+	#//text_placenta[5] = "Your leaves used to dance as they fell from your#branches, but now they plunge gracelessly to the#frosted ground. The birds that made their homes#in your barren arms are gone."
+	#text_placenta[3] = "Winter's bitter breath blows mercilessly against#your tired branches. The last of your leaves falls#silently to the cold earth."
+#endregion
+	
+	match stage:
+		0:
+			cc_textbox.display_text( Text.pr( "Your parents planted a seed with your placenta.#You are bound to this tree and its growth mirrors#your own. It bears your experience as rings, its#fruit, only as ripe as your spirit is wise." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Fertilize the tracts of your mind with knowledge,#till the folds of your brain with the plowshare of#contemplation." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "It is Spring, little tree, and your branches stretch#toward the sun as your potential awakens from the#seed. It is time to begin growing." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+		1:
+			cc_textbox.display_text( Text.pr( "The cool days of Spring grow warmer as Summer#approaches. A gentle breeze tickles the budding#leaves of your branches." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+		2:
+			cc_textbox.display_text( Text.pr( "The rays of the sun shine down and nourish you#with their warmth. You grow stronger every day." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+		3:
+			cc_textbox.display_text( Text.pr( "Your powerful branches caress the sky and provide#shade for others. A baby bird sings its first song#as it waits anxiously for its mother's return." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+		4:
+			cc_textbox.display_text( Text.pr( "Winter's bitter breath blows mercilessly against#your tired branches. The last of your leaves falls#silently to the cold earth." ) )
+			await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+	
+	cc_placenta.show_options()
+	var placenta_choice : bool = await cc_placenta.answer
+	
+	if placenta_choice:		# "Continue growing";
+		await darken_screen( true )
+		remove_child( cc_placenta )
+		wiz_placenta_choice( stage )
 		
+	else:					# "Begin living" - end CC
+		await darken_screen( true )
+		remove_child( cc_placenta )
+		debug_end_cc()
+	
+func wiz_placenta_choice( placenta_id : int ):
+	var my_placenta = placenta_array[ placenta_id ].instantiate()
+	add_child( my_placenta )
+	await darken_screen( false )
+	
+	match my_placenta.name:
+		"cc_rune":
+			cc_textbox.display_text( Text.pr( "In ages long past, shamans would draw their#strength from runestones, fossilized candies#passed on from grandpa to grandchild." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "The shamans used the powers of the runes to heal,#to curse, to smite foes, to communicate with the#dead, to perceive in ways inconceivable. The old#ways are gone, washed away in the tide of -" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "- modernity. And perhaps it is best that way. But#there yet exist fragments of the old ways,#scattered remnants of a life made obsolete by new#technologies and new beliefs." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "I possess a small collection of these runestones,#their power unknown even to me. Perhaps the#secrets contained within the runes can unlock the#secrets of the cosmos." ) ); await cc_textbox.finished_typing
+			
+			cc_textbox.display_question( 
+				Text.pr( "Or perhaps it is better it lies dormant. Would you#like to have one, " + str( B2_Playerdata.character_name ) + "?" ), 
+				Text.pr( "Yes." ), 
+				Text.pr( "Nah." ) 
+				)
+			var rune_choice : bool = await cc_textbox.awnsered_question
+			if rune_choice:		# "Yes."
+				pass ## TODO
+			else:				# "Nah."
+				cc_textbox.texbox_hide()
+				await get_tree().create_timer(1.5).timeout ## little dramatic delay
+				cc_textbox.display_text( Text.pr( "Yes, maybe you are right. It has been said that#discretion is the better part of valor. Perhaps it#is best if the secrets of the runes remain#forgotten..." ) ); await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+		
+		"cc_lottery":
+			cc_textbox.display_text( Text.pr( "Throughout the ages, mankind has used the art of#calculus to explore geometry, physics, astronomy,#theology, the cornerstones of modern society,#science and candy." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Ever since the ancient Babylonians carved the#embryo of mathematical understanding onto the#Plimpton 322 tablet, humans have sought to divine#universal truth through numbers." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "And indeed, numbers have revealed a great deal#about this existence. Let us see, " + str(B2_Playerdata.character_name) + ", what#the numbers will reveal about you." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			## TODO Lottery
+			
+			my_placenta.show_lottery()
+			await my_placenta.lottery_selected
+			await get_tree().create_timer(0.5).timeout
+			
+			cc_textbox.display_text( Text.pr( "Uh, yes. Great numbers. I can tell you've certainly#got a lot of... vigor. Yes, the numbers you picked#display your vigor. You are an extremely vigorous#person, maybe the most vigorous." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "That's what the numbers tell me. That's all they#say. Nothing else." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+		"cc_inkblots":
+			cc_textbox.display_text( Text.pr( "I'm going to show you a series of formless ink-blot#pictures. All you have to do is tell me the first#thing that comes to mind for each of these#pictures." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "It's very simple and perhaps even enjoyable." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+			my_placenta.show_inkblot()
+			await my_placenta.inkblot_finished
+			
+			cc_textbox.display_text( Text.pr( "Interesting... very interesting. The Rorschach test#does not fall strictly within the lines of traditional#soothsaying, but I believe modern psychology can#be a powerful and insightful tool to gauge the -" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( " - human psyche. Indeed, I have learned much from#this... and it is my hope that you have as well." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			await get_tree().create_timer(1.0).timeout
+			
+		"cc_hand_scanner":
+			# Show funky background
+			
+			## DEBUG! disable this.
+			# my_placenta.show_result()
+			# await my_placenta.results_shown
+			##
+			
+			cc_textbox.display_text( Text.pr( "The incredible bounds that technology makes have#never ceased to astound me, " + str(B2_Playerdata.character_name) + "." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "We have fully mapped and sequenced the human#genome in the past decade and our understanding#of genetics continues to grow expontentially." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Modern science is currently capable of scanning#an individual's DNA for potential medical issues,#genealogical quandaries and even posthuman#enhancement." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Although my abilities are modest, I too am able to#read your DNA and convert it into data." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "There are two ways I can read your DNA - through#the proprietary ToGTech Cranial Neurodeck implant#or by scanning the palm of your hand via your#computer's monitor." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_question( 
+				Text.pr( "Which method would you like to use?" ), 
+				Text.pr( "Use ToGTech Cranial Neurodeck" ), 
+				Text.pr( "Use Palm Scanner" ),
+				)
+			var handscanner_choice : bool = await cc_textbox.awnsered_question
+			await cc_textbox.texbox_hide()
+			
+			if handscanner_choice:			# "Use ToGTech Cranial Neurodeck"
+				cc_textbox.display_text( Text.pr( "The ToGTech Cranial Neurodeck will attempt to#transfer your genetic material to your computer#hardware through the serial port located at the#back of your cranial implant." ) ); await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "If your cranial USB is currently connected to the#computer, disconnect it immediately. Please do not#connect the cranial USB until you have been#prompted to do so." ) ); await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+				await get_tree().create_timer(0.25).timeout
+				
+				my_placenta.show_togtech_cranial()
+				await my_placenta.cranial_anim_finished
+				
+			# Always use "Use Palm Scanner" in the end.
+			cc_textbox.display_text( Text.pr( "Please place your hand inside the outline on the#center of your screen." ) ); await cc_textbox.finished_typing
+			# show hand scanner
+			my_placenta.show_handscanner()
+			
+			## TODO
+			cc_textbox.display_text( Text.pr( "It is alright if your hand does not fit the exact#contours of the on-screen hand, just try to align#it as precisely as possible. The system will now#attempt to detect your hand..." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			await get_tree().create_timer(0.25).timeout
+			
+			my_placenta.start_handscan()
+			await my_placenta.handscan_finished
+			
+			my_placenta.send_data() ## silly anim of some data being sent
+			await my_placenta.data_sent
+			
+			my_placenta.hide() # hide placenta temporarely
+			wizard_is_emoting() ## Not in the original, just some creative liberty.
+			
+			await get_tree().create_timer(0.5).timeout
+			
+			# say stuff
+			cc_textbox.display_text( Text.pr( "Greetings once again, " + str( B2_Playerdata.character_name ) + "!" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Your DNA results are in and have been thoroughly#analyzed. Here's a brief rundown of the most#important stats:" ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+			await get_tree().create_timer(0.5).timeout
+			
+			# show hand scan results
+			my_placenta.show()
+			my_placenta.show_result()
+			await my_placenta.results_shown
+			
+			my_placenta.hide() # hide placenta temporarely
+			await get_tree().create_timer(0.5).timeout
+			
+			# say more stuff
+			cc_textbox.display_text( Text.pr( "Ahhh, though the science of genetics is still in#its infancy, it has come a long way." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "To know one's past, to know the secrets of the#blood and those you've come from, is to know your#future." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "I hope this brief look into your DNA has been as#illuminating to you as it has to me..." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			await get_tree().create_timer(0.5).timeout
+			pass ## TODO
+			
+	## Restart the placenta proceadure
+	await darken_screen( true )
+	wiz_placenta()
+	
 func darken_screen( action : bool ):
 	if action:
 		fade_texture.show()
@@ -1012,7 +1212,3 @@ func darken_screen( action : bool ):
 		
 func debug_end_cc(): ## Debug action the the CC ends
 	get_tree().change_scene_to_file( "res://barkley2/rooms/r_title.tscn" )
-#text[1] = "Tell me about yourself... Yes, your name... What is#your name?";   
-#text[2] = "Yes, an ancient name... a noble name. It has been#some time since I've heard that name. And yet, I#knew you carried it as soon as I laid eyes on you.";
-#text[3] = "It is a name that bears much strength, but also#much sorrow. It is a name with a tragic history, a#glorious history. And it is a name with history yet#unwritten...";   
-#text[4] = "Now answer me these questions, " + o_cc_data.character_name + "."; 

@@ -1,0 +1,743 @@
+[gd_scene load_steps=37 format=3 uid="uid://cy0i246c8od23"]
+
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_e5jew"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_hand_scanner.gd" id="1_xhxjc"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_transition_scanner.gd" id="2_rej5h"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/cc_togtech_cranial.gd" id="4_fajub"]
+[ext_resource type="Texture2D" uid="uid://ccwv3dhhc3aw4" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_0.png" id="5_7d4m6"]
+[ext_resource type="Texture2D" uid="uid://byk3lvvo3d800" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_1.png" id="6_r31pi"]
+[ext_resource type="Texture2D" uid="uid://ceo685rosqppd" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_2.png" id="7_35pe2"]
+[ext_resource type="Texture2D" uid="uid://vw8v4plw7w6w" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_3.png" id="8_i3wbe"]
+[ext_resource type="Texture2D" uid="uid://cyqomkqtjtxu7" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_4.png" id="9_ro4ox"]
+[ext_resource type="Texture2D" uid="uid://bthxasuas5fod" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_5.png" id="10_imipp"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/hand_scanner_device.gd" id="11_751aw"]
+[ext_resource type="Texture2D" uid="uid://bxec6wiwvfp3i" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_0.png" id="11_iy1q6"]
+[ext_resource type="Texture2D" uid="uid://bwrumv5r8ibmr" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_1.png" id="12_kj2fv"]
+[ext_resource type="Texture2D" uid="uid://bdimcu4re7pjv" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_2.png" id="13_4pe0s"]
+[ext_resource type="Texture2D" uid="uid://bqvpsv3pojmpi" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_3.png" id="14_wgajg"]
+[ext_resource type="Texture2D" uid="uid://bfaey3q5flb6r" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_4.png" id="15_ds4mj"]
+[ext_resource type="Texture2D" uid="uid://d2o568s3kkl1k" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_5.png" id="16_hyfvb"]
+[ext_resource type="Texture2D" uid="uid://c2drxnx2oufeg" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_6.png" id="17_ueuec"]
+[ext_resource type="Texture2D" uid="uid://bbogdb52j06ll" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_7.png" id="18_obc3h"]
+[ext_resource type="Texture2D" uid="uid://du8pi4o2b2q3q" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_8.png" id="19_g8g0c"]
+[ext_resource type="Texture2D" uid="uid://b23qccrab5wjq" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_9.png" id="20_0u7q1"]
+[ext_resource type="Texture2D" uid="uid://bqwnbyuilb1st" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_0.png" id="21_fj5o8"]
+[ext_resource type="Texture2D" uid="uid://bkvj0368l1nud" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_beam_0.png" id="22_5il5b"]
+[ext_resource type="Texture2D" uid="uid://d2hdw1p0k6pmo" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_1.png" id="22_nbiai"]
+[ext_resource type="Script" path="res://barkley2/scripts/CC/hand_scanner_results.gd" id="25_kghhj"]
+[ext_resource type="Texture2D" uid="uid://cuv5b2doqsrxh" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_logo_0.png" id="26_ffxy7"]
+
+[sub_resource type="Animation" id="Animation_4j1px"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("togtech_cranial:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 136)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("togtech_cranial/togtech_text:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("togtech_cranial/togtech_anim:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("hand_scanner_device/hand_left:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-194, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hand_scanner_device/hand_right:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(190, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("hand_scanner_device/hand_left_bg:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-236, -7)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("hand_scanner_device/hand_right_bg:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(236, -7)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("hand_scanner_device/beam:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -100)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("hand_scanner_device/beam:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_v42f0"]
+resource_name = "cranial_scan"
+length = 25.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("togtech_cranial:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 24, 25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(386, 0), Vector2(386, 64), Vector2(386, 64), Vector2(386, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("togtech_cranial")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 6, 11, 16, 21),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"set_text_pos"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("togtech_cranial:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 24, 25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 136), Vector2(0, 104), Vector2(0, 104), Vector2(0, 136)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/path = NodePath("togtech_cranial:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("togtech_cranial/togtech_text:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("togtech_cranial/togtech_anim:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1, 24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_gfuvc"]
+resource_name = "handscan_scan"
+length = 0.5
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hand_scanner_device/beam:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -100), Vector2(0, 90)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hand_scanner_device/beam:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_grwl2"]
+resource_name = "hide_handscanner"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hand_scanner_device/hand_left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-194, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hand_scanner_device/hand_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(190, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hand_scanner_device/hand_left_bg:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-43, -7), Vector2(-236, -7)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("hand_scanner_device/hand_right_bg:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(44, -7), Vector2(236, -7)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hand_scanner_device")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"deactivate_device"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_1o3o7"]
+resource_name = "send_data"
+length = 25.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("togtech_cranial:size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 24, 25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(386, 0), Vector2(386, 64), Vector2(386, 64), Vector2(386, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("togtech_cranial")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1, 4, 8.1, 12.1, 16.1, 20),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"set_text_pos"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}, {
+"args": [],
+"method": &"next_text"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("togtech_cranial:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 24, 25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 136), Vector2(0, 104), Vector2(0, 104), Vector2(0, 136)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/path = NodePath("togtech_cranial:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("togtech_cranial/togtech_text:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1, 24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("togtech_cranial/togtech_anim:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(1, 24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_bse6d"]
+resource_name = "show_handscanner"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("hand_scanner_device/hand_left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-194, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("hand_scanner_device/hand_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(190, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("hand_scanner_device/hand_left_bg:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-236, -7), Vector2(-43, -7)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("hand_scanner_device/hand_right_bg:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(236, -7), Vector2(44, -7)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("hand_scanner_device")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"activate_device"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_62fqv"]
+_data = {
+"RESET": SubResource("Animation_4j1px"),
+"cranial_scan": SubResource("Animation_v42f0"),
+"handscan_scan": SubResource("Animation_gfuvc"),
+"hide_handscanner": SubResource("Animation_grwl2"),
+"send_data": SubResource("Animation_1o3o7"),
+"show_handscanner": SubResource("Animation_bse6d")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3coyc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_7d4m6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_r31pi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_35pe2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_i3wbe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ro4ox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_imipp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ohwpl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_iy1q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_kj2fv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_4pe0s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_wgajg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ds4mj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_hyfvb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ueuec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_obc3h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_g8g0c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_0u7q1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_obi1v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("11_iy1q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_kj2fv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_4pe0s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_wgajg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ds4mj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_hyfvb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ueuec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_obc3h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_g8g0c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_0u7q1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="cc_hand_scanner" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_e5jew")
+script = ExtResource("1_xhxjc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_62fqv")
+}
+
+[node name="cc_transition_scanner" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_rej5h")
+
+[node name="togtech_cranial" type="ColorRect" parent="."]
+visible = false
+clip_contents = true
+layout_mode = 0
+offset_top = 136.0
+offset_right = 386.0
+offset_bottom = 200.0
+color = Color(0, 0, 0, 1)
+script = ExtResource("4_fajub")
+
+[node name="togtech_text" type="Label" parent="togtech_cranial"]
+layout_mode = 0
+offset_top = 124.0
+offset_right = 384.0
+offset_bottom = 149.0
+text = "TEXT I GUESS"
+horizontal_alignment = 1
+
+[node name="togtech_anim" type="AnimatedSprite2D" parent="togtech_cranial"]
+position = Vector2(192, 154)
+sprite_frames = SubResource("SpriteFrames_3coyc")
+frame_progress = 0.800141
+
+[node name="hand_scanner_device" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_751aw")
+
+[node name="hand_bg" type="ColorRect" parent="hand_scanner_device"]
+visible = false
+layout_mode = 0
+offset_left = -87.0
+offset_top = -98.0
+offset_right = 93.0
+offset_bottom = 82.0
+color = Color(0, 0, 0, 1)
+
+[node name="hand_left_bg" type="AnimatedSprite2D" parent="hand_scanner_device"]
+modulate = Color(1, 1, 1, 0.75)
+position = Vector2(-236, -7)
+sprite_frames = SubResource("SpriteFrames_ohwpl")
+
+[node name="hand_right_bg" type="AnimatedSprite2D" parent="hand_scanner_device"]
+modulate = Color(1, 1, 1, 0.75)
+position = Vector2(236, -7)
+sprite_frames = SubResource("SpriteFrames_obi1v")
+
+[node name="beam" type="Sprite2D" parent="hand_scanner_device"]
+visible = false
+position = Vector2(0, -100)
+texture = ExtResource("22_5il5b")
+
+[node name="hand_left" type="Sprite2D" parent="hand_scanner_device"]
+position = Vector2(-194, 0)
+texture = ExtResource("21_fj5o8")
+
+[node name="hand_right" type="Sprite2D" parent="hand_scanner_device"]
+position = Vector2(190, 0)
+texture = ExtResource("22_nbiai")
+
+[node name="end_scan_message" type="Label" parent="hand_scanner_device"]
+visible = false
+layout_mode = 0
+offset_right = 60.0
+offset_bottom = 42.0
+theme = ExtResource("1_e5jew")
+text = "PRESS
+BUTTON
+TO
+CONTINUE"
+horizontal_alignment = 1
+
+[node name="hand_scanner_results" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_e5jew")
+script = ExtResource("25_kghhj")
+
+[node name="bg" type="ColorRect" parent="hand_scanner_results"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="bottom_bar" type="ColorRect" parent="hand_scanner_results"]
+layout_mode = 0
+offset_top = 220.0
+offset_right = 384.0
+offset_bottom = 240.0
+color = Color(0.0784314, 0.27451, 0.392157, 1)
+
+[node name="bottom_text" type="Label" parent="hand_scanner_results/bottom_bar"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 20.0
+text = "Page NAN out of 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="text_stuff" type="Control" parent="hand_scanner_results"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="logo" type="Sprite2D" parent="hand_scanner_results"]
+position = Vector2(192, 60)
+texture = ExtResource("26_ffxy7")

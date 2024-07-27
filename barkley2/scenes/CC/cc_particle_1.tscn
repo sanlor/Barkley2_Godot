@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://17ju2lwljq2s"]
+
+[ext_resource type="Texture2D" uid="uid://bdhjh2qgqfnhj" path="res://barkley2/assets/b2_original/images/gml_explosion.png" id="1_7q7b7"]
+
+[sub_resource type="Curve" id="Curve_r8ebi"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.67766, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_lh6iq"]
+curve = SubResource("Curve_r8ebi")
+
+[sub_resource type="Gradient" id="Gradient_slxq8"]
+offsets = PackedFloat32Array(0, 0.323383, 1)
+colors = PackedColorArray(0.11056, 2.77955e-06, 0.0881953, 1, 0.247546, 0.087917, 0.207594, 1, 0.282398, 0.100405, 0.236863, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5k1np"]
+gradient = SubResource("Gradient_slxq8")
+width = 10
+
+[sub_resource type="Curve" id="Curve_t1cff"]
+max_value = 4.0
+_data = [Vector2(0, 0.395604), 0.0, 0.0, 0, 0, Vector2(0.279476, 2.59341), 6.71062, 6.71062, 0, 0, Vector2(1, 4), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjjmb"]
+curve = SubResource("Curve_t1cff")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mfbk4"]
+particle_flag_disable_z = true
+spread = 180.0
+flatness = 0.5
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+tangential_accel_max = 100.0
+damping_max = 0.375
+scale_curve = SubResource("CurveTexture_fjjmb")
+color_ramp = SubResource("GradientTexture1D_5k1np")
+alpha_curve = SubResource("CurveTexture_lh6iq")
+
+[node name="Particle_1" type="GPUParticles2D"]
+position = Vector2(192, 120)
+amount = 256
+process_material = SubResource("ParticleProcessMaterial_mfbk4")
+texture = ExtResource("1_7q7b7")
+lifetime = 2.0
+preprocess = 5.0
+speed_scale = 0.5

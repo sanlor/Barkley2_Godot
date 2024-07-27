@@ -63,8 +63,11 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 - [x] o_cc_crest
 - [x] o_cc_tarot
 - [x] o_cc_gumball
-- [ ] o_cc_placenta1
-- [ ] o_cc_placenta2
-- [ ] o_cc_placenta3
-- [ ] o_cc_placenta4
-- [ ] o_cc_placenta5
+- [ ] o_cc_placenta
+	- [ ] o_cc_rune
+	- [x] o_cc_hand_scanner
+	- [x] o_cc_inkblots
+	- [ ] o_cc_multiple
+	- [ ] o_cc_palm_reading
+	- [x] o_cc_lottery
+	- [ ] o_cc_likes_favorites
