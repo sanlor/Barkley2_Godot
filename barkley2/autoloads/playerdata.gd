@@ -53,6 +53,7 @@ var character_stats_race = 0;
 
 var character_dropdown_likes := Array()
 var character_dropdown_favorites := Array()
+
 var character_inkblots := Array()
 var character_scanner := Array() ## Hand scanner stats
 

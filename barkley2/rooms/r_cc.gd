@@ -55,9 +55,11 @@ const CC_RUNE 				= preload("res://barkley2/scenes/CC/cc_rune.tscn")
 const CC_LOTTERY 			= preload("res://barkley2/scenes/CC/cc_lottery.tscn")
 const CC_INKBLOTS 			= preload("res://barkley2/scenes/CC/cc_inkblots.tscn")
 const CC_HAND_SCANNER 		= preload("res://barkley2/scenes/CC/cc_hand_scanner.tscn")
+const CC_LIKES_FAVORITES = preload("res://barkley2/scenes/CC/cc_likes_favorites.tscn")
 
 ## Placenta stuff
 var placenta_array := [ 
+	CC_LIKES_FAVORITES,
 	CC_RUNE,
 	CC_HAND_SCANNER,
 	CC_INKBLOTS,
@@ -1201,7 +1203,20 @@ func wiz_placenta_choice( placenta_id : int ):
 			cc_textbox.display_text( Text.pr( "I hope this brief look into your DNA has been as#illuminating to you as it has to me..." ) ); await cc_textbox.finished_typing
 			cc_textbox.texbox_hide()
 			await get_tree().create_timer(0.5).timeout
-			pass ## TODO
+			
+		"cc_likes_favorites":
+			cc_textbox.display_text( Text.pr( "I am going to give you a list of topics separated#into two categories - likes and favorites. For#each like, choose the item that you more prefer;#For favorites, even more so." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "I ask only that you respond candidly. The results#of this exercise depend on the complete veracity#of your answers. And besides, you don't need to#impress me. I'm already QUITE impressed." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			
+			my_placenta.show_likes()
+			await my_placenta.likes_n_favorites_selected
+			await get_tree().create_timer(0.5).timeout
+			## TODO
+			
+			cc_textbox.display_text( Text.pr( "Ahhh... your answers were quite intriguing.#Particularly provocative was your favorite sport.#Perhaps I misread you. You are indeed a youngster#of many facets.." ) ); await cc_textbox.finished_typing
+			cc_textbox.texbox_hide()
+			pass
 			
 	## Restart the placenta proceadure
 	await darken_screen( true )
