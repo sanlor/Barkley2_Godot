@@ -56,9 +56,11 @@ const CC_LOTTERY 			= preload("res://barkley2/scenes/CC/cc_lottery.tscn")
 const CC_INKBLOTS 			= preload("res://barkley2/scenes/CC/cc_inkblots.tscn")
 const CC_HAND_SCANNER 		= preload("res://barkley2/scenes/CC/cc_hand_scanner.tscn")
 const CC_LIKES_FAVORITES = preload("res://barkley2/scenes/CC/cc_likes_favorites.tscn")
+const CC_MULTIPLE = preload("res://barkley2/scenes/CC/cc_multiple.tscn")
 
 ## Placenta stuff
 var placenta_array := [ 
+	CC_MULTIPLE,
 	CC_LIKES_FAVORITES,
 	CC_RUNE,
 	CC_HAND_SCANNER,
@@ -396,7 +398,7 @@ func wiz_alignment_questions():
 			var tween := create_tween()
 			tween.tween_interval(5)
 			tween.parallel().tween_property(self, "modulate", Color.BLACK, 5.0)
-			tween.tween_property(self, "modulate:a", Color.TRANSPARENT, 5.0)
+			tween.tween_property(self, "modulate:a", 0.0, 5.0)
 			tween.tween_interval(2.5)
 			tween.tween_callback( get_tree().quit )
 			
@@ -1216,7 +1218,48 @@ func wiz_placenta_choice( placenta_id : int ):
 			
 			cc_textbox.display_text( Text.pr( "Ahhh... your answers were quite intriguing.#Particularly provocative was your favorite sport.#Perhaps I misread you. You are indeed a youngster#of many facets.." ) ); await cc_textbox.finished_typing
 			cc_textbox.texbox_hide()
+		
+		"cc_multiple":
+			cc_textbox.display_text( Text.pr( "You have been preoccupied with my crystal ball for#some time, youngster. Look deep inside. The visions#are vivid, are they not?" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Fear not, they are not real, only fragments of days#past, glances at the turning points in the lives of#others." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Perhaps these visions are a glimpse of your own#past, or a past that could have been." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Or maybe they are simply the products of whimsy,#the untamed creative energies of my magical orb,#a thing far beyond the reckoning of man." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Whatever these visions may be, I ask that you place#yourself in them, act without restraint and make#the choices that are most true to yourself..." ) ); await cc_textbox.finished_typing
+			await cc_textbox.texbox_hide()
+			
+			my_placenta.show_quiz()
+			var death = await my_placenta.finished_quiz
+			if death: # copy pasted from the alignment section
+				# stupid options, rarely seem by anione. took me about 1 hour to port with minimal effort.
+				var death_scene = cc_death.instantiate()
+				add_child(death_scene)
+				await death_scene.stopped_smoke
+				
+				cc_textbox.display_text( Text.pr( "And I had such great hopes for you... I suppose#we shall just have to wait for a new champion to#arise. Goodbye " + str( B2_Playerdata.character_name )+ "..." ) )
+				await cc_textbox.finished_typing
+				cc_textbox.texbox_hide()
+				
+				var tween := create_tween()
+				tween.tween_interval(5)
+				tween.parallel().tween_property(self, "modulate", Color.BLACK, 5.0)
+				tween.tween_property(self, "modulate:a", 0.0, 5.0)
+				tween.tween_interval(2.5)
+				tween.tween_callback( get_tree().quit )
+				
+				await tween.finished
+			
+			await get_tree().create_timer(0.5).timeout
+			
+			cc_textbox.display_text( Text.pr( "The visions are mysterious things, are they not?#I sometimes lose myself in them, exploring the#fragments of moments long gone, or perhaps that#never were." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "What truths can the choices we make reveal about#ourselves? And to what extent can a single choice#forever alter our F.A.T.E.? But the visions are,#after all, merely illusions..." ) ); await cc_textbox.finished_typing
+			await cc_textbox.texbox_hide()
+			await get_tree().create_timer(1.0).timeout
+			
+		"cc_palm_reading":
 			pass
+			
+		_: # catch all
+			breakpoint
 			
 	## Restart the placenta proceadure
 	await darken_screen( true )

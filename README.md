@@ -70,4 +70,4 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [ ] o_cc_multiple
 	- [ ] o_cc_palm_reading
 	- [x] o_cc_lottery
-	- [ ] o_cc_likes_favorites
+	- [x] o_cc_likes_favorites

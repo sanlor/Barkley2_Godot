@@ -53,6 +53,7 @@ var character_stats_race = 0;
 
 var character_dropdown_likes := Array()
 var character_dropdown_favorites := Array()
+var character_multiple := Array()
 
 var character_inkblots := Array()
 var character_scanner := Array() ## Hand scanner stats
@@ -89,6 +90,7 @@ func _ready():
 	character_scanner.resize( 10 )
 	character_dropdown_likes.resize( 9 )
 	character_dropdown_favorites.resize( 7 )
+	character_multiple.resize(44)
 
 ## This func replaces the Quests script.
 # /// Quest(name, value?);

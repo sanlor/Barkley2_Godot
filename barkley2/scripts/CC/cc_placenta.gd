@@ -19,8 +19,8 @@ var stage := -1 # should never go past 2 (or 4, depending on the debug setup)
 
 func _ready():
 	tree.frame = stage
-	continue_cc.global_position 	= Vector2(132,194)
-	live.global_position 			= Vector2(151,212)
+	#continue_cc.global_position 	= Vector2(132,194) - continue_cc.size / 2
+	#live.global_position 			= Vector2(151,212) - live.size / 2
 	
 func show_options():
 	if stage == 4:
