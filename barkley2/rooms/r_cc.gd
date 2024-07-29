@@ -55,18 +55,19 @@ const CC_RUNE 				= preload("res://barkley2/scenes/CC/cc_rune.tscn")
 const CC_LOTTERY 			= preload("res://barkley2/scenes/CC/cc_lottery.tscn")
 const CC_INKBLOTS 			= preload("res://barkley2/scenes/CC/cc_inkblots.tscn")
 const CC_HAND_SCANNER 		= preload("res://barkley2/scenes/CC/cc_hand_scanner.tscn")
-const CC_LIKES_FAVORITES = preload("res://barkley2/scenes/CC/cc_likes_favorites.tscn")
-const CC_MULTIPLE = preload("res://barkley2/scenes/CC/cc_multiple.tscn")
+const CC_LIKES_FAVORITES 	= preload("res://barkley2/scenes/CC/cc_likes_favorites.tscn")
+const CC_MULTIPLE 			= preload("res://barkley2/scenes/CC/cc_multiple.tscn")
+const CC_PALM_READING 		= preload("res://barkley2/scenes/CC/cc_palm_reading.tscn")
 
 ## Placenta stuff
 var placenta_array := [ 
+	CC_PALM_READING,
 	CC_MULTIPLE,
 	CC_LIKES_FAVORITES,
 	CC_RUNE,
 	CC_HAND_SCANNER,
 	CC_INKBLOTS,
 	CC_LOTTERY, 
-	 
 	]
 
 ## Timers //
@@ -1256,7 +1257,46 @@ func wiz_placenta_choice( placenta_id : int ):
 			await get_tree().create_timer(1.0).timeout
 			
 		"cc_palm_reading":
-			pass
+			var open_to_fate := true
+			cc_textbox.display_text( Text.pr( "There are those who believe that all events, past,#present and future, are determined by a force#called F.A.T.E., a force that imbues itself in all living#things and guides us to our ultimate, or as some -" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "- might say penultimate destiny. We have struggled#to understand and decipher and decrypt this#omnipresent cosmic compulsion through various#mystical mediums." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Mediums such as soothsaying, divination, augury,#clairvoyance." ) ); await cc_textbox.finished_typing
+			cc_textbox.display_text( Text.pr( "Tell me, " + str(B2_Playerdata.character_name) + ", do you believe that we can#learn our own F.A.T.E.?" ) ); await cc_textbox.finished_typing
+			cc_textbox.display_question( 
+				Text.pr( "Do you believe in F.A.T.E.?" ), 
+				Text.pr( "Yes" ), 
+				Text.pr( "No" ),
+				)
+			var palm_reading_choice : bool = await cc_textbox.awnsered_question
+			if not palm_reading_choice: # dont believe in FATE
+				cc_textbox.display_text( Text.pr( "Ahh, you don't believe. I see. But are you at least#open to the idea that that existence could be#governed by F.A.T.E.? You don't need to believe,#only to understand the concept." ) ); await cc_textbox.finished_typing
+				cc_textbox.display_question( 
+				Text.pr( "Are you open to the concept of F.A.T.E.?" ), 
+				Text.pr( "Yes" ), 
+				Text.pr( "No" ),
+				)
+				var open_palm_reading_choice : bool = await cc_textbox.awnsered_question
+				if not open_palm_reading_choice: # Not open to FATE
+					cc_textbox.display_text( Text.pr( "I cannot say for sure whether belief in F.A.T.E. is#a superstition or not." ) ); await cc_textbox.finished_typing
+					cc_textbox.display_text( Text.pr( "Surely there are forces at work in the cosmos#beyond the grasp of mortals, but to say that the#story of our lives is written before we are born#is discomforting." ) ); await cc_textbox.finished_typing
+					cc_textbox.display_text( Text.pr( "I understand. I will not pursue this line of#questioning any further." ) ); await cc_textbox.finished_typing
+					await cc_textbox.texbox_hide()
+					B2_Playerdata.Quest("playerCCPalm", "Abstain");
+					open_to_fate = false
+			
+			if open_to_fate:
+				B2_Playerdata.Quest("playerCCPalm", "Accepted");
+				cc_textbox.display_text( Text.pr( "There is one method of divination called palmistry -#the reading of the lines on one's hand. Show#me your hand. I can read the mandate of F.A.T.E.#on the flesh as one reads pages in a book." ) ); await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
+				
+				my_placenta.show_hands()
+				await my_placenta.finished_reading
+				
+				cc_textbox.display_text( Text.pr( "Many secrets... and many truths have been#revealed in this reading." ) ); await cc_textbox.finished_typing
+				cc_textbox.display_text( Text.pr( "Whether or not you choose to act on them is up to#you, but I would advise you to reflect deeply, for#we can only conquer our shortcomings by#accepting them first..." ) ); await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
+				
+			await get_tree().create_timer(1.0).timeout # dramatic delay
 			
 		_: # catch all
 			breakpoint

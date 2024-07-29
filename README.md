@@ -67,7 +67,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [x] o_cc_rune
 	- [x] o_cc_hand_scanner
 	- [x] o_cc_inkblots
-	- [ ] o_cc_multiple
+	- [x] o_cc_multiple
 	- [ ] o_cc_palm_reading
 	- [x] o_cc_lottery
 	- [x] o_cc_likes_favorites
