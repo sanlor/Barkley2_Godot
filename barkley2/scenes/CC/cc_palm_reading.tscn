@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cfpa5rqd5rr8"]
+[gd_scene load_steps=27 format=3 uid="uid://cfpa5rqd5rr8"]
 
 [ext_resource type="Script" path="res://barkley2/scripts/CC/cc_palm_reading.gd" id="1_nq6bj"]
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="2_1bhdf"]
@@ -24,6 +24,108 @@
 [ext_resource type="Texture2D" uid="uid://c3bcaibnmajbw" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_17.png" id="21_dcelr"]
 [ext_resource type="Texture2D" uid="uid://yvj4mqtnkuc4" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_18.png" id="22_8fw8y"]
 
+[sub_resource type="Animation" id="Animation_1o66a"]
+resource_name = "hand_in"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("s_cc_palm_hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(192, 375), Vector2(192, 120)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("banner:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("banner:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 2, 6, 7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"deactivate_lines"
+}, {
+"args": [],
+"method": &"activate_lines"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_q4gil"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("s_cc_palm_hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(192, 120)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("banner:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("banner:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_20fnw"]
+_data = {
+"RESET": SubResource("Animation_q4gil"),
+"hand_in": SubResource("Animation_1o66a")
+}
+
 [node name="cc_palm_reading" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -32,6 +134,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nq6bj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_20fnw")
+}
 
 [node name="bg" type="ColorRect" parent="."]
 layout_mode = 1
@@ -92,6 +199,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea3"]
 layout_mode = 3
+anchor_left = -0.0158103
 anchor_right = -0.0158103
 offset_left = -61.0
 offset_top = 57.0
@@ -107,7 +215,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea4"]
 layout_mode = 3
-anchor_top = 0.0148699
+anchor_top = -0.0185874
 anchor_right = 0.237154
 anchor_bottom = -0.0185874
 offset_left = -45.0
@@ -139,6 +247,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea6"]
 layout_mode = 3
+anchor_left = -0.0434783
 anchor_right = -0.0434783
 anchor_bottom = 0.070632
 offset_left = 20.0
@@ -156,6 +265,7 @@ script = ExtResource("5_4yko8")
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea7"]
 layout_mode = 3
 anchor_left = 0.0395257
+anchor_right = 0.0395257
 offset_left = 45.0
 offset_top = 49.0
 offset_right = 70.0
@@ -170,6 +280,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea8"]
 layout_mode = 3
+anchor_top = -0.0371747
 anchor_bottom = -0.0371747
 offset_left = 76.0
 offset_top = 46.0
@@ -230,6 +341,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea12"]
 layout_mode = 3
+anchor_top = -0.0334572
 anchor_bottom = -0.0334572
 offset_left = 29.0
 offset_top = -78.0
@@ -245,7 +357,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea13"]
 layout_mode = 3
-anchor_top = 0.0148699
+anchor_top = -0.0148699
 anchor_right = 0.0395257
 anchor_bottom = -0.0148699
 offset_left = 17.0
@@ -277,6 +389,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea15"]
 layout_mode = 3
+anchor_top = -0.0408922
 anchor_bottom = -0.0408922
 offset_left = -17.0
 offset_top = -58.0
@@ -292,6 +405,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea16"]
 layout_mode = 3
+anchor_top = -0.0483271
 anchor_bottom = -0.0483271
 offset_left = -20.0
 offset_top = -89.0
@@ -307,6 +421,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea17"]
 layout_mode = 3
+anchor_top = -0.0446097
 anchor_bottom = -0.0446097
 offset_left = -56.0
 offset_top = -41.0
@@ -322,6 +437,7 @@ script = ExtResource("5_4yko8")
 
 [node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea18"]
 layout_mode = 3
+anchor_top = -0.0408922
 anchor_bottom = -0.0408922
 offset_left = -64.0
 offset_top = -67.0
@@ -331,12 +447,14 @@ metadata/_edit_use_anchors_ = true
 
 [node name="banner" type="ColorRect" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
 offset_top = 102.0
 offset_right = 384.0
 offset_bottom = 134.0
 color = Color(0, 0, 0, 0.8)
 
-[node name="choose_your_x" type="Label" parent="banner"]
+[node name="question_banner" type="Label" parent="banner"]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8

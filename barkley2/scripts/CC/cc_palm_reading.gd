@@ -4,6 +4,10 @@ signal finished_reading
 # repeat (18) instance_create(192, 120, o_cc_palm_reading_area);
 
 @onready var s_cc_palm_hand_area = $s_cc_palm_hand/s_cc_palm_hand_area
+@onready var s_cc_palm_hand = $s_cc_palm_hand
+@onready var banner = $banner
+@onready var animation_player = $AnimationPlayer
+@onready var question_banner = $banner/question_banner
 
 var question_id 		:= -1 + randi_range(0,2);
 var questions_asked 	:= 0;
@@ -132,28 +136,38 @@ func _ready():
 	text_short[9] [3] = "";
 	
 #endregion
-	
+	show_hands()
+	#activate_lines()
 
 func show_hands():
-	
 	if not visible:
 		modulate.a = 0.0
-		#selection.modulate.a = 0.0
-		#quiz_text.modulate.a = 0.0
 		
 		var tween := create_tween()
 		tween.tween_callback( show )
 		tween.tween_property( self, "modulate:a", 1.0, 0.5)
 		tween.tween_interval( 1.5 )
-		#tween.tween_property( selection, "modulate:a", 1.0, 0.5)
-		#tween.parallel().tween_property( quiz_text, "modulate:a", 1.0, 0.5)
 		await tween.finished
+		
+	set_question()
+	animation_player.play( "hand_in" )
+	await animation_player.animation_finished
+
+func set_question():
+	question_banner.text = Text.pr( text_question[ question_id ] )
 	pass
 
 func selected_line( line_id : int):
+	print( line_id )
 	#Quest("playerCCLine" + string(question_id + 1), line_index);
 	pass
 
+func activate_lines():
+	get_tree().call_group("hand_lines", "change_activity", true)
+	
+func deactivate_lines():
+	get_tree().call_group("hand_lines", "change_activity", false)
+
 func _process(delta):
 	time_goes_on += delta
-	s_cc_palm_hand_area.modulate.a = ( sin( time_goes_on * 5.0) + PI ) / TAU
+	s_cc_palm_hand_area.modulate.a = 0.2 + ( sin( time_goes_on * 5.0) + 1 ) / 6
