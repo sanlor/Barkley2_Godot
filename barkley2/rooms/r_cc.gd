@@ -92,6 +92,10 @@ func _ready():
 	# Shuffle placenta array.
 	if shuffle_placenta: # should always be on, unless debug.
 		placenta_array.shuffle()
+		print("placenta_array: ", placenta_array)
+	else:
+		push_warning("placenta_array not being shuffled.")
+		
 	
 	
 func wizard_is_talking():
@@ -1066,7 +1070,8 @@ func wiz_placenta():
 	else:					# "Begin living" - end CC
 		await darken_screen( true )
 		remove_child( cc_placenta )
-		debug_end_cc()
+		#debug_end_cc()
+		cc_finish()
 	
 func wiz_placenta_choice( placenta_id : int ):
 	var my_placenta = placenta_array[ placenta_id ].instantiate()
@@ -1290,8 +1295,28 @@ func wiz_placenta_choice( placenta_id : int ):
 				await cc_textbox.texbox_hide()
 				
 				my_placenta.show_hands()
+				# number of readings
+				for i in 5:
+					var line : int = await my_placenta.selected_line
+					var question_id : int = my_placenta.question_id
+					var dialog := Array()
+					if line > 8:
+						dialog = my_placenta.text_short[ line - 8 ]
+					else:
+						dialog = my_placenta.text_long[ line ]
+						
+					for j : int in dialog.front(): # int
+						await get_tree().process_frame
+						cc_textbox.display_text( Text.pr( dialog[ j + 1 ] ) ); await cc_textbox.finished_typing
+						await cc_textbox.texbox_hide()
+						
+					if i != 4:
+						my_placenta.display_banner()
+						
+				my_placenta.hide_hands()
 				await my_placenta.finished_reading
 				
+				await get_tree().create_timer(1.0).timeout
 				cc_textbox.display_text( Text.pr( "Many secrets... and many truths have been#revealed in this reading." ) ); await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "Whether or not you choose to act on them is up to#you, but I would advise you to reflect deeply, for#we can only conquer our shortcomings by#accepting them first..." ) ); await cc_textbox.finished_typing
 				await cc_textbox.texbox_hide()
@@ -1305,6 +1330,28 @@ func wiz_placenta_choice( placenta_id : int ):
 	await darken_screen( true )
 	my_placenta.queue_free()
 	wiz_placenta()
+	
+func cc_finish():
+	#await darken_screen( true )
+	await get_tree().create_timer(1.0).timeout # dramatic delay
+	
+	cc_textbox.display_text( Text.pr( "And so it begins, " + str(B2_Playerdata.character_name) + "...#The promise has been made." ) ); await cc_textbox.finished_typing
+	await cc_textbox.texbox_hide( 1.75 )
+	
+	# end of CC event
+	B2_Music.play( "mus_blankTEMP" ) # stop music
+	var cc_finish_message = $cc_finish_message
+	cc_finish_message.modulate.a = 0.0
+	var tween := create_tween()
+	tween.tween_callback( cc_finish_message.show )
+	tween.tween_property(cc_finish_message, "modulate:a", 1.0, 1.0)
+	tween.tween_interval(5.0)
+	tween.tween_property(cc_finish_message, "modulate:a", 0.0, 1.0)
+	tween.tween_callback( cc_finish_message.hide )
+	await tween.finished
+	await cc_textbox.texbox_hide( 1.00 )
+	const R_WIP = preload("res://barkley2/rooms/r_wip.tscn") # original room!
+	get_tree().change_scene_to_packed( R_WIP )
 	
 func darken_screen( action : bool ):
 	if action:

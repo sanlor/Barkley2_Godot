@@ -1,6 +1,7 @@
 extends Control
 
 signal finished_reading
+signal selected_line( line )
 # repeat (18) instance_create(192, 120, o_cc_palm_reading_area);
 
 @onready var s_cc_palm_hand_area = $s_cc_palm_hand/s_cc_palm_hand_area
@@ -19,6 +20,7 @@ var text_short := Array()
 var time_goes_on := 0.0
 
 func _ready():
+	hide()
 	
 #region data
 	text_question.resize( 10 )
@@ -136,10 +138,13 @@ func _ready():
 	text_short[9] [3] = "";
 	
 #endregion
-	show_hands()
+	
+	#show_hands()
 	#activate_lines()
 
 func show_hands():
+	s_cc_palm_hand.position.y = 600
+	
 	if not visible:
 		modulate.a = 0.0
 		
@@ -148,19 +153,36 @@ func show_hands():
 		tween.tween_property( self, "modulate:a", 1.0, 0.5)
 		tween.tween_interval( 1.5 )
 		await tween.finished
-		
+	
 	set_question()
 	animation_player.play( "hand_in" )
 	await animation_player.animation_finished
 
-func set_question():
-	question_banner.text = Text.pr( text_question[ question_id ] )
-	pass
+func hide_hands():
+	animation_player.play("hand_out")
+	await animation_player.animation_finished
+	finished_reading.emit()
 
-func selected_line( line_id : int):
+func set_question():
+	question_id = clampi(question_id + 1, 0, 9)
+	question_banner.text = Text.pr( text_question[ question_id ] )
+
+func clicked_line( line_id : int):
 	print( line_id )
-	#Quest("playerCCLine" + string(question_id + 1), line_index);
-	pass
+	selected_line.emit( line_id )
+	deactivate_lines()
+	B2_Playerdata.Quest("playerCCLine" + str(question_id), str(line_id) );
+
+func display_banner():
+	set_question()
+	banner.modulate.a = 0.0
+	var tween := create_tween()
+	tween.tween_callback(banner.show)
+	tween.tween_property(banner, "modulate:a", 1.0, 0.5)
+	tween.tween_interval(5.0)
+	tween.tween_property(banner, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(banner.hide)
+	tween.tween_callback(activate_lines)
 
 func activate_lines():
 	get_tree().call_group("hand_lines", "change_activity", true)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://chautipuptxsr"]
+[gd_scene load_steps=30 format=3 uid="uid://chautipuptxsr"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_wtwdn"]
 [ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://d5qjkhlb21v0" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_talk_3.png" id="15_sms1u"]
 [ext_resource type="Texture2D" uid="uid://csbe7re716n5r" path="res://barkley2/assets/b2_original/images/cc/s_effect_smog_0.png" id="16_pogbg"]
 [ext_resource type="PackedScene" uid="uid://cepuphnto8jxf" path="res://barkley2/scenes/CC/cc_textbox.tscn" id="17_vgl63"]
+[ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="18_38wjk"]
 
 [sub_resource type="Animation" id="Animation_udt4g"]
 length = 0.001
@@ -190,7 +191,6 @@ skip_alignment_questions = true
 skip_crest = true
 skip_tarot = true
 skip_gumball = true
-shuffle_placenta = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -246,5 +246,25 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="cc_finish_message" type="Label" parent="."]
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("18_38wjk")
+text = "You don't need a reason to help people."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

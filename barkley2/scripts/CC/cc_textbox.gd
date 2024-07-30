@@ -101,13 +101,13 @@ func texbox_show():
 	await tween.finished
 	
 ## Text box tweens out.
-func texbox_hide():
+func texbox_hide( wait_time := 0.10 ):
 	var tween := create_tween()
-	tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.10)
+	tween.tween_property(self, "modulate", Color.TRANSPARENT, wait_time)
 	tween.tween_callback( hide )
 	await tween.finished
 	can_type = false
-	await get_tree().create_timer(0.10).timeout
+	await get_tree().create_timer(wait_time).timeout
 	return
 	
 func display_text( text : String): # Remember to pre-process the text via Text.pr() before sending it here.

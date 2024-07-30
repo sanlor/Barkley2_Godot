@@ -43,5 +43,5 @@ func _process(delta):
 	if is_active:
 		if is_hovering:
 			if Input.is_action_just_pressed("Action"):
-				cc_palm_reading.selected_line( index )
+				cc_palm_reading.clicked_line( index )
 				

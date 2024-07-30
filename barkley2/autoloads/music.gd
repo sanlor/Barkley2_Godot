@@ -167,7 +167,7 @@ func room_get( room_name : String):
 		_:
 			push_error("Invalid room name: ", room_name)
 
-func play( track_name : String, speed := 1.0 ):
+func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 
 #else if (argument[0] == "queue")

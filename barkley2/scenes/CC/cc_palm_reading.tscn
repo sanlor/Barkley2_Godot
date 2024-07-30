@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://cfpa5rqd5rr8"]
+[gd_scene load_steps=29 format=3 uid="uid://cfpa5rqd5rr8"]
 
 [ext_resource type="Script" path="res://barkley2/scripts/CC/cc_palm_reading.gd" id="1_nq6bj"]
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="2_1bhdf"]
+[ext_resource type="PackedScene" uid="uid://17ju2lwljq2s" path="res://barkley2/scenes/CC/cc_particle_1.tscn" id="2_8v1lw"]
 [ext_resource type="Texture2D" uid="uid://u0ix2kypjcec" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_0.png" id="3_x3vmc"]
 [ext_resource type="Texture2D" uid="uid://cap6bp38hxsiv" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_0.png" id="4_7gbs8"]
 [ext_resource type="Script" path="res://barkley2/scripts/CC/cc_palm_reading_area.gd" id="5_4yko8"]
@@ -23,6 +24,9 @@
 [ext_resource type="Texture2D" uid="uid://dmwm7c60fj5du" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_16.png" id="20_wdfp7"]
 [ext_resource type="Texture2D" uid="uid://c3bcaibnmajbw" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_17.png" id="21_dcelr"]
 [ext_resource type="Texture2D" uid="uid://yvj4mqtnkuc4" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_18.png" id="22_8fw8y"]
+
+[sub_resource type="Animation" id="Animation_q4gil"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_1o66a"]
 resource_name = "hand_in"
@@ -80,9 +84,22 @@ tracks/3/keys = {
 "method": &"activate_lines"
 }]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("s_cc_palm_hand:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
-[sub_resource type="Animation" id="Animation_q4gil"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_hxmgl"]
+resource_name = "hand_out"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -90,40 +107,55 @@ tracks/0/path = NodePath("s_cc_palm_hand:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(192, 120)]
+"values": [Vector2(192, 120), Vector2(192, 387)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("banner:visible")
+tracks/1/path = NodePath("s_cc_palm_hand:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("banner:modulate")
+tracks/2/path = NodePath(".:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [{
+"args": [],
+"method": &"deactivate_lines"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20fnw"]
 _data = {
 "RESET": SubResource("Animation_q4gil"),
-"hand_in": SubResource("Animation_1o66a")
+"hand_in": SubResource("Animation_1o66a"),
+"hand_out": SubResource("Animation_hxmgl")
 }
 
 [node name="cc_palm_reading" type="Control"]
@@ -140,14 +172,8 @@ libraries = {
 "": SubResource("AnimationLibrary_20fnw")
 }
 
-[node name="bg" type="ColorRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.5)
+[node name="Particle_1" parent="." instance=ExtResource("2_8v1lw")]
+modulate = Color(1, 1, 1, 0.5)
 
 [node name="cc_palm_reading_area" type="Control" parent="."]
 anchors_preset = 0
@@ -162,7 +188,6 @@ texture = ExtResource("3_x3vmc")
 texture = ExtResource("4_7gbs8")
 
 [node name="SCcPalmHandArea1" type="Sprite2D" parent="s_cc_palm_hand"]
-visible = false
 use_parent_material = true
 texture = ExtResource("5_oa7j0")
 script = ExtResource("5_4yko8")
@@ -447,7 +472,6 @@ metadata/_edit_use_anchors_ = true
 
 [node name="banner" type="ColorRect" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_top = 102.0
 offset_right = 384.0

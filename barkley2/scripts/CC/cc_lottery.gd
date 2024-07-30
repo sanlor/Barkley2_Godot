@@ -48,4 +48,4 @@ func _on_done_button_button_down():
 	await animation_player.animation_finished
 	lottery_selected.emit()
 	
-	queue_free() # should we queue it free?
+	# queue_free() # should we queue it free?
