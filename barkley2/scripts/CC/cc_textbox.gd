@@ -161,10 +161,12 @@ func _type_next_letter(delta):
 				wizard_cc.wizard_is_silent()
 			_:
 				# Avoid playing sounds when players skips
+				wizard_cc.wizard_is_talking()
+				
 				if curr_typing_speed == normal_typing:
 					B2_Sound.play( wizard_sounds.pick_random() )
 				
-		wizard_cc.wizard_is_talking()
+		#wizard_cc.wizard_is_talking()
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed
 		
 		if not textbox.visible_ratio == 1.0: # avoid issues with the text skipping

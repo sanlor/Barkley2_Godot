@@ -41,7 +41,8 @@ func place_checkmark(pos : Vector2, number : int):
 	
 func _on_done_button_button_down():
 	B2_Sound.play( "sn_cc_button_accept" )
-	# Quest("playerCCLottery" + string(i), 1);
+	B2_Playerdata.Quest("playerCCLottery", var_to_str(selected_numbers) );
+	B2_Playerdata.character_lottery = selected_numbers
 	done_button.release_focus()
 	
 	animation_player.play( "hide" )

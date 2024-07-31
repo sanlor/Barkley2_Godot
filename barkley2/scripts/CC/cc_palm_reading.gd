@@ -164,7 +164,7 @@ func hide_hands():
 	finished_reading.emit()
 
 func set_question():
-	question_id = clampi(question_id + 1, 0, 9)
+	question_id = wrapi(question_id + 1, 0, 9)
 	question_banner.text = Text.pr( text_question[ question_id ] )
 
 func clicked_line( line_id : int):

@@ -168,6 +168,11 @@ func check_selected_genders():
 	#Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw));
 	
 	B2_Playerdata.character_gender = selected_genders ## TODO save this setting to profile
+	
+	## check the original CC script for detais on this works.
+	B2_Playerdata.Quest("playerCCGender", var_to_str(selected_genders) );
+	#B2_Playerdata.Quest("playerCCGenderName", ds_map_find_value(global.genderMap, genderRaw)); # too much trouble to port.
+	
 	genderbox_hide()
 		
 func genderbox_hide():
@@ -175,5 +180,41 @@ func genderbox_hide():
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	await tween.finished
 	accept_pressed.emit()
-	queue_free()
+	#queue_free()
 		
+  #
+	#// Gender
+	#global.genderMap = ds_map_create();
+	#ds_map_add(global.genderMap, "", "Agender");
+	#ds_map_add(global.genderMap, "Male", "Male");
+	#ds_map_add(global.genderMap, "Dwarf", "Dwarf");
+	#ds_map_add(global.genderMap, "Other", "Other");
+	#ds_map_add(global.genderMap, "Female", "Female");
+	#ds_map_add(global.genderMap, "Eunuch", "Eunuch");
+	#ds_map_add(global.genderMap, "MaleDwarf", "Gourami");
+	#ds_map_add(global.genderMap, "MaleOther", "Twin");
+	#ds_map_add(global.genderMap, "MaleFemale", "Androgynous");  ////no
+	#ds_map_add(global.genderMap, "MaleEunuch", "Y-abjured");
+	#ds_map_add(global.genderMap, "DwarfOther", "Filikili");
+	#ds_map_add(global.genderMap, "EunuchOther", "Mas o Menos");
+	#ds_map_add(global.genderMap, "FemaleOther", "Dual");
+	#ds_map_add(global.genderMap, "DwarfEunuch", "Kapi Agha");
+	#ds_map_add(global.genderMap, "FemaleDwarf", "Zeherah");
+	#ds_map_add(global.genderMap, "FemaleEunuch", "X-abjured");
+	#ds_map_add(global.genderMap, "MaleDwarfOther", "Haploid");
+	#ds_map_add(global.genderMap, "MaleEunuchOther", "Oogamous");
+	#ds_map_add(global.genderMap, "MaleDwarfEunuch", "Kizlar Agha");
+	#ds_map_add(global.genderMap, "MaleFemaleOther", "Switch");
+	#ds_map_add(global.genderMap, "MaleFemaleDwarf", "Triploid");
+	#ds_map_add(global.genderMap, "FemaleDwarfOther", "Diploid");
+	#ds_map_add(global.genderMap, "DwarfEunuchOther", "Isogamous");
+	#ds_map_add(global.genderMap, "MaleFemaleEunuch", "Neutrois");
+	#ds_map_add(global.genderMap, "FemaleDwarfEunuch", "Silahdar Agha");
+	#ds_map_add(global.genderMap, "FemaleEunuchOther", "Anisogamous");
+	#ds_map_add(global.genderMap, "MaleFemaleDwarfOther", "Tetrasex");
+	#ds_map_add(global.genderMap, "MaleDwarfEunuchOther", "Tetrabro");
+	#ds_map_add(global.genderMap, "MaleFemaleDwarfEunuch", "Tetranormative");
+	#ds_map_add(global.genderMap, "MaleFemaleEunuchOther", "Tetradain");
+	#ds_map_add(global.genderMap, "FemaleDwarfEunuchOther", "Tetralass");
+	#ds_map_add(global.genderMap, "MaleFemaleDwarfEunuchOther", "Pentaploid");
+   #

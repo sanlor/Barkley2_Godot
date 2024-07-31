@@ -371,10 +371,12 @@ func get_alignment():
 	B2_Playerdata.character_alignment 	= alignment
 	B2_Playerdata.character_moral 		= moral
 	B2_Playerdata.character_ethical 	= ethical
+	B2_Playerdata.Quest("playerCCAlignmentEthical", str(ethical) );
+	B2_Playerdata.Quest("playerCCAlignmentMoral", str(moral) );
 	
 	animation_player.play("end_animation")
 	await animation_player.animation_finished
 	
 	input_finished.emit( false )
-	queue_free()
+	#queue_free()
 	

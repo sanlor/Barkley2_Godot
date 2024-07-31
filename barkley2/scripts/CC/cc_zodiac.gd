@@ -54,6 +54,11 @@ func finish_date_input():
 	B2_Playerdata.character_zodiac_day = z_day;
 	B2_Playerdata.character_zodiac_era = z_era;
 	
+	B2_Playerdata.Quest("playerCCDay", str(z_day) );
+	B2_Playerdata.Quest("playerCCMonth", str(z_month) );
+	B2_Playerdata.Quest("playerCCYear", str(z_year) );
+	B2_Playerdata.Quest("playerCCEra", str(z_era) );
+	
 	# the original code has a bunch of functions and settions related to Pax, but I have no idea what it does.
 	
 	# parse success

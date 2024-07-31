@@ -49,8 +49,13 @@ func _process(_delta):
 	if accept_is_hovering:
 		accept_btn_bg.color = Color(0.157, 0.745, 0.98, 0.5)
 		if Input.is_action_just_pressed("Action"):
+			crest_frames.can_draw = false
 			B2_Playerdata.character_crest = true
 			B2_Playerdata.character_crest_data = crest_frames.get_crest()
+			B2_Playerdata.Quest("playerCCCrestMade", "1");
+			#scr_savedata_put_list("playerCCCrestColor", dslCol); ## Script not ported (Too much trouble)
+			#scr_savedata_put_list("playerCCCrestX", dslX);
+			#scr_savedata_put_list("playerCCCrestY", dslY);
 			B2_Sound.play("sn_cc_button_accept")
 			get_parent().wizard_is_emoting()
 			crest_hide()
@@ -68,4 +73,4 @@ func crest_hide():
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	await tween.finished
 	crest_finished.emit()
-	queue_free()
+	#queue_free()

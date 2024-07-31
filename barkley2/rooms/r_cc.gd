@@ -40,16 +40,26 @@ extends Control
 @onready var cc_textbox = $cc_textbox
 
 # all stages are preloaded and instantiated. they are added to the scene wehn needed
-@onready var cc_name 		= preload("res://barkley2/scenes/CC/cc_name.tscn").instantiate()
-@onready var cc_zodiac 		= preload("res://barkley2/scenes/CC/cc_zodiac.tscn").instantiate()
-@onready var cc_blood 		= preload("res://barkley2/scenes/CC/cc_blood.tscn").instantiate()
-@onready var cc_gender 		= preload("res://barkley2/scenes/CC/cc_gender.tscn").instantiate()
-@onready var cc_alignment	= preload("res://barkley2/scenes/CC/cc_alignment.tscn").instantiate()
-@onready var cc_death		= preload("res://barkley2/scenes/CC/cc_death.tscn")
-@onready var cc_crest 		= preload("res://barkley2/scenes/CC/cc_crest.tscn").instantiate()
-@onready var cc_tarot 		= preload("res://barkley2/scenes/CC/cc_tarot.tscn").instantiate()
-@onready var cc_gumball 	= preload("res://barkley2/scenes/CC/cc_gumball.tscn").instantiate()
-@onready var cc_placenta 	= preload("res://barkley2/scenes/CC/cc_placenta.tscn").instantiate()
+const CC_ALIGNMENT 			= preload("res://barkley2/scenes/CC/cc_alignment.tscn")
+const CC_BLOOD 				= preload("res://barkley2/scenes/CC/cc_blood.tscn")
+const CC_CREST 				= preload("res://barkley2/scenes/CC/cc_crest.tscn")
+const CC_GENDER 			= preload("res://barkley2/scenes/CC/cc_gender.tscn")
+const CC_GUMBALL 			= preload("res://barkley2/scenes/CC/cc_gumball.tscn")
+const CC_NAME 				= preload("res://barkley2/scenes/CC/cc_name.tscn")
+const CC_TAROT 				= preload("res://barkley2/scenes/CC/cc_tarot.tscn")
+const CC_ZODIAC 			= preload("res://barkley2/scenes/CC/cc_zodiac.tscn")
+const CC_PLACENTA 			= preload("res://barkley2/scenes/CC/cc_placenta.tscn")
+
+var cc_name
+var cc_zodiac
+var cc_blood
+var cc_gender
+var cc_alignment
+var cc_death
+var cc_crest
+var cc_tarot
+var cc_gumball
+var cc_placenta
 
 const CC_RUNE 				= preload("res://barkley2/scenes/CC/cc_rune.tscn")
 const CC_LOTTERY 			= preload("res://barkley2/scenes/CC/cc_lottery.tscn")
@@ -77,11 +87,17 @@ var timer_show_hands 		= 0.0;
 var timer_sound 			= 25.0
 var timer_ready_to_proceed 	= 35.0
 
+var textbox_wizard_speed := 0.25
+var textbox_wizard_cooldown := randf_range(0.0, textbox_wizard_speed)
+
 var image_index_intro = 0.0;
 
 func play_sfx(track_name : String):
 	#B2_Sound.play("sn_cc_wizard_arms")
 	B2_Sound.play(track_name)
+
+func _init():
+	pass
 
 func _ready():
 	fade_texture.show()
@@ -96,13 +112,17 @@ func _ready():
 	else:
 		push_warning("placenta_array not being shuffled.")
 		
-	
+func _process(delta):
+	textbox_wizard_cooldown -= delta
 	
 func wizard_is_talking():
-	cc_wizard_talk.show()
-	var new_frame := wrapi(cc_wizard_talk.frame, 0, 3)
-	new_frame += randi_range(0,1) + 1
-	cc_wizard_talk.frame = new_frame
+	if textbox_wizard_cooldown < 0.0:
+		cc_wizard_talk.show()
+		var new_frame := wrapi(cc_wizard_talk.frame, 0, 3)
+		new_frame += randi_range(0,1) + 1
+		cc_wizard_talk.frame = new_frame
+		
+		textbox_wizard_cooldown = randf_range(0.0, textbox_wizard_speed)
 	
 func wizard_is_silent():
 	cc_wizard_talk.hide()
@@ -133,8 +153,10 @@ func wiz_hands():
 	
 func wiz_name():
 	if not skip_name: # name prompt apears, waiting for you to type yourt name.
+		cc_name = CC_NAME.instantiate()
 		add_child( cc_name )
 		await cc_name.name_entered
+		cc_name.queue_free()
 	wiz_zodiac_pre_dialog()
 		
 func wiz_zodiac_pre_dialog():
@@ -154,6 +176,7 @@ func wiz_zodiac_input():
 	if not skip_zodiac_input:
 		# Show a black screen, add cc_zodiac
 		await darken_screen( true )
+		cc_zodiac = CC_ZODIAC.instantiate()
 		add_child(cc_zodiac)
 		await darken_screen( false )
 		
@@ -335,6 +358,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "The empathic kinship with all Life within you is#perhaps the most powerful force that can exist,#more than 1,000 atomic bombs, and for this reason#it is your greatest strength" ) )
 				await cc_textbox.finished_typing
+		cc_zodiac.queue_free()
 	wiz_blood()
 				
 func wiz_blood():
@@ -344,6 +368,7 @@ func wiz_blood():
 		cc_textbox.texbox_hide()
 		
 		await get_tree().create_timer(1.0).timeout
+		cc_blood = CC_BLOOD.instantiate()
 		add_child( cc_blood )
 		await cc_blood.accept_pressed
 		#remove_child( cc_blood )
@@ -353,6 +378,7 @@ func wiz_blood():
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
 		await get_tree().create_timer(1.0).timeout
+		cc_blood.queue_free()
 		
 	wiz_gender()
 
@@ -361,11 +387,11 @@ func wiz_gender():
 		cc_textbox.display_text( Text.pr( "Most importantly - what gender do you see#yourself as? Not just biologically, but mentally,#spiritually? Who are you?" ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
-		
+		cc_gender = CC_GENDER.instantiate()
 		add_child(cc_gender)
 		await cc_gender.accept_pressed
 		await get_tree().create_timer(1.5).timeout
-		
+		cc_gender.queue_free()
 	wiz_alignment()
 		
 func wiz_alignment():
@@ -385,6 +411,7 @@ func wiz_alignment():
 
 func wiz_alignment_questions():
 	if not skip_alignment_questions:
+		cc_alignment = CC_ALIGNMENT.instantiate()
 		add_child(cc_alignment)
 		var death : bool = await cc_alignment.input_finished
 		
@@ -506,6 +533,7 @@ func wiz_alignment_questions():
 				await cc_textbox.finished_typing
 				cc_textbox.texbox_hide()
 				
+		cc_alignment.queue_free()
 		await get_tree().create_timer(1.0).timeout
 	wiz_crest()
 
@@ -514,9 +542,10 @@ func wiz_crest():
 		cc_textbox.display_text( Text.pr( "Your family crest represents where you've come#from and who you are. Draw your family's#heraldry on this shield." ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
-		
+		cc_crest = CC_CREST.instantiate()
 		add_child( cc_crest )
 		await cc_crest.crest_finished
+		cc_crest.queue_free()
 		await get_tree().create_timer(1).timeout
 		
 		cc_textbox.display_text( Text.pr( "Yes, yes... interesting. There is an understated#dignity to your family crest, hints of a noble and#glorious past. Yes, your heraldry truly depicts the#greatness of your line." ) )
@@ -525,11 +554,13 @@ func wiz_crest():
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
 		
+		
 		await get_tree().create_timer(1.0).timeout
 	wiz_tarot()
 		
 func wiz_tarot():
 	if not skip_tarot:
+		cc_tarot = CC_TAROT.instantiate()
 		add_child(cc_tarot)
 		
 		cc_textbox.display_text( Text.pr( "Gaze upon these cards I hold in my hand, my child.#More than mere playing cards, the tarot are#indescribably powerful divinatory tools, a product#of ancient Hermetic wizards who sought the true, -" ) )
@@ -769,6 +800,7 @@ func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
 		3:
 			# Finished picking cards
 			B2_Playerdata.character_tarot_cards = cc_tarot.card_index ## picked Cards
+			B2_Playerdata.Quest("playerCCTarot", var_to_str(cc_tarot.card_index) );
 			await get_tree().create_timer(1.5).timeout
 			
 			wiz_gumball()
@@ -779,6 +811,7 @@ func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
 	
 func wiz_gumball():
 	if not skip_gumball:
+		cc_gumball = CC_GUMBALL.instantiate()
 		# Fade do black, add gumball, fade back.
 		fade_texture.show()
 		fade_texture.color.a = 0.0
@@ -1005,14 +1038,16 @@ func wiz_gumball():
 		B2_Playerdata.character_gumball = gumball_choice ## Save gumball
 		
 		if gumball_abstain:
-			B2_Playerdata.quests("playerCCGumball", "Abstain")
+			B2_Playerdata.Quest("playerCCGumball", "Abstain")
 		if gumball_coin:
-			B2_Playerdata.quests("playerCCGumball", "Special Coin")
+			B2_Playerdata.Quest("playerCCGumball", "Special Coin")
 			
-		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumExt[gumball_choice] )
-		B2_Playerdata.quests("playerCCGumball", cc_gumball.gumNam[gumball_choice] )
+		B2_Playerdata.Quest("playerCCGumball", var_to_str(cc_gumball.gumExt[gumball_choice]) )
+		B2_Playerdata.Quest("playerCCGumball", var_to_str(cc_gumball.gumNam[gumball_choice]) )
 	
 	await darken_screen( true )
+	cc_gumball.queue_free()
+	cc_placenta = CC_PLACENTA.instantiate()
 	wiz_placenta()
 	#debug_end_cc()
 	#breakpoint
@@ -1339,18 +1374,20 @@ func cc_finish():
 	await cc_textbox.texbox_hide( 1.75 )
 	
 	# end of CC event
-	B2_Music.play( "mus_blankTEMP" ) # stop music
+	B2_Music.play( "mus_blankTEMP", 4.0 ) # stop music
 	var cc_finish_message = $cc_finish_message
 	cc_finish_message.modulate.a = 0.0
 	var tween := create_tween()
 	tween.tween_callback( cc_finish_message.show )
 	tween.tween_property(cc_finish_message, "modulate:a", 1.0, 1.0)
-	tween.tween_interval(5.0)
+	tween.tween_interval( 8.0 )
 	tween.tween_property(cc_finish_message, "modulate:a", 0.0, 1.0)
 	tween.tween_callback( cc_finish_message.hide )
 	await tween.finished
 	await cc_textbox.texbox_hide( 1.00 )
-	const R_WIP = preload("res://barkley2/rooms/r_wip.tscn") # original room!
+	
+	# Load WIP room.
+	const R_WIP = preload("res://barkley2/rooms/r_wip.tscn") # original room, donut steel!
 	get_tree().change_scene_to_packed( R_WIP )
 	
 func darken_screen( action : bool ):

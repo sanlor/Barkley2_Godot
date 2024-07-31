@@ -72,6 +72,7 @@ func accept_blood():
 		@warning_ignore("narrowing_conversion")
 		option_selected = selected
 		B2_Playerdata.character_blood = option_selected
+		B2_Playerdata.Quest("playerCCBloodType", str(option_selected) );
 		B2_Sound.play("sn_cc_button_accept")
 		blood_hide()
 	
@@ -85,4 +86,4 @@ func blood_hide():
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	tween.tween_callback( emit_signal.bind("accept_pressed") )
-	tween.tween_callback( queue_free )
+	#tween.tween_callback( queue_free )

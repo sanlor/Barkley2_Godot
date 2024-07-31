@@ -44,6 +44,9 @@ func show_likes():
 	B2_Playerdata.character_dropdown_likes = like_fav_frame.selection_like;
 	B2_Playerdata.character_dropdown_favorites = like_fav_frame.selection_favorite
 	
+	B2_Playerdata.Quest("playerCCLikes", var_to_str(like_fav_frame.selection_like) );
+	B2_Playerdata.Quest("playerCCFaves", var_to_str(like_fav_frame.selection_favorite) );
+	
 	tween = create_tween()
 	tween.tween_property( self, "modulate:a", 0.0, 0.25 ) # show BG
 	tween.tween_callback( emit_signal.bind("likes_n_favorites_selected") )

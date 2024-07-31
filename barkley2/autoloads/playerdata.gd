@@ -42,7 +42,7 @@ var character_crest_data := PackedByteArray()
 
 var character_tarot_cards := [] # New variables, original are on the script Quest()
 
-var character_lottery = false;
+
 var character_gumball = 0;
 var character_stats_race = 0;
 #for (i=0; i<9; i+=1;) character_dropdown_likes[i] = 0;
@@ -51,6 +51,7 @@ var character_stats_race = 0;
 #for (i=0; i<10; i+=1;) character_palm[i] = 0;
 #for (i=0; i<4; i+=1;) character_tarot[i] = 0;
 
+var character_lottery := Array()
 var character_dropdown_likes := Array()
 var character_dropdown_favorites := Array()
 var character_multiple := Array()
