@@ -1,4 +1,3 @@
-@tool
 extends Node2D
 
 @onready var cc_gumball = $".."

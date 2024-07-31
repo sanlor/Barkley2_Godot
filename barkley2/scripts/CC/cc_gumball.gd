@@ -1,4 +1,3 @@
-@tool
 extends Control
 
 ## The original code is VERY complex. It does a lot of stuff related to the gunball population, generation and stuff like that.

@@ -1,7 +1,4 @@
-@tool
 extends Control
-
-
 
 signal name_entered
 

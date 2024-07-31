@@ -1,4 +1,3 @@
-@tool
 extends Control
 
 # Pretty different implementation from the original. the original one was pretty weird and hard to port exaclty.

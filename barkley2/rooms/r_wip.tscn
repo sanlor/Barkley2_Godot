@@ -1,7 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bukl2trky7ur2"]
+[gd_scene load_steps=15 format=3 uid="uid://bukl2trky7ur2"]
 
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="1_eku4r"]
 [ext_resource type="Script" path="res://barkley2/scripts/Wip/r_wip.gd" id="2_xa1wm"]
+[ext_resource type="Texture2D" uid="uid://cjn8v32b2vr0q" path="res://barkley2/assets/b2_original/images/sGlebFace.png" id="3_iqnqa"]
+[ext_resource type="Texture2D" uid="uid://cbju8ryf7iy1d" path="res://barkley2/assets/b2_original/images/sGormstone.png" id="4_xhps0"]
+[ext_resource type="Texture2D" uid="uid://b1m11jnsv0664" path="res://barkley2/assets/b2_original/images/cc/s_cc_tarot_cards_11.png" id="5_hffix"]
+[ext_resource type="Texture2D" uid="uid://bqf2njhfdd5vb" path="res://barkley2/assets/b2_original/images/cc/s_cc_identity_gumball_3.png" id="6_jkug1"]
+[ext_resource type="Texture2D" uid="uid://cuv5b2doqsrxh" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_logo_0.png" id="7_jtdnv"]
+[ext_resource type="Texture2D" uid="uid://8wu366h62tal" path="res://barkley2/assets/b2_original/images/cc/s_cc_alignment_piece_0.png" id="8_ofiwt"]
+[ext_resource type="Texture2D" uid="uid://bdhjh2qgqfnhj" path="res://barkley2/assets/b2_original/images/gml_explosion.png" id="9_foqww"]
+[ext_resource type="Texture2D" uid="uid://t60yy8bryl52" path="res://barkley2/assets/icon/runner_icon.png" id="10_oqac8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ps8wh"]
 
@@ -21,6 +29,15 @@ grow_vertical = 2
 theme = ExtResource("1_eku4r")
 script = ExtResource("2_xa1wm")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.5, 0.5, 0.5, 1)
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -35,7 +52,7 @@ offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Game is still not done yet.
-xXxXx Sorry xXxXx"
+xXxXx -=- Sorry -=- xXxXx"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -50,5 +67,37 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_8b5os")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_smgxa")
 theme_override_styles/focus = SubResource("StyleBoxFlat_2h8to")
 text = "Go to title screen"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(28, 198)
+texture = ExtResource("3_iqnqa")
+
+[node name="SGormstone" type="Sprite2D" parent="."]
+position = Vector2(349, 200)
+texture = ExtResource("4_xhps0")
+
+[node name="SCcTarotCards11" type="Sprite2D" parent="."]
+position = Vector2(337, 61)
+texture = ExtResource("5_hffix")
+
+[node name="SCcIdentityGumball3" type="Sprite2D" parent="."]
+position = Vector2(37, 110)
+texture = ExtResource("6_jkug1")
+
+[node name="SCcHandScannerLogo0" type="Sprite2D" parent="."]
+position = Vector2(354, 155)
+texture = ExtResource("7_jtdnv")
+
+[node name="SCcAlignmentPiece0" type="Sprite2D" parent="."]
+position = Vector2(74, 165)
+texture = ExtResource("8_ofiwt")
+
+[node name="GmlExplosion" type="Sprite2D" parent="."]
+position = Vector2(42, 42)
+texture = ExtResource("9_foqww")
+
+[node name="RunnerIcon" type="Sprite2D" parent="."]
+position = Vector2(153, 220)
+texture = ExtResource("10_oqac8")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

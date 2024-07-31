@@ -1387,8 +1387,8 @@ func cc_finish():
 	await cc_textbox.texbox_hide( 1.00 )
 	
 	# Load WIP room.
-	const R_WIP = preload("res://barkley2/rooms/r_wip.tscn") # original room, donut steel!
-	get_tree().change_scene_to_packed( R_WIP )
+	const R_WIP = "res://barkley2/rooms/r_wip.tscn" # original room, donut steel!
+	get_tree().change_scene_to_file( R_WIP )
 	
 func darken_screen( action : bool ):
 	if action:

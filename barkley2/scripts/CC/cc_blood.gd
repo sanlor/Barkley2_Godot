@@ -1,4 +1,3 @@
-@tool
 extends Control
 
 ## This one is pretty simple. Still took me about 4 hours.

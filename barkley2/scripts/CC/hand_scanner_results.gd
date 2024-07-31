@@ -1,4 +1,3 @@
-@tool
 extends Control
 
 signal results_shown

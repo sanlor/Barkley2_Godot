@@ -1,4 +1,3 @@
-@tool
 extends Sprite2D
 
 @export var follow_piece : Sprite2D
