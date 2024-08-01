@@ -35,6 +35,8 @@ func finish_date_input():
 	var z_year := 0
 	var z_zodiac := 0
 	
+	
+	
 	# no era selected. the original code forces a pos era as default.
 	if pos_clispaeth_label.is_selected:
 		z_era = 0
@@ -60,6 +62,11 @@ func finish_date_input():
 	B2_Playerdata.Quest("playerCCEra", str(z_era) );
 	
 	# the original code has a bunch of functions and settions related to Pax, but I have no idea what it does.
+	
+	print("Zodiac day: ",		z_day)
+	print("Zodiac month: ",		z_month)
+	print("Zodiac year: ",		z_year)
+	print("Zodiac era: ",		z_era)
 	
 	# parse success
 	B2_Sound.play("sn_cc_click_jewel2")

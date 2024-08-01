@@ -8,6 +8,8 @@ extends CanvasLayer
 @onready var game_slot_back_panel 		: B2_Border_Button = $back_panel
 @onready var game_slot_delete_panel 	: B2_Border_Button = $delete_panel
 
+@onready var fade_out = $fade_out
+
 ## Game slots
 var gameslot_width 			: float = 344 - 8;
 
@@ -206,11 +208,20 @@ func delete_gameslot():
 	r_title.mode = "gameslot"
 
 func start_saved_game():
-	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	oConfirm.givTxt = Text.pr( "This demo can't load saved games. Sorry." )
-	oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
-	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
-	add_child(oConfirm)
+	#var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
+	#oConfirm.givTxt = Text.pr( "This demo can't load saved games. Sorry." )
+	#oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
+	#oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
+	#add_child(oConfirm)
+	
+	fade_out.show()
+	fade_out.modulate.a = 0.0
+	
+	var tween := create_tween()
+	tween.tween_property(fade_out, "modulate:a", 1.0, 1.0)
+	tween.tween_callback( B2_Music.stop.bind( 2.0 ) )
+	tween.tween_interval(2.5)
+	tween.tween_callback( get_tree().change_scene_to_file.bind( "res://barkley2/rooms/r_wip.tscn" ) ) # in the final game, we should ask something what room to load.
 
 func _on_game_slot_1_button_pressed():
 	selected_gameslot = 0
@@ -219,6 +230,7 @@ func _on_game_slot_1_button_pressed():
 	elif B2_Config.has_user_save( selected_gameslot ):
 		start_saved_game()
 	else:
+		B2_Config.select_user_slot( selected_gameslot )
 		r_title.mode = "gamestart_character"
 		hide()
 
@@ -229,6 +241,7 @@ func _on_game_slot_2_button_pressed():
 	elif B2_Config.has_user_save( selected_gameslot ):
 		start_saved_game()
 	else:
+		B2_Config.select_user_slot( selected_gameslot )
 		r_title.mode = "gamestart_character"
 		hide()
 
@@ -239,6 +252,7 @@ func _on_game_slot_3_button_pressed():
 	elif B2_Config.has_user_save( selected_gameslot ):
 		start_saved_game()
 	else:
+		B2_Config.select_user_slot( selected_gameslot )
 		r_title.mode = "gamestart_character"
 		hide()
 

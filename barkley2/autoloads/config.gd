@@ -87,8 +87,10 @@ func select_user_slot( slot ):
 		var parse_error := json.parse( savefile.get_as_text() )
 		if parse_error == OK:
 			usersavefile = json.get_data()
+			savefile.close()
 		else:
 			push_error( "cant load save file:", parse_error )
+
 	
 # scr_savedata_put()
 func get_user_save_data( path : String ): ## retuyrn false if its invalid
@@ -113,23 +115,45 @@ func get_user_save_data( path : String ): ## retuyrn false if its invalid
 	
 func set_user_save_data( path : String, value ):
 	if usersavefile.is_empty():
-		push_error("Game not loaded. No place to save. discarting data: " + str(path) + " - " + str(value) )
-		return
+		#push_error("Game not loaded. No place to save. discarting data: " + str(path) + " - " + str(value) )
+		#return
+		print("save game was empty.")
+		usersavefile = Dictionary()
 	
-	var temp_dict := usersavefile
-	var path_array := path.split(".")
+	var temp_dict := usersavefile # serves as the current directory of the search.
+	var path_array := path.split(".") # Path to follow Ex.: "quest.vars.PlayerCCName"
 	var loops := 0
 	for i in path_array:
-		if temp_dict.has(i):
-			loops += 1
-			if loops == path_array.size():
-				temp_dict[i] = value
-			else:
-				temp_dict = temp_dict[i]
+		loops += 1
+		if temp_dict.has(i) and not loops == path_array.size():
+			temp_dict = temp_dict[i]
+			continue
+			
+		if loops == path_array.size():
+			temp_dict[i] = value
+			
 		else:
-			push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
+			temp_dict[i] = Dictionary()
+			temp_dict = temp_dict[i]
+
+			#push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
+	#print("Debug: save game is ", usersavefile)
+			
+func create_user_save_data( slot : int ): # Should be used on the title screen, que a new game on a empty slot is created. for CC, only create save game at the end.
+	assert( slot >= 0 or slot <= 2)
+	var file := "save%s.b2" % str( slot )
+	if FileAccess.file_exists( usersavefolder + file ):
+		# Creating a save slot on a existing slot? this is wrong, the old one should be deleted first
+		breakpoint
+		
+	selected_slot = slot
+	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )
+	#var json := JSON.new()
+	savefile.store_string( JSON.stringify( usersavefile ) )
 	
-func delete_user_save_data( slot : int ):
+	savefile.close()
+	
+func delete_user_save_data( slot : int ): # Should be used on the title screen.
 	assert( slot >= 0 or slot <= 2)
 	var file := "save%s.b2" % str( slot )
 	if FileAccess.file_exists( usersavefolder + file ):

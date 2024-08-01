@@ -49,6 +49,7 @@ const CC_NAME 				= preload("res://barkley2/scenes/CC/cc_name.tscn")
 const CC_TAROT 				= preload("res://barkley2/scenes/CC/cc_tarot.tscn")
 const CC_ZODIAC 			= preload("res://barkley2/scenes/CC/cc_zodiac.tscn")
 const CC_PLACENTA 			= preload("res://barkley2/scenes/CC/cc_placenta.tscn")
+const CC_DEATH = preload("res://barkley2/scenes/CC/cc_death.tscn")
 
 var cc_name
 var cc_zodiac
@@ -102,9 +103,9 @@ func _init():
 func _ready():
 	fade_texture.show()
 	
-	B2_Music.play			( "mus_charcreate" )
+	B2_Music.play			( "mus_charcreate", 0.0 )
 	animation_player.play	( "wizard_intro" )
-	
+	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.HAND )
 	# Shuffle placenta array.
 	if shuffle_placenta: # should always be on, unless debug.
 		placenta_array.shuffle()
@@ -157,6 +158,10 @@ func wiz_name():
 		add_child( cc_name )
 		await cc_name.name_entered
 		cc_name.queue_free()
+		await get_tree().create_timer(1.0).timeout
+	else:
+		B2_Playerdata.Quest("playerCCName", str(B2_Playerdata.character_name) );
+		
 	wiz_zodiac_pre_dialog()
 		
 func wiz_zodiac_pre_dialog():
@@ -187,6 +192,11 @@ func wiz_zodiac_input():
 		await darken_screen( true )
 		remove_child(cc_zodiac)
 		await darken_screen( false )
+	else:
+		B2_Playerdata.Quest("playerCCDay", 		B2_Playerdata.character_zodiac_day );
+		B2_Playerdata.Quest("playerCCMonth", 	B2_Playerdata.character_zodiac_month );
+		B2_Playerdata.Quest("playerCCYear", 	B2_Playerdata.character_zodiac_year );
+		B2_Playerdata.Quest("playerCCEra", 		B2_Playerdata.character_zodiac_era );
 		
 	wiz_zodiac_pos_dialog()
 	
@@ -194,91 +204,120 @@ func wiz_zodiac_pos_dialog():
 	if not skip_zodiac_pos_dialog:
 		# holy shit, I hate this! vvvvvv
 		assert( B2_Playerdata.character_zodiac in range(1,13) )
+		# I copied the original code, but these zodiac signs seems wrong. im keeping it, though.
 		match B2_Playerdata.character_zodiac: # Should be 1 to 12
 			1:
 				cc_textbox.display_text( Text.pr( "Ahh, the brash Aries, boastful to a fault, quick to#anger... but steadfastly loyal, you put your#companions before yourself." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Your friends will be few and far between, but they#will be true indeed." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			2:
 				cc_textbox.display_text( Text.pr( "Ahh, the most courageous of all the star signs -#Taurus, the seeker. A warrior unparalleled, your#foes will bow to your might and majesty." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But, you must be cautious to temper your power#with justice..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			3:
 				cc_textbox.display_text( Text.pr( "Ahhh, a Gemini, a true scholar. Your wisdom and#insight inspire those around you. Your curious#nature can sometimes lead you and those closest to#you in trouble." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But perhaps that is not the weakness it seems..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			4:
 				cc_textbox.display_text( Text.pr( "A Cancer, I see? Yes, I could tell by your movement,#fluid, graceful, confident, that you possessed the#gift of Cancer. You must make haste in the trials#that await you..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Perhaps it is speed that your journey most#requires..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			5:
 				cc_textbox.display_text( Text.pr( "A Leo! Ahh, I could sense it in your eyes, your#empathy, your warmth towards others. Your#kindness is your strength and your heart is open#to all..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But, you must be wary not to let in those who would#do you harm..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			6:
 				cc_textbox.display_text( Text.pr( "It is an honor to stand before a warrior of the#Virgo star sign! Chivalrous and valiant, your heart#burns with a sincerity unknown in our modern#times." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But soon... you may be forced to choose between#your idealism and reality..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			7:
 				cc_textbox.display_text( Text.pr( "Ah, the stern and aloof Libra. Behind your mask of#stoicism is a passion that you guard deeply. You#know the power of emotion. You choose to reveal#yours only when the time is right." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Perhaps the journey that awaits you is one where#passions run deep and the wellspring of emotions#you've been holding back must flow..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			8:
 				cc_textbox.display_text( Text.pr( "Scorpio, the curious wanderer... Your keen intellect#is fueled by a passion for discovery; your zest#for life is what propels you." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Your inquisitiveness can get you into trouble, but#it is also your greatest asset." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			9:
 				cc_textbox.display_text( Text.pr( "You are an Ophiucus! This... this is a surprise,#indeed. The stars tell much of the enigmatic Zodiac#Ophiucus, and yet they say so little." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Whispers, screams, echoes upon walls of echoes.#This galaxy, this playpen for the whims of F.A.T.E. - #its meaning can only be deduced so much." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Perhaps the power of this Zodiac has yet to be#revealed. And perhaps... it will be revealed through#you." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			10:
 				cc_textbox.display_text( Text.pr( "Sagittarius the Beautiful. It is said that those#bearing the star sign of Sagittarius possess the#social graces and charisma of their namesake#Zodiac, but also the duplicity." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Learn ye this: The words we speak, we must keep#and this is doubly so for the loquacious Sagittarius." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			11:
 				cc_textbox.display_text( Text.pr( "Ah... you are a Capricorn..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "Well, no matter. I am sure Capricorn's legendary#shortcomings do not reflect on you. After all, how#can we deduce meaning from arbitrary points of#light billions upon billions of miles away?" ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			12:
 				cc_textbox.display_text( Text.pr( "Aquarius the Hunter! Aquarius' keen eye made her#the greatest bowman in the cosmos; her steady arm#brought down many a beast." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But it was with her sharp senses that she#discovered the infidelity of her love, rending her#heart in twain." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "There are those that say ignorance is bliss, and#many an Aquarius is among them." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			13: ##???????
 				cc_textbox.display_text( Text.pr( "You were born under the sign of Pisces, the#Quixotic! Your heart is free, your spirit unattached#to the mores and anchors of society. You live life#for yourself, just as Pisces did." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 				
 				cc_textbox.display_text( Text.pr( "But you do not walk the path ahead of you alone.#Can you learn to fight for those beside you? Can the#shield fight without the sword?" ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			_:
 				breakpoint
 				
@@ -291,6 +330,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "You have a deep, powerful connection to the#Whirlpool Galaxy - a galaxy of infinite chaos... and#infinite potential." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			1:
 				cc_textbox.display_text( Text.pr( "There is also a deep sense of dignity and grace#within you. Others view you with a sense of#eminence, even majesty." ) )
 				await cc_textbox.finished_typing
@@ -298,6 +338,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "You are the noble Moon that guides us in the night." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			2:
 				cc_textbox.display_text( Text.pr( "But there is more... there is a hunger inside of you,#an untamed voracity for all that there is to take,#be it life or pleasure or some earthly commodity."  ) )
 				await cc_textbox.finished_typing
@@ -305,6 +346,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "You will continue to devour all before you until#you gutter out, leaving no trace of your existence#- only swathes of emptiness in the places you have#been." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			3:
 				cc_textbox.display_text( Text.pr( "I also see a stirring deep within you, a dormant#violence with a force far beyond your own#reckoning." ) )
 				await cc_textbox.finished_typing
@@ -314,11 +356,13 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "The annihilation you unleash when this happens#will change you... and the galaxy... forever." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			4:
 				cc_textbox.display_text( Text.pr( "I also sense an innate calmness within you, a#mildness and compassion for others. Your actions#are guided by your empathy and you share a deep#bond with the life giving Red Dwarf;" ) )
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "Your presence nurtures the people around you and#your gentle temperament, though subdued, is a#magnet for those in need." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			5:
 				cc_textbox.display_text( Text.pr( "There is also an incredible sense of mystery about#you, an enigmatic aura that obfuscates your true#nature. You are quiet but not idle, the Rube#Goldberg machine in your head in constant motion." ) )
 				await cc_textbox.finished_typing
@@ -326,6 +370,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "Like the Jovian planet Jupiter, the more we learn,#the more we know we have yet to learn." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			6:
 				cc_textbox.display_text( Text.pr( "The ancient Zoroastrians were the greatest#astronomers and cosmologists of antiquity." ) )
 				await cc_textbox.finished_typing
@@ -335,6 +380,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "You bear a deep connection with the Sun, just as#the ancient Zoroastrians did. And perhaps...#you are their greatest legacy..." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			7:
 				cc_textbox.display_text( Text.pr( "But wait... I also see massive rocks - asteroids -#hurtling through the void. Individually, these#rocks crash and collide, slamming into one another,#a cacophonous symphony of perpetual carnage." ) )
 				await cc_textbox.finished_typing
@@ -342,6 +388,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "Each asteroid is an atom in the grand molecule of#the Asteroid Belt - the law needs chaos to exist#and vice versa. The duality of the Asteroid Belt#is something I see deep within you." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			8:
 				cc_textbox.display_text( Text.pr( "In 1731, John Bevis made a discovery that would#change the course of human history, a discovery#that is often referred to as Bevis' Gambit." ) )
 				await cc_textbox.finished_typing
@@ -351,6 +398,7 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "I see in you both a deep connection to the Crab#Nebula... and to Bevis." ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 			9:
 				cc_textbox.display_text( Text.pr( "Know thou that every fixed star hath its own#planets, and every planet its own creatures,#whose numbers no man can compute." ) )
 				await cc_textbox.finished_typing
@@ -358,11 +406,14 @@ func wiz_zodiac_pos_dialog():
 				await cc_textbox.finished_typing
 				cc_textbox.display_text( Text.pr( "The empathic kinship with all Life within you is#perhaps the most powerful force that can exist,#more than 1,000 atomic bombs, and for this reason#it is your greatest strength" ) )
 				await cc_textbox.finished_typing
+				await cc_textbox.texbox_hide()
 		cc_zodiac.queue_free()
 	wiz_blood()
 				
 func wiz_blood():
 	if not skip_blood:
+		await get_tree().create_timer(1.0).timeout
+		
 		cc_textbox.display_text( Text.pr( "And what blood runs through your veins?" ) )
 		await cc_textbox.finished_typing
 		cc_textbox.texbox_hide()
@@ -418,7 +469,7 @@ func wiz_alignment_questions():
 		# you chose strongly agree on option 12
 		if death:
 			# stupid options, rarely seem by anione. took me about 1 hour to port with minimal effort.
-			var death_scene = cc_death.instantiate()
+			var death_scene = CC_DEATH.instantiate()
 			add_child(death_scene)
 			await death_scene.stopped_smoke
 			cc_alignment.queue_free()
@@ -585,9 +636,8 @@ func wiz_tarot():
 		await cc_tarot.cards_hidden
 		cc_tarot.card_selected.connect( wiz_tarot_parse_drawn_card )
 		await get_tree().create_timer(1.0).timeout
-	else: 
-		cc_tarot.queue_free()
 		
+	else: 
 		wiz_gumball()
 		
 func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
@@ -803,6 +853,7 @@ func wiz_tarot_parse_drawn_card( card_id : int, cards_picked : int ):
 			B2_Playerdata.Quest("playerCCTarot", var_to_str(cc_tarot.card_index) );
 			await get_tree().create_timer(1.5).timeout
 			
+			cc_tarot.queue_free()
 			wiz_gumball()
 			return
 			
@@ -1046,7 +1097,8 @@ func wiz_gumball():
 		B2_Playerdata.Quest("playerCCGumball", var_to_str(cc_gumball.gumNam[gumball_choice]) )
 	
 	await darken_screen( true )
-	cc_gumball.queue_free()
+	if cc_gumball != null: ## Queue it free if loaded
+		cc_gumball.queue_free()
 	cc_placenta = CC_PLACENTA.instantiate()
 	wiz_placenta()
 	#debug_end_cc()
@@ -1272,7 +1324,8 @@ func wiz_placenta_choice( placenta_id : int ):
 			var death = await my_placenta.finished_quiz
 			if death: # copy pasted from the alignment section
 				# stupid options, rarely seem by anione. took me about 1 hour to port with minimal effort.
-				var death_scene = cc_death.instantiate()
+				
+				var death_scene = CC_DEATH.instantiate()
 				add_child(death_scene)
 				await death_scene.stopped_smoke
 				
@@ -1343,7 +1396,8 @@ func wiz_placenta_choice( placenta_id : int ):
 					for j : int in dialog.front(): # int
 						await get_tree().process_frame
 						cc_textbox.display_text( Text.pr( dialog[ j + 1 ] ) ); await cc_textbox.finished_typing
-						await cc_textbox.texbox_hide()
+						if j == dialog.front() - 1: # only hide the textbox on the last line of dialog
+							await cc_textbox.texbox_hide()
 						
 					if i != 4:
 						my_placenta.display_banner()
@@ -1385,6 +1439,222 @@ func cc_finish():
 	tween.tween_callback( cc_finish_message.hide )
 	await tween.finished
 	await cc_textbox.texbox_hide( 1.00 )
+	
+	## Save a lot of stuff to disk (No idea what most of them do).
+	# check the original scr_player_newPlayerIdentity script for mor details
+	
+	# ClockTime
+	var EXPERIENCE_MIN = 0.5;
+	var EXPERIENCE_MAX = 1.5;
+	var CLOCK_MAX = 60 * 60 * 24;
+	var CLOCK_SPEED = 4; ## EDITABLE: If you are 1 gate away, it will start at 4 seconds and taper down
+	
+	B2_Config.set_user_save_data("clock.time", CLOCK_MAX);
+	B2_Config.set_user_save_data("clock.gate", 0)
+	B2_Config.set_user_save_data("clock.event.timer", Dictionary() );
+	B2_Config.set_user_save_data("clock.event.quest", Dictionary() );
+	B2_Config.set_user_save_data("clock.event.value", Dictionary() );
+	# ClockTime("update") will be IGNORED, fucko.
+	
+	# BodySwap
+	B2_Config.set_user_save_data("player.body", "hoopz");
+	
+	# Note
+	# will be ignored for the time being. What a mess.
+	
+	# Item
+	B2_Config.set_user_save_data("quest.itemsName", 		Dictionary() );
+	B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() );
+	
+	# Map
+	B2_Config.set_user_save_data("quest.maps", Dictionary() );
+	
+	# Cyberspear
+	B2_Playerdata.Quest("cgremQuest", 0);
+	## Tallies how many pieces you have
+	B2_Playerdata.Quest("cyberspearGremlinPieces", 0);
+	## Total
+	B2_Playerdata.Quest("cyberspearGremlinPiecesTotal", 0);
+	
+	## Create a temporary CombatActor to use for generating Stats ## NOTE I disabled some settings. Looks like data from the CC is being overwrited?
+	# Set Hoopz ID Quest Variables
+	B2_Playerdata.Quest("playerX1", 1);
+	B2_Playerdata.Quest("playerName", "X114JAM9"); # constant P_NAME
+	B2_Playerdata.Quest("playerNameFull", "X114JAM9"); # constant P_NAME_F
+	B2_Playerdata.Quest("playerNameShort", "X1"); # constant P_NAME_S
+	
+#region Weird CC overwrites that I disabled -Sanlo 
+
+	#B2_Playerdata.Quest("playerGumballColor", floor(random(255))); # green is 80
+	#B2_Playerdata.Quest("playerBlueFace", 0);
+	#B2_Playerdata.Quest("playerBlueFaceName", "Becker");
+
+	# CC Bonus
+	#B2_Playerdata.Quest("playerCCBonus", 2); # Keeping for OLD stuff, will remove later
+
+	# CC Name
+	#B2_Playerdata.Quest("playerCCName", "");
+
+	# CC Birth Date
+	# Compares to ClockTime's 4 digits and gives BONUS equal to quest value
+	# if X digit below is even and not 0
+	
+	#B2_Playerdata.Quest("playerCCPowerBonus", 0);      # X0:00 - Power
+	#B2_Playerdata.Quest("playerCCCapacityBonus", 0);   # 0X:00 - Capacity
+	#B2_Playerdata.Quest("playerCCAffixBonus", 0);      # 00:X0 - Affix
+	#B2_Playerdata.Quest("playerCCSpeedBonus", 0);      # 00:0X - Speed / Rate
+	#B2_Playerdata.Quest("playerCCMonth", 0);           # Power Bonus
+	#B2_Playerdata.Quest("playerCCDay", 0);             # Capacity Bonus
+	#B2_Playerdata.Quest("playerCCYear", 0);            # Affix Bonus
+	#B2_Playerdata.Quest("playerCCEra", 0);             # Rate Bonus
+	#B2_Playerdata.Quest("playerCCZodiac", "Aries");    # Zodiac
+	
+	# Zodiac can be used for Character dialogs
+
+	# CC Blood Type
+	# Effects FONT and PETAL color of the Haiku
+	# 0 = A, 1 = B , 2 = C, 3 = O, 4 = 10w-30, 5 = Corn Syrup
+	# o_hoopz_death_grayscale CREATE event has the color values
+	#B2_Playerdata.Quest("playerCCBloodType", 0);
+
+	# CC Gender
+	# No use currently
+	#B2_Playerdata.Quest("playerCCGender", "Dwarf");
+	#B2_Playerdata.Quest("playerCCGenderName", "Dwarf");
+
+	# CC Alignment
+	#B2_Playerdata.Quest("playerCCAlignmentEthical", ALIGN_ETHICAL_NEUTRAL);
+	#B2_Playerdata.Quest("playerCCAlignmentMoral", ALIGN_MORAL_NEUTRAL);
+
+	# CC Tarot
+	# 0 - 25 and 26 is BABE
+	#B2_Playerdata.Quest("playerCCTarot1", 0);
+	#B2_Playerdata.Quest("playerCCTarot2", 1);
+	#B2_Playerdata.Quest("playerCCTarot3", 2);
+	#B2_Playerdata.Quest("playerCCTarot4", 3);
+
+	# CC Rune
+	# This is tracked in a quest var but you also get it as an item at the start
+	#B2_Playerdata.Quest("playerCCRune", 0);
+
+	# CC Enemy Boost (hand scanner)
+	#B2_Playerdata.Quest("playerCCScanner", 0); # Enemy glamp bonus
+
+	# Roll Hoopz base stats ## NOTE No idea how to use these. Ignoring them for now.
+	#scr_stats_resetStats();
+	#scr_stats_setBaseStat( self, STAT_BASE_LEVEL, 12);
+	#scr_stats_setBaseStat( self, STAT_BASE_HP, 47);
+	#scr_stats_setBaseStat( self, STAT_BASE_SPEED, 9.5); # AGILITY # Tweak this when the formula is set
+#
+	#scr_stats_setBaseStat( self, STAT_BASE_GUTS, 10);
+	#scr_stats_setBaseStat( self, STAT_BASE_LUCK, 10);
+	#scr_stats_setBaseStat( self, STAT_BASE_AGILE, 10);
+	#scr_stats_setBaseStat( self, STAT_BASE_MIGHT, 10);
+	#scr_stats_setBaseStat( self, STAT_BASE_PIETY, 10);
+	##scr_stats_rollBaseStats(1, 8, 8, 8, 8, 8);
+	#scr_stats_genEffectiveStats();
+	#scr_stats_resetCurrentStats();
+	
+#endregion
+
+	# Save maps into Savedata
+	B2_Config.set_user_save_data("player.stats.base", 		0); # was stats_base
+	B2_Config.set_user_save_data("player.stats.effective", 	0); # was stats_effective
+	B2_Config.set_user_save_data("player.stats.current", 	0); # was stats_current
+
+	# Save status effects into Savedata
+	B2_Config.set_user_save_data("player.stats.statuseffects", 0); # was list_status_effect
+	
+	# Respawn info
+	B2_Config.set_user_save_data("player.respawn.do", false);
+	B2_Config.set_user_save_data("player.respawn.room", "");
+	B2_Config.set_user_save_data("player.respawn.x", 0);
+	B2_Config.set_user_save_data("player.respawn.y", 0);
+	B2_Config.set_user_save_data("player.respawn.loc", "");
+	B2_Config.set_user_save_data("player.respawn.junk", false);
+	B2_Config.set_user_save_data("player.deaths.total", 0);
+	B2_Config.set_user_save_data("player.deaths.current", 0);
+	
+	# Jerkin
+	B2_Config.set_user_save_data("player.jerkins.has", 			Dictionary() ); # ds_list of jerkins the player has
+	B2_Config.set_user_save_data("player.jerkins.current", 		""); # Hoopz current jerkin
+	
+	B2_Config.set_user_save_data("player.chips.has", 			Dictionary() );
+	B2_Config.set_user_save_data("player.chips.current", 		"");
+
+	# Items
+	B2_Config.set_user_save_data("player.items.has", 			Dictionary() );
+	B2_Config.set_user_save_data("player.schematics.zaubers", 	Dictionary() );
+	B2_Config.set_user_save_data("player.schematics.relics", 	Dictionary() );
+	
+	# Candy
+	B2_Config.set_user_save_data("player.schematics.candy", 	Dictionary() );
+	
+	# Zauber
+	B2_Config.set_user_save_data("player.zaubers", 				Dictionary() );
+	
+	# Humanism
+	B2_Config.set_user_save_data("player.humanism.bio", 90.0);
+	B2_Config.set_user_save_data("player.humanism.cyber", 10.0);
+	B2_Config.set_user_save_data("player.humanism.cosmic", 0.0);
+	B2_Config.set_user_save_data("player.humanism.zauber", 0.0);
+	
+	# Bonnet ## NOTE ?????? 
+	B2_Config.set_user_save_data("player.hasBonnet", true);
+	
+	# XP
+	B2_Config.set_user_save_data("player.xp.questxp", 0);
+
+	B2_Config.set_user_save_data("player.xp.level", 12);
+	B2_Config.set_user_save_data("ustation.smelt", 500);
+	
+	# Vidcon # Vidcon("reset"); # Reset vidcons you have and vidcon XP
+	B2_Config.set_user_save_data("player.xp.vidcons", 		0);
+	B2_Config.set_user_save_data("player.xp.vidconsBoxed", 	0);
+	
+	# Spawn points
+	B2_Config.set_user_save_data("spawn", Dictionary() );
+	
+	# Gunmap - Generate hoopz's gun map for this game
+	#Gunsmap("generate");
+	B2_Config.set_user_save_data("gunsmap.seed", 0); # was global.gunsmapSeed
+	
+	# Generate guns
+	B2_Config.set_user_save_data("player.guns.bandolier", 		Dictionary() );
+	B2_Config.set_user_save_data("player.guns.bag", 			Dictionary() );
+	B2_Config.set_user_save_data("player.guns.schematics", 		Dictionary() );
+	
+	B2_Config.set_user_save_data("player.guns.lineage", 		Dictionary() );
+	B2_Config.set_user_save_data("player.guns.lineageID", 		Dictionary() );
+	B2_Config.set_user_save_data("player.guns.lineageCount", 	0);
+	
+	# Cuchu elevator starts at floor 666 # I put this here as guided by bort, blame him. 
+	# The idea is to set the initial floor to 666 just once so this seems like a good spot #
+	B2_Playerdata.Quest("elevatorFloorGoal", 	665);
+	B2_Playerdata.Quest("elevatorFloor", 		665);
+	B2_Playerdata.Quest("hudVisible", 			1);
+	B2_Playerdata.Quest("zoneVisible", 			1);
+	B2_Playerdata.Quest("dropEnabled", 			1);
+	B2_Playerdata.Quest("dropTable", 			0); # 0 = regular, 1 = boss
+	B2_Playerdata.Quest("infiniteAmmo", 		0);
+	B2_Playerdata.Quest("yapWords", 			0);
+	
+	B2_Playerdata.Quest("saveDisabled", 		1 );
+	B2_Playerdata.Quest("sceneBrandingStart", 	1 );
+	B2_Playerdata.Quest("gameStart", 			1 );
+	B2_Playerdata.Quest("elevatorFloor", 		665 );
+	B2_Playerdata.Quest("elevatorFloorGoal", 	665 );
+	B2_Playerdata.Quest("ccCompleted", 			1 );
+	
+	B2_Config.set_user_save_data("map.room", "r_fct_eggRooms01") # scr_savedata_put("map.room", "r_fct_eggRooms01");
+	B2_Config.set_user_save_data("map.x", 0); # scr_savedata_put("map.x", 0);
+	B2_Config.set_user_save_data("map.y", 0); # scr_savedata_put("map.y", 0);
+	
+	B2_Config.create_user_save_data( B2_Config.selected_slot ) ## scr_savedata_save();
+	
+	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.POINT )
+	
+	# Teleport(r_fct_eggRooms01, 0, 0, 1);
 	
 	# Load WIP room.
 	const R_WIP = "res://barkley2/rooms/r_wip.tscn" # original room, donut steel!

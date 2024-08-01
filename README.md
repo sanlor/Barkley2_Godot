@@ -4,7 +4,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 
 
 # Stage 0 - AN OLD PROMISSE.........FORGOTTEN.
-( Recreate the title screen, with all original features )
+( Recreate the title screen, with all original features. Also scrate some autoload to start laying the groundwork for the game )
   - [x] Migrate important scripts and objects to Godot´s autoloads
 	- [x] Migrate the Audio() Script, responsible for the Music -> 25% done
 	- [x] Migrate the Sound() Script, responsible for the Sfx -> 50% done
@@ -71,4 +71,6 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [x] o_cc_palm_reading
 	- [x] o_cc_lottery
 	- [x] o_cc_likes_favorites
-- [ ] o_cc_finish
+- [x] o_cc_finish
+- [x] Add a room to inform the player of the game´s end ( r_wip )
+- [ ] Setup the save system to work correctly

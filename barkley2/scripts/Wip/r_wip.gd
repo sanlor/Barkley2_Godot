@@ -10,7 +10,7 @@ var noise_x := 0.0
 var noise_y := 0.0
 
 func _ready():
-	B2_Music.play( "mus_dancePAX", 0.1 )
+	B2_Music.play( "mus_dancePAX", 0.0 )
 	noise.seed = hash("big butts")
 
 func _on_button_pressed():

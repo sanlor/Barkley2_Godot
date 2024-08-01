@@ -1,5 +1,5 @@
 extends Control
-class_name B2_Border_Foreground
+#class_name B2_Border_Foreground
 
 ## This node is part of the translation of the Border() script.
 # This one handles the actual rrandom borders that each panel gets.

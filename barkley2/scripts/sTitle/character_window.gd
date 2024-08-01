@@ -80,6 +80,7 @@ func _on_cc_button_button_pressed(): ## Open the CC. Good luck
 	fade_out.modulate.a = 0.0
 	var tween := create_tween()
 	tween.tween_property(fade_out, "modulate:a", 1.0, 1.0)
+	tween.tween_callback( B2_Music.stop.bind( 2.0 ) )
 	tween.tween_interval(2.5)
 	tween.tween_callback( get_tree().change_scene_to_packed.bind(R_CC) )
 
@@ -91,7 +92,7 @@ func _on_skip_button_button_pressed():
 
 func show_notice():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	oConfirm.givTxt = Text.pr("This is the end of the game (for now).")
+	oConfirm.givTxt = Text.pr("This is not available at this point.")
 	oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
 	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
 	add_child(oConfirm)

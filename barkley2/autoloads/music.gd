@@ -170,6 +170,15 @@ func room_get( room_name : String):
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 
+func stop( speed := 0.25 ):
+	#queue( music_bank.get("mus_blankTEMP.ogg", ""), speed )
+	if tween != null:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
+	await tween.finished
+	audio_stream_player.stop()
+
 #else if (argument[0] == "queue")
 func queue( track_name : String, speed := 1.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
@@ -188,20 +197,11 @@ func queue( track_name : String, speed := 1.0 ): ## track name should exist in t
 	audio_stream_player.stream = next_music
 	audio_stream_player.play()
 	
-	tween = create_tween()
-	tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), speed)
-	await tween.finished
+	if speed != 0.0: # fade in music
+		tween = create_tween()
+		tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), speed)
+		await tween.finished
+	else: # instant music
+		audio_stream_player.volume_db = linear_to_db(B2_Config.bgm_gain_master)
 	
 	bgm_music = track_name # argument[1];
-	
-	#show_debug_message("Music('queue') - " + global.bgm_music);
-#}
-#else if (argument[0] == "init")
-#{
-	#global.bgm_check = bgmCheck;
-	#global.bgm_disable = false; ## was global.music_ist_verboten
-	#global.bgm_music = ""; ## Value you want to set to
-	#global.bgm_interior_effect = 1;
-	#global.bgm_fast_fade = false;
-#}
-#else show_debug_message("Music: Unknown command " + string(argument[0]));

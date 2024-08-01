@@ -87,19 +87,19 @@ func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0):
 	if sfx != null:
 		sfx.finished.emit()
 
-func play(soundID : String, start_at := 0.0, priority := false, loops := 1) -> AudioStreamPlayer:
+func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
 	## Sound("play" / "at" / "on", etc...)
 	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
 	if sound_bank.has(soundID):
 		
 	#if check(soundID, -999, -999) == 0:
 		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
-		return queue(soundID, start_at, priority, loops) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
+		return queue(soundID, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 
-func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1) -> AudioStreamPlayer:
+func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
 		push_error("No audiostreen on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
@@ -109,6 +109,7 @@ func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1) ->
 	sfx.name = soundID + "_" + str(randi())
 	sfx.finished.connect( finished_playing.bind(sfx) )
 	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+	sfx.pitch_scale = pitch
 	## Loop Setup
 	sound_loop[sfx] = loops
 	

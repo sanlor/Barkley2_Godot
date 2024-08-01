@@ -122,6 +122,7 @@ func _ready():
 			n.play("default")
 	
 	B2_Config.language_changed.connect( set_title_names )
+	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.POINT )
 	
 	## Music
 	B2_Music.room_get( "r_title" )

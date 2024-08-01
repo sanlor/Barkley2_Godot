@@ -157,7 +157,7 @@ func accept_name():
 	
 	B2_Playerdata.character_name_type = 0;
 	B2_Playerdata.character_name = player_name
-	B2_Playerdata.Quest("playerCCName", str(player_name) );
+	B2_Playerdata.Quest("playerCCName", str( B2_Playerdata.character_zodiac_day ) );
 	
 	B2_Sound.play("sn_cc_button_accept")
 	r_cc.wizard_is_emoting()

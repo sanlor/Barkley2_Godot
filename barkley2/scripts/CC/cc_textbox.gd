@@ -70,7 +70,7 @@ func _process(delta):
 			else:
 				textbox.visible_ratio = 1.0
 				wizard_cc.wizard_is_silent()
-				B2_Sound.play( wizard_sounds.pick_random() )
+				B2_Sound.play( wizard_sounds.pick_random(), 0.0, false, 1, 2.0 )
 				
 		if Input.is_action_just_released("Action"):
 			curr_typing_speed = normal_typing
@@ -164,7 +164,7 @@ func _type_next_letter(delta):
 				wizard_cc.wizard_is_talking()
 				
 				if curr_typing_speed == normal_typing:
-					B2_Sound.play( wizard_sounds.pick_random() )
+					B2_Sound.play( wizard_sounds.pick_random(), 0.0, false, 1, 2.0 )
 				
 		#wizard_cc.wizard_is_talking()
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed

@@ -106,6 +106,7 @@ func _process(delta):
 func spin_card( card_id : int ):
 	spinning_card = card_id
 	#var spin_speed := 0.08
+	card_selection(false)
 	B2_Sound.play("sn_cc_tarot_flip")
 	var card : AnimatedSprite2D = card_nodes[spinning_card]
 	var spin_tween := create_tween()
@@ -119,7 +120,7 @@ func spin_card( card_id : int ):
 			spin_tween.tween_property(card, "scale:x", 1.0, spin_speed)
 			
 	await spin_tween.finished
-	card_selection(false)
+	
 	# check if all cards are picked
 	if cards_picked > 2:
 		card_selected.emit( card_index[ cards_picked ], cards_picked )
@@ -137,6 +138,7 @@ func flip_card(card : AnimatedSprite2D, frame : int, is_flipped : bool ):
 func card_selection( enabled : bool):
 	for card in card_nodes:
 		card.can_be_selected = enabled
+		card.is_hovering = false
 
 func orbit_cards():
 	is_orbiting = true

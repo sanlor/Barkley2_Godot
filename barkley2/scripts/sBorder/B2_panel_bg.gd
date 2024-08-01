@@ -35,8 +35,10 @@ func _init():
 	add_child(b_2_panel_fg)
 
 func _ready():
-	size = border_size
-	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
+	#size = border_size
+	set_panel_size(border_size.x, border_size.y)
+	#b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
+	
 
 # Decorations are children that this node can control, change color and such
 func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
@@ -48,8 +50,8 @@ func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
 # This replaces que Border("generate") argument
 func set_panel_size(x, y):
 	border_size = Vector2(x,y)
-	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
 	size = border_size
+	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
 	queue_redraw()
 
 func get_panel_size():
