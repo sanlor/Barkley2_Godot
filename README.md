@@ -12,8 +12,6 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	  - [x] Generate the panel, with its "random" border decorrations
 	- [x] Migrate the oConfirm object
 	- [ ] TBD
-> [!NOTE]
-> Discover what else need to be migrated.
 
   - [x] Recreate all of the game´s fonts. The original font is just a bunch of animated sprites.
   - [x] Recreate the game´s cursor.
@@ -75,3 +73,11 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 - [x] Add a room to inform the player of the game´s end ( r_wip )
 - [x] Setup the save system to work correctly
 - [x] General bugfixes
+
+# Stage 2 - FORGOTTEN.........FORSAKEN.........
+( Recreate the Egg Room ONLY. Lay the groundwork for the tutorial. Make a cinematic system and dynamic dialog boxes. )
+
+- [x] Migrate to Godot 4.3 ( Only the RC1 is available rn )
+
+> [!NOTE]
+> Discover what else need to be migrated.
