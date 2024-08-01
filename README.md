@@ -73,4 +73,5 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 	- [x] o_cc_likes_favorites
 - [x] o_cc_finish
 - [x] Add a room to inform the player of the game´s end ( r_wip )
-- [ ] Setup the save system to work correctly
+- [x] Setup the save system to work correctly
+- [x] General bugfixes
