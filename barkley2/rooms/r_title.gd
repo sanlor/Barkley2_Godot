@@ -125,6 +125,7 @@ func _ready():
 	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.POINT )
 	
 	## Music
+	await get_tree().process_frame
 	B2_Music.room_get( "r_title" )
 	mode = "basic" ## default state of the game.
 	

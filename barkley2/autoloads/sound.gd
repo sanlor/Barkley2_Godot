@@ -41,11 +41,9 @@ var sound_pool_amount 		:= 25
 
 var sound_loop				:= {} ## Keep track of the loops
 
-func _init():
-	init()
-
 func _init_sound_banks():
 	print("init sound banks started: ", Time.get_ticks_msec())
+	await get_tree().process_frame
 	
 	## Load audio tracks (SFX)
 	var _audio_folder := DirAccess.open( audio_folder )
@@ -175,10 +173,6 @@ func check(soundID, x, y):
 		soundPlayed.append(_st);
 		soundHealth.append(0.05);
 		return 0;
-
-func init():
-	soundPlayed.clear();
-	soundHealth.clear();
 
 func scr_sound_init():
 	print("scr_sound_init(): Begin...") # show_debug_message("scr_sound_init(): Begin...");

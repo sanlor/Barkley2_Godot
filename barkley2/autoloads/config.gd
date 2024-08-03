@@ -144,7 +144,8 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	var file := "save%s.b2" % str( slot )
 	if FileAccess.file_exists( usersavefolder + file ):
 		# Creating a save slot on a existing slot? this is wrong, the old one should be deleted first
-		breakpoint
+		# breakpoint
+		pass
 		
 	selected_slot = slot
 	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )

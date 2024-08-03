@@ -18,8 +18,10 @@ var bgm_music : String = ""
 var bgmCheck = 1; ## was 5
 #if (argument[0] == "get")
 
-func _init():
+func _load_music_banks():
 	print("init music banks started: ", Time.get_ticks_msec())
+	await get_tree().process_frame
+	
 	## Load music tracks
 	var _music_folder := DirAccess.open( music_folder )
 	#print( _music_folder.get_files() )
@@ -31,8 +33,12 @@ func _init():
 
 	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
 
+func _enter_tree() -> void:
+	_load_music_banks()
+
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
+	
 
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100

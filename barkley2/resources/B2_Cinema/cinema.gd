@@ -1,0 +1,2 @@
+extends AnimationPlayer
+class_name B2_Cinema
