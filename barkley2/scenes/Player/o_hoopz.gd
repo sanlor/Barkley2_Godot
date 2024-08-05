@@ -30,7 +30,9 @@ const WALK_SW		:= "walk_SW"
 const WALK_S		:= "walk_S"
 const WALK_SE		:= "walk_SE"
 
+# Used on the tutorial
 const DIAPER_GROUND 	:= "diaper_ground"
+const DIAPER_SPANK 		:= "diaper_spank"
 const DIAPER_GETUP 		:= "diaper_getup"
 const DIAPER_GOOROLL 	:= "diaper_gooroll"
 const DIAPER_SPANKCRY 	:= "diaper_spankcry"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://bpqbvhnpep8qn"]
+[gd_scene load_steps=36 format=4 uid="uid://bpqbvhnpep8qn"]
 
 [ext_resource type="TileSetAtlasSource" uid="uid://dfvurjg7uuw8h" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_eggroom01.tres" id="1_a0d5s"]
 [ext_resource type="TileSetAtlasSource" uid="uid://c8flh1oqtqlnt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="2_bdx5f"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/cinema.gd" id="4_23cou"]
 [ext_resource type="PackedScene" uid="uid://ii7b5p38qkm5" path="res://barkley2/scenes/rooms/factory/fct_hoopz_egg_01.tscn" id="4_ehtdv"]
 [ext_resource type="Texture2D" uid="uid://dvecu1h6j5281" path="res://barkley2/assets/b2_original/images/merged/s_variable01.png" id="5_1fuw6"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="5_3x34e"]
 [ext_resource type="Texture2D" uid="uid://dk707yql50hgp" path="res://barkley2/assets/b2_original/images/merged/s_zane01.png" id="6_ljdwg"]
 [ext_resource type="PackedScene" uid="uid://xowxayc4v63k" path="res://barkley2/scenes/Player/o_hoopz.tscn" id="6_sw15m"]
 [ext_resource type="Texture2D" uid="uid://du6ff1eph53b" path="res://barkley2/assets/b2_original/images/merged/s_jhodfrey01.png" id="7_8fvsg"]
@@ -16,6 +17,103 @@
 [sub_resource type="TileSet" id="TileSet_rc5e7"]
 sources/0 = ExtResource("1_a0d5s")
 sources/1 = ExtResource("2_bdx5f")
+
+[sub_resource type="Resource" id="Resource_b26ct"]
+script = ExtResource("5_3x34e")
+original_script = "FADE   | 1 | 0
+LOOK   | o_zane01 | SOUTHWEST
+SET    | o_cts_hoopz | diaper_ground
+SET    | o_zane01 | lookdown
+Camera | snap | o_cinema11
+Misc   | set | o_cts_hoopz | o_cinema11
+FRAME  | CAMERA_FAST | o_cinema10
+WAIT   | 0
+QUEST  | gameStart = 2
+QUEST  | tutorialProgress = 1
+WAIT   | 1
+FADE   | 0 | 2
+WAIT   | 3.5
+WAIT   | 0
+FRAME  | CAMERA_SLOW | o_fct_hoopzEgg01 | o_cinema11
+WAIT   | 0
+WAIT   | 1
+EVENT  | o_fct_hoopzEgg01 | 1
+EVENT   | o_room_dream_filter | 2
+DIALOG | ? ? ? = s_port_zane | I'm not getting any vitals. Vitals are janked to all heck. No signs of breathing...
+DIALOG | ? ? ? = s_port_variable | We're losing the objective... administering resucitative spank... stand clear.
+WAIT   | 0.2
+MOVETO | o_variable01 | o_cinema7 | MOVE_FAST
+WAIT   | 0
+SET    | o_variable01 | spankingHold
+DIALOG | ? ? ? = s_port_variable | Spank inbound, initiating spank.
+WAIT   | 1
+PLAYSET | o_variable01 | spanking | spankingKneel
+PLAYSET | o_cts_hoopz | diaper_spank | diaper_ground
+WAIT    | 0.5
+EVENT   | o_room_dream_filter | 0
+SOUND   | sn_hoopzSpanked
+WAIT    | 1
+PLAYSET | o_variable01 | spanking | spankingKneel
+PLAYSET | o_cts_hoopz | diaper_spank | diaper_ground
+WAIT    | 0.5
+EVENT   | o_room_dream_filter | 0
+SOUND   | sn_hoopzSpanked
+PLAYSET | o_cts_hoopz | diaper_cry | diaper_ground
+\" +
+//TODO: start the looping WAIL SOUND
+\"
+DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper_shock | `w1`Wahhhhh...`w0`_ `w2`Uhnngg...`w0` `s1`WAHHHH!`s0`
+\" +
+//TODO: stop the cry loop animation and wail sound
+\"
+WAIT   | 1.0
+DIALOG | ? ? ? = s_port_variable | Spank successful.
+DIALOG | ? ? ? = s_port_zane  | Looks like our intel was right for once. This must be the mark. That's good luck, I thought we'd have to be crackin' eggs all day.
+FRAME  | CAMERA_FAST | o_zane01 | o_jhodfrey01
+WAIT   | 0 /////////////////////////////////////////// the culprit
+DIALOG | ? ? ? = s_port_jhodfrey | Are you sure? Doesn't look like much...
+SET    | o_variable01 | default
+WAIT   | 1.0
+MOVETO | o_variable01 | o_cinema9 | MOVE_FAST
+WAIT   | 0
+MOVETO | o_variable01 | o_cinema4 | MOVE_FAST
+DIALOG | ? ? ? = s_port_zane | `kw`Operation Valkyrie`rt` states to extract a youngster powerful beyond its years... look at those traps and delts... not to mention those tris and lats... That looks like `kw``w1`power`w0``rt` to me.
+DIALOG | ? ? ? = s_port_jhodfrey | Hmmpf... we'll see.
+WAIT   | 1.0
+FRAME  | CAMERA_FAST | o_variable01
+DIALOG | ? ? ? = s_port_variable | `sq`The Bees`rt` are returning to `kw`The Hive!`rt`_ I repeat, `sq`The Bees`rt` are returning to `kw`The Hive!`rt`
+DIALOG | ? ? ? = s_port_variable | `sq`Papa Bear`rt` is hungry!_ Grab the `kw`Honey`rt` and run!
+MOVETO | o_variable01 | o_cinema5 | MOVE_FAST
+FRAME  | CAMERA_NORMAL | o_jhodfrey01 | o_zane01
+WAIT   | 3.0
+DIALOG | ? ? ? = s_port_jhodfrey | I'm going with him... let's see if you and big baby there can keep up.
+MOVETO | o_jhodfrey01 | o_cinema6 | MOVE_NORMAL
+MOVETO | o_variable01 | o_cinema3 | MOVE_FAST
+WAIT   | 0.5
+SET    | o_zane01 | lookdown
+FRAME  | CAMERA_NORMAL | o_zane01 | o_cts_hoopz01
+DIALOG | ? ? ? = s_port_zane | Let's get you up, young'un.
+MOVETO | o_zane01 | o_cinema30 | MOVE_FAST
+WAIT   | 0
+PLAYSET | o_cts_hoopz | diaper_getup | stand_S
+WAIT   | 0.2
+SET    | o_zane01 | default
+WAIT   | 0
+\" +
+//TODO: change these responses to pull from the \"is controller on or is kb+m on?\"
+\"
+DIALOG | ? ? ? = s_port_zane | Can you walk?__ `mq`<REDACTED>`rt` said you'd have a hard time walking at first. It's easy though, you can get around just by `kw`\" + controlType + \".`rt` Come on, follow me!
+MOVETO | o_zane01 | o_cinema1 | MOVE_FAST
+WAIT   | 0
+EVENT  | o_fct_hoopzEgg01 | 0 // Collision enable
+EVENT  | o_variable01 | 2
+EVENT  | o_jhodfrey01 | 2
+EVENT  | o_zane01 | 10
+QUEST  | zaneState = 1
+QUEST  | saveEnabled = 1
+LOOK   | o_zane01 | NORTHEAST
+Create | o_tutorial_popups01 | 0 | 0
+EXIT |"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_abbiq"]
 atlas = ExtResource("5_1fuw6")
@@ -194,8 +292,9 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAA
 tile_set = SubResource("TileSet_rc5e7")
 script = ExtResource("3_4xgyf")
 
-[node name="B2_Cinema" type="AnimationPlayer" parent="."]
+[node name="B2_Cinema" type="CanvasLayer" parent="."]
 script = ExtResource("4_23cou")
+cutscene_script = SubResource("Resource_b26ct")
 
 [node name="P0 - o_semisolid16" type="Marker2D" parent="."]
 position = Vector2(208, 208)

@@ -43,7 +43,7 @@ var sound_loop				:= {} ## Keep track of the loops
 
 func _init_sound_banks():
 	print("init sound banks started: ", Time.get_ticks_msec())
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	
 	## Load audio tracks (SFX)
 	var _audio_folder := DirAccess.open( audio_folder )
