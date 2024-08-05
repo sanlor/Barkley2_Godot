@@ -78,6 +78,26 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 ( Recreate the Egg Room ONLY. Lay the groundwork for the tutorial. Make a cinematic system and dynamic dialog boxes. )
 
 - [x] Migrate to Godot 4.3 ( Only the RC1 is available rn )
-
+- [x] Organize the Directory tree (its big mess!)
+- [X] Create a tool to migrate the GML rooms to TileMapLayers
+- [X] Reduce the img file cound by merging files
+- [ ] Migrate the Cinema() Script
+- [ ] Migrate the o_dialogue object
+- [ ] Migrate the Portrait() Script
+- [ ] Migrate the first cutscene
+	- [ ] Parte the original script
+ 	- [ ] Handle the camera movement
+  	- [ ] Handle the character movement
+  	- [ ] Handle the haracter animation ( getting spanked )
+  	- [ ] Handle the Character Dialog
+  		- [x] Create dialog frame
+  	 	- [x] Create Portrait frame
+  	  	- [x] Create person portrait with animation and blinking
+  	  	- [ ] Handle text wraping
+  	  	- [ ] handle more than 4 text lines
+  	  	- [ ] handle text animations
+- [ ] Create Input Autoload to handle user imputs
+- [ ] Make the player movement based on the Input Autoload
+- [ ] 
 > [!NOTE]
 > Discover what else need to be migrated.
