@@ -120,6 +120,13 @@ var type_timer := 0.0
 var can_type := false
 var is_typing := false
 
+var is_waiting_input := false
+
+## Portrait stuff
+var blink_cooldown 	:= 0.0
+var blink_speed 	:= 6.50
+var is_talking		:= false
+
 func _ready() -> void:
 	#if not Engine.is_editor_hint():
 	border_node = B2_Border.new()
@@ -128,8 +135,8 @@ func _ready() -> void:
 	border_node.position = Vector2( _draw_x, _draw_y )
 	border_node.set_panel_size( textbox_width - _draw_x * 2, 48 + 44 )
 	
-	set_text("`kw`Operation Valkyrie`rt` states to extract a youngster powerful beyond its years... look at those traps and delts... not to mention those tris and lats... That looks like `kw``w1`power`w0``rt` to me.","bbbbb")
-	set_portrait( "s_port_hoopz" )
+	set_text("aaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\n","bbbbb")
+	set_portrait( "s_port_zane" )
 	display_dialog()
 	
 func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
@@ -141,7 +148,7 @@ func set_text( _text : String, _text_title := "" ) -> void:
 		title_node 	= RichTextLabel.new(); add_child(title_node); title_node.bbcode_enabled = true
 		_title 		= _text_title 	# whos speaking the text
 		
-	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true
+	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
 	_my_text 	= _text 		# text dialog
 	
 func set_portrait( portrait_name : String ) -> void:
@@ -153,9 +160,6 @@ func set_portrait( portrait_name : String ) -> void:
 	
 	_load_portrait( portrait_name ) # load the talker´s picture
 	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
-	
-	#portrait_img_node.play("blink")
-	portrait_img_node.play("talk")
 	
 	has_portrait = true
 	
@@ -232,38 +236,71 @@ func show_box(): # allow showing the dialog box with some fancy animation
 func hide_box(): # allow hiding the dialog box with some fancy animation
 	hide()
 
+func _portrait_is_silent():
+	if not has_portrait:
+		return
+	is_talking = false
+	portrait_img_node.animation = "blink"
+	portrait_img_node.frame = 0
+
+func _portrait_is_talking():
+	if not has_portrait:
+		return
+	is_talking = true
+
+	portrait_img_node.animation = "talk"
+	var max_frame = portrait_img_node.sprite_frames.get_frame_count( "talk" )
+	#var new_frame := wrapi( portrait_img_node.frame + randi_range(0,1) + 1, 0, max_frame )
+	var new_frame := wrapi( portrait_img_node.frame + 1, 0, max_frame )
+	
+	portrait_img_node.frame = new_frame
+
 func _type_next_letter(delta):
+	if is_waiting_input:
+		return
+		
 	if type_timer > 0.0: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
+		if text_node.get_character_line( text_node.visible_characters ) > 3:
+			_portrait_is_silent()
+			print(  )
+			await wait_user_input()
+			var text_to_remove := text_node.get_parsed_text().erase(0, text_node.visible_characters)
+			text_node.visible_characters = 0
+			text_node.clear()
+			text_node.append_text( text_to_remove )
+			
+		
 		var add_wait := 0.0
 		var curr_char : String = _my_text [ text_node.visible_characters ]
 
 		match curr_char: # add a pause for certain characters
 			" ":
 				add_wait = 0.0
-				#wizard_cc.wizard_is_silent() # a small pause, the wizard stop talking.
+				#_portrait_is_silent()
 			",":
 				add_wait = comma_pause
-				#wizard_cc.wizard_is_silent()
+				_portrait_is_silent()
 			".":
 				add_wait = period_pause
-				#wizard_cc.wizard_is_silent()
+				_portrait_is_silent()
 			"-":
 				add_wait = dash_pause
-				#wizard_cc.wizard_is_silent()
+				_portrait_is_silent()
 			"!":
 				add_wait = exclamation_pause
-				#wizard_cc.wizard_is_silent()
+				_portrait_is_silent()
 			"?":
 				add_wait = question_pause
-				#wizard_cc.wizard_is_silent()
+				_portrait_is_silent()
 			_:
 				# Avoid playing sounds when players skips
 				#wizard_cc.wizard_is_talking()
 				
 				if curr_typing_speed == normal_typing:
 					B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
+					_portrait_is_talking()
 				
 		#wizard_cc.wizard_is_talking()
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed
@@ -271,10 +308,31 @@ func _type_next_letter(delta):
 		if not text_node.visible_ratio == 1.0: # avoid issues with the text skipping
 			text_node.visible_characters += 1
 
+func wait_user_input():
+	is_waiting_input = true
+	await input_pressed
+	is_waiting_input = false
+
 func _process(delta):
+	if Engine.is_editor_hint():
+		return
+	if has_portrait:
+		if not is_talking:
+			blink_cooldown 	-= delta
+			
+			if blink_cooldown < 0.0:
+				portrait_img_node.animation = "blink"
+				
+				if portrait_img_node.frame == 1:
+					blink_cooldown = blink_speed
+					portrait_img_node.frame = 0
+				else:
+					blink_cooldown = blink_speed / 16.0
+					portrait_img_node.frame = 1
+		
 	if Input.is_action_just_pressed("Action"):
 		curr_typing_speed = fast_typing
-		if text_node.visible_ratio == 1.0:
+		if text_node.visible_ratio == 1.0 or is_waiting_input:
 			input_pressed.emit()
 		else:
 			text_node.visible_ratio = 1.0
@@ -285,7 +343,7 @@ func _process(delta):
 		
 		if text_node.visible_ratio == 1.0:
 			can_type = false
-			# wizard_cc.wizard_is_silent()
+			_portrait_is_silent()
 			
-			await input_pressed # we dont wait for inputs on questions
+			await wait_user_input()
 			finished_typing.emit()

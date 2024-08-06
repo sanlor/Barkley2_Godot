@@ -42,8 +42,8 @@ var sound_pool_amount 		:= 25
 var sound_loop				:= {} ## Keep track of the loops
 
 func _init_sound_banks():
+	# https://gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
 	print("init sound banks started: ", Time.get_ticks_msec())
-	#await get_tree().process_frame
 	
 	## Load audio tracks (SFX)
 	var _audio_folder := DirAccess.open( audio_folder )
@@ -86,12 +86,7 @@ func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0):
 		sfx.finished.emit()
 
 func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
-	## Sound("play" / "at" / "on", etc...)
-	## Sound("play", 1 = soundID, 2 = priority, 3 = loops)
 	if sound_bank.has(soundID):
-		
-	#if check(soundID, -999, -999) == 0:
-		## audio_sound_gain_ext(soundID, 1, 0); ## TODO Port this script / function
 		return queue(soundID, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
 	else:
 		push_warning("Invalid SoundID: ", soundID)
