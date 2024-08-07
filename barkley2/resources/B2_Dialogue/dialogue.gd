@@ -113,7 +113,7 @@ var question_pause := 0.7 #2.2 ## Added by me, not on the original.
 var exclamation_pause := 0.7 #2.2 ## Added by me, not on the original.
 
 var normal_typing := 1.0
-var fast_typing := 0.01
+var fast_typing := 0.0
 var curr_typing_speed := normal_typing
 
 var type_timer := 0.0
@@ -135,7 +135,9 @@ func _ready() -> void:
 	border_node.position = Vector2( _draw_x, _draw_y )
 	border_node.set_panel_size( textbox_width - _draw_x * 2, 48 + 44 )
 	
-	set_text("aaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\naaaaaaa\n","bbbbb")
+	input_pressed.connect( handle_input )
+	
+	set_text("LINE1_GGGGGGGGGGGGGGGGGGGGGG\nLINE2_GGGGGGGGGGGGGGGGGGGGGG\nLINE3_GGGGGGGGGGGGGGGGGGGGGG\nLINE4_GGGGGGGGGGGGGGGGGGGGGG\nLINE5_GGGGGGGGGGGGGGGGGGGGGG\nLINE6_GGGGGGGGGGGGGGGGGGGGGG\n","Talker")
 	set_portrait( "s_port_zane" )
 	display_dialog()
 	
@@ -164,13 +166,13 @@ func set_portrait( portrait_name : String ) -> void:
 	has_portrait = true
 	
 func display_dialog( _is_boxless := false ):
-	var text_offset := 0
+	var _text_offset := 0
 	if has_portrait: 
-		text_offset = 40
+		_text_offset = 40
 	
 	if not title_node == null:
 		title_node.name 		= "Title_text"
-		title_node.position 	= Vector2( _draw_x + 27 + text_offset, _draw_y + 12 + 5 )
+		title_node.position 	= Vector2( _draw_x + 27 + _text_offset, _draw_y + 12 + 5 )
 		title_node.size 		= Vector2( 290, 12 )
 
 		title_node.push_color( _title_color )
@@ -178,7 +180,7 @@ func display_dialog( _is_boxless := false ):
 		title_node.pop_all()
 	
 	text_node.name 				= "Text"
-	text_node.position 			= Vector2( _draw_x + 27 + text_offset, _draw_y + 12 + 5 + 16)
+	text_node.position 			= Vector2( _draw_x + 27 + _text_offset, _draw_y + 12 + 5 + 16)
 	text_node.size 				= Vector2( 290, 12 * 4)
 
 	text_node.push_color( _text_color )
@@ -264,17 +266,20 @@ func _type_next_letter(delta):
 	else:
 		if text_node.get_character_line( text_node.visible_characters ) > 3:
 			_portrait_is_silent()
-			print(  )
+			is_typing = false
+			curr_typing_speed = normal_typing
 			await wait_user_input()
 			var text_to_remove := text_node.get_parsed_text().erase(0, text_node.visible_characters)
 			text_node.visible_characters = 0
 			text_node.clear()
 			text_node.append_text( text_to_remove )
+			is_typing = true
+			#text_node.scroll_to_line( 4 )
 			
-		
 		var add_wait := 0.0
-		var curr_char : String = _my_text [ text_node.visible_characters ]
-
+		var curr_char : String = text_node.get_parsed_text()[ text_node.visible_characters ] #_my_text [ text_node.visible_characters ]
+		is_typing = true
+		
 		match curr_char: # add a pause for certain characters
 			" ":
 				add_wait = 0.0
@@ -296,13 +301,10 @@ func _type_next_letter(delta):
 				_portrait_is_silent()
 			_:
 				# Avoid playing sounds when players skips
-				#wizard_cc.wizard_is_talking()
-				
 				if curr_typing_speed == normal_typing:
 					B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
 					_portrait_is_talking()
-				
-		#wizard_cc.wizard_is_talking()
+		
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed
 		
 		if not text_node.visible_ratio == 1.0: # avoid issues with the text skipping
@@ -313,9 +315,17 @@ func wait_user_input():
 	await input_pressed
 	is_waiting_input = false
 
+func handle_input():
+	if text_node.visible_ratio < 1.0 and is_typing:
+		#text_node.visible_ratio = 1.0
+		curr_typing_speed = fast_typing
+		B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
+		print("Skipped text")
+
 func _process(delta):
 	if Engine.is_editor_hint():
 		return
+		
 	if has_portrait:
 		if not is_talking:
 			blink_cooldown 	-= delta
@@ -329,20 +339,17 @@ func _process(delta):
 				else:
 					blink_cooldown = blink_speed / 16.0
 					portrait_img_node.frame = 1
-		
-	if Input.is_action_just_pressed("Action"):
-		curr_typing_speed = fast_typing
-		if text_node.visible_ratio == 1.0 or is_waiting_input:
-			input_pressed.emit()
-		else:
-			text_node.visible_ratio = 1.0
-			B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
 			
-	if can_type:
+	if Input.is_action_just_pressed("Action"):
+		input_pressed.emit()
+		
+	if can_type and not is_waiting_input:
 		_type_next_letter(delta)
 		
 		if text_node.visible_ratio == 1.0:
+			curr_typing_speed = normal_typing
 			can_type = false
+			is_typing = false
 			_portrait_is_silent()
 			
 			await wait_user_input()
