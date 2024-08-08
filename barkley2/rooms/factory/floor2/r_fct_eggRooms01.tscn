@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://bpqbvhnpep8qn"]
+[gd_scene load_steps=42 format=4 uid="uid://bpqbvhnpep8qn"]
 
 [ext_resource type="TileSetAtlasSource" uid="uid://dfvurjg7uuw8h" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_eggroom01.tres" id="1_a0d5s"]
 [ext_resource type="TileSetAtlasSource" uid="uid://c8flh1oqtqlnt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="2_bdx5f"]
@@ -7,12 +7,18 @@
 [ext_resource type="PackedScene" uid="uid://ii7b5p38qkm5" path="res://barkley2/scenes/rooms/factory/fct_hoopz_egg_01.tscn" id="4_ehtdv"]
 [ext_resource type="Texture2D" uid="uid://dvecu1h6j5281" path="res://barkley2/assets/b2_original/images/merged/s_variable01.png" id="5_1fuw6"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="5_3x34e"]
+[ext_resource type="Script" path="res://barkley2/scenes/camera/main_camera.gd" id="6_8t1s3"]
 [ext_resource type="Texture2D" uid="uid://dk707yql50hgp" path="res://barkley2/assets/b2_original/images/merged/s_zane01.png" id="6_ljdwg"]
 [ext_resource type="PackedScene" uid="uid://xowxayc4v63k" path="res://barkley2/scenes/Player/o_hoopz.tscn" id="6_sw15m"]
 [ext_resource type="Texture2D" uid="uid://du6ff1eph53b" path="res://barkley2/assets/b2_original/images/merged/s_jhodfrey01.png" id="7_8fvsg"]
+[ext_resource type="PackedScene" uid="uid://ct0kbq581opfc" path="res://barkley2/scenes/Objects/o_cinema.tscn" id="8_2bahv"]
 [ext_resource type="PackedScene" uid="uid://cy0cl74ohu65w" path="res://barkley2/scenes/rooms/factory/o_fct_big_egg_01.tscn" id="8_atw6u"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="8_vasfi"]
 [ext_resource type="Texture2D" uid="uid://di0kweax31y3r" path="res://barkley2/assets/b2_original/images/merged/s_fct_ovumCharger01.png" id="9_5uj7i"]
 [ext_resource type="Texture2D" uid="uid://cup2hv70i3dis" path="res://barkley2/assets/b2_original/images/merged/s_fct_eggClosed01.png" id="9_ckpy6"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_variable01.gd" id="9_d5xjr"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_zane01.gd" id="13_x3gwa"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_jhodfrey01.gd" id="15_sp28b"]
 
 [sub_resource type="TileSet" id="TileSet_rc5e7"]
 sources/0 = ExtResource("1_a0d5s")
@@ -292,9 +298,15 @@ tile_map_data = PackedByteArray("AAAAAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAA
 tile_set = SubResource("TileSet_rc5e7")
 script = ExtResource("3_4xgyf")
 
-[node name="B2_Cinema" type="CanvasLayer" parent="."]
+[node name="B2_Cinema" type="CanvasLayer" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_23cou")
+debug_moveto = true
 cutscene_script = SubResource("Resource_b26ct")
+camera = NodePath("../o_camera_hoopz")
+
+[node name="o_camera_hoopz" type="Camera2D" parent="."]
+position = Vector2(192, 120)
+script = ExtResource("6_8t1s3")
 
 [node name="P0 - o_semisolid16" type="Marker2D" parent="."]
 position = Vector2(208, 208)
@@ -304,9 +316,7 @@ metadata/scale = Vector2(9, 3)
 
 [node name="o_hoopz" parent="." instance=ExtResource("6_sw15m")]
 
-[node name="Camera2D" type="Camera2D" parent="o_hoopz"]
-
-[node name="fct_hoopzEgg01" parent="." instance=ExtResource("4_ehtdv")]
+[node name="o_fct_hoopzEgg01" parent="." instance=ExtResource("4_ehtdv")]
 position = Vector2(240, 256)
 centered = false
 offset = Vector2(-57, -84)
@@ -323,26 +333,36 @@ metadata/code = "RoomXY(r_fct_accessHallGooped01, 2048, 168);"
 metadata/inst_name = "inst_25C94736"
 metadata/scale = Vector2(1, 1)
 
-[node name="P4 - o_cinema0" type="Marker2D" parent="."]
-position = Vector2(280, 320)
-metadata/code = ""
-metadata/inst_name = "inst_09328FBC"
-metadata/scale = Vector2(1, 1)
+[node name="o_cinema0" parent="." instance=ExtResource("8_2bahv")]
 
-[node name="P5 - o_cinema1" type="Marker2D" parent="."]
+[node name="o_cinema2" type="Marker2D" parent="."]
 position = Vector2(208, 496)
+script = ExtResource("8_vasfi")
+cinema_id = 2
 metadata/code = ""
 metadata/inst_name = "inst_D4DD3408"
 metadata/scale = Vector2(1, 1)
 
-[node name="P6 - o_cinema4" type="Marker2D" parent="."]
+[node name="o_cinema1" type="Marker2D" parent="."]
+position = Vector2(208, 496)
+script = ExtResource("8_vasfi")
+cinema_id = 1
+metadata/code = ""
+metadata/inst_name = "inst_D4DD3408"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_cinema4" type="Marker2D" parent="."]
 position = Vector2(208, 320)
+script = ExtResource("8_vasfi")
+cinema_id = 4
 metadata/code = ""
 metadata/inst_name = "inst_AB446D3A"
 metadata/scale = Vector2(1, 1)
 
-[node name="P7 - o_cinema5" type="Marker2D" parent="."]
+[node name="o_cinema5" type="Marker2D" parent="."]
 position = Vector2(208, 464)
+script = ExtResource("8_vasfi")
+cinema_id = 5
 metadata/code = ""
 metadata/inst_name = "inst_AD360546"
 metadata/scale = Vector2(1, 1)
@@ -352,12 +372,15 @@ position = Vector2(168, 272)
 sprite_frames = SubResource("SpriteFrames_y75ca")
 centered = false
 offset = Vector2(-12, -45)
+script = ExtResource("9_d5xjr")
 metadata/code = ""
 metadata/inst_name = "inst_5F00B8F5"
 metadata/scale = Vector2(-1, 1)
 
-[node name="P9 - o_cinema10" type="Marker2D" parent="."]
+[node name="o_cinema10" type="Marker2D" parent="."]
 position = Vector2(240, 208)
+script = ExtResource("8_vasfi")
+cinema_id = 10
 metadata/code = ""
 metadata/inst_name = "inst_2F27B877"
 metadata/scale = Vector2(1, 1)
@@ -368,8 +391,10 @@ metadata/code = ""
 metadata/inst_name = "inst_6FB81BBE"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_cinema11" type="Marker2D" parent="."]
+[node name="o_cinema11" type="Marker2D" parent="."]
 position = Vector2(240, 280)
+script = ExtResource("8_vasfi")
+cinema_id = 11
 metadata/code = "/// Hoopz goes here after waking up from egg
 "
 metadata/inst_name = "inst_A7714D8D"
@@ -380,18 +405,23 @@ position = Vector2(304, 280)
 sprite_frames = SubResource("SpriteFrames_gf1nc")
 centered = false
 offset = Vector2(-17, -39)
+script = ExtResource("13_x3gwa")
 metadata/code = ""
 metadata/inst_name = "inst_94209763"
 metadata/scale = Vector2(1, 1)
 
-[node name="P13 - o_cinema7" type="Marker2D" parent="."]
+[node name="o_cinema7" type="Marker2D" parent="."]
 position = Vector2(232, 272)
+script = ExtResource("8_vasfi")
+cinema_id = 7
 metadata/code = ""
 metadata/inst_name = "inst_D32C1DE1"
 metadata/scale = Vector2(1, 1)
 
-[node name="P14 - o_cinema3" type="Marker2D" parent="."]
+[node name="o_cinema3" type="Marker2D" parent="."]
 position = Vector2(272, 496)
+script = ExtResource("8_vasfi")
+cinema_id = 3
 metadata/code = ""
 metadata/inst_name = "inst_E42A8C5B"
 metadata/scale = Vector2(1, 1)
@@ -401,18 +431,23 @@ position = Vector2(144, 304)
 sprite_frames = SubResource("SpriteFrames_0w531")
 centered = false
 offset = Vector2(-15, -49)
+script = ExtResource("15_sp28b")
 metadata/code = ""
 metadata/inst_name = "inst_95C64821"
 metadata/scale = Vector2(1, 1)
 
-[node name="P16 - o_cinema6" type="Marker2D" parent="."]
+[node name="o_cinema6" type="Marker2D" parent="."]
 position = Vector2(272, 464)
+script = ExtResource("8_vasfi")
+cinema_id = 6
 metadata/code = ""
 metadata/inst_name = "inst_7DA6451C"
 metadata/scale = Vector2(1, 1)
 
-[node name="P17 - o_cinema9" type="Marker2D" parent="."]
+[node name="o_cinema9" type="Marker2D" parent="."]
 position = Vector2(208, 274)
+script = ExtResource("8_vasfi")
+cinema_id = 9
 metadata/code = ""
 metadata/inst_name = "inst_7E856872"
 metadata/scale = Vector2(1, 1)
@@ -424,8 +459,10 @@ else RoomXY(r_fct_accessHallGooped01, 2528, 200);"
 metadata/inst_name = "inst_99318299"
 metadata/scale = Vector2(1, 1)
 
-[node name="P19 - o_cinema30" type="Marker2D" parent="."]
+[node name="o_cinema30" type="Marker2D" parent="."]
 position = Vector2(256, 272)
+script = ExtResource("8_vasfi")
+cinema_id = 30
 metadata/code = ""
 metadata/inst_name = "inst_280F6A48"
 metadata/scale = Vector2(1, 1)
@@ -469,14 +506,18 @@ metadata/code = ""
 metadata/inst_name = "inst_BFCEED20"
 metadata/scale = Vector2(1, 1)
 
-[node name="P25 - o_cinema30" type="Marker2D" parent="."]
+[node name="o_cinema30_2" type="Marker2D" parent="."]
 position = Vector2(323, 1006)
+script = ExtResource("8_vasfi")
+cinema_id = 30
 metadata/code = ""
 metadata/inst_name = "inst_22422A59"
 metadata/scale = Vector2(1, 1)
 
-[node name="P26 - o_cinema29" type="Marker2D" parent="."]
+[node name="o_cinema29" type="Marker2D" parent="."]
 position = Vector2(324, 1726)
+script = ExtResource("8_vasfi")
+cinema_id = 29
 metadata/code = ""
 metadata/inst_name = "inst_23DAEAD2"
 metadata/scale = Vector2(1, 1)

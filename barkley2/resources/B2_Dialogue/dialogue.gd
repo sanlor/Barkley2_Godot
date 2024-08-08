@@ -2,64 +2,28 @@
 extends Control
 class_name B2_Dialogue
 
-const S_DIAG_FRAME = preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
+# DEBUG
+@export var debug := false
 
+const S_DIAG_FRAME 	= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
+const S_RETURN 		= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
 
 # reference script = o_dialogue
 
-## Related Garage from the Settings():
-	#// DO NOT TOUCH SETTINGS BELOW
-	#global.fadeRoomTemp = -1; //For custom fade times
-#
-	#global.dialogFrame = s_diag_frame;
-	#global.dialogCorner = s_diag_corner;
-	#global.dialogReturn = s_return;
-	#global.dialogEdge = s_diag_edge;
-	#global.dialogBG = s_diag_bg;
-	#global.dialogBGalt = s_diag_bg_alt;
-
-	# Portrait frame.
-	# draw_sprite(_diag_frame, 0, portrait_frame_left, portrait_frame_top);
-	# Actual portrait.
-	#draw_sprite(_portrait, _talk_frame, portrait_left, portrait_top);
-	#if (global.portraitFlicker)
-	#{
-		#var ptf = random(0.05);
-		#ptf += abs(lengthdir_x(0.1, current_time / 3));
-		#ptf += abs(lengthdir_y(0.1, current_time / 11));
-		#draw_sprite_ext(_portrait, _talk_frame, portrait_left, portrait_top, 1, 1, 0, c_black, ptf);
-	#}
-
 # The title of the text, defaults to an empty string.
 var _title = "";
-# The portrait for this text, defaults to NULL.
-# var _portrait = null;  NOTE Not used in Godot
-# The number of frames a portrait has.
-# var _portrait_frames = null; NOTE Not used in Godot
-# The speed of the portrait animation.
-var _portrait_speed = 1.0 # global.dialogFaceSpeed * global.dialogSpeed; // * global.dialogSpeed; //was 0.5;
-# True if the portrait animation should always play, or false if we want normal animation.
-var _always_play_portrait_animation = false;
 
 ## Important
 # The full text that should be displayed.
 var _my_text = "";
-var _text_length = 0;
 # The x offset to draw the dialogue at, defaults to 8.
 var _draw_x = 8;
 # The y offset to draw the dialogue at, defaults to 0.
 var _draw_y = 140;
-# if (global.dialogY == -1) _draw_y = 140;
-# else _draw_y = global.dialogY;
-
-# The amount of lines this textbox has, defaults to 4.
-var _lines = 4;
-# The amount of characters that are added per 1/10s, defaults to 3.
-var _text_speed = 3;
 
 # The different colors for the different texts, defaults are set below.
 var _title_color 	= Color.LIGHT_BLUE # c_ltblue;
-var _text_color 	= Color.WHITE # c_white;
+#var _text_color 	= Color.WHITE # c_white;
 
 # The sound used whenever characters are typed.
 var _talk_sound 	= "sn_talk1";
@@ -67,18 +31,18 @@ var _talk_sound 	= "sn_talk1";
 var _confirm_sound 	= "sn_talk3";
 
 # Draw without the dialog box
-var _boxless = false;
+#var _boxless = false; 				## WARNING Set this up when the time comes.
 # Draw the normal dialog box
-var _normal_backdrop = true;
+#var _normal_backdrop = true; 		## WARNING Set this up when the time comes.
 # Draw the mystery dialog box // Usable for Mysterious voices heard from the darkness etc.
-var _mystery_backdrop = false;
+#var _mystery_backdrop = false; 	## WARNING Set this up when the time comes.
 
 # Blink
-var blink = 0;
-var blinkTime = 4; # Variance in blink, 4 means it can be from 4 to 6 seconds (4 + (4 / 2))
-var blinkDuration = 0.2; # Duration of blink
-var blinkCount = randf_range( 0, blinkTime + ( blinkTime / 2 ) ) # random(blinkTime + (blinkTime / 2));
-var flourishFrame = 0;
+#var blink = 0;
+#var blinkTime = 4; # Variance in blink, 4 means it can be from 4 to 6 seconds (4 + (4 / 2))
+#var blinkDuration = 0.2; # Duration of blink
+#var blinkCount = randf_range( 0, blinkTime + ( blinkTime / 2 ) ) # random(blinkTime + (blinkTime / 2));
+var flourishFrame = 0; 				## WARNING Set this up when the time comes.
 
 ## NOTE seems interesting
 var style = 1; # 0 is old style, 1 is generated
@@ -87,6 +51,8 @@ var style = 1; # 0 is old style, 1 is generated
 signal finished_typing
 signal input_pressed
 signal awnsered_question( bool )
+
+var return_sprite : Sprite2D
 
 var textbox_width := 384
 var textbox_height := 240
@@ -102,44 +68,68 @@ var text_node 				: RichTextLabel
 var has_portrait := false
 
 ## Typing stuff
-var textbox_pause = 0.02 #0.16;
-var textbox_talk_cooldown = 0.04 #0.16;
-var textbox_blink_cooldown = 0.04 #0.16;
+var textbox_pause = 0.00 			#0.05;
+var textbox_talk_cooldown = 0.04 	#0.04;
+var textbox_blink_cooldown = 0.04 	#0.04;
 
-var comma_pause := 0.4 #0.8
-var period_pause := 1.1 #2.2
-var dash_pause := 0.4 #0.8
-var question_pause := 0.7 #2.2 ## Added by me, not on the original.
-var exclamation_pause := 0.7 #2.2 ## Added by me, not on the original.
+var comma_pause := 0.10 			#0.1
+var period_pause := 0.50 			#0.5
+var dash_pause := 0.2 				#0.2
+var question_pause := 0.50 			#0.5 ## Added by me, not on the original.
+var exclamation_pause := 0.50 		#0.5 ## Added by me, not on the original.
 
-var normal_typing := 1.0
+var normal_typing := 1.0			#1.0
 var fast_typing := 0.0
 var curr_typing_speed := normal_typing
+
+var return_sprite_time := 0.2		#0.2
+var return_sprite_cooldown := 0.2	#0.2
 
 var type_timer := 0.0
 var can_type := false
 var is_typing := false
 
+var voice_sound_played := false
+
 var is_waiting_input := false
+var text_delays : PackedInt32Array
+
+## Textbox Screens (More than 4 lines of texts)
+var max_screens := 1
+var curr_screen := 1
 
 ## Portrait stuff
 var blink_cooldown 	:= 0.0
-var blink_speed 	:= 6.50
+var blink_speed 	:= 5.50
 var is_talking		:= false
 
 func _ready() -> void:
-	#if not Engine.is_editor_hint():
+	# Theme
+	theme = preload("res://barkley2/themes/dialogue.tres")
+	
+	# Setup the dinamic frame
 	border_node = B2_Border.new()
+	border_node.set_seed( get_tree().root.get_child(0).name )
+	
 	add_child( border_node )
-		
+	border_node.name = "Dialog_Frame"
 	border_node.position = Vector2( _draw_x, _draw_y )
 	border_node.set_panel_size( textbox_width - _draw_x * 2, 48 + 44 )
 	
 	input_pressed.connect( handle_input )
 	
-	set_text("LINE1_GGGGGGGGGGGGGGGGGGGGGG\nLINE2_GGGGGGGGGGGGGGGGGGGGGG\nLINE3_GGGGGGGGGGGGGGGGGGGGGG\nLINE4_GGGGGGGGGGGGGGGGGGGGGG\nLINE5_GGGGGGGGGGGGGGGGGGGGGG\nLINE6_GGGGGGGGGGGGGGGGGGGGGG\n","Talker")
-	set_portrait( "s_port_zane" )
-	display_dialog()
+	# Setup the return sprite (the one that blinks while waiting input
+	return_sprite = Sprite2D.new()
+	return_sprite.centered 		= false
+	return_sprite.texture 		= S_RETURN
+	border_node.add_child( return_sprite )
+	return_sprite.position 		= border_node.size - Vector2(24,24)
+	
+	## Setup screens
+	#var debug_text := "[color=BLUE]LINE1_GGGGGGGGGGGGGGGGGGGGGG[/color] LINE2_GGGGGGGGGGGGGGGGGGGGGG LINE3_GGGGGGGGGGGGGGGGGGGGGG LINE4_GGGGGGGGGGGGGGGGGGGGGG LINE5_GGGGGGGGGGGGGGGGGGGGGG [color=RED]LINE6_GGGGGGGGGGGGGGGGGGGGGG[/color] LINE7_GGGGGGGGGGGGGGGGGGGGGG LINE8_GGGGGGGGGGGGGGGGGGGGGG LINE9_GGGGGGGGGGGGGGGGGGGGGG [color=YELLOW]LINE10_GGGGGGGGGGGGGGGGGGGGGG[/color]"
+	#set_text( debug_text,"Talker")
+	#set_portrait( "s_port_zane" )
+	#display_dialog()
 	
 func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 	border_node.position = _pos
@@ -150,17 +140,21 @@ func set_text( _text : String, _text_title := "" ) -> void:
 		title_node 	= RichTextLabel.new(); add_child(title_node); title_node.bbcode_enabled = true
 		_title 		= _text_title 	# whos speaking the text
 		
-	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING
+	# Setup Text RTL
+	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING; text_node.clip_contents = false
 	_my_text 	= _text 		# text dialog
 	
-func set_portrait( portrait_name : String ) -> void:
+func set_portrait( portrait_name : String, from_name := true ) -> void:
 	# Add the frame to the tree
 	portrait_frame_node = TextureRect.new(); add_child( portrait_frame_node ) 
 	
 	portrait_frame_node.texture = S_DIAG_FRAME
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
 	
-	_load_portrait( portrait_name ) # load the talker´s picture
+	if from_name:
+		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
+	else:
+		_load_portrait( portrait_name ) # load the talker´s picture
 	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
 	
 	has_portrait = true
@@ -172,35 +166,55 @@ func display_dialog( _is_boxless := false ):
 	
 	if not title_node == null:
 		title_node.name 		= "Title_text"
-		title_node.position 	= Vector2( _draw_x + 27 + _text_offset, _draw_y + 12 + 5 )
-		title_node.size 		= Vector2( 290, 12 )
+		title_node.position 	= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 )
+		title_node.size 		= Vector2( 250, 12 )
 
 		title_node.push_color( _title_color )
 		title_node.append_text( Text.pr( _title ) )
 		title_node.pop_all()
 	
 	text_node.name 				= "Text"
-	text_node.position 			= Vector2( _draw_x + 27 + _text_offset, _draw_y + 12 + 5 + 16)
-	text_node.size 				= Vector2( 290, 12 * 4)
-
-	text_node.push_color( _text_color )
-	text_node.append_text( Text.pr( _my_text ) )
-	text_node.pop_all()
+	text_node.position 			= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
+	text_node.size 				= Vector2( 250, 11 * 4)
+	text_node.get_v_scroll_bar().custom_step = 11 # avoid partial scroll
+	
+	text_node.set_text( Text.pr( _my_text ) )
+	
+	# Add the delay points for the text ("_")
+	text_delays = Text.get_delays( text_node.get_parsed_text() ) ## NOTE might have an issue with more than 3 delays.
+	if debug: print( "Text delays: ", text_delays )
+	
+	# remove delay reference
+	text_node.set_text( text_node.get_text().replace("_", "") ) 
 	
 	can_type = true
 	text_node.visible_characters = 0
 	type_timer = textbox_pause * curr_typing_speed
 	
+	# fix necessary to be able to display more than 4 lines.
+	## CRITICAL this doesnt work right with 5 lines.
+	if text_node.get_line_count() > 4:
+		@warning_ignore("integer_division")
+		max_screens = text_node.get_line_count() / 4
+		if debug: print( "max_screens: ", max_screens," - Lines: ",text_node.get_line_count() )
+		for r in max_screens + 1:
+			# new line pad the scrollbox
+			text_node.text += "\n"
+			if debug: print("adding extra line")
+	
 	await finished_typing
 	return
 
+## Manually add the character portraits and setup the AnimatedSprite2D
 func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
 	
 	assert( not file_name.is_empty(), "File could not be found." )
-	assert( file_name.find("_strip") >= 0, "weird file.")
-	print( "n_frames: ", int( file_name[-5] ), " ", file_name[-5] )
-	var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png
+	assert( file_name.find("_strip") >= 0, "Weird file. Unexpected.")
+	if debug: print( "n_frames: ", int( file_name[-5] ), " ", file_name[-5] )
+	var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png. "-5" ignores the ".png" part of the files.
+	## WARNING more than 9 frames might be an issue.
+	assert( n_frames > 0, "I warned you bro! ^^^^^^")
 	
 	# Setup node
 	portrait_img_node = AnimatedSprite2D.new()
@@ -213,6 +227,7 @@ func _load_portrait( portrait_name : String ):
 	
 	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
+	@warning_ignore("integer_division")
 	var offset := int( spritesheet.get_width() / n_frames )
 	
 	for f in n_frames:
@@ -222,14 +237,11 @@ func _load_portrait( portrait_name : String ):
 		frame_tex.region = Rect2( Vector2(frame_offset, 0), Vector2(offset, spritesheet.get_height() ) )
 		if f == 0:
 			anim_frames.add_frame("blink", frame_tex )
-			
 		if f > 0 and f < n_frames - 1:
 			anim_frames.add_frame("talk", frame_tex )
-			
 		if f == n_frames - 1:
 			anim_frames.add_frame("blink", frame_tex )
 			
-		
 	portrait_img_node.sprite_frames = anim_frames
 	
 func show_box(): # allow showing the dialog box with some fancy animation
@@ -241,6 +253,7 @@ func hide_box(): # allow hiding the dialog box with some fancy animation
 func _portrait_is_silent():
 	if not has_portrait:
 		return
+	voice_sound_played = false
 	is_talking = false
 	portrait_img_node.animation = "blink"
 	portrait_img_node.frame = 0
@@ -264,27 +277,32 @@ func _type_next_letter(delta):
 	if type_timer > 0.0: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
-		if text_node.get_character_line( text_node.visible_characters ) > 3:
-			_portrait_is_silent()
+		if text_node.get_character_line( text_node.visible_characters ) >= 4 * curr_screen:
 			is_typing = false
+			if debug: print("Waiting for input to write text.")
 			curr_typing_speed = normal_typing
+			_portrait_is_silent()
+			return_sprite.visible = true
 			await wait_user_input()
-			var text_to_remove := text_node.get_parsed_text().erase(0, text_node.visible_characters)
-			text_node.visible_characters = 0
-			text_node.clear()
-			text_node.append_text( text_to_remove )
-			is_typing = true
-			#text_node.scroll_to_line( 4 )
+			text_node.scroll_to_line( 4 * curr_screen )
+			curr_screen += 1
 			
 		var add_wait := 0.0
-		var curr_char : String = text_node.get_parsed_text()[ text_node.visible_characters ] #_my_text [ text_node.visible_characters ]
+		
+		var curr_char : String = text_node.get_parsed_text() [ text_node.visible_characters ]
+		#print(text_node.get_parsed_text().length())
 		is_typing = true
+		
+		if text_delays.has( text_node.visible_characters ):
+			add_wait = comma_pause * 2
+			_portrait_is_silent()
 		
 		match curr_char: # add a pause for certain characters
 			" ":
 				add_wait = 0.0
+				voice_sound_played = false
 				#_portrait_is_silent()
-			",":
+			",": # "-" is a global const DIALOGUE_DELAY on the original
 				add_wait = comma_pause
 				_portrait_is_silent()
 			".":
@@ -299,33 +317,50 @@ func _type_next_letter(delta):
 			"?":
 				add_wait = question_pause
 				_portrait_is_silent()
+			"\n":
+				_portrait_is_silent()
 			_:
+				
 				# Avoid playing sounds when players skips
 				if curr_typing_speed == normal_typing:
-					B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
+					# This ensures that the voice clip only plays at the start of a phrase.
+					if not voice_sound_played:
+						B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
+						voice_sound_played = true
 					_portrait_is_talking()
+				
 		
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed
 		
-		if not text_node.visible_ratio == 1.0: # avoid issues with the text skipping
-			text_node.visible_characters += 1
+		var amount_text := 1
+		if curr_typing_speed == fast_typing:
+			amount_text = 10
+		
+		# Avoid issues with the text skipping
+		if not text_node.visible_ratio == 1.0: 
+			text_node.visible_characters += amount_text
+			
+		# Avoid issues with the line counting routine.
+		text_node.visible_characters = clampi(text_node.visible_characters, 0, text_node.get_parsed_text().length())
+		
 
 func wait_user_input():
 	is_waiting_input = true
 	await input_pressed
+	B2_Sound.play( _confirm_sound, 0.0, false, 1, 1.0 )
 	is_waiting_input = false
 
 func handle_input():
 	if text_node.visible_ratio < 1.0 and is_typing:
-		#text_node.visible_ratio = 1.0
 		curr_typing_speed = fast_typing
-		B2_Sound.play( _talk_sound, 0.0, false, 1, 2.0 )
+		B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 		print("Skipped text")
 
-func _process(delta):
+func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 		
+	# Handle portrait animation and blinking
 	if has_portrait:
 		if not is_talking:
 			blink_cooldown 	-= delta
@@ -343,14 +378,29 @@ func _process(delta):
 	if Input.is_action_just_pressed("Action"):
 		input_pressed.emit()
 		
+	# Type text to textbox
 	if can_type and not is_waiting_input:
+		return_sprite.visible = false
 		_type_next_letter(delta)
 		
-		if text_node.visible_ratio == 1.0:
+		# All text was typed
+		#if text_node.visible_ratio == 1.0:
+		if text_node.visible_characters >= text_node.get_parsed_text().length():
 			curr_typing_speed = normal_typing
 			can_type = false
 			is_typing = false
+			return_sprite.visible = true
 			_portrait_is_silent()
-			
+			if debug: print("Finished typing")
 			await wait_user_input()
 			finished_typing.emit()
+			hide_box()
+	else:
+		# Handle the return sprite blinking
+		#if return_sprite_time < 0.0:
+			#return_sprite.visible = not return_sprite.visible
+			#return_sprite_time = return_sprite_cooldown
+		#else:
+			#return_sprite_time -= delta
+		return_sprite_time += delta * 10
+		return_sprite.offset.y = int( sin(return_sprite_time) * 2 )

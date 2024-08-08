@@ -50,11 +50,21 @@ var West = 3; #from obsolete stair code in step
 var walkBackwards = 0; #When enabled, reverse animate
 var statusImmuneAll = 0;
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _enter_tree() -> void:
+	add_to_group("actors")
+	add_to_group("cinema_spot")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func cinema_set( _sprite_frame : String ):
 	pass
+
+func cinema_playset( _sprite_frame : String ): ## NOTE Not sure how to deal with this?
+	pass
+
+func cinema_look( _direction : String ):
+	pass
+	
+func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
+	# Default behaviour
+	var movement_tween := create_tween()
+	movement_tween.tween_property(self, "position", _cinema_spot.position, 1.0)
+	return await movement_tween.finished

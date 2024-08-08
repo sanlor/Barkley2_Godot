@@ -22,13 +22,13 @@ var border_size : Vector2 = Vector2(50,50)
 
 @onready var parent = get_parent()
 
+@onready var rng := RandomNumberGenerator.new()
+
 func _ready():
-	#border_size = parent.border_size
-	pass
+	rng.seed = get_parent().my_seed
 
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
-	#size = border_size
 	queue_redraw()
 
 func _draw():
@@ -47,7 +47,7 @@ func _draw():
 	
 	# I tried to add my own modification and improvements to the code, but it didnt work well, so I just copy/pasted code and it worked.
 	
-	randomize()
+	#randomize()
 	if not disable_sides:
 		## Horizontal
 		var avaiable_left_v_space 		:= border_size.y - 48	# (corner_sprite_size.y * 2)	## h = wid - 48;
@@ -62,7 +62,7 @@ func _draw():
 				draw_texture( v_corner_left, Vector2( 0, 		left_start_pos						), Color.WHITE )
 				break
 			else:
-				var r := randi_range(0,13) 			# iii = floor(random(14));
+				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
 				var height := left_piece_height[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_left_v_space - height >= 0:
 					var v_corner_left : AtlasTexture = 			S_BORDER_LEFT_RIGHT.duplicate()
@@ -85,7 +85,7 @@ func _draw():
 				draw_texture( v_corner_right, Vector2( border_size.x - border_h_tile_size.x, 			right_start_pos), Color.WHITE )
 				break
 			else:
-				var r := randi_range(0,13) 			# iii = floor(random(14));
+				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
 				var height := right_piece_height[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_right_v_space - height >= 0:
 					var v_corner_right : AtlasTexture = 			S_BORDER_LEFT_RIGHT.duplicate()
@@ -110,7 +110,7 @@ func _draw():
 				draw_texture( v_corner_top, Vector2( top_start_pos, 0), Color.WHITE )
 				break
 			else:
-				var r := randi_range(0,13) 			# iii = floor(random(14));
+				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
 				var width := top_piece_width[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_top_v_space - width >= 0:
 					var v_corner_top : AtlasTexture = 			S_BORDER_TOP_BOTTOM.duplicate()
@@ -133,7 +133,7 @@ func _draw():
 				draw_texture( v_corner_bottom, Vector2( bottom_start_pos, border_size.y - border_v_tile_size.y), Color.WHITE ) ## The plus 1 is used on the original code
 				break
 			else:
-				var r := randi_range(0,13) 				# iii = floor(random(14));
+				var r := rng.randi_range(0,13) 				# iii = floor(random(14));
 				var width := bottom_piece_width[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_bottom_v_space - width >= 0:
 					var v_corner_bottom : AtlasTexture = 			S_BORDER_TOP_BOTTOM.duplicate()
@@ -147,13 +147,13 @@ func _draw():
 	if not disable_corner:
 		## Corners
 		var corner_top_left : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
-		corner_top_left.region.position 		+= Vector2( randi_range(0,3), 0 ) * corner_sprite_size
+		corner_top_left.region.position 		+= Vector2( rng.randi_range(0,3), 0 ) * corner_sprite_size
 		var corner_top_right : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
-		corner_top_right.region.position 		+= Vector2( randi_range(0,3) + 12, 0 ) * corner_sprite_size
+		corner_top_right.region.position 		+= Vector2( rng.randi_range(0,3) + 12, 0 ) * corner_sprite_size
 		var corner_bottom_left : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
-		corner_bottom_left.region.position 		+= Vector2( randi_range(0,3) + 4, 0 ) * corner_sprite_size
+		corner_bottom_left.region.position 		+= Vector2( rng.randi_range(0,3) + 4, 0 ) * corner_sprite_size
 		var corner_bottom_right : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
-		corner_bottom_right.region.position 	+= Vector2( randi_range(0,3) + 8, 0 ) * corner_sprite_size
+		corner_bottom_right.region.position 	+= Vector2( rng.randi_range(0,3) + 8, 0 ) * corner_sprite_size
 		
 		var transp := 1.0#0.25
 		draw_texture( corner_top_left, 		Vector2.ZERO, 												Color(Color.WHITE, transp))

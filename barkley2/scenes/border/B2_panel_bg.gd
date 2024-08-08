@@ -22,6 +22,10 @@ var is_first_draw := true
 var decorations := []
 var decorations_color := {}
 
+var is_invisible := false
+
+@onready var my_seed := hash( randi() )
+
 @export var resize := false:
 	set(a):
 		queue_redraw()
@@ -35,11 +39,16 @@ func _init():
 	b_2_panel_fg = B2_Border_Foreground.new()
 	add_child(b_2_panel_fg)
 
+func set_seed( _seed : String ):
+	my_seed = hash(_seed)
+
 func _ready():
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)
 	#b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
-	
+	if is_invisible:
+		self_modulate.a = 0.0
+		b_2_panel_fg.self_modulate.a = 0.0
 
 # Decorations are children that this node can control, change color and such
 func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
