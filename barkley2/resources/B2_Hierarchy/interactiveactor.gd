@@ -65,7 +65,3 @@ var camera_speed = 32;
 
 var script_start = "";
 var xFlip = 0; # Only used for Thrax scene, can be used to override image_xscale
-
-func _enter_tree() -> void:
-	add_to_group("interactive_actors")
-	add_to_group("cinema_spot")

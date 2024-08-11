@@ -1,13 +1,28 @@
 extends Camera2D
 
+# scr_event_camera_frame()
+
 signal destination_reached
-signal all_destination_reached
+
+enum MODE{FOLLOW, CINEMA}
+var curr_MODE := MODE.FOLLOW
 
 var speed := 2.0
 var is_moving := false
 var destination := Vector2.ZERO
+var _position : Vector2 # Allow int based movement
 
-func cinema_moveto( _destinations : Array[Node2D], _speed : String ):
+func _ready() -> void:
+	_position = position.round()
+
+var player_node
+
+func follow_player( _player_node ):
+	player_node = _player_node
+	curr_MODE = MODE.FOLLOW
+
+func cinema_moveto( _destinations : Array, _speed : String ):
+	curr_MODE = MODE.CINEMA
 	# Default behaviour
 	match _speed:
 		"CAMERA_FAST":
@@ -17,21 +32,36 @@ func cinema_moveto( _destinations : Array[Node2D], _speed : String ):
 		"CAMERA_NORMAL":
 			speed = 2.0
 	
-	#var movement_tween := create_tween()
+	if _destinations.is_empty():
+		push_error("Empty destinations. weird.")
+		return
+		
+	destination = Vector2.ZERO
+	while _destinations.has(null):
+		print("Camera: node is invalid. ", _destinations.find(null), " - ", _destinations )
+		_destinations.erase(null)
+			
 	for node in _destinations:
-		if node == null:
-			print("Camera: node is invalid. ", node, " - ", _destinations)
-			continue
-		else:
-			is_moving = true
-			destination = node.position
-			await destination_reached
-
+		destination += node.position
+	
+	destination = destination / _destinations.size()
+	is_moving = true
+	await destination_reached
 	return
 
 func _process(delta: float) -> void:
-	if is_moving:
-		position = position.move_toward(destination, (speed * 100) * delta)
-		if position.is_equal_approx(destination):
-			is_moving = false
-			destination_reached.emit()
+	match curr_MODE:
+		MODE.CINEMA:
+			if is_moving:
+				_position = _position.move_toward(destination, (speed * 30) * delta)
+				if _position.is_equal_approx(destination):
+					is_moving = false
+					destination_reached.emit()
+					
+				position = _position.round()
+				#print(position)
+		MODE.FOLLOW:
+			if is_instance_valid(player_node):
+				_position = player_node.position
+			
+			position = _position.round()

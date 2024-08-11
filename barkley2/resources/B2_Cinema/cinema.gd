@@ -3,7 +3,10 @@
 extends CanvasLayer
 class_name B2_Cinema
 
+## Check Cinema() script. Cinema("run", script_start) is also important
+
 ## DEBUG
+@export var debug_comments 		:= false
 @export var debug_dialog 		:= false
 @export var debug_wait 			:= false
 @export var debug_sound 		:= false
@@ -17,13 +20,47 @@ var object_map := {
 	"o_tutorial_popups01" : null,
 }
 
+const O_CTS_HOOPZ 	= preload("res://barkley2/scenes/Player/o_cts_hoopz.tscn")
+const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
+
+# Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
+var o_cts_hoopz 	: B2_Actor 			= null
+var o_hoopz 		: CharacterBody2D 	= null ## TODO Create a B2_CombatActor class
+
 @export var camera				: Camera2D
 var all_nodes					:= []
 
 func _ready() -> void:
+	pass
+	
+func load_hoopz():
+	# if real is loaded, load fake hoopz.
+	o_cts_hoopz = O_CTS_HOOPZ.instantiate()
+	if is_instance_valid(o_hoopz):
+		o_cts_hoopz.position = o_hoopz.position
+		o_hoopz.queue_free()
+	add_sibling(o_cts_hoopz, true)
+	print("o_cts_hoopz loaded.")
+	
+func end_cutscene():
+	# if fake is loaded, load real hoopz.
+	o_hoopz = O_HOOPZ.instantiate()
+	if is_instance_valid(o_hoopz):
+		o_hoopz.position = o_cts_hoopz.position
+		o_cts_hoopz.queue_free()
+	add_sibling(o_hoopz, true)
+	print("o_hoopz loaded.")
+	
+	all_nodes.clear()
 	all_nodes = get_parent().get_children()
 	
+	#await camera.cinema_moveto( [ o_hoopz ], "CAMERA_NORMAL" )
+	camera.follow_player( o_hoopz )
+	
 func play_cutscene():
+	load_hoopz()
+	all_nodes = get_parent().get_children()
+	
 	if cutscene_script is B2_Script_Legacy:
 		# Split the script into separate lines
 		var split_script : PackedStringArray = cutscene_script.original_script.split( "\n", false )
@@ -34,12 +71,12 @@ func play_cutscene():
 			# Cleanup
 			for i in range( parsed_line.size() ):
 				parsed_line[i] = parsed_line[i].strip_edges( true, true )
-			
-			match parsed_line[0].to_upper():
+				parsed_line[i] = parsed_line[i].split("//", false, 1)[0] ## Strip comments
+			match parsed_line[0]:
 				"REPLY":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHOICE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"WAIT":
 					await get_tree().create_timer( float( parsed_line[1] ) ).timeout
 					if debug_wait: print("Wait: ", float( parsed_line[1] ) )
@@ -64,25 +101,28 @@ func play_cutscene():
 					await dialogue.display_dialog()
 					dialogue.queue_free()
 				"SHAKE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"ITEM":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFYALT":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"PLAYSET":
-					pass
+					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					actor.cinema_playset( str(parsed_line[ 2 ]), str(parsed_line[ 3 ]) )
+					
 				"SET":
-					pass
+					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					actor.cinema_set( str(parsed_line[ 2 ]) )
 				"GOTO":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"QUEST":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"BREAKOUT":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SOUND":
 					if parsed_line.size() > 2:
 						# Loops
@@ -92,19 +132,19 @@ func play_cutscene():
 						B2_Sound.play( parsed_line[1], 0.0, false )
 						if debug_sound: print(parsed_line[1])
 				"EVENT":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SHOP":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"LOCKPICK":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHATROULETTE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FRAME":
 					var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 					var move_array : Array[Node2D] = []
@@ -122,9 +162,9 @@ func play_cutscene():
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
 				"LOOKAT":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"LOOK":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"MOVETO":
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					var destination_object 		= get_node_from_name( all_nodes, 	parsed_line[2] )
@@ -140,11 +180,21 @@ func play_cutscene():
 					else:
 						if debug_moveto: print("MOVETO: actor is invalid: ",parsed_line[1])
 				"MOVE":
-					pass
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
+				## B2 has some stupid ACE script execution
+				# Check Cinema() line 588
+				"Misc":
+					Misc( parsed_line )
+				"Camera":
+					Camera( parsed_line )
+				"Create":
+					Create( parsed_line )
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
 		
 		print( "Finished Animation" )
+		end_cutscene()
 
 func get_node_from_name( _array, _name ) -> Node2D:
 	var node : Node2D
@@ -153,3 +203,90 @@ func get_node_from_name( _array, _name ) -> Node2D:
 			if item.name == _name:
 				node = item
 	return node
+	
+func Misc( parsed_line :PackedStringArray ):
+	# Check Misc() script.
+	var misc_arguments := parsed_line.size() - 2
+	print("Misc: %s arguments." % str(misc_arguments) )
+	
+	match parsed_line[1]:
+		"set": ## 1 = object | 2 = object / x | 3 = y
+			var obj1 = get_node_from_name( all_nodes, str(parsed_line[2]) )
+			var obj2 = get_node_from_name( all_nodes, str(parsed_line[3]) )
+			if all_nodes.has(obj1):
+				if all_nodes.has(obj2):
+					obj1.position = obj2.position
+				else:
+					push_error("obj2 invalid: ", obj2)
+			else:
+				push_error("obj1 invalid: ", obj1)
+		"shadow":
+			pass
+		"visible":
+			pass
+		"entity settings":
+			pass
+		"music":
+			pass
+		"automatic animation":
+			pass
+		"flip":
+			pass
+		"flipx": ## Special case for walking interactive actors
+			pass
+		"alpha": ## 1 = object | 2 = alpha | 3 = time
+			pass
+		"backwards":
+			pass
+		"dialogY":
+			pass
+		"dnaCyber":
+			pass
+		"manchurian":
+			pass
+		_:
+			print("Misc() - GOOFED! Unknown command > " + str(parsed_line[1]) + " <")
+	
+func Camera( parsed_line : PackedStringArray ):
+	# Check Camera() script
+	var misc_arguments := parsed_line.size() - 2
+	print("Camera: %s arguments." % str(misc_arguments) )
+	
+	match parsed_line[1]:
+		## Camera("enable", camera)
+		"enable":
+			pass
+		## Creates a new camera to be used. Initially disabled.
+		## Objects must have camera_target_x, camera_target_y, camera_speed
+		## Camera("create", x, y, object_to_follow)
+		"create":
+			pass
+		## Camera("transition", new_camera)
+		"transition":
+			pass
+		## Camera("snap", object) - Instantly moves camera to spot
+		## Camera("snap", x, y) - Instantly moves camera to spot
+		"snap":
+			pass
+		## Deletes other camera move events
+		## Camera("safe check")
+		"safe check":
+			pass
+		_:
+			print("Camera() - Unknown command >" + str( parsed_line[1] ) + "<")
+		
+func Create( parsed_line : PackedStringArray ):
+	# Check Create() script
+	var misc_arguments := parsed_line.size() - 2
+	print("Create: %s arguments." % str(misc_arguments) )
+	
+	if object_map.has( parsed_line[1] ):
+		var obj_scene : PackedScene = object_map[ parsed_line[1] ]
+		var object : Node2D = obj_scene.instantiate()
+		if misc_arguments > 1:
+			object.position.x = float( parsed_line[2] )
+		if misc_arguments > 2:
+			object.position.y = float( parsed_line[3] )
+		add_sibling( object )
+	else:
+		push_error("object %s not in object_map dictionary. you dun goofed." % str( parsed_line[1] ) )

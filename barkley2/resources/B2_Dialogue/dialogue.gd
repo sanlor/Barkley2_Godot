@@ -94,6 +94,9 @@ var voice_sound_played := false
 var is_waiting_input := false
 var text_delays : PackedInt32Array
 
+## Auto Skip
+var auto_skipping := true # Should be false from the start. enabled only when the player holds the action key.
+
 ## Textbox Screens (More than 4 lines of texts)
 var max_screens := 1
 var curr_screen := 1
@@ -335,7 +338,12 @@ func _type_next_letter(delta):
 		var amount_text := 1
 		if curr_typing_speed == fast_typing:
 			amount_text = 10
+			type_timer = 0
 		
+		if auto_skipping:
+			amount_text = 5
+			type_timer = 0
+			
 		# Avoid issues with the text skipping
 		if not text_node.visible_ratio == 1.0: 
 			text_node.visible_characters += amount_text
@@ -346,7 +354,8 @@ func _type_next_letter(delta):
 
 func wait_user_input():
 	is_waiting_input = true
-	await input_pressed
+	if not auto_skipping:
+		await input_pressed
 	B2_Sound.play( _confirm_sound, 0.0, false, 1, 1.0 )
 	is_waiting_input = false
 

@@ -50,21 +50,120 @@ var West = 3; #from obsolete stair code in step
 var walkBackwards = 0; #When enabled, reverse animate
 var statusImmuneAll = 0;
 
-func _enter_tree() -> void:
-	add_to_group("actors")
-	add_to_group("cinema_spot")
+## Godot
+signal destination_reached
+
+var speed := 1.0
+var is_moving := false
+var destination := Vector2.ZERO
+
+# used to define the movement sprite
+var movement_vector 		:= Vector2.ZERO
+var last_movement_vector 	:= Vector2.ZERO
+
+## Animation
+var ANIMATION_STAND 		:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTH 		:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTHEAST 	:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTHWEST 	:= "PLACEHOLDER - %s" % self
+var ANIMATION_WEST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTH 		:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTHEAST 	:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTHWEST 	:= "PLACEHOLDER - %s" % self
+var ANIMATION_EAST 			:= "PLACEHOLDER - %s" % self
 
 func cinema_set( _sprite_frame : String ):
-	pass
+	if sprite_frames.has_animation(_sprite_frame):
+		flip_sprite()
+		animation = _sprite_frame
+	else:
+		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String ): ## NOTE Not sure how to deal with this?
-	pass
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE Not sure how to deal with this?
+	if sprite_frames.has_animation( _sprite_frame ):
+		flip_sprite()
+		sprite_frames.set_animation_loop( _sprite_frame, false )
+		sprite_frames.set_animation_speed( _sprite_frame, 15 )
+		play( _sprite_frame )
+		await animation_finished
+		animation = _sprite_frame_2
+		return 
+	else:
+		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
+		return
 
 func cinema_look( _direction : String ):
 	pass
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	# Default behaviour
-	var movement_tween := create_tween()
-	movement_tween.tween_property(self, "position", _cinema_spot.position, 1.0)
-	return await movement_tween.finished
+	match _speed:
+		"MOVE_FAST":
+			speed = 5.0
+		"MOVE_SLOW":
+			speed = 1.0
+		"MOVE_NORMAL":
+			speed = 2.0
+	
+	if _cinema_spot == null:
+		push_error("Camera: node is invalid. ", _cinema_spot, ".")
+	else:
+		is_moving 			= true
+		destination 		= _cinema_spot.position
+		movement_vector 	= position.direction_to( destination ).sign()
+		await destination_reached
+	return
+
+func flip_sprite():
+	if movement_vector.x > 0: # handle sprite mirroring
+		flip_h = false
+	else:
+		flip_h = true
+	#print("flip ", name, " - ", flip_h)
+
+func cinema_animation(): # Apply animation when the character is moved by a cinema script.
+	if movement_vector != last_movement_vector:
+		flip_sprite()
+			
+		match movement_vector:
+			Vector2.UP + Vector2.LEFT:
+				play(ANIMATION_NORTHWEST)
+			Vector2.UP + Vector2.RIGHT:
+				play(ANIMATION_NORTHEAST)
+			Vector2.DOWN + Vector2.LEFT:
+				play(ANIMATION_SOUTHWEST)
+			Vector2.DOWN + Vector2.RIGHT:
+				play(ANIMATION_SOUTHEAST)
+				
+			Vector2.UP:
+				play(ANIMATION_NORTH)
+			Vector2.LEFT:
+				play(ANIMATION_WEST)
+			Vector2.DOWN:
+				play(ANIMATION_SOUTH)
+			Vector2.RIGHT:
+				play(ANIMATION_EAST)
+				
+			_: # Catch All
+				play(ANIMATION_SOUTH)
+				# print("Catch all, ", input)
+				
+		last_movement_vector = movement_vector
+
+func _child_process(_delta) -> void: # used to avoid overwriting the _process func.
+	pass
+
+func _process(delta: float) -> void:
+	if is_moving:
+		cinema_animation()
+		_child_process(delta)
+		position = position.move_toward(destination, (speed * 30) * delta)
+		movement_vector = position.direction_to( destination ).sign()
+		
+		if position.is_equal_approx(destination):
+			is_moving = false
+			destination_reached.emit()
+			last_movement_vector = Vector2.ZERO
+			stop()
+			animation = ANIMATION_STAND
+		# print(movement_vector)
