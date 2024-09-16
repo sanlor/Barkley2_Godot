@@ -107,6 +107,9 @@ func Quest(key : String, value):
 		B2_Config.set_user_save_data(questpath, value)
 		return true
 		
+func get_quest_state(key : String):
+	return B2_Config.get_user_save_data( "quest.vars." + key )
+	
 func preload_CC_save_data():
 	# related script = scr_player_newPlayerIdentity();
 	

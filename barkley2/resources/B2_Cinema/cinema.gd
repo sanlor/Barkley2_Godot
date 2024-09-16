@@ -6,14 +6,22 @@ class_name B2_Cinema
 ## Check Cinema() script. Cinema("run", script_start) is also important
 
 ## DEBUG
+@export var debug_goto		 	:= false
 @export var debug_comments 		:= false
 @export var debug_dialog 		:= false
 @export var debug_wait 			:= false
+@export var debug_fade 			:= false
 @export var debug_sound 		:= false
 @export var debug_moveto 		:= false
+@export var debug_quest 		:= false
+@export var debug_look	 		:= false
+@export var debug_lookat 		:= false
 @export var debug_unhandled 	:= false
+@export var print_comments		:= false
 
 @export var cutscene_script : B2_Script
+
+signal created_new_fade
 
 # used for the "CREATE" event
 var object_map := {
@@ -61,18 +69,68 @@ func play_cutscene():
 	load_hoopz()
 	all_nodes = get_parent().get_children()
 	
+	# This is the script parser. It parsers scripts.
+	# Basically this emulates the Cinema("run") and Cinema("process").
+	## TODO -> GOTO Function
+	## TODO -> IF Funcion
 	if cutscene_script is B2_Script_Legacy:
 		# Split the script into separate lines
 		var split_script : PackedStringArray = cutscene_script.original_script.split( "\n", false )
+		var script_size := split_script.size()
+		var curr_line := 0
+		var loop_finished := true
 		
-		for line : String in split_script:
-			var parsed_line : PackedStringArray = line.split( "|", false )
+		#for line : String in split_script:
+		while loop_finished or curr_line == script_size:
 			
-			# Cleanup
-			for i in range( parsed_line.size() ):
-				parsed_line[i] = parsed_line[i].strip_edges( true, true )
-				parsed_line[i] = parsed_line[i].split("//", false, 1)[0] ## Strip comments
+			var line : String = split_script[ curr_line ]
+			
+			if line.begins_with('"'):
+				# skip legacy "stuff"
+				# Jump to next line
+				curr_line += 1
+				continue
+				
+			if line.begins_with("//"):
+				if print_comments:
+					print_rich( str(curr_line) + ": [color=yellow]" + line + "[/color]" )
+				# Jump to next line
+				curr_line += 1
+				continue
+			
+			var parsed_line : PackedStringArray = cleanup_line( line )
+				
+			# Check for conditions.
+			if parsed_line[0].begins_with("IF"):
+				
+				if parse_if( parsed_line[0] ):
+					# remove the IF command
+					parsed_line.remove_at( 0 )
+				else:
+					curr_line += 1
+					print("IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
+					continue
+				
 			match parsed_line[0]:
+				"GOTO":
+					# loop the whole script trying to find the "label".
+					var target_label : String = parsed_line[1] ## 1 is WRONG!
+					var found_label := false
+					for j in script_size:
+						var new_line : String = split_script[ j ]
+						var possible_label : String = cleanup_line( new_line ) [0] # Labels are always on the front
+						if target_label == possible_label:
+							# found the "label". jump to that line
+							curr_line = j # REMEMBER: Empty lines are skipped.
+							found_label = true
+							if debug_goto: print_rich("[color=green]Goto: line ", curr_line, " - ", target_label, "[/color]" )
+							break
+						#print(target_label, " ", possible_label)
+						
+					if not found_label:
+						# "label" not found. push error
+						push_error("GOTO: label " + target_label + " not found.")
+					
 				"REPLY":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHOICE":
@@ -82,6 +140,7 @@ func play_cutscene():
 					if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 				"EXIT":
 					print("EXIT")
+					loop_finished = true
 					break # exit the loop
 				"DIALOG", "MYSTERY":
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
@@ -115,14 +174,52 @@ func play_cutscene():
 				"SET":
 					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					actor.cinema_set( str(parsed_line[ 2 ]) )
-				"GOTO":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"QUEST":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
+					var quest_stuff := parsed_line[ 1 ].split(" ", false)
+					var qstNam = quest_stuff[0]
+					var qstTyp = quest_stuff[1]
+					var qstVal = quest_stuff[2]
+					
+					if qstVal.contains("@"): ## Not sure how this is used.
+						# if (string_pos("@", qstVal) > 0) qstVal = Cinema("parse", qstVal);
+						breakpoint
+					else:
+						qstVal = float( qstVal )
+						
+					if qstTyp == "+=":
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam) + qstVal )
+					elif qstTyp == "-=":
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam) - qstVal )
+					else:
+						B2_Playerdata.Quest(qstNam, float(qstVal) )
+					
+					if debug_quest: print( "Quest: ", quest_stuff )
 				"BREAKOUT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# check scr_event_fade()
+					# parsed_line[ 1 ] is type: // 1 is fade in, 0 is fade out
+					# parsed_line[ 2 ] is seconds: // 1 second fade duration
+					# parsed_line[ 3 ] is depth, but i this this is disabled. //depth for o_hud is -2510000 //Removed, should always be over hud?
+					var o_fade : ColorRect = load("res://barkley2/scenes/_event/o_fade.tscn").instantiate()
+					created_new_fade.emit()
+					if parsed_line.size() == 2:
+						o_fade._fade 		= float( parsed_line[ 1 ] )
+					elif parsed_line.size() == 3:
+						o_fade._fade 		= float( parsed_line[ 1 ] )
+						o_fade._seconds 	= float( parsed_line[ 2 ] )
+					elif parsed_line.size() == 3:
+						o_fade._fade 		= float( parsed_line[ 1 ] )
+						o_fade._seconds 	= float( parsed_line[ 2 ] )
+						o_fade.z_index 		= float( parsed_line[ 3 ] )
+					else:
+						# weird ammount of arguments
+						breakpoint
+					o_fade._event = self # used to listen to signals. _event should never be null
+					
+					add_child( o_fade )
+					if debug_fade: print( "Fade: ", parsed_line )
 				"SOUND":
 					if parsed_line.size() > 2:
 						# Loops
@@ -164,7 +261,10 @@ func play_cutscene():
 				"LOOKAT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"LOOK":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					## NOTE Im not sure if this is working
+					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
+					actor.cinema_look( parsed_line[2] )
+					pass
 				"MOVETO":
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					var destination_object 		= get_node_from_name( all_nodes, 	parsed_line[2] )
@@ -192,10 +292,54 @@ func play_cutscene():
 					Create( parsed_line )
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
-		
+			
+			# Jump to next line
+			curr_line += 1
+			
 		print( "Finished Animation" )
 		end_cutscene()
 
+func cleanup_line( line : String ) -> PackedStringArray:
+	var parsed_line : PackedStringArray = line.split( "|", false )
+	# Cleanup
+	for i in range( parsed_line.size() ):
+		parsed_line[i] = parsed_line[i].strip_edges( true, true )
+		parsed_line[i] = parsed_line[i].split("//", false, 1)[0] ## Strip comments
+	return parsed_line
+
+func parse_if( line : String ) -> bool:
+	# clean the conditions
+	var condidion_line : PackedStringArray = line.split( " ", false )
+	
+	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
+	var comparator 	: String 		= condidion_line[ 2 ]
+	var cond_value 	: int 			= int( condidion_line[ 3 ] )
+	
+	# this should return false (if quest var is invalid) or some value.
+	var quest_var = B2_Playerdata.Quest( str_var, null )
+	if not quest_var is bool:
+		match comparator:
+			"==":
+				return quest_var == cond_value
+			"!=":
+				return quest_var != cond_value
+			">=":
+				return quest_var >= cond_value
+			"<=":
+				return quest_var <= cond_value
+			_:
+				push_error("Unknown operation ", comparator)
+				return false
+	else:
+		return false
+	
+
+func Cinema_run():
+	pass
+
+func Cinema_process():
+	pass
+	
 func get_node_from_name( _array, _name ) -> Node2D:
 	var node : Node2D
 	for item in _array:
@@ -203,6 +347,7 @@ func get_node_from_name( _array, _name ) -> Node2D:
 			if item.name == _name:
 				node = item
 	return node
+	
 	
 func Misc( parsed_line :PackedStringArray ):
 	# Check Misc() script.
@@ -281,6 +426,10 @@ func Create( parsed_line : PackedStringArray ):
 	print("Create: %s arguments." % str(misc_arguments) )
 	
 	if object_map.has( parsed_line[1] ):
+		if object_map[ parsed_line[1] ] == null:
+			push_error("object " + parsed_line[1] + " is null. fix this.")
+			return
+		
 		var obj_scene : PackedScene = object_map[ parsed_line[1] ]
 		var object : Node2D = obj_scene.instantiate()
 		if misc_arguments > 1:

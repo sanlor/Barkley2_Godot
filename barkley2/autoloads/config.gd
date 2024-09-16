@@ -75,7 +75,8 @@ func has_user_save( slot ): # slot -> 0 to 2
 		return false
 	
 func select_user_slot( slot ):
-	assert( slot >= 0 or slot <= 2)
+	assert( slot >= 0 or slot <= 2 or slot == 100)
+	# slot 100 is for debug purposes
 	selected_slot = slot
 	
 	usersavefile.clear()
@@ -95,7 +96,8 @@ func select_user_slot( slot ):
 # scr_savedata_put()
 func get_user_save_data( path : String ): ## retuyrn false if its invalid
 	if usersavefile.is_empty():
-		push_error("No save data to get!")
+		push_error("No save data to get! Defaulting to debug slot 100.")
+		select_user_slot( 100 )
 		return
 				
 	## This is a similar script to the scr_savedata_get

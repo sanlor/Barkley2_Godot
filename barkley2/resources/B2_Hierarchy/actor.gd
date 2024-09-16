@@ -93,7 +93,33 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE
 		return
 
 func cinema_look( _direction : String ):
-	pass
+	stop()
+	match _direction:
+		"NORTHWEST":
+			animation = (ANIMATION_NORTHWEST)
+			flip_h = true
+		"NORTHEAST":
+			animation = (ANIMATION_NORTHEAST)
+			flip_h = false
+		"SOUTHWEST":
+			animation = (ANIMATION_SOUTHWEST)
+			flip_h = true
+		"SOUTHEAST":
+			animation = (ANIMATION_SOUTHEAST)
+			flip_h = false
+				
+		"NORTH":
+			animation = (ANIMATION_NORTH)
+			flip_h = true
+		"WEST":
+			animation = (ANIMATION_WEST)
+			flip_h = true
+		"SOUTH":
+			animation = (ANIMATION_SOUTH)
+			flip_h = false
+		"EAST":
+			animation = (ANIMATION_EAST)
+			flip_h = false
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	# Default behaviour

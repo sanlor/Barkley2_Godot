@@ -34,7 +34,13 @@ sources/1 = ExtResource("2_bdx5f")
 
 [sub_resource type="Resource" id="Resource_b26ct"]
 script = ExtResource("5_3x34e")
-original_script = "FADE   | 1 | 0
+original_script = "IF gameStart == 1 | GOTO | EGG
+
+EGG
+\" +
+//TODO: play sound of egg cracking and water rushing out
+\"
+FADE   | 1 | 0
 LOOK   | o_zane01 | SOUTHWEST
 SET    | o_cts_hoopz | diaper_ground
 SET    | o_zane01 | lookdown
@@ -904,7 +910,10 @@ script = ExtResource("3_4xgyf")
 
 [node name="B2_Cinema" type="CanvasLayer" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("4_23cou")
+debug_fade = true
+debug_quest = true
 debug_unhandled = true
+print_comments = true
 cutscene_script = SubResource("Resource_b26ct")
 camera = NodePath("../o_camera_hoopz")
 

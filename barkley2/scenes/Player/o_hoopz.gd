@@ -120,8 +120,9 @@ func animation():
 				
 		last_direction = input
 			
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var move := Input.get_vector("Left","Right","Up","Down")
-	position += 100 * move * delta
+	#position += 100 * move * delta
+	velocity = ( 6000 * move ) * delta
+	move_and_slide()
 	animation()
