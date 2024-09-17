@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://drxfl81qdglq8"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.gd" id="1_ptidt"]
+[ext_resource type="Texture2D" uid="uid://dcpiqfbxgnoy2" path="res://barkley2/assets/b2_original/images/merged/s_goofControl.png" id="2_l17u0"]
+[ext_resource type="Texture2D" uid="uid://d14mkab1fcihg" path="res://barkley2/assets/b2_original/images/merged/s_effect_eye_blink_filler.png" id="3_77bm2"]
+[ext_resource type="Texture2D" uid="uid://4v60st4ca6ph" path="res://barkley2/assets/b2_original/images/merged/s_effect_eye_blink.png" id="4_3ti3h"]
+
+[node name="o_room_dream_filter" type="Node2D"]
+script = ExtResource("1_ptidt")
+
+[node name="filter_logo" type="Sprite2D" parent="."]
+texture = ExtResource("2_l17u0")
+centered = false
+
+[node name="debug" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1000.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="eyelid_filler_left" type="Sprite2D" parent="."]
+top_level = true
+position = Vector2(0, 150)
+texture = ExtResource("3_77bm2")
+centered = false
+hframes = 2
+
+[node name="eyelid_filler_right" type="Sprite2D" parent="."]
+top_level = true
+position = Vector2(352, 120)
+scale = Vector2(1, 100)
+texture = ExtResource("3_77bm2")
+centered = false
+hframes = 2
+vframes = 2
+
+[node name="top_eyelid" type="Sprite2D" parent="."]
+top_level = true
+texture = ExtResource("4_3ti3h")
+centered = false
+hframes = 3
+
+[node name="botton_eyelid" type="Sprite2D" parent="."]
+top_level = true
+texture = ExtResource("4_3ti3h")
+centered = false
+hframes = 3
+frame = 1
+
+[node name="paused_overlay" type="Sprite2D" parent="."]
+top_level = true
+centered = false

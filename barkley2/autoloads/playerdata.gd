@@ -98,11 +98,16 @@ func _ready():
 # // Quest("myQuest") - Returns value of myQuest
 # // Quest("myQuest", 1) - Sets value of myQuest
 
-func Quest(key : String, value):
+func Quest(key : String, value, default = null):
+	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;
 	
 	if value == null:
-		return B2_Config.get_user_save_data(questpath)
+		var _key_value = B2_Config.get_user_save_data(questpath)
+		if _key_value == null:
+			return default
+		else:
+			return _key_value
 	else:
 		B2_Config.set_user_save_data(questpath, value)
 		return true

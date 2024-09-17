@@ -16,6 +16,7 @@ class_name B2_Cinema
 @export var debug_quest 		:= false
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
+@export var debug_event 		:= false
 @export var debug_unhandled 	:= false
 @export var print_comments		:= false
 
@@ -212,7 +213,7 @@ func play_cutscene():
 					elif parsed_line.size() == 3:
 						o_fade._fade 		= float( parsed_line[ 1 ] )
 						o_fade._seconds 	= float( parsed_line[ 2 ] )
-						o_fade.z_index 		= float( parsed_line[ 3 ] )
+						o_fade.z_index 		= int( parsed_line[ 3 ] ) # i think this is disabled on the original code.
 					else:
 						# weird ammount of arguments
 						breakpoint
@@ -229,7 +230,20 @@ func play_cutscene():
 						B2_Sound.play( parsed_line[1], 0.0, false )
 						if debug_sound: print(parsed_line[1])
 				"EVENT":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects withe the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
+					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
+					# basically, this just executes funciones on the fly.
+					var event_object : Node2D = get_node_from_name(all_nodes, parsed_line[1])
+					if event_object != null:
+						if not event_object.has_method("execute_event_user_" + parsed_line[2]):
+							# node has no execute_event_user_n method. remember to add it
+							push_error("Node has no execute_event_user_n method. remember to add it")
+						else:
+							event_object.call( "execute_event_user_" + parsed_line[2] )
+					else:
+						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + "not found.")
+					
+					if debug_event: print( "Executed EVENT: ", parsed_line )
 				"NOTE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SHOP":
@@ -352,7 +366,7 @@ func get_node_from_name( _array, _name ) -> Node2D:
 func Misc( parsed_line :PackedStringArray ):
 	# Check Misc() script.
 	var misc_arguments := parsed_line.size() - 2
-	print("Misc: %s arguments." % str(misc_arguments) )
+	# print("Misc: %s arguments." % str(misc_arguments) )
 	
 	match parsed_line[1]:
 		"set": ## 1 = object | 2 = object / x | 3 = y
@@ -395,7 +409,7 @@ func Misc( parsed_line :PackedStringArray ):
 func Camera( parsed_line : PackedStringArray ):
 	# Check Camera() script
 	var misc_arguments := parsed_line.size() - 2
-	print("Camera: %s arguments." % str(misc_arguments) )
+	# print("Camera: %s arguments." % str(misc_arguments) )
 	
 	match parsed_line[1]:
 		## Camera("enable", camera)

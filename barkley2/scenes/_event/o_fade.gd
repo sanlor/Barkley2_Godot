@@ -17,6 +17,7 @@ var _fadeColor = Color.BLACK;
 func _ready() -> void:
 	assert( _event != null, "_event should never be null." )
 	_event.created_new_fade.connect( queue_free )
+	color = _fadeColor
 	
 	var target_alpha : float
 	if _fade:
