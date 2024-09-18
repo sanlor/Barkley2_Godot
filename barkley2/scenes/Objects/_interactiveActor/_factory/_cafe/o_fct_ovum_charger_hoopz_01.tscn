@@ -1,0 +1,167 @@
+[gd_scene load_steps=23 format=3 uid="uid://dgyfcwaljmgpr"]
+
+[ext_resource type="Texture2D" uid="uid://di0kweax31y3r" path="res://barkley2/assets/b2_original/images/merged/s_fct_ovumCharger01.png" id="1_p8lqu"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_ovum_charger_hoopz_01.gd" id="2_bjw2l"]
+[ext_resource type="PackedScene" uid="uid://dwluqrkbg17" path="res://barkley2/scenes/_utilityStation/oSmoke.tscn" id="3_osr4h"]
+[ext_resource type="Texture2D" uid="uid://btp0okq4vy2t0" path="res://barkley2/assets/b2_original/images/merged/s_lensflare.png" id="4_vtkov"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gnrh"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(0, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8n7cp"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(37, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p27rt"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(74, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hb3il"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(185, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxx7r"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(222, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb77o"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(259, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tywio"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(296, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkosn"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(148, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iode"]
+atlas = ExtResource("1_p8lqu")
+region = Rect2(111, 0, 37, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v1wpe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gnrh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8n7cp")
+}],
+"loop": true,
+"name": &"broken_egg",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p27rt")
+}],
+"loop": true,
+"name": &"broken_empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hb3il")
+}],
+"loop": true,
+"name": &"charged_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxx7r")
+}],
+"loop": true,
+"name": &"charged_2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb77o")
+}],
+"loop": true,
+"name": &"charged_3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tywio")
+}],
+"loop": true,
+"name": &"complete",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkosn")
+}],
+"loop": true,
+"name": &"connect",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1iode")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_lh08q"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.754286, 0.483111), -2.8589, -2.8589, 0, 0, Vector2(0.87619, 0.117171), -3.50985, -3.50985, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_1ag42"]
+curve = SubResource("Curve_lh08q")
+
+[sub_resource type="Gradient" id="Gradient_nguu8"]
+offsets = PackedFloat32Array(0, 0.384306, 0.748491)
+colors = PackedColorArray(0.154109, 0.310686, 0.462618, 1, 0.380118, 0.47617, 0.552925, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7ba5f"]
+gradient = SubResource("Gradient_nguu8")
+
+[sub_resource type="Curve" id="Curve_olakk"]
+_data = [Vector2(0, 0.236101), 0.0, 0.0, 0, 0, Vector2(0.308571, 0.556298), 1.37227, 1.37227, 0, 0, Vector2(0.666667, 0.592892), -0.355775, -0.355775, 0, 0, Vector2(1, 0.88107), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_6f2xh"]
+curve = SubResource("Curve_olakk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m547s"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 4, 1)
+gravity = Vector3(0, -51, 0)
+scale_min = 0.07
+scale_max = 0.15
+scale_curve = SubResource("CurveTexture_6f2xh")
+scale_over_velocity_min = 0.5
+scale_over_velocity_max = 1.0
+color_ramp = SubResource("GradientTexture1D_7ba5f")
+alpha_curve = SubResource("CurveTexture_1ag42")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xdh6"]
+atlas = ExtResource("4_vtkov")
+region = Rect2(0, 0, 64, 64)
+
+[node name="o_fct_ovumChargerHoopz01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_v1wpe")
+animation = &"broken_egg"
+frame_progress = 0.719982
+centered = false
+offset = Vector2(-18, -53)
+script = ExtResource("2_bjw2l")
+metadata/code = ""
+metadata/inst_name = "inst_9B80987A"
+metadata/scale = Vector2(1, 1)
+
+[node name="oSmoke" parent="." instance=ExtResource("3_osr4h")]
+position = Vector2(0, -47)
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_m547s")
+texture = SubResource("AtlasTexture_1xdh6")

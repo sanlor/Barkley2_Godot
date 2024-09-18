@@ -19,6 +19,7 @@ class_name B2_Cinema
 @export var debug_event 		:= false
 @export var debug_unhandled 	:= false
 @export var print_comments		:= false
+@export var print_line_report 	:= false ## details about the current script line.
 
 @export var cutscene_script : B2_Script
 
@@ -75,11 +76,12 @@ func play_cutscene():
 	## TODO -> GOTO Function
 	## TODO -> IF Funcion
 	if cutscene_script is B2_Script_Legacy:
+		print_rich("[color=pink]Started Cinema() Script at %s msecs.[/color]" % Time.get_ticks_msec() )
 		# Split the script into separate lines
-		var split_script : PackedStringArray = cutscene_script.original_script.split( "\n", false )
-		var script_size := split_script.size()
-		var curr_line := 0
-		var loop_finished := true
+		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", false )
+		var script_size 	:= split_script.size()
+		var curr_line 		:= 0
+		var loop_finished 	:= true
 		
 		#for line : String in split_script:
 		while loop_finished or curr_line == script_size:
@@ -137,7 +139,9 @@ func play_cutscene():
 				"CHOICE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"WAIT":
+					# check o_wait
 					await get_tree().create_timer( float( parsed_line[1] ) ).timeout
+					await get_tree().process_frame
 					if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 				"EXIT":
 					print("EXIT")
@@ -200,8 +204,8 @@ func play_cutscene():
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
 					# check scr_event_fade()
-					# parsed_line[ 1 ] is type: // 1 is fade in, 0 is fade out
-					# parsed_line[ 2 ] is seconds: // 1 second fade duration
+					# parsed_line[ 1 ] is type: 		// 1 is fade in, 0 is fade out. Fade in is black to transparent.
+					# parsed_line[ 2 ] is seconds: 		// 1 second fade duration
 					# parsed_line[ 3 ] is depth, but i this this is disabled. //depth for o_hud is -2510000 //Removed, should always be over hud?
 					var o_fade : ColorRect = load("res://barkley2/scenes/_event/o_fade.tscn").instantiate()
 					created_new_fade.emit()
@@ -215,12 +219,13 @@ func play_cutscene():
 						o_fade._seconds 	= float( parsed_line[ 2 ] )
 						o_fade.z_index 		= int( parsed_line[ 3 ] ) # i think this is disabled on the original code.
 					else:
-						# weird ammount of arguments
+						# weird amount of arguments
 						breakpoint
 					o_fade._event = self # used to listen to signals. _event should never be null
 					
-					add_child( o_fade )
-					if debug_fade: print( "Fade: ", parsed_line )
+					add_child( o_fade, true )
+					if debug_fade: 
+						print( "Fade: ", str(curr_line), " - ", parsed_line )
 				"SOUND":
 					if parsed_line.size() > 2:
 						# Loops
@@ -241,7 +246,7 @@ func play_cutscene():
 						else:
 							event_object.call( "execute_event_user_" + parsed_line[2] )
 					else:
-						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + "not found.")
+						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + " not found.")
 					
 					if debug_event: print( "Executed EVENT: ", parsed_line )
 				"NOTE":
@@ -309,6 +314,9 @@ func play_cutscene():
 			
 			# Jump to next line
 			curr_line += 1
+			
+			if print_line_report:
+				print( str(curr_line), " - ", parsed_line )
 			
 		print( "Finished Animation" )
 		end_cutscene()

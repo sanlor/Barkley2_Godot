@@ -55,6 +55,7 @@ var last_direction := Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	B2_Playerdata.player_node = self
 	pass # Replace with function body.
 
 func _load_sprite_frames():

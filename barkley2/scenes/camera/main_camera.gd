@@ -10,7 +10,7 @@ var curr_MODE := MODE.FOLLOW
 var speed := 2.0
 var is_moving := false
 var destination := Vector2.ZERO
-var _position : Vector2 # Allow int based movement
+var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
 func _ready() -> void:
 	_position = position.round()
@@ -58,10 +58,12 @@ func _process(delta: float) -> void:
 					is_moving = false
 					destination_reached.emit()
 					
-				position = _position.round()
+				#position = _position.round()
+				position = _position.floor()
 				#print(position)
 		MODE.FOLLOW:
 			if is_instance_valid(player_node):
 				_position = player_node.position
 			
-			position = _position.round()
+			#position = _position.round()
+			position = _position.floor()

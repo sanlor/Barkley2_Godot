@@ -86,6 +86,9 @@ var character_zodiac_year1 = 0;
 var placenta_status = -1;
 var transition_timer = 25; ## was 14 (bhroom 190529))
 
+## Actual important stuff
+var player_node : CharacterBody2D
+
 func _ready():
 	character_inkblots.resize( 16 )
 	character_scanner.resize( 10 )

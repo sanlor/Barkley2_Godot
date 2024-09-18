@@ -1,4 +1,4 @@
-extends TileMapLayer
+extends Node2D
 
 @onready var b_2_cinema: B2_Cinema = $B2_Cinema
 
@@ -16,11 +16,8 @@ func _ready() -> void:
 		
 		#BodySwap("diaper");
 		#scr_event_entity_settings(id, 0, 0, 0);
-		#Quest("hudVisible", 0);
-		#Quest("zoneVisible", 0);
-		#Quest("dropEnabled", 0);
-		#Quest("infiniteAmmo", 1);
+		B2_Playerdata.Quest("hudVisible", 		0);
+		B2_Playerdata.Quest("zoneVisible", 		0);
+		B2_Playerdata.Quest("dropEnabled", 		0);
+		B2_Playerdata.Quest("infiniteAmmo", 	1);
 		b_2_cinema.play_cutscene()
-
-	# Debug
-	b_2_cinema.play_cutscene()

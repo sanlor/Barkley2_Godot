@@ -1,10 +1,18 @@
-extends Node2D
+extends CanvasLayer
+
+@export_category("Hack")
+@export var activation_delay := 1.5 ## Delay before activating the blinking animation.
+
+@onready var filter_logo: Sprite2D = $filter_logo
 
 @onready var eyelid_filler_left: 		Sprite2D = $eyelid_filler_left
 @onready var eyelid_filler_right: 		Sprite2D = $eyelid_filler_right
 @onready var top_eyelid: 				Sprite2D = $top_eyelid
 @onready var botton_eyelid: 			Sprite2D = $botton_eyelid
 
+@onready var paused_overlay: Sprite2D = $paused_overlay
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 ## Blink ##
 var eye_position = 64.0;
@@ -18,6 +26,8 @@ var alpha_intensity = 0.0
 var layers = 4;
 
 func _ready() -> void:
+	filter_logo.visible = false
+	
 	## Don't exist after tutorial is done ##
 	if B2_Playerdata.Quest( "tutorialProgress", null, 0 ) >= 100:
 		queue_free()
@@ -30,15 +40,23 @@ func _ready() -> void:
 	elif B2_Playerdata.Quest("tutorialProgress", null, 0) 	== 8: alpha_intensity = 0.45;
 	elif B2_Playerdata.Quest("tutorialProgress", null, 0) 	== 5: alpha_intensity = 0.8;
 	else: alpha_intensity = 1;
-
-func execute_event_user_0():
-	print("aaaaaa")
-	pass
 	
-func execute_event_user_1():
-	print("aaaaaa")
-	pass
+	
+	if B2_Playerdata.Quest( "zaneState", null, 0 ) == 0:
+		await get_tree().create_timer(activation_delay).timeout ## HAAAAAAAAAACK. have no idea how the original code handles this delay. 1.5 secs seems perfect.
+		animation_player.play("blink")
 
+# User Defined code, from GML
+func execute_event_user_0():
+	# Blink Blood for the eye blood veins
+	blink_blood = 1;
+	
+# User Defined code, from GML
+func execute_event_user_1():
+	alpha_intensity = 0.65;
+
+# User Defined code, from GML
 func execute_event_user_2():
-	print("aaaaaa")
-	pass
+	# Remove the eyelids 
+	alpha_eye_drain = true;
+	

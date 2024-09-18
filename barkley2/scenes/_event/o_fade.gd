@@ -4,15 +4,15 @@ extends ColorRect
 ## Automatically called when a fade object is created.
 
 # The event that is associated with this fade object, should never be null.
-var _event = null;
+var _event 			= null;
 # True if it should fade out, false if it should fade in.
-var _fade = true;
+var _fade 			:= true;
 # The amount of seconds for this object to fade.
-var _seconds = 0;
+var _seconds 		:= 1.0; # was 0.0
 # Short delay at the apex of the fade //  LAZ TEST // Purpose: remove those 1 frame long flashes of no-fade-effect
-var _fadeDelay = 1;
+var _fadeDelay 		:= 1.0;
 # Color of the fade //
-var _fadeColor = Color.BLACK;
+var _fadeColor 		:= Color.BLACK;
 
 func _ready() -> void:
 	assert( _event != null, "_event should never be null." )
@@ -29,8 +29,9 @@ func _ready() -> void:
 		
 	if _seconds > 0:
 		var tween := create_tween()
-		tween.tween_interval( _fadeDelay )
 		tween.tween_property(self, "color:a", target_alpha, _seconds)
+		if _fade == true:
+			tween.tween_interval( _fadeDelay )
 		tween.tween_callback( queue_free )
 	else:
 		color.a = target_alpha

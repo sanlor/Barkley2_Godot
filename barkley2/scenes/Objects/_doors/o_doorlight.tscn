@@ -1,0 +1,101 @@
+[gd_scene load_steps=17 format=3 uid="uid://ckuran6ntn1r1"]
+
+[ext_resource type="Texture2D" uid="uid://dx2xdp8ylgnbt" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="1_ljkjq"]
+[ext_resource type="Texture2D" uid="uid://bqx4m5eyo1i23" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_v17eb"]
+[ext_resource type="Texture2D" uid="uid://dtyiduurg2h5u" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_b46qt"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight.gd" id="2_tx0ll"]
+[ext_resource type="Texture2D" uid="uid://sngehpyd608n" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="3_5cs2o"]
+[ext_resource type="Texture2D" uid="uid://dxscnacisul7b" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="4_ciw2o"]
+[ext_resource type="Texture2D" uid="uid://dytyi8dky3nax" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="5_affpk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
+atlas = ExtResource("5_affpk")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
+atlas = ExtResource("5_affpk")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
+atlas = ExtResource("5_affpk")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
+atlas = ExtResource("5_affpk")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
+atlas = ExtResource("1_ljkjq")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
+atlas = ExtResource("1_ljkjq")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
+atlas = ExtResource("1_ljkjq")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
+atlas = ExtResource("1_ljkjq")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v17eb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_b46qt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5cs2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ciw2o")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[node name="o_doorlight" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_qubxx")
+animation = &"debug_icons"
+centered = false
+script = ExtResource("2_tx0ll")
