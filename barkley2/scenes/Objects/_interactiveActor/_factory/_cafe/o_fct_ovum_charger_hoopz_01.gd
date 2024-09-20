@@ -1,4 +1,4 @@
-extends B2_InteractiveActor
+extends B2_InteractiveProp
 ## The Influence Ovum Charger
 ## TODO Fix the smoke effect.
 
@@ -7,9 +7,9 @@ var smkCol : Array[Color]
 func _ready() -> void:
 	match B2_Playerdata.Quest("dynamoeufHoopz", null, 0):
 		0:
-			play("broken_egg")
+			animatedsprite.play("broken_egg")
 		1:
-			play("broken_empty")
+			animatedsprite.play("broken_empty")
 	
 	smkCol.resize(3)
 	# Smoke #

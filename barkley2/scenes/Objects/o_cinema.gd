@@ -15,3 +15,6 @@ func _draw() -> void:
 		z_index = 4000
 		draw_string( editor_font, Vector2( -4 * str(cinema_id).length(), 4 ), str(cinema_id), HORIZONTAL_ALIGNMENT_CENTER, 0, 16, Color.HOT_PINK )
 		draw_rect( Rect2( Vector2(-8, -8), Vector2(16, 16) ), Color.HOT_PINK, false, 1.5 )
+		
+	elif B2_Debug.ENABLE_CINEMASPOT: # used to check alignment
+		draw_circle( Vector2.ZERO, 3.0, Color.HOT_PINK, true )

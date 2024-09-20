@@ -1,0 +1,2 @@
+extends B2_Prop
+class_name B2_InteractiveProp

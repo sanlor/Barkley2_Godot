@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dgyfcwaljmgpr"]
+[gd_scene load_steps=24 format=3 uid="uid://dgyfcwaljmgpr"]
 
 [ext_resource type="Texture2D" uid="uid://di0kweax31y3r" path="res://barkley2/assets/b2_original/images/merged/s_fct_ovumCharger01.png" id="1_p8lqu"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_ovum_charger_hoopz_01.gd" id="2_bjw2l"]
@@ -149,13 +149,19 @@ alpha_curve = SubResource("CurveTexture_1ag42")
 atlas = ExtResource("4_vtkov")
 region = Rect2(0, 0, 64, 64)
 
-[node name="o_fct_ovumChargerHoopz01" type="AnimatedSprite2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sv1xv"]
+size = Vector2(39, 55)
+
+[node name="o_fct_ovumChargerHoopz01" type="Area2D" node_paths=PackedStringArray("animatedsprite")]
+script = ExtResource("2_bjw2l")
+animatedsprite = NodePath("o_fct_ovumChargerHoopz01_body")
+
+[node name="o_fct_ovumChargerHoopz01_body" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_v1wpe")
 animation = &"broken_egg"
 frame_progress = 0.719982
 centered = false
 offset = Vector2(-18, -53)
-script = ExtResource("2_bjw2l")
 metadata/code = ""
 metadata/inst_name = "inst_9B80987A"
 metadata/scale = Vector2(1, 1)
@@ -165,3 +171,7 @@ position = Vector2(0, -47)
 amount = 16
 process_material = SubResource("ParticleProcessMaterial_m547s")
 texture = SubResource("AtlasTexture_1xdh6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -26.5)
+shape = SubResource("RectangleShape2D_sv1xv")

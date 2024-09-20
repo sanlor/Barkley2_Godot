@@ -7,7 +7,7 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA}
 var curr_MODE := MODE.FOLLOW
 
-var speed := 2.0
+var speed := 1.5
 var is_moving := false
 var destination := Vector2.ZERO
 var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.

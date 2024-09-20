@@ -6,6 +6,7 @@ class_name B2_Cinema
 ## Check Cinema() script. Cinema("run", script_start) is also important
 
 ## DEBUG
+@export_category("Debug Stuff")
 @export var debug_goto		 	:= false
 @export var debug_comments 		:= false
 @export var debug_dialog 		:= false
@@ -21,6 +22,11 @@ class_name B2_Cinema
 @export var print_comments		:= false
 @export var print_line_report 	:= false ## details about the current script line.
 
+@export_category("Cinema Config")
+@export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
+@export var async_actor_move	:= false ## Script does not wait for the movement to finish if this is enabled.
+
+@export_category("Cinema Setup")
 @export var cutscene_script : B2_Script
 
 signal created_new_fade
@@ -73,8 +79,6 @@ func play_cutscene():
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
-	## TODO -> GOTO Function
-	## TODO -> IF Funcion
 	if cutscene_script is B2_Script_Legacy:
 		print_rich("[color=pink]Started Cinema() Script at %s msecs.[/color]" % Time.get_ticks_msec() )
 		# Split the script into separate lines
@@ -128,7 +132,6 @@ func play_cutscene():
 							found_label = true
 							if debug_goto: print_rich("[color=green]Goto: line ", curr_line, " - ", target_label, "[/color]" )
 							break
-						#print(target_label, " ", possible_label)
 						
 					if not found_label:
 						# "label" not found. push error
@@ -238,17 +241,18 @@ func play_cutscene():
 					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects withe the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
 					# basically, this just executes funciones on the fly.
-					var event_object : Node2D = get_node_from_name(all_nodes, parsed_line[1])
+					var event_object : Node = get_node_from_name(all_nodes, parsed_line[1])
 					if event_object != null:
 						if not event_object.has_method("execute_event_user_" + parsed_line[2]):
 							# node has no execute_event_user_n method. remember to add it
-							push_error("Node has no execute_event_user_n method. remember to add it")
+							push_error( "Node %s has no execute_event_user_%s method. remember to add it" % [parsed_line[1],parsed_line[2]] )
 						else:
 							event_object.call( "execute_event_user_" + parsed_line[2] )
 					else:
 						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + " not found.")
 					
-					if debug_event: print( "Executed EVENT: ", parsed_line )
+					if debug_event: 
+						print( "Executed EVENT: ", parsed_line )
 				"NOTE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SHOP":
@@ -272,9 +276,13 @@ func play_cutscene():
 						move_array.append( dest )
 					
 					if not move_array.is_empty():
-						# if debug_moveto: print("FRAME: destination_object is valid: ", move_array )
 						var speed 					= parsed_line[1]
-						await camera.cinema_moveto( move_array, speed )
+						
+						if async_camera_move:
+							camera.cinema_moveto( move_array, speed )		## Async movement 
+						else:
+							await camera.cinema_moveto( move_array, speed ) ## Sync movement ## CRITICAL Disabled. i think the original doesnt wait for anything
+						
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
 				"LOOKAT":
@@ -283,17 +291,22 @@ func play_cutscene():
 					## NOTE Im not sure if this is working
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					actor.cinema_look( parsed_line[2] )
-					pass
 				"MOVETO":
+					# oh, what the fuck. The original game has pathfinding in the movement system.
+					# check scr_event_action_move_to_point and o_move.
+					# fuck. also check scr_path_set, scr_path_delete, scr_path_update. fuck fuck, this is way more complicated.
+					## TODO implement Astar2DGrid on the root node or a standalone class.
+					
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					var destination_object 		= get_node_from_name( all_nodes, 	parsed_line[2] )
 					# Make sure that the actors and cinemaspots exists
 					if actor != null:
-						# if debug_moveto: print("MOVETO: actor is valid: ",parsed_line[1])
 						if destination_object != null:
-							# if debug_moveto: print("MOVETO: destination_object is valid: ",parsed_line[2])
 							var speed 					= parsed_line[3]
-							await actor.cinema_moveto( destination_object, speed )
+							if async_actor_move:
+								actor.cinema_moveto( destination_object, speed ) 		## Async movement 
+							else:
+								await actor.cinema_moveto( destination_object, speed ) 	## Sync movement # CRITICAL Disabled. i think the original doesnt wait for anything
 						else:
 							if debug_moveto: print("MOVETO: destination_object is invalid: ",parsed_line[2])
 					else:
@@ -362,10 +375,10 @@ func Cinema_run():
 func Cinema_process():
 	pass
 	
-func get_node_from_name( _array, _name ) -> Node2D:
-	var node : Node2D
+func get_node_from_name( _array, _name ) -> Node:
+	var node : Node
 	for item in _array:
-		if item is Node2D:
+		if item is Node:
 			if item.name == _name:
 				node = item
 	return node

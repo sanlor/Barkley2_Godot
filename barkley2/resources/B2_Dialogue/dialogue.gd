@@ -5,8 +5,8 @@ class_name B2_Dialogue
 # DEBUG
 @export var debug := false
 
-const S_DIAG_FRAME 	= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
-const S_RETURN 		= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
+const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
+const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
 
 # reference script = o_dialogue
 
@@ -95,7 +95,7 @@ var is_waiting_input := false
 var text_delays : PackedInt32Array
 
 ## Auto Skip
-var auto_skipping := true # Should be false from the start. enabled only when the player holds the action key.
+var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
 ## Textbox Screens (More than 4 lines of texts)
 var max_screens := 1
