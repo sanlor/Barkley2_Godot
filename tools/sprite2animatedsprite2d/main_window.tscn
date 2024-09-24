@@ -1,0 +1,165 @@
+[gd_scene load_steps=3 format=3 uid="uid://cb1bwe0oapyth"]
+
+[ext_resource type="Script" path="res://tools/sprite2animatedsprite2d/main_window.gd" id="1_l2ldc"]
+
+[sub_resource type="Theme" id="Theme_mxn0i"]
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 10
+
+[node name="main_window" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_mxn0i")
+script = ExtResource("1_l2ldc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="sprite_image_folder" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="img_Label" type="Label" parent="MarginContainer/VBoxContainer/sprite_image_folder"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nothing Selected"
+
+[node name="img_Button" type="Button" parent="MarginContainer/VBoxContainer/sprite_image_folder"]
+layout_mode = 2
+text = "Sprite Image Folder"
+
+[node name="sprite_image_folder2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="out_Label" type="Label" parent="MarginContainer/VBoxContainer/sprite_image_folder2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nothing Selected"
+
+[node name="out_Button" type="Button" parent="MarginContainer/VBoxContainer/sprite_image_folder2"]
+layout_mode = 2
+text = "Output Folder"
+
+[node name="check_hierarchy" type="CheckButton" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Copy GML folder hierarchy"
+
+[node name="sprite_object_folder" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="obj_Label" type="Label" parent="MarginContainer/VBoxContainer/sprite_object_folder"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nothing Selected"
+
+[node name="obj_Button" type="Button" parent="MarginContainer/VBoxContainer/sprite_object_folder"]
+layout_mode = 2
+text = "Sprite GMX Objects Folder"
+
+[node name="gml_project_file" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="project_Label" type="Label" parent="MarginContainer/VBoxContainer/gml_project_file"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Nothing Selected"
+
+[node name="project_Button" type="Button" parent="MarginContainer/VBoxContainer/gml_project_file"]
+layout_mode = 2
+text = "Project File"
+
+[node name="skip_sprite" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="skip_Label" type="Label" parent="MarginContainer/VBoxContainer/skip_sprite"]
+layout_mode = 2
+text = "Skip first X sprites"
+
+[node name="skip_text" type="LineEdit" parent="MarginContainer/VBoxContainer/skip_sprite"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "0"
+alignment = 1
+
+[node name="limit_sprite" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="limit_Label" type="Label" parent="MarginContainer/VBoxContainer/limit_sprite"]
+layout_mode = 2
+text = "Limit to X sprites (0 means no limit)"
+
+[node name="limit_text" type="LineEdit" parent="MarginContainer/VBoxContainer/limit_sprite"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "0"
+alignment = 1
+
+[node name="pad" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="check_files" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Check Files"
+
+[node name="details" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/details"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/details/MarginContainer"]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="details_Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/details/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "No details."
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="lets_a_go_Button" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Let it rip!"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a Directory"
+ok_button_text = "Select Current Folder"
+dialog_hide_on_ok = true
+file_mode = 2
+access = 2
+use_native_dialog = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/sprite_image_folder/img_Button" to="." method="_on_img_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/sprite_image_folder2/out_Button" to="." method="_on_out_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/check_hierarchy" to="." method="_on_check_hierarchy_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/sprite_object_folder/obj_Button" to="." method="_on_obj_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/gml_project_file/project_Button" to="." method="_on_project_button_pressed"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/skip_sprite/skip_text" to="." method="_on_skip_text_text_submitted"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/limit_sprite/limit_text" to="." method="_on_limit_text_text_submitted"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/check_files" to="." method="_on_check_files_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/lets_a_go_Button" to="." method="_on_lets_a_go_button_pressed"]
+[connection signal="dir_selected" from="FileDialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]
