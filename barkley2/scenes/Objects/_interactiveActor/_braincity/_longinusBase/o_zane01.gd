@@ -11,4 +11,4 @@ func _ready() -> void:
 	ANIMATION_NORTHEAST 		= "s_zaneUP01"
 	ANIMATION_NORTHWEST 		= "s_zaneDOWN01"
 	ANIMATION_EAST 				= "s_zaneDOWN01"
-	animatedsprite.animation 	= ANIMATION_STAND
+	ActorAnim.animation 	= ANIMATION_STAND

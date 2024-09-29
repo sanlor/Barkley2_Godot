@@ -13,6 +13,7 @@ class_name B2_Cinema
 @export var debug_wait 			:= false
 @export var debug_fade 			:= false
 @export var debug_sound 		:= false
+@export var debug_set 			:= false
 @export var debug_moveto 		:= false
 @export var debug_quest 		:= false
 @export var debug_look	 		:= false
@@ -45,6 +46,9 @@ var o_hoopz 		: CharacterBody2D 	= null ## TODO Create a B2_CombatActor class
 
 @export var camera				: Camera2D
 var all_nodes					:= []
+
+## Children process
+var dslCinKid := []
 
 func _ready() -> void:
 	pass
@@ -142,10 +146,19 @@ func play_cutscene():
 				"CHOICE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"WAIT":
+					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
+					# check Cinema()
 					# check o_wait
-					await get_tree().create_timer( float( parsed_line[1] ) ).timeout
-					await get_tree().process_frame
-					if debug_wait: print("Wait: ", float( parsed_line[1] ) )
+					if float( parsed_line[1] ) <= 0.0:
+						# wait for the childrens movement to finish
+						if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
+						await cinema_kids()
+						#await get_tree().create_timer( 1.0 ).timeout
+						if debug_wait: print( "Wait: KID WAIT Finished" )
+					else:
+						await get_tree().create_timer( float( parsed_line[1] ) ).timeout
+						#await get_tree().process_frame
+						if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 				"EXIT":
 					print("EXIT")
 					loop_finished = true
@@ -182,6 +195,7 @@ func play_cutscene():
 				"SET":
 					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					actor.cinema_set( str(parsed_line[ 2 ]) )
+					if debug_set: print("SET: ", parsed_line[1], " - ", str(parsed_line[ 2 ]) )
 				"QUEST":
 					# this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
 					var quest_stuff := parsed_line[ 1 ].split(" ", false)
@@ -277,11 +291,8 @@ func play_cutscene():
 					
 					if not move_array.is_empty():
 						var speed 					= parsed_line[1]
-						
-						if async_camera_move:
-							camera.cinema_moveto( move_array, speed )		## Async movement 
-						else:
-							await camera.cinema_moveto( move_array, speed ) ## Sync movement ## CRITICAL Disabled. i think the original doesnt wait for anything
+						camera.cinema_moveto( move_array, speed )		## Async movement 
+						cinema_kid( camera )
 						
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
@@ -303,14 +314,14 @@ func play_cutscene():
 					if actor != null:
 						if destination_object != null:
 							var speed 					= parsed_line[3]
-							if async_actor_move:
-								actor.cinema_moveto( destination_object, speed ) 		## Async movement 
-							else:
-								await actor.cinema_moveto( destination_object, speed ) 	## Sync movement # CRITICAL Disabled. i think the original doesnt wait for anything
+							actor.cinema_moveto( destination_object, speed ) 		## Async movement
+							cinema_kid( actor )
 						else:
 							if debug_moveto: print("MOVETO: destination_object is invalid: ",parsed_line[2])
 					else:
 						if debug_moveto: print("MOVETO: actor is invalid: ",parsed_line[1])
+						
+					if debug_moveto: print("MOVETO: ", parsed_line[1], " - ", parsed_line[2] )
 				"MOVE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 					
@@ -333,6 +344,18 @@ func play_cutscene():
 			
 		print( "Finished Animation" )
 		end_cutscene()
+
+# add a node to the array.
+# This is used to keep track of actor movement, to wait for something to finish before starting another.
+func cinema_kid( kid : Node2D ) -> void:
+	dslCinKid.append(kid)
+	
+# Wait for every child action to finish, them clear the queue
+func cinema_kids() -> void:
+	for i in dslCinKid:
+		await i.check_actor_activity()
+	dslCinKid.clear()
+	return
 
 func cleanup_line( line : String ) -> PackedStringArray:
 	var parsed_line : PackedStringArray = line.split( "|", false )

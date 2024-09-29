@@ -11,7 +11,7 @@ func _ready() -> void:
 	ANIMATION_NORTHEAST 		= "s_cts_jhodfreyNE"
 	ANIMATION_NORTHWEST 		= "s_cts_jhodfreyNE"
 	ANIMATION_EAST 				= "s_cts_jhodfreyNE"
-	animatedsprite.animation 	= ANIMATION_STAND
+	ActorAnim.animation 		= ANIMATION_STAND
 
 func execute_event_user_2():
 	# ///Destroy Variable in DSL Events

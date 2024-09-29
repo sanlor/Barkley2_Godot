@@ -1,7 +1,7 @@
 extends B2_InteractiveActor
 
 # silly stuff for variable´s hand
-@export var o_variable_01_hands: AnimatedSprite2D
+@export var ActorAnim_hands: AnimatedSprite2D
 
 func _ready() -> void:
 	## Animation
@@ -14,7 +14,7 @@ func _ready() -> void:
 	ANIMATION_NORTHEAST 		= "s_variableDown01"
 	ANIMATION_NORTHWEST 		= "s_variableDown01"
 	ANIMATION_EAST 				= "s_variableDown01"
-	animatedsprite.animation 	= ANIMATION_STAND
+	ActorAnim.animation 	= ANIMATION_STAND
 
 func execute_event_user_0():
 	#/// Weapon brandish stuff
@@ -31,43 +31,46 @@ func execute_event_user_10():
 	push_warning("Event not set")
 
 func cinema_set( _sprite_frame : String ):
-	if animatedsprite.sprite_frames.has_animation(_sprite_frame):
-		animatedsprite.animation = _sprite_frame
+	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
+		ActorAnim.animation = _sprite_frame
 		if _sprite_frame == "spanking" or _sprite_frame == "spankingHold":
-			animatedsprite.flip_h = true
-			o_variable_01_hands.flip_h = true
-			o_variable_01_hands.visible = true
-			o_variable_01_hands.animation = _sprite_frame
+			ActorAnim_hands.offset = ActorAnim.offset
+			ActorAnim_hands.offset.x = -16 # HAAAAACK
+			
+			ActorAnim.flip_h = true
+			ActorAnim_hands.flip_h = true
+			ActorAnim_hands.visible = true
+			ActorAnim_hands.animation = _sprite_frame
 		else:
-			animatedsprite.flip_h = false
-			o_variable_01_hands.flip_h = false
-			o_variable_01_hands.visible = false
+			ActorAnim.flip_h = false
+			ActorAnim_hands.flip_h = false
+			ActorAnim_hands.visible = false
 	else:
 		print("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
 func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE Not sure how to deal with this?
-	if animatedsprite.sprite_frames.has_animation( _sprite_frame ):
-		animatedsprite.sprite_frames.set_animation_loop( _sprite_frame, false )
-		animatedsprite.sprite_frames.set_animation_speed( _sprite_frame, 15 )
-		animatedsprite.play( _sprite_frame )
+	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
+		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 15 )
+		ActorAnim.play( _sprite_frame )
 		
 		if _sprite_frame == "spanking" or _sprite_frame == "spankingHold":
-			animatedsprite.flip_h = true
-			o_variable_01_hands.flip_h = true
-			o_variable_01_hands.visible = true
-			o_variable_01_hands.sprite_frames.set_animation_loop( _sprite_frame, false )
-			o_variable_01_hands.sprite_frames.set_animation_speed( _sprite_frame, 15 )
-			o_variable_01_hands.play( _sprite_frame )
+			ActorAnim.flip_h = true
+			ActorAnim_hands.flip_h = true
+			ActorAnim_hands.visible = true
+			ActorAnim_hands.sprite_frames.set_animation_loop( _sprite_frame, false )
+			ActorAnim_hands.sprite_frames.set_animation_speed( _sprite_frame, 15 )
+			ActorAnim_hands.play( _sprite_frame )
 		else:
-			animatedsprite.flip_h = false
-			o_variable_01_hands.flip_h = false
-			o_variable_01_hands.visible = false
+			ActorAnim.flip_h = false
+			ActorAnim_hands.flip_h = false
+			ActorAnim_hands.visible = false
 			
-		await animatedsprite.animation_finished
-		animatedsprite.animation = _sprite_frame_2
+		await ActorAnim.animation_finished
+		ActorAnim.animation = _sprite_frame_2
 		if _sprite_frame == "spanking" or _sprite_frame == "spankingHold":
-			await o_variable_01_hands.animation_finished
-			o_variable_01_hands.animation = _sprite_frame_2
+			await ActorAnim_hands.animation_finished
+			ActorAnim_hands.animation = _sprite_frame_2
 		return 
 	else:
 		print("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
@@ -76,6 +79,6 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE
 func _child_process(_delta) -> void: # used to avoid overwriting the _process func.
 	if movement_vector != last_movement_vector:
 		if movement_vector.x > 0: # handle sprite mirroring
-			o_variable_01_hands.flip_h = false
+			ActorAnim_hands.flip_h = false
 		else:
-			o_variable_01_hands.flip_h = true
+			ActorAnim_hands.flip_h = true

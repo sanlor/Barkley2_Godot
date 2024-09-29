@@ -1,0 +1,2 @@
+extends Resource
+class_name B2_TOOL_GML_SPRITE_CONVERTER_ROOT

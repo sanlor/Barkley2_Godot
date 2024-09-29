@@ -50,13 +50,20 @@ var West = 3; #from obsolete stair code in step
 var walkBackwards = 0; #When enabled, reverse animate
 var statusImmuneAll = 0;
 
+## DEBUG
+@export_category("Debug")
+@export var debug_move_finish := false
+
 ## Godot
 signal destination_reached
-@export var animatedsprite : AnimatedSprite2D
-@export var collisionshape : CollisionShape2D
+signal set_played
+@export_category("Actor Stuff")
+@export var ActorAnim 	: AnimatedSprite2D
+@export var ActorCol 	: CollisionShape2D
 
 var speed := 0.8
-var is_moving := false
+var is_moving 		:= false
+var is_playingset 	:= false
 
 var destination := Vector2.ZERO
 var destination_path := PackedVector2Array()
@@ -65,6 +72,10 @@ var destination_offset := Vector2(8,8)
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
+
+@export var speed_slow 		:= 1.5
+@export var speed_normal 	:= 2.5
+@export var speed_fast 		:= 5.0
 
 ## Animation
 var ANIMATION_STAND 		:= "PLACEHOLDER - %s" % self
@@ -77,64 +88,76 @@ var ANIMATION_NORTHEAST 	:= "PLACEHOLDER - %s" % self
 var ANIMATION_NORTHWEST 	:= "PLACEHOLDER - %s" % self
 var ANIMATION_EAST 			:= "PLACEHOLDER - %s" % self
 
+## Action Queue
+var cinema_set_queue := []
+
 func cinema_set( _sprite_frame : String ):
-	if animatedsprite.sprite_frames.has_animation(_sprite_frame):
+	if is_moving:
+		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
+	
+	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
 		flip_sprite()
-		animatedsprite.animation = _sprite_frame
+		ActorAnim.animation = _sprite_frame
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
 func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE Not sure how to deal with this?
-	if animatedsprite.sprite_frames.has_animation( _sprite_frame ):
+	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
+		is_playingset = true
+		ActorAnim.animation = _sprite_frame
+		adjust_sprite_offset()
 		flip_sprite()
-		animatedsprite.sprite_frames.set_animation_loop( _sprite_frame, false )
-		animatedsprite.sprite_frames.set_animation_speed( _sprite_frame, 15 )
-		animatedsprite.play( _sprite_frame )
-		await animatedsprite.animation_finished
-		animatedsprite.animation = _sprite_frame_2
+		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 15 )
+		ActorAnim.play( _sprite_frame )
+		await ActorAnim.animation_finished
+		ActorAnim.animation = _sprite_frame_2
+		adjust_sprite_offset()
+		is_playingset = false
+		set_played.emit()
 		return 
 	else:
 		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
 		return
 
 func cinema_look( _direction : String ):
-	animatedsprite.stop()
+	ActorAnim.stop()
 	match _direction:
 		"NORTHWEST":
-			animatedsprite.animation = (ANIMATION_NORTHWEST)
-			animatedsprite.flip_h = true
+			ActorAnim.animation = (ANIMATION_NORTHWEST)
+			ActorAnim.flip_h = true
 		"NORTHEAST":
-			animatedsprite.animation = (ANIMATION_NORTHEAST)
-			animatedsprite.flip_h = false
+			ActorAnim.animation = (ANIMATION_NORTHEAST)
+			ActorAnim.flip_h = false
 		"SOUTHWEST":
-			animatedsprite.animation = (ANIMATION_SOUTHWEST)
-			animatedsprite.flip_h = true
+			ActorAnim.animation = (ANIMATION_SOUTHWEST)
+			ActorAnim.flip_h = true
 		"SOUTHEAST":
-			animatedsprite.animation = (ANIMATION_SOUTHEAST)
-			animatedsprite.flip_h = false
-				
+			ActorAnim.animation = (ANIMATION_SOUTHEAST)
+			ActorAnim.flip_h = false
 		"NORTH":
-			animatedsprite.animation = (ANIMATION_NORTH)
-			animatedsprite.flip_h = true
+			ActorAnim.animation = (ANIMATION_NORTH)
+			ActorAnim.flip_h = true
 		"WEST":
-			animatedsprite.animation = (ANIMATION_WEST)
-			animatedsprite.flip_h = true
+			ActorAnim.animation = (ANIMATION_WEST)
+			ActorAnim.flip_h = true
 		"SOUTH":
-			animatedsprite.animation = (ANIMATION_SOUTH)
-			animatedsprite.flip_h = false
+			ActorAnim.animation = (ANIMATION_SOUTH)
+			ActorAnim.flip_h = false
 		"EAST":
-			animatedsprite.animation = (ANIMATION_EAST)
-			animatedsprite.flip_h = false
+			ActorAnim.animation = (ANIMATION_EAST)
+			ActorAnim.flip_h = false
+	adjust_sprite_offset()
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	# Default behaviour
 	match _speed:
 		"MOVE_FAST":
-			speed = 5.0
+			speed = speed_fast
 		"MOVE_SLOW":
-			speed = 1.0
+			speed = speed_slow
 		"MOVE_NORMAL":
-			speed = 2.0
+			speed = speed_normal
 	
 	if _cinema_spot == null:
 		push_error("Camera: node is invalid. ", _cinema_spot, ".")
@@ -154,18 +177,17 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 			is_moving 			= true
 			movement_vector 	= position.direction_to( destination ).sign()
 			
-			collisionshape.disabled = true # Disable collision while moving
-			await destination_reached
-			collisionshape.disabled = false
+			ActorCol.disabled = true # Disable collision while moving
+
 		else:
 			push_error("Parent does not have the 'get_astar_path' function. It should.")
 	return
 
 func flip_sprite():
 	if movement_vector.x > 0: # handle sprite mirroring
-		animatedsprite.flip_h = false
+		ActorAnim.flip_h = false
 	else:
-		animatedsprite.flip_h = true
+		ActorAnim.flip_h = true
 	#print("flip ", name, " - ", flip_h)
 
 func cinema_animation(): # Apply animation when the character is moved by a cinema script.
@@ -174,28 +196,61 @@ func cinema_animation(): # Apply animation when the character is moved by a cine
 			
 		match movement_vector:
 			Vector2.UP + Vector2.LEFT:
-				animatedsprite.play(ANIMATION_NORTHWEST)
+				ActorAnim.play(ANIMATION_NORTHWEST)
 			Vector2.UP + Vector2.RIGHT:
-				animatedsprite.play(ANIMATION_NORTHEAST)
+				ActorAnim.play(ANIMATION_NORTHEAST)
 			Vector2.DOWN + Vector2.LEFT:
-				animatedsprite.play(ANIMATION_SOUTHWEST)
+				ActorAnim.play(ANIMATION_SOUTHWEST)
 			Vector2.DOWN + Vector2.RIGHT:
-				animatedsprite.play(ANIMATION_SOUTHEAST)
+				ActorAnim.play(ANIMATION_SOUTHEAST)
 				
 			Vector2.UP:
-				animatedsprite.play(ANIMATION_NORTH)
+				ActorAnim.play(ANIMATION_NORTH)
 			Vector2.LEFT:
-				animatedsprite.play(ANIMATION_WEST)
+				ActorAnim.play(ANIMATION_WEST)
 			Vector2.DOWN:
-				animatedsprite.play(ANIMATION_SOUTH)
+				ActorAnim.play(ANIMATION_SOUTH)
 			Vector2.RIGHT:
-				animatedsprite.play(ANIMATION_EAST)
+				ActorAnim.play(ANIMATION_EAST)
 				
 			_: # Catch All
-				animatedsprite.play(ANIMATION_SOUTH)
+				ActorAnim.play(ANIMATION_SOUTH)
 				# print("Catch all, ", input)
 				
+		adjust_sprite_offset()
 		last_movement_vector = movement_vector
+
+func get_curr_sprite_metadata(curr_anim) -> Dictionary:
+	var sprite_data := ActorAnim.get_meta( curr_anim, Dictionary() ) as Dictionary
+	
+	if sprite_data.is_empty():
+		push_error("Ops, %s's AnimatedSprite2D has no metadata. Cant change the sprite offset like this." % ActorAnim.get_parent().name)
+		return sprite_data
+	if not sprite_data.has("xorig") and not sprite_data.has("yorigin"):
+		push_error("Ops, %s's AnimatedSprite2D has invalid metadata info." % ActorAnim.get_parent().name)
+		return sprite_data
+	return sprite_data
+
+# Get info from the sprite metadata.
+func adjust_sprite_offset():
+	var curr_anim := ActorAnim.animation
+	var sprite_data := get_curr_sprite_metadata(curr_anim)
+	if sprite_data.is_empty():
+		# no data
+		return
+	ActorAnim.centered = false
+	ActorAnim.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
+	adjust_sprite_collision()
+	
+# Get info from the sprite metadata.
+func adjust_sprite_collision():
+	var curr_anim := ActorAnim.animation
+	var sprite_data := get_curr_sprite_metadata(curr_anim)
+	if sprite_data.is_empty():
+		# no data
+		return
+		
+	## TODO create col shape and set its colisions.
 
 func execute_event_user_0():
 	push_warning("Event not set")
@@ -212,6 +267,21 @@ func execute_event_user_10():
 func _child_process(_delta) -> void: # used to avoid overwriting the _process func.
 	pass
 
+## Function checks if the node is doing anything
+## Return void right awai if itsd idle. Await for a signal if its busy.
+func check_actor_activity() -> void:
+	if is_moving:
+		# is moving toward something.
+		await destination_reached
+		return
+	elif is_playingset:
+		# is playing some animation.
+		await set_played
+		return
+	else:
+		# not doing anything important
+		return
+
 func _process(delta: float) -> void:
 	if is_moving:
 		cinema_animation()
@@ -226,15 +296,23 @@ func _process(delta: float) -> void:
 			
 			# check if there are any destinations left. if not, finish walking
 			if destination_path.is_empty():
-				velocity = Vector2.ZERO
 				is_moving = false
-				destination_reached.emit()
+				velocity = Vector2.ZERO
 				position = destination.round()
-				last_movement_vector = Vector2.ZERO
-				animatedsprite.stop()
-				animatedsprite.animation = ANIMATION_STAND
+				
+				#last_movement_vector = Vector2.ZERO
+				
+				ActorCol.disabled = false
+				ActorAnim.stop()
+				ActorAnim.animation = ANIMATION_STAND
+				cinema_animation()
+				
+				if debug_move_finish:
+					print("%s finished moving." % name)
+					
+				destination_reached.emit()
 				
 		else:
-			velocity = position.direction_to( destination_path[-1] + destination_offset ) * (speed * 1400) * delta
+			velocity = position.direction_to( destination_path[-1] + destination_offset ) * (speed * 1500) * delta
 			move_and_slide()
 		
