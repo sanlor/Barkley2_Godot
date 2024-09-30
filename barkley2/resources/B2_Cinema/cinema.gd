@@ -152,6 +152,9 @@ func play_cutscene():
 					if float( parsed_line[1] ) <= 0.0:
 						# wait for the childrens movement to finish
 						if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
+						# So, if wait is 0, then we sould wait for any pending actions to finish
+						# cinema_kids() check the dslCinKid array and returns when all actions are finished.
+						# This... THIS TOOK 3 WEEKS TO FIGURE OUT. Goddamit.
 						await cinema_kids()
 						#await get_tree().create_timer( 1.0 ).timeout
 						if debug_wait: print( "Wait: KID WAIT Finished" )

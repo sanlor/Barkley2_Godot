@@ -43,6 +43,9 @@ func set_seed( _seed : String ):
 	my_seed = hash(_seed)
 
 func _ready():
+	# Theme
+	theme = preload("res://barkley2/themes/dialogue.tres")
+	
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)
 	#b_2_panel_fg.set_panel_size(border_size.x, border_size.y)

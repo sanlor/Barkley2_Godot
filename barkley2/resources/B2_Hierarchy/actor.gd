@@ -67,7 +67,7 @@ var is_playingset 	:= false
 
 var destination := Vector2.ZERO
 var destination_path := PackedVector2Array()
-var destination_offset := Vector2(8,8)
+var destination_offset := Vector2.ZERO #Vector2(8,8)
 
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO
@@ -253,16 +253,16 @@ func adjust_sprite_collision():
 	## TODO create col shape and set its colisions.
 
 func execute_event_user_0():
-	push_warning("Event not set")
+	push_warning("%s: Event not set" % name)
 
 func execute_event_user_1():
-	push_warning("Event not set")
+	push_warning("%s: Event not set" % name)
 
 func execute_event_user_2():
-	push_warning("Event not set")
+	push_warning("%s: Event not set" % name)
 
 func execute_event_user_10():
-	push_warning("Event not set")
+	push_warning("%s: Event not set" % name)
 
 func _child_process(_delta) -> void: # used to avoid overwriting the _process func.
 	pass
@@ -290,7 +290,7 @@ func _process(delta: float) -> void:
 		
 		movement_vector = position.direction_to( destination ).sign()
 		
-		if position.distance_to( destination_path[-1] + destination_offset ) < 2.0:
+		if position.distance_to( destination_path[-1] + destination_offset ) < 1.5:
 			# man, i miss the pop_back() function.
 			destination_path.remove_at( destination_path.size() - 1 )
 			

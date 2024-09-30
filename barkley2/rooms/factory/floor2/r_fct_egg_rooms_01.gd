@@ -43,8 +43,8 @@ func _update_obstacles():
 func _init_pathfind():
 	assert(reference_layer != null, "No reference avaiable for the pathfinding stuff")
 	astar = AStarGrid2D.new()
-	astar.region = reference_layer.get_used_rect()
-	astar.cell_size = reference_layer.get_tile_set().tile_size
+	astar.region = 		reference_layer.get_used_rect()
+	astar.cell_size = 	reference_layer.get_tile_set().tile_size
 	astar.update()
 	astar.fill_solid_region( reference_layer.get_used_rect(), false )
 	
@@ -72,8 +72,8 @@ func _update_pathfind():
 	
 ## Remmeber, the path returned is inverted.
 func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Array:
-	var _origin 		:= Vector2i(origin		/ astar.cell_size.x )
-	var _destination 	:= Vector2i(destination	/ astar.cell_size.x )
+	var _origin 		:= reference_layer.local_to_map(origin) 		#Vector2i(origin		/ astar.cell_size.x )
+	var _destination 	:= reference_layer.local_to_map(destination) 	#Vector2i(destination	/ astar.cell_size.x )
 	var my_path 		:= PackedVector2Array()
 	
 	if not astar.is_in_boundsv(_origin):

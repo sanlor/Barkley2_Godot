@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends CanvasLayer
 class_name B2_Dialogue
 
 # DEBUG
@@ -107,8 +107,7 @@ var blink_speed 	:= 5.50
 var is_talking		:= false
 
 func _ready() -> void:
-	# Theme
-	theme = preload("res://barkley2/themes/dialogue.tres")
+	layer = 10
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
@@ -141,10 +140,12 @@ func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 func set_text( _text : String, _text_title := "" ) -> void:
 	if not _text_title.is_empty():
 		title_node 	= RichTextLabel.new(); add_child(title_node); title_node.bbcode_enabled = true
+		title_node.theme = preload("res://barkley2/themes/dialogue.tres")
 		_title 		= _text_title 	# whos speaking the text
 		
 	# Setup Text RTL
 	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING; text_node.clip_contents = false
+	text_node.theme = preload("res://barkley2/themes/dialogue.tres")
 	_my_text 	= _text 		# text dialog
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:

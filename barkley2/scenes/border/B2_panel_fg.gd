@@ -25,6 +25,9 @@ var border_size : Vector2 = Vector2(50,50)
 @onready var rng := RandomNumberGenerator.new()
 
 func _ready():
+	# Theme
+	theme = preload("res://barkley2/themes/dialogue.tres")
+	
 	rng.seed = get_parent().my_seed
 
 func set_panel_size(x, y):
