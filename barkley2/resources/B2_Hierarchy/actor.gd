@@ -78,15 +78,18 @@ var last_movement_vector 	:= Vector2.ZERO
 @export var speed_fast 		:= 5.0
 
 ## Animation
-var ANIMATION_STAND 		:= "PLACEHOLDER - %s" % self
-var ANIMATION_SOUTH 		:= "PLACEHOLDER - %s" % self
-var ANIMATION_SOUTHEAST 	:= "PLACEHOLDER - %s" % self
-var ANIMATION_SOUTHWEST 	:= "PLACEHOLDER - %s" % self
-var ANIMATION_WEST 			:= "PLACEHOLDER - %s" % self
-var ANIMATION_NORTH 		:= "PLACEHOLDER - %s" % self
-var ANIMATION_NORTHEAST 	:= "PLACEHOLDER - %s" % self
-var ANIMATION_NORTHWEST 	:= "PLACEHOLDER - %s" % self
-var ANIMATION_EAST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_STAND 				:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTH 				:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTHEAST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_SOUTHWEST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_WEST 					:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTH 				:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTHEAST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_NORTHWEST 			:= "PLACEHOLDER - %s" % self
+var ANIMATION_EAST 					:= "PLACEHOLDER - %s" % self
+
+## Which sprite index is used for the standing animation.
+var ANIMATION_STAND_SPRITE_INDEX 	:= [ 0, 0, 0, 0, 0, 0, 0, 0 ] # N, NE, E, SE, S, SW, W, NW
 
 ## Action Queue
 var cinema_set_queue := []
@@ -252,6 +255,10 @@ func adjust_sprite_collision():
 		
 	## TODO create col shape and set its colisions.
 
+@warning_ignore("unused_parameter")
+func change_costume(costume_name : String) -> void:
+	pass
+	
 func execute_event_user_0():
 	push_warning("%s: Event not set" % name)
 

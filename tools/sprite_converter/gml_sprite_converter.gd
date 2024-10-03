@@ -44,6 +44,9 @@ var ANIMATION_NORTHEAST 	:= ""
 var ANIMATION_NORTHWEST 	:= ""
 var ANIMATION_EAST 			:= ""
 
+## Which sprite index is used for the standing animation.
+var ANIMATION_STAND_SPRITE_INDEX 	:= [ 0, 0, 0, 0, 0, 0, 0, 0 ] # N, NE, E, SE, S, SW, W, NW
+
 func _ready() -> void:
 	if start_at_runtime and not Engine.is_editor_hint():
 		lets_goooo()
@@ -79,11 +82,24 @@ func lets_goooo():
 	
 	# for each Converter resource set up.
 	for anim in animations:
-		if anim is B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE:
+		if anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK:
+			var stand := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
+			stand.animationName 		= anim.sprite
+			stand.sprite				= anim.sprite
+			stand.startImage 			= 0
+			stand.numberOfFrames 		= 999 ## 999 means all avaiable sprites
+			stand.animationSpeed 		= 0
+			make_animated_sprite( stand )
+			
+			## scr_entity_set_look(sprite, N, NE, E, SE, S, SW, W, NW);
+			ANIMATION_STAND = anim.sprite
+			ANIMATION_STAND_SPRITE_INDEX = [anim.subN, anim.subNE, anim.subE, anim.subSE, anim.subS, anim.subSW, anim.subW, anim.subNW ]
+		
+		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE:
 			make_animated_sprite(anim)
 				
 		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK_WALK_MIRROR:
-			# check scr_entity_set_walk_mirror()
+			# check scr_entity_set_look_walk_mirror()
 			var standing := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
 			standing.animationName 			= anim.standing_sprite # "default" #anim.standing_sprite
 			standing.sprite					= anim.standing_sprite
@@ -113,16 +129,26 @@ func lets_goooo():
 			walk_south.animationSpeed 		= 0
 			make_animated_sprite( walk_south )
 			
-			ANIMATION_EAST 				= anim.southeast_sprite
-			ANIMATION_SOUTHEAST 		= anim.southeast_sprite
-			ANIMATION_SOUTH 			= anim.southeast_sprite
-			ANIMATION_SOUTHWEST			= anim.southeast_sprite
-			ANIMATION_WEST				= anim.southeast_sprite
-			
+			ANIMATION_EAST 					= anim.southeast_sprite
+			ANIMATION_SOUTHEAST 			= anim.southeast_sprite
+			ANIMATION_SOUTH 				= anim.southeast_sprite
+			ANIMATION_SOUTHWEST				= anim.southeast_sprite
+			ANIMATION_WEST					= anim.southeast_sprite
+			ANIMATION_STAND_SPRITE_INDEX 	= [ 1, 1, 0, 0, 0, 0, 0, 1 ]
 			print_data_for_lazy_devs()
 				
 		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_WALK:
 			# scr_entity_set_walk()
+			var std : B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK = anim.animation_stand
+			
+			var stand := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
+			stand.animationName 		= std.sprite
+			stand.sprite				= std.sprite
+			stand.startImage 			= 0
+			stand.numberOfFrames 		= 999 ## 999 means all avaiable sprites
+			stand.animationSpeed 		= 0
+			make_animated_sprite( stand )
+			
 			make_animated_sprite(anim.animation_south )
 			make_animated_sprite(anim.animation_southeast )
 			make_animated_sprite(anim.animation_southwest )
@@ -141,44 +167,19 @@ func lets_goooo():
 			ANIMATION_SOUTHWEST			= anim.animation_southwest.animationName
 			ANIMATION_WEST				= anim.animation_west.animationName
 			
+			## scr_entity_set_look(sprite, N, NE, E, SE, S, SW, W, NW);
+			ANIMATION_STAND = std.sprite
+			ANIMATION_STAND_SPRITE_INDEX = [std.subN, std.subNE, std.subE, std.subSE, std.subS, std.subSW, std.subW, std.subNW ]
 			print_data_for_lazy_devs()
-		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK:
-			var walk_south := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
-			walk_south.animationName 		= anim.southeast_sprite
-			walk_south.sprite				= anim.southeast_sprite
-			walk_south.startImage 			= 0
-			walk_south.numberOfFrames 		= 999 ## 999 means all avaiable sprites
-			walk_south.animationSpeed 		= 0
-			make_animated_sprite( walk_south )
-			
-			make_animated_sprite(anim.animation_south )
-			make_animated_sprite(anim.animation_southeast )
-			make_animated_sprite(anim.animation_southwest )
-			make_animated_sprite(anim.animation_west )
-			make_animated_sprite(anim.animation_north )
-			make_animated_sprite(anim.animation_northeast )
-			make_animated_sprite(anim.animation_northwest )
-			make_animated_sprite(anim.animation_east )
-			
-			ANIMATION_NORTH 			= anim.animation_north.animationName
-			ANIMATION_NORTHEAST 		= anim.animation_northeast.animationName
-			ANIMATION_NORTHWEST			= anim.animation_northwest.animationName
-			ANIMATION_EAST 				= anim.animation_east.animationName
-			ANIMATION_SOUTHEAST 		= anim.animation_southeast.animationName
-			ANIMATION_SOUTH 			= anim.animation_south.animationName
-			ANIMATION_SOUTHWEST			= anim.animation_southwest.animationName
-			ANIMATION_WEST				= anim.animation_west.animationName
-			
 		else:
 			print("Unknow class %s." % anim.get_class())
-			pass
-				
+			
 	add_sibling.call_deferred( animatedsprite, true )
 	animatedsprite.set_owner.call_deferred( get_parent() )
 	
-	var sprite_data := animatedsprite.get_meta( "default" ) as Dictionary
+	#var sprite_data := animatedsprite.get_meta( "default" ) as Dictionary
 	animatedsprite.centered = false
-	animatedsprite.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
+	#animatedsprite.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
 	
 	if create_col_node:
 		set_placeholder_collision()
@@ -195,19 +196,19 @@ func make_anim_stand_define(animname : String, startimage : int) -> B2_TOOL_GML_
 	return anim
 
 func print_data_for_lazy_devs():
-	print("\n")
 	print_rich("[color=Green] Cheat sheet :p  - paste this to the parent´s script[/color]")
-	print( "func _ready() -> void:")
-	print( "	ANIMATION_STAND 		:= ", ANIMATION_STAND)
-	print( "	ANIMATION_SOUTH 		:= ",ANIMATION_SOUTH)
-	print( "	ANIMATION_SOUTHEAST 	:= ",ANIMATION_SOUTHEAST)
-	print( "	ANIMATION_SOUTHWEST 	:= ",ANIMATION_SOUTHWEST)
-	print( "	ANIMATION_WEST 			:= ",ANIMATION_WEST)
-	print( "	ANIMATION_NORTH 		:= ",ANIMATION_NORTH)
-	print( "	ANIMATION_NORTHEAST 	:= ",ANIMATION_NORTHEAST)
-	print( "	ANIMATION_NORTHWEST 	:= ",ANIMATION_NORTHWEST)
-	print( "	ANIMATION_EAST 			:= ",ANIMATION_EAST)
-	print( "	ActorAnim.animation 	= ",ANIMATION_STAND)
+	print( 'func _ready() -> void:')
+	print( '	ANIMATION_STAND 						= "%s"' % str(ANIMATION_STAND))
+	print( '	ANIMATION_SOUTH 						= "%s"' % str(ANIMATION_SOUTH))
+	print( '	ANIMATION_SOUTHEAST 					= "%s"' % str(ANIMATION_SOUTHEAST))
+	print( '	ANIMATION_SOUTHWEST 					= "%s"' % str(ANIMATION_SOUTHWEST))
+	print( '	ANIMATION_WEST 							= "%s"' % str(ANIMATION_WEST))
+	print( '	ANIMATION_NORTH 						= "%s"' % str(ANIMATION_NORTH))
+	print( '	ANIMATION_NORTHEAST 					= "%s"' % str(ANIMATION_NORTHEAST))
+	print( '	ANIMATION_NORTHWEST 					= "%s"' % str(ANIMATION_NORTHWEST))
+	print( '	ANIMATION_EAST 							= "%s"' % str(ANIMATION_EAST))
+	print( '	ANIMATION_STAND_SPRITE_INDEX 			= "%s"' % str(ANIMATION_STAND_SPRITE_INDEX))
+	print( '	ActorAnim.animation 					= "%s"' % str(ANIMATION_STAND))
 	print("\n")
 
 	
@@ -256,7 +257,6 @@ func make_animated_sprite(anim : B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE, 
 	## Except for the sprite frames. fuck that.
 	sprite_data.erase("frames")
 	animatedsprite.set_meta(anim.animationName, sprite_data)
-	pass
 	
 func parse_gmx(filename : String) -> Dictionary:
 	var has_file := false
@@ -314,46 +314,8 @@ func parse_gmx(filename : String) -> Dictionary:
 					write_to_array = false
 						
 		sprite_data["frames"] = frame_array
-		print("Parse Successful for %s. " % filename)
+		#print("Parse Successful for %s. " % filename)
 		return sprite_data
-	
-#func get_sprite_frames( animationName : String, sprite_data : Dictionary ) -> SpriteFrames:
-	#var spr_frames 			:= SpriteFrames.new()
-			#
-	#for frame : String in sprite_data["frames"]:
-		#var t_frame = frame.trim_prefix("images\\")
-		#var frame_suffix := t_frame.right(4) # get the last 4 characters. thats the file suffix (.png)
-		#t_frame = t_frame.trim_suffix( frame_suffix )
-		#
-		#var split_frame := t_frame.rsplit("_", false, 1)
-		## split_frame[0] is the file name
-		## split_frame[1] is its offset
-		#var _path = img_folder_path + "\\" + split_frame[0] + frame_suffix
-		#
-		#if not FileAccess.file_exists(_path):
-			#push_error("File %s not found." % _path)
-			#continue
-		#
-		## https://forum.godotengine.org/t/how-to-add-frames-from-a-sprite-sheet-in-code/5230/2
-		## WARNING this is bullshit.
-		#var texture 	: Texture2D = ResourceLoader.load(_path, "Texture2D")
-		#var offset 		:= float( split_frame[1] )
-		#var img_x 		:= sprite_data["width"] 	as int
-		#var img_y 		:= sprite_data["height"] 	as int
-		#
-		#var atlas := AtlasTexture.new()
-		#atlas.atlas = texture
-		#atlas.region = Rect2( 
-			#Vector2( img_x * offset, 			0), 
-			#Vector2( img_x, 					img_y)
-			#)
-			#
-		#if not spr_frames.has_animation(animationName):
-			#spr_frames.add_animation(animationName)
-			#
-		#spr_frames.add_frame( animationName, atlas )
-	#
-	#return spr_frames
 	
 func set_placeholder_collision():
 	## If there is a temp col already, skip it.
