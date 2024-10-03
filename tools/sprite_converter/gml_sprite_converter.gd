@@ -85,13 +85,13 @@ func lets_goooo():
 		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK_WALK_MIRROR:
 			# check scr_entity_set_walk_mirror()
 			var standing := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
-			standing.animationName 			= "default" #anim.standing_sprite
+			standing.animationName 			= anim.standing_sprite # "default" #anim.standing_sprite
 			standing.sprite					= anim.standing_sprite
 			standing.startImage 			= 0
 			standing.numberOfFrames 		= 999 ## 999 means all avaiable sprites
 			standing.animationSpeed 		= 0
 			make_animated_sprite( standing )
-			ANIMATION_STAND = "default"
+			ANIMATION_STAND = anim.standing_sprite # "default"
 			
 			var walk_north := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
 			walk_north.animationName 		= anim.northeast_sprite
@@ -122,7 +122,53 @@ func lets_goooo():
 			print_data_for_lazy_devs()
 				
 		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_WALK:
-			pass
+			# scr_entity_set_walk()
+			make_animated_sprite(anim.animation_south )
+			make_animated_sprite(anim.animation_southeast )
+			make_animated_sprite(anim.animation_southwest )
+			make_animated_sprite(anim.animation_west )
+			make_animated_sprite(anim.animation_north )
+			make_animated_sprite(anim.animation_northeast )
+			make_animated_sprite(anim.animation_northwest )
+			make_animated_sprite(anim.animation_east )
+			
+			ANIMATION_NORTH 			= anim.animation_north.animationName
+			ANIMATION_NORTHEAST 		= anim.animation_northeast.animationName
+			ANIMATION_NORTHWEST			= anim.animation_northwest.animationName
+			ANIMATION_EAST 				= anim.animation_east.animationName
+			ANIMATION_SOUTHEAST 		= anim.animation_southeast.animationName
+			ANIMATION_SOUTH 			= anim.animation_south.animationName
+			ANIMATION_SOUTHWEST			= anim.animation_southwest.animationName
+			ANIMATION_WEST				= anim.animation_west.animationName
+			
+			print_data_for_lazy_devs()
+		elif anim is B2_TOOL_GML_SPRITE_CONVERTER_SET_LOOK:
+			var walk_south := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
+			walk_south.animationName 		= anim.southeast_sprite
+			walk_south.sprite				= anim.southeast_sprite
+			walk_south.startImage 			= 0
+			walk_south.numberOfFrames 		= 999 ## 999 means all avaiable sprites
+			walk_south.animationSpeed 		= 0
+			make_animated_sprite( walk_south )
+			
+			make_animated_sprite(anim.animation_south )
+			make_animated_sprite(anim.animation_southeast )
+			make_animated_sprite(anim.animation_southwest )
+			make_animated_sprite(anim.animation_west )
+			make_animated_sprite(anim.animation_north )
+			make_animated_sprite(anim.animation_northeast )
+			make_animated_sprite(anim.animation_northwest )
+			make_animated_sprite(anim.animation_east )
+			
+			ANIMATION_NORTH 			= anim.animation_north.animationName
+			ANIMATION_NORTHEAST 		= anim.animation_northeast.animationName
+			ANIMATION_NORTHWEST			= anim.animation_northwest.animationName
+			ANIMATION_EAST 				= anim.animation_east.animationName
+			ANIMATION_SOUTHEAST 		= anim.animation_southeast.animationName
+			ANIMATION_SOUTH 			= anim.animation_south.animationName
+			ANIMATION_SOUTHWEST			= anim.animation_southwest.animationName
+			ANIMATION_WEST				= anim.animation_west.animationName
+			
 		else:
 			print("Unknow class %s." % anim.get_class())
 			pass
@@ -139,6 +185,15 @@ func lets_goooo():
 	print("Conversion finished!")
 	pass
 	
+func make_anim_stand_define(animname : String, startimage : int) -> B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE:
+	var anim := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
+	anim.animationName 		= animname
+	anim.sprite				= animname
+	anim.startImage 			= startimage
+	anim.numberOfFrames 		= 999 ## 999 means all avaiable sprites
+	anim.animationSpeed 		= 0
+	return anim
+
 func print_data_for_lazy_devs():
 	print("\n")
 	print_rich("[color=Green] Cheat sheet :p  - paste this to the parent´s script[/color]")
@@ -159,6 +214,10 @@ func print_data_for_lazy_devs():
 func make_animated_sprite(anim : B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE, ):
 	assert(anim.animationName != ""	, "Name is Empty")
 	assert(anim.sprite != ""		, "Sprite is Empty")
+	
+	if spr_frames.has_animation(anim.animationName):
+		push_warning("skiping animation %s. it already exists." % anim.animationName)
+		return
 	
 	var sprite_data 	:= parse_gmx( anim.sprite )
 	var curr_frame 		:= anim.startImage as int

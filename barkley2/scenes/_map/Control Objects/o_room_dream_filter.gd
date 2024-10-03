@@ -73,7 +73,7 @@ func _ready() -> void:
 			push_error(name, ": Blink is disabled.")
 
 func pulse(time : float):
-	var frequency := 0.1; ## Frequency in Hz
+	var frequency := 0.2; ## Frequency in Hz
 	return 0.5 * ( 1 + sin(2 * PI * frequency * time) );
 
 func _process(delta: float) -> void:
@@ -82,11 +82,11 @@ func _process(delta: float) -> void:
 			continue
 			
 		var df : Sprite2D = dream_filters[i]
-		sizeSpd[i] 		+= layers * 0.2 * delta
+		sizeSpd[i] 		+= layers * 0.4 * delta
 		alphaSpd[i] 	+= layers * 0.2 * delta
 		
-		df.scale.x = 1.1 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
-		df.scale.y = 1.1 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
+		df.scale.x = 1.0 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
+		df.scale.y = 1.0 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
 		
 		df.modulate.a = 0.15 	+ pulse( alphaSpd[i] * 0.5 ) 
 		
