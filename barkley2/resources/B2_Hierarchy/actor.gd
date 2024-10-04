@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name B2_Actor
 
+#region Original code
+
 # Extend Entity creation with further declarations
 # event_inherited()
 
@@ -49,6 +51,8 @@ var East = 2; #from obsolete stair code in step
 var West = 3; #from obsolete stair code in step
 var walkBackwards = 0; #When enabled, reverse animate
 var statusImmuneAll = 0;
+
+#endregion
 
 ## DEBUG
 @export_category("Debug")
@@ -99,8 +103,9 @@ func cinema_set( _sprite_frame : String ):
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
 	
 	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
-		flip_sprite()
 		ActorAnim.animation = _sprite_frame
+		flip_sprite()
+		adjust_sprite_offset()
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
@@ -189,9 +194,8 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 func flip_sprite():
 	if movement_vector.x > 0: # handle sprite mirroring
 		ActorAnim.flip_h = false
-	else:
+	elif movement_vector.x < 0:
 		ActorAnim.flip_h = true
-	#print("flip ", name, " - ", flip_h)
 
 func cinema_animation(): # Apply animation when the character is moved by a cinema script.
 	if movement_vector != last_movement_vector:
@@ -310,9 +314,9 @@ func _process(delta: float) -> void:
 				#last_movement_vector = Vector2.ZERO
 				
 				ActorCol.disabled = false
-				ActorAnim.stop()
 				ActorAnim.animation = ANIMATION_STAND
-				cinema_animation()
+				ActorAnim.stop()
+				#cinema_animation()
 				
 				if debug_move_finish:
 					print("%s finished moving." % name)

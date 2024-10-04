@@ -232,13 +232,13 @@ func _load_portrait( portrait_name : String ):
 	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
 	@warning_ignore("integer_division")
-	var offset := int( spritesheet.get_width() / n_frames )
+	var d_offset := int( spritesheet.get_width() / n_frames )
 	
 	for f in n_frames:
 		var frame_tex := AtlasTexture.new( )
 		frame_tex.atlas = spritesheet
-		var frame_offset = offset * f
-		frame_tex.region = Rect2( Vector2(frame_offset, 0), Vector2(offset, spritesheet.get_height() ) )
+		var frame_offset = d_offset * f
+		frame_tex.region = Rect2( Vector2(frame_offset, 0), Vector2( d_offset, spritesheet.get_height() ) )
 		if f == 0:
 			anim_frames.add_frame("blink", frame_tex )
 		if f > 0 and f < n_frames - 1:
@@ -364,7 +364,7 @@ func handle_input():
 	if text_node.visible_ratio < 1.0 and is_typing:
 		curr_typing_speed = fast_typing
 		B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
-		print("Skipped text")
+		#print("Skipped text")
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():

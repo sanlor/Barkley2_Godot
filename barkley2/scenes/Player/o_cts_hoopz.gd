@@ -46,14 +46,14 @@ func change_costume(costume_name : String) -> void:
 			ActorAnim.animation 					= "s_mg_vrw_player"
 		"diaper":
 			ANIMATION_STAND 						= "s_cts_hoopz_diaper_stand"
-			ANIMATION_SOUTH 						= "s_cts_hoopzDiaperS"
-			ANIMATION_SOUTHEAST 					= "s_cts_hoopzDiaperSE"
-			ANIMATION_SOUTHWEST 					= "s_cts_hoopzDiaperSW"
-			ANIMATION_WEST 							= "s_cts_hoopzDiaperW"
-			ANIMATION_NORTH 						= "s_cts_hoopzDiaperN"
-			ANIMATION_NORTHEAST 					= "s_cts_hoopzDiaperNE"
-			ANIMATION_NORTHWEST 					= "s_cts_hoopzDiaperNW"
-			ANIMATION_EAST 							= "s_cts_hoopzDiaperE"
+			ANIMATION_SOUTH 						= "walk_S"
+			ANIMATION_SOUTHEAST 					= "walk_SE"
+			ANIMATION_SOUTHWEST 					= "walk_SW"
+			ANIMATION_WEST 							= "walk_W"
+			ANIMATION_NORTH 						= "walk_N"
+			ANIMATION_NORTHEAST 					= "walk_NE"
+			ANIMATION_NORTHWEST 					= "walk_NW"
+			ANIMATION_EAST 							= "walk_E"
 			ANIMATION_STAND_SPRITE_INDEX 			= [6, 2, 5, 1, 4, 0, 3, 7]
 			ActorAnim.animation 					= "s_cts_hoopz_diaper_stand"
 		"prison":
