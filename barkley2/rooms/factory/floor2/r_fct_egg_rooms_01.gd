@@ -11,6 +11,9 @@ var obstacles 			:= []
 # check scr_map_roomstart()
 
 func _ready() -> void:
+	# change the gray BG to Black during runtime
+	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
+	
 	_init_pathfind()
 	_update_pathfind()
 	# print( get_astar_path( Vector2(208,274) / 16, Vector2(270,464) / 16 ) ) ## debug testing
@@ -29,6 +32,7 @@ func _ready() -> void:
 		B2_Playerdata.Quest("zoneVisible", 		0);
 		B2_Playerdata.Quest("dropEnabled", 		0);
 		B2_Playerdata.Quest("infiniteAmmo", 	1);
+		print( reference_layer.get_used_rect() )
 		b_2_cinema.play_cutscene()
 
 func _update_obstacles():

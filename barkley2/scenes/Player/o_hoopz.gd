@@ -53,6 +53,9 @@ var sprite_map_lower := {
 ## Animation
 var last_direction := Vector2.ZERO
 
+# player direction is influenced by the mouse position
+var follow_mouse := false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	B2_Playerdata.player_node = self

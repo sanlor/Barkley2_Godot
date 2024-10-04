@@ -33,8 +33,9 @@ class_name B2_Cinema
 signal created_new_fade
 
 # used for the "CREATE" event
+## NOTE need a dynamic way to load these.
 var object_map := {
-	"o_tutorial_popups01" : null,
+	"o_tutorial_popups01" : preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
 }
 
 const O_CTS_HOOPZ 	= preload("res://barkley2/scenes/Player/o_cts_hoopz.tscn")
@@ -63,11 +64,13 @@ func load_hoopz():
 	print("o_cts_hoopz loaded.")
 	
 func end_cutscene():
+	#  Cinema() else if (argument[0] == "exit")
 	# if fake is loaded, load real hoopz.
 	o_hoopz = O_HOOPZ.instantiate()
 	if is_instance_valid(o_hoopz):
 		o_hoopz.position = o_cts_hoopz.position
 		o_cts_hoopz.queue_free()
+		
 	add_sibling(o_hoopz, true)
 	print("o_hoopz loaded.")
 	
@@ -77,8 +80,16 @@ func end_cutscene():
 	#await camera.cinema_moveto( [ o_hoopz ], "CAMERA_NORMAL" )
 	camera.follow_player( o_hoopz )
 	
+	## NOTE Below is trash. needs improving.
+	camera.set_safety( true )
+	camera.follow_mouse = true
+	o_hoopz.follow_mouse = true
+	
 func play_cutscene():
 	load_hoopz()
+	camera.set_safety( false )
+	camera.follow_mouse = false
+	
 	all_nodes = get_parent().get_children()
 	
 	# This is the script parser. It parsers scripts.
@@ -394,13 +405,10 @@ func parse_if( line : String ) -> bool:
 	else:
 		return false
 	
-
 func Cinema_run():
 	pass
-
 func Cinema_process():
 	pass
-	
 func get_node_from_name( _array, _name ) -> Node:
 	var node : Node
 	for item in _array:
@@ -408,7 +416,6 @@ func get_node_from_name( _array, _name ) -> Node:
 			if item.name == _name:
 				node = item
 	return node
-	
 	
 func Misc( parsed_line :PackedStringArray ):
 	# Check Misc() script.
@@ -492,11 +499,13 @@ func Create( parsed_line : PackedStringArray ):
 			return
 		
 		var obj_scene : PackedScene = object_map[ parsed_line[1] ]
-		var object : Node2D = obj_scene.instantiate()
-		if misc_arguments > 1:
-			object.position.x = float( parsed_line[2] )
-		if misc_arguments > 2:
-			object.position.y = float( parsed_line[3] )
+		#var object : Node2D = obj_scene.instantiate() # can also be a Canvas Layer
+		var object = obj_scene.instantiate()
+		if object is Node2D or object is Control:
+			if misc_arguments > 1:
+				object.position.x = float( parsed_line[2] )
+			if misc_arguments > 2:
+				object.position.y = float( parsed_line[3] )
 		add_sibling( object )
 	else:
 		push_error("object %s not in object_map dictionary. you dun goofed." % str( parsed_line[1] ) )

@@ -1,6 +1,8 @@
 extends Camera2D
 
 # scr_event_camera_frame()
+# check o_camera_hoopz
+# check o_camera
 
 signal destination_reached
 
@@ -16,10 +18,16 @@ var is_moving := false
 var destination := Vector2.ZERO
 var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
+# Keep camera inbound.
+var safety := true
+
+# camera position is influenced by the mouse position
+var follow_mouse := false
+
 func _ready() -> void:
 	_position = position.round()
 
-var player_node
+var player_node : Node2D
 
 func follow_player( _player_node ):
 	player_node = _player_node
@@ -62,6 +70,20 @@ func check_actor_activity() -> void:
 		# not doing anything important
 		return
 
+func set_safety(_safety : bool):
+	safety = _safety
+	if safety and false: # false is TEMP
+		var rl : TileMapLayer = get_parent().reference_layer
+		limit_top 		= rl.get_used_rect().position.y 	* 16
+		limit_left 		= rl.get_used_rect().position.x 	* 16
+		limit_right 	= rl.get_used_rect().end.x 			* 16
+		limit_bottom 	= rl.get_used_rect().end.y 			* 16
+	else:
+		limit_top 		= -100000
+		limit_left 		= -100000
+		limit_right 	= 100000
+		limit_bottom 	= 100000
+
 func _process(delta: float) -> void:
 	match curr_MODE:
 		MODE.CINEMA:
@@ -78,7 +100,19 @@ func _process(delta: float) -> void:
 				
 		MODE.FOLLOW:
 			if is_instance_valid(player_node):
-				_position = player_node.position
-			
+				#_position = player_node.position
+				_position = _position.move_toward(player_node.position, 100 * delta)
+				
+				if follow_mouse:
+					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
+					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
+					mouse_dist = clampf( mouse_dist, 0.0,250.0 )
+					offset = mouse_dir * mouse_dist / 3.0 # + Vector2( 0,20 )
+					#print( _position )
+					#print( mouse_dist )
+				else:
+					offset = Vector2( 0,20 )
+				
 			#position = _position.round()
-			position = _position.floor()
+			#position = _position.floor()
+			position = _position

@@ -5,9 +5,11 @@ class_name B2_Dialogue
 # DEBUG
 @export var debug := false
 
+## Auto Skip
+var auto_skipping := true # Should be false from the start. enabled only when the player holds the action key.
+
 const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
 const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
-
 # reference script = o_dialogue
 
 # The title of the text, defaults to an empty string.
@@ -93,9 +95,6 @@ var voice_sound_played := false
 
 var is_waiting_input := false
 var text_delays : PackedInt32Array
-
-## Auto Skip
-var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
 ## Textbox Screens (More than 4 lines of texts)
 var max_screens := 1
@@ -287,7 +286,9 @@ func _type_next_letter(delta):
 			curr_typing_speed = normal_typing
 			_portrait_is_silent()
 			return_sprite.visible = true
+			
 			await wait_user_input()
+				
 			text_node.scroll_to_line( 4 * curr_screen )
 			curr_screen += 1
 			
@@ -333,7 +334,6 @@ func _type_next_letter(delta):
 						voice_sound_played = true
 					_portrait_is_talking()
 				
-		
 		type_timer = (textbox_pause + add_wait) * curr_typing_speed
 		
 		var amount_text := 1
@@ -342,7 +342,7 @@ func _type_next_letter(delta):
 			type_timer = 0
 		
 		if auto_skipping:
-			amount_text = 5
+			amount_text = text_node.text.length() / 5
 			type_timer = 0
 			
 		# Avoid issues with the text skipping

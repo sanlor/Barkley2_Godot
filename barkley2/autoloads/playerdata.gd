@@ -101,7 +101,7 @@ func _ready():
 # // Quest("myQuest") - Returns value of myQuest
 # // Quest("myQuest", 1) - Sets value of myQuest
 
-func Quest(key : String, value, default = null):
+func Quest(key : String, value = null, default = null):
 	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;
 	

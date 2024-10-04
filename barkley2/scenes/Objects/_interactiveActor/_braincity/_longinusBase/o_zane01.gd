@@ -13,3 +13,8 @@ func _ready() -> void:
 	ANIMATION_EAST 				= "s_zaneDOWN01"
 	ANIMATION_STAND_SPRITE_INDEX 	= [ 1, 1, 0, 0, 0, 0, 0, 1 ]
 	ActorAnim.animation 	= ANIMATION_STAND
+
+func execute_event_user_10():
+	## Disable click
+	# this function doesnt exist yet.
+	pass
