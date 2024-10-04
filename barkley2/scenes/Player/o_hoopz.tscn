@@ -19,8 +19,9 @@ shape = SubResource("RectangleShape2D_kg4ek")
 
 [node name="hoopz_upper_body" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_5da33")
-animation = &"stand"
-frame = 6
+animation = &"shuffle"
 
 [node name="hoopz_lower_body" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_4wjkq")
+
+[connection signal="frame_changed" from="hoopz_upper_body" to="." method="_on_hoopz_upper_body_frame_changed"]

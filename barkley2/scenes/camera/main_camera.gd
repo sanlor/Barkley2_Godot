@@ -18,16 +18,27 @@ var is_moving := false
 var destination := Vector2.ZERO
 var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
+
+
 # Keep camera inbound.
 var safety := true
 
 # camera position is influenced by the mouse position
+@export var follow_mouse_overide := false
 var follow_mouse := false
 
-func _ready() -> void:
-	_position = position.round()
-
+@export var player_node_overide : Node2D
 var player_node : Node2D
+
+func _ready() -> void:
+	if player_node_overide != null:
+		player_node = player_node_overide
+		print( "Camera: Debug player node %s set." % player_node.name )
+	if follow_mouse_overide:
+		follow_mouse = follow_mouse_overide
+		print( "Camera: Debug follow mouse is set to true." )
+		
+	_position = position.round()
 
 func follow_player( _player_node ):
 	player_node = _player_node
@@ -72,6 +83,7 @@ func check_actor_activity() -> void:
 
 func set_safety(_safety : bool):
 	safety = _safety
+	# camera limits with the offset feels terrible. something is wrong with my code.
 	if safety and false: # false is TEMP
 		var rl : TileMapLayer = get_parent().reference_layer
 		limit_top 		= rl.get_used_rect().position.y 	* 16
@@ -108,8 +120,7 @@ func _process(delta: float) -> void:
 					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0,250.0 )
 					offset = mouse_dir * mouse_dist / 3.0 # + Vector2( 0,20 )
-					#print( _position )
-					#print( mouse_dist )
+					offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = Vector2( 0,20 )
 				

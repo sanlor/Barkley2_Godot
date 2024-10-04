@@ -3,6 +3,20 @@ extends CharacterBody2D
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
 # Not being able to debug the original game makes this harder.
 
+# check scr_player_init()
+# check scr_player_step_executePipeline()
+# check scr_player_step_processInput() #  NOTE Handle player input
+# check scr_player_step_preProcessing() # NOTE Handle player damage and combat?
+# check scr_player_calculateWeight() # NOTE Oh fuck you
+# check BodySwap() # INFO IMPORTANT Has important setup for each body. What a mess.
+# check scr_player_stance_diaper() # NOTE Finally, stuff related to the audio and steps.
+# i hate this
+
+## NOTE
+# Missing footsteps o_hoopz_footstep
+# Missing roll
+# Missing "Wading wave" (No idea what it is)
+
 # Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 @onready var curr_BODY := BODY.HOOPZ :
@@ -11,6 +25,7 @@ enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 		_load_sprite_frames()
 
 # Sprite frame indexes - s_cts_hoopz_stand
+const SHUFFLE 		:= "shuffle"
 const STAND 		:= "stand"
 const STAND_E 		:= 0
 const STAND_NE 		:= 1
@@ -50,11 +65,17 @@ var sprite_map_lower := {
 	BODY.DIAPER 	: preload("res://barkley2/resources/Player/hoopz_upper_body_diaper.tres")
 }
 
+## Sound
+var min_move_dist 	:= 1.0
+var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
+
 ## Animation
 var last_direction := Vector2.ZERO
+var is_turning := false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
+var turning_time := 1.0
 
 # player direction is influenced by the mouse position
-var follow_mouse := false
+var follow_mouse := true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -65,7 +86,7 @@ func _load_sprite_frames():
 	hoopz_upper_body.sprite_frames = sprite_map_upper[ curr_BODY ]
 	hoopz_lower_body.sprite_frames = sprite_map_lower[ curr_BODY ]
 	
-func animation():
+func animation(delta : float):
 	var input := Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
 	if input != Vector2.ZERO: # Player is moving the character
@@ -94,11 +115,32 @@ func animation():
 					print("Catch all, ", input)
 					
 			last_direction = input
-	elif last_direction != Vector2.ZERO:
+	#elif last_direction != Vector2.ZERO:
+	else:
 		# player is not moving the character anymore
 		hoopz_upper_body.stop()
-		hoopz_upper_body.animation = STAND
+		move_dist = min_move_dist
 		
+		var curr_direction : Vector2 = input
+		
+		if follow_mouse:
+			curr_direction = position.direction_to( get_global_mouse_position() ).round()
+		
+		if curr_direction != last_direction:
+			turning_time = 1.0
+		
+		# handle the turning animation for a litle while.
+		if turning_time > 0.0:
+			hoopz_upper_body.animation = SHUFFLE
+			if not is_turning:
+				B2_Sound.play_pick("hoopz_footstep")
+				is_turning = true
+			turning_time -= 6.0 * delta
+		else:
+			hoopz_upper_body.animation = STAND
+			is_turning = false
+			
+		# change the animation itself.
 		match last_direction:
 			Vector2.UP + Vector2.LEFT:
 				hoopz_upper_body.frame = STAND_NW
@@ -122,11 +164,22 @@ func animation():
 				hoopz_upper_body.frame = STAND_S
 				# print("Catch all, ", input)
 				
-		last_direction = input
+		last_direction = curr_direction
 			
 func _process(delta: float) -> void:
 	var move := Input.get_vector("Left","Right","Up","Down")
 	#position += 100 * move * delta
 	velocity = ( 6000 * move ) * delta
 	move_and_slide()
-	animation()
+	animation(delta)
+	
+	
+func _on_hoopz_upper_body_frame_changed() -> void:
+	if hoopz_upper_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_upper_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
