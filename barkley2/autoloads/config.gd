@@ -113,7 +113,8 @@ func get_user_save_data( path : String ): ## return null if its invalid
 			else:
 				temp_dict = temp_dict[i]
 		else:
-			push_warning( "Key ", i, " does not exist currently. Returning null" )
+			if B2_Debug.WARN_INVALID_CHECKS:
+				push_warning( "Key ", i, " does not exist currently. Returning null" )
 			return
 	
 func set_user_save_data( path : String, value ):

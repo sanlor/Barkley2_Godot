@@ -105,7 +105,7 @@ func _ready():
 	
 	B2_Music.play			( "mus_charcreate", 0.0 )
 	animation_player.play	( "wizard_intro" )
-	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.HAND )
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.HAND )
 	# Shuffle placenta array.
 	if shuffle_placenta: # should always be on, unless debug.
 		placenta_array.shuffle()
@@ -1445,7 +1445,7 @@ func cc_finish():
 	
 	B2_Playerdata.preload_CC_save_data()
 	
-	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.POINT )
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
 	# Teleport(r_fct_eggRooms01, 0, 0, 1);
 	

@@ -16,7 +16,7 @@ const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
 @export var bg_selected_color 				:= Color.ORANGE
 @export var bg_highlight_color 				:= Color.WHITE
 @export var can_toggle 						:= false
-
+@export var disabled						:= false
 @export var is_pressed 						:= false :
 	set(p):
 		is_pressed = p
@@ -36,6 +36,9 @@ func _ready():
 func _gui_input(event):
 	if monitor_mouse:
 		if event is InputEventMouseButton: ## Allow window to be pressed, if the mouse is being monitored.
+			if disabled: # dont do anything if its disabled.
+				return
+				
 			if event.is_action_pressed("Action"):
 				if can_toggle:
 					is_pressed = not is_pressed

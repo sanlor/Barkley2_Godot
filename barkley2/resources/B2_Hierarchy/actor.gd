@@ -65,21 +65,25 @@ signal set_played
 @export var ActorAnim 	: AnimatedSprite2D
 @export var ActorCol 	: CollisionShape2D
 
-var speed := 0.8
+
 var is_moving 		:= false
 var is_playingset 	:= false
 
-var destination := Vector2.ZERO
-var destination_path := PackedVector2Array()
-var destination_offset := Vector2.ZERO #Vector2(8,8)
+var destination 			:= Vector2.ZERO
+var destination_path 		:= PackedVector2Array()
+var destination_offset 		:= Vector2.ZERO #Vector2(8,8)
 
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
 
-@export var speed_slow 		:= 1.5
-@export var speed_normal 	:= 2.5
-@export var speed_fast 		:= 5.0
+@export_category("Movement Stuff")
+## Speed stuff
+var speed_multiplier 		:= 900.0
+@export var speed_slow 		:= 1.5 * speed_multiplier # was 1.5
+@export var speed_normal 	:= 2.5 * speed_multiplier # was 2.5
+@export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
+var speed 					:= speed_normal
 
 ## Animation
 var ANIMATION_STAND 				:= "PLACEHOLDER - %s" % self
@@ -293,11 +297,10 @@ func check_actor_activity() -> void:
 		# not doing anything important
 		return
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if is_moving:
 		cinema_animation()
 		_child_process(delta)
-		#position = position.move_toward(destination, (speed * 30) * delta)
 		
 		movement_vector = position.direction_to( destination ).sign()
 		
@@ -309,14 +312,11 @@ func _process(delta: float) -> void:
 			if destination_path.is_empty():
 				is_moving = false
 				velocity = Vector2.ZERO
-				position = destination.round()
+				position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
 				
-				#last_movement_vector = Vector2.ZERO
-				
-				ActorCol.disabled = false
+				ActorCol.disabled = false # Reenable the collision.
 				ActorAnim.animation = ANIMATION_STAND
 				ActorAnim.stop()
-				#cinema_animation()
 				
 				if debug_move_finish:
 					print("%s finished moving." % name)
@@ -324,6 +324,22 @@ func _process(delta: float) -> void:
 				destination_reached.emit()
 				
 		else:
-			velocity = position.direction_to( destination_path[-1] + destination_offset ) * (speed * 1500) * delta
+			var target : Vector2 = destination_path[-1] + destination_offset
+			var next_hop := position.direction_to( target ) * speed * delta
+			
+			## Fix for time scale bullshit
+			if B2_Input.is_fastforwarding:
+				var hop_dist := position.distance_to( next_hop )
+				var tar_dist := position.distance_to( target )
+				
+				if hop_dist >= tar_dist:
+					# If the next hop is longer than the distance to the next target, just warp it to the position.
+					# Its jittery, but its not important. it doesnt always work.
+					position = target
+				else:
+					# if not, just proceed normally.
+					velocity = next_hop
+			else:
+				velocity = next_hop
 			move_and_slide()
 		

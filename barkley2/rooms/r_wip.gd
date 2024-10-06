@@ -1,8 +1,8 @@
 extends Control
 
 ## Little temp scene. Game is not done and was wasnt in the mood od adding a fancy screen.
+@onready var button: Button = $Button
 
-const R_TITLE = preload("res://barkley2/rooms/r_title.tscn")
 @onready var color_rect : ColorRect = $ColorRect
 
 @onready var noise := FastNoiseLite.new()
@@ -10,11 +10,12 @@ var noise_x := 0.0
 var noise_y := 0.0
 
 func _ready():
-	B2_Music.play( "mus_dancePAX", 0.0 )
+	B2_Music.play( "mus_dancePAX" )
 	noise.seed = hash("big butts")
 
 func _on_button_pressed():
-	get_tree().change_scene_to_packed( R_TITLE )
+	button.disabled = true
+	B2_RoomXY.warp_to( "r_title" )
 
 func _process(delta):
 	noise_x += delta * 10

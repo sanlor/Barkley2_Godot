@@ -6,7 +6,7 @@ class_name B2_Dialogue
 @export var debug := false
 
 ## Auto Skip
-var auto_skipping := true # Should be false from the start. enabled only when the player holds the action key.
+var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
 const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
 const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
@@ -70,18 +70,18 @@ var text_node 				: RichTextLabel
 var has_portrait := false
 
 ## Typing stuff
-var textbox_pause = 0.00 			#0.05;
-var textbox_talk_cooldown = 0.04 	#0.04;
-var textbox_blink_cooldown = 0.04 	#0.04;
+var textbox_pause 			:= 0.005 	#0.05; # Set tyhe typing speed.
+var textbox_talk_cooldown 	:= 0.04 	#0.04;
+var textbox_blink_cooldown 	:= 0.04 	#0.04;
 
-var comma_pause := 0.10 			#0.1
-var period_pause := 0.50 			#0.5
-var dash_pause := 0.2 				#0.2
-var question_pause := 0.50 			#0.5 ## Added by me, not on the original.
-var exclamation_pause := 0.50 		#0.5 ## Added by me, not on the original.
+var comma_pause 			:= 0.10 			#0.1
+var period_pause 			:= 0.50 			#0.5
+var dash_pause 				:= 0.2 				#0.2
+var question_pause 			:= 0.50 			#0.5 ## Added by me, not on the original.
+var exclamation_pause 		:= 0.50 		#0.5 ## Added by me, not on the original.
 
-var normal_typing := 1.0			#1.0
-var fast_typing := 0.0
+var normal_typing 	:= 2.0			#1.0
+var fast_typing 	:= 0.0
 var curr_typing_speed := normal_typing
 
 var return_sprite_time := 0.2		#0.2
@@ -126,11 +126,15 @@ func _ready() -> void:
 	border_node.add_child( return_sprite )
 	return_sprite.position 		= border_node.size - Vector2(24,24)
 	
-	## Setup screens
-	#var debug_text := "[color=BLUE]LINE1_GGGGGGGGGGGGGGGGGGGGGG[/color] LINE2_GGGGGGGGGGGGGGGGGGGGGG LINE3_GGGGGGGGGGGGGGGGGGGGGG LINE4_GGGGGGGGGGGGGGGGGGGGGG LINE5_GGGGGGGGGGGGGGGGGGGGGG [color=RED]LINE6_GGGGGGGGGGGGGGGGGGGGGG[/color] LINE7_GGGGGGGGGGGGGGGGGGGGGG LINE8_GGGGGGGGGGGGGGGGGGGGGG LINE9_GGGGGGGGGGGGGGGGGGGGGG [color=YELLOW]LINE10_GGGGGGGGGGGGGGGGGGGGGG[/color]"
-	#set_text( debug_text,"Talker")
-	#set_portrait( "s_port_zane" )
-	#display_dialog()
+	fastforward_control( B2_Input.is_fastforwarding )
+	B2_Input.fastforward_request.connect( fastforward_control )
+	
+func fastforward_control( active : bool ):
+	auto_skipping = active
+	if active:
+		curr_typing_speed = fast_typing
+	else:
+		curr_typing_speed = normal_typing
 	
 func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 	border_node.position = _pos
@@ -277,7 +281,7 @@ func _type_next_letter(delta):
 	if is_waiting_input:
 		return
 		
-	if type_timer > 0.0: # Waste time until the timer is below 0.0
+	if type_timer > 0.0 and curr_typing_speed == normal_typing: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
 		if text_node.get_character_line( text_node.visible_characters ) >= 4 * curr_screen:
@@ -334,15 +338,17 @@ func _type_next_letter(delta):
 						voice_sound_played = true
 					_portrait_is_talking()
 				
-		type_timer = (textbox_pause + add_wait) * curr_typing_speed
+		type_timer = ( textbox_pause + add_wait ) * curr_typing_speed
 		
 		var amount_text := 1
+		
 		if curr_typing_speed == fast_typing:
 			amount_text = 10
 			type_timer = 0
 		
 		if auto_skipping:
-			amount_text = text_node.text.length() / 5
+			@warning_ignore("narrowing_conversion")
+			amount_text = text_node.text.length() / 5.0
 			type_timer = 0
 			
 		# Avoid issues with the text skipping
@@ -366,7 +372,7 @@ func handle_input():
 		B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 		#print("Skipped text")
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 		
@@ -385,7 +391,7 @@ func _process(delta: float) -> void:
 					blink_cooldown = blink_speed / 16.0
 					portrait_img_node.frame = 1
 			
-	if Input.is_action_just_pressed("Action"):
+	if Input.is_action_just_pressed("Action") or Input.is_action_just_pressed("Holster"):
 		input_pressed.emit()
 		
 	# Type text to textbox

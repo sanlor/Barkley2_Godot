@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ckuran6ntn1r1"]
+[gd_scene load_steps=19 format=3 uid="uid://ckuran6ntn1r1"]
 
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="1_ljkjq"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_v17eb"]
@@ -94,8 +94,41 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_x31dv"]
+radius = 64.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnlim"]
+size = Vector2(32, 16)
+
 [node name="o_doorlight" type="AnimatedSprite2D"]
+z_index = -10
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"debug_icons"
+animation = &"s_doorlight_lr"
 centered = false
+flip_h = true
 script = ExtResource("2_tx0ll")
+show_door_light = true
+type = 3
+teleport_destination = "r_invalid_room"
+
+[node name="light_activation_area" type="Area2D" parent="."]
+position = Vector2(8, 16)
+
+[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
+shape = SubResource("CircleShape2D_x31dv")
+
+[node name="push_area" type="Area2D" parent="."]
+position = Vector2(8, 16)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
+shape = SubResource("RectangleShape2D_hnlim")
+
+[node name="teleport_activation_area" type="Area2D" parent="."]
+position = Vector2(-8, 16)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
+shape = SubResource("RectangleShape2D_hnlim")
+
+[connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]

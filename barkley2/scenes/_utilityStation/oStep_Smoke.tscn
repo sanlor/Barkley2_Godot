@@ -1,0 +1,43 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcbxf4scjowqy"]
+
+[ext_resource type="Texture2D" uid="uid://0ktvwsivslfi" path="res://barkley2/assets/b2_original/images/merged/s_lensflare.png" id="1_rk16s"]
+[ext_resource type="Script" path="res://barkley2/scenes/_utilityStation/o_step_smoke.gd" id="2_tp23b"]
+
+[sub_resource type="Curve" id="Curve_sn0v4"]
+_data = [Vector2(0, 0.695114), 0.0, 0.0, 0, 0, Vector2(0.568384, 0.508795), -0.755916, -0.755916, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_pjll2"]
+curve = SubResource("Curve_sn0v4")
+
+[sub_resource type="Gradient" id="Gradient_i7om2"]
+offsets = PackedFloat32Array(0, 0.384306, 0.748491)
+colors = PackedColorArray(0.154109, 0.310686, 0.462618, 1, 0.380118, 0.47617, 0.552925, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6wlow"]
+gradient = SubResource("Gradient_i7om2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ainem"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(6, 1, 1)
+gravity = Vector3(0, -10, 0)
+scale_min = 0.03
+scale_max = 0.1
+color_ramp = SubResource("GradientTexture1D_6wlow")
+alpha_curve = SubResource("CurveTexture_pjll2")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8a417"]
+atlas = ExtResource("1_rk16s")
+region = Rect2(0, 0, 64, 64)
+
+[node name="step_smoke" type="GPUParticles2D"]
+y_sort_enabled = true
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_ainem")
+texture = SubResource("AtlasTexture_8a417")
+lifetime = 0.5
+randomness = 0.5
+draw_order = 0
+script = ExtResource("2_tp23b")

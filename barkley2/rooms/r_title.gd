@@ -122,7 +122,7 @@ func _ready():
 			n.play("default")
 	
 	B2_Config.language_changed.connect( set_title_names )
-	B2_Cursor.set_cursor_type( B2_Cursor.TYPE.POINT )
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
 	## Music
 	await get_tree().process_frame

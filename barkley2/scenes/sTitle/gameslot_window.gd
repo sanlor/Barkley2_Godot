@@ -209,23 +209,21 @@ func delete_gameslot():
 	r_title.mode = "gameslot"
 
 func start_saved_game():
-	#var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
-	#oConfirm.givTxt = Text.pr( "This demo can't load saved games. Sorry." )
-	#oConfirm.curr_mode = B2_Confirm.MODE.NOTICE
-	#oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
-	#add_child(oConfirm)
-	
 	fade_out.show()
 	fade_out.modulate.a = 0.0
 	
-	var tween := create_tween()
-	tween.tween_property(fade_out, "modulate:a", 1.0, 1.0)
-	tween.tween_callback( B2_Music.stop.bind( 2.0 ) )
-	tween.tween_interval(2.5)
-	tween.tween_callback( get_tree().change_scene_to_file.bind( "res://barkley2/rooms/r_wip.tscn" ) ) # in the final game, we should ask something what room to load.
+	var saved_room = str( B2_Config.get_user_save_data("map.room") )
+	B2_Music.stop( 2.0 )
+	## DEBUG Stuff.
+	if saved_room == "r_fct_eggRooms01": # this is the only room ready.
+		B2_RoomXY.warp_to( saved_room, 1.0 )
+	else:
+		B2_RoomXY.warp_to( "r_wip", 1.0 ) # load WIP room if someone tries do messe with the save system
+	#tween.tween_callback( get_tree().change_scene_to_file.bind( "res://barkley2/rooms/r_wip.tscn" ) ) # in the final game, we should ask something what room to load.
 
 func _on_game_slot_1_button_pressed():
 	selected_gameslot = 0
+	B2_Config.select_user_slot( 0 )
 	if r_title.mode == "destruct_confirm":
 		show_delete_confirmation()
 	elif B2_Config.has_user_save( selected_gameslot ):
@@ -237,6 +235,7 @@ func _on_game_slot_1_button_pressed():
 
 func _on_game_slot_2_button_pressed():
 	selected_gameslot = 1
+	B2_Config.select_user_slot( 1 )
 	if r_title.mode == "destruct_confirm":
 		show_delete_confirmation()
 	elif B2_Config.has_user_save( selected_gameslot ):
@@ -248,6 +247,7 @@ func _on_game_slot_2_button_pressed():
 
 func _on_game_slot_3_button_pressed():
 	selected_gameslot = 2
+	B2_Config.select_user_slot( 2 )
 	if r_title.mode == "destruct_confirm":
 		show_delete_confirmation()
 	elif B2_Config.has_user_save( selected_gameslot ):

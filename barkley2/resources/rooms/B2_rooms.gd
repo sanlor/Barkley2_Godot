@@ -2,10 +2,28 @@
 extends Node2D
 class_name B2_ROOMS
 
+@export var populate_reference_layer := true
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D
 
+@export_category("DEBUG")
+@export var create_player_scene_at_room_start 	:= false
+@export var player_scene_pos 					:= Vector2.ZERO
+
+@export_category("Cinematics")
+@export var player_can_pause			:= true
+@export var play_cinema_at_room_start 	:= true
+@export var create_camera_at_room_start := true
+@export var cutscene_script 			: B2_Script
+
+@export_category("Nodes")
+var b2_cinema: B2_Cinema
+@export var b2_camera: B2_Camera
+
 var obstacles 			:= []
+
+func _enter_tree() -> void:
+	B2_Screen.can_pause = player_can_pause
 
 func _update_obstacles():
 	var time := Time.get_ticks_usec()
@@ -17,11 +35,17 @@ func _update_obstacles():
 	print("_update_obstacles(): took %s usecs." % str(Time.get_ticks_usec() - time) )
 
 func _init_pathfind():
-	assert(reference_layer != null, "No reference avaiable for the pathfinding stuff")
+	if populate_reference_layer:
+		for c in get_children():
+			if c is TileMapLayer:
+				reference_layer.append(c)
+				
+	assert(not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff")
 	astar = AStarGrid2D.new()
 	
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:
+		assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
 		map_rect = map_rect.merge( l.get_used_rect() )
 		
 	astar.region = 		map_rect # reference_layer.get_used_rect()
@@ -71,3 +95,23 @@ func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Arr
 		push_error("Path generation failed.")
 	
 	return my_path
+
+## Room setup
+func _setup_player_node():
+	const O_HOOPZ = preload("res://barkley2/scenes/Player/o_hoopz.tscn")
+	var player = O_HOOPZ.instantiate()
+	player.position = player_scene_pos
+	if b2_camera != null:
+		b2_camera.follow_mouse = true
+		b2_camera.follow_player( player )
+		b2_camera.position = player_scene_pos
+		
+	add_child( player )
+
+func _setup_cinema():
+	b2_cinema = B2_Cinema.new()
+	add_child( b2_cinema )
+	
+func _setup_camera():
+	b2_camera = B2_Camera_Hoopz.new()
+	add_child( b2_camera )

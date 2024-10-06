@@ -44,8 +44,6 @@ var sound_loop				:= {} ## Keep track of the loops
 
 func _init_sound_banks():
 	# https:##gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
-	print("_init_sound_banks() started: ", Time.get_ticks_msec())
-	
 	## Load audio tracks (SFX)
 	var _audio_folder := DirAccess.open( audio_folder )
 	for folder in _audio_folder.get_directories():
@@ -56,11 +54,10 @@ func _init_sound_banks():
 			if file.ends_with(".import"): # ignore godot files
 				sound_bank[ file.trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str(audio_folder + folder + "/" + file.replace(".import",""))
 
-	print("_init_sound_banks() ended: ", Time.get_ticks_msec(), "msecs. - ", sound_bank.size(), " sound_bank key entries")
+	print("_init_sound_banks() ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries")
 	
 # Im lazy, I just copy/pasted and replaced the invalid strings.
 func _init_sound_picks():
-	print("_init_sound_picks() started: ", 	Time.get_ticks_msec() )
 	#region Madness
 	## SEWER STEAM ##
 	_add_sound_pick("sewer_steam", "sn_sewer_steam01");
@@ -1726,7 +1723,7 @@ func _init_sound_picks():
 	
 	# Damn
 #endregion
-	print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), "msecs. - ", sound_pick.size(), " sound_pick entries" )
+	print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), " msecs. - ", sound_pick.size(), " sound_pick entries" )
 	
 func _add_sound_pick(sound_key : String, sound_value : String):
 	if not sound_pick.has(sound_key):

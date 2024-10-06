@@ -1,0 +1,160 @@
+[gd_scene load_steps=16 format=3 uid="uid://dtxtruoc1y3ha"]
+
+[ext_resource type="Script" path="res://barkley2/autoloads/screen.gd" id="1_6uogh"]
+[ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="2_kjkhy"]
+[ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="3_gsyfu"]
+[ext_resource type="Texture2D" uid="uid://ca2uer1n2rgjh" path="res://barkley2/assets/cursor/s_curs_gunmode_2.png" id="4_44its"]
+[ext_resource type="Texture2D" uid="uid://dg2gspahteiw6" path="res://barkley2/assets/cursor/s_curs2_0.png" id="5_tbqli"]
+[ext_resource type="Texture2D" uid="uid://doehwej7utvu6" path="res://barkley2/assets/cursor/s_curs2_2.png" id="6_ji7b8"]
+[ext_resource type="Texture2D" uid="uid://ojoqkotd8san" path="res://barkley2/assets/cursor/s_curs2_3.png" id="7_5xe3i"]
+[ext_resource type="Texture2D" uid="uid://b4hs662bc4lvx" path="res://barkley2/assets/cursor/s_curs2_1.png" id="8_h4si6"]
+[ext_resource type="Texture2D" uid="uid://kwp4adx8xv1k" path="res://barkley2/assets/cursor/s_curs_0.png" id="9_b32sw"]
+[ext_resource type="Texture2D" uid="uid://xed4c0p862fo" path="res://barkley2/assets/cursor/s_curs_1.png" id="10_ybqq6"]
+[ext_resource type="Texture2D" uid="uid://i1nicnst0a0f" path="res://barkley2/assets/cursor/s_curs_2.png" id="11_6l75t"]
+[ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="12_584kq"]
+[ext_resource type="Texture2D" uid="uid://ba7tkmx4xg5sd" path="res://barkley2/assets/b2_original/images/merged/s_pausemenu_buttonlight.png" id="13_wpxq6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3xx3n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kjkhy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gsyfu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_44its")
+}],
+"loop": true,
+"name": &"bulls",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_tbqli")
+}],
+"loop": true,
+"name": &"cursor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ji7b8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_5xe3i")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_h4si6")
+}],
+"loop": true,
+"name": &"hand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_b32sw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ybqq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_6l75t")
+}],
+"loop": true,
+"name": &"point",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_fnaht"]
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[node name="cursor" type="CanvasLayer"]
+process_mode = 3
+layer = 10
+script = ExtResource("1_6uogh")
+
+[node name="mouse" type="AnimatedSprite2D" parent="."]
+z_index = 100
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_3xx3n")
+animation = &"cursor"
+
+[node name="trail" type="Line2D" parent="."]
+top_level = true
+width = 5.0
+gradient = SubResource("Gradient_fnaht")
+
+[node name="pause_screen" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_584kq")
+color = Color(0, 0, 0, 0.7)
+
+[node name="resume" type="Button" parent="pause_screen"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -45.0
+offset_right = 192.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume Reality"
+
+[node name="button_bg_resume" type="TextureRect" parent="pause_screen/resume"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_wpxq6")
+
+[node name="exit" type="Button" parent="pause_screen"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 15.0
+offset_right = 192.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "End The Pain"
+
+[node name="button_bg_exit" type="TextureRect" parent="pause_screen/exit"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("13_wpxq6")

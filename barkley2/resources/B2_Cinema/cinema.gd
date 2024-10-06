@@ -27,8 +27,8 @@ class_name B2_Cinema
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
 @export var async_actor_move	:= false ## Script does not wait for the movement to finish if this is enabled.
 
-@export_category("Cinema Setup")
-@export var cutscene_script : B2_Script
+#@export_category("Cinema Setup")
+#@export var cutscene_script : B2_Script
 
 signal created_new_fade
 
@@ -45,7 +45,7 @@ const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
 var o_cts_hoopz 	: B2_Actor 			= null
 var o_hoopz 		: CharacterBody2D 	= null ## TODO Create a B2_CombatActor class
 
-@export var camera				: Camera2D
+var camera						: Camera2D
 var all_nodes					:= []
 
 ## Children process
@@ -54,12 +54,18 @@ var dslCinKid := []
 func _ready() -> void:
 	pass
 	
+func setup_camera( _camera : Camera2D ):
+	camera = _camera
+	
 func load_hoopz():
 	# if real is loaded, load fake hoopz.
 	o_cts_hoopz = O_CTS_HOOPZ.instantiate()
 	if is_instance_valid(o_hoopz):
 		o_cts_hoopz.position = o_hoopz.position
 		o_hoopz.queue_free()
+	else:
+		o_cts_hoopz.position.x = B2_RoomXY.this_room_x
+		o_cts_hoopz.position.y = B2_RoomXY.this_room_y
 	add_sibling(o_cts_hoopz, true)
 	print("o_cts_hoopz loaded.")
 	
@@ -68,8 +74,12 @@ func end_cutscene():
 	# if fake is loaded, load real hoopz.
 	o_hoopz = O_HOOPZ.instantiate()
 	if is_instance_valid(o_hoopz):
-		o_hoopz.position = o_cts_hoopz.position
-		o_cts_hoopz.queue_free()
+		if is_instance_valid(o_cts_hoopz):
+			o_hoopz.position = o_cts_hoopz.position
+			o_cts_hoopz.queue_free()
+		else:
+			o_hoopz.position.x = B2_RoomXY.this_room_x
+			o_hoopz.position.y = B2_RoomXY.this_room_y
 		
 	add_sibling(o_hoopz, true)
 	print("o_hoopz loaded.")
@@ -80,12 +90,26 @@ func end_cutscene():
 	#await camera.cinema_moveto( [ o_hoopz ], "CAMERA_NORMAL" )
 	camera.follow_player( o_hoopz )
 	
+	## Release player lock
+	B2_Input.cutscene_is_playing 	= false
+	B2_Input.can_fast_forward 		= false
+	B2_Input.player_has_control 	= true
+	
+	print_rich("[color=pink]Finished Cinema() Script.[/color]")
+	
 	## NOTE Below is trash. needs improving.
 	camera.set_safety( true )
 	camera.follow_mouse = true
 	o_hoopz.follow_mouse = true
 	
-func play_cutscene():
+func play_cutscene( cutscene_script : B2_Script ):
+	assert(camera != null, "Camera not setup. Fix it.")
+	
+	## lock player control
+	B2_Input.cutscene_is_playing 	= true
+	B2_Input.can_fast_forward 		= true
+	B2_Input.player_has_control 	= false
+	
 	load_hoopz()
 	camera.set_safety( false )
 	camera.follow_mouse = false
@@ -95,7 +119,7 @@ func play_cutscene():
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
 	if cutscene_script is B2_Script_Legacy:
-		print_rich("[color=pink]Started Cinema() Script at %s msecs.[/color]" % Time.get_ticks_msec() )
+		print_rich("[color=pink]Started Cinema() Script.[/color]")
 		# Split the script into separate lines
 		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", false )
 		var script_size 	:= split_script.size()
@@ -174,7 +198,7 @@ func play_cutscene():
 						#await get_tree().process_frame
 						if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 				"EXIT":
-					print("EXIT")
+					print("EXIT at line %s." % curr_line)
 					loop_finished = true
 					break # exit the loop
 				"DIALOG", "MYSTERY":
@@ -244,7 +268,7 @@ func play_cutscene():
 						o_fade._fade 		= float( parsed_line[ 1 ] )
 					elif parsed_line.size() == 3:
 						o_fade._fade 		= float( parsed_line[ 1 ] )
-						o_fade._seconds 	= float( parsed_line[ 2 ] )
+						o_fade._seconds 	= float( parsed_line[ 2 ] ) * 0.5 ## 0.5 is DEBUG
 					elif parsed_line.size() == 3:
 						o_fade._fade 		= float( parsed_line[ 1 ] )
 						o_fade._seconds 	= float( parsed_line[ 2 ] )
@@ -355,8 +379,7 @@ func play_cutscene():
 			
 			if print_line_report:
 				print( str(curr_line), " - ", parsed_line )
-			
-		print( "Finished Animation" )
+				
 		end_cutscene()
 
 # add a node to the array.
@@ -480,7 +503,15 @@ func Camera( parsed_line : PackedStringArray ):
 		## Camera("snap", object) - Instantly moves camera to spot
 		## Camera("snap", x, y) - Instantly moves camera to spot
 		"snap":
-			pass
+			var dest := get_node_from_name( all_nodes, parsed_line[ 2 ] )
+			if is_instance_valid(dest):
+				if dest is Node2D:
+					camera.cinema_snap( dest.position )
+				else:
+					push_error("%s has no position avaiable." % parsed_line[ 2 ])
+			else:
+				push_error("%s is not valid." % parsed_line[ 2 ])
+			
 		## Deletes other camera move events
 		## Camera("safe check")
 		"safe check":

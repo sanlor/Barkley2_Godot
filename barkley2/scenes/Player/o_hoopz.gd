@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name B2_Player
 
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
 # Not being able to debug the original game makes this harder.
@@ -53,8 +54,11 @@ const DIAPER_GOOROLL 	:= "diaper_gooroll"
 const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 
 
-@onready var hoopz_upper_body: AnimatedSprite2D = $hoopz_upper_body
-@onready var hoopz_lower_body: AnimatedSprite2D = $hoopz_lower_body
+@onready var hoopz_upper_body: 	AnimatedSprite2D = $hoopz_upper_body
+@onready var hoopz_lower_body: 	AnimatedSprite2D = $hoopz_lower_body
+
+@onready var step_smoke: 		GPUParticles2D = $step_smoke
+
 
 var sprite_map_upper := {
 	BODY.HOOPZ 		: preload("res://barkley2/resources/Player/hoopz_upper_body_hoopz.tres"),
@@ -70,12 +74,16 @@ var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
 
 ## Animation
-var last_direction := Vector2.ZERO
-var is_turning := false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
-var turning_time := 1.0
+var last_direction 	:= Vector2.ZERO
+var last_input 		:= Vector2.ZERO
+var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
+var turning_time 	:= 1.0
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
+
+# Movement
+var external_velocity := Vector2.ZERO ## DEBUG - applyied by the door.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -86,11 +94,18 @@ func _load_sprite_frames():
 	hoopz_upper_body.sprite_frames = sprite_map_upper[ curr_BODY ]
 	hoopz_lower_body.sprite_frames = sprite_map_lower[ curr_BODY ]
 	
+func add_smoke():
+	#for i in randi_range( 1, 2 ):
+	step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+	
 func animation(delta : float):
 	var input := Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
 	if input != Vector2.ZERO: # Player is moving the character
-		if last_direction != input:
+		# Emit a puff of smoke during the inicial direction change.
+		if last_input != input:
+			add_smoke()
+			
 			match input:
 				Vector2.UP + Vector2.LEFT:
 					hoopz_upper_body.play(WALK_NW)
@@ -114,8 +129,6 @@ func animation(delta : float):
 					hoopz_upper_body.play(WALK_S)
 					print("Catch all, ", input)
 					
-			last_direction = input
-	#elif last_direction != Vector2.ZERO:
 	else:
 		# player is not moving the character anymore
 		hoopz_upper_body.stop()
@@ -133,8 +146,10 @@ func animation(delta : float):
 		if turning_time > 0.0:
 			hoopz_upper_body.animation = SHUFFLE
 			if not is_turning:
+				# play step sound when you change directions, during shuffle.
 				B2_Sound.play_pick("hoopz_footstep")
 				is_turning = true
+				
 			turning_time -= 6.0 * delta
 		else:
 			hoopz_upper_body.animation = STAND
@@ -164,12 +179,20 @@ func animation(delta : float):
 				hoopz_upper_body.frame = STAND_S
 				# print("Catch all, ", input)
 				
+		# Update var
 		last_direction = curr_direction
-			
-func _process(delta: float) -> void:
-	var move := Input.get_vector("Left","Right","Up","Down")
-	#position += 100 * move * delta
-	velocity = ( 6000 * move ) * delta
+	# Update var
+	last_input = input
+	
+func _physics_process(delta: float) -> void:
+	if B2_Input.player_has_control:
+		## Player has influence over this node
+		var move := Input.get_vector("Left","Right","Up","Down")
+		velocity = ( 5000 * delta ) * move
+	else:
+		velocity = Vector2.ZERO
+	velocity += external_velocity
+	external_velocity = Vector2.ZERO # Reset Ext velocity
 	move_and_slide()
 	animation(delta)
 	

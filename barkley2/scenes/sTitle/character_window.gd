@@ -1,13 +1,14 @@
 extends CanvasLayer
 
-const R_CC = preload("res://barkley2/rooms/r_cc.tscn")
-const R_WIP = preload("res://barkley2/rooms/r_wip.tscn")
+const R_CC 		= preload("res://barkley2/rooms/r_cc.tscn")
+const R_WIP 	= preload("res://barkley2/rooms/r_wip.tscn")
 
 ## TEMP - Should have a better way to do this.
-const R_FCT_EGG_ROOMS_01 = preload("res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn")
+#const R_FCT_EGG_ROOMS_01 = preload("res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn")
+## NOTE Found a better way. use B2_RoomXY
 
-@onready var r_title = $".."
-@onready var fade_out = $fade_out
+@onready var r_title 	= $".."
+@onready var fade_out 	= $fade_out
 
 @onready var cc_button 		: B2_Border_Button = 		$CC_Button
 @onready var x1_button 		: B2_Border_Button = 		$X1_Button
@@ -80,17 +81,23 @@ func _on_return_button_button_pressed():
 
 func _on_cc_button_button_pressed(): ## Open the CC. Good luck
 	#show_notice()
-	load_new_room( R_CC )
+	_disable_buttons()
+	load_new_room( "r_cc" )
 	
 func _on_x_1_button_button_pressed():
-	#show_notice()
-	B2_Playerdata.preload_CC_save_data() # load some default data
-	B2_Playerdata.preload_tutorial_save_data() # Add some other data
-	load_new_room( R_FCT_EGG_ROOMS_01 )
+	_disable_buttons()
+	B2_Playerdata.preload_CC_save_data() 		# load some default data
+	B2_Playerdata.preload_tutorial_save_data() 	# Add some other data
+	load_new_room( "r_fct_eggRooms01" ) 		# Default opening room. 
 
 func _on_skip_button_button_pressed():
 	show_notice()
 
+func _disable_buttons(): # called when loading the game.
+	cc_button.disabled 		= true
+	x1_button.disabled 		= true
+	skip_button.disabled 	= true
+	
 func show_notice():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
 	oConfirm.givTxt = Text.pr("This is not available at this point.")
@@ -98,11 +105,6 @@ func show_notice():
 	oConfirm.option3_pressed.connect( func(): oConfirm.queue_free() 	)
 	add_child(oConfirm)
 
-func load_new_room( room ):
-	fade_out.show()
-	fade_out.modulate.a = 0.0
-	var tween := create_tween()
-	tween.tween_property(fade_out, "modulate:a", 1.0, 1.0)
-	tween.tween_callback( B2_Music.stop.bind( 2.0 ) )
-	tween.tween_interval(2.5)
-	tween.tween_callback( get_tree().change_scene_to_packed.bind( room ) )
+func load_new_room( room : String ):
+	B2_Music.stop( 2.0 )
+	B2_RoomXY.warp_to( room, 0.5 )

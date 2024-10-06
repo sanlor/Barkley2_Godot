@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3iui2vj216xr"]
+[gd_scene load_steps=8 format=3 uid="uid://d3iui2vj216xr"]
 
 [ext_resource type="Script" path="res://barkley2/autoloads/shaders.gd" id="1_naf6h"]
 [ext_resource type="Shader" path="res://barkley2/resources/shaders/b2_crt.gdshader" id="2_7a5yw"]
+[ext_resource type="Shader" path="res://barkley2/resources/shaders/b2_ff.gdshader" id="3_u5mwq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u4q0a"]
 shader = ExtResource("2_7a5yw")
@@ -11,6 +12,28 @@ shader_parameter/red_offset = 1.0
 shader_parameter/blue_offset = 1.0
 shader_parameter/green_offset = 1.0
 shader_parameter/bypass_scale = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_thiim"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hihsi"]
+noise = SubResource("FastNoiseLite_thiim")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7gocl"]
+shader = ExtResource("3_u5mwq")
+shader_parameter/vhs_resolution = Vector2(320, 240)
+shader_parameter/samples = 2
+shader_parameter/crease_noise = 1.0
+shader_parameter/crease_opacity = 0.5
+shader_parameter/filter_intensity = 0.1
+shader_parameter/tape_crease_smear = 0.4
+shader_parameter/tape_crease_intensity = 0.4
+shader_parameter/tape_crease_jitter = 0.1
+shader_parameter/tape_crease_speed = 4.0
+shader_parameter/tape_crease_discoloration = 1.0
+shader_parameter/bottom_border_thickness = 6.0
+shader_parameter/bottom_border_jitter = 6.0
+shader_parameter/noise_intensity = 0.1
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_hihsi")
 
 [node name="shaders" type="CanvasLayer"]
 layer = 10
@@ -25,3 +48,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="ff_shader" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_7gocl")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

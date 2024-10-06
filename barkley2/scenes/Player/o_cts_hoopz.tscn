@@ -1,11 +1,6 @@
-[gd_scene load_steps=154 format=3 uid="uid://cqll7bly11mei"]
+[gd_scene load_steps=146 format=3 uid="uid://cqll7bly11mei"]
 
-[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter.gd" id="2_v7vbe"]
-[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter_root.gd" id="3_pnydm"]
-[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter_set_look.gd" id="4_5m86y"]
-[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter_animation_define_text.gd" id="4_gq7pd"]
 [ext_resource type="Texture2D" uid="uid://e8p2pvrclsu1" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaper_useNE.png" id="5_70k7c"]
-[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter_set_walk.gd" id="5_jywqg"]
 [ext_resource type="Texture2D" uid="uid://cp8fnesupksyy" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopz_diaper_stand.png" id="5_nlxlc"]
 [ext_resource type="Texture2D" uid="uid://dojdxdgds78of" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaperS.png" id="7_im4k3"]
 [ext_resource type="Texture2D" uid="uid://5io3lm1awadd" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaperShot.png" id="8_4y020"]
@@ -22,73 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://cgwt6b7j6erdi" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaperSE.png" id="20_42ke0"]
 [ext_resource type="Texture2D" uid="uid://b6myhux3gakgh" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaperSW.png" id="21_3wao6"]
 [ext_resource type="Texture2D" uid="uid://dmn7fi5mdnljl" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaperW.png" id="22_k7eme"]
-
-[sub_resource type="Resource" id="Resource_pfiqi"]
-script = ExtResource("4_5m86y")
-sprite = "s_cts_hoopz_diaper_stand"
-subN = 2
-subNE = 1
-subE = 0
-subSE = 7
-subS = 6
-subSW = 5
-subW = 4
-subNW = 3
-
-[sub_resource type="Resource" id="Resource_xltpx"]
-script = ExtResource("5_jywqg")
-animation_stand = SubResource("Resource_pfiqi")
-animation_north = "s_cts_hoopzDiaperN"
-animation_northeast = "s_cts_hoopzDiaperNE"
-animation_east = "s_cts_hoopzDiaperE"
-animation_southeast = "s_cts_hoopzDiaperSE"
-animation_south = "s_cts_hoopzDiaperS"
-animation_southwest = "s_cts_hoopzDiaperSW"
-animation_west = "s_cts_hoopzDiaperW"
-animation_northwest = "s_cts_hoopzDiaperNW"
-
-[sub_resource type="Resource" id="Resource_4r6s7"]
-script = ExtResource("4_gq7pd")
-animation_define_text = "scr_entity_animation_define(\"stand_UP\", s_cts_hoopz_diaper_stand, 2, 1, 0);
-scr_entity_animation_define(\"default\", s_cts_hoopz_diaper_stand, 2, 1, 0);
-
-//Diaper Death
-scr_entity_animation_define(\"diaper_ground\", s_cts_hoopzDiaperGround01, 0, 1, 0);
-//Diaper Getting Spanked
-scr_entity_animation_define(\"diaper_spank\", s_cts_hoopzDiaperGround01, 0, 7, ANIMATION_DEFAULT_SPEED);
-//Diaper Wail
-scr_entity_animation_define(\"diaper_cry\", s_cts_hoopzDiaper_spankCry, 0, 4, ANIMATION_DEFAULT_SPEED);
-//Diaper Get Up
-scr_entity_animation_define(\"diaper_getup\", s_cts_hoopzDiaper_getUp, 0, 5, ANIMATION_DEFAULT_SPEED);
-
-/ DIAPER HOOPZ
-scr_entity_animation_define(\"diaper_action_NE\", s_cts_hoopzDiaper_useNE, 0, 3, spd);
-scr_entity_animation_define(\"diaper_stand_NE\", s_cts_hoopz_diaper_stand, 1, 1, 0);
-scr_entity_animation_define(\"diaper_action_N\", s_cts_hoopzDiaper_useNE, 0, 3, spd);
-scr_entity_animation_define(\"diaper_stand_N\", s_cts_hoopz_diaper_stand, 1, 1, 0);
-
-// DIAPER SURPRISE
-scr_entity_animation_define(\"diaper_surpriseNE\", s_cts_hoopzDiaperSurpriseNE, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldNE\", s_cts_hoopzDiaperSurpriseNE, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseN\", s_cts_hoopzDiaperSurpriseNE, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldN\", s_cts_hoopzDiaperSurpriseNE, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseE\", s_cts_hoopzDiaperSurpriseNE, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldE\", s_cts_hoopzDiaperSurpriseNE, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseSE\", s_cts_hoopzDiaperSurpriseNE, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldSE\", s_cts_hoopzDiaperSurpriseNE, 5, 1, spd);
-
-scr_entity_animation_define(\"diaper_surpriseNW\", s_cts_hoopzDiaperSurpriseNW, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldNW\", s_cts_hoopzDiaperSurpriseNW, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseW\", s_cts_hoopzDiaperSurpriseNW, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldW\", s_cts_hoopzDiaperSurpriseNW, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseSW\", s_cts_hoopzDiaperSurpriseNW, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldSW\", s_cts_hoopzDiaperSurpriseNW, 5, 1, spd);
-scr_entity_animation_define(\"diaper_surpriseSW\", s_cts_hoopzDiaperSurpriseNW, 0, 5, spd);
-scr_entity_animation_define(\"diaper_surpriseHoldSW\", s_cts_hoopzDiaperSurpriseNW, 5, 1, spd);
-
-// DIAPER SHOT //
-scr_entity_animation_define(\"diaper_shot\", s_cts_hoopzDiaperShot, 0, 17, ANIMATION_DEFAULT_SPEED);
-scr_entity_animation_define(\"diaper_gone\", s_cts_hoopzDiaperShot, 17, 1, ANIMATION_DEFAULT_SPEED);"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ldg51"]
 atlas = ExtResource("5_nlxlc")
@@ -1197,18 +1125,13 @@ script = ExtResource("14_wfe3k")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="B2_TOOL_GML_SPRITE_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_v7vbe")
-update_anim_node = true
-clear_previous_anim_from_existing_node = true
-animations = Array[ExtResource("3_pnydm")]([SubResource("Resource_xltpx"), SubResource("Resource_4r6s7")])
-
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tm1vk")
 animation = &"stand_S"
 centered = false
+offset = Vector2(-22, -41)
 metadata/diaper_ground = {
 "bbox_bottom": "59",
 "bbox_left": "11",

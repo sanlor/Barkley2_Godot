@@ -19,7 +19,6 @@ var bgmCheck = 1; ## was 5
 #if (argument[0] == "get")
 
 func _load_music_banks():
-	print("init music banks started: ", Time.get_ticks_msec())
 	await get_tree().process_frame
 	
 	## Load music tracks
@@ -31,12 +30,13 @@ func _load_music_banks():
 		if file.ends_with(".ogg.import"):
 			music_bank[ file.trim_suffix(".ogg.import") ] = str( music_folder + file.trim_suffix(".import") )
 
-	print("init music banks ended: ", Time.get_ticks_msec(), " - ", music_bank.size(), " music_bank entries")
+	print("init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries")
 
 func _enter_tree() -> void:
-	_load_music_banks()
+	pass
 
 func _ready():
+	_load_music_banks()
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 	
 
@@ -145,7 +145,7 @@ func room_get( room_name : String):
 			#if room = r_est_fortune01 then Music("queue", "mus_blankTEMP");
 			#if room = r_wst_caveFary01 then Music("queue", "mus_blankTEMP");
 		"r_title":
-			queue( music_bank.get("mus_gbl_aristocrat", "") )
+			queue( music_bank.get("mus_gbl_aristocrat", ""), 0.0 )
 			#if room = r_title then Music("queue", "mus_gbl_aristocrat");
 		#}
 	#else if (argument[0] == "step")
@@ -193,6 +193,12 @@ func queue( track_name : String, speed := 1.0 ): ## track name should exist in t
 
 	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
 	next_music.loop = true
+	
+	# handle sudden change is music tracks.
+	if is_instance_valid(tween):
+		if tween.is_running():
+			push_warning("You are changing music tracks too fast. Tween is still running. Waiting for it to finish.")
+			await tween.finished
 	
 	if audio_stream_player.playing:
 		tween = create_tween()

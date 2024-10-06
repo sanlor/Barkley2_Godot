@@ -1,6 +1,6 @@
 extends B2_ROOMS
 
-@onready var b_2_cinema: B2_Cinema = $B2_Cinema
+@onready var o_room_dream_filter: CanvasLayer = $o_room_dream_filter
 
 # on the original game, the object o_world runs a piece of code at every room start.
 # check scr_map_roomstart()
@@ -11,7 +11,9 @@ func _ready() -> void:
 	
 	_init_pathfind()
 	_update_pathfind()
-	# print( get_astar_path( Vector2(208,274) / 16, Vector2(270,464) / 16 ) ) ## debug testing
+	
+	if not play_cinema_at_room_start:
+		return
 	
 	# If you go back to this room after progressing the tutorial, all the egg shit is already fucked beyond repair and can't be interacted with etc. //
 	if B2_Playerdata.Quest( "gameStart", null ) != 1:
@@ -22,9 +24,13 @@ func _ready() -> void:
 		# play the initial cutscene.
 		
 		#BodySwap("diaper");
-		#scr_event_entity_settings(id, 0, 0, 0);
 		B2_Playerdata.Quest("hudVisible", 		0);
 		B2_Playerdata.Quest("zoneVisible", 		0);
 		B2_Playerdata.Quest("dropEnabled", 		0);
 		B2_Playerdata.Quest("infiniteAmmo", 	1);
-		b_2_cinema.play_cutscene()
+		
+		_setup_cinema()
+		_setup_camera()
+		
+		b2_cinema.setup_camera( b2_camera )
+		b2_cinema.play_cutscene( cutscene_script )
