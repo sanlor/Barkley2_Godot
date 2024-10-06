@@ -335,7 +335,6 @@ func preload_CC_save_data():
 func preload_tutorial_save_data(): # user skip the CC
 	# related script = CC("hoopz player");
 	
-	
 	# related script = Game( "new" )
 	# This is the game start from Character Creation, the "canon start"
 	B2_Playerdata.Quest("saveDisabled", 1);

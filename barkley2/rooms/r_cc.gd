@@ -1447,11 +1447,13 @@ func cc_finish():
 	
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
-	# Teleport(r_fct_eggRooms01, 0, 0, 1);
-	
 	# Load WIP room.
-	const R_WIP = "res://barkley2/rooms/r_wip.tscn" # original room, donut steel!
-	get_tree().change_scene_to_file( R_WIP )
+	#const R_WIP = "res://barkley2/rooms/r_wip.tscn" # original room, donut steel!
+	#get_tree().change_scene_to_file( R_WIP )
+	
+	# Teleport(r_fct_eggRooms01, 0, 0, 1);
+	var next_room : String = "r_fct_eggRooms01, 0, 0"
+	B2_RoomXY.warp_to( next_room )
 	
 func darken_screen( action : bool ):
 	if action:
