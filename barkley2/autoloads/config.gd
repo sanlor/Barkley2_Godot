@@ -4,6 +4,18 @@ extends Node
 ## Its only use is to save and load settings, along with emiting signals to let the other nodes know (if needed).
 ## The settings.ini file that this game makes if cross compatible with the original. cool, aint it?
 
+# check Settings() script.
+
+## Configuration Consts
+# Max distance you can be from someone to click them in PIXELS
+var settingInteractiveDistance 			:= 64.0; ## For KEYBOARD ## Was 100
+var settingInteractiveDistanceGamepad 	:= 48.0; ## For GAMEPAD ## Was 64
+
+# Used by the B2_RoomXY autoload
+var settingFadeIn 		:= 0.25;
+var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
+var settingFadeOut 		:= 0.25;
+
 ## TODO port script scr_player_newPlayerIdentity()
 
 enum SCALE {X2 = 2,X3 = 3,X4 = 4} ## The original game uses floats for values. Because of that, Im using Enums with specific values, even for boolean checks.
@@ -55,6 +67,8 @@ var usersavefolder 		:= "user://"
 
 ## Main menu stuff
 var tim_follow_mouse := false
+
+
 
 func _init():
 	## Original comments VV

@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name B2_Actor
 
+signal sprite_offset_centered
+signal sprite_collision_adjusted
+
 #region Original code
 
 # Extend Entity creation with further declarations
@@ -65,6 +68,10 @@ signal set_played
 @export var ActorAnim 	: AnimatedSprite2D
 @export var ActorCol 	: CollisionShape2D
 
+# True if the sprite is using automatic animations (like when it is moving), or false otherwise.
+@export var _automatic_animation 	:= false; ## Start playing a animation during room load
+# The animation to use if automatic animation isn't true. 
+@export var _current_animation 		:= "default" ## What animation should blay at room load?
 
 var is_moving 		:= false
 var is_playingset 	:= false
@@ -251,6 +258,7 @@ func adjust_sprite_offset():
 		return
 	ActorAnim.centered = false
 	ActorAnim.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
+	sprite_offset_centered.emit()
 	adjust_sprite_collision()
 	
 # Get info from the sprite metadata.
@@ -260,8 +268,15 @@ func adjust_sprite_collision():
 	if sprite_data.is_empty():
 		# no data
 		return
-		
 	## TODO create col shape and set its colisions.
+	var shape := RectangleShape2D.new()
+	shape.size.x = int( sprite_data["bbox_right"] ) 	- int( sprite_data["bbox_left"] )
+	shape.size.y = int( sprite_data["bbox_bottom"] ) 	- int( sprite_data["bbox_top"] )
+	ActorCol.shape = shape
+	# Not being able to un-center the collision shape is terrible. # https://github.com/godotengine/godot-proposals/issues/1170
+	## NOTE Disabled bellow. not sure how to use it yet.
+	# ActorCol.position = Vector2( int( sprite_data["bbox_left"] ), int( sprite_data["bbox_top"] ) ) + shape.size / 2.0
+	sprite_collision_adjusted.emit()
 
 @warning_ignore("unused_parameter")
 func change_costume(costume_name : String) -> void:

@@ -18,7 +18,9 @@ var this_room 		:= ""
 var this_room_x 	:= 0.0
 var this_room_y 	:= 0.0
 
-var fade_time 		:= 0.75
+var fade_time_in 		:= B2_Config.settingFadeIn
+var fade_delay 			:= B2_Config.settingFadeDelay
+var fade_time_out 		:= B2_Config.settingFadeOut
 
 var invalid_room 	:= "res://barkley2/rooms/r_wip.tscn" # Fallback room
 var room_folder 	:= "res://barkley2/rooms/"
@@ -77,12 +79,14 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	var tween : Tween
 	
 	tween = create_tween()
-	tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time )
+	tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out )
 	await tween.finished
 	
 	# set the delay before loading the room.
 	if _delay > 0.0:
 		await get_tree().create_timer( _delay ).timeout
+	else:
+		await get_tree().create_timer( fade_delay ).timeout
 	
 	await get_room_scene( room_name ) 						# Load the next room
 	get_tree().change_scene_to_packed(room_scene)		# change the current room
@@ -93,7 +97,7 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	this_room_y 	= room_y
 	
 	tween = create_tween()
-	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time )
+	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
 	#tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ) ) ) # load the player node.
 	
 	## Cleanup

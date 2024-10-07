@@ -16,5 +16,6 @@ func _ready() -> void:
 		await get_tree().process_frame
 		_setup_player_node()
 		
-	b2_cinema.setup_camera( b2_camera )
-	b2_cinema.play_cutscene( cutscene_script )
+	if play_cinema_at_room_start:
+		b2_cinema.setup_camera( b2_camera )
+		b2_cinema.play_cutscene( cutscene_script )
