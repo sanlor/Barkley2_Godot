@@ -40,8 +40,11 @@ func _ready() -> void:
 	## Dream Filter
 	dream_filters = [dream_filter_1, dream_filter_2, dream_filter_3, dream_filter_4]
 	
+	filter_logo.hide()
+	
 	for i in layers:
 		var df : Sprite2D = dream_filters[i]
+		dream_filters[i].show()
 		sizeScl.append(randf_range(1.0, 1.5))
 		df.scale 		*= sizeScl.back()
 		df.modulate 	= Color8(0, 0, 0)

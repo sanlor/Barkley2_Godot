@@ -44,6 +44,7 @@ func _door_open( _instant := false ):
 	if sprite_frames.has_animation(door_open_anim_name):
 		if _instant:
 			stop()
+			animation = door_open_anim_name
 			frame = sprite_frames.get_frame_count(door_open_anim_name) - 1
 			door_block.get_child( 0 ).disabled = true
 		else:
@@ -51,6 +52,7 @@ func _door_open( _instant := false ):
 			await animation_finished
 			door_block.get_child( 0 ).disabled = true
 			stop()
+			animation = door_open_anim_name
 			frame = sprite_frames.get_frame_count(door_open_anim_name) - 1
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_open_anim_name )
@@ -59,6 +61,7 @@ func _door_close( _instant := false ):
 	if sprite_frames.has_animation(door_close_anim_name):
 		if _instant:
 			stop()
+			animation = door_close_anim_name
 			frame = sprite_frames.get_frame_count(door_close_anim_name) - 1
 			door_block.get_child( 0 ).disabled = false
 		else:
@@ -66,6 +69,7 @@ func _door_close( _instant := false ):
 			await animation_finished
 			door_block.get_child( 0 ).disabled = false
 			stop()
+			animation = door_close_anim_name
 			frame = sprite_frames.get_frame_count(door_close_anim_name) -1 
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_close_anim_name )

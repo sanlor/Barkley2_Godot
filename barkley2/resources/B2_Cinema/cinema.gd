@@ -178,7 +178,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 		#for line : String in split_script:
 		while loop_finished or curr_line == script_size:
 			if curr_line >= script_size:
-				push_warning("Cinema script exited unexpectedly. It should always finish with the EXIT command.")
+				# push_warning("Cinema script exited unexpectedly. It should always finish with the EXIT command.")
 				loop_finished = true
 				break # exit the loop
 				

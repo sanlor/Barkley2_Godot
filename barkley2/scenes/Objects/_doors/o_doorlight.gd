@@ -1,6 +1,7 @@
 @tool
 extends AnimatedSprite2D
 # Base class for doorlight directions.
+@export var enabled			:= true
 @export var show_door_light := false
 
 # the original code does a lot of fancy stuff. I think im going to rewrite almost everything.
@@ -78,6 +79,9 @@ const push_area_offset := {
 
 
 func _ready() -> void:
+	if not enabled:
+		queue_free()
+		
 	_update_sprite()
 	
 func _update_sprite():

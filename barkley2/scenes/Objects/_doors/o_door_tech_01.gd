@@ -12,14 +12,14 @@ func _ready() -> void:
 		door_block.get_child( 0 ).disabled = true
 	else:
 		_door_close( true )
-		door_block.get_child( 0 ).disabled = true
+		door_block.get_child( 0 ).disabled = false
 		
 	
 	if locked:
 		door_sensor.get_child( 0 ).disabled = true
-	
-	door_sensor.body_entered.connect( detect_player_enter )
-	door_sensor.body_exited.connect( detect_player_exit )
+	else:
+		door_sensor.body_entered.connect( detect_player_enter )
+		door_sensor.body_exited.connect( detect_player_exit )
 
 func detect_player_exit( body ):
 	if locked:

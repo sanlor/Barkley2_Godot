@@ -262,7 +262,7 @@ func get_curr_sprite_metadata(curr_anim) -> Dictionary:
 	var sprite_data := ActorAnim.get_meta( curr_anim, Dictionary() ) as Dictionary
 	
 	if sprite_data.is_empty():
-		push_error("Ops, %s's AnimatedSprite2D has no metadata. Cant change the sprite offset like this." % ActorAnim.get_parent().name)
+		#push_error("Ops, %s's AnimatedSprite2D has no metadata. Cant change the sprite offset like this." % ActorAnim.get_parent().name)
 		return sprite_data
 	if not sprite_data.has("xorig") and not sprite_data.has("yorigin"):
 		push_error("Ops, %s's AnimatedSprite2D has invalid metadata info." % ActorAnim.get_parent().name)

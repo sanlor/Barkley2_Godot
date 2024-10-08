@@ -15,8 +15,9 @@ var _active = true;
 @export_file("*.material") var interactive_shader		:= "res://barkley2/resources/shaders/selected_outline.material"
 
 @export_category("Mouse")
-@export var mouse_detection_area 	: Area2D
-@export var interactive_distance 	:= B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
+@export var mouse_detection_area 		: Area2D
+@export var resize_mouse_detection_area := true # Resize based on the default sprite size
+@export var interactive_distance 		:= B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
 
 # The last direction this actor was in.
 var _last_direction = null # RIGHT;
@@ -53,6 +54,10 @@ func _enter_tree() -> void:
 			
 		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered)
 		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited)
+		
+		if resize_mouse_detection_area:
+			var s = ActorAnim.sprite_frames.get_frame_texture( ActorAnim.animation, 0 ).get_size()
+			mouse_detection_area.get_child(0).shape.size = s # what a mess
 		
 		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
 		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
@@ -93,7 +98,7 @@ func mouse_detection_area_exited() -> void:
 func _process_mouse_events() -> void: ## Perform mouse click and position checks
 	if is_player_near:
 		if is_mouse_hovering:
-			print(name)
+			#print(name)
 			material.set_shader_parameter("enable", true)
 			return
 	
