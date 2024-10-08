@@ -1,9 +1,16 @@
-[gd_scene load_steps=35 format=3 uid="uid://vxi1ah884s7t"]
+[gd_scene load_steps=38 format=3 uid="uid://vxi1ah884s7t"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_cutscenes/_trigal/o_cuchutamo_01.gd" id="1_ri0vl"]
 [ext_resource type="Texture2D" uid="uid://dt17ee6ikltar" path="res://barkley2/assets/b2_original/images/merged/s_cuchutamo_cast01.png" id="2_kyo0b"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="2_uf7hu"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_bhumx"]
 [ext_resource type="Texture2D" uid="uid://clhrepij0dy6m" path="res://barkley2/assets/b2_original/images/merged/s_cuchutamo_idle01.png" id="3_wve1n"]
 [ext_resource type="Texture2D" uid="uid://jd7jc261ihel" path="res://barkley2/assets/b2_original/images/merged/s_cuchutamo_giggle01.png" id="4_wpj6b"]
+
+[sub_resource type="Resource" id="Resource_ccuft"]
+script = ExtResource("3_bhumx")
+original_script = "DIALOG | ? ? ? = s_portrait | Hey there.
+EXIT"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8l8h"]
 size = Vector2(31, 31)
@@ -224,11 +231,14 @@ animations = [{
 size = Vector2(20, 36)
 
 [node name="o_cuchutamo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+material = ExtResource("2_uf7hu")
 script = ExtResource("1_ri0vl")
 mouse_detection_area = NodePath("ActorInteract")
 interactive_distance = 0.0
+cutscene_script = SubResource("Resource_ccuft")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+_automatic_animation = true
 speed_slow = 1350.0
 speed_normal = 2250.0
 speed_fast = 4500.0
@@ -239,7 +249,7 @@ shape = SubResource("RectangleShape2D_f8l8h")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0s61e")
-frame_progress = 0.283409
+frame_progress = 0.199343
 centered = false
 offset = Vector2(-16, -23)
 metadata/default = {
@@ -288,6 +298,7 @@ metadata/cast = {
 }
 
 [node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 position = Vector2(0, -8)

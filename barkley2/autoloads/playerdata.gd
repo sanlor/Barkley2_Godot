@@ -88,6 +88,7 @@ var transition_timer = 25; ## was 14 (bhroom 190529))
 
 ## Actual important stuff
 var player_node : CharacterBody2D
+var camera_node : Camera2D
 
 func _ready():
 	character_inkblots.resize( 16 )

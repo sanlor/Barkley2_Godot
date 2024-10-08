@@ -1,0 +1,108 @@
+[gd_scene load_steps=11 format=3 uid="uid://dorf8ldcrrhpi"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_doorDisplay01.gd" id="1_0v52g"]
+[ext_resource type="Texture2D" uid="uid://cyjnwby0purjl" path="res://barkley2/assets/b2_original/images/merged/s_fct_doorDisplay01.png" id="5_vtbd7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t45ei"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(68, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uev3p"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(102, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_238fi"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(136, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08qu0"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(170, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_biwcv"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(204, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulh42"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(0, 0, 34, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cip1t"]
+atlas = ExtResource("5_vtbd7")
+region = Rect2(34, 0, 34, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5844u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t45ei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uev3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_238fi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08qu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_biwcv")
+}],
+"loop": true,
+"name": &"alive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ulh42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cip1t")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fct_doorDisplay01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+script = ExtResource("1_0v52g")
+is_interactive = false
+ActorAnim = NodePath("ActorAnim")
+has_collision = false
+ActorCol = NodePath("")
+_automatic_animation = true
+_current_animation = "alive"
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5844u")
+animation = &"alive"
+centered = false
+metadata/dead = {
+"bbox_bottom": "19",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "0",
+"height": "20",
+"name": "s_fct_doorDisplay01",
+"width": "34",
+"xorig": "0",
+"yorigin": "0"
+}
+metadata/alive = {
+"bbox_bottom": "19",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "0",
+"height": "20",
+"name": "s_fct_doorDisplay01",
+"width": "34",
+"xorig": "0",
+"yorigin": "0"
+}

@@ -10,9 +10,10 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA}
 var curr_MODE := MODE.FOLLOW
 
-@export var speed_slow 		:= 1.5
-@export var speed_normal 	:= 2.5
-@export var speed_fast 		:= 5.0
+@export var speed_slow 			:= 2.5
+@export var speed_normal 		:= 4.0
+@export var speed_fast 			:= 6.0
+@export var camera_follow_speed := 550.0 # Speed that the camera follows the mouse.
 
 var speed := 1.5
 var is_moving := false
@@ -46,15 +47,34 @@ func _ready() -> void:
 		_position 	= player_node.position
 		
 	_position = position.round()
+	
+	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
 
 func follow_player( _player_node ):
 	player_node = _player_node
 	curr_MODE = MODE.FOLLOW
 
+# snap to the target
 func cinema_snap( _destination : Vector2 ):
 	curr_MODE = MODE.CINEMA
 	position 	= _destination
 
+# move to te target
+func cinema_frame( _destination : Vector2, _speed : String ):
+	curr_MODE = MODE.CINEMA
+	match _speed:
+		"CAMERA_FAST": 		speed = speed_fast
+		"CAMERA_SLOW": 		speed = speed_slow
+		"CAMERA_NORMAL": 	speed = speed_normal
+	# move torward the target
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property( self, "position", 	_destination, 	speed / 30)
+	tween.tween_property( self, "offset", 		Vector2(0,20), 	speed / 30 )
+	await tween.finished
+	return 
+	
+## Yup, its an array. the original system takes an array of nodes / positions and average the target position. This way, the camera can go between the nodes.
 func cinema_moveto( _destinations : Array, _speed : String ):
 	curr_MODE = MODE.CINEMA
 	# Default behaviour
@@ -136,7 +156,7 @@ func _process(delta: float) -> void:
 					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
 					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0,250.0 )
-					offset = mouse_dir * mouse_dist / 3.0 # + Vector2( 0,20 )
+					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta )
 					offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = Vector2( 0,20 )

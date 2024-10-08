@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c5oxmo4xn6bwt"]
+[gd_scene load_steps=54 format=3 uid="uid://c5oxmo4xn6bwt"]
 
 [ext_resource type="Texture2D" uid="uid://b3favlhdhipaj" path="res://barkley2/assets/b2_original/images/merged/s_variableBrandish01.png" id="1_e7w8o"]
 [ext_resource type="Texture2D" uid="uid://cmr2i1m0ryoim" path="res://barkley2/assets/b2_original/images/merged/s_variable01.png" id="2_hnx2p"]
@@ -387,9 +387,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_variable01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim_hands", "ActorAnim", "ActorCol")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n2l7u"]
+size = Vector2(20, 36)
+
+[node name="o_variable01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim_hands", "mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("5_tk5tk")
 ActorAnim_hands = NodePath("ActorAnim_hands")
+mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -508,3 +512,10 @@ animation = &"spanking"
 frame_progress = 0.289226
 centered = false
 offset = Vector2(-12, -45)
+
+[node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_n2l7u")

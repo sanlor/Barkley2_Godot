@@ -106,7 +106,7 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	await tween.finished
 	
 	# Give back player control
-	B2_Input.player_has_control = false
+	B2_Input.player_has_control = true
 	
 	
 func get_room_scene( room_name : String ):

@@ -1,6 +1,9 @@
 extends B2_Actor
 class_name B2_InteractiveActor
 
+## Class for all actors that can be interacted with.
+# sets the mouse hove area, shaders, interactions and such
+
 @export_category("Interactive")
 var _selectedOutline = false;
 var _disableOutline = false;
@@ -26,25 +29,72 @@ var camera_speed = 32;
 
 ## Mouse setup
 var is_mouse_hovering := false
+var is_player_near 		:= false
+
+@export_category("Interaction Event")
+@export var player_can_pause			:= true
+@export var cutscene_script 			: B2_Script
 
 func _enter_tree() -> void:
-	mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered)
-	mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited)
+	if not is_instance_valid(ActorAnim):
+		## Lazy - Forgot to set on the Export.
+		ActorAnim = get_node("ActorAnim")
+		ActorAnim.use_parent_material = true ## Shader stuff
+	
+	if has_collision:
+		if not is_instance_valid(ActorCol):
+			## Lazy X2 - Forgot to set on the Export.
+			ActorCol = get_node("ActorCol")
 	
 	if is_interactive:
-		var shader : ShaderMaterial = load( interactive_shader )
+		if not is_instance_valid(mouse_detection_area):
+			## Lazy X3 - Forgot to set on the Export.
+			mouse_detection_area = get_node("ActorInteract")
+			
+		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered)
+		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited)
+		
+		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
+		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 		material = shader
+		
+	ready.connect( post_ready )
 	
-func mouse_detection_area_entered():
-	is_mouse_hovering = true
-	_process_mouse_events()
+func post_ready() -> void:
+	adjust_sprite_offset()
 	
-func mouse_detection_area_exited():
+func _input(event: InputEvent) -> void:
+	if not B2_Input.cutscene_is_playing: # only handle inputs if there are not cutscenes or dialogs running
+		if is_mouse_hovering:
+			if event is InputEventMouseMotion:
+				_process_mouse_events()
+				
+			if is_player_near:
+				if event is InputEventMouseButton:
+					if Input.is_action_just_pressed("Action"):
+						interaction()
+		
+func interaction() -> void:
+	if is_instance_valid(cutscene_script):
+		B2_Cinema.play_cutscene( cutscene_script, self, true )
+	
+func mouse_detection_area_entered() -> void:
+	if not B2_Input.cutscene_is_playing:
+		is_mouse_hovering = true
+		
+	else:
+		is_mouse_hovering = false
+		_process_mouse_events()
+	
+func mouse_detection_area_exited() -> void:
 	is_mouse_hovering = false
 	_process_mouse_events()
 	
-func _process_mouse_events(): ## Perform mouse click and position checks
-	if is_mouse_hovering:
-		material.set_shader_parameter("enable", true)
-	else:
-		material.set_shader_parameter("enable", false)
+func _process_mouse_events() -> void: ## Perform mouse click and position checks
+	if is_player_near:
+		if is_mouse_hovering:
+			print(name)
+			material.set_shader_parameter("enable", true)
+			return
+	
+	material.set_shader_parameter("enable", false)

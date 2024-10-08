@@ -64,13 +64,14 @@ func _ready() -> void:
 	elif B2_Playerdata.Quest("tutorialProgress", null, 0) 	== 5: alpha_intensity = 0.8;
 	else: alpha_intensity = 1;
 	
-	
+func play_blink():
 	if B2_Playerdata.Quest( "zaneState", null, 0 ) == 0:
 		if debug_play_blink:
 			await get_tree().create_timer(activation_delay).timeout ## HAAAAAAAAAACK. have no idea how the original code handles this delay. 1.5 secs seems perfect.
 			animation_player.play("blink")
 		else:
 			push_error(name, ": Blink is disabled.")
+	
 
 func pulse(time : float):
 	var frequency := 0.2; ## Frequency in Hz

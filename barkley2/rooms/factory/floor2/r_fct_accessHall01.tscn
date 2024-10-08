@@ -1,11 +1,22 @@
-[gd_scene load_steps=9 format=4 uid="uid://c73c3nkj41ecf"]
+[gd_scene load_steps=22 format=4 uid="uid://c73c3nkj41ecf"]
 
-[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_access_hall_01.gd" id="1_s1cew"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_accessHall01.gd" id="1_s1cew"]
 [ext_resource type="Script" path="res://barkley2/scenes/_map/Collisions/o_solid.gd" id="2_43mvl"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_fbrhx"]
 [ext_resource type="Script" path="res://barkley2/scenes/_map/Collisions/o_semisolid.gd" id="3_4uj5m"]
 [ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="7_3m2wo"]
 [ext_resource type="PackedScene" uid="uid://0ivnjx3er6em" path="res://barkley2/scenes/Objects/_doors/o_door_tech01.tscn" id="7_hv0oq"]
+[ext_resource type="PackedScene" uid="uid://drxfl81qdglq8" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.tscn" id="7_t6dym"]
+[ext_resource type="PackedScene" uid="uid://5jpyj1yw7pv4" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf01.tscn" id="7_x4bxq"]
+[ext_resource type="PackedScene" uid="uid://b3pbu6hnh6au4" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf02.tscn" id="8_nqho7"]
+[ext_resource type="PackedScene" uid="uid://mafjbn42bwya" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf03.tscn" id="9_1gfic"]
+[ext_resource type="PackedScene" uid="uid://b2wtpsai8w3ns" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf04.tscn" id="10_uniq4"]
+[ext_resource type="PackedScene" uid="uid://dy6er8bjf3ixf" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf05.tscn" id="11_831t3"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="11_wsjxq"]
+[ext_resource type="Script" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="13_e72qo"]
+[ext_resource type="PackedScene" uid="uid://b5hom2o7tu036" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_boot_01.tscn" id="14_qlma4"]
+[ext_resource type="PackedScene" uid="uid://cq1opf8daykui" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_gurney_01.tscn" id="15_niqit"]
+[ext_resource type="PackedScene" uid="uid://dorf8ldcrrhpi" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_doorDisplay01.tscn" id="17_hm7bp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qddk"]
 texture = ExtResource("2_fbrhx")
@@ -2876,12 +2887,27 @@ texture = ExtResource("2_fbrhx")
 [sub_resource type="TileSet" id="TileSet_4sjjp"]
 sources/0 = SubResource("TileSetAtlasSource_6qddk")
 
-[node name="r_fct_accessHall01" type="Node2D" node_paths=PackedStringArray("reference_layer")]
+[sub_resource type="Resource" id="Resource_c8wt3"]
+script = ExtResource("11_wsjxq")
+original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
+
+[sub_resource type="Resource" id="Resource_j8fk8"]
+script = ExtResource("11_wsjxq")
+original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
+
+[node name="r_fct_accessHall01" type="Node2D" node_paths=PackedStringArray("reference_layer", "b2_camera")]
 y_sort_enabled = true
 script = ExtResource("1_s1cew")
-reference_layer = [NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05")]
+reference_layer = [NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05"), NodePath("r_fct_accessHall01"), NodePath("r_fct_accessHall02"), NodePath("r_fct_accessHall03"), NodePath("r_fct_accessHall04"), NodePath("r_fct_accessHall05")]
 create_player_scene_at_room_start = true
 player_scene_pos = Vector2(2512, 220)
+b2_camera = NodePath("@Camera2D@140303")
+
+[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="."]
+script = ExtResource("13_e72qo")
+node_type = 2
+sprite_name = "s_fct_gurney01"
+remove_target_node = true
 
 [node name="r_fct_accessHall01" type="TileMapLayer" parent="."]
 z_index = -100
@@ -3880,11 +3906,8 @@ show_door_light = false
 type = 1
 teleport_destination = "r_fct_eggRooms01, 240, 1072"
 
-[node name="P108 - o_fct_deadDwarf01" type="Marker2D" parent="."]
+[node name="P108 - o_fct_deadDwarf01" parent="." instance=ExtResource("7_x4bxq")]
 position = Vector2(2573, 217)
-metadata/code = ""
-metadata/inst_name = "inst_139FE503"
-metadata/scale = Vector2(1, 1)
 
 [node name="P109 - o_fct_deadDwarf02" type="Marker2D" parent="."]
 position = Vector2(2449, 195)
@@ -3892,11 +3915,15 @@ metadata/code = ""
 metadata/inst_name = "inst_755F0242"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_fct_deadDwarf02" parent="P109 - o_fct_deadDwarf02" instance=ExtResource("8_nqho7")]
+
 [node name="P110 - o_fct_deadDwarf03" type="Marker2D" parent="."]
 position = Vector2(1792, 256)
 metadata/code = ""
 metadata/inst_name = "inst_14A940EC"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_fct_deadDwarf03" parent="P110 - o_fct_deadDwarf03" instance=ExtResource("9_1gfic")]
 
 [node name="P111 - o_fct_deadDwarf04" type="Marker2D" parent="."]
 position = Vector2(2341, 250)
@@ -3904,23 +3931,23 @@ metadata/code = ""
 metadata/inst_name = "inst_A178026C"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_fct_deadDwarf04" parent="P111 - o_fct_deadDwarf04" instance=ExtResource("10_uniq4")]
+cutscene_script = SubResource("Resource_c8wt3")
+
 [node name="P112 - o_fct_deadDwarf05" type="Marker2D" parent="."]
 position = Vector2(2177, 198)
 metadata/code = ""
 metadata/inst_name = "inst_CBE8184A"
 metadata/scale = Vector2(1, 1)
 
-[node name="P113 - o_fct_boot01" type="Marker2D" parent="."]
-position = Vector2(2125, 216)
-metadata/code = ""
-metadata/inst_name = "inst_0F1E5A2D"
-metadata/scale = Vector2(1, 1)
+[node name="o_fct_deadDwarf05" parent="P112 - o_fct_deadDwarf05" instance=ExtResource("11_831t3")]
+cutscene_script = SubResource("Resource_j8fk8")
 
-[node name="P114 - o_fct_gurney01" type="Marker2D" parent="."]
+[node name="P113 - o_fct_boot01" parent="." instance=ExtResource("14_qlma4")]
+position = Vector2(2125, 216)
+
+[node name="P114 - o_fct_gurney01" parent="." instance=ExtResource("15_niqit")]
 position = Vector2(2006, 257)
-metadata/code = ""
-metadata/inst_name = "inst_4B4685D0"
-metadata/scale = Vector2(1, 1)
 
 [node name="P115 - o_fct_crate01" type="Marker2D" parent="."]
 position = Vector2(1837, 241)
@@ -3934,12 +3961,16 @@ metadata/code = ""
 metadata/inst_name = "inst_FBEBC885"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_fct_doorDisplay01" parent="P116 - o_fct_doorDisplay01" instance=ExtResource("17_hm7bp")]
+
 [node name="P117 - o_fct_doorDisplay01" type="Marker2D" parent="."]
 position = Vector2(2512, 112)
 metadata/code = "Animation(\"set\", id, \"dead\");
 "
 metadata/inst_name = "inst_F0012B1E"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_fct_doorDisplay01" parent="P117 - o_fct_doorDisplay01" instance=ExtResource("17_hm7bp")]
 
 [node name="P118 - o_fct_bloodBag01" type="Marker2D" parent="."]
 position = Vector2(2562, 90)
@@ -3964,6 +3995,8 @@ position = Vector2(1551, 80)
 metadata/code = ""
 metadata/inst_name = "inst_EA0169BC"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_fct_doorDisplay01" parent="P121 - o_fct_doorDisplay01" instance=ExtResource("17_hm7bp")]
 
 [node name="P122 - o_fct_console01" type="Marker2D" parent="."]
 position = Vector2(1432, 215)
@@ -4184,11 +4217,9 @@ else
 metadata/inst_name = "inst_A1DAED82"
 metadata/scale = Vector2(1, 1)
 
-[node name="P157 - o_room_dream_filter" type="Marker2D" parent="."]
-position = Vector2(-120, 96)
-metadata/code = ""
-metadata/inst_name = "inst_44006C7A"
-metadata/scale = Vector2(1, 1)
+[node name="P157 - o_room_dream_filter" parent="." instance=ExtResource("7_t6dym")]
+activation_delay = 3.0
+metadata/inst_AE149212 = ""
 
 [node name="P158 - o_solid16" type="StaticBody2D" parent="."]
 z_index = 4000

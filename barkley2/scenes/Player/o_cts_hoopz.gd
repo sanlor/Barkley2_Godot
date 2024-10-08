@@ -4,7 +4,8 @@ extends B2_InteractiveActor
 # check scr_event_hoopz_switch_cutscene()
 
 func _ready() -> void:
-	pass
+	B2_Cinema.o_cts_hoopz = self
+	change_costume("diaper")
 	
 func change_costume(costume_name : String) -> void:
 	match costume_name:
@@ -54,7 +55,8 @@ func change_costume(costume_name : String) -> void:
 			ANIMATION_NORTHEAST 					= "walk_NE"
 			ANIMATION_NORTHWEST 					= "walk_NW"
 			ANIMATION_EAST 							= "walk_E"
-			ANIMATION_STAND_SPRITE_INDEX 			= [6, 2, 5, 1, 4, 0, 3, 7]
+													 # N, NE, E, SE, S, SW, W, NW
+			ANIMATION_STAND_SPRITE_INDEX 			= [0, 1, 2, 3, 4, 3, 2, 1]
 			ActorAnim.animation 					= "s_cts_hoopz_diaper_stand"
 		"prison":
 			ANIMATION_STAND 						= "sHoopzPrison"

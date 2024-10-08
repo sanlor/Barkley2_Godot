@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://1aq7m48ws8pm"]
+[gd_scene load_steps=36 format=3 uid="uid://1aq7m48ws8pm"]
 
 [ext_resource type="Texture2D" uid="uid://bey7je8uedwn2" path="res://barkley2/assets/b2_original/images/merged/s_zaneHeadBlast01.png" id="1_6j6h7"]
 [ext_resource type="Texture2D" uid="uid://bfp63nk0mqhwp" path="res://barkley2/assets/b2_original/images/merged/s_zane01.png" id="2_8bss3"]
@@ -235,8 +235,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_zane01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_im2do"]
+size = Vector2(20, 36)
+
+[node name="o_zane01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("5_tiq7o")
+mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -313,3 +317,10 @@ metadata/deadOnGround = {
 "xorig": "33",
 "yorigin": "55"
 }
+
+[node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_im2do")

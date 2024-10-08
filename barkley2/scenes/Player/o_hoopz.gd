@@ -87,7 +87,10 @@ var external_velocity := Vector2.ZERO ## DEBUG - applyied by the door.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	B2_Playerdata.player_node = self
+	#B2_Playerdata.player_node = self
+	B2_Cinema.o_hoopz = self
+	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
+	
 	pass # Replace with function body.
 
 func _load_sprite_frames():
@@ -196,7 +199,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	animation(delta)
 	
-	
+# handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
 	if hoopz_upper_body.animation.begins_with("walk_"):
 		# play audio only on frame 0 or 2
@@ -206,3 +209,11 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
+			
+func _on_interaction_area_body_entered(body: Node2D) -> void:
+	if body is B2_InteractiveActor:
+		body.is_player_near = true
+
+func _on_interaction_area_body_exited(body: Node2D) -> void:
+	if body is B2_InteractiveActor:
+		body.is_player_near = false

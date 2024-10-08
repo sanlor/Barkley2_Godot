@@ -13,7 +13,8 @@ class_name B2_ROOMS
 @export_category("Cinematics")
 @export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
-@export var create_camera_at_room_start := true
+@export var create_camera_at_room_start := true 
+@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
 @export var cutscene_script 			: B2_Script
 
 @export_category("Nodes")
@@ -107,10 +108,6 @@ func _setup_player_node():
 		b2_camera.position = player_scene_pos
 		
 	add_child( player )
-
-func _setup_cinema():
-	b2_cinema = B2_Cinema.new()
-	add_child( b2_cinema )
 	
 func _setup_camera():
 	b2_camera = B2_Camera_Hoopz.new()

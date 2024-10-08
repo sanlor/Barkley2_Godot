@@ -24,6 +24,9 @@ class_name B2_TOOL_GML_SPRITE_CONVERTER
 @export var anim_node_name 	:= "ActorAnim" 	## Animation node name.
 @export var create_col_node := true
 @export var col_node_name 	:= "ActorCol" 	## Collision node name.
+@export var create_actor_interact := true
+@export var int_node_name	:= "ActorInteract"
+@export var int_node_shape	:= Vector2(20,36)
 @export var update_anim_node := false ## Do not create a AnimatedSprite2D, just update an existing one.
 @export var clear_previous_anim_from_existing_node := false ## clear all anims from the existing node.
 
@@ -91,6 +94,7 @@ func lets_goooo():
 		animatedsprite 		= AnimatedSprite2D.new()
 		spr_frames 			= SpriteFrames.new()
 	
+	animatedsprite.use_parent_material = true
 	animatedsprite.name = anim_node_name
 	
 	# for each Converter resource set up.
@@ -227,8 +231,12 @@ func lets_goooo():
 	
 	if create_col_node:
 		set_placeholder_collision()
+		
+	if create_actor_interact:
+		set_placeholder_interact()
+	
+	get_parent().adjust_sprite_offset()
 	print("Conversion finished!")
-	pass
 	
 func make_anim_stand_define(animname : String, startimage : int, spr := animname, n := 999) -> B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE:
 	var anim := B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE.new()
@@ -306,6 +314,9 @@ func make_animated_sprite(anim : B2_TOOL_GML_SPRITE_CONVERTER_ANIMATION_DEFINE, 
 	sprite_data.erase("frames")
 	animatedsprite.set_meta(anim.animationName, sprite_data)
 	
+	## set initial offset
+	animatedsprite.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
+	
 func parse_gmx(filename : String) -> Dictionary:
 	var has_file := false
 	for file : String in DirAccess.get_files_at(obj_folder_path):
@@ -378,3 +389,24 @@ func set_placeholder_collision():
 		
 		add_sibling.call_deferred( col, true )
 		col.set_owner.call_deferred( get_parent() )
+		
+func set_placeholder_interact():
+	var can_add := true
+	for c in get_parent().get_children():
+		if c is Area2D:
+			if c.name == int_node_name:
+				can_add = false
+	if can_add:
+		var inter := Area2D.new()
+		inter.name = int_node_name
+		
+		var int_shape 	:= CollisionShape2D.new()
+		var rect_shape 	:= RectangleShape2D.new()
+		
+		rect_shape.size = int_node_shape
+		int_shape.shape = rect_shape
+		inter.add_child( int_shape, true )
+		
+		add_sibling.call_deferred( inter, true )
+		int_shape.set_owner.call_deferred( get_parent() )
+		inter.set_owner.call_deferred( get_parent() )

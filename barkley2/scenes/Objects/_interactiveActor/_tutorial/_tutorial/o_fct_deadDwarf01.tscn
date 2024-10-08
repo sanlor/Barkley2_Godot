@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://5jpyj1yw7pv4"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_dead_dwarf_01.gd" id="1_ham8x"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_l146a"]
+[ext_resource type="Texture2D" uid="uid://onnqq8gajmyk" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf01.png" id="5_2f7xx"]
+
+[sub_resource type="Resource" id="Resource_a8he2"]
+script = ExtResource("2_l146a")
+original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5n0xj"]
+size = Vector2(20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep8oq"]
+atlas = ExtResource("5_2f7xx")
+region = Rect2(0, 0, 38, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mv1mj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep8oq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fct_deadDwarf01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_ham8x")
+mouse_detection_area = NodePath("ActorInteract")
+player_can_pause = false
+cutscene_script = SubResource("Resource_a8he2")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+metadata/code = ""
+metadata/inst_name = "inst_139FE503"
+metadata/scale = Vector2(1, 1)
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_5n0xj")
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mv1mj")
+centered = false
+offset = Vector2(-19, -40)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "0",
+"bbox_right": "37",
+"bbox_top": "0",
+"height": "54",
+"name": "s_fct_deadDwarf01",
+"width": "38",
+"xorig": "19",
+"yorigin": "40"
+}

@@ -65,8 +65,9 @@ var statusImmuneAll = 0;
 signal destination_reached
 signal set_played
 @export_category("Actor Stuff")
-@export var ActorAnim 	: AnimatedSprite2D
-@export var ActorCol 	: CollisionShape2D
+@export var ActorAnim 		: AnimatedSprite2D
+@export var has_collision 	:= true
+@export var ActorCol 		: CollisionShape2D
 
 # True if the sprite is using automatic animations (like when it is moving), or false otherwise.
 @export var _automatic_animation 	:= false; ## Start playing a animation during room load
@@ -109,6 +110,16 @@ var ANIMATION_STAND_SPRITE_INDEX 	:= [ 0, 0, 0, 0, 0, 0, 0, 0 ] # N, NE, E, SE, 
 ## Action Queue
 var cinema_set_queue := []
 
+func _init() -> void:
+	ready.connect( play_animations )
+	
+func play_animations():
+	if _automatic_animation:
+		if ActorAnim.sprite_frames.has_animation(_current_animation):
+			ActorAnim.play(_current_animation)
+		else:
+			push_warning( "%s has no animation called %s." % [ name, _current_animation ] )
+
 func cinema_set( _sprite_frame : String ):
 	if is_moving:
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
@@ -141,31 +152,40 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE
 
 func cinema_look( _direction : String ):
 	ActorAnim.stop()
+	ActorAnim.animation = ANIMATION_STAND
 	match _direction:
-		"NORTHWEST":
-			ActorAnim.animation = (ANIMATION_NORTHWEST)
-			ActorAnim.flip_h = true
-		"NORTHEAST":
-			ActorAnim.animation = (ANIMATION_NORTHEAST)
-			ActorAnim.flip_h = false
-		"SOUTHWEST":
-			ActorAnim.animation = (ANIMATION_SOUTHWEST)
-			ActorAnim.flip_h = true
-		"SOUTHEAST":
-			ActorAnim.animation = (ANIMATION_SOUTHEAST)
-			ActorAnim.flip_h = false
 		"NORTH":
-			ActorAnim.animation = (ANIMATION_NORTH)
-			ActorAnim.flip_h = true
-		"WEST":
-			ActorAnim.animation = (ANIMATION_WEST)
-			ActorAnim.flip_h = true
-		"SOUTH":
-			ActorAnim.animation = (ANIMATION_SOUTH)
+			#ActorAnim.animation = (ANIMATION_NORTH)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[0]
+			ActorAnim.flip_h = false
+		"NORTHEAST":
+			#ActorAnim.animation = (ANIMATION_NORTHEAST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[1]
 			ActorAnim.flip_h = false
 		"EAST":
-			ActorAnim.animation = (ANIMATION_EAST)
+			#ActorAnim.animation = (ANIMATION_EAST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[2]
 			ActorAnim.flip_h = false
+		"SOUTHEAST":
+			#ActorAnim.animation = (ANIMATION_SOUTHEAST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[3]
+			ActorAnim.flip_h = false
+		"SOUTH":
+			#ActorAnim.animation = (ANIMATION_SOUTH)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[4]
+			ActorAnim.flip_h = false
+		"SOUTHWEST":
+			#ActorAnim.animation = (ANIMATION_SOUTHWEST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[5]
+			ActorAnim.flip_h = true
+		"WEST":
+			#ActorAnim.animation = (ANIMATION_WEST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[6]
+			ActorAnim.flip_h = true
+		"NORTHWEST":
+			#ActorAnim.animation = (ANIMATION_NORTHWEST)
+			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[7]
+			ActorAnim.flip_h = true
 	adjust_sprite_offset()
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
@@ -256,10 +276,13 @@ func adjust_sprite_offset():
 	if sprite_data.is_empty():
 		# no data
 		return
+		
 	ActorAnim.centered = false
 	ActorAnim.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
 	sprite_offset_centered.emit()
-	adjust_sprite_collision()
+	
+	if has_collision:
+		adjust_sprite_collision()
 	
 # Get info from the sprite metadata.
 func adjust_sprite_collision():
@@ -269,13 +292,18 @@ func adjust_sprite_collision():
 		# no data
 		return
 	## TODO create col shape and set its colisions.
-	var shape := RectangleShape2D.new()
-	shape.size.x = int( sprite_data["bbox_right"] ) 	- int( sprite_data["bbox_left"] )
-	shape.size.y = int( sprite_data["bbox_bottom"] ) 	- int( sprite_data["bbox_top"] )
-	ActorCol.shape = shape
+	# var shape := RectangleShape2D.new()
+	# shape.size.x = int( sprite_data["bbox_right"] ) 	- int( sprite_data["bbox_left"] )
+	# shape.size.y = int( sprite_data["bbox_bottom"] ) 	- int( sprite_data["bbox_top"] )
 	# Not being able to un-center the collision shape is terrible. # https://github.com/godotengine/godot-proposals/issues/1170
 	## NOTE Disabled bellow. not sure how to use it yet.
 	# ActorCol.position = Vector2( int( sprite_data["bbox_left"] ), int( sprite_data["bbox_top"] ) ) + shape.size / 2.0
+	var shape := CircleShape2D.new()
+	shape.radius = 10 # 10 is arbitrary.
+	shape.radius = ( float( sprite_data["bbox_right"] ) - float( sprite_data["bbox_left"] ) ) / PI # ooh look at me, all fancy using PI and such.
+	
+	## NOTE 2 - Fuck, I have no idea how Collisions are handled on the original game. Its circles now, every actor has a cicle as collision shape. fuck it.
+	ActorCol.shape = shape
 	sprite_collision_adjusted.emit()
 
 @warning_ignore("unused_parameter")

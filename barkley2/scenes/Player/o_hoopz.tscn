@@ -1,12 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=7 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz.gd" id="1_3cthp"]
 [ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_upper_body_diaper.tres" id="2_5da33"]
 [ext_resource type="SpriteFrames" uid="uid://dpoxlps7mg0dy" path="res://barkley2/resources/Player/hoopz_lower_body_hoopz.tres" id="3_4wjkq"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_0p8gy"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kg4ek"]
-size = Vector2(16, 16)
+[sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ew2ks"]
+radius = 64.0
 
 [node name="o_hoopz" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -19,7 +21,7 @@ anim_player = NodePath("../AnimationPlayer")
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
-shape = SubResource("RectangleShape2D_kg4ek")
+shape = SubResource("CircleShape2D_aubae")
 
 [node name="hoopz_upper_body" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
@@ -37,4 +39,11 @@ sprite_frames = ExtResource("3_4wjkq")
 position = Vector2(0, -1)
 amount = 2
 
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_ew2ks")
+
 [connection signal="frame_changed" from="hoopz_upper_body" to="." method="_on_hoopz_upper_body_frame_changed"]
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

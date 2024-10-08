@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://cq1opf8daykui"]
+
+[ext_resource type="Texture2D" uid="uid://defyb60ssev6j" path="res://barkley2/assets/b2_original/images/merged/s_fct_gurney01.png" id="1_22cd7"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_gurney01.gd" id="1_vgg46"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3gc2v"]
+
+[sub_resource type="Resource" id="Resource_miknh"]
+script = ExtResource("2_3gc2v")
+original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrmkd"]
+atlas = ExtResource("1_22cd7")
+region = Rect2(0, 0, 57, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wxkt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrmkd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpxc3"]
+size = Vector2(50, 50)
+
+[node name="o_fct_gurney01" type="CharacterBody2D"]
+script = ExtResource("1_vgg46")
+cutscene_script = SubResource("Resource_miknh")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5wxkt")
+centered = false
+offset = Vector2(-28, -34)
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "56",
+"bbox_top": "0",
+"height": "55",
+"name": "s_fct_gurney01",
+"width": "57",
+"xorig": "28",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_vpxc3")

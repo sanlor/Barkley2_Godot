@@ -75,10 +75,10 @@ var textbox_talk_cooldown 	:= 0.04 	#0.04;
 var textbox_blink_cooldown 	:= 0.04 	#0.04;
 
 var comma_pause 			:= 0.10 			#0.1
-var period_pause 			:= 0.50 			#0.5
-var dash_pause 				:= 0.2 				#0.2
-var question_pause 			:= 0.50 			#0.5 ## Added by me, not on the original.
-var exclamation_pause 		:= 0.50 		#0.5 ## Added by me, not on the original.
+var period_pause 			:= 0.20 			#0.5
+var dash_pause 				:= 0.20 				#0.2
+var question_pause 			:= 0.40 			#0.5 ## Added by me, not on the original.
+var exclamation_pause 		:= 0.40 		#0.5 ## Added by me, not on the original.
 
 var normal_typing 	:= 2.0			#1.0
 var fast_typing 	:= 0.0

@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://b2wtpsai8w3ns"]
+
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/interactiveactor.gd" id="1_y6h7v"]
+[ext_resource type="Texture2D" uid="uid://frtnetnhygvi" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf04.png" id="5_5jlfh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iyttg"]
+size = Vector2(20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfrqp"]
+atlas = ExtResource("5_5jlfh")
+region = Rect2(0, 0, 53, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6rujv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfrqp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fct_deadDwarf04" type="CharacterBody2D"]
+script = ExtResource("1_y6h7v")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_iyttg")
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_6rujv")
+centered = false
+offset = Vector2(-19, -13)
+metadata/default = {
+"bbox_bottom": "18",
+"bbox_left": "0",
+"bbox_right": "52",
+"bbox_top": "0",
+"height": "19",
+"name": "s_fct_deadDwarf04",
+"width": "53",
+"xorig": "19",
+"yorigin": "13"
+}

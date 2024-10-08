@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dcxil7hm04e2y"]
+[gd_scene load_steps=17 format=3 uid="uid://dcxil7hm04e2y"]
 
 [ext_resource type="Texture2D" uid="uid://cnxfvcgfkpuoc" path="res://barkley2/assets/b2_original/images/merged/s_jhodfrey01.png" id="1_j32uk"]
 [ext_resource type="Texture2D" uid="uid://bm0i1rc6inagf" path="res://barkley2/assets/b2_original/images/merged/s_cts_jhodfreyNE.png" id="2_oo61d"]
@@ -93,8 +93,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_jhodfrey01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tmjur"]
+size = Vector2(20, 36)
+
+[node name="o_jhodfrey01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("4_yst63")
+mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -137,3 +141,10 @@ metadata/s_cts_jhodfreySE = {
 "xorig": "15",
 "yorigin": "48"
 }
+
+[node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_tmjur")

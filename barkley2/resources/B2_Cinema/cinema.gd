@@ -1,9 +1,9 @@
-#@icon("res://barkley2/assets/b2_original/images/merged/icon_parent.png")
 @icon("res://barkley2/assets/b2_original/images/merged/icon_camera.png")
 extends CanvasLayer
-class_name B2_Cinema
 
 ## Check Cinema() script. Cinema("run", script_start) is also important
+## NOTE This node is resposible for Conversations, Dialog Tree, Cinematics, Events and Coronavirus.
+# 07-10-24 Its now an Autoload.
 
 ## DEBUG
 @export_category("Debug Stuff")
@@ -27,10 +27,8 @@ class_name B2_Cinema
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
 @export var async_actor_move	:= false ## Script does not wait for the movement to finish if this is enabled.
 
-#@export_category("Cinema Setup")
-#@export var cutscene_script : B2_Script
-
 signal created_new_fade
+signal set_interactivity(enabled : bool)
 
 # used for the "CREATE" event
 ## NOTE need a dynamic way to load these.
@@ -45,6 +43,8 @@ const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
 var o_cts_hoopz 	: B2_Actor 			= null
 var o_hoopz 		: CharacterBody2D 	= null ## TODO Create a B2_CombatActor class
 
+var event_caller	: Node2D ## The node that called the play_cutscene() function.
+
 var camera						: Camera2D
 var all_nodes					:= []
 
@@ -56,39 +56,73 @@ func _ready() -> void:
 	
 func setup_camera( _camera : Camera2D ):
 	camera = _camera
-	
-func load_hoopz():
-	# if real is loaded, load fake hoopz.
-	o_cts_hoopz = O_CTS_HOOPZ.instantiate()
+
+func get_camera_on_tree() -> Camera2D:
+	var nodes_in_tree = get_tree().current_scene.get_children() ## get all siblings.
+	for c in nodes_in_tree:
+		if c is Camera2D:
+			return c
+			
+	# No camera loaded. Create a new one
+	var _cam := B2_Camera_Hoopz.new()
+	# set its initial position
 	if is_instance_valid(o_hoopz):
-		o_cts_hoopz.position = o_hoopz.position
+		_cam.position = o_hoopz.position
+	elif is_instance_valid(o_cts_hoopz):
+		_cam.position = o_cts_hoopz.position
+	else:
+		_cam.position.x = B2_RoomXY.this_room_x
+		_cam.position.y = B2_RoomXY.this_room_y
+	
+	get_tree().current_scene.add_child( _cam )
+	return _cam
+	
+func load_hoopz_actor():
+	# if real is loaded, load fake hoopz.
+	if not is_instance_valid(o_cts_hoopz): 
+		o_cts_hoopz = O_CTS_HOOPZ.instantiate()
+	if is_instance_valid(o_hoopz):
+		o_cts_hoopz.position 	= o_hoopz.position
 		o_hoopz.queue_free()
 	else:
-		o_cts_hoopz.position.x = B2_RoomXY.this_room_x
-		o_cts_hoopz.position.y = B2_RoomXY.this_room_y
-	add_sibling(o_cts_hoopz, true)
-	print("o_cts_hoopz loaded.")
+		o_cts_hoopz.position.x 	= B2_RoomXY.this_room_x
+		o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
+	
+	get_tree().current_scene.add_child( o_cts_hoopz, true )
+	
+	# make the actor face the event_object
+	var _dir := o_cts_hoopz.position.direction_to( event_caller.position ).round()
+	match _dir: # Its messy, but it works.
+		Vector2.UP + Vector2.LEFT:		o_cts_hoopz.cinema_look( "NORTHWEST" )
+		Vector2.UP + Vector2.RIGHT: 	o_cts_hoopz.cinema_look( "NORTHEAST" )
+		Vector2.DOWN + Vector2.LEFT: 	o_cts_hoopz.cinema_look( "SOUTHWEST" )
+		Vector2.DOWN + Vector2.RIGHT: 	o_cts_hoopz.cinema_look( "SOUTHEAST" )
+
+		Vector2.UP: 		o_cts_hoopz.cinema_look( "NORTH" )
+		Vector2.LEFT: 		o_cts_hoopz.cinema_look( "WEST" )
+		Vector2.DOWN: 		o_cts_hoopz.cinema_look( "SOUTH" )
+		Vector2.RIGHT: 		o_cts_hoopz.cinema_look( "EAST" )
+	pass
+	
+func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
+	# if fake is loaded, load real hoopz.
+	if not is_instance_valid(o_hoopz):
+		o_hoopz = O_HOOPZ.instantiate()
+		
+	if is_instance_valid(o_cts_hoopz):
+		o_hoopz.position = o_cts_hoopz.position
+		o_cts_hoopz.queue_free()
+	else:
+		o_hoopz.position.x = B2_RoomXY.this_room_x
+		o_hoopz.position.y = B2_RoomXY.this_room_y
+		
+	get_tree().current_scene.add_child( o_hoopz, true )
 	
 func end_cutscene():
-	#  Cinema() else if (argument[0] == "exit")
-	# if fake is loaded, load real hoopz.
-	o_hoopz = O_HOOPZ.instantiate()
-	if is_instance_valid(o_hoopz):
-		if is_instance_valid(o_cts_hoopz):
-			o_hoopz.position = o_cts_hoopz.position
-			o_cts_hoopz.queue_free()
-		else:
-			o_hoopz.position.x = B2_RoomXY.this_room_x
-			o_hoopz.position.y = B2_RoomXY.this_room_y
+	load_hoopz_player()
 		
-	add_sibling(o_hoopz, true)
-	print("o_hoopz loaded.")
-	
 	all_nodes.clear()
 	all_nodes = get_parent().get_children()
-	
-	#await camera.cinema_moveto( [ o_hoopz ], "CAMERA_NORMAL" )
-	camera.follow_player( o_hoopz )
 	
 	## Release player lock
 	B2_Input.cutscene_is_playing 	= false
@@ -99,22 +133,37 @@ func end_cutscene():
 	
 	## NOTE Below is trash. needs improving.
 	camera.set_safety( true )
-	camera.follow_mouse = true
-	o_hoopz.follow_mouse = true
+	camera.follow_player( o_hoopz )
+	B2_Input.player_follow_mouse.emit( true )
+	B2_Input.camera_follow_mouse.emit( true )
 	
-func play_cutscene( cutscene_script : B2_Script ):
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
+	if not is_instance_valid(camera):
+		camera = get_camera_on_tree()
+		
 	assert(camera != null, "Camera not setup. Fix it.")
+	
+	event_caller = _event_caller
 	
 	## lock player control
 	B2_Input.cutscene_is_playing 	= true
 	B2_Input.can_fast_forward 		= true
 	B2_Input.player_has_control 	= false
 	
-	load_hoopz()
-	camera.set_safety( false )
-	camera.follow_mouse = false
+	B2_Input.player_follow_mouse.emit( false )
+	B2_Input.camera_follow_mouse.emit( false )
 	
-	all_nodes = get_parent().get_children()
+	camera.set_safety( false )
+	
+	load_hoopz_actor()
+	
+	all_nodes = get_tree().current_scene.get_children()
+	
+	# Frame Camera
+	if frame_await:
+		await camera.cinema_frame( 	o_cts_hoopz.position, "CAMERA_NORMAL" ) 	# sync movement
+	else:
+		camera.cinema_frame( 		o_cts_hoopz.position, "CAMERA_NORMAL" ) 			# async movement
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
@@ -128,7 +177,11 @@ func play_cutscene( cutscene_script : B2_Script ):
 		
 		#for line : String in split_script:
 		while loop_finished or curr_line == script_size:
-			
+			if curr_line >= script_size:
+				push_warning("Cinema script exited unexpectedly. It should always finish with the EXIT command.")
+				loop_finished = true
+				break # exit the loop
+				
 			var line : String = split_script[ curr_line ]
 			
 			if line.begins_with('"'):
@@ -295,7 +348,7 @@ func play_cutscene( cutscene_script : B2_Script ):
 					# basically, this just executes funciones on the fly.
 					var event_object : Node = get_node_from_name(all_nodes, parsed_line[1])
 					if event_object != null:
-						if not event_object.has_method("execute_event_user_" + parsed_line[2]):
+						if not event_object.has_method( "execute_event_user_" + parsed_line[2] ):
 							# node has no execute_event_user_n method. remember to add it
 							push_error( "Node %s has no execute_event_user_%s method. remember to add it" % [parsed_line[1],parsed_line[2]] )
 						else:

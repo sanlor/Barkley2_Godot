@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=3 uid="uid://cqll7bly11mei"]
+[gd_scene load_steps=151 format=3 uid="uid://cqll7bly11mei"]
 
 [ext_resource type="Texture2D" uid="uid://e8p2pvrclsu1" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaper_useNE.png" id="5_70k7c"]
 [ext_resource type="Texture2D" uid="uid://cp8fnesupksyy" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopz_diaper_stand.png" id="5_nlxlc"]
@@ -361,6 +361,26 @@ region = Rect2(132, 0, 44, 50)
 [sub_resource type="AtlasTexture" id="AtlasTexture_bjjeo"]
 atlas = ExtResource("12_x2017")
 region = Rect2(176, 0, 44, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_va5fn"]
+atlas = ExtResource("5_nlxlc")
+region = Rect2(88, 0, 44, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovq2g"]
+atlas = ExtResource("5_nlxlc")
+region = Rect2(44, 0, 44, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdhkm"]
+atlas = ExtResource("5_nlxlc")
+region = Rect2(0, 0, 44, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_naqh2"]
+atlas = ExtResource("5_nlxlc")
+region = Rect2(308, 0, 44, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ny04"]
+atlas = ExtResource("5_nlxlc")
+region = Rect2(264, 0, 44, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r1mqs"]
 atlas = ExtResource("5_nlxlc")
@@ -913,6 +933,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_va5fn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovq2g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdhkm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_naqh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ny04")
+}],
+"loop": true,
+"name": &"s_cts_hoopz_diaper_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r1mqs")
 }],
 "loop": true,
@@ -1122,6 +1162,7 @@ animations = [{
 
 [node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
 script = ExtResource("14_wfe3k")
+is_interactive = false
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -1129,7 +1170,7 @@ ActorCol = NodePath("ActorCol")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tm1vk")
-animation = &"stand_S"
+animation = &"s_cts_hoopz_diaper_stand"
 centered = false
 offset = Vector2(-22, -41)
 metadata/diaper_ground = {

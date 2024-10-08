@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://b3pbu6hnh6au4"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf02.gd" id="1_ijf72"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_ytp3j"]
+[ext_resource type="Texture2D" uid="uid://douhorufklcxy" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf02.png" id="4_4a7a5"]
+
+[sub_resource type="Resource" id="Resource_phroo"]
+script = ExtResource("2_ytp3j")
+original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_px117"]
+size = Vector2(20, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4iwr6"]
+atlas = ExtResource("4_4a7a5")
+region = Rect2(0, 0, 37, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ud35p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4iwr6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fct_deadDwarf02" type="CharacterBody2D"]
+script = ExtResource("1_ijf72")
+cutscene_script = SubResource("Resource_phroo")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_px117")
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ud35p")
+centered = false
+offset = Vector2(-21, -41)
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "36",
+"bbox_top": "0",
+"height": "55",
+"name": "s_fct_deadDwarf02",
+"width": "37",
+"xorig": "21",
+"yorigin": "41"
+}
