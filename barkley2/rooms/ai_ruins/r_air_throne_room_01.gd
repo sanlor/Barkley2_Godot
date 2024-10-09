@@ -8,12 +8,10 @@ func _ready() -> void:
 	_update_pathfind()
 	
 		
-	if create_camera_at_room_start:
-		_setup_camera()
-		
-	if create_player_scene_at_room_start:
-		await get_tree().process_frame
-		_setup_player_node()
+	if B2_RoomXY.this_room.is_empty():
+		if create_player_scene_at_room_start:
+			await get_tree().process_frame
+			_setup_camera( _setup_player_node() )
 		
 	if play_cinema_at_room_start:
 		#b2_cinema.setup_camera( b2_camera )

@@ -14,3 +14,11 @@ This section of the game contains a BUNCH of legacy code. It wasnt hard, but too
 # Stage 2 - FORGOTTEN.........FORSAKEN.........
 Recreate the Egg Room ONLY. Lay the groundwork for the tutorial. Make a cinematic system and dynamic dialog boxes.
 This is the real chalenge. Not easy to recreate the way stuff works on GML using Godot.
+
+# Stage 3 - TBD
+The work on the EggRoom laid the foundation for the restt of the project.
+Stage 3 will try to port the entire tutorial. It will be split in parts:
+
+- 3a - Port the r_fct_accessHall01 only
+- 3b - Port the r_fct_tutorialZone01 only (And add the ability to roll)
+- 3c - TBD

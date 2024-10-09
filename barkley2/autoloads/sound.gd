@@ -10,14 +10,6 @@ extends Node
 @warning_ignore("unused_variable")
 @onready var tim = Time.get_ticks_msec()
 
-var dsmSound = Dictionary() ## ds_map_create();
-var dslSoundRecent = Array() ##ds_list_create(); # original # debug
-var dsmSoundLength = Dictionary() ## ds_map_create();
-var dsmSoundOrphan = Dictionary() ## ds_map_create();
-var dsmSoundStream = Dictionary() ## ds_map_create();
-var dsmSoundVolume = Dictionary() ## ds_map_create();
-var dsmSoundMemory = Dictionary() ## ds_map_create();
-
 ## WARNING Modified this code
 var souCou = 0
 var musCou = 0
@@ -1730,11 +1722,6 @@ func _add_sound_pick(sound_key : String, sound_value : String):
 		# create key and init an empty array
 		sound_pick[sound_key] = []
 	
-	if not sound_bank.has( sound_value ):
-		# 1st time run: 400 warnings.
-		#push_warning("B2_Sound: %s sound effect is not loaded. It may be incorrect." % sound_value)
-		pass
-	
 	sound_pick[sound_key].append( sound_value )
 	
 func set_volume( raw_value : float ): # 0 - 100
@@ -1777,10 +1764,27 @@ func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1,
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 		
+func play_at(soundID : String, pos : Vector2, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer2D:
+	if sound_bank.has(soundID):
+		return queue_at(soundID, pos, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
+		
+	elif sound_pick.has(soundID): ## Fallback to soundpick
+		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
+		var soundVal : String = sound_pick[soundID].pick_random()
+		return queue_at(soundVal, pos, start_at, priority, loops, pitch)
+		
+	else: ## Invalid sound
+		push_warning("Invalid SoundID: ", soundID)
+		return AudioStreamPlayer2D.new()
+		
 func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
 	if sound_bank.has(soundID):
 		return queue(soundID, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
-	else:
+	elif sound_pick.has(soundID): ## Fallback to soundpick
+		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
+		var soundVal : String = sound_pick[soundID].pick_random()
+		return queue(soundVal, start_at, priority, loops, pitch)
+	else: ## Invalid sound
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 
@@ -1801,7 +1805,23 @@ func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1, pi
 	add_child(sfx)
 	sfx.play( start_at )
 	return sfx
-	#print("player ",sfx," added.")
+
+func queue_at(soundID : String, pos : Vector2, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer2D:
+	if sound_pool_directional.is_empty():
+		push_error("No audiostreen on the pool. This is CRITICAL!")
+		return AudioStreamPlayer2D.new()
+	var sfx : AudioStreamPlayer2D = sound_pool_directional.pop_back()
+	var sound := load( sound_bank[soundID] )
+	sfx.stream = sound
+	sfx.name = soundID + "_" + str(randi())
+	sfx.finished.connect( finished_playing_at.bind(sfx) )
+	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+	sfx.pitch_scale = pitch
+	## Loop Setup
+	sound_loop[sfx] = loops
+	
+	sfx.play( start_at )
+	return sfx
 
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):
@@ -1812,7 +1832,16 @@ func finished_playing( sfx : AudioStreamPlayer ):
 	sfx.finished.disconnect( finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )
-	#print("player ",sfx," removed.")
+
+func finished_playing_at( sfx : AudioStreamPlayer2D ):
+	if sound_loop.has(sfx):
+		sound_loop[sfx] -= 1
+		if sound_loop[sfx] > 0:
+			sfx.play()
+			return
+	sfx.finished.disconnect( finished_playing.bind(sfx) )
+	remove_child( sfx )
+	sound_pool_directional.push_back( sfx )
 
 func at( soundID, x, y, _z, _fallDist, _fallMax, _fallFactor, _loops, _priority ):
 	## Sound("at", 1 = soundID, 2 = x, 3 = y, 4 = z, 5 = fallDist, 6 = fallMax, 7 = fallFactor, 8 = loops, 9 = priority)

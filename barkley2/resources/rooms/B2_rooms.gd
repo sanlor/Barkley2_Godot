@@ -10,10 +10,12 @@ class_name B2_ROOMS
 @export var create_player_scene_at_room_start 	:= false
 @export var player_scene_pos 					:= Vector2.ZERO
 
+@export_category("Room")
+@export var collision_layer : TileMapLayer
+
 @export_category("Cinematics")
 @export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
-@export var create_camera_at_room_start := true 
 @export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
 @export var cutscene_script 			: B2_Script
 
@@ -25,6 +27,8 @@ var obstacles 			:= []
 
 func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
+	if is_instance_valid(collision_layer):
+		collision_layer.hide()
 
 func _update_obstacles():
 	var time := Time.get_ticks_usec()
@@ -108,7 +112,10 @@ func _setup_player_node():
 		b2_camera.position = player_scene_pos
 		
 	add_child( player )
+	return player
 	
-func _setup_camera():
+func _setup_camera( player ):
 	b2_camera = B2_Camera_Hoopz.new()
+	b2_camera.follow_player( player )
+	b2_camera.follow_mouse = true
 	add_child( b2_camera )

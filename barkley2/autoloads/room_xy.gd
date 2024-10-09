@@ -34,6 +34,7 @@ var room_array := [
 	# Actual rooms
 	"res://barkley2/rooms/factory/floor2/r_fct_accessHall01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
+	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
 	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn",
 ]
 var room_index := {}
@@ -97,8 +98,8 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	this_room_y 	= room_y
 	
 	tween = create_tween()
+	tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
-	#tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ) ) ) # load the player node.
 	
 	## Cleanup
 	tween.tween_callback( remove_child.bind( room_transition_layer ) )
@@ -134,10 +135,21 @@ func get_room_scene( room_name : String ):
 	room_scene = load( invalid_room ) as PackedScene
 	return 
 
-func add_player_to_room( pos : Vector2 ):
+func add_player_to_room( pos : Vector2, add_camera : bool ):
+	if this_room.is_empty():
+		push_error("Room name empty. Aborting player node creation.")
+		return
+		
 	var player_node := load( player_scene ).instantiate() as B2_Player
 	player_node.position = pos
-	get_tree().root.add_child( player_node, true )
+	get_tree().current_scene.add_child( player_node, true )
+	if add_camera:
+		var cam := B2_Camera_Hoopz.new()
+		get_tree().current_scene.add_child( cam, true )
+		cam.cinema_snap( pos )
+		cam.follow_player( player_node )
+		
+	print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
 
 func _process(_delta: float) -> void:
 	if is_loading_room:

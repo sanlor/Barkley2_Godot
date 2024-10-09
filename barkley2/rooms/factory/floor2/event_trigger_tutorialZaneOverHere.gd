@@ -11,6 +11,7 @@ var activated := false
 
 func _ready() -> void:
 	get_parent().is_interactive = false
+	_on_timer_timeout()
 
 func trigger_action( node ) -> void:
 	if activated: # run only once

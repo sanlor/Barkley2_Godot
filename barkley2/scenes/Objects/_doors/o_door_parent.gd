@@ -55,6 +55,9 @@ func _door_open( _instant := false ):
 			stop()
 			animation = door_open_anim_name
 			frame = sprite_frames.get_frame_count(door_open_anim_name) - 1
+			
+			if not sfx_open.is_empty():
+				add_child( B2_Sound.play_at( sfx_open, global_position ) )
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_open_anim_name )
 	
@@ -72,6 +75,9 @@ func _door_close( _instant := false ):
 			stop()
 			animation = door_close_anim_name
 			frame = sprite_frames.get_frame_count(door_close_anim_name) -1 
+			
+			if not sfx_close.is_empty():
+				add_child( B2_Sound.play_at( sfx_close, global_position ) )
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_close_anim_name )
 

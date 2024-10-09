@@ -37,14 +37,19 @@ func lets_goooo():
 	var changes := 0
 	print("Writing changes to scene.")
 	for c : Marker2D in cinemaspots:
-		var c_spot := B2_CinemaSpot.new()
-		var n_name : String = c.name.split(" - ", false, 1)[ 1 ]
+		var c_spot 	:= B2_CinemaSpot.new()
+		var n_name 	: String = c.name.split(" - ", false, 1)[ 1 ]
+		var n_pos	:= c.global_position
+		
+		for meta : String in c.get_meta_list():
+			c_spot.set_meta( meta, c.get_meta(meta) )
 		
 		c_spot.cinema_id = int( n_name.trim_prefix("o_cinema") )
 		
 		c.replace_by( c_spot )
 		c_spot.owner = get_parent()
 		c_spot.name = n_name
+		c_spot.global_position = n_pos
 		changes += 1
 		
 	print("Finished. %s changes made." % str(changes) )
