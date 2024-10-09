@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://c17k3wqk8j2py"]
+
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_6q7oy"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.gd" id="2_au0ib"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c7e4q"]
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 3
+anti_aliasing = false
+
+[node name="o_entity_indicatorGossip" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 144.0
+offset_bottom = 40.0
+script = ExtResource("2_au0ib")
+
+[node name="gossip_panel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -19.4161
+offset_right = 72.0
+offset_bottom = 20.5839
+theme = ExtResource("1_6q7oy")
+theme_override_styles/panel = SubResource("StyleBoxFlat_c7e4q")
+
+[node name="CenterContainer" type="CenterContainer" parent="gossip_panel"]
+layout_mode = 2
+
+[node name="gossip_text" type="Label" parent="gossip_panel/CenterContainer"]
+modulate = Color(1, 0.745, 0.745, 0.85)
+layout_mode = 2
+text = "Gossip"

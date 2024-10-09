@@ -5,11 +5,12 @@ class_name B2_DOOR_PARENT
 @export_category("Setup Door")
 @export var door_block: 	StaticBody2D
 @export var door_sensor: 	Area2D
+@export var door_name 		:= "door";
 
 var imgInd = 0;
 var imgNum = 0;
 var image_speed = 0;
-var door_name = "door";
+
 var timer_door_lock = 0;
 var timer_door_unlock = 0;
 var timer_door_lock_instant = 0;

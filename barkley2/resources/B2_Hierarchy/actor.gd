@@ -66,13 +66,14 @@ signal destination_reached
 signal set_played
 @export_category("Actor Stuff")
 @export var ActorAnim 		: AnimatedSprite2D
+@export var flip_h			:= false
 @export var has_collision 	:= true
 @export var ActorCol 		: CollisionShape2D
 
 # True if the sprite is using automatic animations (like when it is moving), or false otherwise.
-@export var _automatic_animation 	:= false; ## Start playing a animation during room load
+@export var _automatic_animation 	:= false; ## Start playing a animation during room load ## CRITICAL ## it overrides any animations set on _ready().
 # The animation to use if automatic animation isn't true. 
-@export var _current_animation 		:= "default" ## What animation should blay at room load?
+@export var _current_animation 		:= "default" ## What animation should blay at room load? ## CRITICAL ## it overrides any animations set on _ready().
 
 var is_moving 		:= false
 var is_playingset 	:= false
@@ -119,6 +120,10 @@ func play_animations():
 			ActorAnim.play(_current_animation)
 		else:
 			push_warning( "%s has no animation called %s." % [ name, _current_animation ] )
+	
+	# try to run this as late as possible
+	#await ActorAnim.ready
+	ActorAnim.flip_h = flip_h
 
 func cinema_set( _sprite_frame : String ):
 	if is_moving:
@@ -216,7 +221,7 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 			is_moving 			= true
 			movement_vector 	= position.direction_to( destination ).sign()
 			
-			ActorCol.disabled = true # Disable collision while moving
+			ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
 
 		else:
 			push_error("Parent does not have the 'get_astar_path' function. It should.")
@@ -357,7 +362,8 @@ func _physics_process(delta: float) -> void:
 				velocity = Vector2.ZERO
 				position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
 				
-				ActorCol.disabled = false # Reenable the collision.
+				#ActorCol.disabled = false 						# Reenable the collision.
+				ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
 				ActorAnim.animation = ANIMATION_STAND
 				ActorAnim.stop()
 				

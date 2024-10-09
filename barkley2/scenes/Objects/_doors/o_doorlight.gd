@@ -2,7 +2,11 @@
 extends AnimatedSprite2D
 # Base class for doorlight directions.
 @export var enabled			:= true
-@export var show_door_light := false
+@export var show_door_light := false:
+	set(b):
+		show_door_light = b
+		if Engine.is_editor_hint():
+			_update_sprite()
 
 # the original code does a lot of fancy stuff. I think im going to rewrite almost everything.
 
@@ -97,9 +101,9 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			
-			teleport_activation_area.rotation = 0
-			push_area.rotation = 0
+			if not Engine.is_editor_hint():
+				teleport_activation_area.rotation = 0
+				push_area.rotation = 0
 			
 		DOOR_TYPE.DOWN:
 			animation = "s_doorlight_ud"
@@ -107,8 +111,9 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, -44 )
 			frame = door_size
-			teleport_activation_area.rotation = 0
-			push_area.rotation = 0
+			if not Engine.is_editor_hint():
+				teleport_activation_area.rotation = 0
+				push_area.rotation = 0
 			
 		DOOR_TYPE.LEFT:
 			animation = "s_doorlight_lr"
@@ -116,8 +121,9 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			teleport_activation_area.rotation = deg_to_rad(90)
-			push_area.rotation = deg_to_rad(90)
+			if not Engine.is_editor_hint():
+				teleport_activation_area.rotation = deg_to_rad(90)
+				push_area.rotation = deg_to_rad(90)
 			
 		DOOR_TYPE.RIGHT:
 			animation = "s_doorlight_lr"
@@ -125,12 +131,14 @@ func _update_sprite():
 			flip_h = true
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			teleport_activation_area.rotation = deg_to_rad(90)
-			push_area.rotation = deg_to_rad(90)
-	
-	light_activation_area.position 		= light_activation_offset[type]
-	teleport_activation_area.position 	= teleport_activation_offset[type]
-	push_area.position 					= push_area_offset[type]
+			if not Engine.is_editor_hint():
+				teleport_activation_area.rotation = deg_to_rad(90)
+				push_area.rotation = deg_to_rad(90)
+				
+	if not Engine.is_editor_hint():
+		light_activation_area.position 		= light_activation_offset[type]
+		teleport_activation_area.position 	= teleport_activation_offset[type]
+		push_area.position 					= push_area_offset[type]
 
 func push_player( body : B2_Player, delta : float ):
 	var push_vector := Vector2.ZERO

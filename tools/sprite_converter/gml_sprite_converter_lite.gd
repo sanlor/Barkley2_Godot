@@ -36,7 +36,6 @@ enum TYPE{ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
 	set(b):
 		lets_goooo()
 		
-
 var animatedsprite 	: AnimatedSprite2D
 var spr_frames		: SpriteFrames
 
@@ -63,7 +62,8 @@ func lets_goooo():
 		TYPE.ENVIRON:
 			object = B2_Environ.new()
 		TYPE.ENVIRONSOLID:
-			pass
+			object = B2_EnvironSolid.new()
+			object.shape = collision_shape
 		TYPE.ENVIRONSEMISOLID:
 			object = B2_EnvironSemisolid.new()
 			object.shape = collision_shape
