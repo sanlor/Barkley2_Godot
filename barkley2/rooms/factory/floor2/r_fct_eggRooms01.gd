@@ -29,6 +29,6 @@ func _ready() -> void:
 		B2_Playerdata.Quest("dropEnabled", 		0);
 		B2_Playerdata.Quest("infiniteAmmo", 	1);
 		
-		_setup_camera()
+		_setup_camera( null )
 		o_room_dream_filter.play_blink()
 		B2_Cinema.play_cutscene( cutscene_script, self )

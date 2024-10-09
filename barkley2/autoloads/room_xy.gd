@@ -90,7 +90,8 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 		await get_tree().create_timer( fade_delay ).timeout
 	
 	await get_room_scene( room_name ) 						# Load the next room
-	get_tree().change_scene_to_packed(room_scene)		# change the current room
+	get_tree().change_scene_to_packed( room_scene )		# change the current room
+	await get_tree().process_frame
 	
 	# save destination data
 	this_room 		= room_name

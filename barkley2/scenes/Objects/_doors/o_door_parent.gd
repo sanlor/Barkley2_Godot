@@ -6,6 +6,7 @@ class_name B2_DOOR_PARENT
 @export var door_block: 	StaticBody2D
 @export var door_sensor: 	Area2D
 @export var door_name 		:= "door";
+@export var sound_emiter	: AudioStreamPlayer2D
 
 var imgInd = 0;
 var imgNum = 0;
@@ -23,7 +24,7 @@ var check_for = "PlayerCombatActor";
 @export var draw_door 		:= true;
 
 @export var opening_range 	:= 24.0;
-@export var opening_speed 	:= 6.0;
+@export var opening_speed 	:= 12.0;
 
 @export var sfx_open 		:= "";
 @export var sfx_close 		:= "";
@@ -57,7 +58,11 @@ func _door_open( _instant := false ):
 			frame = sprite_frames.get_frame_count(door_open_anim_name) - 1
 			
 			if not sfx_open.is_empty():
-				add_child( B2_Sound.play_at( sfx_open, global_position ) )
+				if sound_emiter.playing:
+					sound_emiter.stop()
+				var audio_track = B2_Sound.get_sound( sfx_open )
+				sound_emiter.stream = ResourceLoader.load( audio_track, "AudioStream" )
+				sound_emiter.play()
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_open_anim_name )
 	
@@ -77,7 +82,11 @@ func _door_close( _instant := false ):
 			frame = sprite_frames.get_frame_count(door_close_anim_name) -1 
 			
 			if not sfx_close.is_empty():
-				add_child( B2_Sound.play_at( sfx_close, global_position ) )
+				if sound_emiter.playing:
+					sound_emiter.stop()
+				var audio_track = B2_Sound.get_sound( sfx_close )
+				sound_emiter.stream = ResourceLoader.load( audio_track, "AudioStream" )
+				sound_emiter.play()
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_close_anim_name )
 

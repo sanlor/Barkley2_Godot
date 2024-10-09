@@ -97,11 +97,13 @@ func _ready():
 	character_dropdown_favorites.resize( 7 )
 	character_multiple.resize(44)
 
+	## Quest flags overrides
+	Quest("zaneState", 1)
+	
 ## This func replaces the Quests script.
 # /// Quest(name, value?);
 # // Quest("myQuest") - Returns value of myQuest
 # // Quest("myQuest", 1) - Sets value of myQuest
-
 func Quest(key : String, value = null, default = null):
 	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;

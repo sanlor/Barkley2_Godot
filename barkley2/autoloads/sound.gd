@@ -29,26 +29,24 @@ var sound_bank := {} ## all sounds that the game has.
 var sound_pick := {} ## Allow for multipls sounds for the same effect (Like footsteps having random sounds each step)
 
 var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
-var sound_pool_directional 	:= [] ## a whole bunch of AudioStreamPlayer2D, to enable far away sounds and such.
 var sound_pool_amount 		:= 25
 
 var sound_loop				:= {} ## Keep track of the loops
 
+## All SFX files are loaded on an array for easy lookup
 func _init_sound_banks():
 	# https:##gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
+	# https://godotengine.org/asset-library/asset/1974
 	## Load audio tracks (SFX)
-	var _audio_folder := DirAccess.open( audio_folder )
-	for folder in _audio_folder.get_directories():
-		var _folder := DirAccess.open( audio_folder + "/" + folder ) # Recursive search
-		for file in  _folder.get_files():
-			if not file.begins_with("sn_"): # only allow sn_ prefix music
-				continue
-			if file.ends_with(".import"): # ignore godot files
-				sound_bank[ file.trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str(audio_folder + folder + "/" + file.replace(".import",""))
-
+	var audio_files : Array = FileSearch.search_dir(audio_folder, "", true)
+	for file : String in audio_files:
+		if file.ends_with(".import"):
+			var file_split : Array = file.rsplit("/", false, 1)
+			sound_bank[ file_split.back().trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str( file.trim_suffix(".import") )
 	print("_init_sound_banks() ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries")
 	
 # Im lazy, I just copy/pasted and replaced the invalid strings.
+## Copy of the original hack. Enables "nicknames" for sfx files.
 func _init_sound_picks():
 	#region Madness
 	## SEWER STEAM ##
@@ -1738,10 +1736,21 @@ func _ready():
 	
 	for i in sound_pool_amount:
 		sound_pool.append( 					AudioStreamPlayer.new() 	)
-		sound_pool_directional.append( 		AudioStreamPlayer2D.new() 	)
 		
-	print("Sound: sound_pool: x", sound_pool.size(), " - sound_pool_directional: x", sound_pool_directional.size())
+	print( "Sound: sound_pool: x", sound_pool.size() )
+	print( "Sound: sound_bank entries: %s. sound_pick entries: %s." % [ sound_bank.size(), sound_pick.size() ] )
 
+## used for Positional sounds.
+func get_sound(soundID : String) -> String:
+	if sound_bank.has(soundID):
+		return sound_bank[soundID]
+	elif sound_pick.has(soundID): ## Fallback to soundpick
+		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
+		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
+		return get_sound(soundVal) ## NOTE We looping, bitch
+	else:
+		return ""
+	
 ## stop the player from playing, emit a signal to force a graceful stop
 ## You can also do some fancy stuff, like fading aout the audio before stopping it.
 func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0): 
@@ -1757,38 +1766,26 @@ func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0):
 func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
 	if sound_pick.has(soundID):
 		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
-		var soundVal : String = sound_pick[soundID].pick_random()
-		#print(soundVal) ## DEBUG
+		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
 		return play(soundVal, start_at, priority, loops, pitch)
 	else:
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 		
-func play_at(soundID : String, pos : Vector2, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer2D:
-	if sound_bank.has(soundID):
-		return queue_at(soundID, pos, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
-		
-	elif sound_pick.has(soundID): ## Fallback to soundpick
-		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
-		var soundVal : String = sound_pick[soundID].pick_random()
-		return queue_at(soundVal, pos, start_at, priority, loops, pitch)
-		
-	else: ## Invalid sound
-		push_warning("Invalid SoundID: ", soundID)
-		return AudioStreamPlayer2D.new()
-		
 func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
 	if sound_bank.has(soundID):
-		return queue(soundID, start_at, priority, loops, pitch) # 0 # audio_play_sound(soundID, priority, loops); ## TODO Port this script / function
+		return queue(soundID, start_at, priority, loops, pitch)
+		
 	elif sound_pick.has(soundID): ## Fallback to soundpick
 		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
-		var soundVal : String = sound_pick[soundID].pick_random()
-		return queue(soundVal, start_at, priority, loops, pitch)
+		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
+		return play(soundVal, start_at, priority, loops, pitch) ## NOTE We looping, bitch
+		
 	else: ## Invalid sound
 		push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 
-func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
+func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0 ) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
 		push_error("No audiostreen on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
@@ -1806,23 +1803,6 @@ func queue(soundID : String, start_at := 0.0, _priority := false, loops := 1, pi
 	sfx.play( start_at )
 	return sfx
 
-func queue_at(soundID : String, pos : Vector2, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer2D:
-	if sound_pool_directional.is_empty():
-		push_error("No audiostreen on the pool. This is CRITICAL!")
-		return AudioStreamPlayer2D.new()
-	var sfx : AudioStreamPlayer2D = sound_pool_directional.pop_back()
-	var sound := load( sound_bank[soundID] )
-	sfx.stream = sound
-	sfx.name = soundID + "_" + str(randi())
-	sfx.finished.connect( finished_playing_at.bind(sfx) )
-	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
-	sfx.pitch_scale = pitch
-	## Loop Setup
-	sound_loop[sfx] = loops
-	
-	sfx.play( start_at )
-	return sfx
-
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):
 		sound_loop[sfx] -= 1
@@ -1832,132 +1812,3 @@ func finished_playing( sfx : AudioStreamPlayer ):
 	sfx.finished.disconnect( finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )
-
-func finished_playing_at( sfx : AudioStreamPlayer2D ):
-	if sound_loop.has(sfx):
-		sound_loop[sfx] -= 1
-		if sound_loop[sfx] > 0:
-			sfx.play()
-			return
-	sfx.finished.disconnect( finished_playing.bind(sfx) )
-	remove_child( sfx )
-	sound_pool_directional.push_back( sfx )
-
-func at( soundID, x, y, _z, _fallDist, _fallMax, _fallFactor, _loops, _priority ):
-	## Sound("at", 1 = soundID, 2 = x, 3 = y, 4 = z, 5 = fallDist, 6 = fallMax, 7 = fallFactor, 8 = loops, 9 = priority)
-	if check( soundID, floor( x / 32) * 32, floor( y / 32) * 32) == 0:
-		# audio_sound_gain_ext(argument[1],1,0);  ## TODO Port this script / function
-		return 0 # audio_play_sound_at(argument[1], argument[2], argument[3], argument[4], argument[5], argument[6], argument[7], argument[8], argument[9]);  ## TODO Port this script / function
-	else:
-		return -1;
-
-func on(_emitterID, soundID, _loops, _priority):
-	## Sound("on", 1 = emitterID, 2 = soundID, 3 = loops, 4 = priority)
-	# if check( soundID, audio_emitter_get_x( emitterID ), audio_emitter_get_y( emitterID ) == 0): ## TODO Port this script / function
-	if check( soundID, 0, 0 == 0):
-		# audio_sound_gain_ext(emitterID, 1, 0); ## TODO Port this script / function
-		return 0 #audio_play_sound_on( emitterID, soundID, loops, priority ); ## TODO Port this script / function
-	else:
-		return -1;
-
-
-func step():
-	## Clear sound history
-	## TODO Figure out what this does. Until them, is disabled.
-	# Looks like some kind of timer for sfx. 
-	#for (var _s = 0; _s < ds_list_size(var soundPlayed); _s += 1):
-	for _s in soundPlayed.size() - 1:
-		#var _v = soundHealth.find(_s);
-		#_v -= get_process_delta_time();
-		#if (_v <= 0):
-			#ds_list_delete(var soundPlayed, _s);
-			#ds_list_delete(var soundHealth, _s);
-			#_s -= 1;
-		#else:
-			#ds_list_replace(var soundHealth, _s, _v);
-		pass
-
-func check(soundID, x, y):
-	# original # Check if this sound has been played too recently
-	# original # Sound("check", 1 = soundID, 2 = x, 3 = y)
-	var _st = str( soundID ) + "=" + str( floor( x )) + "x" + str( floor( y ) );
-	if soundPlayed.find( _st ) != -1 :
-		# original #show_debug_message("Sound('check') - Stopped " + string(_st) + " from playing to prevent sound overlap.");
-		return 1;
-	else:
-		# original #show_debug_message("Sound('check') - Played " + string(_st) + " and added to list.");
-		soundPlayed.append(_st);
-		soundHealth.append(0.05);
-		return 0;
-
-func scr_sound_init():
-	print("scr_sound_init(): Begin...") # show_debug_message("scr_sound_init(): Begin...");
-	
-	## WARNING Disabled this code. No idea what it does.
-	## I think it load some files from a json file and store it on dictionaries.
-
-	#var dirQue = ds_queue_create();
-	#ds_queue_enqueue(dirQue, "_audio");
-	#while (!ds_queue_empty(dirQue)) 
-	#{  
-		#dirNam = ds_queue_dequeue(dirQue);    # original # Search all files and subdirectories under the directory.    
-		#filNam = file_find_first(dirNam + '\*', fa_directory);    
-		#while (filNam != "") 
-		#{        
-			#pthNam = dirNam + "\" + filNam;
-			## original #show_debug_message("scr_sound_init(): Searching " + pthNam);
-			## original #show_debug_message("scr_sound_init(): isDirectory = " + string(file_attributes(pthNam, fa_directory)));
-			## original #filename_ext(filNam) == "")
-			#if (directory_exists(pthNam)) # original #file_attributes(pthNam, fa_directory))
-			#{
-				#if (filNam != "." && filNam != "..")
-				#{
-					#ds_queue_enqueue(dirQue, pthNam);
-					## original #show_debug_message("scr_sound_init(): Added " + pthNam + " to search queue..."); 
-				#}
-			#}        
-			#else if (filename_ext(filNam) == ".ogg") # original # Streamed sound
-			#{       
-				#sndNam = string_replace(filename_name(filNam), ".ogg", "");
-				#ds_map_add(var dsmSound, sndNam, audio_create_stream(pthNam));
-				#ds_map_add(var dsmSoundLength, sndNam, 0); # original # Cannot calulate length for music files
-				#ds_map_add(var dsmSoundOrphan, sndNam, 1);
-				#ds_map_add(var dsmSoundStream, sndNam, 1);
-				#ds_map_add(var dsmSoundVolume, sndNam, 1);
-				#ds_map_add(var dsmSoundMemory, sndNam, 0);
-				#musCou += 1;
-				## original #show_debug_message("scr_sound_init(): Music from " + pthNam + " as " + filNam);       
-			#}
-			#else if (filename_ext(filNam) == ".wav") # original # Streamed sound
-			#{
-				#off = 44;
-				#buf = buffer_load(pthNam);
-				#siz = buffer_get_size(buf) - off;
-				#sizTot += siz;
-				#sndBuf = audio_create_buffer_sound(buf, buffer_s16, 44100, off, siz, audio_mono);
-				#sndNam = string_replace(filename_name(filNam), ".wav", "");
-				#ds_map_add(var dsmSound, sndNam, sndBuf);
-				#ds_map_add(var dsmSoundLength, sndNam, siz / (44100 * 2));
-				#ds_map_add(var dsmSoundOrphan, sndNam, 1);
-				#ds_map_add(var dsmSoundStream, sndNam, 0);
-				#ds_map_add(var dsmSoundVolume, sndNam, 1);
-				#ds_map_add(var dsmSoundMemory, sndNam, siz / 1024);
-				#souCou += 1;
-				## original #show_debug_message("scr_sound_init(): Sound from " + pthNam + " as " + filNam); 
-			#}
-			#else # original # Unrecognized
-			#{
-				## original #show_debug_message("scr_sound_init(): Unrecognized file " + pthNam + " in Audio folder."); 
-			#}
-			#filNam = file_find_next();    
-		#}    
-		#file_find_close();
-	#}
-	#ds_queue_destroy(dirQue);
-	## show_debug_message("scr_sound_init(): End. " + string(musCou) + " streamed files, " + string(souCou) + " loaded files, " + string(musCou + souCou) + " total files. Took " + string((get_timer() - _tim) / 1000) + "ms. Occupying " + string(sizTot / 1024 / 1024) + "Mb of memory.");
-
-	# original #/ Load volume from sound.json
-	# scr_sound_load();
-	
-func scr_sound_load():
-	pass

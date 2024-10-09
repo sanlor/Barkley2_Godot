@@ -126,6 +126,7 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		
 		return new_text
 
+## Function return the index for each space (" ") in the text.
 static func get_delays( text : String ) -> PackedInt32Array:
 	var delay_array := PackedInt32Array()
 	var search_point := 0

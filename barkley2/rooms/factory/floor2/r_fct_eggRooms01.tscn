@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=4 uid="uid://bpqbvhnpep8qn"]
+[gd_scene load_steps=48 format=4 uid="uid://bpqbvhnpep8qn"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.gd" id="3_4xgyf"]
 [ext_resource type="Texture2D" uid="uid://80jra3eay55w" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_eggroom01.png" id="3_6mugb"]
@@ -15,6 +15,12 @@
 [ext_resource type="PackedScene" uid="uid://dgyfcwaljmgpr" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_ovum_charger_hoopz_01.tscn" id="10_v6vq4"]
 [ext_resource type="PackedScene" uid="uid://1aq7m48ws8pm" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_zane01.tscn" id="11_0mnpt"]
 [ext_resource type="PackedScene" uid="uid://dcxil7hm04e2y" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_jhodfrey01.tscn" id="12_67lku"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="14_1ebox"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="15_r1ubq"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="16_qps75"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="17_nu8xg"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="18_qvihp"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="19_no3xi"]
 [ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="27_y8y08"]
 [ext_resource type="PackedScene" uid="uid://drxfl81qdglq8" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.tscn" id="28_amrrk"]
 [ext_resource type="Script" path="res://barkley2/scenes/_map/Collisions/o_solid.gd" id="30_q0soo"]
@@ -24,9 +30,7 @@ script = ExtResource("5_3x34e")
 original_script = "IF gameStart == 1 | GOTO | EGG
 
 EGG
-\" +
 //TODO: play sound of egg cracking and water rushing out
-\"
 FADE   | 1 | 0
 LOOK   | o_zane01 | SOUTHWEST
 SET    | o_cts_hoopz | diaper_ground
@@ -5638,6 +5642,92 @@ texture = ExtResource("4_o6463")
 sources/0 = SubResource("TileSetAtlasSource_t148o")
 sources/1 = SubResource("TileSetAtlasSource_xkwkt")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
+atlas = ExtResource("18_qvihp")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
+atlas = ExtResource("18_qvihp")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
+atlas = ExtResource("18_qvihp")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
+atlas = ExtResource("18_qvihp")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
+atlas = ExtResource("19_no3xi")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
+atlas = ExtResource("19_no3xi")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
+atlas = ExtResource("19_no3xi")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
+atlas = ExtResource("19_no3xi")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_1ebox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_r1ubq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_qps75")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_nu8xg")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bdykh"]
 atlas = ExtResource("9_5uj7i")
 region = Rect2(0, 0, 37, 54)
@@ -5771,6 +5861,7 @@ position = Vector2(144, 304)
 
 [node name="P2 - o_doorlight_down" parent="." instance=ExtResource("27_y8y08")]
 position = Vector2(224, 1792)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 flip_h = false
 flip_v = true
@@ -5785,6 +5876,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="P3 - o_doorlight_down" parent="." instance=ExtResource("27_y8y08")]
 position = Vector2(224, 1072)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 flip_h = false
 flip_v = true
@@ -5799,6 +5891,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="P18 - o_doorlight_down" parent="." instance=ExtResource("27_y8y08")]
 position = Vector2(224, 336)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 flip_h = false
 flip_v = true

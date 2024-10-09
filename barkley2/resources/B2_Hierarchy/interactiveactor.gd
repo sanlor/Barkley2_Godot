@@ -52,6 +52,7 @@ func _enter_tree() -> void:
 			## Lazy X3 - Forgot to set on the Export.
 			mouse_detection_area = get_node("ActorInteract")
 			
+		await get_tree().process_frame
 		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered)
 		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited)
 		
@@ -66,6 +67,8 @@ func _enter_tree() -> void:
 	ready.connect( post_ready )
 	
 func post_ready() -> void:
+	
+		
 	adjust_sprite_offset()
 	
 func _input(event: InputEvent) -> void:

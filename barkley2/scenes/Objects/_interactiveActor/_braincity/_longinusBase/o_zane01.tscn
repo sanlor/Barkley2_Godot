@@ -1,10 +1,12 @@
-[gd_scene load_steps=36 format=3 uid="uid://1aq7m48ws8pm"]
+[gd_scene load_steps=37 format=3 uid="uid://1aq7m48ws8pm"]
 
 [ext_resource type="Texture2D" uid="uid://bey7je8uedwn2" path="res://barkley2/assets/b2_original/images/merged/s_zaneHeadBlast01.png" id="1_6j6h7"]
 [ext_resource type="Texture2D" uid="uid://bfp63nk0mqhwp" path="res://barkley2/assets/b2_original/images/merged/s_zane01.png" id="2_8bss3"]
 [ext_resource type="Texture2D" uid="uid://b34aj43rc5kk3" path="res://barkley2/assets/b2_original/images/merged/s_zaneDOWN01.png" id="3_qr1ep"]
 [ext_resource type="Texture2D" uid="uid://bxhlejv0jbxyk" path="res://barkley2/assets/b2_original/images/merged/s_zaneUP01.png" id="4_ufc3t"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_zane01.gd" id="5_tiq7o"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3mjok"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nj0vb"]
 atlas = ExtResource("1_6j6h7")
@@ -245,8 +247,10 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3mjok")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_pdvrn")
 centered = false
 offset = Vector2(-17, -39)

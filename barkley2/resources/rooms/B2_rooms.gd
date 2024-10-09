@@ -116,6 +116,7 @@ func _setup_player_node():
 	
 func _setup_camera( player ):
 	b2_camera = B2_Camera_Hoopz.new()
-	b2_camera.follow_player( player )
-	b2_camera.follow_mouse = true
+	if not player == null:
+		b2_camera.follow_player( player as B2_Player )
+		b2_camera.follow_mouse = true
 	add_child( b2_camera )

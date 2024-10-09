@@ -76,16 +76,16 @@ var textbox_blink_cooldown 	:= 0.04 	#0.04;
 
 var comma_pause 			:= 0.10 			#0.1
 var period_pause 			:= 0.20 			#0.5
-var dash_pause 				:= 0.20 				#0.2
+var dash_pause 				:= 0.20 			#0.2
 var question_pause 			:= 0.40 			#0.5 ## Added by me, not on the original.
-var exclamation_pause 		:= 0.40 		#0.5 ## Added by me, not on the original.
+var exclamation_pause 		:= 0.40 			#0.5 ## Added by me, not on the original.
 
-var normal_typing 	:= 2.0			#1.0
-var fast_typing 	:= 0.0
+var normal_typing 			:= 1.5			#1.0
+var fast_typing 			:= 0.0
 var curr_typing_speed := normal_typing
 
-var return_sprite_time := 0.2		#0.2
-var return_sprite_cooldown := 0.2	#0.2
+var return_sprite_time 		:= 0.2		#0.2
+var return_sprite_cooldown 	:= 0.2	#0.2
 
 var type_timer := 0.0
 var can_type := false
@@ -299,7 +299,6 @@ func _type_next_letter(delta):
 		var add_wait := 0.0
 		
 		var curr_char : String = text_node.get_parsed_text() [ text_node.visible_characters ]
-		#print(text_node.get_parsed_text().length())
 		is_typing = true
 		
 		if text_delays.has( text_node.visible_characters ):
@@ -372,7 +371,7 @@ func handle_input():
 		B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 		#print("Skipped text")
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 		

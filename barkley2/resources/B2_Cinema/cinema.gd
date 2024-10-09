@@ -30,6 +30,9 @@ extends CanvasLayer
 signal created_new_fade
 signal set_interactivity(enabled : bool)
 
+signal event_started
+signal event_ended
+
 # used for the "CREATE" event
 ## NOTE need a dynamic way to load these.
 var object_map := {
@@ -137,6 +140,8 @@ func end_cutscene():
 	B2_Input.player_follow_mouse.emit( true )
 	B2_Input.camera_follow_mouse.emit( true )
 	
+	event_ended.emit() # Peace out.
+	
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
@@ -152,6 +157,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	
 	B2_Input.player_follow_mouse.emit( false )
 	B2_Input.camera_follow_mouse.emit( false )
+	
+	event_started.emit()
 	
 	camera.set_safety( false )
 	
@@ -170,7 +177,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	if cutscene_script is B2_Script_Legacy:
 		print_rich("[color=pink]Started Cinema() Script.[/color]")
 		# Split the script into separate lines
-		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", false )
+		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", true )
 		var script_size 	:= split_script.size()
 		var curr_line 		:= 0
 		var loop_finished 	:= true
@@ -183,6 +190,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				break # exit the loop
 				
 			var line : String = split_script[ curr_line ]
+			
+			if line.is_empty():
+				push_warning("Empty line. I THINK this means end of event.")
+				loop_finished = true
+				break # exit the loop
 			
 			if line.begins_with('"'):
 				# skip legacy "stuff"
@@ -217,6 +229,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					var found_label := false
 					for j in script_size:
 						var new_line : String = split_script[ j ]
+						if new_line.is_empty():
+							## Empty line, carry on.
+							continue
 						var possible_label : String = cleanup_line( new_line ) [0] # Labels are always on the front
 						if target_label == possible_label:
 							# found the "label". jump to that line
@@ -267,7 +282,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_name )
 					else:
 						dialogue.set_portrait( parsed_line[1].strip_edges(true,true), true )
-						dialogue.set_text( parsed_line[2].strip_edges(true,true) )
+						dialogue.set_text( parsed_line[2].strip_edges(true,true), parsed_line[1].strip_edges(true,true) )
 						
 					await dialogue.display_dialog()
 					dialogue.queue_free()
@@ -464,7 +479,7 @@ func parse_if( line : String ) -> bool:
 	var cond_value 	: int 			= int( condidion_line[ 3 ] )
 	
 	# this should return false (if quest var is invalid) or some value.
-	var quest_var = B2_Playerdata.Quest( str_var, null )
+	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
 	if not quest_var is bool:
 		match comparator:
 			"==":
@@ -488,9 +503,13 @@ func Cinema_process():
 func get_node_from_name( _array, _name ) -> Node:
 	var node : Node
 	for item in _array:
-		if item is Node:
-			if item.name == _name:
-				node = item
+		if is_instance_valid(item):
+			if item is Node:
+				if item.name == _name:
+					node = item
+					break
+		else:
+			push_warning("Ops, invalid node on the array.")
 	return node
 	
 func Misc( parsed_line :PackedStringArray ):

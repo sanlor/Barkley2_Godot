@@ -269,7 +269,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
 
-[node name="o_door_tech01" type="AnimatedSprite2D" node_paths=PackedStringArray("door_block", "door_sensor")]
+[node name="o_door_tech01" type="AnimatedSprite2D" node_paths=PackedStringArray("door_block", "door_sensor", "sound_emiter")]
 z_index = -5
 sprite_frames = SubResource("SpriteFrames_rjstm")
 animation = &"door_open"
@@ -278,6 +278,7 @@ offset = Vector2(0, -63)
 script = ExtResource("1_0hoer")
 door_block = NodePath("door_block")
 door_sensor = NodePath("door_sensor")
+sound_emiter = NodePath("AudioStreamPlayer2D")
 sfx_open = "door_open_tech"
 sfx_close = "door_close_tech"
 
@@ -315,3 +316,5 @@ size_flags_horizontal = 4
 text = "Locked"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

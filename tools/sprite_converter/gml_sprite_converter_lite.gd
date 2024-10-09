@@ -94,6 +94,7 @@ func lets_goooo():
 		else:
 			add_sibling( animatedsprite, true )
 			animatedsprite.name = target_name + "_Placeholder"
+			animatedsprite.set_owner( get_parent() )
 		
 	#var sprite_data := animatedsprite.get_meta( "default" ) as Dictionary
 	animatedsprite.centered = false
