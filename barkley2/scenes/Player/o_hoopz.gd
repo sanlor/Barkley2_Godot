@@ -113,10 +113,10 @@ func _physics_process(delta: float) -> void:
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:
 				## Player has influence over this node
-				if Input.is_action_just_pressed("Holster"):
+				if Input.is_action_just_pressed("Holster") and can_shoot:
 					curr_STATE = STATE.AIM
 					
-				if Input.is_action_just_released("Holster"):
+				if Input.is_action_just_released("Holster"): # and can_shoot:
 					curr_STATE = STATE.NORMAL
 				
 				if Input.is_action_just_pressed("Roll") and can_roll:
