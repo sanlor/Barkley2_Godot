@@ -1,0 +1,118 @@
+[gd_scene load_steps=17 format=3 uid="uid://bj15lfjd77t4"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_akiraBulb.gd" id="1_ls3ps"]
+[ext_resource type="Texture2D" uid="uid://caubnih3c0ej7" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraTube01.png" id="2_bv55y"]
+[ext_resource type="Texture2D" uid="uid://dafxbby5bplxa" path="res://barkley2/assets/b2_original/images/merged/s_effect_smog.png" id="3_sxkjc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tiofj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4snd"]
+atlas = ExtResource("2_bv55y")
+region = Rect2(0, 0, 7, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfg22"]
+atlas = ExtResource("2_bv55y")
+region = Rect2(7, 0, 7, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixaou"]
+atlas = ExtResource("2_bv55y")
+region = Rect2(14, 0, 7, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmkus"]
+atlas = ExtResource("2_bv55y")
+region = Rect2(21, 0, 7, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mpcq8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4snd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfg22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixaou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmkus")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lugn5"]
+size = Vector2(6, 59)
+
+[sub_resource type="Curve" id="Curve_cl2hc"]
+_data = [Vector2(0, 0.525778), 0.0, 0.0, 0, 0, Vector2(0.403553, 0.690175), -0.53977, -0.53977, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_kajsx"]
+curve = SubResource("Curve_cl2hc")
+
+[sub_resource type="Curve" id="Curve_v8qui"]
+_data = [Vector2(0.00507614, 0.538424), 0.0, 0.0, 0, 0, Vector2(0.281726, 0.82928), 0.856366, 0.856366, 0, 0, Vector2(0.809645, 0.747082), -1.77946, -1.77946, 0, 0, Vector2(1, 0.355058), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_ojvax"]
+curve = SubResource("Curve_v8qui")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ut351"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 25, 1)
+gravity = Vector3(0, -8, 0)
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_ojvax")
+color = Color(0, 1, 1, 0.5)
+alpha_curve = SubResource("CurveTexture_kajsx")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gkttn"]
+size = Vector2(12, 59)
+
+[node name="o_akiraBulb" type="RigidBody2D" node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
+collision_priority = 10.0
+mass = 1e+06
+gravity_scale = 0.0
+sleeping = true
+lock_rotation = true
+max_contacts_reported = 1
+linear_damp = 1000.0
+script = ExtResource("1_ls3ps")
+anim = NodePath("AnimatedSprite2D")
+collision = NodePath("CollisionShape2D")
+has_sound = true
+sound_name = "destructible_akiraBulb"
+sound_emiter = NodePath("AudioStreamPlayer2D")
+emit_smoke = true
+smoke_emiter = NodePath("GPUParticles2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_tiofj")
+sprite_frames = SubResource("SpriteFrames_mpcq8")
+centered = false
+offset = Vector2(-3, -28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_lugn5")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_ut351")
+texture = ExtResource("3_sxkjc")
+lifetime = 0.5
+one_shot = true
+
+[node name="col_predictor" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="col_predictor"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_gkttn")
+
+[connection signal="body_entered" from="col_predictor" to="." method="_on_col_predictor_body_entered"]

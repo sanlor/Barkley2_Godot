@@ -89,6 +89,8 @@ var follow_mouse := true
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
 
+var walk_speed			:= 80000
+var roll_impulse		:= 1000000
 var walk_damp			:= 10.0
 var roll_damp			:= 4.0
 
@@ -224,7 +226,7 @@ func _physics_process(delta: float) -> void:
 						# Use the mouse to decide the roll direction. (Inverted)
 						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
 					linear_velocity = Vector2.ZERO
-					apply_central_force( roll_dir * 20000 )
+					apply_central_force( roll_dir * roll_impulse )
 					
 					## Fluff
 					B2_Sound.play("sn_hoopz_roll")
@@ -234,7 +236,7 @@ func _physics_process(delta: float) -> void:
 				
 				# Take the input from the keyboard / Gamepag and apply directly.
 				var move := Input.get_vector("Left","Right","Up","Down")
-				velocity = ( 1500 * delta ) * move
+				velocity = ( walk_speed * delta ) * move
 			else:
 				velocity = Vector2.ZERO
 			velocity += external_velocity

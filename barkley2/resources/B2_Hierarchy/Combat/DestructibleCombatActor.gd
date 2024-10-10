@@ -14,14 +14,15 @@ class_name B2_DestructibleCombatActor
 func apply_damage( damage : float):
 	health -= damage
 	
-	if has_sound:
-		play_sound()
-	
 	if health < 0.0:
 		if emit_smoke:
+			play_sound()
 			smoke_up()
 		destroy_entity()
-
+	
+	if has_sound:
+		play_sound()
+		
 func smoke_up():
 	smoke_emiter.emitting = true
 
@@ -36,3 +37,4 @@ func destroy_entity():
 	anim.play()
 	await anim.animation_finished
 	collision.disabled = true
+	freeze = true
