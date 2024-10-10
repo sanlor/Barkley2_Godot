@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://bp8001p184487"]
+[gd_scene load_steps=31 format=4 uid="uid://bp8001p184487"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.gd" id="1_o1bik"]
 [ext_resource type="TileSetAtlasSource" uid="uid://c5a1qrwanoltt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="1_qteos"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/factory/floor2/o_fct_akiraSphere01.gd" id="15_4epjw"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/environsolid.gd" id="15_jjugy"]
 [ext_resource type="Texture2D" uid="uid://bf4a8mmi88g65" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraBottom01.png" id="16_bbmep"]
+[ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="18_ib0r6"]
 
 [sub_resource type="TileSet" id="TileSet_4vveb"]
 sources/0 = ExtResource("1_qteos")
@@ -230,6 +231,7 @@ animations = [{
 }]
 
 [node name="r_fct_tutorialZone01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+y_sort_enabled = true
 script = ExtResource("1_o1bik")
 create_player_scene_at_room_start = true
 player_scene_pos = Vector2(1032, 180)
@@ -242,9 +244,8 @@ desired_scene = "res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tuto
 simulate = false
 remove_nodes = true
 
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." node_paths=PackedStringArray("target")]
+[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="."]
 script = ExtResource("3_xtvyi")
-target = NodePath("")
 node_type = 1
 sprite_name = "s_fct_akiraBottom01"
 collision_shape = 1
@@ -444,7 +445,7 @@ metadata/scale = Vector2(0, 4)
 [node name="P49 - o_fct_akiraSphere01" type="AnimatedSprite2D" parent="."]
 position = Vector2(664, 176)
 sprite_frames = SubResource("SpriteFrames_4sumv")
-frame_progress = 0.566558
+frame_progress = 0.912627
 centered = false
 offset = Vector2(-54, -95)
 script = ExtResource("15_4epjw")
@@ -512,11 +513,15 @@ metadata/code = ""
 metadata/inst_name = "inst_C0345C82"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_woodBarrel" parent="P63 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
+
 [node name="P64 - o_woodBarrel" type="Marker2D" parent="."]
 position = Vector2(576, 208)
 metadata/code = ""
 metadata/inst_name = "inst_12A9C2A7"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_woodBarrel" parent="P64 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
 
 [node name="P65 - o_woodBarrel" type="Marker2D" parent="."]
 position = Vector2(568, 232)
@@ -524,11 +529,15 @@ metadata/code = ""
 metadata/inst_name = "inst_35CE1EEB"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_woodBarrel" parent="P65 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
+
 [node name="P66 - o_woodBarrel" type="Marker2D" parent="."]
 position = Vector2(592, 248)
 metadata/code = ""
 metadata/inst_name = "inst_9C7214A5"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_woodBarrel" parent="P66 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
 
 [node name="P67 - o_woodBarrel" type="Marker2D" parent="."]
 position = Vector2(568, 256)
@@ -536,11 +545,15 @@ metadata/code = ""
 metadata/inst_name = "inst_3AEDE9CD"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_woodBarrel" parent="P67 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
+
 [node name="P68 - o_woodBarrel" type="Marker2D" parent="."]
 position = Vector2(584, 272)
 metadata/code = ""
 metadata/inst_name = "inst_C2C957F3"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_woodBarrel" parent="P68 - o_woodBarrel" instance=ExtResource("18_ib0r6")]
 
 [node name="o_tutorial_popups01" parent="." instance=ExtResource("12_lcixm")]
 force_index = true

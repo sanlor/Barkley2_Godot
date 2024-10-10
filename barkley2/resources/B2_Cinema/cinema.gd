@@ -44,7 +44,7 @@ const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
 var o_cts_hoopz 	: B2_Actor 			= null
-var o_hoopz 		: CharacterBody2D 	= null ## TODO Create a B2_CombatActor class
+var o_hoopz 		: B2_Player		 	= null ## TODO Create a B2_CombatActor class
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
@@ -192,7 +192,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 			var line : String = split_script[ curr_line ]
 			
 			if line.is_empty():
-				push_warning("Empty line. I THINK this means end of event.")
+				#push_warning("Empty line. I THINK this means end of event.")
+				## ^^^^ Yes, it is.
 				loop_finished = true
 				break # exit the loop
 			

@@ -1,0 +1,147 @@
+[gd_scene load_steps=22 format=3 uid="uid://bon7jbw3v5c2p"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.gd" id="1_gf45x"]
+[ext_resource type="Texture2D" uid="uid://df3lowj02tmda" path="res://barkley2/assets/b2_original/images/merged/s_woodBarrel.png" id="2_l7aa4"]
+[ext_resource type="Texture2D" uid="uid://dafxbby5bplxa" path="res://barkley2/assets/b2_original/images/merged/s_effect_smog.png" id="3_03iah"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eva7e"]
+rough = true
+absorbent = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5r1uf"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(0, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyodf"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(42, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64h3y"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(84, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5qq3"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(126, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ifs"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(168, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p18na"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(210, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6tva"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(252, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbbwq"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(294, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a7ot"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(336, 0, 42, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggoib"]
+atlas = ExtResource("2_l7aa4")
+region = Rect2(378, 0, 42, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eweig"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5r1uf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyodf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64h3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5qq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ifs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p18na")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p6tva")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbbwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a7ot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggoib")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e26sp"]
+
+[sub_resource type="Curve" id="Curve_agpq6"]
+_data = [Vector2(0, 0.525778), 0.0, 0.0, 0, 0, Vector2(0.403553, 0.690175), -0.53977, -0.53977, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vr1ta"]
+curve = SubResource("Curve_agpq6")
+
+[sub_resource type="Curve" id="Curve_aymqj"]
+_data = [Vector2(0.00507614, 0.538424), 0.0, 0.0, 0, 0, Vector2(0.281726, 0.82928), 0.856366, 0.856366, 0, 0, Vector2(0.809645, 0.747082), -1.77946, -1.77946, 0, 0, Vector2(1, 0.355058), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_0a4bw"]
+curve = SubResource("Curve_aymqj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bvpvs"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector3(0, -8, 0)
+scale_min = 0.1
+scale_max = 0.2
+scale_curve = SubResource("CurveTexture_0a4bw")
+alpha_curve = SubResource("CurveTexture_vr1ta")
+
+[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_eva7e")
+gravity_scale = 0.0
+lock_rotation = true
+linear_damp = 20.0
+script = ExtResource("1_gf45x")
+anim = NodePath("AnimatedSprite2D")
+collision = NodePath("CollisionShape2D")
+has_sound = true
+sound_name = "destructible_woodBarrel"
+sound_emiter = NodePath("AudioStreamPlayer2D")
+emit_smoke = true
+smoke_emiter = NodePath("GPUParticles2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_eweig")
+centered = false
+offset = Vector2(-21, -38)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_e26sp")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -3.29898)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_bvpvs")
+texture = ExtResource("3_03iah")
+one_shot = true

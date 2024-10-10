@@ -1,4 +1,5 @@
-extends CharacterBody2D
+#extends CharacterBody2D
+extends B2_CombatActor
 class_name B2_Player
 
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
@@ -24,6 +25,8 @@ enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 	set( body ):
 		curr_BODY = body
 		_load_sprite_frames()
+enum STATE{NORMAL,ROLL}
+var curr_STATE := STATE.NORMAL
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
@@ -83,7 +86,11 @@ var turning_time 	:= 1.0
 var follow_mouse := true
 
 # Movement
-var external_velocity := Vector2.ZERO ## DEBUG - applyied by the door.
+var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
+var velocity			:= Vector2.ZERO
+
+var walk_damp			:= 10.0
+var roll_damp			:= 4.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -188,16 +195,53 @@ func animation(delta : float):
 	last_input = input
 	
 func _physics_process(delta: float) -> void:
-	if B2_Input.player_has_control:
-		## Player has influence over this node
-		var move := Input.get_vector("Left","Right","Up","Down")
-		velocity = ( 5000 * delta ) * move
-	else:
-		velocity = Vector2.ZERO
-	velocity += external_velocity
-	external_velocity = Vector2.ZERO # Reset Ext velocity
-	move_and_slide()
-	animation(delta)
+	match curr_STATE:
+		STATE.ROLL:
+			hoopz_upper_body.speed_scale = max( 1.0, linear_velocity.length() / 70.0 )
+			
+			if linear_velocity.length() < 10.0:
+				## Rooooliiing eeeeend.
+				curr_STATE = STATE.NORMAL
+				hoopz_upper_body.animation = "stand"
+				hoopz_upper_body.speed_scale = 1.0
+				linear_damp = walk_damp
+				step_smoke.emitting = false
+				hoopz_upper_body.offset.y -= 15
+				
+		STATE.NORMAL:
+			if B2_Input.player_has_control:
+				## Player has influence over this node
+				if Input.is_action_just_pressed("Roll"):
+					# Rooooliiing staaaaart! ...here vvv
+					curr_STATE = STATE.ROLL
+					linear_damp = roll_damp
+					hoopz_upper_body.play("diaper_gooroll")
+					var roll_dir 	: Vector2
+					var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+					if input != Vector2.ZERO:
+						roll_dir 	= input
+					else:
+						# Use the mouse to decide the roll direction. (Inverted)
+						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
+					linear_velocity = Vector2.ZERO
+					apply_central_force( roll_dir * 20000 )
+					
+					## Fluff
+					B2_Sound.play("sn_hoopz_roll")
+					step_smoke.emitting = true
+					hoopz_upper_body.offset.y += 15
+					return
+				
+				# Take the input from the keyboard / Gamepag and apply directly.
+				var move := Input.get_vector("Left","Right","Up","Down")
+				velocity = ( 1500 * delta ) * move
+			else:
+				velocity = Vector2.ZERO
+			velocity += external_velocity
+			external_velocity = Vector2.ZERO # Reset Ext velocity
+			#move_and_slide()
+			apply_central_impulse( velocity )
+			animation(delta)
 	
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
@@ -217,3 +261,8 @@ func _on_interaction_area_body_entered(body: Node2D) -> void:
 func _on_interaction_area_body_exited(body: Node2D) -> void:
 	if body is B2_InteractiveActor:
 		body.is_player_near = false
+
+func _on_combat_actor_entered(body: Node) -> void:
+	if body is B2_CombatActor:
+		if curr_STATE == STATE.ROLL:
+			body.apply_damage( 50.0 )
