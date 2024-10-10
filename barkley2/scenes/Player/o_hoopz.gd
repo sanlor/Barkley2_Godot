@@ -25,6 +25,10 @@ class_name B2_Player
 @export_category("Combat Sprites")
 @export var combat_upper_sprite 	: AnimatedSprite2D
 @export var combat_lower_sprite 	: AnimatedSprite2D
+@export var combat_arm_back 		: AnimatedSprite2D
+@export var combat_arm_front 		: AnimatedSprite2D
+@export var combat_weapon 			: AnimatedSprite2D
+
 const COMBAT_SHUFFLE 		:= "shuffle"
 const COMBAT_STAND 			:= "stand"
 const COMBAT_STAND_E 		:= 0
@@ -72,12 +76,22 @@ func _ready() -> void:
 	
 func _change_sprites():
 	match curr_STATE:
-		STATE.NORMAL:
-			pass
-		STATE.ROLL:
-			pass
+		STATE.NORMAL, STATE.ROLL:
+			hoopz_normal_body.show()
+			
+			combat_lower_sprite.hide()
+			combat_upper_sprite.hide()
+			combat_arm_back.hide()
+			combat_arm_front.hide()
+			combat_weapon.hide()
 		STATE.AIM:
-			pass
+			hoopz_normal_body.hide()
+			
+			combat_lower_sprite.show()
+			combat_upper_sprite.show()
+			combat_arm_back.show()
+			combat_arm_front.show()
+			combat_weapon.show()
 
 func combat_animation(delta : float):
 	pass
