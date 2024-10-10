@@ -28,7 +28,7 @@ func smoke_up():
 
 func play_sound():
 	if sound_emiter.playing:
-		sound_emiter.stop
+		sound_emiter.stop()
 	var sound_file := load( B2_Sound.get_sound(sound_name) )
 	sound_emiter.stream = sound_file
 	sound_emiter.play()

@@ -25,16 +25,17 @@ func lets_goooo():
 	print("Starting...")
 	var all_nodes := get_parent().get_children()
 	print( "Total of %s nodes." % str(all_nodes.size() ) )
+	#print(all_nodes)
 	var col_nodes := Array()
 	var warn_nodes := Array()
 	for n in all_nodes:
-		if n is Marker2D:
-			if n.name.contains("o_solid"):
-				col_nodes.append(n)
-			else:
-				for obj : String in col_object_warn:
-					if n.name.contains( obj ):
-						warn_nodes.append( n )
+		#if n is Marker2D:
+		if n.name.contains("o_solid"):
+			col_nodes.append(n)
+		else:
+			for obj : String in col_object_warn:
+				if n.name.contains( obj ):
+					warn_nodes.append( n )
 						
 	if simulate:
 		print("Simulation: Found %s colision nodes. Warinings are %s. Quitting." % [ str(col_nodes.size()), str(warn_nodes) ] )
@@ -44,7 +45,7 @@ func lets_goooo():
 	collision_layer.clear()
 	collision_layer.tile_set = load( collision_tileset )
 	
-	for col : Marker2D in col_nodes:
+	for col in col_nodes:
 		var pos 		:= col.global_position as Vector2i
 		var local_pos 	:= collision_layer.local_to_map( pos )
 		var size_x 		:= col.get_meta("scale").x as int

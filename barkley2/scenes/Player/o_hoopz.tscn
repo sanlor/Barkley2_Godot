@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz.gd" id="1_3cthp"]
-[ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_upper_body_diaper.tres" id="2_5da33"]
+[ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_normal_diaper.tres" id="2_5da33"]
 [ext_resource type="SpriteFrames" uid="uid://dpoxlps7mg0dy" path="res://barkley2/resources/Player/hoopz_lower_body_hoopz.tres" id="3_4wjkq"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_0p8gy"]
 
@@ -14,7 +14,7 @@ absorbent = true
 [sub_resource type="CircleShape2D" id="CircleShape2D_ew2ks"]
 radius = 64.0
 
-[node name="o_hoopz" type="RigidBody2D"]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "hoopz_normal_body", "step_smoke")]
 y_sort_enabled = true
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
@@ -24,6 +24,10 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("1_3cthp")
+combat_upper_sprite = NodePath("combat_upper_body")
+combat_lower_sprite = NodePath("combat_lower_body")
+hoopz_normal_body = NodePath("hoopz_normal_body")
+step_smoke = NodePath("step_smoke")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 anim_player = NodePath("../AnimationPlayer")
@@ -34,16 +38,19 @@ anim_player = NodePath("../AnimationPlayer")
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_aubae")
 
-[node name="hoopz_upper_body" type="AnimatedSprite2D" parent="."]
+[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = ExtResource("2_5da33")
-animation = &"stand"
+animation = &"walk_S"
 speed_scale = 1.5
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="hoopz_lower_body" type="AnimatedSprite2D" parent="."]
+[node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+
+[node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_4wjkq")
+animation = &"aim_stand"
 
 [node name="step_smoke" parent="." instance=ExtResource("4_0p8gy")]
 position = Vector2(0, -1)
@@ -57,6 +64,6 @@ amount = 30
 shape = SubResource("CircleShape2D_ew2ks")
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
-[connection signal="frame_changed" from="hoopz_upper_body" to="." method="_on_hoopz_upper_body_frame_changed"]
+[connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]
 [connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
