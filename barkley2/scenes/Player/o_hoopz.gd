@@ -18,6 +18,11 @@ class_name B2_Player
 # Missing footsteps o_hoopz_footstep
 # Missing "Wading wave" (No idea what it is)
 
+## Combat
+# Check scr_player_stance_drawing()
+# Check scr_player_stance_gunmode()
+# Check scr_player_draw_walking_gunmode()
+
 @export_category("Player Permission")
 @export var can_roll 	:= true
 @export var can_shoot	:= true
@@ -93,8 +98,195 @@ func _change_sprites():
 			combat_arm_front.show()
 			combat_weapon.show()
 
-func combat_animation(delta : float):
-	pass
+func combat_walk_animation():
+	var input 			:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	
+	if input != Vector2.ZERO: # Player is moving the character
+		# Emit a puff of smoke during the inicial direction change.
+		if last_input != input:
+			#add_smoke()
+			
+			match input:
+				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW)
+				Vector2.UP + Vector2.RIGHT:			combat_lower_sprite.play(WALK_NE)
+				Vector2.DOWN + Vector2.LEFT:		combat_lower_sprite.play(WALK_SW)
+				Vector2.DOWN + Vector2.RIGHT:		combat_lower_sprite.play(WALK_SE)
+					
+				Vector2.UP:			combat_lower_sprite.play(WALK_N)
+				Vector2.LEFT:		combat_lower_sprite.play(WALK_W)
+				Vector2.DOWN:		combat_lower_sprite.play(WALK_S)
+				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E)
+				_: # Catch All
+					combat_lower_sprite.play(WALK_S)
+					print("Catch all, ", input)
+					
+	else:
+		# player is not moving the character anymore
+		combat_lower_sprite.stop()
+			
+		# change the animation itself.
+		match last_direction:
+			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = STAND_NW
+			Vector2.UP + Vector2.RIGHT:		combat_lower_sprite.frame = STAND_NE
+			Vector2.DOWN + Vector2.LEFT:	combat_lower_sprite.frame = STAND_SW
+			Vector2.DOWN + Vector2.RIGHT:	combat_lower_sprite.frame = STAND_SE
+				
+			Vector2.UP:		combat_lower_sprite.frame = STAND_N
+			Vector2.LEFT:	combat_lower_sprite.frame = STAND_W
+			Vector2.DOWN:	combat_lower_sprite.frame = STAND_S
+			Vector2.RIGHT:	combat_lower_sprite.frame = STAND_E
+				
+			_: # Catch All
+				combat_lower_sprite.frame = STAND_S
+				# print("Catch all, ", input)
+
+## Aiming is a bitch, it has a total of 16 positions for smooth movement.
+func combat_aim_animation():
+	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
+	print(mouse_input)
+	
+	## Remember, 0.9999999999999 != 1.0
+	match mouse_input:
+			# Normal stuff
+			Vector2(0,	-0.99):
+				combat_upper_sprite.frame = 	4
+				combat_arm_back.frame = 		4
+				combat_arm_front.frame = 		4
+			Vector2(-0.99,	0):
+				combat_upper_sprite.frame = 	8
+				combat_arm_back.frame = 		8
+				combat_arm_front.frame = 		8
+			Vector2(0,	0.99):
+				combat_upper_sprite.frame = 	12
+				combat_arm_back.frame = 		12
+				combat_arm_front.frame = 		12
+			Vector2(0.99,	0):	
+				combat_upper_sprite.frame = 	0
+				combat_arm_back.frame = 		0
+				combat_arm_front.frame = 		0
+				
+			# Diagonal stuff
+			Vector2(0.66,	0.66): # Low Right
+				combat_upper_sprite.frame = 	14
+				combat_arm_back.frame = 		14
+				combat_arm_front.frame = 		14
+			Vector2(-0.66,	0.66): # Low Left
+				combat_upper_sprite.frame = 	10
+				combat_arm_back.frame = 		10
+				combat_arm_front.frame = 		10
+			Vector2(0.66,	-0.66): # High Right
+				combat_upper_sprite.frame = 	2
+				combat_arm_back.frame = 		2
+				combat_arm_front.frame = 		2
+			Vector2(-0.66,	-0.66):	# High Left
+				combat_upper_sprite.frame = 	6
+				combat_arm_back.frame = 		6
+				combat_arm_front.frame = 		6
+			
+			# Madness
+			#Down
+			Vector2(0.33,	0.99): # Rightish
+				combat_upper_sprite.frame = 	13
+				combat_arm_back.frame = 		13
+				combat_arm_front.frame = 		13
+			Vector2(-0.33,	0.99): # Leftish
+				combat_upper_sprite.frame = 	11
+				combat_arm_back.frame = 		11
+				combat_arm_front.frame = 		11
+			#Up
+			Vector2(0.33,	-0.99): # Rightish
+				combat_upper_sprite.frame = 	3
+				combat_arm_back.frame = 		3
+				combat_arm_front.frame = 		3
+			Vector2(-0.33,	-0.99): # Leftish
+				combat_upper_sprite.frame = 	5
+				combat_arm_back.frame = 		5
+				combat_arm_front.frame = 		5
+			#Left
+			Vector2(-0.99,	0.33): # Upish
+				combat_upper_sprite.frame = 	9
+				combat_arm_back.frame = 		9
+				combat_arm_front.frame = 		9
+			Vector2(-0.99,	-0.33): # Downish
+				combat_upper_sprite.frame = 	7
+				combat_arm_back.frame = 		7
+				combat_arm_front.frame = 		7
+			#Right
+			Vector2(0.99,	0.33): # Upish
+				combat_upper_sprite.frame = 	15
+				combat_arm_back.frame = 		15
+				combat_arm_front.frame = 		15
+			Vector2(0.99,	-0.33): # Downish
+				combat_upper_sprite.frame = 	1
+				combat_arm_back.frame = 		1
+				combat_arm_front.frame = 		1
+
+## Aiming is a bitch, it has a total of 16 positions for smooth movement.
+func combat_weapon_animation():
+	# That Vector is an offset to make the calculation origin to be Hoopz torso
+	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
+	var gun_pos 		:= Vector2(18, 0)
+	
+	## Many Manual touch ups.
+	match mouse_input:
+			# Normal stuff
+			Vector2(0,	-0.99): # Up
+				combat_weapon.frame = 	4
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(270) ) + Vector2(0, 4)
+			Vector2(-0.99,	0): # Left
+				combat_weapon.frame = 	8
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(180) )
+			Vector2(0,	0.99): # Down
+				combat_weapon.frame = 	12
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(90) )
+			Vector2(0.99,	0):	 # Right
+				combat_weapon.frame = 	0
+				combat_weapon.offset = gun_pos.rotated( 0 )
+				
+			# Diagonal stuff
+			Vector2(0.66,	0.66): # Low Right
+				combat_weapon.frame = 	14
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(45) ) - Vector2(0, 4)
+			Vector2(-0.66,	0.66): # Low Left
+				combat_weapon.frame = 	10
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(135) ) - Vector2(0, 4)
+			Vector2(0.66,	-0.66): # High Right
+				combat_weapon.frame = 	2
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(315) ) + Vector2(0, 4)
+			Vector2(-0.66,	-0.66):	# High Left
+				combat_weapon.frame = 	6
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(225) ) + Vector2(0, 4)
+			
+			# Madness
+			#Down
+			Vector2(0.33,	0.99): # Rightish
+				combat_weapon.frame = 	13
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(60) ) - Vector2(0, 4)
+			Vector2(-0.33,	0.99): # Leftish
+				combat_weapon.frame = 	11
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(120) ) - Vector2(0, 4)
+			#Up
+			Vector2(0.33,	-0.99): # Rightish
+				combat_weapon.frame = 	3
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(300) ) + Vector2(0, 4)
+			Vector2(-0.33,	-0.99): # Leftish
+				combat_weapon.frame = 	5
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(240) ) + Vector2(0, 4)
+			#Left
+			Vector2(-0.99,	0.33): # Downish
+				combat_weapon.frame = 	9
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(150) ) - Vector2(0, 4)
+			Vector2(-0.99,	-0.33): # Upish
+				combat_weapon.frame = 	7
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(210) ) + Vector2(0, 4)
+			#Right
+			Vector2(0.99,	0.33): # Downish
+				combat_weapon.frame = 	15
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(30) ) - Vector2(0, 4)
+			Vector2(0.99,	-0.33): # Upish
+				combat_weapon.frame = 	1
+				combat_weapon.offset = gun_pos.rotated( deg_to_rad(330) ) + Vector2(0, 4)
+
 
 func _physics_process(delta: float) -> void:
 	match curr_STATE:
@@ -155,7 +347,9 @@ func _physics_process(delta: float) -> void:
 			if curr_STATE == STATE.NORMAL:
 				normal_animation(delta)
 			elif  curr_STATE == STATE.AIM:
-				combat_animation(delta)
+				combat_walk_animation()
+				combat_aim_animation()
+				combat_weapon_animation()
 			else:
 				push_warning("Weird state: ", curr_STATE)
 	

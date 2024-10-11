@@ -2,6 +2,11 @@ extends B2_DestructibleCombatActor
 
 const O_AKIRA_BULB_BROKEN = preload("res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_akira_bulb_broken.tscn")
 
+func _ready() -> void:
+	anim.play()
+	anim.speed_scale = randf_range(0.8,1.2)
+	
+
 func destroy_entity():
 	remove_child( collision ) # .disabled = true
 	# add broken sprite
@@ -21,5 +26,5 @@ func _on_col_predictor_body_entered(body: Node2D) -> void:
 			play_sound()
 			destroy_entity()
 			
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	anim.modulate.a = randf_range(0.75, 2.75) # Fuck shaders.
