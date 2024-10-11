@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=14 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz.gd" id="1_3cthp"]
 [ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_normal_diaper.tres" id="2_5da33"]
+[ext_resource type="Texture2D" uid="uid://cqkmb88d18yj8" path="res://barkley2/assets/b2_original/images/merged/s_lensflare_mod.png" id="2_cx2lw"]
 [ext_resource type="SpriteFrames" uid="uid://dpoxlps7mg0dy" path="res://barkley2/resources/Player/combat_lower_body_diaper.tres" id="3_4wjkq"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_Shadow.gd" id="3_a06su"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_0p8gy"]
 [ext_resource type="SpriteFrames" uid="uid://bxgcfih7grb05" path="res://barkley2/resources/Player/combat_upper_body_diaper.tres" id="4_qwl6u"]
 [ext_resource type="SpriteFrames" uid="uid://bv6xvill7phcw" path="res://barkley2/resources/Player/combat_arm_back_diaper.tres" id="5_68psw"]
@@ -40,6 +42,12 @@ anim_player = NodePath("../AnimationPlayer")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
+[node name="o_Shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.25)
+scale = Vector2(0.5, 0.25)
+texture = ExtResource("2_cx2lw")
+script = ExtResource("3_a06su")
+
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_aubae")
@@ -58,9 +66,9 @@ position = Vector2(0, -16)
 
 [node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_4wjkq")
-animation = &"walk_SE"
+animation = &"aim_shuffle"
 centered = false
-offset = Vector2(-22, -41)
+offset = Vector2(-22, -42)
 
 [node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("5_68psw")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://djjsg8spfwgj0"]
+
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/event_trigger_tutorialZaneOverHere.gd" id="1_nntav"]
+
+[node name="Event_Trigger" type="Area2D"]
+script = ExtResource("1_nntav")
+radius_distance = 64.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

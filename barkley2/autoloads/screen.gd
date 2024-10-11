@@ -15,11 +15,17 @@ var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
 @onready var pause_screen: ColorRect = $pause_screen
 
+## Pause Screen
 @onready var button_bg_resume: 	TextureRect = $pause_screen/resume/button_bg_resume
 @onready var button_bg_exit: 	TextureRect = $pause_screen/exit/button_bg_exit
 
 @onready var resume: Button 	= $pause_screen/resume
 @onready var exit: Button 		= $pause_screen/exit
+
+## Notify screen
+@onready var notify_item: 		ColorRect 	= $notify_item
+@onready var dialog: 			TextureRect = $notify_item/dialog
+@onready var dialog_text: 		Label 		= $notify_item/dialog/dialog_text
 
 var can_pause := false # Cant pause during the title screens and certain parts.
 var is_paused := false
@@ -27,6 +33,9 @@ var time := 0.0
 
 var max_trail := 2 # 3 is pretty cool
 var mouse_offset := Vector2.ZERO
+
+var is_showing_notify := false
+var notify_text := "Male rats have huge balls, but do female rats have huge ovaries?"
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -82,6 +91,41 @@ func set_cursor_type( type : TYPE):
 			
 	curr_TYPE = type
 	mouse.modulate.a = 1.0
+			
+func show_notify_screen( text : String ):
+	is_showing_notify = true
+	notify_item.show()
+	notify_text 			= text
+	dialog_text.text 		= notify_text
+	
+	dialog_text.modulate.a 	= 0.0
+	notify_item.modulate.a 	= 0.0
+	dialog.size.y 			= 0.0
+	
+	var tween := create_tween()
+	tween.tween_interval( 0.5 )
+	tween.tween_property( notify_item, 	"modulate:a", 		1.0, 	0.15 )
+	tween.parallel().tween_property( dialog, 		"position:y", 		86, 	0.15 )
+	tween.parallel().tween_property( dialog, 		"size:y", 			68, 	0.15 )
+	tween.tween_property( dialog_text, 	"modulate:a", 		1.0, 	0.15 )
+	
+	await tween.finished
+	if not B2_Input.is_fastforwarding: #Skip the message if its FF.
+		await B2_Input.action_pressed
+	
+	tween = create_tween()
+	tween.tween_interval( 0.25 )
+	tween.tween_property( dialog_text, 	"modulate:a", 		0.0, 	0.15 )
+	tween.parallel().tween_property( dialog, 		"position:y", 		112, 	0.15 )
+	tween.parallel().tween_property( dialog, 		"size:y", 			16, 	0.15 )
+	tween.parallel().tween_property( notify_item, 	"modulate:a", 		0.0, 	0.15 )
+	
+	tween.tween_interval( 0.25 )
+	await tween.finished
+	notify_item.hide()
+	is_showing_notify = false
+	return
+	
 			
 func _process(_delta):
 	## Mouse stuff

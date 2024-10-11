@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtxtruoc1y3ha"]
+[gd_scene load_steps=19 format=3 uid="uid://dtxtruoc1y3ha"]
 
 [ext_resource type="Script" path="res://barkley2/autoloads/screen.gd" id="1_6uogh"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="2_kjkhy"]
@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://i1nicnst0a0f" path="res://barkley2/assets/cursor/s_curs_2.png" id="11_6l75t"]
 [ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="12_584kq"]
 [ext_resource type="Texture2D" uid="uid://ba7tkmx4xg5sd" path="res://barkley2/assets/b2_original/images/merged/s_pausemenu_buttonlight.png" id="13_wpxq6"]
+[ext_resource type="Texture2D" uid="uid://2f8cr6uarncg" path="res://barkley2/assets/b2_original/images/merged/s_diag_bg.png" id="14_5qnmd"]
+[ext_resource type="Texture2D" uid="uid://bu7c45dom4m8l" path="res://barkley2/assets/b2_original/images/merged/s_return.png" id="15_wweog"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3xx3n"]
 animations = [{
@@ -74,6 +76,18 @@ animations = [{
 
 [sub_resource type="Gradient" id="Gradient_fnaht"]
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_6nb5h"]
+script/source = "extends TextureRect
+
+var time := 0.0
+
+func _physics_process(delta: float) -> void:
+	if B2_Screen.is_showing_notify:
+		time += delta
+		var curve : float = ( sin(time * 5.0) + PI / 2.0) / PI
+		modulate.a = curve
+"
 
 [node name="cursor" type="CanvasLayer"]
 process_mode = 3
@@ -158,3 +172,61 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("13_wpxq6")
+
+[node name="notify_item" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_584kq")
+color = Color(0, 0, 0, 0.15)
+
+[node name="dialog" type="TextureRect" parent="notify_item"]
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_5qnmd")
+stretch_mode = 1
+
+[node name="dialog_text" type="Label" parent="notify_item/dialog"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -21.5
+offset_right = 150.0
+offset_bottom = 21.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Male rats have huge balls, but do female rats have huge ovaries?"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="return" type="TextureRect" parent="notify_item/dialog"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = -20.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("15_wweog")
+script = SubResource("GDScript_6nb5h")

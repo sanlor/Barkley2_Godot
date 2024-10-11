@@ -22,27 +22,27 @@
 atlas = ExtResource("5_nlxlc")
 region = Rect2(88, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5ue6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yp1po"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(0, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5agl4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipusx"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(44, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n68jy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6dw2"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(88, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f6wae"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_thqi5"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(0, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xxjdh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_td5yd"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(44, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_18xvu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_s570y"]
 atlas = ExtResource("5_70k7c")
 region = Rect2(88, 0, 44, 50)
 
@@ -186,11 +186,11 @@ region = Rect2(265, 0, 53, 66)
 atlas = ExtResource("14_u5wh8")
 region = Rect2(318, 0, 53, 66)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xahta"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpt51"]
 atlas = ExtResource("5_nlxlc")
 region = Rect2(44, 0, 44, 50)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gqw6r"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbepf"]
 atlas = ExtResource("5_nlxlc")
 region = Rect2(44, 0, 44, 50)
 
@@ -558,13 +558,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5ue6")
+"texture": SubResource("AtlasTexture_yp1po")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5agl4")
+"texture": SubResource("AtlasTexture_ipusx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_n68jy")
+"texture": SubResource("AtlasTexture_r6dw2")
 }],
 "loop": true,
 "name": &"diaper_action_N",
@@ -572,13 +572,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f6wae")
+"texture": SubResource("AtlasTexture_thqi5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xxjdh")
+"texture": SubResource("AtlasTexture_td5yd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_18xvu")
+"texture": SubResource("AtlasTexture_s570y")
 }],
 "loop": true,
 "name": &"diaper_action_NE",
@@ -721,7 +721,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xahta")
+"texture": SubResource("AtlasTexture_tpt51")
 }],
 "loop": true,
 "name": &"diaper_stand_N",
@@ -729,7 +729,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gqw6r")
+"texture": SubResource("AtlasTexture_wbepf")
 }],
 "loop": true,
 "name": &"diaper_stand_NE",
@@ -1169,8 +1169,11 @@ ActorCol = NodePath("ActorCol")
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_tm1vk")
-animation = &"s_cts_hoopz_diaper_stand"
+animation = &"diaper_action_N"
+frame = 1
+frame_progress = 0.125369
 centered = false
 offset = Vector2(-22, -41)
 metadata/diaper_ground = {

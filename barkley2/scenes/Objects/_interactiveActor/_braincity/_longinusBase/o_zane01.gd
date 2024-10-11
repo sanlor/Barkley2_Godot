@@ -19,6 +19,12 @@ func _ready() -> void:
 	if B2_Playerdata.Quest("tutorialZaneOverHere", null, 0) != 0:
 		queue_free()
 
+func execute_event_user_1():
+	# used in the r_fct_tutorialZone01 when givving a gun.
+	# Looking at the original code, it seems some unused tutorial segment for shooting light bulbs.
+	# check o_bustaBulb event 9
+	pass
+
 func execute_event_user_10():
 	## Disable click
 	# this function doesnt exist yet.

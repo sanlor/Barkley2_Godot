@@ -2,6 +2,8 @@
 extends Node2D
 class_name B2_ROOMS
 
+signal permission_changed
+
 @export var populate_reference_layer := true
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D
@@ -12,6 +14,10 @@ class_name B2_ROOMS
 
 @export_category("Room")
 @export var collision_layer : TileMapLayer
+
+@export_category("Room Options")
+@export var room_pacify 				:= true # Player cant draw weapons.
+@export var room_player_can_roll 		:= true # Player can roll around.
 
 @export_category("Cinematics")
 @export var player_can_pause			:= true
@@ -29,6 +35,14 @@ func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
+
+func set_pacify( state : bool ):
+	room_pacify = state
+	permission_changed.emit()
+	
+func set_roll( state : bool ):
+	room_player_can_roll = state
+	permission_changed.emit()
 
 func _update_obstacles():
 	var time := Time.get_ticks_usec()

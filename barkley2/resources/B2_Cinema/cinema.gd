@@ -19,7 +19,7 @@ extends CanvasLayer
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
 @export var debug_event 		:= false
-@export var debug_unhandled 	:= false
+@export var debug_unhandled 	:= true
 @export var print_comments		:= false
 @export var print_line_report 	:= false ## details about the current script line.
 
@@ -50,6 +50,9 @@ var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
 var camera						: Camera2D
 var all_nodes					:= []
+var array_dirty					:= false
+
+var room := ""
 
 ## Children process
 var dslCinKid := []
@@ -164,6 +167,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	
 	load_hoopz_actor()
 	
+	# Chill out. Avoid loading invalid nodes.
+	await get_tree().process_frame
+	
+	room = B2_RoomXY.get_current_room()
 	all_nodes = get_tree().current_scene.get_children()
 	
 	# Frame Camera
@@ -292,7 +299,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				"ITEM":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
+					var text := parsed_line[ 1 ] as String
+					await B2_Screen.show_notify_screen( text )
+					
 				"NOTIFYALT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"PLAYSET":
@@ -386,7 +396,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-				"FRAME":
+				"USEAT":
+					# Check script USEAT().
+					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
+					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					
+					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
+						await o_cts_hoopz.cinema_useat( subject ) 		# its a node.
+						#o_cts_hoopz.cinema_useat( subject ) 		# its a node.
+					else:
+						await o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+						#o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+					
+				"FRAME", "FOLLOWFRAME":
+					# this is a weird one. The original code doesnt have this function FOLLOWFRAME. There is a FOLLOWFRAME() script, however.
 					var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 					var move_array : Array[Node2D] = []
 					
@@ -399,13 +422,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					if not move_array.is_empty():
 						var speed 					= parsed_line[1]
 						camera.cinema_moveto( move_array, speed )		## Async movement 
-						cinema_kid( camera )
+						
+						if parsed_line[0] == "FRAME":
+							cinema_kid( camera )
 						
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
 				"LOOKAT":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# Look torward someone.
+					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
+					var actor2					= get_node_from_name( all_nodes,	parsed_line[2] )
+					
+					actor.cinema_lookat( actor2 )
 				"LOOK":
+					# Look torward a direction.
 					## NOTE Im not sure if this is working
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					actor.cinema_look( parsed_line[2] )
@@ -448,6 +478,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 			
 			if print_line_report:
 				print( str(curr_line), " - ", parsed_line )
+				
+			if array_dirty:
+				# some invalid node was foing in the array
+				all_nodes.clear()
+				all_nodes = get_tree().current_scene.get_children()
 				
 		end_cutscene()
 
@@ -501,7 +536,8 @@ func Cinema_run():
 	pass
 func Cinema_process():
 	pass
-func get_node_from_name( _array, _name ) -> Node:
+	
+func get_node_from_name( _array, _name, warn := true ) -> Node:
 	var node : Node
 	for item in _array:
 		if is_instance_valid(item):
@@ -510,7 +546,11 @@ func get_node_from_name( _array, _name ) -> Node:
 					node = item
 					break
 		else:
-			push_warning("Ops, invalid node on the array.")
+			if warn: # sometimes a warning is not needed.
+				push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name, "\n", _array )
+				array_dirty = true
+	if not is_instance_valid(node):
+		push_warning("Target %s not found. Bummer." % _name)
 	return node
 	
 func Misc( parsed_line :PackedStringArray ):

@@ -24,8 +24,9 @@ class_name B2_Player
 # Check scr_player_draw_walking_gunmode()
 
 @export_category("Player Permission")
-@export var can_roll 	:= true
-@export var can_shoot	:= true
+@export var can_roll 		:= true
+@export var can_draw_weapon := true
+@export var can_shoot		:= true
 
 @export_category("Combat Sprites")
 @export var combat_upper_sprite 	: AnimatedSprite2D
@@ -34,8 +35,8 @@ class_name B2_Player
 @export var combat_arm_front 		: AnimatedSprite2D
 @export var combat_weapon 			: AnimatedSprite2D
 
-const COMBAT_SHUFFLE 		:= "shuffle"
-const COMBAT_STAND 			:= "stand"
+const COMBAT_SHUFFLE 		:= "aim_shuffle"
+const COMBAT_STAND 			:= "aim_stand"
 const COMBAT_STAND_E 		:= 0
 const COMBAT_STAND_NE 		:= 1
 const COMBAT_STAND_N		:= 2
@@ -64,6 +65,13 @@ var curr_STATE := STATE.NORMAL :
 		curr_STATE = s
 		_change_sprites()
 
+# Combat Animations
+var aim_dir := Vector2.ZERO
+var waddle	:= false # If hoopz legs should waddle torward the aiming direction
+
+var combat_last_direction 	:= Vector2.ZERO
+var combat_last_input 		:= Vector2.ZERO
+
 # Movement
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
@@ -73,11 +81,29 @@ var roll_impulse		:= 1000000
 var walk_damp			:= 10.0
 var roll_damp			:= 4.0
 
+## Debug
+var debug_line : Vector2
+var debug_walk_dir : Vector2
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	B2_Cinema.o_hoopz = self
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
 	_change_sprites()
+	
+	if get_parent() is B2_ROOMS:
+		get_parent().permission_changed.connect( get_room_permissions )
+	
+	get_room_permissions()
+	
+		
+func get_room_permissions():
+	if get_parent() is B2_ROOMS:
+		can_roll 			= get_parent().room_player_can_roll
+		#can_shoot 			= not get_parent().room_pacify ## DEBUG disabled
+		can_draw_weapon 	= not get_parent().room_pacify
+	else:
+		print("B2_PLAYER: Not inside a room. do whatever is set on exports")
 	
 func _change_sprites():
 	match curr_STATE:
@@ -98,12 +124,13 @@ func _change_sprites():
 			combat_arm_front.show()
 			combat_weapon.show()
 
-func combat_walk_animation():
+## Very similar to normal animation control, but with some more details related to the diffferent body parts.
+func combat_walk_animation(delta : float):
 	var input 			:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
-		if last_input != input:
+		if combat_last_input != input:
 			#add_smoke()
 			
 			match input:
@@ -123,103 +150,104 @@ func combat_walk_animation():
 	else:
 		# player is not moving the character anymore
 		combat_lower_sprite.stop()
-			
-		# change the animation itself.
-		match last_direction:
-			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = STAND_NW
-			Vector2.UP + Vector2.RIGHT:		combat_lower_sprite.frame = STAND_NE
-			Vector2.DOWN + Vector2.LEFT:	combat_lower_sprite.frame = STAND_SW
-			Vector2.DOWN + Vector2.RIGHT:	combat_lower_sprite.frame = STAND_SE
+		
+		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( get_global_mouse_position() ).round()
+		
+		if curr_direction != combat_last_direction:
+			turning_time = 1.0
+		
+		# handle the turning animation for a litle while.
+		if turning_time > 0.0:
+			combat_lower_sprite.animation = COMBAT_SHUFFLE
+			if not is_turning:
+				# play step sound when you change directions, during shuffle. 
+				## WARNING Original game doesnt do this.
+				#B2_Sound.play_pick("hoopz_footstep")
+				is_turning = true
 				
-			Vector2.UP:		combat_lower_sprite.frame = STAND_N
-			Vector2.LEFT:	combat_lower_sprite.frame = STAND_W
-			Vector2.DOWN:	combat_lower_sprite.frame = STAND_S
-			Vector2.RIGHT:	combat_lower_sprite.frame = STAND_E
+			turning_time -= 6.0 * delta
+		else:
+			combat_lower_sprite.animation = COMBAT_STAND
+			is_turning = false
+		
+		# change the animation itself.
+		match combat_last_direction:
+			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = COMBAT_STAND_NW
+			Vector2.UP + Vector2.RIGHT:		combat_lower_sprite.frame = COMBAT_STAND_NE
+			Vector2.DOWN + Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_SW
+			Vector2.DOWN + Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_SE
+				
+			Vector2.UP:		combat_lower_sprite.frame = COMBAT_STAND_N
+			Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_W
+			Vector2.DOWN:	combat_lower_sprite.frame = COMBAT_STAND_S
+			Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_E
 				
 			_: # Catch All
 				combat_lower_sprite.frame = STAND_S
-				# print("Catch all, ", input)
-
+				print("Catch all, ", input)
+				
+		# Update var
+		combat_last_direction = curr_direction
+	# Update var
+	combat_last_input = input
+	debug_walk_dir = input
+	
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation():
 	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
-	print(mouse_input)
+	var dir_frame = combat_upper_sprite.frame
 	
 	## Remember, 0.9999999999999 != 1.0
 	match mouse_input:
 			# Normal stuff
 			Vector2(0,	-0.99):
-				combat_upper_sprite.frame = 	4
-				combat_arm_back.frame = 		4
-				combat_arm_front.frame = 		4
+				dir_frame = 		4
 			Vector2(-0.99,	0):
-				combat_upper_sprite.frame = 	8
-				combat_arm_back.frame = 		8
-				combat_arm_front.frame = 		8
+				dir_frame = 		8
 			Vector2(0,	0.99):
-				combat_upper_sprite.frame = 	12
-				combat_arm_back.frame = 		12
-				combat_arm_front.frame = 		12
+				dir_frame = 		12
 			Vector2(0.99,	0):	
-				combat_upper_sprite.frame = 	0
-				combat_arm_back.frame = 		0
-				combat_arm_front.frame = 		0
+				dir_frame = 		0
 				
 			# Diagonal stuff
 			Vector2(0.66,	0.66): # Low Right
-				combat_upper_sprite.frame = 	14
-				combat_arm_back.frame = 		14
-				combat_arm_front.frame = 		14
+				dir_frame = 		14
 			Vector2(-0.66,	0.66): # Low Left
-				combat_upper_sprite.frame = 	10
-				combat_arm_back.frame = 		10
-				combat_arm_front.frame = 		10
+				dir_frame = 		10
 			Vector2(0.66,	-0.66): # High Right
-				combat_upper_sprite.frame = 	2
-				combat_arm_back.frame = 		2
-				combat_arm_front.frame = 		2
+				dir_frame = 		2
 			Vector2(-0.66,	-0.66):	# High Left
-				combat_upper_sprite.frame = 	6
-				combat_arm_back.frame = 		6
-				combat_arm_front.frame = 		6
+				dir_frame = 		6
 			
 			# Madness
 			#Down
 			Vector2(0.33,	0.99): # Rightish
-				combat_upper_sprite.frame = 	13
-				combat_arm_back.frame = 		13
-				combat_arm_front.frame = 		13
+				dir_frame = 		13
 			Vector2(-0.33,	0.99): # Leftish
-				combat_upper_sprite.frame = 	11
-				combat_arm_back.frame = 		11
-				combat_arm_front.frame = 		11
+				dir_frame = 		11
 			#Up
 			Vector2(0.33,	-0.99): # Rightish
-				combat_upper_sprite.frame = 	3
-				combat_arm_back.frame = 		3
-				combat_arm_front.frame = 		3
+				dir_frame = 		3
 			Vector2(-0.33,	-0.99): # Leftish
-				combat_upper_sprite.frame = 	5
-				combat_arm_back.frame = 		5
-				combat_arm_front.frame = 		5
+				dir_frame = 		5
 			#Left
 			Vector2(-0.99,	0.33): # Upish
-				combat_upper_sprite.frame = 	9
-				combat_arm_back.frame = 		9
-				combat_arm_front.frame = 		9
+				dir_frame = 		9
 			Vector2(-0.99,	-0.33): # Downish
-				combat_upper_sprite.frame = 	7
-				combat_arm_back.frame = 		7
-				combat_arm_front.frame = 		7
+				dir_frame = 	7
+
 			#Right
 			Vector2(0.99,	0.33): # Upish
-				combat_upper_sprite.frame = 	15
-				combat_arm_back.frame = 		15
-				combat_arm_front.frame = 		15
+				dir_frame = 	15
+
 			Vector2(0.99,	-0.33): # Downish
-				combat_upper_sprite.frame = 	1
-				combat_arm_back.frame = 		1
-				combat_arm_front.frame = 		1
+				dir_frame = 	1
+	
+	# only change if there is a change in dir
+	if dir_frame != combat_upper_sprite.frame:
+		combat_upper_sprite.frame = 	dir_frame
+		combat_arm_back.frame = 		dir_frame
+		combat_arm_front.frame = 		dir_frame
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_weapon_animation():
@@ -228,65 +256,101 @@ func combat_weapon_animation():
 	var gun_pos 		:= Vector2(18, 0)
 	
 	## Many Manual touch ups.
+	var s_frame 		:= combat_weapon.frame
+	var angle 			:= 0.0
+	var height_offset	:= Vector2(0, 4)
+	var _z_index		:= 0
+	
 	match mouse_input:
 			# Normal stuff
 			Vector2(0,	-0.99): # Up
-				combat_weapon.frame = 	4
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(270) ) + Vector2(0, 4)
+				s_frame = 	4
+				angle = 270
+				_z_index = -1
 			Vector2(-0.99,	0): # Left
-				combat_weapon.frame = 	8
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(180) )
+				s_frame = 	8
+				angle = 180
+				height_offset = Vector2.ZERO
 			Vector2(0,	0.99): # Down
-				combat_weapon.frame = 	12
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(90) )
+				s_frame = 	12
+				angle = 90
+				height_offset *= -1
 			Vector2(0.99,	0):	 # Right
-				combat_weapon.frame = 	0
-				combat_weapon.offset = gun_pos.rotated( 0 )
+				s_frame = 	0
+				angle = 0
+				height_offset = Vector2.ZERO
 				
 			# Diagonal stuff
 			Vector2(0.66,	0.66): # Low Right
-				combat_weapon.frame = 	14
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(45) ) - Vector2(0, 4)
+				s_frame = 	14
+				angle = 45
+				height_offset *= -1
 			Vector2(-0.66,	0.66): # Low Left
-				combat_weapon.frame = 	10
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(135) ) - Vector2(0, 4)
+				s_frame = 	10
+				angle = 135
+				height_offset *= -1
 			Vector2(0.66,	-0.66): # High Right
-				combat_weapon.frame = 	2
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(315) ) + Vector2(0, 4)
+				s_frame = 	2
+				angle = 315
 			Vector2(-0.66,	-0.66):	# High Left
-				combat_weapon.frame = 	6
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(225) ) + Vector2(0, 4)
+				s_frame = 	6
+				angle = 225
 			
 			# Madness
 			#Down
 			Vector2(0.33,	0.99): # Rightish
-				combat_weapon.frame = 	13
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(60) ) - Vector2(0, 4)
+				s_frame = 	13
+				angle = 60
+				height_offset *= -1
 			Vector2(-0.33,	0.99): # Leftish
-				combat_weapon.frame = 	11
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(120) ) - Vector2(0, 4)
+				s_frame = 	11
+				angle = 120
+				height_offset *= -1
 			#Up
 			Vector2(0.33,	-0.99): # Rightish
-				combat_weapon.frame = 	3
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(300) ) + Vector2(0, 4)
+				s_frame = 	3
+				angle = 300
 			Vector2(-0.33,	-0.99): # Leftish
-				combat_weapon.frame = 	5
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(240) ) + Vector2(0, 4)
+				s_frame = 	5
+				angle = 240
 			#Left
 			Vector2(-0.99,	0.33): # Downish
-				combat_weapon.frame = 	9
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(150) ) - Vector2(0, 4)
+				s_frame = 	9
+				angle = 150
+				height_offset *= -1
 			Vector2(-0.99,	-0.33): # Upish
-				combat_weapon.frame = 	7
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(210) ) + Vector2(0, 4)
+				s_frame = 	7
+				angle = 210
+				#height_offset *= -1
 			#Right
 			Vector2(0.99,	0.33): # Downish
-				combat_weapon.frame = 	15
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(30) ) - Vector2(0, 4)
+				s_frame = 	15
+				angle = 30
+				height_offset *= -1
 			Vector2(0.99,	-0.33): # Upish
-				combat_weapon.frame = 	1
-				combat_weapon.offset = gun_pos.rotated( deg_to_rad(330) ) + Vector2(0, 4)
+				s_frame = 	1
+				angle = 330
+			_:
+				#print(mouse_input)
+				pass
+				
+	if combat_weapon.frame != s_frame:
+		combat_weapon.frame 	= s_frame
+		combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
+		combat_weapon.z_index	= _z_index
+		
+		aim_dir = mouse_input
+	
+	#debug_line = mouse_input
+	#queue_redraw()
 
+#func _draw() -> void:
+	#draw_line( Vector2.ZERO + Vector2( 0, -16 ), debug_line * position.distance_to( get_global_mouse_position() ), 	Color.HOT_PINK )
+	#draw_line( Vector2.ZERO, debug_walk_dir * position.distance_to( get_global_mouse_position() ), 					Color.SKY_BLUE )
+	#
+	#draw_string(preload("res://barkley2/assets/fonts/Perfect DOS VGA 437 Win.ttf"), 
+		#debug_line * position.distance_to( get_global_mouse_position() ), str(debug_line), 
+		#HORIZONTAL_ALIGNMENT_LEFT, 256, 16 )
 
 func _physics_process(delta: float) -> void:
 	match curr_STATE:
@@ -305,11 +369,33 @@ func _physics_process(delta: float) -> void:
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:
 				## Player has influence over this node
-				if Input.is_action_just_pressed("Holster") and can_shoot:
-					curr_STATE = STATE.AIM
-					
-				if Input.is_action_just_released("Holster"): # and can_shoot:
+				
+				## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
+				if Input.is_action_just_pressed("Holster") and can_draw_weapon:
+					# check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
+					if can_shoot:
+						# change state, allowing the player to aim.
+						B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
+						curr_STATE = STATE.AIM
+					else:
+						# maybe unneeded?
+						B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
+						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+				
+				# player draws its weapon
+				elif Input.is_action_just_released("Holster") and can_draw_weapon:
 					curr_STATE = STATE.NORMAL
+					B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+				
+				# player shoots its weapon.
+				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM and can_shoot:
+					#shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
+					B2_Sound.play_pick("hoopz_click")
+					## CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
+					
+				# player has no permission to draw weapon
+				elif Input.is_action_just_pressed("Holster") and not can_draw_weapon:
+					B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
 				
 				if Input.is_action_just_pressed("Roll") and can_roll:
 					# Roooolliiing staaaaart! ...here vvv
@@ -347,7 +433,7 @@ func _physics_process(delta: float) -> void:
 			if curr_STATE == STATE.NORMAL:
 				normal_animation(delta)
 			elif  curr_STATE == STATE.AIM:
-				combat_walk_animation()
+				combat_walk_animation( delta ) # delta is for the turning animation
 				combat_aim_animation()
 				combat_weapon_animation()
 			else:

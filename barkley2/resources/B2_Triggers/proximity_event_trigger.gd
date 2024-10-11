@@ -1,4 +1,4 @@
-extends Area2D
+extends B2_Event_Root
 class_name B2_ProxEventTrigger
 
 # Detect if the player is near, does something if so.
@@ -16,7 +16,4 @@ func _enter_tree() -> void:
 	trigger_col.debug_color = Color("b557df6b")
 	
 	add_child(trigger_col, true)
-	body_entered.connect( trigger_action )
-	
-func trigger_action( _node ) -> void:
-	pass
+	body_entered.connect( event_trigger )

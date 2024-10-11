@@ -106,7 +106,8 @@ func normal_animation(delta : float):
 			hoopz_normal_body.animation = SHUFFLE
 			if not is_turning:
 				# play step sound when you change directions, during shuffle.
-				B2_Sound.play_pick("hoopz_footstep")
+				## WARNING Original game doesnt do this.
+				#B2_Sound.play_pick("hoopz_footstep")
 				is_turning = true
 				
 			turning_time -= 6.0 * delta

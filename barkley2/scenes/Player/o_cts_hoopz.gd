@@ -58,6 +58,17 @@ func change_costume(costume_name : String) -> void:
 													 # N, NE, E, SE, S, SW, W, NW
 			ANIMATION_STAND_SPRITE_INDEX 			= [0, 1, 2, 3, 4, 3, 2, 1]
 			ActorAnim.animation 					= "s_cts_hoopz_diaper_stand"
+			
+			## USEAT Animations
+			useat_map[Vector2.DOWN] =  					"diaper_action_N"
+			useat_map[Vector2.DOWN + Vector2.LEFT] =  	"diaper_action_N"
+			useat_map[Vector2.LEFT] =  					"diaper_action_N"
+			useat_map[Vector2.UP + Vector2.LEFT] =  	"diaper_action_N"
+			useat_map[Vector2.UP] =  					"diaper_action_N"
+			useat_map[Vector2.UP + Vector2.RIGHT] =  	"diaper_action_N"
+			useat_map[Vector2.RIGHT] =  				"diaper_action_N"
+			useat_map[Vector2.DOWN + Vector2.RIGHT] =  	"diaper_action_N"
+			
 		"prison":
 			ANIMATION_STAND 						= "sHoopzPrison"
 			ANIMATION_SOUTH 						= "prision_S"

@@ -89,8 +89,8 @@ var last_movement_vector 	:= Vector2.ZERO
 @export_category("Movement Stuff")
 ## Speed stuff
 var speed_multiplier 		:= 900.0
-@export var speed_slow 		:= 1.5 * speed_multiplier # was 1.5
-@export var speed_normal 	:= 2.5 * speed_multiplier # was 2.5
+@export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
+@export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
 @export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
@@ -107,6 +107,38 @@ var ANIMATION_EAST 					:= "PLACEHOLDER - %s" % self
 
 ## Which sprite index is used for the standing animation.
 var ANIMATION_STAND_SPRITE_INDEX 	:= [ 0, 0, 0, 0, 0, 0, 0, 0 ] # N, NE, E, SE, S, SW, W, NW
+
+## useat map
+var useat_map := {
+	Vector2.DOWN: 					"PLACEHOLDER - %s" % self,
+	Vector2.DOWN + Vector2.LEFT: 	"PLACEHOLDER - %s" % self,
+	Vector2.LEFT: 					"PLACEHOLDER - %s" % self,
+	Vector2.UP + Vector2.LEFT: 		"PLACEHOLDER - %s" % self,
+	Vector2.UP: 					"PLACEHOLDER - %s" % self,
+	Vector2.UP + Vector2.RIGHT: 	"PLACEHOLDER - %s" % self,
+	Vector2.RIGHT: 					"PLACEHOLDER - %s" % self,
+	Vector2.DOWN + Vector2.RIGHT: 	"PLACEHOLDER - %s" % self,
+}
+var vec_2_dir_map := {
+	Vector2.DOWN: 					"SOUTH",
+	Vector2.DOWN + Vector2.LEFT: 	"SOUTHWEST",
+	Vector2.LEFT: 					"WEST",
+	Vector2.UP + Vector2.LEFT: 		"NORTHWEST",
+	Vector2.UP: 					"NORTH",
+	Vector2.UP + Vector2.RIGHT: 	"NORTHEAST",
+	Vector2.RIGHT: 					"EAST",
+	Vector2.DOWN + Vector2.RIGHT: 	"SOUTHEAST",
+}
+var dir_2_vec_map := {
+	"SOUTH":			Vector2.DOWN,
+	"SOUTHWEST":		Vector2.DOWN + Vector2.LEFT,
+	"WEST":				Vector2.LEFT,
+	"NORTHWEST":		Vector2.UP + Vector2.LEFT,
+	"NORTH":			Vector2.UP,
+	"NORTHEAST":		Vector2.UP + Vector2.RIGHT,
+	"EAST":				Vector2.RIGHT,
+	"SOUTHEAST":		Vector2.DOWN + Vector2.RIGHT,
+}
 
 ## Action Queue
 var cinema_set_queue := []
@@ -125,6 +157,27 @@ func play_animations():
 	#await ActorAnim.ready
 	ActorAnim.flip_h = flip_h
 
+func cinema_useat( target ) -> void:
+	# what a mess. target can be a string or a node.
+	var dir : Vector2
+	if target 		is String:
+		dir = dir_2_vec_map.get(target, Vector2.DOWN) as Vector2
+	elif target 	is Node2D:
+		dir = position.direction_to(target.position).round()
+	else:
+		push_warning( "Which USEAT anim is this? ", target )
+	
+	var old_anim 	:= ActorAnim.animation
+	var old_frame 	:= ActorAnim.frame # Standing anim fix
+	var new_anim 	:= useat_map.get(dir, "") as String
+	ActorAnim.sprite_frames.set_animation_loop( new_anim, false )
+	
+	cinema_playset( new_anim, old_anim, 5 )
+	await ActorAnim.animation_finished
+	ActorAnim.frame = old_frame
+	
+	return
+
 func cinema_set( _sprite_frame : String ):
 	if is_moving:
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
@@ -136,14 +189,14 @@ func cinema_set( _sprite_frame : String ):
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15 ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame
 		adjust_sprite_offset()
 		flip_sprite()
 		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
-		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 15 )
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
 		ActorAnim.play( _sprite_frame )
 		await ActorAnim.animation_finished
 		ActorAnim.animation = _sprite_frame_2
@@ -192,6 +245,31 @@ func cinema_look( _direction : String ):
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[7]
 			ActorAnim.flip_h = true
 	adjust_sprite_offset()
+	
+func cinema_lookat( target_node : B2_Actor ):
+	var _direction := position.direction_to( target_node.position ).round()
+	
+	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
+	#match _direction:
+		#Vector2.UP:
+			#dir_name = "NORTH"
+		#Vector2.DOWN:
+			#dir_name = "SOUTH"
+		#Vector2.LEFT:
+			#dir_name = "WEST"
+		#Vector2.RIGHT:
+			#dir_name = "EAST"
+			#
+		#Vector2.UP + Vector2.LEFT:
+			#dir_name = "NORTHWEST"
+		#Vector2.UP + Vector2.RIGHT:
+			#dir_name = "NORTHEAST"
+		#Vector2.DOWN + Vector2.LEFT:
+			#dir_name = "SOUTHWEST"
+		#Vector2.DOWN + Vector2.RIGHT:
+			#dir_name = "SOUTHEAST"
+			
+	cinema_look( dir_name )
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	# Default behaviour

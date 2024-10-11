@@ -10,9 +10,9 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA}
 var curr_MODE := MODE.FOLLOW
 
-@export var speed_slow 			:= 2.5
-@export var speed_normal 		:= 4.0
-@export var speed_fast 			:= 6.0
+@export var speed_slow 			:= 1.5
+@export var speed_normal 		:= 2.0
+@export var speed_fast 			:= 4.0
 @export var camera_follow_speed := 550.0 # Speed that the camera follows the mouse.
 
 var speed := 1.5

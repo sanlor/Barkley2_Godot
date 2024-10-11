@@ -60,6 +60,9 @@ func _ready() -> void:
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	
+func get_current_room() -> String:
+	return this_room
+	
 func warp_to( room_transition_string : String, _delay := 0.0 ):
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )

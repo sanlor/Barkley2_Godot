@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=4 uid="uid://bp8001p184487"]
+[gd_scene load_steps=38 format=4 uid="uid://bp8001p184487"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.gd" id="1_o1bik"]
 [ext_resource type="TileSetAtlasSource" uid="uid://c5a1qrwanoltt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="1_qteos"]
@@ -14,10 +14,13 @@
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="9_40vqi"]
 [ext_resource type="PackedScene" uid="uid://dcxil7hm04e2y" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_jhodfrey01.tscn" id="9_b4tnt"]
 [ext_resource type="PackedScene" uid="uid://c67glb1exql7n" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn" id="12_lcixm"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_tutorial_gun_give.gd" id="13_d2r6o"]
 [ext_resource type="PackedScene" uid="uid://drxfl81qdglq8" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.tscn" id="13_scnie"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_tutorial_door_check.gd" id="14_1lbfl"]
 [ext_resource type="Texture2D" uid="uid://bc2k3iyx21w8a" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraSphere01.png" id="14_5d3dp"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/factory/floor2/o_fct_akiraSphere01.gd" id="15_4epjw"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/environsolid.gd" id="15_jjugy"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_tutorial_roll_check.gd" id="15_oxpcn"]
 [ext_resource type="Texture2D" uid="uid://bf4a8mmi88g65" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraBottom01.png" id="16_bbmep"]
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="18_ib0r6"]
 [ext_resource type="PackedScene" uid="uid://bj15lfjd77t4" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_akiraBulb.tscn" id="18_uumm4"]
@@ -179,6 +182,39 @@ EXIT |
 DOUBT
 DIALOG | Jhodfrey | You don't look so tough. All you do is gargle... I wonder if the boss was wrong about you... Maybe we got_ 'mq`the wrong youngster...`rt`
 DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | `s1`Ughhhh...`s0`"
+
+[sub_resource type="Resource" id="Resource_26643"]
+script = ExtResource("9_40vqi")
+original_script = "EVENT  | o_zane01 | 1
+WAIT   | 0.25
+QUEST  | tutorialCollision = 2
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz | o_zane01
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_zane01
+LOOKAT | o_zane01 | o_cts_hoopz
+DIALOG | Zane | Hold on there, youngster. I don't think rolling is going to help you with those bigger barrels...
+MOVETO | o_zane01 | o_cinema9 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_zane01
+DIALOG | Zane | Try this instead...
+USEAT  | o_zane01
+NOTIFY | Got a Pistol!
+NOTIFY | ...But it has no ammo...
+// Sanlo: I added the one above. Combat system is stull under dev.
+QUEST  | diaperHolster = 1
+EVENT  | o_tutorial_gunGive | 0
+WAIT   | 1.0
+DIALOG | Zane | Whoah whoah, be careful where you point your gun's! That's pretty much rule number uno.
+DIALOG | Zane | I think a better target for your gun's and bullet's are those barrels over there... `sq`Give'em a brast`rt` with `kw` left click!`rt`
+QUEST  | zaneState = 4
+QUEST  | jhodfreyTips = 1"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nhyc1"]
+size = Vector2(10, 95)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qo6k7"]
+size = Vector2(11, 88)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ln8xd"]
 atlas = ExtResource("14_5d3dp")
@@ -396,11 +432,15 @@ metadata/code = ""
 metadata/inst_name = "inst_15689AC9"
 metadata/scale = Vector2(1, 1)
 
-[node name="P19 - o_tutorial_gunGive" type="Marker2D" parent="."]
+[node name="o_tutorial_gunGive" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
 position = Vector2(712, 232)
-metadata/code = ""
-metadata/inst_name = "inst_BC4BC2B9"
-metadata/scale = Vector2(0, 4)
+script = ExtResource("13_d2r6o")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_26643")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_gunGive"]
+shape = SubResource("RectangleShape2D_nhyc1")
+debug_color = Color(0.763805, 0.434836, 0.317677, 0.42)
 
 [node name="o_cinema9" type="Marker2D" parent="."]
 z_index = 4000
@@ -420,11 +460,13 @@ metadata/code = ""
 metadata/inst_name = "inst_58710CDE"
 metadata/scale = Vector2(1, 1)
 
-[node name="P22 - o_tutorial_doorCheck" type="Marker2D" parent="."]
+[node name="o_tutorial_doorCheck" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
 position = Vector2(448, 201)
-metadata/code = ""
-metadata/inst_name = "inst_1AF1C65A"
-metadata/scale = Vector2(2, 2)
+script = ExtResource("14_1lbfl")
+col_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_doorCheck"]
+debug_color = Color(0.763805, 0.434836, 0.317677, 0.42)
 
 [node name="o_cinema7" type="Marker2D" parent="."]
 z_index = 4000
@@ -435,11 +477,14 @@ metadata/code = ""
 metadata/inst_name = "inst_8C6EF13E"
 metadata/scale = Vector2(1, 1)
 
-[node name="P24 - o_tutorial_rollCheck" type="Marker2D" parent="."]
+[node name="o_tutorial_rollCheck" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
 position = Vector2(624, 232)
-metadata/code = ""
-metadata/inst_name = "inst_C038D6A5"
-metadata/scale = Vector2(0, 4)
+script = ExtResource("15_oxpcn")
+col_shape = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_rollCheck"]
+shape = SubResource("RectangleShape2D_qo6k7")
+debug_color = Color(0.763805, 0.434836, 0.317677, 0.42)
 
 [node name="P26 - o_fct_deadDwarf06" parent="." instance=ExtResource("7_56bb6")]
 
