@@ -10,8 +10,11 @@ class_name B2_DestructibleCombatActor
 @export var emit_smoke		:= false
 @export var smoke_emiter 	: GPUParticles2D
 
+var destroyed := false
 
 func apply_damage( damage : float):
+	if destroyed:
+		return
 	health -= damage
 	
 	if health < 0.0:
@@ -38,3 +41,4 @@ func destroy_entity():
 	await anim.animation_finished
 	collision.disabled = true
 	freeze = true
+	destroyed = true

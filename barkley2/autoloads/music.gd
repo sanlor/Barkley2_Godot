@@ -19,26 +19,20 @@ var bgmCheck = 1; ## was 5
 #if (argument[0] == "get")
 
 func _load_music_banks():
-	await get_tree().process_frame
-	
 	## Load music tracks
-	var _music_folder := DirAccess.open( music_folder )
-	#print( _music_folder.get_files() )
-	for file in  _music_folder.get_files():
-		if not file.begins_with("mus_"):
-			continue
-		if file.ends_with(".ogg.import"):
-			music_bank[ file.trim_suffix(".ogg.import") ] = str( music_folder + file.trim_suffix(".import") )
-
+	var _music_folder : Array = FileSearch.search_dir( music_folder, "", true )
+	for file : String in _music_folder:
+		if file.ends_with(".import"):
+			var file_split : Array = file.rsplit("/", false, 1)
+			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
 	print("init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries")
+	print(music_bank)
 
 func _enter_tree() -> void:
-	pass
+	_load_music_banks()
 
 func _ready():
-	_load_music_banks()
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
-	
 
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100
@@ -171,7 +165,7 @@ func room_get( room_name : String):
 		#if (room == r_tnn_bootybass02) effDes = 1;
 		#global.bgm_interior_effect = Goto(global.bgm_interior_effect, effDes, dt_sec());
 		_:
-			push_error("Invalid room name: ", room_name)
+			push_warning("Invalid room name: ", room_name)
 
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )

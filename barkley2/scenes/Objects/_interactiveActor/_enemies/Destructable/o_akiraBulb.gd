@@ -6,12 +6,14 @@ func _ready() -> void:
 	anim.play()
 	anim.speed_scale = randf_range(0.8,1.2)
 	
+	if B2_Playerdata.Quest("tutorialCollision", null, 0) >= 1:
+		destroy_entity()
 
 func destroy_entity():
 	remove_child( collision ) # .disabled = true
 	# add broken sprite
 	var broken = O_AKIRA_BULB_BROKEN.instantiate()
-	add_sibling(broken)
+	add_sibling.call_deferred(broken)
 	broken.position = position
 	
 	anim.hide()

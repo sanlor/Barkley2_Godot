@@ -49,7 +49,7 @@ func cinema_set( _sprite_frame : String ):
 	else:
 		print("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15 ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 15 )
@@ -60,7 +60,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String ): ## NOTE
 			ActorAnim_hands.flip_h = true
 			ActorAnim_hands.visible = true
 			ActorAnim_hands.sprite_frames.set_animation_loop( _sprite_frame, false )
-			ActorAnim_hands.sprite_frames.set_animation_speed( _sprite_frame, 15 )
+			ActorAnim_hands.sprite_frames.set_animation_speed( _sprite_frame, _speed )
 			ActorAnim_hands.play( _sprite_frame )
 		else:
 			ActorAnim.flip_h = false

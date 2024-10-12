@@ -222,6 +222,7 @@ func _load_portrait( portrait_name : String ):
 	var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png. "-5" ignores the ".png" part of the files.
 	## WARNING more than 9 frames might be an issue.
 	assert( n_frames > 0, "I warned you bro! ^^^^^^")
+	# Potraits should never have _strip0
 	
 	# Setup node
 	portrait_img_node = AnimatedSprite2D.new()

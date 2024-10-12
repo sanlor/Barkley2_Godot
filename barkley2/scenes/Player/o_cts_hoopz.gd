@@ -1,10 +1,10 @@
 extends B2_InteractiveActor
-
+class_name B2_InteractiveActor_Player
 # Cutscene version of hoopz.
 # check scr_event_hoopz_switch_cutscene()
 
 func _ready() -> void:
-	B2_Cinema.o_cts_hoopz = self
+	B2_CManager.o_cts_hoopz = self
 	change_costume("diaper")
 	
 func change_costume(costume_name : String) -> void:

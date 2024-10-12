@@ -5,6 +5,8 @@ extends CanvasLayer
 ## RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 
 signal room_loaded( has_error )
+signal room_finished_loading
+
 var is_loading_room 	:= false
 var path_loading_room 	:= ""
 var load_progress		:= []
@@ -24,6 +26,8 @@ var fade_time_out 		:= B2_Config.settingFadeOut
 
 var invalid_room 	:= "res://barkley2/rooms/r_wip.tscn" # Fallback room
 var room_folder 	:= "res://barkley2/rooms/"
+
+var room_load_lock	:= false # disallow loading a new room defore the current one finishes loading
 
 var room_array := [
 	# Menus, non gameplay
@@ -59,11 +63,16 @@ func _ready() -> void:
 	_index_rooms()
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
+	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
 	
 func get_current_room() -> String:
 	return this_room
 	
-func warp_to( room_transition_string : String, _delay := 0.0 ):
+func warp_to( room_transition_string : String, _delay := 0.0, create_player := true ):
+	if room_load_lock:
+		push_warning("Tried to load new room %s before the current one finishes." % room_transition_string)
+		return
+	room_load_lock = true
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )
 	
@@ -73,6 +82,8 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
 	var open_sfx	:= str( split[4] )
 	var close_sfx	:= str( split[5] )
+	
+	print("Started loading room %s." % room_name)
 	
 	add_child(room_transition_layer)
 	add_child(room_progress_bar)
@@ -102,7 +113,8 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	this_room_y 	= room_y
 	
 	tween = create_tween()
-	tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
+	if create_player:
+		tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
 	
 	## Cleanup
@@ -112,6 +124,9 @@ func warp_to( room_transition_string : String, _delay := 0.0 ):
 	
 	# Give back player control
 	B2_Input.player_has_control = true
+	room_finished_loading.emit()
+	room_load_lock = false
+	print("Finished loading room %s." % room_name)
 	
 	
 func get_room_scene( room_name : String ):
@@ -142,6 +157,10 @@ func get_room_scene( room_name : String ):
 func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if this_room.is_empty():
 		push_error("Room name empty. Aborting player node creation.")
+		return
+		
+	# Pos is invalid. do not spawn player.
+	if pos == Vector2.ZERO:
 		return
 		
 	var player_node := load( player_scene ).instantiate() as B2_Player

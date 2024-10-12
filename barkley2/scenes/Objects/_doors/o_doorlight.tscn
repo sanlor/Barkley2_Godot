@@ -103,30 +103,29 @@ size = Vector2(32, 16)
 [node name="o_doorlight" type="AnimatedSprite2D"]
 z_index = -10
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"s_doorlight_lr"
+animation = &"s_doorlight_ud"
 centered = false
-flip_h = true
+flip_v = true
 script = ExtResource("2_tx0ll")
 show_door_light = true
-type = 3
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_invalid_room"
+teleport_create_o_hoopz = false
 
 [node name="light_activation_area" type="Area2D" parent="."]
-position = Vector2(8, 16)
+position = Vector2(16, 8)
 
 [node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
 shape = SubResource("CircleShape2D_x31dv")
 
 [node name="push_area" type="Area2D" parent="."]
-position = Vector2(8, 16)
-rotation = 1.5708
+position = Vector2(16, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
 shape = SubResource("RectangleShape2D_hnlim")
 
 [node name="teleport_activation_area" type="Area2D" parent="."]
-position = Vector2(-8, 16)
-rotation = 1.5708
+position = Vector2(16, 24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
 shape = SubResource("RectangleShape2D_hnlim")

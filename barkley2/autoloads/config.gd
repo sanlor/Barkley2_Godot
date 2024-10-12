@@ -11,6 +11,13 @@ extends Node
 var settingInteractiveDistance 			:= 64.0; ## For KEYBOARD ## Was 100
 var settingInteractiveDistanceGamepad 	:= 48.0; ## For GAMEPAD ## Was 64
 
+# Screen Layers
+const SHADER_LAYER 	:= 3000 # Shaders and Cursor
+const PAUSE_LAYER	:= 2800 # Pause screen
+const NOTICE_LAYER	:= 2600 # "You got pistol"
+const DIALOG_LAYER	:= 2400 # Dialog Boxes
+const GUI_LAYER		:= 2000 # Inventory, etc
+
 # Used by the B2_RoomXY autoload
 var settingFadeIn 		:= 0.25;
 var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
@@ -196,6 +203,7 @@ func apply_config( _save := true):
 	else:
 		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_WINDOWED )
 		DisplayServer.window_set_size( Vector2i(384, 240) * screen_scale )
+		DisplayServer.window_set_position( DisplayServer.window_get_position(0) - (Vector2i(384, 240) * screen_scale) / 4, 0)
 		
 	if currentFilter == ON: ## TODO
 		pass

@@ -98,7 +98,8 @@ func _ready():
 	character_multiple.resize(44)
 
 	## Quest flags overrides
-	Quest("zaneState", 1)
+	#Quest("zaneState", 1)
+	#Quest("gameStart", 2)
 	
 ## This func replaces the Quests script.
 # /// Quest(name, value?);

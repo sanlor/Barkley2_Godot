@@ -16,6 +16,7 @@ signal permission_changed
 @export var collision_layer : TileMapLayer
 
 @export_category("Room Options")
+@export var play_room_music				:= true
 @export var room_pacify 				:= true # Player cant draw weapons.
 @export var room_player_can_roll 		:= true # Player can roll around.
 
@@ -26,7 +27,6 @@ signal permission_changed
 @export var cutscene_script 			: B2_Script
 
 @export_category("Nodes")
-var b2_cinema: B2_Cinema
 @export var b2_camera: B2_Camera
 
 var obstacles 			:= []
@@ -35,6 +35,8 @@ func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
+	if play_room_music:
+		ready.connect( _play_room_music )
 
 func set_pacify( state : bool ):
 	room_pacify = state
@@ -44,11 +46,18 @@ func set_roll( state : bool ):
 	room_player_can_roll = state
 	permission_changed.emit()
 
+func _play_room_music():
+	B2_Music.room_get( name )
+
+## This is a hard one.
+# Cant update pachfinding dinamically. B2_Environ arent taken into account, so actors can go trhu objects.
+# solution, manually update collision mask.
+
 func _update_obstacles():
 	var time := Time.get_ticks_usec()
 	obstacles.clear()
 	for n in get_children():
-		if n is B2_SOLID or n is B2_SEMISOLID:
+		if n is B2_SOLID or n is B2_SEMISOLID: # or n is B2_EnvironSolid or n is B2_EnvironSemisolid:
 			obstacles.append(n)
 			
 	print("_update_obstacles(): took %s usecs." % str(Time.get_ticks_usec() - time) )
@@ -59,8 +68,16 @@ func _init_pathfind():
 			if c is TileMapLayer:
 				reference_layer.append(c)
 				
-	assert(not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff")
+	assert( not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff" )
+	assert( is_instance_valid(collision_layer), "No collision avaiable for the pathfinding stuff" )
+	
 	astar = AStarGrid2D.new()
+	
+	## ASTAR Setup.
+	astar.jumping_enabled				= true
+	astar.default_compute_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
+	astar.default_estimate_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
+	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 	
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:
@@ -94,6 +111,10 @@ func _update_pathfind():
 				var tile_pos := Vector2i(pos.x + x, pos.y + y)
 				astar.set_point_solid( tile_pos, true )
 				
+	# update data from collision layer
+	for tile in collision_layer.get_used_cells():
+		astar.set_point_solid( tile, true )
+	
 	print("_update_pathfind(): took %s usecs." % str(Time.get_ticks_usec() - time) )
 	
 ## Remmeber, the path returned is inverted.

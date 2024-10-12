@@ -28,7 +28,7 @@ func _ready() -> void:
 	layer = 2000
 	
 	## Abort the tutorial image if an event starts.
-	B2_Cinema.event_started.connect( tutorial_abort )
+	B2_CManager.event_started.connect( tutorial_abort )
 	
 	# Don't repeat #
 	if B2_Playerdata.Quest("tutorialPopup", null, 0) >= 1 and get_parent().name == "r_fct_eggRooms01": queue_free()

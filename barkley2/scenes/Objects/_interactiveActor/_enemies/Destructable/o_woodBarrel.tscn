@@ -6,6 +6,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eva7e"]
 rough = true
+bounce = 0.3
 absorbent = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5r1uf"]
@@ -113,11 +114,12 @@ scale_curve = SubResource("CurveTexture_srxcv")
 alpha_curve = SubResource("CurveTexture_ko1yr")
 
 [node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
-mass = 100.0
+mass = 300.0
 physics_material_override = SubResource("PhysicsMaterial_eva7e")
 gravity_scale = 0.0
+sleeping = true
 lock_rotation = true
-linear_damp = 20.0
+linear_damp = 30.0
 script = ExtResource("1_gf45x")
 anim = NodePath("AnimatedSprite2D")
 collision = NodePath("CollisionShape2D")

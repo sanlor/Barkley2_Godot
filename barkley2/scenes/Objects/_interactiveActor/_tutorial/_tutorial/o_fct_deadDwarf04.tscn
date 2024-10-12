@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2wtpsai8w3ns"]
+[gd_scene load_steps=7 format=3 uid="uid://b2wtpsai8w3ns"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/interactiveactor.gd" id="1_y6h7v"]
 [ext_resource type="Texture2D" uid="uid://frtnetnhygvi" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf04.png" id="5_5jlfh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iyttg"]
 size = Vector2(20, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l7lde"]
+radius = 12.0416
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cfrqp"]
 atlas = ExtResource("5_5jlfh")
@@ -21,8 +24,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_fct_deadDwarf04" type="CharacterBody2D"]
+[node name="o_fct_deadDwarf04" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area")]
 script = ExtResource("1_y6h7v")
+mouse_detection_area = NodePath("ActorInteract")
 
 [node name="ActorInteract" type="Area2D" parent="."]
 
@@ -30,6 +34,7 @@ script = ExtResource("1_y6h7v")
 shape = SubResource("RectangleShape2D_iyttg")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l7lde")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true

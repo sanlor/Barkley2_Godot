@@ -55,6 +55,8 @@ const COMBAT_WALK_SW		:= "walk_SW"
 const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
+@onready var interact_collision: CollisionShape2D = $InteractionArea/CollisionShape2D
+
 # Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
@@ -79,7 +81,7 @@ var velocity			:= Vector2.ZERO
 var walk_speed			:= 80000
 var roll_impulse		:= 1000000
 var walk_damp			:= 10.0
-var roll_damp			:= 4.0
+var roll_damp			:= 3.0
 
 ## Debug
 var debug_line : Vector2
@@ -87,8 +89,9 @@ var debug_walk_dir : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	B2_Cinema.o_hoopz = self
+	B2_CManager.o_hoopz = self
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
+	linear_damp = walk_damp
 	_change_sprites()
 	
 	if get_parent() is B2_ROOMS:
@@ -131,7 +134,7 @@ func combat_walk_animation(delta : float):
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
 		if combat_last_input != input:
-			#add_smoke()
+			add_smoke()
 			
 			match input:
 				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW)
@@ -365,6 +368,7 @@ func _physics_process(delta: float) -> void:
 				linear_damp = walk_damp
 				step_smoke.emitting = false
 				hoopz_normal_body.offset.y -= 15
+				interact_collision.disabled = false
 				
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:
@@ -373,19 +377,28 @@ func _physics_process(delta: float) -> void:
 				## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
 				if Input.is_action_just_pressed("Holster") and can_draw_weapon:
 					# check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
-					if can_shoot:
+					if curr_STATE == STATE.NORMAL and can_shoot:
 						# change state, allowing the player to aim.
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 						curr_STATE = STATE.AIM
+						interact_collision.disabled = true
+						B2_Sound.play_pick("hoopz_swapguns")
+						
+					elif curr_STATE == STATE.AIM:
+						curr_STATE = STATE.NORMAL
+						interact_collision.disabled = false
+						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+						B2_Sound.play_pick("hoopz_swapguns")
+						
 					else:
 						# maybe unneeded?
 						B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
 				# player draws its weapon
-				elif Input.is_action_just_released("Holster") and can_draw_weapon:
-					curr_STATE = STATE.NORMAL
-					B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+				#elif Input.is_action_just_released("Holster") and can_draw_weapon:
+					#curr_STATE = STATE.NORMAL
+					#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
 				# player shoots its weapon.
 				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM and can_shoot:
@@ -410,7 +423,14 @@ func _physics_process(delta: float) -> void:
 						# Use the mouse to decide the roll direction. (Inverted)
 						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
 					linear_velocity = Vector2.ZERO
+					interact_collision.disabled = true
 					apply_central_force( roll_dir * roll_impulse )
+					
+					## Reset some vars
+					combat_last_direction 	= Vector2.ZERO
+					last_direction 			= Vector2.ZERO
+					last_input 				= Vector2.ZERO
+					combat_last_input 		= Vector2.ZERO
 					
 					## Fluff
 					B2_Sound.play("sn_hoopz_roll")
@@ -439,20 +459,11 @@ func _physics_process(delta: float) -> void:
 			else:
 				push_warning("Weird state: ", curr_STATE)
 	
-# handle step sounds
-func _on_hoopz_normal_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0
 			
 func _on_interaction_area_body_entered(body: Node2D) -> void:
 	if body is B2_InteractiveActor:
-		body.is_player_near = true
+		if curr_STATE == STATE.NORMAL:
+			body.is_player_near = true
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:
 	if body is B2_InteractiveActor:
@@ -461,4 +472,25 @@ func _on_interaction_area_body_exited(body: Node2D) -> void:
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 50.0 )
+			body.apply_damage( 75.0 ) ## Debug setup
+
+# handle step sounds
+func _on_hoopz_upper_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
+
+func _on_combat_lower_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0

@@ -14,10 +14,7 @@ func _ready() -> void:
 	ANIMATION_STAND_SPRITE_INDEX 	= [ 1, 1, 0, 0, 0, 0, 0, 1 ]
 	ActorAnim.animation 	= ANIMATION_STAND
 	
-	# Zane beckons you to come closer #
-	# if its anything but 0, event already hapenned
-	if B2_Playerdata.Quest("tutorialZaneOverHere", null, 0) != 0:
-		queue_free()
+
 
 func execute_event_user_1():
 	# used in the r_fct_tutorialZone01 when givving a gun.

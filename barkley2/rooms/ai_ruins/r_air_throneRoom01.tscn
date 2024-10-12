@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://bddwu6g2q5nu2"]
+[gd_scene load_steps=20 format=4 uid="uid://bddwu6g2q5nu2"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_throneRoom01.gd" id="1_372yl"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1nf1v"]
@@ -9,23 +9,11 @@
 [ext_resource type="PackedScene" uid="uid://vxi1ah884s7t" path="res://barkley2/scenes/Objects/_cutscenes/_trigal/o_cuchutamo01.tscn" id="7_yr07f"]
 [ext_resource type="Shader" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="8_ycdce"]
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="9_8c0el"]
+[ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="10_elk8h"]
 
 [sub_resource type="Resource" id="Resource_drk0g"]
 script = ExtResource("2_1nf1v")
-original_script = "Camera | snap | B2_CinemaSpot
-SET    | o_cts_hoopz | stand_S
-Misc   | set | o_cts_hoopz | B2_CinemaSpot
-WAIT   | 1
-DIALOG | ? ? ? = s_portrait | Hey there.
-WAIT   | 1
-DIALOG | ? ? ? = s_portrait | The game is still under development, so... This is all I got.
-WAIT   | 3
-DIALOG | ? ? ? = s_portrait | Funny thing this. All this work took me about 3 to 4 months to finish, but it probably took you 2 to 3 minutes to get here.
-WAIT   | 1
-DIALOG | ? ? ? = s_portrait | Anyway, use the (broken) door below to go back to the title screen, or hit \"End the Pain\".
-DIALOG | ? ? ? = s_portrait | See ya on the next update.
-WAIT   | 1
-EXIT"
+original_script = ""
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_an5xo"]
 texture = ExtResource("3_m8vnm")
@@ -1639,10 +1627,63 @@ shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
 
-[node name="r_air_throneRoom01" type="Node2D"]
+[sub_resource type="Resource" id="Resource_6fhpj"]
+script = ExtResource("2_1nf1v")
+original_script = "DIALOG | ? ? ? = s_portrait | Hey there.
+DIALOG | ? ? ? = s_portrait | The game is still under development, so... This is all I got.
+WAIT   | 1.5
+DIALOG | ? ? ? = s_portrait | I wonder if I will even come close to finishing it in my lifetime.
+WAIT   | 1
+FRAME  | CAMERA_SLOW | o_doorlight
+DIALOG | ? ? ? = s_portrait | Anyway, use the (broken) door below to go back to the title screen, or hit \"End the Pain\".
+WAIT   | 0.25
+DIALOG | ? ? ? = s_portrait | See ya on the next update.
+WAIT   | 0.25
+EXIT"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_53sbw"]
+resource_local_to_scene = true
+shader = ExtResource("8_ycdce")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="Resource" id="Resource_ccn3v"]
+script = ExtResource("2_1nf1v")
+original_script = "DIALOG | Debug = s_port_cuchutamo | Hey there. Here is some random text to text the multiline text box.
+DIALOG | Debug = s_port_cuchutamo | Lorem ipsum dolor sit amet. Qui assumenda tempore aut repellat quam 33 quia temporibus non sunt rerum. Qui earum doloremque eum consequuntur dolor quo quaerat perspiciatis. Id assumenda fugit rem aperiam consequatur et numquam facere qui internos dolorem eum voluptatem quasi et deserunt quisquam. Et consequatur accusantium ut enim natus vel obcaecati fugiat qui quod vero non magni molestiae. 
+DIALOG | Debug = s_port_cuchutamo | Did it work? I hope so.
+EXIT"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kbow2"]
+resource_local_to_scene = true
+shader = ExtResource("8_ycdce")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="Resource" id="Resource_62wg2"]
+script = ExtResource("2_1nf1v")
+original_script = "LOOKAT | o_cts_hoopz | o_nu_debug
+LOOKAT | o_nu_debug | o_cts_hoopz
+DIALOG | Nu = s_portrait | Its pretty easy to create characters with B2-InteractiveActors class. Needs some improovements, though...
+LOOK | o_nu_debug | SOUTH
+WAIT | 1
+DIALOG | Nu = s_portrait | Butts."
+
+[node name="r_air_throneRoom01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+y_sort_enabled = true
 script = ExtResource("1_372yl")
 create_player_scene_at_room_start = true
 player_scene_pos = Vector2(274, 274)
+collision_layer = NodePath("layer collision")
+room_pacify = false
 play_cinema_at_room_start = false
 cutscene_script = SubResource("Resource_drk0g")
 
@@ -1668,10 +1709,6 @@ tile_set = ExtResource("4_kemnc")
 
 [node name="o_doorlight" parent="." instance=ExtResource("3_777cr")]
 position = Vector2(240, 368)
-animation = &"s_doorlight_ud"
-flip_h = false
-flip_v = true
-type = 0
 debug_teleport_destination = "r_title,0,0"
 
 [node name="spawn_point" type="Marker2D" parent="."]
@@ -1686,7 +1723,22 @@ cinema_id = 1
 [node name="o_cuchutamo01" parent="." instance=ExtResource("7_yr07f")]
 material = SubResource("ShaderMaterial_raqw7")
 position = Vector2(176, 176)
+interactive_distance = 64
 player_can_pause = false
+cutscene_script = SubResource("Resource_6fhpj")
+
+[node name="o_cuchutamo02" parent="." instance=ExtResource("7_yr07f")]
+material = SubResource("ShaderMaterial_53sbw")
+position = Vector2(367, 175)
+interactive_distance = 64
+player_can_pause = false
+cutscene_script = SubResource("Resource_ccn3v")
 
 [node name="o_woodBarrel" parent="." instance=ExtResource("9_8c0el")]
 position = Vector2(306, 218)
+
+[node name="o_nu_debug" parent="." instance=ExtResource("10_elk8h")]
+material = SubResource("ShaderMaterial_kbow2")
+position = Vector2(232, 221)
+interactive_distance = 24
+cutscene_script = SubResource("Resource_62wg2")

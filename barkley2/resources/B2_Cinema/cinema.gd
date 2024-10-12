@@ -1,9 +1,11 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_camera.png")
 extends CanvasLayer
+class_name B2_CinemaPlayer
 
 ## Check Cinema() script. Cinema("run", script_start) is also important
 ## NOTE This node is resposible for Conversations, Dialog Tree, Cinematics, Events and Coronavirus.
 # 07-10-24 Its now an Autoload.
+# 12-10-24 Now its not. CManager is the autoload now.
 
 ## DEBUG
 @export_category("Debug Stuff")
@@ -30,8 +32,8 @@ extends CanvasLayer
 signal created_new_fade
 signal set_interactivity(enabled : bool)
 
-signal event_started
-signal event_ended
+#signal event_started
+#signal event_ended
 
 # used for the "CREATE" event
 ## NOTE need a dynamic way to load these.
@@ -41,10 +43,6 @@ var object_map := {
 
 const O_CTS_HOOPZ 	= preload("res://barkley2/scenes/Player/o_cts_hoopz.tscn")
 const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
-
-# Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
-var o_cts_hoopz 	: B2_Actor 			= null
-var o_hoopz 		: B2_Player		 	= null ## TODO Create a B2_CombatActor class
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
@@ -72,10 +70,10 @@ func get_camera_on_tree() -> Camera2D:
 	# No camera loaded. Create a new one
 	var _cam := B2_Camera_Hoopz.new()
 	# set its initial position
-	if is_instance_valid(o_hoopz):
-		_cam.position = o_hoopz.position
-	elif is_instance_valid(o_cts_hoopz):
-		_cam.position = o_cts_hoopz.position
+	if is_instance_valid(B2_CManager.o_hoopz):
+		_cam.position = B2_CManager.o_hoopz.position
+	elif is_instance_valid(B2_CManager.o_cts_hoopz):
+		_cam.position = B2_CManager.o_cts_hoopz.position
 	else:
 		_cam.position.x = B2_RoomXY.this_room_x
 		_cam.position.y = B2_RoomXY.this_room_y
@@ -84,45 +82,54 @@ func get_camera_on_tree() -> Camera2D:
 	return _cam
 	
 func load_hoopz_actor():
+	var hoopz_lookup := get_tree().current_scene.get_children()
+	for n in hoopz_lookup:
+		if n.name == "o_hoopz":
+			n.queue_free()
 	# if real is loaded, load fake hoopz.
-	if not is_instance_valid(o_cts_hoopz): 
-		o_cts_hoopz = O_CTS_HOOPZ.instantiate()
-	if is_instance_valid(o_hoopz):
-		o_cts_hoopz.position 	= o_hoopz.position
-		o_hoopz.queue_free()
+	if not is_instance_valid(B2_CManager.o_cts_hoopz): 
+		B2_CManager.o_cts_hoopz = O_CTS_HOOPZ.instantiate()
+		
+	if is_instance_valid(B2_CManager.o_hoopz):
+		B2_CManager.o_cts_hoopz.position 	= B2_CManager.o_hoopz.position
+		B2_CManager.o_hoopz.queue_free()
 	else:
-		o_cts_hoopz.position.x 	= B2_RoomXY.this_room_x
-		o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
+		B2_CManager.o_cts_hoopz.position.x 	= B2_RoomXY.this_room_x
+		B2_CManager.o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
-	get_tree().current_scene.add_child( o_cts_hoopz, true )
+	get_tree().current_scene.add_child( B2_CManager.o_cts_hoopz, true )
 	
 	# make the actor face the event_object
-	var _dir := o_cts_hoopz.position.direction_to( event_caller.position ).round()
+	var _dir := B2_CManager.o_cts_hoopz.position.direction_to( event_caller.position ).round() as Vector2
 	match _dir: # Its messy, but it works.
-		Vector2.UP + Vector2.LEFT:		o_cts_hoopz.cinema_look( "NORTHWEST" )
-		Vector2.UP + Vector2.RIGHT: 	o_cts_hoopz.cinema_look( "NORTHEAST" )
-		Vector2.DOWN + Vector2.LEFT: 	o_cts_hoopz.cinema_look( "SOUTHWEST" )
-		Vector2.DOWN + Vector2.RIGHT: 	o_cts_hoopz.cinema_look( "SOUTHEAST" )
+		Vector2.UP + Vector2.LEFT:		B2_CManager.o_cts_hoopz.cinema_look( "NORTHWEST" )
+		Vector2.UP + Vector2.RIGHT: 	B2_CManager.o_cts_hoopz.cinema_look( "NORTHEAST" )
+		Vector2.DOWN + Vector2.LEFT: 	B2_CManager.o_cts_hoopz.cinema_look( "SOUTHWEST" )
+		Vector2.DOWN + Vector2.RIGHT: 	B2_CManager.o_cts_hoopz.cinema_look( "SOUTHEAST" )
 
-		Vector2.UP: 		o_cts_hoopz.cinema_look( "NORTH" )
-		Vector2.LEFT: 		o_cts_hoopz.cinema_look( "WEST" )
-		Vector2.DOWN: 		o_cts_hoopz.cinema_look( "SOUTH" )
-		Vector2.RIGHT: 		o_cts_hoopz.cinema_look( "EAST" )
-	pass
+		Vector2.UP: 		B2_CManager.o_cts_hoopz.cinema_look( "NORTH" )
+		Vector2.LEFT: 		B2_CManager.o_cts_hoopz.cinema_look( "WEST" )
+		Vector2.DOWN: 		B2_CManager.o_cts_hoopz.cinema_look( "SOUTH" )
+		Vector2.RIGHT: 		B2_CManager.o_cts_hoopz.cinema_look( "EAST" )
 	
 func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
+	var hoopz_lookup := get_tree().current_scene.get_children()
+	for n in hoopz_lookup:
+		if n.name == "o_cts_hoopz":
+			n.queue_free()
+			
 	# if fake is loaded, load real hoopz.
-	if not is_instance_valid(o_hoopz):
-		o_hoopz = O_HOOPZ.instantiate()
+	if not is_instance_valid(B2_CManager.o_hoopz):
+		B2_CManager.o_hoopz = O_HOOPZ.instantiate()
 		
-	if is_instance_valid(o_cts_hoopz):
-		o_hoopz.position = o_cts_hoopz.position
-		o_cts_hoopz.queue_free()
+	if is_instance_valid(B2_CManager.o_cts_hoopz):
+		B2_CManager.o_hoopz.position = B2_CManager.o_cts_hoopz.position
+		B2_CManager.o_cts_hoopz.queue_free()
 	else:
-		o_hoopz.position.x = B2_RoomXY.this_room_x
-		o_hoopz.position.y = B2_RoomXY.this_room_y
+		B2_CManager.o_hoopz.position.x = B2_RoomXY.this_room_x
+		B2_CManager.o_hoopz.position.y = B2_RoomXY.this_room_y
 		
-	get_tree().current_scene.add_child( o_hoopz, true )
+	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
 	
 func end_cutscene():
 	load_hoopz_player()
@@ -139,11 +146,12 @@ func end_cutscene():
 	
 	## NOTE Below is trash. needs improving.
 	camera.set_safety( true )
-	camera.follow_player( o_hoopz )
+	camera.follow_player( B2_CManager.o_hoopz )
 	B2_Input.player_follow_mouse.emit( true )
 	B2_Input.camera_follow_mouse.emit( true )
 	
-	event_ended.emit() # Peace out.
+	B2_CManager.event_ended.emit() # Peace out.
+	queue_free()
 	
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
 	if not is_instance_valid(camera):
@@ -161,23 +169,23 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	B2_Input.player_follow_mouse.emit( false )
 	B2_Input.camera_follow_mouse.emit( false )
 	
-	event_started.emit()
+	B2_CManager.event_started.emit()
 	
 	camera.set_safety( false )
 	
-	load_hoopz_actor()
-	
 	# Chill out. Avoid loading invalid nodes.
 	await get_tree().process_frame
+	
+	load_hoopz_actor()
 	
 	room = B2_RoomXY.get_current_room()
 	all_nodes = get_tree().current_scene.get_children()
 	
 	# Frame Camera
 	if frame_await:
-		await camera.cinema_frame( 	o_cts_hoopz.position, "CAMERA_NORMAL" ) 	# sync movement
+		await camera.cinema_frame( 	B2_CManager.o_cts_hoopz.position, "CAMERA_NORMAL" ) 	# sync movement
 	else:
-		camera.cinema_frame( 		o_cts_hoopz.position, "CAMERA_NORMAL" ) 			# async movement
+		camera.cinema_frame( 		B2_CManager.o_cts_hoopz.position, "CAMERA_NORMAL" ) 			# async movement
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
@@ -402,10 +410,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
-						await o_cts_hoopz.cinema_useat( subject ) 		# its a node.
+						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 						#o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 					else:
-						await o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 						#o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 					
 				"FRAME", "FOLLOWFRAME":
@@ -461,6 +469,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					if debug_moveto: print("MOVETO: ", parsed_line[1], " - ", parsed_line[2] )
 				"MOVE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+				"Destroy":
+					# Remove actor. simple.
+					var actor = get_node_from_name( all_nodes,	parsed_line[1] )
+					actor.queue_free()
+					array_dirty = true
 					
 				## B2 has some stupid ACE script execution
 				# Check Cinema() line 588
@@ -547,10 +560,10 @@ func get_node_from_name( _array, _name, warn := true ) -> Node:
 					break
 		else:
 			if warn: # sometimes a warning is not needed.
-				push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name, "\n", _array )
+				#push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
 				array_dirty = true
 	if not is_instance_valid(node):
-		push_warning("Target %s not found. Bummer." % _name)
+		push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
 	return node
 	
 func Misc( parsed_line :PackedStringArray ):
@@ -570,29 +583,34 @@ func Misc( parsed_line :PackedStringArray ):
 			else:
 				push_error("obj1 invalid: ", obj1)
 		"shadow":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"visible":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"entity settings":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"automatic animation":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"flip":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"flipx": ## Special case for walking interactive actors
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"alpha": ## 1 = object | 2 = alpha | 3 = time
-			pass
+			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			var alpha 	:= float(parsed_line[ 3 ])
+			var time 	:= float(parsed_line[ 4 ])
+			var tween := create_tween()
+			tween.tween_property(subject, "modulate:a", alpha, time) # await maybe?
+			
 		"backwards":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"dialogY":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"dnaCyber":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"manchurian":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		_:
 			print("Misc() - GOOFED! Unknown command > " + str(parsed_line[1]) + " <")
 	
@@ -604,15 +622,15 @@ func Camera( parsed_line : PackedStringArray ):
 	match parsed_line[1]:
 		## Camera("enable", camera)
 		"enable":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		## Creates a new camera to be used. Initially disabled.
 		## Objects must have camera_target_x, camera_target_y, camera_speed
 		## Camera("create", x, y, object_to_follow)
 		"create":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		## Camera("transition", new_camera)
 		"transition":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		## Camera("snap", object) - Instantly moves camera to spot
 		## Camera("snap", x, y) - Instantly moves camera to spot
 		"snap":
@@ -628,7 +646,7 @@ func Camera( parsed_line : PackedStringArray ):
 		## Deletes other camera move events
 		## Camera("safe check")
 		"safe check":
-			pass
+			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		_:
 			print("Camera() - Unknown command >" + str( parsed_line[1] ) + "<")
 		

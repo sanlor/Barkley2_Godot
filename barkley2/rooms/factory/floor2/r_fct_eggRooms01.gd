@@ -11,15 +11,17 @@ func _ready() -> void:
 	
 	_init_pathfind()
 	_update_pathfind()
-	
-	if not play_cinema_at_room_start:
-		return
+		
+	await get_tree().process_frame
+	if B2_RoomXY.this_room.is_empty():
+		if create_player_scene_at_room_start:
+			_setup_camera( _setup_player_node() )
+			return ## DEBUG
 	
 	# If you go back to this room after progressing the tutorial, all the egg shit is already fucked beyond repair and can't be interacted with etc. //
-	if B2_Playerdata.Quest( "gameStart", null ) != 1:
+	if B2_Playerdata.Quest( "gameStart", null, 1) != 1:
 		# the cutscene was already played.
-		# return
-		pass
+		return
 	else:
 		# play the initial cutscene.
 		
@@ -31,4 +33,4 @@ func _ready() -> void:
 		
 		_setup_camera( null )
 		o_room_dream_filter.play_blink()
-		B2_Cinema.play_cutscene( cutscene_script, self )
+		B2_CManager.play_cutscene( cutscene_script, self )

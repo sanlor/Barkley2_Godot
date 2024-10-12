@@ -7,12 +7,12 @@ func _ready() -> void:
 	_init_pathfind()
 	_update_pathfind()
 	
+	B2_Music.play( "mus_swp_accousticarea" )
 		
-	if B2_RoomXY.this_room.is_empty():
+	if B2_RoomXY.this_room == "":
 		if create_player_scene_at_room_start:
 			await get_tree().process_frame
 			_setup_camera( _setup_player_node() )
 		
 	if play_cinema_at_room_start:
-		#b2_cinema.setup_camera( b2_camera )
-		B2_Cinema.play_cutscene( cutscene_script, self, true )
+		B2_CManager.play_cutscene( cutscene_script, self, true )

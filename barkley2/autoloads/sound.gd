@@ -1730,10 +1730,11 @@ func set_volume( raw_value : float ): # 0 - 100
 func get_volume() -> float:
 	return B2_Config.sfx_gain_master
 
-func _ready():
+func _enter_tree() -> void:
 	_init_sound_banks()
 	_init_sound_picks()
 	
+func _ready():
 	for i in sound_pool_amount:
 		sound_pool.append( 					AudioStreamPlayer.new() 	)
 		

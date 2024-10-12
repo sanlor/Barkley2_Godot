@@ -12,7 +12,7 @@ extends AnimatedSprite2D
 
 ## TODO Door size doesnt work .
 
-enum DOOR_TYPE{UP, DOWN, LEFT, RIGHT}
+enum DOOR_TYPE{DOWN, UP, LEFT, RIGHT}
 @export var type := DOOR_TYPE.UP :
 	set(_dir):
 		type = _dir
@@ -29,14 +29,16 @@ enum DOOR_SIZE{S, M, L, XL}
 @export var door_offset 	:= Vector2.ZERO
 
 @export_category("Teleport")
-@export var debug_teleport_destination 	:= "" ## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
-@export var teleport_destination 	:= "" ## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
+@export var debug_teleport_destination 		:= "" 	## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
+@export var debug_teleport_create_o_hoopz 	:= true
+@export var teleport_destination 			:= "" 		## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
+@export var teleport_create_o_hoopz 		:= true
 
 var wadChk = 2; # To make resist half in wading layer
 var zone = "";
 
 var pushTime 		= 0.5; # In seconds how long you need to hold
-var pushResist 		= 1000; # Pushing resist, higher is more pusback ## was 70
+var pushResist 		= 65000; # Pushing resist, higher is more pusback ## was 70
 var light 			= 1; # When 0, it does not show the light
 var fix 			= 1; # If 1, adds the top fix
 var locked 			= 0;
@@ -56,6 +58,7 @@ var target_light_alpha := 0.75
 var light_alpha := target_light_alpha
 
 var is_warping := false
+var is_loaded	:= false
 
 const light_activation_offset := {
 	DOOR_TYPE.UP:		Vector2( 16,	8 ),
@@ -81,10 +84,14 @@ const push_area_offset := {
 @onready var teleport_activation_area: 		Area2D = $teleport_activation_area
 @onready var push_area: 					Area2D = $push_area
 
+var _rot := 0.0
 
 func _ready() -> void:
-	if not enabled:
+	if not enabled and not Engine.is_editor_hint():
 		queue_free()
+		
+	if not Engine.is_editor_hint():
+		B2_RoomXY.room_finished_loading.connect( func(): is_loaded = true )
 		
 	_update_sprite()
 	
@@ -101,9 +108,7 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			if not Engine.is_editor_hint():
-				teleport_activation_area.rotation = 0
-				push_area.rotation = 0
+			_rot = 0
 			
 		DOOR_TYPE.DOWN:
 			animation = "s_doorlight_ud"
@@ -111,9 +116,7 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, -44 )
 			frame = door_size
-			if not Engine.is_editor_hint():
-				teleport_activation_area.rotation = 0
-				push_area.rotation = 0
+			_rot = 0
 			
 		DOOR_TYPE.LEFT:
 			animation = "s_doorlight_lr"
@@ -121,9 +124,7 @@ func _update_sprite():
 			flip_h = false
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			if not Engine.is_editor_hint():
-				teleport_activation_area.rotation = deg_to_rad(90)
-				push_area.rotation = deg_to_rad(90)
+			_rot = deg_to_rad(90)
 			
 		DOOR_TYPE.RIGHT:
 			animation = "s_doorlight_lr"
@@ -131,14 +132,16 @@ func _update_sprite():
 			flip_h = true
 			offset = Vector2( 0, 0 )
 			frame = door_size
-			if not Engine.is_editor_hint():
-				teleport_activation_area.rotation = deg_to_rad(90)
-				push_area.rotation = deg_to_rad(90)
+			_rot = deg_to_rad(90)
 				
-	if not Engine.is_editor_hint():
-		light_activation_area.position 		= light_activation_offset[type]
-		teleport_activation_area.position 	= teleport_activation_offset[type]
-		push_area.position 					= push_area_offset[type]
+	#if not Engine.is_editor_hint():
+	teleport_activation_area.rotation 	= _rot
+	push_area.rotation 					= _rot
+	light_activation_area.position 		= light_activation_offset[type]
+	teleport_activation_area.position 	= teleport_activation_offset[type]
+	push_area.position 					= push_area_offset[type]
+	
+	is_loaded = true
 
 func push_player( body : B2_Player, delta : float ):
 	var push_vector := Vector2.ZERO
@@ -162,7 +165,7 @@ func _physics_process(_delta: float) -> void:
 	if light_activation_area.has_overlapping_bodies():
 		var body : Array[Node2D] = light_activation_area.get_overlapping_bodies()
 		for b in body:
-			if b is B2_Player:
+			if b is B2_Player or b is B2_InteractiveActor_Player:
 				var b_distance := global_position.distance_to( b.global_position )
 				var alpha : float = b_distance / light_activation_shape.shape.radius
 				
@@ -176,6 +179,12 @@ func _physics_process(_delta: float) -> void:
 				push_player( b, _delta )
 	
 func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
+	if not is_loaded:
+		return
+		
+	if is_warping: # avoid double loading the same room
+		return
+		
 	if body is B2_Player:
 		# Debug Destination has priority
 		if debug_teleport_destination.is_empty():
@@ -183,8 +192,9 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 				push_error("Door has no destination set. dumbo!")
 			else:
 				is_warping = true
-				B2_RoomXY.warp_to( teleport_destination )
+				print(self)
+				B2_RoomXY.warp_to( teleport_destination, 0.0, teleport_create_o_hoopz )
 		else:
-			push_warning("DEBUG TELEPORT: ", debug_teleport_destination)
+			push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
 			is_warping = true
-			B2_RoomXY.warp_to( debug_teleport_destination )
+			B2_RoomXY.warp_to( debug_teleport_destination, 0.0, debug_teleport_create_o_hoopz )

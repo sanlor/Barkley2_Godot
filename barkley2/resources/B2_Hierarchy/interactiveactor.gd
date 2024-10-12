@@ -17,7 +17,7 @@ var _active = true;
 @export_category("Mouse")
 @export var mouse_detection_area 		: Area2D
 @export var resize_mouse_detection_area := true # Resize based on the default sprite size
-@export var interactive_distance 		:= B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
+@export var interactive_distance 		:= 64 # B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
 
 # The last direction this actor was in.
 var _last_direction = null # RIGHT;
@@ -53,13 +53,19 @@ func _enter_tree() -> void:
 			mouse_detection_area = get_node("ActorInteract")
 			
 		await get_tree().process_frame
-		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered)
-		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited)
+		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
+		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
 		
 		if resize_mouse_detection_area:
 			var s = ActorAnim.sprite_frames.get_frame_texture( ActorAnim.animation, 0 ).get_size()
-			mouse_detection_area.get_child(0).shape.size = s # what a mess
-		
+			if mouse_detection_area.get_child(0).shape is RectangleShape2D:
+				mouse_detection_area.get_child(0).shape.size = s # what a mess
+				
+			elif mouse_detection_area.get_child(0).shape is CircleShape2D:
+				mouse_detection_area.get_child(0).shape.radius = interactive_distance # what a mess
+			else:
+				push_error("%s has some issues related to mouse detection.")
+				breakpoint
 		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
 		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 		material = shader
@@ -83,13 +89,13 @@ func _input(event: InputEvent) -> void:
 						interaction()
 		
 func interaction() -> void:
-	if is_instance_valid(cutscene_script):
-		B2_Cinema.play_cutscene( cutscene_script, self, true )
+	if is_interactive:
+		if is_instance_valid(cutscene_script):
+			B2_CManager.play_cutscene( cutscene_script, self, true )
 	
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:
 		is_mouse_hovering = true
-		
 	else:
 		is_mouse_hovering = false
 		_process_mouse_events()
@@ -99,6 +105,9 @@ func mouse_detection_area_exited() -> void:
 	_process_mouse_events()
 	
 func _process_mouse_events() -> void: ## Perform mouse click and position checks
+	if not is_interactive:
+		return
+		
 	if is_player_near:
 		if is_mouse_hovering:
 			#print(name)

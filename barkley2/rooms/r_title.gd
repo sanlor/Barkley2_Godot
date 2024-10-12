@@ -124,6 +124,8 @@ func _ready():
 	B2_Config.language_changed.connect( set_title_names )
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
+	B2_Screen.can_pause = false
+	
 	## Music
 	await get_tree().process_frame
 	B2_Music.room_get( "r_title" )

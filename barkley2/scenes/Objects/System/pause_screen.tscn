@@ -1,0 +1,77 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba76j0jvdbu8c"]
+
+[ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="1_saogy"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/pause_screen.gd" id="2_lnwyh"]
+[ext_resource type="Texture2D" uid="uid://ba7tkmx4xg5sd" path="res://barkley2/assets/b2_original/images/merged/s_pausemenu_buttonlight.png" id="3_48w6a"]
+
+[node name="pause_layer" type="CanvasLayer"]
+script = ExtResource("2_lnwyh")
+
+[node name="pause_screen" type="ColorRect" parent="."]
+process_mode = 3
+z_index = 4096
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_saogy")
+color = Color(0, 0, 0, 0.7)
+
+[node name="resume" type="Button" parent="pause_screen"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -45.0
+offset_right = 192.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume Reality"
+
+[node name="button_bg_resume" type="TextureRect" parent="pause_screen/resume"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_48w6a")
+
+[node name="exit" type="Button" parent="pause_screen"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 15.0
+offset_right = 192.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "End The Pain"
+
+[node name="button_bg_exit" type="TextureRect" parent="pause_screen/exit"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_48w6a")
