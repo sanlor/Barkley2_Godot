@@ -23,7 +23,7 @@ const textcolorHoopzBanter 	:= Color8(255, 255, 255);
 const textcolorHoopzDamage 	:= Color8(255, 50, 100);
 const textcolorHoopzCandy 	:= Color8(100, 50, 255);
 
-
+## Important function for text translation and parsing.
 static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 	if B2_Config.AlBhed:
 		
@@ -110,7 +110,7 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		
 	else:
 		## WARNING Albhed doesnt work with this. TextSpecial() has a good sollution.
-		var new_text = text.replace("#", "\n")
+		var new_text = text.replace("#", "\n") # <-  Used on the CC mostly.
 		
 		new_text = new_text.replace("`mq`", "[color=#%s]" % textcolorMainquest.to_html() )
 		new_text = new_text.replace("`sq`", "[color=#%s]" % textcolorSidequest.to_html() )
@@ -123,6 +123,8 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		
 		new_text = new_text.replace("`s0`", "[/shake]")
 		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=2 connected=0]")
+		
+		new_text = new_text.replace("/'", '"') # Add support for " character.
 		
 		return new_text
 

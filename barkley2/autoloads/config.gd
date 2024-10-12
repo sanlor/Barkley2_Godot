@@ -11,6 +11,9 @@ extends Node
 var settingInteractiveDistance 			:= 64.0; ## For KEYBOARD ## Was 100
 var settingInteractiveDistanceGamepad 	:= 48.0; ## For GAMEPAD ## Was 64
 
+## Monitor
+var main_display = 0
+
 # Screen Layers
 const SHADER_LAYER 	:= 3000 # Shaders and Cursor
 const PAUSE_LAYER	:= 2800 # Pause screen
@@ -198,12 +201,7 @@ func apply_config( _save := true):
 	else:
 		pass
 		
-	if fullscreen == ON:
-		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_FULLSCREEN )
-	else:
-		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_WINDOWED )
-		DisplayServer.window_set_size( Vector2i(384, 240) * screen_scale )
-		DisplayServer.window_set_position( DisplayServer.window_get_position(0) - (Vector2i(384, 240) * screen_scale) / 4, 0)
+	change_window_scale()
 		
 	if currentFilter == ON: ## TODO
 		pass
@@ -217,6 +215,22 @@ func apply_config( _save := true):
 		
 	if _save:
 		config_save()
+
+func change_window_scale() -> void:
+	for i in DisplayServer.get_screen_count(): # debug
+		print("Screen %s is %s." % [i, DisplayServer.screen_get_size(i)])
+		
+	if fullscreen == ON:
+		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_FULLSCREEN )
+	else:
+		var screen_pos		:= DisplayServer.screen_get_position( main_display )
+		var screen_center 	:= DisplayServer.screen_get_size( main_display ) / 2
+		var window_size		:= Vector2i(384, 240) * screen_scale
+		
+		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_WINDOWED )
+		DisplayServer.window_set_size( window_size )
+		DisplayServer.window_set_position( (screen_pos + screen_center) - window_size / 2, main_display )
+	
 
 func config_load():
 	var config = ConfigFile.new()

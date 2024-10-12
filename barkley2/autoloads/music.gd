@@ -26,7 +26,6 @@ func _load_music_banks():
 			var file_split : Array = file.rsplit("/", false, 1)
 			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
 	print("init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries")
-	print(music_bank)
 
 func _enter_tree() -> void:
 	_load_music_banks()
