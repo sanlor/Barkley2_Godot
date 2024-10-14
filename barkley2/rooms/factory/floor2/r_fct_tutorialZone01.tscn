@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="9_40vqi"]
 [ext_resource type="PackedScene" uid="uid://dcxil7hm04e2y" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_jhodfrey01.tscn" id="9_b4tnt"]
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/event_trigger_tutorial_roll.gd" id="9_rdwnb"]
+[ext_resource type="Script" path="res://barkley2/resources/quest_cleanup.gd" id="10_t200o"]
 [ext_resource type="PackedScene" uid="uid://c67glb1exql7n" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn" id="12_lcixm"]
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="13_7xwbb"]
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_tutorial_gun_give.gd" id="13_d2r6o"]
@@ -3035,14 +3036,6 @@ LOOK   | o_jhodfrey01 | NORTHWEST
 QUEST  | zaneState = 7
 EVENT  | o_zane01 | 15"
 
-[sub_resource type="GDScript" id="GDScript_vdrhs"]
-script/source = "extends Node2D
-
-func _ready() -> void:
-	if B2_Playerdata.Quest(\"tutorialDoorSwitch\", null, 0) == 1:
-		get_parent().queue_free()
-"
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_op01c"]
 radius = 64.0
 
@@ -3305,7 +3298,7 @@ animations = [{
 y_sort_enabled = true
 script = ExtResource("1_o1bik")
 create_player_scene_at_room_start = true
-player_scene_pos = Vector2(1032, 180)
+player_scene_pos = Vector2(464, 224)
 collision_layer = NodePath("layer collision")
 play_cinema_at_room_start = false
 
@@ -3357,8 +3350,6 @@ position = Vector2(448, 152)
 offset = Vector2(0, -44)
 flip_v = false
 type = 0
-debug_teleport_destination = "r_air_throneRoom01, 274, 274"
-debug_teleport_create_o_hoopz = true
 teleport_destination = "r_fct_accessHall01, 1456, 380"
 teleport_create_o_hoopz = true
 
@@ -3397,9 +3388,6 @@ metadata/scale = Vector2(1, 1)
 position = Vector2(840, 208)
 cutscene_script = SubResource("Resource_foa1c")
 
-[node name="quest_cleanup" type="Node2D" parent="o_zane01"]
-script = SubResource("GDScript_vdrhs")
-
 [node name="B2_ProxEventTrigger" type="Area2D" parent="o_zane01"]
 script = ExtResource("9_rdwnb")
 radius_distance = 64.0
@@ -3411,13 +3399,21 @@ autostart = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o_zane01/B2_ProxEventTrigger"]
 shape = SubResource("CircleShape2D_op01c")
 
+[node name="B2_QuestCleanup" type="Node" parent="o_zane01"]
+script = ExtResource("10_t200o")
+quest_name = "zaneState"
+compare = 3
+value = 5
+
 [node name="o_jhodfrey01" parent="." instance=ExtResource("9_b4tnt")]
 position = Vector2(760, 184)
 cutscene_script = SubResource("Resource_q6vb2")
 
-[node name="quest_cleanup" type="Node2D" parent="o_jhodfrey01"]
-position = Vector2(80, 24)
-script = SubResource("GDScript_vdrhs")
+[node name="B2_QuestCleanup" type="Node" parent="o_jhodfrey01"]
+script = ExtResource("10_t200o")
+quest_name = "zaneState"
+compare = 3
+value = 5
 
 [node name="P12 - o_semisolid16" type="StaticBody2D" parent="."]
 z_index = 4000
@@ -3559,7 +3555,7 @@ interactive_distance = 64
 [node name="o_fct_akiraSphere01" type="AnimatedSprite2D" parent="."]
 position = Vector2(664, 176)
 sprite_frames = SubResource("SpriteFrames_4sumv")
-frame_progress = 0.912627
+frame_progress = 0.516838
 centered = false
 offset = Vector2(-54, -95)
 script = ExtResource("15_4epjw")
@@ -3576,6 +3572,10 @@ metadata/default = {
 "xorig": "54",
 "yorigin": "95"
 }
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="o_fct_akiraSphere01"]
+autoplay = true
+bus = &"Audio"
 
 [node name="o_fct_akiraBottom01" type="AnimatedSprite2D" parent="."]
 position = Vector2(667, 269)

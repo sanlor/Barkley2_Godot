@@ -1,10 +1,23 @@
-[gd_scene load_steps=10 format=3 uid="uid://b083c3koxs0yb"]
+[gd_scene load_steps=12 format=3 uid="uid://b083c3koxs0yb"]
 
 [ext_resource type="AudioStream" uid="uid://dv3pn80p7omfw" path="res://excluded_media/_audio/CC/sn_cc_wizard_talk01.wav" id="1_dtjsi"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="2_lo6fa"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="3_eavwk"]
 [ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="4_xswim"]
 [ext_resource type="FontFile" uid="uid://doo35ftr5vtrj" path="res://barkley2/resources/fonts/fn2_cc.tres" id="5_t84ct"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="6_beqh8"]
+
+[sub_resource type="GDScript" id="GDScript_k8t4e"]
+script/source = "extends Control
+
+@onready var rich_text_label_2: RichTextLabel = $RichTextLabel2
+
+func _ready() -> void:
+	#rich_text_label_2.text = \"Script Text\"
+	rich_text_label_2.push_color(Color.HOT_PINK)
+	rich_text_label_2.append_text(\"Script Text\")
+	rich_text_label_2.pop_all()
+"
 
 [sub_resource type="LabelSettings" id="LabelSettings_mlk4x"]
 font = ExtResource("2_lo6fa")
@@ -25,6 +38,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("6_beqh8")
+script = SubResource("GDScript_k8t4e")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("1_dtjsi")
@@ -65,3 +80,18 @@ offset_right = 205.0
 offset_bottom = 225.0
 text = "BITMAP FONT SUCKS!"
 label_settings = SubResource("LabelSettings_o1k47")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 30.0
+offset_right = 173.0
+offset_bottom = 50.0
+theme = ExtResource("6_beqh8")
+text = "Im rich!"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 170.0
+offset_bottom = 24.0
+bbcode_enabled = true

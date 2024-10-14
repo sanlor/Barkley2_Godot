@@ -98,14 +98,16 @@ func _ready():
 	character_multiple.resize(44)
 
 	## Quest flags overrides
-	#Quest("zaneState", 1)
-	#Quest("gameStart", 2)
+	Quest("zaneState", 			6)
+	Quest("tutorialCollision", 	3)
+	Quest("jhodfreyTips", 		2)
+	Quest("gameStart", 			2)
 	
 ## This func replaces the Quests script.
 # /// Quest(name, value?);
 # // Quest("myQuest") - Returns value of myQuest
 # // Quest("myQuest", 1) - Sets value of myQuest
-func Quest(key : String, value = null, default = null):
+func Quest(key : String, value = null, default = 0):
 	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;
 	

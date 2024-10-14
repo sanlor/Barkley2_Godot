@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8nm14hlpicsh"]
+
+[ext_resource type="Texture2D" uid="uid://ecyllmer5th8" path="res://barkley2/assets/b2_original/images/merged/s_selection_arrow.png" id="1_8triv"]
+
+[sub_resource type="GDScript" id="GDScript_bj71w"]
+script/source = "@tool
+extends Sprite2D
+
+var time := 0.0
+
+func _process(delta: float) -> void:
+	time += 20.0 * delta
+	offset.x = sin( time  )
+"
+
+[node name="dialog_arrow" type="Sprite2D"]
+texture = ExtResource("1_8triv")
+centered = false
+script = SubResource("GDScript_bj71w")

@@ -97,8 +97,9 @@ var is_waiting_input := false
 var text_delays : PackedInt32Array
 
 ## Textbox Screens (More than 4 lines of texts)
-var max_screens := 1
-var curr_screen := 1
+var max_screens 	:= 1
+var curr_screen 	:= 1
+const max_lines		:= 4
 
 ## Portrait stuff
 var blink_cooldown 	:= 0.0
@@ -106,7 +107,7 @@ var blink_speed 	:= 5.50
 var is_talking		:= false
 
 func _ready() -> void:
-	layer = 10
+	layer = B2_Config.DIALOG_LAYER
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
@@ -131,10 +132,10 @@ func _ready() -> void:
 	
 func fastforward_control( active : bool ):
 	auto_skipping = active
-	if active:
-		curr_typing_speed = fast_typing
-	else:
-		curr_typing_speed = normal_typing
+	#if active:
+		#curr_typing_speed = fast_typing
+	#else:
+	curr_typing_speed = normal_typing
 	
 func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 	border_node.position = _pos
@@ -198,13 +199,15 @@ func display_dialog( _is_boxless := false ):
 	text_node.visible_characters = 0
 	type_timer = textbox_pause * curr_typing_speed
 	
-	# fix necessary to be able to display more than 4 lines.
+	# IMPORTANT - DiagBox only show 4 lines per screen and waits for input. If the text has 5 or 6 lines, add 3 or 2 more lines to pad the diag box.
 	## CRITICAL this doesnt work right with 5 lines.
 	if text_node.get_line_count() > 4:
 		@warning_ignore("integer_division")
-		max_screens = text_node.get_line_count() / 4
+		#max_screens 	= text_node.get_line_count() / 4
+		max_screens 	= ceili( float(text_node.get_line_count()) / float(max_lines) )
 		if debug: print( "max_screens: ", max_screens," - Lines: ",text_node.get_line_count() )
-		for r in max_screens + 1:
+		#for r in max_screens + 1:
+		for r in (max_lines - max_screens):
 			# new line pad the scrollbox
 			text_node.text += "\n"
 			if debug: print("adding extra line")

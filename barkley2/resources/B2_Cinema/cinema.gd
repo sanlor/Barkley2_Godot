@@ -23,7 +23,7 @@ class_name B2_CinemaPlayer
 @export var debug_event 		:= false
 @export var debug_unhandled 	:= true
 @export var print_comments		:= false
-@export var print_line_report 	:= false ## details about the current script line.
+@export var print_line_report 	:= true ## details about the current script line.
 
 @export_category("Cinema Config")
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
@@ -153,7 +153,7 @@ func end_cutscene():
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
 	
-func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ) -> bool:
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
 		
@@ -182,10 +182,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	all_nodes = get_tree().current_scene.get_children()
 	
 	# Frame Camera
+	var init_frame_target : Vector2 = B2_CManager.o_cts_hoopz.position # _event_caller.position
 	if frame_await:
-		await camera.cinema_frame( 	B2_CManager.o_cts_hoopz.position, "CAMERA_NORMAL" ) 	# sync movement
+		await camera.cinema_frame( 	init_frame_target, "CAMERA_SLOW" ) 	# sync movement
 	else:
-		camera.cinema_frame( 		B2_CManager.o_cts_hoopz.position, "CAMERA_NORMAL" ) 			# async movement
+		camera.cinema_frame( 		init_frame_target, "CAMERA_SLOW" ) 	# async movement
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
@@ -196,6 +197,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 		var script_size 	:= split_script.size()
 		var curr_line 		:= 0
 		var loop_finished 	:= true
+		
+		## Data for CHOICE and REPLY
+		var last_talker_portrait			:= ""
+		var is_selecting_choices 			:= false
+		var choice_question					:= ""
+		var choices_labels					:= []
+		var choices_strings					:= []
 		
 		#for line : String in split_script:
 		while loop_finished or curr_line == script_size:
@@ -209,8 +217,31 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 			if line.is_empty():
 				#push_warning("Empty line. I THINK this means end of event.")
 				## ^^^^ Yes, it is.
-				loop_finished = true
-				break # exit the loop
+				## ^^^^ No its not always, smartass. CHOICE and REPLY expect the empty line no show the question.
+				if is_selecting_choices:
+					var dialogue_choice = B2_DialogueChoice.new()
+					add_child( dialogue_choice )
+					var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
+					
+					dialogue_choice.set_portrait( choice_portrait ) ## Is this correct? Is the protrait always hoopz?
+					dialogue_choice.set_title( choice_question ) ## Add the question itself
+					for question : String in choices_strings:
+						dialogue_choice.add_choice( question ) ## Add choices
+					dialogue_choice.display_choices()
+					var choice_selected : int = await dialogue_choice.choice_selected
+					
+					# override LINE
+					line = "GOTO | %s" % str( choices_labels[ choice_selected ] )
+					
+					## Cleanup.
+					last_talker_portrait			= ""
+					is_selecting_choices 			= false
+					choice_question					= ""
+					choices_labels					= []
+					choices_strings					= []
+				else:
+					loop_finished = true
+					break # exit the loop
 			
 			if line.begins_with('"'):
 				# skip legacy "stuff"
@@ -261,8 +292,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						push_error("GOTO: label " + target_label + " not found.")
 					
 				"REPLY":
+					choices_labels.append( 	parsed_line[1].strip_edges(true,true) )
+					choices_strings.append( parsed_line[2].strip_edges(true,true) )
+					
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHOICE":
+					is_selecting_choices = true
+					choice_question = parsed_line[1].strip_edges(true,true) as String
+					
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"WAIT":
 					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
@@ -296,9 +333,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						var talker_port := talker_split[1].strip_edges(true,true)
 						dialogue.set_portrait(talker_port, false)
 						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_name )
+						last_talker_portrait = talker_port
 					else:
-						dialogue.set_portrait( parsed_line[1].strip_edges(true,true), true )
-						dialogue.set_text( parsed_line[2].strip_edges(true,true), parsed_line[1].strip_edges(true,true) )
+						var talker_port := parsed_line[1].strip_edges(true,true)
+						dialogue.set_portrait( talker_port, true )
+						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_port )
+						last_talker_portrait = talker_port
 						
 					await dialogue.display_dialog()
 					dialogue.queue_free()
@@ -498,6 +538,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				all_nodes = get_tree().current_scene.get_children()
 				
 		end_cutscene()
+		
+	return true
 
 # add a node to the array.
 # This is used to keep track of actor movement, to wait for something to finish before starting another.

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://nw5xvc8q6cob"]
+
+[ext_resource type="Script" path="res://barkley2/resources/B2_Dialogue/dialogue_choice.gd" id="1_jiw13"]
+
+[sub_resource type="GDScript" id="GDScript_p5agv"]
+script/source = "extends Node2D
+
+@onready var dialogue_choice: B2_DialogueChoice = $B2_DialogueChoice
+
+func _ready() -> void:
+	dialogue_choice.
+"
+
+[node name="dialog_test" type="Node2D"]
+script = SubResource("GDScript_p5agv")
+
+[node name="B2_DialogueChoice" type="CanvasLayer" parent="."]
+layer = 2400
+script = ExtResource("1_jiw13")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0

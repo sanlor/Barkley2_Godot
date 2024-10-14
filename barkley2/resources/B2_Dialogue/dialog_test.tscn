@@ -1,12 +1,64 @@
-[gd_scene load_steps=3 format=3 uid="uid://nw5xvc8q6cob"]
+[gd_scene load_steps=4 format=3 uid="uid://nw5xvc8q6cob"]
 
-[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="1_c5y3o"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Dialogue/dialogue.gd" id="1_u2j7s"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Dialogue/dialogue_choice.gd" id="1_jiw13"]
+[ext_resource type="Theme" uid="uid://djey8h7es8kge" path="res://barkley2/themes/dialogue_choice.tres" id="2_ula6v"]
+
+[sub_resource type="GDScript" id="GDScript_p5agv"]
+script/source = "extends Node2D
+
+@onready var dialogue_choice: B2_DialogueChoice = $B2_DialogueChoice
+
+func _ready() -> void:
+	dialogue_choice.set_portrait(\"Zane\")
+	dialogue_choice.set_title(\"Test 1\")
+	dialogue_choice.add_choice(\"Butt1\")
+	dialogue_choice.add_choice(\"Butt2\")
+	dialogue_choice.add_choice(\"Butt3\")
+	dialogue_choice.add_choice(\"Butt4\")
+	dialogue_choice.add_choice(\"Butt5\")
+	dialogue_choice.add_choice(\"Butt6\")
+	dialogue_choice.display_choices()
+	#dialogue_choice.displ
+"
 
 [node name="dialog_test" type="Node2D"]
+script = SubResource("GDScript_p5agv")
 
-[node name="B2_Dialogue" type="Control" parent="."]
+[node name="B2_DialogueChoice" type="CanvasLayer" parent="."]
+layer = 2400
+script = ExtResource("1_jiw13")
+
+[node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-theme = ExtResource("1_c5y3o")
-script = ExtResource("1_u2j7s")
+offset_right = 245.0
+offset_bottom = 118.0
+theme = ExtResource("2_ula6v")
+
+[node name="ItemList" type="ItemList" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+item_count = 2
+item_0/text = "Teste1"
+item_1/text = "Teste2"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://bddwu6g2q5nu2"]
+[gd_scene load_steps=22 format=4 uid="uid://bddwu6g2q5nu2"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_throneRoom01.gd" id="1_372yl"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1nf1v"]
@@ -10,6 +10,7 @@
 [ext_resource type="Shader" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="8_ycdce"]
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="9_8c0el"]
 [ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="10_elk8h"]
+[ext_resource type="PackedScene" uid="uid://c6jg6nrc1w6ju" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_kunigundePrison01.tscn" id="11_07hy3"]
 
 [sub_resource type="Resource" id="Resource_drk0g"]
 script = ExtResource("2_1nf1v")
@@ -1677,6 +1678,25 @@ LOOK | o_nu_debug | SOUTH
 WAIT | 1
 DIALOG | Nu = s_portrait | Butts."
 
+[sub_resource type="Resource" id="Resource_3wuwd"]
+script = ExtResource("2_1nf1v")
+original_script = "DIALOG | Kunigunde | Dialog choice test.#Select a choice and see the result!
+CHOICE | Is the choice dialog box working?
+REPLY  | CHOICE_1 | Yup.
+REPLY  | CHOICE_2 | Nope.
+
+FINAL_LABEL
+DIALOG | Kunigunde | Did It work?
+EXIT
+
+CHOICE_1
+DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | I think it is. Im reading this message, after all.
+GOTO   | FINAL_LABEL
+
+CHOICE_2
+DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | Nah, its borked.
+GOTO   | FINAL_LABEL"
+
 [node name="r_air_throneRoom01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
 script = ExtResource("1_372yl")
@@ -1739,6 +1759,10 @@ position = Vector2(306, 218)
 
 [node name="o_nu_debug" parent="." instance=ExtResource("10_elk8h")]
 material = SubResource("ShaderMaterial_kbow2")
-position = Vector2(232, 221)
+position = Vector2(248, 214)
 interactive_distance = 24
 cutscene_script = SubResource("Resource_62wg2")
+
+[node name="o_kunigundePrison01" parent="." instance=ExtResource("11_07hy3")]
+position = Vector2(158, 250)
+cutscene_script = SubResource("Resource_3wuwd")
