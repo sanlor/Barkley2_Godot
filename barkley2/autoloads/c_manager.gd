@@ -9,6 +9,7 @@ signal event_ended
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
 var o_cts_hoopz 	: B2_Actor 			= null
 var o_hoopz 		: B2_Player		 	= null ## TODO Create a B2_CombatActor class
+var camera			: Camera2D
 
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
 	var b2_cinema := B2_CinemaPlayer.new()

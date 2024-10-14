@@ -456,7 +456,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 						#o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 					
-				"FRAME", "FOLLOWFRAME":
+				"FOLLOWFRAME":
+					var actor = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+					camera.follow_actor( actor, parsed_line[ 1 ] )
+					
+				"FRAME":
 					# this is a weird one. The original code doesnt have this function FOLLOWFRAME. There is a FOLLOWFRAME() script, however.
 					var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 					var move_array : Array[Node2D] = []
@@ -471,9 +475,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						var speed 					= parsed_line[1]
 						camera.cinema_moveto( move_array, speed )		## Async movement 
 						
-						if parsed_line[0] == "FRAME":
-							cinema_kid( camera )
-						
+						#if parsed_line[0] == "FRAME":
+						cinema_kid( camera )
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
 				"LOOKAT":

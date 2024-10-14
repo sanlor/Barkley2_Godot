@@ -7,7 +7,7 @@ class_name B2_Camera_Hoopz
 
 signal destination_reached
 
-enum MODE{FOLLOW, CINEMA}
+enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW}
 var curr_MODE := MODE.FOLLOW
 
 @export var speed_slow 			:= 1.5
@@ -19,6 +19,8 @@ var speed := 1.5
 var is_moving := false
 var destination := Vector2.ZERO
 var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
+
+var camera_normal_offset := Vector2( 0,20 )
 
 # stop wandering camera
 var is_lost := true
@@ -33,6 +35,9 @@ var follow_mouse := false
 @export var player_node_overide : Node2D
 var player_node : Node2D
 
+## Follow Frame
+var actor_node : Node2D
+
 func _ready() -> void:
 	if player_node_overide != null:
 		player_node = player_node_overide
@@ -46,13 +51,22 @@ func _ready() -> void:
 		position 	= player_node.position
 		_position 	= player_node.position
 		
-	_position = position.round()
+	_position 			= position.round()
+	B2_CManager.camera 	= self
 	
 	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
 
 func follow_player( _player_node ):
 	player_node = _player_node
 	curr_MODE = MODE.FOLLOW
+	
+func follow_actor( _actor_node : Node2D, _speed : String ):
+	curr_MODE = MODE.FRAMEFOLLOW
+	actor_node = _actor_node
+	match _speed:
+		"CAMERA_FAST": 		speed = speed_fast
+		"CAMERA_SLOW": 		speed = speed_slow
+		"CAMERA_NORMAL": 	speed = speed_normal
 
 # snap to the target
 func cinema_snap( _destination : Vector2 ):
@@ -129,6 +143,10 @@ func set_safety(_safety : bool):
 
 func _process(delta: float) -> void:
 	match curr_MODE:
+		MODE.FRAMEFOLLOW:
+			_position = _position.move_toward( actor_node.position, (speed * 10) * delta )
+			position = _position
+			
 		MODE.CINEMA:
 			if is_moving:
 				_position = _position.move_toward(destination, (speed * 30) * delta)
@@ -139,8 +157,9 @@ func _process(delta: float) -> void:
 					
 				#position = _position.round()
 				#position = _position.floor()
+				offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
 				position = _position
-				
+			
 		MODE.FOLLOW:
 			if is_instance_valid(player_node):
 				if is_lost:
@@ -159,9 +178,10 @@ func _process(delta: float) -> void:
 					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta )
 					offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
-					offset = Vector2( 0,20 )
+					offset = camera_normal_offset
 			else:
 				is_lost = true
 			#position = _position.round()
 			#position = _position.floor()
+			offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
 			position = _position

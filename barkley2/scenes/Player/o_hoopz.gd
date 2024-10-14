@@ -374,6 +374,16 @@ func _physics_process(delta: float) -> void:
 			if B2_Input.player_has_control:
 				## Player has influence over this node
 				
+				## Play Animations
+				if curr_STATE == STATE.NORMAL:
+					normal_animation(delta)
+				elif  curr_STATE == STATE.AIM:
+					combat_walk_animation( delta ) # delta is for the turning animation
+					combat_aim_animation()
+					combat_weapon_animation()
+				else:
+					push_warning("Weird state: ", curr_STATE)
+				
 				## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
 				if Input.is_action_just_pressed("Holster") and can_draw_weapon:
 					# check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
@@ -410,6 +420,7 @@ func _physics_process(delta: float) -> void:
 				elif Input.is_action_just_pressed("Holster") and not can_draw_weapon:
 					B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
 				
+				# Roll action
 				if Input.is_action_just_pressed("Roll") and can_roll:
 					# Roooolliiing staaaaart! ...here vvv
 					curr_STATE = STATE.ROLL
@@ -449,15 +460,7 @@ func _physics_process(delta: float) -> void:
 			
 			apply_central_impulse( velocity )
 			
-			## Play Animations
-			if curr_STATE == STATE.NORMAL:
-				normal_animation(delta)
-			elif  curr_STATE == STATE.AIM:
-				combat_walk_animation( delta ) # delta is for the turning animation
-				combat_aim_animation()
-				combat_weapon_animation()
-			else:
-				push_warning("Weird state: ", curr_STATE)
+			
 	
 			
 func _on_interaction_area_body_entered(body: Node2D) -> void:
