@@ -21,6 +21,12 @@ func execute_event_user_1():
 	# Looking at the original code, it seems some unused tutorial segment for shooting light bulbs.
 	# check o_bustaBulb event 9
 	pass
+	
+func execute_event_user_5():
+	## Jalapeno smoke
+	# This is so stupid, why is the smoke effect here?
+	#Smoke("mass", o_cts_hoopz.x, o_cts_hoopz.y + 2, o_cts_hoopz.z + 24, 2, c_lime, 0.5);
+	B2_Screen.add_smoke( "mass", B2_CManager.o_cts_hoopz.position, Color.LIME, 0.5 )
 
 func execute_event_user_10():
 	## Disable click

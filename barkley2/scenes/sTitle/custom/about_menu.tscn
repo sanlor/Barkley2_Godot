@@ -51,12 +51,15 @@ layout_mode = 2
 [node name="mouse_tim" type="CheckButton" parent="about_menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(160, 20)
 layout_mode = 2
+tooltip_text = "Hidden function on the Main Menu. allow to move the BG using the mouse.
+Originally, this was used to measure the amount of time playied. if you mess around for too long, the game is over."
 text = "Enable mouse tim"
 
-[node name="unused" type="CheckButton" parent="about_menu/MarginContainer/VBoxContainer"]
+[node name="dev_notes" type="CheckButton" parent="about_menu/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(160, 20)
 layout_mode = 2
-text = "Nothing!"
+tooltip_text = "Enable some dev notes on the Tutorial section"
+text = "Enable dev notes"
 
 [node name="stupid text" type="ScrollContainer" parent="about_menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -108,4 +111,5 @@ layout_mode = 2
 text = "Close"
 
 [connection signal="pressed" from="about_menu/MarginContainer/VBoxContainer/mouse_tim" to="about_menu" method="_on_mouse_tim_pressed"]
+[connection signal="pressed" from="about_menu/MarginContainer/VBoxContainer/dev_notes" to="about_menu" method="_on_dev_notes_pressed"]
 [connection signal="pressed" from="about_menu/MarginContainer/VBoxContainer/close" to="about_menu" method="_on_close_pressed"]

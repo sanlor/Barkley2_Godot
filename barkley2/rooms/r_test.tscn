@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="3_eavwk"]
 [ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="4_xswim"]
 [ext_resource type="FontFile" uid="uid://doo35ftr5vtrj" path="res://barkley2/resources/fonts/fn2_cc.tres" id="5_t84ct"]
-[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="6_beqh8"]
+[ext_resource type="PackedScene" uid="uid://by4nbx8aj48rl" path="res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn" id="6_cav0y"]
 
 [sub_resource type="GDScript" id="GDScript_k8t4e"]
 script/source = "extends Control
@@ -15,7 +15,8 @@ script/source = "extends Control
 func _ready() -> void:
 	#rich_text_label_2.text = \"Script Text\"
 	rich_text_label_2.push_color(Color.HOT_PINK)
-	rich_text_label_2.append_text(\"Script Text\")
+	 
+	rich_text_label_2.append_text(\"[shake rate=20.0 level=5 connected=1] Script Text [/shake]\")
 	rich_text_label_2.pop_all()
 "
 
@@ -38,7 +39,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("6_beqh8")
 script = SubResource("GDScript_k8t4e")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -85,13 +85,17 @@ label_settings = SubResource("LabelSettings_o1k47")
 layout_mode = 0
 offset_left = 41.0
 offset_top = 30.0
-offset_right = 173.0
-offset_bottom = 50.0
-theme = ExtResource("6_beqh8")
-text = "Im rich!"
+offset_right = 181.0
+offset_bottom = 71.0
+bbcode_enabled = true
+text = "[shake rate=200.0 level=8 connected=1] Im rich! [/shake]"
+fit_content = true
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_right = 170.0
 offset_bottom = 24.0
 bbcode_enabled = true
+
+[node name="o_effect_emotebubble_event" parent="." instance=ExtResource("6_cav0y")]
+position = Vector2(225, 188)

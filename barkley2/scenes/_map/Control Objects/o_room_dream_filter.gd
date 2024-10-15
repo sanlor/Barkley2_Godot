@@ -27,7 +27,9 @@ var timer_blink = 25.0;
 var blink_blood = 0.1;
 var alpha_eye = 0.0;
 var alpha_eye_drain = false;
-var alpha_intensity = 0.0
+var alpha_intensity 			= 0.0
+var override_alpha_intensity 	= 1.0 # applied by the Event User
+
 var layers = 4;
 
 ## Dream Filter
@@ -81,6 +83,9 @@ func pulse(time : float):
 	return 0.5 * ( 1 + sin(2 * PI * frequency * time) );
 
 func _process(delta: float) -> void:
+	override_alpha_intensity = move_toward(override_alpha_intensity, 1.0, delta / 2.0)
+	#if Input.is_action_just_pressed("Action"): override_alpha_intensity = 0.0 # Debug
+	
 	for i in layers:
 		if dream_filters[i] == null:
 			continue
@@ -92,11 +97,13 @@ func _process(delta: float) -> void:
 		df.scale.x = 1.0 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
 		df.scale.y = 1.0 + sizeScl[i] 	* pulse( sizeSpd[i] ) * 0.4
 		
-		df.modulate.a = 0.15 	+ pulse( alphaSpd[i] * 0.5 ) 
+		#df.modulate.a = 0.25 	+ pulse( alphaSpd[i] * 0.5 ) 
+		#df.modulate.a *= 3;
+		df.modulate.a = alpha_intensity 	+ pulse( alphaSpd[i] * 0.5 ) 
 		
-		df.modulate.a *= 3;
 		df.modulate.a /= layers;
-
+		df.modulate.a = min(df.modulate.a, override_alpha_intensity)
+	
 # User Defined code, from GML
 func execute_event_user_0():
 	# Blink Blood for the eye blood veins

@@ -94,6 +94,9 @@ var speed_multiplier 		:= 900.0
 @export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
+@export_category("Animation")
+@export var animation_speed := 1.5
+@export var disable_auto_flip_h	:= false	# Hoopz actor has 8 different directions, it should not mirror
 ## Animation
 var ANIMATION_STAND 				:= "PLACEHOLDER - %s" % self
 var ANIMATION_SOUTH 				:= "PLACEHOLDER - %s" % self
@@ -149,7 +152,7 @@ func _init() -> void:
 func play_animations():
 	if _automatic_animation:
 		if ActorAnim.sprite_frames.has_animation(_current_animation):
-			ActorAnim.play(_current_animation)
+			ActorAnim.play(_current_animation, animation_speed)
 		else:
 			push_warning( "%s has no animation called %s." % [ name, _current_animation ] )
 	
@@ -306,38 +309,33 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	return
 
 func flip_sprite():
-	if movement_vector.x > 0: # handle sprite mirroring
+	if movement_vector.x >= 0: # handle sprite mirroring
 		ActorAnim.flip_h = false
 	elif movement_vector.x < 0:
 		ActorAnim.flip_h = true
 
 func cinema_animation(): # Apply animation when the character is moved by a cinema script.
 	if movement_vector != last_movement_vector:
-		flip_sprite()
+		if not disable_auto_flip_h:
+			flip_sprite()
+		else:
+			ActorAnim.flip_h = false
+			
+		var _dir := ANIMATION_SOUTH
 			
 		match movement_vector:
-			Vector2.UP + Vector2.LEFT:
-				ActorAnim.play(ANIMATION_NORTHWEST)
-			Vector2.UP + Vector2.RIGHT:
-				ActorAnim.play(ANIMATION_NORTHEAST)
-			Vector2.DOWN + Vector2.LEFT:
-				ActorAnim.play(ANIMATION_SOUTHWEST)
-			Vector2.DOWN + Vector2.RIGHT:
-				ActorAnim.play(ANIMATION_SOUTHEAST)
+			Vector2.UP + Vector2.LEFT: 		_dir = ANIMATION_NORTHWEST
+			Vector2.UP + Vector2.RIGHT: 	_dir = ANIMATION_NORTHEAST
+			Vector2.DOWN + Vector2.LEFT: 	_dir = ANIMATION_SOUTHWEST
+			Vector2.DOWN + Vector2.RIGHT: 	_dir = ANIMATION_SOUTHEAST
 				
-			Vector2.UP:
-				ActorAnim.play(ANIMATION_NORTH)
-			Vector2.LEFT:
-				ActorAnim.play(ANIMATION_WEST)
-			Vector2.DOWN:
-				ActorAnim.play(ANIMATION_SOUTH)
-			Vector2.RIGHT:
-				ActorAnim.play(ANIMATION_EAST)
+			Vector2.UP: 		_dir = ANIMATION_NORTH
+			Vector2.LEFT: 		_dir = ANIMATION_WEST
+			Vector2.DOWN: 		_dir = ANIMATION_SOUTH
+			Vector2.RIGHT: 		_dir = ANIMATION_EAST
 				
-			_: # Catch All
-				ActorAnim.play(ANIMATION_SOUTH)
-				# print("Catch all, ", input)
-				
+		ActorAnim.play(_dir, animation_speed)
+			
 		adjust_sprite_offset()
 		last_movement_vector = movement_vector
 
@@ -428,7 +426,8 @@ func _physics_process(delta: float) -> void:
 		cinema_animation()
 		_child_process(delta)
 		
-		movement_vector = position.direction_to( destination ).sign()
+		#movement_vector = position.direction_to( destination ).sign()
+		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).sign()
 		
 		if position.distance_to( destination_path[-1] + destination_offset ) < 1.5:
 			# man, i miss the pop_back() function.

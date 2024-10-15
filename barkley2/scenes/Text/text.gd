@@ -27,7 +27,6 @@ const textcolorHoopzCandy 	:= Color8(100, 50, 255);
 static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 	if B2_Config.AlBhed:
 		
-		
 		var out_text = "";
 		var length = text.length()
 		
@@ -122,10 +121,10 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replace("`w2`", "[wave amp=50.0 freq=10.0 connected=0]")
 		
 		new_text = new_text.replace("`s0`", "[/shake]")
-		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=2 connected=0]")
+		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=8 connected=1]") # The level requires some adjustments.
 		
 		new_text = new_text.replace("/'", '"') # Add support for " character.
-		
+		# print(new_text)
 		return new_text
 
 ## Function return the index for each space (" ") in the text.

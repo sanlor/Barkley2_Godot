@@ -171,6 +171,7 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		get_tree().current_scene.add_child( cam, true )
 		cam.cinema_snap( pos )
 		cam.follow_player( player_node )
+		cam.follow_mouse = true
 		
 	print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
 

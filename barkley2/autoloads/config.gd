@@ -78,6 +78,9 @@ var usersavefolder 		:= "user://"
 ## Main menu stuff
 var tim_follow_mouse := false
 
+## Dev stuff
+var dev_notes := false
+
 
 
 func _init():
@@ -241,15 +244,16 @@ func config_load():
 		config_save()
 		return
 		
-	vsync 				= str_to_var( config.get_value("settings","vsync") 			)
-	AlBhed 				= str_to_var( config.get_value("settings","alBhed") 		)
-	fullscreen 			= str_to_var( config.get_value("settings","FullScreen") 	)
-	screen_scale 		= str_to_var( config.get_value("settings","Scaling") 		)
-	currentFilter 		= str_to_var( config.get_value("settings","Filter") 		)
-	scanlines 			= str_to_var( config.get_value("settings","ScanLines") 		)
+	vsync 				= str_to_var( config.get_value("settings","vsync") 				)
+	AlBhed 				= str_to_var( config.get_value("settings","alBhed") 			)
+	fullscreen 			= str_to_var( config.get_value("settings","FullScreen") 		)
+	screen_scale 		= str_to_var( config.get_value("settings","Scaling") 			)
+	currentFilter 		= str_to_var( config.get_value("settings","Filter") 			)
+	scanlines 			= str_to_var( config.get_value("settings","ScanLines") 			)
 #	
-	sfx_gain_master 	= str_to_var( config.get_value("settings","SoundLevel") 	)
-	bgm_gain_master 	= str_to_var( config.get_value("settings","MusicLevel") 	)
+	sfx_gain_master 	= str_to_var( config.get_value("settings","SoundLevel") 		)
+	bgm_gain_master 	= str_to_var( config.get_value("settings","MusicLevel") 		)
+	dev_notes			= str_to_var( config.get_value("settings","dev_notes", "false") 	) # "false" is needed to keep compatibility with older save files
 	
 	game_settings_loaded.emit()
 	print( "Settings loaded! ", Time.get_ticks_msec() )
@@ -265,6 +269,7 @@ func config_save(): # //key, value
 	config.set_value("settings", "FullScreen", 		var_to_str(fullscreen) 				)
 	config.set_value("settings", "Filter", 			var_to_str(currentFilter) 			)
 	config.set_value("settings", "SoundLevel", 		var_to_str(sfx_gain_master) 		)
+	config.set_value("settings", "dev_notes", 		var_to_str(dev_notes) 				)
 	
 	if not DirAccess.dir_exists_absolute( configsavefolder ): ## make sure that the _resource folder exists.
 		DirAccess.make_dir_absolute( configsavefolder )

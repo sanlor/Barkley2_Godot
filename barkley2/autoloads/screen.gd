@@ -11,17 +11,18 @@ var curr_TYPE := TYPE.POINT
 const PAUSE_SCREEN = preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
 const NOTIFY_ITEM = preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
 
+# Smoke Emitter
+const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
+
+const SMOKE_MASS = preload("res://barkley2/resources/Smoke/smoke_mass.tres")
+
 var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
 @onready var mouse = $mouse
 @onready var trail = $trail
 
-
-
 var max_trail := 2 # 3 is pretty cool
 var mouse_offset := Vector2.ZERO
-
-
 
 var can_pause := false # Cant pause during the title screens and certain parts.
 var is_paused := false
@@ -82,6 +83,20 @@ func show_notify_screen( text : String ) -> void:
 	get_tree().current_scene.add_child( notice, true )
 	await notice.show_notify_screen( text )
 	
+# check Smoke() /// Smoke("puff" / "mass", x, y, z, scl / type)
+# this is a general purpose smoke emitter
+func add_smoke(type : String, pos : Vector2, color : Color, time : float):
+	var my_smoke := O_SMOKE.instantiate()
+	my_smoke.lifetime = time
+	my_smoke.position = pos
+	my_smoke.modulate = color
+	match type:
+		"mass":
+			my_smoke.process_material = SMOKE_MASS
+		_:
+			breakpoint
+			
+	get_tree().current_scene.add_child( my_smoke )
 			
 func _process(_delta) -> void:
 	## Mouse stuff

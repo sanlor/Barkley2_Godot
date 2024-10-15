@@ -10,10 +10,10 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW}
 var curr_MODE := MODE.FOLLOW
 
-@export var speed_slow 			:= 1.5
-@export var speed_normal 		:= 2.0
-@export var speed_fast 			:= 4.0
-@export var camera_follow_speed := 550.0 # Speed that the camera follows the mouse.
+@export var speed_slow 			:= 2.5
+@export var speed_normal 		:= 3.0
+@export var speed_fast 			:= 5.0
+@export var camera_follow_speed := 650.0 # Speed that the camera follows the mouse.
 
 var speed := 1.5
 var is_moving := false
@@ -36,7 +36,7 @@ var follow_mouse := false
 var player_node : Node2D
 
 ## Follow Frame
-var actor_node : Node2D
+var actor_array : Array
 
 func _ready() -> void:
 	if player_node_overide != null:
@@ -57,12 +57,12 @@ func _ready() -> void:
 	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
 
 func follow_player( _player_node ):
-	player_node = _player_node
 	curr_MODE = MODE.FOLLOW
+	player_node = _player_node
 	
-func follow_actor( _actor_node : Node2D, _speed : String ):
+func follow_actor( _actor_array : Array, _speed : String ):
 	curr_MODE = MODE.FRAMEFOLLOW
-	actor_node = _actor_node
+	actor_array = _actor_array
 	match _speed:
 		"CAMERA_FAST": 		speed = speed_fast
 		"CAMERA_SLOW": 		speed = speed_slow
@@ -144,7 +144,17 @@ func set_safety(_safety : bool):
 func _process(delta: float) -> void:
 	match curr_MODE:
 		MODE.FRAMEFOLLOW:
-			_position = _position.move_toward( actor_node.position, (speed * 10) * delta )
+			if actor_array.is_empty():
+				return
+				
+			# is this the best way to get an average of an array?
+			var arr_size := actor_array.size()
+			var avg_pos := Vector2.ZERO
+			for node : Node2D in actor_array:
+				avg_pos += node.position
+			avg_pos /= arr_size
+			
+			_position = _position.move_toward( avg_pos, (speed * 30) * delta )
 			position = _position
 			
 		MODE.CINEMA:
@@ -174,14 +184,16 @@ func _process(delta: float) -> void:
 				if follow_mouse:
 					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
 					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
-					mouse_dist = clampf( mouse_dist, 0.0,250.0 )
+					mouse_dist = clampf( mouse_dist, 0.0, 250.0 )
 					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta )
 					offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = camera_normal_offset
+					
+				#print(offset)
 			else:
 				is_lost = true
 			#position = _position.round()
 			#position = _position.floor()
-			offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
+			#offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
 			position = _position

@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://by4nbx8aj48rl"]
+
+[ext_resource type="Texture2D" uid="uid://v6jxmt6vs3wt" path="res://barkley2/assets/b2_original/images/merged/s_effect_emotebubble.png" id="1_dyjja"]
+[ext_resource type="Script" path="res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.gd" id="2_lt5ph"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ppkq"]
+atlas = ExtResource("1_dyjja")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkhbc"]
+atlas = ExtResource("1_dyjja")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inevu"]
+atlas = ExtResource("1_dyjja")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_50eq6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ppkq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkhbc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inevu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_effect_emotebubble_event" type="AnimatedSprite2D"]
+z_index = 50
+sprite_frames = SubResource("SpriteFrames_50eq6")
+offset = Vector2(0, -30)
+script = ExtResource("2_lt5ph")

@@ -23,7 +23,7 @@ class_name B2_CinemaPlayer
 @export var debug_event 		:= false
 @export var debug_unhandled 	:= true
 @export var print_comments		:= false
-@export var print_line_report 	:= true ## details about the current script line.
+@export var print_line_report 	:= false ## details about the current script line.
 
 @export_category("Cinema Config")
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
@@ -80,6 +80,13 @@ func get_camera_on_tree() -> Camera2D:
 	
 	get_tree().current_scene.add_child( _cam )
 	return _cam
+	
+func update_pathfinding():
+	var room_node = get_parent()
+	if room_node is B2_ROOMS:
+		room_node.update_pathfind()
+	else:
+		push_warning("Who am I...? what am I...? (Meaning, the Cinema node is not where its suposed to be. Cant update pathfinding.)")
 	
 func load_hoopz_actor():
 	var hoopz_lookup := get_tree().current_scene.get_children()
@@ -150,6 +157,9 @@ func end_cutscene():
 	B2_Input.player_follow_mouse.emit( true )
 	B2_Input.camera_follow_mouse.emit( true )
 	
+	# actors may moved during the cutscene, update the PF.
+	update_pathfinding()
+	
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
 	
@@ -183,10 +193,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	
 	# Frame Camera
 	var init_frame_target : Vector2 = B2_CManager.o_cts_hoopz.position # _event_caller.position
-	if frame_await:
-		await camera.cinema_frame( 	init_frame_target, "CAMERA_SLOW" ) 	# sync movement
-	else:
-		camera.cinema_frame( 		init_frame_target, "CAMERA_SLOW" ) 	# async movement
+	#if frame_await:
+		#await camera.cinema_frame( 	init_frame_target, "CAMERA_SLOW" ) 	# sync movement
+	#else:
+		#camera.cinema_frame( 		init_frame_target, "CAMERA_SLOW" ) 	# async movement
+	camera.follow_actor( [ B2_CManager.o_cts_hoopz ], "CAMERA_NORMAL" )
+	
+	# this should be here?
+	update_pathfinding()
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
@@ -420,7 +434,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects withe the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
 					# basically, this just executes funciones on the fly.
-					var event_object : Node = get_node_from_name(all_nodes, parsed_line[1])
+					var event_object = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
 					if event_object != null:
 						if not event_object.has_method( "execute_event_user_" + parsed_line[2] ):
 							# node has no execute_event_user_n method. remember to add it
@@ -457,8 +471,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 						#o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 					
 				"FOLLOWFRAME":
-					var actor = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
-					camera.follow_actor( actor, parsed_line[ 1 ] )
+					var speed 			: String = parsed_line[ 1 ]
+					var follow_array 	: Array = Array()
+					var args := parsed_line.size() - 2 # parsed_line[ 1 ] and [ 2 ] should be ignored.
+					
+					for i : int in args:
+						follow_array.append( get_node_from_name( all_nodes, parsed_line[ 2 + i ], false ) )
+					
+					camera.follow_actor( follow_array, speed )
 					
 				"FRAME":
 					# this is a weird one. The original code doesnt have this function FOLLOWFRAME. There is a FOLLOWFRAME() script, however.
@@ -526,6 +546,27 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					Camera( parsed_line )
 				"Create":
 					Create( parsed_line )
+				"Emote":
+					## Emote(emotetype, target object?, xoffset?, yoffset?)
+					## Create an emote at a specific place.
+					#  Argument0 = Emote Type = ! ? anime
+					#  Argument1 = Target Object (optional, default hoopz)
+					#  Argument2 = X Offset (optional, default 0)
+					#  Argument3 = Y Offset (optional, default 0)
+					
+					var emote_type 		: String = parsed_line[1]
+					var emote_target 	:= B2_CManager.o_cts_hoopz # This is the default
+					var xoffset 		:= 0.0
+					var yoffset			:= 0.0
+					var emote_node		:= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn").instantiate() as AnimatedSprite2D
+					
+					## TODO 15/10/24 add other arguments, current solution only take 1 argument.
+					
+					emote_node.type 	= emote_type
+					emote_node.position = emote_target.position - Vector2( 0, 10 )
+					emote_node.offset	+= Vector2( xoffset, yoffset )
+					
+					get_tree().current_scene.add_child( emote_node, true )
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
 			
@@ -595,11 +636,11 @@ func Cinema_run():
 func Cinema_process():
 	pass
 	
-func get_node_from_name( _array, _name, warn := true ) -> Node:
-	var node : Node
+func get_node_from_name( _array, _name, warn := true ) -> Object:
+	var node : Object
 	for item in _array:
 		if is_instance_valid(item):
-			if item is Node:
+			if item is Object:
 				if item.name == _name:
 					node = item
 					break

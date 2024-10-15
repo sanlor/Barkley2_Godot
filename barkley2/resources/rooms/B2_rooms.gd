@@ -7,10 +7,12 @@ signal permission_changed
 @export var populate_reference_layer := true
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D
+var astar_solid_tiles := Array() # used for debug
 
 @export_category("DEBUG")
 @export var create_player_scene_at_room_start 	:= false
 @export var player_scene_pos 					:= Vector2.ZERO
+@export var show_pathfind_info					:= false
 
 @export_category("Room")
 @export var collision_layer : TileMapLayer
@@ -74,10 +76,10 @@ func _init_pathfind():
 	astar = AStarGrid2D.new()
 	
 	## ASTAR Setup.
-	astar.jumping_enabled				= true
+	astar.jumping_enabled				= false
 	astar.default_compute_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
 	astar.default_estimate_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
-	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_AT_LEAST_ONE_WALKABLE
 	
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:
@@ -90,11 +92,14 @@ func _init_pathfind():
 	#astar.fill_solid_region( reference_layer.get_used_rect(), false )
 	astar.fill_solid_region( map_rect, false )
 	
+# Is this needed?
+func update_pathfind():
+	_update_pathfind()
 	
 func _update_pathfind():
 	var time := Time.get_ticks_usec()
 	_update_obstacles()
-	
+	astar_solid_tiles.clear()
 	var _obstacles : Array[Vector2i] = []
 	
 	for n in obstacles:
@@ -110,10 +115,22 @@ func _update_pathfind():
 			for y : int in size_y:
 				var tile_pos := Vector2i(pos.x + x, pos.y + y)
 				astar.set_point_solid( tile_pos, true )
+				astar_solid_tiles.append( tile_pos )
 				
 	# update data from collision layer
 	for tile in collision_layer.get_used_cells():
 		astar.set_point_solid( tile, true )
+		astar_solid_tiles.append( tile )
+	
+	# update data from actors. not sure if needed
+	#for node in get_children():
+		#if node is B2_Actor:
+			#var tile_pos : Vector2i = reference_layer.front().local_to_map( node.position )
+			#astar.set_point_solid( tile_pos, true )
+			#astar_solid_tiles.append( tile_pos )
+			
+	if show_pathfind_info:
+		debug_pathfind()
 	
 	print("_update_pathfind(): took %s usecs." % str(Time.get_ticks_usec() - time) )
 	
@@ -154,4 +171,14 @@ func _setup_camera( player ):
 	if not player == null:
 		b2_camera.follow_player( player as B2_Player )
 		b2_camera.follow_mouse = true
-	add_child( b2_camera )
+	add_child( b2_camera, true )
+
+func debug_pathfind():
+	queue_redraw()
+	
+func _draw() -> void:
+	if show_pathfind_info:
+		for tile : Vector2i in astar_solid_tiles:
+			var real_pos : Vector2 = tile * 16
+			draw_rect( Rect2( real_pos, Vector2(16,16) ), Color(Color.RED, 0.5), true )
+		
