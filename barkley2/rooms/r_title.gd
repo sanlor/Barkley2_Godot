@@ -218,11 +218,11 @@ func _draw():
 	var qry = 100 + 15# + 5 ; # + 5 was added by me.
 	var font := preload("res://barkley2/resources/fonts/fn_small.tres")
 	#draw_text(qrx, qry, "DEMO game for backers.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("DEMO game for backers.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("DEMO game for backers.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	qry += 14; 
 	#draw_text(qrx, qry, "Substantial levels of WONK and JANK.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("Substantial levels of WONK and JANK.")	,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("Substantial levels of WONK and JANK.")	,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	qry += 14; 
 	#draw_text(qrx, qry, "Experience accordingly.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color.YELLOW)
+	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	
