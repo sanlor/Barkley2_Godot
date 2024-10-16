@@ -1,7 +1,7 @@
 extends Node
 class_name B2_QuestCleanup
 
-enum OP{EQUAL,GREATER,LESSER,GREATER_EQUAL,LESSER_EQUAL}
+enum OP{EQUAL,NOT_EQUAL,GREATER,LESSER,GREATER_EQUAL,LESSER_EQUAL}
 enum ACT{DESTROY, LOG, DESTROY_AND_LOG}
 
 @export var quest_name 	:= ""
@@ -16,6 +16,8 @@ func _ready() -> void:
 	match compare:
 		OP.EQUAL:
 			m = q == value
+		OP.NOT_EQUAL:
+			m = q != value
 		OP.GREATER:
 			m = q > value
 		OP.LESSER:

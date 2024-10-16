@@ -160,22 +160,35 @@ func play_animations():
 	#await ActorAnim.ready
 	ActorAnim.flip_h = flip_h
 
-func cinema_useat( target ) -> void:
+func cinema_surpriseat( target ):
+	cinema_useat( target, "surprise", "surpriseHold", 1.25 )
+
+func cinema_useat( target, force_new_anim := "", force_hold_anim := "", force_speed := 1.0 ) -> void:
 	# what a mess. target can be a string or a node.
 	var dir : Vector2
 	if target 		is String:
 		dir = dir_2_vec_map.get(target, Vector2.DOWN) as Vector2
 	elif target 	is Node2D:
-		dir = position.direction_to(target.position).round()
+		dir = position.direction_to(target.position).sign()
 	else:
 		push_warning( "Which USEAT anim is this? ", target )
+		
+	if dir.x < 0: ActorAnim.flip_h = true
+	else: ActorAnim.flip_h = false
 	
-	var old_anim 	:= ActorAnim.animation
-	var old_frame 	:= ActorAnim.frame # Standing anim fix
-	var new_anim 	:= useat_map.get(dir, "") as String
+	var old_anim 	:= force_hold_anim
+	var old_frame 	:= 0
+	if force_hold_anim.is_empty():
+		old_anim 	= ActorAnim.animation
+		old_frame 	= ActorAnim.frame # Standing anim fix
+		
+	var new_anim 	:= force_new_anim # used for SURPRISEAT
+	if force_new_anim.is_empty():
+		new_anim = useat_map.get(dir, "") as String
+		
 	ActorAnim.sprite_frames.set_animation_loop( new_anim, false )
 	
-	cinema_playset( new_anim, old_anim, 5 )
+	cinema_playset( new_anim, old_anim, 15 * force_speed )
 	await ActorAnim.animation_finished
 	ActorAnim.frame = old_frame
 	
@@ -308,7 +321,7 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 			push_error("Parent does not have the 'get_astar_path' function. It should.")
 	return
 
-func flip_sprite():
+func flip_sprite( ):
 	if movement_vector.x >= 0: # handle sprite mirroring
 		ActorAnim.flip_h = false
 	elif movement_vector.x < 0:

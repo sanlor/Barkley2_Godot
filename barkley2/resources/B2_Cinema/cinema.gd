@@ -308,13 +308,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				"REPLY":
 					choices_labels.append( 	parsed_line[1].strip_edges(true,true) )
 					choices_strings.append( parsed_line[2].strip_edges(true,true) )
-					
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHOICE":
 					is_selecting_choices = true
 					choice_question = parsed_line[1].strip_edges(true,true) as String
-					
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"WAIT":
 					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
 					# check Cinema()
@@ -361,7 +357,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				"ITEM":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY":
-					
 					var text := parsed_line[ 1 ] as String
 					await B2_Screen.show_notify_screen( text )
 					
@@ -458,6 +453,17 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+				"SURPRISEAT":
+					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
+					# Check script USEAT() and SURPRISEAT.
+					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
+					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					
+					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
+						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
+					else:
+						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+					pass
 				"USEAT":
 					# Check script USEAT().
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
@@ -465,10 +471,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
-						#o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
-						#o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
 					
 				"FOLLOWFRAME":
 					var speed 			: String = parsed_line[ 1 ]
@@ -567,6 +571,15 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 					emote_node.offset	+= Vector2( xoffset, yoffset )
 					
 					get_tree().current_scene.add_child( emote_node, true )
+				"Teleport":
+					var room_string := ""
+					
+					for str : String in parsed_line:
+						if str == "Teleport": continue # Lazy way to skip the first line.
+						room_string += str + "," # Should make a string like this: r_fct_reroute01,544,368,1
+					
+					B2_RoomXY.warp_to( room_string, 0.0, true )
+					
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
 			
