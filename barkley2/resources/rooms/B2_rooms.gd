@@ -102,20 +102,21 @@ func _update_pathfind():
 	astar_solid_tiles.clear()
 	var _obstacles : Array[Vector2i] = []
 	
-	for n in obstacles:
-		@warning_ignore("narrowing_conversion")
-		var tile_size 	:int= astar.cell_size.x
-		var pos			:Vector2i = reference_layer.front().local_to_map( n.position )
-		#var pos_x		:int= n.position.x 	/ tile_size
-		#var pos_y		:int= n.position.y 	/ tile_size
-		var size_x 		:int= n.width 		/ tile_size
-		var size_y 		:int= n.height 		/ tile_size
-		
-		for x : int in size_x:
-			for y : int in size_y:
-				var tile_pos := Vector2i(pos.x + x, pos.y + y)
-				astar.set_point_solid( tile_pos, true )
-				astar_solid_tiles.append( tile_pos )
+	if not _obstacles.is_empty():
+		for n in obstacles:
+			@warning_ignore("narrowing_conversion")
+			var tile_size 	:int= astar.cell_size.x
+			var pos			:Vector2i = reference_layer.front().local_to_map( n.position )
+			#var pos_x		:int= n.position.x 	/ tile_size
+			#var pos_y		:int= n.position.y 	/ tile_size
+			var size_x 		:int= n.width 		/ tile_size
+			var size_y 		:int= n.height 		/ tile_size
+			
+			for x : int in size_x:
+				for y : int in size_y:
+					var tile_pos := Vector2i(pos.x + x, pos.y + y)
+					astar.set_point_solid( tile_pos, true )
+					astar_solid_tiles.append( tile_pos )
 				
 	# update data from collision layer
 	for tile in collision_layer.get_used_cells():

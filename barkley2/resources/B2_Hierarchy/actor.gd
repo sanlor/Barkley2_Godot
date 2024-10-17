@@ -188,7 +188,7 @@ func cinema_useat( target, force_new_anim := "", force_hold_anim := "", force_sp
 		
 	ActorAnim.sprite_frames.set_animation_loop( new_anim, false )
 	
-	cinema_playset( new_anim, old_anim, 15 * force_speed )
+	cinema_playset( new_anim, old_anim, 10.0 * force_speed )
 	await ActorAnim.animation_finished
 	ActorAnim.frame = old_frame
 	
@@ -262,28 +262,9 @@ func cinema_look( _direction : String ):
 			ActorAnim.flip_h = true
 	adjust_sprite_offset()
 	
-func cinema_lookat( target_node : B2_Actor ):
+func cinema_lookat( target_node : Node2D ):
 	var _direction := position.direction_to( target_node.position ).round()
-	
 	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
-	#match _direction:
-		#Vector2.UP:
-			#dir_name = "NORTH"
-		#Vector2.DOWN:
-			#dir_name = "SOUTH"
-		#Vector2.LEFT:
-			#dir_name = "WEST"
-		#Vector2.RIGHT:
-			#dir_name = "EAST"
-			#
-		#Vector2.UP + Vector2.LEFT:
-			#dir_name = "NORTHWEST"
-		#Vector2.UP + Vector2.RIGHT:
-			#dir_name = "NORTHEAST"
-		#Vector2.DOWN + Vector2.LEFT:
-			#dir_name = "SOUTHWEST"
-		#Vector2.DOWN + Vector2.RIGHT:
-			#dir_name = "SOUTHEAST"
 			
 	cinema_look( dir_name )
 	
@@ -322,10 +303,13 @@ func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	return
 
 func flip_sprite( ):
-	if movement_vector.x >= 0: # handle sprite mirroring
+	if movement_vector.x > 0: # handle sprite mirroring
 		ActorAnim.flip_h = false
 	elif movement_vector.x < 0:
 		ActorAnim.flip_h = true
+	else:
+		# movement_vector.x == 0, do nothing
+		pass
 
 func cinema_animation(): # Apply animation when the character is moved by a cinema script.
 	if movement_vector != last_movement_vector:

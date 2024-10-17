@@ -1,6 +1,6 @@
 extends AnimatedSprite2D
 
-var lifespan 		:= 1.0
+var lifespan 		:= 0.5
 var type 			:= ""
 var initial_scale 	:= Vector2(1.5, 0.5)
 

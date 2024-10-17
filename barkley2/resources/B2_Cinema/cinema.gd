@@ -163,7 +163,7 @@ func end_cutscene():
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
 	
-func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ) -> bool:
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_await := false ) -> bool:
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
 		
@@ -189,7 +189,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 	load_hoopz_actor()
 	
 	room = B2_RoomXY.get_current_room()
-	all_nodes = get_tree().current_scene.get_children()
+	all_nodes = get_all_nodes()
 	
 	# Frame Camera
 	var init_frame_target : Vector2 = B2_CManager.o_cts_hoopz.position # _event_caller.position
@@ -574,11 +574,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 				"Teleport":
 					var room_string := ""
 					
-					for str : String in parsed_line:
-						if str == "Teleport": continue # Lazy way to skip the first line.
-						room_string += str + "," # Should make a string like this: r_fct_reroute01,544,368,1
+					for _str : String in parsed_line:
+						if _str == "Teleport": continue # Lazy way to skip the first line.
+						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
 					
-					B2_RoomXY.warp_to( room_string, 0.0, true )
+					B2_RoomXY.warp_to( room_string, 0.0, true, true )
 					
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
@@ -592,11 +592,17 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_a
 			if array_dirty:
 				# some invalid node was foing in the array
 				all_nodes.clear()
-				all_nodes = get_tree().current_scene.get_children()
+				all_nodes = get_all_nodes()
 				
 		end_cutscene()
 		
 	return true
+
+func get_all_nodes() -> Array:
+	if get_tree().current_scene != null:
+		return get_tree().current_scene.get_children()
+	else:
+		return []
 
 # add a node to the array.
 # This is used to keep track of actor movement, to wait for something to finish before starting another.

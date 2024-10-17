@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbnk2ffkopwpd"]
+
+[ext_resource type="Texture2D" uid="uid://dgwax2rd2hujb" path="res://barkley2/assets/b2_original/images/merged/s_evacuationAlarmControl.png" id="1_41gdm"]
+
+[sub_resource type="GDScript" id="GDScript_22bvu"]
+script/source = "extends Sprite2D
+
+## NOTE not sure how this is used.
+# o_effect_alarmLight
+# Looks like it flashes the screen red, not all the time.
+"
+
+[node name="o_effect_alarmLight" type="Sprite2D"]
+position = Vector2(-120, 64)
+texture = ExtResource("1_41gdm")
+centered = false
+script = SubResource("GDScript_22bvu")
+metadata/code = "// Tutorial alarm / alert sound //
+if Quest(\"tutorialProgress\") < 9 then instance_destroy();
+else
+    {
+    if audio_is_playing_ext(\"sn_pdt_alert01\") then audio_sound_gain_ext(\"sn_pdt_alert01\", 0.4, 1);
+    alpStr = 0.2;
+    }"
+metadata/inst_name = "inst_A1DAED82"
+metadata/scale = Vector2(1, 1)

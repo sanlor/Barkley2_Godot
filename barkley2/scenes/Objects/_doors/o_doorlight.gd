@@ -87,8 +87,8 @@ const push_area_offset := {
 var _rot := 0.0
 
 func _ready() -> void:
-	if not enabled and not Engine.is_editor_hint():
-		queue_free()
+	#if not enabled and not Engine.is_editor_hint():
+		#queue_free()
 		
 	if not Engine.is_editor_hint():
 		B2_RoomXY.room_finished_loading.connect( func(): is_loaded = true )
@@ -183,6 +183,9 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 		return
 		
 	if is_warping: # avoid double loading the same room
+		return
+		
+	if not enabled:
 		return
 		
 	if body is B2_Player:

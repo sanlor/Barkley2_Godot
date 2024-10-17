@@ -1,5 +1,7 @@
 extends Node
 
+signal quest_updated
+
 ## CC Data
 var paxEnable = 0;
 
@@ -119,6 +121,7 @@ func Quest(key : String, value = null, default = 0):
 			return _key_value
 	else:
 		B2_Config.set_user_save_data(questpath, value)
+		quest_updated.emit()
 		return true
 		
 func get_quest_state(key : String):

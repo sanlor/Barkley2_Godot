@@ -24,7 +24,7 @@ var fade_time_in 		:= B2_Config.settingFadeIn
 var fade_delay 			:= B2_Config.settingFadeDelay
 var fade_time_out 		:= B2_Config.settingFadeOut
 
-var invalid_room 	:= "res://barkley2/rooms/r_wip.tscn" # Fallback room
+var invalid_room 	:= "res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn" # "res://barkley2/rooms/r_wip.tscn" # Fallback room
 var room_folder 	:= "res://barkley2/rooms/"
 
 var room_load_lock	:= false # disallow loading a new room defore the current one finishes loading
@@ -40,6 +40,7 @@ var room_array := [
 	"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
 	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn",
+	"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
 ]
 var room_index := {}
 var room_scene : PackedScene
@@ -68,7 +69,7 @@ func _ready() -> void:
 func get_current_room() -> String:
 	return this_room
 	
-func warp_to( room_transition_string : String, _delay := 0.0, create_player := true ):
+func warp_to( room_transition_string : String, _delay := 0.0, create_player := true, skip_fade_in := false ):
 	if room_load_lock:
 		push_warning("Tried to load new room %s before the current one finishes." % room_transition_string)
 		return
@@ -93,16 +94,21 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	
 	var tween : Tween
 	
-	tween = create_tween()
-	tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out )
-	await tween.finished
+	if not skip_fade_in:
+		tween = create_tween()
+		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out )
+		await tween.finished
 	
-	# set the delay before loading the room.
-	if _delay > 0.0:
-		await get_tree().create_timer( _delay ).timeout
+		# set the delay before loading the room.
+		if _delay > 0.0:
+			await get_tree().create_timer( _delay ).timeout
+		else:
+			await get_tree().create_timer( fade_delay ).timeout
+			
 	else:
-		await get_tree().create_timer( fade_delay ).timeout
-	
+		room_transition_layer.modulate.a = 1.0
+		await get_tree().process_frame
+		
 	await get_room_scene( room_name ) 						# Load the next room
 	get_tree().change_scene_to_packed( room_scene )		# change the current room
 	await get_tree().process_frame
@@ -127,6 +133,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	room_finished_loading.emit()
 	room_load_lock = false
 	print("Finished loading room %s." % room_name)
+	return
 	
 	
 func get_room_scene( room_name : String ):
