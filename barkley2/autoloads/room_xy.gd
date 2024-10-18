@@ -44,6 +44,7 @@ var room_array := [
 ]
 var room_index := {}
 var room_scene : PackedScene
+var room_is_invalid := false
 
 var player_scene := "res://barkley2/scenes/Player/o_hoopz.tscn"
 
@@ -119,7 +120,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	this_room_y 	= room_y
 	
 	tween = create_tween()
-	if create_player:
+	if create_player and not room_is_invalid:
 		tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
 	
@@ -137,6 +138,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	
 	
 func get_room_scene( room_name : String ):
+	room_is_invalid = false
 	print_rich( "[bgcolor=black]Loading room %s started.[/bgcolor]" % room_name )
 	var t1 := Time.get_ticks_msec()
 	if room_index.has( room_name ):
@@ -157,6 +159,7 @@ func get_room_scene( room_name : String ):
 	else:
 		push_error("Room %s not indexed." % room_name)
 	
+	room_is_invalid = true
 	push_error("Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
 	room_scene = load( invalid_room ) as PackedScene
 	return 

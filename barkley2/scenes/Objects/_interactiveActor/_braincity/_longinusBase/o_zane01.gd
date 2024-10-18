@@ -14,8 +14,6 @@ func _ready() -> void:
 	ANIMATION_STAND_SPRITE_INDEX 	= [ 1, 1, 0, 0, 0, 0, 0, 1 ]
 	ActorAnim.animation 	= ANIMATION_STAND
 	
-
-
 func execute_event_user_1():
 	# used in the r_fct_tutorialZone01 when givving a gun.
 	# Looking at the original code, it seems some unused tutorial segment for shooting light bulbs.
@@ -42,4 +40,7 @@ func execute_event_user_11():
 	## Spawn blue roses ala Dark Savior
 	# Happens during the death scene "zaneJalapeno <= 1". Not sure what it does.
 	# repeat (7) instance_create(x, y, o_effect_blue_rose);
-	pass
+	
+	const O_EFFECT_BLUE_ROSE = preload("res://barkley2/scenes/_event/Misc/o_effect_blue_rose.tscn")
+	for x in 7:
+		add_child( O_EFFECT_BLUE_ROSE.instantiate(), true )

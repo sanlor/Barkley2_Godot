@@ -1,5 +1,7 @@
 @tool
+@icon("res://barkley2/assets/b2_original/images/merged/s_doorlight.png")
 extends AnimatedSprite2D
+class_name B2_DoorLight
 # Base class for doorlight directions.
 @export var enabled			:= true
 @export var show_door_light := false:

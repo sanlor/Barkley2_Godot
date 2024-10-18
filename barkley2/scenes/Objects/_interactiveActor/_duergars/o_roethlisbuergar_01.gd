@@ -1,9 +1,8 @@
-extends B2_InteractiveActor
+extends B2_Duergar
 
 # First Duergar.
 # Need to create class B2_DuergarsActors
 # Need to create something with to keepp track of the Duergars (like the original Duergar() script)
-
 
 func _ready() -> void:
 	ANIMATION_STAND 						= "s_roethlisbuergar01"

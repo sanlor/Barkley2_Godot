@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/sDoorSlab.png")
 extends AnimatedSprite2D
 class_name B2_DOOR_PARENT
 

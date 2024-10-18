@@ -1,0 +1,100 @@
+[gd_scene load_steps=10 format=3 uid="uid://301rhcepptag"]
+
+[ext_resource type="Texture2D" uid="uid://cud3gf7odk5m" path="res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower3.png" id="1_scoje"]
+
+[sub_resource type="GDScript" id="GDScript_iedtt"]
+script/source = "extends Node2D
+
+## This sucks.
+
+@onready var sprite: AnimatedSprite2D = $sprite
+
+var target 		:= Vector2.ZERO
+var height 		:= 0.0
+var gravity 	:= 10.0
+var spinner		:= 0.0
+
+var is_on_ground := false
+
+func _ready() -> void:
+	target 	= Vector2.RIGHT.rotated( randf_range( 0.0, TAU ) ) * randf_range( 3.0, 9.0 )
+	height 	= 14.5 + randf_range( 0.0, 4.0 )
+	spinner = randi_range( -5, 5 )
+	sprite.speed_scale = randf_range( 1, 3 )
+	rotation = randf_range( -PI, PI )
+	sprite.play(\"default\")
+	
+func _process(delta: float) -> void:
+	if is_on_ground:
+		return
+		
+	sprite.offset.y -= height * delta
+	sprite.position += target * 5.0 * delta
+	#sprite.rotation += spinner * delta ## Too lazy to fix this
+	
+	height -= gravity * delta
+	
+	print(height)
+	print(sprite.offset)
+	
+	if sprite.offset.y >= 0:
+		is_on_ground = true
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ojxg"]
+atlas = ExtResource("1_scoje")
+region = Rect2(0, 0, 12, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hokkp"]
+atlas = ExtResource("1_scoje")
+region = Rect2(12, 0, 12, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pauai"]
+atlas = ExtResource("1_scoje")
+region = Rect2(24, 0, 12, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bg3xm"]
+atlas = ExtResource("1_scoje")
+region = Rect2(36, 0, 12, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg2v2"]
+atlas = ExtResource("1_scoje")
+region = Rect2(48, 0, 12, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxm0s"]
+atlas = ExtResource("1_scoje")
+region = Rect2(60, 0, 12, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cm88h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ojxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hokkp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pauai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bg3xm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg2v2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxm0s")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_effect_blue_rose" type="Node2D"]
+script = SubResource("GDScript_iedtt")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cm88h")
+frame = 5
+frame_progress = 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=189 format=4 uid="uid://c73c3nkj41ecf"]
+[gd_scene load_steps=196 format=4 uid="uid://c73c3nkj41ecf"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_accessHall01.gd" id="1_s1cew"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_fbrhx"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://mafjbn42bwya" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf03.tscn" id="9_1gfic"]
 [ext_resource type="PackedScene" uid="uid://b2wtpsai8w3ns" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf04.tscn" id="10_uniq4"]
 [ext_resource type="PackedScene" uid="uid://dy6er8bjf3ixf" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_deadDwarf05.tscn" id="11_831t3"]
+[ext_resource type="PackedScene" uid="uid://cjokfdr3fny1e" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_archambeau_01.tscn" id="11_fd24y"]
 [ext_resource type="PackedScene" uid="uid://d23fltvcm02kl" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_roethlisbuergar_01.tscn" id="11_v7jbo"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="11_wsjxq"]
 [ext_resource type="PackedScene" uid="uid://b5hom2o7tu036" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_boot_01.tscn" id="14_qlma4"]
@@ -2912,6 +2913,58 @@ texture = ExtResource("2_fbrhx")
 [sub_resource type="TileSet" id="TileSet_4sjjp"]
 sources/0 = SubResource("TileSetAtlasSource_6qddk")
 
+[sub_resource type="GDScript" id="GDScript_y8q06"]
+script/source = "extends B2_Event_Step_Trigger
+
+@onready var o_door_tech_01_elevator: AnimatedSprite2D = $\"../o_door_tech01_elevator\"
+
+func event_trigger( _node ):
+	if is_instance_valid(cutscene_script):
+		B2_CManager.play_cutscene( cutscene_script, self, true )
+	else:
+		# Script unloaded for some reason
+		breakpoint
+		
+func execute_event_user_0():
+	o_door_tech_01_elevator._open_door()
+	
+func execute_event_user_1():
+	o_door_tech_01_elevator._close_door()
+"
+
+[sub_resource type="Resource" id="Resource_jrxo6"]
+script = ExtResource("11_wsjxq")
+original_script = "QUEST  | tutorialDuergar = 1
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+WAIT   | 0
+FOLLOWFRAME | CAMERA_FAST | o_archambeau01
+WAIT   | 1
+EVENT  | o_tutorial_duergar | 0
+WAIT   | 0.5
+Misc   | alpha | o_archambeau01 | 1 | 0.5
+WAIT   | 0.5
+FOLLOWFRAME | CAMERA_NORMAL | o_archambeau01 | o_cts_hoopz
+MOVETO | o_archambeau01 | o_cinema11 | MOVE_FAST
+WAIT   | 0
+LOOKAT | o_archambeau01 | o_cts_hoopz
+SURPRISEAT | o_archambeau01
+WAIT   | 0.25
+DIALOG | R.F. Archambeau | Greetings, I'm Archambeau. I'm a `kw`Duergar`rt`. We duergars are one of the main antagonists of the game. Be careful around us!
+WAIT   | 0.5
+DIALOG | R.F. Archambeau | Time to die, bitch.
+SOUNDSTOP | sn_pdt_alert01
+Misc   | music | mus_rush | 1
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema12 | MOVE_FAST
+WAIT   | 0
+FADE   | 1 | 1
+WAIT   | 1
+QUEST  | tutorialProgress = 10
+Teleport | r_fct_factoryOutpost01 | 704 | 256 | 1"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l56bw"]
+size = Vector2(20, 149)
+
 [sub_resource type="Resource" id="Resource_kcu7b"]
 script = ExtResource("11_wsjxq")
 original_script = "IF jhodfreyTips == 3 | GOTO | DOUBT
@@ -3185,6 +3238,42 @@ Teleport | r_fct_reroute01 | 544 | 368 | 1"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lc63m"]
 size = Vector2(20, 200)
+
+[sub_resource type="GDScript" id="GDScript_v2tk5"]
+script/source = "extends B2_Event_Step_Trigger
+
+@onready var o_roethlisbuergar_01: 	CharacterBody2D 	= $\"../o_roethlisbuergar01\"
+@onready var o_cinema_14: 			B2_CinemaSpot 		= $\"../o_cinema14\"
+
+func _ready() -> void:
+	if B2_Playerdata.Quest(\"tutorialCspear\", null, 0) == 1:
+		o_roethlisbuergar_01.position = o_cinema_14.position
+
+func event_trigger( _node ):
+	if is_instance_valid(cutscene_script):
+		B2_CManager.play_cutscene( cutscene_script, self, true )
+	else:
+		# Script unloaded for some reason
+		breakpoint
+"
+
+[sub_resource type="Resource" id="Resource_uvt1d"]
+script = ExtResource("11_wsjxq")
+original_script = "LOOK   | o_roethlisbuergar01 | NORTH
+Emote  | !
+WAIT   | 0.5
+FRAME  | CAMERA_NORMAL | o_roethlisbuergar01
+WAIT   | 0
+DIALOG | Roethlisbuergar | You better not be opening the vents and escaping through the air ducts!
+FOLLOWFRAME  | CAMERA_NORMAL | o_cts_hoopz
+WAIT   | 1
+LOOK   | o_cts_hoopz | WEST
+MOVETO | o_cts_hoopz | o_cinema16 | MOVE_NORMAL
+WAIT   | 0
+EXIT   |"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v12ot"]
+size = Vector2(20, 151)
 
 [sub_resource type="Resource" id="Resource_c8wt3"]
 script = ExtResource("11_wsjxq")
@@ -4385,11 +4474,11 @@ metadata/code = ""
 metadata/inst_name = "inst_00000166"
 metadata/scale = Vector2(3, 3)
 
-[node name="P85 - o_door_tech01" parent="." instance=ExtResource("7_hv0oq")]
+[node name="o_door_tech01_eggroom_2" parent="." instance=ExtResource("7_hv0oq")]
 position = Vector2(2024, 160)
 locked = true
 
-[node name="P86 - o_door_tech01" parent="." instance=ExtResource("7_hv0oq")]
+[node name="o_door_tech01_eggroom_3" parent="." instance=ExtResource("7_hv0oq")]
 position = Vector2(1544, 160)
 locked = true
 
@@ -4397,10 +4486,10 @@ locked = true
 position = Vector2(872, 160)
 door_name = "vents"
 
-[node name="P88 - o_door_tech01" parent="." instance=ExtResource("7_hv0oq")]
+[node name="o_door_tech01_vents_exit" parent="." instance=ExtResource("7_hv0oq")]
 position = Vector2(504, 160)
 
-[node name="P89 - o_door_tech01" parent="." instance=ExtResource("7_hv0oq")]
+[node name="o_door_tech01_elevator" parent="." instance=ExtResource("7_hv0oq")]
 position = Vector2(136, 160)
 door_name = "elevator"
 
@@ -4449,12 +4538,6 @@ position = Vector2(160, 384)
 teleport_destination = "r_fct_factoryOutpost01, 704, 264, \"door_open_tech\", \"door_close_tech\""
 teleport_create_o_hoopz = true
 
-[node name="P96 - o_tutorial_duergar" type="Marker2D" parent="."]
-position = Vector2(304, 232)
-metadata/code = ""
-metadata/inst_name = "inst_21B8F6ED"
-metadata/scale = Vector2(0, 4)
-
 [node name="o_doorlight_tutorial" parent="." instance=ExtResource("7_3m2wo")]
 position = Vector2(2032, 320)
 teleport_destination = "r_fct_tutorialZone01, 1056, 168"
@@ -4471,6 +4554,22 @@ offset = Vector2(0, -44)
 flip_v = false
 type = 0
 teleport_destination = "r_fct_eggRooms01, 240, 336"
+
+[node name="o_tutorial_duergar" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
+position = Vector2(304, 232)
+script = SubResource("GDScript_y8q06")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_jrxo6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_duergar"]
+position = Vector2(0, 19.5)
+shape = SubResource("RectangleShape2D_l56bw")
+debug_color = Color(0.737255, 0.454902, 0.117647, 0.258824)
+
+[node name="B2_QuestCleanup" type="Node" parent="o_tutorial_duergar"]
+script = ExtResource("8_jy4bp")
+quest_name = "tutorialDuergar"
+compare = 1
 
 [node name="o_jhodfrey01" parent="." instance=ExtResource("7_74mil")]
 position = Vector2(1136, 272)
@@ -4511,27 +4610,35 @@ script = ExtResource("8_jy4bp")
 quest_name = "tutorialDeath"
 compare = 1
 
-[node name="P101 - o_tutorial_zaneDeath" type="Marker2D" parent="."]
-position = Vector2(928, 248)
-metadata/code = ""
-metadata/inst_name = "inst_6EDB5B21"
-metadata/scale = Vector2(0, 5)
-
-[node name="P102 - o_tutorial_duergar_back" type="Marker2D" parent="."]
+[node name="o_tutorial_duergar_back" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
 position = Vector2(720, 296)
-metadata/code = ""
-metadata/inst_name = "inst_A0612B1A"
-metadata/scale = Vector2(1, 3)
+script = SubResource("GDScript_v2tk5")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_uvt1d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_duergar_back"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_v12ot")
+debug_color = Color(0.737255, 0.454902, 0.117647, 0.258824)
+
+[node name="B2_QuestCleanup" type="Node" parent="o_tutorial_duergar_back"]
+script = ExtResource("8_jy4bp")
+quest_name = "tutorialCspear"
+compare = 0
+
+[node name="B2_QuestCleanup2" type="Node" parent="o_tutorial_duergar_back"]
+script = ExtResource("8_jy4bp")
+quest_name = "tutorialProgress"
+compare = 4
+value = 11
 
 [node name="o_roethlisbuergar01" parent="." instance=ExtResource("11_v7jbo")]
 position = Vector2(648, 288)
 flip_h = true
 
-[node name="P105 - o_archambeau01" type="Marker2D" parent="."]
+[node name="o_archambeau01" parent="." instance=ExtResource("11_fd24y")]
 position = Vector2(160, 148)
-metadata/code = ""
-metadata/inst_name = "inst_86FE1A60"
-metadata/scale = Vector2(1, 1)
+duergar_name = "archambeau"
 
 [node name="o_door_tech01" parent="." instance=ExtResource("7_hv0oq")]
 position = Vector2(2504, 192)
@@ -4581,6 +4688,7 @@ metadata/default = {
 
 [node name="o_fct_doorDisplay01" parent="." instance=ExtResource("17_hm7bp")]
 position = Vector2(2031, 80)
+is_dead = true
 
 [node name="o_fct_doorDisplay02" parent="." instance=ExtResource("17_hm7bp")]
 position = Vector2(2512, 112)
@@ -5054,12 +5162,6 @@ metadata/default = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o_fct_alarmBig02/StaticBody2D"]
 shape = SubResource("CircleShape2D_5xths")
-
-[node name="P155 - o_room_pacify" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = ""
-metadata/inst_name = "inst_E9E01BD1"
-metadata/scale = Vector2(1, 1)
 
 [node name="o_effect_alarmLight" parent="." instance=ExtResource("39_1lvcd")]
 
