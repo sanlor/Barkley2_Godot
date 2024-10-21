@@ -21,6 +21,7 @@ var astar_valid_tiles := Array() # used for debug
 
 @export_category("Room Options")
 @export var play_room_music				:= true
+@export var room_music_name				:= ""
 @export var room_pacify 				:= true # Player cant draw weapons.
 @export var room_player_can_roll 		:= true # Player can roll around.
 
@@ -51,7 +52,10 @@ func set_roll( state : bool ):
 	permission_changed.emit()
 
 func _play_room_music():
-	B2_Music.room_get( name )
+	if room_music_name.is_empty():
+		B2_Music.room_get( name )
+	else:
+		B2_Music.play( room_music_name )
 
 ## This is a hard one.
 # Cant update pachfinding dinamically. B2_Environ arent taken into account, so actors can go trhu objects.

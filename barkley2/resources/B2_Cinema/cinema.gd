@@ -581,7 +581,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 						if _str == "Teleport": continue # Lazy way to skip the first line.
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
 					
-					B2_RoomXY.warp_to( room_string, 0.0, true, true )
+					B2_RoomXY.warp_to( room_string, 0.0, true )
 					
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )

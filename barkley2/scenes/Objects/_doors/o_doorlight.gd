@@ -198,8 +198,8 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 			else:
 				is_warping = true
 				print(self)
-				B2_RoomXY.warp_to( teleport_destination, 0.0, teleport_create_o_hoopz )
+				B2_RoomXY.warp_to( teleport_destination, 0.0 )
 		else:
 			push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
 			is_warping = true
-			B2_RoomXY.warp_to( debug_teleport_destination, 0.0, debug_teleport_create_o_hoopz )
+			B2_RoomXY.warp_to( debug_teleport_destination, 0.0 )

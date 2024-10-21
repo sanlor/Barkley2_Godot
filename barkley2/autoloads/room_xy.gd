@@ -36,12 +36,24 @@ var room_array := [
 	"res://barkley2/rooms/r_wip.tscn",
 	
 	# Actual rooms
+	
+	## Tutorial - Factory 2nd floor
 	"res://barkley2/rooms/factory/floor2/r_fct_accessHall01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
+	
+	## AIR
+	"res://barkley2/rooms/ai_ruins/r_air_boss01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_cloister01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_corridor01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_dais01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_entrance03.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_filler01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_finalgun01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_scannerFirst01.tscn",
+	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn", ## main debug room
 ]
 var room_index := {}
 var room_scene : PackedScene
@@ -69,6 +81,7 @@ func _ready() -> void:
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
 	
 func is_room_valid() -> bool:
+	print("room ",this_room)
 	return not this_room.is_empty()
 	
 func get_room_pos() -> Vector2:
@@ -80,7 +93,7 @@ func reset_room() -> void:
 	this_room_y 	= 0.0
 	print_rich( "[color=yellow]Room data reseted[/color]" )
 	
-func warp_to( room_transition_string : String, _delay := 0.0, create_player := true, skip_fade_in := false ):
+func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_in := false ):
 	if room_load_lock:
 		push_warning("Tried to load new room %s before the current one finishes." % room_transition_string)
 		return
@@ -94,6 +107,11 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
 	var open_sfx	:= str( split[4] )
 	var close_sfx	:= str( split[5] )
+	
+	# save destination data
+	this_room 		= room_name
+	this_room_x 	= room_x
+	this_room_y 	= room_y
 	
 	print("Started loading room %s." % room_name)
 	
@@ -124,10 +142,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	get_tree().change_scene_to_packed( room_scene )		# change the current room
 	await get_tree().process_frame
 	
-	# save destination data
-	this_room 		= room_name
-	this_room_x 	= room_x
-	this_room_y 	= room_y
+
 	
 	tween = create_tween()
 	#if create_player and not room_is_invalid:

@@ -1655,6 +1655,12 @@ shader_parameter/add_margins = true
 [sub_resource type="Resource" id="Resource_ccn3v"]
 script = ExtResource("2_1nf1v")
 original_script = "DIALOG | Debug = s_port_cuchutamo | Hey there. Here is some random text to text the multiline text box.
+DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
+DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
+DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
+DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
+DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
+DIALOG | Debug = s_port_cuchutamo | Now, long text.
 DIALOG | Debug = s_port_cuchutamo | Lorem ipsum dolor sit amet. Qui assumenda tempore aut repellat quam 33 quia temporibus non sunt rerum. Qui earum doloremque eum consequuntur dolor quo quaerat perspiciatis. Id assumenda fugit rem aperiam consequatur et numquam facere qui internos dolorem eum voluptatem quasi et deserunt quisquam. Et consequatur accusantium ut enim natus vel obcaecati fugiat qui quod vero non magni molestiae. 
 DIALOG | Debug = s_port_cuchutamo | Did it work? I hope so.
 EXIT"
@@ -1700,8 +1706,8 @@ GOTO   | FINAL_LABEL"
 [node name="r_air_throneRoom01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
 script = ExtResource("1_372yl")
-create_player_scene_at_room_start = true
-player_scene_pos = Vector2(274, 274)
+debug_create_player_scene_at_room_start = true
+debug_player_scene_pos = Vector2(274, 274)
 collision_layer = NodePath("layer collision")
 room_pacify = false
 play_cinema_at_room_start = false
@@ -1729,7 +1735,7 @@ tile_set = ExtResource("4_kemnc")
 
 [node name="o_doorlight" parent="." instance=ExtResource("3_777cr")]
 position = Vector2(240, 368)
-debug_teleport_destination = "r_title,0,0"
+teleport_destination = "r_air_entrance03,624,106"
 
 [node name="spawn_point" type="Marker2D" parent="."]
 position = Vector2(273, 272)
@@ -1749,7 +1755,7 @@ cutscene_script = SubResource("Resource_6fhpj")
 
 [node name="o_cuchutamo02" parent="." instance=ExtResource("7_yr07f")]
 material = SubResource("ShaderMaterial_53sbw")
-position = Vector2(367, 175)
+position = Vector2(321, 303)
 interactive_distance = 64
 player_can_pause = false
 cutscene_script = SubResource("Resource_ccn3v")
@@ -1760,7 +1766,7 @@ position = Vector2(306, 218)
 [node name="o_nu_debug" parent="." instance=ExtResource("10_elk8h")]
 material = SubResource("ShaderMaterial_kbow2")
 position = Vector2(248, 214)
-interactive_distance = 24
+resize_mouse_detection_area = false
 cutscene_script = SubResource("Resource_62wg2")
 
 [node name="o_kunigundePrison01" parent="." instance=ExtResource("11_07hy3")]

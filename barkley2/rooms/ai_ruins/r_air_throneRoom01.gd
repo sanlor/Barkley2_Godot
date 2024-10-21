@@ -9,10 +9,12 @@ func _ready() -> void:
 	
 	B2_Music.play( "mus_swp_accousticarea" )
 		
-	if B2_RoomXY.this_room == "":
-		if create_player_scene_at_room_start:
-			await get_tree().process_frame
-			_setup_camera( _setup_player_node() )
-		
 	if play_cinema_at_room_start:
 		B2_CManager.play_cutscene( cutscene_script, self, true )
+	else:
+		if B2_RoomXY.is_room_valid():
+			B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
+		else:
+			_setup_camera( _setup_player_node() )
+		
+	

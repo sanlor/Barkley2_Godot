@@ -11,5 +11,5 @@ func _ready() -> void:
 	ANIMATION_NORTHEAST 		= "walk_n"
 	ANIMATION_NORTHWEST 		= "walk_n"
 	ANIMATION_EAST 				= "walk_e"
-	ANIMATION_STAND_SPRITE_INDEX 	= [ 2, 2, 3, 0, 0, 0, 1, 2 ] # N, NE, E, SE, S, SW, W, NW
+	ANIMATION_STAND_SPRITE_INDEX 	= [ 2, 2, 3, 0, 0, 0, 3, 2 ] # N, NE, E, SE, S, SW, W, NW
 	ActorAnim.animation 	= ANIMATION_STAND
