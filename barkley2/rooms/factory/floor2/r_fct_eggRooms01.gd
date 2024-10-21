@@ -11,17 +11,14 @@ func _ready() -> void:
 	
 	_init_pathfind()
 	_update_pathfind()
-		
-	await get_tree().process_frame
-	if B2_RoomXY.this_room.is_empty():
-		if create_player_scene_at_room_start:
-			_setup_camera( _setup_player_node() )
-			return ## DEBUG
 	
 	# If you go back to this room after progressing the tutorial, all the egg shit is already fucked beyond repair and can't be interacted with etc. //
 	if B2_Playerdata.Quest( "gameStart", null, 1) != 1:
 		# the cutscene was already played.
-		return
+		if B2_RoomXY.is_room_valid():
+			B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
+		else:
+			_setup_camera( _setup_player_node() )
 	else:
 		# play the initial cutscene.
 		

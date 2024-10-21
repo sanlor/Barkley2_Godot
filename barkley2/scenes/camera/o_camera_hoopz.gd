@@ -18,7 +18,7 @@ var curr_MODE := MODE.FOLLOW
 var speed := 1.5
 var is_moving := false
 var destination := Vector2.ZERO
-var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
+#var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
 var camera_normal_offset := Vector2( 0,20 )
 
@@ -49,9 +49,9 @@ func _ready() -> void:
 		
 	if player_node != null:
 		position 	= player_node.position
-		_position 	= player_node.position
+		#_position 	= player_node.position
 		
-	_position 			= position.round()
+	position 			= position.round()
 	B2_CManager.camera 	= self
 	
 	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
@@ -154,32 +154,32 @@ func _process(delta: float) -> void:
 				avg_pos += node.position
 			avg_pos /= arr_size
 			
-			_position = _position.move_toward( avg_pos, (speed * 30) * delta )
-			position = _position
+			position 	= position.move_toward( avg_pos, (speed * 30) * delta )
+			offset 		= offset.move_toward( camera_normal_offset, 0.5 * camera_follow_speed * delta )
 			
 		MODE.CINEMA:
 			if is_moving:
-				_position = _position.move_toward(destination, (speed * 30) * delta)
+				position = position.move_toward(destination, (speed * 30) * delta)
 				
-				if _position.is_equal_approx(destination):
+				if position.is_equal_approx(destination):
 					is_moving = false
 					destination_reached.emit()
 					
 				#position = _position.round()
 				#position = _position.floor()
 				offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
-				position = _position
+				#position = _position
 			
 		MODE.FOLLOW:
 			if is_instance_valid(player_node):
 				if is_lost:
 					# Just jump to the player.
 					position 	= player_node.position
-					_position 	= player_node.position
+					#_position 	= player_node.position
 					is_lost = false
 					return
 				#_position = player_node.position
-				_position = _position.move_toward(player_node.position, 300 * delta)
+				position = position.move_toward(player_node.position, 300 * delta)
 				
 				if follow_mouse:
 					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
@@ -196,4 +196,4 @@ func _process(delta: float) -> void:
 			#position = _position.round()
 			#position = _position.floor()
 			#offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
-			position = _position
+			#position = _position

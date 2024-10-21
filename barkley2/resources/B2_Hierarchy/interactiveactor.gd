@@ -115,3 +115,13 @@ func _process_mouse_events() -> void: ## Perform mouse click and position checks
 			return
 	
 	material.set_shader_parameter("enable", false)
+
+func _process(_delta: float) -> void:
+	if is_mouse_hovering:
+		# check if the player is near
+		if is_instance_valid(B2_CManager.o_hoopz):
+			if B2_CManager.o_hoopz.position.distance_to( position ) < interactive_distance:
+				is_player_near = true
+				return
+			
+	is_player_near = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=13 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz.gd" id="1_3cthp"]
 [ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_normal_diaper.tres" id="2_5da33"]
@@ -12,13 +12,11 @@
 [ext_resource type="SpriteFrames" uid="uid://qkvh0mkp04w8" path="res://barkley2/resources/Player/combat_arm_front_diaper.tres" id="6_txjj5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g0dal"]
+friction = 0.5
 bounce = 0.25
 absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_ew2ks"]
-radius = 64.0
 
 [node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "hoopz_normal_body", "step_smoke")]
 mass = 70.0
@@ -101,13 +99,6 @@ offset = Vector2(-22, -41)
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
 
-[node name="InteractionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
-shape = SubResource("CircleShape2D_ew2ks")
-
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]
-[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
-[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

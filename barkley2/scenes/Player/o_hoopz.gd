@@ -55,8 +55,6 @@ const COMBAT_WALK_SW		:= "walk_SW"
 const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
-@onready var interact_collision: CollisionShape2D = $InteractionArea/CollisionShape2D
-
 # Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
@@ -343,17 +341,6 @@ func combat_weapon_animation():
 		combat_weapon.z_index	= _z_index
 		
 		aim_dir = mouse_input
-	
-	#debug_line = mouse_input
-	#queue_redraw()
-
-#func _draw() -> void:
-	#draw_line( Vector2.ZERO + Vector2( 0, -16 ), debug_line * position.distance_to( get_global_mouse_position() ), 	Color.HOT_PINK )
-	#draw_line( Vector2.ZERO, debug_walk_dir * position.distance_to( get_global_mouse_position() ), 					Color.SKY_BLUE )
-	#
-	#draw_string(preload("res://barkley2/assets/fonts/Perfect DOS VGA 437 Win.ttf"), 
-		#debug_line * position.distance_to( get_global_mouse_position() ), str(debug_line), 
-		#HORIZONTAL_ALIGNMENT_LEFT, 256, 16 )
 
 func _physics_process(delta: float) -> void:
 	match curr_STATE:
@@ -368,7 +355,6 @@ func _physics_process(delta: float) -> void:
 				linear_damp = walk_damp
 				step_smoke.emitting = false
 				hoopz_normal_body.offset.y -= 15
-				interact_collision.disabled = false
 				
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:
@@ -391,12 +377,10 @@ func _physics_process(delta: float) -> void:
 						# change state, allowing the player to aim.
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 						curr_STATE = STATE.AIM
-						interact_collision.disabled = true
 						B2_Sound.play_pick("hoopz_swapguns")
 						
 					elif curr_STATE == STATE.AIM:
 						curr_STATE = STATE.NORMAL
-						interact_collision.disabled = false
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 						B2_Sound.play_pick("hoopz_swapguns")
 						
@@ -434,7 +418,6 @@ func _physics_process(delta: float) -> void:
 						# Use the mouse to decide the roll direction. (Inverted)
 						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
 					linear_velocity = Vector2.ZERO
-					interact_collision.disabled = true
 					apply_central_force( roll_dir * roll_impulse )
 					
 					## Reset some vars
@@ -457,20 +440,7 @@ func _physics_process(delta: float) -> void:
 				
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
-			
 			apply_central_impulse( velocity )
-			
-			
-	
-			
-func _on_interaction_area_body_entered(body: Node2D) -> void:
-	if body is B2_InteractiveActor:
-		if curr_STATE == STATE.NORMAL:
-			body.is_player_near = true
-
-func _on_interaction_area_body_exited(body: Node2D) -> void:
-	if body is B2_InteractiveActor:
-		body.is_player_near = false
 
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:

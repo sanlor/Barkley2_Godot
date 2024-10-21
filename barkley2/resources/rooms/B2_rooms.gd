@@ -7,12 +7,14 @@ signal permission_changed
 @export var populate_reference_layer := true
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D
+
 var astar_solid_tiles := Array() # used for debug
+var astar_valid_tiles := Array() # used for debug
 
 @export_category("DEBUG")
-@export var create_player_scene_at_room_start 	:= false
-@export var player_scene_pos 					:= Vector2.ZERO
-@export var show_pathfind_info					:= false
+@export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
+@export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
+@export var show_pathfind_info								:= false 		# show some debug pathfind data
 
 @export_category("Room")
 @export var collision_layer : TileMapLayer
@@ -23,9 +25,9 @@ var astar_solid_tiles := Array() # used for debug
 @export var room_player_can_roll 		:= true # Player can roll around.
 
 @export_category("Cinematics")
-@export var player_can_pause			:= true
+#@export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
-@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
+#@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
 @export var cutscene_script 			: B2_Script
 
 @export_category("Nodes")
@@ -34,7 +36,7 @@ var astar_solid_tiles := Array() # used for debug
 var obstacles 			:= []
 
 func _enter_tree() -> void:
-	B2_Screen.can_pause = player_can_pause
+#	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
 	if play_room_music:
@@ -76,10 +78,11 @@ func _init_pathfind():
 	astar = AStarGrid2D.new()
 	
 	## ASTAR Setup.
-	astar.jumping_enabled				= false
+	astar.jumping_enabled				= true
 	astar.default_compute_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
 	astar.default_estimate_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
-	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_AT_LEAST_ONE_WALKABLE
+	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
+	#astar.diagonal_mode				= AStarGrid2D.DIAGONAL_MODE_AT_LEAST_ONE_WALKABLE
 	
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:
@@ -99,10 +102,9 @@ func update_pathfind():
 func _update_pathfind():
 	var time := Time.get_ticks_usec()
 	_update_obstacles()
-	astar_solid_tiles.clear()
 	var _obstacles : Array[Vector2i] = []
 	
-	if not _obstacles.is_empty():
+	if not _obstacles.is_empty(): ## Maybe useless
 		for n in obstacles:
 			@warning_ignore("narrowing_conversion")
 			var tile_size 	:int= astar.cell_size.x
@@ -116,21 +118,21 @@ func _update_pathfind():
 				for y : int in size_y:
 					var tile_pos := Vector2i(pos.x + x, pos.y + y)
 					astar.set_point_solid( tile_pos, true )
-					astar_solid_tiles.append( tile_pos )
 				
 	# update data from collision layer
 	for tile in collision_layer.get_used_cells():
 		astar.set_point_solid( tile, true )
-		astar_solid_tiles.append( tile )
-	
-	# update data from actors. not sure if needed
-	#for node in get_children():
-		#if node is B2_Actor:
-			#var tile_pos : Vector2i = reference_layer.front().local_to_map( node.position )
-			#astar.set_point_solid( tile_pos, true )
-			#astar_solid_tiles.append( tile_pos )
 			
 	if show_pathfind_info:
+		astar_valid_tiles.clear()
+		astar_solid_tiles.clear()
+		
+		for x in astar.region.end.x:
+			for y in astar.region.end.y:
+				if not astar.is_point_solid( Vector2i( x, y ) ):
+					astar_valid_tiles.append( Vector2i( x, y ) )
+				else:
+					astar_solid_tiles.append( Vector2i( x, y ) )
 		debug_pathfind()
 	
 	print("_update_pathfind(): took %s usecs." % str(Time.get_ticks_usec() - time) )
@@ -147,7 +149,7 @@ func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Arr
 	if not astar.is_in_boundsv(_destination):
 		push_error(_destination, 	" is OOB.")
 		return my_path
-	my_path = astar.get_point_path(_destination, _origin, true) ## Partial path seems usefull since we are unsure if a cinemaspot is inside a wall.
+	my_path = astar.get_point_path( _destination, _origin, true ) ## Partial path seems usefull since we are unsure if a cinemaspot is inside a wall.
 	
 	if my_path.is_empty():
 		push_error("Path generation failed.")
@@ -158,11 +160,11 @@ func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Arr
 func _setup_player_node():
 	const O_HOOPZ = preload("res://barkley2/scenes/Player/o_hoopz.tscn")
 	var player = O_HOOPZ.instantiate()
-	player.position = player_scene_pos
+	player.position = debug_player_scene_pos
 	if b2_camera != null:
 		b2_camera.follow_mouse = true
 		b2_camera.follow_player( player )
-		b2_camera.position = player_scene_pos
+		b2_camera.position = debug_player_scene_pos
 		
 	add_child( player )
 	return player
@@ -173,6 +175,7 @@ func _setup_camera( player ):
 		b2_camera.follow_player( player as B2_Player )
 		b2_camera.follow_mouse = true
 	add_child( b2_camera, true )
+	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )
 
 func debug_pathfind():
 	queue_redraw()
@@ -182,4 +185,10 @@ func _draw() -> void:
 		for tile : Vector2i in astar_solid_tiles:
 			var real_pos : Vector2 = tile * 16
 			draw_rect( Rect2( real_pos, Vector2(16,16) ), Color(Color.RED, 0.5), true )
+			draw_rect( Rect2( real_pos, Vector2(16,16) ), Color(Color.DARK_RED, 0.5), false )
+			
+		for tile : Vector2i in astar_valid_tiles:
+			var real_pos : Vector2 = tile * 16
+			draw_rect( Rect2( real_pos, Vector2(16,16) ), Color(Color.PINK, 0.5), true )
+			draw_rect( Rect2( real_pos, Vector2(16,16) ), Color(Color.HOT_PINK, 0.5), false )
 		

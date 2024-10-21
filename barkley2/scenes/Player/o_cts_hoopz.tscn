@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=3 uid="uid://cqll7bly11mei"]
+[gd_scene load_steps=152 format=3 uid="uid://cqll7bly11mei"]
 
 [ext_resource type="Texture2D" uid="uid://e8p2pvrclsu1" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzDiaper_useNE.png" id="5_70k7c"]
 [ext_resource type="Texture2D" uid="uid://cp8fnesupksyy" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopz_diaper_stand.png" id="5_nlxlc"]
@@ -1160,6 +1160,17 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_my4pe"]
+script/source = "extends Label
+
+@onready var hoopz = get_parent()
+
+
+func _process(_delta: float) -> void:
+	text = \"\"
+	text = \"Movement Vector :%s \\n\" % hoopz.movement_vector
+"
+
 [node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
 script = ExtResource("14_wfe3k")
 is_interactive = false
@@ -1172,7 +1183,7 @@ disable_auto_flip_h = true
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_tm1vk")
-animation = &"stand_NW"
+animation = &"s_cts_hoopz_diaper_stand"
 centered = false
 offset = Vector2(-22, -41)
 metadata/diaper_ground = {
@@ -1637,3 +1648,11 @@ metadata/default = {
 "xorig": "22",
 "yorigin": "41"
 }
+
+[node name="debug_label" type="Label" parent="."]
+visible = false
+offset_left = -18.0
+offset_top = -88.0
+offset_right = 22.0
+offset_bottom = -65.0
+script = SubResource("GDScript_my4pe")

@@ -1,3 +1,4 @@
+@tool
 extends B2_Event_Root
 class_name B2_Event_Step_Trigger
 
@@ -5,7 +6,7 @@ class_name B2_Event_Step_Trigger
 
 func _enter_tree() -> void:
 	assert( is_instance_valid(col_shape), "Forgot to select the collision on node %s, buddy." % name )
-	col_shape.debug_color = Color("b557df6b")
+	col_shape.debug_color = Color("b6775c6b")
 	body_entered.connect( _pre_event_trigger )
 
 func _pre_event_trigger(_body : Node2D) -> void:

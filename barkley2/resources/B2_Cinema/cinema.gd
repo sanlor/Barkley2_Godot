@@ -50,7 +50,7 @@ var camera						: Camera2D
 var all_nodes					:= []
 var array_dirty					:= false
 
-var room := ""
+#var room := ""
 
 ## Children process
 var dslCinKid := []
@@ -188,7 +188,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 	
 	load_hoopz_actor()
 	
-	room = B2_RoomXY.get_current_room()
+	#room = B2_RoomXY.get_current_room()
 	all_nodes = get_all_nodes()
 	
 	# Frame Camera
@@ -364,11 +364,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"PLAYSET":
 					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					actor.cinema_playset( str(parsed_line[ 2 ]), str(parsed_line[ 3 ]) )
 					
 				"SET":
-					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
-					actor.cinema_set( str(parsed_line[ 2 ]) )
+					var actor 		= get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
+					var anim_name 	:= str( parsed_line[ 2 ] )
+					actor.cinema_set( anim_name )
 					if debug_set: print("SET: ", parsed_line[1], " - ", str(parsed_line[ 2 ]) )
 				"QUEST":
 					# this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
@@ -621,6 +624,8 @@ func cleanup_line( line : String ) -> PackedStringArray:
 	# Cleanup
 	for i in range( parsed_line.size() ):
 		parsed_line[i] = parsed_line[i].strip_edges( true, true )
+		if parsed_line[i].is_empty(): ## Avoid issues with emty lines after trimming.
+			continue
 		parsed_line[i] = parsed_line[i].split("//", false, 1)[0] ## Strip comments
 	return parsed_line
 
@@ -644,6 +649,10 @@ func parse_if( line : String ) -> bool:
 				return quest_var >= cond_value
 			"<=":
 				return quest_var <= cond_value
+			"<":
+				return quest_var < cond_value
+			">":
+				return quest_var > cond_value
 			_:
 				push_error("Unknown operation ", comparator)
 				return false
@@ -668,6 +677,7 @@ func get_node_from_name( _array, _name, warn := true ) -> Object:
 				#push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
 				array_dirty = true
 	if not is_instance_valid(node):
+		#if warn:
 		push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
 	return node
 	

@@ -41,6 +41,7 @@ var room_array := [
 	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
 	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
+	"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
 ]
 var room_index := {}
 var room_scene : PackedScene
@@ -67,8 +68,17 @@ func _ready() -> void:
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
 	
-func get_current_room() -> String:
-	return this_room
+func is_room_valid() -> bool:
+	return not this_room.is_empty()
+	
+func get_room_pos() -> Vector2:
+	return Vector2( this_room_x, this_room_y )
+# Reset room data. is this needed?
+func reset_room() -> void:
+	this_room 		= ""
+	this_room_x 	= 0.0
+	this_room_y 	= 0.0
+	print_rich( "[color=yellow]Room data reseted[/color]" )
 	
 func warp_to( room_transition_string : String, _delay := 0.0, create_player := true, skip_fade_in := false ):
 	if room_load_lock:
@@ -120,8 +130,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, create_player := t
 	this_room_y 	= room_y
 	
 	tween = create_tween()
-	if create_player and not room_is_invalid:
-		tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
+	#if create_player and not room_is_invalid:
+	#	tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
 	
 	## Cleanup
@@ -184,6 +194,7 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		cam.follow_mouse = true
 		
 	print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
+	reset_room()
 
 func _process(_delta: float) -> void:
 	if is_loading_room:

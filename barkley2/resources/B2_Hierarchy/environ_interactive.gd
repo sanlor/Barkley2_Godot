@@ -7,6 +7,7 @@ class_name B2_EnvironInteractive
 
 @export_category("Mouse")
 @export var mouse_detection_area 		: Area2D
+@export var interactive_distance 		:= 64 # B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
 
 @export_category("Interaction Event")
 @export var cutscene_script 			: B2_Script
@@ -17,6 +18,7 @@ var is_player_near 		:= false
 
 func _enter_tree() -> void:
 	if is_interactive:
+		await get_tree().process_frame
 		if is_instance_valid( mouse_detection_area ):
 			await get_tree().process_frame
 			mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
@@ -33,6 +35,12 @@ func _enter_tree() -> void:
 		push_warning("Interactive element %s has no script cutscene" % name)
 		is_interactive = false
 		
+func cinema_set(anim_name : String):
+	if sprite_frames.has_animation( anim_name ):
+		animation = anim_name
+	else:
+		push_warning( "Node %s has no animation called %s" % [name, anim_name] )
+	
 func _input(event: InputEvent) -> void:
 	if not B2_Input.cutscene_is_playing: # only handle inputs if there are not cutscenes or dialogs running
 		if is_mouse_hovering:
@@ -48,6 +56,7 @@ func interaction() -> void:
 	if is_interactive:
 		if is_instance_valid(cutscene_script):
 			B2_CManager.play_cutscene( cutscene_script, self, true )
+			is_mouse_hovering = false
 	
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:
@@ -71,3 +80,13 @@ func _process_mouse_events() -> void: ## Perform mouse click and position checks
 			return
 	
 	material.set_shader_parameter("enable", false)
+
+func _process(_delta: float) -> void:
+	if is_mouse_hovering:
+		# check if the player is near
+		if is_instance_valid(B2_CManager.o_hoopz):
+			if B2_CManager.o_hoopz.position.distance_to( position ) < interactive_distance:
+				is_player_near = true
+				return
+			
+	is_player_near = false

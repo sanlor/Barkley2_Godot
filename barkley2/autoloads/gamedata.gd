@@ -1,7 +1,6 @@
 extends Node
 
 # This is a helper autoload that holds some "static data" : like portrait maps.
-
 const PORTRAIT_PATH := "res://barkley2/assets/b2_original/portraits/"
 
 var portrait_map := {
@@ -281,6 +280,14 @@ var portrait_from_name := {
 	"Cherlindria" : "s_port_cherlindria",
 	"Inmate Absalom" : "s_port_absalomInmate",
 	}
+
+# Color stuff: GMS constants
+var c_bio		:= Color8(27, 255, 1)
+var c_cosmic	:= Color8(207, 83, 0)
+var c_cyber		:= Color8(84, 186, 254)
+var c_mental	:= Color8(226, 154, 138)
+var c_zauber	:= Color8(211, 42, 222)
+
 
 func _ready() -> void:
 	_load_portrait_data()

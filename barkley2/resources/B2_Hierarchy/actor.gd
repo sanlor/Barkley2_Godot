@@ -205,7 +205,7 @@ func cinema_set( _sprite_frame : String ):
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15 ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15.0 ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame
@@ -227,6 +227,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 func cinema_look( _direction : String ):
 	ActorAnim.stop()
 	ActorAnim.animation = ANIMATION_STAND
+	#print(_direction)
 	match _direction:
 		"NORTH":
 			#ActorAnim.animation = (ANIMATION_NORTH)
@@ -424,7 +425,7 @@ func _physics_process(delta: float) -> void:
 		_child_process(delta)
 		
 		#movement_vector = position.direction_to( destination ).sign()
-		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).sign()
+		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).round() #.sign()
 		
 		if position.distance_to( destination_path[-1] + destination_offset ) < 1.5:
 			# man, i miss the pop_back() function.
@@ -438,8 +439,9 @@ func _physics_process(delta: float) -> void:
 				
 				#ActorCol.disabled = false 						# Reenable the collision.
 				ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
-				ActorAnim.animation = ANIMATION_STAND
-				ActorAnim.stop()
+				#ActorAnim.animation = ANIMATION_STAND
+				#ActorAnim.stop()
+				cinema_look( vec_2_dir_map.get( movement_vector, "SOUTH" ) )
 				
 				if debug_move_finish:
 					print("%s finished moving." % name)
@@ -449,6 +451,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			var target : Vector2 = destination_path[-1] + destination_offset
 			var next_hop := position.direction_to( target ) * speed * delta
+			
+			movement_vector = position.direction_to( target ).round() #.sign()
 			
 			## Fix for time scale bullshit
 			if B2_Input.is_fastforwarding:

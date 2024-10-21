@@ -164,7 +164,8 @@ func room_get( room_name : String):
 		#if (room == r_tnn_bootybass02) effDes = 1;
 		#global.bgm_interior_effect = Goto(global.bgm_interior_effect, effDes, dt_sec());
 		_:
-			push_warning("Invalid room name: ", room_name)
+			#push_warning("Invalid room name: ", room_name)
+			pass
 
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
