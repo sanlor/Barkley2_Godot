@@ -12,11 +12,7 @@ var tween : Tween
 # Old b2 variable. Not sure how its going to be used
 var bgm_music : String = ""
 
-## Music(get step queue init)
-
-## Called on room load. Specify the music of every room below.
-var bgmCheck = 1; ## was 5
-#if (argument[0] == "get")
+var curr_playing_track := ""
 
 func _load_music_banks():
 	## Load music tracks
@@ -184,7 +180,14 @@ func queue( track_name : String, speed := 1.0 ): ## track name should exist in t
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
 		track_name = music_folder + "mus_blankTEMP.ogg"
-
+	
+	if curr_playing_track == track_name:
+		# already playing that track, do nothing.
+		return
+	else:
+		# update track name, queue the change
+		curr_playing_track = track_name
+	
 	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
 	next_music.loop = true
 	

@@ -30,6 +30,11 @@ enum DOOR_SIZE{S, M, L, XL}
 			
 @export var door_offset 	:= Vector2.ZERO
 
+@export var debug_door_exit_marker 		:= true
+@export var debug_door_exit_marker_pos 	:= Vector2.ZERO
+@export var door_exit_marker_global_pos 	:= Vector2.ZERO ## Copy this for teleport reference
+@export var teleport_string	:= "" ## Trully, I am lazy.
+
 @export_category("Teleport")
 @export var debug_teleport_destination 		:= "" 	## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 @export var debug_teleport_create_o_hoopz 	:= true
@@ -111,6 +116,7 @@ func _update_sprite():
 			offset = Vector2( 0, 0 )
 			frame = door_size
 			_rot = 0
+			debug_door_exit_marker_pos = Vector2(16, -12)
 			
 		DOOR_TYPE.DOWN:
 			animation = "s_doorlight_ud"
@@ -119,6 +125,7 @@ func _update_sprite():
 			offset = Vector2( 0, -44 )
 			frame = door_size
 			_rot = 0
+			debug_door_exit_marker_pos = Vector2(16, 22)
 			
 		DOOR_TYPE.LEFT:
 			animation = "s_doorlight_lr"
@@ -127,6 +134,7 @@ func _update_sprite():
 			offset = Vector2( 0, 0 )
 			frame = door_size
 			_rot = deg_to_rad(90)
+			debug_door_exit_marker_pos = Vector2(-8, 16)
 			
 		DOOR_TYPE.RIGHT:
 			animation = "s_doorlight_lr"
@@ -135,8 +143,12 @@ func _update_sprite():
 			offset = Vector2( 0, 0 )
 			frame = door_size
 			_rot = deg_to_rad(90)
+			debug_door_exit_marker_pos = Vector2(22, 16)
 				
 	#if not Engine.is_editor_hint():
+	door_exit_marker_global_pos = to_global(debug_door_exit_marker_pos)
+	#if get_parent() is B2_ROOMS:
+	teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)
 	teleport_activation_area.rotation 	= _rot
 	push_area.rotation 					= _rot
 	light_activation_area.position 		= light_activation_offset[type]
@@ -203,3 +215,7 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 			push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
 			is_warping = true
 			B2_RoomXY.warp_to( debug_teleport_destination, 0.0 )
+			
+func _draw() -> void:
+	if debug_door_exit_marker and Engine.is_editor_hint():
+		draw_circle( debug_door_exit_marker_pos, 2, Color.RED )

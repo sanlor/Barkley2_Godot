@@ -7,7 +7,7 @@ func _ready() -> void:
 	_init_pathfind()
 	_update_pathfind()
 	
-	B2_Music.play( "mus_swp_accousticarea" )
+	#B2_Music.play( "mus_swp_accousticarea" )
 		
 	if play_cinema_at_room_start:
 		B2_CManager.play_cutscene( cutscene_script, self, true )

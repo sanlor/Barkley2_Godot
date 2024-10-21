@@ -20,8 +20,9 @@ signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )
 
 # FFWD Stuff
-var can_fast_forward		:= false # Set to true during cutscenes and conversations
-var is_fastforwarding		:= false # Set to true when you are FFWD
+var ff_time_scale			:= 2.0		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
+var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
+var is_fastforwarding		:= false 	# Set to true when you are FFWD
 
 # Node responsible for the Input management.
 
@@ -68,7 +69,7 @@ func _physics_process(_delta: float) -> void:
 
 func ffwd( active : bool ):
 	if active:
-		Engine.time_scale = 10.0
+		Engine.time_scale = ff_time_scale
 		if is_fastforwarding == false:
 			# emit the signal only once per change
 			fastforward_request.emit( true )
