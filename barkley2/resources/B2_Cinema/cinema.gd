@@ -368,6 +368,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					actor.cinema_playset( str(parsed_line[ 2 ]), str(parsed_line[ 3 ]) )
 					
+					cinema_kid( actor ) ## Used to wait for animations to finish
+					
 				"SET":
 					var actor 		= get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )

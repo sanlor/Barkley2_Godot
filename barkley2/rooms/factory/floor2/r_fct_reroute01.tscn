@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=4 uid="uid://lgvreoce1ekt"]
+[gd_scene load_steps=84 format=4 uid="uid://lgvreoce1ekt"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_reroute01.gd" id="1_vd5ji"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_ych8w"]
@@ -13,7 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://cfvpp1k18ilmw" path="res://barkley2/assets/b2_original/images/merged/s_fct_spearCase01.png" id="10_0qmiw"]
 [ext_resource type="PackedScene" uid="uid://drxfl81qdglq8" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.tscn" id="10_ydbdv"]
 [ext_resource type="Texture2D" uid="uid://cphhsmuiswh77" path="res://barkley2/assets/b2_original/images/merged/s_fct_duct01.png" id="11_2vncb"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/environ.gd" id="11_7jfhf"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="11_7jfhf"]
+[ext_resource type="PackedScene" uid="uid://ktl37dvkj1k6" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_doorAlien01.tscn" id="12_7xjel"]
 [ext_resource type="PackedScene" uid="uid://bbnk2ffkopwpd" path="res://barkley2/scenes/_event/Misc/o_effect_alarm_light.tscn" id="12_opkli"]
 [ext_resource type="Texture2D" uid="uid://httgonle8pf3" path="res://barkley2/assets/b2_original/images/merged/s_fct_spearCaseGlow01.png" id="12_yixd8"]
 [ext_resource type="Texture2D" uid="uid://lae6815wwada" path="res://barkley2/assets/b2_original/images/merged/s_fct_spearBridge01.png" id="13_30iww"]
@@ -3108,10 +3109,30 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_23xea")
 }],
-"loop": true,
-"name": &"default",
+"loop": false,
+"name": &"burst",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23xea")
+}],
+"loop": false,
+"name": &"bursted",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chd10")
+}],
+"loop": false,
+"name": &"normal",
 "speed": 5.0
 }]
+
+[sub_resource type="GDScript" id="GDScript_1htwj"]
+script/source = "extends B2_EnvironSemisolid
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wjkbb"]
 atlas = ExtResource("11_2vncb")
@@ -3208,17 +3229,108 @@ animations = [{
 "texture": SubResource("AtlasTexture_d20bx")
 }],
 "loop": false,
-"name": &"default",
-"speed": 10.0
+"name": &"burst",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d20bx")
+}],
+"loop": false,
+"name": &"bursted",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjkbb")
+}],
+"loop": false,
+"name": &"normal",
+"speed": 5.0
 }]
 
 [sub_resource type="GDScript" id="GDScript_2a52k"]
-script/source = "extends AnimatedSprite2D
+script/source = "extends B2_EnvironSemisolid
 
 func _ready() -> void:
 	if B2_Playerdata.Quest(\"tutorialGunking\") == 1:
 		frame = 12 # \"bursted\"
 "
+
+[sub_resource type="GDScript" id="GDScript_fsle3"]
+script/source = "extends B2_Event_Step_Trigger
+
+func event_trigger( _node ):
+	if is_instance_valid(cutscene_script):
+		B2_CManager.play_cutscene( cutscene_script, self, true )
+		
+		await B2_CManager.event_ended # wait for the cutscene to end, then sea side.
+		queue_free()
+	else:
+		# Script unloaded for some reason
+		breakpoint
+
+func execute_event_user_0():
+	# Lock Door
+	pass
+	
+func execute_event_user_1():
+	# Lock Door with cavetimer. no idea what this is.
+	pass
+"
+
+[sub_resource type="Resource" id="Resource_s4nlp"]
+script = ExtResource("7_oq0h8")
+original_script = "QUEST  | tutorialGunking = 1
+EVENT  | o_tutorial_gunking | 0
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+WAIT   | 0
+SOUND  | sn_factoryAlienScreech01
+WAIT   | 0.5
+Emote  | !
+WAIT   | 0.1
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.45
+Shake  | add | 3 | 9999 | 0 | 0 | 1
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+Emote  | !
+FRAME  | CAMERA_NORMAL | o_cinema11
+WAIT   | 0
+SOUND  | sn_factoryDoorShut01
+PLAYSET| o_fct_doorAlien01 | closing | closed
+Shake  | add | 3 | 9999 | 0 | 0 | 1
+WAIT   | 1
+Shake  | add | 10 | 9999 | 0 | 0 | 2
+PLAYSET| o_fct_doorAlien01 | busting | busted
+SOUND  | sn_factoryDoorBust01
+WAIT   | 0.25
+SURPRISEAT | NORTH
+WAIT   | 1.25
+PLAYSET| o_fct_duct01 | burst | bursted
+SOUND  | sn_factoryGoopVent01
+WAIT   | 0
+FRAME  | CAMERA_NORMAL | o_cinema12
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+PLAYSET| o_fct_pipe01 | burst | bursted
+WAIT   | 0.25
+SOUND  | sn_factoryGoopPipe01
+WAIT   | 0
+EVENT  | o_tutorial_gunking | 1
+WAIT   | 0.5
+FRAME  | CAMERA_NORMAL | o_cts_hoopz
+WAIT   | 0"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sc5lp"]
+size = Vector2(42, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hbaoo"]
 atlas = ExtResource("10_0qmiw")
@@ -3334,7 +3446,7 @@ font = ExtResource("20_tleb4")
 [node name="r_fct_reroute01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
 script = ExtResource("1_vd5ji")
 debug_create_player_scene_at_room_start = true
-debug_player_scene_pos = Vector2(568, 368)
+debug_player_scene_pos = Vector2(176, 224)
 collision_layer = NodePath("layer - collision")
 
 [node name="layer 93" type="TileMapLayer" parent="."]
@@ -3617,27 +3729,35 @@ metadata/scale = Vector2(1, 1)
 [node name="o_fct_pipe01" type="AnimatedSprite2D" parent="."]
 position = Vector2(232, 280)
 sprite_frames = SubResource("SpriteFrames_wb11c")
+animation = &"burst"
 centered = false
 offset = Vector2(-19, -89)
+script = SubResource("GDScript_1htwj")
 
 [node name="o_fct_duct01" type="AnimatedSprite2D" parent="."]
 position = Vector2(112, 104)
 sprite_frames = SubResource("SpriteFrames_amisj")
+animation = &"burst"
 centered = false
 offset = Vector2(-13, -10)
 script = SubResource("GDScript_2a52k")
 
-[node name="P32 - o_tutorial_gunking" type="Marker2D" parent="."]
+[node name="o_tutorial_gunking" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
 position = Vector2(176, 168)
-metadata/code = ""
-metadata/inst_name = "inst_379B2428"
-metadata/scale = Vector2(1, 0)
+script = SubResource("GDScript_fsle3")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_s4nlp")
 
-[node name="P33 - o_fct_doorAlien01" type="Marker2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_tutorial_gunking"]
+shape = SubResource("RectangleShape2D_sc5lp")
+debug_color = Color(0.713726, 0.466667, 0.360784, 0.419608)
+
+[node name="B2_QuestCleanup" type="Node" parent="o_tutorial_gunking"]
+script = ExtResource("8_ga5be")
+quest_name = "tutorialGunking"
+
+[node name="o_fct_doorAlien01" parent="." instance=ExtResource("12_7xjel")]
 position = Vector2(155, 102)
-metadata/code = ""
-metadata/inst_name = "inst_387C8E03"
-metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_spear" parent="." instance=ExtResource("4_o15df")]
 position = Vector2(768, 384)
@@ -3701,31 +3821,21 @@ centered = false
 offset = Vector2(-22, 0)
 script = ExtResource("11_7jfhf")
 
-[node name="P52 - oRailing0Placer" type="Marker2D" parent="."]
+[node name="B2_Railing_Placer" type="StaticBody2D" parent="."]
 position = Vector2(648, 160)
-metadata/code = ""
-metadata/inst_name = "inst_F27B960C"
-metadata/scale = Vector2(1, 30)
-
-[node name="B2_Railing_Placer" type="StaticBody2D" parent="P52 - oRailing0Placer"]
 script = ExtResource("17_digo4")
 rail_atlas = ExtResource("18_cvtde")
 orientation = 1
 size = 30
 
-[node name="P54 - o_chu_cyberspear" type="Marker2D" parent="."]
+[node name="o_chu_cyberspear" type="AnimatedSprite2D" parent="."]
 position = Vector2(780, 163)
-metadata/code = ""
-metadata/inst_name = "inst_1E3AEEAD"
-metadata/scale = Vector2(1, 1)
-
-[node name="o_chu_cyberspear" type="AnimatedSprite2D" parent="P54 - o_chu_cyberspear"]
 sprite_frames = SubResource("SpriteFrames_q1y3g")
 frame = 4
 centered = false
 offset = Vector2(-40, -16)
 
-[node name="lazy_note" type="Label" parent="P54 - o_chu_cyberspear/o_chu_cyberspear"]
+[node name="lazy_note" type="Label" parent="o_chu_cyberspear"]
 z_index = 100
 offset_top = -31.0
 offset_right = 179.0
