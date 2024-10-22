@@ -1,0 +1,2 @@
+extends B2_CombatActor
+class_name B2_EnemyCombatActor

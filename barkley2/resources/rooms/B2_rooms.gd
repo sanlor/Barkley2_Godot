@@ -2,6 +2,9 @@
 extends Node2D
 class_name B2_ROOMS
 
+## WARNING Pathfinding sucks. it has many issues related to the starting and finish positions.
+## Maybe improve AstarGrid2D resolution?
+
 signal permission_changed
 
 @export var populate_reference_layer := true
@@ -15,6 +18,12 @@ var astar_valid_tiles := Array() # used for debug
 @export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
 @export var show_pathfind_info								:= false 		# show some debug pathfind data
+
+@export_category("DEBUG_PATHFIND")
+@export var astar_jump 					:= false
+@export var astar_compute_heuristic 	:= AStarGrid2D.HEURISTIC_EUCLIDEAN
+@export var astar_estimate_heuristic 	:= AStarGrid2D.HEURISTIC_EUCLIDEAN
+@export var astar_diagonal 				:= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 
 @export_category("Room")
 @export var collision_layer : TileMapLayer
@@ -76,17 +85,20 @@ func _init_pathfind():
 			if c is TileMapLayer:
 				reference_layer.append(c)
 				
+			if not is_instance_valid( collision_layer ):
+				if c.name == "layer - collision":
+					collision_layer = c
+				
 	assert( not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff" )
 	assert( is_instance_valid(collision_layer), "No collision avaiable for the pathfinding stuff" )
 	
 	astar = AStarGrid2D.new()
 	
 	## ASTAR Setup.
-	astar.jumping_enabled				= true
-	astar.default_compute_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
-	astar.default_estimate_heuristic 	= AStarGrid2D.HEURISTIC_EUCLIDEAN
-	astar.diagonal_mode					= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-	#astar.diagonal_mode				= AStarGrid2D.DIAGONAL_MODE_AT_LEAST_ONE_WALKABLE
+	astar.jumping_enabled				= astar_jump
+	astar.default_compute_heuristic 	= astar_compute_heuristic
+	astar.default_estimate_heuristic 	= astar_estimate_heuristic
+	astar.diagonal_mode					= astar_diagonal
 	
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:

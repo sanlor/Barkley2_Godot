@@ -1,6 +1,6 @@
-[gd_scene load_steps=68 format=4 uid="uid://lgvreoce1ekt"]
+[gd_scene load_steps=79 format=4 uid="uid://lgvreoce1ekt"]
 
-[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_reroute_01.gd" id="1_vd5ji"]
+[ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_reroute01.gd" id="1_vd5ji"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_ych8w"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_2opsm"]
 [ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="4_o15df"]
@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://lae6815wwada" path="res://barkley2/assets/b2_original/images/merged/s_fct_spearBridge01.png" id="13_30iww"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_railing_placer.gd" id="17_digo4"]
 [ext_resource type="Texture2D" uid="uid://bi12wy4tw3u56" path="res://barkley2/resources/B2_Railing_Placer/rail_placer.tres" id="18_cvtde"]
+[ext_resource type="Texture2D" uid="uid://cb450gipxy07q" path="res://barkley2/assets/b2_original/images/merged/s_cyberspearPieces01.png" id="19_iq7cb"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="20_tleb4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uhkry"]
 texture = ExtResource("2_ych8w")
@@ -3269,8 +3271,70 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fmh2"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(0, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ftx"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(80, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vra8r"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(160, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iksd1"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(240, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjwrp"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(320, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kctsl"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(400, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8qpn"]
+atlas = ExtResource("19_iq7cb")
+region = Rect2(480, 0, 80, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1y3g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fmh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ftx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vra8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iksd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjwrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kctsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8qpn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_h3tda"]
+font = ExtResource("20_tleb4")
+
 [node name="r_fct_reroute01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
 script = ExtResource("1_vd5ji")
+debug_create_player_scene_at_room_start = true
+debug_player_scene_pos = Vector2(568, 368)
 collision_layer = NodePath("layer - collision")
 
 [node name="layer 93" type="TileMapLayer" parent="."]
@@ -3371,6 +3435,8 @@ metadata/scale = Vector2(5, 15)
 [node name="o_doorlight_vent" parent="." instance=ExtResource("4_o15df")]
 position = Vector2(528, 384)
 enabled = false
+door_exit_marker_global_pos = Vector2(544, 372)
+teleport_string = "r_fct_reroute01,544,372"
 teleport_destination = "r_fct_accessHall01, 896, 186"
 teleport_create_o_hoopz = true
 
@@ -3383,6 +3449,8 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_hall" parent="." instance=ExtResource("4_o15df")]
 position = Vector2(160, 384)
+door_exit_marker_global_pos = Vector2(176, 372)
+teleport_string = "r_fct_reroute01,176,372"
 teleport_destination = "r_fct_accessHall01, 528, 176"
 teleport_create_o_hoopz = true
 
@@ -3534,6 +3602,9 @@ position = Vector2(160, 152)
 offset = Vector2(0, -44)
 flip_v = false
 type = 0
+debug_door_exit_marker_pos = Vector2(16, 22)
+door_exit_marker_global_pos = Vector2(176, 174)
+teleport_string = "r_fct_reroute01,176,174"
 teleport_destination = "r_fct_eggDrone01, 176, 384"
 teleport_create_o_hoopz = true
 
@@ -3570,6 +3641,8 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_spear" parent="." instance=ExtResource("4_o15df")]
 position = Vector2(768, 384)
+door_exit_marker_global_pos = Vector2(784, 372)
+teleport_string = "r_fct_reroute01,784,372"
 teleport_destination = "r_fct_accessHall01, 1136, 152"
 teleport_create_o_hoopz = true
 
@@ -3645,5 +3718,20 @@ position = Vector2(780, 163)
 metadata/code = ""
 metadata/inst_name = "inst_1E3AEEAD"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_chu_cyberspear" type="AnimatedSprite2D" parent="P54 - o_chu_cyberspear"]
+sprite_frames = SubResource("SpriteFrames_q1y3g")
+frame = 4
+centered = false
+offset = Vector2(-40, -16)
+
+[node name="lazy_note" type="Label" parent="P54 - o_chu_cyberspear/o_chu_cyberspear"]
+z_index = 100
+offset_top = -31.0
+offset_right = 179.0
+offset_bottom = -8.0
+text = "* Missing Zauber effect"
+label_settings = SubResource("LabelSettings_h3tda")
+vertical_alignment = 1
 
 [node name="o_room_dream_filter" parent="." instance=ExtResource("10_ydbdv")]

@@ -1,0 +1,147 @@
+[gd_scene load_steps=21 format=3 uid="uid://rvj0e20wy5xm"]
+
+[ext_resource type="Texture2D" uid="uid://bgaat57c14ak8" path="res://barkley2/assets/b2_mod/vfx/explosion.png" id="1_30va8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pewjd"]
+atlas = ExtResource("1_30va8")
+region = Rect2(0, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4wry"]
+atlas = ExtResource("1_30va8")
+region = Rect2(200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okvim"]
+atlas = ExtResource("1_30va8")
+region = Rect2(400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tm00p"]
+atlas = ExtResource("1_30va8")
+region = Rect2(600, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5a68"]
+atlas = ExtResource("1_30va8")
+region = Rect2(800, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1y4h"]
+atlas = ExtResource("1_30va8")
+region = Rect2(1000, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdkos"]
+atlas = ExtResource("1_30va8")
+region = Rect2(1200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ilqda"]
+atlas = ExtResource("1_30va8")
+region = Rect2(1400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83srv"]
+atlas = ExtResource("1_30va8")
+region = Rect2(1600, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1crph"]
+atlas = ExtResource("1_30va8")
+region = Rect2(1800, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_va8op"]
+atlas = ExtResource("1_30va8")
+region = Rect2(2000, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4xqf"]
+atlas = ExtResource("1_30va8")
+region = Rect2(2200, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofvj8"]
+atlas = ExtResource("1_30va8")
+region = Rect2(2400, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epnty"]
+atlas = ExtResource("1_30va8")
+region = Rect2(2600, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcki5"]
+atlas = ExtResource("1_30va8")
+region = Rect2(2800, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_34pnp"]
+atlas = ExtResource("1_30va8")
+region = Rect2(3000, 0, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5onq"]
+atlas = ExtResource("1_30va8")
+region = Rect2(3200, 0, 200, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_chsd8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pewjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4wry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okvim")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tm00p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5a68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1y4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdkos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ilqda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83srv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1crph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_va8op")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4xqf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofvj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epnty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vcki5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_34pnp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5onq")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_vxqtp"]
+script/source = "extends AnimatedSprite2D
+
+func _ready() -> void:
+	play(\"default\")
+	await animation_finished
+	queue_free()
+"
+
+[node name="generic_explosion" type="AnimatedSprite2D"]
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_chsd8")
+frame = 16
+frame_progress = 1.0
+offset = Vector2(0, -50)
+script = SubResource("GDScript_vxqtp")

@@ -1,4 +1,5 @@
-extends CharacterBody2D
+#extends CharacterBody2D
+extends Node2D
 class_name B2_Actor
 
 signal sprite_offset_centered
@@ -88,7 +89,7 @@ var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 		:= 900.0
+var speed_multiplier 		:= 25.0 # was 900.0
 @export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
 @export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
 @export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
@@ -424,9 +425,10 @@ func _physics_process(delta: float) -> void:
 		cinema_animation()
 		_child_process(delta)
 		
-		#movement_vector = position.direction_to( destination ).sign()
+		## Update movement vector for animation purposes.
 		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).round() #.sign()
 		
+		## Actor reached target
 		if position.distance_to( destination_path[-1] + destination_offset ) < 1.5:
 			# man, i miss the pop_back() function.
 			destination_path.remove_at( destination_path.size() - 1 )
@@ -434,13 +436,10 @@ func _physics_process(delta: float) -> void:
 			# check if there are any destinations left. if not, finish walking
 			if destination_path.is_empty():
 				is_moving = false
-				velocity = Vector2.ZERO
+				#velocity = Vector2.ZERO
 				position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
 				
-				#ActorCol.disabled = false 						# Reenable the collision.
 				ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
-				#ActorAnim.animation = ANIMATION_STAND
-				#ActorAnim.stop()
 				cinema_look( vec_2_dir_map.get( movement_vector, "SOUTH" ) )
 				
 				if debug_move_finish:
@@ -452,7 +451,8 @@ func _physics_process(delta: float) -> void:
 			var target : Vector2 = destination_path[-1] + destination_offset
 			var next_hop := position.direction_to( target ) * speed * delta
 			
-			movement_vector = position.direction_to( target ).round() #.sign()
+			## Update movement vector for animation purposes.
+			movement_vector = position.direction_to( target + destination_offset ).round() #.sign()
 			
 			## Fix for time scale bullshit
 			if B2_Input.is_fastforwarding:
@@ -465,8 +465,12 @@ func _physics_process(delta: float) -> void:
 					position = target
 				else:
 					# if not, just proceed normally.
-					velocity = next_hop
+					#velocity = next_hop
+					pass
 			else:
-				velocity = next_hop
-			move_and_slide()
+				#velocity = next_hop
+				pass
+			
+			position = position.move_toward(target, speed * delta )
+			#move_and_slide()
 		

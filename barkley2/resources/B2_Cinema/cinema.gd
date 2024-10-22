@@ -38,7 +38,8 @@ signal set_interactivity(enabled : bool)
 # used for the "CREATE" event
 ## NOTE need a dynamic way to load these.
 var object_map := {
-	"o_tutorial_popups01" : preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
+	"o_tutorial_popups01" : 	preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
+	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
 }
 
 const O_CTS_HOOPZ 	= preload("res://barkley2/scenes/Player/o_cts_hoopz.tscn")
@@ -453,7 +454,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 				"CHATROULETTE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					Create( parsed_line )
+					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SURPRISEAT":
@@ -704,7 +706,9 @@ func Misc( parsed_line :PackedStringArray ):
 		"entity settings":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+			# I think its only this. In my implementation, the parsed_line[3] will be ignored
+			B2_Music.play( parsed_line[2] )
+			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"automatic animation":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"flip":

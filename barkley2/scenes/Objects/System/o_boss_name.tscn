@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://h5to3n78y3iu"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_boss_name.gd" id="1_dbnxk"]
+[ext_resource type="Texture2D" uid="uid://t2eky0l5hven" path="res://barkley2/assets/b2_original/images/merged/s_effect_zonename_backdrop_mod.png" id="2_ymu0n"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_o45o1"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="4_4ad5f"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c5fl7"]
+content_margin_left = 32.0
+content_margin_right = 32.0
+texture = ExtResource("2_ymu0n")
+texture_margin_left = 32.0
+texture_margin_right = 32.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ja7ba"]
+font = ExtResource("3_o45o1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ejmde"]
+font = ExtResource("4_4ad5f")
+
+[node name="oBossName" type="CanvasLayer"]
+layer = 80
+script = ExtResource("1_dbnxk")
+
+[node name="boss_name" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="zone_container" type="PanelContainer" parent="boss_name"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.5
+offset_top = 16.0
+offset_right = 61.5
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_c5fl7")
+
+[node name="zone_label" type="Label" parent="boss_name/zone_container"]
+layout_mode = 2
+text = "Undefined"
+label_settings = SubResource("LabelSettings_ja7ba")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bossname_label" type="Label" parent="boss_name"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.0
+offset_top = 44.0
+offset_right = 29.0
+offset_bottom = 53.0
+grow_horizontal = 2
+text = "Undefined"
+label_settings = SubResource("LabelSettings_ejmde")
+horizontal_alignment = 1
+vertical_alignment = 1

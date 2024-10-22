@@ -162,7 +162,7 @@ func room_get( room_name : String):
 		_:
 			#push_warning("Invalid room name: ", room_name)
 			pass
-
+# "mus_blankTEMP" means mute
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 

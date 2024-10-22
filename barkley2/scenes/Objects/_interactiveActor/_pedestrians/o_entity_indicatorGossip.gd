@@ -8,7 +8,7 @@ extends Control
 var original_pos := Vector2(-72,-20)
 
 # Timer before delete
-var timer := 45.0;
+var timer := 5.0;
 
 # Text to show #
 var text := "Gossip";
@@ -20,10 +20,13 @@ var bounce 		:= 0
 
 func _ready() -> void:
 	vel = Vector2( 0,220 )
-	gossip_text.text = text
+	gossip_text.text = Text.pr( text )
+	
+	await get_tree().process_frame
+	gossip_panel.set_anchors_preset(Control.PRESET_CENTER)
 	
 	var tween := create_tween()
-	tween.tween_interval(45.0 / 7.0)
+	tween.tween_interval( timer )
 	tween.tween_property(self, "modulate:a", 0.0, 0.25)
 	tween.tween_callback( queue_free )
 	
