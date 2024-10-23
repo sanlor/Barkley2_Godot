@@ -10,6 +10,8 @@ extends Node
 @warning_ignore("unused_variable")
 @onready var tim = Time.get_ticks_msec()
 
+@onready var audio_loop: AudioStreamPlayer = $AudioLoop
+
 ## WARNING Modified this code
 var souCou = 0
 var musCou = 0
@@ -1803,6 +1805,20 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 	add_child(sfx)
 	sfx.play( start_at )
 	return sfx
+
+## Loop - Allow infinite looping SFX while changing rooms. for limited looping, use play()
+func play_loop( soundID : String ):
+	var audio_stream : AudioStreamOggVorbis = load( get_sound( soundID ) )
+	audio_stream.loop = true
+	audio_loop.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+	audio_loop.stream = audio_stream
+	audio_loop.play()
+	
+func stop_loop():
+	if audio_loop.playing:
+		audio_loop.stop()
+	else:
+		push_warning("Nothing is playing. something may be wrong.")
 
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):

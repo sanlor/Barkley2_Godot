@@ -1,10 +1,14 @@
-[gd_scene load_steps=41 format=3 uid="uid://bapfdne1akh7w"]
+[gd_scene load_steps=42 format=3 uid="uid://bapfdne1akh7w"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.gd" id="1_itbgt"]
 [ext_resource type="Texture2D" uid="uid://cbkjvgxcnh2sc" path="res://barkley2/assets/b2_original/images/merged/s_eggDrone01.png" id="2_7fgxm"]
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_p5kjc"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_pl2by"]
 [ext_resource type="PackedScene" uid="uid://dthfnpc6jljr5" path="res://barkley2/scenes/Objects/_cutscenes/_tutorial/o_eggdrone_bug_message.tscn" id="5_i8ds1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lsd3n"]
+friction = 0.15
+bounce = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gqeth"]
 
@@ -273,7 +277,8 @@ animations = [{
 }]
 
 [node name="o_enemy_drone_egg" type="RigidBody2D"]
-mass = 100.0
+mass = 20.0
+physics_material_override = SubResource("PhysicsMaterial_lsd3n")
 gravity_scale = 0.0
 lock_rotation = true
 script = ExtResource("1_itbgt")

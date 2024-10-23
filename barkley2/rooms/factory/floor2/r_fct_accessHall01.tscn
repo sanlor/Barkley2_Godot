@@ -42,7 +42,7 @@
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/o_fct_switch01.gd" id="34_33enl"]
 [ext_resource type="Texture2D" uid="uid://dfkboxo6yyyk4" path="res://barkley2/assets/b2_original/images/merged/s_fct_alarmBig01.png" id="34_307tn"]
 [ext_resource type="Texture2D" uid="uid://vxxt5plke047" path="res://barkley2/assets/b2_original/images/merged/s_fct_verbotenSign01.png" id="35_onog8"]
-[ext_resource type="PackedScene" uid="uid://bbnk2ffkopwpd" path="res://barkley2/scenes/_event/Misc/o_effect_alarm_light.tscn" id="39_1lvcd"]
+[ext_resource type="PackedScene" uid="uid://dqo6iu00jo7i1" path="res://barkley2/scenes/_map/Control Objects/o_effect_alarm_light.tscn" id="40_k7v0w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6qddk"]
 texture = ExtResource("2_fbrhx")
@@ -5189,7 +5189,13 @@ metadata/default = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o_fct_alarmBig02/StaticBody2D"]
 shape = SubResource("CircleShape2D_5xths")
 
-[node name="o_effect_alarmLight" parent="." instance=ExtResource("39_1lvcd")]
+[node name="o_effect_alarmLight2" parent="." instance=ExtResource("40_k7v0w")]
+
+[node name="B2_QuestCleanup" type="Node" parent="o_effect_alarmLight2"]
+script = ExtResource("8_jy4bp")
+quest_name = "tutorialProgress"
+compare = 3
+value = 9
 
 [node name="o_fct_verbotenSign01" type="Sprite2D" parent="."]
 position = Vector2(1136, 75)

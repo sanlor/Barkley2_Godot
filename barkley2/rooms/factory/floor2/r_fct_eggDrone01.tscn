@@ -1,4 +1,4 @@
-[gd_scene load_steps=208 format=4 uid="uid://8t4xoxukiqw2"]
+[gd_scene load_steps=209 format=4 uid="uid://8t4xoxukiqw2"]
 
 [ext_resource type="TileSetAtlasSource" uid="uid://c5a1qrwanoltt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="1_tedar"]
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.gd" id="1_v2u8v"]
@@ -36,6 +36,7 @@
 [ext_resource type="AudioStream" uid="uid://cl4ya0wutm1h8" path="res://barkley2/assets/b2_original/audio/Cutscenes/Tutorial/sn_eggHand06.ogg" id="21_cxsll"]
 [ext_resource type="Texture2D" uid="uid://d3ovvs6d3tqri" path="res://barkley2/assets/b2_original/images/merged/s_fct_eggLight01.png" id="22_nakv2"]
 [ext_resource type="PackedScene" uid="uid://bm1xjhm2iv47t" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.tscn" id="35_c6da0"]
+[ext_resource type="PackedScene" uid="uid://dqo6iu00jo7i1" path="res://barkley2/scenes/_map/Control Objects/o_effect_alarm_light.tscn" id="36_ywora"]
 
 [sub_resource type="TileSet" id="TileSet_ricl7"]
 sources/0 = ExtResource("1_tedar")
@@ -155,9 +156,6 @@ DIALOG | Egg Computer | Brood status: `kw`Hatched without supervision`rt`"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wyr4p"]
 size = Vector2(97, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jd8r0"]
-size = Vector2(96, 61)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a4rm4"]
 atlas = ExtResource("7_32ab4")
@@ -569,6 +567,9 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jd8r0"]
+size = Vector2(96, 61)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k25x6"]
 atlas = ExtResource("9_ld6n1")
@@ -1592,12 +1593,6 @@ position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_wyr4p")
 debug_color = Color(0.131296, 0.637798, 0.31266, 0.42)
 
-[node name="Area2D" type="Area2D" parent="o_fct_eggComputer01"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="o_fct_eggComputer01/Area2D"]
-position = Vector2(0, -30.5)
-shape = SubResource("RectangleShape2D_jd8r0")
-
 [node name="s_fct_eggComputerScreen01" type="AnimatedSprite2D" parent="o_fct_eggComputer01"]
 position = Vector2(-15, -34)
 sprite_frames = SubResource("SpriteFrames_qnpyi")
@@ -1606,6 +1601,13 @@ animation = &"warning"
 [node name="s_fct_eggComputerSide01" type="AnimatedSprite2D" parent="o_fct_eggComputer01"]
 position = Vector2(33, -31)
 sprite_frames = SubResource("SpriteFrames_3iapc")
+
+[node name="Area2D" type="Area2D" parent="o_fct_eggComputer01"]
+priority = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_fct_eggComputer01/Area2D"]
+position = Vector2(0, -30.5)
+shape = SubResource("RectangleShape2D_jd8r0")
 
 [node name="o_fct_eggHeater01" type="AnimatedSprite2D" parent="."]
 position = Vector2(112, 248)
@@ -1917,6 +1919,8 @@ compare = 0
 value = 1
 
 [node name="o_room_dream_filter" parent="." instance=ExtResource("8_viqxv")]
+
+[node name="o_effect_alarmLight" parent="." instance=ExtResource("36_ywora")]
 
 [node name="o_fct_switch03" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("mouse_detection_area")]
 position = Vector2(632, 136)

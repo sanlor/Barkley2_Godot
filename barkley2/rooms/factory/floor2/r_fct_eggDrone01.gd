@@ -16,6 +16,7 @@ var o_enemy_drone_egg : 				B2_EnemyCombatActor
 @onready var o_fct_egg_pit_01: 		AnimatedSprite2D = $o_fct_eggPit01
 @onready var o_fct_egg_heater_01: 	AnimatedSprite2D = $o_fct_eggHeater01
 
+@onready var o_effect_alarm_light: CanvasLayer = $o_effect_alarmLight
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
@@ -57,10 +58,7 @@ func post_drone_fight():
 	
 func activate_facility_alarm():
 	# check o_tutorial_eggDrone step event
-	var audio_stream : AudioStreamOggVorbis = load( B2_Sound.get_sound("sn_pdt_alert01") )
-	audio_stream.loop = true
-	alarm_sound.stream = audio_stream
-	alarm_sound.play()
+	B2_Sound.play_loop( "sn_pdt_alert01" )
 	
 	# animations
 	o_fct_alarm_big_01.play()
@@ -74,3 +72,6 @@ func activate_facility_alarm():
 	
 	# EGG
 	o_fct_egg_pit_01.jostle_eggs()
+	
+	# alarm
+	o_effect_alarm_light.activate()

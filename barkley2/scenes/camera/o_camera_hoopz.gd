@@ -148,7 +148,6 @@ func set_safety(_safety : bool):
 		limit_bottom 	= 100000
 
 ## Shake functions, controls camera shake. check Shake().
-
 func add_shake( shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
 	var index = shake_array.size()
 	var shake_data := [ shakeStrength * 0.35, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
@@ -171,6 +170,10 @@ func clear_shake():
 	shake_array.clear()
 
 # https://www.youtube.com/watch?v=LGt-jjVf-ZU
+## Allow camera shake. There may be multiple "shake" sources, like multiple explosions.
+## This system allows adding these multiple explosions, so none can override eachother.
+## TODO - SETUP the shake origin. No idea how to use that. 
+## TODO - Radius is also ignored.
 func _process_shake(delta: float) -> void:
 	if shake_array.is_empty():
 		camera_shake_offset = Vector2.ZERO
@@ -275,5 +278,5 @@ func _process(delta: float) -> void:
 			#offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
 			#position = _position
 	# debug
-	if Input.is_action_just_pressed("Holster"):
-		add_shake( 3, 9999, 0, 0, 0 )
+	#if Input.is_action_just_pressed("Holster"):
+	#	add_shake( 3, 9999, 0, 0, 0 )
