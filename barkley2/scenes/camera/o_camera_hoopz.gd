@@ -20,8 +20,6 @@ var is_moving := false
 var destination := Vector2.ZERO
 #var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
-var camera_normal_offset := Vector2( 0,20 )
-
 # stop wandering camera
 var is_lost := true
 
@@ -37,6 +35,14 @@ var player_node : Node2D
 
 ## Follow Frame
 var actor_array : Array
+
+## Camera stuff
+var camera_normal_offset := Vector2( 0,20 )
+
+## Shake stuff
+var shake_rng 				:= RandomNumberGenerator.new()
+var shake_array 			: Array[ Array ]
+var camera_shake_offset 	:= Vector2.ZERO
 
 func _ready() -> void:
 	if player_node_overide != null:
@@ -141,12 +147,82 @@ func set_safety(_safety : bool):
 		limit_right 	= 100000
 		limit_bottom 	= 100000
 
+## Shake functions, controls camera shake. check Shake().
+
+func add_shake( shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
+	var index = shake_array.size()
+	var shake_data := [ shakeStrength * 0.35, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
+	shake_array.append( shake_data )
+	return index
+	
+func edit_shake( shakeIndex : int, shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
+	if shakeIndex in range( shake_array.size() ):
+		shake_array[shakeIndex] = [ shakeStrength * 0.25, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
+	else:
+		push_error("Index %s does not exist in %s... I think." % [ shakeIndex, shake_array.size() ])
+	
+func remove_shake( shakeIndex : int ):
+	if shakeIndex in range( shake_array.size() ):
+		shake_array.remove_at( shakeIndex )
+	else:
+		push_error("Index %s does not exist in %s... I think." % [ shakeIndex, shake_array.size() ])
+	
+func clear_shake():
+	shake_array.clear()
+
+# https://www.youtube.com/watch?v=LGt-jjVf-ZU
+func _process_shake(delta: float) -> void:
+	if shake_array.is_empty():
+		camera_shake_offset = Vector2.ZERO
+		return
+		
+	var shake_cleanup := false ## remove inactive shake indexes.
+	var shake_effect := Vector2.ZERO
+	#print( shake_array )
+	for shake_data : Array in shake_array:
+		var shakeStrength 	= shake_data[0]
+		var shakeRadius 	= shake_data[1]
+		var shakeX 			= shake_data[2]
+		var shakeY 			= shake_data[3]
+		var shakeTime 		= shake_data[4]
+		
+		if shakeStrength > 0.25:
+			var rand_offset := Vector2(shake_rng.randf_range( -shakeStrength, shakeStrength ), shake_rng.randf_range( -shakeStrength, shakeStrength ) )
+			
+			if shakeTime < 0.0:
+				#shakeStrength = move_torward( shakeStrength, 0.0, 1.0 * delta ) # no lerp. 
+				shakeStrength = lerpf( shakeStrength, 0.0, 1.0 * delta )
+				shake_data[0] = shakeStrength
+			else:
+				shake_data[4] -= ( Engine.get_frames_per_second() * 10) * delta 	# time
+			shake_effect += rand_offset
+		else:
+			shake_cleanup = true
+			
+	camera_shake_offset = shake_effect
+	#print(shake_array.size())
+	
+	# clean inactive arrays
+	if shake_cleanup:
+		var clean_array : Array[Array]
+		for shake_data : Array in shake_array:
+			if shake_data[0] > 0.25:
+				clean_array.append( shake_data )
+				
+		if not clean_array.is_empty():
+			shake_array = clean_array
+		else:
+			shake_array.clear()
+				
 func _process(delta: float) -> void:
+	# process shake effects.
+	_process_shake(delta)
+	
 	match curr_MODE:
 		MODE.FRAMEFOLLOW:
 			if actor_array.is_empty():
 				return
-				
+
 			# is this the best way to get an average of an array?
 			var arr_size := actor_array.size()
 			var avg_pos := Vector2.ZERO
@@ -155,7 +231,7 @@ func _process(delta: float) -> void:
 			avg_pos /= arr_size
 			
 			position 	= position.move_toward( avg_pos, (speed * 30) * delta )
-			offset 		= offset.move_toward( camera_normal_offset, 0.5 * camera_follow_speed * delta )
+			offset 		= offset.move_toward( camera_normal_offset, 0.5 * camera_follow_speed * delta ) + camera_shake_offset
 			
 		MODE.CINEMA:
 			if is_moving:
@@ -165,10 +241,10 @@ func _process(delta: float) -> void:
 					is_moving = false
 					destination_reached.emit()
 					
-				#position = _position.round()
-				#position = _position.floor()
-				offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
-				#position = _position
+			#position = _position.round()
+			#position = _position.floor()
+			offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta) + camera_shake_offset
+			#position = _position
 			
 		MODE.FOLLOW:
 			if is_instance_valid(player_node):
@@ -185,15 +261,19 @@ func _process(delta: float) -> void:
 					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
 					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0, 250.0 )
-					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta )
+					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta ) + camera_shake_offset
 					offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
-					offset = camera_normal_offset
+					offset = camera_normal_offset + camera_shake_offset
 					
 				#print(offset)
 			else:
 				is_lost = true
+				offset = camera_normal_offset + camera_shake_offset
 			#position = _position.round()
 			#position = _position.floor()
 			#offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
 			#position = _position
+	# debug
+	if Input.is_action_just_pressed("Holster"):
+		add_shake( 3, 9999, 0, 0, 0 )

@@ -557,6 +557,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					Camera( parsed_line )
 				"Create":
 					Create( parsed_line )
+				"Shake":
+					Shake( parsed_line )
 				"Emote":
 					## Emote(emotetype, target object?, xoffset?, yoffset?)
 					## Create an emote at a specific place.
@@ -684,6 +686,21 @@ func get_node_from_name( _array, _name, warn := true ) -> Object:
 		#if warn:
 		push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
 	return node
+	
+func Shake( parsed_line :PackedStringArray ):
+	var misc_arguments := parsed_line.size() - 2
+	match parsed_line[1]:
+		"add":
+			if misc_arguments == 2:
+				camera.add_shake( float(parsed_line[2]), float(parsed_line[3]) )
+			else:
+				camera.add_shake( float(parsed_line[2]), float(parsed_line[3]), float(parsed_line[4]), float(parsed_line[5]), float(parsed_line[6]) )
+		"remove":
+			pass
+		"edit":
+			pass
+		"clear":
+			pass
 	
 func Misc( parsed_line :PackedStringArray ):
 	# Check Misc() script.
