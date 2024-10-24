@@ -12,6 +12,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 @export var col_object_warn 		:= ["o_semisolid", "o_rigid", "_tri"]
 
 @export_category("Dangerous")
+@export var known_packed_scenes 	: Array[PackedScene]
 @export var convert_known_nodes		:= false ## Attempo to search the game files for nodes with the same name. might fuck thins up.
 
 @export_category("Exec")
@@ -22,7 +23,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 		lets_goooo()
 		
 func _ready() -> void:
-	#lets_goooo()
+	lets_goooo()
 	pass
 	
 func lets_goooo():
@@ -30,10 +31,10 @@ func lets_goooo():
 	if convert_collision: 		collision()
 	if convert_door:			regular_door()
 	if convert_door_light:		door_light()
+	if convert_known_nodes:		fuck_around_with_nodes()
 
 func get_clean_nodes() -> Array:
 	return get_parent().get_children()
-
 func door_light():
 	print("starting doorlight convertion...")
 	var all_nodes := get_clean_nodes()
@@ -74,7 +75,6 @@ func door_light():
 			n.queue_free()
 		
 	print("finished doorlight convertion...")
-
 
 func regular_door():
 	print("starting door convertion...")
@@ -177,3 +177,40 @@ func cinemaspot():
 		changes += 1
 		
 	print("Finished. %s changes made." % str(changes) )
+
+func fuck_around_with_nodes():
+	var p_scenes : Array = FileSearch.search_dir( "res://barkley2/scenes/", "", true )
+	
+	var all_nodes : Array
+	for c in get_parent().get_children():
+		if c is Marker2D:
+			if c.name.begins_with("P"):
+				all_nodes.append(c)
+				
+	# loop for each temp node
+	for c : Marker2D in all_nodes:
+		var real_name : String = c.name.split(" - ", false, 1)[ 1 ] 
+		var scene_path := ""
+		
+		# Look for valid scene
+		for s : String in p_scenes:
+			if s.contains( real_name ) and s.ends_with(".tscn"):
+				scene_path = s
+				break
+				
+		if scene_path.is_empty(): # scene not found
+			continue
+			
+		var scene : PackedScene = load( scene_path )
+		var node = scene.instantiate()
+		print(scene_path)
+		node.name = real_name
+		if node is Node2D:
+			node.position = c.position
+		for meta : String in c.get_meta_list():
+			node.set_meta( meta, c.get_meta(meta) )
+			
+		add_sibling( node, true )
+		node.owner = get_parent()
+		
+		if remove_nodes: c.queue_free()

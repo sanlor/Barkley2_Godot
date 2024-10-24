@@ -1,4 +1,5 @@
 extends B2_DOOR_PARENT
+class_name B2_Door_Tech
 
 @export var is_open := false
 
@@ -13,10 +14,10 @@ func _ready() -> void:
 	locked_panel.hide()
 	
 	if is_open:
-		_door_open( true )
+		door_open( true )
 		door_block.get_child( 0 ).disabled = true
 	else:
-		_door_close( true )
+		door_close( true )
 		door_block.get_child( 0 ).disabled = false
 		
 	door_sensor.body_entered.connect( detect_player_enter )
@@ -29,7 +30,7 @@ func detect_player_exit( body ):
 				hide_locked_message()
 			return
 		else:
-			_door_close()
+			door_close()
 
 func detect_player_enter( body ):
 	if body is B2_Player or body is B2_InteractiveActor:
@@ -38,7 +39,7 @@ func detect_player_enter( body ):
 				show_locked_message()
 			return
 		else:
-			_door_open()
+			door_open()
 		
 func show_locked_message():
 	locked_text_label.text = locked_text

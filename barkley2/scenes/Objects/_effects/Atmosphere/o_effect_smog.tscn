@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd0txwpusg54l"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_smog.gd" id="1_2764d"]
+[ext_resource type="Shader" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_smog.gdshader" id="2_o84yw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kfyfd"]
+shader = ExtResource("2_o84yw")
+shader_parameter/color = Color(1, 1, 1, 0.15)
+shader_parameter/OCTAVES = 4
+shader_parameter/enable_pixelation = true
+shader_parameter/pixelation_amount = 600
+shader_parameter/fog_direction = Vector2(1, 1)
+shader_parameter/scroll_noise_tex = false
+shader_parameter/noise_scroll_direction = Vector2(1, 0)
+
+[node name="o_effect_smog" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_2764d")
+metadata/code = ""
+metadata/inst_name = "inst_DAACFED8"
+metadata/scale = Vector2(1, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_kfyfd")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1wcqae8ctxjb"]
+
+[ext_resource type="Texture2D" uid="uid://mdxh5f5boo6u" path="res://barkley2/assets/b2_original/images/merged/s_barrel_big_fallen01.png" id="1_5lewc"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_y2gwv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wftto"]
+atlas = ExtResource("1_5lewc")
+region = Rect2(0, 0, 37, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mglx"]
+atlas = ExtResource("1_5lewc")
+region = Rect2(37, 0, 37, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6b2eh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wftto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mglx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_barrel_big_fallen01" type="AnimatedSprite2D"]
+position = Vector2(106, 1071)
+sprite_frames = SubResource("SpriteFrames_6b2eh")
+centered = false
+offset = Vector2(-18, -15)
+script = ExtResource("2_y2gwv")
+metadata/default = {
+"bbox_bottom": "26",
+"bbox_left": "4",
+"bbox_right": "31",
+"bbox_top": "8",
+"height": "31",
+"name": "s_barrel_big_fallen01",
+"width": "37",
+"xorig": "18",
+"yorigin": "15"
+}

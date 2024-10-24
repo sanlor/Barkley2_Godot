@@ -43,7 +43,7 @@ var alpha_lock_goal 	:= 0;
 func _door_setup():
 	speed_scale = opening_speed
 
-func _door_open( _instant := false ):
+func door_open( _instant := false ):
 	if sprite_frames.has_animation(door_open_anim_name):
 		if _instant:
 			stop()
@@ -67,7 +67,7 @@ func _door_open( _instant := false ):
 	else:
 		push_error( "Door doesnt have the correct animation %s." % door_open_anim_name )
 	
-func _door_close( _instant := false ):
+func door_close( _instant := false ):
 	if sprite_frames.has_animation(door_close_anim_name):
 		if _instant:
 			stop()

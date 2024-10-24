@@ -98,12 +98,16 @@ func _ready():
 	character_dropdown_likes.resize( 9 )
 	character_dropdown_favorites.resize( 7 )
 	character_multiple.resize(44)
-
+	
 	## Quest flags overrides
-	Quest("zaneState", 			6)
-	Quest("tutorialCollision", 	3)
-	Quest("jhodfreyTips", 		2)
-	Quest("gameStart", 			2)
+	B2_Playerdata.Quest("tutorialProgress", 	9)
+	B2_Playerdata.Quest("tutorialCspear", 		1)
+	
+	B2_Playerdata.Quest("zaneState", 			6)
+	B2_Playerdata.Quest("tutorialCollision", 	3)
+	B2_Playerdata.Quest("jhodfreyTips", 		2)
+	B2_Playerdata.Quest("gameStart", 			2)
+	B2_Playerdata.Quest("factoryEggs", 			1)
 	
 ## This func replaces the Quests script.
 # /// Quest(name, value?);

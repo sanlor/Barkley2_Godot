@@ -1,4 +1,4 @@
-[gd_scene load_steps=209 format=4 uid="uid://8t4xoxukiqw2"]
+[gd_scene load_steps=210 format=4 uid="uid://8t4xoxukiqw2"]
 
 [ext_resource type="TileSetAtlasSource" uid="uid://c5a1qrwanoltt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="1_tedar"]
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.gd" id="1_v2u8v"]
@@ -35,6 +35,7 @@
 [ext_resource type="AudioStream" uid="uid://n6cm1d852uiu" path="res://barkley2/assets/b2_original/audio/Cutscenes/Tutorial/sn_eggHand05.ogg" id="20_872nv"]
 [ext_resource type="AudioStream" uid="uid://cl4ya0wutm1h8" path="res://barkley2/assets/b2_original/audio/Cutscenes/Tutorial/sn_eggHand06.ogg" id="21_cxsll"]
 [ext_resource type="Texture2D" uid="uid://d3ovvs6d3tqri" path="res://barkley2/assets/b2_original/images/merged/s_fct_eggLight01.png" id="22_nakv2"]
+[ext_resource type="PackedScene" uid="uid://lpp3i8tjsn7n" path="res://barkley2/scenes/Objects/_blocker/o_blocker_right.tscn" id="31_o6i1p"]
 [ext_resource type="PackedScene" uid="uid://bm1xjhm2iv47t" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.tscn" id="35_c6da0"]
 [ext_resource type="PackedScene" uid="uid://dqo6iu00jo7i1" path="res://barkley2/scenes/_map/Control Objects/o_effect_alarm_light.tscn" id="36_ywora"]
 
@@ -1406,11 +1407,11 @@ animations = [{
 script/source = "extends B2_EnvironInteractive
 
 func execute_event_user_0():
-	if B2_Playerdata.Quest(\"factoryEggs\", null, 0) < 1:
-		# Destroy(o_eggDrone01);
-		B2_Playerdata.Quest(\"factoryEggs\", 1);
-		B2_Playerdata.Quest(\"tutorialProgress\", 9);
-	
+	if get_parent() is B2_ROOMS:
+		get_parent().flip_switch()
+	else:
+		breakpoint
+		
 func execute_event_user_1():
 	## Disable self
 	animation = \"flipped\"
@@ -1596,7 +1597,6 @@ debug_color = Color(0.131296, 0.637798, 0.31266, 0.42)
 [node name="s_fct_eggComputerScreen01" type="AnimatedSprite2D" parent="o_fct_eggComputer01"]
 position = Vector2(-15, -34)
 sprite_frames = SubResource("SpriteFrames_qnpyi")
-animation = &"warning"
 
 [node name="s_fct_eggComputerSide01" type="AnimatedSprite2D" parent="o_fct_eggComputer01"]
 position = Vector2(33, -31)
@@ -1793,11 +1793,14 @@ metadata/code = ""
 metadata/inst_name = "inst_E9766D68"
 metadata/scale = Vector2(1, 1)
 
-[node name="P32 - o_blocker_right" type="Marker2D" parent="."]
+[node name="o_blocker_right" parent="." instance=ExtResource("31_o6i1p")]
+modulate = Color(1, 0, 0, 1)
 position = Vector2(304, 328)
-metadata/code = ""
-metadata/inst_name = "inst_24A3C8FC"
-metadata/scale = Vector2(1, 1)
+scale = Vector2(1, 1.75)
+animation = &"debug_icons"
+push_vector = Vector2(-1, 0)
+working_anim = &"s_doorlight_lr"
+working_frame = 0
 
 [node name="P40 - o_semisolid8" type="StaticBody2D" parent="."]
 visible = false
@@ -1918,10 +1921,6 @@ quest_name = "o_eggDrone01"
 compare = 0
 value = 1
 
-[node name="o_room_dream_filter" parent="." instance=ExtResource("8_viqxv")]
-
-[node name="o_effect_alarmLight" parent="." instance=ExtResource("36_ywora")]
-
 [node name="o_fct_switch03" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("mouse_detection_area")]
 position = Vector2(632, 136)
 sprite_frames = SubResource("SpriteFrames_esj3x")
@@ -1933,6 +1932,10 @@ cutscene_script = SubResource("Resource_oaiij")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o_fct_switch03/Area2D"]
 shape = SubResource("RectangleShape2D_68jb2")
+
+[node name="o_room_dream_filter" parent="." instance=ExtResource("8_viqxv")]
+
+[node name="o_effect_alarmLight" parent="." instance=ExtResource("36_ywora")]
 
 [connection signal="frame_changed" from="o_fct_eggArms01/o_fct_eggArm04" to="o_fct_eggArms01" method="_on_o_fct_egg_arm_04_frame_changed"]
 [connection signal="frame_changed" from="o_fct_eggArms01/o_fct_eggArm05" to="o_fct_eggArms01" method="_on_o_fct_egg_arm_05_frame_changed"]

@@ -8,6 +8,7 @@ var is_active := false
 
 func _ready() -> void:
 	s_effect_alarm_light.hide()
+	red_color.show()
 	red_color.modulate.a = 0.0
 	
 	if B2_Playerdata.Quest("tutorialProgress") == 9:

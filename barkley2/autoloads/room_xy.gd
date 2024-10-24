@@ -29,7 +29,7 @@ var room_folder 	:= "res://barkley2/rooms/"
 
 var room_load_lock	:= false # disallow loading a new room defore the current one finishes loading
 
-var room_array := [
+var room_array := [ # need a better way to do this.
 	# Menus, non gameplay
 	"res://barkley2/rooms/r_title.tscn",
 	"res://barkley2/rooms/r_cc.tscn",
@@ -43,6 +43,7 @@ var room_array := [
 	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
 	"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
+	"res://barkley2/rooms/factory/outside/r_fct_factoryOutpost01.tscn",
 	
 	## AIR
 	"res://barkley2/rooms/ai_ruins/r_air_boss01.tscn",

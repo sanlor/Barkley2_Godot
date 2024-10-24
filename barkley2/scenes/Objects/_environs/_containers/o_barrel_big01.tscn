@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpmhiuju1m8f7"]
+
+[ext_resource type="Texture2D" uid="uid://bkutoex80wfru" path="res://barkley2/assets/b2_original/images/merged/s_barrel_big01.png" id="1_men6j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jt2as"]
+atlas = ExtResource("1_men6j")
+region = Rect2(0, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oriqc"]
+atlas = ExtResource("1_men6j")
+region = Rect2(24, 0, 24, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lymiq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jt2as")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oriqc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_pdmly"]
+script/source = "extends B2_EnvironSemisolid
+
+func _ready() -> void:
+	seed( hash(\"hot dog\") )
+	frame = randi_range(0, sprite_frames.get_frame_count(\"default\"))
+"
+
+[node name="o_barrel_big01" type="AnimatedSprite2D"]
+position = Vector2(868, 714)
+sprite_frames = SubResource("SpriteFrames_lymiq")
+centered = false
+offset = Vector2(-12, -18)
+script = SubResource("GDScript_pdmly")
+metadata/default = {
+"bbox_bottom": "33",
+"bbox_left": "2",
+"bbox_right": "21",
+"bbox_top": "20",
+"height": "36",
+"name": "s_barrel_big01",
+"width": "24",
+"xorig": "12",
+"yorigin": "18"
+}

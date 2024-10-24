@@ -1,0 +1,89 @@
+[gd_scene load_steps=10 format=3 uid="uid://cd2edoc4bpjn8"]
+
+[ext_resource type="Texture2D" uid="uid://dr0jnfknyuyha" path="res://barkley2/assets/b2_original/images/merged/s_boxes_single01.png" id="1_283iv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdx8u"]
+atlas = ExtResource("1_283iv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i2k7n"]
+atlas = ExtResource("1_283iv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mumxm"]
+atlas = ExtResource("1_283iv")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up48v"]
+atlas = ExtResource("1_283iv")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8x4x"]
+atlas = ExtResource("1_283iv")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l6gpb"]
+atlas = ExtResource("1_283iv")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ji21x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdx8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i2k7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mumxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up48v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8x4x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l6gpb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_2ppg3"]
+script/source = "extends B2_EnvironSemisolid
+
+func _ready() -> void:
+	seed( hash(\"hot dog\") )
+	frame = randi_range(0, sprite_frames.get_frame_count(\"default\"))
+	
+#// Lowlight //
+#if scr_area_get() == \"usw\" then
+	#{
+	#if image_index < 2 then image_index += 2;
+	#}
+#else
+	#{
+	#if image_index > 2 then image_index -= 2;
+	#}
+"
+
+[node name="o_boxes_single01" type="AnimatedSprite2D"]
+position = Vector2(592, 680)
+sprite_frames = SubResource("SpriteFrames_ji21x")
+centered = false
+offset = Vector2(-16, -16)
+script = SubResource("GDScript_2ppg3")
+metadata/default = {
+"bbox_bottom": "23",
+"bbox_left": "10",
+"bbox_right": "21",
+"bbox_top": "12",
+"height": "32",
+"name": "s_boxes_single01",
+"width": "32",
+"xorig": "16",
+"yorigin": "16"
+}

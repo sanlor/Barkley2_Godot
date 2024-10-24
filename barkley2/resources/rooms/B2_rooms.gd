@@ -6,6 +6,7 @@ class_name B2_ROOMS
 ## Maybe improve AstarGrid2D resolution?
 
 signal permission_changed
+signal pacify_changed( activated : bool )
 
 @export var populate_reference_layer := true
 @export var reference_layer : Array[TileMapLayer]
@@ -55,6 +56,7 @@ func _enter_tree() -> void:
 func set_pacify( state : bool ):
 	room_pacify = state
 	permission_changed.emit()
+	pacify_changed.emit( not room_pacify )
 	
 func set_roll( state : bool ):
 	room_player_can_roll = state

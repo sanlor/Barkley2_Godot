@@ -8,6 +8,10 @@ const GENERIC_EXPLOSION = preload("res://barkley2/scenes/Objects/System/generic_
 @onready var o_egg_drone_01: 			B2_InteractiveActor = $o_eggDrone01
 var o_enemy_drone_egg : 				B2_EnemyCombatActor
 
+@onready var o_tutorial_egg_drone: 		Area2D = $o_tutorial_eggDrone
+
+@onready var o_doorlight_exit: B2_DoorLight = $o_doorlight_exit
+
 @onready var o_fct_alarm_big_01: 	AnimatedSprite2D = $o_fct_alarmBig01
 @onready var o_fct_alarm_wall_01: 	AnimatedSprite2D = $o_fct_alarmWall01
 @onready var o_fct_alarm_wall_02: 	AnimatedSprite2D = $o_fct_alarmWall02
@@ -30,9 +34,22 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 
+func flip_switch():
+	o_egg_drone_01.queue_free() # Destroy(o_eggDrone01);
+	o_tutorial_egg_drone.queue_free()
+	if B2_Playerdata.Quest("factoryEggs") < 1:
+		B2_Playerdata.Quest("factoryEggs", 1)
+		
+	o_fct_egg_computer_01.show_error()
+	B2_Playerdata.Quest("tutorialProgress", 9)
+	B2_Music.play( "mus_blankTEMP", 1.0 )
+	
+	activate_facility_alarm()
+
 # setup stuff for drone fight. code was on o_egg_drone_01 before
 func pre_drone_fight():
-	room_pacify = false
+	set_pacify( false )
+	o_doorlight_exit.enabled = false
 	o_enemy_drone_egg = O_ENEMY_DRONE_EGG.instantiate()
 	o_enemy_drone_egg.position = o_egg_drone_01.position
 	o_egg_drone_01.queue_free()
@@ -40,7 +57,8 @@ func pre_drone_fight():
 
 # setup stuff after drone fight. code was on o_enemy_drone_egg
 func post_drone_fight():
-	room_pacify = true
+	set_pacify( true )
+	o_doorlight_exit.enabled = true
 	if B2_Playerdata.Quest("factoryEggs") < 1:
 		B2_Playerdata.Quest("factoryEggs", 1)
 		o_fct_egg_computer_01.show_error()

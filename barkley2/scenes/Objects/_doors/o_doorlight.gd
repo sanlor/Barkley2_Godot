@@ -61,7 +61,7 @@ var enableDraw 			= 0;
 ## Door
 var _fade_timer 			= 0.25;
 
-var target_light_alpha := 0.75
+var target_light_alpha := 0.25
 var light_alpha := target_light_alpha
 
 var is_warping := false

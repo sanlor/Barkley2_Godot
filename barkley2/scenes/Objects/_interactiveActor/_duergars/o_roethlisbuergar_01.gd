@@ -16,3 +16,9 @@ func _ready() -> void:
 	ANIMATION_EAST 							= "s_roethlisbuergarSE"
 	ANIMATION_STAND_SPRITE_INDEX 			= [1, 1, 0, 0, 0, 0, 0, 1]
 	ActorAnim.animation 					= "s_roethlisbuergar01"
+		
+	if B2_Playerdata.Quest("tutorialProgress") >= 7:
+		cinema_look( "NORTHEAST" )
+		
+	if B2_Playerdata.Quest("tutorialProgress") >= 11:
+		is_interactive = false
