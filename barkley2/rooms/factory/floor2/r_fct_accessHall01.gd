@@ -2,6 +2,7 @@ extends B2_ROOMS
 
 @onready var o_door_tech_01_vents: 	B2_Door_Tech 	= $o_door_tech01_vents
 @onready var o_roethlisbuergar_01: 	B2_Duergar 		= $o_roethlisbuergar01
+@onready var o_archambeau_01: 		B2_Duergar		 = $o_archambeau01
 @onready var o_cinema_14: 			B2_CinemaSpot 	= $o_cinema14
 
 func _ready() -> void:
@@ -17,6 +18,8 @@ func _ready() -> void:
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:
 		_setup_camera( _setup_player_node() )
+		
+	o_archambeau_01.modulate.a = 0.0
 		
 	if B2_Playerdata.Quest("tutorialCspear") == 1:
 		o_door_tech_01_vents.is_open = false

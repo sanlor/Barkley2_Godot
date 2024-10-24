@@ -12,7 +12,7 @@ func _ready() -> void:
 	if play_cinema_at_room_start:
 		B2_CManager.play_cutscene( cutscene_script, self, true )
 	else:
-		if B2_RoomXY.is_room_valid():
+		if B2_RoomXY.is_room_valid( true ):
 			B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 		else:
 			_setup_camera( _setup_player_node() )

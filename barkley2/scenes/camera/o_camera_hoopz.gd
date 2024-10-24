@@ -10,12 +10,12 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW}
 var curr_MODE := MODE.FOLLOW
 
-@export var speed_slow 			:= 2.5
-@export var speed_normal 		:= 3.0
-@export var speed_fast 			:= 5.0
-@export var camera_follow_speed := 650.0 # Speed that the camera follows the mouse.
+@export var speed_slow 			:= 4.5
+@export var speed_normal 		:= 6.0
+@export var speed_fast 			:= 8.5
+@export var camera_follow_speed := 750.0 # Speed that the camera follows the mouse.
 
-var speed := 1.5
+var speed := speed_normal
 var is_moving := false
 var destination := Vector2.ZERO
 #var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.

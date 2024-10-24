@@ -1,7 +1,7 @@
 extends B2_Duergar
 
 func _ready() -> void:
-	modulate.a = 0.0
+	#modulate.a = 0.0
 	
 	ANIMATION_STAND 						= "s_archambeau01"
 	ANIMATION_SOUTH 						= "s_archambeauSE"

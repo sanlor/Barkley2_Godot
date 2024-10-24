@@ -1,13 +1,13 @@
-[gd_scene load_steps=12 format=4 uid="uid://bhuubfu66dey1"]
+[gd_scene load_steps=13 format=4 uid="uid://bhuubfu66dey1"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_corridor_01.gd" id="1_0664k"]
-[ext_resource type="Script" path="res://tools/b2_tool_room_converter.gd" id="1_k2w36"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="2_8n0nt"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_wbxf7"]
 [ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="4_xm6qt"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="6_jo8g1"]
 [ext_resource type="PackedScene" uid="uid://bm1xjhm2iv47t" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.tscn" id="7_c3ffy"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="8_7mveo"]
+[ext_resource type="PackedScene" uid="uid://cjokfdr3fny1e" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_archambeau_01.tscn" id="9_ctdaj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gm7ju"]
 texture = ExtResource("2_8n0nt")
@@ -1644,15 +1644,28 @@ WAIT   | 0
 DIALOG | Egg Drone | Done.
 "
 
+[sub_resource type="Resource" id="Resource_weg85"]
+script = ExtResource("8_7mveo")
+original_script = "LOOKAT | o_archambeau01 | o_cts_hoopz
+CHOICE | Sprite flip offset test.
+REPLY  | CHOICE_1 | brastHoopz
+REPLY  | CHOICE_2 | Nothing
+
+CHOICE_1
+WAIT | 1
+SOUND  | sn_magnum1_2
+PLAYSET | o_archambeau01 | brastHoopz | s_archambeau01
+WAIT | 1
+
+CHOICE_2
+EXIT"
+
 [node name="r_air_corridor01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
 script = ExtResource("1_0664k")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(240, 518)
 collision_layer = NodePath("layer - collision")
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("1_k2w36")
-simulate = false
+play_cinema_at_room_start = false
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -1716,3 +1729,7 @@ cinema_id = 3
 [node name="o_eggDrone01" parent="." instance=ExtResource("7_c3ffy")]
 position = Vector2(155, 467)
 cutscene_script = SubResource("Resource_vkjtf")
+
+[node name="o_archambeau01" parent="." instance=ExtResource("9_ctdaj")]
+position = Vector2(406, 457)
+cutscene_script = SubResource("Resource_weg85")

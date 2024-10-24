@@ -81,7 +81,10 @@ func _ready() -> void:
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
 	
-func is_room_valid() -> bool:
+func is_room_valid( strict := false) -> bool:
+	if strict:
+		if this_room_x == 0 or this_room_y == 0 or this_room.is_empty():
+			return false
 	print("room ",this_room)
 	return not this_room.is_empty()
 	
@@ -186,6 +189,8 @@ func get_room_scene( room_name : String ):
 		push_error("Room %s not indexed." % room_name)
 	
 	room_is_invalid = true
+	this_room_x 	= 0
+	this_room_y 	= 0
 	push_error("Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
 	room_scene = load( invalid_room ) as PackedScene
 	return 

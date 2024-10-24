@@ -5,69 +5,18 @@ class_name B2_Actor
 signal sprite_offset_centered
 signal sprite_collision_adjusted
 
-#region Original code
-
-# Extend Entity creation with further declarations
-# event_inherited()
-
-# uuid = uuid_generate();
-
-# Path initialization
-# scr_path_init()
-
-# Actors turn dark in shadows
-var in_shadow := false
-
-# Actors can't leave the room usually
-var can_leave_room := false
-
-# Actors default to circle moveboxes - better but more processing involved
-## NOTE Use Area2D or CharacterBody2D
-# scr_entity_setMovementCollisionShape_circle(8)
-
-# Create a sound emitter for each Actor by default
-# scr_entity_makeSoundEmitter();
-
-# Storage for variables during pause
-var paused_path_speed = 0;
-
-# Flag to indicate if object supports paths - Actor does
-var path_support = true;
-
-# Set whether object is Surfaced or not
-var surf = null;
-var use_surface = false;
-
-# Actors can be rigid. If they are, they can not move
-var actor_rigid = false
-var actor_rigid_set = false
-var actor_rigid_semisolid = true
-
-# This is used by pedestrians and their shadows # Laz added, 17.12.2015
-var alpha = 1;
-
-# Facing
-var _pedestrian = false;
-var flipAuto = 0; #If 1, the sprite can mirror itself
-var faceAuto = 0; #Only do facing scripts if we define them
-var idleAuto = ""; #If not blank, sets to that animation when a cinema is over
-var East = 2; #from obsolete stair code in step
-var West = 3; #from obsolete stair code in step
-var walkBackwards = 0; #When enabled, reverse animate
-var statusImmuneAll = 0;
-
-#endregion
-
 ## DEBUG
 @export_category("Debug")
-@export var debug_move_finish := false
+@export var debug_move_finish 				:= false
+@export var debug_check_movement_vector 	:= true
 
 ## Godot
 signal destination_reached
 signal set_played
+
 @export_category("Actor Stuff")
 @export var ActorAnim 		: AnimatedSprite2D
-@export var flip_h			:= false
+@export var flip_h			:= false				## Start with the sprite flipped.
 @export var has_collision 	:= true
 @export var ActorCol 		: CollisionShape2D
 
@@ -89,15 +38,15 @@ var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 		:= 25.0 # was 900.0
+var speed_multiplier 		:= 20.0 # was 900.0
 @export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
 @export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
 @export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
 @export_category("Animation")
-@export var animation_speed := 1.5
-@export var disable_auto_flip_h	:= false	# Hoopz actor has 8 different directions, it should not mirror
+@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
+@export var disable_auto_flip_h	:= false		## Hoopz actor has 8 different directions, it should not mirror
 ## Animation
 var ANIMATION_STAND 				:= "PLACEHOLDER - %s" % self
 var ANIMATION_SOUTH 				:= "PLACEHOLDER - %s" % self
@@ -143,9 +92,12 @@ var dir_2_vec_map := {
 	"EAST":				Vector2.RIGHT,
 	"SOUTHEAST":		Vector2.DOWN + Vector2.RIGHT,
 }
-
 ## Action Queue
 var cinema_set_queue := []
+
+func _draw() -> void:
+	if debug_check_movement_vector:
+		draw_line(Vector2.ZERO, movement_vector * 32, Color.HOT_PINK)
 
 func _init() -> void:
 	ready.connect( play_animations )
@@ -201,7 +153,6 @@ func cinema_set( _sprite_frame : String ):
 	
 	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
 		ActorAnim.animation = _sprite_frame
-		flip_sprite()
 		adjust_sprite_offset()
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
@@ -210,13 +161,14 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame
-		adjust_sprite_offset()
 		flip_sprite()
+		adjust_sprite_offset()
 		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
 		ActorAnim.play( _sprite_frame )
 		await ActorAnim.animation_finished
 		ActorAnim.animation = _sprite_frame_2
+		flip_sprite()
 		adjust_sprite_offset()
 		is_playingset = false
 		set_played.emit()
@@ -227,58 +179,48 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 
 func cinema_look( _direction : String ):
 	ActorAnim.stop()
+	
 	ActorAnim.animation = ANIMATION_STAND
-	#print(_direction)
 	match _direction:
 		"NORTH":
-			#ActorAnim.animation = (ANIMATION_NORTH)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[0]
 			ActorAnim.flip_h = false
 		"NORTHEAST":
-			#ActorAnim.animation = (ANIMATION_NORTHEAST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[1]
 			ActorAnim.flip_h = false
 		"EAST":
-			#ActorAnim.animation = (ANIMATION_EAST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[2]
 			ActorAnim.flip_h = false
 		"SOUTHEAST":
-			#ActorAnim.animation = (ANIMATION_SOUTHEAST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[3]
 			ActorAnim.flip_h = false
 		"SOUTH":
-			#ActorAnim.animation = (ANIMATION_SOUTH)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[4]
 			ActorAnim.flip_h = false
 		"SOUTHWEST":
-			#ActorAnim.animation = (ANIMATION_SOUTHWEST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[5]
 			ActorAnim.flip_h = true
 		"WEST":
-			#ActorAnim.animation = (ANIMATION_WEST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[6]
 			ActorAnim.flip_h = true
 		"NORTHWEST":
-			#ActorAnim.animation = (ANIMATION_NORTHWEST)
 			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[7]
 			ActorAnim.flip_h = true
+			
+	movement_vector = dir_2_vec_map.get( _direction, Vector2.DOWN) ## Default is South
 	adjust_sprite_offset()
 	
 func cinema_lookat( target_node : Node2D ):
 	var _direction := position.direction_to( target_node.position ).round()
 	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
-			
 	cinema_look( dir_name )
 	
 func cinema_moveto( _cinema_spot : Node2D, _speed : String ):
 	# Default behaviour
 	match _speed:
-		"MOVE_FAST":
-			speed = speed_fast
-		"MOVE_SLOW":
-			speed = speed_slow
-		"MOVE_NORMAL":
-			speed = speed_normal
+		"MOVE_FAST": speed = speed_fast
+		"MOVE_SLOW": speed = speed_slow
+		"MOVE_NORMAL": speed = speed_normal
 	
 	if _cinema_spot == null:
 		push_error("Camera: node is invalid. ", _cinema_spot, ".")
@@ -359,6 +301,10 @@ func adjust_sprite_offset():
 		
 	ActorAnim.centered = false
 	ActorAnim.offset = -Vector2( int( sprite_data["xorig"] ), int( sprite_data["yorigin"] ) )
+	# Some sprites arent centered. if you just flipt it, they are displaied incorrectly.
+	if ActorAnim.flip_h:
+		## CRITICAL I hate math. This may cause issues with animations later. careful.
+		ActorAnim.offset.x = int( sprite_data["xorig"] ) - int( sprite_data["width"] )
 	sprite_offset_centered.emit()
 	
 	if has_collision:
@@ -421,6 +367,9 @@ func check_actor_activity() -> void:
 		return
 
 func _physics_process(delta: float) -> void:
+	if debug_check_movement_vector:
+		queue_redraw()
+		
 	if is_moving:
 		cinema_animation()
 		_child_process(delta)
@@ -429,14 +378,13 @@ func _physics_process(delta: float) -> void:
 		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).round() #.sign()
 		
 		## Actor reached target
-		if position.distance_to( destination_path[-1] + destination_offset ) < 1.5:
+		if position.distance_to( destination_path[-1] + destination_offset ) < 2.0:
 			# man, i miss the pop_back() function.
 			destination_path.remove_at( destination_path.size() - 1 )
 			
 			# check if there are any destinations left. if not, finish walking
 			if destination_path.is_empty():
 				is_moving = false
-				#velocity = Vector2.ZERO
 				position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
 				
 				ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
@@ -449,27 +397,27 @@ func _physics_process(delta: float) -> void:
 				
 		else:
 			var target : Vector2 = destination_path[-1] + destination_offset
-			var next_hop := position.direction_to( target ) * speed * delta
+			#var next_hop := position.direction_to( target ) * speed * delta
 			
 			## Update movement vector for animation purposes.
-			movement_vector = position.direction_to( target + destination_offset ).round() #.sign()
-			
+			#movement_vector = position.direction_to( target + destination_offset ).round() #.sign()
+			#
 			## Fix for time scale bullshit
-			if B2_Input.is_fastforwarding:
-				var hop_dist := position.distance_to( next_hop )
-				var tar_dist := position.distance_to( target )
-				
-				if hop_dist >= tar_dist:
-					# If the next hop is longer than the distance to the next target, just warp it to the position.
-					# Its jittery, but its not important. it doesnt always work.
-					position = target
-				else:
-					# if not, just proceed normally.
-					#velocity = next_hop
-					pass
-			else:
-				#velocity = next_hop
-				pass
+			#if B2_Input.is_fastforwarding:
+				#var hop_dist := position.distance_to( next_hop )
+				#var tar_dist := position.distance_to( target )
+				#
+				#if hop_dist >= tar_dist:
+					## If the next hop is longer than the distance to the next target, just warp it to the position.
+					## Its jittery, but its not important. it doesnt always work.
+					#position = target
+				#else:
+					## if not, just proceed normally.
+					##velocity = next_hop
+					#pass
+			#else:
+				##velocity = next_hop
+				#pass
 			
 			position = position.move_toward(target, speed * delta )
 			#move_and_slide()

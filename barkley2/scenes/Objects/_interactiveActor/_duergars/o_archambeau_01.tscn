@@ -172,8 +172,12 @@ size = Vector2(27, 39)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nfa3t"]
 
-[node name="o_archambeau01" type="CharacterBody2D"]
+[node name="o_archambeau01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_i7v8o")
+duergar_name = "archambeau"
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true

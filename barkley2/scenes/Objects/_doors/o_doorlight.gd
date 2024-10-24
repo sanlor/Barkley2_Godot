@@ -57,7 +57,6 @@ var area_change_audio 	= true;
 var enable 				= 1;
 var enableDraw 			= 0;
 
-
 ## Door
 var _fade_timer 			= 0.25;
 
@@ -179,7 +178,7 @@ func _physics_process(_delta: float) -> void:
 	if light_activation_area.has_overlapping_bodies():
 		var body : Array[Node2D] = light_activation_area.get_overlapping_bodies()
 		for b in body:
-			if b is B2_Player or b is B2_InteractiveActor:
+			if b is B2_Player: # or b is B2_InteractiveActor:
 				var b_distance := global_position.distance_to( b.global_position )
 				var alpha : float = b_distance / light_activation_shape.shape.radius
 				

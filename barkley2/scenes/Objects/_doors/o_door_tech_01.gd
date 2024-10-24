@@ -27,7 +27,8 @@ func detect_player_exit( body ):
 	if body is B2_Player or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
-				hide_locked_message()
+				if body is B2_Player: # Avoid actors triggering these messages 
+					hide_locked_message()
 			return
 		else:
 			door_close()
@@ -36,7 +37,8 @@ func detect_player_enter( body ):
 	if body is B2_Player or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
-				show_locked_message()
+				if body is B2_Player: # Avoid actors triggering these messages
+					show_locked_message()
 			return
 		else:
 			door_open()

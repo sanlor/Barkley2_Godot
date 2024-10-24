@@ -46,6 +46,8 @@ var astar_valid_tiles := Array() # used for debug
 
 var obstacles 			:= []
 
+var room_size := Vector2.ZERO
+
 func _enter_tree() -> void:
 #	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
@@ -112,6 +114,9 @@ func _init_pathfind():
 	astar.update()
 	#astar.fill_solid_region( reference_layer.get_used_rect(), false )
 	astar.fill_solid_region( map_rect, false )
+	
+	room_size = Vector2( map_rect.size ) * reference_layer.front().get_tile_set().tile_size.x
+	#print("Room size is %s." % room_size)
 	
 # Is this needed?
 func update_pathfind():
