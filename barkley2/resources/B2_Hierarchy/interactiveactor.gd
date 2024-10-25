@@ -120,8 +120,9 @@ func _process(_delta: float) -> void:
 	if is_mouse_hovering:
 		# check if the player is near
 		if is_instance_valid(B2_CManager.o_hoopz):
-			if B2_CManager.o_hoopz.position.distance_to( position ) < interactive_distance:
-				is_player_near = true
-				return
+			if B2_CManager.o_hoopz.curr_STATE == B2_Player.STATE.NORMAL:
+				if B2_CManager.o_hoopz.position.distance_to( position ) < interactive_distance:
+					is_player_near = true
+					return
 			
 	is_player_near = false

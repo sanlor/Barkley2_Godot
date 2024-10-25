@@ -3,6 +3,10 @@ extends B2_InteractiveActor
 # silly stuff for variable´s hand
 @export var ActorAnim_hands: AnimatedSprite2D
 
+## Variable is very annoying to animate. WHY A SEPARATE ANIM FOR A HAND?!?!?!?!?
+# has some custom functions to handle the hand animation.
+# some things are manually coded, to save time.
+
 func _ready() -> void:
 	## Animation
 	ANIMATION_STAND				= "default"
@@ -36,7 +40,7 @@ func cinema_set( _sprite_frame : String ):
 		ActorAnim.animation = _sprite_frame
 		if _sprite_frame == "spanking" or _sprite_frame == "spankingHold":
 			ActorAnim_hands.offset = ActorAnim.offset
-			ActorAnim_hands.offset.x = -16 # HAAAAACK
+			ActorAnim_hands.offset.x = -5 # HAAAAACK
 			
 			ActorAnim.flip_h = true
 			ActorAnim_hands.flip_h = true

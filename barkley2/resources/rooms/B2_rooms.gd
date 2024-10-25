@@ -36,7 +36,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var room_player_can_roll 		:= true # Player can roll around.
 
 @export_category("Cinematics")
-#@export var player_can_pause			:= true
+@export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
 #@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
 @export var cutscene_script 			: B2_Script
@@ -44,16 +44,20 @@ var astar_valid_tiles := Array() # used for debug
 @export_category("Nodes")
 @export var b2_camera: B2_Camera
 
+var astar_pos_offset := Vector2i(8,8)
+
 var obstacles 			:= []
 
 var room_size := Vector2.ZERO
 
 func _enter_tree() -> void:
-#	B2_Screen.can_pause = player_can_pause
+	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
 	if play_room_music:
 		ready.connect( _play_room_music )
+		
+	y_sort_enabled = true
 
 func set_pacify( state : bool ):
 	room_pacify = state
@@ -109,12 +113,14 @@ func _init_pathfind():
 		assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
 		map_rect = map_rect.merge( l.get_used_rect() )
 		
-	astar.region = 		map_rect # reference_layer.get_used_rect()
-	astar.cell_size = 	reference_layer.front().get_tile_set().tile_size
+	astar.region 		= 	map_rect # reference_layer.get_used_rect()
+	astar.cell_size 	= 	reference_layer.front().get_tile_set().tile_size
+	astar.offset 		= 	astar_pos_offset
 	astar.update()
 	#astar.fill_solid_region( reference_layer.get_used_rect(), false )
 	astar.fill_solid_region( map_rect, false )
 	
+	# This ise used by some screen wide effect and binding the camera inside the room.
 	room_size = Vector2( map_rect.size ) * reference_layer.front().get_tile_set().tile_size.x
 	#print("Room size is %s." % room_size)
 	

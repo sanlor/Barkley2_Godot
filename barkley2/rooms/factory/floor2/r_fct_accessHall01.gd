@@ -19,6 +19,7 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 		
+	# Hide Duergar.
 	o_archambeau_01.modulate.a = 0.0
 		
 	if B2_Playerdata.Quest("tutorialCspear") == 1:
@@ -27,3 +28,5 @@ func _ready() -> void:
 		o_door_tech_01_vents.door_close( true )
 		
 		o_roethlisbuergar_01.position = o_cinema_14.position
+		
+		B2_Sound.set_loop_volume( 0.5 )

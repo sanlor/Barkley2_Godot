@@ -18,5 +18,5 @@ func execute_event_user_0():
 	ActorAnim.play("flipped")
 	is_interactive = false
 	cutscene_script = null # unload script for safety
-	o_door_tech_01._door_open()
-	o_door_tech_01.locked = false
+	o_door_tech_01.door_open(true)
+	o_door_tech_01.locked = true

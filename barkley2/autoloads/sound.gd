@@ -1820,6 +1820,11 @@ func stop_loop():
 	else:
 		push_warning("Nothing is playing. something may be wrong.")
 
+func set_loop_volume( volume : float ):
+	if volume > 1.0:
+		push_warning("Volume out of range - %s - careful." % volume)
+	audio_loop.volume_db = linear_to_db( volume )
+
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):
 		sound_loop[sfx] -= 1

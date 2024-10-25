@@ -7,8 +7,8 @@ signal sprite_collision_adjusted
 
 ## DEBUG
 @export_category("Debug")
-@export var debug_move_finish 				:= false
-@export var debug_check_movement_vector 	:= true
+@export var debug_move_finish 				:= false ## Print some debug shit.
+@export var debug_check_movement_vector 	:= false ## Draw lines to show the current movement vector.
 
 ## Godot
 signal destination_reached
@@ -30,7 +30,7 @@ var is_playingset 	:= false
 
 var destination 			:= Vector2.ZERO
 var destination_path 		:= PackedVector2Array()
-var destination_offset 		:= Vector2.ZERO #Vector2(8,8)
+var destination_offset 		:= Vector2.ZERO # Vector2(8,8)
 
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO

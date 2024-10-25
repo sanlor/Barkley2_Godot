@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://bhuubfu66dey1"]
+[gd_scene load_steps=14 format=4 uid="uid://bhuubfu66dey1"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_corridor_01.gd" id="1_0664k"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="2_8n0nt"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bm1xjhm2iv47t" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.tscn" id="7_c3ffy"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="8_7mveo"]
 [ext_resource type="PackedScene" uid="uid://cjokfdr3fny1e" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_archambeau_01.tscn" id="9_ctdaj"]
+[ext_resource type="PackedScene" uid="uid://0ivnjx3er6em" path="res://barkley2/scenes/Objects/_doors/o_door_tech01.tscn" id="9_ucm1r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gm7ju"]
 texture = ExtResource("2_8n0nt")
@@ -1661,6 +1662,7 @@ CHOICE_2
 EXIT"
 
 [node name="r_air_corridor01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+y_sort_enabled = true
 script = ExtResource("1_0664k")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(240, 518)
@@ -1733,3 +1735,7 @@ cutscene_script = SubResource("Resource_vkjtf")
 [node name="o_archambeau01" parent="." instance=ExtResource("9_ctdaj")]
 position = Vector2(406, 457)
 cutscene_script = SubResource("Resource_weg85")
+
+[node name="o_door_tech01" parent="." instance=ExtResource("9_ucm1r")]
+z_index = 0
+position = Vector2(185, 393)

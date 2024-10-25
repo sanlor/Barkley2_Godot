@@ -25,6 +25,7 @@ func _ready() -> void:
 	
 	# Quest related
 	o_archambeau_01.modulate.a = 0.0
+	B2_Sound.stop_loop()
 	
 	await get_tree().process_frame
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):

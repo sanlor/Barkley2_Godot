@@ -111,6 +111,8 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		## WARNING Albhed doesnt work with this. TextSpecial() has a good sollution.
 		var new_text = text.replace("#", "\n") # <-  Used on the CC mostly.
 		
+		new_text = new_text.replace("/'", '"') # Add support for " character.
+		
 		new_text = new_text.replace("`mq`", "[color=#%s]" % textcolorMainquest.to_html() )
 		new_text = new_text.replace("`sq`", "[color=#%s]" % textcolorSidequest.to_html() )
 		new_text = new_text.replace("`kw`", "[color=#%s]" % textcolorKeyword.to_html() )
@@ -123,7 +125,6 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replace("`s0`", "[/shake]")
 		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=8 connected=1]") # The level requires some adjustments.
 		
-		new_text = new_text.replace("/'", '"') # Add support for " character.
 		# print(new_text)
 		return new_text
 

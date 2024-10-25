@@ -99,7 +99,7 @@ func reset_room() -> void:
 	
 func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_in := false ):
 	if room_load_lock:
-		push_warning("Tried to load new room %s before the current one finishes." % room_transition_string)
+		push_warning("Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
 	room_load_lock = true
 	var split := room_transition_string.split( ",", true )
