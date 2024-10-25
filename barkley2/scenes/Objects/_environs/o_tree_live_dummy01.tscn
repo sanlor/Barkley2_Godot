@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsierd7e26klr"]
+
+[ext_resource type="Texture2D" uid="uid://enmys3c782k4" path="res://barkley2/assets/b2_original/images/merged/s_tree_live_dummy01.png" id="1_1ywts"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_aswby"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qb25o"]
+atlas = ExtResource("1_1ywts")
+region = Rect2(0, 0, 94, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q41tx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb25o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ydfp"]
+radius = 17.0
+
+[node name="o_tree_live_dummy01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_q41tx")
+frame_progress = 0.596219
+centered = false
+offset = Vector2(0, -127)
+script = ExtResource("2_aswby")
+metadata/default = {
+"bbox_bottom": "121",
+"bbox_left": "23",
+"bbox_right": "71",
+"bbox_top": "100",
+"height": "128",
+"name": "s_tree_live_dummy01",
+"width": "94",
+"xorig": "0",
+"yorigin": "127"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(48, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_5ydfp")

@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://cc0u1jcebct86"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
+[ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
+[ext_resource type="Texture2D" uid="uid://cskofy4hy1ji" path="res://barkley2/assets/b2_original/images/merged/s_hud_face.png" id="3_j7a5u"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/hud_tv.gd" id="3_yi3d5"]
+[ext_resource type="FontFile" uid="uid://dpq1o2nwu67xo" path="res://barkley2/resources/fonts/fn3.tres" id="4_dvdl2"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/hud_healt.gd" id="6_73hlq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w12vp"]
+atlas = ExtResource("2_6rw7w")
+region = Rect2(384, 0, 384, 40)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3uohm"]
+load_path = "res://.godot/imported/s_hud_tv.png-95790236f21a8ced198e5ae8ec944415.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2to2"]
+atlas = SubResource("CompressedTexture2D_3uohm")
+region = Rect2(70, 0, 70, 41)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h36dp"]
+load_path = "res://.godot/imported/s_hud_tv.png-95790236f21a8ced198e5ae8ec944415.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vjf5"]
+atlas = SubResource("CompressedTexture2D_h36dp")
+region = Rect2(140, 0, 70, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1nwcc"]
+atlas = ExtResource("3_j7a5u")
+region = Rect2(0, 0, 24, 30)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3lbpd"]
+load_path = "res://.godot/imported/s_hud_tv.png-95790236f21a8ced198e5ae8ec944415.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rybhr"]
+atlas = SubResource("CompressedTexture2D_3lbpd")
+region = Rect2(0, 0, 70, 41)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2wgu4"]
+line_spacing = 0.0
+font = ExtResource("4_dvdl2")
+
+[node name="o_hud" type="CanvasLayer"]
+script = ExtResource("1_33b6q")
+
+[node name="hud_bar" type="TextureRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -192.0
+offset_right = 192.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = SubResource("AtlasTexture_w12vp")
+
+[node name="hud_tv" type="Control" parent="hud_bar"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -41.0
+offset_right = 35.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("3_yi3d5")
+
+[node name="tv_bg1" type="TextureRect" parent="hud_bar/hud_tv"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_y2to2")
+
+[node name="tv_bg_red" type="TextureRect" parent="hud_bar/hud_tv"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_8vjf5")
+
+[node name="tv_face" type="TextureRect" parent="hud_bar/hud_tv"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 38.0
+offset_bottom = 34.0
+texture = SubResource("AtlasTexture_1nwcc")
+
+[node name="tv_frame" type="TextureRect" parent="hud_bar/hud_tv"]
+layout_mode = 0
+offset_right = 70.0
+offset_bottom = 41.0
+texture = SubResource("AtlasTexture_rybhr")
+
+[node name="hud_health" type="Label" parent="hud_bar/hud_tv"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 10.0
+offset_right = 62.0
+offset_bottom = 38.0
+text = "30
+30"
+label_settings = SubResource("LabelSettings_2wgu4")
+horizontal_alignment = 1
+script = ExtResource("6_73hlq")
+
+[node name="hud_dna" type="TextureRect" parent="hud_bar"]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 5.0
+offset_right = 307.0
+offset_bottom = 45.0

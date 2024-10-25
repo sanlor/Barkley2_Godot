@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcilytfe2j4xe"]
+[gd_scene load_steps=7 format=3 uid="uid://bcilytfe2j4xe"]
 
 [ext_resource type="Texture2D" uid="uid://h0t60fanv30o" path="res://barkley2/assets/b2_original/images/merged/s_broken_tv02.png" id="1_stnt8"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_388h8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jkfs7"]
 atlas = ExtResource("1_stnt8")
@@ -24,16 +25,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_x4miv"]
-script/source = "extends AnimatedSprite2D
-"
+[sub_resource type="CircleShape2D" id="CircleShape2D_1ywt7"]
+radius = 19.2
 
 [node name="o_broken_tv02" type="AnimatedSprite2D"]
 position = Vector2(280, 732)
 sprite_frames = SubResource("SpriteFrames_kggbr")
 centered = false
 offset = Vector2(0, -44)
-script = SubResource("GDScript_x4miv")
+script = ExtResource("2_388h8")
 metadata/default = {
 "bbox_bottom": "63",
 "bbox_left": "6",
@@ -45,3 +45,9 @@ metadata/default = {
 "xorig": "0",
 "yorigin": "44"
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(24, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_1ywt7")

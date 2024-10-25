@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5yk4lxbn55fm"]
+[gd_scene load_steps=7 format=3 uid="uid://b5yk4lxbn55fm"]
 
 [ext_resource type="Texture2D" uid="uid://bp0mlmf73nw4a" path="res://barkley2/assets/b2_original/images/merged/s_broken_monitor01.png" id="1_qm4ji"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_7vwpi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ocnjp"]
 atlas = ExtResource("1_qm4ji")
@@ -24,20 +25,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_dvdcy"]
-script/source = "extends B2_EnvironSemisolid
-
-func _ready() -> void:
-	seed( hash(\"hot dog\") )
-	frame = randi_range(0, sprite_frames.get_frame_count(\"default\"))
-"
+[sub_resource type="CircleShape2D" id="CircleShape2D_xrero"]
+radius = 12.8
 
 [node name="o_broken_monitor01" type="AnimatedSprite2D"]
 position = Vector2(320, 594)
 sprite_frames = SubResource("SpriteFrames_4flei")
 centered = false
 offset = Vector2(0, -18)
-script = SubResource("GDScript_dvdcy")
+script = ExtResource("2_7vwpi")
 metadata/default = {
 "bbox_bottom": "27",
 "bbox_left": "4",
@@ -49,3 +45,9 @@ metadata/default = {
 "xorig": "0",
 "yorigin": "18"
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(16, -1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_xrero")

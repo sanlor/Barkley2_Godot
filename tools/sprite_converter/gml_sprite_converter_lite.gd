@@ -29,6 +29,7 @@ enum TYPE{ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
 @export var animations 		: Array[B2_TOOL_GML_SPRITE_CONVERTER_ROOT]
 
 @export_category("Run tool")
+@export var lazy_mode			:= false ## fixes the name, set pos to 0 and get ready to save. useful for bulk prop convertions
 @export var simulation			:= false
 @export var remove_target_node	:= false
 @export var start_conversion 	:= false :		## Start the conversion process.
@@ -94,12 +95,17 @@ func lets_goooo():
 			target.queue_free()
 		else:
 			add_sibling( animatedsprite, true )
-			animatedsprite.name = target_name + "_Placeholder"
+			if lazy_mode:
+				animatedsprite.name = target_name
+				animatedsprite.position = Vector2.ZERO
+			else:
+				animatedsprite.name = target_name + "_Placeholder"
 			animatedsprite.set_owner( get_parent() )
 		
 	#var sprite_data := animatedsprite.get_meta( "default" ) as Dictionary
 	animatedsprite.centered = false
 	
+
 	#get_parent().adjust_sprite_offset()
 	print("Conversion finished!")
 	
@@ -227,6 +233,5 @@ func set_placeholder_collision():
 			can_add = false
 	if can_add:
 		var col := CollisionShape2D.new()
-		
 		add_sibling.call_deferred( col, true )
 		col.set_owner.call_deferred( get_parent() )

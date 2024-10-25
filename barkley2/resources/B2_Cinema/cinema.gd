@@ -582,13 +582,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					get_tree().current_scene.add_child( emote_node, true )
 				"Teleport":
 					var room_string := ""
-					
 					for _str : String in parsed_line:
 						if _str == "Teleport": continue # Lazy way to skip the first line.
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
-					
 					B2_RoomXY.warp_to( room_string, 0.0, true )
-					
+				"scr_savedata_save":
+					B2_Playerdata.SaveGame()
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
 			

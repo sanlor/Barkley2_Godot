@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://0ko8dmrlobil"]
+[gd_scene load_steps=7 format=3 uid="uid://0ko8dmrlobil"]
 
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="1_i24bs"]
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="1_ijqhd"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_y4w6h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
 atlas = ExtResource("1_ijqhd")
@@ -25,8 +25,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_msd8c"]
+radius = 7.0
+
 [node name="o_drum_open01" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_esvbv")
 centered = false
 offset = Vector2(-8, -22)
-script = ExtResource("1_i24bs")
+script = ExtResource("2_y4w6h")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_msd8c")

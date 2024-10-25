@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpmhiuju1m8f7"]
+[gd_scene load_steps=7 format=3 uid="uid://bpmhiuju1m8f7"]
 
 [ext_resource type="Texture2D" uid="uid://bkutoex80wfru" path="res://barkley2/assets/b2_original/images/merged/s_barrel_big01.png" id="1_men6j"]
 
@@ -24,20 +24,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="GDScript" id="GDScript_pdmly"]
-script/source = "extends B2_EnvironSemisolid
-
-func _ready() -> void:
-	seed( hash(\"hot dog\") )
-	frame = randi_range(0, sprite_frames.get_frame_count(\"default\"))
+[sub_resource type="GDScript" id="GDScript_r5lum"]
+script/source = "@tool
+extends B2_EnvironProp
 "
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lfvou"]
+radius = 9.6
 
 [node name="o_barrel_big01" type="AnimatedSprite2D"]
 position = Vector2(868, 714)
 sprite_frames = SubResource("SpriteFrames_lymiq")
 centered = false
 offset = Vector2(-12, -18)
-script = SubResource("GDScript_pdmly")
+script = SubResource("GDScript_r5lum")
 metadata/default = {
 "bbox_bottom": "33",
 "bbox_left": "2",
@@ -49,3 +49,9 @@ metadata/default = {
 "xorig": "12",
 "yorigin": "18"
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_lfvou")

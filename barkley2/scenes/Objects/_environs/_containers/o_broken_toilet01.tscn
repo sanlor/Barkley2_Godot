@@ -1,141 +1,52 @@
-[gd_scene load_steps=19 format=3 uid="uid://dsw7b12tbvgko"]
+[gd_scene load_steps=7 format=3 uid="uid://dsw7b12tbvgko"]
 
-[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_16nr7"]
-[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_71dee"]
-[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="3_462ro"]
-[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="4_vcm38"]
-[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="5_iy34m"]
-[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="6_126o5"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight.gd" id="7_ni0kj"]
+[ext_resource type="Texture2D" uid="uid://cv8gfsv7lbcgg" path="res://barkley2/assets/b2_original/images/merged/s_broken_toilet01.png" id="1_dj5wc"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_2nr5p"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
-atlas = ExtResource("5_iy34m")
-region = Rect2(0, 0, 16, 80)
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4dq6"]
+atlas = ExtResource("1_dj5wc")
+region = Rect2(0, 0, 32, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
-atlas = ExtResource("5_iy34m")
-region = Rect2(16, 0, 16, 80)
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmhfg"]
+atlas = ExtResource("1_dj5wc")
+region = Rect2(32, 0, 32, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
-atlas = ExtResource("5_iy34m")
-region = Rect2(32, 0, 16, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
-atlas = ExtResource("5_iy34m")
-region = Rect2(48, 0, 16, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
-atlas = ExtResource("6_126o5")
-region = Rect2(0, 0, 80, 60)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
-atlas = ExtResource("6_126o5")
-region = Rect2(80, 0, 80, 60)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
-atlas = ExtResource("6_126o5")
-region = Rect2(160, 0, 80, 60)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
-atlas = ExtResource("6_126o5")
-region = Rect2(240, 0, 80, 60)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0tgd"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_16nr7")
+"texture": SubResource("AtlasTexture_f4dq6")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_71dee")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_462ro")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_vcm38")
+"texture": SubResource("AtlasTexture_rmhfg")
 }],
 "loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
+"name": &"default",
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_x31dv"]
-radius = 64.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_j10ch"]
+radius = 11.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnlim"]
-size = Vector2(32, 16)
-
-[node name="o_doorlight_facility" type="AnimatedSprite2D"]
-z_index = -10
-position = Vector2(688, 248)
-sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"s_doorlight_ud"
+[node name="o_broken_toilet01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_j0tgd")
 centered = false
-offset = Vector2(0, -44)
-script = ExtResource("7_ni0kj")
-show_door_light = true
-type = 0
-debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(704, 270)
-teleport_string = "r_fct_factoryOutpost01,704,270"
-debug_teleport_create_o_hoopz = false
-teleport_destination = "r_fct_accessHall01, 178, 384"
-teleport_create_o_hoopz = false
-metadata/code = "RoomXY(r_fct_accessHall01, 178, 384);"
-metadata/inst_name = "inst_41F7F276"
-metadata/scale = Vector2(1, 1)
+offset = Vector2(-16, -40)
+script = ExtResource("2_2nr5p")
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "1",
+"bbox_right": "30",
+"bbox_top": "5",
+"height": "48",
+"name": "s_broken_toilet01",
+"width": "32",
+"xorig": "16",
+"yorigin": "40"
+}
 
-[node name="light_activation_area" type="Area2D" parent="."]
-position = Vector2(16, 8)
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -8)
 
-[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
-shape = SubResource("CircleShape2D_x31dv")
-
-[node name="push_area" type="Area2D" parent="."]
-position = Vector2(16, 8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
-shape = SubResource("RectangleShape2D_hnlim")
-
-[node name="teleport_activation_area" type="Area2D" parent="."]
-position = Vector2(16, -8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
-shape = SubResource("RectangleShape2D_hnlim")
-
-[connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_j10ch")

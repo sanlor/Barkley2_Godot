@@ -9,11 +9,13 @@ class_name B2_TOOL_ROOM_CONVERTER
 @export_category("Collision")
 @export var convert_collision 		:= true
 @export var col_object_name 		:= "o_solid"
-@export var col_object_warn 		:= ["o_semisolid", "o_rigid", "_tri"]
+@export var semicol_object_name 	:= "o_semisolid"
+@export var col_object_warn 		:= ["o_rigid", "_tri"]
 
 @export_category("Dangerous")
 @export var known_packed_scenes 	: Array[PackedScene]
-@export var convert_known_nodes		:= false ## Attempo to search the game files for nodes with the same name. might fuck thins up.
+@export var known_packed_scenes_exceptions : Array[String] = ["o_doorlight_", "o_cinema"]
+@export var convert_known_nodes		:= false ## Attempt to search the game files for nodes with the same name. might fuck thins up.
 
 @export_category("Exec")
 @export var simulate 			:= true					## Dont change anything, just check if everything is working fine
@@ -23,7 +25,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 		lets_goooo()
 		
 func _ready() -> void:
-	lets_goooo()
+	#lets_goooo()
 	pass
 	
 func lets_goooo():
@@ -59,6 +61,7 @@ func door_light():
 					push_warning("Weird door %s" % node.name)
 					door_scene.type = B2_DoorLight.DOOR_TYPE.UP
 					
+			door_scene.name = node.name.split(" - ", false, 1)[-1]
 			door_scene.position 				= node.position
 			door_scene.teleport_destination 	= node.get_meta( "code" ) ## garbage setup
 			
@@ -88,21 +91,38 @@ func regular_door():
 func collision():
 	print("starting collision convertion...")
 	# assume no collision node
+	
+	var solid_name 	:= "layer - collision"
+	var semi_solid_name	:= "layer - collision 2"
+	
+	var all_nodes := get_parent().get_children()
+	for c in all_nodes: # check for existing collision node.
+		if c.name == solid_name and c.name == semi_solid_name:
+			return
+	
 	var collision_layer := TileMapLayer.new()
-	collision_layer.name 		= "layer - collision"
-	collision_layer.z_index 	= 100
+	collision_layer.name 		= solid_name
+	collision_layer.z_index 	= 1000
 	add_sibling.call_deferred(collision_layer, true)
 	collision_layer.set_owner.call_deferred( get_parent() )
 	
-	var all_nodes := get_parent().get_children()
+	var semi_collision_layer := TileMapLayer.new()
+	semi_collision_layer.name 		= semi_solid_name
+	semi_collision_layer.z_index 	= 1000
+	add_sibling.call_deferred(semi_collision_layer, true)
+	semi_collision_layer.set_owner.call_deferred( get_parent() )
+	
 	print( "Total of %s nodes." % str(all_nodes.size() ) )
 	#print(all_nodes)
-	var col_nodes := Array()
-	var warn_nodes := Array()
+	var col_nodes 		:= Array()
+	var semi_col_nodes 	:= Array()
+	var warn_nodes 		:= Array()
 	for n in all_nodes:
 		#if n is Marker2D:
-		if n.name.contains("o_solid"):
+		if n.name.contains(col_object_name):
 			col_nodes.append(n)
+		elif n.name.contains(semicol_object_name) and not n.name.contains("_tri"):
+			semi_col_nodes.append(n)
 		else:
 			for obj : String in col_object_warn:
 				if n.name.contains( obj ):
@@ -115,6 +135,8 @@ func collision():
 	print("writing changes...")
 	collision_layer.clear()
 	collision_layer.tile_set 	= load( "res://barkley2/resources/collision_tileset.tres" )
+	semi_collision_layer.clear()
+	semi_collision_layer.tile_set 	= load( "res://barkley2/resources/collision_tileset.tres" )
 	
 	for col in col_nodes:
 		var pos 		:= col.global_position as Vector2i
@@ -131,10 +153,29 @@ func collision():
 				var target := Vector2i( local_pos.x + x, local_pos.y + y )
 				collision_layer.set_cell( target, 25, Vector2i( 0, 0 ), 0)
 				
+	for col in semi_col_nodes:
+		var pos 		:= col.global_position as Vector2i
+		var local_pos 	:= collision_layer.local_to_map( pos )
+		var size_x 		:= col.get_meta("scale").x as int
+		var size_y 		:= col.get_meta("scale").y as int
+		
+		print("pos ",pos)
+		print("local ",local_pos)
+		print(" ")
+		
+		for x in size_x:
+			for y in size_y:
+				var target := Vector2i( local_pos.x + x, local_pos.y + y )
+				semi_collision_layer.set_cell( target, 25, Vector2i( 2, 2 ), 0)
+				
 	if remove_nodes:
 		for n in col_nodes:
 			n.queue_free()
 		col_nodes.clear()
+		for n in semi_col_nodes:
+			n.queue_free()
+		semi_col_nodes.clear()
+		
 	print("Task done.")
 	print_rich("[color=pink] Warning nodes are %s.[/color]" % str(warn_nodes) )
 
@@ -191,6 +232,14 @@ func fuck_around_with_nodes():
 	for c : Marker2D in all_nodes:
 		var real_name : String = c.name.split(" - ", false, 1)[ 1 ] 
 		var scene_path := ""
+		
+		var skip := false
+		for exceptions : String in known_packed_scenes_exceptions:
+			if real_name.begins_with( exceptions ):
+				print( "Node %s skipped." % real_name )
+				skip = true
+				break
+		if skip: continue
 		
 		# Look for valid scene
 		for s : String in p_scenes:

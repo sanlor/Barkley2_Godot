@@ -30,31 +30,31 @@ var room_folder 	:= "res://barkley2/rooms/"
 var room_load_lock	:= false # disallow loading a new room defore the current one finishes loading
 
 var room_array := [ # need a better way to do this.
-	# Menus, non gameplay
-	"res://barkley2/rooms/r_title.tscn",
-	"res://barkley2/rooms/r_cc.tscn",
-	"res://barkley2/rooms/r_wip.tscn",
-	
-	# Actual rooms
-	
-	## Tutorial - Factory 2nd floor
-	"res://barkley2/rooms/factory/floor2/r_fct_accessHall01.tscn",
-	"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
-	"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
-	"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
-	"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
-	"res://barkley2/rooms/factory/outside/r_fct_factoryOutpost01.tscn",
-	
-	## AIR
-	"res://barkley2/rooms/ai_ruins/r_air_boss01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_cloister01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_corridor01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_dais01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_entrance03.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_filler01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_finalgun01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_scannerFirst01.tscn",
-	"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn", ## main debug room
+	## Menus, non gameplay
+	#"res://barkley2/rooms/r_title.tscn",
+	#"res://barkley2/rooms/r_cc.tscn",
+	#"res://barkley2/rooms/r_wip.tscn",
+	#
+	## Actual rooms
+	#
+	### Tutorial - Factory 2nd floor
+	#"res://barkley2/rooms/factory/floor2/r_fct_accessHall01.tscn",
+	#"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
+	#"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
+	#"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
+	#"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
+	#"res://barkley2/rooms/factory/outside/r_fct_factoryOutpost01.tscn",
+	#
+	### AIR
+	#"res://barkley2/rooms/ai_ruins/r_air_boss01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_cloister01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_corridor01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_dais01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_entrance03.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_filler01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_finalgun01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_scannerFirst01.tscn",
+	#"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn", ## main debug room
 ]
 var room_index := {}
 var room_scene : PackedScene
@@ -69,6 +69,8 @@ var room_transition_layer: 	ColorRect
 var room_progress_bar: 		ProgressBar
 
 func _index_rooms():
+	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "*.tscn", true )
+	
 	for r : String in room_array:
 		var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn")
 		room_index[r_name] = r

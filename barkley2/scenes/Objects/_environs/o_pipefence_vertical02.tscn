@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://buprahe4mrqk2"]
+
+[ext_resource type="Texture2D" uid="uid://bemfd8lbgyy7h" path="res://barkley2/assets/b2_original/images/merged/s_pipefence_vertical02.png" id="1_k24rc"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_mlwar"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y28ro"]
+atlas = ExtResource("1_k24rc")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dcc7f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y28ro")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_keuch"]
+radius = 9.0
+
+[node name="o_pipefence_vertical02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_dcc7f")
+centered = false
+offset = Vector2(-16, -48)
+script = ExtResource("2_mlwar")
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "3",
+"bbox_right": "27",
+"bbox_top": "12",
+"height": "64",
+"name": "s_pipefence_vertical02",
+"width": "32",
+"xorig": "16",
+"yorigin": "48"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, 5)
+shape = SubResource("CircleShape2D_keuch")

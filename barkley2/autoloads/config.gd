@@ -183,8 +183,8 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )
 	#var json := JSON.new()
 	savefile.store_string( JSON.stringify( usersavefile ) )
-	
 	savefile.close()
+	print_rich( "[color=blue]Game savedusing slot %s.[/color]" % slot )
 	
 func delete_user_save_data( slot : int ): # Should be used on the title screen.
 	assert( slot >= 0 or slot <= 2)

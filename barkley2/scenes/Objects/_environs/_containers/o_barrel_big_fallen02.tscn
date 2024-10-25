@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dro3r4ifn5fex"]
+[gd_scene load_steps=7 format=3 uid="uid://dro3r4ifn5fex"]
 
 [ext_resource type="Texture2D" uid="uid://budjruk7bbs4h" path="res://barkley2/assets/b2_original/images/merged/s_barrel_big_fallen02.png" id="1_aabaw"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_3qbi0"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_25hqh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxv4r"]
 atlas = ExtResource("1_aabaw")
@@ -25,12 +25,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_60ees"]
+radius = 15.0333
+
 [node name="o_barrel_big_fallen02" type="AnimatedSprite2D"]
 position = Vector2(413, 848)
 sprite_frames = SubResource("SpriteFrames_yh0h4")
 centered = false
 offset = Vector2(-13, -16)
-script = ExtResource("2_3qbi0")
+script = ExtResource("2_25hqh")
 metadata/default = {
 "bbox_bottom": "32",
 "bbox_left": "2",
@@ -42,3 +45,8 @@ metadata/default = {
 "xorig": "13",
 "yorigin": "16"
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_60ees")

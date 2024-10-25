@@ -27,7 +27,8 @@ var astar_valid_tiles := Array() # used for debug
 @export var astar_diagonal 				:= AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 
 @export_category("Room")
-@export var collision_layer : TileMapLayer
+@export var collision_layer 		: TileMapLayer
+@export var collision_layer_semi 	: TileMapLayer
 
 @export_category("Room Options")
 @export var play_room_music				:= true
@@ -54,6 +55,8 @@ func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
+	if is_instance_valid(collision_layer_semi):
+		collision_layer_semi.hide()
 	if play_room_music:
 		ready.connect( _play_room_music )
 		
@@ -96,9 +99,14 @@ func _init_pathfind():
 			if not is_instance_valid( collision_layer ):
 				if c.name == "layer - collision":
 					collision_layer = c
-				
+					
+			if not is_instance_valid( collision_layer_semi ):
+				if c.name == "layer - collision 2":
+					collision_layer = c
+					
 	assert( not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff" )
 	assert( is_instance_valid(collision_layer), "No collision avaiable for the pathfinding stuff" )
+	
 	
 	astar = AStarGrid2D.new()
 	
@@ -151,6 +159,11 @@ func _update_pathfind():
 	# update data from collision layer
 	for tile in collision_layer.get_used_cells():
 		astar.set_point_solid( tile, true )
+	
+	# update data from collision layer ( Semi solid )
+	if is_instance_valid( collision_layer_semi ):
+		for tile in collision_layer_semi.get_used_cells():
+			astar.set_point_solid( tile, true )
 			
 	if show_pathfind_info:
 		astar_valid_tiles.clear()

@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cnqr8nqcy746m"]
+[gd_scene load_steps=12 format=3 uid="uid://cnqr8nqcy746m"]
 
 [ext_resource type="Texture2D" uid="uid://bls4lkrvdrx0r" path="res://barkley2/assets/b2_original/images/merged/s_junkpile_small01.png" id="1_7dgle"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_gjhbm"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_477lf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g8srr"]
 atlas = ExtResource("1_7dgle")
@@ -51,21 +51,32 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xx1be")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rt4xp")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt4xp")
+}],
+"loop": true,
+"name": &"shadow",
+"speed": 5.0
 }]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e2hfe"]
+radius = 19.2
 
 [node name="o_junkpile_small01" type="AnimatedSprite2D"]
 position = Vector2(8, 700)
 sprite_frames = SubResource("SpriteFrames_evxg7")
 centered = false
 offset = Vector2(0, -36)
-script = ExtResource("2_gjhbm")
+script = ExtResource("2_477lf")
+limit_frame_range = true
+limit_frame_end = 5
+cast_shadow = true
 metadata/default = {
 "bbox_bottom": "64",
 "bbox_left": "2",
@@ -77,3 +88,9 @@ metadata/default = {
 "xorig": "0",
 "yorigin": "36"
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(24, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_e2hfe")

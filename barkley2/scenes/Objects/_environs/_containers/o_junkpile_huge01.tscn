@@ -1,7 +1,31 @@
-[gd_scene load_steps=18 format=3 uid="uid://b52jv22aa4uea"]
+[gd_scene load_steps=19 format=3 uid="uid://b52jv22aa4uea"]
 
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="1_cfnsd"]
 [ext_resource type="Texture2D" uid="uid://elr7ctbq22c8" path="res://barkley2/assets/b2_original/images/merged/s_junkpile_huge01.png" id="1_lb86l"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_wcb1x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_coo8i"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1008, 0, 144, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38n8e"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1152, 0, 144, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7y1k"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1296, 0, 144, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_247m6"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1440, 0, 144, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6k7n"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1584, 0, 144, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f23hk"]
+atlas = ExtResource("1_lb86l")
+region = Rect2(1728, 0, 144, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1ij1"]
 atlas = ExtResource("1_lb86l")
@@ -31,36 +55,35 @@ region = Rect2(720, 0, 144, 192)
 atlas = ExtResource("1_lb86l")
 region = Rect2(864, 0, 144, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_coo8i"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1008, 0, 144, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_38n8e"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1152, 0, 144, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p7y1k"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1296, 0, 144, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_247m6"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1440, 0, 144, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f6k7n"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1584, 0, 144, 192)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f23hk"]
-atlas = ExtResource("1_lb86l")
-region = Rect2(1728, 0, 144, 192)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ibovd"]
 atlas = ExtResource("1_lb86l")
 region = Rect2(1872, 0, 144, 192)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7xykj"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_coo8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38n8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7y1k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_247m6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6k7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f23hk")
+}],
+"loop": true,
+"name": &"base",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p1ij1")
@@ -82,35 +105,38 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wpioe")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_coo8i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_38n8e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p7y1k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_247m6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f6k7n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f23hk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ibovd")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ibovd")
+}],
+"loop": true,
+"name": &"shadow",
+"speed": 5.0
 }]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1xknr"]
+radius = 45.0
+height = 124.0
 
 [node name="o_junkpile_huge01" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_7xykj")
+frame = 5
 centered = false
 offset = Vector2(0, -112)
-script = ExtResource("1_cfnsd")
+script = ExtResource("2_wcb1x")
+limit_frame_range = true
+limit_frame_end = 6
+cast_shadow = true
+draw_base = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(71, 7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_1xknr")
