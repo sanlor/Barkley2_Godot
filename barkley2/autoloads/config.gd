@@ -20,7 +20,11 @@ const PAUSE_LAYER	:= 2800 # Pause screen
 const NOTICE_LAYER	:= 2600 # "You got pistol"
 const DIALOG_LAYER	:= 2400 # Dialog Boxes
 const EFFECTATMO_LAYER	:= 2400 # Dialog Boxes
+const HUD_LAYER		:= 2000 # Inventory, etc
 const GUI_LAYER		:= 2000 # Inventory, etc
+
+# Dialog stuff
+var dialogY := 140.0
 
 # Used by the B2_RoomXY autoload
 var settingFadeIn 		:= 0.25;

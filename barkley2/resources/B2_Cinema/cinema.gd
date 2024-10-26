@@ -437,11 +437,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					# basically, this just executes funciones on the fly.
 					var event_object = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
 					if event_object != null:
-						if not event_object.has_method( "execute_event_user_" + parsed_line[2] ):
+						var event_id := int(parsed_line[2]) # had some issues with empty spaces here. Now, string > int > string
+						if not event_object.has_method( "execute_event_user_%s" % event_id ):
 							# node has no execute_event_user_n method. remember to add it
-							push_error( "Node %s has no execute_event_user_%s method. remember to add it" % [parsed_line[1],parsed_line[2]] )
+							push_error( "Node %s has no 'execute_event_user_%s' method. remember to add it" % [ parsed_line[1], event_id ] )
 						else:
-							event_object.call( "execute_event_user_" + parsed_line[2] )
+							event_object.call( "execute_event_user_%s" % event_id )
+							if "wait_anim" in event_object: # certain nodes can run a stupid animation and need to wait for it to finish. 
+								if event_object.wait_anim:
+									if event_object.has_signal("event_finished"):
+										print("waiting for event %s signal from node %s." % [event_id, event_object])
+										await event_object.event_finished # Dont forget to emit the signal after every event user.
+									else:
+										push_error("Whops! you forgoto to add the signal to the node, dumbass.")
+									
 					else:
 						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + " not found.")
 					
@@ -629,9 +638,10 @@ func cleanup_line( line : String ) -> PackedStringArray:
 	# Cleanup
 	for i in range( parsed_line.size() ):
 		parsed_line[i] = parsed_line[i].strip_edges( true, true )
-		if parsed_line[i].is_empty(): ## Avoid issues with emty lines after trimming.
+		if parsed_line[i].is_empty(): ## Avoid issues with emtpy lines after trimming.
 			continue
-		parsed_line[i] = parsed_line[i].split("//", false, 1)[0] ## Strip comments
+		parsed_line[i] = parsed_line[i].split("//", false, 1)[ 0 ] ## Strip comments
+		parsed_line[i].strip_edges( true, true ) ## cleanup for empty spaces
 	return parsed_line
 
 func parse_if( line : String ) -> bool:
@@ -743,8 +753,14 @@ func Misc( parsed_line :PackedStringArray ):
 		"backwards":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"dialogY":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+			B2_Config.dialogY = float( parsed_line[ 2 ] )
+			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"dnaCyber":
+			## change player status to be more Cyyyyyber. 
+			#var amt = real(argument[1]);
+ 			#scr_savedata_put("player.humanism.bio", scr_savedata_get("player.humanism.bio") - amt);
+ 			#scr_savedata_put("player.humanism.cyber", scr_savedata_get("player.humanism.cyber") + amt);
+			print_rich("[color=orange]Player Humanism changed ( %s )! Too bad it doesnt do anything yet.[/color]" % parsed_line[ 2 ])
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"manchurian":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )

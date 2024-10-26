@@ -5,6 +5,8 @@ class_name B2_ROOMS
 ## WARNING Pathfinding sucks. it has many issues related to the starting and finish positions.
 ## Maybe improve AstarGrid2D resolution?
 
+const O_HUD = preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
+
 signal permission_changed
 signal pacify_changed( activated : bool )
 
@@ -31,6 +33,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var collision_layer_semi 	: TileMapLayer
 
 @export_category("Room Options")
+@export var enable_hud					:= true
 @export var play_room_music				:= true
 @export var room_music_name				:= ""
 @export var room_pacify 				:= true # Player cant draw weapons.
@@ -50,6 +53,7 @@ var astar_pos_offset := Vector2i(8,8)
 var obstacles 			:= []
 
 var room_size := Vector2.ZERO
+var hud_node
 
 func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
@@ -59,7 +63,9 @@ func _enter_tree() -> void:
 		collision_layer_semi.hide()
 	if play_room_music:
 		ready.connect( _play_room_music )
-		
+	if enable_hud:
+		hud_node = O_HUD.instantiate()
+		add_child( hud_node, true )
 	y_sort_enabled = true
 
 func set_pacify( state : bool ):

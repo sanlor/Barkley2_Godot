@@ -108,6 +108,7 @@ var is_talking		:= false
 
 func _ready() -> void:
 	layer = B2_Config.DIALOG_LAYER
+	_draw_y = B2_Config.dialogY
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()

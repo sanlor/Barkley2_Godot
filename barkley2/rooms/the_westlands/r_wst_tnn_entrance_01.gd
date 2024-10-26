@@ -10,6 +10,8 @@ func _ready() -> void:
 	
 	await get_tree().process_frame
 	
+	B2_Playerdata.Quest("hoopzGetup", 3)
+	
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
 		if B2_Playerdata.Quest("hoopzGetup") > 0:
 			B2_CManager.play_cutscene( cutscene_script, self, true )
