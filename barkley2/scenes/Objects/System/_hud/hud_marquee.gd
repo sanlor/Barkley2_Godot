@@ -1,4 +1,3 @@
-@tool
 extends ColorRect
 
 @onready var hud_marquee_text: Label = $hud_marquee_text

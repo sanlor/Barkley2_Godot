@@ -51,21 +51,26 @@ func _enter_tree() -> void:
 		if not is_instance_valid(mouse_detection_area):
 			## Lazy X3 - Forgot to set on the Export.
 			mouse_detection_area = get_node("ActorInteract")
-			
+			print("Forgot to set the interaction Area2D for node %s." % name)
+		
 		await get_tree().process_frame
-		mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
-		mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
+		if is_instance_valid(mouse_detection_area):
+			mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
+			mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
 		
 		if resize_mouse_detection_area:
-			var s = ActorAnim.sprite_frames.get_frame_texture( ActorAnim.animation, 0 ).get_size()
-			if mouse_detection_area.get_child(0).shape is RectangleShape2D:
-				mouse_detection_area.get_child(0).shape.size = s # what a mess
-				
-			elif mouse_detection_area.get_child(0).shape is CircleShape2D:
-				mouse_detection_area.get_child(0).shape.radius = interactive_distance # what a mess
+			if is_instance_valid(ActorAnim.sprite_frames):
+				var s = ActorAnim.sprite_frames.get_frame_texture( ActorAnim.animation, 0 ).get_size()
+				if mouse_detection_area.get_child(0).shape is RectangleShape2D:
+					mouse_detection_area.get_child(0).shape.size = s # what a mess
+					
+				elif mouse_detection_area.get_child(0).shape is CircleShape2D:
+					mouse_detection_area.get_child(0).shape.radius = interactive_distance # what a mess
+				else:
+					push_error("%s has some issues related to mouse detection.")
+					breakpoint
 			else:
-				push_error("%s has some issues related to mouse detection.")
-				breakpoint
+				push_error( "Sprite Frames not valid for %s." % name )
 		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
 		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 		material = shader

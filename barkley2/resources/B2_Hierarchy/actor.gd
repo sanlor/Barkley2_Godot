@@ -1,5 +1,5 @@
-#extends CharacterBody2D
-extends Node2D
+extends CharacterBody2D
+#extends Node2D
 class_name B2_Actor
 
 signal sprite_offset_centered

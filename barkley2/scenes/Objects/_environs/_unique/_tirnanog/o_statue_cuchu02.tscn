@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://du1c5otex4f0m"]
+
+[ext_resource type="Texture2D" uid="uid://das1pys4en41x" path="res://barkley2/assets/b2_original/images/merged/s_statue_cuchu02.png" id="1_d13tj"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_mqqom"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuo56"]
+atlas = ExtResource("1_d13tj")
+region = Rect2(0, 0, 106, 126)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6jiwh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuo56")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjf14"]
+radius = 42.4
+
+[node name="o_statue_cuchu02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_6jiwh")
+centered = false
+offset = Vector2(0, -125)
+script = ExtResource("2_mqqom")
+metadata/default = {
+"bbox_bottom": "125",
+"bbox_left": "10",
+"bbox_right": "95",
+"bbox_top": "45",
+"height": "126",
+"name": "s_statue_cuchu02",
+"width": "106",
+"xorig": "0",
+"yorigin": "125"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_mjf14")

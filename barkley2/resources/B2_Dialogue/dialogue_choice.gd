@@ -92,6 +92,7 @@ var is_talking		:= false
 
 func _ready() -> void:
 	layer = B2_Config.DIALOG_LAYER
+	_draw_y = B2_Config.dialogY
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
@@ -133,7 +134,7 @@ func add_choice( choice_text : String ) -> void:
 	my_selection_button.text = Text.pr(choice_text)
 	
 	choice_vbox_node.add_child( my_selection_button, true )
-	print(my_choice_id)
+	#print(my_choice_id)
 	if my_choice_id == 0:
 		my_selection_button.call_deferred( "grab_focus" ) 
 		change_arrow_pos.call_deferred( my_selection_button )
@@ -152,8 +153,9 @@ func change_arrow_pos( button : Button ):
 func display_choices():
 	var _text_offset := 0
 	
-	if has_portrait: 
-		_text_offset = 40 + 15 # 15 is for the arrow
+	if B2_Playerdata.Quest("NoChoicePortrait") == 0:
+		if has_portrait: 
+			_text_offset = 40 + 15 # 15 is for the arrow
 		
 	add_child( choice_node, true )
 	choice_node.follow_focus 					= true
@@ -170,8 +172,9 @@ func set_title( _text_title : String ) -> void:
 	_title 		= _text_title 	# whos speaking the text
 	
 	var _text_offset := 0
-	if has_portrait: 
-		_text_offset = 40
+	if B2_Playerdata.Quest("NoChoicePortrait") == 0: ## Some cutcenes may force the choice window to not show the portrait
+		if has_portrait: 
+			_text_offset = 40
 	
 	title_node.name 		= "Title_text"
 	title_node.position 	= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 )
@@ -182,6 +185,9 @@ func set_title( _text_title : String ) -> void:
 	title_node.pop_all()
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:
+	if B2_Playerdata.Quest("NoChoicePortrait") != 0:
+		return
+		
 	# Add the frame to the tree
 	portrait_frame_node = TextureRect.new(); add_child( portrait_frame_node, true ) 
 	

@@ -3,7 +3,7 @@
 extends Node
 class_name B2_TOOL_GML_SPRITE_CONVERTER_LITE
 
-enum TYPE{ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
+enum TYPE{PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
 
 # How to use this:
 # Add this node to an marker
@@ -18,7 +18,7 @@ enum TYPE{ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
 @export_category("Node stuff")
 @export var target						: Marker2D :
 	set( _marker ): target = _marker; sprite_name = target.name.split(" - ", false, 1)[1]; sprite_name[0] = "s"
-@export var node_type					:= TYPE.ENVIRON
+@export var node_type					:= TYPE.PROP
 @export var assume_sprite_name			:= true
 @export var sprite_name					:= ""
 @export var collision_shape				:= B2_Environ.SHAPES.CIRCLE
@@ -61,6 +61,9 @@ func lets_goooo():
 	var object : B2_Environ
 	
 	match node_type:
+		TYPE.PROP:
+			object = B2_EnvironProp.new()
+			object.shape = collision_shape
 		TYPE.ENVIRON:
 			object = B2_Environ.new()
 		TYPE.ENVIRONSOLID:
@@ -96,7 +99,7 @@ func lets_goooo():
 		else:
 			add_sibling( animatedsprite, true )
 			if lazy_mode:
-				animatedsprite.name = target_name
+				animatedsprite.name = target_name.split(" - ", false, 1)[ 1 ]
 				animatedsprite.position = Vector2.ZERO
 			else:
 				animatedsprite.name = target_name + "_Placeholder"

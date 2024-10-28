@@ -3,7 +3,7 @@ extends CanvasLayer
 class_name B2_Dialogue
 
 # DEBUG
-@export var debug := false
+@export var debug := true
 
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
@@ -219,11 +219,14 @@ func display_dialog( _is_boxless := false ):
 ## Manually add the character portraits and setup the AnimatedSprite2D
 func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
+	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
 	assert( not file_name.is_empty(), "File could not be found." )
-	assert( file_name.find("_strip") >= 0, "Weird file. Unexpected.")
-	if debug: print( "n_frames: ", int( file_name[-5] ), " ", file_name[-5] )
-	var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png. "-5" ignores the ".png" part of the files.
+	#assert( file_name.find("_strip") >= 0, "Weird file. Unexpected.")
+	@warning_ignore("integer_division")
+	var n_frames := int( spritesheet.get_width() / 34 ) ## This should return the correct amount of frames.
+	if debug: print( "n_frames: ", n_frames, " ", spritesheet.get_width() )
+	##var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png. "-5" ignores the ".png" part of the files.
 	## WARNING more than 9 frames might be an issue.
 	assert( n_frames > 0, "I warned you bro! ^^^^^^")
 	# Potraits should never have _strip0
@@ -236,8 +239,6 @@ func _load_portrait( portrait_name : String ):
 	var anim_frames := SpriteFrames.new()
 	anim_frames.add_animation( "blink" )
 	anim_frames.add_animation( "talk" )
-	
-	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
 	@warning_ignore("integer_division")
 	var d_offset := int( spritesheet.get_width() / n_frames )

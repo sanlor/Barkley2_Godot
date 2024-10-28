@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://bg17665w3nwhe"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/dwarf/o_elrond01.gd" id="1_o56es"]
+[ext_resource type="Texture2D" uid="uid://cxqypukif57nr" path="res://barkley2/assets/b2_original/images/merged/s_snoozer01.png" id="2_dpabs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63xsp"]
+atlas = ExtResource("2_dpabs")
+region = Rect2(0, 0, 30, 51)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v5h7h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63xsp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e5l40"]
+radius = 7.32113
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8l55b"]
+size = Vector2(20, 36)
+
+[node name="o_elrond01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_o56es")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_v5h7h")
+centered = false
+offset = Vector2(-13, -42)
+metadata/default = {
+"bbox_bottom": "50",
+"bbox_left": "3",
+"bbox_right": "26",
+"bbox_top": "34",
+"frames": ["images\\s_snoozer01_0.png"],
+"height": "51",
+"name": "s_snoozer01",
+"width": "30",
+"xorig": "13",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_e5l40")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_8l55b")

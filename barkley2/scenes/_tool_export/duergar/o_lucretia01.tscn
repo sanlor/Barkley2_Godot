@@ -1,0 +1,188 @@
+[gd_scene load_steps=20 format=3 uid="uid://43gct45hwrpb"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/duergar/o_lucretia01.gd" id="1_d6oh0"]
+[ext_resource type="Texture2D" uid="uid://p7b828t8hy83" path="res://barkley2/assets/b2_original/images/merged/s_lucretia01.png" id="1_i6gn0"]
+[ext_resource type="Texture2D" uid="uid://dbag82tkecutw" path="res://barkley2/assets/b2_original/images/merged/s_lucretiaNE.png" id="2_ui8v3"]
+[ext_resource type="Texture2D" uid="uid://dovi0ak0ve8n4" path="res://barkley2/assets/b2_original/images/merged/s_lucretiaSE.png" id="3_87fw2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re1s2"]
+atlas = ExtResource("1_i6gn0")
+region = Rect2(0, 0, 29, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vyi4"]
+atlas = ExtResource("1_i6gn0")
+region = Rect2(29, 0, 29, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqqlt"]
+atlas = ExtResource("1_i6gn0")
+region = Rect2(0, 0, 29, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0orw"]
+atlas = ExtResource("1_i6gn0")
+region = Rect2(29, 0, 29, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbqt5"]
+atlas = ExtResource("2_ui8v3")
+region = Rect2(0, 0, 32, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hftv"]
+atlas = ExtResource("2_ui8v3")
+region = Rect2(32, 0, 32, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kp03"]
+atlas = ExtResource("2_ui8v3")
+region = Rect2(64, 0, 32, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1rrs"]
+atlas = ExtResource("2_ui8v3")
+region = Rect2(96, 0, 32, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boo27"]
+atlas = ExtResource("3_87fw2")
+region = Rect2(0, 0, 32, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jftwv"]
+atlas = ExtResource("3_87fw2")
+region = Rect2(32, 0, 32, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_25hp1"]
+atlas = ExtResource("3_87fw2")
+region = Rect2(64, 0, 32, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aflpa"]
+atlas = ExtResource("3_87fw2")
+region = Rect2(96, 0, 32, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wun17"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re1s2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vyi4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqqlt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0orw")
+}],
+"loop": true,
+"name": &"s_lucretia01",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbqt5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hftv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kp03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1rrs")
+}],
+"loop": true,
+"name": &"s_lucretiaNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boo27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jftwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_25hp1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aflpa")
+}],
+"loop": true,
+"name": &"s_lucretiaSE",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mm5la"]
+radius = 8.91268
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxteu"]
+size = Vector2(20, 36)
+
+[node name="o_lucretia01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_d6oh0")
+duergar_name = "lucretia"
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_wun17")
+centered = false
+offset = Vector2(-15, -40)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_lucretia01_0.png", "images\\s_lucretia01_1.png"],
+"height": "46",
+"name": "s_lucretia01",
+"width": "29",
+"xorig": "15",
+"yorigin": "40"
+}
+metadata/s_lucretia01 = {
+"bbox_bottom": "45",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_lucretia01_0.png", "images\\s_lucretia01_1.png"],
+"height": "46",
+"name": "s_lucretia01",
+"width": "29",
+"xorig": "15",
+"yorigin": "40"
+}
+metadata/s_lucretiaNE = {
+"bbox_bottom": "45",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"frames": ["images\\s_lucretiaNE_0.png", "images\\s_lucretiaNE_1.png", "images\\s_lucretiaNE_2.png", "images\\s_lucretiaNE_3.png"],
+"height": "46",
+"name": "s_lucretiaNE",
+"width": "32",
+"xorig": "17",
+"yorigin": "41"
+}
+metadata/s_lucretiaSE = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"frames": ["images\\s_lucretiaSE_0.png", "images\\s_lucretiaSE_1.png", "images\\s_lucretiaSE_2.png", "images\\s_lucretiaSE_3.png"],
+"height": "42",
+"name": "s_lucretiaSE",
+"width": "32",
+"xorig": "17",
+"yorigin": "37"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mm5la")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_oxteu")

@@ -22,7 +22,7 @@ func _ready() -> void:
 	else:
 		# play the initial cutscene.
 		
-		#BodySwap("diaper");
+		B2_Playerdata.BodySwap("diaper");
 		B2_Playerdata.Quest("hudVisible", 		0);
 		B2_Playerdata.Quest("zoneVisible", 		0);
 		B2_Playerdata.Quest("dropEnabled", 		0);

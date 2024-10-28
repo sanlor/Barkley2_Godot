@@ -66,12 +66,14 @@ func hide_hud() -> void:
 	tween.tween_callback( event_finished.emit )
 
 func fade_in( element ) -> void:
-	#if is_instance_valid(tween):
-	#	tween.kill()
-	var my_tween := create_tween()
-	my_tween = create_tween()
-	my_tween.tween_property( element, "modulate:a", 1.0, 0.5 )
-	my_tween.tween_callback( event_finished.emit )
+	if is_instance_valid(tween):
+		if tween.is_running():
+			await tween.finished
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property( element, "modulate:a", 1.0, 0.5 )
+	tween.tween_interval( 0.2 )
+	tween.tween_callback( event_finished.emit )
 
 func execute_event_user_0() -> void:
 	# Hide the current hud

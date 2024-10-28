@@ -206,8 +206,8 @@ func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Arr
 
 ## Room setup
 func _setup_player_node():
-	const O_HOOPZ = preload("res://barkley2/scenes/Player/o_hoopz.tscn")
-	var player = O_HOOPZ.instantiate()
+	var o_hoopz_scene = B2_CManager.o_hoopz_scene
+	var player = o_hoopz_scene.instantiate()
 	player.position = debug_player_scene_pos
 	if b2_camera != null:
 		b2_camera.follow_mouse = true

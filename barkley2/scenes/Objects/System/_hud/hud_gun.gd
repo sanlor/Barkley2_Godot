@@ -1,4 +1,3 @@
-@tool
 extends ColorRect
 
 ## Holy shit. It has begun...

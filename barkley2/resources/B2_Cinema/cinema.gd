@@ -42,9 +42,6 @@ var object_map := {
 	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
 }
 
-const O_CTS_HOOPZ 	= preload("res://barkley2/scenes/Player/o_cts_hoopz.tscn")
-const O_HOOPZ 		= preload("res://barkley2/scenes/Player/o_hoopz.tscn")
-
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
 var camera						: Camera2D
@@ -96,7 +93,7 @@ func load_hoopz_actor():
 			n.queue_free()
 	# if real is loaded, load fake hoopz.
 	if not is_instance_valid(B2_CManager.o_cts_hoopz): 
-		B2_CManager.o_cts_hoopz = O_CTS_HOOPZ.instantiate()
+		B2_CManager.o_cts_hoopz = B2_CManager.o_cts_hoopz_scene.instantiate()
 		
 	if is_instance_valid(B2_CManager.o_hoopz):
 		B2_CManager.o_cts_hoopz.position 	= B2_CManager.o_hoopz.position
@@ -128,7 +125,7 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 			
 	# if fake is loaded, load real hoopz.
 	if not is_instance_valid(B2_CManager.o_hoopz):
-		B2_CManager.o_hoopz = O_HOOPZ.instantiate()
+		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate()
 		
 	if is_instance_valid(B2_CManager.o_cts_hoopz):
 		B2_CManager.o_hoopz.position = B2_CManager.o_cts_hoopz.position
@@ -752,8 +749,11 @@ func Misc( parsed_line :PackedStringArray ):
 			
 		"backwards":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-		"dialogY":
-			B2_Config.dialogY = float( parsed_line[ 2 ] )
+		"dialogY": # Looks like this is used only in the tutorial
+			if float( parsed_line[ 2 ] ) == -1:
+				B2_Config.dialogY = 140.0
+			else:
+				B2_Config.dialogY = float( parsed_line[ 2 ] )
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"dnaCyber":
 			## change player status to be more Cyyyyyber. 

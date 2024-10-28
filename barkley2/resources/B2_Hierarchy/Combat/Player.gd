@@ -1,6 +1,6 @@
-#extends CharacterBody2D
 extends B2_PlayerCombatActor
 class_name B2_Player
+
 
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
 # Not being able to debug the original game makes this harder.
@@ -55,10 +55,6 @@ const COMBAT_WALK_SW		:= "walk_SW"
 const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
-# Handle costume / body changes
-enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
-var curr_BODY := BODY.HOOPZ
-
 enum STATE{NORMAL,ROLL,AIM}
 var curr_STATE := STATE.NORMAL :
 	set(s) : 
@@ -79,7 +75,7 @@ var velocity			:= Vector2.ZERO
 var walk_speed			:= 80000
 var roll_impulse		:= 1000000
 var walk_damp			:= 10.0
-var roll_damp			:= 3.0
+var roll_damp			:= 2.5
 
 ## Debug
 var debug_line : Vector2
@@ -411,7 +407,8 @@ func _physics_process(delta: float) -> void:
 					linear_damp = roll_damp
 					hoopz_normal_body.play( ROLL )
 					var roll_dir 	: Vector2
-					var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+					#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+					var input 		:= Input.get_vector("Left","Right","Up","Down")
 					if input != Vector2.ZERO:
 						roll_dir 	= input
 					else:
@@ -441,29 +438,3 @@ func _physics_process(delta: float) -> void:
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_impulse( velocity )
-
-func _on_combat_actor_entered(body: Node) -> void:
-	if body is B2_CombatActor:
-		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 75.0 ) ## Debug setup
-
-# handle step sounds
-func _on_hoopz_upper_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0
-
-func _on_combat_lower_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0

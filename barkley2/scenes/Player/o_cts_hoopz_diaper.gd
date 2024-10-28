@@ -1,5 +1,4 @@
-extends B2_InteractiveActor
-class_name B2_InteractiveActor_Player
+extends B2_InteractiveActor_Player
 # Cutscene version of hoopz.
 # check scr_event_hoopz_switch_cutscene()
 

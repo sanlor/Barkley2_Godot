@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=3 uid="uid://cm02gfex41gr0"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz_normal.gd" id="1_dvmm0"]
+[ext_resource type="Texture2D" uid="uid://cqkmb88d18yj8" path="res://barkley2/assets/b2_original/images/merged/s_lensflare_mod.png" id="2_jjsg6"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_Shadow.gd" id="3_tkxnf"]
+[ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_1qnxd"]
+[ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="5_qxiei"]
+[ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="6_u8bon"]
+[ext_resource type="SpriteFrames" uid="uid://dh4nk0fc64erw" path="res://barkley2/resources/Player/combat_arm_back_normal.tres" id="7_grlyk"]
+[ext_resource type="SpriteFrames" uid="uid://d1m3bdwt0blc0" path="res://barkley2/resources/Player/combat_upper_body_normal.tres" id="8_yicst"]
+[ext_resource type="SpriteFrames" uid="uid://dgnkrv5sdn82d" path="res://barkley2/resources/Player/combat_weapon.tres" id="9_effw1"]
+[ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="10_7qowe"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g0dal"]
+friction = 0.5
+bounce = 0.25
+absorbent = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
+
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "hoopz_normal_body", "step_smoke")]
+mass = 70.0
+physics_material_override = SubResource("PhysicsMaterial_g0dal")
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 2
+linear_damp = 10.0
+script = ExtResource("1_dvmm0")
+combat_upper_sprite = NodePath("combat_upper_body")
+combat_lower_sprite = NodePath("combat_lower_body")
+combat_arm_back = NodePath("combat_arm_back")
+combat_arm_front = NodePath("combat_arm_front")
+combat_weapon = NodePath("combat_weapon")
+ROLL = "hoopz_gooroll"
+hoopz_normal_body = NodePath("hoopz_normal_body")
+step_smoke = NodePath("step_smoke")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="o_Shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.25)
+scale = Vector2(0.5, 0.25)
+texture = ExtResource("2_jjsg6")
+script = ExtResource("3_tkxnf")
+
+[node name="hoopz_collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_aubae")
+
+[node name="step_smoke" parent="." instance=ExtResource("4_1qnxd")]
+position = Vector2(0, -1)
+amount = 30
+
+[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
+visible = false
+y_sort_enabled = true
+sprite_frames = ExtResource("5_qxiei")
+animation = &"hoopz_gooroll"
+speed_scale = 1.5
+centered = false
+offset = Vector2(-22, -41)
+
+[node name="aim_origin" type="Marker2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("6_u8bon")
+animation = &"walk_W"
+centered = false
+offset = Vector2(-22, -42)
+
+[node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("7_grlyk")
+centered = false
+offset = Vector2(-22, -41)
+
+[node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("8_yicst")
+animation = &"aim"
+centered = false
+offset = Vector2(-22, -41)
+
+[node name="combat_weapon" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -18)
+sprite_frames = ExtResource("9_effw1")
+animation = &"Pistol"
+offset = Vector2(18, 0)
+
+[node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("10_7qowe")
+centered = false
+offset = Vector2(-22, -41)
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
+
+[connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
+[connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]
+[connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

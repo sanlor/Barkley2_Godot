@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://clyrf2cdn6lhw"]
+
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="1_mpsk3"]
+[ext_resource type="Texture2D" uid="uid://ormg5h30ev31" path="res://barkley2/assets/b2_original/images/merged/s_tv_anim.png" id="1_q7fcd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fi3u"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(96, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4i8s"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(144, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8ew2"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nuya0"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(48, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n2op"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(288, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pc15m"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(192, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xsht"]
+atlas = ExtResource("1_q7fcd")
+region = Rect2(240, 0, 48, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jjucp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fi3u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4i8s")
+}],
+"loop": true,
+"name": &"beach",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8ew2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nuya0")
+}],
+"loop": true,
+"name": &"face",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n2op")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pc15m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xsht")
+}],
+"loop": true,
+"name": &"sunset",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cor8x"]
+size = Vector2(48, 76)
+
+[node name="o_tv" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_jjucp")
+animation = &"beach"
+centered = false
+offset = Vector2(-22, -73)
+script = ExtResource("1_mpsk3")
+mouse_detection_area = NodePath("ActorInteract")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(2, -38)
+shape = SubResource("RectangleShape2D_cor8x")

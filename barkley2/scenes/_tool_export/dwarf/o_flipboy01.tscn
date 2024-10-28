@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://dmlo8mdyncrrn"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/dwarf/o_flipboy01.gd" id="1_0y1jv"]
+[ext_resource type="Texture2D" uid="uid://bwfj78e2q8y6t" path="res://barkley2/assets/b2_original/images/merged/s_flipboy01.png" id="2_1leen"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrwk5"]
+atlas = ExtResource("2_1leen")
+region = Rect2(0, 0, 22, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ml703"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrwk5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_no04j"]
+radius = 6.3662
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ia76q"]
+size = Vector2(20, 36)
+
+[node name="o_flipboy01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_0y1jv")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ml703")
+centered = false
+offset = Vector2(-10, -30)
+metadata/default = {
+"bbox_bottom": "36",
+"bbox_left": "1",
+"bbox_right": "21",
+"bbox_top": "23",
+"frames": ["images\\s_flipboy01_0.png"],
+"height": "37",
+"name": "s_flipboy01",
+"width": "22",
+"xorig": "10",
+"yorigin": "30"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_no04j")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_ia76q")
