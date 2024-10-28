@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://c36mk7yu36ebs"]
+
+[ext_resource type="Texture2D" uid="uid://dhcx3tuqtxn3k" path="res://barkley2/assets/b2_original/images/merged/s_fence02.png" id="1_8pod7"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_hy0te"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfil6"]
+atlas = ExtResource("1_8pod7")
+region = Rect2(0, 0, 16, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c0ywy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfil6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fence02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_c0ywy")
+centered = false
+offset = Vector2(0, -63)
+script = ExtResource("2_hy0te")
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "7",
+"bbox_top": "0",
+"height": "64",
+"name": "s_fence02",
+"width": "16",
+"xorig": "0",
+"yorigin": "63"
+}
