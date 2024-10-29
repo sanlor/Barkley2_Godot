@@ -60,7 +60,7 @@ var room_index := {}
 var room_scene : PackedScene
 var room_is_invalid := false
 
-var player_scene := "res://barkley2/scenes/Player/o_hoopz.tscn"
+#var player_scene := "res://barkley2/scenes/Player/o_hoopz.tscn"
 
 const ROOM_PROGRESS_BAR 		= preload("res://barkley2/resources/autoloads/room_progress_bar.tscn")
 const ROOM_TRANSITION_LAYER 	= preload("res://barkley2/resources/autoloads/room_transition_layer.tscn")
@@ -206,7 +206,9 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if pos == Vector2.ZERO:
 		return
 		
-	var player_node := load( player_scene ).instantiate() as B2_Player
+	var player_scene 	:= B2_CManager.o_hoopz_scene
+	var player_node 	:= player_scene.instantiate() as B2_Player
+	
 	player_node.position = pos
 	get_tree().current_scene.add_child( player_node, true )
 	if add_camera:

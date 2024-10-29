@@ -185,11 +185,6 @@ region = Rect2(90, 0, 30, 38)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hxwjb"]
 animations = [{
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vo8dh")
@@ -396,7 +391,9 @@ material = ExtResource("1_juwr6")
 script = ExtResource("2_v4bgg")
 mouse_detection_area = NodePath("ActorInteract")
 resize_mouse_detection_area = false
+debug_check_movement_vector = true
 ActorAnim = NodePath("ActorAnim")
+flip_h = true
 ActorCol = NodePath("ActorCol")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
@@ -404,8 +401,10 @@ use_parent_material = true
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_hxwjb")
 animation = &"s_babalugats01"
+frame = 1
 centered = false
 offset = Vector2(-11, -35)
+flip_h = true
 metadata/s_babalugats01 = {
 "bbox_bottom": "39",
 "bbox_left": "2",
@@ -555,6 +554,7 @@ metadata/hurt = {
 shape = SubResource("CircleShape2D_b0uu1")
 
 [node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_0f1lg")

@@ -1,0 +1,196 @@
+[gd_scene load_steps=8 format=3 uid="uid://bm0gwagwyw0vq"]
+
+[ext_resource type="Texture2D" uid="uid://dam7nw33w72op" path="res://barkley2/assets/b2_original/images/merged/s_cuchulainnPlaque01.png" id="1_2ny8q"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_vxy8h"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_5t7wa"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq51d"]
+atlas = ExtResource("1_2ny8q")
+region = Rect2(0, 0, 32, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xon2c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq51d")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_pvshe"]
+script = ExtResource("3_5t7wa")
+original_script = "IF govQuest >= 6 | IF govBomb >= 2 | GOTO | POST_SPEECH
+IF govQuest >= 6 | GOTO | DESCRIPTION
+IF govBomb >= 2  | GOTO | BOMBING_MISSION
+GOTO | DESCRIPTION
+
+DESCRIPTION
+DIALOG  | Plaque | The Great Dwarf War Hero Cuchulainn. Commemorated by the Great Dwarf War Hero Cuchulainn in His own likeness. Most dwarfs immediatly recognize that Cuchulainn looks JUST LIKE THEM! Reminder: Vandalism of the Great Dwarf War Hero Cuchulainn is a criminal offense. 
+
+BOMBING_MISSION
+IF body == governor | GOTO | GOVERNOR
+IF govQuest <= 3    | GOTO | PRE_SPEECH
+GOTO | POST_SPEECH
+
+GOVERNOR
+DIALOG | Governor Elagabalus | (Pvt. Madison wanted me to place the bomb here and have it explode during the governor's speech. That plan was completely bonkers!)
+
+PRE_SPEECH
+IF @Bomb@ <= 0 | GOTO | NO_MORE_BOMBS
+IF @Bomb@ >= 1 | GOTO | GOT_SOME_BOMBS
+
+POST_SPEECH
+DIALOG | P_NAME | (This is the plaque  Madison told me about. She wanted me to place the bomb here and detonate it during the Governor's speech, but the speech is already over... I don't think it would do any good now.)
+
+NO_MORE_BOMBS
+DIALOG | P_NAME | (This is the plaque Pvt. Madison told me about. I'm supposed to place the bomb here... but I don't have anymore. Maybe I shouldn't have been such a bomb-glutton...)
+
+GOT_SOME_BOMBS
+DIALOG | P_NAME | (This is the plaque Pvt. Madison told me about. I'm supposed to place the bomb here...)
+Duergar | alive | onslow
+IF duergar == alive | GOTO | ONSLOW_ALIVE
+GOTO   | BOMB_CHOICE
+
+ONSLOW_ALIVE
+MOVETO | o_cts_hoopz | cornerx | MOVE_SLOW
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 1
+FRAME  | CAMERA_NORMAL | o_onslow01
+WAIT   | 0
+WAIT   | 3
+WAIT   | 0
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+WAIT   | 2.5
+WAIT   | 0
+DIALOG | P_NAME | (I'm pretty sure that Duergar can't see me from here. If I wanna do it, now's my chance...)
+GOTO   | BOMB_CHOICE
+
+BOMB_CHOICE
+CHOICE | Place the bomb in the statue?
+REPLY  | BLOW_IT  | Let's blow it to smithereens.
+REPLY  | SPARE_IT | I think I'll pass on blowing this up.
+
+BLOW_IT
+ITEM   | Bomb | -1
+DIALOG | P_NAME | (Let's blow this sucker to smithereens!)
+MOVETO | o_cts_hoopz | o_cinema7 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+USEAT  | NORTH
+WAIT   | 0.5
+DIALOG | P_NAME | (Hm... this thing is kind of tricky to get off. I thought she was supposed to have loosened it...)
+WAIT   | 0.75
+WAIT   | 0
+USEAT  | NORTH
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 1
+DIALOG | P_NAME         | (What the heck! It's like it's welded on!)
+CREATE | o_lafferty01   | 88 | 376
+CREATE | o_dozier01     | 544 | 312
+CREATE | o_vikingstad01 | 568 | 512
+LOOK   | o_lafferty01   | SOUTHEAST
+LOOK   | o_dozier01     | SOUTHWEST
+LOOK   | o_vikingstad01 | NORTHWEST
+WAIT   | 0.5
+FRAME  | CAMERA_FAST | o_lafferty01
+WAIT   | 0
+WAIT   | 0.25
+PEDESTRIAN | off
+LOOK   | o_cts_hoopz    | WEST
+DIALOG | Lafferty       | You there! Halt at once!
+FRAME  | CAMERA_FAST    | o_cts_hoopz
+WAIT   | 0
+SURPRISEAT | o_lafferty01
+DIALOG | P_NAME = s_port_hoopzSurprise | H-huh!? Oh no...!
+MOVETO | o_lafferty01   | o_cinema4 | MOVE_NORMAL
+MOVETO | o_dozier01     | o_cinema5 | MOVE_NORMAL
+\" +
+//TODO: check the duergars and edit these properly
+\"
+SURPRISEAT | o_dozier01
+MOVETO | o_vikingstad01 | o_cinema6 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz    | EAST
+LOOK   | o_lafferty01   | EAST
+LOOK   | o_dozier01     | SOUTHWEST
+LOOK   | o_vikingstad01 | WEST
+DIALOG | Dozier        | Our informant was indeed correct!
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_vikingstad01
+WAIT   | 0
+DIALOG | Vikingstad    | Yes... just as was reported, a terrorist seeks to detonate a bomb during the inaugural speech of Governor Elagabalus!
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_lafferty01
+WAIT   | 0
+LOOK   | o_cts_hoopz   | WEST
+DIALOG | Lafferty      | Even worse, this treasonous scumbag is using the statue of the great Cuchulainn to do it! What insolence and disrespect!
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_dozier01
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+DIALOG | Dozier      | It's clear then... Governor Elagabalus must issue a swift reprisal against the treacherous dwarfs of Tir na Nog...
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.4
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.4
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzSurprise | There's no way out... how did this happen...
+LOOK   | o_cts_hoopz | EAST
+DIALOG | Dozier  | How stupid can you be? You've been ratted out! One of your dogs in L.O.N.G.I.N.U.S. knows better than to betray the great Cuchulainn. Governor Elagabalus will exact the necessary punishment here. And as for you...
+DIALOG | Dozier | `sq`You're under arrest!`rt`
+DIALOG | P_NAME = s_port_hoopzShock | Wh-what!? Nein... Nein!
+DIALOG | Dozier  | Conspiracy, vandalism, treason, and an attempted act of terror... That's enough to lock you up for life ten times over. `w1`Bwahahaha!`w0` 
+\" +
+//TODO: add in the standard \"arrest animation\" if we use it (we talked about the ELECTROSHOCK animation)
+\"
+QUEST  | govQuest = 7
+WAIT   | 0.25
+FADE   | 1 | 2.0
+WAIT   | 3.0
+QUEST  | prisonArrested = 2
+QUEST  | prisonIntro = 1
+\" +
+//TODO: the music should change to the PRISON MUSIC
+\"
+Teleport | r_pri_prisonGate01 | 464 | 1072
+
+SPARE_IT
+DIALOG | P_NAME = s_port_hoopzAngry | (I'm getting this feeling in my gut that maybe it's a bad idea to bomb the speech. Just a hunch...)"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_atir4"]
+size = Vector2(31, 31)
+
+[node name="o_cuchulainnPlaque01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_xon2c")
+centered = false
+offset = Vector2(-16, -28)
+script = ExtResource("2_vxy8h")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_pvshe")
+metadata/default = {
+"bbox_bottom": "30",
+"bbox_left": "1",
+"bbox_right": "30",
+"bbox_top": "1",
+"height": "31",
+"name": "s_cuchulainnPlaque01",
+"width": "32",
+"xorig": "16",
+"yorigin": "28"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, -12.5)
+shape = SubResource("RectangleShape2D_atir4")

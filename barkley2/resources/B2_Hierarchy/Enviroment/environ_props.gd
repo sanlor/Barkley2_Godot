@@ -27,18 +27,6 @@ func _ready() -> void:
 			frame = randi_range( limit_frame_start, limit_frame_end )
 		else:
 			frame = randi_range( 0, sprite_frames.get_frame_count("default") )
-	if cast_shadow:
-		if sprite_frames.has_animation("shadow"):
-			var shadow_node 			:= AnimatedSprite2D.new()
-			shadow_node.sprite_frames 	= sprite_frames
-			shadow_node.centered 		= centered
-			shadow_node.offset 			= offset
-			shadow_node.animation		= "shadow"
-			shadow_node.name 			= name + "_shadow"
-			shadow_node.z_index 		= 0
-			add_child( shadow_node, true )
-		else:
-			push_warning("No animation %s on node %s." % ["shadow", name] )
 	if draw_base:
 		if sprite_frames.has_animation("base"):
 			if frame == 0:
@@ -54,6 +42,21 @@ func _ready() -> void:
 			add_child( base_node, true )
 		else:
 			push_warning("No animation %s on node %s." % ["base", name] )
+	if cast_shadow:
+		if sprite_frames.has_animation("shadow"):
+			var shadow_node 			:= AnimatedSprite2D.new()
+			shadow_node.position		= Vector2( 28, 0 )
+			shadow_node.modulate.a		= 0.5
+			shadow_node.sprite_frames 	= sprite_frames
+			shadow_node.centered 		= centered
+			shadow_node.offset 			= offset
+			shadow_node.animation		= "shadow"
+			shadow_node.name 			= name + "_shadow"
+			shadow_node.z_index 		= -1
+			add_child( shadow_node, true )
+		else:
+			push_warning("No animation %s on node %s." % ["shadow", name] )
+	
 		
 func lazy_bastard():
 	var body := StaticBody2D.new()

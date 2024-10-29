@@ -3,7 +3,7 @@
 extends Node
 class_name B2_TOOL_GML_SPRITE_CONVERTER_LITE
 
-enum TYPE{PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID}
+enum TYPE{PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID,INTERACTIVE}
 
 # How to use this:
 # Add this node to an marker
@@ -78,7 +78,8 @@ func lets_goooo():
 				
 			elif collision_shape == B2_Environ.SHAPES.SQUARE:
 				object.square_size = collision_square_size
-			
+		TYPE.INTERACTIVE:
+			object = B2_EnvironInteractive.new()
 	animatedsprite 		= object
 	spr_frames			= SpriteFrames.new()
 	

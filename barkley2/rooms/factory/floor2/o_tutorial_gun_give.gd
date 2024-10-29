@@ -10,7 +10,7 @@ func _ready() -> void:
 func event_trigger( _node ):
 	if B2_Playerdata.Quest("tutorialCollision", null, 0) >= 1:
 		if is_instance_valid(cutscene_script):
-			B2_CManager.play_cutscene( cutscene_script, self, true )
+			B2_CManager.play_cutscene( cutscene_script, self, [] )
 
 func execute_event_user_0():
 	if get_parent() is B2_ROOMS:

@@ -10,7 +10,9 @@ class_name B2_EnvironInteractive
 @export var interactive_distance 		:= 64 # B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
 
 @export_category("Interaction Event")
-@export var cutscene_script 			: B2_Script
+@export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
+@export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
+@export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 ## Mouse setup
 var is_mouse_hovering 	:= false
@@ -31,9 +33,9 @@ func _enter_tree() -> void:
 			push_warning("Interactive element has no mouse detection area")
 			is_interactive = false
 		
-	if not is_instance_valid( cutscene_script ):
-		push_warning("Interactive element %s has no script cutscene" % name)
-		is_interactive = false
+		if not is_instance_valid( cutscene_script ):
+			push_warning("Interactive element %s has no script cutscene" % name)
+			is_interactive = false
 		
 func cinema_set(anim_name : String):
 	if sprite_frames.has_animation( anim_name ):
@@ -55,7 +57,7 @@ func _input(event: InputEvent) -> void:
 func interaction() -> void:
 	if is_interactive:
 		if is_instance_valid(cutscene_script):
-			B2_CManager.play_cutscene( cutscene_script, self, true )
+			B2_CManager.play_cutscene( cutscene_script, self, [] )
 			is_mouse_hovering = false
 	
 func mouse_detection_area_entered() -> void:

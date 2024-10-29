@@ -1754,6 +1754,14 @@ func get_sound(soundID : String) -> String:
 	else:
 		return ""
 	
+func get_sound_pick(soundpickID : String) -> String:
+	if sound_pick.has(soundpickID): ## Fallback to soundpick
+		assert( not sound_pick[soundpickID].is_empty(), "It should not be empty, i think." )
+		return sound_pick[soundpickID].pick_random() as String # <- Important
+	else:
+		# Sound not found
+		return soundpickID
+		
 ## stop the player from playing, emit a signal to force a graceful stop
 ## You can also do some fancy stuff, like fading aout the audio before stopping it.
 func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0): 

@@ -24,11 +24,11 @@ var o_cts_hoopz 	: B2_Actor 			= null
 var o_hoopz 		: B2_Player		 	= null
 var camera			: Camera2D
 
-func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, frame_await := false ):
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ):
 	var b2_cinema := B2_CinemaPlayer.new()
 	
 	get_tree().current_scene.add_child( b2_cinema )
-	b2_cinema.play_cutscene( cutscene_script, _event_caller, frame_await )
+	b2_cinema.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
 func BodySwap( costume_name : String ) -> void:
 	# Handle costumes changes. during game load or new game, need to load the correct costume.

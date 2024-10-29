@@ -34,7 +34,9 @@ var is_player_near 		:= false
 
 @export_category("Interaction Event")
 @export var player_can_pause			:= true
-@export var cutscene_script 			: B2_Script
+@export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
+@export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
+@export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 func _enter_tree() -> void:
 	if not is_instance_valid(ActorAnim):
@@ -96,7 +98,7 @@ func _input(event: InputEvent) -> void:
 func interaction() -> void:
 	if is_interactive:
 		if is_instance_valid(cutscene_script):
-			B2_CManager.play_cutscene( cutscene_script, self, true )
+			B2_CManager.play_cutscene( cutscene_script, self, cutscene_script_mask )
 	
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:

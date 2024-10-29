@@ -126,7 +126,7 @@ func select_user_slot( slot ):
 
 	
 # scr_savedata_put()
-func get_user_save_data( path : String ): ## return null if its invalid
+func get_user_save_data( path : String, default = null ): ## return null if its invalid
 	if usersavefile.is_empty():
 		push_warning("No save data to get! Defaulting to debug slot 100.")
 		#push_error("No save data to get! Defaulting to debug slot 100.")
@@ -147,7 +147,7 @@ func get_user_save_data( path : String ): ## return null if its invalid
 		else:
 			if B2_Debug.WARN_INVALID_CHECKS:
 				push_warning( "Key ", i, " does not exist currently. Returning null" )
-			return
+			return default
 	
 func set_user_save_data( path : String, value ):
 	if usersavefile.is_empty():

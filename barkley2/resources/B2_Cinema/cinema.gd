@@ -125,7 +125,7 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 			
 	# if fake is loaded, load real hoopz.
 	if not is_instance_valid(B2_CManager.o_hoopz):
-		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate()
+		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate() as B2_Player
 		
 	if is_instance_valid(B2_CManager.o_cts_hoopz):
 		B2_CManager.o_hoopz.position = B2_CManager.o_cts_hoopz.position
@@ -161,12 +161,26 @@ func end_cutscene():
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
 	
-func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_await := false ) -> bool:
+func apply_cutscene_mask( cutscene_script : B2_Script, cutscene_mask : Array ):
+	if cutscene_script is B2_Script_Legacy:
+		for m : B2_Script_Mask in cutscene_mask:
+			cutscene_script.original_script = cutscene_script.original_script.replace( m.target_string, m.desired_string )
+			print("Replaced ", m.target_string, " with ", m.desired_string)
+	else:
+		push_error("Mask not applied.")
+	pass
+	
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ) -> bool:
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
 		
 	assert(camera != null, "Camera not setup. Fix it.")
 	
+	## Apply mask, to replace string from the cutscene.
+	if not cutscene_mask.is_empty():
+		apply_cutscene_mask( cutscene_script, cutscene_mask )
+		
+	#print(cutscene_script.original_script)
 	event_caller = _event_caller
 	
 	## lock player control
@@ -407,7 +421,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 						o_fade._fade 		= float( parsed_line[ 1 ] )
 					elif parsed_line.size() == 3:
 						o_fade._fade 		= float( parsed_line[ 1 ] )
-						o_fade._seconds 	= float( parsed_line[ 2 ] ) * 0.5 ## 0.5 is DEBUG
+						o_fade._seconds 	= float( parsed_line[ 2 ] )# * 0.5 ## 0.5 is DEBUG
 					elif parsed_line.size() == 3:
 						o_fade._fade 		= float( parsed_line[ 1 ] )
 						o_fade._seconds 	= float( parsed_line[ 2 ] )
@@ -473,9 +487,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
-						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
+						await B2_CManager.o_cts_hoopz.cinema_surpriseat( subject ) 		# its a node.
 					else:
-						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+						await B2_CManager.o_cts_hoopz.cinema_surpriseat( str(subject) ) 	# its a direction, like NORTH.
 					pass
 				"USEAT":
 					# Check script USEAT().
@@ -526,29 +540,53 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, _frame_
 					# Look torward a direction.
 					## NOTE Im not sure if this is working
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
-					actor.cinema_look( parsed_line[2] )
+					if actor != null:
+						actor.cinema_look( parsed_line[2] )
+					else:
+						push_error("Actor %s not found in the current tree." % parsed_line[1])
 				"MOVETO":
 					# oh, what the fuck. The original game has pathfinding in the movement system.
 					# check scr_event_action_move_to_point and o_move.
 					# fuck. also check scr_path_set, scr_path_delete, scr_path_update. fuck fuck, this is way more complicated.
 					## TODO implement Astar2DGrid on the root node or a standalone class.
 					
+					var target					= parsed_line[2].strip_edges()
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
-					var destination_object 		= get_node_from_name( all_nodes, 	parsed_line[2] )
+					var destination_object 		= get_node_from_name( all_nodes, 	target )
+					
 					# Make sure that the actors and cinemaspots exists
+					# NOTE the destination object may not exist, sometimes a position can be placed here (680 550 for example)
+					# assume that if destination_object is invalid, its a position.
 					if actor != null:
 						if destination_object != null:
 							var speed 					= parsed_line[3]
 							actor.cinema_moveto( destination_object, speed ) 		## Async movement
 							cinema_kid( actor )
+							
+						elif target.contains(" "):
+							## Assume its a position
+							var speed 					= parsed_line[3]
+							var target_pos := Vector2( float( target.split(" ")[0] ), float( target.split(" ")[1] ) )
+							actor.cinema_moveto( target_pos, speed ) 		## Async movement
+							cinema_kid( actor )
 						else:
-							if debug_moveto: print("MOVETO: destination_object is invalid: ",parsed_line[2])
+							print( str_to_var(parsed_line[2]) )
+							print("MOVETO: destination_object is invalid: ",parsed_line[2])
 					else:
 						if debug_moveto: print("MOVETO: actor is invalid: ",parsed_line[1])
 						
 					if debug_moveto: print("MOVETO: ", parsed_line[1], " - ", parsed_line[2] )
 				"MOVE":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					var target_x					= float(parsed_line[2])
+					var target_y					= float(parsed_line[3])
+					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] ) as Node2D
+					
+					var speed 					= parsed_line[4]
+					var target_pos : Vector2 = actor.position + Vector2( target_x, target_y )
+					actor.cinema_moveto( target_pos, speed ) 		## Async movement
+					cinema_kid( actor )
+					
+					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"Destroy":
 					# Remove actor. simple.
 					var actor = get_node_from_name( all_nodes,	parsed_line[1] )
@@ -626,7 +664,8 @@ func cinema_kid( kid : Node2D ) -> void:
 # Wait for every child action to finish, them clear the queue
 func cinema_kids() -> void:
 	for i in dslCinKid:
-		await i.check_actor_activity()
+		if is_instance_valid(i):
+			await i.check_actor_activity()
 	dslCinKid.clear()
 	return
 
@@ -690,7 +729,9 @@ func get_node_from_name( _array, _name, warn := true ) -> Object:
 				array_dirty = true
 	if not is_instance_valid(node):
 		#if warn:
-		push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
+		#push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
+		print_debug("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
+		pass ## Too many warnings
 	return node
 	
 func Shake( parsed_line :PackedStringArray ):
@@ -714,20 +755,33 @@ func Misc( parsed_line :PackedStringArray ):
 	# print("Misc: %s arguments." % str(misc_arguments) )
 	
 	match parsed_line[1]:
+		## What a mess.
 		"set": ## 1 = object | 2 = object / x | 3 = y
 			var obj1 = get_node_from_name( all_nodes, str(parsed_line[2]) )
 			var obj2 = get_node_from_name( all_nodes, str(parsed_line[3]) )
-			if all_nodes.has(obj1):
+			
+			if parsed_line.size() > 4: ## Its a direct position
+				obj1.position = Vector2( float(parsed_line[3]), float(parsed_line[4]) )
+				
+			elif all_nodes.has(obj1): ## Its an object
 				if all_nodes.has(obj2):
 					obj1.position = obj2.position
 				else:
-					push_error("obj2 invalid: ", obj2)
+					push_error("obj2 invalid: ", obj2, " - ", parsed_line)
 			else:
-				push_error("obj1 invalid: ", obj1)
+				push_error("obj1 invalid: ", obj1, " - ", parsed_line)
 		"shadow":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"visible":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			if is_instance_valid(subject):
+				if int( parsed_line[ 3 ] ) == 0:
+					subject.visible = false
+				else: 
+					subject.visible = true
+			else:
+				print( "Command failed: ", parsed_line )
+			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"entity settings":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":

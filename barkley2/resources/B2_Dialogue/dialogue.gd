@@ -3,7 +3,7 @@ extends CanvasLayer
 class_name B2_Dialogue
 
 # DEBUG
-@export var debug := true
+@export var debug := false
 
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
@@ -70,7 +70,7 @@ var text_node 				: RichTextLabel
 var has_portrait := false
 
 ## Typing stuff
-var textbox_pause 			:= 0.005 	#0.05; # Set tyhe typing speed.
+var textbox_pause 			:= 0.025 	#0.05; # Set tyhe typing speed.
 var textbox_talk_cooldown 	:= 0.04 	#0.04;
 var textbox_blink_cooldown 	:= 0.04 	#0.04;
 
@@ -80,8 +80,8 @@ var dash_pause 				:= 0.20 			#0.2
 var question_pause 			:= 0.40 			#0.5 ## Added by me, not on the original.
 var exclamation_pause 		:= 0.40 			#0.5 ## Added by me, not on the original.
 
-var normal_typing 			:= 1.5			#1.0
-var fast_typing 			:= 0.0
+var normal_typing 			:= 1.0			#1.0
+var fast_typing 			:= 0.2
 var curr_typing_speed := normal_typing
 
 var return_sprite_time 		:= 0.2		#0.2
@@ -222,11 +222,9 @@ func _load_portrait( portrait_name : String ):
 	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
 	assert( not file_name.is_empty(), "File could not be found." )
-	#assert( file_name.find("_strip") >= 0, "Weird file. Unexpected.")
 	@warning_ignore("integer_division")
 	var n_frames := int( spritesheet.get_width() / 34 ) ## This should return the correct amount of frames.
 	if debug: print( "n_frames: ", n_frames, " ", spritesheet.get_width() )
-	##var n_frames := int( file_name[-5] ) # should return the "6" in s_port_variable_strip6.png. "-5" ignores the ".png" part of the files.
 	## WARNING more than 9 frames might be an issue.
 	assert( n_frames > 0, "I warned you bro! ^^^^^^")
 	# Potraits should never have _strip0
@@ -287,7 +285,7 @@ func _type_next_letter(delta):
 	if is_waiting_input:
 		return
 		
-	if type_timer > 0.0 and curr_typing_speed == normal_typing: # Waste time until the timer is below 0.0
+	if type_timer >= 0.0 and curr_typing_speed == normal_typing: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
 		if text_node.get_character_line( text_node.visible_characters ) >= 4 * curr_screen:
@@ -308,7 +306,7 @@ func _type_next_letter(delta):
 		is_typing = true
 		
 		if text_delays.has( text_node.visible_characters ):
-			add_wait = comma_pause * 2
+			add_wait = comma_pause * 2.0
 			_portrait_is_silent()
 		
 		match curr_char: # add a pause for certain characters
@@ -348,12 +346,13 @@ func _type_next_letter(delta):
 		var amount_text := 1
 		
 		if curr_typing_speed == fast_typing:
-			amount_text = 10
+			amount_text = 1
 			type_timer = 0
 		
 		if auto_skipping:
 			@warning_ignore("narrowing_conversion")
-			amount_text = text_node.text.length() / 5.0
+			#amount_text = text_node.text.length() / 5.0
+			amount_text = 1
 			type_timer = 0
 			
 		# Avoid issues with the text skipping

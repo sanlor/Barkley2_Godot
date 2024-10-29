@@ -21,6 +21,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
 @export var show_pathfind_info								:= false 		# show some debug pathfind data
+@export var print_debug_pathfind_info						:= false
 
 @export_category("DEBUG_PATHFIND")
 @export var astar_jump 					:= false
@@ -43,7 +44,10 @@ var astar_valid_tiles := Array() # used for debug
 @export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
 #@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
-@export var cutscene_script 			: B2_Script
+@export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
+@export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
+@export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
+
 
 @export_category("Nodes")
 @export var b2_camera: B2_Camera
@@ -94,7 +98,8 @@ func _update_obstacles():
 		if n is B2_SOLID or n is B2_SEMISOLID: # or n is B2_EnvironSolid or n is B2_EnvironSemisolid:
 			obstacles.append(n)
 			
-	print("_update_obstacles(): took %s usecs." % str(Time.get_ticks_usec() - time) )
+	if print_debug_pathfind_info:
+		print("_update_obstacles(): took %s usecs." % str(Time.get_ticks_usec() - time) )
 
 func _init_pathfind():
 	if populate_reference_layer:
@@ -113,7 +118,6 @@ func _init_pathfind():
 	assert( not reference_layer.is_empty(), "No reference avaiable for the pathfinding stuff" )
 	assert( is_instance_valid(collision_layer), "No collision avaiable for the pathfinding stuff" )
 	
-	
 	astar = AStarGrid2D.new()
 	
 	## ASTAR Setup.
@@ -131,12 +135,10 @@ func _init_pathfind():
 	astar.cell_size 	= 	reference_layer.front().get_tile_set().tile_size
 	astar.offset 		= 	astar_pos_offset
 	astar.update()
-	#astar.fill_solid_region( reference_layer.get_used_rect(), false )
 	astar.fill_solid_region( map_rect, false )
 	
 	# This ise used by some screen wide effect and binding the camera inside the room.
 	room_size = Vector2( map_rect.size ) * reference_layer.front().get_tile_set().tile_size.x
-	#print("Room size is %s." % room_size)
 	
 # Is this needed?
 func update_pathfind():
@@ -182,8 +184,9 @@ func _update_pathfind():
 				else:
 					astar_solid_tiles.append( Vector2i( x, y ) )
 		debug_pathfind()
-	
-	print("_update_pathfind(): took %s usecs." % str(Time.get_ticks_usec() - time) )
+		
+	if print_debug_pathfind_info:
+		print("_update_pathfind(): took %s usecs." % str(Time.get_ticks_usec() - time) )
 	
 ## Remmeber, the path returned is inverted.
 func get_astar_path(origin : Vector2, destination : Vector2) -> PackedVector2Array:

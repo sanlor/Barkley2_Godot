@@ -1,4 +1,4 @@
-[gd_scene load_steps=362 format=3 uid="uid://c4jaagy6yu3ai"]
+[gd_scene load_steps=363 format=3 uid="uid://c4jaagy6yu3ai"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Player/o_cts_hoopz_normal.gd" id="1_1qucu"]
 [ext_resource type="Texture2D" uid="uid://jigipgeie56n" path="res://barkley2/assets/b2_original/images/merged/s_cts_action.png" id="7_wvet5"]
@@ -30,6 +30,8 @@
 [ext_resource type="Texture2D" uid="uid://bss67sqld5ywe" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzSE.png" id="33_t4e25"]
 [ext_resource type="Texture2D" uid="uid://jqfgt04e0iva" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzSW.png" id="34_meit7"]
 [ext_resource type="Texture2D" uid="uid://c7amxj5r60bcm" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzW.png" id="35_m786q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5cqlv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jlx0c"]
 atlas = ExtResource("7_wvet5")
@@ -2874,17 +2876,22 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_cts_hoopz" type="CharacterBody2D"]
+[node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
 script = ExtResource("1_1qucu")
 is_interactive = false
+resize_mouse_detection_area = false
+debug_check_movement_vector = true
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
 disable_auto_flip_h = true
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5cqlv")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_gsis7")
-animation = &"action_NW"
+animation = &"action_NE"
 centered = false
 offset = Vector2(-24, -41)
 metadata/stand_UP = {

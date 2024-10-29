@@ -100,7 +100,7 @@ func load_slots():
 			var gameslot_gormstones = 1; # scr_savedata_get("money");
 			var gameslot_gametime = Text.pr( str( B2_Config.get_user_save_data("clock.time") ) )## string(scr_savedata_get("clock.time"));
 			var gameslot_location = Text.pr( str( B2_Config.get_user_save_data("map.room") ) )## string(scr_savedata_get("map.room"));
-			var my_tim = ( 24 - B2_Config.get_user_save_data("clock.time") / 3600) / 24 ## if(i == 0) tim = (24 - real(scr_savedata_get("clock.time")) / 3600)/24;
+			var my_tim = ( 24.0 - B2_Config.get_user_save_data("clock.time", 0.0) / 3600.0) / 24.0 ## if(i == 0) tim = (24 - real(scr_savedata_get("clock.time")) / 3600)/24;
 			r_title.tim = max(r_title.tim, my_tim)
 			
 			## Portrait

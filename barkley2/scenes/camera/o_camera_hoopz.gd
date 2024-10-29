@@ -58,6 +58,8 @@ func _ready() -> void:
 		#_position 	= player_node.position
 		
 	position 			= position.round()
+	offset 				= camera_normal_offset
+	
 	B2_CManager.camera 	= self
 	
 	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
@@ -76,8 +78,9 @@ func follow_actor( _actor_array : Array, _speed : String ):
 
 # snap to the target
 func cinema_snap( _destination : Vector2 ):
-	curr_MODE = MODE.CINEMA
+	curr_MODE 	= MODE.CINEMA
 	position 	= _destination
+	offset 		= camera_normal_offset
 
 # move to te target
 func cinema_frame( _destination : Vector2, _speed : String ):

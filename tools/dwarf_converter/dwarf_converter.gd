@@ -79,7 +79,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		push_error( "B2_TOOL_DWARF_CONVERTER still exists on the %s node." % get_parent().name )
 		#return
-		lets_goooo()
+		#lets_goooo()
 	
 func lets_goooo():
 	assert( is_instance_valid(target), "No target selected." )
@@ -141,11 +141,13 @@ func lets_goooo():
 				continue
 			## Hey, the script didnt finish in the same line. append the next line to this one.
 			if not script_line.ends_with(";"):
-				if not  script_line.ends_with("}"):
-					if obj_data[ "script" ][script_event].size() <= index: 
+				if not script_line.ends_with("}"):
+					if obj_data[ "script" ][script_event].size() <= index + 1: 
 						breakpoint # array overflow.
-					script_line += obj_data[ "script" ][script_event][ index + 1 ]
-					obj_data[ "script" ][script_event][ index + 1 ] = ""
+					else:
+						#print(obj_data[ "script" ][script_event].size(), " ", index)
+						script_line += obj_data[ "script" ][script_event][ index + 1 ]
+						obj_data[ "script" ][script_event][ index + 1 ] = ""
 				
 			#print(script_line)
 			if script_line.begins_with("name = "):
