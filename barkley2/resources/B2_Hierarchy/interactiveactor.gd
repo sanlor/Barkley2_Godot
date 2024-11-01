@@ -16,7 +16,6 @@ var _active = true;
 
 @export_category("Mouse")
 @export var mouse_detection_area 		: Area2D
-@export var resize_mouse_detection_area := true # Resize based on the default sprite size
 @export var interactive_distance 		:= 64 # B2_Config.settingInteractiveDistance # GZ: The max distance you can be to click this
 
 # The last direction this actor was in.
@@ -38,49 +37,21 @@ var is_player_near 		:= false
 @export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
-func _enter_tree() -> void:
-	if not is_instance_valid(ActorAnim):
-		## Lazy - Forgot to set on the Export.
-		ActorAnim = get_node("ActorAnim")
-		ActorAnim.use_parent_material = true ## Shader stuff
-	
-	if has_collision:
-		if not is_instance_valid(ActorCol):
-			## Lazy X2 - Forgot to set on the Export.
-			ActorCol = get_node("ActorCol")
-	
+func _setup_interactiveactor():
 	if is_interactive:
-		if not is_instance_valid(mouse_detection_area):
-			## Lazy X3 - Forgot to set on the Export.
-			mouse_detection_area = get_node("ActorInteract")
-			print("Forgot to set the interaction Area2D for node %s." % name)
+		mouse_detection_area = get_node("ActorInteract")
+		print("Forgot to set the interaction Area2D for node %s." % name)
 		
 		await get_tree().process_frame
 		if is_instance_valid(mouse_detection_area):
 			mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
 			mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
+		else:
+			push_error("%s has no node named 'mouse_detection_area' used for interaction." % name)
 		
-		if resize_mouse_detection_area:
-			if is_instance_valid(ActorAnim.sprite_frames):
-				var s = ActorAnim.sprite_frames.get_frame_texture( ActorAnim.animation, 0 ).get_size()
-				if mouse_detection_area.get_child(0).shape is RectangleShape2D:
-					mouse_detection_area.get_child(0).shape.size = s # what a mess
-					
-				elif mouse_detection_area.get_child(0).shape is CircleShape2D:
-					mouse_detection_area.get_child(0).shape.radius = interactive_distance # what a mess
-				else:
-					push_error("%s has some issues related to mouse detection.")
-					breakpoint
-			else:
-				push_error( "Sprite Frames not valid for %s." % name )
 		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
 		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 		material = shader
-		
-	ready.connect( post_ready )
-	
-func post_ready() -> void:
-	
 		
 	adjust_sprite_offset()
 	
@@ -99,6 +70,8 @@ func interaction() -> void:
 	if is_interactive:
 		if is_instance_valid(cutscene_script):
 			B2_CManager.play_cutscene( cutscene_script, self, cutscene_script_mask )
+		else:
+			push_warning( "Player is interacting with actor %s but no script is attached." % name )
 	
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:

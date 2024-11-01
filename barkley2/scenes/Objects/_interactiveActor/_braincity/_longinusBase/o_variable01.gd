@@ -9,6 +9,7 @@ extends B2_InteractiveActor
 
 func _ready() -> void:
 	_setup_actor()
+	_setup_interactiveactor()
 	## Animation
 	ANIMATION_STAND				= "default"
 	ANIMATION_SOUTH 			= "s_variableDown01"

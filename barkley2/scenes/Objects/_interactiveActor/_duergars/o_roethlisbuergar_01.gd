@@ -5,6 +5,9 @@ extends B2_Duergar
 # Need to create something with to keepp track of the Duergars (like the original Duergar() script)
 
 func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
+	
 	ANIMATION_STAND 						= "s_roethlisbuergar01"
 	ANIMATION_SOUTH 						= "s_roethlisbuergarSE"
 	ANIMATION_SOUTHEAST 					= "s_roethlisbuergarSE"

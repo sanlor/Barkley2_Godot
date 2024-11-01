@@ -1,4 +1,4 @@
-[gd_scene load_steps=210 format=4 uid="uid://8t4xoxukiqw2"]
+[gd_scene load_steps=211 format=4 uid="uid://8t4xoxukiqw2"]
 
 [ext_resource type="TileSetAtlasSource" uid="uid://c5a1qrwanoltt" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_fct_factory01.tres" id="1_tedar"]
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.gd" id="1_v2u8v"]
@@ -38,6 +38,8 @@
 [ext_resource type="PackedScene" uid="uid://lpp3i8tjsn7n" path="res://barkley2/scenes/Objects/_blocker/o_blocker_right.tscn" id="31_o6i1p"]
 [ext_resource type="PackedScene" uid="uid://bm1xjhm2iv47t" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.tscn" id="35_c6da0"]
 [ext_resource type="PackedScene" uid="uid://dqo6iu00jo7i1" path="res://barkley2/scenes/_map/Control Objects/o_effect_alarm_light.tscn" id="36_ywora"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kjx8d"]
 
 [sub_resource type="TileSet" id="TileSet_ricl7"]
 sources/0 = ExtResource("1_tedar")
@@ -1465,8 +1467,9 @@ EXIT   | "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_68jb2"]
 
-[node name="r_fct_eggDrone01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+[node name="r_fct_eggDrone01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_kjx8d")
 script = ExtResource("1_v2u8v")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(608, 372)

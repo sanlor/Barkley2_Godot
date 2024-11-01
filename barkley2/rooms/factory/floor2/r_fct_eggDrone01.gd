@@ -25,8 +25,7 @@ var o_enemy_drone_egg : 				B2_EnemyCombatActor
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
-	_init_pathfind()
-	_update_pathfind()
+	_set_region()
 	
 	await get_tree().process_frame
 	if B2_RoomXY.is_room_valid():

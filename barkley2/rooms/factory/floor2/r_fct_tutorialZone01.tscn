@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://bp8001p184487"]
+[gd_scene load_steps=56 format=4 uid="uid://bp8001p184487"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.gd" id="1_o1bik"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_7pi6o"]
@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://bf4a8mmi88g65" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraBottom01.png" id="16_bbmep"]
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="18_ib0r6"]
 [ext_resource type="PackedScene" uid="uid://bj15lfjd77t4" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_akiraBulb.tscn" id="18_uumm4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4nx0k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_coy27"]
 texture = ExtResource("2_7pi6o")
@@ -3294,8 +3296,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_fct_tutorialZone01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+[node name="r_fct_tutorialZone01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_4nx0k")
 script = ExtResource("1_o1bik")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(448, 184)
@@ -3434,7 +3437,6 @@ material = ExtResource("13_7xwbb")
 position = Vector2(184, 136)
 script = ExtResource("14_78e4s")
 mouse_detection_area = NodePath("Interact")
-resize_mouse_detection_area = false
 cutscene_script = SubResource("Resource_hd6dd")
 ActorAnim = NodePath("AnimatedSprite2D")
 ActorCol = NodePath("CollisionShape2D")
@@ -3559,7 +3561,7 @@ interactive_distance = 64
 [node name="o_fct_akiraSphere01" type="AnimatedSprite2D" parent="."]
 position = Vector2(664, 176)
 sprite_frames = SubResource("SpriteFrames_4sumv")
-frame_progress = 0.880998
+frame_progress = 0.570509
 centered = false
 offset = Vector2(-54, -95)
 script = ExtResource("15_4epjw")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=4 uid="uid://lgvreoce1ekt"]
+[gd_scene load_steps=85 format=4 uid="uid://lgvreoce1ekt"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/factory/floor2/r_fct_reroute01.gd" id="1_vd5ji"]
 [ext_resource type="Texture2D" uid="uid://d2mhg780b7yrt" path="res://barkley2/assets/b2_original/backgrounds/tls_fct_factory01.png" id="2_ych8w"]
@@ -22,6 +22,8 @@
 [ext_resource type="Texture2D" uid="uid://cb450gipxy07q" path="res://barkley2/assets/b2_original/images/merged/s_cyberspearPieces01.png" id="19_iq7cb"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="20_tleb4"]
 [ext_resource type="PackedScene" uid="uid://dqo6iu00jo7i1" path="res://barkley2/scenes/_map/Control Objects/o_effect_alarm_light.tscn" id="21_nvq7r"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_prcbn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uhkry"]
 texture = ExtResource("2_ych8w")
@@ -3443,7 +3445,8 @@ animations = [{
 [sub_resource type="LabelSettings" id="LabelSettings_h3tda"]
 font = ExtResource("20_tleb4")
 
-[node name="r_fct_reroute01" type="Node2D" node_paths=PackedStringArray("collision_layer")]
+[node name="r_fct_reroute01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
+navigation_polygon = SubResource("NavigationPolygon_prcbn")
 script = ExtResource("1_vd5ji")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(568, 368)

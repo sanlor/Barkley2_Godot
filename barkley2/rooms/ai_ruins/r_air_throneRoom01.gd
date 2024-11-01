@@ -4,8 +4,7 @@ func _ready() -> void:
 	# change the gray BG to Black during runtime
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
-	_init_pathfind()
-	_update_pathfind()
+	_set_region()
 	
 	#B2_Music.play( "mus_swp_accousticarea" )
 		

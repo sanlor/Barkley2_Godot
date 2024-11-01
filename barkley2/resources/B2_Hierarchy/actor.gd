@@ -19,6 +19,7 @@ signal set_played
 @export var flip_h			:= false				## Start with the sprite flipped.
 @export var has_collision 	:= true
 @export var ActorCol 		: CollisionShape2D
+@export var can_move_around	:= true
 @export var ActorNav		: NavigationAgent2D
 
 # True if the sprite is using automatic animations (like when it is moving), or false otherwise.
@@ -110,11 +111,13 @@ func _draw() -> void:
 func _setup_actor():
 	ready.connect( play_animations )
 	ActorAnim 	= get_node( "ActorAnim" )
+	ActorAnim.use_parent_material = true ## Shader stuff
 	ActorCol 	= get_node( "ActorCol" )
-	ActorNav	= get_node( "ActorNav" )
-	ActorNav.path_desired_distance 		= path_desired_distance
-	ActorNav.target_desired_distance 	= target_desired_distance
-	ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )
+	if can_move_around:
+		ActorNav	= get_node( "ActorNav" )
+		ActorNav.path_desired_distance 		= path_desired_distance
+		ActorNav.target_desired_distance 	= target_desired_distance
+		ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )
 
 func play_animations():
 	if _automatic_animation:
