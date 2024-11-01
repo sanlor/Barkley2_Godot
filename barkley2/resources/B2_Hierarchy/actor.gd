@@ -19,6 +19,7 @@ signal set_played
 @export var flip_h			:= false				## Start with the sprite flipped.
 @export var has_collision 	:= true
 @export var ActorCol 		: CollisionShape2D
+@export var ActorNav		: NavigationAgent2D
 
 # True if the sprite is using automatic animations (like when it is moving), or false otherwise.
 @export var _automatic_animation 	:= false; ## Start playing a animation during room load ## CRITICAL ## it overrides any animations set on _ready().
@@ -41,11 +42,15 @@ var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 		:= 20.0 # was 900.0
+var speed_multiplier 		:= 30.0 # was 900.0
 @export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
 @export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
 @export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
+
+@export_category("Pathfinding")
+@export var path_desired_distance 	= 4.0
+@export var target_desired_distance = 4.0
 
 @export_category("Animation")
 @export var animation_speed 	:= 1.5			## Multiplier used on playset animations
@@ -102,9 +107,15 @@ func _draw() -> void:
 	if debug_check_movement_vector:
 		draw_line(Vector2.ZERO, movement_vector * 32, Color.HOT_PINK)
 
-func _init() -> void:
+func _setup_actor():
 	ready.connect( play_animations )
-	
+	ActorAnim 	= get_node( "ActorAnim" )
+	ActorCol 	= get_node( "ActorCol" )
+	ActorNav	= get_node( "ActorNav" )
+	ActorNav.path_desired_distance 		= path_desired_distance
+	ActorNav.target_desired_distance 	= target_desired_distance
+	ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )
+
 func play_animations():
 	if _automatic_animation:
 		if ActorAnim.sprite_frames.has_animation(_current_animation):
@@ -248,24 +259,13 @@ func cinema_moveto( _target_spot, _speed : String ):
 		else:
 			destination 		= _target_spot.position
 			
-		if get_parent().has_method("get_astar_path"):
-			# destination_path[0] is the destination and destination_path[-1] is the source
-			destination_path = get_parent().get_astar_path(position, destination)
-			if destination_path.is_empty():
-				push_error("Path invalid: ", position, " ", destination)
-				return
-				
-			## Override the pathfinding for better movement.
-			destination_path[0] 	= destination.round()
-			destination_path[-1] 	= position.round()
+		set_movement_target( destination )
+		
+		is_moving 			= true
+		movement_vector 	= position.direction_to( destination ).sign()
 			
-			is_moving 			= true
-			movement_vector 	= position.direction_to( destination ).sign()
-			
-			ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
+		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
 
-		else:
-			push_error("Parent does not have the 'get_astar_path' function. It should.")
 	return
 
 func flip_sprite( ):
@@ -353,10 +353,6 @@ func adjust_sprite_collision():
 	## NOTE 2 - Fuck, I have no idea how Collisions are handled on the original game. Its circles now, every actor has a cicle as collision shape. fuck it.
 	ActorCol.shape = shape
 	sprite_collision_adjusted.emit()
-
-@warning_ignore("unused_parameter")
-func change_costume(costume_name : String) -> void:
-	pass
 	
 func execute_event_user_0():
 	push_warning("%s: Event not set" % name)
@@ -370,8 +366,8 @@ func execute_event_user_2():
 func execute_event_user_10():
 	push_warning("%s: Event not set" % name)
 
-func _child_process(_delta) -> void: # used to avoid overwriting the _process func.
-	pass
+func set_movement_target(movement_target: Vector2):
+	ActorNav.set_target_position(movement_target)
 
 ## Function checks if the node is doing anything
 ## Return void right awai if itsd idle. Await for a signal if its busy.
@@ -388,61 +384,46 @@ func check_actor_activity() -> void:
 		# not doing anything important
 		return
 
-func _physics_process(delta: float) -> void:
+func _physics_process( delta: float ) -> void:
 	if debug_check_movement_vector:
 		queue_redraw()
 		
 	if is_moving:
 		if not is_playingset: # avoid issues with animations and movement.
 			cinema_animation()
-		_child_process(delta)
+		
+		# Do not query when the map has never synchronized and is empty.
+		if NavigationServer2D.map_get_iteration_id( ActorNav.get_navigation_map() ) == 0:
+			return
+		
+		# Finish navigation
+		if ActorNav.is_target_reached():
+			is_moving = false
+			position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
+			
+			ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
+			if not is_playingset: # avoid issues with animations and movement.
+				cinema_look( vec_2_dir_map.get( movement_vector, "SOUTH" ) )
+			
+			if debug_move_finish:
+				print("%s finished moving." % name)
+				
+			destination_reached.emit()
+		
+		if ActorNav.is_navigation_finished():
+			return
+			
+		var next_path_position: Vector2 = ActorNav.get_next_path_position()
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier )  * delta
 		
 		## Update movement vector for animation purposes.
-		movement_vector = position.direction_to( destination_path[-1] + destination_offset ).round() #.sign()
+		movement_vector = position.direction_to( next_path_position ).round()
 		
-		## Actor reached target
-		if position.distance_to( destination_path[-1] + destination_offset ) < 2.0:
-			# man, i miss the pop_back() function.
-			destination_path.remove_at( destination_path.size() - 1 )
-			
-			# check if there are any destinations left. if not, finish walking
-			if destination_path.is_empty():
-				is_moving = false
-				position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
-				
-				ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
-				if not is_playingset: # avoid issues with animations and movement.
-					cinema_look( vec_2_dir_map.get( movement_vector, "SOUTH" ) )
-				
-				if debug_move_finish:
-					print("%s finished moving." % name)
-					
-				destination_reached.emit()
-				
+		if ActorNav.avoidance_enabled:
+			ActorNav.set_velocity(new_velocity)
 		else:
-			var target : Vector2 = destination_path[-1] + destination_offset
-			#var next_hop := position.direction_to( target ) * speed * delta
-			
-			## Update movement vector for animation purposes.
-			#movement_vector = position.direction_to( target + destination_offset ).round() #.sign()
-			#
-			## Fix for time scale bullshit
-			#if B2_Input.is_fastforwarding:
-				#var hop_dist := position.distance_to( next_hop )
-				#var tar_dist := position.distance_to( target )
-				#
-				#if hop_dist >= tar_dist:
-					## If the next hop is longer than the distance to the next target, just warp it to the position.
-					## Its jittery, but its not important. it doesnt always work.
-					#position = target
-				#else:
-					## if not, just proceed normally.
-					##velocity = next_hop
-					#pass
-			#else:
-				##velocity = next_hop
-				#pass
-			
-			position = position.move_toward(target, speed * delta )
-			#move_and_slide()
+			_on_velocity_computed(new_velocity)
 		
+func _on_velocity_computed(safe_velocity: Vector2):
+	velocity = safe_velocity
+	move_and_slide()

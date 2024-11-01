@@ -11,6 +11,7 @@ class_name B2_SEMISOLID
 @export var height 	:= 0.0
 
 func _ready() -> void:
+	add_to_group("navigation_polygon_source_geometry_group")
 	if setup_from_metadata:
 		width 	= basewidth * 	get_meta("scale").x
 		height 	= baseheight * 	get_meta("scale").y

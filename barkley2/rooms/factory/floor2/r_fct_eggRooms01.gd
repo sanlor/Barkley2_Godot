@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 @onready var o_room_dream_filter: CanvasLayer = $o_room_dream_filter
@@ -8,9 +9,7 @@ extends B2_ROOMS
 func _ready() -> void:
 	# change the gray BG to Black during runtime
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
-	
-	_init_pathfind()
-	_update_pathfind()
+	_set_region()
 	
 	# If you go back to this room after progressing the tutorial, all the egg shit is already fucked beyond repair and can't be interacted with etc. //
 	if B2_Playerdata.Quest( "gameStart", null, 1) != 1:
@@ -22,7 +21,7 @@ func _ready() -> void:
 	else:
 		# play the initial cutscene.
 		
-		B2_Playerdata.BodySwap("diaper");
+		B2_CManager.BodySwap("diaper");
 		B2_Playerdata.Quest("hudVisible", 		0);
 		B2_Playerdata.Quest("zoneVisible", 		0);
 		B2_Playerdata.Quest("dropEnabled", 		0);

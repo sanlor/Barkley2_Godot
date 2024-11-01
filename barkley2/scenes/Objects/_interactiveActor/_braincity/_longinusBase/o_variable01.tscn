@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://c5oxmo4xn6bwt"]
+[gd_scene load_steps=55 format=3 uid="uid://c5oxmo4xn6bwt"]
 
 [ext_resource type="Texture2D" uid="uid://b3favlhdhipaj" path="res://barkley2/assets/b2_original/images/merged/s_variableBrandish01.png" id="1_e7w8o"]
 [ext_resource type="Texture2D" uid="uid://cmr2i1m0ryoim" path="res://barkley2/assets/b2_original/images/merged/s_variable01.png" id="2_hnx2p"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dxd0hvokjb7m4" path="res://barkley2/assets/b2_original/images/merged/s_variableSpank.png" id="4_1ghud"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_variable01.gd" id="5_tk5tk"]
 [ext_resource type="Texture2D" uid="uid://b2adg6admvahq" path="res://barkley2/assets/b2_original/images/merged/s_variableHandSpank.png" id="6_knpwc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ey6b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4u7kp"]
 atlas = ExtResource("1_e7w8o")
@@ -397,7 +399,11 @@ mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0ey6b")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6jg8v")

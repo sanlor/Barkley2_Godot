@@ -8,6 +8,7 @@ extends B2_InteractiveActor
 # some things are manually coded, to save time.
 
 func _ready() -> void:
+	_setup_actor()
 	## Animation
 	ANIMATION_STAND				= "default"
 	ANIMATION_SOUTH 			= "s_variableDown01"
@@ -53,7 +54,7 @@ func cinema_set( _sprite_frame : String ):
 	else:
 		print("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15.0 ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15.0, _dis_flip := false  ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 15 )

@@ -100,14 +100,14 @@ func _ready():
 	character_multiple.resize(44)
 	
 	## Quest flags overrides
-	B2_Playerdata.Quest("tutorialProgress", 	9)
-	B2_Playerdata.Quest("tutorialCspear", 		1)
-	
-	B2_Playerdata.Quest("zaneState", 			6)
-	B2_Playerdata.Quest("tutorialCollision", 	3)
-	B2_Playerdata.Quest("jhodfreyTips", 		2)
-	B2_Playerdata.Quest("gameStart", 			2)
-	B2_Playerdata.Quest("factoryEggs", 			1)
+	#B2_Playerdata.Quest("tutorialProgress", 	9)
+	#B2_Playerdata.Quest("tutorialCspear", 		1)
+	#
+	#B2_Playerdata.Quest("zaneState", 			6)
+	#B2_Playerdata.Quest("tutorialCollision", 	3)
+	#B2_Playerdata.Quest("jhodfreyTips", 		2)
+	#B2_Playerdata.Quest("gameStart", 			2)
+	#B2_Playerdata.Quest("factoryEggs", 			1)
 	
 func SaveGame():
 	print_rich("[color=blue]Save game requested. [/color]")

@@ -1,6 +1,7 @@
 extends B2_InteractiveActor
 
 func _ready() -> void:
+	_setup_actor()
 	## Animation
 	ANIMATION_STAND				= "default"
 	ANIMATION_SOUTH 			= "s_cts_jhodfreySE"

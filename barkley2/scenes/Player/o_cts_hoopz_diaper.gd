@@ -4,6 +4,7 @@ extends B2_InteractiveActor_Player
 
 func _ready() -> void:
 	B2_CManager.o_cts_hoopz = self
+	_setup_actor()
 	change_costume("diaper")
 	
 func change_costume(costume_name : String) -> void:
