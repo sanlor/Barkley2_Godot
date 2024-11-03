@@ -2,6 +2,9 @@ extends B2_Duergar
 
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
+	
 	duergar_name 							= "lafferty"
 	ANIMATION_STAND 						= "s_lafferty01"
 	ANIMATION_SOUTH 						= "s_laffertySE"

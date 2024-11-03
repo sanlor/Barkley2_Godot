@@ -1,4 +1,8 @@
 extends CanvasLayer
+class_name B2_Hud
+
+## DEBUG
+var debug_messages := true
 
 ## Check o_hud.
 # Oh boy... more work.
@@ -40,7 +44,9 @@ const HIDDEN_Y 	:= 240.0
 var hudDrawCount := 0
 
 func _ready() -> void:
+	if debug_messages: print("o_hud: debug messages is ON.")
 	layer = B2_Config.HUD_LAYER
+	B2_CManager.o_hud = self
 	hud_bar.texture.region.position = Vector2( 0, 0 )
 	
 	if B2_Playerdata.Quest("hudVisible") == 0:
@@ -52,11 +58,14 @@ func _ready() -> void:
 		
 	
 func show_hud() -> void:
+	if not visible:
+		show()
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property( hud_bar, "position:y", SHOWN_Y, 0.45 )
 	tween.tween_callback( event_finished.emit )
+	if debug_messages: print("o_hud: show_hud()")
 	
 func hide_hud() -> void:
 	if is_instance_valid(tween):
@@ -64,6 +73,7 @@ func hide_hud() -> void:
 	tween = create_tween()
 	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, 0.45 )
 	tween.tween_callback( event_finished.emit )
+	if debug_messages: print("o_hud: hide_hud()")
 
 func fade_in( element ) -> void:
 	if is_instance_valid(tween):
@@ -78,10 +88,12 @@ func fade_in( element ) -> void:
 func execute_event_user_0() -> void:
 	# Hide the current hud
 	hide_hud()
+	if debug_messages: print("o_hud: execute_event_user_0()")
 
 func execute_event_user_1() -> void:
 	# show naked hud during tutorial
 	show_hud()
+	if debug_messages: print("o_hud: execute_event_user_1()")
 
 func execute_event_user_2() -> void:
 	# hide hud_elements

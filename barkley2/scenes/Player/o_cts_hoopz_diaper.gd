@@ -17,7 +17,7 @@ func _ready() -> void:
 	ANIMATION_NORTHWEST 					= "walk_NW"
 	ANIMATION_EAST 							= "walk_E"
 											 # N, NE, E, SE, S, SW, W, NW
-	ANIMATION_STAND_SPRITE_INDEX 			= [0, 1, 2, 3, 4, 3, 2, 1]
+	ANIMATION_STAND_SPRITE_INDEX 			= [0, 1, 2, 3, 4, 5, 6, 7]
 	ActorAnim.animation 					= "s_cts_hoopz_diaper_stand"
 
 	## USEAT Animations

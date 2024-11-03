@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 @onready var o_door_tech_01_vents: 	B2_Door_Tech 	= $o_door_tech01_vents
@@ -10,7 +11,7 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	_set_region()
 	
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	
 	if B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )

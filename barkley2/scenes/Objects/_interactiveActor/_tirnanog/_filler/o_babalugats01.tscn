@@ -386,15 +386,16 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0f1lg"]
 size = Vector2(20, 36)
 
-[node name="o_babalugats01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_babalugats01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 material = ExtResource("1_juwr6")
 script = ExtResource("2_v4bgg")
 mouse_detection_area = NodePath("ActorInteract")
-resize_mouse_detection_area = false
-debug_check_movement_vector = true
 ActorAnim = NodePath("ActorAnim")
 flip_h = true
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true

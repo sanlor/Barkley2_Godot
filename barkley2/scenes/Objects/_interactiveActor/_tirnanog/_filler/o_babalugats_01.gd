@@ -1,6 +1,9 @@
 extends B2_InteractiveActor
 
 func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
+	
 	ANIMATION_STAND 						= "s_babalugats01"
 	ANIMATION_SOUTH 						= "walk_S"
 	ANIMATION_SOUTHEAST 					= "walk_SE"

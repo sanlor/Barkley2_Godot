@@ -2,6 +2,9 @@ extends B2_InteractiveActor_Player
 
 func _ready() -> void:
 	B2_CManager.o_cts_hoopz 	= self
+	_setup_actor()
+	_setup_interactiveactor()
+	
 	disable_auto_flip_h 		= true
 	ANIMATION_STAND 						= "s_cts_hoopz_stand"
 	ANIMATION_SOUTH 						= "walk_S"

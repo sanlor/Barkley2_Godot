@@ -297,13 +297,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gpbnh"]
 size = Vector2(20, 36)
 
-[node name="o_dragline01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_dragline01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 material = ExtResource("1_75kxc")
 script = ExtResource("2_sn01g")
 mouse_detection_area = NodePath("ActorInteract")
-resize_mouse_detection_area = false
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
@@ -420,6 +420,8 @@ metadata/walk_E = {
 "xorig": "14",
 "yorigin": "38"
 }
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_320me")

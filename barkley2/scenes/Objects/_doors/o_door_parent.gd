@@ -33,11 +33,12 @@ var check_for = "PlayerCombatActor";
 
 ## Setup locking ##
 @export_category("Setup locking")
-@export var locked 				:= false;
-var locked_sound 		:= 1;
-var draw_locked 		:= true;
-var alpha_lock 			:= 0;
-var alpha_lock_goal 	:= 0;
+@export var locked 				:= false; ## door will not open automatically
+@export var stick_open			:= false; ## door will not close automatically
+var locked_sound 				:= 1;
+var draw_locked 				:= true;
+var alpha_lock 					:= 0;
+var alpha_lock_goal 			:= 0;
 @export var locked_text 		:= "Locked";
 
 func _door_setup():

@@ -68,34 +68,46 @@ func _set_region():
 		for c in get_children():
 			if c is TileMapLayer:
 				reference_layer.append(c)
+				c.add_to_group("navigation_polygon_source_geometry_group")
 				
-			if not is_instance_valid( collision_layer ):
-				if c.name == "layer - collision":
-					collision_layer = c
-					
-			if not is_instance_valid( collision_layer_semi ):
-				if c.name == "layer - collision 2":
-					collision_layer = c
+				if not is_instance_valid( collision_layer ):
+					if c.name == "layer - collision":
+						collision_layer = c
+						
+				if not is_instance_valid( collision_layer_semi ):
+					if c.name == "layer - collision 2":
+						collision_layer = c
 					
 	var map_rect := Rect2()
 	for l : TileMapLayer in reference_layer:
 		assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
 		map_rect = map_rect.merge( l.get_used_rect() )
+		
+	room_size = map_rect.size * 16 ## <- important for B2_EffectAtmo
 	
+	if not is_instance_valid(navigation_polygon):
+		navigation_polygon = NavigationPolygon.new()
+	
+	## NavigationRegion setup.
 	var poly := PackedVector2Array( [
 		Vector2(0,0),
 		Vector2(0,map_rect.end.y * 16),
 		Vector2(map_rect.end.x * 16,map_rect.end.y * 16),
 		Vector2(map_rect.end.x * 16,0),
 		] )
+		
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
+	navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_EXPLICIT
+	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
 	
 	bake_navigation_polygon()
 
 func update_pathfind():
-	bake_navigation_polygon()
+	if not is_baking():
+		bake_navigation_polygon()
+	print( "%s: tried to update the pathfind mesh while it was already updating." % name )
 
 func set_pacify( state : bool ):
 	room_pacify = state

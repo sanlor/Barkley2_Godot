@@ -125,6 +125,12 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replace("`s0`", "[/shake]")
 		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=8 connected=1]") # The level requires some adjustments.
 		
+		## Mess around with player name
+		## Replace variable P_NAME with actuall player name. Player name can be set on the CC. Defaults to X11JAM9.
+		new_text = new_text.replace("P_NAME_F", B2_Playerdata.Quest("playerNameFull", null, "playerNameFull") )
+		new_text = new_text.replace("P_NAME_S", B2_Playerdata.Quest("playerNameShort", null, "playerNameShort") )
+		new_text = new_text.replace("P_NAME", B2_Playerdata.Quest("playerName", null, "playerName") )
+		
 		# print(new_text)
 		return new_text
 

@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 @onready var o_archambeau_01: CharacterBody2D = $o_archambeau01
@@ -20,8 +21,7 @@ extends B2_ROOMS
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
-	_init_pathfind()
-	_update_pathfind()
+	_set_region()
 	
 	# Quest related
 	o_archambeau_01.modulate.a = 0.0

@@ -4,8 +4,11 @@ extends CanvasLayer
 # Check the original RoomXY() script.
 ## RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 
+signal started_loading
 signal room_loaded( has_error )
 signal room_finished_loading
+
+signal fadeout_finished
 
 var is_loading_room 	:= false
 var path_loading_room 	:= ""
@@ -69,11 +72,18 @@ var room_transition_layer: 	ColorRect
 var room_progress_bar: 		ProgressBar
 
 func _index_rooms():
-	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "*.tscn", true )
-	
+	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "", true )
+	#print(room_array)
+	## Godot is kinda weird sometimes.
+	## PackedScene in exported projects are named *.tscn.remap for some reason.
+	## This basically handles the project in the editor and on exported projects.
 	for r : String in room_array:
-		var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn")
-		room_index[r_name] = r
+		if 	r.ends_with(".tscn"):
+			var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn")
+			room_index[r_name] = r
+		elif r.ends_with(".tscn.remap"):
+			var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
+			room_index[r_name] = r.trim_suffix(".remap")
 
 	print("_index_rooms() ended: ", Time.get_ticks_msec(), "msecs. - ", room_index.size(), " room_index key entries")
 	
@@ -82,6 +92,7 @@ func _ready() -> void:
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
+	layer 					= B2_Config.ROOMXY_LAYER
 	
 func is_room_valid( strict := false) -> bool:
 	if strict:
@@ -92,6 +103,7 @@ func is_room_valid( strict := false) -> bool:
 	
 func get_room_pos() -> Vector2:
 	return Vector2( this_room_x, this_room_y )
+	
 # Reset room data. is this needed?
 func reset_room() -> void:
 	this_room 		= ""
@@ -99,11 +111,12 @@ func reset_room() -> void:
 	this_room_y 	= 0.0
 	print_rich( "[color=yellow]Room data reseted[/color]" )
 	
-func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_in := false ):
+func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
 	if room_load_lock:
 		push_warning("Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
 	room_load_lock = true
+	started_loading.emit()
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )
 	
@@ -119,6 +132,10 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_in := fa
 	this_room_x 	= room_x
 	this_room_y 	= room_y
 	
+	B2_Config.set_user_save_data("map.room", this_room)
+	B2_Config.set_user_save_data("map.x", this_room_x);
+	B2_Config.set_user_save_data("map.y", this_room_y);
+	
 	print("Started loading room %s." % room_name)
 	
 	add_child(room_transition_layer)
@@ -129,10 +146,11 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_in := fa
 	
 	var tween : Tween
 	
-	if not skip_fade_in:
+	if not skip_fade_out:
 		tween = create_tween()
 		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out )
 		await tween.finished
+		fadeout_finished.emit()
 	
 		# set the delay before loading the room.
 		if _delay > 0.0:
@@ -174,6 +192,7 @@ func get_room_scene( room_name : String ):
 	var t1 := Time.get_ticks_msec()
 	if room_index.has( room_name ):
 		path_loading_room = room_index[ room_name ]
+		print(path_loading_room)
 		ResourceLoader.load_threaded_request( path_loading_room, "PackedScene", use_subthreads, cachemode )
 		is_loading_room = true
 		

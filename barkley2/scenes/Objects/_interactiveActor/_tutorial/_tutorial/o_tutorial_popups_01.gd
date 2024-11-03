@@ -45,6 +45,7 @@ func _ready() -> void:
 	if force_index:
 		index = _index
 		
+	B2_RoomXY.started_loading.connect( tutorial_abort.bind(0.15) )
 	tutorial_display()
 	
 func tutorial_display():
@@ -57,9 +58,9 @@ func tutorial_display():
 	tween.tween_property( color_rect, "modulate:a", 0.0, 1.5 )
 	tween.tween_callback( queue_free )
 	
-func tutorial_abort():
+func tutorial_abort( t := 1.0 ):
 	if tween.is_running():
 		tween.kill()
 		tween = create_tween()
-		tween.tween_property( color_rect, "modulate:a", 0.0, 1.0 )
+		tween.tween_property( color_rect, "modulate:a", 0.0, t )
 		tween.tween_callback( queue_free )

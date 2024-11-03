@@ -1,12 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpqmdfbxmt6ja"]
+[gd_scene load_steps=7 format=3 uid="uid://cpqmdfbxmt6ja"]
 
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/interactiveactor.gd" id="1_5tge6"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_8g0hs"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_dead_dwarf.gd" id="1_rygvr"]
 [ext_resource type="Texture2D" uid="uid://dudpd74fybfy" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf06.png" id="3_362t0"]
-
-[sub_resource type="Resource" id="Resource_oxp3i"]
-script = ExtResource("2_8g0hs")
-original_script = "DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | ..."
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbpnf"]
 size = Vector2(20, 36)
@@ -28,14 +23,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_fct_deadDwarf06" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_fct_deadDwarf06" type="CharacterBody2D"]
 position = Vector2(1118, 183)
-script = ExtResource("1_5tge6")
-mouse_detection_area = NodePath("ActorInteract")
-interactive_distance = 64.0
-cutscene_script = SubResource("Resource_oxp3i")
-ActorAnim = NodePath("ActorAnim")
-ActorCol = NodePath("ActorCol")
+script = ExtResource("1_rygvr")
+can_move_around = false
 metadata/code = ""
 metadata/inst_name = "inst_0302D1FA"
 metadata/scale = Vector2(1, 1)

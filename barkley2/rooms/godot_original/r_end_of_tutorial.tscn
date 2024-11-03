@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://r16vdgj2g4o5"]
+
+[ext_resource type="Script" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gd" id="1_0ah04"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_a6h8s"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="3_oivgq"]
+[ext_resource type="Shader" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gdshader" id="4_5wqqp"]
+[ext_resource type="Texture2D" uid="uid://suidyhf17mns" path="res://barkley2/assets/b2_original/images/merged/s_barkley2_logo.png" id="4_a4yhn"]
+[ext_resource type="Script" path="res://barkley2/rooms/godot_original/barkley_logo.gd" id="5_vxush"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_f3jfw"]
+
+[sub_resource type="Resource" id="Resource_5ep5e"]
+script = ExtResource("2_a6h8s")
+original_script = "Misc   | set | o_cts_hoopz | -999 | -999
+Camera | snap  | cinema_0
+WAIT | 3
+DIALOG | ? ? ? ? | With this, this proof of concept is over.
+DIALOG | ? ? ? ? | It was a long journey, but it finally... Its done.
+DIALOG | ? ? ? ? | Back when I started this project, it was just a silly idea...#\"Oh, someone should remake the game using another engine, it would be cool\"
+DIALOG | ? ? ? ? | \"Maybe I could do it\"#\"Is this even possible?\"
+DIALOG | ? ? ? ? | Now... Here we are.______#Well, now I know its possible. Tools were created, Images converted and a workflow to parse GMS data to Godot was made. Its possible... Its viable even.
+WAIT   | 1
+DIALOG | ? ? ? ? | If we are luck, this project will go on. See ya on the nex update.
+CHOICE | Wanna check out the debug room?
+REPLY  | GT_DEBUG | Yes
+REPLY  | GT_TITLE  | Nope
+
+GT_TITLE
+Teleport | r_title | 0 | 0
+
+GT_DEBUG
+Teleport | r_air_entrance03 | 417 | 615"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l8pmg"]
+shader = ExtResource("4_5wqqp")
+
+[node name="r_end_of_tutorial" type="NavigationRegion2D"]
+navigation_polygon = SubResource("NavigationPolygon_f3jfw")
+script = ExtResource("1_0ah04")
+enable_hud = false
+cutscene_script = SubResource("Resource_5ep5e")
+
+[node name="cinema_0" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(192, 120)
+script = ExtResource("3_oivgq")
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(384, 240)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 384.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="barkley_logo" type="TextureRect" parent="Control"]
+material = SubResource("ShaderMaterial_l8pmg")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.5
+offset_top = -71.0
+offset_right = 150.5
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("4_a4yhn")
+script = ExtResource("5_vxush")

@@ -24,24 +24,26 @@ func _ready() -> void:
 	door_sensor.body_exited.connect( detect_player_exit )
 
 func detect_player_exit( body ):
-	if body is B2_Player or body is B2_InteractiveActor:
+	if body is B2_Player:# or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
 				if body is B2_Player: # Avoid actors triggering these messages 
 					hide_locked_message()
 			return
 		else:
-			door_close()
+			if not stick_open:
+				door_close()
 
 func detect_player_enter( body ):
-	if body is B2_Player or body is B2_InteractiveActor:
+	if body is B2_Player:# or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
 				if body is B2_Player: # Avoid actors triggering these messages
 					show_locked_message()
 			return
 		else:
-			door_open()
+			if not stick_open:
+				door_open()
 		
 func show_locked_message():
 	locked_text_label.text = locked_text

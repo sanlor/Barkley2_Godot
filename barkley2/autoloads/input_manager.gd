@@ -20,7 +20,7 @@ signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )
 
 # FFWD Stuff
-var ff_time_scale			:= 3.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
+var ff_time_scale			:= 5.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
 var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
 var is_fastforwarding		:= false 	# Set to true when you are FFWD
 

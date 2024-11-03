@@ -15,13 +15,14 @@ var settingInteractiveDistanceGamepad 	:= 48.0; ## For GAMEPAD ## Was 64
 var main_display = 0
 
 # Screen Layers
-const SHADER_LAYER 	:= 3000 # Shaders and Cursor
-const PAUSE_LAYER	:= 2800 # Pause screen
-const NOTICE_LAYER	:= 2600 # "You got pistol"
-const DIALOG_LAYER	:= 2400 # Dialog Boxes
-const EFFECTATMO_LAYER	:= 2400 # Dialog Boxes
-const HUD_LAYER		:= 2000 # Inventory, etc
-const GUI_LAYER		:= 2000 # Inventory, etc
+const ROOMXY_LAYER		:= 40 # Room Transitions
+const SHADER_LAYER 		:= 30 # Shaders and Cursor
+const PAUSE_LAYER		:= 28 # Pause screen
+const NOTICE_LAYER		:= 26 # "You got pistol"
+const DIALOG_LAYER		:= 24 # Dialog Boxes
+const EFFECTATMO_LAYER	:= 24 # Dialog Boxes
+const HUD_LAYER			:= 20 # Inventory, etc
+const GUI_LAYER			:= 20 # Inventory, etc
 
 # Dialog stuff
 var dialogY := 140.0
@@ -85,8 +86,6 @@ var tim_follow_mouse := false
 
 ## Dev stuff
 var dev_notes := false
-
-
 
 func _init():
 	## Original comments VV

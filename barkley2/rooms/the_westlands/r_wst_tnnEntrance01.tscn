@@ -1,4 +1,4 @@
-[gd_scene load_steps=177 format=4 uid="uid://bcjxe6swsaf74"]
+[gd_scene load_steps=178 format=4 uid="uid://bcjxe6swsaf74"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/the_westlands/r_wst_tnn_entrance_01.gd" id="1_5l8dw"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_w44rg"]
@@ -60,6 +60,12 @@
 [ext_resource type="PackedScene" path="res://barkley2/scenes/Objects/_environs/_structures/o_hut02.tscn" id="59_a0kb3"]
 [ext_resource type="Texture2D" uid="uid://coyjwiergu6kg" path="res://barkley2/assets/b2_original/images/merged/s_hut02.png" id="60_32dxt"]
 [ext_resource type="Texture2D" uid="uid://c27dtiq6r21by" path="res://barkley2/assets/b2_original/images/merged/s_tnn_subjugationSign01.png" id="61_vhwa4"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5bkpe"]
+vertices = PackedVector2Array(1034, 756.141, 1076.14, 714, 1270, 714, 1270, 838, 1206, 838, 1034, 778, 1206, 1062, 1062, 1062, 950, 778, 1062, 1094, 1014, 1094, 1014, 1110, 980.141, 1110, 916.141, 1046, 715.859, 1002, 758, 1002, 758, 1158, 694, 1158, 694, 1270, 522, 1270, 522, 1158, 678, 964.141, 410, 1158, 410, 1129.32, 678, 921.32, 198, 1158, 198, 1174, 10, 1174, 10, 698, 902, 698, 902, 708.141, 950, 756.141, 884.141, 1046, 788.141, 950, 397.648, 1124.2, 724.141, 950, 711.07, 936.93, 690.352, 916.203, 376.93, 1144.93, 363.859, 1158, 474, 298, 566, 186, 662, 186, 662, 218, 442, 518, 742, 218, 742, 234, 628.141, 534, 555.859, 534, 794, 234, 794, 218, 838, 218, 838, 234, 1238, 454, 890, 234, 890, 218, 906, 218, 1270, 454, 906, 138, 1270, 138, 10, 518, 10, 138, 198, 250, 198, 138, 358, 250, 358, 298, 474, 10, 566, 10, 1238, 475.859, 1147.86, 566, 1060.14, 566, 1044.14, 550, 987.859, 550, 971.859, 566, 660.141, 566, 539.859, 550, 452.141, 550, 442, 539.859)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(5, 4, 6, 7, 8), PackedInt32Array(7, 9, 10, 8), PackedInt32Array(8, 10, 11, 12, 13), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(21, 20, 22, 23, 24), PackedInt32Array(25, 26, 27, 28), PackedInt32Array(25, 28, 29, 30), PackedInt32Array(14, 17, 20, 21), PackedInt32Array(25, 30, 31, 8, 24), PackedInt32Array(8, 13, 32, 33), PackedInt32Array(24, 23, 34), PackedInt32Array(8, 33, 35, 36, 37), PackedInt32Array(38, 39, 25, 34), PackedInt32Array(24, 34, 25), PackedInt32Array(24, 8, 37), PackedInt32Array(40, 41, 42, 43, 44), PackedInt32Array(44, 43, 45, 46, 47, 48), PackedInt32Array(49, 50, 51, 52), PackedInt32Array(53, 54, 55, 56, 57), PackedInt32Array(56, 58, 59, 57), PackedInt32Array(44, 60, 61, 62), PackedInt32Array(61, 63, 62), PackedInt32Array(62, 64, 65), PackedInt32Array(44, 62, 65), PackedInt32Array(44, 65, 40), PackedInt32Array(40, 66, 67, 41), PackedInt32Array(54, 53, 68, 69, 70, 71), PackedInt32Array(54, 71, 72, 52), PackedInt32Array(49, 52, 72, 73, 74, 47), PackedInt32Array(46, 49, 47), PackedInt32Array(44, 48, 75, 76, 77)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 1280, 1280, 1280, 1280, 0)])
+source_geometry_mode = 2
 
 [sub_resource type="Resource" id="Resource_2ra2r"]
 script = ExtResource("2_w44rg")
@@ -2731,9 +2737,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_wst_tnnEntrance01" type="Node2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
+[node name="r_wst_tnnEntrance01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_5bkpe")
 script = ExtResource("1_5l8dw")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision"), NodePath("layer - collision 2"), NodePath("layer - collision 3"), NodePath("layer - collision2"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision"), NodePath("layer - collision 2"), NodePath("layer - collision 3"), NodePath("layer - collision2")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(792, 328)
 collision_layer = NodePath("layer - collision")
@@ -2893,6 +2901,7 @@ tile_set = ExtResource("5_rsicf")
 [node name="o_junkpile_huge25" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1040, 1200)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000120"
@@ -2917,6 +2926,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge24" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(896, 816)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 3
 metadata/code = ""
 metadata/inst_name = "inst_00000117"
@@ -2949,6 +2959,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge23" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(200, 1032)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 4
 metadata/code = ""
 metadata/inst_name = "inst_00000114"
@@ -2965,6 +2976,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge22" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(784, 400)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000292"
@@ -2973,6 +2985,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small21" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(888, 340)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000255"
 metadata/scale = Vector2(1, 1)
@@ -2996,6 +3009,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge21" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(24, 288)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 3
 metadata/code = ""
 metadata/inst_name = "inst_00000163"
@@ -3004,6 +3018,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge20" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(-56, 176)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 6
 metadata/code = ""
 metadata/inst_name = "inst_00000162"
@@ -3012,6 +3027,8 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge19" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1000, 256)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
+frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000159"
 metadata/scale = Vector2(1, 1)
@@ -3019,6 +3036,8 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge18" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1200, 408)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
+frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000158"
 metadata/scale = Vector2(1, 1)
@@ -3026,7 +3045,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge17" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1136, 688)
 sprite_frames = SubResource("SpriteFrames_7xykj")
-frame = 0
+animation = &"default"
 metadata/code = ""
 metadata/inst_name = "inst_00000157"
 metadata/scale = Vector2(1, 1)
@@ -3034,6 +3053,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge16" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1168, 592)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 4
 metadata/code = ""
 metadata/inst_name = "inst_00000156"
@@ -3042,6 +3062,8 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge15" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(160, 512)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
+frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000155"
 metadata/scale = Vector2(1, 1)
@@ -3049,6 +3071,8 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge14" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(32, 576)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
+frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000154"
 metadata/scale = Vector2(1, 1)
@@ -3056,6 +3080,8 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge13" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(144, 632)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
+frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000153"
 metadata/scale = Vector2(1, 1)
@@ -3063,6 +3089,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge12" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(344, 720)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 3
 metadata/code = ""
 metadata/inst_name = "inst_00000152"
@@ -3071,7 +3098,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge11" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(528, 632)
 sprite_frames = SubResource("SpriteFrames_7xykj")
-frame = 0
+animation = &"default"
 metadata/code = ""
 metadata/inst_name = "inst_00000151"
 metadata/scale = Vector2(1, 1)
@@ -3079,6 +3106,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge10" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(640, 688)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 6
 metadata/code = ""
 metadata/inst_name = "inst_00000150"
@@ -3087,7 +3115,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge09" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1072, 1304)
 sprite_frames = SubResource("SpriteFrames_7xykj")
-frame = 0
+animation = &"default"
 metadata/code = ""
 metadata/inst_name = "inst_00000147"
 metadata/scale = Vector2(1, 1)
@@ -3095,6 +3123,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge08" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1224, 968)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000144"
@@ -3103,6 +3132,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge07" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(1200, 856)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000143"
@@ -3111,6 +3141,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge06" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(448, 968)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000141"
@@ -3119,6 +3150,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge05" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(368, 888)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000140"
@@ -3127,6 +3159,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge04" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(96, 1120)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000139"
@@ -3135,7 +3168,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge03" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(128, 824)
 sprite_frames = SubResource("SpriteFrames_7xykj")
-frame = 0
+animation = &"default"
 metadata/code = ""
 metadata/inst_name = "inst_00000137"
 metadata/scale = Vector2(1, 1)
@@ -3143,6 +3176,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge02" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(-88, 784)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000136"
@@ -3151,6 +3185,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_huge01" parent="." instance=ExtResource("21_2gk6m")]
 position = Vector2(-64, 976)
 sprite_frames = SubResource("SpriteFrames_7xykj")
+animation = &"default"
 frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000135"
@@ -3159,6 +3194,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small20" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(1088, 436)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000526"
 metadata/scale = Vector2(1, 1)
@@ -3222,7 +3258,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small14" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(1248, 268)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000544"
 metadata/scale = Vector2(1, 1)
@@ -3230,7 +3265,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small13" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(328, 1132)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000539"
 metadata/scale = Vector2(1, 1)
@@ -3253,7 +3287,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small12" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(400, 956)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000530"
 metadata/scale = Vector2(1, 1)
@@ -3285,7 +3318,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small08" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(1008, 668)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000522"
 metadata/scale = Vector2(1, 1)
@@ -3293,7 +3325,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small07" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(880, 732)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000521"
 metadata/scale = Vector2(1, 1)
@@ -3309,7 +3340,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small05" parent="." instance=ExtResource("30_nl3kl")]
 position = Vector2(960, 1052)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000518"
 metadata/scale = Vector2(1, 1)
@@ -4995,6 +5025,9 @@ metadata/default = {
 }
 
 [node name="o_effect_smog" parent="." instance=ExtResource("42_8bda8")]
+z_index = 24
+offset_right = 1280.0
+offset_bottom = 1280.0
 metadata/inst_name = "inst_90FF85EB"
 
 [node name="P148 - o_teleport_mark" type="Marker2D" parent="."]

@@ -40,6 +40,7 @@ signal set_interactivity(enabled : bool)
 var object_map := {
 	"o_tutorial_popups01" : 	preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
 	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
+	"o_hoopz_black":			preload("res://barkley2/scenes/Objects/_cutscenes/_sceneBranding/o_hoopz_black.tscn"),
 }
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
@@ -175,7 +176,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		camera = get_camera_on_tree()
 		
 	assert(camera != null, "Camera not setup. Fix it.")
-	
+	assert(cutscene_mask is Array, "Whops, outdate node called the cinema function wrong.")
 	## Apply mask, to replace string from the cutscene.
 	if not cutscene_mask.is_empty():
 		apply_cutscene_mask( cutscene_script, cutscene_mask )
@@ -347,7 +348,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"DIALOG", "MYSTERY":
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
-					add_child(dialogue)
+					add_child( dialogue, true )
 					# parse talker´s name
 					if parsed_line[1].contains("="):
 						var talker_split = parsed_line[1].split("=")
@@ -358,7 +359,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						last_talker_portrait = talker_port
 					else:
 						var talker_port := parsed_line[1].strip_edges(true,true)
-						dialogue.set_portrait( talker_port, true )
+						if B2_Gamedata.portrait_from_name.has( talker_port ):
+							dialogue.set_portrait( talker_port, true )
 						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_port )
 						last_talker_portrait = talker_port
 						
@@ -432,6 +434,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					o_fade._event = self # used to listen to signals. _event should never be null
 					
 					add_child( o_fade, true )
+					#add_sibling( o_fade, true )
 					if debug_fade: 
 						print( "Fade: ", str(curr_line), " - ", parsed_line )
 				"SOUND":
@@ -489,7 +492,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( subject ) 		# its a node.
 					else:
-						await B2_CManager.o_cts_hoopz.cinema_surpriseat( str(subject) ) 	# its a direction, like NORTH.
+						await B2_CManager.o_cts_hoopz.cinema_surpriseat( str(parsed_line[ 1 ]).strip_edges() ) 	# its a direction, like NORTH.
 					pass
 				"USEAT":
 					# Check script USEAT().
@@ -499,7 +502,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 					else:
-						await B2_CManager.o_cts_hoopz.cinema_useat( str(subject) ) 	# its a direction, like NORTH.
+						await B2_CManager.o_cts_hoopz.cinema_useat( str(parsed_line[ 1 ] ).strip_edges() ) 	# its a direction, like NORTH.
 					
 				"FOLLOWFRAME":
 					var speed 			: String = parsed_line[ 1 ]
@@ -587,6 +590,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					cinema_kid( actor )
 					
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+				"SOUNDSTOP":
+					B2_Sound.stop_loop() ## CRITICAL current implementation ignores the actual sound name.
 				"Destroy":
 					# Remove actor. simple.
 					var actor = get_node_from_name( all_nodes,	parsed_line[1] )
@@ -617,19 +622,27 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var yoffset			:= 0.0
 					var emote_node		:= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn").instantiate() as AnimatedSprite2D
 					
+					if parsed_line.size() > 2: emote_target = get_node_from_name( all_nodes, parsed_line[2] )
+					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
+					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
+					
+					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
+					
 					## TODO 15/10/24 add other arguments, current solution only take 1 argument.
-					
+					## 03/11/24 fixed, i think.
 					emote_node.type 	= emote_type
-					emote_node.position = emote_target.position - Vector2( 0, 10 )
 					emote_node.offset	+= Vector2( xoffset, yoffset )
-					
+					emote_node.position = ( emote_target.position ) - Vector2( 0, 10 )
 					get_tree().current_scene.add_child( emote_node, true )
+				"BodySwap":
+					B2_CManager.BodySwap( str( parsed_line[1] ).strip_edges() )
 				"Teleport":
 					var room_string := ""
 					for _str : String in parsed_line:
 						if _str == "Teleport": continue # Lazy way to skip the first line.
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
-					B2_RoomXY.warp_to( room_string, 0.0, true )
+					B2_RoomXY.warp_to( room_string, 0.0, false )
+					await B2_RoomXY.fadeout_finished
 				"scr_savedata_save":
 					B2_Playerdata.SaveGame()
 				_:
@@ -791,7 +804,14 @@ func Misc( parsed_line :PackedStringArray ):
 		"automatic animation":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"flip":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			if is_instance_valid(subject):
+				# -1 means flip. 1 means normal.
+				var flip : bool = str( parsed_line[ 2 ] ).strip_edges() == "-1" # true if line == -1
+				subject.force_flip( flip )
+			else:
+				push_error("Subject invalid (for some reason): ", parsed_line)
+			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"flipx": ## Special case for walking interactive actors
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"alpha": ## 1 = object | 2 = alpha | 3 = time
@@ -875,6 +895,6 @@ func Create( parsed_line : PackedStringArray ):
 				object.position.x = float( parsed_line[2] )
 			if misc_arguments > 2:
 				object.position.y = float( parsed_line[3] )
-		add_sibling( object )
+		add_sibling( object, true )
 	else:
 		push_error("object %s not in object_map dictionary. you dun goofed." % str( parsed_line[1] ) )

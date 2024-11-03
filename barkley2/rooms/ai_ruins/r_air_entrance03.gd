@@ -1,10 +1,10 @@
+@tool
 extends B2_ROOMS
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
-	_init_pathfind()
-	_update_pathfind()
+	_set_region()
 	
 	await get_tree().process_frame
 	if B2_RoomXY.is_room_valid():

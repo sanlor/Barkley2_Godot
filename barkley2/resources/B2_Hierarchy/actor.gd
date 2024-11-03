@@ -5,6 +5,8 @@ class_name B2_Actor
 signal sprite_offset_centered
 signal sprite_collision_adjusted
 
+const O_SHADOW = preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+
 ## DEBUG
 @export_category("Debug")
 @export var debug_move_finish 				:= false ## Print some debug shit.
@@ -15,6 +17,7 @@ signal destination_reached
 signal set_played
 
 @export_category("Actor Stuff")
+@export var cast_shadow		:= true
 @export var ActorAnim 		: AnimatedSprite2D
 @export var flip_h			:= false				## Start with the sprite flipped.
 @export var has_collision 	:= true
@@ -26,6 +29,8 @@ signal set_played
 @export var _automatic_animation 	:= false; ## Start playing a animation during room load ## CRITICAL ## it overrides any animations set on _ready().
 # The animation to use if automatic animation isn't true. 
 @export var _current_animation 		:= "default" ## What animation should blay at room load? ## CRITICAL ## it overrides any animations set on _ready().
+
+var my_shadow 		: Sprite2D
 
 var is_moving 		:= false
 var is_playingset 	:= false
@@ -39,6 +44,7 @@ var movement_vector 		:= Vector2.ZERO :
 	set(m):
 		movement_vector = m
 		#print("Movement Vector updated to %s." % m)
+var real_movement_vector 	:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
@@ -46,7 +52,7 @@ var last_movement_vector 	:= Vector2.ZERO
 var speed_multiplier 		:= 30.0 # was 900.0
 @export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
 @export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
-@export var speed_fast 		:= 5.0 * speed_multiplier # was 5.0
+@export var speed_fast 		:= 6.0 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
 @export_category("Pathfinding")
@@ -104,20 +110,36 @@ var dir_2_vec_map := {
 ## Action Queue
 var cinema_set_queue := []
 
-func _draw() -> void:
-	if debug_check_movement_vector:
-		draw_line(Vector2.ZERO, movement_vector * 32, Color.HOT_PINK)
+var playing_animation := ""
 
 func _setup_actor():
 	ready.connect( play_animations )
-	ActorAnim 	= get_node( "ActorAnim" )
-	ActorAnim.use_parent_material = true ## Shader stuff
-	ActorCol 	= get_node( "ActorCol" )
+	if not is_instance_valid( ActorAnim ):
+		ActorAnim 	= get_node( "ActorAnim" )
+	if not is_instance_valid( ActorCol ):
+		ActorCol 	= get_node( "ActorCol" )
 	if can_move_around:
-		ActorNav	= get_node( "ActorNav" )
-		ActorNav.path_desired_distance 		= path_desired_distance
-		ActorNav.target_desired_distance 	= target_desired_distance
-		ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )
+		if not is_instance_valid( ActorNav):
+			ActorNav	= get_node( "ActorNav" )
+		if is_instance_valid( ActorNav ): # Setup NavigationAgent2D
+			ActorNav.path_desired_distance 		= path_desired_distance
+			ActorNav.target_desired_distance 	= target_desired_distance
+			ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )
+			ActorNav.debug_enabled = B2_Debug.PATHFIND_SHOW
+		else:
+			push_error( "ActorNav is invalid for node %s." % name )
+	
+	if is_instance_valid( ActorAnim ):
+		ActorAnim.use_parent_material = true ## Shader stuff
+	else:
+		push_error( "ActorAnim is invalid for node %s." % name )
+		
+	if not is_instance_valid( ActorCol ):
+		push_error( "ActorCol is invalid for node %s." % name )
+		
+	if cast_shadow:
+		my_shadow = O_SHADOW.instantiate()
+		add_child( my_shadow, true)
 
 func play_animations():
 	if _automatic_animation:
@@ -127,45 +149,55 @@ func play_animations():
 			push_warning( "%s has no animation called %s." % [ name, _current_animation ] )
 	
 	# try to run this as late as possible
-	#await ActorAnim.ready
 	ActorAnim.flip_h = flip_h
 
 # SURPRISEAT()
 func cinema_surpriseat( target ):
-	cinema_useat( target, "surprise", "surpriseHold", 1.25 )
+	cinema_useat( target, "surprise", "surpriseHold", 0.75 )
 	
 # KNEELAT()
 func cinema_kneelat( target ):
-	cinema_useat( target, "kneelHold", "kneelHold", 1.25 )
+	cinema_useat( target, "kneelHold", "kneelHold", 0.75 )
 
 # USEAT()
 func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", force_speed := 1.0 ) -> void:
 	# what a mess. target can be a string or a node.
+	assert(target != null, "Null? NULL? Why null?")
+	
+	var prefix := ""
+	if B2_CManager.curr_BODY == B2_CManager.BODY.DIAPER: prefix = "diaper_" ## What a mess. This is a port of the original code. not really want to change how it works.
 	var dir : Vector2
 	if target 		is String:
+		if not dir_2_vec_map.has(target): push_warning("no target called %s." % target) ## Debug
 		dir = dir_2_vec_map.get(target, Vector2.DOWN) as Vector2
 	elif target 	is Node2D:
-		dir = position.direction_to(target.position).sign()
+		dir = position.direction_to(target.position).round() # sign()
 	else:
 		push_warning( "Which USEAT anim is this? ", target )
+		breakpoint
 		
+	movement_vector = dir # Is this needed? Used to help flip the sprite, sometimes.
+	#print("USEAT dir: %s." % dir)
 	ActorAnim.flip_h = false
-	if not disable_auto_flip_h:
-		if dir.x < 0: ActorAnim.flip_h = true
-	
-	var old_anim 	:= force_hold_anim + useat_map.get(dir, "S") as String ## action_S as the catch all.
+	if not disable_auto_flip_h: 
+		if dir.x < 0: ActorAnim.flip_h = true # Flip sprite if its looking left. 
+		
+	if not useat_map.has(dir): push_warning("no dir called %s." % dir) ## Debug
+	var old_anim 	:= prefix + force_hold_anim + useat_map.get(dir, "S") as String ## action_S as the catch all.
 	var old_frame 	:= 0
 	if force_hold_anim.is_empty():
 		old_anim 	= ActorAnim.animation
 		old_frame 	= ActorAnim.frame # Standing anim fix
 		
-	var new_anim 	:= force_new_anim + useat_map.get(dir, "S") as String ## action_S as the catch all.
+	var new_anim 	:= prefix + force_new_anim + useat_map.get(dir, "S") as String ## action_S as the catch all.
 		
 	ActorAnim.sprite_frames.set_animation_loop( new_anim, false )
+	ActorAnim.sprite_frames.set_animation_loop( old_anim, false )
 	
+	#print("USEAT anim: %s." % new_anim)
 	cinema_playset( new_anim, old_anim, 10.0 * force_speed, disable_auto_flip_h )
 	await ActorAnim.animation_finished
-	ActorAnim.frame = old_frame
+	#ActorAnim.frame = old_frame # <- is this needed?
 	
 	return
 
@@ -173,8 +205,10 @@ func cinema_set( _sprite_frame : String ):
 	if is_moving:
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
 		
+	# reset movement vector. Is this needed?
 	movement_vector 		= Vector2.ZERO
 	last_movement_vector 	= Vector2.ZERO
+	real_movement_vector	= Vector2.ZERO
 	
 	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
 		ActorAnim.animation = _sprite_frame
@@ -182,30 +216,37 @@ func cinema_set( _sprite_frame : String ):
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15.0, dis_flip := false ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame
-		if not dis_flip: flip_sprite() ## Hoopz flip_h issues
 		adjust_sprite_offset()
+		flip_sprite()
 		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
 		ActorAnim.play( _sprite_frame )
-		
-		await ActorAnim.animation_finished
-		ActorAnim.animation = _sprite_frame_2
-		if not dis_flip: flip_sprite() ## Hoopz flip_h issues
-		adjust_sprite_offset()
-		is_playingset = false
-		set_played.emit()
-		return 
+		await ActorAnim.animation_finished # Play set and wait for the animation to finish
 	else:
 		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
-		return
+		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
+		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+		
+	if ActorAnim.sprite_frames.has_animation( _sprite_frame_2 ):
+		ActorAnim.stop()
+		ActorAnim.animation = _sprite_frame_2
+		adjust_sprite_offset()
+		flip_sprite()
+		is_playingset = false
+		set_played.emit()
+	else:
+		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame_2 + " not found" )
+		is_playingset = false
+		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
+		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+	return
 
 func cinema_look( _direction : String ):
 	ActorAnim.stop()
-	ActorAnim.flip_h = false
 	
 	if not ActorAnim.sprite_frames.has_animation(ANIMATION_STAND):
 		push_error("Node %s has no animation called %s. You don goofed." % [name, ANIMATION_STAND] )
@@ -213,32 +254,20 @@ func cinema_look( _direction : String ):
 		
 	ActorAnim.animation = ANIMATION_STAND
 	match _direction:
-		"NORTH":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[0]
-			if not disable_auto_flip_h: ActorAnim.flip_h = false
-		"NORTHEAST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[1]
-			if not disable_auto_flip_h: ActorAnim.flip_h = false
-		"EAST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[2]
-			if not disable_auto_flip_h: ActorAnim.flip_h = false
-		"SOUTHEAST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[3]
-			if not disable_auto_flip_h: ActorAnim.flip_h = false
-		"SOUTH":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[4]
-			if not disable_auto_flip_h: ActorAnim.flip_h = false
-		"SOUTHWEST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[5]
-			if not disable_auto_flip_h: ActorAnim.flip_h = true
-		"WEST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[6]
-			if not disable_auto_flip_h: ActorAnim.flip_h = true
-		"NORTHWEST":
-			ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[7]
-			if not disable_auto_flip_h: ActorAnim.flip_h = true
+		"NORTH": 		ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[0]
+		"NORTHEAST": 	ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[1]
+		"EAST": 		ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[2]
+		"SOUTHEAST": 	ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[3]
+		"SOUTH": 		ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[4]
+		"SOUTHWEST": 	ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[5]
+		"WEST": 		ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[6]
+		"NORTHWEST": 	ActorAnim.frame = ANIMATION_STAND_SPRITE_INDEX[7]
 			
-	movement_vector = dir_2_vec_map.get( _direction, Vector2.DOWN) ## Default is South
+	real_movement_vector = dir_2_vec_map.get( _direction, Vector2.DOWN) ## Default is South
+	movement_vector =  real_movement_vector.round()
+	
+	ActorAnim.flip_h = false
+	if not disable_auto_flip_h: flip_sprite()
 	adjust_sprite_offset()
 	
 func cinema_lookat( target_node : Node2D ):
@@ -247,6 +276,8 @@ func cinema_lookat( target_node : Node2D ):
 	cinema_look( dir_name )
 	
 func cinema_moveto( _target_spot, _speed : String ):
+	assert( is_instance_valid(ActorNav), "ActorNav not valid for node %s." % name )
+	
 	# Default behaviour
 	match _speed:
 		"MOVE_FAST": speed = speed_fast
@@ -254,56 +285,60 @@ func cinema_moveto( _target_spot, _speed : String ):
 		"MOVE_NORMAL": speed = speed_normal
 	
 	if _target_spot == null:
-		push_error("Camera: node is invalid. ", _target_spot, ".")
+		push_error(name, ": node is invalid. ", _target_spot, ".")
 	# _target_spot can be eiher a node (Cinema Spot) or a position. What a mess.
 	elif _target_spot is Node2D or _target_spot is Vector2:
-		if _target_spot is Vector2:
-			destination 		= _target_spot
-		else:
-			destination 		= _target_spot.position
+		
+		if _target_spot is Vector2:	destination 		= _target_spot
+		else:						destination 		= _target_spot.position
 			
 		set_movement_target( destination )
 		
-		is_moving 			= true
-		movement_vector 	= position.direction_to( destination ).sign()
-			
+		is_moving 				= true
+		real_movement_vector 	= position.direction_to( destination )
+		movement_vector 		= real_movement_vector.round()
 		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
-
 	return
 
+func force_flip( flip : bool ) -> void:
+	ActorAnim.flip_h = flip
+
 func flip_sprite( ):
-	if movement_vector.x > 0: # handle sprite mirroring
+	if disable_auto_flip_h: ## DEBUG
+		return 
+	if real_movement_vector.x > 0: # handle sprite mirroring
 		ActorAnim.flip_h = false
-	elif movement_vector.x < 0:
+	elif real_movement_vector.x < 0:
 		ActorAnim.flip_h = true
 	else:
-		# movement_vector.x == 0, do nothing
-		pass
+		pass # movement_vector.x == 0, do nothing
 
 func cinema_animation(): # Apply animation when the character is moved by a cinema script.
-	if movement_vector != last_movement_vector:
+	#if movement_vector != last_movement_vector:
+	var _dir := ANIMATION_SOUTH
+			
+	match movement_vector:
+		Vector2.UP + Vector2.LEFT: 		_dir = ANIMATION_NORTHWEST
+		Vector2.UP + Vector2.RIGHT: 	_dir = ANIMATION_NORTHEAST
+		Vector2.DOWN + Vector2.LEFT: 	_dir = ANIMATION_SOUTHWEST
+		Vector2.DOWN + Vector2.RIGHT: 	_dir = ANIMATION_SOUTHEAST
+			
+		Vector2.UP: 		_dir = ANIMATION_NORTH
+		Vector2.LEFT: 		_dir = ANIMATION_WEST
+		Vector2.DOWN: 		_dir = ANIMATION_SOUTH
+		Vector2.RIGHT: 		_dir = ANIMATION_EAST
+		
+	if playing_animation != _dir:
 		if not disable_auto_flip_h:
 			flip_sprite()
 		else:
 			ActorAnim.flip_h = false
-			
-		var _dir := ANIMATION_SOUTH
-			
-		match movement_vector:
-			Vector2.UP + Vector2.LEFT: 		_dir = ANIMATION_NORTHWEST
-			Vector2.UP + Vector2.RIGHT: 	_dir = ANIMATION_NORTHEAST
-			Vector2.DOWN + Vector2.LEFT: 	_dir = ANIMATION_SOUTHWEST
-			Vector2.DOWN + Vector2.RIGHT: 	_dir = ANIMATION_SOUTHEAST
-				
-			Vector2.UP: 		_dir = ANIMATION_NORTH
-			Vector2.LEFT: 		_dir = ANIMATION_WEST
-			Vector2.DOWN: 		_dir = ANIMATION_SOUTH
-			Vector2.RIGHT: 		_dir = ANIMATION_EAST
 				
 		ActorAnim.play(_dir, animation_speed)
-			
+		last_movement_vector = movement_vector ## Old method
+		playing_animation = _dir
+		
 		adjust_sprite_offset()
-		last_movement_vector = movement_vector
 
 func get_curr_sprite_metadata(curr_anim) -> Dictionary:
 	var sprite_data := ActorAnim.get_meta( curr_anim, Dictionary() ) as Dictionary
@@ -342,10 +377,6 @@ func adjust_sprite_collision():
 	if sprite_data.is_empty():
 		# no data
 		return
-	## TODO create col shape and set its colisions.
-	# var shape := RectangleShape2D.new()
-	# shape.size.x = int( sprite_data["bbox_right"] ) 	- int( sprite_data["bbox_left"] )
-	# shape.size.y = int( sprite_data["bbox_bottom"] ) 	- int( sprite_data["bbox_top"] )
 	# Not being able to un-center the collision shape is terrible. # https://github.com/godotengine/godot-proposals/issues/1170
 	## NOTE Disabled bellow. not sure how to use it yet.
 	# ActorCol.position = Vector2( int( sprite_data["bbox_left"] ), int( sprite_data["bbox_top"] ) ) + shape.size / 2.0
@@ -357,23 +388,16 @@ func adjust_sprite_collision():
 	ActorCol.shape = shape
 	sprite_collision_adjusted.emit()
 	
-func execute_event_user_0():
-	push_warning("%s: Event not set" % name)
-
-func execute_event_user_1():
-	push_warning("%s: Event not set" % name)
-
-func execute_event_user_2():
-	push_warning("%s: Event not set" % name)
-
-func execute_event_user_10():
-	push_warning("%s: Event not set" % name)
+func execute_event_user_0(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_1(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_2(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_10(): 	push_warning("%s: Event not set" % name)
 
 func set_movement_target(movement_target: Vector2):
 	ActorNav.set_target_position(movement_target)
 
 ## Function checks if the node is doing anything
-## Return void right awai if itsd idle. Await for a signal if its busy.
+## Return void right awai if its idle. Await for a signal if its busy.
 func check_actor_activity() -> void:
 	if is_moving:
 		# is moving toward something.
@@ -387,40 +411,46 @@ func check_actor_activity() -> void:
 		# not doing anything important
 		return
 
+func _draw() -> void:
+	if debug_check_movement_vector or B2_Debug.ENABLE_MOVEMENT_VECTOR_VISUALIZE:
+		draw_line(Vector2.ZERO, movement_vector * 32, Color.HOT_PINK)
+
 func _physics_process( delta: float ) -> void:
-	if debug_check_movement_vector:
+	if debug_check_movement_vector or B2_Debug.ENABLE_MOVEMENT_VECTOR_VISUALIZE:
 		queue_redraw()
 		
 	if is_moving:
 		if not is_playingset: # avoid issues with animations and movement.
 			cinema_animation()
-		
+			
 		# Do not query when the map has never synchronized and is empty.
 		if NavigationServer2D.map_get_iteration_id( ActorNav.get_navigation_map() ) == 0:
 			return
-		
 		# Finish navigation
 		if ActorNav.is_target_reached():
+			playing_animation = ""
 			is_moving = false
 			position = destination.round() ## WARNING is this needed? Maybe its whats causing the jittering issue.
 			
 			ActorCol.call_deferred("set_disabled", false) 	# Reenable the collision.
+			if debug_move_finish:	print("%s finished moving." % name)
+			
 			if not is_playingset: # avoid issues with animations and movement.
 				cinema_look( vec_2_dir_map.get( movement_vector, "SOUTH" ) )
-			
-			if debug_move_finish:
-				print("%s finished moving." % name)
 				
 			destination_reached.emit()
+			return
 		
 		if ActorNav.is_navigation_finished():
+			playing_animation = ""
 			return
 			
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
-		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier )  * delta
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier / Engine.time_scale )  * delta # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
 		
 		## Update movement vector for animation purposes.
-		movement_vector = position.direction_to( next_path_position ).round()
+		real_movement_vector 	= position.direction_to( next_path_position )
+		movement_vector 		= real_movement_vector.round()
 		
 		if ActorNav.avoidance_enabled:
 			ActorNav.set_velocity(new_velocity)
@@ -430,3 +460,4 @@ func _physics_process( delta: float ) -> void:
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
 	move_and_slide()
+	last_movement_vector = movement_vector

@@ -17,6 +17,8 @@ var _fadeColor 		:= Color.BLACK;
 func _ready() -> void:
 	assert( _event != null, "_event should never be null." )
 	_event.created_new_fade.connect( queue_free )
+	_event.tree_exiting.connect( queue_free )
+	
 	color = _fadeColor
 	
 	var target_alpha : float
@@ -32,7 +34,7 @@ func _ready() -> void:
 		tween.tween_property(self, "color:a", target_alpha, _seconds)
 		if _fade == true:
 			tween.tween_interval( _fadeDelay )
-		tween.tween_callback( queue_free )
+		#tween.tween_callback( queue_free )
 	else:
 		color.a = target_alpha
 		print("permanent fade created: ", self)

@@ -70,5 +70,3 @@ func _physics_process(delta: float) -> void:
 		modulate.a = lerpf(modulate.a, 0.15, 5.0 * delta)
 	else:
 		modulate.a = lerpf(modulate.a, 0.0, 5.0 * delta)
-		
-	print(modulate.a)

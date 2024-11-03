@@ -118,12 +118,15 @@ radius = 8.91268
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oxteu"]
 size = Vector2(20, 36)
 
-[node name="o_lucretia01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_lucretia01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_d6oh0")
 duergar_name = "lucretia"
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true

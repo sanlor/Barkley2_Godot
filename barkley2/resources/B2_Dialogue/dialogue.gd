@@ -74,11 +74,11 @@ var textbox_pause 			:= 0.025 	#0.05; # Set tyhe typing speed.
 var textbox_talk_cooldown 	:= 0.04 	#0.04;
 var textbox_blink_cooldown 	:= 0.04 	#0.04;
 
-var comma_pause 			:= 0.10 			#0.1
-var period_pause 			:= 0.20 			#0.5
+var comma_pause 			:= 0.15 			#0.1
+var period_pause 			:= 0.30 			#0.5
 var dash_pause 				:= 0.20 			#0.2
-var question_pause 			:= 0.40 			#0.5 ## Added by me, not on the original.
-var exclamation_pause 		:= 0.40 			#0.5 ## Added by me, not on the original.
+var question_pause 			:= 0.45 			#0.5 ## Added by me, not on the original.
+var exclamation_pause 		:= 0.45 			#0.5 ## Added by me, not on the original.
 
 var normal_typing 			:= 1.0			#1.0
 var fast_typing 			:= 0.2
@@ -112,7 +112,7 @@ func _ready() -> void:
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
-	border_node.set_seed( get_tree().root.get_child(0).name )
+	border_node.set_seed( get_tree().root.get_child(0).name ) # This ensures that the border is random, but doesnt change all the time.
 	
 	add_child( border_node )
 	border_node.name = "Dialog_Frame"
@@ -125,7 +125,7 @@ func _ready() -> void:
 	return_sprite = Sprite2D.new()
 	return_sprite.centered 		= false
 	return_sprite.texture 		= S_RETURN
-	border_node.add_child( return_sprite )
+	border_node.add_child( return_sprite, true )
 	return_sprite.position 		= border_node.size - Vector2(24,24)
 	
 	fastforward_control( B2_Input.is_fastforwarding )
@@ -144,7 +144,7 @@ func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 
 func set_text( _text : String, _text_title := "" ) -> void:
 	if not _text_title.is_empty():
-		title_node 	= RichTextLabel.new(); add_child(title_node); title_node.bbcode_enabled = true
+		title_node 	= RichTextLabel.new(); add_child(title_node, true); title_node.bbcode_enabled = true
 		title_node.theme = preload("res://barkley2/themes/dialogue.tres")
 		_title 		= _text_title 	# whos speaking the text
 		
@@ -155,17 +155,16 @@ func set_text( _text : String, _text_title := "" ) -> void:
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:
 	# Add the frame to the tree
-	portrait_frame_node = TextureRect.new(); add_child( portrait_frame_node ) 
-	
+	portrait_frame_node = TextureRect.new(); 
+	add_child( portrait_frame_node, true ) 
 	portrait_frame_node.texture = S_DIAG_FRAME
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
-	
+
 	if from_name:
 		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
 	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
-	
 	has_portrait = true
 	
 func display_dialog( _is_boxless := false ):
@@ -185,6 +184,8 @@ func display_dialog( _is_boxless := false ):
 	text_node.name 				= "Text"
 	text_node.position 			= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
 	text_node.size 				= Vector2( 250, 11 * 4)
+	if not has_portrait: 
+		text_node.size.x += 70 # compensate for the aditional space not being used by the portrait.
 	text_node.get_v_scroll_bar().custom_step = 11 # avoid partial scroll
 	
 	text_node.set_text( Text.pr( _my_text ) )

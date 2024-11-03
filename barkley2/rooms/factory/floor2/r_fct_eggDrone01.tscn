@@ -58,7 +58,7 @@ func _ready() -> void:
 
 func event_trigger( _node ):
 	if is_instance_valid(cutscene_script):
-		B2_CManager.play_cutscene( cutscene_script, self, true )
+		B2_CManager.play_cutscene( cutscene_script, self )
 		
 		await B2_CManager.event_ended # wait for the cutscene to end, then sea side.
 		queue_free()

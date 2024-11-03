@@ -118,12 +118,15 @@ radius = 8.91268
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_anbiu"]
 size = Vector2(20, 36)
 
-[node name="o_onslow01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_onslow01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_16qwl")
 duergar_name = "onslow"
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true

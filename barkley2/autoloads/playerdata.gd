@@ -100,6 +100,9 @@ func _ready():
 	character_multiple.resize(44)
 	
 	## Quest flags overrides
+	
+	#preload_CC_save_data()
+	#B2_CManager.BodySwap("diaper");
 	#B2_Playerdata.Quest("tutorialProgress", 	9)
 	#B2_Playerdata.Quest("tutorialCspear", 		1)
 	#
@@ -348,6 +351,7 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("map.y", 0); # scr_savedata_put("map.y", 0);
 	
 	B2_Config.create_user_save_data( B2_Config.selected_slot ) ## scr_savedata_save();
+	print_rich("[color=red]Loaded default CC data for Hoopz.[/color]")
 	
 func preload_tutorial_save_data(): # user skip the CC
 	# related script = CC("hoopz player");

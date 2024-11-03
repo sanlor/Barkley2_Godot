@@ -3,6 +3,8 @@ extends B2_InteractiveActor
 @export var eggroom_computer : B2_EnvironInteractive
 
 func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
 	ANIMATION_STAND 						= "s_eggDrone01"
 	ANIMATION_SOUTH 						= "s_eggDroneDOWN01"
 	ANIMATION_SOUTHEAST 					= "s_eggDroneDOWN01"

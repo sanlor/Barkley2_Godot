@@ -39,8 +39,9 @@ var is_player_near 		:= false
 
 func _setup_interactiveactor():
 	if is_interactive:
-		mouse_detection_area = get_node("ActorInteract")
-		print("Forgot to set the interaction Area2D for node %s." % name)
+		if not is_instance_valid(mouse_detection_area):
+			mouse_detection_area = get_node("ActorInteract")
+			print("Forgot to set the interaction Area2D for node %s." % name)
 		
 		await get_tree().process_frame
 		if is_instance_valid(mouse_detection_area):

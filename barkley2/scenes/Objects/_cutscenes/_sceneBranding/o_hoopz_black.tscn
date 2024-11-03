@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://dk0fdlhyhaggx"]
+
+[ext_resource type="Texture2D" uid="uid://bw20krk5v4wij" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_ground.png" id="1_cnma2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qxhfv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cnma2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_xq4wq"]
+script/source = "@tool
+extends AnimatedSprite2D
+
+func _ready() -> void:
+	position = Vector2(192, 100) ## Terrible hack. It works, so im leaving this alone.
+"
+
+[node name="o_hoopz_black" type="CanvasLayer"]
+
+[node name="o_hoopz_black" type="AnimatedSprite2D" parent="."]
+position = Vector2(192, 100)
+sprite_frames = SubResource("SpriteFrames_qxhfv")
+centered = false
+offset = Vector2(-32, -51)
+script = SubResource("GDScript_xq4wq")

@@ -30,7 +30,7 @@ func _enter_tree() -> void:
 			material = shader
 			
 		else:
-			push_warning("Interactive element has no mouse detection area")
+			push_warning( "Interactive element %s has no mouse detection area" % name )
 			is_interactive = false
 		
 		if not is_instance_valid( cutscene_script ):

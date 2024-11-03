@@ -6,6 +6,8 @@ extends Node
 
 ## scr_music_init()
 ## get duplicate sounds
+var debug_messages := false
+
 
 @warning_ignore("unused_variable")
 @onready var tim = Time.get_ticks_msec()
@@ -37,7 +39,7 @@ var sound_loop				:= {} ## Keep track of the loops
 
 ## All SFX files are loaded on an array for easy lookup
 func _init_sound_banks():
-	# https:##gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
+	# https://gist.github.com/hiulit/772b8784436898fd7f942750ad99e33e
 	# https://godotengine.org/asset-library/asset/1974
 	## Load audio tracks (SFX)
 	var audio_files : Array = FileSearch.search_dir(audio_folder, "", true)
@@ -45,7 +47,7 @@ func _init_sound_banks():
 		if file.ends_with(".import"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			sound_bank[ file_split.back().trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str( file.trim_suffix(".import") )
-	print("_init_sound_banks() ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries")
+	if debug_messages: print("_init_sound_banks() ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries")
 	
 # Im lazy, I just copy/pasted and replaced the invalid strings.
 ## Copy of the original hack. Enables "nicknames" for sfx files.
@@ -1715,7 +1717,7 @@ func _init_sound_picks():
 	
 	# Damn
 #endregion
-	print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), " msecs. - ", sound_pick.size(), " sound_pick entries" )
+	if debug_messages: print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), " msecs. - ", sound_pick.size(), " sound_pick entries" )
 	
 func _add_sound_pick(sound_key : String, sound_value : String):
 	if not sound_pick.has(sound_key):
@@ -1739,11 +1741,9 @@ func _enter_tree() -> void:
 func _ready():
 	for i in sound_pool_amount:
 		sound_pool.append( 					AudioStreamPlayer.new() 	)
-		
-	print( "Sound: sound_pool: x", sound_pool.size() )
-	print( "Sound: sound_bank entries: %s. sound_pick entries: %s." % [ sound_bank.size(), sound_pick.size() ] )
+	if debug_messages: print( "Sound: sound_pool: x", sound_pool.size() ); print( "Sound: sound_bank entries: %s. sound_pick entries: %s." % [ sound_bank.size(), sound_pick.size() ] )
 
-## used for Positional sounds.
+## used for Positional sounds. # Return the file name for a sound effect
 func get_sound(soundID : String) -> String:
 	if sound_bank.has(soundID):
 		return sound_bank[soundID]
@@ -1754,6 +1754,7 @@ func get_sound(soundID : String) -> String:
 	else:
 		return ""
 	
+# Return the file name for a soundpick
 func get_sound_pick(soundpickID : String) -> String:
 	if sound_pick.has(soundpickID): ## Fallback to soundpick
 		assert( not sound_pick[soundpickID].is_empty(), "It should not be empty, i think." )
@@ -1818,7 +1819,7 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 func play_loop( soundID : String ):
 	var audio_stream : AudioStreamOggVorbis = load( get_sound( soundID ) )
 	audio_stream.loop = true
-	audio_loop.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+	audio_loop.volume_db = linear_to_db( B2_Config.sfx_gain_master * 0.75 )
 	audio_loop.stream = audio_stream
 	audio_loop.play()
 	

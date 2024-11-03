@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cq1opf8daykui"]
+[gd_scene load_steps=9 format=3 uid="uid://cq1opf8daykui"]
 
 [ext_resource type="Texture2D" uid="uid://defyb60ssev6j" path="res://barkley2/assets/b2_original/images/merged/s_fct_gurney01.png" id="1_22cd7"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_gurney01.gd" id="1_vgg46"]
@@ -23,13 +23,19 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xp6l"]
+radius = 19.105
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpxc3"]
 size = Vector2(50, 50)
 
-[node name="o_fct_gurney01" type="CharacterBody2D"]
+[node name="o_fct_gurney01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim")]
 motion_mode = 1
 script = ExtResource("1_vgg46")
+is_interactive = false
 cutscene_script = SubResource("Resource_miknh")
+ActorAnim = NodePath("ActorAnim")
+can_move_around = false
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
@@ -49,6 +55,7 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4xp6l")
 
 [node name="ActorInteract" type="Area2D" parent="."]
 

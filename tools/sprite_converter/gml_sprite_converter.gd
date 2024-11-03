@@ -35,7 +35,7 @@ class_name B2_TOOL_GML_SPRITE_CONVERTER
 
 @export_category("Run tool")
 @export var safety_check 		:= true			## Disallow the conversion if there is any issues.
-
+@export var warn_existence_during_runtime := true
 @export var start_at_runtime 	:= false
 @export var start_conversion 	:= false :		## Start the conversion process.
 	set(b):
@@ -61,7 +61,7 @@ func _ready() -> void:
 	if start_at_runtime and not Engine.is_editor_hint():
 		lets_goooo()
 	else:
-		push_error( "B2_TOOL_GML_SPRITE_CONVERTER still exists on the %s node." % get_parent().name )
+		if warn_existence_during_runtime: push_error( "B2_TOOL_GML_SPRITE_CONVERTER still exists on the %s node." % get_parent().name )
 	
 func run_safety_check() -> bool:
 	if animations.is_empty():
