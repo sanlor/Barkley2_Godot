@@ -117,6 +117,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		return
 	room_load_lock = true
 	started_loading.emit()
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )
 	

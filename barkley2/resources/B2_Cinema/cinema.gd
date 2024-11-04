@@ -183,6 +183,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		
 	#print(cutscene_script.original_script)
 	event_caller = _event_caller
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
 	## lock player control
 	B2_Input.cutscene_is_playing 	= true

@@ -28,4 +28,4 @@ func _ready() -> void:
 		
 		o_roethlisbuergar_01.position = o_cinema_14.position
 		
-		B2_Sound.set_loop_volume( 0.5 )
+		B2_Sound.set_loop_volume( 0.20 )
