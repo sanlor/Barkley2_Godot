@@ -28,9 +28,9 @@ const GUI_LAYER			:= 20 # Inventory, etc
 var dialogY := 140.0
 
 # Used by the B2_RoomXY autoload
-var settingFadeIn 		:= 0.25;
+var settingFadeIn 		:= 0.50;
 var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
-var settingFadeOut 		:= 0.25;
+var settingFadeOut 		:= 0.50;
 
 ## TODO port script scr_player_newPlayerIdentity()
 

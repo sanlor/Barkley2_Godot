@@ -166,12 +166,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	await get_room_scene( room_name ) 						# Load the next room
 	get_tree().change_scene_to_packed( room_scene )		# change the current room
 	await get_tree().process_frame
-	
-
+	B2_Input.player_has_control = true
 	
 	tween = create_tween()
-	#if create_player and not room_is_invalid:
-	#	tween.tween_callback( add_player_to_room.bind( Vector2( room_x, room_y ), true ) ) # load the player node.
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
 	
 	## Cleanup
@@ -180,7 +177,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	await tween.finished
 	
 	# Give back player control
-	B2_Input.player_has_control = true
+	#B2_Input.player_has_control = true
 	room_finished_loading.emit()
 	room_load_lock = false
 	print("Finished loading room %s." % room_name)

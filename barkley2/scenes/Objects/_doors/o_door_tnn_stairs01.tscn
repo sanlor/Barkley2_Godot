@@ -1,0 +1,153 @@
+[gd_scene load_steps=18 format=3 uid="uid://dr1xblyg5d8pg"]
+
+[ext_resource type="Texture2D" uid="uid://bol26kg35unpx" path="res://barkley2/assets/b2_original/images/merged/s_door_tnn_stairs01.png" id="1_k8aho"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_door_tnn.gd" id="2_ege30"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="3_jeqiw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob3ja"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(192, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qih3q"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(144, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40aow"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(96, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2f51"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(48, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pja04"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rieoq"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hl4wy"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(48, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ire7y"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(96, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0tit"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(144, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rc31t"]
+atlas = ExtResource("1_k8aho")
+region = Rect2(192, 0, 48, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tus0b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob3ja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qih3q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40aow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2f51")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pja04")
+}],
+"loop": false,
+"name": &"door_close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rieoq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hl4wy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ire7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0tit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rc31t")
+}],
+"loop": false,
+"name": &"door_open",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dp3k"]
+size = Vector2(49, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_at0fl"]
+size = Vector2(60, 30)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4q0mk"]
+bg_color = Color(0, 0, 0, 0.5)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[node name="o_door_tnn_stairs01" type="AnimatedSprite2D" node_paths=PackedStringArray("door_block", "door_sensor", "sound_emiter")]
+z_index = -5
+sprite_frames = SubResource("SpriteFrames_tus0b")
+animation = &"door_close"
+centered = false
+offset = Vector2(0, -79)
+script = ExtResource("2_ege30")
+door_block = NodePath("door_block")
+door_sensor = NodePath("door_sensor")
+sound_emiter = NodePath("AudioStreamPlayer2D")
+opening_range = 18.0
+sfx_open = "door_open_tnn"
+sfx_close = "door_close_tnn"
+
+[node name="door_block" type="StaticBody2D" parent="."]
+
+[node name="block_shape" type="CollisionShape2D" parent="door_block"]
+position = Vector2(24.5, -9.5)
+shape = SubResource("RectangleShape2D_1dp3k")
+
+[node name="door_sensor" type="Area2D" parent="."]
+
+[node name="sensor_shape" type="CollisionShape2D" parent="door_sensor"]
+position = Vector2(24.5, -9.5)
+shape = SubResource("RectangleShape2D_at0fl")
+
+[node name="locked_panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(72, 16)
+offset_left = -12.0
+offset_top = -36.0
+offset_right = 60.0
+offset_bottom = -20.0
+theme = ExtResource("3_jeqiw")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4q0mk")
+
+[node name="MarginContainer" type="MarginContainer" parent="locked_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="locked_text" type="Label" parent="locked_panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Locked"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

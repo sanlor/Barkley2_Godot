@@ -14,7 +14,7 @@ func _ready() -> void:
 	ANIMATION_NORTHWEST 		= "s_zaneDOWN01"
 	ANIMATION_EAST 				= "s_zaneDOWN01"
 	ANIMATION_STAND_SPRITE_INDEX 	= [ 1, 1, 0, 0, 0, 0, 0, 1 ]
-	ActorAnim.animation 	= ANIMATION_STAND
+	ActorAnim.animation 		= ANIMATION_STAND
 	
 func execute_event_user_1():
 	# used in the r_fct_tutorialZone01 when givving a gun.

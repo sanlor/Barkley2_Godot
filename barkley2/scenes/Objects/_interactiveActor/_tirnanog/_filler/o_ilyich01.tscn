@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdqxb3smdjnrc"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_ilyich01.gd" id="1_pye2e"]
+[ext_resource type="Texture2D" uid="uid://b60nr0ubdgiy0" path="res://barkley2/assets/b2_original/images/merged/s_ilyich01.png" id="2_rm0by"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyldq"]
+atlas = ExtResource("2_rm0by")
+region = Rect2(0, 0, 25, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2lk5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyldq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kelfx"]
+radius = 6.04789
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oq50v"]
+size = Vector2(20, 36)
+
+[node name="o_ilyich01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_pye2e")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_l2lk5")
+centered = false
+offset = Vector2(-12, -38)
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "3",
+"bbox_right": "22",
+"bbox_top": "32",
+"frames": ["images\\s_ilyich01_0.png"],
+"height": "45",
+"name": "s_ilyich01",
+"width": "25",
+"xorig": "12",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kelfx")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_oq50v")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

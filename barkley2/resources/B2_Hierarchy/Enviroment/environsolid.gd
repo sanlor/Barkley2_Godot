@@ -1,4 +1,4 @@
-
+@tool
 extends B2_Environ
 class_name B2_EnvironSolid
 
@@ -26,6 +26,8 @@ func make_collision():
 			EnvCol.shape = s
 		_:
 			breakpoint # ??? Weird shape
+			
+	EnvSolid.add_to_group("navigation_polygon_source_geometry_group")
 	add_child(EnvSolid, true)
 	EnvSolid.add_child(EnvCol, true)
 	

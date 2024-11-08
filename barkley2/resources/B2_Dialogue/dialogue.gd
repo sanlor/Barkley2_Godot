@@ -108,7 +108,7 @@ var is_talking		:= false
 
 func _ready() -> void:
 	layer = B2_Config.DIALOG_LAYER
-	_draw_y = B2_Config.dialogY
+	_draw_y = B2_Config.dialogY # set the diag box on top or on the bottom. almost always, its on the bottom.
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
@@ -205,13 +205,12 @@ func display_dialog( _is_boxless := false ):
 	## CRITICAL this doesnt work right with 5 lines.
 	if text_node.get_line_count() > 4:
 		@warning_ignore("integer_division")
-		#max_screens 	= text_node.get_line_count() / 4
-		max_screens 	= ceili( float(text_node.get_line_count()) / float(max_lines) )
-		if debug: print( "max_screens: ", max_screens," - Lines: ",text_node.get_line_count() )
-		#for r in max_screens + 1:
-		for r in (max_lines - max_screens):
+		max_screens 	= ceili( float( text_node.get_line_count() ) / float(max_lines) )
+		var additional_lines : int =  max_lines - (text_node.get_line_count() % max_lines) # <- im a genius at math! Modulus! after 15 year, something from my highschool is finally useful!
+		if debug: print( "max_screens: ", max_screens," - Lines: ",text_node.get_line_count() ); print("Adding %s lines." % str( additional_lines ) )
+		for r in additional_lines:
 			# new line pad the scrollbox
-			text_node.text += "\n"
+			text_node.text += "\n " # <- This space is important. dont know why, it just is.
 			if debug: print("adding extra line")
 	
 	await finished_typing
@@ -274,6 +273,7 @@ func _portrait_is_talking():
 	if not has_portrait:
 		return
 	is_talking = true
+	blink_cooldown = blink_speed
 
 	portrait_img_node.animation = "talk"
 	var max_frame = portrait_img_node.sprite_frames.get_frame_count( "talk" )
@@ -289,7 +289,7 @@ func _type_next_letter(delta):
 	if type_timer >= 0.0 and curr_typing_speed == normal_typing: # Waste time until the timer is below 0.0
 		type_timer -= delta
 	else:
-		if text_node.get_character_line( text_node.visible_characters ) >= 4 * curr_screen:
+		if text_node.get_character_line( text_node.visible_characters ) >= max_lines * curr_screen:
 			is_typing = false
 			if debug: print("Waiting for input to write text.")
 			curr_typing_speed = normal_typing
@@ -298,7 +298,7 @@ func _type_next_letter(delta):
 			
 			await wait_user_input()
 				
-			text_node.scroll_to_line( 4 * curr_screen )
+			text_node.scroll_to_line( max_lines * curr_screen )
 			curr_screen += 1
 			
 		var add_wait := 0.0
@@ -314,7 +314,7 @@ func _type_next_letter(delta):
 			" ":
 				add_wait = 0.0
 				voice_sound_played = false
-				#_portrait_is_silent()
+				_portrait_is_silent()
 			",": # "-" is a global const DIALOGUE_DELAY on the original
 				add_wait = comma_pause
 				_portrait_is_silent()
@@ -333,7 +333,6 @@ func _type_next_letter(delta):
 			"\n":
 				_portrait_is_silent()
 			_:
-				
 				# Avoid playing sounds when players skips
 				if curr_typing_speed == normal_typing:
 					# This ensures that the voice clip only plays at the start of a phrase.
@@ -341,19 +340,20 @@ func _type_next_letter(delta):
 						B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 						voice_sound_played = true
 					_portrait_is_talking()
-				
 		type_timer = ( textbox_pause + add_wait ) * curr_typing_speed
 		
 		var amount_text := 1
 		
 		if curr_typing_speed == fast_typing:
-			amount_text = 1
+			amount_text = 10
 			type_timer = 0
 		
 		if auto_skipping:
 			@warning_ignore("narrowing_conversion")
-			#amount_text = text_node.text.length() / 5.0
-			amount_text = 1
+			if OS.has_feature("web"):
+				amount_text = 10 # Fixes for slow typing in html5 exports
+			else:
+				amount_text = 1
 			type_timer = 0
 			
 		# Avoid issues with the text skipping
@@ -368,14 +368,13 @@ func wait_user_input():
 	is_waiting_input = true
 	if not auto_skipping:
 		await input_pressed
-	B2_Sound.play( _confirm_sound, 0.0, false, 1, 1.0 )
+		B2_Sound.play( _confirm_sound, 0.0, false, 1, 1.0 )
 	is_waiting_input = false
 
 func handle_input():
 	if text_node.visible_ratio < 1.0 and is_typing:
 		curr_typing_speed = fast_typing
 		B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
-		#print("Skipped text")
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -384,7 +383,7 @@ func _process(delta: float) -> void:
 	# Handle portrait animation and blinking
 	if has_portrait:
 		if not is_talking:
-			blink_cooldown 	-= delta
+			blink_cooldown -= delta
 			
 			if blink_cooldown < 0.0:
 				portrait_img_node.animation = "blink"
@@ -405,7 +404,6 @@ func _process(delta: float) -> void:
 		_type_next_letter(delta)
 		
 		# All text was typed
-		#if text_node.visible_ratio == 1.0:
 		if text_node.visible_characters >= text_node.get_parsed_text().length():
 			curr_typing_speed = normal_typing
 			can_type = false
@@ -417,11 +415,5 @@ func _process(delta: float) -> void:
 			finished_typing.emit()
 			hide_box()
 	else:
-		# Handle the return sprite blinking
-		#if return_sprite_time < 0.0:
-			#return_sprite.visible = not return_sprite.visible
-			#return_sprite_time = return_sprite_cooldown
-		#else:
-			#return_sprite_time -= delta
 		return_sprite_time += delta * 10
 		return_sprite.offset.y = int( sin(return_sprite_time) * 2 )
