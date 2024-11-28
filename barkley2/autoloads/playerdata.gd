@@ -103,6 +103,8 @@ func _ready():
 	
 	#preload_CC_save_data()
 	#B2_CManager.BodySwap("diaper");
+	preload_CC_save_data()
+	B2_Playerdata.Quest("wilmerMeeting", 0)
 	#B2_Playerdata.Quest("tutorialProgress", 	9)
 	#B2_Playerdata.Quest("tutorialCspear", 		1)
 	#
@@ -135,8 +137,8 @@ func Quest(key : String, value = null, default = 0):
 		quest_updated.emit()
 		return true
 		
-func get_quest_state(key : String):
-	return B2_Config.get_user_save_data( "quest.vars." + key )
+func get_quest_state(key : String, default = null ):
+	return B2_Config.get_user_save_data( "quest.vars." + key, default )
 	
 func preload_CC_save_data():
 	# related script = scr_player_newPlayerIdentity();

@@ -138,10 +138,10 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
 	
 func end_cutscene():
+	await get_tree().process_frame
 	load_hoopz_player()
 		
 	all_nodes.clear()
-	all_nodes = get_parent().get_children()
 	
 	## Release player lock
 	B2_Input.cutscene_is_playing 	= false
@@ -158,6 +158,8 @@ func end_cutscene():
 	
 	# actors may moved during the cutscene, update the PF.
 	update_pathfinding()
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.show_hud()
 	
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
@@ -215,6 +217,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	# this should be here?
 	update_pathfinding()
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.hide_hud()
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
@@ -329,19 +333,25 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
 					# check Cinema()
 					# check o_wait
-					if float( parsed_line[1] ) <= 0.0:
-						# wait for the childrens movement to finish
-						if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
-						# So, if wait is 0, then we sould wait for any pending actions to finish
-						# cinema_kids() check the dslCinKid array and returns when all actions are finished.
-						# This... THIS TOOK 3 WEEKS TO FIGURE OUT. Goddamit.
-						await cinema_kids()
-						#await get_tree().create_timer( 1.0 ).timeout
-						if debug_wait: print( "Wait: KID WAIT Finished" )
+					## Goddamit wilmer! sometimes "wait" doesnt have a time attached. assume it means 0.0
+					if parsed_line.size() > 1:
+						if float( parsed_line[1] ) <= 0.0:
+							# wait for the childrens movement to finish
+							if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
+							# So, if wait is 0, then we sould wait for any pending actions to finish
+							# cinema_kids() check the dslCinKid array and returns when all actions are finished.
+							# This... THIS TOOK 3 WEEKS TO FIGURE OUT. Goddamit.
+							await cinema_kids()
+							if debug_wait: print( "Wait: KID WAIT Finished" )
+						else:
+							await get_tree().create_timer( float( parsed_line[1] ) ).timeout
+							#await get_tree().process_frame
+							if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 					else:
-						await get_tree().create_timer( float( parsed_line[1] ) ).timeout
-						#await get_tree().process_frame
-						if debug_wait: print("Wait: ", float( parsed_line[1] ) )
+						# same as "if float( parsed_line[1] ) <= 0.0:"
+						if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
+						await cinema_kids()
+						if debug_wait: print( "Wait: KID WAIT Finished" )
 				"EXIT":
 					print("EXIT at line %s." % curr_line)
 					loop_finished = true
@@ -353,15 +363,19 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# parse talker´s name
 					if parsed_line[1].contains("="):
 						var talker_split = parsed_line[1].split("=")
-						var talker_name := talker_split[0].strip_edges(true,true)
-						var talker_port := talker_split[1].strip_edges(true,true)
+						var talker_name := Text.pr( talker_split[0].strip_edges(true,true) )
+						var talker_port := parsed_line[1].strip_edges(true,true)
+						if talker_port == "P_NAME": talker_port = "s_port_hoopz" ## TEMP HACK
 						dialogue.set_portrait(talker_port, false)
 						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_name )
 						last_talker_portrait = talker_port
 					else:
 						var talker_port := parsed_line[1].strip_edges(true,true)
+	
 						if B2_Gamedata.portrait_from_name.has( talker_port ):
 							dialogue.set_portrait( talker_port, true )
+						if talker_port == "P_NAME":  ## TEMP HACK
+							dialogue.set_portrait( "s_port_hoopz", false )
 						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_port )
 						last_talker_portrait = talker_port
 						
@@ -404,9 +418,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						qstVal = float( qstVal )
 						
 					if qstTyp == "+=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam) + qstVal )
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam, 0) + qstVal )
 					elif qstTyp == "-=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam) - qstVal )
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam, 0) - qstVal )
 					else:
 						B2_Playerdata.Quest(qstNam, float(qstVal) )
 					
@@ -700,10 +714,15 @@ func parse_if( line : String ) -> bool:
 	
 	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
 	var comparator 	: String 		= condidion_line[ 2 ]
-	var cond_value 	: int 			= int( condidion_line[ 3 ] )
+	var cond_value 		 			= int( condidion_line[ 3 ] )
 	
 	# this should return false (if quest var is invalid) or some value.
 	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
+	## Overides
+	if str_var == "body":
+		quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" )
+		cond_value = str(condidion_line[ 3 ]).strip_edges()
+		
 	if not quest_var is bool:
 		match comparator:
 			"==":

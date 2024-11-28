@@ -5,6 +5,8 @@ class_name B2_EnvironProp
 # Simple Props, nothing too fancy
 # create collision manually
 
+@export var EnvCol : StaticBody2D
+
 @export var change_frame_at_sudo_random := true
 @export var limit_frame_range 	:= false
 @export var limit_frame_start 	:= 0
@@ -59,7 +61,7 @@ func _ready() -> void:
 	
 		
 func lazy_bastard():
-	var body := StaticBody2D.new()
+	EnvCol = StaticBody2D.new()
 	var col := CollisionShape2D.new()
 	if shape == SHAPES.CIRCLE:
 		var _shape := CircleShape2D.new()
@@ -70,7 +72,7 @@ func lazy_bastard():
 		_shape.size = sprite_frames.get_frame_texture("default", 0).get_size() * 0.8
 		col.shape = _shape
 		
-	body.add_child( col, true)
-	add_child( body, true )
+	EnvCol.add_child( col, true)
+	add_child( EnvCol, true )
 	col.owner = self
-	body.owner = self
+	EnvCol.owner = self

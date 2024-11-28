@@ -159,7 +159,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 	add_child( portrait_frame_node, true ) 
 	portrait_frame_node.texture = S_DIAG_FRAME
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
-
+	
 	if from_name:
 		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:

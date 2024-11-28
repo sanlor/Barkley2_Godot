@@ -10,7 +10,7 @@ uniform bool enable_pixelation = true;
 uniform int pixelation_amount = 150;
 uniform sampler2D fog_mask;  // Texture mask for fog control
 uniform vec2 fog_direction = vec2(1.0, 1.0); // Use -1 and 1 values to change direction. Increase the speed in that direction with values higher/lower than 1
-uniform bool scroll_noise_tex = false; 
+uniform bool scroll_noise_tex = false;
 uniform vec2 noise_scroll_direction = vec2(1.0, 0.0);  // Direction to scroll the noise texture
 
 float rand(vec2 coord){
@@ -48,7 +48,7 @@ void fragment() {
     if (enable_pixelation) {
         grid_uv = round(UV * float(pixelation_amount)) / float(pixelation_amount);
     }
-    
+
     // Compute noise based on pixelated or non-pixelated coordinates
     vec2 coord = grid_uv * 20.0;
 
@@ -60,10 +60,10 @@ void fragment() {
     vec2 motion = vec2(fbm(coord + fog_direction * TIME));
 
     float final = fbm(coord + motion);
-    
+
     // Get the fog density from the texture mask
     float mask_value = texture(fog_mask, UV).r;  // Assuming the mask is grayscale
-    
+
     // Modulate the fog density by the mask value
     final *= mask_value;
 

@@ -1,100 +1,457 @@
-[gd_scene load_steps=30 format=3 uid="uid://dxy1w2aee32mc"]
+[gd_scene load_steps=34 format=3 uid="uid://dxy1w2aee32mc"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer_01.gd" id="1_4jxh3"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2voh0"]
 [ext_resource type="Texture2D" uid="uid://b0odb8c8x62uo" path="res://barkley2/assets/b2_original/images/merged/s_wilmerGhost01.png" id="4_fmil3"]
 [ext_resource type="Texture2D" uid="uid://c2b8h3qg7sfit" path="res://barkley2/assets/b2_original/images/merged/s_wilmer01.png" id="5_17kiu"]
 [ext_resource type="Texture2D" uid="uid://dqjptr8crqyt7" path="res://barkley2/assets/b2_original/images/merged/s_wilmer_prison.png" id="7_xfmnp"]
 [ext_resource type="Texture2D" uid="uid://ba88meli5uag2" path="res://barkley2/assets/b2_original/images/merged/s_wilmerStanding01.png" id="8_s66xt"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qbou8"]
+[sub_resource type="Resource" id="Resource_833hq"]
+script = ExtResource("2_2voh0")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF wilmerSleep == 1 | GOTO | SLEEP
+IF wilmerEvict == 6 | GOTO | GOVPARDON
+IF wilmerEvict == 4 | GOTO | EVICTPAID
+IF wilmerEvict == 1 | GOTO | WILMER01
+
+GOVERNOR
+IF wilmerSleep == 1 | GOTO | GOVSLEEP
+IF wilmerSleep == 0 | GOTO | GOVAWAKE
+
+QUESTIONS
+CHOICE | I've got a question...
+IF wilmerEvict == 1   | REPLY | MORTGAGEPAY    | What was I supposed to do with your mortgage?
+IF wilmWhere == 0     | REPLY | WHATISTNN      | What is Tir na nOg, really?
+IF wilmWhere == 1     | REPLY | WHEREAMI       | What is Necron 7?
+IF knowCuchu == 1     | REPLY | WHOCUCHU       | Who is Cuchulainn?
+IF wilmCdwarf == 0    | REPLY | WHOCDWARF      | Who is the Cyberdwarf?
+IF wilmEscape == 0    | REPLY | WHATTODO       | What is there to do around here?
+IF wilmEscape == 1    | REPLY | TNNESCAPE      | How do I get out of Tir na nOg?
+IF wilmDuergars == 0  | REPLY | WHOAREDWARFS   | Who are the Dwarfs?
+IF wilmDuergars == 1  | REPLY | WHOAREDUERGARS | Who are the Duergars?
+REPLY | EXITQUESTIONS | I best be going...
+
+EXITQUESTIONS
+DIALOG | P_NAME | Well, Mr. Wilmer... I best be going.
+DIALOG | Wilmer | Don't forget about Ol' Wilmer, youngster.
+
+MORTGAGEPAY
+DIALOG | P_NAME | Hey Mr. Wilmer, what was that mortgage thing you wanted me to do again?
+DIALOG | Wilmer | Now listen `w1`*cough*cough*`w0` closely, youngster! 
+DIALOG | Wilmer | This is real important, if you don't get this right ol' Mr. Wilmer's gonna be kicked out of his house! 
+DIALOG | Wilmer | `sq`I need you to take the money and paper I gave you and go to the mortgage renewal center in the west end of town. 
+DIALOG | Wilmer | Give them the money and paper.`rt` It's really that simple, but I need you to do it right now before you do anything else, because my mortgage is expiring today. 
+DIALOG | Wilmer | Do you have all that? `sq`Money. Paper. Mortgage renewal center.`rt` It's real simple.
+DIALOG | P_NAME | Yeah, I got it, Mr. Wilmer!
+QUEST  | wilmerSleepCount += 1
+GOTO   | SLEEPPROGRESS
+
+WHEREAMI
+DIALOG | P_NAME | I know this is going to sound crazy but... what the hedge is `kw`Necron 7.`rt`
+DIALOG | Wilmer | Youngster, it don't sound crazy at all. None of us... none of us really knows where we are anymore. But we do know a little. 
+DIALOG | Wilmer | This... all of this... `mq`We're on the ancient Dwarf Space Ziggurat, the Necron 7.`rt` Now ain't that a mouthful, huh?
+DIALOG | P_NAME | Dwarf Space Ziggurat? What does that even mean?
+DIALOG | Wilmer | This is the Necron 7, this... space ship or somethin'. 
+DIALOG | Wilmer | Nobody knows how big it is, but some people say it's the size of a whole planet. Maybe it's bigger, maybe it's smaller, I don't know. But right now, we're floating somewhere in outer space and that's where we've been for as long as Ol' Wilmer can remember.
+DIALOG | Wilmer | We ARE in Necron 7, youngster! Tir na nOg is the part of Necron 7 we're in, the new home of the dwarfs... for better or for worse...
+DIALOG | P_NAME | Oh...
+KNOW   | knowNecron7 | 2
+QUEST  | wilmWhere += 1
+QUEST  | wilmerSleepCount += 1
+GOTO   | SLEEPPROGRESS
+
+WHATISTNN
+DIALOG | P_NAME | What is this place? What is `kw`Tir na nOg,`rt` really, and why is this the new home of the dwarfs?
+DIALOG | Wilmer | Tir na nOg? Well... it's home, whether we like it or not. It's a rough and tumble place and we don't have much, but it's what we've got.
+DIALOG | P_NAME | What do you mean?
+DIALOG | Wilmer | You see, youngster, `kw`Cuchulainn's`rt` been - `w1`*cough*cough*`w0` - excuse me, got a little somethin' stuck in my windpipes there. 
+DIALOG | Wilmer | He's been rounding up the dwarfs all over the galaxy and puttin' most of them in Tir na nOg. 
+DIALOG | Wilmer | None of us knows why. Some people say it's because when all the dwarfs are here, he's going to take us to a new place... a better place. I don't know if I believe that, but I don't disbelieve it and it sure sounds nice.
+DIALOG | P_NAME | But I don't get it, why is this Cuchulainn guy doing this?
+DIALOG | Wilmer | I don't get it either, `w1`*cough*cough*`w0` youngster. But what I do know is that we can't `w1`*cough*`w0` leave. Least not out the front door. Duergars'll stop us. They're his lackeys. 
+DIALOG | Wilmer | Some folks say you can get out through `kw`The Sewer System`rt` at the north end of the town, but I think that entire notion is a load of horse patoot. 
+DIALOG | Wilmer | Me? I'm stayin' put. Tir na nOg's a tough place, but Ol' Wilmer's `w1`*cough*cough*`w0` tougher.
+QUEST  | wilmDuergars = 1
+QUEST  | wilmWhere += 1
+QUEST  | wilmerSleepCount += 1
+GOTO   | SLEEPPROGRESS
+
+WHOCUCHU
+DIALOG | P_NAME | Who is `kw`Cuchulainn?`rt`
+DIALOG | Wilmer | That's a complicated question youngster. Who `w1`*cough*cough*`w0` WAS Cuchulainn? One of the greatest heroes in dwarf history, the wielder of the legendary `mq`Cyberspear of Destiny`rt` and some even say... one of the Apostles of Clispaeth. 
+DIALOG | Wilmer | He fought for a dwarf homeland, for dwarf values and for the rights of all dwarfs all across the galaxy. But that was a long time ago and his legend is fading. Most people don't remember the hero Cuchulainn, who bravely faced every challenger to dwarf independence. Most people know Cuchulainn only as the force corralling dwarfs into Tir na nOg.
+DIALOG | P_NAME | But what happened? Why did Cuchulainn change?
+DIALOG | Wilmer | Did he change? Is it even the same Cuchulainn? Nobody knows. All we - `w1`*cough*cough*`w0` - all we know are vague rumors, stories... 
+DIALOG | Wilmer | The Duergars, the TVs, they say Cuchulainn is gathering up all the dwarfs in the galaxies to give us a big surprise. A reward or somethin'. 
+DIALOG | Wilmer | That sounds pretty good to me, but... but is it worth what we have to live now? Does Cuchulainn really have our best interests at heart? Is it even the same Cuchulainn, or something else entirely? `mq`A... M_a_l_e_v_o_l_e_n_t_ A._I.?`rt`
+KNOW   | knowCuchu | 3
+QUEST  | wilmerSleepCount += 1
+GOTO   | SLEEPPROGRESS
+
+WHOCDWARF
+DIALOG | P_NAME | Mr. Wilmer... I have these strange memories. Feeling weightless and tired in this dark place for a long time, and then loud noises, explosions I think, and dwarfs pulling me out of this strange machine. 
+DIALOG | P_NAME | I don't remember much, it's kind of a blur but... one of the dwarfs said something about the `mq`Cyberdwarf.`rt` It sounded like was really important, and I feel like I have to find him no matter what.
+DIALOG | Wilmer | Well youngster, the Cyberdwarf is as much a mystery as Cuchulainn. `mq`They say he's got something to do with the rebels, those L.O.N.G.I.N.U.S. fellas in the sewers.`rt` 
+DIALOG | Wilmer | Maybe he wasn't satisfied with life in Tir na nOg and took off, or maybe he's trying to take on Cuchulainn. Nobody knows much, but the Duergars sure don't like people talkin' about him.
+IF knowLONGINUSTnn == 0 | DIALOG | P_NAME | L.O.N.G.I.N.U.S.? Rebels? Who are they and what do they have to do with the Cyberdwarf?
+IF knowLONGINUSTnn >= 1 | DIALOG | P_NAME | The Rebels? What do they have to do with the Cyberdwarf?
+DIALOG | Wilmer | That's what I want to know too, but it `w1`*cough*cough*`w0` seems like these rebels, L.O.N.G.I.N.U.S., they don't like sittin' around waitin' for Cuchulainn to pick up every dwarf in the galaxy. And I guess I can understand where they're comin' from. Life in Tir na nOg ain't comfortable. Well, heck, it's not even decent. But to go against Cuchulainn like that? I don't know if I'd put my neck out that far.
+DIALOG | P_NAME | So you don't know where the Cyberdwarf is then, do you?
+DIALOG | Wilmer | Now I - `w1`*cough*cough*`w0` - ain't the socialite I used to be, but I can tell you this much: `mq`the Cyberdwarf ain't in Tir na nOg.`rt`
+DIALOG | P_NAME | Hmmm. Alright, thank you Mr. Wilmer...
+KNOW   | knowCdwarf | 1
+KNOW   | knowLONGINUSTnn | 1
+QUEST  | wilmerCDwarf = 1
+QUEST  | wilmerSleepCount += 1
+GOTO   | WILMERCDWARF
+
+WILMERCDWARF
+QUEST  | wilmerCDwarf = 2
+DIALOG | Wilmer | Now wait right there, youngster. Before you go off lookin' for some Cyberdwarf and getting tangled up in this whole L.O.N.G.I.N.U.S. thing, you need to know what you're gettin' into. 
+DIALOG | Wilmer | I like you. You're a smart kid and I don't want to see you gettin' into something you can't handle. Now `w1`*cough*cough*`w0` ol' Mr. Wilmer can take care of himself, but you're still wet behind the ears. I just don't want you getting hurt, you see?
+DIALOG | P_NAME | Yeah Mr. Wilmer. I know. But it's something I have to do. What I mean is... this might be the only way I can find out who I am, where I'm from, why I'm here... who I used to be.
+DIALOG | Wilmer | Well... maybe you can just be you. It don't mean a thing what I did 60 years ago. Maybe there's a reason you don't know who you are. Why do you want to find the The Cyberdwarf anyway?
+CHOICE | Why look for The Cyberdwarf?
+REPLY  | FINDOUTME     | So I can find out who I am.
+REPLY  | HATECUCHU     | Because I hate Cuchulainn.
+REPLY  | GETOUTOFHERE  | I want to get out of here.
+REPLY  | CDWARFPOWER   | I need the Cyberdwarf's power!
+REPLY  | BBALLREASONS  | Basketball-related reasons.
+REPLY  | SOMETHINGTODO | It's something to do.
+
+FINDOUTME
+DIALOG | P_NAME | Because, Mr. Wilmer, I need to know who I am. I woke up in a strange place with people all around me, people trying to rescue me, chaos everywhere... I don't know who I am or why I'm here. The only thing I know is that maybe the Cyberdwarf knows something. I don't know who he is or what he knows or why any of this is happening, but maybe he knows who I am, or at least has clues.
+DIALOG | Wilmer | I see, youngster. Yeah. Yeah, finding yourself is important. I'm just afraid you might not like what you find is all... and maybe I'm afraid you'll get in over your head. I don't know. I like you, kid.
+DIALOG | P_NAME | I'll be okay, Mr. Wilmer. I'm kinda scared... but it's something I have to do.
+\" +
+//TODO: go to #1 and activate identity variable
+//TODO: add ramifications of this
+\"
+GOTO   | SLEEPPROGRESS
+
+HATECUCHU
+DIALOG | P_NAME | Because I want payback. If it's Cuchulainn who is running things around here, then it must be him who had me trapped in that big egg thing for who knows how long. 
+DIALOG | P_NAME | I coulda been playing vidcons and balling, but I was stuck there. So I'm not gonna stop until I get my revenge.
+DIALOG | Wilmer | Those are big words, youngster. Big, dangerous words. I'm not going to stop you. I'm not sure I could stop you, but I want you to know you're up against something bigger than us all. I like you, kid so... so just be safe, okay?
+DIALOG | P_NAME | Yeah Mr. Wilmer. I'll be safe, I promise...
+QUEST  | rmTab += 1
+QUEST  | rmVengeance += 1
+\" +
+//TODO: go to #1 and activate revenge variable
+//TODO: add ramifications of this
+\"
+GOTO | SLEEPPROGRESS
+
+GETOUTOFHERE
+DIALOG | P_NAME | No offense, Mr. Wilmer, but this place is pretty boring. No vidcons, no b-ball and heck, the candy's not even that good! If I don't get outta here, I'm gonna go stir crazy!
+DIALOG | Wilmer | It's a good pace for ol' `w1`*cough*cough*`w0` Wilmer here, but they could at least have a Friday night bingo going. You're a youngster, you need to be out there seeing the world. I understand.
+DIALOG | P_NAME | Thanks, Mr. Wilmer!
+\" +
+//TODO: add ramifications of this
+//TODO: go to #1 and activate home variable
+\"
+GOTO | SLEEPPROGRESS
+
+CDWARFPOWER
+DIALOG | P_NAME | The way those dwarfs talked about him, he's powerful, Mr. Wilmer. And I want that power for myself.
+DIALOG | Wilmer | Power can be a dangerous thing, youngster. Look what it did to Cuchulainn... I don't want to see you going down that road, but `w1`*cough*cough*...`w0` but if it's what you have to do, then I won't stop you. And - `w1`*cough*cough*`w0` - what do I know? I'm an old man gumming at my butterscotch.
+CHOICE | Your response?
+REPLY  | POLITE      | Thank you Mr. Wilmer.
+REPLY  | RESPONSIBLE | I'll be responsible.
+REPLY  | POWERMAD    | Bwahahaha!
+
+POLITE
+DIALOG | P_NAME | Thank you, Mr. Wilmer. I'll be okay and I won't forget what you said.
+\" +
+//TODO: add more stuff to this
+//TODO: add ramifications of this
+//TODO: go to #1 and activate home variable
+\"
+GOTO   | SLEEPPROGRESS
+
+REPSONSIBLE
+DIALOG | P_NAME | You don't need to worry about me, Mr. Wilmer. I can handle myself. I'll be responsible, I promise.
+\" +
+//TODO: add more stuff to this
+//TODO: add ramifications of this
+//TODO: go to #1 and activate home variable
+\"
+GOTO   | SLEEPPROGRESS
+
+POWERMAD
+DIALOG | P_NAME = s_port_hoopzSmirk | M'bwahahahaha!
+\" +
+//TODO: add more stuff to this
+//TODO: add ramifications of this
+//TODO: go to #1 and activate home variable
+\"
+GOTO   | SLEEPPROGRESS
+
+BBALLREASONS
+DIALOG | P_NAME | I have explicit basketball-related reasons. Coaches, refs, dribbling, that sort of thing.
+DIALOG | Wilmer | Basketball? You mean the sport? I... I don't even follow you, youngster, but... but I'll respect your choice. I'm sorry if it came off like I was trying to stop you. Just do what you feel like you have to do.
+DIALOG | P_NAME | Thanks Mr. Wilmer... I will...
+\" +
+//TODO: add ramifications of this
+//TODO: go to #1 and activate basketball variable
+\"
+GOTO   | SLEEPPROGRESS
+
+SOMETHINGTODO
+DIALOG | P_NAME | I don't know, it seems like something to do. I don't have anything going on.
+DIALOG | Wilmer | Is that it?
+DIALOG | P_NAME | Yeah, I guess so.
+DIALOG | Wilmer | I... I see. Well be careful out there, youngster. I can't stop you.
+DIALOG | P_NAME | Thanks.
+\" +
+//TODO: add ramifications for this
+//TODO: go to #1 and activate some kind of ambivalence variable
+\"
+GOTO   | SLEEPPROGRESS
+
+TNNESCAPE
+DIALOG | P_NAME | Do you know how I can get out of Tir na nOg, Mr. Wilmer?
+DIALOG | Wilmer | Well, I don't know for sure. I don't even know what's out there beyond Tir na nOg, but there must be something, cuz I know the rebels are always goin' back and forth. 
+DIALOG | Wilmer | Now I guess there's a lead. You might `kw`try asking the rebels`rt` for help with that.
+DIALOG | P_NAME | Okay, thanks Mr. Wilmer.
+DIALOG | Wilmer | Now this is real dangerous, youngster, `mq`but you could probably get out through the sewers too.`rt` I see rebels goin' in and out of the sewers every once in a while. I wouldn't go in there if you gave me a bushel of butterscotches, but if it's what you're dead set on, I'm not gonna stop you. Just know that as dangerous as the streets of Tir na nOg are, the sewers are even worse.
+QUEST  | wilmEscape == 2
+QUEST  | wilmerSleepCount += 1
+GOTO   | SLEEPPROGRESS
+
+WHATTODO
+DIALOG | P_NAME | Hey Mr. Wilmer, this place seems kinda boring. What is there to do around here?
+DIALOG | Wilmer | Hmm, that's a good question. I guess that depends on what you're interested in. What do you like?
+QUEST  | wilmEscape == 1
+CHOICE | What you into?
+REPLY  | INTOBBALL   | I'm into b-ball.
+REPLY  | INTOVIDCONS | I like vidcons.
+REPLY  | INTOQUESTS  | I like quests.
+REPLY  | INTOPARTY   | I like to party.
+
+INTOBBALL
+DIALOG | P_NAME | I'm into b-ball. Just b-ball.
+DIALOG | Wilmer | Well, there is a basketball court a ways north of here. You should talk to that lass Uschi about it, she's a `w1`*cough*cough*`w0` whippersnapper about your age, maybe she can help you fix it up.
+GOTO   | SLEEPPROGRESS
+
+INTOVIDCONS
+DIALOG | P_NAME | I guess I'm into vidcons. I really like RPGs, actually. My favorite series is Hyperborea no Legends. Oh man, did you ever play Hyberborea IX, the part where Klaaust Mitsu-
+DIALOG | Wilmer | Slow down! Slow down! Ol' Wilmer can barely follow what you're talking about! Bingo and canasta are more my speed. I'm sure there are vidcons around here, just ask around.
+GOTO   | SLEEPPROGRESS
+
+INTOQUESTS
+DIALOG | P_NAME | I'm into quests. Doing quests, receiving quests, finding quests. That kinda thing.
+//Haven't done the Wilmer eviction stuff yet.
+IF wilmerEvict == 1 | DIALOG | Wilmer | Quests, huh? Well don't forget to renew my mortgage or else I'm outta here! You should do that before you start rooting around for /'quests/'. This is Tir na nOg, for Pete's sake! Everyone here needs help with something! So help me with my mortgage before you bother with anyone else!
+IF wilmerEvict == 0 | DIALOG | Wilmer | Quests, huh? Well this is Tir na nOg so I'd say just about everyone needs a hand. I don't get out too much these days, but I think that knucklehead Eric is looking for a job, if you can consider that a quest. There are people all over the place who need help, just poke your head around.
+GOTO   | SLEEPPROGRESS
+
+INTOPARTY
+DIALOG | P_NAME = s_port_hoopzHappy | I like to party!
+DIALOG | Wilmer | I used to be a real party man myself back before I busted my hip. Oooh, I could jitterbug like nobody's business... well, I guess if you want to party, you could always head over to the warehouse district west of here. I hear there's some kind of /'Booty Bass/' contest going on...
+GOTO   | SLEEPPROGRESS
+
+WHOAREDUERGARS
+DIALOG | P_NAME | Mr. Wilmer, who are the `kw`Duergars?`rt` Aren't they dwarfs too?
+DIALOG | Wilmer | Well, they don't make life easy, that's for sure. And yes, the Duergars are dwarfs too. They're working for Cuchulainn, his henchmen I guess... I don't know for sure. They `w1`*cough*cough*`w0` police Tir na nOg. I don't know why, but they've sure got a mean streak in 'em.
+DIALOG | P_NAME | Yeah, I've seen that for myself. But why do they treat everyone so bad?
+DIALOG | Wilmer | Hah, who knows._ Some say they are under an ancient genie hex, others think it's because of all the jalapeno juice they drink.
+DIALOG | Wilmer | What do I think? It's just their nature, I suppose. They're cruel and there's nothing we can do about it. Maybe life in Tir na nOg wouldn't be so bad if it weren't for them, but we can't do anything about it. I guess it's why dwarfs join those L.O.N.G.I.N.U.S. rebels. And I guess I don't blame 'em.
+DIALOG | P_NAME | L.O.N.G.I.N.U.S. huh...
+KNOW   | knowLONGINUSTnn | 1
+QUEST  | wilmDuergars = 2
+GOTO   | SLEEPPROGRESS
+
+WHOAREDWARFS
+DIALOG | P_NAME | Um, this is going to sound kind of strange I guess but... who are dwarfs?
+DIALOG | Wilmer | Dwarfs? Haha, now that's a question. I'd need days to give you a good answer, but I'll sum it up for you. We're not the strongest or the brightest, the bravest or the wisest, but we're a kind and honest people. We love fruits and gems and opals and goblets. We don't like to fight, we keep to ourselves and we scare easy. But we're good people. And that's what matters.
+QUEST  | wilmDuergars = 1
+GOTO   | SLEEPPROGRESS
+
+GOODBYE
+DIALOG | P_NAME | I think I'm going to be leaving Tir na nOg soon, Mr. Wilmer. I just wanted to thank you for taking care of me and giving me a home. It's been fun, I mean, I don't want to leave, but...
+DIALOG | Wilmer | Enough of that! You've been a big help around here, but youngsters like you can't hang around old-timers like me all the time. Sure I'll be a little lonely, but there's a lot for you to see out there! Go out there and show the world what you've got!
+DIALOG | P_NAME | Th-thanks Mr. Wilmer. I guess this is goodbye then...
+DIALOG | Wilmer | Just remember to come by again when your travels are over. I've got a lot of old dwarf stories I never told you.
+QUEST  | wilmerGoodbye = 1
+
+SLEEPPROGRESS
+IF wilmerSleepCount == 3 | GOTO | SLEEP03
+IF wilmerSleepCount == 2 | GOTO | SLEEP02 
+IF wilmerSleepCount == 1 | GOTO | SLEEP01
+IF wilmerSleepCount == 0 | GOTO | SLEEP00
+
+SLEEP00
+DIALOG | Wilmer | Getting a little heavy on the eyelids here, young piker. Let's wrap it up, but first, did you have anything else you needed?
+QUEST  | wilmerSleepCount += 1
+GOTO   | QUESTIONS
+
+SLEEP01
+DIALOG | Wilmer | `w1`*Yaaaaaaaawn*`w0` My eyes are gettin' a little heavy, youngster. I think it's almost time for old man Wilmer to take a nap. Was there something else?
+QUEST  | wilmerSleepCount += 1
+GOTO   | QUESTIONS
+
+SLEEP02
+DIALOG | Wilmer | So anyway, the point is... `w1`zzz... ZZZ...`w0` uh, what's that?! I think I dozed off there for a minute. Was there something else you wanted, youngster?
+QUEST  | wilmerSleepCount += 1
+GOTO   | QUESTIONS
+
+SLEEP03
+DIALOG | Wilmer | And by the way, youngster... I wanted to... `w1`zzzZZZzzz...`w0` salt water taffy... `w1`zzzZZZzzz...`w0`
+DIALOG | P_NAME | Uh, Mr. Wilmer? Mr. Wilmer?
+WAIT   | 0.5
+EVENT  | o_wilmer01 | 0
+WAIT   | 1.0
+DIALOG | P_NAME = s_port_hoopzHappy | (Aww, he fell asleep. The conversation must have gotten to him. Well I guess I'll be on my way. I'll check back in half an hour or so...)
+QUEST  | wilmerSleep = 1
+ClockTime | event | wilmerSleep | 0 | 30
+        
+GOVSLEEP
+DIALOG | Wilmer | `w1`Zzz...`w0` butterscotch... maple nut goodies... NECCO wafers... `w1`zzz...`w0`
+DIALOG | Governor Elagabalus | (Mr. Wilmer is sleeping... I don't want to wake him up... Especially when I look like this.)
+
+GOVAWAKE
+DIALOG | Wilmer | Oh my, you must be the new governor. Your shining suit... it radiates such authority. I am yours to command, my liege!
+DIALOG | Governor Elagabalus | Uh, rest easy, Wilm- I mean citizen. I, the governor, was just about to leave. Farewell.
+
+GOVPARDON
+DIALOG | P_NAME = s_port_hoopzHappy | Mr. Wilmer! I heard the good news, you've got your house back!
+DIALOG | Wilmer | Yessiree, I sure did! I didn't catch the new governor's speech, but apparently he took pity on an old man and decided to give me back the only thing I had left!
+DIALOG | P_NAME | I'm glad to hear that, Mr. Wilmer. I was pretty worried to be honest.
+DIALOG | Wilmer | Well you should've been! You're the one who got me in that mess to begin with! All that `w1`*cough*cough*`w0` smog and grime out there in the streets of Tir na nOg couldn't have been good for ol' Mr. Wilmer... but... but I've got my bungalow back and that's all that matters. Let's let bygones be bygones and just forget about it, X1. You're a good kid, I'm sure you learned a good lesson from it! Now was there something you wanted?
+QUEST  | wilmerEvict = 7
+GOTO   | QUESTIONS
+
+EVICTPAID
+DIALOG | P_NAME | Hey, Mr. Wilmer! I took care of your mortgage, you're good to stay here for another 30 years!
+DIALOG | Wilmer | I - `w1`*cough*cough*`w0` - I knew you'd pull through! Now that wasn't so hard, was it?
+DIALOG | P_NAME | Nah, it wasn't too bad, just some really long, slow lines. I was kinda afraid that I wouldn't make it in time, but I guess I did.
+DIALOG | Wilmer | I'm proud of you, sonny. Here, take this as a token of my gratitude.
+USEAT  | o_wilmer01
+NOTIFY | Found Wilmer's Neue Recipe!
+Candy  | recipe add | Wilmer's Neue
+DIALOG | P_NAME | Wow, thanks a bunch, Mr. Wilmer!
+DIALOG | Wilmer | Don't mention it. I can't thank you enough! I can't handle the lines and the crowds like I used to. Now, was there something ol' Wilmer can do for you?
+QUEST  | wilmerEvict = 5
+GOTO   | QUESTIONS
+
+WILMER01
+DIALOG | P_NAME | Mr. Wilmer, thank you for taking care of me. I... well, this is all kind of overwhelming for me. I know you've done a lot for me already but... but could I ask you a few questions?
+DIALOG | Wilmer | That's `w1`*cough* *cough*...`w0` that's what I'm here for, youngster. Ol' Wilmer's got nothin' goin' on. Now tell me, what can I `w1`*cough*`w0` do for you?
+DIALOG | P_NAME | Well...
+GOTO   | QUESTIONS
+
+SLEEP
+IF wilmerMutter == 3 | DIALOG | Wilmer | `w1`Zzz...`w0` jelly sweets...
+IF wilmerMutter == 2 | DIALOG | Wilmer | `w1`Zzz...`w0` NECCO wafers... 
+IF wilmerMutter == 1 | DIALOG | Wilmer | `w1`Zzz...`w0` maple nut goodies...
+IF wilmerMutter == 0 | DIALOG | Wilmer | `w1`Zzz...`w0` butterscotch...
+QUEST | wilmerMutter += 1
+IF wilmerMutter == 4 | QUEST | wilmerMutter = 0
+
+GOODBYE
+IF wilmerGoodbye == 1 | GOTO | GOODBYEAGAIN
+DIALOG | P_NAME | (Mr. Wilmer's sleeping so peacefully, I shouldn't wake him up...)
+WAIT   | 0.75
+DIALOG | P_NAME | ... in case I don't get the chance to tell you this when you're awake, goodbye Mr. Wilmer. Thank you for taking care of me.
+QUEST  | wilmerGoodbye = 1
+
+GOODBYEAGAIN
+DIALOG | P_NAME | (Mr. Wilmer's sleeping so peacefully, I shouldn't wake him up... Goodbye again, Mr. Wilmer.)"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ufntu"]
+radius = 11.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmb6u"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(0, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8vgae"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcyju"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(43, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lioes"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_asqum"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(86, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xjq1r"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8riy0"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(129, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x8a5k"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_id6tv"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(172, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jgqkf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1femd"]
 atlas = ExtResource("4_fmil3")
 region = Rect2(0, 0, 42, 56)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ssclg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajepn"]
 atlas = ExtResource("4_fmil3")
 region = Rect2(42, 0, 42, 56)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rky0l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjlx3"]
 atlas = ExtResource("4_fmil3")
 region = Rect2(84, 0, 42, 56)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j30e1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw5pf"]
 atlas = ExtResource("4_fmil3")
 region = Rect2(126, 0, 42, 56)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_iau0s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhg8l"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(59, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dlgi4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_24myf"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(118, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_adjjg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bh5pb"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(177, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ta2k2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jggid"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(236, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i4i4s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmyd1"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(295, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q4yso"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjdos"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(354, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4tdi6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_h5t1l"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(413, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_woo7m"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3sik"]
 atlas = ExtResource("7_xfmnp")
 region = Rect2(472, 0, 59, 42)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_q1d5c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_sh774"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(0, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ros3q"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tmux"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(43, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wscob"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xoewn"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(86, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e6lbg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgfar"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(129, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0woa2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2byk8"]
 atlas = ExtResource("5_17kiu")
 region = Rect2(172, 0, 43, 46)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wekl1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4ugw"]
 atlas = ExtResource("8_s66xt")
 region = Rect2(0, 0, 29, 39)
 
@@ -102,19 +459,19 @@ region = Rect2(0, 0, 29, 39)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qbou8")
+"texture": SubResource("AtlasTexture_rmb6u")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8vgae")
+"texture": SubResource("AtlasTexture_vcyju")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lioes")
+"texture": SubResource("AtlasTexture_asqum")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_xjq1r")
+"texture": SubResource("AtlasTexture_8riy0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x8a5k")
+"texture": SubResource("AtlasTexture_id6tv")
 }],
 "loop": true,
 "name": &"default",
@@ -122,16 +479,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jgqkf")
+"texture": SubResource("AtlasTexture_1femd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ssclg")
+"texture": SubResource("AtlasTexture_ajepn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rky0l")
+"texture": SubResource("AtlasTexture_qjlx3")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_j30e1")
+"texture": SubResource("AtlasTexture_fw5pf")
 }],
 "loop": true,
 "name": &"ghost",
@@ -139,28 +496,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_iau0s")
+"texture": SubResource("AtlasTexture_jhg8l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dlgi4")
+"texture": SubResource("AtlasTexture_24myf")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_adjjg")
+"texture": SubResource("AtlasTexture_bh5pb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ta2k2")
+"texture": SubResource("AtlasTexture_jggid")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i4i4s")
+"texture": SubResource("AtlasTexture_fmyd1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q4yso")
+"texture": SubResource("AtlasTexture_fjdos")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4tdi6")
+"texture": SubResource("AtlasTexture_h5t1l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_woo7m")
+"texture": SubResource("AtlasTexture_y3sik")
 }],
 "loop": true,
 "name": &"prison",
@@ -168,19 +525,19 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q1d5c")
+"texture": SubResource("AtlasTexture_sh774")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ros3q")
+"texture": SubResource("AtlasTexture_6tmux")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wscob")
+"texture": SubResource("AtlasTexture_xoewn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_e6lbg")
+"texture": SubResource("AtlasTexture_jgfar")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0woa2")
+"texture": SubResource("AtlasTexture_2byk8")
 }],
 "loop": true,
 "name": &"snooze",
@@ -188,22 +545,34 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wekl1")
+"texture": SubResource("AtlasTexture_k4ugw")
 }],
 "loop": true,
 "name": &"standing",
 "speed": 5.0
 }]
 
-[node name="o_wilmer01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y05wj"]
+size = Vector2(39, 43)
+
+[node name="o_wilmer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_4jxh3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_833hq")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ufntu")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_lbc4v")
+autoplay = "default"
+frame_progress = 0.106564
+centered = false
+offset = Vector2(-21, -40)
 metadata/default = {
 "bbox_bottom": "43",
 "bbox_left": "8",
@@ -259,3 +628,12 @@ metadata/ghost = {
 "xorig": "0",
 "yorigin": "41"
 }
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-1.5, -16.5)
+shape = SubResource("RectangleShape2D_y05wj")

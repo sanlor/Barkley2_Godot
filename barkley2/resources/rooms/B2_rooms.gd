@@ -28,6 +28,7 @@ var astar_valid_tiles := Array() # used for debug
 
 @export_category("Room Options")
 @export var enable_hud					:= true
+@export var is_interior					:= false # lowers the music volume of the music
 @export var play_room_music				:= true
 @export var room_music_name				:= ""
 @export var room_pacify 				:= true # Player cant draw weapons.

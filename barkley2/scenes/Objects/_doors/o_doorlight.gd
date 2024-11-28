@@ -144,10 +144,10 @@ func _update_sprite():
 			_rot = deg_to_rad(90)
 			debug_door_exit_marker_pos = Vector2(22, 16)
 				
-	#if not Engine.is_editor_hint():
+	
 	door_exit_marker_global_pos = to_global(debug_door_exit_marker_pos)
-	#if get_parent() is B2_ROOMS:
-	teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)
+	if not Engine.is_editor_hint():
+		teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)
 	teleport_activation_area.rotation 	= _rot
 	push_area.rotation 					= _rot
 	light_activation_area.position 		= light_activation_offset[type]

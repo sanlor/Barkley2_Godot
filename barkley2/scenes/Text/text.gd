@@ -129,7 +129,16 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		## Replace variable P_NAME with actuall player name. Player name can be set on the CC. Defaults to X11JAM9.
 		new_text = new_text.replace("P_NAME_F", B2_Playerdata.Quest("playerNameFull", null, "playerNameFull") )
 		new_text = new_text.replace("P_NAME_S", B2_Playerdata.Quest("playerNameShort", null, "playerNameShort") )
-		new_text = new_text.replace("P_NAME", B2_Playerdata.Quest("playerName", null, "playerName") )
+		new_text = new_text.replace("P_NAME", 	B2_Playerdata.Quest("playerName", null, "playerName") )
+		
+		## Man, this game gives me no breaks, huh.
+		## sometimes, text have secret "variables" inside the text. this check replaces the "@variable@" with the actual variable.
+		# check Cinema() line 663
+		if new_text.contains("@"):
+			var split_text := new_text.split( "@", false )
+			## DEBUG
+			if split_text.size() > 3: print_rich("[color=pink]Text: Too many quest variables[/color]")
+			new_text = new_text.replace( "@" + split_text[1] + "@", "666" )
 		
 		# print(new_text)
 		return new_text

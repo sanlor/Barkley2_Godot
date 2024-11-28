@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://dvvweeve3xh3m"]
+
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="1_fk1eo"]
+[ext_resource type="Texture2D" uid="uid://il286ugstpwf" path="res://barkley2/assets/b2_original/images/merged/s_wilmerBooks01.png" id="1_s8qgi"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_ck5eo"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="4_fhinj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj61f"]
+atlas = ExtResource("1_s8qgi")
+region = Rect2(0, 0, 28, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oly8b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj61f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_pa1b0"]
+script = ExtResource("4_fhinj")
+original_script = "IF sceneBrandingStart >= 4 | GOTO | STATE_4
+IF body == governor | DIALOG | Governor Elagabalus | Just some cruddy old books... I wonder who these belong to?
+IF body != governor | DIALOG | P_NAME | Just some cruddy old books... I wonder who these belong to?
+
+STATE_4
+IF body == governor | DIALOG | Governor Elagabalus | (Some of Mr. Wilmers old books. I better not mess them up.)
+IF body != governor | DIALOG | P_NAME | Some of Mr. Wilmers old books. I better not mess them up."
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_si4ue"]
+size = Vector2(31, 20)
+
+[node name="o_wilmerBooks01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+material = ExtResource("1_fk1eo")
+sprite_frames = SubResource("SpriteFrames_oly8b")
+centered = false
+offset = Vector2(-12, -10)
+script = ExtResource("2_ck5eo")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_pa1b0")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "27",
+"bbox_top": "0",
+"height": "16",
+"name": "s_wilmerBooks01",
+"width": "28",
+"xorig": "12",
+"yorigin": "10"
+}
+
+[node name="ActorInteract" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(1.5, -2)
+shape = SubResource("RectangleShape2D_si4ue")
