@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://bddwu6g2q5nu2"]
+[gd_scene load_steps=25 format=4 uid="uid://bddwu6g2q5nu2"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_throneRoom01.gd" id="1_372yl"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1nf1v"]
@@ -11,8 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.tscn" id="9_8c0el"]
 [ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="10_elk8h"]
 [ext_resource type="PackedScene" uid="uid://c6jg6nrc1w6ju" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_kunigundePrison01.tscn" id="11_07hy3"]
+[ext_resource type="PackedScene" uid="uid://dxy1w2aee32mc" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer01.tscn" id="12_3vynp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mqfd0"]
+vertices = PackedVector2Array(346, 170, 346, 154, 390, 154, 390, 262, 358, 262, 358, 362, 390, 362, 390, 374, 294, 374, 294, 422, 250, 422, 250, 374, 154, 374, 154, 362, 186, 362, 186, 262, 154, 262, 154, 154, 198, 154, 198, 170)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(11, 12, 13, 14), PackedInt32Array(15, 16, 17, 18, 19), PackedInt32Array(14, 15, 19, 0, 4, 5, 8, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 480, 544, 480, 544, 0)])
+source_geometry_mode = 2
 
 [sub_resource type="Resource" id="Resource_drk0g"]
 script = ExtResource("2_1nf1v")
@@ -1703,10 +1708,17 @@ CHOICE_2
 DIALOG | Mysteriouse Youngster = s_port_hoopzDiaper | Nah, its borked.
 GOTO   | FINAL_LABEL"
 
-[node name="r_air_throneRoom01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
+[sub_resource type="Resource" id="Resource_ishcl"]
+script = ExtResource("2_1nf1v")
+original_script = "DIALOG | Wilmer | Variable injection test.
+DIALOG | Wilmer | Tarnation! The `sq`mortgage`rt`, young piker! The mortgage! Now it's on the table, `kw`@money_wilmerMortgage@ neuro-shekels`rt` for the `kw`mortgage payment`rt`... plus your allowance. Not that you deserve it!  Back in my day we had l_i_t_t_l_e_m_o_n_e_y_ and @money_wilmerMortgageBonus@ neuro-shekels went a long way.
+EXIT"
+
+[node name="r_air_throneRoom01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_mqfd0")
 script = ExtResource("1_372yl")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(274, 274)
 collision_layer = NodePath("layer collision")
@@ -1768,11 +1780,11 @@ cutscene_script = SubResource("Resource_ccn3v")
 can_move_around = false
 
 [node name="o_woodBarrel" parent="." instance=ExtResource("9_8c0el")]
-position = Vector2(306, 218)
+position = Vector2(379, 246)
 
 [node name="o_nu_debug" parent="." instance=ExtResource("10_elk8h")]
 material = SubResource("ShaderMaterial_kbow2")
-position = Vector2(248, 214)
+position = Vector2(382, 157)
 cutscene_script = SubResource("Resource_62wg2")
 can_move_around = false
 
@@ -1780,3 +1792,7 @@ can_move_around = false
 position = Vector2(158, 250)
 cutscene_script = SubResource("Resource_3wuwd")
 can_move_around = false
+
+[node name="o_wilmer01" parent="." instance=ExtResource("12_3vynp")]
+position = Vector2(305, 174)
+cutscene_script = SubResource("Resource_ishcl")

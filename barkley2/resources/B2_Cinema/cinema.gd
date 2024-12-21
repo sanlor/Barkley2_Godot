@@ -364,10 +364,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if parsed_line[1].contains("="):
 						var talker_split = parsed_line[1].split("=")
 						var talker_name := Text.pr( talker_split[0].strip_edges(true,true) )
-						var talker_port := parsed_line[1].strip_edges(true,true)
+						var talker_port := talker_split[1].strip_edges(true,true)
 						if talker_port == "P_NAME": talker_port = "s_port_hoopz" ## TEMP HACK
 						dialogue.set_portrait(talker_port, false)
-						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_name )
+						# Set the dialogue, with the variable injection
+						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_name )
 						last_talker_portrait = talker_port
 					else:
 						var talker_port := parsed_line[1].strip_edges(true,true)
@@ -376,7 +377,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							dialogue.set_portrait( talker_port, true )
 						if talker_port == "P_NAME":  ## TEMP HACK
 							dialogue.set_portrait( "s_port_hoopz", false )
-						dialogue.set_text( parsed_line[2].strip_edges(true,true), talker_port )
+							# Set the dialogue, with the variable injection
+						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_port )
 						last_talker_portrait = talker_port
 						
 					await dialogue.display_dialog()

@@ -63,7 +63,7 @@ func show_hud() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property( hud_bar, "position:y", SHOWN_Y, 0.45 )
+	tween.tween_property( hud_bar, "position:y", SHOWN_Y, 0.05 )
 	tween.tween_callback( event_finished.emit )
 	if debug_messages: print("o_hud: show_hud()")
 	
@@ -71,7 +71,7 @@ func hide_hud() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, 0.45 )
+	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, 0.05 )
 	tween.tween_callback( event_finished.emit )
 	if debug_messages: print("o_hud: hide_hud()")
 

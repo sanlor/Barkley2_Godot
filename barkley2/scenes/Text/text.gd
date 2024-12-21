@@ -131,17 +131,57 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replace("P_NAME_S", B2_Playerdata.Quest("playerNameShort", null, "playerNameShort") )
 		new_text = new_text.replace("P_NAME", 	B2_Playerdata.Quest("playerName", null, "playerName") )
 		
-		## Man, this game gives me no breaks, huh.
-		## sometimes, text have secret "variables" inside the text. this check replaces the "@variable@" with the actual variable.
-		# check Cinema() line 663
-		if new_text.contains("@"):
-			var split_text := new_text.split( "@", false )
-			## DEBUG
-			if split_text.size() > 3: print_rich("[color=pink]Text: Too many quest variables[/color]")
-			new_text = new_text.replace( "@" + split_text[1] + "@", "666" )
+		
+		
 		
 		# print(new_text)
 		return new_text
+
+## Man, this game gives me no breaks, huh.
+## sometimes, text have secret "variables" inside the text. this check replaces the "@variable@" with the actual variable.
+# check Cinema() line 663
+static func qst( text : String = "You forgot to add text, jackass." ) -> String:
+	# I tried to code my own function, but copying the original function is way easier and it works great.
+	
+	while text.contains("@"):
+		if text.count("@") == 1: 
+			## Should never only be one @.
+			push_error("Incorrect amount of @s.")
+			return "@ PARSE ERROR"
+		
+		var first_at 		:= text.find( "@", 0 )
+		var second_at 		:= text.find( "@", first_at + 1 )
+		var str_var 		:= text.get_slice( "@", 1 ).strip_edges() # original text
+		var parsed_str_var 	:= "INVALID"
+		
+		
+		if str_var.begins_with("money_"):
+			str_var = str_var.trim_prefix("money_")
+			parsed_str_var = str( B2_Database.money.get(str_var, 99999) )
+			pass
+		elif str_var.begins_with("duergar_"):
+			pass
+		elif str_var.begins_with("time_"):
+			pass
+		elif str_var.begins_with("item_"):
+			pass
+		elif str_var.contains("note"):
+			pass
+		elif str_var.contains("shop"):
+			pass
+		elif str_var.contains("gunsbag"):
+			pass
+		else:
+			# Cinema() line 678
+			# qstStr = string(scr_quest_get_state(_qstNam));
+			pass
+
+		text = text.erase( first_at, (second_at - first_at) + 1 )
+		text = text.insert( first_at, parsed_str_var )
+		## INCOMPLETE
+		
+	return text
+
 
 ## Function return the index for each space (" ") in the text.
 static func get_delays( text : String ) -> PackedInt32Array:
