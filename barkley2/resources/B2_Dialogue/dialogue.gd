@@ -107,12 +107,16 @@ var blink_speed 	:= 5.50
 var is_talking		:= false
 
 func _ready() -> void:
+	if debug: print_debug("DEBUG enabled.")
 	layer = B2_Config.DIALOG_LAYER
 	_draw_y = B2_Config.dialogY # set the diag box on top or on the bottom. almost always, its on the bottom.
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
 	border_node.set_seed( get_tree().root.get_child(0).name ) # This ensures that the border is random, but doesnt change all the time.
+	
+	# Identify this diag box
+	name = "Dialog_box"
 	
 	add_child( border_node )
 	border_node.name = "Dialog_Frame"
@@ -195,7 +199,7 @@ func display_dialog( _is_boxless := false ):
 	if debug: print( "Text delays: ", text_delays )
 	
 	# remove delay reference
-	text_node.set_text( text_node.get_text().replace("_", "") ) 
+	text_node.set_text( text_node.get_text().replace("_", "").strip_edges() ) 
 	
 	can_type = true
 	text_node.visible_characters = 0
@@ -213,6 +217,12 @@ func display_dialog( _is_boxless := false ):
 			text_node.text += "\n " # <- This space is important. dont know why, it just is.
 			if debug: print("adding extra line")
 	
+	## Oh the joy of debug weird erros.
+	# the code above sometimes creates a window with 4 "\n".
+	# the code below is a hack because its easier that fixing the issue.
+	if text_node.get_text().ends_with("\n \n \n \n "):
+		text_node.set_text( text_node.get_text().trim_suffix( "\n \n \n \n " ) )
+		if debug: print_debug("newline hack applied!")
 	await finished_typing
 	return
 
@@ -306,10 +316,6 @@ func _type_next_letter(delta):
 		var curr_char : String = text_node.get_parsed_text() [ text_node.visible_characters ]
 		is_typing = true
 		
-		if text_delays.has( text_node.visible_characters ):
-			add_wait = comma_pause * 2.0
-			_portrait_is_silent()
-		
 		match curr_char: # add a pause for certain characters
 			" ":
 				add_wait = 0.0
@@ -340,9 +346,10 @@ func _type_next_letter(delta):
 						B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 						voice_sound_played = true
 					_portrait_is_talking()
-		type_timer = ( textbox_pause + add_wait ) * curr_typing_speed
-		
+					
 		var amount_text := 1
+		
+		type_timer = ( textbox_pause + add_wait ) * curr_typing_speed
 		
 		if curr_typing_speed == fast_typing:
 			amount_text = 10
@@ -355,7 +362,7 @@ func _type_next_letter(delta):
 			else:
 				amount_text = 1
 			type_timer = 0
-			
+		
 		# Avoid issues with the text skipping
 		if not text_node.visible_ratio == 1.0: 
 			text_node.visible_characters += amount_text
@@ -363,6 +370,12 @@ func _type_next_letter(delta):
 		# Avoid issues with the line counting routine.
 		text_node.visible_characters = clampi(text_node.visible_characters, 0, text_node.get_parsed_text().length())
 		
+		if text_delays.has( text_node.visible_characters ):
+			add_wait = comma_pause * 2.5
+			_portrait_is_silent()
+			if debug: print(" !!! hit a '_', Waiting for %s seconds." % add_wait)
+			type_timer = ( textbox_pause + add_wait ) * curr_typing_speed
+
 
 func wait_user_input():
 	is_waiting_input = true

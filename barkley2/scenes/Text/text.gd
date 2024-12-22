@@ -4,6 +4,9 @@ class_name Text
 ## NOTE This Resource replaces the TextProcessor() script 
 # Also, check TextSpecial() for special effects
 
+# This script is pretty important. It handles text replacement for the al bhed language, variable injections and name replacement.
+# Its bitchin'.
+
 # Text Colors
 const textcolorMainquest 	:= Color8(255, 190, 40);
 const textcolorSidequest 	:= Color8(140, 160, 255);
@@ -131,10 +134,6 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replace("P_NAME_S", B2_Playerdata.Quest("playerNameShort", null, "playerNameShort") )
 		new_text = new_text.replace("P_NAME", 	B2_Playerdata.Quest("playerName", null, "playerName") )
 		
-		
-		
-		
-		# print(new_text)
 		return new_text
 
 ## Man, this game gives me no breaks, huh.
@@ -142,7 +141,7 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 # check Cinema() line 663
 static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 	# I tried to code my own function, but copying the original function is way easier and it works great.
-	
+	# Forget that, I basically copied the original code and used some built in godot functions.
 	while text.contains("@"):
 		if text.count("@") == 1: 
 			## Should never only be one @.
@@ -154,27 +153,27 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 		var str_var 		:= text.get_slice( "@", 1 ).strip_edges() # original text
 		var parsed_str_var 	:= "INVALID"
 		
-		
+		# Get the actual value from the newly created B2_Database. Its a "database" made for B2!
 		if str_var.begins_with("money_"):
 			str_var = str_var.trim_prefix("money_")
 			parsed_str_var = str( B2_Database.money.get(str_var, 99999) )
-			pass
+			
 		elif str_var.begins_with("duergar_"):
-			pass
+			pass # TODO
 		elif str_var.begins_with("time_"):
-			pass
+			pass # TODO
 		elif str_var.begins_with("item_"):
-			pass
+			pass # TODO
 		elif str_var.contains("note"):
-			pass
+			pass # TODO
 		elif str_var.contains("shop"):
-			pass
+			pass # TODO
 		elif str_var.contains("gunsbag"):
-			pass
+			pass # TODO
 		else:
 			# Cinema() line 678
 			# qstStr = string(scr_quest_get_state(_qstNam));
-			pass
+			pass # TODO
 
 		text = text.erase( first_at, (second_at - first_at) + 1 )
 		text = text.insert( first_at, parsed_str_var )
@@ -189,7 +188,10 @@ static func get_delays( text : String ) -> PackedInt32Array:
 	var search_point := 0
 	for c in text.count("_"):
 		var delay := text.find("_", search_point)
-		delay_array.append( delay )
-		search_point = delay
+		## NOTE the delay_array.size() assumes that the "_" is going to be removed after.
+		delay_array.append( delay - delay_array.size() ) 
+		# result example without size(): 	Text delays: [191, 193, 195, 197, 199, 201, 203, 205, 207, 209, 211]
+		# result example with size(): 		Text delays: [191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201]
+		search_point = delay + 1
 	
 	return delay_array

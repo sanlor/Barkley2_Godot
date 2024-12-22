@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://c4f0usklyoo67"]
+[gd_scene load_steps=27 format=4 uid="uid://c4f0usklyoo67"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_wilmer_01.gd" id="1_jp87t"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_vcu7c"]
@@ -6,7 +6,9 @@
 [ext_resource type="Script" path="res://tools/b2_tool_room_converter.gd" id="3_vu685"]
 [ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="4_33750"]
 [ext_resource type="Script" path="res://barkley2/resources/quest_cleanup.gd" id="8_ygj3r"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmerStash01.gd" id="9_1k65x"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="9_r5kxp"]
+[ext_resource type="Texture2D" uid="uid://dvo7f6ihbqmjc" path="res://barkley2/assets/b2_original/images/merged/s_wilmerStash01.png" id="10_e7xaf"]
 [ext_resource type="PackedScene" uid="uid://dxy1w2aee32mc" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer01.tscn" id="12_opxp7"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="14_gy75y"]
 
@@ -3359,7 +3361,7 @@ texture = ExtResource("1_vcu7c")
 [sub_resource type="TileSet" id="TileSet_orkes"]
 sources/0 = SubResource("TileSetAtlasSource_3hn88")
 
-[sub_resource type="Resource" id="Resource_833hq"]
+[sub_resource type="Resource" id="Resource_evhg3"]
 script = ExtResource("14_gy75y")
 original_script = "IF body == governor | GOTO | GOVERNOR
 IF wilmerSleep == 1 | GOTO | SLEEP
@@ -3712,10 +3714,166 @@ QUEST  | wilmerGoodbye = 1
 GOODBYEAGAIN
 DIALOG | P_NAME | (Mr. Wilmer's sleeping so peacefully, I shouldn't wake him up... Goodbye again, Mr. Wilmer.)"
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_61g30"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(0, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g6ewf"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(44, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qre7t"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(88, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnu61"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(132, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_co7bg"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(176, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bijyn"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(220, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1xcw"]
+atlas = ExtResource("10_e7xaf")
+region = Rect2(264, 0, 44, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wi3h8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61g30")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g6ewf")
+}],
+"loop": true,
+"name": &"taken1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qre7t")
+}],
+"loop": true,
+"name": &"taken2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnu61")
+}],
+"loop": true,
+"name": &"taken3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_co7bg")
+}],
+"loop": true,
+"name": &"taken4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bijyn")
+}],
+"loop": true,
+"name": &"taken5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v1xcw")
+}],
+"loop": true,
+"name": &"taken6",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_tc4ow"]
+script = ExtResource("14_gy75y")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF wilmerItemsTaken == 0 | GOTO | FIRST
+GOTO | SECOND
+
+GOVERNOR
+IF wilmerItemsTaken == 0 | DIALOG | Governor Elagabalus | (Mr. Wilmer's things... I should grab these later.)
+IF wilmerItemsTaken == 1 | DIALOG | Governor Elagabalus | (This is where Mr. Wilmer used to keep his stuff...)
+
+FIRST
+DIALOG | P_NAME | (It's the stuff Mr. Wilmer wanted me to take. Let's see...)
+USEAT  | o_wilmerStash01
+SOUND  | sn_mnu_noteFlipLight01
+SET    | o_wilmerStash01 | taken1
+WAIT   | 0.25
+NOTE   | take   | Wilmer's Amortization Schedule
+NOTIFY | Got Wilmer's Amortization Schedule.
+WAIT   | 0.25
+DIALOG | P_NAME | (This funny-looking paper seems like Mr. Wilmer's bill.)
+WAIT   | 0.25
+BREAKOUT | add  | money
+DIALOG | P_NAME | (There's a bunch of neuro-shekels here...)
+USEAT  | o_wilmerStash01
+SET    | o_wilmerStash01 | taken2
+SOUND  | sn_hoopz_money2
+QUEST  | money += @money_wilmerMortgage@
+WAIT   | 0.25
+DIALOG | P_NAME | (...@money_wilmerMortgage@ for the mortgage...)
+USEAT  | o_wilmerStash01
+SET    | o_wilmerStash01 | taken3
+SOUND  | sn_hoopz_money3
+QUEST  | money += @money_wilmerMortgageBonus@
+WAIT   | 0.25
+DIALOG | P_NAME | (...and @money_wilmerMortgageBonus@ for my allowance.)
+BREAKOUT | clear
+USEAT  | o_wilmerStash01
+SET    | o_wilmerStash01 | taken4
+SOUND  | sn_shotgun_reload02
+WAIT   | 0.25
+EVENT  | o_wilmerStash01 | 0 // You get the recipe, guns, and candies here
+NOTIFY | Got Widower Wilmer's Gun (WILM)!
+NOTIFY | Got the Late Esther's Gun! (ESTR)
+DIALOG | P_NAME = s_port_hoopzSmirk | (I bet Mr. Wilmer brasted a lot in his day...)
+DIALOG | P_NAME = s_port_hoopzSad   | (Sorry to see this about his wife though...)
+WAIT   | 0.25
+USEAT  | o_wilmerStash01
+SET    | o_wilmerStash01 | taken5
+SOUND  | sn_hoopz_candy06
+WAIT   | 0.25
+NOTIFY | Filled pockets with Butterscotch!
+DIALOG | P_NAME | (I'll need a lot of these candies if I get hungry later...)
+WAIT   | 0.25
+USEAT  | o_wilmerStash01
+SET    | o_wilmerStash01 | taken6
+SOUND  | sn_mnu_noteFlipMedium01
+WAIT   | 0.25
+NOTIFY | Got Butterscotch Recipe!
+DIALOG | P_NAME | (Maybe I can use this recipe somewhere to make more candies...)
+WAIT   | 1
+DIALOG | P_NAME | (That's everything. I think I'm good to go.)
+QUEST  | wilmerItemsTaken = 1
+
+SECOND
+DIALOG | P_NAME | (Looks like I looted this table good'n'proper. Nothing left to loot.)"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a5kd4"]
+radius = 18.0278
+
 [node name="r_tnn_wilmer01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 navigation_polygon = SubResource("NavigationPolygon_5am3p")
 script = ExtResource("1_jp87t")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(148, 348)
 collision_layer = NodePath("layer - collision")
@@ -3789,7 +3947,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_wilmer01" parent="." instance=ExtResource("12_opxp7")]
 position = Vector2(280, 328)
-cutscene_script = SubResource("Resource_833hq")
+cutscene_script = SubResource("Resource_evhg3")
 metadata/code = ""
 metadata/inst_name = "inst_5FF4C983"
 metadata/scale = Vector2(1, 1)
@@ -3811,11 +3969,19 @@ metadata/code = ""
 metadata/inst_name = "inst_E31CF3F3"
 metadata/scale = Vector2(1, 1)
 
-[node name="P3 - o_wilmerStash01" type="Marker2D" parent="."]
+[node name="o_wilmerStash01" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("mouse_detection_area")]
 position = Vector2(200, 312)
-metadata/code = ""
-metadata/inst_name = "inst_2397E524"
-metadata/scale = Vector2(1, 1)
+sprite_frames = SubResource("SpriteFrames_wi3h8")
+centered = false
+offset = Vector2(-23, -16)
+script = ExtResource("9_1k65x")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_tc4ow")
+
+[node name="Area2D" type="Area2D" parent="o_wilmerStash01"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_wilmerStash01/Area2D"]
+shape = SubResource("CircleShape2D_a5kd4")
 
 [node name="P4 - o_map_stairs_0" type="Marker2D" parent="."]
 position = Vector2(128, 240)

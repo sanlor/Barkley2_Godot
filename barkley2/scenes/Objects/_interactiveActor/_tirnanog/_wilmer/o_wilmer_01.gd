@@ -1,10 +1,15 @@
 extends B2_InteractiveActor
 
+const O_EFFECT_ZZZ = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_zzz.tscn")
+
+@onready var snooze_timer: Timer = $snooze_timer
+@onready var snooze_origin: Marker2D = $snooze_origin
+
 func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
-	## Wilmer has some extra "unused" dialog.
+	#region Wilmer has some extra "unused" dialog.
 	#// Talk to Wilmer again after you've said your goodbyes //
 	#if (scr_quest_get_state("wilmerGoodbye") == 1)
 	#DIALOG | Wilmer | Hm? What's that? *cough*... *hack*... that you, " + P_NAME + "? You're still here? I thought you were *hack*... *cough*... hitting the road, leaving Ol' Wilmer in the dust! What can I do for you? 
@@ -42,19 +47,31 @@ func _ready() -> void:
 	#DIALOG | P_NAME | I won't forget you, Mr. Wilmer! Take care!
 	#QUEST | wilmerSleepCount -= 1
 	#EXIT |
+#endregion
 	
 func execute_event_user_0():
 	## Snooze
 	#snoozing = true;
-	pass
+	ActorAnim.stop()
+	ActorAnim.frame = 0
+	_on_snooze_timer_timeout()
 
 func execute_event_user_1():
 	## Wake up 
 	#snoozing = false;
-	pass
+	ActorAnim.play()
+	snooze_timer.stop()
 	
 func execute_event_user_2():
+	## Cinema related stuff. probably not going to use it.
 	pass
 	
 func execute_event_user_5():
+	## Stuff related to animation. Going to ignore it.
 	pass
+
+func _on_snooze_timer_timeout() -> void:
+	var zzz = O_EFFECT_ZZZ.instantiate()
+	zzz.position = snooze_origin.position
+	add_child(zzz, true)
+	snooze_timer.start()

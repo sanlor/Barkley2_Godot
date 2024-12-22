@@ -28,7 +28,6 @@ func _enter_tree() -> void:
 			
 			var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 			material = shader
-			
 		else:
 			push_warning( "Interactive element %s has no mouse detection area" % name )
 			is_interactive = false

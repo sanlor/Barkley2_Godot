@@ -415,7 +415,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					if qstVal.contains("@"): ## Not sure how this is used.
 						# if (string_pos("@", qstVal) > 0) qstVal = Cinema("parse", qstVal);
-						breakpoint
+						## Now I know! Its a variable injection, to add arbitrary values to quest variables.
+						# What a beautifull mess.
+						
+						qstVal = qstVal.replace("@", "")
+						if qstVal.begins_with("money_"):
+							qstVal = qstVal.trim_prefix("money_")
+							if not B2_Database.money.has(qstVal):
+								push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
+							qstVal = B2_Database.money.get(qstVal, "69420")
+						elif qstVal.begins_with("time_"):
+							qstVal = qstVal.trim_prefix("time_")
+							push_warning("Time function is not implemented.")
+						else:
+							breakpoint
 					else:
 						qstVal = float( qstVal )
 						
