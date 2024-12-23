@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://bddwu6g2q5nu2"]
+[gd_scene load_steps=26 format=4 uid="uid://bddwu6g2q5nu2"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_throneRoom01.gd" id="1_372yl"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1nf1v"]
@@ -1670,6 +1670,21 @@ DIALOG | Debug = s_port_cuchutamo | Lorem ipsum dolor sit amet. Qui assumenda te
 DIALOG | Debug = s_port_cuchutamo | Did it work? I hope so.
 EXIT"
 
+[sub_resource type="Resource" id="Resource_5egio"]
+script = ExtResource("2_1nf1v")
+original_script = "DIALOG | Debug = s_port_cuchutamo | Breakout Test
+BREAKOUT | add  | money
+DIALOG | Debug = s_port_cuchutamo | Show Breakout (Money)
+QUEST  | money += @money_wilmerMortgage@
+WAIT   | 0.25
+DIALOG | Debug = s_port_cuchutamo | Adding  @money_wilmerMortgage@  Neoshekels.
+QUEST  | money += @money_wilmerMortgage@
+WAIT   | 0.25
+DIALOG | Debug = s_port_cuchutamo | Adding  @money_wilmerMortgage@  Neoshekels again.
+BREAKOUT | clear
+WAIT   | 0.25
+DIALOG | Debug = s_port_cuchutamo | Hide breakout."
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kbow2"]
 resource_local_to_scene = true
 shader = ExtResource("8_ycdce")
@@ -1718,7 +1733,7 @@ EXIT"
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_mqfd0")
 script = ExtResource("1_372yl")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(274, 274)
 collision_layer = NodePath("layer collision")
@@ -1777,6 +1792,14 @@ position = Vector2(321, 303)
 interactive_distance = 64
 player_can_pause = false
 cutscene_script = SubResource("Resource_ccn3v")
+can_move_around = false
+
+[node name="o_cuchutamo03" parent="." instance=ExtResource("7_yr07f")]
+material = SubResource("ShaderMaterial_53sbw")
+position = Vector2(218, 176)
+interactive_distance = 64
+player_can_pause = false
+cutscene_script = SubResource("Resource_5egio")
 can_move_around = false
 
 [node name="o_woodBarrel" parent="." instance=ExtResource("9_8c0el")]

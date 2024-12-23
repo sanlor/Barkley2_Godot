@@ -21,6 +21,7 @@ class_name B2_CinemaPlayer
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
 @export var debug_event 		:= false
+@export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
 @export var print_comments		:= false
 @export var print_line_report 	:= false ## details about the current script line.
@@ -53,6 +54,13 @@ var array_dirty					:= false
 
 ## Children process
 var dslCinKid := []
+
+## Breakout stuff
+var show_breakout := false
+var breakout_data := {
+	"value" 		: "money", # what is shown in the breakbox
+	"prev_value" 	: 0, # what is shown in the breakbox
+}
 
 func _ready() -> void:
 	pass
@@ -441,7 +449,35 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					if debug_quest: print( "Quest: ", quest_stuff )
 				"BREAKOUT":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# This is a small Info box above the dialog box, showing money or stuff like that
+					if parsed_line.size() == 2:
+						if parsed_line[1] == "clear":
+							show_breakout = false
+							breakout_data.clear()
+							if debug_breakout: print("Breakout: clear")
+						else:
+							# invalid amount of arguments
+							breakpoint
+						
+					elif parsed_line.size() == 3:
+						if parsed_line[1] == "add":
+							show_breakout = true
+							if breakout_data.has("value"):
+								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] = parsed_line[2]
+							else:
+								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2] )
+								breakout_data["value"] = parsed_line[2]
+						if debug_breakout: print("Breakout: add %s." % parsed_line[2])
+					elif parsed_line.size() == 4:
+						# argument not implemented.
+						breakpoint
+					else:
+						# too many arguments.
+						breakpoint
+						
+					print( breakout_data )
+					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
 					# check scr_event_fade()
 					# parsed_line[ 1 ] is type: 		// 1 is fade in, 0 is fade out. Fade in is black to transparent.
