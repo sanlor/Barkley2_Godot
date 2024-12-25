@@ -94,7 +94,6 @@ func _ready() -> void:
 	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )
 	diag_box.set_panel_size( max(breakout_size.x, breakoutXSpc), max(breakout_size.y, breakoutYSpc) )
 	
-	
 	fancy_value_change()
 	
 func set_values():

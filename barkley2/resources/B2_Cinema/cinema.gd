@@ -372,9 +372,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if show_breakout:
 						var brk := B2_Breakout.new()
 						brk.breakout_data = breakout_data.duplicate()
-						print(breakout_data)
 						breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data["value"] )
 						dialogue.add_child(brk, true)
+						if debug_breakout: print("Breakout: show %s with %s." % [breakout_data["value"], B2_Playerdata.Quest( breakout_data["value"] ) ] )
 						
 					# parse talker´s name
 					if parsed_line[1].contains("="):

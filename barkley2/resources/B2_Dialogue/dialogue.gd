@@ -70,7 +70,7 @@ var text_node 				: RichTextLabel
 var has_portrait := false
 
 ## Typing stuff
-var textbox_pause 			:= 0.025 	#0.05; # Set tyhe typing speed.
+var textbox_pause 			:= 0.015 	#0.05; # Set tyhe typing speed.
 var textbox_talk_cooldown 	:= 0.04 	#0.04;
 var textbox_blink_cooldown 	:= 0.04 	#0.04;
 

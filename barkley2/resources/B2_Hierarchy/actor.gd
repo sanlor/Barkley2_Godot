@@ -163,7 +163,7 @@ func cinema_kneelat( target ):
 func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", force_speed := 1.0 ) -> void:
 	# what a mess. target can be a string or a node.
 	assert(target != null, "Null? NULL? Why null?")
-	
+	var looking_at := movement_vector
 	var prefix := ""
 	if B2_CManager.curr_BODY == B2_CManager.BODY.DIAPER: prefix = "diaper_" ## What a mess. This is a port of the original code. not really want to change how it works.
 	var dir : Vector2
@@ -197,6 +197,10 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	#print("USEAT anim: %s." % new_anim)
 	cinema_playset( new_anim, old_anim, 10.0 * force_speed, disable_auto_flip_h )
 	await ActorAnim.animation_finished
+	
+	## 25-12-24 vvv
+	cinema_look( vec_2_dir_map.get( dir, "SOUTH" ) )
+	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	
 	return
