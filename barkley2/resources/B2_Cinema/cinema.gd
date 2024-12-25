@@ -368,6 +368,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
 					add_child( dialogue, true )
+					
+					if show_breakout:
+						var brk := B2_Breakout.new()
+						brk.breakout_data = breakout_data.duplicate()
+						print(breakout_data)
+						breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data["value"] )
+						dialogue.add_child(brk, true)
+						
 					# parse talker´s name
 					if parsed_line[1].contains("="):
 						var talker_split = parsed_line[1].split("=")
@@ -441,9 +449,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						qstVal = float( qstVal )
 						
 					if qstTyp == "+=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam, 0) + qstVal )
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
 					elif qstTyp == "-=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.get_quest_state(qstNam, 0) - qstVal )
+						B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
 					else:
 						B2_Playerdata.Quest(qstNam, float(qstVal) )
 					

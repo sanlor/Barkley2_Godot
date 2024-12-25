@@ -188,4 +188,3 @@ func get_rect_for_position(position: Vector2) -> Rect2:
 			((rect_size + rect_gap) * pos + texture_offset) * scale,
 			rect_size * scale
 	)
-

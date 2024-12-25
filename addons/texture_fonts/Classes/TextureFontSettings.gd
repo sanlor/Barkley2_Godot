@@ -148,4 +148,3 @@ func solve_kerning_pairs() -> Array[Dictionary]:
 				})
 	
 	return solved_list
-
