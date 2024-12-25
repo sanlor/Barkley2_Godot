@@ -90,8 +90,12 @@ func _on_x_1_button_button_pressed():
 	B2_Playerdata.preload_tutorial_save_data() 	# Add some other data
 	load_new_room( "r_fct_eggRooms01" ) 		# Default opening room. 
 
+# THis behaves differently from the actual game. It plays the Wilmer cutscene and everything.
 func _on_skip_button_button_pressed():
-	show_notice()
+	_disable_buttons()
+	B2_Playerdata.preload_skip_tutorial_save_data()
+	load_new_room( "r_tnn_wilmer02" )
+	#show_notice()
 
 func _disable_buttons(): # called when loading the game.
 	cc_button.disabled 		= true

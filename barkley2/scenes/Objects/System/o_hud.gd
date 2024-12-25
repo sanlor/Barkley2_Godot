@@ -39,7 +39,7 @@ var wait_anim := true
 signal event_finished
 
 const SHOWN_Y 	:= 200.0
-const HIDDEN_Y 	:= 240.0
+const HIDDEN_Y 	:= 241.0
 
 var hudDrawCount := 0
 

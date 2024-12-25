@@ -48,6 +48,8 @@ func _ready() -> void:
 	#QUEST | wilmerSleepCount -= 1
 	#EXIT |
 #endregion
+	if B2_Playerdata.Quest("wilmerSleep") == 1:
+		execute_event_user_0()
 	
 func execute_event_user_0():
 	## Snooze

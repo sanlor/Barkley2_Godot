@@ -385,11 +385,6 @@ func _physics_process(delta: float) -> void:
 						B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
-				# player draws its weapon
-				#elif Input.is_action_just_released("Holster") and can_draw_weapon:
-					#curr_STATE = STATE.NORMAL
-					#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-				
 				# player shoots its weapon.
 				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM and can_shoot:
 					#shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
@@ -399,6 +394,9 @@ func _physics_process(delta: float) -> void:
 				# player has no permission to draw weapon
 				elif Input.is_action_just_pressed("Holster") and not can_draw_weapon:
 					B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
+					# if a battle ends and the player still have its weapon drawn, this enables it to holster it.
+					curr_STATE = STATE.NORMAL
+					B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
 				# Roll action
 				if Input.is_action_just_pressed("Roll") and can_roll:

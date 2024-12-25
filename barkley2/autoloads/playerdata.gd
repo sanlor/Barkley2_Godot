@@ -103,8 +103,8 @@ func _ready():
 	
 	#preload_CC_save_data()
 	#B2_CManager.BodySwap("diaper");
-	preload_CC_save_data()
-	B2_Playerdata.Quest("wilmerMeeting", 0)
+	#preload_CC_save_data()
+	#B2_Playerdata.Quest("wilmerMeeting", 0)
 	#B2_Playerdata.Quest("tutorialProgress", 	9)
 	#B2_Playerdata.Quest("tutorialCspear", 		1)
 	#
@@ -375,4 +375,31 @@ func preload_tutorial_save_data(): # user skip the CC
 
 func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
 	# related script = Game()
-	pass
+	## Plays as if you did the tutorial, woke up, and grabbed Wilmers stuff
+	#scr_savedata_delete();
+	#scr_savedata_reset();
+	#scr_player_newPlayerIdentity();
+	preload_CC_save_data()
+	preload_tutorial_save_data()
+	
+	B2_Playerdata.Quest("gameStart", 2);
+	B2_Playerdata.Quest("sceneBrandingStart", 2);
+	#B2_Playerdata.Quest("wilmerEvict", 1);
+	#B2_Playerdata.Quest("wilmerHandler", 0);
+	#B2_Playerdata.Quest("wilmerSleepCount", 0);
+	#B2_Playerdata.Quest("wilmerSleep", 1);
+	#B2_Playerdata.Quest("wilmerItemsTaken", 1);
+	#B2_Playerdata.Quest("wilmerMeeting", 0);
+	B2_Playerdata.Quest("tutorialProgress", 100);
+	B2_Playerdata.Quest("elevatorFloor", 665);
+	B2_Playerdata.Quest("elevatorFloorGoal", 665);
+	
+	#scr_gun_db("wilmerGun");
+	#scr_gun_db("estherGun");
+	#Candy("recipe add", "Butterscotch");
+	#repeat (10) scr_items_add(scr_items_db_getCopyOfItem("Butterscotch"));
+	#Note("take", "Wilmer's Amortization Schedule");
+	#scr_money_set(scr_money_db("wilmerMortgageTotal"));
+	#paused(0);
+	#global.DELTA_TIME_MOD = 1;
+	#Teleport(r_tnn_wilmer01, 240, 350, 1);

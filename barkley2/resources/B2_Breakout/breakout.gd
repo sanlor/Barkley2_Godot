@@ -138,6 +138,7 @@ func set_values():
 				txt = "INVALID"
 				breakpoint
 		
+		## Need to fix these later.
 		#if (argument[1] == "money") _val = scr_money_count();
 		#else if (argument[1] == "hp") _val = scr_stats_getCurrentStat(o_hoopz, STAT_CURRENT_HP);
 		#else if (Item("index", argument[1]) >= 0) _val = Item("count", argument[1]); //If it's an item get item count
@@ -147,7 +148,7 @@ func set_values():
 func fancy_value_change():
 	var tween := create_tween()
 	tween.tween_interval(0.5)
-	tween.tween_property( self, "value", new_value, 2.0 )
+	tween.tween_property( self, "value", new_value, 1.0 )
 		
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	value_node.text = str( value  )
