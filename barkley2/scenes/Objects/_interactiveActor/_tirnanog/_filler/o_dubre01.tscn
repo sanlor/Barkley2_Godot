@@ -24,11 +24,12 @@ radius = 7.63944
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v1g1"]
 size = Vector2(20, 36)
 
-[node name="o_dubre01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_dubre01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_pu6p8")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
@@ -50,6 +51,8 @@ metadata/default = {
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_x7jxm")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [node name="ActorInteract" type="Area2D" parent="."]
 

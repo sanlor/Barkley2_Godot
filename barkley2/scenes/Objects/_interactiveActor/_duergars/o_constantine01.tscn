@@ -1,7 +1,112 @@
-[gd_scene load_steps=18 format=3 uid="uid://couafcml05o7w"]
+[gd_scene load_steps=21 format=3 uid="uid://dv7kdhj71ipds"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_constantine01.gd" id="1_u7euf"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_jnjdk"]
 [ext_resource type="Texture2D" uid="uid://bgdkl06ycmaq2" path="res://barkley2/assets/b2_original/images/merged/s_constantinePee01.png" id="2_nwlcr"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Emiters/audio_emiter.gd" id="4_sun5s"]
+
+[sub_resource type="Resource" id="Resource_6cilg"]
+script = ExtResource("2_jnjdk")
+original_script = "IF body == governor | GOTO | GOVNA
+IF govQuest == 2 | IF constantineState == 1 | GOTO | NEEDPISSTALKED
+IF govQuest == 2 | IF constantineState != 1 | GOTO | NEEDPISSNOTTALKED
+IF constantineState == 1 | GOTO | TALKED
+IF constantineState != 1 | GOTO | NOTTALKED
+IF constantineState == 2 | GOTO | PISSGOT
+
+GOVNA
+DIALOG | Constantine         | `w1`*Gulp*`w0` G-governor Elagabalus! I had no idea you were around here. My apologies, I did not intend for you to see this display of piss.
+DIALOG | Governor Elagabalus | I, the real governor, forgive you....
+
+INTERCEPT
+CHOICE | Intercept stream?
+REPLY  | YES | Yes
+REPLY  | NO  | No
+
+YES
+DIALOG | P_NAME | Sorry about this!!!
+MOVETO | o_cts_hoopz | o_cinema9 | MOVE_NORMAL
+WAIT   | 0
+USEAT  | NORTH
+WAIT   | 0.25
+SOUND  | sn_cupfilling01
+WAIT   | 0.5
+NOTIFY | Got the Number 1 (Duergar Urine)
+ITEM   | Duergar Urine | 1
+ITEM   | Sterile Vial  | -1
+DIALOG | Constantine | What the hell are you doing!? 
+DIALOG | P_NAME      | Umm, I promise it's going for a good cause. I mean, this is really important and I really, really have to have it and I promise I won't use this recklessly or in a way that contradicts your values or sense of propriety. I mean, uh... bye!
+DIALOG | Constantine | You sonnuva bitch! No one touches a duergars piss and lives!
+Create | o_lafferty01 | 768 | 664
+Create | o_vikingstad01 | 768 | 696
+MOVETO | o_lafferty01 | o_cinema30 | MOVE_FAST
+MOVETO | o_vikingstad01 | o_cinema31 | MOVE_FAST
+DIALOG | P_NAME      | I didn't mean any-
+WAIT   | 1
+LOOK   | o_lafferty01 | EAST
+LOOK   | o_vikingstad01 | NORTHEAST
+SURPRISEAT | SOUTHWEST
+WAIT   | 0
+LOOK   | o_lafferty01 | EAST
+LOOK   | o_vikingstad01 | NORTHEAST
+DIALOG | Lafferty   | What the HELL is going on over here?
+DIALOG | Vikingstad | We could hear a piss stream being interrupted all the way from the mortgage office. It was you wasn't it, you dwarf fucker?!
+DIALOG | P_NAME = s_port_hoopzShock | W-what? But I-
+DIALOG | Lafferty   | Stealing a duergars piss is a criminal offense... What do you have to say for yourself, huh?
+DIALOG | P_NAME = s_port_hoopzShock | I-
+DIALOG | Lafferty   | `s1`Shut the hell up!`s0` 
+DIALOG | Lafferty   | You are going to pay dearly for this!
+DIALOG | Vikingstad | We're going to hand you over to the Gank Squad! Prepare to spend the rest of your days behind bars, asshole!
+DIALOG | P_NAME = s_port_hoopzShock | N-no! This can't be happening!
+\" +
+//TODO: add in the standard \"arrest animation\" if we use it (we talked about the ELECTROSHOCK animation)
+\"
+WAIT   | 0.25
+FADE   | 1 | 2.0
+WAIT   | 3.0
+QUEST  | govQuest = 3
+QUEST  | constantineState = 2
+QUEST  | prisonArrested = 6
+QUEST  | prisonIntro = 1
+\" +
+//TODO: the music should change to the PRISON MUSIC
+\"
+Teleport | r_pri_prisonGate01 | 464 | 1072
+
+NO
+DIALOG | P_NAME      | Um, no, I wasn't enjoying the show... uh, have a good day.
+DIALOG | Constantine | Clispaeth Christ, kid. 
+DIALOG | P_NAME      | (Maybe I should, uh, follow the stream underground. There could be a spot there with a `w1``mq`[Yellow Stream]`rt``w0` somewhere...)
+QUEST  | constantineState = 1
+
+GOVNAH
+DIALOG | Constantine | Just markin' the turf, boss.
+
+PISSGOT
+DIALOG | Constantine | Clispaeth Christ, you are a fucking weirdo.
+
+NEEDPISSTALKED
+DIALOG | Constantine | I told you to piss off, kid! What don't you get? I'm a little busy here!
+DIALOG | P_NAME      | Yeah, I know. Um, this is going to sound a little weird, but um... I really need to borrow some of your, uh...
+DIALOG | Constantine | Enjoying the show? You want to take a fucking picture or something?
+DIALOG | P_NAME      | (Dang, I don't know if I can get away with this... Should I do it anyway?)
+GOTO   | INTERCEPT
+
+NEEDPISSNOTTALKED
+DIALOG | Constantine | Piss off, kid! I'm a little busy!
+DIALOG | P_NAME      | Um, this is going to sound a little weird, but um... I really need to borrow some of your, uh...
+DIALOG | Constantine | Enjoying the show? You want to take a fucking picture or something?
+DIALOG | P_NAME      | (Dang, I don't know if I can get away with this... Should I do it anyway?)
+GOTO   | INTERCEPT
+
+TALKED
+DIALOG | Constantine | I told you to piss off! I'm busy!
+DIALOG | P_NAME      | Oops. Sorry!
+
+NOTTALKED
+DIALOG | Constantine | I'm busy, kid.
+DIALOG | P_NAME      | Um... sorry.
+QUEST  | constantineState = 1"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aevdk"]
 atlas = ExtResource("2_nwlcr")
@@ -99,18 +204,21 @@ animations = [{
 radius = 11.1408
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tstsd"]
-size = Vector2(20, 36)
+size = Vector2(20, 41)
 
 [node name="o_constantine01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_u7euf")
 duergar_name = "constantine"
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_6cilg")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_xy3sf")
+autoplay = "default"
+frame_progress = 0.219706
 centered = false
 offset = Vector2(-11, -28)
 metadata/default = {
@@ -132,4 +240,13 @@ shape = SubResource("CircleShape2D_0n2hu")
 [node name="ActorInteract" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -11.5)
 shape = SubResource("RectangleShape2D_tstsd")
+
+[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="."]
+bus = &"Audio"
+script = ExtResource("4_sun5s")
+sound = "sn_occupiedduergar_pissing"
+soundVolume = 0.5
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -40,6 +40,8 @@ enum TYPE{DWARF, DUERGAR}
 @export var create_actor_interact := true
 @export var int_node_name	:= "ActorInteract"
 @export var int_node_shape	:= Vector2(20,36)
+@export var create_actor_navigation := true
+@export var actor_navigation_name	:= "ActorNav"
 
 @export_category("Tool Setup")
 @export var animations 		: Array[B2_TOOL_GML_SPRITE_CONVERTER_ROOT]
@@ -202,6 +204,9 @@ func lets_goooo():
 	if create_actor_interact:
 		set_placeholder_interact()
 	
+	if create_actor_navigation:
+		set_placeholder_nav()
+		
 	await get_tree().process_frame
 	actor_node.is_interactive = create_actor_interact
 	#actor_node.resize_mouse_detection_area = false # debug
@@ -563,6 +568,8 @@ func make_script() -> GDScript:
 		code += 'extends B2_InteractiveActor\n\n'
 		code += '## Made with B2_TOOL_DWARF_CONVERTER\n'
 		code += 'func _ready() -> void:\n'
+	code += '_setup_actor()\n'
+	code += '_setup_interactiveactor()\n\n'
 	code += '	ANIMATION_STAND 						= "%s"\n' % str(ANIMATION_STAND)
 	code += '	ANIMATION_SOUTH 						= "%s"\n' % str(ANIMATION_SOUTH)
 	code += '	ANIMATION_SOUTHEAST 					= "%s"\n' % str(ANIMATION_SOUTHEAST)
@@ -596,6 +603,23 @@ func set_placeholder_collision():
 		actor_node.ActorCol = col
 		collision_node = col
 		
+func set_placeholder_nav():
+	var can_add := true
+	for c in actor_node.get_children():
+		if c is NavigationAgent2D:
+			if c.name == actor_navigation_name:
+				can_add = false
+	if can_add:
+		var nav := NavigationAgent2D.new()
+		nav.name = actor_navigation_name
+		
+		actor_node.add_child.call_deferred( nav, true )
+		
+		if not save_to_disk:
+			nav.set_owner.call_deferred( get_parent() )
+		else:
+			nav.set_owner.call_deferred( actor_node )
+	
 func set_placeholder_interact():
 	var can_add := true
 	for c in actor_node.get_children():
