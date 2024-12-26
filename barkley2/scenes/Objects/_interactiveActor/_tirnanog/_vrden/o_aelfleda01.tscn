@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://cg0bqupffsqly"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_aelfleda01.gd" id="1_xen3j"]
+[ext_resource type="Texture2D" uid="uid://bkvl4lourviei" path="res://barkley2/assets/b2_original/images/merged/s_aefleda01.png" id="2_uovyp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63o44"]
+atlas = ExtResource("2_uovyp")
+region = Rect2(0, 0, 27, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gm3ny"]
+atlas = ExtResource("2_uovyp")
+region = Rect2(27, 0, 27, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_46lsf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63o44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gm3ny")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r17j6"]
+radius = 5.09296
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67r4e"]
+size = Vector2(20, 36)
+
+[node name="o_aelfleda01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_xen3j")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_46lsf")
+centered = false
+offset = Vector2(-12, -28)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "4",
+"bbox_right": "20",
+"bbox_top": "17",
+"frames": ["images\\s_aefleda01_0.png", "images\\s_aefleda01_1.png"],
+"height": "42",
+"name": "s_aefleda01",
+"width": "27",
+"xorig": "12",
+"yorigin": "28"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_r17j6")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_67r4e")

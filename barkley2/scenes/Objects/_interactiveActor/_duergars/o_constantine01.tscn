@@ -1,0 +1,135 @@
+[gd_scene load_steps=18 format=3 uid="uid://couafcml05o7w"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_constantine01.gd" id="1_u7euf"]
+[ext_resource type="Texture2D" uid="uid://bgdkl06ycmaq2" path="res://barkley2/assets/b2_original/images/merged/s_constantinePee01.png" id="2_nwlcr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aevdk"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(0, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yypc1"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(39, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spqmb"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(78, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7gdo"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(117, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eit3a"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(156, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4a76"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(195, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ersg"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(234, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ni34"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(273, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8h8p"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(312, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbx4y"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(351, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8vtr"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(390, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8ljd"]
+atlas = ExtResource("2_nwlcr")
+region = Rect2(429, 0, 39, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xy3sf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aevdk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yypc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spqmb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7gdo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eit3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4a76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ersg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ni34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8h8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbx4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8vtr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8ljd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0n2hu"]
+radius = 11.1408
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tstsd"]
+size = Vector2(20, 36)
+
+[node name="o_constantine01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_u7euf")
+duergar_name = "constantine"
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_xy3sf")
+centered = false
+offset = Vector2(-11, -28)
+metadata/default = {
+"bbox_bottom": "36",
+"bbox_left": "6",
+"bbox_right": "41",
+"bbox_top": "20",
+"frames": ["images\\s_constantinePee01_0.png", "images\\s_constantinePee01_1.png", "images\\s_constantinePee01_2.png", "images\\s_constantinePee01_3.png", "images\\s_constantinePee01_4.png", "images\\s_constantinePee01_5.png", "images\\s_constantinePee01_6.png", "images\\s_constantinePee01_7.png", "images\\s_constantinePee01_8.png", "images\\s_constantinePee01_9.png", "images\\s_constantinePee01_10.png", "images\\s_constantinePee01_11.png"],
+"height": "34",
+"name": "s_constantinePee01",
+"width": "39",
+"xorig": "11",
+"yorigin": "28"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0n2hu")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_tstsd")

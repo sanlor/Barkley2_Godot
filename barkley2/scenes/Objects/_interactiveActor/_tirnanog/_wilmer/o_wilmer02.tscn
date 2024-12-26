@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://cd4jo122b7ewn"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer02.gd" id="1_3ywst"]
+[ext_resource type="Texture2D" uid="uid://bagtkn052y1rh" path="res://barkley2/assets/b2_original/images/merged/s_wilmer02.png" id="2_q1faw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n6im"]
+atlas = ExtResource("2_q1faw")
+region = Rect2(0, 0, 37, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sndk1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n6im")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u6a3t"]
+radius = 9.5493
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wd3e4"]
+size = Vector2(20, 36)
+
+[node name="o_wilmer02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_3ywst")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_sndk1")
+centered = false
+offset = Vector2(-16, -38)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "3",
+"bbox_right": "33",
+"bbox_top": "29",
+"frames": ["images\\s_wilmer02_0.png"],
+"height": "46",
+"name": "s_wilmer02",
+"width": "37",
+"xorig": "16",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_u6a3t")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_wd3e4")

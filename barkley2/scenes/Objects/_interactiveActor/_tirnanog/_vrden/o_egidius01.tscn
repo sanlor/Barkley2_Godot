@@ -1,0 +1,141 @@
+[gd_scene load_steps=19 format=3 uid="uid://bhvflitmb8bg"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_egidius01.gd" id="1_p28dd"]
+[ext_resource type="Texture2D" uid="uid://o550otax6ree" path="res://barkley2/assets/b2_original/images/merged/s_egidius_table01.png" id="2_c5vw0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3ey0"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(0, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5dxa"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(66, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yaed"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(132, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee4gn"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(198, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn1iv"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(264, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dc3ik"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(330, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tvowm"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(396, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tne4"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(462, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plmqx"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(528, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5b70u"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(594, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjhx1"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(660, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s75vv"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(726, 0, 66, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqm5f"]
+atlas = ExtResource("2_c5vw0")
+region = Rect2(792, 0, 66, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dspky"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3ey0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5dxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yaed")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ee4gn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn1iv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dc3ik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tvowm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tne4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_plmqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5b70u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjhx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s75vv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqm5f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1lufp"]
+radius = 20.0535
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvqf8"]
+size = Vector2(20, 36)
+
+[node name="o_egidius01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_p28dd")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_dspky")
+centered = false
+offset = Vector2(-33, -47)
+metadata/default = {
+"bbox_bottom": "57",
+"bbox_left": "1",
+"bbox_right": "64",
+"bbox_top": "5",
+"frames": ["images\\s_egidius_table01_0.png", "images\\s_egidius_table01_1.png", "images\\s_egidius_table01_2.png", "images\\s_egidius_table01_3.png", "images\\s_egidius_table01_4.png", "images\\s_egidius_table01_5.png", "images\\s_egidius_table01_6.png", "images\\s_egidius_table01_7.png", "images\\s_egidius_table01_8.png", "images\\s_egidius_table01_9.png", "images\\s_egidius_table01_10.png", "images\\s_egidius_table01_11.png", "images\\s_egidius_table01_12.png"],
+"height": "64",
+"name": "s_egidius_table01",
+"width": "66",
+"xorig": "33",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1lufp")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_xvqf8")

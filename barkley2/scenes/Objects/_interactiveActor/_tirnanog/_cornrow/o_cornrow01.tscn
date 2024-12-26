@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://dvw3bjwejtlhq"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_cornrow01.gd" id="1_y7rq7"]
+[ext_resource type="Texture2D" uid="uid://cskss0uwrumn8" path="res://barkley2/assets/b2_original/images/merged/s_cornrow01.png" id="2_a22a8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jk7n"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(0, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyfd6"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(40, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1tkr"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(80, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olqwh"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(120, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p7jl"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(160, 0, 40, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qg7k"]
+atlas = ExtResource("2_a22a8")
+region = Rect2(200, 0, 40, 43)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1lue7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jk7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fyfd6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1tkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olqwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p7jl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6qg7k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bhiwh"]
+radius = 9.5493
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15p5n"]
+size = Vector2(20, 36)
+
+[node name="o_cornrow01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_y7rq7")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_1lue7")
+centered = false
+offset = Vector2(-18, -36)
+metadata/default = {
+"bbox_bottom": "39",
+"bbox_left": "4",
+"bbox_right": "34",
+"bbox_top": "29",
+"frames": ["images\\s_cornrow01_0.png", "images\\s_cornrow01_1.png", "images\\s_cornrow01_2.png", "images\\s_cornrow01_3.png", "images\\s_cornrow01_4.png", "images\\s_cornrow01_5.png"],
+"height": "43",
+"name": "s_cornrow01",
+"width": "40",
+"xorig": "18",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bhiwh")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_15p5n")

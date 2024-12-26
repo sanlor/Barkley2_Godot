@@ -1,0 +1,134 @@
+[gd_scene load_steps=18 format=3 uid="uid://bx1j45rltplif"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_guillaume01.gd" id="1_w43my"]
+[ext_resource type="Texture2D" uid="uid://cxugglht241fe" path="res://barkley2/assets/b2_original/images/merged/s_guillaume01.png" id="2_u1dui"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6t10j"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(0, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8g18k"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(33, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttdqd"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(66, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atunk"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(99, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oxb3b"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(132, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd8o4"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(165, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1waqy"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(198, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iebka"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(231, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61rvi"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(264, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jlsn"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(297, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ly3c"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(330, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4wba"]
+atlas = ExtResource("2_u1dui")
+region = Rect2(363, 0, 33, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57lgo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6t10j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8g18k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttdqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atunk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oxb3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd8o4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1waqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iebka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61rvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6jlsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ly3c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4wba")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1djvi"]
+radius = 6.3662
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_480jv"]
+size = Vector2(20, 36)
+
+[node name="o_guillaume01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_w43my")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_57lgo")
+centered = false
+offset = Vector2(-13, -40)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "6",
+"bbox_right": "26",
+"bbox_top": "28",
+"frames": ["images\\s_guillaume01_0.png", "images\\s_guillaume01_1.png", "images\\s_guillaume01_2.png", "images\\s_guillaume01_3.png", "images\\s_guillaume01_4.png", "images\\s_guillaume01_5.png", "images\\s_guillaume01_6.png", "images\\s_guillaume01_7.png", "images\\s_guillaume01_8.png", "images\\s_guillaume01_9.png", "images\\s_guillaume01_10.png", "images\\s_guillaume01_11.png"],
+"height": "42",
+"name": "s_guillaume01",
+"width": "33",
+"xorig": "13",
+"yorigin": "40"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1djvi")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_480jv")

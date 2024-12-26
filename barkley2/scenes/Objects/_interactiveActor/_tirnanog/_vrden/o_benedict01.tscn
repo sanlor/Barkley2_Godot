@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bmaflp7vrk5tn"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_benedict01.gd" id="1_1jj7h"]
+[ext_resource type="Texture2D" uid="uid://dgo2ses715v1v" path="res://barkley2/assets/b2_original/images/merged/s_benedict01.png" id="2_18iku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4apw"]
+atlas = ExtResource("2_18iku")
+region = Rect2(0, 0, 52, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxeho"]
+atlas = ExtResource("2_18iku")
+region = Rect2(52, 0, 52, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_argc2"]
+atlas = ExtResource("2_18iku")
+region = Rect2(104, 0, 52, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm5pr"]
+atlas = ExtResource("2_18iku")
+region = Rect2(156, 0, 52, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kpx88"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4apw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxeho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_argc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm5pr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_66trl"]
+radius = 9.86761
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3elr7"]
+size = Vector2(20, 36)
+
+[node name="o_benedict01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_1jj7h")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_kpx88")
+centered = false
+offset = Vector2(-28, -36)
+metadata/default = {
+"bbox_bottom": "40",
+"bbox_left": "13",
+"bbox_right": "44",
+"bbox_top": "22",
+"frames": ["images\\s_benedict01_0.png", "images\\s_benedict01_1.png", "images\\s_benedict01_2.png", "images\\s_benedict01_3.png"],
+"height": "44",
+"name": "s_benedict01",
+"width": "52",
+"xorig": "28",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_66trl")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_3elr7")

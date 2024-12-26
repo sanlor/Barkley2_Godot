@@ -204,7 +204,7 @@ func lets_goooo():
 	
 	await get_tree().process_frame
 	actor_node.is_interactive = create_actor_interact
-	actor_node.resize_mouse_detection_area = false # debug
+	#actor_node.resize_mouse_detection_area = false # debug
 	actor_node.adjust_sprite_offset()
 	
 	if save_to_disk:
