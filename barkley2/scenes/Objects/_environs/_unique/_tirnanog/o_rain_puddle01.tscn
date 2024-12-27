@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkr6om6eg866i"]
+
+[ext_resource type="Texture2D" uid="uid://vvo38p4m8e5r" path="res://barkley2/assets/b2_original/images/merged/s_tnn_puddle1.png" id="1_vubv6"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_rain_puddle_01.gd" id="2_pdsu8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gr5ea"]
+atlas = ExtResource("1_vubv6")
+region = Rect2(0, 0, 47, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um7tr"]
+atlas = ExtResource("1_vubv6")
+region = Rect2(47, 0, 47, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ckfg"]
+atlas = ExtResource("1_vubv6")
+region = Rect2(94, 0, 47, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4f7qf"]
+atlas = ExtResource("1_vubv6")
+region = Rect2(141, 0, 47, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uxp1d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gr5ea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_um7tr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ckfg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4f7qf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_rain_puddle01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_uxp1d")
+centered = false
+script = ExtResource("2_pdsu8")

@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dgrcc73sqwfnh"]
+
+[ext_resource type="Texture2D" uid="uid://esy1teevawfw" path="res://barkley2/assets/b2_original/images/merged/s_tnn_evictionTape01.png" id="1_3vd7p"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_uyfd1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5c3kh"]
+atlas = ExtResource("1_3vd7p")
+region = Rect2(0, 0, 34, 58)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4bnma"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5c3kh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnc0n"]
+size = Vector2(34, 50)
+
+[node name="o_tnn_evictionTape01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_4bnma")
+centered = false
+offset = Vector2(-16, -54)
+script = ExtResource("2_uyfd1")
+mouse_detection_area = NodePath("Area2D")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_cnc0n")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_cnc0n")

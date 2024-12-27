@@ -23,6 +23,7 @@ const DIALOG_LAYER		:= 24 # Dialog Boxes
 const EFFECTATMO_LAYER	:= 24 # Dialog Boxes
 const HUD_LAYER			:= 20 # Inventory, etc
 const GUI_LAYER			:= 20 # Inventory, etc
+const DEBUG_LAYER		:= 41 # Debug Info
 
 # Dialog stuff
 var dialogY := 140.0

@@ -56,9 +56,14 @@ func _input(event: InputEvent) -> void:
 func interaction() -> void:
 	if is_interactive:
 		if is_instance_valid(cutscene_script):
+			pre_cutscene()
 			B2_CManager.play_cutscene( cutscene_script, self, [] )
 			is_mouse_hovering = false
-	
+
+# Sometimes, a script need to be run before the actual cutscene.
+func pre_cutscene() -> void:
+	pass
+
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:
 		is_mouse_hovering = true
@@ -81,6 +86,18 @@ func _process_mouse_events() -> void: ## Perform mouse click and position checks
 			return
 	
 	material.set_shader_parameter("enable", false)
+
+func execute_event_user_0(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_1(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_2(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_3(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_4(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_5(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_6(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_7(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_8(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_9(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_10(): 	push_warning("%s: Event not set" % name)
 
 func _process(_delta: float) -> void:
 	if is_mouse_hovering:

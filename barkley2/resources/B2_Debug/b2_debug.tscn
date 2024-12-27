@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://bpps4qfcgdytt"]
+
+[ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
+[ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Debug/player_data_screen.gd" id="3_vdeye"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_coofk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
+bg_color = Color(0, 0, 0, 0.75)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dvnvw"]
+line_spacing = -1.0
+font = ExtResource("4_coofk")
+font_color = Color(1, 1, 0.415686, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="b2_debug" type="CanvasLayer"]
+script = ExtResource("1_jshnt")
+
+[node name="player_data" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(256, 240)
+offset_right = 200.0
+offset_bottom = 240.0
+theme = ExtResource("2_pawx4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ssblh")
+script = ExtResource("3_vdeye")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_data"]
+layout_mode = 2
+
+[node name="title" type="Label" parent="player_data/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Player's data"
+
+[node name="data" type="Label" parent="player_data/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "PLACEHOLDER
+					PLACE"
+label_settings = SubResource("LabelSettings_dvnvw")
+tab_stops = PackedFloat32Array(10)
+
+[connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]

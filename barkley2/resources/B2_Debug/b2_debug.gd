@@ -1,5 +1,5 @@
-extends Node
-class_name B2_Debug
+extends CanvasLayer
+#class_name B2_Debug
 
 # vvv dont remember what this does.
 const ENABLE_CINEMASPOT := false
@@ -12,3 +12,14 @@ const ENABLE_MOVEMENT_VECTOR_VISUALIZE := false
 
 ## Save system
 const WARN_INVALID_CHECKS := false # Create a warning if the B2_Config.get_user_save_data() returns null
+
+@onready var player_data: ScrollContainer = $player_data
+
+
+func _ready() -> void:
+	layer = B2_Config.DEBUG_LAYER
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.is_action_pressed("DEBUG_DATA"):
+			player_data.visible = not player_data.visible

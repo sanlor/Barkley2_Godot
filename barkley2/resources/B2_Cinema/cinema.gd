@@ -612,7 +612,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					var actor2					= get_node_from_name( all_nodes,	parsed_line[2] )
 					
-					actor.cinema_lookat( actor2 )
+					if is_instance_valid(actor):
+						if is_instance_valid(actor2):
+							actor.cinema_lookat( actor2 )
+						else:
+							push_error( "Actor %s is not valid. Can't look at invalid objects, dumbass." % parsed_line[2] )
+					else:
+						push_error( "Actor %s is not valid. Invalid objects can't look at anything, dumbass." % parsed_line[1] )
 				"LOOK":
 					# Look torward a direction.
 					## NOTE Im not sure if this is working
@@ -666,6 +672,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SOUNDSTOP":
 					B2_Sound.stop_loop() ## CRITICAL current implementation ignores the actual sound name.
+				"KNOW":
+					# Looks like this handles what the player knows. used during dialog.
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"Destroy":
 					# Remove actor. simple.
 					var actor = get_node_from_name( all_nodes,	parsed_line[1] )
@@ -773,7 +782,11 @@ func parse_if( line : String ) -> bool:
 	
 	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
 	var comparator 	: String 		= condidion_line[ 2 ]
-	var cond_value 		 			= int( condidion_line[ 3 ] )
+	var cond_value 		 			= str( condidion_line[ 3 ] ) ## CRITICAL this is not always an INT. check o_dubre01 event 0.
+	if str(condidion_line[ 3 ]).is_valid_int():
+		cond_value 		 			= int( condidion_line[ 3 ] )
+	elif str(condidion_line[ 3 ]).is_valid_float():
+		cond_value 		 			= float( condidion_line[ 3 ] )
 	
 	# this should return false (if quest var is invalid) or some value.
 	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
@@ -783,6 +796,10 @@ func parse_if( line : String ) -> bool:
 		cond_value = str(condidion_line[ 3 ]).strip_edges()
 		
 	if not quest_var is bool:
+		# different types of vars will always be false.
+		if quest_var is int and cond_value is not int:
+			return false
+		
 		match comparator:
 			"==":
 				return quest_var == cond_value
