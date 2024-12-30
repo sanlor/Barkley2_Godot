@@ -36,4 +36,4 @@ func _ready() -> void:
 
 func _draw() -> void:
 	draw_string(FN_1, Vector2(-32, -64 - 2), title, HORIZONTAL_ALIGNMENT_CENTER, 0, title_size, title_color)
-	draw_string(FN_2, Vector2(-( notes.length() * ( text_size / 8 ) ), -64 + 16), notes, HORIZONTAL_ALIGNMENT_CENTER, 0, text_size, Color.WHITE)
+	draw_string(FN_2, Vector2(-( notes.length() * ( text_size / 8.0 ) ), -64 + 16), notes, HORIZONTAL_ALIGNMENT_CENTER, 0, text_size, Color.WHITE)

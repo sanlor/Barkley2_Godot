@@ -1,9 +1,16 @@
 extends B2_InteractiveActor
 
+## NOTE This character has some weird code to animate the chrod plucking. im just going to ignore it.
+
+@onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
+	
+	## Remove during curfew
+	# if (scr_time_db("tnnCurfew") == "during") { scr_event_interactive_deactivate(); }
 	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""

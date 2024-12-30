@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://dvbdjdek8xkdc"]
+
+[ext_resource type="Texture2D" uid="uid://bdnvwvd31pnvi" path="res://barkley2/assets/b2_original/images/merged/s_tnn_closedShop5.png" id="1_d1rf4"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_tnn_closed_shop_5.gd" id="2_2mxmb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh2w4"]
+atlas = ExtResource("1_d1rf4")
+region = Rect2(0, 0, 96, 89)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wkokn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh2w4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4y58"]
+size = Vector2(95, 79)
+
+[node name="o_tnn_closedShop5" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_wkokn")
+centered = false
+script = ExtResource("2_2mxmb")
+metadata/default = {
+"bbox_bottom": "80",
+"bbox_left": "0",
+"bbox_right": "71",
+"bbox_top": "0",
+"height": "89",
+"name": "s_tnn_closedShop5",
+"width": "96",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(47.5, 39.5)
+shape = SubResource("RectangleShape2D_j4y58")

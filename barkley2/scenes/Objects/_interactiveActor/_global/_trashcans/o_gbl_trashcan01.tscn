@@ -1,0 +1,67 @@
+[gd_scene load_steps=8 format=3 uid="uid://m5ea5n38ceyd"]
+
+[ext_resource type="Texture2D" uid="uid://devaxwu4wvjbl" path="res://barkley2/assets/b2_original/images/merged/s_trashcan_full01.png" id="1_qdtbb"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_80nek"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_828cn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cg4n"]
+atlas = ExtResource("1_qdtbb")
+region = Rect2(0, 0, 16, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eikj2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0cg4n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_sji1g"]
+script = ExtResource("3_828cn")
+original_script = "IF body == governor | GOTO | GOVNA
+IF @Lock Pick@ == 0 | GOTO | LOCKPICK
+GOTO | NADA
+
+GOVNA
+DIALOG | Governor Elagabalus | Just a disgusting trash can...
+
+LOCKPICK
+USEAT  | o_gbl_trashcan01
+WAIT   | 0.2
+NOTIFY | Got 2 Lock Picks!
+ITEM   | Lock Pick | +2
+
+NADA
+USEAT  | o_gbl_trashcan01
+WAIT   | 0.2
+NOTIFY | Got 1 Nothings!"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nhf23"]
+
+[node name="o_gbl_trashcan01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_eikj2")
+centered = false
+offset = Vector2(-8, -21)
+script = ExtResource("2_80nek")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_sji1g")
+metadata/default = {
+"bbox_bottom": "20",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "8",
+"height": "21",
+"name": "s_trashcan_full01",
+"width": "16",
+"xorig": "8",
+"yorigin": "21"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_nhf23")

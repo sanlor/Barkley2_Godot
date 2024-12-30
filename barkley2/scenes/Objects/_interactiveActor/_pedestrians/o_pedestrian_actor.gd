@@ -15,7 +15,6 @@ const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_inter
 @export var debug_move_finish 				:= false ## Print some debug shit.
 @export var debug_check_movement_vector 	:= false ## Draw lines to show the current movement vector.
 
-
 ## Pedestrian stuff
 var ped_exits 		:= []
 var ped_entrances 	:= []

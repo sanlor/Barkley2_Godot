@@ -1,15 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://biu2ajddy5x5d"]
+[gd_scene load_steps=19 format=3 uid="uid://biu2ajddy5x5d"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_juicebox01.gd" id="1_5rqgb"]
 [ext_resource type="Texture2D" uid="uid://w63v7ulmc863" path="res://barkley2/assets/b2_original/images/merged/s_juicebox01.png" id="2_xlsi2"]
+[ext_resource type="AudioStream" uid="uid://mvtkrhnl7n5j" path="res://barkley2/assets/b2_original/audio/NPC/sn_juicebox_coinflip.ogg" id="3_yiict"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ws6fi"]
 atlas = ExtResource("2_xlsi2")
 region = Rect2(0, 0, 33, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xlhky"]
-atlas = ExtResource("2_xlsi2")
-region = Rect2(33, 0, 33, 50)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hoxrw"]
 atlas = ExtResource("2_xlsi2")
@@ -51,14 +48,15 @@ region = Rect2(330, 0, 33, 50)
 atlas = ExtResource("2_xlsi2")
 region = Rect2(363, 0, 33, 50)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlhky"]
+atlas = ExtResource("2_xlsi2")
+region = Rect2(33, 0, 33, 50)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0yb4q"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ws6fi")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xlhky")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hoxrw")
@@ -89,10 +87,13 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0vu2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlhky")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lbngu"]
@@ -134,3 +135,11 @@ shape = SubResource("CircleShape2D_lbngu")
 shape = SubResource("RectangleShape2D_r7ntr")
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="JuiceCoinToss" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_yiict")
+bus = &"Audio"
+
+[node name="JuiceTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="JuiceTimer" to="." method="_on_juice_timer_timeout"]

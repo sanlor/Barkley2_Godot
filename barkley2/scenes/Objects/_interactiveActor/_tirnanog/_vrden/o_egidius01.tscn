@@ -102,11 +102,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1lufp"]
-radius = 20.0535
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kjj4k"]
+size = Vector2(63, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvqf8"]
-size = Vector2(20, 36)
+size = Vector2(64, 52)
 
 [node name="o_egidius01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_p28dd")
@@ -133,11 +133,15 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_1lufp")
+position = Vector2(-0.5, -4.5)
+shape = SubResource("RectangleShape2D_kjj4k")
+debug_color = Color(0, 0.61, 0.599833, 0.658824)
 
 [node name="ActorInteract" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_xvqf8")
+debug_color = Color(0.634872, 0.497067, 0.487628, 0.42)
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]

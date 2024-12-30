@@ -84,11 +84,17 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_bhiwh")
 
 [node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_15p5n")
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="EyeTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="EyeTimer" to="." method="_on_eye_timer_timeout"]

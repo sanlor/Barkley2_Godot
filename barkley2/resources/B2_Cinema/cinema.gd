@@ -439,7 +439,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							qstVal = qstVal.trim_prefix("money_")
 							if not B2_Database.money.has(qstVal):
 								push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
-							qstVal = B2_Database.money.get(qstVal, "69420")
+							qstVal = B2_Database.money.get(qstVal, "69420666")
 						elif qstVal.begins_with("time_"):
 							qstVal = qstVal.trim_prefix("time_")
 							push_warning("Time function is not implemented.")

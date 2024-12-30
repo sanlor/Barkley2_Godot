@@ -115,6 +115,10 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		var new_text = text.replace("#", "\n") # <-  Used on the CC mostly.
 		
 		new_text = new_text.replace("/'", '"') # Add support for " character.
+		new_text = new_text.replace("/;", '§') # Weird replacement, but OK. check Cinema() line 660
+		
+		new_text = new_text.replace("Tir na Nog", "Tír na nÓg") # Name fixer
+		new_text = new_text.replace("Tir na nOg", "Tír na nÓg") # Name fixer
 		
 		new_text = new_text.replace("`mq`", "[color=#%s]" % textcolorMainquest.to_html() )
 		new_text = new_text.replace("`sq`", "[color=#%s]" % textcolorSidequest.to_html() )

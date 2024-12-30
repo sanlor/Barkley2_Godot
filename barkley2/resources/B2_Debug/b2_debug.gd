@@ -5,7 +5,7 @@ extends CanvasLayer
 const ENABLE_CINEMASPOT := false
 
 # show debug pathfind path
-const PATHFIND_SHOW := true
+const PATHFIND_SHOW := false
 
 # show the way the actor is facing
 const ENABLE_MOVEMENT_VECTOR_VISUALIZE := false

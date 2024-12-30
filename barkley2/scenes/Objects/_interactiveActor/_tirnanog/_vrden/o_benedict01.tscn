@@ -7,13 +7,13 @@
 atlas = ExtResource("2_18iku")
 region = Rect2(0, 0, 52, 44)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bxeho"]
-atlas = ExtResource("2_18iku")
-region = Rect2(52, 0, 52, 44)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_argc2"]
 atlas = ExtResource("2_18iku")
 region = Rect2(104, 0, 52, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxeho"]
+atlas = ExtResource("2_18iku")
+region = Rect2(52, 0, 52, 44)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cm5pr"]
 atlas = ExtResource("2_18iku")
@@ -24,23 +24,38 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b4apw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bxeho")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_argc2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cm5pr")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_argc2")
+}],
+"loop": true,
+"name": &"leaning",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxeho")
+}],
+"loop": true,
+"name": &"nopole",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm5pr")
+}],
+"loop": true,
+"name": &"unused",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_66trl"]
-radius = 9.86761
+radius = 8.06226
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3elr7"]
 size = Vector2(20, 36)
@@ -70,11 +85,13 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_66trl")
 
 [node name="ActorInteract" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_3elr7")
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]

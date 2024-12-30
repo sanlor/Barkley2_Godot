@@ -1,4 +1,3 @@
-@tool
 extends B2_ROOMS
 
 func _ready() -> void:

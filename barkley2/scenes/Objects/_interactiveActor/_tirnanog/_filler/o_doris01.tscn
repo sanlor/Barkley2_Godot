@@ -1,7 +1,55 @@
-[gd_scene load_steps=7 format=3 uid="uid://ca6s3dr8ba0qm"]
+[gd_scene load_steps=9 format=3 uid="uid://ca6s3dr8ba0qm"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_doris01.gd" id="1_6ka4n"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3uqmc"]
 [ext_resource type="Texture2D" uid="uid://dn7fhv8of3a72" path="res://barkley2/assets/b2_original/images/merged/s_doris01.png" id="2_nlqxh"]
+
+[sub_resource type="Resource" id="Resource_aqgg5"]
+script = ExtResource("2_3uqmc")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF govQuest == 6    | GOTO | GOVQUEST
+IF curfew == during | GOTO | CURFEW
+IF curfew == after  | GOTO | BOOTY
+IF dorisState == 0  | GOTO | DORIS00
+IF dorisState == 1  | GOTO | DORIS01
+IF dorisState == 2  | GOTO | DORIS02
+
+GOVERNOR
+DIALOG | Doris | So you're the new Duergar Governor? Here's a hardball for you: `sq`What's your fruit policy?`rt`
+DIALOG | Governor Elagabalus | It's my staunch belief that all fruits are equal. That is what all authenthic Duergars believe.
+
+GOVQUEST
+DIALOG | Doris | Wow! The new Duergar Governor wasn't so bad after all. He seemed like a genuine fruitlover. Maybe things are getting better around here.
+
+CURFEW
+DIALOG | Doris | Hi. Have you heard the latest rumor going around? It's about grapes. I haven't heard it yet.
+
+DORIS00
+DIALOG | Doris | Have you heard the news? The new `kw`Duergar Governor`rt` is coming soon and he's going to make a speech! 
+DIALOG | Doris | Do you think it'll be about Cuchulainn's prize? Do you think it will be about grapes?
+QUEST  | dorisState = 1
+
+DORIS01
+DIALOG | Doris | I wonder if those Duergars are `sq`ever going to find those L.O.N.G.I.N.U.S.-types in the sewers...`rt` Seems like a big runaround to me.
+KNOW   | knowLONGINUSTnn | 1
+QUEST  | dorisState = 2
+
+DORIS02
+DIALOG | Doris | I hear this is so much overcrowding here in Tir na nog that they are packing more dwarfs into a place in the `kw`Eastelands`rt` called `kw`The Social.`rt` 
+DIALOG | Doris | I wonder if their water tastes less like blood and rust.
+KNOW   | knowTheSocial | 1
+QUEST  | dorisState = 0
+
+BOOTY
+DIALOG | Doris  | I can't believe it! All that power! All that-_ `w1`that-_ that_`w0` `w2`Booty!`w0` The Bootypocalypse has come and gone but the world will never again be the same. Such a world and `w1`tuckus-shattering`w0` event!
+DIALOG | P_NAME | What do you mean?
+DIALOG | Doris  | Can't you feel it? A barrage of booty energies are still reverberating from within the Booty Dimension. Wh-whoa!
+SURPRISEAT | o_doris01
+SHAKE  | 5 | 1
+WAIT   | 1.5
+DIALOG | Doris  | You feel that? `w1`A booty aftershock...`rt` the ground's still quaking and the asses are still shaking. 
+DIALOG | Doris  | Did you feel that bass echoing from the `kw`Booty Dimension?!`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | Y-yes! That was amazing!"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eylt5"]
 atlas = ExtResource("2_nlqxh")
@@ -27,6 +75,7 @@ size = Vector2(20, 36)
 [node name="o_doris01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_6ka4n")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_aqgg5")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -49,6 +98,7 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_v4u53")
 
 [node name="ActorInteract" type="Area2D" parent="."]
