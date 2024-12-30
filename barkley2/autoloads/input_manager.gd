@@ -58,7 +58,7 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Action"):
 		action_pressed.emit()
 		
-	if can_fast_forward and cutscene_is_playing:
+	if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF"):
 		if Input.is_action_pressed("Holster"):
 			ffwd( true )
 		else:

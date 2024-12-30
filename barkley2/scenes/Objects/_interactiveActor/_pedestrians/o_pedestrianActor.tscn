@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyaef4swi5cr0"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://c867wmwr40tww" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianActor.tres" id="1_grovo"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_actor.gd" id="1_r6qoy"]
+[ext_resource type="SpriteFrames" uid="uid://d4mpwvw3dc2i1" path="res://barkley2/resources/B2_Pedestrians/s_ped_01.tres" id="2_4s4ic"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ju1ko"]
+radius = 8.0
+
+[node name="o_pedestrianActor" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
+collision_mask = 2
+mass = 300.0
+physics_material_override = ExtResource("1_grovo")
+gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 1
+linear_damp = 10.0
+script = ExtResource("1_r6qoy")
+debug_move_finish = true
+debug_check_movement_vector = true
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+path_desired_distance = 10.0
+target_desired_distance = 10.0
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_4s4ic")
+animation = &"walk_sideways"
+offset = Vector2(0, -20)
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+simplify_path = true
+radius = 8.0
+max_speed = 1000.0
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_ju1ko")
+debug_color = Color(0.915, 0.023, 0.707, 0.022)
+
+[node name="GossipTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -45,7 +45,7 @@ var wadChk = 2; # To make resist half in wading layer
 var zone = "";
 
 var pushTime 		= 0.5; # In seconds how long you need to hold
-var pushResist 		= 65000; # Pushing resist, higher is more pusback ## was 70
+var pushResist 		= 4000000; # Pushing resist, higher is more pusback ## was 70
 var light 			= 1; # When 0, it does not show the light
 var fix 			= 1; # If 1, adds the top fix
 var locked 			= 0;

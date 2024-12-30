@@ -31,7 +31,7 @@ const FN_2 = preload("res://barkley2/resources/fonts/fn2.tres")
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		queue_free()
-	z_index = 9999
+	z_index = 4000
 	queue_redraw()
 
 func _draw() -> void:

@@ -22,6 +22,8 @@ class_name B2_EnvironProp
 		lazy_bastard()
 
 func _ready() -> void:
+	add_to_group("navigation_polygon_source_geometry_group")
+	
 	seed( hash( position ) )
 	animation = "default"
 	if change_frame_at_sudo_random:

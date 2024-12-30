@@ -72,7 +72,7 @@ var combat_last_input 		:= Vector2.ZERO
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
 
-var walk_speed			:= 80000
+var walk_speed			:= 5000000
 var roll_impulse		:= 1000000
 var walk_damp			:= 10.0
 var roll_damp			:= 2.5
@@ -435,4 +435,4 @@ func _physics_process(delta: float) -> void:
 				
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
-			apply_central_impulse( velocity )
+			apply_central_force( velocity / Engine.time_scale )

@@ -62,6 +62,7 @@ func _enter_tree() -> void:
 	if enable_hud:
 		hud_node = O_HUD.instantiate()
 		add_child( hud_node, true )
+		
 	y_sort_enabled = true
 
 func _set_region():
@@ -99,7 +100,8 @@ func _set_region():
 		
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
-	navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_EXPLICIT
+	#navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_EXPLICIT
+	navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
 	

@@ -1,6 +1,8 @@
 #@tool
 extends Control
 
+const FN_2 = preload("res://barkley2/resources/fonts/fn2.tres")
+
 @onready var gossip_panel: PanelContainer = $gossip_panel
 @onready var gossip_text: Label = $gossip_panel/CenterContainer/gossip_text
 
@@ -11,7 +13,7 @@ var original_pos := Vector2(-72,-20)
 var timer := 5.0;
 
 # Text to show #
-var text := "Gossip";
+var text := "Gossip"
 
 var vel := Vector2.ZERO
 
@@ -21,6 +23,10 @@ var bounce 		:= 0
 func _ready() -> void:
 	vel = Vector2( 0,220 )
 	gossip_text.text = Text.pr( text )
+	
+	var txt_size := FN_2.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER).x + 16.0
+	gossip_panel.size.x = txt_size
+	gossip_panel.position.x = -gossip_panel.size.x / 2.0
 	
 	await get_tree().process_frame
 	gossip_panel.set_anchors_preset(Control.PRESET_CENTER)
