@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=8 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -13,6 +13,30 @@ line_spacing = -1.0
 font = ExtResource("4_coofk")
 font_color = Color(1, 1, 0.415686, 1)
 shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_wo71n"]
+script/source = "extends HBoxContainer
+
+@onready var current: Label = $current
+@onready var plus: Button = $plus
+@onready var minus: Button = $minus
+
+func _ready() -> void:
+	_on_visibility_changed()
+	
+func _physics_process(_delta: float) -> void:
+	current.text = \"Money: \" + str( B2_Playerdata.Quest(\"money\") )
+	
+func _on_visibility_changed() -> void:
+	# avoid unnecessary processing
+	set_physics_process( is_visible_in_tree() )
+	
+func _on_plus_pressed() -> void:
+	B2_Database.money_change( +100 )
+
+func _on_minus_pressed() -> void:
+	B2_Database.money_change( -100 )
+"
 
 [node name="b2_debug" type="CanvasLayer"]
 script = ExtResource("1_jshnt")
@@ -42,4 +66,48 @@ text = "PLACEHOLDER
 label_settings = SubResource("LabelSettings_dvnvw")
 tab_stops = PackedFloat32Array(10)
 
+[node name="player_vars" type="ScrollContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(150, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 8
+theme = ExtResource("2_pawx4")
+
+[node name="MarginContainer" type="MarginContainer" parent="player_vars"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_vars/MarginContainer"]
+layout_mode = 2
+
+[node name="money" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+script = SubResource("GDScript_wo71n")
+
+[node name="current" type="Label" parent="player_vars/MarginContainer/VBoxContainer/money"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="plus" type="Button" parent="player_vars/MarginContainer/VBoxContainer/money"]
+layout_mode = 2
+text = "+100"
+
+[node name="minus" type="Button" parent="player_vars/MarginContainer/VBoxContainer/money"]
+layout_mode = 2
+text = "-100"
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]

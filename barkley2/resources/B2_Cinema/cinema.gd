@@ -60,6 +60,8 @@ var show_breakout := false
 var breakout_data := {
 	"value" 		: "money", # what is shown in the breakbox
 	"prev_value" 	: 0, # what is shown in the breakbox
+	"modifier"		: 0, # preview of the pruchase (ex: item cost 10 NS, you have 100 NS, show 100 - 10 on the breakout)
+	"opt"			: 0, # I have no idea what this is.
 }
 
 func _ready() -> void:
@@ -296,6 +298,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				curr_line += 1
 				continue
 			
+			# remove coments from the end of the line
+			## NOTE this might cause issues
+			if line.contains("//"):
+				var comment := line.get_slice("//", 1)
+				if print_comments:
+					print_rich( str(curr_line) + ": [color=yellow]" + comment + "[/color]" )
+				line = line.get_slice("//", 0)
+				
 			var parsed_line : PackedStringArray = cleanup_line( line )
 				
 			# Check for conditions.
@@ -374,6 +384,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						brk.breakout_data = breakout_data.duplicate()
 						breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data["value"] )
 						dialogue.add_child(brk, true)
+						
+						# Reset mods and opts.
+						breakout_data["modifier"] = 0
+						breakout_data["opt"] = 0
+						
 						if debug_breakout: print("Breakout: show %s with %s." % [breakout_data["value"], B2_Playerdata.Quest( breakout_data["value"] ) ] )
 						
 					# parse talker´s name
@@ -477,9 +492,38 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2] )
 								breakout_data["value"] = parsed_line[2]
 						if debug_breakout: print("Breakout: add %s." % parsed_line[2])
+						
 					elif parsed_line.size() == 4:
 						# argument not implemented.
+						if parsed_line[1] == "add":
+							show_breakout = true
+							if breakout_data.has("value"):
+								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] = parsed_line[2]
+								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+							else:
+								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2]  )
+								breakout_data["value"] = parsed_line[2]
+								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+						if debug_breakout: print("Breakout: add %s - %s." % [ parsed_line[2], int( Text.qst( parsed_line[3] ) ) ] )
 						breakpoint
+						
+					elif parsed_line.size() == 5:
+						# argument not implemented.
+						if parsed_line[1] == "add":
+							show_breakout = true
+							if breakout_data.has("value"):
+								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] = parsed_line[2]
+								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+								breakout_data["opt"] = int( parsed_line[4] )
+							else:
+								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2] )
+								breakout_data["value"] = parsed_line[2]
+								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+								breakout_data["opt"] = int( parsed_line[4] )
+						if debug_breakout: print("Breakout: add %s - %s - %s." % [parsed_line[2], int( Text.qst( parsed_line[3] ) ), parsed_line[4]] )
+						#breakpoint
 					else:
 						# too many arguments.
 						breakpoint
@@ -782,11 +826,19 @@ func parse_if( line : String ) -> bool:
 	
 	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
 	var comparator 	: String 		= condidion_line[ 2 ]
-	var cond_value 		 			= str( condidion_line[ 3 ] ) ## CRITICAL this is not always an INT. check o_dubre01 event 0.
-	if str(condidion_line[ 3 ]).is_valid_int():
+	## CRITICAL this is not always an INT. check o_dubre01 event 0.
+	# using Text.qst() to check for variables
+	var cond_value 		 			= Text.qst( str( condidion_line[ 3 ] ) )
+	#if str(condidion_line[ 3 ]).is_valid_int():
+	if str(cond_value).is_valid_int():
 		cond_value 		 			= int( condidion_line[ 3 ] )
-	elif str(condidion_line[ 3 ]).is_valid_float():
+	#elif str(condidion_line[ 3 ]).is_valid_float():
+	elif str(cond_value).is_valid_float():
 		cond_value 		 			= float( condidion_line[ 3 ] )
+	
+	## DEBUG
+	#if str( condidion_line[ 3 ] ) == "@money_dubreMap02@":
+	#	breakpoint
 	
 	# this should return false (if quest var is invalid) or some value.
 	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
@@ -797,9 +849,9 @@ func parse_if( line : String ) -> bool:
 		
 	if not quest_var is bool:
 		# different types of vars will always be false.
-		if quest_var is int and cond_value is not int:
+		if quest_var is int and (cond_value is not int and cond_value is not float):
 			return false
-		
+			
 		match comparator:
 			"==":
 				return quest_var == cond_value

@@ -1,0 +1,234 @@
+[gd_scene load_steps=26 format=3 uid="uid://dub5rkm2jj582"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_map/map_screen.gd" id="1_a461x"]
+[ext_resource type="Theme" uid="uid://dmi5aktus8lnp" path="res://barkley2/resources/misc/map.tres" id="2_rnkuq"]
+[ext_resource type="Texture2D" uid="uid://bdaandl5n3ux8" path="res://barkley2/assets/b2_original/images/merged/sMapFlip.png" id="3_2g0f4"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="3_oopl1"]
+[ext_resource type="Script" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="4_q5os8"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="5_qi0jv"]
+[ext_resource type="Texture2D" uid="uid://dmu4eskfc3hff" path="res://barkley2/assets/b2_original/images/merged/sMap.png" id="6_lf7fg"]
+[ext_resource type="Texture2D" uid="uid://d4itg2q4pkvp7" path="res://barkley2/assets/b2_original/images/merged/sButtonExit.png" id="7_xxyga"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4y1s"]
+atlas = ExtResource("6_lf7fg")
+region = Rect2(0, 0, 320, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayilk"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(0, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwl8d"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(60, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fjao"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(30, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knjcf"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(0, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg52d"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(60, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vklxe"]
+atlas = ExtResource("3_2g0f4")
+region = Rect2(30, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30sak"]
+region = Rect2(700, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ragps"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(0, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6mc0"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(100, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1dtd"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(200, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xfvsd"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(300, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnunx"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(400, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1ln1"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(500, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1et0"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(600, 0, 100, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg580"]
+atlas = ExtResource("7_xxyga")
+region = Rect2(700, 0, 100, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dkmn1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ragps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6mc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1dtd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xfvsd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jnunx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1ln1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1et0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg580")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="map_screen" type="CanvasLayer"]
+script = ExtResource("1_a461x")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_rnkuq")
+color = Color(0, 0, 0, 0.75)
+
+[node name="no_maps_lbl" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -11.5
+offset_right = 55.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_rnkuq")
+text = "No maps available."
+
+[node name="B2_Border" type="Control" parent="ColorRect"]
+anchors_preset = 0
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 409.0
+offset_bottom = 25.0
+theme = ExtResource("3_oopl1")
+script = ExtResource("4_q5os8")
+border_size = Vector2(434, 50)
+
+[node name="map_name" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_right = 37.0
+offset_bottom = 16.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("5_qi0jv")
+text = "PLACEHOLDER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="map_itself" type="TextureRect" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -93.0
+offset_right = 160.0
+offset_bottom = 107.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_w4y1s")
+
+[node name="fade_effect" type="ColorRect" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="prev_map" type="TextureButton" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -14.5
+offset_right = 30.0
+offset_bottom = 14.5
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_ayilk")
+texture_pressed = SubResource("AtlasTexture_pwl8d")
+texture_hover = SubResource("AtlasTexture_8fjao")
+flip_h = true
+
+[node name="next_map" type="TextureButton" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -14.5
+offset_bottom = 14.5
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = SubResource("AtlasTexture_knjcf")
+texture_pressed = SubResource("AtlasTexture_fg52d")
+texture_hover = SubResource("AtlasTexture_vklxe")
+
+[node name="exit_button" type="TextureButton" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -41.0
+offset_right = 50.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = SubResource("AtlasTexture_30sak")
+
+[node name="exit_spr" type="AnimatedSprite2D" parent="ColorRect/exit_button"]
+sprite_frames = SubResource("SpriteFrames_dkmn1")
+centered = false
+
+[connection signal="pressed" from="ColorRect/prev_map" to="." method="_on_prev_map_pressed"]
+[connection signal="pressed" from="ColorRect/next_map" to="." method="_on_next_map_pressed"]
+[connection signal="mouse_entered" from="ColorRect/exit_button" to="." method="_on_exit_button_mouse_entered"]
+[connection signal="mouse_exited" from="ColorRect/exit_button" to="." method="_on_exit_button_mouse_exited"]

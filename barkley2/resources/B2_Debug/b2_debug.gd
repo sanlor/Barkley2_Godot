@@ -14,7 +14,7 @@ const ENABLE_MOVEMENT_VECTOR_VISUALIZE := false
 const WARN_INVALID_CHECKS := false # Create a warning if the B2_Config.get_user_save_data() returns null
 
 @onready var player_data: ScrollContainer = $player_data
-
+@onready var player_vars: ScrollContainer = $player_vars
 
 func _ready() -> void:
 	layer = B2_Config.DEBUG_LAYER
@@ -27,3 +27,5 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			print_rich("[color=pink]DEBUG can FF.[/color]")
 		elif event.is_action_released("DEBUG_FF"):
 			pass
+		if event.is_action_pressed("DEBUG_VARS"):
+			player_vars.visible = not player_vars.visible

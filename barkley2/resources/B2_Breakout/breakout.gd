@@ -22,6 +22,7 @@ var icon_id 	:= -1
 var old_value 	:= 0
 var new_value 	:= 0
 var value 		:= old_value
+var value_color := Color.WHITE
 
 # nodes used to display information
 var txt_node : Label
@@ -104,6 +105,15 @@ func set_values():
 				old_value 	= breakout_data.get( "prev_value", 0 )
 				new_value 	= B2_Playerdata.Quest( "money" )
 				value 		= old_value
+				
+				if breakout_data.get( "modifier", 0 ) > 0:
+					new_value += breakout_data.get( "modifier", 0 )
+					value_color = Color.GREEN
+					
+				if breakout_data.get( "modifier", 0 ) < 0:
+					new_value += breakout_data.get( "modifier", 0 )
+					value_color = Color.RED
+				
 			"ducats":
 				icon_id = 8
 			"hp":
@@ -152,3 +162,4 @@ func fancy_value_change():
 		
 func _process(_delta: float) -> void:
 	value_node.text = str( value  )
+	value_node.modulate = value_color

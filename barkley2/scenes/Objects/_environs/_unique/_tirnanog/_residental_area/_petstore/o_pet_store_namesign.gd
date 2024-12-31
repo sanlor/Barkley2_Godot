@@ -8,7 +8,7 @@ func _ready() -> void:
 	#	is_off = true
 	pass
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if is_off:
 		animation = "off"
 	else:

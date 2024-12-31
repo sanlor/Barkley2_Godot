@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var dialog_text: Label 			= $notify_item/dialog/dialog_text
 
 var is_showing_notify := false
-var notify_text := "Male rats have huge balls, but do female rats have huge ovaries?"
+var notify_text := "Male rats have huge balls, but do female rats have huge ovaries? <- this is an error message. Something went wrong."
 
 func _ready() -> void:
 	layer = B2_Config.NOTICE_LAYER

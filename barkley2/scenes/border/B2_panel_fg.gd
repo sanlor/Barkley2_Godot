@@ -29,7 +29,11 @@ func _ready():
 	theme = preload("res://barkley2/themes/dialogue.tres")
 	
 	rng.seed = get_parent().my_seed
-
+	
+	# Weird behaviour!
+	## https://www.reddit.com/r/godot/comments/15lpudk/can_you_configure_draw_to_still_draw_outside_the/
+	custom_minimum_size = Vector2(3000,3000)
+	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
 	queue_redraw()
