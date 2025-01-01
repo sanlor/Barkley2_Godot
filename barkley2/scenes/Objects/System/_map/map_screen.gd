@@ -1,6 +1,9 @@
 @tool
 extends CanvasLayer
 
+@onready var color_rect: ColorRect = $ColorRect
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 @onready var no_maps_lbl: Label = $ColorRect/no_maps_lbl
 @onready var map_name: Label = $ColorRect/map_name
 
@@ -14,24 +17,54 @@ extends CanvasLayer
 
 @onready var map_itself: TextureRect = $ColorRect/map_itself
 
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+
 const text_size := 5440.0
 const map_size := 320.0
 const map_speed := 0.15
 var tween : Tween
 
-var avaiable_maps := [0, 2, 6, 1]
+var avaiable_maps := []
+
 var selected_map := 0 :
 	set(i):
 		selected_map = wrapi( i, 0, avaiable_maps.size() )
 
 func _ready() -> void:
+	layer = B2_Config.MAP_LAYER
+	
 	no_maps_lbl.text = Text.pr("No maps available.")
 	exit_spr.frame = 0
 	fade_effect.modulate.a = 0.0
+	color_rect.modulate.a = 0.0
 	
-	avaiable_maps.sort()
-
+	avaiable_maps = B2_Map.get_all()
+	
+	# No maps avaiable, show nothing.
+	if avaiable_maps.is_empty():
+		prev_map.queue_free()
+		next_map.queue_free()
+		map_itself.queue_free()
+		map_name.text = Text.pr( "No maps... :(")
+		
+	# only one map avaiable, remove arrow keys.
+	elif avaiable_maps.size() == 1:
+		prev_map.queue_free()
+		next_map.queue_free()
+		no_maps_lbl.hide()
+		change_map()
+		
+	else:
+		no_maps_lbl.hide()
+		change_map()
+		#avaiable_maps.sort()
+		
+	animation_player.play("show_myself")
+	audio_stream_player.play()
+	
 func change_map() -> void:
+	# get map name from the directory
+	map_name.text = Text.pr( B2_Map.map_directory[ avaiable_maps[selected_map] ] )
 	map_itself.texture.region.position.x = avaiable_maps[selected_map] * map_size
 
 func _on_exit_button_mouse_entered() -> void:
@@ -89,3 +122,11 @@ func _on_next_map_pressed() -> void:
 	
 	t.tween_callback( prev_map.set_disabled.bind(false) )
 	t.tween_callback( next_map.set_disabled.bind(false) )
+
+func _on_exit_button_pressed() -> void:
+	B2_Screen.hide_map_screen() # gracefully close the screen
+	
+func hide_menu():
+	animation_player.play("hide_myself")
+	audio_stream_player.play()
+	return await animation_player.animation_finished

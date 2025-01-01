@@ -3,11 +3,15 @@ extends Node
 var sMapIconHoopz 		= null
 var sMapIconCyberdwarf 	= null
 
+var map_directory := {}
+
 # Check Map()
 # Script responsible to handle Maps, map locations and stupid shit like that.
 
 func _ready() -> void:
 	init_setup()
+	#gain_map( "The Eastelands" ) ## DEBUG
+	#gain_map( "Sewers Floor 1" ) ## DEBUG
 
 func init_setup() -> void:
 	## add_icon("world map", 2, 211, 130, "area", "==", "swp"); ## In game example
@@ -268,12 +272,15 @@ func init_setup() -> void:
 	##add_icon("The Westelands", sMapIconHoopz, 32, 150, "room", "==", "r_wst_tnnEntrance01", "y", "<=", "604");
 	##add_icon("The Westelands", sMapIconHoopz, 40, 170, "room", "==", "r_wst_tnnEntrance01", "y", ">=", "605" );
 
+
+## NOTE This should only be used during startup.
 ## Map("add area", <map name>, <sMap subimage>)
 @warning_ignore("unused_variable")
 @warning_ignore("unused_parameter")
-func add_area( map_name, map_sub ) -> void:
-	pass
+func add_area( map_name : String, map_sub : int ) -> void:
+	map_directory[map_sub] = map_name
 
+## NOTE This should only be used during startup.
 ## add icon("world map", 0,   100, 100, "knowCdwarf", ">=",    "1")
 ## TODO What a mess. this methd supports multiple conditions.
 # Im just going to ignore most of it.
@@ -281,3 +288,48 @@ func add_area( map_name, map_sub ) -> void:
 @warning_ignore("unused_parameter")
 func add_icon( area_name, map_sub, x, y, variable, compare, value) -> void:
 	pass
+
+
+# Return all the maps that the player have.
+func get_all() -> Array:
+	# an array with the names of all the players maps.
+	var my_maps = B2_Config.get_user_save_data("quest.maps", [] )
+	
+	# Aditional check. during initial load, this value is an dictionary for some reason. This part of the code should "convert" it to an array.
+	if my_maps is not Array:
+		my_maps = []
+	
+	if my_maps.is_empty():
+		return []
+		
+	else:
+		var id_array := [] # an array with all ids.
+		for i in my_maps:
+			id_array.append( map_directory.find_key(i) )
+		return id_array
+		
+## Map("reset") - Call every time the game resets.
+## NOTE maybe unused in this version?
+func reset_maps() -> void:
+	B2_Config.set_user_save_data("quest.maps", Array() )
+	
+func gain_map( map_name : String ) -> bool:
+	# Check if the map name is valid
+	if map_directory.values().has( map_name ):
+		# get current maps
+		var my_maps = B2_Config.get_user_save_data("quest.maps", [] )
+		
+		# Aditional check. during initial load, this value is an dictionary for some reason. This part of the code should "convert" it to an array.
+		if my_maps is not Array:
+			my_maps = []
+			
+		# if you already have the map, do not add it again
+		if not my_maps.has( map_name ):
+			my_maps.append( map_name )
+			# save the map to mmeory
+			B2_Config.set_user_save_data( "quest.maps", my_maps )
+		return true
+	else:
+		# map name is invalid, throw an error message.
+		push_error( "Cannot gain map %s that isn't defined." % map_name )
+		return false

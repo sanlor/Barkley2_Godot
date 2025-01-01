@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=10 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -13,6 +13,9 @@ line_spacing = -1.0
 font = ExtResource("4_coofk")
 font_color = Color(1, 1, 0.415686, 1)
 shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eevgy"]
+bg_color = Color(0.526, 0.649, 0.377, 0.14)
 
 [sub_resource type="GDScript" id="GDScript_wo71n"]
 script/source = "extends HBoxContainer
@@ -36,6 +39,20 @@ func _on_plus_pressed() -> void:
 
 func _on_minus_pressed() -> void:
 	B2_Database.money_change( -100 )
+"
+
+[sub_resource type="GDScript" id="GDScript_qogtn"]
+script/source = "extends HBoxContainer
+
+@onready var get_app: Button = $get_app
+
+func _on_get_app_pressed() -> void:
+	get_app.disabled = true
+	B2_Map.gain_map( \"Necron 7 - 666th Floor\" )
+	B2_Map.gain_map( \"Sewers Floor 1\" )
+	B2_Map.gain_map( \"Tír na nÓg\" )
+	B2_Map.gain_map( \"Sewers Floor 2\" )
+	B2_Map.gain_map( \"The Eastelands\" )
 "
 
 [node name="b2_debug" type="CanvasLayer"]
@@ -77,6 +94,7 @@ grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 8
 theme = ExtResource("2_pawx4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_eevgy")
 
 [node name="MarginContainer" type="MarginContainer" parent="player_vars"]
 layout_mode = 2
@@ -96,18 +114,40 @@ alignment = 1
 script = SubResource("GDScript_wo71n")
 
 [node name="current" type="Label" parent="player_vars/MarginContainer/VBoxContainer/money"]
+custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="plus" type="Button" parent="player_vars/MarginContainer/VBoxContainer/money"]
+custom_minimum_size = Vector2(32, 16)
 layout_mode = 2
 text = "+100"
 
 [node name="minus" type="Button" parent="player_vars/MarginContainer/VBoxContainer/money"]
+custom_minimum_size = Vector2(32, 16)
 layout_mode = 2
 text = "-100"
+
+[node name="maps" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+script = SubResource("GDScript_qogtn")
+
+[node name="map_lbl" type="Label" parent="player_vars/MarginContainer/VBoxContainer/maps"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Get all maps!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="get_app" type="Button" parent="player_vars/MarginContainer/VBoxContainer/maps"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Get'em!"
 
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/maps/get_app" to="player_vars/MarginContainer/VBoxContainer/maps" method="_on_get_app_pressed"]

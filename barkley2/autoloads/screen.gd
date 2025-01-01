@@ -8,6 +8,7 @@ extends CanvasLayer
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
+const MAP_SCREEN = preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
 const PAUSE_SCREEN = preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
 const NOTIFY_ITEM = preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
 
@@ -24,10 +25,13 @@ var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 var max_trail := 2 # 3 is pretty cool
 var mouse_offset := Vector2.ZERO
 
+var pause_screen: CanvasLayer
 var can_pause := false # Cant pause during the title screens and certain parts.
 var is_paused := false
 
-var pause_screen: CanvasLayer
+
+var map_screen: CanvasLayer
+var is_map_open := false
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
@@ -118,10 +122,26 @@ func _process(_delta) -> void:
 	# Pause stuff
 	if can_pause:
 		if Input.is_action_just_pressed("Pause"):
+			if is_map_open:
+				hide_map_screen()
+				return
+				
 			if is_paused:
 				hide_pause_menu()
 			else:
 				show_pause_menu()
+				
+		# Map stuff
+		## WARNING Missing aditional checks for open menus.
+		# Its only checking for cutscenes and pause screen.
+		if Input.is_action_just_pressed("Map"):
+			if (not is_paused or is_map_open) and is_instance_valid(B2_CManager.o_hoopz):
+				if is_map_open:
+					hide_map_screen()
+				else:
+					show_map_screen()
+			#elif is_map_open and is_instance_valid(B2_CManager.o_hoopz)
+			
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
@@ -133,6 +153,7 @@ func show_pause_menu() -> void:
 	is_paused = true
 	pause_screen = PAUSE_SCREEN.instantiate()
 	get_tree().current_scene.add_child( pause_screen )
+	B2_Music.volume_menu()
 	
 func hide_pause_menu() -> void:
 	if is_instance_valid(pause_screen): # Debug errors
@@ -140,6 +161,28 @@ func hide_pause_menu() -> void:
 	is_paused = false
 	get_tree().paused = false
 	B2_Sound.play_pick("pausemenu_click")
+	B2_Music.volume_menu()
+
+func show_map_screen() -> void:
+	is_map_open = true
+	get_tree().paused = true
+	map_screen = MAP_SCREEN.instantiate()
+	get_tree().current_scene.add_child( map_screen )
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.hide_hud()
+	
+func hide_map_screen() -> void:
+	if is_instance_valid(map_screen): # Debug errors
+		await map_screen.hide_menu()
+		map_screen.queue_free()
+	is_map_open = false
+	get_tree().paused = false
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.show_hud()
 
 func return_to_title():
 	get_tree().change_scene_to_file( title_screen_file )

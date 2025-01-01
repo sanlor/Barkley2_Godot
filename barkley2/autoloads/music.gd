@@ -30,6 +30,15 @@ func _enter_tree() -> void:
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 
+# used to change the volume based on the menu open
+func volume_menu():
+	if B2_Screen.is_map_open:
+		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
+	elif B2_Screen.is_paused:
+		audio_stream_player.volume_db = -100.0
+	else:
+		audio_stream_player.volume_db = linear_to_db( get_volume() )
+
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )

@@ -17,6 +17,7 @@ var main_display = 0
 # Screen Layers
 const ROOMXY_LAYER		:= 40 # Room Transitions
 const SHADER_LAYER 		:= 30 # Shaders and Cursor
+const MAP_LAYER			:= 29 # Pause screen
 const PAUSE_LAYER		:= 28 # Pause screen
 const NOTICE_LAYER		:= 26 # "You got pistol"
 const DIALOG_LAYER		:= 24 # Dialog Boxes

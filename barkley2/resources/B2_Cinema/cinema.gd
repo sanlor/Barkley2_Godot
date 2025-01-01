@@ -727,6 +727,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				## B2 has some stupid ACE script execution
 				# Check Cinema() line 588
+				"Map":
+					if parsed_line[1].strip_edges() == "gain":
+						#B2_Map.gain_map( parsed_line[2].strip_edges() )
+						B2_Map.gain_map( Text.pr( parsed_line[2].strip_edges() ) )
+					else:
+						push_error("Unrecognized Map command: " + str(parsed_line) )
 				"Misc":
 					Misc( parsed_line )
 				"Camera":
