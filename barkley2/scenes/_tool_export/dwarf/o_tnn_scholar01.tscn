@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://cs0clsj1725h8"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/dwarf/o_tnn_scholar01.gd" id="1_8siy7"]
+[ext_resource type="Texture2D" uid="uid://chpykhlr4jpll" path="res://barkley2/assets/b2_original/images/merged/s_cyberScholar01.png" id="2_1ffcx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa3w2"]
+atlas = ExtResource("2_1ffcx")
+region = Rect2(0, 0, 20, 33)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_is30i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aa3w2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4xcsk"]
+radius = 6.04789
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4s6qi"]
+size = Vector2(20, 36)
+
+[node name="o_tnn_scholar01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+script = ExtResource("1_8siy7")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_is30i")
+centered = false
+offset = Vector2(-10, -29)
+metadata/default = {
+"bbox_bottom": "32",
+"bbox_left": "0",
+"bbox_right": "19",
+"bbox_top": "0",
+"frames": ["images\\s_cyberScholar01_0.png"],
+"height": "33",
+"name": "s_cyberScholar01",
+"width": "20",
+"xorig": "10",
+"yorigin": "29"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4xcsk")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_4s6qi")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

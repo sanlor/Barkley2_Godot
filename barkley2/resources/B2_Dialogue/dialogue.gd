@@ -68,6 +68,7 @@ var title_node 				: RichTextLabel
 var text_node 				: RichTextLabel
 
 var has_portrait := false
+var port_load_failed := false
 
 ## Typing stuff
 var textbox_pause 			:= 0.015 	#0.05; # Set tyhe typing speed.
@@ -80,9 +81,14 @@ var dash_pause 				:= 0.20 			#0.2
 var question_pause 			:= 0.45 			#0.5 ## Added by me, not on the original.
 var exclamation_pause 		:= 0.45 			#0.5 ## Added by me, not on the original.
 
-var normal_typing 			:= 1.0			#1.0
+var normal_typing 			:= 0.8			#1.0
 var fast_typing 			:= 0.2
 var curr_typing_speed := normal_typing
+
+var portrait_talk_speed		:= 0.1
+var portrait_talk_time 		:= -100.0
+
+var portrait_talk_frame		:= 0 # Animation frame for the protrait
 
 var return_sprite_time 		:= 0.2		#0.2
 var return_sprite_cooldown 	:= 0.2	#0.2
@@ -113,6 +119,7 @@ func _ready() -> void:
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
+	border_node.bg_opacity = 0.5
 	border_node.set_seed( get_tree().root.get_child(0).name ) # This ensures that the border is random, but doesnt change all the time.
 	
 	# Identify this diag box
@@ -149,27 +156,29 @@ func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 func set_text( _text : String, _text_title := "" ) -> void:
 	if not _text_title.is_empty():
 		title_node 	= RichTextLabel.new(); add_child(title_node, true); title_node.bbcode_enabled = true
-		title_node.theme = preload("res://barkley2/themes/dialogue.tres")
+		title_node.theme = preload("res://barkley2/themes/dialogue_game.tres")
 		_title 		= _text_title 	# whos speaking the text
 		
 	# Setup Text RTL
 	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING; text_node.clip_contents = false
-	text_node.theme = preload("res://barkley2/themes/dialogue.tres")
+	text_node.theme = preload("res://barkley2/themes/dialogue_game.tres")
 	_my_text 	= _text 		# text dialog
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:
-	# Add the frame to the tree
-	portrait_frame_node = TextureRect.new(); 
-	add_child( portrait_frame_node, true ) 
-	portrait_frame_node.texture = S_DIAG_FRAME
-	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
-	
 	if from_name:
 		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
-	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
-	has_portrait = true
+		
+	if not port_load_failed:
+		# Add the frame to the tree
+		portrait_frame_node = TextureRect.new(); 
+		add_child( portrait_frame_node, true ) 
+		portrait_frame_node.texture = S_DIAG_FRAME
+		portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
+	
+		portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
+		has_portrait = true
 	
 func display_dialog( _is_boxless := false ):
 	var _text_offset := 0
@@ -231,7 +240,13 @@ func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
 	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
-	assert( not file_name.is_empty(), "File could not be found." )
+	#assert( not file_name.is_empty(), "File could not be found." )
+	if file_name.is_empty():
+		#has_portrait = false
+		port_load_failed = true
+		push_error("Dialogue received an invalid portrait %s. Disabling this portrait..." % portrait_name)
+		return
+		
 	@warning_ignore("integer_division")
 	var n_frames := int( spritesheet.get_width() / 34 ) ## This should return the correct amount of frames.
 	if debug: print( "n_frames: ", n_frames, " ", spritesheet.get_width() )
@@ -279,18 +294,27 @@ func _portrait_is_silent():
 	portrait_img_node.animation = "blink"
 	portrait_img_node.frame = 0
 
-func _portrait_is_talking():
+func _portrait_is_talking(delta):
 	if not has_portrait:
 		return
-	is_talking = true
-	blink_cooldown = blink_speed
+	# allow to control the speed for the portrait animation.
+	if portrait_talk_time < 0:
+		portrait_talk_time = portrait_talk_speed
+		is_talking = true
+		blink_cooldown = blink_speed
 
-	portrait_img_node.animation = "talk"
-	var max_frame = portrait_img_node.sprite_frames.get_frame_count( "talk" )
-	#var new_frame := wrapi( portrait_img_node.frame + randi_range(0,1) + 1, 0, max_frame )
-	var new_frame := wrapi( portrait_img_node.frame + 1, 0, max_frame )
-	
-	portrait_img_node.frame = new_frame
+		portrait_img_node.animation = "talk"
+		var max_frame = portrait_img_node.sprite_frames.get_frame_count( "talk" )
+		#var new_frame := wrapi( portrait_img_node.frame + 1, 0, max_frame )
+		portrait_talk_frame = wrapi( portrait_talk_frame + 1, 0, max_frame )
+		portrait_img_node.frame = portrait_talk_frame
+		## WARNING The code above is incomplete.
+		# Its missing the part that "randomize" the talking Frames by skipping some frames sometimes.
+		# check scr_event_action_dialogue()
+		# check o_dialogue draw_end event.
+	else:
+		portrait_talk_time -= 15.0 * delta
+		#is_talking = false
 
 func _type_next_letter(delta):
 	if is_waiting_input:
@@ -345,7 +369,7 @@ func _type_next_letter(delta):
 					if not voice_sound_played:
 						B2_Sound.play( _talk_sound, 0.0, false, 1, 1.0 )
 						voice_sound_played = true
-					_portrait_is_talking()
+					_portrait_is_talking(delta)
 					
 		var amount_text := 1
 		

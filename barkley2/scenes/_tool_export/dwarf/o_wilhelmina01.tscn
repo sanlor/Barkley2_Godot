@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://dhwvtc3xiqnor"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/dwarf/o_wilhelmina01.gd" id="1_yig7h"]
+[ext_resource type="Texture2D" uid="uid://kdf0qtb0wqlb" path="res://barkley2/assets/b2_original/images/merged/s_wilhelmina01.png" id="2_40wni"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bom3"]
+atlas = ExtResource("2_40wni")
+region = Rect2(0, 0, 28, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c8ya1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bom3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_murgr"]
+radius = 5.41127
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gw50v"]
+size = Vector2(20, 36)
+
+[node name="o_wilhelmina01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_yig7h")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_c8ya1")
+centered = false
+offset = Vector2(-13, -47)
+metadata/default = {
+"bbox_bottom": "49",
+"bbox_left": "4",
+"bbox_right": "21",
+"bbox_top": "39",
+"frames": ["images\\s_wilhelmina01_0.png"],
+"height": "52",
+"name": "s_wilhelmina01",
+"width": "28",
+"xorig": "13",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_murgr")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_gw50v")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

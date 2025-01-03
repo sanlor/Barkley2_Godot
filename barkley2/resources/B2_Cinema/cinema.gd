@@ -23,6 +23,7 @@ class_name B2_CinemaPlayer
 @export var debug_event 		:= false
 @export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
+@export var debug_know			:= true
 @export var print_comments		:= false
 @export var print_line_report 	:= false ## details about the current script line.
 
@@ -263,9 +264,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				if is_selecting_choices:
 					var dialogue_choice = B2_DialogueChoice.new()
 					add_child( dialogue_choice )
-					var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
+					#var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
+					var choice_portrait = B2_Gamedata.get_hoopz_portrait() ## Is this correct? Is the protrait always hoopz?
 					
-					dialogue_choice.set_portrait( choice_portrait ) ## Is this correct? Is the protrait always hoopz?
+					dialogue_choice.set_portrait( choice_portrait, false ) ## Is this correct? Is the protrait always hoopz?
 					dialogue_choice.set_title( choice_question ) ## Add the question itself
 					for question : String in choices_strings:
 						dialogue_choice.add_choice( question ) ## Add choices
@@ -396,11 +398,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						var talker_split = parsed_line[1].split("=")
 						var talker_name := Text.pr( talker_split[0].strip_edges(true,true) )
 						var talker_port := talker_split[1].strip_edges(true,true)
-						if talker_port == "P_NAME": talker_port = "s_port_hoopz" ## TEMP HACK
+						if talker_port == "P_NAME": 
+							talker_port = "s_port_hoopz" ## TEMP HACK
+							last_talker_portrait = B2_Gamedata.get_hoopz_portrait() # Maybe unnecessary?
 						dialogue.set_portrait(talker_port, false)
 						# Set the dialogue, with the variable injection
 						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_name )
-						last_talker_portrait = talker_port
 					else:
 						var talker_port := parsed_line[1].strip_edges(true,true)
 	
@@ -408,10 +411,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							dialogue.set_portrait( talker_port, true )
 						if talker_port == "P_NAME":  ## TEMP HACK
 							dialogue.set_portrait( "s_port_hoopz", false )
+							last_talker_portrait = B2_Gamedata.get_hoopz_portrait() # Maybe unnecessary?
 							# Set the dialogue, with the variable injection
 						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_port )
-						last_talker_portrait = talker_port
-						
+												
 					await dialogue.display_dialog()
 					dialogue.queue_free()
 				"SHAKE":
@@ -718,7 +721,18 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					B2_Sound.stop_loop() ## CRITICAL current implementation ignores the actual sound name.
 				"KNOW":
 					# Looks like this handles what the player knows. used during dialog.
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# Its a pretty kool feature!
+					# check KNOW()
+					if not parsed_line[2].is_valid_int():
+						# invalid value for KNOW.
+						breakpoint
+					var know : String = parsed_line[1].strip_edges()
+					var amount := int( parsed_line[2] ) # its always an int
+					
+					if B2_Playerdata.Quest(know) < amount:
+						B2_Playerdata.Quest(know, amount)
+						
+					if debug_know: print_rich( "[color=orange]KNOW -> %s = %s." % [know, amount] )
 				"Destroy":
 					# Remove actor. simple.
 					var actor = get_node_from_name( all_nodes,	parsed_line[1] )

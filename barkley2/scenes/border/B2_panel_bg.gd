@@ -24,6 +24,8 @@ var decorations_color := {}
 
 var is_invisible := false
 
+var bg_opacity := 0.65
+
 @onready var my_seed := hash( randi() )
 
 @export var resize := false:
@@ -45,6 +47,9 @@ func set_seed( _seed : String ):
 func _ready():
 	# Theme
 	theme = preload("res://barkley2/themes/dialogue.tres")
+	
+	# Material stuff
+	material = preload("res://barkley2/resources/Border/border_material.tres")
 	
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)
@@ -74,7 +79,7 @@ func _draw():
 	## BG
 	var bg_rect := Rect2( Vector2(4,4), border_size - Vector2(8,8) ) # Small offset to hide the BG
 	if not disable_bg:
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false )
+		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, bg_opacity), false )
 	
 	if is_first_draw: ## avoid updating the border decorations
 		b_2_panel_fg.queue_redraw()

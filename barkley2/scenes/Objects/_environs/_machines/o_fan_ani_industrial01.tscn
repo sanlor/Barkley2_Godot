@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://g4vcohcgks2r"]
+
+[ext_resource type="Texture2D" uid="uid://f5ca7vs338t4" path="res://barkley2/assets/b2_original/images/merged/s_fan_ani_industrial01.png" id="1_71qw4"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_environs/_machines/o_fan_ani_industrial_01.gd" id="2_42bf7"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Emiters/audio_emiter.gd" id="3_2r05b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvqm4"]
+atlas = ExtResource("1_71qw4")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ct4s"]
+atlas = ExtResource("1_71qw4")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2se51"]
+atlas = ExtResource("1_71qw4")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d4vuw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvqm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ct4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2se51")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fan_ani_industrial01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_d4vuw")
+centered = false
+offset = Vector2(0, -47)
+script = ExtResource("2_42bf7")
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "0",
+"bbox_right": "47",
+"bbox_top": "0",
+"height": "48",
+"name": "s_fan_ani_industrial01",
+"width": "48",
+"xorig": "0",
+"yorigin": "47"
+}
+
+[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="."]
+autoplay = true
+bus = &"Audio"
+script = ExtResource("3_2r05b")
+sound = "sn_industrialfan1"
+soundVolume = 0.25
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

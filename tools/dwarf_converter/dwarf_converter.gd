@@ -568,8 +568,8 @@ func make_script() -> GDScript:
 		code += 'extends B2_InteractiveActor\n\n'
 		code += '## Made with B2_TOOL_DWARF_CONVERTER\n'
 		code += 'func _ready() -> void:\n'
-	code += '_setup_actor()\n'
-	code += '_setup_interactiveactor()\n\n'
+	code += '	_setup_actor()\n'
+	code += '	_setup_interactiveactor()\n\n'
 	code += '	ANIMATION_STAND 						= "%s"\n' % str(ANIMATION_STAND)
 	code += '	ANIMATION_SOUTH 						= "%s"\n' % str(ANIMATION_SOUTH)
 	code += '	ANIMATION_SOUTHEAST 					= "%s"\n' % str(ANIMATION_SOUTHEAST)

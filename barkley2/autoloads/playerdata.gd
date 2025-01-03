@@ -102,7 +102,7 @@ func _ready():
 	## Quest flags overrides
 	
 	#preload_CC_save_data()
-	#B2_CManager.BodySwap("diaper");
+	B2_CManager.BodySwap("hoopz");
 	#preload_CC_save_data()
 	#B2_Playerdata.Quest("wilmerMeeting", 0)
 	#B2_Playerdata.Quest("tutorialProgress", 	9)

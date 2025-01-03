@@ -96,6 +96,7 @@ func _ready() -> void:
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
+	border_node.bg_opacity = 0.5
 	border_node.set_seed( get_tree().root.get_child(0).name )
 	
 	add_child( border_node )
@@ -195,7 +196,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
 	
 	if from_name:
-		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
+		_load_portrait( B2_Gamedata.portrait_from_name.get( portrait_name, "s_portrait" ) ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
 	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 

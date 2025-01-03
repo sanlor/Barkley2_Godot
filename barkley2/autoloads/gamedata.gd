@@ -307,3 +307,25 @@ func _load_portrait_data():
 				else:
 					portrait_map[ file.trim_suffix(".png") ] = file.trim_suffix(".import")
 	print("_load_portrait_data() - Added " + str( portrait_map.size() ) + " portraits in %s msecs." % str( Time.get_ticks_msec() - time ) )
+
+# get currents hoopz portrait.
+# Hoopz portrait can change when bodyswapping (Diaper > Normal)
+func get_hoopz_portrait() -> String:
+	match B2_Config.get_user_save_data("player.body"):
+		"hoopz":
+			return "s_port_hoopz"
+		"governor":
+			return "s_port_governor"
+		"matthias":
+			return "s_port_matthias"
+		"untamo":
+			return "s_port_untamo"
+		"diaper":
+			return "s_port_hoopzDiaper"
+		"prison":
+			return "s_port_hoopzPrison"
+		_:
+			# Invalid hoopz state
+			breakpoint
+			return "s_port_hoopz"
+	
