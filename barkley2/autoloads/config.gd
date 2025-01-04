@@ -17,11 +17,12 @@ var main_display = 0
 # Screen Layers
 const ROOMXY_LAYER		:= 40 # Room Transitions
 const SHADER_LAYER 		:= 30 # Shaders and Cursor
-const MAP_LAYER			:= 29 # Pause screen
+const MAP_LAYER			:= 29 # Maps screen
+const NOTE_LAYER		:= 29 # Notes screen
 const PAUSE_LAYER		:= 28 # Pause screen
 const NOTICE_LAYER		:= 26 # "You got pistol"
 const DIALOG_LAYER		:= 24 # Dialog Boxes
-const EFFECTATMO_LAYER	:= 24 # Dialog Boxes
+const EFFECTATMO_LAYER	:= 24 # Rain and fog/smog
 const HUD_LAYER			:= 20 # Inventory, etc
 const GUI_LAYER			:= 20 # Inventory, etc
 const DEBUG_LAYER		:= 41 # Debug Info
@@ -33,6 +34,7 @@ var dialogY := 140.0
 var settingFadeIn 		:= 0.50;
 var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
 var settingFadeOut 		:= 0.50;
+
 
 ## TODO port script scr_player_newPlayerIdentity()
 

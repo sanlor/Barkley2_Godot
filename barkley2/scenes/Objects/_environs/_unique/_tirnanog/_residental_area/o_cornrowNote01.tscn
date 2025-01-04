@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://cidrfmsg5kwqw"]
+
+[ext_resource type="Texture2D" uid="uid://cvmurdsjjl1af" path="res://barkley2/assets/b2_original/images/merged/s_gbl_note01.png" id="1_epa50"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_ruhba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8deb"]
+atlas = ExtResource("1_epa50")
+region = Rect2(0, 0, 23, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gs6lv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8deb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_cornrowNote01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_gs6lv")
+centered = false
+offset = Vector2(-11, -9)
+script = ExtResource("2_ruhba")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "2",
+"bbox_right": "21",
+"bbox_top": "2",
+"height": "18",
+"name": "s_gbl_note01",
+"width": "23",
+"xorig": "11",
+"yorigin": "9"
+}

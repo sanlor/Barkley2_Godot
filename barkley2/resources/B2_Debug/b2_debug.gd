@@ -18,6 +18,9 @@ const WARN_INVALID_CHECKS := false # Create a warning if the B2_Config.get_user_
 
 func _ready() -> void:
 	layer = B2_Config.DEBUG_LAYER
+	
+	player_vars.visible = false
+	player_data.visible = false
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey:

@@ -7,6 +7,7 @@ class_name B2_ROOMS
 ## Maybe improve AstarGrid2D resolution?
 
 const O_HUD = preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
+const O_ZONE_NAME = preload("res://barkley2/objects/oZoneName.tscn")
 
 signal permission_changed
 signal pacify_changed( activated : bool )
@@ -33,6 +34,9 @@ var astar_valid_tiles := Array() # used for debug
 @export var room_music_name				:= ""
 @export var room_pacify 				:= true # Player cant draw weapons.
 @export var room_player_can_roll 		:= true # Player can roll around.
+@export var show_zone_banner			:= true
+@export var override_zone_name			:= "" ## Allow custom zone name (upper text)
+@export var override_zone_flavor		:= "" ## Allow custom zone flavor (bottom text)
 
 @export_category("Cinematics")
 @export var player_can_pause			:= true
@@ -41,6 +45,9 @@ var astar_valid_tiles := Array() # used for debug
 @export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
 @export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
+
+@export_category("Weather")
+@export_flags("Rain:1", "Smog:2") var room_weather := 0 ## ALERT not implemented. Need to work on this.
 
 var astar_pos_offset := Vector2i(8,8)
 
@@ -64,6 +71,7 @@ func _enter_tree() -> void:
 		add_child( hud_node, true )
 		
 	y_sort_enabled = true
+	ready.connect( _after_ready )
 
 func _set_region():
 	if populate_reference_layer:
@@ -106,6 +114,31 @@ func _set_region():
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
 	
 	bake_navigation_polygon()
+
+func _after_ready() -> void:
+	## add interior effects
+	if is_interior:
+		B2_Music.volume_mod = 0.75 
+	else:
+		B2_Music.volume_mod = 1.00
+		
+	## add weather effects
+	if room_weather & 0b01 == 0b01: ## Rain effect
+		# do something
+		pass
+	elif room_weather & 0b10 == 0b10: ## Smog effect
+		# do something
+		pass
+		
+	if show_zone_banner:
+		var zone := O_ZONE_NAME.instantiate()
+		zone.zone_data( name )
+		if not override_zone_name.is_empty():
+			zone.zone_name = override_zone_name
+		if not override_zone_flavor.is_empty():
+			zone.flavor = override_zone_flavor
+			
+		add_child( zone, true )
 
 func update_pathfind():
 	if not is_baking():

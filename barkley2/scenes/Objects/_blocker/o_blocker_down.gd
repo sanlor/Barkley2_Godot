@@ -1,5 +1,5 @@
 #@tool
-@icon("res://barkley2/assets/b2_original/images/merged/s_blocker_right.png")
+@icon("res://barkley2/assets/b2_original/images/merged/s_blocker_down.png")
 extends AnimatedSprite2D
 #class_name B2_Blocker
 

@@ -15,6 +15,10 @@ var bgm_music : String = ""
 ## What track is being played. useful when changing rooms that use the same music track.
 var curr_playing_track := ""
 
+## Room audio modifier
+# some rooms have the audio volume modified, like interiors
+var volume_mod := 1.0
+
 func _load_music_banks():
 	## Load music tracks
 	var _music_folder : Array = FileSearch.search_dir( music_folder, "", true )
@@ -38,11 +42,14 @@ func volume_menu():
 		audio_stream_player.volume_db = -100.0
 	else:
 		audio_stream_player.volume_db = linear_to_db( get_volume() )
-
+		
+	audio_stream_player.volume_db *= volume_mod
+	
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
-
+	audio_stream_player.volume_db *= volume_mod
+	
 func get_volume() -> float:
 	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
 
@@ -227,12 +234,14 @@ func queue( track_name : String, speed := 1.0 ): ## track name should exist in t
 		
 	audio_stream_player.stream = next_music
 	audio_stream_player.play()
+	audio_stream_player.volume_db = -80.0
 	
 	if speed != 0.0: # fade in music
 		tween = create_tween()
-		tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master), speed)
+		tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod), speed)
 		await tween.finished
 	else: # instant music
 		audio_stream_player.volume_db = linear_to_db(B2_Config.bgm_gain_master)
+		audio_stream_player.volume_db *= volume_mod
 	
 	bgm_music = track_name # argument[1];

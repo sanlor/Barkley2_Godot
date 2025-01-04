@@ -288,6 +288,7 @@ var c_cyber		:= Color8(84, 186, 254)
 var c_mental	:= Color8(226, 154, 138)
 var c_zauber	:= Color8(211, 42, 222)
 
+var last_zone_name := ""
 
 func _ready() -> void:
 	_load_portrait_data()

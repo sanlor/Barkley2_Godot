@@ -1,62 +1,62 @@
-[gd_scene load_steps=20 format=3 uid="uid://lpp3i8tjsn7n"]
+[gd_scene load_steps=20 format=3 uid="uid://c5idbymaf8hu8"]
 
-[ext_resource type="Texture2D" uid="uid://4roe1askwdwp" path="res://barkley2/assets/b2_original/images/merged/s_blocker_left.png" id="1_ttbfy"]
-[ext_resource type="Texture2D" uid="uid://c85uwb71oo356" path="res://barkley2/assets/b2_original/images/merged/s_blocker_down.png" id="2_x2xwx"]
-[ext_resource type="Texture2D" uid="uid://dbb34p7d4k34g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_right.png" id="3_2iema"]
-[ext_resource type="Texture2D" uid="uid://06xcnp0ifu4t" path="res://barkley2/assets/b2_original/images/merged/s_blocker_up.png" id="4_7htrn"]
-[ext_resource type="Texture2D" uid="uid://d33ct87awe582" path="res://barkley2/assets/b2_original/images/merged/s_blocker_lr.png" id="5_44y37"]
-[ext_resource type="Texture2D" uid="uid://l32ssb1jxi4g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_ud.png" id="6_sqpxr"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_blocker/o_blocker_right.gd" id="7_l68gq"]
+[ext_resource type="Texture2D" uid="uid://4roe1askwdwp" path="res://barkley2/assets/b2_original/images/merged/s_blocker_left.png" id="1_sv3sm"]
+[ext_resource type="Texture2D" uid="uid://c85uwb71oo356" path="res://barkley2/assets/b2_original/images/merged/s_blocker_down.png" id="2_b5c3b"]
+[ext_resource type="Texture2D" uid="uid://dbb34p7d4k34g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_right.png" id="3_00hwc"]
+[ext_resource type="Texture2D" uid="uid://06xcnp0ifu4t" path="res://barkley2/assets/b2_original/images/merged/s_blocker_up.png" id="4_5j741"]
+[ext_resource type="Texture2D" uid="uid://d33ct87awe582" path="res://barkley2/assets/b2_original/images/merged/s_blocker_lr.png" id="5_r1f3d"]
+[ext_resource type="Texture2D" uid="uid://l32ssb1jxi4g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_ud.png" id="6_1p56y"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_blocker/o_blocker_down.gd" id="7_5wqf2"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bhxic"]
 blend_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1n3t"]
-atlas = ExtResource("5_44y37")
+atlas = ExtResource("5_r1f3d")
 region = Rect2(0, 0, 32, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n28bl"]
-atlas = ExtResource("5_44y37")
+atlas = ExtResource("5_r1f3d")
 region = Rect2(32, 0, 32, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i7mvy"]
-atlas = ExtResource("5_44y37")
+atlas = ExtResource("5_r1f3d")
 region = Rect2(64, 0, 32, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8gf7h"]
-atlas = ExtResource("5_44y37")
+atlas = ExtResource("5_r1f3d")
 region = Rect2(96, 0, 32, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cguyk"]
-atlas = ExtResource("6_sqpxr")
+atlas = ExtResource("6_1p56y")
 region = Rect2(0, 0, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3u3fx"]
-atlas = ExtResource("6_sqpxr")
+atlas = ExtResource("6_1p56y")
 region = Rect2(80, 0, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_asljc"]
-atlas = ExtResource("6_sqpxr")
+atlas = ExtResource("6_1p56y")
 region = Rect2(160, 0, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3s5im"]
-atlas = ExtResource("6_sqpxr")
+atlas = ExtResource("6_1p56y")
 region = Rect2(240, 0, 80, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_m1yss"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ttbfy")
+"texture": ExtResource("1_sv3sm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_x2xwx")
+"texture": ExtResource("2_b5c3b")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_2iema")
+"texture": ExtResource("3_00hwc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_7htrn")
+"texture": ExtResource("4_5j741")
 }],
 "loop": true,
 "name": &"debug_icons",
@@ -98,26 +98,29 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2n0g8"]
-size = Vector2(16, 32)
+size = Vector2(32, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10h3h"]
-size = Vector2(16, 32)
+size = Vector2(32, 16)
 
-[node name="o_blocker_right" type="AnimatedSprite2D"]
+[node name="o_blocker_down" type="AnimatedSprite2D"]
 material = SubResource("CanvasItemMaterial_bhxic")
 sprite_frames = SubResource("SpriteFrames_m1yss")
 animation = &"debug_icons"
+frame = 1
 centered = false
-script = ExtResource("7_l68gq")
+script = ExtResource("7_5wqf2")
+push_vector = Vector2(0, 1)
 
 [node name="push_area" type="Area2D" parent="."]
 
 [node name="area_collision" type="CollisionShape2D" parent="push_area"]
-position = Vector2(8, 16)
+position = Vector2(16, 8)
 shape = SubResource("RectangleShape2D_2n0g8")
 
 [node name="actor_blocker" type="StaticBody2D" parent="."]
 position = Vector2(24, 16)
 
 [node name="blocker_collision" type="CollisionShape2D" parent="actor_blocker"]
+position = Vector2(-8, -24)
 shape = SubResource("RectangleShape2D_10h3h")

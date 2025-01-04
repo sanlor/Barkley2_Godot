@@ -1,0 +1,230 @@
+[gd_scene load_steps=10 format=3 uid="uid://hhg2vthadjy1"]
+
+[ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="1_wchjm"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_itypd"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_mj8uy"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="4_mado8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gaax3"]
+atlas = ExtResource("1_wchjm")
+region = Rect2(0, 0, 24, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo8by"]
+atlas = ExtResource("1_wchjm")
+region = Rect2(24, 0, 24, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sneus"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gaax3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo8by")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_m2px3"]
+script = ExtResource("3_mj8uy")
+original_script = "IF draw_11 == 0         | GOTO | DRAW
+IF @Firaga@ >= 100          | GOTO | JUNCTION
+IF junctionGuts == 1        | GOTO | SWAP
+IF junctionLuck == 1        | GOTO | SWAP
+IF junctionAcrobatics == 1  | GOTO | SWAP
+IF junctionMight == 1       | GOTO | SWAP
+IF junctionPiety == 1       | GOTO | SWAP
+GOTO | EMPTY
+
+DRAW
+DIALOG | | Found a draw point!#Firaga found
+CHOICE | Who will draw?
+REPLY  | DONT  | Don't draw
+REPLY  | HOOPZ | P_NAME
+
+DONT
+DIALOG | | No one drew.
+
+HOOPZ
+MOVETO | o_cts_hoopz | o_gbl_drawing_point | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+SET    | o_cts_hoopz | firaga
+WAIT   | 0.5
+EVENT  | o_gbl_drawing_point | 0
+WAIT   | 0.25
+SOUND  | sn_pearlgunshot01
+QUEST  | draw_11 = 1
+ITEM   | Firaga | 5
+WAIT   | 2
+DIALOG | | P_NAME stocked 5 Firagas.
+WAIT   | 0.5
+IF @Firaga@ >= 100 | GOTO | JUNCTION_CHOICE
+
+EMPTY
+DIALOG | P_NAME | I think this draw point is empty...
+
+SWAP
+MOVETO | o_cts_hoopz | o_gbl_drawing_point | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+SET    | o_cts_hoopz | firaga
+WAIT   | 0.5
+DIALOG | | Change your Junctioning of Firaga?
+CHOICE | Who will Junction Firaga?
+REPLY  | JUNCTION_NO  | Don't Junction
+REPLY  | JUNCTION_YES | P_NAME
+
+JUNCTION
+MOVETO | o_cts_hoopz | o_gbl_drawing_point | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+SET    | o_cts_hoopz | firaga
+WAIT   | 0.5
+GOTO   | JUNCTION_CHOICE
+
+JUNCTION_CHOICE
+DIALOG | | You have the required amount of Firaga. Would you like to Junction them?
+CHOICE | Who will Junction Firaga?
+REPLY  | JUNCTION_NO  | Don't junction
+REPLY  | JUNCTION_YES | P_NAME
+
+JUNCTION_NO
+DIALOG | | Firaga was not junctioned.
+
+JUNCTION_YES
+CHOICE | Junction Firaga to what attribute?
+REPLY  | JG | Guts
+REPLY  | JL | Luck
+REPLY  | JA | Acrobatics
+REPLY  | JM | Might
+REPLY  | JP | Piety
+REPLY  | CANCEL | Cancel Junction
+
+JG
+SOUND     | sn_pearlgunshot03
+NOTIFY    | Firaga was junctioned to Guts!
+NOTIFYALT | Guts increased by 10 points.
+IF junctionGuts = 1         | GLAMP | guts | -10
+IF junctionLuck = 1         | GLAMP | luck | -10
+IF junctionAcrobatics = 1   | GLAMP | acrobatics | -10
+IF junctionMight = 1        | GLAMP | might | -10
+IF junctionPiety = 1        | GLAMP | piety | -10
+QUEST | junctionGuts = 1
+QUEST | junctionLuck = 0
+QUEST | junctionAcrobatics = 0
+QUEST | junctionMight = 0
+QUEST | junctionPiety = 0
+GLAMP | guts | 10
+
+JL
+SOUND     | sn_pearlgunshot03
+NOTIFY    | Firaga was junctioned to Luck!
+NOTIFYALT | Luck increased by 10 points.
+IF junctionGuts = 1         | GLAMP | guts | -10
+IF junctionLuck = 1         | GLAMP | luck | -10
+IF junctionAcrobatics = 1   | GLAMP | acrobatics | -10
+IF junctionMight = 1        | GLAMP | might | -10
+IF junctionPiety = 1        | GLAMP | piety | -10
+QUEST | junctionGuts = 0
+QUEST | junctionLuck = 1
+QUEST | junctionAcrobatics = 0
+QUEST | junctionMight = 0
+QUEST | junctionPiety = 0
+GLAMP | luck | 10
+
+JA
+SOUND     | sn_pearlgunshot03
+NOTIFY    | Firaga was junctioned to Acrobatics!
+NOTIFYALT | Acrobatics increased by 10 points.
+IF junctionGuts = 1         | GLAMP | guts | -10
+IF junctionLuck = 1         | GLAMP | luck | -10
+IF junctionAcrobatics = 1   | GLAMP | acrobatics | -10
+IF junctionMight = 1        | GLAMP | might | -10
+IF junctionPiety = 1        | GLAMP | piety | -10
+QUEST | junctionGuts = 0
+QUEST | junctionLuck = 0
+QUEST | junctionAcrobatics = 1
+QUEST | junctionMight = 0
+QUEST | junctionPiety = 0
+GLAMP | acrobatics | 10
+
+JM
+SOUND     | sn_pearlgunshot03
+NOTIFY    | Firaga was junctioned to Might!
+NOTIFYALT | Might increased by 10 points.
+IF junctionGuts = 1         | GLAMP | guts | -10
+IF junctionLuck = 1         | GLAMP | luck | -10
+IF junctionAcrobatics = 1   | GLAMP | acrobatics | -10
+IF junctionMight = 1        | GLAMP | might | -10
+IF junctionPiety = 1        | GLAMP | piety | -10
+QUEST | junctionGuts = 0
+QUEST | junctionLuck = 0
+QUEST | junctionAcrobatics = 0
+QUEST | junctionMight = 1
+QUEST | junctionPiety = 0
+GLAMP | might | 10
+
+JP
+SOUND     | sn_pearlgunshot03
+NOTIFY    | Firaga was junctioned to Piety!
+NOTIFYALT | Piety increased by 10 points.
+IF junctionGuts = 1         | GLAMP | guts | -10
+IF junctionLuck = 1         | GLAMP | luck | -10
+IF junctionAcrobatics = 1   | GLAMP | acrobatics | -10
+IF junctionMight = 1        | GLAMP | might | -10
+IF junctionPiety = 1        | GLAMP | piety | -10
+QUEST | junctionGuts = 0
+QUEST | junctionLuck = 0
+QUEST | junctionAcrobatics = 0
+QUEST | junctionMight = 0
+QUEST | junctionPiety = 1
+GLAMP | piety | 10
+
+CANCEL
+DIALOG | | Junction did not occur."
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_47ym4"]
+radius = 15.0
+
+[node name="o_gbl_drawing_point" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_sneus")
+centered = false
+offset = Vector2(-12, -8)
+script = ExtResource("2_itypd")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_m2px3")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "0",
+"height": "16",
+"name": "s_drawing_point",
+"width": "24",
+"xorig": "12",
+"yorigin": "8"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_47ym4")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -81.0
+offset_top = -48.0
+offset_right = 96.0
+offset_bottom = -25.0
+theme = ExtResource("4_mado8")
+text = "Missing special effects!"
+horizontal_alignment = 1
+vertical_alignment = 1

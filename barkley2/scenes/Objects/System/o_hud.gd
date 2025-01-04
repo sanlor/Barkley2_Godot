@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name B2_Hud
 
 ## DEBUG
-var debug_messages := true
+var debug_messages := false
 
 ## Check o_hud.
 # Oh boy... more work.

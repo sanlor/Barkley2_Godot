@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=11 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -47,6 +47,8 @@ script/source = "extends HBoxContainer
 @onready var get_app: Button = $get_app
 
 func _on_get_app_pressed() -> void:
+	modulate = Color.DARK_BLUE
+	
 	get_app.disabled = true
 	B2_Map.gain_map( \"Necron 7 - 666th Floor\" )
 	B2_Map.gain_map( \"Sewers Floor 1\" )
@@ -55,11 +57,24 @@ func _on_get_app_pressed() -> void:
 	B2_Map.gain_map( \"The Eastelands\" )
 "
 
+[sub_resource type="GDScript" id="GDScript_vss7c"]
+script/source = "extends HBoxContainer
+
+@onready var get_app: Button = $get_app
+
+func _on_get_app_pressed() -> void:
+	modulate = Color.DARK_GREEN
+	
+	get_app.disabled = true
+	
+	for n in B2_Note.notes.keys():
+		B2_Note.take_note( n )
+"
+
 [node name="b2_debug" type="CanvasLayer"]
 script = ExtResource("1_jshnt")
 
 [node name="player_data" type="ScrollContainer" parent="."]
-visible = false
 custom_minimum_size = Vector2(256, 240)
 offset_right = 200.0
 offset_bottom = 240.0
@@ -84,7 +99,6 @@ label_settings = SubResource("LabelSettings_dvnvw")
 tab_stops = PackedFloat32Array(10)
 
 [node name="player_vars" type="ScrollContainer" parent="."]
-visible = false
 custom_minimum_size = Vector2(150, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -138,10 +152,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Get all maps!"
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="get_app" type="Button" parent="player_vars/MarginContainer/VBoxContainer/maps"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Get'em!"
+
+[node name="notes" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = SubResource("GDScript_vss7c")
+
+[node name="note_lbl" type="Label" parent="player_vars/MarginContainer/VBoxContainer/notes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Get all notes!"
+vertical_alignment = 1
+
+[node name="get_app" type="Button" parent="player_vars/MarginContainer/VBoxContainer/notes"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Get'em!"
@@ -151,3 +180,4 @@ text = "Get'em!"
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/maps/get_app" to="player_vars/MarginContainer/VBoxContainer/maps" method="_on_get_app_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/notes/get_app" to="player_vars/MarginContainer/VBoxContainer/notes" method="_on_get_app_pressed"]

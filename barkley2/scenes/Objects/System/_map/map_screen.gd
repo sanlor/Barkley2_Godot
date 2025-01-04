@@ -5,7 +5,7 @@ extends CanvasLayer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var no_maps_lbl: Label = $ColorRect/no_maps_lbl
-@onready var map_name: Label = $ColorRect/map_name
+@onready var map_name: Label = $ColorRect/B2_Border/map_name
 
 @onready var prev_map: TextureButton = $ColorRect/prev_map
 @onready var next_map: TextureButton = $ColorRect/next_map

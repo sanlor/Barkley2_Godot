@@ -13,7 +13,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5any"]
 atlas = ExtResource("7_oq4l8")
-region = Rect2(0, 0, 384, 240)
+region = Rect2(4992, 0, 384, 240)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ayilk"]
 atlas = ExtResource("8_25toe")
@@ -336,45 +336,39 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_k33xd")
 
+[node name="note_itself" type="TextureRect" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_q5any")
+
 [node name="B2_Border" type="Control" parent="ColorRect"]
 material = ExtResource("3_gb7bn")
 anchors_preset = 0
 offset_left = -25.0
-offset_top = -25.0
+offset_top = -50.0
 offset_right = 409.0
-offset_bottom = 25.0
 theme = ExtResource("4_gxy4n")
 script = ExtResource("5_nsqon")
 border_size = Vector2(434, 50)
 
-[node name="note_name" type="Label" parent="ColorRect"]
+[node name="note_name" type="Label" parent="ColorRect/B2_Border"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -36.0
+offset_top = 25.0
 offset_right = 37.0
-offset_bottom = 16.0
+offset_bottom = 41.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("6_u7m22")
 text = "PLACEHOLDER"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="note_itself" type="TextureRect" parent="ColorRect"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -93.0
-offset_right = 160.0
-offset_bottom = 107.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_q5any")
 
 [node name="fade_effect" type="ColorRect" parent="ColorRect"]
 modulate = Color(1, 1, 1, 0)
@@ -391,8 +385,8 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = -30.0
 offset_top = -14.5
-offset_right = 30.0
 offset_bottom = 14.5
 grow_vertical = 2
 texture_normal = SubResource("AtlasTexture_ayilk")
@@ -407,8 +401,8 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -30.0
 offset_top = -14.5
+offset_right = 30.0
 offset_bottom = 14.5
 grow_horizontal = 0
 grow_vertical = 2
@@ -424,8 +418,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -50.0
-offset_top = -41.0
+offset_top = -1.0
 offset_right = 50.0
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 0
 texture_normal = SubResource("AtlasTexture_30sak")

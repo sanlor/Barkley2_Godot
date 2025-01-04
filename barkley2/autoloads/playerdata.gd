@@ -112,7 +112,8 @@ func _ready():
 	#B2_Playerdata.Quest("tutorialCollision", 	3)
 	#B2_Playerdata.Quest("jhodfreyTips", 		2)
 	#B2_Playerdata.Quest("gameStart", 			2)
-	#B2_Playerdata.Quest("factoryEggs", 			1)
+	#B2_Playerdata.Quest("factoryEggs", 		1)
+	preload_skip_tutorial_save_data()
 	
 func SaveGame():
 	print_rich("[color=blue]Save game requested. [/color]")
@@ -139,6 +140,21 @@ func Quest(key : String, value = null, default = 0):
 		
 func get_quest_state(key : String, default = null ):
 	return B2_Config.get_user_save_data( "quest.vars." + key, default )
+	
+# Similar to the Quest function on B2_PlayerData
+func Note(key : String, value = null, default = 0):
+	# if value is not found, return "default"
+	var questpath = "quest.notes." + key;
+	
+	if value == null:
+		var _key_value = B2_Config.get_user_save_data(questpath)
+		if _key_value == null:
+			return default
+		else:
+			return _key_value
+	else:
+		B2_Config.set_user_save_data(questpath, value)
+		return true
 	
 func preload_CC_save_data():
 	# related script = scr_player_newPlayerIdentity();
@@ -171,7 +187,12 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() );
 	
 	# Map
-	B2_Config.set_user_save_data("quest.maps", Dictionary() );
+	#B2_Config.set_user_save_data("quest.maps", Dictionary() );
+	B2_Config.set_user_save_data("quest.maps", Array() ); ## New method 02/01/25
+	
+	# Note
+	B2_Config.set_user_save_data("quest.notes", Array() ); ## New method 02/01/25
+	## ATTENTION may break compatibility with the original game´s save game.
 	
 	# Cyberspear
 	B2_Playerdata.Quest("cgremQuest", 0);
@@ -187,11 +208,11 @@ func preload_CC_save_data():
 	B2_Playerdata.Quest("playerNameFull", "X114JAM9"); # constant P_NAME_F
 	B2_Playerdata.Quest("playerNameShort", "X1"); # constant P_NAME_S
 	
-	#region Weird CC overwrites that I disabled - Sanlo 
 	#B2_Playerdata.Quest("playerGumballColor", floor(random(255))); # green is 80
 	#B2_Playerdata.Quest("playerBlueFace", 0);
 	#B2_Playerdata.Quest("playerBlueFaceName", "Becker");
-
+	
+#region Weird CC overwrites that I disabled - Sanlo 
 	# CC Bonus
 	#B2_Playerdata.Quest("playerCCBonus", 2); # Keeping for OLD stuff, will remove later
 

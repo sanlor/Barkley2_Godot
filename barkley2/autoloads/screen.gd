@@ -8,9 +8,10 @@ extends CanvasLayer
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
-const MAP_SCREEN = preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
-const PAUSE_SCREEN = preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
-const NOTIFY_ITEM = preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
+const MAP_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
+const PAUSE_SCREEN 	= preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
+const NOTE_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
+const NOTIFY_ITEM 	= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
 
 # Smoke Emitter
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
@@ -29,9 +30,11 @@ var pause_screen: CanvasLayer
 var can_pause := false # Cant pause during the title screens and certain parts.
 var is_paused := false
 
-
 var map_screen: CanvasLayer
 var is_map_open := false
+
+var note_screen: CanvasLayer
+var is_notes_open := false
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
@@ -136,11 +139,23 @@ func _process(_delta) -> void:
 		# Its only checking for cutscenes and pause screen.
 		if Input.is_action_just_pressed("Map"):
 			if (not is_paused or is_map_open) and is_instance_valid(B2_CManager.o_hoopz):
+				if is_notes_open: # check for others open screens.
+					return
+					
 				if is_map_open:
 					hide_map_screen()
 				else:
 					show_map_screen()
-			#elif is_map_open and is_instance_valid(B2_CManager.o_hoopz)
+					
+		if Input.is_action_just_pressed("Note"):
+			if (not is_paused or is_notes_open) and is_instance_valid(B2_CManager.o_hoopz):
+				if is_map_open: # check for others open screens.
+					return
+					
+				if is_notes_open:
+					hide_note_screen()
+				else:
+					show_note_screen()
 			
 
 func _notification(what: int) -> void:
@@ -178,6 +193,27 @@ func hide_map_screen() -> void:
 		await map_screen.hide_menu()
 		map_screen.queue_free()
 	is_map_open = false
+	get_tree().paused = false
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.show_hud()
+
+func show_note_screen() -> void:
+	is_notes_open = true
+	get_tree().paused = true
+	note_screen = NOTE_SCREEN.instantiate()
+	get_tree().current_scene.add_child( note_screen )
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.hide_hud()
+
+func hide_note_screen() -> void:
+	if is_instance_valid(note_screen): # Debug errors
+		await note_screen.hide_menu()
+		note_screen.queue_free()
+	is_notes_open = false
 	get_tree().paused = false
 	B2_Music.volume_menu()
 	

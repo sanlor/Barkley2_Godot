@@ -24,6 +24,7 @@ class_name B2_CinemaPlayer
 @export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
+@export var debug_note			:= true
 @export var print_comments		:= false
 @export var print_line_report 	:= false ## details about the current script line.
 
@@ -592,7 +593,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_event: 
 						print( "Executed EVENT: ", parsed_line )
 				"NOTE":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					if parsed_line[1].strip_edges() == "take": # as in, hoopz gains a new note.
+						B2_Note.take_note( Text.pr( parsed_line[2].strip_edges() ) )
+						if debug_note: print_rich("[color=yellow]Note %s received![/color]" % Text.pr( parsed_line[2].strip_edges() ))
+					else:
+						push_error("Unrecognized Note command: " + str(parsed_line) )
+					
 				"SHOP":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"LOCKPICK":

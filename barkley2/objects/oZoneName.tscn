@@ -1,6 +1,64 @@
-[gd_scene load_steps=2 format=3 uid="uid://drrk5kgs082sa"]
+[gd_scene load_steps=8 format=3 uid="uid://drrk5kgs082sa"]
 
 [ext_resource type="Script" path="res://barkley2/objects/oZoneName.gd" id="1_omx0u"]
+[ext_resource type="Texture2D" uid="uid://bprboehjquefi" path="res://barkley2/assets/b2_original/images/merged/s_effect_zonename_backdrop_mod2.png" id="2_a6vhq"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_f8epd"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="4_audlr"]
 
-[node name="oZoneName" type="RichTextLabel"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m4c1s"]
+content_margin_left = 32.0
+content_margin_right = 32.0
+texture = ExtResource("2_a6vhq")
+texture_margin_left = 32.0
+texture_margin_right = 32.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_ckn4j"]
+font = ExtResource("3_f8epd")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8m3rq"]
+font = ExtResource("4_audlr")
+
+[node name="oZoneName" type="CanvasLayer"]
 script = ExtResource("1_omx0u")
+
+[node name="zone_name" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="zone_container" type="PanelContainer" parent="zone_name"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.5
+offset_top = 16.0
+offset_right = 61.5
+offset_bottom = 36.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_m4c1s")
+
+[node name="zone_label" type="Label" parent="zone_name/zone_container"]
+layout_mode = 2
+text = "Undefined"
+label_settings = SubResource("LabelSettings_ckn4j")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="flavor_label" type="Label" parent="zone_name"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -29.0
+offset_top = 39.0
+offset_right = 29.0
+offset_bottom = 48.0
+grow_horizontal = 2
+text = "Undefined"
+label_settings = SubResource("LabelSettings_8m3rq")
+horizontal_alignment = 1
+vertical_alignment = 1
