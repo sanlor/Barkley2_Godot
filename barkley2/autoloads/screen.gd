@@ -8,10 +8,11 @@ extends CanvasLayer
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
-const MAP_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
-const PAUSE_SCREEN 	= preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
-const NOTE_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
-const NOTIFY_ITEM 	= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
+const MAP_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
+const PAUSE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
+const QUICK_MENU_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.tscn")
+const NOTE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
+const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
 
 # Smoke Emitter
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
@@ -35,6 +36,9 @@ var is_map_open := false
 
 var note_screen: CanvasLayer
 var is_notes_open := false
+
+var quickmenu_screen: CanvasLayer
+var is_quickmenu_open := false
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
@@ -141,6 +145,8 @@ func _process(_delta) -> void:
 			if (not is_paused or is_map_open) and is_instance_valid(B2_CManager.o_hoopz):
 				if is_notes_open: # check for others open screens.
 					return
+				if is_quickmenu_open:
+					return
 					
 				if is_map_open:
 					hide_map_screen()
@@ -151,12 +157,26 @@ func _process(_delta) -> void:
 			if (not is_paused or is_notes_open) and is_instance_valid(B2_CManager.o_hoopz):
 				if is_map_open: # check for others open screens.
 					return
+				if is_quickmenu_open:
+					return
 					
 				if is_notes_open:
 					hide_note_screen()
 				else:
 					show_note_screen()
-			
+					
+		if Input.is_action_just_pressed("Quickmenu"):
+			if (not is_paused or is_quickmenu_open) and is_instance_valid(B2_CManager.o_hoopz):
+				if is_map_open: # check for others open screens.
+					return
+					
+				if is_notes_open: # check for others open screens.
+					return
+				
+				if is_quickmenu_open:
+					hide_quickmenu_screen()
+				else:
+					show_quickmenu_screen()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
@@ -178,6 +198,7 @@ func hide_pause_menu() -> void:
 	B2_Sound.play_pick("pausemenu_click")
 	B2_Music.volume_menu()
 
+## Map
 func show_map_screen() -> void:
 	is_map_open = true
 	get_tree().paused = true
@@ -199,6 +220,7 @@ func hide_map_screen() -> void:
 	if is_instance_valid(B2_CManager.o_hud):
 		B2_CManager.o_hud.show_hud()
 
+## Note
 func show_note_screen() -> void:
 	is_notes_open = true
 	get_tree().paused = true
@@ -214,6 +236,28 @@ func hide_note_screen() -> void:
 		await note_screen.hide_menu()
 		note_screen.queue_free()
 	is_notes_open = false
+	get_tree().paused = false
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.show_hud()
+
+## Quick Menu
+func show_quickmenu_screen() -> void:
+	is_quickmenu_open = true
+	get_tree().paused = true
+	quickmenu_screen = QUICK_MENU_SCREEN.instantiate()
+	get_tree().current_scene.add_child( quickmenu_screen )
+	B2_Music.volume_menu()
+	
+	if is_instance_valid(B2_CManager.o_hud):
+		B2_CManager.o_hud.hide_hud()
+
+func hide_quickmenu_screen() -> void:
+	if is_instance_valid(quickmenu_screen): # Debug errors
+		await quickmenu_screen.hide_menu()
+		quickmenu_screen.queue_free()
+	is_quickmenu_open = false
 	get_tree().paused = false
 	B2_Music.volume_menu()
 	

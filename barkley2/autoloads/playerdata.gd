@@ -1,6 +1,7 @@
 extends Node
 
 signal quest_updated
+signal stat_updated
 
 ## CC Data
 var paxEnable = 0;
@@ -140,6 +141,30 @@ func Quest(key : String, value = null, default = 0):
 		
 func get_quest_state(key : String, default = null ):
 	return B2_Config.get_user_save_data( "quest.vars." + key, default )
+	
+func Stat(stat_name : String, value = null, default = 0):
+	# if value is not found, return "default"
+	var statpath = "player.stats.base." + stat_name
+	
+	if value == null:
+		var _key_value = B2_Config.get_user_save_data(statpath)
+		if _key_value == null:
+			return default
+		elif _key_value is Dictionary:
+			if _key_value.is_empty():
+				# when checking the player stats, you should only get int or floats.
+				# Dictionaries means that the stat was never set. in this case, dicts should always be empty.
+				return default
+			else:
+				# filled dicts means something went wrong. 
+				breakpoint
+				return default
+		else:
+			return _key_value
+	else:
+		B2_Config.set_user_save_data(statpath, value)
+		stat_updated.emit()
+		return true
 	
 # Similar to the Quest function on B2_PlayerData
 func Note(key : String, value = null, default = 0):

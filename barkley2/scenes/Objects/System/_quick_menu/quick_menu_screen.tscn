@@ -1,0 +1,361 @@
+[gd_scene load_steps=19 format=3 uid="uid://bnqqx8su00j5n"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.gd" id="1_fo3ge"]
+[ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="2_lks4j"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="3_e6o4j"]
+[ext_resource type="Theme" uid="uid://dkwuwqdkr71gg" path="res://barkley2/themes/quick_menu.tres" id="3_fe2b4"]
+[ext_resource type="Script" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="4_qnu63"]
+[ext_resource type="Texture2D" uid="uid://bqy0eyqeqk1f6" path="res://barkley2/assets/b2_original/images/merged/s_qm_shiftBox01.png" id="5_ms4ei"]
+[ext_resource type="Texture2D" uid="uid://clpi1f8jwmsh8" path="res://barkley2/assets/b2_original/images/merged/s_qm_shiftKnob01.png" id="6_hxh1k"]
+[ext_resource type="Texture2D" uid="uid://5gsghtba1b41" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityDefense.png" id="7_ykfjv"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="8_rtpek"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="9_ye4pm"]
+[ext_resource type="FontFile" uid="uid://b42pdqd1v148m" path="res://barkley2/resources/fonts/fn_7oc.tres" id="10_kk6xx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e1rp4"]
+font = ExtResource("8_rtpek")
+
+[sub_resource type="LabelSettings" id="LabelSettings_nwpea"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r8ydr"]
+font = ExtResource("10_kk6xx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_dpvv8"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_df2y3"]
+font = ExtResource("10_kk6xx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_g04v0"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_euab8"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 1, 0, 1)
+
+[node name="quick_menu_screen" type="CanvasLayer"]
+script = ExtResource("1_fo3ge")
+
+[node name="right" type="Control" parent="."]
+material = ExtResource("2_lks4j")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 318.0
+offset_top = 53.0
+offset_right = 394.0
+offset_bottom = 213.0
+theme = ExtResource("3_e6o4j")
+script = ExtResource("4_qnu63")
+border_size = Vector2(76, 160)
+
+[node name="shift_box" type="TextureRect" parent="right"]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 15.0
+offset_right = 63.0
+offset_bottom = 40.0
+texture = ExtResource("5_ms4ei")
+
+[node name="shift_knob" type="TextureRect" parent="right/shift_box"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 8.0
+offset_right = 5.0
+offset_bottom = 19.0
+texture = ExtResource("6_hxh1k")
+
+[node name="defense" type="TextureRect" parent="right"]
+modulate = Color(1, 1, 1, 0.8)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 46.0
+texture = ExtResource("7_ykfjv")
+
+[node name="defense_stat" type="Label" parent="right/defense"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -10.0
+offset_right = 4.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_e1rp4")
+
+[node name="glamp" type="Control" parent="right"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="G_title" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 104.0
+offset_right = 20.0
+offset_bottom = 112.0
+text = "G"
+label_settings = SubResource("LabelSettings_nwpea")
+
+[node name="L_title" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 104.0
+offset_right = 40.0
+offset_bottom = 112.0
+text = "L"
+label_settings = SubResource("LabelSettings_nwpea")
+
+[node name="A_title" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 104.0
+offset_right = 61.0
+offset_bottom = 112.0
+text = "A"
+label_settings = SubResource("LabelSettings_nwpea")
+
+[node name="M_title" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 123.0
+offset_right = 30.0
+offset_bottom = 131.0
+text = "M"
+label_settings = SubResource("LabelSettings_nwpea")
+
+[node name="P_title" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 123.0
+offset_right = 52.0
+offset_bottom = 131.0
+text = "P"
+label_settings = SubResource("LabelSettings_nwpea")
+
+[node name="G_stat" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 112.0
+offset_right = 25.0
+offset_bottom = 122.0
+text = "0"
+label_settings = SubResource("LabelSettings_r8ydr")
+horizontal_alignment = 1
+
+[node name="L_stat" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 112.0
+offset_right = 46.0
+offset_bottom = 122.0
+text = "0"
+label_settings = SubResource("LabelSettings_r8ydr")
+horizontal_alignment = 1
+
+[node name="A_stat" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 112.0
+offset_right = 67.0
+offset_bottom = 122.0
+text = "0"
+label_settings = SubResource("LabelSettings_r8ydr")
+horizontal_alignment = 1
+
+[node name="M_stat" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 131.0
+offset_right = 34.0
+offset_bottom = 141.0
+text = "0"
+label_settings = SubResource("LabelSettings_r8ydr")
+horizontal_alignment = 1
+
+[node name="P_stat" type="Label" parent="right/glamp"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 131.0
+offset_right = 58.0
+offset_bottom = 141.0
+text = "0"
+label_settings = SubResource("LabelSettings_r8ydr")
+horizontal_alignment = 1
+
+[node name="lvl_title" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 48.0
+offset_right = 23.0
+offset_bottom = 58.0
+text = "LVL:"
+label_settings = SubResource("LabelSettings_dpvv8")
+
+[node name="hp_title" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 48.0
+offset_right = 51.0
+offset_bottom = 58.0
+text = "HP:"
+label_settings = SubResource("LabelSettings_dpvv8")
+
+[node name="lvl_stat" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 48.0
+offset_right = 38.0
+offset_bottom = 58.0
+text = "0"
+label_settings = SubResource("LabelSettings_df2y3")
+
+[node name="hp_stat" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 48.0
+offset_right = 64.0
+offset_bottom = 58.0
+text = "0"
+label_settings = SubResource("LabelSettings_df2y3")
+
+[node name="weight_title" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 154.0
+offset_top = 35.0
+offset_right = 168.0
+offset_bottom = 45.0
+text = "W:"
+label_settings = SubResource("LabelSettings_dpvv8")
+
+[node name="weight_stat" type="Label" parent="right"]
+layout_mode = 0
+offset_left = 164.0
+offset_top = 35.0
+offset_right = 178.0
+offset_bottom = 45.0
+text = "0"
+label_settings = SubResource("LabelSettings_df2y3")
+
+[node name="status_effects" type="Control" parent="right"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="malaises_title" type="Label" parent="right/status_effects"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 69.0
+text = "Malaises:"
+label_settings = SubResource("LabelSettings_g04v0")
+
+[node name="malaises_none" type="Label" parent="right/status_effects"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 60.0
+offset_right = 86.0
+offset_bottom = 69.0
+text = "N/A"
+label_settings = SubResource("LabelSettings_euab8")
+
+[node name="curse_status" type="Label" parent="right"]
+offset_left = 10.0
+offset_top = 93.0
+offset_right = 42.0
+offset_bottom = 103.0
+text = "Uncursed"
+label_settings = SubResource("LabelSettings_dpvv8")
+
+[node name="top" type="Control" parent="."]
+material = ExtResource("2_lks4j")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 96.0
+offset_right = 384.0
+offset_bottom = 60.0
+theme = ExtResource("3_e6o4j")
+script = ExtResource("4_qnu63")
+border_size = Vector2(288, 60)
+
+[node name="zauber_bg" type="ColorRect" parent="top"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 12.0
+offset_right = 271.0
+offset_bottom = 50.0
+theme = ExtResource("3_fe2b4")
+color = Color(0, 0, 0, 1)
+
+[node name="maps_btn" type="Button" parent="top"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 11.0
+offset_right = 53.0
+offset_bottom = 29.0
+theme = ExtResource("3_fe2b4")
+text = "MAPS
+"
+alignment = 0
+
+[node name="notes_btn" type="Button" parent="top"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 11.0
+offset_right = 95.0
+offset_bottom = 29.0
+theme = ExtResource("3_fe2b4")
+text = "NOTES
+"
+alignment = 2
+
+[node name="chat_btn" type="Button" parent="top"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 31.0
+offset_right = 53.0
+offset_bottom = 49.0
+theme = ExtResource("3_fe2b4")
+disabled = true
+text = "CHAT"
+alignment = 0
+
+[node name="items_btn" type="Button" parent="top"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 31.0
+offset_right = 95.0
+offset_bottom = 49.0
+theme = ExtResource("3_fe2b4")
+text = "ITEMS
+"
+alignment = 2
+
+[node name="o_btn" type="Button" parent="top"]
+process_mode = 3
+layout_mode = 0
+offset_left = 41.0
+offset_top = 17.0
+offset_right = 66.0
+offset_bottom = 42.0
+theme = ExtResource("3_fe2b4")
+text = "(o)"
+
+[connection signal="pressed" from="top/maps_btn" to="." method="_on_maps_btn_pressed"]
+[connection signal="pressed" from="top/notes_btn" to="." method="_on_notes_btn_pressed"]
+[connection signal="pressed" from="top/chat_btn" to="." method="_on_chat_btn_pressed"]
+[connection signal="pressed" from="top/items_btn" to="." method="_on_items_btn_pressed"]
+[connection signal="pressed" from="top/o_btn" to="." method="_on_o_btn_pressed"]

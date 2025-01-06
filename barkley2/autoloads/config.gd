@@ -145,6 +145,9 @@ func get_user_save_data( path : String, default = null ): ## return null if its 
 			loops += 1
 			if loops == path_array.size():
 				return temp_dict[i]
+				
+			elif temp_dict[i] is not Dictionary:
+				return temp_dict[i]
 			else:
 				temp_dict = temp_dict[i]
 		else:
