@@ -96,7 +96,7 @@ func _ready() -> void:
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
-	border_node.bg_opacity = 0.5
+	border_node.bg_opacity = 0.85
 	border_node.set_seed( get_tree().root.get_child(0).name )
 	
 	add_child( border_node )

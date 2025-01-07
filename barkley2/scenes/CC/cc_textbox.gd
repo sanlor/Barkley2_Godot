@@ -61,7 +61,7 @@ func _ready():
 	#default_type_timer.wait_time = textbox_pause
 	_init_textbox()
 	
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if 	Input.is_action_just_pressed("Action"):
 			curr_typing_speed = fast_typing

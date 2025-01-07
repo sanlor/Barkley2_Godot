@@ -134,7 +134,7 @@ func _after_ready() -> void:
 		var zone := O_ZONE_NAME.instantiate()
 		zone.zone_data( name )
 		if not override_zone_name.is_empty():
-			zone.zone_name = override_zone_name
+			zone.zone = override_zone_name
 		if not override_zone_flavor.is_empty():
 			zone.flavor = override_zone_flavor
 			

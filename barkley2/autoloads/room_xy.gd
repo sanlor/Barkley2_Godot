@@ -133,9 +133,10 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	this_room_x 	= room_x
 	this_room_y 	= room_y
 	
-	B2_Config.set_user_save_data("map.room", this_room)
-	B2_Config.set_user_save_data("map.x", this_room_x);
-	B2_Config.set_user_save_data("map.y", this_room_y);
+	if B2_Playerdata.Quest("saveDisabled") == 0:
+		B2_Config.set_user_save_data("map.room", this_room)
+		B2_Config.set_user_save_data("map.x", this_room_x);
+		B2_Config.set_user_save_data("map.y", this_room_y);
 	
 	# Save game during room transition
 	if B2_Playerdata.Quest("saveDisabled") == 0:

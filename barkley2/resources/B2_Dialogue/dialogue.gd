@@ -119,7 +119,7 @@ func _ready() -> void:
 	
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
-	border_node.bg_opacity = 0.5
+	border_node.bg_opacity = 0.85
 	border_node.set_seed( get_tree().root.get_child(0).name ) # This ensures that the border is random, but doesnt change all the time.
 	
 	# Identify this diag box
@@ -196,9 +196,9 @@ func display_dialog( _is_boxless := false ):
 	
 	text_node.name 				= "Text"
 	text_node.position 			= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
-	text_node.size 				= Vector2( 250, 11 * 4)
+	text_node.size 				= Vector2( 264, 11 * 4)
 	if not has_portrait: 
-		text_node.size.x += 70 # compensate for the aditional space not being used by the portrait.
+		text_node.size.x += 64 # compensate for the aditional space not being used by the portrait.
 	text_node.get_v_scroll_bar().custom_step = 11 # avoid partial scroll
 	
 	text_node.set_text( Text.pr( _my_text ) )

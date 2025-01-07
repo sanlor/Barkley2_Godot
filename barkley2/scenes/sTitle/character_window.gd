@@ -82,12 +82,14 @@ func _on_return_button_button_pressed():
 func _on_cc_button_button_pressed(): ## Open the CC. Good luck
 	#show_notice()
 	_disable_buttons()
+	B2_Playerdata.Quest("saveDisabled", 1)
 	load_new_room( "r_cc" )
 	
 func _on_x_1_button_button_pressed():
 	_disable_buttons()
 	B2_Playerdata.preload_CC_save_data() 		# load some default data
 	B2_Playerdata.preload_tutorial_save_data() 	# Add some other data
+	B2_Playerdata.Quest("saveDisabled", 1)
 	load_new_room( "r_fct_eggRooms01" ) 		# Default opening room. 
 
 # THis behaves differently from the actual game. It plays the Wilmer cutscene and everything.

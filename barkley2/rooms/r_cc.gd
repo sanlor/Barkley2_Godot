@@ -49,7 +49,7 @@ const CC_NAME 				= preload("res://barkley2/scenes/CC/cc_name.tscn")
 const CC_TAROT 				= preload("res://barkley2/scenes/CC/cc_tarot.tscn")
 const CC_ZODIAC 			= preload("res://barkley2/scenes/CC/cc_zodiac.tscn")
 const CC_PLACENTA 			= preload("res://barkley2/scenes/CC/cc_placenta.tscn")
-const CC_DEATH = preload("res://barkley2/scenes/CC/cc_death.tscn")
+const CC_DEATH 				= preload("res://barkley2/scenes/CC/cc_death.tscn")
 
 var cc_name
 var cc_zodiac
@@ -468,7 +468,7 @@ func wiz_alignment_questions():
 		
 		# you chose strongly agree on option 12
 		if death:
-			# stupid options, rarely seem by anione. took me about 1 hour to port with minimal effort.
+			# stupid options, rarely seem by anyone. took me about 1 hour to port with minimal effort.
 			var death_scene = CC_DEATH.instantiate()
 			add_child(death_scene)
 			await death_scene.stopped_smoke
