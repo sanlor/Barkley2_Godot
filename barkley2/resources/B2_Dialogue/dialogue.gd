@@ -238,7 +238,12 @@ func display_dialog( _is_boxless := false ):
 ## Manually add the character portraits and setup the AnimatedSprite2D
 func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
-	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
+	var spritesheet : Texture2D
+	if not file_name.is_valid_filename():
+		push_warning("Weird, filename %s doesnt seem valid. Truing to fix it... %s" % [file_name, portrait_name] )
+		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name + ".png")
+	else:
+		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
 	
 	#assert( not file_name.is_empty(), "File could not be found." )
 	if file_name.is_empty():

@@ -8,7 +8,7 @@ var is_hovering := false
 
 @export var value_color := Color.ORANGE
 @export var pick_color := Color.ORANGE
-@export var value_transparency := 0.25
+@export var value_transparency := 0.15
 @export var pick_transparency := 0.25
 
 @export var linked_label : Label
@@ -44,4 +44,4 @@ func _draw():
 	if is_hovering:
 		draw_texture_rect(S_1X_1, Rect2(Vector2.ZERO, size), false, Color( 1, 1, 1, value_transparency ) )
 		
-	draw_string( FN2, (size / 2) - Vector2(5,5), str(value), HORIZONTAL_ALIGNMENT_CENTER, -1, 12 ,value_color )
+	draw_string( FN2, (size / 2) - Vector2(5,5), str(value), HORIZONTAL_ALIGNMENT_CENTER, -1, 16 ,value_color )

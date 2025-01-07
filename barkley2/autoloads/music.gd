@@ -205,7 +205,7 @@ func stop( speed := 0.25 ):
 	audio_stream_player.stop()
 
 #else if (argument[0] == "queue")
-func queue( track_name : String, speed := 1.0 ): ## track name should exist in the Music Bank dict.
+func queue( track_name : String, speed := 0.25 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
 		track_name = music_folder + "mus_blankTEMP.ogg"

@@ -300,13 +300,13 @@ func _ready() -> void:
 func _load_portrait_data():
 	var time := Time.get_ticks_msec()
 	for file : String in DirAccess.get_files_at( PORTRAIT_PATH ):
-		if file.find(".import"): ## Godot stuff.
+		if file.ends_with(".png.import"): ## Godot stuff.
 			#if file.find("_strip"): ## had an issue with this file: res://barkley2/assets/b2_original/portraits/s_port_doris.png
 			if file.begins_with("s_port_"):
 				if file.count("_") > 2:
 					portrait_map[ file.rsplit("_", false, 1)[ 0 ] ] = file.trim_suffix(".import")
 				else:
-					portrait_map[ file.trim_suffix(".png") ] = file.trim_suffix(".import")
+					portrait_map[ file.trim_suffix(".import").trim_suffix(".png") ] = file.trim_suffix(".import")
 	print("_load_portrait_data() - Added " + str( portrait_map.size() ) + " portraits in %s msecs." % str( Time.get_ticks_msec() - time ) )
 
 # get currents hoopz portrait.
