@@ -34,6 +34,7 @@ func _ready():
 	# Weird behaviour!
 	## https://www.reddit.com/r/godot/comments/15lpudk/can_you_configure_draw_to_still_draw_outside_the/
 	custom_minimum_size = Vector2(3000,3000)
+	mouse_filter = MOUSE_FILTER_PASS
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()

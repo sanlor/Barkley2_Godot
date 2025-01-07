@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://bnqqx8su00j5n"]
+[gd_scene load_steps=39 format=3 uid="uid://bnqqx8su00j5n"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.gd" id="1_fo3ge"]
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="2_lks4j"]
 [ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="3_e6o4j"]
 [ext_resource type="Theme" uid="uid://dkwuwqdkr71gg" path="res://barkley2/themes/quick_menu.tres" id="3_fe2b4"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/right_menu.gd" id="4_o1yaq"]
 [ext_resource type="Script" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="4_qnu63"]
 [ext_resource type="Texture2D" uid="uid://bqy0eyqeqk1f6" path="res://barkley2/assets/b2_original/images/merged/s_qm_shiftBox01.png" id="5_ms4ei"]
 [ext_resource type="Texture2D" uid="uid://clpi1f8jwmsh8" path="res://barkley2/assets/b2_original/images/merged/s_qm_shiftKnob01.png" id="6_hxh1k"]
@@ -11,6 +12,15 @@
 [ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="8_rtpek"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="9_ye4pm"]
 [ext_resource type="FontFile" uid="uid://b42pdqd1v148m" path="res://barkley2/resources/fonts/fn_7oc.tres" id="10_kk6xx"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/top_menu.gd" id="11_n4h4b"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="12_0nl75"]
+[ext_resource type="PackedScene" uid="uid://duwlsjo3tu4c2" path="res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn" id="12_fbeky"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/gun_name_panel.gd" id="13_8ytdx"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/bottom_menu.gd" id="17_bvsod"]
+[ext_resource type="PackedScene" uid="uid://bo04o61ye6eoj" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.tscn" id="17_ivtn4"]
+[ext_resource type="Theme" uid="uid://cvnflmin076mi" path="res://barkley2/themes/quick_menu2.tres" id="19_akkoy"]
+[ext_resource type="PackedScene" uid="uid://brqnr3bux18p8" path="res://barkley2/scenes/Objects/System/_quick_menu/item_btn.tscn" id="19_aypwd"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/inventory_menu.gd" id="19_liqwy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_e1rp4"]
 font = ExtResource("8_rtpek")
@@ -37,19 +47,60 @@ font_color = Color(1, 0.647059, 0, 1)
 font = ExtResource("9_ye4pm")
 font_color = Color(1, 1, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_bwuhn"]
+font = ExtResource("9_ye4pm")
+
+[sub_resource type="LabelSettings" id="LabelSettings_thi4e"]
+font = ExtResource("12_0nl75")
+
+[sub_resource type="LabelSettings" id="LabelSettings_nk60y"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4htu"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ye3cf"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yiw8"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_2n3iv"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_r76t5"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_ifr38"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_indml"]
+font = ExtResource("9_ye4pm")
+font_color = Color(1, 0.647059, 0, 1)
+
 [node name="quick_menu_screen" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_fo3ge")
 
 [node name="right" type="Control" parent="."]
 material = ExtResource("2_lks4j")
 layout_mode = 3
 anchors_preset = 0
-offset_left = 318.0
+offset_left = 317.0
 offset_top = 53.0
-offset_right = 394.0
+offset_right = 393.0
 offset_bottom = 213.0
 theme = ExtResource("3_e6o4j")
-script = ExtResource("4_qnu63")
+script = ExtResource("4_o1yaq")
 border_size = Vector2(76, 160)
 
 [node name="shift_box" type="TextureRect" parent="right"]
@@ -273,6 +324,7 @@ text = "N/A"
 label_settings = SubResource("LabelSettings_euab8")
 
 [node name="curse_status" type="Label" parent="right"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 93.0
 offset_right = 42.0
@@ -288,7 +340,7 @@ offset_left = 96.0
 offset_right = 384.0
 offset_bottom = 60.0
 theme = ExtResource("3_e6o4j")
-script = ExtResource("4_qnu63")
+script = ExtResource("11_n4h4b")
 border_size = Vector2(288, 60)
 
 [node name="zauber_bg" type="ColorRect" parent="top"]
@@ -307,9 +359,23 @@ offset_top = 11.0
 offset_right = 53.0
 offset_bottom = 29.0
 theme = ExtResource("3_fe2b4")
-text = "MAPS
-"
 alignment = 0
+
+[node name="maps_lbl" type="Label" parent="top/maps_btn"]
+modulate = Color(1, 0.647059, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "MAPS"
+label_settings = SubResource("LabelSettings_bwuhn")
 
 [node name="notes_btn" type="Button" parent="top"]
 layout_mode = 0
@@ -318,9 +384,25 @@ offset_top = 11.0
 offset_right = 95.0
 offset_bottom = 29.0
 theme = ExtResource("3_fe2b4")
+alignment = 2
+
+[node name="notes_lbl" type="Label" parent="top/notes_btn"]
+modulate = Color(1, 0.647059, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 17.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "NOTES
 "
-alignment = 2
+label_settings = SubResource("LabelSettings_bwuhn")
 
 [node name="chat_btn" type="Button" parent="top"]
 layout_mode = 0
@@ -329,9 +411,23 @@ offset_top = 31.0
 offset_right = 53.0
 offset_bottom = 49.0
 theme = ExtResource("3_fe2b4")
-disabled = true
-text = "CHAT"
 alignment = 0
+
+[node name="chat_lbl" type="Label" parent="top/chat_btn"]
+modulate = Color(1, 0.647059, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CHAT"
+label_settings = SubResource("LabelSettings_bwuhn")
 
 [node name="items_btn" type="Button" parent="top"]
 layout_mode = 0
@@ -340,9 +436,24 @@ offset_top = 31.0
 offset_right = 95.0
 offset_bottom = 49.0
 theme = ExtResource("3_fe2b4")
-text = "ITEMS
-"
 alignment = 2
+
+[node name="items_lbl" type="Label" parent="top/items_btn"]
+modulate = Color(1, 0.647059, 0, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.5
+offset_top = -4.0
+offset_right = 16.5
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ITEMS"
+label_settings = SubResource("LabelSettings_bwuhn")
 
 [node name="o_btn" type="Button" parent="top"]
 process_mode = 3
@@ -352,10 +463,267 @@ offset_top = 17.0
 offset_right = 66.0
 offset_bottom = 42.0
 theme = ExtResource("3_fe2b4")
-text = "(o)"
+
+[node name="o_lbl" type="Label" parent="top/o_btn"]
+modulate = Color(1, 0.647059, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "(O)"
+label_settings = SubResource("LabelSettings_bwuhn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gun_name_panel" type="Control" parent="."]
+z_index = 10
+material = ExtResource("2_lks4j")
+layout_mode = 3
+anchors_preset = 0
+offset_left = -100.0
+offset_top = 162.0
+offset_right = 100.0
+offset_bottom = 202.0
+mouse_filter = 2
+theme = ExtResource("3_e6o4j")
+script = ExtResource("4_qnu63")
+border_size = Vector2(200, 40)
+
+[node name="curr_gun_name" type="Label" parent="gun_name_panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -4.5
+offset_right = 22.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_thi4e")
+
+[node name="left" type="Control" parent="." node_paths=PackedStringArray("gun_name_panel")]
+material = ExtResource("2_lks4j")
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -11.0
+offset_top = -11.0
+offset_right = 100.0
+offset_bottom = 202.0
+theme = ExtResource("3_e6o4j")
+script = ExtResource("13_8ytdx")
+gun_name_panel = NodePath("../gun_name_panel")
+border_size = Vector2(111, 213)
+
+[node name="ammo_title" type="Label" parent="left"]
+z_index = 10
+layout_mode = 0
+offset_left = 64.0
+offset_top = 14.0
+offset_right = 84.0
+offset_bottom = 24.0
+mouse_filter = 1
+text = "AMMO"
+label_settings = SubResource("LabelSettings_nk60y")
+
+[node name="wgt_title" type="Label" parent="left"]
+z_index = 10
+layout_mode = 0
+offset_left = 87.0
+offset_top = 14.0
+offset_right = 107.0
+offset_bottom = 24.0
+mouse_filter = 1
+text = "WGT
+"
+label_settings = SubResource("LabelSettings_nk60y")
+
+[node name="gun_bag" type="Control" parent="left"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+
+[node name="gunbag_title" type="Label" parent="left/gun_bag"]
+z_index = 10
+layout_mode = 0
+offset_left = 19.0
+offset_top = 124.0
+offset_right = 56.0
+offset_bottom = 134.0
+mouse_filter = 1
+text = "GUN'S BAG:"
+label_settings = SubResource("LabelSettings_x4htu")
+
+[node name="gunbag_bg" type="ColorRect" parent="left/gun_bag"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 136.0
+offset_right = 94.0
+offset_bottom = 168.0
+mouse_filter = 1
+color = Color(0, 0, 0, 1)
+
+[node name="gun_list" type="VBoxContainer" parent="left"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 23.0
+offset_right = 104.0
+offset_bottom = 63.0
+theme_override_constants/separation = -1
+
+[node name="gun_btn" parent="left/gun_list" instance=ExtResource("12_fbeky")]
+layout_mode = 2
+mouse_filter = 1
+button_pressed = true
+
+[node name="gun_btn2" parent="left/gun_list" instance=ExtResource("12_fbeky")]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="gun_btn3" parent="left/gun_list" instance=ExtResource("12_fbeky")]
+layout_mode = 2
+mouse_filter = 1
+
+[node name="bottom" type="Control" parent="."]
+visible = false
+material = ExtResource("2_lks4j")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 96.0
+offset_top = 140.0
+offset_right = 318.0
+offset_bottom = 200.0
+theme = ExtResource("3_e6o4j")
+script = ExtResource("17_bvsod")
+border_size = Vector2(222, 60)
+
+[node name="bg" type="Panel" parent="bottom"]
+custom_minimum_size = Vector2(185, 34)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.5
+offset_top = -17.0
+offset_right = 92.5
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ye3cf")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="bottom/bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="pocket_0" parent="bottom/bg/HBoxContainer" instance=ExtResource("17_ivtn4")]
+layout_mode = 2
+
+[node name="pocket_1" parent="bottom/bg/HBoxContainer" instance=ExtResource("17_ivtn4")]
+layout_mode = 2
+
+[node name="pocket_2" parent="bottom/bg/HBoxContainer" instance=ExtResource("17_ivtn4")]
+layout_mode = 2
+
+[node name="pocket_3" parent="bottom/bg/HBoxContainer" instance=ExtResource("17_ivtn4")]
+layout_mode = 2
+
+[node name="inventory" type="Control" parent="."]
+material = ExtResource("2_lks4j")
+layout_mode = 3
+anchors_preset = 0
+offset_right = 384.0
+offset_bottom = 210.0
+theme = ExtResource("3_e6o4j")
+script = ExtResource("19_liqwy")
+border_size = Vector2(384, 210)
+
+[node name="item_list_panel" type="Panel" parent="inventory"]
+custom_minimum_size = Vector2(280, 164)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 292.0
+offset_bottom = 178.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yiw8")
+
+[node name="item_list" type="VBoxContainer" parent="inventory/item_list_panel"]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 18.0
+theme_override_constants/separation = -1
+
+[node name="item_btn" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_2n3iv")
+
+[node name="item_btn2" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_r76t5")
+
+[node name="item_btn3" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+layout_mode = 2
+button_group = SubResource("ButtonGroup_ifr38")
+
+[node name="close_btn" type="Button" parent="inventory"]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 165.0
+offset_right = 368.0
+offset_bottom = 193.0
+theme = ExtResource("19_akkoy")
+text = "CLOSE"
+
+[node name="pg_up_btn" type="Button" parent="inventory"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 15.0
+offset_right = 314.0
+offset_bottom = 35.0
+theme = ExtResource("19_akkoy")
+text = "/\\"
+
+[node name="pg_dn_btn" type="Button" parent="inventory"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 157.0
+offset_right = 317.0
+offset_bottom = 177.0
+theme = ExtResource("19_akkoy")
+text = "\\/"
+
+[node name="page_count" type="Label" parent="inventory"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 85.0
+offset_right = 314.0
+offset_bottom = 105.0
+text = "1/1"
+label_settings = SubResource("LabelSettings_indml")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="top/maps_btn" to="." method="_on_maps_btn_pressed"]
 [connection signal="pressed" from="top/notes_btn" to="." method="_on_notes_btn_pressed"]
 [connection signal="pressed" from="top/chat_btn" to="." method="_on_chat_btn_pressed"]
 [connection signal="pressed" from="top/items_btn" to="." method="_on_items_btn_pressed"]
 [connection signal="pressed" from="top/o_btn" to="." method="_on_o_btn_pressed"]
+[connection signal="mouse_entered" from="gun_name_panel" to="gun_name_panel" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="gun_name_panel" to="gun_name_panel" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="left" to="left" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="left" to="left" method="_on_mouse_exited"]
+[connection signal="pressed" from="inventory/close_btn" to="inventory" method="_on_close_btn_pressed"]

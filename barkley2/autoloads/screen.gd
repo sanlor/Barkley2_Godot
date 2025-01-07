@@ -250,19 +250,19 @@ func show_quickmenu_screen() -> void:
 	get_tree().current_scene.add_child( quickmenu_screen )
 	B2_Music.volume_menu()
 	
-	if is_instance_valid(B2_CManager.o_hud):
-		B2_CManager.o_hud.hide_hud()
+	#if is_instance_valid(B2_CManager.o_hud):
+	#	B2_CManager.o_hud.hide_hud()
 
-func hide_quickmenu_screen() -> void:
+func hide_quickmenu_screen( unpause := false ) -> void:
 	if is_instance_valid(quickmenu_screen): # Debug errors
 		await quickmenu_screen.hide_menu()
 		quickmenu_screen.queue_free()
 	is_quickmenu_open = false
-	get_tree().paused = false
+	get_tree().paused = unpause
 	B2_Music.volume_menu()
 	
-	if is_instance_valid(B2_CManager.o_hud):
-		B2_CManager.o_hud.show_hud()
+	#if is_instance_valid(B2_CManager.o_hud):
+	#	B2_CManager.o_hud.show_hud()
 
 func return_to_title():
 	get_tree().change_scene_to_file( title_screen_file )

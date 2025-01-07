@@ -57,6 +57,10 @@ func _ready():
 	if is_invisible:
 		self_modulate.a = 0.0
 		b_2_panel_fg.self_modulate.a = 0.0
+	_post_ready()
+	
+func _post_ready() -> void:
+	pass
 
 # Decorations are children that this node can control, change color and such
 func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered

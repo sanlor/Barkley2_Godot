@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo04o61ye6eoj"]
+
+[ext_resource type="StyleBox" uid="uid://c3ed2b6sjtglo" path="res://barkley2/themes/quick_menu_candy.tres" id="1_k2jv2"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.gd" id="2_nhnuo"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="3_0rf3o"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pnum8"]
+font = ExtResource("3_0rf3o")
+
+[node name="pocket_0" type="Panel"]
+custom_minimum_size = Vector2(21, 34)
+theme_override_styles/panel = ExtResource("1_k2jv2")
+script = ExtResource("2_nhnuo")
+
+[node name="pocket_descript_lbl" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 5.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X"
+label_settings = SubResource("LabelSettings_pnum8")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
