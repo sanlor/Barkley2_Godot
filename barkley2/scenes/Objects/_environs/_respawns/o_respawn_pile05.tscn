@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6yllf6u7ax7u"]
+
+[ext_resource type="Texture2D" uid="uid://qbi7qprccrrw" path="res://barkley2/assets/b2_original/images/merged/s_respawn_pile05.png" id="1_wdsu2"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_4llsd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsav4"]
+atlas = ExtResource("1_wdsu2")
+region = Rect2(0, 0, 52, 71)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wtiey"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsav4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_respawn_pile05" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_wtiey")
+centered = false
+offset = Vector2(-26, -35)
+script = ExtResource("2_4llsd")
+fit_to_size = true
+metadata/default = {
+"bbox_bottom": "70",
+"bbox_left": "0",
+"bbox_right": "51",
+"bbox_top": "0",
+"height": "71",
+"name": "s_respawn_pile05",
+"width": "52",
+"xorig": "26",
+"yorigin": "35"
+}

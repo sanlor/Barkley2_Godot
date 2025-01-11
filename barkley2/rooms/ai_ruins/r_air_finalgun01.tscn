@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://dvwghbgsb2eia"]
+[gd_scene load_steps=15 format=4 uid="uid://dvwghbgsb2eia"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_finalgun_01.gd" id="1_q4hyn"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="1_yvg3h"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://biteiiqmqobp1" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_entrance.tscn" id="6_w61ye"]
 [ext_resource type="PackedScene" uid="uid://cyfh5go8wc5t5" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_exit.tscn" id="7_5mcbs"]
 [ext_resource type="PackedScene" uid="uid://dyaef4swi5cr0" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianActor.tscn" id="8_u0wjk"]
+[ext_resource type="PackedScene" uid="uid://bkcy0pv2f7w56" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_cruce01.tscn" id="9_hkfn5"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="10_n7e1g"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_1s0rp"]
 
@@ -1613,11 +1615,41 @@ texture = ExtResource("1_yvg3h")
 [sub_resource type="TileSet" id="TileSet_r5pvc"]
 sources/0 = SubResource("TileSetAtlasSource_1ibpl")
 
+[sub_resource type="Resource" id="Resource_pemcg"]
+script = ExtResource("10_n7e1g")
+original_script = "DIALOG | Cruce | Timed quest events. THis is a test to check if time and time related quests are working.
+CHOICE | Select Something.
+REPLY  | SET | Set timed quest \"debug_timed\", 10 seconds
+REPLY  | RESET | Reset quest variable \"debug_timed\"
+REPLY  | CHECK | Check quest variable \"debug_timed\"
+REPLY  | QUIT | Exit
+
+SET 
+QUEST  | debug_timed = 1
+ClockTime | event | debug_timed | 2 | 0.25
+DIALOG | Cruce | \"debug_timed\" set to 1.
+EXIT
+
+RESET
+QUEST  | debug_timed = 0
+DIALOG | Cruce | \"debug_timed\" set to 0.
+EXIT
+
+CHECK
+IF debug_timed == 0 | DIALOG | Cruce | \"debug_timed\" set to 0.
+IF debug_timed == 1 | DIALOG | Cruce | \"debug_timed\" set to 1.
+IF debug_timed == 2 | DIALOG | Cruce | \"debug_timed\" set to 2.
+DIALOG | Cruce | \"debug_timed\" set to and unknow value. press F2/F3 to check it.
+EXIT
+
+QUIT
+EXIT"
+
 [node name="r_air_finalgun01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_1s0rp")
 script = ExtResource("1_q4hyn")
-debug_player_scene_pos = Vector2(150, 725)
+debug_player_scene_pos = Vector2(160, 150)
 collision_layer = NodePath("layer - collision")
 
 [node name="layer 93" type="TileMapLayer" parent="."]
@@ -1681,12 +1713,24 @@ position = Vector2(17, 785)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("8_u0wjk")]
 position = Vector2(145, 699)
+debug_move_finish = false
+debug_check_movement_vector = false
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("8_u0wjk")]
 position = Vector2(179, 644)
+debug_move_finish = false
+debug_check_movement_vector = false
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("8_u0wjk")]
 position = Vector2(140, 586)
+debug_move_finish = false
+debug_check_movement_vector = false
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("8_u0wjk")]
 position = Vector2(296, 695)
+debug_move_finish = false
+debug_check_movement_vector = false
+
+[node name="o_cruce01" parent="." instance=ExtResource("9_hkfn5")]
+position = Vector2(270, 154)
+cutscene_script = SubResource("Resource_pemcg")

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwj2tmiqe3wg3"]
+
+[ext_resource type="Texture2D" uid="uid://b5ove4fgtvh0r" path="res://barkley2/assets/b2_original/images/merged/s_chair_wood_front01.png" id="1_8valq"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_12ntv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyas6"]
+atlas = ExtResource("1_8valq")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7ype"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyas6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_chair_wood_front01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_j7ype")
+centered = false
+offset = Vector2(0, -31)
+script = ExtResource("2_12ntv")
+center_col = true
+shape = 1
+fit_to_size = true
+fit_offset = Vector2(0, -32)
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "18",
+"height": "32",
+"name": "s_chair_wood_front01",
+"width": "16",
+"xorig": "0",
+"yorigin": "31"
+}

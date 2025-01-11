@@ -5,7 +5,28 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
-	if B2_Playerdata.Quest("chanticleerRoommate") == 3:
+	## NOTE Went to prison
+	if get_room_name() == "r_pri_prisonInside01":
+		ActorAnim.frame = 1
+		if B2_Playerdata.Quest("aelfledaArrest") == 0:
+			queue_free()
+	
+	elif get_room_name() == "r_tnn_blockhouse01":
+		## NEW -> Appears in house after paying rent
+		if B2_Playerdata.Quest("aelfledaArrest") != 4:
+			queue_free()
+			## OLD -> If she's in her house, she'll appear only when you have talked to her outside AND investigated the mattress
+			## if (scr_quest_get_state("aelfledaEvict") != 5 || scr_quest_get_state("aelfledaMattress") <= 1) then scr_event_interactive_deactivate();
+	
+	## NOTE No idea.
+	elif get_room_name() == "r_sw2_hermitPass01":
+		if B2_Playerdata.Quest("duergarInfoAelfleda") == 3:
+			queue_free()
+		elif B2_Playerdata.Quest("chanticleerRoommate") == 3:
+			pass
+			
+	## NOTE No idea.
+	elif B2_Playerdata.Quest("chanticleerRoommate") == 3:
 		queue_free()
 	 
 	## Remove her if you've ratted her out to Gelasio (she goes to prison, where she is happy and fed)
@@ -17,18 +38,17 @@ func _ready() -> void:
 		queue_free()
 
 	## Remove her if curfew gets too far gone
-	#elif (scr_time_db("tnnCurfew") == "during") and (ClockTime() > 2.7) then scr_event_interactive_deactivate();
-	## TODO Time based events are not working
+	elif B2_Database.time_check("tnnCurfew") == "during" and B2_ClockTime.time_gate() > 2.7:
+		queue_free()
 
 	##To be safe, also remove after curfew
-	#elif (scr_time_db("tnnCurfew") == "after") then scr_event_interactive_deactivate();
-	## TODO Time based events are not working
+	elif B2_Database.time_check("tnnCurfew") == "after":
+		queue_free()
 
 	# Deactivate in Residential when you talked to her after paying rent
 	elif B2_Playerdata.Quest("aelfledaEvict") == 4:
 		queue_free()
 
-	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""

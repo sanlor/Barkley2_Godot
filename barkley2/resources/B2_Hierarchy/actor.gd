@@ -151,6 +151,34 @@ func play_animations():
 	# try to run this as late as possible
 	ActorAnim.flip_h = flip_h
 
+# Check if the actor is inside a building. return false if the parent is not B2_ROOMS
+func is_inside_room() -> bool:
+	if get_parent() is B2_ROOMS:
+		return get_parent().is_interior
+	else:
+		return false
+		
+# Get the room area. return "unknow" if the parent is not B2_ROOMS
+func get_room_area() -> String:
+	if get_parent() is B2_ROOMS:
+		var room_name : String = get_parent().name
+		if room_name.begins_with("r_") and room_name.count("_", 0, 6) >= 2:
+			var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > tnn
+			return area
+		else:
+			push_warning("Room name is not standard. fix this.")
+			
+	push_warning("Parent is not a B2_ROOMS.")
+	return "unknown"
+	
+# Get the room name. return "unknow" if the parent is not B2_ROOMS
+func get_room_name() -> String:
+	if get_parent() is B2_ROOMS:
+		return get_parent().name
+	else:
+		push_warning("Parent is not a B2_ROOMS.")
+		return "unknown"
+
 # SURPRISEAT()
 func cinema_surpriseat( target ):
 	cinema_useat( target, "surprise", "surpriseHold", 0.75 )

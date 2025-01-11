@@ -9,8 +9,18 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
-	## Remove during curfew
-	# if (scr_time_db("tnnCurfew") == "during") { scr_event_interactive_deactivate(); }
+	# Curfew stuff
+	if B2_Database.time_check("tnnCurfew") == "during":
+		queue_free()
+	
+	# Quest checks
+	## Gone to the wasteland ##
+	if B2_Playerdata.Quest("govGuillaume") >= 2 and get_room_area() == "tnn":
+		queue_free()
+	
+	## At the wasteland ##
+	if B2_Playerdata.Quest("govGuillaume") < 2 and get_room_area() == "wst":
+		queue_free()
 	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""

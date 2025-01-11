@@ -1,0 +1,1 @@
+## File with static data, serving as database / reference for other scripts.

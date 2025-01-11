@@ -23,6 +23,10 @@ var astar_valid_tiles := Array() # used for debug
 @export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
 
+@export var teleport_spot		:= false			## In Certain situations, hoopz can teleport to a room. This enables that function
+@export var teleport_node		: B2_Teleport_Mark	## The room have a "o_teleport_mark" node to mark the spot
+@export var teleport_pos		:= Vector2.ZERO		## A specific position to transport
+
 @export_category("Room")
 @export var collision_layer 		: TileMapLayer
 @export var collision_layer_semi 	: TileMapLayer

@@ -2,6 +2,8 @@ extends Resource
 class_name B2_Database
 
 # check scr_money_db()
+# check scr_time_db()
+
 # Factorio Space Age is pretty good. its been a few weeks/months since I last worked on this.
 
 ## Data related to money. Maybe this should be a Json or other kind of DB? yes, anything can be a DB if you are dumb enough.
@@ -244,9 +246,69 @@ const money := {
 	"dojoMeditation_3rd": 200,   
 }
 
+## Data related to time. This sistem is very weird, no Idea how its supposed to work.
+## Time in this game ssems to make sense. its a 24h period.
+# check ClockTime()
+
+const time := {
+	## Add all time definitions here
+	## Times with 1 argument can only return "before" or "after"
+	## try to arrange these by area, and then by chronological order!
+	
+	##################
+	### TIR NA NOG ###
+	##################
+	"milagrosOpen": 		{"start":2.9, "end":24.0},
+	"mortgageClosed": 		{"start":0.9, "end":24.0},
+	## scr_time_db("add", "wilmerEviction", 2); - Not needed as mortgageClosed already does the job
+	## scr_time_db("add", "bootybassClosed", 3.0); - This is not used anywhere
+	## scr_time_db("add", "petClosed", 3.8); - This is not used anywhere
+	## scr_time_db("add", "gutterhoundRobbery", 3.8); - This is not used anywhere
+	"tnnCurfew": 			{"start":3.8, "end":4.8},
+	"fedeDiagnose": 		{"start":3.0, "end":24.0}, ## When fede appears sitting, sad
+	"fedeSurgery": 			{"start":4.0, "end":24.0}, ## Fede is in hospital bed, arm in sewers
+	
+	#################################
+	### Operation Reverse Dunkirk ###
+	#################################
+	"opX_slagSocial": 		{"start":7.0, "end":12.9},
+	"opX_Foopba": 			{"start":13.2, "end":16.0},
+	"opX_Chandragupta": 	{"start":0.9, "end":24.0},
+
+	"swampDuergars": 		{"start":13.0, "end":24.0},
+	"industrialTurrets": 	{"start":12.0, "end":24.0}, ## Point at which industrial parks battery dies and the turrets stop working ## Obsolete now
+}
+
 ## Add or remove money
 static func money_change( amount ) -> void:
 	var curr : int = B2_Playerdata.Quest("money")
 	var _money : int = max(0, curr + amount)
 	B2_Playerdata.Quest("money", _money )
 	
+## Check if the current time is before, during or after certain events.
+## ALERT Actual time tracking is not setup yet.
+static func time_check( period : String ) -> String:
+	if time.has( period ):
+		var start 	: float = time[period]["start"]
+		var end 	: float = time[period]["end"]
+		
+		var curr_time := 12.0 ## ALERT Time management not created yet. 12.0 is WIP!
+		
+		if period == "tnnCurfew":
+			if B2_Playerdata.Quest("tnnCurfew") == 2:
+				return "after"
+			elif B2_Playerdata.Quest("tnnCurfew") == 1:
+				return "during"
+			else:
+				return "before";
+				
+		if curr_time < start:
+			return "before"
+		elif curr_time >= end:
+			return "after"
+		else:
+			return "during"
+			
+	else:
+		push_error("B2_Database - Event %s not found. Returned invalid." % period)
+		return "invalid"

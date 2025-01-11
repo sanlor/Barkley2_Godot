@@ -3,6 +3,9 @@ extends B2_InteractiveActor
 # This actor should neve move. It can, but it shouldnt.
 
 func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
+	
 	for i in 4:
 		var mask := B2_Script_Mask.new()
 		cutscene_script_mask.append(mask)

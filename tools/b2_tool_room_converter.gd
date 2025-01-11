@@ -63,7 +63,7 @@ func door_light():
 					
 			door_scene.name = node.name.split(" - ", false, 1)[-1]
 			door_scene.position 				= node.position
-			door_scene.teleport_destination 	= node.get_meta( "code" ) ## garbage setup
+			door_scene.teleport_destination 	= node.get_meta( "code" ).trim_prefix("RoomXY(").trim_suffix(");") ## garbage setup
 			
 			# copy metadata
 			for meta : String in node.get_meta_list():

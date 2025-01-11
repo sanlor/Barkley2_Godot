@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2pds3128350n"]
+
+[ext_resource type="Texture2D" uid="uid://b442hb2ykdq1u" path="res://barkley2/assets/b2_original/images/merged/s_bed_made_wood01.png" id="1_iuogb"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_p505c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf6ew"]
+atlas = ExtResource("1_iuogb")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fomil"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf6ew")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_bed_made_wood01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_fomil")
+centered = false
+offset = Vector2(0, -79)
+script = ExtResource("2_p505c")
+center_col = true
+shape = 1
+fit_offset = Vector2(0, -72)
+square_size = Vector2(48, 64)
+metadata/default = {
+"bbox_bottom": "79",
+"bbox_left": "1",
+"bbox_right": "47",
+"bbox_top": "20",
+"height": "80",
+"name": "s_bed_made_wood01",
+"width": "48",
+"xorig": "0",
+"yorigin": "79"
+}

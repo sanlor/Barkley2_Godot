@@ -11,10 +11,23 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
+	#comServ - determines your current position in the Community Service quest
+		#0 = not active
+		#1 = rejected
+		#2 = need to break into house
+		#3 = break-in complete
+		#4 = need to rob store
+		#5 = robbery complete
+		#6 = need to kill vivian
+		#7 = vivian dead
+		#8 = mission complete
+	
 	if B2_Playerdata.Quest("comServ") >= 7:
 		queue_free()
 		
-	#if (scr_time_db("tnnCurfew") != "before") then scr_event_interactive_deactivate();
+	# Curfew stuff
+	if B2_Database.time_check("tnnCurfew") != "before":
+		queue_free()
 	
 	juice_timer.start( 3.0 * randf_range(0.70, 1.30) )
 	

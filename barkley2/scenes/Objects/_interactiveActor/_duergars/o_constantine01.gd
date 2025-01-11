@@ -19,3 +19,10 @@ func _ready() -> void:
 	ANIMATION_EAST 							= "s_constantineSE"
 	ANIMATION_STAND_SPRITE_INDEX 			= [1, 1, 0, 0, 0, 0, 0, 1]
 	ActorAnim.animation 					= "default"
+	
+	if get_room_area() == "tnn":
+		if B2_Playerdata.Quest("gutterEscape") == 1:
+			queue_free()
+			
+		if B2_Database.time_check("tnnCurfew") == "during":
+			queue_free()

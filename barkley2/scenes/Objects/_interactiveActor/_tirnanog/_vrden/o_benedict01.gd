@@ -6,62 +6,61 @@ func _ready() -> void:
 	_setup_interactiveactor()
 	
 	## Time based stuff
-	## TODO actually setup time based events
+	var keep := 0 ## Weird variable. Actor need to pass a bunch of checks. if its still 0, remove it.
+	
 	#region Spaghetti
-	#//Residential District
-	#if (ClockTime("get") < 0.8) && (room == r_tnn_residentialDistrict01) {
-		#keep = 1
-	#};
-	#//Next to Milagros Shop
-	#if (ClockTime("get") >= 0.8) && (ClockTime("get") < 2.1) && (room == r_tnn_marketDistrict01) {
-		#keep = 1;
-		#x = 1104;
-		#y = 908;
-	#};
-	#//Near the Clinic
-	#if (ClockTime("get") >= 2.1) && (ClockTime("get") < 2.9) && (room == r_tnn_marketDistrict01) {
-		#keep = 1;
-		#x = 1016;
-		#y = 588;
-	#};
-	#//Near the Sewers
-	#if (ClockTime("get") >= 2.9) && (ClockTime("get") < 3.8) && (room == r_tnn_marketDistrict01) {
-		#keep = 1;
-		#x = 1232;
-		#y = 312;
-	#};
-	#//In the Sewers at the Overlook
-	#if (ClockTime("get") >= 3.8) && (ClockTime("get") < 5.1) && (room == r_sw1_descent01) {
-		#keep = 1;
-		#x = 392;
-		#y = 360;
-	#};
-	#//In the Sewers at the top of the steps
-	#if (ClockTime("get") >= 5.1) && (ClockTime("get") < 6.2) && (room == r_sw1_descent01) {
-		#keep = 1;
-		#x = 648;
-		#y = 304;
-	#};
-	#//In the Sewers, leaning against the wall
-	#if (ClockTime("get") >= 6.2) && (room == r_sw1_descent01) {
-		#keep = 1;
-		#x = 440;
-		#y = 480;
-	#};
-#
-	#if Quest("benedictState") == 5 then keep = 0
+	## Residential District
+	if B2_ClockTime.time_get() < 0.8 and get_room_name() == "r_tnn_residentialDistrict01":
+		keep = 1
+
+	## Next to Milagros Shop
+	if B2_ClockTime.time_get() >= 0.8 and B2_ClockTime.time_get() < 2.1 and \
+		get_room_name() == "r_tnn_marketDistrict01":
+		keep = 1;
+		position = Vector2(1104, 908)
+
+	## Near the Clinic
+	if B2_ClockTime.time_get() >= 2.1 and B2_ClockTime.time_get() < 2.9 and \
+		get_room_name() == "r_tnn_marketDistrict01":
+		keep = 1;
+		position = Vector2(1016, 588)
+
+	## Near the Sewers
+	if B2_ClockTime.time_get() >= 2.9 and B2_ClockTime.time_get() < 3.8 and \
+		get_room_name() == "r_tnn_marketDistrict01":
+		keep = 1;
+		position = Vector2(1232, 312)
+	
+	## In the Sewers at the Overlook
+	if B2_ClockTime.time_get() >= 3.8 and B2_ClockTime.time_get() < 5.1 and \
+		get_room_name() == "r_sw1_descent01":
+		keep = 1;
+		position = Vector2(392, 360)
+
+	## In the Sewers at the top of the steps
+	if B2_ClockTime.time_get() >= 5.1 and B2_ClockTime.time_get() < 6.2 and \
+		get_room_name() == "r_sw1_descent01":
+		keep = 1;
+		position = Vector2(648, 304)
+
+	## In the Sewers, leaning against the wall
+	if B2_ClockTime.time_get() >= 6.2 and get_room_name() == "r_sw1_descent01":
+		keep = 1;
+		position = Vector2(440, 480)
 #endregion
 	
 	if B2_Playerdata.Quest("benedictState") == 5:
+		keep = 0
+	if keep == 0:
 		queue_free()
 		
 	## Bought the pole, or leaning against the wall ##
 	if B2_Playerdata.Quest("benedictState") == 4 or B2_Playerdata.Quest("benedictState") == 6:
 		ActorAnim.animation = "nopole"
-		
-	#if ClockTime("get") >= 6.2 then 
-		#scr_entity_animation_set(o_benedict01, "leaning");
-		#image_xscale = 1;
+	
+	if B2_ClockTime.time_get() >= 6.2:
+		ActorAnim.animation = "leaning"
+		ActorAnim.flip_h = true
 		
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= "s_constantineSE"

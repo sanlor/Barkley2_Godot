@@ -17,14 +17,10 @@ func _ready() -> void:
 	ANIMATION_STAND_SPRITE_INDEX 			= [1, 1, 0, 0, 0, 0, 0, 1]
 	ActorAnim.animation 					= "default"
 	
-	#// Move slightly during curfew //
-	#if (scr_time_db("tnnCurfew") != "before") then
-		#{
-		#//scr_entity_look(id, WEST);
-		#image_xscale = -1;
-		#x = 768;
-		#y = 768;
-		#}
+	## Move slightly during curfew ##
+	if B2_Database.time_check("tnnCurfew") != "before":
+		position = Vector2(768, 768)
+		ActorAnim.flip_h = true
 		
 	if B2_Playerdata.Quest("gutterEscape") == 1:
 		is_interactive = false

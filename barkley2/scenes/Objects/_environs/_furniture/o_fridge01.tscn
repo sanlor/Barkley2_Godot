@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dabc2o3n14xjl"]
+
+[ext_resource type="Texture2D" uid="uid://coulbb23ppr5s" path="res://barkley2/assets/b2_original/images/merged/s_fridge01.png" id="1_apo4c"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_no673"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqyep"]
+atlas = ExtResource("1_apo4c")
+region = Rect2(0, 0, 36, 70)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnbbr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqyep")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_fridge01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_qnbbr")
+centered = false
+offset = Vector2(0, -69)
+script = ExtResource("2_no673")
+center_col = true
+shape = 1
+fit_offset = Vector2(0, -52)
+square_size = Vector2(32, 32)
+metadata/default = {
+"bbox_bottom": "69",
+"bbox_left": "0",
+"bbox_right": "35",
+"bbox_top": "46",
+"height": "70",
+"name": "s_fridge01",
+"width": "36",
+"xorig": "0",
+"yorigin": "69"
+}

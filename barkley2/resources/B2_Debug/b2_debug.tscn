@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=13 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -71,6 +71,42 @@ func _on_get_app_pressed() -> void:
 		B2_Note.take_note( n )
 "
 
+[sub_resource type="GDScript" id="GDScript_uvrvr"]
+script/source = "extends VBoxContainer
+
+@onready var time_raw: 		Label = $time_raw
+@onready var time_get: 		Label = $time_get
+@onready var time_form: 	Label = $time_form
+@onready var time_gate: 	Label = $time_gate
+@onready var time_events: 	Label = $time_events
+
+@onready var line_edit: LineEdit = $HBoxContainer/LineEdit
+
+func _physics_process(_delta: float) -> void:
+	time_raw.text 		= \"Time Raw: \" + str( B2_Config.get_user_save_data(\"clock.time\", 0.0) )
+	time_get.text		= \"Time Get: \" + str( B2_ClockTime.time_get() )
+	time_form.text 		= \"Time Form: \" + B2_ClockTime.time_display()
+	time_gate.text 		= \"Time Gate: \" + str( B2_Config.get_user_save_data(\"clock.gate\", 0.0) )
+	
+	time_events.text 	= \"Time Event:\\n\"
+	for e : Array in B2_Config.get_user_save_data(\"clock.event\", Array() ):
+		time_events.text += \" * \" + str( e ) + \"\\n\"
+
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	var time := float( new_text )
+	time = clampf( time, 0, B2_ClockTime.CLOCK_MAX )
+	line_edit.text = str(time)
+	B2_ClockTime.time_set( time )
+
+func _on_set_btn_pressed() -> void:
+	_on_line_edit_text_submitted( line_edit.text )
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_qcrcr"]
+font = ExtResource("4_coofk")
+font_color = Color(0.427451, 1, 1, 1)
+
 [node name="b2_debug" type="CanvasLayer"]
 script = ExtResource("1_jshnt")
 
@@ -104,6 +140,7 @@ anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -176.0
 grow_horizontal = 0
 grow_vertical = 2
 size_flags_horizontal = 8
@@ -175,9 +212,56 @@ custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "Get'em!"
 
+[node name="time" type="VBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+script = SubResource("GDScript_uvrvr")
+
+[node name="time_raw" type="Label" parent="player_vars/MarginContainer/VBoxContainer/time"]
+layout_mode = 2
+text = "Time Raw: 000000"
+label_settings = SubResource("LabelSettings_qcrcr")
+
+[node name="time_get" type="Label" parent="player_vars/MarginContainer/VBoxContainer/time"]
+layout_mode = 2
+text = "Time Raw: 000000"
+label_settings = SubResource("LabelSettings_qcrcr")
+
+[node name="time_form" type="Label" parent="player_vars/MarginContainer/VBoxContainer/time"]
+layout_mode = 2
+text = "Time Form: 000000"
+label_settings = SubResource("LabelSettings_qcrcr")
+
+[node name="time_gate" type="Label" parent="player_vars/MarginContainer/VBoxContainer/time"]
+layout_mode = 2
+text = "Time Gate: 000000"
+label_settings = SubResource("LabelSettings_qcrcr")
+
+[node name="time_events" type="Label" parent="player_vars/MarginContainer/VBoxContainer/time"]
+layout_mode = 2
+text = "Time Event:
+		PLACEHOLDER"
+label_settings = SubResource("LabelSettings_qcrcr")
+autowrap_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer/time"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Change time"
+
+[node name="set_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer"]
+layout_mode = 2
+text = "SET"
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/maps/get_app" to="player_vars/MarginContainer/VBoxContainer/maps" method="_on_get_app_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/notes/get_app" to="player_vars/MarginContainer/VBoxContainer/notes" method="_on_get_app_pressed"]
+[connection signal="text_submitted" from="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer/LineEdit" to="player_vars/MarginContainer/VBoxContainer/time" method="_on_line_edit_text_submitted"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer/set_btn" to="player_vars/MarginContainer/VBoxContainer/time" method="_on_set_btn_pressed"]

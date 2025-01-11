@@ -16,3 +16,17 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	if is_inside_room(): ## Only exist inside a room during Curfew.
+		if B2_Database.time_check("tnnCurfew") == "before":
+				queue_free()
+				
+		if B2_Database.time_check("tnnCurfew") == "after":
+				queue_free()
+	else:
+		# Outside.
+		if B2_Database.time_check("tnnCurfew") == "during":
+				queue_free()
+				
+		if B2_Database.time_check("tnnCurfew") == "after":
+				queue_free()

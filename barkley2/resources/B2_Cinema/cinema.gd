@@ -761,6 +761,17 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					Create( parsed_line )
 				"Shake":
 					Shake( parsed_line )
+				"ClockTime":
+					## Set timed quest variables.
+					if parsed_line[1].strip_edges() == "event":
+						assert( parsed_line.size() == 5 )
+						var quest = parsed_line[2].strip_edges()
+						var value = parsed_line[3].strip_edges()
+						var timer = parsed_line[4].strip_edges()
+						B2_ClockTime.time_event( quest, value, timer )
+						
+					else:
+						push_error("Unrecognized ClockTime command: " + str(parsed_line) )
 				"Emote":
 					## Emote(emotetype, target object?, xoffset?, yoffset?)
 					## Create an emote at a specific place.

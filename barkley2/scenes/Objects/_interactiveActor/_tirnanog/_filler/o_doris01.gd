@@ -18,14 +18,20 @@ func _ready() -> void:
 	ActorAnim.animation 					= "default"
 	
 	## In during curfew, out before and after curfew ##
-	#if (scr_time_db("tnnCurfew") == "during") and room = r_tnn_residentialDistrict01 then scr_event_interactive_deactivate();
-	#else if (scr_time_db("tnnCurfew") == "during") and room = r_tnn_warehouseDistrict01 then scr_event_interactive_deactivate();
-	#else if (scr_time_db("tnnCurfew") == "before") and room = r_tnn_warehouseDistrict01 then scr_event_interactive_deactivate();
-	#else if (scr_time_db("tnnCurfew") == "after") and room != r_tnn_warehouseDistrict01 then scr_event_interactive_deactivate();
+	if B2_Database.time_check("tnnCurfew") == "during" and get_room_name() == "r_tnn_residentialDistrict01":
+		queue_free()
+	elif B2_Database.time_check("tnnCurfew") == "during" and get_room_name() == "r_tnn_warehouseDistrict01":
+		queue_free()
+	elif B2_Database.time_check("tnnCurfew") == "before" and get_room_name() == "r_tnn_warehouseDistrict01":
+		queue_free()
+	elif B2_Database.time_check("tnnCurfew") == "after" and not get_room_name() == "r_tnn_warehouseDistrict01":
+		queue_free()
 #
 	## Don't be in two spots at the same time ##
-	#if ClockTime() > 1 and room = r_tnn_residentialDistrict01 then scr_event_interactive_deactivate();
-	#if ClockTime() <= 1 and room = r_tnn_blockhouse01 then scr_event_interactive_deactivate();
+	if B2_ClockTime.time_gate() > 1 and get_room_name() == "r_tnn_residentialDistrict01":
+		queue_free()
+	if B2_ClockTime.time_gate() <= 1 and get_room_name() == "r_tnn_blockhouse01":
+		queue_free()
 #
 	## Alley flip ##
 	#if room = r_tnn_residentialDistrict01 then image_xscale = -1;

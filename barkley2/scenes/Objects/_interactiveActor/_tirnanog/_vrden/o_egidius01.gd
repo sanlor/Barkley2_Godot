@@ -8,7 +8,10 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 		
-
+	# Curfew stuff
+	if B2_Database.time_check("tnnCurfew") != "before":
+		queue_free()
+		
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""

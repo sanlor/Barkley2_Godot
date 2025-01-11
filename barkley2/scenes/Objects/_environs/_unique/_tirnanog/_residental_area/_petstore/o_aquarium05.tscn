@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgafi7sxwoyka"]
+
+[ext_resource type="Texture2D" uid="uid://c4s2rhbok2p2t" path="res://barkley2/assets/b2_original/images/merged/s_aquarium05.png" id="1_ewjov"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_y8kri"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ek76l"]
+atlas = ExtResource("1_ewjov")
+region = Rect2(0, 0, 32, 35)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2sps"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ek76l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1l58a"]
+radius = 12.8
+
+[node name="o_aquarium05" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_v2sps")
+centered = false
+offset = Vector2(-16, -28)
+script = ExtResource("2_y8kri")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "30",
+"bbox_left": "1",
+"bbox_right": "30",
+"bbox_top": "20",
+"height": "35",
+"name": "s_aquarium05",
+"width": "32",
+"xorig": "16",
+"yorigin": "28"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_1l58a")

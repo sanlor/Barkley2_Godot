@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://dwli1tecgd7kq"]
+
+[ext_resource type="Texture2D" uid="uid://devaxwu4wvjbl" path="res://barkley2/assets/b2_original/images/merged/s_trashcan_full01.png" id="1_uu5b3"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_n6a8e"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_8ygwd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uetl3"]
+atlas = ExtResource("1_uu5b3")
+region = Rect2(0, 0, 16, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wv0f3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uetl3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_1wh1a"]
+script = ExtResource("3_8ygwd")
+original_script = "CREATE_WAIT | o_cts_healingBin
+WAIT        | 0.5
+EVENT       | o_gbl_candyBucket01 | 0
+WAIT        | 0.5
+EVENT       | o_gbl_candyBucket01 | 1"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ypldi"]
+radius = 12.0
+
+[node name="o_gbl_candyBucket01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_wv0f3")
+centered = false
+offset = Vector2(-8, -21)
+script = ExtResource("2_n6a8e")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_1wh1a")
+metadata/default = {
+"bbox_bottom": "20",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "8",
+"height": "21",
+"name": "s_trashcan_full01",
+"width": "16",
+"xorig": "8",
+"yorigin": "21"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_ypldi")

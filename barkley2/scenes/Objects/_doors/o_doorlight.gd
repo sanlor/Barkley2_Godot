@@ -95,9 +95,16 @@ var _rot := 0.0
 func _ready() -> void:
 	#if not enabled and not Engine.is_editor_hint():
 		#queue_free()
-		
+	
+	is_loaded = false
+	
 	if not Engine.is_editor_hint():
-		B2_RoomXY.room_finished_loading.connect( func(): is_loaded = true )
+		B2_RoomXY.room_finished_loading.connect( 
+			func(): 
+				is_loaded = true
+				is_warping = false
+				
+				)
 		
 	_update_sprite()
 	
@@ -195,7 +202,8 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 	if not is_loaded:
 		return
 		
-	if is_warping: # avoid double loading the same room
+	# avoid double loading the same room
+	if is_warping: 
 		return
 		
 	if not enabled:
@@ -208,7 +216,6 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 				push_error("Door has no destination set. dumbo!")
 			else:
 				is_warping = true
-				print(self)
 				B2_RoomXY.warp_to( teleport_destination, 0.0 )
 		else:
 			push_warning("DEBUG TELEPORT: ", debug_teleport_destination )

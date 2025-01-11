@@ -3,7 +3,7 @@ extends Node
 signal quest_updated
 signal stat_updated
 
-## CC Data
+#region CC Data
 var paxEnable = 0;
 
 # Events visited #
@@ -48,11 +48,6 @@ var character_tarot_cards := [] # New variables, original are on the script Ques
 
 var character_gumball = 0;
 var character_stats_race = 0;
-#for (i=0; i<9; i+=1;) character_dropdown_likes[i] = 0;
-#for (i=0; i<7; i+=1;) character_dropdown_favorites[i] = 0;
-#for (i=0; i<44; i+=1;) character_multiple[i] = 0;
-#for (i=0; i<10; i+=1;) character_palm[i] = 0;
-#for (i=0; i<4; i+=1;) character_tarot[i] = 0;
 
 var character_lottery := Array()
 var character_dropdown_likes := Array()
@@ -68,18 +63,6 @@ var character_stat_acrobatics = 1;
 var character_stat_piety = 1;
 var character_stat_luck = 1;
 
-# Pax / COn specific #
-#for (i=0; i<4; i+=1;)
-	#{
-	#character_multiple_QID[i] = 0;
-	#character_multiple_AID[i] = 0;
-	#}
-#character_genders = character_gender[0] + (character_gender[1] * 2) + (character_gender[2] * 4) + (character_gender[3] * 8) + (character_gender[4] * 16);
-#pax_code = "0";
-#pax_code2 = "0";
-#checksum = "0";
-#pax_number = 0;
-#for (i=0; i<35; i+=1;) pax[i] = "0";
 var character_zodiac_year1000 = 0;
 var character_zodiac_year100 = 0;
 var character_zodiac_year10 = 0;
@@ -88,10 +71,13 @@ var character_zodiac_year1 = 0;
 ## Other shit ##
 var placenta_status = -1;
 var transition_timer = 25; ## was 14 (bhroom 190529))
+#endregion
 
 ## Actual important stuff
 var player_node : CharacterBody2D
 var camera_node : Camera2D
+
+var game_timer : Timer
 
 func _ready():
 	character_inkblots.resize( 16 )
@@ -100,8 +86,22 @@ func _ready():
 	character_dropdown_favorites.resize( 7 )
 	character_multiple.resize(44)
 	
-	## Quest flags overrides
+	## Game timer
+	## Currently used only by the B2_ClockTime class.
+	B2_ClockTime.time_init()
 	
+	game_timer = Timer.new()
+	game_timer.wait_time = 1.0
+	game_timer.timeout.connect( time_goes_on )
+	
+	# make sure that the timer stop when the game is paused or on an open menu.
+	game_timer.process_mode = Node.PROCESS_MODE_PAUSABLE
+	
+	add_child( game_timer, true )
+	game_timer.start()
+	
+	
+	## Quest flags overrides
 	#preload_CC_save_data()
 	B2_CManager.BodySwap("hoopz");
 	#preload_CC_save_data()
@@ -116,14 +116,18 @@ func _ready():
 	#B2_Playerdata.Quest("factoryEggs", 		1)
 	preload_skip_tutorial_save_data()
 	
+func time_goes_on() -> void:
+	if B2_Playerdata.Quest("gameStart") == 2:
+		B2_ClockTime.time_step( B2_ClockTime.CLOCK_SPEED )
+	else:
+		# Time does NOT go on during, the tutorial, title screen and CC.
+		pass
+	
 func SaveGame():
-	print_rich("[color=blue]Save game requested. [/color]")
+	print_rich("[color=blue]Save game requested.[/color]")
 	B2_Config.create_user_save_data( B2_Config.selected_slot )
 	
 ## This func replaces the Quests script.
-# /// Quest(name, value?);
-# // Quest("myQuest") - Returns value of myQuest
-# // Quest("myQuest", 1) - Sets value of myQuest
 func Quest(key : String, value = null, default = 0):
 	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;
@@ -188,18 +192,20 @@ func preload_CC_save_data():
 	#CC("new player");
 	#room_goto(r_cc);
 	
+	## WARNING ##
 	# ClockTime
-	var EXPERIENCE_MIN = 0.5;
-	var EXPERIENCE_MAX = 1.5;
-	var CLOCK_MAX = 60 * 60 * 24;
-	var CLOCK_SPEED = 4; ## EDITABLE: If you are 1 gate away, it will start at 4 seconds and taper down
+	# var EXPERIENCE_MIN = 0.5;
+	# var EXPERIENCE_MAX = 1.5;
+	# var CLOCK_MAX = 60 * 60 * 24;
+	# var CLOCK_SPEED = 4; ## EDITABLE: If you are 1 gate away, it will start at 4 seconds and taper down
 	
-	B2_Config.set_user_save_data("clock.time", CLOCK_MAX);
-	B2_Config.set_user_save_data("clock.gate", 0)
-	B2_Config.set_user_save_data("clock.event.timer", Dictionary() );
-	B2_Config.set_user_save_data("clock.event.quest", Dictionary() );
-	B2_Config.set_user_save_data("clock.event.value", Dictionary() );
+	# B2_Config.set_user_save_data("clock.time", CLOCK_MAX);
+	# B2_Config.set_user_save_data("clock.gate", 0)
+	# B2_Config.set_user_save_data("clock.event.timer", Dictionary() );
+	# B2_Config.set_user_save_data("clock.event.quest", Dictionary() );
+	# B2_Config.set_user_save_data("clock.event.value", Dictionary() );
 	# ClockTime("update") will be IGNORED, fucko.
+	## WARNING Shut up!  The above "clock" code was setup in the class B2_ClockTime.
 	
 	# BodySwap
 	B2_Config.set_user_save_data("player.body", "hoopz");
@@ -306,9 +312,9 @@ func preload_CC_save_data():
 	#endregion
 
 	# Save maps into Savedata
-	B2_Config.set_user_save_data("player.stats.base", 		0); # was stats_base
-	B2_Config.set_user_save_data("player.stats.effective", 	0); # was stats_effective
-	B2_Config.set_user_save_data("player.stats.current", 	0); # was stats_current
+	B2_Config.set_user_save_data("player.stats.base", 		0); # was stats_base 		## Check scr_stats_initStats()
+	B2_Config.set_user_save_data("player.stats.effective", 	0); # was stats_effective 	## Check scr_stats_initStats()
+	B2_Config.set_user_save_data("player.stats.current", 	0); # was stats_current 	## Check scr_stats_initStats()
 
 	# Save status effects into Savedata
 	B2_Config.set_user_save_data("player.stats.statuseffects", 0); # was list_status_effect

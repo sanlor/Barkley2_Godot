@@ -1,0 +1,305 @@
+[gd_scene load_steps=32 format=3 uid="uid://dpkujp1uyt0n3"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_bob_01.gd" id="1_jdhnn"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_8msc6"]
+[ext_resource type="Texture2D" uid="uid://d4h3lkx4afnxp" path="res://barkley2/assets/b2_original/images/merged/s_koboldspet01.png" id="2_vghk5"]
+
+[sub_resource type="Resource" id="Resource_7jpgu"]
+script = ExtResource("2_8msc6")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF bobState == 0    | GOTO | BOB0
+IF bobState == 1    | GOTO | BOB1
+IF bobState == 2    | GOTO | BOB2
+IF bobState == 3    | GOTO | BOB3
+GOTO | BOB4
+
+GOVERNOR
+DIALOG | Bob | Sorry but somebody already bought me. I'm not for sale at all. Not one bit!!
+
+BOB0
+DIALOG | Bob    | Hi. I'm Bob.
+DIALOG | P_NAME | Oh. Hi. I didn't know you could talk.
+DIALOG | Bob    | Yep, I can talk. Cuthbert taught me. Business isn't so good so he has plenty of free time.
+DIALOG | Bob    | Cuthbert tells me I should talk to all the customers, ask how they're doing.
+DIALOG | P_NAME | Oh._._._. Well, that's nice of him.
+DIALOG | Bob    | Yeah, he's a pretty nice guy.
+DIALOG | Bob    | So.___.___.___.
+DIALOG | Bob    | How are you doing?
+DIALOG | P_NAME | I'm fine, I guess.
+DIALOG | Bob    | Good, good, great.....
+DIALOG | Bob    | So.___.___.___want to buy a kobold?
+DIALOG | P_NAME | I don't think I should. I don't have a home or anything. It'd probably be a bad idea to buy a pet without a home.
+DIALOG | Bob    | Yeah... well... thanks for stopping by the shop I guess.
+QUEST  | bobState = 1
+
+BOB1
+DIALOG | P_NAME | It doesn't look really comfortable in there.
+DIALOG | Bob    | It's not so bad. Cuthbert said he'd get me a bigger tank if business wasn't so bad, but I'm used to it. You ever been in a tank before?
+DIALOG | P_NAME | Well I woke up in an egg.
+DIALOG | Bob    | Why?
+DIALOG | P_NAME | I don't know. But I don't think I really want to go back.
+DIALOG | Bob    | Yeah, probably not. But you never know I guess.___.___.___.Hey! Do you want to try it out? I can get out and you can give it a try. I don't know anything about you, maybe you'll really like being in a tank.
+DIALOG | P_NAME | Uh... I don't think so. I'm too big I think. I don't want to break it.
+DIALOG | Bob    | Yeah, I guess you're right... It'd be really bad if my tank got broken. It's the only thing I've got. I think Cuthbert would be really upset with me if I let somebody break the tank.
+DIALOG | P_NAME | Yeah, I-
+DIALOG | Bob    | Oh! The tank is extra! It's not included when you buy me. Did I say that already?
+DIALOG | P_NAME | No, you didn't.
+DIALOG | Bob    | Yeah, it's extra, I'm supposed to say that. They're kinda expensive, a lot more expensive than a kobold. I can kinda see why, they're pretty cool. This one is pretty small, but you can put all kinds of things in them. They're pretty great. I like tanks a lot.
+DIALOG | P_NAME | I can see th-
+DIALOG | Bob    | I hope Cuthbert doesn't decide to just sell my tank. That would really stink. It wouldn't be his fault, business just isn't good, but I'd really miss my tank. I hope he doesn't sell it.
+DIALOG | P_NAME | Yeah, ok! It's been nice talking to you Bob but I need to go.
+DIALOG | Bob    | Oh, ok! Thanks for the talk. I didn't realize how much I like my tank until we talked about it for a while. Something about you really gets me thinking about stuff.
+QUEST  | bobState = 2
+
+BOB2
+DIALOG | P_NAME | Don't you get tired of being stuck here? Have you ever thought of escaping?
+DIALOG | Bob    | I don't know. Not really, I guess. I don't know where else I'd go.
+DIALOG | P_NAME | You could go back to where you came from, I guess. Where are you from?
+DIALOG | Bob    | The sewers. Cuthbert told me he saved me from there when I was a baby. He says I was getting kicked around by some Duergars down there, so he stepped in and rescued me.
+DIALOG | P_NAME | Wow! I wouldn't have thought it by looking at him. He doesn't look like much of a fighter.
+DIALOG | Bob    | I wouldn't know. He said there were twenty of them all huddled around, hitting and kicking me.
+DIALOG | P_NAME | Twenty, huh?
+DIALOG | Bob    | That's what Cuthbert always said.
+DIALOG | P_NAME | Do you think that's how it really happened?
+DIALOG | Bob    | No, not really. He probably killed my parents to get to me.____________ But it makes for a nicer story, don't you think?
+QUEST  | bobState = 3
+
+BOB3
+IF ericQuest == 9 | GOTO | ERIC
+GOTO   | BOB4
+
+ERIC
+DIALOG | Bob    | There was some loud guy here earlier talking about you.
+DIALOG | P_NAME | Oh, that was Eric. He works here now, I got him a job.
+DIALOG | Bob    | Oh... So he'll be back?
+DIALOG | P_NAME | Yeah, probably.
+DIALOG | Bob    | That's a shame. He's not a very nice guy. He said something about there being no bounds of your remarkable vapidity. I don't know what all that means, but he didn't say it in a particularly nice way.
+DIALOG | P_NAME | Yeah, he's like that.
+DIALOG | Bob    | I don't like Eric. He smells funny. He brought all his stupid pets with him. I'm glad Cuthbert doesn't have pets as rotten as Eric's pets. One of his ferrets bit me. Oh, can you do me a favor?
+DIALOG | P_NAME | I guess.
+DIALOG | Bob    | When you leave, can you make sure you close the door all the way? He keeps walking by the shop yelling about his manifesto. I won't be able to hear him as well if the door is closed all the way. I'd rather not be able to hear him.
+DIALOG | P_NAME | No problem.
+QUEST  | bobState = 4
+
+BOB4
+DIALOG | Bob    | I'll be here if you change your mind about buying a kobold. We make good pets I think.
+DIALOG | Bob    | Actually I don't really know but I'll try hard to be a good pet."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6je2"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(0, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyxri"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(39, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y43x5"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(78, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7warg"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(117, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5xx3"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(156, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tl8fa"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(195, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vn0qo"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(234, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h12il"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(273, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfak8"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(312, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hx6nh"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(351, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c4ey"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(390, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0acc"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(429, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tne2"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(468, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwsqk"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(507, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4hro"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(546, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb364"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(585, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy78w"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(624, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5picn"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(663, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lsqt"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(702, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5bgt"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(741, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8l8j"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(780, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjpcg"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(819, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn0l6"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(858, 0, 39, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnmrb"]
+atlas = ExtResource("2_vghk5")
+region = Rect2(897, 0, 39, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_okb3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6je2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gyxri")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y43x5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7warg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5xx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tl8fa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vn0qo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h12il")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfak8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hx6nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c4ey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0acc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tne2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwsqk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4hro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb364")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy78w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5picn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lsqt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5bgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8l8j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjpcg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn0l6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnmrb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1a1fm"]
+radius = 14.0357
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ae0ac"]
+size = Vector2(39, 31)
+
+[node name="o_bob01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_jdhnn")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_7jpgu")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_okb3p")
+autoplay = "default"
+centered = false
+offset = Vector2(0, -34)
+metadata/default = {
+"bbox_bottom": "30",
+"bbox_left": "5",
+"bbox_right": "34",
+"bbox_top": "19",
+"frames": ["images\\s_koboldspet01_0.png", "images\\s_koboldspet01_1.png", "images\\s_koboldspet01_2.png", "images\\s_koboldspet01_3.png", "images\\s_koboldspet01_4.png", "images\\s_koboldspet01_5.png", "images\\s_koboldspet01_6.png", "images\\s_koboldspet01_7.png", "images\\s_koboldspet01_8.png", "images\\s_koboldspet01_9.png", "images\\s_koboldspet01_10.png", "images\\s_koboldspet01_11.png", "images\\s_koboldspet01_12.png", "images\\s_koboldspet01_13.png", "images\\s_koboldspet01_14.png", "images\\s_koboldspet01_15.png", "images\\s_koboldspet01_16.png", "images\\s_koboldspet01_17.png", "images\\s_koboldspet01_18.png", "images\\s_koboldspet01_19.png", "images\\s_koboldspet01_20.png", "images\\s_koboldspet01_21.png", "images\\s_koboldspet01_22.png", "images\\s_koboldspet01_23.png"],
+"height": "34",
+"name": "s_koboldspet01",
+"width": "39",
+"xorig": "0",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(19, -13)
+shape = SubResource("CircleShape2D_1a1fm")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(19.5, -16.5)
+shape = SubResource("RectangleShape2D_ae0ac")
