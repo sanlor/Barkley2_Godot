@@ -7,6 +7,8 @@ class_name B2_CinemaPlayer
 # 07-10-24 Its now an Autoload.
 # 12-10-24 Now its not. CManager is the autoload now.
 
+## TODO Add Items. Needed to Parse_If.
+
 ## DEBUG
 @export_category("Debug Stuff")
 @export var debug_goto		 	:= false
@@ -308,6 +310,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				if print_comments:
 					print_rich( str(curr_line) + ": [color=yellow]" + comment + "[/color]" )
 				line = line.get_slice("//", 0)
+				pass
 				
 			var parsed_line : PackedStringArray = cleanup_line( line )
 				
@@ -316,9 +319,50 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				
 				if parse_if( parsed_line[0] ):
 					# remove the IF command
+					## NOTE Katsu! Sometimes there are nested IF statements.
+					## Instead of continuing the script from here, run all checks again.
 					parsed_line.remove_at( 0 )
+					
+					## HACK Check only 3 or 4 times.
+					if parsed_line[0].strip_edges().begins_with("IF"):
+						#print( "+1 " + parsed_line[0] ) ## DEBUG
+						if parse_if( parsed_line[0].strip_edges() ):
+							parsed_line.remove_at( 0 )
+							## HACK ##
+							if parsed_line[0].strip_edges().begins_with("IF"):
+								#print( "+2 " + parsed_line[0] ) ## DEBUG
+								if parse_if( parsed_line[0].strip_edges() ):
+									parsed_line.remove_at( 0 )
+									## HACK ##
+									if parsed_line[0].strip_edges().begins_with("IF"):
+										if parse_if( parsed_line[0].strip_edges() ):
+											parsed_line.remove_at( 0 )
+											## HACK ##
+											if parsed_line[0].strip_edges().begins_with("IF"):
+												if parse_if( parsed_line[0].strip_edges() ):
+													parsed_line.remove_at( 0 )
+												else: ## KCAH ##
+													curr_line += 1 # Skip this line.
+													print("+4 IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
+													continue
+										else: ## KCAH ##
+											curr_line += 1 # Skip this line.
+											print("+3 IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
+											continue
+								else: ## KCAH ##
+									curr_line += 1 # Skip this line.
+									print("+2 IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
+									continue
+						else: ## KCAH ##
+							curr_line += 1 # Skip this line.
+							print("+1 IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
+							continue
+													
+					## I love this hack. It clearly shows how much I love porting this code.
+					## The original code simply recheck all lines, but I dont really have the patience to change this script too much.
+					## Thanks Katsu!
 				else:
-					curr_line += 1
+					curr_line += 1 # Skip this line.
 					print("IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
 					continue
 				
@@ -333,7 +377,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							## Empty line, carry on.
 							continue
 						var possible_label : String = cleanup_line( new_line ) [0] # Labels are always on the front
-						if target_label == possible_label:
+						if target_label == possible_label.get_slice("//", 0).strip_edges(): ## KATSU! Remove inline comments from labels.
 							# found the "label". jump to that line
 							curr_line = j # REMEMBER: Empty lines are skipped.
 							found_label = true
@@ -810,7 +854,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"scr_savedata_save":
 					B2_Playerdata.SaveGame()
 				_:
-					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] )
+					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] + " - " + str(parsed_line) )
 			
 			# Jump to next line
 			curr_line += 1
@@ -850,20 +894,27 @@ func cleanup_line( line : String ) -> PackedStringArray:
 	var parsed_line : PackedStringArray = line.split( "|", false )
 	# Cleanup
 	for i in range( parsed_line.size() ):
-		parsed_line[i] = parsed_line[i].strip_edges( true, true )
+		parsed_line[i] = parsed_line[i].strip_edges()
 		if parsed_line[i].is_empty(): ## Avoid issues with emtpy lines after trimming.
 			continue
-		parsed_line[i] = parsed_line[i].split("//", false, 1)[ 0 ] ## Strip comments
-		parsed_line[i].strip_edges( true, true ) ## cleanup for empty spaces
+		# parsed_line[i] = parsed_line[i].split("//", false, 1)[ 0 ] ## Strip comments
+		parsed_line[i] = parsed_line[i].get_slice("//", 0) 	## Strip comments
+		parsed_line[i] = parsed_line[i].strip_edges() 		## cleanup for empty spaces
 	return parsed_line
 
 func parse_if( line : String ) -> bool:
+	## DEBUG
+	#if line.contains("katsuBall == 2"):
+	#	breakpoint
+	
 	# clean the conditions
 	var condidion_line : PackedStringArray = line.split( " ", false )
 	
+	#var str_var 	: String 		= Text.qst( str( condidion_line[ 1 ] ) ) # 0 is the IF
 	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
 	var comparator 	: String 		= condidion_line[ 2 ]
-	## CRITICAL this is not always an INT. check o_dubre01 event 0.
+	
+	## CRITICAL condition is not always an INT. check o_dubre01 event 0.
 	# using Text.qst() to check for variables
 	var cond_value 		 			= Text.qst( str( condidion_line[ 3 ] ) )
 	#if str(condidion_line[ 3 ]).is_valid_int():
@@ -873,12 +924,13 @@ func parse_if( line : String ) -> bool:
 	elif str(cond_value).is_valid_float():
 		cond_value 		 			= float( condidion_line[ 3 ] )
 	
-	## DEBUG
-	#if str( condidion_line[ 3 ] ) == "@money_dubreMap02@":
-	#	breakpoint
+	## sometimes, str_var can contain @s. Why?
+	## ALERT THis means the str_var refers to an Item! check o_cornrow dialog, referencing @Fruit Basket@ which is an Item.
+	## TODO Add Items.
 	
 	# this should return false (if quest var is invalid) or some value.
 	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
+	
 	## Overides
 	if str_var == "body":
 		quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" )
@@ -902,6 +954,9 @@ func parse_if( line : String ) -> bool:
 				return quest_var < cond_value
 			">":
 				return quest_var > cond_value
+			"=":
+				## basically error handling in case someone mistyped.
+				return quest_var == cond_value
 			_:
 				push_error("Unknown operation ", comparator)
 				return false

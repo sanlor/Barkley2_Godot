@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkuidtrraamhm"]
+
+[ext_resource type="Texture2D" uid="uid://j1fydkjpud6l" path="res://barkley2/assets/b2_original/images/merged/s_bed_mattress_bare01.png" id="1_b6wmr"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_g3pnc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cl7a6"]
+atlas = ExtResource("1_b6wmr")
+region = Rect2(0, 0, 76, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xx2iw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cl7a6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4be0"]
+size = Vector2(60.8, 44.8)
+
+[node name="o_bed_mattress_bare01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_xx2iw")
+centered = false
+offset = Vector2(-38, -28)
+script = ExtResource("2_g3pnc")
+EnvCol = NodePath("StaticBody2D")
+shape = 1
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "10",
+"height": "56",
+"name": "s_bed_mattress_bare01",
+"width": "76",
+"xorig": "38",
+"yorigin": "28"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_c4be0")

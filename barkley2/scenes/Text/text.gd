@@ -177,8 +177,7 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 			pass # TODO
 		else:
 			# Cinema() line 678
-			# qstStr = string(scr_quest_get_state(_qstNam));
-			pass # TODO
+			parsed_str_var = B2_Playerdata.Quest( str_var )
 
 		text = text.erase( first_at, (second_at - first_at) + 1 )
 		text = text.insert( first_at, parsed_str_var )

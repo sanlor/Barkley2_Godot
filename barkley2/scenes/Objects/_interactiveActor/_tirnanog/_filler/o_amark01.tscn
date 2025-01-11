@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://pn4n13hf010i"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amark01.gd" id="1_3s51y"]
+[ext_resource type="Texture2D" uid="uid://cwt85rsri28bd" path="res://barkley2/assets/b2_original/images/merged/s_amark01.png" id="2_54fo6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lssbe"]
+atlas = ExtResource("2_54fo6")
+region = Rect2(0, 0, 26, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h0byr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lssbe")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jsljs"]
+radius = 7.00282
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jmhp"]
+size = Vector2(20, 36)
+
+[node name="o_amark01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_3s51y")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_h0byr")
+centered = false
+offset = Vector2(-12, -38)
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "1",
+"bbox_right": "23",
+"bbox_top": "35",
+"frames": ["images\\s_amark01_0.png"],
+"height": "49",
+"name": "s_amark01",
+"width": "26",
+"xorig": "12",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jsljs")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_5jmhp")
