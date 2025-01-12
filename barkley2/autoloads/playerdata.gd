@@ -115,9 +115,16 @@ func _ready():
 	#B2_Playerdata.Quest("gameStart", 			2)
 	#B2_Playerdata.Quest("factoryEggs", 		1)
 	preload_skip_tutorial_save_data()
-	B2_Item.gain_item("Dragon Lord Gemstone", 69)
-	B2_Item.gain_item("Sterile Vial", 10)
-	B2_Item.gain_item("Bolt Cutters")
+	
+	## DEBUG
+	for item in B2_Database.items.keys():
+		B2_Item.gain_item( item, randi_range(1,99) )
+		if B2_Item.get_items().size() > 20:
+			break
+			
+	#B2_Item.gain_item("Dragon Lord Gemstone", 69)
+	#B2_Item.gain_item("Sterile Vial", 10)
+	#B2_Item.gain_item("Bolt Cutters")
 	
 func time_goes_on() -> void:
 	if B2_Playerdata.Quest("gameStart") == 2:

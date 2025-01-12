@@ -7,8 +7,8 @@ extends Button
 
 const itemHeight := 20.0
 
-const name_color := Color.ORANGE
-const sel_name_color := Color.YELLOW
+const name_color 		:= Color.ORANGE
+const sel_name_color 	:= Color.YELLOW
 
 var my_item_name : String 		= "Placeholder Item"
 var my_item_amount : int 		= randi_range(1,99)
@@ -30,13 +30,13 @@ func _on_mouse_entered() -> void:
 	item_name.modulate 			= sel_name_color
 	item_count.modulate 		= sel_name_color
 	item_description.modulate 	= sel_name_color
-	change_muh_size(true)
+	change_muh_size( true )
 
 func _on_mouse_exited() -> void:
 	item_name.modulate 			= name_color
 	item_count.modulate 		= name_color
 	item_description.modulate 	= name_color
-	change_muh_size(false)
+	change_muh_size( false )
 
 func change_muh_size(toggled_on : bool):
 	custom_minimum_size.y = 0
@@ -46,9 +46,12 @@ func change_muh_size(toggled_on : bool):
 		size.y = itemHeight
 	custom_minimum_size.y = size.y
 
-
 func _on_focus_entered() -> void:
 	_on_mouse_entered()
 
 func _on_focus_exited() -> void:
+	await get_tree().process_frame
 	_on_mouse_exited()
+
+func _on_pressed() -> void:
+	pass

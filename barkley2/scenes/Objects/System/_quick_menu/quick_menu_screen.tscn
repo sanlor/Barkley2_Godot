@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bnqqx8su00j5n"]
+[gd_scene load_steps=43 format=3 uid="uid://bnqqx8su00j5n"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.gd" id="1_fo3ge"]
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="2_lks4j"]
@@ -83,9 +83,36 @@ border_color = Color(1, 0.647059, 0, 1)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_ifr38"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_indml"]
-font = ExtResource("9_ye4pm")
-font_color = Color(1, 0.647059, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oiim6"]
+bg_color = Color(0, 0, 0, 0.784314)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_76nf2"]
+bg_color = Color(0, 0, 0, 0.784314)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50q10"]
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(1, 0.647059, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3f6bx"]
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hoxqc"]
+border_width_top = 5
+border_width_bottom = 5
+border_color = Color(0.478552, 0.300057, 0, 1)
 
 [node name="quick_menu_screen" type="CanvasLayer"]
 process_mode = 3
@@ -656,6 +683,7 @@ script = ExtResource("19_liqwy")
 border_size = Vector2(384, 210)
 
 [node name="item_list_panel" type="Panel" parent="inventory"]
+clip_contents = true
 custom_minimum_size = Vector2(280, 164)
 layout_mode = 0
 offset_left = 12.0
@@ -664,21 +692,30 @@ offset_right = 292.0
 offset_bottom = 178.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_3yiw8")
 
-[node name="item_list" type="VBoxContainer" parent="inventory/item_list_panel"]
-layout_mode = 0
-offset_right = 280.0
-offset_bottom = 18.0
+[node name="ScrollContainer" type="ScrollContainer" parent="inventory/item_list_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="item_list" type="VBoxContainer" parent="inventory/item_list_panel/ScrollContainer"]
+layout_mode = 2
 theme_override_constants/separation = -1
 
-[node name="item_btn" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+[node name="item_btn" parent="inventory/item_list_panel/ScrollContainer/item_list" instance=ExtResource("19_aypwd")]
 layout_mode = 2
 button_group = SubResource("ButtonGroup_2n3iv")
 
-[node name="item_btn2" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+[node name="item_btn2" parent="inventory/item_list_panel/ScrollContainer/item_list" instance=ExtResource("19_aypwd")]
 layout_mode = 2
 button_group = SubResource("ButtonGroup_r76t5")
 
-[node name="item_btn3" parent="inventory/item_list_panel/item_list" instance=ExtResource("19_aypwd")]
+[node name="item_btn3" parent="inventory/item_list_panel/ScrollContainer/item_list" instance=ExtResource("19_aypwd")]
 layout_mode = 2
 button_group = SubResource("ButtonGroup_ifr38")
 
@@ -704,21 +741,22 @@ text = "/\\"
 layout_mode = 0
 offset_left = 294.0
 offset_top = 157.0
-offset_right = 317.0
+offset_right = 314.0
 offset_bottom = 177.0
 theme = ExtResource("19_akkoy")
 text = "\\/"
 
-[node name="page_count" type="Label" parent="inventory"]
+[node name="pg_scroll" type="VScrollBar" parent="inventory"]
 layout_mode = 0
 offset_left = 294.0
-offset_top = 85.0
+offset_top = 37.0
 offset_right = 314.0
-offset_bottom = 105.0
-text = "1/1"
-label_settings = SubResource("LabelSettings_indml")
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_bottom = 155.0
+theme_override_styles/scroll = SubResource("StyleBoxFlat_oiim6")
+theme_override_styles/scroll_focus = SubResource("StyleBoxFlat_76nf2")
+theme_override_styles/grabber = SubResource("StyleBoxFlat_50q10")
+theme_override_styles/grabber_highlight = SubResource("StyleBoxFlat_3f6bx")
+theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_hoxqc")
 
 [connection signal="pressed" from="top/maps_btn" to="." method="_on_maps_btn_pressed"]
 [connection signal="pressed" from="top/notes_btn" to="." method="_on_notes_btn_pressed"]
@@ -730,3 +768,6 @@ vertical_alignment = 1
 [connection signal="mouse_entered" from="left" to="left" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="left" to="left" method="_on_mouse_exited"]
 [connection signal="pressed" from="inventory/close_btn" to="inventory" method="_on_close_btn_pressed"]
+[connection signal="pressed" from="inventory/pg_up_btn" to="inventory" method="_on_pg_up_btn_pressed"]
+[connection signal="pressed" from="inventory/pg_dn_btn" to="inventory" method="_on_pg_dn_btn_pressed"]
+[connection signal="value_changed" from="inventory/pg_scroll" to="inventory" method="_on_pg_scroll_value_changed"]
