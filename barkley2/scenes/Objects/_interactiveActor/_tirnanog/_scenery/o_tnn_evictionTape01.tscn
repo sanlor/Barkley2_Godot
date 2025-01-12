@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgrcc73sqwfnh"]
+[gd_scene load_steps=8 format=3 uid="uid://dgrcc73sqwfnh"]
 
 [ext_resource type="Texture2D" uid="uid://esy1teevawfw" path="res://barkley2/assets/b2_original/images/merged/s_tnn_evictionTape01.png" id="1_3vd7p"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_uyfd1"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_eviction_tape_01.gd" id="2_jae2v"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_82sxf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5c3kh"]
 atlas = ExtResource("1_3vd7p")
@@ -18,6 +19,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_08ylt"]
+script = ExtResource("3_82sxf")
+original_script = "EVENT | o_tnn_evictionTape01 | 1 // Get random
+IF random == 0 | DIALOG | P_NAME | Evicted._._._
+IF random == 1 | DIALOG | P_NAME | Another casualty of the bubble._._._
+IF random == 2 | DIALOG | P_NAME | This house._._._ is no longer a home.
+IF random == 3 | DIALOG | P_NAME | The mean streets claim another soul, drowned in the sea of fiscal responsibility.
+IF random == 4 | DIALOG | P_NAME | Take nothing for granted._._._"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnc0n"]
 size = Vector2(34, 50)
 
@@ -25,8 +35,9 @@ size = Vector2(34, 50)
 sprite_frames = SubResource("SpriteFrames_4bnma")
 centered = false
 offset = Vector2(-16, -54)
-script = ExtResource("2_uyfd1")
+script = ExtResource("2_jae2v")
 mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_08ylt")
 
 [node name="Area2D" type="Area2D" parent="."]
 

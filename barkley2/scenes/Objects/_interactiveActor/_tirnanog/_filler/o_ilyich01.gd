@@ -5,6 +5,10 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
+	## Only show up at the maingate during govspeech ##
+	if get_room_name() == "r_tnn_maingate02" and B2_Playerdata.Quest("govSpeechInitiate") != 2:
+		queue_free()
+	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= "s_vikingstadSE"
 	ANIMATION_SOUTHEAST 					= "s_vikingstadSE"

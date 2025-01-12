@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://cs3qcrcxhqhd1"]
+
+[ext_resource type="Texture2D" uid="uid://cad2oa7k45ko" path="res://barkley2/assets/b2_original/images/merged/s_chair_wood_left01.png" id="1_lq4eh"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_romqb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1krmt"]
+atlas = ExtResource("1_lq4eh")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xw3b2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1krmt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s48yo"]
+size = Vector2(14.4, 14.4)
+
+[node name="o_chair_wood_left01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_xw3b2")
+centered = false
+offset = Vector2(0, -31)
+script = ExtResource("2_romqb")
+EnvCol = NodePath("StaticBody2D")
+shape = 1
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "15",
+"height": "32",
+"name": "s_chair_wood_left01",
+"width": "16",
+"xorig": "0",
+"yorigin": "31"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(7.8, -7.8)
+shape = SubResource("RectangleShape2D_s48yo")

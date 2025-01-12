@@ -1,0 +1,165 @@
+[gd_scene load_steps=15 format=3 uid="uid://cbg4l0soxttx6"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_zhang01.gd" id="1_by474"]
+[ext_resource type="Texture2D" uid="uid://btnjb6yinrhi6" path="res://barkley2/assets/b2_original/images/merged/s_tnn_zhang01.png" id="2_7d8yb"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_caf84"]
+[ext_resource type="AudioStream" uid="uid://185jxa2rgqef" path="res://barkley2/assets/b2_original/audio/Environment/Mountain_Pass/sn_bubblepop01.ogg" id="4_73pla"]
+[ext_resource type="Texture2D" uid="uid://delsibv5e8oi8" path="res://barkley2/assets/b2_original/images/merged/s_effect_affix_blink.png" id="4_qasyj"]
+
+[sub_resource type="Resource" id="Resource_ktr56"]
+script = ExtResource("2_caf84")
+original_script = "IF body == governor | GOTO | GOVERNOR
+QUEST | zhangState += 1
+IF zhangState == 1  | GOTO | ZHANG0
+IF zhangState == 2  | GOTO | ZHANG1
+IF zhangState == 3  | GOTO | ZHANG2
+IF zhangState == 4  | GOTO | ZHANG3
+IF zhangState == 5  | GOTO | ZHANG4
+IF zhangState == 6  | GOTO | ZHANG5
+IF zhangState == 7  | GOTO | ZHANG6
+IF zhangState == 8  | GOTO | ZHANG7
+IF zhangState == 9  | GOTO | ZHANG8
+IF zhangState == 10 | GOTO | ZHANG9
+IF zhangState >= 11 | GOTO | ZHANG10
+
+GOVERNOR
+DIALOG | Zhang | Hey, Mr. Governor. What do you think about clowns?
+DIALOG | Governor Elagabalus | Hmm... H-m-m... Clowns are great!
+DIALOG | Zhang | I always knew you were the clown's governor. Keep up the good work.
+QUEST | govZhang = 1
+
+ZHANG0
+DIALOG | Zhang | Hey, welcome to my house. I'm Zhang. I like to dress up like a clown because I think it's real cool. I like to march around in the streets and go \"check me out fellas, I'm a clown\". I think my clown clothes look good and cool. I'm a good and cool clown.
+QUEST | govZhang = 1
+
+ZHANG1
+DIALOG | Zhang | I like to kick back and goof off.
+
+ZHANG2
+DIALOG | Zhang | I'm an authentic clown for goofing.
+
+ZHANG3
+DIALOG | Zhang | The role of clowns in society is: goofing.
+
+ZHANG4
+DIALOG | Zhang | I feel empowered when I dress like a clown.
+
+ZHANG5
+DIALOG | Zhang | I spend 100% of my time dressed like a clown. I wear these clothes constantly. I think it's cool to dress like a clown.
+
+ZHANG6
+DIALOG | Zhang | For me, dressing like a clown is a fashion statement.
+
+ZHANG7
+DIALOG | Zhang | I'm working on a script for a movie - 'Good Clown, Bad Clown'. So far I only have the title.
+
+ZHANG8
+DIALOG | Zhang | It's so good to dress like a clown. I recommend it.
+
+ZHANG9
+DIALOG | Zhang | So you like spending time with a clown, eh? Ahh.
+
+ZHANG10
+QUEST  | zhangState = 11
+DIALOG | Zhang | The one flaw with always dressing like a clown is that it prevents you from integrating with the rest of society."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76kf8"]
+atlas = ExtResource("2_7d8yb")
+region = Rect2(0, 0, 29, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2jqnt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76kf8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cbg41"]
+radius = 7.63944
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x7f7y"]
+size = Vector2(20, 36)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_75hlb"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_1qa6n"]
+_data = [Vector2(0, 0.320225), 0.0, 1.31735, 0, 0, Vector2(0.929062, 0), -2.13828, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rfpma"]
+curve = SubResource("Curve_1qa6n")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ofhfc"]
+particle_flag_disable_z = true
+direction = Vector3(-0.5, -1, 0)
+spread = 22.0
+initial_velocity_min = 70.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 98, 0)
+scale_max = 1.5
+alpha_curve = SubResource("CurveTexture_rfpma")
+hue_variation_min = -0.25
+hue_variation_max = 0.25
+anim_speed_min = 1.0
+anim_speed_max = 2.0
+
+[node name="o_zhang01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_by474")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ktr56")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_2jqnt")
+centered = false
+offset = Vector2(-13, -47)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "2",
+"bbox_right": "26",
+"bbox_top": "38",
+"frames": ["images\\s_tnn_zhang01_0.png"],
+"height": "54",
+"name": "s_tnn_zhang01",
+"width": "29",
+"xorig": "13",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cbg41")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_x7f7y")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_73pla")
+bus = &"Audio"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_75hlb")
+position = Vector2(0, -19)
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_ofhfc")
+texture = ExtResource("4_qasyj")
+one_shot = true
+explosiveness = 0.8
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -166,9 +166,13 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 		elif str_var.begins_with("duergar_"):
 			pass # TODO
 		elif str_var.begins_with("time_"):
-			pass # TODO
+			str_var = str_var.trim_prefix("time_")
+			parsed_str_var = str( B2_Database.time_check( str_var ) )
+			
 		elif str_var.begins_with("item_"):
-			pass # TODO
+			str_var = str_var.trim_prefix("item_")
+			parsed_str_var = str( B2_Item.count_item( str_var ) )
+			
 		elif str_var.contains("note"):
 			pass # TODO
 		elif str_var.contains("shop"):

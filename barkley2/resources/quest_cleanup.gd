@@ -8,7 +8,7 @@ enum ACT{DESTROY, LOG, DESTROY_AND_LOG}
 @export var compare		:= OP.GREATER
 @export var value		:= 0
 @export var action		:= ACT.DESTROY
-
+@export_multiline var comments : String
 
 func _ready() -> void:
 	var q = B2_Playerdata.Quest(quest_name, null, 0)

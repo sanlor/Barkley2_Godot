@@ -1,0 +1,144 @@
+[gd_scene load_steps=17 format=3 uid="uid://ctnhjyemlowns"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_kalevi02.gd" id="1_hfi24"]
+[ext_resource type="Texture2D" uid="uid://dgqarljokumwi" path="res://barkley2/assets/b2_original/images/merged/s_kalevi02.png" id="2_jr5a8"]
+[ext_resource type="Texture2D" uid="uid://jx4ips6kp648" path="res://barkley2/assets/b2_original/images/merged/s_kalevi01.png" id="3_fwubp"]
+[ext_resource type="AudioStream" uid="uid://dtn5ioah4juhj" path="res://barkley2/assets/b2_original/audio/NPC/sn_blacksmith_clang.ogg" id="4_ot4x1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i4pp"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(0, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkric"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(72, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xr2vt"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(144, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olm34"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(216, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80c44"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(288, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lcdh"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(360, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3q68i"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(432, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_182ng"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(504, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s1vwa"]
+atlas = ExtResource("2_jr5a8")
+region = Rect2(576, 0, 72, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mo23f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i4pp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkric")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xr2vt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olm34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80c44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lcdh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3q68i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_182ng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s1vwa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_fwubp")
+}],
+"loop": true,
+"name": &"kaleviStanding",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a0uyy"]
+radius = 20.0535
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x07xm"]
+size = Vector2(67, 56)
+
+[node name="o_kalevi02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hfi24")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mo23f")
+frame_progress = 0.666429
+centered = false
+offset = Vector2(-36, -61)
+metadata/default = {
+"bbox_bottom": "60",
+"bbox_left": "5",
+"bbox_right": "68",
+"bbox_top": "8",
+"frames": ["images\\s_kalevi02_0.png", "images\\s_kalevi02_1.png", "images\\s_kalevi02_2.png", "images\\s_kalevi02_3.png", "images\\s_kalevi02_4.png", "images\\s_kalevi02_5.png", "images\\s_kalevi02_6.png", "images\\s_kalevi02_7.png", "images\\s_kalevi02_8.png"],
+"height": "64",
+"name": "s_kalevi02",
+"width": "72",
+"xorig": "36",
+"yorigin": "61"
+}
+metadata/kaleviStanding = {
+"bbox_bottom": "50",
+"bbox_left": "2",
+"bbox_right": "31",
+"bbox_top": "32",
+"frames": ["images\\s_kalevi01_0.png"],
+"height": "51",
+"name": "s_kalevi01",
+"width": "33",
+"xorig": "18",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-9, -17)
+shape = SubResource("CircleShape2D_a0uyy")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-0.5, -28)
+shape = SubResource("RectangleShape2D_x07xm")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ot4x1")
+bus = &"Audio"
+
+[connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

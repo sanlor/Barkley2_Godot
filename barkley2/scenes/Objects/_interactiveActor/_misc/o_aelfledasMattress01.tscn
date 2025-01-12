@@ -1,0 +1,90 @@
+[gd_scene load_steps=9 format=3 uid="uid://bkc7q65pn54br"]
+
+[ext_resource type="Texture2D" uid="uid://j1fydkjpud6l" path="res://barkley2/assets/b2_original/images/merged/s_bed_mattress_bare01.png" id="1_x0x58"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_misc/o_aelfledas_mattress_01.gd" id="2_071vw"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_n100s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq1s5"]
+atlas = ExtResource("1_x0x58")
+region = Rect2(0, 0, 76, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vt0u6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq1s5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_8yslk"]
+script = ExtResource("3_n100s")
+original_script = "IF aelfledaMattress == 2 | GOTO | REMARK
+IF aelfledaMattress <= 1 | GOTO | SLIDE
+
+REMARK
+DIALOG | P_NAME | What a respectable bounty!
+
+SLIDE
+IF aelfledaMattress == 0 | DIALOG | P_NAME | Hmm, there is a bump in the mattress that implies that there is a vidcon underneath it. Oh, there IS a vidcon underneath!
+IF aelfledaMattress == 1 | DIALOG | P_NAME | This is Aelfleda's mattress. She said I should check underneath...
+USEAT  | o_aelfledasMattress01
+NOTIFY | Found \" + Vidcon(\"name\", 3) + \"!
+Vidcon | give | 3
+WAIT   | 1.0
+DIALOG | P_NAME | Hmmm..._ what's this...?
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+DIALOG | P_NAME = s_port_hoopzSurprise | There is something else!
+WAIT   | 0.5
+MOVETO | o_aelfledasMattress01 | o_cinema0 | MOVE_SLOW
+\" +
+//TODO: generic sliding sound
+\"
+WAIT   | 0
+SURPRISEAT | o_teleport_manhole
+WAIT   | 0
+EVENT  | o_aelfledasMattress01 | 10
+EVENT  | o_aelfledasMattress01 | 11
+QUEST  | aelfledaMattress = 2
+QUEST  | aelfledaSewerShortcut = 1
+DIALOG | P_NAME = s_port_hoopzSurprise | It's a mysterious manhole! Bazinga!"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uqss"]
+size = Vector2(90, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlmck"]
+size = Vector2(70, 43)
+
+[node name="o_aelfledasMattress01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_vt0u6")
+centered = false
+offset = Vector2(-38, -28)
+script = ExtResource("2_071vw")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_8yslk")
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "10",
+"height": "56",
+"name": "s_bed_mattress_bare01",
+"width": "76",
+"xorig": "38",
+"yorigin": "28"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1uqss")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_rlmck")

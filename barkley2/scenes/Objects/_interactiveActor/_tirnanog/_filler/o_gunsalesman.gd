@@ -19,3 +19,4 @@ func _ready() -> void:
 
 
 ## NOTE Its missing a lot of stuff.
+## check user event 10, pretty important

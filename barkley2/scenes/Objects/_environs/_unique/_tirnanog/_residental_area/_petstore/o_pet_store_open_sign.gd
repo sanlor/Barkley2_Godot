@@ -5,12 +5,11 @@ var flicker := true
 
 func _ready() -> void:
 	## during curfew
-	#if (scr_time_db("tnnCurfew") == "during")
+	#if (scr_time_db("tnnCurfew") == "during") <- unused
 	## Turn sign off during curfew
 	
 	## failed pet store quest
-	#if ClockTime() > 5 and Quest("ericQuest") <= 6 then
-	if B2_Playerdata.Quest("ericQuest") <= 6:
+	if B2_ClockTime.time_gate() > 5 and B2_Playerdata.Quest("ericQuest") <= 6:
 		frame = 1
 		flicker = false
 		

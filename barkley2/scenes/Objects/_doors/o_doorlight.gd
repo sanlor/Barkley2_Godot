@@ -2,7 +2,12 @@
 @icon("res://barkley2/assets/b2_original/images/merged/s_doorlight.png")
 extends AnimatedSprite2D
 class_name B2_DoorLight
+
+const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
+
 # Base class for doorlight directions.
+@export var locked			:= false
+@export var locked_msg		:= ["Locked...", "Its locked.", "It won't open...", "...?"]
 @export var enabled			:= true
 @export var show_door_light := false:
 	set(b):
@@ -48,7 +53,7 @@ var pushTime 		= 0.5; # In seconds how long you need to hold
 var pushResist 		= 4000000; # Pushing resist, higher is more pusback ## was 70
 var light 			= 1; # When 0, it does not show the light
 var fix 			= 1; # If 1, adds the top fix
-var locked 			= 0;
+#var locked 			= 0;
 var door_name 		= "";
 
 var area_change 		= false;
@@ -211,16 +216,26 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 		
 	if body is B2_Player:
 		# Debug Destination has priority
-		if debug_teleport_destination.is_empty():
-			if teleport_destination.is_empty():
-				push_error("Door has no destination set. dumbo!")
-			else:
-				is_warping = true
-				B2_RoomXY.warp_to( teleport_destination, 0.0 )
+		if locked:
+			B2_Sound.play_pick( "door_locked" )
+			var g = O_ENTITY_INDICATOR_GOSSIP.instantiate()
+			g.text = Text.pr( locked_msg.pick_random() )
+			g.timer = 1.0
+			add_sibling( g, true )
+			g.position = position
 		else:
-			push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
-			is_warping = true
-			B2_RoomXY.warp_to( debug_teleport_destination, 0.0 )
+			if debug_teleport_destination.is_empty():
+				if teleport_destination.is_empty():
+					push_error("Door has no destination set. Dumbo!")
+				else:
+					is_warping = true
+					B2_Sound.play_pick( "trailing_steps" )
+					B2_RoomXY.warp_to( teleport_destination, 0.0 )
+			else:
+				push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
+				is_warping = true
+				B2_Sound.play_pick( "trailing_steps" )
+				B2_RoomXY.warp_to( debug_teleport_destination, 0.0 )
 			
 func _draw() -> void:
 	if debug_door_exit_marker and Engine.is_editor_hint():

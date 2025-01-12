@@ -4,6 +4,10 @@ extends CanvasLayer
 # Check the original RoomXY() script.
 ## RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 
+## DEBUG
+var print_debug_logs := false
+var print_room_load_logs := true
+
 signal started_loading
 signal room_loaded( has_error )
 signal room_finished_loading
@@ -98,7 +102,6 @@ func is_room_valid( strict := false) -> bool:
 	if strict:
 		if this_room_x == 0 or this_room_y == 0 or this_room.is_empty():
 			return false
-	print("room ",this_room)
 	return not this_room.is_empty()
 	
 func get_room_pos() -> Vector2:
@@ -121,13 +124,22 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )
 	
-	var room_name 	:= str( split[0] )
+	var its_the_same_room := false
+	
+	var room_name 	:= str( split[0] ).strip_edges()
 	var room_x 		:= float( split[1] )
 	var room_y 		:= float( split[2] )
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
-	var open_sfx	:= str( split[4] )
-	var close_sfx	:= str( split[5] )
+	var open_sfx	:= str( split[4] ).strip_edges()
+	var close_sfx	:= str( split[5] ).strip_edges()
 	
+	var fade_modifier := 1.0
+	
+	if room_name == this_room:
+		print("Room_XY: Warping to the same room.")
+		its_the_same_room = true
+		fade_modifier = 0.70
+		
 	# save destination data
 	this_room 		= room_name
 	this_room_x 	= room_x
@@ -142,7 +154,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if B2_Playerdata.Quest("saveDisabled") == 0:
 		B2_Playerdata.SaveGame()
 	
-	print("Started loading room %s." % room_name)
+	if print_debug_logs: print("Started loading room %s." % room_name)
 	
 	add_child(room_transition_layer)
 	add_child(room_progress_bar)
@@ -154,7 +166,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	
 	if not skip_fade_out:
 		tween = create_tween()
-		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out )
+		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out * fade_modifier )
 		await tween.finished
 		fadeout_finished.emit()
 	
@@ -162,19 +174,33 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		if _delay > 0.0:
 			await get_tree().create_timer( _delay ).timeout
 		else:
-			await get_tree().create_timer( fade_delay ).timeout
+			await get_tree().create_timer( fade_delay * fade_modifier ).timeout
 			
 	else:
 		room_transition_layer.modulate.a = 1.0
 		await get_tree().process_frame
 		
-	await get_room_scene( room_name ) 						# Load the next room
-	get_tree().change_scene_to_packed( room_scene )		# change the current room
-	await get_tree().process_frame
+	if not its_the_same_room:
+		await get_room_scene( room_name ) 						# Load the next room
+		get_tree().change_scene_to_packed( room_scene )		# change the current room
+		await get_tree().process_frame
+	else:
+		if is_instance_valid( B2_CManager.o_hoopz ):
+			B2_CManager.o_hoopz.position = Vector2( room_x, room_y )
+		else:
+			# What happened?
+			breakpoint
+			
+		if is_instance_valid( B2_CManager.camera ):
+			B2_CManager.camera.position = Vector2( room_x, room_y )
+		else:
+			# What happened?
+			breakpoint
+		
 	B2_Input.player_has_control = true
 	
 	tween = create_tween()
-	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in )
+	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in * fade_modifier )
 	
 	## Cleanup
 	tween.tween_callback( remove_child.bind( room_transition_layer ) )
@@ -185,26 +211,26 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	#B2_Input.player_has_control = true
 	room_finished_loading.emit()
 	room_load_lock = false
-	print("Finished loading room %s." % room_name)
+	if print_debug_logs: print("Finished loading room %s." % room_name)
 	return
 	
 	
 func get_room_scene( room_name : String ):
 	room_is_invalid = false
-	print_rich( "[bgcolor=black]Loading room %s started.[/bgcolor]" % room_name )
+	if print_room_load_logs: print_rich( "[bgcolor=black]Loading room %s started.[/bgcolor]" % room_name )
 	var t1 := Time.get_ticks_msec()
 	if room_index.has( room_name ):
 		path_loading_room = room_index[ room_name ]
-		print(path_loading_room)
+		if print_debug_logs: print(path_loading_room)
 		ResourceLoader.load_threaded_request( path_loading_room, "PackedScene", use_subthreads, cachemode )
 		is_loading_room = true
 		
 		var error = await room_loaded
 		
 		var t2 := Time.get_ticks_msec() - t1
-		print_rich( "[bgcolor=black]Room %s loading took %s.[/bgcolor]" % [ room_name, str(t2 ) ] )
+		if print_room_load_logs: print_rich( "[bgcolor=black]Room %s loading took %s.[/bgcolor]" % [ room_name, str(t2 ) ] )
 		if t2 > 1000.0:
-			print_rich("[color=yellow]Warning: room load took a long time.[/color]")
+			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
 		if not error:
 			room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
 			return 
@@ -240,20 +266,20 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		cam.follow_player( player_node )
 		cam.follow_mouse = true
 		
-	print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
-	reset_room()
+	if print_debug_logs: print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
+	# reset_room()
 
 func _process(_delta: float) -> void:
 	if is_loading_room:
 		var error := ResourceLoader.load_threaded_get_status( path_loading_room, load_progress )
-		 # THREAD_LOAD_INVALID_RESOURCE = 0
-			#The resource is invalid, or has not been loaded with load_threaded_request().
+		# THREAD_LOAD_INVALID_RESOURCE = 0
+		#		The resource is invalid, or has not been loaded with load_threaded_request().
 		# THREAD_LOAD_IN_PROGRESS = 1
-			#The resource is still being loaded.
+		#		The resource is still being loaded.
 		# THREAD_LOAD_FAILED = 2
-			#Some error occurred during loading and it failed.
+		#		Some error occurred during loading and it failed.
 		# THREAD_LOAD_LOADED = 3
-			#The resource was loaded successfully and can be accessed via load_threaded_get().
+		#		The resource was loaded successfully and can be accessed via load_threaded_get().
 		if error == 1:
 			if room_progress_bar != null:
 				room_progress_bar.visible = true

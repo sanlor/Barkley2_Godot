@@ -464,8 +464,23 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					dialogue.queue_free()
 				"SHAKE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-				"ITEM":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+				"ITEM", "Item":
+					if parsed_line[ 1 ].strip_edges() == "gain": # Weird edge case, only 1 script use this.
+						B2_Item.gain_item( parsed_line[ 2 ].strip_edges() )
+					
+					else:
+						var item_name : String = parsed_line[ 1 ].strip_edges()
+						var item_amount : int = int( parsed_line[ 2 ].strip_edges() )
+						
+						if item_amount > 0:
+							B2_Item.gain_item( item_name, item_amount )
+						elif item_amount < 0:
+							B2_Item.lose_item( item_name, item_amount )
+						else:
+							# huh? amount is 0?
+							breakpoint
+						
+					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY":
 					var text := parsed_line[ 1 ] as String
 					await B2_Screen.show_notify_screen( text )
@@ -908,21 +923,22 @@ func parse_if( line : String ) -> bool:
 	#	breakpoint
 	
 	# clean the conditions
-	var condidion_line : PackedStringArray = line.split( " ", false )
+	## ALERT Due to messy code, sometimes Items are checked with its names (@Lock Pick@) that contain spaces.
+	line = line.trim_prefix("IF ")
+	var condidion_line : PackedStringArray = line.rsplit( " ", false, 2 )
 	
-	#var str_var 	: String 		= Text.qst( str( condidion_line[ 1 ] ) ) # 0 is the IF
-	var str_var 	: String 		= condidion_line[ 1 ] # 0 is the IF
-	var comparator 	: String 		= condidion_line[ 2 ]
+	var str_var 	: String 		= condidion_line[ 0 ]
+	var comparator 	: String 		= condidion_line[ 1 ]
 	
 	## CRITICAL condition is not always an INT. check o_dubre01 event 0.
 	# using Text.qst() to check for variables
-	var cond_value 		 			= Text.qst( str( condidion_line[ 3 ] ) )
-	#if str(condidion_line[ 3 ]).is_valid_int():
+	var cond_value 		 			= Text.qst( str( condidion_line[ 2 ] ) )
+	
 	if str(cond_value).is_valid_int():
-		cond_value 		 			= int( condidion_line[ 3 ] )
-	#elif str(condidion_line[ 3 ]).is_valid_float():
+		cond_value 		 			= int( condidion_line[ 2 ] )
+	
 	elif str(cond_value).is_valid_float():
-		cond_value 		 			= float( condidion_line[ 3 ] )
+		cond_value 		 			= float( condidion_line[ 2 ] )
 	
 	## sometimes, str_var can contain @s. Why?
 	## ALERT THis means the str_var refers to an Item! check o_cornrow dialog, referencing @Fruit Basket@ which is an Item.
@@ -931,10 +947,40 @@ func parse_if( line : String ) -> bool:
 	# this should return false (if quest var is invalid) or some value.
 	var quest_var = B2_Playerdata.Quest( str_var, null, 0 ) ## WARNING Quest defaults must be set. Ints or Strings?
 	
-	## Overides
+	## Overides - chheck Cinema() line 705 and line 730
 	if str_var == "body":
-		quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" )
-		cond_value = str(condidion_line[ 3 ]).strip_edges()
+		quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" ) as String
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+	elif str_var == "curfew":
+		quest_var = B2_Database.time_check("tnnCurfew") as String
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+	elif str_var == "time":
+		quest_var = B2_Config.get_user_save_data( "clock.time", 0.0 ) as float
+		cond_value = float( condidion_line[ 2 ] )
+		print_rich("[b]Cinema Debug[/b] - IF 'time' %s - %s." % [quest_var, cond_value])
+	elif str_var == "clock":
+		quest_var = B2_ClockTime.time_get() as float
+		cond_value = float( condidion_line[ 2 ] )
+		print_rich("[b]Cinema Debug[/b] - IF 'clock' %s - %s." % [quest_var, cond_value])
+	elif str_var == "jerkin":
+		push_warning("Jerking check requested, but not implemented. Bypassing.")
+	elif str_var == "money":
+		push_warning("Money check requested, but not implemented. Bypassing.")
+	elif str_var == "area":
+		quest_var = get_room_area() as String
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+	elif str_var == "room":
+		quest_var = get_room_name() as String
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+	elif str_var == "inside":
+		quest_var = is_inside_room() as bool
+		cond_value = bool( int( condidion_line[ 2 ] ) )
+		
+	## WTF, what a mess!!
+	## Sometimes, item checks doesnt have the prefix "item", the have 2 @s
+	elif str_var.count("@") > 1:
+		quest_var = B2_Item.count_item( str_var.replace("@", "").strip_edges() )
+		cond_value = int( condidion_line[ 2 ] )
 		
 	if not quest_var is bool:
 		# different types of vars will always be false.
@@ -1138,3 +1184,32 @@ func Create( parsed_line : PackedStringArray ):
 		add_sibling( object, true )
 	else:
 		push_error("object %s not in object_map dictionary. you dun goofed." % str( parsed_line[1] ) )
+
+## NOTE Stolen from B2_Actor
+# Check if the actor is inside a building. return false if the parent is not B2_ROOMS
+func is_inside_room() -> bool:
+	if get_parent() is B2_ROOMS:
+		return get_parent().is_interior
+	else:
+		return false
+		
+# Get the room area. return "unknow" if the parent is not B2_ROOMS
+func get_room_area() -> String:
+	if get_parent() is B2_ROOMS:
+		var room_name : String = get_parent().name
+		if room_name.begins_with("r_") and room_name.count("_", 0, 6) >= 2:
+			var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > tnn
+			return area
+		else:
+			push_warning("Room name is not standard. fix this.")
+			
+	push_warning("Parent is not a B2_ROOMS.")
+	return "unknown"
+	
+# Get the room name. return "unknow" if the parent is not B2_ROOMS
+func get_room_name() -> String:
+	if get_parent() is B2_ROOMS:
+		return get_parent().name
+	else:
+		push_warning("Parent is not a B2_ROOMS.")
+		return "unknown"

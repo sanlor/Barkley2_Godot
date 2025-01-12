@@ -1,8 +1,451 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnge06eq5a6kc"]
+[gd_scene load_steps=10 format=3 uid="uid://dnge06eq5a6kc"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_eric01.gd" id="1_u64ox"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_v1834"]
 [ext_resource type="Texture2D" uid="uid://d2urpac850j4" path="res://barkley2/assets/b2_original/images/merged/s_eric01.png" id="2_xywor"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Emiters/audio_emiter.gd" id="3_wkxy5"]
+
+[sub_resource type="Resource" id="Resource_470bc"]
+script = ExtResource("2_v1834")
+original_script = "IF room == r_tnn_petshop02 | GOTO | ROOM_SHOP
+IF body == governor | GOTO | GOVERNOR_MARKET
+IF ericQuest == 1   | GOTO | ERIC_1
+IF ericQuest == 2   | GOTO | ERIC_2
+IF ericQuest == 3   | GOTO | ERIC_3
+IF ericQuest == 4   | GOTO | ERIC_4
+IF ericQuest == 5   | GOTO | ERIC_5
+IF ericQuest == 6   | GOTO | ERIC_6
+IF ericQuest >= 7   | GOTO | ERIC_7
+IF ericFailed == 1  | GOTO | ERIC_FAILED
+GOTO | ERIC_0
+
+RESUME_0
+QUEST  | petshopApplicationQuality = 0
+QUEST  | ericTolerance = 0
+DIALOG | P_NAME | Yeah, I think so. Lemme take a look at this application...
+DIALOG | Eric   | By all means, take your time. It's not like I was preoccupied with far more important things.
+Create | o_tnn_resume // Slide up resume
+WAIT   | 2.5
+DIALOG | P_NAME | Hmm, so the application has a list of criteria we need to fill out. It looks like there are only five: Bio, References, Previous Work Experience, Qualifications, and Skills. This sounds pretty easy, all we need to do is give stock, professional-sounding answers and you'll definitely get the job.
+DIALOG | Eric   | NO! I REFUSE to betray the Pet Manifesto and my core values for the sake of your precious /'capitalism/'. I will veto ANY answer that requires me to forgo Pet Decency. Know this well, P_NAME.
+DIALOG | P_NAME | Sigh... we'll just have to find some middle ground that casts you in the most presentable light then, whatever that means. This could have been really easy, Eric.
+DIALOG | Eric   | As much as it pains me to suffer your presence, I will agree to your terms.
+DIALOG | P_NAME | This first part seems simple enough. Do you have a photo laying around?
+DIALOG | Eric   | No, I don't have a photo /'laying around/'. However, I do have a photo on my person, yes. Ask the right question next time and you'll make less of an ape of yourself.
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | Your full name?
+DIALOG | Eric   | Are you deaf in addition to being incredibly thick? It's Eric. E-r-i-c. Capice?
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | ...Okay. How old are you?
+DIALOG | Eric   | Unknown.
+DIALOG | P_NAME | Unknown?
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | Eric   | Ugh, get on with it already! Time might mean nothing to YOU, but it's of the essence to those of us who have better things to do with it. There's a whole RANGE of incubators eagerly awaiting my e-review.
+DIALOG | P_NAME | This part seems a bit trickier... It's a personal quote that tells a bit about yourself.
+DIALOG | Eric   | There are far too many quotes and credos that resonate with me, and choosing one is like choosing my favorite lizard subspeci-
+DIALOG | P_NAME | Any quote will do.
+DIALOG | Eric   | /'No gods, no masters. Only pets./'
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | Okay. So the next field is for references... I think that's like people who can back up your work or something? I guess you don't really have any references, do you, Eric...?
+CHOICE | What do we fill in for references?
+REPLY  | REFERENCES_0 | I guess we could put P_NAME?
+REPLY  | REFERENCES_1 | I've forsaken dwarfs for pets.
+REPLY  | REFERENCES_2 | Lots of animals.
+REPLY  | REFERENCES_3 | Just put Cuchulainn.
+
+REFERENCES_0
+DIALOG | P_NAME | I guess we could just put my name. I don't think this field really matters.
+DIALOG | Eric   | Hmph, clearly not if your name will suffice. Heh heh, once again, Eric knocks the Pet Philistine down a few pegs.
+DIALOG | P_NAME | Clispaeth Christ... I'm trying to help you out here, Eric. I'm just putting my name down to get this over with.
+QUEST  | ericReference = 0
+QUEST  | petshopApplicationQuality += 6
+QUEST  | ericTolerance += 4
+GOTO   | EXPERIENCE_PRE
+
+REFERENCES_1
+DIALOG | Eric   | I need no references. I've forsaken dwarfs for the path of pets.
+DIALOG | P_NAME | I don't even know what that means, Eric. Should I just leave it blank? It's gonna look really bad.
+DIALOG | Eric   | Heh, your ignorance has already doomed my resume. At this point I sincerely doubt you can cause any more harm than you already have. Let's just get this over with.
+QUEST  | ericReference = 1
+QUEST  | petshopApplicationQuality += 3
+QUEST  | ericTolerance += 2
+GOTO   | EXPERIENCE_PRE
+
+REFERENCES_2
+DIALOG | Eric   | Put in the names of my all my pets, their species and EVERY trick they've fully mastered. Starting with my invertebrates, and moving into vertebrates. First is Nadine, my hermit crab. Hurry up, write!
+DIALOG | P_NAME | Uh, I'm just going to put /'lots of animals/'.
+DIALOG | Eric   | If so, then you'd be accountable for what is quintessentially the biggest Pet Fiasco of year, possibly decade. That burden is on your shoulders, I wipe my hands clean of it.
+QUEST  | ericReference = 2
+QUEST  | petshopApplicationQuality += 1
+QUEST  | ericTolerance += 1
+GOTO   | EXPERIENCE_PRE
+
+REFERENCES_3
+DIALOG | P_NAME | Just put Cuchulainn. I don't think this field really matters.
+DIALOG | Eric   | The one thing I hate more than your CATASTROPHIC pet ignorance is Cuchulainn. That you would DARE add his name to my list of references...
+DIALOG | P_NAME | Ugh, whatever Eric. We just need to fill in the blank. Nobody cares about references.
+DIALOG | Eric   | Wait until the pet subforum on DwarfNET hears about this boner...
+QUEST  | ericReference = 3
+QUEST  | petshopApplicationQuality += 5
+QUEST  | ericTolerance += 6
+GOTO   | EXPERIENCE_PRE
+
+EXPERIENCE_PRE
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | Whatever. Lemme take a look at the next field. Uh... looks like it's your previous work experience. I think it's probably better if we didn't mention that /'chimps and a drink/' thing.
+DIALOG | Eric   | I think it's probably better if I never have to deal with your utter, unmitigated incompetence again.
+DIALOG | P_NAME | You know, man? I've been extremely nice and patient with you. I have no idea why you're being so abusive to me, but uh, the sooner we're done with this, the better.
+DIALOG | Eric   | Hmph. So you DO just want my most prized possession. Pathetic. No matter, about my previous work experience...
+CHOICE | What should we put for Eric's experience?
+REPLY  | EXPERIENCE_0 | None, but have lots of gumption.
+REPLY  | EXPERIENCE_1 | Modded DwarfNET Pet subforum.
+REPLY  | EXPERIENCE_2 | Full-time MMO player.
+REPLY  | EXPERIENCE_3 | Cave bat guano enthusiast.
+
+EXPERIENCE_0
+QUEST  | ericTolerance += 5
+IF ericTolerance >= 10 | GOTO | EXPERIENCE_FAIL
+DIALOG | P_NAME | What if we say something about how you're relatively new to the workforce but you've got a lot of gumption?
+DIALOG | Eric   | What if, for once in your pitiful, unexamined life, you tried using logic?
+DIALOG | P_NAME | Then I guess I wouldn't be here right now...
+QUEST  | ericExperience = 0
+QUEST  | petshopApplicationQuality += 5
+GOTO   | QUALIFICATIONS_PRE
+
+EXPERIENCE_1
+QUEST  | ericTolerance += 2
+IF ericTolerance >= 10 | GOTO | EXPERIENCE_FAIL
+DIALOG | Eric   | I've modded the pets subforum of DwarfNET with extreme distinction and have accumulated a body of work made up of over 20,000 posts.
+DIALOG | P_NAME | I guess being a forum mod is... kind of like a job... I mean it involves some level of responsibility. It kind of works.
+DIALOG | Eric   | I fully intend to utilize my gift (and my curse) in the faces of misbehaving pets. Next question.
+QUEST  | ericExperience = 1
+QUEST  | petshopApplicationQuality += 3
+GOTO   | QUALIFICATIONS_PRE
+
+EXPERIENCE_2
+QUEST  | ericTolerance += 1
+IF ericTolerance >= 10 | GOTO | EXPERIENCE_FAIL
+DIALOG | Eric   | Previous work experience? I am first and foremost a full-time MMO raid leader and I'm going to lay down some ground rules. First? I will NOT allow this so-called job to get in the way of my raids. If there's a raid scheduled during my work hours, that raid WILL take precedence.
+DIALOG | P_NAME | That's not really job experience. Actually it's kind of the opposite. But I guess being a raid leader shows some degree of responsibility... I guess...
+DIALOG | Eric   | /'Some degree/'. Heh. You have NO concept of the effort and mental anguish that goes into leading an elite unit of magicians to glory. And you likely never will.
+DIALOG | P_NAME | Sigh... probably not.
+QUEST  | ericExperience = 2
+QUEST  | petshopApplicationQuality += 4
+GOTO   | QUALIFICATIONS_PRE
+
+EXPERIENCE_3
+QUEST  | ericTolerance += 2
+IF ericTolerance >= 10 | GOTO | EXPERIENCE_FAIL
+DIALOG | Eric   | Well... it's not what the layman would consider a job, but I spend a considerable amount of my time collecting and categorizing cave bat guanos.
+DIALOG | P_NAME | Yeah, that actually wouldn't be considered previous job experience. It's also not something that employers, or really anyone, wants to hear about.
+DIALOG | Eric   | No, it doesn't surprise me at all that someone as intellectually stunted as yourself wouldn't see the scientific merit of my work. I would say it was sad if it wasn't what I'd already expected. You're merely the woeful byproduct of the ambivalence and ignorance of your generation.
+DIALOG | P_NAME | Sigh... yep. Definitely.
+QUEST  | ericExperience = 3
+QUEST  | petshopApplicationQuality += 2
+GOTO   | QUALIFICATIONS_PRE
+
+EXPERIENCE_FAIL
+DIALOG | P_NAME | One thing that might be smart to menton is-
+DIALOG | Eric   | Of course! My running DwarfNET column, fuckyeahbulldogs, where I post subversive Photoshops of celebrities with bulldog heads. No celebrity is safe from my scathing, side-splitting and quite frankly, salient social criticism.
+DIALOG | P_NAME | Yeah, your... DwarfNET column. Great. Just put it on there. That'll be real impressive.
+DIALOG | Eric   | This may be the first LOGICAL thing I've heard you say. Perhaps my wisdom isn't completely lost on you.
+QUEST  | ericExperience = 4
+QUEST  | petshopApplicationQuality -= 1
+QUEST  | ericTolerance = 0
+GOTO   | QUALIFICATIONS_PRE
+
+// START SCENE TOP HERE
+
+QUALIFICATIONS_PRE
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | Okay... so it looks like the next field is for your qualifications. That's something we could probably put a positive spin on, right Eric? I mean, this is a pet store, how qualified do you actually have to be?
+DIALOG | Eric   | Rule number one of the Pet Manifesto: never overestimate th-
+DIALOG | P_NAME | Okay, whatever. What are we going to put in the mother-cuffing blank?
+CHOICE | What are Eric's qualifications?
+REPLY  | QUALIFICATIONS_0 | Love animals, works with them daily.
+REPLY  | QUALIFICATIONS_1 | Unbelievably loud falcon mimicry.
+REPLY  | QUALIFICATIONS_2 | My BARNSTARS will convince you.
+REPLY  | QUALIFICATIONS_3 | None; dysfunctional cretin.
+
+QUALIFICATIONS_0
+QUEST  | ericTolerance += 4
+IF ericTolerance >= 10 | GOTO | QUALIFICATIONS_FAIL
+DIALOG | P_NAME | What if we said something like /'I love animals and work with them daily?/' That sounds pretty professional, and it's true, right?
+DIALOG | Eric   | Any halfwit could see that I do far more than /'work/' with animals with just a single glance. I suppose it will suffice, although it GREATLY undermines my full involvement with the Pet Community. This is probably the best I could expect from you.
+QUEST  | ericQualification = 0
+QUEST  | petshopApplicationQuality += 6
+GOTO   | SKILLS_PRE
+
+QUALIFICATIONS_1
+QUEST  | ericTolerance += 2
+IF ericTolerance >= 10 | GOTO | QUALIFICATIONS_FAIL
+DIALOG | Eric   | My ability to make EXTREMELY loud falcon calls is known all throughout Tir na Nog. I'd be surprised if you didn't hear me earlier.
+DIALOG | P_NAME | Uh, I guess that's a qualification. I mean, if there's some sort of bird emergency, you could make falcon sounds...
+DIALOG | Eric   | I fully intend to utilize my gift (and my curse) in the faces of misbehaving pets. Next question.
+QUEST  | ericQualification = 1
+QUEST  | petshopApplicationQuality += 2
+GOTO   | SKILLS_PRE
+
+QUALIFICATIONS_2
+QUEST  | ericTolerance += 3
+IF ericTolerance >= 10 | GOTO | QUALIFICATIONS_FAIL
+DIALOG | Eric   | What are my qualifications? Heh, perhaps you mean MY BARNSTARS?
+DIALOG | P_NAME | No, but I'll put it down because I don't really care at this point.
+DIALOG | Eric   | No offense, VB52X or whatever your name is, but they're a little too sophisticated for a mental peasant like yourself.
+QUEST  | ericQualification = 2
+QUEST  | petshopApplicationQuality += 4
+GOTO   | SKILLS_PRE
+
+QUALIFICATIONS_3
+QUEST  | ericTolerance += 6
+IF ericTolerance >= 10 | GOTO | QUALIFICATIONS_FAIL
+DIALOG | P_NAME | Hmm... qualifications? Pretty much none. You're an intolerable cretin. You smell like a kennel and you're unbelievably rude for, as far as I can discern, absolutely no reason. You're woefully unqualified for this job, let alone any other.
+DIALOG | Eric   | H-h-h-how DARE you say that to me. Do you realize how GENEROUS I've been to you thus far? Do you realize the magnitude of my ouevre, the crown jewel being the Pet Manifesto? Do you understand my dedication to my craft or the number of posts I've made on the DwarfNET pet subforum? To have the gall... the NERVE to say that to me, Tir na Nog's preeminent Pet Celebrity... you... you have absolutely no shame.
+DIALOG | P_NAME | It fits in the box, so it's going in.
+QUEST  | ericQualification = 3
+QUEST  | petshopApplicationQuality += 1
+GOTO   | SKILLS_PRE
+
+QUALIFICATIONS_FAIL
+DIALOG | P_NAME | Well what if we talk about y-
+DIALOG | Eric   | NO! I've had it up to here with your imbecilic suggestions! We're doing this MY way. My qualifications? I'll let these photographs of pregnant moles speak for themselves!
+DIALOG | P_NAME | What does this even have to d-
+DIALOG | Eric   | You will NEVER understand the Way of Pets. There is nothing more to say. Your ignorance speaks for itself. Next question.
+QUEST  | ericQualification = 4
+QUEST  | petshopApplicationQuality -= 3
+QUEST  | ericTolerance = 0
+GOTO   | SKILLS_PRE
+
+SKILLS_PRE
+EVENT  | o_tnn_resume | 0
+WAIT   | 1.01
+DIALOG | P_NAME | Phew, looks like we're at the last field on this application. This feels like a load off my shoulders. Let's see what it is... outside skills that might be relevant to the job.
+DIALOG | Eric   | Hmph, this will be the easiest field to fill out yet, as I'm one of the most talented people I'm even aware of.
+DIALOG | P_NAME | Yeah, you know? At this point, I don't even care anymore. You're the most talented and by far the most pleasant person I've known. What else should I put?
+CHOICE | What are Eric's outside skills?
+REPLY  | SKILLS_0 | More than two decades of pet care.
+REPLY  | SKILLS_1 | I cut through the pet bullshit.
+REPLY  | SKILLS_2 | I have NEVER missed Shark Week.
+REPLY  | SKILLS_3 | No skills, product of entropy.
+
+SKILLS_0
+QUEST  | ericTolerance += 5
+IF ericTolerance >= 10 | GOTO | SKILLS_FAIL
+DIALOG | P_NAME | You know, I think we might be able to reverse this trainwreck if we talk about your pet care experience. That's a legitimate skill and you've been at it for at least two decades.
+DIALOG | Eric   | /'Pet care/', as you so crudely put it, does not even begin to describe the amount of effort, thought and dedication I've given to the pets of Tir na Nog. The mental toll of pet ownership and philosophy is far beyond-
+DIALOG | P_NAME | Okay, okay, whatever! Good lord, Eric! I'll put down that you're a pet martyr or something. Clispaeth.
+QUEST  | ericSkill = 0
+QUEST  | petshopApplicationQuality += 6
+GOTO   | RESUME_FINISH
+
+SKILLS_1
+QUEST  | ericTolerance += 2
+IF ericTolerance >= 10 | GOTO | SKILLS_FAIL
+DIALOG | Eric   | For starters, I cut through the Pet Bullshit.
+DIALOG | P_NAME | Pet Bullsh-... I mean... Pet Bullchips? What does that mean, Eric?
+DIALOG | Eric   | Cut the cruft. You know precisely what it means. And if you truly don't, then, heh, you never will.
+QUEST  | ericSkill = 1
+QUEST  | petshopApplicationQuality += 2
+GOTO   | RESUME_FINISH
+
+SKILLS_2
+QUEST  | ericTolerance += 3
+IF ericTolerance >= 10 | GOTO | SKILLS_FAIL
+DIALOG | Eric   | I have NEVER missed Shark Week, not once. The shark knowledge I've accumulated in the literal years I've spent watching Shark Week make me possibly one of the greatest shark experts on the Necron 7.
+DIALOG | P_NAME | You know, that actually makes sense. Or I mean, that's probably the best possible answer you could give for this question. I'll uh, chalk that one up as a success.
+QUEST  | ericSkill = 2
+QUEST  | petshopApplicationQuality += 3
+GOTO   | RESUME_FINISH
+
+SKILLS_3
+QUEST  | ericTolerance += 6
+IF ericTolerance >= 10 | GOTO | SKILLS_FAIL
+DIALOG | P_NAME | Outside skills? Hmm. How about absolutely none? I'm staring societal entropy and a wasted life right in the face.
+DIALOG | Eric   | You insolent whelp. I'll have you know that I've raised not one, but *three* award-winning ferrets, and I've got t-
+QUEST  | ericSkill = 3
+QUEST  | petshopApplicationQuality += 1
+GOTO   | RESUME_FINISH
+
+SKILLS_FAIL
+DIALOG | P_NAME | I think we might be able to reverse this trainwreck if w-
+DIALOG | Eric   | If we stopped listening to your abhorrent suggestions, perhaps. Which is specifically why we should mention the fact that I'm the originator of funny, touching and in these troubled times, even uplifting pet memes, image macros and catchphrases on DwarfNET. Perhaps you've heard of the wildly popular /'Depraved Ocelot/'?
+DIALOG | P_NAME | I don't know what that is. Do you want me to put that on this wretched resume? /'Depraved Ocelot DwarfNET Meme/'?
+DIALOG | Eric   | Heh, of course you wouldn't know it. And for the record, yes, I do want you to put that down.
+QUEST  | ericSkill = 4
+QUEST  | petshopApplicationQuality -= 2
+QUEST  | ericTolerance = 0
+GOTO   | RESUME_FINISH
+
+RESUME_FINISH
+EVENT  | o_tnn_resume | 0
+WAIT   | 5.00
+DIALOG | P_NAME | That's it! We're done, that was it. That was the last field we needed to fill out for the resume. I don't think I've ever felt this... relieved in my life. We're done, Eric. It's over. Okay, it just needs your signature and... oh... oh no...
+DIALOG | Eric   | What are you blathering about? I've cooperated with this inanity long enough. My most precious possession requires my attention! Go on, spit it out.
+DIALOG | P_NAME | It... it says we need a cover letter. You know, it's like... I-...  I- can't do this. A cover letter's like an essay about why you want the job. We're gonna have to write whole paragraphs... together... I, mean, I... ugh. Eric I just can't. I can't do it.
+DIALOG | Eric   | An essay about pets? Has absolutely none of my tutelage wormed its way into that vast, empty cavern you call a skull? I am the author of the Pet Manifesto! T-h-e P-e-t M-a-n-i-f-e-s-t-o. Is that a spark I see? Is your shriveled, worm-like brain-stem sparking in recognition of who you are talking to and just what I have accomplished? Sigh... Pet Reality is fully beyond your mental grasp, it seems.
+DIALOG | P_NAME | You know, that's probably true. Give me your manifesto. I can't imagine there is anything in here that will ingratiate you with an employer. Or anyone, anyone at all. I'm gonna go deliver your application to Cuthbert at the pet shop. I'll be back, I guess. Who knows. Who knows! Who even cares!
+EVENT  | o_tnn_resume | 0
+WAIT   | 2.50
+NOTE   | give | Pet Shop Application
+NOTE   | take | Completed Application
+NOTE   | take | Pet Manifesto
+NOTIFY | Got the Completed Application.
+NOTIFY | Got the Pet Manifesto.
+QUEST  | ericQuest = 5
+QUEST  | petManifestoReceived = 1
+
+ROOM_SHOP
+IF body == governor | GOTO | GOVERNOR_SHOP
+DIALOG | Eric   | I have spent my life training for this moment. I am fully aware of the gravity of the task ahead of me and vow to uphold the dignity of the pets in this store, even with force if need be. Know this well, P_NAME: I will not fail these pets.
+DIALOG | P_NAME | O. K.
+
+GOVERNOR_SHOP
+DIALOG | Eric   | BACK. OFF. I am busy executing my life's work with flawless precision. I am the perfect pet handler and I pay no heed to statist dullards.
+
+GOVERNOR_MARKET
+IF ericGov == 0 | GOTO | GOVERNOR_0
+IF ericGov == 1 | GOTO | GOVERNOR_1
+IF ericGov == 2 | GOTO | GOVERNOR_2
+
+GOVERNOR_0
+DIALOG | Eric   | Heh, if it isn't the new so-called /'governor /' of Tir na Nog. I can only assume you're speaking to me for political advice during these tumultous times. Well, let's just say I don't follow the beaten path when it comes to ideology. My political beliefs are a bit controversial.
+DIALOG | Governor Elagabalus | Hmm, interesting. As governor I may ask for your political council, as that is what real politicians do and I am as real and authentic as they come. Good day.
+DIALOG | Eric   | Y-you're going? You didn't even hear it! PETS! PETS! My ideology is PETS!
+QUEST  | ericGov = 1
+
+GOVERNOR_1
+DIALOG | Eric   | I've got your first day lined up here. It's a much needed panacea for our troubled world, and a shrewd political move as well. You ready to here it?
+DIALOG | Governor Elagabalus | Yes, um, of course, let's hear-
+DIALOG | Eric   | Day 1: Enshrine pets. Oh and for that matter, Day 2: Protect pets. Day 3: Respect pets... are you listening? Hello! ARE YOU EVEN LISTENING TO ME?
+QUEST  | ericGov = 2
+
+GOVERNOR_2
+DIALOG | Eric   | Typical mindless bureaucrat... I'd expect nothing different. Are you finally ready to open your ears to some sagacious pet-political wisdom? Study this quote, if you can even comprehend it: /'A Limited Government is the Best Government... a Limited Government is the Pet Government./' - Jack Hanna.
+
+ERIC_0
+DIALOG | Eric   | Heh, my last job was working the counter at a sandwich shop. I won't say which one, but let's just say that their sandwiches were, heh, /'sub/'-par. We were told to say /'would you like chips and a drink with that/', but I always said /'would you like CHIMPS and a drink with that/' to mindfreak the customers. Was it frucked up? Yeah, but I like to give people a little dose of Pet Reality.
+DIALOG | P_NAME | Um, are you speaking to me?
+DIALOG | Eric   | Uh, no I wasn't you insufferable dullard. I didn't even know you were there until you interrupted me. So as I was saying, pets are, in essence, the final frontier. I mean, that's it. That's what it's all about. What even comes after pets? I could basically list them all if you wanted me to.
+DIALOG | P_NAME | Wait, did you want something from me?
+DIALOG | Eric   | I'm... Clispaeth Christ... did you... were you even listening to what I just said? Let me spell it out for you: I AM LOOKING FOR A JOB. I NEED TO FIND A JOB TO SUPPORT MY BLACK-FOOTED FERRET, WHO IS CURRENTLY IN HEAT. IF YOU HELP ME FIND A JOB, I WILL GIVE YOU MY MOST TREASURED POSSESSION. DO YOU UNDERSTAND THE WORDS THAT I AM SAYING? CAN YOUR NUGATORY PIGEON BRAIN COMPREHEND WHAT I JUST SAID?
+CHOICE | Help Eric find a job?
+REPLY  | JOB_0_YES | Yeah.
+REPLY  | JOB_0_NO  | Nah.
+
+JOB_0_YES
+DIALOG | P_NAME | Well, you don't need to talk to me like that, but I guess I could help you out. What kind of job are you looking for? I've never had a pet... at least, I don't think I have. I think I'd like a cat!
+DIALOG | Eric   | Oh, I'm not at all surprised you lack the creativity and personal responsibility to take care of anything but a cat. But to answer your (thoughtless and imperceptive) question, I'd like any job, service industry or otherwise. I'd particularly like a job that puts me in control or in the vicinity of pets.
+DIALOG | P_NAME | Okay, well I guess I can look around. I'm kind of new to town so I can't promise anything, but I'll try.
+DIALOG | Eric   | Heh, don't worry. I'm NOT expecting anything.
+QUEST  | ericQuest = 2
+
+JOB_0_NO
+DIALOG | P_NAME | Hey, you know something? You don't need to talk to me like that. And you know what else? You're weird and you smell like droppings. I can think of a million reasons why you can't find a job and they all have to do with yourself, so maybe you should think about that before you get others to do your work for you.
+DIALOG | Eric   | Right, I'M the one at fault because YOU interrupted my thoughts with your banal sermonizing. Save it for someone who's not up to his ears in what basically amounts to a pet crisis. Get a life, kid.
+QUEST  | ericQuest = 1
+
+ERIC_1
+DIALOG | Eric   | ...and that's the problem with these /'so-called/' pet enthusiasts - they like the dogs, they like the cats but when it comes to ANYTHING outside of the /'mainstream/' they're totally lost. They're a waste of my time and they're a waste of the pets' time and - oh, it's YOU.
+DIALOG | P_NAME | Hey Eric. You're still looking for a job, right?
+DIALOG | Eric   | Heh, I knew you'd be back. You just want my most precious possession, don't you? You don't even care about the job. But to answer your question, yes, I'm still in between jobs at the moment. What are YOU going to do about it?
+CHOICE | Help Eric find a job?
+REPLY  | JOB_1_YES | Yeah.
+REPLY  | JOB_1_NO  | Nah.
+
+JOB_1_YES
+DIALOG | P_NAME | Well, I guess I could help you. I mean, that's not the case, I don't want to do it just for this thing you're promising me, I'd like to see you uh, improve I guess.
+DIALOG | Eric   | Keep telling yourself that. I keep my most valuable possession in my breast pocket at all times. But I'd be willing to part with it if you could help me find a job. No, I'm not an idiot and yes, I know you're taking advantage of my kindness and position of weakness. That's what mercenaries do and I would do the same were I in your shoes.
+QUEST  | ericQuest = 2
+IF cuthbertState == 0 | GOTO | JOB_1_CLUELESS
+GOTO   | JOB_1_CLUE
+
+JOB_1_CLUELESS
+DIALOG | P_NAME | Well, I'm kind of new in town, do you know where I should start looking?
+DIALOG | Eric   | If I knew, I'd do it myself you vacuous dunce. I'm also busy writing the Pet Manifesto, which I will NOT elaborate on further. I'm looking for any kind of job but preferably one where I have some measure of authority over pets. Ask all over Tir na Nog. I'm certainly in no position to do so.
+DIALOG | P_NAME | Alright, I guess I can do that. And good luck with your manifesto.
+DIALOG | Eric   | Heh. I don't need luck.
+
+JOB_1_CLUE
+DIALOG | P_NAME | Alright. I think I know just the place for you...
+
+JOB_1_NO
+DIALOG | P_NAME | Maybe I'd help you if you got an attitude adjustment, but I've got bigger things on my plate than helping some repugnant animal guy find a job. I mean, good luck and everything but this is way beyond me.
+DIALOG | Eric   | Heh, it clearly is. I'd say most things are beyond you and I'm not surprised in the slightest by your answer. Do you know why I prefer pets to people? Because chivalry, empathy, human cuffing decency has gone out the window. Your response has fully validated my world view. Pets are the final frontier. Begone.
+
+ERIC_2
+DIALOG | Eric   | ...pets are, quintessentially, the ultimate... no, no, the penultimate experience. And quite frankly? I don't think most people are ready for them. Should we limit access to and authority over pets to a small core of pet cognoscenti? This is an option worth exploring.
+DIALOG | P_NAME | Uh, hey Eric.
+DIALOG | Eric   | I'm busy. Out with it.
+DIALOG | P_NAME | I have a question. What are your qualifications?
+DIALOG | Eric   | P_NAME. Do you think this question is worth my time? Do you think I can stand around all day answering every little quandry you encounter? Do you realize what I'm on the cusp of? The Pet Manifesto doesn't write itself; you should be grateful that I'm allowing you to even be a footnote in it. What I'm saying is look all over, I'm qualified for service industry work.
+DIALOG | P_NAME | Got it. See you in a little bit.
+DIALOG | Eric   | Heh, I HIGHLY doubt that.
+
+ERIC_3
+DIALOG | Eric   | Your imbecilic presence inches you closer to my bad side, and further from the grandeur of my most prized possession. Speak.
+DIALOG | P_NAME | Hey Eric, guess what!? I've got some great news! You're never gonna believe this - there's a pet store that's hiring in the Tir na Nog tenements! There's only one thing... they need a resume.
+DIALOG | Eric   | A... resume?
+DIALOG | P_NAME | Like a list of your personal qualifications, your previous jobs, your skills and all of that. I mean, I think. He gave me this sheet that you need to fill out.
+DIALOG | Eric   | ...and you expect me to do this myself?
+DIALOG | P_NAME | Well, I could help you out I guess.
+DIALOG | Eric   | Yes, I fully expect you to /'help me out/', as you so crudely put it.
+DIALOG | P_NAME | Okay, well I'm not really sure how to answer some of these questions... like /'references/'? What does that even mean?
+DIALOG | Eric   | You sound woefully unqualified for the job. Once again I'm forced to babysit you through your overbearing incompetence. Nevertheless, I accept your /'help/', no matter how miniscule it will be. Are you ready to do this now, or must I wait even longer?
+CHOICE | Am I ready to help Eric now?
+REPLY  | RESUME_0  | Yeah.
+REPLY  | ERIC_3_NO | Nah.
+
+ERIC_3_NO
+DIALOG | P_NAME | Can you hang on a second? There's something I want to take care of first.
+DIALOG | Eric   | Once again I'm forced to wait on you, testing my patience and generosity to the absolute limit. I cannot and WILL not abide by your reckless buffoonery for much longer. Know this well, P_NAME_S.
+QUEST  | ericQuest = 4
+
+ERIC_4
+DIALOG | Eric   | Well well well. The prodigal dullard returns. I suppose the allure of obtaining a valuable possession of mine has brought you crawling back? As much as your mercenary avarice sickens me (to my core, no less), I'm willing to forgo my integrity and allow you to /'assist/' me on my resume. Are you *finally* ready?
+REPLY  | RESUME_0  | Yeah.
+REPLY  | ERIC_3_NO | Nah.
+
+ERIC_5
+DIALOG | Eric   | There is no conceivable reason beyond your colossal incompetence why you are here and not expediently delivering my resume to my soon-to-be employer. Make haste, if it is even within your meager capabilities, so I can have a single moment of peace and contemplation.
+
+ERIC_6
+DIALOG | P_NAME | Hey Eric...
+DIALOG | Eric   | Oh, it's you again. Whatever you are about to say, it would have better suited me if you had done it via carrier pigeons.
+DIALOG | P_NAME | I uh... I hate to be the bearer of bad news... but you didn't get the job.
+DIALOG | Eric   | Heh. I'm not at all surprised, since you basically sabotaged my resume. Once again, you've validated the core tenet of the Pet Manifesto, namely that pets ARE the final frontier. This has essentially been proven by your wanton ineptitude, which has ruined not only my life, but the life of my pregnant muskrat. We have nothing more to speak of.
+DIALOG | P_NAME | I don't want to be a jerk, Eric, but I feel like you had more than a hand in this...
+DIALOG | Eric   | Leave me be, or I shall inform ALL of my DwarfNET subscribers of your incongruous nature.
+DIALOG | P_NAME | Sigh... see you...
+QUEST  | ericFailed = 1
+
+ERIC_7
+DIALOG | P_NAME | Hey Eric, guess what!
+DIALOG | Eric   | I could not begin to fathom what sub-simian process is occuring behind those glassy eyes, P_NAME, so I will not even venture a guess.
+DIALOG | P_NAME | You got the job! Cuthbert, the pet store owner, said you should start immediately!
+DIALOG | Eric   | Sigh... and I suppose you think I owe you now, don't you? Sad... but not surprising. Yes, I did promise you my most precious possession. Though it pains me to part with it, I am willing to give it to you as payment... IF you promise to use it only for good.
+DIALOG | P_NAME | Sure, I guess.
+DIALOG | Eric   | Here you are then... my magnum opus... the Pet Manifesto!
+DIALOG | P_NAME | Eric, you already gave me your Manifesto...
+DIALOG | Eric   | Oh did I? I believe you've fingered yourself as a careless reader then, P_NAME! How could you miss it, when /'Act IV: Further Treatises on Petdom/' so clearly hints at the existence of a secret, heretofore unpublished chapter? Here is my final work, my masterpiece, painstakingly crafted over many arduous nights, guided only by the light of my prizewinning glow-worm collection...
+NOTIFY | Received Pet Apocrypha!
+NOTE   | take   | Pet Apocrypha
+DIALOG | P_NAME | Thank you. Yes. I am appreciative of this.
+DIALOG | Eric   | Although I am not completely convinced of your noble intentions, it is only fair of me to uphold my end of the bargain. Use it as wisely as I have. Now it's time for me to leave you here to mull over in your pet ignorance. The trials and tribulations of the pet world await me.
+DIALOG | P_NAME | Bye, Eric...
+QUEST  | time += 1
+QUEST  | ericQuest = 9
+FADE   | 1 | 2
+WAIT   | 2
+Teleport | \" + string(room) + \" | \" + string(x + 24) + \" | \" + string(y) + \" | 2 | 2
+
+ERIC_FAILED
+DIALOG | Eric   | I have learned a valuable lesson from our partnership, P_NAME. Trust only pets. We have nothing more to speak of. Leave."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ltwup"]
 atlas = ExtResource("2_xywor")
@@ -28,6 +471,7 @@ size = Vector2(20, 36)
 [node name="o_eric01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_u64ox")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_470bc")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

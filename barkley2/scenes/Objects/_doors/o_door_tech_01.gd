@@ -11,6 +11,8 @@ var tween : Tween
 
 func _ready() -> void:
 	_door_setup()
+	locked_panel.z_index 			= 1000
+	locked_panel.mouse_filter 		= Control.MOUSE_FILTER_IGNORE ## Issues with clicking on Eviction tapes.
 	locked_panel.hide()
 	
 	if is_open:

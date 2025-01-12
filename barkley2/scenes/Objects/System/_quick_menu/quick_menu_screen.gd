@@ -146,6 +146,7 @@ func _on_items_btn_pressed() -> void:
 	await hide_menu()
 	tween = create_tween()
 	tween.tween_callback( inventory.show )
+	tween.tween_callback( inventory.update_list )
 	tween.tween_property(inventory, "position:y", inv_shown_y, tween_speed * randf_range(0.6,0.8) )
 	
 	await inventory.closed
