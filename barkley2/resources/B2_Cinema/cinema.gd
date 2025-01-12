@@ -798,6 +798,18 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						B2_Playerdata.Quest(know, amount)
 						
 					if debug_know: print_rich( "[color=orange]KNOW -> %s = %s." % [know, amount] )
+					
+				"GLAMP":
+					## Untested.
+					var stat 	:= parsed_line[1].strip_edges() 	# Ex.: might
+					var value 	:= int( parsed_line[2] ) 			# Ex.: +10 or -5
+					var new_value : int = B2_Playerdata.Stat( stat ) + value 
+					
+					B2_Playerdata.Stat( stat, new_value )
+					
+				"THROW":
+					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
 				"Destroy":
 					# Remove actor. simple.
 					var actor = get_node_from_name( all_nodes,	parsed_line[1] )

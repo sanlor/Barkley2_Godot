@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=15 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -106,6 +106,43 @@ func _on_set_btn_pressed() -> void:
 [sub_resource type="LabelSettings" id="LabelSettings_qcrcr"]
 font = ExtResource("4_coofk")
 font_color = Color(0.427451, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_6vf7p"]
+script/source = "extends HBoxContainer
+
+func _ready() -> void:
+	pass
+
+func _on_stat_btn_pressed() -> void:
+	## DEBUG
+	var items := B2_Database.items.keys()
+	items.shuffle()
+	
+	for item in items:
+		B2_Item.gain_item( item, randi_range(1,99) )
+		if B2_Item.get_items().size() > 4:
+			break
+"
+
+[sub_resource type="GDScript" id="GDScript_jyr1r"]
+script/source = "extends HBoxContainer
+
+
+func _on_g_btn_pressed() -> void:
+	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_GUTS, randi_range(-3, 3) )
+
+func _on_l_btn_pressed() -> void:
+	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_LUCK, randi_range(-3, 3) )
+
+func _on_a_btn_pressed() -> void:
+	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_AGILE, randi_range(-3, 3) )
+
+func _on_m_btn_pressed() -> void:
+	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_MIGHT, randi_range(-3, 3) )
+
+func _on_p_btn_pressed() -> void:
+	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_PIETY, randi_range(-3, 3) )
+"
 
 [node name="b2_debug" type="CanvasLayer"]
 script = ExtResource("1_jshnt")
@@ -257,6 +294,47 @@ placeholder_text = "Change time"
 layout_mode = 2
 text = "SET"
 
+[node name="items" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+alignment = 1
+script = SubResource("GDScript_6vf7p")
+
+[node name="item_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/items"]
+layout_mode = 2
+text = "+5 random items"
+
+[node name="stat" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme_override_constants/separation = 2
+script = SubResource("GDScript_jyr1r")
+
+[node name="s_lbl" type="Label" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Rand. Stat"
+
+[node name="g_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+text = "G"
+
+[node name="l_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+text = "L"
+
+[node name="a_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+text = "A"
+
+[node name="m_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+text = "M"
+
+[node name="p_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/stat"]
+layout_mode = 2
+text = "P"
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
@@ -265,3 +343,9 @@ text = "SET"
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/notes/get_app" to="player_vars/MarginContainer/VBoxContainer/notes" method="_on_get_app_pressed"]
 [connection signal="text_submitted" from="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer/LineEdit" to="player_vars/MarginContainer/VBoxContainer/time" method="_on_line_edit_text_submitted"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/time/HBoxContainer/set_btn" to="player_vars/MarginContainer/VBoxContainer/time" method="_on_set_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/items/item_btn" to="player_vars/MarginContainer/VBoxContainer/items" method="_on_stat_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/g_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_g_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/l_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_l_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/a_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_a_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/m_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_m_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/p_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_p_btn_pressed"]

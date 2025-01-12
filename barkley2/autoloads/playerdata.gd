@@ -3,6 +3,51 @@ extends Node
 signal quest_updated
 signal stat_updated
 
+#region Stats constants
+const STAT_ATTACK_DMG_BIO := "dmg_bio"
+const STAT_ATTACK_DMG_COSMIC := "dmg_cosmic"
+const STAT_ATTACK_DMG_CYBER := "dmg_cyber"
+const STAT_ATTACK_DMG_MENTAL := "dmg_mental"
+const STAT_ATTACK_DMG_NORMAL := "dmg_normal"
+const STAT_ATTACK_DMG_RANDOMPERC := "rand_dmg"
+const STAT_ATTACK_DMG_ZAUBER := "dmg_zauber"
+const STAT_ATTACK_KNOCKBACK := "knockback"
+const STAT_ATTACK_STAGGER_HARDNESS := "stagger_hardness"
+const STAT_ATTACK_STAGGER := "stagger"
+const STAT_BASE_AGILE := "AGILE"
+const STAT_BASE_GUTS := "GUTS"
+const STAT_BASE_HP := "hp"
+const STAT_BASE_LEVEL := "lvl"
+const STAT_BASE_LUCK := "LUCK"
+const STAT_BASE_MIGHT := "MIGHT"
+const STAT_BASE_PIETY := "PIETY"
+const STAT_BASE_RESISTANCE_BIO := "res_bio"
+const STAT_BASE_RESISTANCE_COSMIC := "res_cosmic"
+const STAT_BASE_RESISTANCE_CYBER := "res_cyber"
+const STAT_BASE_RESISTANCE_KNOCKBACK := "res_knockback"
+const STAT_BASE_RESISTANCE_MENTAL := "res_mental"
+const STAT_BASE_RESISTANCE_NORMAL := "res_normal"
+const STAT_BASE_RESISTANCE_STAGGER := "res_stagger"
+const STAT_BASE_RESISTANCE_ZAUBER := "res_zauber"
+const STAT_BASE_SPEED := "speed"
+const STAT_BASE_WEIGHT := "weight"
+const STAT_BASE_VULN_BIO := "vul_bio"
+const STAT_BASE_VULN_COSMIC := "vul_cosmic"
+const STAT_BASE_VULN_CYBER := "vul_cyber"
+const STAT_BASE_VULN_MENTAL := "vul_mental"
+const STAT_BASE_VULN_NORMAL := "vul_normal"
+const STAT_BASE_VULN_ZAUBER := "vul_zauber"
+const STAT_CURRENT_HP := "cur_hp"
+const STAT_CURRENT_KNOCKBACK := "cur_knockback"
+const STAT_CURRENT_STAGGER_HARD := "cur_stagger_hard"
+const STAT_CURRENT_STAGGER_HARDNESS := "cur_stagger_hardness"
+const STAT_CURRENT_STAGGER_INSTANT := "cur_stagger_inst"
+const STAT_CURRENT_STAGGER_SOFT := "cur_stagger_soft"
+const STAT_CURRENT_STAGGER_TIME := "cur_stagger_time"
+const STAT_EFFECTIVE_ENCUMBERANCE := "encumb"
+const STAT_EFFECTIVE_MAX_HP := "max_hp"
+#endregion
+
 #region CC Data
 var paxEnable = 0;
 
@@ -116,16 +161,6 @@ func _ready():
 	#B2_Playerdata.Quest("factoryEggs", 		1)
 	preload_skip_tutorial_save_data()
 	
-	## DEBUG
-	for item in B2_Database.items.keys():
-		B2_Item.gain_item( item, randi_range(1,99) )
-		if B2_Item.get_items().size() > 20:
-			break
-			
-	#B2_Item.gain_item("Dragon Lord Gemstone", 69)
-	#B2_Item.gain_item("Sterile Vial", 10)
-	#B2_Item.gain_item("Bolt Cutters")
-	
 func time_goes_on() -> void:
 	if B2_Playerdata.Quest("gameStart") == 2:
 		B2_ClockTime.time_step( B2_ClockTime.CLOCK_SPEED )
@@ -155,10 +190,13 @@ func Quest(key : String, value = null, default = 0):
 		
 func get_quest_state(key : String, default = null ):
 	return B2_Config.get_user_save_data( "quest.vars." + key, default )
-	
-func Stat(stat_name : String, value = null, default = 0):
+
+func Effective_Stat(stat_name : String, value = null, default = 0):
+	Stat(stat_name, value, default, "effective")
+
+func Stat(stat_name : String, value = null, default = 0, type := "base"):
 	# if value is not found, return "default"
-	var statpath = "player.stats.base." + stat_name
+	var statpath = "player.stats." + type + "." + stat_name
 	
 	if value == null:
 		var _key_value = B2_Config.get_user_save_data(statpath)
@@ -208,7 +246,6 @@ func preload_CC_save_data():
 	# var EXPERIENCE_MAX = 1.5;
 	# var CLOCK_MAX = 60 * 60 * 24;
 	# var CLOCK_SPEED = 4; ## EDITABLE: If you are 1 gate away, it will start at 4 seconds and taper down
-	
 	# B2_Config.set_user_save_data("clock.time", CLOCK_MAX);
 	# B2_Config.set_user_save_data("clock.gate", 0)
 	# B2_Config.set_user_save_data("clock.event.timer", Dictionary() );
@@ -224,8 +261,8 @@ func preload_CC_save_data():
 	# will be ignored for the time being. What a mess.
 	
 	# Item
-	B2_Config.set_user_save_data("quest.itemsName", 		Dictionary() );
-	B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() );
+	# B2_Config.set_user_save_data("quest.itemsName", 		Dictionary() );
+	# B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() );
 	
 	# Map
 	#B2_Config.set_user_save_data("quest.maps", Dictionary() );
@@ -306,28 +343,58 @@ func preload_CC_save_data():
 	#B2_Playerdata.Quest("playerCCScanner", 0); # Enemy glamp bonus
 
 	# Roll Hoopz base stats ## NOTE No idea how to use these. Ignoring them for now.
+	
+	# Save maps into Savedata
+	B2_Config.set_user_save_data("player.stats.base", 		{}); # was stats_base 		## Check scr_stats_initStats()
+	B2_Config.set_user_save_data("player.stats.effective", 	{}); # was stats_effective 	## Check scr_stats_initStats()
+	B2_Config.set_user_save_data("player.stats.current", 	0); # was stats_current 	## Check scr_stats_initStats()
+	
 	#scr_stats_resetStats();
-	#scr_stats_setBaseStat( self, STAT_BASE_LEVEL, 12);
-	#scr_stats_setBaseStat( self, STAT_BASE_HP, 47);
-	#scr_stats_setBaseStat( self, STAT_BASE_SPEED, 9.5); # AGILITY # Tweak this when the formula is set
+	## NOTE Base stats
+	
+	## Abilities
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_LEVEL, 	12 )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_HP, 		47 )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_SPEED, 	9.5 )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_WEIGHT, 	5.0 )
+	B2_Config.set_user_save_data( "player.stats.statuseffects", [] ); # was list_status_effect
 #
-	#scr_stats_setBaseStat( self, STAT_BASE_GUTS, 10);
-	#scr_stats_setBaseStat( self, STAT_BASE_LUCK, 10);
-	#scr_stats_setBaseStat( self, STAT_BASE_AGILE, 10);
-	#scr_stats_setBaseStat( self, STAT_BASE_MIGHT, 10);
-	#scr_stats_setBaseStat( self, STAT_BASE_PIETY, 10);
+	## The Magic Five a.k.a. The Power Rangers
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_GUTS, 10 + randi_range(0, 1) )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_LUCK, 10 + randi_range(0, 1) )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_AGILE, 10 + randi_range(0, 1) )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_MIGHT, 10 + randi_range(0, 1) )
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_PIETY, 10 + randi_range(0, 1) )
+	
+	## Resistances
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_KNOCKBACK, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_STAGGER, 0);
+
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_NORMAL, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_BIO, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_CYBER, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_MENTAL, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_ZAUBER, 0);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_RESISTANCE_COSMIC, 0);
+
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_NORMAL, 3);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_BIO, 3);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_CYBER, 3);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_MENTAL, 3);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_ZAUBER, 3);
+	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_VULN_COSMIC, 3);
 	##scr_stats_rollBaseStats(1, 8, 8, 8, 8, 8);
+	
+	## NOTE Effective Stats
+	# During startup, base stats are the same as the effective one.
+	B2_Config.set_user_save_data("player.stats.effective", B2_Config.get_user_save_data( "player.stats.base", {} ) )
+	
 	#scr_stats_genEffectiveStats();
 	#scr_stats_resetCurrentStats();
 	#endregion
 
-	# Save maps into Savedata
-	B2_Config.set_user_save_data("player.stats.base", 		0); # was stats_base 		## Check scr_stats_initStats()
-	B2_Config.set_user_save_data("player.stats.effective", 	0); # was stats_effective 	## Check scr_stats_initStats()
-	B2_Config.set_user_save_data("player.stats.current", 	0); # was stats_current 	## Check scr_stats_initStats()
-
 	# Save status effects into Savedata
-	B2_Config.set_user_save_data("player.stats.statuseffects", 0); # was list_status_effect
+	
 	
 	# Respawn info
 	B2_Config.set_user_save_data("player.respawn.do", false);

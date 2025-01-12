@@ -182,16 +182,16 @@ func load_right_menu() -> void:
 	defense_stat.text = str( B2_Playerdata.Stat("res_normal") )
 
 	## GLAMP
-	g_stat.text = str( B2_Playerdata.Stat("GUTS") )
-	l_stat.text = str( B2_Playerdata.Stat("LUCK") )
-	a_stat.text = str( B2_Playerdata.Stat("AGILE") )
-	m_stat.text = str( B2_Playerdata.Stat("MIGHT") )
-	p_stat.text = str( B2_Playerdata.Stat("PIETY") )
+	g_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_GUTS ) )
+	l_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_LUCK ) )
+	a_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_AGILE ) )
+	m_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_MIGHT ) )
+	p_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_PIETY ) )
 	
 	## LVL and HP
-	lvl_stat.text 		= str( B2_Config.get_user_save_data( "player.xp.questxp", 0 ) )
-	hp_stat.text 		= str( 69 ) ## lol. ## TODO Add a way to check for player HP
-	weight_stat.text 	= str( B2_Playerdata.Stat("weight") ) ## WARNING The position of this label is not wrong. Its like that on the original game too.
+	lvl_stat.text 		= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_LEVEL ) ) # str( B2_Config.get_user_save_data( "player.xp.questxp", 0 ) )
+	hp_stat.text 		= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_HP ) )
+	weight_stat.text 	= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_WEIGHT ) ) # str( B2_Playerdata.Stat("weight") ) ## WARNING The position of this label is not wrong. Its like that on the original game too.
 	
 	## Malaises
 	## TODO Implement status effects
