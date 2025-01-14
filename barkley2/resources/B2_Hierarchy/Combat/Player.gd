@@ -93,6 +93,10 @@ func _ready() -> void:
 	
 	get_room_permissions()
 	
+func toggle_collision() -> void:
+	var hoopz_collision: CollisionShape2D = $hoopz_collision
+	hoopz_collision.disabled = not hoopz_collision.disabled
+	print_rich("[color=red][b]Hoopz collision has been changed to %s. This should not happen outside of DEBUG situations.[/b][/color]" % not hoopz_collision.disabled)
 		
 func get_room_permissions():
 	if get_parent() is B2_ROOMS:
@@ -338,7 +342,13 @@ func combat_weapon_animation():
 		
 		aim_dir = mouse_input
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if Input.is_key_pressed(KEY_F4):
+			toggle_collision()
+
 func _physics_process(delta: float) -> void:
+		
 	match curr_STATE:
 		STATE.ROLL:
 			hoopz_normal_body.speed_scale = max( 1.0, linear_velocity.length() / 70.0 )

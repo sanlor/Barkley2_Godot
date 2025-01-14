@@ -10,6 +10,10 @@ signal destination_reached
 enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW}
 var curr_MODE := MODE.FOLLOW
 
+var debug_data: Label
+
+@export var show_debug_data 	:= true
+
 @export var speed_slow 			:= 3.5
 @export var speed_normal 		:= 5.0
 @export var speed_fast 			:= 7.5
@@ -24,7 +28,10 @@ var destination := Vector2.ZERO
 var is_lost := true
 
 # Keep camera inbound.
-var safety := true
+@export var camera_bound_to_map			:= false # Camera cannot see outside the map. This setting should be set on the B2_ROOMS.
+var limit_height 	:= Vector2.ZERO
+var limit_width 	:= Vector2.ZERO
+#var safety := true
 
 # camera position is influenced by the mouse position
 @export var follow_mouse_overide := false
@@ -61,8 +68,19 @@ func _ready() -> void:
 	offset 				= camera_normal_offset
 	
 	B2_CManager.camera 	= self
-	
 	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
+	
+	if show_debug_data:
+		debug_data 								= Label.new()
+		debug_data.label_settings 				= LabelSettings.new()
+		debug_data.label_settings.font 			= load("res://barkley2/resources/fonts/fn_small.tres")
+		debug_data.label_settings.font_color 	= Color.MAGENTA
+		debug_data.horizontal_alignment 		= HORIZONTAL_ALIGNMENT_CENTER
+		debug_data.position 					= Vector2(-384.0 / 2.0, -64)
+		debug_data.size 						= Vector2(384, 32)
+		debug_data.z_index 						= 4000
+		
+		add_child( debug_data, true )
 
 func follow_player( _player_node ):
 	curr_MODE = MODE.FOLLOW
@@ -89,6 +107,7 @@ func cinema_frame( _destination : Vector2, _speed : String ):
 		"CAMERA_FAST": 		speed = speed_fast
 		"CAMERA_SLOW": 		speed = speed_slow
 		"CAMERA_NORMAL": 	speed = speed_normal
+		
 	# move torward the target
 	var tween := create_tween()
 	tween.set_parallel(true)
@@ -135,20 +154,25 @@ func check_actor_activity() -> void:
 		# not doing anything important
 		return
 
-func set_safety(_safety : bool):
-	safety = _safety
+func set_camera_bound( _is_bound : bool ):
+	camera_bound_to_map = _is_bound
 	# camera limits with the offset feels terrible. something is wrong with my code.
-	if safety and false: # false is TEMP
-		var rl : TileMapLayer = get_parent().reference_layer
-		limit_top 		= rl.get_used_rect().position.y 	* 16
-		limit_left 		= rl.get_used_rect().position.x 	* 16
-		limit_right 	= rl.get_used_rect().end.x 			* 16
-		limit_bottom 	= rl.get_used_rect().end.y 			* 16
-	else:
-		limit_top 		= -100000
-		limit_left 		= -100000
-		limit_right 	= 100000
-		limit_bottom 	= 100000
+	if _is_bound:
+		if get_parent() is B2_ROOMS:
+			var rl : TileMapLayer = get_parent().reference_layer.front()
+			#limit_top 		= rl.get_used_rect().position.y 	* 16
+			#limit_left 		= rl.get_used_rect().position.x 	* 16
+			#limit_right 	= rl.get_used_rect().end.x 			* 16
+			#limit_bottom 	= rl.get_used_rect().end.y 			* 16
+			limit_width 	= Vector2( rl.get_used_rect().position.x, rl.get_used_rect().end.x ) * 16.0
+			limit_height 	= Vector2( rl.get_used_rect().position.y, rl.get_used_rect().end.y ) * 16.0
+		else:
+			push_warning( "Invalid parent, can't set camera limits." )
+	#else:
+		#limit_top 		= -100000
+		#limit_left 		= -100000
+		#limit_right 	=  100000
+		#limit_bottom 	=  100000
 
 ## Shake functions, controls camera shake. check Shake().
 func add_shake( shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
@@ -220,6 +244,13 @@ func _process_shake(delta: float) -> void:
 		else:
 			shake_array.clear()
 				
+func _update_debug_data():
+	debug_data.text = 	"Pos: " 			+ str(position) 		+ "\n"
+	debug_data.text += 	"Off: " 			+ str(offset) 			+ "\n"
+	debug_data.text += 	"Limit Height: " 	+ str(limit_height) 	+ "\n"
+	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
+	
+				
 func _process(delta: float) -> void:
 	# process shake effects.
 	_process_shake(delta)
@@ -276,10 +307,14 @@ func _process(delta: float) -> void:
 			else:
 				is_lost = true
 				offset = camera_normal_offset + camera_shake_offset
-			#position = _position.round()
-			#position = _position.floor()
-			#offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta)
-			#position = _position
-	# debug
-	#if Input.is_action_just_pressed("Holster"):
-	#	add_shake( 3, 9999, 0, 0, 0 )
+			
+			if camera_bound_to_map:
+				## Avoid seeing outside the map.
+				#position.x = clamp( position.x, )
+				
+				offset.x = clamp( offset.x, (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
+				offset.y = clamp( offset.y, (384.0/2.0 - position.y), limit_height.y - (384.0/2.0 + position.y) )
+		
+	if show_debug_data:
+		if is_instance_valid(debug_data):
+			_update_debug_data()

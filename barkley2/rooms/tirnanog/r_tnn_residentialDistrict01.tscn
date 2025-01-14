@@ -1,4 +1,4 @@
-[gd_scene load_steps=308 format=4 uid="uid://d4k4y0jxw6bhw"]
+[gd_scene load_steps=312 format=4 uid="uid://d4k4y0jxw6bhw"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/r_tnn_residential_district_01.gd" id="1_nll01"]
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="2_2u6u7"]
@@ -86,7 +86,6 @@
 [ext_resource type="Texture2D" uid="uid://b7l8hc1es8ml3" path="res://barkley2/assets/b2_original/images/merged/s_fence01.png" id="48_t5x3b"]
 [ext_resource type="PackedScene" uid="uid://0ivnjx3er6em" path="res://barkley2/scenes/Objects/_doors/o_door_tech01.tscn" id="49_1u1ii"]
 [ext_resource type="Texture2D" uid="uid://bu3uoyss5rvp0" path="res://barkley2/assets/b2_original/images/merged/s_door_tech01.png" id="50_kuxht"]
-[ext_resource type="Script" path="res://tools/dwarf_converter/dwarf_converter.gd" id="51_dx1yb"]
 [ext_resource type="PackedScene" uid="uid://b3qeqf4xfww8c" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_rain_puddle02.tscn" id="52_yjtnv"]
 [ext_resource type="Texture2D" uid="uid://wyp8o2xw1m0c" path="res://barkley2/assets/b2_original/images/merged/s_tnn_puddle2.png" id="53_oh2k2"]
 [ext_resource type="PackedScene" uid="uid://wym4tuokbf73" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_rain_puddle03.tscn" id="55_se5tm"]
@@ -98,6 +97,9 @@
 [ext_resource type="PackedScene" uid="uid://dgrcc73sqwfnh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_evictionTape01.tscn" id="63_hip3d"]
 [ext_resource type="PackedScene" uid="uid://biteiiqmqobp1" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_entrance.tscn" id="65_7wmmi"]
 [ext_resource type="PackedScene" uid="uid://uex4gfrbexoe" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_etc/o_cornrowMeet01.tscn" id="65_pmo57"]
+[ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="70_6041w"]
+[ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="71_gyyc6"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.gd" id="72_wqfj8"]
 [ext_resource type="Script" path="res://barkley2/resources/door_locker.gd" id="76_3dns1"]
 [ext_resource type="PackedScene" uid="uid://doqn1p6u8q0l2" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/_petstore/o_petStore_sign4.tscn" id="82_nxifs"]
 [ext_resource type="Texture2D" uid="uid://ceyro7cxud1tb" path="res://barkley2/assets/b2_original/images/merged/s_tnn_cuthbert_sign4.png" id="83_4eo0k"]
@@ -4800,37 +4802,37 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qox6w"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ay7me"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fxowb"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p56rn"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_marlk"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f85mg"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ypkt8"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_od0t6"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_35iyp"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kgjv7"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1pc5o"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_75868"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -4929,6 +4931,21 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ndhja")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
+atlas = ExtResource("71_gyyc6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0e0sl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bec86")
 }],
 "loop": true,
 "name": &"default",
@@ -5750,15 +5767,18 @@ DIALOG | P_NAME | Oh no!
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4qhi"]
 size = Vector2(86, 20)
 
-[node name="r_tnn_residentialDistrict01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
+[node name="r_tnn_residentialDistrict01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_cpc8n")
 script = ExtResource("1_nll01")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(125, 950)
+teleport_spot = true
+teleport_node = NodePath("o_teleport_mark")
 collision_layer = NodePath("layer - collision 2")
 collision_layer_semi = NodePath("layer - collision")
+camera_bound_to_map = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -6482,16 +6502,8 @@ convert_known_nodes = true
 simulate = false
 remove_nodes = true
 
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="."]
-script = ExtResource("51_dx1yb")
-save_to_disk = true
-instantiate_right_after = true
-sprite_name = "s_wilhelmina01"
-lazy_mode = true
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." node_paths=PackedStringArray("target")]
+[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="."]
 script = ExtResource("36_85nun")
-target = NodePath("../P85 - o_teleport_mark")
 node_type = 1
 sprite_name = "s_teleport_mark"
 lazy_mode = true
@@ -6770,7 +6782,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_qox6w")
+physics_material_override = SubResource("PhysicsMaterial_ay7me")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6779,7 +6791,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_fxowb")
+physics_material_override = SubResource("PhysicsMaterial_p56rn")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6788,7 +6800,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_marlk")
+physics_material_override = SubResource("PhysicsMaterial_f85mg")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6797,7 +6809,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_ypkt8")
+physics_material_override = SubResource("PhysicsMaterial_od0t6")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6806,7 +6818,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_35iyp")
+physics_material_override = SubResource("PhysicsMaterial_kgjv7")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6815,7 +6827,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_1pc5o")
+physics_material_override = SubResource("PhysicsMaterial_75868")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6869,6 +6881,27 @@ position = Vector2(232, 1120)
 sprite_frames = SubResource("SpriteFrames_cwtei")
 metadata/code = ""
 metadata/inst_name = "inst_B9D234F4"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_teleport_mark" type="AnimatedSprite2D" parent="." instance=ExtResource("70_6041w")]
+position = Vector2(344, 616)
+sprite_frames = SubResource("SpriteFrames_0e0sl")
+centered = false
+offset = Vector2(-8, -8)
+script = ExtResource("72_wqfj8")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "0",
+"height": "16",
+"name": "s_teleport_mark",
+"width": "16",
+"xorig": "8",
+"yorigin": "8"
+}
+metadata/code = ""
+metadata/inst_name = "inst_95004DC5"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_classroom" parent="." instance=ExtResource("5_grsud")]
@@ -7361,37 +7394,6 @@ metadata/code = ""
 metadata/inst_name = "inst_567A165B"
 metadata/scale = Vector2(1, 1)
 
-[node name="P85 - o_teleport_mark" type="Marker2D" parent="."]
-position = Vector2(344, 616)
-metadata/code = ""
-metadata/inst_name = "inst_95004DC5"
-metadata/scale = Vector2(1, 1)
-
-[node name="P104 - o_room_pedestrian" type="Marker2D" parent="."]
-position = Vector2(-120, 96)
-metadata/code = ""
-metadata/inst_name = "inst_D2FFC22F"
-metadata/scale = Vector2(1, 1)
-
-[node name="P197 - o_tnn_curfewAnnounce01" type="Marker2D" parent="."]
-position = Vector2(432, 600)
-metadata/code = ""
-metadata/inst_name = "inst_4AAEDE5D"
-metadata/scale = Vector2(0, 2)
-
-[node name="P199 - o_tnn_loudspeaker01" type="Marker2D" parent="."]
-position = Vector2(560, 576)
-metadata/code = ""
-metadata/inst_name = "inst_9067BA78"
-metadata/scale = Vector2(1, 1)
-
-[node name="B2_PendingWork" type="Node2D" parent="P199 - o_tnn_loudspeaker01"]
-z_index = 4000
-script = ExtResource("7_w0awa")
-title_color = Color(1, 0, 0.0166664, 1)
-notes = "LoudSpeaker stuff"
-text_size = 16
-
 [node name="P200 - o_tnn_loudspeakerPedestrianSpot01" type="Marker2D" parent="."]
 position = Vector2(480, 608)
 metadata/code = ""
@@ -7578,6 +7580,18 @@ metadata/code = ""
 metadata/inst_name = "inst_76384259"
 metadata/scale = Vector2(1, 1)
 
+[node name="P104 - o_room_pedestrian" type="Marker2D" parent="."]
+position = Vector2(-120, 96)
+metadata/code = ""
+metadata/inst_name = "inst_D2FFC22F"
+metadata/scale = Vector2(1, 1)
+
+[node name="P197 - o_tnn_curfewAnnounce01" type="Marker2D" parent="."]
+position = Vector2(432, 600)
+metadata/code = ""
+metadata/inst_name = "inst_4AAEDE5D"
+metadata/scale = Vector2(0, 2)
+
 [node name="P202 - o_mg_stealth_control" type="Marker2D" parent="."]
 position = Vector2(-120, 160)
 metadata/code = ""
@@ -7589,6 +7603,19 @@ position = Vector2(-120, 128)
 metadata/code = ""
 metadata/inst_name = "inst_C47BA9B1"
 metadata/scale = Vector2(1, 1)
+
+[node name="P199 - o_tnn_loudspeaker01" type="Marker2D" parent="."]
+position = Vector2(560, 576)
+metadata/code = ""
+metadata/inst_name = "inst_9067BA78"
+metadata/scale = Vector2(1, 1)
+
+[node name="B2_PendingWork" type="Node2D" parent="P199 - o_tnn_loudspeaker01"]
+z_index = 4000
+script = ExtResource("7_w0awa")
+title_color = Color(1, 0, 0.0166664, 1)
+notes = "LoudSpeaker stuff"
+text_size = 16
 
 [node name="P8 - o_effect_rain" type="Marker2D" parent="."]
 position = Vector2(-120, 32)

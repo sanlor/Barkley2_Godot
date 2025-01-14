@@ -165,7 +165,11 @@ func end_cutscene():
 	print_rich("[color=pink]Finished Cinema() Script.[/color]")
 	
 	## NOTE Below is trash. needs improving.
-	camera.set_safety( true )
+	if get_parent() is B2_ROOMS:
+		camera.set_camera_bound( get_parent().camera_bound_to_map )
+	else:
+		camera.set_camera_bound( false )
+		
 	camera.follow_player( B2_CManager.o_hoopz )
 	B2_Input.player_follow_mouse.emit( true )
 	B2_Input.camera_follow_mouse.emit( true )
@@ -211,7 +215,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	B2_CManager.event_started.emit()
 	
-	camera.set_safety( false )
+	camera.set_camera_bound( false )
 	
 	# Chill out. Avoid loading invalid nodes.
 	await get_tree().process_frame

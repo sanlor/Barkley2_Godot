@@ -41,6 +41,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var show_zone_banner			:= true
 @export var override_zone_name			:= "" ## Allow custom zone name (upper text)
 @export var override_zone_flavor		:= "" ## Allow custom zone flavor (bottom text)
+@export var camera_bound_to_map			:= false # Camera cannot see outside the map.
 
 @export_category("Cinematics")
 @export var player_can_pause			:= true
@@ -173,6 +174,7 @@ func _setup_player_node():
 		b2_camera.follow_mouse = true
 		b2_camera.follow_player( player )
 		b2_camera.position = debug_player_scene_pos
+		b2_camera.set_camera_bound( camera_bound_to_map )
 		
 	add_child( player )
 	return player
@@ -180,7 +182,8 @@ func _setup_player_node():
 func _setup_camera( player ):
 	b2_camera = B2_Camera_Hoopz.new()
 	if not player == null:
-		b2_camera.follow_player( player as B2_Player )
 		b2_camera.follow_mouse = true
+		b2_camera.follow_player( player as B2_Player )
 	add_child( b2_camera, true )
+	b2_camera.set_camera_bound( camera_bound_to_map )
 	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )
