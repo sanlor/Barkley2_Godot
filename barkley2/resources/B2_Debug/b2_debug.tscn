@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=17 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -89,6 +89,11 @@ func _physics_process(_delta: float) -> void:
 	time_gate.text 		= \"Time Gate: \" + str( B2_Config.get_user_save_data(\"clock.gate\", 0.0) )
 	
 	time_events.text 	= \"Time Event:\\n\"
+	
+	## Error handling
+	if B2_Config.get_user_save_data(\"clock.event\", Array() ) is not Array:
+		return
+	
 	for e : Array in B2_Config.get_user_save_data(\"clock.event\", Array() ):
 		time_events.text += \" * \" + str( e ) + \"\\n\"
 
@@ -142,6 +147,32 @@ func _on_m_btn_pressed() -> void:
 
 func _on_p_btn_pressed() -> void:
 	B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_PIETY, B2_Playerdata.Stat(B2_Playerdata.STAT_BASE_PIETY) + randi_range(-3, 3) )
+"
+
+[sub_resource type="GDScript" id="GDScript_ikmou"]
+script/source = "extends HBoxContainer
+
+@onready var cam_btn: Button = $\"../camera_data/cam_btn\"
+
+func _ready() -> void:
+	cam_btn.toggle_mode = true
+	cam_btn.button_pressed = B2_Debug.show_camera_debug_data
+
+func _on_cam_btn_pressed() -> void:
+	B2_Debug.show_camera_debug_data = cam_btn.button_pressed
+"
+
+[sub_resource type="GDScript" id="GDScript_tvo8j"]
+script/source = "extends HBoxContainer
+
+@onready var play_col_btn: Button = $play_col_btn
+
+func _ready() -> void:
+	play_col_btn.toggle_mode = true
+	play_col_btn.button_pressed = B2_Debug.can_disable_player_col
+
+func _on_cam_btn_pressed() -> void:
+	B2_Debug.can_disable_player_col = play_col_btn.button_pressed
 "
 
 [node name="b2_debug" type="CanvasLayer"]
@@ -335,6 +366,33 @@ text = "M"
 layout_mode = 2
 text = "P"
 
+[node name="camera_data" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = SubResource("GDScript_ikmou")
+
+[node name="Label" type="Label" parent="player_vars/MarginContainer/VBoxContainer/camera_data"]
+layout_mode = 2
+text = "Show cam data"
+
+[node name="cam_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/camera_data"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Toggle"
+
+[node name="player_dis_col" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+script = SubResource("GDScript_tvo8j")
+
+[node name="Label" type="Label" parent="player_vars/MarginContainer/VBoxContainer/player_dis_col"]
+layout_mode = 2
+text = "Can disable 
+Player collision (F4)"
+
+[node name="play_col_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer/player_dis_col"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Toggle"
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
@@ -349,3 +407,4 @@ text = "P"
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/a_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_a_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/m_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_m_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/p_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_p_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/camera_data/cam_btn" to="player_vars/MarginContainer/VBoxContainer/camera_data" method="_on_cam_btn_pressed"]

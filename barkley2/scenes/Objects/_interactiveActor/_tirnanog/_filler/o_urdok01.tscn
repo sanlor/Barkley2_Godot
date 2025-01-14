@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5b4euwjk3u72"]
+[gd_scene load_steps=9 format=3 uid="uid://b5b4euwjk3u72"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_urdok01.gd" id="1_utsmi"]
 [ext_resource type="Texture2D" uid="uid://ciycedab4o5n" path="res://barkley2/assets/b2_original/images/merged/s_urdok01.png" id="2_2gnwb"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_slrvd"]
+
+[sub_resource type="Resource" id="Resource_dmndb"]
+script = ExtResource("2_slrvd")
+original_script = "DIALOG | Urdok    | One day it'll be me up there, turning the knobs and scratching the discs. DJ Urdok, at your service."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_snrl6"]
 atlas = ExtResource("2_2gnwb")
@@ -27,8 +32,10 @@ size = Vector2(20, 36)
 [node name="o_urdok01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_utsmi")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_dmndb")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+can_move_around = false
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
@@ -55,5 +62,3 @@ shape = SubResource("CircleShape2D_qowc1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_ccuj2")
-
-[node name="ActorNav" type="NavigationAgent2D" parent="."]

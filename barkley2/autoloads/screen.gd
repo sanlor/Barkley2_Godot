@@ -44,6 +44,21 @@ func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	set_cursor_type( TYPE.POINT )
+	B2_Config.title_screen_loaded.connect( _reset_data )
+
+func _reset_data():
+	pause_screen 		= null
+	can_pause 			= false
+	is_paused 			= false
+
+	map_screen 			= null
+	is_map_open 		= false
+
+	note_screen 		= null
+	is_notes_open 		= false
+
+	quickmenu_screen 	= null
+	is_quickmenu_open 	= false
 
 func set_cursor_type( type : TYPE) -> void:
 	mouse.stop()
@@ -265,5 +280,8 @@ func hide_quickmenu_screen( unpause := false ) -> void:
 	#	B2_CManager.o_hud.show_hud()
 
 func return_to_title():
+	if B2_Playerdata.record_curr_location():
+		B2_Playerdata.SaveGame() ## Do the saving bit.
+		
 	get_tree().change_scene_to_file( title_screen_file )
 	get_tree().paused = false

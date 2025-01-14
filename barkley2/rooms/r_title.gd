@@ -117,6 +117,8 @@ var dry
 var tim := 0.0 ## important variable. controles how much ot the ziggurat is near hell. range from 0 to 1
 
 func _ready():
+	B2_Config.title_screen_loaded.emit()
+	
 	for n in bg.get_children():
 		if n is AnimatedSprite2D:
 			n.play("default")
@@ -125,6 +127,9 @@ func _ready():
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	
 	B2_Screen.can_pause = false
+	
+	## Room teleport shenanigans
+	B2_RoomXY.reset_room()
 	
 	## Music
 	await get_tree().process_frame

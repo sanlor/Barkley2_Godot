@@ -7,4 +7,4 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	var c := cl.pick_random() as int
-	modulate = Color(c, c, c)
+	modulate = Color8(c, c, c)

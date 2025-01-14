@@ -145,10 +145,9 @@ func _ready():
 	add_child( game_timer, true )
 	game_timer.start()
 	
-	
 	## Quest flags overrides
 	#preload_CC_save_data()
-	B2_CManager.BodySwap("hoopz");
+	#B2_CManager.BodySwap("hoopz");
 	#preload_CC_save_data()
 	#B2_Playerdata.Quest("wilmerMeeting", 0)
 	#B2_Playerdata.Quest("tutorialProgress", 	9)
@@ -159,7 +158,7 @@ func _ready():
 	#B2_Playerdata.Quest("jhodfreyTips", 		2)
 	#B2_Playerdata.Quest("gameStart", 			2)
 	#B2_Playerdata.Quest("factoryEggs", 		1)
-	preload_skip_tutorial_save_data()
+	#preload_skip_tutorial_save_data()
 	
 func time_goes_on() -> void:
 	if B2_Playerdata.Quest("gameStart") == 2:
@@ -167,6 +166,17 @@ func time_goes_on() -> void:
 	else:
 		# Time does NOT go on during, the tutorial, title screen and CC.
 		pass
+	
+func record_curr_location() -> bool:
+	if B2_Playerdata.Quest("saveDisabled") == 0: ## Save game (if possible) during exit.
+		if get_tree().current_scene is B2_ROOMS: ## Only save if the player is inside a valid room.
+			if is_instance_valid( B2_CManager.o_hoopz ): ## Save current position
+				B2_Config.set_user_save_data( "map.room", get_tree().current_scene.name )
+				B2_Config.set_user_save_data( "map.x", B2_CManager.o_hoopz.position.x )
+				B2_Config.set_user_save_data( "map.y", B2_CManager.o_hoopz.position.y )
+		return true
+	else:
+		return false
 	
 func SaveGame():
 	print_rich("[color=blue]Save game requested.[/color]")
@@ -237,8 +247,6 @@ func preload_CC_save_data():
 	# related script = scr_player_newPlayerIdentity();
 	
 	#scr_player_newPlayerIdentity();
-	#CC("new player");
-	#room_goto(r_cc);
 	
 	## WARNING ##
 	# ClockTime
@@ -254,18 +262,22 @@ func preload_CC_save_data():
 	# ClockTime("update") will be IGNORED, fucko.
 	## WARNING Shut up!  The above "clock" code was setup in the class B2_ClockTime.
 	
+	## ClockTime("init"); -> Check B2_ClockTime
+	# QuestTracker("init");
+	## BodySwap("init"); Check B2_Playerdata.BodySwap()
+	## Note("init"); -> check B2_Note
+	# Item("reset"); 
+	## Map("reset"); -> check B2_Map
+	# Cyberspear("reset");
+	
 	# BodySwap
 	B2_Config.set_user_save_data("player.body", "hoopz");
 	
-	# Note
-	# will be ignored for the time being. What a mess.
-	
 	# Item
-	# B2_Config.set_user_save_data("quest.itemsName", 		Dictionary() );
-	# B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() );
+	B2_Config.set_user_save_data("quest.itemsName", 		Dictionary() ); ## TODO
+	B2_Config.set_user_save_data("quest.itemsQuantity", 	Dictionary() ); ## TODO
 	
 	# Map
-	#B2_Config.set_user_save_data("quest.maps", Dictionary() );
 	B2_Config.set_user_save_data("quest.maps", Array() ); ## New method 02/01/25
 	
 	# Note
@@ -341,7 +353,9 @@ func preload_CC_save_data():
 
 	# CC Enemy Boost (hand scanner)
 	#B2_Playerdata.Quest("playerCCScanner", 0); # Enemy glamp bonus
-
+	
+#endregion
+	
 	# Roll Hoopz base stats ## NOTE No idea how to use these. Ignoring them for now.
 	
 	# Save maps into Savedata
@@ -352,7 +366,7 @@ func preload_CC_save_data():
 	#scr_stats_resetStats();
 	## NOTE Base stats
 	
-	## Abilities
+	## Abilities ## TODO Improve this.
 	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_LEVEL, 	12 )
 	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_HP, 		47 )
 	B2_Config.set_user_save_data( "player.stats.base." + STAT_BASE_SPEED, 	9.5 )
@@ -386,15 +400,13 @@ func preload_CC_save_data():
 	##scr_stats_rollBaseStats(1, 8, 8, 8, 8, 8);
 	
 	## NOTE Effective Stats
-	# During startup, base stats are the same as the effective one.
+	# During startup, base stats are the same as the effective one. TODO
 	B2_Config.set_user_save_data("player.stats.effective", B2_Config.get_user_save_data( "player.stats.base", {} ) )
-	
 	#scr_stats_genEffectiveStats();
 	#scr_stats_resetCurrentStats();
-	#endregion
+	
 
 	# Save status effects into Savedata
-	
 	
 	# Respawn info
 	B2_Config.set_user_save_data("player.respawn.do", false);
@@ -406,9 +418,15 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("player.deaths.total", 0);
 	B2_Config.set_user_save_data("player.deaths.current", 0);
 	
-	# Jerkin
+	## Jerkins (Player starts with the Cornhusk Jerkin!) - Bhroom
 	B2_Config.set_user_save_data("player.jerkins.has", 			Dictionary() ); # ds_list of jerkins the player has
 	B2_Config.set_user_save_data("player.jerkins.current", 		""); # Hoopz current jerkin
+	#Jerkin("reset"); 						TODO
+	#Jerkin("gain", "Cornhusk Jerkin"); 	TODO
+	#Jerkin("equip", "Cornhusk Jerkin"); 	TODO
+	
+	# Maps
+	B2_Map.gain_map( "Necron 7 - 666th Floor" )
 	
 	B2_Config.set_user_save_data("player.chips.has", 			Dictionary() );
 	B2_Config.set_user_save_data("player.chips.current", 		"");
@@ -420,22 +438,27 @@ func preload_CC_save_data():
 	
 	# Candy
 	B2_Config.set_user_save_data("player.schematics.candy", 	Dictionary() );
+	# Candy("reset"); TODO
+	# Candy("current", NULL); TODO
 	
 	# Zauber
 	B2_Config.set_user_save_data("player.zaubers", 				Dictionary() );
+	# Zauber("reset"); TODO
 	
 	# Humanism
-	B2_Config.set_user_save_data("player.humanism.bio", 90.0);
-	B2_Config.set_user_save_data("player.humanism.cyber", 10.0);
-	B2_Config.set_user_save_data("player.humanism.cosmic", 0.0);
-	B2_Config.set_user_save_data("player.humanism.zauber", 0.0);
+	B2_Config.set_user_save_data("player.humanism.bio", 	90.0	);
+	B2_Config.set_user_save_data("player.humanism.cyber", 	10.0	);
+	B2_Config.set_user_save_data("player.humanism.cosmic", 	0.0		);
+	B2_Config.set_user_save_data("player.humanism.zauber", 	0.0		);
 	
 	# Bonnet ## NOTE ?????? 
 	B2_Config.set_user_save_data("player.hasBonnet", true);
 	
+	# Money
+	B2_Playerdata.Quest( "money", 0 )
+	
 	# XP
 	B2_Config.set_user_save_data("player.xp.questxp", 0);
-
 	B2_Config.set_user_save_data("player.xp.level", 12);
 	B2_Config.set_user_save_data("ustation.smelt", 500);
 	
@@ -501,9 +524,10 @@ func preload_tutorial_save_data(): # user skip the CC
 	B2_Config.set_user_save_data("map.y", 0);
 	B2_Config.create_user_save_data( B2_Config.selected_slot ) # set_user_save_data();
 	# Teleport(r_fct_eggRooms01, 0, 0, 1);
+	print_rich("[color=purple]Loaded tutorial data for Hoopz.[/color]")
 
 func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
-	# related script = Game()
+	# related script = Game("new from wilmer")
 	## Plays as if you did the tutorial, woke up, and grabbed Wilmers stuff
 	#scr_savedata_delete();
 	#scr_savedata_reset();
@@ -511,24 +535,30 @@ func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
 	preload_CC_save_data()
 	preload_tutorial_save_data()
 	
+	B2_ClockTime.time_init()
+	
 	B2_Playerdata.Quest("gameStart", 2);
-	B2_Playerdata.Quest("sceneBrandingStart", 2);
-	#B2_Playerdata.Quest("wilmerEvict", 1);
-	#B2_Playerdata.Quest("wilmerHandler", 0);
-	#B2_Playerdata.Quest("wilmerSleepCount", 0);
-	#B2_Playerdata.Quest("wilmerSleep", 1);
-	#B2_Playerdata.Quest("wilmerItemsTaken", 1);
-	#B2_Playerdata.Quest("wilmerMeeting", 0);
+	B2_Playerdata.Quest("sceneBrandingStart", 4);
+	B2_Playerdata.Quest("wilmerEvict", 1);
+	B2_Playerdata.Quest("wilmerHandler", 0);
+	B2_Playerdata.Quest("wilmerSleepCount", 0);
+	B2_Playerdata.Quest("wilmerSleep", 1);
+	B2_Playerdata.Quest("wilmerItemsTaken", 1);
+	B2_Playerdata.Quest("wilmerMeeting", 1);
+	
+	B2_ClockTime.time_event("wilmerSleep", 0, 30)
+	B2_ClockTime.time_event("wilmerEvict", 2, 70)
+	
 	B2_Playerdata.Quest("tutorialProgress", 100);
 	B2_Playerdata.Quest("elevatorFloor", 665);
 	B2_Playerdata.Quest("elevatorFloorGoal", 665);
 	
-	#scr_gun_db("wilmerGun");
-	#scr_gun_db("estherGun");
-	#Candy("recipe add", "Butterscotch");
-	#repeat (10) scr_items_add(scr_items_db_getCopyOfItem("Butterscotch"));
-	#Note("take", "Wilmer's Amortization Schedule");
-	#scr_money_set(scr_money_db("wilmerMortgageTotal"));
-	#paused(0);
-	#global.DELTA_TIME_MOD = 1;
-	#Teleport(r_tnn_wilmer01, 240, 350, 1);
+	#scr_gun_db("wilmerGun"); 	TODO
+	#scr_gun_db("estherGun"); 	TODO
+	B2_Note.take_note( "Wilmer's Amortization Schedule" )
+	B2_Database.money_change( B2_Database.money.get("wilmerMortgageTotal", 69420) )
+	#Candy("recipe add", "Butterscotch"); 										TODO
+	#repeat (10) scr_items_add(scr_items_db_getCopyOfItem("Butterscotch")); 	TODO
+	print_rich("[color=blue]Loaded tutorial skip data.[/color]")
+	
+	B2_Playerdata.Quest("saveDisabled", 0);

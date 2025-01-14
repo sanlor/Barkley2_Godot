@@ -5,6 +5,9 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
+	if B2_Playerdata.Quest("escapedFromTNN") <= 1 or B2_ClockTime.time_gate() <= 9:
+		queue_free()
+	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""

@@ -1,4 +1,4 @@
-[gd_scene load_steps=312 format=4 uid="uid://d4k4y0jxw6bhw"]
+[gd_scene load_steps=326 format=4 uid="uid://d4k4y0jxw6bhw"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/r_tnn_residential_district_01.gd" id="1_nll01"]
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="2_2u6u7"]
@@ -99,8 +99,13 @@
 [ext_resource type="PackedScene" uid="uid://uex4gfrbexoe" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_etc/o_cornrowMeet01.tscn" id="65_pmo57"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="70_6041w"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="71_gyyc6"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.gd" id="72_wqfj8"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="73_yb0j3"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="74_fv4q6"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="75_20n4l"]
 [ext_resource type="Script" path="res://barkley2/resources/door_locker.gd" id="76_3dns1"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="76_4nlrk"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="77_m0ox7"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="78_22hco"]
 [ext_resource type="PackedScene" uid="uid://doqn1p6u8q0l2" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/_petstore/o_petStore_sign4.tscn" id="82_nxifs"]
 [ext_resource type="Texture2D" uid="uid://ceyro7cxud1tb" path="res://barkley2/assets/b2_original/images/merged/s_tnn_cuthbert_sign4.png" id="83_4eo0k"]
 [ext_resource type="PackedScene" uid="uid://cvqfy0iincrrm" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/_petstore/o_petStore_sign3.tscn" id="85_bc5ho"]
@@ -4802,37 +4807,37 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ay7me"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kcxc1"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p56rn"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_iujtv"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_f85mg"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_h72bs"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_od0t6"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_onn12"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kgjv7"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ij68u"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_75868"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qphuo"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -4949,6 +4954,92 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
+atlas = ExtResource("78_22hco")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
+atlas = ExtResource("78_22hco")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
+atlas = ExtResource("78_22hco")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
+atlas = ExtResource("78_22hco")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("73_yb0j3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_fv4q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_20n4l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_4nlrk")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
 "speed": 5.0
 }]
 
@@ -5771,7 +5862,7 @@ size = Vector2(86, 20)
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_cpc8n")
 script = ExtResource("1_nll01")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(125, 950)
 teleport_spot = true
@@ -6782,7 +6873,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_ay7me")
+physics_material_override = SubResource("PhysicsMaterial_kcxc1")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6791,7 +6882,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_p56rn")
+physics_material_override = SubResource("PhysicsMaterial_iujtv")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6800,7 +6891,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_f85mg")
+physics_material_override = SubResource("PhysicsMaterial_h72bs")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6809,7 +6900,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_od0t6")
+physics_material_override = SubResource("PhysicsMaterial_onn12")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6818,7 +6909,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_kgjv7")
+physics_material_override = SubResource("PhysicsMaterial_ij68u")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6827,7 +6918,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_75868")
+physics_material_override = SubResource("PhysicsMaterial_qphuo")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6883,29 +6974,16 @@ metadata/code = ""
 metadata/inst_name = "inst_B9D234F4"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_teleport_mark" type="AnimatedSprite2D" parent="." instance=ExtResource("70_6041w")]
+[node name="o_teleport_mark" parent="." instance=ExtResource("70_6041w")]
 position = Vector2(344, 616)
 sprite_frames = SubResource("SpriteFrames_0e0sl")
-centered = false
-offset = Vector2(-8, -8)
-script = ExtResource("72_wqfj8")
-metadata/default = {
-"bbox_bottom": "15",
-"bbox_left": "0",
-"bbox_right": "15",
-"bbox_top": "0",
-"height": "16",
-"name": "s_teleport_mark",
-"width": "16",
-"xorig": "8",
-"yorigin": "8"
-}
 metadata/code = ""
 metadata/inst_name = "inst_95004DC5"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_classroom" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(504, 184)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 offset = Vector2(0, -44)
 flip_v = false
 type = 0
@@ -6925,23 +7003,25 @@ metadata/code = "if BodySwap() = \"governor\" then event_user(0);
 metadata/inst_name = "inst_D634049F"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_up8" parent="." instance=ExtResource("5_grsud")]
+[node name="o_doorlight_up_market2" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(784, 0)
-animation = &"debug_icons"
+scale = Vector2(2, 1)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 offset = Vector2(0, -44)
 flip_v = false
-show_door_light = false
 type = 0
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(800, 22)
+door_exit_marker_global_pos = Vector2(816, 22)
 teleport_string = "r_tnn_residentialDistrict01,800,22"
 teleport_destination = "r_tnn_marketDistrict01, 1488, 1024"
 metadata/code = "RoomXY(r_tnn_marketDistrict01, 1488, 1024);"
 metadata/inst_name = "inst_644BBC68"
 metadata/scale = Vector2(2, 1)
 
-[node name="o_doorlight_right" parent="." instance=ExtResource("5_grsud")]
+[node name="o_doorlight_right_bball" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(1184, 128)
+scale = Vector2(1, 1.9375)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 frame = 3
 flip_h = true
@@ -6951,25 +7031,23 @@ type = 3
 debug_door_exit_marker_pos = Vector2(22, 16)
 door_exit_marker_global_pos = Vector2(1206, 144)
 teleport_string = "r_tnn_residentialDistrict01,1206,144"
-teleport_destination = "RoomXY(r_tnn_bballcourt_transition01, 24, 144);
-"
+teleport_destination = "r_tnn_bballcourt_transition01, 24, 144"
 metadata/code = "RoomXY(r_tnn_bballcourt_transition01, 24, 144);
 "
 metadata/inst_name = "inst_49CA4F56"
 metadata/scale = Vector2(1, 2)
 
-[node name="o_doorlight_up3" parent="." instance=ExtResource("5_grsud")]
-position = Vector2(392, 0)
-animation = &"debug_icons"
+[node name="o_doorlight_up_market" parent="." instance=ExtResource("5_grsud")]
+position = Vector2(384, 0)
+scale = Vector2(2.96875, 1)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 offset = Vector2(0, -44)
 flip_v = false
-show_door_light = false
 type = 0
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(408, 22)
+door_exit_marker_global_pos = Vector2(431.5, 22)
 teleport_string = "r_tnn_residentialDistrict01,408,22"
-teleport_destination = "RoomXY(r_tnn_marketDistrict01, 1104, 1024);
-"
+teleport_destination = "r_tnn_marketDistrict01, 1104, 1024"
 metadata/code = "RoomXY(r_tnn_marketDistrict01, 1104, 1024);
 "
 metadata/inst_name = "inst_DAA28FE3"
@@ -6978,6 +7056,7 @@ metadata/scale = Vector2(2, 1)
 [node name="o_doorlight_tnn_maingate02" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(0, 464)
 scale = Vector2(1, 3)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 frame = 3
 flip_h = true
@@ -6987,7 +7066,7 @@ type = 3
 debug_door_exit_marker_pos = Vector2(22, 16)
 door_exit_marker_global_pos = Vector2(22, 512)
 teleport_string = "r_tnn_residentialDistrict01,-8,480"
-teleport_destination = "r_tnn_maingate02, 640, 488)"
+teleport_destination = "r_tnn_maingate02, 640, 488"
 metadata/code = "RoomXY(r_tnn_maingate02, 640, 488);
 "
 metadata/inst_name = "inst_F57B250B"
@@ -6995,6 +7074,7 @@ metadata/scale = Vector2(1, 2)
 
 [node name="o_doorlight_up_rentcontrolled01" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(864, 832)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7017,6 +7097,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_boardinghouse01" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(640, 816)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7041,6 +7122,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_ghettoofsadness01" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(704, 1104)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7065,13 +7147,13 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_creppy" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(936, 312)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 show_door_light = false
 type = 0
 door_exit_marker_global_pos = Vector2(952, 300)
 teleport_string = "r_tnn_residentialDistrict01,952,300"
-teleport_destination = "RoomXY(r_tnn_ghosthouse01, 256, 272)
-"
+teleport_destination = "r_tnn_ghosthouse01, 256, 272"
 metadata/code = "RoomXY(r_tnn_ghosthouse01, 256, 272)
 "
 metadata/inst_name = "inst_9FE479B3"
@@ -7103,6 +7185,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up_willmer" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(824, 568)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7146,6 +7229,7 @@ cutscene_script = SubResource("Resource_owhxx")
 
 [node name="o_doorlight_blockhouse" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(368, 544)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7167,6 +7251,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_petstore" parent="." instance=ExtResource("5_grsud")]
 position = Vector2(504, 1104)
+sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
 offset = Vector2(0, -44)
 flip_v = false
@@ -7274,6 +7359,7 @@ metadata/inst_name = "inst_8DA369BC"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_petStore_namesign" parent="." instance=ExtResource("91_v28pi")]
+self_modulate = Color(1, 1, 1, 0.85)
 position = Vector2(518, 1021)
 sprite_frames = SubResource("SpriteFrames_14gv2")
 frame_progress = 0.0
@@ -7282,12 +7368,14 @@ metadata/inst_name = "inst_B4AF5D54"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_petStore_OpenSign" parent="." instance=ExtResource("39_2h5eg")]
+self_modulate = Color(1, 1, 1, 0.85)
 position = Vector2(568, 1099)
 metadata/code = ""
 metadata/inst_name = "inst_F513DC98"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_tnn_jerkinrySign" parent="." instance=ExtResource("39_bahrf")]
+self_modulate = Color(1, 1, 1, 0.85)
 z_index = 400
 position = Vector2(368, 1004)
 metadata/code = ""

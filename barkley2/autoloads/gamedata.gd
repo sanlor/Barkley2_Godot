@@ -292,6 +292,10 @@ var last_zone_name := ""
 
 func _ready() -> void:
 	_load_portrait_data()
+	B2_Config.title_screen_loaded.connect( _reset_data )
+
+func _reset_data():
+	last_zone_name = ""
 
 # check Portrait("init")
 ## Man, what a mess. its 30-12-24 and im still having issues with this.

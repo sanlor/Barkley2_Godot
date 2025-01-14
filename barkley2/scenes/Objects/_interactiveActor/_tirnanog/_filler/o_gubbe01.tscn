@@ -1,7 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://tw63a7syvbwv"]
+[gd_scene load_steps=9 format=3 uid="uid://tw63a7syvbwv"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gubbe01.gd" id="1_0igll"]
 [ext_resource type="Texture2D" uid="uid://w06s82hpkhji" path="res://barkley2/assets/b2_original/images/merged/s_gubbe01.png" id="2_miuvr"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_tk0kx"]
+
+[sub_resource type="Resource" id="Resource_47xb5"]
+script = ExtResource("2_tk0kx")
+original_script = "DIALOG | Gubbe  | This is EPIC, brah! EPIC!
+DIALOG | P_NAME | Yeah, this is pretty good."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ujk7"]
 atlas = ExtResource("2_miuvr")
@@ -27,8 +33,10 @@ size = Vector2(20, 36)
 [node name="o_gubbe01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0igll")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_47xb5")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+can_move_around = false
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
@@ -52,8 +60,7 @@ metadata/default = {
 shape = SubResource("CircleShape2D_l31xx")
 
 [node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_f2xr7")
-
-[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -1,7 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmlo8mdyncrrn"]
+[gd_scene load_steps=9 format=3 uid="uid://dmlo8mdyncrrn"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_flipboy01.gd" id="1_0y1jv"]
 [ext_resource type="Texture2D" uid="uid://bwfj78e2q8y6t" path="res://barkley2/assets/b2_original/images/merged/s_flipboy01.png" id="2_1leen"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_58q0a"]
+
+[sub_resource type="Resource" id="Resource_7blag"]
+script = ExtResource("2_58q0a")
+original_script = "DIALOG | Flip Boy | Hey are you flipping it?!
+DIALOG | P_NAME   | What?
+DIALOG | Flip Boy | Heh. Knew it. Just another noob.
+DIALOG | P_NAME   | B-but...!
+DIALOG | Flip Boy | Save your breath, noob."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qrwk5"]
 atlas = ExtResource("2_1leen")
@@ -27,6 +36,7 @@ size = Vector2(20, 36)
 [node name="o_flipboy01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0y1jv")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_7blag")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -52,6 +62,7 @@ metadata/default = {
 shape = SubResource("CircleShape2D_no04j")
 
 [node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_ia76q")

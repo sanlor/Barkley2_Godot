@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://c51sdkqvimavh"]
+
+[ext_resource type="Texture2D" uid="uid://sd7w8cbns535" path="res://barkley2/assets/b2_original/images/merged/s_tnn_evictionTape02.png" id="1_wh2ji"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_eviction_tape_02.gd" id="2_e6i8j"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_5io6e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fvoyh"]
+atlas = ExtResource("1_wh2ji")
+region = Rect2(0, 0, 34, 58)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_62td4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fvoyh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_2vfne"]
+script = ExtResource("3_5io6e")
+original_script = "IF body == governor | GOTO | GOVNA
+IF vivianEnter == 1 | GOTO | ENTERCHOICE
+IF comServ == 2     | IF vivianEnter == 0 | GOTO | COMSERV2
+IF comServ >= 3     | GOTO | ENTERCHOICE
+GOTO     | BEENHEREFIRST
+
+GOVNA
+DIALOG   | Governor Elagabalus | Ugh, this body is not robust enough to sneak into this hovel. 
+
+COMSERV2
+DIALOG   | P_NAME | This must be Cornrow's Granny's house. The door is wide open, and Cornrow said to just ignore the tape so...
+GOTO     | ENTERCHOICE
+
+BEENHEREFIRST
+DIALOG   | Tape   | DUERGAR LINE DO NOT CROSS. DUERGAR LINE DO NOT CROSS. DUERGAR LINE DO NOT CROSS.
+DIALOG   | P_NAME | Interesting. The door's wide open. I bet I could slip right under the tape when no one is looking...
+GOTO     | ENTERCHOICE
+
+ENTERCHOICE
+CHOICE   | Enter?
+REPLY    | ENTER_YES | Slip in.
+REPLY    | ENTER_NO  | Slink away.
+
+ENTER_YES
+QUEST    | vivianEnter = 1
+DIALOG   | P_NAME | Here goes...
+FADE     | 1 | 0.5
+WAIT     | 0.6
+Teleport | r_tnn_vivian02 | 304 | 256 | 1
+
+ENTER_NO
+DIALOG   | P_NAME | Nah..."
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxxm1"]
+size = Vector2(34, 60)
+
+[node name="o_tnn_evictionTape02" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_62td4")
+centered = false
+offset = Vector2(0, -56)
+script = ExtResource("2_e6i8j")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_2vfne")
+metadata/default = {
+"bbox_bottom": "29",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "5",
+"height": "58",
+"name": "s_tnn_evictionTape02",
+"width": "34",
+"xorig": "0",
+"yorigin": "56"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(17, -30)
+shape = SubResource("RectangleShape2D_yxxm1")

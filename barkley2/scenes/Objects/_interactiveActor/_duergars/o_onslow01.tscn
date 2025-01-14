@@ -1,9 +1,53 @@
-[gd_scene load_steps=20 format=3 uid="uid://dni6k1cvnt2ei"]
+[gd_scene load_steps=23 format=3 uid="uid://dni6k1cvnt2ei"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_onslow01.gd" id="1_16qwl"]
 [ext_resource type="Texture2D" uid="uid://wime71vlmlxs" path="res://barkley2/assets/b2_original/images/merged/s_onslow01.png" id="1_iq0h8"]
 [ext_resource type="Texture2D" uid="uid://c5cpmstkulk5v" path="res://barkley2/assets/b2_original/images/merged/s_onslowNE.png" id="2_mr7i8"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_sivwc"]
 [ext_resource type="Texture2D" uid="uid://b0ch24vqbll8u" path="res://barkley2/assets/b2_original/images/merged/s_onslowSE.png" id="3_tybii"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="6_2u8gh"]
+
+[sub_resource type="Resource" id="Resource_ew1m3"]
+script = ExtResource("2_sivwc")
+original_script = "IF govQuest > 5     | GOTO | GOV5
+IF body == governor | GOTO | GOVERNOR
+GOTO | HOOPZ
+
+GOV5
+DIALOG | Onslow | Did... did you hear the new Governor's speech? He didn't even mention torture... not once...
+
+GOVERNOR
+DIALOG | Onslow | Mr. Governor! W-welcome to Tir na Nog, sir! Your mansion is right this way.
+DIALOG | Governor Elagabalus | Ahh, good eye you've got, I am indeed the governor! Yes, let me into my grand estate.
+EVENT  | o_onslow01 | 0
+WAIT   | 0.25
+MOVETO | o_onslow01 | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_onslow01 | SOUTHEAST
+QUEST  | govSpeechInitiate = 1
+
+GOVERNOR_OLDSTUFF
+DIALOG | Onslow | Mr. Governor! W-welcome to Tir na Nog, sir! I've been guarding the palace in preparation for your arrival, dutifully pulling the teeth, hair and nails from anyone who dared to come within 20 feet of the door. All arrangements have been made - are you ready to give your speech?
+CHOICE | Am I ready to give the speech?
+REPLY  | READY | I guess I'm ready...
+REPLY  | NOT_READY | I'm not ready yet!
+
+READY
+DIALOG | Governor Elagabalus | Ahh, good eye you've got, I am indeed the governor! Yes, yes, I believe it is time for me to give my address! What do I have to do?
+DIALOG | Onslow | Excellent, Mr. Governor, sir! You'll be giving your address from the balcony of the palace. Select the policies that most support your agenda - may I suggest an expanded torture regime and mandatory starvation cycles? Now, right this way, Mr. Governor, sir...
+EVENT  | o_onslow01 | 0
+WAIT   | 0.25
+MOVETO | o_onslow01 | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_onslow01 | SOUTHEAST
+DIALOG | Governor Elagabalus | Yes, yes, of course!
+QUEST  | govSpeechInitiate = 1
+
+NOT_READY
+DIALOG | Governor Elagabalus | Ah, hello my good man! Yes, yes, I am the governor! It's very astute of you to notice! I'll be back in a moment to give my address, I need to, uh, stretch my legs for a little bit!
+
+HOOPZ
+DIALOG | Onslow | Back off, chump! Do you know where you are? This is the Governor's mansion and he's about to announce his new policies for Tir na Nog! No entry permitted!"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pulsb"]
 atlas = ExtResource("1_iq0h8")
@@ -122,6 +166,7 @@ size = Vector2(20, 36)
 script = ExtResource("1_16qwl")
 duergar_name = "onslow"
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ew1m3")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
@@ -189,3 +234,8 @@ shape = SubResource("CircleShape2D_uugcr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_anbiu")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("6_2u8gh")
+notes = "Usual Duergar stuff"

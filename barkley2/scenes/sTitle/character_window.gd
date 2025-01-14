@@ -96,8 +96,9 @@ func _on_x_1_button_button_pressed():
 func _on_skip_button_button_pressed():
 	_disable_buttons()
 	B2_Playerdata.preload_skip_tutorial_save_data()
-	load_new_room( "r_tnn_wilmer02" )
-	#show_notice()
+	#load_new_room( "r_tnn_wilmer02" )
+	B2_Music.stop( 2.0 )
+	B2_RoomXY.warp_to( "r_tnn_wilmer01, 240, 350, 1", 0.5 )
 
 func _disable_buttons(): # called when loading the game.
 	cc_button.disabled 		= true

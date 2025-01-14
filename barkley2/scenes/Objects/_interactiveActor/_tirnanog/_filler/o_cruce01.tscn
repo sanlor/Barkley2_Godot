@@ -1,7 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkcy0pv2f7w56"]
+[gd_scene load_steps=9 format=3 uid="uid://bkcy0pv2f7w56"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_cruce01.gd" id="1_1qthx"]
 [ext_resource type="Texture2D" uid="uid://14c3yqha1i2c" path="res://barkley2/assets/b2_original/images/merged/s_cruce01.png" id="2_2nol5"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_tpyvm"]
+
+[sub_resource type="Resource" id="Resource_48rxq"]
+script = ExtResource("2_tpyvm")
+original_script = "IF govQuest == 6 | GOTO | GOVERNOR_WAS_CAPTURED
+GOTO | TNN_PRISON_LOCKDOWN
+
+GOVERNOR_WAS_CAPTURED
+DIALOG | Cruce | Hey dude. Have you heard the news? The duergs `kw`locked down Tir na nog for good.`rt` They aren't letting anyone in anymore. 
+DIALOG | Cruce | Apparently what happened was that the rebels were able to capture and imprison `kw`Governor Elagabalus`rt` and used him for their evil plans. Crazy, huh?
+DIALOG | Cruce | Anyway, the rumour has it that the governor was able to escape from his captivity and then began a campaign of terror and torment on the dwarfs of Tir na nog.
+DIALOG | Cruce | There's no way in, and the only way out is in a casket, it seems.
+
+TNN_PRISON_LOCKDOWN
+DIALOG | Cruce | Hey dude. Have you heard the news? Apparently the newly appointed governor, Governor Elagabalus, has brought an age of unprecedented tyranny and torture to tir na nog.
+DIALOG | Cruce | One of his first policies he enacted was putting tir na nog into a permanent lockdown. There's no way in, and no way out. 
+DIALOG | Cruce | I don't even want to imagine what the duergs are doing to those poor dwarfs in there. It's crazy... How could this have happened?"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2tivb"]
 atlas = ExtResource("2_2nol5")
@@ -27,6 +44,7 @@ size = Vector2(20, 36)
 [node name="o_cruce01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_1qthx")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_48rxq")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -56,5 +74,3 @@ position = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_abjwa")
-
-[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -67,15 +67,17 @@ var currentFilter := FILTER.OFF :
 			
 var scanlines := OFF ## I think its an unused variable. Since the original game saves this variable, im doing it too.
 #
-var sfx_gain_master := 1.0
-var bgm_gain_master := 1.0
-var music = null
-var sounds = null
+var sfx_gain_master 	:= 1.0
+var bgm_gain_master 	:= 1.0
+var music 				= null
+var sounds 				= null
 
 signal game_settings_saved
 signal game_settings_loaded
 
 signal language_changed
+
+signal title_screen_loaded ## NOTICE Signal important to reset some game variables.
 
 var configsavefolder 	:= "user://_resources/"
 var configsavefile 		:= "settings.ini"
@@ -92,14 +94,17 @@ var tim_follow_mouse := false
 var dev_notes := false
 
 func _init():
-	## Original comments VV
-	# We can load with default values.
-	# We also save immediately just to ensure the file is editable by devs on initial boot.
 	config_load()
 	apply_config(false)
 	
 func _ready():
 	pass
+
+func _notification(what):
+	## Save game during game exit.
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if B2_Playerdata.record_curr_location():
+			B2_Playerdata.SaveGame() ## Do the saving bit.
 
 func has_user_save( slot ): # slot -> 0 to 2
 	assert( slot >= 0 or slot <= 2)
@@ -131,10 +136,9 @@ func select_user_slot( slot ):
 # scr_savedata_put()
 func get_user_save_data( path : String, default = null ): ## return null if its invalid
 	if usersavefile.is_empty():
-		push_warning("No save data to get! Defaulting to debug slot 100.")
-		#push_error("No save data to get! Defaulting to debug slot 100.")
-		select_user_slot( 100 )
-		#return
+		# push_warning("No save data to get! Defaulting to debug slot 100.")
+		# select_user_slot( 100 )
+		pass
 				
 	## This is a similar script to the scr_savedata_get
 	var temp_dict := usersavefile

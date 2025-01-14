@@ -215,11 +215,15 @@ func start_saved_game():
 	var saved_room = str( B2_Config.get_user_save_data("map.room") )
 	B2_Music.stop( 2.0 )
 	## DEBUG Stuff.
-	if saved_room == "r_fct_eggRooms01": # this is the only room ready.
-		B2_RoomXY.warp_to( saved_room, 1.0 )
-	else:
-		B2_RoomXY.warp_to( "r_wip", 1.0 ) # load WIP room if someone tries do messe with the save system
+	#if saved_room == "r_fct_eggRooms01": # this is the only room ready.
+	#	B2_RoomXY.warp_to( saved_room, 1.0 )
+	#else:
+	#	B2_RoomXY.warp_to( "r_wip", 1.0 ) # load WIP room if someone tries do messe with the save system
 	#tween.tween_callback( get_tree().change_scene_to_file.bind( "res://barkley2/rooms/r_wip.tscn" ) ) # in the final game, we should ask something what room to load.
+	var room_name 	:= str( B2_Config.get_user_save_data("map.room", "big_butts") )
+	var room_x 		:= str( B2_Config.get_user_save_data("map.x", 0) )
+	var room_y 		:= str( B2_Config.get_user_save_data("map.y", 0) )
+	B2_RoomXY.warp_to( room_name + "," + room_x + ","  + room_y + ",1", 0.5 )
 
 func _on_game_slot_1_button_pressed():
 	selected_gameslot = 0

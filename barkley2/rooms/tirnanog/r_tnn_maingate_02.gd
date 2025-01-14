@@ -7,7 +7,6 @@ func _ready() -> void:
 	_set_region()
 	
 	await get_tree().process_frame
-	
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
 		## This plays when the GovSpeech is properly achieved
 		if B2_Playerdata.Quest("govSpeechInitiate") == 2:
@@ -17,6 +16,10 @@ func _ready() -> void:
 		elif B2_Playerdata.Quest("sceneBrandingStart") == 1:
 			B2_CManager.play_cutscene( cutscene_script, self, [] )
 			
+		else: ## Need to find a better way to deal with this
+			if B2_RoomXY.is_room_valid():
+				B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
+				
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 		

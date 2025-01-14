@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://ds5ypmjtea3lb"]
+[gd_scene load_steps=9 format=3 uid="uid://ds5ypmjtea3lb"]
 
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hapsburg01.gd" id="1_2uoka"]
 [ext_resource type="Texture2D" uid="uid://vn6wth5ecnum" path="res://barkley2/assets/b2_original/images/merged/s_hapsburg01.png" id="2_hkkpy"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_p12yp"]
+
+[sub_resource type="Resource" id="Resource_8dcam"]
+script = ExtResource("2_p12yp")
+original_script = "DIALOG | Hapsburg | ..."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vll36"]
 atlas = ExtResource("2_hkkpy")
@@ -27,6 +32,7 @@ size = Vector2(20, 36)
 [node name="o_hapsburg01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_2uoka")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_8dcam")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

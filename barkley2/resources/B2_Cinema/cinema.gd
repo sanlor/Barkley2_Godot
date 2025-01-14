@@ -538,7 +538,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						B2_Playerdata.Quest(qstNam, float(qstVal) )
 					
 					if debug_quest: print( "Quest: ", quest_stuff )
-				"BREAKOUT":
+				"BREAKOUT","Breakout":
 					# This is a small Info box above the dialog box, showing money or stuff like that
 					if parsed_line.size() == 2:
 						if parsed_line[1] == "clear":

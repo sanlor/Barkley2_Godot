@@ -344,8 +344,9 @@ func combat_weapon_animation():
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		if Input.is_key_pressed(KEY_F4):
-			toggle_collision()
+		if B2_Debug.can_disable_player_col:
+			if Input.is_key_pressed(KEY_F4):
+				toggle_collision()
 
 func _physics_process(delta: float) -> void:
 		

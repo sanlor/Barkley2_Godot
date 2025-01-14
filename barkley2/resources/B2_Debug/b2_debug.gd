@@ -13,6 +13,12 @@ const ENABLE_MOVEMENT_VECTOR_VISUALIZE := false
 ## Save system
 const WARN_INVALID_CHECKS := false # Create a warning if the B2_Config.get_user_save_data() returns null
 
+## Camera debug
+var show_camera_debug_data := false
+
+## player debug
+var can_disable_player_col := false
+
 @onready var player_data: ScrollContainer = $player_data
 @onready var player_vars: ScrollContainer = $player_vars
 

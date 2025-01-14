@@ -3,6 +3,8 @@ class_name B2_ClockTime
 
 ## B2_ClockTime - Helper class to progress, check, modify and alter the game´s time.
 
+## NOTE ClockTime() -> B2_ClockTime.time_gate()
+
 ## Constants
 const EXPERIENCE_MIN 	:= 0.5
 const EXPERIENCE_MAX 	:= 1.5
@@ -92,9 +94,13 @@ static func time_step( step : float ) -> void:
 	
 # Update timed quest events
 static func time_process( step : float ) -> void:
-	var clockTime = B2_Config.get_user_save_data("clock.time")
+	var clockTime = B2_Config.get_user_save_data("clock.time", 0.0)
 	clockTime -= step
 	B2_Config.set_user_save_data("clock.time", clockTime)
+	
+	## Error handling ## 
+	if B2_Config.get_user_save_data("clock.event", Array() ) is not Array:
+		return
 	
 	var events : Array = B2_Config.get_user_save_data( "clock.event", Array() )
 	var processed_events := Array()

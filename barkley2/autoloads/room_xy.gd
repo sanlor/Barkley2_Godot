@@ -97,6 +97,10 @@ func _ready() -> void:
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
 	layer 					= B2_Config.ROOMXY_LAYER
+	B2_Config.title_screen_loaded.connect( _reset_data )
+
+func _reset_data():
+	reset_room()
 	
 func is_room_valid( strict := false) -> bool:
 	if strict:
@@ -151,7 +155,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		B2_Config.set_user_save_data("map.y", this_room_y);
 	
 	# Save game during room transition
-	if B2_Playerdata.Quest("saveDisabled") == 0:
+	if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
 		B2_Playerdata.SaveGame()
 	
 	if print_debug_logs: print("Started loading room %s." % room_name)
@@ -264,6 +268,10 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		get_tree().current_scene.add_child( cam, true )
 		cam.cinema_snap( pos )
 		cam.follow_player( player_node )
+		
+		if get_tree().current_scene is B2_ROOMS:
+			cam.set_camera_bound( get_tree().current_scene.camera_bound_to_map )
+			
 		cam.follow_mouse = true
 		
 	if print_debug_logs: print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )

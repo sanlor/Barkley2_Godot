@@ -315,6 +315,7 @@ func _process(delta: float) -> void:
 				offset.x = clamp( offset.x, (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
 				offset.y = clamp( offset.y, (384.0/2.0 - position.y), limit_height.y - (384.0/2.0 + position.y) )
 		
-	if show_debug_data:
-		if is_instance_valid(debug_data):
-			_update_debug_data()
+	if B2_Debug.show_camera_debug_data:
+		if show_debug_data:
+			if is_instance_valid(debug_data):
+				_update_debug_data()
