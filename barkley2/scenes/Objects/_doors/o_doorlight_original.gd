@@ -1,7 +1,9 @@
 @tool
 @icon("res://barkley2/assets/b2_original/images/merged/s_doorlight.png")
 extends AnimatedSprite2D
-class_name B2_DoorLight
+#class_name B2_DoorLight
+
+## backup
 
 const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
@@ -17,6 +19,14 @@ const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_intera
 
 # the original code does a lot of fancy stuff. I think im going to rewrite almost everything.
 
+## TODO Door size doesnt work .
+
+enum DOOR_TYPE{DOWN, UP, LEFT, RIGHT}
+@export var type := DOOR_TYPE.UP :
+	set(_dir):
+		type = _dir
+		if Engine.is_editor_hint():
+			_update_sprite()
 			
 enum DOOR_SIZE{S, M, L, XL}
 @export var door_size 		:= DOOR_SIZE.S :
@@ -63,6 +73,25 @@ var light_alpha := target_light_alpha
 var is_warping := false
 var is_loaded	:= false
 
+const light_activation_offset := {
+	DOOR_TYPE.UP:		Vector2( 16,	8 ),
+	DOOR_TYPE.DOWN:		Vector2( 16,	8 ),
+	DOOR_TYPE.LEFT:		Vector2( 8,		16 ),
+	DOOR_TYPE.RIGHT:	Vector2( 8,		16 ),
+}
+const teleport_activation_offset := {
+	DOOR_TYPE.UP:		Vector2( 16,	24 ),
+	DOOR_TYPE.DOWN:		Vector2( 16,	-8 ),
+	DOOR_TYPE.LEFT:		Vector2( 24,	16 ),
+	DOOR_TYPE.RIGHT:	Vector2( -8,	16 ),
+}
+const push_area_offset := {
+	DOOR_TYPE.UP:		Vector2( 16,	8 ),
+	DOOR_TYPE.DOWN:		Vector2( 16,	8 ),
+	DOOR_TYPE.LEFT:		Vector2( 8,		16 ),
+	DOOR_TYPE.RIGHT:	Vector2( 8,		16 ),
+}
+
 @onready var light_activation_area: 		Area2D = $light_activation_area
 @onready var light_activation_shape: 		CollisionShape2D = $light_activation_area/light_activation_shape
 @onready var teleport_activation_area: 		Area2D = $teleport_activation_area
@@ -89,16 +118,66 @@ func _ready() -> void:
 func _update_sprite():
 	if Engine.is_editor_hint() and not show_door_light:
 		animation = "debug_icons"
+		frame = type
 		return
+	
+	match type:
+		DOOR_TYPE.UP:
+			animation = "s_doorlight_ud"
+			flip_v = true
+			flip_h = false
+			offset = Vector2( 0, 0 )
+			frame = door_size
+			_rot = 0
+			debug_door_exit_marker_pos = Vector2(16, -12)
+			
+		DOOR_TYPE.DOWN:
+			animation = "s_doorlight_ud"
+			flip_v = false
+			flip_h = false
+			offset = Vector2( 0, -44 )
+			frame = door_size
+			_rot = 0
+			debug_door_exit_marker_pos = Vector2(16, 22)
+			
+		DOOR_TYPE.LEFT:
+			animation = "s_doorlight_lr"
+			flip_v = false
+			flip_h = false
+			offset = Vector2( 0, 0 )
+			frame = door_size
+			_rot = deg_to_rad(90)
+			debug_door_exit_marker_pos = Vector2(-8, 16)
+			
+		DOOR_TYPE.RIGHT:
+			animation = "s_doorlight_lr"
+			flip_v = false
+			flip_h = true
+			offset = Vector2( 0, 0 )
+			frame = door_size
+			_rot = deg_to_rad(90)
+			debug_door_exit_marker_pos = Vector2(22, 16)
+				
 	
 	door_exit_marker_global_pos = to_global(debug_door_exit_marker_pos)
 	if not Engine.is_editor_hint():
 		teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)
+	teleport_activation_area.rotation 	= _rot
+	push_area.rotation 					= _rot
+	light_activation_area.position 		= light_activation_offset[type]
+	teleport_activation_area.position 	= teleport_activation_offset[type]
+	push_area.position 					= push_area_offset[type]
 	
 	is_loaded = true
 
 func push_player( body : B2_Player, delta : float ):
-	pass
+	var push_vector := Vector2.ZERO
+	match type:
+		DOOR_TYPE.UP: 		push_vector = Vector2.UP
+		DOOR_TYPE.DOWN: 	push_vector = Vector2.DOWN
+		DOOR_TYPE.LEFT: 	push_vector = Vector2.LEFT
+		DOOR_TYPE.RIGHT: 	push_vector = Vector2.RIGHT
+	body.external_velocity = push_vector * pushResist * delta
 	
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():

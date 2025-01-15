@@ -1,59 +1,59 @@
-[gd_scene load_steps=19 format=3 uid="uid://ckuran6ntn1r1"]
+[gd_scene load_steps=19 format=3 uid="uid://chrgy7qi1depa"]
 
-[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="1_ljkjq"]
-[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_v17eb"]
-[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_b46qt"]
-[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="3_5cs2o"]
-[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="4_ciw2o"]
-[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="5_affpk"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_original.gd" id="7_t317t"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_lx7gd"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_nqkxc"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="3_tumgm"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="4_wqcx6"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="5_ikrwm"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="6_xex1v"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.gd" id="7_t8cde"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
-atlas = ExtResource("5_affpk")
+atlas = ExtResource("5_ikrwm")
 region = Rect2(0, 0, 16, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
-atlas = ExtResource("5_affpk")
+atlas = ExtResource("5_ikrwm")
 region = Rect2(16, 0, 16, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
-atlas = ExtResource("5_affpk")
+atlas = ExtResource("5_ikrwm")
 region = Rect2(32, 0, 16, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
-atlas = ExtResource("5_affpk")
+atlas = ExtResource("5_ikrwm")
 region = Rect2(48, 0, 16, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
-atlas = ExtResource("1_ljkjq")
+atlas = ExtResource("6_xex1v")
 region = Rect2(0, 0, 80, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
-atlas = ExtResource("1_ljkjq")
+atlas = ExtResource("6_xex1v")
 region = Rect2(80, 0, 80, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
-atlas = ExtResource("1_ljkjq")
+atlas = ExtResource("6_xex1v")
 region = Rect2(160, 0, 80, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
-atlas = ExtResource("1_ljkjq")
+atlas = ExtResource("6_xex1v")
 region = Rect2(240, 0, 80, 60)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_v17eb")
+"texture": ExtResource("1_lx7gd")
 }, {
 "duration": 1.0,
-"texture": ExtResource("2_b46qt")
+"texture": ExtResource("2_nqkxc")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_5cs2o")
+"texture": ExtResource("3_tumgm")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_ciw2o")
+"texture": ExtResource("4_wqcx6")
 }],
 "loop": true,
 "name": &"debug_icons",
@@ -98,16 +98,16 @@ animations = [{
 radius = 64.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnlim"]
-size = Vector2(32, 16)
+size = Vector2(16, 32)
 
-[node name="o_doorlight" type="AnimatedSprite2D"]
+[node name="o_doorlight_left" type="AnimatedSprite2D"]
 z_index = -10
 sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
-frame = 1
+frame = 2
 centered = false
 flip_v = true
-script = ExtResource("7_t317t")
+script = ExtResource("7_t8cde")
 debug_door_exit_marker_pos = Vector2(16, -12)
 door_exit_marker_global_pos = Vector2(16, -12)
 teleport_string = "@SubViewport@9101,16,-12"
@@ -116,19 +116,19 @@ teleport_destination = "r_invalid_room"
 teleport_create_o_hoopz = false
 
 [node name="light_activation_area" type="Area2D" parent="."]
-position = Vector2(16, 8)
+position = Vector2(8, 16)
 
 [node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
 shape = SubResource("CircleShape2D_x31dv")
 
 [node name="push_area" type="Area2D" parent="."]
-position = Vector2(16, 8)
+position = Vector2(-8, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
 shape = SubResource("RectangleShape2D_hnlim")
 
 [node name="teleport_activation_area" type="Area2D" parent="."]
-position = Vector2(16, 24)
+position = Vector2(8, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
 shape = SubResource("RectangleShape2D_hnlim")
