@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=4 uid="uid://bel0qilvf4l1n"]
+[gd_scene load_steps=85 format=4 uid="uid://bel0qilvf4l1n"]
 
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="1_jo44o"]
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/r_tnn_bballcourt_transition_01.gd" id="1_ob6cf"]
@@ -15,10 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://bigjeushxwel2" path="res://barkley2/assets/b2_original/images/merged/s_tnn_puddle3.png" id="14_5vdkx"]
 [ext_resource type="PackedScene" uid="uid://cu6sas5er0ifn" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianLoiterer.tscn" id="16_f1utl"]
 [ext_resource type="Texture2D" uid="uid://2siv56qv56ha" path="res://barkley2/assets/b2_original/images/merged/s_pedestrianLoiterStand.png" id="17_4uh7c"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.gd" id="18_6db8l"]
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="19_34rso"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="19_csvrn"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.gd" id="20_w8eiy"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="21_fm63f"]
 [ext_resource type="PackedScene" uid="uid://cxepvd0j8d8i" path="res://barkley2/scenes/Objects/_environs/_trash/Junkpiles/o_crate_wooden04.tscn" id="22_tcfly"]
 [ext_resource type="Texture2D" uid="uid://benfth25qad3n" path="res://barkley2/assets/b2_original/images/merged/s_crate_wooden04.png" id="23_uc83a"]
@@ -3046,12 +3044,13 @@ animations = [{
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_p2756")
 script = ExtResource("1_ob6cf")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(176, 144)
 teleport_node = NodePath("o_teleport_mark")
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
+camera_bound_to_map = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -3145,43 +3144,20 @@ metadata/code = ""
 metadata/inst_name = "inst_00000009"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_up_bball" type="AnimatedSprite2D" parent="." instance=ExtResource("11_s2yfk")]
-z_index = -10
+[node name="o_doorlight_up_bball" parent="." instance=ExtResource("11_s2yfk")]
 position = Vector2(144, 0)
 sprite_frames = SubResource("SpriteFrames_qrtcw")
-animation = &"debug_icons"
-centered = false
-script = ExtResource("18_6db8l")
-running_anim = "s_doorlight_ud"
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_bballcourt02, 424, 528);
 "
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_bballcourt02, 424, 528);
 "
 metadata/inst_name = "inst_E1E51083"
 metadata/scale = Vector2(2, 1)
 
-[node name="o_doorlight_left_residential" type="AnimatedSprite2D" parent="." instance=ExtResource("19_csvrn")]
-z_index = -10
+[node name="o_doorlight_left_residential" parent="." instance=ExtResource("19_csvrn")]
 position = Vector2(0, 128)
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"debug_icons"
-frame = 2
-centered = false
-script = ExtResource("20_w8eiy")
-editor_frame = 2
-running_anim = "s_doorlight_lr"
-flip_h_running_anim = true
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_residentialDistrict01, 1176, 148"
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_residentialDistrict01, 1176, 148);"
 metadata/inst_name = "inst_BEBB526F"
 metadata/scale = Vector2(1, 2)
@@ -3210,6 +3186,8 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("30_lrw8w")]
 position = Vector2(152, 160)
+debug_move_finish = false
+debug_check_movement_vector = false
 metadata/code = ""
 metadata/inst_name = "inst_C536151C"
 metadata/scale = Vector2(1, 1)
@@ -3243,14 +3221,6 @@ position = Vector2(168, 16)
 metadata/code = ""
 metadata/inst_name = "inst_5C8D1AA0"
 metadata/scale = Vector2(1, 1)
-
-[node name="o_effect_smog" parent="." instance=ExtResource("42_cdqxl")]
-z_index = 24
-offset_right = 0.0
-offset_bottom = 0.0
-metadata/code = "fog_intensity = 6;
-"
-metadata/inst_name = "inst_5A14026C"
 
 [node name="P0 - o_room_pacify" type="Marker2D" parent="."]
 position = Vector2(-120, 0)
@@ -3311,3 +3281,11 @@ position = Vector2(-120, 192)
 metadata/code = ""
 metadata/inst_name = "inst_C0CE43BD"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_effect_smog" parent="." instance=ExtResource("42_cdqxl")]
+z_index = 24
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/code = "fog_intensity = 6;
+"
+metadata/inst_name = "inst_5A14026C"

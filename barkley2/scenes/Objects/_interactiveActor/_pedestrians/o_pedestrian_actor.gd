@@ -9,7 +9,6 @@ const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_inter
 @onready var actor_nav: 	NavigationAgent2D = $ActorNav
 @onready var gossip_timer: Timer = $GossipTimer
 
-
 ## DEBUG
 @export_category("Debug")
 @export var debug_move_finish 				:= false ## Print some debug shit.
