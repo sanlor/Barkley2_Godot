@@ -20,7 +20,7 @@ var load_progress		:= []
 
 ## Threaded load.
 var use_subthreads 		:= false # setting this to true causes issues. # https://github.com/godotengine/godot/pull/93032
-var cachemode			:= ResourceLoader.CACHE_MODE_IGNORE
+var cachemode			:= ResourceLoader.CACHE_MODE_REPLACE
 
 ## Bellow vars are used by the cinema script, to add the player character.
 var this_room 		:= ""
@@ -144,19 +144,22 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		its_the_same_room = true
 		fade_modifier = 0.70
 		
-	# save destination data
-	this_room 		= room_name
-	this_room_x 	= room_x
-	this_room_y 	= room_y
-	
-	if B2_Playerdata.Quest("saveDisabled") == 0:
-		B2_Config.set_user_save_data("map.room", this_room)
-		B2_Config.set_user_save_data("map.x", this_room_x);
-		B2_Config.set_user_save_data("map.y", this_room_y);
-	
-	# Save game during room transition
-	if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
-		B2_Playerdata.SaveGame()
+	## Non game rooms. Mostly the title screen and CC.
+	if not room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale":
+		
+		# save destination data
+		this_room 		= room_name
+		this_room_x 	= room_x
+		this_room_y 	= room_y
+		
+		if B2_Playerdata.Quest("saveDisabled") == 0:
+			B2_Config.set_user_save_data("map.room", this_room)
+			B2_Config.set_user_save_data("map.x", this_room_x);
+			B2_Config.set_user_save_data("map.y", this_room_y);
+		
+		# Save game during room transition
+		if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
+			B2_Playerdata.SaveGame()
 	
 	if print_debug_logs: print("Started loading room %s." % room_name)
 	
@@ -232,7 +235,7 @@ func get_room_scene( room_name : String ):
 		var error = await room_loaded
 		
 		var t2 := Time.get_ticks_msec() - t1
-		if print_room_load_logs: print_rich( "[bgcolor=black]Room %s loading took %s.[/bgcolor]" % [ room_name, str(t2 ) ] )
+		if print_room_load_logs: print_rich( "[bgcolor=black]Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
 		if t2 > 1000.0:
 			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
 		if not error:

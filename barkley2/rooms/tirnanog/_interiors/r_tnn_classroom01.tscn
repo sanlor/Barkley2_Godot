@@ -1,10 +1,9 @@
-[gd_scene load_steps=103 format=4 uid="uid://dc5o1dacrexx6"]
+[gd_scene load_steps=130 format=4 uid="uid://dc5o1dacrexx6"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_classroom_01.gd" id="1_150a7"]
 [ext_resource type="TileSetAtlasSource" path="res://barkley2/resources/rooms/TileSetAtlasSource/tls_gbl_interiors01.tres" id="1_yjge4"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_eayvl"]
 [ext_resource type="PackedScene" uid="uid://bvi7rukwmaqv8" path="res://barkley2/scenes/Objects/_environs/_furniture/_tables/o_table_counter08.tscn" id="5_sjwuc"]
-[ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="5_yhq7k"]
 [ext_resource type="Texture2D" uid="uid://bpi222wcm0sjg" path="res://barkley2/assets/b2_original/images/merged/s_table_counter08.png" id="6_ihkjj"]
 [ext_resource type="Texture2D" uid="uid://qbi7qprccrrw" path="res://barkley2/assets/b2_original/images/merged/s_respawn_pile05.png" id="6_r8wk2"]
 [ext_resource type="PackedScene" uid="uid://c2yr44sut3eai" path="res://barkley2/scenes/Objects/_environs/_furniture/_tables/o_table_counter07.tscn" id="8_5mhpn"]
@@ -25,9 +24,19 @@
 [ext_resource type="PackedScene" uid="uid://b6yllf6u7ax7u" path="res://barkley2/scenes/Objects/_environs/_respawns/o_respawn_pile05.tscn" id="18_l6fyj"]
 [ext_resource type="PackedScene" uid="uid://bynh0oa8u7mri" path="res://barkley2/scenes/Objects/_environs/_trash/Junkpiles/o_cart_shopping01.tscn" id="19_6i5rg"]
 [ext_resource type="Texture2D" uid="uid://dip7cbuv8c85a" path="res://barkley2/assets/b2_original/images/merged/s_door_wood01.png" id="19_gdc7o"]
+[ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="20_an5ys"]
 [ext_resource type="Texture2D" uid="uid://d04tb2jtimau3" path="res://barkley2/assets/b2_original/images/merged/s_cart_shopping01.png" id="20_r6xc5"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="21_lps2x"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="22_d14gu"]
 [ext_resource type="PackedScene" uid="uid://m5ea5n38ceyd" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_trashcans/o_gbl_trashcan01.tscn" id="22_q22y0"]
 [ext_resource type="Texture2D" uid="uid://devaxwu4wvjbl" path="res://barkley2/assets/b2_original/images/merged/s_trashcan_full01.png" id="23_inex7"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="23_ow2oh"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="24_6ddsq"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="25_kv8r3"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="26_l0bud"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="27_7be7g"]
+[ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="28_8o4or"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.gd" id="29_qkr68"]
 [ext_resource type="PackedScene" uid="uid://bb32j4rilgj3j" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_trashcans/o_gbl_enemyBucket01.tscn" id="30_ancpu"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_trashcans/o_gbl_candy_bucket_01.gd" id="31_kc7ql"]
 [ext_resource type="PackedScene" uid="uid://dwli1tecgd7kq" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_trashcans/o_gbl_candyBucket01.tscn" id="32_3akkd"]
@@ -231,6 +240,178 @@ animations = [{
 "loop": false,
 "name": &"door_open",
 "speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_at73p"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8oxr"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqada"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5eu6"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpofb"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u080"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx3h6"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28uhq"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjw5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_lps2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_d14gu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_ow2oh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_6ddsq")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_at73p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8oxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5eu6")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpofb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u080")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx3h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28uhq")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouvxh"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ask5i"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67124"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0ikg"]
+atlas = ExtResource("25_kv8r3")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdxxy"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng64d"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0vs6"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0iu3"]
+atlas = ExtResource("26_l0bud")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oia11"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_lps2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_d14gu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_ow2oh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_6ddsq")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouvxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ask5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67124")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0ikg")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdxxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ng64d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0vs6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0iu3")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a21ni"]
@@ -563,7 +744,7 @@ animations = [{
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_r7oao")
 script = ExtResource("1_150a7")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(560, 216)
 collision_layer = NodePath("layer - collision")
@@ -702,91 +883,143 @@ metadata/code = ""
 metadata/inst_name = "inst_B031C9AC"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_down_room01" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_down_room04" type="AnimatedSprite2D" parent="." instance=ExtResource("20_an5ys")]
+z_index = -10
 position = Vector2(352, 1888)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 animation = &"debug_icons"
 frame = 1
-show_door_light = false
-door_exit_marker_global_pos = Vector2(368, 1876)
+centered = false
+script = ExtResource("27_7be7g")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 664, 152, \"door_open_wood\", \"door_close_wood\""
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 664, 152, \"door_open_wood\", \"door_close_wood\");"
 metadata/inst_name = "inst_F488A593"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_down_room02" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_down_room02" type="AnimatedSprite2D" parent="." instance=ExtResource("20_an5ys")]
+z_index = -10
 position = Vector2(352, 1440)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 animation = &"debug_icons"
 frame = 1
-show_door_light = false
-door_exit_marker_global_pos = Vector2(368, 1428)
+centered = false
+script = ExtResource("27_7be7g")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 424, 152, \"door_open_wood\", \"door_close_wood\""
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 424, 152, \"door_open_wood\", \"door_close_wood\");"
 metadata/inst_name = "inst_DF67E48A"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_down_room03" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_down_room03" type="AnimatedSprite2D" parent="." instance=ExtResource("20_an5ys")]
+z_index = -10
 position = Vector2(352, 976)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 animation = &"debug_icons"
 frame = 1
-show_door_light = false
-door_exit_marker_global_pos = Vector2(368, 964)
+centered = false
+script = ExtResource("27_7be7g")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 248, 152, \"door_open_wood\", \"door_close_wood\""
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 248, 152, \"door_open_wood\", \"door_close_wood\");"
 metadata/inst_name = "inst_393CB128"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_up_room03" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_up_room03" type="AnimatedSprite2D" parent="." instance=ExtResource("28_8o4or")]
+z_index = -10
 position = Vector2(648, 136)
+sprite_frames = SubResource("SpriteFrames_oia11")
 animation = &"debug_icons"
-offset = Vector2(0, -44)
-flip_v = false
-show_door_light = false
-type = 0
+centered = false
+script = ExtResource("29_qkr68")
+running_anim = "s_doorlight_ud"
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(664, 158)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 368, 1888"
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 368, 1888);
 "
 metadata/inst_name = "inst_FCE02E64"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_up_room02" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_up_room02" type="AnimatedSprite2D" parent="." instance=ExtResource("28_8o4or")]
+z_index = -10
 position = Vector2(408, 136)
+sprite_frames = SubResource("SpriteFrames_oia11")
 animation = &"debug_icons"
-offset = Vector2(0, -44)
-flip_v = false
-show_door_light = false
-type = 0
+centered = false
+script = ExtResource("29_qkr68")
+running_anim = "s_doorlight_ud"
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(424, 158)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 368, 1440"
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 368, 1440);
 "
 metadata/inst_name = "inst_63F812F2"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_up_room01" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_up_room01" type="AnimatedSprite2D" parent="." instance=ExtResource("28_8o4or")]
+z_index = -10
 position = Vector2(232, 136)
+sprite_frames = SubResource("SpriteFrames_oia11")
 animation = &"debug_icons"
-offset = Vector2(0, -44)
-flip_v = false
-show_door_light = false
-type = 0
+centered = false
+script = ExtResource("29_qkr68")
+running_anim = "s_doorlight_ud"
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(248, 158)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_classroom01, 368, 976"
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_classroom01, 368, 976);
 "
 metadata/inst_name = "inst_0A02E261"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_down_outside" parent="." instance=ExtResource("5_yhq7k")]
+[node name="o_doorlight_down_outside" type="AnimatedSprite2D" parent="." instance=ExtResource("20_an5ys")]
+z_index = -10
 position = Vector2(656, 272)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 animation = &"debug_icons"
 frame = 1
-show_door_light = false
-door_exit_marker_global_pos = Vector2(672, 260)
+centered = false
+script = ExtResource("27_7be7g")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
 teleport_destination = "r_tnn_residentialDistrict01, 520, 200, \"door_open_slab\", \"door_close_slab\""
+teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_tnn_residentialDistrict01, 520, 200, \"door_open_slab\", \"door_close_slab\");"
 metadata/inst_name = "inst_72CBF8A6"
 metadata/scale = Vector2(1, 1)
@@ -797,7 +1030,6 @@ position = Vector2(288, 856)
 cutscene_script = SubResource("Resource_ol6ls")
 cutscene_script2 = SubResource("Resource_xprg8")
 cast_shadow = false
-can_move_around = false
 metadata/inst_name = "inst_8AB8DAE6"
 
 [node name="o_tnn_scholar_utility" parent="." instance=ExtResource("17_b2082")]

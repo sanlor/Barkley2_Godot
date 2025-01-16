@@ -1,4 +1,3 @@
-@tool
 @icon("res://barkley2/assets/b2_original/images/merged/s_doorlight.png")
 extends AnimatedSprite2D
 class_name B2_DoorLight
@@ -115,7 +114,7 @@ func _update_sprite():
 	
 	is_loaded = true
 
-func push_player( body : B2_Player, delta : float ):
+func push_player( _body : B2_Player, _delta : float ):
 	pass
 	
 func _physics_process(_delta: float) -> void:

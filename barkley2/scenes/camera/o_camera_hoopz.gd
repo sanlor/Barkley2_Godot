@@ -299,7 +299,7 @@ func _process(delta: float) -> void:
 					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0, 250.0 )
 					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta ) + camera_shake_offset
-					offset = offset.round() # fixes jittery movement. THIS TIME!
+					#offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = camera_normal_offset + camera_shake_offset
 					

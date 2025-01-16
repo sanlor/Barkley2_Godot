@@ -1,4 +1,4 @@
-[gd_scene load_steps=329 format=4 uid="uid://d4k4y0jxw6bhw"]
+[gd_scene load_steps=338 format=4 uid="uid://d4k4y0jxw6bhw"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/r_tnn_residential_district_01.gd" id="1_nll01"]
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="2_2u6u7"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://tools/b2_tool_room_converter.gd" id="4_wtq7g"]
 [ext_resource type="PackedScene" uid="uid://dr1xblyg5d8pg" path="res://barkley2/scenes/Objects/_doors/o_door_tnn_stairs01.tscn" id="5_3v54i"]
 [ext_resource type="PackedScene" uid="uid://cx4le8k5alvuf" path="res://barkley2/scenes/Objects/_doors/o_door_tnn_stairs02.tscn" id="5_3xi1o"]
-[ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="5_grsud"]
 [ext_resource type="PackedScene" uid="uid://hmcs7vfx21fe" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_benedict01.tscn" id="5_idiv7"]
 [ext_resource type="PackedScene" uid="uid://b8ic0xsxg764i" path="res://barkley2/scenes/Objects/_doors/o_door_slab01.tscn" id="5_jdrw7"]
 [ext_resource type="PackedScene" uid="uid://bwnmu2rvov2be" path="res://barkley2/scenes/Objects/_doors/o_door_tnn01.tscn" id="5_yopxf"]
@@ -102,6 +101,7 @@
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="72_jvtpw"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="73_yb0j3"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="74_fv4q6"]
+[ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="75_8jfc3"]
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="75_20n4l"]
 [ext_resource type="Script" path="res://barkley2/resources/door_locker.gd" id="76_3dns1"]
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="76_4nlrk"]
@@ -4810,37 +4810,37 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bwnxw"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_onkpg"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_kvmsc"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_b7u4o"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wq0cm"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4i5wm"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3iosf"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pkn37"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0x6i0"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqr24"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3f60c"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0wfdg"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -5152,6 +5152,92 @@ IF random == 1 | DIALOG | P_NAME | Another casualty of the bubble._._._
 IF random == 2 | DIALOG | P_NAME | This house._._._ is no longer a home.
 IF random == 3 | DIALOG | P_NAME | The mean streets claim another soul, drowned in the sea of fiscal responsibility.
 IF random == 4 | DIALOG | P_NAME | Take nothing for granted._._._"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouvxh"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ask5i"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67124"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0ikg"]
+atlas = ExtResource("77_m0ox7")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdxxy"]
+atlas = ExtResource("78_22hco")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng64d"]
+atlas = ExtResource("78_22hco")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0vs6"]
+atlas = ExtResource("78_22hco")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0iu3"]
+atlas = ExtResource("78_22hco")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oia11"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("73_yb0j3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_fv4q6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_20n4l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_4nlrk")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouvxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ask5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67124")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0ikg")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdxxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ng64d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0vs6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0iu3")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
 
 [sub_resource type="GDScript" id="GDScript_ewxq6"]
 script/source = "extends \"res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_eviction_tape_01.gd\"
@@ -5865,7 +5951,7 @@ size = Vector2(86, 20)
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_cpc8n")
 script = ExtResource("1_nll01")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(125, 950)
 teleport_spot = true
@@ -6876,7 +6962,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_bwnxw")
+physics_material_override = SubResource("PhysicsMaterial_onkpg")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6885,7 +6971,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_kvmsc")
+physics_material_override = SubResource("PhysicsMaterial_b7u4o")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6894,7 +6980,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_wq0cm")
+physics_material_override = SubResource("PhysicsMaterial_4i5wm")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6903,7 +6989,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_3iosf")
+physics_material_override = SubResource("PhysicsMaterial_pkn37")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6912,7 +6998,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_0x6i0")
+physics_material_override = SubResource("PhysicsMaterial_wqr24")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6921,7 +7007,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_3f60c")
+physics_material_override = SubResource("PhysicsMaterial_0wfdg")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -7033,16 +7119,11 @@ metadata/code = "RoomXY(r_tnn_marketDistrict01, 1104, 1024);
 metadata/inst_name = "inst_DAA28FE3"
 metadata/scale = Vector2(2, 1)
 
-[node name="o_doorlight_tnn_maingate02" parent="." instance=ExtResource("5_grsud")]
+[node name="o_doorlight_left_tnn_maingate02" parent="." instance=ExtResource("75_8jfc3")]
 position = Vector2(0, 464)
 scale = Vector2(1, 3)
 sprite_frames = SubResource("SpriteFrames_qubxx")
-flip_h = true
-flip_v = false
-debug_door_exit_marker_pos = Vector2(22, 16)
-door_exit_marker_global_pos = Vector2(22, 512)
-teleport_string = "r_tnn_residentialDistrict01,-8,480"
-teleport_destination = "r_tnn_maingate02, 640, 488"
+frame = 0
 metadata/code = "RoomXY(r_tnn_maingate02, 640, 488);
 "
 metadata/inst_name = "inst_F57B250B"
@@ -7170,13 +7251,10 @@ offset = Vector2(-17, -54)
 script = SubResource("GDScript_qt5ok")
 cutscene_script = SubResource("Resource_owhxx")
 
-[node name="o_doorlight_blockhouse" parent="." instance=ExtResource("5_grsud")]
+[node name="o_doorlight_up_blockhouse" parent="." instance=ExtResource("72_jvtpw")]
 position = Vector2(368, 544)
-sprite_frames = SubResource("SpriteFrames_qubxx")
-offset = Vector2(0, -44)
-flip_v = false
+sprite_frames = SubResource("SpriteFrames_oia11")
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(384, 566)
 teleport_string = "r_tnn_residentialDistrict01,384,566"
 teleport_destination = "r_tnn_blockhouse01, 352, 360"
 metadata/code = "RoomXY(r_tnn_blockhouse01, 352, 360);"
@@ -7189,13 +7267,10 @@ metadata/code = ""
 metadata/inst_name = "inst_28805131"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_petstore" parent="." instance=ExtResource("5_grsud")]
+[node name="o_doorlight_up_petstore" parent="." instance=ExtResource("72_jvtpw")]
 position = Vector2(504, 1104)
-sprite_frames = SubResource("SpriteFrames_qubxx")
-offset = Vector2(0, -44)
-flip_v = false
+sprite_frames = SubResource("SpriteFrames_oia11")
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(520, 1126)
 teleport_string = "r_tnn_residentialDistrict01,520,1126"
 teleport_destination = "r_tnn_petshop02, 224, 304"
 metadata/code = "RoomXY(r_tnn_petshop02, 224, 304);
@@ -7664,3 +7739,5 @@ metadata/inst_name = "inst_B7ACDC52"
 
 [node name="B2_O_DOOR_CONVERTER" type="Node" parent="."]
 script = ExtResource("130_foxie")
+simulate = false
+remove_old_doors = true

@@ -1,11 +1,17 @@
-[gd_scene load_steps=93 format=4 uid="uid://4pkh40v57tcj"]
+[gd_scene load_steps=108 format=4 uid="uid://4pkh40v57tcj"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_petshop_02.gd" id="1_48dgj"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="2_fcer0"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_60oee"]
 [ext_resource type="Script" path="res://tools/b2_tool_room_converter.gd" id="4_tch1r"]
-[ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="5_7gac6"]
+[ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_yv2bo"]
 [ext_resource type="PackedScene" uid="uid://caa64i5847aw5" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/_petstore/o_sewerbeastpet01.tscn" id="6_4fnfg"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_eqxgy"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="7_6gmyw"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="8_pa6i3"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="9_eug6k"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="10_w6woc"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_engsi"]
 [ext_resource type="PackedScene" uid="uid://homejm718b3g" path="res://barkley2/scenes/Objects/_environs/_furniture/o_trashcan_full01.tscn" id="13_ccyb3"]
 [ext_resource type="Texture2D" uid="uid://devaxwu4wvjbl" path="res://barkley2/assets/b2_original/images/merged/s_trashcan_full01.png" id="14_v4air"]
 [ext_resource type="PackedScene" uid="uid://cnvvfq5gsh61x" path="res://barkley2/scenes/Objects/_environs/_furniture/_tables/o_table_dark_vert01.tscn" id="16_7cwyg"]
@@ -3287,6 +3293,92 @@ texture = ExtResource("2_fcer0")
 [sub_resource type="TileSet" id="TileSet_v510x"]
 sources/0 = SubResource("TileSetAtlasSource_qd16f")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_at73p"]
+atlas = ExtResource("10_w6woc")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8oxr"]
+atlas = ExtResource("10_w6woc")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqada"]
+atlas = ExtResource("10_w6woc")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5eu6"]
+atlas = ExtResource("10_w6woc")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpofb"]
+atlas = ExtResource("11_engsi")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u080"]
+atlas = ExtResource("11_engsi")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx3h6"]
+atlas = ExtResource("11_engsi")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28uhq"]
+atlas = ExtResource("11_engsi")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjw5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_eqxgy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_6gmyw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_pa6i3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_eug6k")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_at73p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8oxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5eu6")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpofb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u080")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx3h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28uhq")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_gu8yb"]
 atlas = ExtResource("14_v4air")
 region = Rect2(0, 0, 16, 21)
@@ -4307,21 +4399,23 @@ DIALOG | P_NAME   | Hey that's alright mister. I'm just glad I could help.
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_431am")
 script = ExtResource("1_48dgj")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(208, 208)
 collision_layer = NodePath("layer - collision 2")
-camera_bound_to_map = null
 
 [node name="layer 93" type="TileMapLayer" parent="."]
+z_index = -10
 tile_map_data = PackedByteArray("AAAFAAUAAAAJAAsAAAAGAAUAAAAKAAsAAAAHAAUAAAALAAsAAAAIAAUAAAAMAAsAAAAJAAUAAAAEAAsAAAAJAAYAAAAEAAwAAAAJAAcAAAAEAA0AAAAJAAgAAAAEAA4AAAAKAAUAAAAFAAsAAAAKAAYAAAAFAAwAAAAKAAcAAAAFAA0AAAAKAAgAAAAFAA4AAAALAAUAAAAEAAsAAAALAAYAAAAEAAwAAAALAAcAAAAEAA0AAAALAAgAAAAEAA4AAAAMAAUAAAAFAAsAAAAMAAYAAAAFAAwAAAAMAAcAAAAFAA0AAAAMAAgAAAAFAA4AAAANAAUAAAAEAAsAAAANAAYAAAAEAAwAAAANAAcAAAAEAA0AAAANAAgAAAAEAA4AAAAOAAUAAAAFAAsAAAAOAAYAAAAFAAwAAAAOAAcAAAAFAA0AAAAOAAgAAAAFAA4AAAAPAAUAAAAEAAsAAAAPAAYAAAAEAAwAAAAPAAcAAAAEAA0AAAAPAAgAAAAEAA4AAAAQAAUAAAAFAAsAAAAQAAYAAAAFAAwAAAAQAAcAAAAFAA0AAAAQAAgAAAAFAA4AAAARAAUAAAAEAAsAAAARAAYAAAAEAAwAAAARAAcAAAAEAA0AAAARAAgAAAAEAA4AAAASAAUAAAAFAAsAAAASAAYAAAAFAAwAAAASAAcAAAAFAA0AAAASAAgAAAAFAA4AAAATAAUAAAALAAsAAAAUAAUAAAAMAAsAAAAVAAUAAAAEAAsAAAAVAAYAAAAEAAwAAAAVAAcAAAAEAA0AAAAVAAgAAAAEAA4AAAAWAAUAAAAFAAsAAAAWAAYAAAAFAAwAAAAWAAcAAAAFAA0AAAAWAAgAAAAFAA4AAAAXAAUAAAALAAsAAAAXAAYAAAALAAwAAAAXAAcAAAALAA0AAAAXAAgAAAALAA4AAAAYAAUAAAAMAAsAAAAYAAYAAAAMAAwAAAAYAAcAAAAMAA0AAAAYAAgAAAAMAA4AAAAZAAUAAAANAAsAAAAZAAYAAAANAAwAAAAZAAcAAAANAA0AAAAZAAgAAAANAA4AAAAFAAYAAAAJAAwAAAAFAAcAAAAJAA0AAAAFAAgAAAAJAA4AAAAGAAYAAAAKAAwAAAAGAAcAAAAKAA0AAAAGAAgAAAAKAA4AAAAHAAYAAAAEAAwAAAAIAAYAAAAFAAwAAAATAAYAAAAEAAwAAAATAAcAAAAEAA0AAAATAAgAAAAEAA4AAAAUAAYAAAAFAAwAAAAUAAcAAAAFAA0AAAAUAAgAAAAFAA4AAAAHAAcAAAALAA0AAAAHAAgAAAALAA4AAAAIAAcAAAAMAA0AAAAIAAgAAAAMAA4AAAAFAAkAAAAOAAEAAAAGAAkAAAALAAEAAAAGAAoAAAALAAIAAAAHAAkAAAAMAAEAAAAHAAoAAAAMAAIAAAAIAAkAAAALAAEAAAAIAAoAAAALAAIAAAAJAAkAAAALAAIAAAAKAAkAAAANAAEAAAALAAkAAAALAAIAAAAMAAkAAAALAAIAAAANAAkAAAAOAAEAAAAOAAkAAAANAAEAAAAPAAkAAAAOAAEAAAAQAAkAAAANAAEAAAARAAkAAAAOAAEAAAASAAkAAAANAAEAAAATAAkAAAAOAAEAAAAUAAkAAAANAAEAAAAUAAoAAAANAAIAAAAVAAkAAAALAAIAAAAWAAkAAAAMAAIAAAAXAAkAAAALAAIAAAAYAAkAAAANAAEAAAAZAAkAAAAOAAEAAAAFAAoAAAANAAEAAAAJAAoAAAALAAEAAAAJAAsAAAALAAIAAAAKAAoAAAAOAAEAAAALAAoAAAALAAEAAAAMAAoAAAAMAAEAAAANAAoAAAANAAEAAAAOAAoAAAAOAAEAAAAPAAoAAAANAAEAAAAQAAoAAAAOAAEAAAARAAoAAAANAAEAAAASAAoAAAAOAAEAAAATAAoAAAANAAEAAAAVAAoAAAALAAEAAAAVAAsAAAALAAIAAAAWAAoAAAAMAAEAAAAWAAsAAAAMAAIAAAAXAAoAAAALAAEAAAAXAAsAAAALAAIAAAAYAAoAAAANAAEAAAAZAAoAAAAOAAEAAAAFAAsAAAAOAAEAAAAGAAsAAAALAAEAAAAGAAwAAAALAAIAAAAHAAsAAAAMAAEAAAAHAAwAAAAMAAIAAAAIAAsAAAALAAEAAAAIAAwAAAALAAIAAAAKAAsAAAANAAEAAAALAAsAAAAbAAEAAAALAAwAAAAbAAIAAAALAA0AAAAbAAMAAAALAA4AAAAbAAQAAAALAA8AAAAbAAUAAAAMAAsAAAAcAAEAAAAMAAwAAAAcAAIAAAAMAA0AAAAcAAMAAAAMAA4AAAAcAAQAAAAMAA8AAAAcAAUAAAANAAsAAAAdAAEAAAANAAwAAAAdAAIAAAANAA0AAAAdAAMAAAANAA4AAAAdAAQAAAANAA8AAAAdAAUAAAAOAAsAAAAeAAEAAAAOAAwAAAAeAAIAAAAOAA0AAAAeAAMAAAAOAA4AAAAeAAQAAAAOAA8AAAAeAAUAAAAPAAsAAAAfAAEAAAAPAAwAAAAfAAIAAAAPAA0AAAAfAAMAAAAPAA4AAAAfAAQAAAAPAA8AAAAfAAUAAAAQAAsAAAALAAEAAAARAAsAAAAMAAEAAAASAAsAAAALAAEAAAATAAsAAAAMAAEAAAAUAAsAAAALAAEAAAAUAAwAAAALAAIAAAAYAAsAAAAOAAEAAAAZAAsAAAANAAEAAAAFAAwAAAANAAEAAAAJAAwAAAALAAEAAAAJAA0AAAALAAIAAAAKAAwAAAAOAAEAAAAQAAwAAAALAAIAAAARAAwAAAALAAEAAAARAA0AAAALAAIAAAASAAwAAAAMAAEAAAASAA0AAAAMAAIAAAATAAwAAAAMAAIAAAAVAAwAAAAMAAIAAAAWAAwAAAAMAAEAAAAWAA0AAAAMAAIAAAAXAAwAAAALAAEAAAAXAA0AAAALAAIAAAAYAAwAAAAMAAIAAAAZAAwAAAALAAIAAAAFAA0AAAAOAAEAAAAGAA0AAAALAAEAAAAGAA4AAAALAAIAAAAHAA0AAAAMAAEAAAAHAA4AAAAMAAIAAAAIAA0AAAALAAEAAAAIAA4AAAALAAIAAAAKAA0AAAANAAEAAAAQAA0AAAALAAEAAAAQAA4AAAALAAIAAAATAA0AAAANAAEAAAAUAA0AAAAOAAEAAAAVAA0AAAAOAAEAAAAYAA0AAAANAAEAAAAZAA0AAAAOAAEAAAAFAA4AAAANAAEAAAAJAA4AAAANAAEAAAAKAA4AAAAOAAEAAAARAA4AAAALAAEAAAASAA4AAAAMAAEAAAATAA4AAAANAAEAAAAUAA4AAAAOAAEAAAAVAA4AAAANAAEAAAAWAA4AAAAMAAEAAAAWAA8AAAAMAAIAAAAXAA4AAAALAAEAAAAXAA8AAAALAAIAAAAYAA4AAAANAAEAAAAZAA4AAAAOAAEAAAAFAA8AAAAOAAEAAAAGAA8AAAALAAEAAAAHAA8AAAAMAAEAAAAIAA8AAAALAAEAAAAJAA8AAAANAAEAAAAKAA8AAAANAAEAAAAQAA8AAAALAAEAAAAQABAAAAALAAIAAAARAA8AAAALAAIAAAASAA8AAAAMAAIAAAATAA8AAAANAAEAAAAUAA8AAAAOAAEAAAAVAA8AAAAOAAEAAAAYAA8AAAAOAAEAAAAZAA8AAAANAAEAAAAJABAAAAANAAEAAAAKABAAAAAOAAEAAAALABAAAAALAAEAAAALABEAAAALAAIAAAAMABAAAAAMAAEAAAAMABEAAAAMAAIAAAANABAAAAALAAEAAAANABEAAAALAAIAAAAOABAAAAALAAIAAAAPABAAAAAMAAIAAAARABAAAAALAAEAAAASABAAAAAMAAEAAAATABAAAAANAAEAAAAUABAAAAAOAAEAAAAVABAAAAANAAEAAAAWABAAAAAMAAEAAAAXABAAAAALAAEAAAAYABAAAAAMAAIAAAAZABAAAAALAAIAAAAJABEAAAALAAIAAAAKABEAAAAOAAIAAAAOABEAAAALAAEAAAAOABIAAAALAAIAAAAPABEAAAAMAAEAAAAPABIAAAAMAAIAAAAQABEAAAALAAEAAAAQABIAAAALAAIAAAARABEAAAAMAAEAAAARABIAAAAMAAIAAAAJABIAAAANAAEAAAAKABIAAAAMAAEAAAALABIAAAALAAEAAAAMABIAAAAMAAEAAAANABIAAAALAAEAAAANABMAAAALAAIAAAAOABMAAAAMAAIAAAA=")
 tile_set = SubResource("TileSet_v510x")
 
 [node name="layer 92" type="TileMapLayer" parent="."]
+z_index = -10
 tile_map_data = PackedByteArray("AAAFAAUAAAAOAAsAAAAFAAYAAAAOAAwAAAAFAAcAAAAOAA0AAAAFAAgAAAAOAA4AAAAGAAUAAAAKAAsAAAAHAAUAAAALAAsAAAAIAAUAAAAMAAsAAAAJAAUAAAAEAAsAAAAJAAYAAAAEAAwAAAAJAAcAAAAEAA0AAAAJAAgAAAAEAA4AAAAKAAUAAAAFAAsAAAAKAAYAAAAFAAwAAAAKAAcAAAAFAA0AAAAKAAgAAAAFAA4AAAALAAUAAAAEAAsAAAALAAYAAAAEAAwAAAALAAcAAAAEAA0AAAALAAgAAAAEAA4AAAAMAAUAAAAFAAsAAAAMAAYAAAAFAAwAAAAMAAcAAAAFAA0AAAAMAAgAAAAFAA4AAAANAAUAAAAEAAsAAAANAAYAAAAEAAwAAAANAAcAAAAEAA0AAAANAAgAAAAEAA4AAAAOAAUAAAAFAAsAAAAOAAYAAAAFAAwAAAAOAAcAAAAFAA0AAAAOAAgAAAAFAA4AAAAPAAUAAAAEAAsAAAAPAAYAAAAEAAwAAAAPAAcAAAAEAA0AAAAPAAgAAAAEAA4AAAAQAAUAAAAFAAsAAAAQAAYAAAAFAAwAAAAQAAcAAAAFAA0AAAAQAAgAAAAFAA4AAAARAAUAAAAEAAsAAAARAAYAAAAEAAwAAAARAAcAAAAEAA0AAAARAAgAAAAEAA4AAAASAAUAAAAFAAsAAAASAAYAAAAFAAwAAAASAAcAAAAFAA0AAAASAAgAAAAFAA4AAAATAAUAAAALAAsAAAAUAAUAAAAMAAsAAAAVAAUAAAAEAAsAAAAVAAYAAAAEAAwAAAAVAAcAAAAEAA0AAAAVAAgAAAAEAA4AAAAWAAUAAAAFAAsAAAAWAAYAAAAFAAwAAAAWAAcAAAAFAA0AAAAWAAgAAAAFAA4AAAAXAAUAAAALAAsAAAAXAAYAAAALAAwAAAAXAAcAAAALAA0AAAAXAAgAAAALAA4AAAAYAAUAAAAMAAsAAAAYAAYAAAAMAAwAAAAYAAcAAAAMAA0AAAAYAAgAAAAMAA4AAAAZAAUAAAANAAsAAAAZAAYAAAANAAwAAAAZAAcAAAANAA0AAAAZAAgAAAANAA4AAAAGAAYAAAAKAAwAAAAGAAcAAAAKAA0AAAAGAAgAAAAKAA4AAAAHAAYAAAAEAAwAAAAIAAYAAAAFAAwAAAATAAYAAAAEAAwAAAATAAcAAAAEAA0AAAATAAgAAAAEAA4AAAAUAAYAAAAFAAwAAAAUAAcAAAAFAA0AAAAUAAgAAAAFAA4AAAAHAAcAAAALAA0AAAAHAAgAAAALAA4AAAAIAAcAAAAMAA0AAAAIAAgAAAAMAA4AAAAYAAkAAAAhAA0AAAAYAAoAAAAhAA4AAAAYAAsAAAAhAA8AAAAZAAkAAAAiAA0AAAAZAAoAAAAiAA4AAAAZAAsAAAAiAA8AAAAYAAwAAAAhAAwAAAAYAA0AAAAhAA0AAAAYAA4AAAAhAA4AAAAYAA8AAAAhAA8AAAAZAAwAAAAiAAwAAAAZAA0AAAAiAA0AAAAZAA4AAAAiAA4AAAAZAA8AAAAiAA8AAAAIAA4AAAAsACoAAAAIAA8AAAAsACsAAAA=")
 tile_set = SubResource("TileSet_v510x")
 
 [node name="layer 91" type="TileMapLayer" parent="."]
+z_index = -10
 tile_map_data = PackedByteArray("AAARAAUAAAApAAEAAAAUAAUAAAArAAMAAAAUAAYAAAArAAQAAAARAAYAAAAoAAQAAAASAAYAAAApAAQAAAATAAYAAAAqAAQAAAAUAAcAAAAnAAEAAAAUAAgAAAAnAAIAAAANAAgAAAAjAA0AAAANAAkAAAAjAA4AAAANAAoAAAAjAA8AAAAOAAgAAAAkAA0AAAAOAAkAAAAkAA4AAAAOAAoAAAAkAA8AAAAPAAgAAAAkAA0AAAAPAAkAAAAkAA4AAAAPAAoAAAAkAA8AAAAQAAgAAAAkAA0AAAAQAAkAAAAkAA4AAAAQAAoAAAAkAA8AAAARAAgAAAAkAA0AAAARAAkAAAAkAA4AAAARAAoAAAAkAA8AAAASAAgAAAAkAA0AAAASAAkAAAAkAA4AAAASAAoAAAAkAA8AAAATAAgAAAAlAA0AAAATAAkAAAAlAA4AAAATAAoAAAAlAA8AAAAUAAkAAAAnAAQAAAAFABAAAAAPADEAAAAGABAAAAARADEAAAAHABAAAAARADEAAAA=")
 tile_set = SubResource("TileSet_v510x")
 
@@ -4352,9 +4446,9 @@ convert_known_nodes = true
 simulate = false
 remove_nodes = true
 
-[node name="o_doorlight_down_outside" parent="." instance=ExtResource("5_7gac6")]
+[node name="o_doorlight_down_outside2" parent="." instance=ExtResource("5_yv2bo")]
 position = Vector2(208, 304)
-door_exit_marker_global_pos = Vector2(224, 292)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 teleport_destination = "r_tnn_residentialDistrict01, 520, 1120, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_residentialDistrict01, 520, 1120, \"door_open_wood\", \"door_close_wood\");"
 metadata/inst_name = "inst_4D16D9A0"
