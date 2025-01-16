@@ -45,21 +45,22 @@ func door_light():
 	for node in all_nodes:
 		if node.name.contains( "o_doorlight_" ) and node is Marker2D:
 			print("Workng on %s" % node.name)
-			var door_scene : B2_DoorLight = preload("res://barkley2/scenes/Objects/_doors/o_doorlight.tscn").instantiate()
-			door_scene.show_door_light = false
+			const O_DOORLIGHT_DOWN 	= preload("res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn")
+			const O_DOORLIGHT_LEFT 	= preload("res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn")
+			const O_DOORLIGHT_RIGHT = preload("res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn")
+			const O_DOORLIGHT_UP 	= preload("res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn")
+			
+			var door_scene : B2_DoorLight# = preload("res://barkley2/scenes/Objects/_doors/o_doorlight.tscn").instantiate()
 			
 			match node.name.split(" - ", false, 1)[-1]:
-				"o_doorlight_down":
-					door_scene.type = B2_DoorLight.DOOR_TYPE.UP
 				"o_doorlight_up":
-					door_scene.type = B2_DoorLight.DOOR_TYPE.DOWN
+					door_scene = O_DOORLIGHT_UP.instantiate()
+				"o_doorlight_down":
+					door_scene = O_DOORLIGHT_DOWN.instantiate()
 				"o_doorlight_left":
-					door_scene.type = B2_DoorLight.DOOR_TYPE.LEFT
+					door_scene = O_DOORLIGHT_LEFT.instantiate()
 				"o_doorlight_right":
-					door_scene.type = B2_DoorLight.DOOR_TYPE.RIGHT
-				_:
-					push_warning("Weird door %s" % node.name)
-					door_scene.type = B2_DoorLight.DOOR_TYPE.UP
+					door_scene = O_DOORLIGHT_RIGHT.instantiate()
 					
 			door_scene.name = node.name.split(" - ", false, 1)[-1]
 			door_scene.position 				= node.position

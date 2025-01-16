@@ -17,14 +17,15 @@ const O_DOORLIGHT_UP 		= preload("res://barkley2/scenes/Objects/_doors/o_doorlig
 		_run_this_bitch()
 		
 func _ready() -> void:
-	_run_this_bitch()
+	#_run_this_bitch()
+	pass
 		
 func _run_this_bitch() -> void:
 	var all_nodes := get_parent().get_children()
-	
+	print("Begining... %s kids...." % all_nodes.size())
 	for node in all_nodes:
 		var new_door : B2_DoorLight
-		if node is not B2_DoorLight and node.name.begins_with("o_doorlight"):
+		if ( node is not B2_DoorLight or node.is_in_group("delete") ) and node.name.begins_with("o_doorlight"):
 			if node.name.begins_with("o_doorlight_up"):
 				new_door = O_DOORLIGHT_UP.instantiate()
 			if node.name.begins_with("o_doorlight_down"):
@@ -35,6 +36,7 @@ func _run_this_bitch() -> void:
 				new_door = O_DOORLIGHT_RIGHT.instantiate()
 			
 		if is_instance_valid(new_door):
+			print("Found %s." % node.name)
 			## Copy door data
 			new_door.name 									= node.name
 			new_door.locked									= node.locked
@@ -48,6 +50,7 @@ func _run_this_bitch() -> void:
 			new_door.teleport_string						= node.teleport_string
 			
 			new_door.position								= node.position
+			new_door.scale									= node.scale
 			new_door.z_index								= node.z_index
 			
 			new_door.debug_teleport_destination				= node.debug_teleport_destination
@@ -60,12 +63,21 @@ func _run_this_bitch() -> void:
 				new_door.set_meta( meta, node.get_meta(meta) )
 			
 			if not simulate:
-				if not remove_old_doors:
+				var my_order := -1 ## Add at the same order.
+				if remove_old_doors:
+					my_order = node.get_index()
+					node.queue_free()
+					await get_tree().process_frame
+				else:
 					new_door.name += "_NEW"
+					
+				print("Adding %s..." % new_door.name)
+				#add_sibling.call_deferred( new_door, true )
 				add_sibling( new_door, true )
 				new_door.owner = get_parent()
+				await get_tree().process_frame
+				get_parent().move_child( new_door, my_order )
 			else:
 				print_rich("[color=pink][b]%s would be created at %s[/b][/color]" % [new_door.name, new_door.position])
-				
-			if remove_old_doors:
-				node.queue_free()
+		#else:
+			#print_rich("[color=black][b]Didn't find any valid o_doors[/b][/color]")

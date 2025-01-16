@@ -1,10 +1,9 @@
-[gd_scene load_steps=41 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=55 format=4 uid="uid://vkjgyg68ejy1"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_1n4eh"]
 [ext_resource type="PackedScene" uid="uid://ou1fr6qh8mm3" path="res://barkley2/scenes/Objects/_environs/_architecture/o_air_column03.tscn" id="4_y53qg"]
-[ext_resource type="PackedScene" uid="uid://ckuran6ntn1r1" path="res://barkley2/scenes/Objects/_doors/o_doorlight.tscn" id="5_8ote6"]
 [ext_resource type="Texture2D" uid="uid://cait2ro5w4yby" path="res://barkley2/assets/b2_original/images/merged/s_air_column03.png" id="5_yevxn"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_qid42"]
 [ext_resource type="PackedScene" uid="uid://hmxckj2hupgb" path="res://barkley2/scenes/Objects/_environs/_architecture/o_air_column01.tscn" id="6_u50v4"]
@@ -19,9 +18,19 @@
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="11_ywcdw"]
 [ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="13_xkxsk"]
 [ext_resource type="Shader" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="14_bgd1o"]
+[ext_resource type="PackedScene" uid="uid://d26jid11t8c1n" path="res://barkley2/scenes/Objects/_doors/o_door_tech02.tscn" id="14_jow2u"]
+[ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="15_q8cbp"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="20_1puvr"]
+[ext_resource type="Script" path="res://tools/o_door_converter.gd" id="21_sjcvn"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.gd" id="22_jo2ph"]
+[ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="23_ivpqv"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="24_x8kmn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e2kse"]
+vertices = PackedVector2Array(214, 106, 262, 106, 262, 154, 378, 154, 378, 138, 394, 138, 394, 74, 438, 74, 438, 138, 454, 138, 454, 154, 378, 246, 570, 154, 570, 106, 618, 106, 678, 246, 618, 42, 630, 42, 630, 106, 678, 106, 454, 442, 550, 442, 550, 662, 454, 662, 454, 710, 378, 710, 378, 662, 378, 442, 282, 662, 282, 442, 454, 246, 154, 246, 154, 106, 202, 106, 202, 42, 214, 42)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(14, 16, 17, 18), PackedInt32Array(18, 19, 15), PackedInt32Array(20, 21, 22, 23), PackedInt32Array(23, 24, 25, 26), PackedInt32Array(20, 23, 26, 27), PackedInt32Array(26, 28, 29, 27), PackedInt32Array(30, 20, 27, 11), PackedInt32Array(11, 31, 32, 2), PackedInt32Array(33, 34, 35, 0), PackedInt32Array(14, 18, 15), PackedInt32Array(12, 15, 30, 10), PackedInt32Array(10, 30, 11), PackedInt32Array(5, 8, 11, 3), PackedInt32Array(2, 3, 11), PackedInt32Array(2, 32, 33), PackedInt32Array(33, 0, 2)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 800, 800, 800, 800, 0)])
+source_geometry_mode = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yoaj7"]
 texture = ExtResource("3_armys")
@@ -1670,6 +1679,26 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ysmh"]
+resource_local_to_scene = true
+shader = ExtResource("14_bgd1o")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="Resource" id="Resource_rvh18"]
+script = ExtResource("20_1puvr")
+original_script = "LOOKAT | o_cts_hoopz | o_nu_debug
+LOOKAT | o_nu_debug | o_cts_hoopz
+DIALOG | Nu = s_portrait | This is the debug room.
+WAIT | 2
+DIALOG | Nu = s_portrait | Like the rest of the game, its mostly incomplete.#The main use is to test some feature and scripts faster.
+EXIT |
+"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
 atlas = ExtResource("10_5fyhx")
 region = Rect2(0, 0, 16, 80)
@@ -1756,29 +1785,97 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ysmh"]
-resource_local_to_scene = true
-shader = ExtResource("14_bgd1o")
-shader_parameter/enable = false
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0
-shader_parameter/pattern = 0
-shader_parameter/inside = false
-shader_parameter/add_margins = true
+[sub_resource type="AtlasTexture" id="AtlasTexture_at73p"]
+atlas = ExtResource("10_5fyhx")
+region = Rect2(0, 0, 16, 80)
 
-[sub_resource type="Resource" id="Resource_rvh18"]
-script = ExtResource("20_1puvr")
-original_script = "LOOKAT | o_cts_hoopz | o_nu_debug
-LOOKAT | o_nu_debug | o_cts_hoopz
-DIALOG | Nu = s_portrait | This is the debug room.
-WAIT | 2
-DIALOG | Nu = s_portrait | Like the rest of the game, its mostly incomplete.#The main use is to test some feature and scripts faster.
-EXIT |
-"
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8oxr"]
+atlas = ExtResource("10_5fyhx")
+region = Rect2(16, 0, 16, 80)
 
-[node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqada"]
+atlas = ExtResource("10_5fyhx")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5eu6"]
+atlas = ExtResource("10_5fyhx")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpofb"]
+atlas = ExtResource("11_4eipa")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u080"]
+atlas = ExtResource("11_4eipa")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx3h6"]
+atlas = ExtResource("11_4eipa")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28uhq"]
+atlas = ExtResource("11_4eipa")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjw5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_qid42")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8c61w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_fdmm8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_tmb0m")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_at73p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8oxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5eu6")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpofb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u080")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx3h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28uhq")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer")]
+y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_e2kse")
 script = ExtResource("1_en1eg")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(624, 197)
 collision_layer = NodePath("layer - collision")
@@ -1949,64 +2046,6 @@ metadata/code = "music = \"mus_AIRuins_powerbadboy\";
 metadata/inst_name = "inst_C1D7EF09"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_doorlight_exit" parent="." instance=ExtResource("5_8ote6")]
-position = Vector2(368, 688)
-scale = Vector2(3, 1)
-sprite_frames = SubResource("SpriteFrames_qubxx")
-door_exit_marker_global_pos = Vector2(416, 676)
-teleport_string = "r_air_entrance03,416,676"
-debug_teleport_destination = "r_title,0,0"
-teleport_destination = "r_usw_airuinsLobby02, 272, 192"
-metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
-"
-metadata/inst_name = "inst_FEF7AFD4"
-metadata/scale = Vector2(3, 1)
-
-[node name="o_doorlight_debug_interact" parent="." instance=ExtResource("5_8ote6")]
-position = Vector2(608, 80)
-offset = Vector2(0, -44)
-flip_v = false
-type = 0
-debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(624, 102)
-teleport_string = "r_air_entrance03,624,102"
-teleport_destination = "r_air_corridor01,240,548"
-metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
-"
-metadata/inst_name = "inst_FEF7AFD4"
-metadata/scale = Vector2(3, 1)
-
-[node name="o_doorlight_debug_2" parent="." instance=ExtResource("5_8ote6")]
-position = Vector2(192, 80)
-offset = Vector2(0, -44)
-flip_v = false
-type = 0
-debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(208, 102)
-teleport_string = "r_air_entrance03,208,102"
-teleport_destination = "r_air_finalgun01,160,150"
-teleport_create_o_hoopz = true
-metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
-"
-metadata/inst_name = "inst_FEF7AFD4"
-metadata/scale = Vector2(3, 1)
-
-[node name="o_doorlight_debug_1" parent="." instance=ExtResource("5_8ote6")]
-position = Vector2(384, 112)
-scale = Vector2(2, 1)
-offset = Vector2(0, -44)
-flip_v = false
-type = 0
-debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(416, 134)
-teleport_string = "r_air_entrance03,416,134"
-teleport_destination = "r_air_throneRoom01,270,360"
-teleport_create_o_hoopz = true
-metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
-"
-metadata/inst_name = "inst_FEF7AFD4"
-metadata/scale = Vector2(3, 1)
-
 [node name="o_cinema_0" type="Marker2D" parent="."]
 z_index = 4000
 position = Vector2(417, 615)
@@ -2016,3 +2055,94 @@ script = ExtResource("11_ywcdw")
 material = SubResource("ShaderMaterial_2ysmh")
 position = Vector2(511, 439)
 cutscene_script = SubResource("Resource_rvh18")
+
+[node name="o_door_tech02" parent="." instance=ExtResource("14_jow2u")]
+position = Vector2(600, 95)
+
+[node name="o_door_tech03" parent="." instance=ExtResource("14_jow2u")]
+position = Vector2(184, 95)
+
+[node name="B2_O_DOOR_CONVERTER" type="Node" parent="."]
+script = ExtResource("21_sjcvn")
+simulate = false
+
+[node name="o_doorlight_up_debug_2" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
+z_index = -10
+position = Vector2(384, 112)
+scale = Vector2(2, 1)
+sprite_frames = SubResource("SpriteFrames_qubxx")
+animation = &"debug_icons"
+centered = false
+script = ExtResource("22_jo2ph")
+running_anim = "s_doorlight_ud"
+debug_door_exit_marker_pos = Vector2(16, 22)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "r_air_entrance03,416,134"
+debug_teleport_create_o_hoopz = false
+teleport_destination = "r_air_throneRoom01,270,360"
+metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
+"
+metadata/inst_name = "inst_FEF7AFD4"
+metadata/scale = Vector2(3, 1)
+
+[node name="o_doorlight_up_debug_1" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
+z_index = -10
+position = Vector2(192, 80)
+sprite_frames = SubResource("SpriteFrames_qubxx")
+animation = &"debug_icons"
+centered = false
+script = ExtResource("22_jo2ph")
+running_anim = "s_doorlight_ud"
+debug_door_exit_marker_pos = Vector2(16, 22)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "r_air_entrance03,208,102"
+debug_teleport_create_o_hoopz = false
+teleport_destination = "r_air_finalgun01,160,150"
+metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
+"
+metadata/inst_name = "inst_FEF7AFD4"
+metadata/scale = Vector2(3, 1)
+
+[node name="o_doorlight_up_debug_interact" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
+z_index = -10
+position = Vector2(608, 80)
+sprite_frames = SubResource("SpriteFrames_qubxx")
+animation = &"debug_icons"
+centered = false
+script = ExtResource("22_jo2ph")
+running_anim = "s_doorlight_ud"
+door_offset = Vector2(0, -48)
+debug_door_exit_marker_pos = Vector2(16, 22)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "r_air_entrance03,624,102"
+debug_teleport_create_o_hoopz = false
+teleport_destination = "r_air_corridor01,240,548"
+teleport_create_o_hoopz = false
+metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
+"
+metadata/inst_name = "inst_FEF7AFD4"
+metadata/scale = Vector2(3, 1)
+
+[node name="o_doorlight_down_exit" type="AnimatedSprite2D" parent="." instance=ExtResource("23_ivpqv")]
+z_index = -10
+position = Vector2(368, 688)
+scale = Vector2(3, 1)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
+animation = &"debug_icons"
+frame = 1
+centered = false
+script = ExtResource("24_x8kmn")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "r_air_entrance03,416,676"
+debug_teleport_destination = "r_title,0,0"
+debug_teleport_create_o_hoopz = false
+teleport_destination = "r_usw_airuinsLobby02, 272, 192"
+teleport_create_o_hoopz = false
+metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
+"
+metadata/inst_name = "inst_FEF7AFD4"
+metadata/scale = Vector2(3, 1)

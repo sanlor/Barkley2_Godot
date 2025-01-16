@@ -146,6 +146,10 @@ func zone_data( room_name : String):
 			"ice":
 				zone = "Frigid Inskirts";
 				flavor = "Don't catch a cold...";
+			## DEBUG
+			"air":
+				zone = "A.I. Ruins";
+				flavor = "A.K.A %s." % ["The Debug zone", "The Discount Backrooms", "The Wrong-Map-Loaded Room"].pick_random()
 				
 	
 func display_text(): ## TODO actuall display text, wait and then fade away

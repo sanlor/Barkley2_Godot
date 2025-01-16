@@ -6,9 +6,17 @@ class_name B2_DoorLight
 const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
 # Base class for doorlight directions.
-@export var locked			:= false
-@export var locked_msg		:= ["Locked...", "Its locked.", "It won't open...", "...?"]
-@export var enabled			:= true
+@export_category("DoorLight setup")
+@export var locked				:= false
+@export var locked_msg			:= ["Locked...", "Its locked.", "It won't open...", "...?"]
+@export var enabled				:= true
+@export var editor_anim			:= "debug_icons"
+@export var editor_frame 		:= 0
+@export var running_anim 		:= ""
+@export var running_frame 		:= 0
+@export var flip_h_running_anim := false
+@export var flip_v_running_anim := false
+
 @export var show_door_light := false:
 	set(b):
 		show_door_light = b
@@ -25,12 +33,11 @@ enum DOOR_SIZE{S, M, L, XL}
 		if Engine.is_editor_hint():
 			_update_sprite()
 			
-@export var door_offset 	:= Vector2.ZERO
-
-@export var debug_door_exit_marker 		:= true
-@export var debug_door_exit_marker_pos 	:= Vector2.ZERO
+@export var door_offset 					:= Vector2.ZERO
+@export var debug_door_exit_marker 			:= true
+@export var debug_door_exit_marker_pos 		:= Vector2.ZERO
 @export var door_exit_marker_global_pos 	:= Vector2.ZERO ## Copy this for teleport reference
-@export var teleport_string	:= "" ## Trully, I am lazy.
+@export var teleport_string					:= "" ## Trully, I am lazy.
 
 @export_category("Teleport")
 @export var debug_teleport_destination 		:= "" 	## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
@@ -38,8 +45,8 @@ enum DOOR_SIZE{S, M, L, XL}
 @export var teleport_destination 			:= "" 		## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 @export var teleport_create_o_hoopz 		:= true
 
-var wadChk = 2; # To make resist half in wading layer
-var zone = "";
+var wadChk 									= 2; # To make resist half in wading layer
+var zone 									= "";
 
 var pushTime 		= 0.5; # In seconds how long you need to hold
 var pushResist 		= 4000000; # Pushing resist, higher is more pusback ## was 70
@@ -88,9 +95,20 @@ func _ready() -> void:
 	
 func _update_sprite():
 	if Engine.is_editor_hint() and not show_door_light:
-		animation = "debug_icons"
-		return
-	
+		animation 	= editor_anim
+		frame 		= editor_frame
+		#return
+	else:
+		if sprite_frames.has_animation( running_anim ):
+			animation = running_anim
+			frame = running_frame
+		else:
+			push_error("Invalid Running Anim %s." % running_anim)
+		
+		flip_h = flip_h_running_anim
+		flip_v = flip_v_running_anim
+		offset = door_offset
+		
 	door_exit_marker_global_pos = to_global(debug_door_exit_marker_pos)
 	if not Engine.is_editor_hint():
 		teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)

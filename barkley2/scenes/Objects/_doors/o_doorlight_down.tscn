@@ -8,39 +8,39 @@
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="6_x4erh"]
 [ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="7_2q3hi"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_at73p"]
 atlas = ExtResource("5_byu45")
 region = Rect2(0, 0, 16, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8oxr"]
 atlas = ExtResource("5_byu45")
 region = Rect2(16, 0, 16, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqada"]
 atlas = ExtResource("5_byu45")
 region = Rect2(32, 0, 16, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5eu6"]
 atlas = ExtResource("5_byu45")
 region = Rect2(48, 0, 16, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpofb"]
 atlas = ExtResource("6_x4erh")
 region = Rect2(0, 0, 80, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u080"]
 atlas = ExtResource("6_x4erh")
 region = Rect2(80, 0, 80, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx3h6"]
 atlas = ExtResource("6_x4erh")
 region = Rect2(160, 0, 80, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_28uhq"]
 atlas = ExtResource("6_x4erh")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qubxx"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjw5"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -61,16 +61,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
+"texture": SubResource("AtlasTexture_at73p")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
+"texture": SubResource("AtlasTexture_g8oxr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
+"texture": SubResource("AtlasTexture_kqada")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
+"texture": SubResource("AtlasTexture_i5eu6")
 }],
 "loop": true,
 "name": &"s_doorlight_lr",
@@ -78,16 +78,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
+"texture": SubResource("AtlasTexture_wpofb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
+"texture": SubResource("AtlasTexture_0u080")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
+"texture": SubResource("AtlasTexture_cx3h6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
+"texture": SubResource("AtlasTexture_28uhq")
 }],
 "loop": true,
 "name": &"s_doorlight_ud",
@@ -102,11 +102,14 @@ size = Vector2(32, 16)
 
 [node name="o_doorlight_down" type="AnimatedSprite2D"]
 z_index = -10
-sprite_frames = SubResource("SpriteFrames_qubxx")
+sprite_frames = SubResource("SpriteFrames_fsjw5")
 animation = &"debug_icons"
+frame = 1
 centered = false
-flip_v = true
 script = ExtResource("7_2q3hi")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
 debug_door_exit_marker_pos = Vector2(16, -12)
 door_exit_marker_global_pos = Vector2(16, -12)
 teleport_string = "@SubViewport@9101,16,-12"
@@ -119,17 +122,20 @@ position = Vector2(16, 8)
 
 [node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
 shape = SubResource("CircleShape2D_x31dv")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="push_area" type="Area2D" parent="."]
 position = Vector2(16, 8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
 shape = SubResource("RectangleShape2D_hnlim")
+debug_color = Color(0, 0.643137, 0.294118, 0)
 
 [node name="teleport_activation_area" type="Area2D" parent="."]
-position = Vector2(16, -8)
+position = Vector2(16, 24)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
 shape = SubResource("RectangleShape2D_hnlim")
+debug_color = Color(0.964706, 0.0509804, 0.466667, 0)
 
 [connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]
