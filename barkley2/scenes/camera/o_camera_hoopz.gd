@@ -166,6 +166,7 @@ func set_camera_bound( _is_bound : bool ):
 			#limit_bottom 	= rl.get_used_rect().end.y 			* 16
 			limit_width 	= Vector2( rl.get_used_rect().position.x, rl.get_used_rect().end.x ) * 16.0
 			limit_height 	= Vector2( rl.get_used_rect().position.y, rl.get_used_rect().end.y ) * 16.0
+			print( "limit_width: ", limit_width, " - limit_height: ", limit_height )
 		else:
 			push_warning( "Invalid parent, can't set camera limits." )
 	#else:
@@ -312,8 +313,8 @@ func _process(delta: float) -> void:
 				## Avoid seeing outside the map.
 				#position.x = clamp( position.x, )
 				
-				offset.x = clamp( offset.x, (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
-				offset.y = clamp( offset.y, (384.0/2.0 - position.y), limit_height.y - (384.0/2.0 + position.y) )
+				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
+				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
 		
 	if B2_Debug.show_camera_debug_data:
 		if show_debug_data:

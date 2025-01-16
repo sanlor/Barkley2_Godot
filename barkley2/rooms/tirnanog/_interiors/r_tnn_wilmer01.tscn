@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://c4f0usklyoo67"]
+[gd_scene load_steps=58 format=4 uid="uid://c4f0usklyoo67"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_wilmer_01.gd" id="1_jp87t"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_vcu7c"]
@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="14_cy7va"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="14_gy75y"]
 [ext_resource type="PackedScene" uid="uid://nwabjymcirav" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_stairs_0.tscn" id="18_e1lbn"]
+[ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="20_ecvna"]
+[ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="21_fimhk"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_5am3p"]
 vertices = PackedVector2Array(326, 202, 342, 202, 342, 214, 310, 214, 310, 330, 342, 330, 342, 406, 326, 406, 326, 454, 314, 454, 314, 406, 266, 406, 266, 374, 214, 374, 214, 406, 122, 406, 122, 346, 138, 346, 138, 234, 150, 234, 150, 346, 266, 346, 266, 314, 298, 314, 298, 214, 266, 214, 266, 138, 326, 138)
@@ -4053,11 +4055,26 @@ radius = 18.0278
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oqidx"]
 size = Vector2(44, 88)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
+atlas = ExtResource("21_fimhk")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0e0sl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bec86")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="r_tnn_wilmer01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_5am3p")
 script = ExtResource("1_jp87t")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(148, 348)
 collision_layer = NodePath("layer - collision")
@@ -4100,8 +4117,11 @@ tile_set = ExtResource("3_nffxa")
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("3_vu685")
+convert_cinema_spots = false
 convert_door_light = false
 convert_door = false
+convert_collision = false
+convert_known_nodes = true
 simulate = false
 remove_nodes = true
 
@@ -4194,6 +4214,13 @@ metadata/code = ""
 metadata/inst_name = "inst_EE0EE957"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_teleport_mark" parent="." instance=ExtResource("20_ecvna")]
+position = Vector2(304, 200)
+sprite_frames = SubResource("SpriteFrames_0e0sl")
+metadata/code = ""
+metadata/inst_name = "inst_19C352AB"
+metadata/scale = Vector2(1, 1)
+
 [node name="P11 - o_blocker_wilmer01" type="Marker2D" parent="."]
 position = Vector2(320, 392)
 metadata/code = ""
@@ -4210,12 +4237,6 @@ metadata/scale = Vector2(1, 1)
 position = Vector2(-128, 64)
 metadata/code = ""
 metadata/inst_name = "inst_39682F59"
-metadata/scale = Vector2(1, 1)
-
-[node name="P13 - o_teleport_mark" type="Marker2D" parent="."]
-position = Vector2(304, 200)
-metadata/code = ""
-metadata/inst_name = "inst_19C352AB"
 metadata/scale = Vector2(1, 1)
 
 [node name="P0 - o_room_pacify" type="Marker2D" parent="."]
