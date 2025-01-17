@@ -43,6 +43,9 @@ var astar_valid_tiles := Array() # used for debug
 @export var override_zone_flavor		:= "" ## Allow custom zone flavor (bottom text)
 @export var camera_bound_to_map			:= false # Camera cannot see outside the map.
 
+@export_category("Navigation")
+@export var source_geometry_mode := NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+
 @export_category("Cinematics")
 @export var player_can_pause			:= true
 @export var play_cinema_at_room_start 	:= true
@@ -63,12 +66,11 @@ var obstacles 			:= []
 var room_size := Vector2.ZERO
 var hud_node
 
+var map_rect := Rect2() ## Map boundaries. Used by the pathfinding and camera limits.
+
 func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
-	if is_instance_valid(collision_layer):
-		collision_layer.hide()
-	if is_instance_valid(collision_layer_semi):
-		collision_layer_semi.hide()
+	_hide_collision_layer()
 	if play_room_music:
 		ready.connect( _play_room_music )
 	if enable_hud:
@@ -78,13 +80,21 @@ func _enter_tree() -> void:
 	y_sort_enabled = true
 	ready.connect( _after_ready )
 
+func _hide_collision_layer() -> void:
+	if is_instance_valid(collision_layer):
+		collision_layer.hide()
+	if is_instance_valid(collision_layer_semi):
+		collision_layer_semi.hide()
+
 func _set_region():
 	if populate_reference_layer:
+		reference_layer.clear()
 		for c in get_children():
 			if c is TileMapLayer:
 				reference_layer.append(c)
 				c.add_to_group("navigation_polygon_source_geometry_group")
 				
+				## Set stuff in case you forgot to do it manually
 				if not is_instance_valid( collision_layer ):
 					if c.name == "layer - collision":
 						collision_layer = c
@@ -92,14 +102,18 @@ func _set_region():
 				if not is_instance_valid( collision_layer_semi ):
 					if c.name == "layer - collision 2":
 						collision_layer = c
-					
-	var map_rect := Rect2()
+	
+	## Players dont need to see this, only during development.
+	_hide_collision_layer()
+	
+	## Check the size of all Tilemaplayers to get its real Rect2.
 	for l : TileMapLayer in reference_layer:
 		assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
 		map_rect = map_rect.merge( l.get_used_rect() )
 		
 	room_size = map_rect.size * 16 ## <- important for B2_EffectAtmo
 	
+	## Failsave in case you forgot to set it.
 	if not is_instance_valid(navigation_polygon):
 		navigation_polygon = NavigationPolygon.new()
 	
@@ -113,8 +127,7 @@ func _set_region():
 		
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
-	#navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_EXPLICIT
-	navigation_polygon.source_geometry_mode = NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+	navigation_polygon.source_geometry_mode = source_geometry_mode
 	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
 	

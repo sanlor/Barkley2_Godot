@@ -240,7 +240,7 @@ func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
 	var spritesheet : Texture2D
 	if not file_name.is_valid_filename():
-		push_warning("Weird, filename %s doesnt seem valid. Truing to fix it... %s" % [file_name, portrait_name] )
+		push_warning("Weird, filename %s doesnt seem valid. Trying to fix it... %s" % [file_name, portrait_name] )
 		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name + ".png")
 	else:
 		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
@@ -366,6 +366,7 @@ func _type_next_letter(delta):
 				add_wait = question_pause
 				_portrait_is_silent()
 			"\n":
+				# Does this even work?
 				_portrait_is_silent()
 			_:
 				# Avoid playing sounds when players skips
@@ -408,7 +409,7 @@ func _type_next_letter(delta):
 
 func wait_user_input():
 	is_waiting_input = true
-	if not auto_skipping:
+	if not auto_skipping and not Input.is_action_pressed("Holster"): ## last condition is a quick fix for FFWDing during parts of the dialog.
 		await input_pressed
 		B2_Sound.play( _confirm_sound, 0.0, false, 1, 1.0 )
 	is_waiting_input = false

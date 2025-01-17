@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://dq1kadmxpnwov"]
+
+[ext_resource type="Texture2D" uid="uid://dy2tmese3xoh0" path="res://barkley2/assets/b2_original/images/merged/s_placeholder.png" id="1_boono"]
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_airuins/o_air_spear_assembly_01.gd" id="2_de0hv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6xrw"]
+atlas = ExtResource("1_boono")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0b3bd"]
+atlas = ExtResource("1_boono")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0r86"]
+atlas = ExtResource("1_boono")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6vno"]
+atlas = ExtResource("1_boono")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuk0x"]
+atlas = ExtResource("1_boono")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ng63"]
+atlas = ExtResource("1_boono")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3adop"]
+atlas = ExtResource("1_boono")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57tqm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6xrw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0b3bd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0r86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6vno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuk0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ng63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3adop")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ibbbn"]
+radius = 19.0263
+
+[node name="o_air_spearAssembly01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_57tqm")
+autoplay = "default"
+frame_progress = 0.861586
+centered = false
+offset = Vector2(-16, -24)
+script = ExtResource("2_de0hv")
+mouse_detection_area = NodePath("Area2D")
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"height": "32",
+"name": "s_placeholder",
+"width": "32",
+"xorig": "16",
+"yorigin": "24"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ibbbn")

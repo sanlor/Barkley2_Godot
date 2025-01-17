@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://cthl6eusd6pdh"]
+
+[ext_resource type="Texture2D" uid="uid://dy2tmese3xoh0" path="res://barkley2/assets/b2_original/images/merged/s_placeholder.png" id="1_0ewoe"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_dq8pf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxknb"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r3nm6"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aah7p"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmihq"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyvgs"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4hag"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0cma"]
+atlas = ExtResource("1_0ewoe")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_858pb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxknb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r3nm6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aah7p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fmihq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyvgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4hag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0cma")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2i8t0"]
+radius = 19.0263
+
+[node name="o_air_dais01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_858pb")
+autoplay = "default"
+frame_progress = 0.482566
+centered = false
+offset = Vector2(-16, -24)
+script = ExtResource("2_dq8pf")
+mouse_detection_area = NodePath("Area2D")
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"height": "32",
+"name": "s_placeholder",
+"width": "32",
+"xorig": "16",
+"yorigin": "24"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2i8t0")

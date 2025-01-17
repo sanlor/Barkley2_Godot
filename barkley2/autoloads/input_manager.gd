@@ -38,6 +38,7 @@ func _physics_process(_delta: float) -> void:
 				if move:
 					debug_camera_node.position += ( move * 400 ) * _delta
 		
+		## Create a free flying camera to check thinks out.
 		if Input.is_action_just_pressed("DEBUG_CAMERA"):
 			if debug_camera_enabled: # if enabled, disable it.
 				if is_instance_valid(debug_camera_node):
@@ -45,6 +46,7 @@ func _physics_process(_delta: float) -> void:
 				
 				B2_CManager.camera.enabled = true
 				player_has_control = true
+				debug_camera_enabled = false
 				
 			else:
 				B2_CManager.camera.enabled = false

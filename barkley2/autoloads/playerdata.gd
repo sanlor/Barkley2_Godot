@@ -511,6 +511,7 @@ func preload_tutorial_save_data(): # user skip the CC
 	# related script = CC("hoopz player");
 	
 	# related script = Game( "new" )
+	B2_ClockTime.time_init()
 	# This is the game start from Character Creation, the "canon start"
 	B2_Playerdata.Quest("saveDisabled", 1);
 	B2_Playerdata.Quest("sceneBrandingStart", 1);
@@ -534,8 +535,6 @@ func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
 	#scr_player_newPlayerIdentity();
 	preload_CC_save_data()
 	preload_tutorial_save_data()
-	
-	B2_ClockTime.time_init()
 	
 	B2_Playerdata.Quest("gameStart", 2);
 	B2_Playerdata.Quest("sceneBrandingStart", 4);
