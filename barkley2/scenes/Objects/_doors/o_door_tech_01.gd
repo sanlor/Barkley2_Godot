@@ -24,6 +24,10 @@ func _ready() -> void:
 		
 	door_sensor.body_entered.connect( detect_player_enter )
 	door_sensor.body_exited.connect( detect_player_exit )
+	_after_ready()
+
+func _after_ready() -> void:
+	pass
 
 func detect_player_exit( body ):
 	if body is B2_Player:# or body is B2_InteractiveActor:

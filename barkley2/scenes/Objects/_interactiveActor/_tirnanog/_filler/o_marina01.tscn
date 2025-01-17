@@ -1,0 +1,107 @@
+[gd_scene load_steps=9 format=3 uid="uid://bt5kdk47opajp"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_marina01.gd" id="1_15j7p"]
+[ext_resource type="Texture2D" uid="uid://cjndanphts6ww" path="res://barkley2/assets/b2_original/images/merged/s_marina01.png" id="2_0h4sd"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_blq5u"]
+
+[sub_resource type="Resource" id="Resource_flaur"]
+script = ExtResource("2_blq5u")
+original_script = "IF body == governor   | GOTO | GOVERNOR
+IF govCow == 2        | GOTO | COW2
+IF govCow == 3        | GOTO | COW3
+IF govCow >= 4        | GOTO | SWAMP_RANCH
+IF curfew == during   | IF marinaState == 0 | GOTO | CURFEW0
+IF curfew == during   | IF marinaState == 1 | GOTO | CURFEW1
+IF marinaState == 0   | GOTO | MARINA0
+GOTO   | MARINA1
+
+GOVERNOR
+DIALOG | Marina | Hey there, Mr. Governor, sir. Sorry about the uh, cattle here, but I've got nowhere else to put'em. It'd be right kindly of ya to help me get some pasture for 'em, but I don't want you to think I'm beggin' or nothin'.
+QUEST  | govCow = 1
+
+COW2
+DIALOG | Marina | Well hey there, P_NAME_S! Yer never gonna believe the good news I just got... or maybe you will, 'cuz I guess you got it too... but they're letting me take my cows to a pasture outside of Tir na Nog! I can't believe it! I thought I was gonna have to get rid of the girls but it looks like there's a free pasture somewhere south of here! I guess if you're also leaving Tir na Nog, we may just run into each other out there. Good luck, P_NAME_S! I hear it's kinda dangerous.
+QUEST  | govCow = 3
+
+COW3
+DIALOG | Marina | I guess if you're gonna be out there in the Necron 7 wilds, we might just bump into each other. Good luck! I hear it's pretty dangerous!
+
+SWAMP_RANCH
+DIALOG | Marina | Thank Clispaeth for these greener pastures. If the governor wouldn't have given me passage from Tir na Nog I think I would have had to put the girls up for slaughter. 
+
+CURFEW0
+DIALOG | Marina | Hey! You there, are you new here?
+DIALOG | P_NAME | Yeah... where did everyone go?
+DIALOG | Marina | There's a curfew goin' on right now - everyone's supposed to go inside until the Duergars say it's okay to come out. But my girls... I mean, those cows over there? I can't leave 'em on their own out here! They need a real pasture to graze in, they're not city cows! I don't even think city cows exist! What am I gonna do...
+QUEST  | marinaState = 1
+QUEST  | govCow = 1
+
+CURFEW1
+DIALOG | Marina | Everyone went inside... I think there's a curfew now or somethin', but I can't just leave the girls out here to fend for themselves. I hope we don't get in trouble...
+
+MARINA0
+DIALOG | Marina | Howdy, you new here?
+DIALOG | P_NAME | Yeah, I'm kinda lost.
+DIALOG | Marina | Know the feelin'. We're new too, me and the girls. The girls, those cows over there. I'm a rancher... or I guess I used to be a rancher back when I had a pasture to put my cows in. But nowadays there's nowhere for 'em to graze - they're stuck eatin' the grass in between cobblestones. I'm really worried I might have to get rid of them... or worse.
+QUEST  | marinaState = 1
+QUEST  | govCow = 1
+
+MARINA1
+DIALOG | Marina | The girls are gettin' skinny and nobody likes a skinny cow. I'm gettin' worried that if I don't find a pasture for 'em soon, I'll have to get rid of 'em..."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i3nv"]
+atlas = ExtResource("2_0h4sd")
+region = Rect2(0, 0, 30, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sdx53"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i3nv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mi2t7"]
+radius = 7.95775
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_55fow"]
+size = Vector2(20, 49)
+
+[node name="o_marina01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_15j7p")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_flaur")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_sdx53")
+centered = false
+offset = Vector2(-15, -47)
+metadata/default = {
+"bbox_bottom": "52",
+"bbox_left": "2",
+"bbox_right": "27",
+"bbox_top": "30",
+"frames": ["images\\s_marina01_0.png"],
+"height": "55",
+"name": "s_marina01",
+"width": "30",
+"xorig": "15",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mi2t7")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -27)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_55fow")

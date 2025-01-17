@@ -228,6 +228,7 @@ func lets_goooo():
 		actor_node.mouse_detection_area 	= interaction_area
 		actor_node.ActorAnim 				= animatedsprite
 		actor_node.ActorCol 				= collision_node
+		actor_node.can_move_around			= create_actor_navigation
 		if node_type == TYPE.DUERGAR:
 			actor_node.duergar_name = duergar_name
 		

@@ -94,13 +94,14 @@ func _update_sprite():
 	if Engine.is_editor_hint() and not show_door_light:
 		animation 	= editor_anim
 		frame 		= editor_frame
-		
+		print("%s frame: " % name, frame)
 		z_index = 0
 		#return
 	else:
 		if sprite_frames.has_animation( running_anim ):
 			animation = running_anim
 			frame = running_frame
+			
 		else:
 			push_error("Invalid Running Anim %s." % running_anim)
 		

@@ -265,10 +265,10 @@ func _process(delta: float) -> void:
 			avg_pos /= arr_size
 			
 			## NOTE What feels better? Lerp of move_torward?
-			#position 	= position.move_toward( avg_pos, (speed * 30) * delta )
-			position 	= position.lerp( avg_pos, (speed * 10) * delta )
-			#offset 	= offset.move_toward( camera_normal_offset, 0.5 * camera_follow_speed * delta ) + camera_shake_offset
-			offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
+			position 	= position.move_toward( avg_pos, (speed * 20) * delta )
+			#position 	= position.lerp( avg_pos, (speed * 10) * delta )
+			offset 	= 	offset.move_toward( camera_normal_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
+			#offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
 			
 		MODE.CINEMA:
 			if is_moving:

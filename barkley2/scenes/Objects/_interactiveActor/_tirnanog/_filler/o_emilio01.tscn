@@ -1,0 +1,85 @@
+[gd_scene load_steps=9 format=3 uid="uid://bfeeuuk1i41af"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_emilio01.gd" id="1_ync8w"]
+[ext_resource type="Texture2D" uid="uid://csfsai7w0tkff" path="res://barkley2/assets/b2_original/images/merged/s_emilio01.png" id="2_5uwji"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_pccrr"]
+
+[sub_resource type="Resource" id="Resource_mhypd"]
+script = ExtResource("2_pccrr")
+original_script = "IF body == governor     | GOTO | GOVERNOR
+IF emilioState == 0     | GOTO | EMILIO0
+IF emilioState == 1     | GOTO | EMILIO1
+GOTO | SVIATOSLAV1
+
+GOVERNOR
+DIALOG | Emilio     | Hey, you're the new governor, right? What's the deal with the b-ball court? Think we'll get it fixed up anytime soon?
+DIALOG | Governor Elagabalus | Hello, citizen! Ah, I love basketball! Three in the key, alley-oop, slam dunk! I know about all those things. Well, goodbye!
+
+EMILIO0
+DIALOG | Emilio     | Hey, you look like a baller. You ever hear about the Chaos Dunk?
+DIALOG | P_NAME     | It sounds kinda familiar... what is it?
+DIALOG | Emilio     | Well, it's just a rumor, but apparently it's a dunk that has the power of a 150 megaton nuclear blast. Only the oldest and wisest of ballers could ever pull it off. Sounds pretty crazy, huh? But supposedly someone pulled it off a long time ago and destroyed some Earth city called Neo New York.
+DIALOG | P_NAME     | Yeah, that does sound crazy. I don't know if I believe that.
+DIALOG | Emilio     | I've seen ballers do some pretty crazy things, but a jam as verboten as that? It's gotta be a fairy tale.
+QUEST  | emilioState = 1
+
+EMILIO1
+DIALOG | Emilio     | Holy Dunks and Vampslams are one thing, but a Chaos Dunk? There's no way to ever get that kinda power.
+DIALOG | P_NAME     | (P-power...)"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxk7f"]
+atlas = ExtResource("2_5uwji")
+region = Rect2(0, 0, 51, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lsygk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxk7f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dtty"]
+radius = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqlyq"]
+size = Vector2(47, 57)
+
+[node name="o_emilio01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_ync8w")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_mhypd")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_lsygk")
+centered = false
+offset = Vector2(-22, -52)
+metadata/default = {
+"bbox_bottom": "59",
+"bbox_left": "1",
+"bbox_right": "48",
+"bbox_top": "2",
+"frames": ["images\\s_emilio01_0.png"],
+"height": "62",
+"name": "s_emilio01",
+"width": "51",
+"xorig": "22",
+"yorigin": "52"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2dtty")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(3.5, -10.5)
+shape = SubResource("RectangleShape2D_rqlyq")

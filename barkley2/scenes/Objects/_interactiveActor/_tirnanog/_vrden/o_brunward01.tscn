@@ -1,0 +1,117 @@
+[gd_scene load_steps=11 format=3 uid="uid://cse8clf8l6fhi"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_brunward01.gd" id="1_fkmu7"]
+[ext_resource type="Texture2D" uid="uid://clir2nnxkthqm" path="res://barkley2/assets/b2_original/images/merged/s_brunwald01.png" id="2_7ppcd"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_7thdb"]
+
+[sub_resource type="Resource" id="Resource_dgssr"]
+script = ExtResource("2_7thdb")
+original_script = "IF body == governor   | GOTO | GOVERNOR
+IF brunwardState == 2 | GOTO | STATE2
+IF castorDead == 2    | GOTO | CASTOR_DEAD2
+IF castorDead == 1    | GOTO | CASTOR_DEAD1
+IF brunwardState == 1 | GOTO | STATE1
+GOTO | STATE0
+
+GOVERNOR
+DIALOG | Governor Elagabalus | Ah, good day citizen! Please keep directing your attention into those goggles and not at me! Thank you and goodbye!
+
+STATE2
+DIALOG | Brunward | ...
+DIALOG | P_NAME   | (They just aren't talking to me.)
+
+CASTOR_DEAD2
+DIALOG | P_NAME   | The guy with the red glasses is gone now. I guess something really did happen.
+DIALOG | Brunward | ... ughhhh...
+DIALOG | P_NAME   | What are you doing that's so important that you can't even talk to me? Do you even understand me?
+DIALOG | Brunward | ... poppers...
+QUEST  | brunwardState = 2
+
+CASTOR_DEAD1
+DIALOG | P_NAME   | Uh, hey... there's a guy here who's not breathing... I think he needs help.
+DIALOG | Brunward | ... not now...
+DIALOG | P_NAME   | I really think something might be wrong.
+DIALOG | Brunward | ...
+
+STATE1
+DIALOG | P_NAME   | (I don't think he wants to talk...)
+
+STATE0
+DIALOG | P_NAME   | Hey, what's going on? What are you all doing?
+DIALOG | Brunward | ... wicked... rooferrrrrrrrrr...
+DIALOG | P_NAME   | Um, yes?
+DIALOG | Brunward | ... v... ...
+DIALOG | P_NAME   | Oh... okay I guess...
+QUEST  | brunwardState = 1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gi8oy"]
+atlas = ExtResource("2_7ppcd")
+region = Rect2(0, 0, 25, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2osc1"]
+atlas = ExtResource("2_7ppcd")
+region = Rect2(25, 0, 25, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5558"]
+atlas = ExtResource("2_7ppcd")
+region = Rect2(50, 0, 25, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gbmom"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gi8oy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2osc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5558")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6y4qb"]
+radius = 6.68451
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_op7yt"]
+size = Vector2(20, 36)
+
+[node name="o_brunward01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_fkmu7")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_dgssr")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_gbmom")
+autoplay = "default"
+frame_progress = 0.755133
+centered = false
+offset = Vector2(-15, -26)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "2",
+"bbox_right": "23",
+"bbox_top": "19",
+"frames": ["images\\s_brunwald01_0.png", "images\\s_brunwald01_1.png", "images\\s_brunwald01_2.png"],
+"height": "40",
+"name": "s_brunwald01",
+"width": "25",
+"xorig": "15",
+"yorigin": "26"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6y4qb")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(-1, -5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_op7yt")

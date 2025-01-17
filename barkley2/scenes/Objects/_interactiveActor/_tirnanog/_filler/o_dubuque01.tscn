@@ -1,0 +1,140 @@
+[gd_scene load_steps=11 format=3 uid="uid://c0wpmetx0uxlj"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dubuque01.gd" id="1_qojum"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_lyex1"]
+[ext_resource type="Texture2D" uid="uid://bbo1s6lsn2gk0" path="res://barkley2/assets/b2_original/images/merged/s_dubuque01.png" id="2_txm3p"]
+[ext_resource type="Texture2D" uid="uid://5ugjaa1yk76a" path="res://barkley2/assets/b2_original/images/merged/s_dubuque02.png" id="3_ocyrv"]
+
+[sub_resource type="Resource" id="Resource_ecfbs"]
+script = ExtResource("2_lyex1")
+original_script = "IF body == governor | IF dubuqueGovernor == 0 | GOTO | GOVNAH0
+IF body == governor | IF dubuqueGovernor == 1 | GOTO | GOVNAH1
+IF curfew == during | IF dubuqueState == 0 | GOTO | CURFEW0
+IF curfew == during | IF dubuqueState == 1 | GOTO | CURFEW1
+IF curfew == during | IF dubuqueState == 2 | GOTO | CURFEW2
+IF curfew != during | IF dubuqueState == 1 | GOTO | UNCURFEW1
+IF curfew != during | IF dubuqueState != 1 | GOTO | UNCURFEWX
+
+GOVNAH0
+DIALOG | Dubuque | Well look who it is, our high-falutin', self-appointed, so-called... *hic*... /'Governor/'. Hey buddy, how about you take your Duergar buddies back to Cuchulainn and tell him to kiss my rumpus-
+DIALOG | Evander | Mr. Governor, sir! P-please don't mind old man Dubuque, he's been hitting the fruit juice a little too hard! You know how those old timers can be! We all love Cuchulainn and the Duergar administration at this establishment! Now shut your mouth, old man!
+DIALOG | Dubuque | Ahhhh... *grumble*... Cuchulainn... *grumble*... mayor... *grumble* grape juice...                           
+QUEST  | dubuqueGovernor = 1 
+
+GOVNAH1
+DIALOG | Dubuque | Pfft...  
+
+CURFEW0
+DIALOG | Dubuque | Say, look what we have here... a new constituent! I'm Dubuque... the former mayor of the dwarfs! This my campaign office. Election season's far away still, so there's not much going on. Don't worry, it'll be a landslide! There will be a flash of recognition when the dwarfs see me on the ballot. It's me, Dubuque, the old mayor of the dwarfs! Let's celebrate my victory with some juice! Let's celebrate my victory with some juice!... just need the bar to be open again... juice...
+QUEST  | dubuqueState = 1 
+                
+CURFEW1
+DIALOG | Dubuque | Hey there youngster, this is my campaign office. Election season's far away still, so there's not much going on. Don't worry, it'll be a landslide! There will be a flash of recognition when the dwarfs see me on the ballot. It's me, Dubuque, the old mayor of the dwarfs! Let's celebrate my victory with some juice!... just need the bar to be open again... juice...
+QUEST  | dubuqueState = 2 
+ 
+CURFEW2
+DIALOG | Dubuque | Yep... let's celebrate. I just need the curfew to end... the bar to open... to get juice... I need some juice bad...
+
+UNCURFEW1
+DIALOG | Dubuque | I think... *gulp*... I think the election's been postponed again. Yup... that's it...
+
+VOTE
+DIALOG | P_NAME  | You want my vote? For what? I'd like to... but I don't think I'm old enough to vote.
+DIALOG | Dubuque | You mean... you want to vote for me? What great citizenry! The whole of Tir na Nog will be proud of you. I myself am overjoyed! You won't regret putting your efforts behind the Dubuque camp! Not at all! You're doing the right thing!..._ but..._ the vote is for dwarfs only! Get out of here! Get lost!
+DIALOG | Evander | *Sigh*...
+
+DWARF
+DIALOG | P_NAME  | No, I'm definitely a dwarf... I mean... I think I'd like to be... oh I don't know.
+DIALOG | Dubuque | Hmm... you're tall, but by golly you may just be a dwarf. You got that dwarf gleam in your eye, that's for sure. Most of us around here lost their dwarf twinkle in occupation. I'll say it again! The Duergar Occupation is illegitimate! Illegitimate! I, Dubuque, former deputy ma-
+DIALOG | Evander | Shut up old man! There is no mayor of the dwarfs, and there never was! If the Duergars hear you talking like that, they'll send you to the mines to do hard labor. They'll work you till your brittle old dwarf bones crack, you hear me?
+WAIT | 1
+DIALOG | Dubuque | I...
+DIALOG | Dubuque | I'm the deputy mayor... *gulp*
+SOUND | sn_juicechug01
+QUEST  | dubuqueState = 1 
+
+UNCURFEWX
+DIALOG | Dubuque | Never seen you before. I'd ask for your vote but you don't really look like a dwarf.
+CHOICE | Reply?
+REPLY  | VOTE | What vote?
+REPLY  | DWARF | I am a dwarf."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkmaa"]
+atlas = ExtResource("2_txm3p")
+region = Rect2(0, 0, 32, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1a8e"]
+atlas = ExtResource("3_ocyrv")
+region = Rect2(0, 0, 33, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jta5e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkmaa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1a8e")
+}],
+"loop": true,
+"name": &"inside",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vderp"]
+radius = 7.32113
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1wxjn"]
+size = Vector2(20, 36)
+
+[node name="o_dubuque01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_qojum")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ecfbs")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_jta5e")
+animation = &"inside"
+centered = false
+offset = Vector2(-16, -38)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "3",
+"bbox_right": "26",
+"bbox_top": "8",
+"frames": ["images\\s_dubuque01_0.png"],
+"height": "43",
+"name": "s_dubuque01",
+"width": "32",
+"xorig": "16",
+"yorigin": "38"
+}
+metadata/inside = {
+"bbox_bottom": "49",
+"bbox_left": "6",
+"bbox_right": "31",
+"bbox_top": "38",
+"frames": ["images\\s_dubuque02_0.png", "images\\s_dubuque02_1.png", "images\\s_dubuque02_2.png"],
+"height": "52",
+"name": "s_dubuque02",
+"width": "33",
+"xorig": "19",
+"yorigin": "45"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vderp")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_1wxjn")

@@ -1,0 +1,145 @@
+[gd_scene load_steps=20 format=3 uid="uid://djmjhdjnak5ak"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_cow01.gd" id="1_n3oe6"]
+[ext_resource type="Texture2D" uid="uid://b6p7wvtomc3oj" path="res://barkley2/assets/b2_original/images/merged/s_cow01.png" id="2_8qkbu"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_mimlt"]
+
+[sub_resource type="Resource" id="Resource_5qq1e"]
+script = ExtResource("2_mimlt")
+original_script = "SOUND  | sn_cow_moo1
+DIALOG | Cow    | MOOOOOOOOOO!
+DIALOG | Marina | Settle down now, Bess! Don't mind her, she's just a little hungry."
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdu3w"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(0, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ovlt"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(63, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmbxn"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(126, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_onoki"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(189, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjowx"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(252, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gof3j"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(315, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skota"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(378, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubad8"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(441, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydvl0"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(504, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8j6tk"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(567, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lc2gy"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(630, 0, 63, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6fk0"]
+atlas = ExtResource("2_8qkbu")
+region = Rect2(693, 0, 63, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dh2n3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdu3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ovlt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmbxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_onoki")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjowx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gof3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skota")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubad8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydvl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8j6tk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lc2gy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6fk0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_prhsj"]
+radius = 17.507
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrtmr"]
+size = Vector2(61, 47)
+
+[node name="o_cow01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_n3oe6")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_5qq1e")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_dh2n3")
+centered = false
+offset = Vector2(-35, -43)
+metadata/default = {
+"bbox_bottom": "50",
+"bbox_left": "2",
+"bbox_right": "57",
+"bbox_top": "27",
+"frames": ["images\\s_cow01_0.png", "images\\s_cow01_1.png", "images\\s_cow01_2.png", "images\\s_cow01_3.png", "images\\s_cow01_4.png", "images\\s_cow01_5.png", "images\\s_cow01_6.png", "images\\s_cow01_7.png", "images\\s_cow01_8.png", "images\\s_cow01_9.png", "images\\s_cow01_10.png", "images\\s_cow01_11.png"],
+"height": "54",
+"name": "s_cow01",
+"width": "63",
+"xorig": "35",
+"yorigin": "43"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-4, -7)
+shape = SubResource("CircleShape2D_prhsj")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-2, -17)
+shape = SubResource("RectangleShape2D_lrtmr")

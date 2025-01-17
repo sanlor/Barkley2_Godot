@@ -1,0 +1,115 @@
+[gd_scene load_steps=9 format=3 uid="uid://dskkfjrp2e1x2"]
+
+[ext_resource type="Texture2D" uid="uid://cldqbn7h4ohgh" path="res://barkley2/assets/b2_original/images/merged/s_chair_accent_janky_front01.png" id="1_t5i8f"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_nx288"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_xcr7y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yo83"]
+atlas = ExtResource("1_t5i8f")
+region = Rect2(0, 0, 62, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mmxyu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yo83")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_x1gjq"]
+script = ExtResource("3_xcr7y")
+original_script = "IF body == governor      | GOTO | GOVERNOR_IF
+IF fadimaChairState == 3 | GOTO | STATE3
+IF fadimaChairState == 2 | GOTO | STATE2
+IF fadimaChairState == 1 | GOTO | STATE1
+GOTO | STATE0
+
+GOVERNOR_IF
+IF fadimaChairState == 3 | GOTO | GOVERNOR3
+IF fadimaChairState == 2 | GOTO | GOVERNOR2
+IF fadimaChairState == 1 | GOTO | GOVERNOR1
+GOTO | GOVERNOR0
+
+GOVERNOR3
+DIALOG | Governor Elagabalus | I think I've exhausted all this chair has to offer.
+
+GOVERNOR2
+DIALOG | Governor Elagabalus | Now that the chair is all mine... Time to see what secrets it has in store.
+WAIT   | 1
+DIALOG | Governor Elagabalus | A bit lumpy... Certainly not fit for a man of my stature! Wait... What's this?
+GOTO   | CHAIR_INSPECT
+
+GOVERNOR1
+DIALOG | Governor Elagabalus | This chair seems to be under guard by that derelict. Unless I buy it that is...
+
+GOVERNOR0
+DIALOG | Governor Elagabalus | Ah, a chair...
+GOTO   | FADIMA_SCOLD
+
+STATE2
+DIALOG | P_NAME | Heh, time to enjoy my spoils... Let's see what this chair has in store.
+WAIT   | 1
+DIALOG | P_NAME | A bit lumpy... Certainly not fit for a man of my stature! Wait... What's this?
+GOTO   | CHAIR_INSPECT
+
+STATE1
+DIALOG | P_NAME | How can so much jank fit into one worthless chair? I'm gonna rate this a /'DO NOT BUY./'
+
+STATE0
+DIALOG | P_NAME | This thing looks janky as heck.
+GOTO   | FADIMA_SCOLD
+
+FADIMA_SCOLD
+FRAME  | CAMERA_NORMAL | o_fadima01
+WAIT   | 0
+WAIT   | 0.5
+DIALOG | Fadima | That's my chair. Get away. Or buy it.
+FRAME  | CAMERA_NORMAL | o_tnn_fadimasChair | o_cts_hoopz
+WAIT   | 0
+WAIT   | 0.5
+QUEST  | fadimaChairState = 1
+
+CHAIR_INSPECT
+NOTIFY | Got Gamesmasterjasper's Vidcon Almanac [Apr. 202X].
+NOTE   | give | Got Gamesmasterjasper's Vidcon Almanac
+QUEST  | fadimaChairState = 3"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vo56g"]
+size = Vector2(34, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8slv0"]
+size = Vector2(53, 56)
+
+[node name="o_tnn_fadimasChair" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_mmxyu")
+centered = false
+offset = Vector2(-31, -45)
+script = ExtResource("2_nx288")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_x1gjq")
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "62",
+"bbox_top": "31",
+"height": "55",
+"name": "s_chair_accent_janky_front01",
+"width": "62",
+"xorig": "31",
+"yorigin": "45"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -9.5)
+shape = SubResource("RectangleShape2D_vo56g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, -18)
+shape = SubResource("RectangleShape2D_8slv0")

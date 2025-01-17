@@ -132,7 +132,7 @@ func add_choice( choice_text : String ) -> void:
 	my_selection_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	my_selection_button.custom_minimum_size = Vector2( 300, 11 )
 	
-	my_selection_button.text = Text.pr(choice_text)
+	my_selection_button.text = Text.pr( Text.qst( choice_text ) )
 	
 	choice_vbox_node.add_child( my_selection_button, true )
 	#print(my_choice_id)
@@ -182,7 +182,7 @@ func set_title( _text_title : String ) -> void:
 	title_node.size 		= Vector2( 250, 12 )
 
 	title_node.push_color( _title_color )
-	title_node.append_text( Text.pr( _title ) )
+	title_node.append_text( Text.pr( Text.qst( _title ) ) )
 	title_node.pop_all()
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:

@@ -1,0 +1,117 @@
+[gd_scene load_steps=11 format=3 uid="uid://dv0na0w3edaj"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_pollux01.gd" id="1_0yflf"]
+[ext_resource type="Texture2D" uid="uid://vgfnaby3aak" path="res://barkley2/assets/b2_original/images/merged/s_pollux01.png" id="2_4rmo2"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_tfl11"]
+
+[sub_resource type="Resource" id="Resource_21mxy"]
+script = ExtResource("2_tfl11")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF polluxState == 2 | GOTO | STATE2
+IF castorDead == 2  | GOTO | CASTOR_DEAD2
+IF castorDead == 1  | GOTO | CASTOR_DEAD1
+IF polluxState == 1 | GOTO | STATE1
+GOTO | STATE0
+
+GOVERNOR
+DIALOG | Governor Elagabalus | Ah, good day citizen! Please keep directing your attention into those goggles and not at me! Thank you and goodbye!
+
+STATE2
+DIALOG | P_NAME | I guess you're busy or whatever, but I wanted you to know that I'm sorry, if that means anything to you.
+DIALOG | Pollux | ...
+
+CASTOR_DEAD2
+DIALOG | P_NAME | I guess that guy is gone now. Can you hear me? Do you even know what's happening?
+DIALOG | Pollux | ... nnnnnngh...
+DIALOG | P_NAME | I'm sorry, I guess.
+QUEST  | polluxState = 2
+
+CASTOR_DEAD1
+DIALOG | P_NAME | Umm... that guy who looks like you... do you know him?
+DIALOG | Pollux | ... unnngh...
+DIALOG | P_NAME | He's not moving or breathing or anything.
+DIALOG | Pollux | ... leave... alone...
+DIALOG | P_NAME | ...
+
+STATE1
+DIALOG | P_NAME | (I guess this guy's busy with something...)
+
+STATE0
+DIALOG | P_NAME | Um, what are you guys doing?
+DIALOG | Pollux | ... ungggggg. Go aw...
+DIALOG | P_NAME | You look kind of sick...
+DIALOG | Pollux | ... busy...
+DIALOG | P_NAME | Sorry...
+QUEST  | polluxState = 1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y4uv"]
+atlas = ExtResource("2_4rmo2")
+region = Rect2(0, 0, 23, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhcff"]
+atlas = ExtResource("2_4rmo2")
+region = Rect2(23, 0, 23, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flm2i"]
+atlas = ExtResource("2_4rmo2")
+region = Rect2(46, 0, 23, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6naip"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y4uv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhcff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flm2i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kkxi8"]
+radius = 6.3662
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cymp3"]
+size = Vector2(20, 36)
+
+[node name="o_pollux01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_0yflf")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_21mxy")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_6naip")
+autoplay = "default"
+frame_progress = 0.00477024
+centered = false
+offset = Vector2(-11, -33)
+metadata/default = {
+"bbox_bottom": "39",
+"bbox_left": "2",
+"bbox_right": "22",
+"bbox_top": "24",
+"frames": ["images\\s_pollux01_0.png", "images\\s_pollux01_1.png", "images\\s_pollux01_2.png"],
+"height": "41",
+"name": "s_pollux01",
+"width": "23",
+"xorig": "11",
+"yorigin": "33"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kkxi8")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_cymp3")

@@ -170,17 +170,20 @@ func time_goes_on() -> void:
 func record_curr_location() -> bool:
 	if B2_Playerdata.Quest("saveDisabled") == 0: ## Save game (if possible) during exit.
 		if get_tree().current_scene is B2_ROOMS: ## Only save if the player is inside a valid room.
-			if is_instance_valid( B2_CManager.o_hoopz ): ## Save current position
-				B2_Config.set_user_save_data( "map.room", get_tree().current_scene.name )
-				B2_Config.set_user_save_data( "map.x", B2_CManager.o_hoopz.position.x )
-				B2_Config.set_user_save_data( "map.y", B2_CManager.o_hoopz.position.y )
+			if not B2_Input.cutscene_is_playing:
+				if is_instance_valid( B2_CManager.o_hoopz ): ## Save current position
+					B2_Config.set_user_save_data( "map.room", get_tree().current_scene.name )
+					B2_Config.set_user_save_data( "map.x", B2_CManager.o_hoopz.position.x )
+					B2_Config.set_user_save_data( "map.y", B2_CManager.o_hoopz.position.y )
 		return true
 	else:
 		return false
 	
 func SaveGame():
 	print_rich("[color=blue]Save game requested.[/color]")
-	B2_Config.create_user_save_data( B2_Config.selected_slot )
+	if B2_Playerdata.Quest("saveDisabled") == 0:
+		if not B2_Input.cutscene_is_playing: # Make sure that the game isn't saved during a cutscene.
+			B2_Config.create_user_save_data( B2_Config.selected_slot )
 	
 ## This func replaces the Quests script.
 func Quest(key : String, value = null, default = 0):
@@ -545,15 +548,16 @@ func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
 	B2_Playerdata.Quest("wilmerItemsTaken", 1);
 	B2_Playerdata.Quest("wilmerMeeting", 1);
 	
+	## Timed Quest triggers
 	B2_ClockTime.time_event("wilmerSleep", 0, 30)
 	B2_ClockTime.time_event("wilmerEvict", 2, 70)
 	
-	B2_Playerdata.Quest("tutorialProgress", 100);
-	B2_Playerdata.Quest("elevatorFloor", 665);
-	B2_Playerdata.Quest("elevatorFloorGoal", 665);
+	B2_Playerdata.Quest("tutorialProgress", 	100);
+	B2_Playerdata.Quest("elevatorFloor", 		665);
+	B2_Playerdata.Quest("elevatorFloorGoal", 	665);
 	
-	#scr_gun_db("wilmerGun"); 	TODO
-	#scr_gun_db("estherGun"); 	TODO
+	#scr_gun_db("wilmerGun"); 													TODO
+	#scr_gun_db("estherGun"); 													TODO
 	B2_Note.take_note( "Wilmer's Amortization Schedule" )
 	B2_Database.money_change( B2_Database.money.get("wilmerMortgageTotal", 69420) )
 	#Candy("recipe add", "Butterscotch"); 										TODO

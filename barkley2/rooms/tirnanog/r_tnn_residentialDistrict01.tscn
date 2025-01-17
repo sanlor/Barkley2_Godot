@@ -4810,37 +4810,37 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_r2qtx"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yr4ov"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0xqbj"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fx7wq"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_oafd4"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p1ell"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d72hv"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_txbyu"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4dift"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_q4xpp"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
 absorbent = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yxqkk"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8yb5h"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -5947,10 +5947,11 @@ DIALOG | P_NAME | Oh no!
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4qhi"]
 size = Vector2(86, 20)
 
-[node name="r_tnn_residentialDistrict01" type="NavigationRegion2D" node_paths=PackedStringArray("teleport_node", "collision_layer", "collision_layer_semi")]
+[node name="r_tnn_residentialDistrict01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_cpc8n")
 script = ExtResource("1_nll01")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(125, 950)
 teleport_spot = true
@@ -5958,7 +5959,6 @@ teleport_node = NodePath("o_teleport_mark")
 collision_layer = NodePath("layer - collision 2")
 collision_layer_semi = NodePath("layer - collision")
 camera_bound_to_map = true
-source_geometry_mode = null
 play_cinema_at_room_start = false
 room_weather = 3
 
@@ -6773,7 +6773,6 @@ material = SubResource("CanvasItemMaterial_bhxic")
 position = Vector2(480, 408)
 scale = Vector2(2.03125, 1)
 sprite_frames = SubResource("SpriteFrames_m1yss")
-frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_DEFB4596"
 metadata/scale = Vector2(2, 1)
@@ -6783,7 +6782,6 @@ material = SubResource("CanvasItemMaterial_bhxic")
 position = Vector2(752, 712)
 scale = Vector2(2.5, 1)
 sprite_frames = SubResource("SpriteFrames_m1yss")
-frame = 0
 working_frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_B2CC643C"
@@ -6964,7 +6962,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_r2qtx")
+physics_material_override = SubResource("PhysicsMaterial_yr4ov")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6973,7 +6971,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_0xqbj")
+physics_material_override = SubResource("PhysicsMaterial_fx7wq")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6982,7 +6980,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_oafd4")
+physics_material_override = SubResource("PhysicsMaterial_p1ell")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -6991,7 +6989,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_d72hv")
+physics_material_override = SubResource("PhysicsMaterial_txbyu")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -7000,7 +6998,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_4dift")
+physics_material_override = SubResource("PhysicsMaterial_q4xpp")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
@@ -7009,7 +7007,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_yxqkk")
+physics_material_override = SubResource("PhysicsMaterial_8yb5h")
 debug_move_finish = false
 debug_check_movement_vector = false
 metadata/code = ""
