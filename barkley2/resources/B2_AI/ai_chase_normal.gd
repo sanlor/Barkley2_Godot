@@ -1,0 +1,2 @@
+extends B2_AI_Chase
+class_name B2_AI_Chase_Normal

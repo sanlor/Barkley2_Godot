@@ -2,7 +2,14 @@ extends B2_CombatActor
 class_name B2_EnemyCombatActor
 ## Base class for all Combat enemieso_enemy_drone_egg
 
-const O_SHADOW = preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
+
+@onready var action_timer: Timer = $action_timer
+
+enum MODE{WANDER,CHASE,COMBAT,DEATH}
+var curr_MODE := MODE.WANDER
+var is_changing_states := false
 
 @export_category("Actor Stuff")
 @export var cast_shadow		:= true
@@ -40,19 +47,21 @@ var speed_multiplier 		:= 5000.0 # was 900.0
 @export var speed_fast 		:= 35.0 # was 5.0
 var speed 					:= speed_normal
 
-@export_category("A.I") ## Artificial... Inteligence... - Neil Breen
-@export var wander_ai 	: String
-@export var chase_ai 	: String
-@export var combat_ai 	: String
+@export_category("A.I") ## Artificial... Inteligence... -Neil Breen
+@export var wander_ai 	: B2_AI_Wander
+@export var chase_ai 	: B2_AI_Chase
+@export var combat_ai 	: B2_AI_Chase
 
 var wander_target_pos := Vector2.ZERO 
 
 var home_point 		:= Vector2.ZERO
-var home_radius 	:= 150.0
+var home_radius 	:= 100.0
 
-func _enter_tree() -> void:
+## Player Detection
+var detection_radius := 80.0
+
+func _ready() -> void:
 	_setup_enemy()
-	$Timer.timeout.connect( _debug_get_random_pos )
 	
 func _setup_enemy() -> void:
 	if not is_instance_valid( ActorAnim ):
@@ -63,8 +72,19 @@ func _setup_enemy() -> void:
 		my_shadow = O_SHADOW.instantiate()
 		my_shadow.scale *= shadow_scale
 		add_child( my_shadow, true)
-		
+	
 	home_point = global_position
+	action_timer.start( 5.0 )
+	
+	wander_ai.resource_local_to_scene = true
+	wander_ai.emote.connect( _emote )
+	action_timer.timeout.connect( _debug_get_random_pos )
+
+func _emote( type : String ) -> void:
+	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
+	emote.type = "!"
+	emote.position  = position + Vector2( 0, -20 )
+	add_sibling( emote )
 
 func _animations() -> void:
 	if is_instance_valid( actor_animations ):
@@ -115,21 +135,31 @@ func _debug_get_random_pos():
 	wander_target_pos += Vector2.LEFT.rotated( randf_range(0, TAU) ) * randf_range(0, home_radius)
 	
 func _physics_process(delta: float) -> void:
-	if is_moving:
-		velocity = global_position.direction_to(wander_target_pos) * 50000
-	else:
-		velocity = Vector2.ZERO
+	match curr_MODE:
+		MODE.WANDER:
+			wander_ai.step( self )
+				
+		MODE.CHASE:
+			if is_changing_states:
+				return
+			pass
+			
+		MODE.COMBAT:
+			if is_changing_states:
+				return
+			pass
+			
+		MODE.DEATH:
+			if is_changing_states:
+				return
+			pass
 		
-	apply_central_force( velocity )
-	
+	## Anim stuff
 	movement_vector 		= velocity.normalized().round()
 	_animations()
 	last_movement_vector 	= movement_vector
-	
-	if global_position.distance_to( wander_target_pos ) < 40:
-		is_moving = false
-		wander_target_pos = Vector2.ZERO
-		
+			
+	## DEBUG
 	queue_redraw()
 
 func _draw() -> void:

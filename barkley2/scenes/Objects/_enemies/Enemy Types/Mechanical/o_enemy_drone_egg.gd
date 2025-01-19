@@ -1,4 +1,4 @@
-extends B2_EnemyCombatActor
+extends B2_CombatActor
 
 ## NOTE Temporary actor for the tutorial portion
 

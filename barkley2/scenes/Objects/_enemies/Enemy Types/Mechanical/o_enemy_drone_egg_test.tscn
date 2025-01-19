@@ -1,8 +1,9 @@
-[gd_scene load_steps=43 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=45 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyCombatActor.gd" id="1_xh75j"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
 [ext_resource type="Texture2D" uid="uid://cbkjvgxcnh2sc" path="res://barkley2/assets/b2_original/images/merged/s_eggDrone01.png" id="2_hswbj"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_AI/ai_wander_normal.gd" id="3_rchjj"]
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
 
@@ -21,6 +22,13 @@ ANIMATION_NORTHEAST = "s_eggDroneUP01"
 ANIMATION_NORTHWEST = "s_eggDroneUP01"
 ANIMATION_EAST = "s_eggDroneDOWN01"
 ANIMATION_STAND_SPRITE_INDEX = [1, 1, 0, 0, 0, 0, 0, 1]
+
+[sub_resource type="Resource" id="Resource_fx3e1"]
+resource_local_to_scene = true
+script = ExtResource("3_rchjj")
+time_to_new_wander_target = 5.0
+distance_to_wander_target = 10.0
+speed_multiplier = 50000
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr833"]
 
@@ -310,6 +318,10 @@ shadow_scale = 1.5
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 actor_animations = SubResource("Resource_riqe7")
+sound_alert = "junkbot_alert"
+sound_damage = "junkbot_hurt"
+sound_death = "junkbot_death"
+wander_ai = SubResource("Resource_fx3e1")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dr833")
@@ -387,6 +399,5 @@ metadata/s_eggDroneDOWN01 = {
 "yorigin": "50"
 }
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
+[node name="action_timer" type="Timer" parent="."]
+one_shot = true
