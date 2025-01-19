@@ -1,5 +1,7 @@
 extends B2_EnemyCombatActor
 
+## NOTE Temporary actor for the tutorial portion
+
 @export var eggroom_computer : B2_EnvironInteractive
 
 func explode():

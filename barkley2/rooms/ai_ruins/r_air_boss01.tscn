@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://emut1pncq7ik"]
+[gd_scene load_steps=8 format=4 uid="uid://emut1pncq7ik"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_boss_01.gd" id="1_71bx4"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="1_a1csw"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_8cu2p"]
+[ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_test.tscn" id="4_8wa0j"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b3p7q"]
 
@@ -1611,7 +1612,8 @@ sources/0 = SubResource("TileSetAtlasSource_hui68")
 [node name="r_air_boss01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
 navigation_polygon = SubResource("NavigationPolygon_b3p7q")
 script = ExtResource("1_71bx4")
-debug_player_scene_pos = Vector2(500, 500)
+debug_create_player_scene_at_room_start = true
+debug_player_scene_pos = Vector2(592, 664)
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 camera_bound_to_map = true
@@ -1639,3 +1641,6 @@ tile_set = ExtResource("3_8cu2p")
 [node name="layer - collision 2" type="TileMapLayer" parent="."]
 z_index = 1000
 tile_set = ExtResource("3_8cu2p")
+
+[node name="o_enemy_drone_egg_test" parent="." instance=ExtResource("4_8wa0j")]
+position = Vector2(592, 664)
