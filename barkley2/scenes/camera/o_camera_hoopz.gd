@@ -159,19 +159,15 @@ func set_camera_bound( _is_bound : bool ):
 	# camera limits with the offset feels terrible. something is wrong with my code.
 	if _is_bound:
 		if get_parent() is B2_ROOMS:
-			var rl : TileMapLayer = get_parent().reference_layer.front()
-			#limit_top 		= rl.get_used_rect().position.y 	* 16
-			#limit_left 		= rl.get_used_rect().position.x 	* 16
-			#limit_right 	= rl.get_used_rect().end.x 			* 16
-			#limit_bottom 	= rl.get_used_rect().end.y 			* 16
-			limit_width 	= Vector2( rl.get_used_rect().position.x, rl.get_used_rect().end.x ) * 16.0
-			limit_height 	= Vector2( rl.get_used_rect().position.y, rl.get_used_rect().end.y ) * 16.0
-			print( "limit_width: ", limit_width, " - limit_height: ", limit_height )
+			var map_rect : Rect2 = get_parent().map_rect
+			limit_width 	= Vector2( map_rect.position.x, map_rect.end.x ) * 16.0
+			limit_height 	= Vector2( map_rect.position.y, map_rect.end.y ) * 16.0
+			print("limit_width: ", limit_width/16, " - limit_height: ", limit_height/16)
 		else:
 			push_warning( "Invalid parent, can't set camera limits." )
 	#else:
 		#limit_top 		= -100000
-		#limit_left 		= -100000
+		#limit_left 	= -100000
 		#limit_right 	=  100000
 		#limit_bottom 	=  100000
 
@@ -268,8 +264,11 @@ func _process(delta: float) -> void:
 				avg_pos += node.position
 			avg_pos /= arr_size
 			
-			position 	= position.move_toward( avg_pos, (speed * 30) * delta )
-			offset 		= offset.move_toward( camera_normal_offset, 0.5 * camera_follow_speed * delta ) + camera_shake_offset
+			## NOTE What feels better? Lerp of move_torward?
+			position 	= position.move_toward( avg_pos, (speed * 20) * delta )
+			#position 	= position.lerp( avg_pos, (speed * 10) * delta )
+			offset 	= 	offset.move_toward( camera_normal_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
+			#offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
 			
 		MODE.CINEMA:
 			if is_moving:
@@ -303,16 +302,14 @@ func _process(delta: float) -> void:
 					#offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = camera_normal_offset + camera_shake_offset
-					
-				#print(offset)
+
 			else:
 				is_lost = true
 				offset = camera_normal_offset + camera_shake_offset
 			
 			if camera_bound_to_map:
 				## Avoid seeing outside the map.
-				#position.x = clamp( position.x, )
-				
+				## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
 				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
 				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
 		

@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://brbdlev1xoq8t"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_christina01.gd" id="1_cp0m7"]
+[ext_resource type="Texture2D" uid="uid://bx35u37spma8y" path="res://barkley2/assets/b2_original/images/merged/s_christina01.png" id="2_57pra"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_qhbve"]
+
+[sub_resource type="Resource" id="Resource_5wome"]
+script = ExtResource("2_qhbve")
+original_script = "DIALOG | Christina | Man, looks like I got here too late. I was going to ask for a new apartment - my neighbor's always blasting vidcons all night and I can barely sleep, but it's closed! I can't go another night with those noisy vidcons! 
+DIALOG | Christina | `w2`What am I gonna do?`w0`"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dv5r"]
+atlas = ExtResource("2_57pra")
+region = Rect2(0, 0, 29, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4ea5u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dv5r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aloee"]
+radius = 6.3662
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gddx4"]
+size = Vector2(20, 36)
+
+[node name="o_christina01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_cp0m7")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_5wome")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_4ea5u")
+centered = false
+offset = Vector2(-14, -39)
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "4",
+"bbox_right": "24",
+"bbox_top": "31",
+"frames": ["images\\s_christina01_0.png"],
+"height": "44",
+"name": "s_christina01",
+"width": "29",
+"xorig": "14",
+"yorigin": "39"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aloee")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_gddx4")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dvwghbgsb2eia"]
+[gd_scene load_steps=17 format=4 uid="uid://dvwghbgsb2eia"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_finalgun_01.gd" id="1_q4hyn"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="1_yvg3h"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://bkcy0pv2f7w56" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_cruce01.tscn" id="9_hkfn5"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="10_n7e1g"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="11_3uuig"]
-[ext_resource type="Script" path="res://tools/o_door_converter.gd" id="11_a68ku"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="12_uboad"]
 [ext_resource type="PackedScene" uid="uid://d26jid11t8c1n" path="res://barkley2/scenes/Objects/_doors/o_door_tech02.tscn" id="13_6dfra"]
 
@@ -1654,6 +1653,7 @@ navigation_polygon = SubResource("NavigationPolygon_1s0rp")
 script = ExtResource("1_q4hyn")
 debug_player_scene_pos = Vector2(160, 150)
 collision_layer = NodePath("layer - collision")
+camera_bound_to_map = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -1716,11 +1716,6 @@ debug_check_movement_vector = false
 [node name="o_cruce01" parent="." instance=ExtResource("9_hkfn5")]
 position = Vector2(270, 154)
 cutscene_script = SubResource("Resource_pemcg")
-
-[node name="B2_O_DOOR_CONVERTER" type="Node" parent="."]
-script = ExtResource("11_a68ku")
-simulate = false
-remove_old_doors = true
 
 [node name="o_doorlight_left_loop" parent="." instance=ExtResource("11_3uuig")]
 position = Vector2(0, 768)

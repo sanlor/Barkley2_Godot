@@ -260,7 +260,11 @@ func fuck_around_with_nodes():
 		for meta : String in c.get_meta_list():
 			node.set_meta( meta, c.get_meta(meta) )
 			
+		var index := c.get_index()
+		if remove_nodes: c.queue_free()
+			
 		add_sibling( node, true )
 		node.owner = get_parent()
+		get_parent().move_child( node, index )
 		
-		if remove_nodes: c.queue_free()
+		

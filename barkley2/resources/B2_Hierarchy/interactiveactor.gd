@@ -41,7 +41,6 @@ func _setup_interactiveactor():
 	if is_interactive:
 		if not is_instance_valid(mouse_detection_area):
 			mouse_detection_area = get_node("ActorInteract")
-			print("Forgot to set the interaction Area2D for node %s." % name)
 		
 		await get_tree().process_frame
 		if is_instance_valid(mouse_detection_area):
@@ -53,7 +52,12 @@ func _setup_interactiveactor():
 		# Cant use load() in this situation. because of the cache usage, all B2_InteractiveActors were using the sabe shaders. Enabling it on one caused all to enable too.
 		var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 		material = shader
-		
+	else:
+		## Remove unnecessary nodes.
+		#if is_instance_valid( get_node("ActorInteract") ):
+		#	get_node("ActorInteract").queue_free()
+		pass
+			
 	adjust_sprite_offset()
 	
 func _input(event: InputEvent) -> void:

@@ -32,16 +32,16 @@ enum DOOR_SIZE{S, M, L, XL}
 		if Engine.is_editor_hint():
 			_update_sprite()
 			
-@export var door_offset 					:= Vector2.ZERO
-@export var debug_door_exit_marker 			:= true
-@export var debug_door_exit_marker_pos 		:= Vector2.ZERO
-@export var door_exit_marker_global_pos 	:= Vector2.ZERO ## Copy this for teleport reference
-@export var teleport_string					:= "" ## Trully, I am lazy.
+@export var door_offset 					:= Vector2.ZERO		## Doorlight sprite offset
+@export var debug_door_exit_marker 			:= true				## True lazyness. marks where the player should spawn
+@export var debug_door_exit_marker_pos 		:= Vector2.ZERO		## True lazyness. marks where the player should spawn
+@export var door_exit_marker_global_pos 	:= Vector2.ZERO 	## Copy this for teleport reference
+@export var teleport_string					:= "" 				## Trully, I am lazy. 
 
 @export_category("Teleport")
 @export var debug_teleport_destination 		:= "" 	## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 @export var debug_teleport_create_o_hoopz 	:= true
-@export var teleport_destination 			:= "" 		## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
+@export var teleport_destination 			:= "" 	## room_name, position.x, position.y -- Check RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 @export var teleport_create_o_hoopz 		:= true
 
 var wadChk 									= 2; # To make resist half in wading layer
@@ -87,20 +87,21 @@ func _ready() -> void:
 			func(): 
 				is_loaded = true
 				is_warping = false
-				
 				)
-		
 	_update_sprite()
 	
 func _update_sprite():
 	if Engine.is_editor_hint() and not show_door_light:
 		animation 	= editor_anim
 		frame 		= editor_frame
+		print("%s frame: " % name, frame)
+		z_index = 0
 		#return
 	else:
 		if sprite_frames.has_animation( running_anim ):
 			animation = running_anim
 			frame = running_frame
+			
 		else:
 			push_error("Invalid Running Anim %s." % running_anim)
 		
@@ -109,6 +110,7 @@ func _update_sprite():
 		offset = door_offset
 		
 	door_exit_marker_global_pos = to_global(debug_door_exit_marker_pos)
+	
 	if not Engine.is_editor_hint():
 		teleport_string = get_parent().name + "," + str(door_exit_marker_global_pos.x) + "," + str(door_exit_marker_global_pos.y)
 	

@@ -128,6 +128,10 @@ func _setup_actor():
 			ActorNav.debug_enabled = B2_Debug.PATHFIND_SHOW
 		else:
 			push_error( "ActorNav is invalid for node %s." % name )
+	else:
+		## Remove unnecessary nodes.
+		if is_instance_valid( ActorNav ):
+			ActorNav.queue_free()
 	
 	if is_instance_valid( ActorAnim ):
 		ActorAnim.use_parent_material = true ## Shader stuff

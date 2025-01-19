@@ -1,0 +1,132 @@
+[gd_scene load_steps=16 format=3 uid="uid://bmjbqu3jksew0"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_castor01.gd" id="1_catww"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_awmtv"]
+[ext_resource type="Texture2D" uid="uid://bnfor2xsodnt2" path="res://barkley2/assets/b2_original/images/merged/s_castor01.png" id="2_nc7pw"]
+
+[sub_resource type="Resource" id="Resource_a8b2w"]
+script = ExtResource("2_awmtv")
+original_script = "IF body == governor   | GOTO | GOVERNOR
+IF castorDead >= 1    | GOTO | STATE1
+GOTO | STATE0
+
+GOVERNOR
+DIALOG | Governor Elagabalus | Ah, good day citizen! Please keep directing your attention into those goggles and not at me! Thank you and goodbye!
+
+STATE1
+DIALOG | P_NAME   | (I... I think he might be dead...)
+
+STATE0
+DIALOG | P_NAME | Hey, what's going on? I'm kinda new here, what are you guys doing?
+DIALOG | Castor | ...
+DIALOG | P_NAME | ... you there? Why are your glasses red?
+DIALOG | Castor | ...
+DIALOG | P_NAME | (D-d-dadgummit... I think... this guy might be gone...)
+QUEST  | castorDead = 1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h04m4"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(0, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckike"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(28, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ml7g1"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(56, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcaaf"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(84, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hvmd"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(112, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv0dg"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(140, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv13s"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(168, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxaqb"]
+atlas = ExtResource("2_nc7pw")
+region = Rect2(196, 0, 28, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vyr3v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h04m4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckike")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ml7g1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcaaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8hvmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv0dg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hv13s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxaqb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3u86j"]
+radius = 8.27606
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbcer"]
+size = Vector2(20, 36)
+
+[node name="o_castor01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_catww")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_a8b2w")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vyr3v")
+autoplay = "default"
+frame_progress = 0.466963
+centered = false
+offset = Vector2(-12, -30)
+metadata/default = {
+"bbox_bottom": "37",
+"bbox_left": "0",
+"bbox_right": "26",
+"bbox_top": "20",
+"frames": ["images\\s_castor01_0.png", "images\\s_castor01_1.png", "images\\s_castor01_2.png", "images\\s_castor01_3.png", "images\\s_castor01_4.png", "images\\s_castor01_5.png", "images\\s_castor01_6.png", "images\\s_castor01_7.png"],
+"height": "40",
+"name": "s_castor01",
+"width": "28",
+"xorig": "12",
+"yorigin": "30"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3u86j")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_pbcer")

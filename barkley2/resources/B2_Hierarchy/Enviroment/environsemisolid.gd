@@ -9,6 +9,7 @@ var EnvCol					: CollisionShape2D
 @export var square_size 	:= Vector2(10,10)
 
 func _enter_tree() -> void:
+	add_to_group("navigation_polygon_source_geometry_group")
 	make_collision()
 	
 func make_collision():

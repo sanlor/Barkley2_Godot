@@ -1,0 +1,116 @@
+[gd_scene load_steps=11 format=3 uid="uid://c2c1h8wbsndt2"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_elcege01.gd" id="1_cv3i8"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_5xwye"]
+[ext_resource type="Texture2D" uid="uid://dumfs8u74ihvj" path="res://barkley2/assets/b2_original/images/merged/s_elcege01.png" id="2_haxye"]
+
+[sub_resource type="Resource" id="Resource_dwbkk"]
+script = ExtResource("2_5xwye")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF elcegeState == 2 | GOTO | STATE2
+IF castorDead == 2  | GOTO | CASTOR_DEAD2
+IF castorDead == 1  | GOTO | CASTOR_DEAD1
+IF elcegeState == 1 | GOTO | STATE1
+GOTO | STATE0
+
+GOVERNOR
+DIALOG | Governor Elagabalus | Ah, good day citizen! Please keep directing your attention into those goggles and not at me! Thank you and goodbye!
+
+STATE2
+DIALOG | Elcege | ...
+DIALOG | P_NAME | I guess whatever you're doing is really important. I'm not gonna bother you.
+
+CASTOR_DEAD2
+DIALOG | P_NAME | ... that guy is gone. I guess something really did happen.
+DIALOG | Elcege | ... guhhhhhh...
+DIALOG | P_NAME | You're not even paying attention...
+QUEST  | elcegeState = 2
+
+CASTOR_DEAD1
+DIALOG | P_NAME | Hey, I don't know if you can hear me but one of your friends isn't uh... he's not moving or breathing or anything.
+DIALOG | Elcege | ... mmmmmm... mud boot...
+DIALOG | P_NAME | I really think this guy needs help.
+DIALOG | Elcege | ...
+
+STATE1
+DIALOG | P_NAME | (She doesn't want to talk, I guess.)
+
+STATE0
+DIALOG | P_NAME | Those glasses are pretty cool. Are you guys jacked into something?
+DIALOG | Elcege | ... oligarchy... vvvvvvvvvvvvvuhhhhhhh...
+DIALOG | P_NAME | Um, yes?
+DIALOG | Elcege | ... v... ...
+DIALOG | P_NAME | Oh... okay I guess...
+QUEST  | elcegeState = 1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srtnh"]
+atlas = ExtResource("2_haxye")
+region = Rect2(0, 0, 26, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5abrd"]
+atlas = ExtResource("2_haxye")
+region = Rect2(26, 0, 26, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqtrf"]
+atlas = ExtResource("2_haxye")
+region = Rect2(52, 0, 26, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vwkhy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srtnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5abrd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqtrf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_agy2s"]
+radius = 7.00282
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odwnc"]
+size = Vector2(20, 36)
+
+[node name="o_elcege01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_cv3i8")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_dwbkk")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vwkhy")
+autoplay = "default"
+frame_progress = 0.776472
+centered = false
+offset = Vector2(-11, -27)
+metadata/default = {
+"bbox_bottom": "32",
+"bbox_left": "2",
+"bbox_right": "24",
+"bbox_top": "20",
+"frames": ["images\\s_elcege01_0.png", "images\\s_elcege01_1.png", "images\\s_elcege01_2.png"],
+"height": "34",
+"name": "s_elcege01",
+"width": "26",
+"xorig": "11",
+"yorigin": "27"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_agy2s")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_odwnc")

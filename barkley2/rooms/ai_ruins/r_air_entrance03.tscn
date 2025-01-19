@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=52 format=4 uid="uid://vkjgyg68ejy1"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
@@ -21,10 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://d26jid11t8c1n" path="res://barkley2/scenes/Objects/_doors/o_door_tech02.tscn" id="14_jow2u"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="15_q8cbp"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="20_1puvr"]
-[ext_resource type="Script" path="res://tools/o_door_converter.gd" id="21_sjcvn"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.gd" id="22_jo2ph"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="23_ivpqv"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="24_x8kmn"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e2kse"]
 vertices = PackedVector2Array(214, 106, 262, 106, 262, 154, 378, 154, 378, 138, 394, 138, 394, 74, 438, 74, 438, 138, 454, 138, 454, 154, 378, 246, 570, 154, 570, 106, 618, 106, 678, 246, 618, 42, 630, 42, 630, 106, 678, 106, 454, 442, 550, 442, 550, 662, 454, 662, 454, 710, 378, 710, 378, 662, 378, 442, 282, 662, 282, 442, 454, 246, 154, 246, 154, 106, 202, 106, 202, 42, 214, 42)
@@ -1875,12 +1872,13 @@ animations = [{
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_e2kse")
 script = ExtResource("1_en1eg")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(624, 197)
 collision_layer = NodePath("layer - collision")
 room_music_name = "mus_swp_accousticarea"
 room_pacify = false
+camera_bound_to_map = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -2062,86 +2060,49 @@ position = Vector2(600, 95)
 [node name="o_door_tech03" parent="." instance=ExtResource("14_jow2u")]
 position = Vector2(184, 95)
 
-[node name="B2_O_DOOR_CONVERTER" type="Node" parent="."]
-script = ExtResource("21_sjcvn")
-simulate = false
-
-[node name="o_doorlight_up_debug_2" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
-z_index = -10
+[node name="o_doorlight_up_debug_2" parent="." instance=ExtResource("15_q8cbp")]
 position = Vector2(384, 112)
 scale = Vector2(2, 1)
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"debug_icons"
-centered = false
-script = ExtResource("22_jo2ph")
-running_anim = "s_doorlight_ud"
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(16, -12)
 teleport_string = "r_air_entrance03,416,134"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_air_throneRoom01,270,360"
 metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
 "
 metadata/inst_name = "inst_FEF7AFD4"
 metadata/scale = Vector2(3, 1)
 
-[node name="o_doorlight_up_debug_1" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
-z_index = -10
+[node name="o_doorlight_up_debug_1" parent="." instance=ExtResource("15_q8cbp")]
 position = Vector2(192, 80)
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"debug_icons"
-centered = false
-script = ExtResource("22_jo2ph")
-running_anim = "s_doorlight_ud"
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(16, -12)
 teleport_string = "r_air_entrance03,208,102"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_air_finalgun01,160,150"
 metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
 "
 metadata/inst_name = "inst_FEF7AFD4"
 metadata/scale = Vector2(3, 1)
 
-[node name="o_doorlight_up_debug_interact" type="AnimatedSprite2D" parent="." instance=ExtResource("15_q8cbp")]
-z_index = -10
+[node name="o_doorlight_up_debug_interact" parent="." instance=ExtResource("15_q8cbp")]
 position = Vector2(608, 80)
 sprite_frames = SubResource("SpriteFrames_qubxx")
-animation = &"debug_icons"
-centered = false
-script = ExtResource("22_jo2ph")
-running_anim = "s_doorlight_ud"
 door_offset = Vector2(0, -48)
 debug_door_exit_marker_pos = Vector2(16, 22)
-door_exit_marker_global_pos = Vector2(16, -12)
 teleport_string = "r_air_entrance03,624,102"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_air_corridor01,240,548"
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
 "
 metadata/inst_name = "inst_FEF7AFD4"
 metadata/scale = Vector2(3, 1)
 
-[node name="o_doorlight_down_exit" type="AnimatedSprite2D" parent="." instance=ExtResource("23_ivpqv")]
-z_index = -10
+[node name="o_doorlight_down_exit" parent="." instance=ExtResource("23_ivpqv")]
 position = Vector2(368, 688)
 scale = Vector2(3, 1)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
-animation = &"debug_icons"
-frame = 1
-centered = false
-script = ExtResource("24_x8kmn")
-editor_frame = 1
-running_anim = "s_doorlight_ud"
-flip_v_running_anim = true
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
+frame = 0
 teleport_string = "r_air_entrance03,416,676"
 debug_teleport_destination = "r_title,0,0"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_usw_airuinsLobby02, 272, 192"
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
 "
 metadata/inst_name = "inst_FEF7AFD4"

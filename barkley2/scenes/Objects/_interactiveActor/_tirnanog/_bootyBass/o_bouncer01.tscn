@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://dllh38nhsvdhc"]
+
+[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_bouncer01.gd" id="1_5bdma"]
+[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_df3eg"]
+[ext_resource type="Texture2D" uid="uid://cfu2pma3a8xpn" path="res://barkley2/assets/b2_original/images/merged/s_bouncer01.png" id="2_roj5w"]
+
+[sub_resource type="Resource" id="Resource_kal6m"]
+script = ExtResource("2_df3eg")
+original_script = "IF body == governor    | GOTO | GOVERNOR
+IF ericQuest == 2      | IF curfew == before | GOTO | ERIC
+IF bootyBassQuest == 3 | GOTO | BOOTY3
+IF bootyBassQuest == 2 | GOTO | BOOTY2
+IF bouncerState == 1   | GOTO | BOUNCER1
+GOTO | BOUNCER0
+
+GOVERNOR
+DIALOG | Golmaal  | W-what? Booty Bass? Uh, n-no, never heard of anything like that, sir! Uh, yes, I'm well aware Booty Bass is a capital offense! Oh, this warehouse over here? It's not Booty Bass related! We're just, uh, doing a morality play in honor of Cuchulainn and the Duergars, whom we cherish and respect. Please don't ask me to unlock the door.
+
+ERIC
+DIALOG | P_NAME   | Hey, this is the booty bass club, right? I was wondering if you guys were hiring right now.
+DIALOG | Golmaal  | Yeah, we're looking for another bouncer for the day shift. You look a little small for the job, can you fight?
+DIALOG | P_NAME   | Oh, I'm looking for a fr... client.
+DIALOG | Golmaal  | Yeah? How's your 'client' in the ring?
+DIALOG | P_NAME   | Uh... bad. Really bad.
+DIALOG | Golmaal  | Then hit the road, kid.
+
+BOOTY3
+DIALOG | Golmaal  | H-hello B-Baron of Booty... my liege...
+DIALOG | @djName@ = s_port_hoopz | Hey there. You can just call me @djNamePrefix@ you know.
+DIALOG | Golmaal  | Th-the Baron said hello... they noticed me!
+
+BOOTY2
+DIALOG | Golmaal  | Well if it isn't the little DJ! What's going down, pal?
+DIALOG | @djName@ = s_port_hoopz | I... I didn't win the Bootypocalypse...
+DIALOG | Golmaal  | Sure you didn't win, but that doesn't mean you didn't pump out some of the hottest booty-flavored jock jams this side of the Sombrero Galaxy. You were there, @djNamePrefix@. You didn't just witness the Bootypocalypse - you lived it.
+DIALOG | @djName@ = s_port_hoopz | Yeah, I guess that's true. And I DID get to meet The Anime Bulldog.
+DIALOG | Golmaal  | Heck yeah! That's the way to look at it!
+DIALOG | @djName@ = s_port_hoopz | Yeah, maybe you're right! Who cares if I didn't win the Bootypocalypse?
+DIALOG | Golmaal  | That's the attitude! Go get 'em, tiger!
+DIALOG | @djName@ = s_port_hoopz | (I... I will...)
+
+BOUNCER1
+DIALOG | Golmaal  | The Bootypocalypse... Get hyped kid! There's gonna be keisters whirling and twirling from dusk 'til dawn! You could even try your hand at the Baron of Booty contest! Get right in, kid!
+DIALOG | P_NAME   | (I want to be the Baron of Booty...)
+
+BOUNCER0
+DIALOG | Golmaal  | This is the booty bass blowout of the century, the Bootypocalypse is upon us! Tir na Nog's blueblood booty bass royalty all competing for the title of Necron 7's Baron of Booty - DJ Booty Slayer, ass_subjugator, The Booty Tyrant, The Anime Bulldog, Booty Sultan, Bootyrajah, Keister Tyc00n, MC Booty Grasper - this party's going nonstop until a new Baron is crowned... all night long!
+DIALOG | P_NAME   | Whoa, the Anime Bulldog's gonna be there? I love anime...
+DIALOG | Golmaal  | This party is just getting started, baby! FUN UNLIMITED! Are you READY. TO. ROCK. YOUR. BOOTY?!?!
+DIALOG | P_NAME   | Yeah! Yeah!!!
+DIALOG | Golmaal  | Then step inside, my friend. This party is open to all jock jammers, booty bouncers, techno dwarfs and disco dancers. And if you think you've got the chops, you can even enter the Baron of Booty contest yourself.
+DIALOG | P_NAME   | (I want to be the Baron of Booty...)
+QUEST  | bouncerState = 1"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7s2o"]
+atlas = ExtResource("2_roj5w")
+region = Rect2(0, 0, 30, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r42gn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7s2o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ax4ks"]
+radius = 7.32113
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hhb37"]
+size = Vector2(20, 36)
+
+[node name="o_bouncer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_5bdma")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_kal6m")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_r42gn")
+centered = false
+offset = Vector2(-15, -41)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "5",
+"bbox_right": "28",
+"bbox_top": "28",
+"frames": ["images\\s_bouncer01_0.png"],
+"height": "47",
+"name": "s_bouncer01",
+"width": "30",
+"xorig": "15",
+"yorigin": "41"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ax4ks")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_hhb37")

@@ -12,3 +12,7 @@ func _ready() -> void:
 	volume_db = linear_to_db(soundVolume)
 	play()
 	finished.connect( play )
+	_after_ready()
+
+func _after_ready() -> void:
+	pass

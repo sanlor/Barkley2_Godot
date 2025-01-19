@@ -24,8 +24,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_fct_deadDwarf04" type="CharacterBody2D"]
+[node name="o_fct_deadDwarf04" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_awnpc")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
 
 [node name="ActorInteract" type="Area2D" parent="."]
 

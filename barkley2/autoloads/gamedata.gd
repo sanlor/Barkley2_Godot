@@ -331,6 +331,7 @@ func get_hoopz_portrait() -> String:
 			return "s_port_hoopzPrison"
 		_:
 			# Invalid hoopz state
-			breakpoint
+			#breakpoint
+			push_warning( "Invalid hoopz state %s." % str( B2_Config.get_user_save_data("player.body") ) )
 			return "s_port_hoopz"
 	
