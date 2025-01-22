@@ -7,7 +7,7 @@ class_name B2_Combat_CinemaPlayer
 
 const O_COMBAT_UI = preload("res://barkley2/scenes/Objects/System/o_combat_ui.tscn")
 
-var camera : Camera2D
+var camera : B2_Camera_Hoopz
 
 
 ## Setup enviroment, replace player character with actor and shiet.
@@ -43,10 +43,44 @@ func setup_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
 		
 	print_rich("[color=pink]Started Combat_Cinema Script![/color]")
 	
+	## Move the camera do a specific location.
 	for action : B2_CombatScriptActions in combat_script.combat_actions:
 		if action is B2_CSA_Frame:
+			if action.look_target == "torward_node":
+				if action.use_node_array:
+					for n in action.node_array:
+						var node : Node2D = get_node( n )
+						if action.wait_for_action_to_finish:
+							await camera.cinema_frame( node.position, action.speed )
+						else:
+							camera.cinema_frame( node.position, action.speed )
+				else:
+					var node : Node2D = get_node( action.node )
+					if action.wait_for_action_to_finish:
+						await camera.cinema_frame( node.position, action.speed )
+					else:
+						camera.cinema_frame( node.position, action.speed )
+			else:
+				if action.wait_for_action_to_finish:
+					await camera.cinema_frame( action.position, action.speed )
+				else:
+					camera.cinema_frame( action.position, action.speed )
+			
+		## Actor look to a certain direction or torward another node.
+		if action is B2_CSA_Look_At:
 			pass
-		if action is B2_CSA_Frame:
+			
+		## Play a sound
+		if action is B2_CSA_Sound:
+			B2_Sound.play( action.sound_name, 0.0, false, action.sound_loop, action.sound_pitch )
+			
+		## wait for some time.
+		if action is B2_CSA_Wait:
+			if action.wait_time > 0.0:
+				await get_tree().create_timer( action.wait_time ).timeout
+			
+		if action is B2_CSA_Begin_Battle:
+			breakpoint
 			pass
 				
 func _get_camera_on_tree() -> Camera2D:

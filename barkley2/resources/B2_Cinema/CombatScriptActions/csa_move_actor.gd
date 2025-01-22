@@ -1,5 +1,5 @@
 extends B2_CombatScriptActions
-class_name B2_CSA_Frame
+class_name B2_CSA_Move_Actor
 
 ## Move the camera to a position or a node
 

@@ -100,7 +100,7 @@ func cinema_snap( _destination : Vector2 ):
 	position 	= _destination
 	offset 		= camera_normal_offset
 
-# move to te target
+# move to the target
 func cinema_frame( _destination : Vector2, _speed : String ):
 	curr_MODE = MODE.CINEMA
 	match _speed:
