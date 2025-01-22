@@ -1,6 +1,8 @@
-extends Resource
+extends Node
 class_name B2_AI
 
+var actor : B2_EnemyCombatActor
+
 @warning_ignore("unused_parameter")
-func step( actor : B2_EnemyCombatActor ) -> void:
+func step() -> void:
 	pass

@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=44 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyCombatActor.gd" id="1_xh75j"]
 [ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
@@ -22,13 +22,6 @@ ANIMATION_NORTHEAST = "s_eggDroneUP01"
 ANIMATION_NORTHWEST = "s_eggDroneUP01"
 ANIMATION_EAST = "s_eggDroneDOWN01"
 ANIMATION_STAND_SPRITE_INDEX = [1, 1, 0, 0, 0, 0, 0, 1]
-
-[sub_resource type="Resource" id="Resource_fx3e1"]
-resource_local_to_scene = true
-script = ExtResource("3_rchjj")
-time_to_new_wander_target = 5.0
-distance_to_wander_target = 10.0
-speed_multiplier = 50000
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr833"]
 
@@ -307,7 +300,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "inactive_ai")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
 gravity_scale = 0.0
@@ -321,7 +314,10 @@ actor_animations = SubResource("Resource_riqe7")
 sound_alert = "junkbot_alert"
 sound_damage = "junkbot_hurt"
 sound_death = "junkbot_death"
-wander_ai = SubResource("Resource_fx3e1")
+inactive_ai = NodePath("B2_AI_Wander_Normal")
+
+[node name="B2_AI_Wander_Normal" type="Node" parent="."]
+script = ExtResource("3_rchjj")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dr833")
@@ -398,6 +394,3 @@ metadata/s_eggDroneDOWN01 = {
 "xorig": "29",
 "yorigin": "50"
 }
-
-[node name="action_timer" type="Timer" parent="."]
-one_shot = true

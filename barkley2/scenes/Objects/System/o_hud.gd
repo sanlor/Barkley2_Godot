@@ -2,7 +2,7 @@ extends CanvasLayer
 class_name B2_Hud
 
 ## DEBUG
-var debug_messages := false
+var debug_messages := true
 
 ## Check o_hud.
 # Oh boy... more work.
@@ -49,13 +49,17 @@ func _ready() -> void:
 	B2_CManager.o_hud = self
 	hud_bar.texture.region.position = Vector2( 0, 0 )
 	
-	if B2_Playerdata.Quest("hudVisible") == 0:
-		is_hud_visible = false
+	_change_visibility()
+		
+	B2_Playerdata.quest_updated.connect( _change_visibility )
 		
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y
 	hud_tv.change_tv_face()
-		
+	
+func _change_visibility() -> void:
+	if B2_Playerdata.Quest("hudVisible") == 0:
+		is_hud_visible = false
 	
 func show_hud() -> void:
 	if not visible:

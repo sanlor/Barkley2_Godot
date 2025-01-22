@@ -86,7 +86,7 @@ func _draw():
 		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, bg_opacity), false )
 	
 	if is_first_draw: ## avoid updating the border decorations
-		b_2_panel_fg.queue_redraw()
+		b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
 		is_first_draw = false
 	
 func _on_child_entered_tree(_node):

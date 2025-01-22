@@ -10,26 +10,39 @@ signal event_ended
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
 
+## Normal, player controlable node
 const O_CTS_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
 const O_CTS_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
 
+## Combat actor
+const O_CBT_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
+
+## Cutscene actor
 const O_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
 const O_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
 
 var o_hoopz_scene 		: PackedScene = O_HOOPZ_NORMAL
 var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
+var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
-var o_cts_hoopz 	: B2_Actor 			= null
-var o_hoopz 		: B2_Player		 	= null
-var o_hud			: B2_Hud			= null
+var o_cts_hoopz 	: B2_Actor 						= null
+var o_cbt_hoopz 	: B2_CinemaCombatActor_Base 	= null
+var o_hoopz 		: B2_Player		 				= null
+var o_hud			: B2_Hud						= null
+var o_combat_ui		: CanvasLayer					= null
 var camera			: Camera2D
 
-func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ):
+func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ) -> void:
 	var b2_cinema := B2_CinemaPlayer.new()
 	
 	get_tree().current_scene.add_child( b2_cinema, true )
 	b2_cinema.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
+
+func start_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
+	var combat_cinema := B2_Combat_CinemaPlayer.new()
+	get_tree().current_scene.add_child( combat_cinema, true )
+	combat_cinema.setup_combat( combat_script, enemies )
 
 func BodySwap( costume_name : String ) -> void:
 	# Handle costumes changes. during game load or new game, need to load the correct costume.

@@ -5,11 +5,15 @@ class_name B2_EnemyCombatActor
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
-@onready var action_timer: Timer = $action_timer
+signal aim_target_changed
+signal move_target_changed
 
-enum MODE{WANDER,CHASE,COMBAT,DEATH}
-var curr_MODE := MODE.WANDER
+enum MODE{INACTIVE,COMBAT,DEATH}
+var curr_MODE := MODE.INACTIVE
 var is_changing_states := false
+
+@export_category("Combat stuff")
+@export var combat_script : B2_CombatScript
 
 @export_category("Actor Stuff")
 @export var cast_shadow		:= true
@@ -48,17 +52,15 @@ var speed_multiplier 		:= 5000.0 # was 900.0
 var speed 					:= speed_normal
 
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
-@export var wander_ai 	: B2_AI_Wander
-@export var chase_ai 	: B2_AI_Chase
-@export var combat_ai 	: B2_AI_Chase
+@export var inactive_ai : B2_AI_Wander
+#@export var chase_ai 	: B2_AI_Chase
+@export var combat_ai 	: B2_AI_Combat
 
-var wander_target_pos := Vector2.ZERO 
 
-var home_point 		:= Vector2.ZERO
-var home_radius 	:= 100.0
 
-## Player Detection
-var detection_radius := 80.0
+## Control stuff
+var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
+var aim_target 		:= Vector2.ZERO ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 
 func _ready() -> void:
 	_setup_enemy()
@@ -68,17 +70,21 @@ func _setup_enemy() -> void:
 		ActorAnim 	= get_node( "ActorAnim" )
 	if not is_instance_valid( ActorCol ):
 		ActorCol 	= get_node( "ActorCol" )
+		
+	## A.I.
+	if not is_instance_valid( inactive_ai ):
+		push_error("%s: inactive_ai not set." % name)
+	else:
+		inactive_ai.home_point = global_position
+		inactive_ai.emote.connect( _emote )
+		
+	if not is_instance_valid( combat_ai ):
+		push_error("%s:combat_ai not set." % name)
+		
 	if cast_shadow:
 		my_shadow = O_SHADOW.instantiate()
 		my_shadow.scale *= shadow_scale
 		add_child( my_shadow, true)
-	
-	home_point = global_position
-	action_timer.start( 5.0 )
-	
-	wander_ai.resource_local_to_scene = true
-	wander_ai.emote.connect( _emote )
-	action_timer.timeout.connect( _debug_get_random_pos )
 
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
@@ -128,21 +134,11 @@ func _animations() -> void:
 				ActorAnim.flip_h = true
 			else:
 				ActorAnim.flip_h = false
-			
-func _debug_get_random_pos():
-	is_moving = true
-	wander_target_pos = home_point
-	wander_target_pos += Vector2.LEFT.rotated( randf_range(0, TAU) ) * randf_range(0, home_radius)
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	match curr_MODE:
-		MODE.WANDER:
-			wander_ai.step( self )
-				
-		MODE.CHASE:
-			if is_changing_states:
-				return
-			pass
+		MODE.INACTIVE:
+			inactive_ai.step()
 			
 		MODE.COMBAT:
 			if is_changing_states:
@@ -162,7 +158,11 @@ func _physics_process(delta: float) -> void:
 	## DEBUG
 	queue_redraw()
 
+func start_combat() -> void:
+	B2_CManager.start_combat( combat_script, [ self ] )
+
 func _draw() -> void:
-	draw_circle( to_local(home_point), home_radius, Color( Color.PINK, 0.25 ), true )
-	draw_circle( to_local(wander_target_pos), 8.0, Color.YELLOW, false )
-	draw_string(ThemeDB.fallback_font, Vector2(0, -30), str(movement_vector), HORIZONTAL_ALIGNMENT_CENTER)
+	if curr_MODE == MODE.INACTIVE:
+		draw_circle( to_local(inactive_ai.home_point), inactive_ai.home_radius, Color( Color.PINK, 0.25 ), true )
+		draw_circle( to_local(inactive_ai.wander_target_pos), 8.0, Color.YELLOW, false )
+		draw_string(ThemeDB.fallback_font, Vector2(0, -30), str(movement_vector), HORIZONTAL_ALIGNMENT_CENTER)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://c4f0usklyoo67"]
+[gd_scene load_steps=53 format=4 uid="uid://c4f0usklyoo67"]
 
 [ext_resource type="Script" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_wilmer_01.gd" id="1_jp87t"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_vcu7c"]
@@ -3981,72 +3981,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_tc4ow"]
-script = ExtResource("14_gy75y")
-original_script = "IF body == governor | GOTO | GOVERNOR
-IF wilmerItemsTaken == 0 | GOTO | FIRST
-GOTO | SECOND
-
-GOVERNOR
-IF wilmerItemsTaken == 0 | DIALOG | Governor Elagabalus | (Mr. Wilmer's things... I should grab these later.)
-IF wilmerItemsTaken == 1 | DIALOG | Governor Elagabalus | (This is where Mr. Wilmer used to keep his stuff...)
-
-FIRST
-DIALOG | P_NAME | (It's the stuff Mr. Wilmer wanted me to take. Let's see...)
-USEAT  | o_wilmerStash01
-SOUND  | sn_mnu_noteFlipLight01
-SET    | o_wilmerStash01 | taken1
-WAIT   | 0.25
-NOTE   | take   | Wilmer's Amortization Schedule
-NOTIFY | Got Wilmer's Amortization Schedule.
-WAIT   | 0.25
-DIALOG | P_NAME | (This funny-looking paper seems like Mr. Wilmer's bill.)
-WAIT   | 0.25
-BREAKOUT | add  | money
-DIALOG | P_NAME | (There's a bunch of neuro-shekels here...)
-USEAT  | o_wilmerStash01
-SET    | o_wilmerStash01 | taken2
-SOUND  | sn_hoopz_money2
-QUEST  | money += @money_wilmerMortgage@
-WAIT   | 0.25
-DIALOG | P_NAME | (...@money_wilmerMortgage@ for the mortgage...)
-USEAT  | o_wilmerStash01
-SET    | o_wilmerStash01 | taken3
-SOUND  | sn_hoopz_money3
-QUEST  | money += @money_wilmerMortgageBonus@
-WAIT   | 0.25
-DIALOG | P_NAME | (...and @money_wilmerMortgageBonus@ for my allowance.)
-BREAKOUT | clear
-USEAT  | o_wilmerStash01
-SET    | o_wilmerStash01 | taken4
-SOUND  | sn_shotgun_reload02
-WAIT   | 0.25
-EVENT  | o_wilmerStash01 | 0 // You get the recipe, guns, and candies here
-NOTIFY | Got Widower Wilmer's Gun (WILM)!
-NOTIFY | Got the Late Esther's Gun! (ESTR)
-DIALOG | P_NAME = s_port_hoopzSmirk | (I bet Mr. Wilmer brasted a lot in his day...)
-DIALOG | P_NAME = s_port_hoopzSad   | (Sorry to see this about his wife though...)
-WAIT   | 0.25
-USEAT  | o_wilmerStash01
-SET    | o_wilmerStash01 | taken5
-SOUND  | sn_hoopz_candy06
-WAIT   | 0.25
-NOTIFY | Filled pockets with Butterscotch!
-DIALOG | P_NAME | (I'll need a lot of these candies if I get hungry later...)
-WAIT   | 0.25
-USEAT  | o_wilmerStash01
-SET    | o_wilmerStash01 | taken6
-SOUND  | sn_mnu_noteFlipMedium01
-WAIT   | 0.25
-NOTIFY | Got Butterscotch Recipe!
-DIALOG | P_NAME | (Maybe I can use this recipe somewhere to make more candies...)
-WAIT   | 1
-DIALOG | P_NAME | (That's everything. I think I'm good to go.)
-QUEST  | wilmerItemsTaken = 1
-
-SECOND
-DIALOG | P_NAME | (Looks like I looted this table good'n'proper. Nothing left to loot.)"
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_a5kd4"]
 radius = 18.0278
 
@@ -4142,14 +4076,12 @@ quest_name = "duergarInfoWilmer"
 compare = 4
 value = 1
 
-[node name="o_wilmerStash01" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_wilmerStash01" type="AnimatedSprite2D" parent="."]
 position = Vector2(200, 312)
 sprite_frames = SubResource("SpriteFrames_wi3h8")
 centered = false
 offset = Vector2(-23, -16)
 script = ExtResource("9_1k65x")
-mouse_detection_area = NodePath("Area2D")
-cutscene_script = SubResource("Resource_tc4ow")
 
 [node name="Area2D" type="Area2D" parent="o_wilmerStash01"]
 

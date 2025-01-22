@@ -247,8 +247,7 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Height: " 	+ str(limit_height) 	+ "\n"
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
-				
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# process shake effects.
 	_process_shake(delta)
 	
@@ -284,13 +283,14 @@ func _process(delta: float) -> void:
 			#position = _position
 			
 		MODE.FOLLOW:
-			if is_instance_valid(player_node):
+			if is_instance_valid( player_node ):
 				if is_lost:
 					# Just jump to the player.
 					position 	= player_node.position
 					#_position 	= player_node.position
 					is_lost = false
 					return
+					
 				#_position = player_node.position
 				position = position.move_toward(player_node.position, 300 * delta)
 				
@@ -302,10 +302,11 @@ func _process(delta: float) -> void:
 					#offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = camera_normal_offset + camera_shake_offset
-
+					
 			else:
 				is_lost = true
-				offset = camera_normal_offset + camera_shake_offset
+				#print(offset)
+				offset = offset.lerp( camera_normal_offset + camera_shake_offset, 0.05 )
 			
 			if camera_bound_to_map:
 				## Avoid seeing outside the map.
