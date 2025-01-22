@@ -246,8 +246,10 @@ func change_window_scale() -> void:
 		var window_size		:= Vector2i(384, 240) * screen_scale
 		
 		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_WINDOWED )
-		DisplayServer.window_set_size( window_size )
-		DisplayServer.window_set_position( (screen_pos + screen_center) - window_size / 2, main_display )
+		
+		if not Engine.is_embedded_in_editor(): ## Godot 4.4 quickfix.
+			DisplayServer.window_set_size( window_size )
+			DisplayServer.window_set_position( (screen_pos + screen_center) - window_size / 2, main_display )
 	
 
 func config_load():

@@ -1,3 +1,4 @@
+@warning_ignore("missing_tool")
 extends B2_Border
 
 const ITEM_BTN = preload("res://barkley2/scenes/Objects/System/_quick_menu/item_btn.tscn")
