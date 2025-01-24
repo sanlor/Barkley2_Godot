@@ -25,8 +25,8 @@ var is_changing_states := false
 var my_shadow 		: Sprite2D
 
 ## Movement and animation variables.
-var is_moving 			:= false
-var playing_animation 	:= "stand"
+var is_moving 				:= false
+var playing_animation 		:= "stand"
 var movement_vector 		:= Vector2.ZERO
 var real_movement_vector 	:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
@@ -55,8 +55,6 @@ var speed 					:= speed_normal
 @export var inactive_ai : B2_AI_Wander
 #@export var chase_ai 	: B2_AI_Chase
 @export var combat_ai 	: B2_AI_Combat
-
-
 
 ## Control stuff
 var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
@@ -157,6 +155,21 @@ func _physics_process(_delta: float) -> void:
 			
 	## DEBUG
 	queue_redraw()
+
+func cinema_look( _direction : Vector2 ) -> void:
+	stop_animation.emit()
+	movement_vector = _direction
+
+func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
+	# Default behaviour
+	match _speed:
+		"MOVE_FAST": speed = speed_fast
+		"MOVE_SLOW": speed = speed_slow
+		"MOVE_NORMAL": speed = speed_normal
+	if _target_spot == null:
+		push_error(name, ": node is invalid. ", _target_spot, ".")
+		
+	move_target = _target_spot
 
 func start_combat() -> void:
 	B2_CManager.start_combat( combat_script, [ self ] )

@@ -12,3 +12,10 @@ func aim_at( _aim_target : Vector2 ) -> void:
 func move_to( _move_target : Vector2 ) -> void:
 	move_target = _move_target
 	move_target_changed.emit()
+
+## Cinema functions
+func cinema_look( _direction : Vector2 ) -> void:
+	push_warning("Method not setup for node %s." % name)
+	
+func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
+	push_warning("Method not setup for node %s." % name)
