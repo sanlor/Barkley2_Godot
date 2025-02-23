@@ -26,12 +26,15 @@ var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
 var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
-var o_cts_hoopz 	: B2_Actor 						= null
-var o_cbt_hoopz 	: B2_CinemaCombatActor_Base 	= null
-var o_hoopz 		: B2_Player		 				= null
-var o_hud			: B2_Hud						= null
-var o_combat_ui		: CanvasLayer					= null
+var o_cts_hoopz 	: B2_Actor 						= null ## Cutscene Hoopz
+var o_hoopz 		: B2_Player		 				= null ## PLayer controlled Hoopz
+var o_hud			: B2_Hud						= null ## Main HUD
 var camera			: Camera2D
+
+## Combat stuff
+var o_cbt_hoopz 	: B2_CinemaCombatActor_Base 	= null ## Combat Hoopz
+var o_combat_ui		: CanvasLayer					= null ## Combat UI (Is this needed?)
+var combat_manager	: B2_CombatManager
 
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ) -> void:
 	var b2_cinema := B2_CinemaPlayer.new()

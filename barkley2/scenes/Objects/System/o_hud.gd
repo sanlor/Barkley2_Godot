@@ -19,17 +19,15 @@ var debug_messages := true
 @onready var p_letter: TextureRect = $hud_bar/hud_glamp/hud_glamp_container/p_letter
 
 @onready var hud_gun: ColorRect = $hud_bar/hud_gun
-
 @onready var hud_ammo: ColorRect = $hud_bar/hud_ammo
 @onready var hud_weight: ColorRect = $hud_bar/hud_weight
-
 @onready var hud_periodic: ColorRect = $hud_bar/hud_periodic
-
 @onready var hud_pockets: Control = $hud_bar/hud_pockets
-
 @onready var hud_marquee_text: Label = $hud_bar/hud_marquee/hud_marquee_text
-
 @onready var hud_wifi: ColorRect = $hud_bar/hud_wifi
+
+## Ammo
+@onready var hud_ammo_amount: Label = $hud_bar/hud_ammo/hud_ammo_amount
 
 @export var is_hud_visible := true
 
@@ -89,16 +87,19 @@ func fade_in( element ) -> void:
 	tween.tween_interval( 0.2 )
 	tween.tween_callback( event_finished.emit )
 
+## Used during the intro
 func execute_event_user_0() -> void:
 	# Hide the current hud
 	hide_hud()
 	if debug_messages: print("o_hud: execute_event_user_0()")
 
+## Used during the intro
 func execute_event_user_1() -> void:
 	# show naked hud during tutorial
 	show_hud()
 	if debug_messages: print("o_hud: execute_event_user_1()")
 
+## Used during the intro
 func execute_event_user_2() -> void:
 	# hide hud_elements
 	hudDrawCount = 0
@@ -119,6 +120,7 @@ func execute_event_user_2() -> void:
 	await get_tree().process_frame
 	event_finished.emit()
 
+## Used during the intro
 func execute_event_user_3() -> void:
 	## Used during the tutorial scene.
 	# Gradually show each hud element
@@ -139,3 +141,5 @@ func execute_event_user_3() -> void:
 		event_finished.emit()
 	hudDrawCount += 1
 	
+func set_ammo_amt( amt : int ):
+	hud_ammo_amount.text = str( clampi(amt, 0, 9999) )

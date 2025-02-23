@@ -1,5 +1,8 @@
 extends B2_ROOMS
 
+func _init() -> void:
+	B2_Playerdata.Quest("hudVisible", 1) ## DEBUG
+
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	_set_region()

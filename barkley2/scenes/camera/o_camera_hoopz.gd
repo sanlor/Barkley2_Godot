@@ -7,7 +7,11 @@ class_name B2_Camera_Hoopz
 
 signal destination_reached
 
-enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW}
+# FOLLOW - Camera follows the players. Simple.
+# CINEMA - Camera is controlled by the Cinema Script, like in cutscenes.
+# FRAMEFOLLOW - Follows an actor during the Cinema Script.
+# COMBAT - New. Camera is controlled by the Combat script. ## FIXME
+enum MODE{FOLLOW, CINEMA, FRAMEFOLLOW, COMBAT}
 var curr_MODE := MODE.FOLLOW
 
 var debug_data: Label

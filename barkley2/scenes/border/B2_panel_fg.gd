@@ -28,13 +28,13 @@ var border_size : Vector2 = Vector2(50,50)
 func _ready():
 	# Theme
 	theme = preload("res://barkley2/themes/dialogue.tres")
-	
 	rng.seed = get_parent().my_seed
+	z_index = 10
 	
 	# Weird behaviour!
 	## https://www.reddit.com/r/godot/comments/15lpudk/can_you_configure_draw_to_still_draw_outside_the/
 	custom_minimum_size = Vector2(3000,3000)
-	mouse_filter = MOUSE_FILTER_PASS
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
@@ -45,7 +45,7 @@ func _draw():
 	## 8 = 1, 16 = 4, 24 = 4, 32 = 4, 48 = 1      - 14 total
 	if border_size < corner_sprite_size * 2:
 		push_error("Panel size too small.")
-		return
+		#return ## Disabled 23-02
 	
 	# This is the famous code that handles the random border thing. it was annoying to port this to Godot, but it works.
 	# if you can, take a look at the original code, its very clever. So much work... so much passion just wasted. For me at least, its a tragedy.

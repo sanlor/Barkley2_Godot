@@ -46,7 +46,8 @@ func set_seed( _seed : String ):
 
 func _ready():
 	# Theme
-	theme = preload("res://barkley2/themes/dialogue.tres")
+	if not theme:
+		theme = preload("res://barkley2/themes/dialogue.tres")
 	
 	# Material stuff
 	material = preload("res://barkley2/resources/Border/border_material.tres")

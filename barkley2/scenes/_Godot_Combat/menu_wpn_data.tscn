@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnkroip8gbsn1"]
+
+[ext_resource type="Theme" uid="uid://c7cxu4mqaywah" path="res://barkley2/themes/combat_ui.tres" id="1_7b82x"]
+[ext_resource type="Script" uid="uid://do4ntlgla8ugu" path="res://barkley2/scenes/_Godot_Combat/menu_wpn_data.gd" id="1_m5rry"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7b82x"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jff37"]
+blend_mode = 3
+
+[node name="menu_wpn_data" type="HBoxContainer"]
+material = SubResource("CanvasItemMaterial_7b82x")
+custom_minimum_size = Vector2(80, 0)
+theme = ExtResource("1_7b82x")
+alignment = 1
+script = ExtResource("1_m5rry")
+
+[node name="menu_wpn_spr" type="TextureRect" parent="."]
+use_parent_material = true
+layout_mode = 2
+
+[node name="menu_wpn_action" type="ProgressBar" parent="."]
+use_parent_material = true
+custom_minimum_size = Vector2(0, 11)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 25.0
+show_percentage = false
+
+[node name="menu_wpn_name" type="Label" parent="menu_wpn_action"]
+material = SubResource("CanvasItemMaterial_jff37")
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+text = "Placeholder"
+horizontal_alignment = 1

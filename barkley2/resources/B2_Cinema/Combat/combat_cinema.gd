@@ -1,17 +1,44 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_camera_2.png")
 extends CanvasLayer
 class_name B2_Combat_CinemaPlayer
-
 ## Original system. Analogous to the B2_CinemaPlayer system, but for combat.
-# I have no plans for this, just coding random ideas and changing as I go along. 21/01/25
+## I have no plans for this, just coding random ideas and changing as I go along. 21/01/25
+## 23/02/25 Now a have a good Idea how do go on with this. Check https://sanlor.itch.io/rpg-combat-prototype
 
-const O_COMBAT_UI = preload("res://barkley2/scenes/Objects/System/o_combat_ui.tscn")
+const O_COMBAT_UI = preload("uid://c1a8fta51ill1")
 
-var camera : B2_Camera_Hoopz
 
+signal battle_finished ## Called at the end of the battle, before queue itself out of the game.
+signal action_finished ## Called at the end of the combat action.
+
+## IDLE - Nobody is doing anything
+## PLAYER_ACTION - player is selecting an action, depends on player input
+## ENEMY_ACTION - Enemy is selecting an action, instant.
+enum CBT_STATE{ IDLE, PLAYER_ACTION, ENEMY_ACTION, WON, LOST }
+var curr_CBT_STATE := CBT_STATE.IDLE
+
+## Universal action costs (player)
+const MOVE_COST		:= 75
+const DEFENSE_COST	:= 55
+const ESCAPE_COST 	:= 90
+const ITEM_COST 	:= 60
+
+var camera 			: B2_Camera_Hoopz
+var combat_ticker 	: Timer ## Timers use to keep control the passage of the time. check the _tick() func.
+
+var ui					: CanvasLayer
+
+var combat_manager		: B2_CombatManager
+var action_queue		: Array[Array] ## All combat actions should be queued.
+
+var tick_lock := false		## Block the _tick() func, used to give time for the battlers to perform actions withouc recharging its action counter.
 
 ## Setup enviroment, replace player character with actor and shiet.
 func setup_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
+	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1 	## Ticker setup.
+	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self  					## Combat manager setup.
+	combat_ticker.timeout.connect( _tick_combat )
+	
 	if not is_instance_valid(camera):
 		camera = _get_camera_on_tree()
 		
@@ -152,3 +179,10 @@ func _load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 		B2_CManager.o_hoopz.position.y = B2_RoomXY.this_room_y
 		
 	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
+
+## Combat clock. Check the Combat manager to get the combat action stuff
+func _tick_combat() -> void:
+	if combat_manager:
+		combat_manager.tick_combat()
+	else:
+		push_warning("Combat Manager not loaded. This should never happen.")
