@@ -29,10 +29,20 @@ var debug_messages := true
 ## Ammo
 @onready var hud_ammo_amount: Label = $hud_bar/hud_ammo/hud_ammo_amount
 
+## Combat
+@onready var player_control_weapons: B2_Border = $combat_module/player_control_weapons
+@onready var player_control_move: B2_Border = $combat_module/player_control_move
+@onready var player_control_defend: B2_Border = $combat_module/player_control_defend
+@onready var weapon_stats: B2_Border = $combat_module/weapon_stats
+
+@onready var player_controls: B2_Border = $player_controls ## PLACEHOLDER
+
+
 @export var is_hud_visible := true
 
 ## Anim
 var tween : Tween
+var c_tween : Tween ## Tween used only for the combat UI.
 var wait_anim := true
 signal event_finished
 
@@ -54,6 +64,13 @@ func _ready() -> void:
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y
 	hud_tv.change_tv_face()
+	
+	## Hide Combat UI
+	player_control_weapons.hide()
+	player_control_move.hide()
+	player_control_defend.hide()
+	weapon_stats.hide()
+	player_controls.hide()
 	
 func _change_visibility() -> void:
 	if B2_Playerdata.Quest("hudVisible") == 0:
@@ -140,6 +157,39 @@ func execute_event_user_3() -> void:
 		await get_tree().process_frame
 		event_finished.emit()
 	hudDrawCount += 1
+	
+func show_battle_ui() -> void:
+	if c_tween:
+		c_tween.kill()
+	c_tween = create_tween()
+	c_tween.set_parallel(true)
+	c_tween.tween_callback( player_control_weapons.show )
+	c_tween.tween_callback( player_control_move.show )
+	c_tween.tween_callback( player_control_defend.show )
+	c_tween.tween_callback( weapon_stats.show )
+	c_tween.tween_callback( player_controls.show )
+	c_tween.tween_property(player_control_weapons, 	"modulate:a", 1.0, 0.15)
+	c_tween.tween_property(player_control_move, 	"modulate:a", 1.0, 0.15)
+	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, 0.15)
+	c_tween.tween_property(weapon_stats, 			"modulate:a", 1.0, 0.15)
+	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, 0.15)
+
+func hide_battle_ui() -> void:
+	if c_tween:
+		c_tween.kill()
+	c_tween = create_tween()
+	c_tween.set_parallel(true)
+	c_tween.tween_property(player_control_weapons, 	"modulate:a", 0.0, 0.15)
+	c_tween.tween_property(player_control_move, 	"modulate:a", 0.0, 0.15)
+	c_tween.tween_property(player_control_defend, 	"modulate:a", 0.0, 0.15)
+	c_tween.tween_property(weapon_stats, 			"modulate:a", 0.0, 0.15)
+	c_tween.tween_property(player_controls, 		"modulate:a", 0.0, 0.15)
+	c_tween.set_parallel(false)
+	c_tween.tween_callback( player_control_weapons.hide )
+	c_tween.tween_callback( player_control_move.hide )
+	c_tween.tween_callback( player_control_defend.hide )
+	c_tween.tween_callback( weapon_stats.hide )
+	c_tween.tween_callback( player_controls.hide )
 	
 func set_ammo_amt( amt : int ):
 	hud_ammo_amount.text = str( clampi(amt, 0, 9999) )

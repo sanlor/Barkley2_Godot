@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://jpl7igxl7yf4"]
+
+[ext_resource type="Script" uid="uid://y8n44y3k2y1f" path="res://barkley2/scenes/_Godot_Combat/enemy_nest.gd" id="1_eos8k"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_egxwa"]
+radius = 64.0
+
+[node name="enemy_nest" type="Area2D" node_paths=PackedStringArray("player_position_marker")]
+script = ExtResource("1_eos8k")
+player_position_marker = NodePath("")
+
+[node name="detection_radius" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_egxwa")
+debug_color = Color(0.858824, 0.6, 0.701961, 0.0941176)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

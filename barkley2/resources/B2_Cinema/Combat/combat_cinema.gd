@@ -34,7 +34,7 @@ var action_queue		: Array[Array] ## All combat actions should be queued.
 var tick_lock := false		## Block the _tick() func, used to give time for the battlers to perform actions withouc recharging its action counter.
 
 ## Setup enviroment, replace player character with actor and shiet.
-func setup_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
+func setup_combat( combat_script : B2_CombatScript, enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1 	## Ticker setup.
 	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self  					## Combat manager setup.
 	combat_ticker.timeout.connect( _tick_combat )
@@ -69,6 +69,10 @@ func setup_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
 		B2_CManager.o_hud.hide_hud()
 		
 	print_rich("[color=pink]Started Combat_Cinema Script![/color]")
+	
+	if not combat_script.combat_actions:
+		## Forgot to add the combat script.
+		breakpoint
 	
 	## Move the camera do a specific location.
 	for action : B2_CombatScriptActions in combat_script.combat_actions:
@@ -107,7 +111,13 @@ func setup_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
 				await get_tree().create_timer( action.wait_time ).timeout
 			
 		if action is B2_CSA_Begin_Battle:
-			breakpoint
+			combat_manager = B2_CombatManager.new() ## Combat Manager Setup.
+			combat_manager.enemy_list 			= enemies
+			combat_manager.combat_cinema 		= self
+			combat_manager.player_character 	= B2_CManager.o_cbt_hoopz
+			combat_manager.start_battle()
+			#breakpoint
+			
 			pass
 				
 func _get_camera_on_tree() -> Camera2D:

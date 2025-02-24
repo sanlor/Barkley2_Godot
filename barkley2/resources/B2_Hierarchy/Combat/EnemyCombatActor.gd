@@ -12,9 +12,6 @@ enum MODE{INACTIVE,COMBAT,DEATH}
 var curr_MODE := MODE.INACTIVE
 var is_changing_states := false
 
-@export_category("Combat stuff")
-@export var combat_script : B2_CombatScript
-
 @export_category("Actor Stuff")
 @export var cast_shadow		:= true
 @export var shadow_scale	:= 1.0
@@ -152,9 +149,6 @@ func _physics_process(_delta: float) -> void:
 	movement_vector 		= velocity.normalized().round()
 	_animations()
 	last_movement_vector 	= movement_vector
-			
-	## DEBUG
-	queue_redraw()
 
 func cinema_look( _direction : Vector2 ) -> void:
 	stop_animation.emit()
@@ -170,12 +164,3 @@ func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
 		push_error(name, ": node is invalid. ", _target_spot, ".")
 		
 	move_target = _target_spot
-
-func start_combat() -> void:
-	B2_CManager.start_combat( combat_script, [ self ] )
-
-func _draw() -> void:
-	if curr_MODE == MODE.INACTIVE:
-		draw_circle( to_local(inactive_ai.home_point), inactive_ai.home_radius, Color( Color.PINK, 0.25 ), true )
-		draw_circle( to_local(inactive_ai.wander_target_pos), 8.0, Color.YELLOW, false )
-		draw_string(ThemeDB.fallback_font, Vector2(0, -30), str(movement_vector), HORIZONTAL_ALIGNMENT_CENTER)

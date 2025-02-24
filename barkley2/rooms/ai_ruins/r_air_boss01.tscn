@@ -1,17 +1,12 @@
-[gd_scene load_steps=22 format=4 uid="uid://emut1pncq7ik"]
+[gd_scene load_steps=12 format=4 uid="uid://emut1pncq7ik"]
 
 [ext_resource type="Script" uid="uid://x6kqjb6yxbbk" path="res://barkley2/rooms/ai_ruins/r_air_boss_01.gd" id="1_71bx4"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="1_a1csw"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_8cu2p"]
 [ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_test.tscn" id="4_8wa0j"]
-[ext_resource type="Script" uid="uid://dgugiug4lak58" path="res://barkley2/resources/B2_Cinema/Combat/CombatScriptActions/B2_CombatScriptActions.gd" id="5_b76yg"]
-[ext_resource type="Script" uid="uid://ceabslt8n665" path="res://barkley2/resources/B2_Cinema/Combat/CombatScriptActions/csa_frame.gd" id="6_mygri"]
 [ext_resource type="PackedScene" uid="uid://bchctdf6m6yr4" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_tor01.tscn" id="7_0m4pe"]
-[ext_resource type="Script" uid="uid://by2iov40c3o3r" path="res://barkley2/resources/B2_Cinema/Combat/CombatScriptActions/csa_sound.gd" id="7_20ecc"]
-[ext_resource type="Script" uid="uid://b1lsou7egbyrj" path="res://barkley2/resources/B2_Cinema/B2_CombatScript.gd" id="7_k2wr4"]
-[ext_resource type="Script" uid="uid://dhfejrqr63wvv" path="res://barkley2/resources/B2_Cinema/Combat/CombatScriptActions/csa_wait.gd" id="8_5aytu"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="8_6h44u"]
-[ext_resource type="Script" uid="uid://daht2tubogp8c" path="res://barkley2/resources/B2_Cinema/Combat/CombatScriptActions/csa_begin_battle.gd" id="8_46vjb"]
+[ext_resource type="PackedScene" uid="uid://jpl7igxl7yf4" path="res://barkley2/scenes/_Godot_Combat/enemy_nest.tscn" id="13_0qf7b"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b3p7q"]
 
@@ -1617,38 +1612,6 @@ texture = ExtResource("1_a1csw")
 [sub_resource type="TileSet" id="TileSet_dof83"]
 sources/0 = SubResource("TileSetAtlasSource_hui68")
 
-[sub_resource type="Resource" id="Resource_32cr1"]
-script = ExtResource("6_mygri")
-look_target = "torward_node"
-node = NodePath("../o_tor01")
-use_node_array = false
-node_array = Array[NodePath]([])
-position = Vector2(0, 0)
-is_relative = false
-speed = "CAMERA_SLOW"
-wait_for_action_to_finish = false
-
-[sub_resource type="Resource" id="Resource_yichd"]
-script = ExtResource("7_20ecc")
-sound_name = "sn_weresnail_shotgun01"
-sound_pitch = 1.0
-sound_loop = 1
-wait_for_action_to_finish = false
-
-[sub_resource type="Resource" id="Resource_0qf7b"]
-script = ExtResource("8_5aytu")
-wait_time = 5.0
-wait_for_action_to_finish = false
-metadata/_custom_type_script = ExtResource("8_5aytu")
-
-[sub_resource type="Resource" id="Resource_221dw"]
-script = ExtResource("8_46vjb")
-wait_for_action_to_finish = false
-
-[sub_resource type="Resource" id="Resource_eth4g"]
-script = ExtResource("7_k2wr4")
-combat_actions = Array[ExtResource("5_b76yg")]([SubResource("Resource_32cr1"), SubResource("Resource_yichd"), SubResource("Resource_0qf7b"), SubResource("Resource_221dw")])
-
 [sub_resource type="Resource" id="Resource_comi0"]
 script = ExtResource("8_6h44u")
 original_script = "DIALOG | Combat_Tester | Hello. Debug combat simulator.
@@ -1698,10 +1661,13 @@ visible = false
 z_index = 1000
 tile_set = ExtResource("3_8cu2p")
 
-[node name="o_enemy_drone_egg_test" parent="." instance=ExtResource("4_8wa0j")]
-position = Vector2(688, 608)
-combat_script = SubResource("Resource_eth4g")
-
 [node name="o_tor01" parent="." instance=ExtResource("7_0m4pe")]
 position = Vector2(532, 667)
 cutscene_script = SubResource("Resource_comi0")
+
+[node name="enemy_nest" parent="." instance=ExtResource("13_0qf7b")]
+position = Vector2(679, 616)
+monitorable = false
+enemy_list = Dictionary[PackedScene, int]({
+ExtResource("4_8wa0j"): 2
+})

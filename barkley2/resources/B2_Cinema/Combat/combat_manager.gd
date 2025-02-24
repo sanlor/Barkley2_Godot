@@ -1,9 +1,12 @@
 extends Resource
 class_name B2_CombatManager
+## This Resource handles the combat actions, turns, etc.
+## When the battle finished, report back to the Combat Cinema Player.
+
 
 var combat_cinema : B2_Combat_CinemaPlayer
-
-var player_character 	: B2_PlayerCombatActor					## In this game, only one player character exists. 
+var combat_camer
+var player_character 	: B2_CombatActor						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
@@ -27,5 +30,5 @@ func get_avg_pos() -> Vector2:
 	return avg_pos / n_combatants
 
 func start_battle():
-	combat_cinema.combat_ticker.start()
 	B2_CManager.combat_manager = self
+	B2_CManager.o_hud.show_battle_ui()

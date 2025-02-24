@@ -38,21 +38,22 @@ func step() -> void:
 		wander_target_pos = Vector2.ZERO
 		wander_timer.start( time_to_new_wander_target * randf_range( 0.5, 1.5 ) )
 		
-	if _detect_player():
-		actor.is_changing_states = true
-		emote.emit( "!" )
-		var origin_offset : float = actor.ActorAnim.offset.y
-		
-		actor.curr_MODE = B2_EnemyCombatActor.MODE.COMBAT
-		actor.start_combat()
-		actor.is_changing_states = false
+	## DEPRECATED
+	#if _detect_player():
+		#actor.is_changing_states = true
+		#emote.emit( "!" )
+		#var origin_offset : float = actor.ActorAnim.offset.y
+		#
+		#actor.curr_MODE = B2_EnemyCombatActor.MODE.COMBAT
+		#actor.start_combat()
+		#actor.is_changing_states = false
 	
 func _debug_get_random_pos():
 	actor.is_moving = true
 	wander_target_pos = home_point
 	wander_target_pos += Vector2.LEFT.rotated( randf_range(0, TAU) ) * randf_range(0, home_radius)
 	
-func _detect_player() -> bool:
+func _detect_player() -> bool: ## DEPRECATED
 	if is_instance_valid( B2_CManager.o_hoopz ):
 		if actor.position.distance_to( B2_CManager.o_hoopz.position ) < detection_radius:
 			actor.velocity = Vector2.ZERO

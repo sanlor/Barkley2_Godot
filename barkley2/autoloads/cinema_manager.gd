@@ -1,7 +1,7 @@
 extends Node
 
 ## B2 Cinema Manager
-# Keeps track of CinemaScript running on the scene.
+## Keeps track of CinemaScript running on the scene, also handles some of the Combatscript stuff.
 
 signal event_started
 signal event_ended
@@ -28,13 +28,14 @@ var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
 var o_cts_hoopz 	: B2_Actor 						= null ## Cutscene Hoopz
 var o_hoopz 		: B2_Player		 				= null ## PLayer controlled Hoopz
-var o_hud			: B2_Hud						= null ## Main HUD
+var o_hud			: B2_Hud						= null ## Main HUD, with combat attachments.
 var camera			: Camera2D
 
 ## Combat stuff
-var o_cbt_hoopz 	: B2_CinemaCombatActor_Base 	= null ## Combat Hoopz
-var o_combat_ui		: CanvasLayer					= null ## Combat UI (Is this needed?)
-var combat_manager	: B2_CombatManager
+var o_cbt_hoopz 			: B2_CinemaCombatActor_Base 	= null ## Combat Hoopz
+var o_combat_ui				: CanvasLayer					= null ## Combat UI (Is this needed?)
+var combat_manager			: B2_CombatManager
+var combat_cinema_player 	: B2_Combat_CinemaPlayer
 
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ) -> void:
 	var b2_cinema := B2_CinemaPlayer.new()
@@ -42,10 +43,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	get_tree().current_scene.add_child( b2_cinema, true )
 	b2_cinema.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
-func start_combat( combat_script : B2_CombatScript, enemies : Array ) -> void:
-	var combat_cinema := B2_Combat_CinemaPlayer.new()
-	get_tree().current_scene.add_child( combat_cinema, true )
-	combat_cinema.setup_combat( combat_script, enemies )
+func start_combat( combat_script : B2_CombatScript, enemies : Array[B2_EnemyCombatActor] ) -> void:
+	combat_cinema_player = B2_Combat_CinemaPlayer.new()
+	get_tree().current_scene.add_child( combat_cinema_player, true )
+	combat_cinema_player.setup_combat( combat_script, enemies )
 
 func BodySwap( costume_name : String ) -> void:
 	# Handle costumes changes. during game load or new game, need to load the correct costume.

@@ -44,8 +44,10 @@ func _draw():
 	## Make weights
 	## 8 = 1, 16 = 4, 24 = 4, 32 = 4, 48 = 1      - 14 total
 	if border_size < corner_sprite_size * 2:
-		push_error("Panel size too small.")
-		#return ## Disabled 23-02
+		## NOTE Disabled 23-02
+		#push_error("Panel size too small.")
+		#return 
+		pass
 	
 	# This is the famous code that handles the random border thing. it was annoying to port this to Godot, but it works.
 	# if you can, take a look at the original code, its very clever. So much work... so much passion just wasted. For me at least, its a tragedy.
