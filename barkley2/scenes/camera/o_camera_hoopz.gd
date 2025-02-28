@@ -49,11 +49,16 @@ var actor_array : Array
 
 ## Camera stuff
 var camera_normal_offset := Vector2( 0,20 )
+var camera_combat_offset := Vector2( 0,40 )
 
 ## Shake stuff
 var shake_rng 				:= RandomNumberGenerator.new()
 var shake_array 			: Array[ Array ]
 var camera_shake_offset 	:= Vector2.ZERO
+
+## Combat camera
+var focus 		:= Vector2.ZERO
+var cam_zoom 	:= 1.0
 
 func _ready() -> void:
 	if player_node_overide != null:
@@ -86,9 +91,15 @@ func _ready() -> void:
 		
 		add_child( debug_data, true )
 
+func combat_focus( _focus : Vector2, _cam_zoom : float ) -> void:
+	curr_MODE = MODE.COMBAT
+	focus = _focus
+	cam_zoom = _cam_zoom
+
 func follow_player( _player_node ):
 	curr_MODE = MODE.FOLLOW
 	player_node = _player_node
+	zoom = Vector2.ONE
 	
 func follow_actor( _actor_array : Array, _speed : String ):
 	curr_MODE = MODE.FRAMEFOLLOW
@@ -97,12 +108,14 @@ func follow_actor( _actor_array : Array, _speed : String ):
 		"CAMERA_FAST": 		speed = speed_fast
 		"CAMERA_SLOW": 		speed = speed_slow
 		"CAMERA_NORMAL": 	speed = speed_normal
-
+	zoom = Vector2.ONE
+	
 # snap to the target
 func cinema_snap( _destination : Vector2 ):
 	curr_MODE 	= MODE.CINEMA
 	position 	= _destination
 	offset 		= camera_normal_offset
+	zoom = Vector2.ONE
 
 # move to the target
 func cinema_frame( _destination : Vector2, _speed : String ):
@@ -118,6 +131,7 @@ func cinema_frame( _destination : Vector2, _speed : String ):
 	tween.tween_property( self, "position", 	_destination, 	speed / 30)
 	tween.tween_property( self, "offset", 		Vector2(0,20), 	speed / 30 )
 	await tween.finished
+	zoom = Vector2.ONE
 	return 
 	
 ## Yup, its an array. the original system takes an array of nodes / positions and average the target position. This way, the camera can go between the nodes.
@@ -146,6 +160,7 @@ func cinema_moveto( _destinations : Array, _speed : String ):
 	
 	destination = destination / _destinations.size()
 	is_moving = true
+	zoom = Vector2.ONE
 
 ## Function checks if the node is doing anything
 ## Return void right awai if itsd idle. Await for a signal if its busy.
@@ -317,6 +332,11 @@ func _physics_process(delta: float) -> void:
 				## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
 				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
 				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
+		
+		MODE.COMBAT:
+			offset = offset.lerp( camera_combat_offset, (speed / 100.0) )
+			position = position.lerp( focus, (speed / 100.0) )
+			#zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 100.0 ) )
 		
 	if B2_Debug.show_camera_debug_data:
 		if show_debug_data:

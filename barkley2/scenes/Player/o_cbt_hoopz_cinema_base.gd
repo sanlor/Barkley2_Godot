@@ -1,5 +1,5 @@
 extends  B2_CombatActor
-class_name B2_CinemaCombatActor_Base
+class_name B2_HoopzCombatActor
 
 ## Class used by the player actor, during combat. Original system, so it probably wont work well.
 ## large part of the codebase were ported from B2_PlayerCombatActor, B2_Player
@@ -77,8 +77,8 @@ var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_
 var turning_time 	:= 1.0
 
 ## Combat Animations
-var anim_aim_dir := Vector2.ZERO
-var waddle	:= false # If hoopz legs should waddle torward the aiming direction
+var aim_vector 		:= Vector2.ZERO
+var waddle			:= false # If hoopz legs should waddle torward the aiming direction
 
 var combat_last_direction 	:= Vector2.ZERO
 var combat_last_input 		:= Vector2.ZERO
@@ -97,7 +97,7 @@ var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
 
 ## Control stuff
-var is_moving 		:= false
+#var is_moving 		:= false
 var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
 var aim_target 		:= Vector2.ZERO ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 
@@ -148,10 +148,10 @@ func add_smoke() -> void:
 	#for i in randi_range( 1, 2 ):
 	step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
-func normal_animation( _move_dir : Vector2, delta : float ) -> void:
-	var input := _move_dir.round()
+func normal_animation( delta : float ) -> void:
+	var input := movement_vector
 	
-	if input != Vector2.ZERO: # Player is moving the character
+	if is_moving: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
 		if last_input != input:
 			add_smoke()
@@ -178,7 +178,7 @@ func normal_animation( _move_dir : Vector2, delta : float ) -> void:
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
 					print("Catch all, ", input)
-					
+				
 	else:
 		# player is not moving the character anymore
 		hoopz_normal_body.stop()
@@ -233,8 +233,8 @@ func normal_animation( _move_dir : Vector2, delta : float ) -> void:
 	last_input = input
 
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
-func combat_walk_animation( _move_dir : Vector2, delta : float) -> void:
-	var input := _move_dir
+func combat_walk_animation( delta : float) -> void:
+	var input := movement_vector
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
@@ -300,8 +300,8 @@ func combat_walk_animation( _move_dir : Vector2, delta : float) -> void:
 	combat_last_input = input
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
-func combat_aim_animation( _aim_dir : Vector2 ) -> void:
-	var mouse_input := ( position + Vector2( 0, -16 ) ).direction_to( _aim_dir ).snapped( Vector2(0.33,0.33) )
+func combat_aim_animation(  ) -> void:
+	var mouse_input := ( position + Vector2( 0, -16 ) ).direction_to( aim_vector ).snapped( Vector2(0.33,0.33) )
 	var dir_frame 	= combat_upper_sprite.frame
 	
 	## Remember, 0.9999999999999 != 1.0
@@ -357,9 +357,9 @@ func combat_aim_animation( _aim_dir : Vector2 ) -> void:
 		combat_arm_front.frame = 		dir_frame
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
-func combat_weapon_animation( _aim_dir : Vector2 ) -> void:
+func combat_weapon_animation() -> void:
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( _aim_dir ).snapped( Vector2(0.33,0.33) )
+	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( aim_vector ).snapped( Vector2(0.33,0.33) )
 	var gun_pos 		:= Vector2(18, 0)
 	
 	## Many Manual touch ups.
@@ -445,8 +445,6 @@ func combat_weapon_animation( _aim_dir : Vector2 ) -> void:
 		combat_weapon.frame 	= s_frame
 		combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
 		combat_weapon.z_index	= _z_index
-		
-		anim_aim_dir = mouse_input
 
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
@@ -505,49 +503,29 @@ func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	velocity = ( walk_speed * delta ) * move
 
 func _physics_process(delta: float) -> void:
-	## DEBUG
-	if Input.is_key_pressed(KEY_0):
-		move_target 	= Vector2( randf_range(0,1000), randf_range(0,1000) )
-		aim_target 		= Vector2( randf_range(0,1000), randf_range(0,1000) )
-	
 	match curr_STATE:
 		STATE.ROLL:
-			hoopz_normal_body.speed_scale = max( 1.0, linear_velocity.length() / 70.0 )
-			
-			if linear_velocity.length() < 10.0:
-				# Roooolliiing eeeeennd.
-				curr_STATE = STATE.NORMAL
-				hoopz_normal_body.animation = "stand"
-				hoopz_normal_body.speed_scale = 1.0
-				linear_damp = walk_damp
-				step_smoke.emitting = false
-				hoopz_normal_body.offset.y -= 15
+			pass
 				
 		STATE.NORMAL, STATE.AIM:
-			var aim_dir 	:= position.direction_to( aim_target )
-			var move_dir 	:= position.direction_to( move_target )
-			
-			## Move target reached.
-			if move_target.distance_to( position ) < 10:
-				move_dir = Vector2.ZERO
-				is_moving = false
-			
 			## Play Animations
 			if curr_STATE == STATE.NORMAL:
-				normal_animation( move_dir, delta)
+				normal_animation( delta )
 				
 			elif  curr_STATE == STATE.AIM:
-				combat_walk_animation( move_dir, delta ) # delta is for the turning animation
-				combat_aim_animation( move_dir )
-				combat_weapon_animation( aim_dir )
+				combat_walk_animation( delta ) # delta is for the turning animation
+				combat_aim_animation()
+				combat_weapon_animation()
 			else:
 				push_warning("Weird state: ", curr_STATE)
 			
-			var move := Vector2.ZERO ## CRITICAL Should not be Vector2.ZERO
-			if is_moving:
-				move = move_dir 
-			velocity = ( walk_speed * delta ) * move
-				
-			velocity += external_velocity
-			external_velocity = Vector2.ZERO # Reset Ext velocity
-			apply_central_force( velocity / Engine.time_scale )
+			#var move := Vector2.ZERO ## CRITICAL Should not be Vector2.ZERO
+			#if is_moving:
+				#move = move_dir 
+			#velocity = ( walk_speed * delta ) * move
+				#
+			#velocity += external_velocity
+			#external_velocity = Vector2.ZERO # Reset Ext velocity
+			#apply_central_force( velocity / Engine.time_scale )
+	
+	_process_movement( delta )

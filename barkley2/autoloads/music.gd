@@ -1,5 +1,14 @@
 extends Node
 
+## DEBUG COMBAT MUSIC
+const MUS_TNN_JOCKJAM := "mus_tnn_jockjam"
+const MUS_FISHING_BATTLE := "mus_fishing_battleTEMP"
+
+const debug_music := [
+	MUS_TNN_JOCKJAM,
+	MUS_FISHING_BATTLE,
+]
+
 @onready var audio_stream_player = $AudioStreamPlayer
 
 @export var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
@@ -14,6 +23,7 @@ var bgm_music : String = ""
 
 ## What track is being played. useful when changing rooms that use the same music track.
 var curr_playing_track := ""
+var prev_playing_track := ""
 
 ## Room audio modifier
 # some rooms have the audio volume modified, like interiors
@@ -197,6 +207,9 @@ func room_get( room_name : String):
 
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
+
+func play_combat( speed := 0.25 ) -> void:
+	queue( music_bank.get( debug_music.pick_random(), "" ), speed )
 
 func stop( speed := 0.25 ):
 	#queue( music_bank.get("mus_blankTEMP.ogg", ""), speed )

@@ -24,13 +24,13 @@ func step() -> void:
 		
 	if actor.curr_MODE != B2_EnemyCombatActor.MODE.INACTIVE:
 		return
-	
-	if actor.is_moving:
-		actor.velocity = actor.global_position.direction_to( wander_target_pos ) * speed_multiplier
-	else:
-		actor.velocity = Vector2.ZERO
-		
-	actor.apply_central_force( actor.velocity ) ## MOOOOOVE
+	## 27/02/25 disabled this
+	#if actor.is_moving:
+		#actor.velocity = actor.global_position.direction_to( wander_target_pos ) * speed_multiplier
+	#else:
+		#actor.velocity = Vector2.ZERO
+		#
+	#actor.apply_central_force( actor.velocity ) ## MOOOOOVE
 
 	## DEBUG
 	if actor.global_position.distance_to( wander_target_pos ) < distance_to_wander_target:

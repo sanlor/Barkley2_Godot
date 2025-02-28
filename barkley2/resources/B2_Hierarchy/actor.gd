@@ -49,11 +49,11 @@ var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 		:= 30.0 # was 900.0
-@export var speed_slow 		:= 2.0 * speed_multiplier # was 1.5
-@export var speed_normal 	:= 3.0 * speed_multiplier # was 2.5
-@export var speed_fast 		:= 6.0 * speed_multiplier # was 5.0
-var speed 					:= speed_normal
+var speed_multiplier 	:= 30.0
+var speed_slow 			:= 2.0 * speed_multiplier # was 1.5
+var speed_normal 		:= 3.0 * speed_multiplier # was 2.5
+var speed_fast 			:= 6.0 * speed_multiplier # was 5.0
+var speed 				:= speed_normal
 
 @export_category("Pathfinding")
 @export var path_desired_distance 	= 4.0
@@ -281,6 +281,11 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 		set_played.emit() 						# Emit signals to avoid deadlocking the script.
 	return
 
+func cinema_lookat( target_node : Node2D ):
+	var _direction := position.direction_to( target_node.position ).round()
+	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
+	cinema_look( dir_name )
+
 func cinema_look( _direction : String ):
 	ActorAnim.stop()
 	
@@ -305,11 +310,6 @@ func cinema_look( _direction : String ):
 	ActorAnim.flip_h = false
 	if not disable_auto_flip_h: flip_sprite()
 	adjust_sprite_offset()
-	
-func cinema_lookat( target_node : Node2D ):
-	var _direction := position.direction_to( target_node.position ).round()
-	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
-	cinema_look( dir_name )
 	
 func cinema_moveto( _target_spot, _speed : String ):
 	assert( is_instance_valid(ActorNav), "ActorNav not valid for node %s." % name )
@@ -451,7 +451,7 @@ func _draw() -> void:
 	if debug_check_movement_vector or B2_Debug.ENABLE_MOVEMENT_VECTOR_VISUALIZE:
 		draw_line(Vector2.ZERO, movement_vector * 32, Color.HOT_PINK)
 
-func _physics_process( delta: float ) -> void:
+func _physics_process( _delta: float ) -> void:
 	if debug_check_movement_vector or B2_Debug.ENABLE_MOVEMENT_VECTOR_VISUALIZE:
 		queue_redraw()
 		
@@ -482,7 +482,7 @@ func _physics_process( delta: float ) -> void:
 			return
 			
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
-		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier / Engine.time_scale )  * delta # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier / Engine.time_scale ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
 		
 		## Update movement vector for animation purposes.
 		real_movement_vector 	= position.direction_to( next_path_position )

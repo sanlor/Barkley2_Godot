@@ -1,5 +1,5 @@
-extends B2_CombatScriptActions
-class_name B2_CSA_Look_At
+extends B2_ScriptActions
+class_name B2_SA_Look_At
 
 @export_enum("torward_node", "direction") var look_target
 @export_node_path("Node2D") var node 		: Array[NodePath]

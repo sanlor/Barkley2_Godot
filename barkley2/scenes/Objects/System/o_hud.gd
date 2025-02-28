@@ -51,6 +51,9 @@ const HIDDEN_Y 	:= 241.0
 
 var hudDrawCount := 0
 
+## Combat stuff
+const combat_fade_speed := 0.25
+
 func _ready() -> void:
 	if debug_messages: print("o_hud: debug messages is ON.")
 	layer = B2_Config.HUD_LAYER
@@ -71,6 +74,11 @@ func _ready() -> void:
 	player_control_defend.hide()
 	weapon_stats.hide()
 	player_controls.hide()
+	player_control_weapons.modulate.a 	= 0.0
+	player_control_move.modulate.a 		= 0.0
+	player_control_defend.modulate.a 	= 0.0
+	weapon_stats.modulate.a 			= 0.0
+	player_controls.modulate.a 			= 0.0
 	
 func _change_visibility() -> void:
 	if B2_Playerdata.Quest("hudVisible") == 0:
@@ -168,22 +176,22 @@ func show_battle_ui() -> void:
 	c_tween.tween_callback( player_control_defend.show )
 	c_tween.tween_callback( weapon_stats.show )
 	c_tween.tween_callback( player_controls.show )
-	c_tween.tween_property(player_control_weapons, 	"modulate:a", 1.0, 0.15)
-	c_tween.tween_property(player_control_move, 	"modulate:a", 1.0, 0.15)
-	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, 0.15)
-	c_tween.tween_property(weapon_stats, 			"modulate:a", 1.0, 0.15)
-	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, 0.15)
+	c_tween.tween_property(player_control_weapons, 	"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(player_control_move, 	"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(weapon_stats, 			"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, combat_fade_speed)
 
 func hide_battle_ui() -> void:
 	if c_tween:
 		c_tween.kill()
 	c_tween = create_tween()
 	c_tween.set_parallel(true)
-	c_tween.tween_property(player_control_weapons, 	"modulate:a", 0.0, 0.15)
-	c_tween.tween_property(player_control_move, 	"modulate:a", 0.0, 0.15)
-	c_tween.tween_property(player_control_defend, 	"modulate:a", 0.0, 0.15)
-	c_tween.tween_property(weapon_stats, 			"modulate:a", 0.0, 0.15)
-	c_tween.tween_property(player_controls, 		"modulate:a", 0.0, 0.15)
+	c_tween.tween_property(player_control_weapons, 	"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(player_control_move, 	"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(player_control_defend, 	"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(weapon_stats, 			"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(player_controls, 		"modulate:a", 0.0, combat_fade_speed)
 	c_tween.set_parallel(false)
 	c_tween.tween_callback( player_control_weapons.hide )
 	c_tween.tween_callback( player_control_move.hide )

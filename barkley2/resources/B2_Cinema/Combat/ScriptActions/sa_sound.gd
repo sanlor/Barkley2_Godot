@@ -1,5 +1,5 @@
-extends B2_CombatScriptActions
-class_name B2_CSA_Sound
+extends B2_ScriptActions
+class_name B2_SA_Sound
 
 @export var sound_name 		: String
 @export var sound_pitch 	:= 1.0

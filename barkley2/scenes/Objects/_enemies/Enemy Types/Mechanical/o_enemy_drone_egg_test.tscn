@@ -300,21 +300,22 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "inactive_ai")]
+[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "inactive_ai", "ActorNav", "ActorCol")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
 gravity_scale = 0.0
 lock_rotation = true
-linear_damp = 5.0
+linear_damp = 10.0
 script = ExtResource("1_xh75j")
 shadow_scale = 1.5
 ActorAnim = NodePath("ActorAnim")
-ActorCol = NodePath("ActorCol")
 actor_animations = SubResource("Resource_riqe7")
 sound_alert = "junkbot_alert"
 sound_damage = "junkbot_hurt"
 sound_death = "junkbot_death"
 inactive_ai = NodePath("B2_AI_Wander_Normal")
+ActorNav = NodePath("ActorNav")
+ActorCol = NodePath("ActorCol")
 
 [node name="B2_AI_Wander_Normal" type="Node" parent="."]
 script = ExtResource("3_rchjj")
@@ -394,3 +395,5 @@ metadata/s_eggDroneDOWN01 = {
 "xorig": "29",
 "yorigin": "50"
 }
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

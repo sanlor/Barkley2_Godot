@@ -316,7 +316,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				line = line.get_slice("//", 0)
 				pass
 				
-			var parsed_line : PackedStringArray = cleanup_line( line )
+			var parsed_line : PackedStringArray = B2_CManager.cleanup_line( line )
 				
 			# Check for conditions.
 			if parsed_line[0].begins_with("IF"):
@@ -380,7 +380,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if new_line.is_empty():
 							## Empty line, carry on.
 							continue
-						var possible_label : String = cleanup_line( new_line ) [0] # Labels are always on the front
+						var possible_label : String = B2_CManager.cleanup_line( new_line ) [0] # Labels are always on the front
 						if target_label == possible_label.get_slice("//", 0).strip_edges(): ## KATSU! Remove inline comments from labels.
 							# found the "label". jump to that line
 							curr_line = j # REMEMBER: Empty lines are skipped.
@@ -505,39 +505,45 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					actor.cinema_set( anim_name )
 					if debug_set: print("SET: ", parsed_line[1], " - ", str(parsed_line[ 2 ]) )
 				"QUEST":
-					# this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
-					var quest_stuff := parsed_line[ 1 ].split(" ", false)
-					var qstNam = quest_stuff[0]
-					var qstTyp = quest_stuff[1]
-					var qstVal = quest_stuff[2]
-					
-					if qstVal.contains("@"): ## Not sure how this is used.
-						# if (string_pos("@", qstVal) > 0) qstVal = Cinema("parse", qstVal);
-						## Now I know! Its a variable injection, to add arbitrary values to quest variables.
-						# What a beautifull mess.
-						
-						qstVal = qstVal.replace("@", "")
-						if qstVal.begins_with("money_"):
-							qstVal = qstVal.trim_prefix("money_")
-							if not B2_Database.money.has(qstVal):
-								push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
-							qstVal = B2_Database.money.get(qstVal, "69420666")
-						elif qstVal.begins_with("time_"):
-							qstVal = qstVal.trim_prefix("time_")
-							push_warning("Time function is not implemented.")
-						else:
-							breakpoint
-					else:
-						qstVal = float( qstVal )
-						
-					if qstTyp == "+=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
-					elif qstTyp == "-=":
-						B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
-					else:
-						B2_Playerdata.Quest(qstNam, float(qstVal) )
-					
-					if debug_quest: print( "Quest: ", quest_stuff )
+					B2_CManager.cinema_quest( parsed_line, debug_quest )
+					#region Deprecated code
+					#
+					## this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
+					#var quest_stuff := parsed_line[ 1 ].split(" ", false)
+					#var qstNam = quest_stuff[0]
+					#var qstTyp = quest_stuff[1]
+					#var qstVal = quest_stuff[2]
+					#
+					#if qstVal.contains("@"): ## Not sure how this is used.
+						## if (string_pos("@", qstVal) > 0) qstVal = Cinema("parse", qstVal);
+						### Now I know! Its a variable injection, to add arbitrary values to quest variables.
+						## What a beautifull mess.
+						#
+						#qstVal = qstVal.replace("@", "")
+						#if qstVal.begins_with("money_"):
+							#qstVal = qstVal.trim_prefix("money_")
+							#if not B2_Database.money.has(qstVal):
+								#push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
+							#qstVal = B2_Database.money.get(qstVal, "69420666")
+						#elif qstVal.begins_with("time_"):
+							#qstVal = qstVal.trim_prefix("time_")
+							#push_warning("Time function is not implemented.")
+						#else:
+							#breakpoint
+					#else:
+						#qstVal = float( qstVal )
+						#
+					#if qstTyp == "+=":
+						#B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
+					#elif qstTyp == "-=":
+						#B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
+					#else:
+						#B2_Playerdata.Quest(qstNam, float(qstVal) )
+					#
+					#if debug_quest: print( "Quest: ", quest_stuff )
+					#
+					#endregion
+				
 				"BREAKOUT","Breakout":
 					# This is a small Info box above the dialog box, showing money or stuff like that
 					if parsed_line.size() == 2:
@@ -623,6 +629,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_fade: 
 						print( "Fade: ", str(curr_line), " - ", parsed_line )
 				"SOUND":
+					B2_CManager.cinema_sound( parsed_line, debug_sound )
+					#region Deprecated code
 					if parsed_line.size() > 2:
 						# Loops
 						B2_Sound.play( parsed_line[1], 0.0, false, int( parsed_line[2] ) )
@@ -630,6 +638,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					else:
 						B2_Sound.play( parsed_line[1], 0.0, false )
 						if debug_sound: print(parsed_line[1])
+					#endregion
+						
 				"EVENT":
 					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects withe the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
@@ -704,7 +714,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					camera.follow_actor( follow_array, speed )
 					
-				"FRAME":
+				"FRAME": ## TODO Migrate this to a specific function on B2_CManager.
 					# this is a weird one. The original code doesnt have this function FOLLOWFRAME. There is a FOLLOWFRAME() script, however.
 					var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 					var move_array : Array[Node2D] = []
@@ -748,6 +758,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# check scr_event_action_move_to_point and o_move.
 					# fuck. also check scr_path_set, scr_path_delete, scr_path_update. fuck fuck, this is way more complicated.
 					## TODO implement Astar2DGrid on the root node or a standalone class.
+					## NOTE Fuck this, lets learn how to use NavAgents.
 					
 					var target					= parsed_line[2].strip_edges()
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
@@ -921,17 +932,7 @@ func cinema_kids() -> void:
 	dslCinKid.clear()
 	return
 
-func cleanup_line( line : String ) -> PackedStringArray:
-	var parsed_line : PackedStringArray = line.split( "|", false )
-	# Cleanup
-	for i in range( parsed_line.size() ):
-		parsed_line[i] = parsed_line[i].strip_edges()
-		if parsed_line[i].is_empty(): ## Avoid issues with emtpy lines after trimming.
-			continue
-		# parsed_line[i] = parsed_line[i].split("//", false, 1)[ 0 ] ## Strip comments
-		parsed_line[i] = parsed_line[i].get_slice("//", 0) 	## Strip comments
-		parsed_line[i] = parsed_line[i].strip_edges() 		## cleanup for empty spaces
-	return parsed_line
+
 
 func parse_if( line : String ) -> bool:
 	## DEBUG

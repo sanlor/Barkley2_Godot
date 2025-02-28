@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bustae523mxua"]
 
-[ext_resource type="Script" uid="uid://djw5ijaqqu5w" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_control.gd" id="1_bwdje"]
+[ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="3_dl1mb"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="4_yeelg"]
@@ -17,7 +17,7 @@ absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
-[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "step_smoke")]
+[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "step_smoke", "ActorNav", "ActorCol")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_sbutq")
@@ -26,7 +26,7 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
-script = ExtResource("1_bwdje")
+script = ExtResource("1_kxy2o")
 hoopz_normal_body = NodePath("hoopz_normal_body")
 combat_upper_sprite = NodePath("combat_upper_body")
 combat_lower_sprite = NodePath("combat_lower_body")
@@ -34,6 +34,8 @@ combat_arm_back = NodePath("combat_arm_back")
 combat_arm_front = NodePath("combat_arm_front")
 combat_weapon = NodePath("combat_weapon")
 step_smoke = NodePath("step_smoke")
+ActorNav = NodePath("ActorNav")
+ActorCol = NodePath("hoopz_collision")
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_6c22w")]
 
@@ -91,6 +93,8 @@ offset = Vector2(-22, -41)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]

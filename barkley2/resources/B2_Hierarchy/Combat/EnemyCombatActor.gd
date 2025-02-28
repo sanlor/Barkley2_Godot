@@ -17,19 +17,15 @@ var is_changing_states := false
 @export var shadow_scale	:= 1.0
 @export var ActorAnim 		: AnimatedSprite2D
 @export var has_collision 	:= true
-@export var ActorCol 		: CollisionShape2D
+#@export var ActorCol 		: CollisionShape2D
 
 var my_shadow 		: Sprite2D
 
 ## Movement and animation variables.
-var is_moving 				:= false
 var playing_animation 		:= "stand"
-var movement_vector 		:= Vector2.ZERO
-var real_movement_vector 	:= Vector2.ZERO
-var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Animation")
-@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
+#@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
 @export var actor_animations 	: B2_Actor_Animations
 @export var animation_attack 	:= ""
 @export var animation_jump 		:= ""
@@ -39,14 +35,6 @@ var last_movement_vector 	:= Vector2.ZERO
 @export var sound_alert			:= ""
 @export var sound_damage		:= ""
 @export var sound_death			:= ""
-
-@export_category("Movement Stuff")
-var velocity				:= Vector2.ZERO
-var speed_multiplier 		:= 5000.0 # was 900.0
-@export var speed_slow 		:= 12.0 # was 1.5
-@export var speed_normal 	:= 20.0 # was 2.5
-@export var speed_fast 		:= 35.0 # was 5.0
-var speed 					:= speed_normal
 
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
 @export var inactive_ai : B2_AI_Wander
@@ -89,7 +77,7 @@ func _emote( type : String ) -> void:
 
 func _animations() -> void:
 	if is_instance_valid( actor_animations ):
-		if velocity.length() > 10: ## is moving
+		if is_moving:
 			var _dir := "default"
 					
 			match movement_vector:
@@ -124,13 +112,16 @@ func _animations() -> void:
 				Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 2 ]
 				
 		## Flip sprite, if necessary
-		if velocity != Vector2.ZERO:
-			if movement_vector.x < 0:
-				ActorAnim.flip_h = true
-			else:
-				ActorAnim.flip_h = false
+		#if is_moving:
+		if movement_vector.x < 0:
+			ActorAnim.flip_h = true
+		else:
+			ActorAnim.flip_h = false
 	
-func _physics_process(_delta: float) -> void:
+func set_mode( mode : MODE ) -> void:
+	curr_MODE = mode
+	
+func _physics_process( delta: float ) -> void:
 	match curr_MODE:
 		MODE.INACTIVE:
 			inactive_ai.step()
@@ -146,21 +137,12 @@ func _physics_process(_delta: float) -> void:
 			pass
 		
 	## Anim stuff
-	movement_vector 		= velocity.normalized().round()
+	#movement_vector 		= velocity.normalized().round() ## FIXME 27/02/25
 	_animations()
 	last_movement_vector 	= movement_vector
+	
+	_process_movement( delta )
 
 func cinema_look( _direction : Vector2 ) -> void:
 	stop_animation.emit()
 	movement_vector = _direction
-
-func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
-	# Default behaviour
-	match _speed:
-		"MOVE_FAST": speed = speed_fast
-		"MOVE_SLOW": speed = speed_slow
-		"MOVE_NORMAL": speed = speed_normal
-	if _target_spot == null:
-		push_error(name, ": node is invalid. ", _target_spot, ".")
-		
-	move_target = _target_spot
