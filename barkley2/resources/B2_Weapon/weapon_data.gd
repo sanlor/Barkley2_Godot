@@ -2,75 +2,80 @@ extends Resource
 class_name B2_Weapon
 ## Parent class for all weapons.
 ## Holds a list of stats, attack types and skills
-# Check Gun(), GunMap()
+# Check Gun(), GunMap(), scr_combat_weapons_generate()
 
-enum TYPE{ ## List of guntypes. check Gun("init")
-	GUN_TYPE_PISTOL,
-	GUN_TYPE_FLINTLOCK,
-	GUN_TYPE_SUBMACHINEGUN,
-	GUN_TYPE_REVOLVER,
-	GUN_TYPE_MAGNUM,
-	GUN_TYPE_FLAREGUN,
-	GUN_TYPE_RIFLE,
-	GUN_TYPE_MUSKET,
-	GUN_TYPE_HUNTINGRIFLE,
-	GUN_TYPE_TRANQRIFLE,
-	GUN_TYPE_SNIPERRIFLE,
-	GUN_TYPE_ASSAULTRIFLE,
-	GUN_TYPE_MACHINEPISTOL,
-	GUN_TYPE_HEAVYMACHINEGUN,
-	GUN_TYPE_GATLINGGUN,
-	GUN_TYPE_MINIGUN,
-	GUN_TYPE_MITRAILLEUSE,
-	GUN_TYPE_SHOTGUN,
-	GUN_TYPE_DOUBLESHOTGUN,
-	GUN_TYPE_REVOLVERSHOTGUN,
-	GUN_TYPE_ELEPHANTGUN,
-	GUN_TYPE_CROSSBOW,
-	GUN_TYPE_FLAMETHROWER,
-	GUN_TYPE_ROCKET,
-	GUN_TYPE_BFG,
-	}
-enum GROUP{ ## Weapon groups. no idea how its used.
-	AUTOMATIC,
-	MOUNTED,
-	PISTOLS,
-	PROJECTILE,
-	RIFLES,
-	SHOTGUNS,
-}
 enum EFFECT{ DAMAGE, RECOVERY }
 
-@export var weapon_name		:= "Unnamed Weapon"
-@export var weapon_type 	:= TYPE.GUN_TYPE_PISTOL
-@export var weapon_group 	:= GROUP.PISTOLS
-@export var weapon_effect 	:= EFFECT.DAMAGE 		## Damage effect
-@export var projectile		: PackedScene			## Projectile for Ranged type
+@export var weapon_type 	:= B2_Gun.TYPE.GUN_TYPE_PISTOL
+@export var weapon_material	:= B2_Gun.MATERIAL.BROKEN
+@export var weapon_group 	:= B2_Gun.GROUP.PISTOLS
 
-@export var att					:= 3.0
-@export var spd					:= 3.0
+var weapon_name	:= ""
+var prefix1		: Dictionary ## Set by the wpn generation
+var prefix2		: Dictionary ## Set by the wpn generation
+var suffix		: Dictionary ## Set by the wpn generation
+
+var type_data 		: Dictionary
+var material_data 	: Dictionary
+
+## scr_combat_weapons_applyGraphic
+var weapon_color := Color.WHITE
+var decal1_color := Color.WHITE
+var decal2_color := Color.WHITE
+var decal3_color := Color.WHITE
+
+
+## Use decals or not ##
+var displaySpots = false;
+var displayParts = false;
+
+## Decal sprites ##
+var weapon_first_sprite	 	: AnimatedSprite2D 	## Main sprite, needed.
+var weapon_second_sprite	: AnimatedSprite2D
+var weapon_third_sprite	 	: AnimatedSprite2D
+
+## Some sort of a bullet alpha multiplier ##
+var overlayAlpha = 1.0; # for "weapon_second_sprite" only.
+
+## Hoopz's torso sprite for this particular gun ##
+var torsoFrame = "s_HoopzTorsoAim"
+
+var weapon_behaviour		## TODO What this weapon does? check scr_combat_weapons_applyGraphic line 40 to 1800 (Damn)
+
+var weapon_hud_sprite 		: AtlasTexture
+var weapon_hud_sprite_mini 	: AtlasTexture
+
+var projectile		: PackedScene 	## Scene of the projectile that the gun makes
+var sound_id		:= ""			## Sound ID for the shot sfx
+var casing			: PackedScene	## Bullet casing. some weapons dont use this.
+
+@export var att					:= 1.0
+@export var spd					:= 1.0
 @export var lck					:= 1.0
-@export var acc					:= 0.03 ## Lower is better
-@export var damage_variation 	:= 0.2 
-
-@export var max_ammo			:= 10
-var curr_ammo					:= max_ammo
+@export var acc					:= 1.0 ## Lower is better
+@export var damage_variation 	:= 0.0 
 
 @export var max_action			:= 100
 var curr_action					:= 0
 
-@export var attack_cost			:= 35			## How many action point cost for reloading this weapon
+@export var attack_cost			:= 90			## How many action point cost for reloading this weapon
 
 var weapon_xp					:= 0			## Unlocks new skill when you use this weapon for long enough
 
 #@export var normal_attack	: CombatComponent				## Normal attack
 #@export var skill_list		: Dictionary[CombatSkill, int] 	## List of attacks, with the EXP necessary to unlock it
 
-## Used for menus
-var is_selected := false
-
-func _init() -> void:
-	curr_ammo = max_ammo
+func get_full_name() -> String:
+	var full_name := ""
+	if prefix1:
+		full_name += prefix1["name"] + " "
+	if prefix2:
+		full_name += prefix2["name"] + " "
+	full_name += weapon_name
+	if suffix:
+		full_name += " " + suffix["name"]
+	
+	return full_name
 
 ## check if 
 #func has_avaiable_skills() -> bool:
