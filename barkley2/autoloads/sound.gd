@@ -1751,7 +1751,9 @@ func _play_gun_swap_sfx() -> void:
 	if wpn:
 		var wpn_type_data = wpn.type_data as Dictionary
 		if not wpn.type_data.has("swapSound"):
-			print("key swapSound doesnt exist for weapon %s." % wpn.get_full_name() )
+			#print("key swapSound doesnt exist for weapon %s." % wpn.get_full_name() )
+			pass
+		## Tries to pick a specific swapsound. if it cant, play the default one.
 		play_pick( wpn.type_data.get("swapSound", "hoopz_swapguns") ) ## "hoopz_swapguns" is the default is no sound exists
 
 ## used for Positional sounds. # Return the file name for a sound effect

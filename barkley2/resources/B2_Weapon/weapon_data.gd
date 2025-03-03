@@ -57,7 +57,7 @@ var max_action_sfx_played 		:= false
 @export var damage_variation 	:= 0.0 
 
 @export var max_action			:= 100.0
-var curr_action					:= 0.0
+var curr_action					:= 100.0 #0.0
 
 var max_ammo					:= 1000
 var curr_ammo					:= 1000
@@ -81,9 +81,39 @@ func get_full_name() -> String:
 	
 	return full_name
 
+func get_held_sprite() -> String:
+	return type_data.get( "gunHeldSprite", "" )
+
+func get_gun_color1() -> Color:
+	return Color( material_data.get( "color1", "" ) )
+
+func get_gun_color2() -> Color:
+	return Color( material_data.get( "color2", "" ) )
+
+func get_gun_color3() -> Color:
+	return Color( material_data.get( "color3", "" ) )
+
+func get_gun_alpha() -> float:
+	return float( material_data.get( "gunHeldSprite2Alpha", 1.0 ) )
+
+func get_soundID() -> String:
+	return type_data.get( "soundId", "" )
+	
+func get_flash_sprite() -> String:
+	return type_data.get( "flashSprite", "" )
+
+func get_casing_sound() -> String:
+	return type_data.get( "casingSound", "" )
+
+func get_type_data( data : String ):
+	return type_data.get( data )
+	
+func get_material_data( data : String ):
+	return material_data.get( data )
+
 func increase_action() -> void:
 	if has_ammo():
-		var my_spd 		:= spd * 0.25
+		var my_spd 		:= spd * 0.50
 		curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
 		
 		## Play the "ready" sfx.

@@ -66,6 +66,8 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @export var combat_arm_back 		: AnimatedSprite2D
 @export var combat_arm_front 		: AnimatedSprite2D
 @export var combat_weapon 			: AnimatedSprite2D
+@export var combat_weapon_parts		: AnimatedSprite2D
+@export var combat_weapon_spots		: AnimatedSprite2D
 
 @export_category("Misc")
 @export var step_smoke: 		GPUParticles2D
@@ -77,7 +79,7 @@ var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_
 var turning_time 	:= 1.0
 
 ## Combat Animations
-var aim_vector 		:= Vector2.ZERO
+#var aim_vector 		:= Vector2.ZERO
 var waddle			:= false # If hoopz legs should waddle torward the aiming direction
 
 var combat_last_direction 	:= Vector2.ZERO
@@ -103,6 +105,7 @@ var aim_target 		:= Vector2.ZERO ## Cinema stuff: Tells where the node should ai
 
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self
+	B2_Playerdata.gun_changed.connect( _update_held_gun )
 	
 	## Fallback setup
 	if not is_instance_valid( hoopz_normal_body ):
@@ -117,6 +120,10 @@ func _ready() -> void:
 		hoopz_normal_body = get_node( "combat_arm_front" )
 	if not is_instance_valid( combat_weapon ):
 		hoopz_normal_body = get_node( "combat_weapon" )
+	if not is_instance_valid( combat_weapon_parts ):
+		hoopz_normal_body = get_node( "combat_weapon_parts" )
+	if not is_instance_valid( combat_weapon_spots ):
+		hoopz_normal_body = get_node( "combat_weapon_spots" )
 	
 	linear_damp = walk_damp
 	_change_sprites()
@@ -124,6 +131,16 @@ func _ready() -> void:
 	## Reset movement variables.
 	move_target 	= position
 	aim_target 		= position
+
+func _update_held_gun() -> void:
+	var gun := B2_Gun.get_current_gun()
+	set_gun( gun.get_held_sprite(), gun.weapon_type )
+	
+	## Change color.
+	combat_weapon.modulate 				= gun.get_gun_color1()
+	combat_weapon_parts.modulate 		= gun.get_gun_color2()
+	combat_weapon_parts.modulate.a 		= gun.get_gun_alpha()
+	combat_weapon_spots.modulate 		= gun.get_gun_color3()
 
 func _change_sprites():
 	match curr_STATE:
@@ -144,9 +161,9 @@ func _change_sprites():
 			combat_arm_front.show()
 			combat_weapon.show()
 
-func add_smoke() -> void:
+func add_smoke( offset := Vector2.ZERO ) -> void:
 	#for i in randi_range( 1, 2 ):
-	step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+	step_smoke.emit_particle( Transform2D( 0, step_smoke.position + offset ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
 func normal_animation( delta : float ) -> void:
 	var input := movement_vector
@@ -259,7 +276,7 @@ func combat_walk_animation( delta : float) -> void:
 		# player is not moving the character anymore
 		combat_lower_sprite.stop()
 		
-		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( get_global_mouse_position() ).round()
+		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( aim_target ).round()
 		
 		if curr_direction != combat_last_direction:
 			turning_time = 1.0
@@ -270,7 +287,8 @@ func combat_walk_animation( delta : float) -> void:
 			if not is_turning:
 				# play step sound when you change directions, during shuffle. 
 				## WARNING Original game doesnt do this.
-				#B2_Sound.play_pick("hoopz_footstep")
+				B2_Sound.play_pick("hoopz_footstep")
+				add_smoke( Vector2.ONE.rotated( randf_range(0, TAU) ) * 16.0 ) ## Test
 				is_turning = true
 				
 			turning_time -= 6.0 * delta
@@ -298,10 +316,11 @@ func combat_walk_animation( delta : float) -> void:
 		combat_last_direction = curr_direction
 	# Update var
 	combat_last_input = input
+	movement_vector = Vector2.ZERO
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation(  ) -> void:
-	var mouse_input := ( position + Vector2( 0, -16 ) ).direction_to( aim_vector ).snapped( Vector2(0.33,0.33) )
+	var mouse_input := ( position + Vector2( 0, -16 ) ).direction_to(  aim_target ).snapped( Vector2(0.33,0.33) )
 	var dir_frame 	= combat_upper_sprite.frame
 	
 	## Remember, 0.9999999999999 != 1.0
@@ -359,7 +378,7 @@ func combat_aim_animation(  ) -> void:
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_weapon_animation() -> void:
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( aim_vector ).snapped( Vector2(0.33,0.33) )
+	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( aim_target ).snapped( Vector2(0.33,0.33) )
 	var gun_pos 		:= Vector2(18, 0)
 	
 	## Many Manual touch ups.
@@ -445,6 +464,14 @@ func combat_weapon_animation() -> void:
 		combat_weapon.frame 	= s_frame
 		combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
 		combat_weapon.z_index	= _z_index
+		
+		combat_weapon_parts.frame 	= combat_weapon.frame
+		combat_weapon_parts.offset 	= combat_weapon.offset
+		combat_weapon_parts.z_index	= combat_weapon.z_index
+		
+		combat_weapon_spots.frame 	= combat_weapon.frame
+		combat_weapon_spots.offset 	= combat_weapon.offset
+		combat_weapon_spots.z_index	= combat_weapon.z_index
 
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
@@ -470,6 +497,74 @@ func _on_combat_lower_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
+
+## Change the held weapon sprite. Also can change hoopz torso.
+## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
+## WARNING Missing "Dual" type. TODO
+func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
+	if combat_weapon.sprite_frames.has_animation( gun_name ):
+		combat_weapon.show()
+		combat_weapon.animation = gun_name
+	else:
+		push_warning("Invalid main gun sprite")
+		combat_weapon.hide()
+		
+	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
+		combat_weapon_parts.show()
+		combat_weapon_parts.animation = gun_name
+	else: combat_weapon_parts.hide()
+		
+	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
+		combat_weapon_spots.show()
+		combat_weapon_spots.animation = gun_name
+	else: combat_weapon_spots.hide()
+	
+	if [B2_Gun.TYPE.GUN_TYPE_REVOLVER,
+		B2_Gun.TYPE.GUN_TYPE_PISTOL,
+		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
+		B2_Gun.TYPE.GUN_TYPE_MAGNUM,
+		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL ].has( gun_type ): 
+			combat_arm_back.animation 	= "s_HoopzTorso_Handgun"
+			combat_arm_front.animation 	= "s_HoopzTorso_Handgun"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_RIFLE,
+		B2_Gun.TYPE.GUN_TYPE_MUSKET,
+		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,
+		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER,
+		B2_Gun.TYPE.GUN_TYPE_CROSSBOW,
+		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Rifle"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rifle"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN,
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE,
+		B2_Gun.TYPE.GUN_TYPE_BFG,].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Heavy"
+			combat_arm_front.animation 	= "s_HoopzTorso_Heavy"
+	elif gun_type == B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
+	else:
+		## Unknown type.
+		breakpoint
+
+## NOTE aim_target is a position in space or a direction?
+func aim_gun( _aim_target : Vector2 ) -> void:
+	aim_target = _aim_target
+	curr_STATE = STATE.AIM
+
+func stop_aiming() -> void:
+	curr_STATE = STATE.NORMAL
 
 func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	# Roooolliiing staaaaart! ...here vvv

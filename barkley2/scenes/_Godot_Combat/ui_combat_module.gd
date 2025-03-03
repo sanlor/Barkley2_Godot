@@ -40,6 +40,8 @@ func _on_attack_btn() -> void:
 		var gun = B2_Gun.get_current_gun() as B2_Weapon
 		gun.use_ammo( 15 )
 		gun.reset_action()
+		player_character.set_gun( B2_Gun.get_current_gun().get_held_sprite(), B2_Gun.get_current_gun().weapon_type )
+		player_character.aim_gun( enemy_list.pick_random().position )
 	pass
 	
 func _on_skill_btn() -> void:

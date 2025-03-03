@@ -34,6 +34,8 @@ class_name B2_Player
 @export var combat_arm_back 		: AnimatedSprite2D
 @export var combat_arm_front 		: AnimatedSprite2D
 @export var combat_weapon 			: AnimatedSprite2D
+@export var combat_weapon_parts 	: AnimatedSprite2D
+@export var combat_weapon_spots 	: AnimatedSprite2D
 
 const COMBAT_SHUFFLE 		:= "aim_shuffle"
 const COMBAT_STAND 			:= "aim_stand"
@@ -85,6 +87,7 @@ var debug_walk_dir : Vector2
 func _ready() -> void:
 	B2_CManager.o_hoopz = self
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
+	B2_Playerdata.gun_changed.connect( _update_held_gun )
 	linear_damp = walk_damp
 	_change_sprites()
 	
@@ -106,6 +109,78 @@ func get_room_permissions():
 	else:
 		print("B2_PLAYER: Not inside a room. do whatever is set on exports")
 	
+func _update_held_gun() -> void:
+	var gun := B2_Gun.get_current_gun()
+	set_gun( gun.get_held_sprite(), gun.weapon_type )
+	
+	## Change color.
+	print(gun.get_gun_color1())
+	combat_weapon.modulate 				= gun.get_gun_color1()
+	combat_weapon_parts.modulate 		= gun.get_gun_color2()
+	combat_weapon_parts.modulate.a 		= gun.get_gun_alpha()
+	combat_weapon_spots.modulate 		= gun.get_gun_color3()
+	
+	
+## Change the held weapon sprite. Also can change hoopz torso.
+## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
+## WARNING Missing "Dual" type. TODO
+func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
+	if combat_weapon.sprite_frames.has_animation( gun_name ):
+		combat_weapon.show()
+		combat_weapon.animation = gun_name
+	else:
+		push_warning("Invalid main gun sprite")
+		combat_weapon.hide()
+		
+	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
+		combat_weapon_parts.show()
+		combat_weapon_parts.animation = gun_name
+	else: combat_weapon_parts.hide()
+		
+	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
+		combat_weapon_spots.show()
+		combat_weapon_spots.animation = gun_name
+	else: combat_weapon_spots.hide()
+	
+	if [B2_Gun.TYPE.GUN_TYPE_REVOLVER,
+		B2_Gun.TYPE.GUN_TYPE_PISTOL,
+		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
+		B2_Gun.TYPE.GUN_TYPE_MAGNUM,
+		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL ].has( gun_type ): 
+			combat_arm_back.animation 	= "s_HoopzTorso_Handgun"
+			combat_arm_front.animation 	= "s_HoopzTorso_Handgun"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_RIFLE,
+		B2_Gun.TYPE.GUN_TYPE_MUSKET,
+		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,
+		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER,
+		B2_Gun.TYPE.GUN_TYPE_CROSSBOW,
+		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Rifle"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rifle"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN,
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE,
+		B2_Gun.TYPE.GUN_TYPE_BFG,].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Heavy"
+			combat_arm_front.animation 	= "s_HoopzTorso_Heavy"
+	elif gun_type == B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
+	else:
+		## Unknown type.
+		breakpoint
+	
 func _change_sprites():
 	match curr_STATE:
 		STATE.NORMAL, STATE.ROLL:
@@ -116,6 +191,8 @@ func _change_sprites():
 			combat_arm_back.hide()
 			combat_arm_front.hide()
 			combat_weapon.hide()
+			combat_weapon_parts.hide()
+			combat_weapon_spots.hide()
 		STATE.AIM:
 			hoopz_normal_body.hide()
 			
@@ -124,6 +201,8 @@ func _change_sprites():
 			combat_arm_back.show()
 			combat_arm_front.show()
 			combat_weapon.show()
+			combat_weapon_parts.show()
+			combat_weapon_spots.show()
 
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
@@ -339,6 +418,14 @@ func combat_weapon_animation():
 		combat_weapon.frame 	= s_frame
 		combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
 		combat_weapon.z_index	= _z_index
+		
+		combat_weapon_parts.frame 	= combat_weapon.frame
+		combat_weapon_parts.offset 	= combat_weapon.offset
+		combat_weapon_parts.z_index	= combat_weapon.z_index
+		
+		combat_weapon_spots.frame 	= combat_weapon.frame
+		combat_weapon_spots.offset 	= combat_weapon.offset
+		combat_weapon_spots.z_index	= combat_weapon.z_index
 		
 		aim_dir = mouse_input
 

@@ -37,8 +37,6 @@ func start_battle():
 	
 	B2_Music.play_combat( 0.1 )
 
-
-
 func tick_combat() -> void:
 	B2_CManager.o_hud.get_combat_module().tick_combat()
 	

@@ -427,13 +427,13 @@ static func next_band_gun() -> void:
 static func prev_band_gun() -> void:
 	B2_Playerdata.selected_gun -= 1
 	
-static func get_current_gun():
+static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.bandolier.is_empty():
-		return null
+		return B2_Weapon.new()
 	else:
 		if B2_Playerdata.bandolier.size() <= B2_Playerdata.selected_gun:
 			push_error("Array overflow")
-			return null
+			return B2_Weapon.new()
 		else:
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ]
 #endregion

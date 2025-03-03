@@ -126,7 +126,7 @@ func parse_data( data : String ) -> void:
 			if verbose_prints: 
 				print(name + ": loaded font %s - %s." % [ int( text_data[4] ), label.label_settings.font.resource_name ] )
 			label.text = Text.pr( text_data[1] )
-			label.modulate = just_convert_gamemaker_color_to_hex_already( int( text_data[5] ) )
+			label.modulate = B2_Gamedata.just_convert_gamemaker_color_to_hex_already( int( text_data[5] ) )
 			label.modulate.a = float( text_data[6] )
 			# NOTE Bitch, this wasnt supposed to be hard. GameMaker uses a stupid int based color ( draw_set_color(real(arrSub[5])) ). Its not hex. How can I convert it to something I can understand?
 			# check https://marketplace.gamemaker.io/assets/2074/number-conversion-and-other
@@ -141,24 +141,6 @@ func parse_data( data : String ) -> void:
 	else:
 		push_warning("NOTE: No data to parse. Is this normal?")
 	pass
-
-func just_convert_gamemaker_color_to_hex_already( stupid_color : int ) -> Color:
-	# check https://marketplace.gamemaker.io/assets/2074/number-conversion-and-other
-	## Shit, I just got it!!! Gamemaker uses a weird decimal sistem to set color!!!
-	# check https://manual.gamemaker.io/lts/en/GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/Colour_And_Alpha.htm#
-	# c_lime 	  	65280 -> 0x00FF00 ( 00 B - FF G - 00 R )
-	var my_col := Color.WHITE
-	
-	var stupid_hex_color := String.num_int64( stupid_color, 16, true).lpad(6,"0")
-	var r := stupid_hex_color.substr(4, 1)
-	var g := stupid_hex_color.substr(2, 1)
-	var b := stupid_hex_color.substr(0, 1)
-	
-	if str(r + g + b).is_valid_hex_number():
-		my_col = Color( r + g + b )
-	else:
-		push_warning("Invalid color :" + r + g + b)
-	return my_col
 
 func play_sfx() -> void:
 	var sfx : String

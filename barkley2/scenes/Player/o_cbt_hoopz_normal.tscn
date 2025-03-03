@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bustae523mxua"]
+[gd_scene load_steps=14 format=3 uid="uid://bustae523mxua"]
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
@@ -9,6 +9,8 @@
 [ext_resource type="SpriteFrames" uid="uid://d1m3bdwt0blc0" path="res://barkley2/resources/Player/combat_upper_body_normal.tres" id="7_ksmw3"]
 [ext_resource type="SpriteFrames" uid="uid://dgnkrv5sdn82d" path="res://barkley2/resources/Player/combat_weapon.tres" id="8_fw1v2"]
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="9_7ql2g"]
+[ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ty5ks"]
+[ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_47sbk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sbutq"]
 friction = 0.25
@@ -17,7 +19,7 @@ absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
-[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "step_smoke", "ActorNav", "ActorCol")]
+[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "step_smoke", "ActorNav", "ActorCol")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_sbutq")
@@ -33,6 +35,8 @@ combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
 combat_arm_front = NodePath("combat_arm_front")
 combat_weapon = NodePath("combat_weapon")
+combat_weapon_parts = NodePath("combat_weapon_parts")
+combat_weapon_spots = NodePath("combat_weapon_spots")
 step_smoke = NodePath("step_smoke")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("hoopz_collision")
@@ -68,13 +72,14 @@ offset = Vector2(-22, -42)
 [node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("6_xhkf0")
+animation = &"s_HoopzTorso_Heavy"
 centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("7_ksmw3")
-animation = &"aim"
+animation = &"s_HoopzTorso_Armless"
 centered = false
 offset = Vector2(-22, -41)
 
@@ -82,12 +87,27 @@ offset = Vector2(-22, -41)
 visible = false
 position = Vector2(0, -18)
 sprite_frames = ExtResource("8_fw1v2")
-animation = &"Pistol"
+animation = &"s_TranqRifle"
+offset = Vector2(18, 0)
+
+[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, -18)
+sprite_frames = ExtResource("9_ty5ks")
+animation = &"s_TranqRifle"
+offset = Vector2(18, 0)
+
+[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, -18)
+sprite_frames = ExtResource("10_47sbk")
+animation = &"s_Smg"
 offset = Vector2(18, 0)
 
 [node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("9_7ql2g")
+animation = &"s_HoopzTorso_Heavy"
 centered = false
 offset = Vector2(-22, -41)
 

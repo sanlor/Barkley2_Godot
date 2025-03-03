@@ -4,7 +4,11 @@ extends B2_InteractiveActor
 func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
-
+	
+	B2_Gun.add_gun() ## DEBUG
+	B2_Gun.add_gun() ## DEBUG
+	B2_Gun.add_gun() ## DEBUG
+	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""

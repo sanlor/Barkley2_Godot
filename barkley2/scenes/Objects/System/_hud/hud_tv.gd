@@ -33,8 +33,21 @@ func _ready() -> void:
 func change_tv_face():
 	tv_face.texture.region.position.x = ( curr_face * region.x ) + ( curr_health * region.x * FACES_PER_HEALTH )
 
+func update_health_display():
+	var _curr 	= B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_CURRENT_HP )
+	var _max 	= B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_EFFECTIVE_MAX_HP )
+	var health_ratio : float = _curr / _max
+	
+	## Choose the right hoopz face to show.
+	@warning_ignore("narrowing_conversion")
+	var new_health = DED_OFFSET - int( float(DED_OFFSET) * health_ratio )
+	if curr_face != new_health:
+		curr_health = new_health
+		change_tv_face()
+
 func _physics_process(delta: float) -> void:
 	hud_health.update_health_display()
+	update_health_display()
 	
 	faceCount -= FACE_SPEED * delta 
 	if faceCount < 0.0:

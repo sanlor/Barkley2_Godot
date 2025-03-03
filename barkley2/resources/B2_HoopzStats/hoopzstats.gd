@@ -64,7 +64,7 @@ const STAT_EFFECTIVE_ENCUMBERANCE 		:= "encumb"
 var max_action					:= 100.0
 var curr_action					:= 0.0
 var max_health					:= 12.0
-var curr_health					:= max_health
+var curr_health					:= 6.0
 
 ## Main Stats
 var guts					:= 12.0
