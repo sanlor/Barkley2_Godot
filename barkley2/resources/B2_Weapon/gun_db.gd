@@ -11,6 +11,9 @@ const GUNPERSHEET 	= 9; 	## Number of guns to put per sheet. If loading a sheet 
 const GUNMATERIALS 	= 81; 	## Maximum number of gun materials in game
 const GUNTYPES 		= 26;	## Maximum number of types of guns we'll have
 
+const BANDOLIER_SIZE 	:= 3
+const GUNBAG_SIZE 		:= 3
+
 enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_PISTOL,
 	GUN_TYPE_FLINTLOCK,
@@ -293,6 +296,9 @@ const geneMaximumVariance 		:= 30;	## Range = 1-100
 const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 
+
+## Code related to weapon creation, generation and fusion (maybe?).
+#region Gun creation
 # Check Drop("generate") line 396
 ## For now, luck stat plays no part in this
 static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE ) -> B2_Weapon:
@@ -313,6 +319,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 	
 	## Set base name
 	wpn.weapon_name = gun_names[ wpn.weapon_type ]
+	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
 	
 	## Pick weapon material if not specified
 	if material != MATERIAL.NONE:
@@ -377,9 +384,56 @@ static func weapon_graphics( wpn : B2_Weapon ) -> void:
 ## this... is a mess. simulates the script scr_combat_weapons_applyMaterial()
 static func weapon_material( wpn : B2_Weapon ) -> void:
 	var my_mat : Dictionary = GUN_MATERIAL_DB.data
-	wpn.material_data = my_mat[ wpn.weapon_material ]
+	wpn.material_data = my_mat[ str(wpn.weapon_material) ]
 
 ## this... is a mess. simulates the script scr_combat_weapons_applyType()
 static func weapon_type( wpn : B2_Weapon ) -> void:
 	var my_type : Dictionary = GUN_TYPE_DB.data
-	wpn.type_data = my_type[ wpn.weapon_type ]
+	wpn.type_data = my_type[ str(wpn.weapon_type) ]
+
+#endregion
+
+## Code related to adding guns, taking guns and stuff like that.
+#region Gun management
+
+## Add gun to inventory
+static func add_gun( add_to_bandolier := true, type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE ) -> void: ## TODO
+	if B2_Playerdata.bandolier.size() < BANDOLIER_SIZE and add_to_bandolier:
+		B2_Playerdata.bandolier.append( generate_gun(type, material) )
+	elif B2_Playerdata.gun_bag.size() < GUNBAG_SIZE:
+		B2_Playerdata.gun_bag.append( generate_gun(type, material) )
+	else:
+		push_warning( "Bandolier and Gunbag full." )
+	
+## remove specific gun from inventory
+static func remove_gun( wpn : B2_Weapon ) -> void:
+	B2_Playerdata.bandolier.erase( wpn )
+	B2_Playerdata.gun_bag.erase( wpn )
+	## TODO manage bandolier and gun bag.
+	
+static func clear_guns() -> void:
+	B2_Playerdata.bandolier.clear()
+	B2_Playerdata.gun_bag.clear()
+	
+static func get_bandolier() -> Array[B2_Weapon]:
+	return B2_Playerdata.bandolier
+	
+static func get_gunbag() -> Array[B2_Weapon]:
+	return B2_Playerdata.gun_bag
+	
+static func next_band_gun() -> void:
+	B2_Playerdata.selected_gun += 1
+	
+static func prev_band_gun() -> void:
+	B2_Playerdata.selected_gun -= 1
+	
+static func get_current_gun():
+	if B2_Playerdata.bandolier.is_empty():
+		return null
+	else:
+		if B2_Playerdata.bandolier.size() <= B2_Playerdata.selected_gun:
+			push_error("Array overflow")
+			return null
+		else:
+			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ]
+#endregion

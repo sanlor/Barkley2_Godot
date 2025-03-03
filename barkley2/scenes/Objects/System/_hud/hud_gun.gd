@@ -2,6 +2,7 @@ extends ColorRect
 
 ## Holy shit. It has begun...
 ## There is no way im going to port the gun system at this point
+## 02/03/25 today is the day...
 
 var offset_x := Vector2(2.0, 0.0)
 var offset_y := Vector2(0.0, 2.0)

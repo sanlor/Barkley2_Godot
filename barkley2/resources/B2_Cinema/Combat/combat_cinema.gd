@@ -27,7 +27,7 @@ class_name B2_Combat_CinemaPlayer
 @export var print_line_report 	:= false ## details about the current script line.
 #endregion
 
-const O_COMBAT_UI = preload("uid://c1a8fta51ill1")
+#const O_COMBAT_UI = preload("uid://c1a8fta51ill1")
 
 signal battle_finished ## Called at the end of the battle, before queue itself out of the game.
 signal action_finished ## Called at the end of the combat action.
@@ -81,7 +81,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 	B2_Input.player_follow_mouse.emit( false )
 	B2_Input.camera_follow_mouse.emit( false )
 	
-	_load_combat_ui()
+	#_load_combat_ui()
 	
 	if is_instance_valid(B2_CManager.o_hud):
 		## 23-02-25 New UI needs this.
@@ -216,12 +216,20 @@ func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1 	## Ticker setup.
 	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self  					## Combat manager setup.
 	combat_ticker.timeout.connect( _tick_combat )													## Tick tock
-	combat_manager.enemy_list 			= enemies
-	combat_manager.player_character 	= B2_CManager.o_cbt_hoopz
+	combat_manager.register_enemy_list( enemies )
+	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
 	combat_ticker.start()
+	combat_manager.tick_toggled.connect( toggle_combat_ticker )
 	combat_manager.start_battle()
 				
+func toggle_combat_ticker( enabled : bool ) -> void:
+	if enabled:
+		combat_ticker.start()
+	else:
+		combat_ticker.stop()
+				
 func end_combat():
+	combat_manager.tick_toggled.disconnect( toggle_combat_ticker )
 	await get_tree().process_frame
 	_load_hoopz_player()
 	
@@ -299,10 +307,10 @@ func check_cinema_action() -> void:
 	ongoing_actions.clear()
 	return
 
-func _load_combat_ui() -> void:
-	var o_combat_ui = O_COMBAT_UI.instantiate()
-	get_tree().current_scene.add_child( o_combat_ui, true )
-	B2_CManager.o_combat_ui = self
+#func _load_combat_ui() -> void:
+	#var o_combat_ui = O_COMBAT_UI.instantiate()
+	#get_tree().current_scene.add_child( o_combat_ui, true )
+	#B2_CManager.o_combat_ui = self
 
 func _load_combat_hoopz_actor():
 	var hoopz_lookup := get_tree().current_scene.get_children()

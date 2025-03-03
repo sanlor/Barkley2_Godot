@@ -28,6 +28,9 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body == B2_CManager.o_hoopz:
 		detection_radius.set_deferred( "disabled", true )
+		B2_Gun.add_gun() ## DEBUG
+		B2_Gun.add_gun() ## DEBUG
+		#B2_Gun.add_gun() ## DEBUG
 		begin_battle()
 	
 func _make_enemies() -> void:

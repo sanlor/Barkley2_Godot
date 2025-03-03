@@ -27,16 +27,18 @@ var debug_messages := true
 @onready var hud_wifi: ColorRect = $hud_bar/hud_wifi
 
 ## Ammo
+@onready var hud_gun_sprite: TextureRect = $hud_bar/hud_gun/hud_gun_sprite
 @onready var hud_ammo_amount: Label = $hud_bar/hud_ammo/hud_ammo_amount
 
 ## Combat
 @onready var player_control_weapons: B2_Border = $combat_module/player_control_weapons
 @onready var player_control_move: B2_Border = $combat_module/player_control_move
 @onready var player_control_defend: B2_Border = $combat_module/player_control_defend
-@onready var weapon_stats: B2_Border = $combat_module/weapon_stats
 
-@onready var player_controls: B2_Border = $player_controls ## PLACEHOLDER
+@onready var weapon_stats_mini: VBoxContainer = $combat_module/weapon_stats_mini
 
+@onready var player_controls: 	B2_Border = $player_controls ## PLACEHOLDER
+@onready var combat_module: 	B2_HudCombat = $combat_module
 
 @export var is_hud_visible := true
 
@@ -63,7 +65,8 @@ func _ready() -> void:
 	_change_visibility()
 		
 	B2_Playerdata.quest_updated.connect( _change_visibility )
-		
+	#B2_Playerdata.gun_changed.connect( update_gun_hud )
+	
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y
 	hud_tv.change_tv_face()
@@ -72,13 +75,16 @@ func _ready() -> void:
 	player_control_weapons.hide()
 	player_control_move.hide()
 	player_control_defend.hide()
-	weapon_stats.hide()
 	player_controls.hide()
+	weapon_stats_mini.hide()
 	player_control_weapons.modulate.a 	= 0.0
 	player_control_move.modulate.a 		= 0.0
 	player_control_defend.modulate.a 	= 0.0
-	weapon_stats.modulate.a 			= 0.0
 	player_controls.modulate.a 			= 0.0
+	weapon_stats_mini.modulate.a 		= 0.0
+	
+func get_combat_module() -> B2_HudCombat:
+	return combat_module
 	
 func _change_visibility() -> void:
 	if B2_Playerdata.Quest("hudVisible") == 0:
@@ -174,13 +180,14 @@ func show_battle_ui() -> void:
 	c_tween.tween_callback( player_control_weapons.show )
 	c_tween.tween_callback( player_control_move.show )
 	c_tween.tween_callback( player_control_defend.show )
-	c_tween.tween_callback( weapon_stats.show )
 	c_tween.tween_callback( player_controls.show )
+	c_tween.tween_callback( weapon_stats_mini.show )
+	
 	c_tween.tween_property(player_control_weapons, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_control_move, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, combat_fade_speed)
-	c_tween.tween_property(weapon_stats, 			"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(weapon_stats_mini, 		"modulate:a", 1.0, combat_fade_speed)
 
 func hide_battle_ui() -> void:
 	if c_tween:
@@ -190,14 +197,25 @@ func hide_battle_ui() -> void:
 	c_tween.tween_property(player_control_weapons, 	"modulate:a", 0.0, combat_fade_speed)
 	c_tween.tween_property(player_control_move, 	"modulate:a", 0.0, combat_fade_speed)
 	c_tween.tween_property(player_control_defend, 	"modulate:a", 0.0, combat_fade_speed)
-	c_tween.tween_property(weapon_stats, 			"modulate:a", 0.0, combat_fade_speed)
 	c_tween.tween_property(player_controls, 		"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(weapon_stats_mini, 		"modulate:a", 0.0, combat_fade_speed)
+	
 	c_tween.set_parallel(false)
 	c_tween.tween_callback( player_control_weapons.hide )
 	c_tween.tween_callback( player_control_move.hide )
 	c_tween.tween_callback( player_control_defend.hide )
-	c_tween.tween_callback( weapon_stats.hide )
 	c_tween.tween_callback( player_controls.hide )
+	c_tween.tween_callback( weapon_stats_mini.hide )
 	
 func set_ammo_amt( amt : int ):
 	hud_ammo_amount.text = str( clampi(amt, 0, 9999) )
+
+func _physics_process(_delta: float) -> void:
+	var curr_wpn = B2_Gun.get_current_gun()
+	if curr_wpn:
+		hud_gun_sprite.texture = curr_wpn.weapon_hud_sprite
+		set_ammo_amt( curr_wpn.curr_ammo )
+	else:
+		hud_gun_sprite.texture = null
+		set_ammo_amt( 0 )
+	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=82 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -24,10 +24,12 @@
 [ext_resource type="Script" uid="uid://cqvq6dbas1rif" path="res://barkley2/scenes/Objects/System/_hud/hud_marquee.gd" id="21_okcn5"]
 [ext_resource type="Theme" uid="uid://c7cxu4mqaywah" path="res://barkley2/themes/combat_ui.tres" id="23_ev2ej"]
 [ext_resource type="Script" uid="uid://w2dp4pc2371y" path="res://barkley2/scenes/_Godot_Combat/ui_combat_module.gd" id="24_reaae"]
-[ext_resource type="PackedScene" uid="uid://cnkroip8gbsn1" path="res://barkley2/scenes/_Godot_Combat/menu_wpn_data.tscn" id="26_87fvl"]
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="28_xl7ta"]
 [ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="29_bb8yl"]
+[ext_resource type="Script" uid="uid://hdtn72r3n557" path="res://barkley2/scenes/_Godot_Combat/weapon_stats_mini.gd" id="29_exq50"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="30_exq50"]
 [ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="30_fnn2t"]
+[ext_resource type="Texture2D" uid="uid://bby3h27kh76mu" path="res://barkley2/resources/B2_Weapon/weapon_atlas01.tres" id="30_mn44q"]
 [ext_resource type="Texture2D" uid="uid://bvtq3dk87dgrm" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_2.png" id="31_2sw3h"]
 [ext_resource type="Texture2D" uid="uid://blpuh3ucxvwvm" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_7.png" id="32_qiyjh"]
 [ext_resource type="Texture2D" uid="uid://cuuimkyfxk2vc" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_12.png" id="33_g47fk"]
@@ -134,6 +136,9 @@ width = 30
 atlas = ExtResource("17_84qe1")
 region = Rect2(0, 0, 14, 30)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h7ri8"]
+bg_color = Color(1, 1, 1, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6fwqh"]
 atlas = ExtResource("18_4ys7d")
 region = Rect2(0, 0, 12, 30)
@@ -150,6 +155,30 @@ atlas = ExtResource("21_7gemm")
 region = Rect2(0, 0, 16, 18)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_mn44q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exq50"]
+bg_color = Color(0.5, 0.5, 0.5, 0.1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mn44q"]
+bg_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_h7ri8"]
+ProgressBar/fonts/font = null
+ProgressBar/styles/background = SubResource("StyleBoxFlat_exq50")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_mn44q")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mn44q"]
+font = ExtResource("30_exq50")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_exq50"]
 
@@ -230,6 +259,7 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_rybhr")
 
 [node name="hud_dna" type="ColorRect" parent="hud_bar"]
+process_mode = 1
 layout_mode = 0
 offset_left = 261.0
 offset_top = 5.0
@@ -454,19 +484,17 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("18_mgkjs")
 
-[node name="hud_periodic_amount" type="ColorRect" parent="hud_bar/hud_periodic"]
-custom_minimum_size = Vector2(12, 0)
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_bottom = 14.864
-grow_horizontal = 2
-grow_vertical = 0
-scale = Vector2(1, -1)
-mouse_filter = 2
-color = Color(0.282657, 0.017666, 0.0220826, 1)
+[node name="hud_periodic_amount" type="ProgressBar" parent="hud_bar/hud_periodic"]
+modulate = Color(0.983761, 0.420938, 0.379711, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 29.0
+offset_right = 29.0
+offset_bottom = 39.0
+rotation = 4.71239
+theme_override_styles/fill = SubResource("StyleBoxFlat_h7ri8")
+value = 50.0
+show_percentage = false
 
 [node name="hud_periodic_frame" type="TextureRect" parent="hud_bar/hud_periodic"]
 layout_mode = 0
@@ -687,37 +715,110 @@ n
 d"
 autowrap_mode = 1
 
-[node name="weapon_stats" type="Control" parent="combat_module"]
-material = ExtResource("28_xl7ta")
-anchors_preset = 0
-offset_top = 125.0
-offset_right = 100.0
+[node name="weapon_stats_mini" type="VBoxContainer" parent="combat_module"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 168.0
+offset_right = 157.0
 offset_bottom = 200.0
-theme = ExtResource("29_bb8yl")
-script = ExtResource("30_fnn2t")
-border_size = Vector2(100, 75)
-metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+theme_override_constants/separation = 2
+script = ExtResource("29_exq50")
 
-[node name="weapon_stats_vbox" type="VBoxContainer" parent="combat_module/weapon_stats"]
+[node name="wpn_list" type="HBoxContainer" parent="combat_module/weapon_stats_mini"]
 layout_mode = 2
-offset_left = 7.0
-offset_top = 12.0
-offset_right = 90.0
-offset_bottom = 65.0
-theme_override_constants/separation = 3
-alignment = 1
 
-[node name="menu_wpn_data" parent="combat_module/weapon_stats/weapon_stats_vbox" instance=ExtResource("26_87fvl")]
+[node name="gun_1" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
 layout_mode = 2
-script = null
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("30_mn44q")
 
-[node name="menu_wpn_data3" parent="combat_module/weapon_stats/weapon_stats_vbox" instance=ExtResource("26_87fvl")]
-layout_mode = 2
-script = null
+[node name="g1_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
 
-[node name="menu_wpn_data2" parent="combat_module/weapon_stats/weapon_stats_vbox" instance=ExtResource("26_87fvl")]
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_1"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+horizontal_alignment = 2
+
+[node name="gun_2" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
 layout_mode = 2
-script = null
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("30_mn44q")
+
+[node name="g2_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
+
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_2"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+horizontal_alignment = 2
+
+[node name="gun_3" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("30_mn44q")
+
+[node name="g3_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
+
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_3"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+horizontal_alignment = 2
+
+[node name="wpn_name" type="Label" parent="combat_module/weapon_stats_mini"]
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_mn44q")
+vertical_alignment = 1
 
 [node name="player_controls" type="Control" parent="."]
 z_index = -1

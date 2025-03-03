@@ -27,14 +27,16 @@ var faceCount 	:= 2.0 + randf()
 var faceWait 	:= 0.5 + randf() * 1.5
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_PAUSABLE ## Avoid moving its face with the game paused
 	hud_health.update_health_display()
 
 func change_tv_face():
 	tv_face.texture.region.position.x = ( curr_face * region.x ) + ( curr_health * region.x * FACES_PER_HEALTH )
 
 func _physics_process(delta: float) -> void:
-	faceCount -= FACE_SPEED * delta 
+	hud_health.update_health_display()
 	
+	faceCount -= FACE_SPEED * delta 
 	if faceCount < 0.0:
 		faceCount = 2.0 + randf()
 		if randf() < 0.5:

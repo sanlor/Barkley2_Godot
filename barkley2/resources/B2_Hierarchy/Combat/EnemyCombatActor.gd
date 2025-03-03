@@ -22,7 +22,7 @@ var is_changing_states := false
 var my_shadow 		: Sprite2D
 
 ## Movement and animation variables.
-var playing_animation 		:= "stand"
+var playing_animation 			:= "stand"
 
 @export_category("Animation")
 #@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
@@ -35,6 +35,10 @@ var playing_animation 		:= "stand"
 @export var sound_alert			:= ""
 @export var sound_damage		:= ""
 @export var sound_death			:= ""
+
+@export_category("Enemy Stats")
+@export var enemy_name	:= ""
+@export var enemy_data	: B2_EnemyData
 
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
 @export var inactive_ai : B2_AI_Wander
@@ -68,6 +72,11 @@ func _setup_enemy() -> void:
 		my_shadow = O_SHADOW.instantiate()
 		my_shadow.scale *= shadow_scale
 		add_child( my_shadow, true)
+		
+	if enemy_name:
+		if not enemy_data:
+			enemy_data = B2_EnemyData.new()
+		enemy_data.apply_stats( enemy_name )
 
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()

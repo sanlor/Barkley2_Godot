@@ -10,8 +10,6 @@ signal event_ended
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
 
-
-
 ## Normal, player controlable node
 const O_CTS_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
 const O_CTS_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
@@ -159,7 +157,7 @@ func cinema_sound( parsed_line : PackedStringArray, debug := false ) -> void:
 		if debug: print( parsed_line )
 
 ## Moves the camera torward a node *OR* torward the average portition of a group of nodes.
-func cinema_frame( parsed_line : PackedStringArray, source, debug := false ) -> void:
+func cinema_frame( parsed_line : PackedStringArray, source, _debug := false ) -> void:
 	var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 	var move_array : Array[Node2D] = []
 	

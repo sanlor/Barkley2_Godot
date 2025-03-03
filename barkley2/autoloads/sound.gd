@@ -897,7 +897,8 @@ func _init_sound_picks():
 	_add_sound_pick("hoopz_reload", "sn_shotgun_reload01");
 	_add_sound_pick("hoopz_reload", "sn_shotgun_reload02");
 	_add_sound_pick("hoopz_reload", "sn_shotgun_reload03");
-
+	## NOTE maybe missing reload sfx?
+	
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload01");
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload02");
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload03");
@@ -1739,9 +1740,19 @@ func _enter_tree() -> void:
 	_init_sound_picks()
 	
 func _ready():
+	B2_Playerdata.gun_changed.connect( _play_gun_swap_sfx )
 	for i in sound_pool_amount:
 		sound_pool.append( 					AudioStreamPlayer.new() 	)
 	if debug_messages: print( "Sound: sound_pool: x", sound_pool.size() ); print( "Sound: sound_bank entries: %s. sound_pick entries: %s." % [ sound_bank.size(), sound_pick.size() ] )
+
+## Plays SFX when the player changes Weapons.
+func _play_gun_swap_sfx() -> void:
+	var wpn = B2_Gun.get_current_gun()
+	if wpn:
+		var wpn_type_data = wpn.type_data as Dictionary
+		if not wpn.type_data.has("swapSound"):
+			print("key swapSound doesnt exist for weapon %s." % wpn.get_full_name() )
+		play_pick( wpn.type_data.get("swapSound", "hoopz_swapguns") ) ## "hoopz_swapguns" is the default is no sound exists
 
 ## used for Positional sounds. # Return the file name for a sound effect
 func get_sound(soundID : String) -> String:

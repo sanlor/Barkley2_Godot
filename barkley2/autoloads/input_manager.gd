@@ -23,6 +23,7 @@ signal camera_follow_mouse( enabled : bool )
 var ff_time_scale			:= 5.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
 var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
 var is_fastforwarding		:= false 	# Set to true when you are FFWD
+var can_switch_guns			:= true		# if the player can swap guns (Should be disabled in menus)
 
 # Node responsible for the Input management.
 
@@ -56,6 +57,12 @@ func _physics_process(_delta: float) -> void:
 				debug_camera_enabled = true
 				player_has_control = false
 		
+	
+	if can_switch_guns:
+		if Input.is_action_just_pressed("Weapon >"):
+			B2_Gun.next_band_gun()
+		if Input.is_action_just_pressed("Weapon <"):
+			B2_Gun.prev_band_gun()
 	
 	if Input.is_action_just_pressed("Action"):
 		action_pressed.emit()
