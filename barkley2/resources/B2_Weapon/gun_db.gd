@@ -65,6 +65,7 @@ enum MATERIAL{
 	## DEBUG
 	NONE,
 	}
+	
 enum GROUP{ ## Weapon groups. no idea how its used.
 	AUTOMATIC,
 	MOUNTED,
@@ -260,24 +261,136 @@ const suffix := [
 	{ "action": null, "description": "reactive", "gene1": "strange", "gene2": "mental", "name": "of Bailing Out" },
 	]
 
-## Data related to the material status modifiers. This took me 1 hour to make, hope I use it.
-const GUN_MATERIAL_DB = preload("res://barkley2/resources/B2_Weapon/gun_material_db.json")
+## Data related to the material status modifiers. This took me 1 hour to make, hope I use it. ## DEPRECATED
+#const GUN_MATERIAL_DB = preload("res://barkley2/resources/B2_Weapon/gun_material_db.json")
 
-## Data related to the weapon type. its missing a lot of stuff.
-const GUN_TYPE_DB = preload("res://barkley2/resources/B2_Weapon/gun_type_db.json")
+## Data related to the weapon type. its missing a lot of stuff. ## DEPRECATED
+#const GUN_TYPE_DB = preload("res://barkley2/resources/B2_Weapon/gun_type_db.json")
 
-## Old sprite sheet.
-const FRANKIE_GUNS_OLD := [ ## List of weapon sheets.
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns0.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns1.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns2.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns3.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns4.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns5.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns6.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns7.png"),
-	preload("res://barkley2/assets/b2_original/guns/FrankieGuns8.png"),
-	]
+const MATERIAL_LIST : Dictionary[MATERIAL, String] = {
+	MATERIAL.PRINTED : ("res://barkley2/resources/B2_Weapon/material/3D Printed.tres"),
+	MATERIAL.ADAMANTIUM : ("res://barkley2/resources/B2_Weapon/material/Adamantium.tres"),
+	MATERIAL.AEROGEL : ("res://barkley2/resources/B2_Weapon/material/Aerogel.tres"),
+	MATERIAL.ALUMINIUM : ("res://barkley2/resources/B2_Weapon/material/Aluminium.tres"),
+	MATERIAL.ALUMINUM : ("res://barkley2/resources/B2_Weapon/material/Aluminum.tres"),
+	MATERIAL.ANALOG : ("res://barkley2/resources/B2_Weapon/material/Analog.tres"),
+	MATERIAL.ANTI_MATTER : ("res://barkley2/resources/B2_Weapon/material/Anti-Matter.tres"),
+	MATERIAL.BLASTER : ("res://barkley2/resources/B2_Weapon/material/Blaster.tres"),
+	MATERIAL.BLOOD : ("res://barkley2/resources/B2_Weapon/material/Blood.tres"),
+	MATERIAL.BONE : ("res://barkley2/resources/B2_Weapon/material/Bone.tres"),
+	MATERIAL.BRAIN : ("res://barkley2/resources/B2_Weapon/material/Brain.tres"),
+	MATERIAL.BRASS : ("res://barkley2/resources/B2_Weapon/material/Brass.tres"),
+	MATERIAL.BROKEN : ("res://barkley2/resources/B2_Weapon/material/Broken.tres"),
+	MATERIAL.BRONZE : ("res://barkley2/resources/B2_Weapon/material/Bronze.tres"),
+	MATERIAL.CANDY : ("res://barkley2/resources/B2_Weapon/material/Candy.tres"),
+	MATERIAL.CARBON : ("res://barkley2/resources/B2_Weapon/material/Carbon.tres"),
+	MATERIAL.CHITIN : ("res://barkley2/resources/B2_Weapon/material/Chitin.tres"),
+	MATERIAL.CHOBHAM : ("res://barkley2/resources/B2_Weapon/material/Chobham.tres"),
+	MATERIAL.CHROME : ("res://barkley2/resources/B2_Weapon/material/Chrome.tres"),
+	MATERIAL.COBALT : ("res://barkley2/resources/B2_Weapon/material/Cobalt.tres"),
+	MATERIAL.COPPER : ("res://barkley2/resources/B2_Weapon/material/Copper.tres"),
+	MATERIAL.CRYSTAL : ("res://barkley2/resources/B2_Weapon/material/Crystal.tres"),
+	MATERIAL.DAMASCUS : ("res://barkley2/resources/B2_Weapon/material/Damascus.tres"),
+	MATERIAL.DENIM : ("res://barkley2/resources/B2_Weapon/material/Denim.tres"),
+	MATERIAL.DIAMOND : ("res://barkley2/resources/B2_Weapon/material/Diamond.tres"),
+	MATERIAL.DIGITAL : ("res://barkley2/resources/B2_Weapon/material/Digital.tres"),
+	MATERIAL.DUAL : ("res://barkley2/resources/B2_Weapon/material/Dual.tres"),
+	MATERIAL.FIBERGLASS : ("res://barkley2/resources/B2_Weapon/material/Fiberglass.tres"),
+	MATERIAL.FOIL : ("res://barkley2/resources/B2_Weapon/material/Foil.tres"),
+	MATERIAL.FRANCIUM : ("res://barkley2/resources/B2_Weapon/material/Francium.tres"),
+	MATERIAL.FRANKINCENSE : ("res://barkley2/resources/B2_Weapon/material/Frankincense.tres"),
+	MATERIAL.FUNGUS : ("res://barkley2/resources/B2_Weapon/material/Fungus.tres"),
+	MATERIAL.GLASS : ("res://barkley2/resources/B2_Weapon/material/Glass.tres"),
+	MATERIAL.GOLD : ("res://barkley2/resources/B2_Weapon/material/Gold.tres"),
+	MATERIAL.GRASS : ("res://barkley2/resources/B2_Weapon/material/Grass.tres"),
+	MATERIAL.IMAGINARY : ("res://barkley2/resources/B2_Weapon/material/Imaginary.tres"),
+	MATERIAL.IRON : ("res://barkley2/resources/B2_Weapon/material/Iron.tres"),
+	MATERIAL.ITANO : ("res://barkley2/resources/B2_Weapon/material/Itano.tres"),
+	MATERIAL.JUNK : ("res://barkley2/resources/B2_Weapon/material/Junk.tres"),
+	MATERIAL.LEAD : ("res://barkley2/resources/B2_Weapon/material/Lead.tres"),
+	MATERIAL.LEATHER : ("res://barkley2/resources/B2_Weapon/material/Leather.tres"),
+	MATERIAL.MARBLE : ("res://barkley2/resources/B2_Weapon/material/Marble.tres"),
+	MATERIAL.MERCURY : ("res://barkley2/resources/B2_Weapon/material/Mercury.tres"),
+	MATERIAL.MYRRH : ("res://barkley2/resources/B2_Weapon/material/Myrrh.tres"),
+	MATERIAL.MYTHRIL : ("res://barkley2/resources/B2_Weapon/material/Mythril.tres"),
+	MATERIAL.NANOTUBE : ("res://barkley2/resources/B2_Weapon/material/Nanotube.tres"),
+	MATERIAL.NAPALM : ("res://barkley2/resources/B2_Weapon/material/Napalm.tres"),
+	MATERIAL.NEON : ("res://barkley2/resources/B2_Weapon/material/Neon.tres"),
+	MATERIAL.NICKEL : ("res://barkley2/resources/B2_Weapon/material/Nickel.tres"),
+	MATERIAL.OBSIDIAN : ("res://barkley2/resources/B2_Weapon/material/Obsidian.tres"),
+	MATERIAL.OFFAL : ("res://barkley2/resources/B2_Weapon/material/Offal.tres"),
+	MATERIAL.ORB : ("res://barkley2/resources/B2_Weapon/material/Orb.tres"),
+	MATERIAL.ORICHALCUM : ("res://barkley2/resources/B2_Weapon/material/Orichalcum.tres"),
+	MATERIAL.ORIGAMI : ("res://barkley2/resources/B2_Weapon/material/Origami.tres"),
+	MATERIAL.PEARL : ("res://barkley2/resources/B2_Weapon/material/Pearl.tres"),
+	MATERIAL.PINATA : ("res://barkley2/resources/B2_Weapon/material/Pinata.tres"),
+	MATERIAL.PLANTAIN : ("res://barkley2/resources/B2_Weapon/material/Plantain.tres"),
+	MATERIAL.PLASTIC : ("res://barkley2/resources/B2_Weapon/material/Plastic.tres"),
+	MATERIAL.PLATINUM : ("res://barkley2/resources/B2_Weapon/material/Platinum.tres"),
+	MATERIAL.POLENTA : ("res://barkley2/resources/B2_Weapon/material/Polenta.tres"),
+	MATERIAL.PORCELAIN : ("res://barkley2/resources/B2_Weapon/material/Porcelain.tres"),
+	MATERIAL.ROTTEN : ("res://barkley2/resources/B2_Weapon/material/Rotten.tres"),
+	MATERIAL.RUBBER : ("res://barkley2/resources/B2_Weapon/material/Rubber.tres"),
+	MATERIAL.RUSTY : ("res://barkley2/resources/B2_Weapon/material/Rusty.tres"),
+	MATERIAL.SALT : ("res://barkley2/resources/B2_Weapon/material/Salt.tres"),
+	MATERIAL.SILK : ("res://barkley2/resources/B2_Weapon/material/Silk.tres"),
+	MATERIAL.SILVER : ("res://barkley2/resources/B2_Weapon/material/Silver.tres"),
+	MATERIAL.SINEW : ("res://barkley2/resources/B2_Weapon/material/Sinew.tres"),
+	MATERIAL.SOILED : ("res://barkley2/resources/B2_Weapon/material/Soiled.tres"),
+	MATERIAL.SOY : ("res://barkley2/resources/B2_Weapon/material/Soy.tres"),
+	MATERIAL.STEEL : ("res://barkley2/resources/B2_Weapon/material/Steel.tres"),
+	MATERIAL.STONE : ("res://barkley2/resources/B2_Weapon/material/Stone.tres"),
+	MATERIAL.STUDDED : ("res://barkley2/resources/B2_Weapon/material/Studded.tres"),
+	MATERIAL.TAXIDERMY : ("res://barkley2/resources/B2_Weapon/material/Taxidermy.tres"),
+	MATERIAL.TIN : ("res://barkley2/resources/B2_Weapon/material/Tin.tres"),
+	MATERIAL.TITANIUM : ("res://barkley2/resources/B2_Weapon/material/Titanium.tres"),
+	MATERIAL.TUNGSTEN : ("res://barkley2/resources/B2_Weapon/material/Tungsten.tres"),
+	MATERIAL.UNTAMONIUM : ("res://barkley2/resources/B2_Weapon/material/Untamonium.tres"),
+	MATERIAL.WOOD : ("res://barkley2/resources/B2_Weapon/material/Wood.tres"),
+	MATERIAL.YGGDRASIL : ("res://barkley2/resources/B2_Weapon/material/Yggdrasil.tres"),
+	MATERIAL.ZINC : ("res://barkley2/resources/B2_Weapon/material/Zinc.tres"),
+	}
+## Old sprite sheet.  ## DEPRECATED
+#const FRANKIE_GUNS_OLD := [ ## List of weapon sheets.
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns0.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns1.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns2.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns3.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns4.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns5.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns6.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns7.png"),
+	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns8.png"),
+	#]
+	
+const TYPE_LIST : Dictionary[TYPE, String] = {
+	TYPE.GUN_TYPE_ASSAULTRIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ASSAULTRIFLE.tres"),
+	TYPE.GUN_TYPE_BFG : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_BFG.tres"),
+	TYPE.GUN_TYPE_CROSSBOW : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_CROSSBOW.tres"),
+	TYPE.GUN_TYPE_DOUBLESHOTGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_DOUBLESHOTGUN.tres"),
+	TYPE.GUN_TYPE_ELEPHANTGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ELEPHANTGUN.tres"),
+	TYPE.GUN_TYPE_FLAMETHROWER : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAMETHROWER.tres"),
+	TYPE.GUN_TYPE_FLAREGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAREGUN.tres"),
+	TYPE.GUN_TYPE_FLINTLOCK : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLINTLOCK.tres"),
+	TYPE.GUN_TYPE_GATLINGGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_GATLINGGUN.tres"),
+	TYPE.GUN_TYPE_HEAVYMACHINEGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HEAVYMACHINEGUN.tres"),
+	TYPE.GUN_TYPE_HUNTINGRIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HUNTINGRIFLE.tres"),
+	TYPE.GUN_TYPE_MACHINEPISTOL : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MACHINEPISTOL.tres"),
+	TYPE.GUN_TYPE_MAGNUM : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MAGNUM.tres"),
+	TYPE.GUN_TYPE_MINIGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MINIGUN.tres"),
+	TYPE.GUN_TYPE_MITRAILLEUSE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MITRAILLEUSE.tres"),
+	TYPE.GUN_TYPE_MUSKET : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MUSKET.tres"),
+	TYPE.GUN_TYPE_PISTOL : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_PISTOL.tres"),
+	TYPE.GUN_TYPE_REVOLVER : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVER.tres"),
+	TYPE.GUN_TYPE_REVOLVERSHOTGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVERSHOTGUN.tres"),
+	TYPE.GUN_TYPE_RIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_RIFLE.tres"),
+	TYPE.GUN_TYPE_ROCKET : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ROCKET.tres"),
+	TYPE.GUN_TYPE_SHOTGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SHOTGUN.tres"),
+	TYPE.GUN_TYPE_SNIPERRIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SNIPERRIFLE.tres"),
+	TYPE.GUN_TYPE_SUBMACHINEGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SUBMACHINEGUN.tres"),
+	TYPE.GUN_TYPE_TRANQRIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_TRANQRIFLE.tres"),
+}
+
 
 ## Merged sprite sheet. way simpler.
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")
@@ -311,11 +424,13 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 		var type_rand := randi_range(0,99)
 		if type_rand < 80:
 			wpn.weapon_type = RARITY_TYPE[RARITY.TRASH].pick_random()
-			
 		elif type_rand < 90:
 			wpn.weapon_type = RARITY_TYPE[RARITY.MEH].pick_random()
 		else:
 			wpn.weapon_type = RARITY_TYPE[RARITY.RARE].pick_random()
+	
+	## Get the type resource
+	wpn.type_data = weapon_type( wpn.weapon_type )
 	
 	## Set base name
 	wpn.weapon_name = gun_names[ wpn.weapon_type ]
@@ -335,6 +450,14 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 		else:
 			wpn.weapon_material = RARITY_MATERIAL[RARITY.GODAM].pick_random()
 	
+	## Get the material resource
+	wpn.material_data = weapon_material( wpn.weapon_material )
+	
+	if wpn.type_data == null:
+		push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
+	if wpn.material_data == null:
+		push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
+	
 	## Pick affixes
 	var affix_rand := 0
 	affix_rand = randi_range(0,99)
@@ -352,14 +475,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
 	wpn.att = randi_range(1,9)
 	wpn.spd = randi_range(1,9)
-	wpn.lck = randi_range(1,9)
+	#wpn.lck = randi_range(1,9) ## TEMP
 	wpn.acc = randi_range(1,9)
-		
-	## add type modifiers
-	weapon_type( wpn )
-		
-	## add material modifiers
-	weapon_material( wpn )
 		
 	## Add graphic data, textures, colors, etc.
 	weapon_graphics( wpn )
@@ -382,14 +499,14 @@ static func weapon_graphics( wpn : B2_Weapon ) -> void:
 	wpn.weapon_hud_sprite = first_atlas
 
 ## this... is a mess. simulates the script scr_combat_weapons_applyMaterial()
-static func weapon_material( wpn : B2_Weapon ) -> void:
-	var my_mat : Dictionary = GUN_MATERIAL_DB.data
-	wpn.material_data = my_mat[ str(wpn.weapon_material) ]
+static func weapon_material( mat : MATERIAL ) -> B2_WeaponMaterial:
+	var m := load( MATERIAL_LIST[mat] ) as B2_WeaponMaterial
+	return m
 
 ## this... is a mess. simulates the script scr_combat_weapons_applyType()
-static func weapon_type( wpn : B2_Weapon ) -> void:
-	var my_type : Dictionary = GUN_TYPE_DB.data
-	wpn.type_data = my_type[ str(wpn.weapon_type) ]
+static func weapon_type( typ : TYPE ) -> B2_WeaponType:
+	var t = load( TYPE_LIST[typ] ) as B2_WeaponType
+	return t
 
 #endregion
 
@@ -422,18 +539,21 @@ static func get_gunbag() -> Array[B2_Weapon]:
 	return B2_Playerdata.gun_bag
 	
 static func next_band_gun() -> void:
-	B2_Playerdata.selected_gun += 1
+	#B2_Playerdata.selected_gun += 1
+	push_warning("DEBUG disabled")
 	
 static func prev_band_gun() -> void:
-	B2_Playerdata.selected_gun -= 1
+	#B2_Playerdata.selected_gun -= 1
+	push_warning("DEBUG disabled")
 	
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.bandolier.is_empty():
-		return B2_Weapon.new()
+		push_warning("Bandolier is empty.")
+		return null
 	else:
 		if B2_Playerdata.bandolier.size() <= B2_Playerdata.selected_gun:
 			push_error("Array overflow")
-			return B2_Weapon.new()
+			return null
 		else:
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ]
 #endregion

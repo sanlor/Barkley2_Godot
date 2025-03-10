@@ -1,0 +1,135 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7nay1t8aarj2"]
+
+[ext_resource type="Script" uid="uid://v5m2bk8ak6ct" path="res://barkley2/rooms/_debug/gun_tester.gd" id="1_ra10b"]
+[ext_resource type="PackedScene" uid="uid://bustae523mxua" path="res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn" id="2_fnde3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ra10b"]
+
+[node name="GunTester" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ra10b")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="generate" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Gen Gun"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="type_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="types" type="OptionButton" parent="HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="mat_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="mats" type="OptionButton" parent="HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="gun_text" type="TextureRect" parent="HBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(49, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = SubResource("PlaceholderTexture2D_ra10b")
+expand_mode = 2
+
+[node name="gun_name" type="Label" parent="HBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "PLACEHOLDER"
+
+[node name="pad" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="details" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Details"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+initial_position = 1
+size = Vector2i(600, 600)
+exclusive = false
+
+[node name="ScrollContainer" type="ScrollContainer" parent="AcceptDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 592.0
+offset_bottom = 551.0
+
+[node name="detail_text" type="Label" parent="AcceptDialog/ScrollContainer"]
+layout_mode = 2
+text = "asdasd"
+
+[node name="o_cbt_hoopz" parent="." instance=ExtResource("2_fnde3")]
+position = Vector2(59, 178)
+
+[node name="spin" type="Button" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 133.0
+offset_right = 180.0
+offset_bottom = 164.0
+toggle_mode = true
+text = "Spin!"
+
+[node name="shoot_da_gun" type="Button" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 169.0
+offset_right = 180.0
+offset_bottom = 200.0
+text = "Pow!"
+
+[node name="spin_+" type="Button" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 168.0
+offset_right = 23.0
+offset_bottom = 199.0
+text = "<"
+
+[node name="spin_-" type="Button" parent="."]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 168.0
+offset_right = 127.0
+offset_bottom = 199.0
+text = ">"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="HBoxContainer/generate" to="." method="_on_generate_pressed"]
+[connection signal="pressed" from="HBoxContainer/details" to="." method="_on_details_pressed"]
+[connection signal="pressed" from="shoot_da_gun" to="." method="_on_shoot_da_gun_pressed"]
+[connection signal="pressed" from="spin_+" to="." method="_on_spin__pressed"]
+[connection signal="pressed" from="spin_-" to="." method="_on_spin_minus_pressed"]
