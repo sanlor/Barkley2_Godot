@@ -73,6 +73,8 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @export_category("Misc")
 @export var step_smoke: 		GPUParticles2D
 
+@onready var aim_origin: Marker2D = $aim_origin
+
 ## General Animation
 var last_direction 	:= Vector2.ZERO
 var last_input 		:= Vector2.ZERO
@@ -437,9 +439,9 @@ func get_gun_held_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldDist = 16.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.TYPE.GUN_TYPE_MAGNUM, B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldDist = 17.0
+			heldDist = 17.0 # was 17.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldDist = 17.0
+			heldDist = 17.0 # was 17.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
 			heldDist = 0.0
 		_:
@@ -477,8 +479,8 @@ func get_gun_shifts() -> Vector2:
 			heldVShift = 12;
 			heldHShift = 8;
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldHShift = 0;
-			heldVShift = 5;
+			heldHShift = 0; # 0
+			heldVShift = 5; # 5
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldHShift = 0;
 			heldVShift = 6;
@@ -492,10 +494,8 @@ func get_gun_shifts() -> Vector2:
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_weapon_animation() -> void:
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	const ARMS_HEIGHT := Vector2( 0, -16 )
-	var target_dir 		:= ( position + ARMS_HEIGHT ).direction_to( aim_target )
+	var target_dir 		:= position.direction_to( aim_target )
 	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
-	var gun_pos 		:= Vector2(12, 0)
 	
 	## Many Manual touch ups.
 	var s_frame 		:= combat_weapon.frame
@@ -580,32 +580,34 @@ func combat_weapon_animation() -> void:
 				#print(mouse_input)
 				pass
 	
-	## Copilot slop.
+	## Copilot/chatgpt slop.
 	var new_gun_pos := Vector2.ZERO
-	var dir 		= combat_weapon.frame * 22.5
-	var distx		= sin( deg_to_rad( dir ) ) * get_gun_held_dist()
-	var disty		= cos( deg_to_rad( dir ) ) * get_gun_held_dist()
-	disty *= 0.75
-	var xhshift 	= sin( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
-	var yhshift 	= cos( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
-	yhshift *= 0.75
+	#var dir			:= ( position + ARMS_HEIGHT  ).direction_to( aim_target )
+	#var dir 		:= combat_weapon.frame * 22.5
+	#var distx		:= sin( deg_to_rad( dir ) ) * get_gun_held_dist()
+	#var disty		:= cos( deg_to_rad( dir ) ) * get_gun_held_dist()
+	#disty *= 0.75
+	#var xhshift 	:= sin( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
+	#var yhshift 	:= cos( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
+	#yhshift *= 0.75
+	#
+	#new_gun_pos.x = round( distx + xhshift )
+	#new_gun_pos.y = round( disty - 16.0 - get_gun_shifts().y + yhshift )
 	
-	new_gun_pos.x = round( distx + xhshift )
-	new_gun_pos.y = round( disty - 16.0 - get_gun_shifts().y + yhshift )
+	## My own slop.
+	new_gun_pos 	= target_dir * get_gun_held_dist()
 	
-	#new_gun_pos = ( position ).direction_to( aim_target ) * get_gun_held_dist()
-	#new_gun_pos.y *= 0.75
-	#new_gun_pos += Vector2( get_gun_shifts().x, 0 ).rotated( dir + deg_to_rad(270) )
-	#new_gun_pos.y += get_gun_shifts().y * 0.75
-	#new_gun_pos.y -= 16.0
-	#new_gun_pos = new_gun_pos.round()
+	new_gun_pos 	+= get_gun_shifts().rotated( position.angle_to( aim_target ) )
+	#new_gun_pos.y 	+= get_gun_shifts().y * 0.75
+	#new_gun_pos.y 	*= 0.75
+	new_gun_pos.y 	-= 16.0
+	new_gun_pos 	= new_gun_pos.round()
 	
 	print( new_gun_pos )
 	
-	gun_muzzle.position = ( new_gun_pos + ( position ).direction_to( aim_target ) * get_muzzle_dist() )# + ARMS_HEIGHT 
-	gun_muzzle.position.y *= 0.75
-	
-	gun_muzzle.position += ARMS_HEIGHT 
+	gun_muzzle.position = new_gun_pos
+	#gun_muzzle.position.y *= 0.75
+	#gun_muzzle.position += ARMS_HEIGHT 
 	
 	if combat_weapon.frame != s_frame:
 		combat_weapon.frame 			= s_frame
