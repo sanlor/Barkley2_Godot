@@ -45,6 +45,7 @@ func _on_generate_pressed() -> void:
 	#var tttt = 	load("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ASSAULTRIFLE.tres")
 	B2_Gun.remove_gun( B2_Gun.get_current_gun() )
 	B2_Gun.add_gun( true, my_type, my_mat )
+	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
 	
 	#my_gun = B2_Gun.generate_gun( my_type, my_mat )
 	set_texture()
@@ -77,7 +78,7 @@ func _on_details_pressed() -> void:
 	accept_dialog.show()
 
 func update_hoopz():
-	o_cbt_hoopz.aim_gun( o_cbt_hoopz.position + angle * 100 )
+	o_cbt_hoopz.aim_gun( o_cbt_hoopz.global_position + angle * 128 )
 
 func _on_timer_timeout() -> void:
 	if spin.button_pressed:

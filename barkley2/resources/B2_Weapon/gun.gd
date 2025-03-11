@@ -91,36 +91,59 @@ func get_soundID() -> String:
 	var soundId := type_data.soundId
 	if material_data.soundId: ## Material sound override
 		soundId = material_data.soundId
+	if soundId.is_empty():
+		soundId = "hoopz_shellcasing_light" ## Default
 	return soundId
 	
 func get_flash_sprite() -> String:
 	return type_data.flashSprite
 
 func get_swap_sound() -> String:
-	return type_data.swapSound
+	if type_data.swapSound.is_empty():
+		return "hoopz_swapguns"
+	else:
+		return type_data.swapSound
 
 func get_bullet_sprite() -> String:
 	return material_data.pBulletSprite
 
 func get_bullet_color() -> Color:
-	return material_data.pBulletColor
+	if material_data.pBulletColor.is_empty():
+		return Color.WHITE
+	else:
+		return Color( material_data.pBulletColor )
 
 func get_casing_sound() -> String:
 	return type_data.casingSound
 	
 func get_casing_color() -> Color:
 	return Color.from_string( type_data.bcasingCol, Color.HOT_PINK )
+	
+func get_casing_scale() -> float:
+	if type_data.bcasingScale.is_empty():
+		return 0.5
+	else:
+		return float( type_data.bcasingScale )
+	
+func get_casing_speed() -> float:
+	if type_data.bcasingSpd.is_empty():
+		return 1.0
+	else:
+		return float( type_data.bcasingSpd )
+	
 #endregion
 
 #region Weapon Operation
-func shoot_gun( scene_to_place : Node2D, dir : Vector2 ) -> void:
+func shoot_gun( scene_to_place : Node2D, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
+	B2_Sound.play( get_soundID() )
 	var bullet = O_BULLET.instantiate()
 	var casing = O_CASINGS.instantiate()
 	bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
 	bullet.set_direction( dir )
+	casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
 	
-	bullet.position = scene_to_place.position
-	casing.position = scene_to_place.position
+	bullet.position = source_pos
+	casing.position = casing_pos
 	
 	scene_to_place.add_sibling( bullet, true )
 	scene_to_place.add_sibling( casing, true )

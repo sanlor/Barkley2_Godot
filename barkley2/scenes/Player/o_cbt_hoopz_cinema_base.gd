@@ -410,7 +410,7 @@ func get_muzzle_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldBulletDist = 20.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 8.0
+			heldBulletDist = 14.0 # was 8.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldBulletDist = 8.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
@@ -439,7 +439,7 @@ func get_gun_held_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldDist = 16.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.TYPE.GUN_TYPE_MAGNUM, B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldDist = 17.0 # was 17.0
+			heldDist = 22.0 # was 17.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldDist = 17.0 # was 17.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
@@ -489,18 +489,21 @@ func get_gun_shifts() -> Vector2:
 			heldHShift = -12;
 	
 	#heldVShift = 0 ## DEBUG
-	return Vector2( heldHShift, heldVShift )
+	#return Vector2( heldHShift, heldVShift )
+	return Vector2( heldVShift, heldHShift )
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_weapon_animation() -> void:
+	## TODO backport this to o_hoopz.
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var target_dir 		:= position.direction_to( aim_target )
+	var target_dir 		:= global_position.direction_to( aim_target )
+	var target_angle	:= global_position.angle_to_point( aim_target )
 	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 	
 	## Many Manual touch ups.
 	var s_frame 		:= combat_weapon.frame
 	var angle 			:= 0.0
-	var height_offset	:= Vector2(0, 0)
+	var height_offset	:= Vector2(0, 0) ## DEPRECATED
 	var _z_index		:= 0
 	
 	match mouse_input:
@@ -582,32 +585,35 @@ func combat_weapon_animation() -> void:
 	
 	## Copilot/chatgpt slop.
 	var new_gun_pos := Vector2.ZERO
-	#var dir			:= ( position + ARMS_HEIGHT  ).direction_to( aim_target )
+	#var dir		:= ( position + ARMS_HEIGHT  ).direction_to( aim_target )
 	#var dir 		:= combat_weapon.frame * 22.5
 	#var distx		:= sin( deg_to_rad( dir ) ) * get_gun_held_dist()
 	#var disty		:= cos( deg_to_rad( dir ) ) * get_gun_held_dist()
-	#disty *= 0.75
+	#disty 			*= 0.75
 	#var xhshift 	:= sin( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
 	#var yhshift 	:= cos( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
-	#yhshift *= 0.75
-	#
-	#new_gun_pos.x = round( distx + xhshift )
-	#new_gun_pos.y = round( disty - 16.0 - get_gun_shifts().y + yhshift )
+	#yhshift 		*= 0.75
+	
+	#new_gun_pos.x 	= round( distx + xhshift )
+	#new_gun_pos.y 	= round( disty - 16.0 - get_gun_shifts().y + yhshift )
 	
 	## My own slop.
+	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
+	# took 3 days finetuning this. 11/03/25 
 	new_gun_pos 	= target_dir * get_gun_held_dist()
 	
-	new_gun_pos 	+= get_gun_shifts().rotated( position.angle_to( aim_target ) )
-	#new_gun_pos.y 	+= get_gun_shifts().y * 0.75
-	#new_gun_pos.y 	*= 0.75
-	new_gun_pos.y 	-= 16.0
+	new_gun_pos 	-= get_gun_shifts().rotated( target_angle )
+	new_gun_pos.y 	-= get_gun_shifts().y * 0.75
+	new_gun_pos.y 	*= 0.75
+	new_gun_pos.y 	-= 18.0 # was 16.0
 	new_gun_pos 	= new_gun_pos.round()
 	
-	print( new_gun_pos )
+	#print( "" )
+	#print( get_gun_shifts().rotated( target_angle ) )
+	#print( "target_dir: \t\t", target_dir)
+	#print( "new_gun_pos: \t\t", new_gun_pos )
 	
-	gun_muzzle.position = new_gun_pos
-	#gun_muzzle.position.y *= 0.75
-	#gun_muzzle.position += ARMS_HEIGHT 
+	gun_muzzle.position = new_gun_pos + Vector2( get_muzzle_dist(), 1.0 ).rotated( target_angle )
 	
 	if combat_weapon.frame != s_frame:
 		combat_weapon.frame 			= s_frame
@@ -710,7 +716,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
-		gun.shoot_gun( self, position.direction_to(aim_target) )
+		gun.shoot_gun( self, combat_weapon.global_position, gun_muzzle.global_position, position.direction_to(aim_target) )
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
