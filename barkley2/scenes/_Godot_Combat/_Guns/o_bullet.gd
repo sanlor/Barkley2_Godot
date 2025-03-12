@@ -14,6 +14,8 @@ extends Node2D
 # NOTE not charge, but the weapon stats, the sum of all stats. 
 # Check o_bullet alarm0
 
+## NOTE main theme for coding this section of the game: https://youtu.be/bFMWuAC5HV4
+
 @onready var bullet_trail: 	Line2D 				= $bullet_trail
 @onready var bullet_spr: 	AnimatedSprite2D 	= $bullet_spr
 
@@ -41,7 +43,7 @@ var rangeEndGrav 		= 0;
 var accel 				= 0;
 var maxspd 				= 48;
 var minspd 				= 6;
-var speedBonus 			= 1; ##for rifles
+var speedBonus 			= 1; 		##for rifles
 var lobDirection 		= 0;
 var lobGravity 			= 0;
 var dotline 			= 0;
@@ -55,6 +57,8 @@ var rocketShot 			= false;
 var bfgShot 			= false;
 var bfgSparkTimer 		= 0;
 var bfgFiredDirection 	= 0;
+
+## NOTE choice(1,-1) -> [1,-1].pick_random()
 
 func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
