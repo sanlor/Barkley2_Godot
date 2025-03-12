@@ -16,11 +16,18 @@ var dir : Vector2
 func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
 
+## Gamedev is my passion...
+# here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
+# my idea is this: lets make an animation on the fly! shouldnt impact the performance.
+## NOTE forget that, I just added all animations using a convetion script. 11/03/25
 func setup_bullet_sprite( spr : String, col : Color ) -> void:
 	if spr:
-		var file_path := "res://barkley2/assets/b2_original/images/merged/" + spr + ".png"
-		if FileAccess.file_exists( file_path ):
-			var sprite_file = load( file_path )
+		if bullet_spr.sprite_frames.has_animation( spr ):
+			bullet_spr.animation = spr
+			bullet_spr.look_at( position + dir )
+		else:
+			push_warning("No animation called %s." % spr)
+		
 	modulate = col
 
 func _physics_process(delta: float) -> void:

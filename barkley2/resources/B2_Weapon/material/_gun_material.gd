@@ -17,7 +17,10 @@ class_name B2_WeaponMaterial
 @export var _recoil 		:= 0.3
 @export var _wgt 			:= 1.0
 
-@export var soundId 		: String
+@export var soundId 			: String
+@export var gunHeldSprite2Alpha := 1.0
+@export var bcasing 			: String
+@export var pBulletColor 		: String
 
 @export var col 			: String
 @export var gunheldcol1 	: String
@@ -25,15 +28,12 @@ class_name B2_WeaponMaterial
 @export var gunheldcol3  	: String
 @export var displayParts  	: String
 @export var gunheldcol2  	: String
-@export var gunHeldSprite2Alpha := 1.0
+
 
 @export var gunheldcol  : String
 @export var hudIconFrame : String
 @export var pBulletSprite : String
 
-
-@export var bcasing : String
-@export var pBulletColor : String
 @export var normalFlame  : String
 @export var specialFlame  : String
 @export var bRangeEndGrav : String
