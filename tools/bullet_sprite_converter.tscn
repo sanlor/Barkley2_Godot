@@ -1,0 +1,311 @@
+[gd_scene load_steps=2 format=3 uid="uid://vne26j56l8x3"]
+
+[sub_resource type="GDScript" id="GDScript_o7clf"]
+resource_name = "converter"
+script/source = "@tool
+extends Node
+
+@onready var bullet_spr: AnimatedSprite2D = $\"../bullet_spr\"
+
+@export var spr_folder_path 		:= \"Y:/tmp/barkley_2/Barkley2.gmx/sprites\"
+
+var big_ass_list := [
+	\"res://barkley2/assets/b2_original/images/merged/s_bull.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bullsparkle.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_adamant.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_aerogel.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angelBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angelCore.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_feathers.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_giant.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_huge.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_medium.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_angel_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_antimatter.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_antimatterback.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_arrow.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_arrowBase.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_arrowHead.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bananaBurst.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bfg.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bfg_impact.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_blaster.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_blasterBlast.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_blasterBlastMed.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_blood.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bloodBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bone.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_boneBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_boneRocket.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_brainshot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_brass.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_bronze.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_candyShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_carbon.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_caterpillar.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_centipede.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_cockroach.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_crab.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_egg.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_eggHatch1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_fly.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_greenfly.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_Grub.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_isopod.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_ladybug.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_mantisshrimp.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_millipede.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chitin_scorpion.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_chobham.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_cobalt.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_coin.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_copper.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_crystalshard.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_crystalshot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_diamond.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_diamondShard.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_digitalLaser.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_flamethrower.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_flareshot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_flyshot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_foam.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_foil.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_francium.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_franciumCore.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_franciumGone.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_frankincense.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_fungiBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_glass.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_glass_light.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gold.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gooburst_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gooburst_med.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gooburst_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gooburst_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_goo_bfg.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_goo_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_goo_med.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_goo_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_goo_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_grass.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_gunShock.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_itanoBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_itanoRocket.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_junk.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_laserHit.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_laserJunction.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_lead.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_magma.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_magmaVolcano.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_megamissile.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_mercury.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_myrrh.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_mythril.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_neon.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_neonGloworb.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_o.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_offal.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_orb.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_orichal.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_paper.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_papershred.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_paperSpecial.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_bigSkull.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_eyeShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_ghostMound.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_ghostShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_handShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_lilGhost.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_skullShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_spiritSmall.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pearl_tinyGhost.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_pinataShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_plantain.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_plasticBFG.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_plunger.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_polenta.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_rocket.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_rubber.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_rusty.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_sacredSmoke.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_salt.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_scrollWeapon.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_scrollWeapon_Die.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_silver.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_sinew.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_soiled.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_spFlame.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_spore.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_stone.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_stone_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_stone_moai.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_stone_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_stone_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_teashot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_thorns.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_thornspray_big.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_thornspray_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tin.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tincan.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tofu1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tofu2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tofu3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tofu4.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_tofu5.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamo.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamoniumburst_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamoniumburst_med.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamoniumburst_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamoniumburst_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium_bfg.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium_large.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium_med.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium_small.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_untamonium_tiny.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_webbingMed.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_webbingSmall.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_wood.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggClover1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggClover2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggClover3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFern1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFern2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFern3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFern4.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFern5.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower4.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggFlower5.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggGrass.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggHerb1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggHerb2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggPumpkin.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggShot.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggTree.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggVine1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggVine2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggVine3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggWhiteFlwr1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggWhiteFlwr2.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggWhiteFlwr3.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggWhiteFlwrBed1.png\",
+	\"res://barkley2/assets/b2_original/images/merged/s_bull_yggWhiteFlwrBed2.png\",
+	]
+
+@export_tool_button(\"Let it rip!\") var let_action = rip_it_up
+
+
+func rip_it_up() -> void:
+	for file_path : String in big_ass_list:
+		var sprite_name := file_path.get_file().trim_suffix(\".png\")
+		
+		if FileAccess.file_exists( file_path ):
+			var sprite_file = load( file_path )
+			var parsed_file := parse_gmx_sprite( sprite_name )
+			if parsed_file.is_empty():
+				push_error(\"Invalid Dictionary for %s sprite.\" % sprite_name)
+				return
+				
+			var sprite_data 	:= parse_gmx_sprite( sprite_name )
+			var curr_frame 		:= 0 as int
+			var max_frames 		:= sprite_data[\"frames\"].size() as int
+			
+			if not bullet_spr.sprite_frames.has_animation( sprite_name ):
+				bullet_spr.sprite_frames.add_animation( sprite_name )
+			
+			var img_x 		:= sprite_data[\"width\"] 	as int
+			var img_y 		:= sprite_data[\"height\"] 	as int
+			
+			# this is done because I had to merge the multiple individual sprites into one large one.
+			# Use atlas to get the individual frames.
+			for i in max_frames:
+				var offset 		:= curr_frame
+
+				var atlas 	:= AtlasTexture.new()
+				var region 	:= Rect2( 
+					Vector2( img_x * offset, 			0), 
+					Vector2( img_x, 					img_y)
+					)
+				atlas.atlas 	= sprite_file
+				atlas.region 	= region
+					
+				bullet_spr.sprite_frames.add_frame( sprite_name, atlas )
+				
+				# Handle wrap around (like, anim has 10 frames, start at 9 and the range is 5. it should go 9, 0, 1, 2, 3, 4).
+				curr_frame = wrapi(curr_frame + 1, 0, max_frames)
+			
+			## Very important. holds original data for the sprite. has important data related to sprite offset and collision mask.
+			## Except for the sprite frames. fuck that.
+			#sprite_data.erase(\"frames\")
+			bullet_spr.set_meta( sprite_name, sprite_data )
+
+## Taken from dwarf_converter.gd
+# parse the original games files  to know how many frames each bullet uses.
+func parse_gmx_sprite(filename : String) -> Dictionary:
+	var has_file := false
+	for file : String in DirAccess.get_files_at( spr_folder_path ):
+		if file.trim_suffix(\".sprite.gmx\"):
+			has_file = true
+	if not has_file:
+		print(\"There is no sprite called 'filename'\")
+		return Dictionary()
+	else:
+		var parser := XMLParser.new()
+		var error = parser.open( spr_folder_path + \"/\" + filename + \".sprite.gmx\" )
+		if error != OK:
+			print( error, \" - Couldnt parse the file \", spr_folder_path + \"/\" + filename + \".sprite.gmx\" )
+			return Dictionary()
+			
+		var write_text_to := \"\"
+		var write_to_array := false
+		var sprite_data := {}
+		var frame_array := []
+		
+		sprite_data[\"name\"] = filename.trim_suffix(\".sprite.gmx\")
+		
+		while parser.read() != ERR_FILE_EOF:
+			if parser.get_node_type() == XMLParser.NODE_ELEMENT:
+				var node_name = parser.get_node_name()
+				
+				# X offset and  Y offset
+				if node_name == \"xorig\" or node_name == \"yorigin\":
+					sprite_data[node_name] = null
+					write_text_to = node_name
+					
+				# the size of the sprite reported by the sprite
+				if node_name == \"width\" or node_name == \"height\":
+					sprite_data[node_name] = null
+					write_text_to = node_name
+				
+				# Colision data # NOTE WTF is this info inside the sprite?
+				if node_name == \"bbox_left\" or node_name == \"bbox_right\" or \\
+					node_name == \"bbox_top\" or node_name == \"bbox_bottom\":
+						
+					sprite_data[node_name] = null
+					write_text_to = node_name
+				
+				# Frame is the sprite frames
+				elif node_name == \"frame\":
+					write_to_array = true
+					
+			if parser.get_node_type() == XMLParser.NODE_TEXT:
+				if not write_text_to.is_empty():
+					sprite_data[write_text_to]  = parser.get_node_data()
+					write_text_to = \"\"
+				if write_to_array:
+					frame_array.append( parser.get_node_data() )
+					write_to_array = false
+						
+		sprite_data[\"frames\"] = frame_array
+		#print(\"Parse Successful for %s. \" % filename)
+		return sprite_data
+"
+
+[node name="bullet_sprite_converter" type="Node"]
+script = SubResource("GDScript_o7clf")

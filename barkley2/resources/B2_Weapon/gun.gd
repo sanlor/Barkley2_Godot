@@ -6,7 +6,7 @@ class_name B2_Weapon
 
 const O_BULLET 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
 const O_CASINGS 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
-const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle flash/s_flash.tscn")
+const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
 
 enum EFFECT{ DAMAGE, RECOVERY }
 
@@ -135,26 +135,26 @@ func get_casing_speed() -> float:
 #endregion
 
 #region Weapon Operation
-func shoot_gun( scene_to_place : Node2D, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
-	B2_Sound.play( get_soundID() )
-	var bullet = O_BULLET.instantiate()
-	bullet.set_direction( dir )
-	bullet.position = source_pos
-	scene_to_place.add_sibling( bullet, true )
-	bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
-	
+func shoot_gun( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
 	if get_flash_sprite():
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
 		flash.look_at( source_pos + dir )
-		scene_to_place.add_sibling( flash, true )
+		scene_to_place.add_child( flash, true )
 		flash.play( get_flash_sprite() )
 	
 	if get_casing_sound():
 		var casing = O_CASINGS.instantiate()
 		casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
 		casing.position = casing_pos
-		scene_to_place.add_sibling( casing, true )
+		scene_to_place.add_child( casing, true )
+		
+	B2_Sound.play( get_soundID() )
+	var bullet = O_BULLET.instantiate()
+	bullet.set_direction( dir )
+	bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
+	scene_to_place.add_child( bullet, true )
+	bullet.position = source_pos
 	
 #endregion
 

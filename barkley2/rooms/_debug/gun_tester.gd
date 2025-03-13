@@ -18,6 +18,8 @@ extends Control
 
 @onready var o_cbt_hoopz: B2_HoopzCombatActor = $o_cbt_hoopz
 
+@onready var playfield: Node2D = $playfield
+
 #var my_gun : B2_Weapon
 
 var angle := Vector2.RIGHT

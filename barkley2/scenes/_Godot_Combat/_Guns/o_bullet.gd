@@ -16,14 +16,19 @@ extends Node2D
 
 ## NOTE main theme for coding this section of the game: https://youtu.be/bFMWuAC5HV4
 
-@onready var bullet_trail: 	Line2D 				= $bullet_trail
-@onready var bullet_spr: 	AnimatedSprite2D 	= $bullet_spr
+@onready var bullet_trail: Line2D 				= $bullet_trail
+@onready var bullet_spr: AnimatedSprite2D 		= $bullet_spr
+@onready var smoke_trail: GPUParticles2D 		= $smoke_trail
+@onready var bullet_sfx: AudioStreamPlayer2D 	= $bullet_sfx
 
 var dir : Vector2
-var speed := 5.0
+var speed := 15.0
 
 ## The gun that fired me
 var my_gun : B2_Weapon
+
+## Bullet trail
+var trail_len 	:= 16
 
 ## Bullet mods
 var superShot 			:= false
@@ -58,24 +63,38 @@ var bfgShot 			= false;
 var bfgSparkTimer 		= 0;
 var bfgFiredDirection 	= 0;
 
+var image_angle ## ????
+var bulletSpin ## ????
+var specialShot ## ????
+
+var ricochetSound := ""
+
 ## NOTE choice(1,-1) -> [1,-1].pick_random()
 
-func set_direction( _dir :Vector2 ) -> void:
-	dir = _dir
+var spr := ""
+var col := Color.WHITE
 
 ## Gamedev is my passion...
 # here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
 # my idea is this: lets make an animation on the fly! shouldnt impact the performance.
 ## NOTE forget that, I just added all animations using a convetion script. 11/03/25
-func setup_bullet_sprite( spr : String, col : Color ) -> void:
+func setup_bullet_sprite( _spr : String, _col : Color ) -> void:
+	spr = _spr
+	col = _col
+
+func set_direction( _dir :Vector2 ) -> void:
+	dir = _dir
+
+func _ready() -> void:
 	if spr:
 		if bullet_spr.sprite_frames.has_animation( spr ):
 			bullet_spr.animation = spr
-			bullet_spr.look_at( position + dir )
+			bullet_spr.look_at( global_position + dir )
 		else:
 			push_warning("No animation called %s." % spr)
 		
 	modulate = col
+	my_gun = B2_Gun.get_current_gun()
 	sprite_selection()
 
 func enable_trail() -> void:
@@ -83,7 +102,7 @@ func enable_trail() -> void:
 
 ## based on some settings, some sprites can change.
 func sprite_selection() -> void:
-	var pow := my_gun.att ## missing other stats
+	var _pow := my_gun.att ## missing other stats
 	
 	match bullet_spr.animation:
 	# NORMAL BULLETS #
@@ -99,38 +118,37 @@ func sprite_selection() -> void:
 
 		#/NORMAL CROSSBOWS
 		"s_bull_arrowHead":
-			bullet_spr.frame = clamp(floor(pow / 10), 0, 7)
+			bullet_spr.frame = clamp(floor(_pow / 10), 0, 7)
 			bullet_spriteTurn = true;
 
 		# CANDY 
 		"s_bull_candyShot":
-			bullet_spr.frame = clamp( 0, 21, (pow/6) - 2 + randi_range(0,4) );
+			bullet_spr.frame = clamp( 0, 21, (_pow/6) - 2 + randi_range(0,4) );
 			if speedBonus>1.5:
 				speedBonus = 1
-			scale.y = choose(1,-1);
-			image_angle = choose(0,90,180,270);
+			scale.y = [1,-1].pick_random()
+			image_angle = [0,90,180,270].pick_random()
 			bullet_spriteTurn = false;
-			bulletSpin = choose(1,-1)*(5+irandom(20));        
-			var dr = point_direction(0,0,move_x,move_y);         
+			bulletSpin = [1,-1].pick_random() * ( 5 + randi_range(0,20) );       
+			#var dr = point_direction(0,0,move_x,move_y);         
 
 		# STONE
 		"s_bull_stone":
 			specialShot = "stone";
 
-			if(pow>32):
-				bullet_spr.frame = "s_bull_stone_large"
-			elif (pow>16):
-				bullet_spr.frame = "s_bull_stone"
-			elif (pow>8):
-				bullet_spr.frame = "s_bull_stone_small"
+			if(_pow>32):
+				bullet_spr.animation = "s_bull_stone_large"
+			elif (_pow>16):
+				bullet_spr.animation = "s_bull_stone"
+			elif (_pow>8):
+				bullet_spr.animation = "s_bull_stone_small"
 			else:
-				bullet_spr.frame = "s_bull_stone_tiny"
-			image_angle = choose(0,90,180,270);
+				bullet_spr.animation = "s_bull_stone_tiny"
+			## image_angle = choose(0,90,180,270);
 			if bfgShot:
-				bullet_spr.frame = "s_bull_stone_moai"; 
+				bullet_spr.animation = "s_bull_stone_moai"; 
 				image_angle = 0;
-				scr_entity_makeSoundEmitter();
-				audio_play_sound_on_actor(id,"hoopzweap_stone_moai", false, 0);
+				B2_Sound.play("hoopzweap_stone_moai")
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spriteTurn = false;
@@ -140,15 +158,15 @@ func sprite_selection() -> void:
 
 		# CARBON
 		"s_bull_carbon":
-			if(pow>32):
+			if(_pow>32):
 				bullet_spr.frame = 5
-			elif (pow>24):
+			elif (_pow>24):
 				bullet_spr.frame = 4
-			elif (pow>18):
+			elif (_pow>18):
 				bullet_spr.frame = 3
-			elif (pow>12):
+			elif (_pow>12):
 				bullet_spr.frame = 2
-			elif (pow>6):
+			elif (_pow>6):
 				bullet_spr.frame = 1
 			else:
 				bullet_spr.frame = 0
@@ -159,21 +177,21 @@ func sprite_selection() -> void:
 
 		# MYTHRIL
 		"s_bull_mythril":
-			bullet_spr.frame = clamp( 0, 14, pow/6 );
+			bullet_spr.frame = clamp( 0, 14, _pow/6 );
 			scale.x = 1;
 			scale.y = 1;
 			lobAngledSprite = true;
 
 		# BRONZE
 		"s_bull_rusty":
-			if(pow>64):bullet_spr.frame = 8
-			elif (pow>48):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>64):bullet_spr.frame = 8
+			elif (_pow>48):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else:
 				bullet_spr.frame = 0
 			if(speedBonus>1.5): speedBonus = 1.5
@@ -181,15 +199,15 @@ func sprite_selection() -> void:
 
 		# Foil
 		"s_bull_foil":
-			if(pow>80):bullet_spr.frame = 9
-			elif (pow>64):bullet_spr.frame = 8
-			elif (pow>48):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>80):bullet_spr.frame = 9
+			elif (_pow>64):bullet_spr.frame = 8
+			elif (_pow>48):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			if(speedBonus>1.5): speedBonus = 1.5
 			lobAngledSprite = true;
@@ -197,52 +215,56 @@ func sprite_selection() -> void:
 
 		# SALT
 		"s_bull_salt":
-			bullet_spr.frame = floor(min(19,pow))
+			bullet_spr.frame = floor(min(19,_pow))
 			image_angle = [0,90,180,270].pick_random();
 			scale.x = 1;
 			scale.y = 1;
-			saltTrail = 1;
+			## TODO saltTrail = 1;
 			if(speedBonus>1.2): speedBonus = 1.2
 
 		# GLASS
 		"s_bull_glass_light":
-			if(pow>80):bullet_spr.frame = 8
-			elif (pow>64):bullet_spr.frame = 7
-			elif (pow>48):bullet_spr.frame = 6
-			elif (pow>32):bullet_spr.frame = 5
-			elif (pow>24):bullet_spr.frame = 4
-			elif (pow>18):bullet_spr.frame = 3
-			elif (pow>12):bullet_spr.frame = 2
-			elif (pow>6):bullet_spr.frame = 1
+			if(_pow>80):bullet_spr.frame = 8
+			elif (_pow>64):bullet_spr.frame = 7
+			elif (_pow>48):bullet_spr.frame = 6
+			elif (_pow>32):bullet_spr.frame = 5
+			elif (_pow>24):bullet_spr.frame = 4
+			elif (_pow>18):bullet_spr.frame = 3
+			elif (_pow>12):bullet_spr.frame = 2
+			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			image_alpha = 0.6;
+			modulate.a = 0.6
 			lobAngledSprite = true;
 			if(speedBonus>1.5): speedBonus = 1.5  
 
 		# NEON
 		"s_bull_neon":
-			neon = true;
-			neonHue = irandom(255);
-			neonSat = 0;
-			neonVal = 255;
-			neonSize = 0.2 + pow/50;
-			neonTrail = 3;
-			colorBlend = make_color_hsv(neonHue,neonSat,neonVal);
+			## TODO 
+			#neon = true;
+			#neonHue = irandom(255);
+			#neonSat = 0;
+			#neonVal = 255;
+			#neonSize = 0.2 + _pow/50;
+			#neonTrail = 3;
+			#colorBlend = make_color_hsv(neonHue,neonSat,neonVal);
+			## TODO 
 			if(speedBonus>1.2): speedBonus = 1.2
 			specialBFG = true;
 
 
 		"s_bull_neonGloworb":
-			neonHue = irandom(255);
-			neonSat = 255;
-			neonVal = 255;
-			colorBlend = make_color_hsv(neonHue,neonSat,neonVal);
-			if(speedBonus>1.2):speedBonus = 1.2
-			useColorBlend = true;
-			image_speed = 0;
+			## TODO 
+			#neonHue = irandom(255);
+			#neonSat = 255;
+			#neonVal = 255;
+			#colorBlend = make_color_hsv(neonHue,neonSat,neonVal);
+			#if(speedBonus>1.2):speedBonus = 1.2
+			#useColorBlend = true;
+			#image_speed = 0;
+			## TODO 
 			bullet_spr.frame = 1;
 
-			var scl = pow/80;
+			var scl = _pow/80;
 			scale.x = scl;
 			scale.y = scl;
 			bullet_spriteTurn = false;
@@ -250,13 +272,13 @@ func sprite_selection() -> void:
 
 		# COPPER
 		"s_bull_copper":
-			if(pow>80):bullet_spr.frame = 7
-			elif (pow>48):bullet_spr.frame = 6
-			elif (pow>32):bullet_spr.frame = 5
-			elif (pow>24):bullet_spr.frame = 4
-			elif (pow>18):bullet_spr.frame = 3
-			elif (pow>12):bullet_spr.frame = 2
-			elif (pow>6):bullet_spr.frame = 1
+			if(_pow>80):bullet_spr.frame = 7
+			elif (_pow>48):bullet_spr.frame = 6
+			elif (_pow>32):bullet_spr.frame = 5
+			elif (_pow>24):bullet_spr.frame = 4
+			elif (_pow>18):bullet_spr.frame = 3
+			elif (_pow>12):bullet_spr.frame = 2
+			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			if(speedBonus>1.5):speedBonus = 1.5
 			lobAngledSprite = true;
@@ -264,56 +286,57 @@ func sprite_selection() -> void:
 
 		# BRASS
 		"s_bull_brass":
-			steamTimer = 5+pow/3;
-			steamInterval = 4;
-			steamStop = 10;
-			if(pow>80):bullet_spr.frame = 10
-			elif (pow>64):bullet_spr.frame = 9
-			elif (pow>46):bullet_spr.frame = 8
-			elif (pow>38):bullet_spr.frame = 7
-			elif (pow>30):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			#steamTimer = 5+_pow/3;
+			#steamInterval = 4;
+			#steamStop = 10;
+			if(_pow>80):bullet_spr.frame = 10
+			elif (_pow>64):bullet_spr.frame = 9
+			elif (_pow>46):bullet_spr.frame = 8
+			elif (_pow>38):bullet_spr.frame = 7
+			elif (_pow>30):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			bullet_spriteTurn = false;
 			if(speedBonus>1.5):speedBonus = 1.5
-			Smoke("puff",x,y,z,2+max(5,pow));
+			#Smoke("puff",x,y,z,2+max(5,_pow));
+			smoke_trail.emitting = true
 	
 
 		"s_bull_polenta":
-			if(pow>80):bullet_spr.frame = 10
-			elif (pow>64):bullet_spr.frame = 9
-			elif (pow>46):bullet_spr.frame = 8
-			elif (pow>38):bullet_spr.frame = 7
-			elif (pow>30):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>80):bullet_spr.frame = 10
+			elif (_pow>64):bullet_spr.frame = 9
+			elif (_pow>46):bullet_spr.frame = 8
+			elif (_pow>38):bullet_spr.frame = 7
+			elif (_pow>30):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			if(speedBonus>1.5):speedBonus = 1
 			lobAngledSprite = true;
-			scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 	
 		# FOAM
 		"s_bull_foam":
-			if(pow>52):bullet_spr.frame = 4
-			elif (pow>32):bullet_spr.frame = 3
-			elif (pow>16):bullet_spr.frame = 2
-			elif (pow>8):bullet_spr.frame = 1
+			if(_pow>52):bullet_spr.frame = 4
+			elif (_pow>32):bullet_spr.frame = 3
+			elif (_pow>16):bullet_spr.frame = 2
+			elif (_pow>8):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			scale.x = 1;
 			scale.y = 1;
 			if(speedBonus>1.25):speedBonus = 1.25
 			if(bfgShot):
-				bullet_spr.frame = "s_bull_plasticBFG";
+				bullet_spr.animation = "s_bull_plasticBFG";
 				bullet_spriteTurn = false;
-				anglespray = -90;
-				spraytimer = 1;
+				## TODO anglespray = -90;
+				## TODO spraytimer = 1;
 				rangeEndGrav = 0;
 			else:
 				lobAngledSprite = true;
@@ -322,9 +345,9 @@ func sprite_selection() -> void:
 
 		# RUBBER
 		"s_bull_rubber":
-			if(pow>48):bullet_spr.frame = 3
-			elif (pow>24):bullet_spr.frame = 2
-			elif (pow>12):bullet_spr.frame = 1
+			if(_pow>48):bullet_spr.frame = 3
+			elif (_pow>24):bullet_spr.frame = 2
+			elif (_pow>12):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			if(speedBonus>1.25):speedBonus = 1.25
 			lobAngledSprite = true;
@@ -333,95 +356,95 @@ func sprite_selection() -> void:
 		# BONE
 		"s_bull_bone":
 			specialShot = "bone";
-			if(image_index==0):
-				bullet_spr.frame = 6 + clamp(0,11,floor(pow/5)-1+irandom(2));
-				image_angle = choose(0,90,180,270);
+			if bullet_spr.frame == 0:
+				bullet_spr.frame = 6 + clamp( 0, 11, floor(_pow/5) - 1 + randi_range(0,2) );
+				## TODO image_angle = choose(0,90,180,270);
 				scale.x = 1;
 				scale.y = 1;
 			bullet_spriteTurn = false;
 			if(speedBonus>1.2):speedBonus = 1.2
-			if(rocketShot):bullet_spr.frame = s_bull_boneRocket
+			if(rocketShot):bullet_spr.animation = "s_bull_boneRocket"
 			if(bfgShot):
-				boneTrail = 0.1;
-				boneSpawnX = x;
-				boneSpawnY = y;
-				bullet_spr.frame = s_bull_boneBFG;
-				tailLength = 0;
-				tailPos = min(15,floor(pow/5));
-				tailRemaining = floor(pow/5);
-				if(wave<20):wave = 20
-				if(waveAmp<20):waveAmp = 20
+				## TODO boneTrail = 0.1;
+				## TODO boneSpawnX = x;
+				## TODO boneSpawnY = y;
+				bullet_spr.animation = "s_bull_boneBFG"
+				## TODO tailLength = 0;
+				## TODO tailPos = min(15,floor(_pow/5));
+				## TODO tailRemaining = floor(_pow/5);
+				## TODO if(wave<20):wave = 20
+				## TODO if(waveAmp<20):waveAmp = 20
 				bullet_spriteTurn = true;
 			specialBFG = true;
 	
 		"s_bull_antimatter":
-			holeObj = instance_create(x,y,o_cosmichole);
-			holeObj.radiusbase = 4 + floor(pow/3);
-			holeObj.radiusShake = floor(pow/4);
+			## TODO holeObj = instance_create(x,y,o_cosmichole);
+			## TODO holeObj.radiusbase = 4 + floor(_pow/3);
+			## TODO holeObj.radiusShake = floor(_pow/4);
 			if(speedBonus>1):speedBonus = 1
-			antimatterTrail = 0;
-			drawSprite = false;
-			scr_entity_setShadowVisible(false);
+			## TODO antimatterTrail = 0;
+			## TODO drawSprite = false;
+			## TODO scr_entity_setShadowVisible(false);
 	
 		# BRONZE
 		"s_bull_bronze":
-			if(pow>64):bullet_spr.frame = 8
-			elif (pow>48):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>64):bullet_spr.frame = 8
+			elif (_pow>48):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			if(speedBonus>1.5):speedBonus = 1.5
 			lobAngledSprite = true;
 		
 		"s_bull_orichal":
-			#/bullet_spr.frame = 6 + clamp(0,13,floor(pow/5)-1+irandom(2));
+			#/bullet_spr.frame = 6 + clamp(0,13,floor(_pow/5)-1+irandom(2));
 			#image_angle = 0;#/choose(0,90,180,270);
-			if (pow>140):bullet_spr.frame = 14
-			elif (pow>100):bullet_spr.frame = 13
-			elif (pow>80):bullet_spr.frame = 12
-			elif (pow>70):bullet_spr.frame = 11
-			elif (pow>60):bullet_spr.frame = 10
-			elif (pow>50):bullet_spr.frame = 9
-			elif (pow>40):bullet_spr.frame = 8
-			elif (pow>33):bullet_spr.frame = 7
-			elif (pow>26):bullet_spr.frame = 6
-			elif (pow>20):bullet_spr.frame = 5
-			elif (pow>12):bullet_spr.frame = 4
-			elif (pow>7):bullet_spr.frame = 3
-			elif (pow>4):bullet_spr.frame = 2
+			if (_pow>140):bullet_spr.frame = 14
+			elif (_pow>100):bullet_spr.frame = 13
+			elif (_pow>80):bullet_spr.frame = 12
+			elif (_pow>70):bullet_spr.frame = 11
+			elif (_pow>60):bullet_spr.frame = 10
+			elif (_pow>50):bullet_spr.frame = 9
+			elif (_pow>40):bullet_spr.frame = 8
+			elif (_pow>33):bullet_spr.frame = 7
+			elif (_pow>26):bullet_spr.frame = 6
+			elif (_pow>20):bullet_spr.frame = 5
+			elif (_pow>12):bullet_spr.frame = 4
+			elif (_pow>7):bullet_spr.frame = 3
+			elif (_pow>4):bullet_spr.frame = 2
 			else: bullet_spr.frame = 1
 			ricochetSound = "hoopzweap_orichalcum_bounce";
-			wobbleAnim = 2;
-			orichalnim = 1
+			## TODO wobbleAnim = 2;
+			## TODO orichalnim = 1
 			stoneSkipping = 3;
-			orichalFrame = image_index;
+			## TODO orichalFrame = image_index;
 			specialBFG = true;
 			bullet_spriteTurn = false;
 			if(speedBonus>1.2):speedBonus = 1.2
 	
 		"s_bull_chitin_egg":
-			if(pow>110):bullet_spr.frame = 18
-			elif (pow>100):bullet_spr.frame = 17
-			elif (pow>90):bullet_spr.frame = 16
-			elif (pow>80):bullet_spr.frame = 15
-			elif (pow>70):bullet_spr.frame = 14
-			elif (pow>60):bullet_spr.frame = 13
-			elif (pow>50):bullet_spr.frame = 12
-			elif (pow>45):bullet_spr.frame = 11
-			elif (pow>40):bullet_spr.frame = 10
-			elif (pow>35):bullet_spr.frame = 9
-			elif (pow>30):bullet_spr.frame = 8
-			elif (pow>25):bullet_spr.frame = 7
-			elif (pow>20):bullet_spr.frame = 6
-			elif (pow>15):bullet_spr.frame = 5
-			elif (pow>12):bullet_spr.frame = 4
-			elif (pow>9):bullet_spr.frame = 3
-			elif (pow>6):bullet_spr.frame = 2
-			elif (pow>3):bullet_spr.frame = 1
+			if(_pow>110):bullet_spr.frame = 18
+			elif (_pow>100):bullet_spr.frame = 17
+			elif (_pow>90):bullet_spr.frame = 16
+			elif (_pow>80):bullet_spr.frame = 15
+			elif (_pow>70):bullet_spr.frame = 14
+			elif (_pow>60):bullet_spr.frame = 13
+			elif (_pow>50):bullet_spr.frame = 12
+			elif (_pow>45):bullet_spr.frame = 11
+			elif (_pow>40):bullet_spr.frame = 10
+			elif (_pow>35):bullet_spr.frame = 9
+			elif (_pow>30):bullet_spr.frame = 8
+			elif (_pow>25):bullet_spr.frame = 7
+			elif (_pow>20):bullet_spr.frame = 6
+			elif (_pow>15):bullet_spr.frame = 5
+			elif (_pow>12):bullet_spr.frame = 4
+			elif (_pow>9):bullet_spr.frame = 3
+			elif (_pow>6):bullet_spr.frame = 2
+			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			bullet_spriteTurn = false;
 			scale.x = 1;
@@ -429,52 +452,52 @@ func sprite_selection() -> void:
 			if(speedBonus>1.2):speedBonus = 1.0
 	
 		"s_bull_plantain":
-			#/bullet_spr.frame = 6 + clamp(0,13,floor(pow/5)-1+irandom(2));
+			#/bullet_spr.frame = 6 + clamp(0,13,floor(_pow/5)-1+irandom(2));
 			#image_angle = 0;#/choose(0,90,180,270);
-			if(pow>120):bullet_spr.frame = 13
-			elif (pow>100):bullet_spr.frame = 12
-			elif (pow>80):bullet_spr.frame = 11
-			elif (pow>70):bullet_spr.frame = 10
-			elif (pow>60):bullet_spr.frame = 9
-			elif (pow>50):bullet_spr.frame = 8
-			elif (pow>40):bullet_spr.frame = 7
-			elif (pow>33):bullet_spr.frame = 6
-			elif (pow>26):bullet_spr.frame = 5
-			elif (pow>20):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>7):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>120):bullet_spr.frame = 13
+			elif (_pow>100):bullet_spr.frame = 12
+			elif (_pow>80):bullet_spr.frame = 11
+			elif (_pow>70):bullet_spr.frame = 10
+			elif (_pow>60):bullet_spr.frame = 9
+			elif (_pow>50):bullet_spr.frame = 8
+			elif (_pow>40):bullet_spr.frame = 7
+			elif (_pow>33):bullet_spr.frame = 6
+			elif (_pow>26):bullet_spr.frame = 5
+			elif (_pow>20):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>7):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 
-			scale.x = choose(1,-1);
-			scale.y = choose(1,-1);
+			## TODO scale.x = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			lobAngledSprite = true;
 			bullet_spriteTurn = true;
 			specialBFG = true;
 	
 		# JUNK
 		"s_bull_junk":
-			bullet_spr.frame = 7 + clamp(0,27,floor(pow/3)-1+irandom(2));
-			image_angle = choose(0,90,180,270);
+			bullet_spr.frame = 7 + clamp(0, 27, floor(_pow/3) - 1 + randi_range(0,2) );
+			## TODO image_angle = choose(0,90,180,270);
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spriteTurn = false;
 			if(speedBonus>1.2): speedBonus = 1.2
 			if(arrowShot):
-				bullet_spr.frame = s_bull_plunger;
-				bullet_spr.frame = clamp(pow/12,0,3);
+				bullet_spr.animation = "s_bull_plunger";
+				bullet_spr.frame = clamp(_pow/12,0,3);
 				bullet_spriteTurn = true;
 			specialBFG = true;
 	
 		# GOO
 		"s_bull_goo_med":
-			if(pow>48):bullet_spr.frame = s_bull_goo_large
-			elif (pow>24):bullet_spr.frame = s_bull_goo_med
-			elif (pow>12):bullet_spr.frame = s_bull_goo_small
-			else: bullet_spr.frame = s_bull_goo_tiny
+			if(_pow>48):		bullet_spr.animation = "s_bull_goo_large"
+			elif (_pow>24):	bullet_spr.animation = "s_bull_goo_med"
+			elif (_pow>12):	bullet_spr.animation = "s_bull_goo_small"
+			else: 			bullet_spr.animation = "s_bull_goo_tiny"
 			scale.x = 1;
 			scale.y = 1;
-			image_speed = 0.25;
+			bullet_spr.speed_scale = 0.25;
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
 	
@@ -482,8 +505,8 @@ func sprite_selection() -> void:
 			specialBFG = true;
 			specialShot = "goo";
 			var scl = 1;
-			scl = clamp(0.5,2,pow / 40);
-			image_speed = 0.25;
+			scl = clamp(0.5,2,_pow / 40);
+			bullet_spr.speed_scale = 0.25;
 			scale.x = scl;
 			scale.y = scl;
 			specialBFG = true;
@@ -491,284 +514,306 @@ func sprite_selection() -> void:
 		##PAPER
 		"s_bull_paper":
 			specialShot = "paper";
-			playedPapersound = true;
-			if(pow>64):bullet_spr.frame = 5
-			elif (pow>48):bullet_spr.frame = 4
-			elif (pow>24):bullet_spr.frame = 3
-			elif (pow>12):bullet_spr.frame = 2
-			elif (pow>6):bullet_spr.frame = 1
+			var playedPapersound = true;
+			if(_pow>64):bullet_spr.frame = 5
+			elif (_pow>48):bullet_spr.frame = 4
+			elif (_pow>24):bullet_spr.frame = 3
+			elif (_pow>12):bullet_spr.frame = 2
+			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			
-			if(image_index>=3):playedPapersound = false
-			if(flaregun):bullet_spr.frame = s_bull_paperSpecial; bullet_spr.frame = 0
-			if(rocketShot):bullet_spr.frame = s_bull_paperSpecial;bullet_spr.frame = 1
-			if(bfgShot):bullet_spr.frame = s_bull_paperSpecial;bullet_spr.frame = 2; bullet_spriteTurn = false
+			if(bullet_spr.frame >=3 ) :playedPapersound = false
+			if(flaregun):
+				bullet_spr.animation 		= "s_bull_paperSpecial"; 
+				bullet_spr.frame = 0
+			if(rocketShot):
+				bullet_spr.animation 		= "s_bull_paperSpecial";
+				bullet_spr.frame = 1
+			if(bfgShot):
+				bullet_spr.animation 		= "s_bull_paperSpecial";
+				bullet_spr.frame = 2; 
+				bullet_spriteTurn = false
 			
 			scale.x = 1;
 			scale.y = 1;
 			specialBFG = true;
 			if(speedBonus>1.2):speedBonus = 1.2
+			if playedPapersound: B2_Sound.play("hoopzweap_origami_fly")
 	
 		# GOLD #
 		"s_bull_gold":
-			bullet_spr.frame = clamp(0,14,pow/10);
+			bullet_spr.frame = clamp(0,14,_pow/10);
 			scale.x = 1;
 			scale.y = 1;
 			lobAngledSprite = true;
 	
 		# SILVER #
 		"s_bull_silver":
-			bullet_spr.frame = clamp(0,14,pow/10);
+			bullet_spr.frame = clamp(0,14,_pow/10);
 			scale.x = 1;
 			scale.y = 1;
 			lobAngledSprite = true;
 	
 		#/ ITANO GUN's / ROCKET LAUNCHER
 		"s_bull_rocket":
-			trailScale = 1;
-			trailAngle = choose(0,90,180,270);
+			var trailScale = 1;
+			#trailAngle = choose(0,90,180,270);
 			speedBonus = 1;
-			if(pow>96):bullet_spr.frame = 7
-			elif (pow>80):bullet_spr.frame = 6; trailScale = 0.9
-			elif (pow>64):bullet_spr.frame = 5; trailScale = 0.8
-			elif (pow>48):bullet_spr.frame = 4; trailScale = 0.6
-			elif (pow>32):bullet_spr.frame = 3; trailScale = 0.5
-			elif (pow>16):bullet_spr.frame = 2; trailScale = 0.4
-			elif (pow>8):bullet_spr.frame = 1; trailScale = 0.3
+			if(_pow>96):bullet_spr.frame = 7
+			elif (_pow>80):bullet_spr.frame = 6; trailScale = 0.9
+			elif (_pow>64):bullet_spr.frame = 5; trailScale = 0.8
+			elif (_pow>48):bullet_spr.frame = 4; trailScale = 0.6
+			elif (_pow>32):bullet_spr.frame = 3; trailScale = 0.5
+			elif (_pow>16):bullet_spr.frame = 2; trailScale = 0.4
+			elif (_pow>8):bullet_spr.frame = 1; trailScale = 0.3
 			else: bullet_spr.frame = 0;trailScale = 0.2
 			scale.x = 1;
 			scale.y = 1;
 
 			if(matName=="Itano"):
 				if(rocketShot):
-					if(pow<50):bullet_spr.frame += 1
-					else: sprite_index= "s_bull_itanoRocket"
+					if(_pow<50):bullet_spr.frame += 1
+					else: bullet_spr.animation = "s_bull_itanoRocket"
 				if(bfgShot):
-					if(pow<50):bullet_spr.frame += 2
-					else: sprite_index= "s_bull_itanoBFG"
+					if(_pow<50):bullet_spr.frame += 2
+					else: bullet_spr.animation = "s_bull_itanoBFG"
 			lobAngledSprite = true;
 			# Play a looping exhaust effect on rockets, create sound emitter for this.
-			scr_entity_makeSoundEmitter();
-			audio_play_sound_on_actor(id, "hoopzweap_rocket_exhaust", true, 10);
+			play_sound( "hoopzweap_rocket_exhaust", true );
 		
 		"s_bull_offal":
 			speedBonus = 1;
-			bullet_spr.frame = clamp(0,15,floor(pow / 8) - 2 + irandom(4));
+			bullet_spr.frame = clamp(0, 15, floor(_pow / 8) - 2 + randi_range(0,4) );
 			scale.x = 1;
-			scale.y = choose(-1,1);
+			## TODO scale.y = choose(-1,1);
 			specialBFG = true;
-			bloodTrail = 1+irandom(6);
+			## TODO bloodTrail = 1+irandom(6);
 	
 		"s_bull_blood":
 			speedBonus = 1;
 			specialShot = "blood";
 			specialBFG = true;
-			bullet_spr.frame = clamp(0,7,floor(pow / 12));
+			bullet_spr.frame = clamp(0,7,floor(_pow / 12));
 			scale.x = 1;
-			scale.y = choose(-1,1);
-			bloodTrail = 1+irandom(6);
+			## TODO scale.y = choose(-1,1);
+			## TODO bloodTrail = 1+irandom(6);
 			lobAngledSprite = true;
-			if(bfgShot):bullet_spr.frame = s_bull_bloodBFG; image_speed = 0.1; scale.y = 1; bullet_spriteTurn = false
+			if(bfgShot):
+				bullet_spr.animation = "s_bull_bloodBFG"; 
+				bullet_spr.speed_scale = 0.1; 
+				scale.y = 1; 
+				bullet_spriteTurn = false
 	
 		"s_bull_soiled":
 			speedBonus = 1;
-			bullet_spr.frame = clamp(0,7,floor(pow / 12));
+			bullet_spr.frame = clamp(0,7,floor(_pow / 12));
 			scale.x = 1;
-			scale.y = choose(-1,1);
-			bloodTrail = 1+irandom(6);
+			## TODO scale.y = choose(-1,1);
+			## TODO bloodTrail = 1+irandom(6);
 		
 		"s_bull_tofu1":
-			if(pow>64):		bullet_spr.frame = "s_bull_tofu5"
-			elif (pow>32):	bullet_spr.frame = "s_bull_tofu4"
-			elif (pow>16):	bullet_spr.frame = "s_bull_tofu3"
-			elif (pow>8):	bullet_spr.frame = "s_bull_tofu2"
-			else: bullet_spr.frame = "s_bull_tofu1"
-			image_angle = choose(0,90,180,270);
-			image_speed = 0.25;
+			if(_pow>64):		bullet_spr.animation = "s_bull_tofu5"
+			elif (_pow>32):	bullet_spr.animation = "s_bull_tofu4"
+			elif (_pow>16):	bullet_spr.animation = "s_bull_tofu3"
+			elif (_pow>8):	bullet_spr.animation = "s_bull_tofu2"
+			else: 			bullet_spr.animation = "s_bull_tofu1"
+			## TODO image_angle = choose(0,90,180,270);
+			## TODO image_speed = 0.25;
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spriteTurn = false;
 			if(speedBonus>1.2):speedBonus = 1;
 	
 		"s_bull_grass":
-			if (pow>80):	bullet_spr.frame = 14
-			elif (pow>72):	bullet_spr.frame = 13
-			elif (pow>64):	bullet_spr.frame = 12
-			elif (pow>56):	bullet_spr.frame = 11
-			elif (pow>48):	bullet_spr.frame = 10
-			elif (pow>40):	bullet_spr.frame = 9
-			elif (pow>32):	bullet_spr.frame = 8
-			elif (pow>26):	bullet_spr.frame = 7
-			elif (pow>20):	bullet_spr.frame = 6
-			elif (pow>16):	bullet_spr.frame = 5
-			elif (pow>12):	bullet_spr.frame = 4
-			elif (pow>8):	bullet_spr.frame = 3
-			elif (pow>4):	bullet_spr.frame = 2
-			elif (pow>2):	bullet_spr.frame = 1
+			if (_pow>80):	bullet_spr.frame = 14
+			elif (_pow>72):	bullet_spr.frame = 13
+			elif (_pow>64):	bullet_spr.frame = 12
+			elif (_pow>56):	bullet_spr.frame = 11
+			elif (_pow>48):	bullet_spr.frame = 10
+			elif (_pow>40):	bullet_spr.frame = 9
+			elif (_pow>32):	bullet_spr.frame = 8
+			elif (_pow>26):	bullet_spr.frame = 7
+			elif (_pow>20):	bullet_spr.frame = 6
+			elif (_pow>16):	bullet_spr.frame = 5
+			elif (_pow>12):	bullet_spr.frame = 4
+			elif (_pow>8):	bullet_spr.frame = 3
+			elif (_pow>4):	bullet_spr.frame = 2
+			elif (_pow>2):	bullet_spr.frame = 1
 			scale.x = 1;
-			scale.y = choose(1,-1);
-			grassTimer = 0.2;
+			## TODO scale.y = choose(1,-1);
+			## TODO grassTimer = 0.2;
 			specialBFG = true;
 			lobAngledSprite = true;
 			if(speedBonus>1.2):speedBonus = 1.2
 	
 		"s_bull_brainshot":
 			if(speedBonus>1):speedBonus = 1
-			antimatterTrail = 0;
-			drawSprite = true;
-			scr_entity_setShadowVisible(false);
 			specialShot = "brain";
-
-			pulseObj = instance_create(x,y,o_pulseEffect);
-			pulseObj.radiusbase = 4 + floor(pow/3);
-			pulseObj.radiusShake = floor(pow/4);
-
-			if (pow>80):bullet_spr.frame = 14
-			elif (pow>72):bullet_spr.frame = 13
-			elif (pow>64):bullet_spr.frame = 12
-			elif (pow>56):bullet_spr.frame = 11
-			elif (pow>48):bullet_spr.frame = 10
-			elif (pow>40):bullet_spr.frame = 9
-			elif (pow>32):bullet_spr.frame = 8
-			elif (pow>26):bullet_spr.frame = 7
-			elif (pow>20):bullet_spr.frame = 6
-			elif (pow>16):bullet_spr.frame = 5
-			elif (pow>12):bullet_spr.frame = 4
-			elif (pow>8):bullet_spr.frame = 3
-			elif (pow>4):bullet_spr.frame = 2
-			elif (pow>2):bullet_spr.frame = 1
+			## TODO 
+			#antimatterTrail = 0;
+			#drawSprite = true;
+			#scr_entity_setShadowVisible(false);
+			#
+#
+			#pulseObj = instance_create(x,y,o_pulseEffect);
+			#pulseObj.radiusbase = 4 + floor(_pow/3);
+			#pulseObj.radiusShake = floor(_pow/4);
+			## TODO 
+			if (_pow>80):bullet_spr.frame = 14
+			elif (_pow>72):bullet_spr.frame = 13
+			elif (_pow>64):bullet_spr.frame = 12
+			elif (_pow>56):bullet_spr.frame = 11
+			elif (_pow>48):bullet_spr.frame = 10
+			elif (_pow>40):bullet_spr.frame = 9
+			elif (_pow>32):bullet_spr.frame = 8
+			elif (_pow>26):bullet_spr.frame = 7
+			elif (_pow>20):bullet_spr.frame = 6
+			elif (_pow>16):bullet_spr.frame = 5
+			elif (_pow>12):bullet_spr.frame = 4
+			elif (_pow>8):bullet_spr.frame = 3
+			elif (_pow>4):bullet_spr.frame = 2
+			elif (_pow>2):bullet_spr.frame = 1
 			specialBFG = true;
 	
 		#/FUNGUS GUN's
 		"s_bull_spore":
-			if(pow>45):bullet_spr.frame = 9; scr_entity_setZHitbox(0-10, 2+10)
-			elif (pow>38):bullet_spr.frame = 8; scr_entity_setZHitbox(0-8, 2+8)
-			elif (pow>32):bullet_spr.frame = 7;scr_entity_setZHitbox(0-6, 2+6)
-			elif (pow>26):bullet_spr.frame = 6;scr_entity_setZHitbox(0-4, 2+4)
-			elif (pow>20):bullet_spr.frame = 5;scr_entity_setZHitbox(0-3, 2+3)
-			elif (pow>14):bullet_spr.frame = 4;scr_entity_setZHitbox(0-3, 2+3)
-			elif (pow>9):bullet_spr.frame = 3;scr_entity_setZHitbox(0-2, 2+2)
-			elif (pow>5):bullet_spr.frame = 2;scr_entity_setZHitbox(0-1, 2+1)
-			elif (pow>2):bullet_spr.frame = 1;scr_entity_setZHitbox(0-1, 2)
+			if(_pow>45):bullet_spr.frame = 9#; scr_entity_setZHitbox(0-10, 2+10)
+			elif (_pow>38):bullet_spr.frame = 8#; scr_entity_setZHitbox(0-8, 2+8)
+			elif (_pow>32):bullet_spr.frame = 7#;scr_entity_setZHitbox(0-6, 2+6)
+			elif (_pow>26):bullet_spr.frame = 6#;scr_entity_setZHitbox(0-4, 2+4)
+			elif (_pow>20):bullet_spr.frame = 5#;scr_entity_setZHitbox(0-3, 2+3)
+			elif (_pow>14):bullet_spr.frame = 4#;scr_entity_setZHitbox(0-3, 2+3)
+			elif (_pow>9):bullet_spr.frame = 3#;scr_entity_setZHitbox(0-2, 2+2)
+			elif (_pow>5):bullet_spr.frame = 2#;scr_entity_setZHitbox(0-1, 2+1)
+			elif (_pow>2):bullet_spr.frame = 1#;scr_entity_setZHitbox(0-1, 2)
 			else: bullet_spr.frame = 0
-			image_angle = choose(0,90,180,270);
+			## TODO image_angle = choose(0,90,180,270);
 			scale.x = 1;
 			scale.y = 1;
-			hitHoopzIn = 5;
+			## TODO hitHoopzIn = 5;
 			ricochetSound = "";
 			bullet_spriteTurn = false;
 			if(speedBonus>1.2):speedBonus = 1.2
 			specialBFG = true;
 	
 		"s_bull_magma":
-			if(pow>132):bullet_spr.frame = 21
-			elif (pow>128):bullet_spr.frame = 20
-			elif (pow>120):bullet_spr.frame = 19
-			elif (pow>112):bullet_spr.frame = 18
-			elif (pow>104):bullet_spr.frame = 17
-			elif (pow>96):bullet_spr.frame = 16
-			elif (pow>88):bullet_spr.frame = 15
-			elif (pow>80):bullet_spr.frame = 14
-			elif (pow>72):bullet_spr.frame = 13
-			elif (pow>64):bullet_spr.frame = 12
-			elif (pow>56):bullet_spr.frame = 11
-			elif (pow>48):bullet_spr.frame = 10
-			elif (pow>40):bullet_spr.frame = 9
-			elif (pow>32):bullet_spr.frame = 8
-			elif (pow>26):bullet_spr.frame = 7
-			elif (pow>20):bullet_spr.frame = 6
-			elif (pow>16):bullet_spr.frame = 5
-			elif (pow>12):bullet_spr.frame = 4
-			elif (pow>8):bullet_spr.frame = 3
-			elif (pow>4):bullet_spr.frame = 2
-			elif (pow>2):bullet_spr.frame = 1
+			if(_pow>132):bullet_spr.frame = 21
+			elif (_pow>128):bullet_spr.frame = 20
+			elif (_pow>120):bullet_spr.frame = 19
+			elif (_pow>112):bullet_spr.frame = 18
+			elif (_pow>104):bullet_spr.frame = 17
+			elif (_pow>96):bullet_spr.frame = 16
+			elif (_pow>88):bullet_spr.frame = 15
+			elif (_pow>80):bullet_spr.frame = 14
+			elif (_pow>72):bullet_spr.frame = 13
+			elif (_pow>64):bullet_spr.frame = 12
+			elif (_pow>56):bullet_spr.frame = 11
+			elif (_pow>48):bullet_spr.frame = 10
+			elif (_pow>40):bullet_spr.frame = 9
+			elif (_pow>32):bullet_spr.frame = 8
+			elif (_pow>26):bullet_spr.frame = 7
+			elif (_pow>20):bullet_spr.frame = 6
+			elif (_pow>16):bullet_spr.frame = 5
+			elif (_pow>12):bullet_spr.frame = 4
+			elif (_pow>8):bullet_spr.frame = 3
+			elif (_pow>4):bullet_spr.frame = 2
+			elif (_pow>2):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			if(!shotSetup):
-				magmaCoolDelay = 6;
-				magmacooldown = 24;
-				if(bfgShot):magmaCoolDelay = 12
-				if(rocketShot):magmaCoolDelay = 10
-				if(flaregun):magmaCoolDelay = 8
-			Smoke("customcolor",make_color_rgb(10,5,8),make_color_rgb(46,30,40),make_color_rgb(115,50,70),0)
-			var smk = Smoke("puff",x,y,z,max(4,pow*1.5));
-			Smoke("init",0,0,0,0);
-			if(speedBonus>1.2):speedBonus = 1.2
-			scale.x = 1;
-			scale.y = choose(1,-1);
+			## TODO 
+			#if(!shotSetup):
+				#magmaCoolDelay = 6;
+				#magmacooldown = 24;
+				#if(bfgShot):magmaCoolDelay = 12
+				#if(rocketShot):magmaCoolDelay = 10
+				#if(flaregun):magmaCoolDelay = 8
+			#Smoke("customcolor",make_color_rgb(10,5,8),make_color_rgb(46,30,40),make_color_rgb(115,50,70),0)
+			#var smk = Smoke("puff",x,y,z,max(4,_pow*1.5));
+			#Smoke("init",0,0,0,0);
+			#if(speedBonus>1.2):speedBonus = 1.2
+			#scale.x = 1;
+			#scale.y = choose(1,-1);
+			## TODO 
 			bullet_spriteTurn = true;
 			lobAngledSprite = true;
 			specialBFG = true;
 	
 		###MERCURY
 		"s_bull_mercury":
+			## TODO 
 			#show_debug_message("o_bullet move_dir:" + string(move_dir));
-			if(pow>12 && choose(true,false)):
-				var splitAmnt = (20+random(60) )/100;
-				var splt = scr_combat_cloneBullet(id);
-				scr_combat_bulletDmgmod(id,0,1-splitAmnt);
-				scr_combat_bulletDmgmod(splt,0,splitAmnt);
-				#with(splt):scr_entity_setDirSpd(90,20)
-				#show_debug_message("o_bullet splt.move_dir0:" + string(splt.move_dir));
-				if with(splt):
-					scr_entity_setDirSpd(other.move_dir-10+irandom(20),other.move_dist)
-				splt.initDir = splt.move_dir;
-				pow = pow*(1-splitAmnt);
-
-			if(pow>6 && choose(true,false,false)): #/split 1
-				var splitAmnt = (30+random(50) )/100;
-				var splt = scr_combat_cloneBullet(id);
-				scr_combat_bulletDmgmod(id,0,1-splitAmnt);
-				scr_combat_bulletDmgmod(splt,0,splitAmnt);
-				#with(splt):scr_entity_setDirSpd(90,20)
-				#show_debug_message("o_bullet splt.move_dir1:" + string(splt.move_dir));
-				if with(splt):
-					scr_entity_setDirSpd(other.move_dir-10+irandom(20),other.move_dist)
-				splt.initDir = splt.move_dir;
-				pow = pow*(1-splitAmnt);
-
-			if(speedBonus>1.5):speedBonus = 1
-			bullet_spriteTurn = true;
-			bullet_spr.frame = clamp(0,16,pow/5);
-			if(pow>2.5):image_index+=1
+			#if(_pow>12 && choose(true,false)):
+				#var splitAmnt = (20+random(60) )/100;
+				#var splt = scr_combat_cloneBullet(id);
+				#scr_combat_bulletDmgmod(id,0,1-splitAmnt);
+				#scr_combat_bulletDmgmod(splt,0,splitAmnt);
+				##with(splt):scr_entity_setDirSpd(90,20)
+				##show_debug_message("o_bullet splt.move_dir0:" + string(splt.move_dir));
+				#if with(splt):
+					#scr_entity_setDirSpd(other.move_dir-10+irandom(20),other.move_dist)
+				#splt.initDir = splt.move_dir;
+				#_pow = _pow*(1-splitAmnt);
+#
+			#if(_pow>6 && choose(true,false,false)): #/split 1
+				#var splitAmnt = (30+random(50) )/100;
+				#var splt = scr_combat_cloneBullet(id);
+				#scr_combat_bulletDmgmod(id,0,1-splitAmnt);
+				#scr_combat_bulletDmgmod(splt,0,splitAmnt);
+				##with(splt):scr_entity_setDirSpd(90,20)
+				##show_debug_message("o_bullet splt.move_dir1:" + string(splt.move_dir));
+				#if with(splt):
+					#scr_entity_setDirSpd(other.move_dir-10+irandom(20),other.move_dist)
+				#splt.initDir = splt.move_dir;
+				#_pow = _pow*(1-splitAmnt);
+#
+			#if(speedBonus>1.5):speedBonus = 1
+			#bullet_spriteTurn = true;
+			#bullet_spr.frame = clamp(0,16,_pow/5);
+			#if(_pow>2.5):image_index+=1
+			## TODO 
+			pass
 	
 		#/DIGITAL
 		"s_bull_digitalLaser":
-			shotOriginx = dx;
-			shotOriginy = y-z;
-			lstPoints = ds_list_create();
-			shotWidth = 1+floor(pow/12);
-			speedBonus = 2;
-			laserCol = c_red;
-			laserTrail = 8;
-			trailLength = 16;
-			specialBFG = true;
-			if(rocketShot):shotWidth += 4 + shotWidth/2
-			if(bfgShot):shotWidth += 6 + shotWidth
+			## TODO 
+			#shotOriginx = dx;
+			#shotOriginy = y-z;
+			#lstPoints = ds_list_create();
+			#shotWidth = 1+floor(_pow/12);
+			#speedBonus = 2;
+			#laserCol = c_red;
+			#laserTrail = 8;
+			#trailLength = 16;
+			#specialBFG = true;
+			#if(rocketShot):shotWidth += 4 + shotWidth/2
+			#if(bfgShot):shotWidth += 6 + shotWidth
+			## TODO 
+			pass
 	
 		#/PEARL SHOT
 		"s_bull_pearl_ghostShot":
-			image_speed = 0.25;
-			#scale.x = pow / 50;
-			scale.y = scale.x*choose(1,-1);
+			bullet_spr.speed_scale = 0.25;
+			#scale.x = _pow / 50;
+			#scale.y = scale.x*choose(1,-1);
 
-			if(pow>80):bullet_spr.frame = s_bull_pearl_ghostMound
-			elif(pow>64):sprite_index =s_bull_pearl_ghostShot
-			elif(pow>48):sprite_index =s_bull_pearl_ghostShot
-			elif(pow>36):bullet_spr.frame = s_bull_pearl_skullShot
-			elif(pow>24):bullet_spr.frame = s_bull_pearl_handShot
-			elif(pow>12):bullet_spr.frame = s_bull_pearl_eyeShot
-			elif(pow>6):bullet_spr.frame = s_bull_pearl_lilGhost
-			else: bullet_spr.frame = s_bull_pearl_tinyGhost 
+			if(_pow>80):		bullet_spr.animation = "s_bull_pearl_ghostMound"
+			elif(_pow>64):	bullet_spr.animation = "s_bull_pearl_ghostShot"
+			elif(_pow>48):	bullet_spr.animation = "s_bull_pearl_ghostShot"
+			elif(_pow>36):	bullet_spr.animation = "s_bull_pearl_skullShot"
+			elif(_pow>24):	bullet_spr.animation = "s_bull_pearl_handShot"
+			elif(_pow>12):	bullet_spr.animation = "s_bull_pearl_eyeShot"
+			elif(_pow>6):	bullet_spr.animation = "s_bull_pearl_lilGhost"
+			else: 			bullet_spr.animation = "s_bull_pearl_tinyGhost "
 			specialBFG = true;
 			specialShot = "ghost";
-			ghostTrail = 0;
+			## TODO ghostTrail = 0;
 			throughWalls = 10;
 			bullet_spriteTurn = true;
 
 			if(!bfgShot && !rocketShot):
-				enemySeek += 4;
-				enemySeekRange = 64;
-				enemySeekTime = 0.5;
+				## TODO enemySeek += 4;
+				## TODO enemySeekRange = 64;
+				## TODO enemySeekTime = 0.5;
+				pass
 
 			#sparktrail = 3
 			if(speedBonus>1.25):speedBonus = 1
@@ -776,20 +821,20 @@ func sprite_selection() -> void:
 
 		#/LEAD SHOT
 		"s_bull_lead":
-			if (pow>120):bullet_spr.frame = 14
-			elif (pow>100):bullet_spr.frame = 13
-			elif (pow>90):bullet_spr.frame = 12
-			elif (pow>80):bullet_spr.frame = 11
-			elif (pow>70):bullet_spr.frame = 10
-			elif (pow>60):bullet_spr.frame = 9
-			elif (pow>50):bullet_spr.frame = 8
-			elif (pow>40):bullet_spr.frame = 7
-			elif (pow>30):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if (_pow>120):bullet_spr.frame = 14
+			elif (_pow>100):bullet_spr.frame = 13
+			elif (_pow>90):bullet_spr.frame = 12
+			elif (_pow>80):bullet_spr.frame = 11
+			elif (_pow>70):bullet_spr.frame = 10
+			elif (_pow>60):bullet_spr.frame = 9
+			elif (_pow>50):bullet_spr.frame = 8
+			elif (_pow>40):bullet_spr.frame = 7
+			elif (_pow>30):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			bullet_spriteTurn = false;
 			stoneSkipping = -1; #/roll when hit the ground
@@ -797,140 +842,146 @@ func sprite_selection() -> void:
 	
 		#/ FRANCIUM
 		"s_bull_francium":
-			mask_index = s_bull_francium
-			motionBlur = true;
-			scale.x = 1;
-			scale.y = 1;
-			image_speed = 0.2;
-			franciumMax = 1;
-			if(pow<3):franciumMax = 0.06
-			elif(pow<6):franciumMax = 0.1
-			elif(pow<12):franciumMax = 0.2
-			elif(pow<18):franciumMax = 0.3
-			elif(pow<24):franciumMax = 0.4
-			elif(pow<30):franciumMax = 0.5
-			elif(pow<40):franciumMax = 0.6
-			elif(pow<50):franciumMax = 0.7
-			elif(pow<60):franciumMax = 0.8
-			elif(pow<70):franciumMax = 0.9
-			elif(pow<80):franciumMax = 1
-			elif(pow<100):franciumMax = 1.1
-			elif(pow<120):franciumMax = 1.2
-			elif(pow<140):franciumMax = 1.3
-			elif(pow<180):franciumMax = 1.4
-			elif(pow<220):franciumMax = 1.5
-			elif(pow<240):franciumMax = 1.6
-			elif(pow<260):franciumMax = 1.7
-			elif(pow<280):franciumMax = 1.8
-			elif(pow<300):franciumMax = 1.9
-			else: franciumMax = 2
-
-			image_angle = choose(0,90,180,270);
-			shadow_visible = false;
-			show_hiteffect = false;
-			franciumScale = 0.01;
-			scale.x = franciumMax*franciumScale;
-			scale.y = franciumMax*franciumScale;
-			bullet_spriteTurn = false;
-			if(speedBonus>1.2):speedBonus = 1.2
-			if (!audio_is_playing_ext(franciumSnd)):
-				scr_entity_makeSoundEmitter();
-				audio_play_sound_on_actor(id,franciumSnd, true, 0);
-	
+			## TODO 
+			#mask_index = s_bull_francium
+			#motionBlur = true;
+			#scale.x = 1;
+			#scale.y = 1;
+			#image_speed = 0.2;
+			#franciumMax = 1;
+			#if(_pow<3):franciumMax = 0.06
+			#elif(_pow<6):franciumMax = 0.1
+			#elif(_pow<12):franciumMax = 0.2
+			#elif(_pow<18):franciumMax = 0.3
+			#elif(_pow<24):franciumMax = 0.4
+			#elif(_pow<30):franciumMax = 0.5
+			#elif(_pow<40):franciumMax = 0.6
+			#elif(_pow<50):franciumMax = 0.7
+			#elif(_pow<60):franciumMax = 0.8
+			#elif(_pow<70):franciumMax = 0.9
+			#elif(_pow<80):franciumMax = 1
+			#elif(_pow<100):franciumMax = 1.1
+			#elif(_pow<120):franciumMax = 1.2
+			#elif(_pow<140):franciumMax = 1.3
+			#elif(_pow<180):franciumMax = 1.4
+			#elif(_pow<220):franciumMax = 1.5
+			#elif(_pow<240):franciumMax = 1.6
+			#elif(_pow<260):franciumMax = 1.7
+			#elif(_pow<280):franciumMax = 1.8
+			#elif(_pow<300):franciumMax = 1.9
+			#else: franciumMax = 2
+#
+			#image_angle = choose(0,90,180,270);
+			#shadow_visible = false;
+			#show_hiteffect = false;
+			#franciumScale = 0.01;
+			#scale.x = franciumMax*franciumScale;
+			#scale.y = franciumMax*franciumScale;
+			#bullet_spriteTurn = false;
+			#if(speedBonus>1.2):speedBonus = 1.2
+			#if (!audio_is_playing_ext(franciumSnd)):
+				#scr_entity_makeSoundEmitter();
+				#audio_play_sound_on_actor(id,franciumSnd, true, 0);
+			## TODO 
+			pass
+			
 		"s_bull_scrollWeapon":
-			image_speed = 0;
-			scr_entity_setZHitbox(0-10, 2+10);
+			bullet_spr.speed_scale = 0;
+			## TODO scr_entity_setZHitbox(0-10, 2+10);
 	
 		"s_bull_flamethrower":
 			specialBFG = true;
 			if (superShot):
-				drawWhiteOverlay = true;
+				## TODO drawWhiteOverlay = true;
+				pass
 	
 		"s_bull_spFlame":
 			pass
 
 		"s_bull_bfg":
-			mask_index = mask_disk_20by20;
-			bfgFiredDirection = move_dir;
-			scr_entity_makeSoundEmitter();
-			audio_play_sound_on_actor(id,"hoopzweap_BFG_shot", 0, 0);
+			## TODO mask_index = mask_disk_20by20;
+			## TODO bfgFiredDirection = move_dir;
+			play_sound("hoopzweap_BFG_shot", false);
 		
 
 		"s_bull_adamant":
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
-			bullet_spr.frame = clamp(0,27,clamp(0,27,floor(pow/3)) - 2 + irandom(4));
+			bullet_spr.frame = clamp(0, 27, clamp( 0, 27, floor(_pow/3) ) - 2 + randi_range(0,4) );
 		
 
 		"s_bull_tin":
 			bullet_spriteTurn = false;
 			if(bfgShot && rocketShot && flaregun):
-				bullet_spr.frame = s_bull_tincan;
-				image_speed = 0.2;
+				bullet_spr.animation = "s_bull_tincan";
+				bullet_spr.speed_scale = 0.2;
 
 		"s_bull_cobalt":
 			if(speedBonus>1.2):speedBonus = 1.5
-			if (pow>90):bullet_spr.frame = 10
-			elif (pow>76):bullet_spr.frame = 9
-			elif (pow>64):bullet_spr.frame = 8
-			elif (pow>52):bullet_spr.frame = 7
-			elif (pow>40):bullet_spr.frame = 6
-			elif (pow>30):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if (_pow>90):bullet_spr.frame = 10
+			elif (_pow>76):bullet_spr.frame = 9
+			elif (_pow>64):bullet_spr.frame = 8
+			elif (_pow>52):bullet_spr.frame = 7
+			elif (_pow>40):bullet_spr.frame = 6
+			elif (_pow>30):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			lobAngledSprite = true;
 		
 		"s_bull_angelCore":
-			scale.x = 1;
-			scale.y = 1;
-			if(speedBonus>1.2):speedBonus = 1; accel = accel*2; move_dist= (move_dist+1)*2
-
-			bullet_spriteTurn = false;
-			wingSprite = noone;
-			wingFrame = 0;
-			if(pow>200):bullet_spr.frame = 13
-			elif (pow>160):bullet_spr.frame = 12
-			elif (pow>140):bullet_spr.frame = 11
-			elif (pow>120):bullet_spr.frame = 10
-			elif (pow>96):bullet_spr.frame = 9
-			elif (pow>84):bullet_spr.frame = 8
-			elif (pow>72):bullet_spr.frame = 7
-			elif (pow>60):bullet_spr.frame = 6
-			elif (pow>48):bullet_spr.frame = 5
-			elif (pow>36):bullet_spr.frame = 4
-			elif (pow>24):bullet_spr.frame = 3
-			elif (pow>12):bullet_spr.frame = 2
-			elif (pow>6):bullet_spr.frame = 1
+			## TODO 
+			#scale.x = 1;
+			#scale.y = 1;
+			#if(speedBonus>1.2):speedBonus = 1; accel = accel*2; move_dist= (move_dist+1)*2
+#
+			#bullet_spriteTurn = false;
+			#wingSprite = "noone";
+			#wingFrame = 0;
+			## TODO 
+			if(_pow>200):bullet_spr.frame = 13
+			elif (_pow>160):bullet_spr.frame = 12
+			elif (_pow>140):bullet_spr.frame = 11
+			elif (_pow>120):bullet_spr.frame = 10
+			elif (_pow>96):bullet_spr.frame = 9
+			elif (_pow>84):bullet_spr.frame = 8
+			elif (_pow>72):bullet_spr.frame = 7
+			elif (_pow>60):bullet_spr.frame = 6
+			elif (_pow>48):bullet_spr.frame = 5
+			elif (_pow>36):bullet_spr.frame = 4
+			elif (_pow>24):bullet_spr.frame = 3
+			elif (_pow>12):bullet_spr.frame = 2
+			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-
-			if(image_index==0):wingSprite 		= "s_bull_angel_tiny"
-			elif(image_index<=2):wingSprite 	= "s_bull_angel_small"
-			elif(image_index<=4):wingSprite 	= "s_bull_angel_medium"
-			elif(image_index<=6):wingSprite 	= "s_bull_angel_large"
-			elif(image_index<=8):wingSprite 	= "s_bull_angel_huge"
-			else: wingSprite = "s_bull_angel_giant"
-
-			var featherCount = 1;
-			if(pow>240):featherCount 	= 3+irandom(6)
-			elif(pow>120):featherCount 	= 2+irandom(4)
-			elif(pow>60):featherCount 	= 1+irandom(3)
-			elif(pow>30):featherCount 	= 1+irandom(2)
-			elif(pow>15):featherCount 	= 1+irandom(1)
-			else: featherCount 			= 1
-
+			
+			## TODO 
+			#if(image_index==0):wingSprite 		= "s_bull_angel_tiny"
+			#elif(image_index<=2):wingSprite 	= "s_bull_angel_small"
+			#elif(image_index<=4):wingSprite 	= "s_bull_angel_medium"
+			#elif(image_index<=6):wingSprite 	= "s_bull_angel_large"
+			#elif(image_index<=8):wingSprite 	= "s_bull_angel_huge"
+			#else: wingSprite = "s_bull_angel_giant"
+#
+			#var featherCount = 1;
+			#if(_pow>240):featherCount 	= 3+irandom(6)
+			#elif(_pow>120):featherCount 	= 2+irandom(4)
+			#elif(_pow>60):featherCount 	= 1+irandom(3)
+			#elif(_pow>30):featherCount 	= 1+irandom(2)
+			#elif(_pow>15):featherCount 	= 1+irandom(1)
+			#else: featherCount 			= 1
+			## TODO 
 			if(bfgShot):
-				featherCount = featherCount*2; 
+				## TODO featherCount = featherCount*2; 
 				bullet_spr.animation = "s_bull_angelBFG"
 				bullet_spr.frame = 0; 
-				wingSprite = "noone"
+				## TODO wingSprite = "noone"
 
 			specialShot = "angel";
 
-			featherInterval = 10;
-			featherNext = irandom(featherInterval);
+			## TODO featherInterval = 10;
+			## TODO featherNext = irandom(featherInterval);
 			
 			## TODO Disabled the bellow temporarelly
 			#repeat(featherCount)
@@ -947,81 +998,82 @@ func sprite_selection() -> void:
 		
 		###SINEW
 		"s_bull_sinew":
-			if (pow>96):bullet_spr.frame = 12
-			elif (pow>72):bullet_spr.frame = 11
-			elif (pow>64):bullet_spr.frame = 10
-			elif (pow>56):bullet_spr.frame = 9
-			elif (pow>48):bullet_spr.frame = 8
-			elif (pow>40):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>6):bullet_spr.frame = 2
-			elif (pow>3):bullet_spr.frame = 1
+			if (_pow>96):bullet_spr.frame = 12
+			elif (_pow>72):bullet_spr.frame = 11
+			elif (_pow>64):bullet_spr.frame = 10
+			elif (_pow>56):bullet_spr.frame = 9
+			elif (_pow>48):bullet_spr.frame = 8
+			elif (_pow>40):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>6):bullet_spr.frame = 2
+			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			scale.y = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 			lobAngledSprite = true;
-			sinewparts = 0.2;
+			## TODO sinewparts = 0.2;
 		
 
 		"s_bull_orb":
-			shotOriginx = dx;
-			shotOriginy = y-z;
-			lstPoints = ds_list_create();
-			shotWidth = 1+floor(pow/14);
-			turnTimer = 32;
-			speedBonus = 2;
-			laserTrail = 8;
-			trailLength = 24;
-			speedBonus = 1;
-			match laserGen:
-				"0": laserCol = c_white; 
-				"1": laserCol = make_color_rgb(136,249,157); 
-				"2": laserCol = make_color_rgb(0,255,0); 
-				"3": laserCol = make_color_rgb(3,201,40); ; 
-				"4": laserCol = make_color_rgb(55,165,73); 
-				"5": laserCol = make_color_rgb(65,127,71); 
-				_: laserCol = make_color_rgb(56,100,62); 
-			drawSprite = false;
+			## TODO 
+			#shotOriginx = dx;
+			#shotOriginy = y-z;
+			#lstPoints = ds_list_create();
+			#shotWidth = 1+floor(_pow/14);
+			#turnTimer = 32;
+			#speedBonus = 2;
+			#laserTrail = 8;
+			#trailLength = 24;
+			#speedBonus = 1;
+			#match laserGen:
+				#"0": laserCol = c_white; 
+				#"1": laserCol = make_color_rgb(136,249,157); 
+				#"2": laserCol = make_color_rgb(0,255,0); 
+				#"3": laserCol = make_color_rgb(3,201,40); ; 
+				#"4": laserCol = make_color_rgb(55,165,73); 
+				#"5": laserCol = make_color_rgb(65,127,71); 
+				#_: laserCol = make_color_rgb(56,100,62); 
+			#drawSprite = false;
+			## TODO 
+			pass
 		
 
 		##/BLASTER
 		"s_bull_blaster":
-			if (pow>80):bullet_spr.frame = 9
-			elif (pow>60):bullet_spr.frame = 8
-			elif (pow>50):bullet_spr.frame = 7
-			elif (pow>40):bullet_spr.frame = 6
-			elif (pow>30):bullet_spr.frame = 5
-			elif (pow>20):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if (_pow>80):bullet_spr.frame = 9
+			elif (_pow>60):bullet_spr.frame = 8
+			elif (_pow>50):bullet_spr.frame = 7
+			elif (_pow>40):bullet_spr.frame = 6
+			elif (_pow>30):bullet_spr.frame = 5
+			elif (_pow>20):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			scale.y = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 			specialBFG = true;
 			if(speedBonus>1):speedBonus = 1
 			lobAngledSprite = true;
 			
-
-			scr_entity_makeSoundEmitter();
-			audio_play_sound_on_actor(id,"hoopzweap_blaster_impact", true, 0);
+			play_sound( "hoopzweap_blaster_impact", true );
 
 		##YGGDRASIL
 		"s_bull_yggShot":
-			if (pow>48):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if (_pow>48):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			plantInterval = max(0.1,(7-pow/10)/6);
-			plantNext = random(plantInterval);
-			plantSize = 5+pow;
+			## TODO plantInterval = max(0.1,(7-_pow/10)/6);
+			## TODO plantNext = random(plantInterval);
+			## TODO plantSize = 5+_pow;
 			if(speedBonus>1.2):speedBonus = 1
 			specialBFG = true;
 			lobAngledSprite = true;
@@ -1029,137 +1081,136 @@ func sprite_selection() -> void:
 
 		# CHOBHAM
 		"s_bull_chobham":
-			if(pow>64):bullet_spr.frame = 8
-			elif (pow>48):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>8):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if(_pow>64):bullet_spr.frame = 8
+			elif (_pow>48):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>8):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			lobAngledSprite = true;
 			if(speedBonus>1.5):speedBonus = 1.5
 		
 
 		"s_bull_frankincense":
-			if (pow>96):bullet_spr.frame = 12
-			elif (pow>72):bullet_spr.frame = 11
-			elif (pow>64):bullet_spr.frame = 10
-			elif (pow>56):bullet_spr.frame = 9
-			elif (pow>48):bullet_spr.frame = 8
-			elif (pow>40):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>6):bullet_spr.frame = 2
-			elif (pow>3):bullet_spr.frame = 1
+			if (_pow>96):bullet_spr.frame = 12
+			elif (_pow>72):bullet_spr.frame = 11
+			elif (_pow>64):bullet_spr.frame = 10
+			elif (_pow>56):bullet_spr.frame = 9
+			elif (_pow>48):bullet_spr.frame = 8
+			elif (_pow>40):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>6):bullet_spr.frame = 2
+			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			scale.y = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 
-			steamTimer = 4+pow/3;
-			steamInterval = 4;
-			steamStop = 6;
+			## TODO steamTimer = 4+_pow/3;
+			## TODO steamInterval = 4;
+			## TODO steamStop = 6;
 			lobAngledSprite = true;
-			Smoke("puff",x,y,z,2+max(5,pow));
+			## TODO Smoke("puff",x,y,z,2+max(5,_pow));
 		
 
 		"s_bull_myrrh":
-			if (pow>96):bullet_spr.frame = 12
-			elif (pow>72):bullet_spr.frame = 11
-			elif (pow>64):bullet_spr.frame = 10
-			elif (pow>56):bullet_spr.frame = 9
-			elif (pow>48):bullet_spr.frame = 8
-			elif (pow>40):bullet_spr.frame = 7
-			elif (pow>32):bullet_spr.frame = 6
-			elif (pow>24):bullet_spr.frame = 5
-			elif (pow>18):bullet_spr.frame = 4
-			elif (pow>12):bullet_spr.frame = 3
-			elif (pow>6):bullet_spr.frame = 2
-			elif (pow>3):bullet_spr.frame = 1
+			if (_pow>96):bullet_spr.frame = 12
+			elif (_pow>72):bullet_spr.frame = 11
+			elif (_pow>64):bullet_spr.frame = 10
+			elif (_pow>56):bullet_spr.frame = 9
+			elif (_pow>48):bullet_spr.frame = 8
+			elif (_pow>40):bullet_spr.frame = 7
+			elif (_pow>32):bullet_spr.frame = 6
+			elif (_pow>24):bullet_spr.frame = 5
+			elif (_pow>18):bullet_spr.frame = 4
+			elif (_pow>12):bullet_spr.frame = 3
+			elif (_pow>6):bullet_spr.frame = 2
+			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			lobAngledSprite = true;
-			scale.y = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 		
 
 		"s_bull_crystalshot":
-			if(pow>160):bullet_spr.frame = 15
-			elif (pow>140):bullet_spr.frame = 14
-			elif (pow>120):bullet_spr.frame = 13
-			elif (pow>100):bullet_spr.frame = 12
-			elif (pow>80):bullet_spr.frame = 11
-			elif (pow>70):bullet_spr.frame = 10
-			elif (pow>60):bullet_spr.frame = 9
-			elif (pow>50):bullet_spr.frame = 8
-			elif (pow>42):bullet_spr.frame = 7
-			elif (pow>36):bullet_spr.frame = 6
-			elif (pow>30):bullet_spr.frame = 5
-			elif (pow>24):bullet_spr.frame = 4
-			elif (pow>18):bullet_spr.frame = 3
-			elif (pow>12):bullet_spr.frame = 2
-			elif (pow>6):bullet_spr.frame = 1
+			if(_pow>160):bullet_spr.frame = 15
+			elif (_pow>140):bullet_spr.frame = 14
+			elif (_pow>120):bullet_spr.frame = 13
+			elif (_pow>100):bullet_spr.frame = 12
+			elif (_pow>80):bullet_spr.frame = 11
+			elif (_pow>70):bullet_spr.frame = 10
+			elif (_pow>60):bullet_spr.frame = 9
+			elif (_pow>50):bullet_spr.frame = 8
+			elif (_pow>42):bullet_spr.frame = 7
+			elif (_pow>36):bullet_spr.frame = 6
+			elif (_pow>30):bullet_spr.frame = 5
+			elif (_pow>24):bullet_spr.frame = 4
+			elif (_pow>18):bullet_spr.frame = 3
+			elif (_pow>12):bullet_spr.frame = 2
+			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			scale.x = choose(1,-1);
-			scale.y = choose(1,-1);
+			## TODO scale.x = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = false;
 			specialBFG = true;
 
-			scr_entity_makeSoundEmitter();
-			audio_play_sound_on_actor(id,"hoopzweap_crystal_bullet", true, 0);
+			play_sound("hoopzweap_crystal_bullet", true)
 
 		
 
 		"s_bull_crystalshard":
-			if (pow>48):bullet_spr.frame = 10
-			elif (pow>40):bullet_spr.frame = 9
-			elif (pow>32):bullet_spr.frame = 8
-			elif (pow>24):bullet_spr.frame = 7
-			elif (pow>20):bullet_spr.frame = 6
-			elif (pow>16):bullet_spr.frame = 5
-			elif (pow>12):bullet_spr.frame = 4
-			elif (pow>8):bullet_spr.frame = 3
-			elif (pow>4):bullet_spr.frame = 2
-			elif (pow>2):bullet_spr.frame = 1
+			if (_pow>48):bullet_spr.frame = 10
+			elif (_pow>40):bullet_spr.frame = 9
+			elif (_pow>32):bullet_spr.frame = 8
+			elif (_pow>24):bullet_spr.frame = 7
+			elif (_pow>20):bullet_spr.frame = 6
+			elif (_pow>16):bullet_spr.frame = 5
+			elif (_pow>12):bullet_spr.frame = 4
+			elif (_pow>8):bullet_spr.frame = 3
+			elif (_pow>4):bullet_spr.frame = 2
+			elif (_pow>2):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			scale.y = choose(1,-1);
+			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 		
 
 		"s_bull_diamond", "s_bull_diamondShard":
-			if (pow>100):bullet_spr.frame = 10
-			elif (pow>80):bullet_spr.frame = 9
-			elif (pow>60):bullet_spr.frame = 8
-			elif (pow>50):bullet_spr.frame = 7
-			elif (pow>40):bullet_spr.frame = 6
-			elif (pow>32):bullet_spr.frame = 5
-			elif (pow>24):bullet_spr.frame = 4
-			elif (pow>16):bullet_spr.frame = 3
-			elif (pow>10):bullet_spr.frame = 2
-			elif (pow>5):bullet_spr.frame = 1
+			if (_pow>100):bullet_spr.frame = 10
+			elif (_pow>80):bullet_spr.frame = 9
+			elif (_pow>60):bullet_spr.frame = 8
+			elif (_pow>50):bullet_spr.frame = 7
+			elif (_pow>40):bullet_spr.frame = 6
+			elif (_pow>32):bullet_spr.frame = 5
+			elif (_pow>24):bullet_spr.frame = 4
+			elif (_pow>16):bullet_spr.frame = 3
+			elif (_pow>10):bullet_spr.frame = 2
+			elif (_pow>5):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spriteTurn = false;
-			if(sprite_index==s_bull_diamondShard):bullet_spriteTurn = true
-			else: image_angle = startAngle
+			## TODO if(sprite_index==s_bull_diamondShard):bullet_spriteTurn = true
+			## TODO else: image_angle = startAngle
 		
 		##/IMAGINARY
 		"emptySprite":
-			drawSprite = false;
+			hide()
 		
 		"s_bull_pinataShot":
-			bullet_spr.frame = clamp(0,21,(pow/6)-2+irandom(4));
+			bullet_spr.frame = clamp(0, 21, (_pow/6) - 2 + randi_range(0,4) );
 			if(speedBonus>1.5):speedBonus = 1
-			scale.y = choose(1,-1);
-			image_angle = choose(0,90,180,270);
+			## TODO scale.y = choose(1,-1);
+			## TODO image_angle = choose(0,90,180,270);
 			bullet_spriteTurn = false;
-			bulletSpin = choose(1,-1)*(5+irandom(20));
+			## TODO bulletSpin = choose(1,-1)*(5+irandom(20));
 
-			var dr = point_direction(0,0,move_x,move_y);
-			amnt = floor(1 + pow/20 + irandom(pow/10))
+			## TODO var dr = point_direction(0,0,move_x,move_y);
+			## TODO amnt = floor(1 + _pow/20 + irandom(_pow/10))
 			
 			## TODO Disabled the bellow temporarelly
 			#repeat(amnt)
@@ -1178,43 +1229,46 @@ func sprite_selection() -> void:
 			## TODO
 		
 		"s_bull_teashot":
-			if (pow>60):bullet_spr.frame = 5
-			elif (pow>40):bullet_spr.frame = 4
-			elif (pow>20):bullet_spr.frame = 3
-			elif (pow>10):bullet_spr.frame = 2
-			elif (pow>4):bullet_spr.frame = 1
+			if (_pow>60):bullet_spr.frame = 5
+			elif (_pow>40):bullet_spr.frame = 4
+			elif (_pow>20):bullet_spr.frame = 3
+			elif (_pow>10):bullet_spr.frame = 2
+			elif (_pow>4):bullet_spr.frame = 1
 			bullet_spriteTurn = true;
-			steamTimer = 5+pow/3;
-			steamInterval = 4;
-			steamStop = 3;
+			## TODO steamTimer = 5+_pow/3;
+			## TODO steamInterval = 4;
+			## TODO steamStop = 3;
 			speedBonus = 1;
 		
 		"s_bull_flyshot":
-			flyflutter = 0;
-			flyBaseframe = 0;
-			if (pow>40):flyBaseframe = 8
-			elif (pow>20):flyBaseframe = 6
-			elif (pow>10):flyBaseframe = 4
-			elif (pow>4):flyBaseframe = 2
-			bullet_spriteTurn = true;
-			speedBonus = 1;
+			## TODO 
+			#flyflutter = 0;
+			#flyBaseframe = 0;
+			#if (_pow>40):flyBaseframe = 8
+			#elif (_pow>20):flyBaseframe = 6
+			#elif (_pow>10):flyBaseframe = 4
+			#elif (_pow>4):flyBaseframe = 2
+			#bullet_spriteTurn = true;
+			#speedBonus = 1;
+			## TODO 
+			pass
 		
 		"s_bull_aerogel":
 			if(speedBonus>1.5):speedBonus = 1
 			bullet_spriteTurn = false;
-			bullet_spr.frame = clamp(0,17,pow/6);
-			if(pow>3):image_index +=1
-			image_alpha = 0.3;
+			bullet_spr.frame = clamp(0,17,_pow/6);
+			if(_pow>3): bullet_spr.frame +=1
+			modulate.a = 0.3;
 		
 		# Untamonium
 		"s_bull_untamonium_med":
-			if(pow>48):bullet_spr.frame = s_bull_untamonium_large
-			elif (pow>24):bullet_spr.frame = s_bull_untamonium_med
-			elif (pow>12):bullet_spr.frame = s_bull_untamonium_small
-			else: bullet_spr.frame = s_bull_untamonium_tiny
+			if(_pow>48):		bullet_spr.animation = "s_bull_untamonium_large"
+			elif (_pow>24):	bullet_spr.animation = "s_bull_untamonium_med"
+			elif (_pow>12):	bullet_spr.animation = "s_bull_untamonium_small"
+			else: 			bullet_spr.animation = "s_bull_untamonium_tiny"
 			scale.x = 1;
 			scale.y = 1;
-			image_speed = 0.25;
+			## TODO image_speed = 0.25;
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
 		
@@ -1223,14 +1277,25 @@ func sprite_selection() -> void:
 			#specialBFG = true;
 			#specialShot = "goo";
 			var scl = 1;
-			scl = clamp(0.5,2,pow / 70);
-			image_speed = 0.25;
+			scl = clamp(0.5,2,_pow / 70);
+			## TODO image_speed = 0.25;
 			scale.x = scl;
 			scale.y = scl;
 			specialBFG = true;
 
-func _physics_process(delta: float) -> void:
+func play_sound(soundID : String, loop : bool) -> void:
+	var sound_file := load( B2_Sound.get_sound_pick(soundID) ) as AudioStreamOggVorbis
+	sound_file.loop = loop
+	bullet_sfx.stream = sound_file
+	bullet_sfx.play()
+
+func _physics_process(_delta: float) -> void:
 	position += dir * speed ## TEMP
+	
+	## Update trail
+	bullet_trail.add_point( global_position )
+	if bullet_trail.get_point_count() > trail_len:
+		bullet_trail.remove_point(0)
 
 func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
 	queue_free()

@@ -716,7 +716,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
-		gun.shoot_gun( self, combat_weapon.global_position, gun_muzzle.global_position, position.direction_to(aim_target) )
+		gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to(aim_target) )
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
