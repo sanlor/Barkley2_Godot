@@ -1,4 +1,5 @@
-extends Node2D
+#extends Node2D
+extends Area2D
 ## Bullet Scene for all bullet type weapons.
 
 ## Once again, due to B2´s weirdness, I have to create some weird code.
@@ -16,10 +17,13 @@ extends Node2D
 
 ## NOTE main theme for coding this section of the game: https://youtu.be/bFMWuAC5HV4
 
+const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
+
 @onready var bullet_trail: Line2D 				= $bullet_trail
 @onready var bullet_spr: AnimatedSprite2D 		= $bullet_spr
 @onready var smoke_trail: GPUParticles2D 		= $smoke_trail
 @onready var bullet_sfx: AudioStreamPlayer2D 	= $bullet_sfx
+@onready var bullet_life: Timer 				= $bullet_life
 
 var dir : Vector2
 var speed := 15.0
@@ -1284,10 +1288,13 @@ func sprite_selection() -> void:
 			specialBFG = true;
 
 func play_sound(soundID : String, loop : bool) -> void:
-	var sound_file := load( B2_Sound.get_sound_pick(soundID) ) as AudioStreamOggVorbis
-	sound_file.loop = loop
-	bullet_sfx.stream = sound_file
-	bullet_sfx.play()
+	var sound_file = load( B2_Sound.get_sound_pick(soundID) )
+	if sound_file:
+		sound_file.loop = loop
+		bullet_sfx.stream = sound_file
+		bullet_sfx.play()
+	else:
+		push_error("Invalid sound file for sound ID %s." % soundID)
 
 func _physics_process(_delta: float) -> void:
 	position += dir * speed ## TEMP
@@ -1297,5 +1304,33 @@ func _physics_process(_delta: float) -> void:
 	if bullet_trail.get_point_count() > trail_len:
 		bullet_trail.remove_point(0)
 
+func ricochet( angle : float ) -> void:
+	B2_Sound.play_pick("ricochet")
+	var rico = O_RICOCHET.instantiate()
+	rico.scale = scale
+	rico.rotation = angle
+	rico.position = position
+	add_sibling( rico, true )
+	
+func destroy_bullet() -> void:
+	queue_free() ## add a tween, fade bullet out.
+
 func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
-	queue_free()
+	destroy_bullet()
+
+func _on_bullet_life_timeout() -> void:
+	destroy_bullet()
+
+func _on_body_entered(body: Node2D) -> void:
+	if body is B2_HoopzCombatActor:
+		# can hit yourself if its a ricochet
+		## TODO
+		return
+		
+	if body is CollisionObject2D:
+		var new_dir := position.bounce( position.direction_to( body.position ) ).normalized()
+		ricochet( new_dir.dot(dir) )
+		dir = new_dir
+		bullet_spr.look_at( global_position + dir )
+		print("Rico ", dir)
+	pass # Replace with function body.

@@ -135,6 +135,7 @@ func _ready() -> void:
 	move_target 	= position
 	aim_target 		= position
 
+## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
@@ -389,6 +390,7 @@ func combat_aim_animation(  ) -> void:
 		combat_arm_back.frame = 		dir_frame
 		combat_arm_front.frame = 		dir_frame
 
+## Values taken from scr_player_muzzle_position. unsure how I can use this.
 func get_muzzle_dist() -> float:
 	var heldBulletDist := 0.0
 	match B2_Gun.get_current_gun().weapon_type:
@@ -410,12 +412,16 @@ func get_muzzle_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldBulletDist = 20.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 14.0 # was 8.0
+			heldBulletDist = 10.0 # was 8.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldBulletDist = 8.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
 			heldBulletDist = 16.0
 	return heldBulletDist
+	
+## Values taken from scr_player_muzzle_position. unsure how I can use this.
+func get_muzzle_pos() -> float: ## TODO
+	return 0.0
 	
 ## scr_player_getGunShifts - set the offsef for the held gun
 func get_gun_held_dist() -> float:
@@ -598,6 +604,9 @@ func combat_weapon_animation() -> void:
 	#new_gun_pos.y 	= round( disty - 16.0 - get_gun_shifts().y + yhshift )
 	
 	## My own slop.
+	## Decide where the gun should be placed in relation to the player sprite.
+	## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
+	
 	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 	# took 3 days finetuning this. 11/03/25 
 	new_gun_pos 	= target_dir * get_gun_held_dist()
@@ -608,12 +617,9 @@ func combat_weapon_animation() -> void:
 	new_gun_pos.y 	-= 18.0 # was 16.0
 	new_gun_pos 	= new_gun_pos.round()
 	
-	#print( "" )
-	#print( get_gun_shifts().rotated( target_angle ) )
-	#print( "target_dir: \t\t", target_dir)
-	#print( "new_gun_pos: \t\t", new_gun_pos )
-	
-	gun_muzzle.position = new_gun_pos + Vector2( get_muzzle_dist(), 1.0 ).rotated( target_angle )
+	## Decide where the muzzle is.
+	gun_muzzle.position = new_gun_pos + Vector2( get_muzzle_dist(), 0.0 ).rotated( target_angle )
+	gun_muzzle.position.y -= 3.0
 	
 	if combat_weapon.frame != s_frame:
 		combat_weapon.frame 			= s_frame

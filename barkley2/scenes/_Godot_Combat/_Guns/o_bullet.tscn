@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ds37xyh4m61b1"]
+[gd_scene load_steps=11 format=3 uid="uid://ds37xyh4m61b1"]
 
 [ext_resource type="Script" uid="uid://brdkn1jwtp53p" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.gd" id="1_aj05g"]
 [ext_resource type="SpriteFrames" uid="uid://6342huyjqpi6" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tres" id="2_6dtqo"]
@@ -35,7 +35,10 @@ scale_max = 5.0
 alpha_curve = SubResource("CurveTexture_teoik")
 anim_speed_max = 1.0
 
-[node name="o_bullet" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6dtqo"]
+radius = 6.0
+
+[node name="o_bullet" type="Area2D"]
 script = ExtResource("1_aj05g")
 
 [node name="bullet_trail" type="Line2D" parent="."]
@@ -60,4 +63,13 @@ bus = &"Audio"
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 
+[node name="bullet_life" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6dtqo")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
+[connection signal="timeout" from="bullet_life" to="." method="_on_bullet_life_timeout"]

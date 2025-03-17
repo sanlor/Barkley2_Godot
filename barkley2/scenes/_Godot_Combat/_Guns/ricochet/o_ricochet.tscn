@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://dje2rrhehq1pw"]
+
+[ext_resource type="Texture2D" uid="uid://dms8yhmuockgs" path="res://barkley2/assets/b2_original/images/merged/s_ricochet.png" id="1_33mok"]
+[ext_resource type="Script" uid="uid://vng4p1ftp5fo" path="res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.gd" id="2_d551e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ix8gp"]
+atlas = ExtResource("1_33mok")
+region = Rect2(0, 0, 36, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wplmr"]
+atlas = ExtResource("1_33mok")
+region = Rect2(36, 0, 36, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_270fj"]
+atlas = ExtResource("1_33mok")
+region = Rect2(72, 0, 36, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wo8lb"]
+atlas = ExtResource("1_33mok")
+region = Rect2(108, 0, 36, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_or4aw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ix8gp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wplmr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_270fj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wo8lb")
+}],
+"loop": false,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="o_ricochet" type="AnimatedSprite2D"]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_or4aw")
+autoplay = "default"
+frame = 3
+frame_progress = 1.0
+script = ExtResource("2_d551e")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
