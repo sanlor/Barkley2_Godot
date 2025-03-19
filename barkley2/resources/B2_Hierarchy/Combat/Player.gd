@@ -36,6 +36,9 @@ class_name B2_Player
 @export var combat_weapon 			: AnimatedSprite2D
 @export var combat_weapon_parts 	: AnimatedSprite2D
 @export var combat_weapon_spots 	: AnimatedSprite2D
+@export var gun_muzzle				: Marker2D
+
+@onready var aim_origin: Marker2D = $aim_origin
 
 const COMBAT_SHUFFLE 		:= "aim_shuffle"
 const COMBAT_STAND 			:= "aim_stand"
@@ -69,6 +72,8 @@ var waddle	:= false # If hoopz legs should waddle torward the aiming direction
 
 var combat_last_direction 	:= Vector2.ZERO
 var combat_last_input 		:= Vector2.ZERO
+
+var prev_gun : B2_Weapon ## Used to update animations
 
 # Movement
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
@@ -109,18 +114,41 @@ func get_room_permissions():
 	else:
 		print("B2_PLAYER: Not inside a room. do whatever is set on exports")
 	
+## TODO remove this section with old code.
+#func _update_held_gun() -> void:
+	#var gun := B2_Gun.get_current_gun()
+	#set_gun( gun.get_held_sprite(), gun.weapon_type )
+	#
+	### Change color.
+	#print(gun.get_gun_color1())
+	#combat_weapon.modulate 				= gun.get_gun_color1()
+	#combat_weapon_parts.modulate 		= gun.get_gun_color2()
+	#combat_weapon_parts.modulate.a 		= gun.get_gun_alpha()
+	#combat_weapon_spots.modulate 		= gun.get_gun_color3()
+## update the current gun sprite, adding details if needed (spots, parts).
+
 func _update_held_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
-	set_gun( gun.get_held_sprite(), gun.weapon_type )
-	
-	## Change color.
-	print(gun.get_gun_color1())
-	combat_weapon.modulate 				= gun.get_gun_color1()
-	combat_weapon_parts.modulate 		= gun.get_gun_color2()
-	combat_weapon_parts.modulate.a 		= gun.get_gun_alpha()
-	combat_weapon_spots.modulate 		= gun.get_gun_color3()
-	
-	
+	if gun:
+		if gun != prev_gun:
+			set_gun( gun.get_held_sprite(), gun.weapon_type )
+			
+			## Change color.
+			var colors := gun.get_gun_colors()
+			combat_weapon.modulate 					= colors[0]
+			
+			if colors[1]:
+				combat_weapon_parts.show()
+				combat_weapon_parts.modulate 		= colors[1]
+			else:
+				combat_weapon_parts.hide()
+				
+			if colors[2]:
+				combat_weapon_spots.show()
+				combat_weapon_spots.modulate 		= colors[2]
+			else:
+				combat_weapon_spots.hide()
+			prev_gun = gun
 ## Change the held weapon sprite. Also can change hoopz torso.
 ## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
 ## WARNING Missing "Dual" type. TODO
@@ -180,6 +208,11 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	else:
 		## Unknown type.
 		breakpoint
+	
+func shoot_gun() -> void:
+	var gun := B2_Gun.get_current_gun()
+	if gun:
+		gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ) )
 	
 func _change_sprites():
 	match curr_STATE:
@@ -330,15 +363,117 @@ func combat_aim_animation():
 		combat_arm_front.frame = 		dir_frame
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
-func combat_weapon_animation():
+## TODO remove this ection later
+#func combat_weapon_animation():
+	## That Vector is an offset to make the calculation origin to be Hoopz torso
+	#var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
+	#var gun_pos 		:= Vector2(18, 0)
+	#
+	### Many Manual touch ups.
+	#var s_frame 		:= combat_weapon.frame
+	#var angle 			:= 0.0
+	#var height_offset	:= Vector2(0, 4)
+	#var _z_index		:= 0
+	#
+	#match mouse_input:
+			## Normal stuff
+			#Vector2(0,	-0.99): # Up
+				#s_frame = 	4
+				#angle = 270
+				#_z_index = -1
+			#Vector2(-0.99,	0): # Left
+				#s_frame = 	8
+				#angle = 180
+				#height_offset = Vector2.ZERO
+			#Vector2(0,	0.99): # Down
+				#s_frame = 	12
+				#angle = 90
+				#height_offset *= -1
+			#Vector2(0.99,	0):	 # Right
+				#s_frame = 	0
+				#angle = 0
+				#height_offset = Vector2.ZERO
+				#
+			## Diagonal stuff
+			#Vector2(0.66,	0.66): # Low Right
+				#s_frame = 	14
+				#angle = 45
+				#height_offset *= -1
+			#Vector2(-0.66,	0.66): # Low Left
+				#s_frame = 	10
+				#angle = 135
+				#height_offset *= -1
+			#Vector2(0.66,	-0.66): # High Right
+				#s_frame = 	2
+				#angle = 315
+			#Vector2(-0.66,	-0.66):	# High Left
+				#s_frame = 	6
+				#angle = 225
+			#
+			## Madness
+			##Down
+			#Vector2(0.33,	0.99): # Rightish
+				#s_frame = 	13
+				#angle = 60
+				#height_offset *= -1
+			#Vector2(-0.33,	0.99): # Leftish
+				#s_frame = 	11
+				#angle = 120
+				#height_offset *= -1
+			##Up
+			#Vector2(0.33,	-0.99): # Rightish
+				#s_frame = 	3
+				#angle = 300
+			#Vector2(-0.33,	-0.99): # Leftish
+				#s_frame = 	5
+				#angle = 240
+			##Left
+			#Vector2(-0.99,	0.33): # Downish
+				#s_frame = 	9
+				#angle = 150
+				#height_offset *= -1
+			#Vector2(-0.99,	-0.33): # Upish
+				#s_frame = 	7
+				#angle = 210
+				##height_offset *= -1
+			##Right
+			#Vector2(0.99,	0.33): # Downish
+				#s_frame = 	15
+				#angle = 30
+				#height_offset *= -1
+			#Vector2(0.99,	-0.33): # Upish
+				#s_frame = 	1
+				#angle = 330
+			#_:
+				##print(mouse_input)
+				#pass
+				#
+	#if combat_weapon.frame != s_frame:
+		#combat_weapon.frame 	= s_frame
+		#combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
+		#combat_weapon.z_index	= _z_index
+		#
+		#combat_weapon_parts.frame 	= combat_weapon.frame
+		#combat_weapon_parts.offset 	= combat_weapon.offset
+		#combat_weapon_parts.z_index	= combat_weapon.z_index
+		#
+		#combat_weapon_spots.frame 	= combat_weapon.frame
+		#combat_weapon_spots.offset 	= combat_weapon.offset
+		#combat_weapon_spots.z_index	= combat_weapon.z_index
+		#
+		#aim_dir = mouse_input
+
+func combat_weapon_animation() -> void:
+	## TODO backport this to o_hoopz.
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
-	var gun_pos 		:= Vector2(18, 0)
+	var target_dir 		:= global_position.direction_to( 		-aim_origin.position + get_global_mouse_position() )
+	var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + get_global_mouse_position() )
+	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 	
 	## Many Manual touch ups.
 	var s_frame 		:= combat_weapon.frame
 	var angle 			:= 0.0
-	var height_offset	:= Vector2(0, 4)
+	var height_offset	:= Vector2(0, 0) ## DEPRECATED
 	var _z_index		:= 0
 	
 	match mouse_input:
@@ -350,31 +485,35 @@ func combat_weapon_animation():
 			Vector2(-0.99,	0): # Left
 				s_frame = 	8
 				angle = 180
-				height_offset = Vector2.ZERO
+				_z_index = -1
+				
 			Vector2(0,	0.99): # Down
 				s_frame = 	12
 				angle = 90
-				height_offset *= -1
+				#height_offset *= -1
 			Vector2(0.99,	0):	 # Right
 				s_frame = 	0
 				angle = 0
-				height_offset = Vector2.ZERO
+				#height_offset = Vector2.ZERO
 				
 			# Diagonal stuff
 			Vector2(0.66,	0.66): # Low Right
 				s_frame = 	14
 				angle = 45
-				height_offset *= -1
+				#height_offset *= -1
 			Vector2(-0.66,	0.66): # Low Left
 				s_frame = 	10
 				angle = 135
-				height_offset *= -1
+				#_z_index = -1
+				#height_offset *= -1
 			Vector2(0.66,	-0.66): # High Right
 				s_frame = 	2
 				angle = 315
+				_z_index = -1
 			Vector2(-0.66,	-0.66):	# High Left
 				s_frame = 	6
 				angle = 225
+				_z_index = -1
 			
 			# Madness
 			#Down
@@ -385,7 +524,7 @@ func combat_weapon_animation():
 			Vector2(-0.33,	0.99): # Leftish
 				s_frame = 	11
 				angle = 120
-				height_offset *= -1
+				#height_offset *= -1
 			#Up
 			Vector2(0.33,	-0.99): # Rightish
 				s_frame = 	3
@@ -397,7 +536,7 @@ func combat_weapon_animation():
 			Vector2(-0.99,	0.33): # Downish
 				s_frame = 	9
 				angle = 150
-				height_offset *= -1
+				#height_offset *= -1
 			Vector2(-0.99,	-0.33): # Upish
 				s_frame = 	7
 				angle = 210
@@ -406,7 +545,7 @@ func combat_weapon_animation():
 			Vector2(0.99,	0.33): # Downish
 				s_frame = 	15
 				angle = 30
-				height_offset *= -1
+				#height_offset *= -1
 			Vector2(0.99,	-0.33): # Upish
 				s_frame = 	1
 				angle = 330
@@ -414,20 +553,38 @@ func combat_weapon_animation():
 				#print(mouse_input)
 				pass
 				
+	## My own slop.
+	## Decide where the gun should be placed in relation to the player sprite.
+	## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
+	
+	var new_gun_pos := Vector2.ZERO
+	
+	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
+	# took 3 days finetuning this. 11/03/25 
+	new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
+	
+	new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
+	new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
+	new_gun_pos.y 	*= 0.75
+	new_gun_pos.y 	-= 18.0 # was 16.0
+	new_gun_pos 	= new_gun_pos.round()
+	
+	## Decide where the muzzle is.
+	gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
+	gun_muzzle.position.y -= 3.0
+	
 	if combat_weapon.frame != s_frame:
-		combat_weapon.frame 	= s_frame
-		combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
-		combat_weapon.z_index	= _z_index
+		combat_weapon.frame 			= s_frame
+		combat_weapon.position 			= new_gun_pos
+		combat_weapon.z_index			= _z_index
 		
-		combat_weapon_parts.frame 	= combat_weapon.frame
-		combat_weapon_parts.offset 	= combat_weapon.offset
-		combat_weapon_parts.z_index	= combat_weapon.z_index
+		combat_weapon_parts.frame 		= s_frame
+		combat_weapon_parts.position 	= new_gun_pos
+		combat_weapon_parts.z_index		= _z_index
 		
-		combat_weapon_spots.frame 	= combat_weapon.frame
-		combat_weapon_spots.offset 	= combat_weapon.offset
-		combat_weapon_spots.z_index	= combat_weapon.z_index
-		
-		aim_dir = mouse_input
+		combat_weapon_spots.frame 		= s_frame
+		combat_weapon_spots.position 	= new_gun_pos
+		combat_weapon_spots.z_index		= _z_index
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -458,6 +615,8 @@ func _physics_process(delta: float) -> void:
 				if curr_STATE == STATE.NORMAL:
 					normal_animation(delta)
 				elif  curr_STATE == STATE.AIM:
+					_update_held_gun()
+					
 					combat_walk_animation( delta ) # delta is for the turning animation
 					combat_aim_animation()
 					combat_weapon_animation()
@@ -486,8 +645,10 @@ func _physics_process(delta: float) -> void:
 				# player shoots its weapon.
 				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM and can_shoot:
 					#shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
-					B2_Sound.play_pick("hoopz_click")
+					# 18/03/25 kinda functional now. u can shoot at least.
+					#B2_Sound.play_pick("hoopz_click")
 					## CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
+					shoot_gun()
 					
 				# player has no permission to draw weapon
 				elif Input.is_action_just_pressed("Holster") and not can_draw_weapon:

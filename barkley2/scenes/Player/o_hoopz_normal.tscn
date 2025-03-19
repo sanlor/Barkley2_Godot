@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=15 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="Script" uid="uid://h3801n3p6aiv" path="res://barkley2/scenes/Player/o_hoopz_normal.gd" id="1_dvmm0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_vnb8r"]
@@ -19,7 +19,10 @@ absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "hoopz_normal_body", "step_smoke")]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
+size = Vector2(4, 4)
+
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
@@ -36,6 +39,7 @@ combat_arm_front = NodePath("combat_arm_front")
 combat_weapon = NodePath("combat_weapon")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
+gun_muzzle = NodePath("gun_muzzle")
 ROLL = "hoopz_gooroll"
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
@@ -89,19 +93,16 @@ offset = Vector2(-22, -41)
 position = Vector2(0, -18)
 sprite_frames = ExtResource("9_effw1")
 animation = &"s_AssaultRifle"
-offset = Vector2(18, 0)
 
 [node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -18)
 sprite_frames = ExtResource("9_ufjxn")
 animation = &"s_TranqRifle"
-offset = Vector2(18, 0)
 
 [node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -18)
 sprite_frames = ExtResource("10_ac4jf")
 animation = &"s_Smg"
-offset = Vector2(18, 0)
 
 [node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("10_7qowe")
@@ -111,6 +112,11 @@ offset = Vector2(-22, -41)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
+
+[node name="gun_muzzle" type="Marker2D" parent="."]
+
+[node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
+texture = SubResource("PlaceholderTexture2D_ufjxn")
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]

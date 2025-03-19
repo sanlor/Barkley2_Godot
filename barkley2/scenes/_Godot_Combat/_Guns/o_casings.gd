@@ -34,7 +34,7 @@ func setup( _bounce_soundid : String, _scale : float, _speed : float, _color : C
 
 func cleanup() -> void:
 	var t := create_tween()
-	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0, 1 ) )
+	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 8.0, 16.0 ) )
 	t.tween_callback( queue_free )
 
 func _physics_process(delta: float) -> void:
@@ -66,3 +66,7 @@ func _physics_process(delta: float) -> void:
 		
 	velocity 			*= friction
 	angular_velocity 	*= friction
+
+
+func _on_casing_lifetime_timeout() -> void:
+	cleanup()

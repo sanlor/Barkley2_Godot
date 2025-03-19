@@ -557,3 +557,114 @@ static func get_current_gun() -> B2_Weapon:
 		else:
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ]
 #endregion
+
+#region Position the gun on the players hand
+## NOTE THis section was on the player script
+## Values taken from scr_player_muzzle_position. unsure how I can use this.
+static func get_muzzle_dist() -> float:
+	var heldBulletDist := 0.0
+	match B2_Gun.get_current_gun().weapon_type:
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
+			heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
+			heldBulletDist = 16.0
+		## rocket launchers are on the shoulder.
+		B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			heldBulletDist = 20.0
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
+			heldBulletDist = 10.0 # was 8.0
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
+			heldBulletDist = 8.0
+		B2_Gun.TYPE.GUN_TYPE_BFG:
+			heldBulletDist = 16.0
+	return heldBulletDist
+	
+## Values taken from scr_player_muzzle_position. unsure how I can use this.
+static func get_muzzle_pos() -> float: ## TODO
+	return 0.0
+	
+## scr_player_getGunShifts - set the offsef for the held gun
+static func get_gun_held_dist() -> float:
+	var heldDist := 0.0
+	match B2_Gun.get_current_gun().weapon_type:
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
+			heldDist = -6.0
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
+			heldDist = -4.0
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
+			heldDist = 0.0
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
+			heldDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
+			heldDist = 22.0
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN, B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN, B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN, B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
+			heldDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
+			heldDist = 18.0
+		## rocket launchers are on the shoulder.
+		B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			heldDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.TYPE.GUN_TYPE_MAGNUM, B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
+			heldDist = 22.0 # was 17.0
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
+			heldDist = 17.0 # was 17.0
+		B2_Gun.TYPE.GUN_TYPE_BFG:
+			heldDist = 0.0
+		_:
+			print( B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
+	return heldDist
+
+## scr_player_getGunShifts - set the offsef for the held gun
+static func get_gun_shifts() -> Vector2:
+	var heldHShift := 0.0
+	var heldVShift := 0.0
+	match B2_Gun.get_current_gun().weapon_type:
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
+			heldVShift = -2;
+			heldHShift = -12;
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
+			heldVShift = 3;
+			heldHShift = -12;
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
+			heldVShift = 3;
+			heldHShift = -12;
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
+			heldVShift = 0;
+			heldHShift = -8;
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
+			heldVShift = 1;
+			heldHShift = -8;
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
+			heldVShift = 0;
+			heldHShift = -8;
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
+			heldVShift = 2;
+			heldHShift = -8;
+		## rocket launchers are on the shoulder.
+		B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			heldVShift = 12;
+			heldHShift = 8;
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
+			heldHShift = 0; # 0
+			heldVShift = 5; # 5
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
+			heldHShift = 0;
+			heldVShift = 6;
+		B2_Gun.TYPE.GUN_TYPE_BFG:
+			heldVShift = 3;
+			heldHShift = -12;
+	
+	#heldVShift = 0 ## DEBUG
+	#return Vector2( heldHShift, heldVShift )
+	return Vector2( heldVShift, heldHShift )
+#endregion

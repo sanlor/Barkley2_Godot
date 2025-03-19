@@ -103,8 +103,8 @@ var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement.
 
 ## Control stuff
 #var is_moving 		:= false
-var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
-var aim_target 		:= Vector2.ZERO ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
+var move_target 	:= movement_vector ## Cinema stuff: Tells where the node should walk to.
+var aim_target 		:= movement_vector ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self
@@ -156,7 +156,7 @@ func _update_held_gun() -> void:
 			combat_weapon_spots.modulate 		= colors[2]
 		else:
 			combat_weapon_spots.hide()
-
+		
 func _change_sprites():
 	match curr_STATE:
 		STATE.NORMAL, STATE.ROLL:
@@ -390,114 +390,6 @@ func combat_aim_animation(  ) -> void:
 		combat_arm_back.frame = 		dir_frame
 		combat_arm_front.frame = 		dir_frame
 
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-func get_muzzle_dist() -> float:
-	var heldBulletDist := 0.0
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldBulletDist = 16.0
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldBulletDist = 20.0
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 10.0 # was 8.0
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldBulletDist = 8.0
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldBulletDist = 16.0
-	return heldBulletDist
-	
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-func get_muzzle_pos() -> float: ## TODO
-	return 0.0
-	
-## scr_player_getGunShifts - set the offsef for the held gun
-func get_gun_held_dist() -> float:
-	var heldDist := 0.0
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldDist = -6.0
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldDist = -4.0
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldDist = 0.0
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldDist = 14.0
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldDist = 22.0
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN, B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN, B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN, B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldDist = 14.0
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldDist = 18.0
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.TYPE.GUN_TYPE_MAGNUM, B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldDist = 22.0 # was 17.0
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldDist = 17.0 # was 17.0
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldDist = 0.0
-		_:
-			print( B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
-	return heldDist
-
-## scr_player_getGunShifts - set the offsef for the held gun
-func get_gun_shifts() -> Vector2:
-	var heldHShift := 0.0
-	var heldVShift := 0.0
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldVShift = -2;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldVShift = 3;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldVShift = 3;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldVShift = 0;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldVShift = 1;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldVShift = 0;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldVShift = 2;
-			heldHShift = -8;
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldVShift = 12;
-			heldHShift = 8;
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldHShift = 0; # 0
-			heldVShift = 5; # 5
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldHShift = 0;
-			heldVShift = 6;
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldVShift = 3;
-			heldHShift = -12;
-	
-	#heldVShift = 0 ## DEBUG
-	#return Vector2( heldHShift, heldVShift )
-	return Vector2( heldVShift, heldHShift )
-
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
@@ -599,7 +491,6 @@ func combat_weapon_animation() -> void:
 	#var xhshift 	:= sin( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
 	#var yhshift 	:= cos( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
 	#yhshift 		*= 0.75
-	
 	#new_gun_pos.x 	= round( distx + xhshift )
 	#new_gun_pos.y 	= round( disty - 16.0 - get_gun_shifts().y + yhshift )
 	
@@ -609,16 +500,16 @@ func combat_weapon_animation() -> void:
 	
 	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 	# took 3 days finetuning this. 11/03/25 
-	new_gun_pos 	= target_dir * get_gun_held_dist()
+	new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
 	
-	new_gun_pos 	-= get_gun_shifts().rotated( target_angle )
-	new_gun_pos.y 	-= get_gun_shifts().y * 0.75
+	new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
+	new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
 	new_gun_pos.y 	*= 0.75
 	new_gun_pos.y 	-= 18.0 # was 16.0
 	new_gun_pos 	= new_gun_pos.round()
 	
 	## Decide where the muzzle is.
-	gun_muzzle.position = new_gun_pos + Vector2( get_muzzle_dist(), 0.0 ).rotated( target_angle )
+	gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
 	gun_muzzle.position.y -= 3.0
 	
 	if combat_weapon.frame != s_frame:
@@ -773,7 +664,6 @@ func _physics_process(delta: float) -> void:
 			## Play Animations
 			if curr_STATE == STATE.NORMAL:
 				normal_animation( delta )
-				
 			elif  curr_STATE == STATE.AIM:
 				combat_walk_animation( delta ) # delta is for the turning animation
 				combat_aim_animation()

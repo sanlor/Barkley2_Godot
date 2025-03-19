@@ -32,7 +32,11 @@ var speed := 15.0
 var my_gun : B2_Weapon
 
 ## Bullet trail
-var trail_len 	:= 16
+var has_trail		:= true
+var trail_len 		:= 16
+
+## Ricochet
+var max_ricochet	:= 3
 
 ## Bullet mods
 var superShot 			:= false
@@ -71,7 +75,7 @@ var image_angle ## ????
 var bulletSpin ## ????
 var specialShot ## ????
 
-var ricochetSound := ""
+var ricochetSound := "ricochet"
 
 ## NOTE choice(1,-1) -> [1,-1].pick_random()
 
@@ -100,11 +104,13 @@ func _ready() -> void:
 	modulate = col
 	my_gun = B2_Gun.get_current_gun()
 	sprite_selection()
-
-func enable_trail() -> void:
-	pass
-
-## based on some settings, some sprites can change.
+	
+	if has_trail:
+		bullet_trail.show()
+	else:
+		bullet_trail.hide()
+ 
+## based on some settings, some sprites can change. ## o_bullet alarm 0
 func sprite_selection() -> void:
 	var _pow := my_gun.att ## missing other stats
 	
@@ -308,6 +314,7 @@ func sprite_selection() -> void:
 			if(speedBonus>1.5):speedBonus = 1.5
 			#Smoke("puff",x,y,z,2+max(5,_pow));
 			smoke_trail.emitting = true
+			has_trail = false
 	
 
 		"s_bull_polenta":
@@ -737,6 +744,8 @@ func sprite_selection() -> void:
 			#scale.x = 1;
 			#scale.y = choose(1,-1);
 			## TODO 
+			smoke_trail.emitting = true
+			has_trail = false
 			bullet_spriteTurn = true;
 			lobAngledSprite = true;
 			specialBFG = true;
@@ -1120,6 +1129,8 @@ func sprite_selection() -> void:
 			## TODO steamStop = 6;
 			lobAngledSprite = true;
 			## TODO Smoke("puff",x,y,z,2+max(5,_pow));
+			smoke_trail.emitting = true
+			has_trail = false
 		
 
 		"s_bull_myrrh":
@@ -1297,40 +1308,70 @@ func play_sound(soundID : String, loop : bool) -> void:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
 func _physics_process(_delta: float) -> void:
-	position += dir * speed ## TEMP
+	var velocity := dir * speed
+	check_wall_collision( velocity )
 	
-	## Update trail
-	bullet_trail.add_point( global_position )
-	if bullet_trail.get_point_count() > trail_len:
-		bullet_trail.remove_point(0)
+	position += velocity ## TEMP
+	
+	if has_trail:
+		## Update trail
+		bullet_trail.add_point( global_position )
+		if bullet_trail.get_point_count() > trail_len:
+			bullet_trail.remove_point(0)
 
-func ricochet( angle : float ) -> void:
-	B2_Sound.play_pick("ricochet")
+func check_wall_collision( velocity : Vector2 ) -> void:
+	var space_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
+	var query := PhysicsRayQueryParameters2D.new()
+	query.from = position; query.collide_with_areas = false; query.collide_with_bodies = true; query.hit_from_inside = false
+	
+	## NOTE may have performance impact
+	## https://github.com/godotengine/godot/issues/89458 Issue with collision normals. sometimes it detects a collision with a internal face of the tilemap.
+	#var max_tests := 6
+	#for i in max_tests:
+	
+	query.to = position + velocity# * ( float(i) / float(max_tests) )
+	var result: Dictionary = space_state.intersect_ray( query )
+	if result.size() > 0:
+		bullet_bounce( result )
+		return
+		print( query.to )
+
+func ricochet( ric_dir : Vector2 ) -> void:
 	var rico = O_RICOCHET.instantiate()
 	rico.scale = scale
-	rico.rotation = angle
 	rico.position = position
 	add_sibling( rico, true )
+	rico.look_at( position + ric_dir.rotated( randf_range( -PI/8, PI/8 ) ) )
+	
+func bullet_bounce( collision : Dictionary ) -> void:
+	var normal = collision["normal"]
+	var new_dir := dir.bounce(normal)
+		
+	ricochet( -( new_dir - dir).normalized() )
+	B2_Sound.play_pick(ricochetSound)
+	
+	dir = new_dir
+	dir = dir #.rotated( randf_range( -PI/8, PI/8 ) ) ## add a bit of randomness
+	bullet_spr.look_at( global_position + dir )
+	print("Rico ", dir, " body ", collision)
 	
 func destroy_bullet() -> void:
+	ricochet( - dir )
 	queue_free() ## add a tween, fade bullet out.
 
-func _on_visible_on_screen_enabler_2d_screen_exited() -> void:
-	destroy_bullet()
-
-func _on_bullet_life_timeout() -> void:
-	destroy_bullet()
-
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered( body: Node2D ) -> void:
 	if body is B2_HoopzCombatActor:
 		# can hit yourself if its a ricochet
 		## TODO
 		return
 		
-	if body is CollisionObject2D:
-		var new_dir := position.bounce( position.direction_to( body.position ) ).normalized()
-		ricochet( new_dir.dot(dir) )
-		dir = new_dir
-		bullet_spr.look_at( global_position + dir )
-		print("Rico ", dir)
-	pass # Replace with function body.
+	if body is CollisionObject2D or body is TileMapLayer:
+		#bullet_bounce( )
+		pass
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	await get_tree().create_timer(1.0).timeout
+	queue_free()
+
+func _on_bullet_life_timeout() -> void:
+	destroy_bullet()

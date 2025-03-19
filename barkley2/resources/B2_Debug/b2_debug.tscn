@@ -1,8 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=18 format=3 uid="uid://bpps4qfcgdytt"]
 
-[ext_resource type="Script" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
+[ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Debug/player_data_screen.gd" id="3_vdeye"]
+[ext_resource type="Script" uid="uid://1p2a3mchu1cr" path="res://barkley2/resources/B2_Debug/player_data_screen.gd" id="3_vdeye"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_coofk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
@@ -173,6 +173,19 @@ func _ready() -> void:
 
 func _on_cam_btn_pressed() -> void:
 	B2_Debug.can_disable_player_col = play_col_btn.button_pressed
+"
+
+[sub_resource type="GDScript" id="GDScript_sww13"]
+resource_name = "gun_gen"
+script/source = "extends Button
+
+
+func _on_pressed() -> void:
+	B2_Gun.remove_gun( B2_Gun.get_current_gun() )
+	B2_Gun.add_gun( true )
+	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
+	print(\"New gun generated! - %s\" % B2_Gun.get_current_gun().get_full_name() )
+	pass # Replace with function body.
 "
 
 [node name="b2_debug" type="CanvasLayer"]
@@ -393,6 +406,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Toggle"
 
+[node name="gun_gen" type="Button" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Generate a random weapon"
+script = SubResource("GDScript_sww13")
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
@@ -408,3 +426,4 @@ text = "Toggle"
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/m_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_m_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/p_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_p_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/camera_data/cam_btn" to="player_vars/MarginContainer/VBoxContainer/camera_data" method="_on_cam_btn_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]

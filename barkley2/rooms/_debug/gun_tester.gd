@@ -41,10 +41,6 @@ func _on_generate_pressed() -> void:
 	if mat_btn.button_pressed:
 		my_mat = B2_Gun.MATERIAL.get( mats.get_item_text( mats.get_selected_id() ) )
 		
-	#var t = 	load("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_DOUBLESHOTGUN.tres")
-	#var tt = 	load("res://barkley2/resources/B2_Weapon/type/_debug.tres")
-	#var ttt = 	load("res://barkley2/resources/B2_Weapon/type/_debug2.tres")
-	#var tttt = 	load("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ASSAULTRIFLE.tres")
 	B2_Gun.remove_gun( B2_Gun.get_current_gun() )
 	B2_Gun.add_gun( true, my_type, my_mat )
 	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
