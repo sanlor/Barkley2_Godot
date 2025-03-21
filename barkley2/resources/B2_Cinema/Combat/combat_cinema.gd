@@ -67,6 +67,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 	B2_Input.cutscene_is_playing 	= true
 	B2_Input.can_fast_forward 		= true
 	B2_Input.player_has_control 	= false
+	B2_Input.can_switch_guns		= false
 	
 	B2_CManager.event_started.emit()
 	

@@ -14,6 +14,8 @@ var player_character 	: B2_HoopzCombatActor						## In this game, only one playe
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
+var combat_paused := false
+
 ## keep a refere for the player
 func register_player( player : B2_HoopzCombatActor ) -> void:
 	player_character = player
@@ -25,6 +27,9 @@ func register_enemy_list( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	#enemy.combat_manager = self
 	
 func start_battle():
+	B2_Input.can_fast_forward = false
+	
+	B2_Input.can_switch_guns = true
 	B2_CManager.combat_manager = self
 	B2_CManager.o_hud.show_battle_ui()
 	for e : B2_CombatActor in enemy_list:
@@ -37,27 +42,34 @@ func start_battle():
 	
 	B2_Music.play_combat( 0.1 )
 
+func pause_combat() -> void: ## Stop combat tick during target selection, etc.
+	combat_paused = true
+
+func resume_combat() -> void: 
+	combat_paused = false
+
 func tick_combat() -> void:
-	B2_CManager.o_hud.get_combat_module().tick_combat()
-	
-	for wpn : B2_Weapon in B2_Playerdata.bandolier:
-		wpn.increase_action()
-	
-	if B2_Playerdata.player_stats.increase_action():
-		## TODO player action (move, defend)
-		if randf() > 0.9: ## TEMP
-			B2_Playerdata.player_stats.reset_action()
-	
-	for enemy : B2_EnemyCombatActor in enemy_list:
-		if enemy.enemy_data:
-			if enemy.enemy_data.increase_action():
-				enemy.enemy_data.reset_action()
-				print("action")
+	if not combat_paused:
+		B2_CManager.o_hud.get_combat_module().tick_combat()
+		
+		for wpn : B2_Weapon in B2_Playerdata.bandolier:
+			wpn.increase_action()
+		
+		if B2_Playerdata.player_stats.increase_action():
+			## TODO player action (move, defend)
+			if randf() > 0.9: ## TEMP
+				B2_Playerdata.player_stats.reset_action()
+		
+		for enemy : B2_EnemyCombatActor in enemy_list:
+			if enemy.enemy_data:
+				if enemy.enemy_data.increase_action():
+					enemy.enemy_data.reset_action()
+					print("action")
+				else:
+					pass
 			else:
-				pass
-		else:
-			## Forgot to add enemy data.
-			breakpoint
+				## Forgot to add enemy data.
+				breakpoint
 
 func process() -> void:
 	var avg_pos 					:= get_avg_pos()

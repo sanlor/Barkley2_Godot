@@ -1748,13 +1748,11 @@ func _ready():
 ## Plays SFX when the player changes Weapons.
 func _play_gun_swap_sfx() -> void:
 	var wpn = B2_Gun.get_current_gun()
+	## Tries to pick a specific swapsound. if it cant, play the default one.
 	if wpn:
-		var wpn_type_data = wpn.type_data as Dictionary
-		if not wpn.type_data.has("swapSound"):
-			#print("key swapSound doesnt exist for weapon %s." % wpn.get_full_name() )
-			pass
-		## Tries to pick a specific swapsound. if it cant, play the default one.
-		play_pick( wpn.type_data.get("swapSound", "hoopz_swapguns") ) ## "hoopz_swapguns" is the default is no sound exists
+		play_pick( wpn.get_swap_sound() )
+	else:
+		play_pick( "hoopz_swapguns" ) ## "hoopz_swapguns" is the default is no sound exists
 
 ## used for Positional sounds. # Return the file name for a sound effect
 func get_sound(soundID : String) -> String:

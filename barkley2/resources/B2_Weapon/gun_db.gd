@@ -539,12 +539,12 @@ static func get_gunbag() -> Array[B2_Weapon]:
 	return B2_Playerdata.gun_bag
 	
 static func next_band_gun() -> void:
-	#B2_Playerdata.selected_gun += 1
-	push_warning("DEBUG disabled")
+	B2_Playerdata.selected_gun += 1
+	# push_warning("DEBUG disabled")
 	
 static func prev_band_gun() -> void:
-	#B2_Playerdata.selected_gun -= 1
-	push_warning("DEBUG disabled")
+	B2_Playerdata.selected_gun -= 1
+	# push_warning("DEBUG disabled")
 	
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.bandolier.is_empty():

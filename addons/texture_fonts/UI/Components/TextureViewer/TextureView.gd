@@ -35,4 +35,3 @@ func _on_TextureView_mouse_entered():
 func _on_TextureView_mouse_exited():
 	hovering = false
 	rect_preview.hide()
-

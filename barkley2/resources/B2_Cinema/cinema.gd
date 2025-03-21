@@ -161,6 +161,7 @@ func end_cutscene():
 	B2_Input.cutscene_is_playing 	= false
 	B2_Input.can_fast_forward 		= false
 	B2_Input.player_has_control 	= true
+	B2_Input.can_switch_guns		= true
 	
 	print_rich("[color=pink]Finished Cinema() Script.[/color]")
 	
@@ -209,6 +210,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	B2_Input.cutscene_is_playing 	= true
 	B2_Input.can_fast_forward 		= true
 	B2_Input.player_has_control 	= false
+	B2_Input.can_switch_guns		= false
 	
 	B2_Input.player_follow_mouse.emit( false )
 	B2_Input.camera_follow_mouse.emit( false )

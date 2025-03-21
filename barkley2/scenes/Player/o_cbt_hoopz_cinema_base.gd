@@ -137,47 +137,54 @@ func _ready() -> void:
 
 ## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:
-	var gun := B2_Gun.get_current_gun()
-	if gun:
-		set_gun( gun.get_held_sprite(), gun.weapon_type )
-		
-		## Change color.
-		var colors := gun.get_gun_colors()
-		combat_weapon.modulate 					= colors[0]
-		
-		if colors[1]:
-			combat_weapon_parts.show()
-			combat_weapon_parts.modulate 		= colors[1]
-		else:
-			combat_weapon_parts.hide()
+	if curr_STATE == STATE.AIM:
+		var gun := B2_Gun.get_current_gun()
+		if gun:
+			set_gun( gun.get_held_sprite(), gun.weapon_type )
 			
-		if colors[2]:
-			combat_weapon_spots.show()
-			combat_weapon_spots.modulate 		= colors[2]
-		else:
-			combat_weapon_spots.hide()
+			## Change color.
+			var colors := gun.get_gun_colors()
+			combat_weapon.modulate = colors[0]
+			
+			if colors[1]:
+				combat_weapon_parts.show()
+				combat_weapon_parts.modulate = colors[1]
+			else:
+				combat_weapon_parts.hide()
+				
+			if colors[2]:
+				combat_weapon_spots.show()
+				combat_weapon_spots.modulate = colors[2]
+			else:
+				combat_weapon_spots.hide()
+	_change_sprites()
 		
 func _change_sprites():
 	match curr_STATE:
 		STATE.NORMAL, STATE.ROLL:
 			hoopz_normal_body.show()
 			
+			## Hide combat related sprites
 			combat_lower_sprite.hide()
 			combat_upper_sprite.hide()
 			combat_arm_back.hide()
 			combat_arm_front.hide()
 			combat_weapon.hide()
+			combat_weapon_parts.hide()
+			combat_weapon_spots.hide()
 		STATE.AIM:
 			hoopz_normal_body.hide()
 			
+			## Show combat related sprites
 			combat_lower_sprite.show()
 			combat_upper_sprite.show()
 			combat_arm_back.show()
 			combat_arm_front.show()
 			combat_weapon.show()
+			combat_weapon_parts.show()
+			combat_weapon_spots.show()
 
-func add_smoke( offset := Vector2.ZERO ) -> void:
-	#for i in randi_range( 1, 2 ):
+func add_smoke( offset := Vector2.ZERO ) -> void: ## Add a small puff of smoke.
 	step_smoke.emit_particle( Transform2D( 0, step_smoke.position + offset ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
 func normal_animation( delta : float ) -> void:
@@ -186,26 +193,18 @@ func normal_animation( delta : float ) -> void:
 	if is_moving: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
 		if last_input != input:
-			add_smoke()
+			add_smoke( Vector2( randf_range(-3,3), randf_range(-3,3) ) )
 			
 			match input:
-				Vector2.UP + Vector2.LEFT:
-					hoopz_normal_body.play(WALK_NW)
-				Vector2.UP + Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_NE)
-				Vector2.DOWN + Vector2.LEFT:
-					hoopz_normal_body.play(WALK_SW)
-				Vector2.DOWN + Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_SE)
+				Vector2.UP + Vector2.LEFT:		hoopz_normal_body.play(WALK_NW)
+				Vector2.UP + Vector2.RIGHT:		hoopz_normal_body.play(WALK_NE)
+				Vector2.DOWN + Vector2.LEFT:	hoopz_normal_body.play(WALK_SW)
+				Vector2.DOWN + Vector2.RIGHT:	hoopz_normal_body.play(WALK_SE)
 					
-				Vector2.UP:
-					hoopz_normal_body.play(WALK_N)
-				Vector2.LEFT:
-					hoopz_normal_body.play(WALK_W)
-				Vector2.DOWN:
-					hoopz_normal_body.play(WALK_S)
-				Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_E)
+				Vector2.UP:		hoopz_normal_body.play(WALK_N)
+				Vector2.LEFT:	hoopz_normal_body.play(WALK_W)
+				Vector2.DOWN:	hoopz_normal_body.play(WALK_S)
+				Vector2.RIGHT:	hoopz_normal_body.play(WALK_E)
 					
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
@@ -237,23 +236,15 @@ func normal_animation( delta : float ) -> void:
 			
 		# change the animation itself.
 		match last_direction:
-			Vector2.UP + Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_NW
-			Vector2.UP + Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_NE
-			Vector2.DOWN + Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_SW
-			Vector2.DOWN + Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_SE
+			Vector2.UP + Vector2.LEFT:		hoopz_normal_body.frame = STAND_NW
+			Vector2.UP + Vector2.RIGHT:		hoopz_normal_body.frame = STAND_NE
+			Vector2.DOWN + Vector2.LEFT:	hoopz_normal_body.frame = STAND_SW
+			Vector2.DOWN + Vector2.RIGHT:	hoopz_normal_body.frame = STAND_SE
 				
-			Vector2.UP:
-				hoopz_normal_body.frame = STAND_N
-			Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_W
-			Vector2.DOWN:
-				hoopz_normal_body.frame = STAND_S
-			Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_E
+			Vector2.UP:		hoopz_normal_body.frame = STAND_N
+			Vector2.LEFT:	hoopz_normal_body.frame = STAND_W
+			Vector2.DOWN:	hoopz_normal_body.frame = STAND_S
+			Vector2.RIGHT:	hoopz_normal_body.frame = STAND_E
 				
 			_: # Catch All
 				hoopz_normal_body.frame = STAND_S
@@ -271,7 +262,7 @@ func combat_walk_animation( delta : float) -> void:
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
 		if combat_last_input != input:
-			add_smoke()
+			add_smoke( Vector2( randf_range(-3,3), randf_range(-3,3) ) )
 			
 			match input:
 				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW)
@@ -335,54 +326,34 @@ func combat_walk_animation( delta : float) -> void:
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation(  ) -> void:
-	var mouse_input := ( position + Vector2( 0, -16 ) ).direction_to(  aim_target ).snapped( Vector2(0.33,0.33) )
-	var dir_frame 	= combat_upper_sprite.frame
+	var target_dir 		:= aim_target
+	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
+	var dir_frame 		= combat_upper_sprite.frame
 	
 	## Remember, 0.9999999999999 != 1.0
+	## Chose what animation frame do use.
 	match mouse_input:
-			# Normal stuff
-			Vector2(0,	-0.99):
-				dir_frame = 		4
-			Vector2(-0.99,	0):
-				dir_frame = 		8
-			Vector2(0,	0.99):
-				dir_frame = 		12
-			Vector2(0.99,	0):	
-				dir_frame = 		0
-				
-			# Diagonal stuff
-			Vector2(0.66,	0.66): # Low Right
-				dir_frame = 		14
-			Vector2(-0.66,	0.66): # Low Left
-				dir_frame = 		10
-			Vector2(0.66,	-0.66): # High Right
-				dir_frame = 		2
-			Vector2(-0.66,	-0.66):	# High Left
-				dir_frame = 		6
+		# Normal stuff
+		Vector2(0,	-0.99):	dir_frame = 		4
+		Vector2(-0.99,	0):	dir_frame = 		8
+		Vector2(0,	0.99):	dir_frame = 		12
+		Vector2(0.99,	0):	dir_frame = 		0
 			
-			# Madness
-			#Down
-			Vector2(0.33,	0.99): # Rightish
-				dir_frame = 		13
-			Vector2(-0.33,	0.99): # Leftish
-				dir_frame = 		11
-			#Up
-			Vector2(0.33,	-0.99): # Rightish
-				dir_frame = 		3
-			Vector2(-0.33,	-0.99): # Leftish
-				dir_frame = 		5
-			#Left
-			Vector2(-0.99,	0.33): # Upish
-				dir_frame = 		9
-			Vector2(-0.99,	-0.33): # Downish
-				dir_frame = 	7
-
-			#Right
-			Vector2(0.99,	0.33): # Upish
-				dir_frame = 	15
-
-			Vector2(0.99,	-0.33): # Downish
-				dir_frame = 	1
+		# Diagonal stuff
+		Vector2(0.66,	0.66):	dir_frame = 	14 	# Low 		# Right
+		Vector2(-0.66,	0.66):	dir_frame = 	10 	# Low 		# Left
+		Vector2(0.66,	-0.66):	dir_frame = 	2 	# High 		# Right
+		Vector2(-0.66,	-0.66):	dir_frame = 	6 	# High 		# Left
+		
+		# Madness...
+		Vector2(0.33,	0.99):	dir_frame = 	13 	# Down 		# Rightish
+		Vector2(-0.33,	0.99):	dir_frame = 	11 	# Down 		# Leftish
+		Vector2(0.33,	-0.99):	dir_frame = 	3 	# Up 		# Rightish
+		Vector2(-0.33,	-0.99):	dir_frame = 	5 	# Up 		# Leftish
+		Vector2(-0.99,	0.33):	dir_frame = 	9 	# Left 		# Upish
+		Vector2(-0.99,	-0.33):	dir_frame = 	7 	# Left 		# Downish
+		Vector2(0.99,	0.33):	dir_frame = 	15 	# Right 	# Upish
+		Vector2(0.99,	-0.33):	dir_frame = 	1 	# Right 	# Downish
 	
 	# only change if there is a change in dir
 	if dir_frame != combat_upper_sprite.frame:
@@ -394,107 +365,41 @@ func combat_aim_animation(  ) -> void:
 func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var target_dir 		:= global_position.direction_to( aim_target )
-	var target_angle	:= global_position.angle_to_point( aim_target )
+	var target_dir 		:= aim_target # global_position.direction_to( aim_target )
+	var target_angle	:= global_position.angle_to_point( global_position + aim_target )
 	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 	
 	## Many Manual touch ups.
 	var s_frame 		:= combat_weapon.frame
-	var angle 			:= 0.0
-	var height_offset	:= Vector2(0, 0) ## DEPRECATED
 	var _z_index		:= 0
 	
-	match mouse_input:
-			# Normal stuff
-			Vector2(0,	-0.99): # Up
-				s_frame = 	4
-				angle = 270
-				_z_index = -1
-			Vector2(-0.99,	0): # Left
-				s_frame = 	8
-				angle = 180
-				_z_index = -1
-				
-			Vector2(0,	0.99): # Down
-				s_frame = 	12
-				angle = 90
-				#height_offset *= -1
-			Vector2(0.99,	0):	 # Right
-				s_frame = 	0
-				angle = 0
-				#height_offset = Vector2.ZERO
-				
-			# Diagonal stuff
-			Vector2(0.66,	0.66): # Low Right
-				s_frame = 	14
-				angle = 45
-				#height_offset *= -1
-			Vector2(-0.66,	0.66): # Low Left
-				s_frame = 	10
-				angle = 135
-				#_z_index = -1
-				#height_offset *= -1
-			Vector2(0.66,	-0.66): # High Right
-				s_frame = 	2
-				angle = 315
-				_z_index = -1
-			Vector2(-0.66,	-0.66):	# High Left
-				s_frame = 	6
-				angle = 225
-				_z_index = -1
-			
-			# Madness
-			#Down
-			Vector2(0.33,	0.99): # Rightish
-				s_frame = 	13
-				angle = 60
-				height_offset *= -1
-			Vector2(-0.33,	0.99): # Leftish
-				s_frame = 	11
-				angle = 120
-				#height_offset *= -1
-			#Up
-			Vector2(0.33,	-0.99): # Rightish
-				s_frame = 	3
-				angle = 300
-			Vector2(-0.33,	-0.99): # Leftish
-				s_frame = 	5
-				angle = 240
-			#Left
-			Vector2(-0.99,	0.33): # Downish
-				s_frame = 	9
-				angle = 150
-				#height_offset *= -1
-			Vector2(-0.99,	-0.33): # Upish
-				s_frame = 	7
-				angle = 210
-				#height_offset *= -1
-			#Right
-			Vector2(0.99,	0.33): # Downish
-				s_frame = 	15
-				angle = 30
-				#height_offset *= -1
-			Vector2(0.99,	-0.33): # Upish
-				s_frame = 	1
-				angle = 330
-			_:
-				#print(mouse_input)
-				pass
+	match mouse_input: # the var name is a relic of an ancient time. 
+		# Normal stuff
+		Vector2(0,	-0.99): s_frame = 	4; _z_index = -1 	# Up
+		Vector2(-0.99,	0): s_frame = 	8; _z_index = -1 	# Left
+		Vector2(0,	0.99): s_frame = 	12; 				# Down
+		Vector2(0.99,	0): s_frame = 	0; 					# Right
+
+		# Diagonal stuff
+		Vector2(0.66,	0.66): s_frame = 	14					# Low Right
+		Vector2(-0.66,	0.66): s_frame = 	10; #_z_index = -1 	# Low Left
+		Vector2(0.66,	-0.66): s_frame = 	2; _z_index = -1 	# High Right
+		Vector2(-0.66,	-0.66):	s_frame = 	6; _z_index = -1	# High Left
+
+		# Madness
+		Vector2(0.33,	0.99): s_frame = 	13		# Rightish	# Down
+		Vector2(-0.33,	0.99): s_frame = 	11		# Leftish	# Down
+		Vector2(0.33,	-0.99): s_frame = 	3		# Rightish	# Up
+		Vector2(-0.33,	-0.99): s_frame = 	5		# Leftish	# Up
+		Vector2(-0.99,	0.33): s_frame = 	9		# Downish	# Left
+		Vector2(-0.99,	-0.33): s_frame = 	7		# Upish		# Left
+		Vector2(0.99,	0.33): s_frame = 	15		# Downish	# Right
+		Vector2(0.99,	-0.33): s_frame = 	1		# Upish		# Right
+		_:
+			#print(mouse_input)
+			pass
 	
-	## Copilot/chatgpt slop.
 	var new_gun_pos := Vector2.ZERO
-	#var dir		:= ( position + ARMS_HEIGHT  ).direction_to( aim_target )
-	#var dir 		:= combat_weapon.frame * 22.5
-	#var distx		:= sin( deg_to_rad( dir ) ) * get_gun_held_dist()
-	#var disty		:= cos( deg_to_rad( dir ) ) * get_gun_held_dist()
-	#disty 			*= 0.75
-	#var xhshift 	:= sin( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
-	#var yhshift 	:= cos( deg_to_rad( dir + PI/2 ) ) * get_gun_shifts().x
-	#yhshift 		*= 0.75
-	#new_gun_pos.x 	= round( distx + xhshift )
-	#new_gun_pos.y 	= round( disty - 16.0 - get_gun_shifts().y + yhshift )
-	
-	## My own slop.
 	## Decide where the gun should be placed in relation to the player sprite.
 	## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
 	
@@ -528,7 +433,8 @@ func combat_weapon_animation() -> void:
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 75.0 ) ## Debug setup
+			body.apply_damage( 75.0 ) ## Debug setup ## DEPRECATED
+			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
 	if hoopz_normal_body.animation.begins_with("walk_"):
@@ -557,9 +463,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	if combat_weapon.sprite_frames.has_animation( gun_name ):
 		combat_weapon.show()
 		combat_weapon.animation = gun_name
-	else:
-		push_warning("Invalid main gun sprite")
-		combat_weapon.hide()
+	else: combat_weapon.hide(); push_warning("Invalid main gun sprite")
 		
 	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
 		combat_weapon_parts.show()
@@ -571,7 +475,13 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 		combat_weapon_spots.animation = gun_name
 	else: combat_weapon_spots.hide()
 	
-	if [B2_Gun.TYPE.GUN_TYPE_REVOLVER,
+	# Save current frame. changing animations resets the frame
+	var combat_arm_back_frame 	:= combat_arm_back.frame
+	var combat_arm_front_frame 	:= combat_arm_front.frame
+	
+	# Apply new torso animation
+	if [
+		B2_Gun.TYPE.GUN_TYPE_REVOLVER,
 		B2_Gun.TYPE.GUN_TYPE_PISTOL,
 		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
@@ -607,17 +517,23 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
 			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
 	else:
-		## Unknown type.
+		## Unknown type. Should never hit this.
 		breakpoint
-
+		
+	# reapply the animation frame
+	combat_arm_back.frame 	= combat_arm_back_frame
+	combat_arm_front.frame 	= combat_arm_front_frame
+	
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
-		gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to(aim_target) )
+		gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim_target )
+	else:
+		push_warning("No Gun???")
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
-	aim_target = _aim_target
+	aim_target = _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
 	curr_STATE = STATE.AIM
 	_update_held_gun()
 
@@ -630,8 +546,7 @@ func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	linear_damp = roll_damp
 	hoopz_normal_body.play( ROLL )
 	var roll_dir 	: Vector2
-	#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
-	var input 		:= Input.get_vector("Left","Right","Up","Down")
+	var input 		:= Vector2.UP # Input.get_vector("Left","Right","Up","Down")
 	if input != Vector2.ZERO:
 		roll_dir 	= input
 	else:
@@ -650,7 +565,6 @@ func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	B2_Sound.play("sn_hoopz_roll")
 	step_smoke.emitting = true
 	hoopz_normal_body.offset.y += 15
-	#return
 	
 	var move := _roll_dir ## CRITICAL Should not be Vector2.ZERO
 	velocity = ( walk_speed * delta ) * move
@@ -670,14 +584,5 @@ func _physics_process(delta: float) -> void:
 				combat_weapon_animation()
 			else:
 				push_warning("Weird state: ", curr_STATE)
-			
-			#var move := Vector2.ZERO ## CRITICAL Should not be Vector2.ZERO
-			#if is_moving:
-				#move = move_dir 
-			#velocity = ( walk_speed * delta ) * move
-				#
-			#velocity += external_velocity
-			#external_velocity = Vector2.ZERO # Reset Ext velocity
-			#apply_central_force( velocity / Engine.time_scale )
 	
 	_process_movement( delta )
