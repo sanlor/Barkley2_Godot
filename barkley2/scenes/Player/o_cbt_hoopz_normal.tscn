@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bustae523mxua"]
+[gd_scene load_steps=18 format=3 uid="uid://bustae523mxua"]
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
@@ -11,6 +11,7 @@
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="9_7ql2g"]
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ty5ks"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_47sbk"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="12_47sbk"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sbutq"]
 friction = 0.25
@@ -21,6 +22,35 @@ absorbent = true
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ty5ks"]
 size = Vector2(4, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qfgrm"]
+
+[sub_resource type="GDScript" id="GDScript_47sbk"]
+resource_name = "ready_label"
+script/source = "extends RichTextLabel
+
+signal finish_loading
+
+func _ready() -> void:
+	hide()
+
+func start_loading( speed := 1.0 ) -> void:
+	show()
+	
+	visible_ratio 	= 0.0
+	modulate		= Color.ORANGE_RED
+	modulate.a 		= 0.0
+	
+	var tween := create_tween()
+	tween.tween_property( self, \"modulate:a\", 		1.0, 0.15 )
+	tween.tween_property( self, \"visible_ratio\", 	1.0, speed )
+	tween.tween_interval( 0.1 )
+	tween.tween_callback( emit_signal.bind(\"finish_loading\") )
+	tween.tween_property( self, \"modulate\", 		Color.WHITE, 0.15 )
+	tween.tween_interval( 0.2 )
+	tween.tween_property( self, \"modulate:a\", 		0.0, 0.15 )
+	tween.tween_callback( hide )
+"
 
 [node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "step_smoke", "ActorNav", "ActorCol")]
 collision_layer = 3
@@ -67,32 +97,38 @@ offset = Vector2(-22, -41)
 position = Vector2(0, -16)
 
 [node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("5_xt58p")
 animation = &"walk_W"
 centered = false
 offset = Vector2(-22, -42)
 
 [node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("7_ksmw3")
 animation = &"s_HoopzTorso_Armless"
 centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("6_xhkf0")
 animation = &"s_HoopzTorso_Heavy"
 centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_weapon" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("8_fw1v2")
 animation = &"s_Pistol"
 
 [node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("9_ty5ks")
 animation = &"s_AssaultRifle"
 
 [node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("10_47sbk")
 animation = &"s_AssaultRifle"
 
@@ -112,6 +148,30 @@ current = true
 
 [node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
 texture = SubResource("PlaceholderTexture2D_ty5ks")
+
+[node name="ready_label" type="RichTextLabel" parent="."]
+material = SubResource("ShaderMaterial_qfgrm")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = -57.0
+offset_right = 26.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(26, 8)
+theme_override_fonts/normal_font = ExtResource("12_47sbk")
+bbcode_enabled = true
+text = "[wave amp=20.0 freq=3.0 connected=1]Ready...[/wave]"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+script = SubResource("GDScript_47sbk")
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]

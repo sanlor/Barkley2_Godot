@@ -1,0 +1,17 @@
+[gd_resource type="Shader" format=3 uid="uid://c1dyuw8phfy3r"]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform float progress : hint_range(0.0, 1.0);
+uniform vec4 fill_color : source_color = vec4(0.0, 1.0, 0.0, 1.0); // Green color for the filled part
+uniform vec4 background_color : source_color = vec4(1.0, 0.0, 0.0, 1.0); // Red color for the unfilled part
+
+void fragment() {
+    vec2 uv = SCREEN_UV.xy / SCREEN_PIXEL_SIZE;
+    if (uv.x < progress ) {
+        COLOR = fill_color;
+    } else {
+        COLOR = background_color;
+    }
+}"

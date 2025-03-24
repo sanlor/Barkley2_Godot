@@ -12,7 +12,7 @@ enum STATE{NORMAL,ROLL,AIM}
 var curr_STATE := STATE.NORMAL :
 	set(s) : 
 		curr_STATE = s
-		_change_sprites()
+		_update_held_gun()
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
@@ -72,6 +72,8 @@ const COMBAT_WALK_SE		:= "walk_SE"
 
 @export_category("Misc")
 @export var step_smoke: 		GPUParticles2D
+@onready var ready_label: RichTextLabel = $ready_label
+
 
 @onready var aim_origin: Marker2D = $aim_origin
 
@@ -524,20 +526,24 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	combat_arm_back.frame 	= combat_arm_back_frame
 	combat_arm_front.frame 	= combat_arm_front_frame
 	
-func shoot_gun() -> void:
-	var gun := B2_Gun.get_current_gun()
-	if gun:
-		gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim_target )
-	else:
-		push_warning("No Gun???")
+## NOTE disabled due to changes in the combat manager pipeline
+#func shoot_gun() -> void:
+	#var gun := B2_Gun.get_current_gun()
+	#if gun:
+		#ready_label.start_loading( 0.5 )
+		#B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
+		#await ready_label.finish_loading
+		#gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim_target )
+	#else:
+		#push_warning("No Gun???")
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
 	aim_target = _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
 	curr_STATE = STATE.AIM
-	_update_held_gun()
 
 func stop_aiming() -> void:
+	move_target = aim_target
 	curr_STATE = STATE.NORMAL
 
 func start_roling( _roll_dir : Vector2, delta : float ) -> void:
