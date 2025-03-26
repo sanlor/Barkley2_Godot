@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
 extends  B2_CombatActor
 class_name B2_HoopzCombatActor
 
@@ -78,10 +79,12 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @onready var aim_origin: Marker2D = $aim_origin
 
 ## General Animation
-var last_direction 	:= Vector2.ZERO
-var last_input 		:= Vector2.ZERO
-var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
-var turning_time 	:= 1.0
+var last_direction 				:= Vector2.ZERO
+var last_input 					:= Vector2.ZERO
+var is_turning 					:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
+var turning_time 				:= 1.0
+var step_anim_played			:= false
+#var last_combat_weapon_frame 	:= 9999
 
 ## Combat Animations
 #var aim_vector 		:= Vector2.ZERO
@@ -134,11 +137,14 @@ func _ready() -> void:
 	_change_sprites()
 	
 	## Reset movement variables.
-	move_target 	= position
-	aim_target 		= position
+	move_target 	= Vector2.ZERO
+	aim_target 		= Vector2.ZERO
 
 ## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:
+	_change_sprites()
+	combat_weapon_animation()
+	
 	if curr_STATE == STATE.AIM:
 		var gun := B2_Gun.get_current_gun()
 		if gun:
@@ -159,7 +165,7 @@ func _update_held_gun() -> void:
 				combat_weapon_spots.modulate = colors[2]
 			else:
 				combat_weapon_spots.hide()
-	_change_sprites()
+	
 		
 func _change_sprites():
 	match curr_STATE:
@@ -189,8 +195,9 @@ func _change_sprites():
 func add_smoke( offset := Vector2.ZERO ) -> void: ## Add a small puff of smoke.
 	step_smoke.emit_particle( Transform2D( 0, step_smoke.position + offset ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
+# Not aiming, rolling and such.
 func normal_animation( delta : float ) -> void:
-	var input := movement_vector
+	var input := movement_vector.round() #.snapped( Vector2(0.33,0.33) )
 	
 	if is_moving: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
@@ -210,7 +217,7 @@ func normal_animation( delta : float ) -> void:
 					
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
-					print("Catch all, ", input)
+					print("Catch all for normal_animation (input), ", input)
 				
 	else:
 		# player is not moving the character anymore
@@ -250,7 +257,7 @@ func normal_animation( delta : float ) -> void:
 				
 			_: # Catch All
 				hoopz_normal_body.frame = STAND_S
-				# print("Catch all, ", input)
+				# print("Catch all for normal_animation (last_dir), ", input)
 				
 		# Update var
 		last_direction = curr_direction
@@ -259,11 +266,11 @@ func normal_animation( delta : float ) -> void:
 
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation( delta : float) -> void:
-	var input := movement_vector
-	
-	if input != Vector2.ZERO: # Player is moving the character
-		# Emit a puff of smoke during the inicial direction change.
+	var input := movement_vector #.round()
+
+	if input != Vector2.ZERO: # Player is moving the character while aiming
 		if combat_last_input != input:
+			# Emit a puff of smoke during the inicial direction change.
 			add_smoke( Vector2( randf_range(-3,3), randf_range(-3,3) ) )
 			
 			match input:
@@ -278,18 +285,18 @@ func combat_walk_animation( delta : float) -> void:
 				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E)
 				_: # Catch All
 					combat_lower_sprite.play(WALK_S)
-					print("Catch all, ", input)
-					
-	else:
-		# player is not moving the character anymore
-		combat_lower_sprite.stop()
-		
-		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( aim_target ).round()
+					print("Catch all combat_walk_animation (input), ", input)
+		else:
+			# player is not moving the character anymore
+			combat_lower_sprite.stop()
+	
+	else: # Player is not moving wile aiming, but can change leg position based on the current aim position.
+		var curr_direction : Vector2 = ( aim_target ).round()
 		
 		if curr_direction != combat_last_direction:
 			turning_time = 1.0
 		
-		# handle the turning animation for a litle while.
+		# handle the turning animation for a little while.
 		if turning_time > 0.0:
 			combat_lower_sprite.animation = COMBAT_SHUFFLE
 			if not is_turning:
@@ -304,7 +311,7 @@ func combat_walk_animation( delta : float) -> void:
 			combat_lower_sprite.animation = COMBAT_STAND
 			is_turning = false
 		
-		# change the animation itself.
+		# change the animation frame for the "standing" animation.
 		match combat_last_direction:
 			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = COMBAT_STAND_NW
 			Vector2.UP + Vector2.RIGHT:		combat_lower_sprite.frame = COMBAT_STAND_NE
@@ -318,45 +325,50 @@ func combat_walk_animation( delta : float) -> void:
 				
 			_: # Catch All
 				combat_lower_sprite.frame = STAND_S
-				print("Catch all, ", input)
+				print("Catch all for %s combat_walk_animation (combat_last_direction), " % name, combat_last_direction)
 				
 		# Update var
-		combat_last_direction = curr_direction
+		combat_last_direction = curr_direction # avoid needless updates
 	# Update var
-	combat_last_input = input
-	movement_vector = Vector2.ZERO
+	combat_last_input = input # avoid needless updates
+	movement_vector = Vector2.ZERO # avoid needless updates
 
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation(  ) -> void:
 	var target_dir 		:= aim_target
 	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
+	var target_angle	:= snappedf( target_dir.angle(), TAU / 16.0 )
+	
 	var dir_frame 		= combat_upper_sprite.frame
 	
 	## Remember, 0.9999999999999 != 1.0
 	## Chose what animation frame do use.
-	match mouse_input:
+	# match mouse_input:
+	match int( rad_to_deg(target_angle) ):
 		# Normal stuff
-		Vector2(0,	-0.99):	dir_frame = 		4
-		Vector2(-0.99,	0):	dir_frame = 		8
-		Vector2(0,	0.99):	dir_frame = 		12
-		Vector2(0.99,	0):	dir_frame = 		0
+		-90:		dir_frame = 		4			# Vector2(0,		-0.99)
+		180, -180:	dir_frame = 		8			# Vector2(-0.99,	0)
+		90:			dir_frame = 		12			# Vector2(0,		0.99)
+		0:			dir_frame = 		0			# Vector2(0.99,		0)
 			
 		# Diagonal stuff
-		Vector2(0.66,	0.66):	dir_frame = 	14 	# Low 		# Right
-		Vector2(-0.66,	0.66):	dir_frame = 	10 	# Low 		# Left
-		Vector2(0.66,	-0.66):	dir_frame = 	2 	# High 		# Right
-		Vector2(-0.66,	-0.66):	dir_frame = 	6 	# High 		# Left
+		45:		dir_frame = 	14 	# Low 		# Right		# Vector2(0.66,		0.66)
+		135:	dir_frame = 	10 	# Low 		# Left		# Vector2(-0.66,	0.66)
+		-45:	dir_frame = 	2 	# High 		# Right		# Vector2(0.66,		-0.66)
+		-135:	dir_frame = 	6 	# High 		# Left		# Vector2(-0.66,	-0.66)
 		
 		# Madness...
-		Vector2(0.33,	0.99):	dir_frame = 	13 	# Down 		# Rightish
-		Vector2(-0.33,	0.99):	dir_frame = 	11 	# Down 		# Leftish
-		Vector2(0.33,	-0.99):	dir_frame = 	3 	# Up 		# Rightish
-		Vector2(-0.33,	-0.99):	dir_frame = 	5 	# Up 		# Leftish
-		Vector2(-0.99,	0.33):	dir_frame = 	9 	# Left 		# Upish
-		Vector2(-0.99,	-0.33):	dir_frame = 	7 	# Left 		# Downish
-		Vector2(0.99,	0.33):	dir_frame = 	15 	# Right 	# Upish
-		Vector2(0.99,	-0.33):	dir_frame = 	1 	# Right 	# Downish
-	
+		67:		dir_frame = 	13 	# Down 		# Rightish	# Vector2(0.33,		0.99)
+		112:	dir_frame = 	11 	# Down 		# Leftish	# Vector2(-0.33,	0.99)
+		-67:	dir_frame = 	3 	# Up 		# Rightish	# Vector2(0.33,		-0.99)
+		-112:	dir_frame = 	5 	# Up 		# Leftish	# Vector2(-0.33,	-0.99)
+		157:	dir_frame = 	9 	# Left 		# Upish		# Vector2(-0.99,	0.33)
+		-157:	dir_frame = 	7 	# Left 		# Downish	# Vector2(-0.99,	-0.33)
+		22:		dir_frame = 	15 	# Right 	# Upish		# Vector2(0.99,		0.33)
+		-22:	dir_frame = 	1 	# Right 	# Downish	# Vector2(0.99,		-0.33)
+		_:
+			print( "Weird arms angle: ", int( rad_to_deg(target_angle) ) )
+			
 	# only change if there is a change in dir
 	if dir_frame != combat_upper_sprite.frame:
 		combat_upper_sprite.frame = 	dir_frame
@@ -368,38 +380,39 @@ func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
 	# That Vector is an offset to make the calculation origin to be Hoopz torso
 	var target_dir 		:= aim_target # global_position.direction_to( aim_target )
-	var target_angle	:= global_position.angle_to_point( global_position + aim_target )
 	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
+	var target_angle	:= snappedf( target_dir.angle(), TAU / 16.0 ) # global_position.angle_to_point( global_position + aim_target )
 	
 	## Many Manual touch ups.
 	var s_frame 		:= combat_weapon.frame
 	var _z_index		:= 0
+	#print(target_angle)
 	
-	match mouse_input: # the var name is a relic of an ancient time. 
+	#match mouse_input: # the var name is a relic of an ancient time. 
+	match int( rad_to_deg(target_angle) ):
 		# Normal stuff
-		Vector2(0,	-0.99): s_frame = 	4; _z_index = -1 	# Up
-		Vector2(-0.99,	0): s_frame = 	8; _z_index = -1 	# Left
-		Vector2(0,	0.99): s_frame = 	12; 				# Down
-		Vector2(0.99,	0): s_frame = 	0; 					# Right
+		-90: 		s_frame = 	4; _z_index = -1 	# Up 				Vector2(0,	-0.99)
+		180, -180: 	s_frame = 	8; _z_index = -1 	# Left 				Vector2(-0.99,	0)
+		90: 		s_frame = 	12; 				# Down 				Vector2(0,	0.99)
+		0: 			s_frame = 	0; 					# Right				Vector2(0.99,	0)
 
 		# Diagonal stuff
-		Vector2(0.66,	0.66): s_frame = 	14					# Low Right
-		Vector2(-0.66,	0.66): s_frame = 	10; #_z_index = -1 	# Low Left
-		Vector2(0.66,	-0.66): s_frame = 	2; _z_index = -1 	# High Right
-		Vector2(-0.66,	-0.66):	s_frame = 	6; _z_index = -1	# High Left
+		45: 	s_frame = 	14;					# Low Right		Vector2(0.66,	0.66)
+		135: 	s_frame = 	10;				 	# Low Left		Vector2(-0.66,	0.66)
+		-45: 	s_frame = 	2; _z_index = -1 	# High Right 	Vector2(0.66,	-0.66)
+		-135:	s_frame = 	6; _z_index = -1	# High Left		Vector2(-0.66,	-0.66)
 
 		# Madness
-		Vector2(0.33,	0.99): s_frame = 	13		# Rightish	# Down
-		Vector2(-0.33,	0.99): s_frame = 	11		# Leftish	# Down
-		Vector2(0.33,	-0.99): s_frame = 	3		# Rightish	# Up
-		Vector2(-0.33,	-0.99): s_frame = 	5		# Leftish	# Up
-		Vector2(-0.99,	0.33): s_frame = 	9		# Downish	# Left
-		Vector2(-0.99,	-0.33): s_frame = 	7		# Upish		# Left
-		Vector2(0.99,	0.33): s_frame = 	15		# Downish	# Right
-		Vector2(0.99,	-0.33): s_frame = 	1		# Upish		# Right
+		67: 	s_frame = 	13;						# Rightish	# Down			Vector2(0.33,	0.99)
+		112: 	s_frame = 	11;						# Leftish	# Down 			Vector2(-0.33,	0.99)
+		-67: 	s_frame = 	3; _z_index = -1 		# Rightish	# Up 			Vector2(0.33,	-0.99)
+		-112: 	s_frame = 	5; _z_index = -1		# Leftish	# Up 			Vector2(-0.33,	-0.99)
+		157: 	s_frame = 	9;						# Downish	# Left 			Vector2(-0.99,	0.33)
+		-157: 	s_frame = 	7;						# Upish		# Left 			Vector2(-0.99,	-0.33)
+		22: 	s_frame = 	15;						# Downish	# Right			Vector2(0.99,	0.33)
+		-22: 	s_frame = 	1;						# Upish		# Right			Vector2(0.99,	-0.33)
 		_:
-			#print(mouse_input)
-			pass
+			print( "Weird gun angle: ", int( rad_to_deg(target_angle) ) )
 	
 	var new_gun_pos := Vector2.ZERO
 	## Decide where the gun should be placed in relation to the player sprite.
@@ -407,7 +420,7 @@ func combat_weapon_animation() -> void:
 	
 	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 	# took 3 days finetuning this. 11/03/25 
-	new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
+	new_gun_pos 	= mouse_input * B2_Gun.get_gun_held_dist()
 	
 	new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
 	new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
@@ -419,19 +432,18 @@ func combat_weapon_animation() -> void:
 	gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
 	gun_muzzle.position.y -= 3.0
 	
-	if combat_weapon.frame != s_frame:
-		combat_weapon.frame 			= s_frame
-		combat_weapon.position 			= new_gun_pos
-		combat_weapon.z_index			= _z_index
+	combat_weapon.frame 			= s_frame
+	combat_weapon.position 			= new_gun_pos
+	combat_weapon.z_index			= _z_index
+	
+	combat_weapon_parts.frame 		= s_frame
+	combat_weapon_parts.position 	= new_gun_pos
+	combat_weapon_parts.z_index		= _z_index
+	
+	combat_weapon_spots.frame 		= s_frame
+	combat_weapon_spots.position 	= new_gun_pos
+	combat_weapon_spots.z_index		= _z_index
 		
-		combat_weapon_parts.frame 		= s_frame
-		combat_weapon_parts.position 	= new_gun_pos
-		combat_weapon_parts.z_index		= _z_index
-		
-		combat_weapon_spots.frame 		= s_frame
-		combat_weapon_spots.position 	= new_gun_pos
-		combat_weapon_spots.z_index		= _z_index
-
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
@@ -539,12 +551,15 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
-	aim_target = _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
-	curr_STATE = STATE.AIM
+	aim_target 			= _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
+	curr_STATE 			= STATE.AIM
 
 func stop_aiming() -> void:
-	move_target = aim_target
-	curr_STATE = STATE.NORMAL
+	move_target 		= aim_target
+	movement_vector 	= aim_target.normalized()
+	last_input 			= Vector2.ZERO
+	last_direction 		= Vector2.ZERO
+	curr_STATE 			= STATE.NORMAL
 
 func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	# Roooolliiing staaaaart! ...here vvv

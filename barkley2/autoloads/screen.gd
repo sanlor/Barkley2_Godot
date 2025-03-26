@@ -142,7 +142,7 @@ func _process(_delta) -> void:
 			trail.remove_point( 0 )
 		
 	# Pause stuff
-	if can_pause:
+	if can_pause: ## DEBUG
 		if Input.is_action_just_pressed("Pause"):
 			if is_map_open:
 				hide_map_screen()
@@ -193,10 +193,11 @@ func _process(_delta) -> void:
 				else:
 					show_quickmenu_screen()
 
-func _notification(what: int) -> void:
+func _notification(what: int) -> void: ## Pause game when the windows loses focus
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		if can_pause and not is_paused:
-			show_pause_menu()
+			# show_pause_menu() ## DEBUG
+			pass
 
 # Show pausemenu object
 func show_pause_menu() -> void:

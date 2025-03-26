@@ -42,7 +42,7 @@ var max_action_sfx_played 		:= false
 @export var acc					:= 30.0 ## Lower is better
 
 @export var max_action			:= 100.0
-var curr_action					:= 0.0 #0.0
+var curr_action					:= 100.0 #0.0
 
 var max_ammo					:= 300
 var curr_ammo					:= 300

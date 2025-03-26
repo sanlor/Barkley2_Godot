@@ -80,14 +80,14 @@ func update_hoopz():
 
 func _on_timer_timeout() -> void:
 	if spin.button_pressed:
-		angle = angle.rotated( TAU / 8.0 )
+		angle = angle.rotated( TAU / 16.0 )
 	update_hoopz()
 
 func _on_shoot_da_gun_pressed() -> void:
 	o_cbt_hoopz.shoot_gun()
 
 func _on_spin_minus_pressed() -> void:
-	angle = angle.rotated( -TAU / 8.0 )
+	angle = angle.rotated( -TAU / 16.0 )
 	update_hoopz()
 
 func _on_spin__pressed() -> void:

@@ -57,7 +57,7 @@ func _input(event: InputEvent) -> void:
 			## Menu control
 			if curr_action == PLAYER_AIMING:
 				if Input.get_axis("Down", "Up"):
-					aiming_angle = aiming_angle.rotated( sign( Input.get_axis("Down", "Up") ) * PI / 32.0 )
+					aiming_angle = aiming_angle.rotated( sign( Input.get_axis("Down", "Up") ) * TAU / 16.0 )
 				if Input.get_axis("Left", "Right"):
 					enemy_selected += sign( Input.get_axis("Left", "Right") )
 					## Vector2(0,-16) is the position for hoopz chest, the center point when aiming.

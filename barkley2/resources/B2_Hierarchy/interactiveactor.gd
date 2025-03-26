@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/icon_parent_4.png")
 extends B2_Actor
 class_name B2_InteractiveActor
 

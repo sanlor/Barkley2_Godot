@@ -1,4 +1,5 @@
 @tool
+@icon("res://barkley2/assets/b2_original/images/merged/sBCTWarpE.png")
 extends Area2D
 ## This scene is responsible to spawn enemies and start the combat cinama script.
 

@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/icon_parent_3.png")
 extends B2_CombatActor
 class_name B2_EnemyCombatActor
 ## Base class for all Combat enemieso_enemy_drone_egg

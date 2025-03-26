@@ -93,8 +93,8 @@ func tick_combat() -> void:
 func process() -> void:
 	var avg_pos 					:= get_avg_pos()
 	B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
-	#B2_CManager.camera.focus 		= avg_pos
-	#B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
+	B2_CManager.camera.focus 		= avg_pos
+	B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
 ## Combat actions
 # public func. queue action

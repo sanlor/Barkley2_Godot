@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
 extends B2_PlayerCombatActor
 class_name B2_Player
 

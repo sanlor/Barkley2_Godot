@@ -336,7 +336,7 @@ func _physics_process(delta: float) -> void:
 		MODE.COMBAT:
 			offset = offset.lerp( camera_combat_offset, (speed / 100.0) )
 			position = position.lerp( focus, (speed / 100.0) )
-			#zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 100.0 ) )
+			zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 100.0 ) )
 		
 	if B2_Debug.show_camera_debug_data:
 		if show_debug_data:
