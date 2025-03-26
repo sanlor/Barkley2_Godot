@@ -1335,6 +1335,11 @@ func _on_body_entered( body: Node2D ) -> void:
 		## TODO
 		return
 		
+	if body is B2_CombatActor:
+		if body.has_method("damage_actor"):
+			body.damage_actor( my_gun.get_att() )
+		destroy_bullet()
+		
 	if body is CollisionObject2D:
 		## TODO add damage to enemies and entities
 		destroy_bullet()

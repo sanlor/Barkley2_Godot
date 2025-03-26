@@ -1,8 +1,9 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_3.png")
 extends B2_CombatActor
 class_name B2_EnemyCombatActor
-## Base class for all Combat enemieso_enemy_drone_egg
+## Base class for all Combat enemies o_enemy_drone_egg
 
+const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
@@ -156,3 +157,9 @@ func _physics_process( delta: float ) -> void:
 func cinema_look( _direction : Vector2 ) -> void:
 	stop_animation.emit()
 	movement_vector = _direction
+
+## Combat stuff
+func damage_actor( damage : int ) -> void:
+	var d = DAMAGE_NUMBER.instantiate()
+	d.setup(self, damage)
+	add_sibling(d)

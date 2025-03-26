@@ -233,3 +233,14 @@ func has_sufficient_ammo( amount : int ) -> bool:
 	return curr_ammo - amount > 0
 	
 #endregion
+
+#region Weapon Combat
+func get_att() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	return att
+	
+func get_acc() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	return acc
+	
+func get_spd() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	return spd
+#endregion
