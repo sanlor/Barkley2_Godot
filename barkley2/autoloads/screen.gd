@@ -142,7 +142,7 @@ func make_explosion(type : int, pos : Vector2, color := Color.WHITE, delay := 0.
 			explosion.att_IntervalGain 		= 0.1;
 			explosion.att_IntervalRand 		= 0.2;
 			explosion.att_Time 				= 8;
-			B2_CManager.camera.add_shake( 8, 140, pos.x, pos.y, 0.5 );
+			B2_CManager.camera.add_shake( 8, 140, pos.x, pos.y, 0.5 ) # ( 8, 140, pos.x, pos.y, 0.5 );
 		_:
 			push_error("Undefined type of explosion: ", type)
 			

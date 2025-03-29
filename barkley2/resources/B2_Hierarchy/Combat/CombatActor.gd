@@ -85,7 +85,7 @@ func check_actor_activity() -> void:
 		return
 
 ## Combat stuff
-func damage_actor( _damage : int ) -> void:
+func damage_actor( _damage : int, _force : Vector2 ) -> void:
 	push_warning("Damage behaviour not set for actor %s. Doing nothing." % self.name )
 	pass
 

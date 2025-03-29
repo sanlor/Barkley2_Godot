@@ -8,6 +8,7 @@ var curr_action := NOTHING
 
 signal selected_enemy( enemy : B2_EnemyCombatActor )
 signal weapon_selected
+signal battle_results_finished
 
 @onready var weapon_stats_mini: VBoxContainer = $weapon_stats_mini
 
@@ -95,7 +96,7 @@ func _on_attack_btn() -> void:
 	
 	if B2_Gun.get_current_gun():
 		# Set the current gun and aim at the first enemy on the list.
-		enemy_selected = enemy_selected # Duh
+		enemy_selected = enemy_selected # seems stupid, but this is important. avoid OOB array issues when enemies are removed/defeated.
 		player_character.aim_gun( ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position )  )
 		
 	player_control_weapons.hide()
@@ -117,6 +118,9 @@ func _on_defend_btn() -> void:
 	pass
 	
 func _on_escape_btn() -> void:
+	pass
+
+func show_battle_results() -> void:
 	pass
 
 func tick_combat() -> void:

@@ -14,6 +14,8 @@ var player_character 	: B2_HoopzCombatActor						## In this game, only one playe
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
+var ui					: CanvasLayer
+
 var combat_paused := false
 
 var action_queue : Array[queue]
@@ -60,8 +62,13 @@ func resume_combat() -> void:
 	B2_Input.can_switch_guns = true
 	combat_paused = false
 
+func finish_combat() -> void:
+	ui.combat_module.show_battle_results()
+	await ui.combat_module.battle_results_finished
+	pass
+
 func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
-	if enemy_list.has(enemy_node):
+	if enemy_list.has( enemy_node ):
 		enemy_list.erase( enemy_node )
 		print( "Enemy %s removed from enemy list." % enemy_node.name )
 	else:
@@ -71,6 +78,12 @@ func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 func tick_combat() -> void:
 	if not combat_paused:
 		B2_CManager.o_hud.get_combat_module().tick_combat()
+		
+		## Check if the combat is finished ( no enemies are on the battlefield )
+		if enemy_list.is_empty():
+			combat_paused = true
+			finish_combat()
+			return
 		
 		for wpn : B2_Weapon in B2_Playerdata.bandolier:
 			wpn.increase_action()

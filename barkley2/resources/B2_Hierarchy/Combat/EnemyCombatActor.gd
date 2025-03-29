@@ -159,7 +159,7 @@ func cinema_look( _direction : Vector2 ) -> void:
 	movement_vector = _direction
 
 ## Combat stuff
-func damage_actor( damage : int ) -> void:
+func damage_actor( damage : int, force : Vector2 ) -> void:
 	if actor_is_dying: # dont process damage if the actor is dying.
 		return
 		
@@ -168,6 +168,8 @@ func damage_actor( damage : int ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
 	d.setup(self, damage)
 	add_sibling(d)
+	
+	apply_central_impulse( force )
 	
 	@warning_ignore("narrowing_conversion")
 	enemy_data.curr_health = clampi( enemy_data.curr_health - damage, 0, enemy_data.max_health )

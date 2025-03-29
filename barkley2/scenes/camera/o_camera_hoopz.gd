@@ -216,7 +216,7 @@ func clear_shake():
 ## Allow camera shake. There may be multiple "shake" sources, like multiple explosions.
 ## This system allows adding these multiple explosions, so none can override eachother.
 ## TODO - SETUP the shake origin. No idea how to use that. 
-## TODO - Radius is also ignored.
+## TODO - Radius is also ignored.'
 func _process_shake(delta: float) -> void:
 	if shake_array.is_empty():
 		camera_shake_offset = Vector2.ZERO
@@ -237,7 +237,7 @@ func _process_shake(delta: float) -> void:
 			
 			if shakeTime < 0.0:
 				#shakeStrength = move_torward( shakeStrength, 0.0, 1.0 * delta ) # no lerp. 
-				shakeStrength = lerpf( shakeStrength, 0.0, 1.0 * delta )
+				shakeStrength = lerpf( shakeStrength, 0.0, 4.0 * delta )
 				shake_data[0] = shakeStrength
 			else:
 				shake_data[4] -= ( Engine.get_frames_per_second() * 10) * delta 	# time
@@ -268,7 +268,7 @@ func _update_debug_data():
 	
 func _physics_process(delta: float) -> void:
 	# process shake effects.
-	_process_shake(delta)
+	_process_shake( delta )
 	
 	match curr_MODE:
 		MODE.FRAMEFOLLOW:
@@ -334,7 +334,7 @@ func _physics_process(delta: float) -> void:
 				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
 		
 		MODE.COMBAT:
-			offset = offset.lerp( camera_combat_offset, (speed / 100.0) )
+			offset = offset.lerp( camera_combat_offset, (speed / 100.0) ) + camera_shake_offset
 			position = position.lerp( focus, (speed / 100.0) )
 			zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 100.0 ) )
 		

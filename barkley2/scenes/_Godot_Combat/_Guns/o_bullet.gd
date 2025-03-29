@@ -82,6 +82,8 @@ var ricochetSound := "ricochet"
 var spr := ""
 var col := Color.WHITE
 
+var velocity : Vector2
+
 ## Gamedev is my passion...
 # here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
 # my idea is this: lets make an animation on the fly! shouldnt impact the performance.
@@ -1308,7 +1310,7 @@ func play_sound(soundID : String, loop : bool) -> void:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
 func _physics_process(_delta: float) -> void:
-	var velocity := dir * speed
+	velocity = dir * speed
 	position += velocity ## TEMP
 	
 	if has_trail:
@@ -1337,7 +1339,9 @@ func _on_body_entered( body: Node2D ) -> void:
 		
 	if body is B2_CombatActor:
 		if body.has_method("damage_actor"):
-			body.damage_actor( my_gun.get_att() )
+			var att := my_gun.get_att()
+			#body.damage_actor( att, 	velocity.normalized() * att * 100.0 )
+			body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
 		destroy_bullet()
 		
 	if body is CollisionObject2D:

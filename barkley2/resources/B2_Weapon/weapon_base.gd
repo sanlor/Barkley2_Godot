@@ -161,6 +161,7 @@ func get_casing_speed() -> float:
 #region Weapon Operation
 func shoot_gun( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
 	for i in bullets_per_shot:
+	#for i in 50: ## debug
 		## TODO add spread
 		var my_acc := acc / 75.0
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) )
