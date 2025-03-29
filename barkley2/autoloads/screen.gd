@@ -16,8 +16,10 @@ const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item
 
 # Smoke Emitter
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
-
 const SMOKE_MASS = preload("res://barkley2/resources/Smoke/smoke_mass.tres")
+
+# explosion sfx
+const O_EFFECT_EXPLOSION = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
 
 var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
@@ -111,11 +113,12 @@ func show_notify_screen( text : String ) -> void:
 	
 # check Smoke() /// Smoke("puff" / "mass", x, y, z, scl / type)
 # this is a general purpose smoke emitter
-func add_smoke(type : String, pos : Vector2, color : Color, time : float):
+func add_smoke(type : String, pos : Vector2, color : Color, time : float, _scale := 1.0 ) -> void:
 	var my_smoke := O_SMOKE.instantiate()
 	my_smoke.lifetime = time
 	my_smoke.position = pos
 	my_smoke.modulate = color
+	my_smoke.scale *= _scale
 	match type:
 		"mass":
 			my_smoke.process_material = SMOKE_MASS
@@ -123,7 +126,35 @@ func add_smoke(type : String, pos : Vector2, color : Color, time : float):
 			breakpoint
 			
 	get_tree().current_scene.add_child( my_smoke )
+
+## scr_fx_explosion_createFromType()
+## There are 10 types of explosions. Im adding them as I go aling
+func make_explosion(type : int, pos : Vector2, color := Color.WHITE, delay := 0.0, _scale := 1.0 ) -> void:
+	var explosion := O_EFFECT_EXPLOSION.instantiate()
+	match type:
+		2:
+			explosion.init_Radius 			= 12;
+			explosion.att_RadiusGain 		= 0.75;
+			explosion.init_Pow 				= 12 + 3;
+			explosion.att_PowGain 			= -0.4;
+			explosion.att_PowRand 			= 8;
+			explosion.init_Interval 		= 0.2;
+			explosion.att_IntervalGain 		= 0.1;
+			explosion.att_IntervalRand 		= 0.2;
+			explosion.att_Time 				= 8;
+			B2_CManager.camera.add_shake( 8, 140, pos.x, pos.y, 0.5 );
+		_:
+			push_error("Undefined type of explosion: ", type)
 			
+	explosion.explosion_sfx_name 	= "explosion_generic_" + str( type )
+	explosion.position 				= pos
+	explosion.modulate 				= color
+	explosion.delay 				= delay
+	explosion.z_index				= 1
+	get_tree().current_scene.add_child( explosion, true )
+	
+	add_smoke( "mass", pos, Color( 0.25, 0.25, 0.25, randf_range(0.10, 0.25 )), 0.5, 0.15 )
+
 func _process(_delta) -> void:
 	## Mouse stuff
 	mouse.position = get_viewport().get_mouse_position().round() + mouse_offset

@@ -236,11 +236,14 @@ func has_sufficient_ammo( amount : int ) -> bool:
 
 #region Weapon Combat
 func get_att() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	@warning_ignore("narrowing_conversion")
 	return att
 	
 func get_acc() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	@warning_ignore("narrowing_conversion")
 	return acc
 	
 func get_spd() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+	@warning_ignore("narrowing_conversion")
 	return spd
 #endregion

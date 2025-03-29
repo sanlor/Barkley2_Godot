@@ -160,6 +160,42 @@ func cinema_look( _direction : Vector2 ) -> void:
 
 ## Combat stuff
 func damage_actor( damage : int ) -> void:
+	if actor_is_dying: # dont process damage if the actor is dying.
+		return
+		
+	print( "Damaged actor %s with %s points of damage." % [self.name, damage] ) ## DEBUG
+	
 	var d = DAMAGE_NUMBER.instantiate()
 	d.setup(self, damage)
 	add_sibling(d)
+	
+	@warning_ignore("narrowing_conversion")
+	enemy_data.curr_health = clampi( enemy_data.curr_health - damage, 0, enemy_data.max_health )
+	
+	actor_died.emit()
+	
+	if enemy_data.curr_health <= 0:
+		actor_is_dying = true
+		destroy_actor()
+
+func destroy_actor() -> void:
+	const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
+	
+	for i in randi_range(3,8):
+		var off := Vector2( randf_range(-16,16), randf_range(-16,16) )
+		B2_Screen.make_explosion( 2, global_position + off, Color.WHITE, randf_range(0.1,0.5) )
+	
+	for i in randi_range(0,8) + 2:
+		var gib = O_GIBS.instantiate()
+		gib.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
+		gib.gib_sprite = "s_enemyDeath_parts"
+		gib.splatSound = "junkbot_death_partclink"
+		gib.bloodburst = ""
+		add_sibling( gib, true )
+		for p in randf_range(0,10): ## add some random delays
+			await get_tree().process_frame
+	
+	var t := create_tween()
+	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.5 ) )
+	t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
+	t.tween_callback( get_parent().remove_child.bind(self) )

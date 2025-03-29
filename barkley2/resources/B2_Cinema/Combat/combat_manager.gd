@@ -40,9 +40,11 @@ func start_battle():
 	B2_Input.can_switch_guns = true
 	B2_CManager.combat_manager = self
 	B2_CManager.o_hud.show_battle_ui()
+	
 	for e : B2_CombatActor in enemy_list:
 		e.cinema_lookat( player_character )
 		e.add_child( ENEMY_STATS.instantiate(), true )
+		
 	player_character.cinema_lookat( enemy_list.pick_random() )
 	
 	B2_CManager.o_hud.get_combat_module().register_player( player_character )
@@ -57,6 +59,14 @@ func pause_combat() -> void: ## Stop combat tick during target selection, etc.
 func resume_combat() -> void: 
 	B2_Input.can_switch_guns = true
 	combat_paused = false
+
+func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
+	if enemy_list.has(enemy_node):
+		enemy_list.erase( enemy_node )
+		print( "Enemy %s removed from enemy list." % enemy_node.name )
+	else:
+		## Trying to remove an enemy that wasnt on the enemy list
+		breakpoint
 
 func tick_combat() -> void:
 	if not combat_paused:
@@ -73,7 +83,7 @@ func tick_combat() -> void:
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
-					enemy.enemy_data.reset_action()
+					enemy.enemy_data.reset_action() ## TEMP
 					print( "DEBUG: enemy action ", enemy )
 				else:
 					pass
@@ -81,9 +91,11 @@ func tick_combat() -> void:
 				## Forgot to add enemy data.
 				breakpoint
 		
+		# Check action queue
 		if action_queue.size() > 0:
-			var action : queue = action_queue.pop_front()
-			print("Executing action.")
+			# Exec action queue
+			var action : queue = action_queue.pop_front(); print("Executing action.")
+			
 			if is_instance_valid( action.source_actor ):
 				action.action.call( action.source_actor, action.used_weapon, action.finish_action )
 			else:
@@ -97,7 +109,7 @@ func process() -> void:
 	B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
 ## Combat actions
-# public func. queue action
+# Public func. Queue action
 func shoot_projectile( source_actor : B2_CombatActor, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
 	var q := queue.new()
 	q.action = _shoot_projectile
@@ -107,7 +119,7 @@ func shoot_projectile( source_actor : B2_CombatActor, used_weapon : B2_Weapon, f
 	action_queue.append( q )
 	print( "action queued: ", action_queue.size() )
 	
-# execute queued action
+# Execute queued action
 func _shoot_projectile( source_actor : B2_CombatActor, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
 	pause_combat()
 	var casing_pos := Vector2.ZERO

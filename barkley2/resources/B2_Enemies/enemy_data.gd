@@ -61,18 +61,21 @@ class_name B2_EnemyData
 @export var projectile  			:= 0.0 
 @export var wtc  					:= 12.0
 
-#func apply_stats( _enemy_name : String ):
-	#var data = get_enemy_stats( _enemy_name )
-	#if data:
-		#enemy_name = data["name"]
-		#for stat in data["default"]:
-			#set( stat, data["default"][stat] )
-		#
-		#mutate_stats( luck / 100.0 )
-		#max_health 		= hp
-		#curr_health 	= hp
-		#
-		#print( "Enemy data for %s loaded!" % enemy_name )
+func apply_stats( _enemy_name : String ):
+	const ENEMY_DB = preload("res://barkley2/resources/B2_Enemies/enemyDB.json")
+	var data = ENEMY_DB.data.get( _enemy_name )
+	if data:
+		enemy_name = data["name"]
+		for stat in data["default"]:
+			set( stat, data["default"][stat] )
+		
+		mutate_stats( luck / 100.0 )
+		max_health 		= hp
+		curr_health 	= hp
+		
+		print( "Enemy data for %s loaded!" % enemy_name )
+	else:
+		print( "failed to load enemy data for enemy %s." % _enemy_name )
 
 func mutate_stats( variation : float ) -> void:
 	hp						*= randf_range( - 1 - variation, 1 + variation )

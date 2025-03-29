@@ -95,6 +95,7 @@ func _on_attack_btn() -> void:
 	
 	if B2_Gun.get_current_gun():
 		# Set the current gun and aim at the first enemy on the list.
+		enemy_selected = enemy_selected # Duh
 		player_character.aim_gun( ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position )  )
 		
 	player_control_weapons.hide()

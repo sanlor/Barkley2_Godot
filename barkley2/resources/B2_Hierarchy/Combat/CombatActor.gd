@@ -1,6 +1,8 @@
 extends RigidBody2D
 class_name B2_CombatActor
 
+signal actor_died				## used during combat.
+
 signal stop_animation 			## Stop all active animations (Walking, attacking, dodging, etc) ## NOTE it this used?
 signal destination_reached 		## Actor was moving, reached its destination.
 signal set_played 				## Actor was playing some animation, but its done now.
@@ -33,6 +35,9 @@ var facing_vector			:= Vector2.DOWN ## Where the actor should look at
 var movement_vector 		:= Vector2.ZERO
 var real_movement_vector 	:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
+
+## stop processing damage.
+var actor_is_dying := false
 
 func apply_damage( _damage : float) -> void:
 	push_warning("Method not setup for node %s." % name)
@@ -78,6 +83,16 @@ func check_actor_activity() -> void:
 	else:
 		# not doing anything important
 		return
+
+## Combat stuff
+func damage_actor( _damage : int ) -> void:
+	push_warning("Damage behaviour not set for actor %s. Doing nothing." % self.name )
+	pass
+
+func destroy_actor() -> void:
+	push_warning("Death behaviour not set for actor %s. Doing nothing." % self.name )
+	pass
+##
 
 func _on_velocity_computed( safe_velocity: Vector2 ):
 	apply_central_force( safe_velocity )
