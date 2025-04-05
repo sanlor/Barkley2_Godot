@@ -88,7 +88,7 @@ amount = 30
 [node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = ExtResource("4_yeelg")
-animation = &"stagger"
+animation = &"pointing"
 speed_scale = 1.5
 centered = false
 offset = Vector2(-22, -41)
@@ -174,8 +174,10 @@ visible_ratio = 0.0
 script = SubResource("GDScript_47sbk")
 
 [node name="hit_timer" type="Timer" parent="."]
+one_shot = true
 
 [node name="gun_down_timer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]

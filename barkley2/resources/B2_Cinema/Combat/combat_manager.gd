@@ -64,6 +64,7 @@ func finish_combat() -> void:
 	pause_combat()
 	B2_Music.play("shitworld") ## Test music
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
+	B2_CManager.o_cbt_hoopz.victory_anim()
 	
 	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 1!", "sn_cursor_pausemenu01")
 	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_cursor_error01")
@@ -105,8 +106,11 @@ func tick_combat() -> void:
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
+					
 					enemy.enemy_data.reset_action() ## TEMP
 					print( "DEBUG: enemy action ", enemy )
+					var debug_wpn := B2_Gun.generate_gun()
+					shoot_projectile( enemy, debug_wpn, Callable() )
 				else:
 					pass
 			else:
@@ -152,15 +156,25 @@ func _shoot_projectile( source_actor : B2_CombatActor, used_weapon : B2_Weapon, 
 		muzzle_pos = source_actor.gun_muzzle.global_position		## where the bullet should spawn
 		aim_direction = source_actor.aim_target						## Bullets direction
 		B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
-		await source_actor.get_tree().create_timer(1.0).timeout
+		await source_actor.get_tree().create_timer(0.5).timeout
 	else:
 		# An enemy is shooting.
 		pass ## TODO
+		aim_direction = source_actor.global_position.direction_to( player_character.global_position )
+		muzzle_pos = source_actor.global_position
+		B2_Sound.play( "sn_junkbot_alarm01" )
+		await source_actor.get_tree().create_timer(0.5).timeout
 		
-	used_weapon.use_normal_attack( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction )
-	await used_weapon.finished_combat_action ## Wait for the gun to fire or whatever.
-	finish_action.call()
-	resume_combat()
+	## avoid cases where the source_actor dies while geting ready to attack.
+	if is_instance_valid( source_actor ):
+		used_weapon.use_normal_attack( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
+		await used_weapon.finished_combat_action ## Wait for the gun to fire or whatever.
+		
+		if finish_action: ## Avoid calling invalid functions.
+			finish_action.call()
+		
+	if B2_CManager.o_hud.get_combat_module().can_resume_combat():
+		resume_combat()
 	
 ## Helper function, used to control the camera position.
 func get_avg_pos() -> Vector2:

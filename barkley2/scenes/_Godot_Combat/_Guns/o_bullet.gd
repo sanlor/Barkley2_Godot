@@ -31,6 +31,9 @@ var speed := 15.0
 ## The gun that fired me
 var my_gun : B2_Weapon
 
+## The actor that fired me
+var source_actor : B2_CombatActor
+
 ## Bullet trail
 var has_trail		:= true
 var trail_len 		:= 16
@@ -1332,10 +1335,14 @@ func destroy_bullet() -> void:
 	queue_free() ## add a tween, fade bullet out.
 
 func _on_body_entered( body: Node2D ) -> void:
+	if body == source_actor:
+		## ignore collisions with source actor (unless it ricochets)
+		return
+		
 	if body is B2_HoopzCombatActor:
 		# can hit yourself if its a ricochet
 		## TODO
-		return
+		pass
 		
 	if body is B2_CombatActor:
 		if body.has_method("damage_actor"):
@@ -1352,6 +1359,7 @@ func _on_body_entered( body: Node2D ) -> void:
 		## TODO add bullet ricochet
 		# I was running into issues with the ricochet code, mostly because of tilemap colision shapes.
 		# 21/03 oh shit, Godot 4.5 might acually fix this. https://github.com/godotengine/godot/pull/102662
+		source_actor = null
 		destroy_bullet() ## temp
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:

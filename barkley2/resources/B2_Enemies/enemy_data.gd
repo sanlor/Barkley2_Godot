@@ -69,7 +69,10 @@ func apply_stats( _enemy_name : String ):
 		for stat in data["default"]:
 			set( stat, data["default"][stat] )
 		
-		mutate_stats( luck / 100.0 )
+		## FIXME mutations was causing issues where speed == 0.0.
+		push_warning("Enemy stat mutation disabled due to bugs. Fix this!")
+		#mutate_stats( max(1.0, luck) / 100.0 )
+		
 		max_health 		= hp
 		curr_health 	= hp
 		
@@ -88,7 +91,7 @@ func mutate_stats( variation : float ) -> void:
 
 func increase_action() -> bool:
 	var my_spd 		:= speed * 0.25
-	curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
+	curr_action 	= clampf( curr_action + my_spd, 0.1, max_action )
 	return curr_action == max_action
 
 func reset_action() -> void:

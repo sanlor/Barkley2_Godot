@@ -3,7 +3,6 @@ extends B2_CombatActor
 class_name B2_EnemyCombatActor
 ## Base class for all Combat enemies o_enemy_drone_egg
 
-const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
@@ -165,9 +164,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		
 	print( "Damaged actor %s with %s points of damage." % [self.name, damage] ) ## DEBUG
 	
-	var d = DAMAGE_NUMBER.instantiate()
-	d.setup(self, damage)
-	add_sibling(d)
+	B2_Screen.display_damage_number( self, damage )
 	
 	apply_central_impulse( force )
 	

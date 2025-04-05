@@ -213,7 +213,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
-		gun.use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ) )
+		gun.use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ), self )
 	
 func _change_sprites():
 	match curr_STATE:

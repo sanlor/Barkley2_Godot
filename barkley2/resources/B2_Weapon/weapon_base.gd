@@ -66,7 +66,7 @@ var generation					:= 1
 var bullets_per_shot 	:= 5 	## how many bullets are spawn
 var ammo_per_shot		:= 5 	## how much ammo is used
 var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
-var bullet_spread		:= 0.25	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
+var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
 
 #region Weapon data
 func get_full_name() -> String:
@@ -173,7 +173,7 @@ func _create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
 		casing.position = casing_pos
 		scene_to_place.add_child( casing, true )
 		
-func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
+func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
 	if wait_per_shot == 0.0: ## shotgun behaviour.
 		use_ammo( 1 )
 		_create_flash(scene_to_place, source_pos, dir)
@@ -184,12 +184,13 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
-		var my_acc := get_acc() / 75.0
+		var my_acc := get_acc() / 90.0
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 		
 		var bullet = O_BULLET.instantiate()
 		bullet.set_direction( b_dir )
 		bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
+		bullet.source_actor = source_actor
 		scene_to_place.add_child( bullet, true )
 		bullet.position = source_pos
 		
@@ -253,7 +254,7 @@ func has_sufficient_ammo( amount : int ) -> bool:
 #region Weapon Combat
 func get_att() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")
-	return att
+	return att * 0.3 ## DEBUG
 	
 func get_acc() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")

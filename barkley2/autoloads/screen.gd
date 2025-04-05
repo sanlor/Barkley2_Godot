@@ -18,6 +18,9 @@ const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
 const SMOKE_MASS = preload("res://barkley2/resources/Smoke/smoke_mass.tres")
 
+# battle related
+const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
+
 # explosion sfx
 const O_EFFECT_EXPLOSION = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
 
@@ -105,6 +108,11 @@ func set_cursor_type( type : TYPE) -> void:
 	curr_TYPE = type
 	mouse.modulate.a = 1.0
 			
+
+func display_damage_number( caller_node : Node, damage : int ) -> void:
+	var d = DAMAGE_NUMBER.instantiate()
+	d.setup(caller_node, damage)
+	caller_node.add_sibling(d)
 
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()

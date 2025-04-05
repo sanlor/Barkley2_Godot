@@ -40,6 +40,10 @@ var enemy_selected		:= 0 :
 
 var process_player_inputs := true
 
+## Resume battle after an attack only if the player is doing nothing
+func can_resume_combat() -> bool:
+	return curr_action == NOTHING
+
 func _ready() -> void:
 	instructions.hide()
 	attack_btn.pressed.connect( 	_on_attack_btn )

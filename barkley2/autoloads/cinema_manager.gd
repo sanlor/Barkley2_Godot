@@ -34,7 +34,7 @@ var cinema_player 	: B2_CinemaPlayer
 
 ## Combat stuff
 var o_cbt_hoopz 			: B2_HoopzCombatActor		 	= null ## Combat Hoopz
-var o_combat_ui				: CanvasLayer					= null ## Combat UI (Is this needed?)
+#var o_combat_ui				: CanvasLayer					= null ## Combat UI (Is this needed?)
 var combat_manager			: B2_CombatManager
 var combat_cinema_player 	: B2_Combat_CinemaPlayer
 var cinema_caller			: Node

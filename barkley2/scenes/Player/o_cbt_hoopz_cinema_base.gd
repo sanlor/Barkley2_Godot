@@ -9,11 +9,14 @@ class_name B2_HoopzCombatActor
 signal aim_target_changed
 signal move_target_changed
 
-enum STATE{NORMAL,ROLL,AIM}
+enum STATE{NORMAL,ROLL,AIM, HIT, VICTORY, DEFEAT}
+var prev_STATE := STATE.NORMAL
 var curr_STATE := STATE.NORMAL :
 	set(s) : 
-		curr_STATE = s
-		_update_held_gun()
+		if not curr_STATE == s:
+			prev_STATE = curr_STATE
+			curr_STATE = s
+			_update_held_gun()
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
@@ -170,7 +173,7 @@ func _update_held_gun() -> void:
 		
 func _change_sprites():
 	match curr_STATE:
-		STATE.NORMAL, STATE.ROLL:
+		STATE.NORMAL, STATE.ROLL, STATE.HIT, STATE.VICTORY, STATE.DEFEAT:
 			hoopz_normal_body.show()
 			
 			## Hide combat related sprites
@@ -556,13 +559,46 @@ func aim_gun( _aim_target : Vector2 ) -> void:
 	curr_STATE 			= STATE.AIM
 
 func stop_aiming() -> void:
-	gun_down_timer.start( 0.5 ) ## small delay before stopping aiming
+	if curr_STATE == STATE.AIM:
+		## Stop aiming
+		move_target 			= aim_target
+		movement_vector 		= aim_target.normalized()
+		last_input 				= movement_vector
+		last_direction 			= movement_vector
+		combat_last_direction	= movement_vector 
+		combat_last_input		= movement_vector 
+		curr_STATE 				= STATE.NORMAL
 	
-func damage_actor( _damage : int, _force : Vector2 ) -> void:
-	hit_timer.start( 1.5 )
-	_on_gun_down_timer_timeout()
+func damage_actor( damage : int, force : Vector2 ) -> void:
+	hit_timer.start( 0.5 )
+	curr_STATE = STATE.HIT
+
 	hoopz_normal_body.animation = "stagger"
 	hoopz_normal_body.frame = 0
+	
+	B2_Screen.display_damage_number( self, damage )
+	apply_central_impulse( force )
+	
+	var my_stats := B2_Playerdata.player_stats
+	@warning_ignore("narrowing_conversion")
+	my_stats.curr_health = clampi( my_stats.curr_health - damage, 0, my_stats.max_health )
+
+func victory_anim() -> void:
+	curr_STATE = STATE.VICTORY
+	_change_sprites()
+	## TODO Add checks for different victory animations
+	if B2_Playerdata.player_stats.curr_health < B2_Playerdata.player_stats.max_health / 10.0: ## if health is at 10%, play a different animation.
+		hoopz_normal_body.play("won_hard")
+	else:
+		## TODO adjust this.
+		hoopz_normal_body.animation 	= "stand"
+		hoopz_normal_body.frame 		= [ 5, 6, 6, 7, 7 ].pick_random() # Pick a direction to look at.
+
+func defeat_anim() -> void:
+	curr_STATE = STATE.DEFEAT
+	_change_sprites()
+	hoopz_normal_body.play("demise")
+	## TODO Defeat doesnt exits yet.
 
 func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	# Roooolliiing staaaaart! ...here vvv
@@ -611,18 +647,15 @@ func _physics_process(delta: float) -> void:
 				combat_weapon_animation()
 			else:
 				push_warning("Weird state: ", curr_STATE)
+		STATE.VICTORY, STATE.DEFEAT:
+			## TODO something with this state.
+			pass
 	
 	_process_movement( delta )
 
 func _on_hit_timer_timeout() -> void:
+	curr_STATE = prev_STATE
 	pass # Replace with function body.
 
 func _on_gun_down_timer_timeout() -> void:
-	## Stop aiming
-	move_target 			= aim_target
-	movement_vector 		= aim_target.normalized()
-	last_input 				= movement_vector
-	last_direction 			= movement_vector
-	combat_last_direction	= movement_vector 
-	combat_last_input		= movement_vector 
-	curr_STATE 				= STATE.NORMAL
+	pass
