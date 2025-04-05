@@ -1810,7 +1810,7 @@ func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitc
 
 func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0 ) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
-		push_error("No audiostreen on the pool. This is CRITICAL!")
+		push_error("No audiostreeeeeeen on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound := load( sound_bank[soundID] )

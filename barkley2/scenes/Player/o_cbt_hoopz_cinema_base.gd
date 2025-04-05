@@ -75,8 +75,9 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @export var step_smoke: 		GPUParticles2D
 @onready var ready_label: RichTextLabel = $ready_label
 
-
-@onready var aim_origin: Marker2D = $aim_origin
+@onready var hit_timer: 		Timer = $hit_timer
+@onready var gun_down_timer: 	Timer = $gun_down_timer
+@onready var aim_origin: 		Marker2D = $aim_origin
 
 ## General Animation
 var last_direction 				:= Vector2.ZERO
@@ -555,11 +556,13 @@ func aim_gun( _aim_target : Vector2 ) -> void:
 	curr_STATE 			= STATE.AIM
 
 func stop_aiming() -> void:
-	move_target 		= aim_target
-	movement_vector 	= aim_target.normalized()
-	last_input 			= Vector2.ZERO
-	last_direction 		= Vector2.ZERO
-	curr_STATE 			= STATE.NORMAL
+	gun_down_timer.start( 0.5 ) ## small delay before stopping aiming
+	
+func damage_actor( _damage : int, _force : Vector2 ) -> void:
+	hit_timer.start( 1.5 )
+	_on_gun_down_timer_timeout()
+	hoopz_normal_body.animation = "stagger"
+	hoopz_normal_body.frame = 0
 
 func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	# Roooolliiing staaaaart! ...here vvv
@@ -591,6 +594,9 @@ func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	velocity = ( walk_speed * delta ) * move
 
 func _physics_process(delta: float) -> void:
+	if not hit_timer.is_stopped(): ## Stop all animations during stun time.
+		return
+		
 	match curr_STATE:
 		STATE.ROLL:
 			pass
@@ -607,3 +613,16 @@ func _physics_process(delta: float) -> void:
 				push_warning("Weird state: ", curr_STATE)
 	
 	_process_movement( delta )
+
+func _on_hit_timer_timeout() -> void:
+	pass # Replace with function body.
+
+func _on_gun_down_timer_timeout() -> void:
+	## Stop aiming
+	move_target 			= aim_target
+	movement_vector 		= aim_target.normalized()
+	last_input 				= movement_vector
+	last_direction 			= movement_vector
+	combat_last_direction	= movement_vector 
+	combat_last_input		= movement_vector 
+	curr_STATE 				= STATE.NORMAL

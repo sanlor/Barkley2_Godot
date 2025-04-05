@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=90 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -182,6 +182,60 @@ ProgressBar/styles/fill = SubResource("StyleBoxFlat_mn44q")
 
 [sub_resource type="LabelSettings" id="LabelSettings_mn44q"]
 font = ExtResource("30_exq50")
+
+[sub_resource type="Animation" id="Animation_g78sf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -40)]
+}
+
+[sub_resource type="Animation" id="Animation_ycyro"]
+resource_name = "hide_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -40)]
+}
+
+[sub_resource type="Animation" id="Animation_fxuxk"]
+resource_name = "show_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -40), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1kavn"]
+_data = {
+&"RESET": SubResource("Animation_g78sf"),
+&"hide_menu": SubResource("Animation_ycyro"),
+&"show_menu": SubResource("Animation_fxuxk")
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_fxuxk"]
 font = ExtResource("32_h7ri8")
@@ -842,6 +896,7 @@ Cancel with [color=yellow]Cancel[/color]
 "
 
 [node name="battle_results" type="Control" parent="combat_module"]
+visible = false
 material = ExtResource("28_xl7ta")
 anchors_preset = 0
 offset_right = 378.0
@@ -850,6 +905,12 @@ theme = ExtResource("29_bb8yl")
 script = ExtResource("32_fxuxk")
 border_size = Vector2(378, 40)
 metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="combat_module/battle_results"]
+reset_on_save = false
+libraries = {
+&"": SubResource("AnimationLibrary_1kavn")
+}
 
 [node name="MarginContainer" type="MarginContainer" parent="combat_module/battle_results"]
 layout_mode = 1
@@ -865,7 +926,7 @@ theme_override_constants/margin_bottom = 14
 
 [node name="result_title_label" type="Label" parent="combat_module/battle_results/MarginContainer"]
 layout_mode = 2
-text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+text = "Placeholder Text"
 label_settings = SubResource("LabelSettings_fxuxk")
 horizontal_alignment = 1
 uppercase = true

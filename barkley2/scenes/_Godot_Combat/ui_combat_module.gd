@@ -10,6 +10,8 @@ signal selected_enemy( enemy : B2_EnemyCombatActor )
 signal weapon_selected
 signal battle_results_finished
 
+@onready var o_hud: B2_Hud = $".."
+
 @onready var weapon_stats_mini: VBoxContainer = $weapon_stats_mini
 
 @onready var attack_btn: 	Button = $player_control_weapons/MarginContainer/VBoxContainer/attack_btn
@@ -26,6 +28,8 @@ signal battle_results_finished
 
 @onready var instructions: RichTextLabel = $instructions
 
+@onready var battle_results: Control = $battle_results
+
 var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 
@@ -33,6 +37,8 @@ var aiming_angle 		:= Vector2.RIGHT
 var enemy_selected		:= 0 :
 	set(e):
 		enemy_selected = wrapi( e, 0, enemy_list.size() ) ## Avoid OOB errors
+
+var process_player_inputs := true
 
 func _ready() -> void:
 	instructions.hide()
@@ -53,35 +59,37 @@ func register_enemies( _enemy_list ) -> void:
 
 #func _unhandled_key_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey or event is InputEventMouseButton:
-		if event.is_pressed():
-			## Menu control
-			if curr_action == PLAYER_AIMING:
-				if Input.get_axis("Down", "Up"):
-					aiming_angle = aiming_angle.rotated( sign( Input.get_axis("Down", "Up") ) * TAU / 16.0 )
-				if Input.get_axis("Left", "Right"):
-					enemy_selected += sign( Input.get_axis("Left", "Right") )
-					## Vector2(0,-16) is the position for hoopz chest, the center point when aiming.
-					aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
+	if process_player_inputs:
+		
+		if event is InputEventKey or event is InputEventMouseButton:
+			if event.is_pressed():
+				## Menu control
+				if curr_action == PLAYER_AIMING:
+					if Input.get_axis("Down", "Up"):
+						aiming_angle = aiming_angle.rotated( sign( Input.get_axis("Down", "Up") ) * TAU / 16.0 )
+					if Input.get_axis("Left", "Right"):
+						enemy_selected += sign( Input.get_axis("Left", "Right") )
+						## Vector2(0,-16) is the position for hoopz chest, the center point when aiming.
+						aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
+						
+					player_character.aim_gun( aiming_angle )
 					
-				player_character.aim_gun( aiming_angle )
+					if event.is_action_pressed("Action"):
+						#player_character.shoot_gun()
+						var combat_manager := B2_CManager.combat_manager
+						combat_manager.shoot_projectile( player_character, B2_Gun.get_current_gun(), player_character.stop_aiming )
+						action_queued()
+						print("%s: shoot" % self)
+						
+					if event.is_action_pressed("Holster"):
+						action_queued()
+						player_character.stop_aiming()
+						print("%s: holster" % self)
 				
-				if event.is_action_pressed("Action"):
-					#player_character.shoot_gun()
-					var combat_manager := B2_CManager.combat_manager
-					combat_manager.shoot_projectile( player_character, B2_Gun.get_current_gun(), player_character.stop_aiming )
-					action_queued()
-					print("%s: shoot" % self)
-					
-				if event.is_action_pressed("Holster"):
-					action_queued()
-					player_character.stop_aiming()
-					print("%s: holster" % self)
-			
-		elif curr_action == PLAYER_SELECTING_SOMETHING:
-			pass
-		else:
-			pass
+			elif curr_action == PLAYER_SELECTING_SOMETHING:
+				pass
+			else:
+				pass
 
 func action_queued() -> void:
 	player_control_weapons.show()
@@ -120,8 +128,23 @@ func _on_defend_btn() -> void:
 func _on_escape_btn() -> void:
 	pass
 
+func add_result_message( _msg : String, sfx := "" ) -> void:
+	var msg : Dictionary
+	msg["msg"] = _msg
+	
+	if sfx: ## sfx is optional
+		msg["sfx"] = sfx
+	battle_results.results.append( msg )
+
+## battle ended, show results
 func show_battle_results() -> void:
-	pass
+	process_player_inputs = false ## avoild moving the player when the battle finishes.
+	battle_results.display_battle_results()
+	
+	o_hud.hide_battle_ui()
+	await battle_results.battle_results_finished
+	
+	battle_results_finished.emit()
 
 func tick_combat() -> void:
 	weapon_stats_mini.tick_combat()

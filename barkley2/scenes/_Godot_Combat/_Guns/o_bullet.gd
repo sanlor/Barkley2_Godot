@@ -1340,8 +1340,8 @@ func _on_body_entered( body: Node2D ) -> void:
 	if body is B2_CombatActor:
 		if body.has_method("damage_actor"):
 			var att := my_gun.get_att()
-			#body.damage_actor( att, 	velocity.normalized() * att * 100.0 )
-			body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
+			body.damage_actor( att, 	velocity.normalized() * att * 100.0 )
+			#body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
 		destroy_bullet()
 		
 	if body is CollisionObject2D:

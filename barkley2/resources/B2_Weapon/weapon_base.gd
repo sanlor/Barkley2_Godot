@@ -59,14 +59,14 @@ var lineage_top					:= "" ## ????
 var lineage_bot					:= "" ## ????
 var generation					:= 1
 
-#@export var normal_attack	: CombatComponent				## Normal attack
-#@export var skill_list		: Dictionary[CombatSkill, int] 	## List of attacks, with the EXP necessary to unlock it
+@export var normal_attack	: B2_WeaponAttack						## Normal attack
+@export var skill_list		: Dictionary[B2_WeaponSkill, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
-var bullets_per_shot 	:= 3 	## how many bullets are spawn
-var ammo_per_shot		:= 3 	## how much ammo is used
-var wait_per_shot		:= 0.0	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
-var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and 1.0 is shooting at random. keep at 0.0 to 0.3.
+var bullets_per_shot 	:= 5 	## how many bullets are spawn
+var ammo_per_shot		:= 5 	## how much ammo is used
+var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
+var bullet_spread		:= 0.25	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
 
 #region Weapon data
 func get_full_name() -> String:
@@ -113,13 +113,13 @@ func get_flash_sprite() -> String:
 ## Gun Swap sound
 func get_swap_sound() -> String:
 	if type_data.swapSound.is_empty():
-		return "hoopz_swapguns"
+		return "hoopz_swapguns" # Default
 	else:
 		return type_data.swapSound
 
 func get_reload_sound() -> String:
 	if type_data.reloadSound.is_empty():
-		return "hoopz_reload"
+		return "hoopz_reload" # Default
 	else:
 		return type_data.reloadSound
 
@@ -130,7 +130,7 @@ func get_bullet_sprite() -> String:
 ## Bullet´s color
 func get_bullet_color() -> Color:
 	if material_data.pBulletColor.is_empty():
-		return Color.WHITE
+		return Color.WHITE # Default
 	else:
 		return Color( material_data.pBulletColor )
 
@@ -145,52 +145,67 @@ func get_casing_color() -> Color:
 ## Bullet casing size/scale
 func get_casing_scale() -> float:
 	if type_data.bcasingScale.is_empty():
-		return 0.5
+		return 0.5 # Default
 	else:
 		return float( type_data.bcasingScale )
 	
 ## Bullet casing speed/gravity
 func get_casing_speed() -> float:
 	if type_data.bcasingSpd.is_empty():
-		return 1.0
+		return 1.0 # Default
 	else:
 		return float( type_data.bcasingSpd )
-	
 #endregion
 
 #region Weapon Operation
-func shoot_gun( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
-	for i in bullets_per_shot:
-	#for i in 50: ## debug
-		## TODO add spread
-		var my_acc := acc / 75.0
-		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) )
+func _create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) -> void:
+	if get_flash_sprite():
+		var flash = S_FLASH.instantiate()
+		flash.position = source_pos
+		flash.look_at( source_pos + dir )
+		scene_to_place.add_child( flash, true )
+		flash.play( get_flash_sprite() )
 		
-		if get_flash_sprite():
-			var flash = S_FLASH.instantiate()
-			flash.position = source_pos
-			flash.look_at( source_pos + b_dir )
-			scene_to_place.add_child( flash, true )
-			flash.play( get_flash_sprite() )
+func _create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
+	if get_casing_sound():
+		var casing = O_CASINGS.instantiate()
+		casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
+		casing.position = casing_pos
+		scene_to_place.add_child( casing, true )
 		
-		if get_casing_sound():
-			var casing = O_CASINGS.instantiate()
-			casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
-			casing.position = casing_pos
-			scene_to_place.add_child( casing, true )
-		
+func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2 ) -> void:
+	if wait_per_shot == 0.0: ## shotgun behaviour.
+		use_ammo( 1 )
+		_create_flash(scene_to_place, source_pos, dir)
+		_create_casing(scene_to_place, casing_pos)
 		B2_Sound.play( get_soundID() )
+		
+	for i in bullets_per_shot:
+		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
+		my_spread_offset -= bullet_spread / bullets_per_shot
+		
+		var my_acc := get_acc() / 75.0
+		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
+		
 		var bullet = O_BULLET.instantiate()
 		bullet.set_direction( b_dir )
 		bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
 		scene_to_place.add_child( bullet, true )
 		bullet.position = source_pos
 		
-		await bullet.get_tree().create_timer( 0.1 ).timeout
+		if wait_per_shot > 0.0:
+			use_ammo( 1 )
+			B2_Sound.play( get_soundID() )
+			_create_flash(scene_to_place, source_pos, b_dir)
+			_create_casing(scene_to_place, casing_pos)
+			await bullet.get_tree().create_timer( 0.1 ).timeout
 	
-	use_ammo( ammo_per_shot )
+	#use_ammo( ammo_per_shot )
 	reset_action()
 	finished_combat_action.emit()
+	
+func use_skill_attack( skill_id : int ) -> void:
+	pass
 	
 #endregion
 

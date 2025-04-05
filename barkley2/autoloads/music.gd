@@ -9,9 +9,10 @@ const debug_music := [
 	MUS_FISHING_BATTLE,
 ]
 
-@onready var audio_stream_player = $AudioStreamPlayer
+@onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
-@export var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
+#var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
+var music_folder := "res://barkley2/assets/"
 
 var music_bank := {
 	}
@@ -22,8 +23,10 @@ var tween : Tween
 var bgm_music : String = ""
 
 ## What track is being played. useful when changing rooms that use the same music track.
-var curr_playing_track := ""
-var prev_playing_track := ""
+var curr_playing_track 			:= ""
+var prev_playing_track 			:= ""
+var stored_playing_track		:= ""
+var stored_playing_track_time	:= 0.0
 
 ## Room audio modifier
 # some rooms have the audio volume modified, like interiors
@@ -33,13 +36,14 @@ func _load_music_banks():
 	## Load music tracks
 	var _music_folder : Array = FileSearch.search_dir( music_folder, "", true )
 	for file : String in _music_folder:
-		if file.ends_with(".import"):
+		if file.ends_with(".ogg.import"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
 	print("init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries")
 
 func _enter_tree() -> void:
 	_load_music_banks()
+	pass
 
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
@@ -209,7 +213,17 @@ func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 
 func play_combat( speed := 0.25 ) -> void:
+	store_curr_music()
 	queue( music_bank.get( debug_music.pick_random(), "" ), speed )
+
+## keep track of the current room music
+func store_curr_music() -> void:
+	stored_playing_track = curr_playing_track
+	stored_playing_track_time = audio_stream_player.get_playback_position()
+
+func resume_stored_music() -> void:
+	#play( stored_playing_track )
+	queue( stored_playing_track, 0.25, stored_playing_track_time )
 
 func stop( speed := 0.25 ):
 	#queue( music_bank.get("mus_blankTEMP.ogg", ""), speed )
@@ -221,7 +235,7 @@ func stop( speed := 0.25 ):
 	audio_stream_player.stop()
 
 #else if (argument[0] == "queue")
-func queue( track_name : String, speed := 0.25 ): ## track name should exist in the Music Bank dict.
+func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
 		track_name = music_folder + "mus_blankTEMP.ogg"
@@ -249,7 +263,7 @@ func queue( track_name : String, speed := 0.25 ): ## track name should exist in 
 		audio_stream_player.stop()
 		
 	audio_stream_player.stream = next_music
-	audio_stream_player.play()
+	audio_stream_player.play( track_position )
 	audio_stream_player.volume_db = -80.0
 	
 	if speed != 0.0: # fade in music

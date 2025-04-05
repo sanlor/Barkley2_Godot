@@ -14,8 +14,6 @@ var player_character 	: B2_HoopzCombatActor						## In this game, only one playe
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
-var ui					: CanvasLayer
-
 var combat_paused := false
 
 var action_queue : Array[queue]
@@ -63,9 +61,20 @@ func resume_combat() -> void:
 	combat_paused = false
 
 func finish_combat() -> void:
-	ui.combat_module.show_battle_results()
-	await ui.combat_module.battle_results_finished
-	pass
+	pause_combat()
+	B2_Music.play("shitworld") ## Test music
+	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
+	
+	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 1!", "sn_cursor_pausemenu01")
+	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_cursor_error01")
+	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 3!", "sn_cursor_select01")
+	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 4!", "sn_utilitycursor_buttonclick01")
+	
+	B2_CManager.o_hud.get_combat_module().show_battle_results()
+	await B2_CManager.o_hud.get_combat_module().battle_results_finished
+	
+	B2_Music.resume_stored_music()
+	combat_cinema.end_combat()
 
 func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 	if enemy_list.has( enemy_node ):
@@ -148,7 +157,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, used_weapon : B2_Weapon, 
 		# An enemy is shooting.
 		pass ## TODO
 		
-	used_weapon.shoot_gun( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction )
+	used_weapon.use_normal_attack( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction )
 	await used_weapon.finished_combat_action ## Wait for the gun to fire or whatever.
 	finish_action.call()
 	resume_combat()

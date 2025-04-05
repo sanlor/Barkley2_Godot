@@ -37,11 +37,14 @@ func _ready() -> void:
 	angular_velocity 	= randf_range(-15, 15) ## Speen
 	upward_velocity 	= randf_range(150,350) ## How high the gib initially can go.
 	
+	gib_life_timer.start( gib_life_timer.wait_time * randf_range( 0.6, 2.0 ) )
+	gib_life_timer.timeout.connect( cleanup )
+	
 	## set a random sprite
 	part_sprite.frame = randi_range( 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
 	
 	if splatSound: gib_sfx.stream = load( B2_Sound.get_sound( splatSound ) )
-	pass
+
 	
 func _physics_process( delta: float ) -> void:
 	position 			+= velocity * delta
@@ -81,6 +84,3 @@ func cleanup() -> void:
 	var t := create_tween()
 	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 8.0, 16.0 ) )
 	t.tween_callback( queue_free )
-	
-func _on_casing_lifetime_timeout() -> void:
-	cleanup()

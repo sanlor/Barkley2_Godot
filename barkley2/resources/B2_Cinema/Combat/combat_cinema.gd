@@ -215,7 +215,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 				
 func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1		 	## Ticker setup.
-	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self; combat_manager.ui = ui	## Combat manager setup.
+	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self;							## Combat manager setup.
 	combat_ticker.timeout.connect( _tick_combat )															## Tick tock
 	combat_manager.register_enemy_list( enemies )
 	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
@@ -238,6 +238,7 @@ func end_combat():
 	B2_Input.cutscene_is_playing 	= false
 	B2_Input.can_fast_forward 		= false
 	B2_Input.player_has_control 	= true
+	B2_Input.can_switch_guns 		= true
 	
 	print_rich("[color=pink]Finished Cinema() Script.[/color]")
 	

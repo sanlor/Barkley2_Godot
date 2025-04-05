@@ -199,5 +199,8 @@ func destroy_actor() -> void:
 	
 	var t := create_tween()
 	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.5 ) )
-	t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
+	if is_instance_valid(B2_CManager.combat_manager):
+		t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
+	else:
+		push_warning( "Combat manager not loaded" )
 	t.tween_callback( get_parent().remove_child.bind(self) )
