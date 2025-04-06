@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bustae523mxua"]
+[gd_scene load_steps=28 format=3 uid="uid://bustae523mxua"]
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
@@ -12,6 +12,8 @@
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ty5ks"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_47sbk"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="12_47sbk"]
+[ext_resource type="Texture2D" uid="uid://brnct46keheb6" path="res://barkley2/assets/b2_original/images/merged/s_duergar_shield.png" id="12_qfgrm"]
+[ext_resource type="Texture2D" uid="uid://d1mcadd5gf7om" path="res://barkley2/assets/b2_original/images/merged/s_junkbot_larm_shield.png" id="13_wsajw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sbutq"]
 friction = 0.25
@@ -19,6 +21,74 @@ bounce = 0.25
 absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
+
+[sub_resource type="Curve" id="Curve_qfgrm"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.0277312), -3.52721, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_wsajw"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GDScript" id="GDScript_qkpq4"]
+resource_name = "hoopz_roll_direction"
+script/source = "@tool
+extends Line2D
+
+var t := 0.0
+var p := 24.0
+
+func set_force( force : float ) -> void:
+	p = 100.0 * clampf( force, 0.0, 1.0 )
+	p = clampf( p, 24.0, 100.0 )
+
+
+func _physics_process(delta: float) -> void:
+	if visible:
+		t += delta * 50.0
+		modulate.a = 1.0 - sin(t) * 0.5
+		points[1].x = lerpf(points[1].x, p, 0.75 )
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkpq4"]
+atlas = ExtResource("12_qfgrm")
+region = Rect2(0, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu7n1"]
+atlas = ExtResource("12_qfgrm")
+region = Rect2(34, 0, 34, 35)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tihaj"]
+atlas = ExtResource("13_wsajw")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ma6b"]
+atlas = ExtResource("13_wsajw")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2nav"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkpq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu7n1")
+}],
+"loop": true,
+"name": &"s_duergar_shield",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tihaj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ma6b")
+}],
+"loop": true,
+"name": &"s_junkbot_larm_shield",
+"speed": 5.0
+}]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ty5ks"]
 size = Vector2(4, 4)
@@ -52,7 +122,7 @@ func start_loading( speed := 1.0 ) -> void:
 	tween.tween_callback( hide )
 "
 
-[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "step_smoke", "ActorNav", "ActorCol")]
+[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "step_smoke", "ActorNav", "ActorCol")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_sbutq")
@@ -63,6 +133,7 @@ max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("1_kxy2o")
 hoopz_normal_body = NodePath("hoopz_normal_body")
+hoopz_roll_direction = NodePath("hoopz_roll_direction")
 combat_upper_sprite = NodePath("combat_upper_body")
 combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
@@ -85,10 +156,19 @@ shape = SubResource("CircleShape2D_aubae")
 position = Vector2(0, -1)
 amount = 30
 
+[node name="hoopz_roll_direction" type="Line2D" parent="."]
+modulate = Color(1, 1, 1, 1.49965)
+points = PackedVector2Array(12, 0, 24, 0)
+width_curve = SubResource("Curve_qfgrm")
+gradient = SubResource("Gradient_wsajw")
+script = SubResource("GDScript_qkpq4")
+
 [node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = ExtResource("4_yeelg")
-animation = &"pointing"
+animation = &"full_roll"
+frame = 9
+frame_progress = 1.0
 speed_scale = 1.5
 centered = false
 offset = Vector2(-22, -41)
@@ -139,6 +219,12 @@ animation = &"s_HoopzTorso_Rifle"
 centered = false
 offset = Vector2(-22, -41)
 
+[node name="combat_shield" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_v2nav")
+animation = &"s_duergar_shield"
+offset = Vector2(0, -14)
+
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
 
@@ -180,6 +266,7 @@ one_shot = true
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
+[connection signal="animation_finished" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_animation_finished"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]
 [connection signal="timeout" from="hit_timer" to="." method="_on_hit_timer_timeout"]

@@ -20,6 +20,7 @@ var original_y			:= 0.0
 var is_active := true
 
 func _ready() -> void:
+		
 	# Set the initial velocity of the bullet casing
 	velocity 			= Vector2.DOWN.rotated( randf_range(-PI/6, PI/6) ) * randf_range( 50.0, 150.0 ) ## Casings fly mostly downward
 	angular_velocity 	= randf_range(-15, 15) ## Speen

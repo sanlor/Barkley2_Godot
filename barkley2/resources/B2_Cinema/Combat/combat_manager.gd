@@ -8,6 +8,9 @@ const ENEMY_STATS = preload("res://barkley2/scenes/_Godot_Combat/enemy_stats.tsc
 signal tick_toggled( enabled : bool ) ## stop or starts the combat ticker
 signal combat_ended
 
+signal combat_time_stoped		## during certain actions, bullets, casings and such need to be stopped.
+signal combat_time_restarted	## during certain actions, bullets, casings and such need to be stopped.
+
 var combat_cinema : B2_Combat_CinemaPlayer
 var combat_camera
 var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
@@ -53,10 +56,12 @@ func start_battle():
 	B2_Music.play_combat( 0.1 )
 
 func pause_combat() -> void: ## Stop combat tick during target selection, etc.
+	combat_time_stoped.emit()
 	B2_Input.can_switch_guns = false
 	combat_paused = true
 
-func resume_combat() -> void: 
+func resume_combat() -> void:
+	combat_time_restarted.emit()
 	B2_Input.can_switch_guns = true
 	combat_paused = false
 
@@ -101,7 +106,8 @@ func tick_combat() -> void:
 		if B2_Playerdata.player_stats.increase_action():
 			## TODO player action (move, defend)
 			if randf() > 0.9: ## TEMP
-				B2_Playerdata.player_stats.reset_action()
+				#B2_Playerdata.player_stats.reset_action()
+				pass
 		
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
@@ -111,6 +117,7 @@ func tick_combat() -> void:
 					print( "DEBUG: enemy action ", enemy )
 					var debug_wpn := B2_Gun.generate_gun()
 					shoot_projectile( enemy, debug_wpn, Callable() )
+					return
 				else:
 					pass
 			else:

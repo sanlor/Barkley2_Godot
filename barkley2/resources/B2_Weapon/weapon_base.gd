@@ -181,6 +181,7 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		B2_Sound.play( get_soundID() )
 		
 	for i in bullets_per_shot:
+				
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
@@ -205,7 +206,7 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	reset_action()
 	finished_combat_action.emit()
 	
-func use_skill_attack( skill_id : int ) -> void:
+func use_skill_attack( _skill_id : int ) -> void:
 	pass
 	
 #endregion

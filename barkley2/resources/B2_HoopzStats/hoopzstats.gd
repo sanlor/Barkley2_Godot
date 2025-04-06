@@ -101,6 +101,7 @@ var vuln_bio  				:= 5.0
 var vuln_cosmic  			:= 3.0
 
 var max_action_sfx_played	:= false
+var block_action_increase 	:= false
 
 func set_base_stat( stat : String, value : float ) -> void:
 	if get_property_list().has(stat):
@@ -123,6 +124,9 @@ func is_at_max_action() -> bool:
 	return curr_action == max_action
 
 func increase_action() -> bool:
+	if block_action_increase:
+		return false
+		
 	var my_spd 		:= speed * 0.25
 	curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
 	

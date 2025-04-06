@@ -26,7 +26,7 @@ const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o
 @onready var bullet_life: Timer 				= $bullet_life
 
 var dir : Vector2
-var speed := 15.0
+var speed := 5.0
 
 ## The gun that fired me
 var my_gun : B2_Weapon
@@ -99,6 +99,7 @@ func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
 
 func _ready() -> void:
+		
 	if spr:
 		if bullet_spr.sprite_frames.has_animation( spr ):
 			bullet_spr.animation = spr

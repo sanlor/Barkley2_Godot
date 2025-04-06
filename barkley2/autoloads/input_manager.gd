@@ -67,14 +67,16 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("Action"):
 		action_pressed.emit()
 		
-	if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF"):
-		if Input.is_action_pressed("Holster"):
-			ffwd( true )
+func _input(event: InputEvent) -> void:
+	if Input.is_action_pressed("Holster") or Input.is_action_just_released("Holster"):
+		if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF"):
+			if Input.is_action_pressed("Holster"):
+				ffwd( true )
+			else:
+				ffwd( false )
 		else:
+			# normalize engine speed.
 			ffwd( false )
-	else:
-		# normalize engine speed.
-		ffwd( false )
 
 func ffwd( active : bool ):
 	if active:

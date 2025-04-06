@@ -9,7 +9,8 @@ class_name B2_HoopzCombatActor
 signal aim_target_changed
 signal move_target_changed
 
-enum STATE{NORMAL,ROLL,AIM, HIT, VICTORY, DEFEAT}
+## Pointing is used to move during battle.
+enum STATE{NORMAL,ROLL,AIM, POINT, HIT, VICTORY, DEFEAT}
 var prev_STATE := STATE.NORMAL
 var curr_STATE := STATE.NORMAL :
 	set(s) : 
@@ -62,7 +63,8 @@ const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
 @export_category("Normal Sprites")
-@export var hoopz_normal_body: 	AnimatedSprite2D
+@export var hoopz_normal_body		: AnimatedSprite2D
+@export var hoopz_roll_direction	: Line2D
 
 @export_category("Combat Sprites")
 @export var combat_upper_sprite 	: AnimatedSprite2D
@@ -102,7 +104,7 @@ var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
 
 var walk_speed			:= 5000000
-var roll_impulse		:= 1000000
+var roll_impulse		:= 20000
 var walk_damp			:= 10.0
 var roll_damp			:= 2.5
 
@@ -114,6 +116,7 @@ var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement.
 #var is_moving 		:= false
 var move_target 	:= movement_vector ## Cinema stuff: Tells where the node should walk to.
 var aim_target 		:= movement_vector ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
+var roll_power		:= 0.0
 
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self
@@ -122,6 +125,8 @@ func _ready() -> void:
 	## Fallback setup
 	if not is_instance_valid( hoopz_normal_body ):
 		hoopz_normal_body = get_node( "hoopz_normal_body" )
+	if not is_instance_valid( hoopz_roll_direction ):
+		hoopz_roll_direction = get_node( "hoopz_roll_direction" )
 	if not is_instance_valid( combat_upper_sprite ):
 		hoopz_normal_body = get_node( "combat_upper_sprite" )
 	if not is_instance_valid( combat_lower_sprite ):
@@ -137,9 +142,10 @@ func _ready() -> void:
 	if not is_instance_valid( combat_weapon_spots ):
 		hoopz_normal_body = get_node( "combat_weapon_spots" )
 	
+	hoopz_roll_direction.hide()
+	
 	linear_damp = walk_damp
 	_change_sprites()
-	
 	## Reset movement variables.
 	move_target 	= Vector2.ZERO
 	aim_target 		= Vector2.ZERO
@@ -198,6 +204,30 @@ func _change_sprites():
 
 func add_smoke( offset := Vector2.ZERO ) -> void: ## Add a small puff of smoke.
 	step_smoke.emit_particle( Transform2D( 0, step_smoke.position + offset ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+	
+func point_animation() -> void:
+	var target_dir 		:= aim_target
+	hoopz_roll_direction.rotation = target_dir.angle()
+	
+	if not hoopz_normal_body.animation == "pointing":
+		hoopz_normal_body.animation = "pointing"
+	
+	var my_frame := 0
+	
+	match target_dir.round():
+		Vector2.UP + Vector2.LEFT:		my_frame = 3
+		Vector2.UP + Vector2.RIGHT:		my_frame = 1
+		Vector2.DOWN + Vector2.LEFT:	my_frame = 5
+		Vector2.DOWN + Vector2.RIGHT:	my_frame = 7
+			
+		Vector2.UP:		my_frame = 2
+		Vector2.LEFT:	my_frame = 4
+		Vector2.DOWN:	my_frame = 6
+		Vector2.RIGHT:	my_frame = 0
+	
+	if hoopz_normal_body.frame != my_frame:
+		B2_Sound.play("sn_trashtalk2_04")
+		hoopz_normal_body.frame = my_frame
 	
 # Not aiming, rolling and such.
 func normal_animation( delta : float ) -> void:
@@ -448,31 +478,7 @@ func combat_weapon_animation() -> void:
 	combat_weapon_spots.position 	= new_gun_pos
 	combat_weapon_spots.z_index		= _z_index
 		
-func _on_combat_actor_entered(body: Node) -> void:
-	if body is B2_CombatActor:
-		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 75.0 ) ## Debug setup ## DEPRECATED
-			
-# handle step sounds
-func _on_hoopz_upper_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0
 
-func _on_combat_lower_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0
 
 ## Change the held weapon sprite. Also can change hoopz torso.
 ## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
@@ -553,6 +559,17 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	#else:
 		#push_warning("No Gun???")
 
+func point_at( _aim_target : Vector2, _roll_power : float ) -> void:
+	hoopz_roll_direction.show()
+	hoopz_roll_direction.set_force( _roll_power )
+	aim_target 			= _aim_target.normalized()
+	roll_power			= _roll_power
+	curr_STATE 			= STATE.POINT
+
+func stop_pointing() -> void:
+	hoopz_roll_direction.hide()
+	curr_STATE 	= STATE.NORMAL
+
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
 	aim_target 			= _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
@@ -571,8 +588,13 @@ func stop_aiming() -> void:
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	hit_timer.start( 0.5 )
+	if curr_STATE == STATE.ROLL:
+		linear_velocity = Vector2.ZERO
+		B2_Playerdata.player_stats.block_action_increase = false
+		
 	curr_STATE = STATE.HIT
-
+	
+	hoopz_normal_body.stop()
 	hoopz_normal_body.animation = "stagger"
 	hoopz_normal_body.frame = 0
 	
@@ -600,20 +622,16 @@ func defeat_anim() -> void:
 	hoopz_normal_body.play("demise")
 	## TODO Defeat doesnt exits yet.
 
-func start_roling( _roll_dir : Vector2, delta : float ) -> void:
+func start_rolling( roll_dir : Vector2 ) -> void:
 	# Roooolliiing staaaaart! ...here vvv
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
-	hoopz_normal_body.play( ROLL )
-	var roll_dir 	: Vector2
-	var input 		:= Vector2.UP # Input.get_vector("Left","Right","Up","Down")
-	if input != Vector2.ZERO:
-		roll_dir 	= input
-	else:
-		# Use the mouse to decide the roll direction. (Inverted)
-		roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
+	hoopz_normal_body.play( "full_roll" )
+	hoopz_normal_body.flip_h = roll_dir.x < 0 ## flip sprite if going to the left
+	
 	linear_velocity = Vector2.ZERO
-	apply_central_force( roll_dir * roll_impulse )
+	apply_central_impulse( roll_dir * roll_impulse * roll_power )
+	B2_Playerdata.player_stats.block_action_increase = true ## Doesnt increase action during the roll action.
 	
 	## Reset some vars
 	combat_last_direction 	= Vector2.ZERO
@@ -624,10 +642,12 @@ func start_roling( _roll_dir : Vector2, delta : float ) -> void:
 	## Fluff
 	B2_Sound.play("sn_hoopz_roll")
 	step_smoke.emitting = true
-	hoopz_normal_body.offset.y += 15
-	
-	var move := _roll_dir ## CRITICAL Should not be Vector2.ZERO
-	velocity = ( walk_speed * delta ) * move
+
+func stop_rolling() -> void:
+	hoopz_normal_body.flip_h = false
+	step_smoke.emitting = false
+	B2_Playerdata.player_stats.block_action_increase = false
+	curr_STATE 	= STATE.NORMAL
 
 func _physics_process(delta: float) -> void:
 	if not hit_timer.is_stopped(): ## Stop all animations during stun time.
@@ -637,25 +657,61 @@ func _physics_process(delta: float) -> void:
 		STATE.ROLL:
 			pass
 				
-		STATE.NORMAL, STATE.AIM:
+		STATE.NORMAL:
 			## Play Animations
-			if curr_STATE == STATE.NORMAL:
-				normal_animation( delta )
-			elif  curr_STATE == STATE.AIM:
-				combat_walk_animation( delta ) # delta is for the turning animation
-				combat_aim_animation()
-				combat_weapon_animation()
-			else:
-				push_warning("Weird state: ", curr_STATE)
+			normal_animation( delta )
+		STATE.AIM:
+			combat_walk_animation( delta ) # delta is for the turning animation
+			combat_aim_animation()
+			combat_weapon_animation()
+		STATE.POINT:
+			point_animation( )
+				
 		STATE.VICTORY, STATE.DEFEAT:
 			## TODO something with this state.
 			pass
+		_:
+			push_warning("Weird state: ", curr_STATE)
 	
 	_process_movement( delta )
 
 func _on_hit_timer_timeout() -> void:
-	curr_STATE = prev_STATE
-	pass # Replace with function body.
+	if curr_STATE == STATE.HIT:
+		if prev_STATE == STATE.ROLL: ## Avoid issues with being hit while rolling.
+			stop_rolling()
+		else:
+			curr_STATE = prev_STATE
 
 func _on_gun_down_timer_timeout() -> void:
 	pass
+
+func _on_combat_actor_entered(body: Node) -> void:
+	if body is B2_CombatActor:
+		if curr_STATE == STATE.ROLL:
+			body.apply_damage( 75.0 ) ## Debug setup ## DEPRECATED
+			
+# handle step sounds
+func _on_hoopz_upper_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
+
+func _on_combat_lower_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
+
+func _on_hoopz_normal_body_animation_finished() -> void:
+	## Hoopz stopped rolling
+	if curr_STATE == STATE.ROLL and hoopz_normal_body.animation == "full_roll":
+		stop_rolling()
