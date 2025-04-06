@@ -10,7 +10,7 @@ signal aim_target_changed
 signal move_target_changed
 
 ## Pointing is used to move during battle.
-enum STATE{NORMAL,ROLL,AIM, POINT, HIT, VICTORY, DEFEAT}
+enum STATE{NORMAL,ROLL,AIM, POINT, HIT, DEFENDING, VICTORY, DEFEAT}
 var prev_STATE := STATE.NORMAL
 var curr_STATE := STATE.NORMAL :
 	set(s) : 
@@ -71,6 +71,7 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @export var combat_lower_sprite 	: AnimatedSprite2D
 @export var combat_arm_back 		: AnimatedSprite2D
 @export var combat_arm_front 		: AnimatedSprite2D
+@export var combat_shield			: AnimatedSprite2D
 @export var combat_weapon 			: AnimatedSprite2D
 @export var combat_weapon_parts		: AnimatedSprite2D
 @export var combat_weapon_spots		: AnimatedSprite2D
@@ -137,6 +138,8 @@ func _ready() -> void:
 		hoopz_normal_body = get_node( "combat_arm_front" )
 	if not is_instance_valid( combat_weapon ):
 		hoopz_normal_body = get_node( "combat_weapon" )
+	if not is_instance_valid( combat_shield ):
+		hoopz_normal_body = get_node( "combat_shield" )
 	if not is_instance_valid( combat_weapon_parts ):
 		hoopz_normal_body = get_node( "combat_weapon_parts" )
 	if not is_instance_valid( combat_weapon_spots ):
@@ -179,8 +182,10 @@ func _update_held_gun() -> void:
 		
 func _change_sprites():
 	match curr_STATE:
-		STATE.NORMAL, STATE.ROLL, STATE.HIT, STATE.VICTORY, STATE.DEFEAT:
+		STATE.NORMAL, STATE.ROLL, STATE.HIT, STATE.VICTORY, STATE.DEFEAT, STATE.DEFENDING:
 			hoopz_normal_body.show()
+			
+			combat_shield.visible = curr_STATE == STATE.DEFENDING
 			
 			## Hide combat related sprites
 			combat_lower_sprite.hide()
@@ -192,6 +197,7 @@ func _change_sprites():
 			combat_weapon_spots.hide()
 		STATE.AIM:
 			hoopz_normal_body.hide()
+			combat_shield.hide()
 			
 			## Show combat related sprites
 			combat_lower_sprite.show()
@@ -587,16 +593,21 @@ func stop_aiming() -> void:
 		curr_STATE 				= STATE.NORMAL
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
-	hit_timer.start( 0.5 )
-	if curr_STATE == STATE.ROLL:
-		linear_velocity = Vector2.ZERO
-		B2_Playerdata.player_stats.block_action_increase = false
+	if curr_STATE != STATE.DEFENDING:
+		hit_timer.start( 0.5 )
+		if curr_STATE == STATE.ROLL:
+			linear_velocity = Vector2.ZERO
+			B2_Playerdata.player_stats.block_action_increase = false
+			
+		curr_STATE = STATE.HIT
 		
-	curr_STATE = STATE.HIT
-	
-	hoopz_normal_body.stop()
-	hoopz_normal_body.animation = "stagger"
-	hoopz_normal_body.frame = 0
+		hoopz_normal_body.stop()
+		hoopz_normal_body.animation = "stagger"
+		hoopz_normal_body.frame = 0
+	else:
+		B2_Sound.play_pick("crab_hit_metal")
+		@warning_ignore("narrowing_conversion")
+		damage *= 0.5
 	
 	B2_Screen.display_damage_number( self, damage )
 	apply_central_impulse( force )
@@ -622,8 +633,31 @@ func defeat_anim() -> void:
 	hoopz_normal_body.play("demise")
 	## TODO Defeat doesnt exits yet.
 
+func start_defending( _dir : Vector2 ) -> void:
+	curr_STATE = STATE.DEFENDING
+	
+	combat_shield.stop()
+	combat_shield.animation = "s_duergar_shield"
+	
+	if _dir.y < 0:
+		combat_shield.frame = 1
+		combat_shield.z_index = -1
+		hoopz_normal_body.frame = 1
+		combat_shield.flip_h = not _dir.x < 0
+	else:
+		combat_shield.frame = 0
+		combat_shield.z_index = 0
+		hoopz_normal_body.frame = 7
+		combat_shield.flip_h = _dir.x < 0
+		
+func stop_defending() -> void:
+	curr_STATE = STATE.NORMAL
+	combat_shield.flip_h = false
+	hoopz_normal_body.flip_h = false
+
 func start_rolling( roll_dir : Vector2 ) -> void:
 	# Roooolliiing staaaaart! ...here vvv
+	#if curr_STATE == STATE.DEFENDING: stop_defending()
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
 	hoopz_normal_body.play( "full_roll" )
@@ -667,7 +701,7 @@ func _physics_process(delta: float) -> void:
 		STATE.POINT:
 			point_animation( )
 				
-		STATE.VICTORY, STATE.DEFEAT:
+		STATE.VICTORY, STATE.DEFEAT, STATE.DEFENDING:
 			## TODO something with this state.
 			pass
 		_:
@@ -679,6 +713,8 @@ func _on_hit_timer_timeout() -> void:
 	if curr_STATE == STATE.HIT:
 		if prev_STATE == STATE.ROLL: ## Avoid issues with being hit while rolling.
 			stop_rolling()
+		elif prev_STATE == STATE.DEFENDING:
+			curr_STATE = STATE.NORMAL
 		else:
 			curr_STATE = prev_STATE
 

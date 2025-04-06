@@ -194,7 +194,11 @@ func _on_move_btn() -> void:
 	slow_time()
 	
 func _on_defend_btn() -> void:
-	pass
+	if player_character.curr_STATE == player_character.STATE.DEFENDING:
+		player_character.stop_defending()
+	else:
+		player_character.start_defending( aiming_angle )
+	B2_Playerdata.player_stats.reset_action()
 	
 func _on_escape_btn() -> void:
 	pass
