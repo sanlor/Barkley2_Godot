@@ -18,6 +18,10 @@ func _ready() -> void:
 	wander_timer.timeout.connect( _debug_get_random_pos )
 	wander_timer.start( 5.0 )
 
+## AI Action
+func action() -> void:
+	pass
+
 func step() -> void:
 	if actor.is_changing_states:
 		return

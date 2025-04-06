@@ -31,6 +31,10 @@ var debug_messages := true
 @onready var hud_ammo_amount: Label = $hud_bar/hud_ammo/hud_ammo_amount
 
 ## Combat
+## New Menu
+@onready var player_controls_new: Control = $combat_module/player_controls_new
+
+## Old Menu
 @onready var player_control_weapons: B2_Border = $combat_module/player_control_weapons
 @onready var player_control_move: B2_Border = $combat_module/player_control_move
 @onready var player_control_defend: B2_Border = $combat_module/player_control_defend
@@ -188,7 +192,9 @@ func show_battle_ui() -> void:
 	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(weapon_stats_mini, 		"modulate:a", 1.0, combat_fade_speed)
-
+	
+	player_controls_new.show_menu()
+	
 func hide_battle_ui() -> void:
 	if c_tween:
 		c_tween.kill()
@@ -206,6 +212,8 @@ func hide_battle_ui() -> void:
 	c_tween.tween_callback( player_control_defend.hide )
 	c_tween.tween_callback( player_controls.hide )
 	c_tween.tween_callback( weapon_stats_mini.hide )
+	
+	player_controls_new.hide_menu()
 	
 func set_ammo_amt( amt : int ):
 	hud_ammo_amount.text = str( clampi(amt, 0, 9999) )

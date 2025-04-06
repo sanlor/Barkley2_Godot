@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://qjrl8rvdrdn7"]
+
+[ext_resource type="Texture2D" uid="uid://t023ti4gfoo2" path="res://barkley2/assets/b2_original/images/merged/s_bullsparkle.png" id="1_4ycwu"]
+[ext_resource type="Script" uid="uid://dmhysxbvkkot7" path="res://barkley2/scenes/_Godot_Combat/combat_target.gd" id="2_da4hk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xi1hn"]
+atlas = ExtResource("1_4ycwu")
+region = Rect2(45, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyaic"]
+atlas = ExtResource("1_4ycwu")
+region = Rect2(60, 0, 15, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rndx7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xi1hn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyaic")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Curve" id="Curve_4ycwu"]
+_data = [Vector2(0, 0.431933), 0.0, 1.52136, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="combat_target" type="AnimatedSprite2D"]
+modulate = Color(0.44895, 1.30555e-06, 9.62615e-08, 1)
+top_level = true
+z_index = -1
+rotation = 5191.41
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_rndx7")
+autoplay = "default"
+frame_progress = 0.562123
+script = ExtResource("2_da4hk")
+my_target = null
+dist = null
+
+[node name="target_line" type="Line2D" parent="."]
+modulate = Color(0.993707, 0.284516, 0.222916, 1)
+top_level = true
+z_index = -1
+points = PackedVector2Array(4, 0, 47, 0)
+width = 5.0
+width_curve = SubResource("Curve_4ycwu")
+default_color = Color(1, 1, 1, 0.326)
+begin_cap_mode = 2
+end_cap_mode = 2

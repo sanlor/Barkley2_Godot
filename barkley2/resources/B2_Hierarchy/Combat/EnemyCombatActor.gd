@@ -38,13 +38,17 @@ var playing_animation 			:= "stand"
 @export var sound_death			:= ""
 
 @export_category("Enemy Stats")
-@export var enemy_name	:= ""
-@export var enemy_data	: B2_EnemyData
+@export var enemy_name				:= ""
+@export var enemy_data				: B2_EnemyData
+@export var enemy_weapon_type		: B2_Gun.TYPE
+@export var enemy_weapon_material	: B2_Gun.MATERIAL
+var enemy_ranged 					: B2_Weapon
+@export var enemy_melee				: B2_WeaponAttack ## TODO
 
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
-@export var inactive_ai : B2_AI_Wander
-#@export var chase_ai 	: B2_AI_Chase
-@export var combat_ai 	: B2_AI_Combat
+@export var inactive_ai 		: B2_AI_Wander
+#@export var chase_ai 			: B2_AI_Chase
+@export var combat_ai 			: B2_AI_Combat
 
 ## Control stuff
 var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
@@ -78,7 +82,9 @@ func _setup_enemy() -> void:
 		if not enemy_data:
 			enemy_data = B2_EnemyData.new()
 		enemy_data.apply_stats( enemy_name )
-
+		
+	enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
+	
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
 	emote.type = "!"
@@ -158,6 +164,18 @@ func cinema_look( _direction : Vector2 ) -> void:
 	movement_vector = _direction
 
 ## Combat stuff
+func get_combat_ai() -> B2_AI_Combat:
+	if combat_ai:
+		return combat_ai
+	else:
+		return B2_AI_Combat.new()
+		
+func get_inactive_ai() -> B2_AI_Wander:
+	if inactive_ai:
+		return inactive_ai
+	else:
+		return B2_AI_Wander.new()
+
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	if actor_is_dying: # dont process damage if the actor is dying.
 		return

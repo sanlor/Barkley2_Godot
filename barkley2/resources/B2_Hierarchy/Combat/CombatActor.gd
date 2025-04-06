@@ -39,8 +39,8 @@ var last_movement_vector 	:= Vector2.ZERO
 ## stop processing damage.
 var actor_is_dying := false
 
-func apply_damage( _damage : float) -> void:
-	push_warning("Method not setup for node %s." % name)
+#func apply_damage( _damage : float) -> void:
+#	push_warning("Method not setup for node %s." % name)
 
 ## Used for pathfinding to a specific location
 func set_movement_target(movement_target: Vector2):

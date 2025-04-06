@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=45 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" uid="uid://ceqeseg77uiw" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyCombatActor.gd" id="1_xh75j"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://clenkacyofxam" path="res://barkley2/resources/B2_AI/ai_wander_normal.gd" id="3_rchjj"]
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
+[ext_resource type="Script" uid="uid://bnj0tqbocuaui" path="res://barkley2/resources/B2_AI/ai_combat_normal.gd" id="4_w86x0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.25
@@ -300,7 +301,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "inactive_ai", "ActorNav", "ActorCol")]
+[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "inactive_ai", "combat_ai", "ActorNav", "ActorCol")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
 gravity_scale = 0.0
@@ -315,11 +316,16 @@ sound_damage = "junkbot_hurt"
 sound_death = "junkbot_death"
 enemy_name = "drone_egg"
 inactive_ai = NodePath("B2_AI_Wander_Normal")
+combat_ai = NodePath("B2_AI_Combat_Normal")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 
 [node name="B2_AI_Wander_Normal" type="Node" parent="."]
 script = ExtResource("3_rchjj")
+
+[node name="B2_AI_Combat_Normal" type="Node" parent="."]
+script = ExtResource("4_w86x0")
+metadata/_custom_type_script = "uid://bnj0tqbocuaui"
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_dr833")

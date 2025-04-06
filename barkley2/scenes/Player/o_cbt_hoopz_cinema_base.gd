@@ -102,12 +102,12 @@ var combat_last_input 		:= Vector2.ZERO
 
 ## Movement
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
-var velocity			:= Vector2.ZERO
+#var velocity			:= Vector2.ZERO
 
-var walk_speed			:= 5000000
-var roll_impulse		:= 20000
+var walk_speed			:= 500000 # 5000000
+var roll_impulse		:= 120000
 var walk_damp			:= 10.0
-var roll_damp			:= 2.5
+var roll_damp			:= 10.0
 
 ## Sound
 var min_move_dist 	:= 1.0
@@ -724,7 +724,10 @@ func _on_gun_down_timer_timeout() -> void:
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 75.0 ) ## Debug setup ## DEPRECATED
+			if body.has_method("damage_actor"):
+				## Roll damage
+				print( "Roll Damage: ", linear_velocity.length() )
+				body.damage_actor( [1,2,2,2,3].pick_random(), 	linear_velocity.normalized() * 50000.0 )
 			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:

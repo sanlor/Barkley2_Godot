@@ -14,22 +14,31 @@ signal battle_results_finished
 
 @onready var weapon_stats_mini: VBoxContainer = $weapon_stats_mini
 
-@onready var attack_btn: 	Button = $player_control_weapons/MarginContainer/VBoxContainer/attack_btn
-@onready var skill_btn: 	Button = $player_control_weapons/MarginContainer/VBoxContainer/skill_btn
-@onready var item_btn: 		Button = $player_control_weapons/MarginContainer/VBoxContainer/item_btn
-@onready var escape_btn: 	Button = $player_control_weapons/MarginContainer/VBoxContainer/escape_btn
+## Old menu
+@onready var player_control_weapons: 	B2_Border = $player_control_weapons
+@onready var player_control_move: 		B2_Border = $player_control_move
+@onready var player_control_defend: 	B2_Border = $player_control_defend
+#@onready var attack_btn: 				Button = $player_control_weapons/MarginContainer/VBoxContainer/attack_btn
+#@onready var skill_btn: 				Button = $player_control_weapons/MarginContainer/VBoxContainer/skill_btn
+#@onready var item_btn: 				Button = $player_control_weapons/MarginContainer/VBoxContainer/item_btn
+#@onready var escape_btn: 				Button = $player_control_weapons/MarginContainer/VBoxContainer/escape_btn
+#@onready var move_btn: 				Button = $player_control_move/MarginContainer/move_btn
+#@onready var defend_btn: 				Button = $player_control_defend/MarginContainer/defend_btn
 
-@onready var move_btn: 		Button = $player_control_move/MarginContainer/move_btn
-@onready var defend_btn: 	Button = $player_control_defend/MarginContainer/defend_btn
+## New cool menu
+@onready var player_controls_new: 	Control = $player_controls_new
+@onready var defend_btn: 			Button = $player_controls_new/menu_space/defend_btn
+@onready var attack_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/attack_btn
+@onready var skill_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/skill_btn
+@onready var item_btn: 				Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/item_btn
+@onready var escape_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/escape_btn
+@onready var move_btn: 				Button = $player_controls_new/menu_space/move_btn
 
-@onready var player_control_weapons: B2_Border = $player_control_weapons
-@onready var player_control_move: B2_Border = $player_control_move
-@onready var player_control_defend: B2_Border = $player_control_defend
-
+## Fluff
 @onready var instructions: RichTextLabel = $instructions
+@onready var slowdown_label: Label = $slowdown_label
 
 @onready var battle_results: Control = $battle_results
-@onready var slowdown_label: Label = $slowdown_label
 
 var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
@@ -89,7 +98,13 @@ func _input(event: InputEvent) -> void:
 						if event.is_action_pressed("Action"):
 							#player_character.shoot_gun()
 							var combat_manager := B2_CManager.combat_manager
-							combat_manager.shoot_projectile( player_character, B2_Gun.get_current_gun(), player_character.stop_aiming )
+							combat_manager.shoot_projectile( 
+								player_character, 
+								player_character.global_position + player_character.aim_target, 
+								B2_Gun.get_current_gun(), 
+								player_character.stop_aiming 
+								)
+								
 							action_queued()
 							resume_time()
 							print("%s: shoot" % self)
@@ -151,13 +166,13 @@ func resume_time( _time := 0.25 ):
 	print_rich("[color=pink]Time resumed.[/color]")
 
 func action_queued() -> void:
+	player_controls_new.show_menu()
 	player_control_weapons.show()
 	player_control_move.show()
 	player_control_defend.show()
 	instructions.hide()
 	B2_CManager.combat_manager.resume_combat()
 	curr_action = NOTHING
-	
 
 func _on_attack_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
@@ -168,6 +183,8 @@ func _on_attack_btn() -> void:
 		aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
 		player_character.aim_gun( aiming_angle )
 		
+	player_controls_new.hide_menu()
+	
 	player_control_weapons.hide()
 	player_control_move.hide()
 	player_control_defend.hide()
@@ -185,6 +202,8 @@ func _on_move_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
 	
 	player_character.point_at( aiming_angle, roll_power )
+		
+	player_controls_new.hide_menu()
 		
 	player_control_weapons.hide()
 	player_control_move.hide()
