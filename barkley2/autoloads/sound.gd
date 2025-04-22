@@ -1287,6 +1287,7 @@ func _init_sound_picks():
 	_add_sound_pick("kobold_spit", "sn_enemy_kobold_spit01");
 	_add_sound_pick("kobold_spit", "sn_enemy_kobold_spit02");
 	_add_sound_pick("kobold_spit", "sn_enemy_kobold_spit03");
+	
 	##/Plant Mimic
 	_add_sound_pick("plantmimic_death", "sn_plantmimic_death01");
 	_add_sound_pick("plantmimic_death", "sn_plantmimic_death02");
@@ -1304,7 +1305,7 @@ func _init_sound_picks():
 	_add_sound_pick("plantmimic_strike", "sn_plantmimic_strike02");
 	_add_sound_pick("plantmimic_strike", "sn_plantmimic_strike03");
 
-	##/vine monster
+	## vine monster
 	_add_sound_pick("vinemonster_death", "sn_enemy_vinemonster_death01");
 	_add_sound_pick("vinemonster_death", "sn_enemy_vinemonster_death02");
 	_add_sound_pick("vinemonster_death", "sn_enemy_vinemonster_death03");
@@ -1321,9 +1322,7 @@ func _init_sound_picks():
 	_add_sound_pick("vinemonster_spit", "sn_enemy_vinemonster_spit02");
 	_add_sound_pick("vinemonster_spit", "sn_enemy_vinemonster_spit03");
 
-
-
-	##/junkbot
+	## junkbot
 	_add_sound_pick("junkbot_death", "sn_junkbot_death01");
 	_add_sound_pick("junkbot_death", "sn_junkbot_death02");
 	_add_sound_pick("junkbot_death", "sn_junkbot_death03");

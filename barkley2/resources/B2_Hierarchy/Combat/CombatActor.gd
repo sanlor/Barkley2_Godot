@@ -6,6 +6,8 @@ signal actor_died				## used during combat.
 signal stop_animation 			## Stop all active animations (Walking, attacking, dodging, etc) ## NOTE it this used?
 signal destination_reached 		## Actor was moving, reached its destination.
 signal set_played 				## Actor was playing some animation, but its done now.
+
+
 @export var health 		:= 100.0
 
 ## Cinema Movement
@@ -68,6 +70,8 @@ func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
 		real_movement_vector 	= position.direction_to( _target_spot )
 		movement_vector 		= real_movement_vector.round()
 		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
+
+
 
 ## Function checks if the node is doing anything
 ## Return void right awai if its idle. Await for a signal if its busy.

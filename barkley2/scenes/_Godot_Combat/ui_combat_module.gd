@@ -177,6 +177,7 @@ func action_queued() -> void:
 func _on_attack_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
 	
+	## Disabled 22/04/25
 	if B2_Gun.get_current_gun():
 		# Set the current gun and aim at the first enemy on the list.
 		enemy_selected = enemy_selected # seems stupid, but this is important. avoid OOB array issues when enemies are removed/defeated.

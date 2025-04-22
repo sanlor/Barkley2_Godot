@@ -119,6 +119,8 @@ var move_target 	:= movement_vector ## Cinema stuff: Tells where the node should
 var aim_target 		:= movement_vector ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 var roll_power		:= 0.0
 
+var hit_tween : Tween
+
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self
 	B2_Playerdata.gun_changed.connect( _update_held_gun )
@@ -604,6 +606,14 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		hoopz_normal_body.stop()
 		hoopz_normal_body.animation = "stagger"
 		hoopz_normal_body.frame = 0
+		B2_Sound.play_pick( "general_impact" ) ## TODO Better impact sounds. check B2_Sound line 1025
+		
+		if hit_tween:
+			hit_tween.kill()
+		hit_tween = create_tween()
+		modulate = Color.WHITE * 5.0
+		hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+		
 	else:
 		B2_Sound.play_pick("crab_hit_metal")
 		@warning_ignore("narrowing_conversion")

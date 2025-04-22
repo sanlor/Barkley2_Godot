@@ -90,6 +90,13 @@ func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 	else:
 		## Trying to remove an enemy that wasnt on the enemy list
 		breakpoint
+		
+	## Cleanup the defeated enemy action (avoid dead enemies shooting bullets).
+	var stale_action : queue
+	for x : queue in action_queue:
+		if x.source_actor == enemy_node:
+			stale_action = x
+	action_queue.erase(stale_action)
 
 func tick_combat() -> void:
 	if not combat_paused:

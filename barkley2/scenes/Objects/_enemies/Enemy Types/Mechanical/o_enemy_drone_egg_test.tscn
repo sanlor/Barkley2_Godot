@@ -1,15 +1,16 @@
-[gd_scene load_steps=45 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=52 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" uid="uid://ceqeseg77uiw" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyCombatActor.gd" id="1_xh75j"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
 [ext_resource type="Texture2D" uid="uid://cbkjvgxcnh2sc" path="res://barkley2/assets/b2_original/images/merged/s_eggDrone01.png" id="2_hswbj"]
+[ext_resource type="Script" uid="uid://baa7udht7dxbe" path="res://barkley2/resources/B2_Enemies/Attacks/MeleeCharge.gd" id="3_p3mjv"]
 [ext_resource type="Script" uid="uid://clenkacyofxam" path="res://barkley2/resources/B2_AI/ai_wander_normal.gd" id="3_rchjj"]
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
 [ext_resource type="Script" uid="uid://bnj0tqbocuaui" path="res://barkley2/resources/B2_AI/ai_combat_normal.gd" id="4_w86x0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
-bounce = 0.25
+bounce = 0.45
 
 [sub_resource type="Resource" id="Resource_riqe7"]
 script = ExtResource("2_53ouf")
@@ -23,8 +24,58 @@ ANIMATION_NORTHEAST = "s_eggDroneUP01"
 ANIMATION_NORTHWEST = "s_eggDroneUP01"
 ANIMATION_EAST = "s_eggDroneDOWN01"
 ANIMATION_STAND_SPRITE_INDEX = [1, 1, 0, 0, 0, 0, 0, 1]
+CHARGE_UP = "CHARGE_UP"
+CHARGE_DOWN = "CHARGE_DOWN"
+
+[sub_resource type="Resource" id="Resource_p3mjv"]
+script = ExtResource("3_p3mjv")
+number_of_jumps = 2
+charge_time = 0.5
+charge_force = 100000.0
+charge_damage = 10
+metadata/_custom_type_script = "uid://baa7udht7dxbe"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr833"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_og0bc"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqek0"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxjci"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ogab"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c4qg"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffefo"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wg3q4"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvqc5"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3la1d"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m0n4l"]
+atlas = ExtResource("2_hswbj")
+region = Rect2(832, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fm5yu"]
 atlas = ExtResource("2_hswbj")
@@ -69,26 +120,6 @@ region = Rect2(448, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ws88f"]
 atlas = ExtResource("2_hswbj")
 region = Rect2(512, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ffefo"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(576, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wg3q4"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(640, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rvqc5"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(704, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3la1d"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(768, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m0n4l"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(832, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bl4hg"]
 atlas = ExtResource("2_hswbj")
@@ -138,28 +169,48 @@ region = Rect2(128, 0, 64, 64)
 atlas = ExtResource("4_p0dw7")
 region = Rect2(192, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_og0bc"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(0, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kqek0"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uxjci"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4ogab"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8c4qg"]
-atlas = ExtResource("2_hswbj")
-region = Rect2(256, 0, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_s3is4"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og0bc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqek0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxjci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ogab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c4qg")
+}],
+"loop": true,
+"name": &"CHARGE_DOWN",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffefo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wg3q4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvqc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3la1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0n4l")
+}],
+"loop": true,
+"name": &"CHARGE_UP",
+"speed": 15.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_fm5yu")
@@ -301,20 +352,51 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "inactive_ai", "combat_ai", "ActorNav", "ActorCol")]
+[sub_resource type="Curve" id="Curve_p3mjv"]
+_data = [Vector2(0, 0.258427), 0.0, 0.0, 0, 0, Vector2(0.49, 0.47191), 0.0, 0.0, 0, 0, Vector2(1, 0.0337079), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_h5xhx"]
+curve = SubResource("Curve_p3mjv")
+
+[sub_resource type="Curve" id="Curve_4kpmn"]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 7.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4jtvp"]
+curve = SubResource("Curve_4kpmn")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84gbg"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 4.0
+inherit_velocity_ratio = 0.25
+initial_velocity_min = 30.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, -78, 0)
+scale_curve = SubResource("CurveTexture_4jtvp")
+alpha_curve = SubResource("CurveTexture_h5xhx")
+
+[node name="o_enemy_drone_egg_test" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "smoke_emitter", "inactive_ai", "combat_ai", "ActorNav", "ActorCol")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
 gravity_scale = 0.0
 lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 5
 linear_damp = 10.0
 script = ExtResource("1_xh75j")
 shadow_scale = 1.5
 ActorAnim = NodePath("ActorAnim")
+smoke_emitter = NodePath("smoke_emitter")
 actor_animations = SubResource("Resource_riqe7")
 sound_alert = "junkbot_alert"
 sound_damage = "junkbot_hurt"
 sound_death = "junkbot_death"
+sound_charge = "junkbot_flamethrower_breath"
 enemy_name = "drone_egg"
+enemy_melee = SubResource("Resource_p3mjv")
 inactive_ai = NodePath("B2_AI_Wander_Normal")
 combat_ai = NodePath("B2_AI_Combat_Normal")
 ActorNav = NodePath("ActorNav")
@@ -333,7 +415,8 @@ shape = SubResource("CircleShape2D_dr833")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_s3is4")
-animation = &"s_eggDrone01"
+animation = &"CHARGE_UP"
+frame_progress = 0.524764
 centered = false
 offset = Vector2(-29, -50)
 metadata/facing = {
@@ -404,3 +487,13 @@ metadata/s_eggDroneDOWN01 = {
 }
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="smoke_emitter" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource("ParticleProcessMaterial_84gbg")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
