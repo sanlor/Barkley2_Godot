@@ -606,7 +606,8 @@ func _physics_process(delta: float) -> void:
 				hoopz_normal_body.speed_scale = 1.0
 				linear_damp = walk_damp
 				step_smoke.emitting = false
-				hoopz_normal_body.offset.y -= 15
+				hoopz_normal_body.flip_h = false
+				#hoopz_normal_body.offset.y -= 15
 				
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:
@@ -663,15 +664,22 @@ func _physics_process(delta: float) -> void:
 					# Roooolliiing staaaaart! ...here vvv
 					curr_STATE = STATE.ROLL
 					linear_damp = roll_damp
-					hoopz_normal_body.play( ROLL )
+					
 					var roll_dir 	: Vector2
 					#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 					var input 		:= Input.get_vector("Left","Right","Up","Down")
+					
+					## Cool ass animation
 					if input != Vector2.ZERO:
 						roll_dir 	= input
+						hoopz_normal_body.play( ROLL )
+						hoopz_normal_body.flip_h = roll_dir.x < 0
 					else:
 						# Use the mouse to decide the roll direction. (Inverted)
 						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
+						hoopz_normal_body.play( ROLL_BACK )
+						hoopz_normal_body.flip_h = roll_dir.x >= 0
+					
 					linear_velocity = Vector2.ZERO
 					apply_central_force( roll_dir * roll_impulse )
 					
@@ -683,8 +691,8 @@ func _physics_process(delta: float) -> void:
 					
 					## Fluff
 					B2_Sound.play("sn_hoopz_roll")
-					step_smoke.emitting = true
-					hoopz_normal_body.offset.y += 15
+					#step_smoke.emitting = true
+					#hoopz_normal_body.offset.y += 15
 					return
 				
 				# Take the input from the keyboard / Gamepag and apply directly.

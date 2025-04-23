@@ -195,14 +195,13 @@ func cinema_jump( times := 1 ) -> void:
 	return
 	
 func cinema_charge_telegraph( target_dir : Vector2 ) -> void:
+	## TODO add charging animation
 	curr_MODE = MODE.AIMING
 	if target_dir.y >= 0:
 		ActorAnim.play( actor_animations.CHARGE_DOWN )
 	else:
 		ActorAnim.play( actor_animations.CHARGE_UP )
 	ActorAnim.flip_h = target_dir.x < 0
-		
-	## TODO add charging animation
 	return
 	
 func cinema_charge_at( _charge_target : Vector2, _charge_speed : float ) -> void:

@@ -40,12 +40,13 @@ var max_action_sfx_played 		:= false
 @export var att					:= 30.0
 @export var spd					:= 30.0
 @export var acc					:= 30.0 ## Lower is better
+@export var afx					:= 30.0 ## Affix is not used currently
 
 @export var max_action			:= 100.0
 var curr_action					:= 100.0 #0.0
 
-var max_ammo					:= 300
-var curr_ammo					:= 300
+var max_ammo					:= 30
+var curr_ammo					:= 30
 
 @export var attack_cost			:= 90			## How many action point cost for reloading this weapon
 
@@ -80,6 +81,18 @@ func get_full_name() -> String:
 		full_name += " " + suffix["name"]
 	
 	return full_name
+
+func get_power_mod() -> float:
+	return (type_data._pow + material_data._pow) / 2.0
+
+func get_speed_mod() -> float:
+	return (type_data._spd + material_data._spd) / 2.0
+
+func get_ammo_mod() -> float:
+	return (type_data._amm + material_data._amm) / 2.0
+	
+func get_affix_mod() -> float:
+	return (type_data._afx + material_data._afx) / 2.0
 
 func get_held_sprite() -> String:
 	return type_data.gunHeldSprite
@@ -214,7 +227,7 @@ func use_skill_attack( _skill_id : int ) -> void:
 #region Weapon Mgmt
 func increase_action() -> void:
 	if has_ammo():
-		var my_spd 		:= spd * 0.50
+		var my_spd 		:= spd * 0.10
 		curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
 		
 		## Play the "ready" sfx.

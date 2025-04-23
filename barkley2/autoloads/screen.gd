@@ -109,9 +109,10 @@ func set_cursor_type( type : TYPE) -> void:
 	mouse.modulate.a = 1.0
 			
 
-func display_damage_number( caller_node : Node, damage : int ) -> void:
+func display_damage_number( caller_node : Node, damage, color := Color.WHITE, linger_time := 2.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
-	d.setup(caller_node, damage)
+	d.setup(caller_node, damage, linger_time)
+	d.modulate = color
 	caller_node.add_sibling(d)
 
 func show_notify_screen( text : String ) -> void:

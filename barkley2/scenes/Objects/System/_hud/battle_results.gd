@@ -43,9 +43,9 @@ func _next_message() -> void:
 ## TODO tween_animation
 func display_battle_results() -> void:
 	show()
+	_next_message()
 	animation_player.play("show_menu")
 	await animation_player.animation_finished
-	_next_message()
 	can_change_msg = true
 	
 ## TODO tween_animation

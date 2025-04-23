@@ -66,7 +66,9 @@ enum MATERIAL{
 	NONE,
 	}
 	
-enum GROUP{ ## Weapon groups. no idea how its used.
+## Weapon groups. no idea how its used.
+## 22-04-25 I have some idea how its used. It kinda defines how the gun behaves, like a shotgun spreads bullets while an automatic fires directly multiple times.
+enum GROUP{ 
 	AUTOMATIC,
 	MOUNTED,
 	PISTOLS,
@@ -390,7 +392,33 @@ const TYPE_LIST : Dictionary[TYPE, String] = {
 	TYPE.GUN_TYPE_SUBMACHINEGUN : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SUBMACHINEGUN.tres"),
 	TYPE.GUN_TYPE_TRANQRIFLE : ("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_TRANQRIFLE.tres"),
 }
-
+const GROUP_LIST : Dictionary[TYPE, GROUP] = {
+	TYPE.GUN_TYPE_ASSAULTRIFLE : 		GROUP.AUTOMATIC,
+	TYPE.GUN_TYPE_BFG : 				GROUP.MOUNTED,
+	TYPE.GUN_TYPE_CROSSBOW : 			GROUP.PROJECTILE,
+	TYPE.GUN_TYPE_DOUBLESHOTGUN : 		GROUP.SHOTGUNS,
+	TYPE.GUN_TYPE_ELEPHANTGUN : 		GROUP.SHOTGUNS,
+	TYPE.GUN_TYPE_FLAMETHROWER : 		GROUP.PROJECTILE,
+	TYPE.GUN_TYPE_FLAREGUN : 			GROUP.PROJECTILE,
+	TYPE.GUN_TYPE_FLINTLOCK : 			GROUP.PISTOLS,
+	TYPE.GUN_TYPE_GATLINGGUN : 			GROUP.MOUNTED,
+	TYPE.GUN_TYPE_HEAVYMACHINEGUN : 	GROUP.AUTOMATIC,
+	TYPE.GUN_TYPE_HUNTINGRIFLE : 		GROUP.RIFLES,
+	TYPE.GUN_TYPE_MACHINEPISTOL : 		GROUP.AUTOMATIC,
+	TYPE.GUN_TYPE_MAGNUM : 				GROUP.PISTOLS,
+	TYPE.GUN_TYPE_MINIGUN : 			GROUP.MOUNTED,
+	TYPE.GUN_TYPE_MITRAILLEUSE : 		GROUP.MOUNTED,
+	TYPE.GUN_TYPE_MUSKET : 				GROUP.RIFLES,
+	TYPE.GUN_TYPE_PISTOL : 				GROUP.PISTOLS,
+	TYPE.GUN_TYPE_REVOLVER : 			GROUP.PISTOLS,
+	TYPE.GUN_TYPE_REVOLVERSHOTGUN : 	GROUP.SHOTGUNS,
+	TYPE.GUN_TYPE_RIFLE : 				GROUP.RIFLES,
+	TYPE.GUN_TYPE_ROCKET : 				GROUP.PROJECTILE,
+	TYPE.GUN_TYPE_SHOTGUN : 			GROUP.SHOTGUNS,
+	TYPE.GUN_TYPE_SNIPERRIFLE : 		GROUP.RIFLES,
+	TYPE.GUN_TYPE_SUBMACHINEGUN : 		GROUP.AUTOMATIC,
+	TYPE.GUN_TYPE_TRANQRIFLE : 			GROUP.RIFLES,
+}
 
 ## Merged sprite sheet. way simpler.
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")
@@ -472,17 +500,102 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 	if affix_rand < geneAffixChance:
 		wpn.suffix = suffix.pick_random()
 		
-	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
-	wpn.att = randi_range(1,9)
-	wpn.spd = randi_range(1,9)
-	#wpn.lck = randi_range(1,9) ## TEMP
-	wpn.acc = randi_range(1,9)
+	apply_stats( wpn )
 		
 	## Add graphic data, textures, colors, etc.
 	weapon_graphics( wpn )
 		
+	## Adjust some details
+	## check scr_combat_weapons_prepPattern()
+	wpn.weapon_group = GROUP_LIST.get( wpn.weapon_type, GROUP.NONE ) ## Group is important for the type of fire that the weapon uses.
+	match wpn.weapon_group:
+		GROUP.NONE:
+			## summtin isnt right.
+			breakpoint
+		GROUP.SHOTGUNS:
+			wpn.bullets_per_shot 	= 10
+			wpn.ammo_per_shot 		= 1
+			wpn.wait_per_shot 		= 0.0
+			wpn.bullet_spread 		= 0.35
+			if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
+				wpn.bullets_per_shot 	*= 2
+				wpn.ammo_per_shot 		*= 2
+				
+		GROUP.AUTOMATIC:
+			wpn.bullets_per_shot 	= 10
+			wpn.ammo_per_shot 		= 10
+			wpn.wait_per_shot 		= 0.05
+			wpn.bullet_spread 		= 0.1
+			
+		GROUP.MOUNTED:
+			wpn.bullets_per_shot 	= 25
+			wpn.ammo_per_shot 		= 25
+			wpn.wait_per_shot 		= 0.05
+			wpn.bullet_spread 		= 0.20
+			
+		GROUP.PISTOLS:
+			wpn.bullets_per_shot 	= 3
+			wpn.ammo_per_shot 		= 3
+			wpn.wait_per_shot 		= 0.2
+			wpn.bullet_spread 		= 0.05
+			
+		GROUP.PROJECTILE:
+			wpn.bullets_per_shot 	= 1
+			wpn.ammo_per_shot 		= 1
+			wpn.wait_per_shot 		= 0.0
+			wpn.bullet_spread 		= 0.0
+			
+		GROUP.RIFLES:
+			wpn.bullets_per_shot 	= 1
+			wpn.ammo_per_shot 		= 1
+			wpn.wait_per_shot 		= 0.1
+			wpn.bullet_spread 		= 0.025
+		_:
+			## summtin REEEALY isnt right.
+			breakpoint
+			
 	return wpn
 	
+static func apply_stats( wpn : B2_Weapon ) -> void:
+	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
+	## 22/04/25 Stat generation is scary.
+	
+	var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
+	var points_left 	:= points
+	var poinst_each 	:= points_left / 7
+	
+	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_power_mod() -1 ) / 2 ) + 1 ) )
+	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_speed_mod() -1 ) / 2 ) + 1 ) )
+	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_ammo_mod() -1 ) / 2 ) + 1 ) )
+	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_affix_mod() -1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
+	#wpn.lck = randi_range(1,9) ## TEMP
+	#wpn.acc = randi_range(1,9)
+		
+	wpn.att 		= max(wpn.att, 0, 90 )
+	wpn.spd 		= max(wpn.spd, 0, 90 )
+	wpn.afx 		= max(wpn.afx, 0, 90 )
+	wpn.max_ammo 	= max(wpn.max_ammo, 0, 90 )
+	
+	## distribute remaining core points randomly
+	var remain_points = poinst_each * 2 + ( poinst_each * 5 - ( wpn.att + wpn.spd + wpn.max_ammo + wpn.afx ) );
+		
+	var tries := 10;
+	while remain_points > 0:
+		match randi_range(0,3):
+			0: pass
+			1: pass
+			2: pass
+			3: pass
+		
+		var tryit := false ## if a weapon generates an individual stat above 90, it tries again
+		if wpn.att > 90: wpn.att = 90; 				tryit = true
+		if wpn.spd > 90: wpn.spd = 90; 				tryit = true
+		if wpn.max_ammo > 90: wpn.max_ammo = 90; 	tryit = true
+		if wpn.afx > 90: wpn.afx = 90; 				tryit = true
+		
+		## after 10 tries it gives up on fitting the points, and points are lost.
+		if !tryit || tries <= 0: 	remain_points -= 1
+		else:						tries -= 1 
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> void:
 	## scr_combat_weapons_applyGraphic

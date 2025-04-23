@@ -17,8 +17,8 @@ var player_character 	: B2_HoopzCombatActor						## In this game, only one playe
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
-var combat_paused := false
-
+var combat_paused 	:= false
+var escaped_combat	:= false ## enabled if the player escaped combat
 var action_queue : Array[queue]
 
 class queue: # class used for action queue
@@ -66,16 +66,28 @@ func resume_combat() -> void:
 	B2_Input.can_switch_guns = true
 	combat_paused = false
 
+func escape_combat() -> void:
+	action_queue.clear()
+	for i in enemy_list:
+		if is_instance_valid(i):
+			i.queue_free()
+	enemy_list.clear()
+	escaped_combat = true
+
 func finish_combat() -> void:
 	pause_combat()
-	B2_Music.play("shitworld") ## Test music
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
 	B2_CManager.o_cbt_hoopz.victory_anim()
 	
-	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 1!", "sn_cursor_pausemenu01")
-	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_cursor_error01")
-	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 3!", "sn_cursor_select01")
-	B2_CManager.o_hud.get_combat_module().add_result_message("Test message 4!", "sn_utilitycursor_buttonclick01")
+	if escaped_combat:
+		B2_CManager.o_hud.get_combat_module().add_result_message("Escaped combat with your tail behind your legs!", "sn_cursor_pausemenu01")
+		B2_Music.stop(1.0) ## No music for pussies.
+	else:
+		B2_Music.play("shitworld") ## Test music
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 1!", "sn_cursor_pausemenu01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_cursor_error01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 3!", "sn_cursor_select01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 4!", "sn_utilitycursor_buttonclick01")
 	
 	B2_CManager.o_hud.get_combat_module().show_battle_results()
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
@@ -100,6 +112,7 @@ func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 
 func tick_combat() -> void:
 	if not combat_paused:
+		## Pretty important. Won't tell you why.
 		B2_CManager.o_hud.get_combat_module().tick_combat()
 		
 		## Check if the combat is finished ( no enemies are on the battlefield )
@@ -108,32 +121,32 @@ func tick_combat() -> void:
 			finish_combat()
 			return
 		
+		## Increase weapon action
 		for wpn : B2_Weapon in B2_Playerdata.bandolier:
 			wpn.increase_action()
 		
+		## increase player action
 		if B2_Playerdata.player_stats.increase_action():
 			## TODO player action (move, defend)
 			if randf() > 0.9: ## TEMP
 				#B2_Playerdata.player_stats.reset_action()
 				pass
 		
+		## Increase enemy action and perform action when ready.
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
 					
 					if enemy.get_combat_ai().combat_action( player_character, enemy_list, self ):
 						return
-					#enemy.enemy_data.reset_action() ## TEMP
-					#print( "DEBUG: enemy action ", enemy )
-					#var debug_wpn := B2_Gun.generate_gun()
-					#shoot_projectile( enemy, debug_wpn, Callable() )
 				else:
 					pass
 			else:
 				## Forgot to add enemy data.
+				push_warning("%s: Forgot to add enemy data." % self)
 				breakpoint
 		
-		# Check action queue
+		## Check action queue
 		if action_queue.size() > 0:
 			# Exec action queue
 			var action : queue = action_queue.pop_front(); print("Executing action.")
