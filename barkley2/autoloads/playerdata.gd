@@ -78,16 +78,23 @@ var transition_timer = 25; ## was 14 (bhroom 190529))
 var player_node : CharacterBody2D
 var camera_node : Camera2D
 
-var game_timer : Timer
+var game_timer : Timer # forgot what this does. is this the quest timer?
 
 ## Player data (Wow, what a concept)
-var selected_gun := 0 :
-	set(s): selected_gun = wrapi( s, 0, bandolier.size() ); gun_changed.emit()
-var bandolier 	: Array[B2_Weapon]
-var gun_bag 	: Array[B2_Weapon]
-
 var player_stats := B2_HoopzStats.new() ## Fuck the original stat system, its too confusing.
 ## CRITICAL need to add this to the save game file ( Serialized by var_to_bytes() )
+
+## Guns and goblins (no goblins :(( )
+var selected_gun := 0 :
+	set(s): selected_gun = wrapi( s, 0, bandolier.size() ); gun_changed.emit()
+var bandolier 	: Array[B2_Weapon] ## Main weapons
+var gun_bag 	: Array[B2_Weapon] ## Trash weapons
+
+## Jerkin stuff
+## NOTE should store dictionaries like this: { "Butterscotch": 5 } -> {"Item": amount}
+# Yes, items can stack in this. max of 5 items or something.
+var jerkin_pockets : Array[ Dictionary ] = []
+
 
 func _ready():
 	character_inkblots.resize( 16 )
@@ -151,6 +158,12 @@ func SaveGame():
 		if not B2_Input.cutscene_is_playing: # Make sure that the game isn't saved during a cutscene.
 			B2_Config.create_user_save_data( B2_Config.selected_slot )
 	
+func Stat( stat_name : String, new_value = null ):
+	if new_value:
+		player_stats.set( stat_name, new_value )
+	else:
+		return player_stats.get_effective_stat( stat_name )
+	
 ## This func replaces the Quests script.
 func Quest(key : String, value = null, default = 0):
 	# if value is not found, return "default"
@@ -169,8 +182,6 @@ func Quest(key : String, value = null, default = 0):
 		
 func get_quest_state(key : String, default = null ):
 	return B2_Config.get_user_save_data( "quest.vars." + key, default )
-
-
 	
 # Similar to the Quest function on B2_PlayerData
 func Note(key : String, value = null, default = 0):
@@ -364,30 +375,33 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("player.deaths.current", 0);
 	
 	## Jerkins (Player starts with the Cornhusk Jerkin!) - Bhroom
-	B2_Config.set_user_save_data("player.jerkins.has", 			Dictionary() ); # ds_list of jerkins the player has
-	B2_Config.set_user_save_data("player.jerkins.current", 		""); # Hoopz current jerkin
-	#Jerkin("reset"); 						TODO
-	#Jerkin("gain", "Cornhusk Jerkin"); 	TODO
-	#Jerkin("equip", "Cornhusk Jerkin"); 	TODO
+	B2_Config.set_user_save_data("player.jerkins.has", 			[] ); 	# ds_list of jerkins the player has
+	B2_Config.set_user_save_data("player.jerkins.current", 		""); 	# Hoopz current jerkin
+	
+	B2_Jerkin.reset() 								# TODO
+	B2_Jerkin.gain_jerkin("Cornhusk Jerkin") 		# TODO
+	B2_Jerkin.equip_jerkin("Cornhusk Jerkin") 		# TODO
 	
 	# Maps
 	B2_Map.gain_map( "Necron 7 - 666th Floor" )
 	
-	B2_Config.set_user_save_data("player.chips.has", 			Dictionary() );
+	# Chips
+	## NOTE WTF are these?
+	B2_Config.set_user_save_data("player.chips.has", 			[] );
 	B2_Config.set_user_save_data("player.chips.current", 		"");
 
 	# Items
-	B2_Config.set_user_save_data("player.items.has", 			Dictionary() );
-	B2_Config.set_user_save_data("player.schematics.zaubers", 	Dictionary() );
-	B2_Config.set_user_save_data("player.schematics.relics", 	Dictionary() );
+	B2_Config.set_user_save_data("player.items.has", 			[] );
+	B2_Config.set_user_save_data("player.schematics.zaubers", 	[] );
+	B2_Config.set_user_save_data("player.schematics.relics", 	[] );
 	
 	# Candy
-	B2_Config.set_user_save_data("player.schematics.candy", 	Dictionary() );
+	B2_Config.set_user_save_data("player.schematics.candy", 	[] );
 	# Candy("reset"); TODO
 	# Candy("current", NULL); TODO
 	
 	# Zauber
-	B2_Config.set_user_save_data("player.zaubers", 				Dictionary() );
+	B2_Config.set_user_save_data("player.zaubers", 				[] );
 	# Zauber("reset"); TODO
 	
 	# Humanism

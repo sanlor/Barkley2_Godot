@@ -230,7 +230,8 @@ func _on_escape_btn() -> void:
 	if randi_range(0,9) > 9: ## chances of running from battle.
 		## Escape failed, reset action for everything.
 		B2_Sound.play("sn_cursor_error01")
-		B2_Screen.display_damage_number( player_character, "Failed...", Color.RED, 4.0 )
+		var msg := ["Failed...", "Borked it...", "Too Slow...", "Wasnt able to..."]
+		B2_Screen.display_damage_number( player_character, msg.pick_random(), Color.RED, 4.0 )
 	else:
 		darken_screen()
 	pass

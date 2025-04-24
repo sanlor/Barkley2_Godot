@@ -7,7 +7,7 @@ var portrait_map := {
 	
 }
 # check Portrait("db")
-var portrait_from_name := {
+const portrait_from_name := {
 	"Zane" : "s_port_zane",
 	"Zane Brain" : "s_port_zaneBrain",
 	"Egg Drone" : "s_port_eggDrone",
@@ -282,7 +282,7 @@ var portrait_from_name := {
 	}
 
 # Gamemaker Color list. check https://manual.gamemaker.io/lts/en/GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/Colour_And_Alpha.htm
-var gamemaker_colors := {
+const gamemaker_colors := {
 	"c_aqua":	  	16776960,
 	"c_black": 	  	0,
 	"c_blue":	  	16711680,
@@ -305,11 +305,11 @@ var gamemaker_colors := {
 }
 
 # Color stuff: GMS constants
-var c_bio		:= Color8(27, 255, 1)
-var c_cosmic	:= Color8(207, 83, 0)
-var c_cyber		:= Color8(84, 186, 254)
-var c_mental	:= Color8(226, 154, 138)
-var c_zauber	:= Color8(211, 42, 222)
+const c_bio		:= Color8(27, 255, 1)
+const c_cosmic	:= Color8(207, 83, 0)
+const c_cyber	:= Color8(84, 186, 254)
+const c_mental	:= Color8(226, 154, 138)
+const c_zauber	:= Color8(211, 42, 222)
 
 var last_zone_name := ""
 

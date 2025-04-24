@@ -17,6 +17,7 @@ enum EFFECT{ DAMAGE, RECOVERY }
 @export var weapon_group 	:= B2_Gun.GROUP.PISTOLS
 
 var weapon_name			:= ""
+var weapon_short_name	:= ""
 var weapon_pickup_name 	:= ""
 var weapon_pickup_color	:= Color.WHITE
 
@@ -41,6 +42,7 @@ var max_action_sfx_played 		:= false
 @export var spd					:= 30.0
 @export var acc					:= 30.0 ## Lower is better
 @export var afx					:= 30.0 ## Affix is not used currently
+@export var wgt					:= 10.0
 
 @export var max_action			:= 100.0
 var curr_action					:= 100.0 #0.0
@@ -81,6 +83,9 @@ func get_full_name() -> String:
 		full_name += " " + suffix["name"]
 	
 	return full_name
+
+func get_short_name() -> String:
+	return weapon_short_name
 
 func get_power_mod() -> float:
 	return (type_data._pow + material_data._pow) / 2.0

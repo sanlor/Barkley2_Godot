@@ -7,7 +7,7 @@ class_name B2_HoopzStats
 const STAT_CURRENT_HP 					:= "curr_health"
 const STAT_EFFECTIVE_MAX_HP 			:= "max_health"
 
-const STAT_BASE_HP 						:= "hp"
+const STAT_BASE_HP 						:= "curr_health" # "hp"
 const STAT_BASE_LEVEL 					:= "lvl"
 const STAT_BASE_SPEED 					:= "speed" ## NOTE Will go unused (probably)
 const STAT_BASE_WEIGHT 					:= "weight" ## NOTE Will go unused (probably)
@@ -20,22 +20,22 @@ const STAT_BASE_MIGHT 					:= "MIGHT"
 const STAT_BASE_PIETY 					:= "PIETY"
 
 ## Resistances
-const STAT_BASE_RESISTANCE_BIO 			:= "res_bio"
-const STAT_BASE_RESISTANCE_COSMIC 		:= "res_cosmic"
-const STAT_BASE_RESISTANCE_CYBER 		:= "res_cyber"
-const STAT_BASE_RESISTANCE_KNOCKBACK 	:= "res_knockback"
-const STAT_BASE_RESISTANCE_MENTAL 		:= "res_mental"
-const STAT_BASE_RESISTANCE_NORMAL 		:= "res_normal"
-const STAT_BASE_RESISTANCE_STAGGER 		:= "res_stagger"
-const STAT_BASE_RESISTANCE_ZAUBER 		:= "res_zauber"
+const STAT_BASE_RESISTANCE_BIO 			:= "resistance_bio"
+const STAT_BASE_RESISTANCE_COSMIC 		:= "resistance_cosmic"
+const STAT_BASE_RESISTANCE_CYBER 		:= "resistance_cyber"
+const STAT_BASE_RESISTANCE_KNOCKBACK 	:= "resistance_knockback"
+const STAT_BASE_RESISTANCE_MENTAL 		:= "resistance_mental"
+const STAT_BASE_RESISTANCE_NORMAL 		:= "resistance_normal"
+const STAT_BASE_RESISTANCE_STAGGER 		:= "resistance_stagger"
+const STAT_BASE_RESISTANCE_ZAUBER 		:= "resistance_zauber"
 
 ## Vulnerabilities
-const STAT_BASE_VULN_BIO 				:= "vul_bio"
-const STAT_BASE_VULN_COSMIC 			:= "vul_cosmic"
-const STAT_BASE_VULN_CYBER 				:= "vul_cyber"
-const STAT_BASE_VULN_MENTAL 			:= "vul_mental"
-const STAT_BASE_VULN_NORMAL 			:= "vul_normal"
-const STAT_BASE_VULN_ZAUBER 			:= "vul_zauber"
+const STAT_BASE_VULN_BIO 				:= "vuln_bio"
+const STAT_BASE_VULN_COSMIC 			:= "vuln_cosmic"
+const STAT_BASE_VULN_CYBER 				:= "vuln_cyber"
+const STAT_BASE_VULN_MENTAL 			:= "vuln_mental"
+const STAT_BASE_VULN_NORMAL 			:= "vuln_normal"
+const STAT_BASE_VULN_ZAUBER 			:= "vuln_zauber"
 
 ## Element - How is this used?
 const STAT_ATTACK_DMG_BIO 				:= "dmg_bio"
@@ -66,6 +66,8 @@ var curr_action					:= 0.0
 var max_health					:= 50.0
 var curr_health					:= 50.0
 
+var lvl							:= 12.0
+
 ## Main Stats
 var guts					:= 12.0
 var luck  					:= 12.0 
@@ -87,11 +89,11 @@ var resistance_stagger  	:= 12.0
 var resistance_knockback  	:= 12.0
 
 ## Element - How is this used?
-var zauber  				:= 3.0 
-var cosmic  				:= 0.0 
-var bio  					:= 0.0
-var mental  				:= 0.0 
-var cyber  					:= 0.0
+var dmg_zauber  			:= 3.0 
+var dmg_cosmic  			:= 0.0 
+var dmg_bio  				:= 0.0
+var dmg_mental  			:= 0.0 
+var dmg_cyber  				:= 0.0
 
 ## Vulnerabilities
 var vuln_mental  			:= 4.0 
@@ -111,11 +113,15 @@ func set_base_stat( stat : String, value : float ) -> void:
 		push_error("%s is not a valid stat." % stat)
 
 func get_base_stat( stat : String ):
-	return get(stat)
+	if get( stat.to_lower() ) == null:
+		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
+	return get( stat.to_lower() )
 
 ## TODO Setup effective stats
 func get_effective_stat( stat : String ):
-	return get(stat)
+	if get( stat.to_lower() ) == null:
+		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
+	return get( stat.to_lower() )
 
 func get_curr_action() -> float:
 	return curr_action
@@ -144,30 +150,3 @@ func increase_action() -> bool:
 
 func reset_action() -> void:
 	curr_action = 0.0
-	
-#static func Effective_Stat(stat_name : String, value = null, default = 0):
-	#Stat(stat_name, value, default, "effective")
-#
-#static func Stat(stat_name : String, value = null, default = 0, type := "base"):
-	## if value is not found, return "default"
-	#var statpath = "player.stats." + type + "." + stat_name
-	#
-	#if value == null:
-		#var _key_value = B2_Config.get_user_save_data(statpath)
-		#if _key_value == null:
-			#return default
-		#elif _key_value is Dictionary:
-			#if _key_value.is_empty():
-				## when checking the player stats, you should only get int or floats.
-				## Dictionaries means that the stat was never set. in this case, dicts should always be empty.
-				#return default
-			#else:
-				## filled dicts means something went wrong. 
-				#breakpoint
-				#return default
-		#else:
-			#return _key_value
-	#else:
-		#B2_Config.set_user_save_data(statpath, value)
-		#B2_Playerdata.stat_updated.emit()
-		#return true

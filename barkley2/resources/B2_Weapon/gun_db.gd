@@ -442,7 +442,7 @@ const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 #region Gun creation
 # Check Drop("generate") line 396
 ## For now, luck stat plays no part in this
-static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE ) -> B2_Weapon:
+static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "" ) -> B2_Weapon:
 	var wpn := B2_Weapon.new()
 	
 	## Pick weapon type if not specified
@@ -459,10 +459,6 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 	
 	## Get the type resource
 	wpn.type_data = weapon_type( wpn.weapon_type )
-	
-	## Set base name
-	wpn.weapon_name = gun_names[ wpn.weapon_type ]
-	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
 	
 	## Pick weapon material if not specified
 	if material != MATERIAL.NONE:
@@ -487,20 +483,46 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE 
 		push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
 	## Pick affixes
+	var affix_count := 0
 	var affix_rand := 0
 	affix_rand = randi_range(0,99)
 	if affix_rand < geneAffixChance:
 		wpn.prefix1 = prefix1.pick_random()
+		affix_count += 1
 		
 	affix_rand = randi_range(0,99)
 	if affix_rand < geneAffixChance:
 		wpn.prefix2 = prefix2.pick_random()
+		affix_count += 1
 		
 	affix_rand = randi_range(0,99)
 	if affix_rand < geneAffixChance:
 		wpn.suffix = suffix.pick_random()
+		affix_count += 1
 		
 	apply_stats( wpn )
+		
+	## Set base name
+	if wpn.weapon_material != MATERIAL.STEEL:
+		wpn.weapon_name = str( MATERIAL.keys()[wpn.weapon_material] ).capitalize() + " " + gun_names[ wpn.weapon_type ] ## material different from steel have a different name.
+	else:
+		wpn.weapon_name = gun_names[ wpn.weapon_type ]
+		
+	if wpn_name:
+		wpn.weapon_short_name = wpn_name
+	else:
+		## o_debugMode_gunfusinglab
+		wpn.weapon_short_name = char( 65 + floor( randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor( randi_range(0,26) ) );
+	
+	var tx := ""
+	match affix_count:
+		1: tx = ["bizarre ","eerie ","odd ","weird "].pick_random(); wpn.weapon_pickup_color = Color.AQUA
+		2: tx = ["rare ","special ","strange ","glowing "].pick_random(); wpn.weapon_pickup_color = Color.YELLOW
+		3: tx = ["mystical ","ancient ", "mythical ","impossible ","grotesque "].pick_random(); Color.from_rgba8(213,114,177)
+			
+	wpn.weapon_pickup_name = tx + wpn.weapon_name
+	
+	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
 		
 	## Add graphic data, textures, colors, etc.
 	weapon_graphics( wpn )
@@ -562,6 +584,7 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	
 	var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
 	var points_left 	:= points
+	@warning_ignore("integer_division")
 	var poinst_each 	:= points_left / 7
 	
 	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_power_mod() -1 ) / 2 ) + 1 ) )
@@ -658,6 +681,11 @@ static func next_band_gun() -> void:
 static func prev_band_gun() -> void:
 	B2_Playerdata.selected_gun -= 1
 	# push_warning("DEBUG disabled")
+	
+static func select_band_gun( id : int ) -> void:
+	if id > B2_Playerdata.bandolier.size():
+		push_error("Tried to select a weapon that does not exist.")
+	B2_Playerdata.selected_gun = id
 	
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.bandolier.is_empty():

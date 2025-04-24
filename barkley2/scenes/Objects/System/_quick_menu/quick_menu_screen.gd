@@ -33,6 +33,12 @@ const left_gun_shown_x	:= 0
 @onready var left: Control = $left
 @onready var gun_name_panel: B2_Border = $gun_name_panel
 
+@onready var prefix_1: Label 	= $gun_name_panel/HBoxContainer/prefix1
+@onready var prefix_2: Label 	= $gun_name_panel/HBoxContainer/prefix2
+@onready var gun_name: Label 	= $gun_name_panel/HBoxContainer/gun_name
+@onready var suffix: Label 		= $gun_name_panel/HBoxContainer/suffix
+
+
 @onready var g_stat: Label = $right/glamp/G_stat
 @onready var l_stat: Label = $right/glamp/L_stat
 @onready var a_stat: Label = $right/glamp/A_stat
@@ -42,6 +48,10 @@ const left_gun_shown_x	:= 0
 @onready var lvl_stat: Label = $right/lvl_stat
 @onready var hp_stat: Label = $right/hp_stat
 @onready var weight_stat: Label = $right/weight_stat
+
+## Left
+const GUN_BTN = preload("res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn")
+@onready var gun_list: VBoxContainer = $left/gun_list
 
 ## Bottom
 const bottom_hidden_y 	:= 210.0
@@ -66,6 +76,7 @@ const tween_speed := 0.15
 func _ready() -> void:
 	load_top_menu() # Zaubers and shiet.
 	load_right_menu() # Stats and gearshift knob.
+	load_left_menu() # Guns, guns and guns!
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.CURSOR )
 	
 	left.position.x 			= left_hidden_x
@@ -157,6 +168,18 @@ func _on_items_btn_pressed() -> void:
 	await tween.finished
 	show_menu()
 
+func load_left_menu() -> void:
+	for b in gun_list.get_children(): # Cleanup placeholder buttons
+		b.queue_free()
+	var id := 0
+	for gun : B2_Weapon in B2_Gun.get_bandolier():
+		var btn := GUN_BTN.instantiate()
+		btn.pressed.connect( B2_Gun.select_band_gun.bind(id) )
+		id += 1
+		
+		gun_list.add_child( btn )
+		btn.setup_button( gun )
+
 func load_top_menu() -> void:
 	## TODO Add Zaubers
 	pass
@@ -179,19 +202,19 @@ func load_right_menu() -> void:
 	shift_knob.position -= Vector2( 4, 9) ## weird offset.
 	
 	## Defense stat
-	defense_stat.text = str( B2_Playerdata.Stat("res_normal") )
+	defense_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_RESISTANCE_NORMAL ) ).pad_decimals(0)
 
 	## GLAMP
-	g_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_GUTS ) )
-	l_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_LUCK ) )
-	a_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_AGILE ) )
-	m_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_MIGHT ) )
-	p_stat.text = str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_PIETY ) )
+	g_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_GUTS ) ).pad_decimals(0)
+	l_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_LUCK ) ).pad_decimals(0)
+	a_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_AGILE ) ).pad_decimals(0)
+	m_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_MIGHT ) ).pad_decimals(0)
+	p_stat.text = str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_PIETY ) ).pad_decimals(0)
 	
 	## LVL and HP
-	lvl_stat.text 		= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_LEVEL ) ) # str( B2_Config.get_user_save_data( "player.xp.questxp", 0 ) )
-	hp_stat.text 		= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_HP ) )
-	weight_stat.text 	= str( B2_Playerdata.Stat( B2_Playerdata.STAT_BASE_WEIGHT ) ) # str( B2_Playerdata.Stat("weight") ) ## WARNING The position of this label is not wrong. Its like that on the original game too.
+	lvl_stat.text 		= str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_LEVEL ) ).pad_decimals(0) # str( B2_Config.get_user_save_data( "player.xp.questxp", 0 ) )
+	hp_stat.text 		= str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_HP ) ).pad_decimals(0)
+	weight_stat.text 	= str( B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_WEIGHT ) ).pad_decimals(0) # str( B2_Playerdata.Stat("weight") ) ## WARNING The position of this label is not wrong. Its like that on the original game too.
 	
 	## Malaises
 	## TODO Implement status effects
@@ -225,6 +248,28 @@ func flicker() -> void:
 	bottom.flicker(alpha)
 	inventory.flicker(alpha)
 	
+var last_wpn : B2_Weapon
 func _physics_process(_delta: float) -> void:
 	if randf() > 0.35:
 		flicker()
+		
+	var wpn := B2_Gun.get_current_gun()
+	if wpn != last_wpn:
+		last_wpn = wpn
+		prefix_1.text = ""; prefix_1.hide()
+		prefix_2.text = ""; prefix_2.hide()
+		gun_name.text = ""
+		suffix.text = ""; suffix.hide()
+		
+		if wpn.prefix1:
+			prefix_1.show()
+			prefix_1.text = wpn.prefix1["name"]
+		if wpn.prefix2:
+			prefix_2.show()
+			prefix_2.text = wpn.prefix2["name"]
+			
+		gun_name.text = wpn.weapon_name
+		
+		if wpn.suffix:
+			suffix.show()
+			suffix.text = wpn.suffix["name"]
