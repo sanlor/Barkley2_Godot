@@ -54,9 +54,12 @@ const GUN_BTN = preload("res://barkley2/scenes/Objects/System/_quick_menu/gun_bt
 @onready var gun_list: VBoxContainer = $left/gun_list
 
 ## Bottom
+const POCKET_BTN = preload("uid://bo04o61ye6eoj")
 const bottom_hidden_y 	:= 210.0
 const bottom_shown_y 	:= 140.0
 @onready var bottom: Control = $bottom
+@onready var pocket_list: HBoxContainer = $bottom/bg/pocket_list
+
 
 ## Malaises
 @onready var status_effects: 	Control 	= $right/status_effects
@@ -74,9 +77,10 @@ var tween : Tween
 const tween_speed := 0.15
 
 func _ready() -> void:
-	load_top_menu() # Zaubers and shiet.
-	load_right_menu() # Stats and gearshift knob.
-	load_left_menu() # Guns, guns and guns!
+	load_top_menu() 	# Zaubers and shiet.
+	load_right_menu() 	# Stats and gearshift knob.
+	load_left_menu() 	# Guns, guns and guns!
+	load_bottom_menu() 	# https://www.youtube.com/watch?v=_ODPUnNogG4
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.CURSOR )
 	
 	left.position.x 			= left_hidden_x
@@ -238,6 +242,23 @@ func load_right_menu() -> void:
 	## Some curse, IDK
 	if B2_Playerdata.Quest("mummysCurse") == 1:
 		curse_status.text = Text.pr("Scourged")
+
+func load_bottom_menu() -> void:
+	for c in pocket_list.get_children():
+		c.queue_free()
+	## NOTE Jerkins can have 0 to 8 pockets. Need to adjust "pocket_list" separation based on that. 24/04/25
+	## TODO That ^^^^^^^^
+	var id := 0
+	#print(B2_Jerkin.pockets())
+	for p : int in B2_Jerkin.pockets():
+		var pocket_item : String = B2_Jerkin.get_pocket_content( id )
+		#print(pocket_item)
+		var btn := POCKET_BTN.instantiate()
+		pocket_list.add_child( btn, true ) ## add empty button.
+		if pocket_item: ## If player has an Item, populates the buttom with its data.
+			btn.name = pocket_item
+			btn.setup_button( pocket_item, id )
+		id += 1
 
 func flicker() -> void:
 	## NOTE It this an expensive function?

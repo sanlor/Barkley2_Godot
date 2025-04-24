@@ -41,15 +41,47 @@ const CANDY_EFFECT := {
 
 static func reset() -> void:
 	B2_Config.set_user_save_data("player.schematics.candy", []);
-
-static func add_candy_to_pocket( candy_name : String, amount := 1 ) -> void:
+	
+	
+static func gain_candy( candy_name : String ) -> void:
+	if CANDY_LIST.has( candy_name ):
+		if B2_Jerkin.pockets_free() > 0:
+			## DEPRECATED
+			#var my_items : Array = B2_Config.get_user_save_data("player.items.has", [])
+			#my_items.append( candy_name )
+			##my_items.sort() ## is this necessary?
+			#B2_Config.set_user_save_data("player.items.has", my_items )
+			B2_Jerkin.add_pocket_content( B2_Jerkin.pockets_free(), candy_name ) ## FIXME
 	pass
 	
-static func remove_candy_from_pocket( candy_name : String, amount := 1 ) -> void:
+## DEPRECATED
+static func remove_candy( candy_name : String ) -> void:
+	if CANDY_LIST.has( candy_name ):
+		var my_items : Array = B2_Config.get_user_save_data("player.items.has", [])
+		if my_items.has( candy_name ):
+			my_items.erase( candy_name )
+			#my_items.sort() ## is this necessary?
+			B2_Config.set_user_save_data("player.items.has", my_items )
+		else:
+			push_error("Tried to remove a candy that the player does not have.")
+	
+static func use_candy( candy_name : String ) -> void:
+	## TODO add candy effects.
 	pass
 	
-static func use_candy_from_pocket( candy_name : String ) -> void:
-	pass
+static func get_candy( candy_name : String ) -> Dictionary:
+	if CANDY_LIST.has( candy_name ):
+		var candy := {
+			"sub": 		int(CANDY_LIST.get( candy_name )[SUB]),
+			"drop": 	int(CANDY_LIST.get( candy_name )[DROP]),
+			"smelt": 	int(CANDY_LIST.get( candy_name )[SMELT]),
+			"marquee": 	str(CANDY_LIST.get( candy_name )[MARQUEE]),
+			"utility": 	str(CANDY_LIST.get( candy_name )[DESCRIPTION]),
+			"flavor": 	str(CANDY_LIST.get( candy_name )[FLAVOR]),
+		}
+		return candy
+	else:
+		return {}
 	
 static func list_recipes() -> Array:
 	return B2_Config.get_user_save_data( "player.schematics.candy", [] ) # Returns array of recipes the player has.

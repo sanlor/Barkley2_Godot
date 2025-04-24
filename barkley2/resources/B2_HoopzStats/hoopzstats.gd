@@ -75,6 +75,7 @@ var agile  					:= 12.0
 var might  					:= 12.0
 var piety  					:= 12.0
 var speed  					:= 12.0
+var weight					:= 69.0 ## Maybe unused?
 
 ## Resistances
 var resistance_mental  		:= 50.0 
@@ -96,6 +97,7 @@ var dmg_mental  			:= 0.0
 var dmg_cyber  				:= 0.0
 
 ## Vulnerabilities
+var vuln_normal				:= 0.0
 var vuln_mental  			:= 4.0 
 var vuln_zauber  			:= 4.0
 var vuln_cyber  			:= 2.0 
@@ -106,11 +108,11 @@ var max_action_sfx_played	:= false
 var block_action_increase 	:= false
 
 func set_base_stat( stat : String, value : float ) -> void:
-	if get_property_list().has(stat):
-		set(stat, value)
+	set(stat.to_lower(), value)
+	if get(stat.to_lower()) == value:
 		B2_Playerdata.stat_updated.emit()
 	else:
-		push_error("%s is not a valid stat." % stat)
+		push_error( "%s is not a valid stat." % stat.to_lower() )
 
 func get_base_stat( stat : String ):
 	if get( stat.to_lower() ) == null:

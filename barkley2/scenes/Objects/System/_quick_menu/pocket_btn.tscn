@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo04o61ye6eoj"]
+[gd_scene load_steps=7 format=3 uid="uid://bo04o61ye6eoj"]
 
 [ext_resource type="StyleBox" uid="uid://c3ed2b6sjtglo" path="res://barkley2/themes/quick_menu_candy.tres" id="1_k2jv2"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.gd" id="2_nhnuo"]
+[ext_resource type="Script" uid="uid://de6eaal7f52he" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.gd" id="2_nhnuo"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="3_0rf3o"]
+[ext_resource type="Texture2D" uid="uid://ckdra5vpxt43g" path="res://barkley2/assets/b2_original/images/merged/sCandy.png" id="4_ehyif"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pnum8"]
 font = ExtResource("3_0rf3o")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iwsl"]
+resource_local_to_scene = true
+atlas = ExtResource("4_ehyif")
+region = Rect2(0, 0, 16, 16)
 
 [node name="pocket_0" type="Panel"]
 custom_minimum_size = Vector2(21, 34)
@@ -27,5 +33,14 @@ label_settings = SubResource("LabelSettings_pnum8")
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="pocket_item" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 18.0
+offset_bottom = 19.0
+texture = SubResource("AtlasTexture_1iwsl")
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="gui_input" from="pocket_item" to="." method="_on_pocket_item_gui_input"]

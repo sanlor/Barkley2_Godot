@@ -4,42 +4,6 @@ class_name B2_Item
 ## Helper class to add, change, remove, give and use items.
 ## Check Item()
 ## item sprite is sItem
-#region old notes
-# Item("gain", item_name, quantity (optional: default 1))
-#  Hoopz gaisn an item
-
-# Item("lose", item_name, quantity (optional: default 1))
-#  Hoopz loses an item
-
-# Item("have", item_name)
-#  Returns true if you have one or more of an item
-
-# Item("count", item_name)
-#  Returns the number you have of the item
-
-# Item("build", ...)
-#  Add build in front of any statement to have it work in a GML cinema
-
-# Below are less common functions
-
-# Item("init")
-#  Call once per game
-
-# Item("reset")
-#  Call when player identity is reset
-
-# Item("define", item_name, item_description)
-#  Adds an item definition to the game (scroll down to init section to define items)
-
-# Item("name", index)
-#  Returns a name from an item index
-
-# Item("description", item_name) 
-#  Returns a description from a name
-
-# Item("string")
-#  Returns a giant string of all items and quantities you have
-#endregion
 
 ## ALERT this script works differently from the original code. THS WILL BREAK COMPATIBILITY.
 
@@ -75,7 +39,7 @@ static func count_item( item_name : String ) -> int:
 		push_error( "Invalid item %s." % item_name )
 		return 0
 	
-## Hoopz gaisn an item
+## Hoopz gains an item
 static func gain_item( item_name : String, amount := 1 ) -> void:
 	if B2_Database.items.has( item_name ):
 		var i : Dictionary = B2_Config.get_user_save_data( "quest.itemsName", {} )

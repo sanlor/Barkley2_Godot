@@ -13,3 +13,7 @@ func _ready() -> void:
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:
 		_setup_camera( _setup_player_node() )
+		
+	B2_Playerdata.preload_skip_tutorial_save_data()
+	B2_Candy.gain_candy( "Butterscotch" )
+	B2_Candy.gain_candy( "Chickenfry Dew" )
