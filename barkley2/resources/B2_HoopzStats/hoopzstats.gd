@@ -131,6 +131,12 @@ func get_curr_action() -> float:
 func is_at_max_action() -> bool:
 	return curr_action == max_action
 
+func increase_hp( hp : int ) -> void:
+	curr_health = clampf( curr_health + hp, 0, max_health )
+
+func decrease_hp( hp : int ) -> void:
+	curr_health = clampf( curr_health - hp, 0, max_health )
+
 func increase_action() -> bool:
 	if block_action_increase:
 		return false

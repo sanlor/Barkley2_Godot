@@ -20,23 +20,23 @@ const CANDY_LIST := {
 enum {EFFECT,COST,TIME}
 const CANDY_EFFECT := {
 	# Butterscotch
-	"Butterscotch": 		[	"heal", 25],
+	"Butterscotch": 		[	["heal", 25]	],
 	# Wilmer's Neue
-	"Wilmer's Neue": 		[ [	"heal", 100],	["gutsBoost", 5, 10] ],
+	"Wilmer's Neue": 		[	[	"heal", 100],	["gutsBoost", 5, 10]	],
 	# Chickenfry Dew
-	"Chickenfry Dew": 		[ [	"heal", 40], 	["mightBoost", 2, 60] 	 ],
+	"Chickenfry Dew": 		[	[	"heal", 40], 	["mightBoost", 2, 60] 	 ],
 	#  Black Licorice
 	# TODO: ailment immunity
 	"Black Licorice": 		[	"heal", 100],
 	# Candy Corn
 	# TODO: element resistance
-	"Candy Corn": 			[	"heal", 100],
+	"Candy Corn": 			[	["heal", 100] ],
 	# Sweet Sweat
-	"Sweet Sweat": 			[ [	"heal", 100], 	["antidote", 0] ],
+	"Sweet Sweat": 			[	[	"heal", 100], 	["antidote", 0]	],
 	# Ectopoppers
-	"Ecto Poppers": 		[ [	"heal", -50], 	["glampBoost", 10, 60] ],
+	"Ecto Poppers": 		[	[	"heal", -50], 	["glampBoost", 10, 60]	],
 	# Choco-mallows
-	"Choco-mallows": 		[ [	"heal", 999], 	["glampBoost", 5, 20] ],
+	"Choco-mallows": 		[	[	"heal", 999], 	["glampBoost", 5, 20]	],
 	}
 
 static func reset() -> void:
@@ -51,7 +51,7 @@ static func gain_candy( candy_name : String ) -> void:
 			#my_items.append( candy_name )
 			##my_items.sort() ## is this necessary?
 			#B2_Config.set_user_save_data("player.items.has", my_items )
-			B2_Jerkin.add_pocket_content( B2_Jerkin.pockets_free(), candy_name ) ## FIXME
+			B2_Jerkin.add_pocket_content( candy_name ) ## FIXME
 	pass
 	
 ## DEPRECATED
@@ -65,7 +65,41 @@ static func remove_candy( candy_name : String ) -> void:
 		else:
 			push_error("Tried to remove a candy that the player does not have.")
 	
+# scr_items_candy_use_fromMap
 static func use_candy( candy_name : String ) -> void:
+	var item_data : Array = B2_Candy.get_candy_effect( candy_name )
+	B2_Sound.play( "hoopz_crunchcandy" )
+	for e in item_data:
+		match e[B2_Candy.EFFECT]:
+			## TODO add other effects.
+			"heal":
+				B2_Screen.display_item_effect( candy_name, str( e[B2_Candy.COST] ) )
+				B2_Playerdata.player_stats.increase_hp( e[B2_Candy.COST] )
+			"healOverTime":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"antidote":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"showText":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"speedBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"gutsBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"luckBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"acroBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"mightBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"pietyBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"glampBoost":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			"scrollWeapon":
+				push_warning("Item effect not set: ", e[B2_Candy.EFFECT])
+			_:
+				push_warning("Unhandled item effect: ", e[B2_Candy.EFFECT] )
+	
 	## TODO add candy effects.
 	pass
 	
@@ -82,6 +116,9 @@ static func get_candy( candy_name : String ) -> Dictionary:
 		return candy
 	else:
 		return {}
+		
+static func get_candy_effect( candy_name : String ) -> Array:
+	return CANDY_EFFECT.get(candy_name, [])
 	
 static func list_recipes() -> Array:
 	return B2_Config.get_user_save_data( "player.schematics.candy", [] ) # Returns array of recipes the player has.

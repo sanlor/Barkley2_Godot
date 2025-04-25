@@ -15,12 +15,17 @@ func _ready() -> void:
 	_on_mouse_exited()
 
 func setup_button( _item_name : String, _item_slot : int ) -> void:
-	pocket_item.show()
-	var candy : Dictionary = B2_Candy.get_candy( _item_name )
-	pocket_item.texture.region.position.x = 16.0 * candy["sub"]
-			
 	item_name 		= _item_name
 	my_slot			= _item_slot
+	
+	if _item_name:
+		pocket_item.show()
+		var candy : Dictionary = B2_Candy.get_candy( _item_name )
+		pocket_item.texture.region.position.x = 16.0 * candy["sub"]
+		_on_mouse_exited()
+	else:
+		pocket_item.hide()
+		_on_mouse_entered()
 
 func _on_mouse_entered() -> void:
 	if item_name:
@@ -36,10 +41,9 @@ func _on_mouse_exited() -> void:
 		pocket_descript_lbl.text = Text.pr("X")
 	modulate = Color.GRAY
 
-
 func _on_pocket_item_gui_input(event: InputEvent) -> void:
 	if item_name: # Do nothing if no item.
 		if event is InputEventMouseButton or event is InputEventJoypadButton  or event is InputEventKey:
 			if Input.is_action_just_pressed("Action"):
-				print(self, ": Button %s pressed." % str(my_slot))
+				#print(self, ": Button %s pressed." % str(my_slot))
 				pressed.emit()

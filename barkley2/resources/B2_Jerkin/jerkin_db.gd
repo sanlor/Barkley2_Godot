@@ -34,9 +34,9 @@ static func list_jerkin() -> Array:
 static func has_jerkin( jerkin : String ) -> bool:
 	return B2_Config.get_user_save_data("player.jerkins.has", []).has(jerkin)
 	
-static func add_pocket_content( slot : int, item_name : String ) -> void:
-	if get_jerkin_stats()[ "Pkt" ] > slot:
-		if B2_Config.get_user_save_data("player.items.has", []).size() > slot:
+static func add_pocket_content( item_name : String ) -> void:
+	if get_jerkin_stats()[ "Pkt" ] > 0:
+		if B2_Config.get_user_save_data("player.items.has", []).size() < get_jerkin_stats()[ "Pkt" ]:
 			var items : Array = B2_Config.get_user_save_data( "player.items.has", [] )
 			var empty_slot := items.find( null )
 			if empty_slot == -1:
@@ -45,15 +45,16 @@ static func add_pocket_content( slot : int, item_name : String ) -> void:
 				items[empty_slot] = item_name
 			B2_Config.set_user_save_data( "player.items.has", items )
 		else:
-			push_warning("Tried to add item when you have too many items. ", B2_Config.get_user_save_data("player.items.has", []).size(), " - ", slot)
+			push_warning("Tried to add item when you have too many items. ", B2_Config.get_user_save_data("player.items.has", []).size())
 	else:
-		push_warning("Tried to add item when you have no avaiable pocket. ", get_jerkin_stats()[ "Pkt" ], " - ", slot)
+		push_warning("Tried to add item when you have no avaiable pocket. ", get_jerkin_stats()[ "Pkt" ])
 	
 static func remove_pocket_content( slot : int ) -> void:
 	if get_jerkin_stats()[ "Pkt" ] > slot:
 		if B2_Config.get_user_save_data("player.items.has", []).size() > slot:
 			var items : Array = B2_Config.get_user_save_data( "player.items.has", [] )
-			items.remove_at( slot )
+			#items.remove_at( slot )
+			items[ slot ] = ""
 			B2_Config.set_user_save_data( "player.items.has", items )
 	
 static func has_pocket_content( slot : int ) -> bool:

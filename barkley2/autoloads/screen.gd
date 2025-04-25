@@ -21,6 +21,9 @@ const SMOKE_MASS = preload("res://barkley2/resources/Smoke/smoke_mass.tres")
 # battle related
 const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
 
+# Item efffect
+const O_ENTITY_INDICATOR_TEXT = preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
+
 # explosion sfx
 const O_EFFECT_EXPLOSION = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
 
@@ -114,6 +117,14 @@ func display_damage_number( caller_node : Node, damage, color := Color.WHITE, li
 	d.setup(caller_node, damage, linger_time)
 	d.modulate = color
 	caller_node.add_sibling(d)
+
+## TODO
+# scr_items_candy_use_fromMap
+func display_item_effect( header : String, text : String ) -> void:
+	var it := O_ENTITY_INDICATOR_TEXT.instantiate()
+	it.setup_labels( header, "+" + text + "HP" )
+	B2_CManager.o_hoopz.add_sibling( it, true )
+	it.global_position = B2_CManager.o_hoopz.global_position
 
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()

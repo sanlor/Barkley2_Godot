@@ -258,7 +258,13 @@ func load_bottom_menu() -> void:
 		if pocket_item: ## If player has an Item, populates the buttom with its data.
 			btn.name = pocket_item
 			btn.setup_button( pocket_item, id )
+			btn.pressed.connect( use_item.bind(id, btn) )
 		id += 1
+
+func use_item( slot : int, btn : Panel ) -> void:
+	B2_Jerkin.use_pocket_content(slot)
+	btn.setup_button( "", slot )
+	#load_bottom_menu()
 
 func flicker() -> void:
 	## NOTE It this an expensive function?

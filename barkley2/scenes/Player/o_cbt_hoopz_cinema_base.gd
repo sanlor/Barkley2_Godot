@@ -622,9 +622,11 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	B2_Screen.display_damage_number( self, damage )
 	apply_central_impulse( force )
 	
-	var my_stats := B2_Playerdata.player_stats
-	@warning_ignore("narrowing_conversion")
-	my_stats.curr_health = clampi( my_stats.curr_health - damage, 0, my_stats.max_health )
+	B2_Playerdata.player_stats.decrease_hp( damage )
+	
+	## Check if ded :(
+	if B2_Playerdata.player_stats.curr_health == 0:
+		print("Dead.")
 
 func victory_anim() -> void:
 	curr_STATE = STATE.VICTORY
