@@ -52,7 +52,7 @@ func populate_item_list():
 				
 				btn.custom_minimum_size.y = 12.0
 				item_list.add_child( btn, true )
-				if not is_instance_valid(first_item):
+				if not first_item:
 					first_item = btn
 				has_item = true
 				

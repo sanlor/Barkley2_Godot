@@ -7,7 +7,7 @@ class_name B2_HoopzStats
 const STAT_CURRENT_HP 					:= "curr_health"
 const STAT_EFFECTIVE_MAX_HP 			:= "max_health"
 
-const STAT_BASE_HP 						:= "curr_health" # "hp"
+const STAT_BASE_HP 						:= "max_health" # "hp"
 const STAT_BASE_LEVEL 					:= "lvl"
 const STAT_BASE_SPEED 					:= "speed" ## NOTE Will go unused (probably)
 const STAT_BASE_WEIGHT 					:= "weight" ## NOTE Will go unused (probably)
@@ -63,7 +63,11 @@ const STAT_EFFECTIVE_ENCUMBERANCE 		:= "encumb"
 ## Godot specific
 var max_action					:= 100.0
 var curr_action					:= 0.0
-var max_health					:= 50.0
+var max_health					:= 50.0 :
+	set(h):
+		if h < curr_health: ## Avoid current health being larger than the max health.
+			curr_health = h
+		max_health = h
 var curr_health					:= 50.0
 
 var lvl							:= 12.0

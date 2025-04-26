@@ -595,6 +595,10 @@ func stop_aiming() -> void:
 		curr_STATE 				= STATE.NORMAL
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## Dont apply damage if the battle is over.
+		return
+		
 	if curr_STATE != STATE.DEFENDING:
 		hit_timer.start( 0.5 )
 		if curr_STATE == STATE.ROLL:
@@ -606,7 +610,9 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		hoopz_normal_body.stop()
 		hoopz_normal_body.animation = "stagger"
 		hoopz_normal_body.frame = 0
-		B2_Sound.play_pick( "general_impact" ) ## TODO Better impact sounds. check B2_Sound line 1025
+		
+		#B2_Sound.play_pick( "general_impact" ) ## TODO Better impact sounds. check B2_Sound line 1025
+		B2_Sound.play_pick( "hoopzDmgSoundNormal" ) ## TODO add different sfx based on the attack type.
 		
 		if hit_tween:
 			hit_tween.kill()
@@ -626,7 +632,15 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	
 	## Check if ded :(
 	if B2_Playerdata.player_stats.curr_health == 0:
-		print("Dead.")
+		print("H O O P Z I S D E A D .")
+			
+		defeat_anim()
+		
+		if is_instance_valid( B2_CManager.combat_manager ):
+			B2_CManager.combat_manager.player_defeated()
+		else:
+			## CM should be loaded.
+			breakpoint
 
 func victory_anim() -> void:
 	curr_STATE = STATE.VICTORY

@@ -63,6 +63,8 @@ func can_resume_combat() -> bool:
 func _ready() -> void:
 	instructions.hide()
 	slowdown_label.hide()
+	item_and_skill_list.hide()
+	player_controls_new.hide()
 	
 	attack_btn.pressed.connect( 	_on_attack_btn )
 	skill_btn.pressed.connect( 		_on_skill_btn )
@@ -183,6 +185,10 @@ func action_queued() -> void:
 	instructions.hide()
 	B2_CManager.combat_manager.resume_combat()
 	curr_action = NOTHING
+
+func reset() -> void:
+	curr_action = NOTHING
+	resume_time(0.0)
 
 ## Use an item. duh.
 func use_item( slot : int ) -> void:

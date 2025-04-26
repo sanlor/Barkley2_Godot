@@ -200,3 +200,21 @@ func _setup_camera( player ):
 	add_child( b2_camera, true )
 	b2_camera.set_camera_bound( camera_bound_to_map )
 	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )
+
+# Check if the actor is inside a building. return false if the parent is not B2_ROOMS
+func is_inside_room() -> bool:
+	return is_interior
+		
+# Get the room area. return "unknow" if the parent is not B2_ROOMS
+func get_room_area() -> String:
+	var room_name : String = get_room_name()
+	if room_name.begins_with("r_") and room_name.count("_", 0, 6) >= 2:
+		var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > tnn
+		return area
+	else:
+		push_warning("Room name is not standard. fix this.")
+		return ""
+	
+# Get the room name. return "unknow" if the parent is not B2_ROOMS
+func get_room_name() -> String:
+	return name

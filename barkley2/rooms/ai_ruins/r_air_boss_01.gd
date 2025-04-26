@@ -17,3 +17,6 @@ func _ready() -> void:
 	B2_Playerdata.preload_skip_tutorial_save_data()
 	B2_Candy.gain_candy( "Butterscotch" )
 	B2_Candy.gain_candy( "Chickenfry Dew" )
+	B2_Candy.gain_candy( "Butterscotch" )
+	
+	B2_Playerdata.player_stats.decrease_hp( 46 )

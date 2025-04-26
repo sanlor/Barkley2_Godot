@@ -6,7 +6,7 @@ I just want to dig through the barkley 2´s code, learn a few things about gamed
 # Stage 0
 Recreate the title screen, with all original features. Also create some autoload to start laying the groundwork for the game.
 Basically, this is a proof of concept.
-    
+	
 # Stage 1
 Recreate the Character Creation - CC
 This section of the game contains a BUNCH of legacy code. It wasnt hard, but took a long time.

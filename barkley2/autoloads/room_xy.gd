@@ -4,6 +4,8 @@ extends CanvasLayer
 # Check the original RoomXY() script.
 ## RoomXY(room, x, y, slide_direction [4 args] open_sfx [5 args], close_sfx [5 args])
 
+## Also check RespawnLocation()
+
 ## DEBUG
 var print_debug_logs := false
 var print_room_load_logs := true
@@ -90,7 +92,7 @@ func _index_rooms():
 			room_index[r_name] = r.trim_suffix(".remap")
 
 	print("_index_rooms() ended: ", Time.get_ticks_msec(), "msecs. - ", room_index.size(), " room_index key entries")
-	
+
 func _ready() -> void:
 	_index_rooms()
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
@@ -101,22 +103,159 @@ func _ready() -> void:
 
 func _reset_data():
 	reset_room()
-	
+
 func is_room_valid( strict := false) -> bool:
 	if strict:
 		if this_room_x == 0 or this_room_y == 0 or this_room.is_empty():
 			return false
 	return not this_room.is_empty()
-	
+
 func get_room_pos() -> Vector2:
 	return Vector2( this_room_x, this_room_y )
-	
+
 # Reset room data. is this needed?
 func reset_room() -> void:
 	this_room 		= ""
 	this_room_x 	= 0.0
 	this_room_y 	= 0.0
 	print_rich( "[color=yellow]Room data reseted[/color]" )
+
+## Hoopz dies. respawn based on the RespawnLocation script data.
+func respawn( area : String, room_name : String ) -> void:
+	# As a failsafe, a respawn map will be assigned based on AREA first,
+	# just in "there is no room found afterwards
+	var respawnRoom = "r_est_tnnRespawn01"
+
+	# Cuchu's Lair as part of Wiglaf's Mission Tracker
+	if area == "chu": B2_Playerdata.Quest("cuchuLairDeath", 1)
+
+	# Failsafe, get area respawn #
+	match area:
+		"gau": respawnRoom = "r_gau_01_entrance01"
+		"tnn": respawnRoom = "r_sw1_respawn01"
+		"sw1": respawnRoom = "r_sw1_respawn01"
+		"sw2": respawnRoom = "r_sw2_respawn01"
+		"est": respawnRoom = "r_est_tnnRespawn01"
+		"pea": respawnRoom = "r_pea_caveRespawnBase01"
+		"pri": respawnRoom = "r_pea_caveRespawnBase01"
+		"far": respawnRoom = "r_far_nexus01"
+		"fct": respawnRoom = "r_fct_respawn01"
+		"swp": respawnRoom = "r_swp_respawntrash01"
+		"bct": respawnRoom = "r_usw_ruinsWifi01"
+		"usw": respawnRoom = "r_usw_ruinsWifi01"
+		"air": respawnRoom = "r_usw_ruinsWifi01"
+		"wst": respawnRoom = "r_wst_northRespawn01"
+		"min": respawnRoom = "r_far_nexus01"
+		"dth": respawnRoom = "r_far_nexus01"
+		"pdt": respawnRoom = "r_usw_ruinsWifi01"
+		"ice": respawnRoom = "r_ice_respawn01"
+		"chu": respawnRoom = "r_usw_ruinsWifi01"
+		"min": respawnRoom = "r_min_respawn01"
+
+	# Find where you should respawn based on the MAP you died in #
+	## NOTE Yes, it is a mess. I like this mess. its original, its... confortable.
+	match room_name:
+		# Gauntlet #
+		"r_gau_01_entrance01","r_gau_room1_1","r_gau_sewersOne01","r_gau_sewersTwo01","r_gau_NPCVilla01","r_gau_boss_catfishQueen","r_gau_boss_crabcommandoFight","r_gau_boss_hugebrainAlien", "r_gau_boss_oozeFight","r_gau_boss_sentinel","r_gau_combatEffects01","r_gau_21_eastelandsStart01","r_gau_27_swampStart01":
+			respawnRoom = "r_gau_01_entrance01"
+
+		# AI Ruins #
+		"r_air_dais01":
+			respawnRoom = "r_est_tnnRespawn01"
+
+		# Factory #
+		"r_fct_arena01","r_fct_assembly01","r_fct_bigRoom01","r_fct_control01","r_fct_corridor01","r_fct_eggRooms01","r_fct_corner01","r_fct_gizmo01","r_fct_loading01","r_fct_lobby01","r_fct_office01","r_fct_storage01","r_fct_tutorialZone01":
+			respawnRoom = "r_fct_respawn01"
+
+		# Wasteland # TNN side respawn #
+		"r_est_cgremArena01","r_est_cgremPath01","r_est_cgremVillage01","r_est_difficultyFork01","r_est_easternPaths01","r_est_factoryChicane01","r_fct_factoryOutpost01","r_fct_factoryParking01","r_fct_factoryStorage01","r_est_junkworms01","r_est_mountainBase01","r_est_pythagoras01","r_est_swampZigzag01","r_wst_tnnEntrance01","r_est_tnnRespawn01","r_wst_wadingRace01","r_wst_westJunction01","r_wst_westOpenGrounds01":
+			respawnRoom = "r_est_tnnRespawn01"
+
+		# Wasteland # North side Respawn #
+		"r_wst_donutDomain01","r_est_industrialPlaza01","r_est_industrialRock01","r_est_industrialZone01","r_wst_northCircle01","r_wst_northPassage01","r_wst_northRespawn01","r_wst_northRuins01","r_est_turretGauntlet01","r_wst_westMaze01":
+			respawnRoom = "r_wst_northRespawn01"
+
+		# Sewers Floor 01 #
+		"r_sw1_baldomero01","r_sw1_center01","r_sw1_closet01","r_sw1_crossroads01","r_sw1_descent01","r_sw1_eastEdge01","r_sw1_elemental01","r_sw1_end01","r_sw1_fishersCreek01","r_sw1_floor2Access01","r_sw1_foyer01","r_sw1_gap01","r_sw1_gutterGate01","r_sw1_joad01","r_sw1_longWays01","r_sw1_manholeEast01","r_sw1_manholeWest01","r_sw1_plantation02","r_sw1_pool01","r_sw1_rathell01","r_sw1_respawn01","r_sw1_secret01","r_sw1_southEdge01","r_sw1_tnnShortcut01","r_sw1_treasureDwarf01","r_sw1_utility01","r_sw2_gordo01":
+			respawnRoom = "r_sw1_respawn01"
+
+		# Sewers Floor 02 #
+		"r_sw2_balcony01","r_sw2_bridges01","r_sw2_crossing01","r_sw2_crossroad01","r_sw2_eastExit01","r_sw2_end01","r_sw2_hermitPass01","r_sw2_indianRopeTrick01","r_sw2_looparound01","r_sw2_pools01","r_sw2_respawn01","r_sw2_sludgeFloor01","r_sw2_start01","r_sw2_steam01","r_sw2_steam02","r_sw2_treasureDwarf01","r_sw2_utility01":
+			respawnRoom = "r_sw2_respawn01"
+
+		# Undersewers #
+
+		# Swamps Trash #
+		"r_swp_barkleypond01","r_swp_bcdeadend01","r_swp_bcentrance01","r_swp_bogchurch01","r_swp_centralbend01","r_swp_koboldcamp01","r_swp_longpathrespawn01","r_swp_longpathutility01","r_swp_quagmire01","r_swp_respawntrash01","r_swp_roundabout01","r_swp_shacklake01","r_swp_swampRanch01","r_swp_utilityonpath01","r_swp_westentrance01","r_swp_westpool01","r_swp_westshortcut01":
+			respawnRoom = "r_swp_respawntrash01"
+
+		# Swamps water #
+		"r_swp_beach01","r_swp_corpseLake01","r_swp_cuchu1_01","r_swp_cuchu3_01","r_swp_cuchu4_01","r_swp_cuchuelevator01","r_swp_duergarencounter01","r_swp_eastwestcrossroads01","r_swp_flowerguardian01","r_swp_koboldchallenge01","r_swp_respawnwater01","r_swp_southPatch01","r_swp_waterbowl01":
+			respawnRoom = "r_swp_respawnwater01"
+
+		# Mines #
+		"r_min_baseCampAlpha01","r_min_baseCampBeta01","r_min_constantine01","r_min_eastPit01","r_min_entrance01","r_min_jeanmarcPit01","r_min_junction01","r_min_kaleviCave01","r_min_respawn01","r_min_secret01":
+			respawnRoom = "r_min_respawn01"
+	
+	# Babyzone check #
+	## TODO - need to implement baby check. check RespawnLocation line 236
+	
+	# Cuchu Trial (Longinus mission) random respawn location #
+	if B2_Playerdata.Quest("cuchuRespawn") == 1:
+		# Only happens this once #
+		B2_Playerdata.Quest("cuchuRespawn", 2);
+		
+		# Pick a random spot #
+		# TODO: this could be enhanced to a place you haven't been yet
+		respawnRoom = [
+			"r_est_tnnRespawn01", "r_wst_northRespawn01", "r_swp_respawntrash01", 
+			"r_swp_respawnwater01", "r_sw1_respawn01", "r_sw2_respawn01", "r_fct_respawn01", 
+			"r_far_nexus01","r_pea_caveRespawnBase01"].pick_random()
+			
+	var respawnX := 0.0
+	var respawnY := 0.0
+			
+	# X and Y coords for "normal" respawns #
+	match respawnRoom:
+		# Get the X and Y #
+		"r_tnn_wilmer01": 				respawnX = 256; respawnY = 352; 
+		"r_est_tnnRespawn01": 			respawnX = 648; respawnY = 224; 
+		"r_wst_northRespawn01": 		respawnX = 272; respawnY = 328; 
+		"r_swp_respawntrash01": 		respawnX = 264; respawnY = 200; 
+		"r_swp_respawnwater01": 		respawnX = 312; respawnY = 248; 
+		"r_sw1_respawn01": 				respawnX = 272; respawnY = 224; 
+		"r_sw2_respawn01": 				respawnX = 312; respawnY = 208; 
+		"r_fct_respawn01": 				respawnX = 240; respawnY = 304; 
+		"r_min_respawn01":				respawnX = 588; respawnY = 248;
+		"r_far_nexus01":				respawnX = 488; respawnY = 720;
+		"r_ice_respawn01":				respawnX = 240; respawnY = 200;
+		"r_gau_01_entrance01":			respawnX = 224; respawnY = 208;
+		"r_pea_caveRespawnBase01":		respawnX = 184; respawnY = 264;
+		"r_usw_ruinsWifi01":			respawnX = 368; respawnY = 176;
+	
+	## TODO add junklord check - RespawnLocation line 354
+	
+	# Once past the point of no return #
+	if B2_Playerdata.Quest("pointOfNoReturn") == 1:
+		respawnRoom = "r_chu_corridor01"
+		respawnX = 136; 
+		respawnY = 296;
+		
+	## Increase death count
+	var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
+	deaths += 1
+	B2_Config.set_user_save_data( "player.deaths.total", deaths )
+		
+	# Debug messages #
+	print("B2_RoomXY: You have died: " 		+ str(deaths) + " times"	);
+	print("B2_RoomXY: respawnRoom = " 		+ str(respawnRoom)			);
+	print("B2_RoomXY: respawnX = " 			+ str(respawnX)				);
+	print("B2_RoomXY: respawnY = " 			+ str(respawnY)				);
+		
+	fancy_warp_to( respawnRoom, respawnX, respawnY )
+	
+func fancy_warp_to( respawnRoom : String, respawnX : float, respawnY : float ):
+	warp_to( respawnRoom + "," + str(respawnX) + "," + str(respawnY) )
 	
 func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
 	if room_load_lock:
@@ -127,66 +266,66 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	var split := room_transition_string.split( ",", true )
 	split.resize( 6 )
-	
+
 	var its_the_same_room := false
-	
+
 	var room_name 	:= str( split[0] ).strip_edges()
 	var room_x 		:= float( split[1] )
 	var room_y 		:= float( split[2] )
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
 	var open_sfx	:= str( split[4] ).strip_edges()
 	var close_sfx	:= str( split[5] ).strip_edges()
-	
+
 	var fade_modifier := 1.0
-	
+
 	if room_name == this_room:
 		print("Room_XY: Warping to the same room.")
 		its_the_same_room = true
 		fade_modifier = 0.70
-		
+
 	## Non game rooms. Mostly the title screen and CC.
 	if not room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale":
-		
+
 		# save destination data
 		this_room 		= room_name
 		this_room_x 	= room_x
 		this_room_y 	= room_y
-		
+
 		if B2_Playerdata.Quest("saveDisabled") == 0:
 			B2_Config.set_user_save_data("map.room", this_room)
 			B2_Config.set_user_save_data("map.x", this_room_x);
 			B2_Config.set_user_save_data("map.y", this_room_y);
-		
+
 		# Save game during room transition
 		if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
 			B2_Playerdata.SaveGame()
-	
+
 	if print_debug_logs: print("Started loading room %s." % room_name)
-	
+
 	add_child(room_transition_layer)
 	add_child(room_progress_bar)
-	
+
 	# Take away the player control.
 	B2_Input.player_has_control = false
-	
+
 	var tween : Tween
-	
+
 	if not skip_fade_out:
 		tween = create_tween()
 		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out * fade_modifier )
 		await tween.finished
 		fadeout_finished.emit()
-	
+
 		# set the delay before loading the room.
 		if _delay > 0.0:
 			await get_tree().create_timer( _delay ).timeout
 		else:
 			await get_tree().create_timer( fade_delay * fade_modifier ).timeout
-			
+
 	else:
 		room_transition_layer.modulate.a = 1.0
 		await get_tree().process_frame
-		
+
 	if not its_the_same_room:
 		await get_room_scene( room_name ) 						# Load the next room
 		get_tree().change_scene_to_packed( room_scene )		# change the current room
@@ -197,31 +336,31 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		else:
 			# What happened?
 			breakpoint
-			
+
 		if is_instance_valid( B2_CManager.camera ):
 			B2_CManager.camera.position = Vector2( room_x, room_y )
 		else:
 			# What happened?
 			breakpoint
-		
+
 	B2_Input.player_has_control = true
-	
+
 	tween = create_tween()
 	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in * fade_modifier )
-	
+
 	## Cleanup
 	tween.tween_callback( remove_child.bind( room_transition_layer ) )
 	tween.tween_callback( remove_child.bind( room_progress_bar ) )
 	await tween.finished
-	
+
 	# Give back player control
 	#B2_Input.player_has_control = true
 	room_finished_loading.emit()
 	room_load_lock = false
 	if print_debug_logs: print("Finished loading room %s." % room_name)
 	return
-	
-	
+
+
 func get_room_scene( room_name : String ):
 	room_is_invalid = false
 	if print_room_load_logs: print_rich( "[bgcolor=black]Loading room %s started.[/bgcolor]" % room_name )
@@ -231,39 +370,39 @@ func get_room_scene( room_name : String ):
 		if print_debug_logs: print(path_loading_room)
 		ResourceLoader.load_threaded_request( path_loading_room, "PackedScene", use_subthreads, cachemode )
 		is_loading_room = true
-		
+
 		var error = await room_loaded
-		
+
 		var t2 := Time.get_ticks_msec() - t1
 		if print_room_load_logs: print_rich( "[bgcolor=black]Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
 		if t2 > 1000.0:
 			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
 		if not error:
 			room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
-			return 
+			return
 		print("Load error: ", error)
 	else:
 		push_error("Room %s not indexed." % room_name)
-	
+
 	room_is_invalid = true
 	this_room_x 	= 0
 	this_room_y 	= 0
 	push_error("Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
 	room_scene = load( invalid_room ) as PackedScene
-	return 
+	return
 
 func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if this_room.is_empty():
 		push_error("Room name empty. Aborting player node creation.")
 		return
-		
+
 	# Pos is invalid. do not spawn player.
 	if pos == Vector2.ZERO:
 		return
-		
+
 	var player_scene 	:= B2_CManager.o_hoopz_scene
 	var player_node 	:= player_scene.instantiate() as B2_Player
-	
+
 	player_node.position = pos
 	get_tree().current_scene.add_child( player_node, true )
 	if add_camera:
@@ -271,12 +410,12 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		get_tree().current_scene.add_child( cam, true )
 		cam.cinema_snap( pos )
 		cam.follow_player( player_node )
-		
+
 		if get_tree().current_scene is B2_ROOMS:
 			cam.set_camera_bound( get_tree().current_scene.camera_bound_to_map )
-			
+
 		cam.follow_mouse = true
-		
+
 	if print_debug_logs: print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
 	# reset_room()
 

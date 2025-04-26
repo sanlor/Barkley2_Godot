@@ -212,7 +212,7 @@ func hide_battle_ui() -> void:
 	c_tween.tween_callback( player_control_defend.hide )
 	c_tween.tween_callback( player_controls.hide )
 	c_tween.tween_callback( weapon_stats_mini.hide )
-	
+	combat_module.reset()
 	player_controls_new.hide_menu()
 	
 func set_ammo_amt( amt : int ):

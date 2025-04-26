@@ -13,6 +13,7 @@ const PAUSE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/pause_scre
 const QUICK_MENU_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.tscn")
 const NOTE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
 const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
+const GAME_OVER = preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
 
 # Smoke Emitter
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
@@ -263,6 +264,10 @@ func _notification(what: int) -> void: ## Pause game when the windows loses focu
 		if can_pause and not is_paused:
 			# show_pause_menu() ## DEBUG
 			pass
+
+func show_defeat_screen() -> void:
+	var gameover := GAME_OVER.instantiate()
+	get_tree().current_scene.add_child( gameover )
 
 # Show pausemenu object
 func show_pause_menu() -> void:

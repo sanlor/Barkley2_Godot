@@ -60,6 +60,8 @@ var camera_shake_offset 	:= Vector2.ZERO
 var focus 		:= Vector2.ZERO
 var cam_zoom 	:= 1.0
 
+var manual_control := false
+
 func _ready() -> void:
 	if player_node_overide != null:
 		player_node = player_node_overide
@@ -267,6 +269,9 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
 func _physics_process(delta: float) -> void:
+	if manual_control:
+		return
+		
 	# process shake effects.
 	_process_shake( delta )
 	
