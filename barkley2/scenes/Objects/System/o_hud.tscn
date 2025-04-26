@@ -1,4 +1,4 @@
-[gd_scene load_steps=102 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=108 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://cqvq6dbas1rif" path="res://barkley2/scenes/Objects/System/_hud/hud_marquee.gd" id="21_okcn5"]
 [ext_resource type="Theme" uid="uid://c7cxu4mqaywah" path="res://barkley2/themes/combat_ui.tres" id="23_ev2ej"]
 [ext_resource type="Script" uid="uid://w2dp4pc2371y" path="res://barkley2/scenes/_Godot_Combat/ui_combat_module.gd" id="24_reaae"]
+[ext_resource type="Script" uid="uid://r2a1yhxsmnr0" path="res://barkley2/scenes/_Godot_Combat/item_and_skill_list.gd" id="26_v4r6g"]
 [ext_resource type="Texture2D" uid="uid://t0lrplrw0ajg" path="res://barkley2/assets/b2_original/images/merged/hud_mod.png" id="27_1kavn"]
 [ext_resource type="Script" uid="uid://cm5osqsux580t" path="res://barkley2/scenes/_Godot_Combat/player_controls_small.gd" id="27_4v7so"]
 [ext_resource type="Texture2D" uid="uid://btajekjpf64np" path="res://barkley2/assets/Border/sBorderBG_0.png" id="28_4v7so"]
@@ -34,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://dnx018n4pgr61" path="res://barkley2/assets/b2_original/images/merged/sBorderLeftRight.png" id="29_majse"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="30_exq50"]
 [ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="30_fnn2t"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="30_gwxos"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="30_h7ri8"]
 [ext_resource type="Texture2D" uid="uid://bby3h27kh76mu" path="res://barkley2/resources/B2_Weapon/weapon_atlas01.tres" id="30_mn44q"]
 [ext_resource type="Texture2D" uid="uid://bvtq3dk87dgrm" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_2.png" id="31_2sw3h"]
@@ -49,10 +51,8 @@
 [ext_resource type="Texture2D" uid="uid://00hk1b14h353" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_4.png" id="37_mtg0f"]
 [ext_resource type="Texture2D" uid="uid://bvxv5tnvn2h11" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_9.png" id="38_vo113"]
 [ext_resource type="Texture2D" uid="uid://c76u6ofxfbg0o" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_0.png" id="39_exq50"]
-[ext_resource type="Script" uid="uid://c64bc6s2o4ste" path="res://barkley2/scenes/Objects/System/_quick_menu/bottom_menu.gd" id="39_gwxos"]
 [ext_resource type="Texture2D" uid="uid://bxgp4w5xhfe1c" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_13.png" id="39_vo113"]
 [ext_resource type="Texture2D" uid="uid://c015nhh3igmsm" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_5.png" id="40_mn44q"]
-[ext_resource type="PackedScene" uid="uid://bo04o61ye6eoj" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.tscn" id="40_oheky"]
 [ext_resource type="Texture2D" uid="uid://cctm6u8b550ge" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_14.png" id="42_exq50"]
 [ext_resource type="Texture2D" uid="uid://k2futdeuep3a" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_10.png" id="45_mn44q"]
 [ext_resource type="Texture2D" uid="uid://b1bu3h05qytbr" path="res://barkley2/assets/b1_original/images/combat_icons/sBIcon_15.png" id="46_exq50"]
@@ -161,13 +161,70 @@ region = Rect2(18, 0, 18, 18)
 atlas = ExtResource("21_7gemm")
 region = Rect2(0, 0, 16, 18)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbb32"]
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.647059, 0, 1)
+[sub_resource type="Animation" id="Animation_oheky"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cbb32"]
+resource_name = "hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -57), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_gwxos"]
+resource_name = "show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -57)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1pbax"]
+_data = {
+&"RESET": SubResource("Animation_oheky"),
+&"hide": SubResource("Animation_cbb32"),
+&"show": SubResource("Animation_gwxos")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umfwf"]
+atlas = ExtResource("29_majse")
+region = Rect2(269, 0, 11, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py2jj"]
+atlas = ExtResource("29_majse")
+region = Rect2(269, 0, 11, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oheky"]
+font = ExtResource("30_gwxos")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_mn44q"]
 
@@ -199,7 +256,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(-2, 1),
 "update": 0,
-"values": [Vector2(217, 177.2), Vector2(217, 192)]
+"values": [Vector2(217, 177.2), Vector2(217, 200)]
 }
 
 [sub_resource type="Animation" id="Animation_majse"]
@@ -215,7 +272,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(-2, 1),
 "update": 0,
-"values": [Vector2(217, 192), Vector2(217, 177.2)]
+"values": [Vector2(217, 200), Vector2(217, 177.2)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gwxos"]
@@ -317,6 +374,7 @@ process_mode = 3
 script = ExtResource("1_33b6q")
 
 [node name="hud_bar" type="TextureRect" parent="."]
+z_index = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -677,7 +735,7 @@ offset_right = 384.0
 offset_bottom = 41.0
 theme_override_fonts/normal_font = ExtResource("4_dvdl2")
 bbcode_enabled = true
-text = "big pussy i i i"
+text = "big pussy - monospaced font biiiiiiiitch!"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
@@ -706,56 +764,137 @@ offset_bottom = 40.0
 theme = ExtResource("23_ev2ej")
 script = ExtResource("24_reaae")
 
-[node name="item_list" type="Control" parent="combat_module"]
-z_index = -11
-material = ExtResource("28_xl7ta")
-layout_mode = 3
+[node name="item_and_skill_list" type="Control" parent="combat_module"]
+z_index = -1
 anchors_preset = 0
-offset_left = 162.0
-offset_top = 142.0
-offset_right = 384.0
-offset_bottom = 270.0
-theme = ExtResource("29_bb8yl")
-script = ExtResource("39_gwxos")
-border_size = Vector2(222, 128)
+offset_top = 200.0
+offset_right = 154.0
+offset_bottom = 240.0
+script = ExtResource("26_v4r6g")
 
-[node name="bg" type="Panel" parent="combat_module/item_list"]
-custom_minimum_size = Vector2(185, 34)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -92.5
-offset_top = -51.0
-offset_right = 92.5
-offset_bottom = -17.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cbb32")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="combat_module/item_and_skill_list"]
+libraries = {
+&"": SubResource("AnimationLibrary_1pbax")
+}
+speed_scale = 3.0
 
-[node name="pocket_list" type="HBoxContainer" parent="combat_module/item_list/bg"]
+[node name="top_panel" type="NinePatchRect" parent="combat_module/item_and_skill_list"]
+custom_minimum_size = Vector2(0, 9)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 9.0
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 25
-alignment = 1
+texture = ExtResource("27_1kavn")
+region_rect = Rect2(0, 0, 43, 9)
+patch_margin_left = 16
+patch_margin_right = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
-[node name="pocket_0" parent="combat_module/item_list/bg/pocket_list" instance=ExtResource("40_oheky")]
-layout_mode = 2
+[node name="bg_panel" type="TextureRect" parent="combat_module/item_and_skill_list/top_panel"]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 9.0
+offset_right = 150.0
+offset_bottom = 57.0
+texture = ExtResource("28_4v7so")
+stretch_mode = 1
 
-[node name="pocket_1" parent="combat_module/item_list/bg/pocket_list" instance=ExtResource("40_oheky")]
-layout_mode = 2
+[node name="left_panel" type="TextureRect" parent="combat_module/item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 9.0
+offset_right = 9.0
+offset_bottom = 41.0
+texture = SubResource("AtlasTexture_umfwf")
+flip_h = true
 
-[node name="pocket_2" parent="combat_module/item_list/bg/pocket_list" instance=ExtResource("40_oheky")]
-layout_mode = 2
+[node name="right_panel" type="TextureRect" parent="combat_module/item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 9.0
+offset_right = 153.0
+offset_bottom = 57.0
+texture = SubResource("AtlasTexture_py2jj")
 
-[node name="pocket_3" parent="combat_module/item_list/bg/pocket_list" instance=ExtResource("40_oheky")]
+[node name="items" type="ScrollContainer" parent="combat_module/item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 142.0
+offset_bottom = 57.0
+follow_focus = true
+scroll_vertical_custom_step = 12.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+scroll_deadzone = 12
+
+[node name="item_list" type="VBoxContainer" parent="combat_module/item_and_skill_list/top_panel/items"]
+clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="Button" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button2" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button3" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button4" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button5" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button6" type="Button" parent="combat_module/item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="description" type="PanelContainer" parent="combat_module/item_and_skill_list/top_panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.01948
+anchor_top = 1.11111
+anchor_right = 1.01948
+anchor_bottom = 6.11111
+offset_right = 223.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="margin" type="MarginContainer" parent="combat_module/item_and_skill_list/top_panel/description"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="description_text" type="Label" parent="combat_module/item_and_skill_list/top_panel/description/margin"]
+custom_minimum_size = Vector2(217, 0)
+layout_mode = 2
+text = "-50 HP, +10 GLAMP for 60 seconds
+
+Exxxtreme Gamerfuel. Berzerked metabolism begins to break down all stomach contents and liver."
+label_settings = SubResource("LabelSettings_oheky")
+vertical_alignment = 2
+autowrap_mode = 2
 
 [node name="player_control_weapons" type="Control" parent="combat_module"]
 material = ExtResource("28_xl7ta")
@@ -903,9 +1042,9 @@ autowrap_mode = 1
 z_index = -1
 anchors_preset = 0
 offset_left = 217.0
-offset_top = 192.0
+offset_top = 200.0
 offset_right = 384.0
-offset_bottom = 222.0
+offset_bottom = 230.0
 script = ExtResource("27_4v7so")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="combat_module/player_controls_new"]
@@ -1033,10 +1172,10 @@ text = "Mov."
 
 [node name="weapon_stats_mini" type="VBoxContainer" parent="combat_module"]
 layout_mode = 0
-offset_left = 2.0
-offset_top = 168.0
-offset_right = 157.0
-offset_bottom = 200.0
+offset_left = 1.0
+offset_top = 166.0
+offset_right = 156.0
+offset_bottom = 199.0
 theme_override_constants/separation = 2
 script = ExtResource("29_exq50")
 

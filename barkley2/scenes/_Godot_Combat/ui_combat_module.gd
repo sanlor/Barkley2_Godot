@@ -3,7 +3,7 @@ class_name B2_HudCombat
 
 const MENU_WPN_DATA = preload("uid://cnkroip8gbsn1")
 
-enum { NOTHING, PLAYER_AIMING, PLAYER_MOVING, PLAYER_SELECTING_SOMETHING } ## What is the player doing?
+enum { NOTHING, PLAYER_AIMING, PLAYER_MOVING, PLAYER_SELECTING_SOMETHING, PLAYER_AIMING_SKILL, } ## What is the player doing?
 var curr_action := NOTHING
 
 signal selected_enemy( enemy : B2_EnemyCombatActor )
@@ -34,9 +34,8 @@ signal battle_results_finished
 @onready var escape_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/escape_btn
 @onready var move_btn: 				Button = $player_controls_new/menu_space/move_btn
 
-## Item
-@onready var item_list: 			Control = $item_list
-
+## Item and skill
+@onready var item_and_skill_list: Control = $item_and_skill_list
 
 ## Fluff
 @onready var instructions: RichTextLabel = $instructions
@@ -64,7 +63,6 @@ func can_resume_combat() -> bool:
 func _ready() -> void:
 	instructions.hide()
 	slowdown_label.hide()
-	item_list.hide()
 	
 	attack_btn.pressed.connect( 	_on_attack_btn )
 	skill_btn.pressed.connect( 		_on_skill_btn )
@@ -121,6 +119,10 @@ func _input(event: InputEvent) -> void:
 							print("%s: holster" % self)
 				
 					PLAYER_SELECTING_SOMETHING:
+						## on a skill or item menu
+						
+						if event.is_action_pressed("Holster"):
+							action_queued()
 						pass
 				
 					PLAYER_MOVING:
@@ -175,9 +177,28 @@ func action_queued() -> void:
 	player_control_weapons.show()
 	player_control_move.show()
 	player_control_defend.show()
+	weapon_stats_mini.show()
+	
+	item_and_skill_list.hide_menu()
 	instructions.hide()
 	B2_CManager.combat_manager.resume_combat()
 	curr_action = NOTHING
+
+## Use an item. duh.
+func use_item( slot : int ) -> void:
+	B2_Jerkin.use_pocket_content( slot )
+	B2_Sound.play( "sn_shekeltally01" )
+	B2_Playerdata.player_stats.reset_action()
+	action_queued()
+	resume_time()
+	
+## Player selected an skill from the list. Need to aim it before use.
+func select_skill( skill : B2_WeaponSkill ) -> void:
+	pass
+
+## Player aimed the skill, use it.
+func use_skill( skill : B2_WeaponSkill ) -> void:
+	pass
 
 func _on_attack_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
@@ -199,10 +220,30 @@ func _on_attack_btn() -> void:
 	slow_time()
 	
 func _on_skill_btn() -> void:
-	pass
+	B2_CManager.combat_manager.pause_combat()
+	item_and_skill_list.show_skill_menu()
+	
+	player_controls_new.hide_menu()
+	
+	weapon_stats_mini.hide()
+	player_control_weapons.hide()
+	player_control_move.hide()
+	player_control_defend.hide()
+	curr_action = PLAYER_SELECTING_SOMETHING
+	slow_time()
 	
 func _on_item_btn() -> void:
-	pass
+	B2_CManager.combat_manager.pause_combat()
+	item_and_skill_list.show_item_menu()
+	
+	player_controls_new.hide_menu()
+	
+	weapon_stats_mini.hide()
+	player_control_weapons.hide()
+	player_control_move.hide()
+	player_control_defend.hide()
+	curr_action = PLAYER_SELECTING_SOMETHING
+	slow_time()
 	
 func _on_move_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()

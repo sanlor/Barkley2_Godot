@@ -123,8 +123,22 @@ func display_damage_number( caller_node : Node, damage, color := Color.WHITE, li
 func display_item_effect( header : String, text : String ) -> void:
 	var it := O_ENTITY_INDICATOR_TEXT.instantiate()
 	it.setup_labels( header, "+" + text + "HP" )
-	B2_CManager.o_hoopz.add_sibling( it, true )
-	it.global_position = B2_CManager.o_hoopz.global_position
+	var origin_node
+	
+	if is_instance_valid( B2_CManager.o_cbt_hoopz ):
+		origin_node = B2_CManager.o_cbt_hoopz
+	elif is_instance_valid( B2_CManager.o_cts_hoopz ):
+		origin_node = B2_CManager.o_cts_hoopz
+	elif is_instance_valid( B2_CManager.o_hoopz ):
+		origin_node = B2_CManager.o_hoopz
+	else:
+		push_error("WTF, no hoopz model is loaded?")
+		breakpoint
+		
+	origin_node.add_sibling( it, true )
+	print( "B2_Screen: Item effect spawned near ", origin_node.name )
+	
+	it.global_position = origin_node.global_position
 
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()
