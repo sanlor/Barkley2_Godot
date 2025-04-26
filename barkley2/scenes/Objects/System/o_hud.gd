@@ -23,7 +23,7 @@ var debug_messages := true
 @onready var hud_weight: ColorRect = $hud_bar/hud_weight
 @onready var hud_periodic: ColorRect = $hud_bar/hud_periodic
 @onready var hud_pockets: Control = $hud_bar/hud_pockets
-@onready var hud_marquee_text: Label = $hud_bar/hud_marquee/hud_marquee_text
+@onready var hud_marquee_text: RichTextLabel = $hud_bar/hud_marquee/hud_marquee_text
 @onready var hud_wifi: ColorRect = $hud_bar/hud_wifi
 
 ## Ammo

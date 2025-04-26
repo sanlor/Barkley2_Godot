@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=102 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -156,9 +156,6 @@ region = Rect2(0, 0, 12, 30)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ttb2t"]
 atlas = ExtResource("20_4bfvb")
 region = Rect2(18, 0, 18, 18)
-
-[sub_resource type="LabelSettings" id="LabelSettings_2m0x6"]
-font = ExtResource("4_dvdl2")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yk1v5"]
 atlas = ExtResource("21_7gemm")
@@ -672,16 +669,18 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("21_okcn5")
 
-[node name="hud_marquee_text" type="Label" parent="hud_bar/hud_marquee"]
-custom_minimum_size = Vector2(154, 0)
+[node name="hud_marquee_text" type="RichTextLabel" parent="hud_bar/hud_marquee"]
 layout_mode = 0
-offset_left = 377.241
+offset_left = 226.0
 offset_top = 27.0
-offset_right = 531.241
+offset_right = 384.0
 offset_bottom = 41.0
-text = "do i get a prize too"
-label_settings = SubResource("LabelSettings_2m0x6")
-text_overrun_behavior = 1
+theme_override_fonts/normal_font = ExtResource("4_dvdl2")
+bbcode_enabled = true
+text = "big pussy i i i"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="hud_wifi" type="ColorRect" parent="hud_bar"]
 layout_mode = 0
@@ -715,7 +714,7 @@ anchors_preset = 0
 offset_left = 162.0
 offset_top = 142.0
 offset_right = 384.0
-offset_bottom = 398.0
+offset_bottom = 270.0
 theme = ExtResource("29_bb8yl")
 script = ExtResource("39_gwxos")
 border_size = Vector2(222, 128)
@@ -729,9 +728,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -92.5
-offset_top = -115.0
+offset_top = -51.0
 offset_right = 92.5
-offset_bottom = -81.0
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cbb32")

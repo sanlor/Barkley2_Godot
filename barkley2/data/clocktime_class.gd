@@ -47,7 +47,8 @@ static func time_display( my_time = null ) -> String:
 	var clockHours 		= clockMinutes / 60.0
 	clockMinutes 		= int(clockMinutes) % 60
 	
-	return str( round(clockHours) ) + ":" + str( round(clockMinutes) )
+	## NOTE Seems to be a 25h day, for some reason.
+	return str( roundi(clockHours) ).pad_zeros(2) + ":" + str( roundi(clockMinutes) ).pad_zeros(2)
 	
 ## Set a timed event. After the timer runs out, change a quest variable.
 static func time_event( quest, value, timer ) -> void: # timer is in seconds.

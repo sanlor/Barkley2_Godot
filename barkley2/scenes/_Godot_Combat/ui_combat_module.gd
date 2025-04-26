@@ -34,6 +34,10 @@ signal battle_results_finished
 @onready var escape_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/escape_btn
 @onready var move_btn: 				Button = $player_controls_new/menu_space/move_btn
 
+## Item
+@onready var item_list: 			Control = $item_list
+
+
 ## Fluff
 @onready var instructions: RichTextLabel = $instructions
 @onready var slowdown_label: Label = $slowdown_label
@@ -60,6 +64,7 @@ func can_resume_combat() -> bool:
 func _ready() -> void:
 	instructions.hide()
 	slowdown_label.hide()
+	item_list.hide()
 	
 	attack_btn.pressed.connect( 	_on_attack_btn )
 	skill_btn.pressed.connect( 		_on_skill_btn )
