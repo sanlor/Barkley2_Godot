@@ -1,0 +1,254 @@
+[gd_scene load_steps=16 format=3 uid="uid://cixxw63xbx61y"]
+
+[ext_resource type="Texture2D" uid="uid://05heso4l1vq" path="res://barkley2/assets/b2_original/images/merged/s_gbl_router01.png" id="1_koj7o"]
+[ext_resource type="Script" uid="uid://bkpmd2nvk3rov" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_wedding_quest/o_gbl_router_01.gd" id="2_koj7o"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_k8h1k"]
+[ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="3_yc7o6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc7o6"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(0, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8h1k"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(20, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vigls"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(40, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rt3jd"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(60, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lxqm"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(80, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5j70"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(100, 0, 20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bnmp"]
+atlas = ExtResource("1_koj7o")
+region = Rect2(120, 0, 20, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_itht0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yc7o6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8h1k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vigls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt3jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lxqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5j70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bnmp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yc7o6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8h1k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vigls")
+}],
+"loop": true,
+"name": &"routerError",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bnmp")
+}],
+"loop": true,
+"name": &"routerGreen",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vigls")
+}],
+"loop": true,
+"name": &"routerOff",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vigls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt3jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lxqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5j70")
+}],
+"loop": true,
+"name": &"routerYellow",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_vigls"]
+script = ExtResource("3_k8h1k")
+original_script = "MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_gbl_router01
+IF area == air | IF routerAirReady == 3 | GOTO | ON
+IF area == bct | IF routerBctReady == 3 | GOTO | ON
+IF area == est | IF routerEstReady == 3 | GOTO | ON
+IF area == wst | IF routerWstReady == 3 | GOTO | ON
+IF area == swp | IF routerSwpReady == 3 | GOTO | ON
+IF area == usw | IF routerUswReady == 3 | GOTO | ON
+IF area == air | IF routerAirReady == 2 | GOTO | OFF
+IF area == bct | IF routerBctReady == 2 | GOTO | OFF
+IF area == est | IF routerEstReady == 2 | GOTO | OFF
+IF area == wst | IF routerWstReady == 2 | GOTO | OFF
+IF area == swp | IF routerSwpReady == 2 | GOTO | OFF
+IF area == usw | IF routerUswReady == 2 | GOTO | OFF
+IF area == air | IF routerAir == 0 | GOTO | BROKEN
+IF area == bct | IF routerBct == 0 | GOTO | BROKEN
+IF area == est | IF routerEst == 0 | GOTO | BROKEN
+IF area == wst | IF routerWst == 0 | GOTO | BROKEN
+IF area == swp | IF routerSwp == 0 | GOTO | BROKEN
+IF area == usw | IF routerUsw == 0 | GOTO | BROKEN
+IF area == air | IF routerAir == 1 | GOTO | OFF
+IF area == bct | IF routerBct == 1 | GOTO | OFF
+IF area == est | IF routerEst == 1 | GOTO | OFF
+IF area == wst | IF routerWst == 1 | GOTO | OFF
+IF area == swp | IF routerSwp == 1 | GOTO | OFF
+IF area == usw | IF routerUsw == 1 | GOTO | OFF
+
+BROKEN
+CHOICE | A mysterious router...
+REPLY  | UNPLUG | Unplug the router.
+REPLY  | MANUAL | Check the owner's manual.
+REPLY  | LEAVE  | Leave it be.
+
+UNPLUG
+USEAT  | o_gbl_router01
+SET    | o_gbl_router01 | routerOff
+EVENT  | o_gbl_router01 | 1
+EVENT  | o_gbl_router01 | 15
+
+MANUAL
+DIALOG | P_NAME | ...
+DIALOG | P_NAME | Ah here it is, /'to connect to WiFi, unplug the device and wait 15 seconds before plugging back in./'
+GOTO   | BROKEN
+
+LEAVE
+DIALOG | P_NAME | This router could become the bane of my existence. I better leave before something wacky happens.
+
+OFF
+CHOICE | The router is off.
+REPLY  | TURNON    | Turn on the router.
+REPLY  | OFF_LEAVE | Leave it off.
+
+TURNON
+USEAT  | o_gbl_router01
+EVENT  | o_gbl_router01 | 2
+WAIT   | 0.5
+IF area == air | IF routerAir == 2 | GOTO | SUCCESS
+IF area == bct | IF routerBct == 2 | GOTO | SUCCESS
+IF area == est | IF routerEst == 2 | GOTO | SUCCESS
+IF area == wst | IF routerWst == 2 | GOTO | SUCCESS
+IF area == swp | IF routerSwp == 2 | GOTO | SUCCESS
+IF area == usw | IF routerUsw == 2 | GOTO | SUCCESS
+DIALOG | P_NAME | It doesn't work...
+WAIT   | 1
+DIALOG | P_NAME | Did I mess it up?
+
+SUCCESS
+DIALOG | P_NAME = s_port_hoopzSmirk | Heh, I've still got it...
+GOTO   | ON
+
+ON
+CHOICE | The router is on and connected to WiFi.
+REPLY  | CHAT       | Connect to Chatroulette.
+REPLY  | UNPLUG_ON  | Unplug the router.
+REPLY  | LEAVE_WIFI | Leave it be.
+
+CHAT
+CHATROULETTE | 1
+
+UNPLUG_ON
+USEAT  | o_gbl_router01
+SET    | o_gbl_router01 | routerOff
+DIALOG | P_NAME | There is a time and a place for routing.
+EVENT  | o_gbl_router01 | 1
+EVENT  | o_gbl_router01 | 15
+
+LEAVE_WIFI
+DIALOG | P_NAME | Nothing browns my toast like a stable WiFi connection.
+
+OFF_LEAVE
+DIALOG | P_NAME | I'd better leave it off, for now..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yc7o6"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k8h1k"]
+radius = 8.0
+
+[node name="o_gbl_router01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_itht0")
+animation = &"routerError"
+frame_progress = 0.533719
+centered = false
+offset = Vector2(0, -17)
+script = ExtResource("2_koj7o")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_vigls")
+metadata/default = {
+"bbox_bottom": "17",
+"bbox_left": "1",
+"bbox_right": "18",
+"bbox_top": "1",
+"height": "19",
+"name": "s_gbl_router01",
+"width": "20",
+"xorig": "0",
+"yorigin": "17"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(10, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_yc7o6")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(10, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_k8h1k")
+
+[node name="o_Shadow" parent="." instance=ExtResource("3_yc7o6")]
+position = Vector2(10, 0)
+
+[node name="timer_reboot" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[connection signal="timeout" from="timer_reboot" to="." method="_on_timer_reboot_timeout"]

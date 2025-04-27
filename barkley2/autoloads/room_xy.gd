@@ -25,61 +25,32 @@ var use_subthreads 		:= false # setting this to true causes issues. # https://gi
 var cachemode			:= ResourceLoader.CACHE_MODE_REPLACE
 
 ## Bellow vars are used by the cinema script, to add the player character.
-var this_room 		:= ""
-var this_room_x 	:= 0.0
-var this_room_y 	:= 0.0
+var this_room 			:= ""
+var this_room_x 		:= 0.0
+var this_room_y 		:= 0.0
 
 var fade_time_in 		:= B2_Config.settingFadeIn
 var fade_delay 			:= B2_Config.settingFadeDelay
 var fade_time_out 		:= B2_Config.settingFadeOut
 
-var invalid_room 	:= "res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn" # "res://barkley2/rooms/r_wip.tscn" # Fallback room
-var room_folder 	:= "res://barkley2/rooms/"
+var invalid_room 		:= "res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn" # "res://barkley2/rooms/r_wip.tscn" # Fallback room
+var room_folder 		:= "res://barkley2/rooms/"
 
-var room_load_lock	:= false # disallow loading a new room defore the current one finishes loading
+var room_load_lock		:= false # disallow loading a new room defore the current one finishes loading
 
-var room_array := [ # need a better way to do this.
-	## Menus, non gameplay
-	#"res://barkley2/rooms/r_title.tscn",
-	#"res://barkley2/rooms/r_cc.tscn",
-	#"res://barkley2/rooms/r_wip.tscn",
-	#
-	## Actual rooms
-	#
-	### Tutorial - Factory 2nd floor
-	#"res://barkley2/rooms/factory/floor2/r_fct_accessHall01.tscn",
-	#"res://barkley2/rooms/factory/floor2/r_fct_eggRooms01.tscn",
-	#"res://barkley2/rooms/factory/floor2/r_fct_tutorialZone01.tscn",
-	#"res://barkley2/rooms/factory/floor2/r_fct_reroute01.tscn",
-	#"res://barkley2/rooms/factory/floor2/r_fct_eggDrone01.tscn",
-	#"res://barkley2/rooms/factory/outside/r_fct_factoryOutpost01.tscn",
-	#
-	### AIR
-	#"res://barkley2/rooms/ai_ruins/r_air_boss01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_cloister01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_corridor01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_dais01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_entrance03.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_filler01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_finalgun01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_scannerFirst01.tscn",
-	#"res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn", ## main debug room
-]
-var room_index := {}
-var room_scene : PackedScene
-var room_is_invalid := false
-
-#var player_scene := "res://barkley2/scenes/Player/o_hoopz.tscn"
+var room_array 			:= []
+var room_index 			:= {}
+var room_scene 			: PackedScene
+var room_is_invalid 	:= false
 
 const ROOM_PROGRESS_BAR 		= preload("res://barkley2/resources/autoloads/room_progress_bar.tscn")
 const ROOM_TRANSITION_LAYER 	= preload("res://barkley2/resources/autoloads/room_transition_layer.tscn")
 
-var room_transition_layer: 	ColorRect
-var room_progress_bar: 		ProgressBar
+var room_transition_layer		: ColorRect
+var room_progress_bar			: ProgressBar
 
 func _index_rooms():
 	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "", true )
-	#print(room_array)
 	## Godot is kinda weird sometimes.
 	## PackedScene in exported projects are named *.tscn.remap for some reason.
 	## This basically handles the project in the editor and on exported projects.
@@ -118,7 +89,7 @@ func reset_room() -> void:
 	this_room 		= ""
 	this_room_x 	= 0.0
 	this_room_y 	= 0.0
-	print_rich( "[color=yellow]Room data reseted[/color]" )
+	print_rich( "[color=yellow]B2_RoomXY: Room data reseted[/color]" )
 
 ## Hoopz dies. respawn based on the RespawnLocation script data.
 func respawn( area : String, room_name : String ) -> void:
@@ -259,7 +230,7 @@ func fancy_warp_to( respawnRoom : String, respawnX : float, respawnY : float ):
 	
 func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
 	if room_load_lock:
-		push_warning("Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
+		push_warning("B2_RoomXY: Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
 	room_load_lock = true
 	started_loading.emit()
@@ -300,8 +271,10 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
 			B2_Playerdata.SaveGame()
 
-	if print_debug_logs: print("Started loading room %s." % room_name)
-
+	if print_debug_logs: print("B2_RoomXY: Started loading room %s." % room_name)
+	
+	B2_Input.cutscene_is_playing = false
+	
 	add_child(room_transition_layer)
 	add_child(room_progress_bar)
 
@@ -360,10 +333,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if print_debug_logs: print("Finished loading room %s." % room_name)
 	return
 
-
 func get_room_scene( room_name : String ):
 	room_is_invalid = false
-	if print_room_load_logs: print_rich( "[bgcolor=black]Loading room %s started.[/bgcolor]" % room_name )
+	if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Loading room %s started.[/bgcolor]" % room_name )
 	var t1 := Time.get_ticks_msec()
 	if room_index.has( room_name ):
 		path_loading_room = room_index[ room_name ]
@@ -374,26 +346,26 @@ func get_room_scene( room_name : String ):
 		var error = await room_loaded
 
 		var t2 := Time.get_ticks_msec() - t1
-		if print_room_load_logs: print_rich( "[bgcolor=black]Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
+		if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
 		if t2 > 1000.0:
 			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
 		if not error:
 			room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
 			return
-		print("Load error: ", error)
+		print("B2_RoomXY: Load error: ", error)
 	else:
-		push_error("Room %s not indexed." % room_name)
+		push_error("B2_RoomXY: Room %s not indexed." % room_name)
 
 	room_is_invalid = true
 	this_room_x 	= 0
 	this_room_y 	= 0
-	push_error("Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
+	push_error("B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
 	room_scene = load( invalid_room ) as PackedScene
 	return
 
 func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if this_room.is_empty():
-		push_error("Room name empty. Aborting player node creation.")
+		push_error("B2_RoomXY: Room name empty. Aborting player node creation.")
 		return
 
 	# Pos is invalid. do not spawn player.
@@ -416,7 +388,7 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 
 		cam.follow_mouse = true
 
-	if print_debug_logs: print( "RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
+	if print_debug_logs: print( "B2_RoomXY: Player loaded at %s. camera state is %s." % [str(pos), str(add_camera)] )
 	# reset_room()
 
 func _process(_delta: float) -> void:

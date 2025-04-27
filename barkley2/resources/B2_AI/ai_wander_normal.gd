@@ -3,7 +3,6 @@ class_name B2_AI_Wander_Normal
 
 @export var time_to_new_wander_target	:= 5.0
 @export var distance_to_wander_target 	:= 10.0
-@export var speed_multiplier			:= 50000
 
 var wander_timer : Timer
 
@@ -16,50 +15,34 @@ func _ready() -> void:
 	wander_timer.name = "wander_timer"
 	add_child( wander_timer, true )
 	wander_timer.timeout.connect( _debug_get_random_pos )
-	wander_timer.start( 5.0 )
+	wander_timer.start( time_to_new_wander_target * randf_range( 0.2, 1.0 ) )
+	# _debug_get_random_pos()
 
 ## AI Action
 func action() -> void:
 	pass
 
 func step() -> void:
-	if actor.is_changing_states:
-		return
+	if is_active:
+		if actor.is_changing_states:
+			return
+			
+		if actor.curr_MODE != B2_EnemyCombatActor.MODE.INACTIVE:
+			return
+			
+		## DEBUG
+		if actor.global_position.distance_to( wander_target_pos ) < distance_to_wander_target:
+			actor.is_moving = false
+			wander_target_pos = Vector2.ZERO
+			wander_timer.start( time_to_new_wander_target * randf_range( 0.2, 2.0 ) )
+			if randi_range(0,9) >= 5:
+				B2_Sound.play("junkbot_death_partclink")
+				actor.play_idle_anim()
 		
-	if actor.curr_MODE != B2_EnemyCombatActor.MODE.INACTIVE:
-		return
-	## 27/02/25 disabled this
-	#if actor.is_moving:
-		#actor.velocity = actor.global_position.direction_to( wander_target_pos ) * speed_multiplier
-	#else:
-		#actor.velocity = Vector2.ZERO
-		#
-	#actor.apply_central_force( actor.velocity ) ## MOOOOOVE
-
-	## DEBUG
-	if actor.global_position.distance_to( wander_target_pos ) < distance_to_wander_target:
-		actor.is_moving = false
-		wander_target_pos = Vector2.ZERO
-		wander_timer.start( time_to_new_wander_target * randf_range( 0.5, 1.5 ) )
-		
-	## DEPRECATED
-	#if _detect_player():
-		#actor.is_changing_states = true
-		#emote.emit( "!" )
-		#var origin_offset : float = actor.ActorAnim.offset.y
-		#
-		#actor.curr_MODE = B2_EnemyCombatActor.MODE.COMBAT
-		#actor.start_combat()
-		#actor.is_changing_states = false
 	
 func _debug_get_random_pos():
-	actor.is_moving = true
-	wander_target_pos = home_point
-	wander_target_pos += Vector2.LEFT.rotated( randf_range(0, TAU) ) * randf_range(0, home_radius)
-	
-func _detect_player() -> bool: ## DEPRECATED
-	if is_instance_valid( B2_CManager.o_hoopz ):
-		if actor.position.distance_to( B2_CManager.o_hoopz.position ) < detection_radius:
-			actor.velocity = Vector2.ZERO
-			return true
-	return false
+	if is_active:
+		actor.is_moving = true
+		wander_target_pos = home_point
+		wander_target_pos += Vector2.LEFT.rotated( randf_range(0, TAU) ) * randf_range(0.1, home_radius)
+		actor.set_movement_target( wander_target_pos )

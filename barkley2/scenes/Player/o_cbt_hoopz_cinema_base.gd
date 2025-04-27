@@ -633,7 +633,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	## Check if ded :(
 	if B2_Playerdata.player_stats.curr_health == 0:
 		print("H O O P Z I S D E A D .")
-			
+		linear_velocity = Vector2.ZERO
 		defeat_anim()
 		
 		if is_instance_valid( B2_CManager.combat_manager ):
@@ -654,10 +654,13 @@ func victory_anim() -> void:
 		hoopz_normal_body.frame 		= [ 5, 6, 6, 7, 7 ].pick_random() # Pick a direction to look at.
 
 func defeat_anim() -> void:
+	## TODO Defeat doesnt exits yet.
+	## NOTE 26/04/25 it does now.
 	curr_STATE = STATE.DEFEAT
 	_change_sprites()
-	hoopz_normal_body.play("demise")
-	## TODO Defeat doesnt exits yet.
+	B2_Sound.play( "hoopz_demise" )
+	hoopz_normal_body.play( "demise" )
+	hoopz_roll_direction.hide()
 
 func start_defending( _dir : Vector2 ) -> void:
 	curr_STATE = STATE.DEFENDING
@@ -736,6 +739,10 @@ func _physics_process(delta: float) -> void:
 	_process_movement( delta )
 
 func _on_hit_timer_timeout() -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
 	if curr_STATE == STATE.HIT:
 		if prev_STATE == STATE.ROLL: ## Avoid issues with being hit while rolling.
 			stop_rolling()
@@ -748,6 +755,10 @@ func _on_gun_down_timer_timeout() -> void:
 	pass
 
 func _on_combat_actor_entered(body: Node) -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
 			if body.has_method("damage_actor"):
@@ -757,6 +768,10 @@ func _on_combat_actor_entered(body: Node) -> void:
 			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
 	if hoopz_normal_body.animation.begins_with("walk_"):
 		# play audio only on frame 0 or 2
 		if hoopz_normal_body.frame in [0,2]:
@@ -767,6 +782,10 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 			move_dist -= 1.0
 
 func _on_combat_lower_body_frame_changed() -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
 	if hoopz_normal_body.animation.begins_with("walk_"):
 		# play audio only on frame 0 or 2
 		if hoopz_normal_body.frame in [0,2]:
@@ -777,6 +796,10 @@ func _on_combat_lower_body_frame_changed() -> void:
 			move_dist -= 1.0
 
 func _on_hoopz_normal_body_animation_finished() -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
 	## Hoopz stopped rolling
 	if curr_STATE == STATE.ROLL and hoopz_normal_body.animation == "full_roll":
 		stop_rolling()

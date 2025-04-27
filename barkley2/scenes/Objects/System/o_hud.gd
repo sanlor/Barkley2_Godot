@@ -33,6 +33,7 @@ var debug_messages := true
 ## Combat
 ## New Menu
 @onready var player_controls_new: Control = $combat_module/player_controls_new
+@onready var item_and_skill_list: Control = $combat_module/item_and_skill_list
 
 ## Old Menu
 @onready var player_control_weapons: B2_Border = $combat_module/player_control_weapons
@@ -81,11 +82,13 @@ func _ready() -> void:
 	player_control_defend.hide()
 	player_controls.hide()
 	weapon_stats_mini.hide()
+	item_and_skill_list.hide()
 	player_control_weapons.modulate.a 	= 0.0
 	player_control_move.modulate.a 		= 0.0
 	player_control_defend.modulate.a 	= 0.0
 	player_controls.modulate.a 			= 0.0
 	weapon_stats_mini.modulate.a 		= 0.0
+	item_and_skill_list.modulate.a 		= 0.0
 	
 func get_combat_module() -> B2_HudCombat:
 	return combat_module
@@ -186,12 +189,14 @@ func show_battle_ui() -> void:
 	c_tween.tween_callback( player_control_defend.show )
 	c_tween.tween_callback( player_controls.show )
 	c_tween.tween_callback( weapon_stats_mini.show )
+	c_tween.tween_callback( item_and_skill_list.show )
 	
 	c_tween.tween_property(player_control_weapons, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_control_move, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_control_defend, 	"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(player_controls, 		"modulate:a", 1.0, combat_fade_speed)
 	c_tween.tween_property(weapon_stats_mini, 		"modulate:a", 1.0, combat_fade_speed)
+	c_tween.tween_property(item_and_skill_list, 	"modulate:a", 1.0, combat_fade_speed)
 	
 	player_controls_new.show_menu()
 	
@@ -205,6 +210,7 @@ func hide_battle_ui() -> void:
 	c_tween.tween_property(player_control_defend, 	"modulate:a", 0.0, combat_fade_speed)
 	c_tween.tween_property(player_controls, 		"modulate:a", 0.0, combat_fade_speed)
 	c_tween.tween_property(weapon_stats_mini, 		"modulate:a", 0.0, combat_fade_speed)
+	c_tween.tween_property(item_and_skill_list, 	"modulate:a", 0.0, combat_fade_speed)
 	
 	c_tween.set_parallel(false)
 	c_tween.tween_callback( player_control_weapons.hide )
@@ -212,6 +218,7 @@ func hide_battle_ui() -> void:
 	c_tween.tween_callback( player_control_defend.hide )
 	c_tween.tween_callback( player_controls.hide )
 	c_tween.tween_callback( weapon_stats_mini.hide )
+	c_tween.tween_callback( item_and_skill_list.hide )
 	combat_module.reset()
 	player_controls_new.hide_menu()
 	

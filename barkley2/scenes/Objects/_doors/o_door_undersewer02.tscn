@@ -1,0 +1,154 @@
+[gd_scene load_steps=18 format=3 uid="uid://cosjrnapfeu40"]
+
+[ext_resource type="Texture2D" uid="uid://clcc0gg8ovvfy" path="res://barkley2/assets/b2_original/images/merged/s_door_undersewer02.png" id="1_tu6bh"]
+[ext_resource type="Script" uid="uid://divg3shd63gof" path="res://barkley2/scenes/Objects/_doors/o_door_tech_01.gd" id="2_xwtwi"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="3_lpdf6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwtwi"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(192, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpdf6"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(144, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odsf5"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svrfi"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkloo"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xk7v"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n7du"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84ta0"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sribh"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(144, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x146k"]
+atlas = ExtResource("1_tu6bh")
+region = Rect2(192, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vcae1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwtwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpdf6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odsf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svrfi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkloo")
+}],
+"loop": false,
+"name": &"door_close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xk7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n7du")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84ta0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sribh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x146k")
+}],
+"loop": false,
+"name": &"door_open",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dp3k"]
+size = Vector2(49, 19)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_at0fl"]
+size = Vector2(80, 45)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4q0mk"]
+bg_color = Color(0, 0, 0, 0.5)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+anti_aliasing = false
+
+[node name="o_door_undersewer02" type="AnimatedSprite2D" node_paths=PackedStringArray("door_block", "door_sensor", "sound_emiter")]
+z_index = -5
+sprite_frames = SubResource("SpriteFrames_vcae1")
+animation = &"door_close"
+centered = false
+offset = Vector2(0, -63)
+script = ExtResource("2_xwtwi")
+door_block = NodePath("door_block")
+door_sensor = NodePath("door_sensor")
+sound_emiter = NodePath("AudioStreamPlayer2D")
+opening_range = 32.0
+opening_speed = 6.0
+sfx_open = "door_open_sewer"
+sfx_close = "door_close_sewer"
+
+[node name="door_block" type="StaticBody2D" parent="."]
+
+[node name="block_shape" type="CollisionShape2D" parent="door_block"]
+position = Vector2(24.5, -9.5)
+shape = SubResource("RectangleShape2D_1dp3k")
+
+[node name="door_sensor" type="Area2D" parent="."]
+
+[node name="sensor_shape" type="CollisionShape2D" parent="door_sensor"]
+position = Vector2(24.5, -9.5)
+shape = SubResource("RectangleShape2D_at0fl")
+
+[node name="locked_panel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(72, 16)
+offset_left = -12.0
+offset_top = -36.0
+offset_right = 60.0
+offset_bottom = -20.0
+theme = ExtResource("3_lpdf6")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4q0mk")
+
+[node name="MarginContainer" type="MarginContainer" parent="locked_panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="locked_text" type="Label" parent="locked_panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Locked"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

@@ -25,8 +25,9 @@ func show_menu() -> void:
 	show()
 	animation_player.play("show")
 	disable_all_buttons( false )
-	attack_btn.grab_focus()
 	B2_Sound.play("sn_mouse_analoghover01")
+	await animation_player.animation_finished
+	attack_btn.grab_focus()
 	
 func hide_menu() -> void:
 	animation_player.play("hide")

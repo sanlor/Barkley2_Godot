@@ -14,6 +14,9 @@ enum MODE{INACTIVE,COMBAT,AIMING,CHARGING,DEATH}
 var curr_MODE := MODE.INACTIVE
 var is_changing_states := false
 
+@export_category("Enemy stuff")
+@export var my_nest					: Area2D
+
 @export_category("Actor Stuff")
 @export var cast_shadow		:= true
 @export var shadow_scale	:= 1.0
@@ -75,7 +78,8 @@ func _setup_enemy() -> void:
 	if not is_instance_valid( inactive_ai ):
 		push_error("%s: inactive_ai not set." % name)
 	else:
-		inactive_ai.home_point = global_position
+		if my_nest:		inactive_ai.home_point = my_nest.global_position
+		else:			inactive_ai.home_point = global_position
 		inactive_ai.emote.connect( _emote )
 		
 	if not is_instance_valid( combat_ai ):
@@ -91,7 +95,8 @@ func _setup_enemy() -> void:
 			enemy_data = B2_EnemyData.new()
 		enemy_data.apply_stats( enemy_name )
 		
-	enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
+	#enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
+	set_mode( MODE.INACTIVE )
 	
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
@@ -141,14 +146,23 @@ func _animations() -> void:
 			ActorAnim.flip_h = true
 		else:
 			ActorAnim.flip_h = false
+		
+func play_idle_anim() -> void:
+	if not actor_animations.ANIMATION_IDLE.is_empty():
+		ActorAnim.play( actor_animations.ANIMATION_IDLE.pick_random() )
+	else:
+		push_warning( name, ": No Idle animations.")
 	
 func set_mode( mode : MODE ) -> void:
 	curr_MODE = mode
+	if curr_MODE == MODE.INACTIVE: 	set_inactive_ai(); 	speed = speed_slow
+	if curr_MODE == MODE.COMBAT: 	set_combat_ai(); 	speed = speed_normal
 	
 func _physics_process( delta: float ) -> void:
 	match curr_MODE:
 		MODE.INACTIVE:
 			inactive_ai.step()
+			_animations()
 			
 		MODE.COMBAT:
 			if is_changing_states:
@@ -229,6 +243,14 @@ func get_inactive_ai() -> B2_AI_Wander:
 		return inactive_ai
 	else:
 		return B2_AI_Wander.new()
+
+func set_combat_ai() -> void:
+	inactive_ai.is_active 	= false
+	combat_ai.is_active 	= true
+	
+func set_inactive_ai() -> void:
+	inactive_ai.is_active 	= true
+	combat_ai.is_active 	= false
 
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	if actor_is_dying: # dont process damage if the actor is dying.

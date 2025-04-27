@@ -15,10 +15,10 @@ signal set_played 				## Actor was playing some animation, but its done now.
 @export var ActorCol : CollisionShape2D
 
 ## Speed stuff
-var speed_multiplier 		:= 200.0 # was 900.0
+var speed_multiplier 		:= 10000.0 # was 900.0
 var speed_slow 				:= 2.0 * speed_multiplier # was 1.5
-var speed_normal 			:= 3.0 * speed_multiplier # was 2.5
-var speed_fast 				:= 6.0 * speed_multiplier # was 5.0
+var speed_normal 			:= 9.5 * speed_multiplier # was 2.5
+var speed_fast 				:= 9.5 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
 @export_category("Pathfinding")
@@ -71,8 +71,6 @@ func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
 		movement_vector 		= real_movement_vector.round()
 		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
 
-
-
 ## Function checks if the node is doing anything
 ## Return void right awai if its idle. Await for a signal if its busy.
 func check_actor_activity() -> void:
@@ -120,7 +118,7 @@ func _process_movement( _delta : float ) -> void:
 			return
 			
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
-		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed * speed_multiplier / Engine.time_scale ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / Engine.time_scale ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
 		
 		## Update movement vector for animation purposes.
 		real_movement_vector 	= position.direction_to( next_path_position )

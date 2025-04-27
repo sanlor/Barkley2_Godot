@@ -24,6 +24,7 @@ ANIMATION_NORTHEAST = "s_eggDroneUP01"
 ANIMATION_NORTHWEST = "s_eggDroneUP01"
 ANIMATION_EAST = "s_eggDroneDOWN01"
 ANIMATION_STAND_SPRITE_INDEX = [1, 1, 0, 0, 0, 0, 0, 1]
+ANIMATION_IDLE = Array[String](["IDLE1", "IDLE2", "IDLE3"])
 CHARGE_UP = "CHARGE_UP"
 CHARGE_DOWN = "CHARGE_DOWN"
 
@@ -210,6 +211,66 @@ animations = [{
 "loop": true,
 "name": &"CHARGE_UP",
 "speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og0bc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqek0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxjci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ogab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c4qg")
+}],
+"loop": false,
+"name": &"IDLE1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffefo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wg3q4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvqc5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3la1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m0n4l")
+}],
+"loop": false,
+"name": &"IDLE2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_og0bc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqek0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxjci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ogab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c4qg")
+}],
+"loop": false,
+"name": &"IDLE3",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -415,8 +476,7 @@ shape = SubResource("CircleShape2D_dr833")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_s3is4")
-animation = &"CHARGE_UP"
-frame_progress = 0.142927
+animation = &"IDLE1"
 centered = false
 offset = Vector2(-29, -50)
 metadata/facing = {

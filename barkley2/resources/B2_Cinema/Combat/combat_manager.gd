@@ -92,6 +92,7 @@ func finish_combat() -> void:
 	B2_CManager.o_hud.get_combat_module().show_battle_results()
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
 	
+	B2_Playerdata.player_stats.reset_action()
 	B2_Music.resume_stored_music()
 	combat_cinema.end_combat()
 
@@ -113,23 +114,22 @@ func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 ## stop combat, play the defeat animation.
 func player_defeated() -> void:
 	B2_Music.stop( 1.0 )
+	B2_CManager.o_hud.combat_module.reset()
+	B2_CManager.o_hud.hide_battle_ui()
 	pause_combat()
 	if B2_CManager.camera:
 		var c := B2_CManager.camera
 		var p := B2_CManager.o_cbt_hoopz
 		var t := c.create_tween()
 		#t.set_parallel( true )
+		t.tween_callback( c.set.bind("manual_target", p) )
 		t.tween_callback( c.set.bind("manual_control", true) )
-		t.parallel().tween_property( c, "global_position", p.global_position, 0.25 )
-		t.parallel().tween_property( c, "offset", Vector2.ZERO, 0.25 )
-		t.tween_property( c, "zoom", Vector2.ONE, 0.25 )
-		t.tween_interval( 1.5 )
+		t.tween_interval( 1.25 ) ## weird delay 2: electric boogaloo
 		await t.finished
 	else:
 		### ???? camera not loaded.
 		breakpoint
 	B2_Screen.show_defeat_screen()
-	B2_CManager.o_hud.hide_battle_ui()
 	B2_CManager.o_hud.hide_hud()
 
 func tick_combat() -> void:

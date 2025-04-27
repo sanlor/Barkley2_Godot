@@ -5,37 +5,61 @@ extends CanvasLayer
 @onready var ded_hoopz: AnimatedSprite2D = $bg/Control/ded_hoopz
 
 @onready var defeat_text: RichTextLabel = $bg/defeat_text
+@onready var defeat_flavor: Label = $bg/VBoxContainer/defeat_flavor
 
 @onready var continue_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/continue
 @onready var give_up_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/give_up
 
+const GO_NAMES := [
+	"Got dunked on!",
+	"You ate some dirt!",
+	"Well... Shit."
+]
+const GO_FLAVOR := [
+	"At that moment, you thought...",
+]
 
 func _ready() -> void:
 	defeat_text.clear()
-	defeat_text.parse_bbcode( "[wave amp=50.0 freq=5.0 connected=1] Got dunked on! [/wave]")
+	defeat_text.parse_bbcode( "[wave amp=50.0 freq=5.0 connected=1] %s [/wave]" % Text.pr( GO_NAMES.pick_random() ) )
+	defeat_flavor.text = Text.pr( GO_FLAVOR.pick_random() )
 	
 	animation_player.play("haha you goofed")
 	
 func play_music() -> void:
 	B2_Music.play("mus_gameover")
 
-
 func _on_give_up_pressed() -> void:
 	B2_Sound.play( "sn_cc_death" )
 	B2_Music.stop()
 	_disable_buttons()
+	animation_player.play("you big pussy")
+	await animation_player.animation_finished
+	
+	## NOTE Add a silly animation fo hoopz looking sad.
+	# Chrono Triggers gameover screen (Lavos)
+	# https://www.pinterest.com/pin/1196337402745668/
+	# https://static.tvtropes.org/pmwiki/pub/images/fmab_rain.png
+	
+	B2_Screen.return_to_title()
 
 func _on_continue_pressed() -> void:
 	B2_Sound.play( "sn_dwarfchain" )
 	animation_player.play("nevah giveup")
 	B2_Music.stop()
 	_disable_buttons()
+	await animation_player.animation_finished
+	B2_Playerdata.player_stats.full_restore()
+	
 	if get_tree().current_scene is B2_ROOMS:
 		var room : B2_ROOMS = get_tree().current_scene
+		get_tree().current_scene.hide()
 		B2_RoomXY.respawn( room.get_room_area(), room.get_room_name() )
 	else:
 		## ???? dies outside a room?
 		breakpoint
+		
+	queue_free()
 
 func _disable_buttons() -> void:
 	continue_btn.disabled 	= true

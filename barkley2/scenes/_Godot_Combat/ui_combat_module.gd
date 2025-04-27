@@ -162,7 +162,7 @@ func slow_time( _time := 0.25 ):
 	battle_tween.tween_callback(slowdown_label.show)
 	battle_tween.tween_property(slowdown_label, "modulate:a", 1.0, 0.25)
 	battle_tween.tween_property( Engine, "time_scale", 0.25, _time )
-	print_rich("[color=red]Time slowed.[/color]")
+	print_rich("[color=red]Combat Module: Time slowed.[/color]")
 	
 func resume_time( _time := 0.25 ):
 	if battle_tween:
@@ -172,7 +172,7 @@ func resume_time( _time := 0.25 ):
 	battle_tween.tween_property( Engine, "time_scale", 1.0, _time )
 	battle_tween.tween_property(slowdown_label, "modulate:a", 0.0, 0.25)
 	battle_tween.tween_callback(slowdown_label.hide)
-	print_rich("[color=pink]Time resumed.[/color]")
+	print_rich("[color=pink]Combat Module: Time resumed.[/color]")
 
 func action_queued() -> void:
 	player_controls_new.show_menu()
@@ -187,6 +187,7 @@ func action_queued() -> void:
 	curr_action = NOTHING
 
 func reset() -> void:
+	instructions.hide()
 	curr_action = NOTHING
 	resume_time(0.0)
 

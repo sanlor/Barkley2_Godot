@@ -689,7 +689,7 @@ static func select_band_gun( id : int ) -> void:
 	
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.bandolier.is_empty():
-		push_warning("Bandolier is empty.")
+		#push_warning("Bandolier is empty.")
 		return null
 	else:
 		if B2_Playerdata.bandolier.size() <= B2_Playerdata.selected_gun:

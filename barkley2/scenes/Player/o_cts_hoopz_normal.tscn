@@ -1,9 +1,6 @@
-[gd_scene load_steps=368 format=3 uid="uid://c4jaagy6yu3ai"]
+[gd_scene load_steps=364 format=3 uid="uid://c4jaagy6yu3ai"]
 
 [ext_resource type="Script" uid="uid://dsekoeixufxj0" path="res://barkley2/scenes/Player/o_cts_hoopz_normal.gd" id="1_1qucu"]
-[ext_resource type="Script" uid="uid://befsc3w6u10bn" path="res://tools/sprite_converter/gml_sprite_converter.gd" id="2_lxwip"]
-[ext_resource type="Script" uid="uid://b0utjrw1k2q24" path="res://tools/sprite_converter/gml_sprite_converter_root.gd" id="3_nap54"]
-[ext_resource type="Script" uid="uid://c1s63bti06wgy" path="res://tools/sprite_converter/gml_sprite_converter_animation_define.gd" id="4_jwmot"]
 [ext_resource type="Texture2D" uid="uid://jigipgeie56n" path="res://barkley2/assets/b2_original/images/merged/s_cts_action.png" id="7_wvet5"]
 [ext_resource type="Texture2D" uid="uid://18khjs2cviec" path="res://barkley2/assets/b2_original/images/merged/sHoopzAnguish.png" id="8_kkqu3"]
 [ext_resource type="Texture2D" uid="uid://dn0js5rol2ilk" path="res://barkley2/assets/b2_original/images/merged/sHoopzDribble.png" id="9_lwp6x"]
@@ -33,14 +30,6 @@
 [ext_resource type="Texture2D" uid="uid://bss67sqld5ywe" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzSE.png" id="33_t4e25"]
 [ext_resource type="Texture2D" uid="uid://jqfgt04e0iva" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzSW.png" id="34_meit7"]
 [ext_resource type="Texture2D" uid="uid://c7amxj5r60bcm" path="res://barkley2/assets/b2_original/images/merged/s_cts_hoopzW.png" id="35_m786q"]
-
-[sub_resource type="Resource" id="Resource_i1npg"]
-script = ExtResource("4_jwmot")
-animationName = "before_punched"
-sprite = "s_hoopz_punched"
-startImage = 0
-numberOfFrames = 1
-animationSpeed = 0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5cqlv"]
 
@@ -2899,20 +2888,13 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_1qucu")
 is_interactive = false
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
 disable_auto_flip_h = true
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_lxwip")
-create_col_node = false
-create_actor_interact = false
-update_anim_node = true
-animations = Array[ExtResource("3_nap54")]([SubResource("Resource_i1npg")])
-warn_existence_during_runtime = false
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
 

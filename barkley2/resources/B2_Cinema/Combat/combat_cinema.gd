@@ -240,14 +240,17 @@ func end_combat():
 	B2_Input.player_has_control 	= true
 	B2_Input.can_switch_guns 		= true
 	
-	print_rich("[color=pink]Finished Cinema() Script.[/color]")
+	print_rich("[color=pink]Combat Cinema: Finished Script.[/color]")
 	
 	## NOTE Below is trash. needs improving.
 	if get_parent() is B2_ROOMS:
 		camera.set_camera_bound( get_parent().camera_bound_to_map )
 	else:
 		camera.set_camera_bound( false )
-		
+	
+	camera.manual_control 	= false
+	camera.manual_target 	= null
+	
 	camera.follow_player( B2_CManager.o_hoopz )
 	B2_Input.player_follow_mouse.emit( true )
 	B2_Input.camera_follow_mouse.emit( true )
