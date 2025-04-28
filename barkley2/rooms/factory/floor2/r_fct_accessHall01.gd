@@ -21,6 +21,9 @@ func _ready() -> void:
 	# Hide Duergar.
 	o_archambeau_01.modulate.a = 0.0
 		
+	if B2_Playerdata.Quest("tutorialProgress") >= 5:
+		room_player_can_roll = true
+		
 	if B2_Playerdata.Quest("tutorialCspear") == 1:
 		o_door_tech_01_vents.is_open = false
 		o_door_tech_01_vents.locked = true

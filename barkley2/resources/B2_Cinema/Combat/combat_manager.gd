@@ -55,8 +55,6 @@ func start_battle():
 	
 	B2_CManager.o_hud.get_combat_module().register_player( player_character )
 	B2_CManager.o_hud.get_combat_module().register_enemies( enemy_list )
-	
-	
 
 func pause_combat() -> void: ## Stop combat tick during target selection, etc.
 	combat_time_stoped.emit()
@@ -81,18 +79,20 @@ func finish_combat() -> void:
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
 	B2_CManager.o_cbt_hoopz.victory_anim()
 	
+	if B2_CManager.combat_cinema_player:
+		if B2_CManager.combat_cinema_player.end_battle_music:
+			B2_Music.play_end_combat( B2_CManager.combat_cinema_player.end_battle_music )
+	else:
+		push_error("B2_CManager.combat_cinema_player isnt loaded? WTF!")
+	
 	if B2_CManager.get_BodySwap() == "diaper":
 		B2_CManager.o_hud.get_combat_module().add_result_message("Ughhhh...", "sn_mouse_analoghover01")
 		B2_CManager.o_hud.get_combat_module().add_result_message("Eughhh...", "sn_mouse_analoghover01")
-		#B2_Music.stop()
 		
 	elif escaped_combat:
 		B2_CManager.o_hud.get_combat_module().add_result_message("Escaped combat with your tail behind your legs!", "sn_mouse_analoghover01")
-		#B2_Music.stop(1.0) ## No music for pussies.
 		
 	else:
-		#B2_Music.play("shitworld") ## Test music
-		B2_Music.play_end_combat()
 		B2_CManager.o_hud.get_combat_module().add_result_message("Placeholder message 1!", "sn_mouse_analoghover01")
 		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_mouse_analoghover01")
 		B2_CManager.o_hud.get_combat_module().add_result_message("Test information 3!", "sn_mouse_analoghover01")
@@ -102,7 +102,6 @@ func finish_combat() -> void:
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
 	
 	B2_Playerdata.player_stats.reset_action()
-	#B2_Music.resume_stored_music()
 	
 	#combat_cinema.end_combat()
 	combat_ended.emit()

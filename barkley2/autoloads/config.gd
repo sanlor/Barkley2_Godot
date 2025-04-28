@@ -35,7 +35,6 @@ var settingFadeIn 		:= 0.50;
 var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
 var settingFadeOut 		:= 0.50;
 
-
 ## TODO port script scr_player_newPlayerIdentity()
 
 enum SCALE {X2 = 2,X3 = 3,X4 = 4} ## The original game uses floats for values. Because of that, Im using Enums with specific values, even for boolean checks.

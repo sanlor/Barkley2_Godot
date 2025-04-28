@@ -59,8 +59,12 @@ var tick_lock := false		## Block the _tick() func, used to give time for the bat
 ## Used during the tutorial.
 var has_mini_hud := false
 
+## Combat options - for MUTE, use "mus_blankTEMP"
+var battle_music			: String = B2_Music.BATTLE_MUSIC.pick_random()
+var end_battle_music		: String = B2_Music.END_BATTLE_MUSIC.pick_random()
+
 ## Setup enviroment, replace player character with actor and shiet.
-func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor], keep_current_music := false ) -> void:
+func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
 	# B2_Music.store_curr_music() ## is this needed? No, it is not. Its already done by B2_Music.start_combat().
 	
 	if is_instance_valid(B2_CManager.cinema_player):
@@ -135,15 +139,27 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 			var parsed_line : PackedStringArray = B2_CManager.cleanup_line( line )
 			
 			match parsed_line[0]:
+				"QUEUE_BATTLE_MUSIC":
+					if parsed_line.size() > 1:
+						battle_music = parsed_line[1].strip_edges()
+					else:
+						battle_music = ""
+					print("B2_Combat_CinemaPlayer: battle_music set to %s." % battle_music)
+				"QUEUE_END_BATTLE_MUSIC":
+					if parsed_line.size() > 1:
+						end_battle_music = parsed_line[1].strip_edges()
+					else:
+						battle_music = ""
+					print("B2_Combat_CinemaPlayer: end_battle_music set to %s." % end_battle_music)
 				"EXIT":
 					print("EXIT")
-					if not keep_current_music:
-						B2_Music.resume_stored_music()
+					#if not keep_current_music:
+					B2_Music.resume_stored_music()
 					end_combat()
 				"BEGIN":
 					print("BEGIN")
-					if not keep_current_music:
-						B2_Music.play_combat( 0.1 )
+					if battle_music:
+						B2_Music.play_combat( 0.5, battle_music )
 						
 					start_combat( enemies )
 					var result = await combat_manager.combat_ended

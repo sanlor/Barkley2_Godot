@@ -45,11 +45,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	get_tree().current_scene.add_child( cinema_player, true )
 	cinema_player.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
-func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor], keep_current_music := false ) -> void:
+func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_manager 			= B2_CombatManager.new()
 	combat_cinema_player 	= B2_Combat_CinemaPlayer.new()
 	get_tree().current_scene.add_child( combat_cinema_player, true )
-	combat_cinema_player.setup_combat( combat_script, enemies, keep_current_music )
+	combat_cinema_player.setup_combat( combat_script, enemies )
 
 func BodySwap( costume_name : String ) -> void:
 	# Handle costumes changes. during game load or new game, need to load the correct costume.

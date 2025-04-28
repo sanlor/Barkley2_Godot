@@ -1,13 +1,15 @@
 extends Node
 
-## DEBUG COMBAT MUSIC
-const MUS_TNN_JOCKJAM := "mus_tnn_jockjam"
-const MUS_FISHING_BATTLE := "mus_fishing_battleTEMP"
-
-const debug_music := [
-	MUS_TNN_JOCKJAM,
-	MUS_FISHING_BATTLE,
+## Music that plays during combat.
+const BATTLE_MUSIC := [
+	"mus_tnn_jockjam",
+	#"mus_fishing_battleTEMP",
 ]
+## Music that plays after the battle ended.
+const END_BATTLE_MUSIC := [
+	"shitworld",
+]
+
 
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
@@ -213,16 +215,18 @@ func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 
 ## Play combat music
-func play_combat( speed := 0.25 ) -> void:
+func play_combat( speed := 0.25, force_track := "" ) -> void:
 	store_curr_music()
-	## Tutorial lack of music.
-	if B2_CManager.get_BodySwap() == "diaper":
-		stop(  )
+	if force_track:
+		queue( music_bank.get( force_track, "" ), speed )
 	else:
-		queue( music_bank.get( debug_music.pick_random(), "" ), speed )
+		queue( music_bank.get( BATTLE_MUSIC.pick_random(), "" ), speed )
 
-func play_end_combat() -> void:
-	B2_Music.play("shitworld") ## Test music
+func play_end_combat( force_track := "" ) -> void:
+	if force_track:
+		B2_Music.play("force_track")
+	else:
+		B2_Music.play( END_BATTLE_MUSIC.pick_random() )
 
 ## keep track of the current room music
 func store_curr_music() -> void:
@@ -246,7 +250,7 @@ func stop( speed := 0.25 ):
 func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: ", track_name)
-		track_name = music_folder + "mus_blankTEMP.ogg"
+		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
 	
 	if curr_playing_track == track_name:
 		# already playing that track, do nothing.
@@ -261,7 +265,7 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## trac
 	# handle sudden change is music tracks.
 	if is_instance_valid(tween):
 		if tween.is_running():
-			push_warning("You are changing music tracks too fast. Tween is still running. Waiting for it to finish.")
+			push_warning("You are changing music tracks too fast. Volume tweener is still running. Waiting for it to finish.")
 			await tween.finished
 	
 	if audio_stream_player.playing:
