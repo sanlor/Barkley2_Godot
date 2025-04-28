@@ -1,3 +1,4 @@
+@tool
 extends B2_Event_Step_Trigger
 
 @onready var o_door_tech_01: AnimatedSprite2D = $"../P6 - o_door_tech01"

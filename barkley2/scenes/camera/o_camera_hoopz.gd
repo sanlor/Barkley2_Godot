@@ -49,7 +49,7 @@ var actor_array : Array
 
 ## Camera stuff
 var camera_normal_offset := Vector2( 0,20 )
-var camera_combat_offset := Vector2( 0,40 )
+var camera_combat_offset := Vector2( 0,0 )
 
 ## Shake stuff
 var shake_rng 				:= RandomNumberGenerator.new()
@@ -320,7 +320,7 @@ func _physics_process(delta: float) -> void:
 					return
 					
 				#_position = player_node.position
-				position = position.move_toward(player_node.position, 300 * delta)
+				position = position.move_toward(player_node.position, 120 * delta)
 				
 				if follow_mouse:
 					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )

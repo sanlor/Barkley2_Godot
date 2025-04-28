@@ -1,16 +1,20 @@
 extends B2_ROOMS
 
-const O_ENEMY_DRONE_EGG = preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
-const GENERIC_EXPLOSION = preload("res://barkley2/scenes/Objects/System/generic_explosion.tscn")
+const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
+const O_ENEMY_DRONE_EGG_FINAL 	= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn")
+const GENERIC_EXPLOSION 		= preload("res://barkley2/scenes/Objects/System/generic_explosion.tscn")
 
 @onready var alarm_sound: 				AudioStreamPlayer = $alarm_sound
 @onready var o_fct_egg_computer_01: 	AnimatedSprite2D = $o_fct_eggComputer01
 @onready var o_egg_drone_01: 			B2_InteractiveActor = $o_eggDrone01
 var o_enemy_drone_egg : 				B2_EnemyCombatActor
 
+@onready var enemy_nest_drone_egg: Area2D = $enemy_nest
+
+
 @onready var o_tutorial_egg_drone: 		Area2D = $o_tutorial_eggDrone
 
-@onready var o_doorlight_exit: B2_DoorLight = $o_doorlight_exit
+@onready var o_doorlight_exit: B2_DoorLight = $o_doorlight_down_exit
 
 @onready var o_fct_alarm_big_01: 	AnimatedSprite2D = $o_fct_alarmBig01
 @onready var o_fct_alarm_wall_01: 	AnimatedSprite2D = $o_fct_alarmWall01
@@ -49,10 +53,14 @@ func flip_switch():
 func pre_drone_fight():
 	set_pacify( false )
 	o_doorlight_exit.enabled = false
-	o_enemy_drone_egg = O_ENEMY_DRONE_EGG.instantiate()
+	o_enemy_drone_egg = O_ENEMY_DRONE_EGG_FINAL.instantiate() # O_ENEMY_DRONE_EGG.instantiate()
 	o_enemy_drone_egg.position = o_egg_drone_01.position
+	add_child( o_enemy_drone_egg, true )
+	enemy_nest_drone_egg.add_enemy( o_enemy_drone_egg )
 	o_egg_drone_01.queue_free()
-	add_child( o_enemy_drone_egg )
+	
+	enemy_nest_drone_egg.deactivate_nest()
+	enemy_nest_drone_egg.begin_battle()
 
 # setup stuff after drone fight. code was on o_enemy_drone_egg
 func post_drone_fight():
@@ -63,13 +71,14 @@ func post_drone_fight():
 		o_fct_egg_computer_01.show_error()
 	
 	## VERY IMPORTANT. death sfx, animation
-	B2_Sound.play( "sn_explosion_generic_06_01" )
+	## NOTE 27-04-25 As of right now, not important anymore. We have a new combat system.
+	#B2_Sound.play( "sn_explosion_generic_06_01" )
 	B2_Music.play( "mus_blankTEMP", 1.0 )
-	
-	var explosion = GENERIC_EXPLOSION.instantiate()
-	explosion.position = o_enemy_drone_egg.position
-	o_enemy_drone_egg.queue_free()
-	add_sibling(explosion)
+	#
+	#var explosion = GENERIC_EXPLOSION.instantiate()
+	#explosion.position = o_enemy_drone_egg.position
+	#o_enemy_drone_egg.queue_free()
+	#add_sibling(explosion)
 	
 	activate_facility_alarm()
 	

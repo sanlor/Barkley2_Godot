@@ -1,1 +1,0 @@
-extends B2_DestructibleCombatActor

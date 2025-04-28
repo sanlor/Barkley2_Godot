@@ -252,7 +252,11 @@ func increase_action() -> void:
 			
 func is_at_max_action() -> bool:
 	return curr_action == max_action
-	
+
+# Certain skill should oveheat the weapon.
+func is_overheating() -> bool:
+	return curr_action < 0.0
+
 func reset_action() -> void:
 	curr_action = 0.0
 	

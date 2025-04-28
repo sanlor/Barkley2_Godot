@@ -1,15 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=16 format=3 uid="uid://xowxayc4v63k"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Player/o_hoopz_diaper.gd" id="1_3cthp"]
+[ext_resource type="Script" uid="uid://2tpsmo6wotoo" path="res://barkley2/scenes/Player/o_hoopz_diaper.gd" id="1_3cthp"]
 [ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_normal_diaper.tres" id="2_5da33"]
 [ext_resource type="Texture2D" uid="uid://cqkmb88d18yj8" path="res://barkley2/assets/b2_original/images/merged/s_lensflare_mod.png" id="2_cx2lw"]
 [ext_resource type="SpriteFrames" uid="uid://dpoxlps7mg0dy" path="res://barkley2/resources/Player/combat_lower_body_diaper.tres" id="3_4wjkq"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/o_Shadow.gd" id="3_a06su"]
+[ext_resource type="Script" uid="uid://bs5lue5dkvd7a" path="res://barkley2/scenes/Objects/System/o_Shadow.gd" id="3_a06su"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_0p8gy"]
 [ext_resource type="SpriteFrames" uid="uid://bxgcfih7grb05" path="res://barkley2/resources/Player/combat_upper_body_diaper.tres" id="4_qwl6u"]
 [ext_resource type="SpriteFrames" uid="uid://bv6xvill7phcw" path="res://barkley2/resources/Player/combat_arm_back_diaper.tres" id="5_68psw"]
 [ext_resource type="SpriteFrames" uid="uid://dgnkrv5sdn82d" path="res://barkley2/resources/Player/combat_weapon.tres" id="6_2vbnu"]
 [ext_resource type="SpriteFrames" uid="uid://qkvh0mkp04w8" path="res://barkley2/resources/Player/combat_arm_front_diaper.tres" id="6_txjj5"]
+[ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="10_t8f4j"]
+[ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="11_fa877"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g0dal"]
 friction = 0.5
@@ -18,7 +20,10 @@ absorbent = true
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "hoopz_normal_body", "step_smoke")]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4umcs"]
+size = Vector2(4, 4)
+
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke")]
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
 gravity_scale = 0.0
@@ -27,18 +32,19 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("1_3cthp")
+can_shoot = false
 combat_upper_sprite = NodePath("combat_upper_body")
 combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
 combat_arm_front = NodePath("combat_arm_front")
 combat_weapon = NodePath("combat_weapon")
+combat_weapon_parts = NodePath("combat_weapon_parts")
+combat_weapon_spots = NodePath("combat_weapon_spots")
+gun_muzzle = NodePath("gun_muzzle")
+ROLL = "diaper_gooroll"
+ROLL_BACK = "diaper_gooroll"
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-anim_player = NodePath("../AnimationPlayer")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="o_Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.25)
@@ -55,10 +61,10 @@ position = Vector2(0, -1)
 amount = 30
 
 [node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
-visible = false
 y_sort_enabled = true
 sprite_frames = ExtResource("2_5da33")
-animation = &"walk_E"
+animation = &"stand"
+frame = 6
 speed_scale = 1.5
 centered = false
 offset = Vector2(-22, -41)
@@ -67,17 +73,20 @@ offset = Vector2(-22, -41)
 position = Vector2(0, -16)
 
 [node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("3_4wjkq")
 animation = &"aim_shuffle"
 centered = false
 offset = Vector2(-22, -42)
 
 [node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("5_68psw")
 centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("4_qwl6u")
 animation = &"aim"
 frame = 1
@@ -86,18 +95,37 @@ centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_weapon" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(0, -18)
 sprite_frames = ExtResource("6_2vbnu")
-animation = &"Pistol"
-offset = Vector2(18, 0)
+animation = &"s_AssaultRifle"
+
+[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, -18)
+sprite_frames = ExtResource("10_t8f4j")
+animation = &"s_TranqRifle"
+
+[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, -18)
+sprite_frames = ExtResource("11_fa877")
+animation = &"s_Smg"
 
 [node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = ExtResource("6_txjj5")
 centered = false
 offset = Vector2(-22, -41)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
+
+[node name="gun_muzzle" type="Marker2D" parent="."]
+
+[node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_4umcs")
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]

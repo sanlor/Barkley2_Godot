@@ -1,4 +1,3 @@
-@tool
 extends B2_Event_Root
 class_name B2_Event_Step_Trigger
 

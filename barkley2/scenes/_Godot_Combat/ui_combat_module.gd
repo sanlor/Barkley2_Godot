@@ -1,5 +1,4 @@
-extends Control
-class_name B2_HudCombat
+extends B2_HudCombat
 
 const MENU_WPN_DATA = preload("uid://cnkroip8gbsn1")
 
@@ -187,6 +186,7 @@ func action_queued() -> void:
 	curr_action = NOTHING
 
 func reset() -> void:
+	process_player_inputs = true
 	instructions.hide()
 	curr_action = NOTHING
 	resume_time(0.0)

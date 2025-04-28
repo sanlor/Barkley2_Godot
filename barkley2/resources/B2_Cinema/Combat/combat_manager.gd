@@ -43,18 +43,20 @@ func start_battle():
 	
 	B2_Input.can_switch_guns = true
 	B2_CManager.combat_manager = self
+	assert( B2_CManager.o_hud, "o_hud not loaded. Check the battle script.")
 	B2_CManager.o_hud.show_battle_ui()
 	
-	for e : B2_CombatActor in enemy_list:
+	for e : B2_EnemyCombatActor in enemy_list:
 		e.cinema_lookat( player_character )
-		e.add_child( ENEMY_STATS.instantiate(), true )
+		if e.show_life_bar:
+			e.add_child( ENEMY_STATS.instantiate(), true )
 		
 	player_character.cinema_lookat( enemy_list.pick_random() )
 	
 	B2_CManager.o_hud.get_combat_module().register_player( player_character )
 	B2_CManager.o_hud.get_combat_module().register_enemies( enemy_list )
 	
-	B2_Music.play_combat( 0.1 )
+	
 
 func pause_combat() -> void: ## Stop combat tick during target selection, etc.
 	combat_time_stoped.emit()
@@ -79,22 +81,31 @@ func finish_combat() -> void:
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
 	B2_CManager.o_cbt_hoopz.victory_anim()
 	
-	if escaped_combat:
-		B2_CManager.o_hud.get_combat_module().add_result_message("Escaped combat with your tail behind your legs!", "sn_cursor_pausemenu01")
-		B2_Music.stop(1.0) ## No music for pussies.
+	if B2_CManager.get_BodySwap() == "diaper":
+		B2_CManager.o_hud.get_combat_module().add_result_message("Ughhhh...", "sn_mouse_analoghover01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Eughhh...", "sn_mouse_analoghover01")
+		#B2_Music.stop()
+		
+	elif escaped_combat:
+		B2_CManager.o_hud.get_combat_module().add_result_message("Escaped combat with your tail behind your legs!", "sn_mouse_analoghover01")
+		#B2_Music.stop(1.0) ## No music for pussies.
+		
 	else:
-		B2_Music.play("shitworld") ## Test music
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 1!", "sn_cursor_pausemenu01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_cursor_error01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 3!", "sn_cursor_select01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 4!", "sn_utilitycursor_buttonclick01")
+		#B2_Music.play("shitworld") ## Test music
+		B2_Music.play_end_combat()
+		B2_CManager.o_hud.get_combat_module().add_result_message("Placeholder message 1!", "sn_mouse_analoghover01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_mouse_analoghover01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("Test information 3!", "sn_mouse_analoghover01")
+		B2_CManager.o_hud.get_combat_module().add_result_message("fart 4!", "sn_mouse_analoghover01")
 	
 	B2_CManager.o_hud.get_combat_module().show_battle_results()
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
 	
 	B2_Playerdata.player_stats.reset_action()
-	B2_Music.resume_stored_music()
-	combat_cinema.end_combat()
+	#B2_Music.resume_stored_music()
+	
+	#combat_cinema.end_combat()
+	combat_ended.emit()
 
 func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
 	if enemy_list.has( enemy_node ):
@@ -159,8 +170,9 @@ func tick_combat() -> void:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
 					
-					if enemy.get_combat_ai().combat_action( player_character, enemy_list, self ):
-						return
+					if enemy.has_combat_ai():
+						if enemy.get_combat_ai().combat_action( player_character, enemy_list, self ):
+							return
 				else:
 					pass
 			else:

@@ -1,7 +1,6 @@
-#@tool
 @icon("res://barkley2/assets/b2_original/images/merged/s_blocker_down.png")
 extends AnimatedSprite2D
-#class_name B2_Blocker
+class_name B2_Blocker
 
 @onready var push_area: 			Area2D = $push_area
 @onready var actor_blocker: 		StaticBody2D = $actor_blocker
@@ -9,7 +8,7 @@ extends AnimatedSprite2D
 @onready var area_collision: 		CollisionShape2D = $push_area/area_collision
 @onready var blocker_collision: 	CollisionShape2D = $actor_blocker/blocker_collision
 
-var pushResist 		= 35000; # Pushing resist, higher is more pusback ## was 70
+@export var pushResist 				= 600000; # Pushing resist, higher is more pusback ## was 70
 
 @export var push_vector 	:= Vector2.ZERO
 @export var working_anim 	:= animation
@@ -52,7 +51,7 @@ func deactivate_block():
 	is_active = false
 	blocker_collision.disabled = true
 
-func push_player( body : B2_Player, delta : float ):
+func push_player( body : RigidBody2D, delta : float ):
 	body.external_velocity = push_vector * pushResist * delta
 
 func _physics_process(delta: float) -> void:
@@ -62,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	if push_area.has_overlapping_bodies():
 		var body : Array[Node2D] = push_area.get_overlapping_bodies()
 		for b in body:
-			if b is B2_Player:
+			if (b is B2_Player) or (b is B2_HoopzCombatActor):
 				push_player( b, delta )
 				has_player = true
 	

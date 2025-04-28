@@ -1,6 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://bon7jbw3v5c2p"]
+[gd_scene load_steps=24 format=3 uid="uid://bon7jbw3v5c2p"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_woodBarrel.gd" id="1_gf45x"]
+[ext_resource type="Script" uid="uid://c7wvtd1a2c1kl" path="res://barkley2/scenes/Objects/_enemies/Destructibles/o_woodBarrel.gd" id="1_gf45x"]
+[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="2_b33hw"]
 [ext_resource type="Texture2D" uid="uid://df3lowj02tmda" path="res://barkley2/assets/b2_original/images/merged/s_woodBarrel.png" id="2_l7aa4"]
 [ext_resource type="Texture2D" uid="uid://dafxbby5bplxa" path="res://barkley2/assets/b2_original/images/merged/s_effect_smog.png" id="3_03iah"]
 
@@ -8,6 +9,50 @@
 rough = true
 bounce = 0.3
 absorbent = true
+
+[sub_resource type="Resource" id="Resource_2uxag"]
+resource_local_to_scene = true
+script = ExtResource("2_b33hw")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5r1uf"]
 atlas = ExtResource("2_l7aa4")
@@ -113,7 +158,7 @@ scale_max = 0.2
 scale_curve = SubResource("CurveTexture_srxcv")
 alpha_curve = SubResource("CurveTexture_ko1yr")
 
-[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
+[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("smoke_emitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol")]
 mass = 300.0
 physics_material_override = SubResource("PhysicsMaterial_eva7e")
 gravity_scale = 0.0
@@ -121,29 +166,39 @@ sleeping = true
 lock_rotation = true
 linear_damp = 30.0
 script = ExtResource("1_gf45x")
-anim = NodePath("AnimatedSprite2D")
-collision = NodePath("CollisionShape2D")
-has_sound = true
-sound_name = "destructible_woodBarrel"
-sound_emiter = NodePath("AudioStreamPlayer2D")
-emit_smoke = true
-smoke_emiter = NodePath("GPUParticles2D")
+smoke_emitter = NodePath("GPUParticles2D")
+sound_damage = "destructible_woodBarrel"
+sound_death = "destructible_woodBarrel"
+make_gibs = false
+explode_on_death = false
+stay_after_death = true
+death_animation = "default"
+enemy_name = "o_woodBarrel"
+enemy_data = SubResource("Resource_2uxag")
+enemy_weapon_type = 25
+enemy_weapon_material = 81
+ActorAnim = NodePath("ActorAnim")
+ActorAudioPlayer = NodePath("ActorAudioPlayer")
+ActorNav = NodePath("ActorNav")
+ActorCol = NodePath("ActorCol")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_eweig")
 centered = false
 offset = Vector2(-21, -38)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_e26sp")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(0, -3.29898)
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_bvpvs")
 texture = ExtResource("3_03iah")
 one_shot = true
+process_material = SubResource("ParticleProcessMaterial_bvpvs")

@@ -1715,6 +1715,13 @@ func _init_sound_picks():
 	_add_sound_pick("destructible_woodBarrel", "sn_wooden_barrel02");
 	_add_sound_pick("destructible_woodBarrel", "sn_wooden_barrel03");
 	
+	## INFO Unused sound that I want to use.
+	_add_sound_pick("trashtalk", "sn_trashtalk2_01");
+	_add_sound_pick("trashtalk", "sn_trashtalk2_02");
+	_add_sound_pick("trashtalk", "sn_trashtalk2_03");
+	_add_sound_pick("trashtalk", "sn_trashtalk2_04");
+	_add_sound_pick("trashtalk", "sn_trashtalk2_05");
+	
 	# Damn
 #endregion
 	if debug_messages: print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), " msecs. - ", sound_pick.size(), " sound_pick entries" )
@@ -1804,7 +1811,10 @@ func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitc
 		return play(soundVal, start_at, priority, loops, pitch) ## NOTE We looping, bitch
 		
 	else: ## Invalid sound
-		push_warning("Invalid SoundID: ", soundID)
+		if soundID.is_empty():
+			push_warning("B2_Sound: Empty SoundID called.")
+		else:
+			push_warning("Invalid SoundID: ", soundID)
 		return AudioStreamPlayer.new() # -1;
 
 func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0 ) -> AudioStreamPlayer:

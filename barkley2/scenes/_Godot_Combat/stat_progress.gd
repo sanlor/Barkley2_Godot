@@ -18,6 +18,10 @@ func _ready() -> void:
 	stat_bar.modulate = my_color
 
 func update_bar() -> void:
+	if max_value == 0:
+		stat_bar.size.x = 0
+		return
+		
 	stat_top_frame.size.x 	= SIZE_X
 	bg_frame.size.x 		= SIZE_X - 2.0
 	stat_bar.size.x 		= (SIZE_X - 2.0) * value / max_value

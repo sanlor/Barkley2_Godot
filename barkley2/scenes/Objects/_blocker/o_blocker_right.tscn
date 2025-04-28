@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://06xcnp0ifu4t" path="res://barkley2/assets/b2_original/images/merged/s_blocker_up.png" id="4_7htrn"]
 [ext_resource type="Texture2D" uid="uid://d33ct87awe582" path="res://barkley2/assets/b2_original/images/merged/s_blocker_lr.png" id="5_44y37"]
 [ext_resource type="Texture2D" uid="uid://l32ssb1jxi4g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_ud.png" id="6_sqpxr"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_blocker/o_blocker_right.gd" id="7_l68gq"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bhxic"]
 blend_mode = 1
@@ -97,6 +96,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_t7q55"]
+resource_name = "blocker_right"
+script/source = "@icon(\"res://barkley2/assets/b2_original/images/merged/s_blocker_right.png\")
+extends B2_Blocker
+"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2n0g8"]
 size = Vector2(16, 32)
 
@@ -107,8 +112,12 @@ size = Vector2(16, 32)
 material = SubResource("CanvasItemMaterial_bhxic")
 sprite_frames = SubResource("SpriteFrames_m1yss")
 animation = &"debug_icons"
+frame = 2
 centered = false
-script = ExtResource("7_l68gq")
+script = SubResource("GDScript_t7q55")
+push_vector = Vector2(1, 0)
+working_anim = &"s_doorlight_lr"
+working_frame = 3
 
 [node name="push_area" type="Area2D" parent="."]
 

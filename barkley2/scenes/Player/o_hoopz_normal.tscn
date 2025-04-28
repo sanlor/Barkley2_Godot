@@ -43,11 +43,6 @@ gun_muzzle = NodePath("gun_muzzle")
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-anim_player = NodePath("../AnimationPlayer")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
@@ -112,7 +107,7 @@ animation = &"s_Smg"
 [node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
 visible = false
 sprite_frames = ExtResource("10_7qowe")
-animation = &"s_HoopzTorso_Dualguns"
+animation = &"s_HoopzTorso_Handgun"
 centered = false
 offset = Vector2(-22, -41)
 
@@ -122,6 +117,7 @@ current = true
 [node name="gun_muzzle" type="Marker2D" parent="."]
 
 [node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
+visible = false
 texture = SubResource("PlaceholderTexture2D_ufjxn")
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]

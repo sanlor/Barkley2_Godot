@@ -180,7 +180,6 @@ func _play_room_music():
 
 ## Room setup
 func _setup_player_node():
-	var o_hoopz_scene = B2_CManager.o_hoopz_scene
 	var player = B2_CManager.o_hoopz_scene.instantiate()
 	player.position = debug_player_scene_pos
 	if b2_camera != null:

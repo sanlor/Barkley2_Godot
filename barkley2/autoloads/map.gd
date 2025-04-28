@@ -8,7 +8,7 @@ var map_directory := {}
 # Check Map()
 # Script responsible to handle Maps, map locations and stupid shit like that.
 
-func _ready() -> void:
+func _init() -> void:
 	init_setup()
 	#gain_map( "The Eastelands" ) ## DEBUG
 	#gain_map( "Sewers Floor 1" ) ## DEBUG

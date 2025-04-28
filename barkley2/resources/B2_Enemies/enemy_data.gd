@@ -90,7 +90,7 @@ func mutate_stats( variation : float ) -> void:
 	speed  					*= randf_range( - 1 - variation, 1 + variation )
 
 func increase_action() -> bool:
-	var my_spd 		:= speed * 0.25
+	var my_spd 		:= speed * 0.20
 	curr_action 	= clampf( curr_action + my_spd, 0.1, max_action )
 	return curr_action == max_action
 

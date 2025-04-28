@@ -240,7 +240,7 @@ func _load_portrait( portrait_name : String ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
 	var spritesheet : Texture2D
 	if not file_name.is_valid_filename():
-		push_warning("Weird, filename %s doesnt seem valid. Trying to fix it... %s" % [file_name, portrait_name] )
+		push_warning("Weird, filename ' %s ' doesnt seem valid. Trying to fix it... ' %s '." % [file_name, portrait_name] )
 		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name + ".png")
 	else:
 		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
@@ -249,7 +249,7 @@ func _load_portrait( portrait_name : String ):
 	if file_name.is_empty():
 		#has_portrait = false
 		port_load_failed = true
-		push_error("Dialogue received an invalid portrait %s. Disabling this portrait..." % portrait_name)
+		push_error("Dialogue received an invalid portrait ' %s '. Disabling this portrait..." % portrait_name)
 		return
 		
 	@warning_ignore("integer_division")

@@ -1,6 +1,8 @@
 extends B2_CombatActor
 class_name B2_DestructibleCombatActor
 
+## WARNING DEPRECATED NODE.
+
 @export var anim		: AnimatedSprite2D
 @export var collision 	: CollisionShape2D
 @export var has_sound	:= false
@@ -11,6 +13,8 @@ class_name B2_DestructibleCombatActor
 @export var smoke_emiter 	: GPUParticles2D
 
 var destroyed := false
+
+var health := 1.0
 
 func apply_damage( damage : float):
 	if destroyed:

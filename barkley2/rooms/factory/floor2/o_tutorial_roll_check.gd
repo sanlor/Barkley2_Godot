@@ -1,3 +1,4 @@
+@tool
 extends B2_Event_Step_Trigger
 
 # used to check if all the light bulbs were broken.

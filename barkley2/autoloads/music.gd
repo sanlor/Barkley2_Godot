@@ -212,9 +212,17 @@ func room_get( room_name : String):
 func play( track_name : String, speed := 0.25 ):
 	queue( music_bank.get(track_name, ""), speed )
 
+## Play combat music
 func play_combat( speed := 0.25 ) -> void:
 	store_curr_music()
-	queue( music_bank.get( debug_music.pick_random(), "" ), speed )
+	## Tutorial lack of music.
+	if B2_CManager.get_BodySwap() == "diaper":
+		stop(  )
+	else:
+		queue( music_bank.get( debug_music.pick_random(), "" ), speed )
+
+func play_end_combat() -> void:
+	B2_Music.play("shitworld") ## Test music
 
 ## keep track of the current room music
 func store_curr_music() -> void:

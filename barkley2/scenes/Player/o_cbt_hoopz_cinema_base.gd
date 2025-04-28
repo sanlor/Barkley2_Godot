@@ -18,11 +18,13 @@ var curr_STATE := STATE.NORMAL :
 			prev_STATE = curr_STATE
 			curr_STATE = s
 			_update_held_gun()
+			#print(curr_STATE)
+			#print_stack()
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
 const STAND 		:= "stand"
-const ROLL			:= "hoopz_gooroll"
+#const ROLL			:= "hoopz_gooroll"
 const STAND_E 		:= 0
 const STAND_NE 		:= 1
 const STAND_N		:= 2
@@ -61,6 +63,10 @@ const COMBAT_WALK_W			:= "walk_W"
 const COMBAT_WALK_SW		:= "walk_SW"
 const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
+
+@export var STAGGER			:= "stagger"
+@export var ROLL			:= "full_roll" # "diaper_gooroll"
+@export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
 
 @export_category("Normal Sprites")
 @export var hoopz_normal_body		: AnimatedSprite2D
@@ -157,29 +163,30 @@ func _ready() -> void:
 
 ## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:
-	_change_sprites()
-	combat_weapon_animation()
+	if B2_Playerdata.bandolier.size() > 0:
+		_change_sprites()
+		combat_weapon_animation()
 	
-	if curr_STATE == STATE.AIM:
-		var gun := B2_Gun.get_current_gun()
-		if gun:
-			set_gun( gun.get_held_sprite(), gun.weapon_type )
-			
-			## Change color.
-			var colors := gun.get_gun_colors()
-			combat_weapon.modulate = colors[0]
-			
-			if colors[1]:
-				combat_weapon_parts.show()
-				combat_weapon_parts.modulate = colors[1]
-			else:
-				combat_weapon_parts.hide()
+		if curr_STATE == STATE.AIM:
+			var gun := B2_Gun.get_current_gun()
+			if gun:
+				set_gun( gun.get_held_sprite(), gun.weapon_type )
 				
-			if colors[2]:
-				combat_weapon_spots.show()
-				combat_weapon_spots.modulate = colors[2]
-			else:
-				combat_weapon_spots.hide()
+				## Change color.
+				var colors := gun.get_gun_colors()
+				combat_weapon.modulate = colors[0]
+				
+				if colors[1]:
+					combat_weapon_parts.show()
+					combat_weapon_parts.modulate = colors[1]
+				else:
+					combat_weapon_parts.hide()
+					
+				if colors[2]:
+					combat_weapon_spots.show()
+					combat_weapon_spots.modulate = colors[2]
+				else:
+					combat_weapon_spots.hide()
 	
 		
 func _change_sprites():
@@ -234,7 +241,7 @@ func point_animation() -> void:
 		Vector2.RIGHT:	my_frame = 0
 	
 	if hoopz_normal_body.frame != my_frame:
-		B2_Sound.play("sn_trashtalk2_04")
+		B2_Sound.play( "trashtalk" )
 		hoopz_normal_body.frame = my_frame
 	
 # Not aiming, rolling and such.
@@ -607,9 +614,11 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 			
 		curr_STATE = STATE.HIT
 		
-		hoopz_normal_body.stop()
-		hoopz_normal_body.animation = "stagger"
-		hoopz_normal_body.frame = 0
+		if hoopz_normal_body.sprite_frames.has_animation(STAGGER):
+			hoopz_normal_body.stop()
+			hoopz_normal_body.animation = STAGGER
+			hoopz_normal_body.frame = 0
+		else: print("o_cbt_hoopz: has no stagger animation.")
 		
 		#B2_Sound.play_pick( "general_impact" ) ## TODO Better impact sounds. check B2_Sound line 1025
 		B2_Sound.play_pick( "hoopzDmgSoundNormal" ) ## TODO add different sfx based on the attack type.
@@ -689,7 +698,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 	#if curr_STATE == STATE.DEFENDING: stop_defending()
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
-	hoopz_normal_body.play( "full_roll" )
+	hoopz_normal_body.play( ROLL )
 	hoopz_normal_body.flip_h = roll_dir.x < 0 ## flip sprite if going to the left
 	
 	linear_velocity = Vector2.ZERO
@@ -715,6 +724,10 @@ func stop_rolling() -> void:
 func _physics_process(delta: float) -> void:
 	if not hit_timer.is_stopped(): ## Stop all animations during stun time.
 		return
+		
+	if external_velocity:
+		apply_central_force( external_velocity )
+		external_velocity= Vector2.ZERO
 		
 	match curr_STATE:
 		STATE.ROLL:
@@ -755,7 +768,7 @@ func _on_gun_down_timer_timeout() -> void:
 	pass
 
 func _on_combat_actor_entered(body: Node) -> void:
-	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.VICTORY:
 		## stop processing states if the battle is over.
 		return
 		
@@ -768,7 +781,7 @@ func _on_combat_actor_entered(body: Node) -> void:
 			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
-	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.VICTORY:
 		## stop processing states if the battle is over.
 		return
 		
@@ -780,7 +793,13 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
-
+			
+	if curr_STATE == STATE.ROLL and hoopz_normal_body.animation == ROLL:
+		if B2_CManager.get_BodySwap() == "diaper":
+			if hoopz_normal_body.frame > 2:
+				if linear_velocity.length() < 3.0:
+					stop_rolling()
+			
 func _on_combat_lower_body_frame_changed() -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
 		## stop processing states if the battle is over.
@@ -801,5 +820,5 @@ func _on_hoopz_normal_body_animation_finished() -> void:
 		return
 		
 	## Hoopz stopped rolling
-	if curr_STATE == STATE.ROLL and hoopz_normal_body.animation == "full_roll":
+	if curr_STATE == STATE.ROLL and hoopz_normal_body.animation == ROLL:
 		stop_rolling()

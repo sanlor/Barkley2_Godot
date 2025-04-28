@@ -1,5 +1,4 @@
-extends CanvasLayer
-class_name B2_Hud
+extends B2_Hud
 
 ## DEBUG
 var debug_messages := true

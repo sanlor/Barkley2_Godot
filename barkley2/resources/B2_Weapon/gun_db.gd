@@ -442,7 +442,7 @@ const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 #region Gun creation
 # Check Drop("generate") line 396
 ## For now, luck stat plays no part in this
-static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "" ) -> B2_Weapon:
+static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> B2_Weapon:
 	var wpn := B2_Weapon.new()
 	
 	## Pick weapon type if not specified
@@ -482,23 +482,25 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	if wpn.material_data == null:
 		push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
-	## Pick affixes
 	var affix_count := 0
 	var affix_rand := 0
-	affix_rand = randi_range(0,99)
-	if affix_rand < geneAffixChance:
-		wpn.prefix1 = prefix1.pick_random()
-		affix_count += 1
+	if add_affixes:
+		## Pick affixes
 		
-	affix_rand = randi_range(0,99)
-	if affix_rand < geneAffixChance:
-		wpn.prefix2 = prefix2.pick_random()
-		affix_count += 1
-		
-	affix_rand = randi_range(0,99)
-	if affix_rand < geneAffixChance:
-		wpn.suffix = suffix.pick_random()
-		affix_count += 1
+		affix_rand = randi_range(0,99)
+		if affix_rand < geneAffixChance:
+			wpn.prefix1 = prefix1.pick_random()
+			affix_count += 1
+			
+		affix_rand = randi_range(0,99)
+		if affix_rand < geneAffixChance:
+			wpn.prefix2 = prefix2.pick_random()
+			affix_count += 1
+			
+		affix_rand = randi_range(0,99)
+		if affix_rand < geneAffixChance:
+			wpn.suffix = suffix.pick_random()
+			affix_count += 1
 		
 	apply_stats( wpn )
 		
@@ -649,14 +651,19 @@ static func weapon_type( typ : TYPE ) -> B2_WeaponType:
 ## Code related to adding guns, taking guns and stuff like that.
 #region Gun management
 
-## Add gun to inventory
-static func add_gun( add_to_bandolier := true, type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE ) -> void: ## TODO
-	if B2_Playerdata.bandolier.size() < BANDOLIER_SIZE and add_to_bandolier:
-		B2_Playerdata.bandolier.append( generate_gun(type, material) )
-	elif B2_Playerdata.gun_bag.size() < GUNBAG_SIZE:
-		B2_Playerdata.gun_bag.append( generate_gun(type, material) )
-	else:
-		push_warning( "Bandolier and Gunbag full." )
+## Add generate a gun and add it to bandolier.
+static func add_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
+	B2_Playerdata.bandolier.append( generate_gun(type, material, wpn_name, add_affixes) )
+	if B2_Playerdata.bandolier.size() > BANDOLIER_SIZE:
+		B2_Playerdata.bandolier.pop_front() ## Remove the first gun from the bandolier.
+		print("B2_Gun: Bandolier full, dropping the oldest gun. ")
+
+## Add generate a gun and add it to bandolier.
+static func add_gun_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
+	B2_Playerdata.gun_bag.append( generate_gun(type, material,  wpn_name, add_affixes) )
+	if B2_Playerdata.gun_bag.size() > GUNBAG_SIZE:
+		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag
+		print("B2-Gun: Gunbag full, dropping the oldest gun. ")
 	
 ## remove specific gun from inventory
 static func remove_gun( wpn : B2_Weapon ) -> void:
@@ -737,6 +744,7 @@ static func get_muzzle_pos() -> float: ## TODO
 ## scr_player_getGunShifts - set the offsef for the held gun
 static func get_gun_held_dist() -> float:
 	var heldDist := 0.0
+
 	match B2_Gun.get_current_gun().weapon_type:
 		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
 			heldDist = -6.0

@@ -1,13 +1,15 @@
-[gd_scene load_steps=16 format=4 uid="uid://emut1pncq7ik"]
+[gd_scene load_steps=26 format=4 uid="uid://emut1pncq7ik"]
 
 [ext_resource type="Script" uid="uid://x6kqjb6yxbbk" path="res://barkley2/rooms/ai_ruins/r_air_boss_01.gd" id="1_71bx4"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="1_a1csw"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_8cu2p"]
-[ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_test.tscn" id="4_8wa0j"]
+[ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn" id="4_8wa0j"]
 [ext_resource type="PackedScene" uid="uid://bchctdf6m6yr4" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_tor01.tscn" id="7_0m4pe"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="8_6h44u"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="9_r55uj"]
+[ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_enemies/Destructibles/o_woodBarrel.tscn" id="10_vxjkd"]
 [ext_resource type="Script" uid="uid://b1lsou7egbyrj" path="res://barkley2/resources/B2_Cinema/B2_Script_Combat.gd" id="11_i6pqv"]
+[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="11_vxjkd"]
 [ext_resource type="PackedScene" uid="uid://jpl7igxl7yf4" path="res://barkley2/scenes/_Godot_Combat/enemy_nest.tscn" id="13_0qf7b"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b3p7q"]
@@ -1631,12 +1633,18 @@ EXIT |"
 [sub_resource type="Resource" id="Resource_winla"]
 script = ExtResource("11_i6pqv")
 notes = "Use '\\' to add comments to the code.
-MOVE 		| actor_node | destination_node 	- Move actor to a specific node
-MOVE_POS 	| actor_node | destination_vector 	- Move actor to a specific position
-LOOK		| actor_node | direction			- Actor looks to a specific direction
-LOOK_AT		| actor_node | destination_node 	- Look torward another node
-WAIT		| time								- Wait for some time. Value of 0.0 waits for all previous actions to finish.
-START_BATTLE - No idea.
+MOVE 		
+MOVE_POS 	
+LOOK		
+LOOK_AT		
+WAIT		
+START_BATTLE
+ACTIVATE_BLOCKER
+DEACTIVATE_BLOCKER
+MAKE_HUD
+MAKE_MIN_HUD
+FOLLOWFRAME
+PLAYSET
 "
 combat_script = "FRAME | NORMAL |  enemy_nest
 MOVE  | o_enemy_drone_egg_test2 | o_cinema1 | NORMAL
@@ -1649,6 +1657,338 @@ metadata/_custom_type_script = "uid://b1lsou7egbyrj"
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.25
+
+[sub_resource type="Resource" id="Resource_vxjkd"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Egg Drone"
+hp = 10.0
+weight = 12.0
+max_action = 100.0
+curr_action = 0.0
+max_health = 200.0
+curr_health = 200.0
+guts = 12.0
+luck = 12.0
+agile = 12.0
+might = 12.0
+piety = 12.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 20.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 20.0
+resistance_knockback = 20.0
+zauber = 0.0
+cosmic = 0.0
+bio = 0.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 3.0
+vuln_zauber = 3.0
+vuln_cyber = 5.0
+vuln_bio = 1.0
+vuln_cosmic = 3.0
+gunsdrop = 0.0
+generic = 0.0
+shotguns = 0.0
+rifles = 0.0
+mounted = 0.0
+pistols = 0.0
+automatic = 0.0
+projectile = 0.0
+wtc = 10.0
+
+[sub_resource type="Resource" id="Resource_5y6c4"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Egg Drone"
+hp = 10.0
+weight = 12.0
+max_action = 100.0
+curr_action = 0.0
+max_health = 200.0
+curr_health = 200.0
+guts = 12.0
+luck = 12.0
+agile = 12.0
+might = 12.0
+piety = 12.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 20.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 20.0
+resistance_knockback = 20.0
+zauber = 0.0
+cosmic = 0.0
+bio = 0.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 3.0
+vuln_zauber = 3.0
+vuln_cyber = 5.0
+vuln_bio = 1.0
+vuln_cosmic = 3.0
+gunsdrop = 0.0
+generic = 0.0
+shotguns = 0.0
+rifles = 0.0
+mounted = 0.0
+pistols = 0.0
+automatic = 0.0
+projectile = 0.0
+wtc = 10.0
+
+[sub_resource type="Resource" id="Resource_0qf7b"]
+script = ExtResource("11_i6pqv")
+notes = "Use '\\' to add comments to the code.
+MOVE 		
+MOVE_POS 	
+LOOK		
+LOOK_AT		
+WAIT		
+START_BATTLE
+ACTIVATE_BLOCKER
+DEACTIVATE_BLOCKER
+MAKE_HUD
+MAKE_MIN_HUD
+FOLLOWFRAME
+PLAYSET
+"
+combat_script = "FRAME | NORMAL |  enemy_nest2
+MOVE  | o_cbt_hoopz | o_cinema3| NORMAL
+WAIT | 0
+WAIT | 1
+BEGIN
+EXIT"
+metadata/_custom_type_script = "uid://b1lsou7egbyrj"
+
+[sub_resource type="Resource" id="Resource_5aytu"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
+
+[sub_resource type="Resource" id="Resource_i6pqv"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
+
+[sub_resource type="Resource" id="Resource_2y3by"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
+
+[sub_resource type="Resource" id="Resource_rhvbp"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
+
+[sub_resource type="Resource" id="Resource_42r8v"]
+resource_local_to_scene = true
+script = ExtResource("11_vxjkd")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
 
 [node name="r_air_boss01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
 navigation_polygon = SubResource("NavigationPolygon_b3p7q")
@@ -1697,6 +2037,7 @@ enemy_list = Dictionary[PackedScene, int]({
 ExtResource("4_8wa0j"): 2
 })
 my_enemies = [NodePath("../o_enemy_drone_egg_test"), NodePath("../o_enemy_drone_egg_test2")]
+keep_current_music = false
 combat_script = SubResource("Resource_winla")
 
 [node name="o_cinema2" type="Marker2D" parent="."]
@@ -1719,7 +2060,44 @@ script = ExtResource("9_r55uj")
 [node name="o_enemy_drone_egg_test2" parent="." instance=ExtResource("4_8wa0j")]
 position = Vector2(629, 616)
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
+enemy_data = SubResource("Resource_vxjkd")
 
 [node name="o_enemy_drone_egg_test" parent="." instance=ExtResource("4_8wa0j")]
 position = Vector2(729, 616)
 physics_material_override = SubResource("PhysicsMaterial_wqgut")
+enemy_data = SubResource("Resource_5y6c4")
+
+[node name="enemy_nest2" parent="." node_paths=PackedStringArray("my_enemies") instance=ExtResource("13_0qf7b")]
+position = Vector2(305, 655)
+enemy_list = Dictionary[PackedScene, int]({
+ExtResource("10_vxjkd"): 5
+})
+my_enemies = [NodePath("../o_woodBarrel"), NodePath("../o_woodBarrel2"), NodePath("../o_woodBarrel3"), NodePath("../o_woodBarrel4"), NodePath("../o_woodBarrel5")]
+keep_current_music = false
+combat_script = SubResource("Resource_0qf7b")
+
+[node name="o_cinema3" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(446, 645)
+script = ExtResource("9_r55uj")
+cinema_id = 3
+
+[node name="o_woodBarrel5" parent="." instance=ExtResource("10_vxjkd")]
+position = Vector2(320.451, 607.447)
+enemy_data = SubResource("Resource_5aytu")
+
+[node name="o_woodBarrel4" parent="." instance=ExtResource("10_vxjkd")]
+position = Vector2(264.549, 625.611)
+enemy_data = SubResource("Resource_i6pqv")
+
+[node name="o_woodBarrel3" parent="." instance=ExtResource("10_vxjkd")]
+position = Vector2(264.549, 684.389)
+enemy_data = SubResource("Resource_2y3by")
+
+[node name="o_woodBarrel2" parent="." instance=ExtResource("10_vxjkd")]
+position = Vector2(320.451, 702.553)
+enemy_data = SubResource("Resource_rhvbp")
+
+[node name="o_woodBarrel" parent="." instance=ExtResource("10_vxjkd")]
+position = Vector2(355, 655)
+enemy_data = SubResource("Resource_42r8v")

@@ -49,7 +49,7 @@ var last_movement_vector 	:= Vector2.ZERO
 
 @export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 	:= 30.0
+var speed_multiplier 	:= 20.0
 var speed_slow 			:= 2.0 * speed_multiplier # was 1.5
 var speed_normal 		:= 3.0 * speed_multiplier # was 2.5
 var speed_fast 			:= 6.0 * speed_multiplier # was 5.0
@@ -480,9 +480,9 @@ func _physics_process( _delta: float ) -> void:
 		if ActorNav.is_navigation_finished():
 			playing_animation = ""
 			return
-		print( speed * speed_multiplier / Engine.time_scale )
+		#print( speed * speed_multiplier / Engine.time_scale )
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
-		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / Engine.time_scale ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / lerpf(1.0, Engine.time_scale, 0.25) ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
 		
 		## Update movement vector for animation purposes.
 		real_movement_vector 	= position.direction_to( next_path_position )

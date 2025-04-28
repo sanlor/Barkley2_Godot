@@ -118,19 +118,24 @@ func _ready():
 	game_timer.start()
 	
 	## Quest flags overrides
-	#preload_CC_save_data()
-	#B2_CManager.BodySwap("hoopz");
-	#preload_CC_save_data()
-	#B2_Playerdata.Quest("wilmerMeeting", 0)
-	#B2_Playerdata.Quest("tutorialProgress", 	9)
-	#B2_Playerdata.Quest("tutorialCspear", 		1)
-	#
-	#B2_Playerdata.Quest("zaneState", 			6)
-	#B2_Playerdata.Quest("tutorialCollision", 	3)
-	#B2_Playerdata.Quest("jhodfreyTips", 		2)
-	#B2_Playerdata.Quest("gameStart", 			2)
-	#B2_Playerdata.Quest("factoryEggs", 		1)
-	#preload_skip_tutorial_save_data()
+	
+	B2_Playerdata.preload_CC_save_data()
+	#B2_Playerdata.preload_tutorial_save_data()
+	#B2_Playerdata.preload_skip_tutorial_save_data()
+	
+	B2_CManager.BodySwap("diaper");
+	#B2_Playerdata.Quest("hudVisible", 		0);
+	B2_Playerdata.Quest("zoneVisible", 		0);
+	B2_Playerdata.Quest("dropEnabled", 		0);
+	B2_Playerdata.Quest("infiniteAmmo", 	1);
+	
+	B2_Candy.gain_candy( "Butterscotch" )
+	B2_Candy.gain_candy( "Chickenfry Dew" )
+	B2_Candy.gain_candy( "Butterscotch" )
+	B2_Playerdata.Quest("tutorialProgress", 8)
+	B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.MATERIAL.STEEL, "", false )
+	
+	#B2_Playerdata.player_stats.decrease_hp( 46 )
 	
 ## Mostly used for timed quests, curfew and such.
 func time_goes_on() -> void:

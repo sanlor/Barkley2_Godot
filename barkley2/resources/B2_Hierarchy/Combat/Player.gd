@@ -210,6 +210,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 		## Unknown type.
 		breakpoint
 	
+## Debug function. should not be used normaly.
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
@@ -626,9 +627,9 @@ func _physics_process(delta: float) -> void:
 					push_warning("Weird state: ", curr_STATE)
 				
 				## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
-				if Input.is_action_just_pressed("Holster") and can_draw_weapon:
+				if Input.is_action_just_pressed("Holster") and can_draw_weapon and not B2_Gun.get_bandolier().is_empty():
 					# check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
-					if curr_STATE == STATE.NORMAL and can_shoot:
+					if curr_STATE == STATE.NORMAL:
 						# change state, allowing the player to aim.
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 						curr_STATE = STATE.AIM
@@ -645,15 +646,18 @@ func _physics_process(delta: float) -> void:
 						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
 				# player shoots its weapon.
-				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM and can_shoot:
+				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM:
 					#shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
 					# 18/03/25 kinda functional now. u can shoot at least.
 					#B2_Sound.play_pick("hoopz_click")
 					## CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
-					shoot_gun()
+					if can_shoot:
+						shoot_gun()
+					else:
+						B2_Sound.play_pick("hoopz_click")
 					
-				# player has no permission to draw weapon
-				elif Input.is_action_just_pressed("Holster") and not can_draw_weapon:
+				# player has no permission to draw weapon or has no weapon.
+				elif Input.is_action_just_pressed("Holster") and (not can_draw_weapon or B2_Gun.get_bandolier().is_empty()):
 					B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
 					# if a battle ends and the player still have its weapon drawn, this enables it to holster it.
 					curr_STATE = STATE.NORMAL
@@ -691,7 +695,8 @@ func _physics_process(delta: float) -> void:
 					
 					## Fluff
 					B2_Sound.play("sn_hoopz_roll")
-					#step_smoke.emitting = true
+					if B2_CManager.get_BodySwap() == "diaper":
+						step_smoke.emitting = true
 					#hoopz_normal_body.offset.y += 15
 					return
 				

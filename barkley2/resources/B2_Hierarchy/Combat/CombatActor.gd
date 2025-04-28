@@ -7,12 +7,11 @@ signal stop_animation 			## Stop all active animations (Walking, attacking, dodg
 signal destination_reached 		## Actor was moving, reached its destination.
 signal set_played 				## Actor was playing some animation, but its done now.
 
-
-@export var health 		:= 100.0
-
 ## Cinema Movement
-@export var ActorNav : NavigationAgent2D
-@export var ActorCol : CollisionShape2D
+@export var ActorAnim 			: AnimatedSprite2D
+@export var ActorAudioPlayer	: AudioStreamPlayer2D
+@export var ActorNav 			: NavigationAgent2D
+@export var ActorCol 			: CollisionShape2D
 
 ## Speed stuff
 var speed_multiplier 		:= 10000.0 # was 900.0
@@ -39,7 +38,8 @@ var real_movement_vector 	:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
 
 ## stop processing damage.
-var actor_is_dying := false
+var actor_is_dying 	:= false
+var is_actor_dead	:= false
 
 #func apply_damage( _damage : float) -> void:
 #	push_warning("Method not setup for node %s." % name)
@@ -71,6 +71,33 @@ func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
 		movement_vector 		= real_movement_vector.round()
 		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
 
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
+	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
+		is_playingset = true
+		ActorAnim.animation = _sprite_frame
+		#flip_sprite()
+		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
+		ActorAnim.play( _sprite_frame )
+		await ActorAnim.animation_finished # Play set and wait for the animation to finish
+	else:
+		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
+		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
+		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+		
+	if ActorAnim.sprite_frames.has_animation( _sprite_frame_2 ):
+		ActorAnim.stop()
+		ActorAnim.animation = _sprite_frame_2
+		#flip_sprite()
+		is_playingset = false
+		set_played.emit()
+	else:
+		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame_2 + " not found" )
+		is_playingset = false
+		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
+		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+	return
+
 ## Function checks if the node is doing anything
 ## Return void right awai if its idle. Await for a signal if its busy.
 func check_actor_activity() -> void:
@@ -87,14 +114,20 @@ func check_actor_activity() -> void:
 		return
 
 ## Combat stuff
+
 func damage_actor( _damage : int, _force : Vector2 ) -> void:
 	push_warning("Damage behaviour not set for actor %s. Doing nothing." % self.name )
+	_after_damage()
+
+func _after_damage() -> void:
 	pass
 
 func destroy_actor() -> void:
 	push_warning("Death behaviour not set for actor %s. Doing nothing." % self.name )
+	_after_death()
+
+func _after_death() -> void:
 	pass
-##
 
 func _on_velocity_computed( safe_velocity: Vector2 ):
 	apply_central_force( safe_velocity )
@@ -102,10 +135,13 @@ func _on_velocity_computed( safe_velocity: Vector2 ):
 	
 ## Default behaviour for Combat actors. Overide this to change its behaviour.
 func _physics_process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
 	_process_movement( delta )
 	
 func _process_movement( _delta : float ) -> void:
 	## NOTE 27/02/25 Copied this from the B2_Actor script, with small changes.
+		
 	if is_moving:
 		# Do not query when the map has never synchronized and is empty.
 		if NavigationServer2D.map_get_iteration_id( ActorNav.get_navigation_map() ) == 0:

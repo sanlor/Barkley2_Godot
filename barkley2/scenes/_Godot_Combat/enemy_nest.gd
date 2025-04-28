@@ -11,6 +11,10 @@ extends Area2D
 @export var my_enemies 		: Array[B2_EnemyCombatActor] 	## list of spawned enemies
 @export var nest_radius		:= 64.0
 
+@export_category("Prep")
+@export var start_activated := true
+@export var keep_current_music := false
+
 @export_category("Combat stuff")
 @export var combat_script : B2_Script_Combat
 
@@ -25,11 +29,29 @@ func _make_cinema_spot():
 
 func _ready() -> void:
 	detection_radius.shape.radius = nest_radius
+	if start_activated:
+		activate_nest()
+	else:
+		deactivate_nest()
 	
 func _on_body_entered(body: Node2D) -> void:
 	if body == B2_CManager.o_hoopz:
-		detection_radius.set_deferred( "disabled", true )
-		begin_battle()
+		if my_enemies.is_empty():
+			push_error("Enemy Nest tried to activate without any enemies set.")
+			deactivate_nest()
+		else:
+			deactivate_nest()
+			begin_battle()
+	
+# Used to manually add enemies.
+func add_enemy( enemy : B2_EnemyCombatActor ) -> void:
+	my_enemies.append( enemy )
+	
+func activate_nest() -> void:
+	detection_radius.set_deferred( "disabled", false )
+
+func deactivate_nest() -> void:
+	detection_radius.set_deferred( "disabled", true )
 	
 func _make_enemies() -> void:
 	if my_enemies.is_empty():
@@ -44,8 +66,19 @@ func _make_enemies() -> void:
 				my_enemies.append( enemy )
 
 func begin_battle() -> void:
+	_pre_battle_start()
 	for e : B2_EnemyCombatActor in my_enemies:
 		e.set_mode( B2_EnemyCombatActor.MODE.COMBAT )
 		
 	B2_CManager.cinema_caller = self
-	B2_CManager.start_combat( combat_script, my_enemies )
+	B2_CManager.start_combat( combat_script, my_enemies, keep_current_music )
+	B2_CManager.combat_manager.combat_ended.connect( _post_battle_end )
+	deactivate_nest()
+
+# Called before the battle starts. Used for specific events.
+func _pre_battle_start() -> void:
+	pass
+
+# Called after the battle ends. Used for specific events.
+func _post_battle_end() -> void:
+	pass

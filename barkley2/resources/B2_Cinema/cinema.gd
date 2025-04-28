@@ -181,6 +181,7 @@ func end_cutscene():
 		B2_CManager.o_hud.show_hud()
 	
 	B2_CManager.event_ended.emit() # Peace out.
+	await get_tree().process_frame
 	queue_free()
 	
 func apply_cutscene_mask( cutscene_script : B2_Script, cutscene_mask : Array ):

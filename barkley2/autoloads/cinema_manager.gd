@@ -16,6 +16,7 @@ const O_CTS_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cts_hoopz_nor
 
 ## Combat actor
 const O_CBT_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
+const O_CBT_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
 
 ## Cutscene actor
 const O_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
@@ -44,10 +45,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	get_tree().current_scene.add_child( cinema_player, true )
 	cinema_player.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
-func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
-	combat_cinema_player = B2_Combat_CinemaPlayer.new()
+func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor], keep_current_music := false ) -> void:
+	combat_manager 			= B2_CombatManager.new()
+	combat_cinema_player 	= B2_Combat_CinemaPlayer.new()
 	get_tree().current_scene.add_child( combat_cinema_player, true )
-	combat_cinema_player.setup_combat( combat_script, enemies )
+	combat_cinema_player.setup_combat( combat_script, enemies, keep_current_music )
 
 func BodySwap( costume_name : String ) -> void:
 	# Handle costumes changes. during game load or new game, need to load the correct costume.
@@ -67,6 +69,7 @@ func BodySwap( costume_name : String ) -> void:
 		"diaper":
 			o_hoopz_scene		= O_HOOPZ_DIAPER
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_DIAPER
+			o_cbt_hoopz_scene	= O_CBT_HOOPZ_DIAPER
 			curr_BODY = BODY.DIAPER
 		"prison":
 			o_hoopz_scene		= null
@@ -76,10 +79,14 @@ func BodySwap( costume_name : String ) -> void:
 		_:
 			o_hoopz_scene		= O_HOOPZ_NORMAL
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_NORMAL
+			o_cbt_hoopz_scene	= O_CBT_HOOPZ_NORMAL
 			curr_BODY = BODY.HOOPZ
 			
 	B2_Config.set_user_save_data( "player.body", costume_name )
 	print("Costume changed to %s." % costume_name)
+	
+func get_BodySwap() -> String:
+	return B2_Config.get_user_save_data( "player.body", "hoopz" )
 	
 func cleanup_line( line : String ) -> PackedStringArray:
 	var parsed_line : PackedStringArray = line.split( "|", false )

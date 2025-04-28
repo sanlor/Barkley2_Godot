@@ -28,6 +28,8 @@ class_name B2_Combat_CinemaPlayer
 #endregion
 
 #const O_COMBAT_UI = preload("uid://c1a8fta51ill1")
+const O_HUD 			= preload("uid://cc0u1jcebct86")
+const O_HUD_MINIMAL 	= preload("uid://cyaw4x2juog4u")
 
 signal battle_finished ## Called at the end of the battle, before queue itself out of the game.
 signal action_finished ## Called at the end of the combat action.
@@ -54,8 +56,17 @@ var action_queue		: Array[Array]	## All combat actions should be queued.
 var ongoing_actions		: Array			## Actors doing specific actions.
 var tick_lock := false		## Block the _tick() func, used to give time for the battlers to perform actions withouc recharging its action counter.
 
+## Used during the tutorial.
+var has_mini_hud := false
+
 ## Setup enviroment, replace player character with actor and shiet.
-func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
+func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor], keep_current_music := false ) -> void:
+	# B2_Music.store_curr_music() ## is this needed? No, it is not. Its already done by B2_Music.start_combat().
+	
+	if is_instance_valid(B2_CManager.cinema_player):
+		print_rich("[color=red]B2_Combat_CinemaPlayer: Waiting for the B2_CinemaPlayer to finish its script.[/color]")
+		await B2_CManager.event_ended
+	
 	if not is_instance_valid(camera):
 		camera = _get_camera_on_tree()
 		
@@ -91,12 +102,17 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 		
 	print_rich("[color=pink]Started Combat_Cinema Script![/color]")
 	
+	## NOTE Improve this. Maybe a default combat script?
+	if not combat_script:
+		## Forgot to add the combat script.
+		breakpoint
+		
 	if not combat_script.combat_script:
 		## Forgot to add the combat script.
 		breakpoint
 	
 	if combat_script is B2_Script_Combat:
-		print_rich("[color=pink]Started Cinema() Script.[/color]")
+		print_rich("[color=pink]Started combat_cinema() Script.[/color]")
 		# Split the script into separate lines
 		var split_script 	: PackedStringArray = combat_script.combat_script.split( "\n", true )
 		var script_size 	:= split_script.size()
@@ -121,15 +137,26 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 			match parsed_line[0]:
 				"EXIT":
 					print("EXIT")
+					if not keep_current_music:
+						B2_Music.resume_stored_music()
 					end_combat()
 				"BEGIN":
 					print("BEGIN")
+					if not keep_current_music:
+						B2_Music.play_combat( 0.1 )
+						
 					start_combat( enemies )
 					var result = await combat_manager.combat_ended
 					## TODO handle the battle result
 					
 				"FRAME":
 					B2_CManager.cinema_frame( parsed_line, self )
+				"PLAYSET":
+					var actor = get_node_from_name( parsed_line[ 1 ] )
+					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
+					actor.cinema_playset( str(parsed_line[ 2 ]), str( parsed_line[ 3 ] ) )
+					
+					add_cinema_action( actor ) ## Used to wait for animations to finish
 				"MOVE":
 					## NOTE 27/02/25 Copied this from the cinema script, with small changes.
 					var target					= parsed_line[2].strip_edges()
@@ -154,6 +181,15 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 						if debug_moveto: print("MOVETO: actor is invalid: ",parsed_line[1])
 						
 					if debug_moveto: print("MOVETO: ", parsed_line[1], " - ", parsed_line[2] )
+				"FOLLOWFRAME":
+					var speed 			: String = parsed_line[ 1 ]
+					var follow_array 	: Array = Array()
+					var args := parsed_line.size() - 2 # parsed_line[ 1 ] and [ 2 ] should be ignored.
+					
+					for i : int in args:
+						follow_array.append( get_node_from_name( parsed_line[ 2 + i ] ) )
+					
+					camera.follow_actor( follow_array, speed )
 				"WAIT":
 					## NOTE 27/02/25 Copied this from the cinema script, with small changes.
 					if parsed_line.size() > 1:
@@ -170,6 +206,29 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 						if debug_wait: print( "Wait: KID WAIT Finished" )
 				"DIALOG": ## NOTE This will be needed?
 					pass
+				"ACTIVATE_BLOCKER":
+					var target = get_node_from_name( parsed_line[1].strip_edges() )
+					if target:
+						if target.has_method("activate_block"):
+							target.activate_block()
+						else: push_warning("Combat Cinema: invalid node %s." % target.name )
+					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
+				"DEACTIVATE_BLOCKER":
+					var target = get_node_from_name( parsed_line[1].strip_edges() )
+					if target:
+						if target.has_method("activate_block"):
+							target.deactivate_block()
+						else: push_warning("Combat Cinema: invalid node %s." % target.name )
+					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
+				"MAKE_HUD":
+					var hud = O_HUD.instantiate()
+					get_tree().current_scene.add_child( hud, true )
+					print_rich("[color=yellow]Combat Cinema: hud created.[/color]")
+				"MAKE_MIN_HUD":
+					var hud = O_HUD_MINIMAL.instantiate()
+					get_tree().current_scene.add_child( hud, true )
+					has_mini_hud = true
+					print_rich("[color=yellow]Combat Cinema: min hud created.[/color]")
 				"QUEST":
 					B2_CManager.cinema_quest( parsed_line, debug_quest )
 				"SOUND":
@@ -215,7 +274,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 				
 func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1; combat_ticker.ignore_time_scale = true	 	## Ticker setup.
-	combat_manager = B2_CombatManager.new(); combat_manager.combat_cinema = self;							## Combat manager setup.
+	combat_manager = B2_CManager.combat_manager; combat_manager.combat_cinema = self;							## Combat manager setup.
 	combat_ticker.timeout.connect( _tick_combat )															## Tick tock
 	combat_manager.register_enemy_list( enemies )
 	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
@@ -256,10 +315,14 @@ func end_combat():
 	B2_Input.camera_follow_mouse.emit( true )
 	
 	# actors may moved during the cutscene, update the PF.
-	if is_instance_valid(B2_CManager.o_hud):
+	if is_instance_valid(B2_CManager.o_hud) and not has_mini_hud:
 		B2_CManager.o_hud.show_hud()
+		
+	elif is_instance_valid(B2_CManager.o_hud) and has_mini_hud: ## Remove mini hud from existence.
+		B2_CManager.o_hud.queue_free()
 	
 	B2_CManager.event_ended.emit() # Peace out.
+	
 	queue_free()
 			
 func _get_camera_on_tree() -> Camera2D:

@@ -1346,11 +1346,12 @@ func _on_body_entered( body: Node2D ) -> void:
 		pass
 		
 	if body is B2_CombatActor:
-		if body.has_method("damage_actor"):
-			var att := my_gun.get_att()
-			body.damage_actor( att / float(my_gun.bullets_per_shot), 	velocity.normalized() * att * 100.0 )
-			#body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
-		destroy_bullet()
+		if not body.is_actor_dead: ## Avoid shooting dead bodies.
+			if body.has_method("damage_actor"):
+				var att := my_gun.get_att()
+				body.damage_actor( att / float(my_gun.bullets_per_shot), 	velocity.normalized() * att * 100.0 )
+				#body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
+			destroy_bullet()
 		
 	if body is CollisionObject2D:
 		## TODO add damage to enemies and entities
