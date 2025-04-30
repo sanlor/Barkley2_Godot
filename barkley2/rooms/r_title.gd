@@ -38,9 +38,10 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 # region Panels
 
 ## Title panel
-@onready var title_layer = $title_layer
-@onready var settings_layer = $settings_layer
-@onready var character_layer = $character_layer
+@onready var title_layer: CanvasLayer 		= $title_layer
+@onready var settings_layer: CanvasLayer 	= $settings_layer
+@onready var character_layer: CanvasLayer 	= $character_layer
+@onready var vr_layer: CanvasLayer 			= $vr_layer
 
 @onready var title_panel = $title_layer/title_panel
 
@@ -76,7 +77,7 @@ var key_highlight_color := Color(240, 50, 255) # make_color_rgb(240, 50, 255);
 #endregion
 
 # menu state
-var mode = "basic" :# "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character" ## NOTE This reeeealy should be an enum.
+var mode = "basic" :# "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character", "vr" ## NOTE This reeeealy should be an enum.
 	set(_mode):
 		mode = _mode
 		change_menu() #automatically update the menu
@@ -170,28 +171,42 @@ func init_menus(): ## This is just to alling with the old code. There are better
 	## Settings
 	pass
 	
-func change_menu(): # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character"
+func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character"
+	if force_mode:
+		mode = force_mode
+		
 	match mode:
 		"basic":
 			title_layer.show()
 			settings_layer.hide()
 			gameslot_layer.hide()
 			character_layer.hide()
+			vr_layer.hide()
 		"settings", "keymap", "gamepad":
 			title_layer.hide()
 			settings_layer.show()
 			gameslot_layer.hide()
 			character_layer.hide()
+			vr_layer.hide()
 		"gameslot", "destruct_confirm":
 			title_layer.hide()
 			settings_layer.hide()
 			gameslot_layer.show()
 			character_layer.hide()
+			vr_layer.hide()
 		"gamestart_character":
 			title_layer.hide()
 			settings_layer.hide()
 			gameslot_layer.hide()
 			character_layer.show()
+			vr_layer.hide()
+		"vr":
+			title_layer.hide()
+			settings_layer.hide()
+			gameslot_layer.hide()
+			character_layer.hide()
+			vr_layer.show()
+			
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
 			
@@ -231,3 +246,10 @@ func _draw():
 	#draw_text(qrx, qry, "Experience accordingly.");
 	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	
+
+## 29/04/25 its been a long time since I've been here. The title screen is very different from the rest of the game.
+## it was my first shot on porting the GML code to Godot.
+func _on_vr_btn_button_pressed() -> void:
+	mode = "vr"
+	change_menu()
+	vr_layer.show_menu()

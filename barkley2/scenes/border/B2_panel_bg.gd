@@ -37,6 +37,8 @@ var bg_opacity := 0.65
 		border_size = s
 		queue_redraw()
 
+@export_tool_button("Update Border") var update_border := _ready
+
 func _init():
 	b_2_panel_fg = B2_Border_Foreground.new()
 	add_child(b_2_panel_fg)

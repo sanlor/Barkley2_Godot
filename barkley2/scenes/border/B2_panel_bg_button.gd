@@ -1,3 +1,4 @@
+@tool
 extends B2_Border
 class_name B2_Border_Button
 

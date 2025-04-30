@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=75 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="1_8qs0c"]
 [ext_resource type="Script" uid="uid://cinyaks7663jo" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
@@ -52,6 +52,11 @@
 [ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="46_cs6wg"]
 [ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="46_r8obs"]
 [ext_resource type="Script" uid="uid://f2v4fq1poida" path="res://barkley2/scenes/sTitle/character_window.gd" id="46_rtgnt"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="47_vpjru"]
+[ext_resource type="Script" uid="uid://c6xvln51wpo0m" path="res://barkley2/scenes/sTitle/vr_window.gd" id="54_m5n1q"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="54_tbif1"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="55_m5n1q"]
+[ext_resource type="Script" uid="uid://hbqw42dr1flh" path="res://barkley2/scenes/sTitle/vr_missions/vr_data.gd" id="56_x1p1y"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -171,6 +176,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_hdv4t"]
+font = ExtResource("47_vpjru")
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_a1hoj"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_dc4ss"]
@@ -180,6 +188,209 @@ animations = [{
 [sub_resource type="ButtonGroup" id="ButtonGroup_ehj5d"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_pnmst"]
+
+[sub_resource type="Animation" id="Animation_1ur83"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_list:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, 84)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_desc:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(131, 163)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("begin_btn:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(316, 163)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("back_btn:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(316, 199)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x1p1y"]
+resource_name = "hide_menu"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_list:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(7, 84), Vector2(-126, 84)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_desc:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(131, 163), Vector2(131, 246)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("begin_btn:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(316, 163), Vector2(389, 163)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("back_btn:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(316, 199), Vector2(389, 199)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_12ava"]
+resource_name = "show_menu"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_list:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-126, 84), Vector2(7, 84)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_desc:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(131, 246), Vector2(131, 163)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("begin_btn:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(389, 163), Vector2(316, 163)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("back_btn:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(389, 199), Vector2(316, 199)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ms03e"]
+_data = {
+&"RESET": SubResource("Animation_1ur83"),
+&"hide_menu": SubResource("Animation_x1p1y"),
+&"show_menu": SubResource("Animation_12ava")
+}
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_x1p1y"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1ur83"]
+font = ExtResource("55_m5n1q")
 
 [node name="r_title" type="Control"]
 layout_mode = 3
@@ -310,6 +521,7 @@ texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
 
 [node name="title_layer" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("40_yg4vf")
 
 [node name="title_panel" parent="title_layer" instance=ExtResource("36_5qb0r")]
@@ -369,6 +581,28 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "?"
 script = ExtResource("43_4mace")
+
+[node name="vr_btn" type="Control" parent="title_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 205.0
+offset_right = 110.0
+offset_bottom = 240.0
+script = ExtResource("44_f8qw8")
+border_size = Vector2(110, 35)
+metadata/_custom_type_script = "uid://21bcte5vesst"
+
+[node name="vr_label" type="Label" parent="title_layer/vr_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "V.R. Training"
+label_settings = SubResource("LabelSettings_hdv4t")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="gameslot_layer" type="CanvasLayer" parent="."]
 visible = false
@@ -763,8 +997,8 @@ mouse_filter = 2
 
 [node name="return_panel_button" type="Control" parent="settings_layer/settings_panel"]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 50.0
+offset_bottom = 50.0
 script = ExtResource("44_f8qw8")
 content_highlight_color = Color(1, 0.647059, 0, 1)
 
@@ -783,32 +1017,32 @@ color = Color(0, 0, 0, 1)
 [node name="CC_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_right = 50.0
+offset_bottom = 50.0
 theme = ExtResource("43_scsf8")
 script = ExtResource("44_f8qw8")
 
 [node name="X1_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_right = 50.0
+offset_bottom = 50.0
 theme = ExtResource("43_scsf8")
 script = ExtResource("44_f8qw8")
 
 [node name="Skip_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_right = 50.0
+offset_bottom = 50.0
 theme = ExtResource("43_scsf8")
 script = ExtResource("44_f8qw8")
 
 [node name="Return_Button" type="Control" parent="character_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 100.0
-offset_bottom = 100.0
+offset_right = 50.0
+offset_bottom = 50.0
 theme = ExtResource("43_scsf8")
 script = ExtResource("44_f8qw8")
 
@@ -822,10 +1056,182 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="vr_layer" type="CanvasLayer" parent="."]
+script = ExtResource("54_m5n1q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="vr_layer"]
+libraries = {
+&"": SubResource("AnimationLibrary_ms03e")
+}
+
+[node name="bg" type="ColorRect" parent="vr_layer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="mission_list" type="Control" parent="vr_layer"]
+material = ExtResource("43_67nul")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 7.0
+offset_top = 84.0
+offset_right = 127.0
+offset_bottom = 234.0
+theme = ExtResource("43_081ea")
+script = ExtResource("54_tbif1")
+border_size = Vector2(120, 150)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="vr_layer/mission_list"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 15
+
+[node name="ScrollContainer" type="ScrollContainer" parent="vr_layer/mission_list/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="vr_layer/mission_list/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="mission_1" type="Button" parent="vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_x1p1y")
+text = "Mission 01"
+script = ExtResource("56_x1p1y")
+
+[node name="mission_2" type="Button" parent="vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = SubResource("ButtonGroup_x1p1y")
+text = "Mission 02"
+script = ExtResource("56_x1p1y")
+my_mission_id = 1
+
+[node name="mission_3" type="Button" parent="vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = SubResource("ButtonGroup_x1p1y")
+text = "Mission 03"
+script = ExtResource("56_x1p1y")
+my_mission_id = 2
+
+[node name="mission_4" type="Button" parent="vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = SubResource("ButtonGroup_x1p1y")
+text = "Mission 04"
+script = ExtResource("56_x1p1y")
+my_mission_id = 3
+
+[node name="mission_5" type="Button" parent="vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+disabled = true
+toggle_mode = true
+button_group = SubResource("ButtonGroup_x1p1y")
+text = "Mission 05"
+script = ExtResource("56_x1p1y")
+my_mission_id = 4
+
+[node name="mission_desc" type="ColorRect" parent="vr_layer"]
+offset_left = 131.0
+offset_top = 163.0
+offset_right = 310.0
+offset_bottom = 234.0
+color = Color(0, 1, 0, 0.025)
+
+[node name="MarginContainer" type="MarginContainer" parent="vr_layer/mission_desc"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="mission_label" type="Label" parent="vr_layer/mission_desc/MarginContainer"]
+custom_minimum_size = Vector2(169, 61)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Placeholder mission text."
+label_settings = SubResource("LabelSettings_1ur83")
+autowrap_mode = 2
+
+[node name="begin_btn" type="Control" parent="vr_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 316.0
+offset_top = 163.0
+offset_right = 381.0
+offset_bottom = 198.0
+script = ExtResource("44_f8qw8")
+border_size = Vector2(65, 35)
+metadata/_custom_type_script = "uid://21bcte5vesst"
+
+[node name="begin_label" type="Label" parent="vr_layer/begin_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Begin"
+label_settings = SubResource("LabelSettings_hdv4t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="back_btn" type="Control" parent="vr_layer"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 316.0
+offset_top = 199.0
+offset_right = 381.0
+offset_bottom = 234.0
+script = ExtResource("44_f8qw8")
+border_size = Vector2(65, 35)
+metadata/_custom_type_script = "uid://21bcte5vesst"
+
+[node name="back_label" type="Label" parent="vr_layer/back_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+label_settings = SubResource("LabelSettings_hdv4t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="title_layer/OOC_button" to="title_layer/OOC_button" method="_on_pressed"]
+[connection signal="button_pressed" from="title_layer/vr_btn" to="." method="_on_vr_btn_button_pressed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/minus" to="settings_layer" method="_on_music_minus_pressed"]
 [connection signal="value_changed" from="settings_layer/settings_panel/general/settings_name_0/music_slider" to="settings_layer" method="_on_music_slider_value_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/plus" to="settings_layer" method="_on_music_plus_pressed"]
@@ -833,3 +1239,4 @@ color = Color(0, 0, 0, 1)
 [connection signal="value_changed" from="settings_layer/settings_panel/general/settings_name_1/sound_slider" to="settings_layer" method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_1/plus" to="settings_layer" method="_on_sound_plus_pressed"]
 [connection signal="button_pressed" from="settings_layer/settings_panel/return_panel_button" to="settings_layer" method="_on_settings_return_button_pressed"]
+[connection signal="button_pressed" from="vr_layer/back_btn" to="vr_layer" method="_on_back_btn_button_pressed"]
