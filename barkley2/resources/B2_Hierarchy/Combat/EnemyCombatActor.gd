@@ -11,8 +11,8 @@ signal aim_target_changed
 signal move_target_changed
 signal finished_charge_action	## Actor is done with its charge/rush action.
 
-enum MODE{INACTIVE,COMBAT,AIMING,CHARGING,DEATH}
-var curr_MODE := MODE.INACTIVE
+enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}
+@export var curr_MODE := MODE.INACTIVE
 var is_changing_states := false
 
 @export_category("Enemy stuff")
@@ -118,7 +118,7 @@ func _setup_enemy() -> void:
 			enemy_data.resource_local_to_scene = true
 		
 	#enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
-	set_mode( MODE.INACTIVE )
+	#set_mode( MODE.INACTIVE )
 	
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
@@ -213,7 +213,6 @@ func _physics_process( delta: float ) -> void:
 				linear_damp = 10.0
 				finished_charge_action.emit()
 				curr_MODE = MODE.COMBAT
-			pass
 		
 	## Anim stuff
 	last_movement_vector 	= movement_vector

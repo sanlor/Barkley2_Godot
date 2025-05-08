@@ -46,6 +46,9 @@ var object_map := {
 	"o_tutorial_popups01" : 	preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
 	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
 	"o_hoopz_black":			preload("res://barkley2/scenes/Objects/_cutscenes/_sceneBranding/o_hoopz_black.tscn"),
+	"virtual_spawn":			preload("res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn"),
+	
+	"o_enemy_drone_egg":		 preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn"),
 }
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
@@ -1186,7 +1189,9 @@ func Camera( parsed_line : PackedStringArray ):
 func Create( parsed_line : PackedStringArray ):
 	# Check Create() script
 	var misc_arguments := parsed_line.size() - 2
-	print("Create: %s arguments." % str(misc_arguments) )
+	
+	#print("Create: %s arguments." % str(misc_arguments) )
+	#print( parsed_line )
 	
 	if object_map.has( parsed_line[1] ):
 		if object_map[ parsed_line[1] ] == null:
@@ -1197,9 +1202,9 @@ func Create( parsed_line : PackedStringArray ):
 		#var object : Node2D = obj_scene.instantiate() # can also be a Canvas Layer
 		var object = obj_scene.instantiate()
 		if object is Node2D or object is Control:
-			if misc_arguments > 1:
+			if misc_arguments >= 1:
 				object.position.x = float( parsed_line[2] )
-			if misc_arguments > 2:
+			if misc_arguments >= 2:
 				object.position.y = float( parsed_line[3] )
 		add_sibling( object, true )
 	else:

@@ -1,22 +1,52 @@
-[gd_scene load_steps=12 format=4 uid="uid://ba3127w1hjnnw"]
+[gd_scene load_steps=33 format=4 uid="uid://ba3127w1hjnnw"]
 
 [ext_resource type="Script" uid="uid://bbyd5s5nkf1x" path="res://barkley2/rooms/r_combat_tutorial_01.gd" id="1_a15wa"]
 [ext_resource type="Texture2D" uid="uid://cju34m8c74a8i" path="res://barkley2/assets/b2_original/backgrounds/tls_virtual01.png" id="1_c5nwf"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hypcc"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_xqe2f"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="4_yee3r"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="5_33khu"]
+[ext_resource type="PackedScene" uid="uid://jpl7igxl7yf4" path="res://barkley2/scenes/_Godot_Combat/enemy_nest.tscn" id="7_6rqmb"]
+[ext_resource type="PackedScene" uid="uid://djy06cuntq3p7" path="res://barkley2/scenes/sTitle/vr_missions/o_field_medic.tscn" id="10_6rqmb"]
+[ext_resource type="AudioStream" uid="uid://ci2l8glreat1x" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm01.ogg" id="10_a15wa"]
+[ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn" id="10_bn3ng"]
+[ext_resource type="AudioStream" uid="uid://dv8mqi4daib48" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm02.ogg" id="10_yee3r"]
+[ext_resource type="PackedScene" uid="uid://bu7akupuv18cr" path="res://barkley2/scenes/Objects/_interactiveActor/_swamp/Running Mantis/o_runningMantis01.tscn" id="11_4ln1s"]
+[ext_resource type="AudioStream" uid="uid://dq6xqqy33v5rj" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm03.ogg" id="11_33khu"]
+[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="11_a15wa"]
+[ext_resource type="PackedScene" uid="uid://vj7yjaqpqmai" path="res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn" id="12_4ln1s"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="13_ixe20"]
+[ext_resource type="Script" uid="uid://b1lsou7egbyrj" path="res://barkley2/resources/B2_Cinema/B2_Script_Combat.gd" id="14_4f5rw"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="14_xqe2f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xqe2f"]
+
+[sub_resource type="Resource" id="Resource_6rqmb"]
+script = ExtResource("2_hypcc")
+original_script = "Camera | snap | o_cinema4
+Misc | set | o_cts_hoopz | o_cinema4
+Create | virtual_spawn | 400 | 369
+FADE   | 0 | 1
+WAIT | 3
+FRAME | CAMERA_SLOW | o_cinema5
+WAIT | 0
+WAIT | 1
+"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f5io5"]
+blend_mode = 3
 
 [sub_resource type="GDScript" id="GDScript_xqe2f"]
 resource_name = "o_effect_virtual_control"
 script/source = "
 extends Node2D
 
-const TIME_TEXT 		:= 5.0
-const TIME_RECTANGLE 	:= 5.0
+## make the bg effect
+
+const TIME_TEXT 		:= 1.0
+const TIME_RECTANGLE 	:= 1.0
+const TIME_CIRCLE	 	:= 1.0
+const TIME_NUMBER		:= 1.0
 
 # check o_effect_virtual_control
 var o_effect_virtual_text			:= []
@@ -26,6 +56,8 @@ var o_effect_virtual_number			:= []
 
 var time_text 			:= TIME_TEXT
 var time_rectangle 		:= TIME_RECTANGLE
+var time_circle		 	:= TIME_CIRCLE
+var time_number		 	:= TIME_NUMBER
 
 var room_size := Vector2(800,700)
 
@@ -53,22 +85,51 @@ func make_text() -> void:
 	o_effect_virtual_text.append(
 		[ 
 			text.pick_random(), 									# 0
-			Vector2.LEFT.rotated( randf_range(-PI, PI) ), 			# 1
-			randf_range( 1.0005,1.0005 ), 								# 2
-			Vector2( 												# 3
+			2.0 * randf_range( 0, 10 ) * [1.0, -1.0].pick_random(),	# 1
+			Vector2( 												# 2
 				randf_range(0 ,room_size.x ),
 				randf_range( 0,room_size.y ) 
 			), 
-			my_color, 												# 4
-			my_scale, 												# 5
-			#my_alpha 												# 6
+			my_color, 												# 3
+			my_scale, 												# 4
+			#my_alpha 												# 5
+		]
+	)
+
+func make_number() -> void:
+	var numbers := [
+			\"666\",
+			\"420\",
+			\"69\",
+			\"1\",
+			\"0\",
+			\"100\",
+			\"0 0 0 0 0 0 0 0 0\",
+			\"777\",
+			\"999\",
+			\"123\",
+		]
+	var my_color := Color.from_rgba8( 175 + randi_range(0,75), 40 + randi_range(0,200), 80 + randi_range(0,100) )
+	var my_scale := 1.0 + randf_range(0,2);
+	#var my_alpha = 0.05;
+	my_color.a = 0.0
+	o_effect_virtual_number.append(
+		[ 
+			numbers.pick_random(), 									# 0
+			2.0 * randf_range( 0, 10 ) * [1.0, -1.0].pick_random(),	# 1
+			Vector2( 												# 2
+				randf_range(0 ,room_size.x ),
+				randf_range( 0,room_size.y ) 
+			), 
+			my_color, 												# 3
+			my_scale, 												# 4
 		]
 	)
 
 func make_rect() -> void:
 	var my_size 			: float
 	var my_size_target 		: float
-	var my_color			:= Color.from_rgba8( 150 + randf_range(0,100), 50, 70 )
+	var my_color			:= Color.from_rgba8( 150 + randi_range(0,100), 50, 70 )
 	var my_speed			:= 0.5 + randf_range( 0.5,2.5 )
 	if randf() >= 0.5:
 		my_size			= randf_range(0,500)
@@ -89,47 +150,86 @@ func make_rect() -> void:
 		]
 	)
 
+func make_circle() -> void:
+	var my_size 			: float
+	var my_size_target 		: float
+	var my_color			:= Color.from_rgba8( 175 + randi_range(0,75), 40, 80 )
+	var my_speed			:= 1.0 + randf_range( 0.0,2.0 )
+	if randf() >= 0.5:
+		my_size			= randf_range(0,500)
+		my_size_target	= 0.0
+	else:
+		my_size			= 0.0
+		my_size_target	= randf_range(0,500)
+	o_effect_virtual_circle.append(
+		[
+			Vector2( 												# 0
+				randf_range(0 ,room_size.x ),
+				randf_range( 0,room_size.y ) 
+			),
+			my_speed,												# 1
+			my_size,												# 2
+			my_size_target,											# 3
+			my_color,												# 4
+		]
+	)
+
 func _physics_process(delta: float) -> void:
-	time_text 		-= 10.0 * delta
-	time_rectangle 	-= 10 * delta
+	time_text 		-= 50.0 * delta
+	time_rectangle 	-= 50.0 * delta
+	time_circle		-= 50.0 * delta
+	time_number		-= 50.0 * delta
 	
 	if time_text < 0.0:
-		time_text = TIME_TEXT
-		if o_effect_virtual_text.size() < 20:
-			#make_text()
-			pass
+		time_text = TIME_TEXT * 20.0 + ( randf_range(0.0, 5.0) * 10.0 )
+		if o_effect_virtual_text.size() < 30:
+			make_text()
 			
 	if time_rectangle < 0.0:
-		time_rectangle = TIME_RECTANGLE
-		if o_effect_virtual_rectangle.size() < 20:
+		time_rectangle = TIME_RECTANGLE * 5.0 + ( randf_range(0.0,5.0) * 4.0 )
+		if o_effect_virtual_rectangle.size() < 30:
 			make_rect()
+			
+	if time_circle < 0.0:
+		time_circle = TIME_CIRCLE * 10.0 + ( randf_range(0.0,5.0) * 5.0 )
+		if o_effect_virtual_circle.size() < 30:
+			make_circle()
+			
+	if time_number < 0.0:
+		time_number = TIME_NUMBER * 20.0 + ( randf_range(0.0,5.0) * 10.0 )
+		if o_effect_virtual_number.size() < 30:
+			make_number()
 			
 	queue_redraw()
 	
 func _draw() -> void:
+	## Text 
 	if not o_effect_virtual_text.is_empty():
 		var cleanup := []
 		for text : Array in o_effect_virtual_text:
-			if Rect2( Vector2.ZERO, room_size).has_point( text[3] ):
-				text[4].a = lerpf( text[4].a, 0.25, 0.1 )
+			if text[2].x > 0 and text[2].x < room_size.x:
+				text[3].a = lerpf( text[3].a, 0.5, 0.1 )
 			else:
-				text[4].a = lerpf( text[4].a, 0.0, 0.1 )
-				if text[4].a <= 0.001:
+				text[3].a = lerpf( text[3].a, 0.0, 0.1 )
+				if text[3].a <= 0.001:
 					cleanup.append( text)
+			var font := preload(\"res://barkley2/resources/fonts/fn_small.tres\")
+			var pos := Vector2( text[2].x - font.get_string_size(text[0]).x / 2.0, text[2].y ) ## put the text on the center
+			draw_string( font, pos, text[0], HORIZONTAL_ALIGNMENT_CENTER, -1, 16.0 * text[4], text[3]  ) 
+			text[2].x += ( text[1] * 5.0 ) * get_physics_process_delta_time() ## apply x speed
 			
-			draw_string( preload(\"res://barkley2/resources/fonts/fn_small.tres\"), text[3], text[0], HORIZONTAL_ALIGNMENT_CENTER, -1, 16.0 * text[5], text[4]  )
-			text[3] += text[1] * text[2] ## apply direction * speed
 				
 		for c in cleanup:
 			o_effect_virtual_text.erase(c)
 		o_effect_virtual_text.sort()
 
+	## Rectangle
 	if not o_effect_virtual_rectangle.is_empty():
 		var cleanup := []
 		for text : Array in o_effect_virtual_rectangle:
 			
 			if not is_equal_approx(text[2], text[3]):
-				text[4].a = lerpf( text[4].a, 0.25, 0.25 )
+				text[4].a = lerpf( text[4].a, 0.5, 0.25 )
 			else:
 				text[4].a = lerpf( text[4].a, 0.0, 0.25 )
 				if text[4].a <= 0.001:
@@ -145,6 +245,45 @@ func _draw() -> void:
 		for c in cleanup:
 			o_effect_virtual_rectangle.erase(c)
 		o_effect_virtual_rectangle.sort()
+
+	## Circle
+	if not o_effect_virtual_circle.is_empty():
+		var cleanup := []
+		for text : Array in o_effect_virtual_circle:
+			
+			if not is_equal_approx(text[2], text[3]):
+				text[4].a = lerpf( text[4].a, 0.5, 0.5 )
+			else:
+				text[4].a = lerpf( text[4].a, 0.0, 0.5 )
+				if text[4].a <= 0.001:
+					cleanup.append( text)
+					
+			text[2] = move_toward( text[2], text[3], text[1] )
+			draw_circle( text[0], text[2], text[4], false )
+			
+		for c in cleanup:
+			o_effect_virtual_circle.erase(c)
+		o_effect_virtual_circle.sort()
+
+	## Numbers
+	if not o_effect_virtual_number.is_empty():
+		var cleanup := []
+		for text : Array in o_effect_virtual_number:
+			if text[2].y > 0 and text[2].y < room_size.y:
+				text[3].a = lerpf( text[3].a, 0.5, 0.1 )
+			else:
+				text[3].a = lerpf( text[3].a, 0.0, 0.1 )
+				if text[3].a <= 0.001:
+					cleanup.append( text)
+			var font := preload(\"res://barkley2/resources/fonts/fn_small.tres\")
+			var pos := Vector2( text[2].x - font.get_string_size(text[0]).x / 2.0, text[2].y ) ## put the text on the center
+			draw_string( font, pos, text[0], HORIZONTAL_ALIGNMENT_CENTER, -1, 16.0 * text[4], text[3]  ) 
+			text[2].y += ( text[1] * 5.0 ) * get_physics_process_delta_time() ## apply x speed
+			
+				
+		for c in cleanup:
+			o_effect_virtual_number.erase(c)
+		o_effect_virtual_number.sort()
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4no0u"]
@@ -298,10 +437,432 @@ texture = ExtResource("1_c5nwf")
 [sub_resource type="TileSet" id="TileSet_ejala"]
 sources/0 = SubResource("TileSetAtlasSource_4no0u")
 
+[sub_resource type="Resource" id="Resource_bn3ng"]
+script = ExtResource("2_hypcc")
+original_script = "DIALOG | P_NAME | Why is this box here?
+WAIT | 1
+DIALOG | P_NAME | Is someone there?
+WAIT | 2
+DIALOG | P_NAME | Huh...
+EXIT"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="Resource" id="Resource_4ln1s"]
+script = ExtResource("2_hypcc")
+original_script = "DIALOG | P_NAME | Test."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="Animation" id="Animation_a15wa"]
+resource_name = "encounter_01"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_01/o_enemy_drone_egg:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_01/o_enemy_drone_egg2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mission_01/o_enemy_drone_egg3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("mission_01/o_enemy_drone_egg3/virtual_spawn:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("mission_01/o_enemy_drone_egg2/virtual_spawn:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("mission_01/o_enemy_drone_egg/virtual_spawn:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("mission_01/o_enemy_drone_egg")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("mission_01/o_enemy_drone_egg2")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("mission_01/o_enemy_drone_egg3")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/9/type = "audio"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("mission_01/AudioStreamPlayer")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_a15wa")
+}],
+"times": PackedFloat32Array(1)
+}
+tracks/9/use_blend = true
+tracks/10/type = "audio"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("mission_01/AudioStreamPlayer")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("10_yee3r")
+}],
+"times": PackedFloat32Array(1.5)
+}
+tracks/10/use_blend = true
+tracks/11/type = "audio"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("mission_01/AudioStreamPlayer")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("11_33khu")
+}],
+"times": PackedFloat32Array(1.25)
+}
+tracks/11/use_blend = true
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("mission_01/enemy_nest")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
+
+[sub_resource type="Animation" id="Animation_xqe2f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_01/o_enemy_drone_egg:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_01/o_enemy_drone_egg2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mission_01/o_enemy_drone_egg3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("mission_01/o_enemy_drone_egg3/virtual_spawn:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("mission_01/o_enemy_drone_egg2/virtual_spawn:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("mission_01/o_enemy_drone_egg/virtual_spawn:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yee3r"]
+_data = {
+&"RESET": SubResource("Animation_xqe2f"),
+&"encounter_01": SubResource("Animation_a15wa")
+}
+
+[sub_resource type="Resource" id="Resource_05auw"]
+script = ExtResource("14_4f5rw")
+notes = "Use '\\' to add comments to the code.
+MOVE 		
+MOVE_POS 	
+LOOK		
+LOOK_AT		
+WAIT		
+START_BATTLE
+ACTIVATE_BLOCKER
+DEACTIVATE_BLOCKER
+MAKE_HUD
+MAKE_MIN_HUD
+FOLLOWFRAME
+PLAYSET
+"
+combat_script = "BEGIN
+EXIT"
+metadata/_custom_type_script = "uid://b1lsou7egbyrj"
+
+[sub_resource type="Resource" id="Resource_xqe2f"]
+resource_local_to_scene = true
+script = ExtResource("11_a15wa")
+enemy_name = "Egg Drone"
+hp = 10.0
+weight = 12.0
+max_action = 100.0
+curr_action = 0.0
+max_health = 150.0
+curr_health = 150.0
+guts = 12.0
+luck = 12.0
+agile = 12.0
+might = 12.0
+piety = 12.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 20.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 20.0
+resistance_knockback = 20.0
+zauber = 0.0
+cosmic = 0.0
+bio = 0.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 3.0
+vuln_zauber = 3.0
+vuln_cyber = 5.0
+vuln_bio = 1.0
+vuln_cosmic = 3.0
+gunsdrop = 0.0
+generic = 0.0
+shotguns = 0.0
+rifles = 0.0
+mounted = 0.0
+pistols = 0.0
+automatic = 0.0
+projectile = 0.0
+wtc = 10.0
+
+[sub_resource type="Resource" id="Resource_33khu"]
+resource_local_to_scene = true
+script = ExtResource("11_a15wa")
+enemy_name = "Egg Drone"
+hp = 10.0
+weight = 12.0
+max_action = 100.0
+curr_action = 0.0
+max_health = 150.0
+curr_health = 150.0
+guts = 12.0
+luck = 12.0
+agile = 12.0
+might = 12.0
+piety = 12.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 20.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 20.0
+resistance_knockback = 20.0
+zauber = 0.0
+cosmic = 0.0
+bio = 0.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 3.0
+vuln_zauber = 3.0
+vuln_cyber = 5.0
+vuln_bio = 1.0
+vuln_cosmic = 3.0
+gunsdrop = 0.0
+generic = 0.0
+shotguns = 0.0
+rifles = 0.0
+mounted = 0.0
+pistols = 0.0
+automatic = 0.0
+projectile = 0.0
+wtc = 10.0
+
+[sub_resource type="Resource" id="Resource_4f5rw"]
+resource_local_to_scene = true
+script = ExtResource("11_a15wa")
+enemy_name = "Egg Drone"
+hp = 10.0
+weight = 12.0
+max_action = 100.0
+curr_action = 0.0
+max_health = 150.0
+curr_health = 150.0
+guts = 12.0
+luck = 12.0
+agile = 12.0
+might = 12.0
+piety = 12.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 20.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 20.0
+resistance_knockback = 20.0
+zauber = 0.0
+cosmic = 0.0
+bio = 0.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 3.0
+vuln_zauber = 3.0
+vuln_cyber = 5.0
+vuln_bio = 1.0
+vuln_cosmic = 3.0
+gunsdrop = 0.0
+generic = 0.0
+shotguns = 0.0
+rifles = 0.0
+mounted = 0.0
+pistols = 0.0
+automatic = 0.0
+projectile = 0.0
+wtc = 10.0
+
 [node name="r_combat_tutorial01" type="NavigationRegion2D" node_paths=PackedStringArray("teleport_node", "collision_layer", "collision_layer_semi")]
+y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_xqe2f")
 script = ExtResource("1_a15wa")
-debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(400, 369)
 teleport_spot = true
 teleport_node = NodePath("o_teleport_mark")
@@ -311,7 +872,16 @@ room_music_name = "mus_vrw"
 override_zone_name = "Virtual Reality"
 override_zone_flavor = "Wow..."
 camera_bound_to_map = true
+cutscene_script = SubResource("Resource_6rqmb")
 metadata/_custom_type_script = "uid://bvfigbkdlawg1"
+
+[node name="bg" type="ColorRect" parent="."]
+z_index = -10
+material = SubResource("CanvasItemMaterial_f5io5")
+offset_right = 798.0
+offset_bottom = 706.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="o_effect_virtual_control" type="Node2D" parent="."]
 z_index = -10
@@ -352,15 +922,8 @@ z_index = 1000
 tile_map_data = PackedByteArray("AAAeABMAGQAAAAAAAAAeABQAGQAAAAAAAAAeABUAGQAAAAAAAAAeABYAGQAAAAAAAAAfABMAGQAAAAAAAAAfABQAGQAAAAAAAAAfABUAGQAAAAAAAAAfABYAGQAAAAAAAAAgABMAGQAAAAAAAAAgABQAGQAAAAAAAAAgABUAGQAAAAAAAAAgABYAGQAAAAAAAAAhABMAGQAAAAAAAAAhABQAGQAAAAAAAAAhABUAGQAAAAAAAAAhABYAGQAAAAAAAAAiABMAGQAAAAAAAAAiABQAGQAAAAAAAAAiABUAGQAAAAAAAAAiABYAGQAAAAAAAAASAAYAGQAAAAAAAAASAAcAGQAAAAAAAAASAAgAGQAAAAAAAAASAAkAGQAAAAAAAAATAAYAGQAAAAAAAAATAAcAGQAAAAAAAAATAAgAGQAAAAAAAAATAAkAGQAAAAAAAAAUAAYAGQAAAAAAAAAUAAcAGQAAAAAAAAAUAAgAGQAAAAAAAAAUAAkAGQAAAAAAAAAVAAYAGQAAAAAAAAAVAAcAGQAAAAAAAAAVAAgAGQAAAAAAAAAVAAkAGQAAAAAAAAAWAAYAGQAAAAAAAAAWAAcAGQAAAAAAAAAWAAgAGQAAAAAAAAAWAAkAGQAAAAAAAAAXAAYAGQAAAAAAAAAXAAcAGQAAAAAAAAAXAAgAGQAAAAAAAAAXAAkAGQAAAAAAAAAYAAYAGQAAAAAAAAAYAAcAGQAAAAAAAAAYAAgAGQAAAAAAAAAYAAkAGQAAAAAAAAAZAAYAGQAAAAAAAAAZAAcAGQAAAAAAAAAZAAgAGQAAAAAAAAAZAAkAGQAAAAAAAAAaAAYAGQAAAAAAAAAaAAcAGQAAAAAAAAAaAAgAGQAAAAAAAAAaAAkAGQAAAAAAAAAbAAYAGQAAAAAAAAAbAAcAGQAAAAAAAAAbAAgAGQAAAAAAAAAbAAkAGQAAAAAAAAAcAAYAGQAAAAAAAAAcAAcAGQAAAAAAAAAcAAgAGQAAAAAAAAAcAAkAGQAAAAAAAAAdAAYAGQAAAAAAAAAdAAcAGQAAAAAAAAAdAAgAGQAAAAAAAAAdAAkAGQAAAAAAAAAeAAYAGQAAAAAAAAAeAAcAGQAAAAAAAAAeAAgAGQAAAAAAAAAeAAkAGQAAAAAAAAAfAAYAGQAAAAAAAAAfAAcAGQAAAAAAAAAfAAgAGQAAAAAAAAAfAAkAGQAAAAAAAAASAAoAGQAAAAAAAAASAAsAGQAAAAAAAAATAAoAGQAAAAAAAAATAAsAGQAAAAAAAAAUAAoAGQAAAAAAAAAUAAsAGQAAAAAAAAAVAAoAGQAAAAAAAAAVAAsAGQAAAAAAAAAWAAoAGQAAAAAAAAAWAAsAGQAAAAAAAAAXAAoAGQAAAAAAAAAXAAsAGQAAAAAAAAASAAwAGQAAAAAAAAATAAwAGQAAAAAAAAAUAAwAGQAAAAAAAAAVAAwAGQAAAAAAAAAWAAIAGQAAAAAAAAAWAAMAGQAAAAAAAAAWAAQAGQAAAAAAAAAWAAUAGQAAAAAAAAAXAAIAGQAAAAAAAAAXAAMAGQAAAAAAAAAXAAQAGQAAAAAAAAAXAAUAGQAAAAAAAAAYAAIAGQAAAAAAAAAYAAMAGQAAAAAAAAAYAAQAGQAAAAAAAAAYAAUAGQAAAAAAAAAZAAIAGQAAAAAAAAAZAAMAGQAAAAAAAAAZAAQAGQAAAAAAAAAZAAUAGQAAAAAAAAAaAAIAGQAAAAAAAAAaAAMAGQAAAAAAAAAaAAQAGQAAAAAAAAAaAAUAGQAAAAAAAAAbAAIAGQAAAAAAAAAbAAMAGQAAAAAAAAAbAAQAGQAAAAAAAAAbAAUAGQAAAAAAAAAaAAoAGQAAAAAAAAAaAAsAGQAAAAAAAAAbAAoAGQAAAAAAAAAbAAsAGQAAAAAAAAAcAAoAGQAAAAAAAAAcAAsAGQAAAAAAAAAdAAoAGQAAAAAAAAAdAAsAGQAAAAAAAAAeAAoAGQAAAAAAAAAeAAsAGQAAAAAAAAAfAAoAGQAAAAAAAAAfAAsAGQAAAAAAAAAcAAwAGQAAAAAAAAAdAAwAGQAAAAAAAAAeAAwAGQAAAAAAAAAfAAwAGQAAAAAAAAA=")
 tile_set = ExtResource("3_xqe2f")
 
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("4_yee3r")
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
-
 [node name="o_doorlight_up" parent="." instance=ExtResource("5_33khu")]
-position = Vector2(384, 176)
+position = Vector2(384, 184)
 teleport_destination = "global.zauberRoomName, global.zauberRoomX, global.zauberRoomY);
 visible = false;"
 metadata/code = "RoomXY(global.zauberRoomName, global.zauberRoomX, global.zauberRoomY);
@@ -408,6 +971,20 @@ metadata/code = ""
 metadata/inst_name = "inst_AA5AED0D"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_cinema4" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(400, 369)
+script = ExtResource("13_ixe20")
+cinema_id = 4
+metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
+
+[node name="o_cinema5" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(400, 305)
+script = ExtResource("13_ixe20")
+cinema_id = 5
+metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
+
 [node name="P9 - o_zsurvey" type="Marker2D" parent="."]
 position = Vector2(264, 384)
 metadata/code = "initial_height = -32;"
@@ -427,12 +1004,58 @@ metadata/code = "initial_height = -16;
 metadata/inst_name = "inst_EFDE0F24"
 metadata/scale = Vector2(1, 1)
 
-[node name="P20 - o_effect_virtual_control" type="Marker2D" parent="."]
-position = Vector2(32, 0)
-metadata/code = ""
-metadata/inst_name = "inst_76FC3A68"
-metadata/scale = Vector2(1, 1)
-
 [node name="o_teleport_mark" parent="." instance=ExtResource("14_xqe2f")]
 modulate = Color(1, 1, 1, 0.5)
 position = Vector2(400, 369)
+
+[node name="o_field_medic" parent="." instance=ExtResource("10_6rqmb")]
+position = Vector2(313, 291)
+cutscene_script = SubResource("Resource_bn3ng")
+
+[node name="o_runningMantis01" parent="." instance=ExtResource("11_4ln1s")]
+position = Vector2(488, 216)
+cutscene_script = SubResource("Resource_4ln1s")
+
+[node name="mission_01" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="mission_01"]
+volume_db = -32.0
+max_polyphony = 3
+bus = &"Audio"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="mission_01"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_yee3r")
+}
+
+[node name="enemy_nest" parent="mission_01" node_paths=PackedStringArray("my_enemies") instance=ExtResource("7_6rqmb")]
+position = Vector2(400, 341)
+my_enemies = [NodePath("../o_enemy_drone_egg"), NodePath("../o_enemy_drone_egg2"), NodePath("../o_enemy_drone_egg3")]
+keep_current_music = true
+combat_script = SubResource("Resource_05auw")
+
+[node name="o_enemy_drone_egg" parent="mission_01" instance=ExtResource("10_bn3ng")]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(353, 304)
+enemy_data = SubResource("Resource_xqe2f")
+
+[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg" instance=ExtResource("12_4ln1s")]
+emitting = true
+
+[node name="o_enemy_drone_egg2" parent="mission_01" instance=ExtResource("10_bn3ng")]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(400, 305)
+enemy_data = SubResource("Resource_33khu")
+
+[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg2" instance=ExtResource("12_4ln1s")]
+emitting = true
+
+[node name="o_enemy_drone_egg3" parent="mission_01" instance=ExtResource("10_bn3ng")]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(445, 306)
+enemy_data = SubResource("Resource_4f5rw")
+
+[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg3" instance=ExtResource("12_4ln1s")]
+emitting = true

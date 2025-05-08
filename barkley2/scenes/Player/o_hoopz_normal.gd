@@ -3,7 +3,8 @@ extends B2_Player
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:
 		if curr_STATE == STATE.ROLL:
-			body.apply_damage( 75.0 ) ## Debug setup
+			# body.apply_damage( 75.0 ) ## Debug setup
+			pass
 
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:

@@ -123,11 +123,11 @@ func _ready():
 	#B2_Playerdata.preload_tutorial_save_data()
 	#B2_Playerdata.preload_skip_tutorial_save_data()
 	
-	B2_CManager.BodySwap("diaper");
-	#B2_Playerdata.Quest("hudVisible", 		0);
-	B2_Playerdata.Quest("zoneVisible", 		0);
-	B2_Playerdata.Quest("dropEnabled", 		0);
-	B2_Playerdata.Quest("infiniteAmmo", 	1);
+	#B2_CManager.BodySwap("diaper");
+	#B2_Playerdata.Quest("hudVisible", 			0);
+	#B2_Playerdata.Quest("zoneVisible", 		0);
+	#B2_Playerdata.Quest("dropEnabled", 		0);
+	#B2_Playerdata.Quest("infiniteAmmo", 		1);
 	
 	B2_Candy.gain_candy( "Butterscotch" )
 	B2_Candy.gain_candy( "Chickenfry Dew" )

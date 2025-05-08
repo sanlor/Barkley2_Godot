@@ -1,0 +1,85 @@
+[gd_scene load_steps=12 format=3 uid="uid://djy06cuntq3p7"]
+
+[ext_resource type="Script" uid="uid://cgb0w8tbb0sco" path="res://barkley2/scenes/sTitle/vr_missions/o_field_medic.gd" id="1_t6snh"]
+[ext_resource type="Texture2D" uid="uid://dr0jnfknyuyha" path="res://barkley2/assets/b2_original/images/merged/s_boxes_single01.png" id="3_v3nfx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a15wa"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqe2f"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yee3r"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33khu"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4f5rw"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05auw"]
+atlas = ExtResource("3_v3nfx")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6tpds"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a15wa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xqe2f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yee3r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33khu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4f5rw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05auw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ki4pa"]
+radius = 7.07107
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7sr6w"]
+size = Vector2(23, 24)
+
+[node name="o_field_medic" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+script = ExtResource("1_t6snh")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+ActorNav = NodePath("ActorNav")
+metadata/_custom_type_script = "uid://bkmmc6lng8ma"
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6tpds")
+offset = Vector2(0, -10)
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_ki4pa")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_7sr6w")

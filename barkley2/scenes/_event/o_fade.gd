@@ -29,7 +29,7 @@ func _ready() -> void:
 		color.a = 1.0
 		target_alpha = 0.0
 		
-	if _seconds > 0:
+	if _seconds > 0.0:
 		var tween := create_tween()
 		tween.tween_property(self, "color:a", target_alpha, _seconds)
 		if _fade == true:
