@@ -51,8 +51,8 @@ func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
 
 # used to change the volume based on the menu open
-func volume_menu():
-	if B2_Screen.is_map_open:
+func volume_menu( force := false ):
+	if B2_Screen.is_map_open or force:
 		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
 	elif B2_Screen.is_paused:
 		audio_stream_player.volume_db = -100.0
@@ -249,7 +249,7 @@ func stop( speed := 0.25 ):
 #else if (argument[0] == "queue")
 func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
-		push_warning("Invalid track name: ", track_name)
+		push_warning("Invalid track name: '%s'. Playing a classic instead: mus_blankTEMP." % track_name)
 		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
 	
 	if curr_playing_track == track_name:

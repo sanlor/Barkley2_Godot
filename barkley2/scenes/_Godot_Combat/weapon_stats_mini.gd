@@ -13,12 +13,13 @@ extends VBoxContainer
 @onready var percent2: Label = $wpn_list/gun_2/percent
 @onready var percent3: Label = $wpn_list/gun_3/percent
 
-var pulse := 0.0
+var alpha 	:= 0.75
+var pulse 	:= 0.0
 var t		:= 0.0
 
 func _physics_process(_delta: float) -> void:
 	t += 0.1
-	pulse = ( sin( t ) / 2.0) + 0.5 ## 0.5 to 1.0
+	pulse = ( sin( t ) / 2.0) + 0.75 ## 0.5 to 1.0
 
 func tick_combat() -> void:
 	## PLACEHOLDER Quick hack
@@ -40,7 +41,7 @@ func tick_combat() -> void:
 		gun_1.texture 		= B2_Playerdata.bandolier[0].weapon_hud_sprite
 		g_1_bar.value 		= B2_Playerdata.bandolier[0].curr_action
 		g_1_bar.max_value 	= B2_Playerdata.bandolier[0].max_action
-		g_1_bar.modulate = Color( Color.WHITE, 0.5 )
+		g_1_bar.modulate = Color( Color.WHITE, alpha )
 		
 		if B2_Playerdata.bandolier[0].is_overheating():
 			percent1.text = Text.pr("Overheat!")
@@ -55,13 +56,13 @@ func tick_combat() -> void:
 		
 		if B2_Playerdata.selected_gun == 0:
 			wpn_name.text = B2_Playerdata.bandolier[0].get_full_name()
-			g_1_bar.modulate = Color( Color.GREEN * pulse, 0.5 )
+			g_1_bar.modulate = Color( Color.GREEN * pulse, alpha )
 			
 	if B2_Playerdata.bandolier.size() >= 2:
 		gun_2.texture = B2_Playerdata.bandolier[1].weapon_hud_sprite
 		g_2_bar.value 		= B2_Playerdata.bandolier[1].curr_action
 		g_2_bar.max_value 	= B2_Playerdata.bandolier[1].max_action
-		g_2_bar.modulate = Color( Color.WHITE, 0.5 )
+		g_2_bar.modulate = Color( Color.WHITE, alpha )
 		
 		if B2_Playerdata.bandolier[1].is_overheating():
 			percent2.text = Text.pr("Overheat!")
@@ -76,13 +77,13 @@ func tick_combat() -> void:
 			
 		if B2_Playerdata.selected_gun == 1:
 			wpn_name.text = B2_Playerdata.bandolier[1].get_full_name()
-			g_2_bar.modulate = Color( Color.GREEN * pulse, 0.5 )
+			g_2_bar.modulate = Color( Color.GREEN * pulse, alpha )
 			
 	if B2_Playerdata.bandolier.size() >= 3:
 		gun_3.texture = B2_Playerdata.bandolier[2].weapon_hud_sprite
 		g_3_bar.value 		= B2_Playerdata.bandolier[2].curr_action
 		g_3_bar.max_value 	= B2_Playerdata.bandolier[2].max_action
-		g_3_bar.modulate = Color( Color.WHITE, 0.5 )
+		g_3_bar.modulate = Color( Color.WHITE, alpha )
 		
 		if B2_Playerdata.bandolier[2].is_overheating():
 			percent3.text = Text.pr("Overheat!")
@@ -97,4 +98,4 @@ func tick_combat() -> void:
 			
 		if B2_Playerdata.selected_gun == 2:
 			wpn_name.text = B2_Playerdata.bandolier[2].get_full_name()
-			g_3_bar.modulate = Color( Color.GREEN * pulse, 0.5 )
+			g_3_bar.modulate = Color( Color.GREEN * pulse, alpha )

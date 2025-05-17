@@ -82,9 +82,16 @@ func get_camera_on_tree() -> Camera2D:
 	for c in nodes_in_tree:
 		if c is Camera2D:
 			return c
-			
+	
+	if is_instance_valid( B2_CManager.camera ):
+		B2_CManager.camera.enabled = true
+		return B2_CManager.camera
+	
 	# No camera loaded. Create a new one
 	var _cam := B2_Camera_Hoopz.new()
+	_cam.name = "cinema_created_camera"
+	B2_CManager.camera = _cam
+	
 	# set its initial position
 	if is_instance_valid(B2_CManager.o_hoopz):
 		_cam.position = B2_CManager.o_hoopz.position
@@ -155,9 +162,9 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
 	
 func end_cutscene():
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	load_hoopz_player()
-		
+	
 	all_nodes.clear()
 	
 	## Release player lock
@@ -184,7 +191,6 @@ func end_cutscene():
 		B2_CManager.o_hud.show_hud()
 	
 	B2_CManager.event_ended.emit() # Peace out.
-	await get_tree().process_frame
 	queue_free()
 	
 func apply_cutscene_mask( cutscene_script : B2_Script, cutscene_mask : Array ):
@@ -224,7 +230,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	camera.set_camera_bound( false )
 	
 	# Chill out. Avoid loading invalid nodes.
-	await get_tree().process_frame
+	#await get_tree().process_frame # ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
 	
 	load_hoopz_actor()
 	

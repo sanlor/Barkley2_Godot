@@ -57,6 +57,10 @@ const HIDDEN_Y 	:= 241.0
 
 var hudDrawCount := 0
 
+## gun ammo hud
+var pulse 	:= 0.0
+var t		:= 0.0
+
 ## Combat stuff
 const combat_fade_speed := 0.25
 
@@ -222,7 +226,17 @@ func hide_battle_ui() -> void:
 	player_controls_new.hide_menu()
 	
 func set_ammo_amt( amt : int ):
+	t += 0.1
+	pulse = ( sin( t ) / 2.0) ## 0.0 to 0.5
+	
 	hud_ammo_amount.text = str( clampi(amt, 0, 9999) )
+	
+	if amt > 0:
+		hud_ammo_amount.modulate = Color("87d2be")
+		hud_ammo_amount.modulate.a = 0.5
+	else:
+		hud_ammo_amount.modulate = Color.RED
+		hud_ammo_amount.modulate.a = pulse
 
 func _physics_process(_delta: float) -> void:
 	var curr_wpn = B2_Gun.get_current_gun()

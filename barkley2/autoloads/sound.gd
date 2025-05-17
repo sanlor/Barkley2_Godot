@@ -899,6 +899,11 @@ func _init_sound_picks():
 	_add_sound_pick("hoopz_reload", "sn_shotgun_reload03");
 	## NOTE maybe missing reload sfx?
 	
+	_add_sound_pick("hoopz_pistol_reload", "sn_gun_reload10");
+	_add_sound_pick("hoopz_pistol_reload", "sn_gun_reload11");
+	_add_sound_pick("hoopz_pistol_reload", "sn_gun_reload12");
+	
+	
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload01");
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload02");
 	_add_sound_pick("hoopz_reloadcrossbow", "sn_guncrossbow_reload03");

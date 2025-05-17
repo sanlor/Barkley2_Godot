@@ -71,7 +71,8 @@ func _ready() -> void:
 	escape_btn.pressed.connect( 	_on_escape_btn )
 	move_btn.pressed.connect( 		_on_move_btn )
 	defend_btn.pressed.connect( 	_on_defend_btn )
-
+	B2_CManager.hoopz_got_hit.connect( _cancel_action )
+	
 # Is this needed?
 func register_player( player : B2_HoopzCombatActor ) -> void:
 	player_character = player
@@ -151,6 +152,15 @@ func _input(event: InputEvent) -> void:
 					_:
 						pass
 
+func _cancel_action():
+	if curr_action != NOTHING:
+		if curr_action == PLAYER_MOVING:
+			player_character.stop_pointing()
+		if curr_action == PLAYER_AIMING or curr_action == PLAYER_AIMING_SKILL:
+			player_character.stop_aiming()
+		
+		action_queued()
+
 func slow_time( _time := 0.25 ):
 	slowdown_label.modulate.a = 0.0
 	if battle_tween:
@@ -182,7 +192,9 @@ func action_queued() -> void:
 	
 	item_and_skill_list.hide_menu()
 	instructions.hide()
+	resume_time()
 	B2_CManager.combat_manager.resume_combat()
+	B2_CManager.combat_manager.can_manipulate_camera = true
 	curr_action = NOTHING
 
 func reset() -> void:
@@ -254,7 +266,8 @@ func _on_item_btn() -> void:
 	
 func _on_move_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
-	
+	B2_CManager.combat_manager.can_manipulate_camera = false
+	B2_CManager.camera.combat_focus( player_character.global_position, 1.0 )
 	player_character.point_at( aiming_angle, roll_power )
 		
 	player_controls_new.hide_menu()
@@ -326,8 +339,8 @@ func tick_combat() -> void:
 	weapon_stats_mini.tick_combat()
 	if B2_Gun.get_current_gun():
 		var gun = B2_Gun.get_current_gun() as B2_Weapon
-		attack_btn.disabled 	= not gun.is_at_max_action() and gun.has_ammo()
-		skill_btn.disabled 		= not gun.is_at_max_action() and gun.has_ammo()
+		attack_btn.disabled 	= not ( gun.is_at_max_action() and gun.has_ammo() )
+		skill_btn.disabled 		= not ( gun.is_at_max_action() and gun.has_ammo() )
 	else: ## Weird, player has no weapons.
 		attack_btn.disabled 	= true
 		skill_btn.disabled 		= true

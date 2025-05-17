@@ -26,6 +26,18 @@ func _ready() -> void:
 	
 	animation_player.play("haha you goofed")
 	
+	## Increase death count - NOTE Taken from the B2_ROOMXY script.
+	var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
+	deaths += 1
+	B2_Config.set_user_save_data( "player.deaths.total", deaths )
+	
+	## VR Missions silliness.
+	if B2_Config.get_current_save_slot() == 69:
+		continue_btn.text = Text.pr( "No credits left to continue." )
+		continue_btn.disabled = true
+		give_up_btn.text = Text.pr( "[Jack-off the cybespace.]")
+		B2_Playerdata.SaveGame()
+	
 func play_music() -> void:
 	B2_Music.play("mus_gameover")
 
@@ -40,6 +52,7 @@ func _on_give_up_pressed() -> void:
 	# Chrono Triggers gameover screen (Lavos)
 	# https://www.pinterest.com/pin/1196337402745668/
 	# https://static.tvtropes.org/pmwiki/pub/images/fmab_rain.png
+	
 	
 	B2_Screen.return_to_title()
 

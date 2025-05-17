@@ -151,7 +151,7 @@ func increase_action() -> bool:
 		return false
 		
 	var my_spd 		:= speed * 0.25
-	curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
+	curr_action 	= clampf( curr_action + my_spd, 0.15, max_action )
 	
 	## Play the "ready" sfx.
 	if curr_action == max_action:

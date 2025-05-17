@@ -312,9 +312,9 @@ func _physics_process(delta: float) -> void:
 			
 		MODE.FOLLOW:
 			if is_instance_valid( player_node ):
-				if is_lost:
-					# Just jump to the player.
-					position 	= player_node.position
+				if is_lost: ## NOTE Is still needed?
+					# Just jump to the player. 
+					#position 	= player_node.position # 16/05/25 Disabled this. dont even remember how is this used.
 					#_position 	= player_node.position
 					is_lost = false
 					return
@@ -343,9 +343,9 @@ func _physics_process(delta: float) -> void:
 				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
 		
 		MODE.COMBAT:
-			offset = offset.lerp( camera_combat_offset, (speed / 100.0) ) + camera_shake_offset
-			position = position.lerp( focus, (speed / 100.0) )
-			zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 100.0 ) )
+			offset = offset.lerp( camera_combat_offset, (speed / 200.0) ) + camera_shake_offset
+			position = position.lerp( focus, (speed / 200.0) )
+			zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 100.0, 1.0, 2.0 ), ( speed / 200.0 ) )
 		
 	if B2_Debug.show_camera_debug_data:
 		if show_debug_data:

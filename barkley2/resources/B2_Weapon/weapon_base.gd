@@ -71,6 +71,9 @@ var ammo_per_shot		:= 5 	## how much ammo is used
 var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
 var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
 
+var is_shooting		:= false
+var abort_shooting 	:= false
+
 #region Weapon data
 func get_full_name() -> String:
 	var full_name := ""
@@ -192,6 +195,7 @@ func _create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
 		scene_to_place.add_child( casing, true )
 		
 func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
+	is_shooting = true
 	if wait_per_shot == 0.0: ## shotgun behaviour.
 		use_ammo( 1 )
 		_create_flash(scene_to_place, source_pos, dir)
@@ -199,11 +203,13 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		B2_Sound.play( get_soundID() )
 		
 	for i in bullets_per_shot:
-				
+		if abort_shooting:
+			abort_shooting = false
+			break
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
-		var my_acc := get_acc() / 90.0
+		var my_acc := get_acc() / 150.0
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 		
 		var bullet = O_BULLET.instantiate()
@@ -222,6 +228,8 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	
 	#use_ammo( ammo_per_shot )
 	reset_action()
+	abort_shooting = false
+	is_shooting = false
 	finished_combat_action.emit()
 	
 func use_skill_attack( _skill_id : int ) -> void:
@@ -232,18 +240,19 @@ func use_skill_attack( _skill_id : int ) -> void:
 #region Weapon Mgmt
 func increase_action() -> void:
 	if has_ammo():
-		var my_spd 		:= spd * 0.10
-		curr_action 	= clampf( curr_action + my_spd, 0.0, max_action )
+		var my_spd 		:= spd * 0.05
+		curr_action 	= clampf( curr_action + my_spd, 0.1, max_action )
 		
 		## Play the "ready" sfx.
 		if curr_action == max_action:
 			if not max_action_sfx_played:
-				print("asdasd")
+				# print("asdasd")
 				if weapon_group == B2_Gun.GROUP.SHOTGUNS:
 					B2_Sound.play_pick("hoopz_reload")
+				elif weapon_group == B2_Gun.GROUP.PROJECTILE:
+					B2_Sound.play_pick("hoopz_reloadcrossbow")
 				else:
-					## NOTE maybe add better sfx?
-					B2_Sound.play_pick("hoopz_reload")
+					B2_Sound.play_pick("hoopz_pistol_reload")
 					
 				max_action_sfx_played = true
 		else:
@@ -264,7 +273,11 @@ func recover_ammo( amount : int ) -> void:
 	curr_ammo = clampi( curr_ammo + amount, 0, max_ammo )
 	
 func use_ammo( amount : int ) -> void:
-	curr_ammo = clampi( curr_ammo - amount, 0, max_ammo )
+	if B2_Playerdata.Quest("infiniteAmmo") == 0:
+		curr_ammo = clampi( curr_ammo - amount, 0, max_ammo )
+	else:
+		## infinite ammo enabled. Do not decrease ammo.
+		pass
 	
 func has_ammo() -> bool:
 	return curr_ammo > 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=78 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="1_8qs0c"]
 [ext_resource type="Script" uid="uid://cinyaks7663jo" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
@@ -55,6 +55,7 @@
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="47_vpjru"]
 [ext_resource type="Script" uid="uid://c6xvln51wpo0m" path="res://barkley2/scenes/sTitle/vr_window.gd" id="54_m5n1q"]
 [ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="54_tbif1"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="55_1ur83"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="55_m5n1q"]
 [ext_resource type="Script" uid="uid://hbqw42dr1flh" path="res://barkley2/scenes/sTitle/vr_missions/vr_data.gd" id="56_x1p1y"]
 
@@ -251,6 +252,30 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("fg:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("fg:color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_x1p1y"]
 resource_name = "hide_menu"
@@ -380,12 +405,43 @@ tracks/4/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_ms03e"]
+resource_name = "start_mission"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("fg:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("fg:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ms03e"]
 _data = {
 &"RESET": SubResource("Animation_1ur83"),
 &"hide_menu": SubResource("Animation_x1p1y"),
-&"show_menu": SubResource("Animation_12ava")
+&"show_menu": SubResource("Animation_12ava"),
+&"start_mission": SubResource("Animation_ms03e")
 }
+
+[sub_resource type="LabelSettings" id="LabelSettings_12ava"]
+font = ExtResource("55_1ur83")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_x1p1y"]
 
@@ -1060,6 +1116,7 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("54_m5n1q")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="vr_layer"]
+reset_on_save = false
 libraries = {
 &"": SubResource("AnimationLibrary_ms03e")
 }
@@ -1071,6 +1128,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
+
+[node name="vr_death_counter" type="Label" parent="vr_layer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -84.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "Hypothetical deaths: 69"
+label_settings = SubResource("LabelSettings_12ava")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="fg" type="ColorRect" parent="vr_layer"]
+z_index = 4096
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
 
 [node name="mission_list" type="Control" parent="vr_layer"]
 material = ExtResource("43_67nul")
@@ -1239,4 +1317,5 @@ vertical_alignment = 1
 [connection signal="value_changed" from="settings_layer/settings_panel/general/settings_name_1/sound_slider" to="settings_layer" method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_1/plus" to="settings_layer" method="_on_sound_plus_pressed"]
 [connection signal="button_pressed" from="settings_layer/settings_panel/return_panel_button" to="settings_layer" method="_on_settings_return_button_pressed"]
+[connection signal="button_pressed" from="vr_layer/begin_btn" to="vr_layer" method="_on_begin_btn_button_pressed"]
 [connection signal="button_pressed" from="vr_layer/back_btn" to="vr_layer" method="_on_back_btn_button_pressed"]

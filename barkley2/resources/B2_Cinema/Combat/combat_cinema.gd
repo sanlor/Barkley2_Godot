@@ -72,7 +72,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 		await B2_CManager.event_ended
 	
 	if not is_instance_valid(camera):
-		camera = _get_camera_on_tree()
+		camera = B2_CManager.camera # _get_camera_on_tree()
 		
 	assert(camera != null, "Camera not setup. Fix it.")
 		
@@ -89,7 +89,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 	camera.set_camera_bound( false )
 	
 	# Chill out. Avoid loading invalid nodes.
-	await get_tree().process_frame
+	# await get_tree().process_frame # <-- No.
 	
 	# Load a version of Hoopz that is ready to do battle. (Avoid useless functions on the o_hoopz object)
 	_load_combat_hoopz_actor()
@@ -226,14 +226,14 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 					var target = get_node_from_name( parsed_line[1].strip_edges() )
 					if target:
 						if target.has_method("activate_block"):
-							target.activate_block()
+							target.call_deferred("activate_block")
 						else: push_warning("Combat Cinema: invalid node %s." % target.name )
 					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
 				"DEACTIVATE_BLOCKER":
 					var target = get_node_from_name( parsed_line[1].strip_edges() )
 					if target:
 						if target.has_method("activate_block"):
-							target.deactivate_block()
+							target.call_deferred("deactivate_block")
 						else: push_warning("Combat Cinema: invalid node %s." % target.name )
 					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
 				"MAKE_HUD":
@@ -306,7 +306,7 @@ func toggle_combat_ticker( enabled : bool ) -> void:
 				
 func end_combat():
 	combat_manager.tick_toggled.disconnect( toggle_combat_ticker )
-	await get_tree().process_frame
+	#await get_tree().process_frame
 	_load_hoopz_player()
 	
 	## Release player lock
@@ -354,6 +354,8 @@ func _get_camera_on_tree() -> Camera2D:
 		
 	# No camera loaded. Create a new one
 	var _cam := B2_Camera_Hoopz.new()
+	_cam.name = "combat_cinema_created_camera"
+	B2_CManager.camera = _cam
 	# set its initial position
 	if is_instance_valid(B2_CManager.o_hoopz):
 		_cam.position = B2_CManager.o_hoopz.position
@@ -414,7 +416,7 @@ func _load_combat_hoopz_actor():
 		B2_CManager.o_cbt_hoopz.position.x 	= B2_RoomXY.this_room_x
 		B2_CManager.o_cbt_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
-	get_tree().current_scene.add_child( B2_CManager.o_cbt_hoopz, true )
+	get_tree().current_scene.call_deferred( "add_child", B2_CManager.o_cbt_hoopz, true )
 	
 func _load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	var hoopz_lookup := get_tree().current_scene.get_children()

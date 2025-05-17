@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://bddwu6g2q5nu2"]
+[gd_scene load_steps=44 format=4 uid="uid://bddwu6g2q5nu2"]
 
 [ext_resource type="Script" uid="uid://dgv3vkiovv0ro" path="res://barkley2/rooms/ai_ruins/r_air_throneRoom01.gd" id="1_372yl"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1nf1v"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://vxi1ah884s7t" path="res://barkley2/scenes/Objects/_cutscenes/_trigal/o_cuchutamo01.tscn" id="7_yr07f"]
 [ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="8_ycdce"]
 [ext_resource type="PackedScene" uid="uid://bon7jbw3v5c2p" path="res://barkley2/scenes/Objects/_enemies/Destructibles/o_woodBarrel.tscn" id="9_8c0el"]
+[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="9_kc3qs"]
 [ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="10_elk8h"]
 [ext_resource type="PackedScene" uid="uid://c6jg6nrc1w6ju" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_kunigundePrison01.tscn" id="11_07hy3"]
 [ext_resource type="PackedScene" uid="uid://dxy1w2aee32mc" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer01.tscn" id="12_3vynp"]
@@ -1701,6 +1702,50 @@ BREAKOUT | clear
 WAIT   | 0.25
 DIALOG | Debug = s_port_cuchutamo | Hide breakout."
 
+[sub_resource type="Resource" id="Resource_vybe1"]
+resource_local_to_scene = true
+script = ExtResource("9_kc3qs")
+enemy_name = "Wooden Barrel"
+hp = 0.0
+weight = 0.0
+max_action = 0.0
+curr_action = 0.0
+max_health = 15.0
+curr_health = 15.0
+guts = 0.0
+luck = 0.0
+agile = 0.0
+might = 0.0
+piety = 0.0
+speed = 0.0
+resistance_mental = 0.0
+resistance_normal = 0.0
+resistance_zauber = 0.0
+resistance_cyber = 0.0
+resistance_cosmic = 0.0
+resistance_bio = 0.0
+resistance_stagger = 0.0
+resistance_knockback = 0.0
+zauber = 0.0
+cosmic = 0.0
+bio = 1.0
+mental = 0.0
+cyber = 0.0
+vuln_mental = 0.0
+vuln_zauber = 0.0
+vuln_cyber = 0.0
+vuln_bio = 0.0
+vuln_cosmic = 0.0
+gunsdrop = 53.0
+generic = 1.0
+shotguns = 1.0
+rifles = 1.0
+mounted = 1.0
+pistols = 2.0
+automatic = 1.0
+projectile = 1.0
+wtc = 0.0
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kbow2"]
 resource_local_to_scene = true
 shader = ExtResource("8_ycdce")
@@ -1901,6 +1946,7 @@ can_move_around = false
 
 [node name="o_woodBarrel" parent="." instance=ExtResource("9_8c0el")]
 position = Vector2(379, 246)
+enemy_data = SubResource("Resource_vybe1")
 
 [node name="o_nu_debug" parent="." instance=ExtResource("10_elk8h")]
 material = SubResource("ShaderMaterial_kbow2")

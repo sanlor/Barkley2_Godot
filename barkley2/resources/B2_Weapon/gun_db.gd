@@ -438,6 +438,9 @@ const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 
 
+static func reset() -> void:
+	B2_Playerdata.bandolier.clear()
+
 ## Code related to weapon creation, generation and fusion (maybe?).
 #region Gun creation
 # Check Drop("generate") line 396

@@ -212,13 +212,14 @@ func respawn( area : String, room_name : String ) -> void:
 		respawnX = 136; 
 		respawnY = 296;
 		
+	## NOTE This piece of code was moves to the gameover screen -> uid://cqm2w1d4jwnwn
 	## Increase death count
-	var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
-	deaths += 1
-	B2_Config.set_user_save_data( "player.deaths.total", deaths )
+	#var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
+	#deaths += 1
+	#B2_Config.set_user_save_data( "player.deaths.total", deaths )
 		
 	# Debug messages #
-	print("B2_RoomXY: You have died: " 		+ str(deaths) + " times"	);
+	print("B2_RoomXY: You have died: " 		+ str( B2_Config.get_user_save_data( "player.deaths.total", 0 ) ) + " times"	);
 	print("B2_RoomXY: respawnRoom = " 		+ str(respawnRoom)			);
 	print("B2_RoomXY: respawnX = " 			+ str(respawnX)				);
 	print("B2_RoomXY: respawnY = " 			+ str(respawnY)				);
@@ -359,7 +360,9 @@ func get_room_scene( room_name : String ):
 	room_is_invalid = true
 	this_room_x 	= 0
 	this_room_y 	= 0
-	push_error("B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
+	push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
+	push_warning( "Loading debug save data...")
+	B2_Config.select_user_slot( 100 ) ## Debug Save slot
 	room_scene = load( invalid_room ) as PackedScene
 	return
 

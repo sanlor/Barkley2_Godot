@@ -192,12 +192,19 @@ func _setup_player_node():
 	return player
 	
 func _setup_camera( player ):
+	if B2_CManager.camera:
+		b2_camera = B2_CManager.camera
+		return
+		
 	b2_camera = B2_Camera_Hoopz.new()
 	if not player == null:
 		b2_camera.follow_mouse = true
 		b2_camera.follow_player( player as B2_Player )
 	add_child( b2_camera, true )
 	b2_camera.set_camera_bound( camera_bound_to_map )
+	b2_camera.name = "room_created_camera"
+	b2_camera.is_lost = false
+	B2_CManager.camera = b2_camera
 	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )
 
 # Check if the actor is inside a building. return false if the parent is not B2_ROOMS
@@ -211,7 +218,7 @@ func get_room_area() -> String:
 		var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > tnn
 		return area
 	else:
-		push_warning("Room name is not standard. fix this.")
+		push_warning( "Room name '%s' is not standard. fix this." % room_name )
 		return ""
 	
 # Get the room name. return "unknow" if the parent is not B2_ROOMS

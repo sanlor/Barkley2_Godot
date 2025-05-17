@@ -1,37 +1,18 @@
-[gd_scene load_steps=33 format=4 uid="uid://ba3127w1hjnnw"]
+[gd_scene load_steps=19 format=4 uid="uid://ba3127w1hjnnw"]
 
 [ext_resource type="Script" uid="uid://bbyd5s5nkf1x" path="res://barkley2/rooms/r_combat_tutorial_01.gd" id="1_a15wa"]
 [ext_resource type="Texture2D" uid="uid://cju34m8c74a8i" path="res://barkley2/assets/b2_original/backgrounds/tls_virtual01.png" id="1_c5nwf"]
+[ext_resource type="Resource" uid="uid://b4q2wqh34t6kl" path="res://barkley2/resources/vr_missions/mission_0.tres" id="2_bn3ng"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hypcc"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="3_xqe2f"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="5_33khu"]
-[ext_resource type="PackedScene" uid="uid://jpl7igxl7yf4" path="res://barkley2/scenes/_Godot_Combat/enemy_nest.tscn" id="7_6rqmb"]
 [ext_resource type="PackedScene" uid="uid://djy06cuntq3p7" path="res://barkley2/scenes/sTitle/vr_missions/o_field_medic.tscn" id="10_6rqmb"]
-[ext_resource type="AudioStream" uid="uid://ci2l8glreat1x" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm01.ogg" id="10_a15wa"]
-[ext_resource type="PackedScene" uid="uid://ca5m2ojpqka31" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn" id="10_bn3ng"]
-[ext_resource type="AudioStream" uid="uid://dv8mqi4daib48" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm02.ogg" id="10_yee3r"]
 [ext_resource type="PackedScene" uid="uid://bu7akupuv18cr" path="res://barkley2/scenes/Objects/_interactiveActor/_swamp/Running Mantis/o_runningMantis01.tscn" id="11_4ln1s"]
-[ext_resource type="AudioStream" uid="uid://dq6xqqy33v5rj" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm03.ogg" id="11_33khu"]
-[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="11_a15wa"]
-[ext_resource type="PackedScene" uid="uid://vj7yjaqpqmai" path="res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn" id="12_4ln1s"]
+[ext_resource type="PackedScene" uid="uid://bplaa5dt7brh6" path="res://barkley2/scenes/Objects/_blocker/o_blocker_up.tscn" id="11_bn3ng"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="13_ixe20"]
-[ext_resource type="Script" uid="uid://b1lsou7egbyrj" path="res://barkley2/resources/B2_Cinema/B2_Script_Combat.gd" id="14_4f5rw"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="14_xqe2f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xqe2f"]
-
-[sub_resource type="Resource" id="Resource_6rqmb"]
-script = ExtResource("2_hypcc")
-original_script = "Camera | snap | o_cinema4
-Misc | set | o_cts_hoopz | o_cinema4
-Create | virtual_spawn | 400 | 369
-FADE   | 0 | 1
-WAIT | 3
-FRAME | CAMERA_SLOW | o_cinema5
-WAIT | 0
-WAIT | 1
-"
-metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f5io5"]
 blend_mode = 3
@@ -85,7 +66,7 @@ func make_text() -> void:
 	o_effect_virtual_text.append(
 		[ 
 			text.pick_random(), 									# 0
-			2.0 * randf_range( 0, 10 ) * [1.0, -1.0].pick_random(),	# 1
+			2.0 * randf_range( 1, 10 ) * [1.0, -1.0].pick_random(),	# 1
 			Vector2( 												# 2
 				randf_range(0 ,room_size.x ),
 				randf_range( 0,room_size.y ) 
@@ -116,7 +97,7 @@ func make_number() -> void:
 	o_effect_virtual_number.append(
 		[ 
 			numbers.pick_random(), 									# 0
-			2.0 * randf_range( 0, 10 ) * [1.0, -1.0].pick_random(),	# 1
+			2.0 * randf_range( 1, 10 ) * [1.0, -1.0].pick_random(),	# 1
 			Vector2( 												# 2
 				randf_range(0 ,room_size.x ),
 				randf_range( 0,room_size.y ) 
@@ -154,7 +135,7 @@ func make_circle() -> void:
 	var my_size 			: float
 	var my_size_target 		: float
 	var my_color			:= Color.from_rgba8( 175 + randi_range(0,75), 40, 80 )
-	var my_speed			:= 1.0 + randf_range( 0.0,2.0 )
+	var my_speed			:= 1.0 + randf_range( 0.1,2.0 )
 	if randf() >= 0.5:
 		my_size			= randf_range(0,500)
 		my_size_target	= 0.0
@@ -452,413 +433,6 @@ script = ExtResource("2_hypcc")
 original_script = "DIALOG | P_NAME | Test."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
-[sub_resource type="Animation" id="Animation_a15wa"]
-resource_name = "encounter_01"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("mission_01/o_enemy_drone_egg:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("mission_01/o_enemy_drone_egg2:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("mission_01/o_enemy_drone_egg3:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("mission_01/o_enemy_drone_egg3/virtual_spawn:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("mission_01/o_enemy_drone_egg2/virtual_spawn:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("mission_01/o_enemy_drone_egg/virtual_spawn:emitting")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "method"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("mission_01/o_enemy_drone_egg")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(1.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["IDLE1", "default", 10.0, false],
-"method": &"cinema_playset"
-}]
-}
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("mission_01/o_enemy_drone_egg2")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["IDLE1", "default", 10.0, false],
-"method": &"cinema_playset"
-}]
-}
-tracks/8/type = "method"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("mission_01/o_enemy_drone_egg3")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(1.25),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": ["IDLE1", "default", 10.0, false],
-"method": &"cinema_playset"
-}]
-}
-tracks/9/type = "audio"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("mission_01/AudioStreamPlayer")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("10_a15wa")
-}],
-"times": PackedFloat32Array(1)
-}
-tracks/9/use_blend = true
-tracks/10/type = "audio"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("mission_01/AudioStreamPlayer")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("10_yee3r")
-}],
-"times": PackedFloat32Array(1.5)
-}
-tracks/10/use_blend = true
-tracks/11/type = "audio"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("mission_01/AudioStreamPlayer")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"clips": [{
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource("11_33khu")
-}],
-"times": PackedFloat32Array(1.25)
-}
-tracks/11/use_blend = true
-tracks/12/type = "method"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("mission_01/enemy_nest")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
-}
-
-[sub_resource type="Animation" id="Animation_xqe2f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("mission_01/o_enemy_drone_egg:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("mission_01/o_enemy_drone_egg2:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("mission_01/o_enemy_drone_egg3:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("mission_01/o_enemy_drone_egg3/virtual_spawn:emitting")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("mission_01/o_enemy_drone_egg2/virtual_spawn:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("mission_01/o_enemy_drone_egg/virtual_spawn:emitting")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_yee3r"]
-_data = {
-&"RESET": SubResource("Animation_xqe2f"),
-&"encounter_01": SubResource("Animation_a15wa")
-}
-
-[sub_resource type="Resource" id="Resource_05auw"]
-script = ExtResource("14_4f5rw")
-notes = "Use '\\' to add comments to the code.
-MOVE 		
-MOVE_POS 	
-LOOK		
-LOOK_AT		
-WAIT		
-START_BATTLE
-ACTIVATE_BLOCKER
-DEACTIVATE_BLOCKER
-MAKE_HUD
-MAKE_MIN_HUD
-FOLLOWFRAME
-PLAYSET
-"
-combat_script = "BEGIN
-EXIT"
-metadata/_custom_type_script = "uid://b1lsou7egbyrj"
-
-[sub_resource type="Resource" id="Resource_xqe2f"]
-resource_local_to_scene = true
-script = ExtResource("11_a15wa")
-enemy_name = "Egg Drone"
-hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
-max_health = 150.0
-curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
-speed = 10.0
-resistance_mental = 100.0
-resistance_normal = 20.0
-resistance_zauber = 100.0
-resistance_cyber = 100.0
-resistance_cosmic = 100.0
-resistance_bio = 100.0
-resistance_stagger = 20.0
-resistance_knockback = 20.0
-zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
-vuln_mental = 3.0
-vuln_zauber = 3.0
-vuln_cyber = 5.0
-vuln_bio = 1.0
-vuln_cosmic = 3.0
-gunsdrop = 0.0
-generic = 0.0
-shotguns = 0.0
-rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
-wtc = 10.0
-
-[sub_resource type="Resource" id="Resource_33khu"]
-resource_local_to_scene = true
-script = ExtResource("11_a15wa")
-enemy_name = "Egg Drone"
-hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
-max_health = 150.0
-curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
-speed = 10.0
-resistance_mental = 100.0
-resistance_normal = 20.0
-resistance_zauber = 100.0
-resistance_cyber = 100.0
-resistance_cosmic = 100.0
-resistance_bio = 100.0
-resistance_stagger = 20.0
-resistance_knockback = 20.0
-zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
-vuln_mental = 3.0
-vuln_zauber = 3.0
-vuln_cyber = 5.0
-vuln_bio = 1.0
-vuln_cosmic = 3.0
-gunsdrop = 0.0
-generic = 0.0
-shotguns = 0.0
-rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
-wtc = 10.0
-
-[sub_resource type="Resource" id="Resource_4f5rw"]
-resource_local_to_scene = true
-script = ExtResource("11_a15wa")
-enemy_name = "Egg Drone"
-hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
-max_health = 150.0
-curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
-speed = 10.0
-resistance_mental = 100.0
-resistance_normal = 20.0
-resistance_zauber = 100.0
-resistance_cyber = 100.0
-resistance_cosmic = 100.0
-resistance_bio = 100.0
-resistance_stagger = 20.0
-resistance_knockback = 20.0
-zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
-vuln_mental = 3.0
-vuln_zauber = 3.0
-vuln_cyber = 5.0
-vuln_bio = 1.0
-vuln_cosmic = 3.0
-gunsdrop = 0.0
-generic = 0.0
-shotguns = 0.0
-rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
-wtc = 10.0
-
 [node name="r_combat_tutorial01" type="NavigationRegion2D" node_paths=PackedStringArray("teleport_node", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_xqe2f")
@@ -872,7 +446,7 @@ room_music_name = "mus_vrw"
 override_zone_name = "Virtual Reality"
 override_zone_flavor = "Wow..."
 camera_bound_to_map = true
-cutscene_script = SubResource("Resource_6rqmb")
+cutscene_script = ExtResource("2_bn3ng")
 metadata/_custom_type_script = "uid://bvfigbkdlawg1"
 
 [node name="bg" type="ColorRect" parent="."]
@@ -1016,46 +590,5 @@ cutscene_script = SubResource("Resource_bn3ng")
 position = Vector2(488, 216)
 cutscene_script = SubResource("Resource_4ln1s")
 
-[node name="mission_01" type="Node2D" parent="."]
-y_sort_enabled = true
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="mission_01"]
-volume_db = -32.0
-max_polyphony = 3
-bus = &"Audio"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="mission_01"]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_yee3r")
-}
-
-[node name="enemy_nest" parent="mission_01" node_paths=PackedStringArray("my_enemies") instance=ExtResource("7_6rqmb")]
-position = Vector2(400, 341)
-my_enemies = [NodePath("../o_enemy_drone_egg"), NodePath("../o_enemy_drone_egg2"), NodePath("../o_enemy_drone_egg3")]
-keep_current_music = true
-combat_script = SubResource("Resource_05auw")
-
-[node name="o_enemy_drone_egg" parent="mission_01" instance=ExtResource("10_bn3ng")]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(353, 304)
-enemy_data = SubResource("Resource_xqe2f")
-
-[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg" instance=ExtResource("12_4ln1s")]
-emitting = true
-
-[node name="o_enemy_drone_egg2" parent="mission_01" instance=ExtResource("10_bn3ng")]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(400, 305)
-enemy_data = SubResource("Resource_33khu")
-
-[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg2" instance=ExtResource("12_4ln1s")]
-emitting = true
-
-[node name="o_enemy_drone_egg3" parent="mission_01" instance=ExtResource("10_bn3ng")]
-modulate = Color(1, 1, 1, 0)
-position = Vector2(445, 306)
-enemy_data = SubResource("Resource_4f5rw")
-
-[node name="virtual_spawn" parent="mission_01/o_enemy_drone_egg3" instance=ExtResource("12_4ln1s")]
-emitting = true
+[node name="o_blocker_up" parent="." instance=ExtResource("11_bn3ng")]
+position = Vector2(384, 184)

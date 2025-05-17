@@ -105,6 +105,9 @@ func _notification(what):
 		if B2_Playerdata.record_curr_location():
 			B2_Playerdata.SaveGame() ## Do the saving bit.
 
+func get_current_save_slot() -> int:
+	return selected_slot
+
 func has_user_save( slot ): # slot -> 0 to 2
 	assert( slot >= 0 or slot <= 2)
 	var savefile := "save%s.b2" % str(slot)
@@ -114,7 +117,7 @@ func has_user_save( slot ): # slot -> 0 to 2
 		return false
 	
 func select_user_slot( slot ):
-	assert( slot >= 0 or slot <= 2 or slot == 100)
+	assert( slot >= 0 or slot <= 2 or slot == 100 or slot == 69) ## slot 69 is used for VR missions. lol.
 	# slot 100 is for debug purposes
 	selected_slot = slot
 	

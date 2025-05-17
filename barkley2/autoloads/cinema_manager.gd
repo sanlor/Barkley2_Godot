@@ -5,6 +5,7 @@ extends Node
 
 signal event_started
 signal event_ended
+signal hoopz_got_hit ## Used during combat, for action canceling.
 
 ## Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
@@ -30,7 +31,7 @@ var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 var o_cts_hoopz 	: B2_Actor 						= null ## Cutscene Hoopz
 var o_hoopz 		: B2_Player		 				= null ## PLayer controlled Hoopz
 var o_hud			: B2_Hud						= null ## Main HUD, with combat attachments.
-var camera			: Camera2D
+var camera			: B2_Camera_Hoopz #Camera2D
 var cinema_player 	: B2_CinemaPlayer
 
 ## Combat stuff

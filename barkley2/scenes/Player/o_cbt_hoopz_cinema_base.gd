@@ -575,6 +575,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 		#push_warning("No Gun???")
 
 func point_at( _aim_target : Vector2, _roll_power : float ) -> void:
+	B2_Playerdata.player_stats.block_action_increase = true
 	hoopz_roll_direction.show()
 	hoopz_roll_direction.set_force( _roll_power )
 	aim_target 			= _aim_target.normalized()
@@ -584,11 +585,13 @@ func point_at( _aim_target : Vector2, _roll_power : float ) -> void:
 func stop_pointing() -> void:
 	hoopz_roll_direction.hide()
 	curr_STATE 	= STATE.NORMAL
+	B2_Playerdata.player_stats.block_action_increase = false
 
 ## NOTE aim_target is a position in space or a direction?
 func aim_gun( _aim_target : Vector2 ) -> void:
 	aim_target 			= _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
 	curr_STATE 			= STATE.AIM
+	B2_Playerdata.player_stats.block_action_increase = true
 
 func stop_aiming() -> void:
 	if curr_STATE == STATE.AIM:
@@ -600,6 +603,8 @@ func stop_aiming() -> void:
 		combat_last_direction	= movement_vector 
 		combat_last_input		= movement_vector 
 		curr_STATE 				= STATE.NORMAL
+		hoopz_normal_body.flip_h = false
+		B2_Playerdata.player_stats.block_action_increase = false
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
@@ -650,10 +655,17 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		else:
 			## CM should be loaded.
 			breakpoint
-
+	else:
+		if B2_Gun.get_current_gun().is_shooting: ## Stop shooting if hit.
+			B2_Gun.get_current_gun().abort_shooting = true
+			
+		B2_CManager.hoopz_got_hit.emit() ## Allow for action cancel.
+		B2_Playerdata.player_stats.block_action_increase = false
+		
 func victory_anim() -> void:
 	curr_STATE = STATE.VICTORY
 	_change_sprites()
+	hoopz_normal_body.flip_h = false
 	## TODO Add checks for different victory animations
 	if B2_Playerdata.player_stats.curr_health < B2_Playerdata.player_stats.max_health / 10.0: ## if health is at 10%, play a different animation.
 		hoopz_normal_body.play("won_hard")
@@ -667,6 +679,7 @@ func defeat_anim() -> void:
 	## NOTE 26/04/25 it does now.
 	curr_STATE = STATE.DEFEAT
 	_change_sprites()
+	hoopz_normal_body.flip_h = false
 	B2_Sound.play( "hoopz_demise" )
 	hoopz_normal_body.play( "demise" )
 	hoopz_roll_direction.hide()

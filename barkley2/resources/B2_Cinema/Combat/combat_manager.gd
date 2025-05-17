@@ -12,7 +12,7 @@ signal combat_time_stoped		## during certain actions, bullets, casings and such 
 signal combat_time_restarted	## during certain actions, bullets, casings and such need to be stopped.
 
 var combat_cinema : B2_Combat_CinemaPlayer
-var combat_camera
+#var combat_camera
 var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
@@ -20,6 +20,8 @@ var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defea
 var combat_paused 	:= false
 var escaped_combat	:= false ## enabled if the player escaped combat
 var action_queue : Array[queue]
+
+var can_manipulate_camera := true
 
 class queue: # class used for action queue
 	var action 			: Callable
@@ -191,10 +193,11 @@ func tick_combat() -> void:
 				pass
 
 func process() -> void:
-	var avg_pos 					:= get_avg_pos()
-	B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
-	B2_CManager.camera.focus 		= avg_pos
-	B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
+	if can_manipulate_camera:
+		var avg_pos 					:= get_avg_pos()
+		B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
+		B2_CManager.camera.focus 		= avg_pos
+		B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
 ## Combat actions
 # Public func. Queue action
