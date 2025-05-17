@@ -157,6 +157,8 @@ func _after_ready() -> void:
 			zone.flavor = override_zone_flavor
 			
 		add_child( zone, true )
+		if not B2_RoomXY.room_reference:
+			B2_RoomXY.room_reference = self
 
 func update_pathfind():
 	if not is_baking():

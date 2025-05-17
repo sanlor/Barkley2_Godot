@@ -108,7 +108,7 @@ func _ready() -> void:
 			push_warning("No animation called %s." % spr)
 		
 	modulate = col
-	my_gun = B2_Gun.get_current_gun()
+	#my_gun = B2_Gun.get_current_gun()
 	sprite_selection()
 	
 	if has_trail:
@@ -1349,8 +1349,9 @@ func _on_body_entered( body: Node2D ) -> void:
 		if not body.is_actor_dead: ## Avoid shooting dead bodies.
 			if body.has_method("damage_actor"):
 				var att := my_gun.get_att()
-				body.damage_actor( att / float(my_gun.bullets_per_shot), 	velocity.normalized() * att * 100.0 )
-				#body.damage_actor( 0, 		velocity.normalized() * att * 100.0 ) ## DEBUG
+				#body.damage_actor( att / float(my_gun.bullets_per_shot), 	velocity.normalized() * att * 100.0 )
+				body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
+				
 			destroy_bullet()
 		
 	if body is CollisionObject2D:

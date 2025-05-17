@@ -11,6 +11,8 @@ signal combat_ended
 signal combat_time_stoped		## during certain actions, bullets, casings and such need to be stopped.
 signal combat_time_restarted	## during certain actions, bullets, casings and such need to be stopped.
 
+signal enemy_was_defeated( enemy_data : B2_EnemyData )
+
 var combat_cinema : B2_Combat_CinemaPlayer
 #var combat_camera
 var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
@@ -95,10 +97,17 @@ func finish_combat() -> void:
 		B2_CManager.o_hud.get_combat_module().add_result_message("Escaped combat with your tail behind your legs!", "sn_mouse_analoghover01")
 		
 	else:
-		B2_CManager.o_hud.get_combat_module().add_result_message("Placeholder message 1!", "sn_mouse_analoghover01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test message 2!", "sn_mouse_analoghover01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("Test information 3!", "sn_mouse_analoghover01")
-		B2_CManager.o_hud.get_combat_module().add_result_message("fart 4!", "sn_mouse_analoghover01")
+		if B2_CManager.combat_cinema_player.track_exp_gained:
+			var _exp := B2_CManager.combat_cinema_player.exp_gained
+			B2_CManager.o_hud.get_combat_module().add_result_message("EXP gained: %s!" % str(_exp), "sn_mouse_analoghover01")
+			B2_Gun.distribute_battle_exp( _exp )
+		if B2_CManager.combat_cinema_player.track_money_gained:
+			var mon := B2_CManager.combat_cinema_player.money_gained
+			B2_CManager.o_hud.get_combat_module().add_result_message("CyberShekels gained: %s!" % str(mon), "sn_mouse_analoghover01")
+			B2_Database.money_change( +mon )
+		if B2_CManager.combat_cinema_player.track_battle_time:
+			var tim := B2_CManager.combat_cinema_player.battle_time
+			B2_CManager.o_hud.get_combat_module().add_result_message("Battle took %s seconds." % str(tim), "sn_mouse_analoghover01")
 	
 	B2_CManager.o_hud.get_combat_module().show_battle_results()
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
@@ -108,14 +117,15 @@ func finish_combat() -> void:
 	#combat_cinema.end_combat()
 	combat_ended.emit()
 
-func enemy_defeated( enemy_node : B2_CombatActor ) -> void:
+func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 	if enemy_list.has( enemy_node ):
 		enemy_list.erase( enemy_node )
 		print( "Enemy %s removed from enemy list." % enemy_node.name )
 	else:
 		## Trying to remove an enemy that wasnt on the enemy list
 		breakpoint
-		
+	enemy_was_defeated.emit( enemy_node.enemy_data )
+	
 	## Cleanup the defeated enemy action (avoid dead enemies shooting bullets).
 	var stale_action : queue
 	for x : queue in action_queue:

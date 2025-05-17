@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dw2s64ww53llb"]
+
+[ext_resource type="Script" uid="uid://dpaaodfwipb88" path="res://barkley2/scenes/_Godot_Combat/_gun_pickup/gun_pickup.gd" id="1_jmpys"]
+[ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="2_lqvtt"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="3_6xt8f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frtqm"]
+atlas = ExtResource("2_lqvtt")
+region = Rect2(245, 120, 49, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gy400"]
+font = ExtResource("3_6xt8f")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_odawf"]
+radius = 4.0
+
+[node name="gun_pickup" type="Area2D"]
+script = ExtResource("1_jmpys")
+
+[node name="gun_sprite_shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.75)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("AtlasTexture_frtqm")
+
+[node name="gun_sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("AtlasTexture_frtqm")
+
+[node name="gun_name" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -46.0
+offset_right = 20.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Carbon Flare Gun"
+label_settings = SubResource("LabelSettings_gy400")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_odawf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

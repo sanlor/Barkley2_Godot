@@ -7,6 +7,7 @@ class_name B2_EnemyCombatActor
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
+
 signal aim_target_changed
 signal move_target_changed
 signal finished_charge_action	## Actor is done with its charge/rush action.
@@ -309,13 +310,11 @@ func play_local_sound( sound_name : String ) -> void:
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	## Cant be damaged if its not in combat.
 	## TODO implement enviromental harm.
-	if curr_MODE == MODE.INACTIVE:
+	if curr_MODE == MODE.INACTIVE or curr_MODE == MODE.NONE:
 		return
 		
 	if actor_is_dying or is_actor_dead: # dont process damage if the actor is dying.
 		return
-		
-	
 		
 	print( "Damaged actor %s with %s points of damage." % [self.name, damage] ) ## DEBUG
 	
@@ -385,6 +384,9 @@ func destroy_actor() -> void:
 		#else:
 			#push_warning( "Combat manager not loaded" )
 		t.tween_callback( get_parent().remove_child.bind(self) )
+	
+	B2_Drop.create_drops( enemy_data, global_position, false )
+	
 	_after_death()
 
 func _on_body_entered(body: Node) -> void:

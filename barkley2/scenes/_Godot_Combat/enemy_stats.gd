@@ -7,6 +7,7 @@ var my_data 	: B2_EnemyData
 var my_cbt 		#: CombatCharacter
 
 var tween		: Tween
+var parent_is_alive := true
 
 func _ready() -> void:
 	## Setup myself
@@ -31,6 +32,10 @@ func update_stats() -> void:
 	
 	health_progress.update_bar()
 	action_progress.update_bar()
+	
+	if my_data.curr_health <= 0.0:
+		parent_is_alive = false
+		hide_stats()
 
 func hide_stats() -> void:
 	if tween:
@@ -46,4 +51,5 @@ func show_stats() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if my_data:
-		update_stats()
+		if parent_is_alive:
+			update_stats()

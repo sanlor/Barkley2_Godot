@@ -65,7 +65,7 @@ func _physics_process(_delta: float) -> void:
 
 func _on_begin_btn_button_pressed() -> void:
 	## Quest "vr_mission_x" || 1 -> selected mission || 2 -> Begun mission || 3 -> Finished mission
-	# B2_Playerdata.preload_skip_tutorial_save_data() <- is this neede?
+	# B2_Playerdata.preload_skip_tutorial_save_data() <- is this needed?
 	match selected_mission:
 		0: ## Mission 01
 			print("Loading Mission %s data." % str(selected_mission + 1) )
@@ -81,11 +81,13 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_PISTOL, 		B2_Gun.MATERIAL.STEEL, "", false )
 			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL, "", false )
 			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,		B2_Gun.MATERIAL.STEEL, "", false )
-
+		1:
+			## Etc...
+			pass
 			
 	B2_Music.stop()
 	B2_Sound.play("mgs_gunshot")
 	animation_player.play("start_mission")
 	await animation_player.animation_finished
-	print("Loading Mission %s room." % str(selected_mission + 1) )
+	print("Loading V.R. Mission %s room. Good luck." % str(selected_mission + 1) )
 	B2_RoomXY.warp_to( "r_combat_tutorial01,0,0" )

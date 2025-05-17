@@ -62,6 +62,13 @@ var has_mini_hud := false
 ## Combat options - for MUTE, use "mus_blankTEMP"
 var battle_music			: String = B2_Music.BATTLE_MUSIC.pick_random()
 var end_battle_music		: String = B2_Music.END_BATTLE_MUSIC.pick_random()
+var track_battle_time		:= true
+var track_exp_gained		:= true
+var track_money_gained		:= true
+var battle_time_timer		: Timer
+var battle_time				:= 0
+var exp_gained				:= 0
+var money_gained			:= 0
 
 ## Setup enviroment, replace player character with actor and shiet.
 func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
@@ -72,7 +79,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 		await B2_CManager.event_ended
 	
 	if not is_instance_valid(camera):
-		camera = B2_CManager.camera # _get_camera_on_tree()
+		camera = _get_camera_on_tree()
 		
 	assert(camera != null, "Camera not setup. Fix it.")
 		
@@ -294,17 +301,34 @@ func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker.timeout.connect( _tick_combat )															## Tick tock
 	combat_manager.register_enemy_list( enemies )
 	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
+	combat_manager.enemy_was_defeated.connect(_track_combat)
 	combat_ticker.start()
 	combat_manager.tick_toggled.connect( toggle_combat_ticker )
 	combat_manager.start_battle()
+	
+	if track_battle_time:
+		battle_time_timer = Timer.new(); add_child( battle_time_timer, true ); battle_time_timer.wait_time = 1.0; battle_time_timer.ignore_time_scale = true; battle_time_timer.timeout.connect( func(): battle_time += 1 ); battle_time_timer.start()
 				
 func toggle_combat_ticker( enabled : bool ) -> void:
 	if enabled:
 		combat_ticker.start()
 	else:
 		combat_ticker.stop()
-				
+
+## Gather combat statistics.
+func _track_combat( enemy_data : B2_EnemyData ):
+	if track_exp_gained:
+		@warning_ignore("narrowing_conversion")
+		exp_gained += enemy_data.experience
+		
+	if track_money_gained:
+		@warning_ignore("narrowing_conversion")
+		money_gained += enemy_data.money
+
 func end_combat():
+	if track_battle_time:
+		battle_time_timer.queue_free()
+	combat_manager.enemy_was_defeated.disconnect(_track_combat)
 	combat_manager.tick_toggled.disconnect( toggle_combat_ticker )
 	#await get_tree().process_frame
 	_load_hoopz_player()

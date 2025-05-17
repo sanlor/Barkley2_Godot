@@ -419,6 +419,15 @@ const GROUP_LIST : Dictionary[TYPE, GROUP] = {
 	TYPE.GUN_TYPE_SUBMACHINEGUN : 		GROUP.AUTOMATIC,
 	TYPE.GUN_TYPE_TRANQRIFLE : 			GROUP.RIFLES,
 }
+## Used for weapon drops.
+const GROUP_TYPE_LIST : Dictionary[GROUP, Array] = {
+	GROUP.AUTOMATIC : 	[TYPE.GUN_TYPE_SUBMACHINEGUN,TYPE.GUN_TYPE_MACHINEPISTOL,TYPE.GUN_TYPE_HEAVYMACHINEGUN,TYPE.GUN_TYPE_ASSAULTRIFLE],
+	GROUP.SHOTGUNS: 	[TYPE.GUN_TYPE_SHOTGUN,TYPE.GUN_TYPE_REVOLVERSHOTGUN,TYPE.GUN_TYPE_ELEPHANTGUN,TYPE.GUN_TYPE_DOUBLESHOTGUN],
+	GROUP.RIFLES: 		[TYPE.GUN_TYPE_TRANQRIFLE,TYPE.GUN_TYPE_SNIPERRIFLE,TYPE.GUN_TYPE_RIFLE,TYPE.GUN_TYPE_MUSKET,TYPE.GUN_TYPE_HUNTINGRIFLE],
+	GROUP.PROJECTILE: 	[TYPE.GUN_TYPE_ROCKET,TYPE.GUN_TYPE_FLAREGUN,TYPE.GUN_TYPE_FLAMETHROWER,TYPE.GUN_TYPE_CROSSBOW],
+	GROUP.PISTOLS: 		[TYPE.GUN_TYPE_REVOLVER,TYPE.GUN_TYPE_PISTOL,TYPE.GUN_TYPE_MAGNUM,TYPE.GUN_TYPE_FLINTLOCK],
+	GROUP.MOUNTED: 		[TYPE.GUN_TYPE_MITRAILLEUSE,TYPE.GUN_TYPE_MINIGUN,TYPE.GUN_TYPE_GATLINGGUN,TYPE.GUN_TYPE_BFG],
+	}
 
 ## Merged sprite sheet. way simpler.
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")
@@ -655,15 +664,21 @@ static func weapon_type( typ : TYPE ) -> B2_WeaponType:
 #region Gun management
 
 ## Add generate a gun and add it to bandolier.
-static func add_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
-	B2_Playerdata.bandolier.append( generate_gun(type, material, wpn_name, add_affixes) )
+static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
+	append_gun_to_bandolier( generate_gun(type, material, wpn_name, add_affixes) )
+
+static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
+	B2_Playerdata.bandolier.append( wpn )
 	if B2_Playerdata.bandolier.size() > BANDOLIER_SIZE:
 		B2_Playerdata.bandolier.pop_front() ## Remove the first gun from the bandolier.
 		print("B2_Gun: Bandolier full, dropping the oldest gun. ")
 
 ## Add generate a gun and add it to bandolier.
 static func add_gun_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
-	B2_Playerdata.gun_bag.append( generate_gun(type, material,  wpn_name, add_affixes) )
+	append_gun_to_gunbag( generate_gun(type, material,  wpn_name, add_affixes) )
+	
+static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
+	B2_Playerdata.gun_bag.append( wpn )
 	if B2_Playerdata.gun_bag.size() > GUNBAG_SIZE:
 		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag
 		print("B2-Gun: Gunbag full, dropping the oldest gun. ")
@@ -677,6 +692,13 @@ static func remove_gun( wpn : B2_Weapon ) -> void:
 static func clear_guns() -> void:
 	B2_Playerdata.bandolier.clear()
 	B2_Playerdata.gun_bag.clear()
+	
+static func distribute_battle_exp( _exp : int ) -> void:
+	if not get_bandolier().is_empty():
+		@warning_ignore("integer_division")
+		var per_gun_exp := _exp / get_bandolier().size()
+		for gun : B2_Weapon in get_bandolier():
+			gun.gain_exp( per_gun_exp )
 	
 static func get_bandolier() -> Array[B2_Weapon]:
 	return B2_Playerdata.bandolier

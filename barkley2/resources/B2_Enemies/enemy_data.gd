@@ -56,10 +56,14 @@ class_name B2_EnemyData
 @export var mounted  				:= 0.0 
 @export var pistols  				:= 0.0 
 @export var automatic  				:= 0.0 
+@export var projectile  			:= 0.0 
 
 ## Unknown
-@export var projectile  			:= 0.0 
 @export var wtc  					:= 12.0
+
+## Godot specific
+@export var experience				:= 10.0
+@export var money					:= 1.0
 
 func apply_stats( _enemy_name : String ):
 	const ENEMY_DB = preload("res://barkley2/resources/B2_Enemies/enemyDB.json")

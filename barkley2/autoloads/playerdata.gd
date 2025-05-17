@@ -133,7 +133,7 @@ func _ready():
 	B2_Candy.gain_candy( "Chickenfry Dew" )
 	B2_Candy.gain_candy( "Butterscotch" )
 	B2_Playerdata.Quest("tutorialProgress", 8)
-	B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.MATERIAL.STEEL, "", false )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.MATERIAL.STEEL, "", false )
 	
 	#B2_Playerdata.player_stats.decrease_hp( 46 )
 	

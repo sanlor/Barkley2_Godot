@@ -41,6 +41,7 @@ var room_load_lock		:= false # disallow loading a new room defore the current on
 var room_array 			:= []
 var room_index 			:= {}
 var room_scene 			: PackedScene
+var room_reference		: Node				## Reference used for static functions to fin the SceneTree.
 var room_is_invalid 	:= false
 
 const ROOM_PROGRESS_BAR 		= preload("res://barkley2/resources/autoloads/room_progress_bar.tscn")
@@ -329,6 +330,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 
 	# Give back player control
 	#B2_Input.player_has_control = true
+	room_reference = get_tree().current_scene
 	room_finished_loading.emit()
 	room_load_lock = false
 	if print_debug_logs: print("Finished loading room %s." % room_name)

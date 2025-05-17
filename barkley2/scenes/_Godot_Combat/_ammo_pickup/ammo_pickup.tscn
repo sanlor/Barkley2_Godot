@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://b408woyvd6k12"]
+
+[ext_resource type="Script" uid="uid://bskl14nf2sld6" path="res://barkley2/scenes/_Godot_Combat/_ammo_pickup/ammo_pickup.gd" id="1_5u8nk"]
+[ext_resource type="Texture2D" uid="uid://cevhagfkrk6co" path="res://barkley2/assets/b2_original/images/merged/sAmmo.png" id="2_5u8nk"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="3_fqknh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43m3r"]
+atlas = ExtResource("2_5u8nk")
+region = Rect2(0, 0, 22, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8e4h0"]
+atlas = ExtResource("2_5u8nk")
+region = Rect2(0, 0, 22, 19)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gy400"]
+font = ExtResource("3_fqknh")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_odawf"]
+radius = 4.0
+
+[node name="ammo_pickup" type="Area2D"]
+script = ExtResource("1_5u8nk")
+
+[node name="ammo_sprite_shadow" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.75)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("AtlasTexture_43m3r")
+
+[node name="ammo_sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("AtlasTexture_8e4h0")
+
+[node name="ammo_name" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -46.0
+offset_right = 20.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Carbon Flare Gun"
+label_settings = SubResource("LabelSettings_gy400")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_odawf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

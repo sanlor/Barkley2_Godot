@@ -87,6 +87,28 @@ func get_full_name() -> String:
 	
 	return full_name
 
+## Used when you dont know the affixes yet
+func get_secret_name() -> String:
+	var full_name := ""
+	if prefix1:
+		if randf() > 0.5: ## TEMPORARY!!!!!
+			full_name += prefix1["name"] + " "
+		else:
+			full_name += "?????" + " "
+	if prefix2:
+		if randf() > 0.5: ## TEMPORARY!!!!!
+			full_name += prefix2["name"] + " "
+		else:
+			full_name += "?????" + " "
+	full_name += weapon_name
+	if suffix:
+		if randf() > 0.5: ## TEMPORARY!!!!!
+			full_name += " " + suffix["name"]
+		else:
+			full_name += "?????" + " "
+	
+	return full_name
+
 func get_short_name() -> String:
 	return weapon_short_name
 
@@ -213,6 +235,7 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 		
 		var bullet = O_BULLET.instantiate()
+		bullet.my_gun = self
 		bullet.set_direction( b_dir )
 		bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
 		bullet.source_actor = source_actor
@@ -238,6 +261,9 @@ func use_skill_attack( _skill_id : int ) -> void:
 #endregion
 
 #region Weapon Mgmt
+func gain_exp( _exp ) -> void: ## TODO add level up
+	weapon_xp += _exp
+	
 func increase_action() -> void:
 	if has_ammo():
 		var my_spd 		:= spd * 0.05
