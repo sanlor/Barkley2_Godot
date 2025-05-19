@@ -45,7 +45,7 @@ func tick_combat() -> void:
 		
 		if B2_Playerdata.bandolier[0].is_overheating():
 			percent1.text = Text.pr("Overheat!")
-			percent1.modulate = Color.RED
+			percent1.modulate = Color( Color.RED * pulse, alpha )
 		else:
 			if not B2_Playerdata.bandolier[0].is_at_max_action():
 				percent1.text = "%s" % str( int(B2_Playerdata.bandolier[0].curr_action) ) + "%"
@@ -66,7 +66,7 @@ func tick_combat() -> void:
 		
 		if B2_Playerdata.bandolier[1].is_overheating():
 			percent2.text = Text.pr("Overheat!")
-			percent2.modulate = Color.RED
+			percent2.modulate = Color( Color.RED * pulse, alpha )
 		else:
 			if not B2_Playerdata.bandolier[1].is_at_max_action():
 				percent2.text = "%s" % str( int(B2_Playerdata.bandolier[1].curr_action) ) + "%"
@@ -87,7 +87,7 @@ func tick_combat() -> void:
 		
 		if B2_Playerdata.bandolier[2].is_overheating():
 			percent3.text = Text.pr("Overheat!")
-			percent3.modulate = Color.RED
+			percent3.modulate = Color( Color.RED * pulse, alpha )
 		else:
 			if not B2_Playerdata.bandolier[2].is_at_max_action():
 				percent3.text = "%s" % str( int(B2_Playerdata.bandolier[2].curr_action) ) + "%"

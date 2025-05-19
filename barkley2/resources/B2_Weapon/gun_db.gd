@@ -5,6 +5,11 @@ class_name B2_Gun
 # Also HUD line 25 for gunsheet shit.
 # also scr_combat_weapons_generate for material an gun generation.
 
+## Skills
+const PRECISION_SHOT 	= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/precision_shot.tres")
+const FULL_AUTO 		= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/full_auto.tres")
+const BURST_FIRE 		= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/burst_fire.tres")
+
 const GUNWIDTH 		= 49;
 const GUNHEIGHT 	= 24;
 const GUNPERSHEET 	= 9; 	## Number of guns to put per sheet. If loading a sheet takes too long, lower this number. ## NOTE Number of gun material per "FrankieGuns" texture
@@ -464,7 +469,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		var type_rand := randi_range(0,99)
 		if type_rand < 80:
 			wpn.weapon_type = RARITY_TYPE[RARITY.TRASH].pick_random()
-		elif type_rand < 90:
+		elif type_rand < 95:
 			wpn.weapon_type = RARITY_TYPE[RARITY.MEH].pick_random()
 		else:
 			wpn.weapon_type = RARITY_TYPE[RARITY.RARE].pick_random()
@@ -543,6 +548,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		
 	## Adjust some details
 	## check scr_combat_weapons_prepPattern()
+	
+	## 18/05/25 - also add some freshly baked xXx-C0mB@7_Sk1l1zz-xXx to a weapon group.
+	
 	wpn.weapon_group = GROUP_LIST.get( wpn.weapon_type, GROUP.NONE ) ## Group is important for the type of fire that the weapon uses.
 	match wpn.weapon_group:
 		GROUP.NONE:
@@ -563,6 +571,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.wait_per_shot 		= 0.05
 			wpn.bullet_spread 		= 0.1
 			
+			## Skills
+			wpn.skill_list[BURST_FIRE] 	= 0
+			wpn.skill_list[FULL_AUTO] 	= 0
+			
 		GROUP.MOUNTED:
 			wpn.bullets_per_shot 	= 25
 			wpn.ammo_per_shot 		= 25
@@ -575,6 +587,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.wait_per_shot 		= 0.2
 			wpn.bullet_spread 		= 0.05
 			
+			## Skills
+			wpn.skill_list[PRECISION_SHOT] 	= 0
+			wpn.skill_list[BURST_FIRE] 		= 25
+			
 		GROUP.PROJECTILE:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
@@ -586,10 +602,14 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.1
 			wpn.bullet_spread 		= 0.025
+			
+			## Skills
+			wpn.skill_list[PRECISION_SHOT] 	= 0
+			wpn.skill_list[BURST_FIRE] 		= 25
 		_:
 			## summtin REEEALY isnt right.
 			breakpoint
-			
+	
 	return wpn
 	
 static func apply_stats( wpn : B2_Weapon ) -> void:

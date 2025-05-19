@@ -45,7 +45,7 @@ func _update_description( id : int ) -> void:
 	var mission_description := VRDATA.get_description( id )
 	if mission_description:
 		mission_desc.text = Text.pr( mission_description )
-		if B2_Playerdata.Quest("vr_mission_%s" % str(id) ) == 3:
+		if B2_Playerdata.Quest("vr_mission_%s_complete" % str(id) ) == 1:
 			mission_desc.text += "\n" + Text.pr( "(Completed)" )
 		elif B2_Playerdata.Quest("vr_mission_%s" % str(id) ) == 2:
 			mission_desc.text += "\n" + Text.pr( "(Unfinished)" )
@@ -69,24 +69,30 @@ func _on_begin_btn_button_pressed() -> void:
 	match selected_mission:
 		0: ## Mission 01
 			print("Loading Mission %s data." % str(selected_mission + 1) )
-			B2_Playerdata.Quest("infiniteAmmo", 		1	)
-			B2_Playerdata.Quest("vr_mission_0", 		1	)
+			B2_Playerdata.Quest( "infiniteAmmo", 1 )
+			B2_Playerdata.Quest( "vr_mission_0", 1 )
+			
+			B2_Jerkin.reset()
+			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
+			B2_Jerkin.equip_jerkin( "Cornhusk Jerkin" )
 			
 			B2_Candy.reset()
-			B2_Candy.gain_candy( "Butterscotch" 			)
-			B2_Candy.gain_candy( "Chickenfry Dew" 			)
-			B2_Candy.gain_candy( "Butterscotch" 			)
+			B2_Candy.gain_candy( "Butterscotch" 	)
+			B2_Candy.gain_candy( "Chickenfry Dew" 	)
 			
 			B2_Gun.reset()
-			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_PISTOL, 		B2_Gun.MATERIAL.STEEL, "", false )
-			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL, "", false )
-			B2_Gun.add_gun( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,		B2_Gun.MATERIAL.STEEL, "", false )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"", false )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	"", false )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"", false )
 		1:
 			## Etc...
-			pass
+			breakpoint
+		_:
+			## Etc...
+			breakpoint
 			
 	B2_Music.stop()
-	B2_Sound.play("mgs_gunshot")
+	B2_Sound.play( "mgs_gunshot" ) 
 	animation_player.play("start_mission")
 	await animation_player.animation_finished
 	print("Loading V.R. Mission %s room. Good luck." % str(selected_mission + 1) )

@@ -111,9 +111,9 @@ var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 #var velocity			:= Vector2.ZERO
 
 var walk_speed			:= 500000 # 5000000
-var roll_impulse		:= 120000
+var roll_impulse		:= 50000
 var walk_damp			:= 10.0
-var roll_damp			:= 10.0
+var roll_damp			:= 6.0
 
 ## Sound
 var min_move_dist 	:= 1.0
@@ -157,9 +157,14 @@ func _ready() -> void:
 	
 	linear_damp = walk_damp
 	_change_sprites()
+	
 	## Reset movement variables.
 	move_target 	= Vector2.ZERO
 	aim_target 		= Vector2.ZERO
+	
+	## Default animation
+	hoopz_normal_body.animation = "stand"
+	hoopz_normal_body.frame = 6
 
 ## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:
@@ -591,6 +596,8 @@ func stop_pointing() -> void:
 func aim_gun( _aim_target : Vector2 ) -> void:
 	aim_target 			= _aim_target.normalized() #( Vector2(0,-16) + position ).direction_to(_aim_target) * 64
 	curr_STATE 			= STATE.AIM
+	if B2_Gun.get_current_gun().is_shooting:
+		B2_Gun.get_current_gun().abort_shooting = true
 	B2_Playerdata.player_stats.block_action_increase = true
 
 func stop_aiming() -> void:
@@ -604,6 +611,8 @@ func stop_aiming() -> void:
 		combat_last_input		= movement_vector 
 		curr_STATE 				= STATE.NORMAL
 		hoopz_normal_body.flip_h = false
+		if B2_Gun.get_current_gun().is_shooting:
+			B2_Gun.get_current_gun().abort_shooting = true
 		B2_Playerdata.player_stats.block_action_increase = false
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
@@ -790,7 +799,7 @@ func _on_combat_actor_entered(body: Node) -> void:
 			if body.has_method("damage_actor"):
 				## Roll damage
 				print( "Roll Damage: ", linear_velocity.length() )
-				body.damage_actor( [1,2,2,2,3].pick_random(), 	linear_velocity.normalized() * 50000.0 )
+				body.damage_actor( [1,2,2,2,2,3,3,4,4,5,9].pick_random(), 	linear_velocity.normalized() * 50000.0 )
 			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:
@@ -812,6 +821,12 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 			if hoopz_normal_body.frame > 2:
 				if linear_velocity.length() < 3.0:
 					stop_rolling()
+		else:
+			if hoopz_normal_body.frame < 3:
+				#hoopz_normal_body.look_at(linear_velocity)
+				pass
+			else:
+				hoopz_normal_body.rotation = 0
 			
 func _on_combat_lower_body_frame_changed() -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:

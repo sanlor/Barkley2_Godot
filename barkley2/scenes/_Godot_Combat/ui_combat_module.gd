@@ -55,6 +55,8 @@ var process_player_inputs := true
 
 var battle_tween : Tween
 
+var selected_skill : B2_WeaponSkill
+
 ## Resume battle after an attack only if the player is doing nothing
 func can_resume_combat() -> bool:
 	return curr_action == NOTHING
@@ -111,13 +113,11 @@ func _input(event: InputEvent) -> void:
 								)
 								
 							action_queued()
-							resume_time()
 							print("%s: shoot" % self)
 							
 						if event.is_action_pressed("Holster"):
-							action_queued()
 							player_character.stop_aiming()
-							resume_time()
+							action_queued()
 							print("%s: holster" % self)
 				
 					PLAYER_SELECTING_SOMETHING:
@@ -141,14 +141,30 @@ func _input(event: InputEvent) -> void:
 							action_queued()
 							player_character.stop_pointing()
 							player_character.start_rolling( aiming_angle )
-							resume_time( 1.0 )
-							## TODO Add Rolling
+							## TODO Add Rolling <- Done
 							
 						if event.is_action_pressed("Holster"):
-							action_queued()
 							player_character.stop_pointing()
-							
+							action_queued()
 							print("%s: holster" % self)
+					
+					PLAYER_AIMING_SKILL:
+						if Input.get_axis("Down", "Up"):
+							aiming_angle = aiming_angle.rotated( sign( Input.get_axis("Down", "Up") ) * TAU / 16.0 )
+						if Input.get_axis("Left", "Right"):
+							enemy_selected += sign( Input.get_axis("Left", "Right") )
+							## Vector2(0,-16) is the position for hoopz chest, the center point when aiming.
+							aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
+							
+						player_character.aim_gun( aiming_angle )
+						
+						if event.is_action_pressed("Action"):
+							use_skill( selected_skill )
+							action_queued()
+						
+						if event.is_action_pressed("Holster"):
+							player_character.stop_aiming()
+							action_queued()
 					_:
 						pass
 
@@ -202,6 +218,8 @@ func reset() -> void:
 	instructions.hide()
 	curr_action = NOTHING
 	resume_time(0.0)
+	#B2_CManager.combat_manager.resume_combat() <- Causes an infinite loop
+	#action_queued() <- Causes an infinite loop
 
 ## Use an item. duh.
 func use_item( slot : int ) -> void:
@@ -213,15 +231,43 @@ func use_item( slot : int ) -> void:
 	
 ## Player selected an skill from the list. Need to aim it before use.
 func select_skill( skill : B2_WeaponSkill ) -> void:
-	pass
+	if enemy_list.is_empty():
+		push_error("Trying to attack when the battle is over. This should not happen.")
+		return
+		
+	if B2_Gun.get_current_gun():
+		# Set the current gun and aim at the first enemy on the list.
+		enemy_selected = enemy_selected # seems stupid, but this is important. avoid OOB array issues when enemies are removed/defeated.
+		aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
+		player_character.aim_gun( aiming_angle )
+		
+	item_and_skill_list.hide_menu()
+	instructions.show()
+	selected_skill = skill
+	curr_action = PLAYER_AIMING_SKILL
 
 ## Player aimed the skill, use it.
 func use_skill( skill : B2_WeaponSkill ) -> void:
-	pass
+	if enemy_list.is_empty():
+		push_error("Trying to attack when the battle is over. This should not happen.")
+		return
+		
+	var combat_manager := B2_CManager.combat_manager
+	combat_manager.use_skill( 
+		player_character, 
+		player_character.global_position + player_character.aim_target, 
+		B2_Gun.get_current_gun(), 
+		skill,
+		player_character.stop_aiming 
+		)
 
 func _on_attack_btn() -> void:
+	if enemy_list.is_empty():
+		push_error("Trying to attack when the battle is over. This should not happen.")
+		return
+		
 	B2_CManager.combat_manager.pause_combat()
-	
+		
 	## Disabled 22/04/25
 	if B2_Gun.get_current_gun():
 		# Set the current gun and aim at the first enemy on the list.

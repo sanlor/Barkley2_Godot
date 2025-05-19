@@ -1,5 +1,8 @@
 extends Node
 
+## This autoload handles most of the game´s input, with the exception of combat inputs.
+## NOTE maybe move combat inputs here?
+
 var debug := true
 
 var debug_camera_enabled 	:= false
@@ -23,7 +26,7 @@ signal camera_follow_mouse( enabled : bool )
 var ff_time_scale			:= 5.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
 var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
 var is_fastforwarding		:= false 	# Set to true when you are FFWD
-var can_switch_guns			:= true		# if the player can swap guns (Should be disabled in menus)
+var can_switch_guns			:= false		# if the player can swap guns (Should be disabled in menus)
 
 # Node responsible for the Input management.
 

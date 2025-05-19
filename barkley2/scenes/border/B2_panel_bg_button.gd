@@ -22,11 +22,14 @@ const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
 	set(p):
 		is_pressed = p
 		queue_redraw()
-
+@export var manual_decorations				: Array[Node]
 var is_highlighted := false
 
 
 func _ready():
+	for node in manual_decorations: ## Manually add nodes to have its colors changed.
+		add_decorations(node, false, false)
+		
 	size = border_size
 	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
 	
@@ -52,10 +55,10 @@ func _draw():
 	## BG
 	var bg_rect := Rect2( Vector2(4,4), border_size - Vector2(8,8) ) # Small offset to hide the BG
 	if not disable_bg:
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false )
+		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false ) ## Checkered BG
 	
 	if is_highlighted:
-		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.25), false )
+		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.05), false )
 	if is_pressed:
 		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_selected_color, 0.25), false )
 		

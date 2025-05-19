@@ -638,13 +638,15 @@ grow_vertical = 0
 text = "?"
 script = ExtResource("43_4mace")
 
-[node name="vr_btn" type="Control" parent="title_layer"]
+[node name="vr_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
 anchors_preset = 0
 offset_top = 205.0
 offset_right = 110.0
 offset_bottom = 240.0
 script = ExtResource("44_f8qw8")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+manual_decorations = [NodePath("vr_label")]
 border_size = Vector2(110, 35)
 metadata/_custom_type_script = "uid://21bcte5vesst"
 
@@ -1113,6 +1115,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="vr_layer" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("54_m5n1q")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="vr_layer"]
@@ -1259,7 +1262,7 @@ text = "Placeholder mission text."
 label_settings = SubResource("LabelSettings_1ur83")
 autowrap_mode = 2
 
-[node name="begin_btn" type="Control" parent="vr_layer"]
+[node name="begin_btn" type="Control" parent="vr_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 316.0
@@ -1267,6 +1270,8 @@ offset_top = 163.0
 offset_right = 381.0
 offset_bottom = 198.0
 script = ExtResource("44_f8qw8")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+manual_decorations = [NodePath("begin_label")]
 border_size = Vector2(65, 35)
 metadata/_custom_type_script = "uid://21bcte5vesst"
 
@@ -1282,7 +1287,7 @@ label_settings = SubResource("LabelSettings_hdv4t")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="back_btn" type="Control" parent="vr_layer"]
+[node name="back_btn" type="Control" parent="vr_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 316.0
@@ -1290,6 +1295,8 @@ offset_top = 199.0
 offset_right = 381.0
 offset_bottom = 234.0
 script = ExtResource("44_f8qw8")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+manual_decorations = [NodePath("back_label")]
 border_size = Vector2(65, 35)
 metadata/_custom_type_script = "uid://21bcte5vesst"
 

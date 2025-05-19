@@ -188,7 +188,7 @@ func set_user_save_data( path : String, value ):
 	#print("Debug: save game is ", usersavefile)
 			
 func create_user_save_data( slot : int ): # Should be used on the title screen, que a new game on a empty slot is created. for CC, only create save game at the end.
-	assert( slot >= 0 or slot <= 2)
+	assert( slot >= 0 or slot <= 2) ## Useless assert. Its funny, so im keeping it.
 	var file := "save%s.b2" % str( slot )
 	if FileAccess.file_exists( usersavefolder + file ):
 		# Creating a save slot on a existing slot? this is wrong, the old one should be deleted first

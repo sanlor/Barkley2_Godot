@@ -11,7 +11,7 @@ const AMMO_PICKUP 					= preload("uid://b408woyvd6k12")
 ## Drop settings
 const settingDropScale = 0.7; 				# Scale (of gun drawn on floor) of dropped guns
 const settingFuseCompatibility = 0.95; 		# Range guns can be within, 0.95 = 5%
-const settingFuseWeight = 0.75; 				# Weight gain for every fuse
+const settingFuseWeight = 0.75; 			# Weight gain for every fuse
 const settingDropWeightPercent = 0.10; 		# 10% - Percent of gunsvalue that is weight for new gun
 const settingDropWeightAdd = 1.0; 			# was 1.5 - Add this to percent of gunsvalue on fresh gun
 const settingDropAmmo = 0.25; 				# (down from 0.5, bhroom) How much ammo dropped guns have (0.5 = 50%)
@@ -73,15 +73,12 @@ static func create_drops( enemy_data : B2_EnemyData, pos : Vector2, is_a_boss : 
 			if enemy_data.projectile > 0.0: choices.append( B2_Gun.GROUP_TYPE_LIST.get( B2_Gun.GROUP.PROJECTILE, 	[] ).pick_random() )
 			
 			var sel_choice = choices.pick_random()
-			if sel_choice:
-				if is_instance_valid( B2_RoomXY.room_reference ):
-					gun.setup( sel_choice )
-					B2_RoomXY.room_reference.call_deferred( "add_child", gun, true )
-					gun.position = pos
-					## TODO apply stat modifiers to the weapon.
-				else:
-					## Should not be invalid
-					push_warning( "B2_RoomXY.room_reference is invalid: ", B2_RoomXY.room_reference )
+			
+			if is_instance_valid( B2_RoomXY.room_reference ):
+				gun.setup( sel_choice )
+				B2_RoomXY.room_reference.call_deferred( "add_child", gun, true )
+				gun.position = pos
+				## TODO apply stat modifiers to the weapon.
 			else:
-				## No choice?????
-				breakpoint
+				## Should not be invalid
+				push_warning( "B2_RoomXY.room_reference is invalid: ", B2_RoomXY.room_reference )

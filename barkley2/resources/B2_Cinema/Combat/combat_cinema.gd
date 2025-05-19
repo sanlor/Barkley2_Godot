@@ -15,7 +15,7 @@ class_name B2_Combat_CinemaPlayer
 @export var debug_sound 		:= false
 @export var debug_set 			:= false
 @export var debug_moveto 		:= true
-@export var debug_quest 		:= false
+@export var debug_quest 		:= true
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
 @export var debug_event 		:= false
@@ -111,7 +111,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 		#B2_CManager.o_hud.hide_hud()
 		pass
 		
-	print_rich("[color=pink]Started Combat_Cinema Script![/color]")
+	print_rich("[color=Hotpink]Started Combat_Cinema Script![/color]")
 	
 	## NOTE Improve this. Maybe a default combat script?
 	if not combat_script:
@@ -123,7 +123,6 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 		breakpoint
 	
 	if combat_script is B2_Script_Combat:
-		print_rich("[color=pink]Started combat_cinema() Script.[/color]")
 		# Split the script into separate lines
 		var split_script 	: PackedStringArray = combat_script.combat_script.split( "\n", true )
 		var script_size 	:= split_script.size()
@@ -150,28 +149,36 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 					if parsed_line.size() > 1:
 						battle_music = parsed_line[1].strip_edges()
 					else:
+						## Keep playing current music
 						battle_music = ""
-					print("B2_Combat_CinemaPlayer: battle_music set to %s." % battle_music)
+					print("B2_Combat_CinemaPlayer: battle_music set to '%s'." % battle_music)
 				"QUEUE_END_BATTLE_MUSIC":
 					if parsed_line.size() > 1:
 						end_battle_music = parsed_line[1].strip_edges()
 					else:
+						## Keep playing current music
 						battle_music = ""
-					print("B2_Combat_CinemaPlayer: end_battle_music set to %s." % end_battle_music)
+					print("B2_Combat_CinemaPlayer: end_battle_music set to '%s'." % end_battle_music)
 				"EXIT":
-					print("EXIT")
 					#if not keep_current_music:
 					B2_Music.resume_stored_music()
 					end_combat()
 				"BEGIN":
-					print("BEGIN")
 					if battle_music:
+						## Play stock or custom combat music
 						B2_Music.play_combat( 0.5, battle_music )
-						
+					else:
+						## Keep playing current music, but keep trak of it.
+						B2_Music.store_curr_music()
 					start_combat( enemies )
 					var result = await combat_manager.combat_ended
 					## TODO handle the battle result
-					
+					## NOTE Result is not needed, but we need to await the combat end signal to continue.
+					# Its only emited if the player wins or runs from combat.
+					## Wait, I need to know if the player runs or wins the combat. some variables are set after the end of the combat. 
+					# I need to check the result variable.
+					## TODO handle the battle result <- lol, im losing my mind.
+					## CRITICAL Very important -> https://www.youtube.com/watch?v=EZ6BQDNHbdc
 				"FRAME":
 					B2_CManager.cinema_frame( parsed_line, self )
 				"PLAYSET":
@@ -217,14 +224,14 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 					## NOTE 27/02/25 Copied this from the cinema script, with small changes.
 					if parsed_line.size() > 1:
 						if float( parsed_line[1] ) <= 0.0:
-							if debug_wait: print( "Wait: KID WAIT : %s nodes." % ongoing_actions.size()  )
+							if debug_wait: print( "Wait: KID WAIT : '%s' nodes." % ongoing_actions.size()  )
 							await check_cinema_action() ## FIXME stop using await
 							if debug_wait: print( "Wait: KID WAIT Finished" )
 						else:
 							await get_tree().create_timer( float( parsed_line[1] ) ).timeout
 							if debug_wait: print("Wait: ", float( parsed_line[1] ) )
 					else:
-						if debug_wait: print( "Wait: KID WAIT : %s nodes." % ongoing_actions.size()  )
+						if debug_wait: print( "Wait: KID WAIT : '%s' nodes." % ongoing_actions.size()  )
 						await check_cinema_action() ## FIXME stop using await
 						if debug_wait: print( "Wait: KID WAIT Finished" )
 				"DIALOG": ## NOTE This will be needed?
@@ -234,24 +241,24 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 					if target:
 						if target.has_method("activate_block"):
 							target.call_deferred("activate_block")
-						else: push_warning("Combat Cinema: invalid node %s." % target.name )
-					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
+						else: push_warning("Combat Cinema: invalid node '%s'." % target.name )
+					else: push_warning("Combat Cinema: invalid node '%s'." % parsed_line[1] ) 
 				"DEACTIVATE_BLOCKER":
 					var target = get_node_from_name( parsed_line[1].strip_edges() )
 					if target:
 						if target.has_method("activate_block"):
 							target.call_deferred("deactivate_block")
-						else: push_warning("Combat Cinema: invalid node %s." % target.name )
-					else: push_warning("Combat Cinema: invalid node %s." % parsed_line[1] ) 
+						else: push_warning("Combat Cinema: invalid node '%s'." % target.name )
+					else: push_warning("Combat Cinema: invalid node '%s'." % parsed_line[1] ) 
 				"MAKE_HUD":
 					var hud = O_HUD.instantiate()
 					get_tree().current_scene.add_child( hud, true )
-					print_rich("[color=yellow]Combat Cinema: hud created.[/color]")
+					print_rich("[color=yellow]B2_Combat_CinemaPlayer: hud created.[/color]")
 				"MAKE_MIN_HUD":
 					var hud = O_HUD_MINIMAL.instantiate()
 					get_tree().current_scene.add_child( hud, true )
 					has_mini_hud = true
-					print_rich("[color=yellow]Combat Cinema: min hud created.[/color]")
+					print_rich("[color=yellow]B2_Combat_CinemaPlayer: min hud created.[/color]")
 				"QUEST":
 					B2_CManager.cinema_quest( parsed_line, debug_quest )
 				"SOUND":
@@ -272,15 +279,17 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
 					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
 					
-					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
+					assert( is_instance_valid(emote_target), "Invalid node. Check '%s'." % parsed_line )
 					
 					## NOTE 27/02/25 Copied this from the cinema script, with small changes.
 					emote_node.type 	= emote_type
 					emote_node.offset	+= Vector2( xoffset, yoffset )
 					emote_node.position = ( emote_target.position ) - Vector2( 0, 10 )
 					get_tree().current_scene.add_child( emote_node, true )
+				"SAVE":
+					B2_Playerdata.SaveGame( true )
 				"_":
-					print_rich( "[color=red]Unhandled action %s.[/color]" % parsed_line )
+					print_rich( "[color=red]B2_Combat_CinemaPlayer: Unhandled action '%s'.[/color]" % parsed_line )
 			curr_line += 1
 			if print_line_report:
 				print( str(curr_line), " - ", parsed_line )
@@ -296,9 +305,10 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 			#pass
 				
 func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
-	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1; combat_ticker.ignore_time_scale = true	 	## Ticker setup.
-	combat_manager = B2_CManager.combat_manager; combat_manager.combat_cinema = self;							## Combat manager setup.
-	combat_ticker.timeout.connect( _tick_combat )															## Tick tock
+	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1; 		## Ticker setup.
+	combat_ticker.ignore_time_scale = true; combat_ticker.name = "combat_ticker_timer"	 				## Ticker setup.
+	combat_manager = B2_CManager.combat_manager; combat_manager.combat_cinema = self;					## Combat manager setup.
+	combat_ticker.timeout.connect( _tick_combat )														## Tick tock
 	combat_manager.register_enemy_list( enemies )
 	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
 	combat_manager.enemy_was_defeated.connect(_track_combat)
@@ -307,7 +317,9 @@ func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_manager.start_battle()
 	
 	if track_battle_time:
-		battle_time_timer = Timer.new(); add_child( battle_time_timer, true ); battle_time_timer.wait_time = 1.0; battle_time_timer.ignore_time_scale = true; battle_time_timer.timeout.connect( func(): battle_time += 1 ); battle_time_timer.start()
+		battle_time_timer = Timer.new(); add_child( battle_time_timer, true ); battle_time_timer.wait_time = 1.0; 
+		battle_time_timer.ignore_time_scale = true; battle_time_timer.timeout.connect( func(): battle_time += 1 ); 
+		battle_time_timer.name = "Battle_time_timer"; battle_time_timer.start()
 				
 func toggle_combat_ticker( enabled : bool ) -> void:
 	if enabled:
@@ -339,7 +351,7 @@ func end_combat():
 	B2_Input.player_has_control 	= true
 	B2_Input.can_switch_guns 		= true
 	
-	print_rich("[color=pink]Combat Cinema: Finished Script.[/color]")
+	print_rich("[color=Hotpink]Combat Cinema: Finished Script.[/color]")
 	
 	## NOTE Below is trash. needs improving.
 	if get_parent() is B2_ROOMS:

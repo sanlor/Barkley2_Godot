@@ -2,7 +2,6 @@
 extends B2_PlayerCombatActor
 class_name B2_Player
 
-
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
 # Not being able to debug the original game makes this harder.
 
@@ -86,8 +85,8 @@ var walk_damp			:= 10.0
 var roll_damp			:= 2.5
 
 ## Debug
-var debug_line : Vector2
-var debug_walk_dir : Vector2
+var debug_line 			: Vector2
+var debug_walk_dir 		: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -95,7 +94,12 @@ func _ready() -> void:
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
 	B2_Playerdata.gun_changed.connect( _update_held_gun )
 	linear_damp = walk_damp
+	
 	_change_sprites()
+	
+	## Default animation
+	hoopz_normal_body.animation = "stand"
+	hoopz_normal_body.frame = 6
 	
 	if get_parent() is B2_ROOMS:
 		get_parent().permission_changed.connect( get_room_permissions )
@@ -129,27 +133,29 @@ func get_room_permissions():
 ## update the current gun sprite, adding details if needed (spots, parts).
 
 func _update_held_gun() -> void:
-	var gun := B2_Gun.get_current_gun()
-	if gun:
-		if gun != prev_gun:
-			set_gun( gun.get_held_sprite(), gun.weapon_type )
-			
-			## Change color.
-			var colors := gun.get_gun_colors()
-			combat_weapon.modulate 					= colors[0]
-			
-			if colors[1]:
-				combat_weapon_parts.show()
-				combat_weapon_parts.modulate 		= colors[1]
-			else:
-				combat_weapon_parts.hide()
+	if curr_STATE == STATE.AIM:
+		var gun := B2_Gun.get_current_gun()
+		if gun:
+			if gun != prev_gun:
+				set_gun( gun.get_held_sprite(), gun.weapon_type )
 				
-			if colors[2]:
-				combat_weapon_spots.show()
-				combat_weapon_spots.modulate 		= colors[2]
-			else:
-				combat_weapon_spots.hide()
-			prev_gun = gun
+				## Change color.
+				var colors := gun.get_gun_colors()
+				combat_weapon.modulate 					= colors[0]
+				
+				if colors[1]:
+					combat_weapon_parts.show()
+					combat_weapon_parts.modulate 		= colors[1]
+				else:
+					combat_weapon_parts.hide()
+					
+				if colors[2]:
+					combat_weapon_spots.show()
+					combat_weapon_spots.modulate 		= colors[2]
+				else:
+					combat_weapon_spots.hide()
+				prev_gun = gun
+	
 ## Change the held weapon sprite. Also can change hoopz torso.
 ## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
 ## WARNING Missing "Dual" type. TODO
@@ -210,7 +216,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 		## Unknown type.
 		breakpoint
 	
-## Debug function. should not be used normaly.
+## Debug function. Should not be used normaly.
 func shoot_gun() -> void:
 	var gun := B2_Gun.get_current_gun()
 	if gun:
@@ -600,7 +606,7 @@ func _physics_process(delta: float) -> void:
 		STATE.ROLL:
 			hoopz_normal_body.speed_scale = max( 1.0, linear_velocity.length() / 70.0 )
 			
-			if linear_velocity.length() < 10.0:
+			if linear_velocity.length() < 8.0:
 				# Roooolliiing eeeeennd.
 				curr_STATE = STATE.NORMAL
 				hoopz_normal_body.animation = "stand"
@@ -608,7 +614,6 @@ func _physics_process(delta: float) -> void:
 				linear_damp = walk_damp
 				step_smoke.emitting = false
 				hoopz_normal_body.flip_h = false
-				#hoopz_normal_body.offset.y -= 15
 				
 		STATE.NORMAL, STATE.AIM:
 			if B2_Input.player_has_control:

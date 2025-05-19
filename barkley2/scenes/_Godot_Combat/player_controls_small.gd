@@ -7,6 +7,7 @@ extends Control
 @onready var skill_btn: 	Button = $menu_space/ScrollContainer/VBoxContainer/skill_btn
 @onready var item_btn: 		Button = $menu_space/ScrollContainer/VBoxContainer/item_btn
 @onready var escape_btn: 	Button = $menu_space/ScrollContainer/VBoxContainer/escape_btn
+@onready var s_container: 	ScrollContainer = $menu_space/ScrollContainer
 @onready var move_btn: 		Button = $menu_space/move_btn
 
 func disable_all_buttons( disabled : bool ) -> void:
@@ -27,6 +28,7 @@ func show_menu() -> void:
 	B2_Sound.play("sn_mouse_analoghover01")
 	#await animation_player.animation_finished
 	attack_btn.grab_focus()
+	s_container.scroll_vertical = 0
 	
 func hide_menu() -> void:
 	animation_player.play("hide")

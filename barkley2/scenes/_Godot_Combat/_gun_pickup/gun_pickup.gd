@@ -26,6 +26,8 @@ var movement_tween : Tween
 
 func setup( type : B2_Gun.TYPE ) -> void:
 	my_gun = B2_Gun.generate_gun( type )
+	@warning_ignore("narrowing_conversion")
+	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
 	weapon_pickup_color = my_gun.weapon_pickup_color
 
@@ -57,7 +59,7 @@ func _ready() -> void:
 		disapear_tween.tween_callback( queue_free )
 		
 	## Movement and little bounce tween.
-	var rand_pos := position + Vector2.RIGHT.rotated( randf_range(0, TAU) ) * randf_range(5,100)
+	var rand_pos := position + Vector2.RIGHT.rotated( randf_range(0, TAU) ) * randf_range(5,40)
 	movement_tween = create_tween()
 	movement_tween.tween_property( self, "position", rand_pos, 1.0 ).set_ease(Tween.EASE_OUT)
 	movement_tween.parallel().tween_property( self, "arch", PI , 1.0 ).set_ease(Tween.EASE_OUT)

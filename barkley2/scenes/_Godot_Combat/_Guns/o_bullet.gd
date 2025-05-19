@@ -80,6 +80,19 @@ var specialShot ## ????
 
 var ricochetSound := "ricochet"
 
+## Godot bullet mods
+# Damage Modifiers
+var att								:= 1.0 ## Higher number = more powerful
+var spd								:= 1.0 ## Higher number = faster
+var acc								:= 1.0 ## Lower number = more acturate
+
+# Attribute Modifiers
+var bio_damage						:= 1.0 ## Add Bio damage type to this attack
+var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
+var mental_damage					:= 1.0 ## Add Mental damage type to this attack
+var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
+var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
+
 ## NOTE choice(1,-1) -> [1,-1].pick_random()
 
 var spr := ""
@@ -98,8 +111,19 @@ func setup_bullet_sprite( _spr : String, _col : Color ) -> void:
 func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
 
+func apply_stat_mods( _att : float, _spd : float ) -> void:
+	att = _att
+	spd = _spd
+
+## TODO add modifiers
+func apply_attribute_mods( _bio_damage : float, _cyber_damage : float, _mental_damage : float, _cosmic_damage : float, _zauber_damage : float, ) -> void:
+	bio_damage = _bio_damage
+	cyber_damage = _cyber_damage
+	mental_damage = _mental_damage
+	cosmic_damage = _cosmic_damage
+	zauber_damage = _zauber_damage
+	
 func _ready() -> void:
-		
 	if spr:
 		if bullet_spr.sprite_frames.has_animation( spr ):
 			bullet_spr.animation = spr
@@ -108,7 +132,6 @@ func _ready() -> void:
 			push_warning("No animation called %s." % spr)
 		
 	modulate = col
-	#my_gun = B2_Gun.get_current_gun()
 	sprite_selection()
 	
 	if has_trail:
@@ -1309,12 +1332,14 @@ func play_sound(soundID : String, loop : bool) -> void:
 	if sound_file:
 		sound_file.loop = loop
 		bullet_sfx.stream = sound_file
+		bullet_sfx.pitch_scale = randf_range(0.85,1.25)
 		bullet_sfx.play()
 	else:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
 func _physics_process(_delta: float) -> void:
 	velocity = dir * speed
+	velocity *= spd ## Apply speed modifier
 	position += velocity ## TEMP
 	
 	if has_trail:
@@ -1324,10 +1349,10 @@ func _physics_process(_delta: float) -> void:
 			bullet_trail.remove_point(0)
 
 func ricochet( ric_dir : Vector2 ) -> void:
-	var rico = O_RICOCHET.instantiate()
-	rico.ricochetSound = ricochetSound
-	rico.scale = scale
-	rico.position = position
+	var rico 			= O_RICOCHET.instantiate()
+	rico.ricochetSound 	= ricochetSound
+	rico.scale 			= scale
+	rico.position 		= position
 	add_sibling( rico, true )
 	rico.look_at( position + ric_dir.rotated( randf_range( -PI/8, PI/8 ) ) )
 	
@@ -1348,9 +1373,11 @@ func _on_body_entered( body: Node2D ) -> void:
 	if body is B2_CombatActor:
 		if not body.is_actor_dead: ## Avoid shooting dead bodies.
 			if body.has_method("damage_actor"):
-				var att := my_gun.get_att()
-				#body.damage_actor( att / float(my_gun.bullets_per_shot), 	velocity.normalized() * att * 100.0 )
-				body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
+				var my_att := my_gun.get_att()
+				my_att *= att ## Apply attack modifier
+				body.damage_actor( my_att / float(my_gun.bullets_per_shot), 	velocity.normalized() * my_att * 100.0 )
+				#body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
+				print("Bullet applying %s points of damage." % str(my_att))
 				
 			destroy_bullet()
 		

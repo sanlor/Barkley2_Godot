@@ -47,8 +47,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	cinema_player.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
 func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
-	combat_manager 			= B2_CombatManager.new()
-	combat_cinema_player 	= B2_Combat_CinemaPlayer.new()
+	combat_manager 				= B2_CombatManager.new()
+	combat_cinema_player 		= B2_Combat_CinemaPlayer.new()
+	combat_cinema_player.name 	= "combat_cinema_player"
 	get_tree().current_scene.add_child( combat_cinema_player, true )
 	combat_cinema_player.setup_combat( combat_script, enemies )
 
@@ -121,7 +122,7 @@ func cinema_dialog( _line : String ) -> void:
 	pass
 	
 func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
-	# this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
+	# this is confusing. This can set quest states, change states, like quest += 1 and fuck aroung with money and time. weird
 	var quest_stuff := parsed_line[ 1 ].split(" ", false)
 	var qstNam = quest_stuff[0]
 	var qstTyp = quest_stuff[1]
@@ -137,7 +138,7 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 			qstVal = qstVal.trim_prefix("money_")
 			if not B2_Database.money.has(qstVal):
 				push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
-			qstVal = B2_Database.money.get(qstVal, "69420666")
+			qstVal = B2_Database.money.get( qstVal, "69420666" )
 		elif qstVal.begins_with("time_"):
 			qstVal = qstVal.trim_prefix("time_")
 			push_warning("Time function is not implemented.")
@@ -150,7 +151,7 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 		B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
 	elif qstTyp == "-=":
 		B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
-	else:
+	else: # = or ==
 		B2_Playerdata.Quest(qstNam, float(qstVal) )
 	
 	if debug: print( "Quest: ", quest_stuff )

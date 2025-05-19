@@ -54,7 +54,7 @@ func _ready() -> void:
 		disapear_tween.tween_callback( queue_free )
 		
 	## Movement and little bounce tween.
-	var rand_pos := position + Vector2.RIGHT.rotated( randf_range(0, TAU) ) * randf_range(5,100)
+	var rand_pos := position + Vector2.RIGHT.rotated( randf_range(0, TAU) ) * randf_range(5,40)
 	movement_tween = create_tween()
 	movement_tween.tween_property( self, "position", rand_pos, 1.0 ).set_ease(Tween.EASE_OUT)
 	movement_tween.parallel().tween_property( self, "arch", PI , 1.0 ).set_ease(Tween.EASE_OUT)

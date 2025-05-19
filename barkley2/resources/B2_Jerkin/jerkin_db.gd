@@ -112,7 +112,7 @@ static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 			stat["Zauber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ ZAUBER ] )
 			stat["Description"] = JERKIN_LIST[ get_current_jerkin() ][ DESCRIPTION ]
 		else:
-			push_warning("No jerkin equiped. Weird.")
+			push_warning("No jerkin equiped. Weird... Adding candy in 'null' pockets. Note, this is expected when enrering VR Mission")
 	else:
 		stat["Pkt"] 		= int( JERKIN_LIST[ jerkin ][ PKT ] )
 		stat["Wgt"] 		= int( JERKIN_LIST[ jerkin ][ WGT ] )

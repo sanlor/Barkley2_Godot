@@ -19,17 +19,25 @@ var player_character 	: B2_HoopzCombatActor						## In this game, only one playe
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
-var combat_paused 	:= false
+var combat_paused 	:= false :
+	set(c):
+		combat_paused = c
+		#if not c:
+		#	print_stack()
+var combat_won		:= false
 var escaped_combat	:= false ## enabled if the player escaped combat
 var action_queue : Array[queue]
 
 var can_manipulate_camera := true
 
+enum QUEUE_TYPE{NORMAL_ATTACK, OFFENSIVE_SKILL}
 class queue: # class used for action queue
+	var type			: QUEUE_TYPE
 	var action 			: Callable
 	var target			: Vector2
 	var source_actor 	: B2_CombatActor
 	var used_weapon 	: B2_Weapon
+	var used_skill		: B2_WeaponSkill
 	var finish_action	: Callable
 
 ## keep a refere for the player
@@ -79,6 +87,10 @@ func escape_combat() -> void:
 	escaped_combat = true
 
 func finish_combat() -> void:
+	if combat_won:
+		push_warning("Called 'finish_combat()' twice, mistakenly. You need to check why.")
+		return
+	combat_won = true
 	pause_combat()
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
 	B2_CManager.o_cbt_hoopz.victory_anim()
@@ -99,15 +111,15 @@ func finish_combat() -> void:
 	else:
 		if B2_CManager.combat_cinema_player.track_exp_gained:
 			var _exp := B2_CManager.combat_cinema_player.exp_gained
-			B2_CManager.o_hud.get_combat_module().add_result_message("EXP gained: %s!" % str(_exp), "sn_mouse_analoghover01")
+			B2_CManager.o_hud.get_combat_module().add_result_message("EXP gained: %s!" 				% str(_exp), "sn_mouse_analoghover01")
 			B2_Gun.distribute_battle_exp( _exp )
 		if B2_CManager.combat_cinema_player.track_money_gained:
 			var mon := B2_CManager.combat_cinema_player.money_gained
-			B2_CManager.o_hud.get_combat_module().add_result_message("CyberShekels gained: %s!" % str(mon), "sn_mouse_analoghover01")
+			B2_CManager.o_hud.get_combat_module().add_result_message("CyberShekels gained: %s!" 	% str(mon), "sn_mouse_analoghover01")
 			B2_Database.money_change( +mon )
 		if B2_CManager.combat_cinema_player.track_battle_time:
 			var tim := B2_CManager.combat_cinema_player.battle_time
-			B2_CManager.o_hud.get_combat_module().add_result_message("Battle took %s seconds." % str(tim), "sn_mouse_analoghover01")
+			B2_CManager.o_hud.get_combat_module().add_result_message("Battle took %s seconds." 		% str(tim), "sn_mouse_analoghover01")
 	
 	B2_CManager.o_hud.get_combat_module().show_battle_results()
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
@@ -125,6 +137,10 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 		## Trying to remove an enemy that wasnt on the enemy list
 		breakpoint
 	enemy_was_defeated.emit( enemy_node.enemy_data )
+	
+	# No more enemies, finish combat.
+	if enemy_list.is_empty():
+		finish_combat()
 	
 	## Cleanup the defeated enemy action (avoid dead enemies shooting bullets).
 	var stale_action : queue
@@ -156,14 +172,12 @@ func player_defeated() -> void:
 
 func tick_combat() -> void:
 	if not combat_paused:
+		## Check if the combat is finished ( no enemies are on the battlefield )
+		if enemy_list.is_empty() and not combat_won:
+			return
+			
 		## Pretty important. Won't tell you why.
 		B2_CManager.o_hud.get_combat_module().tick_combat()
-		
-		## Check if the combat is finished ( no enemies are on the battlefield )
-		if enemy_list.is_empty():
-			combat_paused = true
-			finish_combat()
-			return
 		
 		## Increase weapon action
 		for wpn : B2_Weapon in B2_Playerdata.bandolier:
@@ -180,7 +194,6 @@ func tick_combat() -> void:
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
-					
 					if enemy.has_combat_ai():
 						if enemy.get_combat_ai().combat_action( player_character, enemy_list, self ):
 							return
@@ -197,10 +210,16 @@ func tick_combat() -> void:
 			var action : queue = action_queue.pop_front(); print("Executing action.")
 			
 			if is_instance_valid( action.source_actor ):
-				action.action.call( action.source_actor, action.target, action.used_weapon, action.finish_action )
+				match action.type:
+					QUEUE_TYPE.NORMAL_ATTACK:
+						action.action.call( action.source_actor, action.target, action.used_weapon, action.finish_action )
+					
+					QUEUE_TYPE.OFFENSIVE_SKILL:
+						action.action.call( action.source_actor, action.target, action.used_weapon, action.used_skill, action.finish_action )
+						
 			else:
 				## source action was "killed" before executing the action".
-				pass
+				push_warning("The actor was killed before execution its action queue.")
 
 func process() -> void:
 	if can_manipulate_camera:
@@ -213,6 +232,7 @@ func process() -> void:
 # Public func. Queue action
 func shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
 	var q := queue.new()
+	q.type = QUEUE_TYPE.NORMAL_ATTACK
 	q.action = _shoot_projectile
 	q.source_actor = source_actor
 	q.target = target
@@ -223,24 +243,22 @@ func shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_wea
 	
 # Execute queued action
 func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
-	pause_combat()
+	#pause_combat()
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
 	if source_actor is B2_HoopzCombatActor:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
-		#aim_direction = source_actor.aim_target								## Bullets direction
 		aim_direction = source_actor.global_position.direction_to( target )		## Bullets direction
 		B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
-		#await source_actor.get_tree().create_timer(0.5).timeout
-	else:
+		
+	elif source_actor is B2_EnemyCombatActor:
 		# An enemy is shooting.
-		pass ## TODO
 		aim_direction = source_actor.global_position.direction_to( target )
 		muzzle_pos = source_actor.global_position
-		B2_Sound.play( "sn_junkbot_alarm01" )
-		#await source_actor.get_tree().create_timer(0.5).timeout
+		B2_Sound.play( source_actor.sound_alert )
+	else: breakpoint ## Unknown actor.
 		
 	## avoid cases where the source_actor dies while geting ready to attack.
 	if is_instance_valid( source_actor ):
@@ -252,8 +270,49 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 		
 	if B2_CManager.o_hud.get_combat_module().can_resume_combat():
 		resume_combat()
+	else:
+		print("Could not unpause the battle.")
+		print_stack()
 	
-## Helper function, used to control the camera position.
+func use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
+	var q := queue.new()
+	q.type = QUEUE_TYPE.OFFENSIVE_SKILL
+	q.action = _use_skill
+	q.source_actor = source_actor
+	q.target = target
+	q.used_weapon = used_weapon
+	q.used_skill = used_skill
+	q.finish_action = finish_action
+	action_queue.append( q )
+	
+func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
+	#pause_combat()
+	var casing_pos := Vector2.ZERO
+	var muzzle_pos := Vector2.ZERO
+	var aim_direction := Vector2.ZERO
+	
+	if source_actor is B2_HoopzCombatActor:
+		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
+		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
+		aim_direction = source_actor.global_position.direction_to( target )		## Skill direction
+	else: breakpoint ## Unknown actor.
+		
+	## avoid cases where the source_actor dies while geting ready to perform.
+	if is_instance_valid( source_actor ):
+		used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor, used_weapon )
+		await used_skill.action_finished ## Wait for the skill to finish and shiet.
+		
+		if finish_action: ## Avoid calling invalid functions.
+			finish_action.call()
+		
+	if B2_CManager.o_hud.get_combat_module().can_resume_combat():
+		resume_combat()
+	else:
+		print("Could not unpause the battle.")
+		print_stack()
+		
+## Helper functions, used to control the camera position.
+# Get the average position of all combat actors
 func get_avg_pos() -> Vector2:
 	var n_combatants := 1
 	var avg_pos	:= player_character.position
@@ -262,6 +321,7 @@ func get_avg_pos() -> Vector2:
 		n_combatants += 1
 	return avg_pos / n_combatants
 	
+# Get the average distance from the average position of all combat actors
 func get_avg_dist(avg_pos : Vector2) -> float:
 	var n_combatants := 1
 	var avg_dist := player_character.position.distance_to( avg_pos )

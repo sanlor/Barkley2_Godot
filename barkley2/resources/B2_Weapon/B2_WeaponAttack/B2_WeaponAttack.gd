@@ -1,6 +1,7 @@
 extends Resource
-class_name B2_WeaponAttack
+#class_name B2_WeaponAttack
 ## Base class for all Weapon's regular ass attacks
+## DEPRECATED
 
 signal action_finished
 

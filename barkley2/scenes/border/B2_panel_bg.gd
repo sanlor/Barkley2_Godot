@@ -65,11 +65,12 @@ func _ready():
 func _post_ready() -> void:
 	pass
 
-# Decorations are children that this node can control, change color and such
-func add_decorations(node : Node, _is_centered := false): ## TODO _is_centered
+# Decorations are children that this node can control, change color and such.
+func add_decorations(node : Node, _is_centered := false, add_node := true ): ## TODO _is_centered <- In the end, i never TODIDIT...
 	decorations.append(node)
 	decorations_color[node] = node.modulate
-	add_child(node)
+	if add_node:
+		add_child(node)
 	move_child(b_2_panel_fg, -1)
 
 # This replaces que Border("generate") argument

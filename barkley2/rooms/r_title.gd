@@ -94,7 +94,7 @@ var title_y = 170
 var title_row = 16
 var title_gap = 0
 
-## Stock Ticker ## Maybe this isnt usedin the "final" game?
+## Stock Ticker ## Maybe this isnt used in the "final" game? 18/05/25 - This seems related to the object o_minotaur01 or room r_chu_minotaur01
 #stock_x[0] = 20;
 #stock_x[1] = 100;
 #stock_x[2] = 180;

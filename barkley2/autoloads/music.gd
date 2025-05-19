@@ -223,8 +223,8 @@ func play_combat( speed := 0.25, force_track := "" ) -> void:
 		queue( music_bank.get( BATTLE_MUSIC.pick_random(), "" ), speed )
 
 func play_end_combat( force_track := "" ) -> void:
-	if force_track:
-		B2_Music.play("force_track")
+	if not force_track.is_empty():
+		B2_Music.play( force_track )
 	else:
 		B2_Music.play( END_BATTLE_MUSIC.pick_random() )
 

@@ -17,11 +17,16 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 		else:
 			move_dist -= 1.0
 	if hoopz_normal_body.animation.begins_with("full_roll"):
-		if hoopz_normal_body.frame in [3,4,5,6]:
+		if hoopz_normal_body.frame in [0,1,2]:
+			#hoopz_normal_body.look_at( linear_velocity )
+			pass
+		elif hoopz_normal_body.frame in [3,4,5,6]:
+			hoopz_normal_body.rotation = 0
 			if not step_smoke.emitting:
 				step_smoke.emitting = true
 		else:
 			step_smoke.emitting = false
+			hoopz_normal_body.rotation = 0
 
 func _on_combat_lower_body_frame_changed() -> void:
 	if hoopz_normal_body.animation.begins_with("walk_"):

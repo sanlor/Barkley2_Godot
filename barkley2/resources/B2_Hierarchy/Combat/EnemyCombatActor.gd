@@ -227,7 +227,7 @@ func cinema_jump( times := 1 ) -> void:
 	var t := create_tween()
 	t.tween_interval(0.1)
 	for i in times:
-		t.tween_callback( B2_Sound.play.bind("hoopzweap_chitin_jump") )
+		t.tween_callback( play_local_sound.bind("hoopzweap_chitin_jump") )
 		t.tween_property( ActorAnim, "position:y", -16.0, 0.1).set_ease(Tween.EASE_OUT)
 		t.tween_property( ActorAnim, "position:y", 0.0, 0.2).set_ease(Tween.EASE_IN)
 	await t.finished
@@ -328,7 +328,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	
 	actor_died.emit()
 	
-	if enemy_data.curr_health <= 0:
+	if enemy_data.curr_health <= 0.0:
 		actor_is_dying 	= true
 		is_actor_dead 	= true
 		destroy_actor()
@@ -369,8 +369,8 @@ func destroy_actor() -> void:
 				await get_tree().process_frame
 	
 	if death_animation:
-			ActorAnim.sprite_frames.set_animation_loop(death_animation, false)
-			ActorAnim.play(death_animation)
+		ActorAnim.sprite_frames.set_animation_loop(death_animation, false)
+		ActorAnim.play(death_animation)
 	
 	if stay_after_death:
 		#ActorCol.disabled = true
@@ -386,7 +386,6 @@ func destroy_actor() -> void:
 		t.tween_callback( get_parent().remove_child.bind(self) )
 	
 	B2_Drop.create_drops( enemy_data, global_position, false )
-	
 	_after_death()
 
 func _on_body_entered(body: Node) -> void:

@@ -62,7 +62,7 @@ var lineage_top					:= "" ## ????
 var lineage_bot					:= "" ## ????
 var generation					:= 1
 
-@export var normal_attack	: B2_WeaponAttack						## Normal attack
+#@export var normal_attack	: B2_WeaponAttack						## Normal attack
 @export var skill_list		: Dictionary[B2_WeaponSkill, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
@@ -201,7 +201,7 @@ func get_casing_speed() -> float:
 #endregion
 
 #region Weapon Operation
-func _create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) -> void:
+func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) -> void:
 	if get_flash_sprite():
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
@@ -209,7 +209,7 @@ func _create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) -
 		scene_to_place.add_child( flash, true )
 		flash.play( get_flash_sprite() )
 		
-func _create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
+func create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
 	if get_casing_sound():
 		var casing = O_CASINGS.instantiate()
 		casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
@@ -220,8 +220,8 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	is_shooting = true
 	if wait_per_shot == 0.0: ## shotgun behaviour.
 		use_ammo( 1 )
-		_create_flash(scene_to_place, source_pos, dir)
-		_create_casing(scene_to_place, casing_pos)
+		create_flash(scene_to_place, source_pos, dir)
+		create_casing(scene_to_place, casing_pos)
 		B2_Sound.play( get_soundID() )
 		
 	for i in bullets_per_shot:
@@ -245,14 +245,15 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		if wait_per_shot > 0.0:
 			use_ammo( 1 )
 			B2_Sound.play( get_soundID() )
-			_create_flash(scene_to_place, source_pos, b_dir)
-			_create_casing(scene_to_place, casing_pos)
-			await bullet.get_tree().create_timer( 0.1 ).timeout
+			create_flash(scene_to_place, source_pos, b_dir)
+			create_casing(scene_to_place, casing_pos)
+			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
 	
 	#use_ammo( ammo_per_shot )
 	reset_action()
 	abort_shooting = false
 	is_shooting = false
+	await scene_to_place.get_tree().create_timer( 0.35 ).timeout
 	finished_combat_action.emit()
 	
 func use_skill_attack( _skill_id : int ) -> void:
@@ -266,8 +267,12 @@ func gain_exp( _exp ) -> void: ## TODO add level up
 	
 func increase_action() -> void:
 	if has_ammo():
-		var my_spd 		:= spd * 0.05
-		curr_action 	= clampf( curr_action + my_spd, 0.1, max_action )
+		var my_spd 		:= get_spd() * 0.05
+		
+		if is_overheating(): ## Apply speed penalty to overheated weapons.
+			my_spd *= 0.25 
+			
+		curr_action 	= clampf( curr_action + my_spd, -max_action, max_action )
 		
 		## Play the "ready" sfx.
 		if curr_action == max_action:
@@ -292,8 +297,8 @@ func is_at_max_action() -> bool:
 func is_overheating() -> bool:
 	return curr_action < 0.0
 
-func reset_action() -> void:
-	curr_action = 0.0
+func reset_action( force_value := 0.0 ) -> void:
+	curr_action = force_value
 	
 func recover_ammo( amount : int ) -> void:
 	curr_ammo = clampi( curr_ammo + amount, 0, max_ammo )
@@ -314,15 +319,15 @@ func has_sufficient_ammo( amount : int ) -> bool:
 #endregion
 
 #region Weapon Combat
-func get_att() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+func get_att() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")
-	return att * 0.3 ## DEBUG
+	return att
 	
-func get_acc() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+func get_acc() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")
 	return acc
 	
-func get_spd() -> int: ## TODO calculate effective stats (type, material and afixes modifiers)
+func get_spd() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")
 	return spd
 #endregion
