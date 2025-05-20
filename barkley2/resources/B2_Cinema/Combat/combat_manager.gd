@@ -96,8 +96,11 @@ func finish_combat() -> void:
 	B2_CManager.o_cbt_hoopz.victory_anim()
 	
 	if B2_CManager.combat_cinema_player:
-		if B2_CManager.combat_cinema_player.end_battle_music:
-			B2_Music.play_end_combat( B2_CManager.combat_cinema_player.end_battle_music )
+		if escaped_combat: ## Dont play any music if you escape combat. you dont deserve it.
+			B2_Music.play_end_combat( "mus_blankTEMP" )
+		else:
+			if B2_CManager.combat_cinema_player.end_battle_music:
+				B2_Music.play_end_combat( B2_CManager.combat_cinema_player.end_battle_music )
 	else:
 		push_error("B2_CManager.combat_cinema_player isnt loaded? WTF!")
 	

@@ -1,3 +1,4 @@
+@tool
 @icon("res://barkley2/assets/b2_original/images/merged/s_pedestrianWaypoint.png")
 extends Sprite2D
 class_name B2_Ped_Waypoint

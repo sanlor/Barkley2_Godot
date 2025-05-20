@@ -340,28 +340,32 @@ func _on_escape_btn() -> void:
 			player_character.stop_defending()
 			
 	if randi_range(0,9) > 9: ## chances of running from battle.
+		push_error("ESCAPE DEBUG - FIX THIS")
 		## Escape failed, reset action for everything.
+		print("Failed to escape Battle.")
 		B2_Sound.play("sn_cursor_error01")
 		var msg := ["Failed...", "Borked it...", "Too Slow...", "Wasnt able to..."]
 		B2_Screen.display_damage_number( player_character, msg.pick_random(), Color.RED, 4.0 )
 	else:
+		## Escaped battle, you pussy.
+		print("Escaped Battle.")
 		darken_screen()
-	pass
 
 func darken_screen() -> void:
 	var tween := create_tween()
 	fade.show()
 	fade.modulate = Color.TRANSPARENT
 	tween.tween_callback( B2_CManager.combat_manager.pause_combat )
-	tween.tween_property(fade, "modulate", Color.WHITE, 1.0)
+	tween.tween_callback( o_hud.hide_battle_ui )
+	tween.tween_property( fade, "modulate", Color.WHITE, 1.0 )
 	tween.tween_callback( B2_CManager.combat_manager.escape_combat )
 	tween.tween_interval( 0.5 )
-	tween.tween_property(fade, "modulate", Color.TRANSPARENT, 1.0)
+	tween.tween_property( fade, "modulate", Color.TRANSPARENT, 1.0 )
 	tween.tween_callback( fade.hide )
 	tween.tween_interval( 0.5 )
-	tween.tween_callback( B2_CManager.combat_manager.resume_combat )
+	#tween.tween_callback( B2_CManager.combat_manager.resume_combat )
+	tween.tween_callback( B2_CManager.combat_manager.finish_combat )
 	await tween.finished
-
 
 func add_result_message( _msg : String, sfx := "" ) -> void:
 	var msg : Dictionary
@@ -392,9 +396,9 @@ func tick_combat() -> void:
 		skill_btn.disabled 		= true
 		
 	move_btn.disabled 			= not B2_Playerdata.player_stats.is_at_max_action()
-	defend_btn.disabled 		= not B2_Playerdata.player_stats.is_at_max_action()
+	defend_btn.disabled 		= not ( B2_Playerdata.player_stats.is_at_max_action() and B2_Playerdata.Quest("hoopz_shield") 		!= 0 ) ## Only use shied if you have shield.
 	item_btn.disabled 			= not B2_Playerdata.player_stats.is_at_max_action()
-	escape_btn.disabled 		= not B2_Playerdata.player_stats.is_at_max_action()
+	escape_btn.disabled 		= not ( B2_Playerdata.player_stats.is_at_max_action() and B2_Playerdata.Quest("escape_disabled") 	== 0 ) ## in certain situations, escape can be disabled.
 
 func _physics_process(_delta: float) -> void:
 	if slowdown_label.visible:

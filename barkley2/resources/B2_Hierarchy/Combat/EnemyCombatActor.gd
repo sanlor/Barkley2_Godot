@@ -1,4 +1,4 @@
-@tool
+#@tool
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_3.png")
 extends B2_CombatActor
 class_name B2_EnemyCombatActor
@@ -6,7 +6,6 @@ class_name B2_EnemyCombatActor
 
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
-
 
 signal aim_target_changed
 signal move_target_changed

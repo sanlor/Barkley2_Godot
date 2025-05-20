@@ -80,9 +80,9 @@ var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
 
 var walk_speed			:= 5000000
-var roll_impulse		:= 1000000
+var roll_impulse		:= 25000
 var walk_damp			:= 10.0
-var roll_damp			:= 2.5
+var roll_damp			:= 3.5
 
 ## Debug
 var debug_line 			: Vector2
@@ -604,13 +604,10 @@ func _physics_process(delta: float) -> void:
 		
 	match curr_STATE:
 		STATE.ROLL:
-			hoopz_normal_body.speed_scale = max( 1.0, linear_velocity.length() / 70.0 )
-			
 			if linear_velocity.length() < 8.0:
 				# Roooolliiing eeeeennd.
 				curr_STATE = STATE.NORMAL
 				hoopz_normal_body.animation = "stand"
-				hoopz_normal_body.speed_scale = 1.0
 				linear_damp = walk_damp
 				step_smoke.emitting = false
 				hoopz_normal_body.flip_h = false
@@ -690,7 +687,7 @@ func _physics_process(delta: float) -> void:
 						hoopz_normal_body.flip_h = roll_dir.x >= 0
 					
 					linear_velocity = Vector2.ZERO
-					apply_central_force( roll_dir * roll_impulse )
+					apply_central_impulse( roll_dir * roll_impulse )
 					
 					## Reset some vars
 					combat_last_direction 	= Vector2.ZERO

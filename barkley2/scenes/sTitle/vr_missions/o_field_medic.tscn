@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://djy06cuntq3p7"]
+[gd_scene load_steps=13 format=3 uid="uid://djy06cuntq3p7"]
 
 [ext_resource type="Script" uid="uid://cgb0w8tbb0sco" path="res://barkley2/scenes/sTitle/vr_missions/o_field_medic.gd" id="1_t6snh"]
+[ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="3_afnus"]
 [ext_resource type="Texture2D" uid="uid://dr0jnfknyuyha" path="res://barkley2/assets/b2_original/images/merged/s_boxes_single01.png" id="3_v3nfx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a15wa"]
@@ -83,3 +84,11 @@ position = Vector2(0, -12)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 position = Vector2(0.5, 3)
 shape = SubResource("RectangleShape2D_7sr6w")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="step_smoke" parent="." instance=ExtResource("3_afnus")]
+z_index = 1
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

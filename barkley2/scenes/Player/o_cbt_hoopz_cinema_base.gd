@@ -113,7 +113,7 @@ var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var walk_speed			:= 500000 # 5000000
 var roll_impulse		:= 50000
 var walk_damp			:= 10.0
-var roll_damp			:= 6.0
+var roll_damp			:= 3.5
 
 ## Sound
 var min_move_dist 	:= 1.0

@@ -71,6 +71,11 @@ func _on_begin_btn_button_pressed() -> void:
 			print("Loading Mission %s data." % str(selected_mission + 1) )
 			B2_Playerdata.Quest( "infiniteAmmo", 1 )
 			B2_Playerdata.Quest( "vr_mission_0", 1 )
+			B2_Playerdata.Quest( "escape_disabled", 1 )
+			
+			B2_Playerdata.Quest( "playerName", 		"???" ); # constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", 	"???" ); # constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", 	"???" ); # constant P_NAME_S
 			
 			B2_Jerkin.reset()
 			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
@@ -84,6 +89,7 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"", false )
 			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	"", false )
 			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"", false )
+			
 		1:
 			## Etc...
 			breakpoint
