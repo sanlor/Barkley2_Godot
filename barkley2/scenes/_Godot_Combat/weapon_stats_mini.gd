@@ -21,81 +21,105 @@ func _physics_process(_delta: float) -> void:
 	t += 0.1
 	pulse = ( sin( t ) / 2.0) + 0.75 ## 0.5 to 1.0
 
+func gun_1_update( loadout : Array[B2_Weapon] ) -> void:
+	gun_1.texture 		= loadout[0].weapon_hud_sprite
+	g_1_bar.value 		= loadout[0].curr_action
+	g_1_bar.max_value 	= loadout[0].max_action
+	g_1_bar.modulate = Color( Color.WHITE, alpha )
+	
+	if loadout[0].is_overheating():
+		percent1.text = Text.pr("Over\nheat!")
+		percent1.modulate = Color( Color.RED * pulse, alpha )
+	else:
+		if not loadout[0].is_at_max_action():
+			percent1.text = "%s" % str( int(loadout[0].curr_action) ) + "%"
+			percent1.modulate = Color.GRAY
+		else:
+			percent1.text = Text.pr("Ready!")
+			percent1.modulate = Color.WHITE
+	
+	if B2_Playerdata.selected_gun == 0:
+		wpn_name.text = loadout[0].get_full_name()
+		g_1_bar.modulate = Color( Color.GREEN * pulse, alpha )
+		
+func gun_2_update( loadout : Array[B2_Weapon] ) -> void:
+	gun_2.texture 		= loadout[1].weapon_hud_sprite
+	g_2_bar.value 		= loadout[1].curr_action
+	g_2_bar.max_value 	= loadout[1].max_action
+	g_2_bar.modulate = Color( Color.WHITE, alpha )
+	
+	if loadout[1].is_overheating():
+		percent2.text = Text.pr("Over\nheat!")
+		percent2.modulate = Color( Color.RED * pulse, alpha )
+	else:
+		if not loadout[1].is_at_max_action():
+			percent2.text = "%s" % str( int(loadout[1].curr_action) ) + "%"
+			percent2.modulate = Color.GRAY
+		else:
+			percent2.text = Text.pr("Ready!")
+			percent2.modulate = Color.WHITE
+	
+	if B2_Playerdata.selected_gun == 1:
+		wpn_name.text = loadout[1].get_full_name()
+		g_2_bar.modulate = Color( Color.GREEN * pulse, alpha )
+		
+func gun_3_update( loadout : Array[B2_Weapon] ) -> void:
+	gun_3.texture 		= loadout[2].weapon_hud_sprite
+	g_3_bar.value 		= loadout[2].curr_action
+	g_3_bar.max_value 	= loadout[2].max_action
+	g_3_bar.modulate = Color( Color.WHITE, alpha )
+	
+	if loadout[2].is_overheating():
+		percent3.text = Text.pr("Over\nheat!")
+		percent3.modulate = Color( Color.RED * pulse, alpha )
+	else:
+		if not loadout[2].is_at_max_action():
+			percent3.text = "%s" % str( int(loadout[2].curr_action) ) + "%"
+			percent3.modulate = Color.GRAY
+		else:
+			percent3.text = Text.pr("Ready!")
+			percent3.modulate = Color.WHITE
+	
+	if B2_Playerdata.selected_gun == 2:
+		wpn_name.text = loadout[2].get_full_name()
+		g_3_bar.modulate = Color( Color.GREEN * pulse, alpha )
+		
 func tick_combat() -> void:
 	## PLACEHOLDER Quick hack
-	if B2_Playerdata.bandolier.size() == 0:
-		gun_1.hide()
+	var loadout : Array[B2_Weapon]
+	if B2_Playerdata.gunbag_open:
+		loadout = B2_Playerdata.gun_bag
+		if loadout.size() == 0:
+			gun_1.hide()
+		else:
+			gun_1_update( loadout )
+				
 		gun_2.hide()
 		gun_3.hide()
-		wpn_name.text = Text.pr("You have no guns... :(")
-		
-	if B2_Playerdata.bandolier.size() == 1:
-		gun_2.hide()
-		gun_3.hide()
-		
-	if B2_Playerdata.bandolier.size() == 2:
-		gun_3.hide()
-		
-	## Update UI ## TODO Improve this mess of a code.
-	if B2_Playerdata.bandolier.size() >= 1:
-		gun_1.texture 		= B2_Playerdata.bandolier[0].weapon_hud_sprite
-		g_1_bar.value 		= B2_Playerdata.bandolier[0].curr_action
-		g_1_bar.max_value 	= B2_Playerdata.bandolier[0].max_action
-		g_1_bar.modulate = Color( Color.WHITE, alpha )
-		
-		if B2_Playerdata.bandolier[0].is_overheating():
-			percent1.text = Text.pr("Overheat!")
-			percent1.modulate = Color( Color.RED * pulse, alpha )
-		else:
-			if not B2_Playerdata.bandolier[0].is_at_max_action():
-				percent1.text = "%s" % str( int(B2_Playerdata.bandolier[0].curr_action) ) + "%"
-				percent1.modulate = Color.GRAY
-			else:
-				percent1.text = Text.pr("Ready!")
-				percent1.modulate = Color.WHITE
-		
-		if B2_Playerdata.selected_gun == 0:
-			wpn_name.text = B2_Playerdata.bandolier[0].get_full_name()
-			g_1_bar.modulate = Color( Color.GREEN * pulse, alpha )
+	else:
+		loadout = B2_Playerdata.bandolier
+		if loadout.size() == 0:
+			gun_1.hide()
+			gun_2.hide()
+			gun_3.hide()
+			wpn_name.text = Text.pr("You have no guns... :(")
 			
-	if B2_Playerdata.bandolier.size() >= 2:
-		gun_2.texture = B2_Playerdata.bandolier[1].weapon_hud_sprite
-		g_2_bar.value 		= B2_Playerdata.bandolier[1].curr_action
-		g_2_bar.max_value 	= B2_Playerdata.bandolier[1].max_action
-		g_2_bar.modulate = Color( Color.WHITE, alpha )
-		
-		if B2_Playerdata.bandolier[1].is_overheating():
-			percent2.text = Text.pr("Overheat!")
-			percent2.modulate = Color( Color.RED * pulse, alpha )
-		else:
-			if not B2_Playerdata.bandolier[1].is_at_max_action():
-				percent2.text = "%s" % str( int(B2_Playerdata.bandolier[1].curr_action) ) + "%"
-				percent2.modulate = Color.GRAY
-			else:
-				percent2.text = Text.pr("Ready!")
-				percent2.modulate = Color.WHITE
+		if loadout.size() == 1:
+			gun_2.hide()
+			gun_3.hide()
 			
-		if B2_Playerdata.selected_gun == 1:
-			wpn_name.text = B2_Playerdata.bandolier[1].get_full_name()
-			g_2_bar.modulate = Color( Color.GREEN * pulse, alpha )
+		if loadout.size() == 2:
+			gun_3.hide()
 			
-	if B2_Playerdata.bandolier.size() >= 3:
-		gun_3.texture = B2_Playerdata.bandolier[2].weapon_hud_sprite
-		g_3_bar.value 		= B2_Playerdata.bandolier[2].curr_action
-		g_3_bar.max_value 	= B2_Playerdata.bandolier[2].max_action
-		g_3_bar.modulate = Color( Color.WHITE, alpha )
-		
-		if B2_Playerdata.bandolier[2].is_overheating():
-			percent3.text = Text.pr("Overheat!")
-			percent3.modulate = Color( Color.RED * pulse, alpha )
-		else:
-			if not B2_Playerdata.bandolier[2].is_at_max_action():
-				percent3.text = "%s" % str( int(B2_Playerdata.bandolier[2].curr_action) ) + "%"
-				percent3.modulate = Color.GRAY
-			else:
-				percent3.text = Text.pr("Ready!")
-				percent3.modulate = Color.WHITE
-			
-		if B2_Playerdata.selected_gun == 2:
-			wpn_name.text = B2_Playerdata.bandolier[2].get_full_name()
-			g_3_bar.modulate = Color( Color.GREEN * pulse, alpha )
+		## Update UI ## TODO Improve this mess of a code.
+		if B2_Playerdata.bandolier.size() >= 1:
+			gun_1.show()
+			gun_1_update( loadout )
+				
+		if B2_Playerdata.bandolier.size() >= 2:
+			gun_2.show()
+			gun_2_update( loadout )
+				
+		if B2_Playerdata.bandolier.size() >= 3:
+			gun_3.show()
+			gun_3_update( loadout )

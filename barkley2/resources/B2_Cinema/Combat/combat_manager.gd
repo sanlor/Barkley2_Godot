@@ -128,6 +128,7 @@ func finish_combat() -> void:
 	await B2_CManager.o_hud.get_combat_module().battle_results_finished
 	
 	B2_Playerdata.player_stats.reset_action()
+	B2_Playerdata.is_holding_gun = false
 	
 	#combat_cinema.end_combat()
 	combat_ended.emit()
@@ -142,8 +143,8 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 	enemy_was_defeated.emit( enemy_node.enemy_data )
 	
 	# No more enemies, finish combat.
-	if enemy_list.is_empty():
-		finish_combat()
+	# if enemy_list.is_empty():
+		# finish_combat()
 	
 	## Cleanup the defeated enemy action (avoid dead enemies shooting bullets).
 	var stale_action : queue
@@ -177,14 +178,21 @@ func tick_combat() -> void:
 	if not combat_paused:
 		## Check if the combat is finished ( no enemies are on the battlefield )
 		if enemy_list.is_empty() and not combat_won:
+			finish_combat()
+			return
+			
+		if enemy_list.is_empty():
 			return
 			
 		## Pretty important. Won't tell you why.
 		B2_CManager.o_hud.get_combat_module().tick_combat()
 		
 		## Increase weapon action
-		for wpn : B2_Weapon in B2_Playerdata.bandolier:
-			wpn.increase_action()
+		if B2_Playerdata.gunbag_open:
+			B2_Gun.get_current_gun().increase_action()
+		else:
+			for wpn : B2_Weapon in B2_Playerdata.bandolier:
+				wpn.increase_action()
 		
 		## increase player action
 		if B2_Playerdata.player_stats.increase_action():

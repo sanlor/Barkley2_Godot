@@ -599,6 +599,7 @@ func aim_gun( _aim_target : Vector2 ) -> void:
 	if B2_Gun.get_current_gun().is_shooting:
 		B2_Gun.get_current_gun().abort_shooting = true
 	B2_Playerdata.player_stats.block_action_increase = true
+	B2_Playerdata.is_holding_gun = true
 
 func stop_aiming() -> void:
 	if curr_STATE == STATE.AIM:
@@ -614,6 +615,7 @@ func stop_aiming() -> void:
 		if B2_Gun.get_current_gun().is_shooting:
 			B2_Gun.get_current_gun().abort_shooting = true
 		B2_Playerdata.player_stats.block_action_increase = false
+		B2_Playerdata.is_holding_gun = false
 	
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:

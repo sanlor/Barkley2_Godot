@@ -26,8 +26,9 @@ var debug_messages := true
 @onready var hud_wifi: ColorRect = $hud_bar/hud_wifi
 
 ## Ammo
-@onready var hud_gun_sprite: TextureRect = $hud_bar/hud_gun/hud_gun_sprite
-@onready var hud_ammo_amount: Label = $hud_bar/hud_ammo/hud_ammo_amount
+@onready var hud_gun_bag: 		TextureRect = 	$hud_bar/hud_gun/hud_gun_bag
+@onready var hud_gun_sprite: 	TextureRect = 	$hud_bar/hud_gun/hud_gun_sprite
+@onready var hud_ammo_amount: 	Label = 		$hud_bar/hud_ammo/hud_ammo_amount
 
 ## Combat
 ## New Menu
@@ -49,6 +50,7 @@ var debug_messages := true
 ## Anim
 var tween : Tween
 var c_tween : Tween ## Tween used only for the combat UI.
+var gun_hud_tween : Tween
 var wait_anim := true
 signal event_finished
 
@@ -60,6 +62,7 @@ var hudDrawCount := 0
 ## gun ammo hud
 var pulse 	:= 0.0
 var t		:= 0.0
+var gun_hud_intensity := 1.0
 
 ## Combat stuff
 const combat_fade_speed := 0.25
@@ -73,7 +76,7 @@ func _ready() -> void:
 	_change_visibility()
 		
 	B2_Playerdata.quest_updated.connect( _change_visibility )
-	#B2_Playerdata.gun_changed.connect( update_gun_hud )
+	B2_Playerdata.gun_changed.connect( _flash_hud )
 	
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y
@@ -238,7 +241,19 @@ func set_ammo_amt( amt : int ):
 		hud_ammo_amount.modulate = Color.RED
 		hud_ammo_amount.modulate.a = pulse
 
+func _flash_hud() -> void:
+	hud_gun.intensity = 1.85
+	gun_hud_intensity = 4.0
+	if gun_hud_tween:
+		gun_hud_tween.kill()
+	gun_hud_tween = create_tween()
+	gun_hud_tween.set_parallel( true )
+	gun_hud_tween.tween_property( hud_gun, "intensity", 		1.0, 0.5 )
+	gun_hud_tween.tween_property( self, "gun_hud_intensity", 	1.0, 0.5 )
+
 func _physics_process(_delta: float) -> void:
+	hud_gun_bag.visible = B2_Playerdata.gunbag_open
+	
 	var curr_wpn = B2_Gun.get_current_gun()
 	if curr_wpn:
 		hud_gun_sprite.texture = curr_wpn.weapon_hud_sprite
@@ -246,4 +261,14 @@ func _physics_process(_delta: float) -> void:
 	else:
 		hud_gun_sprite.texture = null
 		set_ammo_amt( 0 )
+		
+	hud_gun_sprite.modulate = Color.WHITE * gun_hud_intensity
 	
+	if not B2_Playerdata.is_holding_gun:
+		hud_gun_sprite.modulate.a 	= 0.55
+	else:
+		hud_gun_sprite.modulate.a 	= 0.85
+	
+	
+		
+	hud_gun.queue_redraw()

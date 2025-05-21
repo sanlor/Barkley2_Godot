@@ -685,7 +685,8 @@ static func weapon_type( typ : TYPE ) -> B2_WeaponType:
 
 ## Add generate a gun and add it to bandolier.
 static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
-	append_gun_to_bandolier( generate_gun(type, material, wpn_name, add_affixes) )
+	## Gun names are only 4 letter words.
+	append_gun_to_bandolier( generate_gun(type, material, wpn_name.left(4), add_affixes) )
 
 static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.bandolier.append( wpn )
@@ -694,7 +695,7 @@ static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 		print("B2_Gun: Bandolier full, dropping the oldest gun. ")
 
 ## Add generate a gun and add it to bandolier.
-static func add_gun_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
+static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
 	append_gun_to_gunbag( generate_gun(type, material,  wpn_name, add_affixes) )
 	
 static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
@@ -726,6 +727,11 @@ static func get_bandolier() -> Array[B2_Weapon]:
 static func get_gunbag() -> Array[B2_Weapon]:
 	return B2_Playerdata.gun_bag
 	
+static func toggle_gunbag() -> void:
+	if get_gunbag().size() > 0:
+		B2_Playerdata.gunbag_open = not B2_Playerdata.gunbag_open
+		B2_Playerdata.gun_changed.emit()
+	
 static func next_band_gun() -> void:
 	B2_Playerdata.selected_gun += 1
 	# push_warning("DEBUG disabled")
@@ -739,16 +745,23 @@ static func select_band_gun( id : int ) -> void:
 		push_error("Tried to select a weapon that does not exist.")
 	B2_Playerdata.selected_gun = id
 	
+static func has_gun_in_gunbag() -> bool:
+	return not B2_Playerdata.gun_bag.is_empty()
+	
+static func has_gun_in_bandolier() -> bool:
+	return not B2_Playerdata.bandolier.is_empty()
+	
 static func get_current_gun() -> B2_Weapon:
-	if B2_Playerdata.bandolier.is_empty():
-		#push_warning("Bandolier is empty.")
-		return null
-	else:
-		if B2_Playerdata.bandolier.size() <= B2_Playerdata.selected_gun:
-			push_error("Array overflow")
-			return null
+	if B2_Playerdata.gunbag_open:
+		if has_gun_in_gunbag():
+			return B2_Playerdata.gun_bag[ max(B2_Playerdata.selected_gun, 0) ] ## FIXME
 		else:
-			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ]
+			return null
+	else:
+		if has_gun_in_bandolier():
+			return B2_Playerdata.bandolier[ max(B2_Playerdata.selected_gun, 0) ] ## FIXME
+		else:
+			return null
 #endregion
 
 #region Position the gun on the players hand

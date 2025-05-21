@@ -84,9 +84,16 @@ var game_timer : Timer # forgot what this does. is this the quest timer?
 var player_stats := B2_HoopzStats.new() ## Fuck the original stat system, its too confusing.
 ## CRITICAL need to add this to the save game file ( Serialized by var_to_bytes() )
 
-## Guns and goblins (no goblins :(( )
+## Guns and goblins ( no goblins :(( )
+var is_holding_gun := false
+var gunbag_open := false
 var selected_gun := 0 :
-	set(s): selected_gun = wrapi( s, 0, bandolier.size() ); gun_changed.emit()
+	set(s):
+		if gunbag_open: 
+			selected_gun = wrapi( s, 0, gun_bag.size() ); gun_changed.emit()
+		else:
+			selected_gun = wrapi( s, 0, bandolier.size() ); gun_changed.emit()
+			
 var bandolier 	: Array[B2_Weapon] ## Main weapons
 var gun_bag 	: Array[B2_Weapon] ## Trash weapons
 

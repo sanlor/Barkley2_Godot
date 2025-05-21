@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=112 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://c2vn88jjvm2yf" path="res://barkley2/assets/b2_original/images/merged/s_hud_gun.png" id="12_jm28t"]
 [ext_resource type="Texture2D" uid="uid://gkskr32ytvd0" path="res://barkley2/assets/b2_original/guns/FrankieGuns3.png" id="13_0aq1r"]
 [ext_resource type="Texture2D" uid="uid://dccb11avn61bl" path="res://barkley2/assets/b2_original/images/merged/s_hud_ammo.png" id="14_6r4ye"]
+[ext_resource type="Texture2D" uid="uid://tj8hvhj5l725" path="res://barkley2/assets/b2_original/images/merged/s_hud_gunsbag01.png" id="14_cbb32"]
 [ext_resource type="FontFile" uid="uid://dbse3uht7p7mq" path="res://barkley2/resources/fonts/fn_hud.tres" id="15_7wr2q"]
 [ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="16_cf11f"]
 [ext_resource type="Texture2D" uid="uid://dn52taeasipba" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale.png" id="17_84qe1"]
@@ -661,11 +662,19 @@ color = Color(0.0745098, 0.0745098, 0.0980392, 1)
 script = ExtResource("11_r2gnk")
 
 [node name="hud_gun_frame" type="TextureRect" parent="hud_bar/hud_gun"]
+z_index = 1
 layout_mode = 0
 offset_right = 53.0
 offset_bottom = 28.0
 mouse_filter = 2
 texture = ExtResource("12_jm28t")
+
+[node name="hud_gun_bag" type="TextureRect" parent="hud_bar/hud_gun"]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 52.0
+offset_bottom = 28.0
+texture = ExtResource("14_cbb32")
 
 [node name="hud_gun_sprite" type="TextureRect" parent="hud_bar/hud_gun"]
 modulate = Color(1, 1, 1, 0.5)
@@ -1300,6 +1309,7 @@ script = ExtResource("29_exq50")
 layout_mode = 2
 
 [node name="gun_1" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+self_modulate = Color(1, 1, 1, 0.85)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1312,6 +1322,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_h7ri8")
@@ -1324,7 +1335,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -9.0
+offset_top = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "75%"
@@ -1332,6 +1343,7 @@ label_settings = SubResource("LabelSettings_cbb32")
 horizontal_alignment = 2
 
 [node name="gun_2" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+self_modulate = Color(1, 1, 1, 0.85)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1344,6 +1356,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_h7ri8")
@@ -1356,7 +1369,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -9.0
+offset_top = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "75%"
@@ -1364,6 +1377,7 @@ label_settings = SubResource("LabelSettings_cbb32")
 horizontal_alignment = 2
 
 [node name="gun_3" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+self_modulate = Color(1, 1, 1, 0.85)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1376,6 +1390,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_h7ri8")
@@ -1388,7 +1403,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -9.0
+offset_top = -8.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "75%"
