@@ -17,9 +17,18 @@ var border_v_tile_size := Vector2(8,10)
 
 var border_size : Vector2 = Vector2(50,50)
 
-@export var disable_sides := false
-@export var disable_bottom := false
-@export var disable_corner := false
+@export var disable_top_left_corner 		:= false
+@export var disable_top_right_corner 		:= false
+@export var disable_bottom_left_corner 		:= false
+@export var disable_bottom_right_corner 	:= false
+@export var disable_left_side 				:= false
+@export var disable_right_side 				:= false
+@export var disable_bottom_side 			:= false
+@export var disable_upper_side 				:= false
+
+#@export var disable_sides := false
+#@export var disable_bottom := false
+#@export var disable_corner := false
 
 @onready var parent = get_parent()
 
@@ -35,6 +44,7 @@ func _ready():
 	## https://www.reddit.com/r/godot/comments/15lpudk/can_you_configure_draw_to_still_draw_outside_the/
 	custom_minimum_size = Vector2(3000,3000)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	use_parent_material = true
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
@@ -59,10 +69,12 @@ func _draw():
 	# I tried to add my own modification and improvements to the code, but it didnt work well, so I just copy/pasted code and it worked.
 	
 	#randomize()
-	if not disable_sides:
+	var start_pos := 24
+	
+	if not disable_left_side:
 		## Horizontal
-		var avaiable_left_v_space 		:= border_size.y - 48	# (corner_sprite_size.y * 2)	## h = wid - 48;
-		var left_start_pos				:= 24	#corner_sprite_size.y							## xxx = 24;
+		var avaiable_left_v_space 		:= border_size.y - start_pos * 2	# (corner_sprite_size.y * 2)	## h = wid - 48;
+		var left_start_pos				:= start_pos	#corner_sprite_size.y							## xxx = 24;
 		var left_piece_height 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
 		
 		while avaiable_left_v_space > 0: ######################### LEFT
@@ -84,8 +96,9 @@ func _draw():
 					avaiable_left_v_space 	-= height
 					left_start_pos 			+= height
 					
-		var avaiable_right_v_space 		:= border_size.y - 48 # (corner_sprite_size.y * 2)	## h = wid - 48;
-		var right_start_pos				:= 24 # corner_sprite_size.y							## xxx = 24;
+	if not disable_right_side:
+		var avaiable_right_v_space 		:= border_size.y - start_pos * 2 # (corner_sprite_size.y * 2)	## h = wid - 48;
+		var right_start_pos				:= start_pos # corner_sprite_size.y							## xxx = 24;
 		var right_piece_height 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
 		
 		while avaiable_right_v_space > 0: ######################### RIGHT
@@ -107,10 +120,10 @@ func _draw():
 					avaiable_right_v_space 		-= height
 					right_start_pos 			+= height
 	
-	if not disable_bottom:
+	if not disable_upper_side:
 		## Vertical
-		var avaiable_top_v_space 		:= border_size.x - 48 # (corner_sprite_size.x * 2)	## h = wid - 48;
-		var top_start_pos				:= 24 # corner_sprite_size.x						## xxx = 24;
+		var avaiable_top_v_space 		:= border_size.x - start_pos * 2 # (corner_sprite_size.x * 2)	## h = wid - 48;
+		var top_start_pos				:= start_pos # corner_sprite_size.x						## xxx = 24;
 		var top_piece_width 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
 		
 		while avaiable_top_v_space > 0: ######################### TOP
@@ -131,9 +144,10 @@ func _draw():
 					
 					avaiable_top_v_space 	-= width
 					top_start_pos 			+= width
-		
-		var avaiable_bottom_v_space 			:= border_size.x - 48 # (corner_sprite_size.x * 2) 	## h = wid - 48;
-		var bottom_start_pos					:= 24 # corner_sprite_size.x						## xxx = 24;
+	
+	if not disable_bottom_side:
+		var avaiable_bottom_v_space 			:= border_size.x - start_pos * 2 # (corner_sprite_size.x * 2) 	## h = wid - 48;
+		var bottom_start_pos					:= start_pos # corner_sprite_size.x						## xxx = 24;
 		var bottom_piece_width	: Array[int] = [8, 16,16,16,16, 24,24,24,24, 32,32,32,32, 48]
 		
 		while avaiable_bottom_v_space > 0: ######################### BOTTOM
@@ -154,20 +168,25 @@ func _draw():
 					
 					avaiable_bottom_v_space 	-= width
 					bottom_start_pos 			+= width
-			
-	if not disable_corner:
-		## Corners
+	
+	## Corners
+	var transp := 1.0#0.25
+	if not disable_top_left_corner:
 		var corner_top_left : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
 		corner_top_left.region.position 		+= Vector2( rng.randi_range(0,3), 0 ) * corner_sprite_size
+		draw_texture( corner_top_left, 		Vector2.ZERO, 												Color(Color.WHITE, transp))
+		
+	if not disable_top_right_corner:
 		var corner_top_right : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
 		corner_top_right.region.position 		+= Vector2( rng.randi_range(0,3) + 12, 0 ) * corner_sprite_size
+		draw_texture( corner_top_right, 	Vector2(border_size.x - corner_sprite_size.x, 0) , 			Color(Color.WHITE, transp))
+		
+	if not disable_bottom_left_corner:
 		var corner_bottom_left : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
 		corner_bottom_left.region.position 		+= Vector2( rng.randi_range(0,3) + 4, 0 ) * corner_sprite_size
+		draw_texture( corner_bottom_left, 	Vector2(0, border_size.y - corner_sprite_size.y), 			Color(Color.WHITE, transp))
+		
+	if not disable_bottom_right_corner:
 		var corner_bottom_right : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
 		corner_bottom_right.region.position 	+= Vector2( rng.randi_range(0,3) + 8, 0 ) * corner_sprite_size
-		
-		var transp := 1.0#0.25
-		draw_texture( corner_top_left, 		Vector2.ZERO, 												Color(Color.WHITE, transp))
-		draw_texture( corner_top_right, 	Vector2(border_size.x - corner_sprite_size.x, 0) , 			Color(Color.WHITE, transp))
-		draw_texture( corner_bottom_left, 	Vector2(0, border_size.y - corner_sprite_size.y), 			Color(Color.WHITE, transp))
 		draw_texture( corner_bottom_right, 	border_size - corner_sprite_size, 							Color(Color.WHITE, transp))

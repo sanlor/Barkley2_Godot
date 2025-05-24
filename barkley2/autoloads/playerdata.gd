@@ -527,12 +527,14 @@ func preload_skip_tutorial_save_data(): # user skip the CC and tutorial
 	B2_Playerdata.Quest("elevatorFloor", 		665);
 	B2_Playerdata.Quest("elevatorFloorGoal", 	665);
 	
-	#scr_gun_db("wilmerGun"); 													TODO
-	#scr_gun_db("estherGun"); 													TODO
+	B2_Gun.get_gun_from_db("wilmerGun", "WILM") #scr_gun_db("wilmerGun"); 							TODO
+	B2_Gun.get_gun_from_db("estherGun", "ESTR") #scr_gun_db("estherGun"); 							TODO
+	
 	B2_Note.take_note( "Wilmer's Amortization Schedule" )
 	B2_Database.money_change( B2_Database.money.get("wilmerMortgageTotal", 69420) )
-	#Candy("recipe add", "Butterscotch"); 										TODO
-	#repeat (10) scr_items_add(scr_items_db_getCopyOfItem("Butterscotch")); 	TODO
+	B2_Candy.add_candy_recipe("Butterscotch") 	#Candy("recipe add", "Butterscotch"); 										TODO
+	B2_Candy.gain_candy("Butterscotch") 		#repeat (10) scr_items_add(scr_items_db_getCopyOfItem("Butterscotch")); 	TODO
+	
 	print_rich("[color=blue]Loaded tutorial skip data.[/color]")
 	
 	B2_Playerdata.Quest("saveDisabled", 0);

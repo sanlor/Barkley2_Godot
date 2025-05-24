@@ -674,7 +674,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 										await event_object.event_finished # Dont forget to emit the signal after every event user.
 									else:
 										push_error("Whops! you forgoto to add the signal to the node, dumbass.")
-									
 					else:
 						push_warning("EVENT at line " + str(curr_line) + ": " + parsed_line[1] + " not found.")
 					
@@ -995,9 +994,15 @@ func parse_if( line : String ) -> bool:
 		cond_value = float( condidion_line[ 2 ] )
 		print_rich("[b]Cinema Debug[/b] - IF 'clock' %s - %s." % [quest_var, cond_value])
 	elif str_var == "jerkin":
-		push_warning("Jerking check requested, but not implemented. Bypassing.")
+		quest_var = B2_Jerkin.get_current_jerkin() as String
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+		#push_warning("Jerking check requested, but not implemented. Bypassing.")
+		print_rich("[b]Cinema Debug[/b] - IF 'jerkin' %s - %s." % [quest_var, cond_value])
 	elif str_var == "money":
-		push_warning("Money check requested, but not implemented. Bypassing.")
+		quest_var = B2_Playerdata.Quest("money") as int
+		cond_value = int( condidion_line[ 2 ].strip_edges() )
+		#push_warning("Money check requested, but not implemented. Bypassing.")
+		print_rich("[b]Cinema Debug[/b] - IF 'money' %s - %s." % [quest_var, cond_value])
 	elif str_var == "area":
 		quest_var = get_room_area() as String
 		cond_value = str( condidion_line[ 2 ] ).strip_edges()

@@ -1,0 +1,142 @@
+extends RefCounted
+class_name B2_Shop
+## Check oShop and Shop()
+
+const DB := {
+	## Shop types are jerkin, recipe, gun, vidcon (items)
+
+	## EGIDIUS
+	"Egidius' Jerkinry":
+		{
+			"define": ["jerkin", "sEgidiusFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"Bottlecap Jerkin":		1000,
+					"Eggcrate Jerkin":		50,
+					"Monofilament Jerkin":	750,
+					"Vestal Jerkin":		500,
+					"Lead Jerkin":			100,
+				},
+		},
+		
+	## MORTIMER
+	"Mortimer's Candy Shop":
+		{
+			"define": ["recipe", "sMortimerFace"] ,
+			"option": ["Buy"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"Chickenfry Dew":		50,
+					"Sweet Sweat":			20,
+					"Candy Corn":			30,
+					"Choco-mallows":		900,
+				},
+		},
+		
+	## MILAGROS
+	"Milagros' Palazzo":
+		{
+			"define": ["vidcon", "sMilagrosFace"] ,
+			"option": ["Buy"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"VIDCON_7":				90,
+					"VIDCON_8":				50,
+					"VIDCON_9":				75,
+					#"Garlics",				500,
+					#"Dwarf Skull",			100,
+					#"Magnetic Tape",		250,
+				},
+		},
+
+	## GUN'SALESMAN
+	"Redfield's Wares":
+		{
+			"define": ["gun", "sRedfieldFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				5,
+					"GUN_1":				5,
+					"GUN_2":				5,
+					"GUN_3":				5,
+					"GUN_4":				5,
+				},
+		},
+	
+	## GARFUNKLE
+	"Garfunkle's Deals":
+		{
+			"define": ["gun", "sGarfunkleFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				100,
+					"GUN_1":				200,
+					"GUN_2":				300,
+					"GUN_3":				400,
+					"GUN_4":				500,
+				},
+		},
+
+	## WARMASTAH CGREM
+	"War Warez":
+		{
+			"define": ["gun", "sGarfunkleFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				50,
+					"GUN_1":				50,
+					"GUN_2":				50,
+					"GUN_3":				50,
+					"GUN_4":				50,
+				},
+		},
+
+	## JOE THE HOOSEGOWER ##
+	"Joe's Brastwarez":
+		{
+			"define": ["gun", "sGarfunkleFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				5,
+					"GUN_1":				5,
+					"GUN_2":				5,
+					"GUN_3":				5,
+					"GUN_4":				5,
+				},
+		},
+
+	## SAMWISE BUBKIS, WESTELANDS SHOP ##
+	"Gun's de la Samwise":
+		{
+			"define": ["gun", "sGarfunkleFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				100,
+					"GUN_1":				200,
+					"GUN_2":				300,
+					"GUN_3":				400,
+					"GUN_4":				500,
+				},
+		},
+
+	## MEINHARDT, REBEL CAVE SHOP ##
+	"Meinhardt's Warez":
+		{
+			"define": ["gun", "sGarfunkleFace"] ,
+			"option": ["Buy", "Info"],
+			"stocks": 
+				{ 	#Item Name              Price
+					"GUN_0":				100,
+					"GUN_1":				200,
+					"GUN_2":				300,
+					"GUN_3":				400,
+					"GUN_4":				500,
+				},
+		},
+}

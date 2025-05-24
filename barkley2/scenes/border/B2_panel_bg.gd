@@ -12,9 +12,17 @@ const S_BORDER_BG_0 = preload("res://barkley2/assets/Border/sBorderBG_0.png")
 @onready var b_2_panel_fg : B2_Border_Foreground# $B2_panel_fg
 
 @export_category("DEBUG")
-@export var disable_corner := false
-@export var disable_sides := false
-@export var disable_bottom := false
+@export var disable_top_left_corner 		:= false
+@export var disable_top_right_corner 		:= false
+@export var disable_bottom_left_corner 		:= false
+@export var disable_bottom_right_corner 	:= false
+@export var disable_left_side 				:= false
+@export var disable_right_side 				:= false
+@export var disable_bottom_side 			:= false
+@export var disable_upper_side 				:= false
+#@export var disable_corner := false
+#@export var disable_sides := false
+#@export var disable_bottom := false
 @export var disable_bg := false
 
 var is_first_draw := true
@@ -41,6 +49,7 @@ var bg_opacity := 0.65
 
 func _init():
 	b_2_panel_fg = B2_Border_Foreground.new()
+	
 	add_child(b_2_panel_fg)
 
 func set_seed( _seed : String ):
@@ -52,7 +61,17 @@ func _ready():
 		theme = preload("res://barkley2/themes/dialogue.tres")
 	
 	# Material stuff
-	material = preload("res://barkley2/resources/Border/border_material.tres")
+	# material = preload("res://barkley2/resources/Border/border_material.tres")
+	
+	## FG panel setup
+	b_2_panel_fg.disable_top_left_corner 		= disable_top_left_corner
+	b_2_panel_fg.disable_top_right_corner 		= disable_top_right_corner
+	b_2_panel_fg.disable_bottom_left_corner 	= disable_bottom_left_corner
+	b_2_panel_fg.disable_bottom_right_corner 	= disable_bottom_right_corner
+	b_2_panel_fg.disable_left_side 				= disable_left_side
+	b_2_panel_fg.disable_right_side 			= disable_right_side
+	b_2_panel_fg.disable_bottom_side 			= disable_bottom_side
+	b_2_panel_fg.disable_upper_side 			= disable_upper_side
 	
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)

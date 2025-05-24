@@ -717,6 +717,7 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 		## after 10 tries it gives up on fitting the points, and points are lost.
 		if !tryit || tries <= 0: 	remain_points -= 1
 		else:						tries -= 1 
+		
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> void:
 	## scr_combat_weapons_applyGraphic
@@ -747,8 +748,95 @@ static func weapon_type( typ : TYPE ) -> B2_WeaponType:
 ## Code related to adding guns, taking guns and stuff like that.
 #region Gun management
 
-static func get_gun_from_db( gun_name : String ):
-	pass
+static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ):
+	## NOTE Once again, im porting old code jankiness.
+	match gun_db_name:
+		"wilmerGun": # You get this for free from Wilmer
+			gun_db_name = "wilmers gun"
+			gun_name = "WILM"
+		"estherGun": # You get this for free from Wilmer
+			gun_db_name = "esthers gun"
+			gun_name = "ESTR"    
+		"wilmerPax1": # PAX2015 - Get this from Wilmer also
+			gun_db_name = "generic pistol"
+			gun_name = "URGH"    
+		"wilmerPax2": # PAX2015 - Get this from Wilmer also
+			gun_db_name = "generic automatic"
+			gun_name = "ZOAL"
+		"cornrowGun": # Get this after completing the first task for Cornrow
+			gun_db_name = "bio shotgun"
+			gun_name = "CORN"
+		"juiceboxGun": # Get this after completing all of Cornrow's tasks
+			gun_db_name = "bio rifle"
+			gun_name = "JUCE"
+		"kaleviGun1": # Get for free after talking to Kalevi for first time
+			gun_db_name = "cyber pistol"
+			gun_name = "NANC"
+		"kaleviGun2": # Get from Kalevi after visiting rebel base and learning he supplies the rebels
+			gun_db_name = "cyber projectile"
+			gun_name = "BIGZ"
+		"bombHut": # Get from bomb hut (where joad is)
+			gun_db_name = "mental rifle"
+			gun_name = "DOUG"
+		"gunsalesmanGun1": # 1st gun of his bad batch
+			gun_db_name = "kosmic pistol"
+			gun_name = "FUND"
+		"gunsalesmanGun2": # 2nd gun of his bad batch
+			gun_db_name = "kosmic rifle"
+			gun_name =  "GIRF"
+		"gunsalesmanGun3": # 3rd gun of his bad batch
+			gun_db_name = "kosmic shotgun"
+			gun_name =  "SGUN"
+		"gunsalesmanGun4": # 1st gun of his good batch
+			gun_db_name = "zauber pistol"
+			gun_name =  "HELL"
+		"gunsalesmanGun5": # 2nd gun of his good batch
+			gun_db_name = "zauber rifle"
+			gun_name =  "NIFF"
+		"gunsalesmanGun6": # 3rd gun of his good batch
+			gun_db_name = "zauber shotgun"
+			gun_name =  "GOOP"
+		"gilbertGun": # Gun in a chest at Gilbert's Peek
+			gun_db_name = "zauber pistol"
+			gun_name =  "GILB"
+		_:
+			push_warning("Invalid gun being generated from DB.")
+			gun_db_name = "generic pistol"
+			gun_name =  "BOOB"
+			
+	# scr_gun_db
+	## GD  Ge Bi Cy Me Ko Za Au Mo Pi Pr Ri Sh
+	## [56, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
+	##  00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
+	var db_gun : Array = gun_db.get( gun_db_name, Array() )
+	var choices : Array[GROUP]
+	if db_gun:
+		if db_gun[7]:
+			choices.append( GROUP.AUTOMATIC )
+		if db_gun[8]:
+			choices.append( GROUP.MOUNTED )
+		if db_gun[9]:
+			choices.append( GROUP.PISTOLS )
+		if db_gun[10]:
+			choices.append( GROUP.PROJECTILE )
+		if db_gun[11]:
+			choices.append( GROUP.RIFLES )
+		if db_gun[12]:
+			choices.append( GROUP.SHOTGUNS )
+			
+		var my_gun : B2_Weapon = generate_gun( choices.pick_random(), MATERIAL.NONE, gun_name, true )
+		
+		my_gun.generic_damage 	= db_gun[1]
+		my_gun.bio_damage 		= db_gun[2]
+		my_gun.cyber_damage 	= db_gun[3]
+		my_gun.mental_damage 	= db_gun[4]
+		my_gun.cosmic_damage 	= db_gun[5]
+		my_gun.zauber_damage 	= db_gun[6]
+		
+		append_gun_to_bandolier( my_gun )
+		print( "Gun %s named %s generated." % [gun_db_name, gun_name] )
+	else:
+		print( "Invalid Gun %s named %s." % [gun_db_name, gun_name] )
 
 ## Add generate a gun and add it to bandolier.
 static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO

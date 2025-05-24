@@ -39,6 +39,7 @@ var weapon_hud_sprite 		: AtlasTexture
 ## SFX stuff
 var max_action_sfx_played 		:= false
 
+@export_category("Gun stats") ## TODO
 @export var att					:= 30.0
 @export var spd					:= 30.0
 @export var acc					:= 30.0 ## Lower is better
@@ -48,13 +49,22 @@ var max_action_sfx_played 		:= false
 @export var max_action			:= 100.0
 var curr_action					:= 100.0 #0.0
 
-var max_ammo					:= 30
+@export var max_ammo			:= 30
 var curr_ammo					:= 30
 
 @export var attack_cost			:= 90			## How many action point cost for reloading this weapon
 
-var weapon_lvl					:= 1			## gun[? "sLevel"] = 1;
-var weapon_xp					:= 0			## Unlocks new skill when you use this weapon for long enough
+@export_category("Attribute Modifiers") ## TODO
+@export var generic_damage					:= 1.0 ## Add Generic damage type to this attack
+@export var bio_damage						:= 1.0 ## Add Bio damage type to this attack
+@export var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
+@export var mental_damage					:= 1.0 ## Add Mental damage type to this attack
+@export var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
+@export var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
+
+@export_category("Gun level")
+@export var weapon_lvl					:= 1			## gun[? "sLevel"] = 1;
+@export var weapon_xp					:= 0			## Unlocks new skill when you use this weapon for long enough
 
 @export_category("Cinema settings") ## TODO
 @export var delay_before_action				:= 0.0		## Add a dramatic delay before the shot.

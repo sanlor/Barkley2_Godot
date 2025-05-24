@@ -1,0 +1,220 @@
+[gd_scene load_steps=15 format=3 uid="uid://d2hha6frqxoja"]
+
+[ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="1_n037p"]
+[ext_resource type="Script" uid="uid://dsk5qqh2yowtx" path="res://barkley2/scenes/Objects/System/_shop/shop_screen.gd" id="1_qjdko"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="2_qjdko"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="3_32y4x"]
+[ext_resource type="Texture2D" uid="uid://d30fw6npat6u2" path="res://barkley2/assets/b2_original/images/merged/sRedfieldFace.png" id="4_32y4x"]
+[ext_resource type="Script" uid="uid://21bcte5vesst" path="res://barkley2/scenes/border/B2_panel_bg_button.gd" id="4_gvrf7"]
+[ext_resource type="Texture2D" uid="uid://cph4fl4lnsekc" path="res://barkley2/assets/b2_original/images/merged/s_diag_frame.png" id="5_brss5"]
+[ext_resource type="Texture2D" uid="uid://c6qgpuri5x7hu" path="res://barkley2/assets/b2_original/images/merged/sHoopzFace.png" id="6_6qme6"]
+[ext_resource type="Texture2D" uid="uid://d0ssfyh7jxm0c" path="res://barkley2/assets/b2_original/images/merged/s_breakout_icon.png" id="8_6qme6"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="9_icx7d"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="10_yvjwj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e3eoe"]
+atlas = ExtResource("8_6qme6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hurr3"]
+font = ExtResource("9_icx7d")
+
+[sub_resource type="LabelSettings" id="LabelSettings_wloum"]
+
+[node name="shop_screen" type="CanvasLayer"]
+script = ExtResource("1_qjdko")
+
+[node name="bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="hoopz_face" type="TextureRect" parent="."]
+offset_left = 6.0
+offset_top = 55.0
+offset_right = 56.0
+offset_bottom = 126.0
+texture = ExtResource("5_brss5")
+
+[node name="face_text" type="TextureRect" parent="hoopz_face"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -25.5
+offset_right = 17.0
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_6qme6")
+
+[node name="shopowner_face" type="TextureRect" parent="."]
+offset_left = 66.0
+offset_top = 55.0
+offset_right = 116.0
+offset_bottom = 126.0
+texture = ExtResource("5_brss5")
+
+[node name="TextureRect" type="TextureRect" parent="shopowner_face"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 42.0
+offset_bottom = 60.0
+texture = ExtResource("4_32y4x")
+
+[node name="breakout" type="Control" parent="."]
+material = ExtResource("1_n037p")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 19.0
+offset_top = 128.0
+offset_right = 102.0
+offset_bottom = 168.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(83, 40)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="s_breakout_icon" type="TextureRect" parent="breakout"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 28.0
+offset_bottom = 28.0
+texture = SubResource("AtlasTexture_e3eoe")
+
+[node name="money_label" type="Label" parent="breakout"]
+custom_minimum_size = Vector2(39, 16)
+layout_mode = 0
+offset_left = 31.0
+offset_top = 13.0
+offset_right = 71.0
+offset_bottom = 29.0
+text = "9999"
+label_settings = SubResource("LabelSettings_hurr3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="shop_name" type="Control" parent="."]
+material = ExtResource("1_n037p")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 116.0
+offset_bottom = 54.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(110, 48)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="shop_name_label" type="Label" parent="shop_name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Egidius' Jerkinry"
+label_settings = SubResource("LabelSettings_wloum")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="slide_border" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 270.0
+offset_top = 7.0
+offset_right = 334.0
+offset_bottom = 71.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(64, 64)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="slide_border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="buy_btn" type="Button" parent="slide_border/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yvjwj")
+text = "Buy"
+
+[node name="info_btn" type="Button" parent="slide_border/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("10_yvjwj")
+text = "Info"
+
+[node name="shop_panel" type="Control" parent="."]
+material = ExtResource("1_n037p")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 120.0
+offset_top = 6.0
+offset_right = 280.0
+offset_bottom = 198.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(160, 192)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="face_1" type="Control" parent="."]
+material = ExtResource("1_n037p")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 301.0
+offset_top = 137.0
+offset_right = 352.0
+offset_bottom = 203.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(51, 66)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="face_2" type="Control" parent="."]
+material = ExtResource("1_n037p")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 301.0
+offset_top = 137.0
+offset_right = 352.0
+offset_bottom = 203.0
+theme = ExtResource("2_qjdko")
+script = ExtResource("3_32y4x")
+border_size = Vector2(51, 66)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="exit_btn" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -40.0
+offset_right = 54.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("4_gvrf7")
+border_size = Vector2(108, 50)
+metadata/_custom_type_script = "uid://21bcte5vesst"
