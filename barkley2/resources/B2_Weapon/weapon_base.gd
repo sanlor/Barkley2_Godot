@@ -16,10 +16,11 @@ enum EFFECT{ DAMAGE, RECOVERY }
 @export var weapon_material	:= B2_Gun.MATERIAL.BROKEN
 @export var weapon_group 	:= B2_Gun.GROUP.PISTOLS
 
-var weapon_name			:= ""
-var weapon_short_name	:= ""
-var weapon_pickup_name 	:= ""
-var weapon_pickup_color	:= Color.WHITE
+@export_category("Weapon ID")
+@export var weapon_name			:= ""
+@export var weapon_short_name	:= ""
+@export var weapon_pickup_name 	:= ""
+@export var weapon_pickup_color	:= Color.WHITE
 
 ## gun[? "gunmap_pos"] = -1; 	## TODO
 ## gun[? "numberval"] = 0; 		## TODO
@@ -55,6 +56,10 @@ var curr_ammo					:= 30
 var weapon_lvl					:= 1			## gun[? "sLevel"] = 1;
 var weapon_xp					:= 0			## Unlocks new skill when you use this weapon for long enough
 
+@export_category("Cinema settings") ## TODO
+@export var delay_before_action				:= 0.0		## Add a dramatic delay before the shot.
+@export var delay_after_action				:= 0.75		## Add a dramatic delay after the shot.
+
 ## Genetics
 var favorite					:= 1
 var son							: B2_Weapon
@@ -66,10 +71,11 @@ var generation					:= 1
 @export var skill_list		: Dictionary[B2_WeaponSkill, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
-var bullets_per_shot 	:= 5 	## how many bullets are spawn
-var ammo_per_shot		:= 5 	## how much ammo is used
-var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
-var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
+@export_category("Skill settings")
+@export var bullets_per_shot 	:= 5 	## how many bullets are spawn
+@export var ammo_per_shot		:= 5 	## how much ammo is used
+@export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
+@export var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
 
 var is_shooting		:= false
 var abort_shooting 	:= false
@@ -205,7 +211,9 @@ func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) ->
 	if get_flash_sprite():
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
-		flash.look_at( source_pos + dir )
+		flash.look_at( (source_pos + dir).rotated( randf_range( -PI/8, PI/8 ) ) )
+		flash.scale = Vector2.ONE * randf_range( 0.8, 1.2 )
+		flash.modulate.a *= randf_range( 0.8, 1.2 )
 		scene_to_place.add_child( flash, true )
 		flash.play( get_flash_sprite() )
 		
@@ -218,16 +226,15 @@ func create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
 		
 func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
 	is_shooting = true
-	if wait_per_shot == 0.0: ## shotgun behaviour.
-		use_ammo( 1 )
-		create_flash(scene_to_place, source_pos, dir)
-		create_casing(scene_to_place, casing_pos)
-		B2_Sound.play( get_soundID() )
-		
+	
+	if delay_before_action > 0.0:
+		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
+	
 	for i in bullets_per_shot:
 		if abort_shooting:
 			abort_shooting = false
 			break
+			
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
@@ -248,16 +255,20 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 			create_flash(scene_to_place, source_pos, b_dir)
 			create_casing(scene_to_place, casing_pos)
 			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
+		else:						## shotgun behaviour.
+			use_ammo( 1 )
+			B2_Sound.play( get_soundID() )
+			create_flash(scene_to_place, source_pos, b_dir)
+			create_casing(scene_to_place, casing_pos)
 	
 	#use_ammo( ammo_per_shot )
-	reset_action()
+	reset_action( curr_action - attack_cost )
+	if not abort_shooting: ## Only delay if it was not aborted
+		await scene_to_place.get_tree().create_timer( delay_after_action ).timeout ## Small delay after shooting.
 	abort_shooting = false
 	is_shooting = false
-	await scene_to_place.get_tree().create_timer( 0.35 ).timeout
-	finished_combat_action.emit()
 	
-func use_skill_attack( _skill_id : int ) -> void:
-	pass
+	finished_combat_action.emit()
 	
 #endregion
 

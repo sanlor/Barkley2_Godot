@@ -41,7 +41,6 @@ func set_force( force : float ) -> void:
 	p = 100.0 * clampf( force, 0.0, 1.0 )
 	p = clampf( p, 24.0, 100.0 )
 
-
 func _physics_process(delta: float) -> void:
 	if visible:
 		t += delta * 50.0
@@ -146,12 +145,14 @@ combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
 step_smoke = NodePath("step_smoke")
+roll_damp = 4.5
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("hoopz_collision")
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_yky03")]
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
+process_priority = -1
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_aubae")
 
@@ -160,10 +161,13 @@ position = Vector2(0, -1)
 amount = 30
 
 [node name="hoopz_roll_direction" type="Line2D" parent="."]
-modulate = Color(1, 1, 1, 0.514805)
+modulate = Color(1, 1, 1, 0.987354)
 points = PackedVector2Array(12, 0, 24, 0)
 width_curve = SubResource("Curve_qfgrm")
 gradient = SubResource("Gradient_wsajw")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
 script = SubResource("GDScript_qkpq4")
 
 [node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]

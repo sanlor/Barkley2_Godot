@@ -55,12 +55,6 @@ func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, 
 	
 	if delay_before_action > 0.0:
 		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
-	
-	if wait_per_shot == 0.0: ## shotgun behaviour.
-		weapon.use_ammo( 1 )
-		weapon.create_flash(scene_to_place, source_pos, dir)
-		weapon.create_casing(scene_to_place, casing_pos)
-		B2_Sound.play( weapon.get_soundID() )
 		
 	for i in min( bullets_per_shot, weapon.max_ammo ): ## Avoid infinite shooting. https://youtu.be/i7ZGlL8ms_M
 		## User was hit, abort shooting.
@@ -92,14 +86,21 @@ func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, 
 			weapon.create_flash( scene_to_place, source_pos, b_dir )
 			weapon.create_casing( scene_to_place, casing_pos )
 			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
+		else:						## shotgun behaviour.
+			weapon.use_ammo( 1 )
+			B2_Sound.play( weapon.get_soundID() )
+			weapon.create_flash(scene_to_place, source_pos, b_dir)
+			weapon.create_casing(scene_to_place, casing_pos)
 		
 		## Stop firing if you have no ammo.
 		if not weapon.has_ammo():
 			break
 	
-	weapon.reset_action( -skill_action_cost )
+	weapon.reset_action( weapon.curr_action - skill_action_cost )
+	if not weapon.abort_shooting:
+		await scene_to_place.get_tree().create_timer( delay_after_action ).timeout
 	weapon.abort_shooting = false
 	weapon.is_shooting = false
-	await scene_to_place.get_tree().create_timer( delay_after_action ).timeout
+	
 	weapon.finished_combat_action.emit()
 	action_finished.emit()

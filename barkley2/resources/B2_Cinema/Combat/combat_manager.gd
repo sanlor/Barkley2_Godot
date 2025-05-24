@@ -68,16 +68,19 @@ func start_battle():
 	B2_CManager.o_hud.get_combat_module().register_player( player_character )
 	B2_CManager.o_hud.get_combat_module().register_enemies( enemy_list )
 
-func pause_combat() -> void: ## Stop combat tick during target selection, etc.
+## Stop combat tick during target selection, etc.
+func pause_combat() -> void: 
 	combat_time_stoped.emit()
 	B2_Input.can_switch_guns = false
 	combat_paused = true
 
+## resume combat tick, allow combat actions again.
 func resume_combat() -> void:
 	combat_time_restarted.emit()
 	B2_Input.can_switch_guns = true
 	combat_paused = false
 
+## Player escaped the encounter
 func escape_combat() -> void:
 	action_queue.clear()
 	for i in enemy_list:
@@ -86,6 +89,7 @@ func escape_combat() -> void:
 	enemy_list.clear()
 	escaped_combat = true
 
+## Combat ended somehow.
 func finish_combat() -> void:
 	if combat_won:
 		push_warning("Called 'finish_combat()' twice, mistakenly. You need to check why.")
@@ -146,7 +150,7 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 	# if enemy_list.is_empty():
 		# finish_combat()
 	
-	## Cleanup the defeated enemy action (avoid dead enemies shooting bullets).
+	## Cleanup the defeated enemy action ( avoid dead enemies performing actions ).
 	var stale_action : queue
 	for x : queue in action_queue:
 		if x.source_actor == enemy_node:
@@ -166,13 +170,14 @@ func player_defeated() -> void:
 		#t.set_parallel( true )
 		t.tween_callback( c.set.bind("manual_target", p) )
 		t.tween_callback( c.set.bind("manual_control", true) )
-		t.tween_interval( 1.25 ) ## weird delay 2: electric boogaloo
+		t.tween_interval( 2.25 ) ## weird delay 2: electric boogaloo
 		await t.finished
 	else:
 		### ???? camera not loaded.
 		breakpoint
 	B2_Screen.show_defeat_screen()
 	B2_CManager.o_hud.hide_hud()
+	pause_combat()
 
 func tick_combat() -> void:
 	if not combat_paused:

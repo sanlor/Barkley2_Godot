@@ -87,12 +87,16 @@ var player_stats := B2_HoopzStats.new() ## Fuck the original stat system, its to
 ## Guns and goblins ( no goblins :(( )
 var is_holding_gun := false
 var gunbag_open := false
+var previous_gun := 0
 var selected_gun := 0 :
 	set(s):
 		if gunbag_open: 
-			selected_gun = wrapi( s, 0, gun_bag.size() ); gun_changed.emit()
+			selected_gun = wrapi( s, 0, gun_bag.size() )
 		else:
-			selected_gun = wrapi( s, 0, bandolier.size() ); gun_changed.emit()
+			selected_gun = wrapi( s, 0, bandolier.size() )
+		if selected_gun != previous_gun:
+			previous_gun = selected_gun
+			gun_changed.emit()
 			
 var bandolier 	: Array[B2_Weapon] ## Main weapons
 var gun_bag 	: Array[B2_Weapon] ## Trash weapons
@@ -126,7 +130,7 @@ func _ready():
 	
 	## Quest flags overrides
 	
-	B2_Playerdata.preload_CC_save_data()
+	#B2_Playerdata.preload_CC_save_data()
 	#B2_Playerdata.preload_tutorial_save_data()
 	#B2_Playerdata.preload_skip_tutorial_save_data()
 	
@@ -136,11 +140,10 @@ func _ready():
 	#B2_Playerdata.Quest("dropEnabled", 		0);
 	#B2_Playerdata.Quest("infiniteAmmo", 		1);
 	
-	B2_Candy.gain_candy( "Butterscotch" )
-	B2_Candy.gain_candy( "Chickenfry Dew" )
-	B2_Candy.gain_candy( "Butterscotch" )
-	B2_Playerdata.Quest("tutorialProgress", 8)
-	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.MATERIAL.STEEL, "", false )
+	#B2_Candy.gain_candy( "Butterscotch" )
+	#B2_Candy.gain_candy( "Chickenfry Dew" )
+	#B2_Candy.gain_candy( "Butterscotch" )
+	#B2_Playerdata.Quest("tutorialProgress", 8)
 	
 	#B2_Playerdata.player_stats.decrease_hp( 46 )
 	

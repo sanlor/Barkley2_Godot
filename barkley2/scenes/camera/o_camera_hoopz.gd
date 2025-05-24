@@ -272,7 +272,8 @@ func _update_debug_data():
 func _physics_process(delta: float) -> void:
 	if manual_control:
 		global_position 	= global_position.lerp( manual_target.global_position, 0.1 )
-		offset 				= offset.lerp( Vector2.ZERO, 0.1 )
+		#offset 				= offset.lerp( Vector2.ZERO, 0.1 )
+		offset 				= offset.lerp( camera_normal_offset, 0.1 )
 		zoom 				= zoom.lerp( Vector2.ONE, 0.1)
 		return
 		
@@ -288,6 +289,8 @@ func _physics_process(delta: float) -> void:
 			var arr_size := actor_array.size()
 			var avg_pos := Vector2.ZERO
 			for node : Node2D in actor_array:
+				if node == null: ## Avoid issoes with fast changing actors.
+					continue
 				avg_pos += node.position
 			avg_pos /= arr_size
 			

@@ -1,6 +1,8 @@
 extends B2_ROOMS
 
-
+## Music mus_vrw
+## Zone Virtual Reality
+## Flavor It all seems so real...
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP

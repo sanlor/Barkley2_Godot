@@ -110,10 +110,11 @@ var combat_last_input 		:= Vector2.ZERO
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 #var velocity			:= Vector2.ZERO
 
-var walk_speed			:= 500000 # 5000000
-var roll_impulse		:= 50000
-var walk_damp			:= 10.0
-var roll_damp			:= 3.5
+@export_category("Movement Physics")
+@export var walk_speed			:= 500000 # 5000000
+@export var roll_impulse		:= 50000
+@export var walk_damp			:= 10.0
+@export var roll_damp			:= 3.5
 
 ## Sound
 var min_move_dist 	:= 1.0
@@ -659,6 +660,10 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	if B2_Playerdata.player_stats.curr_health == 0:
 		print("H O O P Z I S D E A D .")
 		linear_velocity = Vector2.ZERO
+		for i in randi_range(10,30):
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
+			for d in randi_range(0,5):
+				await get_tree().process_frame
 		defeat_anim()
 		
 		if is_instance_valid( B2_CManager.combat_manager ):
@@ -670,12 +675,23 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		if B2_Gun.get_current_gun().is_shooting: ## Stop shooting if hit.
 			B2_Gun.get_current_gun().abort_shooting = true
 			
+		## Make some blood splatter
+		@warning_ignore("integer_division")
+		var n : int = max( 1, randi_range( 1, damage / 15 ) )
+		for i in n:
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
+			
 		B2_CManager.hoopz_got_hit.emit() ## Allow for action cancel.
 		B2_Playerdata.player_stats.block_action_increase = false
 		
 func victory_anim() -> void:
+	if curr_STATE == STATE.ROLL:
+		stop_rolling()
+	if curr_STATE == STATE.AIM:
+		stop_aiming()
 	curr_STATE = STATE.VICTORY
 	_change_sprites()
+	hoopz_normal_body.stop()
 	hoopz_normal_body.flip_h = false
 	## TODO Add checks for different victory animations
 	if B2_Playerdata.player_stats.curr_health < B2_Playerdata.player_stats.max_health / 10.0: ## if health is at 10%, play a different animation.
@@ -688,6 +704,10 @@ func victory_anim() -> void:
 func defeat_anim() -> void:
 	## TODO Defeat doesnt exits yet.
 	## NOTE 26/04/25 it does now.
+	if curr_STATE == STATE.ROLL:
+		stop_rolling()
+	if curr_STATE == STATE.AIM:
+		stop_aiming()
 	curr_STATE = STATE.DEFEAT
 	_change_sprites()
 	hoopz_normal_body.flip_h = false
@@ -746,6 +766,11 @@ func stop_rolling() -> void:
 	curr_STATE 	= STATE.NORMAL
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("DEBUG_DAMAGE"):
+		damage_actor(0, Vector2.ZERO)
+	if Input.is_action_just_pressed("DEBUG_DEATH"):
+		damage_actor(9999, Vector2.ZERO)
+		
 	if not hit_timer.is_stopped(): ## Stop all animations during stun time.
 		return
 		

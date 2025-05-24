@@ -23,7 +23,7 @@ absorbent = true
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4umcs"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke")]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "ActorCol")]
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
 gravity_scale = 0.0
@@ -41,10 +41,12 @@ combat_weapon = NodePath("combat_weapon")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
+roll_damp = 5.5
 ROLL = "diaper_gooroll"
 ROLL_BACK = "diaper_gooroll"
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+ActorCol = NodePath("hoopz_collision")
 
 [node name="o_Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.25)
@@ -127,6 +129,5 @@ current = true
 visible = false
 texture = SubResource("PlaceholderTexture2D_4umcs")
 
-[connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]
-[connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_upper_body_frame_changed"]
+[connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

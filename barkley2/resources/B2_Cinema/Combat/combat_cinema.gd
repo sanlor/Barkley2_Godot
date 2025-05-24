@@ -96,10 +96,11 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 	camera.set_camera_bound( false )
 	
 	# Chill out. Avoid loading invalid nodes.
-	# await get_tree().process_frame # <-- No.
+	await get_tree().process_frame # <-- No.
 	
 	# Load a version of Hoopz that is ready to do battle. (Avoid useless functions on the o_hoopz object)
 	_load_combat_hoopz_actor()
+	#await get_tree().process_frame
 	
 	B2_Input.player_follow_mouse.emit( false )
 	B2_Input.camera_follow_mouse.emit( false )
@@ -157,7 +158,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 						end_battle_music = parsed_line[1].strip_edges()
 					else:
 						## Keep playing current music
-						battle_music = ""
+						end_battle_music = ""
 					print("B2_Combat_CinemaPlayer: end_battle_music set to '%s'." % end_battle_music)
 				"EXIT":
 					#if not keep_current_music:
@@ -168,7 +169,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 						## Play stock or custom combat music
 						B2_Music.play_combat( 0.5, battle_music )
 					else:
-						## Keep playing current music, but keep trak of it.
+						## Keep playing current music, but keep track of it.
 						B2_Music.store_curr_music()
 					start_combat( enemies )
 					var result = await combat_manager.combat_ended
@@ -374,6 +375,8 @@ func end_combat():
 		B2_CManager.o_hud.queue_free()
 	
 	B2_CManager.event_ended.emit() # Peace out.
+	battle_music 		= ""
+	end_battle_music 	= ""
 	
 	queue_free()
 			
@@ -452,7 +455,8 @@ func _load_combat_hoopz_actor():
 		B2_CManager.o_cbt_hoopz.position.x 	= B2_RoomXY.this_room_x
 		B2_CManager.o_cbt_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
-	get_tree().current_scene.call_deferred( "add_child", B2_CManager.o_cbt_hoopz, true )
+	get_tree().current_scene.add_child( B2_CManager.o_cbt_hoopz, true )
+	#get_tree().current_scene.call_deferred("add_child", B2_CManager.o_cbt_hoopz, true )
 	
 func _load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	var hoopz_lookup := get_tree().current_scene.get_children()

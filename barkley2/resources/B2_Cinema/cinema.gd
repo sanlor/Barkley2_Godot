@@ -128,6 +128,8 @@ func load_hoopz_actor():
 		B2_CManager.o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
 	get_tree().current_scene.add_child( B2_CManager.o_cts_hoopz, true )
+	#get_tree().current_scene.call_deferred("add_child", B2_CManager.o_cts_hoopz, true )
+	
 	
 	# make the actor face the event_object
 	var _dir := B2_CManager.o_cts_hoopz.position.direction_to( event_caller.position ).round() as Vector2
@@ -230,7 +232,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	camera.set_camera_bound( false )
 	
 	# Chill out. Avoid loading invalid nodes.
-	#await get_tree().process_frame # ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
+	await get_tree().process_frame # ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
 	
 	load_hoopz_actor()
 	
@@ -511,6 +513,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					cinema_kid( actor ) ## Used to wait for animations to finish
 					
 				"SET":
+					await get_tree().process_frame ## Wait to avoid issues with adding hoops to the tree with "call_defered"
 					var actor 		= get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					var anim_name 	:= str( parsed_line[ 2 ] )

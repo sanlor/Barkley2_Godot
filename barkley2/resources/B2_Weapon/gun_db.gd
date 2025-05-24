@@ -130,6 +130,70 @@ const gun_names := {
 	TYPE.GUN_TYPE_TRANQRIFLE:			"Tranquilizer",
 }
 
+const gun_db := {
+	##             			GD  Ge Bi Cy Me Ko Za Au Mo Pi Pr Ri Sh
+	"generic automatic": 	[56, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+	"generic mounted": 		[56, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+	"generic pistol": 		[56, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	"generic projectile": 	[56, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+	"generic rifle": 		[56, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	"generic shotgun": 		[56, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+
+	## Quest guns
+	"wilmers gun": 			[56, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0],
+	"esthers gun": 			[56, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+	"bio shotgun": 			[56, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+	"bio rifle": 			[56, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+	"cyber pistol": 		[56, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	"cyber projectile": 	[56, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+	"mental rifle": 		[56, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
+
+	## Gun sales
+	"kosmic pistol": 		[56, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+	"kosmic rifle": 		[56, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+	"kosmic shotgun": 		[56, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+	"kosmic projectile": 	[56, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+	"kosmic mounted": 		[56, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0],
+
+	"zauber pistol": 		[64, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+	"zauber rifle": 		[64, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	"zauber shotgun": 		[64, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+	"zauber projectile": 	[64, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+	"zauber mounted": 		[64, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+
+	## Turald      			GD  Ge Bi Cy Me Ko Za Au Mo Pi Pr Ri Sh
+	"turald free": 			[56, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+	"turald weak": 			[59, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+	"turald good":			[64, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+	"turald best": 			[69, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+	## TEST - for cgrem
+	"fixed test": 			[56, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+
+	## Destructs   			GD  Ge Bi Cy Me Ko Za Au Mo Pi Pr Ri Sh "name"
+	"ds_gau_regular": 		[70, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], ## Gauntlet - Random Catchall
+	"ds_sw1_regular": 		[59, 1, 1, 0, 0, 0, 0, 1, 1, 2, 1, 1, 1], ## Sewers 1 - Bio + Pistol
+	"ds_sw2_regular": 		[68, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1], ## Sewers 2 - Bio - Rifle
+	"ds_est_regular": 		[83, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 2, 1], ## Easteland - Cyber + Rifle
+	"ds_est_cyber": 		[83, 0, 0, 3, 0, 0, 0, 2, 0, 1, 0, 1, 0], ## Easteland - Cyber + Automatic
+	"ds_pea_regular": 		[92, 1, 1, 0, 0, 3, 0, 1, 1, 1, 3, 2, 1], ## Mountain Pass - Kosmic + Projectile
+	"ds_min_regular": 		[92, 1, 1, 0, 3, 1, 3, 1, 1, 2, 1, 1, 3], ## Mines - Mental + Shotgun
+	"ds_swp_regular": 		[101, 1, 1, 0, 0, 0, 3, 1, 1, 1, 1, 1, 2], ## Swamp - Zauber + Shotgun
+	"ds_fct_regular": 		[106, 1, 1, 1, 1, 2, 2, 1, 3, 1, 1, 1, 2], ## Factory - Zauber + Mounted
+	"ds_usw_regular": 		[113, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], ## Undersewers - RANDOM
+	"ds_air_regular": 		[129, 1, 1, 3, 0, 2, 1, 1, 1, 2, 1, 1, 1], ## AI Ruins - Cyber + Pistol
+	"ds_wst_regular": 		[137, 0, 1, 0, 0, 0, 1, 0, 1, 1, 2, 1, 1], ## Westeland - Cyber + Rifle
+	#"ds_est_cyber": 		[137, 0, 0, 3, 0, 0, 0, 2, 0, 1, 0, 1, 0], ## Westeland - Cyber + Automatic NOTE a duplicate?
+	"ds_ice_regular": 		[143, 1, 1, 0, 3, 0, 0, 1, 3, 1, 1, 1, 1], ## Iceland - Mental + Mounted
+	"ds_dth_regular": 		[149, 1, 1, 0, 0, 1, 3, 1, 1, 1, 5, 1, 1], ## Death Tower - Zauber + Projectile
+	"ds_chu_regular": 		[155, 1, 1, 1, 1, 3, 2, 3, 1, 2, 1, 1, 1], ## Cuchu's Lair - Kosmic + Automatic
+	"ds_swp_corpse": 		[180, 1, 1, 1, 1, 3, 2, 3, 1, 2, 1, 1, 1], ## Corpse Blossom
+	"ds_gau_maxxx": 		[200, 1, 1, 1, 1, 3, 2, 3, 1, 2, 1, 1, 1], ## Full Max Build
+
+	## Gun in the Stone ## Redfield's Memorial
+	"gun stone": 			[69, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+}
+
 ## List of affixes. Add modifiers to guns
 const prefix1 := [
 	{ "description": "Shots fire into random directions. N00bs only.", "gene1": "minus", "gene2": "random", "name": "NoScope360" },
@@ -683,6 +747,9 @@ static func weapon_type( typ : TYPE ) -> B2_WeaponType:
 ## Code related to adding guns, taking guns and stuff like that.
 #region Gun management
 
+static func get_gun_from_db( gun_name : String ):
+	pass
+
 ## Add generate a gun and add it to bandolier.
 static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
 	## Gun names are only 4 letter words.
@@ -730,6 +797,7 @@ static func get_gunbag() -> Array[B2_Weapon]:
 static func toggle_gunbag() -> void:
 	if get_gunbag().size() > 0:
 		B2_Playerdata.gunbag_open = not B2_Playerdata.gunbag_open
+		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 		B2_Playerdata.gun_changed.emit()
 	
 static func next_band_gun() -> void:
@@ -754,12 +822,12 @@ static func has_gun_in_bandolier() -> bool:
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.gunbag_open:
 		if has_gun_in_gunbag():
-			return B2_Playerdata.gun_bag[ max(B2_Playerdata.selected_gun, 0) ] ## FIXME
+			return B2_Playerdata.gun_bag[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
 			return null
 	else:
 		if has_gun_in_bandolier():
-			return B2_Playerdata.bandolier[ max(B2_Playerdata.selected_gun, 0) ] ## FIXME
+			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
 			return null
 #endregion

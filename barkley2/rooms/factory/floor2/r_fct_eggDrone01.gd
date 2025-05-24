@@ -73,13 +73,15 @@ func post_drone_fight():
 	## VERY IMPORTANT. death sfx, animation
 	## NOTE 27-04-25 As of right now, not important anymore. We have a new combat system.
 	#B2_Sound.play( "sn_explosion_generic_06_01" )
-	B2_Music.play( "mus_blankTEMP", 1.0 )
-	#
 	#var explosion = GENERIC_EXPLOSION.instantiate()
 	#explosion.position = o_enemy_drone_egg.position
 	#o_enemy_drone_egg.queue_free()
 	#add_sibling(explosion)
 	
+	B2_Music.play( "mus_blankTEMP", 0.0 )
+	B2_Music.clear_curr_music()
+	B2_Music.stop()
+	await get_tree().process_frame
 	activate_facility_alarm()
 	
 func activate_facility_alarm():

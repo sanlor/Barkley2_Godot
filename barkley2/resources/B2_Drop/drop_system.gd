@@ -33,6 +33,10 @@ const settingBossDropWildAmmo = 50; 			# Wild Ammo - Either FULL for one gun, or
 const settingAmmoRandom = 50; 				# Percent chance it will give 100% to current gun
 
 static func create_drops( enemy_data : B2_EnemyData, pos : Vector2, is_a_boss : bool ) -> void:
+	if B2_Playerdata.Quest("dropEnabled") == 0:
+		## Weapon drop disabled.
+		return
+		
 	var drop_chance := randf() * 100.0
 	if drop_chance <= enemy_data.gunsdrop:
 		var DropWildAmmo 	:= 0

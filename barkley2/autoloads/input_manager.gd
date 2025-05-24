@@ -67,6 +67,7 @@ func _physics_process(_delta: float) -> void:
 		if Input.is_action_just_pressed("Weapon <"):
 			B2_Gun.prev_band_gun()
 		if Input.is_action_just_pressed("Gun'sbag"):
+			
 			B2_Gun.toggle_gunbag()
 			
 			

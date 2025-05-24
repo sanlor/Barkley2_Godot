@@ -29,7 +29,7 @@ var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
 var o_cts_hoopz 	: B2_Actor 						= null ## Cutscene Hoopz
-var o_hoopz 		: B2_Player		 				= null ## PLayer controlled Hoopz
+var o_hoopz 		: B2_PlayerCombatActor		 				= null ## PLayer controlled Hoopz
 var o_hud			: B2_Hud						= null ## Main HUD, with combat attachments.
 var camera			: B2_Camera_Hoopz #Camera2D
 var cinema_player 	: B2_CinemaPlayer

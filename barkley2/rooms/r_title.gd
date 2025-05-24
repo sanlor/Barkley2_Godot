@@ -4,8 +4,9 @@ extends Control
 # This also forces the resolution to 384 x 240.
 # This scene tries to recreate the room r_title, with the object oTitle.
 
-@export var debug_data := false
-@export var hide_demo_msg := false
+@export var debug_data 			:= false
+@export var hide_demo_msg 		:= false
+@export var show_stock_ticker 	:= false
 ## Godot Specific:
 
 signal mode_change(String)
@@ -56,8 +57,6 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 	quit_button
 ]
 
-var stock_x := Array() # for the stock ticker
-
 ## Character Slots
 @onready var gameslot_layer = $gameslot_layer
 #endregion
@@ -73,6 +72,10 @@ var settings_highlight_color := Color.ORANGE
 var gameslot_highlight_color := Color.ORANGE
 
 var key_highlight_color := Color(240, 50, 255) # make_color_rgb(240, 50, 255);
+
+## Stock ticker -- This was disabled on the janky demo
+var stock_x : Array[float]
+var stock_y : float
 
 #endregion
 
@@ -93,16 +96,6 @@ var title_y = 170
 
 var title_row = 16
 var title_gap = 0
-
-## Stock Ticker ## Maybe this isnt used in the "final" game? 18/05/25 - This seems related to the object o_minotaur01 or room r_chu_minotaur01
-#stock_x[0] = 20;
-#stock_x[1] = 100;
-#stock_x[2] = 180;
-#stock_x[3] = 260;
-#stock_x[4] = 340;
-#stock_x[5] = 420;
-#stock_x[6] = 500;
-#stock_y = 225;
 
 ## Other garbage ##
 var confirm_x = 132;
@@ -143,6 +136,20 @@ func _ready():
 		star.name = "star" + str(i)
 		add_child(star)
 	
+	## Stock Ticker ## Maybe this isnt used in the "final" game? 18/05/25 - This seems related to the object o_minotaur01 or room r_chu_minotaur01
+	## 23/05/25 im bored, lets enable this for no reason.
+	if show_stock_ticker:
+		stock_x.resize(7)
+		stock_x[0] = 20.0;
+		stock_x[1] = 100.0;
+		stock_x[2] = 180.0;
+		stock_x[3] = 260.0;
+		stock_x[4] = 340.0;
+		stock_x[5] = 420.0;
+		stock_x[6] = 500.0;
+		#stock_y = 225;
+		stock_y = 3; ## This looks way better
+	
 	#region Menu Layout stuff. Not necessary, but I really want to make a 1:1 recreation.
 	
 	## Decorations
@@ -177,35 +184,35 @@ func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad",
 		
 	match mode:
 		"basic":
-			title_layer.show()
+			title_layer.show() 			# <-
 			settings_layer.hide()
 			gameslot_layer.hide()
 			character_layer.hide()
 			vr_layer.hide()
 		"settings", "keymap", "gamepad":
 			title_layer.hide()
-			settings_layer.show()
+			settings_layer.show() 		# <-
 			gameslot_layer.hide()
 			character_layer.hide()
 			vr_layer.hide()
 		"gameslot", "destruct_confirm":
 			title_layer.hide()
 			settings_layer.hide()
-			gameslot_layer.show()
+			gameslot_layer.show() 		# <-
 			character_layer.hide()
 			vr_layer.hide()
 		"gamestart_character":
 			title_layer.hide()
 			settings_layer.hide()
 			gameslot_layer.hide()
-			character_layer.show()
+			character_layer.show() 		# <-
 			vr_layer.hide()
 		"vr":
 			title_layer.hide()
 			settings_layer.hide()
 			gameslot_layer.hide()
 			character_layer.hide()
-			vr_layer.show()
+			vr_layer.show() 			# <-
 			
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
@@ -217,19 +224,18 @@ func _input(event):
 func _process(_delta):
 	if B2_Config.tim_follow_mouse:
 		
-		tim = get_global_mouse_position().x / 384
+		tim = get_global_mouse_position().x / 384.0
 		
 		for child in bg.get_children():
 			if child.has_method("apply_tim"):
 				child.apply_tim( tim )
 				
 	#// Stock ticker //
-	#for (i = 0; i < 6; i += 1) 
-	#{
-		#if (stock_x[i] > -80) stock_x[i] -= 20 * dt_sec();
-		#else stock_x[i] = 500;
-	#}
-	pass
+	if show_stock_ticker:
+		for i in 7: 
+			if (stock_x[i] > -80.0): stock_x[i] -= 20.0 * _delta
+			else: stock_x[i] = 500.0
+		queue_redraw()
 
 func _draw():
 	if hide_demo_msg:
@@ -246,9 +252,24 @@ func _draw():
 	#draw_text(qrx, qry, "Experience accordingly.");
 	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	
+	## Talk about wasting time coding a useless thing, right? 23/05/25
+	if show_stock_ticker and stock_x:
+		var font2 := preload("uid://b6ag0xl5d2ibh")
+		draw_rect( Rect2( Vector2(0,stock_y - 3), Vector2(384,20) ), Color( Color.BLACK, 0.75 ), true )
+		var ticker_color := Color.from_rgba8(80, 255, 40)
+		draw_string( font2, Vector2(stock_x[0],stock_y), Text.pr("DOW +6%")			,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[1],stock_y), Text.pr("Oil -9%")			,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[2],stock_y), Text.pr("Milk +75%")		,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[3],stock_y), Text.pr("Grain +0%")		,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[4],stock_y), Text.pr("Werthers +4%")	,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[5],stock_y), Text.pr("BBQ +1.5%")		,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		draw_string( font2, Vector2(stock_x[6],stock_y), Text.pr("ToG -45%")		,HORIZONTAL_ALIGNMENT_CENTER,-1,16,ticker_color)
+		## Part of me want to add a Criptocurrency reference to this, but i wonder if it will be way lame or funny because its lame.
+		## I also wanted to make a "stock market simulator" using perlin noise, changing these values. Maybe some other time.
 
 ## 29/04/25 its been a long time since I've been here. The title screen is very different from the rest of the game.
 ## it was my first shot on porting the GML code to Godot.
+## Add VR Missions section to the game, to test the combat feature.
 func _on_vr_btn_button_pressed() -> void:
 	mode = "vr"
 	change_menu()

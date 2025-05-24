@@ -290,7 +290,7 @@ func cinema_look( _direction : String ):
 	ActorAnim.stop()
 	
 	if not ActorAnim.sprite_frames.has_animation(ANIMATION_STAND):
-		push_error("Node %s has no animation called %s. You don goofed." % [name, ANIMATION_STAND] )
+		push_error("Node %s has no animation called %s for %s. You don goofed." % [name, ANIMATION_STAND, _direction] )
 		return
 		
 	ActorAnim.animation = ANIMATION_STAND
@@ -421,7 +421,7 @@ func adjust_sprite_collision():
 	shape.radius = ( float( sprite_data["bbox_right"] ) - float( sprite_data["bbox_left"] ) ) / PI # ooh look at me, all fancy using PI and such.
 	
 	## NOTE 2 - Fuck, I have no idea how Collisions are handled on the original game. Its circles now, every actor has a cicle as collision shape. fuck it.
-	ActorCol.shape = shape
+	ActorCol.call_deferred("set_shape", shape )
 	sprite_collision_adjusted.emit()
 	
 func execute_event_user_0(): 	push_warning("%s: Event not set" % name)

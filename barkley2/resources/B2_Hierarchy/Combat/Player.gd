@@ -79,10 +79,11 @@ var prev_gun : B2_Weapon ## Used to update animations
 var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 var velocity			:= Vector2.ZERO
 
-var walk_speed			:= 5000000
-var roll_impulse		:= 25000
-var walk_damp			:= 10.0
-var roll_damp			:= 3.5
+@export_category("Movement Physics")
+@export var walk_speed			:= 5000000
+@export var roll_impulse		:= 25000
+@export var walk_damp			:= 10.0
+@export var roll_damp			:= 3.5
 
 ## Debug
 var debug_line 			: Vector2
@@ -711,3 +712,41 @@ func _physics_process(delta: float) -> void:
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_force( velocity / Engine.time_scale )
+
+func _on_combat_actor_entered(body: Node) -> void:
+	if body is B2_CombatActor:
+		if curr_STATE == STATE.ROLL:
+			# body.apply_damage( 75.0 ) ## Debug setup
+			pass
+
+# handle step sounds
+func _on_hoopz_upper_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
+	if hoopz_normal_body.animation.begins_with("full_roll"):
+		if hoopz_normal_body.frame in [0,1,2]:
+			#hoopz_normal_body.look_at( linear_velocity )
+			pass
+		elif hoopz_normal_body.frame in [3,4,5,6]:
+			hoopz_normal_body.rotation = 0
+			if not step_smoke.emitting:
+				step_smoke.emitting = true
+		else:
+			step_smoke.emitting = false
+			hoopz_normal_body.rotation = 0
+
+func _on_combat_lower_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		# play audio only on frame 0 or 2
+		if hoopz_normal_body.frame in [0,2]:
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0

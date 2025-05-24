@@ -10,16 +10,18 @@ func _ready() -> void:
 		destroy_entity()
 
 func destroy_entity():
-	remove_child( collision ) # .disabled = true
-	# add broken sprite
-	var broken = O_AKIRA_BULB_BROKEN.instantiate()
-	add_sibling.call_deferred(broken)
-	broken.position = position
-	
-	anim.hide()
-	if smoke_emiter.emitting:
-		await smoke_emiter.finished
-	queue_free()
+	if collision:
+		# add broken sprite
+		var broken = O_AKIRA_BULB_BROKEN.instantiate()
+		add_sibling.call_deferred(broken)
+		broken.position = position
+		#remove_child( collision ) # .disabled = true
+		collision.queue_free()
+		
+		anim.hide()
+		if smoke_emiter.emitting:
+			await smoke_emiter.finished
+		queue_free()
 
 func _on_col_predictor_body_entered(body: Node2D) -> void:
 	if body is B2_Player:

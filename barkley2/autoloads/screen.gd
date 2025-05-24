@@ -13,7 +13,7 @@ const PAUSE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/pause_scre
 const QUICK_MENU_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.tscn")
 const NOTE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
 const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
-const GAME_OVER = preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
+const GAME_OVER 			= preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
 
 # Smoke Emitter
 const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
@@ -27,6 +27,9 @@ const O_ENTITY_INDICATOR_TEXT = preload("res://barkley2/scenes/_Godot_Combat/_co
 
 # explosion sfx
 const O_EFFECT_EXPLOSION = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
+
+# Bloooooood
+const O_EFFECT_BLOODDROP = preload("res://barkley2/scenes/_Godot_Combat/_blood/o_effect_blooddrop.tscn")
 
 var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
@@ -189,6 +192,15 @@ func make_explosion(type : int, pos : Vector2, color := Color.WHITE, delay := 0.
 	get_tree().current_scene.add_child( explosion, true )
 	
 	add_smoke( "mass", pos, Color( 0.25, 0.25, 0.25, randf_range(0.10, 0.25 )), 0.5, 0.15 )
+
+func make_blood_drop( pos : Vector2, amount : int, color := Color.RED ) -> void:
+	# print( "blood create at %s." % str(pos) )
+	for i in amount:
+		var blood := O_EFFECT_BLOODDROP.instantiate()
+		blood.position 				= pos
+		blood.puddle_color			= color
+		blood.z_index				= 0
+		get_tree().current_scene.add_child( blood, true )
 
 func _process(_delta) -> void:
 	## Mouse stuff

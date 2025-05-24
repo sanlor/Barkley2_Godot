@@ -1,28 +1,20 @@
-#extends CharacterBody2D
 extends B2_Player
+## Diaper exceptions
 
-func _on_combat_actor_entered(body: Node) -> void:
-	if body is B2_CombatActor:
-		if curr_STATE == STATE.ROLL:
-			## NOTE disabled on 27/04/25 due to the new combat system.
-			# body.apply_damage( 75.0 ) ## Debug setup
-			pass
-
-# handle step sounds
-func _on_hoopz_upper_body_frame_changed() -> void:
+## handle step sounds for normal state hoopz
+func _on_hoopz_normal_body_frame_changed() -> void:
 	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
+		if hoopz_normal_body.frame in [0,2]: # play audio only on frame 0 or 2
 			if move_dist <= 0.0:
 				B2_Sound.play_pick("hoopz_footstep")
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
-
+			
+## handle step sounds for combat state hoopz
 func _on_combat_lower_body_frame_changed() -> void:
 	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
+		if hoopz_normal_body.frame in [0,2]: # play audio only on frame 0 or 2
 			if move_dist <= 0.0:
 				B2_Sound.play_pick("hoopz_footstep")
 				move_dist = min_move_dist

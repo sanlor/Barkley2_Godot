@@ -50,6 +50,10 @@ const ROOM_TRANSITION_LAYER 	= preload("res://barkley2/resources/autoloads/room_
 var room_transition_layer		: ColorRect
 var room_progress_bar			: ProgressBar
 
+## Room load time
+var t1 := 0.0
+var t2 := 0.0
+
 func _index_rooms():
 	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "", true )
 	## Godot is kinda weird sometimes.
@@ -283,8 +287,12 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	# Take away the player control.
 	B2_Input.player_has_control = false
 
-	var tween : Tween
 
+	if not its_the_same_room:
+		begin_load_room_scene( room_name )
+
+	var tween : Tween
+	
 	if not skip_fade_out:
 		tween = create_tween()
 		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out * fade_modifier )
@@ -302,7 +310,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		await get_tree().process_frame
 
 	if not its_the_same_room:
-		await get_room_scene( room_name ) 						# Load the next room
+		finish_loading_room_scene( room_name ) 				# Load the next room
 		get_tree().change_scene_to_packed( room_scene )		# change the current room
 		await get_tree().process_frame
 	else:
@@ -336,37 +344,34 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if print_debug_logs: print("Finished loading room %s." % room_name)
 	return
 
-func get_room_scene( room_name : String ):
+func begin_load_room_scene( room_name : String ) -> void:
 	room_is_invalid = false
 	if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Loading room %s started.[/bgcolor]" % room_name )
-	var t1 := Time.get_ticks_msec()
+	t1 = Time.get_ticks_msec()
 	if room_index.has( room_name ):
 		path_loading_room = room_index[ room_name ]
 		if print_debug_logs: print(path_loading_room)
 		ResourceLoader.load_threaded_request( path_loading_room, "PackedScene", use_subthreads, cachemode )
 		is_loading_room = true
 
-		var error = await room_loaded
+		#var error = await room_loaded
 
-		var t2 := Time.get_ticks_msec() - t1
+func finish_loading_room_scene( room_name ) -> void:
+		t2 = Time.get_ticks_msec() - t1
 		if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
 		if t2 > 1000.0:
 			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
-		if not error:
-			room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
-			return
-		print("B2_RoomXY: Load error: ", error)
-	else:
-		push_error("B2_RoomXY: Room %s not indexed." % room_name)
-
-	room_is_invalid = true
-	this_room_x 	= 0
-	this_room_y 	= 0
-	push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
-	push_warning( "Loading debug save data...")
-	B2_Config.select_user_slot( 100 ) ## Debug Save slot
-	room_scene = load( invalid_room ) as PackedScene
-	return
+		room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
+		
+		if not room_scene:
+			push_error("B2_RoomXY: Room %s not indexed." % room_name)
+			room_is_invalid = true
+			this_room_x 	= 0
+			this_room_y 	= 0
+			push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
+			push_warning( "Loading debug save data...")
+			B2_Config.select_user_slot( 100 ) ## Debug Save slot
+			room_scene = load( invalid_room ) as PackedScene
 
 func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if this_room.is_empty():
@@ -414,10 +419,10 @@ func _process(_delta: float) -> void:
 		if error == 3:
 			is_loading_room = false
 			room_progress_bar.visible = false
-			room_loaded.emit( false )
+			#room_loaded.emit( false )
 			load_progress.clear()
 		if error == 2:
 			is_loading_room = false
 			room_progress_bar.visible = false
-			room_loaded.emit( true )
+			#room_loaded.emit( true )
 			load_progress.clear()

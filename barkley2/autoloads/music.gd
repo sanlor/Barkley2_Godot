@@ -9,8 +9,6 @@ const BATTLE_MUSIC := [
 const END_BATTLE_MUSIC := [
 	"shitworld",
 ]
-
-
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
 #var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
@@ -230,12 +228,15 @@ func play_end_combat( force_track := "" ) -> void:
 
 ## keep track of the current room music
 func store_curr_music() -> void:
-	stored_playing_track = curr_playing_track
-	stored_playing_track_time = audio_stream_player.get_playback_position()
+	stored_playing_track 			= curr_playing_track
+	stored_playing_track_time 		= audio_stream_player.get_playback_position()
 
 func resume_stored_music() -> void:
-	#play( stored_playing_track )
 	queue( stored_playing_track, 0.25, stored_playing_track_time )
+
+func clear_curr_music() -> void:
+	stored_playing_track 			= ""
+	stored_playing_track_time 		= 0.0
 
 func stop( speed := 0.25 ):
 	#queue( music_bank.get("mus_blankTEMP.ogg", ""), speed )

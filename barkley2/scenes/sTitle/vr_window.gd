@@ -69,6 +69,7 @@ func _on_begin_btn_button_pressed() -> void:
 	match selected_mission:
 		0: ## Mission 01
 			print("Loading Mission %s data." % str(selected_mission + 1) )
+			#B2_CManager.BodySwap("diaper") ## DEBUG
 			B2_Playerdata.Quest( "infiniteAmmo", 1 )
 			B2_Playerdata.Quest( "vr_mission_0", 1 )
 			B2_Playerdata.Quest( "escape_disabled", 1 )
