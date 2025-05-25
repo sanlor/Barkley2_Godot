@@ -88,6 +88,7 @@ static func pockets_free() -> int: # check scr_items_count, scr_items_getAll, Je
 	
 static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 	var stat := {
+		"Sub": 			0,
 		"Pkt": 			0,
 		"Wgt": 			0,
 		"Fsh": 			0,
@@ -101,6 +102,7 @@ static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 		}
 	if jerkin == "": ## Defaults to the current jerkin.
 		if get_current_jerkin() != "":
+			stat["Sub"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ SUB ] )
 			stat["Pkt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ PKT ] )
 			stat["Wgt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ WGT ] )
 			stat["Fsh"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ FSH ] )
@@ -114,6 +116,7 @@ static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 		else:
 			push_warning("No jerkin equiped. Weird... Adding candy in 'null' pockets. Note, this is expected when enrering VR Mission")
 	else:
+		stat["Sub"] 		= int( JERKIN_LIST[ jerkin ][ SUB ] )
 		stat["Pkt"] 		= int( JERKIN_LIST[ jerkin ][ PKT ] )
 		stat["Wgt"] 		= int( JERKIN_LIST[ jerkin ][ WGT ] )
 		stat["Fsh"] 		= int( JERKIN_LIST[ jerkin ][ FSH ] )

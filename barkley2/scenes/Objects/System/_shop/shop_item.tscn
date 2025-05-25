@@ -1,0 +1,163 @@
+[gd_scene load_steps=15 format=3 uid="uid://dlhrkg7recebs"]
+
+[ext_resource type="Script" uid="uid://dbf6rpq8b5vgt" path="res://barkley2/scenes/Objects/System/_shop/shop_item.gd" id="1_ncyje"]
+[ext_resource type="Theme" uid="uid://7hwkedlla4mn" path="res://barkley2/resources/B2_Shop/shop_theme.tres" id="1_xq5bs"]
+[ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="2_ncyje"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_ncyje"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="5_e455t"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="6_5xpgu"]
+[ext_resource type="Script" uid="uid://b6e3f7qtfly7h" path="res://barkley2/scenes/Objects/System/_shop/resistence_graph.gd" id="7_1vspx"]
+[ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="8_1vspx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurr3"]
+resource_local_to_scene = true
+atlas = ExtResource("2_ncyje")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_e455t"]
+font = ExtResource("3_ncyje")
+
+[sub_resource type="LabelSettings" id="LabelSettings_5xpgu"]
+font = ExtResource("5_e455t")
+
+[sub_resource type="LabelSettings" id="LabelSettings_3pbtt"]
+font = ExtResource("6_5xpgu")
+font_color = Color(0.745098, 0.745098, 0.745098, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jj1mo"]
+font = ExtResource("3_ncyje")
+
+[sub_resource type="LabelSettings" id="LabelSettings_1vspx"]
+line_spacing = 1.0
+font = ExtResource("8_1vspx")
+font_color = Color(0.745098, 0.745098, 0.745098, 1)
+
+[node name="shop_item_0" type="Button"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 24)
+offset_right = 207.0
+offset_bottom = 24.0
+theme = ExtResource("1_xq5bs")
+script = ExtResource("1_ncyje")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_right = 7
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="item_summary" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="item_icon" type="TextureRect" parent="MarginContainer/VBoxContainer/item_summary"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_hurr3")
+
+[node name="item_name" type="Label" parent="MarginContainer/VBoxContainer/item_summary"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Placeholder Test"
+label_settings = SubResource("LabelSettings_e455t")
+vertical_alignment = 1
+
+[node name="item_cost" type="Label" parent="MarginContainer/VBoxContainer/item_summary"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "£1000"
+label_settings = SubResource("LabelSettings_5xpgu")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="item_stats" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="evs" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="evs_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/evs"]
+layout_mode = 2
+text = "EVS"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="evs_value" type="Label" parent="MarginContainer/VBoxContainer/item_stats/evs"]
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="weight" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="weight_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/weight"]
+layout_mode = 2
+text = "WGT"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="weight_value" type="Label" parent="MarginContainer/VBoxContainer/item_stats/weight"]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="pockets" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="pockets_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/pockets"]
+layout_mode = 2
+text = "PKT"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="pockets_value" type="Label" parent="MarginContainer/VBoxContainer/item_stats/pockets"]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="resistence" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
+layout_mode = 2
+
+[node name="pockets_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/resistence"]
+layout_mode = 2
+text = "RES"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="resistence_graph" type="Control" parent="MarginContainer/VBoxContainer/item_stats/resistence"]
+custom_minimum_size = Vector2(22, 13)
+layout_mode = 2
+script = ExtResource("7_1vspx")
+generic_res = 1.0
+bio_res = 2.0
+mental_res = 4.0
+cosmic_res = 3.0
+zauber_res = 1.0
+
+[node name="item_description" type="Label" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste "
+label_settings = SubResource("LabelSettings_1vspx")
+autowrap_mode = 2
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

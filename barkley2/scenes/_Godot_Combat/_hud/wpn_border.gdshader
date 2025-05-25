@@ -7,7 +7,7 @@ uniform float phase_speed = 1.0;
 
 void fragment() {
 	vec2 size = TEXTURE_PIXEL_SIZE * line_thickness;
-	
+
 	float outline = texture(TEXTURE, UV + vec2(-size.x, 0)).a;
 	outline += texture(TEXTURE, UV + vec2(0, size.y)).a;
 	outline += texture(TEXTURE, UV + vec2(size.x, 0)).a;

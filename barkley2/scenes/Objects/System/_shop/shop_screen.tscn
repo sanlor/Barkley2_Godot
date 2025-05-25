@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d2hha6frqxoja"]
+[gd_scene load_steps=18 format=3 uid="uid://d2hha6frqxoja"]
 
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="1_n037p"]
 [ext_resource type="Script" uid="uid://dsk5qqh2yowtx" path="res://barkley2/scenes/Objects/System/_shop/shop_screen.gd" id="1_qjdko"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://d0ssfyh7jxm0c" path="res://barkley2/assets/b2_original/images/merged/s_breakout_icon.png" id="8_6qme6"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="9_icx7d"]
 [ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="10_yvjwj"]
+[ext_resource type="PackedScene" uid="uid://dlhrkg7recebs" path="res://barkley2/scenes/Objects/System/_shop/shop_item.tscn" id="11_yvjwj"]
+[ext_resource type="Texture2D" uid="uid://cr2prylg26oql" path="res://barkley2/assets/b2_original/images/merged/sButtonPapers.png" id="12_icx7d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e3eoe"]
 atlas = ExtResource("8_6qme6")
@@ -20,6 +22,10 @@ region = Rect2(0, 0, 16, 16)
 font = ExtResource("9_icx7d")
 
 [sub_resource type="LabelSettings" id="LabelSettings_wloum"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvjwj"]
+atlas = ExtResource("12_icx7d")
+region = Rect2(243, 0, 81, 17)
 
 [node name="shop_screen" type="CanvasLayer"]
 script = ExtResource("1_qjdko")
@@ -131,13 +137,13 @@ autowrap_mode = 2
 [node name="slide_border" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 270.0
-offset_top = 7.0
-offset_right = 334.0
-offset_bottom = 71.0
+offset_left = 319.0
+offset_top = 6.0
+offset_right = 379.0
+offset_bottom = 70.0
 theme = ExtResource("2_qjdko")
 script = ExtResource("3_32y4x")
-border_size = Vector2(64, 64)
+border_size = Vector2(60, 64)
 metadata/_custom_type_script = "uid://cr5icxx3wijsf"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="slide_border"]
@@ -169,40 +175,42 @@ layout_mode = 3
 anchors_preset = 0
 offset_left = 120.0
 offset_top = 6.0
-offset_right = 280.0
-offset_bottom = 198.0
+offset_right = 328.0
+offset_bottom = 176.0
 theme = ExtResource("2_qjdko")
 script = ExtResource("3_32y4x")
-border_size = Vector2(160, 192)
+border_size = Vector2(208, 170)
 metadata/_custom_type_script = "uid://cr5icxx3wijsf"
 
-[node name="face_1" type="Control" parent="."]
-material = ExtResource("1_n037p")
-layout_mode = 3
-anchors_preset = 0
-offset_left = 301.0
-offset_top = 137.0
-offset_right = 352.0
-offset_bottom = 203.0
-theme = ExtResource("2_qjdko")
-script = ExtResource("3_32y4x")
-border_size = Vector2(51, 66)
-metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+[node name="MarginContainer" type="MarginContainer" parent="shop_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
 
-[node name="face_2" type="Control" parent="."]
-material = ExtResource("1_n037p")
-layout_mode = 3
-anchors_preset = 0
-offset_left = 301.0
-offset_top = 137.0
-offset_right = 352.0
-offset_bottom = 203.0
-theme = ExtResource("2_qjdko")
-script = ExtResource("3_32y4x")
-border_size = Vector2(51, 66)
-metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+[node name="VBoxContainer" type="VBoxContainer" parent="shop_panel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
 
-[node name="exit_btn" type="Control" parent="."]
+[node name="shop_item_0" parent="shop_panel/MarginContainer/VBoxContainer" instance=ExtResource("11_yvjwj")]
+layout_mode = 2
+my_item = "Bottlecap Jerkin"
+
+[node name="shop_item_1" parent="shop_panel/MarginContainer/VBoxContainer" instance=ExtResource("11_yvjwj")]
+layout_mode = 2
+my_item = "Monofilament Jerkin"
+
+[node name="shop_item_2" parent="shop_panel/MarginContainer/VBoxContainer" instance=ExtResource("11_yvjwj")]
+layout_mode = 2
+my_item = "Vestal Jerkin"
+
+[node name="exit_btn" type="Control" parent="." node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
@@ -216,5 +224,23 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("4_gvrf7")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+manual_decorations = [NodePath("exit_texture")]
 border_size = Vector2(108, 50)
 metadata/_custom_type_script = "uid://21bcte5vesst"
+
+[node name="exit_texture" type="TextureRect" parent="exit_btn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -8.5
+offset_right = 40.5
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_yvjwj")
