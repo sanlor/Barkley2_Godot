@@ -140,3 +140,10 @@ const DB := {
 				},
 		},
 }
+
+static func get_shop_data( shop_name : String ) -> Dictionary:
+	if DB.has( shop_name ):
+		return DB.get( shop_name )
+	else:
+		push_error("Invalid shop name %s." % shop_name )
+		return Dictionary()

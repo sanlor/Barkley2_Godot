@@ -448,6 +448,8 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("gunsmap.seed", 0); # was global.gunsmapSeed
 	
 	# Generate guns
+	B2_Gun.reset()
+	
 	B2_Config.set_user_save_data("player.guns.bandolier", 		Dictionary() );
 	B2_Config.set_user_save_data("player.guns.bag", 			Dictionary() );
 	B2_Config.set_user_save_data("player.guns.schematics", 		Dictionary() );
@@ -465,7 +467,7 @@ func preload_CC_save_data():
 	B2_Playerdata.Quest("dropEnabled", 			1);
 	B2_Playerdata.Quest("dropTable", 			0); # 0 = regular, 1 = boss
 	B2_Playerdata.Quest("infiniteAmmo", 		0);
-	B2_Playerdata.Quest("yapWords", 			0);
+	B2_Playerdata.Quest("yapWords", 			0); ## check scr_event_action_dialogue() line 31. this doesnt seems to be used.
 	
 	B2_Playerdata.Quest("saveDisabled", 		1 );
 	B2_Playerdata.Quest("sceneBrandingStart", 	1 );

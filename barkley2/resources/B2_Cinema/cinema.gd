@@ -27,7 +27,9 @@ class_name B2_CinemaPlayer
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
 @export var debug_note			:= true
+@export var debug_shop			:= true
 @export var print_comments		:= false
+
 @export var print_line_report 	:= false ## details about the current script line.
 
 @export_category("Cinema Config")
@@ -687,7 +689,26 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						push_error("Unrecognized Note command: " + str(parsed_line) )
 					
 				"SHOP":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					var action 				:= ""
+					var shop_name 			:= ""
+					var unknown_parameter 	:= "" # <- doesnt seem to be used on the code.
+					
+					if parsed_line.size() >= 2:
+						action 				= parsed_line[1].strip_edges()
+					if parsed_line.size() >= 3:
+						shop_name 			= parsed_line[2].strip_edges()
+					if parsed_line.size() >= 4:
+						unknown_parameter 	= parsed_line[3].strip_edges()
+						
+					if action == "open":
+						if debug_shop: print_rich("[color=yellow]Shop %s open![/color]" % shop_name )
+						B2_Screen.show_shop_screen( shop_name )
+						await B2_Screen.shop_closed
+					else:
+						## This seems to be the only valid action.
+						breakpoint
+						
+					if debug_shop: print_rich("[color=yellow]Shop %s closed![/color]" % shop_name )
 				"LOCKPICK":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHATROULETTE":
@@ -945,8 +966,6 @@ func cinema_kids() -> void:
 			await i.check_actor_activity()
 	dslCinKid.clear()
 	return
-
-
 
 func parse_if( line : String ) -> bool:
 	## DEBUG

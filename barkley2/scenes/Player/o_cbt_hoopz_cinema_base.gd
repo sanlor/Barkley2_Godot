@@ -661,7 +661,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		print("H O O P Z I S D E A D .")
 		linear_velocity = Vector2.ZERO
 		for i in randi_range(10,30):
-			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randi_range(1,2) )
 			for d in randi_range(0,5):
 				await get_tree().process_frame
 		defeat_anim()

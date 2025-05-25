@@ -50,7 +50,7 @@ func _ready():
 
 # used to change the volume based on the menu open
 func volume_menu( force := false ):
-	if B2_Screen.is_map_open or force:
+	if B2_Screen.is_any_menu_open() or force:
 		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
 	elif B2_Screen.is_paused:
 		audio_stream_player.volume_db = -100.0

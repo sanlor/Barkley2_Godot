@@ -69,22 +69,24 @@ func _on_begin_btn_button_pressed() -> void:
 	match selected_mission:
 		0: ## Mission 01
 			print("Loading Mission %s data." % str(selected_mission + 1) )
-			#B2_CManager.BodySwap("diaper") ## DEBUG
-			B2_Playerdata.Quest( "infiniteAmmo", 1 )
-			B2_Playerdata.Quest( "vr_mission_0", 1 )
-			B2_Playerdata.Quest( "escape_disabled", 1 )
+			B2_CManager.BodySwap("hoopz") 				## hoopz - diaper
+			B2_Playerdata.Quest( "infiniteAmmo", 		1 )
+			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
+			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
+			B2_Playerdata.Quest( "vr_mission_0", 		1 )
+			B2_Playerdata.Quest( "escape_disabled", 	1 )
 			
-			B2_Playerdata.Quest( "playerName", 		"???" ); # constant P_NAME
-			B2_Playerdata.Quest( "playerNameFull", 	"???" ); # constant P_NAME_F
-			B2_Playerdata.Quest( "playerNameShort", 	"???" ); # constant P_NAME_S
+			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
 			
 			B2_Jerkin.reset()
 			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
 			B2_Jerkin.equip_jerkin( "Cornhusk Jerkin" )
 			
 			B2_Candy.reset()
-			B2_Candy.gain_candy( "Butterscotch" 	)
-			B2_Candy.gain_candy( "Chickenfry Dew" 	)
+			B2_Candy.gain_candy( "Butterscotch" )
+			B2_Candy.gain_candy( "Chickenfry Dew" )
 			
 			B2_Gun.reset()
 			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"BUTT", false )

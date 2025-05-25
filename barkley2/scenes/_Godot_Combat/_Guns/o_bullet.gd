@@ -124,14 +124,16 @@ func apply_attribute_mods( _bio_damage : float, _cyber_damage : float, _mental_d
 	zauber_damage = _zauber_damage
 	
 func _ready() -> void:
+	bullet_spr.animation = "s_bull"
+	
 	if spr:
 		if bullet_spr.sprite_frames.has_animation( spr ):
 			bullet_spr.animation = spr
-			bullet_spr.look_at( global_position + dir )
 		else:
 			push_warning("No animation called %s." % spr)
-		
-	modulate = col
+	
+	bullet_spr.look_at( dir.normalized() )
+	bullet_spr.modulate = col
 	sprite_selection()
 	
 	if has_trail:
@@ -152,8 +154,8 @@ func sprite_selection() -> void:
 				motionBlur = true;
 			else:
 				bullet_spr.animation = "s_physShot";
-			scale.x *= 1.5;
-			scale.y *= 1.4;
+			scale.x *= 1.0 # 1.5;
+			scale.y *= 1.0 # 1.4;
 
 		#/NORMAL CROSSBOWS
 		"s_bull_arrowHead":

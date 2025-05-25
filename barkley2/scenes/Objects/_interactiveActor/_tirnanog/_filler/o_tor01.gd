@@ -5,10 +5,6 @@ func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
 	
-	B2_Gun.add_gun_gunbag() ## DEBUG
-	B2_Gun.add_gun_gunbag() ## DEBUG
-	B2_Gun.add_gun_gunbag() ## DEBUG
-	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""

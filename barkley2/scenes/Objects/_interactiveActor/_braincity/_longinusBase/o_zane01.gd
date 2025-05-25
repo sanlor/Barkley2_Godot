@@ -28,6 +28,10 @@ func execute_event_user_5():
 	#Smoke("mass", o_cts_hoopz.x, o_cts_hoopz.y + 2, o_cts_hoopz.z + 24, 2, c_lime, 0.5);
 	B2_Screen.add_smoke( "mass", B2_CManager.o_cts_hoopz.position, Color.LIME, 0.5 )
 
+func execute_event_user_6():
+	## new function! Add some blood :)
+	B2_Screen.make_blood_drop( global_position + Vector2(0, -16), randi_range(15,50), Color.RED, 2.0 )
+
 func execute_event_user_15():
 	## Lock door at "r_fct_accessHall01"
 	# Not sure if needed, since Jodfrey is already blocking the door.
@@ -43,6 +47,7 @@ func execute_event_user_11():
 	# Happens during the death scene "zaneJalapeno <= 1". Not sure what it does.
 	# repeat (7) instance_create(x, y, o_effect_blue_rose);
 	
+	## TODO improve this
 	const O_EFFECT_BLUE_ROSE = preload("res://barkley2/scenes/_event/Misc/o_effect_blue_rose.tscn")
 	for x in 7:
 		add_child( O_EFFECT_BLUE_ROSE.instantiate(), true )

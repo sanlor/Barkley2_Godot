@@ -221,7 +221,8 @@ func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) ->
 	if get_flash_sprite():
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
-		flash.look_at( (source_pos + dir).rotated( randf_range( -PI/8, PI/8 ) ) )
+		flash.look_at( (source_pos + dir) )
+		flash.rotation += randf_range( -PI/32, PI/32 )
 		flash.scale = Vector2.ONE * randf_range( 0.8, 1.2 )
 		flash.modulate.a *= randf_range( 0.8, 1.2 )
 		scene_to_place.add_child( flash, true )
@@ -240,6 +241,14 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	if delay_before_action > 0.0:
 		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
 	
+	## shotgun behaviour.
+	if wait_per_shot == 0.0:
+		use_ammo( ammo_per_shot )
+		B2_Sound.play( get_soundID() )
+		create_flash(scene_to_place, source_pos, dir)
+		for i in ammo_per_shot:
+			create_casing(scene_to_place, casing_pos)
+		
 	for i in bullets_per_shot:
 		if abort_shooting:
 			abort_shooting = false
@@ -265,11 +274,6 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 			create_flash(scene_to_place, source_pos, b_dir)
 			create_casing(scene_to_place, casing_pos)
 			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
-		else:						## shotgun behaviour.
-			use_ammo( 1 )
-			B2_Sound.play( get_soundID() )
-			create_flash(scene_to_place, source_pos, b_dir)
-			create_casing(scene_to_place, casing_pos)
 	
 	#use_ammo( ammo_per_shot )
 	reset_action( curr_action - attack_cost )

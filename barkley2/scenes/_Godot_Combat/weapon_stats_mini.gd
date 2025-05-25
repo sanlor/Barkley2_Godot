@@ -13,13 +13,13 @@ extends VBoxContainer
 @onready var percent2: Label = $wpn_list/gun_2/percent
 @onready var percent3: Label = $wpn_list/gun_3/percent
 
-var alpha 	:= 0.75
-var pulse 	:= 0.0
-var t		:= 0.0
+var alpha 	:= 0.25
+var pulse 	:= 0.00
+var t		:= 0.00
 
 func _physics_process(_delta: float) -> void:
 	t += 0.1
-	pulse = ( sin( t ) / 2.0) + 0.75 ## 0.5 to 1.0
+	pulse = ( sin( t ) / 2.0) + 1.00 ## 0.5 to 1.0
 
 func gun_1_update( loadout : Array[B2_Weapon] ) -> void:
 	gun_1.texture 		= loadout[0].weapon_hud_sprite
@@ -33,14 +33,17 @@ func gun_1_update( loadout : Array[B2_Weapon] ) -> void:
 	else:
 		if not loadout[0].is_at_max_action():
 			percent1.text = "%s" % str( int(loadout[0].curr_action) ) + "%"
+			if B2_Playerdata.selected_gun == 0:
+				g_1_bar.modulate = Color( Color.DARK_GREEN, alpha )
 			percent1.modulate = Color.GRAY
 		else:
 			percent1.text = Text.pr("Ready!")
+			if B2_Playerdata.selected_gun == 0:
+				g_1_bar.modulate = Color( Color.GREEN * pulse, alpha )
 			percent1.modulate = Color.WHITE
 	
 	if B2_Playerdata.selected_gun == 0:
 		wpn_name.text = loadout[0].get_full_name()
-		g_1_bar.modulate = Color( Color.GREEN * pulse, alpha )
 		
 func gun_2_update( loadout : Array[B2_Weapon] ) -> void:
 	gun_2.texture 		= loadout[1].weapon_hud_sprite
@@ -54,14 +57,17 @@ func gun_2_update( loadout : Array[B2_Weapon] ) -> void:
 	else:
 		if not loadout[1].is_at_max_action():
 			percent2.text = "%s" % str( int(loadout[1].curr_action) ) + "%"
+			if B2_Playerdata.selected_gun == 1:
+				g_2_bar.modulate = Color( Color.DARK_GREEN * pulse, alpha )
 			percent2.modulate = Color.GRAY
 		else:
 			percent2.text = Text.pr("Ready!")
+			if B2_Playerdata.selected_gun == 1:
+				g_2_bar.modulate = Color( Color.GREEN * pulse, alpha )
 			percent2.modulate = Color.WHITE
-	
+		
 	if B2_Playerdata.selected_gun == 1:
 		wpn_name.text = loadout[1].get_full_name()
-		g_2_bar.modulate = Color( Color.GREEN * pulse, alpha )
 		
 func gun_3_update( loadout : Array[B2_Weapon] ) -> void:
 	gun_3.texture 		= loadout[2].weapon_hud_sprite
@@ -75,14 +81,17 @@ func gun_3_update( loadout : Array[B2_Weapon] ) -> void:
 	else:
 		if not loadout[2].is_at_max_action():
 			percent3.text = "%s" % str( int(loadout[2].curr_action) ) + "%"
+			if B2_Playerdata.selected_gun == 2:
+				g_3_bar.modulate = Color( Color.DARK_GREEN, alpha )
 			percent3.modulate = Color.GRAY
 		else:
 			percent3.text = Text.pr("Ready!")
+			if B2_Playerdata.selected_gun == 2:
+				g_3_bar.modulate = Color( Color.GREEN * pulse, alpha )
 			percent3.modulate = Color.WHITE
-	
+			
 	if B2_Playerdata.selected_gun == 2:
 		wpn_name.text = loadout[2].get_full_name()
-		g_3_bar.modulate = Color( Color.GREEN * pulse, alpha )
 		
 func tick_combat() -> void:
 	## PLACEHOLDER Quick hack

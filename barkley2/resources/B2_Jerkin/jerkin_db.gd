@@ -19,7 +19,7 @@ const JERKIN_LIST := {
 	"Kangaroo Skin":       [08, 08, 06, 0,  "+000", "+000", "+000", "+000", "+000", "+000", "This Kangaroo Skin is rimmed with pockets."],
 	"Gilbert's Pique":     [09, 04, 03, 0,  "+020", "+010", "+010", "+010", "+100", "+010", "Jerkin worn by the legendary Gilbert."],
 	"Bespoke Jerkin":      [10, 05, 06, 0,  "+030", "-030", "+050", "+010", "+000", "-100", "A jerkin all to oneself."],
-	}
+	} # Fsh means "Fashion" no idea how is this used.
 	
 static func reset() -> void:
 	B2_Config.set_user_save_data("player.jerkins.has", []); 		# ds_list of jerkins the player has
@@ -102,16 +102,16 @@ static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 		}
 	if jerkin == "": ## Defaults to the current jerkin.
 		if get_current_jerkin() != "":
-			stat["Sub"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ SUB ] )
-			stat["Pkt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ PKT ] )
-			stat["Wgt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ WGT ] )
-			stat["Fsh"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ FSH ] )
-			stat["Normal"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ NORMAL ] )
-			stat["Bio"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ BIO ] )
-			stat["Cyber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ CYBER ] )
-			stat["Mental"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ MENTAL ] )
-			stat["Kosmic"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ KOSMIC ] )
-			stat["Zauber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ ZAUBER ] )
+			stat["Sub"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ SUB ] 		)
+			stat["Pkt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ PKT ] 		)
+			stat["Wgt"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ WGT ] 		)
+			stat["Fsh"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ FSH ] 		)
+			stat["Normal"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ NORMAL ] 	)
+			stat["Bio"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ BIO ] 		)
+			stat["Cyber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ CYBER ] 	)
+			stat["Mental"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ MENTAL ] 	)
+			stat["Kosmic"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ KOSMIC ] 	)
+			stat["Zauber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ ZAUBER ] 	)
 			stat["Description"] = JERKIN_LIST[ get_current_jerkin() ][ DESCRIPTION ]
 		else:
 			push_warning("No jerkin equiped. Weird... Adding candy in 'null' pockets. Note, this is expected when enrering VR Mission")

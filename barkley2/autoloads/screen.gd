@@ -5,6 +5,8 @@ extends CanvasLayer
 
 # THis autoload handles the mouse cursor, along with its trail.
 
+signal shop_closed
+
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
@@ -12,6 +14,7 @@ const MAP_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_map/map_scr
 const PAUSE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
 const QUICK_MENU_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.tscn")
 const NOTE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_note/note_screen.tscn")
+const SHOP_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_shop/shop_screen.tscn")
 const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item.tscn")
 const GAME_OVER 			= preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
 
@@ -51,6 +54,9 @@ var is_notes_open := false
 
 var quickmenu_screen: CanvasLayer
 var is_quickmenu_open := false
+
+var shop_screen: CanvasLayer
+var is_shop_open := false
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
@@ -115,6 +121,9 @@ func set_cursor_type( type : TYPE) -> void:
 	curr_TYPE = type
 	mouse.modulate.a = 1.0
 			
+
+func is_any_menu_open() -> bool:
+	return B2_Screen.is_map_open or B2_Screen.is_notes_open or B2_Screen.is_shop_open or B2_Screen.is_quickmenu_open
 
 func display_damage_number( caller_node : Node, damage, color := Color.WHITE, linger_time := 2.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
@@ -193,13 +202,14 @@ func make_explosion(type : int, pos : Vector2, color := Color.WHITE, delay := 0.
 	
 	add_smoke( "mass", pos, Color( 0.25, 0.25, 0.25, randf_range(0.10, 0.25 )), 0.5, 0.15 )
 
-func make_blood_drop( pos : Vector2, amount : int, color := Color.RED ) -> void:
+func make_blood_drop( pos : Vector2, amount : int, color := Color.RED, velocity_mod := 1.0 ) -> void:
 	# print( "blood create at %s." % str(pos) )
 	for i in amount:
 		var blood := O_EFFECT_BLOODDROP.instantiate()
 		blood.position 				= pos
 		blood.puddle_color			= color
 		blood.z_index				= 0
+		blood.velocity_mod			= velocity_mod
 		get_tree().current_scene.add_child( blood, true )
 
 func _process(_delta) -> void:
@@ -318,6 +328,30 @@ func hide_map_screen() -> void:
 	if is_instance_valid(B2_CManager.o_hud):
 		B2_CManager.o_hud.show_hud()
 
+## Shop
+func show_shop_screen( shop_name : String ) -> void:
+	is_shop_open = true
+	get_tree().paused = true
+	shop_screen = SHOP_SCREEN.instantiate()
+	shop_screen.my_shop_name = shop_name
+	get_tree().current_scene.add_child( shop_screen )
+	B2_Music.volume_menu()
+	
+	#if is_instance_valid(B2_CManager.o_hud):
+		#B2_CManager.o_hud.hide_hud()
+
+func hide_shop_screen() -> void:
+	if is_instance_valid(shop_screen): # Debug errors
+		await shop_screen.hide_menu()
+		shop_screen.queue_free()
+	is_shop_open = false
+	get_tree().paused = false
+	B2_Music.volume_menu()
+	
+	#if is_instance_valid(B2_CManager.o_hud):
+		#B2_CManager.o_hud.show_hud()
+	shop_closed.emit()
+	
 ## Note
 func show_note_screen() -> void:
 	is_notes_open = true
@@ -365,6 +399,7 @@ func hide_quickmenu_screen( unpause := false ) -> void:
 func return_to_title():
 	if B2_Playerdata.record_curr_location():
 		B2_Playerdata.SaveGame() ## Do the saving bit.
-		
+	
+	B2_Sound.stop_loop()
 	get_tree().change_scene_to_file( title_screen_file )
 	get_tree().paused = false

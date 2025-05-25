@@ -22,7 +22,7 @@ const NOTE_LAYER		:= 29 # Notes screen
 const PAUSE_LAYER		:= 28 # Pause screen
 const NOTICE_LAYER		:= 26 # "You got pistol"
 const DIALOG_LAYER		:= 24 # Dialog Boxes
-const EFFECTATMO_LAYER	:= 24 # Rain and fog/smog
+const EFFECTATMO_LAYER	:= 1001 # Rain and fog/smog
 const HUD_LAYER			:= 20 # Inventory, etc
 const GUI_LAYER			:= 20 # Inventory, etc
 const DEBUG_LAYER		:= 41 # Debug Info
@@ -122,6 +122,8 @@ func select_user_slot( slot ):
 	selected_slot = slot
 	
 	usersavefile.clear()
+	B2_Gun.reset()
+	B2_Playerdata.player_stats = B2_HoopzStats.new()
 	
 	var file := "save%s.b2" % str( slot )
 	if FileAccess.file_exists( usersavefolder + file ):
