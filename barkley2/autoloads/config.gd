@@ -133,6 +133,9 @@ func select_user_slot( slot ):
 		if parse_error == OK:
 			usersavefile = json.get_data()
 			savefile.close()
+			
+			B2_Gun.load_guns()
+			B2_HoopzStats.load_stats()
 		else:
 			push_error( "cant load save file:", parse_error )
 
@@ -200,7 +203,7 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	selected_slot = slot
 	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )
 	#var json := JSON.new()
-	savefile.store_string( JSON.stringify( usersavefile ) )
+	savefile.store_string( JSON.stringify( usersavefile, "\t" ) )
 	savefile.close()
 	print_rich( "[color=blue]Game savedusing slot %s.[/color]" % slot )
 	

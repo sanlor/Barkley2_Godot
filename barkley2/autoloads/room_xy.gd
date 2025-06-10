@@ -7,8 +7,8 @@ extends CanvasLayer
 ## Also check RespawnLocation()
 
 ## DEBUG
-var print_debug_logs := false
-var print_room_load_logs := true
+var print_debug_logs 		:= false
+var print_room_load_logs 	:= true
 
 signal started_loading
 signal room_loaded( has_error )
@@ -238,6 +238,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if room_load_lock:
 		push_warning("B2_RoomXY: Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
+	
+	if randi_range(0,99) == 69: print_rich( "[color=red]BAZINGA![/color]" )
+		
 	room_load_lock = true
 	started_loading.emit()
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
@@ -287,7 +290,6 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	# Take away the player control.
 	B2_Input.player_has_control = false
 
-
 	if not its_the_same_room:
 		begin_load_room_scene( room_name )
 
@@ -325,7 +327,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		else:
 			# What happened?
 			breakpoint
-
+	
+	## Gives control back
 	B2_Input.player_has_control = true
 
 	tween = create_tween()
@@ -342,8 +345,10 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	room_finished_loading.emit()
 	room_load_lock = false
 	if print_debug_logs: print("Finished loading room %s." % room_name)
-	return
+	## NOTE 09/06/25 Deltarune ch 3 and 4 was pretty good. still need to finish the weird rounte on ch4.
+	## future me, is ch 5 and 6 any good?
 
+## Begin loading level with threaded load. This should be called before the fade out effect.
 func begin_load_room_scene( room_name : String ) -> void:
 	room_is_invalid = false
 	if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Loading room %s started.[/bgcolor]" % room_name )
@@ -356,22 +361,26 @@ func begin_load_room_scene( room_name : String ) -> void:
 
 		#var error = await room_loaded
 
+## Finish loading a new level. Should be run after the fadeout. NOTE ResourceLoader.load_threaded_get() locks the main thread.
 func finish_loading_room_scene( room_name ) -> void:
-		t2 = Time.get_ticks_msec() - t1
-		if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
-		if t2 > 1000.0:
-			if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
-		room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
+	room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
+	
+	## Room scene not valid, load debug room.
+	if not room_scene:
+		push_error( "B2_RoomXY: Room %s not indexed." % room_name )
+		room_is_invalid = true
+		this_room_x 	= 0
+		this_room_y 	= 0
+		push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
+		print_rich( "[color=pink]Loading debug save data...[/color]")
+		B2_Config.select_user_slot( 100 ) ## Debug Save slot
+		room_scene = ResourceLoader.load( invalid_room, "PackedScene", cachemode ) as PackedScene
 		
-		if not room_scene:
-			push_error("B2_RoomXY: Room %s not indexed." % room_name)
-			room_is_invalid = true
-			this_room_x 	= 0
-			this_room_y 	= 0
-			push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
-			push_warning( "Loading debug save data...")
-			B2_Config.select_user_slot( 100 ) ## Debug Save slot
-			room_scene = load( invalid_room ) as PackedScene
+	## Performance debug data.
+	t2 = Time.get_ticks_msec() - t1
+	if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
+	if t2 > 1000.0:
+		if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")
 
 func add_player_to_room( pos : Vector2, add_camera : bool ):
 	if this_room.is_empty():
@@ -404,25 +413,16 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 func _process(_delta: float) -> void:
 	if is_loading_room:
 		var error := ResourceLoader.load_threaded_get_status( path_loading_room, load_progress )
-		# THREAD_LOAD_INVALID_RESOURCE = 0
-		#		The resource is invalid, or has not been loaded with load_threaded_request().
-		# THREAD_LOAD_IN_PROGRESS = 1
-		#		The resource is still being loaded.
-		# THREAD_LOAD_FAILED = 2
-		#		Some error occurred during loading and it failed.
-		# THREAD_LOAD_LOADED = 3
-		#		The resource was loaded successfully and can be accessed via load_threaded_get().
-		if error == 1:
+		
+		if error == 1: 		## The resource is still being loaded.
 			if room_progress_bar != null:
 				room_progress_bar.visible = true
 				room_progress_bar.value = load_progress.front()
-		if error == 3:
+		if error == 3:		## The resource was loaded successfully and can be accessed via load_threaded_get().
 			is_loading_room = false
 			room_progress_bar.visible = false
-			#room_loaded.emit( false )
 			load_progress.clear()
-		if error == 2:
+		if error == 2:		## Some error occurred during loading and it failed.
 			is_loading_room = false
 			room_progress_bar.visible = false
-			#room_loaded.emit( true )
 			load_progress.clear()

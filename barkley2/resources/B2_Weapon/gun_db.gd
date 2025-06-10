@@ -515,10 +515,38 @@ const geneMaximumVariance 		:= 30;	## Range = 1-100
 const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 
-
 static func reset() -> void:
 	B2_Playerdata.bandolier.clear()
 
+static func save_guns() -> void:
+	var gun_array := []
+	if B2_Playerdata.bandolier:
+		for gun in B2_Playerdata.bandolier:
+			if gun is B2_Weapon:
+				gun_array.append( JSON.from_native( var_to_bytes_with_objects(gun) ) )
+	B2_Config.set_user_save_data( "player.guns.bandolier", gun_array )
+	
+	var gunbag_array := []
+	if B2_Playerdata.gun_bag:
+		for gunbag in B2_Playerdata.gun_bag:
+			if gunbag is B2_Weapon:
+				gunbag_array.append( JSON.from_native( var_to_bytes_with_objects(gunbag) ) )
+	B2_Config.set_user_save_data( "player.guns.bag", gunbag_array )
+	
+## TODO Fix loading.
+static func load_guns() -> void:
+	var gun_array : Array = B2_Config.get_user_save_data( "player.guns.bandolier", [] )
+	if gun_array:
+		for gun in gun_array:
+			if gun is PackedByteArray:
+				B2_Playerdata.bandolier.append( bytes_to_var_with_objects( JSON.to_native(gun) ) )
+	
+	var gunbag_array : Array = B2_Config.get_user_save_data( "player.guns.bag", [] )
+	if gunbag_array:
+		for gunbag in gun_array:
+			if gunbag is PackedByteArray:
+				B2_Playerdata.gun_bag.append( bytes_to_var_with_objects( JSON.to_native(gunbag) ) )
+	
 ## Code related to weapon creation, generation and fusion (maybe?).
 #region Gun creation
 # Check Drop("generate") line 396

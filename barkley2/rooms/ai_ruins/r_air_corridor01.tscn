@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bhuubfu66dey1"]
+[gd_scene load_steps=17 format=4 uid="uid://bhuubfu66dey1"]
 
 [ext_resource type="Script" uid="uid://bkgxfiokaxc2r" path="res://barkley2/rooms/ai_ruins/r_air_corridor_01.gd" id="1_0664k"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="2_8n0nt"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://0ivnjx3er6em" path="res://barkley2/scenes/Objects/_doors/o_door_tech01.tscn" id="9_ucm1r"]
 [ext_resource type="Script" uid="uid://bo20oebrnray3" path="res://tools/o_door_converter.gd" id="10_3cl7i"]
 [ext_resource type="PackedScene" uid="uid://bnxoqmiv12gk8" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn" id="11_cy1oo"]
-[ext_resource type="PackedScene" uid="uid://dv0na0w3edaj" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_pollux01.tscn" id="12_b3qhj"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="19_wa52g"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_awayc"]
@@ -1666,13 +1665,6 @@ WAIT | 1
 CHOICE_2
 EXIT"
 
-[sub_resource type="Resource" id="Resource_b3qhj"]
-script = ExtResource("8_7mveo")
-original_script = "DIALOG | Pollux | Shop menu test. Get ready.
-SHOP   | open | Egidius' Jerkinry
-DIALOG | Pollux | Done."
-metadata/_custom_type_script = "uid://brqjwvhoi8eux"
-
 [node name="r_air_corridor01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_awayc")
@@ -1734,10 +1726,6 @@ cutscene_script = SubResource("Resource_vkjtf")
 [node name="o_archambeau01" parent="." instance=ExtResource("9_ctdaj")]
 position = Vector2(406, 457)
 cutscene_script = SubResource("Resource_weg85")
-
-[node name="o_pollux01" parent="." instance=ExtResource("12_b3qhj")]
-position = Vector2(90, 154)
-cutscene_script = SubResource("Resource_b3qhj")
 
 [node name="o_door_tech01" parent="." instance=ExtResource("9_ucm1r")]
 z_index = 0

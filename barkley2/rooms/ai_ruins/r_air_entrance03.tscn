@@ -1,6 +1,6 @@
-[gd_scene load_steps=52 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=54 format=4 uid="uid://vkjgyg68ejy1"]
 
-[ext_resource type="Script" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
+[ext_resource type="Script" uid="uid://b7c15mxmjj4ld" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_1n4eh"]
 [ext_resource type="PackedScene" uid="uid://ou1fr6qh8mm3" path="res://barkley2/scenes/Objects/_environs/_architecture/o_air_column03.tscn" id="4_y53qg"]
@@ -15,13 +15,14 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="9_tmb0m"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="10_5fyhx"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_4eipa"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="11_ywcdw"]
+[ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="11_ywcdw"]
 [ext_resource type="PackedScene" uid="uid://ikgvq4vy4orr" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.tscn" id="13_xkxsk"]
-[ext_resource type="Shader" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="14_bgd1o"]
+[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="14_bgd1o"]
 [ext_resource type="PackedScene" uid="uid://d26jid11t8c1n" path="res://barkley2/scenes/Objects/_doors/o_door_tech02.tscn" id="14_jow2u"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="15_q8cbp"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="20_1puvr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="20_1puvr"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="23_ivpqv"]
+[ext_resource type="PackedScene" uid="uid://dv0na0w3edaj" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_pollux01.tscn" id="23_kyuqg"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e2kse"]
 vertices = PackedVector2Array(214, 106, 262, 106, 262, 154, 378, 154, 378, 138, 394, 138, 394, 74, 438, 74, 438, 138, 454, 138, 454, 154, 378, 246, 570, 154, 570, 106, 618, 106, 678, 246, 618, 42, 630, 42, 630, 106, 678, 106, 454, 442, 550, 442, 550, 662, 454, 662, 454, 710, 378, 710, 378, 662, 378, 442, 282, 662, 282, 442, 454, 246, 154, 246, 154, 106, 202, 106, 202, 42, 214, 42)
@@ -1868,11 +1869,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_g025c"]
+script = ExtResource("20_1puvr")
+original_script = "DIALOG | Pollux | Shop menu test. Get ready.
+SHOP   | open | Egidius' Jerkinry
+DIALOG | Pollux | Done."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_e2kse")
 script = ExtResource("1_en1eg")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(624, 197)
 collision_layer = NodePath("layer - collision")
@@ -2107,3 +2115,7 @@ metadata/code = "RoomXY(r_usw_airuinsLobby02, 272, 192);
 "
 metadata/inst_name = "inst_FEF7AFD4"
 metadata/scale = Vector2(3, 1)
+
+[node name="o_pollux01" parent="." instance=ExtResource("23_kyuqg")]
+position = Vector2(283, 439)
+cutscene_script = SubResource("Resource_g025c")

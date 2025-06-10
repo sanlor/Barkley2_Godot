@@ -111,6 +111,16 @@ var vuln_cosmic  			:= 3.0
 var max_action_sfx_played	:= false
 var block_action_increase 	:= false
 
+static func save_stats() -> void:
+	B2_Config.set_user_save_data( "player.guns.stat", var_to_bytes(B2_Playerdata.player_stats) )
+	
+static func load_stats() -> void:
+	var p = B2_Config.get_user_save_data( "player.guns.stat" )
+	if p and p is PackedByteArray:
+		B2_Playerdata.player_stats = bytes_to_var(p)
+	else:
+		B2_Playerdata.player_stats = B2_HoopzStats.new()
+
 func set_base_stat( stat : String, value : float ) -> void:
 	set(stat.to_lower(), value)
 	if get(stat.to_lower()) == value:
