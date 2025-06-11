@@ -60,9 +60,10 @@ const HIDDEN_Y 	:= 241.0
 var hudDrawCount := 0
 
 ## gun ammo hud
-var pulse 	:= 0.0
-var t		:= 0.0
-var gun_hud_intensity := 1.0
+var pulse 				:= 0.0
+var t					:= 0.0
+var gun_hud_intensity 	:= 1.0
+var prev_gun			: B2_Weapon
 
 ## Combat stuff
 const combat_fade_speed := 0.25
@@ -244,8 +245,7 @@ func set_ammo_amt( amt : int ):
 func _flash_hud() -> void:
 	hud_gun.intensity = 1.85
 	gun_hud_intensity = 4.0
-	if gun_hud_tween:
-		gun_hud_tween.kill()
+	if gun_hud_tween: gun_hud_tween.kill()
 	gun_hud_tween = create_tween()
 	gun_hud_tween.set_parallel( true )
 	gun_hud_tween.tween_property( hud_gun, "intensity", 		1.0, 0.5 )
@@ -256,7 +256,10 @@ func _physics_process(_delta: float) -> void:
 	
 	var curr_wpn = B2_Gun.get_current_gun()
 	if curr_wpn:
-		hud_gun_sprite.texture = curr_wpn.weapon_hud_sprite
+		# update the gun hud texture
+		if curr_wpn != prev_gun or not hud_gun_sprite.texture:
+			hud_gun_sprite.texture = curr_wpn.get_weapon_hud_sprite()
+			prev_gun = curr_wpn
 		set_ammo_amt( curr_wpn.curr_ammo )
 	else:
 		hud_gun_sprite.texture = null
@@ -264,11 +267,7 @@ func _physics_process(_delta: float) -> void:
 		
 	hud_gun_sprite.modulate = Color.WHITE * gun_hud_intensity
 	
-	if not B2_Playerdata.is_holding_gun:
-		hud_gun_sprite.modulate.a 	= 0.55
-	else:
-		hud_gun_sprite.modulate.a 	= 0.85
+	if not B2_Playerdata.is_holding_gun:		hud_gun_sprite.modulate.a 	= 0.55
+	else:										hud_gun_sprite.modulate.a 	= 0.85
 	
-	
-		
 	hud_gun.queue_redraw()

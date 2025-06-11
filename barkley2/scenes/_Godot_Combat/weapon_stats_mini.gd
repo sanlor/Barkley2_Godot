@@ -22,7 +22,7 @@ func _physics_process(_delta: float) -> void:
 	pulse = ( sin( t ) / 2.0) + 1.00 ## 0.5 to 1.0
 
 func gun_1_update( loadout : Array[B2_Weapon] ) -> void:
-	gun_1.texture 		= loadout[0].weapon_hud_sprite
+	gun_1.texture 		= loadout[0].get_weapon_hud_sprite()
 	g_1_bar.value 		= loadout[0].curr_action
 	g_1_bar.max_value 	= loadout[0].max_action
 	g_1_bar.modulate = Color( Color.WHITE, alpha )
@@ -46,7 +46,7 @@ func gun_1_update( loadout : Array[B2_Weapon] ) -> void:
 		wpn_name.text = loadout[0].get_full_name()
 		
 func gun_2_update( loadout : Array[B2_Weapon] ) -> void:
-	gun_2.texture 		= loadout[1].weapon_hud_sprite
+	gun_2.texture 		= loadout[1].get_weapon_hud_sprite()
 	g_2_bar.value 		= loadout[1].curr_action
 	g_2_bar.max_value 	= loadout[1].max_action
 	g_2_bar.modulate = Color( Color.WHITE, alpha )
@@ -70,7 +70,7 @@ func gun_2_update( loadout : Array[B2_Weapon] ) -> void:
 		wpn_name.text = loadout[1].get_full_name()
 		
 func gun_3_update( loadout : Array[B2_Weapon] ) -> void:
-	gun_3.texture 		= loadout[2].weapon_hud_sprite
+	gun_3.texture 		= loadout[2].get_weapon_hud_sprite()
 	g_3_bar.value 		= loadout[2].curr_action
 	g_3_bar.max_value 	= loadout[2].max_action
 	g_3_bar.modulate = Color( Color.WHITE, alpha )

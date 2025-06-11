@@ -6,9 +6,13 @@ class_name B2_Gun
 # also scr_combat_weapons_generate for material an gun generation.
 
 ## Skills
-const PRECISION_SHOT 	= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/precision_shot.tres")
-const FULL_AUTO 		= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/full_auto.tres")
-const BURST_FIRE 		= preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/burst_fire.tres")
+enum SKILL{NONE,PRECISION_SHOT,FULL_AUTO,BURST_FIRE}
+const SKILL_LIST : Dictionary[SKILL,B2_WeaponSkill] = {
+	SKILL.NONE 				: null,
+	SKILL.PRECISION_SHOT 	: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/precision_shot.tres"),
+	SKILL.FULL_AUTO 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/full_auto.tres"),
+	SKILL.BURST_FIRE 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/burst_fire.tres"),
+}
 
 const GUNWIDTH 		= 49;
 const GUNHEIGHT 	= 24;
@@ -332,12 +336,6 @@ const suffix := [
 	{ "action": null, "description": "reactive", "gene1": "strange", "gene2": "mental", "name": "of Bailing Out" },
 	]
 
-## Data related to the material status modifiers. This took me 1 hour to make, hope I use it. ## DEPRECATED
-#const GUN_MATERIAL_DB = preload("res://barkley2/resources/B2_Weapon/gun_material_db.json")
-
-## Data related to the weapon type. its missing a lot of stuff. ## DEPRECATED
-#const GUN_TYPE_DB = preload("res://barkley2/resources/B2_Weapon/gun_type_db.json")
-
 ## List of B2_WeaponMaterial resources.
 const MATERIAL_LIST : Dictionary[MATERIAL, B2_WeaponMaterial] = {
 	MATERIAL.PRINTED : 			preload("res://barkley2/resources/B2_Weapon/material/3D Printed.tres"),
@@ -422,18 +420,6 @@ const MATERIAL_LIST : Dictionary[MATERIAL, B2_WeaponMaterial] = {
 	MATERIAL.YGGDRASIL : 		preload("res://barkley2/resources/B2_Weapon/material/Yggdrasil.tres"),
 	MATERIAL.ZINC : 			preload("res://barkley2/resources/B2_Weapon/material/Zinc.tres"),
 	}
-## Old sprite sheet.  ## DEPRECATED
-#const FRANKIE_GUNS_OLD := [ ## List of weapon sheets.
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns0.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns1.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns2.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns3.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns4.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns5.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns6.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns7.png"),
-	#preload("res://barkley2/assets/b2_original/guns/FrankieGuns8.png"),
-	#]
 	
 ## List of B2_WeaponType resources.
 const TYPE_LIST : Dictionary[TYPE, B2_WeaponType] = {
@@ -595,6 +581,7 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 
 	gun_dict[ "weapon_lvl" ] 			= var_to_str( gun.weapon_lvl )
 	gun_dict[ "weapon_xp" ] 			= var_to_str( gun.weapon_xp )
+	gun_dict[ "skill_list" ] 			= var_to_str( gun.skill_list )
 	
 	gun_dict[ "favorite" ] 				= var_to_str( gun.favorite )
 	gun_dict[ "son" ] 					= var_to_str( gun.son )
@@ -611,53 +598,54 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 ## TODO HANDLE SKILLS
 static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	var gun := B2_Weapon.new()
-	gun.weapon_type 					= str_to_var( gun_dict[ "weapon_type" ] )
-	gun.weapon_material 				= str_to_var( gun_dict[ "weapon_material" ] )
-	gun.weapon_group 					= str_to_var( gun_dict[ "weapon_group" ] )
+	gun.weapon_type 					= str_to_var( gun_dict.get( "weapon_type") )
+	gun.weapon_material 				= str_to_var( gun_dict.get( "weapon_material" ) )
+	gun.weapon_group 					= str_to_var( gun_dict.get( "weapon_group" ) )
 
-	gun.weapon_name 					= str_to_var( gun_dict[ "weapon_name" ] )
-	gun.weapon_short_name 				= str_to_var( gun_dict[ "weapon_short_name" ] )
-	gun.weapon_pickup_name 				= str_to_var( gun_dict[ "weapon_pickup_name" ] )
-	gun.weapon_pickup_color 			= str_to_var( gun_dict[ "weapon_pickup_color" ] )
+	gun.weapon_name 					= str_to_var( gun_dict.get( "weapon_name" ) )
+	gun.weapon_short_name 				= str_to_var( gun_dict.get( "weapon_short_name" ) )
+	gun.weapon_pickup_name 				= str_to_var( gun_dict.get( "weapon_pickup_name" ) )
+	gun.weapon_pickup_color 			= str_to_var( gun_dict.get( "weapon_pickup_color" ) )
 	
-	gun.prefix1 						= str_to_var( gun_dict[ "prefix1" ] )
-	gun.prefix2 						= str_to_var( gun_dict[ "prefix2" ] )
-	gun.suffix 							= str_to_var( gun_dict[ "suffix" ] )
-	gun.att 							= str_to_var( gun_dict[ "att" ] )
-	gun.spd 							= str_to_var( gun_dict[ "spd" ] )
-	gun.acc 							= str_to_var( gun_dict[ "acc" ] )
-	gun.afx 							= str_to_var( gun_dict[ "afx" ] )
-	gun.wgt 							= str_to_var( gun_dict[ "wgt" ] )
+	gun.prefix1 						= str_to_var( gun_dict.get( "prefix1" ) )
+	gun.prefix2 						= str_to_var( gun_dict.get( "prefix2" ) )
+	gun.suffix 							= str_to_var( gun_dict.get( "suffix" ) )
+	gun.att 							= str_to_var( gun_dict.get( "att" ) )
+	gun.spd 							= str_to_var( gun_dict.get( "spd" ) )
+	gun.acc 							= str_to_var( gun_dict.get( "acc" ) )
+	gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
+	gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
 
-	gun.max_action 						= str_to_var( gun_dict[ "max_action" ] )
-	gun.curr_action 					= str_to_var( gun_dict[ "curr_action" ] )
+	gun.max_action 						= str_to_var( gun_dict.get( "max_action" ) )
+	gun.curr_action 					= str_to_var( gun_dict.get( "curr_action" ) )
 
-	gun.max_ammo 						= str_to_var( gun_dict[ "max_ammo" ] )
-	gun.curr_ammo 						= str_to_var( gun_dict[ "curr_ammo" ] )
+	gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
+	gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
 
-	gun.attack_cost 					= str_to_var( gun_dict[ "attack_cost" ] )
+	gun.attack_cost 					= str_to_var( gun_dict.get( "attack_cost" ) )
 	
-	gun.generic_damage 					= str_to_var( gun_dict[ "generic_damage" ] )
-	gun.bio_damage 						= str_to_var( gun_dict[ "bio_damage" ] )
-	gun.cyber_damage 					= str_to_var( gun_dict[ "cyber_damage" ] )
-	gun.mental_damage 					= str_to_var( gun_dict[ "mental_damage" ] )
-	gun.cosmic_damage 					= str_to_var( gun_dict[ "cosmic_damage" ] )
-	gun.zauber_damage 					= str_to_var( gun_dict[ "zauber_damage" ] )
+	gun.generic_damage 					= str_to_var( gun_dict.get( "generic_damage" ) )
+	gun.bio_damage 						= str_to_var( gun_dict.get( "bio_damage" ) )
+	gun.cyber_damage 					= str_to_var( gun_dict.get( "cyber_damage" ) )
+	gun.mental_damage 					= str_to_var( gun_dict.get( "mental_damage" ) )
+	gun.cosmic_damage 					= str_to_var( gun_dict.get( "cosmic_damage" ) )
+	gun.zauber_damage 					= str_to_var( gun_dict.get( "zauber_damage" ) )
 
-	gun.weapon_lvl 						= str_to_var( gun_dict[ "weapon_lvl" ] )
-	gun.weapon_xp 						= str_to_var( gun_dict[ "weapon_xp" ] )
+	gun.weapon_lvl 						= str_to_var( gun_dict.get( "weapon_lvl" ) )
+	gun.weapon_xp 						= str_to_var( gun_dict.get( "weapon_xp" ) )
 	
-	gun.favorite 						= str_to_var( gun_dict[ "favorite" ] )
-	gun.son 							= str_to_var( gun_dict[ "son" ] )
-	gun.lineage_top 					= str_to_var( gun_dict[ "lineage_top" ] )
-	gun.lineage_bot 					= str_to_var( gun_dict[ "lineage_bot" ] )
-	gun.generation 						= str_to_var( gun_dict[ "generation" ] )
+	gun.skill_list 						= str_to_var( gun_dict.get( "skill_list" ) )
+	
+	gun.favorite 						= str_to_var( gun_dict.get( "favorite" ) )
+	gun.son 							= str_to_var( gun_dict.get( "son" ) )
+	gun.lineage_top 					= str_to_var( gun_dict.get( "lineage_top" ) )
+	gun.lineage_bot 					= str_to_var( gun_dict.get( "lineage_bot" ) )
+	gun.generation 						= str_to_var( gun_dict.get( "generation" ) )
 
-	gun.bullets_per_shot 				= str_to_var( gun_dict[ "bullets_per_shot" ] )
-	gun.ammo_per_shot 					= str_to_var( gun_dict[ "ammo_per_shot" ] )
-	gun.wait_per_shot 					= str_to_var( gun_dict[ "wait_per_shot" ] )
-	gun.bullet_spread 					= str_to_var( gun_dict[ "bullet_spread" ] )
-	gun.setup()
+	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
+	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )
+	gun.wait_per_shot 					= str_to_var( gun_dict.get( "wait_per_shot" ) )
+	gun.bullet_spread 					= str_to_var( gun_dict.get( "bullet_spread" ) )
 	return gun
 #endregion
 
@@ -694,10 +682,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	## Get the material resource
 	#wpn.material_data = weapon_material( wpn.weapon_material ) ## DEPRECATED
 	
-	if TYPE_LIST[ wpn.weapon_type ] == null:
-		push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
-	if MATERIAL_LIST[ wpn.weapon_material ] == null:
-		push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
+	if TYPE_LIST[ wpn.weapon_type ] == null:			push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
+	if MATERIAL_LIST[ wpn.weapon_material ] == null:	push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
 	var affix_count := 0
 	var affix_rand := 0
@@ -773,8 +759,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.bullet_spread 		= 0.1
 			
 			## Skills
-			wpn.skill_list[BURST_FIRE] 	= 0
-			wpn.skill_list[FULL_AUTO] 	= 0
+			wpn.skill_list[SKILL.BURST_FIRE] 	= 0
+			wpn.skill_list[SKILL.FULL_AUTO] 	= 0
 			
 		GROUP.MOUNTED:
 			wpn.bullets_per_shot 	= 25
@@ -789,8 +775,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.bullet_spread 		= 0.05
 			
 			## Skills
-			wpn.skill_list[PRECISION_SHOT] 	= 0
-			wpn.skill_list[BURST_FIRE] 		= 25
+			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
+			wpn.skill_list[SKILL.BURST_FIRE] 		= 25
 			
 		GROUP.PROJECTILE:
 			wpn.bullets_per_shot 	= 1
@@ -805,8 +791,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.bullet_spread 		= 0.025
 			
 			## Skills
-			wpn.skill_list[PRECISION_SHOT] 	= 0
-			wpn.skill_list[BURST_FIRE] 		= 25
+			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
+			wpn.skill_list[SKILL.BURST_FIRE] 		= 25
 		_:
 			## summtin REEEALY isnt right.
 			breakpoint
@@ -856,19 +842,15 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 		else:						tries -= 1 
 		
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
-static func weapon_graphics( wpn : B2_Weapon ) -> void:
-	## scr_combat_weapons_applyGraphic
-	
-	## Hud Image
-	var first_atlas 					:= AtlasTexture.new()
+static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic
+	var first_atlas 					:= AtlasTexture.new() ## Hud Image
 	first_atlas.atlas 					= FRANKIE_GUNS
-	
 	first_atlas.region.size.x 			= GUNWIDTH
 	first_atlas.region.size.y 			= GUNHEIGHT
 	first_atlas.region.position.x 		= wpn.weapon_material 	* GUNWIDTH
 	first_atlas.region.position.y 		= wpn.weapon_type 		* GUNHEIGHT
-	
-	wpn.weapon_hud_sprite 				= first_atlas
+	first_atlas.resource_local_to_scene	= true
+	return first_atlas
 
 ## this... is a mess. simulates the script scr_combat_weapons_applyMaterial() 		DEPRECATED
 #static func weapon_material( mat : MATERIAL ) -> B2_WeaponMaterial:
@@ -1012,6 +994,9 @@ static func distribute_battle_exp( _exp : int ) -> void:
 		var per_gun_exp := _exp / get_bandolier().size()
 		for gun : B2_Weapon in get_bandolier():
 			gun.gain_exp( per_gun_exp )
+	
+static func get_skill( skill : SKILL ) -> B2_WeaponSkill:
+	return SKILL_LIST.get( skill, null )
 	
 static func get_bandolier() -> Array[B2_Weapon]:
 	return B2_Playerdata.bandolier

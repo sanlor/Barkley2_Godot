@@ -36,15 +36,17 @@ func populate_skill_list():
 	
 	if wpn:
 		var wpn_xp := wpn.weapon_xp
-		for skill : B2_WeaponSkill in wpn.skill_list:
+		for skill_name : B2_Gun.SKILL in wpn.skill_list:
+			var skill := B2_Gun.get_skill( skill_name )
+			
 			## Check if current Gun XP is enought to unlock this skill
-			if wpn_xp >= wpn.skill_list[skill]:
+			if wpn_xp >= wpn.skill_list[ skill_name ]:
 				var btn := Button.new()
 				btn.text = Text.pr( skill.skill_name )
 				var t := ""
 				t = Text.pr( skill.skill_description )
-				t += "\nCost: %s A.P." % str( skill.skill_action_cost )
-				t += "\nAmmo required: %s" % str( skill.ammo_per_shot )
+				t += Text.pr( "\nCost: %s A.P." % str( skill.skill_action_cost ) )
+				t += Text.pr( "\nAmmo required: %s" % str( skill.ammo_per_shot ) )
 				
 				btn.mouse_entered.connect( btn.call_deferred.bind("grab_focus") )
 				btn.focus_entered.connect( description_text.set_text.bind( t ) )

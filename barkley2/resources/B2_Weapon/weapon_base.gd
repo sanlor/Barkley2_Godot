@@ -34,7 +34,7 @@ var suffix			: String # Dictionary ## Set by the wpn generation
 #var type_data 		: B2_WeaponType
 #var material_data 	: B2_WeaponMaterial
 
-var weapon_hud_sprite 		: AtlasTexture
+#var weapon_hud_sprite 		: AtlasTexture
 
 ## SFX stuff
 var max_action_sfx_played 		:= false
@@ -78,7 +78,7 @@ var lineage_bot					:= "" ## ????
 var generation					:= 1
 
 #@export var normal_attack	: B2_WeaponAttack						## Normal attack
-@export var skill_list		: Dictionary[B2_WeaponSkill, int] 		## List of attacks, with the EXP necessary to unlock it
+@export var skill_list		: Dictionary[B2_Gun.SKILL, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
 @export_category("Bullet settings")
@@ -90,11 +90,16 @@ var generation					:= 1
 var is_shooting		:= false
 var abort_shooting 	:= false
 
-# Populate some resources based on the weapon data.
-func setup() -> void:
-	B2_Gun.weapon_graphics( self )
-
 #region Weapon data
+func get_skill_list() -> Dictionary:
+	var s_list : Dictionary[B2_WeaponSkill,int] = {}
+	for s : B2_Gun.SKILL in skill_list:
+		s_list[ B2_Gun.SKILL_LIST[s] ] = skill_list[s]
+	return s_list
+
+func get_weapon_hud_sprite() -> AtlasTexture:
+	return B2_Gun.weapon_graphics( self )
+
 func get_full_name() -> String:
 	var full_name := ""
 	if prefix1:		full_name += prefix1 + " "
