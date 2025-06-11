@@ -27,12 +27,12 @@ enum EFFECT{ DAMAGE, RECOVERY }
 ## gun[? "rarity"] = 0; 		## TODO
 ## gun[? "pointsUsed"] = 0; 	## TODO
 
-var prefix1			: Dictionary ## Set by the wpn generation
-var prefix2			: Dictionary ## Set by the wpn generation
-var suffix			: Dictionary ## Set by the wpn generation
+var prefix1			: String # Dictionary ## Set by the wpn generation
+var prefix2			: String # Dictionary ## Set by the wpn generation
+var suffix			: String # Dictionary ## Set by the wpn generation
 
-var type_data 		: B2_WeaponType
-var material_data 	: B2_WeaponMaterial
+#var type_data 		: B2_WeaponType
+#var material_data 	: B2_WeaponMaterial
 
 var weapon_hud_sprite 		: AtlasTexture
 
@@ -72,7 +72,7 @@ var curr_ammo					:= 30
 
 ## Genetics
 var favorite					:= 1
-var son							: B2_Weapon
+var son							:= "" # B2_Weapon ## TODO Add Lineage stuff
 var lineage_top					:= "" ## ????
 var lineage_bot					:= "" ## ????
 var generation					:= 1
@@ -81,7 +81,7 @@ var generation					:= 1
 @export var skill_list		: Dictionary[B2_WeaponSkill, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
-@export_category("Skill settings")
+@export_category("Bullet settings")
 @export var bullets_per_shot 	:= 5 	## how many bullets are spawn
 @export var ammo_per_shot		:= 5 	## how much ammo is used
 @export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
@@ -90,36 +90,38 @@ var generation					:= 1
 var is_shooting		:= false
 var abort_shooting 	:= false
 
+# Populate some resources based on the weapon data.
+func setup() -> void:
+	B2_Gun.weapon_graphics( self )
+
 #region Weapon data
 func get_full_name() -> String:
 	var full_name := ""
-	if prefix1:
-		full_name += prefix1["name"] + " "
-	if prefix2:
-		full_name += prefix2["name"] + " "
+	if prefix1:		full_name += prefix1 + " "
+	if prefix2:		full_name += prefix2 + " "
 	full_name += weapon_name
-	if suffix:
-		full_name += " " + suffix["name"]
+	if suffix:		full_name += " " + suffix
 	
 	return full_name
 
-## Used when you dont know the affixes yet
+## Used when you dont know the affixes yet 
+## TODO AFIXES BITCH!
 func get_secret_name() -> String:
 	var full_name := ""
 	if prefix1:
 		if randf() > 0.5: ## TEMPORARY!!!!!
-			full_name += prefix1["name"] + " "
+			full_name += prefix1 + " "
 		else:
 			full_name += "?????" + " "
 	if prefix2:
 		if randf() > 0.5: ## TEMPORARY!!!!!
-			full_name += prefix2["name"] + " "
+			full_name += prefix2 + " "
 		else:
 			full_name += "?????" + " "
 	full_name += weapon_name
 	if suffix:
 		if randf() > 0.5: ## TEMPORARY!!!!!
-			full_name += " " + suffix["name"]
+			full_name += " " + suffix
 		else:
 			full_name += "?????" + " "
 	
@@ -129,37 +131,37 @@ func get_short_name() -> String:
 	return weapon_short_name
 
 func get_power_mod() -> float:
-	return (type_data._pow + material_data._pow) / 2.0
+	return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
 
 func get_speed_mod() -> float:
-	return (type_data._spd + material_data._spd) / 2.0
+	return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
 
 func get_ammo_mod() -> float:
-	return (type_data._amm + material_data._amm) / 2.0
+	return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
 	
 func get_affix_mod() -> float:
-	return (type_data._afx + material_data._afx) / 2.0
+	return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
 
 func get_held_sprite() -> String:
-	return type_data.gunHeldSprite
+	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite
 #
 # Return an array of colors for the main color, parts color, spots color and parts alpha.
 # Color.HOT_PINK means ERROR
 func get_gun_colors() -> Array:
 	var colors := [ Color.WHITE, null, null ]
-	if material_data.col:
-		colors[0] = Color.from_string( material_data.col, 			Color.HOT_PINK )
-	if material_data.displayParts:
-		colors[1] = Color.from_string( material_data.gunheldcol2, 	Color.HOT_PINK )
-	if material_data.displaySpots:
-		colors[2] = Color.from_string( material_data.gunheldcol3, 	Color.HOT_PINK )
+	if B2_Gun.MATERIAL_LIST[weapon_material].col:
+		colors[0] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].col, 			Color.HOT_PINK )
+	if B2_Gun.MATERIAL_LIST[weapon_material].displayParts:
+		colors[1] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].gunheldcol2, 	Color.HOT_PINK )
+	if B2_Gun.MATERIAL_LIST[weapon_material].displaySpots:
+		colors[2] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].gunheldcol3, 	Color.HOT_PINK )
 	return colors
 
 ## Gunshot sound
 func get_soundID() -> String:
-	var soundId := type_data.soundId
-	if material_data.soundId: ## Material sound override
-		soundId = material_data.soundId
+	var soundId := B2_Gun.TYPE_LIST[weapon_type].soundId
+	if B2_Gun.MATERIAL_LIST[weapon_material].soundId: ## Material sound override
+		soundId = B2_Gun.MATERIAL_LIST[weapon_material].soundId
 	if soundId.is_empty():
 		soundId = "hoopz_shellcasing_light" ## Default
 		## NOTE This is wrong.
@@ -167,53 +169,53 @@ func get_soundID() -> String:
 	
 ## Gunshot flash sprite
 func get_flash_sprite() -> String:
-	return type_data.flashSprite
+	return B2_Gun.TYPE_LIST[weapon_type].flashSprite
 
 ## Gun Swap sound
 func get_swap_sound() -> String:
-	if type_data.swapSound.is_empty():
+	if B2_Gun.TYPE_LIST[weapon_type].swapSound.is_empty():
 		return "hoopz_swapguns" # Default
 	else:
-		return type_data.swapSound
+		return B2_Gun.TYPE_LIST[weapon_type].swapSound
 
 func get_reload_sound() -> String:
-	if type_data.reloadSound.is_empty():
+	if B2_Gun.TYPE_LIST[weapon_type].reloadSound.is_empty():
 		return "hoopz_reload" # Default
 	else:
-		return type_data.reloadSound
+		return B2_Gun.TYPE_LIST[weapon_type].reloadSound
 
 ## Bullet sprite
 func get_bullet_sprite() -> String:
-	return material_data.pBulletSprite
+	return B2_Gun.MATERIAL_LIST[weapon_material].pBulletSprite
 
 ## Bullet´s color
 func get_bullet_color() -> Color:
-	if material_data.pBulletColor.is_empty():
+	if B2_Gun.MATERIAL_LIST[weapon_material].pBulletColor.is_empty():
 		return Color.WHITE # Default
 	else:
-		return Color( material_data.pBulletColor )
+		return Color( B2_Gun.MATERIAL_LIST[weapon_material].pBulletColor )
 
 ## Bullet casing sound
 func get_casing_sound() -> String:
-	return type_data.casingSound
+	return B2_Gun.TYPE_LIST[weapon_type].casingSound
 	
 ## Bullet casing color
 func get_casing_color() -> Color:
-	return Color.from_string( type_data.bcasingCol, Color.HOT_PINK )
+	return Color.from_string( B2_Gun.TYPE_LIST[weapon_type].bcasingCol, Color.HOT_PINK )
 	
 ## Bullet casing size/scale
 func get_casing_scale() -> float:
-	if type_data.bcasingScale.is_empty():
+	if B2_Gun.TYPE_LIST[weapon_type].bcasingScale.is_empty():
 		return 0.5 # Default
 	else:
-		return float( type_data.bcasingScale )
+		return float( B2_Gun.TYPE_LIST[weapon_type].bcasingScale )
 	
 ## Bullet casing speed/gravity
 func get_casing_speed() -> float:
-	if type_data.bcasingSpd.is_empty():
+	if B2_Gun.TYPE_LIST[weapon_type].bcasingSpd.is_empty():
 		return 1.0 # Default
 	else:
-		return float( type_data.bcasingSpd )
+		return float( B2_Gun.TYPE_LIST[weapon_type].bcasingSpd )
 #endregion
 
 #region Weapon Operation

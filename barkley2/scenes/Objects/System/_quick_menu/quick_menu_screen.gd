@@ -290,13 +290,13 @@ func _physics_process(_delta: float) -> void:
 		
 		if wpn.prefix1:
 			prefix_1.show()
-			prefix_1.text = wpn.prefix1["name"]
+			prefix_1.text = wpn.prefix1#["name"]
 		if wpn.prefix2:
 			prefix_2.show()
-			prefix_2.text = wpn.prefix2["name"]
+			prefix_2.text = wpn.prefix2#["name"]
 			
 		gun_name.text = wpn.weapon_name
 		
 		if wpn.suffix:
 			suffix.show()
-			suffix.text = wpn.suffix["name"]
+			suffix.text = wpn.suffix#["name"]

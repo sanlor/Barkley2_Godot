@@ -452,9 +452,9 @@ func preload_CC_save_data():
 	# Generate guns
 	B2_Gun.reset()
 	
-	B2_Config.set_user_save_data("player.guns.bandolier", 		Dictionary() );
-	B2_Config.set_user_save_data("player.guns.bag", 			Dictionary() );
-	B2_Config.set_user_save_data("player.guns.schematics", 		Dictionary() );
+	B2_Config.set_user_save_data("player.guns.bandolier", 		[] );
+	B2_Config.set_user_save_data("player.guns.bag", 			[] );
+	B2_Config.set_user_save_data("player.guns.schematics", 		[] );
 	
 	B2_Config.set_user_save_data("player.guns.lineage", 		Dictionary() );
 	B2_Config.set_user_save_data("player.guns.lineageID", 		Dictionary() );
