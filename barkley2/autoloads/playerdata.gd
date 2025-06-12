@@ -172,7 +172,7 @@ func SaveGame( force := false):
 	if B2_Playerdata.Quest("saveDisabled") == 0 or force:
 		if not B2_Input.cutscene_is_playing or force: # Make sure that the game isn't saved during a cutscene.
 			B2_Gun.save_guns()
-			B2_HoopzStats.save_stats()
+			B2_Playerdata.player_stats.save_stats()
 			B2_Config.create_user_save_data( B2_Config.selected_slot )
 	
 func Stat( stat_name : String, new_value = null ):

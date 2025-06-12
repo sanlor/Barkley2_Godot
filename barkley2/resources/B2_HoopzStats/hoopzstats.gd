@@ -111,15 +111,81 @@ var vuln_cosmic  			:= 3.0
 var max_action_sfx_played	:= false
 var block_action_increase 	:= false
 
-static func save_stats() -> void:
-	B2_Config.set_user_save_data( "player.guns.stat", var_to_bytes(B2_Playerdata.player_stats) )
+static func reset() -> void:
+	B2_Config.set_user_save_data( "player.stat.base", 			{}		)
+	B2_Config.set_user_save_data( "player.stat.effective", 		{} 		)
+	B2_Config.set_user_save_data( "player.stat.current", 		{}		)
+	B2_Playerdata.player_stats = B2_HoopzStats.new()
+
+func save_stats() -> void:
+	var my_stats_base 		:= {}
+	var my_stats_effective 	:= {}
+	var my_stats_current 	:= {}
 	
-static func load_stats() -> void:
-	var p = B2_Config.get_user_save_data( "player.guns.stat" )
-	if p and p is PackedByteArray:
-		B2_Playerdata.player_stats = bytes_to_var(p)
-	else:
-		B2_Playerdata.player_stats = B2_HoopzStats.new()
+	## Current
+	my_stats_current["curr_action"] 	= curr_action
+	my_stats_current["curr_health"] 	= curr_health
+	
+	## Base
+	my_stats_base["max_action"] 		= max_action
+	my_stats_base["max_health"] 		= max_health
+	my_stats_base["vuln_normal"] 		= vuln_normal
+	my_stats_base["vuln_mental"] 		= vuln_mental
+	my_stats_base["vuln_zauber"] 		= vuln_zauber
+	my_stats_base["vuln_cyber"] 		= vuln_cyber
+	my_stats_base["vuln_bio"] 			= vuln_bio
+	my_stats_base["vuln_cosmic"] 		= vuln_cosmic
+	my_stats_base["lvl"] 				= lvl
+
+	my_stats_base["guts"] 				= guts
+	my_stats_base["luck"] 				= luck
+	my_stats_base["agile"] 				= agile
+	my_stats_base["might"] 				= might
+	my_stats_base["piety"] 				= piety
+	my_stats_base["speed"] 				= speed
+	my_stats_base["weight"] 			= weight
+
+	my_stats_base["resistance_mental "] 	= resistance_mental
+	my_stats_base["resistance_normal"] 		= resistance_normal
+	my_stats_base["resistance_zauber"] 		= resistance_zauber
+	my_stats_base["resistance_cyber"] 		= resistance_cyber
+	my_stats_base["resistance_cosmic"] 		= resistance_cosmic
+	my_stats_base["resistance_bio"] 		= resistance_bio
+	
+	my_stats_base["resistance_stagger"] 	= resistance_stagger
+	my_stats_base["resistance_knockback"] 	= resistance_knockback
+
+	## Element - How is this used?
+	#my_stats_base["dmg_zauber"] 		= dmg_zauber
+	#my_stats_base["dmg_cosmic"] 		= dmg_cosmic
+	#my_stats_base["dmg_bio"] 			= dmg_bio
+	#my_stats_base["dmg_mental"] 		= dmg_mental
+	#my_stats_base["dmg_cyber"] 		= dmg_cyber
+	
+	## WARNING Effective stats not implemented.
+	my_stats_effective = my_stats_base
+
+	B2_Config.set_user_save_data( "player.stat.base", 			my_stats_base 			)
+	B2_Config.set_user_save_data( "player.stat.effective", 		my_stats_effective 		)
+	B2_Config.set_user_save_data( "player.stat.current", 		my_stats_current 		)
+	
+func load_stats() -> void:
+	var my_stats_base : Dictionary 			= B2_Config.get_user_save_data( "player.stat.base", {} 		)
+	var my_stats_effective : Dictionary 	= B2_Config.get_user_save_data( "player.stat.effective", {} 	)
+	var my_stats_current : Dictionary 		= B2_Config.get_user_save_data( "player.stat.current", {} 		)
+	
+	## TODO Check if this actually works.
+	if my_stats_base:
+		for stat : String in my_stats_base:
+			if stat.to_lower() in self: set(stat, my_stats_base[stat] )
+	if my_stats_effective:
+		for stat : String in my_stats_effective:
+			if stat.to_lower() in self: set(stat, my_stats_effective[stat] )
+	if my_stats_current:
+		for stat : String in my_stats_current:
+			if stat.to_lower() in self: set(stat, my_stats_current[stat] )
+	
+	B2_Playerdata.stat_updated.emit()
 
 func set_base_stat( stat : String, value : float ) -> void:
 	set(stat.to_lower(), value)

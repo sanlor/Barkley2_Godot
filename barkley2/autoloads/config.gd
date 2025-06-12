@@ -135,7 +135,7 @@ func select_user_slot( slot ):
 			savefile.close()
 			
 			B2_Gun.load_guns()
-			B2_HoopzStats.load_stats()
+			B2_Playerdata.player_stats.load_stats()
 		else:
 			push_error( "cant load save file:", parse_error )
 
