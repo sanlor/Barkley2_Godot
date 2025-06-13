@@ -8,7 +8,6 @@ extends Node
 ## get duplicate sounds
 var debug_messages := false
 
-
 @warning_ignore("unused_variable")
 @onready var tim = Time.get_ticks_msec()
 
@@ -47,7 +46,7 @@ func _init_sound_banks():
 		if file.ends_with(".import"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			sound_bank[ file_split.back().trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str( file.trim_suffix(".import") )
-	if debug_messages: print("_init_sound_banks() ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries")
+	print_rich("[color=medium_purple]Init sound banks ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries[/color]")
 	
 # Im lazy, I just copy/pasted and replaced the invalid strings.
 ## Copy of the original hack. Enables "nicknames" for sfx files.
@@ -1735,10 +1734,10 @@ func _add_sound_pick(sound_key : String, sound_value : String):
 	if not sound_pick.has(sound_key):
 		# create key and init an empty array
 		sound_pick[sound_key] = []
-	
 	sound_pick[sound_key].append( sound_value )
 	
 func set_volume( raw_value : float ): # 0 - 100
+	raw_value = clampf(raw_value, 0, 100)
 	B2_Config.sfx_gain_master = raw_value / 100
 	for sound in sound_pool:
 		sound.volume_db = linear_to_db( B2_Config.sfx_gain_master )

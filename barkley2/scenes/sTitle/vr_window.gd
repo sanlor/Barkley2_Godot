@@ -94,6 +94,9 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"OMGA", false )
 			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		"TRSH", true )
 			
+			B2_Playerdata.player_stats.reset()
+			B2_Playerdata.player_stats.full_restore()
+			
 		1:
 			## Etc...
 			breakpoint

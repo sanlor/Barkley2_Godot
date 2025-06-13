@@ -226,7 +226,7 @@ func increase_action() -> bool:
 	if block_action_increase:
 		return false
 		
-	var my_spd 		:= speed * 0.25
+	var my_spd 		:= speed * B2_Config.PLAYER_ACTION_MULTIPLIER
 	curr_action 	= clampf( curr_action + my_spd, 0.15, max_action )
 	
 	## Play the "ready" sfx.

@@ -14,13 +14,12 @@ const END_BATTLE_MUSIC := [
 #var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
 var music_folder := "res://barkley2/assets/"
 
-var music_bank := {
-	}
+var music_bank := {}
 
 var tween : Tween
 
 # Old b2 variable. Not sure how its going to be used
-var bgm_music : String = ""
+var bgm_music 					:= ""
 
 ## What track is being played. useful when changing rooms that use the same music track.
 var curr_playing_track 			:= ""
@@ -39,7 +38,7 @@ func _load_music_banks():
 		if file.ends_with(".ogg.import"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
-	print("init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries")
+	print_rich("[color=blue_violet]Init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries.[/color]")
 
 func _enter_tree() -> void:
 	_load_music_banks()

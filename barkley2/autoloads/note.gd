@@ -1,6 +1,7 @@
 extends Node
 
 ## WARNING This is a big mess. maybe move this to B2_PlayerData?
+# NOTE 13/06/25 Migrate this to an static class. init_setup() should be nuked.
 
 ## NOTE OFCOURSE THIS STUPID FEATURE ALSO USES SOME WEIRD ASS LOGIC. WHY WHY WHY?
 ## Maps used the path "quest.maps" to store map data. THIS BS SCRIPT uses "quest.vars" along with all other quest variables. all notes uses note_ prefixes.

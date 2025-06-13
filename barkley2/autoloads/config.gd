@@ -27,6 +27,20 @@ const HUD_LAYER			:= 20 # Inventory, etc
 const GUI_LAYER			:= 20 # Inventory, etc
 const DEBUG_LAYER		:= 41 # Debug Info
 
+# Combat Settings
+const COMBAT_TICKER_SPEED			:= 0.035	## Battle pacing, lower is faster. NOTE dont go too low.
+const PLAYER_ACTION_MULTIPLIER 		:= 0.20		## Player speed multiplier (action recovery)
+const WEAPON_ACTION_MULTIPLIER 		:= 0.20		## Player's weapon speed multiplier (action recovery)
+const OVERHEAT_WEAPON_PENALTY 		:= 0.25		## Penalty applied to an oveheating weapon. Lower is slower (Duh)
+const ENEMY_ACTION_MULTIPLIER 		:= 0.05		## Enemy speed multiplier (action recovery)
+
+const PLAYER_BULLET_DAMAGE_MULTIPLIER	:= 5.0 ## Final multiplier for the player's bullets
+const PLAYER_MELEE_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the player's melee damage
+const ENEMY_BULLET_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the enemies's bullets
+const ENEMY_MELEE_DAMAGE_MULTIPLIER		:= 1.0 ## Final multiplier for the enemies's melee damage
+
+const BULLET_SPREAD_MULTIPLIER		:= 0.0125	## When firing an automatic weapon, apply an penalty to accuracy. lower is less accurate (i think).
+
 # Dialog stuff
 var dialogY := 140.0
 
@@ -34,6 +48,8 @@ var dialogY := 140.0
 var settingFadeIn 		:= 0.50;
 var settingFadeDelay 	:= 1.0; ## Time to wait between rooms, will scale based on room load time to make it consistent
 var settingFadeOut 		:= 0.50;
+
+
 
 ## TODO port script scr_player_newPlayerIdentity()
 

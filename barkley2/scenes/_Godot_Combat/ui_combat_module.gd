@@ -32,6 +32,7 @@ signal battle_results_finished
 @onready var item_btn: 				Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/item_btn
 @onready var escape_btn: 			Button = $player_controls_new/menu_space/ScrollContainer/VBoxContainer/escape_btn
 @onready var move_btn: 				Button = $player_controls_new/menu_space/move_btn
+@onready var button_list_1 := [defend_btn,attack_btn,skill_btn,item_btn,escape_btn,move_btn] ## main battle UI buttons
 
 ## Item and skill
 @onready var item_and_skill_list: Control = $item_and_skill_list
@@ -83,12 +84,32 @@ func register_player( player : B2_HoopzCombatActor ) -> void:
 func register_enemies( _enemy_list ) -> void:
 	enemy_list = _enemy_list
 
+## Check if any UI element has input focus.
+func focus_check():
+	match curr_action:
+		NOTHING:
+			#var focus := false
+			var candidates : Array[Button] = []
+			for b : Button in button_list_1:
+				if b.has_focus():
+					return
+				elif not b.disabled:
+					candidates.append( b )
+				else:
+					pass ## button is disabled and not in focus.
+					
+			if candidates:
+				candidates.front().grab_focus()
+			else:
+				pass # nothing is avaiable to focus on.
+
 #func _unhandled_key_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 	if process_player_inputs:
 		
 		if event is InputEventKey or event is InputEventMouseButton:
 			if event.is_pressed():
+				focus_check()
 				
 				## Menu control
 				match curr_action:
@@ -102,7 +123,7 @@ func _input(event: InputEvent) -> void:
 							
 						player_character.aim_gun( aiming_angle )
 						
-						if event.is_action_pressed("Action"):
+						if Input.is_action_just_pressed("Action"):
 							#player_character.shoot_gun()
 							var combat_manager := B2_CManager.combat_manager
 							combat_manager.shoot_projectile( 
@@ -115,7 +136,7 @@ func _input(event: InputEvent) -> void:
 							action_queued()
 							print("%s: shoot" % self)
 							
-						if event.is_action_pressed("Holster"):
+						if Input.is_action_just_pressed("Holster"):
 							player_character.stop_aiming()
 							action_queued()
 							print("%s: holster" % self)
@@ -123,7 +144,7 @@ func _input(event: InputEvent) -> void:
 					PLAYER_SELECTING_SOMETHING:
 						## on a skill or item menu
 						
-						if event.is_action_pressed("Holster"):
+						if Input.is_action_just_pressed("Holster"):
 							action_queued()
 						pass
 				
@@ -136,14 +157,14 @@ func _input(event: InputEvent) -> void:
 							
 						player_character.point_at( aiming_angle, roll_power )
 							
-						if event.is_action_pressed("Action"):
+						if Input.is_action_just_pressed("Action"):
 							B2_Playerdata.player_stats.reset_action()
 							action_queued()
 							player_character.stop_pointing()
 							player_character.start_rolling( aiming_angle )
 							## TODO Add Rolling <- Done
 							
-						if event.is_action_pressed("Holster"):
+						if Input.is_action_just_pressed("Holster"):
 							player_character.stop_pointing()
 							action_queued()
 							print("%s: holster" % self)
@@ -158,11 +179,11 @@ func _input(event: InputEvent) -> void:
 							
 						player_character.aim_gun( aiming_angle )
 						
-						if event.is_action_pressed("Action"):
+						if Input.is_action_just_pressed("Action"):
 							use_skill( selected_skill )
 							action_queued()
 						
-						if event.is_action_pressed("Holster"):
+						if Input.is_action_just_pressed("Holster"):
 							player_character.stop_aiming()
 							action_queued()
 					_:
@@ -267,6 +288,7 @@ func _on_attack_btn() -> void:
 		return
 		
 	B2_CManager.combat_manager.pause_combat()
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 		
 	## Disabled 22/04/25
 	if B2_Gun.get_current_gun():
@@ -286,6 +308,8 @@ func _on_attack_btn() -> void:
 	
 func _on_skill_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
+	
 	item_and_skill_list.show_skill_menu()
 	
 	player_controls_new.hide_menu()
@@ -299,6 +323,8 @@ func _on_skill_btn() -> void:
 	
 func _on_item_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
+	
 	item_and_skill_list.show_item_menu()
 	
 	player_controls_new.hide_menu()
@@ -312,6 +338,8 @@ func _on_item_btn() -> void:
 	
 func _on_move_btn() -> void:
 	B2_CManager.combat_manager.pause_combat()
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
+	
 	B2_CManager.combat_manager.can_manipulate_camera = false
 	B2_CManager.camera.combat_focus( player_character.global_position, 1.0 )
 	player_character.point_at( aiming_angle, roll_power )
@@ -326,6 +354,8 @@ func _on_move_btn() -> void:
 	slow_time()
 	
 func _on_defend_btn() -> void:
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
+	
 	if player_character.curr_STATE == player_character.STATE.DEFENDING:
 		player_character.stop_defending()
 	else:
@@ -333,6 +363,7 @@ func _on_defend_btn() -> void:
 	B2_Playerdata.player_stats.reset_action()
 	
 func _on_escape_btn() -> void:
+	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 	B2_Playerdata.player_stats.reset_action()
 	for w in B2_Gun.get_bandolier():
 			w.reset_action()
@@ -377,7 +408,7 @@ func add_result_message( _msg : String, sfx := "" ) -> void:
 
 ## battle ended, show results
 func show_battle_results() -> void:
-	process_player_inputs = false ## avoild moving the player when the battle finishes.
+	process_player_inputs = false ## avoid moving the player when the battle finishes.
 	battle_results.display_battle_results()
 	
 	o_hud.hide_battle_ui()

@@ -60,14 +60,13 @@ func _index_rooms():
 	## PackedScene in exported projects are named *.tscn.remap for some reason.
 	## This basically handles the project in the editor and on exported projects.
 	for r : String in room_array:
-		if 	r.ends_with(".tscn"):
+		if 	r.ends_with(".tscn"):			## <- used in the godot editor
 			var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn")
 			room_index[r_name] = r
-		elif r.ends_with(".tscn.remap"):
+		elif r.ends_with(".tscn.remap"):	## <- used in the exported project
 			var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
 			room_index[r_name] = r.trim_suffix(".remap")
-
-	print("_index_rooms() ended: ", Time.get_ticks_msec(), "msecs. - ", room_index.size(), " room_index key entries")
+	print_rich("[color=web_purple]Index rooms ended: ", Time.get_ticks_msec(), " msecs. - ", room_index.size(), " room_index key entries[/color]")
 
 func _ready() -> void:
 	_index_rooms()
@@ -238,8 +237,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if room_load_lock:
 		push_warning("B2_RoomXY: Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
-	
-	if randi_range(0,99) == 69: print_rich( "[color=red]BAZINGA![/color]" )
+	if randi_range(0,99) == 69: print_rich( "[color=red][bgcolor=white]BAZINGA![/bgcolor][/color]" ) ## VERY IMPORTANT. CRITICAL even.
 		
 	room_load_lock = true
 	started_loading.emit()

@@ -306,7 +306,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 			#pass
 				
 func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
-	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = 0.1; 		## Ticker setup.
+	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = B2_Config.COMBAT_TICKER_SPEED; 		## Ticker setup.
 	combat_ticker.ignore_time_scale = true; combat_ticker.name = "combat_ticker_timer"	 				## Ticker setup.
 	combat_manager = B2_CManager.combat_manager; combat_manager.combat_cinema = self;					## Combat manager setup.
 	combat_ticker.timeout.connect( _tick_combat )														## Tick tock

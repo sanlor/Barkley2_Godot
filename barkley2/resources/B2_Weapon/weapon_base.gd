@@ -224,13 +224,14 @@ func get_casing_speed() -> float:
 #endregion
 
 #region Weapon Operation
-func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2) -> void:
+func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2, _scale := 1.0) -> void:
 	if get_flash_sprite():
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
 		flash.look_at( (source_pos + dir) )
-		flash.rotation += randf_range( -PI/32, PI/32 )
+		flash.rotation += randf_range( -PI/32.0, PI/32.0 )
 		flash.scale = Vector2.ONE * randf_range( 0.8, 1.2 )
+		flash.scale *= _scale
 		flash.modulate.a *= randf_range( 0.8, 1.2 )
 		scene_to_place.add_child( flash, true )
 		flash.play( get_flash_sprite() )
@@ -252,8 +253,8 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	if wait_per_shot == 0.0:
 		use_ammo( ammo_per_shot )
 		B2_Sound.play( get_soundID() )
-		create_flash(scene_to_place, source_pos, dir)
-		for i in ammo_per_shot:
+		create_flash(scene_to_place, source_pos, dir, 1.5)
+		for i in ammo_per_shot: ## Double barrel shotgun spawn 2 casings
 			create_casing(scene_to_place, casing_pos)
 		
 	for i in bullets_per_shot:
@@ -264,7 +265,7 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
-		var my_acc := get_acc() / 150.0
+		var my_acc := get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 		
 		var bullet = O_BULLET.instantiate()
@@ -274,13 +275,20 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		bullet.source_actor = source_actor
 		scene_to_place.add_child( bullet, true )
 		bullet.position = source_pos
+		bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
 		
+		## "not a shotgun" behaviour.
 		if wait_per_shot > 0.0:
-			use_ammo( 1 )
+			use_ammo( ammo_per_shot )
 			B2_Sound.play( get_soundID() )
 			create_flash(scene_to_place, source_pos, b_dir)
 			create_casing(scene_to_place, casing_pos)
 			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
+			
+		## Stop firing if you have no ammo.
+		if not has_ammo():
+			B2_Sound.play( "hoopz_click" )
+			break
 	
 	#use_ammo( ammo_per_shot )
 	reset_action( curr_action - attack_cost )
@@ -299,10 +307,10 @@ func gain_exp( _exp ) -> void: ## TODO add level up
 	
 func increase_action() -> void:
 	if has_ammo():
-		var my_spd 		:= get_spd() * 0.05
+		var my_spd 		:= get_spd() * B2_Config.WEAPON_ACTION_MULTIPLIER
 		
 		if is_overheating(): ## Apply speed penalty to overheated weapons.
-			my_spd *= 0.25 
+			my_spd *= B2_Config.OVERHEAT_WEAPON_PENALTY
 			
 		curr_action 	= clampf( curr_action + my_spd, -max_action, max_action )
 		

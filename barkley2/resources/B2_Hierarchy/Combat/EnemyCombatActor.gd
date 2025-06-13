@@ -390,7 +390,10 @@ func destroy_actor() -> void:
 func _on_body_entered(body: Node) -> void:
 	if curr_MODE == MODE.CHARGING:
 		if body is B2_CombatActor:
-			body.damage_actor( enemy_data.weight * randf(), body.global_position.direction_to( global_position ) ) ## TEMP
+			body.damage_actor( 
+				( enemy_data.weight * randf() ) * B2_Config.ENEMY_MELEE_DAMAGE_MULTIPLIER, 
+				body.global_position.direction_to( global_position ) 
+				) ## TEMP
 			finished_charge_action.emit()
 			linear_damp = 10.0
 			curr_MODE = MODE.COMBAT

@@ -184,9 +184,9 @@ func set_camera_bound( _is_bound : bool ):
 			var map_rect : Rect2 = get_parent().map_rect
 			limit_width 	= Vector2( map_rect.position.x, map_rect.end.x ) * 16.0
 			limit_height 	= Vector2( map_rect.position.y, map_rect.end.y ) * 16.0
-			print("limit_width: ", limit_width/16, " - limit_height: ", limit_height/16)
+			print( "o_camera_hoopz: limit_width: ", limit_width/16, " - limit_height: ", limit_height/16 )
 		else:
-			push_warning( "Invalid parent, can't set camera limits." )
+			push_warning( "o_camera_hoopz: Invalid parent, can't set camera limits." )
 	#else:
 		#limit_top 		= -100000
 		#limit_left 	= -100000

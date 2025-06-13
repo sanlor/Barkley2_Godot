@@ -93,6 +93,8 @@ var mental_damage					:= 1.0 ## Add Mental damage type to this attack
 var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
 var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
 
+var final_multiplier				:= 1.0
+
 ## NOTE choice(1,-1) -> [1,-1].pick_random()
 
 var spr := ""
@@ -1376,9 +1378,14 @@ func _on_body_entered( body: Node2D ) -> void:
 		if not body.is_actor_dead: ## Avoid shooting dead bodies.
 			if body.has_method("damage_actor"):
 				var my_att := my_gun.get_att()
+				
 				my_att *= att ## Apply attack modifier
 				@warning_ignore("narrowing_conversion")
-				body.damage_actor( clampi( my_att / float(my_gun.bullets_per_shot ), 1, 999 ) , 	velocity.normalized() * my_att * 100.0 )
+				my_att = my_att / float(my_gun.bullets_per_shot )
+				
+				my_att = clampi( my_att * final_multiplier , 1, 999 )
+				
+				body.damage_actor( my_att , velocity.normalized() * my_att * 100.0 )
 				#body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
 				print( "Bullet applying %s points of damage." % str(my_att) )
 				

@@ -13,7 +13,6 @@ const SKILL_LIST : Dictionary[SKILL,B2_WeaponSkill] = {
 	SKILL.FULL_AUTO 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/full_auto.tres"),
 	SKILL.BURST_FIRE 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/burst_fire.tres"),
 }
-
 const GUNWIDTH 		= 49;
 const GUNHEIGHT 	= 24;
 const GUNPERSHEET 	= 9; 	## Number of guns to put per sheet. If loading a sheet takes too long, lower this number. ## NOTE Number of gun material per "FrankieGuns" texture

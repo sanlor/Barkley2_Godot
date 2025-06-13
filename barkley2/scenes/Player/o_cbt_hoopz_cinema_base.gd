@@ -826,7 +826,10 @@ func _on_combat_actor_entered(body: Node) -> void:
 			if body.has_method("damage_actor"):
 				## Roll damage
 				print( "Roll Damage: ", linear_velocity.length() )
-				body.damage_actor( [1,2,2,2,2,3,3,4,4,5,9].pick_random(), 	linear_velocity.normalized() * 50000.0 )
+				body.damage_actor( 
+					[1,2,2,2,2,3,3,4,4,5,9].pick_random() * B2_Config.PLAYER_MELEE_DAMAGE_MULTIPLIER, 	
+					linear_velocity.normalized() * 50000.0 
+					)
 			
 # handle step sounds
 func _on_hoopz_upper_body_frame_changed() -> void:

@@ -28,6 +28,7 @@ func show_menu() -> void:
 	B2_Sound.play("sn_mouse_analoghover01")
 	#await animation_player.animation_finished
 	attack_btn.grab_focus()
+	attack_btn.grab_click_focus()
 	s_container.scroll_vertical = 0
 	
 func hide_menu() -> void:

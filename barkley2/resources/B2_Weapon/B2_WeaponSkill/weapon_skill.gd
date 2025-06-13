@@ -73,7 +73,7 @@ func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, 
 		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
 		my_spread_offset -= bullet_spread / bullets_per_shot
 		
-		var my_acc := weapon.get_acc() / 150.0
+		var my_acc := weapon.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
 		my_acc *= acc ## Apply skill modifier.
 		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 		
@@ -87,9 +87,10 @@ func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, 
 		bullet.source_actor = source_actor
 		scene_to_place.add_child( bullet, true )
 		bullet.position = source_pos
+		bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
 		
 		if wait_per_shot > 0.0: 
-			weapon.use_ammo( 1 )
+			weapon.use_ammo( ammo_per_shot )
 			B2_Sound.play( weapon.get_soundID() )
 			weapon.create_flash( scene_to_place, source_pos, b_dir )
 			weapon.create_casing( scene_to_place, casing_pos )
@@ -97,6 +98,7 @@ func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, 
 		
 		## Stop firing if you have no ammo.
 		if not weapon.has_ammo():
+			B2_Sound.play( "hoopz_click" )
 			break
 	
 	weapon.reset_action( weapon.curr_action - skill_action_cost )
