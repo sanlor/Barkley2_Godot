@@ -95,7 +95,7 @@ func _ready():
 			
 			option_1.size = Vector2(81, 17)
 			option_2.size = Vector2(81, 17)
-			
+			option_2.grab_focus()
 			## Holy shit.
 			#var y := get_viewport_rect().size.y / 2
 			#var givHei = (2 * 12) + 44;
@@ -121,7 +121,6 @@ func _ready():
 			option_3.size = Vector2(81, 17)
 			
 			option_3.global_position = Vector2( (get_viewport_rect().size.x / 2) - (option_3.size.x / 2), fuck_this_y_also )
-			
 			_expand()
 	
 func _expand(): # When its diplayed, the menu opens up.
@@ -140,8 +139,12 @@ func _expand(): # When its diplayed, the menu opens up.
 		MODE.CONFIRM:
 			tween.parallel().tween_property(option_1,		"modulate", Color.WHITE, givSpd)
 			tween.parallel().tween_property(option_2,		"modulate", Color.WHITE, givSpd)
+			await tween.finished
+			option_2.grab_focus()
 		MODE.NOTICE:
 			tween.parallel().tween_property(option_3,		"modulate", Color.WHITE, givSpd)
+			await tween.finished
+			option_3.grab_focus()
 	
 func collapse():
 	var tween := create_tween()

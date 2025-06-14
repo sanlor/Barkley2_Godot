@@ -196,7 +196,7 @@ func show_delete_confirmation():
 	oConfirm.givTxt = Text.pr("Is this the game you want to destruct?")
 	oConfirm.option1_pressed.connect( delete_gameslot 						) # Yes
 	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false 	) # No
-	add_child(oConfirm)
+	add_child( oConfirm )
 
 func delete_gameslot():
 	if slot_has_data[ selected_gameslot ]:
@@ -207,6 +207,7 @@ func delete_gameslot():
 		
 	game_slot_delete_panel.is_pressed = false
 	r_title.mode = "gameslot"
+	game_slot_delete_panel.grab_focus()
 
 func start_saved_game():
 	fade_out.show()
@@ -267,3 +268,7 @@ func _on_back_panel_button_pressed():
 
 func _on_delete_panel_button_pressed():
 	r_title.mode = "destruct_confirm"
+
+func _on_visibility_changed() -> void:
+	if visible:
+		game_slot_1.grab_focus()

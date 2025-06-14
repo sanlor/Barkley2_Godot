@@ -50,6 +50,22 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var start_button 		= $title_layer/title_panel/start_button
 @onready var settings_button 	= $title_layer/title_panel/settings_button
 @onready var quit_button 		= $title_layer/title_panel/quit_button
+@onready var vr_button 			= $title_layer/vr_btn
+
+## VR Stuff
+@onready var mission_1: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_1
+@onready var mission_2: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_2
+@onready var mission_3: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_3
+@onready var mission_4: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_4
+@onready var mission_5: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_5
+@onready var begin_btn: 	B2_Border_Button = $vr_layer/begin_btn
+@onready var back_btn: 		B2_Border_Button = $vr_layer/back_btn
+
+## Character stuff
+@onready var cc_button: 	B2_Border_Button = $character_layer/CC_Button
+@onready var x_1_button: 	B2_Border_Button = $character_layer/X1_Button
+@onready var skip_button:	B2_Border_Button = $character_layer/Skip_Button
+@onready var return_button: B2_Border_Button = $character_layer/Return_Button
 
 @onready var title_buttons := [
 	start_button,
@@ -168,6 +184,36 @@ func _ready():
 	
 	set_title_names()
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton or event is InputEventKey:
+		## Handle keyboard and gamepad inputs, to make sure that "something" always has input focus.
+		match mode:
+			"basic":
+				if not check_focus( [ start_button, settings_button, quit_button, vr_button ] ):
+					start_button.grab_focus()
+			"settings":
+				pass
+			"keymap":
+				pass
+			"gamepad":
+				pass
+			"gameslot":
+				pass
+			"destruct_confirm":
+				pass
+			"gamestart_character":
+				if not check_focus( [ cc_button, x_1_button, skip_button, return_button ] ):
+					cc_button.grab_focus()
+			"vr":
+				if not check_focus( [ mission_1, mission_2, mission_3, mission_4, mission_5, begin_btn, back_btn ] ):
+					mission_1.grab_focus()
+
+func check_focus( btn_array : Array ) -> bool:
+	for btn in btn_array:
+		if btn.has_focus():
+			return true
+	return false
+
 # Translate the title menu to albhed, if necessary
 func set_title_names():
 	start_button.text		= Text.pr("Game Time")
@@ -217,9 +263,6 @@ func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad",
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
 			
-func _input(event):
-	if event is InputEventMouseMotion:
-		pass
 
 func _process(_delta):
 	if B2_Config.tim_follow_mouse:

@@ -115,3 +115,7 @@ func show_notice():
 func load_new_room( room : String ):
 	B2_Music.stop( 2.0 )
 	B2_RoomXY.warp_to( room, 0.5 )
+
+func _on_visibility_changed() -> void:
+	if visible:
+		cc_button.grab_focus()

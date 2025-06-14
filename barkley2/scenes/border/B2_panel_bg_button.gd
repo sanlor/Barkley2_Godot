@@ -39,14 +39,14 @@ func _ready():
 	
 func _gui_input(event):
 	if monitor_mouse:
-		if event is InputEventMouseButton: ## Allow window to be pressed, if the mouse is being monitored.
+		if event is InputEventMouseButton or event is InputEventJoypadButton or event is InputEventKey: ## Allow window to be pressed, if the mouse is being monitored.
 			if disabled: # dont do anything if its disabled.
 				return
 				
-			if event.is_action_pressed("Action"):
+			if event.is_action_pressed("ui_accept"):
 				if can_toggle:
 					is_pressed = not is_pressed
-			if event.is_action_released("Action"):
+			if event.is_action_released("ui_accept"):
 				if not can_toggle:
 					is_pressed = false
 				button_pressed.emit()
@@ -57,7 +57,7 @@ func _draw():
 	if not disable_bg:
 		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false ) ## Checkered BG
 	
-	if is_highlighted:
+	if is_highlighted or has_focus():
 		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.05), false )
 	if is_pressed:
 		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_selected_color, 0.25), false )

@@ -8,7 +8,7 @@ var is_hovering := false
 
 @export var value_color := Color.ORANGE
 @export var pick_color := Color.ORANGE
-@export var value_transparency := 0.15
+@export var value_transparency := 0.05
 @export var pick_transparency := 0.25
 
 @export var linked_label : Label
@@ -41,7 +41,7 @@ func _on_mouse_exited():
 	queue_redraw()
 
 func _draw():
-	if is_hovering:
+	if is_hovering or has_focus():
 		draw_texture_rect(S_1X_1, Rect2(Vector2.ZERO, size), false, Color( 1, 1, 1, value_transparency ) )
 		
 	draw_string( FN2, (size / 2) - Vector2(5,5), str(value), HORIZONTAL_ALIGNMENT_CENTER, -1, 16 ,value_color )

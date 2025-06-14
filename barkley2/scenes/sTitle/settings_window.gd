@@ -12,15 +12,15 @@ extends CanvasLayer
 ## Settings panel
 @onready var settings_panel = $settings_panel
 
-@onready var settings_general_panel = $general_panel
-@onready var settings_keys_panel = $keys_panel
-@onready var settings_gamepad_panel = $gamepad_panel
+@onready var settings_general_panel 	= $settings_panel/general_panel#$general_panel
+@onready var settings_keys_panel 		= $settings_panel/keys_panel#$keys_panel
+@onready var settings_gamepad_panel 	= $settings_panel/gamepad_panel#$gamepad_panel
 
 @onready var settings_return_panel = 	$settings_panel/return_panel_button
 @onready var settings_return_button = 	$settings_panel/return_panel_button
 
 ## Inside the Settings panel
-@onready var general_options = $settings_panel/general
+@onready var general_options =  $settings_panel/general
 @onready var keys_options = $settings_panel/keys
 @onready var gamepad_options = $settings_panel/gamepad
 
@@ -30,9 +30,9 @@ extends CanvasLayer
 	settings_gamepad_panel,
 ]
 
-@onready var settings_general_button 	: B2_Border_Button = $general_panel
-@onready var settings_keys_button 		: B2_Border_Button = $keys_panel
-@onready var settings_gamepad_button 	: B2_Border_Button = $gamepad_panel
+@onready var settings_general_button 	: B2_Border_Button = $settings_panel/general_panel#$general_panel
+@onready var settings_keys_button 		: B2_Border_Button = $settings_panel/keys_panel#$keys_panel
+@onready var settings_gamepad_button 	: B2_Border_Button = $settings_panel/gamepad_panel#$gamepad_panel
 
 @onready var settings_buttons := [
 	settings_general_button,
@@ -89,6 +89,7 @@ var key_gap = 0;
 @onready var _3x_button = $"settings_panel/general/settings_name_7/3x_button"
 @onready var _4x_button = $"settings_panel/general/settings_name_7/4x_button"
 
+var keys_btns := []
 
 func _ready():
 #region Apply settings on startup
@@ -366,6 +367,7 @@ func _ready():
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		if clean_inputs[l] == "Pause": button.disabled = true
 		keys_options.add_child(button)
+		keys_btns.append(button)
 	#endregion
 	
 	#region gamepad settings menu
@@ -515,6 +517,12 @@ func _ready():
 	dry += key_row;
 	#endregion
 
+func check_focus( btn_array : Array ) -> bool:
+	for btn in btn_array:
+		if btn.has_focus():
+			return true
+	return false
+
 func _on_music_slider_value_changed(value):
 	B2_Music.set_volume( value )
 func _on_music_minus_pressed():
@@ -555,6 +563,7 @@ func _on_settings_general_button_pressed():
 	keys.hide()
 	gamepad.hide()
 	toggle_buttons()
+	settings_general_button.grab_focus()
 
 func _on_settings_keys_button_pressed():
 	r_title.mode = "keymap"
@@ -562,6 +571,7 @@ func _on_settings_keys_button_pressed():
 	keys.show()
 	gamepad.hide()
 	toggle_buttons()
+	keys_btns.front().grab_focus()
 	
 func _on_settings_gamepad_button_pressed():
 	r_title.mode = "gamepad"
@@ -569,9 +579,14 @@ func _on_settings_gamepad_button_pressed():
 	keys.hide()
 	gamepad.show()
 	toggle_buttons()
+	settings_return_button.grab_focus()
 	
 func _on_settings_return_button_pressed():
 	r_title.mode = "basic"
 	toggle_buttons()
 	B2_Config.config_save()
 	hide()
+
+func _on_visibility_changed() -> void:
+	if visible:
+		settings_general_button.grab_focus()
