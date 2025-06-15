@@ -660,10 +660,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	if B2_Playerdata.player_stats.curr_health == 0:
 		print("H O O P Z I S D E A D .")
 		linear_velocity = Vector2.ZERO
-		for i in randi_range(10,30):
-			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randi_range(1,2) )
-			for d in randi_range(0,5):
-				await get_tree().process_frame
+		
 		defeat_anim()
 		
 		if is_instance_valid( B2_CManager.combat_manager ):
@@ -671,6 +668,12 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 		else:
 			## CM should be loaded.
 			breakpoint
+			
+		## Add a bunch of blood. Go crazy with it.
+		for i in randi_range(10,60):
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-8) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randf_range(0.5,5.0) )
+			for d in randi_range(0,2):
+				await get_tree().physics_frame
 	else:
 		if B2_Gun.get_current_gun().is_shooting: ## Stop shooting if hit.
 			B2_Gun.get_current_gun().abort_shooting = true

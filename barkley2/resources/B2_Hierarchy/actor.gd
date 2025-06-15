@@ -427,6 +427,13 @@ func adjust_sprite_collision():
 func execute_event_user_0(): 	push_warning("%s: Event not set" % name)
 func execute_event_user_1(): 	push_warning("%s: Event not set" % name)
 func execute_event_user_2(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_3(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_4(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_5(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_6(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_7(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_8(): 	push_warning("%s: Event not set" % name)
+func execute_event_user_9(): 	push_warning("%s: Event not set" % name)
 func execute_event_user_10(): 	push_warning("%s: Event not set" % name)
 
 func set_movement_target(movement_target: Vector2):

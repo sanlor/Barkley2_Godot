@@ -1,4 +1,6 @@
 extends CanvasLayer
+## Shop Menu. Buy a bunch of type of items.
+# Check Shop and oShop
 
 signal exit_called
 signal buy_called
@@ -26,12 +28,15 @@ const SHOP_TYPE := {
 @onready var money_label: 				Label 			= $breakout/money_label
 @onready var shopowner_face_text: 		TextureRect 	= $shopowner_face/shopowner_face_text
 
-@onready var buy_btn: 					Button 			= $slide_border/VBoxContainer/buy_btn
-@onready var info_btn: 					Button 			= $slide_border/VBoxContainer/info_btn
+@onready var buy_btn: 					Button 				= $slide_border/VBoxContainer/buy_btn
+@onready var info_btn: 					Button 				= $slide_border/VBoxContainer/info_btn
+@onready var exit_btn: 					B2_Border_Button 	= $exit_btn
 
 @onready var shop_vbox: 				VBoxContainer 	= $shop_panel/MarginContainer/ScrollContainer/shop_vbox
 
 @onready var slide_border: 				B2_Border 		= $slide_border
+
+@onready var info_panel: 				Control = $info_panel
 
 enum TYPE{GUN, JERKIN, RECIPE, VIDCON}
 @export var my_shop_name	:= ""
@@ -42,6 +47,9 @@ var my_shop_data : Dictionary
 var slide_boder_focus : Button
 
 func _ready() -> void:
+	info_panel.hide()
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.HAND )
+	B2_Input.ffwd( false )
 	animation_player.play("show_menu")
 	
 	B2_Playerdata.Quest("money", 200)
@@ -54,12 +62,22 @@ func _ready() -> void:
 		shopowner_face_text.texture 	= FACES[ my_shop_data["define"][1] ]
 		shop_name_label.text 			= Text.pr( my_shop_name )
 		
+		## Hide unused buttons
 		if not my_shop_data["option"].has( "Buy" ): buy_btn.hide()
 		if not my_shop_data["option"].has( "Info" ): info_btn.hide()
+		if buy_btn.visible:
+			slide_border.border_size.y = 42.0
+			$slide_border/VBoxContainer.set_deferred("size", Vector2( 60.0, 42.0) )
+		if info_btn.visible:
+			slide_border.border_size.y = 64.0
+			$slide_border/VBoxContainer.set_deferred("size", Vector2( 60.0, 64.0) )
 		
+		## Cleanup old buttons
 		for i in shop_vbox.get_children():
 			i.queue_free()
 		
+		## Add new buttons
+		var btn_group := ButtonGroup.new()
 		for i : String in my_shop_data["stocks"]:
 			var item 					= SHOP_ITEM.instantiate()
 			item.my_item 				= i
@@ -67,8 +85,28 @@ func _ready() -> void:
 			item.name 					= i + "_btn"
 			item.my_item_type 			= my_shop_type
 			item.focus_entered.connect( _update_focus.bind(item) )
+			item.toggle_mode			= true
+			item.button_group 			= btn_group
+			item.focus_neighbor_right	= buy_btn.get_path()
+			
+			item.buy_btn				= buy_btn
+			item.info_btn				= info_btn
+			item.exit_btn				= exit_btn
+			
 			shop_vbox.add_child( item, true )
 			
+		## Set menu navigation bullshit (use menu using a gamepad and keyboard)
+		await animation_player.animation_finished
+		if shop_vbox.get_children():
+			shop_vbox.get_children().front().grab_focus()
+			shop_vbox.get_children().back().focus_neighbor_bottom	= exit_btn.get_path()
+			exit_btn.focus_neighbor_top 	= shop_vbox.get_children().back().get_path()
+			buy_btn.focus_neighbor_left 	= shop_vbox.get_children().front().get_path()
+			info_btn.focus_neighbor_left 	= shop_vbox.get_children().front().get_path()
+		else:
+			exit_btn.focus_neighbor_top = buy_btn.get_path()
+		exit_btn.focus_neighbor_right	= buy_btn.get_path()
+		
 	money_label.text = str( B2_Playerdata.Quest("money") )
 	
 func _physics_process(_delta: float) -> void:
@@ -81,17 +119,40 @@ func _update_focus( btn : Button ) -> void:
 	
 func _update_money( btn : Button ) -> void:
 	if btn.my_item_cost <= B2_Playerdata.Quest("money"):
+		## Player have enough money to buy this
 		if btn.has_focus():
 			money_label.modulate = Color.ORANGE_RED
 			money_label.text = str( B2_Playerdata.Quest("money") - btn.my_item_cost )
+			buy_btn.disabled = false
 	else:
+		## Player doesnt have enough money to buy
 		money_label.modulate = Color.WHITE
 		money_label.text = str( B2_Playerdata.Quest("money") )
+		buy_btn.disabled = true
 
 func _on_exit_btn_button_pressed() -> void:
+	B2_Sound.play("cursor_back")
 	exit_called.emit()
 	B2_Screen.hide_shop_screen()
 	
 func hide_menu() -> void:
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	animation_player.play("hide_menu")
 	await animation_player.animation_finished
+
+
+func _on_buy_btn_pressed() -> void:
+	B2_Sound.play("cursor_select01")
+
+
+func _on_info_btn_pressed() -> void:
+	B2_Sound.play("cursor_select01")
+	if slide_boder_focus:
+		if my_shop_type == TYPE.GUN:
+			info_btn.release_focus()
+			slide_boder_focus.release_focus()
+			var my_gun : B2_Weapon = slide_boder_focus.get_gun()
+			info_panel.grab_focus()
+			info_panel.show_panel( my_gun )
+			await info_panel.menu_closed
+			slide_boder_focus.grab_focus()

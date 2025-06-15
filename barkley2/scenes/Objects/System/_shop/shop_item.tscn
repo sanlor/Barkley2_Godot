@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dlhrkg7recebs"]
+[gd_scene load_steps=20 format=3 uid="uid://dlhrkg7recebs"]
 
 [ext_resource type="Script" uid="uid://dbf6rpq8b5vgt" path="res://barkley2/scenes/Objects/System/_shop/shop_item.gd" id="1_ncyje"]
 [ext_resource type="Theme" uid="uid://7hwkedlla4mn" path="res://barkley2/resources/B2_Shop/shop_theme.tres" id="1_xq5bs"]
@@ -7,7 +7,10 @@
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="5_e455t"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="6_5xpgu"]
 [ext_resource type="Script" uid="uid://b6e3f7qtfly7h" path="res://barkley2/scenes/Objects/System/_shop/resistence_graph.gd" id="7_1vspx"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="7_i3rus"]
 [ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="8_1vspx"]
+[ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="8_jj1mo"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="9_i3rus"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hurr3"]
 resource_local_to_scene = true
@@ -25,7 +28,15 @@ font = ExtResource("6_5xpgu")
 font_color = Color(0.745098, 0.745098, 0.745098, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jj1mo"]
-font = ExtResource("3_ncyje")
+font = ExtResource("7_i3rus")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2g16p"]
+resource_local_to_scene = true
+atlas = ExtResource("8_jj1mo")
+region = Rect2(1617, 216, 49, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_87x7k"]
+font = ExtResource("9_i3rus")
 
 [sub_resource type="LabelSettings" id="LabelSettings_1vspx"]
 line_spacing = 1.0
@@ -34,12 +45,22 @@ font_color = Color(0.745098, 0.745098, 0.745098, 1)
 
 [node name="shop_item_0" type="Button"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 73)
 offset_right = 207.0
 offset_bottom = 24.0
 theme = ExtResource("1_xq5bs")
 action_mode = 0
 script = ExtResource("1_ncyje")
+
+[node name="focus_color" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0.05)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -47,22 +68,27 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 55.0
 grow_horizontal = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 7
 theme_override_constants/margin_right = 7
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="item_summary" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="item_icon" type="TextureRect" parent="MarginContainer/VBoxContainer/item_summary"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_filter = 2
 texture = SubResource("AtlasTexture_hurr3")
 
 [node name="item_name" type="Label" parent="MarginContainer/VBoxContainer/item_summary"]
@@ -82,11 +108,14 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="item_stats" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 20
 
 [node name="evs" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="evs_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/evs"]
@@ -103,6 +132,7 @@ horizontal_alignment = 1
 
 [node name="weight" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="weight_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/weight"]
@@ -119,6 +149,7 @@ horizontal_alignment = 1
 
 [node name="pockets" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="pockets_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/pockets"]
@@ -135,6 +166,7 @@ horizontal_alignment = 1
 
 [node name="resistence" type="VBoxContainer" parent="MarginContainer/VBoxContainer/item_stats"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="pockets_lbl" type="Label" parent="MarginContainer/VBoxContainer/item_stats/resistence"]
 layout_mode = 2
@@ -145,9 +177,129 @@ horizontal_alignment = 1
 [node name="resistence_graph" type="Control" parent="MarginContainer/VBoxContainer/item_stats/resistence"]
 custom_minimum_size = Vector2(22, 13)
 layout_mode = 2
+mouse_filter = 2
 script = ExtResource("7_1vspx")
 
+[node name="gun_summary" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="gun_icon" type="TextureRect" parent="MarginContainer/VBoxContainer/gun_summary"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_2g16p")
+
+[node name="gun_name" type="Label" parent="MarginContainer/VBoxContainer/gun_summary"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Placeholder Test"
+label_settings = SubResource("LabelSettings_87x7k")
+vertical_alignment = 1
+
+[node name="gun_cost" type="Label" parent="MarginContainer/VBoxContainer/gun_summary"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "£1000"
+label_settings = SubResource("LabelSettings_5xpgu")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="gun_stats" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="dmg" type="VBoxContainer" parent="MarginContainer/VBoxContainer/gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="dmg_lbl" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/dmg"]
+layout_mode = 2
+text = "DMG"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="dmg_value" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/dmg"]
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="rte" type="VBoxContainer" parent="MarginContainer/VBoxContainer/gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="rte_lbl" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/rte"]
+layout_mode = 2
+text = "RTE"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="rte_value" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/rte"]
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="cap" type="VBoxContainer" parent="MarginContainer/VBoxContainer/gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="cap_lbl" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/cap"]
+layout_mode = 2
+text = "CAP"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="cap_value" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/cap"]
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="afx" type="VBoxContainer" parent="MarginContainer/VBoxContainer/gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="afx_lbl" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/afx"]
+layout_mode = 2
+text = "AFX"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="afx_value" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/afx"]
+layout_mode = 2
+text = "30"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
+[node name="wgt" type="VBoxContainer" parent="MarginContainer/VBoxContainer/gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="wgt_lbl" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/wgt"]
+layout_mode = 2
+text = "WGT"
+label_settings = SubResource("LabelSettings_3pbtt")
+horizontal_alignment = 1
+
+[node name="wgt_value" type="Label" parent="MarginContainer/VBoxContainer/gun_stats/wgt"]
+layout_mode = 2
+text = "30ç"
+label_settings = SubResource("LabelSettings_jj1mo")
+horizontal_alignment = 1
+
 [node name="item_description" type="Label" parent="MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "Teste Teste Teste Teste Teste Teste Teste Teste Teste Teste "

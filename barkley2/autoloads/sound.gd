@@ -32,7 +32,7 @@ var sound_bank := {} ## all sounds that the game has.
 var sound_pick := {} ## Allow for multipls sounds for the same effect (Like footsteps having random sounds each step)
 
 var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
-var sound_pool_amount 		:= 25
+var sound_pool_amount 		:= 50
 
 var sound_loop				:= {} ## Keep track of the loops
 

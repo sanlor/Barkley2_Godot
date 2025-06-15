@@ -43,10 +43,10 @@ func _gui_input(event):
 			if disabled: # dont do anything if its disabled.
 				return
 				
-			if event.is_action_pressed("ui_accept"):
+			if event.is_action_pressed("ui_accept") or event.is_action_pressed("Action"):
 				if can_toggle:
 					is_pressed = not is_pressed
-			if event.is_action_released("ui_accept"):
+			if event.is_action_released("ui_accept") or event.is_action_released("Action"):
 				if not can_toggle:
 					is_pressed = false
 				button_pressed.emit()

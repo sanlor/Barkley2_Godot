@@ -91,6 +91,13 @@ var is_shooting		:= false
 var abort_shooting 	:= false
 
 #region Weapon data
+func afx_count() -> int:
+	var c := 0
+	if prefix1: 	c += 1
+	if prefix2: 	c += 1
+	if suffix: 		c += 1
+	return c
+	
 func get_skill_list() -> Dictionary:
 	var s_list : Dictionary[B2_WeaponSkill,int] = {}
 	for s : B2_Gun.SKILL in skill_list:

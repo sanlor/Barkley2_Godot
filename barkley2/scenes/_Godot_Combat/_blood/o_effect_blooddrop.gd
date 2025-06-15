@@ -9,7 +9,7 @@ extends Node2D
 var velocity 			:= Vector2()
 var friction 			:= 0.99
 
-var velocity_mod := 1.0
+var velocity_mod 		:= 1.0
 
 var gravity 			:= 98.0 * 1.0
 var upward_velocity 	:= 0.0
@@ -23,8 +23,9 @@ var puddle_color := Color.RED
 
 func _ready() -> void:
 	# Set the initial velocity of the bullet casing
-	velocity 			= Vector2.DOWN.rotated( randf_range( 0, TAU ) ) * randf_range( 0.0, 40.0 ) * velocity_mod
-	upward_velocity 	= randf_range(20,100) * velocity_mod ## How high the blood splatter initially can go.
+	velocity 			= Vector2.DOWN.rotated( randf_range( 0, TAU ) ) * randf_range( 0.0, 50.0 ) * velocity_mod
+	if randf() > 0.8: velocity *= 2.0
+	upward_velocity 	= randf_range(20,120) * velocity_mod ## How high the blood splatter initially can go.
 	spr.scale = Vector2(0.5,0.5) * randf_range( 0.8, 1.6 )
 	spr_shadow.scale = spr.scale
 	
@@ -60,6 +61,7 @@ func _physics_process(delta: float) -> void:
 			set_process( false )
 			set_physics_process( false )
 			is_active = false
+			B2_Sound.play("hoopz_puddlestep")
 		else:
 			z_index = 1
 			

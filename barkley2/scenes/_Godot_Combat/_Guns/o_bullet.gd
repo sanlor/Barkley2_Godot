@@ -1379,10 +1379,11 @@ func _on_body_entered( body: Node2D ) -> void:
 			if body.has_method("damage_actor"):
 				var my_att := my_gun.get_att()
 				
-				my_att *= att ## Apply attack modifier
+				## Apply attack modifier
+				my_att *= att 
 				@warning_ignore("narrowing_conversion")
 				my_att = my_att / float(my_gun.bullets_per_shot )
-				
+				@warning_ignore("narrowing_conversion")
 				my_att = clampi( my_att * final_multiplier , 1, 999 )
 				
 				body.damage_actor( my_att , velocity.normalized() * my_att * 100.0 )
