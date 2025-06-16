@@ -1,5 +1,22 @@
 extends B2_InteractiveActor
 
+## Redfield the Gun'ssalesman
+# (He's Chris, we don't even try to hide it. And he's lost a lot of good partners.)
+	#redfieldState
+		#0 - never talked
+		#1 - talked, sends you to PURCHASER
+	#redfieldPast
+		#0 - haven't asked about his past
+		#1 - have asked about his past, gotten some stupid details
+# How he works:
+#you have to have a knowledgeVariable of knowGunstiers to a certain level, when you, you 
+	#knowGunstiers
+		#0 - only get 50 point gun's
+		#1 - get 70 point gun's
+	#stahlGuns
+	#1 - learned you can get better stuff from redfield from stahl
+	#2 - told redfield that stahl sent you, have access to better stuff
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	_setup_actor()
@@ -80,7 +97,11 @@ func execute_event_user_6():
 	
 	## TODO Add a way to check for bought weapons
 	var gunAmt := 0;
-	if gunAmt == 5:
+	
+	if B2_Shop.bought_items.has("Redfield's Wares"):
+		gunAmt = B2_Shop.bought_items["Redfield's Wares"].size()
+		
+	if gunAmt == 5: ## bought all 5
 		if qal == 0: B2_Playerdata.Quest("redfieldShop50Empty", 1)
 		if qal == 1: B2_Playerdata.Quest("redfieldShop70Empty", 1)
 		if qal == 2: B2_Playerdata.Quest("redfieldShop90Empty", 1)

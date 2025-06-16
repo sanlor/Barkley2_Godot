@@ -178,14 +178,15 @@ func _on_cam_btn_pressed() -> void:
 [sub_resource type="GDScript" id="GDScript_sww13"]
 resource_name = "gun_gen"
 script/source = "extends Button
-
+@export var bandolier := true ## Gen gun to bandolier.
 
 func _on_pressed() -> void:
-	B2_Gun.remove_gun( B2_Gun.get_current_gun() )
-	B2_Gun.add_gun_to_bandolier(  )
+	if bandolier:
+		B2_Gun.add_gun_to_bandolier()
+	else:
+		B2_Gun.add_gun_to_gunbag()
 	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
 	print(\"New gun generated! - %s\" % B2_Gun.get_current_gun().get_full_name() )
-	pass # Replace with function body.
 "
 
 [node name="b2_debug" type="CanvasLayer"]
@@ -409,8 +410,14 @@ text = "Toggle"
 
 [node name="gun_gen" type="Button" parent="player_vars/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Generate a random weapon"
+text = "Generate a random weapon (Bando)"
 script = SubResource("GDScript_sww13")
+
+[node name="gun_gen2" type="Button" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Generate a random weapon (Gunbag)"
+script = SubResource("GDScript_sww13")
+bandolier = false
 
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
@@ -428,3 +435,4 @@ script = SubResource("GDScript_sww13")
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/stat/p_btn" to="player_vars/MarginContainer/VBoxContainer/stat" method="_on_p_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/camera_data/cam_btn" to="player_vars/MarginContainer/VBoxContainer/camera_data" method="_on_cam_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]

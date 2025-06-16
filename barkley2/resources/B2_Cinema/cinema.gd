@@ -975,7 +975,7 @@ func parse_if( line : String ) -> bool:
 	# clean the conditions
 	## ALERT Due to messy code, sometimes Items are checked with its names (@Lock Pick@) that contain spaces.
 	line = line.trim_prefix("IF ")
-	var condidion_line : PackedStringArray = line.rsplit( " ", false, 2 )
+	var condidion_line : PackedStringArray = line.split( " ", false, 2 ) ## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
 	
 	var str_var 	: String 		= condidion_line[ 0 ]
 	var comparator 	: String 		= condidion_line[ 1 ]

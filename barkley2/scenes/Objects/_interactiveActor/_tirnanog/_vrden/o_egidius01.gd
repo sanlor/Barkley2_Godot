@@ -47,19 +47,20 @@ func _ready() -> void:
 		
 func execute_event_user_1():
 	## Check shop stock
-	#Quest("egidiusStocks", Shop("stocks", "Egidius' Jerkinry"));
-	## TODO add shop function.
-	pass
+	B2_Playerdata.Quest("egidiusStocks", B2_Shop.DB["Egidius' Jerkinry"]["stocks"].keys().size() )
+	
 func execute_event_user_2():
 	## Precalculate money
-	#Quest("egidiusRentalMoney", scr_money_count());
+	B2_Playerdata.Quest("egidiusRentalMoney", B2_Playerdata.Quest("money") );
 	## NOTE Dunno what this is.
-	pass
+	## 15/06/25 Its used to rent jerkins. this is stupid, dont want to deal with this.
+	
 func execute_event_user_3(): 
 	## Calculate money spent
-	#Quest("egidiusRentalMoney", Quest("egidiusRentalMoney") - scr_money_count());
+	B2_Playerdata.Quest("egidiusRentalMoney", B2_Playerdata.Quest("egidiusRentalMoney") - B2_Playerdata.Quest("money"))
 	## NOTE Dunno what this is.
-	pass
+	## 15/06/25 Its used to rent jerkins. this is stupid, dont want to deal with this.
+	
 func execute_event_user_4():
 	## Unequip current jerkin if you no longer have
 	#if (Jerkin("has", Jerkin("current")) == 0)

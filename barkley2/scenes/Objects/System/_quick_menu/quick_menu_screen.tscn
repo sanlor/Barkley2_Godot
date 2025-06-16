@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://bnqqx8su00j5n"]
+[gd_scene load_steps=50 format=3 uid="uid://bnqqx8su00j5n"]
 
 [ext_resource type="Script" uid="uid://ccvjpqj8u7pbe" path="res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.gd" id="1_fo3ge"]
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="2_lks4j"]
@@ -16,6 +16,7 @@
 [ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="12_0nl75"]
 [ext_resource type="PackedScene" uid="uid://duwlsjo3tu4c2" path="res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn" id="12_fbeky"]
 [ext_resource type="Script" uid="uid://c0b03smw4tfvw" path="res://barkley2/scenes/Objects/System/_quick_menu/gun_name_panel.gd" id="13_8ytdx"]
+[ext_resource type="Texture2D" uid="uid://bu8ni1q7ceekf" path="res://barkley2/resources/B2_Weapon/blip.tres" id="14_rk53s"]
 [ext_resource type="Script" uid="uid://c64bc6s2o4ste" path="res://barkley2/scenes/Objects/System/_quick_menu/bottom_menu.gd" id="17_bvsod"]
 [ext_resource type="PackedScene" uid="uid://bo04o61ye6eoj" path="res://barkley2/scenes/Objects/System/_quick_menu/pocket_btn.tscn" id="17_ivtn4"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="18_k2c87"]
@@ -58,6 +59,8 @@ font_color = Color(1, 0.647059, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_x4htu"]
 font = ExtResource("9_ye4pm")
 font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k2c87"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ye3cf"]
 bg_color = Color(0, 0, 0, 1)
@@ -594,6 +597,23 @@ offset_bottom = 168.0
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
+[node name="gunbag_list" type="ItemList" parent="left/gun_bag/gunbag_bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_k2c87")
+item_count = 6
+max_columns = 7
+icon_scale = 0.75
+item_0/icon = ExtResource("14_rk53s")
+item_1/icon = ExtResource("14_rk53s")
+item_2/icon = ExtResource("14_rk53s")
+item_3/icon = ExtResource("14_rk53s")
+item_5/icon = ExtResource("14_rk53s")
+
 [node name="gun_list" type="VBoxContainer" parent="left"]
 z_index = 10
 layout_mode = 0
@@ -674,10 +694,18 @@ offset_left = -100.0
 offset_top = 162.0
 offset_right = 100.0
 offset_bottom = 202.0
-mouse_filter = 2
+mouse_filter = 1
 theme = ExtResource("3_e6o4j")
 script = ExtResource("4_qnu63")
 border_size = Vector2(200, 40)
+
+[node name="mouse_detection" type="Control" parent="gun_name_panel"]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 196.0
+offset_bottom = 34.0
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="gun_name_panel"]
 layout_mode = 1
@@ -815,8 +843,9 @@ theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_hoxqc")
 [connection signal="pressed" from="top/o_btn" to="." method="_on_o_btn_pressed"]
 [connection signal="mouse_entered" from="left" to="left" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="left" to="left" method="_on_mouse_exited"]
-[connection signal="mouse_entered" from="gun_name_panel" to="gun_name_panel" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="gun_name_panel" to="gun_name_panel" method="_on_mouse_exited"]
+[connection signal="item_activated" from="left/gun_bag/gunbag_bg/gunbag_list" to="." method="_on_gunbag_list_item_activated"]
+[connection signal="mouse_entered" from="gun_name_panel/mouse_detection" to="left" method="_on_mouse_detection_mouse_entered"]
+[connection signal="mouse_exited" from="gun_name_panel/mouse_detection" to="left" method="_on_mouse_detection_mouse_exited"]
 [connection signal="pressed" from="inventory/close_btn" to="inventory" method="_on_close_btn_pressed"]
 [connection signal="pressed" from="inventory/pg_up_btn" to="inventory" method="_on_pg_up_btn_pressed"]
 [connection signal="pressed" from="inventory/pg_dn_btn" to="inventory" method="_on_pg_dn_btn_pressed"]

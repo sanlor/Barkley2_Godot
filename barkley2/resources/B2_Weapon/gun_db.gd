@@ -20,7 +20,7 @@ const GUNMATERIALS 	= 81; 	## Maximum number of gun materials in game
 const GUNTYPES 		= 26;	## Maximum number of types of guns we'll have
 
 const BANDOLIER_SIZE 	:= 3
-const GUNBAG_SIZE 		:= 3
+const GUNBAG_SIZE 		:= 14
 
 enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_PISTOL,
@@ -1160,6 +1160,12 @@ static func prev_band_gun() -> void:
 static func select_band_gun( id : int ) -> void:
 	if id > B2_Playerdata.bandolier.size():
 		push_error("Tried to select a weapon that does not exist.")
+	B2_Playerdata.selected_gun = id
+	
+static func select_gunbag_gun( id : int ) -> void:
+	if id > B2_Playerdata.gun_bag.size():
+		push_error("Tried to select a weapon that does not exist.")
+	toggle_gunbag()
 	B2_Playerdata.selected_gun = id
 	
 static func has_gun_in_gunbag() -> bool:

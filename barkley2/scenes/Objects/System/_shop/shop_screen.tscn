@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://d2hha6frqxoja"]
+[gd_scene load_steps=65 format=3 uid="uid://d2hha6frqxoja"]
 
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="1_n037p"]
 [ext_resource type="Script" uid="uid://dsk5qqh2yowtx" path="res://barkley2/scenes/Objects/System/_shop/shop_screen.gd" id="1_qjdko"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="9_icx7d"]
 [ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="10_yvjwj"]
 [ext_resource type="PackedScene" uid="uid://dlhrkg7recebs" path="res://barkley2/scenes/Objects/System/_shop/shop_item.tscn" id="11_yvjwj"]
+[ext_resource type="Script" uid="uid://ck8xlokshgfrg" path="res://barkley2/scenes/Objects/System/_shop/gunbag_panel.gd" id="12_2f8jg"]
 [ext_resource type="Texture2D" uid="uid://cr2prylg26oql" path="res://barkley2/assets/b2_original/images/merged/sButtonPapers.png" id="12_icx7d"]
 [ext_resource type="Texture2D" uid="uid://0glhr63p2u85" path="res://barkley2/assets/Border/sBorderBG_1.png" id="14_jfmwf"]
 [ext_resource type="Script" uid="uid://tvoapplxielk" path="res://barkley2/scenes/Objects/System/_shop/info_panel.gd" id="14_neklo"]
@@ -21,6 +22,7 @@
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="17_x1u4u"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="18_2f8jg"]
 [ext_resource type="Texture2D" uid="uid://skgcdpe1ctna" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunMapMarker.png" id="19_28lyt"]
+[ext_resource type="Script" uid="uid://c0mwyquft1yqe" path="res://barkley2/scenes/Objects/System/_shop/compare_panel.gd" id="22_2f8jg"]
 
 [sub_resource type="Animation" id="Animation_e3eoe"]
 length = 0.001
@@ -119,6 +121,18 @@ tracks/7/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0, 0, 0, 0.75)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("gunbag_panel:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(24, 172)]
 }
 
 [sub_resource type="Animation" id="Animation_yvjwj"]
@@ -221,6 +235,18 @@ tracks/7/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0.75), Color(0, 0, 0, 0)]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("gunbag_panel:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(24, 172), Vector2(24, 242)]
+}
 
 [sub_resource type="Animation" id="Animation_hurr3"]
 resource_name = "hide_menu"
@@ -322,6 +348,18 @@ tracks/7/keys = {
 "update": 0,
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.75)]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("gunbag_panel:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(24, 244), Vector2(24, 172)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wloum"]
 _data = {
@@ -339,11 +377,26 @@ font = ExtResource("9_icx7d")
 
 [sub_resource type="LabelSettings" id="LabelSettings_wloum"]
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_x5vl8"]
-
-[sub_resource type="ButtonGroup" id="ButtonGroup_x1u4u"]
-
 [sub_resource type="ButtonGroup" id="ButtonGroup_2f8jg"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_28lyt"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_mg0ru"]
+
+[sub_resource type="GDScript" id="GDScript_2f8jg"]
+resource_name = "gunbag_bg"
+script/source = "extends TextureRect
+
+func _process(_delta: float) -> void:
+	if visible:
+		queue_redraw()
+		
+func _draw() -> void:
+	draw_rect( Rect2( Vector2.ZERO, size ), Color.GREEN * randf_range(0.85,1.25), false )
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_hvr3h"]
+font = ExtResource("15_x5vl8")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yvjwj"]
 atlas = ExtResource("12_icx7d")
@@ -375,10 +428,35 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(348, 204)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(18, 18)]
+}
 
 [sub_resource type="Animation" id="Animation_w08el"]
 resource_name = "hide"
-length = 0.5
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -386,7 +464,7 @@ tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -398,15 +476,40 @@ tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(348, 204), Vector2(16, 16)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(18, 18), Vector2(184, 112)]
+}
 
 [sub_resource type="Animation" id="Animation_mg0ru"]
 resource_name = "show"
-length = 0.5
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -426,10 +529,34 @@ tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(16, 16), Vector2(348, 204)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(184, 112), Vector2(18, 18)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4bf8j"]
@@ -496,9 +623,231 @@ func _draw() -> void:
 	draw_line( Vector2(0, 	size.y + 3), Vector2(size.x, 		size.y + 3), Color.WHITE )
 "
 
+[sub_resource type="Animation" id="Animation_fljct"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(216, 192)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(84, 24)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg1:pivot_offset")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(216, 216)]
+}
+
+[sub_resource type="Animation" id="Animation_75cs5"]
+resource_name = "hide"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(216, 192), Vector2(16, 16)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(84, 24), Vector2(184, 112)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg1:pivot_offset")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(216, 216), Vector2(8, 8)]
+}
+
+[sub_resource type="Animation" id="Animation_4bf8j"]
+resource_name = "show"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg1:size")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(16, 16), Vector2(216, 192)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg1:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(184, 112), Vector2(84, 24)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("bg1:pivot_offset")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(8, 8), Vector2(216, 216)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b043v"]
+_data = {
+&"RESET": SubResource("Animation_fljct"),
+&"hide": SubResource("Animation_75cs5"),
+&"show": SubResource("Animation_4bf8j")
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x1u4u"]
+load_path = "res://.godot/imported/sJerkin.png-6e493eeb988faf0f425a6a80d4be5c95.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2f8jg"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_x1u4u")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cq68p"]
+font = ExtResource("9_icx7d")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_28lyt"]
+load_path = "res://.godot/imported/sJerkin.png-6e493eeb988faf0f425a6a80d4be5c95.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg0ru"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_28lyt")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_f0myn"]
+font = ExtResource("9_icx7d")
+
 [node name="shop_screen" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_qjdko")
+my_shop_name = "Egidius' Jerkinry"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -690,20 +1039,74 @@ theme_override_constants/separation = 1
 layout_mode = 2
 toggle_mode = true
 button_pressed = true
-button_group = SubResource("ButtonGroup_x5vl8")
+button_group = SubResource("ButtonGroup_2f8jg")
 my_item = "Bottlecap Jerkin"
 
 [node name="shop_item_1" parent="shop_panel/MarginContainer/ScrollContainer/shop_vbox" instance=ExtResource("11_yvjwj")]
 layout_mode = 2
 toggle_mode = true
-button_group = SubResource("ButtonGroup_x1u4u")
+button_group = SubResource("ButtonGroup_28lyt")
 my_item = "Monofilament Jerkin"
 
 [node name="shop_item_2" parent="shop_panel/MarginContainer/ScrollContainer/shop_vbox" instance=ExtResource("11_yvjwj")]
 layout_mode = 2
 toggle_mode = true
-button_group = SubResource("ButtonGroup_2f8jg")
+button_group = SubResource("ButtonGroup_mg0ru")
 my_item = "Vestal Jerkin"
+
+[node name="gunbag_panel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 172.0
+offset_right = 93.0
+offset_bottom = 224.0
+script = ExtResource("12_2f8jg")
+
+[node name="bg" type="TextureRect" parent="gunbag_panel"]
+self_modulate = Color(1, 1, 1, 0.5)
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_jfmwf")
+stretch_mode = 1
+script = SubResource("GDScript_2f8jg")
+
+[node name="MarginContainer" type="MarginContainer" parent="gunbag_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="gunbag_panel/MarginContainer"]
+layout_mode = 2
+
+[node name="gb_label" type="Label" parent="gunbag_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "GUN'S BAG:"
+label_settings = SubResource("LabelSettings_hvr3h")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pad" type="Control" parent="gunbag_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="gb_size" type="Label" parent="gunbag_panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "00/99"
+label_settings = SubResource("LabelSettings_hvr3h")
+horizontal_alignment = 1
 
 [node name="exit_btn" type="Control" parent="." node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
@@ -742,6 +1145,7 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_yvjwj")
 
 [node name="info_panel" type="Control" parent="."]
+visible = false
 z_index = 4096
 layout_mode = 3
 anchors_preset = 15
@@ -786,7 +1190,8 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="bg1" type="TextureRect" parent="info_panel"]
-modulate = Color(1, 1, 1, 0.75)
+self_modulate = Color(1, 1, 1, 0.75)
+clip_contents = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -809,9 +1214,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="gun_summary" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_summary"]
 layout_mode = 2
@@ -917,6 +1324,7 @@ autowrap_mode = 2
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 25
+alignment = 1
 
 [node name="dmg" type="VBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_stats"]
 layout_mode = 2
@@ -1005,6 +1413,7 @@ horizontal_alignment = 1
 
 [node name="gun_lineage" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer"]
 layout_mode = 2
+alignment = 1
 
 [node name="pad" type="Control" parent="info_panel/bg1/VBoxContainer/gun_lineage"]
 custom_minimum_size = Vector2(6, 0)
@@ -1122,6 +1531,478 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 
+[node name="compare_panel" type="Control" parent="."]
+z_index = 4096
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+script = ExtResource("22_2f8jg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="compare_panel"]
+libraries = {
+&"": SubResource("AnimationLibrary_b043v")
+}
+
+[node name="bg0" type="ColorRect" parent="compare_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.9)
+
+[node name="Label" type="Label" parent="compare_panel/bg0"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -204.0
+offset_top = -14.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Press \"Action\" or \"Holster\" to close this window."
+label_settings = SubResource("LabelSettings_fljct")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="bg1" type="TextureRect" parent="compare_panel"]
+self_modulate = Color(1, 1, 1, 0.75)
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -96.0
+offset_right = 108.0
+offset_bottom = 96.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(216, 216)
+texture = ExtResource("14_jfmwf")
+stretch_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="compare_panel/bg1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="compare_panel/bg1/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 13
+
+[node name="jerk_preview" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 56
+
+[node name="curr_jerkin" type="VBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview"]
+layout_mode = 2
+
+[node name="curr_jerkin_img" type="TextureRect" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview/curr_jerkin"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = SubResource("AtlasTexture_2f8jg")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="curr_jerkin_name" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview/curr_jerkin"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Cornhusk Jerning"
+label_settings = SubResource("LabelSettings_cq68p")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="sel_jerkin" type="VBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview"]
+layout_mode = 2
+
+[node name="sel_jerkin_img" type="TextureRect" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview/sel_jerkin"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+texture = SubResource("AtlasTexture_mg0ru")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="sel_jerkin_name" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_preview/sel_jerkin"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Cornhusk Jerning"
+label_settings = SubResource("LabelSettings_cq68p")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="jerk_stats" type="VBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="stat1" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="bal_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat1"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Ballistics"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat1"]
+layout_mode = 2
+
+[node name="bal_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat1/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="bal_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat1/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bal_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat1/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat2" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="wgt_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat2"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Weight"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat2"]
+layout_mode = 2
+
+[node name="wgt_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat2/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="wgt_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat2/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="wgt_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat2/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat3" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="pkt_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat3"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Pocket"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat3"]
+layout_mode = 2
+
+[node name="pkt_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat3/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="pkt_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat3/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="pkt_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat3/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat4" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="bio_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat4"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "BIO"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat4"]
+layout_mode = 2
+
+[node name="bio_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat4/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="bio_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat4/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bio_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat4/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat5" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="cyb_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat5"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Cyber"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat5"]
+layout_mode = 2
+
+[node name="cyb_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat5/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="cyb_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat5/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cyb_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat5/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat6" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="men_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat6"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Mental"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat6"]
+layout_mode = 2
+
+[node name="men_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat6/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="men_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat6/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="men_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat6/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat7" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="kos_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat7"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Kosmic"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat7"]
+layout_mode = 2
+
+[node name="kos_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat7/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="kos_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat7/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="kos_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat7/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
+[node name="stat8" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats"]
+layout_mode = 2
+alignment = 1
+
+[node name="zau_label" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat8"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Zauber"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="values" type="HBoxContainer" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat8"]
+layout_mode = 2
+
+[node name="zau_data_cur" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat8/values"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "20"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="zau_data_comp" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat8/values"]
+custom_minimum_size = Vector2(9, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = ">"
+label_settings = SubResource("LabelSettings_f0myn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="zau_data_sel" type="Label" parent="compare_panel/bg1/MarginContainer/VBoxContainer/jerk_stats/stat8/values"]
+self_modulate = Color(1, 1, 0, 1)
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "100"
+label_settings = SubResource("LabelSettings_f0myn")
+vertical_alignment = 1
+
 [connection signal="pressed" from="slide_border/VBoxContainer/buy_btn" to="." method="_on_buy_btn_pressed"]
 [connection signal="pressed" from="slide_border/VBoxContainer/info_btn" to="." method="_on_info_btn_pressed"]
 [connection signal="button_pressed" from="exit_btn" to="." method="_on_exit_btn_button_pressed"]
+[connection signal="resized" from="compare_panel/bg1" to="compare_panel" method="_on_bg_1_resized"]

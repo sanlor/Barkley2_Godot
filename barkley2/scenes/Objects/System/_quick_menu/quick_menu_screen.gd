@@ -50,8 +50,10 @@ const left_gun_shown_x	:= 0
 @onready var weight_stat: Label = $right/weight_stat
 
 ## Left
+const BLIP = preload("res://barkley2/resources/B2_Weapon/blip.tres")
 const GUN_BTN = preload("res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn")
 @onready var gun_list: VBoxContainer = $left/gun_list
+@onready var gunbag_list: ItemList = $left/gun_bag/gunbag_bg/gunbag_list
 
 ## Bottom
 const POCKET_BTN = preload("uid://bo04o61ye6eoj")
@@ -183,6 +185,15 @@ func load_left_menu() -> void:
 		
 		gun_list.add_child( btn )
 		btn.setup_button( gun )
+		
+	gunbag_list.clear()
+	for i : B2_Weapon in B2_Gun.get_gunbag():
+		var blip := BLIP.duplicate()
+		blip.region.position.x = 8 * i.weapon_type
+		gunbag_list.add_icon_item(blip, true)
+
+func _on_gunbag_list_item_activated(index: int) -> void:
+	B2_Gun.select_gunbag_gun( index )
 
 func load_top_menu() -> void:
 	## TODO Add Zaubers

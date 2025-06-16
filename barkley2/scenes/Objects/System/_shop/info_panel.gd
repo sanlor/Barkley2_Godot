@@ -2,20 +2,21 @@ extends Control
 
 signal menu_closed
 
+@onready var bg_1: TextureRect = $bg1
 @onready var gun_map: 				TextureRect = $bg1/VBoxContainer/gun_lineage/gun_map
 @onready var gun_marker_bottom: 	TextureRect = $bg1/VBoxContainer/gun_lineage/gun_map/gun_marker_bottom
 @onready var gun_marker_top: 		TextureRect = $bg1/VBoxContainer/gun_lineage/gun_map/gun_marker_top
 @onready var gun_marker_occupied: 	TextureRect = $bg1/VBoxContainer/gun_lineage/gun_map/gun_marker_occupied
 
-@onready var gun_name: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer/gun_name
-@onready var gun_texture: TextureRect = $bg1/VBoxContainer/gun_summary/VBoxContainer/gun_texture
+@onready var gun_name: 			Label = $bg1/VBoxContainer/gun_summary/VBoxContainer/gun_name
+@onready var gun_texture: 		TextureRect = $bg1/VBoxContainer/gun_summary/VBoxContainer/gun_texture
 
-@onready var prefix_1_name: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix1/prefix1_name
-@onready var prefix_1_description: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix1/prefix1_description
-@onready var prefix_2_name: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix2/prefix2_name
-@onready var prefix_2_description: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix2/prefix2_description
-@onready var suffix_name: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/suffix/suffix_name
-@onready var suffix_description: Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/suffix/suffix_description
+@onready var prefix_1_name: 			Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix1/prefix1_name
+@onready var prefix_1_description: 		Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix1/prefix1_description
+@onready var prefix_2_name: 			Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix2/prefix2_name
+@onready var prefix_2_description: 		Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/prefix2/prefix2_description
+@onready var suffix_name: 				Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/suffix/suffix_name
+@onready var suffix_description: 		Label = $bg1/VBoxContainer/gun_summary/VBoxContainer2/suffix/suffix_description
 
 @onready var dmg_value: Label = $bg1/VBoxContainer/gun_stats/dmg/dmg_value
 @onready var rte_value: Label = $bg1/VBoxContainer/gun_stats/rte/rte_value
@@ -40,11 +41,11 @@ var my_gun : B2_Weapon
 
 var t := 0.0
 
-
 func _setup_menu() -> void:
 	if not my_gun:
 		push_error("Gun not loaded.")
 		return
+		
 	prefix_1_name.modulate 			= Color.YELLOW
 	prefix_1_description.modulate 	= Color.WHITE
 	prefix_2_name.modulate 			= Color.YELLOW
@@ -104,6 +105,20 @@ func hide_menu() -> void:
 		animation_player.play("hide")
 		await animation_player.animation_finished
 		menu_closed.emit()
+
+## Cool effect
+var n_prev_rect := 5
+var prev_rect : Array[Rect2] = []
+func _draw() -> void:
+	prev_rect.append( Rect2(bg_1.position, bg_1.size) )
+	for rect in prev_rect:
+		draw_rect( rect, Color.GREEN * randf_range(0.55,1.55), false )
+	if prev_rect.size() > n_prev_rect:
+		prev_rect.pop_front()
+
+func _physics_process(_delta: float) -> void:
+	if visible:
+		queue_redraw()
 
 func _process(delta: float) -> void:
 	t += 3.0 * delta

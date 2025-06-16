@@ -150,6 +150,18 @@ func get_gun() -> B2_Weapon:
 	breakpoint
 	return B2_Weapon.new()
 	
+func get_jerkin() -> String:
+	return my_item
+	
+func get_item_name() -> String:
+	if my_item_type == TYPE.GUN:
+		return my_gun.weapon_name
+	else:
+		return my_item
+	
+func get_item_cost() -> int:
+	return my_item_cost
+	
 func _physics_process(_delta: float) -> void:
 	focus_color.color.a = 0.05 * randf_range( 0.80, 1.20 )
 	

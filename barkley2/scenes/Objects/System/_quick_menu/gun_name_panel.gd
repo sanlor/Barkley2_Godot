@@ -19,7 +19,7 @@ func _post_ready() -> void:
 	#mouse_entered.connect(_on_mouse_entered)
 	#mouse_exited.connect(_on_mouse_exited)
 	
-	_on_mouse_exited()
+	_on_mouse_detection_mouse_exited()
 
 func flicker( alpha : float ) -> void:
 	for c in gun_name_panel.get_children():
@@ -35,13 +35,13 @@ func flicker( alpha : float ) -> void:
 			for btn in c.get_children():
 				btn.modulate.a = alpha
 
-func _on_mouse_entered() -> void:
+func _on_mouse_detection_mouse_entered() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property( gun_name_panel, "position:x", x_shown, t_speed ).set_trans(Tween.TRANS_SPRING)
 
-func _on_mouse_exited() -> void:
+func _on_mouse_detection_mouse_exited() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()

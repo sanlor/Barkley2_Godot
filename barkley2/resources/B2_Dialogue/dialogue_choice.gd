@@ -153,7 +153,7 @@ func change_arrow_pos( button : Button ):
 
 func display_choices():
 	var _text_offset := 0
-	
+	B2_Input.ffwd(false)
 	if B2_Playerdata.Quest("NoChoicePortrait") == 0:
 		if has_portrait: 
 			_text_offset = 40 + 15 # 15 is for the arrow
@@ -169,6 +169,7 @@ func display_choices():
 # Title in this case is the question.
 func set_title( _text_title : String ) -> void:
 	title_node 	= RichTextLabel.new(); add_child(title_node, true); title_node.bbcode_enabled = true
+	title_node.autowrap_mode = TextServer.AUTOWRAP_WORD
 	title_node.theme = preload("res://barkley2/themes/dialogue.tres")
 	_title 		= _text_title 	# whos speaking the text
 	

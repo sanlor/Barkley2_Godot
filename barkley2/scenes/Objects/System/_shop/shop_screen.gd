@@ -7,7 +7,8 @@ signal buy_called
 signal buy_executed
 signal info_called
 
-const SHOP_ITEM = preload("res://barkley2/scenes/Objects/System/_shop/shop_item.tscn")
+const B2_CONFIRM 	= preload("res://barkley2/scenes/confirm/b2_confirm.tscn")
+const SHOP_ITEM 	= preload("res://barkley2/scenes/Objects/System/_shop/shop_item.tscn")
 
 const FACES := {
 	"sGarfunkleFace" 	: preload("uid://r374a86u6v26"),
@@ -37,6 +38,8 @@ const SHOP_TYPE := {
 @onready var slide_border: 				B2_Border 		= $slide_border
 
 @onready var info_panel: 				Control = $info_panel
+@onready var compare_panel: 			Control = $compare_panel
+@onready var gunbag_panel: 				Control = $gunbag_panel
 
 enum TYPE{GUN, JERKIN, RECIPE, VIDCON}
 @export var my_shop_name	:= ""
@@ -48,12 +51,13 @@ var slide_boder_focus : Button
 
 func _ready() -> void:
 	info_panel.hide()
+	compare_panel.hide()
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.HAND )
 	B2_Input.ffwd( false )
 	animation_player.play("show_menu")
 	
-	B2_Playerdata.Quest("money", 200)
-	push_error("DEBUG MONEY SET")
+	if not B2_Shop.bought_items.has(my_shop_name):
+		B2_Shop.bought_items[my_shop_name] = []
 	
 	my_shop_data = B2_Shop.get_shop_data( my_shop_name )
 	
@@ -76,9 +80,26 @@ func _ready() -> void:
 		for i in shop_vbox.get_children():
 			i.queue_free()
 		
+		if not my_shop_type == TYPE.GUN:
+			gunbag_panel.hide()
+		
 		## Add new buttons
 		var btn_group := ButtonGroup.new()
 		for i : String in my_shop_data["stocks"]:
+			## Check if player already has this item.
+			if my_shop_type == TYPE.JERKIN:
+				if B2_Jerkin.has_jerkin( i ):
+					continue
+			elif my_shop_type == TYPE.RECIPE:
+				if B2_Candy.has_recipe( i ):
+					continue
+			elif my_shop_type == TYPE.VIDCON:
+				breakpoint ## VIDCONS NOT IMPLEMENTED
+			elif my_shop_type == TYPE.GUN:
+				if B2_Shop.bought_items.has(my_shop_name):
+					if B2_Shop.bought_items[my_shop_name].has( i ):
+						continue
+						
 			var item 					= SHOP_ITEM.instantiate()
 			item.my_item 				= i
 			item.my_item_cost 			= my_shop_data["stocks"][i]
@@ -143,7 +164,55 @@ func hide_menu() -> void:
 
 func _on_buy_btn_pressed() -> void:
 	B2_Sound.play("cursor_select01")
+	info_btn.release_focus()
+	slide_boder_focus.release_focus()
+	
+	var confirm = B2_CONFIRM.instantiate()
+	confirm.givTxt = Text.pr( "Buy %s for %s?" % [slide_boder_focus.get_item_name(), str(slide_boder_focus.get_item_cost())] )
+	confirm.option1_pressed.connect( buy_item.bind(slide_boder_focus)	) # Yes
+	confirm.option2_pressed.connect( cancel_buy 						) # No
+	add_child( confirm )
 
+func buy_item( _btn ) -> void:
+	## Randomish sfx.
+	B2_Sound.play("hoopz_pickupMoney")
+			
+	B2_Database.money_change( -_btn.my_item_cost )
+	slide_boder_focus = null
+	
+	if my_shop_type == TYPE.GUN:
+		var gun : B2_Weapon = _btn.get_gun()
+		B2_Shop.bought_items[my_shop_name].append( _btn.my_item )
+		B2_Gun.append_gun_to_gunbag( gun )
+		gunbag_panel.update()
+		_btn.queue_free()
+		
+	elif my_shop_type == TYPE.JERKIN:
+		B2_Jerkin.gain_jerkin( _btn.get_jerkin() )
+		_btn.queue_free()
+		
+	elif my_shop_type == TYPE.RECIPE:
+		B2_Candy.add_candy_recipe( _btn.get_item_name() )
+		_btn.queue_free()
+		
+	elif my_shop_type == TYPE.VIDCON:
+		## Vidcons not setup yet
+		breakpoint
+	else:
+		## WTF???
+		breakpoint
+	
+	## Where should we focus now?
+	if shop_vbox.get_children().is_empty():
+		# close shop, bought them all.
+		pass
+	else:
+		slide_boder_focus = shop_vbox.get_children().front()
+		slide_boder_focus.grab_focus()
+		slide_boder_focus.button_pressed = true
+
+func cancel_buy() -> void:
+	info_btn.grab_focus()
 
 func _on_info_btn_pressed() -> void:
 	B2_Sound.play("cursor_select01")
@@ -155,4 +224,12 @@ func _on_info_btn_pressed() -> void:
 			info_panel.grab_focus()
 			info_panel.show_panel( my_gun )
 			await info_panel.menu_closed
+			slide_boder_focus.grab_focus()
+		if my_shop_type == TYPE.JERKIN:
+			info_btn.release_focus()
+			slide_boder_focus.release_focus()
+			var sel_jerkin : String = slide_boder_focus.get_jerkin()
+			compare_panel.grab_focus()
+			compare_panel.show_panel( sel_jerkin )
+			await compare_panel.menu_closed
 			slide_boder_focus.grab_focus()
