@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=58 format=4 uid="uid://vkjgyg68ejy1"]
 
 [ext_resource type="Script" uid="uid://b7c15mxmjj4ld" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://dv0na0w3edaj" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_pollux01.tscn" id="23_kyuqg"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="24_g025c"]
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="24_miyxs"]
+[ext_resource type="PackedScene" uid="uid://bgh5fvxav7ccl" path="res://barkley2/scenes/_utilityStation/o_utilitystation.tscn" id="25_xdrhj"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e2kse"]
 vertices = PackedVector2Array(214, 106, 262, 106, 262, 154, 378, 154, 378, 138, 394, 138, 394, 74, 438, 74, 438, 138, 454, 138, 454, 154, 378, 246, 570, 154, 570, 106, 618, 106, 678, 246, 618, 42, 630, 42, 630, 106, 678, 106, 454, 442, 550, 442, 550, 662, 454, 662, 454, 710, 378, 710, 378, 662, 378, 442, 282, 662, 282, 442, 454, 246, 154, 246, 154, 106, 202, 106, 202, 42, 214, 42)
@@ -1878,13 +1879,23 @@ SHOP   | open | Egidius' Jerkinry
 DIALOG | Pollux | Done."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ws3dg"]
+resource_local_to_scene = true
+shader = ExtResource("14_bgd1o")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
 [node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_e2kse")
 script = ExtResource("1_en1eg")
 reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
-debug_player_scene_pos = Vector2(315, 479)
+debug_player_scene_pos = Vector2(315, 205)
 teleport_spot = true
 teleport_node = NodePath("o_teleport_mark")
 collision_layer = NodePath("layer - collision")
@@ -2127,5 +2138,9 @@ cutscene_script = SubResource("Resource_g025c")
 [node name="o_gunsalesman" parent="." instance=ExtResource("24_miyxs")]
 position = Vector2(325, 448)
 
+[node name="o_utilitystation" parent="." instance=ExtResource("25_xdrhj")]
+material = SubResource("ShaderMaterial_ws3dg")
+position = Vector2(320, 154)
+
 [node name="o_teleport_mark" parent="." instance=ExtResource("24_g025c")]
-position = Vector2(315, 479)
+position = Vector2(315, 205)

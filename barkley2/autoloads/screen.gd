@@ -10,6 +10,7 @@ signal shop_closed
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
+const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/utilitystation_screen.tscn")
 const MAP_SCREEN 			= preload("res://barkley2/scenes/Objects/System/_map/map_screen.tscn")
 const PAUSE_SCREEN 			= preload("res://barkley2/scenes/Objects/System/pause_screen.tscn")
 const QUICK_MENU_SCREEN 	= preload("res://barkley2/scenes/Objects/System/_quick_menu/quick_menu_screen.tscn")
@@ -57,6 +58,9 @@ var is_quickmenu_open := false
 
 var shop_screen: CanvasLayer
 var is_shop_open := false
+
+var utility_screen: CanvasLayer
+var is_utility_open := false
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER
