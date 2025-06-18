@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=46 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Texture2D" uid="uid://btajekjpf64np" path="res://barkley2/assets/Border/sBorderBG_0.png" id="2_rf8p1"]
@@ -14,6 +14,10 @@
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="11_2fwod"]
 [ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="12_etmwp"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="13_gpxvf"]
+[ext_resource type="Texture2D" uid="uid://5gsghtba1b41" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityDefense.png" id="14_2kqn3"]
+[ext_resource type="Texture2D" uid="uid://bhctrianm3xu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityResistanceBlip.png" id="15_de10n"]
+[ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="16_nsxts"]
+[ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="17_8sg6d"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tq0ww"]
 shader = ExtResource("4_uitkm")
@@ -67,11 +71,11 @@ resource_name = "poise"
 script/source = "@tool
 extends \"res://barkley2/scenes/_utilityStation/draw_rect.gd\"
 
-## No idea what \"poise\" is. im making something up.
+## No idea what \"poise\" is. I'm making something up.
 
 var t := 0.0
 var line_points := []
-
+@export var noise := FastNoiseLite.new() ## Add a fun pattern to the sinewave
 var timer := 100
 
 func _draw() -> void:
@@ -79,32 +83,118 @@ func _draw() -> void:
 	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick * 0.25), false, 3.0, false )
 	
 	## fun fun fun
-	draw_line( Vector2(4,15),Vector2(44,15), Color.WHITE, 1, false )
+	draw_line( Vector2(4,15),Vector2(44,15), Color( Color.WHITE, 0.25 ), 0.45, true )
 	
 	var x := 0
 	var p_i := 0
 	if not line_points.is_empty():
 		p_i = line_points.front()
 	var l := Vector2.ZERO
-	for i : float in line_points:
+	for i : float in line_points: ## Draw the sinewave
 		x += 1
-		l =  Vector2(4 + x - 1, 15 + i)
-		draw_line( Vector2(4 + x - 1, 15 + p_i), l, Color.SKY_BLUE, 0.45, true )
+		l =  Vector2( 4 + x - 1, 15 + i )
+		draw_line( Vector2( 4 + x - 1, 15 + p_i ), l, Color.SKY_BLUE, 0.45, true )
 		p_i = i
+	## Draw the point
 	draw_circle( l, 0.5, Color(Color.HOT_PINK, 0.50), true, -1, true )
 	draw_circle( l, 1.5, Color(Color.HOT_PINK, 0.25), true, -1, true )
 	
+	## Add the scrolling effect
 	if timer <= 0:
 		t += 200 * get_process_delta_time()
-		line_points.append( sin(t) * 6.0 )
+		line_points.append( sin(t) * 6.0 * noise.get_noise_1d( t ) )
 		if line_points.size() > 40: line_points.pop_front()
 		timer = 40
+		# print( noise.get_noise_1d( t ) )
 	else:
 		timer -= 1
 "
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gpxvf"]
+noise_type = 3
+frequency = 0.1
+fractal_type = 3
+fractal_octaves = 1
+cellular_distance_function = 1
+cellular_jitter = 0.0
+cellular_return_type = 0
+
 [sub_resource type="LabelSettings" id="LabelSettings_yj7y8"]
 font = ExtResource("9_rf8p1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_xscvq"]
+font = ExtResource("10_rf8p1")
+
+[sub_resource type="GDScript" id="GDScript_jigd8"]
+resource_name = "res_graph"
+script/source = "@tool
+extends \"res://barkley2/scenes/_utilityStation/draw_rect.gd\"
+const MULTI	:= 15.0
+@export var triangle_offset := 0.7
+var TRIANGLE : PackedVector2Array = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
+const COLORS_BG	:= Color( Color.GRAY, 0.5 )
+var COLORS	: PackedColorArray = [
+	Color( B2_Gamedata.c_cosmic, 	0.5 ),
+	Color( B2_Gamedata.c_mental, 	0.5 ),
+	Color( B2_Gamedata.c_cyber, 	0.5 ),
+	Color( B2_Gamedata.c_bio, 		0.5 ),
+	Color( B2_Gamedata.c_zauber, 	0.5 ),
+	]
+var stats := [
+	B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_BIO,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER,
+]
+@export var rot_offset := 2.6
+
+func _draw() -> void:
+	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick), false, 1.0, false )
+	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick * 0.25), false, 3.0, false )
+	
+	for i in 5:
+		#TRIANGLE = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
+		draw_set_transform( size / 2, ( ( PI / rot_offset ) * float(i) ) )
+		draw_colored_polygon( TRIANGLE, COLORS_BG )
+		draw_colored_polygon( PackedVector2Array( [
+			TRIANGLE[0] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			TRIANGLE[1] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			TRIANGLE[2] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			]), COLORS[i] )
+		draw_polyline( TRIANGLE, Color.DIM_GRAY, 1.0 )
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_jigd8"]
+font = ExtResource("8_tq0ww")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8sg6d"]
+atlas = ExtResource("16_nsxts")
+region = Rect2(2107, 192, 49, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hqon2"]
+font = ExtResource("12_etmwp")
+
+[sub_resource type="LabelSettings" id="LabelSettings_llltk"]
+font = ExtResource("9_rf8p1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mfdu4"]
+font = ExtResource("11_2fwod")
+
+[sub_resource type="Gradient" id="Gradient_d7cl6"]
+offsets = PackedFloat32Array(0.0538244, 0.518414, 0.951841)
+colors = PackedColorArray(0, 0, 0, 1, 0.588235, 0.588235, 0.588235, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8kpvu"]
+gradient = SubResource("Gradient_d7cl6")
+width = 30
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yj7y8"]
+load_path = "res://.godot/imported/s_hud_scale.png-303b5385a997204d00ada54fe19d4534.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xscvq"]
+atlas = SubResource("CompressedTexture2D_yj7y8")
+region = Rect2(0, 0, 28, 30)
 
 [node name="utilitystation_screen" type="CanvasLayer"]
 script = ExtResource("1_6lm85")
@@ -661,6 +751,7 @@ offset_top = 16.0
 offset_right = 136.0
 offset_bottom = 39.0
 script = SubResource("GDScript_yj7y8")
+noise = SubResource("FastNoiseLite_gpxvf")
 
 [node name="poise_title" type="Label" parent="frame/main_panel/datum/poise"]
 layout_mode = 0
@@ -698,6 +789,7 @@ offset_bottom = 32.0
 script = ExtResource("5_inixc")
 
 [node name="voltage_title" type="Label" parent="frame/main_panel/datum/energy"]
+layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
 offset_right = 38.0
@@ -706,6 +798,7 @@ text = "VOLTAGE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
 [node name="voltage_value" type="Label" parent="frame/main_panel/datum/energy"]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 9.0
 offset_right = 55.0
@@ -715,6 +808,7 @@ label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
 [node name="amp_title" type="Label" parent="frame/main_panel/datum/energy"]
+layout_mode = 0
 offset_left = 3.0
 offset_top = 17.0
 offset_right = 42.0
@@ -723,6 +817,7 @@ text = "AMPERAGE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
 [node name="amp_value" type="Label" parent="frame/main_panel/datum/energy"]
+layout_mode = 0
 offset_left = 19.0
 offset_top = 24.0
 offset_right = 54.0
@@ -799,6 +894,486 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "TRANSHUMANISM"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="resistances" type="Control" parent="frame/main_panel"]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 164.0
+offset_right = 46.0
+offset_bottom = 204.0
+
+[node name="tab_name" type="Control" parent="frame/main_panel/resistances"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 3
+anchors_preset = 0
+offset_top = -8.0
+offset_right = 55.0
+script = ExtResource("5_inixc")
+
+[node name="tab_label" type="Label" parent="frame/main_panel/resistances/tab_name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "RESISTANCES"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="defense" type="Control" parent="frame/main_panel/resistances"]
+anchors_preset = 0
+offset_right = 55.0
+offset_bottom = 48.0
+script = ExtResource("5_inixc")
+
+[node name="SMenuUtilityDefense" type="TextureRect" parent="frame/main_panel/resistances/defense"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_2kqn3")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="defense_value" type="Label" parent="frame/main_panel/resistances/defense"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "20"
+label_settings = SubResource("LabelSettings_xscvq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_graph" type="Control" parent="frame/main_panel/resistances"]
+anchors_preset = 0
+offset_left = 55.0
+offset_right = 103.0
+offset_bottom = 48.0
+script = SubResource("GDScript_jigd8")
+triangle_offset = 0.75
+rot_offset = 2.5
+
+[node name="res_blip" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -20.0
+offset_right = -11.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip2" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip3" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 9.0
+offset_right = -16.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip4" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 21.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip5" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = 17.0
+offset_right = 1.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_list" type="Control" parent="frame/main_panel/resistances"]
+anchors_preset = 0
+offset_left = 103.0
+offset_right = 136.0
+offset_bottom = 41.0
+script = ExtResource("5_inixc")
+
+[node name="res_cosmic" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -17.5
+offset_right = -9.5
+offset_bottom = -13.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_cosmic_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 2.0
+offset_right = 29.0
+offset_bottom = 25.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_mental" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -9.5
+offset_right = -9.5
+offset_bottom = -5.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_mental_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 10.0
+offset_right = 29.0
+offset_bottom = 33.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_cyber" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -1.5
+offset_right = -9.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_cyber_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 18.0
+offset_right = 29.0
+offset_bottom = 41.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_bio" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = 6.5
+offset_right = -9.5
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_bio_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 26.0
+offset_right = 29.0
+offset_bottom = 49.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_zauber" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = 14.5
+offset_right = -9.5
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_zauber_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 34.0
+offset_right = 29.0
+offset_bottom = 57.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="equipment" type="Control" parent="frame/main_panel"]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 133.0
+offset_right = 189.0
+offset_bottom = 173.0
+
+[node name="tab_name" type="Control" parent="frame/main_panel/equipment"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1.0
+offset_right = 56.0
+offset_bottom = 8.0
+script = ExtResource("5_inixc")
+
+[node name="tab_label" type="Label" parent="frame/main_panel/equipment/tab_name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EQUIPMENT"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gun" type="Control" parent="frame/main_panel/equipment"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 32.0
+script = ExtResource("5_inixc")
+
+[node name="gun_texture" type="TextureRect" parent="frame/main_panel/equipment/gun"]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 50.0
+offset_bottom = 24.0
+texture = SubResource("AtlasTexture_8sg6d")
+
+[node name="gun_weight" type="Label" parent="frame/main_panel/equipment/gun"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 11.0
+offset_right = 68.0
+offset_bottom = 21.0
+text = "10~"
+label_settings = SubResource("LabelSettings_hqon2")
+
+[node name="gun_name" type="Label" parent="frame/main_panel/equipment/gun"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 100.0
+offset_bottom = 23.0
+text = "NAME"
+label_settings = SubResource("LabelSettings_llltk")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="jerkin" type="Control" parent="frame/main_panel/equipment"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 32.0
+offset_right = 104.0
+offset_bottom = 48.0
+script = ExtResource("5_inixc")
+
+[node name="jerkin_value" type="Label" parent="frame/main_panel/equipment/jerkin"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_mfdu4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="helm" type="Control" parent="frame/main_panel/equipment"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 48.0
+offset_right = 104.0
+offset_bottom = 64.0
+script = ExtResource("5_inixc")
+
+[node name="helm_value" type="Label" parent="frame/main_panel/equipment/helm"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_mfdu4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="nothing" type="Control" parent="frame/main_panel/equipment"]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 64.0
+offset_right = 104.0
+offset_bottom = 80.0
+script = ExtResource("5_inixc")
+
+[node name="weight" type="Control" parent="frame/main_panel"]
+anchors_preset = 0
+offset_left = 253.0
+offset_top = 165.0
+offset_right = 293.0
+offset_bottom = 205.0
+
+[node name="weight" type="Control" parent="frame/main_panel/weight"]
+anchors_preset = 0
+offset_right = 25.0
+offset_bottom = 40.0
+script = ExtResource("5_inixc")
+
+[node name="hud_weight" type="ColorRect" parent="frame/main_panel/weight/weight"]
+clip_contents = true
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 35.0
+mouse_filter = 2
+
+[node name="hud_weight_number" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -195.0
+offset_right = -1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_8sg6d")
+
+[node name="TextureRect" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_right = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+texture = SubResource("GradientTexture1D_8kpvu")
+
+[node name="hud_weight_frame" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+layout_mode = 0
+offset_right = 14.0
+offset_bottom = 30.0
+texture = SubResource("AtlasTexture_xscvq")
+
+[node name="tab_name" type="Control" parent="frame/main_panel/weight"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 3
+anchors_preset = 0
+offset_top = 40.0
+offset_right = 25.0
+offset_bottom = 48.0
+script = ExtResource("5_inixc")
+
+[node name="tab_label" type="Label" parent="frame/main_panel/weight/tab_name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WGT"
 label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
