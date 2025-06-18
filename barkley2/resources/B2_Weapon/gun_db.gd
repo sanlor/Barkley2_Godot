@@ -1179,12 +1179,12 @@ static func get_current_gun() -> B2_Weapon:
 		if has_gun_in_gunbag():
 			return B2_Playerdata.gun_bag[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
-			return null
+			return B2_Weapon.new()
 	else:
 		if has_gun_in_bandolier():
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
-			return null
+			return B2_Weapon.new()
 #endregion
 
 #region Position the gun on the players hand

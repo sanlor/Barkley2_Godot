@@ -34,8 +34,8 @@ func change_tv_face():
 	tv_face.texture.region.position.x = ( curr_face * region.x ) + ( curr_health * region.x * FACES_PER_HEALTH )
 
 func update_health_display():
-	var _curr 	= B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_CURRENT_HP )
-	var _max 	= B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_EFFECTIVE_MAX_HP )
+	var _curr 	: float = B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_CURRENT_HP )
+	var _max 	: float = B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_EFFECTIVE_MAX_HP )
 	var health_ratio : float = _curr / _max
 	
 	## Choose the right hoopz face to show.

@@ -313,6 +313,9 @@ const c_zauber	:= Color8(211, 42, 222)
 
 var last_zone_name := ""
 
+const SCREEN_WIDTH 		:= 384
+const SCREEN_HEIGHT 	:= 240
+
 func _ready() -> void:
 	_load_portrait_data()
 	B2_Config.title_screen_loaded.connect( _reset_data )

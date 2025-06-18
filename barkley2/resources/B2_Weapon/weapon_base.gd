@@ -13,13 +13,13 @@ const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flas
 enum EFFECT{ DAMAGE, RECOVERY }
 
 @export var weapon_type 	:= B2_Gun.TYPE.GUN_TYPE_PISTOL
-@export var weapon_material	:= B2_Gun.MATERIAL.BROKEN
+@export var weapon_material	:= B2_Gun.MATERIAL.STEEL
 @export var weapon_group 	:= B2_Gun.GROUP.PISTOLS
 
 @export_category("Weapon ID")
-@export var weapon_name			:= ""
-@export var weapon_short_name	:= ""
-@export var weapon_pickup_name 	:= ""
+@export var weapon_name			:= "Undefined"
+@export var weapon_short_name	:= "FUCK"
+@export var weapon_pickup_name 	:= "Undefined"
 @export var weapon_pickup_color	:= Color.WHITE
 
 ## gun[? "gunmap_pos"] = -1; 	## TODO

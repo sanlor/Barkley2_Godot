@@ -43,7 +43,7 @@ func _init_sound_banks():
 	## Load audio tracks (SFX)
 	var audio_files : Array = FileSearch.search_dir(audio_folder, "", true)
 	for file : String in audio_files:
-		if file.ends_with(".import"):
+		if file.ends_with(".import") and file.contains("sn_"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			sound_bank[ file_split.back().trim_suffix(".import").replace(".wav","").replace(".ogg","") ] = str( file.trim_suffix(".import") )
 	print_rich("[color=medium_purple]Init sound banks ended: ", Time.get_ticks_msec(), " msecs. - ", sound_bank.size(), " sound_bank key entries[/color]")

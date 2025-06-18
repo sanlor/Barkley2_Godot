@@ -12,7 +12,7 @@ const END_BATTLE_MUSIC := [
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
 #var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
-var music_folder := "res://barkley2/assets/"
+#var music_folder := "res://barkley2/assets/"
 
 var music_bank := {}
 
@@ -31,7 +31,7 @@ var stored_playing_track_time	:= 0.0
 # some rooms have the audio volume modified, like interiors
 var volume_mod := 1.0
 
-func _load_music_banks():
+func _load_music_banks( music_folder : String ):
 	## Load music tracks
 	var _music_folder : Array = FileSearch.search_dir( music_folder, "", true )
 	for file : String in _music_folder:
@@ -41,8 +41,8 @@ func _load_music_banks():
 	print_rich("[color=blue_violet]Init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries.[/color]")
 
 func _enter_tree() -> void:
-	_load_music_banks()
-	pass
+	_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
+	_load_music_banks( "res://barkley2/assets/ToG Music Pack/" )
 
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )

@@ -194,13 +194,13 @@ func set_base_stat( stat : String, value : float ) -> void:
 	else:
 		push_error( "%s is not a valid stat." % stat.to_lower() )
 
-func get_base_stat( stat : String ):
+func get_base_stat( stat : String ) -> int:
 	if get( stat.to_lower() ) == null:
 		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
 	return get( stat.to_lower() )
 
 ## TODO Setup effective stats
-func get_effective_stat( stat : String ):
+func get_effective_stat( stat : String ) -> int:
 	if get( stat.to_lower() ) == null:
 		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
 	return get( stat.to_lower() )

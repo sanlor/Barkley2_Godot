@@ -1,7 +1,7 @@
-[gd_scene load_steps=46 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=54 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
-[ext_resource type="Texture2D" uid="uid://btajekjpf64np" path="res://barkley2/assets/Border/sBorderBG_0.png" id="2_rf8p1"]
+[ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
 [ext_resource type="Texture2D" uid="uid://dgnpnn7uepcb2" path="res://barkley2/assets/b2_original/images/merged/sMenuUtility.png" id="3_yaeih"]
 [ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="4_qw4ou"]
 [ext_resource type="Shader" uid="uid://deybi0hau31lk" path="res://barkley2/resources/shaders/square.gdshader" id="4_uitkm"]
@@ -18,6 +18,55 @@
 [ext_resource type="Texture2D" uid="uid://bhctrianm3xu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityResistanceBlip.png" id="15_de10n"]
 [ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="16_nsxts"]
 [ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="17_8sg6d"]
+[ext_resource type="Script" uid="uid://dwijp1il04skr" path="res://barkley2/scenes/_utilityStation/brain_info_panel.gd" id="18_8kpvu"]
+[ext_resource type="Texture2D" uid="uid://cppc2xuv4caoq" path="res://barkley2/assets/b2_original/images/merged/sMenuBrain.png" id="19_yj7y8"]
+
+[sub_resource type="GDScript" id="GDScript_nsxts"]
+resource_name = "utility_bg"
+script/source = "@tool
+extends Control
+
+## Check ustation -> draw -> line 5.
+# Draws the bg on the fly.
+
+var intensity	:= 1.0
+var flick 		:= 0.025
+var my_color 	:= Color.GREEN
+
+func _ready() -> void:
+	if B2_Screen.is_utility_open:
+		if B2_Screen.utility_screen:
+			#B2_Screen.utility_screen.flickered.connect( flicker )
+			B2_Screen.utility_screen.set_color.connect( _set_color )
+			B2_Screen.utility_screen.set_bg_intensity.connect( _set_intensity )
+
+func _set_intensity( _intensity : float ) -> void:
+	intensity = _intensity
+	
+func _set_color( _my_color : Color ) -> void:
+	my_color = _my_color
+
+func flicker( _flick : float ) -> void:
+	flick = _flick
+	queue_redraw()
+
+func _draw() -> void:
+	draw_rect( Rect2( Vector2.ZERO, size ), Color.BLACK )
+	
+	@warning_ignore(\"integer_division\")
+	for w in B2_Gamedata.SCREEN_WIDTH / 8:
+		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity) )
+	@warning_ignore(\"integer_division\")
+	for h in B2_Gamedata.SCREEN_HEIGHT / 8:
+		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity) )
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8sg6d"]
+noise_type = 2
+frequency = 0.0106
+fractal_type = 3
+fractal_octaves = 1
+cellular_distance_function = 3
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tq0ww"]
 shader = ExtResource("4_uitkm")
@@ -78,10 +127,7 @@ var line_points := []
 @export var noise := FastNoiseLite.new() ## Add a fun pattern to the sinewave
 var timer := 100
 
-func _draw() -> void:
-	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick), false, 1.0, false )
-	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick * 0.25), false, 3.0, false )
-	
+func _after_draw() -> void:
 	## fun fun fun
 	draw_line( Vector2(4,15),Vector2(44,15), Color( Color.WHITE, 0.25 ), 0.45, true )
 	
@@ -94,6 +140,7 @@ func _draw() -> void:
 		x += 1
 		l =  Vector2( 4 + x - 1, 15 + i )
 		draw_line( Vector2( 4 + x - 1, 15 + p_i ), l, Color.SKY_BLUE, 0.45, true )
+		@warning_ignore(\"narrowing_conversion\")
 		p_i = i
 	## Draw the point
 	draw_circle( l, 0.5, Color(Color.HOT_PINK, 0.50), true, -1, true )
@@ -149,10 +196,7 @@ var stats := [
 ]
 @export var rot_offset := 2.6
 
-func _draw() -> void:
-	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick), false, 1.0, false )
-	draw_rect( Rect2(Vector2.ZERO, size), Color(Color.GREEN, flick * 0.25), false, 3.0, false )
-	
+func _after_draw() -> void:
 	for i in 5:
 		#TRIANGLE = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
 		draw_set_transform( size / 2, ( ( PI / rot_offset ) * float(i) ) )
@@ -196,17 +240,32 @@ load_path = "res://.godot/imported/s_hud_scale.png-303b5385a997204d00ada54fe19d4
 atlas = SubResource("CompressedTexture2D_yj7y8")
 region = Rect2(0, 0, 28, 30)
 
+[sub_resource type="LabelSettings" id="LabelSettings_x3iuf"]
+font = ExtResource("8_tq0ww")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46cem"]
+atlas = ExtResource("19_yj7y8")
+region = Rect2(0, 0, 120, 136)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r7ck"]
+atlas = ExtResource("19_yj7y8")
+region = Rect2(120, 0, 120, 136)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giw0b"]
+atlas = ExtResource("19_yj7y8")
+region = Rect2(240, 0, 120, 136)
+
 [node name="utilitystation_screen" type="CanvasLayer"]
 script = ExtResource("1_6lm85")
 
-[node name="bg" type="TextureRect" parent="."]
+[node name="bg" type="Control" parent="."]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_rf8p1")
-stretch_mode = 1
+script = SubResource("GDScript_nsxts")
 
 [node name="frame" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -216,21 +275,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
-[node name="main_panel" type="Control" parent="frame"]
+[node name="main_info_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
-offset_left = 11.0
+offset_left = 10.0
 offset_top = 12.0
-offset_right = 300.0
+offset_right = 299.0
 offset_bottom = 228.0
+script = ExtResource("3_8sg6d")
+bullshit_noise = SubResource("FastNoiseLite_8sg6d")
 
-[node name="status" type="Control" parent="frame/main_panel"]
+[node name="status" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 6.0
 offset_top = 5.0
 offset_right = 46.0
 offset_bottom = 45.0
 
-[node name="name" type="Control" parent="frame/main_panel/status"]
+[node name="name" type="Control" parent="frame/main_info_panel/status"]
 material = SubResource("ShaderMaterial_tq0ww")
 anchors_preset = 0
 offset_top = -1.0
@@ -238,7 +300,8 @@ offset_right = 45.0
 offset_bottom = 8.0
 script = ExtResource("5_inixc")
 
-[node name="name_label" type="Label" parent="frame/main_panel/status/name"]
+[node name="name_value" type="Label" parent="frame/main_info_panel/status/name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -254,7 +317,7 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="portrait_text" type="TextureRect" parent="frame/main_panel/status"]
+[node name="portrait_text" type="TextureRect" parent="frame/main_info_panel/status"]
 layout_mode = 0
 offset_top = 8.0
 offset_right = 64.0
@@ -262,7 +325,7 @@ offset_bottom = 56.0
 texture = SubResource("AtlasTexture_rf8p1")
 script = ExtResource("5_inixc")
 
-[node name="vitals" type="Control" parent="frame/main_panel/status"]
+[node name="vitals" type="Control" parent="frame/main_info_panel/status"]
 anchors_preset = 0
 offset_left = 64.0
 offset_top = -1.0
@@ -270,7 +333,8 @@ offset_right = 104.0
 offset_bottom = 8.0
 script = ExtResource("5_inixc")
 
-[node name="vitals_title" type="Label" parent="frame/main_panel/status/vitals"]
+[node name="vitals_title" type="Label" parent="frame/main_info_panel/status/vitals"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 1.0
 offset_top = 2.0
@@ -280,7 +344,7 @@ text = "VITALS"
 label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 
-[node name="hp" type="Control" parent="frame/main_panel/status"]
+[node name="hp" type="Control" parent="frame/main_info_panel/status"]
 anchors_preset = 0
 offset_left = 64.0
 offset_top = 8.0
@@ -288,25 +352,26 @@ offset_right = 104.0
 offset_bottom = 23.0
 script = ExtResource("5_inixc")
 
-[node name="hp_title" type="Label" parent="frame/main_panel/status/hp"]
+[node name="hp_title" type="Label" parent="frame/main_info_panel/status/hp"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 2
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 41.0
-offset_bottom = 8.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 9.0
 text = "HP"
 label_settings = SubResource("LabelSettings_rf8p1")
 
-[node name="hp_value" type="Label" parent="frame/main_panel/status/hp"]
+[node name="hp_value" type="Label" parent="frame/main_info_panel/status/hp"]
 layout_mode = 2
-offset_top = 6.0
+offset_top = 5.0
 offset_right = 40.0
 offset_bottom = 14.0
 text = "87"
 label_settings = SubResource("LabelSettings_2fwod")
 horizontal_alignment = 1
 
-[node name="level" type="Control" parent="frame/main_panel/status"]
+[node name="level" type="Control" parent="frame/main_info_panel/status"]
 anchors_preset = 0
 offset_left = 64.0
 offset_top = 23.0
@@ -314,39 +379,41 @@ offset_right = 104.0
 offset_bottom = 47.0
 script = ExtResource("5_inixc")
 
-[node name="level_title" type="Label" parent="frame/main_panel/status/level"]
+[node name="level_title" type="Label" parent="frame/main_info_panel/status/level"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 2
-offset_left = 1.0
-offset_top = 1.5
-offset_right = 41.0
-offset_bottom = 8.5
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 9.0
 text = "LEVEL"
 label_settings = SubResource("LabelSettings_rf8p1")
 
-[node name="level_value" type="Label" parent="frame/main_panel/status/level"]
+[node name="level_value" type="Label" parent="frame/main_info_panel/status/level"]
 layout_mode = 2
-offset_top = 6.5
+offset_top = 6.0
 offset_right = 40.0
-offset_bottom = 24.5
+offset_bottom = 24.0
 size_flags_vertical = 3
 text = "12"
 label_settings = SubResource("LabelSettings_etmwp")
 horizontal_alignment = 1
 
-[node name="glamp" type="Control" parent="frame/main_panel"]
+[node name="glamp" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 118.0
 offset_top = 4.0
 offset_right = 278.0
 offset_bottom = 44.0
 
-[node name="g" type="Control" parent="frame/main_panel/glamp"]
+[node name="g" type="Control" parent="frame/main_info_panel/glamp"]
 anchors_preset = 0
 offset_right = 32.0
 offset_bottom = 40.0
 script = ExtResource("5_inixc")
 
-[node name="g_title" type="Label" parent="frame/main_panel/glamp/g"]
+[node name="g_title" type="Label" parent="frame/main_info_panel/glamp/g"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 4.0
 offset_right = 44.0
@@ -354,7 +421,7 @@ offset_bottom = 23.0
 text = "G"
 label_settings = SubResource("LabelSettings_gpxvf")
 
-[node name="g_value" type="Label" parent="frame/main_panel/glamp/g"]
+[node name="g_value" type="Label" parent="frame/main_info_panel/glamp/g"]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -363,23 +430,25 @@ offset_bottom = 35.0
 text = "10"
 label_settings = SubResource("LabelSettings_2kqn3")
 
-[node name="g_sub" type="Label" parent="frame/main_panel/glamp/g"]
+[node name="g_sub" type="Label" parent="frame/main_info_panel/glamp/g"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
-offset_left = 4.0
+offset_left = 2.0
 offset_top = 33.0
-offset_right = 27.0
+offset_right = 25.0
 offset_bottom = 40.0
 text = "GUTS"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="l" type="Control" parent="frame/main_panel/glamp"]
+[node name="l" type="Control" parent="frame/main_info_panel/glamp"]
 anchors_preset = 0
 offset_left = 32.0
 offset_right = 64.0
 offset_bottom = 40.0
 script = ExtResource("5_inixc")
 
-[node name="l_title" type="Label" parent="frame/main_panel/glamp/l"]
+[node name="l_title" type="Label" parent="frame/main_info_panel/glamp/l"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 4.0
 offset_right = 44.0
@@ -387,7 +456,7 @@ offset_bottom = 23.0
 text = "L"
 label_settings = SubResource("LabelSettings_gpxvf")
 
-[node name="l_value" type="Label" parent="frame/main_panel/glamp/l"]
+[node name="l_value" type="Label" parent="frame/main_info_panel/glamp/l"]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -396,23 +465,25 @@ offset_bottom = 35.0
 text = "10"
 label_settings = SubResource("LabelSettings_2kqn3")
 
-[node name="l_sub" type="Label" parent="frame/main_panel/glamp/l"]
+[node name="l_sub" type="Label" parent="frame/main_info_panel/glamp/l"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
-offset_left = 4.0
+offset_left = 2.0
 offset_top = 33.0
-offset_right = 27.0
+offset_right = 25.0
 offset_bottom = 40.0
 text = "LUCK"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="a" type="Control" parent="frame/main_panel/glamp"]
+[node name="a" type="Control" parent="frame/main_info_panel/glamp"]
 anchors_preset = 0
 offset_left = 64.0
 offset_right = 96.0
 offset_bottom = 40.0
 script = ExtResource("5_inixc")
 
-[node name="a_title" type="Label" parent="frame/main_panel/glamp/a"]
+[node name="a_title" type="Label" parent="frame/main_info_panel/glamp/a"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 4.0
 offset_right = 44.0
@@ -420,7 +491,7 @@ offset_bottom = 23.0
 text = "A"
 label_settings = SubResource("LabelSettings_gpxvf")
 
-[node name="a_value" type="Label" parent="frame/main_panel/glamp/a"]
+[node name="a_value" type="Label" parent="frame/main_info_panel/glamp/a"]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -429,23 +500,25 @@ offset_bottom = 35.0
 text = "10"
 label_settings = SubResource("LabelSettings_2kqn3")
 
-[node name="a_sub" type="Label" parent="frame/main_panel/glamp/a"]
+[node name="a_sub" type="Label" parent="frame/main_info_panel/glamp/a"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
-offset_left = 4.0
+offset_left = 2.0
 offset_top = 33.0
-offset_right = 27.0
+offset_right = 25.0
 offset_bottom = 40.0
 text = "ACRO"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="m" type="Control" parent="frame/main_panel/glamp"]
+[node name="m" type="Control" parent="frame/main_info_panel/glamp"]
 anchors_preset = 0
 offset_left = 96.0
 offset_right = 128.0
 offset_bottom = 40.0
 script = ExtResource("5_inixc")
 
-[node name="m_title" type="Label" parent="frame/main_panel/glamp/m"]
+[node name="m_title" type="Label" parent="frame/main_info_panel/glamp/m"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 4.0
 offset_right = 44.0
@@ -453,7 +526,7 @@ offset_bottom = 23.0
 text = "M"
 label_settings = SubResource("LabelSettings_gpxvf")
 
-[node name="m_value" type="Label" parent="frame/main_panel/glamp/m"]
+[node name="m_value" type="Label" parent="frame/main_info_panel/glamp/m"]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -462,7 +535,8 @@ offset_bottom = 35.0
 text = "10"
 label_settings = SubResource("LabelSettings_2kqn3")
 
-[node name="m_sub" type="Label" parent="frame/main_panel/glamp/m"]
+[node name="m_sub" type="Label" parent="frame/main_info_panel/glamp/m"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 2.0
 offset_top = 33.0
@@ -471,14 +545,15 @@ offset_bottom = 40.0
 text = "MIGHT"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="p" type="Control" parent="frame/main_panel/glamp"]
+[node name="p" type="Control" parent="frame/main_info_panel/glamp"]
 anchors_preset = 0
 offset_left = 128.0
 offset_right = 160.0
 offset_bottom = 40.0
 script = ExtResource("5_inixc")
 
-[node name="p_title" type="Label" parent="frame/main_panel/glamp/p"]
+[node name="p_title" type="Label" parent="frame/main_info_panel/glamp/p"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 4.0
 offset_right = 44.0
@@ -486,7 +561,7 @@ offset_bottom = 23.0
 text = "P"
 label_settings = SubResource("LabelSettings_gpxvf")
 
-[node name="p_value" type="Label" parent="frame/main_panel/glamp/p"]
+[node name="p_value" type="Label" parent="frame/main_info_panel/glamp/p"]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 15.0
@@ -495,7 +570,8 @@ offset_bottom = 35.0
 text = "10"
 label_settings = SubResource("LabelSettings_2kqn3")
 
-[node name="p_sub" type="Label" parent="frame/main_panel/glamp/p"]
+[node name="p_sub" type="Label" parent="frame/main_info_panel/glamp/p"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 2.0
 offset_top = 33.0
@@ -504,7 +580,7 @@ offset_bottom = 40.0
 text = "PIETY"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="tab_name" type="Control" parent="frame/main_panel/glamp"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/glamp"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
@@ -514,7 +590,8 @@ offset_right = 160.0
 offset_bottom = 49.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/glamp/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/glamp/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -530,29 +607,32 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="personae" type="Control" parent="frame/main_panel"]
+[node name="personae" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 6.0
 offset_top = 69.0
 offset_right = 149.0
 offset_bottom = 109.0
 
-[node name="personae" type="Control" parent="frame/main_panel/personae"]
+[node name="personae" type="Control" parent="frame/main_info_panel/personae"]
 anchors_preset = 0
 offset_right = 136.0
 offset_bottom = 16.0
 script = ExtResource("5_inixc")
 
-[node name="personae_value" type="Label" parent="frame/main_panel/personae/personae"]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 4.0
-offset_right = 138.0
-offset_bottom = 27.0
+[node name="personae_value" type="Label" parent="frame/main_info_panel/personae/personae"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "Forlorn Youngster"
 label_settings = SubResource("LabelSettings_nsxts")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="tab_name" type="Control" parent="frame/main_panel/personae"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/personae"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
@@ -561,7 +641,8 @@ offset_top = -9.0
 offset_right = 136.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/personae/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/personae/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -577,24 +658,25 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="datum" type="Control" parent="frame/main_panel"]
+[node name="datum" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 6.0
 offset_top = 93.0
 offset_right = 46.0
 offset_bottom = 133.0
 
-[node name="tab_name" type="Control" parent="frame/main_panel/datum"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/datum"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
 offset_left = 87.0
 offset_top = 56.0
 offset_right = 136.0
-offset_bottom = 64.0
+offset_bottom = 65.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/datum/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/datum/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -610,13 +692,14 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gumption" type="Control" parent="frame/main_panel/datum"]
+[node name="gumption" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_right = 47.0
 offset_bottom = 16.0
 script = ExtResource("5_inixc")
 
-[node name="gumption_title" type="Label" parent="frame/main_panel/datum/gumption"]
+[node name="gumption_title" type="Label" parent="frame/main_info_panel/datum/gumption"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 5.0
 offset_top = 2.0
@@ -625,7 +708,7 @@ offset_bottom = 9.0
 text = "GUMPTION"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="gumption_value" type="Label" parent="frame/main_panel/datum/gumption"]
+[node name="gumption_value" type="Label" parent="frame/main_info_panel/datum/gumption"]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 9.0
@@ -635,14 +718,15 @@ text = "75%"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="gumshoe" type="Control" parent="frame/main_panel/datum"]
+[node name="gumshoe" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 47.0
 offset_right = 87.0
 offset_bottom = 16.0
 script = ExtResource("5_inixc")
 
-[node name="gumshoe_title" type="Label" parent="frame/main_panel/datum/gumshoe"]
+[node name="gumshoe_title" type="Label" parent="frame/main_info_panel/datum/gumshoe"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -652,7 +736,7 @@ text = "GUMSHOE
 LVL"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="gumshoe_value" type="Label" parent="frame/main_panel/datum/gumshoe"]
+[node name="gumshoe_value" type="Label" parent="frame/main_info_panel/datum/gumshoe"]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 9.0
@@ -662,7 +746,7 @@ text = "1"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="beard" type="Control" parent="frame/main_panel/datum"]
+[node name="beard" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 87.0
 offset_top = 39.0
@@ -670,7 +754,8 @@ offset_right = 136.0
 offset_bottom = 56.0
 script = ExtResource("5_inixc")
 
-[node name="beard_title" type="Label" parent="frame/main_panel/datum/beard"]
+[node name="beard_title" type="Label" parent="frame/main_info_panel/datum/beard"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
@@ -679,24 +764,26 @@ offset_bottom = 9.0
 text = "BEARDSTATE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="beard_value" type="Label" parent="frame/main_panel/datum/beard"]
+[node name="beard_value" type="Label" parent="frame/main_info_panel/datum/beard"]
 layout_mode = 0
-offset_left = 9.0
+offset_left = 2.0
 offset_top = 9.0
 offset_right = 47.0
 offset_bottom = 16.0
 text = "FOLLICLED"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="free_will" type="Control" parent="frame/main_panel/datum"]
+[node name="free_will" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 87.0
 offset_right = 136.0
 offset_bottom = 16.0
 script = ExtResource("5_inixc")
 
-[node name="freewill_title" type="Label" parent="frame/main_panel/datum/free_will"]
+[node name="freewill_title" type="Label" parent="frame/main_info_panel/datum/free_will"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -706,7 +793,7 @@ text = "FREE
 WILL"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="freewill_value" type="Label" parent="frame/main_panel/datum/free_will"]
+[node name="freewill_value" type="Label" parent="frame/main_info_panel/datum/free_will"]
 layout_mode = 0
 offset_left = 27.0
 offset_top = -1.0
@@ -717,14 +804,15 @@ label_settings = SubResource("LabelSettings_8kpvu")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="mood" type="Control" parent="frame/main_panel/datum"]
+[node name="mood" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_top = 16.0
 offset_right = 87.0
 offset_bottom = 56.0
 script = ExtResource("5_inixc")
 
-[node name="mood_title" type="Label" parent="frame/main_panel/datum/mood"]
+[node name="mood_title" type="Label" parent="frame/main_info_panel/datum/mood"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 14.0
 offset_top = 3.0
@@ -733,7 +821,7 @@ offset_bottom = 10.0
 text = "CURRENT MOOD"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="mood_value" type="Label" parent="frame/main_panel/datum/mood"]
+[node name="mood_value" type="Label" parent="frame/main_info_panel/datum/mood"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 11.0
@@ -744,7 +832,7 @@ label_settings = SubResource("LabelSettings_8kpvu")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="poise" type="Control" parent="frame/main_panel/datum"]
+[node name="poise" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 87.0
 offset_top = 16.0
@@ -753,7 +841,8 @@ offset_bottom = 39.0
 script = SubResource("GDScript_yj7y8")
 noise = SubResource("FastNoiseLite_gpxvf")
 
-[node name="poise_title" type="Label" parent="frame/main_panel/datum/poise"]
+[node name="poise_title" type="Label" parent="frame/main_info_panel/datum/poise"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -762,14 +851,15 @@ offset_bottom = 16.0
 text = "POISE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="no_idea" type="Control" parent="frame/main_panel/datum"]
+[node name="no_idea" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 136.0
 offset_right = 216.0
 offset_bottom = 32.0
 script = ExtResource("5_inixc")
 
-[node name="important_stuff" type="Label" parent="frame/main_panel/datum/no_idea"]
+[node name="important_stuff" type="Label" parent="frame/main_info_panel/datum/no_idea"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -781,14 +871,15 @@ label_settings = SubResource("LabelSettings_yj7y8")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="energy" type="Control" parent="frame/main_panel/datum"]
+[node name="energy" type="Control" parent="frame/main_info_panel/datum"]
 anchors_preset = 0
 offset_left = 216.0
 offset_right = 272.0
 offset_bottom = 32.0
 script = ExtResource("5_inixc")
 
-[node name="voltage_title" type="Label" parent="frame/main_panel/datum/energy"]
+[node name="voltage_title" type="Label" parent="frame/main_info_panel/datum/energy"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 2.0
@@ -797,7 +888,7 @@ offset_bottom = 16.0
 text = "VOLTAGE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="voltage_value" type="Label" parent="frame/main_panel/datum/energy"]
+[node name="voltage_value" type="Label" parent="frame/main_info_panel/datum/energy"]
 layout_mode = 0
 offset_left = 20.0
 offset_top = 9.0
@@ -807,7 +898,8 @@ text = "15.1V"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="amp_title" type="Label" parent="frame/main_panel/datum/energy"]
+[node name="amp_title" type="Label" parent="frame/main_info_panel/datum/energy"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 0
 offset_left = 3.0
 offset_top = 17.0
@@ -816,7 +908,7 @@ offset_bottom = 31.0
 text = "AMPERAGE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="amp_value" type="Label" parent="frame/main_panel/datum/energy"]
+[node name="amp_value" type="Label" parent="frame/main_info_panel/datum/energy"]
 layout_mode = 0
 offset_left = 19.0
 offset_top = 24.0
@@ -826,14 +918,14 @@ text = "11A"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="trans" type="Control" parent="frame/main_panel"]
+[node name="trans" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 149.0
 offset_top = 60.0
 offset_right = 277.0
 offset_bottom = 84.0
 
-[node name="trans" type="Control" parent="frame/main_panel/trans"]
+[node name="trans" type="Control" parent="frame/main_info_panel/trans"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1.0
@@ -841,7 +933,7 @@ offset_right = 129.0
 offset_bottom = 26.0
 script = ExtResource("5_inixc")
 
-[node name="madness_text3" type="RichTextLabel" parent="frame/main_panel/trans/trans"]
+[node name="madness_text3" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
 modulate = Color(1, 1, 1, 0.25)
 layout_mode = 0
 offset_right = 128.0
@@ -852,7 +944,7 @@ text = "[wave amp=10.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utili
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="madness_text2" type="RichTextLabel" parent="frame/main_panel/trans/trans"]
+[node name="madness_text2" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
 modulate = Color(1, 1, 1, 0.5)
 layout_mode = 0
 offset_right = 128.0
@@ -863,7 +955,7 @@ text = "[wave amp=30.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utili
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="madness_text1" type="RichTextLabel" parent="frame/main_panel/trans/trans"]
+[node name="madness_text1" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 26.0
@@ -873,16 +965,17 @@ text = "[wave amp=50.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utili
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="tab_name" type="Control" parent="frame/main_panel/trans"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/trans"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1.0
-offset_top = -8.0
+offset_top = -9.0
 offset_right = 72.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/trans/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/trans/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -898,22 +991,23 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="resistances" type="Control" parent="frame/main_panel"]
+[node name="resistances" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 6.0
 offset_top = 164.0
 offset_right = 46.0
 offset_bottom = 204.0
 
-[node name="tab_name" type="Control" parent="frame/main_panel/resistances"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/resistances"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
-offset_top = -8.0
+offset_top = -9.0
 offset_right = 55.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/resistances/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/resistances/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -929,13 +1023,13 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="defense" type="Control" parent="frame/main_panel/resistances"]
+[node name="defense" type="Control" parent="frame/main_info_panel/resistances"]
 anchors_preset = 0
 offset_right = 55.0
 offset_bottom = 48.0
 script = ExtResource("5_inixc")
 
-[node name="SMenuUtilityDefense" type="TextureRect" parent="frame/main_panel/resistances/defense"]
+[node name="SMenuUtilityDefense" type="TextureRect" parent="frame/main_info_panel/resistances/defense"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -946,7 +1040,7 @@ texture = ExtResource("14_2kqn3")
 expand_mode = 1
 stretch_mode = 3
 
-[node name="defense_value" type="Label" parent="frame/main_panel/resistances/defense"]
+[node name="defense_value" type="Label" parent="frame/main_info_panel/resistances/defense"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -960,7 +1054,7 @@ label_settings = SubResource("LabelSettings_xscvq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="res_graph" type="Control" parent="frame/main_panel/resistances"]
+[node name="res_graph" type="Control" parent="frame/main_info_panel/resistances"]
 anchors_preset = 0
 offset_left = 55.0
 offset_right = 103.0
@@ -969,7 +1063,7 @@ script = SubResource("GDScript_jigd8")
 triangle_offset = 0.75
 rot_offset = 2.5
 
-[node name="res_blip" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+[node name="res_blip" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -985,7 +1079,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_blip2" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+[node name="res_blip2" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1001,7 +1095,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_blip3" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+[node name="res_blip3" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1017,7 +1111,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_blip4" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+[node name="res_blip4" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1033,7 +1127,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_blip5" type="TextureRect" parent="frame/main_panel/resistances/res_graph"]
+[node name="res_blip5" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1049,14 +1143,14 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_list" type="Control" parent="frame/main_panel/resistances"]
+[node name="res_list" type="Control" parent="frame/main_info_panel/resistances"]
 anchors_preset = 0
 offset_left = 103.0
 offset_right = 136.0
 offset_bottom = 41.0
 script = ExtResource("5_inixc")
 
-[node name="res_cosmic" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+[node name="res_cosmic" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1072,7 +1166,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_cosmic_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+[node name="res_cosmic_value" type="Label" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 0
 offset_left = -11.0
 offset_top = 2.0
@@ -1082,7 +1176,7 @@ text = "99"
 label_settings = SubResource("LabelSettings_jigd8")
 horizontal_alignment = 2
 
-[node name="res_mental" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+[node name="res_mental" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1098,7 +1192,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_mental_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+[node name="res_mental_value" type="Label" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 0
 offset_left = -11.0
 offset_top = 10.0
@@ -1108,7 +1202,7 @@ text = "99"
 label_settings = SubResource("LabelSettings_jigd8")
 horizontal_alignment = 2
 
-[node name="res_cyber" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+[node name="res_cyber" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1124,7 +1218,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_cyber_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+[node name="res_cyber_value" type="Label" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 0
 offset_left = -11.0
 offset_top = 18.0
@@ -1134,7 +1228,7 @@ text = "99"
 label_settings = SubResource("LabelSettings_jigd8")
 horizontal_alignment = 2
 
-[node name="res_bio" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+[node name="res_bio" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1150,7 +1244,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_bio_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+[node name="res_bio_value" type="Label" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 0
 offset_left = -11.0
 offset_top = 26.0
@@ -1160,7 +1254,7 @@ text = "99"
 label_settings = SubResource("LabelSettings_jigd8")
 horizontal_alignment = 2
 
-[node name="res_zauber" type="TextureRect" parent="frame/main_panel/resistances/res_list"]
+[node name="res_zauber" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1176,7 +1270,7 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_zauber_value" type="Label" parent="frame/main_panel/resistances/res_list"]
+[node name="res_zauber_value" type="Label" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 0
 offset_left = -11.0
 offset_top = 34.0
@@ -1186,23 +1280,25 @@ text = "99"
 label_settings = SubResource("LabelSettings_jigd8")
 horizontal_alignment = 2
 
-[node name="equipment" type="Control" parent="frame/main_panel"]
+[node name="equipment" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 149.0
 offset_top = 133.0
 offset_right = 189.0
 offset_bottom = 173.0
 
-[node name="tab_name" type="Control" parent="frame/main_panel/equipment"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/equipment"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1.0
+offset_top = -1.0
 offset_right = 56.0
 offset_bottom = 8.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/equipment/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/equipment/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1218,7 +1314,7 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gun" type="Control" parent="frame/main_panel/equipment"]
+[node name="gun" type="Control" parent="frame/main_info_panel/equipment"]
 anchors_preset = 0
 offset_left = 1.0
 offset_top = 8.0
@@ -1226,14 +1322,14 @@ offset_right = 104.0
 offset_bottom = 32.0
 script = ExtResource("5_inixc")
 
-[node name="gun_texture" type="TextureRect" parent="frame/main_panel/equipment/gun"]
+[node name="gun_texture" type="TextureRect" parent="frame/main_info_panel/equipment/gun"]
 layout_mode = 0
 offset_left = 1.0
 offset_right = 50.0
 offset_bottom = 24.0
 texture = SubResource("AtlasTexture_8sg6d")
 
-[node name="gun_weight" type="Label" parent="frame/main_panel/equipment/gun"]
+[node name="gun_weight" type="Label" parent="frame/main_info_panel/equipment/gun"]
 layout_mode = 0
 offset_left = 51.0
 offset_top = 11.0
@@ -1242,9 +1338,10 @@ offset_bottom = 21.0
 text = "10~"
 label_settings = SubResource("LabelSettings_hqon2")
 
-[node name="gun_name" type="Label" parent="frame/main_panel/equipment/gun"]
+[node name="gun_name" type="Label" parent="frame/main_info_panel/equipment/gun"]
 layout_mode = 0
 offset_left = 60.0
+offset_top = 1.0
 offset_right = 100.0
 offset_bottom = 23.0
 text = "NAME"
@@ -1252,7 +1349,7 @@ label_settings = SubResource("LabelSettings_llltk")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="jerkin" type="Control" parent="frame/main_panel/equipment"]
+[node name="jerkin" type="Control" parent="frame/main_info_panel/equipment"]
 anchors_preset = 0
 offset_left = 1.0
 offset_top = 32.0
@@ -1260,7 +1357,7 @@ offset_right = 104.0
 offset_bottom = 48.0
 script = ExtResource("5_inixc")
 
-[node name="jerkin_value" type="Label" parent="frame/main_panel/equipment/jerkin"]
+[node name="jerkin_value" type="Label" parent="frame/main_info_panel/equipment/jerkin"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1272,7 +1369,7 @@ label_settings = SubResource("LabelSettings_mfdu4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="helm" type="Control" parent="frame/main_panel/equipment"]
+[node name="helm" type="Control" parent="frame/main_info_panel/equipment"]
 anchors_preset = 0
 offset_left = 1.0
 offset_top = 48.0
@@ -1280,7 +1377,7 @@ offset_right = 104.0
 offset_bottom = 64.0
 script = ExtResource("5_inixc")
 
-[node name="helm_value" type="Label" parent="frame/main_panel/equipment/helm"]
+[node name="helm_value" type="Label" parent="frame/main_info_panel/equipment/helm"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1292,7 +1389,7 @@ label_settings = SubResource("LabelSettings_mfdu4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="nothing" type="Control" parent="frame/main_panel/equipment"]
+[node name="nothing" type="Control" parent="frame/main_info_panel/equipment"]
 anchors_preset = 0
 offset_left = 1.0
 offset_top = 64.0
@@ -1300,28 +1397,29 @@ offset_right = 104.0
 offset_bottom = 80.0
 script = ExtResource("5_inixc")
 
-[node name="weight" type="Control" parent="frame/main_panel"]
+[node name="weight" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
 offset_left = 253.0
 offset_top = 165.0
 offset_right = 293.0
 offset_bottom = 205.0
 
-[node name="weight" type="Control" parent="frame/main_panel/weight"]
+[node name="weight" type="Control" parent="frame/main_info_panel/weight"]
 anchors_preset = 0
 offset_right = 25.0
-offset_bottom = 40.0
+offset_bottom = 39.0
 script = ExtResource("5_inixc")
 
-[node name="hud_weight" type="ColorRect" parent="frame/main_panel/weight/weight"]
+[node name="hud_weight" type="ColorRect" parent="frame/main_info_panel/weight/weight"]
 clip_contents = true
+layout_mode = 0
 offset_left = 7.0
 offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 35.0
 mouse_filter = 2
 
-[node name="hud_weight_number" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+[node name="hud_weight_number" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 15
@@ -1335,7 +1433,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("17_8sg6d")
 
-[node name="TextureRect" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+[node name="TextureRect" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1347,22 +1445,23 @@ grow_vertical = 2
 rotation = 1.5708
 texture = SubResource("GradientTexture1D_8kpvu")
 
-[node name="hud_weight_frame" type="TextureRect" parent="frame/main_panel/weight/weight/hud_weight"]
+[node name="hud_weight_frame" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 layout_mode = 0
 offset_right = 14.0
 offset_bottom = 30.0
 texture = SubResource("AtlasTexture_xscvq")
 
-[node name="tab_name" type="Control" parent="frame/main_panel/weight"]
+[node name="tab_name" type="Control" parent="frame/main_info_panel/weight"]
 material = SubResource("ShaderMaterial_tq0ww")
 layout_mode = 3
 anchors_preset = 0
-offset_top = 40.0
+offset_top = 39.0
 offset_right = 25.0
 offset_bottom = 48.0
 script = ExtResource("5_inixc")
 
-[node name="tab_label" type="Label" parent="frame/main_panel/weight/tab_name"]
+[node name="tab_label" type="Label" parent="frame/main_info_panel/weight/tab_name"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1377,6 +1476,114 @@ text = "WGT"
 label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="brain_info_panel" type="Control" parent="frame"]
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+script = ExtResource("18_8kpvu")
+
+[node name="big_brain" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="large_spaghetti" type="Control" parent="frame/brain_info_panel/big_brain"]
+anchors_preset = 0
+offset_left = 13.0
+offset_top = 12.0
+offset_right = 141.0
+offset_bottom = 196.0
+script = ExtResource("5_inixc")
+
+[node name="play_title" type="Label" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 19.0
+offset_right = 107.0
+offset_bottom = 31.0
+text = "PLAY"
+label_settings = SubResource("LabelSettings_x3iuf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work_title" type="Label" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 161.0
+offset_right = 54.0
+offset_bottom = 173.0
+text = "WORK"
+label_settings = SubResource("LabelSettings_x3iuf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="main_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_46cem")
+
+[node name="left_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_6r7ck")
+
+[node name="right_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_giw0b")
+
+[node name="brain" type="Control" parent="frame/brain_info_panel/big_brain"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 101.0
+offset_top = 196.0
+offset_right = 141.0
+offset_bottom = 205.0
+script = ExtResource("5_inixc")
+
+[node name="brain_title" type="Label" parent="frame/brain_info_panel/big_brain/brain"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 40.0
+offset_bottom = 10.0
+text = "BRAIN"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
 
 [node name="right_panel" type="ScrollContainer" parent="frame"]
 layout_mode = 0
@@ -1443,3 +1650,64 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Candy"
 autowrap_mode = 1
+
+[node name="candy_menu" type="VBoxContainer" parent="frame/right_panel/right_panel_vbox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="brain_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Brain"
+autowrap_mode = 1
+
+[node name="brain_menu" type="VBoxContainer" parent="frame/right_panel/right_panel_vbox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="vidcon_btn" type="Button" parent="frame/right_panel/right_panel_vbox/brain_menu"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Vidcons"
+autowrap_mode = 1
+
+[node name="equip_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Equipment"
+autowrap_mode = 1
+
+[node name="equip_menu" type="VBoxContainer" parent="frame/right_panel/right_panel_vbox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="inventory_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Inventory"
+autowrap_mode = 1
+
+[node name="inventory_menu" type="VBoxContainer" parent="frame/right_panel/right_panel_vbox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="dwarf_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "DwarfNET"
+autowrap_mode = 1
+
+[node name="unplug_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Unplug"
+autowrap_mode = 1
+
+[connection signal="visibility_changed" from="frame/main_info_panel" to="frame/main_info_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
