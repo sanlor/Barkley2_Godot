@@ -584,6 +584,35 @@ const TYPE_LIST : Dictionary[TYPE, B2_WeaponType] = {
 	TYPE.GUN_TYPE_SUBMACHINEGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SUBMACHINEGUN.tres"),
 	TYPE.GUN_TYPE_TRANQRIFLE : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_TRANQRIFLE.tres"),
 }
+## STUPID LIST for icons used in only one menu. check Gun line 297 and Utility line 2062. FUCK
+const TYPE_ICON_LIST : Dictionary[TYPE, int] = {
+	TYPE.GUN_TYPE_ASSAULTRIFLE : 		3,
+	TYPE.GUN_TYPE_BFG : 				8,
+	TYPE.GUN_TYPE_CROSSBOW : 			0,
+	TYPE.GUN_TYPE_DOUBLESHOTGUN : 		9,
+	TYPE.GUN_TYPE_ELEPHANTGUN : 		2,
+	TYPE.GUN_TYPE_FLAMETHROWER : 		4,
+	TYPE.GUN_TYPE_FLAREGUN : 			7,
+	TYPE.GUN_TYPE_FLINTLOCK : 			5,
+	TYPE.GUN_TYPE_GATLINGGUN : 			10,
+	TYPE.GUN_TYPE_HEAVYMACHINEGUN : 	10,
+	TYPE.GUN_TYPE_HUNTINGRIFLE : 		2,
+	TYPE.GUN_TYPE_MACHINEPISTOL : 		1,
+	TYPE.GUN_TYPE_MAGNUM : 				6,
+	TYPE.GUN_TYPE_MINIGUN : 			10,
+	TYPE.GUN_TYPE_MITRAILLEUSE : 		10,
+	TYPE.GUN_TYPE_MUSKET : 				5,
+	TYPE.GUN_TYPE_PISTOL : 				6,
+	TYPE.GUN_TYPE_REVOLVER : 			6,
+	TYPE.GUN_TYPE_REVOLVERSHOTGUN : 	9,
+	TYPE.GUN_TYPE_RIFLE : 				2,
+	TYPE.GUN_TYPE_ROCKET : 				7,
+	TYPE.GUN_TYPE_SHOTGUN : 			9,
+	TYPE.GUN_TYPE_SNIPERRIFLE : 		2, # // Is this sniper rifle?
+	TYPE.GUN_TYPE_SUBMACHINEGUN : 		3,
+	TYPE.GUN_TYPE_TRANQRIFLE : 			2,
+}
+
 const GROUP_LIST : Dictionary[TYPE, GROUP] = {
 	TYPE.GUN_TYPE_ASSAULTRIFLE : 		GROUP.AUTOMATIC,
 	TYPE.GUN_TYPE_BFG : 				GROUP.MOUNTED,
@@ -975,7 +1004,10 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 		## after 10 tries it gives up on fitting the points, and points are lost.
 		if !tryit || tries <= 0: 	remain_points -= 1
 		else:						tries -= 1 
-		
+	
+	## Save points used.
+	wpn.pts = points
+	
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic
 	var first_atlas 					:= AtlasTexture.new() ## Hud Image

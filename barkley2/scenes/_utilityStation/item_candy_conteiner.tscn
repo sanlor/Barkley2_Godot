@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://ct6q20f2hyc1i"]
+
+[ext_resource type="Script" uid="uid://ciu4fc84uxun8" path="res://barkley2/scenes/_utilityStation/item_candy_conteiner.gd" id="1_go7vr"]
+[ext_resource type="Texture2D" uid="uid://ckdra5vpxt43g" path="res://barkley2/assets/b2_original/images/merged/sCandy.png" id="2_o6xar"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="3_q4flw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1a4r"]
+atlas = ExtResource("2_o6xar")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vefwl"]
+font = ExtResource("3_q4flw")
+
+[node name="item_cont" type="Panel"]
+custom_minimum_size = Vector2(24, 24)
+script = ExtResource("1_go7vr")
+
+[node name="item_icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_h1a4r")
+
+[node name="item_value" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.5
+offset_top = -3.5
+offset_right = 9.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "NONE"
+label_settings = SubResource("LabelSettings_vefwl")

@@ -40,6 +40,7 @@ var max_action_sfx_played 		:= false
 @export var acc					:= 30.0 ## Lower is better
 @export var afx					:= 30.0 ## Affix is not used currently
 @export var wgt					:= 10.0
+var pts							:= 10 ## Points used to generate stats
 
 @export var max_action			:= 100.0 :
 	set(a):
