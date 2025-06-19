@@ -3,6 +3,8 @@ extends Control
 ## Someone smarter than me would have used a shader or something like that.
 # The Utility() script was responsible to create this screen. that script is 3000 lines long, full of math and 3 letters variables that change meaning in each section.
 
+## DEPRECATED Duh, just use panels and themes, dumbass.
+
 var intensity := 1.0
 var flick := 0.25
 var my_color := Color.GREEN

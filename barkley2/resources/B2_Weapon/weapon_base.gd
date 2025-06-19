@@ -31,11 +31,6 @@ var prefix1			: String # Dictionary ## Set by the wpn generation
 var prefix2			: String # Dictionary ## Set by the wpn generation
 var suffix			: String # Dictionary ## Set by the wpn generation
 
-#var type_data 		: B2_WeaponType
-#var material_data 	: B2_WeaponMaterial
-
-#var weapon_hud_sprite 		: AtlasTexture
-
 ## SFX stuff
 var max_action_sfx_played 		:= false
 
@@ -46,10 +41,16 @@ var max_action_sfx_played 		:= false
 @export var afx					:= 30.0 ## Affix is not used currently
 @export var wgt					:= 10.0
 
-@export var max_action			:= 100.0
-var curr_action					:= 100.0 #0.0
+@export var max_action			:= 100.0 :
+	set(a):
+		max_action = a
+		curr_action = clamp(curr_action, 0.0, max_action)
+var curr_action					:= 100.0
 
-@export var max_ammo			:= 30
+@export var max_ammo			:= 30 :
+	set(a):
+		max_ammo = a
+		curr_ammo = clamp(curr_ammo, 0, max_ammo)
 var curr_ammo					:= 30
 
 @export var attack_cost			:= 90			## How many action point cost for reloading this weapon

@@ -436,7 +436,7 @@ func preload_CC_save_data():
 	# XP
 	B2_Config.set_user_save_data("player.xp.questxp", 0);
 	B2_Config.set_user_save_data("player.xp.level", 12);
-	B2_Config.set_user_save_data("ustation.smelt", 500);
+	B2_Config.set_user_save_data("ustation.smelt", 500.0);
 	
 	# Vidcon # Vidcon("reset"); # Reset vidcons you have and vidcon XP
 	B2_Config.set_user_save_data("player.xp.vidcons", 		0);

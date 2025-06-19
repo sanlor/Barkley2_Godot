@@ -1,4 +1,4 @@
-extends Control
+extends B2_UtilityPanel
 
 func update_menu() -> void:
 	if not is_node_ready():

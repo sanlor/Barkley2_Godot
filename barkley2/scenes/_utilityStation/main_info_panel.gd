@@ -1,4 +1,4 @@
-extends Control
+extends B2_UtilityPanel
 
 ## Static nodes - mostly here to apply Text.pr(), used in the highly important al-bhed translation.
 @onready var name_title: Label = $status/name/name_value

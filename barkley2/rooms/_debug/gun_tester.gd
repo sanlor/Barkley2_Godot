@@ -42,7 +42,7 @@ func _on_generate_pressed() -> void:
 		my_mat = B2_Gun.MATERIAL.get( mats.get_item_text( mats.get_selected_id() ) )
 		
 	B2_Gun.remove_gun( B2_Gun.get_current_gun() )
-	B2_Gun.add_gun( true, my_type, my_mat )
+	B2_Gun.add_gun_to_bandolier( my_type, my_mat )
 	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
 	
 	#my_gun = B2_Gun.generate_gun( my_type, my_mat )
@@ -55,7 +55,7 @@ func set_gun_name():
 	gun_name.text = B2_Gun.get_current_gun().get_full_name()
 	
 func set_texture() :
-	gun_text.texture = B2_Gun.get_current_gun().weapon_hud_sprite
+	gun_text.texture = B2_Gun.get_current_gun().get_weapon_hud_sprite()
 
 func set_details():
 	detail_text.text = ""
@@ -64,12 +64,14 @@ func set_details():
 	detail_text.text += "Type: %s" % str(B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type])
 	detail_text.text += "\n"
 	detail_text.text += "\n"
-	for p in B2_Gun.get_current_gun().material_data.get_property_list():
-		detail_text.text += str(p["name"]) + " = " + str( B2_Gun.get_current_gun().material_data.get( p["name"] ) )
-		detail_text.text += "\n"
-	for p in B2_Gun.get_current_gun().type_data.get_property_list():
-		detail_text.text += str(p["name"]) + " = " + str( B2_Gun.get_current_gun().type_data.get( p["name"] ) )
-		detail_text.text += "\n"
+	#for p in B2_Gun.get_current_gun().material_data.get_property_list():
+		#detail_text.text += str(p["name"]) + " = " + str( B2_Gun.get_current_gun().material_data.get( p["name"] ) )
+		#detail_text.text += "\n"
+	#for p in B2_Gun.get_current_gun().type_data.get_property_list():
+		#detail_text.text += str(p["name"]) + " = " + str( B2_Gun.get_current_gun().type_data.get( p["name"] ) )
+		#detail_text.text += "\n"
+	#detail_text.text += B2_Gun.get_current_gun().material_data + "\n"
+	#detail_text.text += B2_Gun.get_current_gun().type_data + "\n"
 	pass
 
 func _on_details_pressed() -> void:

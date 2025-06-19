@@ -1,5 +1,6 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_2.png")
-extends B2_HoopzCombatActor_Base
+#extends B2_HoopzCombatActor_Base
+extends B2_HoopzCombatActor
 class_name B2_HoopzCombatActor_Control
 
 ## Class used to receive commands from B2_CombatCinemaPlayer

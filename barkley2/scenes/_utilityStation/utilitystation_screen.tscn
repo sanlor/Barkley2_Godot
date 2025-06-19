@@ -1,11 +1,10 @@
-[gd_scene load_steps=54 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=67 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
 [ext_resource type="Texture2D" uid="uid://dgnpnn7uepcb2" path="res://barkley2/assets/b2_original/images/merged/sMenuUtility.png" id="3_yaeih"]
 [ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="4_qw4ou"]
 [ext_resource type="Shader" uid="uid://deybi0hau31lk" path="res://barkley2/resources/shaders/square.gdshader" id="4_uitkm"]
-[ext_resource type="Script" uid="uid://cvtiv1kewj72s" path="res://barkley2/scenes/_utilityStation/draw_rect.gd" id="5_inixc"]
 [ext_resource type="Texture2D" uid="uid://dyg64vycb2d3c" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityFaces.png" id="6_2v4t6"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="6_inixc"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="8_tq0ww"]
@@ -19,7 +18,13 @@
 [ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="16_nsxts"]
 [ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="17_8sg6d"]
 [ext_resource type="Script" uid="uid://dwijp1il04skr" path="res://barkley2/scenes/_utilityStation/brain_info_panel.gd" id="18_8kpvu"]
+[ext_resource type="Script" uid="uid://bdyubothpfv07" path="res://barkley2/scenes/_utilityStation/gun_info_panel.gd" id="18_llltk"]
+[ext_resource type="Script" uid="uid://by2wrk5sinhbe" path="res://barkley2/scenes/_utilityStation/gun_status.gd" id="19_x3iuf"]
 [ext_resource type="Texture2D" uid="uid://cppc2xuv4caoq" path="res://barkley2/assets/b2_original/images/merged/sMenuBrain.png" id="19_yj7y8"]
+[ext_resource type="Texture2D" uid="uid://cho745tea50kq" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunsbag.png" id="20_46cem"]
+[ext_resource type="Texture2D" uid="uid://iw7nigjpkcvt" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilitySmelt.png" id="21_6r7ck"]
+[ext_resource type="Texture2D" uid="uid://clxa0bsdrci0" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilitySmeltText.png" id="22_giw0b"]
+[ext_resource type="FontFile" uid="uid://0wckh5gc5ai6" path="res://barkley2/resources/fonts/smelt.tres" id="23_7plow"]
 
 [sub_resource type="GDScript" id="GDScript_nsxts"]
 resource_name = "utility_bg"
@@ -117,17 +122,19 @@ font = ExtResource("12_etmwp")
 
 [sub_resource type="GDScript" id="GDScript_yj7y8"]
 resource_name = "poise"
-script/source = "@tool
-extends \"res://barkley2/scenes/_utilityStation/draw_rect.gd\"
+script/source = "extends Panel
 
 ## No idea what \"poise\" is. I'm making something up.
 
 var t := 0.0
 var line_points := []
 @export var noise := FastNoiseLite.new() ## Add a fun pattern to the sinewave
-var timer := 100
+var timer := 0
 
-func _after_draw() -> void:
+func _process(_delta: float) -> void:
+	queue_redraw()
+
+func _draw() -> void:
 	## fun fun fun
 	draw_line( Vector2(4,15),Vector2(44,15), Color( Color.WHITE, 0.25 ), 0.45, true )
 	
@@ -148,23 +155,22 @@ func _after_draw() -> void:
 	
 	## Add the scrolling effect
 	if timer <= 0:
-		t += 200 * get_process_delta_time()
+		t += 100 * get_process_delta_time()
 		line_points.append( sin(t) * 6.0 * noise.get_noise_1d( t ) )
 		if line_points.size() > 40: line_points.pop_front()
-		timer = 40
+		timer = 10
 		# print( noise.get_noise_1d( t ) )
 	else:
 		timer -= 1
 "
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_gpxvf"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8kpvu"]
 noise_type = 3
-frequency = 0.1
+frequency = 0.0047
 fractal_type = 3
-fractal_octaves = 1
-cellular_distance_function = 1
-cellular_jitter = 0.0
-cellular_return_type = 0
+fractal_octaves = 2
+fractal_lacunarity = 10.0
+fractal_gain = 100.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_yj7y8"]
 font = ExtResource("9_rf8p1")
@@ -175,7 +181,7 @@ font = ExtResource("10_rf8p1")
 [sub_resource type="GDScript" id="GDScript_jigd8"]
 resource_name = "res_graph"
 script/source = "@tool
-extends \"res://barkley2/scenes/_utilityStation/draw_rect.gd\"
+extends Panel
 const MULTI	:= 15.0
 @export var triangle_offset := 0.7
 var TRIANGLE : PackedVector2Array = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
@@ -196,10 +202,10 @@ var stats := [
 ]
 @export var rot_offset := 2.6
 
-func _after_draw() -> void:
+func _draw() -> void:
 	for i in 5:
 		#TRIANGLE = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
-		draw_set_transform( size / 2, ( ( PI / rot_offset ) * float(i) ) )
+		draw_set_transform( Vector2(size / 2).round(), ( ( PI / rot_offset ) * float(i) ) )
 		draw_colored_polygon( TRIANGLE, COLORS_BG )
 		draw_colored_polygon( PackedVector2Array( [
 			TRIANGLE[0] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
@@ -240,6 +246,25 @@ load_path = "res://.godot/imported/s_hud_scale.png-303b5385a997204d00ada54fe19d4
 atlas = SubResource("CompressedTexture2D_yj7y8")
 region = Rect2(0, 0, 28, 30)
 
+[sub_resource type="LabelSettings" id="LabelSettings_sqt2l"]
+font = ExtResource("11_2fwod")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tn1ex"]
+font = ExtResource("12_etmwp")
+
+[sub_resource type="LabelSettings" id="LabelSettings_iyqur"]
+font = ExtResource("10_rf8p1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_t58kc"]
+font = ExtResource("8_tq0ww")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6w61b"]
+atlas = ExtResource("21_6r7ck")
+region = Rect2(0, 0, 176, 35)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8we6v"]
+font = ExtResource("23_7plow")
+
 [sub_resource type="LabelSettings" id="LabelSettings_x3iuf"]
 font = ExtResource("8_tq0ww")
 
@@ -254,6 +279,12 @@ region = Rect2(120, 0, 120, 136)
 [sub_resource type="AtlasTexture" id="AtlasTexture_giw0b"]
 atlas = ExtResource("19_yj7y8")
 region = Rect2(240, 0, 120, 136)
+
+[sub_resource type="LabelSettings" id="LabelSettings_46cem"]
+font = ExtResource("10_rf8p1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_6r7ck"]
+font = ExtResource("8_tq0ww")
 
 [node name="utilitystation_screen" type="CanvasLayer"]
 script = ExtResource("1_6lm85")
@@ -282,6 +313,7 @@ offset_left = 10.0
 offset_top = 12.0
 offset_right = 299.0
 offset_bottom = 228.0
+theme = ExtResource("4_qw4ou")
 script = ExtResource("3_8sg6d")
 bullshit_noise = SubResource("FastNoiseLite_8sg6d")
 
@@ -292,13 +324,12 @@ offset_top = 5.0
 offset_right = 46.0
 offset_bottom = 45.0
 
-[node name="name" type="Control" parent="frame/main_info_panel/status"]
+[node name="name" type="Panel" parent="frame/main_info_panel/status"]
 material = SubResource("ShaderMaterial_tq0ww")
-anchors_preset = 0
+layout_mode = 0
 offset_top = -1.0
 offset_right = 45.0
 offset_bottom = 8.0
-script = ExtResource("5_inixc")
 
 [node name="name_value" type="Label" parent="frame/main_info_panel/status/name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -317,21 +348,33 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="portrait_text" type="TextureRect" parent="frame/main_info_panel/status"]
+[node name="portrait" type="Panel" parent="frame/main_info_panel/status"]
 layout_mode = 0
 offset_top = 8.0
 offset_right = 64.0
-offset_bottom = 56.0
-texture = SubResource("AtlasTexture_rf8p1")
-script = ExtResource("5_inixc")
+offset_bottom = 58.0
 
-[node name="vitals" type="Control" parent="frame/main_info_panel/status"]
-anchors_preset = 0
+[node name="portrait_text" type="TextureRect" parent="frame/main_info_panel/status/portrait"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 32.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_rf8p1")
+
+[node name="vitals" type="Panel" parent="frame/main_info_panel/status"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = -1.0
 offset_right = 104.0
 offset_bottom = 8.0
-script = ExtResource("5_inixc")
 
 [node name="vitals_title" type="Label" parent="frame/main_info_panel/status/vitals"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -344,13 +387,12 @@ text = "VITALS"
 label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 
-[node name="hp" type="Control" parent="frame/main_info_panel/status"]
-anchors_preset = 0
+[node name="hp" type="Panel" parent="frame/main_info_panel/status"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 8.0
 offset_right = 104.0
 offset_bottom = 23.0
-script = ExtResource("5_inixc")
 
 [node name="hp_title" type="Label" parent="frame/main_info_panel/status/hp"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -371,13 +413,12 @@ text = "87"
 label_settings = SubResource("LabelSettings_2fwod")
 horizontal_alignment = 1
 
-[node name="level" type="Control" parent="frame/main_info_panel/status"]
-anchors_preset = 0
+[node name="level" type="Panel" parent="frame/main_info_panel/status"]
+layout_mode = 0
 offset_left = 64.0
 offset_top = 23.0
 offset_right = 104.0
 offset_bottom = 47.0
-script = ExtResource("5_inixc")
 
 [node name="level_title" type="Label" parent="frame/main_info_panel/status/level"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -406,11 +447,10 @@ offset_top = 4.0
 offset_right = 278.0
 offset_bottom = 44.0
 
-[node name="g" type="Control" parent="frame/main_info_panel/glamp"]
-anchors_preset = 0
+[node name="g" type="Panel" parent="frame/main_info_panel/glamp"]
+layout_mode = 0
 offset_right = 32.0
 offset_bottom = 40.0
-script = ExtResource("5_inixc")
 
 [node name="g_title" type="Label" parent="frame/main_info_panel/glamp/g"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -440,12 +480,11 @@ offset_bottom = 40.0
 text = "GUTS"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="l" type="Control" parent="frame/main_info_panel/glamp"]
-anchors_preset = 0
+[node name="l" type="Panel" parent="frame/main_info_panel/glamp"]
+layout_mode = 0
 offset_left = 32.0
 offset_right = 64.0
 offset_bottom = 40.0
-script = ExtResource("5_inixc")
 
 [node name="l_title" type="Label" parent="frame/main_info_panel/glamp/l"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -475,12 +514,11 @@ offset_bottom = 40.0
 text = "LUCK"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="a" type="Control" parent="frame/main_info_panel/glamp"]
-anchors_preset = 0
+[node name="a" type="Panel" parent="frame/main_info_panel/glamp"]
+layout_mode = 0
 offset_left = 64.0
 offset_right = 96.0
 offset_bottom = 40.0
-script = ExtResource("5_inixc")
 
 [node name="a_title" type="Label" parent="frame/main_info_panel/glamp/a"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -510,12 +548,11 @@ offset_bottom = 40.0
 text = "ACRO"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="m" type="Control" parent="frame/main_info_panel/glamp"]
-anchors_preset = 0
+[node name="m" type="Panel" parent="frame/main_info_panel/glamp"]
+layout_mode = 0
 offset_left = 96.0
 offset_right = 128.0
 offset_bottom = 40.0
-script = ExtResource("5_inixc")
 
 [node name="m_title" type="Label" parent="frame/main_info_panel/glamp/m"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -545,12 +582,11 @@ offset_bottom = 40.0
 text = "MIGHT"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="p" type="Control" parent="frame/main_info_panel/glamp"]
-anchors_preset = 0
+[node name="p" type="Panel" parent="frame/main_info_panel/glamp"]
+layout_mode = 0
 offset_left = 128.0
 offset_right = 160.0
 offset_bottom = 40.0
-script = ExtResource("5_inixc")
 
 [node name="p_title" type="Label" parent="frame/main_info_panel/glamp/p"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -580,15 +616,13 @@ offset_bottom = 40.0
 text = "PIETY"
 label_settings = SubResource("LabelSettings_de10n")
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/glamp"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/glamp"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_left = 112.0
 offset_top = 40.0
 offset_right = 160.0
 offset_bottom = 49.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/glamp/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -614,11 +648,10 @@ offset_top = 69.0
 offset_right = 149.0
 offset_bottom = 109.0
 
-[node name="personae" type="Control" parent="frame/main_info_panel/personae"]
-anchors_preset = 0
+[node name="personae" type="Panel" parent="frame/main_info_panel/personae"]
+layout_mode = 0
 offset_right = 136.0
 offset_bottom = 16.0
-script = ExtResource("5_inixc")
 
 [node name="personae_value" type="Label" parent="frame/main_info_panel/personae/personae"]
 layout_mode = 1
@@ -632,14 +665,12 @@ label_settings = SubResource("LabelSettings_nsxts")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/personae"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/personae"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_left = 88.0
 offset_top = -9.0
 offset_right = 136.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/personae/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -665,15 +696,13 @@ offset_top = 93.0
 offset_right = 46.0
 offset_bottom = 133.0
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/datum"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/datum"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_left = 87.0
 offset_top = 56.0
 offset_right = 136.0
 offset_bottom = 65.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/datum/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -692,11 +721,10 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gumption" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="gumption" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_right = 47.0
 offset_bottom = 16.0
-script = ExtResource("5_inixc")
 
 [node name="gumption_title" type="Label" parent="frame/main_info_panel/datum/gumption"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -718,12 +746,11 @@ text = "75%"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="gumshoe" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="gumshoe" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 47.0
 offset_right = 87.0
 offset_bottom = 16.0
-script = ExtResource("5_inixc")
 
 [node name="gumshoe_title" type="Label" parent="frame/main_info_panel/datum/gumshoe"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -746,13 +773,12 @@ text = "1"
 label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 
-[node name="beard" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="beard" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 87.0
 offset_top = 39.0
 offset_right = 136.0
 offset_bottom = 56.0
-script = ExtResource("5_inixc")
 
 [node name="beard_title" type="Label" parent="frame/main_info_panel/datum/beard"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -775,12 +801,11 @@ label_settings = SubResource("LabelSettings_8sg6d")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="free_will" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="free_will" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 87.0
 offset_right = 136.0
 offset_bottom = 16.0
-script = ExtResource("5_inixc")
 
 [node name="freewill_title" type="Label" parent="frame/main_info_panel/datum/free_will"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -804,12 +829,11 @@ label_settings = SubResource("LabelSettings_8kpvu")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="mood" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="mood" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_top = 16.0
 offset_right = 87.0
 offset_bottom = 56.0
-script = ExtResource("5_inixc")
 
 [node name="mood_title" type="Label" parent="frame/main_info_panel/datum/mood"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -832,14 +856,14 @@ label_settings = SubResource("LabelSettings_8kpvu")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="poise" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="poise" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 87.0
 offset_top = 16.0
 offset_right = 136.0
 offset_bottom = 39.0
 script = SubResource("GDScript_yj7y8")
-noise = SubResource("FastNoiseLite_gpxvf")
+noise = SubResource("FastNoiseLite_8kpvu")
 
 [node name="poise_title" type="Label" parent="frame/main_info_panel/datum/poise"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -851,12 +875,11 @@ offset_bottom = 16.0
 text = "POISE"
 label_settings = SubResource("LabelSettings_8sg6d")
 
-[node name="no_idea" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="no_idea" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 136.0
 offset_right = 216.0
 offset_bottom = 32.0
-script = ExtResource("5_inixc")
 
 [node name="important_stuff" type="Label" parent="frame/main_info_panel/datum/no_idea"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -871,12 +894,11 @@ label_settings = SubResource("LabelSettings_yj7y8")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="energy" type="Control" parent="frame/main_info_panel/datum"]
-anchors_preset = 0
+[node name="energy" type="Panel" parent="frame/main_info_panel/datum"]
+layout_mode = 0
 offset_left = 216.0
 offset_right = 272.0
 offset_bottom = 32.0
-script = ExtResource("5_inixc")
 
 [node name="voltage_title" type="Label" parent="frame/main_info_panel/datum/energy"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -925,13 +947,11 @@ offset_top = 60.0
 offset_right = 277.0
 offset_bottom = 84.0
 
-[node name="trans" type="Control" parent="frame/main_info_panel/trans"]
-layout_mode = 3
-anchors_preset = 0
+[node name="trans" type="Panel" parent="frame/main_info_panel/trans"]
+layout_mode = 0
 offset_left = 1.0
 offset_right = 129.0
 offset_bottom = 26.0
-script = ExtResource("5_inixc")
 
 [node name="madness_text3" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
 modulate = Color(1, 1, 1, 0.25)
@@ -965,14 +985,12 @@ text = "[wave amp=50.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utili
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/trans"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/trans"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_left = 1.0
 offset_top = -9.0
 offset_right = 72.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/trans/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -998,13 +1016,11 @@ offset_top = 164.0
 offset_right = 46.0
 offset_bottom = 204.0
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/resistances"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/resistances"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_top = -9.0
 offset_right = 55.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/resistances/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -1023,11 +1039,10 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="defense" type="Control" parent="frame/main_info_panel/resistances"]
-anchors_preset = 0
+[node name="defense" type="Panel" parent="frame/main_info_panel/resistances"]
+layout_mode = 0
 offset_right = 55.0
 offset_bottom = 48.0
-script = ExtResource("5_inixc")
 
 [node name="SMenuUtilityDefense" type="TextureRect" parent="frame/main_info_panel/resistances/defense"]
 layout_mode = 1
@@ -1054,8 +1069,8 @@ label_settings = SubResource("LabelSettings_xscvq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="res_graph" type="Control" parent="frame/main_info_panel/resistances"]
-anchors_preset = 0
+[node name="res_graph" type="Panel" parent="frame/main_info_panel/resistances"]
+layout_mode = 0
 offset_left = 55.0
 offset_right = 103.0
 offset_bottom = 48.0
@@ -1143,12 +1158,11 @@ grow_vertical = 2
 texture = ExtResource("15_de10n")
 stretch_mode = 2
 
-[node name="res_list" type="Control" parent="frame/main_info_panel/resistances"]
-anchors_preset = 0
+[node name="res_list" type="Panel" parent="frame/main_info_panel/resistances"]
+layout_mode = 0
 offset_left = 103.0
 offset_right = 136.0
 offset_bottom = 41.0
-script = ExtResource("5_inixc")
 
 [node name="res_cosmic" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
@@ -1287,15 +1301,13 @@ offset_top = 133.0
 offset_right = 189.0
 offset_bottom = 173.0
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/equipment"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/equipment"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_left = 1.0
 offset_top = -1.0
 offset_right = 56.0
 offset_bottom = 8.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/equipment/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -1314,13 +1326,12 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="gun" type="Control" parent="frame/main_info_panel/equipment"]
-anchors_preset = 0
+[node name="gun" type="Panel" parent="frame/main_info_panel/equipment"]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 8.0
 offset_right = 104.0
 offset_bottom = 32.0
-script = ExtResource("5_inixc")
 
 [node name="gun_texture" type="TextureRect" parent="frame/main_info_panel/equipment/gun"]
 layout_mode = 0
@@ -1349,13 +1360,12 @@ label_settings = SubResource("LabelSettings_llltk")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="jerkin" type="Control" parent="frame/main_info_panel/equipment"]
-anchors_preset = 0
+[node name="jerkin" type="Panel" parent="frame/main_info_panel/equipment"]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 32.0
 offset_right = 104.0
 offset_bottom = 48.0
-script = ExtResource("5_inixc")
 
 [node name="jerkin_value" type="Label" parent="frame/main_info_panel/equipment/jerkin"]
 layout_mode = 1
@@ -1369,13 +1379,12 @@ label_settings = SubResource("LabelSettings_mfdu4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="helm" type="Control" parent="frame/main_info_panel/equipment"]
-anchors_preset = 0
+[node name="helm" type="Panel" parent="frame/main_info_panel/equipment"]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 48.0
 offset_right = 104.0
 offset_bottom = 64.0
-script = ExtResource("5_inixc")
 
 [node name="helm_value" type="Label" parent="frame/main_info_panel/equipment/helm"]
 layout_mode = 1
@@ -1389,13 +1398,12 @@ label_settings = SubResource("LabelSettings_mfdu4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="nothing" type="Control" parent="frame/main_info_panel/equipment"]
-anchors_preset = 0
+[node name="nothing" type="Panel" parent="frame/main_info_panel/equipment"]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 64.0
 offset_right = 104.0
 offset_bottom = 80.0
-script = ExtResource("5_inixc")
 
 [node name="weight" type="Control" parent="frame/main_info_panel"]
 anchors_preset = 0
@@ -1404,11 +1412,10 @@ offset_top = 165.0
 offset_right = 293.0
 offset_bottom = 205.0
 
-[node name="weight" type="Control" parent="frame/main_info_panel/weight"]
-anchors_preset = 0
+[node name="weight" type="Panel" parent="frame/main_info_panel/weight"]
+layout_mode = 0
 offset_right = 25.0
 offset_bottom = 39.0
-script = ExtResource("5_inixc")
 
 [node name="hud_weight" type="ColorRect" parent="frame/main_info_panel/weight/weight"]
 clip_contents = true
@@ -1451,14 +1458,12 @@ offset_right = 14.0
 offset_bottom = 30.0
 texture = SubResource("AtlasTexture_xscvq")
 
-[node name="tab_name" type="Control" parent="frame/main_info_panel/weight"]
+[node name="tab_name" type="Panel" parent="frame/main_info_panel/weight"]
 material = SubResource("ShaderMaterial_tq0ww")
-layout_mode = 3
-anchors_preset = 0
+layout_mode = 0
 offset_top = 39.0
 offset_right = 25.0
 offset_bottom = 48.0
-script = ExtResource("5_inixc")
 
 [node name="tab_label" type="Label" parent="frame/main_info_panel/weight/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -1477,12 +1482,767 @@ label_settings = SubResource("LabelSettings_2v4t6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="brain_info_panel" type="Control" parent="frame"]
+[node name="gun_info_panel" type="Control" parent="frame"]
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
 offset_right = 300.0
 offset_bottom = 228.0
+theme = ExtResource("4_qw4ou")
+script = ExtResource("18_llltk")
+
+[node name="gun_1" type="Control" parent="frame/gun_info_panel"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("19_x3iuf")
+
+[node name="id" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 21.0
+offset_bottom = 28.0
+
+[node name="id_value" type="Label" parent="frame/gun_info_panel/gun_1/id"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sprite" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 4.0
+offset_right = 85.0
+offset_bottom = 28.0
+
+[node name="sprite_value" type="TextureRect" parent="frame/gun_info_panel/gun_1/sprite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="weight_value" type="Label" parent="frame/gun_info_panel/gun_1/sprite"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "1~"
+label_settings = SubResource("LabelSettings_tn1ex")
+horizontal_alignment = 1
+
+[node name="name" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 4.0
+offset_right = 125.0
+offset_bottom = 28.0
+
+[node name="name_value" type="Label" parent="frame/gun_info_panel/gun_1/name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ZAZA"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 4.0
+offset_right = 149.0
+offset_bottom = 28.0
+
+[node name="dmg_title" type="Label" parent="frame/gun_info_panel/gun_1/dmg"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "DMG"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg_value" type="Label" parent="frame/gun_info_panel/gun_1/dmg"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 149.0
+offset_top = 4.0
+offset_right = 189.0
+offset_bottom = 28.0
+
+[node name="rte_title" type="Label" parent="frame/gun_info_panel/gun_1/rte"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "RTE"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte_value" type="Label" parent="frame/gun_info_panel/gun_1/rte"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 4.0
+offset_right = 213.0
+offset_bottom = 28.0
+
+[node name="spc_title" type="Label" parent="frame/gun_info_panel/gun_1/spc"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "SPC"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc_value" type="Label" parent="frame/gun_info_panel/gun_1/spc"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap" type="Panel" parent="frame/gun_info_panel/gun_1"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 28.0
+
+[node name="cap_title" type="Label" parent="frame/gun_info_panel/gun_1/cap"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "CAPACITY"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap_value" type="Label" parent="frame/gun_info_panel/gun_1/cap"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "09 (69)"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gun_2" type="Control" parent="frame/gun_info_panel"]
+anchors_preset = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 72.0
+script = ExtResource("19_x3iuf")
+
+[node name="id" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 21.0
+offset_bottom = 28.0
+
+[node name="id_value" type="Label" parent="frame/gun_info_panel/gun_2/id"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sprite" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 4.0
+offset_right = 85.0
+offset_bottom = 28.0
+
+[node name="sprite_value" type="TextureRect" parent="frame/gun_info_panel/gun_2/sprite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="weight_value" type="Label" parent="frame/gun_info_panel/gun_2/sprite"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "1~"
+label_settings = SubResource("LabelSettings_tn1ex")
+horizontal_alignment = 1
+
+[node name="name" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 4.0
+offset_right = 125.0
+offset_bottom = 28.0
+
+[node name="name_value" type="Label" parent="frame/gun_info_panel/gun_2/name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ZAZA"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 4.0
+offset_right = 149.0
+offset_bottom = 28.0
+
+[node name="dmg_title" type="Label" parent="frame/gun_info_panel/gun_2/dmg"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "DMG"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg_value" type="Label" parent="frame/gun_info_panel/gun_2/dmg"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 149.0
+offset_top = 4.0
+offset_right = 189.0
+offset_bottom = 28.0
+
+[node name="rte_title" type="Label" parent="frame/gun_info_panel/gun_2/rte"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "RTE"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte_value" type="Label" parent="frame/gun_info_panel/gun_2/rte"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 4.0
+offset_right = 213.0
+offset_bottom = 28.0
+
+[node name="spc_title" type="Label" parent="frame/gun_info_panel/gun_2/spc"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "SPC"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc_value" type="Label" parent="frame/gun_info_panel/gun_2/spc"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap" type="Panel" parent="frame/gun_info_panel/gun_2"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 28.0
+
+[node name="cap_title" type="Label" parent="frame/gun_info_panel/gun_2/cap"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "CAPACITY"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap_value" type="Label" parent="frame/gun_info_panel/gun_2/cap"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "09 (69)"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gun_3" type="Control" parent="frame/gun_info_panel"]
+anchors_preset = 0
+offset_top = 64.0
+offset_right = 40.0
+offset_bottom = 104.0
+script = ExtResource("19_x3iuf")
+
+[node name="id" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 21.0
+offset_bottom = 28.0
+
+[node name="id_value" type="Label" parent="frame/gun_info_panel/gun_3/id"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sprite" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 4.0
+offset_right = 85.0
+offset_bottom = 28.0
+
+[node name="sprite_value" type="TextureRect" parent="frame/gun_info_panel/gun_3/sprite"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="weight_value" type="Label" parent="frame/gun_info_panel/gun_3/sprite"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -17.0
+offset_top = -10.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "1~"
+label_settings = SubResource("LabelSettings_tn1ex")
+horizontal_alignment = 1
+
+[node name="name" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 4.0
+offset_right = 125.0
+offset_bottom = 28.0
+
+[node name="name_value" type="Label" parent="frame/gun_info_panel/gun_3/name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ZAZA"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 4.0
+offset_right = 149.0
+offset_bottom = 28.0
+
+[node name="dmg_title" type="Label" parent="frame/gun_info_panel/gun_3/dmg"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "DMG"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dmg_value" type="Label" parent="frame/gun_info_panel/gun_3/dmg"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 149.0
+offset_top = 4.0
+offset_right = 189.0
+offset_bottom = 28.0
+
+[node name="rte_title" type="Label" parent="frame/gun_info_panel/gun_3/rte"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "RTE"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rte_value" type="Label" parent="frame/gun_info_panel/gun_3/rte"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 4.0
+offset_right = 213.0
+offset_bottom = 28.0
+
+[node name="spc_title" type="Label" parent="frame/gun_info_panel/gun_3/spc"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "SPC"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spc_value" type="Label" parent="frame/gun_info_panel/gun_3/spc"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "9"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap" type="Panel" parent="frame/gun_info_panel/gun_3"]
+layout_mode = 0
+offset_left = 213.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 28.0
+
+[node name="cap_title" type="Label" parent="frame/gun_info_panel/gun_3/cap"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+text = "CAPACITY"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="cap_value" type="Label" parent="frame/gun_info_panel/gun_3/cap"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -13.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "09 (69)"
+label_settings = SubResource("LabelSettings_sqt2l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gunbag" type="Panel" parent="frame/gun_info_panel"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 164.0
+offset_right = 85.0
+offset_bottom = 212.0
+
+[node name="gunbag_title" type="Label" parent="frame/gun_info_panel/gunbag"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "Gun'sbag"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gunbag_value" type="Label" parent="frame/gun_info_panel/gunbag"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -21.0
+offset_right = 47.0
+offset_bottom = -1.0
+grow_vertical = 0
+text = "5 (20)"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="frame/gun_info_panel/gunbag"]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 24.0
+offset_right = 79.0
+offset_bottom = 47.0
+texture = ExtResource("20_46cem")
+
+[node name="smelt" type="Control" parent="frame/gun_info_panel"]
+anchors_preset = 0
+offset_left = 93.0
+offset_top = 172.0
+offset_right = 133.0
+offset_bottom = 212.0
+
+[node name="smelt_panel" type="Panel" parent="frame/gun_info_panel/smelt"]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 40.0
+
+[node name="smelt_gauge" type="TextureRect" parent="frame/gun_info_panel/smelt/smelt_panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -18.0
+offset_right = 88.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_6w61b")
+
+[node name="smelt_title" type="TextureRect" parent="frame/gun_info_panel/smelt/smelt_panel"]
+layout_mode = 0
+offset_left = 101.0
+offset_top = 22.0
+offset_right = 145.0
+offset_bottom = 37.0
+texture = ExtResource("22_giw0b")
+
+[node name="smelt_value" type="Label" parent="frame/gun_info_panel/smelt/smelt_panel"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 22.0
+offset_right = 99.0
+offset_bottom = 36.0
+text = "420"
+label_settings = SubResource("LabelSettings_8we6v")
+horizontal_alignment = 2
+
+[node name="smelt_title" type="Panel" parent="frame/gun_info_panel/smelt"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = -8.0
+offset_right = 192.0
+
+[node name="smelt_title" type="Label" parent="frame/gun_info_panel/smelt/smelt_title"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SMELT"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="brain_info_panel" type="Control" parent="frame"]
+visible = false
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("4_qw4ou")
 script = ExtResource("18_8kpvu")
 
 [node name="big_brain" type="Control" parent="frame/brain_info_panel"]
@@ -1490,13 +2250,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="large_spaghetti" type="Control" parent="frame/brain_info_panel/big_brain"]
-anchors_preset = 0
+[node name="large_spaghetti" type="Panel" parent="frame/brain_info_panel/big_brain"]
+layout_mode = 0
 offset_left = 13.0
 offset_top = 12.0
 offset_right = 141.0
 offset_bottom = 196.0
-script = ExtResource("5_inixc")
 
 [node name="play_title" type="Label" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
 layout_mode = 0
@@ -1565,14 +2324,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_giw0b")
 
-[node name="brain" type="Control" parent="frame/brain_info_panel/big_brain"]
-layout_mode = 3
-anchors_preset = 0
+[node name="brain" type="Panel" parent="frame/brain_info_panel/big_brain"]
+layout_mode = 0
 offset_left = 101.0
 offset_top = 196.0
 offset_right = 141.0
 offset_bottom = 205.0
-script = ExtResource("5_inixc")
 
 [node name="brain_title" type="Label" parent="frame/brain_info_panel/big_brain/brain"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
@@ -1584,6 +2341,370 @@ offset_bottom = 10.0
 text = "BRAIN"
 label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
+
+[node name="exp" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 12.0
+offset_right = 189.0
+offset_bottom = 52.0
+
+[node name="main_exp" type="Panel" parent="frame/brain_info_panel/exp"]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 32.0
+
+[node name="main_exp_value" type="Label" parent="frame/brain_info_panel/exp/main_exp"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp" type="Panel" parent="frame/brain_info_panel/exp"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 41.0
+
+[node name="exp_title" type="Label" parent="frame/brain_info_panel/exp/exp"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EXPERIENCE"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="next_lvl" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_left = 205.0
+offset_top = 12.0
+offset_right = 245.0
+offset_bottom = 52.0
+
+[node name="next_lvl" type="Panel" parent="frame/brain_info_panel/next_lvl"]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 32.0
+
+[node name="next_exp_value" type="Label" parent="frame/brain_info_panel/next_lvl/next_lvl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="next" type="Panel" parent="frame/brain_info_panel/next_lvl"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 24.0
+offset_bottom = 41.0
+
+[node name="next_title" type="Label" parent="frame/brain_info_panel/next_lvl/next"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "NEXT"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="curr_lvl" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_left = 237.0
+offset_top = 12.0
+offset_right = 277.0
+offset_bottom = 52.0
+
+[node name="curr_lvl" type="Panel" parent="frame/brain_info_panel/curr_lvl"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 32.0
+
+[node name="curr_lvl_value" type="Label" parent="frame/brain_info_panel/curr_lvl/curr_lvl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="curr" type="Panel" parent="frame/brain_info_panel/curr_lvl"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 41.0
+
+[node name="curr_title" type="Label" parent="frame/brain_info_panel/curr_lvl/curr"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "LEVEL"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work_side" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 60.0
+offset_right = 189.0
+offset_bottom = 100.0
+
+[node name="helper" type="Panel" parent="frame/brain_info_panel/work_side"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+
+[node name="helper_title" type="Label" parent="frame/brain_info_panel/work_side/helper"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 89.0
+offset_bottom = 21.0
+text = "HELPER QUOTIENT"
+label_settings = SubResource("LabelSettings_6r7ck")
+
+[node name="helper_value" type="Label" parent="frame/brain_info_panel/work_side/helper"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -9.0
+offset_right = 56.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0.99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp_gained" type="Panel" parent="frame/brain_info_panel/work_side"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 64.0
+
+[node name="exp_gained_title" type="Label" parent="frame/brain_info_panel/work_side/exp_gained"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 14.0
+offset_right = 124.0
+offset_bottom = 21.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 2
+
+[node name="exp_gained_value" type="Label" parent="frame/brain_info_panel/work_side/exp_gained"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -10.0
+offset_right = -30.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work" type="Panel" parent="frame/brain_info_panel/work_side"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 64.0
+offset_right = 128.0
+offset_bottom = 73.0
+
+[node name="work_title" type="Label" parent="frame/brain_info_panel/work_side/work"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WORK"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="play_side" type="Control" parent="frame/brain_info_panel"]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 141.0
+offset_right = 189.0
+offset_bottom = 181.0
+
+[node name="vidcons" type="Panel" parent="frame/brain_info_panel/play_side"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+
+[node name="vidcon_title" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 89.0
+offset_bottom = 21.0
+text = "VIDCONS"
+label_settings = SubResource("LabelSettings_6r7ck")
+
+[node name="vidcon_owned_title" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 36.0
+offset_top = 24.0
+offset_right = 81.0
+offset_bottom = 31.0
+text = "OWNED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_unboxed_title" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 78.0
+offset_top = 24.0
+offset_right = 128.0
+offset_bottom = 31.0
+text = "UNBOXED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_owned_value" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -12.0
+offset_right = 5.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_unboxed_value" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 28.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp_gained" type="Panel" parent="frame/brain_info_panel/play_side"]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 64.0
+
+[node name="exp_gained_title" type="Label" parent="frame/brain_info_panel/play_side/exp_gained"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 14.0
+offset_right = 124.0
+offset_bottom = 21.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 2
+
+[node name="exp_gained_value" type="Label" parent="frame/brain_info_panel/play_side/exp_gained"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -10.0
+offset_right = -30.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="play" type="Panel" parent="frame/brain_info_panel/play_side"]
+layout_mode = 0
+offset_top = -9.0
+offset_right = 40.0
+
+[node name="play_title" type="Label" parent="frame/brain_info_panel/play_side/play"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLAY"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="right_panel" type="ScrollContainer" parent="frame"]
 layout_mode = 0
@@ -1708,6 +2829,13 @@ text = "Unplug"
 autowrap_mode = 1
 
 [connection signal="visibility_changed" from="frame/main_info_panel" to="frame/main_info_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/gun_info_panel" to="frame/gun_info_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/candy_btn" to="." method="_on_candy_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_btn" to="." method="_on_brain_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/inventory_btn" to="." method="_on_inventory_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_btn" to="." method="_on_dwarf_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/unplug_btn" to="." method="_on_unplug_btn_pressed"]

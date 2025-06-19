@@ -19,7 +19,7 @@ const SETTINGUTILITYALPHABORDER 	:= 0.15 		# Alpha of foreground grids, lines, e
 const SETTINGUTILITYMONO 			:= 0.15 		# How colorful the menu is, 0 being more B&W 1 being full color
 const UTILITYALPHA 					:= 0
 
-
+var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 
 ## Buttons
 @onready var main_btn: Button = $frame/right_panel/right_panel_vbox/main_btn
@@ -51,6 +51,7 @@ const UTILITYALPHA 					:= 0
 
 ## Left Info panel
 @onready var main_info_panel: Control = $frame/main_info_panel
+@onready var gun_info_panel: Control = $frame/gun_info_panel
 @onready var brain_info_panel: Control = $frame/brain_info_panel
 
 ## Menu control
@@ -96,15 +97,22 @@ var quoTxt := [
 var bg_tween : Tween
 var fg_tween : Tween
 
+var intensity := 1.0
+
 func _init() -> void:
-	B2_Screen.utility_screen = self
-	B2_Screen.is_utility_open = true
+	B2_Screen.utility_screen 	= self
+	B2_Screen.is_utility_open 	= true
 	push_error("DEBUG")
 	
 func _ready() -> void:
-	set_color.emit( grid_color )
-	#_modulate_some_buttons_i_guess()
 	B2_Playerdata.preload_skip_tutorial_save_data()
+	B2_Gun.add_gun_to_bandolier()
+	B2_Gun.add_gun_to_bandolier()
+	B2_Gun.add_gun_to_bandolier()
+	
+	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
+	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
+	set_color.emit( grid_color )
 	_change_menu_state( menu_state )
 	main_info_panel.update_menu()
 	
@@ -115,12 +123,13 @@ func _modulate_some_buttons_i_guess() -> void:
 	right_panel.modulate = Color( grid_color, 0.75 )
 	
 ## There has to be a better way to handle this.
-func _change_menu_state( state ) -> void:
+func _change_menu_state( state ) -> bool:
 	match state:
 		MAIN:
 			## NOTE Info panels
-			main_info_panel.show()
-			brain_info_panel.hide()
+			main_info_panel.show_panel()
+			brain_info_panel.hide_panel()
+			gun_info_panel.hide_panel()
 			## NOTE Buttons
 			main_btn.disabled = true
 			main_btn.show() # <------------
@@ -141,8 +150,9 @@ func _change_menu_state( state ) -> void:
 			main_btn.grab_focus()
 		GUN:
 			## NOTE Info panels
-			main_info_panel.hide()
-			brain_info_panel.hide()
+			main_info_panel.hide_panel()
+			brain_info_panel.hide_panel()
+			gun_info_panel.show_panel()
 			## NOTE Buttons
 			main_btn.disabled = false
 			main_btn.show()
@@ -163,8 +173,9 @@ func _change_menu_state( state ) -> void:
 			gun_btn.grab_focus()
 		BRAIN:
 			## NOTE Info panels
-			main_info_panel.hide()
-			brain_info_panel.show()
+			main_info_panel.hide_panel()
+			brain_info_panel.show_panel()
+			gun_info_panel.hide_panel()
 			## NOTE Buttons
 			main_btn.disabled = false
 			main_btn.show()
@@ -185,20 +196,52 @@ func _change_menu_state( state ) -> void:
 			brain_btn.grab_focus()
 		_:
 			push_error("Invalid menu state: ", state)
-			return
-	## State is valid. apply it.
-	menu_state = state
+			return false
+			
+	if menu_state == state:
+		return false
+	else:
+		## State is valid. apply it.
+		menu_state = state
+		return true
 
 
 func _process( _delta: float ) -> void:
 	## Avoid flickering in the editor
 	if not Engine.is_editor_hint():
-		flickered.emit( randf_range(0.06,0.12) )
+		var f := randf_range(0.06,0.12)
+		flickered.emit( f )
+		style_box_utility.bg_color 		= Color(grid_color, f * intensity * 0.125) 
 
 func _on_main_btn_pressed() -> void:
-	_change_menu_state( MAIN )
-	B2_Sound.play( "utility_button_click" )
+	if _change_menu_state( MAIN ):
+		B2_Sound.play( "utility_button_click" )
 
 func _on_gun_btn_pressed() -> void:
-	_change_menu_state( GUN )
-	B2_Sound.play( "utility_button_click" )
+	if _change_menu_state( GUN ):
+		B2_Sound.play( "utility_button_click" )
+
+
+func _on_candy_btn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_brain_btn_pressed() -> void:
+	if _change_menu_state( BRAIN ):
+		B2_Sound.play( "utility_button_click" )
+
+
+func _on_equip_btn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_inventory_btn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_dwarf_btn_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_unplug_btn_pressed() -> void:
+	pass # Replace with function body.

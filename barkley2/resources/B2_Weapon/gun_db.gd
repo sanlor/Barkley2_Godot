@@ -1090,9 +1090,9 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ):
 		my_gun.zauber_damage 	= db_gun[6]
 		
 		#append_gun_to_bandolier( my_gun )
-		print( "Gun %s named %s generated." % [gun_db_name, gun_name] )
+		print( "B2_Gun: Gun '%s' named '%s' generated." % [gun_db_name, gun_name] )
 	else:
-		print( "Invalid Gun %s named %s." % [gun_db_name, gun_name] )
+		push_error( "B2_Gun: Invalid Gun '%s' named '%s'." % [gun_db_name, gun_name] )
 		
 	return my_gun
 	
@@ -1105,7 +1105,7 @@ static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.bandolier.append( wpn )
 	if B2_Playerdata.bandolier.size() > BANDOLIER_SIZE:
 		B2_Playerdata.bandolier.pop_front() ## Remove the first gun from the bandolier.
-		print("B2_Gun: Bandolier full, dropping the oldest gun. ")
+		print("B2_Gun: Bandolier full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
 
 ## Add generate a gun and add it to bandolier.
 static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
@@ -1115,7 +1115,7 @@ static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.gun_bag.append( wpn )
 	if B2_Playerdata.gun_bag.size() > GUNBAG_SIZE:
 		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag
-		print("B2-Gun: Gunbag full, dropping the oldest gun. ")
+		print("B2_Gun: Gunbag full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
 	
 ## remove specific gun from inventory
 static func remove_gun( wpn : B2_Weapon ) -> void:
@@ -1128,6 +1128,7 @@ static func clear_guns() -> void:
 	B2_Playerdata.gun_bag.clear()
 	
 static func distribute_battle_exp( _exp : int ) -> void:
+	## NOTE Only guns in bando can receive XP.
 	if not get_bandolier().is_empty():
 		@warning_ignore("integer_division")
 		var per_gun_exp := _exp / get_bandolier().size()
