@@ -41,8 +41,11 @@ func _load_music_banks( music_folder : String ):
 	print_rich("[color=blue_violet]Init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries.[/color]")
 
 func _enter_tree() -> void:
-	_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
-	_load_music_banks( "res://barkley2/assets/ToG Music Pack/" )
+	if OS.has_feature("web"):
+		## Load lower quality Music for web export.
+		_load_music_banks( "res://barkley2/assets/b2_original/audio/MusicWeb/" )
+	else:
+		_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
 
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
