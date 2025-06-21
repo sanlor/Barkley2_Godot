@@ -24,23 +24,35 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 ## Buttons
 @onready var main_btn: Button = $frame/right_panel/right_panel_vbox/main_btn
 
-@onready var gun_btn: 		Button = $frame/right_panel/right_panel_vbox/gun_btn
-@onready var gun_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu
-@onready var gun_bando_btn: 		Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_btn
-@onready var gun_bando_menu: 				VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_menu
-@onready var gun_bando_rename_btn: 			Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_menu/gun_bando_rename_btn
+@onready var gun_btn: 		Button 									= $frame/right_panel/right_panel_vbox/gun_btn
+@onready var gun_menu: 		VBoxContainer 							= $frame/right_panel/right_panel_vbox/gun_menu
+@onready var gun_bando_btn: 			Button 						= $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_btn
+@onready var gun_bando_menu: 					VBoxContainer 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_menu
+@onready var gun_bando_rename_btn: 				Button 				= $frame/right_panel/right_panel_vbox/gun_menu/gun_bando_menu/gun_bando_rename_btn
 
-@onready var gun_bag_btn: 		Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_bag_btn
-@onready var gun_smelt_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_btn
+@onready var gun_bag_btn: 		Button 				= $frame/right_panel/right_panel_vbox/gun_menu/gun_bag_btn
+@onready var gun_bag_menu: 		VBoxContainer 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu
+@onready var gun_bag_fave_btn: 			Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn
+@onready var gun_bag_promote_btn: 		Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_promote_btn
+
+@onready var gun_smelt_btn: 	Button 				= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_btn
+@onready var gun_smelt_menu: 	VBoxContainer 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu
+@onready var gun_smelt_current_btn: 	Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn
+@onready var gun_smelt_empty_btn: 		Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn
+@onready var gun_smelt_unfaves_btn: 	Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn
+@onready var gun_smelt_inbag_btn: 		Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn
+
 @onready var gun_reload_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_btn
 @onready var gun_breed_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_btn
 
 @onready var candy_btn: 		Button = $frame/right_panel/right_panel_vbox/candy_btn
 @onready var candy_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/candy_menu
-@onready var candy_make_btn: Button = $frame/right_panel/right_panel_vbox/candy_menu/make_btn
+@onready var candy_make_btn: 	Button = $frame/right_panel/right_panel_vbox/candy_menu/make_btn
 
 @onready var brain_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_btn
 @onready var brain_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
+@onready var brain_vidcon_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
+
 
 @onready var equip_btn: 		Button = $frame/right_panel/right_panel_vbox/equip_btn
 @onready var equip_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/equip_menu
@@ -58,11 +70,30 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var gun_info_panel: 				Control = $frame/gun_info_panel
 @onready var gun_info_bando_panel: 			Control = $frame/gun_info_bando_panel
 @onready var gun_info_bando_rename_panel: 	Control = $frame/gun_info_bando_rename_panel
+@onready var gun_info_bag_panel: 			Control = $frame/gun_info_bag_panel
+@onready var gun_info_smelt_panel: 			Control = $frame/gun_info_smelt_panel
 @onready var candy_panel: 					Control = $frame/candy_panel
 @onready var brain_info_panel: 				Control = $frame/brain_info_panel
 
 ## Menu control
-enum {MAIN,GUN,GUN_BANDO,GUN_BANDO_RENAME,CANDY,BRAIN,EQUIP,INV,DWARF,UNPLUG}
+enum {
+	MAIN,
+		GUN,
+			GUN_BANDO,
+				GUN_BANDO_RENAME,
+			GUN_BAG,
+				GUN_BAG_PROMOTE,
+			GUN_SMELT,
+			GUN_RELOAD,
+			GUN_BREED, ## Oh boy...
+		CANDY,
+		BRAIN,
+			VIDCONS,
+		EQUIP,
+		INV,
+		DWARF, ## Oh boy x10
+		UNPLUG
+	}
 var menu_state := MAIN
 
 # Smelt data
@@ -116,6 +147,12 @@ func _ready() -> void:
 	B2_Gun.add_gun_to_bandolier()
 	B2_Gun.add_gun_to_bandolier()
 	B2_Gun.add_gun_to_bandolier()
+	B2_Gun.add_gun_to_gunbag()
+	B2_Gun.add_gun_to_gunbag()
+	B2_Gun.add_gun_to_gunbag()
+	B2_Gun.add_gun_to_gunbag()
+	B2_Gun.add_gun_to_gunbag()
+	B2_Gun.add_gun_to_gunbag()
 	
 	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
 	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
@@ -136,13 +173,26 @@ func hide_all() -> void:
 	gun_info_panel.hide_panel()
 	gun_info_bando_panel.hide_panel()
 	gun_info_bando_rename_panel.hide_panel()
+	gun_info_bag_panel.hide_panel()
+	gun_info_smelt_panel.hide_panel()
 	candy_panel.hide_panel()
+	
 	## NOTE Buttons
 	main_btn.hide()
 	gun_btn.hide()
+	gun_bando_btn.hide()
 	gun_bando_rename_btn.hide()
+	
 	gun_bag_btn.hide()
+	gun_bag_fave_btn.hide()
+	gun_bag_promote_btn.hide()
+	
 	gun_smelt_btn.hide()
+	gun_smelt_current_btn.hide()
+	gun_smelt_empty_btn.hide()
+	gun_smelt_unfaves_btn.hide()
+	gun_smelt_inbag_btn.hide()
+	
 	gun_reload_btn.hide()
 	gun_breed_btn.hide()
 	candy_btn.hide()
@@ -155,6 +205,8 @@ func hide_all() -> void:
 	## NOTE Menus
 	gun_menu.hide()
 	gun_bando_menu.hide()
+	gun_bag_menu.hide()
+	gun_smelt_menu.hide()
 	candy_menu.hide()
 	brain_menu.hide()
 	equip_menu.hide()
@@ -165,8 +217,8 @@ func _change_menu_state( state ) -> bool:
 	hide_all()
 	match state:
 		MAIN:
+			## NOTE Info panels
 			main_info_panel.show_panel()
-			
 			## NOTE Buttons
 			main_btn.disabled = true
 			main_btn.show() # <------------
@@ -188,17 +240,24 @@ func _change_menu_state( state ) -> bool:
 			main_btn.disabled = false
 			main_btn.show()
 			gun_btn.show() # <------------
+			gun_bando_btn.show()
+			gun_bag_btn.show()
+			gun_smelt_btn.show()
+			gun_reload_btn.show()
+			gun_breed_btn.show()
 			## NOTE Menus
 			gun_menu.show() # <------------
 			inventory_menu.hide()
 			
 			gun_btn.grab_focus()
 		GUN_BANDO:
+			## NOTE Info panels
 			gun_info_bando_panel.show_panel()
 			## NOTE Buttons
 			main_btn.disabled = false
 			main_btn.show()
 			gun_btn.show()
+			gun_bando_btn.show()
 			gun_bando_rename_btn.show()
 			## NOTE Menus
 			gun_menu.show()
@@ -206,6 +265,7 @@ func _change_menu_state( state ) -> bool:
 		
 			gun_bando_rename_btn.grab_focus()
 		GUN_BANDO_RENAME:
+			## NOTE Info panels
 			gun_info_bando_rename_panel.show_panel()
 			## NOTE Buttons
 			main_btn.disabled = false
@@ -217,7 +277,40 @@ func _change_menu_state( state ) -> bool:
 			gun_bando_menu.show()
 			
 			gun_bando_rename_btn.grab_focus()
+		GUN_BAG:
+			## NOTE Info panels
+			gun_info_bag_panel.show_panel()
+			## NOTE Buttons
+			main_btn.disabled = false
+			main_btn.show()
+			gun_btn.show()
+			gun_bag_btn.show()
+			gun_bag_fave_btn.show()
+			gun_bag_promote_btn.show()
+			## NOTE Menus
+			gun_menu.show()
+			gun_bag_menu.show()
+			
+			gun_bag_btn.grab_focus()
+		GUN_SMELT:
+			## NOTE Info panels
+			gun_info_smelt_panel.show_panel()
+			## NOTE Buttons
+			main_btn.disabled = false
+			main_btn.show()
+			gun_btn.show()
+			gun_smelt_btn.show()
+			gun_smelt_current_btn.show()
+			gun_smelt_empty_btn.show()
+			gun_smelt_unfaves_btn.show()
+			gun_smelt_inbag_btn.show()
+			## NOTE Menus
+			gun_menu.show()
+			gun_smelt_menu.show()
+			
+			gun_smelt_current_btn.grab_focus()
 		CANDY:
+			## NOTE Info panels
 			candy_panel.show_panel()
 			## NOTE Buttons
 			main_btn.disabled = false
@@ -234,19 +327,10 @@ func _change_menu_state( state ) -> bool:
 			## NOTE Buttons
 			main_btn.disabled = false
 			main_btn.show()
-			gun_btn.hide()
-			candy_btn.hide()
 			brain_btn.show() # <------------
-			equip_btn.hide()
-			inventory_btn.hide()
-			dwarf_btn.hide()
-			unplug_btn.hide()
+			brain_vidcon_btn.show()
 			## NOTE Menus
-			gun_menu.hide() 
-			candy_menu.hide()
 			brain_menu.show() # <------------
-			equip_menu.hide()
-			inventory_menu.hide()
 			
 			brain_btn.grab_focus()
 		_:
@@ -301,8 +385,16 @@ func _on_gun_bando_btn_pressed() -> void:
 	if _change_menu_state( GUN_BANDO ):
 		B2_Sound.play( "utility_button_click" )
 
+func _on_gun_bag_btn_pressed() -> void:
+	if _change_menu_state( GUN_BAG ):
+		B2_Sound.play( "utility_button_click" )
+
 func _on_gun_bando_rename_btn_pressed() -> void:
 	if _change_menu_state( GUN_BANDO_RENAME ):
+		B2_Sound.play( "utility_button_click" )
+
+func _on_gun_smelt_btn_pressed() -> void:
+	if _change_menu_state( GUN_SMELT ):
 		B2_Sound.play( "utility_button_click" )
 
 func _on_make_btn_pressed() -> void:

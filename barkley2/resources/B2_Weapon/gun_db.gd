@@ -667,7 +667,13 @@ const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 
 static func reset() -> void:
+	reset_bandolier()
+	reset_gunbag()
+
+static func reset_bandolier() -> void:
 	B2_Playerdata.bandolier.clear()
+
+static func reset_gunbag() -> void:
 	B2_Playerdata.gun_bag.clear()
 
 #region save and load guns.
@@ -1149,12 +1155,19 @@ static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
 		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag
 		print("B2_Gun: Gunbag full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
 	
+	
 ## remove specific gun from inventory
 static func remove_gun( wpn : B2_Weapon ) -> void:
-	B2_Playerdata.bandolier.erase( wpn )
-	B2_Playerdata.gun_bag.erase( wpn )
+	remove_gun_from_bandolier( wpn )
+	remove_gun_from_gunbag( wpn )
 	## TODO manage bandolier and gun bag.
+
+static func remove_gun_from_bandolier( wpn : B2_Weapon ) -> void:
+	B2_Playerdata.bandolier.erase( wpn )
 	
+static func remove_gun_from_gunbag( wpn : B2_Weapon ) -> void:
+	B2_Playerdata.gun_bag.erase( wpn )
+
 static func clear_guns() -> void:
 	B2_Playerdata.bandolier.clear()
 	B2_Playerdata.gun_bag.clear()

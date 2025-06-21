@@ -12,10 +12,17 @@ func _ready() -> void:
 	item_icon.hide()
 	#item_value.hide()
 	update_tile( my_item )
+	
+	if is_selectable:
+		if has_focus():
+			_on_focus_entered()
+		else:
+			_on_focus_exited()
 
 func update_tile( _my_item : String ) -> void:
 	if my_item != _my_item:
 		my_item = _my_item
+		glow()
 		
 	if is_disabled:
 		focus_mode = Control.FOCUS_NONE
@@ -32,14 +39,14 @@ func update_tile( _my_item : String ) -> void:
 		item_value.modulate = Color.WHITE
 		item_value.show()
 		return
+	item_value.hide()
 	item_icon.show()
 	item_icon.texture.region.position.x = 16.0 * B2_Candy.CANDY_LIST[my_item][ B2_Candy.SUB ]
 	
-	if is_selectable:
-		if has_focus():
-			_on_focus_entered()
-		else:
-			_on_focus_exited()
+func glow() -> void:
+	modulate = Color.WHITE * 2.0
+	var t := create_tween()
+	t.tween_property( self, "modulate", Color.WHITE * 1.0, 0.2 )
 	
 func _on_focus_entered() -> void:
 	if is_selectable:

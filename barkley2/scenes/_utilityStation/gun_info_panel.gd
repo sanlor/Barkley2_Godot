@@ -27,8 +27,8 @@ func _update_guns() -> void:
 		guns[id].show()
 		id += 1
 		
+	##  Smelt Gauge
 	var smelt : float 							= B2_Config.get_user_save_data("ustation.smelt", 0.0)
 	gunbag_value.text 							= "%s (%s)" % [ str( B2_Gun.get_gunbag().size() ).pad_zeros(2), str( B2_Gun.GUNBAG_SIZE ).pad_zeros(2) ]
 	smelt_value.text 							= str( int( smelt ) ) #str( int( smelt / 1000.0) )
-	print(176.0 * (smelt / 1000.0) * 45)
 	smelt_gauge.texture.region.position.x 		= 176.0 * roundf( (smelt / 1000.0) * 45 )

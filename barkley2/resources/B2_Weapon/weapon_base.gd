@@ -73,7 +73,7 @@ var curr_ammo					:= 30
 @export var delay_after_action				:= 0.75		## Add a dramatic delay after the shot.
 
 ## Genetics
-var favorite					:= 1
+var favorite					:= false
 var son							:= "" # B2_Weapon ## TODO Add Lineage stuff
 var lineage_top					:= "" ## ????
 var lineage_bot					:= "" ## ????

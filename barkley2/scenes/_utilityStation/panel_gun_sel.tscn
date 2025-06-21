@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://co4ay6skaan73"]
+
+[ext_resource type="Script" uid="uid://cu4yt3yocxfaj" path="res://barkley2/scenes/_utilityStation/bando_gun_sel.gd" id="1_t5daf"]
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_tuecc"]
+[ext_resource type="Texture2D" uid="uid://cwwhyfwynx5c7" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityBlip.png" id="2_tuecc"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="3_gi535"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8we6v"]
+resource_local_to_scene = true
+atlas = ExtResource("2_tuecc")
+region = Rect2(8, 0, 8, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qcuev"]
+font = ExtResource("3_gi535")
+
+[node name="panel_gun_sel" type="Panel"]
+custom_minimum_size = Vector2(8, 16)
+offset_right = 32.0
+offset_bottom = 18.0
+focus_mode = 2
+theme = ExtResource("1_tuecc")
+script = ExtResource("1_t5daf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_right = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="gun_text" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = SubResource("AtlasTexture_8we6v")
+stretch_mode = 3
+
+[node name="gun_value" type="Label" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(22, 0)
+layout_mode = 2
+mouse_filter = 1
+text = "NANA"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+vertical_alignment = 1
