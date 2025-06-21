@@ -20,6 +20,21 @@ func setup( _gun : B2_Weapon ) -> void:
 	my_gun = _gun
 	_update_data()
 	
+func select( enabled := false ):
+	if enabled:
+		for node in get_children():
+			if node is Panel:
+				node.self_modulate = Color.WHITE * 2
+	else:
+		for node in get_children():
+			if node is Panel:
+				node.self_modulate = Color.WHITE
+				
+	_update_data()
+
+func update_data() -> void:
+	_update_data()
+	
 func _update_data() -> void:
 	if my_gun:
 		id_value.text 			= str(id)

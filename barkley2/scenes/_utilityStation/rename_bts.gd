@@ -1,14 +1,14 @@
 @tool
 extends Control
 
+@onready var gun_info_rename_panel: 			Control = $".."
 @onready var new_name: 							Label = $new_name
 @onready var buttons: 							GridContainer = $buttons
-@onready var gun_info_bando_rename_panel: 		Control = $".."
 @onready var utilitystation_screen: 			CanvasLayer = $"../../.."
 
 @export_tool_button("Make keyboard") var aaa := _aaa
 
-@export var disablable_buttons : Array[Button] = [] ## Is this even a word?
+@export var disablable_buttons : 				Array[Button] = [] ## Is this even a word?
 
 func _aaa() -> void:
 	for i in buttons.get_children():
@@ -37,8 +37,8 @@ func reset() -> void:
 
 func _on_button_end_pressed() -> void:
 	B2_Sound.play("hoopz_click")
-	gun_info_bando_rename_panel.gun.weapon_short_name = new_name.text.left( 4 )
-	utilitystation_screen._change_menu_state( utilitystation_screen.GUN_BANDO ) ## HAAAAAAAAAAAAAAAAAAAAAAAACK
+	gun_info_rename_panel.gun.weapon_short_name = new_name.text.left( 4 )
+	gun_info_rename_panel.renamed_gun.emit( gun_info_rename_panel.gun )
 	reset()
 	
 func _on_button_del_pressed() -> void:

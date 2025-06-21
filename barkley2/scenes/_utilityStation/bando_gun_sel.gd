@@ -3,7 +3,7 @@ class_name B2_UtilityPanel_GunSelection
 
 signal gun_selected( my_gun : B2_Weapon )
 
-@export var gun_info_bando_panel : B2_UtilityPanel
+@export var gun_info_panel : B2_UtilityPanel
 @onready var gun_text: TextureRect = $MarginContainer/HBoxContainer/gun_text
 @onready var gun_value: Label = $MarginContainer/HBoxContainer/gun_value
 
@@ -30,8 +30,8 @@ func _gui_input(event: InputEvent) -> void:
 func setup( _my_gun : B2_Weapon ) -> void:
 	my_gun = _my_gun
 	
-	if my_gun.favorite:		modulate = Color.RED
-	else:					modulate = Color.WHITE
+	if my_gun.favorite:		gun_text.modulate = Color.RED
+	else:					gun_text.modulate = Color.WHITE
 	
 	gun_value.visible = show_name # Gunbag guns have hidden names
 	update()
@@ -45,8 +45,8 @@ func update() -> void:
 	gun_value.text = Text.pr( my_gun.get_short_name() )
 	
 func _on_focus_entered() -> void:
-	if gun_info_bando_panel and my_gun:
-		gun_info_bando_panel.update_data( my_gun )
+	if gun_info_panel and my_gun:
+		gun_info_panel.update_data( my_gun )
 	else:
 		push_error("No weapon data.")
 	self_modulate = Color.WHITE * 2.0

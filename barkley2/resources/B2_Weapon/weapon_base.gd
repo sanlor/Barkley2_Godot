@@ -349,8 +349,12 @@ func is_overheating() -> bool:
 func reset_action( force_value := 0.0 ) -> void:
 	curr_action = force_value
 	
-func recover_ammo( amount : int ) -> void:
-	curr_ammo = clampi( curr_ammo + amount, 0, max_ammo )
+func recover_ammo( amount : int ) -> bool:
+	if curr_ammo >= max_ammo:
+		return false
+	else:
+		curr_ammo = clampi( curr_ammo + amount, 0, max_ammo )
+		return true
 	
 func use_ammo( amount : int ) -> void:
 	if B2_Playerdata.Quest("infiniteAmmo") == 0:

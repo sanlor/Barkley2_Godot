@@ -1,20 +1,24 @@
 extends B2_UtilityPanel
 
-@onready var gun_info_bando_panel: Control = $"../gun_info_bando_panel"
+signal renamed_gun( gun : B2_Weapon )
 
-@onready var gun_texture: TextureRect = $more_gun_data/gun_texture/gun_texture
-@onready var gun_name_value: Label = $more_gun_data/gun_texture/gun_name_value
-@onready var pts_value: Label = $more_gun_data/gun_texture/pts_value
-@onready var wgt_value: Label = $more_gun_data/gun_texture/wgt_value
+@export var gun_info_panel			: B2_UtilityPanel
 
-@onready var affix_name_1: Label = $more_gun_data/affix1/affix_name_1
-@onready var affix_description_1: Label = $more_gun_data/affix1/affix_description_1
-@onready var affix_name_2: Label = $more_gun_data/affix2/affix_name_2
-@onready var affix_description_2: Label = $more_gun_data/affix2/affix_description_2
-@onready var affix_name_3: Label = $more_gun_data/affix3/affix_name_3
-@onready var affix_description_3: Label = $more_gun_data/affix3/affix_description_3
+@onready var gun_texture: 			TextureRect = $more_gun_data/gun_texture/gun_texture
+@onready var gun_name_value: 		Label = $more_gun_data/gun_texture/gun_name_value
+@onready var pts_value: 			Label = $more_gun_data/gun_texture/pts_value
+@onready var wgt_value: 			Label = $more_gun_data/gun_texture/wgt_value
 
-@onready var new_name: Label = $rename_bts/new_name
+@onready var affix_name_1: 			Label = $more_gun_data/affix1/affix_name_1
+@onready var affix_description_1: 	Label = $more_gun_data/affix1/affix_description_1
+@onready var affix_name_2: 			Label = $more_gun_data/affix2/affix_name_2
+@onready var affix_description_2: 	Label = $more_gun_data/affix2/affix_description_2
+@onready var affix_name_3: 			Label = $more_gun_data/affix3/affix_name_3
+@onready var affix_description_3: 	Label = $more_gun_data/affix3/affix_description_3
+
+@onready var new_name: 				Label = $rename_bts/new_name
+
+@onready var rename_bts: 			Control = $rename_bts
 
 var gun : B2_Weapon
 
@@ -26,9 +30,11 @@ func _on_visibility_changed() -> void:
 	if not is_node_ready():
 		return
 	
-	if gun_info_bando_panel.selected_gun:
-		gun = gun_info_bando_panel.selected_gun
-		
+	if gun_info_panel:
+		if gun_info_panel.selected_gun:
+			gun = gun_info_panel.selected_gun
+	
+	if gun:
 		gun_name_value.text = Text.pr( gun.weapon_name )
 		gun_texture.texture = gun.get_weapon_hud_sprite()
 		pts_value.text = str( int( gun.pts ) )
