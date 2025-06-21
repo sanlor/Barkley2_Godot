@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://colhhenxr2rpu"]
+
+[ext_resource type="Script" uid="uid://xf1qibx5eokq" path="res://barkley2/scenes/_utilityStation/vidcon_slot.gd" id="1_sbh46"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="2_occu5"]
+[ext_resource type="Texture2D" uid="uid://bgr2n0hlmp87k" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityVidcon.png" id="3_nes3d"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sf8h1"]
+font = ExtResource("2_occu5")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mravd"]
+atlas = ExtResource("3_nes3d")
+region = Rect2(0, 0, 14, 23)
+
+[node name="vidcon_slot" type="HBoxContainer"]
+focus_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_sbh46")
+
+[node name="id" type="Panel" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="id_value" type="Label" parent="id"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "69"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="name" type="Panel" parent="."]
+custom_minimum_size = Vector2(232, 24)
+layout_mode = 2
+
+[node name="vidcon_value" type="Label" parent="name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = -2.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bla Bla Bla"
+label_settings = SubResource("LabelSettings_sf8h1")
+vertical_alignment = 1
+
+[node name="icon" type="Panel" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="icon_text" type="TextureRect" parent="icon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_mravd")
+stretch_mode = 3
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]

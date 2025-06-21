@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=80 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -29,7 +29,9 @@
 [ext_resource type="PackedScene" uid="uid://bxpoo55h36rs" path="res://barkley2/scenes/_utilityStation/gun_info_rename_panel.tscn" id="25_iyqur"]
 [ext_resource type="Script" uid="uid://fu5jn0ocp6a7" path="res://barkley2/scenes/_utilityStation/gun_info_bag_panel.gd" id="32_4w3xs"]
 [ext_resource type="Script" uid="uid://bo45t2e1yx0wo" path="res://barkley2/scenes/_utilityStation/gun_info_smelt_panel.gd" id="32_sf8h1"]
+[ext_resource type="Script" uid="uid://eir54p1frfp7" path="res://barkley2/scenes/_utilityStation/utility_panel.gd" id="34_8we6v"]
 [ext_resource type="Script" uid="uid://bhltncgexx1bj" path="res://barkley2/scenes/_utilityStation/gun_reload_menu.gd" id="34_t58kc"]
+[ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="35_8we6v"]
 [ext_resource type="Script" uid="uid://s4alhc01g8am" path="res://barkley2/scenes/_utilityStation/candy_panel.gd" id="37_2654u"]
 [ext_resource type="PackedScene" uid="uid://ct6q20f2hyc1i" path="res://barkley2/scenes/_utilityStation/item_candy_conteiner.tscn" id="38_wwfm3"]
 [ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="39_qvbyl"]
@@ -1501,6 +1503,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="gun_info_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -2603,6 +2606,323 @@ offset_top = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "PLAY"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="brain_vidcon_panel" type="Control" parent="frame"]
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("4_qw4ou")
+script = ExtResource("34_8we6v")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="gamerscore" type="Control" parent="frame/brain_vidcon_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 45.0
+offset_bottom = 44.0
+
+[node name="main" type="Panel" parent="frame/brain_vidcon_panel/gamerscore"]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 24.0
+
+[node name="gs" type="Panel" parent="frame/brain_vidcon_panel/gamerscore"]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 32.0
+
+[node name="gs_title" type="Label" parent="frame/brain_vidcon_panel/gamerscore/gs"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "GAMERSCORE"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="collection" type="Control" parent="frame/brain_vidcon_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 44.0
+offset_right = 45.0
+offset_bottom = 84.0
+
+[node name="opened" type="Panel" parent="frame/brain_vidcon_panel/collection"]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 24.0
+
+[node name="sealed" type="Panel" parent="frame/brain_vidcon_panel/collection"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 128.0
+offset_bottom = 24.0
+
+[node name="coll" type="Panel" parent="frame/brain_vidcon_panel/collection"]
+layout_mode = 0
+offset_left = 72.0
+offset_top = -8.0
+offset_right = 128.0
+
+[node name="coll_title" type="Label" parent="frame/brain_vidcon_panel/collection/coll"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "COLLECTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="description" type="Control" parent="frame/brain_vidcon_panel"]
+anchors_preset = 0
+offset_left = 141.0
+offset_top = 12.0
+offset_right = 181.0
+offset_bottom = 52.0
+
+[node name="main" type="Panel" parent="frame/brain_vidcon_panel/description"]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 56.0
+
+[node name="description" type="Panel" parent="frame/brain_vidcon_panel/description"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 56.0
+
+[node name="description_title" type="Label" parent="frame/brain_vidcon_panel/description/description"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "DESCRIPTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcons" type="Control" parent="frame/brain_vidcon_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 84.0
+offset_right = 285.0
+offset_bottom = 204.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="frame/brain_vidcon_panel/vidcons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="vidcon_slot_01" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_02" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_03" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_04" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_05" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_06" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_07" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_08" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_09" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_10" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_11" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_12" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_13" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_14" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_15" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_16" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_17" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_18" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_19" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_20" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_21" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_22" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_23" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_24" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_25" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_26" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_27" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_28" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_29" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_30" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_31" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_32" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_33" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_34" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_35" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_36" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_37" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_38" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_39" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_40" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_41" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_42" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_43" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_44" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_45" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_46" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_47" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_48" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_49" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_50" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_51" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="vidcon_slot_52" parent="frame/brain_vidcon_panel/vidcons/ScrollContainer/VBoxContainer" instance=ExtResource("35_8we6v")]
+layout_mode = 2
+
+[node name="page_up" type="Panel" parent="frame/brain_vidcon_panel/vidcons"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = -8.0
+offset_right = 280.0
+
+[node name="description_title" type="Label" parent="frame/brain_vidcon_panel/vidcons/page_up"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE UP"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="page_down" type="Panel" parent="frame/brain_vidcon_panel/vidcons"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 120.0
+offset_right = 280.0
+offset_bottom = 128.0
+
+[node name="description_title" type="Label" parent="frame/brain_vidcon_panel/vidcons/page_down"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE DOWN"
 label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 vertical_alignment = 1
