@@ -2,6 +2,7 @@ extends CanvasLayer
 
 ## Handles the UI for the Utility Station.
 # Check ustation, Utility and o_utilitystation
+## NOTE I think this is the largest scene I ever created.
 
 signal set_color( color : Color )
 signal set_bg_intensity( intensity : float ) ## Set glow intensity for the Background lines
@@ -51,9 +52,10 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var candy_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/candy_menu
 @onready var candy_make_btn: 	Button = $frame/right_panel/right_panel_vbox/candy_menu/make_btn
 
-@onready var brain_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_btn
-@onready var brain_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
-@onready var brain_vidcon_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
+@onready var brain_btn: 					Button = $frame/right_panel/right_panel_vbox/brain_btn
+@onready var brain_menu: 					VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
+@onready var brain_vidcon_btn: 				Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
+@onready var brain_vidcon_unbox_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_menu/unbox_btn
 
 
 @onready var equip_btn: 		Button = $frame/right_panel/right_panel_vbox/equip_btn
@@ -77,6 +79,7 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var gun_info_smelt_panel: 			Control = $frame/gun_info_smelt_panel
 @onready var candy_panel: 					Control = $frame/candy_panel
 @onready var brain_info_panel: 				Control = $frame/brain_info_panel
+@onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
 
 ## Menu control
 enum {
@@ -158,6 +161,12 @@ func _ready() -> void:
 	B2_Gun.add_gun_to_gunbag()
 	B2_Gun.add_gun_to_gunbag()
 	B2_Gun.add_gun_to_gunbag()
+	B2_Vidcon.give_vidcon( 0 )
+	B2_Vidcon.give_vidcon( 1 )
+	B2_Vidcon.give_vidcon( 2 )
+	B2_Vidcon.give_vidcon( 3 )
+	B2_Vidcon.unbox_vidcon( 0 )
+	B2_Vidcon.unbox_vidcon( 1 )
 	
 	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
 	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
@@ -175,6 +184,7 @@ func _hide_all() -> void:
 	## NOTE Info panels
 	main_info_panel.hide_panel()
 	brain_info_panel.hide_panel()
+	brain_vidcon_panel.hide_panel()
 	gun_info_panel.hide_panel()
 	gun_info_bando_panel.hide_panel()
 	gun_info_bando_rename_panel.hide_panel()
@@ -208,6 +218,7 @@ func _hide_all() -> void:
 	dwarf_btn.hide(); 						dwarf_btn.disabled = false
 	unplug_btn.hide(); 						unplug_btn.disabled = false
 	candy_make_btn.hide(); 					candy_make_btn.disabled = false
+	brain_vidcon_unbox_btn.hide();			brain_vidcon_unbox_btn.disabled = false
 	## NOTE Menus
 	gun_menu.hide()
 	gun_bando_menu.hide()
@@ -379,6 +390,21 @@ func _change_menu_state( state ) -> bool:
 			brain_menu.show() # <------------
 			
 			brain_btn.grab_focus()
+		VIDCONS:
+			## NOTE Info panels
+			brain_vidcon_panel.show_panel()
+			
+			## NOTE Buttons
+			main_btn.show()
+			brain_btn.show()
+			brain_vidcon_btn.disabled = true
+			brain_vidcon_btn.show()
+			brain_vidcon_unbox_btn.disabled = true
+			brain_vidcon_unbox_btn.show()
+			## NOTE Menus
+			brain_menu.show()
+			
+			brain_vidcon_unbox_btn.grab_focus()
 		_:
 			push_error("Invalid menu state: ", state)
 			_change_menu_state( MAIN )
@@ -458,7 +484,10 @@ func _on_gun_info_bag_rename_panel_renamed_gun(  gun : B2_Weapon ) -> void:
 	B2_Gun.remove_gun_from_gunbag( gun )
 	B2_Gun.append_gun_to_bandolier( gun )
 
-
 func _on_gun_reload_btn_pressed() -> void:
 	if _change_menu_state( GUN_RELOAD ):
+		B2_Sound.play( "utility_button_click" )
+
+func _on_vidcon_btn_pressed() -> void:
+	if _change_menu_state( VIDCONS ):
 		B2_Sound.play( "utility_button_click" )

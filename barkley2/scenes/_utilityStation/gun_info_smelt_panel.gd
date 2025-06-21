@@ -12,7 +12,7 @@ func _on_gun_smelt_current_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	add_child(confirm, true)
+	get_tree().current_scene.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt your current gun '%s' ?" % selected_gun.get_short_name() ) )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation
@@ -73,7 +73,7 @@ func _on_gun_smelt_unfaves_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	add_child(confirm, true)
+	get_tree().current_scene.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt every unfavorite guns?" ) )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation
@@ -110,7 +110,7 @@ func _on_gun_smelt_inbag_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	add_child(confirm, true)
+	get_tree().current_scene.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt all Gun'sbag guns?") )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation

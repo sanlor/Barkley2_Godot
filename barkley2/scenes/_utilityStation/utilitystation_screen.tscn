@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=82 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -29,7 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://bxpoo55h36rs" path="res://barkley2/scenes/_utilityStation/gun_info_rename_panel.tscn" id="25_iyqur"]
 [ext_resource type="Script" uid="uid://fu5jn0ocp6a7" path="res://barkley2/scenes/_utilityStation/gun_info_bag_panel.gd" id="32_4w3xs"]
 [ext_resource type="Script" uid="uid://bo45t2e1yx0wo" path="res://barkley2/scenes/_utilityStation/gun_info_smelt_panel.gd" id="32_sf8h1"]
-[ext_resource type="Script" uid="uid://eir54p1frfp7" path="res://barkley2/scenes/_utilityStation/utility_panel.gd" id="34_8we6v"]
+[ext_resource type="Script" uid="uid://ctmkrq484it1o" path="res://barkley2/scenes/_utilityStation/brain_vidcon_panel.gd" id="34_8we6v"]
 [ext_resource type="Script" uid="uid://bhltncgexx1bj" path="res://barkley2/scenes/_utilityStation/gun_reload_menu.gd" id="34_t58kc"]
 [ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="35_8we6v"]
 [ext_resource type="Script" uid="uid://s4alhc01g8am" path="res://barkley2/scenes/_utilityStation/candy_panel.gd" id="37_2654u"]
@@ -304,6 +304,12 @@ region = Rect2(240, 0, 120, 136)
 font = ExtResource("10_rf8p1")
 
 [sub_resource type="LabelSettings" id="LabelSettings_6r7ck"]
+font = ExtResource("8_tq0ww")
+
+[sub_resource type="LabelSettings" id="LabelSettings_qcuev"]
+font = ExtResource("10_rf8p1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_sf8h1"]
 font = ExtResource("8_tq0ww")
 
 [node name="utilitystation_screen" type="CanvasLayer"]
@@ -2610,7 +2616,7 @@ label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="brain_vidcon_panel" type="Control" parent="frame"]
+[node name="brain_vidcon_panel" type="Control" parent="frame" node_paths=PackedStringArray("unbox_btn")]
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -2618,6 +2624,7 @@ offset_right = 300.0
 offset_bottom = 228.0
 theme = ExtResource("4_qw4ou")
 script = ExtResource("34_8we6v")
+unbox_btn = NodePath("../right_panel/right_panel_vbox/brain_menu/unbox_btn")
 metadata/_custom_type_script = "uid://eir54p1frfp7"
 
 [node name="gamerscore" type="Control" parent="frame/brain_vidcon_panel"]
@@ -2631,6 +2638,27 @@ offset_bottom = 44.0
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 24.0
+
+[node name="gs_value" type="Label" parent="frame/brain_vidcon_panel/gamerscore/main"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 41.0
+offset_bottom = 22.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="gs_title" type="Label" parent="frame/brain_vidcon_panel/gamerscore/main"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 22.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="gs" type="Panel" parent="frame/brain_vidcon_panel/gamerscore"]
 layout_mode = 0
@@ -2661,11 +2689,53 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 24.0
 
+[node name="open_value" type="Label" parent="frame/brain_vidcon_panel/collection/opened"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 23.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="open_title" type="Label" parent="frame/brain_vidcon_panel/collection/opened"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 39.0
+offset_bottom = 23.0
+text = "OPENED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="sealed" type="Panel" parent="frame/brain_vidcon_panel/collection"]
 layout_mode = 0
 offset_left = 64.0
 offset_right = 128.0
 offset_bottom = 24.0
+
+[node name="sealed_value" type="Label" parent="frame/brain_vidcon_panel/collection/sealed"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 23.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="sealed_title" type="Label" parent="frame/brain_vidcon_panel/collection/sealed"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 39.0
+offset_bottom = 23.0
+text = "SEALED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="coll" type="Panel" parent="frame/brain_vidcon_panel/collection"]
 layout_mode = 0
@@ -2695,6 +2765,21 @@ offset_bottom = 52.0
 layout_mode = 0
 offset_right = 144.0
 offset_bottom = 56.0
+
+[node name="description_value" type="Label" parent="frame/brain_vidcon_panel/description/main"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_tq0ww")
+autowrap_mode = 2
 
 [node name="description" type="Panel" parent="frame/brain_vidcon_panel/description"]
 layout_mode = 0
@@ -2727,6 +2812,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+follow_focus = true
+scroll_vertical_custom_step = 24.0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
@@ -3078,6 +3165,10 @@ size_flags_vertical = 4
 text = "Vidcons"
 autowrap_mode = 1
 
+[node name="unbox_btn" type="Button" parent="frame/right_panel/right_panel_vbox/brain_menu"]
+layout_mode = 2
+text = "Unbox"
+
 [node name="equip_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
 layout_mode = 2
 size_flags_vertical = 4
@@ -3119,6 +3210,7 @@ autowrap_mode = 1
 [connection signal="changed_window_state" from="frame/gun_info_smelt_panel" to="." method="_control_btn_state"]
 [connection signal="visibility_changed" from="frame/candy_panel" to="frame/candy_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/brain_vidcon_panel" to="frame/brain_vidcon_panel" method="_on_visibility_changed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bando_btn" to="." method="_on_gun_bando_btn_pressed"]
@@ -3144,6 +3236,7 @@ autowrap_mode = 1
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/candy_btn" to="." method="_on_candy_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/candy_menu/make_btn" to="." method="_on_make_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_btn" to="." method="_on_brain_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn" to="." method="_on_vidcon_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/inventory_btn" to="." method="_on_inventory_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_btn" to="." method="_on_dwarf_btn_pressed"]

@@ -438,9 +438,10 @@ func preload_CC_save_data():
 	B2_Config.set_user_save_data("player.xp.level", 12);
 	B2_Config.set_user_save_data("ustation.smelt", 500.0);
 	
-	# Vidcon # Vidcon("reset"); # Reset vidcons you have and vidcon XP
-	B2_Config.set_user_save_data("player.xp.vidcons", 		0);
-	B2_Config.set_user_save_data("player.xp.vidconsBoxed", 	0);
+	# Vidcon # 
+	B2_Vidcon.reset(); # Reset vidcons you have and vidcon XP
+	#B2_Config.set_user_save_data("player.xp.vidcons", 		0);
+	#B2_Config.set_user_save_data("player.xp.vidconsBoxed", 	0);
 	
 	# Spawn points
 	B2_Config.set_user_save_data("spawn", Dictionary() );

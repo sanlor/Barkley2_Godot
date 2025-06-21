@@ -1,6 +1,7 @@
 extends RefCounted
 class_name B2_Vidcon
 
+## B2 Uses vidons as experience. Check Vidcon() for more details.
 
 enum VIDCON{NAME,DESCRIPTION}
 const VIDCON_DB : Dictionary[int, Array] = {
@@ -60,6 +61,12 @@ const VIDCON_DB : Dictionary[int, Array] = {
 const VIDCON_N 				:= 52
 const VIDCONEXPERIENCE 		:= 30
 
+static func get_dummy_array() -> Array:
+	var dummy := []
+	dummy.resize(VIDCON_N)
+	dummy.fill(0)
+	return dummy
+
 static func reset() -> void:
 	var vidconHave := []
 	vidconHave.resize(VIDCON_N)
@@ -73,7 +80,7 @@ static func reset() -> void:
 	
 static func change_vidcon( index : int, value : int ) -> void:
 	if index in range(VIDCON_N):
-		var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons")
+		var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons", get_dummy_array() )
 		vidconHave[index] = value
 		B2_Config.set_user_save_data("player.xp.vidcons", 			vidconHave)
 	else:
@@ -81,7 +88,7 @@ static func change_vidcon( index : int, value : int ) -> void:
 
 static func change_vidconboxed( index : int, value : int ) -> void:
 	if index in range(VIDCON_N):
-		var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed")
+		var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed", get_dummy_array() )
 		vidconBoxed[index] = value
 		B2_Config.set_user_save_data("player.xp.vidconsBoxed", 			vidconBoxed)
 	else:
@@ -96,7 +103,7 @@ static func give_vidcon( index : int ) -> void:
 		
 static func has_vidcon( index : int ) -> int:
 	if index in range(VIDCON_N):
-		var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons")
+		var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons", get_dummy_array() )
 		return vidconHave[index]
 	else:
 		push_error("Invalid Vidcon index '%s'." % index)
@@ -110,8 +117,8 @@ static func unbox_vidcon( index : int ) -> void:
 		
 static func is_vidcon_unboxed( index : int ) -> int:
 	if index in range(VIDCON_N):
-		var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed")
-		return vidconBoxed[index]
+		var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed", get_dummy_array() )
+		return not vidconBoxed[index] ## Inverted because it was confusing me a lot.
 	else:
 		push_error("Invalid Vidcon index '%s'." % index)
 		return 0
@@ -131,12 +138,17 @@ static func get_vidcon_description( index : int ) -> String:
 		return "INVALID INDEX"
 		
 static func total_boxed_vidcons() -> int:
-	var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed")
-	return vidconBoxed.count( 1 )
+	var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons", get_dummy_array() )
+	var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed", get_dummy_array() )
+	var count := 0
+	for i in VIDCON_N:
+		if vidconHave[i] and vidconBoxed[i]:
+			count += 1
+	return count # vidconHave.count( 1 )
 	
 static func total_unboxed_vidcons() -> int:
-	var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed")
-	return vidconBoxed.count( 1 )
+	var vidconBoxed : Array = B2_Config.get_user_save_data("player.xp.vidconsBoxed", get_dummy_array() )
+	return vidconBoxed.count( 0 )
 	
 static func get_experience() -> int:
 	return total_unboxed_vidcons() * VIDCONEXPERIENCE
