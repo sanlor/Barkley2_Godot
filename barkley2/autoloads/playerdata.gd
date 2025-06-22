@@ -151,6 +151,10 @@ func _ready():
 func time_goes_on() -> void:
 	if B2_Playerdata.Quest("gameStart") == 2:
 		B2_ClockTime.time_step( B2_ClockTime.CLOCK_SPEED )
+		
+		## Check scr_player_step_postProcessing() line 105
+		# Update Quest XP
+		B2_Playerdata.player_stats.xp = ceil( B2_ClockTime.time_get() * 60.0 )
 	else:
 		# Time does NOT go on during, the tutorial, title screen and CC.
 		pass

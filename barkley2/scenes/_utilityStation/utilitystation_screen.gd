@@ -70,16 +70,17 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var right_panel: ScrollContainer = $frame/right_panel
 
 ## Left Info panel
-@onready var main_info_panel: 				Control = $frame/main_info_panel
-@onready var gun_info_panel: 				Control = $frame/gun_info_panel
-@onready var gun_info_bando_panel: 			Control = $frame/gun_info_bando_panel
-@onready var gun_info_bando_rename_panel: 	Control = $frame/gun_info_bando_rename_panel
-@onready var gun_info_bag_panel: 			Control = $frame/gun_info_bag_panel
-@onready var gun_info_bag_rename_panel: 	Control = $frame/gun_info_bag_rename_panel
-@onready var gun_info_smelt_panel: 			Control = $frame/gun_info_smelt_panel
-@onready var candy_panel: 					Control = $frame/candy_panel
-@onready var brain_info_panel: 				Control = $frame/brain_info_panel
+@onready var main_info_panel: 				B2_UtilityPanel = $frame/main_info_panel
+@onready var gun_info_panel: 				B2_UtilityPanel = $frame/gun_info_panel
+@onready var gun_info_bando_panel: 			B2_UtilityPanel = $frame/gun_info_bando_panel
+@onready var gun_info_bando_rename_panel: 	B2_UtilityPanel = $frame/gun_info_bando_rename_panel
+@onready var gun_info_bag_panel: 			B2_UtilityPanel = $frame/gun_info_bag_panel
+@onready var gun_info_bag_rename_panel: 	B2_UtilityPanel = $frame/gun_info_bag_rename_panel
+@onready var gun_info_smelt_panel: 			B2_UtilityPanel = $frame/gun_info_smelt_panel
+@onready var candy_panel: 					B2_UtilityPanel = $frame/candy_panel
+@onready var brain_info_panel: 				B2_UtilityPanel = $frame/brain_info_panel
 @onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
+@onready var inventory_panel: 				B2_UtilityPanel = $frame/inventory_panel
 
 ## Menu control
 enum {
@@ -168,6 +169,13 @@ func _ready() -> void:
 	B2_Vidcon.unbox_vidcon( 0 )
 	B2_Vidcon.unbox_vidcon( 1 )
 	
+	var items := B2_Database.items.keys()
+	items.shuffle()
+	for item in items:
+		B2_Item.gain_item( item, randi_range(1,99) )
+		if B2_Item.get_items().size() > 20:
+			break
+	
 	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
 	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
 	set_color.emit( grid_color )
@@ -192,6 +200,7 @@ func _hide_all() -> void:
 	gun_info_bag_rename_panel.hide_panel()
 	gun_info_smelt_panel.hide_panel()
 	candy_panel.hide_panel()
+	inventory_panel.hide_panel()
 	
 	## NOTE Buttons
 	main_btn.hide(); 						main_btn.disabled = false
@@ -405,6 +414,16 @@ func _change_menu_state( state ) -> bool:
 			brain_menu.show()
 			
 			brain_vidcon_unbox_btn.grab_focus()
+		INV:
+			## NOTE Info panels
+			inventory_panel.show_panel()
+			## NOTE Buttons
+			main_btn.show()
+			inventory_btn.disabled = true
+			inventory_btn.show()
+			## NOTE Menus
+			
+			inventory_btn.grab_focus()
 		_:
 			push_error("Invalid menu state: ", state)
 			_change_menu_state( MAIN )
@@ -445,7 +464,8 @@ func _on_equip_btn_pressed() -> void:
 	pass # Replace with function body.
 
 func _on_inventory_btn_pressed() -> void:
-	pass # Replace with function body.
+	if _change_menu_state( INV ):
+		B2_Sound.play( "utility_button_click" )
 
 func _on_dwarf_btn_pressed() -> void:
 	pass # Replace with function body.

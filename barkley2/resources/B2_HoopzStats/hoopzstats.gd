@@ -71,6 +71,7 @@ var max_health					:= 50.0 :
 var curr_health					:= 50.0
 
 var lvl							:= 12.0
+var xp							:= 0
 
 ## Main Stats
 var guts					:= 12.0
@@ -136,6 +137,7 @@ func save_stats() -> void:
 	my_stats_base["vuln_bio"] 			= vuln_bio
 	my_stats_base["vuln_cosmic"] 		= vuln_cosmic
 	my_stats_base["lvl"] 				= lvl
+	my_stats_base["xp"] 				= xp
 
 	my_stats_base["guts"] 				= guts
 	my_stats_base["luck"] 				= luck

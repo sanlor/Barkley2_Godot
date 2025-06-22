@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhg1cljv7fj0p"]
+
+[ext_resource type="Script" uid="uid://88uadc22ktwm" path="res://barkley2/scenes/_utilityStation/inv_item_selection.gd" id="1_pia6t"]
+[ext_resource type="Texture2D" uid="uid://byg0cvejuv0xm" path="res://barkley2/assets/b2_original/images/merged/sItem.png" id="2_epa1p"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="3_i511a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynypu"]
+resource_local_to_scene = true
+atlas = ExtResource("2_epa1p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2654u"]
+font = ExtResource("3_i511a")
+
+[node name="inv_item_selection" type="Panel"]
+custom_minimum_size = Vector2(0, 24)
+focus_mode = 2
+mouse_filter = 1
+script = ExtResource("1_pia6t")
+
+[node name="Control" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="item_spr" type="TextureRect" parent="Control"]
+layout_mode = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_ynypu")
+stretch_mode = 3
+
+[node name="item_name" type="Label" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Item Name"
+label_settings = SubResource("LabelSettings_2654u")
+
+[node name="item_count" type="Label" parent="Control"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+text = "x1"
+label_settings = SubResource("LabelSettings_2654u")
+vertical_alignment = 1
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

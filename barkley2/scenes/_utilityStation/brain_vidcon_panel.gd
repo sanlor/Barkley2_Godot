@@ -28,8 +28,7 @@ func update_vidcon_status() -> void:
 	sealed_value.text = 	str( B2_Vidcon.total_boxed_vidcons() )
 
 func update_description( id : int ) -> void:
-	print (id)
-	if id == 99:
+	if id == 99: ## ID 99 means not selected.
 		description_value.text = ""
 		if unbox_btn: unbox_btn.disabled = true
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=88 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -30,10 +30,14 @@
 [ext_resource type="Script" uid="uid://fu5jn0ocp6a7" path="res://barkley2/scenes/_utilityStation/gun_info_bag_panel.gd" id="32_4w3xs"]
 [ext_resource type="Script" uid="uid://bo45t2e1yx0wo" path="res://barkley2/scenes/_utilityStation/gun_info_smelt_panel.gd" id="32_sf8h1"]
 [ext_resource type="Script" uid="uid://ctmkrq484it1o" path="res://barkley2/scenes/_utilityStation/brain_vidcon_panel.gd" id="34_8we6v"]
+[ext_resource type="Texture2D" uid="uid://comd5tp605hpu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityLevelUp.png" id="34_qcuev"]
+[ext_resource type="Shader" uid="uid://d4hnqlrxkxuj3" path="res://barkley2/scenes/_utilityStation/utilitystation_brain.gdshader" id="34_sf8h1"]
 [ext_resource type="Script" uid="uid://bhltncgexx1bj" path="res://barkley2/scenes/_utilityStation/gun_reload_menu.gd" id="34_t58kc"]
 [ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="35_8we6v"]
 [ext_resource type="Script" uid="uid://s4alhc01g8am" path="res://barkley2/scenes/_utilityStation/candy_panel.gd" id="37_2654u"]
+[ext_resource type="Script" uid="uid://btok3t5yp0xmp" path="res://barkley2/scenes/_utilityStation/inventory_panel.gd" id="38_4w3xs"]
 [ext_resource type="PackedScene" uid="uid://ct6q20f2hyc1i" path="res://barkley2/scenes/_utilityStation/item_candy_conteiner.tscn" id="38_wwfm3"]
+[ext_resource type="PackedScene" uid="uid://bhg1cljv7fj0p" path="res://barkley2/scenes/_utilityStation/inv_item_selection.tscn" id="39_hpkte"]
 [ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="39_qvbyl"]
 [ext_resource type="Texture2D" uid="uid://ckdra5vpxt43g" path="res://barkley2/assets/b2_original/images/merged/sCandy.png" id="40_bcl5g"]
 
@@ -142,7 +146,7 @@ var line_points := []
 @export var noise := FastNoiseLite.new() ## Add a fun pattern to the sinewave
 var timer := 0
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
@@ -166,10 +170,10 @@ func _draw() -> void:
 	
 	## Add the scrolling effect
 	if timer <= 0:
-		t += 100 * get_process_delta_time()
+		t += 20 * get_physics_process_delta_time()
 		line_points.append( sin(t) * 6.0 * noise.get_noise_1d( t ) )
 		if line_points.size() > 40: line_points.pop_front()
-		timer = 10
+		timer = 6
 		# print( noise.get_noise_1d( t ) )
 	else:
 		timer -= 1
@@ -292,9 +296,21 @@ font = ExtResource("8_tq0ww")
 atlas = ExtResource("19_yj7y8")
 region = Rect2(0, 0, 120, 136)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4w3xs"]
+shader = ExtResource("34_sf8h1")
+shader_parameter/progress = 0.85
+shader_parameter/frequency = 0.025
+shader_parameter/speed = 0.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6r7ck"]
 atlas = ExtResource("19_yj7y8")
 region = Rect2(120, 0, 120, 136)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hpkte"]
+shader = ExtResource("34_sf8h1")
+shader_parameter/progress = 0.85
+shader_parameter/frequency = 0.025
+shader_parameter/speed = 5.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_giw0b"]
 atlas = ExtResource("19_yj7y8")
@@ -2205,6 +2221,7 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_46cem")
 
 [node name="left_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+material = SubResource("ShaderMaterial_4w3xs")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2220,6 +2237,7 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_6r7ck")
 
 [node name="right_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
+material = SubResource("ShaderMaterial_hpkte")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2354,15 +2372,36 @@ offset_bottom = 32.0
 
 [node name="curr_lvl_value" type="Label" parent="frame/brain_info_panel/curr_lvl/curr_lvl"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -10.0
+offset_right = 3.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "99"
+text = "099"
 label_settings = SubResource("LabelSettings_46cem")
-horizontal_alignment = 1
+horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="level_up_text" type="TextureRect" parent="frame/brain_info_panel/curr_lvl/curr_lvl"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -9.0
+offset_right = 20.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("34_qcuev")
 
 [node name="curr" type="Panel" parent="frame/brain_info_panel/curr_lvl"]
 layout_mode = 0
@@ -2617,6 +2656,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="brain_vidcon_panel" type="Control" parent="frame" node_paths=PackedStringArray("unbox_btn")]
+visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -3014,6 +3054,139 @@ label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="inventory_panel" type="Control" parent="frame"]
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("4_qw4ou")
+script = ExtResource("38_4w3xs")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="description" type="Control" parent="frame/inventory_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 44.0
+
+[node name="descr" type="Panel" parent="frame/inventory_panel/description"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 280.0
+offset_bottom = 40.0
+
+[node name="descr_value" type="Label" parent="frame/inventory_panel/description/descr"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLACEHOLDER"
+autowrap_mode = 2
+
+[node name="descr" type="Panel" parent="frame/inventory_panel/description/descr"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 56.0
+
+[node name="descr_title" type="Label" parent="frame/inventory_panel/description/descr/descr"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "DESCRIPTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="items" type="Control" parent="frame/inventory_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 61.0
+offset_right = 285.0
+offset_bottom = 204.0
+
+[node name="items" type="Panel" parent="frame/inventory_panel/items"]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 143.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="frame/inventory_panel/items/items"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="item_list" type="VBoxContainer" parent="frame/inventory_panel/items/items/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="inv_item_selection" parent="frame/inventory_panel/items/items/ScrollContainer/item_list" instance=ExtResource("39_hpkte")]
+layout_mode = 2
+
+[node name="page_down" type="Panel" parent="frame/inventory_panel/items"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 143.0
+offset_right = 280.0
+offset_bottom = 151.0
+
+[node name="pdown_title" type="Label" parent="frame/inventory_panel/items/page_down"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE DOWN"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="item" type="Panel" parent="frame/inventory_panel/items"]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 40.0
+
+[node name="item_title" type="Label" parent="frame/inventory_panel/items/item"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 39.0
+offset_bottom = 8.0
+text = "ITEM"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="page_up" type="Panel" parent="frame/inventory_panel/items"]
+layout_mode = 0
+offset_left = 224.0
+offset_top = -8.0
+offset_right = 280.0
+
+[node name="pup_title" type="Label" parent="frame/inventory_panel/items/page_up"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE UP"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
 [node name="right_panel" type="ScrollContainer" parent="frame"]
 layout_mode = 0
 offset_left = 309.0
@@ -3194,6 +3367,7 @@ theme_override_constants/separation = 1
 [node name="dwarf_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
 layout_mode = 2
 size_flags_vertical = 4
+disabled = true
 text = "DwarfNET"
 autowrap_mode = 1
 
@@ -3211,6 +3385,7 @@ autowrap_mode = 1
 [connection signal="visibility_changed" from="frame/candy_panel" to="frame/candy_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_vidcon_panel" to="frame/brain_vidcon_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/inventory_panel" to="frame/inventory_panel" method="_on_visibility_changed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bando_btn" to="." method="_on_gun_bando_btn_pressed"]
