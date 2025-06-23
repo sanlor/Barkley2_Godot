@@ -1,0 +1,1001 @@
+[gd_scene load_steps=18 format=3 uid="uid://b6j74nhb30d71"]
+
+[ext_resource type="Script" uid="uid://ccc57ojeg6n60" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.gd" id="1_djomj"]
+[ext_resource type="Script" uid="uid://c5x21u6ehltfj" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration_boot.gd" id="2_ra1n2"]
+[ext_resource type="LabelSettings" uid="uid://djqk0t0trdof6" path="res://barkley2/resources/Labels/dnet_label.tres" id="3_ra1n2"]
+[ext_resource type="Script" uid="uid://c6haaw0dwpn16" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration.gd" id="4_y2257"]
+[ext_resource type="Script" uid="uid://bqk7bj4vax7y2" path="res://barkley2/scenes/_utilityStation/dwarfnet/registration_page.gd" id="5_g5w7a"]
+[ext_resource type="Texture2D" uid="uid://dwxnrjo4fyjra" path="res://barkley2/assets/b2_original/images/merged/s_dnet_loading.png" id="5_p0y8g"]
+[ext_resource type="FontFile" uid="uid://2aae7o60ix2y" path="res://barkley2/resources/fonts/fn_dnet.tres" id="5_rd6pc"]
+[ext_resource type="Script" uid="uid://dpmm62nm8kgb0" path="res://barkley2/scenes/_utilityStation/dwarfnet/logging_in.gd" id="7_g5w7a"]
+[ext_resource type="Script" uid="uid://cch0jfv83oq7s" path="res://barkley2/scenes/_utilityStation/dwarfnet/loading_screen.gd" id="9_yfku8"]
+[ext_resource type="Script" uid="uid://42anvg084wi3" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_control.gd" id="10_vjg3e"]
+[ext_resource type="Shader" uid="uid://ujhfiv7w4l88" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_background.gdshader" id="11_qiixl"]
+[ext_resource type="Texture2D" uid="uid://dno4eligup7v7" path="res://barkley2/assets/b2_original/images/merged/s_dnet_backdrop04.png" id="12_nvp66"]
+[ext_resource type="Script" uid="uid://b4rlkilgt3366" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_background.gd" id="13_3cnd1"]
+
+[sub_resource type="GDScript" id="GDScript_rd6pc"]
+resource_local_to_scene = false
+resource_name = "c64"
+script/source = "extends ColorRect
+
+signal finished_animation
+
+var c64 			:= false
+
+func begin_animation() -> void:
+	c64 = true
+	
+func finish_animation() -> void:
+	c64 = false
+	queue_redraw()
+	finished_animation.emit()
+	
+func _physics_process(_delta: float) -> void:
+	if c64:
+		queue_redraw()
+	
+func _draw() -> void:
+	if c64:
+		var y := 0
+		while y <= 240:
+			var rect := Rect2( Vector2(0, y), Vector2(384,y + 10 ) )
+			draw_rect( rect, Color.from_rgba8( 150 + randi_range(0,105), randi_range(0,10), randi_range(0,30) ) )
+			y += (4 + randi_range(0,6) )
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g5w7a"]
+bg_color = Color(0.352941, 0.431373, 0.588235, 1)
+
+[sub_resource type="Theme" id="Theme_yfku8"]
+Button/fonts/font = ExtResource("5_rd6pc")
+Button/styles/normal = SubResource("StyleBoxFlat_g5w7a")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mr2f5"]
+shader = ExtResource("11_qiixl")
+shader_parameter/speed = 1.0
+shader_parameter/dir = Vector2(0, 0)
+
+[node name="dnet_screen" type="CanvasLayer" node_paths=PackedStringArray("audio_stream_player")]
+script = ExtResource("1_djomj")
+audio_stream_player = NodePath("AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="o_dnet_registration_boot" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ra1n2")
+
+[node name="bg_border" type="ColorRect" parent="o_dnet_registration_boot"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 2
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0, 1, 1, 1)
+script = null
+
+[node name="bg" type="ColorRect" parent="o_dnet_registration_boot"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 8.0
+offset_right = -14.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 2
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0, 0.313726, 0.313726, 1)
+script = null
+
+[node name="boot_title" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 10.0
+offset_right = 176.0
+offset_bottom = 22.0
+text = "Dwarf Manager, v. 3.05a"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="system_check" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 44.0
+text = "System check"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="connection_check" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 42.0
+offset_right = 176.0
+offset_bottom = 54.0
+text = "Connection check"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="mem_check" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 62.0
+offset_right = 176.0
+offset_bottom = 74.0
+text = "Memory check - 69 bytes"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="mem_check_complete" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 176.0
+offset_bottom = 84.0
+text = "Check complete"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="boot_exec" type="Label" parent="o_dnet_registration_boot"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 92.0
+offset_right = 176.0
+offset_bottom = 104.0
+text = "Boot DNETREG.EXE"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="o_dnet_registration" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_y2257")
+
+[node name="bg_border" type="ColorRect" parent="o_dnet_registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 2
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0.745098, 0.745098, 0.745098, 1)
+script = SubResource("GDScript_rd6pc")
+
+[node name="bg" type="ColorRect" parent="o_dnet_registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = false
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 16.0
+offset_right = -17.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 2
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0, 0, 0, 1)
+script = null
+
+[node name="registration" type="Control" parent="o_dnet_registration"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_g5w7a")
+
+[node name="bullshit_line" type="Line2D" parent="o_dnet_registration/registration"]
+z_index = 4
+position = Vector2(0, 2)
+points = PackedVector2Array(80, 15, 159, 15)
+width = 1.0
+
+[node name="bullshit_line2" type="Line2D" parent="o_dnet_registration/registration"]
+z_index = 4
+position = Vector2(0, 6)
+points = PackedVector2Array(80, 15, 159, 15)
+width = 1.0
+
+[node name="bullshit_line3" type="Line2D" parent="o_dnet_registration/registration"]
+z_index = 4
+position = Vector2(145, 2)
+points = PackedVector2Array(80, 15, 159, 15)
+width = 1.0
+
+[node name="bullshit_line4" type="Line2D" parent="o_dnet_registration/registration"]
+z_index = 4
+position = Vector2(145, 6)
+points = PackedVector2Array(80, 15, 159, 15)
+width = 1.0
+
+[node name="shadow" type="ColorRect" parent="o_dnet_registration/registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 80.0
+offset_top = 16.0
+offset_right = 322.0
+offset_bottom = 224.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0, 0, 0, 1)
+script = null
+
+[node name="login_box" type="ColorRect" parent="o_dnet_registration/registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 72.0
+offset_top = 8.0
+offset_right = 314.0
+offset_bottom = 216.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0.0784314, 0.117647, 0.490196, 1)
+script = null
+
+[node name="user_field" type="ColorRect" parent="o_dnet_registration/registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 80.0
+offset_top = 126.0
+offset_right = 308.0
+offset_bottom = 136.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 1
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0.431373, 0.509804, 0.745098, 1)
+script = null
+
+[node name="user_input" type="Label" parent="o_dnet_registration/registration/user_field"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "xXBasketBall69Xx"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="password_field" type="ColorRect" parent="o_dnet_registration/registration"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 80.0
+offset_top = 154.0
+offset_right = 308.0
+offset_bottom = 164.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0.431373, 0.509804, 0.745098, 1)
+script = null
+
+[node name="pass_input" type="Label" parent="o_dnet_registration/registration/password_field"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bball4ever"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="welcome_lbl" type="Label" parent="o_dnet_registration/registration"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.5
+offset_top = 14.0
+offset_right = 25.5
+offset_bottom = 27.0
+grow_horizontal = 2
+pivot_offset = Vector2(0, 7)
+text = "WELCOME"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="flavor_text_lbl" type="Label" parent="o_dnet_registration/registration"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_top = 31.0
+offset_right = 97.0
+offset_bottom = 118.0
+grow_horizontal = 2
+text = "You are only a few steps away from your very own DwarfNet account. Don't give up now!!!! 
+
+Fill in your information below and register today!!"
+label_settings = ExtResource("3_ra1n2")
+autowrap_mode = 2
+
+[node name="user_input_lbl" type="Label" parent="o_dnet_registration/registration"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_top = 114.0
+offset_right = -43.0
+offset_bottom = 127.0
+grow_horizontal = 2
+text = "Username"
+label_settings = ExtResource("3_ra1n2")
+autowrap_mode = 2
+
+[node name="pass_input_lbl" type="Label" parent="o_dnet_registration/registration"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -112.0
+offset_top = 142.0
+offset_right = -43.0
+offset_bottom = 155.0
+grow_horizontal = 2
+text = "Password"
+label_settings = ExtResource("3_ra1n2")
+autowrap_mode = 2
+
+[node name="exit_btn" type="Button" parent="o_dnet_registration/registration"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 174.0
+offset_right = 144.0
+offset_bottom = 188.0
+focus_mode = 0
+theme = SubResource("Theme_yfku8")
+disabled = true
+text = "Exit"
+
+[node name="register_btn" type="Button" parent="o_dnet_registration/registration"]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 174.0
+offset_right = 219.0
+offset_bottom = 188.0
+focus_mode = 0
+theme = SubResource("Theme_yfku8")
+disabled = true
+text = "Register"
+
+[node name="logging_in" type="Control" parent="o_dnet_registration" node_paths=PackedStringArray("audio_stream_player")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_g5w7a")
+audio_stream_player = NodePath("../../AudioStreamPlayer")
+
+[node name="bullshit_timer" type="Timer" parent="o_dnet_registration/logging_in"]
+one_shot = true
+
+[node name="shadow" type="ColorRect" parent="o_dnet_registration/logging_in"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 3
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 80.0
+offset_top = 104.0
+offset_right = 290.0
+offset_bottom = 136.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0, 0, 0, 1)
+script = null
+
+[node name="login_box" type="ColorRect" parent="o_dnet_registration/logging_in"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
+clip_contents = false
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
+layout_mode = 3
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 72.0
+offset_top = 96.0
+offset_right = 282.0
+offset_bottom = 128.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
+mouse_filter = 0
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(0.0784314, 0.117647, 0.490196, 1)
+script = null
+
+[node name="main_text" type="Label" parent="o_dnet_registration/logging_in/login_box"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 4.0
+offset_bottom = 13.0
+grow_horizontal = 2
+text = "Connecting to server"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+
+[node name="progress_text" type="Label" parent="o_dnet_registration/logging_in/login_box"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -15.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+text = ".   .   .   .   .   ."
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+
+[node name="account_created" type="Label" parent="o_dnet_registration/logging_in/login_box"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Account registered"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="loading_screen" type="TextureRect" parent="o_dnet_registration"]
+visible = false
+layout_mode = 0
+offset_left = 15.0
+offset_top = 16.0
+offset_right = 367.0
+offset_bottom = 224.0
+texture = ExtResource("5_p0y8g")
+script = ExtResource("9_yfku8")
+
+[node name="o_dnet_control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_vjg3e")
+
+[node name="o_dnet_background" type="TextureRect" parent="o_dnet_control"]
+material = SubResource("ShaderMaterial_mr2f5")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_nvp66")
+stretch_mode = 1
+script = ExtResource("13_3cnd1")
+
+[node name="dir_changer" type="Timer" parent="o_dnet_control/o_dnet_background"]
+one_shot = true
+autostart = true
+
+[connection signal="pressed" from="o_dnet_registration/registration/exit_btn" to="o_dnet_registration/registration" method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="o_dnet_registration/registration/register_btn" to="o_dnet_registration/registration" method="_on_register_btn_pressed"]
+[connection signal="timeout" from="o_dnet_registration/logging_in/bullshit_timer" to="o_dnet_registration/logging_in" method="_on_bullshit_timer_timeout"]
+[connection signal="timeout" from="o_dnet_control/o_dnet_background/dir_changer" to="o_dnet_control/o_dnet_background" method="_on_dir_changer_timeout"]

@@ -1727,6 +1727,27 @@ func _init_sound_picks():
 	_add_sound_pick("trashtalk", "sn_trashtalk2_05");
 	
 	# Damn
+	
+	## DNET
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_01");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_02");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_03");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_04");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_05");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_06");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_07");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_08");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_09");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_10");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_11");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_12");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_13");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_14");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_15");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_16");
+	_add_sound_pick("dnet_keyboard_press", "sn_dnet_keypress_17");
+	## NOTE ^^^ my first SFX!
+
 #endregion
 	if debug_messages: print("_init_sound_picks() ended: ", 	Time.get_ticks_msec(), " msecs. - ", sound_pick.size(), " sound_pick entries" )
 	

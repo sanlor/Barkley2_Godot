@@ -1,0 +1,55 @@
+extends CanvasLayer
+
+signal key_pressed
+
+const MUSIC_DNET := [
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track1.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track3.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track4.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track5.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track6.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track7.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track8.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track9.ogg"),
+]
+
+@export var audio_stream_player: 	AudioStreamPlayer
+
+@onready var o_dnet_registration_boot: Control = $o_dnet_registration_boot
+@onready var o_dnet_registration: Control = $o_dnet_registration
+
+func _ready() -> void:
+	o_dnet_registration_boot.show()
+	o_dnet_registration.hide()
+	
+	#o_dnet_registration_boot.begin_animation()
+	#await o_dnet_registration_boot.finished_animation
+	#remove_child( o_dnet_registration_boot) ## Cleanup
+	#
+	#o_dnet_registration.begin_animation()
+	#await o_dnet_registration.finished_animation
+	#remove_child(o_dnet_registration) ## Cleanup
+	
+	## Skip initial account stuff. No need for the additional dellay everytime you open DNET.
+	B2_Playerdata.Quest("dwarfnetAccount", 1)
+	
+	play_random_music()
+	
+	print("done")
+
+func stop_music() -> void:
+	audio_stream_player.stop()
+	
+func play_random_music( force_music = null ) -> void:
+	if force_music:
+		audio_stream_player.stream = force_music
+	else:
+		audio_stream_player.stream = MUSIC_DNET.pick_random()
+	audio_stream_player.play()
+
+## Play the keyboard SFX while DNET is open.
+func _unhandled_input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventKey:
+			B2_Sound.play("dnet_keyboard_press")
+			key_pressed.emit()

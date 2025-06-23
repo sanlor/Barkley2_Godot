@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=91 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -40,8 +40,11 @@
 [ext_resource type="PackedScene" uid="uid://bhg1cljv7fj0p" path="res://barkley2/scenes/_utilityStation/inv_item_selection.tscn" id="39_hpkte"]
 [ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="39_qvbyl"]
 [ext_resource type="Texture2D" uid="uid://ckdra5vpxt43g" path="res://barkley2/assets/b2_original/images/merged/sCandy.png" id="40_bcl5g"]
+[ext_resource type="Script" uid="uid://5shgeby8tgl6" path="res://barkley2/scenes/_utilityStation/dwarfnet_panel.gd" id="40_ynypu"]
+[ext_resource type="Texture2D" uid="uid://cjn8v32b2vr0q" path="res://barkley2/assets/b2_original/images/sGlebFace.png" id="41_2654u"]
 
 [sub_resource type="GDScript" id="GDScript_nsxts"]
+resource_local_to_scene = false
 resource_name = "utility_bg"
 script/source = "@tool
 extends Control
@@ -136,6 +139,7 @@ line_spacing = 0.0
 font = ExtResource("12_etmwp")
 
 [sub_resource type="GDScript" id="GDScript_yj7y8"]
+resource_local_to_scene = false
 resource_name = "poise"
 script/source = "extends Panel
 
@@ -194,6 +198,7 @@ font = ExtResource("9_rf8p1")
 font = ExtResource("10_rf8p1")
 
 [sub_resource type="GDScript" id="GDScript_jigd8"]
+resource_local_to_scene = false
 resource_name = "res_graph"
 script/source = "@tool
 extends Panel
@@ -327,6 +332,9 @@ font = ExtResource("10_rf8p1")
 
 [sub_resource type="LabelSettings" id="LabelSettings_sf8h1"]
 font = ExtResource("8_tq0ww")
+
+[sub_resource type="LabelSettings" id="LabelSettings_wwfm3"]
+font = ExtResource("6_inixc")
 
 [node name="utilitystation_screen" type="CanvasLayer"]
 script = ExtResource("1_6lm85")
@@ -1460,13 +1468,68 @@ offset_right = 25.0
 offset_bottom = 39.0
 
 [node name="hud_weight" type="ColorRect" parent="frame/main_info_panel/weight/weight"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 2
+auto_translate_mode = 0
+editor_description = ""
+visible = true
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+show_behind_parent = false
+top_level = false
+clip_children = 0
+light_mask = 1
+visibility_layer = 1
+z_index = 0
+z_as_relative = true
+y_sort_enabled = false
+texture_filter = 0
+texture_repeat = 0
+material = null
+use_parent_material = false
 clip_contents = true
+custom_minimum_size = Vector2(0, 0)
+layout_direction = 0
 layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = 7.0
 offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 35.0
+grow_horizontal = 1
+grow_vertical = 1
+rotation = 0.0
+scale = Vector2(1, 1)
+pivot_offset = Vector2(0, 0)
+size_flags_horizontal = 1
+size_flags_vertical = 1
+size_flags_stretch_ratio = 1.0
+localize_numeral_system = true
+tooltip_text = ""
+tooltip_auto_translate_mode = 0
+focus_neighbor_left = NodePath("")
+focus_neighbor_top = NodePath("")
+focus_neighbor_right = NodePath("")
+focus_neighbor_bottom = NodePath("")
+focus_next = NodePath("")
+focus_previous = NodePath("")
+focus_mode = 0
 mouse_filter = 2
+mouse_force_pass_scroll_events = true
+mouse_default_cursor_shape = 0
+theme = null
+theme_type_variation = &""
+color = Color(1, 1, 1, 1)
+script = null
 
 [node name="hud_weight_number" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 modulate = Color(0, 0, 0, 1)
@@ -3055,6 +3118,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="inventory_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -3186,6 +3250,42 @@ offset_bottom = 8.0
 text = "PAGE UP"
 label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
+
+[node name="dwarfnet_panel" type="Control" parent="frame"]
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+script = ExtResource("40_ynypu")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="SGlebFace" type="TextureRect" parent="frame/dwarfnet_panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -25.0
+offset_right = 17.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(17, 25)
+texture = ExtResource("41_2654u")
+
+[node name="Label" type="Label" parent="frame/dwarfnet_panel"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 169.0
+offset_right = 267.0
+offset_bottom = 202.0
+pivot_offset = Vector2(112, 33)
+text = "Idea: Add a logo animation, similar to the Dreamcast boot screen."
+label_settings = SubResource("LabelSettings_wwfm3")
+autowrap_mode = 2
 
 [node name="right_panel" type="ScrollContainer" parent="frame"]
 layout_mode = 0
@@ -3370,6 +3470,15 @@ size_flags_vertical = 4
 disabled = true
 text = "DwarfNET"
 autowrap_mode = 1
+
+[node name="dwarf_menu" type="VBoxContainer" parent="frame/right_panel/right_panel_vbox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="dwarf_connect_btn" type="Button" parent="frame/right_panel/right_panel_vbox/dwarf_menu"]
+layout_mode = 2
+text = "CONNECT"
 
 [node name="unplug_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
 layout_mode = 2

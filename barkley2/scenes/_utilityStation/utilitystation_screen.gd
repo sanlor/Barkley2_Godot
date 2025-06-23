@@ -65,6 +65,10 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var inventory_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/inventory_menu
 
 @onready var dwarf_btn: 		Button = $frame/right_panel/right_panel_vbox/dwarf_btn
+@onready var dwarf_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/dwarf_menu
+@onready var dwarf_connect_btn: 			Button = $frame/right_panel/right_panel_vbox/dwarf_menu/dwarf_connect_btn
+
+
 @onready var unplug_btn: 		Button = $frame/right_panel/right_panel_vbox/unplug_btn
 
 @onready var right_panel: ScrollContainer = $frame/right_panel
@@ -81,6 +85,7 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var brain_info_panel: 				B2_UtilityPanel = $frame/brain_info_panel
 @onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
 @onready var inventory_panel: 				B2_UtilityPanel = $frame/inventory_panel
+@onready var dwarfnet_panel: 				B2_UtilityPanel = $frame/dwarfnet_panel
 
 ## Menu control
 enum {
@@ -201,6 +206,7 @@ func _hide_all() -> void:
 	gun_info_smelt_panel.hide_panel()
 	candy_panel.hide_panel()
 	inventory_panel.hide_panel()
+	dwarfnet_panel.hide_panel()
 	
 	## NOTE Buttons
 	main_btn.hide(); 						main_btn.disabled = false
@@ -228,6 +234,7 @@ func _hide_all() -> void:
 	unplug_btn.hide(); 						unplug_btn.disabled = false
 	candy_make_btn.hide(); 					candy_make_btn.disabled = false
 	brain_vidcon_unbox_btn.hide();			brain_vidcon_unbox_btn.disabled = false
+	dwarf_connect_btn.hide();				dwarf_connect_btn.disabled = false
 	## NOTE Menus
 	gun_menu.hide()
 	gun_bando_menu.hide()
@@ -238,6 +245,7 @@ func _hide_all() -> void:
 	brain_menu.hide()
 	equip_menu.hide()
 	inventory_menu.hide()
+	dwarf_menu.hide()
 	
 func _control_btn_state() -> void:
 	## Cant rename bando gun if there are no guns
@@ -424,6 +432,18 @@ func _change_menu_state( state ) -> bool:
 			## NOTE Menus
 			
 			inventory_btn.grab_focus()
+		DWARF:
+			## NOTE Info panels
+			dwarfnet_panel.show_panel()
+			## NOTE Buttons
+			main_btn.show()
+			dwarf_btn.disabled = true
+			dwarf_btn.show()
+			dwarf_connect_btn.show()
+			## NOTE Menus
+			dwarf_menu.show()
+			
+			dwarf_connect_btn.grab_focus()
 		_:
 			push_error("Invalid menu state: ", state)
 			_change_menu_state( MAIN )
@@ -468,7 +488,8 @@ func _on_inventory_btn_pressed() -> void:
 		B2_Sound.play( "utility_button_click" )
 
 func _on_dwarf_btn_pressed() -> void:
-	pass # Replace with function body.
+	if _change_menu_state( DWARF ):
+		B2_Sound.play( "utility_button_click" )
 
 func _on_unplug_btn_pressed() -> void:
 	pass # Replace with function body.
