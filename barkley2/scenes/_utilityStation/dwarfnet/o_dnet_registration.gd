@@ -36,7 +36,7 @@ func begin_animation() -> void:
 		get_parent().stop_music()
 		loading_screen.hide()
 	else:
-		get_tree().create_timer( randf_range(1.0,3.0) ).timeout
+		await get_tree().create_timer( randf_range(1.0,3.0) ).timeout
 		
 	bg_border.finish_animation()
 	## Registration page

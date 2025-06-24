@@ -15,26 +15,43 @@ const MUSIC_DNET := [
 
 @export var audio_stream_player: 	AudioStreamPlayer
 
+@export_category("Animation")
+@export var enable_boot := true
+@export var enable_registration := true
+
 @onready var o_dnet_registration_boot: Control = $o_dnet_registration_boot
 @onready var o_dnet_registration: Control = $o_dnet_registration
+@onready var o_dnet_control: Control = $o_dnet_control
+
 
 func _ready() -> void:
-	o_dnet_registration_boot.show()
+	o_dnet_registration_boot.hide()
 	o_dnet_registration.hide()
+	o_dnet_control.hide()
 	
-	#o_dnet_registration_boot.begin_animation()
-	#await o_dnet_registration_boot.finished_animation
-	#remove_child( o_dnet_registration_boot) ## Cleanup
-	#
-	#o_dnet_registration.begin_animation()
-	#await o_dnet_registration.finished_animation
-	#remove_child(o_dnet_registration) ## Cleanup
+	if enable_boot:
+		o_dnet_registration_boot.show()
+		o_dnet_registration_boot.begin_animation()
+		await o_dnet_registration_boot.finished_animation
+	remove_child( o_dnet_registration_boot) ## Cleanup
+	
+	if enable_registration:
+		o_dnet_registration.show()
+		o_dnet_registration.begin_animation()
+		await o_dnet_registration.finished_animation
+	remove_child(o_dnet_registration) ## Cleanup
 	
 	## Skip initial account stuff. No need for the additional dellay everytime you open DNET.
 	B2_Playerdata.Quest("dwarfnetAccount", 1)
 	
-	play_random_music()
+	## Cleanup old animations
+	if o_dnet_registration_boot: o_dnet_registration_boot.queue_free()
+	if o_dnet_registration: o_dnet_registration.queue_free()
 	
+	o_dnet_control.show()
+	
+	play_random_music()
+	o_dnet_control.surf_the_web()
 	print("done")
 
 func stop_music() -> void:
