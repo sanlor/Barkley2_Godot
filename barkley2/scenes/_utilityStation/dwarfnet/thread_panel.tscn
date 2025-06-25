@@ -1,0 +1,148 @@
+[gd_scene load_steps=14 format=3 uid="uid://bts5e31ppvk0j"]
+
+[ext_resource type="FontFile" uid="uid://2aae7o60ix2y" path="res://barkley2/resources/fonts/fn_dnet.tres" id="1_4ky0i"]
+[ext_resource type="Script" uid="uid://dj3khgm0su44p" path="res://barkley2/scenes/_utilityStation/dwarfnet/thread_panel.gd" id="1_wnh7b"]
+[ext_resource type="Texture2D" uid="uid://naf0oq37i2qr" path="res://barkley2/assets/b2_original/images/merged/sDNETThreadIcon.png" id="2_wnh7b"]
+[ext_resource type="Texture2D" uid="uid://cl4cmhbcq21jh" path="res://barkley2/assets/b2_original/images/merged/s_dnet_favorited.png" id="3_ui1et"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tnrck"]
+load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ol6qw"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_tnrck")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="LabelSettings" id="LabelSettings_shf5l"]
+font = ExtResource("1_4ky0i")
+
+[sub_resource type="LabelSettings" id="LabelSettings_sfdp4"]
+font = ExtResource("1_4ky0i")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dco25"]
+resource_local_to_scene = true
+atlas = ExtResource("2_wnh7b")
+region = Rect2(0, 0, 29, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gq8ru"]
+resource_local_to_scene = true
+atlas = ExtResource("3_ui1et")
+region = Rect2(0, 0, 11, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_664fr"]
+resource_local_to_scene = true
+atlas = ExtResource("3_ui1et")
+region = Rect2(11, 0, 11, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23pqt"]
+resource_local_to_scene = true
+atlas = ExtResource("3_ui1et")
+region = Rect2(22, 0, 11, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv34t"]
+resource_local_to_scene = true
+atlas = ExtResource("3_ui1et")
+region = Rect2(33, 0, 11, 11)
+
+[node name="thread_panel" type="NinePatchRect"]
+custom_minimum_size = Vector2(120, 37)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+focus_mode = 2
+mouse_filter = 1
+texture = SubResource("AtlasTexture_ol6qw")
+region_rect = Rect2(0, 0, 30, 30)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+script = ExtResource("1_wnh7b")
+
+[node name="thread_title_text" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = 3.0
+offset_right = -1.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_shf5l")
+vertical_alignment = 1
+
+[node name="thread_poster_by" type="Label" parent="."]
+modulate = Color(0, 0, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = 15.0
+offset_right = -1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "By:"
+label_settings = SubResource("LabelSettings_sfdp4")
+vertical_alignment = 1
+
+[node name="thread_poster_text" type="Label" parent="."]
+modulate = Color(0, 0, 1, 0.5)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 58.0
+offset_top = 15.0
+offset_right = 20.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_sfdp4")
+vertical_alignment = 1
+
+[node name="thread_icon_tex" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 6.0
+offset_top = -14.5
+offset_right = 35.0
+offset_bottom = 14.5
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_dco25")
+
+[node name="thread_favorite" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -7.5
+offset_right = -10.0
+offset_bottom = 7.5
+grow_horizontal = 0
+grow_vertical = 2
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_gq8ru")
+texture_pressed = SubResource("AtlasTexture_664fr")
+texture_hover = SubResource("AtlasTexture_23pqt")
+texture_focused = SubResource("AtlasTexture_wv34t")
+stretch_mode = 3
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

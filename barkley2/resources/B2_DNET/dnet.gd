@@ -33,3 +33,20 @@ const dnetColorPip_0 := Color.GREEN; # Regular user
 const dnetColorPip_1 := Color.WHITE; # Primo  - DOES NOT HAVE PIP COLOR, says text PRIMO
 const dnetColorPip_2 := Color.RED;   # Moderator
 const dnetColorPip_3 := Color.WHITE; # Banned - DOES NOT HAVE PIP COLOR, says text BANNED
+
+## Time - Certain messages only appear at certain times.
+static var current_time := 0
+
+static func set_time( time : float ) -> void:
+	B2_Config.set_user_save_data("clock.time", time)
+
+static func get_time_str() -> String:
+	@warning_ignore("integer_division")
+	return str( get_time_hour() / 24 ).pad_zeros(2) + " Days, " + str( get_time_hour() % 24 ).pad_zeros(2) + ":" + str( get_time_minute() ).pad_zeros(2)
+
+static func get_time_hour() -> int:
+	@warning_ignore("integer_division")
+	return int( B2_Config.get_user_save_data("clock.time", 0.0) ) / 60
+	
+static func get_time_minute() -> int:
+	return int( B2_Config.get_user_save_data("clock.time", 0.0) ) % 60

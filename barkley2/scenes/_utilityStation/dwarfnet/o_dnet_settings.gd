@@ -16,6 +16,16 @@ extends Control
 @onready var profile_4: Button = $profiles/profile_4
 @onready var profile_5: Button = $profiles/profile_5
 
+@onready var not_cannon_btn: 	Button = $not_cannon_btn
+@onready var not_cannon: 		ColorRect = $not_cannon
+@onready var time_value: 		Label = $not_cannon/MarginContainer/VBoxContainer/chaos_control/time_value
+@onready var time_slider: HSlider = $not_cannon/MarginContainer/VBoxContainer/chaos_control/time_slider
+
+func _ready() -> void:
+	_on_not_cannon_btn_pressed()
+	time_slider.max_value = B2_ClockTime.CLOCK_MAX
+	time_slider.value = 0
+	B2_DNET.set_time( 0 )
 
 func _on_skin_1_pressed() -> void:
 	o_dnet_control.change_menu_color( Color.BLUE )
@@ -34,3 +44,11 @@ func _on_skin_5_pressed() -> void:
 
 func _on_skin_6_pressed() -> void:
 	o_dnet_control.change_menu_color( Color.WHITE )
+
+## Not Cannon stuff
+func _on_not_cannon_btn_pressed() -> void:
+	not_cannon.visible = not_cannon_btn.button_pressed
+
+func _on_h_slider_value_changed(value: float) -> void:
+	B2_DNET.set_time( value )
+	time_value.text = str( B2_DNET.get_time_str() )

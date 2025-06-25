@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=3 uid="uid://b6j74nhb30d71"]
+[gd_scene load_steps=126 format=3 uid="uid://b6j74nhb30d71"]
 
 [ext_resource type="Script" uid="uid://ccc57ojeg6n60" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.gd" id="1_djomj"]
 [ext_resource type="Script" uid="uid://c5x21u6ehltfj" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration_boot.gd" id="2_ra1n2"]
@@ -29,6 +29,10 @@
 [ext_resource type="AudioStream" uid="uid://cbyyi4k6j7w7b" path="res://barkley2/assets/b2_original/audio/Dwarfnet/sn_dnet_subforum_exit.ogg" id="27_8bfdw"]
 [ext_resource type="Script" uid="uid://24gnsruhcsjk" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_chat.gd" id="28_vx2b1"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="29_1h06x"]
+[ext_resource type="Script" uid="uid://d3puprsilhwxy" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_thread.gd" id="30_tnrck"]
+[ext_resource type="PackedScene" uid="uid://bts5e31ppvk0j" path="res://barkley2/scenes/_utilityStation/dwarfnet/thread_panel.tscn" id="32_0i6he"]
+[ext_resource type="PackedScene" uid="uid://dfletkphkenyf" path="res://barkley2/scenes/_utilityStation/dwarfnet/forum_post.tscn" id="32_c3brl"]
+[ext_resource type="Script" uid="uid://o8xa22tf6whl" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_post.gd" id="32_tnrck"]
 
 [sub_resource type="GDScript" id="GDScript_rd6pc"]
 resource_name = "c64"
@@ -404,6 +408,44 @@ region = Rect2(60, 0, 15, 15)
 atlas = ExtResource("23_vx2b1")
 region = Rect2(75, 0, 15, 15)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2qch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dnxf6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhso7"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwp4h"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_urwmb"]
+size = Vector2(5, 5)
+
+[sub_resource type="Theme" id="Theme_a33i1"]
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/fonts/font = ExtResource("5_rd6pc")
+Button/styles/focus = SubResource("StyleBoxFlat_r2qch")
+Button/styles/hover = SubResource("StyleBoxFlat_dnxf6")
+Button/styles/normal = SubResource("StyleBoxFlat_qhso7")
+Button/styles/pressed = SubResource("StyleBoxFlat_qwp4h")
+HSlider/icons/tick = SubResource("PlaceholderTexture2D_urwmb")
+
+[sub_resource type="Theme" id="Theme_hswwf"]
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/fonts/font = ExtResource("5_rd6pc")
+Button/styles/focus = SubResource("StyleBoxFlat_r2qch")
+Button/styles/hover = SubResource("StyleBoxFlat_dnxf6")
+Button/styles/normal = SubResource("StyleBoxFlat_qhso7")
+Button/styles/pressed = SubResource("StyleBoxFlat_qwp4h")
+
+[sub_resource type="Theme" id="Theme_e820o"]
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/fonts/font = ExtResource("5_rd6pc")
+Button/styles/focus = SubResource("StyleBoxFlat_r2qch")
+Button/styles/hover = SubResource("StyleBoxFlat_dnxf6")
+Button/styles/normal = SubResource("StyleBoxFlat_qhso7")
+Button/styles/pressed = SubResource("StyleBoxFlat_qwp4h")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70xna"]
 bg_color = Color(0.788, 0.788, 0.788, 0)
 
@@ -461,6 +503,14 @@ func _physics_process(delta: float) -> void:
 	else:
 		t -= 5.0 * delta
 "
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tnrck"]
+load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq5a4"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_tnrck")
+region = Rect2(0, 0, 30, 30)
 
 [node name="dnet_screen" type="CanvasLayer" node_paths=PackedStringArray("audio_stream_player")]
 script = ExtResource("1_djomj")
@@ -1284,6 +1334,57 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_h1e7n")
 icon = SubResource("AtlasTexture_u0kvd")
 
+[node name="not_cannon_btn" type="Button" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 258.0
+offset_top = 1.0
+offset_right = 382.0
+offset_bottom = 18.0
+theme = SubResource("Theme_a33i1")
+toggle_mode = true
+text = "Not Cannon section"
+
+[node name="not_cannon" type="ColorRect" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 258.0
+offset_top = 19.0
+offset_right = 382.0
+offset_bottom = 194.0
+theme = SubResource("Theme_hswwf")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="o_dnet_control/o_dnet_settings/not_cannon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer"]
+layout_mode = 2
+
+[node name="chaos_control" type="VBoxContainer" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="time_title" type="Label" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control"]
+layout_mode = 2
+text = "Current time"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="time_value" type="Label" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control"]
+layout_mode = 2
+label_settings = ExtResource("3_ra1n2")
+
+[node name="time_slider" type="HSlider" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control"]
+layout_mode = 2
+theme = SubResource("Theme_e820o")
+
 [node name="o_dnet_app" type="Control" parent="o_dnet_control"]
 visible = false
 layout_mode = 1
@@ -1456,6 +1557,7 @@ theme = SubResource("Theme_jqmqo")
 text = "Nein"
 
 [node name="o_dnet_chat" type="Control" parent="o_dnet_control"]
+visible = false
 anchors_preset = 0
 offset_top = 44.0
 offset_right = 384.0
@@ -1558,6 +1660,82 @@ size_flags_vertical = 4
 color = Color(1, 1, 1, 0.5)
 script = SubResource("GDScript_r2qch")
 
+[node name="o_dnet_thread" type="Control" parent="o_dnet_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("30_tnrck")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="o_dnet_control/o_dnet_thread"]
+layout_mode = 2
+offset_left = 10.0
+offset_top = 2.0
+offset_right = 374.0
+offset_bottom = 196.0
+
+[node name="MarginContainer" type="MarginContainer" parent="o_dnet_control/o_dnet_thread/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 10
+
+[node name="thread_list" type="VBoxContainer" parent="o_dnet_control/o_dnet_thread/ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="thread_panel" parent="o_dnet_control/o_dnet_thread/ScrollContainer/MarginContainer/thread_list" instance=ExtResource("32_0i6he")]
+layout_mode = 2
+texture = SubResource("AtlasTexture_pq5a4")
+
+[node name="o_dnet_post" type="Control" parent="o_dnet_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("32_tnrck")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="o_dnet_control/o_dnet_post"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="o_dnet_control/o_dnet_post/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="post_list" type="VBoxContainer" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="forum_post" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="forum_post2" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+layout_mode = 2
+
+[node name="forum_post3" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+layout_mode = 2
+
 [connection signal="pressed" from="o_dnet_registration/registration/exit_btn" to="o_dnet_registration/registration" method="_on_exit_btn_pressed"]
 [connection signal="pressed" from="o_dnet_registration/registration/register_btn" to="o_dnet_registration/registration" method="_on_register_btn_pressed"]
 [connection signal="timeout" from="o_dnet_registration/logging_in/bullshit_timer" to="o_dnet_registration/logging_in" method="_on_bullshit_timer_timeout"]
@@ -1580,6 +1758,8 @@ script = SubResource("GDScript_r2qch")
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_4" to="o_dnet_control/o_dnet_settings" method="_on_skin_4_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_5" to="o_dnet_control/o_dnet_settings" method="_on_skin_5_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_6" to="o_dnet_control/o_dnet_settings" method="_on_skin_6_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/not_cannon_btn" to="o_dnet_control/o_dnet_settings" method="_on_not_cannon_btn_pressed"]
+[connection signal="value_changed" from="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control/time_slider" to="o_dnet_control/o_dnet_settings" method="_on_h_slider_value_changed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_salutations" to="o_dnet_control" method="_on_forum_salutations_button_pressed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_comix" to="o_dnet_control" method="_on_forum_comix_button_pressed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_gems" to="o_dnet_control" method="_on_forum_gems_button_pressed"]
@@ -1593,3 +1773,4 @@ script = SubResource("GDScript_r2qch")
 [connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/ja_btn" to="o_dnet_control/o_dnet_exit" method="_on_ja_btn_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/nein_btn" to="o_dnet_control/o_dnet_exit" method="_on_nein_btn_pressed"]
 [connection signal="timeout" from="o_dnet_control/o_dnet_chat/chat_timer" to="o_dnet_control/o_dnet_chat" method="_on_chat_timer_timeout"]
+[connection signal="thread_pressed" from="o_dnet_control/o_dnet_thread" to="o_dnet_control" method="_on_o_dnet_thread_thread_pressed"]

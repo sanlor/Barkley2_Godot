@@ -1,0 +1,180 @@
+[gd_scene load_steps=18 format=3 uid="uid://dfletkphkenyf"]
+
+[ext_resource type="Texture2D" uid="uid://bqsrxuyab0ka2" path="res://barkley2/assets/b2_original/images/merged/sDNETBorder0.png" id="1_qljbl"]
+[ext_resource type="LabelSettings" uid="uid://djqk0t0trdof6" path="res://barkley2/resources/Labels/dnet_label.tres" id="2_2btve"]
+[ext_resource type="Script" uid="uid://c3utl5tpe8wkt" path="res://barkley2/scenes/_utilityStation/dwarfnet/forum_post.gd" id="2_4if5h"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="3_4if5h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2btve"]
+atlas = ExtResource("1_qljbl")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4if5h"]
+texture = SubResource("AtlasTexture_2btve")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsgpn"]
+atlas = ExtResource("1_qljbl")
+region = Rect2(210, 0, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sis1o"]
+texture = SubResource("AtlasTexture_fsgpn")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="Theme" id="Theme_mfpde"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
+
+[sub_resource type="LabelSettings" id="LabelSettings_fsgpn"]
+font = ExtResource("3_4if5h")
+
+[sub_resource type="Theme" id="Theme_h38e8"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pq5a4"]
+load_path = "res://.godot/imported/sDNETAvatarL.png-12c2bcef2c8b0fb19b8645b13073e57b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4if5h"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_pq5a4")
+region = Rect2(735, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sis1o"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_pq5a4")
+region = Rect2(0, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="Theme" id="Theme_g6vdk"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
+
+[sub_resource type="Theme" id="Theme_6g88h"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
+
+[sub_resource type="Theme" id="Theme_hfo70"]
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
+
+[node name="forum_post" type="PanelContainer"]
+offset_right = 337.0
+offset_bottom = 123.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_4if5h")
+script = ExtResource("2_4if5h")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="name_field" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme = SubResource("Theme_mfpde")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/name_field"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/name_field/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="poster_name" type="Label" parent="MarginContainer/VBoxContainer/name_field/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "WFCompson"
+label_settings = ExtResource("2_2btve")
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/name_field/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="poster_date" type="Label" parent="MarginContainer/VBoxContainer/name_field/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "12:34"
+label_settings = SubResource("LabelSettings_fsgpn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="photo_field" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_h38e8")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/photo_field"]
+layout_mode = 2
+
+[node name="avatar_texture" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/photo_field/MarginContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_4if5h")
+
+[node name="ban_texture" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/photo_field/MarginContainer"]
+modulate = Color(1, 1, 1, 0.75)
+layout_mode = 2
+texture = SubResource("AtlasTexture_sis1o")
+
+[node name="post_field" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_g6vdk")
+
+[node name="post_field" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_6g88h")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/post_field"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="post_text" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/post_field/MarginContainer"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Farts and such."
+label_settings = ExtResource("2_2btve")
+autowrap_mode = 2
+
+[node name="signature_field" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme = SubResource("Theme_hfo70")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/signature_field"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="signature_text" type="Label" parent="MarginContainer/VBoxContainer/signature_field/MarginContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "the *BORK* is supposed to go here"
+label_settings = ExtResource("2_2btve")
+autowrap_mode = 2
