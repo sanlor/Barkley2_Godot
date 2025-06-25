@@ -12,6 +12,7 @@ const MUSIC_DNET := [
 	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track8.ogg"),
 	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track9.ogg"),
 ]
+var music_index := 0
 
 @export var audio_stream_player: 	AudioStreamPlayer
 
@@ -50,7 +51,7 @@ func _ready() -> void:
 	
 	o_dnet_control.show()
 	
-	play_random_music()
+	#play_random_music()
 	o_dnet_control.surf_the_web()
 	print("done")
 
@@ -59,10 +60,17 @@ func stop_music() -> void:
 	
 func play_random_music( force_music = null ) -> void:
 	if force_music:
-		audio_stream_player.stream = force_music
+		music_index = MUSIC_DNET.find(force_music)
 	else:
-		audio_stream_player.stream = MUSIC_DNET.pick_random()
+		music_index = randi_range(0,8)
+	play_music()
+
+func play_music() -> void:
+	audio_stream_player.stream = MUSIC_DNET[music_index]
 	audio_stream_player.play()
+
+func pause_music() -> void:
+	audio_stream_player.pause
 
 ## Play the keyboard SFX while DNET is open.
 func _unhandled_input(event: InputEvent) -> void:

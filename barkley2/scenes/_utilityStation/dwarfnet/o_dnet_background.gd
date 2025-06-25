@@ -6,13 +6,16 @@ extends TextureRect
 ## Fuck shaders! lets just move the texture around.
 var backdrop_direction = Vector2.RIGHT
 
+func _ready() -> void:
+	backdrop_direction = backdrop_direction.rotated( randf_range(0.0, TAU) )
+
 func _on_dir_changer_timeout() -> void:
 	if visible:
 		var dir :=  backdrop_direction.rotated( randf_range(0.0, TAU) )
 		var t := create_tween()
-		t.tween_property( self, "backdrop_direction", dir, randf_range(2.5, 3.0) )
+		t.tween_property( self, "backdrop_direction", dir, randf_range(2.5, 4.0) )
 		await t.finished
-	dir_changer.start( 5.0 * randf_range(0.5,2) )
+	dir_changer.start( 5.0 * randf_range(0.85, 3.0) )
 
 func _physics_process(_delta: float) -> void:
 	position.x = wrap( position.x + backdrop_direction.x, -32.0, 0.0 )

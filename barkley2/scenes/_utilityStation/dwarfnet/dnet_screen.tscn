@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b6j74nhb30d71"]
+[gd_scene load_steps=106 format=3 uid="uid://b6j74nhb30d71"]
 
 [ext_resource type="Script" uid="uid://ccc57ojeg6n60" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.gd" id="1_djomj"]
 [ext_resource type="Script" uid="uid://c5x21u6ehltfj" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration_boot.gd" id="2_ra1n2"]
@@ -12,6 +12,21 @@
 [ext_resource type="Script" uid="uid://42anvg084wi3" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_control.gd" id="10_vjg3e"]
 [ext_resource type="Texture2D" uid="uid://dno4eligup7v7" path="res://barkley2/assets/b2_original/images/merged/s_dnet_backdrop04.png" id="12_nvp66"]
 [ext_resource type="Script" uid="uid://b4rlkilgt3366" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_background.gd" id="13_3cnd1"]
+[ext_resource type="Script" uid="uid://ccdqf8pe86tgo" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_app.gd" id="13_nvp66"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="14_3cnd1"]
+[ext_resource type="Script" uid="uid://ccu4n8hhcp0p5" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_muzak.gd" id="15_25lkh"]
+[ext_resource type="Texture2D" uid="uid://itg6l6fd24sf" path="res://barkley2/assets/b2_original/images/merged/s_dnet_button_status.png" id="15_mr2f5"]
+[ext_resource type="PackedScene" uid="uid://b0cf0kd4ldsqn" path="res://barkley2/scenes/_utilityStation/dwarfnet/forum_panel.tscn" id="15_nvp66"]
+[ext_resource type="Texture2D" uid="uid://bwort83crhngf" path="res://barkley2/assets/b2_original/images/merged/s_dnet_button_pappy.png" id="16_pwaon"]
+[ext_resource type="Texture2D" uid="uid://dyd6cra1bdtga" path="res://barkley2/assets/b2_original/images/merged/s_dnet_pappy.png" id="17_3t6j2"]
+[ext_resource type="AudioStream" uid="uid://cu4olefr6c8gp" path="res://barkley2/assets/b2_original/audio/Dwarfnet/sn_dnet_pappy.ogg" id="18_y65p1"]
+[ext_resource type="Script" uid="uid://wisd03d71ec3" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_settings.gd" id="19_jqmqo"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="20_q4lq2"]
+[ext_resource type="Texture2D" uid="uid://bihj8wrcn7ih0" path="res://barkley2/assets/b2_original/images/merged/sDNETAvatarL.png" id="21_70xna"]
+[ext_resource type="Texture2D" uid="uid://b1pmk66ye3i7n" path="res://barkley2/scenes/_utilityStation/dwarfnet/sDNETAvatarL.tres" id="22_8bfdw"]
+[ext_resource type="Texture2D" uid="uid://cyodnh32pyd7u" path="res://barkley2/assets/b2_original/images/merged/s_dnet_system_skin.png" id="23_vx2b1"]
+[ext_resource type="Script" uid="uid://c1g88oti7mjnd" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_exit.gd" id="26_70xna"]
+[ext_resource type="AudioStream" uid="uid://cbyyi4k6j7w7b" path="res://barkley2/assets/b2_original/audio/Dwarfnet/sn_dnet_subforum_exit.ogg" id="27_8bfdw"]
 
 [sub_resource type="GDScript" id="GDScript_rd6pc"]
 resource_name = "c64"
@@ -51,6 +66,374 @@ Button/styles/normal = SubResource("StyleBoxFlat_g5w7a")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mr2f5"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qiixl"]
+load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn1qv"]
+atlas = SubResource("CompressedTexture2D_qiixl")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mj5bq"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1170, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwaon"]
+resource_local_to_scene = true
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1196, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_25lkh"]
+resource_local_to_scene = true
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1183, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvp66"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1209, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cnd1"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1235, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mr2f5"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1222, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3t6j2"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(52, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y65p1"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1248, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrfoe"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1274, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqmqo"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1261, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4lq2"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1261, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70xna"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1287, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bfdw"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1313, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vx2b1"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1300, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h06x"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1300, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2qch"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1326, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3brl"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1352, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnrck"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1339, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0i6he"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(1339, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fyx3i"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(195, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dnxf6"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(221, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhso7"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(208, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwp4h"]
+atlas = ExtResource("15_mr2f5")
+region = Rect2(208, 0, 13, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urwmb"]
+atlas = SubResource("CompressedTexture2D_qiixl")
+region = Rect2(90, 0, 30, 30)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mr2f5"]
+font = ExtResource("14_3cnd1")
+font_color = Color(0, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a33i1"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(900, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hswwf"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(930, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e820o"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(915, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klmx8"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(915, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqb3r"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(945, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5ux3"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(975, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmqus"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(960, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfje6"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(960, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vl261"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(990, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7gof"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1020, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5aw5"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1005, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqumn"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1005, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vu8k"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1035, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vdln"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1065, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vlqva"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1050, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx56s"]
+resource_local_to_scene = true
+atlas = ExtResource("16_pwaon")
+region = Rect2(1050, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ab3mk"]
+atlas = ExtResource("17_3t6j2")
+region = Rect2(128, 0, 64, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g555l"]
+atlas = ExtResource("17_3t6j2")
+region = Rect2(192, 0, 64, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8hxe"]
+atlas = ExtResource("17_3t6j2")
+region = Rect2(0, 0, 64, 104)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sayjt"]
+atlas = ExtResource("17_3t6j2")
+region = Rect2(64, 0, 64, 104)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gkyht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ab3mk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g555l")
+}],
+"loop": true,
+"name": &"pappy_talking",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8hxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sayjt")
+}],
+"loop": true,
+"name": &"pappy_tapping",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1h06x"]
+font = ExtResource("20_q4lq2")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r2qch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3brl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tnrck"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0i6he"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fyx3i"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_dnxf6"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_r2qch")
+Button/styles/focus = SubResource("StyleBoxFlat_c3brl")
+Button/styles/hover = SubResource("StyleBoxFlat_tnrck")
+Button/styles/normal = SubResource("StyleBoxFlat_0i6he")
+Button/styles/pressed = SubResource("StyleBoxFlat_fyx3i")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_qhso7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gkyht"]
+resource_local_to_scene = true
+atlas = ExtResource("21_70xna")
+region = Rect2(35, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43f1m"]
+resource_local_to_scene = true
+atlas = ExtResource("21_70xna")
+region = Rect2(70, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndcir"]
+resource_local_to_scene = true
+atlas = ExtResource("21_70xna")
+region = Rect2(105, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pq5a4"]
+load_path = "res://.godot/imported/sDNETAvatarL.png-12c2bcef2c8b0fb19b8645b13073e57b.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shf5l"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_pq5a4")
+region = Rect2(175, 0, 35, 45)
+filter_clip = true
+
+[sub_resource type="Theme" id="Theme_sfdp4"]
+Button/styles/disabled = SubResource("StyleBoxEmpty_r2qch")
+Button/styles/focus = SubResource("StyleBoxFlat_c3brl")
+Button/styles/hover = SubResource("StyleBoxFlat_tnrck")
+Button/styles/normal = SubResource("StyleBoxFlat_0i6he")
+Button/styles/pressed = SubResource("StyleBoxFlat_fyx3i")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_h1e7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsayc"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(0, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivr0v"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(15, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tu0hy"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(30, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqga4"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(45, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw6cv"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(60, 0, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0kvd"]
+atlas = ExtResource("23_vx2b1")
+region = Rect2(75, 0, 15, 15)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70xna"]
+bg_color = Color(0.788, 0.788, 0.788, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jqmqo"]
+bg_color = Color(0.322, 0.322, 0.322, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q4lq2"]
+bg_color = Color(0.322, 0.322, 0.322, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8bfdw"]
+bg_color = Color(0.788, 0.788, 0.788, 0)
+
+[sub_resource type="Theme" id="Theme_jqmqo"]
+Button/colors/font_focus_color = Color(1, 0, 0, 1)
+Button/colors/font_hover_color = Color(1, 0, 0, 1)
+Button/fonts/font = ExtResource("5_rd6pc")
+Button/styles/disabled = SubResource("StyleBoxFlat_70xna")
+Button/styles/focus = SubResource("StyleBoxFlat_jqmqo")
+Button/styles/hover = SubResource("StyleBoxFlat_q4lq2")
+Button/styles/normal = SubResource("StyleBoxFlat_70xna")
+Button/styles/pressed = SubResource("StyleBoxFlat_8bfdw")
+
 [node name="dnet_screen" type="CanvasLayer" node_paths=PackedStringArray("audio_stream_player")]
 script = ExtResource("1_djomj")
 audio_stream_player = NodePath("AudioStreamPlayer")
@@ -58,6 +441,7 @@ enable_boot = false
 enable_registration = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -364,6 +748,7 @@ audio_stream_player = NodePath("../../AudioStreamPlayer")
 one_shot = true
 
 [node name="shadow" type="ColorRect" parent="o_dnet_registration/logging_in"]
+layout_mode = 0
 offset_left = 80.0
 offset_top = 104.0
 offset_right = 290.0
@@ -371,6 +756,7 @@ offset_bottom = 136.0
 color = Color(0, 0, 0, 1)
 
 [node name="login_box" type="ColorRect" parent="o_dnet_registration/logging_in"]
+layout_mode = 0
 offset_left = 72.0
 offset_top = 96.0
 offset_right = 282.0
@@ -424,7 +810,7 @@ offset_bottom = 224.0
 texture = ExtResource("5_p0y8g")
 script = ExtResource("9_yfku8")
 
-[node name="o_dnet_control" type="Control" parent="."]
+[node name="o_dnet_control" type="Control" parent="." node_paths=PackedStringArray("info_sfx_player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -432,6 +818,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("10_vjg3e")
+info_sfx_player = NodePath("info_sfx_player")
+
+[node name="info_sfx_player" type="AudioStreamPlayer" parent="o_dnet_control"]
+bus = &"Audio"
 
 [node name="o_dnet_background" type="TextureRect" parent="o_dnet_control"]
 material = SubResource("ShaderMaterial_mr2f5")
@@ -452,12 +842,619 @@ script = ExtResource("13_3cnd1")
 one_shot = true
 autostart = true
 
-[node name="o_dnet_app" type="Control" parent="o_dnet_control"]
-anchors_preset = 0
-offset_right = 40.0
+[node name="top_menu" type="NinePatchRect" parent="o_dnet_control"]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 456.0
+offset_bottom = 22.0
+texture = SubResource("AtlasTexture_sn1qv")
+region_rect = Rect2(0, 0, 30, 30)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="app_home" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 5.0
+offset_right = 26.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_mj5bq")
+texture_pressed = SubResource("AtlasTexture_pwaon")
+texture_hover = SubResource("AtlasTexture_25lkh")
+texture_focused = SubResource("AtlasTexture_25lkh")
+
+[node name="app_rules" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 5.0
+offset_right = 46.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_nvp66")
+texture_pressed = SubResource("AtlasTexture_3cnd1")
+texture_hover = SubResource("AtlasTexture_mr2f5")
+texture_focused = SubResource("AtlasTexture_3t6j2")
+
+[node name="app_music" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 5.0
+offset_right = 65.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_y65p1")
+texture_pressed = SubResource("AtlasTexture_rrfoe")
+texture_hover = SubResource("AtlasTexture_jqmqo")
+texture_focused = SubResource("AtlasTexture_q4lq2")
+
+[node name="app_chat" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 5.0
+offset_right = 83.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_70xna")
+texture_pressed = SubResource("AtlasTexture_8bfdw")
+texture_hover = SubResource("AtlasTexture_vx2b1")
+texture_focused = SubResource("AtlasTexture_1h06x")
+
+[node name="app_settings" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 5.0
+offset_right = 101.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_r2qch")
+texture_pressed = SubResource("AtlasTexture_c3brl")
+texture_hover = SubResource("AtlasTexture_tnrck")
+texture_focused = SubResource("AtlasTexture_0i6he")
+
+[node name="app_exit" type="TextureButton" parent="o_dnet_control/top_menu"]
+layout_mode = 0
+offset_left = 374.0
+offset_top = 5.0
+offset_right = 387.0
+offset_bottom = 17.0
+texture_normal = SubResource("AtlasTexture_fyx3i")
+texture_pressed = SubResource("AtlasTexture_dnxf6")
+texture_hover = SubResource("AtlasTexture_qhso7")
+texture_focused = SubResource("AtlasTexture_qwp4h")
+
+[node name="bottom_menu" type="NinePatchRect" parent="o_dnet_control"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 22.0
+offset_right = 456.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_urwmb")
+region_rect = Rect2(0, 0, 30, 30)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="titles" type="Label" parent="o_dnet_control/bottom_menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_right = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Teste"
+label_settings = ExtResource("3_ra1n2")
+vertical_alignment = 1
+
+[node name="o_dnet_rulez" type="Control" parent="o_dnet_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg_est" type="ColorRect" parent="o_dnet_control/o_dnet_rulez"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="notorious_B_G_" type="ColorRect" parent="o_dnet_control/o_dnet_rulez"]
+custom_minimum_size = Vector2(384, 130)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -80.0
+offset_right = 192.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="title" type="Label" parent="o_dnet_control/o_dnet_rulez/notorious_B_G_"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -52.0
+offset_top = 13.0
+offset_right = 53.0
+offset_bottom = 36.0
+grow_horizontal = 2
+text = "DwarfNET Regeln:"
+label_settings = SubResource("LabelSettings_mr2f5")
+
+[node name="bullshit_line" type="Line2D" parent="o_dnet_control/o_dnet_rulez/notorious_B_G_"]
+z_index = 4
+position = Vector2(0, 2)
+points = PackedVector2Array(7, 35, 375, 35)
+width = 1.0
+default_color = Color(1, 0, 0, 1)
+
+[node name="bullshit_line2" type="Line2D" parent="o_dnet_control/o_dnet_rulez/notorious_B_G_"]
+z_index = 4
+position = Vector2(0, 5)
+points = PackedVector2Array(7, 35, 375, 35)
+width = 1.0
+default_color = Color(1, 0, 0, 1)
+
+[node name="rules" type="Label" parent="o_dnet_control/o_dnet_rulez/notorious_B_G_"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -154.5
+offset_top = -77.0
+offset_right = 154.5
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "1. Kein Hemd, keine Schuhe? Kein Problem...
+2. Keine Kampfe ... bitte ...
+3. Hab ein Problem? Nehmen Sie es zu Pappy.
+4. Kein Hupen.
+5. Kein Posting auf DwarfNET wenn Sie Cuchulainn!"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="o_dnet_muzak" type="Control" parent="o_dnet_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_25lkh")
+
+[node name="bg_est" type="ColorRect" parent="o_dnet_control/o_dnet_muzak"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="bg_track" type="ColorRect" parent="o_dnet_control/o_dnet_muzak"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 29.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="muzak_banner" type="VBoxContainer" parent="o_dnet_control/o_dnet_muzak/bg_track"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="muzak_title" type="Label" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Mhuahahah"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="play_controls" type="HBoxContainer" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner"]
+layout_mode = 2
+alignment = 1
+
+[node name="o_dnet_muzak_play" type="TextureButton" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_a33i1")
+texture_pressed = SubResource("AtlasTexture_hswwf")
+texture_hover = SubResource("AtlasTexture_e820o")
+texture_focused = SubResource("AtlasTexture_klmx8")
+
+[node name="o_dnet_muzak_pause" type="TextureButton" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_bqb3r")
+texture_pressed = SubResource("AtlasTexture_q5ux3")
+texture_hover = SubResource("AtlasTexture_lmqus")
+texture_focused = SubResource("AtlasTexture_gfje6")
+
+[node name="o_dnet_muzak_prev" type="TextureButton" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_vl261")
+texture_pressed = SubResource("AtlasTexture_b7gof")
+texture_hover = SubResource("AtlasTexture_c5aw5")
+texture_focused = SubResource("AtlasTexture_bqumn")
+
+[node name="o_dnet_muzak_next" type="TextureButton" parent="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_2vu8k")
+texture_pressed = SubResource("AtlasTexture_2vdln")
+texture_hover = SubResource("AtlasTexture_vlqva")
+texture_focused = SubResource("AtlasTexture_jx56s")
+
+[node name="pappy_himself" type="AnimatedSprite2D" parent="o_dnet_control/o_dnet_muzak"]
+position = Vector2(192, 78)
+sprite_frames = SubResource("SpriteFrames_gkyht")
+animation = &"pappy_talking"
+
+[node name="quick_and_dirty_mouse_detection" type="TextureButton" parent="o_dnet_control/o_dnet_muzak/pappy_himself"]
+offset_left = -20.0
+offset_top = -43.0
+offset_right = 20.0
 offset_bottom = 40.0
+
+[node name="pappy_audio" type="AudioStreamPlayer" parent="o_dnet_control/o_dnet_muzak"]
+stream = ExtResource("18_y65p1")
+bus = &"Audio"
+
+[node name="o_dnet_settings" type="Control" parent="o_dnet_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("19_jqmqo")
+
+[node name="bg_est" type="ColorRect" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="profile_text" type="Label" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = 88.0
+offset_bottom = 27.0
+text = "Benutzerbild:"
+label_settings = SubResource("LabelSettings_1h06x")
+
+[node name="profiles" type="HBoxContainer" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 22.0
+offset_right = 241.0
+offset_bottom = 69.0
+theme = SubResource("Theme_dnxf6")
+
+[node name="profile_1" type="Button" parent="o_dnet_control/o_dnet_settings/profiles"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_qhso7")
+icon = SubResource("AtlasTexture_gkyht")
+
+[node name="profile_2" type="Button" parent="o_dnet_control/o_dnet_settings/profiles"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qhso7")
+icon = SubResource("AtlasTexture_43f1m")
+
+[node name="profile_3" type="Button" parent="o_dnet_control/o_dnet_settings/profiles"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qhso7")
+icon = SubResource("AtlasTexture_ndcir")
+
+[node name="profile_4" type="Button" parent="o_dnet_control/o_dnet_settings/profiles"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qhso7")
+icon = ExtResource("22_8bfdw")
+
+[node name="profile_5" type="Button" parent="o_dnet_control/o_dnet_settings/profiles"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_qhso7")
+icon = SubResource("AtlasTexture_shf5l")
+
+[node name="custom_text" type="Label" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 84.0
+offset_right = 89.0
+offset_bottom = 104.0
+text = "System Haut:"
+label_settings = SubResource("LabelSettings_1h06x")
+
+[node name="custom_box" type="HBoxContainer" parent="o_dnet_control/o_dnet_settings"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 86.0
+offset_right = 220.0
+offset_bottom = 103.0
+theme = SubResource("Theme_sfdp4")
+
+[node name="skin_1" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_bsayc")
+
+[node name="skin_2" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_ivr0v")
+
+[node name="skin_3" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_tu0hy")
+
+[node name="skin_4" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_aqga4")
+
+[node name="skin_5" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_aw6cv")
+
+[node name="skin_6" type="Button" parent="o_dnet_control/o_dnet_settings/custom_box"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_h1e7n")
+icon = SubResource("AtlasTexture_u0kvd")
+
+[node name="o_dnet_app" type="Control" parent="o_dnet_control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("13_nvp66")
+
+[node name="GridContainer" type="GridContainer" parent="o_dnet_control/o_dnet_app"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -164.0
+offset_top = -194.0
+offset_right = 164.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="forum_salutations" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 7
+forum_icon = 15
+forum_text = "Fehlersuche"
+
+[node name="forum_comix" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 9
+forum_icon = 21
+forum_text = "Netz-comic"
+
+[node name="forum_gems" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 4
+forum_icon = 22
+forum_text = "Edelsteine"
+
+[node name="forum_vydia" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 8
+forum_icon = 10
+forum_text = "Videospiele"
+
+[node name="forum_fruit" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 3
+forum_icon = 2
+forum_text = "Frucht"
+
+[node name="forum_dating" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 1
+forum_icon = 16
+forum_text = "Romantik"
+
+[node name="forum_religion" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 6
+forum_icon = 23
+forum_text = "Glauben"
+
+[node name="forum_ads" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+forum_icon = 8
+forum_text = "Anzeigen"
+
+[node name="forum_politic" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+info_audio = 5
+forum_icon = 12
+forum_text = "Politik"
+
+[node name="forum_madden" parent="o_dnet_control/o_dnet_app/GridContainer" node_paths=PackedStringArray("info_sfx_player") instance=ExtResource("15_nvp66")]
+layout_mode = 2
+info_sfx_player = NodePath("../../../info_sfx_player")
+forum_icon = 14
+forum_text = "Sport/LARP"
+
+[node name="o_dnet_exit" type="Control" parent="o_dnet_control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("26_70xna")
+
+[node name="exit_player" type="AudioStreamPlayer" parent="o_dnet_control/o_dnet_exit"]
+stream = ExtResource("27_8bfdw")
+
+[node name="bg_est" type="ColorRect" parent="o_dnet_control/o_dnet_exit"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="big_pussy_is_a_funny_name_for_a_character" type="ColorRect" parent="o_dnet_control/o_dnet_exit"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="exit_title" type="Label" parent="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -28.0
+offset_top = 3.0
+offset_right = 28.0
+offset_bottom = 26.0
+grow_horizontal = 2
+text = "Trennen?"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.0
+offset_top = -3.0
+offset_right = 62.0
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jqmqo")
+
+[node name="ja_btn" type="Button" parent="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = SubResource("Theme_jqmqo")
+text = "Ja"
+
+[node name="nein_btn" type="Button" parent="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+theme = SubResource("Theme_jqmqo")
+text = "Nein"
 
 [connection signal="pressed" from="o_dnet_registration/registration/exit_btn" to="o_dnet_registration/registration" method="_on_exit_btn_pressed"]
 [connection signal="pressed" from="o_dnet_registration/registration/register_btn" to="o_dnet_registration/registration" method="_on_register_btn_pressed"]
 [connection signal="timeout" from="o_dnet_registration/logging_in/bullshit_timer" to="o_dnet_registration/logging_in" method="_on_bullshit_timer_timeout"]
 [connection signal="timeout" from="o_dnet_control/o_dnet_background/dir_changer" to="o_dnet_control/o_dnet_background" method="_on_dir_changer_timeout"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_home" to="o_dnet_control" method="_on_app_home_pressed"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_rules" to="o_dnet_control" method="_on_app_rules_pressed"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_music" to="o_dnet_control" method="_on_app_music_pressed"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_chat" to="o_dnet_control" method="_on_app_chat_pressed"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_settings" to="o_dnet_control" method="_on_app_settings_pressed"]
+[connection signal="pressed" from="o_dnet_control/top_menu/app_exit" to="o_dnet_control" method="_on_app_exit_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls/o_dnet_muzak_play" to="o_dnet_control/o_dnet_muzak" method="_on_o_dnet_muzak_play_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls/o_dnet_muzak_pause" to="o_dnet_control/o_dnet_muzak" method="_on_o_dnet_muzak_pause_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls/o_dnet_muzak_prev" to="o_dnet_control/o_dnet_muzak" method="_on_o_dnet_muzak_prev_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls/o_dnet_muzak_next" to="o_dnet_control/o_dnet_muzak" method="_on_o_dnet_muzak_next_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_muzak/pappy_himself/quick_and_dirty_mouse_detection" to="o_dnet_control/o_dnet_muzak" method="_on_quick_and_dirty_mouse_detection_pressed"]
+[connection signal="finished" from="o_dnet_control/o_dnet_muzak/pappy_audio" to="o_dnet_control/o_dnet_muzak" method="_on_pappy_audio_finished"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_1" to="o_dnet_control/o_dnet_settings" method="_on_skin_1_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_2" to="o_dnet_control/o_dnet_settings" method="_on_skin_2_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_3" to="o_dnet_control/o_dnet_settings" method="_on_skin_3_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_4" to="o_dnet_control/o_dnet_settings" method="_on_skin_4_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_5" to="o_dnet_control/o_dnet_settings" method="_on_skin_5_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_6" to="o_dnet_control/o_dnet_settings" method="_on_skin_6_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_salutations" to="o_dnet_control" method="_on_forum_salutations_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_comix" to="o_dnet_control" method="_on_forum_comix_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_gems" to="o_dnet_control" method="_on_forum_gems_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_vydia" to="o_dnet_control" method="_on_forum_vydia_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_fruit" to="o_dnet_control" method="_on_forum_fruit_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_dating" to="o_dnet_control" method="_on_forum_dating_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_religion" to="o_dnet_control" method="_on_forum_religion_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_ads" to="o_dnet_control" method="_on_forum_ads_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_politic" to="o_dnet_control" method="_on_forum_politic_button_pressed"]
+[connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_madden" to="o_dnet_control" method="_on_forum_madden_button_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/ja_btn" to="o_dnet_control/o_dnet_exit" method="_on_ja_btn_pressed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/nein_btn" to="o_dnet_control/o_dnet_exit" method="_on_nein_btn_pressed"]

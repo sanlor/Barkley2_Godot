@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=3 uid="uid://b0cf0kd4ldsqn"]
+
+[ext_resource type="Script" uid="uid://qesemrb1lc1y" path="res://barkley2/scenes/_utilityStation/dwarfnet/forum_panel.gd" id="1_ymjvw"]
+[ext_resource type="Texture2D" uid="uid://rlkkdmbqxdoe" path="res://barkley2/assets/b2_original/images/merged/s_dnet_button_info.png" id="2_d36n7"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="3_fxj8n"]
+[ext_resource type="Texture2D" uid="uid://dannmvnyydv3b" path="res://barkley2/scenes/_utilityStation/dwarfnet/sDNETThreadIcon.tres" id="4_ymjvw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwsyf"]
+resource_local_to_scene = true
+atlas = ExtResource("2_d36n7")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3pe1"]
+resource_local_to_scene = true
+atlas = ExtResource("2_d36n7")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xumho"]
+resource_local_to_scene = true
+atlas = ExtResource("2_d36n7")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxtg3"]
+resource_local_to_scene = true
+atlas = ExtResource("2_d36n7")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qiixl"]
+load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be5fg"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_qiixl")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6ub5g"]
+font = ExtResource("3_fxj8n")
+
+[node name="forum_panel" type="HBoxContainer"]
+script = ExtResource("1_ymjvw")
+
+[node name="info_btn" type="TextureButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_xwsyf")
+texture_pressed = SubResource("AtlasTexture_k3pe1")
+texture_hover = SubResource("AtlasTexture_xumho")
+texture_focused = SubResource("AtlasTexture_pxtg3")
+
+[node name="forum_panel" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(120, 37)
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 1
+texture = SubResource("AtlasTexture_be5fg")
+region_rect = Rect2(0, 0, 30, 30)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 4
+patch_margin_bottom = 4
+
+[node name="forum_text_lbl" type="Label" parent="forum_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 12.0
+offset_right = -4.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Frucht"
+label_settings = SubResource("LabelSettings_6ub5g")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="forum_icon_tex" type="TextureRect" parent="forum_panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = -14.5
+offset_right = -27.0
+offset_bottom = 14.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ymjvw")
+
+[connection signal="pressed" from="info_btn" to="." method="_on_info_btn_pressed"]
+[connection signal="focus_entered" from="forum_panel" to="." method="_on_forum_panel_focus_entered"]
+[connection signal="focus_exited" from="forum_panel" to="." method="_on_forum_panel_focus_exited"]
+[connection signal="gui_input" from="forum_panel" to="." method="_on_forum_panel_gui_input"]
+[connection signal="mouse_entered" from="forum_panel" to="." method="_on_forum_panel_mouse_entered"]
+[connection signal="mouse_exited" from="forum_panel" to="." method="_on_forum_panel_mouse_exited"]
