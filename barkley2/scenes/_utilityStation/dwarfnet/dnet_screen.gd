@@ -69,9 +69,6 @@ func play_music() -> void:
 	audio_stream_player.stream = MUSIC_DNET[music_index]
 	audio_stream_player.play()
 
-func pause_music() -> void:
-	audio_stream_player.pause
-
 ## Play the keyboard SFX while DNET is open.
 func _unhandled_input(event: InputEvent) -> void:
 	if visible:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://b6j74nhb30d71"]
+[gd_scene load_steps=112 format=3 uid="uid://b6j74nhb30d71"]
 
 [ext_resource type="Script" uid="uid://ccc57ojeg6n60" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.gd" id="1_djomj"]
 [ext_resource type="Script" uid="uid://c5x21u6ehltfj" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration_boot.gd" id="2_ra1n2"]
@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://cyodnh32pyd7u" path="res://barkley2/assets/b2_original/images/merged/s_dnet_system_skin.png" id="23_vx2b1"]
 [ext_resource type="Script" uid="uid://c1g88oti7mjnd" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_exit.gd" id="26_70xna"]
 [ext_resource type="AudioStream" uid="uid://cbyyi4k6j7w7b" path="res://barkley2/assets/b2_original/audio/Dwarfnet/sn_dnet_subforum_exit.ogg" id="27_8bfdw"]
+[ext_resource type="Script" uid="uid://24gnsruhcsjk" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_chat.gd" id="28_vx2b1"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="29_1h06x"]
 
 [sub_resource type="GDScript" id="GDScript_rd6pc"]
 resource_name = "c64"
@@ -433,6 +435,32 @@ Button/styles/focus = SubResource("StyleBoxFlat_jqmqo")
 Button/styles/hover = SubResource("StyleBoxFlat_q4lq2")
 Button/styles/normal = SubResource("StyleBoxFlat_70xna")
 Button/styles/pressed = SubResource("StyleBoxFlat_8bfdw")
+
+[sub_resource type="Theme" id="Theme_r2qch"]
+RichTextLabel/fonts/normal_font = ExtResource("29_1h06x")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vx2b1"]
+bg_color = Color(0, 0, 0, 1)
+border_width_bottom = 1
+border_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1h06x"]
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 1
+border_color = Color(1, 0, 0, 1)
+
+[sub_resource type="GDScript" id="GDScript_r2qch"]
+resource_name = "cursor"
+script/source = "extends ColorRect
+
+var t := 0.0
+func _physics_process(delta: float) -> void:
+	if t < 0.0:
+		visible = not visible
+		t = 2.0
+	else:
+		t -= 5.0 * delta
+"
 
 [node name="dnet_screen" type="CanvasLayer" node_paths=PackedStringArray("audio_stream_player")]
 script = ExtResource("1_djomj")
@@ -843,6 +871,7 @@ one_shot = true
 autostart = true
 
 [node name="top_menu" type="NinePatchRect" parent="o_dnet_control"]
+z_index = 100
 layout_mode = 0
 offset_left = -8.0
 offset_right = 456.0
@@ -921,6 +950,7 @@ texture_hover = SubResource("AtlasTexture_qhso7")
 texture_focused = SubResource("AtlasTexture_qwp4h")
 
 [node name="bottom_menu" type="NinePatchRect" parent="o_dnet_control"]
+z_index = 100
 layout_mode = 0
 offset_left = -8.0
 offset_top = 22.0
@@ -1352,6 +1382,7 @@ forum_icon = 14
 forum_text = "Sport/LARP"
 
 [node name="o_dnet_exit" type="Control" parent="o_dnet_control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1424,6 +1455,109 @@ layout_mode = 2
 theme = SubResource("Theme_jqmqo")
 text = "Nein"
 
+[node name="o_dnet_chat" type="Control" parent="o_dnet_control"]
+anchors_preset = 0
+offset_top = 44.0
+offset_right = 384.0
+offset_bottom = 240.0
+script = ExtResource("28_vx2b1")
+
+[node name="chat_timer" type="Timer" parent="o_dnet_control/o_dnet_chat"]
+autostart = true
+
+[node name="bg_est" type="ColorRect" parent="o_dnet_control/o_dnet_chat"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="chat_scroll" type="VBoxContainer" parent="o_dnet_control/o_dnet_chat"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = -196.0
+offset_right = -70.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_r2qch")
+alignment = 2
+
+[node name="top_panel" type="Panel" parent="o_dnet_control/o_dnet_chat"]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 24.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_vx2b1")
+
+[node name="users_online_title" type="Label" parent="o_dnet_control/o_dnet_chat/top_panel"]
+layout_mode = 0
+offset_left = 23.0
+offset_right = 138.0
+offset_bottom = 23.0
+text = "Anzahl der nutzer:"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="users_online_value" type="Label" parent="o_dnet_control/o_dnet_chat/top_panel"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_left = 168.0
+offset_right = 283.0
+offset_bottom = 23.0
+text = "4995863"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bottom_panel" type="Panel" parent="o_dnet_control/o_dnet_chat"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -43.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1h06x")
+
+[node name="chat_title" type="Label" parent="o_dnet_control/o_dnet_chat/bottom_panel"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Chat:"
+label_settings = ExtResource("3_ra1n2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="o_dnet_control/o_dnet_chat/bottom_panel"]
+layout_mode = 0
+offset_left = 39.0
+offset_right = 384.0
+offset_bottom = 23.0
+theme_override_constants/separation = 1
+
+[node name="chat_message" type="Label" parent="o_dnet_control/o_dnet_chat/bottom_panel/HBoxContainer"]
+layout_mode = 2
+text = "Trololololololololo"
+label_settings = ExtResource("3_ra1n2")
+vertical_alignment = 1
+
+[node name="cursor" type="ColorRect" parent="o_dnet_control/o_dnet_chat/bottom_panel/HBoxContainer"]
+custom_minimum_size = Vector2(6, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 1, 1, 0.5)
+script = SubResource("GDScript_r2qch")
+
 [connection signal="pressed" from="o_dnet_registration/registration/exit_btn" to="o_dnet_registration/registration" method="_on_exit_btn_pressed"]
 [connection signal="pressed" from="o_dnet_registration/registration/register_btn" to="o_dnet_registration/registration" method="_on_register_btn_pressed"]
 [connection signal="timeout" from="o_dnet_registration/logging_in/bullshit_timer" to="o_dnet_registration/logging_in" method="_on_bullshit_timer_timeout"]
@@ -1458,3 +1592,4 @@ text = "Nein"
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_madden" to="o_dnet_control" method="_on_forum_madden_button_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/ja_btn" to="o_dnet_control/o_dnet_exit" method="_on_ja_btn_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/nein_btn" to="o_dnet_control/o_dnet_exit" method="_on_nein_btn_pressed"]
+[connection signal="timeout" from="o_dnet_control/o_dnet_chat/chat_timer" to="o_dnet_control/o_dnet_chat" method="_on_chat_timer_timeout"]

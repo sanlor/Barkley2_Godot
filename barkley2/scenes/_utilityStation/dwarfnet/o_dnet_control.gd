@@ -11,6 +11,7 @@ extends Control
 @onready var o_dnet_app: 			Control = $o_dnet_app
 @onready var o_dnet_rulez: 			Control = $o_dnet_rulez
 @onready var o_dnet_muzak: 			Control = $o_dnet_muzak
+@onready var o_dnet_chat: 			Control = $o_dnet_chat
 @onready var o_dnet_settings: 		Control = $o_dnet_settings
 @onready var o_dnet_exit: 			Control = $o_dnet_exit
 
@@ -36,6 +37,7 @@ func _manage_windows() -> void:
 	o_dnet_rulez.hide()
 	o_dnet_app.hide()
 	o_dnet_muzak.hide()
+	o_dnet_chat.hide()
 	o_dnet_settings.hide()
 	o_dnet_exit.hide()
 	
@@ -50,6 +52,8 @@ func _manage_windows() -> void:
 			o_dnet_rulez.show()
 		STATUS.MUSIC:
 			o_dnet_muzak.show()
+		STATUS.CHAT:
+			o_dnet_chat.show()
 		STATUS.SETTINGS:
 			o_dnet_settings.show()
 		STATUS.EXIT:
