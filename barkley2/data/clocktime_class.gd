@@ -5,6 +5,11 @@ class_name B2_ClockTime
 
 ## NOTE ClockTime() -> B2_ClockTime.time_gate()
 
+class BTIME:
+	var seconds 	: int
+	var minutes 	: int
+	var hours 		: int
+
 ## Constants
 const EXPERIENCE_MIN 	:= 0.5
 const EXPERIENCE_MAX 	:= 1.5
@@ -36,6 +41,16 @@ static func time_init() -> void:
 	#B2_Config.set_user_save_data("clock.event.value", Array() )
 	B2_Config.set_user_save_data("clock.event", Array() ) ## format -> [timer, quest, value]
 	
+## TODO Set this up correctly.
+static func _get_time() -> BTIME:
+	var clockTime = B2_Config.get_user_save_data( "clock.time", 0.0 )
+	var t := BTIME.new()
+	t.seconds 		= floor( int(clockTime) % 60)
+	t.minutes 		= clockTime / 60.0
+	t.hours 		= t.minutes / 60.0
+	t.minutes 		= int(t.minutes) % 60
+	return t
+	
 ## This just spits the current time in string format.
 static func time_display( my_time = null ) -> String:
 	var clockTime = B2_Config.get_user_save_data( "clock.time", 0.0 )
@@ -49,6 +64,17 @@ static func time_display( my_time = null ) -> String:
 	
 	## NOTE Seems to be a 25h day, for some reason.
 	return str( roundi(clockHours) ).pad_zeros(2) + ":" + str( roundi(clockMinutes) ).pad_zeros(2)
+	
+static func time_update( _step : float ) -> void:
+	var clockTime = B2_Config.get_user_save_data("clock.time")
+	
+	var clockSeconds 	= floor( int(clockTime) % 60)
+	var clockMinutes 	= clockTime / 60.0
+	var clockHours 		= clockMinutes / 60.0
+	clockMinutes 		= int(clockMinutes) % 60
+	
+	var clockGate = abs(ceil( clockHours + 1 ) - 24);
+	B2_Config.set_user_save_data("clock.gate", clockGate )
 	
 ## Set a timed event. After the timer runs out, change a quest variable.
 static func time_event( quest, value, timer ) -> void: # timer is in seconds.
@@ -122,14 +148,3 @@ static func time_process( step : float ) -> void:
 	B2_Config.set_user_save_data("clock.event", processed_events )
 	
 	time_update( step )
-
-static func time_update( _step : float ) -> void:
-	var clockTime = B2_Config.get_user_save_data("clock.time")
-	
-	var clockSeconds 	= floor( int(clockTime) % 60)
-	var clockMinutes 	= clockTime / 60.0
-	var clockHours 		= clockMinutes / 60.0
-	clockMinutes 		= int(clockMinutes) % 60
-	
-	var clockGate = abs(ceil( clockHours + 1 ) - 24);
-	B2_Config.set_user_save_data("clock.gate", clockGate )
