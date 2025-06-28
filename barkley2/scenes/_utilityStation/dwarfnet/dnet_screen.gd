@@ -51,12 +51,11 @@ func _ready() -> void:
 	B2_Playerdata.Quest("dwarfnetAccount", 1)
 	
 	## Cleanup old animations
-	if o_dnet_registration_boot: o_dnet_registration_boot.queue_free()
-	if o_dnet_registration: o_dnet_registration.queue_free()
-	
-	o_dnet_control.show()
+	if o_dnet_registration_boot: 	o_dnet_registration_boot.queue_free()
+	if o_dnet_registration: 		o_dnet_registration.queue_free()
 	
 	#play_random_music()
+	o_dnet_control.show()
 	o_dnet_control.surf_the_web()
 	print("done")
 
