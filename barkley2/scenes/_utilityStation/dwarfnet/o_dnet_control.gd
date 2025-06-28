@@ -6,7 +6,6 @@ extends Control
 @onready var top_menu: NinePatchRect = $top_menu
 @onready var bottom_menu: NinePatchRect = $bottom_menu
 
-
 @export var info_sfx_player: 		AudioStreamPlayer
 @onready var o_dnet_thread: 		Control = $o_dnet_thread
 @onready var o_dnet_post: 			Control = $o_dnet_post
@@ -32,9 +31,19 @@ const TITLES := {
 var curr_STATUS := STATUS.HOME
 var selected_forum := ""
 
+## Go back with right click function.
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("Holster"):
+		if Input.is_action_just_pressed("Holster"):
+			match curr_STATUS:
+				STATUS.FORUM:
+					_update_status( STATUS.HOME )
+				STATUS.POST:
+					_update_status( STATUS.FORUM, selected_forum )
+
 func surf_the_web() -> void:
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.HAND )
-	B2_Playerdata.Quest( "dwarfnet_skin_system", randi_range(0,3) )
+	B2_DNET.Store( "dwarfnet_skin_system", randi_range(0,3) )
 	_update_status( STATUS.HOME )
 
 func _manage_windows() -> void:
@@ -58,6 +67,7 @@ func _manage_windows() -> void:
 			o_dnet_post.show()
 		STATUS.HOME:
 			o_dnet_app.show()
+			$top_menu/app_home.grab_focus() ## HAAAAAAAAAAAAACK
 		STATUS.RULEZ:
 			o_dnet_rulez.show()
 		STATUS.MUSIC:
@@ -194,6 +204,6 @@ func _on_app_settings_pressed() -> void:
 func _on_app_exit_pressed() -> void:
 	_update_status( STATUS.EXIT )
 
-func _on_o_dnet_thread_thread_pressed( thread_name: String ) -> void:
-	_update_status( STATUS.POST, thread_name )
+func _on_o_dnet_thread_thread_pressed( thread_name: String, thread_title : String ) -> void:
+	_update_status( STATUS.POST, thread_title )
 	o_dnet_post.post_dem_posts( thread_name )

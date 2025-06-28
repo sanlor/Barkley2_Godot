@@ -8,6 +8,7 @@ class_name B2_CinemaPlayer
 # 12-10-24 Now its not. CManager is the autoload now.
 
 ## TODO Add Items. Needed to Parse_If.
+const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/utilitystation_screen.tscn")
 
 ## DEBUG
 @export_category("Debug Stuff")
@@ -859,6 +860,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				"THROW":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
+				"UTILITYSTATION":
+					print_rich("[color=pink]Utility Station initiated.[/color]")
+					
+					var utility := UTILITYSTATION_SCREEN.instantiate()
+					get_tree().current_scene.add_child( utility )
+					await utility.unpluged_from_station
+					
 					
 				"Destroy":
 					# Remove actor. simple.

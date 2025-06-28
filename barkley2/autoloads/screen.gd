@@ -20,17 +20,17 @@ const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item
 const GAME_OVER 			= preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
 
 # Smoke Emitter
-const O_SMOKE = preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
-const SMOKE_MASS = preload("res://barkley2/resources/Smoke/smoke_mass.tres")
+const O_SMOKE 				= preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
+const SMOKE_MASS 			= preload("res://barkley2/resources/Smoke/smoke_mass.tres")
 
 # battle related
 const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
 
 # Item efffect
-const O_ENTITY_INDICATOR_TEXT = preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
+const O_ENTITY_INDICATOR_TEXT 		= preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
 
 # explosion sfx
-const O_EFFECT_EXPLOSION = preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
+const O_EFFECT_EXPLOSION 			= preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
 
 # Bloooooood
 const O_EFFECT_BLOODDROP = preload("res://barkley2/scenes/_Godot_Combat/_blood/o_effect_blooddrop.tscn")
@@ -40,7 +40,7 @@ var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 @onready var mouse = $mouse
 @onready var trail = $trail
 
-var max_trail := 2 # 3 is pretty cool
+var max_trail := 4 # 3 is pretty cool
 var mouse_offset := Vector2.ZERO
 
 var pause_screen: CanvasLayer
@@ -216,7 +216,14 @@ func make_blood_drop( pos : Vector2, amount : int, color := Color.RED, velocity_
 		blood.velocity_mod			= velocity_mod
 		get_tree().current_scene.add_child( blood, true )
 
-func _process(_delta) -> void:
+func _physics_process(_delta: float) -> void:
+	if trail.is_inside_tree():
+		trail.modulate.a = mouse.modulate.a
+		trail.add_point( mouse.position )
+		if trail.get_point_count() > max_trail:
+			trail.remove_point( 0 )
+			
+func _process(_delta: float) -> void:
 	## Mouse stuff
 	mouse.position = get_viewport().get_mouse_position().round() + mouse_offset
 	
@@ -227,11 +234,6 @@ func _process(_delta) -> void:
 			mouse.frame = 1
 		else:
 			mouse.frame = 0
-	if trail.is_inside_tree():
-		trail.modulate.a = mouse.modulate.a
-		trail.add_point( mouse.position )
-		if trail.get_point_count() > max_trail:
-			trail.remove_point( 0 )
 		
 	# Pause stuff
 	if can_pause: ## DEBUG

@@ -8,6 +8,7 @@ signal set_color( color : Color )
 signal set_bg_intensity( intensity : float ) ## Set glow intensity for the Background lines
 signal set_fg_intensity( intensity : float ) ## Set glow intensity for the Foreground lines
 signal flickered( alpha : float )
+signal unpluged_from_station
 
 # Utility Menu Settings
 const SETTINGUTILITYSMELT 			:= 50 			# How much smelt you get per gun - balance 30->50 on 031719 - bhroom
@@ -19,6 +20,8 @@ const SETTINGUTILITYALPHABORDER 	:= 0.15 		# Alpha of foreground grids, lines, e
 #const settingUtilityHue 			:= 80 			# Menu hue - Set in player identity by gumball
 const SETTINGUTILITYMONO 			:= 0.15 		# How colorful the menu is, 0 being more B&W 1 being full color
 const UTILITYALPHA 					:= 0
+
+const DNET_SCREEN = preload("res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.tscn")
 
 var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 
@@ -152,9 +155,10 @@ var intensity := 1.0
 func _init() -> void:
 	B2_Screen.utility_screen 	= self
 	B2_Screen.is_utility_open 	= true
-	push_error("DEBUG")
+	#push_error("DEBUG")
 	
 func _ready() -> void:
+	## Debug Stuff
 	B2_Playerdata.preload_skip_tutorial_save_data()
 	B2_Gun.add_gun_to_bandolier()
 	B2_Gun.add_gun_to_bandolier()
@@ -174,6 +178,8 @@ func _ready() -> void:
 	B2_Vidcon.unbox_vidcon( 0 )
 	B2_Vidcon.unbox_vidcon( 1 )
 	
+	layer = B2_Config.UTIL_LAYER
+	
 	var items := B2_Database.items.keys()
 	items.shuffle()
 	for item in items:
@@ -187,6 +193,7 @@ func _ready() -> void:
 	_change_menu_state( menu_state )
 	main_info_panel.update_menu()
 	
+	style_box_utility.bg_color 		= Color(grid_color, randf_range(0.06,0.12) * intensity * 0.125) 
 	main_btn.text = Text.pr( B2_Playerdata.Quest("playerNameFull", null, "Undefined") )
 
 ## WARNING This sucks. need to create a theme that handles this.
@@ -457,11 +464,16 @@ func _change_menu_state( state ) -> bool:
 		return true
 
 
-func _process( _delta: float ) -> void:
+func _physics_process(_delta: float) -> void:
 	## Avoid flickering in the editor
 	if not Engine.is_editor_hint():
-		var f := randf_range(0.06,0.12)
-		flickered.emit( f )
+		_flicker()
+
+func _flicker() -> void:
+	var f := randf_range(0.06,0.12)
+	flickered.emit( f )
+	if randf() > 0.90:
+		## vvvv causes an absurd lag spike.
 		style_box_utility.bg_color 		= Color(grid_color, f * intensity * 0.125) 
 
 func _on_main_btn_pressed() -> void:
@@ -491,8 +503,7 @@ func _on_dwarf_btn_pressed() -> void:
 	if _change_menu_state( DWARF ):
 		B2_Sound.play( "utility_button_click" )
 
-func _on_unplug_btn_pressed() -> void:
-	pass # Replace with function body.
+
 
 func _on_gun_bando_btn_pressed() -> void:
 	if _change_menu_state( GUN_BANDO ):
@@ -532,3 +543,22 @@ func _on_gun_reload_btn_pressed() -> void:
 func _on_vidcon_btn_pressed() -> void:
 	if _change_menu_state( VIDCONS ):
 		B2_Sound.play( "utility_button_click" )
+
+func _on_dwarf_connect_btn_pressed() -> void:
+	hide()
+	B2_Music.store_curr_music()
+	B2_Music.stop(1.0)
+	
+	var dnet := DNET_SCREEN.instantiate()
+	add_child( dnet )
+	await dnet.dnet_closed
+	
+	B2_Music.resume_stored_music()
+	show()
+
+func _on_unplug_btn_pressed() -> void:
+	print("Exit from Utility Station.")
+	B2_Screen.utility_screen 	= null
+	B2_Screen.is_utility_open 	= false
+	unpluged_from_station.emit()
+	queue_free()

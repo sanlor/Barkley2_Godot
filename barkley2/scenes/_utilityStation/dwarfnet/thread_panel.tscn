@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bts5e31ppvk0j"]
+[gd_scene load_steps=16 format=3 uid="uid://bts5e31ppvk0j"]
 
 [ext_resource type="FontFile" uid="uid://2aae7o60ix2y" path="res://barkley2/resources/fonts/fn_dnet.tres" id="1_4ky0i"]
 [ext_resource type="Script" uid="uid://dj3khgm0su44p" path="res://barkley2/scenes/_utilityStation/dwarfnet/thread_panel.gd" id="1_wnh7b"]
 [ext_resource type="Texture2D" uid="uid://naf0oq37i2qr" path="res://barkley2/assets/b2_original/images/merged/sDNETThreadIcon.png" id="2_wnh7b"]
 [ext_resource type="Texture2D" uid="uid://cl4cmhbcq21jh" path="res://barkley2/assets/b2_original/images/merged/s_dnet_favorited.png" id="3_ui1et"]
+[ext_resource type="Texture2D" uid="uid://ca2rinlmmmrg" path="res://barkley2/assets/b2_original/images/merged/sDNETMisc.png" id="5_ui1et"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tnrck"]
 load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
@@ -23,6 +24,10 @@ font = ExtResource("1_4ky0i")
 resource_local_to_scene = true
 atlas = ExtResource("2_wnh7b")
 region = Rect2(0, 0, 29, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7886g"]
+atlas = ExtResource("5_ui1et")
+region = Rect2(25, 0, 25, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gq8ru"]
 resource_local_to_scene = true
@@ -121,6 +126,23 @@ grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("AtlasTexture_dco25")
 
+[node name="thread_has_pool" type="TextureRect" parent="thread_icon_tex"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -5.0
+offset_right = 12.5
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_7886g")
+stretch_mode = 4
+
 [node name="thread_favorite" type="TextureButton" parent="."]
 layout_mode = 1
 anchors_preset = 6
@@ -146,3 +168,4 @@ stretch_mode = 3
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="toggled" from="thread_favorite" to="." method="_on_thread_favorite_toggled"]

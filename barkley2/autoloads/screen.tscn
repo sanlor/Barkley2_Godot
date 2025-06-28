@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dtxtruoc1y3ha"]
+[gd_scene load_steps=15 format=3 uid="uid://dtxtruoc1y3ha"]
 
 [ext_resource type="Script" uid="uid://dthcqotji4v3a" path="res://barkley2/autoloads/screen.gd" id="1_6uogh"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="2_kjkhy"]
@@ -70,7 +70,12 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Curve" id="Curve_i28ai"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Gradient" id="Gradient_fnaht"]
+offsets = PackedFloat32Array(0.175966, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
 
 [node name="screen_stuff" type="CanvasLayer"]
@@ -87,4 +92,5 @@ animation = &"cursor"
 [node name="trail" type="Line2D" parent="."]
 top_level = true
 width = 5.0
+width_curve = SubResource("Curve_i28ai")
 gradient = SubResource("Gradient_fnaht")

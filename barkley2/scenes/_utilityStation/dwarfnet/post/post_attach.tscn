@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://pga68jp1s6ip"]
+
+[ext_resource type="Texture2D" uid="uid://bqsrxuyab0ka2" path="res://barkley2/assets/b2_original/images/merged/sDNETBorder0.png" id="1_11j7x"]
+[ext_resource type="LabelSettings" uid="uid://djqk0t0trdof6" path="res://barkley2/resources/Labels/dnet_label.tres" id="2_3iu01"]
+[ext_resource type="Script" uid="uid://ceg1wdg0wo27d" path="res://barkley2/scenes/_utilityStation/dwarfnet/post/post_attach.gd" id="2_dghv1"]
+[ext_resource type="Shader" uid="uid://dy57e7dlyj0x3" path="res://barkley2/scenes/_utilityStation/dwarfnet/post/post_attach.gdshader" id="4_t8048"]
+[ext_resource type="Texture2D" uid="uid://cuokqatnqu3kx" path="res://barkley2/assets/b2_original/images/merged/sDNETAttachment.png" id="5_ddrg3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2btve"]
+atlas = ExtResource("1_11j7x")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dghv1"]
+texture = SubResource("AtlasTexture_2btve")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdrld"]
+shader = ExtResource("4_t8048")
+shader_parameter/ratio = 1.0
+
+[node name="post_attach" type="PanelContainer"]
+self_modulate = Color(1, 0.518124, 0.45217, 1)
+custom_minimum_size = Vector2(0, 16)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 6.0
+grow_horizontal = 2
+focus_mode = 2
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxTexture_dghv1")
+script = ExtResource("2_dghv1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="attach_title" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Angehangtes bild: "
+label_settings = ExtResource("2_3iu01")
+
+[node name="attach_name" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+modulate = Color(0, 1, 1, 1)
+layout_mode = 2
+text = "Bla bla"
+label_settings = ExtResource("2_3iu01")
+
+[node name="attachment" type="TextureRect" parent="VBoxContainer"]
+material = SubResource("ShaderMaterial_jdrld")
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("5_ddrg3")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

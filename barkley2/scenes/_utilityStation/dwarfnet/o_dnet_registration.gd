@@ -2,7 +2,7 @@ extends Control
 
 signal finished_animation
 
-
+@onready var dnet_screen: CanvasLayer = $".."
 @onready var bg_border: 		ColorRect = $bg_border
 @onready var bg: 				ColorRect = $bg
 @onready var loading_screen: 	TextureRect = $loading_screen
@@ -21,7 +21,7 @@ func begin_animation() -> void:
 	
 	## C64 effect
 	bg_border.begin_animation()
-	if B2_Playerdata.Quest("dwarfnetAccount") == 0:
+	if B2_DNET.Store("dwarfnetAccount") == 0:
 		## First time login, show the fulll animation.
 		
 		get_parent().play_random_music()
@@ -52,7 +52,7 @@ func begin_animation() -> void:
 		await logging_in.finished_animation
 	## User clicked in "exit"
 	else:
-		pass
+		dnet_screen.close_dnet()
 		
 	finish_animation()
 	

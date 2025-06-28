@@ -20,7 +20,7 @@ func _ready() -> void:
 	@warning_ignore("standalone_expression")
 	cutscene_script_mask[1].setup( "$pos2", str(pos2.x) + " " + str(pos2.y) ) as B2_Script_Mask
 	@warning_ignore("standalone_expression")
-	cutscene_script_mask[2].setup( "$snd", str(snd1) ) as B2_Script_Mask
+	cutscene_script_mask[2].setup( "$snd1", str(snd1) ) as B2_Script_Mask
 	@warning_ignore("standalone_expression")
 	cutscene_script_mask[3].setup( "$snd2", str(snd2) ) as B2_Script_Mask
 	

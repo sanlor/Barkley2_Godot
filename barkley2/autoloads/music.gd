@@ -11,9 +11,11 @@ const END_BATTLE_MUSIC := [
 ]
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
-#var music_folder := "res://barkley2/assets/b2_original/audio/Music/"
-#var music_folder := "res://barkley2/assets/"
+## emited when a sound had a invalid data
+signal music_bank_dirty
 
+const MUSICBANK 		= preload("res://barkley2/resources/B2_Music/musicbank.json")
+const MUSICBANKWEB 		= preload("res://barkley2/resources/B2_Music/musicbankweb.json")
 var music_bank := {}
 
 var tween : Tween
@@ -33,32 +35,48 @@ var volume_mod := 1.0
 
 func _load_music_banks( music_folder : String ):
 	## Load music tracks
+	push_error("Music reindex called.")
 	var _music_folder : Array = FileSearch.search_dir( music_folder, "", true )
 	for file : String in _music_folder:
 		if file.ends_with(".ogg.import"):
 			var file_split : Array = file.rsplit("/", false, 1)
 			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
 	print_rich("[color=blue_violet]Init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries.[/color]")
+	
+
+func _save_musicbank_to_disk() -> void:
+	print_rich("[color=cyan]WARNING: Saving Musicbank to disk.[/color]")
+	var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbank.json", FileAccess.WRITE )
+	file.store_string( JSON.stringify(music_bank, "\t") )
 
 func _enter_tree() -> void:
+	## Load lower quality Music for web export.
+	if OS.has_feature("web"):		music_bank = MUSICBANKWEB.data
+	else:							music_bank = MUSICBANK.data
+
+## DEBUG Stuff. reindex json if needed.
+func _reindex_musicbank() -> void:
+	push_error("Music reindex called.")
 	if OS.has_feature("web"):
-		## Load lower quality Music for web export.
 		_load_music_banks( "res://barkley2/assets/b2_original/audio/MusicWeb/" )
+		var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbankweb.json", FileAccess.WRITE )
+		file.store_string( JSON.stringify(music_bank, "\t") )
 	else:
 		_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
+		var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbank.json", FileAccess.WRITE )
+		file.store_string( JSON.stringify(music_bank, "\t") )
+	print_rich("[color=cyan]WARNING: Saving musicbank to disk.[/color]")
+	
 
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
+	music_bank_dirty.connect( _reindex_musicbank )
 
 # used to change the volume based on the menu open
 func volume_menu( force := false ):
-	if B2_Screen.is_any_menu_open() or force:
-		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
-	elif B2_Screen.is_paused:
-		audio_stream_player.volume_db = -100.0
-	else:
-		audio_stream_player.volume_db = linear_to_db( get_volume() )
-		
+	if B2_Screen.is_any_menu_open() or force:		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
+	elif B2_Screen.is_paused:						audio_stream_player.volume_db = -100.0
+	else:											audio_stream_player.volume_db = linear_to_db( get_volume() )
 	audio_stream_player.volume_db *= volume_mod
 	
 func set_volume( raw_value : float): # 0 - 100
@@ -249,15 +267,16 @@ func stop( speed := 0.25 ):
 	await tween.finished
 	audio_stream_player.stop()
 
-#else if (argument[0] == "queue")
 func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: '%s'. Playing a classic instead: mus_blankTEMP." % track_name)
+		music_bank_dirty.emit()
 		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
-	
-	if curr_playing_track == track_name:
+		
+	elif curr_playing_track == track_name:
 		# already playing that track, do nothing.
 		return
+		
 	else:
 		# update track name, queue the change
 		curr_playing_track = track_name

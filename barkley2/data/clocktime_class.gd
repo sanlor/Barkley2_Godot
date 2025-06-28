@@ -22,6 +22,9 @@ static func time_get() -> float:
 	return snapped( ( 24.0 - ( B2_Config.get_user_save_data("clock.time", 0.0) / 3600.0 ) ), 0.1 )
 	
 ## DEBUG Change current time
+static func _time_get() -> float:
+	return B2_Config.get_user_save_data("clock.time");
+	
 static func time_set( time : float ):
 	B2_Config.set_user_save_data("clock.time", time);
 	

@@ -31,7 +31,7 @@ func show_menu() -> void:
 			B2_Playerdata.Quest("vr_mission_%s" % str(i), 0 )
 			
 	B2_Music.volume_menu( true )
-	B2_Sound.play("mgs_open")
+	B2_Sound.play("sn_mgs_open")
 	animation_player.play("show_menu")
 	_update_description( selected_mission )
 	
@@ -40,7 +40,7 @@ func hide_menu() -> void:
 	animation_player.play("hide_menu")
 
 func _update_description( id : int ) -> void:
-	B2_Sound.play("mgs_select")
+	B2_Sound.play("sn_mgs_select")
 	selected_mission = id
 	var mission_description := VRDATA.get_description( id )
 	if mission_description:
@@ -54,7 +54,7 @@ func _update_description( id : int ) -> void:
 
 func _on_back_btn_button_pressed() -> void:
 	hide_menu()
-	B2_Sound.play("mgs_exit_menu")
+	B2_Sound.play("sn_mgs_exit_menu")
 	await animation_player.animation_finished
 	get_parent().change_menu("basic")
 
@@ -105,7 +105,7 @@ func _on_begin_btn_button_pressed() -> void:
 			breakpoint
 			
 	B2_Music.stop()
-	B2_Sound.play( "mgs_gunshot" ) 
+	B2_Sound.play( "sn_mgs_gunshot" ) 
 	animation_player.play("start_mission")
 	await animation_player.animation_finished
 	print("Loading V.R. Mission %s room. Good luck." % str(selected_mission + 1) )

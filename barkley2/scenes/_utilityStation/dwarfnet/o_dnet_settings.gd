@@ -19,13 +19,14 @@ extends Control
 @onready var not_cannon_btn: 	Button = $not_cannon_btn
 @onready var not_cannon: 		ColorRect = $not_cannon
 @onready var time_value: 		Label = $not_cannon/MarginContainer/VBoxContainer/chaos_control/time_value
-@onready var time_slider: HSlider = $not_cannon/MarginContainer/VBoxContainer/chaos_control/time_slider
+@onready var time_slider: 		HSlider = $not_cannon/MarginContainer/VBoxContainer/chaos_control/time_slider
+
+@onready var alt_bg_btn: Button = $not_cannon/MarginContainer/VBoxContainer/alt_bg_btn
 
 func _ready() -> void:
 	_on_not_cannon_btn_pressed()
 	time_slider.max_value = B2_ClockTime.CLOCK_MAX
 	time_slider.value = 0
-	B2_DNET.set_time( 0 )
 
 func _on_skin_1_pressed() -> void:
 	o_dnet_control.change_menu_color( Color.BLUE )
@@ -50,5 +51,18 @@ func _on_not_cannon_btn_pressed() -> void:
 	not_cannon.visible = not_cannon_btn.button_pressed
 
 func _on_h_slider_value_changed(value: float) -> void:
-	B2_DNET.set_time( value )
-	time_value.text = str( B2_DNET.get_time_str() )
+	B2_ClockTime.time_set( value )
+	if time_value: time_value.text = str( B2_ClockTime.time_get() )
+
+func _on_visibility_changed() -> void:
+	if time_value: time_value.text = str( B2_ClockTime.time_get() )
+
+func _physics_process(_delta: float) -> void:
+	if time_slider:
+		if time_slider.visible:
+			time_slider.value = B2_ClockTime._time_get()
+
+func _on_alt_bg_btn_pressed() -> void:
+	### HAAAAAAAAAAAAAAACK
+	$"../o_dnet_background".enable_alt_bg = alt_bg_btn.button_pressed
+	print("Alt BG is %s." % str(alt_bg_btn.button_pressed))

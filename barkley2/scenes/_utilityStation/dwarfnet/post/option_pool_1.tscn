@@ -1,0 +1,95 @@
+[gd_scene load_steps=14 format=3 uid="uid://diy26rfg87es0"]
+
+[ext_resource type="LabelSettings" uid="uid://djqk0t0trdof6" path="res://barkley2/resources/Labels/dnet_label.tres" id="1_1gty4"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="1_kc7wh"]
+[ext_resource type="FontFile" uid="uid://2aae7o60ix2y" path="res://barkley2/resources/fonts/fn_dnet.tres" id="2_ikdd3"]
+[ext_resource type="Script" uid="uid://dwo3kvilusnit" path="res://barkley2/scenes/_utilityStation/dwarfnet/post/option_pool.gd" id="3_ikdd3"]
+[ext_resource type="ButtonGroup" uid="uid://cbwuso2yts8nr" path="res://barkley2/scenes/_utilityStation/dwarfnet/post/option_pool.tres" id="3_tojjb"]
+[ext_resource type="Texture2D" uid="uid://ciy0jis2dsstn" path="res://barkley2/assets/b2_original/images/merged/s_dnet_button_poll.png" id="4_8s6np"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jccyt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fq16b"]
+bg_color = Color(1, 0, 0, 1)
+border_width_left = 1
+border_width_top = 2
+border_width_right = 1
+border_width_bottom = 2
+border_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="Theme" id="Theme_8s6np"]
+Button/fonts/font = ExtResource("1_kc7wh")
+ProgressBar/fonts/font = ExtResource("2_ikdd3")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_jccyt")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_fq16b")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hvdyp"]
+bg_color = Color(0.473976, 0.473976, 0.473976, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kc7wh"]
+bg_color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ikdd3"]
+bg_color = Color(0.303233, 0.303233, 0.303233, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tojjb"]
+resource_local_to_scene = true
+atlas = ExtResource("4_8s6np")
+region = Rect2(0, 0, 10, 10)
+
+[node name="option_pool_1" type="Button"]
+custom_minimum_size = Vector2(100, 20)
+offset_right = 195.0
+offset_bottom = 20.0
+theme = SubResource("Theme_8s6np")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hvdyp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hvdyp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hvdyp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kc7wh")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ikdd3")
+toggle_mode = true
+button_group = ExtResource("3_tojjb")
+script = ExtResource("3_ikdd3")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="select_icon" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_tojjb")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "1"
+label_settings = ExtResource("1_1gty4")
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+value = 20.0
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

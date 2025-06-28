@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dfletkphkenyf"]
+[gd_scene load_steps=20 format=3 uid="uid://dfletkphkenyf"]
 
 [ext_resource type="Texture2D" uid="uid://bqsrxuyab0ka2" path="res://barkley2/assets/b2_original/images/merged/sDNETBorder0.png" id="1_qljbl"]
 [ext_resource type="LabelSettings" uid="uid://djqk0t0trdof6" path="res://barkley2/resources/Labels/dnet_label.tres" id="2_2btve"]
@@ -57,6 +57,9 @@ filter_clip = true
 [sub_resource type="Theme" id="Theme_g6vdk"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
 
+[sub_resource type="LabelSettings" id="LabelSettings_sis1o"]
+font = ExtResource("3_4if5h")
+
 [sub_resource type="Theme" id="Theme_6g88h"]
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_sis1o")
 
@@ -104,6 +107,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="poster_date" type="Label" parent="MarginContainer/VBoxContainer/name_field/MarginContainer/HBoxContainer"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -143,6 +147,32 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_g6vdk")
 
+[node name="banned_bg" type="ColorRect" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/post_field"]
+visible = false
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/post_field"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="post_count" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/post_field/VBoxContainer"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "9999"
+label_settings = SubResource("LabelSettings_sis1o")
+horizontal_alignment = 1
+
+[node name="post_pips_list" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/post_field/VBoxContainer"]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 0
+
 [node name="post_field" type="PanelContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
@@ -156,13 +186,8 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="post_text" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/post_field/MarginContainer"]
-custom_minimum_size = Vector2(260, 0)
+[node name="post_list" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/post_field/MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 1
-text = "Farts and such."
-label_settings = ExtResource("2_2btve")
-autowrap_mode = 2
 
 [node name="signature_field" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -177,6 +202,7 @@ theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
 [node name="signature_text" type="Label" parent="MarginContainer/VBoxContainer/signature_field/MarginContainer"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "the *BORK* is supposed to go here"

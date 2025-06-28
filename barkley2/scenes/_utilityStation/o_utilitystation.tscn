@@ -1,48 +1,13 @@
-[gd_scene load_steps=73 format=3 uid="uid://bgh5fvxav7ccl"]
+[gd_scene load_steps=72 format=3 uid="uid://bgh5fvxav7ccl"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="1_1b3d7"]
-[ext_resource type="Script" path="res://barkley2/scenes/_utilityStation/o_utilitystation.gd" id="1_16j3l"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_tb7wh"]
+[ext_resource type="Script" uid="uid://ctlgoa0tgob3" path="res://barkley2/scenes/_utilityStation/o_utilitystation.gd" id="1_16j3l"]
+[ext_resource type="Resource" uid="uid://cx21qflume31" path="res://barkley2/scenes/_utilityStation/o_utilitystation_cut_mod.tres" id="3_akc07"]
+[ext_resource type="Resource" uid="uid://dorxc5p18iylq" path="res://barkley2/scenes/_utilityStation/o_utilitystation_cut2.tres" id="4_ayk00"]
 [ext_resource type="Texture2D" uid="uid://dgl5q0lsj2wvv" path="res://barkley2/assets/b2_original/images/merged/s_station1.png" id="5_2sc20"]
 [ext_resource type="Texture2D" uid="uid://cmgphfhycjh7h" path="res://barkley2/assets/b2_original/images/merged/sUtilityStationEnter.png" id="6_78w3o"]
 [ext_resource type="Texture2D" uid="uid://c7ajugknq7uac" path="res://barkley2/assets/b2_original/images/merged/sUtilityStationExit.png" id="7_7ktga"]
 [ext_resource type="Texture2D" uid="uid://dbcarurkuoke3" path="res://barkley2/assets/b2_original/images/merged/s_station2.png" id="8_ca8sj"]
-
-[sub_resource type="Resource" id="Resource_ol6ls"]
-script = ExtResource("2_tb7wh")
-original_script = "EVENT   | o_utilitystation | 0
-MOVETO  | o_cts_hoopz | $pos1 | MOVE_NORMAL
-WAIT    | 0
-LOOK    | o_cts_hoopz | NORTH
-WAIT    | 0.1
-SOUND   | $snd
-PLAYSET | o_utilitystation | open | opened
-WAIT    | 0
-PLAYSET | o_utilitystation | enter | enterLast
-Misc    | visible | o_cts_hoopz | 0
-WAIT    | 0
-FADE    | 1 | 0.25
-WAIT    | 0.35
-Create  | ustation
-EVENT   | o_utilitystation | 1"
-
-[sub_resource type="Resource" id="Resource_xprg8"]
-script = ExtResource("2_tb7wh")
-original_script = "Misc    | visible | o_cts_hoopz | 0
-LOOK    | o_cts_hoopz | NORTH
-FADE    | 0 | 0.25
-WAIT    | 0.35
-SOUND   | $snd
-PLAYSET | o_utilitystation | exit | opened
-WAIT    | 0
-Misc    | visible | o_cts_hoopz | 1
-WAIT    | 0.1
-MOVETO  | o_cts_hoopz | $pos2 | MOVE_NORMAL
-WAIT    | 0
-LOOK    | o_cts_hoopz | SOUTH
-SOUND   | $snd2
-PLAYSET | o_utilitystation | close | closed
-WAIT    | 0"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hsdgq"]
 atlas = ExtResource("5_2sc20")
@@ -517,8 +482,8 @@ size = Vector2(39, 57)
 material = ExtResource("1_1b3d7")
 script = ExtResource("1_16j3l")
 mouse_detection_area = NodePath("ActorInteract")
-cutscene_script = SubResource("Resource_ol6ls")
-cutscene_script2 = SubResource("Resource_xprg8")
+cutscene_script = ExtResource("3_akc07")
+cutscene_script2 = ExtResource("4_ayk00")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false

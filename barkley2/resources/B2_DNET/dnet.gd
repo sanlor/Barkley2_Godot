@@ -29,24 +29,46 @@ const dentColorThreadNormal := Color.WHITE;
 const dentColorThreadSticky := Color.YELLOW;
 
 ## Pip colors
-const dnetColorPip_0 := Color.GREEN; # Regular user
-const dnetColorPip_1 := Color.WHITE; # Primo  - DOES NOT HAVE PIP COLOR, says text PRIMO
-const dnetColorPip_2 := Color.RED;   # Moderator
-const dnetColorPip_3 := Color.WHITE; # Banned - DOES NOT HAVE PIP COLOR, says text BANNED
-
+const dnetColorPip := [
+	Color.GREEN, # Regular user
+	Color.WHITE, # Primo  - DOES NOT HAVE PIP COLOR, says text PRIMO
+	Color.RED,   # Moderator
+	Color.WHITE # Banned - DOES NOT HAVE PIP COLOR, says text BANNED
+	]
 ## Time - Certain messages only appear at certain times.
 static var current_time := 0
 
-static func set_time( time : float ) -> void:
-	B2_Config.set_user_save_data("clock.time", time)
-
-static func get_time_str() -> String:
-	@warning_ignore("integer_division")
-	return str( get_time_hour() / 24 ).pad_zeros(2) + " Days, " + str( get_time_hour() % 24 ).pad_zeros(2) + ":" + str( get_time_minute() ).pad_zeros(2)
-
-static func get_time_hour() -> int:
-	@warning_ignore("integer_division")
-	return int( B2_Config.get_user_save_data("clock.time", 0.0) ) / 60
+static func Store(key : String, value = null, default = 0):
+	# if value is not found, return "default"
+	var questpath = "dnet.vars." + key;
 	
-static func get_time_minute() -> int:
-	return int( B2_Config.get_user_save_data("clock.time", 0.0) ) % 60
+	if value == null:
+		var _key_value = B2_Config.get_user_save_data(questpath)
+		if _key_value == null:
+			return default
+		else:
+			return _key_value
+	else:
+		B2_Config.set_user_save_data(questpath, value)
+		return true
+
+## Forget minutes, focus on hours
+static func time_before( time : String ) -> bool:
+	var hour 		:= int( time.get_slice(":",0) )
+	
+	if round( B2_ClockTime.time_get() ) <= hour:
+		return true
+	return false
+	
+## Forget minutes, focus on hours
+static func time_after( time : String ) -> bool:
+	#print(( B2_ClockTime.time_get() ))
+	var hour 		:= int( time.get_slice(":",0) )
+	if roundi( B2_ClockTime.time_get() ) >= hour:
+		return true
+			
+	return false
+
+## FUCK THIS! FUCK ALL OF THIS.
+static func get_time_hour() -> int:
+	return roundi( B2_ClockTime.time_gate() )

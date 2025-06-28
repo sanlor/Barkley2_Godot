@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://b6j74nhb30d71"]
+[gd_scene load_steps=135 format=3 uid="uid://b6j74nhb30d71"]
 
 [ext_resource type="Script" uid="uid://ccc57ojeg6n60" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.gd" id="1_djomj"]
 [ext_resource type="Script" uid="uid://c5x21u6ehltfj" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_registration_boot.gd" id="2_ra1n2"]
@@ -10,7 +10,9 @@
 [ext_resource type="Script" uid="uid://dpmm62nm8kgb0" path="res://barkley2/scenes/_utilityStation/dwarfnet/logging_in.gd" id="7_g5w7a"]
 [ext_resource type="Script" uid="uid://cch0jfv83oq7s" path="res://barkley2/scenes/_utilityStation/dwarfnet/loading_screen.gd" id="9_yfku8"]
 [ext_resource type="Script" uid="uid://42anvg084wi3" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_control.gd" id="10_vjg3e"]
+[ext_resource type="Shader" uid="uid://bqojt8fd0aul4" path="res://barkley2/scenes/_utilityStation/dwarfnet/dnet_bg.gdshader" id="11_dnxf6"]
 [ext_resource type="Texture2D" uid="uid://dno4eligup7v7" path="res://barkley2/assets/b2_original/images/merged/s_dnet_backdrop04.png" id="12_nvp66"]
+[ext_resource type="Texture2D" uid="uid://befbymftda6gg" path="res://barkley2/assets/b2_original/images/merged/s_dnet_backdrop05.png" id="12_qhso7"]
 [ext_resource type="Script" uid="uid://b4rlkilgt3366" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_background.gd" id="13_3cnd1"]
 [ext_resource type="Script" uid="uid://ccdqf8pe86tgo" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_app.gd" id="13_nvp66"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="14_3cnd1"]
@@ -25,6 +27,7 @@
 [ext_resource type="Texture2D" uid="uid://bihj8wrcn7ih0" path="res://barkley2/assets/b2_original/images/merged/sDNETAvatarL.png" id="21_70xna"]
 [ext_resource type="Texture2D" uid="uid://b1pmk66ye3i7n" path="res://barkley2/scenes/_utilityStation/dwarfnet/sDNETAvatarL.tres" id="22_8bfdw"]
 [ext_resource type="Texture2D" uid="uid://cyodnh32pyd7u" path="res://barkley2/assets/b2_original/images/merged/s_dnet_system_skin.png" id="23_vx2b1"]
+[ext_resource type="Script" uid="uid://dup6aif4efppq" path="res://barkley2/scenes/_utilityStation/dwarfnet/music_vol.gd" id="24_fyx3i"]
 [ext_resource type="Script" uid="uid://c1g88oti7mjnd" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_exit.gd" id="26_70xna"]
 [ext_resource type="AudioStream" uid="uid://cbyyi4k6j7w7b" path="res://barkley2/assets/b2_original/audio/Dwarfnet/sn_dnet_subforum_exit.ogg" id="27_8bfdw"]
 [ext_resource type="Script" uid="uid://24gnsruhcsjk" path="res://barkley2/scenes/_utilityStation/dwarfnet/o_dnet_chat.gd" id="28_vx2b1"]
@@ -71,6 +74,10 @@ Button/fonts/font = ExtResource("5_rd6pc")
 Button/styles/normal = SubResource("StyleBoxFlat_g5w7a")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mr2f5"]
+shader = ExtResource("11_dnxf6")
+shader_parameter/texture_1 = ExtResource("12_nvp66")
+shader_parameter/texture_2 = ExtResource("12_qhso7")
+shader_parameter/transform_ratio = 1.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_qiixl"]
 load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
@@ -504,6 +511,60 @@ func _physics_process(delta: float) -> void:
 		t -= 5.0 * delta
 "
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urwmb"]
+bg_color = Color(0, 0.5, 0.5, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.25, 0.25, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a33i1"]
+bg_color = Color(1.44392e-07, 0.579461, 0.57946, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.25, 0.25, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hswwf"]
+bg_color = Color(5.29438e-06, 0.743395, 0.743395, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.25, 0.25, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e820o"]
+border_width_left = 10
+border_color = Color(0, 0.14984, 0.14984, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klmx8"]
+border_width_left = 10
+border_color = Color(1.8049e-07, 0.235457, 0.235457, 1)
+
+[sub_resource type="Theme" id="Theme_bqb3r"]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_urwmb")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_a33i1")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_hswwf")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_e820o")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_klmx8")
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_tnrck"]
 load_path = "res://.godot/imported/sDNETBorder0.png-b11478fc71fc77539e2977d0d0de28ae.ctex"
 
@@ -515,8 +576,6 @@ region = Rect2(0, 0, 30, 30)
 [node name="dnet_screen" type="CanvasLayer" node_paths=PackedStringArray("audio_stream_player")]
 script = ExtResource("1_djomj")
 audio_stream_player = NodePath("AudioStreamPlayer")
-enable_boot = false
-enable_registration = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"Music"
@@ -1367,6 +1426,7 @@ theme_override_constants/margin_bottom = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 10
 
 [node name="chaos_control" type="VBoxContainer" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 20)
@@ -1384,6 +1444,26 @@ label_settings = ExtResource("3_ra1n2")
 [node name="time_slider" type="HSlider" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control"]
 layout_mode = 2
 theme = SubResource("Theme_e820o")
+
+[node name="music_vol" type="VBoxContainer" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer" node_paths=PackedStringArray("music_player")]
+layout_mode = 2
+script = ExtResource("24_fyx3i")
+music_player = NodePath("../../../../../../AudioStreamPlayer")
+
+[node name="music_vol_title" type="Label" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol"]
+layout_mode = 2
+text = "Music Volume"
+label_settings = ExtResource("3_ra1n2")
+
+[node name="music_vol_slider" type="HSlider" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol"]
+layout_mode = 2
+
+[node name="alt_bg_btn" type="Button" parent="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+tooltip_text = "Enable an alternate BG that I found in  the code. Aparently, there were 6 or more different BGs, but only 2 are left."
+toggle_mode = true
+text = "Enable alt BG"
 
 [node name="o_dnet_app" type="Control" parent="o_dnet_control"]
 visible = false
@@ -1677,6 +1757,7 @@ offset_left = 10.0
 offset_top = 2.0
 offset_right = 374.0
 offset_bottom = 196.0
+theme = SubResource("Theme_bqb3r")
 
 [node name="MarginContainer" type="MarginContainer" parent="o_dnet_control/o_dnet_thread/ScrollContainer"]
 layout_mode = 2
@@ -1696,6 +1777,7 @@ layout_mode = 2
 texture = SubResource("AtlasTexture_pq5a4")
 
 [node name="o_dnet_post" type="Control" parent="o_dnet_control"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1712,6 +1794,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_bqb3r")
 
 [node name="MarginContainer" type="MarginContainer" parent="o_dnet_control/o_dnet_post/ScrollContainer"]
 layout_mode = 2
@@ -1727,13 +1810,16 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="forum_post" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+self_modulate = Color(0.319647, 0.540647, 0.540647, 1)
 layout_mode = 2
 size_flags_vertical = 0
 
 [node name="forum_post2" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+self_modulate = Color(0.319647, 0.540647, 0.540647, 1)
 layout_mode = 2
 
 [node name="forum_post3" parent="o_dnet_control/o_dnet_post/ScrollContainer/MarginContainer/post_list" instance=ExtResource("32_c3brl")]
+self_modulate = Color(0.319647, 0.540647, 0.540647, 1)
 layout_mode = 2
 
 [connection signal="pressed" from="o_dnet_registration/registration/exit_btn" to="o_dnet_registration/registration" method="_on_exit_btn_pressed"]
@@ -1752,6 +1838,7 @@ layout_mode = 2
 [connection signal="pressed" from="o_dnet_control/o_dnet_muzak/bg_track/muzak_banner/play_controls/o_dnet_muzak_next" to="o_dnet_control/o_dnet_muzak" method="_on_o_dnet_muzak_next_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_muzak/pappy_himself/quick_and_dirty_mouse_detection" to="o_dnet_control/o_dnet_muzak" method="_on_quick_and_dirty_mouse_detection_pressed"]
 [connection signal="finished" from="o_dnet_control/o_dnet_muzak/pappy_audio" to="o_dnet_control/o_dnet_muzak" method="_on_pappy_audio_finished"]
+[connection signal="visibility_changed" from="o_dnet_control/o_dnet_settings" to="o_dnet_control/o_dnet_settings" method="_on_visibility_changed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_1" to="o_dnet_control/o_dnet_settings" method="_on_skin_1_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_2" to="o_dnet_control/o_dnet_settings" method="_on_skin_2_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_3" to="o_dnet_control/o_dnet_settings" method="_on_skin_3_pressed"]
@@ -1760,6 +1847,9 @@ layout_mode = 2
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/custom_box/skin_6" to="o_dnet_control/o_dnet_settings" method="_on_skin_6_pressed"]
 [connection signal="pressed" from="o_dnet_control/o_dnet_settings/not_cannon_btn" to="o_dnet_control/o_dnet_settings" method="_on_not_cannon_btn_pressed"]
 [connection signal="value_changed" from="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/chaos_control/time_slider" to="o_dnet_control/o_dnet_settings" method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol/music_vol_slider" to="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol" method="_on_music_vol_slider_value_changed"]
+[connection signal="visibility_changed" from="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol/music_vol_slider" to="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/music_vol" method="_on_music_vol_slider_visibility_changed"]
+[connection signal="pressed" from="o_dnet_control/o_dnet_settings/not_cannon/MarginContainer/VBoxContainer/alt_bg_btn" to="o_dnet_control/o_dnet_settings" method="_on_alt_bg_btn_pressed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_salutations" to="o_dnet_control" method="_on_forum_salutations_button_pressed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_comix" to="o_dnet_control" method="_on_forum_comix_button_pressed"]
 [connection signal="button_pressed" from="o_dnet_control/o_dnet_app/GridContainer/forum_gems" to="o_dnet_control" method="_on_forum_gems_button_pressed"]
@@ -1774,3 +1864,4 @@ layout_mode = 2
 [connection signal="pressed" from="o_dnet_control/o_dnet_exit/big_pussy_is_a_funny_name_for_a_character/HBoxContainer/nein_btn" to="o_dnet_control/o_dnet_exit" method="_on_nein_btn_pressed"]
 [connection signal="timeout" from="o_dnet_control/o_dnet_chat/chat_timer" to="o_dnet_control/o_dnet_chat" method="_on_chat_timer_timeout"]
 [connection signal="thread_pressed" from="o_dnet_control/o_dnet_thread" to="o_dnet_control" method="_on_o_dnet_thread_thread_pressed"]
+[connection signal="visibility_changed" from="o_dnet_control/o_dnet_thread" to="o_dnet_control/o_dnet_thread" method="_on_visibility_changed"]

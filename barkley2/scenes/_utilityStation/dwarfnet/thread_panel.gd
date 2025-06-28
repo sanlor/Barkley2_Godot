@@ -11,19 +11,26 @@ const dentColorThreadSticky := Color.YELLOW
 @onready var thread_poster_text: 	Label = $thread_poster_text
 @onready var thread_icon_tex: 		TextureRect = $thread_icon_tex
 @onready var thread_favorite: 		TextureButton = $thread_favorite
+@onready var thread_has_pool: 		TextureRect = $thread_icon_tex/thread_has_pool
 
 
 @export var thread_icon 			:= 0
+@export var thread_name				:= ""
 @export var thread_title			:= "Placeholder"
 @export var thread_poster			:= "Placeholder"
 @export var is_sticky				:= false
 @export var is_locked				:= false
+@export var has_pool				:= false
 @export var thread_favorite_opt		:= false
 
 @export_tool_button("Update Icon") var _update : Callable = update_button
 
 func _ready() -> void:
 	update_button()
+	
+	if B2_DNET.Store( thread_name ):
+		thread_favorite.button_pressed = true
+		_on_thread_favorite_toggled( true )
 
 func update_button() -> void:
 	thread_icon_tex.texture.region.position.x = thread_icon * 29
@@ -34,7 +41,9 @@ func update_button() -> void:
 	if is_sticky:		self_modulate = dentColorThreadSticky; thread_favorite.visible = false
 	elif is_locked:		self_modulate = dentColorThreadLocked; thread_favorite.visible = false
 	else:				self_modulate = dentColorThreadNormal; thread_favorite.visible = true
-
+	
+	thread_has_pool.visible = has_pool
+	#print(has_pool)
 
 func light_up( enabled : bool ) -> void:
 	if enabled:		texture.region.position.x = 30.0
@@ -59,3 +68,11 @@ func _on_gui_input(event: InputEvent) -> void:
 			if Input.is_action_just_pressed("Action"):
 				## TODO Add SFX (Like the one used on old Internet explorer when you clicked on a link)
 				button_pressed.emit()
+
+func _on_thread_favorite_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		self_modulate = Color(randf(),randf(),randf())
+		if thread_name: B2_DNET.Store( thread_name, 1 )
+	else:
+		self_modulate = Color.WHITE
+		if thread_name: B2_DNET.Store( thread_name, 0 )

@@ -44,7 +44,6 @@
 [ext_resource type="Texture2D" uid="uid://cjn8v32b2vr0q" path="res://barkley2/assets/b2_original/images/sGlebFace.png" id="41_2654u"]
 
 [sub_resource type="GDScript" id="GDScript_nsxts"]
-resource_local_to_scene = false
 resource_name = "utility_bg"
 script/source = "@tool
 extends Control
@@ -59,7 +58,7 @@ var my_color 	:= Color.GREEN
 func _ready() -> void:
 	if B2_Screen.is_utility_open:
 		if B2_Screen.utility_screen:
-			#B2_Screen.utility_screen.flickered.connect( flicker )
+			B2_Screen.utility_screen.flickered.connect( flicker )
 			B2_Screen.utility_screen.set_color.connect( _set_color )
 			B2_Screen.utility_screen.set_bg_intensity.connect( _set_intensity )
 
@@ -78,10 +77,10 @@ func _draw() -> void:
 	
 	@warning_ignore(\"integer_division\")
 	for w in B2_Gamedata.SCREEN_WIDTH / 8:
-		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity) )
+		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * 0.5) )
 	@warning_ignore(\"integer_division\")
 	for h in B2_Gamedata.SCREEN_HEIGHT / 8:
-		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity) )
+		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity * 0.5) )
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8sg6d"]
@@ -139,7 +138,6 @@ line_spacing = 0.0
 font = ExtResource("12_etmwp")
 
 [sub_resource type="GDScript" id="GDScript_yj7y8"]
-resource_local_to_scene = false
 resource_name = "poise"
 script/source = "extends Panel
 
@@ -198,7 +196,6 @@ font = ExtResource("9_rf8p1")
 font = ExtResource("10_rf8p1")
 
 [sub_resource type="GDScript" id="GDScript_jigd8"]
-resource_local_to_scene = false
 resource_name = "res_graph"
 script/source = "@tool
 extends Panel
@@ -357,7 +354,6 @@ grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
 [node name="main_info_panel" type="Control" parent="frame"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 12.0
@@ -1468,68 +1464,13 @@ offset_right = 25.0
 offset_bottom = 39.0
 
 [node name="hud_weight" type="ColorRect" parent="frame/main_info_panel/weight/weight"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 2
-auto_translate_mode = 0
-editor_description = ""
-visible = true
-modulate = Color(1, 1, 1, 1)
-self_modulate = Color(1, 1, 1, 1)
-show_behind_parent = false
-top_level = false
-clip_children = 0
-light_mask = 1
-visibility_layer = 1
-z_index = 0
-z_as_relative = true
-y_sort_enabled = false
-texture_filter = 0
-texture_repeat = 0
-material = null
-use_parent_material = false
 clip_contents = true
-custom_minimum_size = Vector2(0, 0)
-layout_direction = 0
 layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
 offset_left = 7.0
 offset_top = 5.0
 offset_right = 20.0
 offset_bottom = 35.0
-grow_horizontal = 1
-grow_vertical = 1
-rotation = 0.0
-scale = Vector2(1, 1)
-pivot_offset = Vector2(0, 0)
-size_flags_horizontal = 1
-size_flags_vertical = 1
-size_flags_stretch_ratio = 1.0
-localize_numeral_system = true
-tooltip_text = ""
-tooltip_auto_translate_mode = 0
-focus_neighbor_left = NodePath("")
-focus_neighbor_top = NodePath("")
-focus_neighbor_right = NodePath("")
-focus_neighbor_bottom = NodePath("")
-focus_next = NodePath("")
-focus_previous = NodePath("")
-focus_mode = 0
 mouse_filter = 2
-mouse_force_pass_scroll_events = true
-mouse_default_cursor_shape = 0
-theme = null
-theme_type_variation = &""
-color = Color(1, 1, 1, 1)
-script = null
 
 [node name="hud_weight_number" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 modulate = Color(0, 0, 0, 1)
@@ -3252,6 +3193,7 @@ label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 
 [node name="dwarfnet_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -3294,6 +3236,7 @@ offset_top = 12.0
 offset_right = 372.0
 offset_bottom = 228.0
 theme = ExtResource("4_qw4ou")
+vertical_scroll_mode = 3
 
 [node name="right_panel_vbox" type="VBoxContainer" parent="frame/right_panel"]
 layout_mode = 2
@@ -3305,7 +3248,6 @@ theme_override_constants/separation = 1
 layout_mode = 2
 size_flags_vertical = 4
 text = "X114JAM9"
-autowrap_mode = 1
 
 [node name="gun_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
 layout_mode = 2
@@ -3524,4 +3466,5 @@ autowrap_mode = 1
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/inventory_btn" to="." method="_on_inventory_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_btn" to="." method="_on_dwarf_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_menu/dwarf_connect_btn" to="." method="_on_dwarf_connect_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/unplug_btn" to="." method="_on_unplug_btn_pressed"]
