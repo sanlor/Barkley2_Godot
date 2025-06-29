@@ -63,6 +63,10 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 
 @onready var equip_btn: 		Button = $frame/right_panel/right_panel_vbox/equip_btn
 @onready var equip_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/equip_menu
+@onready var equip_helmet_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_helmet_btn
+@onready var equip_jerkin_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn
+@onready var equip_equip_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_equip_btn
+
 
 @onready var inventory_btn: 	Button = $frame/right_panel/right_panel_vbox/inventory_btn
 @onready var inventory_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/inventory_menu
@@ -89,6 +93,7 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
 @onready var inventory_panel: 				B2_UtilityPanel = $frame/inventory_panel
 @onready var dwarfnet_panel: 				B2_UtilityPanel = $frame/dwarfnet_panel
+@onready var equipment_panel: 				B2_UtilityPanel = $frame/equipment_panel
 
 ## Menu control
 enum {
@@ -105,6 +110,7 @@ enum {
 		BRAIN,
 			VIDCONS,
 		EQUIP,
+			EQUIP_EQUIP,	## Equip the equipment # NOTE saying equipment lots of times is pretty annoying.
 		INV,
 		DWARF, ## Oh boy x10
 		UNPLUG
@@ -177,6 +183,9 @@ func _ready() -> void:
 	B2_Vidcon.give_vidcon( 3 )
 	B2_Vidcon.unbox_vidcon( 0 )
 	B2_Vidcon.unbox_vidcon( 1 )
+	B2_Jerkin.gain_jerkin("Lead Jerkin")
+	B2_Jerkin.gain_jerkin("Vestal Jerkin")
+	B2_Jerkin.gain_jerkin("Bottlecap Jerkin")
 	
 	layer = B2_Config.UTIL_LAYER
 	
@@ -197,9 +206,12 @@ func _ready() -> void:
 	main_btn.text = Text.pr( B2_Playerdata.Quest("playerNameFull", null, "Undefined") )
 
 ## WARNING This sucks. need to create a theme that handles this.
+## NOTE ^^^^ Bad idea, performance tanks when messing around with colors inside the theme.
 func _modulate_some_buttons_i_guess() -> void:
 	right_panel.modulate = Color( grid_color, 0.75 )
 	
+## Messy code. Hide everything and then check what should be visible.
+# Is there a better option?
 func _hide_all() -> void:
 	## NOTE Info panels
 	main_info_panel.hide_panel()
@@ -214,6 +226,7 @@ func _hide_all() -> void:
 	candy_panel.hide_panel()
 	inventory_panel.hide_panel()
 	dwarfnet_panel.hide_panel()
+	equipment_panel.hide_panel()
 	
 	## NOTE Buttons
 	main_btn.hide(); 						main_btn.disabled = false
@@ -234,13 +247,20 @@ func _hide_all() -> void:
 	gun_reload_btn.hide(); 					gun_reload_btn.disabled = false
 	gun_breed_btn.hide(); 					gun_breed_btn.disabled = false
 	candy_btn.hide(); 						candy_btn.disabled = false
+	
 	brain_btn.hide(); 						brain_btn.disabled = false
+	brain_vidcon_btn.hide();				brain_vidcon_btn.disabled = false
+	brain_vidcon_unbox_btn.hide();			brain_vidcon_unbox_btn.disabled = false
+	
 	equip_btn.hide(); 						equip_btn.disabled = false
+	equip_helmet_btn.hide();				equip_helmet_btn.disabled = false
+	equip_jerkin_btn.hide();				equip_jerkin_btn.disabled = false
+	equip_equip_btn.hide();					equip_equip_btn.disabled = false
 	inventory_btn.hide(); 					inventory_btn.disabled = false
 	dwarf_btn.hide(); 						dwarf_btn.disabled = false
 	unplug_btn.hide(); 						unplug_btn.disabled = false
 	candy_make_btn.hide(); 					candy_make_btn.disabled = false
-	brain_vidcon_unbox_btn.hide();			brain_vidcon_unbox_btn.disabled = false
+	
 	dwarf_connect_btn.hide();				dwarf_connect_btn.disabled = false
 	## NOTE Menus
 	gun_menu.hide()
@@ -267,7 +287,8 @@ func _control_btn_state() -> void:
 	gun_smelt_unfaves_btn.disabled = 	B2_Gun.get_gunbag().is_empty()
 	gun_smelt_inbag_btn.disabled = 		B2_Gun.get_gunbag().is_empty()
 	
-## There has to be a better way to handle this.
+## Handle menu state, showing or hiding menu elements.
+# NOTE There has to be a better way to handle this.
 func _change_menu_state( state ) -> bool:
 	_hide_all()
 	_control_btn_state()
@@ -429,6 +450,22 @@ func _change_menu_state( state ) -> bool:
 			brain_menu.show()
 			
 			brain_vidcon_unbox_btn.grab_focus()
+		EQUIP, EQUIP_EQUIP:
+			## NOTE Info panels
+			equipment_panel.show_panel()
+			## NOTE Buttons
+			main_btn.show()
+			equip_btn.show()
+			equip_btn.disabled = true
+			if state == EQUIP:
+				equip_helmet_btn.show()
+				equip_jerkin_btn.show()
+			elif state == EQUIP_EQUIP:
+				equip_equip_btn.show()
+			## NOTE Menus
+			equip_menu.show()
+			
+			equip_btn.grab_focus()
 		INV:
 			## NOTE Info panels
 			inventory_panel.show_panel()
@@ -493,7 +530,8 @@ func _on_brain_btn_pressed() -> void:
 		B2_Sound.play( "utility_button_click" )
 
 func _on_equip_btn_pressed() -> void:
-	pass # Replace with function body.
+	if _change_menu_state( EQUIP ):
+		B2_Sound.play( "utility_button_click" )
 
 func _on_inventory_btn_pressed() -> void:
 	if _change_menu_state( INV ):

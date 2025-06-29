@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=104 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -36,12 +36,19 @@
 [ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="35_8we6v"]
 [ext_resource type="Script" uid="uid://s4alhc01g8am" path="res://barkley2/scenes/_utilityStation/candy_panel.gd" id="37_2654u"]
 [ext_resource type="Script" uid="uid://btok3t5yp0xmp" path="res://barkley2/scenes/_utilityStation/inventory_panel.gd" id="38_4w3xs"]
+[ext_resource type="Script" uid="uid://dx2ofd05njk52" path="res://barkley2/scenes/_utilityStation/equipment_panel.gd" id="38_qvbyl"]
 [ext_resource type="PackedScene" uid="uid://ct6q20f2hyc1i" path="res://barkley2/scenes/_utilityStation/item_candy_conteiner.tscn" id="38_wwfm3"]
+[ext_resource type="Texture2D" uid="uid://bqqg3sty0foc5" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityHoopzFull.png" id="39_bcl5g"]
 [ext_resource type="PackedScene" uid="uid://bhg1cljv7fj0p" path="res://barkley2/scenes/_utilityStation/inv_item_selection.tscn" id="39_hpkte"]
 [ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="39_qvbyl"]
 [ext_resource type="Texture2D" uid="uid://ckdra5vpxt43g" path="res://barkley2/assets/b2_original/images/merged/sCandy.png" id="40_bcl5g"]
+[ext_resource type="Texture2D" uid="uid://be3l8wqir5k65" path="res://barkley2/assets/b2_original/images/merged/sHelmet.png" id="40_dvexd"]
 [ext_resource type="Script" uid="uid://5shgeby8tgl6" path="res://barkley2/scenes/_utilityStation/dwarfnet_panel.gd" id="40_ynypu"]
 [ext_resource type="Texture2D" uid="uid://cjn8v32b2vr0q" path="res://barkley2/assets/b2_original/images/sGlebFace.png" id="41_2654u"]
+[ext_resource type="PackedScene" uid="uid://bkcmn5g8s5kyd" path="res://barkley2/scenes/_utilityStation/equip_resistance_icon.tscn" id="41_dvexd"]
+[ext_resource type="Script" uid="uid://cp0gnyte34rrc" path="res://barkley2/scenes/_utilityStation/equip_status.gd" id="42_bueka"]
+[ext_resource type="PackedScene" uid="uid://cjas0gw3vpimm" path="res://barkley2/scenes/_utilityStation/equip_jerkin_selection.tscn" id="43_xk021"]
+[ext_resource type="PackedScene" uid="uid://b7hd05dd3oyw2" path="res://barkley2/scenes/_utilityStation/equip_no_equip.tscn" id="44_8x52w"]
 
 [sub_resource type="GDScript" id="GDScript_nsxts"]
 resource_name = "utility_bg"
@@ -330,6 +337,24 @@ font = ExtResource("10_rf8p1")
 [sub_resource type="LabelSettings" id="LabelSettings_sf8h1"]
 font = ExtResource("8_tq0ww")
 
+[sub_resource type="LabelSettings" id="LabelSettings_xk021"]
+font = ExtResource("8_tq0ww")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8x52w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w3x42"]
+font = ExtResource("12_etmwp")
+
+[sub_resource type="LabelSettings" id="LabelSettings_5mo04"]
+font = ExtResource("12_etmwp")
+
+[sub_resource type="LabelSettings" id="LabelSettings_fl6jq"]
+font = ExtResource("9_rf8p1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_en4f6"]
+atlas = ExtResource("39_qvbyl")
+region = Rect2(0, 0, 24, 24)
+
 [sub_resource type="LabelSettings" id="LabelSettings_wwfm3"]
 font = ExtResource("6_inixc")
 
@@ -354,6 +379,7 @@ grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
 [node name="main_info_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 12.0
@@ -3058,6 +3084,883 @@ label_settings = SubResource("LabelSettings_tq0ww")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="equipment_panel" type="Control" parent="frame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = -84.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_qw4ou")
+script = ExtResource("38_qvbyl")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="resistances" type="Control" parent="frame/equipment_panel"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 13.0
+offset_right = 45.0
+offset_bottom = 53.0
+
+[node name="tab_name_res" type="Panel" parent="frame/equipment_panel/resistances"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 216.0
+offset_top = 15.0
+offset_right = 272.0
+offset_bottom = 23.0
+
+[node name="tab_label" type="Label" parent="frame/equipment_panel/resistances/tab_name_res"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "RESISTANCES"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tab_name_def" type="Panel" parent="frame/equipment_panel/resistances"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_top = -9.0
+offset_right = 48.0
+offset_bottom = -1.0
+
+[node name="tab_label" type="Label" parent="frame/equipment_panel/resistances/tab_name_def"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DEFENSE"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="defense" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 56.0
+offset_bottom = 47.0
+
+[node name="SMenuUtilityDefense" type="TextureRect" parent="frame/equipment_panel/resistances/defense"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_2kqn3")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="defense_value" type="Label" parent="frame/equipment_panel/resistances/defense"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "20"
+label_settings = SubResource("LabelSettings_xscvq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_graph" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -9.0
+offset_right = 112.0
+offset_bottom = 39.0
+script = SubResource("GDScript_jigd8")
+triangle_offset = 0.75
+rot_offset = 2.5
+
+[node name="res_blip" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -20.0
+offset_right = -11.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip2" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip3" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 9.0
+offset_right = -16.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip4" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 21.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="res_blip5" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = 17.0
+offset_right = 1.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_de10n")
+stretch_mode = 2
+
+[node name="bio_panel" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = -9.0
+offset_right = 144.0
+offset_bottom = 15.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/bio_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="res_label" type="Label" parent="frame/equipment_panel/resistances/bio_panel/vbox"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "BIO"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_value" type="Label" parent="frame/equipment_panel/resistances/bio_panel/vbox"]
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8x52w")
+horizontal_alignment = 1
+
+[node name="cyber_panel" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = -9.0
+offset_right = 176.0
+offset_bottom = 15.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/cyber_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="res_label" type="Label" parent="frame/equipment_panel/resistances/cyber_panel/vbox"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "CYBER"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_value" type="Label" parent="frame/equipment_panel/resistances/cyber_panel/vbox"]
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8x52w")
+horizontal_alignment = 1
+
+[node name="mental_panel" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 176.0
+offset_top = -9.0
+offset_right = 208.0
+offset_bottom = 15.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/mental_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="res_label" type="Label" parent="frame/equipment_panel/resistances/mental_panel/vbox"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "MENTAL"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_value" type="Label" parent="frame/equipment_panel/resistances/mental_panel/vbox"]
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8x52w")
+horizontal_alignment = 1
+
+[node name="kosmic_panel" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 208.0
+offset_top = -9.0
+offset_right = 240.0
+offset_bottom = 15.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/kosmic_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="res_label" type="Label" parent="frame/equipment_panel/resistances/kosmic_panel/vbox"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "KOSMIC"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_value" type="Label" parent="frame/equipment_panel/resistances/kosmic_panel/vbox"]
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8x52w")
+horizontal_alignment = 1
+
+[node name="zauber_panel" type="Panel" parent="frame/equipment_panel/resistances"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = -9.0
+offset_right = 272.0
+offset_bottom = 15.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/zauber_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="res_label" type="Label" parent="frame/equipment_panel/resistances/zauber_panel/vbox"]
+self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "ZAUBER"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_value" type="Label" parent="frame/equipment_panel/resistances/zauber_panel/vbox"]
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8x52w")
+horizontal_alignment = 1
+
+[node name="hoopz_stat" type="Control" parent="frame/equipment_panel"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 61.0
+offset_right = 117.0
+offset_bottom = 205.0
+
+[node name="hoopz" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 80.0
+offset_bottom = 150.0
+
+[node name="my_main_man" type="TextureRect" parent="frame/equipment_panel/hoopz_stat/hoopz"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -34.5
+offset_top = -73.0
+offset_right = 34.5
+offset_bottom = 73.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("39_bcl5g")
+stretch_mode = 2
+
+[node name="pockets" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 86.0
+offset_right = 72.0
+offset_bottom = 110.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/pockets"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/pockets/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "POCKET"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/pockets/vbox"]
+layout_mode = 2
+text = "9"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="weight" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = -1.0
+offset_right = 112.0
+offset_bottom = 23.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/weight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/weight/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "WEIGHT"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/weight/vbox"]
+layout_mode = 2
+text = "69~"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="guts" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 23.0
+offset_right = 112.0
+offset_bottom = 47.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/guts"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/guts/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "GUTS"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/guts/vbox"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="luck" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 47.0
+offset_right = 112.0
+offset_bottom = 71.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/luck"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/luck/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "LUCK"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/luck/vbox"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="acro" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 71.0
+offset_right = 112.0
+offset_bottom = 95.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/acro"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/acro/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "ACRO"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/acro/vbox"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="might" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 95.0
+offset_right = 112.0
+offset_bottom = 119.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/might"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/might/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "MIGHT"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/might/vbox"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="piety" type="Panel" parent="frame/equipment_panel/hoopz_stat"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 119.0
+offset_right = 112.0
+offset_bottom = 143.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/piety"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="stat_label" type="Label" parent="frame/equipment_panel/hoopz_stat/piety/vbox"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 2
+text = "PIETY"
+label_settings = SubResource("LabelSettings_xk021")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_value" type="Label" parent="frame/equipment_panel/hoopz_stat/piety/vbox"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_w3x42")
+horizontal_alignment = 1
+
+[node name="helm" type="Control" parent="frame/equipment_panel"]
+visible = false
+anchors_preset = 0
+offset_left = 133.0
+offset_top = 44.0
+offset_right = 285.0
+offset_bottom = 84.0
+
+[node name="tab_name_res" type="Panel" parent="frame/equipment_panel/helm"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_right = 56.0
+offset_bottom = 8.0
+
+[node name="tab_label" type="Label" parent="frame/equipment_panel/helm/tab_name_res"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HELMET"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="equip_texture" type="Panel" parent="frame/equipment_panel/helm"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 33.0
+offset_bottom = 48.0
+
+[node name="equip_texture" type="TextureRect" parent="frame/equipment_panel/helm/equip_texture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -17.0
+offset_right = 12.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("40_dvexd")
+
+[node name="equip_weight" type="Label" parent="frame/equipment_panel/helm/equip_texture"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -11.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "1~"
+label_settings = SubResource("LabelSettings_5mo04")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="equip_data" type="Panel" parent="frame/equipment_panel/helm"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 48.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/helm/equip_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="equip_name" type="Label" parent="frame/equipment_panel/helm/equip_data/vbox"]
+layout_mode = 2
+text = "Bonnet"
+label_settings = SubResource("LabelSettings_fl6jq")
+
+[node name="equip_grid" type="GridContainer" parent="frame/equipment_panel/helm/equip_data/vbox"]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="res_icon_normal" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+
+[node name="res_icon_bio" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 1
+
+[node name="res_icon_cyber" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 2
+
+[node name="res_icon_mental" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 3
+
+[node name="res_icon_cosmic" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 4
+
+[node name="res_icon_zauber" parent="frame/equipment_panel/helm/equip_data/vbox/equip_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 5
+
+[node name="jerkin" type="Control" parent="frame/equipment_panel"]
+visible = false
+anchors_preset = 0
+offset_left = 133.0
+offset_top = 100.0
+offset_right = 285.0
+offset_bottom = 140.0
+script = ExtResource("42_bueka")
+
+[node name="tab_name_res" type="Panel" parent="frame/equipment_panel/jerkin"]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_right = 56.0
+offset_bottom = 8.0
+
+[node name="tab_label" type="Label" parent="frame/equipment_panel/jerkin/tab_name_res"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "JERKIN"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="jerkin_texture" type="Panel" parent="frame/equipment_panel/jerkin"]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 33.0
+offset_bottom = 48.0
+
+[node name="jerkin_texture" type="TextureRect" parent="frame/equipment_panel/jerkin/jerkin_texture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -17.0
+offset_right = 12.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_en4f6")
+
+[node name="jerkin_weight" type="Label" parent="frame/equipment_panel/jerkin/jerkin_texture"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -11.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "99~"
+label_settings = SubResource("LabelSettings_5mo04")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="jerkin_data" type="Panel" parent="frame/equipment_panel/jerkin"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 48.0
+
+[node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/jerkin/jerkin_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="jerkin_name" type="Label" parent="frame/equipment_panel/jerkin/jerkin_data/vbox"]
+layout_mode = 2
+text = "Bonnet"
+label_settings = SubResource("LabelSettings_fl6jq")
+
+[node name="jerkin_grid" type="GridContainer" parent="frame/equipment_panel/jerkin/jerkin_data/vbox"]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="res_icon_normal" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+equip_type = 0
+
+[node name="res_icon_bio" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 1
+equip_type = 0
+
+[node name="res_icon_cyber" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 2
+equip_type = 0
+
+[node name="res_icon_mental" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 3
+equip_type = 0
+
+[node name="res_icon_cosmic" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 4
+equip_type = 0
+
+[node name="res_icon_zauber" parent="frame/equipment_panel/jerkin/jerkin_data/vbox/jerkin_grid" instance=ExtResource("41_dvexd")]
+layout_mode = 2
+resistance = 5
+equip_type = 0
+
+[node name="equip_selection" type="ScrollContainer" parent="frame/equipment_panel"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 44.0
+offset_right = 285.0
+offset_bottom = 212.0
+
+[node name="equip_selection_vbox" type="VBoxContainer" parent="frame/equipment_panel/equip_selection"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="equip_jerkin_selection" parent="frame/equipment_panel/equip_selection/equip_selection_vbox" instance=ExtResource("43_xk021")]
+custom_minimum_size = Vector2(152, 40)
+layout_mode = 2
+
+[node name="equip_jerkin_selection2" parent="frame/equipment_panel/equip_selection/equip_selection_vbox" instance=ExtResource("43_xk021")]
+layout_mode = 2
+
+[node name="equip_no_equip" parent="frame/equipment_panel/equip_selection/equip_selection_vbox" instance=ExtResource("44_8x52w")]
+layout_mode = 2
+
 [node name="inventory_panel" type="Control" parent="frame"]
 visible = false
 anchors_preset = 0
@@ -3395,6 +4298,18 @@ visible = false
 layout_mode = 2
 theme_override_constants/separation = 1
 
+[node name="equip_helmet_btn" type="Button" parent="frame/right_panel/right_panel_vbox/equip_menu"]
+layout_mode = 2
+text = "Helmet"
+
+[node name="equip_jerkin_btn" type="Button" parent="frame/right_panel/right_panel_vbox/equip_menu"]
+layout_mode = 2
+text = "Jerkin"
+
+[node name="equip_equip_btn" type="Button" parent="frame/right_panel/right_panel_vbox/equip_menu"]
+layout_mode = 2
+text = "Equip"
+
 [node name="inventory_btn" type="Button" parent="frame/right_panel/right_panel_vbox"]
 layout_mode = 2
 size_flags_vertical = 4
@@ -3436,6 +4351,8 @@ autowrap_mode = 1
 [connection signal="visibility_changed" from="frame/candy_panel" to="frame/candy_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_vidcon_panel" to="frame/brain_vidcon_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/equipment_panel" to="frame/equipment_panel" method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="frame/equipment_panel/jerkin" to="frame/equipment_panel/jerkin" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/inventory_panel" to="frame/inventory_panel" method="_on_visibility_changed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
@@ -3464,6 +4381,10 @@ autowrap_mode = 1
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_btn" to="." method="_on_brain_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn" to="." method="_on_vidcon_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="frame/equipment_panel" method="_on_equip_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_helmet_btn" to="frame/equipment_panel" method="_on_equip_helmet_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn" to="frame/equipment_panel" method="_on_equip_jerkin_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_equip_btn" to="frame/equipment_panel" method="_on_equip_equip_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/inventory_btn" to="." method="_on_inventory_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_btn" to="." method="_on_dwarf_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/dwarf_menu/dwarf_connect_btn" to="." method="_on_dwarf_connect_btn_pressed"]

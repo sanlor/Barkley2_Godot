@@ -46,11 +46,14 @@ static func time_init() -> void:
 	
 ## TODO Set this up correctly.
 static func _get_time() -> BTIME:
-	var clockTime = B2_Config.get_user_save_data( "clock.time", 0.0 )
+	var clockTime = B2_Config.get_user_save_data( "clock.time", 0 )
 	var t := BTIME.new()
+	@warning_ignore("integer_division")
 	t.seconds 		= floor( int(clockTime) % 60)
-	t.minutes 		= clockTime / 60.0
-	t.hours 		= t.minutes / 60.0
+	@warning_ignore("integer_division")
+	t.minutes 		= clockTime / 60
+	@warning_ignore("integer_division")
+	t.hours 		= t.minutes / 60
 	t.minutes 		= int(t.minutes) % 60
 	return t
 	

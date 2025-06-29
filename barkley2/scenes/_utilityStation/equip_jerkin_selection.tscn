@@ -1,0 +1,126 @@
+[gd_scene load_steps=10 format=3 uid="uid://cjas0gw3vpimm"]
+
+[ext_resource type="Script" uid="uid://d3x3lkua22v4m" path="res://barkley2/scenes/_utilityStation/equip_jerkin_selection.gd" id="1_wk8ij"]
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_xacnh"]
+[ext_resource type="Texture2D" uid="uid://cvyp0k17ke0yg" path="res://barkley2/assets/b2_original/images/merged/sJerkin.png" id="2_xacnh"]
+[ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="3_5alft"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="4_m422r"]
+[ext_resource type="PackedScene" uid="uid://bkcmn5g8s5kyd" path="res://barkley2/scenes/_utilityStation/equip_resistance_icon.tscn" id="5_qr1w6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_en4f6"]
+resource_local_to_scene = true
+atlas = ExtResource("2_xacnh")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5mo04"]
+font = ExtResource("3_5alft")
+
+[sub_resource type="LabelSettings" id="LabelSettings_fl6jq"]
+font = ExtResource("4_m422r")
+
+[node name="equip_jerkin_selection" type="HBoxContainer"]
+offset_right = 4.0
+focus_mode = 2
+mouse_filter = 0
+theme = ExtResource("1_xacnh")
+theme_override_constants/separation = 0
+script = ExtResource("1_wk8ij")
+
+[node name="jerkin_texture" type="Panel" parent="."]
+custom_minimum_size = Vector2(32, 40)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="jerkin_texture" type="TextureRect" parent="jerkin_texture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -17.0
+offset_right = 12.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_en4f6")
+
+[node name="jerkin_weight" type="Label" parent="jerkin_texture"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -11.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "99~"
+label_settings = SubResource("LabelSettings_5mo04")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="jerkin_data" type="Panel" parent="."]
+custom_minimum_size = Vector2(100, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="vbox" type="VBoxContainer" parent="jerkin_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="jerkin_name" type="Label" parent="jerkin_data/vbox"]
+layout_mode = 2
+text = "Bonnet"
+label_settings = SubResource("LabelSettings_fl6jq")
+
+[node name="jerkin_grid" type="GridContainer" parent="jerkin_data/vbox"]
+layout_mode = 2
+theme_override_constants/h_separation = 22
+theme_override_constants/v_separation = 0
+columns = 3
+
+[node name="res_icon_normal" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+equip_type = 0
+
+[node name="res_icon_bio" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+resistance = 1
+equip_type = 0
+
+[node name="res_icon_cyber" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+resistance = 2
+equip_type = 0
+
+[node name="res_icon_mental" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+resistance = 3
+equip_type = 0
+
+[node name="res_icon_cosmic" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+resistance = 4
+equip_type = 0
+
+[node name="res_icon_zauber" parent="jerkin_data/vbox/jerkin_grid" instance=ExtResource("5_qr1w6")]
+layout_mode = 2
+resistance = 5
+equip_type = 0
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

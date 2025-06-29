@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkcmn5g8s5kyd"]
+
+[ext_resource type="Script" uid="uid://bmor7n7u2wg5t" path="res://barkley2/scenes/_utilityStation/equip_resistance_icon.gd" id="1_q5gs8"]
+[ext_resource type="Texture2D" uid="uid://bhctrianm3xu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityResistanceBlip.png" id="2_0l1tr"]
+
+[node name="res_icon" type="HBoxContainer"]
+theme_override_constants/separation = 1
+script = ExtResource("1_q5gs8")
+
+[node name="res_tex" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_0l1tr")
+stretch_mode = 3
+
+[node name="res_value" type="Label" parent="."]
+layout_mode = 2
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

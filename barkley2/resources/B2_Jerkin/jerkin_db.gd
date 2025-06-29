@@ -1,6 +1,8 @@
 extends Resource
 class_name B2_Jerkin
 
+signal jerkin_changed
+
 ## Manages jerkin stuff
 # Unrelated, but check this out -> https://www.youtube.com/watch?v=WAYyMrPUGAo
 # Sometimes I wonder why im doing this. Will I ever finish it?
@@ -113,8 +115,8 @@ static func get_jerkin_stats( jerkin := "" ) -> Dictionary:
 			stat["Kosmic"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ KOSMIC ] 	)
 			stat["Zauber"] 		= int( JERKIN_LIST[ get_current_jerkin() ][ ZAUBER ] 	)
 			stat["Description"] = JERKIN_LIST[ get_current_jerkin() ][ DESCRIPTION ]
-		else:
-			push_warning("No jerkin equiped. Weird... Adding candy in 'null' pockets. Note, this is expected when enrering VR Mission")
+		#else:
+		#	push_warning("No jerkin equiped. Weird... Adding candy in 'null' pockets. Note, this is expected when enrering VR Mission")
 	else:
 		stat["Sub"] 		= int( JERKIN_LIST[ jerkin ][ SUB ] )
 		stat["Pkt"] 		= int( JERKIN_LIST[ jerkin ][ PKT ] )
@@ -133,6 +135,7 @@ static func equip_jerkin( jerkin : String ) -> void:
 	if JERKIN_LIST.has(jerkin):
 		if has_jerkin( jerkin ):
 			B2_Config.set_user_save_data("player.jerkins.current", jerkin)
+			print("Equipped jerking %s. ( %s )" % [get_current_jerkin(), jerkin])
 		else:
 			push_error("Tried to equip a jerkin that was not owned.")
 	else:
