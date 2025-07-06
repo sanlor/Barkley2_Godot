@@ -79,6 +79,7 @@ func _on_details_pressed() -> void:
 
 func update_hoopz():
 	o_cbt_hoopz.aim_gun( angle )
+	o_cbt_hoopz._update_held_gun() 
 
 func _on_timer_timeout() -> void:
 	if spin.button_pressed:
