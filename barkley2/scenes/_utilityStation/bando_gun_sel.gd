@@ -28,6 +28,9 @@ func _gui_input(event: InputEvent) -> void:
 				gun_selected.emit( my_gun ) ## Used in menus, when not using a mouse.
 		
 func setup( _my_gun : B2_Weapon ) -> void:
+	if not is_node_ready():
+		await ready
+		
 	my_gun = _my_gun
 	
 	if my_gun.favorite:		gun_text.modulate = Color.RED
@@ -51,6 +54,7 @@ func _on_focus_entered() -> void:
 		push_error("No weapon data.")
 	self_modulate = Color.WHITE * 2.0
 	selected = true
+	B2_Sound.play("hoopz_swapguns")
 	
 func _on_focus_exited() -> void:
 	self_modulate = Color.WHITE * 0.25

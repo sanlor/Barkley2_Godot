@@ -15,20 +15,28 @@ extends B2_UtilityPanel
 @onready var left_brain: TextureRect = $big_brain/large_spaghetti/left_brain
 @onready var right_brain: TextureRect = $big_brain/large_spaghetti/right_brain
 
+@onready var brain_levelup_btn: Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_btn"
 
 var pulse_level := false
 
 func update_menu() -> void:
 	if not is_node_ready():
 		return
-		
+	if not visible:
+		return
+	await get_tree().process_frame
+	
 	@warning_ignore("narrowing_conversion")
 	var to_next := maxi( 0, ( B2_Playerdata.player_stats.lvl - 11 ) * 60 ) - ( B2_Playerdata.player_stats.xp + B2_Vidcon.get_experience() )
 	if to_next <= 0:
 		level_up_text.show()
 		level_up_text.modulate = Color.GREEN
 		pulse_level = true
-	else: pulse_level = false
+		brain_levelup_btn.disabled = false
+	else: 
+		level_up_text.hide()
+		pulse_level = false
+		brain_levelup_btn.disabled = true
 	
 	## Level stuff
 	main_exp_value.text = str( int( B2_Playerdata.player_stats.xp + B2_Vidcon.get_experience() ) )

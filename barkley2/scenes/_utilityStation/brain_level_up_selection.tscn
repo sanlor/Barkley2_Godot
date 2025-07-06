@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://c5me4bth578xv"]
+
+[ext_resource type="Script" uid="uid://ef2pm2a7uimu" path="res://barkley2/scenes/_utilityStation/brain_level_up_selection.gd" id="1_6j06g"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="2_sykhs"]
+[ext_resource type="Script" uid="uid://dn3yp701ulof0" path="res://barkley2/scenes/_utilityStation/brain_level_up_selection_stat_wave.gd" id="3_sykhs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_khygn"]
+font = ExtResource("2_sykhs")
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ut2y"]
+font = ExtResource("2_sykhs")
+
+[node name="brain_level_up_selection" type="HBoxContainer"]
+theme_override_constants/separation = 0
+script = ExtResource("1_6j06g")
+
+[node name="stat_panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(40, 24)
+layout_mode = 2
+
+[node name="stat_name_lbl" type="Label" parent="stat_panel"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "FARTS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_points_panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="stat_point_lbl" type="Label" parent="stat_points_panel"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_khygn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat_wave" type="Panel" parent="."]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+clip_contents = true
+custom_minimum_size = Vector2(64, 24)
+layout_mode = 2
+script = ExtResource("3_sykhs")
+freq = 0.0
+
+[node name="stat_OC_panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+
+[node name="stat_OC_lbl" type="Label" parent="stat_OC_panel"]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "OC"
+label_settings = SubResource("LabelSettings_0ut2y")
+horizontal_alignment = 1
+vertical_alignment = 1

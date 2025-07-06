@@ -2,9 +2,10 @@ extends B2_UtilityPanel
 
 ## Reusable scene. Used in at least, 3 screens.
 ## Display Bando and Bag gun status.
-# NOTE | Check this before changing this script -> https://www.youtube.com/watch?v=LB2rgtvcM4s&list=RDMMLB2rgtvcM4s
+# NOTE | Check this before changing this script -> https://www.youtube.com/watch?v=LB2rgtvcM4s
 
 signal changed_window_state
+signal gun_was_selected( gun : B2_Weapon )
 
 const PANEL_GUN_SEL = preload("res://barkley2/scenes/_utilityStation/panel_gun_sel.tscn")
 @export var spin_gun := false
@@ -80,7 +81,10 @@ const PANEL_GUN_SEL = preload("res://barkley2/scenes/_utilityStation/panel_gun_s
 @export var show_lineage			:= true
 @export var show_smelt				:= false
 
-var selected_gun : B2_Weapon
+var selected_gun : B2_Weapon :
+	set(s):
+		selected_gun = s
+		gun_was_selected.emit( s )
 
 func update_menu() -> void:
 	if not is_node_ready():

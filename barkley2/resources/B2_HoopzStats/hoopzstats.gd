@@ -75,8 +75,8 @@ var xp							:= 0
 
 ## Main Stats
 var guts					:= 12.0
-var luck  					:= 12.0 
-var agile  					:= 12.0 
+var luck  					:= 12.0
+var agile  					:= 12.0
 var might  					:= 12.0
 var piety  					:= 12.0
 var speed  					:= 12.0
@@ -189,40 +189,66 @@ func load_stats() -> void:
 	
 	B2_Playerdata.stat_updated.emit()
 
+## Increase base stats by a set amount. Used in leveling up.
+func increase_base_stat(  stat : String, value : float ) -> void:
+	match stat:
+		STAT_EFFECTIVE_MAX_HP:	max_health 	+= value
+		STAT_BASE_GUTS:			guts 		+= value
+		STAT_BASE_LUCK:			luck 		+= value
+		STAT_BASE_AGILE:		agile 		+= value
+		STAT_BASE_MIGHT:		might 		+= value
+		STAT_BASE_PIETY:		piety 		+= value
+		STAT_BASE_LEVEL:		lvl			+= value
+		_: breakpoint
+
 func set_base_stat( stat : String, value : float ) -> void:
 	set(stat.to_lower(), value)
 	if get(stat.to_lower()) == value:
 		B2_Playerdata.stat_updated.emit()
 	else:
-		push_error( "%s is not a valid stat." % stat.to_lower() )
+		push_error( "%s is not a valid stat. %s - %s." % [stat.to_lower(), get(stat.to_lower()), value] )
 
 func get_base_stat( stat : String ) -> int:
 	if get( stat.to_lower() ) == null:
 		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
 	return get( stat.to_lower() )
 
+@warning_ignore_start("narrowing_conversion")
 ## TODO Setup effective stats
 func get_effective_stat( stat : String ) -> int:
-	if get( stat.to_lower() ) == null:
-		push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
-	return get( stat.to_lower() )
+	match stat.to_lower():
+		STAT_EFFECTIVE_MAX_HP:	return max_health
+		STAT_BASE_GUTS:			return guts
+		STAT_BASE_LUCK:			return luck
+		STAT_BASE_AGILE:		return agile
+		STAT_BASE_MIGHT:		return might
+		STAT_BASE_PIETY:		return piety
+		STAT_BASE_WEIGHT:		return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
+		
+		STAT_BASE_RESISTANCE_BIO:		return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
+		STAT_BASE_RESISTANCE_COSMIC:	return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )
+		STAT_BASE_RESISTANCE_CYBER:		return resistance_cyber 	+ int( B2_Jerkin.get_jerkin_stats()["Cyber"] )
+		STAT_BASE_RESISTANCE_MENTAL:	return resistance_mental 	+ int( B2_Jerkin.get_jerkin_stats()["Mental"] )
+		STAT_BASE_RESISTANCE_NORMAL:	return resistance_normal 	+ int( B2_Jerkin.get_jerkin_stats()["Normal"] )
+		STAT_BASE_RESISTANCE_ZAUBER:	return resistance_zauber 	+ int( B2_Jerkin.get_jerkin_stats()["Zauber"] )
+		STAT_BASE_RESISTANCE_KNOCKBACK:	return resistance_knockback
+		STAT_BASE_RESISTANCE_STAGGER:	return resistance_stagger
+			
+		_:	## No "effective" data to calculate.
+			if get( stat.to_lower() ) == null: push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
+			return get( stat.to_lower() )
+@warning_ignore_restore("narrowing_conversion")
 
-func get_curr_action() -> float:
-	return curr_action
-
-func is_at_max_action() -> bool:
-	return curr_action == max_action
+func get_curr_action() -> float:	return curr_action
+func is_at_max_action() -> bool:	return curr_action == max_action
 
 func full_restore() -> void:
 	## heal hoopz completely.
 	reset_action()
 	increase_hp( 9999 )
 
-func increase_hp( hp : int ) -> void:
-	curr_health = clampf( curr_health + hp, 0, max_health )
-
-func decrease_hp( hp : int ) -> void:
-	curr_health = clampf( curr_health - hp, 0, max_health )
+func increase_hp( hp : int ) -> void:	curr_health = clampf( curr_health + hp, 0, max_health )
+func decrease_hp( hp : int ) -> void:	curr_health = clampf( curr_health - hp, 0, max_health )
 
 func increase_action() -> bool:
 	if block_action_increase:
@@ -243,5 +269,7 @@ func increase_action() -> bool:
 	
 	return curr_action == max_action
 
-func reset_action() -> void:
-	curr_action = 0.0
+func reset_action() -> void:	curr_action = 0.0
+
+## CRITICAL Setup this function correctly
+func can_level_up() -> bool: return true

@@ -50,16 +50,19 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var gun_reload_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_menu
 
 @onready var gun_breed_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_btn
+@onready var gun_breed_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_menu
+
 
 @onready var candy_btn: 		Button = $frame/right_panel/right_panel_vbox/candy_btn
 @onready var candy_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/candy_menu
 @onready var candy_make_btn: 	Button = $frame/right_panel/right_panel_vbox/candy_menu/make_btn
 
-@onready var brain_btn: 					Button = $frame/right_panel/right_panel_vbox/brain_btn
-@onready var brain_menu: 					VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
-@onready var brain_vidcon_btn: 				Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
-@onready var brain_vidcon_unbox_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_menu/unbox_btn
-
+@onready var brain_btn: 				Button = $frame/right_panel/right_panel_vbox/brain_btn
+@onready var brain_menu: 				VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
+@onready var brain_vidcon_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
+@onready var brain_vidcon_unbox_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/unbox_btn
+@onready var brain_levelup_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_btn
+@onready var brain_levelup_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu
 
 @onready var equip_btn: 		Button = $frame/right_panel/right_panel_vbox/equip_btn
 @onready var equip_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/equip_menu
@@ -91,9 +94,11 @@ var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 @onready var candy_panel: 					B2_UtilityPanel = $frame/candy_panel
 @onready var brain_info_panel: 				B2_UtilityPanel = $frame/brain_info_panel
 @onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
+@onready var brain_vidcon_levelup_panel: 	B2_UtilityPanel = $frame/brain_vidcon_levelup_panel
 @onready var inventory_panel: 				B2_UtilityPanel = $frame/inventory_panel
 @onready var dwarfnet_panel: 				B2_UtilityPanel = $frame/dwarfnet_panel
 @onready var equipment_panel: 				B2_UtilityPanel = $frame/equipment_panel
+@onready var gun_info_breed_panel: 			B2_UtilityPanel = $frame/gun_info_breed_panel
 
 ## Menu control
 enum {
@@ -109,6 +114,7 @@ enum {
 		CANDY,
 		BRAIN,
 			VIDCONS,
+			LEVELUP,
 		EQUIP,
 			EQUIP_EQUIP,	## Equip the equipment # NOTE saying equipment lots of times is pretty annoying.
 		INV,
@@ -217,6 +223,7 @@ func _hide_all() -> void:
 	main_info_panel.hide_panel()
 	brain_info_panel.hide_panel()
 	brain_vidcon_panel.hide_panel()
+	brain_vidcon_levelup_panel.hide_panel()
 	gun_info_panel.hide_panel()
 	gun_info_bando_panel.hide_panel()
 	gun_info_bando_rename_panel.hide_panel()
@@ -227,6 +234,7 @@ func _hide_all() -> void:
 	inventory_panel.hide_panel()
 	dwarfnet_panel.hide_panel()
 	equipment_panel.hide_panel()
+	gun_info_breed_panel.hide_panel()
 	
 	## NOTE Buttons
 	main_btn.hide(); 						main_btn.disabled = false
@@ -251,6 +259,7 @@ func _hide_all() -> void:
 	brain_btn.hide(); 						brain_btn.disabled = false
 	brain_vidcon_btn.hide();				brain_vidcon_btn.disabled = false
 	brain_vidcon_unbox_btn.hide();			brain_vidcon_unbox_btn.disabled = false
+	brain_levelup_btn.hide();				brain_levelup_btn.disabled = false
 	
 	equip_btn.hide(); 						equip_btn.disabled = false
 	equip_helmet_btn.hide();				equip_helmet_btn.disabled = false
@@ -268,8 +277,10 @@ func _hide_all() -> void:
 	gun_bag_menu.hide()
 	gun_smelt_menu.hide()
 	gun_reload_menu.hide()
+	gun_breed_menu.hide()
 	candy_menu.hide()
 	brain_menu.hide()
+	brain_levelup_menu.hide()
 	equip_menu.hide()
 	inventory_menu.hide()
 	dwarf_menu.hide()
@@ -411,6 +422,19 @@ func _change_menu_state( state ) -> bool:
 			gun_reload_menu.show()
 			
 			gun_reload_btn.grab_focus()
+		GUN_BREED:
+			## NOTE Info panels
+			gun_info_breed_panel.show_panel()
+			## NOTE Buttons
+			main_btn.show()
+			gun_btn.show()
+			gun_breed_btn.disabled = true
+			gun_breed_btn.show()
+			## NOTE Menus
+			gun_menu.show()
+			gun_breed_menu.show()
+			
+			gun_breed_btn.grab_focus()
 		CANDY:
 			## NOTE Info panels
 			candy_panel.show_panel()
@@ -431,6 +455,8 @@ func _change_menu_state( state ) -> bool:
 			brain_btn.disabled = true
 			brain_btn.show() # <------------
 			brain_vidcon_btn.show()
+			brain_levelup_btn.show()
+			brain_levelup_btn.disabled = not B2_Playerdata.player_stats.can_level_up()
 			## NOTE Menus
 			brain_menu.show() # <------------
 			
@@ -450,6 +476,20 @@ func _change_menu_state( state ) -> bool:
 			brain_menu.show()
 			
 			brain_vidcon_unbox_btn.grab_focus()
+		LEVELUP:
+			## NOTE Info panels
+			brain_vidcon_levelup_panel.show_panel()
+			
+			## NOTE Buttons
+			main_btn.show()
+			brain_btn.show()
+			brain_levelup_btn.disabled = true
+			brain_levelup_btn.show()
+			## NOTE Menus
+			brain_menu.show()
+			brain_levelup_menu.show()
+			
+			brain_levelup_btn.grab_focus()
 		EQUIP, EQUIP_EQUIP:
 			## NOTE Info panels
 			equipment_panel.show_panel()
@@ -529,6 +569,10 @@ func _on_brain_btn_pressed() -> void:
 	if _change_menu_state( BRAIN ):
 		B2_Sound.play( "utility_button_click" )
 
+func _on_brain_levelup_btn_pressed() -> void:
+	if _change_menu_state( LEVELUP ):
+		B2_Sound.play( "utility_button_click" )
+
 func _on_equip_btn_pressed() -> void:
 	if _change_menu_state( EQUIP ):
 		B2_Sound.play( "utility_button_click" )
@@ -540,8 +584,6 @@ func _on_inventory_btn_pressed() -> void:
 func _on_dwarf_btn_pressed() -> void:
 	if _change_menu_state( DWARF ):
 		B2_Sound.play( "utility_button_click" )
-
-
 
 func _on_gun_bando_btn_pressed() -> void:
 	if _change_menu_state( GUN_BANDO ):
@@ -600,3 +642,11 @@ func _on_unplug_btn_pressed() -> void:
 	B2_Screen.is_utility_open 	= false
 	unpluged_from_station.emit()
 	queue_free()
+
+func _on_brain_levelup_confirm_btn_pressed() -> void:
+	_on_brain_btn_pressed()
+
+
+func _on_gun_breed_btn_pressed() -> void:
+	if _change_menu_state( GUN_BREED ):
+		B2_Sound.play( "utility_button_click" )

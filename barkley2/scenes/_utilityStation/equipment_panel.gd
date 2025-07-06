@@ -39,20 +39,7 @@ var selected_jerkin					:= ""
 
 func _on_visibility_changed() -> void:
 	if is_node_ready() and visible:
-		pocket_stat_value.text 		= str( B2_Jerkin.get_jerkin_stats()["Pkt"] )
-		
-		kosmic_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC ) ).pad_zeros(2)
-		mental_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL ) ).pad_zeros(2)
-		cyber_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER ) ).pad_zeros(2)
-		bio_res_value.text			= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_BIO ) ).pad_zeros(2)
-		zauber_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER ) ).pad_zeros(2)
-		
-		weight_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_WEIGHT ) )
-		guts_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_GUTS ) )
-		luck_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_LUCK ) )
-		acro_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_AGILE ) )
-		might_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_MIGHT ) )
-		piety_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_PIETY ) )
+		_update_stats()
 		
 		_change_state( STATE.NOTHING )
 
@@ -70,8 +57,62 @@ func _select_equip( equip_name : String, equip_type : EQUIP ) -> void:
 	#print(equip_name)
 
 func _compare_jerkin_stats( jerkin_name : String ) -> void:
-	pass
+	pocket_stat_value.text 		= str( B2_Jerkin.get_jerkin_stats(jerkin_name)["Pkt"] )
+	_compare_color(pocket_stat_value, B2_Jerkin.get_jerkin_stats()["Pkt"], B2_Jerkin.get_jerkin_stats(jerkin_name)["Pkt"] )
+		
+	defense_value.text		= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_NORMAL ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Normal"] ).pad_zeros(2)
+	_compare_color(defense_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_NORMAL ), int(defense_value.text) )
+	
+	kosmic_res_value.text	= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Kosmic"] ).pad_zeros(2)
+	_compare_color(kosmic_res_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC ), int(kosmic_res_value.text) )
+	
+	mental_res_value.text	= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Mental"] ).pad_zeros(2)
+	_compare_color(mental_res_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL ), int(mental_res_value.text) )
+	
+	cyber_res_value.text	= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Cyber"] ).pad_zeros(2)
+	_compare_color(cyber_res_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER ), int(cyber_res_value.text) )
+	
+	bio_res_value.text		= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_BIO ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Bio"] ).pad_zeros(2)
+	_compare_color(bio_res_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_BIO ), int(bio_res_value.text) )
+	
+	zauber_res_value.text	= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Zauber"] ).pad_zeros(2)
+	_compare_color(zauber_res_value, B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER ), int(zauber_res_value.text) )
+	
+	weight_stat_value.text		= str( B2_Playerdata.player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_WEIGHT ) + B2_Jerkin.get_jerkin_stats(jerkin_name)["Wgt"] )
+	_compare_color(weight_stat_value, int(weight_stat_value.text), B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_WEIGHT ) )
+	weight_stat_value.text += "~"
 
+func _compare_color( node : Label, original_value : int, new_value : int ) -> void:
+	if original_value < new_value:		node.modulate = Color.GREEN
+	elif original_value > new_value:	node.modulate = Color.RED
+	else:								node.modulate = Color.GRAY
+
+func _update_stats() -> void:
+	pocket_stat_value.text 		= str( B2_Jerkin.get_jerkin_stats()["Pkt"] )
+	pocket_stat_value.modulate = Color.WHITE
+	
+	kosmic_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC ) ).pad_zeros(2)
+	mental_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL ) ).pad_zeros(2)
+	cyber_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER ) ).pad_zeros(2)
+	bio_res_value.text			= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_BIO ) ).pad_zeros(2)
+	zauber_res_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER ) ).pad_zeros(2)
+	defense_value.text			= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_RESISTANCE_NORMAL ) ).pad_zeros(2)
+	kosmic_res_value.modulate 	= Color.WHITE
+	mental_res_value.modulate 	= Color.WHITE
+	cyber_res_value.modulate 	= Color.WHITE
+	bio_res_value.modulate 		= Color.WHITE
+	zauber_res_value.modulate 	= Color.WHITE
+	defense_value.modulate 		= Color.WHITE
+	
+	weight_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_WEIGHT ) ) + "~"
+	weight_stat_value.modulate	= Color.WHITE
+	
+	guts_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_GUTS ) )
+	luck_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_LUCK ) )
+	acro_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_AGILE ) )
+	might_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_MIGHT ) )
+	piety_stat_value.text		= str( B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_BASE_PIETY ) )
+		
 func _change_state( state : STATE ) -> void:
 	selected_jerkin 			= ""
 	selected_helm 				= ""
@@ -89,6 +130,7 @@ func _change_state( state : STATE ) -> void:
 			equip_btn.disabled = true
 			helm.show()
 			jerkin.show()
+			_update_stats()
 			equip_helmet_btn.show()
 			equip_jerkin_btn.show()
 			equip_helmet_btn.grab_focus()

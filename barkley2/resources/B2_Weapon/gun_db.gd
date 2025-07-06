@@ -1220,6 +1220,9 @@ static func has_gun_in_gunbag() -> bool:
 static func has_gun_in_bandolier() -> bool:
 	return not B2_Playerdata.bandolier.is_empty()
 	
+static func has_any_guns() -> bool:
+	return has_gun_in_gunbag() and has_gun_in_bandolier()
+	
 static func get_current_gun() -> B2_Weapon:
 	if B2_Playerdata.gunbag_open:
 		if has_gun_in_gunbag():

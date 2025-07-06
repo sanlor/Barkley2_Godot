@@ -38,7 +38,6 @@ func _on_focus_entered() -> void:
 	jerkin_texture_panel.self_modulate = Color.WHITE * 2.0
 	jerkin_data_panel.self_modulate = Color.WHITE * 2.0
 	selected_equipment.emit()
-	
 
 func _on_focus_exited() -> void:
 	jerkin_texture_panel.self_modulate = Color.WHITE * 1.0
