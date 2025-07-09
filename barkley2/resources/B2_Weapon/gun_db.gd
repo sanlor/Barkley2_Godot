@@ -23,6 +23,7 @@ const BANDOLIER_SIZE 	:= 3
 const GUNBAG_SIZE 		:= 14
 
 enum TYPE{ ## List of guntypes. check Gun("init")
+	GUN_TYPE_NONE,
 	GUN_TYPE_PISTOL,
 	GUN_TYPE_FLINTLOCK,
 	GUN_TYPE_SUBMACHINEGUN,
@@ -49,7 +50,6 @@ enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_ROCKET,
 	GUN_TYPE_BFG,
 	## DEBUG
-	GUN_TYPE_NONE
 	}
 # So here is halfass balance for gun's drops while we wait for Enemy and Area specific drops coming up soon. ## NOTE yeah... soon...
 enum MATERIAL{

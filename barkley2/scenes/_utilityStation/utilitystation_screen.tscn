@@ -310,14 +310,14 @@ extends Control
 @export var CELL_SIZE 	:= Vector2(4,6)
 
 var tween 	: Tween
-var seed 	:= 0
+var my_seed 	:= 0
 var ratio 	:= 0.0
 
 @export_tool_button(\"update\") var _u : Callable = queue_redraw
 
 
 func populate_graph( _seed : int, _ratio : float ) -> void:
-	seed = _seed
+	my_seed = _seed
 	ratio = _ratio
 	queue_redraw()
 	
@@ -326,7 +326,7 @@ func _draw() -> void:
 	var y := 0
 	var r := Rect2( Vector2(0, 0), CELL_SIZE )
 	var rand := RandomNumberGenerator.new()
-	rand.seed = seed
+	rand.seed = my_seed
 	for i in (COLUMN * ROW):
 		draw_set_transform( Vector2(x * CELL_SIZE.x, y * CELL_SIZE.y) + Vector2( x * 0.5, y * 0.5 ) )
 		var n := rand.randf()
@@ -1779,7 +1779,6 @@ show_lineage = false
 show_smelt = true
 
 [node name="gun_info_breed_panel" type="Control" parent="frame"]
-visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -2346,6 +2345,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="gun_info_breed_animation_panel" parent="frame" instance=ExtResource("33_305tp")]
+visible = false
 
 [node name="candy_panel" type="Control" parent="frame" node_paths=PackedStringArray("make_btn")]
 visible = false
