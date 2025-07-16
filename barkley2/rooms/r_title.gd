@@ -5,7 +5,8 @@ extends Control
 # This scene tries to recreate the room r_title, with the object oTitle.
 
 @export var debug_data 			:= false
-@export var hide_demo_msg 		:= false
+@export var show_demo_msg 		:= true
+@export var show_janky_logo		:= true
 @export var show_stock_ticker 	:= false
 ## Godot Specific:
 
@@ -156,17 +157,17 @@ func _ready():
 	
 	## Stock Ticker ## Maybe this isnt used in the "final" game? 18/05/25 - This seems related to the object o_minotaur01 or room r_chu_minotaur01
 	## 23/05/25 im bored, lets enable this for no reason.
-	if show_stock_ticker:
-		stock_x.resize(7)
-		stock_x[0] = 20.0;
-		stock_x[1] = 100.0;
-		stock_x[2] = 180.0;
-		stock_x[3] = 260.0;
-		stock_x[4] = 340.0;
-		stock_x[5] = 420.0;
-		stock_x[6] = 500.0;
-		#stock_y = 225;
-		stock_y = 3; ## This looks way better
+	#if show_stock_ticker:
+	stock_x.resize(7)
+	stock_x[0] = 20.0;
+	stock_x[1] = 100.0;
+	stock_x[2] = 180.0;
+	stock_x[3] = 260.0;
+	stock_x[4] = 340.0;
+	stock_x[5] = 420.0;
+	stock_x[6] = 500.0;
+	#stock_y = 225;
+	stock_y = 3; ## This looks way better
 	
 	#region Menu Layout stuff. Not necessary, but I really want to make a 1:1 recreation.
 	
@@ -174,7 +175,7 @@ func _ready():
 	# Barkley logo
 	#draw_sprite(s_jankyDemo01, 0, SCREEN_WIDTH/1.5, SCREEN_HEIGHT/2 - 20);
 	s_janky_demo_01.global_position = Vector2(get_viewport_rect().end.x / 1.5, get_viewport_rect().end.y /2 - 20) - (s_janky_demo_01.size / 2)
-	
+	s_janky_demo_01.visible = show_janky_logo ## Hide the logo if you want.
 	
 	## Create Panels / Borders
 	# Border("generate", 0, 100 + 16, 60 + 16 - 1); // Title Box
@@ -191,6 +192,19 @@ func _ready():
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton or event is InputEventKey:
+		
+		## Debug fun stuff
+		if event.is_pressed():
+			if Input.is_key_pressed(KEY_1):
+				s_janky_demo_01.visible = not s_janky_demo_01.visible
+				queue_redraw()
+			if Input.is_key_pressed(KEY_2):
+				show_demo_msg = not show_demo_msg
+				queue_redraw()
+			if Input.is_key_pressed(KEY_3):
+				show_stock_ticker = not show_stock_ticker
+				queue_redraw()
+		
 		## Handle keyboard and gamepad inputs, to make sure that "something" always has input focus.
 		match mode:
 			"basic":
@@ -278,6 +292,8 @@ func _process(_delta):
 			if child.has_method("apply_tim"):
 				child.apply_tim( tim )
 				
+	
+				
 	#// Stock ticker //
 	if show_stock_ticker:
 		for i in 7: 
@@ -286,19 +302,18 @@ func _process(_delta):
 		queue_redraw()
 
 func _draw():
-	if hide_demo_msg:
-		return
-	var qrx = 150 + 20
-	var qry = 100 + 15# + 5 ; # + 5 was added by me.
-	var font := preload("res://barkley2/resources/fonts/fn_small.tres")
-	#draw_text(qrx, qry, "DEMO game for backers.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("DEMO game for backers.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
-	qry += 14; 
-	#draw_text(qrx, qry, "Substantial levels of WONK and JANK.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("Substantial levels of WONK and JANK.")	,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
-	qry += 14; 
-	#draw_text(qrx, qry, "Experience accordingly.");
-	draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
+	if show_demo_msg:
+		var qrx = 150 + 20 # + 20 added by me
+		var qry = 100 + 15 + 2 ; # + 2 was added by me.
+		var font := preload("res://barkley2/resources/fonts/fn_small.tres")
+		#draw_text(qrx, qry, "DEMO game for backers.");
+		draw_string( font, Vector2(qrx,qry), Text.pr("DEMO game for backers.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
+		qry += 14; 
+		#draw_text(qrx, qry, "Substantial levels of WONK and JANK.");
+		draw_string( font, Vector2(qrx,qry), Text.pr("Substantial levels of WONK and JANK.")	,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
+		qry += 14; 
+		#draw_text(qrx, qry, "Experience accordingly.");
+		draw_string( font, Vector2(qrx,qry), Text.pr("Experience accordingly.")					,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color.YELLOW)
 	
 	## Talk about wasting time coding a useless thing, right? 23/05/25
 	if show_stock_ticker and stock_x:
