@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://mwecy2wpgkwg"]
+[gd_scene load_steps=119 format=3 uid="uid://mwecy2wpgkwg"]
 
 [ext_resource type="Script" uid="uid://dtii2q5pq7rlf" path="res://barkley2/scenes/_utilityStation/utilitystation_screen.gd" id="1_6lm85"]
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
@@ -14,6 +14,7 @@
 [ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="12_etmwp"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="13_gpxvf"]
 [ext_resource type="Texture2D" uid="uid://5gsghtba1b41" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityDefense.png" id="14_2kqn3"]
+[ext_resource type="PackedScene" uid="uid://uu4ij08ndvs5" path="res://barkley2/scenes/_utilityStation/dna_balls_utility.tscn" id="14_k5i56"]
 [ext_resource type="Texture2D" uid="uid://bhctrianm3xu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityResistanceBlip.png" id="15_de10n"]
 [ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="16_nsxts"]
 [ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="17_8sg6d"]
@@ -215,6 +216,9 @@ fractal_gain = 100.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_yj7y8"]
 font = ExtResource("9_rf8p1")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_82xl0"]
+viewport_path = NodePath("frame/main_info_panel/trans/trans/SubViewport")
 
 [sub_resource type="LabelSettings" id="LabelSettings_xscvq"]
 font = ExtResource("10_rf8p1")
@@ -1095,12 +1099,14 @@ offset_right = 277.0
 offset_bottom = 84.0
 
 [node name="trans" type="Panel" parent="frame/main_info_panel/trans"]
+clip_contents = true
 layout_mode = 0
 offset_left = 1.0
 offset_right = 129.0
 offset_bottom = 26.0
 
 [node name="madness_text3" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
+visible = false
 modulate = Color(1, 1, 1, 0.25)
 layout_mode = 0
 offset_right = 128.0
@@ -1112,6 +1118,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="madness_text2" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
+visible = false
 modulate = Color(1, 1, 1, 0.5)
 layout_mode = 0
 offset_right = 128.0
@@ -1123,6 +1130,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="madness_text1" type="RichTextLabel" parent="frame/main_info_panel/trans/trans"]
+visible = false
 layout_mode = 0
 offset_right = 128.0
 offset_bottom = 26.0
@@ -1131,6 +1139,19 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utility[/color] line 2397.[/wave]"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="spinning_dna" type="TextureRect" parent="frame/main_info_panel/trans/trans"]
+layout_mode = 0
+offset_top = -20.0
+offset_right = 128.0
+offset_bottom = 44.0
+texture = SubResource("ViewportTexture_82xl0")
+
+[node name="SubViewport" type="SubViewport" parent="frame/main_info_panel/trans/trans"]
+transparent_bg = true
+size = Vector2i(128, 64)
+
+[node name="balls_utility" parent="frame/main_info_panel/trans/trans/SubViewport" instance=ExtResource("14_k5i56")]
 
 [node name="tab_name" type="Panel" parent="frame/main_info_panel/trans"]
 material = SubResource("ShaderMaterial_tq0ww")

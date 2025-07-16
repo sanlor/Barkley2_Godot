@@ -255,7 +255,7 @@ func _physics_process(_delta: float) -> void:
 	hud_gun_bag.visible = B2_Playerdata.gunbag_open
 	
 	var curr_wpn = B2_Gun.get_current_gun()
-	if curr_wpn:
+	if curr_wpn and B2_Gun.has_any_guns():
 		# update the gun hud texture
 		if curr_wpn != prev_gun or not hud_gun_sprite.texture:
 			hud_gun_sprite.texture = curr_wpn.get_weapon_hud_sprite()
