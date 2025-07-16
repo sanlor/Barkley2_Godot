@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=79 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="1_8qs0c"]
 [ext_resource type="Script" uid="uid://cinyaks7663jo" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
@@ -448,6 +448,10 @@ font = ExtResource("55_1ur83")
 [sub_resource type="LabelSettings" id="LabelSettings_1ur83"]
 font = ExtResource("55_m5n1q")
 
+[sub_resource type="LabelSettings" id="LabelSettings_ms03e"]
+font = ExtResource("55_m5n1q")
+font_color = Color(0.393085, 0.393086, 0.393085, 1)
+
 [node name="r_title" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -577,7 +581,6 @@ texture = ExtResource("39_mjgjm")
 script = ExtResource("40_dgu6u")
 
 [node name="title_layer" type="CanvasLayer" parent="."]
-visible = false
 script = ExtResource("40_yg4vf")
 
 [node name="title_panel" parent="title_layer" instance=ExtResource("36_5qb0r")]
@@ -663,6 +666,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "V.R. Training"
+label_settings = SubResource("LabelSettings_hdv4t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="debug_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 166.0
+offset_right = 110.0
+offset_bottom = 201.0
+focus_neighbor_right = NodePath("../title_panel/start_button")
+focus_mode = 2
+script = ExtResource("44_f8qw8")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+manual_decorations = [NodePath("debug_label")]
+border_size = Vector2(110, 35)
+metadata/_custom_type_script = "uid://21bcte5vesst"
+
+[node name="debug_label" type="Label" parent="title_layer/debug_btn"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Debug Room"
 label_settings = SubResource("LabelSettings_hdv4t")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1382,11 +1411,27 @@ label_settings = SubResource("LabelSettings_hdv4t")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="game_version_lbl" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -24.5
+offset_top = -9.0
+offset_right = 24.5
+grow_horizontal = 2
+grow_vertical = 0
+text = " Game Version"
+label_settings = SubResource("LabelSettings_ms03e")
+
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="title_layer/OOC_button" to="title_layer/OOC_button" method="_on_pressed"]
 [connection signal="button_pressed" from="title_layer/vr_btn" to="." method="_on_vr_btn_button_pressed"]
+[connection signal="button_pressed" from="title_layer/debug_btn" to="." method="_on_debug_btn_button_pressed"]
 [connection signal="visibility_changed" from="gameslot_layer" to="gameslot_layer" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="settings_layer" to="settings_layer" method="_on_visibility_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/minus" to="settings_layer" method="_on_music_minus_pressed"]

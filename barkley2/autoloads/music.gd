@@ -229,8 +229,8 @@ func room_get( room_name : String):
 		
 ## "mus_blankTEMP" means mute
 
-func play( track_name : String, speed := 0.25 ):
-	queue( music_bank.get(track_name, ""), speed )
+func play( track_name : String, speed := 0.25, loop := true ):
+	queue( music_bank.get(track_name, ""), speed, loop )
 
 ## Play combat music
 func play_combat( speed := 0.25, force_track := "" ) -> void:
@@ -250,9 +250,13 @@ func play_end_combat( force_track := "" ) -> void:
 func store_curr_music() -> void:
 	stored_playing_track 			= curr_playing_track
 	stored_playing_track_time 		= audio_stream_player.get_playback_position()
+	
+	## Avoid Cache misses.
+	if stored_playing_track.is_empty(): 
+		stored_playing_track = music_bank.get( "mus_blankTEMP" )
 
-func resume_stored_music() -> void:
-	queue( stored_playing_track, 0.25, stored_playing_track_time )
+func resume_stored_music( speed := 0.25 ) -> void:
+	queue( stored_playing_track, speed, stored_playing_track_time )
 
 func clear_curr_music() -> void:
 	stored_playing_track 			= ""
@@ -267,9 +271,10 @@ func stop( speed := 0.25 ):
 	await tween.finished
 	audio_stream_player.stop()
 
-func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## track name should exist in the Music Bank dict.
+func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := true ): ## track name should exist in the Music Bank dict.
 	if track_name == "":
 		push_warning("Invalid track name: '%s'. Playing a classic instead: mus_blankTEMP." % track_name)
+		print_rich("[color=cyan] Music cache miss. Get ready to reindex the music stuff. [/color][color=blue]Queue the error messages![/color]")
 		music_bank_dirty.emit()
 		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
 		
@@ -282,7 +287,7 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0 ): ## trac
 		curr_playing_track = track_name
 	
 	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
-	next_music.loop = true
+	next_music.loop = loop
 	
 	# handle sudden change is music tracks.
 	if is_instance_valid(tween):

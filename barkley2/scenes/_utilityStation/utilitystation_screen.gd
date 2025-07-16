@@ -25,6 +25,9 @@ const DNET_SCREEN = preload("res://barkley2/scenes/_utilityStation/dwarfnet/dnet
 
 var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
 
+## DEBUG
+@export var enable_debug_loadout := false
+
 ## Buttons
 @onready var main_btn: Button = $frame/right_panel/right_panel_vbox/main_btn
 
@@ -170,37 +173,38 @@ func _init() -> void:
 	#push_error("DEBUG")
 	
 func _ready() -> void:
-	## Debug Stuff
-	B2_Playerdata.preload_skip_tutorial_save_data()
-	B2_Gun.add_gun_to_bandolier()
-	B2_Gun.add_gun_to_bandolier()
-	B2_Gun.get_bandolier()[0].use_ammo( 5 )
-	B2_Gun.get_bandolier()[1].use_ammo( 10 )
-	#B2_Gun.add_gun_to_bandolier()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Vidcon.give_vidcon( 0 )
-	B2_Vidcon.give_vidcon( 1 )
-	B2_Vidcon.give_vidcon( 2 )
-	B2_Vidcon.give_vidcon( 3 )
-	B2_Vidcon.unbox_vidcon( 0 )
-	B2_Vidcon.unbox_vidcon( 1 )
-	B2_Jerkin.gain_jerkin("Lead Jerkin")
-	B2_Jerkin.gain_jerkin("Vestal Jerkin")
-	B2_Jerkin.gain_jerkin("Bottlecap Jerkin")
-	
+	if enable_debug_loadout:
+		## Debug Stuff
+		B2_Playerdata.preload_skip_tutorial_save_data()
+		B2_Gun.add_gun_to_bandolier()
+		B2_Gun.add_gun_to_bandolier()
+		B2_Gun.get_bandolier()[0].use_ammo( 5 ) 	## Test smelt
+		B2_Gun.get_bandolier()[1].use_ammo( 10 ) 	## Test smelt
+		#B2_Gun.add_gun_to_bandolier()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Gun.add_gun_to_gunbag()
+		B2_Vidcon.give_vidcon( 0 )
+		B2_Vidcon.give_vidcon( 1 )
+		B2_Vidcon.give_vidcon( 2 )
+		B2_Vidcon.give_vidcon( 3 )
+		B2_Vidcon.unbox_vidcon( 0 )
+		B2_Vidcon.unbox_vidcon( 1 )
+		B2_Jerkin.gain_jerkin("Lead Jerkin")
+		B2_Jerkin.gain_jerkin("Vestal Jerkin")
+		B2_Jerkin.gain_jerkin("Bottlecap Jerkin")
+		
+		var items := B2_Database.items.keys()
+		items.shuffle()
+		for item in items:
+			B2_Item.gain_item( item, randi_range(1,99) )
+			if B2_Item.get_items().size() > 20:
+				break
+			
 	layer = B2_Config.UTIL_LAYER
-	
-	var items := B2_Database.items.keys()
-	items.shuffle()
-	for item in items:
-		B2_Item.gain_item( item, randi_range(1,99) )
-		if B2_Item.get_items().size() > 20:
-			break
 	
 	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
 	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
@@ -287,16 +291,20 @@ func _hide_all() -> void:
 	
 func _control_btn_state() -> void:
 	## Cant rename bando gun if there are no guns
-	gun_bando_rename_btn.disabled = 	B2_Gun.get_bandolier().is_empty()
+	gun_bando_rename_btn.disabled = 	not B2_Gun.has_gun_in_bandolier()
 	
 	## Cannot promote guns if bando is full.
 	gun_bag_promote_btn.disabled = 		B2_Gun.get_bandolier().size() >= B2_Gun.BANDOLIER_SIZE
 	
+	## Cant fuck around with gunsbag guns.
+	gun_bag_fave_btn.disabled = 		not B2_Gun.has_gun_in_gunbag()
+	gun_bag_promote_btn.disabled = 		not B2_Gun.has_gun_in_gunbag()
+	
 	## Cant smelt gunbag guns without guns.
-	gun_smelt_current_btn.disabled = 	B2_Gun.get_bandolier().is_empty() and B2_Gun.get_gunbag().is_empty()
-	gun_smelt_empty_btn.disabled = 		B2_Gun.get_gunbag().is_empty()
-	gun_smelt_unfaves_btn.disabled = 	B2_Gun.get_gunbag().is_empty()
-	gun_smelt_inbag_btn.disabled = 		B2_Gun.get_gunbag().is_empty()
+	gun_smelt_current_btn.disabled = 	not B2_Gun.has_gun_in_gunbag() and not B2_Gun.has_gun_in_bandolier()
+	gun_smelt_empty_btn.disabled = 		not B2_Gun.has_gun_in_gunbag()
+	gun_smelt_unfaves_btn.disabled = 	not B2_Gun.has_gun_in_gunbag()
+	gun_smelt_inbag_btn.disabled = 		not B2_Gun.has_gun_in_gunbag()
 	
 ## Handle menu state, showing or hiding menu elements.
 # NOTE There has to be a better way to handle this.
@@ -540,10 +548,9 @@ func _change_menu_state( state ) -> bool:
 		menu_state = state
 		return true
 
-
 func _physics_process(_delta: float) -> void:
 	## Avoid flickering in the editor
-	if not Engine.is_editor_hint():
+	if not Engine.is_editor_hint() and not OS.has_feature("web"):
 		_flicker()
 
 func _flicker() -> void:
@@ -612,9 +619,9 @@ func _on_gun_info_bando_rename_panel_renamed_gun( _gun : B2_Weapon ) -> void:
 	_change_menu_state( GUN_BANDO )
 
 func _on_gun_info_bag_rename_panel_renamed_gun(  gun : B2_Weapon ) -> void:
-	_change_menu_state( GUN_BAG )
 	B2_Gun.remove_gun_from_gunbag( gun )
 	B2_Gun.append_gun_to_bandolier( gun )
+	_change_menu_state( GUN_BAG )
 
 func _on_gun_reload_btn_pressed() -> void:
 	if _change_menu_state( GUN_RELOAD ):

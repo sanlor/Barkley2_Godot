@@ -2,9 +2,9 @@ extends Control
 ## Controls how the animations plays out.
 
 @export var selected_gun 			:							= "selected_gun_1"
-@onready var gun_info				: Control 					= $"../../.."
-@onready var actual_gun_texture		: TextureRect 				= $panel_bg/gun_texture2
-@onready var actual_gun_scan		: TextureRect 				= $panel_bg/scan
+@export var gun_info				: Control 					
+@export var actual_gun_texture		: TextureRect 
+@export var actual_gun_scan			: TextureRect
 
 @onready var s_cinema_firepower				: Sprite2D 			= $power_panel/SCinemaFirepower
 @onready var spr_breedanm_bullet_type		: AnimatedSprite2D 	= $bullet_pan/spr_breedanm_bulletType
@@ -14,18 +14,19 @@ extends Control
 var my_selected_gun 	: B2_Weapon
 var gun_power 			:= 0.0
 
-func _ready() -> void:
-	await gun_info.ready
-	
+func setup() -> void:
 	my_selected_gun = gun_info.get(selected_gun)
+	assert( my_selected_gun, "No gun selected." )
 	populate_gun_data()
 	
-	actual_gun_texture.modulate = Color(1.0,10.0,1.0,0.0)
-	var t := create_tween()
-	t.tween_property( actual_gun_texture, 	"modulate:a", 1.0, 1.5 * randf_range(0.85,1.15) 		)
-	t.tween_property( actual_gun_texture, 	"modulate", Color.WHITE, 0.5  * randf_range(0.85,1.15) 	)
-	t.tween_property( actual_gun_scan, 		"modulate:a", 0.0, 0.5  * randf_range(0.85,1.15) 		)
-	t.tween_callback( actual_gun_scan.hide )
+	if actual_gun_texture: ## not needed for "new_gun_data" node.
+		actual_gun_texture.modulate = Color(1.0,10.0,1.0,0.0)
+		
+		var t := create_tween()
+		t.tween_property( actual_gun_texture, 	"modulate:a", 1.0, 1.5 * randf_range(0.85,1.15) 		)
+		t.tween_property( actual_gun_texture, 	"modulate", Color.WHITE, 0.5  * randf_range(0.85,1.15) 	)
+		t.tween_property( actual_gun_scan, 		"modulate:a", 0.0, 0.5  * randf_range(0.85,1.15) 		)
+		t.tween_callback( actual_gun_scan.hide )
 	
 	## Set bullet type
 	spr_breedanm_bullet_type.frame 		= int( my_selected_gun.weapon_type )
@@ -54,10 +55,12 @@ func get_bullet_frame_count() -> int:
 	else: return 14 
 	
 func populate_gun_data() -> void:
-	actual_gun_texture.texture = my_selected_gun.get_weapon_hud_sprite()
+	if actual_gun_texture: ## not needed for "new_gun_data" node.
+		actual_gun_texture.texture = my_selected_gun.get_weapon_hud_sprite()
 	
 func _physics_process(delta: float) -> void:
 	if visible:
-		actual_gun_scan.position.x = wrapf( actual_gun_scan.position.x - 250.0 * delta, 4.0, 56.5)
+		if actual_gun_scan: ## not needed for "new_gun_data" node.
+			actual_gun_scan.position.x = wrapf( actual_gun_scan.position.x - 250.0 * delta, 4.0, 56.5)
 		if randf() > 0.75:
 			s_cinema_firepower.material.set_shader_parameter("transform_ratio", gun_power * randf_range(0.85,1.25) )

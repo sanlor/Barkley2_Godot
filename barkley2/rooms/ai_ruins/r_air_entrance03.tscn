@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=60 format=4 uid="uid://vkjgyg68ejy1"]
 
 [ext_resource type="Script" uid="uid://b7c15mxmjj4ld" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
@@ -1694,9 +1694,9 @@ shader_parameter/add_margins = true
 script = ExtResource("20_1puvr")
 original_script = "LOOKAT | o_cts_hoopz | o_nu_debug
 LOOKAT | o_nu_debug | o_cts_hoopz
-DIALOG | Nu = s_portrait | This is the debug room.
+DIALOG | Nu | This is the debug room.
 WAIT | 2
-DIALOG | Nu = s_portrait | Like the rest of the game, its mostly incomplete.#The main use is to test some feature and scripts faster.
+DIALOG | Nu | Like the rest of the game, its mostly incomplete.#The main use is to test some feature and scripts faster.
 EXIT |
 "
 
@@ -1888,6 +1888,33 @@ shader_parameter/width = 1.0
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xdrhj"]
+resource_local_to_scene = true
+shader = ExtResource("14_bgd1o")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
+[sub_resource type="Resource" id="Resource_ws3dg"]
+script = ExtResource("20_1puvr")
+original_script = "DIALOG | Nu | Load some debug data?
+CHOICE | How about it?
+REPLY  | CHOICE_1 | Yup.
+REPLY  | CHOICE_2 | Nope.
+
+
+CHOICE_1
+EVENT | o_nu_debug2 | 0
+DIALOG | Nu | Done. Have fun.
+EXIT |
+
+CHOICE_2
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer")]
 y_sort_enabled = true
@@ -2144,3 +2171,8 @@ position = Vector2(320, 154)
 
 [node name="o_teleport_mark" parent="." instance=ExtResource("24_g025c")]
 position = Vector2(315, 205)
+
+[node name="o_nu_debug2" parent="." instance=ExtResource("13_xkxsk")]
+material = SubResource("ShaderMaterial_xdrhj")
+position = Vector2(260, 169)
+cutscene_script = SubResource("Resource_ws3dg")

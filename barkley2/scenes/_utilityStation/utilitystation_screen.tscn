@@ -66,9 +66,10 @@ extends Control
 ## Check ustation -> draw -> line 5.
 # Draws the bg on the fly.
 
-var intensity	:= 1.0
-var flick 		:= 0.025
-var my_color 	:= Color.GREEN
+var intensity		:= 1.0
+var intensity_mod	:= 1.0
+var flick 			:= 0.025
+var my_color 		:= Color.GREEN
 
 func _ready() -> void:
 	if B2_Screen.is_utility_open:
@@ -87,15 +88,23 @@ func flicker( _flick : float ) -> void:
 	flick = _flick
 	queue_redraw()
 
+func hide_bg() -> void:
+	var t := create_tween()
+	t.tween_property( self, \"intensity_mod\", 0.0, 1.0)
+
+func show_bg() -> void:
+	var t := create_tween()
+	t.tween_property( self, \"intensity_mod\", 1.0, 1.0)
+
 func _draw() -> void:
 	draw_rect( Rect2( Vector2.ZERO, size ), Color.BLACK )
 	
 	@warning_ignore(\"integer_division\")
 	for w in B2_Gamedata.SCREEN_WIDTH / 8:
-		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * 0.5) )
+		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * intensity_mod * 0.5) )
 	@warning_ignore(\"integer_division\")
 	for h in B2_Gamedata.SCREEN_HEIGHT / 8:
-		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity * 0.5) )
+		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity * intensity_mod * 0.5) )
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8sg6d"]
@@ -428,6 +437,7 @@ font = ExtResource("6_inixc")
 script = ExtResource("1_6lm85")
 
 [node name="bg" type="Control" parent="."]
+z_index = -999
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -445,7 +455,6 @@ grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
 [node name="main_info_panel" type="Control" parent="frame"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 12.0
@@ -1779,6 +1788,7 @@ show_lineage = false
 show_smelt = true
 
 [node name="gun_info_breed_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
@@ -5422,6 +5432,7 @@ autowrap_mode = 1
 [connection signal="changed_window_state" from="frame/gun_info_smelt_panel" to="." method="_control_btn_state"]
 [connection signal="visibility_changed" from="frame/gun_info_breed_panel" to="frame/gun_info_breed_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/gun_info_breed_panel/breed_data/some_gay_shit" to="frame/gun_info_breed_panel/breed_data/some_gay_shit" method="_on_visibility_changed"]
+[connection signal="finished_breeding" from="frame/gun_info_breed_animation_panel" to="frame/gun_info_breed_panel" method="_on_gun_info_breed_animation_panel_finished_breeding"]
 [connection signal="visibility_changed" from="frame/candy_panel" to="frame/candy_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_info_panel" to="frame/brain_info_panel" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="frame/brain_vidcon_panel" to="frame/brain_vidcon_panel" method="_on_visibility_changed"]

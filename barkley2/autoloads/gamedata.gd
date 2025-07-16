@@ -8,6 +8,7 @@ var portrait_map := {
 }
 # check Portrait("db")
 const portrait_from_name := {
+	"Nu" : "s_port_nu", ## Debug
 	"Zane" : "s_port_zane",
 	"Zane Brain" : "s_port_zaneBrain",
 	"Egg Drone" : "s_port_eggDrone",

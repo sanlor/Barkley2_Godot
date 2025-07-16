@@ -1,4 +1,4 @@
-[gd_scene load_steps=304 format=3 uid="uid://5nr8pp2lmcn2"]
+[gd_scene load_steps=323 format=3 uid="uid://5nr8pp2lmcn2"]
 
 [ext_resource type="Script" uid="uid://bysc2uy71aslv" path="res://barkley2/scenes/_utilityStation/gun_info_breed_animation_panel.gd" id="1_70776"]
 [ext_resource type="Texture2D" uid="uid://b6by5022tly1x" path="res://barkley2/assets/b2_original/images/merged/sCinemaSwitchPlate.png" id="2_5w03s"]
@@ -37,7 +37,13 @@
 [ext_resource type="Texture2D" uid="uid://dp60uydo1dfxj" path="res://barkley2/assets/b2_original/images/merged/sCinemaButton.png" id="33_5tn8h"]
 [ext_resource type="Texture2D" uid="uid://bdbc6am1pgguc" path="res://barkley2/assets/b2_original/images/merged/sCinemaDNA.png" id="36_5tn8h"]
 [ext_resource type="Texture2D" uid="uid://dex5o0xoqrbgk" path="res://barkley2/assets/b2_original/images/merged/sCinemaPanelGun.png" id="37_d3ldu"]
+[ext_resource type="Script" uid="uid://unjyeejx0bs5" path="res://barkley2/scenes/_utilityStation/breed/gun_chunkler.gd" id="37_ia8yv"]
 [ext_resource type="Texture2D" uid="uid://dk7rmj1gh7of4" path="res://barkley2/assets/b2_original/images/merged/sCinemaPumpInside.png" id="38_d3ldu"]
+[ext_resource type="Texture2D" uid="uid://teql22exw6j3" path="res://barkley2/assets/b2_original/images/merged/mask_disk_16by16.png" id="39_b1vik"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="41_dyjea"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="42_olgtb"]
+[ext_resource type="FontFile" uid="uid://bkx4jb55yvtqy" path="res://barkley2/resources/fonts/fn_12ocs.tres" id="43_i7g75"]
+[ext_resource type="Script" uid="uid://c33j1ok2mwock" path="res://barkley2/resources/B2_Weapon/lineage_underline_label.gd" id="44_wrdw4"]
 
 [sub_resource type="Animation" id="Animation_5w03s"]
 length = 0.001
@@ -297,7 +303,7 @@ tracks/21/type = "value"
 tracks/21/imported = false
 tracks/21/enabled = true
 tracks/21/path = NodePath("sCinemaFusionButton/hoopz_fist_pivot:position")
-tracks/21/interp = 1
+tracks/21/interp = 2
 tracks/21/loop_wrap = true
 tracks/21/keys = {
 "times": PackedFloat32Array(0),
@@ -309,7 +315,7 @@ tracks/22/type = "value"
 tracks/22/imported = false
 tracks/22/enabled = true
 tracks/22/path = NodePath("sCinemaFusionButton/hoopz_fist_pivot:rotation")
-tracks/22/interp = 1
+tracks/22/interp = 4
 tracks/22/loop_wrap = true
 tracks/22/keys = {
 "times": PackedFloat32Array(0),
@@ -340,6 +346,246 @@ tracks/24/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/25/type = "value"
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/path = NodePath("sCinemaDNA:position")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/26/type = "value"
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_up:position")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(32, 17)]
+}
+tracks/27/type = "value"
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_down:position")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(32, 17)]
+}
+tracks/28/type = "value"
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_flash:modulate")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/29/type = "value"
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/path = NodePath("sCinemaDNA/bred_gun_texture:modulate")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+tracks/30/type = "value"
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/path = NodePath("sCinemaDNA/pump_box/pump_smoke:emitting")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/31/type = "value"
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/path = NodePath("sCinemaDNA/pump_box/pump_smoke:process_material:emission_shape_scale")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(38, 4, 1)]
+}
+tracks/32/type = "value"
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/path = NodePath("sCinemaDNA/pump_box:speed_scale")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/33/type = "value"
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/path = NodePath("sCinemaDNA/new_gun_data:visible")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/34/type = "value"
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/path = NodePath("sCinemaDNA/new_gun_data:process_mode")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+tracks/35/type = "value"
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/path = NodePath("sCinemaDNA/new_gun_data:modulate")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/36/type = "value"
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/path = NodePath("sCinemaDNA/bred_gun_texture:position")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-25, 93.5)]
+}
+tracks/37/type = "value"
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/path = NodePath("sCinemaDNA/bred_gun_texture:scale")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/38/type = "value"
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/path = NodePath("sCinemaDNA/bred_gun_bg:visible")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/39/type = "value"
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/path = NodePath("sCinemaDNA/bred_gun_bg:color")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/40/type = "value"
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/path = NodePath("sCinemaDNA/bred_gun_lbl:visible")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/41/type = "value"
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/path = NodePath("sCinemaDNA/bred_gun_lbl:modulate")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/42/type = "value"
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/path = NodePath("sCinemaDNA/bred_gun_lbl:visible_ratio")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/43/type = "value"
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/path = NodePath("sCinemaDNA/gun_name_container:visible")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/44/type = "value"
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/path = NodePath("sCinemaDNA/gun_name_container:modulate")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_twqnl"]
@@ -380,7 +626,7 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"populate_gunmap"
+"method": &"animate_gunmap"
 }]
 }
 tracks/3/type = "value"
@@ -423,6 +669,295 @@ tracks/5/keys = {
 "args": [],
 "method": &"sfx_dna_gunsmap"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_ia8yv"]
+resource_name = "dna_2_animation"
+length = 15.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sCinemaDNA/sCinema_gridback/sCinemaPanelGun/gun_chunkler")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_suck_chunks"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sCinemaDNA/sCinema_gridback2/sCinemaPanelGun/gun_chunkler")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_suck_chunks"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("sCinemaDNA:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 3.01, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(96, 80), Vector2(96, 80), Vector2(96, -80)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"sfx_dna_furnace_bg"
+}, {
+"args": [],
+"method": &"sfx_dna_furnace_open"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_up:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(32, 17), Vector2(32, -5)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_down:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(32, 17), Vector2(32, 40)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("sCinemaDNA/pump_box/box_bound/pump_door_flash:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(6, 7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("sCinemaDNA/bred_gun_texture:modulate")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 6, 6.3, 8.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(10, 10, 10, 1), Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("sCinemaDNA/pump_box/pump_smoke:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 5, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("sCinemaDNA/pump_box/pump_smoke:process_material:emission_shape_scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(5, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(38, 4, 1), Vector3(38, 20, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("sCinemaDNA/pump_box:speed_scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(5, 9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.0]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("sCinemaDNA/new_gun_data:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 6.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("sCinemaDNA/new_gun_data:process_mode")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 6.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 0]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("sCinemaDNA/new_gun_data:modulate")
+tracks/13/interp = 2
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(6.02, 7.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("sCinemaDNA/bred_gun_texture:position")
+tracks/14/interp = 2
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(9, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-25, 93.5), Vector2(-24.5, 120)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("sCinemaDNA/bred_gun_texture:scale")
+tracks/15/interp = 2
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(9, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(2, 2)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("sCinemaDNA/bred_gun_bg:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("sCinemaDNA/bred_gun_bg:color")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(9, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("sCinemaDNA/bred_gun_lbl:visible")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("sCinemaDNA/bred_gun_lbl:modulate")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(10, 14),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("sCinemaDNA/bred_gun_lbl:visible_ratio")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(10, 14),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("sCinemaDNA/gun_name_container:visible")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/22/type = "value"
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/path = NodePath("sCinemaDNA/gun_name_container:modulate")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/keys = {
+"times": PackedFloat32Array(10, 12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_1vjit"]
@@ -526,9 +1061,12 @@ tracks/4/path = NodePath("..")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(1.1),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"sfx_punch_love_bg"
+}, {
 "args": [],
 "method": &"sfx_punch_love"
 }]
@@ -780,6 +1318,7 @@ tracks/17/keys = {
 _data = {
 &"RESET": SubResource("Animation_5w03s"),
 &"dna_1_animation": SubResource("Animation_twqnl"),
+&"dna_2_animation": SubResource("Animation_ia8yv"),
 &"lever_pull": SubResource("Animation_1vjit"),
 &"punch_button": SubResource("Animation_d3ldu"),
 &"toggle_switches": SubResource("Animation_70776")
@@ -2323,7 +2862,7 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Image" id="Image_d3ldu"]
+[sub_resource type="Image" id="Image_dyjea"]
 data = {
 "data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 189, 238, 193, 189, 238, 193, 123, 131, 83, 123, 131, 83, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 119, 184, 213, 119, 184, 213, 0, 0, 0, 241, 12, 135, 241, 12, 135, 241, 12, 135, 241, 12, 135, 241, 12, 135, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 184, 213, 119, 184, 213, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 89, 11, 253, 212, 225, 20, 89, 11, 253, 189, 238, 193, 189, 238, 193, 189, 238, 193, 123, 131, 83, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 241, 12, 135, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 184, 213, 119, 184, 213, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 89, 11, 253, 89, 11, 253, 189, 238, 193, 189, 238, 193, 189, 238, 193, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 119, 184, 213, 119, 184, 213, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 89, 11, 253, 89, 11, 253, 89, 11, 253, 189, 238, 193, 189, 238, 193, 189, 238, 193, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 139, 161, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 89, 11, 253, 189, 238, 193, 189, 238, 193, 189, 238, 193, 0, 0, 0, 0, 0, 0, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 139, 161, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 21, 153, 136, 21, 153, 136, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 89, 14, 175, 0, 0, 0, 0, 0, 0, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 28, 243, 36, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 8, 96, 51, 8, 96, 51, 8, 96, 51, 0, 0, 0, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 96, 201, 143, 0, 0, 0, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 13, 87, 54, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 8, 96, 51, 8, 96, 51, 0, 0, 0, 0, 0, 0, 28, 243, 36, 0, 0, 0, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 49, 139, 161, 89, 11, 253, 89, 11, 253, 89, 11, 253, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 13, 87, 54, 13, 87, 54, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 8, 96, 51, 28, 243, 36, 28, 243, 36, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 145, 179, 80, 145, 179, 80, 145, 179, 80, 0, 0, 0, 0, 0, 0, 49, 139, 161, 89, 11, 253, 89, 11, 253, 89, 11, 253, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 49, 244, 213, 200, 231, 75, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 149, 131, 139, 149, 131, 139, 0, 0, 0, 0, 0, 0, 145, 179, 80, 145, 179, 80, 145, 179, 80, 145, 179, 80, 145, 179, 80, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 28, 243, 36, 28, 243, 36, 28, 243, 36, 200, 231, 75, 200, 231, 75, 28, 243, 36, 212, 225, 20, 200, 231, 75, 212, 225, 20, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 8, 96, 51, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 149, 131, 139, 149, 131, 139, 145, 179, 80, 145, 179, 80, 145, 179, 80, 145, 179, 80, 145, 179, 80, 149, 131, 139, 149, 131, 139, 89, 11, 253, 212, 225, 20, 212, 225, 20, 212, 225, 20, 28, 243, 36, 28, 243, 36, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 8, 96, 51, 8, 96, 51, 89, 11, 253, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 13, 87, 54, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 145, 179, 80, 145, 179, 80, 149, 131, 139, 149, 131, 139, 149, 131, 139, 89, 11, 253, 212, 225, 20, 212, 225, 20, 212, 225, 20, 28, 243, 36, 28, 243, 36, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 119, 184, 213, 8, 96, 51, 175, 73, 240, 175, 73, 240, 49, 244, 213, 8, 96, 51, 8, 96, 51, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 149, 131, 139, 149, 131, 139, 149, 131, 139, 145, 179, 80, 145, 179, 80, 145, 179, 80, 145, 179, 80, 89, 11, 253, 89, 11, 253, 89, 11, 253, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 28, 243, 36, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 8, 96, 51, 8, 96, 51, 175, 73, 240, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 171, 82, 134, 171, 82, 134, 23, 222, 145, 23, 222, 145, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 201, 66, 228, 145, 179, 80, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 212, 225, 20, 212, 225, 20, 212, 225, 20, 49, 244, 213, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 23, 222, 145, 23, 222, 145, 23, 222, 145, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 212, 225, 20, 89, 11, 253, 89, 11, 253, 212, 225, 20, 212, 225, 20, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 189, 238, 193, 189, 238, 193, 189, 238, 193, 189, 238, 193, 49, 244, 213, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 89, 11, 253, 89, 11, 253, 8, 96, 51, 89, 11, 253, 89, 11, 253, 8, 96, 51, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 23, 222, 145, 23, 222, 145, 149, 131, 139, 149, 131, 139, 149, 131, 139, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 212, 225, 20, 189, 238, 193, 49, 244, 213, 200, 231, 75, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 28, 243, 36, 28, 243, 36, 8, 96, 51, 0, 0, 0, 0, 0, 0, 8, 96, 51, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 189, 238, 193, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 212, 225, 20, 200, 231, 75, 200, 231, 75, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 28, 243, 36, 28, 243, 36, 8, 96, 51, 8, 96, 51, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 189, 238, 193, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 212, 225, 20, 212, 225, 20, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 189, 238, 193, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 212, 225, 20, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 0, 0, 0, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 28, 243, 36, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 189, 238, 193, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 142, 163, 229, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 11, 253, 89, 11, 253, 89, 11, 253, 49, 244, 213, 142, 163, 229, 142, 163, 229, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 212, 225, 20, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 11, 253, 89, 11, 253, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 89, 11, 253, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 196, 69, 17, 196, 69, 17, 49, 244, 213, 200, 231, 75, 200, 231, 75, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 200, 231, 75, 200, 231, 75, 142, 163, 229, 142, 163, 229, 142, 163, 229, 123, 131, 83, 123, 131, 83, 123, 131, 83, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 200, 231, 75, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 123, 131, 83, 123, 131, 83, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 200, 231, 75, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 244, 213, 49, 244, 213, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 142, 163, 229, 142, 163, 229, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 142, 163, 229, 142, 163, 229, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 171, 82, 134, 13, 87, 54, 13, 87, 54, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 49, 244, 213, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 0, 0, 0, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 28, 243, 36, 28, 243, 36, 28, 243, 36, 49, 139, 161, 49, 139, 161, 49, 139, 161, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 49, 244, 213, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 49, 244, 213, 49, 244, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 21, 153, 136, 21, 153, 136, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 13, 87, 54, 13, 87, 54, 13, 87, 54, 124, 119, 132, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 28, 243, 36, 28, 243, 36, 28, 243, 36, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 123, 131, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 28, 243, 36, 28, 243, 36, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 13, 87, 54, 28, 243, 36, 28, 243, 36, 28, 243, 36, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 123, 131, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 23, 222, 145, 23, 222, 145, 23, 222, 145, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 28, 243, 36, 13, 87, 54, 13, 87, 54, 196, 69, 17, 28, 243, 36, 28, 243, 36, 8, 96, 51, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 189, 238, 193, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 23, 222, 145, 23, 222, 145, 23, 222, 145, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 13, 87, 54, 196, 69, 17, 28, 243, 36, 8, 96, 51, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 23, 222, 145, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 187, 175, 8, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 139, 161, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 187, 175, 8, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 139, 161, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 49, 139, 161, 49, 139, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 201, 66, 228, 201, 66, 228, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 187, 175, 8, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 8, 96, 51, 8, 96, 51, 8, 96, 51, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 201, 66, 228, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 201, 66, 228, 201, 66, 228, 142, 163, 229, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 123, 131, 83, 123, 131, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 0, 0, 0, 8, 96, 51, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 201, 66, 228, 201, 66, 228, 201, 66, 228, 142, 163, 229, 142, 163, 229, 142, 163, 229, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 0, 0, 0, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 98, 4, 70, 98, 4, 70, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 171, 82, 134, 171, 82, 134, 171, 82, 134, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 201, 66, 228, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 8, 96, 51, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 201, 66, 228, 187, 175, 8, 187, 175, 8, 201, 66, 228, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 187, 175, 8, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 212, 225, 20, 212, 225, 20, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 124, 119, 132, 124, 119, 132, 201, 66, 228, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 28, 243, 36, 98, 4, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 14, 175, 89, 14, 175, 89, 14, 175, 89, 14, 175, 0, 0, 0, 212, 225, 20, 212, 225, 20, 212, 225, 20, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 187, 175, 8, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 28, 243, 36, 145, 179, 80, 28, 243, 36, 28, 243, 36, 28, 243, 36, 98, 4, 70, 98, 4, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 212, 225, 20, 212, 225, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 87, 54, 0, 0, 0, 0, 0, 0, 0, 0, 0, 89, 14, 175, 0, 0, 0, 0, 0, 0, 212, 225, 20, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 187, 175, 8, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 212, 225, 20, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 89, 11, 253, 89, 11, 253, 98, 4, 70, 98, 4, 70, 98, 4, 70, 212, 225, 20, 98, 4, 70, 98, 4, 70, 98, 4, 70, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 212, 225, 20, 212, 225, 20, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 187, 175, 8, 187, 175, 8, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 98, 4, 70, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 98, 4, 70, 98, 4, 70, 98, 4, 70, 98, 4, 70, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 98, 4, 70, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 0, 0, 0, 0, 0, 0, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 196, 69, 17, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 98, 4, 70, 145, 179, 80, 201, 66, 228, 201, 66, 228, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 200, 231, 75, 201, 66, 228, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13, 87, 54, 13, 87, 54, 96, 201, 143, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 196, 69, 17, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 145, 179, 80, 201, 66, 228, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 201, 66, 228, 201, 66, 228, 201, 66, 228, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 13, 87, 54, 0, 0, 0, 96, 201, 143, 196, 69, 17, 196, 69, 17, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 201, 66, 228, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 212, 225, 20, 212, 225, 20, 124, 119, 132, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 201, 66, 228, 201, 66, 228, 201, 66, 228, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 149, 131, 139, 196, 69, 17, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 201, 66, 228, 201, 66, 228, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 201, 66, 228, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 201, 66, 228, 201, 66, 228, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 119, 184, 213, 201, 66, 228, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 119, 184, 213, 119, 184, 213, 201, 66, 228, 201, 66, 228, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 187, 175, 8, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 187, 175, 8, 187, 175, 8, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 187, 175, 8, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 96, 201, 143, 149, 131, 139, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 124, 119, 132, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 201, 66, 228, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 175, 73, 240, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 23, 222, 145, 187, 175, 8, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 124, 119, 132, 124, 119, 132, 124, 119, 132, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 201, 66, 228, 201, 66, 228, 0, 0, 0, 96, 201, 143, 149, 131, 139, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 175, 73, 240, 175, 73, 240, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 175, 73, 240, 23, 222, 145, 23, 222, 145, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 201, 66, 228, 0, 0, 0, 187, 175, 8, 187, 175, 8, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 23, 222, 145, 23, 222, 145, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 212, 225, 20, 196, 69, 17, 212, 225, 20, 212, 225, 20, 212, 225, 20, 119, 184, 213, 119, 184, 213, 175, 73, 240, 123, 131, 83, 196, 69, 17, 212, 225, 20, 212, 225, 20, 175, 73, 240, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 0, 0, 0, 187, 175, 8, 187, 175, 8, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 119, 184, 213, 119, 184, 213, 119, 184, 213, 123, 131, 83, 123, 131, 83, 123, 131, 83, 196, 69, 17, 175, 73, 240, 175, 73, 240, 175, 73, 240, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 98, 4, 70, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 0, 0, 0, 187, 175, 8, 187, 175, 8, 187, 175, 8, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 212, 225, 20, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 119, 184, 213, 123, 131, 83, 123, 131, 83, 119, 184, 213, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 175, 73, 240, 175, 73, 240, 175, 73, 240, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 98, 4, 70, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 0, 0, 0, 187, 175, 8, 96, 201, 143, 96, 201, 143, 149, 131, 139, 149, 131, 139, 149, 131, 139, 96, 201, 143, 96, 201, 143, 212, 225, 20, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 149, 131, 139, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 149, 131, 139, 171, 82, 134, 171, 82, 134, 171, 82, 134, 171, 82, 134, 124, 119, 132, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 124, 119, 132, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 196, 69, 17, 124, 119, 132, 196, 69, 17, 196, 69, 17, 124, 119, 132, 124, 119, 132, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 123, 131, 83, 175, 73, 240, 175, 73, 240, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 23, 222, 145, 98, 4, 70, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 175, 73, 240, 0, 0, 0),
 "format": "RGB8",
@@ -2333,7 +2872,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_25qkl"]
-image = SubResource("Image_d3ldu")
+image = SubResource("Image_dyjea")
 
 [sub_resource type="GDScript" id="GDScript_qnl1f"]
 resource_name = "gun_map"
@@ -2534,7 +3073,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 10.0
+"speed": 7.5
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j5n31"]
@@ -2544,6 +3083,14 @@ region = Rect2(0, 0, 77, 46)
 [sub_resource type="AtlasTexture" id="AtlasTexture_uvlgw"]
 atlas = ExtResource("37_d3ldu")
 region = Rect2(77, 0, 77, 46)
+
+[sub_resource type="Gradient" id="Gradient_b1vik"]
+offsets = PackedFloat32Array(0, 0.78)
+colors = PackedColorArray(0.270588, 0.0705882, 0.443137, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dyjea"]
+gradient = SubResource("Gradient_b1vik")
+width = 100
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_go0vx"]
 atlas = ExtResource("9_fp8qy")
@@ -2595,6 +3142,32 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Curve" id="Curve_dyjea"]
+_data = [Vector2(0, 0.188666), 0.0, 0.0, 0, 0, Vector2(0.835664, 0.219645), -2.53615, -2.53615, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_nqfoo"]
+curve = SubResource("Curve_dyjea")
+
+[sub_resource type="Curve" id="Curve_0n16v"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_olgtb"]
+curve = SubResource("Curve_0n16v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i7g75"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(38, 4, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 10, 0)
+initial_velocity_min = 20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -70, 0)
+scale_curve = SubResource("CurveTexture_olgtb")
+alpha_curve = SubResource("CurveTexture_nqfoo")
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qit8p"]
 atlas = ExtResource("38_d3ldu")
 region = Rect2(0, 0, 70, 39)
@@ -2638,6 +3211,37 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhkry"]
+atlas = ExtResource("16_i8f31")
+region = Rect2(30, 0, 30, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_nqfoo"]
+line_spacing = 0.0
+font = ExtResource("41_dyjea")
+
+[sub_resource type="GDScript" id="GDScript_rslb6"]
+resource_name = "gun_name"
+script/source = "extends VBoxContainer
+
+@onready var prefix_1: Label = $HBoxContainer/prefix_1
+@onready var prefix_2: Label = $HBoxContainer/prefix_2
+@onready var gun_name: Label = $Control/gun_name
+@onready var suffix: Label = $suffix
+
+func setup( gun : B2_Weapon ) -> void:
+	prefix_1.text 		= Text.pr( gun.prefix1 )
+	prefix_2.text 		= Text.pr( gun.prefix2 )
+	gun_name.text 		= Text.pr( gun.weapon_name )
+	suffix.text 		= Text.pr( gun.suffix )
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_w5xm5"]
+line_spacing = 0.0
+font = ExtResource("42_olgtb")
+
+[sub_resource type="LabelSettings" id="LabelSettings_xhj2j"]
+font = ExtResource("43_i7g75")
+
 [node name="gun_info_breed_animation_panel" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -2656,6 +3260,8 @@ libraries = {
 }
 
 [node name="Control" type="Control" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(192, 120)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2664,9 +3270,11 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(96, 60)
 
 [node name="SCinemaSwitchPlate" type="Sprite2D" parent="Control"]
 visible = false
+position = Vector2(96, 60)
 texture = ExtResource("2_5w03s")
 
 [node name="sCinemaRedblink" type="AnimatedSprite2D" parent="Control/SCinemaSwitchPlate"]
@@ -2777,11 +3385,13 @@ frame = 7
 
 [node name="hoopz_screen" type="AnimatedSprite2D" parent="Control"]
 visible = false
+position = Vector2(96, 60)
 sprite_frames = SubResource("SpriteFrames_8v3a1")
 animation = &"sCinemaHoopzPull"
 
 [node name="spr_breedanm" type="TextureRect" parent="Control"]
 process_mode = 4
+visible = false
 z_index = -100
 material = SubResource("ShaderMaterial_qnl1f")
 custom_minimum_size = Vector2(192, 120)
@@ -2801,7 +3411,7 @@ texture = ExtResource("10_65lcy")
 expand_mode = 2
 stretch_mode = 1
 
-[node name="left_part" type="Control" parent="Control/spr_breedanm"]
+[node name="left_part" type="Control" parent="Control/spr_breedanm" node_paths=PackedStringArray("gun_info", "actual_gun_texture", "actual_gun_scan")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2809,6 +3419,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_je0yy")
+gun_info = NodePath("../../..")
+actual_gun_texture = NodePath("panel_bg/gun_texture2")
+actual_gun_scan = NodePath("panel_bg/scan")
 
 [node name="spr_breedanm_typepan_type" type="AnimatedSprite2D" parent="Control/spr_breedanm/left_part"]
 position = Vector2(49.5, 80)
@@ -2955,7 +3568,7 @@ autoplay = "default"
 frame_progress = 0.216188
 speed_scale = 1.1
 
-[node name="right_part" type="Control" parent="Control/spr_breedanm"]
+[node name="right_part" type="Control" parent="Control/spr_breedanm" node_paths=PackedStringArray("gun_info", "actual_gun_texture", "actual_gun_scan")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2964,6 +3577,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_je0yy")
 selected_gun = "selected_gun_2"
+gun_info = NodePath("../../..")
+actual_gun_texture = NodePath("panel_bg/gun_texture2")
+actual_gun_scan = NodePath("panel_bg/scan")
 
 [node name="spr_breedanm_typepan_type" type="AnimatedSprite2D" parent="Control/spr_breedanm/right_part"]
 position = Vector2(148.5, 40)
@@ -3235,11 +3851,10 @@ offset_right = 10.0
 offset_bottom = 56.0
 
 [node name="sCinemaFusionButton" type="TextureRect" parent="Control"]
+visible = false
 layout_mode = 0
-offset_left = -96.5
-offset_top = -60.0
-offset_right = 95.5
-offset_bottom = 60.0
+offset_right = 192.0
+offset_bottom = 120.0
 texture = ExtResource("31_y6ec3")
 
 [node name="sCinemaText" type="AnimatedSprite2D" parent="Control/sCinemaFusionButton"]
@@ -3259,7 +3874,8 @@ position = Vector2(64, -42)
 texture = ExtResource("8_awvcw")
 
 [node name="sCinemaButtonTransition" type="AnimatedSprite2D" parent="Control"]
-position = Vector2(1.5, -1)
+visible = false
+position = Vector2(96, 60)
 sprite_frames = SubResource("SpriteFrames_qit8p")
 autoplay = "default"
 frame = 5
@@ -3268,7 +3884,7 @@ frame_progress = 1.0
 [node name="sCinemaDNA" type="AnimatedSprite2D" parent="Control"]
 sprite_frames = SubResource("SpriteFrames_04ly4")
 autoplay = "default"
-frame_progress = 0.618535
+frame_progress = 0.90905
 
 [node name="sCinema_gridback" type="TextureRect" parent="Control/sCinemaDNA"]
 offset_left = -89.0
@@ -3279,12 +3895,29 @@ texture = ExtResource("10_65lcy")
 stretch_mode = 1
 
 [node name="sCinemaPanelGun" type="TextureRect" parent="Control/sCinemaDNA/sCinema_gridback"]
+z_index = 2
+z_as_relative = false
 layout_mode = 0
 offset_left = -6.0
 offset_top = -3.0
 offset_right = 71.0
 offset_bottom = 43.0
 texture = SubResource("AtlasTexture_j5n31")
+
+[node name="gun_chunkler" type="Control" parent="Control/sCinemaDNA/sCinema_gridback/sCinemaPanelGun" node_paths=PackedStringArray("my_target")]
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 12.5
+offset_top = 10.0
+offset_right = 61.5
+offset_bottom = 34.0
+script = ExtResource("37_ia8yv")
+my_target = NodePath("../suck_target")
+gun_pos = Vector2(3, 1)
+
+[node name="suck_target" type="Marker2D" parent="Control/sCinemaDNA/sCinema_gridback/sCinemaPanelGun"]
+position = Vector2(36.5, 38)
 
 [node name="sCinema_gridback2" type="TextureRect" parent="Control/sCinemaDNA"]
 offset_left = 24.5
@@ -3295,6 +3928,8 @@ texture = ExtResource("10_65lcy")
 stretch_mode = 1
 
 [node name="sCinemaPanelGun" type="TextureRect" parent="Control/sCinemaDNA/sCinema_gridback2"]
+z_index = 2
+z_as_relative = false
 layout_mode = 0
 offset_left = -6.0
 offset_top = -3.0
@@ -3302,12 +3937,44 @@ offset_right = 71.0
 offset_bottom = 43.0
 texture = SubResource("AtlasTexture_uvlgw")
 
+[node name="gun_chunkler" type="Control" parent="Control/sCinemaDNA/sCinema_gridback2/sCinemaPanelGun" node_paths=PackedStringArray("my_target")]
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 15.0
+offset_top = 12.0
+offset_right = 64.0
+offset_bottom = 36.0
+script = ExtResource("37_ia8yv")
+my_target = NodePath("../suck_target")
+gun_pos = Vector2(3, 1)
+
+[node name="suck_target" type="Marker2D" parent="Control/sCinemaDNA/sCinema_gridback2/sCinemaPanelGun"]
+position = Vector2(40, 8)
+
+[node name="pump_bg" type="TextureRect" parent="Control/sCinemaDNA"]
+offset_left = 96.0
+offset_top = 80.0
+offset_right = 216.0
+offset_bottom = 272.0
+rotation = 1.5708
+texture = SubResource("GradientTexture1D_dyjea")
+
 [node name="pump_box" type="AnimatedSprite2D" parent="Control/sCinemaDNA"]
 position = Vector2(-0.5, 105)
 sprite_frames = SubResource("SpriteFrames_4582r")
 animation = &"sCinemaPumpBox"
 autoplay = "sCinemaPumpBox"
 frame_progress = 0.733382
+
+[node name="pump_smoke" type="GPUParticles2D" parent="Control/sCinemaDNA/pump_box"]
+modulate = Color(2, 2, 2, 1)
+z_index = 100
+position = Vector2(-1, 1)
+emitting = false
+amount = 64
+texture = ExtResource("39_b1vik")
+process_material = SubResource("ParticleProcessMaterial_i7g75")
 
 [node name="box_bound" type="Control" parent="Control/sCinemaDNA/pump_box"]
 clip_contents = true
@@ -3322,34 +3989,240 @@ offset_bottom = 18.0
 position = Vector2(32, 17)
 sprite_frames = SubResource("SpriteFrames_xhkry")
 
-[node name="bred_gun_texture" type="TextureRect" parent="Control/sCinemaDNA/pump_box/box_bound"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="pump_door_flash" type="AnimatedSprite2D" parent="Control/sCinemaDNA/pump_box/box_bound"]
 position = Vector2(32, 17)
 sprite_frames = SubResource("SpriteFrames_xhkry")
 frame = 4
 
 [node name="pump_door_up" type="AnimatedSprite2D" parent="Control/sCinemaDNA/pump_box/box_bound"]
+z_index = 100
 position = Vector2(32, 17)
 sprite_frames = SubResource("SpriteFrames_xhkry")
 frame = 2
 
 [node name="pump_door_down" type="AnimatedSprite2D" parent="Control/sCinemaDNA/pump_box/box_bound"]
+z_index = 100
 position = Vector2(32, 17)
 sprite_frames = SubResource("SpriteFrames_xhkry")
 frame = 3
 
+[node name="new_gun_data" type="Control" parent="Control/sCinemaDNA" node_paths=PackedStringArray("gun_info")]
+process_mode = 4
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("11_je0yy")
+selected_gun = "bred_gun"
+gun_info = NodePath("../../..")
+
+[node name="spr_breedanm_typepan_type" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data"]
+position = Vector2(-59.5, 179)
+sprite_frames = SubResource("SpriteFrames_su5ca")
+frame = 2
+
+[node name="typepan_text" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data"]
+position = Vector2(-59.5, 151)
+sprite_frames = SubResource("SpriteFrames_76omf")
+autoplay = "default"
+frame = 20
+frame_progress = 1.0
+
+[node name="dns_panel" type="TextureRect" parent="Control/sCinemaDNA/new_gun_data"]
+layout_mode = 0
+offset_left = -41.0
+offset_top = 137.0
+offset_right = -11.0
+offset_bottom = 188.0
+texture = SubResource("AtlasTexture_xhkry")
+flip_v = true
+
+[node name="spr_breedanm_dnaAnim" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/dns_panel"]
+position = Vector2(16, 25.75)
+sprite_frames = SubResource("SpriteFrames_rslb6")
+frame_progress = 0.968527
+speed_scale = 0.9
+script = ExtResource("28_7q250")
+play_back = true
+
+[node name="bullet_pan" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data"]
+z_as_relative = false
+position = Vector2(63, 150)
+sprite_frames = SubResource("SpriteFrames_t8alm")
+autoplay = "default"
+frame_progress = 0.83116
+
+[node name="bg" type="ColorRect" parent="Control/sCinemaDNA/new_gun_data/bullet_pan"]
+z_index = -1
+z_as_relative = false
+offset_left = -16.0
+offset_top = -11.0
+offset_right = 16.0
+offset_bottom = 12.0
+color = Color(0.0784314, 0, 0.137255, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="spr_breedanm_bulletbars" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/bullet_pan"]
+z_as_relative = false
+position = Vector2(1, -5)
+sprite_frames = SubResource("SpriteFrames_7ixlm")
+frame = 15
+frame_progress = 1.0
+
+[node name="spr_breedanm_bulletType" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/bullet_pan"]
+z_as_relative = false
+position = Vector2(-7, 0)
+sprite_frames = SubResource("SpriteFrames_ffo7r")
+frame = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="bg" type="ColorRect" parent="Control/sCinemaDNA/new_gun_data"]
+layout_mode = 0
+offset_left = -7.0
+offset_top = 139.0
+offset_right = 42.0
+offset_bottom = 162.0
+color = Color(0.0784314, 0, 0.137255, 1)
+
+[node name="spr_breedanm_firespd_ovr" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/bg"]
+position = Vector2(23.5, 11)
+sprite_frames = SubResource("SpriteFrames_gno64")
+autoplay = "default"
+frame_progress = 0.125215
+
+[node name="spr_breedanm_firespd" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/bg"]
+position = Vector2(24.5, 16.25)
+scale = Vector2(0.979592, 0.833333)
+sprite_frames = SubResource("SpriteFrames_cswhg")
+autoplay = "default"
+script = ExtResource("24_i8f31")
+
+[node name="power_panel" type="Panel" parent="Control/sCinemaDNA/new_gun_data"]
+layout_mode = 0
+offset_left = 80.5
+offset_top = 166.0
+offset_right = 106.5
+offset_bottom = 254.0
+rotation = 1.5708
+theme_override_styles/panel = SubResource("StyleBoxFlat_bdq6r")
+
+[node name="SCinemaFirepower" type="Sprite2D" parent="Control/sCinemaDNA/new_gun_data/power_panel"]
+material = SubResource("ShaderMaterial_8uyc3")
+position = Vector2(14, 42)
+texture = ExtResource("24_5tn8h")
+flip_v = true
+
+[node name="spr_breedanm_firepowpan_tx" type="AnimatedSprite2D" parent="Control/sCinemaDNA/new_gun_data/power_panel"]
+position = Vector2(9, 79)
+sprite_frames = SubResource("SpriteFrames_gycy7")
+autoplay = "default"
+frame_progress = 0.216188
+speed_scale = 0.8
+
+[node name="bred_gun_bg" type="ColorRect" parent="Control/sCinemaDNA"]
+visible = false
+offset_left = -96.0
+offset_top = 80.0
+offset_right = 96.0
+offset_bottom = 200.0
+color = Color(0, 0, 0, 0)
+
+[node name="bred_gun_texture" type="TextureRect" parent="Control/sCinemaDNA"]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.5
+offset_top = 40.0
+offset_right = -71.5
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(24.5, 12)
+texture = SubResource("AtlasTexture_hshjb")
+
+[node name="bred_gun_lbl" type="Label" parent="Control/sCinemaDNA"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -191.5
+offset_top = -80.0
+offset_right = 0.5
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "A baby gun arrives."
+label_settings = SubResource("LabelSettings_nqfoo")
+horizontal_alignment = 1
+autowrap_mode = 2
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0
+
+[node name="gun_name_container" type="VBoxContainer" parent="Control/sCinemaDNA"]
+modulate = Color(1, 1, 1, 0)
+offset_left = -91.5
+offset_top = 156.0
+offset_right = 92.5
+offset_bottom = 198.0
+theme_override_constants/separation = 0
+alignment = 1
+script = SubResource("GDScript_rslb6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/sCinemaDNA/gun_name_container"]
+layout_mode = 2
+alignment = 1
+
+[node name="prefix_1" type="Label" parent="Control/sCinemaDNA/gun_name_container/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Prefix 1"
+label_settings = SubResource("LabelSettings_w5xm5")
+
+[node name="prefix_2" type="Label" parent="Control/sCinemaDNA/gun_name_container/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Prefix 2"
+label_settings = SubResource("LabelSettings_w5xm5")
+
+[node name="Control" type="Control" parent="Control/sCinemaDNA/gun_name_container"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+
+[node name="gun_name" type="Label" parent="Control/sCinemaDNA/gun_name_container/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -8.5
+offset_right = 23.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "MACHINEGUN"
+label_settings = SubResource("LabelSettings_xhj2j")
+horizontal_alignment = 1
+script = ExtResource("44_wrdw4")
+
+[node name="suffix" type="Label" parent="Control/sCinemaDNA/gun_name_container"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "with
+Bla Bla"
+label_settings = SubResource("LabelSettings_w5xm5")
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [connection signal="animation_finished" from="Control/spr_breedanm/left_part/bg/spr_breedanm_firespd" to="Control/spr_breedanm/left_part/bg/spr_breedanm_firespd" method="_on_animation_finished"]
 [connection signal="animation_finished" from="Control/spr_breedanm/right_part/bg/spr_breedanm_firespd" to="Control/spr_breedanm/right_part/bg/spr_breedanm_firespd" method="_on_animation_finished"]
+[connection signal="animation_finished" from="Control/sCinemaDNA/new_gun_data/bg/spr_breedanm_firespd" to="Control/sCinemaDNA/new_gun_data/bg/spr_breedanm_firespd" method="_on_animation_finished"]

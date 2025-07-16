@@ -77,6 +77,8 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var gameslot_layer = $gameslot_layer
 #endregion
 
+@onready var game_version_lbl: Label = $game_version_lbl
+
 # region Color stuff
 var text_color_normal := Color.GRAY # c_gray; // For text that cannot be interacted with
 var text_color_button := Color.LIGHT_GRAY # c_ltgray; // Text that can be clicked
@@ -183,6 +185,9 @@ func _ready():
 		title_buttons[i].global_position = Vector2(title_x + 50, title_y + (title_row * i) + (title_gap * i) + 4) - ( title_buttons[i].size / 2 )
 	
 	set_title_names()
+	
+	## Set game version.
+	game_version_lbl.text = str( ProjectSettings.get_setting("application/config/version") )
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton or event is InputEventKey:
@@ -283,7 +288,7 @@ func _process(_delta):
 func _draw():
 	if hide_demo_msg:
 		return
-	var qrx = 150;
+	var qrx = 150 + 20
 	var qry = 100 + 15# + 5 ; # + 5 was added by me.
 	var font := preload("res://barkley2/resources/fonts/fn_small.tres")
 	#draw_text(qrx, qry, "DEMO game for backers.");
@@ -317,3 +322,9 @@ func _on_vr_btn_button_pressed() -> void:
 	mode = "vr"
 	change_menu()
 	vr_layer.show_menu()
+
+func _on_debug_btn_button_pressed() -> void:
+	B2_Config.select_user_slot( 100 )
+	B2_Playerdata.preload_skip_tutorial_save_data()
+	B2_Music.stop( 2.0 )
+	B2_RoomXY.warp_to( "r_air_entrance03, 417, 615, 1", 0.5 )

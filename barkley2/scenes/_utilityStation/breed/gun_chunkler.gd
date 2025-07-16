@@ -4,22 +4,29 @@ extends Control
 
 #const GUN_DNA_SHADER_MATERIAL = preload("res://barkley2/scenes/_utilityStation/breed/gun_dna_shader_material.tres")
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")
-
 const GUNCELL := Vector2( B2_Gun.GUNWIDTH, B2_Gun.GUNHEIGHT )
+
+var chunk_size			:= Vector2(4.0, 4.0)
 @warning_ignore("integer_division")
-var chunks_per_lines 	:= B2_Gun.GUNWIDTH / 4
+var chunks_per_lines 	:= B2_Gun.GUNWIDTH / chunk_size.x
 @warning_ignore("integer_division")
-var chunks_per_row 		:= B2_Gun.GUNHEIGHT / 4
-var chunk_size			:= Vector2(4.0, 4.0) # Vector2(GUNCELL.x / float(chunks_per_lines), GUNCELL.y / float(chunks_per_row) )
+var chunks_per_row 		:= B2_Gun.GUNHEIGHT / chunk_size.y
+ 
+var stretch := 1.0
+
+@export var debug := true
+@export var my_target : Marker2D
 @export var gun_pos				:= Vector2(0.0,0.0)
-@export_tool_button("Gen Chunks") var gen : Callable = _gen_chunks
+@export_tool_button("Gen Chunks") var gen : Callable = gen_chunks
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
-		_gen_chunks()
+		#gen_chunks()
+		pass
 
-func _gen_chunks() -> void:
-	size = GUNCELL
+func gen_chunks() -> void:
+	var time := Time.get_ticks_msec()
+	size = GUNCELL * stretch
 	
 	for c in get_children():
 		c.queue_free()
@@ -29,7 +36,7 @@ func _gen_chunks() -> void:
 			var progress 		:= Vector2(float(x) / float(chunks_per_lines), float(y) / float(chunks_per_row))
 			var target_rect 	:= Rect2i( (gun_pos * GUNCELL) + (Vector2(x,y) * chunk_size) , chunk_size )
 			
-			## Fuck around withthe image
+			## Fuck around with the image
 			@warning_ignore("narrowing_conversion")
 			var my_gun_image = Image.create_empty(chunk_size.x, chunk_size.y, false, Image.FORMAT_RGBA8)
 			my_gun_image.blit_rect( FRANKIE_GUNS.get_image(), target_rect, Vector2.ZERO )
@@ -37,16 +44,19 @@ func _gen_chunks() -> void:
 			## Avoid making empty texture nodes. this slows down the animation.
 			if not is_clear(my_gun_image):
 				## Make Chunk node
+				@warning_ignore("narrowing_conversion")
+				my_gun_image.resize(chunk_size.x * stretch, chunk_size.y * stretch, Image.INTERPOLATE_NEAREST)
 				var chunk 		:= TextureRect.new()
-				chunk.position 	= Vector2(x,y) * chunk_size
-				chunk.size 		= chunk_size
+				chunk.position 	= Vector2(x,y) * chunk_size * stretch
+				chunk.size 		= chunk_size * stretch
 				chunk.texture 	= ImageTexture.create_from_image( my_gun_image )
 				add_child( chunk )
 			else:
 				#print("Empty")
 				pass
 			
-	#print( get_children().size() )
+	if debug:
+		print( "Chunklets: %s - Time: %s msecs." % [str( get_children().size() ), Time.get_ticks_msec() - time] )
 	
 	## Failed attept using shaders.
 	#for x in chunks_per_lines:
@@ -66,25 +76,19 @@ func _gen_chunks() -> void:
 func is_clear( img : Image ) -> bool:
 	return img.get_data().count(0) == 64
 
-func _suck_chunks(pos : Vector2) -> void:
+func _suck_chunks() -> void:
+	if not my_target:
+		push_error("Target not set. Aborting...")
+		return
+		
 	var chunks := get_children()
 	chunks.shuffle()
 	
 	for c in chunks:
 		## is there any downsides of creating this many tweeners?
 		var t := create_tween()
-		t.tween_interval( randf() )
-		t.tween_property( c, "position", pos, 0.4 )
-		t.tween_property( c, "modulate", Color.TRANSPARENT, 0.1 )
+		t.tween_interval( randf() * 2 )
+		t.tween_property( c, "global_position", my_target.global_position, randf_range(0.4,0.6) ).set_ease(Tween.EASE_OUT_IN)
+		t.tween_property( c, "modulate", Color.TRANSPARENT, 0.25 )
 		t.tween_interval( randf() )
 		t.tween_callback( c.queue_free )
-	
-func _suck_chunks_downward() -> void:
-	pass
-
-func _process(_delta: float) -> void:
-	if not Engine.is_editor_hint():
-		if Input.is_action_just_pressed("Action"):
-			_suck_chunks(Vector2(GUNCELL.x / 2, 0))
-		if Input.is_action_just_pressed("Holster"):
-			_suck_chunks(Vector2(GUNCELL.x / 2, GUNCELL.y))

@@ -14,11 +14,13 @@ extends Control
 var t : Tween
 var t_delay := 0.35
 
-func _ready() -> void:
-	#gun_info.ready.connect(populate_gunmap)
-	pass
+func _reset() -> void:
+	gunmap.line_ratio = 0.0
+	gunmap.position = Vector2( -0.5, 0.0 )
+	gunmap.scale = Vector2.ONE
 	
 func populate_gunmap() -> void:
+	_reset()
 	top_gun_texture.modulate.a 		= 0.0
 	bottom_gun_texture.modulate.a 	= 0.0
 	
@@ -30,6 +32,7 @@ func populate_gunmap() -> void:
 	top_gun_texture.texture			= gun_info.selected_gun_1.get_weapon_hud_sprite()
 	bottom_gun_texture.texture		= gun_info.selected_gun_2.get_weapon_hud_sprite()
 	
+func animate_gunmap() -> void:
 	var center = (gun_marker_occupied.position + gun_marker_top.position + gun_marker_bottom.position) / 3
 	
 	if t:	t.kill()
