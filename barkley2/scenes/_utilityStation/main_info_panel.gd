@@ -77,6 +77,8 @@ extends B2_UtilityPanel
 
 @export var bullshit_noise : FastNoiseLite ## Noise used for the voltage and amp changes. unneeded, but fun.
 
+@onready var balls_utility: Node3D = $trans/trans/SubViewport/balls_utility
+
 func _ready() -> void:
 	_set_title_name()
 	_set_menu_values()
@@ -84,6 +86,8 @@ func _ready() -> void:
 func update_menu() -> void:
 	if not is_node_ready():
 		return
+		
+	balls_utility.populate_dna()
 	_set_menu_values()
 
 func _pr( node : Label ) -> void:

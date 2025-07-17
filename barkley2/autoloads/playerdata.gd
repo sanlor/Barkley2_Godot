@@ -428,8 +428,8 @@ func preload_CC_save_data():
 	# Humanism
 	B2_Config.set_user_save_data("player.humanism.bio", 	90.0	);
 	B2_Config.set_user_save_data("player.humanism.cyber", 	10.0	);
-	B2_Config.set_user_save_data("player.humanism.cosmic", 	0.0		);
-	B2_Config.set_user_save_data("player.humanism.zauber", 	0.0		);
+	B2_Config.set_user_save_data("player.humanism.cosmic", 	00.0		);
+	B2_Config.set_user_save_data("player.humanism.zauber", 	00.0		);
 	
 	# Bonnet ## NOTE ?????? 
 	B2_Config.set_user_save_data("player.hasBonnet", true);

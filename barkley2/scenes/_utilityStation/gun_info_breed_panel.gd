@@ -139,6 +139,8 @@ func _on_gun_breed_commence_btn_pressed() -> void:
 
 func _on_gun_info_breed_animation_panel_finished_breeding() -> void:
 	B2_Music.resume_stored_music( 1.0 )
+	var utilityHue : int = B2_Playerdata.Quest("playerGumballColor") 	## Utility line 2509
+	var grid_color := Color.from_rgba8(utilityHue, 128, 255)			## Utility line 34
 	
 	## Show panels
 	utility_bg.show_bg()
@@ -147,7 +149,7 @@ func _on_gun_info_breed_animation_panel_finished_breeding() -> void:
 	var t : Tween
 	t = create_tween()
 	t.tween_callback( right_panel.show )
-	t.tween_property( right_panel, "modulate", Color.WHITE, 0.25 )
+	t.tween_property( right_panel, "modulate", grid_color.lerp( Color.WHITE, 0.85 ), 0.25 )
 	await t.finished
 	
 	gun_info_breed_animation_panel.hide_panel()

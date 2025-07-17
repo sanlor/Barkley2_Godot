@@ -94,7 +94,9 @@ func _ready() -> void:
 				if B2_Candy.has_recipe( i ):
 					continue
 			elif my_shop_type == TYPE.VIDCON:
-				breakpoint ## VIDCONS NOT IMPLEMENTED
+				#breakpoint ## VIDCONS NOT IMPLEMENTED
+				if B2_Vidcon.has_vidcon( int( str(i).replace("VIDCON_","") ) ):
+					continue
 			elif my_shop_type == TYPE.GUN:
 				if B2_Shop.bought_items.has(my_shop_name):
 					if B2_Shop.bought_items[my_shop_name].has( i ):
@@ -196,8 +198,9 @@ func buy_item( _btn ) -> void:
 		_btn.queue_free()
 		
 	elif my_shop_type == TYPE.VIDCON:
-		## Vidcons not setup yet
-		breakpoint
+		#breakpoint ## Vidcons not setup yet
+		B2_Vidcon.give_vidcon( _btn.get_vidcon() )
+		_btn.queue_free()
 	else:
 		## WTF???
 		breakpoint

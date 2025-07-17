@@ -1,7 +1,8 @@
 extends Button
 
-const S_JERKIN 	= preload("uid://cvyp0k17ke0yg")
-const S_CANDY 	= preload("uid://ckdra5vpxt43g")
+const S_JERKIN 					:= preload("uid://cvyp0k17ke0yg")
+const S_CANDY 					:= preload("uid://ckdra5vpxt43g")
+const S_MENU_UTILITY_VIDCON 	:= preload("uid://bgr2n0hlmp87k")
 
 @export var folded_size := 24
 @export var unfolded_size := 70
@@ -43,12 +44,12 @@ var buy_btn: 					Button
 var info_btn: 					Button
 var exit_btn: 					B2_Border_Button
 
-@export var my_item 		:= ""
-@export var my_item_type 	:= TYPE.JERKIN
+@export var my_item 			:= ""
+@export var my_item_type 		:= TYPE.JERKIN
 @export var my_item_cost		:= 10
-var my_item_data : Dictionary
-
-var my_gun					: B2_Weapon
+var my_item_data 				: Dictionary
+var my_vidcon 					:= 0
+var my_gun						: B2_Weapon
 
 var item_tween : Tween
 
@@ -85,7 +86,7 @@ func _ready() -> void:
 		folded_size 	= 24
 		unfolded_size 	= 70
 		
-	if my_item_type == TYPE.RECIPE:
+	elif my_item_type == TYPE.RECIPE:
 		my_item_data = B2_Candy.get_candy( my_item )
 		item_icon.texture.atlas 				= S_CANDY
 		item_icon.texture.region.size 			= Vector2(16,16)
@@ -104,7 +105,7 @@ func _ready() -> void:
 		folded_size 	= 20
 		unfolded_size 	= 44
 	
-	if my_item_type == TYPE.GUN:
+	elif my_item_type == TYPE.GUN:
 		var gun_id := my_item.right(1).to_int() ## The the last char (should be a number)
 		assert( B2_Shop.gun_inventory.size() > gun_id )
 		my_gun = B2_Shop.gun_inventory[gun_id]
@@ -130,6 +131,31 @@ func _ready() -> void:
 		gun_summary.show()
 		gun_stats.show()
 	
+	## WARNING This is different from the original. I wasnt able to reach this shop on the Janky demo, so I dont know how it looks.
+	elif my_item_type == TYPE.VIDCON:
+		my_vidcon = int( str( my_item ).replace("VIDCON_","") )
+		item_icon.texture.atlas 				= S_MENU_UTILITY_VIDCON
+		item_icon.texture.region.size 			= Vector2(15,23)
+		item_icon.texture.region.position.x 	= 1 * 15
+		item_name.text							= Text.pr( B2_Vidcon.get_vidcon_name( my_vidcon ) )
+		item_name.label_settings.font 			= preload("res://barkley2/resources/fonts/fn_12ocs.tres")
+		item_cost.text							= "£" + str(my_item_cost)
+		
+		item_summary.show()
+		item_stats.hide()
+		item_description.show()
+		gun_summary.hide()
+		gun_stats.hide()
+		
+		item_description.text 	= Text.pr( B2_Vidcon.get_vidcon_description( my_vidcon ) )
+		item_description.label_settings.font	= preload("res://barkley2/resources/fonts/fn5o.tres")
+		
+		folded_size 	= 23
+		unfolded_size 	= 90
+		
+	else:
+		breakpoint
+	
 	if B2_Playerdata.Quest("money") < my_item_cost:
 		item_cost.modulate = Color.ORANGE_RED
 	else:
@@ -152,6 +178,9 @@ func get_gun() -> B2_Weapon:
 	
 func get_jerkin() -> String:
 	return my_item
+	
+func get_vidcon() -> int:
+	return my_vidcon
 	
 func get_item_name() -> String:
 	if my_item_type == TYPE.GUN:

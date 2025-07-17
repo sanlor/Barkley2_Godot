@@ -24,6 +24,7 @@ const UTILITYALPHA 					:= 0
 const DNET_SCREEN = preload("res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.tscn")
 
 var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
+const UTILITY_STATION = preload("res://barkley2/themes/utility_station.tres")
 
 ## DEBUG
 @export var enable_debug_loadout := false
@@ -214,11 +215,13 @@ func _ready() -> void:
 	
 	style_box_utility.bg_color 		= Color(grid_color, randf_range(0.06,0.12) * intensity * 0.125) 
 	main_btn.text = Text.pr( B2_Playerdata.Quest("playerNameFull", null, "Undefined") )
-
+	
+	_modulate_some_buttons_i_guess()
+	
 ## WARNING This sucks. need to create a theme that handles this.
 ## NOTE ^^^^ Bad idea, performance tanks when messing around with colors inside the theme.
 func _modulate_some_buttons_i_guess() -> void:
-	right_panel.modulate = Color( grid_color, 0.75 )
+	right_panel.modulate = grid_color.lerp( Color.WHITE, 0.85 )
 	
 ## Messy code. Hide everything and then check what should be visible.
 # Is there a better option?
