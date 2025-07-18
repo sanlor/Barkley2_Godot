@@ -135,7 +135,7 @@ func has_user_save( slot ): # slot -> 0 to 2
 		return false
 	
 func select_user_slot( slot ):
-	assert( slot >= 0 or slot <= 2 or slot == 100 or slot == 69) ## slot 69 is used for VR missions. lol.
+	assert( slot >= 0 or slot <= 2 or slot == 100 or slot == 69) ## slot 100 is the debug slot. slot 69 is used for VR missions. lol.
 	# slot 100 is for debug purposes
 	selected_slot = slot
 	

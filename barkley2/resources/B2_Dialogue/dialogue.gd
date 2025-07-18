@@ -12,6 +12,8 @@ const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/
 const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
 # reference script = o_dialogue
 
+const LINE_SIZE := 9
+
 # The title of the text, defaults to an empty string.
 var _title = "";
 
@@ -195,11 +197,13 @@ func display_dialog( _is_boxless := false ):
 		title_node.pop_all()
 	
 	text_node.name 				= "Text"
-	text_node.position 			= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
-	text_node.size 				= Vector2( 264, 11 * 4)
+	text_node.size 				= Vector2( 264, LINE_SIZE * max_lines) ## NOTE If you change the font, also change this. Was Vector2( 264, 11 * 4)
+	text_node.theme.set_constant("line_separation", "RichTextLabel", 1)
+	
 	if not has_portrait: 
 		text_node.size.x += 64 # compensate for the aditional space not being used by the portrait.
-	text_node.get_v_scroll_bar().custom_step = 11 # avoid partial scroll
+	text_node.position 			= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
+	text_node.get_v_scroll_bar().custom_step = LINE_SIZE # avoid partial scroll
 	
 	text_node.set_text( Text.pr( _my_text ) )
 	

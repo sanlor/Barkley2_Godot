@@ -49,7 +49,7 @@ var bg_opacity := 0.65
 
 func _init():
 	b_2_panel_fg = B2_Border_Foreground.new()
-	
+	#mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(b_2_panel_fg)
 
 func set_seed( _seed : String ):

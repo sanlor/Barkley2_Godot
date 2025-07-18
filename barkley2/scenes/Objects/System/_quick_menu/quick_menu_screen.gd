@@ -291,23 +291,29 @@ func _physics_process(_delta: float) -> void:
 	if randf() > 0.35:
 		flicker()
 		
-	var wpn := B2_Gun.get_current_gun()
-	if wpn != last_wpn:
-		last_wpn = wpn
+	if B2_Gun.has_any_guns():
+		var wpn := B2_Gun.get_current_gun()
+		if wpn != last_wpn:
+			last_wpn = wpn
+			prefix_1.text = ""; prefix_1.hide()
+			prefix_2.text = ""; prefix_2.hide()
+			gun_name.text = ""
+			suffix.text = ""; suffix.hide()
+			
+			if wpn.prefix1:
+				prefix_1.show()
+				prefix_1.text = wpn.prefix1#["name"]
+			if wpn.prefix2:
+				prefix_2.show()
+				prefix_2.text = wpn.prefix2#["name"]
+				
+			gun_name.text = wpn.weapon_name
+			
+			if wpn.suffix:
+				suffix.show()
+				suffix.text = wpn.suffix#["name"]
+	else:
 		prefix_1.text = ""; prefix_1.hide()
 		prefix_2.text = ""; prefix_2.hide()
-		gun_name.text = ""
+		gun_name.text = "No guns :("
 		suffix.text = ""; suffix.hide()
-		
-		if wpn.prefix1:
-			prefix_1.show()
-			prefix_1.text = wpn.prefix1#["name"]
-		if wpn.prefix2:
-			prefix_2.show()
-			prefix_2.text = wpn.prefix2#["name"]
-			
-		gun_name.text = wpn.weapon_name
-		
-		if wpn.suffix:
-			suffix.show()
-			suffix.text = wpn.suffix#["name"]

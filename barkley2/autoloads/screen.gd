@@ -308,7 +308,8 @@ func hide_pause_menu() -> void:
 	if is_instance_valid(pause_screen): # Debug errors
 		pause_screen.queue_free()
 	is_paused = false
-	get_tree().paused = false
+	if not is_any_menu_open(): ## Issues with quick menu open while unpausing.
+		get_tree().paused = false
 	B2_Sound.play_pick("pausemenu_click")
 	B2_Music.volume_menu()
 

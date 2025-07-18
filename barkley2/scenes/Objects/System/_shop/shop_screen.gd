@@ -18,10 +18,10 @@ const FACES := {
 	"sEgidiusFace" 		: preload("uid://begj8tu68n81b"),
 }
 const SHOP_TYPE := {
-	"jerkin" : TYPE.JERKIN,
-	"recipe" : TYPE.RECIPE,
-	"vidcon" : TYPE.VIDCON,
-	"gun" : TYPE.GUN,
+	"jerkin" 	: TYPE.JERKIN,
+	"recipe" 	: TYPE.RECIPE,
+	"vidcon" 	: TYPE.VIDCON,
+	"gun" 		: TYPE.GUN,
 }
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -67,8 +67,8 @@ func _ready() -> void:
 		shop_name_label.text 			= Text.pr( my_shop_name )
 		
 		## Hide unused buttons
-		if not my_shop_data["option"].has( "Buy" ): buy_btn.hide()
-		if not my_shop_data["option"].has( "Info" ): info_btn.hide()
+		if not my_shop_data["option"].has( "Buy" ): 	buy_btn.hide()
+		if not my_shop_data["option"].has( "Info" ): 	info_btn.hide()
 		if buy_btn.visible:
 			slide_border.border_size.y = 42.0
 			$slide_border/VBoxContainer.set_deferred("size", Vector2( 60.0, 42.0) )
@@ -163,8 +163,20 @@ func hide_menu() -> void:
 	animation_player.play("hide_menu")
 	await animation_player.animation_finished
 
-
 func _on_buy_btn_pressed() -> void:
+	if not slide_boder_focus:
+		push_warning("No focus??? Weird.")
+		
+		## Try to get a new focus
+		if shop_vbox.get_children().is_empty():
+			## This should never happen.
+			return
+		else:
+			## Select the top option
+			slide_boder_focus = shop_vbox.get_children().front()
+			slide_boder_focus.grab_focus()
+			slide_boder_focus.button_pressed = true
+			
 	B2_Sound.play("cursor_select01")
 	info_btn.release_focus()
 	slide_boder_focus.release_focus()
@@ -208,7 +220,7 @@ func buy_item( _btn ) -> void:
 	## Where should we focus now?
 	if shop_vbox.get_children().is_empty():
 		# close shop, bought them all.
-		pass
+		_on_exit_btn_button_pressed()
 	else:
 		slide_boder_focus = shop_vbox.get_children().front()
 		slide_boder_focus.grab_focus()
@@ -228,7 +240,7 @@ func _on_info_btn_pressed() -> void:
 			info_panel.show_panel( my_gun )
 			await info_panel.menu_closed
 			slide_boder_focus.grab_focus()
-		if my_shop_type == TYPE.JERKIN:
+		elif my_shop_type == TYPE.JERKIN:
 			info_btn.release_focus()
 			slide_boder_focus.release_focus()
 			var sel_jerkin : String = slide_boder_focus.get_jerkin()
@@ -236,3 +248,6 @@ func _on_info_btn_pressed() -> void:
 			compare_panel.show_panel( sel_jerkin )
 			await compare_panel.menu_closed
 			slide_boder_focus.grab_focus()
+		else:
+			## WTF!!!!
+			breakpoint

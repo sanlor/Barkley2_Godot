@@ -292,7 +292,7 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := t
 	# handle sudden change is music tracks.
 	if is_instance_valid(tween):
 		if tween.is_running():
-			push_warning("You are changing music tracks too fast. Volume tweener is still running. Waiting for it to finish.")
+			push_warning("You are changing music tracks ( %s ) too fast. Volume tweener is still running. Waiting for it to finish." % track_name)
 			await tween.finished
 	
 	if audio_stream_player.playing:

@@ -64,6 +64,17 @@ resource_name = "utility_bg"
 script/source = "@tool
 extends Control
 
+@export var move_bg 		:= false
+@export var move_dir 		:= Vector2(1.0,1.0)
+@export var rand_dir		:= false
+@export var move_speed 		:= 1.0
+@export var line_width		:= 1.0
+
+var move_offset := Vector2.ZERO :
+	set(_f):
+		move_offset.x = wrapf( _f.x, 0.0, 8.0 )
+		move_offset.y = wrapf( _f.y, 0.0, 8.0 )
+
 ## Check ustation -> draw -> line 5.
 # Draws the bg on the fly.
 
@@ -73,12 +84,15 @@ var flick 			:= 0.025
 var my_color 		:= Color.GREEN
 
 func _ready() -> void:
-	if B2_Screen.is_utility_open:
-		if B2_Screen.utility_screen:
-			B2_Screen.utility_screen.flickered.connect( flicker )
-			B2_Screen.utility_screen.set_color.connect( _set_color )
-			B2_Screen.utility_screen.set_bg_intensity.connect( _set_intensity )
-
+	if not Engine.is_editor_hint():
+		if B2_Screen.is_utility_open:
+			if B2_Screen.utility_screen:
+				B2_Screen.utility_screen.flickered.connect( flicker )
+				B2_Screen.utility_screen.set_color.connect( _set_color )
+				B2_Screen.utility_screen.set_bg_intensity.connect( _set_intensity )
+	if rand_dir and move_bg:
+		move_dir = Vector2( [-1,1].pick_random(), [-1,0,1].pick_random() )
+		
 func _set_intensity( _intensity : float ) -> void:
 	intensity = _intensity
 	
@@ -97,15 +111,20 @@ func show_bg() -> void:
 	var t := create_tween()
 	t.tween_property( self, \"intensity_mod\", 1.0, 1.0)
 
+func _physics_process(delta: float) -> void:
+	if move_bg:
+		move_offset += (move_dir * move_speed) * delta
+		queue_redraw()
+
 func _draw() -> void:
 	draw_rect( Rect2( Vector2.ZERO, size ), Color.BLACK )
 	
 	@warning_ignore(\"integer_division\")
 	for w in B2_Gamedata.SCREEN_WIDTH / 8:
-		draw_line( Vector2(w * 8, 0), Vector2(w * 8, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * intensity_mod * 0.5) )
+		draw_line( Vector2(w * 8 + move_offset.x, 0), Vector2(w * 8 + move_offset.x, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
 	@warning_ignore(\"integer_division\")
 	for h in B2_Gamedata.SCREEN_HEIGHT / 8:
-		draw_line( Vector2(0, h * 8), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8),Color(my_color, flick * intensity * intensity_mod * 0.5) )
+		draw_line( Vector2(0, h * 8 + move_offset.y), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8 + move_offset.y),Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_8sg6d"]
@@ -318,9 +337,9 @@ resource_name = "compatibility_graph"
 script/source = "@tool
 extends Control
 
-@export var COLUMN 		:= 50
-@export var ROW			:= 3
-@export var CELL_SIZE 	:= Vector2(4,6)
+@export var COLUMN 		:= 13
+@export var ROW			:= 2
+@export var CELL_SIZE 	:= Vector2(10,10)
 
 var tween 	: Tween
 var my_seed 	:= 0
@@ -341,7 +360,7 @@ func _draw() -> void:
 	var rand := RandomNumberGenerator.new()
 	rand.seed = my_seed
 	for i in (COLUMN * ROW):
-		draw_set_transform( Vector2(x * CELL_SIZE.x, y * CELL_SIZE.y) + Vector2( x * 0.5, y * 0.5 ) )
+		draw_set_transform( Vector2(x * CELL_SIZE.x, y * CELL_SIZE.y) + Vector2( x * 1.0, y * 1.0 ) )
 		var n := rand.randf()
 		#print(ratio)
 		if n >= ratio:
@@ -439,7 +458,6 @@ font = ExtResource("6_inixc")
 
 [node name="utilitystation_screen" type="CanvasLayer"]
 script = ExtResource("1_6lm85")
-enable_debug_loadout = true
 
 [node name="bg" type="Control" parent="."]
 z_index = -999
@@ -450,6 +468,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = SubResource("GDScript_nsxts")
+move_bg = true
+move_dir = Vector2(-1, -1)
+move_speed = 5.0
 
 [node name="frame" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -460,6 +481,7 @@ grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
 [node name="main_info_panel" type="Control" parent="frame"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 12.0
@@ -548,7 +570,7 @@ offset_bottom = 23.0
 
 [node name="hp_title" type="Label" parent="frame/main_info_panel/status/hp"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
-layout_mode = 2
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 42.0
@@ -557,7 +579,7 @@ text = "HP"
 label_settings = SubResource("LabelSettings_rf8p1")
 
 [node name="hp_value" type="Label" parent="frame/main_info_panel/status/hp"]
-layout_mode = 2
+layout_mode = 0
 offset_top = 5.0
 offset_right = 40.0
 offset_bottom = 14.0
@@ -574,7 +596,7 @@ offset_bottom = 47.0
 
 [node name="level_title" type="Label" parent="frame/main_info_panel/status/level"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
-layout_mode = 2
+layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 42.0
@@ -583,7 +605,7 @@ text = "LEVEL"
 label_settings = SubResource("LabelSettings_rf8p1")
 
 [node name="level_value" type="Label" parent="frame/main_info_panel/status/level"]
-layout_mode = 2
+layout_mode = 0
 offset_top = 6.0
 offset_right = 40.0
 offset_bottom = 24.0
@@ -1794,24 +1816,49 @@ vertical_alignment = 1
 
 [node name="gun_info_bando_panel" parent="frame" instance=ExtResource("24_qcuev")]
 visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 224.0
 show_gunbag_guns = false
 
 [node name="gun_info_bando_rename_panel" parent="frame" node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
 visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
 gun_info_panel = NodePath("../gun_info_bando_panel")
 
 [node name="gun_info_bag_panel" parent="frame" node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
 visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 224.0
 script = ExtResource("32_4w3xs")
 default_button = NodePath("../right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn")
 show_bandolier_guns = false
 
 [node name="gun_info_bag_rename_panel" parent="frame" node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
 visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
 gun_info_panel = NodePath("../gun_info_bag_panel")
 
 [node name="gun_info_smelt_panel" parent="frame" node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
 visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 224.0
 script = ExtResource("32_sf8h1")
 default_button = NodePath("../right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn")
 show_lineage = false
@@ -1830,6 +1877,7 @@ metadata/_custom_type_script = "uid://eir54p1frfp7"
 
 [node name="gun_info_panel" parent="frame/gun_info_breed_panel" instance=ExtResource("24_qcuev")]
 visible = false
+layout_mode = 0
 offset_left = 5.0
 offset_top = 4.0
 offset_right = 285.0
@@ -2331,9 +2379,6 @@ offset_top = 1.0
 offset_right = 143.0
 offset_bottom = 23.0
 script = SubResource("GDScript_fp4ov")
-COLUMN = 42
-ROW = 4
-CELL_SIZE = Vector2(2.89, 5.1)
 
 [node name="some_gay_shit" type="Control" parent="frame/gun_info_breed_panel/breed_data"]
 anchors_preset = 0
@@ -2386,6 +2431,11 @@ vertical_alignment = 1
 
 [node name="gun_info_breed_animation_panel" parent="frame" instance=ExtResource("33_305tp")]
 visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
 
 [node name="candy_panel" type="Control" parent="frame" node_paths=PackedStringArray("make_btn")]
 visible = false
@@ -2401,10 +2451,10 @@ metadata/_custom_type_script = "uid://eir54p1frfp7"
 
 [node name="pockets" type="GridContainer" parent="frame/candy_panel"]
 layout_mode = 0
-offset_left = 13.0
+offset_left = 5.0
 offset_top = 4.0
-offset_right = 53.0
-offset_bottom = 44.0
+offset_right = 101.0
+offset_bottom = 148.0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 4
@@ -2605,9 +2655,9 @@ candy_panel = NodePath("../..")
 
 [node name="pocket_title" type="Panel" parent="frame/candy_panel"]
 layout_mode = 0
-offset_left = 13.0
+offset_left = 5.0
 offset_top = 148.0
-offset_right = 53.0
+offset_right = 45.0
 offset_bottom = 156.0
 
 [node name="pocket_title" type="Label" parent="frame/candy_panel/pocket_title"]
@@ -2655,7 +2705,7 @@ vertical_alignment = 1
 
 [node name="jerkin" type="Panel" parent="frame/candy_panel"]
 layout_mode = 0
-offset_left = 13.0
+offset_left = 5.0
 offset_top = 164.0
 offset_right = 85.0
 offset_bottom = 212.0
@@ -2791,7 +2841,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="smelt" type="Control" parent="frame/candy_panel"]
-layout_mode = 3
 anchors_preset = 0
 offset_left = 93.0
 offset_top = 172.0
@@ -3892,7 +3941,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="hoopz_stat" type="Control" parent="frame/brain_vidcon_levelup_panel"]
-layout_mode = 3
 anchors_preset = 0
 offset_left = 5.0
 offset_top = 52.0
@@ -4162,7 +4210,6 @@ script = ExtResource("38_qvbyl")
 metadata/_custom_type_script = "uid://eir54p1frfp7"
 
 [node name="resistances" type="Control" parent="frame/equipment_panel"]
-layout_mode = 3
 anchors_preset = 0
 offset_left = 5.0
 offset_top = 13.0

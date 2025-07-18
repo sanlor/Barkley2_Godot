@@ -16,7 +16,7 @@ func _draw() -> void:
 	var r := randf_range(0.75,1.25)
 	for x in 8:
 		@warning_ignore("narrowing_conversion")
-		draw_line( Vector2(x * jump_x, 0) - offset_x, Vector2(x * jump_x, 28) - offset_x, Color8(0, 72, 72, 128 * r) * intensity )
+		draw_line( Vector2(x * jump_x, 0) - offset_x, Vector2(x * jump_x, 28) - offset_x, Color8(0, 72, 72, 128 * r) * intensity, 1.0 )
 	for y in 4:
 		@warning_ignore("narrowing_conversion")
-		draw_line( Vector2(0, y * jump_y) - offset_y, Vector2(53, y * jump_y) - offset_y, Color8(0, 72, 72, 128 * r) * intensity )
+		draw_line( Vector2(0, y * jump_y) - offset_y, Vector2(53, y * jump_y) - offset_y, Color8(0, 72, 72, 128 * r) * intensity, 1.0 )

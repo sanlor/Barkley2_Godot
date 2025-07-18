@@ -342,4 +342,5 @@ func _on_debug_btn_button_pressed() -> void:
 	B2_Config.select_user_slot( 100 )
 	B2_Playerdata.preload_skip_tutorial_save_data()
 	B2_Music.stop( 2.0 )
+	B2_Playerdata.Quest("saveDisabled", 1) ## Disable save for the debug room.
 	B2_RoomXY.warp_to( "r_air_entrance03, 417, 615, 1", 0.5 )

@@ -1040,7 +1040,7 @@ static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_we
 ## Code related to adding guns, taking guns and stuff like that.
 #region Gun management
 
-static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ):
+static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B2_Weapon:
 	## NOTE Once again, im porting old code jankiness.
 	match gun_db_name:
 		"wilmerGun": # You get this for free from Wilmer
@@ -1140,6 +1140,7 @@ static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERI
 	append_gun_to_bandolier( generate_gun(type, material, wpn_name.left(4), add_affixes) )
 
 static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
+	print_rich("[color=orange]Appending gun to bandolier: %s.[/color]" % wpn.get_full_name())
 	B2_Playerdata.bandolier.append( wpn )
 	if B2_Playerdata.bandolier.size() > BANDOLIER_SIZE:
 		B2_Playerdata.bandolier.pop_front() ## Remove the first gun from the bandolier.
@@ -1150,6 +1151,7 @@ static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.
 	append_gun_to_gunbag( generate_gun(type, material,  wpn_name, add_affixes) )
 	
 static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
+	print_rich("[color=orange]Appending gun to gunbag: %s.[/color]" % wpn.get_full_name())
 	B2_Playerdata.gun_bag.append( wpn )
 	if B2_Playerdata.gun_bag.size() > GUNBAG_SIZE:
 		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag

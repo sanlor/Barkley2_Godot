@@ -56,6 +56,10 @@ var item_tween : Tween
 func _ready() -> void:
 	custom_minimum_size.y = folded_size
 	
+	## Default fonts
+	item_name.label_settings.font 			= preload("res://barkley2/resources/fonts/fn1.tres")
+	item_description.label_settings.font	= preload("res://barkley2/resources/fonts/fn2c.tres")
+	
 	if my_item_type == TYPE.JERKIN:
 		my_item_data = B2_Jerkin.get_jerkin_stats( my_item )
 		item_icon.texture.atlas 				= S_JERKIN
@@ -183,10 +187,9 @@ func get_vidcon() -> int:
 	return my_vidcon
 	
 func get_item_name() -> String:
-	if my_item_type == TYPE.GUN:
-		return my_gun.weapon_name
-	else:
-		return my_item
+	if my_item_type == TYPE.GUN:		return my_gun.weapon_name
+	if my_item_type == TYPE.VIDCON:		return B2_Vidcon.get_vidcon_name( my_vidcon )
+	else:								return my_item
 	
 func get_item_cost() -> int:
 	return my_item_cost
@@ -198,21 +201,16 @@ func _on_pressed() -> void:
 	_expand_button()
 
 func _on_focus_entered() -> void:
-	if buy_btn:
-		buy_btn.focus_neighbor_left = get_path()
-	if info_btn:
-		info_btn.focus_neighbor_left = get_path()
+	if buy_btn:		buy_btn.focus_neighbor_left = get_path()
+	if info_btn:	info_btn.focus_neighbor_left = get_path()
 	button_pressed = true
 	_expand_button()
 
 func _on_focus_exited() -> void:
 	await get_tree().process_frame
-	if buy_btn:
-		if buy_btn.has_focus(): return
-	if info_btn:
-		if info_btn.has_focus(): return
-	if exit_btn:
-		if exit_btn.has_focus(): return
+	if buy_btn:			if buy_btn.has_focus(): 	return
+	if info_btn:		if info_btn.has_focus(): 	return
+	if exit_btn:		if exit_btn.has_focus(): 	return
 	_shrink_button()
 
 func _shrink_button() -> void:

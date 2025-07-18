@@ -6,6 +6,8 @@ extends CanvasLayer
 
 ## Also check RespawnLocation()
 
+const ROOM_INDEX = preload("res://barkley2/resources/rooms/room_index.json")
+
 ## DEBUG
 var print_debug_logs 		:= false
 var print_room_load_logs 	:= true
@@ -15,6 +17,8 @@ signal room_loaded( has_error )
 signal room_finished_loading
 
 signal fadeout_finished
+
+signal room_index_dirty
 
 var is_loading_room 	:= false
 var path_loading_room 	:= ""
@@ -55,6 +59,8 @@ var t1 := 0.0
 var t2 := 0.0
 
 func _index_rooms():
+	print_rich("[color=web_purple]Room Index called.[/color]")
+	room_index.clear()
 	room_array = FileSearch.search_dir( "res://barkley2/rooms/", "", true )
 	## Godot is kinda weird sometimes.
 	## PackedScene in exported projects are named *.tscn.remap for some reason.
@@ -67,9 +73,21 @@ func _index_rooms():
 			var r_name = r.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
 			room_index[r_name] = r.trim_suffix(".remap")
 	print_rich("[color=web_purple]Index rooms ended: ", Time.get_ticks_msec(), " msecs. - ", room_index.size(), " room_index key entries[/color]")
+	_save_room_index_to_disk()
+
+func _save_room_index_to_disk() -> void:
+	print_rich("[color=cyan]WARNING: Saving 'room_index' to disk.[/color]")
+	var file = FileAccess.open( "res://barkley2/resources/rooms/room_index.json", FileAccess.WRITE )
+	file.store_string( JSON.stringify(room_index, "\t") )
+	file.close()
 
 func _ready() -> void:
-	_index_rooms()
+	## In case of a cache miss, reindex the entire thing.
+	room_index_dirty.connect( _index_rooms )
+	
+	## Set Room Index cache
+	room_index = ROOM_INDEX.data
+	
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
@@ -81,7 +99,7 @@ func _reset_data():
 
 func is_room_valid( strict := false) -> bool:
 	if strict:
-		if this_room_x == 0 or this_room_y == 0 or this_room.is_empty():
+		if this_room_x == 0.0 or this_room_y == 0.0 or this_room.is_empty():
 			return false
 	return not this_room.is_empty()
 
@@ -230,9 +248,11 @@ func respawn( area : String, room_name : String ) -> void:
 		
 	fancy_warp_to( respawnRoom, respawnX, respawnY )
 	
+## Instead of using the GML style string, this uses arguments as parameters
 func fancy_warp_to( respawnRoom : String, respawnX : float, respawnY : float ):
 	warp_to( respawnRoom + "," + str(respawnX) + "," + str(respawnY) )
 	
+## Compatibility with old GML transport string.
 func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
 	if room_load_lock:
 		push_warning("B2_RoomXY: Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
