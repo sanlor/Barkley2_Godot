@@ -170,9 +170,10 @@ func _on_buy_btn_pressed() -> void:
 		## Try to get a new focus
 		if shop_vbox.get_children().is_empty():
 			## This should never happen.
+			push_error("No focus??? Its getting worst...")
 			return
 		else:
-			## Select the top option
+			## Select the top option - Failsafe
 			slide_boder_focus = shop_vbox.get_children().front()
 			slide_boder_focus.grab_focus()
 			slide_boder_focus.button_pressed = true

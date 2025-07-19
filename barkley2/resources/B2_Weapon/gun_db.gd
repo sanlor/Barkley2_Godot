@@ -23,7 +23,6 @@ const BANDOLIER_SIZE 	:= 3
 const GUNBAG_SIZE 		:= 14
 
 enum TYPE{ ## List of guntypes. check Gun("init")
-	GUN_TYPE_NONE,
 	GUN_TYPE_PISTOL,
 	GUN_TYPE_FLINTLOCK,
 	GUN_TYPE_SUBMACHINEGUN,
@@ -50,6 +49,7 @@ enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_ROCKET,
 	GUN_TYPE_BFG,
 	## DEBUG
+	GUN_TYPE_NONE,
 	}
 # So here is halfass balance for gun's drops while we wait for Enemy and Area specific drops coming up soon. ## NOTE yeah... soon...
 enum MATERIAL{
@@ -976,18 +976,20 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
 	var points_left 	:= points
 	@warning_ignore("integer_division")
-	var poinst_each 	:= points_left / 7
+	var poinst_each 	:= points_left / 5 # was 7
 	
 	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_power_mod() 	- 1 ) / 2 ) + 1 ) )
 	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_speed_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_ammo_mod() 		- 1 ) / 2 ) + 1 ) )
 	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_affix_mod() 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
-	#wpn.lck = randi_range(1,9) ## TEMP
-	#wpn.acc = randi_range(1,9)
+	#wpn.lck 		= ceil( poinst_each * ( ( ( wpn.get_luck_mod() 		- 1 ) / 2 ) + 1 ) )
+	wpn.acc 		= ceil( poinst_each * ( ( ( wpn.get_acc_mod() 		- 1 ) / 2 ) + 1 ) )
+	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_ammo_mod() 		- 1 ) / 2 ) + 1 ) )
 		
 	wpn.att 		= clamp(wpn.att, 0, 90 )
 	wpn.spd 		= clamp(wpn.spd, 0, 90 )
 	wpn.afx 		= clamp(wpn.afx, 0, 90 )
+	#wpn.lck 		= clamp(wpn.lck, 0, 90 )
+	wpn.acc			= clamp(wpn.acc, 0, 90 )
 	wpn.max_ammo 	= clamp(wpn.max_ammo, 0, 90 )
 	
 	## distribute remaining core points randomly

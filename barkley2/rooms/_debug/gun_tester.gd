@@ -1,4 +1,5 @@
 extends Control
+## My special room to test guns. Love this one.
 
 @onready var type_btn: CheckButton = $HBoxContainer/HBoxContainer/type_btn
 @onready var types: OptionButton = $HBoxContainer/HBoxContainer/types
@@ -87,7 +88,8 @@ func _on_timer_timeout() -> void:
 	update_hoopz()
 
 func _on_shoot_da_gun_pressed() -> void:
-	o_cbt_hoopz.shoot_gun()
+	#o_cbt_hoopz.shoot_gun()
+	print("Combat hoopz cant shoot anymore...")
 
 func _on_spin_minus_pressed() -> void:
 	angle = angle.rotated( -TAU / 16.0 )

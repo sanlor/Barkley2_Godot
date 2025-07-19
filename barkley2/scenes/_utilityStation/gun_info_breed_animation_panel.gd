@@ -18,6 +18,7 @@ signal finished_breeding
 @onready var dna_left_part: 				Control = $Control/spr_breedanm/left_part
 @onready var dna_right_part: 				Control = $Control/spr_breedanm/right_part
 @onready var gun_map: 						Control = $Control/spr_breedanm/gun_map
+@onready var new_gun_data: 					Control = $Control/sCinemaDNA/new_gun_data
 
 @onready var s_cinema_fusion_button: 		TextureRect = $Control/sCinemaFusionButton
 @onready var s_cinema_button_transition: 	AnimatedSprite2D = $Control/sCinemaButtonTransition
@@ -124,6 +125,7 @@ func _start_animation() -> void:
 	
 	## Seccond DNA animation. Took me 1 week of work to figure out how to make the gun splitting animation. -> https://www.reddit.com/r/godot/comments/1lwjdlw/some_help_trying_to_replicate_this_effect/
 	s_cinema_dna.show()
+	new_gun_data.setup()
 	animation_player.play("dna_2_animation")
 	await animation_player.animation_finished
 	

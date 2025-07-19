@@ -12,9 +12,9 @@ const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flas
 
 enum EFFECT{ DAMAGE, RECOVERY }
 
-@export var weapon_type 	:= B2_Gun.TYPE.GUN_TYPE_PISTOL
-@export var weapon_material	:= B2_Gun.MATERIAL.STEEL
-@export var weapon_group 	:= B2_Gun.GROUP.PISTOLS
+@export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL
+@export var weapon_material		:= B2_Gun.MATERIAL.STEEL
+@export var weapon_group 		:= B2_Gun.GROUP.PISTOLS
 
 @export_category("Weapon ID")
 @export var weapon_name			:= "Undefined"
@@ -144,17 +144,12 @@ func get_secret_name() -> String:
 func get_short_name() -> String:
 	return weapon_short_name
 
-func get_power_mod() -> float:
-	return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
-
-func get_speed_mod() -> float:
-	return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
-
-func get_ammo_mod() -> float:
-	return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
-	
-func get_affix_mod() -> float:
-	return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
+func get_power_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
+func get_speed_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
+func get_ammo_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
+func get_affix_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
+#func get_luck_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0
+func get_acc_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0
 
 func get_held_sprite() -> String:
 	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite
