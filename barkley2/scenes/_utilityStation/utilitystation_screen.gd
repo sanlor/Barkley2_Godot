@@ -656,7 +656,6 @@ func _on_unplug_btn_pressed() -> void:
 func _on_brain_levelup_confirm_btn_pressed() -> void:
 	_on_brain_btn_pressed()
 
-
 func _on_gun_breed_btn_pressed() -> void:
 	if _change_menu_state( GUN_BREED ):
 		B2_Sound.play( "utility_button_click" )

@@ -504,7 +504,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY":
 					var text := parsed_line[ 1 ] as String
-					await B2_Screen.show_notify_screen( text )
+					await B2_Screen.show_notify_screen( Text.qst( Text.pr(text) ) )
 					
 				"NOTIFYALT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )

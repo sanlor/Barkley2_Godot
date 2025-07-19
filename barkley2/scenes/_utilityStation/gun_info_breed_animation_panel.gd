@@ -33,7 +33,8 @@ signal finished_breeding
 @onready var gun_chunkler_1: Control = $Control/sCinemaDNA/sCinema_gridback/sCinemaPanelGun/gun_chunkler
 @onready var gun_chunkler_2: Control = $Control/sCinemaDNA/sCinema_gridback2/sCinemaPanelGun/gun_chunkler
 
-@export var play_anim	:= true
+@export var play_anim		:= true
+@export var force_play 		:= false
 
 var selected_gun_1 : B2_Weapon ## Top
 var selected_gun_2 : B2_Weapon ## Bottom
@@ -44,8 +45,11 @@ var quoTxt := ["A baby gun arrives.", "A new gun enters the fray.", "A mysteriou
 var wait_for_input := false
 
 func _ready() -> void:
-	#begin_breeding_process()
-	pass
+	if force_play:
+		selected_gun_1 				= B2_Gun.generate_gun() ## DEBUG
+		selected_gun_2 				= B2_Gun.generate_gun() ## DEBUG
+		bred_gun 					= B2_Gun.generate_gun()
+		begin_breeding_process()
 	
 func begin_breeding_process() -> void:
 	#selected_gun_1 				= B2_Gun.generate_gun() ## DEBUG
@@ -142,26 +146,11 @@ func _physics_process(_delta: float) -> void:
 func _finish_breeding() -> void:
 	finished_breeding.emit()
 
-func sfx_flick_switch() -> void:
-	B2_Sound.play("sn_mnu_switchFlick01")
-
-func sfx_pull_lever() -> void:
-	B2_Sound.play("sn_mnu_bigSwitch01")
-	
-func sfx_dna_info() -> void:
-	B2_Sound.play("sn_mnu_gunInfoScreen01")
-	
-func sfx_dna_gunsmap() -> void:
-	B2_Sound.play("sn_mnu_gunsmapScene01")
-	
-func sfx_punch_love() -> void:
-	B2_Sound.play("sn_mnu_loveButtonTransition01")
-
-func sfx_punch_love_bg() -> void:
-	B2_Sound.play("sn_mnu_buttonBackground01")
-	
-func sfx_dna_furnace_open() -> void:
-	B2_Sound.play("sn_mnu_DNAOpen")
-	
-func sfx_dna_furnace_bg() -> void:
-	B2_Sound.play("sn_mnu_dnaSpliceScene")
+func sfx_flick_switch() -> void:		B2_Sound.play("sn_mnu_switchFlick01")
+func sfx_pull_lever() -> void:			B2_Sound.play("sn_mnu_bigSwitch01")
+func sfx_dna_info() -> void:			B2_Sound.play("sn_mnu_gunInfoScreen01")
+func sfx_dna_gunsmap() -> void:			B2_Sound.play("sn_mnu_gunsmapScene01")
+func sfx_punch_love() -> void:			B2_Sound.play("sn_mnu_loveButtonTransition01")
+func sfx_punch_love_bg() -> void:		B2_Sound.play("sn_mnu_buttonBackground01")
+func sfx_dna_furnace_open() -> void:	B2_Sound.play("sn_mnu_DNAOpen")
+func sfx_dna_furnace_bg() -> void:		B2_Sound.play("sn_mnu_dnaSpliceScene")

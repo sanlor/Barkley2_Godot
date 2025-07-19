@@ -1,0 +1,80 @@
+[gd_scene load_steps=2 format=3 uid="uid://caf3lhphlmj7v"]
+
+[ext_resource type="Script" uid="uid://be81dfq2iw58x" path="res://tools/gml-r2t/r2t.gd" id="1_dgb4v"]
+
+[node name="r2t" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dgb4v")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="options_room" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/options_room"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No room selected."
+autowrap_mode = 3
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/options_room"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Import GML Room"
+
+[node name="room_data" type="HFlowContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="remove_me" type="Label" parent="MarginContainer/VBoxContainer/room_data"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No room data."
+horizontal_alignment = 1
+
+[node name="gen_tilemap" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Generate Tilemap"
+
+[node name="tilemap" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="save_tilemap" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "save_tilemap"
+
+[node name="load_room" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 1
+size = Vector2i(600, 600)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.gmx")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/options_room/Button" to="." method="_on_room_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/gen_tilemap" to="." method="_on_gen_tilemap_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/save_tilemap" to="." method="_on_save_tilemap_pressed"]
+[connection signal="file_selected" from="load_room" to="." method="_on_load_room_file_selected"]

@@ -1,0 +1,2078 @@
+[gd_scene load_steps=41 format=4 uid="uid://c7sf7fwhbwjcx"]
+
+[ext_resource type="Script" uid="uid://c0ap2ljx6sdw3" path="res://barkley2/rooms/sewers floor1/r_sw_1_respawn_01.gd" id="1_v6t57"]
+[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_nct4i"]
+[ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_y8r7j"]
+[ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_uppjf"]
+[ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_g81so"]
+[ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_hamxg"]
+[ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="7_wpeg0"]
+[ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="8_jn3fa"]
+[ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="9_t2qq1"]
+[ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="10_swbjn"]
+[ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_qxxms"]
+[ext_resource type="Script" uid="uid://b6co0fxb0wr07" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="12_ns0on"]
+[ext_resource type="PackedScene" uid="uid://0ko8dmrlobil" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum_open01.tscn" id="13_pssl6"]
+[ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="14_3st33"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="15_mxeee"]
+[ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="16_ec3oq"]
+[ext_resource type="Script" uid="uid://dsgbaqf6cssjs" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.gd" id="17_7aiqm"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="18_5s2dm"]
+[ext_resource type="PackedScene" uid="uid://cv8dgrtu4sf15" path="res://barkley2/scenes/Objects/_environs/_containers/o_crate_wooden01.tscn" id="19_yj1k5"]
+[ext_resource type="Texture2D" uid="uid://dboj3gbe4as00" path="res://barkley2/assets/b2_original/images/merged/s_crate_wooden01.png" id="20_jf7if"]
+[ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="21_bj7vo"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_mtvws"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_05ptd"]
+resource_name = "tls_sw1_sewers02"
+texture = ExtResource("2_y8r7j")
+0:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:9/0 = 0
+0:10/0 = 0
+0:11/0 = 0
+0:12/0 = 0
+0:13/0 = 0
+0:14/0 = 0
+0:15/0 = 0
+0:16/0 = 0
+0:17/0 = 0
+0:18/0 = 0
+0:19/0 = 0
+0:20/0 = 0
+0:21/0 = 0
+0:22/0 = 0
+0:23/0 = 0
+0:24/0 = 0
+0:25/0 = 0
+0:26/0 = 0
+0:27/0 = 0
+0:28/0 = 0
+0:29/0 = 0
+0:30/0 = 0
+0:31/0 = 0
+0:32/0 = 0
+0:33/0 = 0
+0:34/0 = 0
+0:35/0 = 0
+0:36/0 = 0
+0:37/0 = 0
+0:38/0 = 0
+0:39/0 = 0
+0:40/0 = 0
+0:41/0 = 0
+0:42/0 = 0
+0:43/0 = 0
+0:44/0 = 0
+0:45/0 = 0
+0:46/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+1:2/0 = 0
+1:3/0 = 0
+1:4/0 = 0
+1:5/0 = 0
+1:6/0 = 0
+1:7/0 = 0
+1:8/0 = 0
+1:9/0 = 0
+1:10/0 = 0
+1:11/0 = 0
+1:12/0 = 0
+1:13/0 = 0
+1:14/0 = 0
+1:15/0 = 0
+1:16/0 = 0
+1:17/0 = 0
+1:18/0 = 0
+1:19/0 = 0
+1:20/0 = 0
+1:21/0 = 0
+1:22/0 = 0
+1:23/0 = 0
+1:24/0 = 0
+1:25/0 = 0
+1:26/0 = 0
+1:27/0 = 0
+1:28/0 = 0
+1:29/0 = 0
+1:30/0 = 0
+1:31/0 = 0
+1:32/0 = 0
+1:33/0 = 0
+1:34/0 = 0
+1:35/0 = 0
+1:36/0 = 0
+1:37/0 = 0
+1:38/0 = 0
+1:39/0 = 0
+1:40/0 = 0
+1:41/0 = 0
+1:42/0 = 0
+1:43/0 = 0
+1:44/0 = 0
+1:45/0 = 0
+1:46/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+2:3/0 = 0
+2:4/0 = 0
+2:5/0 = 0
+2:6/0 = 0
+2:7/0 = 0
+2:8/0 = 0
+2:9/0 = 0
+2:10/0 = 0
+2:11/0 = 0
+2:12/0 = 0
+2:13/0 = 0
+2:14/0 = 0
+2:15/0 = 0
+2:16/0 = 0
+2:17/0 = 0
+2:18/0 = 0
+2:19/0 = 0
+2:20/0 = 0
+2:21/0 = 0
+2:22/0 = 0
+2:23/0 = 0
+2:24/0 = 0
+2:25/0 = 0
+2:26/0 = 0
+2:27/0 = 0
+2:28/0 = 0
+2:29/0 = 0
+2:30/0 = 0
+2:31/0 = 0
+2:32/0 = 0
+2:33/0 = 0
+2:34/0 = 0
+2:35/0 = 0
+2:36/0 = 0
+2:37/0 = 0
+2:38/0 = 0
+2:39/0 = 0
+2:40/0 = 0
+2:41/0 = 0
+2:42/0 = 0
+2:43/0 = 0
+2:44/0 = 0
+2:45/0 = 0
+2:46/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+3:2/0 = 0
+3:3/0 = 0
+3:4/0 = 0
+3:5/0 = 0
+3:6/0 = 0
+3:7/0 = 0
+3:8/0 = 0
+3:9/0 = 0
+3:10/0 = 0
+3:11/0 = 0
+3:12/0 = 0
+3:13/0 = 0
+3:14/0 = 0
+3:15/0 = 0
+3:16/0 = 0
+3:17/0 = 0
+3:18/0 = 0
+3:19/0 = 0
+3:20/0 = 0
+3:21/0 = 0
+3:22/0 = 0
+3:23/0 = 0
+3:24/0 = 0
+3:25/0 = 0
+3:26/0 = 0
+3:27/0 = 0
+3:28/0 = 0
+3:29/0 = 0
+3:30/0 = 0
+3:31/0 = 0
+3:32/0 = 0
+3:33/0 = 0
+3:34/0 = 0
+3:35/0 = 0
+3:36/0 = 0
+3:37/0 = 0
+3:38/0 = 0
+3:39/0 = 0
+3:40/0 = 0
+3:41/0 = 0
+3:42/0 = 0
+3:43/0 = 0
+3:44/0 = 0
+3:45/0 = 0
+3:46/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+4:2/0 = 0
+4:3/0 = 0
+4:4/0 = 0
+4:5/0 = 0
+4:6/0 = 0
+4:7/0 = 0
+4:8/0 = 0
+4:9/0 = 0
+4:10/0 = 0
+4:11/0 = 0
+4:12/0 = 0
+4:13/0 = 0
+4:14/0 = 0
+4:15/0 = 0
+4:16/0 = 0
+4:17/0 = 0
+4:18/0 = 0
+4:19/0 = 0
+4:20/0 = 0
+4:21/0 = 0
+4:22/0 = 0
+4:23/0 = 0
+4:24/0 = 0
+4:25/0 = 0
+4:26/0 = 0
+4:27/0 = 0
+4:28/0 = 0
+4:29/0 = 0
+4:30/0 = 0
+4:31/0 = 0
+4:32/0 = 0
+4:33/0 = 0
+4:34/0 = 0
+4:35/0 = 0
+4:36/0 = 0
+4:37/0 = 0
+4:38/0 = 0
+4:39/0 = 0
+4:40/0 = 0
+4:41/0 = 0
+4:42/0 = 0
+4:43/0 = 0
+4:44/0 = 0
+4:45/0 = 0
+4:46/0 = 0
+5:0/0 = 0
+5:1/0 = 0
+5:2/0 = 0
+5:3/0 = 0
+5:4/0 = 0
+5:5/0 = 0
+5:6/0 = 0
+5:7/0 = 0
+5:8/0 = 0
+5:9/0 = 0
+5:10/0 = 0
+5:11/0 = 0
+5:12/0 = 0
+5:13/0 = 0
+5:14/0 = 0
+5:15/0 = 0
+5:16/0 = 0
+5:17/0 = 0
+5:18/0 = 0
+5:19/0 = 0
+5:20/0 = 0
+5:21/0 = 0
+5:22/0 = 0
+5:23/0 = 0
+5:24/0 = 0
+5:25/0 = 0
+5:26/0 = 0
+5:27/0 = 0
+5:28/0 = 0
+5:29/0 = 0
+5:30/0 = 0
+5:31/0 = 0
+5:32/0 = 0
+5:33/0 = 0
+5:34/0 = 0
+5:35/0 = 0
+5:36/0 = 0
+5:37/0 = 0
+5:38/0 = 0
+5:39/0 = 0
+5:40/0 = 0
+5:41/0 = 0
+5:42/0 = 0
+5:43/0 = 0
+5:44/0 = 0
+5:45/0 = 0
+5:46/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+6:2/0 = 0
+6:3/0 = 0
+6:4/0 = 0
+6:5/0 = 0
+6:6/0 = 0
+6:7/0 = 0
+6:8/0 = 0
+6:9/0 = 0
+6:10/0 = 0
+6:11/0 = 0
+6:12/0 = 0
+6:13/0 = 0
+6:14/0 = 0
+6:15/0 = 0
+6:16/0 = 0
+6:17/0 = 0
+6:18/0 = 0
+6:19/0 = 0
+6:20/0 = 0
+6:21/0 = 0
+6:22/0 = 0
+6:23/0 = 0
+6:24/0 = 0
+6:25/0 = 0
+6:26/0 = 0
+6:27/0 = 0
+6:28/0 = 0
+6:29/0 = 0
+6:30/0 = 0
+6:31/0 = 0
+6:32/0 = 0
+6:33/0 = 0
+6:34/0 = 0
+6:35/0 = 0
+6:36/0 = 0
+6:37/0 = 0
+6:38/0 = 0
+6:39/0 = 0
+6:40/0 = 0
+6:41/0 = 0
+6:42/0 = 0
+6:43/0 = 0
+6:44/0 = 0
+6:45/0 = 0
+6:46/0 = 0
+7:0/0 = 0
+7:1/0 = 0
+7:2/0 = 0
+7:3/0 = 0
+7:4/0 = 0
+7:5/0 = 0
+7:6/0 = 0
+7:7/0 = 0
+7:8/0 = 0
+7:9/0 = 0
+7:10/0 = 0
+7:11/0 = 0
+7:12/0 = 0
+7:13/0 = 0
+7:14/0 = 0
+7:15/0 = 0
+7:16/0 = 0
+7:17/0 = 0
+7:18/0 = 0
+7:19/0 = 0
+7:20/0 = 0
+7:21/0 = 0
+7:22/0 = 0
+7:23/0 = 0
+7:24/0 = 0
+7:25/0 = 0
+7:26/0 = 0
+7:27/0 = 0
+7:28/0 = 0
+7:29/0 = 0
+7:30/0 = 0
+7:31/0 = 0
+7:32/0 = 0
+7:33/0 = 0
+7:34/0 = 0
+7:35/0 = 0
+7:36/0 = 0
+7:37/0 = 0
+7:38/0 = 0
+7:39/0 = 0
+7:40/0 = 0
+7:41/0 = 0
+7:42/0 = 0
+7:43/0 = 0
+7:44/0 = 0
+7:45/0 = 0
+7:46/0 = 0
+8:0/0 = 0
+8:1/0 = 0
+8:2/0 = 0
+8:3/0 = 0
+8:4/0 = 0
+8:5/0 = 0
+8:6/0 = 0
+8:7/0 = 0
+8:8/0 = 0
+8:9/0 = 0
+8:10/0 = 0
+8:11/0 = 0
+8:12/0 = 0
+8:13/0 = 0
+8:14/0 = 0
+8:15/0 = 0
+8:16/0 = 0
+8:17/0 = 0
+8:18/0 = 0
+8:19/0 = 0
+8:20/0 = 0
+8:21/0 = 0
+8:22/0 = 0
+8:23/0 = 0
+8:24/0 = 0
+8:25/0 = 0
+8:26/0 = 0
+8:27/0 = 0
+8:28/0 = 0
+8:29/0 = 0
+8:30/0 = 0
+8:31/0 = 0
+8:32/0 = 0
+8:33/0 = 0
+8:34/0 = 0
+8:35/0 = 0
+8:36/0 = 0
+8:37/0 = 0
+8:38/0 = 0
+8:39/0 = 0
+8:40/0 = 0
+8:41/0 = 0
+8:42/0 = 0
+8:43/0 = 0
+8:44/0 = 0
+8:45/0 = 0
+8:46/0 = 0
+9:0/0 = 0
+9:1/0 = 0
+9:2/0 = 0
+9:3/0 = 0
+9:4/0 = 0
+9:5/0 = 0
+9:6/0 = 0
+9:7/0 = 0
+9:8/0 = 0
+9:9/0 = 0
+9:10/0 = 0
+9:11/0 = 0
+9:12/0 = 0
+9:13/0 = 0
+9:14/0 = 0
+9:15/0 = 0
+9:16/0 = 0
+9:17/0 = 0
+9:18/0 = 0
+9:19/0 = 0
+9:20/0 = 0
+9:21/0 = 0
+9:22/0 = 0
+9:23/0 = 0
+9:24/0 = 0
+9:25/0 = 0
+9:26/0 = 0
+9:27/0 = 0
+9:28/0 = 0
+9:29/0 = 0
+9:30/0 = 0
+9:31/0 = 0
+9:32/0 = 0
+9:33/0 = 0
+9:34/0 = 0
+9:35/0 = 0
+9:36/0 = 0
+9:37/0 = 0
+9:38/0 = 0
+9:39/0 = 0
+9:40/0 = 0
+9:41/0 = 0
+9:42/0 = 0
+9:43/0 = 0
+9:44/0 = 0
+9:45/0 = 0
+9:46/0 = 0
+10:0/0 = 0
+10:1/0 = 0
+10:2/0 = 0
+10:3/0 = 0
+10:4/0 = 0
+10:5/0 = 0
+10:6/0 = 0
+10:7/0 = 0
+10:8/0 = 0
+10:9/0 = 0
+10:10/0 = 0
+10:11/0 = 0
+10:12/0 = 0
+10:13/0 = 0
+10:14/0 = 0
+10:15/0 = 0
+10:16/0 = 0
+10:17/0 = 0
+10:18/0 = 0
+10:19/0 = 0
+10:20/0 = 0
+10:21/0 = 0
+10:22/0 = 0
+10:23/0 = 0
+10:24/0 = 0
+10:25/0 = 0
+10:26/0 = 0
+10:27/0 = 0
+10:28/0 = 0
+10:29/0 = 0
+10:30/0 = 0
+10:31/0 = 0
+10:32/0 = 0
+10:33/0 = 0
+10:34/0 = 0
+10:35/0 = 0
+10:36/0 = 0
+10:37/0 = 0
+10:38/0 = 0
+10:39/0 = 0
+10:40/0 = 0
+10:41/0 = 0
+10:42/0 = 0
+10:43/0 = 0
+10:44/0 = 0
+10:45/0 = 0
+10:46/0 = 0
+11:0/0 = 0
+11:1/0 = 0
+11:2/0 = 0
+11:3/0 = 0
+11:4/0 = 0
+11:5/0 = 0
+11:6/0 = 0
+11:7/0 = 0
+11:8/0 = 0
+11:9/0 = 0
+11:10/0 = 0
+11:11/0 = 0
+11:12/0 = 0
+11:13/0 = 0
+11:14/0 = 0
+11:15/0 = 0
+11:16/0 = 0
+11:17/0 = 0
+11:18/0 = 0
+11:19/0 = 0
+11:20/0 = 0
+11:21/0 = 0
+11:22/0 = 0
+11:23/0 = 0
+11:24/0 = 0
+11:25/0 = 0
+11:26/0 = 0
+11:27/0 = 0
+11:28/0 = 0
+11:29/0 = 0
+11:30/0 = 0
+11:31/0 = 0
+11:32/0 = 0
+11:33/0 = 0
+11:34/0 = 0
+11:35/0 = 0
+11:36/0 = 0
+11:37/0 = 0
+11:38/0 = 0
+11:39/0 = 0
+11:40/0 = 0
+11:41/0 = 0
+11:42/0 = 0
+11:43/0 = 0
+11:44/0 = 0
+11:45/0 = 0
+11:46/0 = 0
+12:0/0 = 0
+12:1/0 = 0
+12:2/0 = 0
+12:3/0 = 0
+12:4/0 = 0
+12:5/0 = 0
+12:6/0 = 0
+12:7/0 = 0
+12:8/0 = 0
+12:9/0 = 0
+12:10/0 = 0
+12:11/0 = 0
+12:12/0 = 0
+12:13/0 = 0
+12:14/0 = 0
+12:15/0 = 0
+12:16/0 = 0
+12:17/0 = 0
+12:18/0 = 0
+12:19/0 = 0
+12:20/0 = 0
+12:21/0 = 0
+12:22/0 = 0
+12:23/0 = 0
+12:24/0 = 0
+12:25/0 = 0
+12:26/0 = 0
+12:27/0 = 0
+12:28/0 = 0
+12:29/0 = 0
+12:30/0 = 0
+12:31/0 = 0
+12:32/0 = 0
+12:33/0 = 0
+12:34/0 = 0
+12:35/0 = 0
+12:36/0 = 0
+12:37/0 = 0
+12:38/0 = 0
+12:39/0 = 0
+12:40/0 = 0
+12:41/0 = 0
+12:42/0 = 0
+12:43/0 = 0
+12:44/0 = 0
+12:45/0 = 0
+12:46/0 = 0
+13:0/0 = 0
+13:1/0 = 0
+13:2/0 = 0
+13:3/0 = 0
+13:4/0 = 0
+13:5/0 = 0
+13:6/0 = 0
+13:7/0 = 0
+13:8/0 = 0
+13:9/0 = 0
+13:10/0 = 0
+13:11/0 = 0
+13:12/0 = 0
+13:13/0 = 0
+13:14/0 = 0
+13:15/0 = 0
+13:16/0 = 0
+13:17/0 = 0
+13:18/0 = 0
+13:19/0 = 0
+13:20/0 = 0
+13:21/0 = 0
+13:22/0 = 0
+13:23/0 = 0
+13:24/0 = 0
+13:25/0 = 0
+13:26/0 = 0
+13:27/0 = 0
+13:28/0 = 0
+13:29/0 = 0
+13:30/0 = 0
+13:31/0 = 0
+13:32/0 = 0
+13:33/0 = 0
+13:34/0 = 0
+13:35/0 = 0
+13:36/0 = 0
+13:37/0 = 0
+13:38/0 = 0
+13:39/0 = 0
+13:40/0 = 0
+13:41/0 = 0
+13:42/0 = 0
+13:43/0 = 0
+13:44/0 = 0
+13:45/0 = 0
+13:46/0 = 0
+14:0/0 = 0
+14:1/0 = 0
+14:2/0 = 0
+14:3/0 = 0
+14:4/0 = 0
+14:5/0 = 0
+14:6/0 = 0
+14:7/0 = 0
+14:8/0 = 0
+14:9/0 = 0
+14:10/0 = 0
+14:11/0 = 0
+14:12/0 = 0
+14:13/0 = 0
+14:14/0 = 0
+14:15/0 = 0
+14:16/0 = 0
+14:17/0 = 0
+14:18/0 = 0
+14:19/0 = 0
+14:20/0 = 0
+14:21/0 = 0
+14:22/0 = 0
+14:23/0 = 0
+14:24/0 = 0
+14:25/0 = 0
+14:26/0 = 0
+14:27/0 = 0
+14:28/0 = 0
+14:29/0 = 0
+14:30/0 = 0
+14:31/0 = 0
+14:32/0 = 0
+14:33/0 = 0
+14:34/0 = 0
+14:35/0 = 0
+14:36/0 = 0
+14:37/0 = 0
+14:38/0 = 0
+14:39/0 = 0
+14:40/0 = 0
+14:41/0 = 0
+14:42/0 = 0
+14:43/0 = 0
+14:44/0 = 0
+14:45/0 = 0
+14:46/0 = 0
+15:0/0 = 0
+15:1/0 = 0
+15:2/0 = 0
+15:3/0 = 0
+15:4/0 = 0
+15:5/0 = 0
+15:6/0 = 0
+15:7/0 = 0
+15:8/0 = 0
+15:9/0 = 0
+15:10/0 = 0
+15:11/0 = 0
+15:12/0 = 0
+15:13/0 = 0
+15:14/0 = 0
+15:15/0 = 0
+15:16/0 = 0
+15:17/0 = 0
+15:18/0 = 0
+15:19/0 = 0
+15:20/0 = 0
+15:21/0 = 0
+15:22/0 = 0
+15:23/0 = 0
+15:24/0 = 0
+15:25/0 = 0
+15:26/0 = 0
+15:27/0 = 0
+15:28/0 = 0
+15:29/0 = 0
+15:30/0 = 0
+15:31/0 = 0
+15:32/0 = 0
+15:33/0 = 0
+15:34/0 = 0
+15:35/0 = 0
+15:36/0 = 0
+15:37/0 = 0
+15:38/0 = 0
+15:39/0 = 0
+15:40/0 = 0
+15:41/0 = 0
+15:42/0 = 0
+15:43/0 = 0
+15:44/0 = 0
+15:45/0 = 0
+15:46/0 = 0
+16:0/0 = 0
+16:1/0 = 0
+16:2/0 = 0
+16:3/0 = 0
+16:4/0 = 0
+16:5/0 = 0
+16:6/0 = 0
+16:7/0 = 0
+16:8/0 = 0
+16:9/0 = 0
+16:10/0 = 0
+16:11/0 = 0
+16:12/0 = 0
+16:13/0 = 0
+16:14/0 = 0
+16:15/0 = 0
+16:16/0 = 0
+16:17/0 = 0
+16:18/0 = 0
+16:19/0 = 0
+16:20/0 = 0
+16:21/0 = 0
+16:22/0 = 0
+16:23/0 = 0
+16:24/0 = 0
+16:25/0 = 0
+16:26/0 = 0
+16:27/0 = 0
+16:28/0 = 0
+16:29/0 = 0
+16:30/0 = 0
+16:31/0 = 0
+16:32/0 = 0
+16:33/0 = 0
+16:34/0 = 0
+16:35/0 = 0
+16:36/0 = 0
+16:37/0 = 0
+16:38/0 = 0
+16:39/0 = 0
+16:40/0 = 0
+16:41/0 = 0
+16:42/0 = 0
+16:43/0 = 0
+16:44/0 = 0
+16:45/0 = 0
+16:46/0 = 0
+17:0/0 = 0
+17:1/0 = 0
+17:2/0 = 0
+17:3/0 = 0
+17:4/0 = 0
+17:5/0 = 0
+17:6/0 = 0
+17:7/0 = 0
+17:8/0 = 0
+17:9/0 = 0
+17:10/0 = 0
+17:11/0 = 0
+17:12/0 = 0
+17:13/0 = 0
+17:14/0 = 0
+17:15/0 = 0
+17:16/0 = 0
+17:17/0 = 0
+17:18/0 = 0
+17:19/0 = 0
+17:20/0 = 0
+17:21/0 = 0
+17:22/0 = 0
+17:23/0 = 0
+17:24/0 = 0
+17:25/0 = 0
+17:26/0 = 0
+17:27/0 = 0
+17:28/0 = 0
+17:29/0 = 0
+17:30/0 = 0
+17:31/0 = 0
+17:32/0 = 0
+17:33/0 = 0
+17:34/0 = 0
+17:35/0 = 0
+17:36/0 = 0
+17:37/0 = 0
+17:38/0 = 0
+17:39/0 = 0
+17:40/0 = 0
+17:41/0 = 0
+17:42/0 = 0
+17:43/0 = 0
+17:44/0 = 0
+17:45/0 = 0
+17:46/0 = 0
+18:0/0 = 0
+18:1/0 = 0
+18:2/0 = 0
+18:3/0 = 0
+18:4/0 = 0
+18:5/0 = 0
+18:6/0 = 0
+18:7/0 = 0
+18:8/0 = 0
+18:9/0 = 0
+18:10/0 = 0
+18:11/0 = 0
+18:12/0 = 0
+18:13/0 = 0
+18:14/0 = 0
+18:15/0 = 0
+18:16/0 = 0
+18:17/0 = 0
+18:18/0 = 0
+18:19/0 = 0
+18:20/0 = 0
+18:21/0 = 0
+18:22/0 = 0
+18:23/0 = 0
+18:24/0 = 0
+18:25/0 = 0
+18:26/0 = 0
+18:27/0 = 0
+18:28/0 = 0
+18:29/0 = 0
+18:30/0 = 0
+18:31/0 = 0
+18:32/0 = 0
+18:33/0 = 0
+18:34/0 = 0
+18:35/0 = 0
+18:36/0 = 0
+18:37/0 = 0
+18:38/0 = 0
+18:39/0 = 0
+18:40/0 = 0
+18:41/0 = 0
+18:42/0 = 0
+18:43/0 = 0
+18:44/0 = 0
+18:45/0 = 0
+18:46/0 = 0
+19:0/0 = 0
+19:1/0 = 0
+19:2/0 = 0
+19:3/0 = 0
+19:4/0 = 0
+19:5/0 = 0
+19:6/0 = 0
+19:7/0 = 0
+19:8/0 = 0
+19:9/0 = 0
+19:10/0 = 0
+19:11/0 = 0
+19:12/0 = 0
+19:13/0 = 0
+19:14/0 = 0
+19:15/0 = 0
+19:16/0 = 0
+19:17/0 = 0
+19:18/0 = 0
+19:19/0 = 0
+19:20/0 = 0
+19:21/0 = 0
+19:22/0 = 0
+19:23/0 = 0
+19:24/0 = 0
+19:25/0 = 0
+19:26/0 = 0
+19:27/0 = 0
+19:28/0 = 0
+19:29/0 = 0
+19:30/0 = 0
+19:31/0 = 0
+19:32/0 = 0
+19:33/0 = 0
+19:34/0 = 0
+19:35/0 = 0
+19:36/0 = 0
+19:37/0 = 0
+19:38/0 = 0
+19:39/0 = 0
+19:40/0 = 0
+19:41/0 = 0
+19:42/0 = 0
+19:43/0 = 0
+19:44/0 = 0
+19:45/0 = 0
+19:46/0 = 0
+20:0/0 = 0
+20:1/0 = 0
+20:2/0 = 0
+20:3/0 = 0
+20:4/0 = 0
+20:5/0 = 0
+20:6/0 = 0
+20:7/0 = 0
+20:8/0 = 0
+20:9/0 = 0
+20:10/0 = 0
+20:11/0 = 0
+20:12/0 = 0
+20:13/0 = 0
+20:14/0 = 0
+20:15/0 = 0
+20:16/0 = 0
+20:17/0 = 0
+20:18/0 = 0
+20:19/0 = 0
+20:20/0 = 0
+20:21/0 = 0
+20:22/0 = 0
+20:23/0 = 0
+20:24/0 = 0
+20:25/0 = 0
+20:26/0 = 0
+20:27/0 = 0
+20:28/0 = 0
+20:29/0 = 0
+20:30/0 = 0
+20:31/0 = 0
+20:32/0 = 0
+20:33/0 = 0
+20:34/0 = 0
+20:35/0 = 0
+20:36/0 = 0
+20:37/0 = 0
+20:38/0 = 0
+20:39/0 = 0
+20:40/0 = 0
+20:41/0 = 0
+20:42/0 = 0
+20:43/0 = 0
+20:44/0 = 0
+20:45/0 = 0
+20:46/0 = 0
+21:0/0 = 0
+21:1/0 = 0
+21:2/0 = 0
+21:3/0 = 0
+21:4/0 = 0
+21:5/0 = 0
+21:6/0 = 0
+21:7/0 = 0
+21:8/0 = 0
+21:9/0 = 0
+21:10/0 = 0
+21:11/0 = 0
+21:12/0 = 0
+21:13/0 = 0
+21:14/0 = 0
+21:15/0 = 0
+21:16/0 = 0
+21:17/0 = 0
+21:18/0 = 0
+21:19/0 = 0
+21:20/0 = 0
+21:21/0 = 0
+21:22/0 = 0
+21:23/0 = 0
+21:24/0 = 0
+21:25/0 = 0
+21:26/0 = 0
+21:27/0 = 0
+21:28/0 = 0
+21:29/0 = 0
+21:30/0 = 0
+21:31/0 = 0
+21:32/0 = 0
+21:33/0 = 0
+21:34/0 = 0
+21:35/0 = 0
+21:36/0 = 0
+21:37/0 = 0
+21:38/0 = 0
+21:39/0 = 0
+21:40/0 = 0
+21:41/0 = 0
+21:42/0 = 0
+21:43/0 = 0
+21:44/0 = 0
+21:45/0 = 0
+21:46/0 = 0
+22:0/0 = 0
+22:1/0 = 0
+22:2/0 = 0
+22:3/0 = 0
+22:4/0 = 0
+22:5/0 = 0
+22:6/0 = 0
+22:7/0 = 0
+22:8/0 = 0
+22:9/0 = 0
+22:10/0 = 0
+22:11/0 = 0
+22:12/0 = 0
+22:13/0 = 0
+22:14/0 = 0
+22:15/0 = 0
+22:16/0 = 0
+22:17/0 = 0
+22:18/0 = 0
+22:19/0 = 0
+22:20/0 = 0
+22:21/0 = 0
+22:22/0 = 0
+22:23/0 = 0
+22:24/0 = 0
+22:25/0 = 0
+22:26/0 = 0
+22:27/0 = 0
+22:28/0 = 0
+22:29/0 = 0
+22:30/0 = 0
+22:31/0 = 0
+22:32/0 = 0
+22:33/0 = 0
+22:34/0 = 0
+22:35/0 = 0
+22:36/0 = 0
+22:37/0 = 0
+22:38/0 = 0
+22:39/0 = 0
+22:40/0 = 0
+22:41/0 = 0
+22:42/0 = 0
+22:43/0 = 0
+22:44/0 = 0
+22:45/0 = 0
+22:46/0 = 0
+23:0/0 = 0
+23:1/0 = 0
+23:2/0 = 0
+23:3/0 = 0
+23:4/0 = 0
+23:5/0 = 0
+23:6/0 = 0
+23:7/0 = 0
+23:8/0 = 0
+23:9/0 = 0
+23:10/0 = 0
+23:11/0 = 0
+23:12/0 = 0
+23:13/0 = 0
+23:14/0 = 0
+23:15/0 = 0
+23:16/0 = 0
+23:17/0 = 0
+23:18/0 = 0
+23:19/0 = 0
+23:20/0 = 0
+23:21/0 = 0
+23:22/0 = 0
+23:23/0 = 0
+23:24/0 = 0
+23:25/0 = 0
+23:26/0 = 0
+23:27/0 = 0
+23:28/0 = 0
+23:29/0 = 0
+23:30/0 = 0
+23:31/0 = 0
+23:32/0 = 0
+23:33/0 = 0
+23:34/0 = 0
+23:35/0 = 0
+23:36/0 = 0
+23:37/0 = 0
+23:38/0 = 0
+23:39/0 = 0
+23:40/0 = 0
+23:41/0 = 0
+23:42/0 = 0
+23:43/0 = 0
+23:44/0 = 0
+23:45/0 = 0
+23:46/0 = 0
+24:0/0 = 0
+24:1/0 = 0
+24:2/0 = 0
+24:3/0 = 0
+24:4/0 = 0
+24:5/0 = 0
+24:6/0 = 0
+24:7/0 = 0
+24:8/0 = 0
+24:9/0 = 0
+24:10/0 = 0
+24:11/0 = 0
+24:12/0 = 0
+24:13/0 = 0
+24:14/0 = 0
+24:15/0 = 0
+24:16/0 = 0
+24:17/0 = 0
+24:18/0 = 0
+24:19/0 = 0
+24:20/0 = 0
+24:21/0 = 0
+24:22/0 = 0
+24:23/0 = 0
+24:24/0 = 0
+24:25/0 = 0
+24:26/0 = 0
+24:27/0 = 0
+24:28/0 = 0
+24:29/0 = 0
+24:30/0 = 0
+24:31/0 = 0
+24:32/0 = 0
+24:33/0 = 0
+24:34/0 = 0
+24:35/0 = 0
+24:36/0 = 0
+24:37/0 = 0
+24:38/0 = 0
+24:39/0 = 0
+24:40/0 = 0
+24:41/0 = 0
+24:42/0 = 0
+24:43/0 = 0
+24:44/0 = 0
+24:45/0 = 0
+24:46/0 = 0
+25:0/0 = 0
+25:1/0 = 0
+25:2/0 = 0
+25:3/0 = 0
+25:4/0 = 0
+25:5/0 = 0
+25:6/0 = 0
+25:7/0 = 0
+25:8/0 = 0
+25:9/0 = 0
+25:10/0 = 0
+25:11/0 = 0
+25:12/0 = 0
+25:13/0 = 0
+25:14/0 = 0
+25:15/0 = 0
+25:16/0 = 0
+25:17/0 = 0
+25:18/0 = 0
+25:19/0 = 0
+25:20/0 = 0
+25:21/0 = 0
+25:22/0 = 0
+25:23/0 = 0
+25:24/0 = 0
+25:25/0 = 0
+25:26/0 = 0
+25:27/0 = 0
+25:28/0 = 0
+25:29/0 = 0
+25:30/0 = 0
+25:31/0 = 0
+25:32/0 = 0
+25:33/0 = 0
+25:34/0 = 0
+25:35/0 = 0
+25:36/0 = 0
+25:37/0 = 0
+25:38/0 = 0
+25:39/0 = 0
+25:40/0 = 0
+25:41/0 = 0
+25:42/0 = 0
+25:43/0 = 0
+25:44/0 = 0
+25:45/0 = 0
+25:46/0 = 0
+26:0/0 = 0
+26:1/0 = 0
+26:2/0 = 0
+26:3/0 = 0
+26:4/0 = 0
+26:5/0 = 0
+26:6/0 = 0
+26:7/0 = 0
+26:8/0 = 0
+26:9/0 = 0
+26:10/0 = 0
+26:11/0 = 0
+26:12/0 = 0
+26:13/0 = 0
+26:14/0 = 0
+26:15/0 = 0
+26:16/0 = 0
+26:17/0 = 0
+26:18/0 = 0
+26:19/0 = 0
+26:20/0 = 0
+26:21/0 = 0
+26:22/0 = 0
+26:23/0 = 0
+26:24/0 = 0
+26:25/0 = 0
+26:26/0 = 0
+26:27/0 = 0
+26:28/0 = 0
+26:29/0 = 0
+26:30/0 = 0
+26:31/0 = 0
+26:32/0 = 0
+26:33/0 = 0
+26:34/0 = 0
+26:35/0 = 0
+26:36/0 = 0
+26:37/0 = 0
+26:38/0 = 0
+26:39/0 = 0
+26:40/0 = 0
+26:41/0 = 0
+26:42/0 = 0
+26:43/0 = 0
+26:44/0 = 0
+26:45/0 = 0
+26:46/0 = 0
+27:0/0 = 0
+27:1/0 = 0
+27:2/0 = 0
+27:3/0 = 0
+27:4/0 = 0
+27:5/0 = 0
+27:6/0 = 0
+27:7/0 = 0
+27:8/0 = 0
+27:9/0 = 0
+27:10/0 = 0
+27:11/0 = 0
+27:12/0 = 0
+27:13/0 = 0
+27:14/0 = 0
+27:15/0 = 0
+27:16/0 = 0
+27:17/0 = 0
+27:18/0 = 0
+27:19/0 = 0
+27:20/0 = 0
+27:21/0 = 0
+27:22/0 = 0
+27:23/0 = 0
+27:24/0 = 0
+27:25/0 = 0
+27:26/0 = 0
+27:27/0 = 0
+27:28/0 = 0
+27:29/0 = 0
+27:30/0 = 0
+27:31/0 = 0
+27:32/0 = 0
+27:33/0 = 0
+27:34/0 = 0
+27:35/0 = 0
+27:36/0 = 0
+27:37/0 = 0
+27:38/0 = 0
+27:39/0 = 0
+27:40/0 = 0
+27:41/0 = 0
+27:42/0 = 0
+27:43/0 = 0
+27:44/0 = 0
+27:45/0 = 0
+27:46/0 = 0
+28:0/0 = 0
+28:1/0 = 0
+28:2/0 = 0
+28:3/0 = 0
+28:4/0 = 0
+28:5/0 = 0
+28:6/0 = 0
+28:7/0 = 0
+28:8/0 = 0
+28:9/0 = 0
+28:10/0 = 0
+28:11/0 = 0
+28:12/0 = 0
+28:13/0 = 0
+28:14/0 = 0
+28:15/0 = 0
+28:16/0 = 0
+28:17/0 = 0
+28:18/0 = 0
+28:19/0 = 0
+28:20/0 = 0
+28:21/0 = 0
+28:22/0 = 0
+28:23/0 = 0
+28:24/0 = 0
+28:25/0 = 0
+28:26/0 = 0
+28:27/0 = 0
+28:28/0 = 0
+28:29/0 = 0
+28:30/0 = 0
+28:31/0 = 0
+28:32/0 = 0
+28:33/0 = 0
+28:34/0 = 0
+28:35/0 = 0
+28:36/0 = 0
+28:37/0 = 0
+28:38/0 = 0
+28:39/0 = 0
+28:40/0 = 0
+28:41/0 = 0
+28:42/0 = 0
+28:43/0 = 0
+28:44/0 = 0
+28:45/0 = 0
+28:46/0 = 0
+29:0/0 = 0
+29:1/0 = 0
+29:2/0 = 0
+29:3/0 = 0
+29:4/0 = 0
+29:5/0 = 0
+29:6/0 = 0
+29:7/0 = 0
+29:8/0 = 0
+29:9/0 = 0
+29:10/0 = 0
+29:11/0 = 0
+29:12/0 = 0
+29:13/0 = 0
+29:14/0 = 0
+29:15/0 = 0
+29:16/0 = 0
+29:17/0 = 0
+29:18/0 = 0
+29:19/0 = 0
+29:20/0 = 0
+29:21/0 = 0
+29:22/0 = 0
+29:23/0 = 0
+29:24/0 = 0
+29:25/0 = 0
+29:26/0 = 0
+29:27/0 = 0
+29:28/0 = 0
+29:29/0 = 0
+29:30/0 = 0
+29:31/0 = 0
+29:32/0 = 0
+29:33/0 = 0
+29:34/0 = 0
+29:35/0 = 0
+29:36/0 = 0
+29:37/0 = 0
+29:38/0 = 0
+29:39/0 = 0
+29:40/0 = 0
+29:41/0 = 0
+29:42/0 = 0
+29:43/0 = 0
+29:44/0 = 0
+29:45/0 = 0
+29:46/0 = 0
+30:0/0 = 0
+30:1/0 = 0
+30:2/0 = 0
+30:3/0 = 0
+30:4/0 = 0
+30:5/0 = 0
+30:6/0 = 0
+30:7/0 = 0
+30:8/0 = 0
+30:9/0 = 0
+30:10/0 = 0
+30:11/0 = 0
+30:12/0 = 0
+30:13/0 = 0
+30:14/0 = 0
+30:15/0 = 0
+30:16/0 = 0
+30:17/0 = 0
+30:18/0 = 0
+30:19/0 = 0
+30:20/0 = 0
+30:21/0 = 0
+30:22/0 = 0
+30:23/0 = 0
+30:24/0 = 0
+30:25/0 = 0
+30:26/0 = 0
+30:27/0 = 0
+30:28/0 = 0
+30:29/0 = 0
+30:30/0 = 0
+30:31/0 = 0
+30:32/0 = 0
+30:33/0 = 0
+30:34/0 = 0
+30:35/0 = 0
+30:36/0 = 0
+30:37/0 = 0
+30:38/0 = 0
+30:39/0 = 0
+30:40/0 = 0
+30:41/0 = 0
+30:42/0 = 0
+30:43/0 = 0
+30:44/0 = 0
+30:45/0 = 0
+30:46/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_yu3c2"]
+sources/0 = SubResource("TileSetAtlasSource_05ptd")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_at73p"]
+atlas = ExtResource("10_swbjn")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8oxr"]
+atlas = ExtResource("10_swbjn")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqada"]
+atlas = ExtResource("10_swbjn")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5eu6"]
+atlas = ExtResource("10_swbjn")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpofb"]
+atlas = ExtResource("11_qxxms")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0u080"]
+atlas = ExtResource("11_qxxms")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx3h6"]
+atlas = ExtResource("11_qxxms")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28uhq"]
+atlas = ExtResource("11_qxxms")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjw5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_hamxg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_wpeg0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jn3fa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_t2qq1")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_at73p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8oxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqada")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5eu6")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpofb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0u080")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx3h6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28uhq")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
+atlas = ExtResource("14_3st33")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u75by"]
+atlas = ExtResource("14_3st33")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_esvbv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkqsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u75by")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_8hl48"]
+script = ExtResource("18_5s2dm")
+original_script = "QUEST | redfieldTalked = 1
+IF body == governor | GOTO | GOVERNOR
+IF redfieldState == 1 | GOTO | REDFIELD01
+IF redfieldState == 0 | GOTO | REDFIELD00
+
+GOVERNOR
+DIALOG | Redfield | Evening, sir. Nothing suspicious going on here.
+
+REDFIELD01
+DIALOG | Redfield | I've got gun's for sale. Top quality hardware. Some of these would have loved to brast in my days as a /'professional./' I can let you take a look. But remember, you only get one peek. Someone in my line of business needs to keep moving.
+GOTO   | PURCHASER
+
+REDFIELD00
+QUEST  | redfieldState = 1
+DIALOG | Redfield | I'm Redfield. 
+WAIT   | 1
+DIALOG | Redfield | Glad you found me. I sell gun's... at least, mostly gun's.
+DIALOG | P_NAME   | Hi, I'm P_NAME_S-
+DIALOG | Redfield | Let me stop you there, kid. We aren't friends... I don't want to get to know you. I just want to know how many neuroshekels you have in that brainpan of yours and how much you are willing to part with.
+DIALOG | P_NAME   | Oh... sorry...
+WAIT   | 0.5
+DIALOG | Redfield | Look, sorry kid. It's just_ it's best if we keep this strictly business. Best not get too close. Especially to me. Now whatcha buyin'?
+GOTO   | PURCHASER
+
+PURCHASER
+CHOICE | Whatcha buyin'?
+IF redfieldShop90Empty == 0 | IF redfieldUpgrade >= 2 | REPLY | SHOP90 | Show me the top shelf wares!
+IF redfieldShop70Empty == 0 | IF redfieldUpgrade >= 1 | REPLY | SHOP70 | Show me the good stuff.
+IF redfieldShop50Empty == 0 | IF redfieldUpgrade >= 1 | REPLY | SHOP50CHEAP | Show me the cheaper gun's.
+IF redfieldShop50Empty == 0 | IF redfieldUpgrade == 0 | REPLY | SHOP50FIRST | Show me your gun's.
+IF stahlGuns == 1 | REPLY | UPGRADE_STAHL | Stahl said you could hook me up
+IF redfieldTuraldUpgrade == 0 | IF knowGunstiers == 1 | IF redfieldShoppedNOW == 1 | REPLY | UPGRADE_TURALD | I know my Gun'stiers. Those gun's suck.
+IF redfieldPast == 0 | REPLY | YOURPAST | You seem to have a dark past.
+IF redfieldMap == 0 | REPLY | MAP_INQUIRE | Anything else for sale?
+IF redfieldMap == 1 | REPLY | MAP_PURCHASE | About buying that Sewer Map...
+REPLY | NARYYEMIND | Gotta go...
+
+UPGRADE_STAHL
+QUEST  | stahlGuns = 2
+DIALOG | P_NAME | Stahl said you could hook me up with better brastware's.
+DIALOG | Redfield | Oh, so you've met her? She's not the type to kiss and tell. You must be important enough.
+WAIT   | 0.5
+GOTO   | UPGRADE_GENERAL
+
+UPGRADE_TURALD
+QUEST  | redfieldTuraldUpgrade = 1
+DIALOG | P_NAME = s_port_hoopzAngry | I thought you said you had the good stuff? I know my Gun'stiers, and these gun's can't hack it.
+DIALOG | Redfield | Heh heh heh... you got me kid. Not bad... I thought I could pass some of my lower grade junk on to ya. But it looks like you actually have an eye for gun's...
+WAIT   | 0.5
+GOTO   | UPGRADE_GENERAL
+
+UPGRADE_GENERAL
+IF redfieldUpgrade == 0 | DIALOG | Redfield | Alright. I'm gonna show you the primo material. Have a look...
+IF redfieldUpgrade == 1 | DIALOG | Redfield | Alright. I'll show you the gun's `w1`THEY`w0` don't want you to know about. Have a look...
+QUEST  | redfieldUpgrade += 1
+QUEST  | redfieldShoppedNOW = 1
+IF redfieldUpgrade == 1 | GOTO   | SHOP70
+IF redfieldUpgrade == 2 | GOTO   | SHOP90
+
+MAP_INQUIRE
+DIALOG | P_NAME   | Do you have anything else for sale?
+DIALOG | Redfield | As a matter of fact, I recently found a map on a deceased dwarf. It maps out some of the Tir na Nog sewers. 
+QUEST  | redfieldMap = 1
+GOTO   | MAP_PURCHASE
+
+MAP_PURCHASE
+DIALOG | P_NAME | A map of the Tir na Nog sewers...
+Breakout | add | money | -@money_gunsalesmanMap@ | 0
+DIALOG | Redfield | That's right. I'd let it go for @money_gunsalesmanMap@ neuroshekels. Interested?
+CHOICE | Buy the Sewers Map? (£@money_gunsalesmanMap@)
+REPLY  | MAP_YES | I'll take it.
+REPLY  | MAP_NO  | I don't want it.
+
+MAP_YES
+IF money >= @money_gunsalesmanMap@ | GOTO | MAP_AFFORD
+GOTO | MAP_UNAFFORD
+
+MAP_AFFORD
+QUEST  | money -= @money_gunsalesmanMap@
+DIALOG | P_NAME | Color me interested. I'll take it.
+Breakout | clear
+Map    | gain | Sewers Floor 1
+NOTIFY | You got the Sewers Floor 1 Map.
+QUEST  | redfieldMap = 2
+DIALOG | Redfield | Thanks. Is there anything else you want?
+GOTO   | PURCHASER
+
+MAP_UNAFFORD
+DIALOG | P_NAME | I'll take it! Oh, crud... I don't have enough.
+Breakout | clear
+DIALOG | Redfield | Not a problem. Is there anything else you want?
+GOTO   | PURCHASER
+
+MAP_NO
+Breakout | clear
+DIALOG | P_NAME | I don't want it. I'll navigate the sewers using my orienteering skills.
+DIALOG | Redfield | Suit yourself. Is there anything else you want?
+GOTO   | PURCHASER
+
+YOURPAST
+DIALOG | P_NAME | You seem to have a dark past. Maybe I could help illuminate it?
+DIALOG | Redfield | You are playing with fire, kid._ I'm dangerous... and the people that I care about have a funny way of turning up dead.
+DIALOG | P_NAME = s_port_hoopzSad | Oh... I'm sorry.
+DIALOG | Redfield | I was too._._._ sorry for too long. I knew I needed to honor the lives of my fallen comrades with something. So I got back to work.
+DIALOG | P_NAME | Selling gun's?
+DIALOG | Redfield | That's right. I plan to make enough money running brastware to dedicate a park or memorial to all those that I've lost. I hear you can get some nice plots of land in the Swamps.
+DIALOG | P_NAME | That's very thoughful of you.
+DIALOG | Redfield | Thank you, now, enough about me. Let's show you my stock...
+QUEST  | redfieldPast = 1
+GOTO   | PURCHASER
+
+SHOP50
+IF gunsbag == 20 | GOTO | GUNSBAG_FULL
+QUEST | redfieldPoint = 50
+EVENT | o_gunsalesman | 5
+SHOP  | open | Redfield's Wares
+EVENT | o_gunsalesman | 6
+IF shop == bought_toomuch | DIALOG | P_NAME | I filled up my gun'sbag, I have to stop shopping...
+GOTO  | PURCHASER
+
+SHOP70
+IF gunsbag == 20 | GOTO | GUNSBAG_FULL
+QUEST | redfieldPoint = 70
+EVENT | o_gunsalesman | 5
+SHOP  | open | Redfield's Wares
+EVENT | o_gunsalesman | 6
+IF shop == bought_toomuch | DIALOG | P_NAME | I filled up my gun'sbag, I have to stop shopping...
+GOTO  | PURCHASER
+
+SHOP90
+IF gunsbag == 20 | GOTO | GUNSBAG_FULL
+QUEST | redfieldPoint = 90
+EVENT | o_gunsalesman | 5
+SHOP  | open | Redfield's Wares
+EVENT | o_gunsalesman | 6
+IF shop == bought_toomuch | DIALOG | P_NAME | I filled up my gun'sbag, I have to stop shopping...
+GOTO  | PURCHASER
+
+SHOP120
+IF gunsbag == 20 | GOTO | GUNSBAG_FULL
+QUEST | redfieldPoint = 120
+EVENT | o_gunsalesman | 5
+SHOP  | open | Redfield's Wares
+EVENT | o_gunsalesman | 6
+IF shop == bought_toomuch | DIALOG | P_NAME | I filled up my gun'sbag, I have to stop shopping...
+GOTO  | PURCHASER
+
+GUNSBAG_FULL
+DIALOG | P_NAME | (I can't shop, my gun'sbag is full...)
+GOTO   | PURCHASER
+
+SHOP50CHEAP
+DIALOG | P_NAME | Let me see the cheaper gun's.
+DIALOG | Redfield | Alright, here they are.
+QUEST  | redfieldShoppedNOW = 1
+GOTO   | SHOP50
+
+SHOP50FIRST
+DIALOG | P_NAME | I'll take a look at your gun's.
+DIALOG | Redfield | Alright, but let's be quick about it. Blue eyes abound.
+QUEST  | redfieldShoppedNOW = 1
+GOTO   | SHOP50
+
+NARYYEMIND
+IF area == sw1 | GOTO | INTHESEWERS
+IF area == sw2 | GOTO | INTHESEWERS
+IF redfieldEnd == 1 | GOTO | NARYYEMINDSECOND
+GOTO | NARYYEMINDFIRST
+
+NARYYEMINDSECOND
+DIALOG | P_NAME | I'll have to talk to you later.
+DIALOG | Redfield | Sounds good kid, but remember. I don't stick around for long.
+
+NARYYEMINDFIRST
+DIALOG | P_NAME | Sorry, gotta go.
+DIALOG | Redfield | Alright, well I gotta move. If you see me again, I'll probably have a new inventory. Weapons move fast these days...
+QUEST  | redfieldEnd == 1
+GOTO   | END
+
+INTHESEWERS
+DIALOG | Redfield | Shooting wildly ain't gonna get you anywhere. Stick to the shadows.
+GOTO   | END
+
+END
+QUEST | redfieldShoppedNOW = 0
+EXIT"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1387q"]
+atlas = ExtResource("20_jf7if")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xd3w1"]
+atlas = ExtResource("20_jf7if")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hgxuw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1387q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xd3w1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="r_sw1_respawn01" type="NavigationRegion2D"]
+navigation_polygon = SubResource("NavigationPolygon_mtvws")
+script = ExtResource("1_v6t57")
+
+[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
+script = ExtResource("2_nct4i")
+convert_known_nodes = true
+simulate = false
+remove_nodes = true
+metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
+
+[node name="layer 93" type="TileMapLayer" parent="."]
+z_index = -10
+tile_map_data = PackedByteArray("AAAMAAoAAAAJAA8AAAAMAAsAAAAJABAAAAANAAoAAAAEAA8AAAANAAsAAAAEABAAAAAOAAoAAAAFAA8AAAAOAAsAAAAFABAAAAAMAAwAAAAJAA8AAAANAAwAAAAEAA8AAAANAA0AAAAEABAAAAAOAAwAAAAFAA8AAAAOAA0AAAAFABAAAAAPAAwAAAAZAAQAAAAPAA0AAAAZAAQAAAAPAA4AAAAZAAQAAAAPAA8AAAAZAAQAAAAQAAwAAAAdAAMAAAAQAA0AAAAdAAQAAAARAAwAAAAcAAMAAAARAA0AAAAcAAQAAAASAAwAAAAdAAMAAAASAA0AAAAdAAQAAAATAAwAAAAcAAMAAAATAA0AAAAcAAQAAAAUAAwAAAAdAAMAAAAUAA0AAAAdAAQAAAAVAAwAAAAcAAMAAAAVAA0AAAAcAAQAAAAWAAwAAAAEAA8AAAAWAA0AAAAEABAAAAAXAAwAAAAFAA8AAAAXAA0AAAAFABAAAAAYAAwAAAAEAA8AAAAYAA0AAAAEABAAAAAMAA0AAAAHABAAAAAFAA4AAAAIAA8AAAAFAA8AAAAIABAAAAAGAA4AAAAFAA8AAAAGAA8AAAAFABAAAAAHAA4AAAAEAA8AAAAHAA8AAAAEABAAAAAIAA4AAAAFAA8AAAAIAA8AAAAFABAAAAAJAA4AAAAEAA8AAAAJAA8AAAAEABAAAAAKAA4AAAAFAA8AAAAKAA8AAAAFABAAAAALAA4AAAAEAA8AAAALAA8AAAAEABAAAAAMAA4AAAAFAA8AAAAMAA8AAAAFABAAAAANAA4AAAAEAA8AAAANAA8AAAAEABAAAAAOAA4AAAAFAA8AAAAOAA8AAAAFABAAAAAQAA4AAAAdAAMAAAAQAA8AAAAdAAQAAAARAA4AAAAcAAMAAAARAA8AAAAcAAQAAAASAA4AAAAdAAMAAAASAA8AAAAdAAQAAAATAA4AAAAcAAMAAAATAA8AAAAcAAQAAAAUAA4AAAAcAAQAAAAVAA4AAAAcAAQAAAAUAA8AAAAdAAQAAAAVAA8AAAAcAAQAAAAFABAAAAAIAA8AAAAFABEAAAAIABAAAAAGABAAAAAFAA8AAAAGABEAAAAFABAAAAAHABAAAAAEAA8AAAAHABEAAAAEABAAAAAIABAAAAAFAA8AAAAIABEAAAAFABAAAAAJABAAAAAEAA8AAAAJABEAAAAEABAAAAAKABAAAAAFAA8AAAAKABEAAAAFABAAAAALABAAAAAEAA8AAAALABEAAAAEABAAAAAMABAAAAAFAA8AAAAMABEAAAAFABAAAAANABAAAAAEAA8AAAANABEAAAAEABAAAAAOABAAAAAFAA8AAAAOABEAAAAFABAAAAAPABAAAAAEAA8AAAAPABEAAAAEABAAAAAQABAAAAAFAA8AAAAQABEAAAAFABAAAAARABAAAAAEAA8AAAARABEAAAAEABAAAAASABAAAAAFAA8AAAASABEAAAAFABAAAAATABAAAAAEAA8AAAATABEAAAAEABAAAAAUABAAAAAFAA8AAAAUABEAAAAFABAAAAAVABAAAAAEAA8AAAAVABEAAAAEABAAAAAFABIAAAAIAA8AAAAGABIAAAAFAA8AAAAHABIAAAAEAA8AAAAIABIAAAAFAA8AAAAJABIAAAAEAA8AAAAKABIAAAAFAA8AAAALABIAAAAEAA8AAAAMABIAAAAFAA8AAAANABIAAAAEAA8AAAAOABIAAAAFAA8AAAAPABIAAAAEAA8AAAAPABMAAAAEABAAAAAQABIAAAAFAA8AAAAQABMAAAAFABAAAAARABIAAAAEAA8AAAASABIAAAAFAA8AAAATABIAAAAEAA8AAAAUABIAAAAFAA8AAAAVABIAAAAEAA8AAAA=")
+tile_set = SubResource("TileSet_yu3c2")
+
+[node name="layer 92" type="TileMapLayer" parent="."]
+z_index = -10
+tile_map_data = PackedByteArray("AAAMAAUAAAAAAAcAAAAMAAYAAAAAAAgAAAAMAAcAAAAAAAkAAAAMAAgAAAAAAAoAAAAMAAkAAAAAAAsAAAANAAUAAAADAAcAAAANAAYAAAADAAgAAAANAAcAAAADAAkAAAANAAgAAAADAAoAAAANAAkAAAADAAsAAAAOAAUAAAAEAAcAAAAOAAYAAAAEAAgAAAAOAAcAAAAEAAkAAAAOAAgAAAAEAAoAAAAOAAkAAAAEAAsAAAAPAAUAAAADAAcAAAAPAAYAAAADAAgAAAAPAAcAAAADAAkAAAAPAAgAAAADAAoAAAAPAAkAAAADAAsAAAAQAAUAAAAEAAcAAAAQAAYAAAAEAAgAAAAQAAcAAAAEAAkAAAAQAAgAAAAEAAoAAAAQAAkAAAAEAAsAAAARAAUAAAADAAcAAAARAAYAAAADAAgAAAARAAcAAAADAAkAAAARAAgAAAADAAoAAAARAAkAAAADAAsAAAASAAUAAAAEAAcAAAASAAYAAAAEAAgAAAASAAcAAAAEAAkAAAASAAgAAAAEAAoAAAASAAkAAAAEAAsAAAATAAUAAAADAAcAAAATAAYAAAADAAgAAAATAAcAAAADAAkAAAATAAgAAAADAAoAAAATAAkAAAADAAsAAAAUAAUAAAAEAAcAAAAUAAYAAAAEAAgAAAAUAAcAAAAEAAkAAAAUAAgAAAAEAAoAAAAUAAkAAAAEAAsAAAAVAAUAAAADAAcAAAAVAAYAAAADAAgAAAAVAAcAAAADAAkAAAAVAAgAAAADAAoAAAAVAAkAAAADAAsAAAAWAAcAAAACAAcAAAAWAAgAAAACAAgAAAAWAAkAAAACAAkAAAAWAAoAAAACAAoAAAAWAAsAAAACAAsAAAAXAAcAAAADAAcAAAAXAAgAAAADAAgAAAAXAAkAAAADAAkAAAAXAAoAAAADAAoAAAAXAAsAAAADAAsAAAAYAAcAAAAEAAcAAAAYAAgAAAAEAAgAAAAYAAkAAAAEAAkAAAAYAAoAAAAEAAoAAAAYAAsAAAAEAAsAAAAFAAkAAAAAAAcAAAAFAAoAAAAAAAgAAAAFAAsAAAAAAAkAAAAFAAwAAAAAAAoAAAAFAA0AAAAAAAsAAAAGAAkAAAAEAAcAAAAGAAoAAAAEAAgAAAAGAAsAAAAEAAkAAAAGAAwAAAAEAAoAAAAGAA0AAAAEAAsAAAAHAAkAAAADAAcAAAAHAAoAAAADAAgAAAAHAAsAAAADAAkAAAAHAAwAAAADAAoAAAAIAAkAAAAEAAcAAAAIAAoAAAAEAAgAAAAIAAsAAAAEAAkAAAAIAAwAAAAEAAoAAAAJAAkAAAADAAcAAAAJAAoAAAADAAgAAAAJAAsAAAADAAkAAAAJAAwAAAADAAoAAAAKAAkAAAAEAAcAAAAKAAoAAAAEAAgAAAAKAAsAAAAEAAkAAAAKAAwAAAAEAAoAAAALAAkAAAAFAAcAAAALAAoAAAAFAAgAAAALAAsAAAAFAAkAAAALAAwAAAAFAAoAAAAOAAoAAAADABAAAAAOAAsAAAADABEAAAAPAAoAAAAEABMAAAAPAAsAAAAEABQAAAAQAAoAAAACABMAAAAQAAsAAAACABQAAAARAAoAAAABABMAAAASAAoAAAACABMAAAATAAoAAAABABMAAAAUAAoAAAACABMAAAAVAAoAAAABABMAAAAVAAsAAAABABQAAAARAAsAAAAIABQAAAASAAsAAAAJABQAAAATAAsAAAAIABQAAAAUAAsAAAAJABQAAAAOAAwAAAADABAAAAAOAA0AAAADABEAAAAVAAwAAAAbAAcAAAAWAAwAAAAAABMAAAAWAA0AAAAAABQAAAAXAAwAAAABABMAAAAXAA0AAAABABQAAAAYAAwAAAACABMAAAAYAA0AAAACABQAAAAHAA0AAAADAAsAAAAIAA0AAAAEAAwAAAAJAA0AAAAFAAwAAAAKAA0AAAAEAAsAAAALAA0AAAAFAAsAAAAPAA0AAAAbAAcAAAAFAA4AAAARAAAAAAAGAA4AAAARAAAAAAAHAA4AAAASAAAAAAAOAA4AAAADABAAAAAOAA8AAAADABEAAAATAA4AAAAbAAcAAAAPAA8AAAAbAAcAAAAUAA8AAAATAAgAAAAVAA8AAAAUAAgAAAAOABAAAAACABAAAAAPABAAAAABAA8AAAAQABAAAAACAA8AAAARABAAAAABAA8AAAASABAAAAACAA8AAAATABAAAAABAA8AAAAUABAAAAACAA8AAAAVABAAAAABAA8AAAAFABEAAAARAAAAAAAGABEAAAARAAAAAAAHABEAAAASAAAAAAA=")
+tile_set = SubResource("TileSet_yu3c2")
+
+[node name="layer 91" type="TileMapLayer" parent="."]
+z_index = -10
+tile_map_data = PackedByteArray("AAAOAAYAAAAAAAwAAAAOAAcAAAAAAA0AAAAPAAYAAAABAAwAAAAPAAcAAAABAA0AAAASAAYAAAAAAAwAAAASAAcAAAAAAA0AAAATAAYAAAABAAwAAAATAAcAAAABAA0AAAANAAoAAAAVAAYAAAAPAAoAAAAWACMAAAAPAAsAAAAWACQAAAAQAAoAAAAUACMAAAAQAAsAAAAUACQAAAARAAoAAAAUACMAAAARAAsAAAAUACQAAAASAAoAAAAUACMAAAASAAsAAAAUACQAAAATAAoAAAAUACMAAAATAAsAAAAUACQAAAAUAAoAAAAUACMAAAAUAAsAAAAUACQAAAAVAAoAAAAVACMAAAAVAAsAAAAVACQAAAAFAAwAAAAUABAAAAAGAAwAAAAXAA8AAAAGAA0AAAAXABAAAAAHAAwAAAAYAA8AAAAHAA0AAAAYABAAAAAPAAwAAAATACQAAAAQAAwAAAAUACQAAAARAAwAAAAUACQAAAASAAwAAAAUACQAAAATAAwAAAAUACQAAAAUAAwAAAAUACQAAAAVAAwAAAAVACQAAAAVAA0AAAAVACQAAAAVAA4AAAAVACQAAAAWAAwAAAATACMAAAAWAA0AAAATACQAAAAXAAwAAAAUACMAAAAXAA0AAAAUACQAAAAYAAwAAAAVACMAAAAYAA0AAAAVACQAAAAPAA0AAAATACQAAAAQAA0AAAAUACQAAAARAA0AAAAUACQAAAARAA4AAAAUACQAAAASAA0AAAAXACQAAAATAA0AAAAUACQAAAATAA4AAAAUACQAAAAUAA0AAAAUACQAAAAUAA4AAAAUACQAAAAGAA4AAAAVAAYAAAAHAA4AAAATABEAAAANAA4AAAAVAAYAAAANAA8AAAAVAAcAAAAPAA4AAAATACQAAAAPAA8AAAATACUAAAAQAA4AAAAUACQAAAAQAA8AAAAUACUAAAASAA4AAAAUACQAAAASAA8AAAAUACUAAAAFAA8AAAAUABAAAAAGAA8AAAAXAA8AAAAGABAAAAAXABAAAAAHAA8AAAAYAA8AAAAHABAAAAAYABAAAAAJAA8AAAAVAAcAAAAKAA8AAAAVAAYAAAARAA8AAAAUACUAAAATAA8AAAAUACUAAAAUAA8AAAAXACUAAAAVAA8AAAAYACUAAAAHABEAAAATABEAAAANABEAAAAVAAcAAAA=")
+tile_set = SubResource("TileSet_yu3c2")
+
+[node name="layer -1000000" type="TileMapLayer" parent="."]
+z_index = 1000
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAEAAAAAAAMAAAABAAEAAAABAAAAAAABAAEAAAABAAEAAAABAAEAAAABAAIAAAABAAEAAAABAAMAAAABAAEAAAACAAAAAAABAAEAAAACAAEAAAABAAEAAAACAAIAAAABAAEAAAACAAMAAAABAAEAAAADAAAAAAABAAEAAAADAAEAAAABAAEAAAADAAIAAAABAAEAAAADAAMAAAABAAEAAAAEAAAAAAABAAEAAAAEAAEAAAABAAEAAAAEAAIAAAABAAEAAAAEAAMAAAABAAEAAAAFAAAAAAABAAEAAAAFAAEAAAABAAEAAAAFAAIAAAABAAEAAAAFAAMAAAABAAEAAAAGAAAAAAABAAEAAAAGAAEAAAABAAEAAAAGAAIAAAABAAEAAAAGAAMAAAABAAEAAAAHAAAAAAABAAEAAAAHAAEAAAABAAEAAAAHAAIAAAABAAEAAAAHAAMAAAABAAEAAAAIAAAAAAABAAEAAAAIAAEAAAABAAEAAAAIAAIAAAABAAEAAAAIAAMAAAABAAEAAAAJAAAAAAABAAEAAAAJAAEAAAABAAEAAAAJAAIAAAABAAEAAAAJAAMAAAABAAEAAAAKAAAAAAABAAEAAAAKAAEAAAABAAEAAAAKAAIAAAABAAEAAAAKAAMAAAABAAEAAAALAAAAAAABAAEAAAALAAEAAAABAAEAAAALAAIAAAABAAEAAAALAAMAAAABAAEAAAAMAAAAAAABAAEAAAAMAAEAAAABAAEAAAAMAAIAAAABAAEAAAAMAAMAAAABAAEAAAANAAAAAAABAAEAAAANAAEAAAABAAEAAAANAAIAAAABAAEAAAANAAMAAAABAAEAAAAOAAAAAAABAAEAAAAOAAEAAAABAAEAAAAOAAIAAAABAAEAAAAOAAMAAAABAAEAAAAPAAAAAAABAAEAAAAPAAEAAAABAAEAAAAPAAIAAAABAAEAAAAPAAMAAAABAAEAAAAQAAAAAAABAAEAAAAQAAEAAAABAAEAAAAQAAIAAAABAAEAAAAQAAMAAAABAAEAAAARAAAAAAABAAEAAAARAAEAAAABAAEAAAARAAIAAAABAAEAAAARAAMAAAABAAEAAAASAAAAAAABAAEAAAASAAEAAAABAAEAAAASAAIAAAABAAEAAAASAAMAAAABAAEAAAATAAAAAAABAAEAAAATAAEAAAABAAEAAAATAAIAAAABAAEAAAATAAMAAAABAAEAAAAUAAAAAAABAAEAAAAUAAEAAAABAAEAAAAUAAIAAAABAAEAAAAUAAMAAAABAAEAAAAVAAAAAAABAAEAAAAVAAEAAAABAAEAAAAVAAIAAAABAAEAAAAVAAMAAAABAAEAAAAWAAAAAAABAAEAAAAWAAEAAAABAAEAAAAWAAIAAAABAAEAAAAWAAMAAAABAAEAAAAXAAAAAAABAAEAAAAXAAEAAAABAAEAAAAXAAIAAAABAAEAAAAXAAMAAAABAAEAAAAYAAAAAAABAAEAAAAYAAEAAAABAAEAAAAYAAIAAAABAAEAAAAYAAMAAAABAAEAAAAZAAAAAAABAAEAAAAZAAEAAAABAAEAAAAZAAIAAAABAAEAAAAZAAMAAAABAAEAAAAaAAAAAAABAAEAAAAaAAEAAAABAAEAAAAaAAIAAAABAAEAAAAaAAMAAAABAAEAAAAbAAAAAAABAAEAAAAbAAEAAAABAAEAAAAbAAIAAAABAAEAAAAbAAMAAAABAAEAAAAcAAAAAAABAAEAAAAcAAEAAAABAAEAAAAcAAIAAAABAAEAAAAcAAMAAAABAAEAAAAdAAAAAAABAAEAAAAdAAEAAAABAAEAAAAdAAIAAAABAAEAAAAdAAMAAAABAAEAAAAeAAAAAAABAAEAAAAeAAEAAAABAAEAAAAeAAIAAAABAAEAAAAeAAMAAAABAAEAAAAfAAAAAAABAAEAAAAfAAEAAAABAAEAAAAfAAIAAAABAAEAAAAfAAMAAAABAAEAAAAAAAQAAAABAAEAAAAAAAUAAAABAAEAAAAAAAYAAAABAAEAAAAAAAcAAAABAAEAAAABAAQAAAABAAEAAAABAAUAAAABAAEAAAABAAYAAAABAAEAAAABAAcAAAABAAEAAAACAAQAAAABAAEAAAACAAUAAAABAAEAAAACAAYAAAABAAEAAAACAAcAAAABAAEAAAADAAQAAAABAAEAAAADAAUAAAABAAEAAAADAAYAAAABAAEAAAADAAcAAAABAAEAAAAEAAQAAAABAAEAAAAEAAUAAAABAAEAAAAEAAYAAAABAAEAAAAEAAcAAAABAAEAAAAFAAQAAAABAAEAAAAFAAUAAAABAAEAAAAFAAYAAAABAAEAAAAFAAcAAAABAAEAAAAGAAQAAAABAAEAAAAGAAUAAAABAAEAAAAGAAYAAAABAAEAAAAGAAcAAAABAAEAAAAHAAQAAAABAAEAAAAHAAUAAAABAAEAAAAHAAYAAAABAAEAAAAHAAcAAAABAAEAAAAIAAQAAAABAAEAAAAIAAUAAAABAAEAAAAIAAYAAAABAAEAAAAIAAcAAAABAAEAAAAJAAQAAAABAAEAAAAJAAUAAAABAAEAAAAJAAYAAAABAAEAAAAJAAcAAAABAAEAAAAKAAQAAAABAAEAAAAKAAUAAAABAAEAAAAKAAYAAAABAAEAAAAKAAcAAAABAAEAAAALAAQAAAAEAAEAAAAMAAQAAAABAAIAAAANAAQAAAABAAIAAAAOAAQAAAABAAIAAAAPAAQAAAABAAIAAAAQAAQAAAABAAIAAAARAAQAAAABAAIAAAASAAQAAAABAAIAAAATAAQAAAABAAIAAAAUAAQAAAABAAIAAAAVAAQAAAABAAIAAAAWAAQAAAADAAEAAAAXAAQAAAABAAEAAAAXAAUAAAABAAEAAAAYAAQAAAABAAEAAAAYAAUAAAABAAEAAAAZAAQAAAABAAEAAAAZAAUAAAABAAEAAAAaAAQAAAABAAEAAAAaAAUAAAABAAEAAAAbAAQAAAABAAEAAAAbAAUAAAABAAEAAAAcAAQAAAABAAEAAAAcAAUAAAABAAEAAAAdAAQAAAABAAEAAAAdAAUAAAABAAEAAAAeAAQAAAABAAEAAAAeAAUAAAABAAEAAAAfAAQAAAABAAEAAAAfAAUAAAABAAEAAAALAAUAAAACAAEAAAALAAYAAAACAAEAAAALAAcAAAACAAEAAAAWAAUAAAAAAAEAAAAWAAYAAAAAAAIAAAAXAAYAAAABAAIAAAAYAAYAAAABAAIAAAAZAAYAAAADAAEAAAAaAAYAAAABAAEAAAAaAAcAAAABAAEAAAAaAAgAAAABAAEAAAAaAAkAAAABAAEAAAAaAAoAAAABAAEAAAAaAAsAAAABAAEAAAAaAAwAAAABAAEAAAAaAA0AAAABAAEAAAAaAA4AAAABAAEAAAAaAA8AAAABAAEAAAAaABAAAAABAAEAAAAaABEAAAABAAEAAAAaABIAAAABAAEAAAAaABMAAAABAAEAAAAaABQAAAABAAEAAAAaABUAAAABAAEAAAAaABYAAAABAAEAAAAaABcAAAABAAEAAAAaABgAAAABAAEAAAAbAAYAAAABAAEAAAAbAAcAAAABAAEAAAAbAAgAAAABAAEAAAAbAAkAAAABAAEAAAAbAAoAAAABAAEAAAAbAAsAAAABAAEAAAAbAAwAAAABAAEAAAAbAA0AAAABAAEAAAAbAA4AAAABAAEAAAAbAA8AAAABAAEAAAAbABAAAAABAAEAAAAbABEAAAABAAEAAAAbABIAAAABAAEAAAAbABMAAAABAAEAAAAbABQAAAABAAEAAAAbABUAAAABAAEAAAAbABYAAAABAAEAAAAbABcAAAABAAEAAAAbABgAAAABAAEAAAAcAAYAAAABAAEAAAAcAAcAAAABAAEAAAAcAAgAAAABAAEAAAAcAAkAAAABAAEAAAAcAAoAAAABAAEAAAAcAAsAAAABAAEAAAAcAAwAAAABAAEAAAAcAA0AAAABAAEAAAAcAA4AAAABAAEAAAAcAA8AAAABAAEAAAAcABAAAAABAAEAAAAcABEAAAABAAEAAAAcABIAAAABAAEAAAAcABMAAAABAAEAAAAcABQAAAABAAEAAAAcABUAAAABAAEAAAAcABYAAAABAAEAAAAcABcAAAABAAEAAAAcABgAAAABAAEAAAAdAAYAAAABAAEAAAAdAAcAAAABAAEAAAAdAAgAAAABAAEAAAAdAAkAAAABAAEAAAAdAAoAAAABAAEAAAAdAAsAAAABAAEAAAAdAAwAAAABAAEAAAAdAA0AAAABAAEAAAAdAA4AAAABAAEAAAAdAA8AAAABAAEAAAAdABAAAAABAAEAAAAdABEAAAABAAEAAAAdABIAAAABAAEAAAAdABMAAAABAAEAAAAdABQAAAABAAEAAAAdABUAAAABAAEAAAAdABYAAAABAAEAAAAdABcAAAABAAEAAAAdABgAAAABAAEAAAAeAAYAAAABAAEAAAAeAAcAAAABAAEAAAAeAAgAAAABAAEAAAAeAAkAAAABAAEAAAAeAAoAAAABAAEAAAAeAAsAAAABAAEAAAAeAAwAAAABAAEAAAAeAA0AAAABAAEAAAAeAA4AAAABAAEAAAAeAA8AAAABAAEAAAAeABAAAAABAAEAAAAeABEAAAABAAEAAAAeABIAAAABAAEAAAAeABMAAAABAAEAAAAeABQAAAABAAEAAAAeABUAAAABAAEAAAAeABYAAAABAAEAAAAeABcAAAABAAEAAAAeABgAAAABAAEAAAAfAAYAAAABAAEAAAAfAAcAAAABAAEAAAAfAAgAAAABAAEAAAAfAAkAAAABAAEAAAAfAAoAAAABAAEAAAAfAAsAAAABAAEAAAAfAAwAAAABAAEAAAAfAA0AAAABAAEAAAAfAA4AAAABAAEAAAAfAA8AAAABAAEAAAAfABAAAAABAAEAAAAfABEAAAABAAEAAAAfABIAAAABAAEAAAAfABMAAAABAAEAAAAfABQAAAABAAEAAAAfABUAAAABAAEAAAAfABYAAAABAAEAAAAfABcAAAABAAEAAAAfABgAAAABAAEAAAAZAAcAAAAAAAEAAAAZAAgAAAAAAAEAAAAZAAkAAAAAAAEAAAAZAAoAAAAAAAEAAAAZAAsAAAAAAAEAAAAZAAwAAAAAAAEAAAAZAA0AAAAAAAEAAAAAAAgAAAABAAEAAAAAAAkAAAABAAEAAAAAAAoAAAABAAEAAAAAAAsAAAABAAEAAAAAAAwAAAABAAEAAAAAAA0AAAABAAEAAAAAAA4AAAABAAEAAAAAAA8AAAABAAEAAAAAABAAAAABAAEAAAAAABEAAAABAAEAAAAAABIAAAABAAEAAAAAABMAAAABAAEAAAAAABQAAAABAAEAAAAAABUAAAABAAEAAAAAABYAAAABAAEAAAAAABcAAAABAAEAAAAAABgAAAABAAEAAAABAAgAAAABAAEAAAABAAkAAAABAAEAAAABAAoAAAABAAEAAAABAAsAAAABAAEAAAABAAwAAAABAAEAAAABAA0AAAABAAEAAAABAA4AAAABAAEAAAABAA8AAAABAAEAAAABABAAAAABAAEAAAABABEAAAABAAEAAAABABIAAAABAAEAAAABABMAAAABAAEAAAABABQAAAABAAEAAAABABUAAAABAAEAAAABABYAAAABAAEAAAABABcAAAABAAEAAAABABgAAAABAAEAAAACAAgAAAABAAEAAAACAAkAAAABAAEAAAACAAoAAAABAAEAAAACAAsAAAABAAEAAAACAAwAAAABAAEAAAACAA0AAAABAAEAAAACAA4AAAABAAEAAAACAA8AAAABAAEAAAACABAAAAABAAEAAAACABEAAAABAAEAAAACABIAAAABAAEAAAACABMAAAABAAEAAAACABQAAAABAAEAAAACABUAAAABAAEAAAACABYAAAABAAEAAAACABcAAAABAAEAAAACABgAAAABAAEAAAADAAgAAAABAAEAAAADAAkAAAABAAEAAAADAAoAAAABAAEAAAADAAsAAAABAAEAAAADAAwAAAABAAEAAAADAA0AAAABAAEAAAADAA4AAAABAAEAAAADAA8AAAABAAEAAAADABAAAAABAAEAAAADABEAAAABAAEAAAADABIAAAABAAEAAAADABMAAAABAAEAAAADABQAAAABAAEAAAADABUAAAABAAEAAAADABYAAAABAAEAAAADABcAAAABAAEAAAADABgAAAABAAEAAAAEAAgAAAAEAAEAAAAFAAgAAAABAAIAAAAGAAgAAAABAAIAAAAHAAgAAAABAAIAAAAIAAgAAAABAAIAAAAJAAgAAAABAAIAAAAKAAgAAAABAAIAAAALAAgAAAACAAIAAAAEAAkAAAACAAEAAAAEAAoAAAACAAEAAAAEAAsAAAACAAEAAAAEAAwAAAACAAEAAAAEAA0AAAACAAEAAAAEAA4AAAACAAEAAAAEAA8AAAACAAEAAAAEABAAAAACAAEAAAAEABEAAAACAAEAAAAEABIAAAACAAEAAAAWAA4AAAAAAAAAAAAWAA8AAAAAAAEAAAAXAA4AAAABAAAAAAAXAA8AAAABAAEAAAAYAA4AAAABAAAAAAAYAA8AAAABAAEAAAAZAA4AAAADAAAAAAAZAA8AAAABAAEAAAAZABAAAAABAAEAAAAZABEAAAABAAEAAAAZABIAAAABAAEAAAAZABMAAAABAAEAAAAZABQAAAABAAEAAAAZABUAAAABAAEAAAAZABYAAAABAAEAAAAZABcAAAABAAEAAAAZABgAAAABAAEAAAAWABAAAAAAAAEAAAAXABAAAAABAAEAAAAYABAAAAABAAEAAAAYABEAAAABAAEAAAAYABIAAAABAAEAAAAYABMAAAABAAEAAAAYABQAAAABAAEAAAAYABUAAAABAAEAAAAYABYAAAABAAEAAAAYABcAAAABAAEAAAAYABgAAAABAAEAAAAWABEAAAAAAAEAAAAXABEAAAABAAEAAAAWABIAAAAAAAEAAAAXABIAAAABAAEAAAAEABMAAAAEAAAAAAAFABMAAAABAAAAAAAFABQAAAABAAEAAAAGABMAAAABAAAAAAAGABQAAAABAAEAAAAHABMAAAABAAAAAAAHABQAAAABAAEAAAAIABMAAAABAAAAAAAIABQAAAABAAEAAAAJABMAAAABAAAAAAAJABQAAAABAAEAAAAKABMAAAABAAAAAAAKABQAAAABAAEAAAALABMAAAABAAAAAAALABQAAAABAAEAAAAMABMAAAABAAAAAAAMABQAAAABAAEAAAANABMAAAABAAAAAAAOABMAAAACAAAAAAARABMAAAAAAAAAAAASABMAAAABAAAAAAATABMAAAABAAAAAAATABQAAAABAAEAAAAUABMAAAABAAAAAAAUABQAAAABAAEAAAAVABMAAAABAAAAAAAVABQAAAABAAEAAAAWABMAAAADAAAAAAAXABMAAAABAAEAAAAXABQAAAABAAEAAAAXABUAAAABAAEAAAAXABYAAAABAAEAAAAXABcAAAABAAEAAAAXABgAAAABAAEAAAAEABQAAAABAAEAAAAEABUAAAABAAEAAAAEABYAAAABAAEAAAAEABcAAAABAAEAAAAEABgAAAABAAEAAAANABQAAAABAAEAAAANABUAAAABAAEAAAANABYAAAABAAEAAAANABcAAAABAAEAAAANABgAAAABAAEAAAAOABQAAAAEAAAAAAAPABQAAAABAAAAAAAPABUAAAABAAEAAAAQABQAAAABAAAAAAAQABUAAAABAAEAAAARABQAAAADAAAAAAASABQAAAABAAEAAAASABUAAAABAAEAAAASABYAAAABAAEAAAASABcAAAABAAEAAAASABgAAAABAAEAAAAWABQAAAABAAEAAAAWABUAAAABAAEAAAAWABYAAAABAAEAAAAWABcAAAABAAEAAAAWABgAAAABAAEAAAAFABUAAAABAAEAAAAFABYAAAABAAEAAAAFABcAAAABAAEAAAAFABgAAAABAAEAAAAGABUAAAABAAEAAAAGABYAAAABAAEAAAAGABcAAAABAAEAAAAGABgAAAABAAEAAAAHABUAAAABAAEAAAAHABYAAAABAAEAAAAHABcAAAABAAEAAAAHABgAAAABAAEAAAAIABUAAAABAAEAAAAIABYAAAABAAEAAAAIABcAAAABAAEAAAAIABgAAAABAAEAAAAJABUAAAABAAEAAAAJABYAAAABAAEAAAAJABcAAAABAAEAAAAJABgAAAABAAEAAAAKABUAAAABAAEAAAAKABYAAAABAAEAAAAKABcAAAABAAEAAAAKABgAAAABAAEAAAALABUAAAABAAEAAAALABYAAAABAAEAAAALABcAAAABAAEAAAALABgAAAABAAEAAAAMABUAAAABAAEAAAAMABYAAAABAAEAAAAMABcAAAABAAEAAAAMABgAAAABAAEAAAAOABUAAAABAAEAAAAOABYAAAABAAEAAAAOABcAAAABAAEAAAAOABgAAAABAAEAAAARABUAAAABAAEAAAARABYAAAABAAEAAAARABcAAAABAAEAAAARABgAAAABAAEAAAATABUAAAABAAEAAAATABYAAAABAAEAAAATABcAAAABAAEAAAATABgAAAABAAEAAAAUABUAAAABAAEAAAAUABYAAAABAAEAAAAUABcAAAABAAEAAAAUABgAAAABAAEAAAAVABUAAAABAAEAAAAVABYAAAABAAEAAAAVABcAAAABAAEAAAAVABgAAAABAAEAAAAPABYAAAABAAEAAAAPABcAAAABAAEAAAAPABgAAAABAAEAAAAQABYAAAABAAEAAAAQABcAAAABAAEAAAAQABgAAAABAAEAAAA=")
+tile_set = SubResource("TileSet_yu3c2")
+
+[node name="layer - collision 2" type="TileMapLayer" parent="."]
+z_index = 1000
+tile_set = ExtResource("4_uppjf")
+
+[node name="layer - collision" type="TileMapLayer" parent="."]
+z_index = 1000
+tile_map_data = PackedByteArray("AAAAAAAAGQAAAAAAAAAAAAEAGQAAAAAAAAAAAAIAGQAAAAAAAAAAAAMAGQAAAAAAAAAAAAQAGQAAAAAAAAAAAAUAGQAAAAAAAAAAAAYAGQAAAAAAAAAAAAcAGQAAAAAAAAAAAAgAGQAAAAAAAAAAAAkAGQAAAAAAAAAAAAoAGQAAAAAAAAAAAAsAGQAAAAAAAAAAAAwAGQAAAAAAAAAAAA0AGQAAAAAAAAABAAAAGQAAAAAAAAABAAEAGQAAAAAAAAABAAIAGQAAAAAAAAABAAMAGQAAAAAAAAABAAQAGQAAAAAAAAABAAUAGQAAAAAAAAABAAYAGQAAAAAAAAABAAcAGQAAAAAAAAABAAgAGQAAAAAAAAABAAkAGQAAAAAAAAABAAoAGQAAAAAAAAABAAsAGQAAAAAAAAABAAwAGQAAAAAAAAABAA0AGQAAAAAAAAACAAAAGQAAAAAAAAACAAEAGQAAAAAAAAACAAIAGQAAAAAAAAACAAMAGQAAAAAAAAACAAQAGQAAAAAAAAACAAUAGQAAAAAAAAACAAYAGQAAAAAAAAACAAcAGQAAAAAAAAACAAgAGQAAAAAAAAACAAkAGQAAAAAAAAACAAoAGQAAAAAAAAACAAsAGQAAAAAAAAACAAwAGQAAAAAAAAACAA0AGQAAAAAAAAADAAAAGQAAAAAAAAADAAEAGQAAAAAAAAADAAIAGQAAAAAAAAADAAMAGQAAAAAAAAADAAQAGQAAAAAAAAADAAUAGQAAAAAAAAADAAYAGQAAAAAAAAADAAcAGQAAAAAAAAADAAgAGQAAAAAAAAADAAkAGQAAAAAAAAADAAoAGQAAAAAAAAADAAsAGQAAAAAAAAADAAwAGQAAAAAAAAADAA0AGQAAAAAAAAAEAAAAGQAAAAAAAAAEAAEAGQAAAAAAAAAEAAIAGQAAAAAAAAAEAAMAGQAAAAAAAAAEAAQAGQAAAAAAAAAEAAUAGQAAAAAAAAAEAAYAGQAAAAAAAAAEAAcAGQAAAAAAAAAEAAgAGQAAAAAAAAAEAAkAGQAAAAAAAAAEAAoAGQAAAAAAAAAEAAsAGQAAAAAAAAAEAAwAGQAAAAAAAAAEAA0AGQAAAAAAAAAFAAAAGQAAAAAAAAAFAAEAGQAAAAAAAAAFAAIAGQAAAAAAAAAFAAMAGQAAAAAAAAAFAAQAGQAAAAAAAAAFAAUAGQAAAAAAAAAFAAYAGQAAAAAAAAAFAAcAGQAAAAAAAAAFAAgAGQAAAAAAAAAFAAkAGQAAAAAAAAAFAAoAGQAAAAAAAAAFAAsAGQAAAAAAAAAFAAwAGQAAAAAAAAAFAA0AGQAAAAAAAAAGAAAAGQAAAAAAAAAGAAEAGQAAAAAAAAAGAAIAGQAAAAAAAAAGAAMAGQAAAAAAAAAGAAQAGQAAAAAAAAAGAAUAGQAAAAAAAAAGAAYAGQAAAAAAAAAGAAcAGQAAAAAAAAAGAAgAGQAAAAAAAAAGAAkAGQAAAAAAAAAGAAoAGQAAAAAAAAAGAAsAGQAAAAAAAAAGAAwAGQAAAAAAAAAGAA0AGQAAAAAAAAAHAAAAGQAAAAAAAAAHAAEAGQAAAAAAAAAHAAIAGQAAAAAAAAAHAAMAGQAAAAAAAAAHAAQAGQAAAAAAAAAHAAUAGQAAAAAAAAAHAAYAGQAAAAAAAAAHAAcAGQAAAAAAAAAHAAgAGQAAAAAAAAAHAAkAGQAAAAAAAAAHAAoAGQAAAAAAAAAHAAsAGQAAAAAAAAAHAAwAGQAAAAAAAAAHAA0AGQAAAAAAAAAIAAAAGQAAAAAAAAAIAAEAGQAAAAAAAAAIAAIAGQAAAAAAAAAIAAMAGQAAAAAAAAAIAAQAGQAAAAAAAAAIAAUAGQAAAAAAAAAIAAYAGQAAAAAAAAAIAAcAGQAAAAAAAAAIAAgAGQAAAAAAAAAIAAkAGQAAAAAAAAAIAAoAGQAAAAAAAAAIAAsAGQAAAAAAAAAIAAwAGQAAAAAAAAAIAA0AGQAAAAAAAAAJAAAAGQAAAAAAAAAJAAEAGQAAAAAAAAAJAAIAGQAAAAAAAAAJAAMAGQAAAAAAAAAJAAQAGQAAAAAAAAAJAAUAGQAAAAAAAAAJAAYAGQAAAAAAAAAJAAcAGQAAAAAAAAAJAAgAGQAAAAAAAAAJAAkAGQAAAAAAAAAJAAoAGQAAAAAAAAAJAAsAGQAAAAAAAAAJAAwAGQAAAAAAAAAJAA0AGQAAAAAAAAAKAAAAGQAAAAAAAAAKAAEAGQAAAAAAAAAKAAIAGQAAAAAAAAAKAAMAGQAAAAAAAAAKAAQAGQAAAAAAAAAKAAUAGQAAAAAAAAAKAAYAGQAAAAAAAAAKAAcAGQAAAAAAAAAKAAgAGQAAAAAAAAAKAAkAGQAAAAAAAAAKAAoAGQAAAAAAAAAKAAsAGQAAAAAAAAAKAAwAGQAAAAAAAAAKAA0AGQAAAAAAAAALAAAAGQAAAAAAAAALAAEAGQAAAAAAAAALAAIAGQAAAAAAAAALAAMAGQAAAAAAAAALAAQAGQAAAAAAAAALAAUAGQAAAAAAAAALAAYAGQAAAAAAAAALAAcAGQAAAAAAAAALAAgAGQAAAAAAAAALAAkAGQAAAAAAAAALAAoAGQAAAAAAAAALAAsAGQAAAAAAAAALAAwAGQAAAAAAAAALAA0AGQAAAAAAAAAAAA4AGQAAAAAAAAAAAA8AGQAAAAAAAAAAABAAGQAAAAAAAAAAABEAGQAAAAAAAAAAABIAGQAAAAAAAAAAABMAGQAAAAAAAAAAABQAGQAAAAAAAAAAABUAGQAAAAAAAAAAABYAGQAAAAAAAAAAABcAGQAAAAAAAAAAABgAGQAAAAAAAAABAA4AGQAAAAAAAAABAA8AGQAAAAAAAAABABAAGQAAAAAAAAABABEAGQAAAAAAAAABABIAGQAAAAAAAAABABMAGQAAAAAAAAABABQAGQAAAAAAAAABABUAGQAAAAAAAAABABYAGQAAAAAAAAABABcAGQAAAAAAAAABABgAGQAAAAAAAAACAA4AGQAAAAAAAAACAA8AGQAAAAAAAAACABAAGQAAAAAAAAACABEAGQAAAAAAAAACABIAGQAAAAAAAAACABMAGQAAAAAAAAACABQAGQAAAAAAAAACABUAGQAAAAAAAAACABYAGQAAAAAAAAACABcAGQAAAAAAAAACABgAGQAAAAAAAAADAA4AGQAAAAAAAAADAA8AGQAAAAAAAAADABAAGQAAAAAAAAADABEAGQAAAAAAAAADABIAGQAAAAAAAAADABMAGQAAAAAAAAADABQAGQAAAAAAAAADABUAGQAAAAAAAAADABYAGQAAAAAAAAADABcAGQAAAAAAAAADABgAGQAAAAAAAAAEAA4AGQAAAAAAAAAEAA8AGQAAAAAAAAAEABAAGQAAAAAAAAAEABEAGQAAAAAAAAAEABIAGQAAAAAAAAAEABMAGQAAAAAAAAAEABQAGQAAAAAAAAAEABUAGQAAAAAAAAAEABYAGQAAAAAAAAAEABcAGQAAAAAAAAAEABgAGQAAAAAAAAAFAA4AGQAAAAAAAAAFAA8AGQAAAAAAAAAFABAAGQAAAAAAAAAFABEAGQAAAAAAAAAFABIAGQAAAAAAAAAFABMAGQAAAAAAAAAFABQAGQAAAAAAAAAFABUAGQAAAAAAAAAFABYAGQAAAAAAAAAFABcAGQAAAAAAAAAFABgAGQAAAAAAAAAGAA4AGQAAAAAAAAAGAA8AGQAAAAAAAAAGABAAGQAAAAAAAAAGABEAGQAAAAAAAAAGABIAGQAAAAAAAAAGABMAGQAAAAAAAAAGABQAGQAAAAAAAAAGABUAGQAAAAAAAAAGABYAGQAAAAAAAAAGABcAGQAAAAAAAAAGABgAGQAAAAAAAAAHAA4AGQAAAAAAAAAHAA8AGQAAAAAAAAAHABAAGQAAAAAAAAAHABEAGQAAAAAAAAAHABIAGQAAAAAAAAAHABMAGQAAAAAAAAAHABQAGQAAAAAAAAAHABUAGQAAAAAAAAAHABYAGQAAAAAAAAAHABcAGQAAAAAAAAAHABgAGQAAAAAAAAAIABQAGQAAAAAAAAAIABUAGQAAAAAAAAAIABYAGQAAAAAAAAAIABcAGQAAAAAAAAAIABgAGQAAAAAAAAAJABQAGQAAAAAAAAAJABUAGQAAAAAAAAAJABYAGQAAAAAAAAAJABcAGQAAAAAAAAAJABgAGQAAAAAAAAAKABQAGQAAAAAAAAAKABUAGQAAAAAAAAAKABYAGQAAAAAAAAAKABcAGQAAAAAAAAAKABgAGQAAAAAAAAALABQAGQAAAAAAAAALABUAGQAAAAAAAAALABYAGQAAAAAAAAALABcAGQAAAAAAAAALABgAGQAAAAAAAAAMABQAGQAAAAAAAAAMABUAGQAAAAAAAAAMABYAGQAAAAAAAAAMABcAGQAAAAAAAAAMABgAGQAAAAAAAAANABQAGQAAAAAAAAANABUAGQAAAAAAAAANABYAGQAAAAAAAAANABcAGQAAAAAAAAANABgAGQAAAAAAAAAOABQAGQAAAAAAAAAOABUAGQAAAAAAAAAOABYAGQAAAAAAAAAOABcAGQAAAAAAAAAOABgAGQAAAAAAAAAMAAAAGQAAAAAAAAAMAAEAGQAAAAAAAAAMAAIAGQAAAAAAAAAMAAMAGQAAAAAAAAAMAAQAGQAAAAAAAAAMAAUAGQAAAAAAAAAMAAYAGQAAAAAAAAAMAAcAGQAAAAAAAAAMAAgAGQAAAAAAAAAMAAkAGQAAAAAAAAANAAAAGQAAAAAAAAANAAEAGQAAAAAAAAANAAIAGQAAAAAAAAANAAMAGQAAAAAAAAANAAQAGQAAAAAAAAANAAUAGQAAAAAAAAANAAYAGQAAAAAAAAANAAcAGQAAAAAAAAANAAgAGQAAAAAAAAANAAkAGQAAAAAAAAAOAAAAGQAAAAAAAAAOAAEAGQAAAAAAAAAOAAIAGQAAAAAAAAAOAAMAGQAAAAAAAAAOAAQAGQAAAAAAAAAOAAUAGQAAAAAAAAAOAAYAGQAAAAAAAAAOAAcAGQAAAAAAAAAOAAgAGQAAAAAAAAAOAAkAGQAAAAAAAAAPAAAAGQAAAAAAAAAPAAEAGQAAAAAAAAAPAAIAGQAAAAAAAAAPAAMAGQAAAAAAAAAPAAQAGQAAAAAAAAAPAAUAGQAAAAAAAAAPAAYAGQAAAAAAAAAPAAcAGQAAAAAAAAAPAAgAGQAAAAAAAAAPAAkAGQAAAAAAAAAQAAAAGQAAAAAAAAAQAAEAGQAAAAAAAAAQAAIAGQAAAAAAAAAQAAMAGQAAAAAAAAAQAAQAGQAAAAAAAAAQAAUAGQAAAAAAAAAQAAYAGQAAAAAAAAAQAAcAGQAAAAAAAAAQAAgAGQAAAAAAAAAQAAkAGQAAAAAAAAARAAAAGQAAAAAAAAARAAEAGQAAAAAAAAARAAIAGQAAAAAAAAARAAMAGQAAAAAAAAARAAQAGQAAAAAAAAARAAUAGQAAAAAAAAARAAYAGQAAAAAAAAARAAcAGQAAAAAAAAARAAgAGQAAAAAAAAARAAkAGQAAAAAAAAASAAAAGQAAAAAAAAASAAEAGQAAAAAAAAASAAIAGQAAAAAAAAASAAMAGQAAAAAAAAASAAQAGQAAAAAAAAASAAUAGQAAAAAAAAASAAYAGQAAAAAAAAASAAcAGQAAAAAAAAASAAgAGQAAAAAAAAASAAkAGQAAAAAAAAATAAAAGQAAAAAAAAATAAEAGQAAAAAAAAATAAIAGQAAAAAAAAATAAMAGQAAAAAAAAATAAQAGQAAAAAAAAATAAUAGQAAAAAAAAATAAYAGQAAAAAAAAATAAcAGQAAAAAAAAATAAgAGQAAAAAAAAATAAkAGQAAAAAAAAAUAAAAGQAAAAAAAAAUAAEAGQAAAAAAAAAUAAIAGQAAAAAAAAAUAAMAGQAAAAAAAAAUAAQAGQAAAAAAAAAUAAUAGQAAAAAAAAAUAAYAGQAAAAAAAAAUAAcAGQAAAAAAAAAUAAgAGQAAAAAAAAAUAAkAGQAAAAAAAAAVAAAAGQAAAAAAAAAVAAEAGQAAAAAAAAAVAAIAGQAAAAAAAAAVAAMAGQAAAAAAAAAVAAQAGQAAAAAAAAAVAAUAGQAAAAAAAAAVAAYAGQAAAAAAAAAVAAcAGQAAAAAAAAAVAAgAGQAAAAAAAAAVAAkAGQAAAAAAAAAPABcAGQAAAAAAAAAPABgAGQAAAAAAAAAQABcAGQAAAAAAAAAQABgAGQAAAAAAAAARABQAGQAAAAAAAAARABUAGQAAAAAAAAARABYAGQAAAAAAAAARABcAGQAAAAAAAAARABgAGQAAAAAAAAASABQAGQAAAAAAAAASABUAGQAAAAAAAAASABYAGQAAAAAAAAASABcAGQAAAAAAAAASABgAGQAAAAAAAAATABQAGQAAAAAAAAATABUAGQAAAAAAAAATABYAGQAAAAAAAAATABcAGQAAAAAAAAATABgAGQAAAAAAAAAUABQAGQAAAAAAAAAUABUAGQAAAAAAAAAUABYAGQAAAAAAAAAUABcAGQAAAAAAAAAUABgAGQAAAAAAAAAVABQAGQAAAAAAAAAVABUAGQAAAAAAAAAVABYAGQAAAAAAAAAVABcAGQAAAAAAAAAVABgAGQAAAAAAAAAWAAAAGQAAAAAAAAAWAAEAGQAAAAAAAAAWAAIAGQAAAAAAAAAWAAMAGQAAAAAAAAAWAAQAGQAAAAAAAAAWAAUAGQAAAAAAAAAWAAYAGQAAAAAAAAAWAAcAGQAAAAAAAAAWAAgAGQAAAAAAAAAWAAkAGQAAAAAAAAAWAAoAGQAAAAAAAAAWAAsAGQAAAAAAAAAXAAAAGQAAAAAAAAAXAAEAGQAAAAAAAAAXAAIAGQAAAAAAAAAXAAMAGQAAAAAAAAAXAAQAGQAAAAAAAAAXAAUAGQAAAAAAAAAXAAYAGQAAAAAAAAAXAAcAGQAAAAAAAAAXAAgAGQAAAAAAAAAXAAkAGQAAAAAAAAAXAAoAGQAAAAAAAAAXAAsAGQAAAAAAAAAYAAAAGQAAAAAAAAAYAAEAGQAAAAAAAAAYAAIAGQAAAAAAAAAYAAMAGQAAAAAAAAAYAAQAGQAAAAAAAAAYAAUAGQAAAAAAAAAYAAYAGQAAAAAAAAAYAAcAGQAAAAAAAAAYAAgAGQAAAAAAAAAYAAkAGQAAAAAAAAAYAAoAGQAAAAAAAAAYAAsAGQAAAAAAAAAZAAAAGQAAAAAAAAAZAAEAGQAAAAAAAAAZAAIAGQAAAAAAAAAZAAMAGQAAAAAAAAAZAAQAGQAAAAAAAAAZAAUAGQAAAAAAAAAZAAYAGQAAAAAAAAAZAAcAGQAAAAAAAAAZAAgAGQAAAAAAAAAZAAkAGQAAAAAAAAAZAAoAGQAAAAAAAAAZAAsAGQAAAAAAAAAaAAAAGQAAAAAAAAAaAAEAGQAAAAAAAAAaAAIAGQAAAAAAAAAaAAMAGQAAAAAAAAAaAAQAGQAAAAAAAAAaAAUAGQAAAAAAAAAaAAYAGQAAAAAAAAAaAAcAGQAAAAAAAAAaAAgAGQAAAAAAAAAaAAkAGQAAAAAAAAAaAAoAGQAAAAAAAAAaAAsAGQAAAAAAAAAbAAAAGQAAAAAAAAAbAAEAGQAAAAAAAAAbAAIAGQAAAAAAAAAbAAMAGQAAAAAAAAAbAAQAGQAAAAAAAAAbAAUAGQAAAAAAAAAbAAYAGQAAAAAAAAAbAAcAGQAAAAAAAAAbAAgAGQAAAAAAAAAbAAkAGQAAAAAAAAAbAAoAGQAAAAAAAAAbAAsAGQAAAAAAAAAcAAAAGQAAAAAAAAAcAAEAGQAAAAAAAAAcAAIAGQAAAAAAAAAcAAMAGQAAAAAAAAAcAAQAGQAAAAAAAAAcAAUAGQAAAAAAAAAcAAYAGQAAAAAAAAAcAAcAGQAAAAAAAAAcAAgAGQAAAAAAAAAcAAkAGQAAAAAAAAAcAAoAGQAAAAAAAAAcAAsAGQAAAAAAAAAdAAAAGQAAAAAAAAAdAAEAGQAAAAAAAAAdAAIAGQAAAAAAAAAdAAMAGQAAAAAAAAAdAAQAGQAAAAAAAAAdAAUAGQAAAAAAAAAdAAYAGQAAAAAAAAAdAAcAGQAAAAAAAAAdAAgAGQAAAAAAAAAdAAkAGQAAAAAAAAAdAAoAGQAAAAAAAAAdAAsAGQAAAAAAAAAeAAAAGQAAAAAAAAAeAAEAGQAAAAAAAAAeAAIAGQAAAAAAAAAeAAMAGQAAAAAAAAAeAAQAGQAAAAAAAAAeAAUAGQAAAAAAAAAeAAYAGQAAAAAAAAAeAAcAGQAAAAAAAAAeAAgAGQAAAAAAAAAeAAkAGQAAAAAAAAAeAAoAGQAAAAAAAAAeAAsAGQAAAAAAAAAfAAAAGQAAAAAAAAAfAAEAGQAAAAAAAAAfAAIAGQAAAAAAAAAfAAMAGQAAAAAAAAAfAAQAGQAAAAAAAAAfAAUAGQAAAAAAAAAfAAYAGQAAAAAAAAAfAAcAGQAAAAAAAAAfAAgAGQAAAAAAAAAfAAkAGQAAAAAAAAAfAAoAGQAAAAAAAAAfAAsAGQAAAAAAAAAWAA8AGQAAAAAAAAAWABAAGQAAAAAAAAAWABEAGQAAAAAAAAAWABIAGQAAAAAAAAAWABMAGQAAAAAAAAAWABQAGQAAAAAAAAAWABUAGQAAAAAAAAAWABYAGQAAAAAAAAAWABcAGQAAAAAAAAAWABgAGQAAAAAAAAAXAA8AGQAAAAAAAAAXABAAGQAAAAAAAAAXABEAGQAAAAAAAAAXABIAGQAAAAAAAAAXABMAGQAAAAAAAAAXABQAGQAAAAAAAAAXABUAGQAAAAAAAAAXABYAGQAAAAAAAAAXABcAGQAAAAAAAAAXABgAGQAAAAAAAAAYAA8AGQAAAAAAAAAYABAAGQAAAAAAAAAYABEAGQAAAAAAAAAYABIAGQAAAAAAAAAYABMAGQAAAAAAAAAYABQAGQAAAAAAAAAYABUAGQAAAAAAAAAYABYAGQAAAAAAAAAYABcAGQAAAAAAAAAYABgAGQAAAAAAAAAZAA8AGQAAAAAAAAAZABAAGQAAAAAAAAAZABEAGQAAAAAAAAAZABIAGQAAAAAAAAAZABMAGQAAAAAAAAAZABQAGQAAAAAAAAAZABUAGQAAAAAAAAAZABYAGQAAAAAAAAAZABcAGQAAAAAAAAAZABgAGQAAAAAAAAAaAA8AGQAAAAAAAAAaABAAGQAAAAAAAAAaABEAGQAAAAAAAAAaABIAGQAAAAAAAAAaABMAGQAAAAAAAAAaABQAGQAAAAAAAAAaABUAGQAAAAAAAAAaABYAGQAAAAAAAAAaABcAGQAAAAAAAAAaABgAGQAAAAAAAAAbAA8AGQAAAAAAAAAbABAAGQAAAAAAAAAbABEAGQAAAAAAAAAbABIAGQAAAAAAAAAbABMAGQAAAAAAAAAbABQAGQAAAAAAAAAbABUAGQAAAAAAAAAbABYAGQAAAAAAAAAbABcAGQAAAAAAAAAbABgAGQAAAAAAAAAcAA8AGQAAAAAAAAAcABAAGQAAAAAAAAAcABEAGQAAAAAAAAAcABIAGQAAAAAAAAAcABMAGQAAAAAAAAAcABQAGQAAAAAAAAAcABUAGQAAAAAAAAAcABYAGQAAAAAAAAAcABcAGQAAAAAAAAAcABgAGQAAAAAAAAAdAA8AGQAAAAAAAAAdABAAGQAAAAAAAAAdABEAGQAAAAAAAAAdABIAGQAAAAAAAAAdABMAGQAAAAAAAAAdABQAGQAAAAAAAAAdABUAGQAAAAAAAAAdABYAGQAAAAAAAAAdABcAGQAAAAAAAAAdABgAGQAAAAAAAAAeAA8AGQAAAAAAAAAeABAAGQAAAAAAAAAeABEAGQAAAAAAAAAeABIAGQAAAAAAAAAeABMAGQAAAAAAAAAeABQAGQAAAAAAAAAeABUAGQAAAAAAAAAeABYAGQAAAAAAAAAeABcAGQAAAAAAAAAeABgAGQAAAAAAAAAfAA8AGQAAAAAAAAAfABAAGQAAAAAAAAAfABEAGQAAAAAAAAAfABIAGQAAAAAAAAAfABMAGQAAAAAAAAAfABQAGQAAAAAAAAAfABUAGQAAAAAAAAAfABYAGQAAAAAAAAAfABcAGQAAAAAAAAAfABgAGQAAAAAAAAAZAAwAGQAAAAAAAAAZAA0AGQAAAAAAAAAZAA4AGQAAAAAAAAAaAAwAGQAAAAAAAAAaAA0AGQAAAAAAAAAaAA4AGQAAAAAAAAAbAAwAGQAAAAAAAAAbAA0AGQAAAAAAAAAbAA4AGQAAAAAAAAAcAAwAGQAAAAAAAAAcAA0AGQAAAAAAAAAcAA4AGQAAAAAAAAAdAAwAGQAAAAAAAAAdAA0AGQAAAAAAAAAdAA4AGQAAAAAAAAAeAAwAGQAAAAAAAAAeAA0AGQAAAAAAAAAeAA4AGQAAAAAAAAAfAAwAGQAAAAAAAAAfAA0AGQAAAAAAAAAfAA4AGQAAAAAAAAA=")
+tile_set = ExtResource("4_uppjf")
+
+[node name="o_doorlight_down" type="AnimatedSprite2D" parent="." instance=ExtResource("5_g81so")]
+z_index = -10
+position = Vector2(240, 304)
+sprite_frames = SubResource("SpriteFrames_fsjw5")
+animation = &"debug_icons"
+frame = 1
+centered = false
+script = ExtResource("12_ns0on")
+editor_frame = 1
+running_anim = "s_doorlight_ud"
+flip_v_running_anim = true
+debug_door_exit_marker_pos = Vector2(16, -12)
+door_exit_marker_global_pos = Vector2(16, -12)
+teleport_string = "@SubViewport@9101,16,-12"
+debug_teleport_create_o_hoopz = false
+teleport_destination = "r_sw1_crossroads01, 192, 200);
+"
+teleport_create_o_hoopz = false
+metadata/code = "RoomXY(r_sw1_crossroads01, 192, 200);
+"
+metadata/inst_name = "inst_F16AEAE8"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open01" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(144, 243)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000015"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open02" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(128, 275)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000016"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open03" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(96, 307)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000017"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open04" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(112, 315)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000018"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open05" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(320, 299)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000019"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open06" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(304, 307)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000020"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open07" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(320, 315)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000021"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open08" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(336, 283)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000024"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open09" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(136, 291)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000025"
+metadata/scale = Vector2(1, 1)
+
+[node name="P12 - o_room_interior" type="Marker2D" parent="."]
+position = Vector2(-120, 32)
+metadata/code = ""
+metadata/inst_name = "inst_8B1F19F0"
+metadata/scale = Vector2(1, 1)
+
+[node name="P13 - o_mg_escort_control01" type="Marker2D" parent="."]
+position = Vector2(-120, 64)
+metadata/code = ""
+metadata/inst_name = "inst_B3418586"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_gunsalesman" type="CharacterBody2D" parent="." node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol") instance=ExtResource("16_ec3oq")]
+position = Vector2(176, 240)
+script = ExtResource("17_7aiqm")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_8hl48")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+metadata/code = ""
+metadata/inst_name = "inst_C85323B1"
+metadata/scale = Vector2(1, 1)
+
+[node name="P15 - o_room_pacify" type="Marker2D" parent="."]
+position = Vector2(-120, 0)
+metadata/code = ""
+metadata/inst_name = "inst_F198A765"
+metadata/scale = Vector2(1, 1)
+
+[node name="P16 - o_sw1_garlics01" type="Marker2D" parent="."]
+position = Vector2(288, 272)
+metadata/code = ""
+metadata/inst_name = "inst_19A11D6E"
+metadata/scale = Vector2(1, 1)
+
+[node name="P17 - o_respawn_pile01" type="Marker2D" parent="."]
+position = Vector2(296, 188)
+metadata/code = ""
+metadata/inst_name = "inst_01F5FCF2"
+metadata/scale = Vector2(1, 1)
+
+[node name="P18 - o_room_cutscene" type="Marker2D" parent="."]
+position = Vector2(-120, 96)
+metadata/code = "if Quest(\"hoopzGetup\") > 0 then dsl_hoopz_wakeup01();"
+metadata/inst_name = "inst_BC550C65"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_crate_wooden01" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("19_yj1k5")]
+position = Vector2(384, 192)
+sprite_frames = SubResource("SpriteFrames_hgxuw")
+frame = 1
+centered = false
+offset = Vector2(-16, -16)
+script = ExtResource("15_mxeee")
+EnvCol = NodePath("StaticBody2D")
+shape = 1
+metadata/code = ""
+metadata/inst_name = "inst_00000011"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_crate_wooden02" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("19_yj1k5")]
+position = Vector2(384, 208)
+sprite_frames = SubResource("SpriteFrames_hgxuw")
+centered = false
+offset = Vector2(-16, -16)
+script = ExtResource("15_mxeee")
+EnvCol = NodePath("StaticBody2D")
+shape = 1
+metadata/code = ""
+metadata/inst_name = "inst_00000012"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open10" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(360, 235)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000013"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_drum_open11" type="AnimatedSprite2D" parent="." instance=ExtResource("13_pssl6")]
+position = Vector2(344, 243)
+sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
+centered = false
+offset = Vector2(-8, -22)
+script = ExtResource("15_mxeee")
+metadata/code = ""
+metadata/inst_name = "inst_00000014"
+metadata/scale = Vector2(1, 1)
+
+[node name="o_cinema0" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(216, 168)
+script = ExtResource("21_bj7vo")
+metadata/code = "/// Put this here just so hoopz wake up script wont crash the game //
+/// An unfortunate concession but it has to be made //
+"
+metadata/inst_name = "inst_F3EF9FA3"
+metadata/scale = Vector2(1, 1)
+
+[node name="P31 - o_room_unbound" type="Marker2D" parent="."]
+position = Vector2(-120, 128)
+metadata/code = ""
+metadata/inst_name = "inst_2FBA888C"
+metadata/scale = Vector2(1, 1)
