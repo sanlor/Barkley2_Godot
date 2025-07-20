@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3 uid="uid://bki13chh3urwf"]
+
+[ext_resource type="Texture2D" uid="uid://cswxlox6xwwkd" path="res://barkley2/assets/b2_original/images/merged/s_stageHazard_steamSpawn.png" id="1_luciq"]
+[ext_resource type="Script" uid="uid://bu7cqwvhs4ekw" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stage_hazard_steam_spawn.gd" id="2_fcyxt"]
+[ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="2_yhpq6"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_g1b8r"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_vytq7"]
+_data = [Vector2(0, 1), 0.0, 0.15173493, 0, 0, Vector2(0.8976898, 0.22721785), -2.7575355, -2.7575355, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0h61o"]
+curve = SubResource("Curve_vytq7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jdccg"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 6.0
+direction = Vector3(0, 1, 0)
+spread = 5.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, -48, 0)
+color = Color(1.353256, 1.353256, 1.353256, 1)
+alpha_curve = SubResource("CurveTexture_0h61o")
+anim_speed_min = 2.0
+anim_speed_max = 10.0
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.5
+collision_use_scale = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4s8d0"]
+size = Vector2(20, 121)
+
+[node name="o_stageHazard_steamSpawn" type="Sprite2D"]
+texture = ExtResource("1_luciq")
+script = ExtResource("2_fcyxt")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+max_distance = 300.0
+bus = &"Audio"
+
+[node name="steam_emission" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="damage_cooldown" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_g1b8r")
+position = Vector2(0, -8)
+emitting = false
+amount = 256
+texture = ExtResource("2_yhpq6")
+lifetime = 2.5
+one_shot = true
+explosiveness = 0.15
+process_material = SubResource("ParticleProcessMaterial_jdccg")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 50.5)
+shape = SubResource("RectangleShape2D_4s8d0")
+
+[connection signal="timeout" from="steam_emission" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="damage_cooldown" to="." method="_on_damage_cooldown_timeout"]
+[connection signal="finished" from="GPUParticles2D" to="." method="_on_gpu_particles_2d_finished"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

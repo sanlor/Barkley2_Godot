@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://thle60ca12ly"]
+
+[ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="1_lturf"]
+[ext_resource type="Script" uid="uid://cfc8dinflygy0" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch_01.gd" id="2_lturf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h1jm"]
+atlas = ExtResource("1_lturf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ko22n"]
+atlas = ExtResource("1_lturf")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_os02d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h1jm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ko22n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ko22n")
+}],
+"loop": true,
+"name": &"flipped",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ol2cj"]
+radius = 14.0
+
+[node name="o_sewer_switch01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_os02d")
+animation = &"flipped"
+centered = false
+script = ExtResource("2_lturf")
+mouse_detection_area = NodePath("Area2D")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "0",
+"height": "16",
+"name": "s_sewer_switch01",
+"width": "16",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ol2cj")

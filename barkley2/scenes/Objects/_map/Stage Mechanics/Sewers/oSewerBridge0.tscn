@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://b606vfruixvcu"]
+
+[ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="1_klsim"]
+[ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="2_lp73p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp73p"]
+atlas = ExtResource("1_klsim")
+region = Rect2(98, 0, 49, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b12q8"]
+size = Vector2(32, 80)
+
+[node name="oSewerBridge0" type="TextureRect"]
+clip_contents = true
+offset_top = 10.0
+offset_right = 49.0
+offset_bottom = 88.0
+texture = SubResource("AtlasTexture_lp73p")
+expand_mode = 1
+stretch_mode = 2
+script = ExtResource("2_lp73p")
+
+[node name="blocker" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="blocker"]
+position = Vector2(24, 39)
+shape = SubResource("RectangleShape2D_b12q8")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=16 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="Script" uid="uid://h3801n3p6aiv" path="res://barkley2/scenes/Player/o_hoopz_normal.gd" id="1_dvmm0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_vnb8r"]
@@ -16,6 +16,9 @@
 friction = 0.25
 bounce = 0.25
 absorbent = true
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
+polygon = PackedVector2Array(-10, -7, -6, -13, 2, -15, 9, -11, 10, -5, 4, 1, -2, 2, -8, -2)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
@@ -44,6 +47,9 @@ hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_ufjxn")
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)

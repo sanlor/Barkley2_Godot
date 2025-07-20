@@ -1,0 +1,220 @@
+[gd_scene load_steps=12 format=3 uid="uid://dtm1j3m65jgc"]
+
+[ext_resource type="Script" uid="uid://dxeu22gyj2ilo" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_baldomero01.gd" id="1_17f7c"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_assdv"]
+[ext_resource type="Texture2D" uid="uid://c25osyipxp6wj" path="res://barkley2/assets/b2_original/images/merged/s_baldomero01.png" id="2_fg0mk"]
+
+[sub_resource type="Resource" id="Resource_n6hw7"]
+script = ExtResource("2_assdv")
+original_script = "EVENT  | o_baldomero01 | 10 // Reset the fake death timer
+IF baldoState == 5 | GOTO | BALDO_05
+IF baldoState == 4 | GOTO | BALDO_04
+IF baldoState == 3 | GOTO | BALDO_03
+IF baldoState == 2 | GOTO | BALDO_02
+IF baldoState == 1 | GOTO | BALDO_01
+IF baldoState == 0 | GOTO | BALDO_00
+
+BALDO_05
+DIALOG | ??? = s_port_baldomero | ...
+
+BALDO_04
+DIALOG | Augustine = s_port_baldomero | ...
+
+BALDO_03
+DIALOG | P_NAME = s_port_hoopzAngry | ...
+
+BALDO_02
+DIALOG | P_NAME | Er, hello?
+WAIT   | 0.3
+DIALOG | P_NAME = s_port_hoopzAngry | ._._._ what a weirdo.
+QUEST  | baldoState = 3
+
+BALDO_01
+DIALOG | P_NAME | (I can't see his face but his skin looks like a wet marshmallow... This is weird, do really I have to examine him?)
+CHOICE | Rummage the oddbody?
+REPLY  | RUMMAGEFORK | Rummage.
+REPLY  | RUMMAGENO | Have some decency.
+
+RUMMAGEFORK
+IF baldoLetterDropped == 1 | GOTO | RUMMAGENONE
+GOTO | RUMMAGEYES
+
+RUMMAGENONE
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_SLOW
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_cinema10
+WAIT   | 0.5
+USEAT  | o_baldomero01
+WAIT   | 0.5
+DIALOG | P_NAME | Other than his gooped up clothes, there's nothing on him. I guess I defiled this corpse for no good reason...
+
+RUMMAGEYES
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_SLOW
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_cinema10
+WAIT   | 0.5
+USEAT  | o_baldomero01
+WAIT   | 0.5
+DIALOG | P_NAME | (I don't know what, but something's wrong with this guy and he gives me the creeps... wait, what's this? A piece of paper?)
+WAIT   | 0.25
+DIALOG | P_NAME | Hmm... nothing on it. Totally blank... (Is it even worth taking?)
+QUEST  | baldoState = 2
+GOTO   | PAPERCHOICE
+
+RUMMAGENO
+DIALOG | P_NAME | I think I should leave this weirdo alone.
+GOTO   | END
+
+PAPERCHOICE
+CHOICE | Take the Blank Paper?
+REPLY  | TAKEYES | Take it.
+REPLY  | TAKENO | Leave it.
+
+TAKEYES
+DIALOG | P_NAME | Hey, um... if you can hear me, I hope you don't mind that I take this. You sorta seem like you're dead. I'm really sorry if you're not... and if you are too, I guess. Sorry.
+NOTIFY | Got the piece of Blank Paper!
+NOTE   | take | Blank Paper
+WAIT   | 0.2
+DIALOG | P_NAME | Well..._ I'll be going now...
+QUEST  | baldoTimerAllow = 1
+QUEST  | baldoBlank = 1
+GOTO   | END
+
+TAKENO
+DIALOG | P_NAME | I'll just leave this here. Something about this whole thing weirds me out.
+GOTO   | END
+
+BALDO_00
+DIALOG | P_NAME | Hey, what are you doing all the way down here?
+WAIT   | 0.3
+DIALOG | P_NAME | Are you awake?
+WAIT   | 0.3
+DIALOG | P_NAME | Are you alive?
+WAIT   | 0.3
+DIALOG | P_NAME | Okay, well... I don't feel comfortable here, so I'm going to go. I'm leaving now, okay?
+WAIT   | 0.3
+DIALOG | P_NAME = s_port_hoopzAngry | (Is he just laying there, lying about being dead?)
+QUEST  | baldoState = 1
+GOTO   | END
+
+END
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_assdv"]
+atlas = ExtResource("2_fg0mk")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6hw7"]
+atlas = ExtResource("2_fg0mk")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4uxg"]
+atlas = ExtResource("2_fg0mk")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uy462"]
+atlas = ExtResource("2_fg0mk")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wupos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_assdv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6hw7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4uxg")
+}],
+"loop": true,
+"name": &"playDead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uy462")
+}],
+"loop": true,
+"name": &"standing",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t4uxg"]
+radius = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukbb6"]
+size = Vector2(20, 36)
+
+[node name="o_baldomero01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_17f7c")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_n6hw7")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="fake_dead_timer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_wupos")
+animation = &"standing"
+centered = false
+offset = Vector2(-23, -47)
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "4",
+"bbox_right": "28",
+"bbox_top": "32",
+"frames": ["images\\s_baldomero01_0.png", "images\\s_baldomero01_1.png"],
+"height": "64",
+"name": "s_baldomero01",
+"width": "48",
+"xorig": "23",
+"yorigin": "47"
+}
+metadata/standing = {
+"bbox_bottom": "48",
+"bbox_left": "4",
+"bbox_right": "28",
+"bbox_top": "32",
+"frames": ["images\\s_baldomero01_0.png", "images\\s_baldomero01_1.png"],
+"height": "64",
+"name": "s_baldomero01",
+"width": "48",
+"xorig": "23",
+"yorigin": "47"
+}
+metadata/playDead = {
+"bbox_bottom": "48",
+"bbox_left": "4",
+"bbox_right": "28",
+"bbox_top": "32",
+"frames": ["images\\s_baldomero01_0.png", "images\\s_baldomero01_1.png"],
+"height": "64",
+"name": "s_baldomero01",
+"width": "48",
+"xorig": "23",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_t4uxg")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_ukbb6")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[connection signal="timeout" from="fake_dead_timer" to="." method="_on_fake_dead_timer_timeout"]

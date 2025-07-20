@@ -14,6 +14,7 @@ class_name B2_EnvironInteractive
 @export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
+
 ## Mouse setup
 var is_mouse_hovering 	:= false
 var is_player_near 		:= false

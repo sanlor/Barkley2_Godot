@@ -386,6 +386,7 @@ func finish_loading_room_scene( room_name ) -> void:
 	## Room scene not valid, load debug room.
 	if not room_scene:
 		push_error( "B2_RoomXY: Room %s not indexed." % room_name )
+		room_index_dirty.emit()
 		room_is_invalid = true
 		this_room_x 	= 0
 		this_room_y 	= 0

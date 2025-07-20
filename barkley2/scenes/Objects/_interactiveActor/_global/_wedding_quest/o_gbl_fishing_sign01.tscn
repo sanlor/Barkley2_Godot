@@ -1,0 +1,102 @@
+[gd_scene load_steps=9 format=3 uid="uid://ijva30bbwbd6"]
+
+[ext_resource type="Texture2D" uid="uid://b1ci2rn0xibu3" path="res://barkley2/assets/b2_original/images/merged/s_gbl_fishing_sign01.png" id="1_gumwq"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_u5072"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_u5072"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jxwy"]
+atlas = ExtResource("1_gumwq")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_meo5g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jxwy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_2jxwy"]
+script = ExtResource("3_u5072")
+original_script = "QUEST | fishingHaveLure = 0
+QUEST | fishingHavePole = 0
+IF @Fishing Pole@ >= 1           | QUEST | fishingHavePole = 1
+IF @F-Lure Bayou Goopster@ >= 1  | QUEST | fishingHaveLure = 1
+IF @F-Lure Devil's Drifter@ >= 1 | QUEST | fishingHaveLure = 1
+IF @F-Lure Ladybug@ >= 1         | QUEST | fishingHaveLure = 1
+IF @F-Lure Tiger Tom@ >= 1       | QUEST | fishingHaveLure = 1
+IF @F-Lure Daverdale@ >= 1       | QUEST | fishingHaveLure = 1
+IF @F-Lure Dread Wonthy@ >= 1    | QUEST | fishingHaveLure = 1
+IF fishingHaveLure == 0 | IF fishingHavePole == 0 | GOTO | NO_LURE_OR_POLE
+IF fishingHaveLure == 0 | GOTO | NO_LURE
+IF fishingHavePole == 0 | GOTO | NO_POLE
+GOTO | FISH
+
+NO_LURE_OR_POLE
+DIALOG | P_NAME | Hmm, this looks like a good fishing spot. If only I had both a `kw`Fishing Pole`rt` and a `kw`Fishing Lure`rt`.
+
+NO_LURE
+DIALOG | P_NAME | Hmm, this looks like a good fishing spot. If only I had a `kw`Fishing Lure`rt`.
+
+NO_POLE
+DIALOG | P_NAME | Hmm, this looks like a good fishing spot. If only I had a `kw`Fishing Pole`rt`.
+
+FISH
+CHOICE | Go fishing?
+REPLY  | YES | Yup...
+REPLY  | NO  | Nope...
+
+YES
+FADE | 1 | 1
+WAIT | 1
+IF room == r_sw1_utility01      | Teleport | r_fis_sewers01    | 280 | 456 | 1
+IF room == r_sw2_hermitPass01   | Teleport | r_fis_sewers02    | 280 | 456 | 1
+IF room == r_wst_wadingRace01   | Teleport | r_fis_wasteland01 | 280 | 456 | 1
+IF room == r_swp_beach01        | Teleport | r_fis_swamps01    | 280 | 456 | 1
+IF room == r_far_nexus01        | Teleport | r_fis_nexus01     | 280 | 456 | 1
+IF room == r_ice_dojoOutdoors01 | Teleport | r_fis_ice01       | 280 | 456 | 1
+IF room == r_chu_pool01         | Teleport | r_fis_cuchu01     | 280 | 456 | 1
+IF room == r_min_entrance01     | Teleport | r_fis_mines01     | 280 | 456 | 1
+
+NO 
+LOOK | o_cts_hoopz | NORTH"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_meo5g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dvsj"]
+size = Vector2(33, 40)
+
+[node name="o_gbl_fishing_sign01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_meo5g")
+centered = false
+offset = Vector2(-24, -45)
+script = ExtResource("2_u5072")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_2jxwy")
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "8",
+"bbox_right": "38",
+"bbox_top": "7",
+"height": "48",
+"name": "s_gbl_fishing_sign01",
+"width": "48",
+"xorig": "24",
+"yorigin": "45"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_meo5g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, -18)
+shape = SubResource("RectangleShape2D_2dvsj")

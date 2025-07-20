@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://bcpo78nvqv45a"]
+
+[ext_resource type="Texture2D" uid="uid://b7dlmxjx5n1q" path="res://barkley2/assets/b2_original/images/merged/s_machine_coolingunit01.png" id="1_gf8tp"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_axtgy"]
+[ext_resource type="AudioStream" uid="uid://b8bby5ly8683b" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_coolingunit.ogg" id="3_axtgy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ickex"]
+atlas = ExtResource("1_gf8tp")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyxjo"]
+atlas = ExtResource("1_gf8tp")
+region = Rect2(64, 0, 64, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs36u"]
+atlas = ExtResource("1_gf8tp")
+region = Rect2(128, 0, 64, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnmav"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ickex")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xyxjo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs36u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ickex"]
+size = Vector2(64, 31)
+
+[node name="o_machine_coolingunit01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_qnmav")
+frame = 2
+centered = false
+offset = Vector2(0, -47)
+script = ExtResource("2_axtgy")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "17",
+"height": "48",
+"name": "s_machine_coolingunit01",
+"width": "64",
+"xorig": "0",
+"yorigin": "47"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(32, -15.5)
+shape = SubResource("RectangleShape2D_ickex")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_axtgy")
+autoplay = true
+max_distance = 200.0
+bus = &"Audio"

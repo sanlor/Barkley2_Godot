@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhu50csdy7ook"]
+
+[ext_resource type="Texture2D" uid="uid://cvmurdsjjl1af" path="res://barkley2/assets/b2_original/images/merged/s_gbl_note01.png" id="1_v7b33"]
+[ext_resource type="Script" uid="uid://c3df17x0ckhby" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_baldo_letter_01.gd" id="2_x3bxe"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_7okw4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7okw4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_v7b33")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_upogu"]
+script = ExtResource("3_7okw4")
+original_script = "USEAT  | o_baldoLetter01
+EVENT  | o_baldoLetter01 | 0
+DIALOG | P_NAME | Let's see... /'To whoever finds this note: forget about me, and forget you saw this, my last missive to a cruel world. This isn't what I expected, and certainly not what I asked for. This is it... the end! I mean it! No more living from this point on. I'm all done, it's over, forever! That's it./' 
+DIALOG | P_NAME | (Yikes...)
+NOTE   | take | Suicide Note
+NOTIFY | Picked up the Suicide Note
+QUEST  | baldoSuicideNote = 1
+QUEST  | baldoTimerAllow = 1
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_SLOW
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_baldomero01
+WAIT   | 0.5
+USEAT  | o_baldomero01
+WAIT   | 0.5
+DIALOG | P_NAME | Look, mister. It's pretty dangerous down here, I don't think you should just by lying on the floor like that...
+WAIT   | 0.3
+DIALOG | P_NAME = s_port_hoopzAngry | Alright, suit yourself.
+IF gelasioState == 2 | GOTO | AUGIEREALIZE
+
+AUGIEREALIZE
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_SLOW
+WAIT   | 0
+DIALOG | P_NAME | Wait a moment... that Augustine character was supposed to be lost in the sewers...
+WAIT   | 0.2
+LOOKAT | o_cts_hoopz | o_baldomero01
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_baldomero01
+DIALOG | P_NAME | (Could that be him...? Maybe I should report to Gelasio!)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="Animation" id="Animation_0tpqk"]
+resource_name = "float"
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Vector2(0, -12), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.36, 0.65, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.12217305, 0.0418879, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cod0l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5x78m"]
+_data = {
+&"RESET": SubResource("Animation_cod0l"),
+&"float": SubResource("Animation_0tpqk")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u0yi0"]
+radius = 13.0
+
+[node name="o_baldoLetter01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_7okw4")
+offset = Vector2(0, -16)
+script = ExtResource("2_x3bxe")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_upogu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_5x78m")
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_u0yi0")

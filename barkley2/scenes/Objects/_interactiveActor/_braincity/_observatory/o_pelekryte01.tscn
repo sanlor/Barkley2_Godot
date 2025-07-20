@@ -1,0 +1,84 @@
+[gd_scene load_steps=9 format=3 uid="uid://cx2bfqr3jw6c4"]
+
+[ext_resource type="Script" uid="uid://chtru86qauj0a" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_observatory/o_pelekryte01.gd" id="1_6rh6p"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4dd4h"]
+[ext_resource type="Texture2D" uid="uid://dipg4u7uhlps6" path="res://barkley2/assets/b2_original/images/merged/s_pelekryte01.png" id="2_emwpi"]
+
+[sub_resource type="Resource" id="Resource_2s55h"]
+script = ExtResource("2_4dd4h")
+original_script = "IF room == r_sw1_fishersCreek01 | DIALOG | Dr. Pelekryte | Alright, our goal is to reach the shecond floor of the shewersh and then find the shervice tunnel. Let's get moving.
+IF room == r_sw1_joad01         | DIALOG | Dr. Pelekryte | Yipesh... That poor dwarf there ish exactly what we'll end up like if we don't get out of Tir na N0g. Come on, let'sh go. The tunnel ish on the floor below ush.
+IF room == r_sw1_utility01      | DIALOG | Dr. Pelekryte | Have you gathered your bearingsh yet? If sho then we'd better get moving. We need to find our way to the floor below.
+IF room == r_sw1_tnnShortcut01  | DIALOG | Dr. Pelekryte | It looksh like this ladder leadsh back to Tir na Nog. But that ish not our goal. Our goal ish to get out of Tir na Nog.
+IF room == r_sw1_plantation02   | DIALOG | Dr. Pelekryte | Ah, it ish good to shee all theshe dwarfsh finding employment. Perhapsh the duergarsh aren't all bad...
+IF room == r_sw1_baldomero01    | DIALOG | Dr. Pelekryte | I shpy with my little eye shomething that ish amissh...
+
+IF room == r_sw2_utility01      | DIALOG | Dr. Pelekryte | Hmm, I'm shure the shervice tunnel ish shomewhere nearby.
+IF room == r_sw2_start01        | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. The firsht floor ish done and dushted.
+IF room == r_sw2_eastExit01     | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. We no longer need to go back to the firsht floor.
+IF room == r_sw2_end01          | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here, sho let'sh not go back to the firsht floor.
+IF room == r_sw2_hermitPass01   | GOTO | UNDERSEWER
+
+UNDERSEWER
+DIALOG | Dr. Pelekryte | Even here, in the darkesht of depthsh, nature findsh a way... 
+DIALOG | P_NAME        | Apparently so.
+DIALOG | Dr. Pelekryte | Youngshter, thish sheemsh like a nice place to resht your feet for a moment. *Shniff* *Shniff* Hmm... That shmell. It shmellsh like gun'sh-fish. I think there might be a fishing shpot in here.
+DIALOG | P_NAME        | Hmm..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dd4h"]
+atlas = ExtResource("2_emwpi")
+region = Rect2(0, 0, 37, 57)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2s55h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dd4h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_86fvw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_86fvw"]
+size = Vector2(20, 36)
+
+[node name="o_pelekryte01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_6rh6p")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_2s55h")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_2s55h")
+centered = false
+offset = Vector2(-18, -56)
+metadata/default = {
+"bbox_bottom": "55",
+"bbox_left": "1",
+"bbox_right": "35",
+"bbox_top": "1",
+"frames": ["images\\s_pelekryte01_0.png"],
+"height": "57",
+"name": "s_pelekryte01",
+"width": "37",
+"xorig": "18",
+"yorigin": "56"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_86fvw")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_86fvw")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
