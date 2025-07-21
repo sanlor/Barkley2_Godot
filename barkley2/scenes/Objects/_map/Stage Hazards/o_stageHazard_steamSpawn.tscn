@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bki13chh3urwf"]
+[gd_scene load_steps=10 format=3 uid="uid://bki13chh3urwf"]
 
 [ext_resource type="Texture2D" uid="uid://cswxlox6xwwkd" path="res://barkley2/assets/b2_original/images/merged/s_stageHazard_steamSpawn.png" id="1_luciq"]
 [ext_resource type="Script" uid="uid://bu7cqwvhs4ekw" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stage_hazard_steam_spawn.gd" id="2_fcyxt"]
 [ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="2_yhpq6"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="4_fcyxt"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_g1b8r"]
 particles_animation = true
@@ -18,6 +19,7 @@ point_count = 3
 curve = SubResource("Curve_vytq7")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jdccg"]
+lifetime_randomness = 0.25
 particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 6.0
@@ -25,7 +27,10 @@ direction = Vector3(0, 1, 0)
 spread = 5.0
 initial_velocity_min = 75.0
 initial_velocity_max = 100.0
-gravity = Vector3(0, -48, 0)
+gravity = Vector3(0, 0, 0)
+damping_min = 20.0
+damping_max = 35.0
+scale_max = 3.0
 color = Color(1.353256, 1.353256, 1.353256, 1)
 alpha_curve = SubResource("CurveTexture_0h61o")
 anim_speed_min = 2.0
@@ -70,6 +75,13 @@ process_material = SubResource("ParticleProcessMaterial_jdccg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 50.5)
 shape = SubResource("RectangleShape2D_4s8d0")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("4_fcyxt")
+title_color = Color(0.48333335, 1, 0, 1)
+notes = "Correct damage to Hoopz"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
 
 [connection signal="timeout" from="steam_emission" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="damage_cooldown" to="." method="_on_damage_cooldown_timeout"]

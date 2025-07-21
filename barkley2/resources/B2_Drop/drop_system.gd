@@ -32,6 +32,9 @@ const settingBossDropWildAmmo = 50; 			# Wild Ammo - Either FULL for one gun, or
 ## scr_combat_weapons_buildName has cryptic names for dropped guns
 const settingAmmoRandom = 50; 				# Percent chance it will give 100% to current gun
 
+static func create_drops_from_db( db_name : String, pos : Vector2, dir : Vector2 ) -> void:
+	pass
+
 static func create_drops( enemy_data : B2_EnemyData, pos : Vector2, is_a_boss : bool ) -> void:
 	if B2_Playerdata.Quest("dropEnabled") == 0:
 		## Weapon drop disabled.

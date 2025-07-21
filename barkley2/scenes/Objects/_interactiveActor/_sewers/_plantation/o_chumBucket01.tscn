@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://bjprrm1r6gwyb"]
+
+[ext_resource type="Texture2D" uid="uid://o8oksqxx66nv" path="res://barkley2/assets/b2_original/images/merged/s_chumbucket01.png" id="1_rqqis"]
+[ext_resource type="Script" uid="uid://ckdd10p1a6gc" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_chum_bucket_01.gd" id="2_fvxq0"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_32qk1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32qk1"]
+atlas = ExtResource("1_rqqis")
+region = Rect2(0, 0, 22, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nt8hd"]
+atlas = ExtResource("1_rqqis")
+region = Rect2(22, 0, 22, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dev4s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32qk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nt8hd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_nt8hd"]
+script = ExtResource("3_32qk1")
+original_script = "IF chumBucket == 1 | GOTO | BUCKET_EMPTY
+IF chumBucket == 0 | GOTO | BUCKET_FULL
+
+BUCKET_FULL
+DIALOG | P_NAME | Yikes... this reeks to high heaven.
+
+BUCKET_EMPTY
+DIALOG | P_NAME | Just an empty bucket. Smells really bad."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cr1au"]
+radius = 8.8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dev4s"]
+size = Vector2(22, 30)
+
+[node name="o_chumBucket01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_dev4s")
+frame = 1
+centered = false
+offset = Vector2(-11, -25)
+script = ExtResource("2_fvxq0")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_nt8hd")
+metadata/default = {
+"bbox_bottom": "26",
+"bbox_left": "0",
+"bbox_right": "21",
+"bbox_top": "0",
+"height": "27",
+"name": "s_chumBucket01",
+"width": "22",
+"xorig": "11",
+"yorigin": "25"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_cr1au")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -13)
+shape = SubResource("RectangleShape2D_dev4s")

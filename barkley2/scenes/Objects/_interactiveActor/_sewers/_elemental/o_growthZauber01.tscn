@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://diu511yumdwwx"]
+
+[ext_resource type="Texture2D" uid="uid://cmkh0x3j1frej" path="res://barkley2/assets/b2_original/images/merged/s_growth_zauber01.png" id="1_v0ydg"]
+[ext_resource type="Script" uid="uid://coghxr5euwrxj" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_growth_zauber_01.gd" id="2_26kof"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_t2dv0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2dv0"]
+atlas = ExtResource("1_v0ydg")
+region = Rect2(0, 0, 39, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2j8jn"]
+atlas = ExtResource("1_v0ydg")
+region = Rect2(39, 0, 39, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vm17s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2dv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2j8jn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2j8jn")
+}],
+"loop": true,
+"name": &"taken",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_2j8jn"]
+script = ExtResource("3_t2dv0")
+original_script = "IF growthElementalZauber == 0 | GOTO | OOGLE
+IF growthElementalZauber == 1 | GOTO | TAKEN
+
+TAKEN
+DIALOG | P_NAME | So the fruit was actually a zauber. Cool.
+
+OOGLE
+DIALOG | P_NAME | Wow... That's a delicious looking, uh, fruit?
+DIALOG | P_NAME | I feel a strange sensation in my spine when I look at it."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vjanr"]
+size = Vector2(38, 33)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3r26c"]
+radius = 13.038404
+
+[node name="o_growthZauber01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_vm17s")
+animation = &"taken"
+script = ExtResource("2_26kof")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_2j8jn")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_vjanr")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_3r26c")

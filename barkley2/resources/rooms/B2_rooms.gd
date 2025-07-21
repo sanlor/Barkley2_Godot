@@ -22,6 +22,7 @@ var astar_valid_tiles := Array() # used for debug
 @export_category("DEBUG")
 @export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
+@export var load_debug_save_data							:= false
 
 @export var teleport_spot		:= false			## In Certain situations, hoopz can teleport to a room. This enables that function
 @export var teleport_node		: B2_Teleport_Mark	## The room have a "o_teleport_mark" node to mark the spot
@@ -147,6 +148,8 @@ func _after_ready() -> void:
 	elif room_weather & 0b10 == 0b10: ## Smog effect
 		# do something
 		pass
+		
+	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data()
 		
 	if show_zone_banner:
 		var zone := O_ZONE_NAME.instantiate()
