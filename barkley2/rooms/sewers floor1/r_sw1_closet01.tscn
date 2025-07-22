@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=4 uid="uid://c4mgobk2wgaam"]
+[gd_scene load_steps=25 format=4 uid="uid://c4mgobk2wgaam"]
 
-[ext_resource type="Script" uid="uid://bvfigbkdlawg1" path="res://barkley2/resources/rooms/B2_rooms.gd" id="1_oe84q"]
+[ext_resource type="Script" uid="uid://b5547i5sgl1ga" path="res://barkley2/rooms/sewers floor1/r_sw_1_closet_01.gd" id="1_kvo4t"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_jpim4"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_wcpvr"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="3_rk4n7"]
@@ -10,10 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="7_jclqm"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="8_vlxsu"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="9_kidq4"]
-[ext_resource type="Script" uid="uid://b6co0fxb0wr07" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="10_kiucg"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="12_mr8pa"]
 [ext_resource type="PackedScene" uid="uid://kqlxhd0if7gg" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_treasuredwarf/o_Treasure.tscn" id="13_rqcrp"]
-[ext_resource type="Script" uid="uid://cx3vpwk6yj6bf" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_treasuredwarf/o_treasure.gd" id="14_bbncy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_rf78u"]
 
@@ -1570,7 +1568,7 @@ sources/0 = SubResource("TileSetAtlasSource_5p4yk")
 [node name="r_sw1_closet01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_rf78u")
-script = ExtResource("1_oe84q")
+script = ExtResource("1_kvo4t")
 collision_layer = NodePath("layer - collision 2")
 collision_layer_semi = NodePath("layer - collision")
 is_interior = true
@@ -1582,23 +1580,10 @@ simulate = false
 remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
-[node name="o_doorlight_down" type="AnimatedSprite2D" parent="." instance=ExtResource("3_rk4n7")]
-z_index = -10
+[node name="o_doorlight_down" parent="." instance=ExtResource("3_rk4n7")]
 position = Vector2(208, 272)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
-animation = &"debug_icons"
-frame = 1
-centered = false
-script = ExtResource("10_kiucg")
-editor_frame = 1
-running_anim = "s_doorlight_ud"
-flip_v_running_anim = true
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_sw1_baldomero01, 224, 160"
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_sw1_baldomero01, 224, 160);"
 metadata/inst_name = "inst_86F7D9BB"
 metadata/scale = Vector2(1, 1)
@@ -1644,12 +1629,8 @@ metadata/code = ""
 metadata/inst_name = "inst_AA349A5C"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_Treasure" type="CharacterBody2D" parent="." node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol") instance=ExtResource("13_rqcrp")]
+[node name="o_Treasure" parent="." instance=ExtResource("13_rqcrp")]
 position = Vector2(224, 192)
-script = ExtResource("14_bbncy")
-mouse_detection_area = NodePath("ActorInteract")
-ActorAnim = NodePath("ActorAnim")
-ActorCol = NodePath("ActorCol")
 metadata/code = "ind = 2; // VIDCON: Don't Spill the Sauce!
 "
 metadata/inst_name = "inst_1D72C5FE"
