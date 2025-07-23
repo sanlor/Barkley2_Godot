@@ -1,8 +1,9 @@
-[gd_scene load_steps=99 format=4 uid="uid://dry2jtu6inl55"]
+[gd_scene load_steps=101 format=4 uid="uid://dry2jtu6inl55"]
 
 [ext_resource type="Script" uid="uid://kxyslfxjknmt" path="res://barkley2/rooms/sewers floor1/r_sw_1_joad_01.gd" id="1_a8g5g"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_5fss0"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_t55ei"]
+[ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="3_ut5ui"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_c70in"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_ut5ui"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_18yn2"]
@@ -34,6 +35,8 @@
 [ext_resource type="Texture2D" uid="uid://bkreoy61tc4qd" path="res://barkley2/assets/b2_original/images/merged/s_plantingSpot01.png" id="32_fro6c"]
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="33_2b78f"]
 [ext_resource type="Script" uid="uid://fbpeyyfjkt4p" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_planting_spot_01.gd" id="34_dutx3"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ut5ui"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rcr28"]
 resource_name = "tls_sw1_sewers02"
@@ -1999,11 +2002,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_sw1_joad01" type="NavigationRegion2D"]
+[node name="r_sw1_joad01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
+navigation_polygon = SubResource("NavigationPolygon_ut5ui")
 script = ExtResource("1_a8g5g")
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(216, 256)
+collision_layer = NodePath("layer - collision")
+collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
@@ -2012,6 +2018,10 @@ convert_known_nodes = true
 simulate = false
 remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
+
+[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="."]
+script = ExtResource("3_ut5ui")
+metadata/_custom_type_script = "uid://bjj6h5usin15g"
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
