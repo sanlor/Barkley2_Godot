@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://4njejlpu64xb"]
+
+[ext_resource type="Texture2D" uid="uid://dghken2xfn3g5" path="res://barkley2/assets/b2_original/images/merged/s_manhole.png" id="1_rbey4"]
+[ext_resource type="Script" uid="uid://dfa7foid4lml3" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.gd" id="2_ub6vn"]
+[ext_resource type="Texture2D" uid="uid://b4pan71s643nw" path="res://barkley2/assets/b2_original/images/merged/s_manhole_cover.png" id="2_v5115"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uhmex"]
+radius = 64.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5115"]
+size = Vector2(27, 7)
+
+[node name="o_teleport_manhole" type="Sprite2D"]
+z_index = -5
+texture = ExtResource("1_rbey4")
+script = ExtResource("2_ub6vn")
+
+[node name="s_manhole_cover" type="Sprite2D" parent="."]
+texture = ExtResource("2_v5115")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-21, -6, -21, 7, -9, 15, 9, 15, 21, 7, 21, -6, 13, -14, 13, -3, -14, -3, -14, -14)
+
+[node name="player_detection" type="Area2D" parent="."]
+
+[node name="player_detection_col" type="CollisionShape2D" parent="player_detection"]
+shape = SubResource("CircleShape2D_uhmex")
+
+[node name="teleport_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_area"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_v5115")
