@@ -1,0 +1,249 @@
+[gd_scene load_steps=12 format=3 uid="uid://v6auj1w4yjwp"]
+
+[ext_resource type="Texture2D" uid="uid://bv4hac5uqjgih" path="res://barkley2/assets/b2_original/images/merged/s_chocoCrates01.png" id="1_jdvx8"]
+[ext_resource type="Script" uid="uid://cj4bxcp1kf3nr" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_choco_crates_01.gd" id="2_davd7"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_2k1hd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2k1hd"]
+atlas = ExtResource("1_jdvx8")
+region = Rect2(0, 0, 64, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njn5n"]
+atlas = ExtResource("1_jdvx8")
+region = Rect2(64, 0, 64, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdq28"]
+atlas = ExtResource("1_jdvx8")
+region = Rect2(128, 0, 64, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xb4de"]
+atlas = ExtResource("1_jdvx8")
+region = Rect2(192, 0, 64, 51)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_odgpn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2k1hd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njn5n")
+}],
+"loop": true,
+"name": &"firstCrate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdq28")
+}],
+"loop": true,
+"name": &"secondCrate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xb4de")
+}],
+"loop": true,
+"name": &"thirdCrate",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_njn5n"]
+script = ExtResource("3_2k1hd")
+original_script = "IF chocoBballs == 6 | GOTO | EMPTY
+IF chocoBballs == 5 | GOTO | SECONDCRATE
+IF chocoBballs == 4 | GOTO | FIRSTCRATE
+IF chocoBballs == 3 | GOTO | OPENED
+IF chocoBballs == 2 | GOTO | DRIBBLE
+IF chocoBballs == 1 | GOTO | SEEN
+IF chocoBballs == 0 | GOTO | DISCOVERY
+
+EMPTY
+DIALOG | P_NAME | It feels like those Choco-mallows went pretty quick... shame...
+EXIT |
+
+OPENED
+DIALOG | P_NAME | The Bball Cache... Do I have time to dribble?
+GOTO | PICKUP
+
+SEEN
+DIALOG | P_NAME | These bballs...
+GOTO | MALLOWSORTER
+
+DISCOVERY
+SURPRISEAT | o_chocoBballs01
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow what is this? A hidden cache of bballs?!
+QUEST | chocoBballs = 1
+WAIT | 0.5
+LOOKAT | o_cts_hoopz | o_chocoBballs01
+DIALOG | P_NAME | I wonder what the Z means...
+GOTO | MALLOWSORTER
+
+MALLOWSORTER
+IF comServ >= 4 | GOTO | CONNECTION_CORNROW
+IF twoBoys == 2 | GOTO | CONNECTION_VIVIAN
+DIALOG | P_NAME | Eh, probably nothing unusual about three crates of unused bballs hidden deep in the sewers. I'll be on my way...
+EXIT |
+
+CONNECTION_CORNROW
+DIALOG | P_NAME | Something tells me these bballs have something to do with Cornrow and Juicebox.
+GOTO | PICKUP
+
+CONNECTION_VIVIAN
+DIALOG | P_NAME | Didn't Vivian mention something about these Bballs?_ Like those two boys who helped her out? Hmmm.
+GOTO | PICKUP
+
+PICKUP
+CHOICE | What to do?
+REPLY | DRIBBLE | Maybe I can practice my /'double dribble./'
+REPLY | LEAVE | Eh, later.
+
+DRIBBLE
+DIALOG | P_NAME | Let's see if I still have those skillz to pay the billz...
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   |
+LOOKAT | o_cts_hoopz | o_chocoBball01
+USEAT  | o_chocoBball01
+QUEST  | chocoBballs = 2
+EVENT  | o_chocoCrates01 | 1
+WAIT   | 0.25
+SET    | o_cts_hoopz | ballHold
+WAIT   | 0.5
+PLAYSET| o_cts_hoopz | ballHoldToDribble | ballDribbleLast
+WAIT   | 0
+PLAYSET| o_cts_hoopz | ballDribble | ballDribbleLast
+WAIT   | 0
+PLAYSET| o_cts_hoopz | ballRightToLeft | ballRightToLeftLast
+WAIT   | 0
+PLAYSET| o_cts_hoopz | ballLeftToRight | ballLeftToRightLast
+WAIT   | 0
+WAIT   | 0.5
+PLAYSET| o_cts_hoopz | ballDribble | ballDribbleLast
+WAIT   | 0
+WAIT   | 0.5
+DIALOG | P_NAME | Something is wrong with this ball... it's not deflated I don't think... almost like something is_ I_N_S_I_D_E...
+CHOICE | Something in the bball?
+REPLY | CUTOPEN | Cut it open.
+REPLY | LEAVEIT | Leave it be.
+
+CUTOPEN
+DIALOG | P_NAME | At the risk of Baller Sacrilege... I think I need to see what's contained inside this rock...
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 1
+USEAT  | o_chocoBball01
+EVENT  | o_chocoCrates01 | 2
+WAIT   | 1
+PLAYSET| o_chocoBball01 | cutandspill | opened
+WAIT   | 0.5
+SURPRISEAT | o_chocoBball01
+WAIT   | 0
+WAIT   | 1.0
+DIALOG | P_NAME = s_port_hoopzShock | GADFRUGGIN' ZOOKS! These bballs are chocful of Choco-mallows!
+WAIT   | 1.0 
+LOOKAT | o_cts_hoopz | o_chocoBball01
+DIALOG | P_NAME | This is Grade A street stuff. Must be at least ten keys...
+QUEST  | chocoBballs = 3
+CHOICE | The Mallow Motherlode...
+REPLY  | LOADUPFIRST | Cut open some bballs, get mallows.
+REPLY  | BACKLATER | I'll be back for the mallows.
+
+LOADUPFIRST
+DIALOG | P_NAME | I'll cut open one crate and fill my pockets with the Choco-mallows...
+USEAT | o_chocoCrates01
+EVENT  | o_chocoCrates01 | 3 // Give candy
+QUEST | chocoBballs = 4
+SET | o_chocoCrates01 | firstCrate
+DIALOG | P_NAME | Alright, time to put these Choco-mallows to good use!
+EXIT |
+
+SECONDCRATE
+DIALOG | P_NAME | One crate left... should I load up on mallows?
+CHOICE | Load up on Choco-mallows?
+REPLY | LOADUPTHIRD | Load up.
+REPLY | BACKLATER | Move on.
+
+FIRSTCRATE
+DIALOG | P_NAME | Two crates left... should I load up on mallows?
+CHOICE | Load up on Choco-mallows?
+REPLY | LOADUPSECOND | Load up.
+REPLY | BACKLATER | Move on.
+
+LOADUPTHIRD
+DIALOG | P_NAME = s_port_hoopzHappy | Alright! It's Mallow Time!
+USEAT | o_chocoCrates01
+EVENT  | o_chocoCrates01 | 3 // Give candy
+QUEST | chocoBballs = 6
+SET | o_chocoCrates01 | thirdCrate
+DIALOG | P_NAME | That's it, that's all the Choco-mallows... I hope I put them to good use... Only time will tell.
+EXIT |
+
+LOADUPSECOND
+DIALOG | P_NAME = s_port_hoopzHappy | Alright! It's Mallow Time!
+USEAT | o_chocoCrates01
+EVENT  | o_chocoCrates01 | 3 // Give candy
+QUEST | chocoBballs = 5
+SET | o_chocoCrates01 | secondCrate
+DIALOG | P_NAME | All set... Hmmm only one crate left. Better ration out my mallows.
+EXIT |
+
+POCKETSFULL
+DIALOG | P_NAME | Hmmm. My pockets are full, I should drop some weight before I harvest more mallows...
+EXIT |
+
+BACKLATER
+DIALOG | P_NAME | I'll be back later... this stash is safe for now in the sewers.
+EXIT |
+
+LEAVEIT
+DIALOG | P_NAME | I'll do it later, bball isn't everything._ Or is it?
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 1
+USEAT  | o_chocoBball01
+EVENT  | o_chocoCrates01 | 2
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_davd7"]
+size = Vector2(63, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xb4de"]
+size = Vector2(63, 25)
+
+[node name="o_chocoCrates01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_odgpn")
+centered = false
+offset = Vector2(-32, -32)
+script = ExtResource("2_davd7")
+interactive_shader = "uid://cf0ojjtgkt2y8"
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_njn5n")
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "16",
+"height": "51",
+"name": "s_chocoCrates01",
+"width": "64",
+"xorig": "32",
+"yorigin": "32"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, -14)
+shape = SubResource("RectangleShape2D_davd7")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, 2.5)
+shape = SubResource("RectangleShape2D_xb4de")

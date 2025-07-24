@@ -12,7 +12,7 @@ enum TYPE{PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID,INTERACTIVE}
 # delete it when done
 
 @export_category("Paths")
-@export var obj_folder_path 	:= "Y:/tmp/barkley_2/Barkley2.gmx/sprites"
+@export var obj_folder_path 	:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/sprites" # "Y:/tmp/barkley_2/Barkley2.gmx/sprites"
 @export var img_folder_path 	:= "res://barkley2/assets/b2_original/images/merged/"
 
 @export_category("Node stuff")

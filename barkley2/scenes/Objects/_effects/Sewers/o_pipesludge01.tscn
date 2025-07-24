@@ -1,0 +1,157 @@
+[gd_scene load_steps=22 format=3 uid="uid://dkmludo2tseai"]
+
+[ext_resource type="Texture2D" uid="uid://digar1bvnxp30" path="res://barkley2/assets/b2_original/images/merged/s_pipesludge01.png" id="1_ison2"]
+[ext_resource type="Script" uid="uid://c71cee4c54l1o" path="res://barkley2/scenes/Objects/_effects/Sewers/o_pipesludge_01.gd" id="2_floog"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_floog"]
+atlas = ExtResource("1_ison2")
+region = Rect2(16, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdtk8"]
+atlas = ExtResource("1_ison2")
+region = Rect2(32, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to3f4"]
+atlas = ExtResource("1_ison2")
+region = Rect2(48, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxamx"]
+atlas = ExtResource("1_ison2")
+region = Rect2(64, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d842"]
+atlas = ExtResource("1_ison2")
+region = Rect2(80, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3a3ma"]
+atlas = ExtResource("1_ison2")
+region = Rect2(96, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0hb1"]
+atlas = ExtResource("1_ison2")
+region = Rect2(112, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h74c1"]
+atlas = ExtResource("1_ison2")
+region = Rect2(128, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ajmpm"]
+atlas = ExtResource("1_ison2")
+region = Rect2(144, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u12m1"]
+atlas = ExtResource("1_ison2")
+region = Rect2(160, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqqr5"]
+atlas = ExtResource("1_ison2")
+region = Rect2(176, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndwmh"]
+atlas = ExtResource("1_ison2")
+region = Rect2(192, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wik4"]
+atlas = ExtResource("1_ison2")
+region = Rect2(208, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_431ro"]
+atlas = ExtResource("1_ison2")
+region = Rect2(224, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k4d8"]
+atlas = ExtResource("1_ison2")
+region = Rect2(240, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivsb4"]
+atlas = ExtResource("1_ison2")
+region = Rect2(256, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_girq3"]
+atlas = ExtResource("1_ison2")
+region = Rect2(272, 0, 16, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ekls"]
+atlas = ExtResource("1_ison2")
+region = Rect2(288, 0, 16, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d1qya"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_floog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdtk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_to3f4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxamx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4d842")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3a3ma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0hb1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h74c1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ajmpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u12m1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqqr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ndwmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wik4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_431ro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4k4d8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivsb4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_girq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ekls")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="o_pipesludge01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_d1qya")
+frame = 17
+frame_progress = 1.0
+centered = false
+offset = Vector2(-8, -40)
+script = ExtResource("2_floog")
+
+[node name="sludge_timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="sludge_audio" type="AudioStreamPlayer2D" parent="."]
+max_distance = 200.0
+bus = &"Audio"
+
+[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
+[connection signal="timeout" from="sludge_timer" to="." method="_on_sludge_timer_timeout"]

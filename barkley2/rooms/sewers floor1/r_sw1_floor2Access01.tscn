@@ -1,7 +1,6 @@
 [gd_scene load_steps=29 format=4 uid="uid://b10wlfqjmwfwo"]
 
 [ext_resource type="Script" uid="uid://bvfigbkdlawg1" path="res://barkley2/resources/rooms/B2_rooms.gd" id="1_jlbok"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_fkrnx"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_urfqx"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_52sjt"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_oep3p"]
@@ -11,10 +10,11 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="9_ypark"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="10_i65rg"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_e3alp"]
-[ext_resource type="Script" uid="uid://b6co0fxb0wr07" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.gd" id="12_gr53k"]
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="13_mnopw"]
-[ext_resource type="Script" uid="uid://dsgbaqf6cssjs" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.gd" id="14_igxkd"]
+[ext_resource type="PackedScene" uid="uid://4njejlpu64xb" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.tscn" id="14_52sjt"]
+[ext_resource type="Texture2D" uid="uid://dghken2xfn3g5" path="res://barkley2/assets/b2_original/images/merged/s_manhole.png" id="15_oep3p"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="15_uciyn"]
+[ext_resource type="Script" uid="uid://dfa7foid4lml3" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.gd" id="16_in11w"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_fkrnx"]
 
@@ -1765,13 +1765,6 @@ collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_fkrnx")
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
-
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
 tile_map_data = PackedByteArray("AAAIAAoAAAAJAA8AAAAIAAsAAAAJABAAAAAJAAoAAAAEAA8AAAAJAAsAAAAEABAAAAAKAAoAAAAFAA8AAAAKAAsAAAAFABAAAAALAAoAAAAEAA8AAAAMAAoAAAAFAA8AAAANAAoAAAAEAA8AAAAOAAoAAAAFAA8AAAAPAAoAAAAEAA8AAAAQAAoAAAAFAA8AAAARAAoAAAAEAA8AAAASAAoAAAAFAA8AAAALAAsAAAAEABAAAAAMAAsAAAAAABwAAAAMAAwAAAAAAB0AAAANAAsAAAABABwAAAANAAwAAAABAB0AAAAOAAsAAAAAABwAAAAOAAwAAAAAAB0AAAAPAAsAAAABABwAAAAPAAwAAAABAB0AAAAQAAsAAAAAABwAAAAQAAwAAAAAAB0AAAARAAsAAAABABwAAAARAAwAAAABAB0AAAASAAsAAAAFABAAAAAUAAsAAAAGAA8AAAAWAAsAAAAGAA8AAAAIAAwAAAAHAA8AAAAJAAwAAAAEAA8AAAAJAA0AAAAEABAAAAAKAAwAAAAFAA8AAAAKAA0AAAAFABAAAAALAAwAAAAEAA8AAAALAA0AAAAEABAAAAASAAwAAAAFAA8AAAASAA0AAAAFABAAAAATAAwAAAAEAA8AAAATAA0AAAAEABAAAAAUAAwAAAAFAA8AAAAUAA0AAAAFABAAAAAVAAwAAAAEAA8AAAAVAA0AAAAEABAAAAAWAAwAAAAFAA8AAAAWAA0AAAAFABAAAAAXAAwAAAAEAA8AAAAXAA0AAAAEABAAAAAYAAwAAAAFAA8AAAAYAA0AAAAFABAAAAAFAA0AAAAIABAAAAAGAA0AAAAFABAAAAAHAA0AAAAEABAAAAAIAA0AAAAFABAAAAAMAA0AAAAAABwAAAAMAA4AAAAAAB0AAAANAA0AAAABABwAAAANAA4AAAABAB0AAAAOAA0AAAAAABwAAAAOAA4AAAAAAB0AAAAPAA0AAAABABwAAAAPAA4AAAABAB0AAAAQAA0AAAAAABwAAAAQAA4AAAAAAB0AAAARAA0AAAABABwAAAARAA4AAAABAB0AAAAFAA4AAAAIAA8AAAAFAA8AAAAIABAAAAAGAA4AAAAFAA8AAAAGAA8AAAAFABAAAAAHAA4AAAAEAA8AAAAHAA8AAAAEABAAAAAIAA4AAAAFAA8AAAAIAA8AAAAFABAAAAAJAA4AAAAEAA8AAAAJAA8AAAAEABAAAAAKAA4AAAAFAA8AAAAKAA8AAAAFABAAAAALAA4AAAAEAA8AAAALAA8AAAAEABAAAAASAA4AAAAFAA8AAAASAA8AAAAFABAAAAATAA4AAAAEAA8AAAATAA8AAAAEABAAAAAUAA4AAAAFAA8AAAAUAA8AAAAFABAAAAAVAA4AAAAEAA8AAAAVAA8AAAAEABAAAAAWAA4AAAAFAA8AAAAWAA8AAAAFABAAAAAXAA4AAAAEAA8AAAAXAA8AAAAEABAAAAAYAA4AAAAFAA8AAAAYAA8AAAAFABAAAAAMAA8AAAAAABwAAAANAA8AAAABABwAAAAOAA8AAAAAABwAAAAPAA8AAAABABwAAAAQAA8AAAAAABwAAAARAA8AAAABABwAAAAFABAAAAAIAA8AAAAGABAAAAAFAA8AAAAHABAAAAAEAA8AAAAIABAAAAAIABEAAAAJABAAAAAJABEAAAAKABAAAAAFAA8AAAAKABEAAAAFABAAAAALABAAAAAEAA8AAAAMABAAAAAFAA8AAAANABAAAAAEAA8AAAAOABAAAAAFAA8AAAAPABAAAAAEAA8AAAAQABAAAAAFAA8AAAARABAAAAAEAA8AAAASABAAAAAFAA8AAAATABAAAAAEAA8AAAAUABAAAAAFAA8AAAAVABAAAAAEAA8AAAAWABAAAAAFAA8AAAAXABAAAAAEAA8AAAAYABAAAAAFAA8AAAALABEAAAAEABAAAAA=")
@@ -1801,64 +1794,37 @@ tile_set = ExtResource("4_52sjt")
 z_index = 100
 tile_set = ExtResource("4_52sjt")
 
-[node name="o_doorlight_down" type="AnimatedSprite2D" parent="." instance=ExtResource("5_oep3p")]
-z_index = -10
+[node name="o_doorlight_down" parent="." instance=ExtResource("5_oep3p")]
 position = Vector2(160, 272)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
-animation = &"debug_icons"
-frame = 1
-centered = false
-script = ExtResource("12_gr53k")
-editor_frame = 1
-running_anim = "s_doorlight_ud"
-flip_v_running_anim = true
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_sw1_pool01, 688, 584);
 "
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_sw1_pool01, 688, 584);
 "
 metadata/inst_name = "inst_58685D55"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_gunsalesman" type="CharacterBody2D" parent="." node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol") instance=ExtResource("13_mnopw")]
+[node name="o_gunsalesman" parent="." instance=ExtResource("13_mnopw")]
 position = Vector2(112, 224)
-script = ExtResource("14_igxkd")
-mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_8hl48")
-ActorAnim = NodePath("ActorAnim")
 flip_h = true
-ActorCol = NodePath("ActorCol")
-can_move_around = false
 metadata/code = ""
 metadata/inst_name = "inst_81E8EF75"
 metadata/scale = Vector2(1, 1)
 
-[node name="P6 - o_teleport_manhole" type="Marker2D" parent="."]
+[node name="o_teleport_manhole" type="Sprite2D" parent="." instance=ExtResource("14_52sjt")]
+z_index = -5
 position = Vector2(240, 216)
+texture = ExtResource("15_oep3p")
+script = ExtResource("16_in11w")
+teleport_room_string = "r_sw2_start01, 192, 120"
 metadata/code = "RoomXY(r_sw2_start01, 192, 120);
 "
 metadata/inst_name = "inst_53D31E16"
-metadata/scale = Vector2(1, 1)
-
-[node name="P7 - o_room_interior" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = ""
-metadata/inst_name = "inst_91ACE925"
 metadata/scale = Vector2(1, 1)
 
 [node name="P8 - o_mg_escort_control01" type="Marker2D" parent="."]
 position = Vector2(-120, 32)
 metadata/code = ""
 metadata/inst_name = "inst_78193E8F"
-metadata/scale = Vector2(1, 1)
-
-[node name="P17 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 64)
-metadata/code = "color = make_color_rgb(7, 7, 13);
-"
-metadata/inst_name = "inst_254CC63D"
 metadata/scale = Vector2(1, 1)

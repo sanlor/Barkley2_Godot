@@ -1,9 +1,10 @@
-[gd_scene load_steps=71 format=4 uid="uid://dxjy35jdr4a54"]
+[gd_scene load_steps=73 format=4 uid="uid://dxjy35jdr4a54"]
 
 [ext_resource type="Script" uid="uid://c2j1hvpouy4dg" path="res://barkley2/rooms/sewers floor1/r_sw_1_pool_01.gd" id="1_j5qud"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_hfpi7"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_iyehy"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="3_7q2s0"]
+[ext_resource type="AudioStream" uid="uid://c8fgtcjbkxxv2" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_sewers_drip.ogg" id="3_rbrbm"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="5_n3ere"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="6_mxkl5"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="7_e2s1s"]
@@ -17,12 +18,13 @@
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="18_40t5k"]
 [ext_resource type="PackedScene" uid="uid://dcwg3tuy7wfxg" path="res://barkley2/scenes/Objects/_doors/o_door_sewer01.tscn" id="20_embe4"]
 [ext_resource type="Texture2D" uid="uid://b1gr0un0jq3od" path="res://barkley2/assets/b2_original/images/merged/s_door_sewer01.png" id="21_rlsxq"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="21_us5xw"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="23_7ocq3"]
 [ext_resource type="PackedScene" uid="uid://cc7836a5ruw04" path="res://barkley2/scenes/Objects/_map/Wading/o_wading16.tscn" id="26_n8fm1"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nk16d"]
-vertices = PackedVector2Array(634, 298, 634, 266, 666, 266, 710, 298, 715.8594, 326, 667.8594, 374, 666, 218, 678, 218, 678, 266, 710, 266, 854, 298, 854, 326, 518, 427.85938, 518, 438, 486, 438, 486, 554, 518, 554, 518, 619.8594, 246, 710, 246, 790, 186, 790, 186, 710, 90, 422, 10, 422, 10, 378, 123.859375, 378, 150, 404.14063, 150, 602, 90, 710, 426, 602, 395.85938, 710, 459.85938, 646, 491.85938, 646, 426, 554, 458, 554, 458, 438, 426, 438, 426, 363.85938, 454, 298, 276.14063, 230, 250, 230, 250, 186, 454, 186, 292.14063, 246, 308.14063, 246, 571.8594, 374, 682, 667.8594, 694, 586, 742, 586, 742, 682, 682, 710, 854, 682, 854, 710, 650, 635.8594, 682, 586, 650, 586, 694, 554, 682, 554)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(2, 6, 7, 8), PackedInt32Array(8, 9, 3), PackedInt32Array(3, 10, 11, 4), PackedInt32Array(12, 13, 14), PackedInt32Array(15, 16, 17), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 23, 24, 25, 26), PackedInt32Array(22, 26, 27, 28), PackedInt32Array(21, 28, 27, 29), PackedInt32Array(18, 21, 29), PackedInt32Array(30, 18, 29, 31), PackedInt32Array(32, 31, 29, 33, 34, 17), PackedInt32Array(0, 35, 36, 37, 38), PackedInt32Array(39, 40, 41, 42), PackedInt32Array(43, 39, 42, 44), PackedInt32Array(37, 44, 42, 38), PackedInt32Array(15, 17, 34), PackedInt32Array(14, 15, 34, 35), PackedInt32Array(12, 14, 35, 0, 45), PackedInt32Array(5, 45, 0), PackedInt32Array(3, 2, 8), PackedInt32Array(46, 47, 48, 49, 50), PackedInt32Array(49, 51, 52, 50), PackedInt32Array(47, 46, 53, 54), PackedInt32Array(53, 55, 54), PackedInt32Array(56, 47, 54, 57)])
+vertices = PackedVector2Array(634, 298, 634, 266, 666, 266, 710, 298, 715.8594, 326, 667.8594, 374, 666, 218, 678, 218, 678, 266, 710, 266, 854, 298, 854, 326, 518, 427.85938, 518, 438, 486, 438, 486, 554.10156, 518, 554.10156, 518, 619.8594, 246, 710, 246, 790, 186, 790, 186, 710, 90, 422, 10, 422, 10, 378, 123.859375, 378, 150, 404.14063, 150, 602, 90, 710, 426, 602, 395.85938, 710, 459.85938, 646, 491.85938, 646, 426, 554, 458, 554, 458, 553.7031, 458.29688, 553.7031, 458.29688, 438, 426, 438, 426, 363.85938, 454, 298, 276.14063, 230, 250, 230, 250, 186, 454, 186, 292.14063, 246, 308.14063, 246, 571.8594, 374, 682, 667.8594, 694, 586, 742, 586, 742, 682, 682, 710, 854, 682, 854, 710, 650, 635.8594, 682, 586, 650, 586, 694, 554, 682, 554)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(2, 6, 7, 8), PackedInt32Array(8, 9, 3), PackedInt32Array(3, 10, 11, 4), PackedInt32Array(12, 13, 14), PackedInt32Array(15, 16, 17), PackedInt32Array(18, 19, 20, 21), PackedInt32Array(22, 23, 24, 25, 26), PackedInt32Array(22, 26, 27, 28), PackedInt32Array(21, 28, 27, 29), PackedInt32Array(18, 21, 29), PackedInt32Array(30, 18, 29, 31), PackedInt32Array(17, 32, 31, 29, 33, 34, 15), PackedInt32Array(34, 35, 36, 15), PackedInt32Array(0, 37, 38, 39, 40), PackedInt32Array(41, 42, 43, 44), PackedInt32Array(45, 41, 44, 46), PackedInt32Array(39, 46, 44, 40), PackedInt32Array(14, 15, 36, 37), PackedInt32Array(12, 14, 37, 0, 47), PackedInt32Array(5, 47, 0), PackedInt32Array(3, 2, 8), PackedInt32Array(48, 49, 50, 51, 52), PackedInt32Array(51, 53, 54, 52), PackedInt32Array(49, 48, 55, 56), PackedInt32Array(55, 57, 56), PackedInt32Array(58, 49, 56, 59)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 800, 864, 800, 864, 0)])
 source_geometry_mode = 1
 
@@ -2059,6 +2061,11 @@ simulate = false
 remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
+[node name="sn_sewers_drip" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_rbrbm")
+autoplay = true
+bus = &"Audio"
+
 [node name="layer 100" type="TileMapLayer" parent="."]
 z_index = -10
 tile_map_data = PackedByteArray("AAAaAB4AAAADAAoAAAAbAB4AAAADAAoAAAAfAB4AAAADAAoAAAAfAB8AAAADAAoAAAAfACAAAAADAAoAAAAfACEAAAADAAoAAAAgAB4AAAADAAkAAAAaAB8AAAADAAoAAAAaACAAAAADAAoAAAAaACEAAAADAAoAAAAbAB8AAAADAAcAAAAgAB8AAAADAAcAAAAbACAAAAADAAYAAAAbACEAAAADAAYAAAAgACAAAAADAAYAAAAgACEAAAADAAYAAAA=")
@@ -2179,18 +2186,6 @@ metadata/code = "RoomXY(r_sw1_center01, 16, 308);
 metadata/inst_name = "inst_F3EFE64D"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_enemy_ratNest" type="Marker2D" parent="."]
-position = Vector2(544, 280)
-metadata/code = ""
-metadata/inst_name = "inst_2EBDB718"
-metadata/scale = Vector2(1, 1)
-
-[node name="P12 - o_enemy_ratNest" type="Marker2D" parent="."]
-position = Vector2(272, 168)
-metadata/code = ""
-metadata/inst_name = "inst_F3A0137D"
-metadata/scale = Vector2(1, 1)
-
 [node name="o_door_sewer01" parent="." instance=ExtResource("20_embe4")]
 position = Vector2(664, 576)
 sprite_frames = SubResource("SpriteFrames_rjstm")
@@ -2209,19 +2204,6 @@ else {
     event_user(0);
 }"
 metadata/inst_name = "inst_9B73F880"
-metadata/scale = Vector2(1, 1)
-
-[node name="P21 - o_mg_escort_control01" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = ""
-metadata/inst_name = "inst_3F4631FA"
-metadata/scale = Vector2(1, 1)
-
-[node name="P62 - o_room_environSound" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = "sound = \"sn_sewers_drip\";
-"
-metadata/inst_name = "inst_372C8248"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_zsurvey" parent="." instance=ExtResource("23_7ocq3")]
@@ -2257,3 +2239,33 @@ scale = Vector2(1.595, 4.805)
 metadata/code = ""
 metadata/inst_name = "inst_00000120"
 metadata/scale = Vector2(2, 6)
+
+[node name="P11 - o_enemy_ratNest" type="Marker2D" parent="."]
+position = Vector2(544, 280)
+metadata/code = ""
+metadata/inst_name = "inst_2EBDB718"
+metadata/scale = Vector2(1, 1)
+
+[node name="B2_PendingWork" type="Node2D" parent="P11 - o_enemy_ratNest"]
+z_index = 4000
+script = ExtResource("21_us5xw")
+notes = "Add enemies"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
+
+[node name="P12 - o_enemy_ratNest" type="Marker2D" parent="."]
+position = Vector2(272, 168)
+metadata/code = ""
+metadata/inst_name = "inst_F3A0137D"
+metadata/scale = Vector2(1, 1)
+
+[node name="B2_PendingWork" type="Node2D" parent="P12 - o_enemy_ratNest"]
+z_index = 4000
+script = ExtResource("21_us5xw")
+notes = "Add enemies"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
+
+[node name="P21 - o_mg_escort_control01" type="Marker2D" parent="."]
+position = Vector2(-120, 0)
+metadata/code = ""
+metadata/inst_name = "inst_3F4631FA"
+metadata/scale = Vector2(1, 1)

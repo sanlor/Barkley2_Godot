@@ -1,9 +1,7 @@
-[gd_scene load_steps=68 format=4 uid="uid://dy2ixivh7ualf"]
+[gd_scene load_steps=77 format=4 uid="uid://dy2ixivh7ualf"]
 
 [ext_resource type="Script" uid="uid://bulnm5ymmx8vc" path="res://barkley2/rooms/sewers floor1/r_sw_1_manhole_east_01.gd" id="1_thnuh"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_4eljg"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_apuv2"]
-[ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="3_ryat4"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_fi0a8"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="5_1paxn"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_2bn8v"]
@@ -23,6 +21,8 @@
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="24_dv8l1"]
 [ext_resource type="PackedScene" uid="uid://dogf4uxjwu8dg" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum01.tscn" id="25_nuj15"]
 [ext_resource type="Texture2D" uid="uid://b4de8maed0jpx" path="res://barkley2/assets/b2_original/images/merged/s_drum01.png" id="26_gl3fm"]
+[ext_resource type="PackedScene" uid="uid://ht067bvww2qt" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_peeStream01.tscn" id="26_thnuh"]
+[ext_resource type="Texture2D" uid="uid://b7pfqx056fgru" path="res://barkley2/assets/b2_original/images/merged/s_peeStream01.png" id="27_apuv2"]
 [ext_resource type="PackedScene" uid="uid://0ko8dmrlobil" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum_open01.tscn" id="27_gaykv"]
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="28_bhqa3"]
 
@@ -2006,6 +2006,157 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7atm2"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(0, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvgql"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(32, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddgfx"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(64, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kayo"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(96, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y7fu"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(128, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mro0b"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(160, 0, 32, 183)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv0qh"]
+atlas = ExtResource("27_apuv2")
+region = Rect2(192, 0, 32, 183)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_acfcc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7atm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvgql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddgfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kayo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y7fu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mro0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv0qh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Resource" id="Resource_ddgfx"]
+script = ExtResource("23_ubsnv")
+original_script = "FRAME  | CAMERA_NORMAL | o_cinema1 
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.5
+IF govQuest <= 1 | GOTO | YUCK
+IF govQuest == 2 | GOTO | COLLECT
+IF govQuest == 3 | GOTO | GOT_IT
+
+YUCK
+IF peeState == 0 | GOTO | YUCK_ONE
+IF peeState == 1 | GOTO | YUCK_TWO
+IF peeState == 2 | GOTO | YUCK_NEVERAGAIN
+
+YUCK_ONE
+DIALOG | P_NAME | Ugh, what is this smell? Did someone die down there?
+WAIT   | 0.25
+DIALOG | P_NAME | A mysterious `w1``mq`[Yellow Stream]`rt``w0`...
+WAIT   | 0.5
+DIALOG | P_NAME | I wonder what this is...
+WAIT   | 0.75
+QUEST  | peeState = 1
+GOTO   | PEE_CHOICE
+
+YUCK_TWO
+DIALOG | P_NAME | There it is... the mysterious `w1``mq`[Yellow Stream]`rt``w0`...
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.5
+DIALOG | P_NAME | Hmm...
+WAIT   | 0.75
+QUEST  | peeState = 1
+GOTO   | PEE_CHOICE
+
+YUCK_NEVERAGAIN
+DIALOG | P_NAME | `s1`Ueeaaoorghh!!`s0` This is that horrid vile gunk that I... Ugh! What the `s1`HECK`s0` was I thinking?
+WAIT   | 1.0
+DIALOG | P_NAME | Never again...
+
+PEE_CHOICE
+CHOICE | What do?
+REPLY  | GULP  | Take a slurp...
+REPLY  | LEAVE | Leave it alone...
+
+GULP
+DIALOG | P_NAME | Hey, this thing could be like radioactive...
+DIALOG | P_NAME = s_port_hoopzHappy | Maybe it will give me superpowers!
+USEAT  | EAST
+SOUND  | sn_juicechug01
+QUEST  | peeState = 2
+WAIT   | 1
+SOUND  | sn_hoopz_demiseBHROOM01
+PLAYSET | o_cts_hoopz | demise | demiseEnd
+WAIT   | 2.5
+NOTIFYALT | You suffer a -1 penalty to your GLAMP!
+GLAMP  | guts | -1
+GLAMP  | luck | -1
+GLAMP  | acrobatics | -1
+GLAMP  | might | -1
+GLAMP  | piety | -1
+WAIT   | 1.5
+FADE   | 1 | 2
+WAIT   | 2
+QUEST  | hoopzGetup = 4
+Teleport | r_sw1_respawn01 | 272 | 224 | 2
+
+LEAVE
+DIALOG | P_NAME | I've got other things to do than sit here and observe this stream.
+
+COLLECT
+DIALOG | P_NAME | Hmm....
+WAIT   | 0.5
+IF peeState < 2  | DIALOG | P_NAME | This must be the... stuff. I'd better get some of it in this vial and get the flip out of here.
+IF peeState >= 2 | DIALOG | P_NAME | This is the stuff... Ugh, just seeing this horrid stream gives me nightmares... What the `s1`HECK`s0` was I thinking?
+IF peeState >= 2 | WAIT   | 0.5
+IF peeState >= 2 | DIALOG | P_NAME | I'd better get this over with...
+WAIT   | 0.25
+USEAT  | EAST
+WAIT   | 0.25
+SOUND  | sn_cupfilling01
+WAIT   | 0.5
+NOTIFY | Got the Number 1 (Duergar Urine)
+ITEM   | Duergar Urine | 1
+ITEM   | Sterile Vial  | -1
+QUEST  | govQuest = 3
+
+GOT_IT
+DIALOG | P_NAME | I have no further need to study this."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [node name="r_sw1_manholeEast01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 navigation_polygon = SubResource("NavigationPolygon_h6wl7")
 script = ExtResource("1_thnuh")
@@ -2017,22 +2168,6 @@ collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 room_pacify = false
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_apuv2")
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." node_paths=PackedStringArray("target")]
-script = ExtResource("3_ryat4")
-obj_folder_path = "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/sprites"
-target = NodePath("../P6 - o_teleport_manhole")
-node_type = 4
-sprite_name = "s_teleport_manhole"
-lazy_mode = true
-metadata/_custom_type_script = "uid://c27swp8gt5woq"
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -2096,34 +2231,17 @@ metadata/code = ""
 metadata/inst_name = "inst_00000004"
 metadata/scale = Vector2(1, 1)
 
-[node name="P6 - o_teleport_manhole" type="Marker2D" parent="."]
+[node name="o_teleport_manhole" parent="." instance=ExtResource("16_3c78e")]
 position = Vector2(224, 232)
-metadata/code = "RoomXY(r_sw2_eastExit01, 288, 152, EAST);
-silent = true;
-draw_cover = false;"
-metadata/inst_name = "inst_C78C68B5"
-metadata/scale = Vector2(1, 1)
-
-[node name="o_teleport_manhole" parent="P6 - o_teleport_manhole" instance=ExtResource("16_3c78e")]
+silent = true
+draw_cover = false
 teleport_room_string = "r_sw2_eastExit01, 288, 152"
-
-[node name="P7 - o_mg_escort_control01" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = ""
-metadata/inst_name = "inst_03562942"
-metadata/scale = Vector2(1, 1)
 
 [node name="o_door_sewer01" parent="." instance=ExtResource("18_hxe15")]
 position = Vector2(120, 160)
 sprite_frames = SubResource("SpriteFrames_rjstm")
 metadata/code = ""
 metadata/inst_name = "inst_F16DE329"
-metadata/scale = Vector2(1, 1)
-
-[node name="P11 - o_room_pacify" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = ""
-metadata/inst_name = "inst_014BBD39"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_gunsalesman" parent="." instance=ExtResource("21_8tu40")]
@@ -2149,7 +2267,7 @@ metadata/inst_name = "inst_00000005"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_drum02" parent="." instance=ExtResource("25_nuj15")]
-position = Vector2(368, 235)
+position = Vector2(335, 244)
 sprite_frames = SubResource("SpriteFrames_lbq55")
 metadata/code = ""
 metadata/inst_name = "inst_00000010"
@@ -2164,14 +2282,14 @@ metadata/inst_name = "inst_00000011"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_drum_open02" parent="." instance=ExtResource("27_gaykv")]
-position = Vector2(168, 179)
+position = Vector2(176, 170)
 sprite_frames = SubResource("SpriteFrames_esvbv")
 metadata/code = ""
 metadata/inst_name = "inst_00000012"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_drum_open03" parent="." instance=ExtResource("27_gaykv")]
-position = Vector2(336, 243)
+position = Vector2(374, 232)
 sprite_frames = SubResource("SpriteFrames_esvbv")
 frame = 1
 metadata/code = ""
@@ -2246,8 +2364,23 @@ metadata/code = ""
 metadata/inst_name = "inst_00000027"
 metadata/scale = Vector2(1, 1)
 
-[node name="P34 - o_peeStream01" type="Marker2D" parent="."]
+[node name="o_peeStream01" parent="." instance=ExtResource("26_thnuh")]
+z_index = 5
 position = Vector2(343, 163)
+sprite_frames = SubResource("SpriteFrames_acfcc")
+cutscene_script = SubResource("Resource_ddgfx")
 metadata/code = ""
 metadata/inst_name = "inst_557F92FD"
+metadata/scale = Vector2(1, 1)
+
+[node name="P7 - o_mg_escort_control01" type="Marker2D" parent="."]
+position = Vector2(-120, 32)
+metadata/code = ""
+metadata/inst_name = "inst_03562942"
+metadata/scale = Vector2(1, 1)
+
+[node name="P11 - o_room_pacify" type="Marker2D" parent="."]
+position = Vector2(-120, 0)
+metadata/code = ""
+metadata/inst_name = "inst_014BBD39"
 metadata/scale = Vector2(1, 1)
