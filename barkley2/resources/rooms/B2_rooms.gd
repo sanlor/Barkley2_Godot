@@ -70,6 +70,9 @@ var hud_node
 var map_rect := Rect2() ## Map boundaries. Used by the pathfinding and camera limits.
 
 func _enter_tree() -> void:
+	if Engine.is_editor_hint():
+		return
+		
 	B2_Screen.can_pause = player_can_pause
 	_hide_collision_layer()
 	if play_room_music:
@@ -91,6 +94,9 @@ func _set_region():
 	if populate_reference_layer:
 		reference_layer.clear()
 		for c in get_children():
+			if c is StaticBody2D:
+				c.add_to_group("navigation_polygon_source_geometry_group")
+				
 			if c is TileMapLayer:
 				reference_layer.append(c)
 				c.add_to_group("navigation_polygon_source_geometry_group")
