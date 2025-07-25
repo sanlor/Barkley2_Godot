@@ -120,8 +120,9 @@ func load_hoopz_actor():
 		if n.name == "o_hoopz":
 			n.queue_free()
 	# if real is loaded, load fake hoopz.
-	if not is_instance_valid(B2_CManager.o_cts_hoopz): 
-		B2_CManager.o_cts_hoopz = B2_CManager.o_cts_hoopz_scene.instantiate()
+	var hoopz := B2_CManager.o_cts_hoopz_scene.instantiate()
+	if not B2_CManager.o_cts_hoopz: 
+		B2_CManager.o_cts_hoopz = hoopz
 		
 	if is_instance_valid(B2_CManager.o_hoopz):
 		B2_CManager.o_cts_hoopz.position 	= B2_CManager.o_hoopz.position
@@ -130,7 +131,7 @@ func load_hoopz_actor():
 		B2_CManager.o_cts_hoopz.position.x 	= B2_RoomXY.this_room_x
 		B2_CManager.o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
-	get_tree().current_scene.add_child( B2_CManager.o_cts_hoopz, true )
+	get_tree().current_scene.add_child( hoopz, true )
 	#get_tree().current_scene.call_deferred("add_child", B2_CManager.o_cts_hoopz, true )
 	
 	
@@ -165,6 +166,7 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 		B2_CManager.o_hoopz.position.y = B2_RoomXY.this_room_y
 		
 	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
+	
 	
 func end_cutscene():
 	#await get_tree().process_frame
@@ -686,6 +688,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if parsed_line[1].strip_edges() == "take": # as in, hoopz gains a new note.
 						B2_Note.take_note( Text.pr( parsed_line[2].strip_edges() ) )
 						if debug_note: print_rich("[color=yellow]Note %s received![/color]" % Text.pr( parsed_line[2].strip_edges() ))
+					elif parsed_line[1].strip_edges() == "give": # as in, hoopz loses a note.
+						B2_Note.give_note( Text.pr( parsed_line[2].strip_edges() ) )
+						if debug_note: print_rich("[color=yellow]Note %s lost![/color]" % Text.pr( parsed_line[2].strip_edges() ))
 					else:
 						push_error("Unrecognized Note command: " + str(parsed_line) )
 					
@@ -918,17 +923,22 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#  Argument2 = X Offset (optional, default 0)
 					#  Argument3 = Y Offset (optional, default 0)
 					
+					if not B2_CManager.o_cts_hoopz:
+						push_error("Hoopz combat actor not in the correct place yet.")
+						await get_tree().process_frame
+					
 					var emote_type 		: String = parsed_line[1]
-					var emote_target 	:= B2_CManager.o_cts_hoopz # This is the default
+					var emote_target 	: B2_InteractiveActor_Player = B2_CManager.o_cts_hoopz # This is the default
 					var xoffset 		:= 0.0
 					var yoffset			:= 0.0
 					var emote_node		:= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn").instantiate() as AnimatedSprite2D
+					
+					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
 					
 					if parsed_line.size() > 2: emote_target = get_node_from_name( all_nodes, parsed_line[2] )
 					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
 					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
 					
-					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
 					
 					## TODO 15/10/24 add other arguments, current solution only take 1 argument.
 					## 03/11/24 fixed, i think.

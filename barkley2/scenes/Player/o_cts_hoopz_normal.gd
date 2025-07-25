@@ -1,7 +1,7 @@
 extends B2_InteractiveActor_Player
 
 func _ready() -> void:
-	B2_CManager.o_cts_hoopz 	= self
+	if not B2_CManager.o_cts_hoopz: B2_CManager.o_cts_hoopz = self
 	_setup_actor()
 	_setup_interactiveactor()
 	

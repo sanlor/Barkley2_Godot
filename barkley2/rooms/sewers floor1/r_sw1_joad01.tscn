@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=4 uid="uid://dry2jtu6inl55"]
+[gd_scene load_steps=99 format=4 uid="uid://dry2jtu6inl55"]
 
 [ext_resource type="Script" uid="uid://kxyslfxjknmt" path="res://barkley2/rooms/sewers floor1/r_sw_1_joad_01.gd" id="1_a8g5g"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_5fss0"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://bcpo78nvqv45a" path="res://barkley2/scenes/Objects/_environs/_machines/_tanks/o_machine_coolingunit01.tscn" id="21_56yvj"]
 [ext_resource type="Texture2D" uid="uid://b7dlmxjx5n1q" path="res://barkley2/assets/b2_original/images/merged/s_machine_coolingunit01.png" id="22_w2i5n"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="23_dcxf5"]
+[ext_resource type="PackedScene" uid="uid://bfliclunwoq20" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_joad01.tscn" id="24_6kt5p"]
 [ext_resource type="PackedScene" uid="uid://cx2bfqr3jw6c4" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_observatory/o_pelekryte01.tscn" id="24_ynk45"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="26_beqxh"]
 [ext_resource type="PackedScene" uid="uid://cv8dgrtu4sf15" path="res://barkley2/scenes/Objects/_environs/_containers/o_crate_wooden01.tscn" id="27_s7d7u"]
@@ -32,8 +33,8 @@
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="33_2b78f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ut5ui"]
-vertices = PackedVector2Array(106, 310, 106, 264.3125, 107.9375, 271.5703, 116.42969, 280.0625, 170, 310, 128, 283.14844, 139.57031, 280.0625, 148.0625, 271.5703, 182, 310, 337.20313, 218, 337.20313, 219, 334, 219, 202, 218, 202, 250, 334, 258, 358, 258, 358, 274, 390, 274, 390, 310, 186, 266, 182, 374, 170, 374, 186, 250, 149.54688, 266, 107.9375, 244.42969, 106, 251.67969, 106, 218, 116.42969, 235.9375, 118, 218, 118, 235.52344)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(4, 5, 6), PackedInt32Array(4, 6, 7, 8), PackedInt32Array(9, 10, 11, 12), PackedInt32Array(13, 12, 11, 14), PackedInt32Array(14, 15, 16, 8), PackedInt32Array(16, 17, 18, 8), PackedInt32Array(13, 14, 8, 19), PackedInt32Array(8, 20, 21, 4), PackedInt32Array(19, 22, 13), PackedInt32Array(23, 19, 8, 7), PackedInt32Array(24, 25, 26), PackedInt32Array(27, 24, 26, 28), PackedInt32Array(28, 29, 27)])
+vertices = PackedVector2Array(106, 310, 106, 264.29688, 107.9375, 271.5703, 116.42969, 280.0625, 170, 310, 128, 283.14844, 139.57031, 280.0625, 148.0625, 271.5703, 182, 310, 342, 218, 342, 219, 334, 219, 202, 218, 202, 250, 334, 258, 358, 258, 358, 274, 390, 274, 390, 310, 186, 266, 182, 374, 170, 374, 186, 250, 149.54688, 266, 107.9375, 248.42969, 106, 255.6875, 106, 218, 116.42969, 239.9375, 118, 218, 118, 239.52344, 390, 235, 386, 235, 386, 234, 390, 234)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(4, 5, 6), PackedInt32Array(4, 6, 7, 8), PackedInt32Array(9, 10, 11, 12), PackedInt32Array(13, 12, 11, 14), PackedInt32Array(14, 15, 16, 8), PackedInt32Array(16, 17, 18, 8), PackedInt32Array(13, 14, 8, 19), PackedInt32Array(8, 20, 21, 4), PackedInt32Array(19, 22, 13), PackedInt32Array(23, 19, 8, 7), PackedInt32Array(24, 25, 26), PackedInt32Array(27, 24, 26, 28), PackedInt32Array(28, 29, 27), PackedInt32Array(30, 31, 32, 33)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 400, 480, 400, 480, 0)])
 source_geometry_mode = 1
 
@@ -44,7 +45,7 @@ original_script = "IF joadState == 0 | GOTO | JOAD_GOOF
 JOAD_GOOF
 WAIT    | 1
 SURPRISEAT | o_joad01
-Emote   | build | exclamation | o_cts_hoopz | 0 | 0
+Emote | exclamation | o_cts_hoopz | 0 | 0
 WAIT    | 0.75
 FRAME   | CAMERA_FAST | o_joad01
 WAIT    |
@@ -70,7 +71,273 @@ SOUND   | sn_debug_two
 WAIT    |
 SET     | o_joad01 | default
 DIALOG  | Dying Dwarf | ... are numbered...
-GOTO    | JOADSTART"
+GOTO    | JOADSTART
+
+IF joadState == 3 | GOTO | ALREADYPASSED03
+IF joadState == 2 | GOTO | ALREADYPASSED02
+IF joadState == 1 | GOTO | ALREADYPASSED01
+IF joadState == 0 | GOTO | HELPCHOOSER
+
+JOADSTART
+QUEST | joadLife = 5
+GOTO | HELPCHOOSER
+
+HELPCHOOSER //Choose what to ask or do
+CHOICE | What do you do?
+IF joadGood == 0 | REPLY | GOOD_HURTWHERE | Ask where he's hurt.
+IF joadBad == 0 | REPLY | BAD_HOWTHISHAPPENED | Ask how this happened.
+IF joadBad == 1 | REPLY | BAD_ABOUTBAINSHEE | Ask about the bainshee.
+IF joadGood == 1 | REPLY | GOOD_HOWCANIHELP | Ask how you can help.
+IF joadBad == 2 | REPLY | BAD_ABOUTTOMB | Ask about the ancient tomb.
+IF joadBad == 3 | IF joadScroll == 0 | REPLY | BAD_ABOUTRUINS | Ask about the AI Ruins.
+IF joadBad == 3 | IF joadScroll == 1 | REPLY | BAD_ABOUTSCROLL | What do you use the scroll for?
+IF joadBad == 4 | REPLY | BAD_SPEAKUP | Speak up!
+IF joadPaperRequest == 1 | IF joadPaper == 1 | REPLY | WRITEONPAPER | Give the dwarf the paper.
+IF joadPaperRequest == 1 | IF joadScroll == 1 | REPLY | WRITEONSCROLL | Give the dwarf the scroll.
+IF joadPaperRequest == 1 | REPLY | NOTECHOOSER | Give him another paper.
+
+GOOD_HURTWHERE
+DIALOG | P_NAME | It looks like you're really bleeding. Where were you hurt?
+Flourish | s_port_joadCough | 1
+DIALOG | Dying Dwarf | Ugh... all over, youngster. It surprised us... *kack*... looks like my time's... almost up.
+QUEST | joadGood += 1
+GOTO | JOADDRAIN
+
+GOOD_HOWCANIHELP
+DIALOG | P_NAME | Ok, we're gonna get you out of here. Uh..._ how should I do this?
+Flourish | s_port_joadHead | 0
+DIALOG | Dying Dwarf | I'm not going... anywhere. P-... paper... pencil. Help me... get my paper... check... my pocket...
+DIALOG | P_NAME | In your pocket, huh?
+USEAT | o_joad01
+QUEST | joadGood += 1
+IF knowJoadScroll == 0 | GOTO | TAKEPAPER
+IF knowJoadScroll == 1 | GOTO | TAKESCROLL
+
+TAKEPAPER
+NOTIFY | Got a piece of Tattered Paper.
+NOTE | take | Tattered Paper
+QUEST | joadNote = 1
+QUEST | joadPaper = 1
+GOTO | AFTERPAPER
+
+TAKESCROLL
+DIALOG | P_NAME =  s_port_hoopzSurprise | This is that scroll you mentioned... looks old!
+NOTIFY | Got the Ancient Scroll!
+NOTE | take | Ancient Scroll
+QUEST | joadNote = 1
+QUEST | joadScroll = 1
+GOTO | AFTERPAPER
+
+AFTERPAPER
+DIALOG | P_NAME | Did you need this to write on?
+DIALOG | Dying Dwarf | Yes... give it here...
+QUEST | joadPaperRequest = 1
+GOTO | HELPCHOOSER
+
+WRITEONPAPER
+DIALOG | P_NAME | Here's the paper...
+NOTIFY | Gave the Tattered Paper back to the Dying Dwarf.
+NOTE | give | Tattered Paper
+QUEST | joadPaper = 2
+GOTO | JOADSNOTEWRITING
+
+WRITEONSCROLL
+DIALOG | P_NAME | Here you go... scribble all over this ancient scroll I guess. 
+NOTIFY | Gave the Ancient Scroll back to the Dying Dwarf.
+NOTE | give | Ancient Scroll
+QUEST | joadScroll = 2
+GOTO | JOADSNOTEWRITING
+
+BAD_HOWTHISHAPPENED
+DIALOG | P_NAME | You look really hurt. How did this happen?
+DIALOG | Dying Dwarf | Was scouting... blasted into a room a few floors down... think it was a tomb... ba-... bainshee caught up to me... got me good.
+QUEST | joadBad += 1
+GOTO | JOADDRAIN
+
+BAD_ABOUTBAINSHEE
+DIALOG | P_NAME | A bainshee did this? Where did it get off to? They really sound like bad news.
+IF joadLife >= 3 | DIALOG | Dying Dwarf | Really bad... I tracked it for awhile, lost it... lo... in tomb when it appeared. Got back to here but... ugh... too late.
+IF joadLife < 3 | DIALOG | Dying Dwarf | Real... bad... tracked for awhile... lost it... looking... *cough* tomb when... got to here but... ugh... late...
+QUEST | joadBad += 1
+GOTO | JOADDRAIN
+
+BAD_ABOUTTOMB
+DIALOG | P_NAME | Could you tell me anything else about this tomb?
+DIALOG | Dying Dwarf | ... saw weak wall... blasted in. Caved in now... It was the... A._I._ Ruins...
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow, the A.I. Ruins?! Where is it?
+DIALOG | Dying Dwarf | Beneath._._._ undersewers... 
+KNOW   | knowAIRuins | 1
+KNOW   | knowUndersewers | 1
+QUEST  | joadBad += 1
+GOTO   | JOADDRAIN
+
+BAD_ABOUTRUINS
+DIALOG | P_NAME | The A.I. Ruins? You've gotta tell me more!
+DIALOG | Dying Dwarf | Saw a scroll... ground... grabbed it. That's when... b-... bainshee started brasting.
+KNOW   | knowJoadScroll | 1
+IF joadPaper == 0 | GOTO | RUINSSKIP
+NOTIFY | Tattered Paper has been revealed to be an Ancient Scroll!
+DIALOG | P_NAME = s_port_hoopzSmirk | Wow, so this Tattered Paper is an that Ancient Scroll, huh?... I bet it's jam packed with secrets... (I love secrets)...
+NOTE   | give | Tattered Paper
+NOTE   | take | Ancient Scroll
+QUEST  | joadScrollOn = 1
+GOTO   | RUINSSKIP
+
+RUINSSKIP
+QUEST | joadBad += 1
+GOTO  | JOADDRAIN
+
+BAD_ABOUTRUINS
+DIALOG | P_NAME | So do you know what the scroll says on it? These letters are really faded, and I don't know what language this is.
+DIALOG | Dying Dwarf | Ugh... Absalom... find Absalom...
+KNOW   | knowAbsalom | 1
+QUEST  | joadBad += 1
+GOTO   | JOADDRAIN
+
+BAD_SPEAKUP
+DIALOG | P_NAME | What's that, mister? I can't hear you.
+DIALOG | Dying Dwarf | ...
+GOTO   | JOADDEATH
+
+JOADDRAIN
+QUEST | joadLife -= 1
+IF joadLife == 4 | DIALOG | Dying Dwarf | I-_I-_ I'm in a bad way...
+IF joadLife == 3 | DIALOG | Dying Dwarf | I... I dont have much strength...
+IF joadLife == 2 | DIALOG | Dying Dwarf | Nnnh..._ my strength is decreasing..._ even further..._
+IF joadLife == 1 | DIALOG | Dying Dwarf | Y... young... ster..._ I...
+IF joadLife == 0 | DIALOG | Dying Dwarf | I am truly... a..._ g-... goner..._
+IF joadLife >= 1 | GOTO | HELPCHOOSER
+IF joadLife == 0 | GOTO | JOADDEATH
+
+ALREADYPASSED03
+DIALOG | P_NAME | (Poor guy...)
+
+ALREADYPASSED02
+DIALOG | P_NAME | I hope you've found peace, Sgt. Joad...
+
+ALREADYPASSED01
+DIALOG | P_NAME | I hope you've found peace, soldier...
+
+NOTECHOOSER 
+DIALOG | P_NAME | Here I think I might have something else.
+NOTE   | select | Dying Dwarf
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Love Letter | GOTO | NOTE_VALID
+IF note == Cornrow's Plea | GOTO | NOTE_VALID
+IF note == Wilmer's Amortization Schedule | GOTO | NOTE_VALID
+IF note == Aelfleda's Eviction | GOTO | NOTE_VALID
+IF note == Printed Invitation | GOTO | NOTE_SPACE
+IF note == Completed Application | GOTO | NOTE_SPACE
+IF note == Pet Manifesto | GOTO | NOTE_SPACE
+IF note == Tattered Paper | GOTO | JOADSNOTEWRITING
+GOTO   | NOTE_GENERIC
+
+NOTE_EXIT
+DIALOG | P_NAME | Oh um, nevermind.
+GOTO   | HELPCHOOSER
+
+NOTE_NONE
+DIALOG | P_NAME | Oh well, sike, I don't have any papers.
+GOTO   | HELPCHOOSER
+
+NOTE_VALID
+DIALOG | P_NAME | Go ahead and use this I guess, I won't need it.
+USEAT  | o_joad01
+NOTE   | give | note
+NOTIFY | Gave @note@ to the Dying Dwarf.
+QUEST  | joadReused = 1
+GOTO   | JOADSNOTEWRITING
+
+NOTE_SPACE
+DIALOG | P_NAME | Here! Use this!
+USEAT  | o_joad01
+DIALOG | Dying Dwarf | W-._._._ what is this?  Young._._._ something to write on! This paper_ doesn't *cough* enough space! Hurry!
+GOTO   | NOTECHOOSER
+
+NOTE_GENERIC
+DIALOG | P_NAME | Umm, will this work?
+DIALOG | Dying Dwarf | N-_no, please... something else! Young._._._ something to write on! Hurry!
+GOTO   | NOTECHOOSER
+
+JOADSNOTEWRITING
+QUEST  | joadNote = 1
+DIALOG | Dying Dwarf | Th-... thank you youngster. And thank you for... being here. Now, I must record what I saw... help t... others...
+WAIT   | 1.0
+Flourish | s_port_joadCough | 1
+DIALOG | Dying Dwarf | There... it's done... thank you youngster... now... I can fin._._._ ally._._._
+PLAYSET | o_joad01 | cough | headup
+SOUND  | sn_debug_two
+WAIT   | 0.5
+SET    | o_joad01 | dead
+IF joadLife >= 3 | GOTO | JOADEXTRASTRENGTH
+GOTO   | JOADDEATH
+
+JOADEXTRASTRENGTH
+WAIT   | 0.5
+Flourish | s_port_joadHead | 0
+DIALOG | Dying Dwarf | Wait!... with all my str-*cough*... one more *hack*... line...
+WAIT   | 0.5
+QUEST  | joadName = 1
+DIALOG | Dying Dwarf = s_port_joadDead | ...
+GOTO   | JOADNOTERESOLVE
+
+JOADDEATH
+DIALOG | P_NAME = s_port_hoopzSurprise | Hey, stay with me!
+WAIT   | 1
+DIALOG | Dying Dwarf = s_port_joadDead | ...
+IF joadNote == 0 | GOTO | BLOODYNOTE
+IF joadScroll == 1 | GOTO | JOADENDQUEST
+DIALOG | P_NAME | (I think he's passed on... he didn't finish writing his note...)
+GOTO   | JOADNOTERESOLVE
+
+JOADNOTERESOLVE
+IF joadReused == 1 | IF joadName == 1 | GOTO | REUSEDNOTE_JOAD
+IF joadReused == 1 | IF joadName == 0 | GOTO | REUSEDNOTE_SOLDIER
+IF joadReused == 0 | IF joadName == 1 | GOTO | ORIGINALNOTE_JOAD
+IF joadReused == 0 | IF joadName == 0 | GOTO | ORIGINALNOTE_SOLDIER
+
+REUSEDNOTE_SOLDIER
+NOTE   | take | Dead Soldier's Note (reused)
+DIALOG | P_NAME | (._._._ It looks like he's a soldier of some kind... )
+QUEST  | joadState = 1
+GOTO   | JOADENDQUEST
+
+ORIGINALNOTE_SOLDIER
+NOTE   | take | Dead Soldier's Note  
+DIALOG | P_NAME | (._._._ It looks like he's a soldier of some kind... )
+QUEST  | joadState = 1
+GOTO   | JOADENDQUEST
+
+REUSEDNOTE_JOAD
+NOTE   | take | Joad's Note (reused)
+NOTIFY | Got Joad's Note.
+DIALOG | P_NAME | ._._._ Sergeant Joad... so that was his name.
+QUEST  | joadState = 2
+GOTO   | JOADENDQUEST
+
+ORIGINALNOTE_JOAD
+NOTE   | take | Joad's Note
+NOTIFY | Got Joad's Note.
+DIALOG | P_NAME | ._._._ Sergeant Joad... so that was his name.
+QUEST  | joadState = 2
+GOTO   | JOADENDQUEST
+
+JOADENDQUEST
+IF joadNote == 0 | GOTO | BLOODYNOTE
+IF knowLONGINUSTnn >= 3 | DIALOG | P_NAME | (Since he's a soldier, I should report this to Absalom and the L.O.N.G.I.N.U.S. rebels...)
+IF knowLONGINUSTnn == 2 | DIALOG | P_NAME | (I wonder if these L.O.N.G.I.N.U.S. fellows I'm looking for could help me with this mystery.)
+IF knowLONGINUSTnn == 1 | DIALOG | P_NAME | (I wonder if these L.O.N.G.I.N.U.S. fellows I'm looking for could help me with this mystery.)
+IF knowLONGINUSTnn == 0 | DIALOG | P_NAME | (Well... I guess I'm responsible for this now...)
+
+BLOODYNOTE
+DIALOG | P_NAME | (He's gone._._._ but there's something sticking out of his pocket...)
+USEAT  | o_joad01
+NOTIFY | Got the Bloody Paper!
+NOTE   | take | Bloody Paper
+DIALOG | P_NAME | (A bloody paper... huh... I was hoping for some candy instead.)
+DIALOG | P_NAME | Rest in peace, noble dwarf...
+QUEST  | joadState = 3"
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rcr28"]
@@ -1726,6 +1993,275 @@ DIALOG | Dr. Pelekryte | Youngshter, thish sheemsh like a nice place to resht yo
 DIALOG | P_NAME        | Hmm..."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
+[sub_resource type="Resource" id="Resource_rj3vk"]
+script = ExtResource("26_beqxh")
+original_script = "IF joadState == 3 | GOTO | ALREADYPASSED03
+IF joadState == 2 | GOTO | ALREADYPASSED02
+IF joadState == 1 | GOTO | ALREADYPASSED01
+IF joadState == 0 | GOTO | HELPCHOOSER
+
+JOADSTART
+QUEST | joadLife = 5
+GOTO | HELPCHOOSER
+
+HELPCHOOSER //Choose what to ask or do
+CHOICE | What do you do?
+IF joadGood == 0 | REPLY | GOOD_HURTWHERE | Ask where he's hurt.
+IF joadBad == 0 | REPLY | BAD_HOWTHISHAPPENED | Ask how this happened.
+IF joadBad == 1 | REPLY | BAD_ABOUTBAINSHEE | Ask about the bainshee.
+IF joadGood == 1 | REPLY | GOOD_HOWCANIHELP | Ask how you can help.
+IF joadBad == 2 | REPLY | BAD_ABOUTTOMB | Ask about the ancient tomb.
+IF joadBad == 3 | IF joadScroll == 0 | REPLY | BAD_ABOUTRUINS | Ask about the AI Ruins.
+IF joadBad == 3 | IF joadScroll == 1 | REPLY | BAD_ABOUTSCROLL | What do you use the scroll for?
+IF joadBad == 4 | REPLY | BAD_SPEAKUP | Speak up!
+IF joadPaperRequest == 1 | IF joadPaper == 1 | REPLY | WRITEONPAPER | Give the dwarf the paper.
+IF joadPaperRequest == 1 | IF joadScroll == 1 | REPLY | WRITEONSCROLL | Give the dwarf the scroll.
+IF joadPaperRequest == 1 | REPLY | NOTECHOOSER | Give him another paper.
+
+GOOD_HURTWHERE
+DIALOG | P_NAME | It looks like you're really bleeding. Where were you hurt?
+Flourish | s_port_joadCough | 1
+DIALOG | Dying Dwarf | Ugh... all over, youngster. It surprised us... *kack*... looks like my time's... almost up.
+QUEST | joadGood += 1
+GOTO | JOADDRAIN
+
+GOOD_HOWCANIHELP
+DIALOG | P_NAME | Ok, we're gonna get you out of here. Uh..._ how should I do this?
+Flourish | s_port_joadHead | 0
+DIALOG | Dying Dwarf | I'm not going... anywhere. P-... paper... pencil. Help me... get my paper... check... my pocket...
+DIALOG | P_NAME | In your pocket, huh?
+USEAT | o_joad01
+QUEST | joadGood += 1
+IF knowJoadScroll == 0 | GOTO | TAKEPAPER
+IF knowJoadScroll == 1 | GOTO | TAKESCROLL
+
+TAKEPAPER
+NOTIFY | Got a piece of Tattered Paper.
+NOTE | take | Tattered Paper
+QUEST | joadNote = 1
+QUEST | joadPaper = 1
+GOTO | AFTERPAPER
+
+TAKESCROLL
+DIALOG | P_NAME =  s_port_hoopzSurprise | This is that scroll you mentioned... looks old!
+NOTIFY | Got the Ancient Scroll!
+NOTE | take | Ancient Scroll
+QUEST | joadNote = 1
+QUEST | joadScroll = 1
+GOTO | AFTERPAPER
+
+AFTERPAPER
+DIALOG | P_NAME | Did you need this to write on?
+DIALOG | Dying Dwarf | Yes... give it here...
+QUEST | joadPaperRequest = 1
+GOTO | HELPCHOOSER
+
+WRITEONPAPER
+DIALOG | P_NAME | Here's the paper...
+NOTIFY | Gave the Tattered Paper back to the Dying Dwarf.
+NOTE | give | Tattered Paper
+QUEST | joadPaper = 2
+GOTO | JOADSNOTEWRITING
+
+WRITEONSCROLL
+DIALOG | P_NAME | Here you go... scribble all over this ancient scroll I guess. 
+NOTIFY | Gave the Ancient Scroll back to the Dying Dwarf.
+NOTE | give | Ancient Scroll
+QUEST | joadScroll = 2
+GOTO | JOADSNOTEWRITING
+
+BAD_HOWTHISHAPPENED
+DIALOG | P_NAME | You look really hurt. How did this happen?
+DIALOG | Dying Dwarf | Was scouting... blasted into a room a few floors down... think it was a tomb... ba-... bainshee caught up to me... got me good.
+QUEST | joadBad += 1
+GOTO | JOADDRAIN
+
+BAD_ABOUTBAINSHEE
+DIALOG | P_NAME | A bainshee did this? Where did it get off to? They really sound like bad news.
+IF joadLife >= 3 | DIALOG | Dying Dwarf | Really bad... I tracked it for awhile, lost it... lo... in tomb when it appeared. Got back to here but... ugh... too late.
+IF joadLife < 3 | DIALOG | Dying Dwarf | Real... bad... tracked for awhile... lost it... looking... *cough* tomb when... got to here but... ugh... late...
+QUEST | joadBad += 1
+GOTO | JOADDRAIN
+
+BAD_ABOUTTOMB
+DIALOG | P_NAME | Could you tell me anything else about this tomb?
+DIALOG | Dying Dwarf | ... saw weak wall... blasted in. Caved in now... It was the... A._I._ Ruins...
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow, the A.I. Ruins?! Where is it?
+DIALOG | Dying Dwarf | Beneath._._._ undersewers... 
+KNOW   | knowAIRuins | 1
+KNOW   | knowUndersewers | 1
+QUEST  | joadBad += 1
+GOTO   | JOADDRAIN
+
+BAD_ABOUTRUINS
+DIALOG | P_NAME | The A.I. Ruins? You've gotta tell me more!
+DIALOG | Dying Dwarf | Saw a scroll... ground... grabbed it. That's when... b-... bainshee started brasting.
+KNOW   | knowJoadScroll | 1
+IF joadPaper == 0 | GOTO | RUINSSKIP
+NOTIFY | Tattered Paper has been revealed to be an Ancient Scroll!
+DIALOG | P_NAME = s_port_hoopzSmirk | Wow, so this Tattered Paper is an that Ancient Scroll, huh?... I bet it's jam packed with secrets... (I love secrets)...
+NOTE   | give | Tattered Paper
+NOTE   | take | Ancient Scroll
+QUEST  | joadScrollOn = 1
+GOTO   | RUINSSKIP
+
+RUINSSKIP
+QUEST | joadBad += 1
+GOTO  | JOADDRAIN
+
+BAD_ABOUTRUINS
+DIALOG | P_NAME | So do you know what the scroll says on it? These letters are really faded, and I don't know what language this is.
+DIALOG | Dying Dwarf | Ugh... Absalom... find Absalom...
+KNOW   | knowAbsalom | 1
+QUEST  | joadBad += 1
+GOTO   | JOADDRAIN
+
+BAD_SPEAKUP
+DIALOG | P_NAME | What's that, mister? I can't hear you.
+DIALOG | Dying Dwarf | ...
+GOTO   | JOADDEATH
+
+JOADDRAIN
+QUEST | joadLife -= 1
+IF joadLife == 4 | DIALOG | Dying Dwarf | I-_I-_ I'm in a bad way...
+IF joadLife == 3 | DIALOG | Dying Dwarf | I... I dont have much strength...
+IF joadLife == 2 | DIALOG | Dying Dwarf | Nnnh..._ my strength is decreasing..._ even further..._
+IF joadLife == 1 | DIALOG | Dying Dwarf | Y... young... ster..._ I...
+IF joadLife == 0 | DIALOG | Dying Dwarf | I am truly... a..._ g-... goner..._
+IF joadLife >= 1 | GOTO | HELPCHOOSER
+IF joadLife == 0 | GOTO | JOADDEATH
+
+ALREADYPASSED03
+DIALOG | P_NAME | (Poor guy...)
+
+ALREADYPASSED02
+DIALOG | P_NAME | I hope you've found peace, Sgt. Joad...
+
+ALREADYPASSED01
+DIALOG | P_NAME | I hope you've found peace, soldier...
+
+NOTECHOOSER 
+DIALOG | P_NAME | Here I think I might have something else.
+NOTE   | select | Dying Dwarf
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Love Letter | GOTO | NOTE_VALID
+IF note == Cornrow's Plea | GOTO | NOTE_VALID
+IF note == Wilmer's Amortization Schedule | GOTO | NOTE_VALID
+IF note == Aelfleda's Eviction | GOTO | NOTE_VALID
+IF note == Printed Invitation | GOTO | NOTE_SPACE
+IF note == Completed Application | GOTO | NOTE_SPACE
+IF note == Pet Manifesto | GOTO | NOTE_SPACE
+IF note == Tattered Paper | GOTO | JOADSNOTEWRITING
+GOTO   | NOTE_GENERIC
+
+NOTE_EXIT
+DIALOG | P_NAME | Oh um, nevermind.
+GOTO   | HELPCHOOSER
+
+NOTE_NONE
+DIALOG | P_NAME | Oh well, sike, I don't have any papers.
+GOTO   | HELPCHOOSER
+
+NOTE_VALID
+DIALOG | P_NAME | Go ahead and use this I guess, I won't need it.
+USEAT  | o_joad01
+NOTE   | give | note
+NOTIFY | Gave @note@ to the Dying Dwarf.
+QUEST  | joadReused = 1
+GOTO   | JOADSNOTEWRITING
+
+NOTE_SPACE
+DIALOG | P_NAME | Here! Use this!
+USEAT  | o_joad01
+DIALOG | Dying Dwarf | W-._._._ what is this?  Young._._._ something to write on! This paper_ doesn't *cough* enough space! Hurry!
+GOTO   | NOTECHOOSER
+
+NOTE_GENERIC
+DIALOG | P_NAME | Umm, will this work?
+DIALOG | Dying Dwarf | N-_no, please... something else! Young._._._ something to write on! Hurry!
+GOTO   | NOTECHOOSER
+
+JOADSNOTEWRITING
+QUEST  | joadNote = 1
+DIALOG | Dying Dwarf | Th-... thank you youngster. And thank you for... being here. Now, I must record what I saw... help t... others...
+WAIT   | 1.0
+Flourish | s_port_joadCough | 1
+DIALOG | Dying Dwarf | There... it's done... thank you youngster... now... I can fin._._._ ally._._._
+PLAYSET | o_joad01 | cough | headup
+SOUND  | sn_debug_two
+WAIT   | 0.5
+SET    | o_joad01 | dead
+IF joadLife >= 3 | GOTO | JOADEXTRASTRENGTH
+GOTO   | JOADDEATH
+
+JOADEXTRASTRENGTH
+WAIT   | 0.5
+Flourish | s_port_joadHead | 0
+DIALOG | Dying Dwarf | Wait!... with all my str-*cough*... one more *hack*... line...
+WAIT   | 0.5
+QUEST  | joadName = 1
+DIALOG | Dying Dwarf = s_port_joadDead | ...
+GOTO   | JOADNOTERESOLVE
+
+JOADDEATH
+DIALOG | P_NAME = s_port_hoopzSurprise | Hey, stay with me!
+WAIT   | 1
+DIALOG | Dying Dwarf = s_port_joadDead | ...
+IF joadNote == 0 | GOTO | BLOODYNOTE
+IF joadScroll == 1 | GOTO | JOADENDQUEST
+DIALOG | P_NAME | (I think he's passed on... he didn't finish writing his note...)
+GOTO   | JOADNOTERESOLVE
+
+JOADNOTERESOLVE
+IF joadReused == 1 | IF joadName == 1 | GOTO | REUSEDNOTE_JOAD
+IF joadReused == 1 | IF joadName == 0 | GOTO | REUSEDNOTE_SOLDIER
+IF joadReused == 0 | IF joadName == 1 | GOTO | ORIGINALNOTE_JOAD
+IF joadReused == 0 | IF joadName == 0 | GOTO | ORIGINALNOTE_SOLDIER
+
+REUSEDNOTE_SOLDIER
+NOTE   | take | Dead Soldier's Note (reused)
+DIALOG | P_NAME | (._._._ It looks like he's a soldier of some kind... )
+QUEST  | joadState = 1
+GOTO   | JOADENDQUEST
+
+ORIGINALNOTE_SOLDIER
+NOTE   | take | Dead Soldier's Note  
+DIALOG | P_NAME | (._._._ It looks like he's a soldier of some kind... )
+QUEST  | joadState = 1
+GOTO   | JOADENDQUEST
+
+REUSEDNOTE_JOAD
+NOTE   | take | Joad's Note (reused)
+NOTIFY | Got Joad's Note.
+DIALOG | P_NAME | ._._._ Sergeant Joad... so that was his name.
+QUEST  | joadState = 2
+GOTO   | JOADENDQUEST
+
+ORIGINALNOTE_JOAD
+NOTE   | take | Joad's Note
+NOTIFY | Got Joad's Note.
+DIALOG | P_NAME | ._._._ Sergeant Joad... so that was his name.
+QUEST  | joadState = 2
+GOTO   | JOADENDQUEST
+
+JOADENDQUEST
+IF joadNote == 0 | GOTO | BLOODYNOTE
+IF knowLONGINUSTnn >= 3 | DIALOG | P_NAME | (Since he's a soldier, I should report this to Absalom and the L.O.N.G.I.N.U.S. rebels...)
+IF knowLONGINUSTnn == 2 | DIALOG | P_NAME | (I wonder if these L.O.N.G.I.N.U.S. fellows I'm looking for could help me with this mystery.)
+IF knowLONGINUSTnn == 1 | DIALOG | P_NAME | (I wonder if these L.O.N.G.I.N.U.S. fellows I'm looking for could help me with this mystery.)
+IF knowLONGINUSTnn == 0 | DIALOG | P_NAME | (Well... I guess I'm responsible for this now...)
+
+BLOODYNOTE
+DIALOG | P_NAME | (He's gone._._._ but there's something sticking out of his pocket...)
+USEAT  | o_joad01
+NOTIFY | Got the Bloody Paper!
+NOTE   | take | Bloody Paper
+DIALOG | P_NAME | (A bloody paper... huh... I was hoping for some candy instead.)
+DIALOG | P_NAME | Rest in peace, noble dwarf...
+QUEST  | joadState = 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_1387q"]
 atlas = ExtResource("28_dmby7")
 region = Rect2(0, 0, 32, 32)
@@ -2044,6 +2580,7 @@ script = ExtResource("1_a8g5g")
 reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(216, 256)
+load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
@@ -2051,16 +2588,19 @@ cutscene_script = SubResource("Resource_tkl2v")
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("2_t55ei")
+convert_cinema_spots = false
+convert_door_light = false
+convert_door = false
+convert_collision = false
 convert_known_nodes = true
 simulate = false
 remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="." node_paths=PackedStringArray("target")]
+[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="."]
 script = ExtResource("3_ut5ui")
 dwarf_actor_file_path = "res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/"
 save_to_disk = true
-target = NodePath("../P11 - o_joad01")
 sprite_name = "s_joad01"
 metadata/_custom_type_script = "uid://bjj6h5usin15g"
 
@@ -2099,56 +2639,51 @@ tile_set = ExtResource("4_c70in")
 [node name="o_doorlight_down" parent="." instance=ExtResource("5_ut5ui")]
 position = Vector2(160, 304)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
+frame = 0
 teleport_destination = "r_sw1_crossroads01, 224, 632"
 metadata/code = "RoomXY(r_sw1_crossroads01, 224, 632);"
 metadata/inst_name = "inst_213353CC"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum01" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("13_0a3gg")]
+[node name="o_drum01" parent="." instance=ExtResource("13_0a3gg")]
 position = Vector2(320, 155)
 sprite_frames = SubResource("SpriteFrames_lbq55")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000009"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum02" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("13_0a3gg")]
+[node name="o_drum02" parent="." instance=ExtResource("13_0a3gg")]
 position = Vector2(336, 155)
 sprite_frames = SubResource("SpriteFrames_lbq55")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000010"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum03" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("13_0a3gg")]
+[node name="o_drum03" parent="." instance=ExtResource("13_0a3gg")]
 position = Vector2(304, 155)
 sprite_frames = SubResource("SpriteFrames_lbq55")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000011"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum04" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("13_0a3gg")]
+[node name="o_drum04" parent="." instance=ExtResource("13_0a3gg")]
 position = Vector2(288, 155)
 sprite_frames = SubResource("SpriteFrames_lbq55")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000012"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum05" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("13_0a3gg")]
+[node name="o_drum05" parent="." instance=ExtResource("13_0a3gg")]
 position = Vector2(328, 171)
 sprite_frames = SubResource("SpriteFrames_lbq55")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000013"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open01" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("16_g7dtn")]
+[node name="o_drum_open01" parent="." instance=ExtResource("16_g7dtn")]
 position = Vector2(304, 171)
 sprite_frames = SubResource("SpriteFrames_esvbv")
 frame = 1
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000014"
 metadata/scale = Vector2(1, 1)
@@ -2189,8 +2724,9 @@ metadata/code = ""
 metadata/inst_name = "inst_347C12C8"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_joad01" type="Marker2D" parent="."]
+[node name="o_joad01" parent="." instance=ExtResource("24_6kt5p")]
 position = Vector2(352, 264)
+cutscene_script = SubResource("Resource_rj3vk")
 metadata/code = ""
 metadata/inst_name = "inst_1065C8D8"
 metadata/scale = Vector2(1, 1)
