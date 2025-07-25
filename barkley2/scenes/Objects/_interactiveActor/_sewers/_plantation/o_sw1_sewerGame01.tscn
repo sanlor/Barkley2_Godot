@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://yok464fuyc0c"]
+
+[ext_resource type="Texture2D" uid="uid://bgr2n0hlmp87k" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityVidcon.png" id="1_mm0sw"]
+[ext_resource type="Script" uid="uid://cuucg34tuxa38" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_sw_1_sewer_game_01.gd" id="2_mm0sw"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_ym3ny"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_or17f"]
+atlas = ExtResource("1_mm0sw")
+region = Rect2(0, 0, 15, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hkfy"]
+atlas = ExtResource("1_mm0sw")
+region = Rect2(15, 0, 15, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ditpd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_or17f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hkfy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_qj8sb"]
+script = ExtResource("3_ym3ny")
+original_script = "IF governorGame = 0 | GOTO | GAME0
+
+GAME0
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+WAIT   | 0
+KNEELAT | o_sw1_sewerGame01
+WAIT   | 0.75
+LOOKAT | o_cts_hoopz | o_sw1_sewerGame01
+NOTIFY | Found the vidcon#@gamename@!
+EVENT  | o_sw1_sewerGame01 | 0
+QUEST  | sewerGame = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hyy3v"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mgxgd"]
+radius = 7.0
+
+[node name="o_sw1_sewerGame01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_ditpd")
+frame = 1
+script = ExtResource("2_mm0sw")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_qj8sb")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_hyy3v")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_mgxgd")

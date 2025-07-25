@@ -659,9 +659,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#endregion
 						
 				"EVENT":
-					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects withe the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
+					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects with the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
-					# basically, this just executes funciones on the fly.
+					# basically, this just executes funcions on the fly.
 					var event_object = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
 					if event_object != null:
 						var event_id := int(parsed_line[2]) # had some issues with empty spaces here. Now, string > int > string
@@ -722,14 +722,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"SURPRISEAT":
 					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
 					# Check script USEAT() and SURPRISEAT.
-					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
+					# the parsed_line[ 1 ] can be either a destination or a string. WTF².
 					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( str(parsed_line[ 1 ]).strip_edges() ) 	# its a direction, like NORTH.
-					pass
 				"USEAT":
 					# Check script USEAT().
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
@@ -739,7 +738,16 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_useat( str(parsed_line[ 1 ] ).strip_edges() ) 	# its a direction, like NORTH.
+				"KNEELAT":
+					## Similar to SURPRISEAT, but kneeling
+					# USEAT(argument[0], "kneelHold", "kneelHold", 1);
+					# the parsed_line[ 1 ] can be either a destination or a string. WTF³.
+					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
 					
+					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
+						await B2_CManager.o_cts_hoopz.cinema_kneelat( subject ) 		# its a node.
+					else:
+						await B2_CManager.o_cts_hoopz.cinema_kneelat( str(parsed_line[ 1 ]).strip_edges() ) 	# its a direction, like NORTH.
 				"FOLLOWFRAME":
 					var speed 			: String = parsed_line[ 1 ]
 					var follow_array 	: Array = Array()

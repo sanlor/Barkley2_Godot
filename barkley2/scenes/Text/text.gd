@@ -179,6 +179,8 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 			pass # TODO
 		elif str_var.contains("gunsbag"):
 			pass # TODO
+		elif str_var.contains("gamename"):
+			parsed_str_var = B2_Playerdata.Quest( "gamename", null, "Invalid Vidcon" )
 		else:
 			# Cinema() line 678
 			parsed_str_var = B2_Playerdata.Quest( str_var )

@@ -16,8 +16,8 @@ class_name B2_TOOL_DWARF_CONVERTER
 enum TYPE{DWARF, DUERGAR}
 
 @export_category("Paths")
-@export var obj_folder_path 		:= "Y:/tmp/barkley_2/Barkley2.gmx/objects"
-@export var spr_folder_path 		:= "Y:/tmp/barkley_2/Barkley2.gmx/sprites"
+@export var obj_folder_path 		:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/objects" # "Y:/tmp/barkley_2/Barkley2.gmx/objects"
+@export var spr_folder_path 		:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/sprites" # "Y:/tmp/barkley_2/Barkley2.gmx/sprites"
 @export var img_folder_path 		:= "res://barkley2/assets/b2_original/images/merged/"
 @export var dwarf_actor_file_path 	:= "res://barkley2/scenes/_tool_export/dwarf/"
 @export var duergar_actor_file_path := "res://barkley2/scenes/_tool_export/duergar/"

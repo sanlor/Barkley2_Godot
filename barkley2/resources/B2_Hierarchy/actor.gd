@@ -223,6 +223,9 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 		
 	var new_anim 	:= prefix + force_new_anim + useat_map.get(dir, "S") as String ## action_S as the catch all.
 		
+	assert( ActorAnim.sprite_frames.has_animation(new_anim) )
+	assert( ActorAnim.sprite_frames.has_animation(old_anim) )
+		
 	ActorAnim.sprite_frames.set_animation_loop( new_anim, false )
 	ActorAnim.sprite_frames.set_animation_loop( old_anim, false )
 	
@@ -231,7 +234,7 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	await ActorAnim.animation_finished
 	
 	## 25-12-24 vvv
-	cinema_look( vec_2_dir_map.get( dir, "SOUTH" ) )
+	#cinema_look( vec_2_dir_map.get( dir, "SOUTH" ) ) # 24/07/25 disabled this.
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	
