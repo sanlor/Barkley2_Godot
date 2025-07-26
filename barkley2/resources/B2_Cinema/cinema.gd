@@ -74,6 +74,11 @@ var breakout_data := {
 	"opt"			: 0, # I have no idea what this is.
 }
 
+## Flourish stuff
+var flourish_enabled 	:= false
+var flourish_portrait 	:= ""
+var flourish_time 		:= 0.0
+
 func _ready() -> void:
 	pass
 	
@@ -448,6 +453,16 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
 					add_child( dialogue, true )
+					
+					# Setup flourish
+					dialogue.flourish_enabled 	= flourish_enabled
+					dialogue.flourish_portrait 	= flourish_portrait
+					dialogue.flourish_time 		= flourish_time
+					
+					# Reset flourish
+					flourish_enabled 		= false
+					flourish_portrait 		= ""
+					flourish_time 			= 0.0
 					
 					if show_breakout:
 						var brk := B2_Breakout.new()
@@ -915,6 +930,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						
 					else:
 						push_error("Unrecognized ClockTime command: " + str(parsed_line) )
+				"Flourish":
+					# The Original code doesnt describe this function. of course.
+					# It SEEMS that all it does is override the current portrait during dialog, with some animation that doesnt follow the "talk" and "blink" commands.
+					# Check Flourish()
+					flourish_enabled = true
+					flourish_portrait = str( parsed_line[1] )
+					flourish_time = float( parsed_line[0] ) ## <- No idea wha this does. this is never decreased on the original code. -1 seems to be "disabled". What 0 and 1 means?
 				"Emote":
 					## Emote(emotetype, target object?, xoffset?, yoffset?)
 					## Create an emote at a specific place.

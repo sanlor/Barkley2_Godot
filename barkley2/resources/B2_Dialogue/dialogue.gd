@@ -46,7 +46,15 @@ var _confirm_sound 	= "sn_talk3";
 #var blinkTime = 4; # Variance in blink, 4 means it can be from 4 to 6 seconds (4 + (4 / 2))
 #var blinkDuration = 0.2; # Duration of blink
 #var blinkCount = randf_range( 0, blinkTime + ( blinkTime / 2 ) ) # random(blinkTime + (blinkTime / 2));
-var flourishFrame = 0; 				## WARNING Set this up when the time comes.
+
+# var flourishFrame = 0; 				## WARNING Set this up when the time comes.
+## NOTE The time has come - 26/07/25
+
+## Flourish stuff
+var flourish_enabled 	:= false
+var flourish_portrait 	:= ""
+var flourish_time 		:= 0.0
+var flourish_tween		: Tween
 
 ## NOTE seems interesting
 var style = 1; # 0 is old style, 1 is generated
@@ -167,7 +175,10 @@ func set_text( _text : String, _text_title := "" ) -> void:
 	_my_text 	= _text 		# text dialog
 	
 func set_portrait( portrait_name : String, from_name := true ) -> void:
-	if from_name:
+	if flourish_enabled:
+		# disregard everything, setup flourish.
+		_load_portrait( flourish_portrait, true )
+	elif from_name:
 		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
@@ -240,7 +251,7 @@ func display_dialog( _is_boxless := false ):
 	return
 
 ## Manually add the character portraits and setup the AnimatedSprite2D
-func _load_portrait( portrait_name : String ):
+func _load_portrait( portrait_name : String, flourish := false ):
 	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
 	var spritesheet : Texture2D
 	
@@ -269,8 +280,15 @@ func _load_portrait( portrait_name : String ):
 	portrait_img_node.offset = Vector2(8, 10) # trial and error
 	
 	var anim_frames := SpriteFrames.new()
-	anim_frames.add_animation( "blink" )
-	anim_frames.add_animation( "talk" )
+	
+	if flourish:
+		anim_frames.add_animation( "flourish" )
+		anim_frames.set_animation_loop( "flourish", false )
+		anim_frames.set_animation_speed( "flourish", 7.5 )
+		portrait_img_node.autoplay = "flourish"
+	else:
+		anim_frames.add_animation( "blink" )
+		anim_frames.add_animation( "talk" )
 	
 	@warning_ignore("integer_division")
 	var d_offset := int( spritesheet.get_width() / n_frames )
@@ -280,12 +298,15 @@ func _load_portrait( portrait_name : String ):
 		frame_tex.atlas = spritesheet
 		var frame_offset = d_offset * f
 		frame_tex.region = Rect2( Vector2(frame_offset, 0), Vector2( d_offset, spritesheet.get_height() ) )
-		if f == 0:
-			anim_frames.add_frame("blink", frame_tex )
-		if f > 0 and f < n_frames - 1:
-			anim_frames.add_frame("talk", frame_tex )
-		if f == n_frames - 1:
-			anim_frames.add_frame("blink", frame_tex )
+		if flourish:
+			anim_frames.add_frame("flourish", frame_tex )
+		else:
+			if f == 0:
+				anim_frames.add_frame("blink", frame_tex )
+			if f > 0 and f < n_frames - 1:
+				anim_frames.add_frame("talk", frame_tex )
+			if f == n_frames - 1:
+				anim_frames.add_frame("blink", frame_tex )
 			
 	portrait_img_node.sprite_frames = anim_frames
 	
@@ -296,7 +317,7 @@ func hide_box(): # allow hiding the dialog box with some fancy animation
 	hide()
 
 func _portrait_is_silent():
-	if not has_portrait:
+	if not has_portrait or flourish_enabled:
 		return
 	voice_sound_played = false
 	is_talking = false
@@ -304,7 +325,7 @@ func _portrait_is_silent():
 	portrait_img_node.frame = 0
 
 func _portrait_is_talking(delta):
-	if not has_portrait:
+	if not has_portrait or flourish_enabled:
 		return
 	# allow to control the speed for the portrait animation.
 	if portrait_talk_time < 0:
@@ -428,7 +449,7 @@ func _process(delta: float) -> void:
 		return
 		
 	# Handle portrait animation and blinking
-	if has_portrait:
+	if has_portrait and not flourish_enabled:
 		if not is_talking:
 			blink_cooldown -= delta
 			
