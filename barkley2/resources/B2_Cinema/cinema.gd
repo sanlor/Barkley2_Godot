@@ -24,6 +24,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
 @export var debug_event 		:= false
+@export var debug_flourish 		:= false
 @export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
@@ -937,6 +938,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					flourish_enabled = true
 					flourish_portrait = str( parsed_line[1] )
 					flourish_time = float( parsed_line[0] ) ## <- No idea wha this does. this is never decreased on the original code. -1 seems to be "disabled". What 0 and 1 means?
+					if debug_flourish: print( "Flourish called: %s" % flourish_portrait )
 				"Emote":
 					## Emote(emotetype, target object?, xoffset?, yoffset?)
 					## Create an emote at a specific place.
