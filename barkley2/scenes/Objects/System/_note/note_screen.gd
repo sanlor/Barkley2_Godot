@@ -86,7 +86,7 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 	# get note name from the directory
 	#note_name.text = Text.pr( B2_Note.notes[ avaiable_notes[selected_note] ] )
 	note_name.text = Text.pr( avaiable_notes[selected_note] )
-	note_itself.texture.region.position.x = B2_Note.notes[ avaiable_notes[selected_note] ]["note_id"] * map_size
+	note_itself.texture.region.position.x = B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_id"] * map_size
 	note_itself.texture.region.position.x = wrapf(note_itself.texture.region.position.x, 0, text_size)
 	# ^^^^ Lol, wtf?
 	
@@ -99,8 +99,8 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 	# TITLE # "Wilmer's Amortization Schedule", 
 	# SFX # "sn_mnu_noteFlipLight01", 
 	# DATA # "BAK|s_tnn_papers|15~STR|By Holy Supreme\nand Regnant Decree\nof Lord Emperor\nCuchulainn|-23|-84|3|3355344|1~STR|It is hereby known to\nDwarfkin and Duergar alike\n\nThat        \n\nof         ,\nis duly charged with\nremittance to The\nResplendent Coffers of\nPresident Cuchulainn,\nthe value of\n\n      Cuchu-Bucks\nor current equivalent\nneuroshekels.\n\nDue upon the reading\nof this decree.|-69|-48|3|0|1~STR|Mr. Wilmer|-41|-27|3|509|1~STR|Tir na nOg|-54|-13|3|254|1~STR|180,348|-68|36|3|509|1");
-	if B2_Note.notes.has( avaiable_notes[selected_note] ):
-		parse_data( B2_Note.notes.get( avaiable_notes[selected_note] )["note_data"] )
+	if B2_Note.has_note_in_db( avaiable_notes[selected_note] ):
+		parse_data( B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_data"] )
 	else:
 		push_error("Invalid DATA for note %s." % avaiable_notes[selected_note])
 
@@ -145,8 +145,8 @@ func parse_data( data : String ) -> void:
 func play_sfx() -> void:
 	var sfx : String
 	
-	if B2_Note.notes.has( avaiable_notes[selected_note] ):
-		sfx = B2_Note.notes.get( avaiable_notes[selected_note] )["note_sfx"]
+	if B2_Note.has_note_in_db( avaiable_notes[selected_note] ):
+		sfx = B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_sfx"]
 	else:
 		push_error("Invalid SFX for note %s." % avaiable_notes[selected_note])
 		sfx = "sn_debug_one"

@@ -707,6 +707,19 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					elif parsed_line[1].strip_edges() == "give": # as in, hoopz loses a note.
 						B2_Note.give_note( Text.pr( parsed_line[2].strip_edges() ) )
 						if debug_note: print_rich("[color=yellow]Note %s lost![/color]" % Text.pr( parsed_line[2].strip_edges() ))
+					elif parsed_line[1].strip_edges() == "select": # as in, hoopz selects a note for something.
+						# Check Note line 216
+						# WARNING Need to handle and note exclusion list ----> global.noteExclude = scr_quest_get_state("note_exclude_" + string_lower(argument[1]));
+						var selected_note := "Farts"
+						breakpoint ## TODO
+						if debug_note: print_rich("[color=yellow]Note %s selected![/color]" % Text.pr( selected_note ))
+					elif parsed_line[1].strip_edges() == "gallery": # as in, hoopz browses and art gallery. BrainCity stuff.
+						breakpoint ## TODO
+					elif parsed_line[1].strip_edges() == "identity": # as in, hoopz ... um... fuck, no idea what this does.
+						# Maybe related to chosing you identity when talking to CyberDwarf? check this sprite out: res://barkley2/assets/b2_original/images/merged/sIdentity.png
+						# Check oNote
+						# Check Note line 202
+						breakpoint ## TODO
 					else:
 						push_error("Unrecognized Note command: " + str(parsed_line) )
 					
@@ -720,7 +733,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if parsed_line.size() >= 3:
 						shop_name 			= parsed_line[2].strip_edges()
 					if parsed_line.size() >= 4:
-						unknown_parameter 	= parsed_line[3].strip_edges()
+						unknown_parameter 	= parsed_line[3].strip_edges() # Parameter that is not know. Doesnt do shit, from what I can gather.
 						
 					if action == "open":
 						if debug_shop: print_rich("[color=yellow]Shop %s open![/color]" % shop_name )

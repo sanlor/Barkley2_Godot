@@ -168,7 +168,7 @@ static func take_note( note_title : String ): # as in, hoopz receives the note
 	if my_notes is not Array:
 		my_notes = []
 			
-	if NOTES.data.has( note_title ): # check ifg the actual note exists
+	if has_note_in_db( note_title ): # check ifg the actual note exists
 		if not my_notes.has(note_title): # check if the players has the note
 			my_notes.append( note_title )
 			B2_Config.set_user_save_data("quest.notes", my_notes)
@@ -185,7 +185,7 @@ static func give_note( note_title : String ): # as in, hoopz gives the note away
 	if my_notes is not Array:
 		my_notes = []
 			
-	if NOTES.data.has( note_title ): # check ifg the actual note exists
+	if has_note_in_db( note_title ): # check ifg the actual note exists
 		if my_notes.has(note_title): # check if the players has the note
 			my_notes.append( note_title )
 			B2_Config.set_user_save_data("quest.notes", my_notes)
@@ -194,3 +194,18 @@ static func give_note( note_title : String ): # as in, hoopz gives the note away
 		push_error("WARNING: You are giving away a note you don't have.")
 	else:
 		push_error("WARNING: You are giving away a note that doesn't exist.")
+
+static func has_note_in_db( note_title : String ) -> bool:
+	return NOTES.data.has( note_title )
+
+static func get_note_from_db( note_title : String ) -> Dictionary:
+	if has_note_in_db( note_title ):
+		return NOTES.data.get( note_title )
+	else:
+		push_error("Invalid Note requested (%s). Check this out!" % note_title)
+		var invalid_dict := {}
+		invalid_dict["note_data"] 	= ""
+		invalid_dict["note_id"] 	= ""
+		invalid_dict["note_sfx"] 	= ""
+		return invalid_dict
+		
