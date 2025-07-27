@@ -1,4 +1,7 @@
 extends CanvasLayer
+## TODO THis is incomplete.
+# https://youtu.be/kMybONQr0wA?t=11255
+# check o_hoopz_death_grayscale
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var bg: ColorRect = $bg
@@ -10,6 +13,7 @@ extends CanvasLayer
 @onready var continue_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/continue
 @onready var give_up_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/give_up
 
+## TODO get original games text
 const GO_NAMES := [
 	"Got dunked on!",
 	"You ate some dirt!",

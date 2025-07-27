@@ -1,0 +1,998 @@
+[gd_scene load_steps=67 format=3 uid="uid://1ovtntw854ku"]
+
+[ext_resource type="Script" uid="uid://bpghslmqb3bl7" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_turald01.gd" id="1_cro0t"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4v8uc"]
+[ext_resource type="Texture2D" uid="uid://c8sneg5yst1ao" path="res://barkley2/assets/b2_original/images/merged/s_turald_pull_fish.png" id="2_j7y8d"]
+[ext_resource type="Texture2D" uid="uid://ifcym4fj3x17" path="res://barkley2/assets/b2_original/images/merged/s_turald01.png" id="3_4v8uc"]
+[ext_resource type="Texture2D" uid="uid://sdkddbhpe74y" path="res://barkley2/assets/b2_original/images/merged/s_turald_pull_under.png" id="4_sx8xe"]
+[ext_resource type="Texture2D" uid="uid://da06svc2dwxpo" path="res://barkley2/assets/b2_original/images/merged/s_turald_pull_up.png" id="5_bmb7i"]
+
+[sub_resource type="Resource" id="Resource_sx8xe"]
+script = ExtResource("2_4v8uc")
+original_script = "IF fishgutQuest == 5 | GOTO | FISHQUEST5
+IF fishgutQuest >= 1 | GOTO | FISHQUEST1
+IF turaldState == 2 | GOTO | TURALD2
+IF turaldState == 1 | GOTO | TURALD1
+IF turaldState == 0 | GOTO | TURALD0
+
+FISHQUEST5
+DIALOG  | P_NAME | A moment of silence for Turald.
+KNEELAT | o_turald01
+WAIT    | 2
+LOOKAT  | o_cts_hoopz | o_turald01
+
+TURALD2
+DIALOG | Turald | Hey, P_NAME_S. Nothing yet at the end of my hook. Second thoughts about my Fishgut's Quest?
+GOTO   | HELPCHOICE
+
+TURALD1 
+DIALOG | Turald | Fishtical Greetings, P_NAME_S. How can I help you?
+GOTO   | WHYAREYOUHERE
+
+TURALD0
+DIALOG | Turald | Why, if it isn't a young youth? What brings you here? Was it the sound of the waves lapping against the riverbank? Or like me was it the allure of glittering gun'scales and the possibility of record catches?
+DIALOG | P_NAME | Meets and greets. These are the Sewers right?
+DIALOG | Turald | Splendid, another friend of the river. Eventually the ebbtide pulls us all down here, where the river speaks the loudest. I can tell you and she are close. I'm Turald, an angler, and this is my spot. I hate to tell you, there ain't much biting today.
+QUEST  | turaldState = 1
+CHOICE | Nothin' bitin'...
+REPLY  | CLISPAETHBLESS | May Clispaeth bless your line.
+REPLY  | BBALLBLESS     | May the Gods of Bball bless your line.
+REPLY  | CANDYBLESS     | May your line be tipped with the enticing sweetness of candy.
+
+CLISPAETHBLESS
+DIALOG | P_NAME | May Clispaeth bless your line.
+QUEST  | rmTab += 1
+QUEST  | rmClispaeth += 1
+GOTO   | FIRSTCATCH
+
+BBALLBLESS
+DIALOG | P_NAME | May the Gods of Bball bless your line.
+QUEST  | rmTab += 1
+QUEST  | rmBball += 1
+GOTO   | FIRSTCATCH
+
+CANDYBLESS
+DIALOG | P_NAME | May your line be tipped with a sweet alluring candy!
+QUEST  | rmTab += 1
+QUEST  | rmCandy += 1
+GOTO   | FIRSTCATCH
+
+FIRSTCATCH
+DIALOG | Turald | What a pleasant thing to say, thank you, friend.
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cinema2
+WAIT   | 0
+CREATE | o_turald_fish | 0 | 0 // spawn the shadow
+EVENT  | o_turald_fish | 0 // set it as weakest drop
+EVENT  | o_turald_fish | 10 // spawn the drop
+Emote  | ! | o_turald01
+WAIT   | 3
+DIALOG | Turald | Huh, what's this?
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+EVENT  | o_turald_fish | 12 // move turald 4px
+SET    | o_turald01 | reeling
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_turald01
+DIALOG | Turald | Well I'll be! Your blessing was genuine!
+DIALOG | P_NAME = s_port_hoopzHappy | Is that a fish?!
+DIALOG | Turald | A fish, yes. A gun, yes. A gun'sfish more precicely. But, take a look at that puny shadow. You can tell by the size and lack of fight it's a shit-tier material such as Carbon or Mythril. They're a neuro-shekel-a-dozen around these parts. I'm a lifetime angler seeking a more formidable challenge from the higher gun'stiers!
+QUEST  | knowGunstiers += 1
+EVENT  | o_turald_fish | 15 // line
+PLAYSET | o_turald01 | catch | catchLast
+WAIT   | 0
+EVENT  | o_turald_fish | 14 // linefreeze
+WAIT   | 1
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cts_hoopz
+DIALOG | Turald | And there we go, nothing to sneeze at but surely not the calibre of gun'sfish a true angler seeks.
+EVENT  | o_turald_fish | 13 // caught, move drop to accessible location
+SET    | o_turald01 | default
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cinema3 | o_cts_hoopz
+WAIT   | 1
+DIALOG | Turald | Feel free to take that one. Also I have some shit-tier examples in that cooler over there, `sq`you can have those too.`rt` I'm going after the BIGGUN.
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_cinema3
+DIALOG | P_NAME = s_port_hoopzHappy | Gee, you mean it? Thanks!
+DIALOG | Turald | Of course, there's no catch and release rule in the Sewers!
+WAIT   | 1.0
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cts_hoopz
+LOOKAT | o_cts_hoopz | o_turald01
+DIALOG | Turald | So, I don't see a fishing rod, you aren't here for angling are you?
+GOTO   | WHYAREYOUHERE
+
+WHYAREYOUHERE
+CHOICE | Why are you here?
+REPLY | HERETOHELP | I'm here to help!
+IF turaldCdwarf == 0 | REPLY | HEREFORCDWARF | I'm here for The Cyberdwarf.
+IF turaldLonginus == 0 | IF knowLONGINUSTnn >= 1 | REPLY | HEREFORLONGINUS | I'm here for L.O.N.G.I.N.U.S!
+IF turaldLoiter == 0 | REPLY | HERETOLOITER | I'm here to loiter.
+IF turaldTiers == 0 | REPLY | TURALDTIER1 | I'm here to learn!
+IF turaldTiers == 1 | REPLY | TURALDTIER2 | Can you tell me about Gun's Materials again.
+REPLY | HERETOLEAVE | I'm here to leave!
+
+HEREFORCDWARF
+DIALOG | P_NAME | I'm on a hero's quest for the Cyberdwarf, ... I think...
+DIALOG | Turald | Ah the Hero's Journey!_ Not unlike the Sludge Salmon's annual sojourn back to its original spawning grounds. Some say they use the starry sky to guide themelves through the endless branching sewer pipes upstream. Others, insist that the fish merely follows the steady current of F_._A_._T_._E._
+DIALOG | P_NAME | Wow that is deep.
+DIALOG | Turald | Well you get a lot of time to think down here.
+DIALOG | Turald | Unfortunately I can't help you with something so personal.
+DIALOG | P_NAME | Oh that's okay.
+QUEST | turaldCdwarf = 1
+GOTO | WHYAREYOUHERE
+
+HEREFORLONGINUS
+DIALOG | P_NAME | I'm looking for L.O.N.G.I.N.U.S., seen any rebels in these parts?
+DIALOG | Turald | Yeah sure, they are rare and secretive, but there are rebels in the sewers you can count your scales on that.
+DIALOG | P_NAME | Oh good, how do I find them?
+DIALOG | Turald | That I'm not sure. But if anyone knows it would be the Sewer Hermit.
+DIALOG | P_NAME | Sewer Hermit?
+DIALOG | Turald | Not a gun'sfisher. A man of the earth. I think he grows some sludgeplants and thats how he survives. He's in the lower floors, but I don't recommend looking for him, and even then I doubt he'll be able to tell you anything more about the rebels.
+DIALOG | P_NAME | Oh okay, well it's worth a shot, thanks.
+QUEST | turaldLonginus = 1
+GOTO | WHYAREYOUHERE
+
+HERETOLOITER
+DIALOG | P_NAME | Just came down to loiter.
+DIALOG | Turald | Loiterer, eh? Sounds like you and I both dip our toes on the dark side of the law.
+DIALOG | P_NAME | Uh, fishing_ is-?
+DIALOG | Turald | You bet your bobber... illegal. At least anywhere on the surface. Cuchulainn and his blue baddies have the whole thing on lock-down. But in the comfortable dankness of the sewers, you can get away with just about anything.
+DIALOG | P_NAME | Seems like it.
+QUEST | turaldLoiter = 1
+GOTO | WHYAREYOUHERE
+
+TURALDTIER2
+DIALOG | P_NAME | Can you tell me more about those Gun's Materials?
+DIALOG | Turald | Sure, there are seven tiers of Gun's Materials: Non,Shit,Low,Mid,High,Meme,God. I don't think anyone knows how many are in each tier, or how many overall, but I know it's more than I can count!
+DIALOG | P_NAME | Gotcha!
+QUEST | turaldTiers = 2
+GOTO | WHYAREYOUHERE
+
+TURALDTIER1
+DIALOG | P_NAME | I'm here to learn something... you mentioned Gun'stiers?
+DIALOG | Turald | Yeah, you know gun's materials. Every gun has one and they are not created equal. Something like a Shit Tier Material like Neon could never compare to a High Tier Material like Tin or a God Tier Material like Orb!
+DIALOG | P_NAME | Wow, there are lots of materials, huh?
+DIALOG | Turald | More than I can count, that's for sure.
+DIALOG | P_NAME | Interesting...
+QUEST | turaldTiers = 1
+GOTO | WHYAREYOUHERE
+
+HERETOLEAVE
+DIALOG | P_NAME | Oh well I'm just passing through, see you later.
+DIALOG | Turald | Aye.
+GOTO | END
+
+HERETOHELP
+DIALOG | P_NAME | I'm here to help you! Need anything?
+DIALOG | Turald | Help, eh? I guess us amatuer fisherdwarfs need to team up now and then, and my chum bucket over there is getting a little low.
+WAIT | 0.5
+DIALOG | Turald | So, what do you say about collecting some more fishgut's for me?
+DIALOG | P_NAME | Fishgut's?
+DIALOG | Turald | Sure, the sewers are teeming with Fiscians: sick, mutated abominations that are now more dwarfoid than fishloid. All you gotta do is brast them to pieces and collect what's left!
+DIALOG | P_NAME | That sounds violent...
+DIALOG | Turald | So are the Fiscians. No one really knows why they took to such hatred against us Dwarfs, but I think it's the xenophobic rhetoric of their duly elected leader: Bass Mother.
+DIALOG | P_NAME | Gulp... Bass Mother?
+DIALOG | Turald | Never seen her myself but she's a prize to be hooked that's for sure. A terrifying beast that patrols only the most polluted waters.
+DIALOG | P_NAME | Sounds dangerous.
+DIALOG | Turald | Probviously, friend. But good news is you can stick to the upper levels of the sewers and avoid her. What do you say, want to collect some fishgut's for me and help me achieve the glorious battle of Dwarf and Gun'sfish?
+GOTO | HELPCHOICE
+
+HELPCHOICE
+CHOICE | Agree to help Turald?
+REPLY  | AGREE | I'll help!
+IF turaldFishForFish == 0 | REPLY | FISHFORFISH | Why don't you just fish for Fiscians?
+REPLY  | DECLINE | I must decline...
+
+AGREE
+DIALOG | P_NAME | Sounds like a fun distraction from my main quest, and something that I can probably complete in parallel, saving myself time.
+DIALOG | Turald | Okay great. So all you need to do is look out for Fiscians in the sewers and pick up the gut's that will inevitably drop from their lifeless gibbing husks.
+DIALOG | P_NAME = s_port_hoopzHappy | Okay!
+DIALOG | Turald | So let's start with FIVE fishgut's... think you can fetch FIVE gut's and we'll try our luck out with that?
+DIALOG | P_NAME | Mhm, I'll go fetch them now.
+DIALOG | Turald | Excellent, I'll keep the river company while you fetch. Good luck, P_NAME_F.
+QUEST | turaldFailSafe = 1
+QUEST  | turaldState = 3
+QUEST  | fishgutQuest = 1
+GOTO | END
+
+FISHFORFISH
+DIALOG | P_NAME | Why don't you just fish for Fiscians? Then you don't need to brast them.
+DIALOG | Turald | Hmmm. Never though of that. I guess just gun'sfishing is my real calling. The thrill of the duel. My hardened muscles on one end of the line,_ the thrashing stock of a gun'sfish on the other. Something about it seems more pure to the sport than plucking a disgusting Fiscian from the water. 
+DIALOG | P_NAME | Ah, I guess I see your point.
+DIALOG | Turald | So what do you say? Want to help me?
+QUEST | turaldFishForFish = 1
+GOTO | HELPCHOICE
+
+DECLINE
+DIALOG | P_NAME | You know, I really have my own quests I have to take care of first. Gotta search for my identity, my destiny, lots of things. I don't think I have time to pick up anything on the side.
+DIALOG | Turald | Fair enough. I'll be here for a little while longer so if you decide you want to help, come on back.
+DIALOG | P_NAME | Okay, fare thee well Turald.
+DIALOG | Turald | Fare thee well. May your waters run deep and bountiful.
+QUEST  | turaldState = 2
+ClockTime | turaldState | 4 | 80
+GOTO | END
+
+FISHQUEST1
+DIALOG | Turald | How goes the fetching, P_NAME_S?
+GOTO | FISHCHOICE
+
+FISHCHOICE
+CHOICE | Anything to report?
+REPLY | GUTSCOUNT | Checking to see how many gut's I have.
+REPLY | GOFISHING | I got some gut's for you!
+REPLY | NARYYEMIND | Nary ye mind.
+
+GUTSCOUNT
+DIALOG | P_NAME | Just checking on my gut's count!
+DIALOG | Turald | Let's see...
+//TODO: we can add an option to display the amount of fistgut's using the Crash Bandicoot system
+IF @Fiscian Gut's@ <= 81 | GOTO | CORRECTCOUNT
+GOTO | INCORRECTCOUNT
+
+CORRECTCOUNT
+DIALOG | Turald | You have @item_Fiscian Gut's@ fishgut's.
+GOTO | FISHCHOICE
+
+INCORRECTCOUNT
+DIALOG | Turald | Man that is too many gut's for me to count... you've got a lot!
+GOTO | FISHCHOICE
+
+GOFISHING
+IF fishgutQuest == 1 | IF @Fiscian Gut's@ >= 5  | GOTO | FISHGUT5
+IF fishgutQuest == 2 | IF @Fiscian Gut's@ >= 10 | GOTO | FISHGUT10
+IF fishgutQuest == 3 | IF @Fiscian Gut's@ >= 20 | GOTO | FISHGUT20
+IF fishgutQuest == 4 | IF @Fiscian Gut's@ >= 40 | GOTO | FISHGUT40
+IF fishgutQuest == 1 | IF @Fiscian Gut's@ < 5  | GOTO | FISHGUT5_SHORT
+IF fishgutQuest == 2 | IF @Fiscian Gut's@ < 10 | GOTO | FISHGUT10_SHORT
+IF fishgutQuest == 3 | IF @Fiscian Gut's@ < 20 | GOTO | FISHGUT20_SHORT
+IF fishgutQuest == 4 | IF @Fiscian Gut's@ < 40 | GOTO | FISHGUT40_SHORT
+
+FISHGUT5
+DIALOG | P_NAME | Well I have your FIVE fishgut's.
+DIALOG | Turald | Oh swell! Here, do me a favor and take those gut's go over to that bucket there.
+WAIT | 0.2
+LOOKAT | o_cts_hoopz | o_chumBucket01
+FRAME | CAMERA_NORMAL | o_cts_hoopz | o_chumBucket01
+WAIT |
+DIALOG | P_NAME = s_port_hoopzHappy | You got it!
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+WAIT |
+LOOKAT | o_cts_hoopz | o_turald01
+WAIT |
+DIALOG | P_NAME | Ready!
+DIALOG | Turald | Okay now toss in those FIVE guts!
+GOTO   | CHUM_THROW
+
+FISHGUT5_MID
+DIALOG | P_NAME | Now what?
+DIALOG | Turald | Now, we wait...
+WAIT | 3.0
+//DIALOG | Turald | Looks like we won't have to wait that long! There's a gun now!
+GOTO   | FISH_CATCH
+
+FISHGUT5_END
+DIALOG | Turald | Now let's see what we can get with TEN fishgut's.
+DIALOG | P_NAME | I like where your mind is at, Turald.
+QUEST  | fishgutQuest = 2
+GOTO | END
+
+FISHGUT10
+DIALOG | P_NAME | I fetched those TEN gut's you wanted.
+DIALOG | Turald | Great, head over to the bucket and toss them in, we'll see what bounty the river has in store for us.
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz | o_turald01
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+WAIT |
+LOOKAT | o_cts_hoopz | o_turald01
+WAIT |
+WAIT | 1
+GOTO   | CHUM_THROW
+
+FISHGUT10_MID
+DIALOG | Turald | Now, we wait...
+WAIT | 3.0
+GOTO   | FISH_CATCH
+
+FISHGUT10_END
+DIALOG | Turald | Now let's see what we can get with TWENTY fishgut's.
+DIALOG | P_NAME | I agree, time to double down on this gut's-to-gun's return scheme, see how high the beanstalk grows.
+DIALOG | Turald | Good luck out there, P_NAME_S.
+QUEST  | fishgutQuest = 3
+GOTO | END
+
+FISHGUT20
+DIALOG | P_NAME | Alright this time I have TWENTY fishgut's.
+DIALOG | Turald | What are you waiting for? My line is taut and my biceps tauter... I'm ready to haul in a High Tier gun!
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz | o_turald01
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+WAIT |
+LOOKAT | o_cts_hoopz | o_turald01
+WAIT |
+WAIT | 1
+GOTO   | CHUM_THROW
+
+FISHGUT20_MID
+DIALOG | Turald | Now, we wait...
+WAIT | 3.0
+GOTO   | FISH_CATCH
+
+FISHGUT20_END
+DIALOG | P_NAME | Yeah that's great! You sure I can keep this gun too?
+DIALOG | Turald | Of course. Like I said, it's the thrill of the fight that I'm after. Let's try for FORTY fishgut's this time!
+DIALOG | P_NAME | Wow that's gonna take me... forever!
+DIALOG | Turald | Patience and forbearance are the mainstays of any great Fisherdwarf. That and also hubris, but I still think we should go for FORTY!
+DIALOG | P_NAME | Alright I'll give it a shot!
+QUEST  | fishgutQuest = 4
+GOTO | END
+
+FISHGUT40
+DIALOG | P_NAME | Alright, here are your FORTY fishgut's. Are you sure you want to do this?
+DIALOG | Turald | Of course I'm sure. Whatever the river has in store for me, I'm ready to wrap my arms around it.
+DIALOG | P_NAME | I'm more afraid of whatever is in there wrapping its arms around you.
+WAIT | 1.0
+DIALOG | Turald | Throw in the gut's.
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz | o_turald01
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+WAIT |
+LOOKAT | o_cts_hoopz | o_turald01
+WAIT |
+WAIT | 1
+GOTO   | CHUM_THROW
+
+FISHGUT40_MID
+DIALOG | Turald | Now, we wait...
+WAIT | 3.0
+GOTO   | FISH_CATCH
+
+FISHGUT40_END
+DIALOG | P_NAME = s_port_hoopzShock | GADZOOKS!
+WAIT | 2.0
+LOOKAT | o_cts_hoopz | o_turald01
+DIALOG | P_NAME | Well I guess I shouldn't really be surprised. Turald fished too close to the sun...
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzSad | (I wish I could have gotten my hands on Turald's pole.)
+QUEST  | time += 1
+QUEST  | fishgutQuest = 5
+GOTO | END
+
+FISHGUT5_SHORT
+DIALOG | P_NAME | Got some gut's for you!
+DIALOG | Turald | Hmmm.
+WAIT | 1.0
+DIALOG | Turald | Looks like you are a little short, P_NAME_S. I need 5 gut's this time.
+DIALOG | P_NAME = s_port_hoopzAngry | Durn it!
+GOTO | END
+
+FISHGUT10_SHORT
+DIALOG | P_NAME | Got some gut's for you!
+DIALOG | Turald | Hmmm.
+WAIT | 1.0
+DIALOG | Turald | Looks like you are a little short, P_NAME_S. I need 10 gut's this time.
+DIALOG | P_NAME = s_port_hoopzAngry | Flub it!
+GOTO | END
+
+FISHGUT20_SHORT
+DIALOG | P_NAME | Got some gut's for you!
+DIALOG | Turald | Hmmm.
+WAIT | 1.0
+DIALOG | Turald | Looks like you are a little short, P_NAME_S. I need 20 gut's this time.
+DIALOG | P_NAME = s_port_hoopzAngry | Bubdub it!
+GOTO | END
+
+FISHGUT40_SHORT
+DIALOG | P_NAME | Got some gut's for you!
+DIALOG | Turald | Hmmm.
+WAIT | 1.0
+DIALOG | Turald | Looks like you are a little short, P_NAME_S. I need 40 gut's this time.
+DIALOG | P_NAME = s_port_hoopzAngry | Zhang Dang it!
+GOTO | END
+
+NARYYEMIND
+DIALOG | P_NAME | Nary ye mind...
+GOTO | END
+
+CHUM_THROW
+WAIT  | 0
+IF fishgutQuest == 1 | ITEM | Fiscian Gut's | -5
+IF fishgutQuest == 2 | ITEM | Fiscian Gut's | -10
+IF fishgutQuest == 3 | ITEM | Fiscian Gut's | -20
+PLAYSET | o_cts_hoopz | action_N | stand_N
+CREATE | o_turald_fish | 0 | 0
+EVENT  | o_turald_fish | 5
+WAIT | 2
+IF fishgutQuest == 1 | GOTO | FISHGUT5_MID
+IF fishgutQuest == 2 | GOTO | FISHGUT10_MID
+IF fishgutQuest == 3 | GOTO | FISHGUT20_MID
+IF fishgutQuest == 4 | GOTO | FISHGUT40_MID
+
+FISH_CATCH
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cinema2 | o_cts_hoopz
+WAIT   | 0
+CREATE | o_turald_fish | 0 | 0 // spawn the shadow
+EVENT  | o_turald_fish | 0 // set it as weakest drop
+EVENT  | o_turald_fish | 10 // spawn the drop
+Emote  | ! | o_turald01
+WAIT   | 3
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_FAST
+EVENT  | o_turald_fish | 12 // move turald 4px
+SET    | o_turald01 | reeling
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_turald01
+IF fishgutQuest == 1 | DIALOG | Turald | We got a live one!
+IF fishgutQuest == 2 | DIALOG | Turald | Woah nelly! This one's a fighter!
+IF fishgutQuest == 3 | DIALOG | Turald | Huff, huff... Almost!
+IF fishgutQuest == 4 | GOTO   | FISH_RUN
+EVENT  | o_turald_fish | 15 // line
+PLAYSET | o_turald01 | catch | catchLast
+WAIT   | 0
+EVENT  | o_turald_fish | 14 // linefreeze
+WAIT   | 1
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cts_hoopz
+IF fishgutQuest == 1 | DIALOG | Turald | It looks like another Shit Tier, I'm afraid... We're gonna need a bigger chum.
+IF fishgutQuest == 2 | DIALOG | Turald | Ah! A Low Tier Material, not bad!
+IF fishgutQuest == 3 | DIALOG | Turald | Phew! Well, not High Tier but Mid Tier, so this is promising!
+EVENT  | o_turald_fish | 13 // caught, move drop to accessible location
+SET    | o_turald01 | default
+FRAME  | CAMERA_NORMAL | o_turald01 | o_cinema3 | o_cts_hoopz
+LOOKAT | o_cts_hoopz | o_cinema3
+IF fishgutQuest == 1 | GOTO | FISHGUT5_END
+IF fishgutQuest == 2 | GOTO | FISHGUT10_END
+IF fishgutQuest == 3 | GOTO | FISHGUT20_END
+
+FISH_RUN
+DIALOG | Turald | Hnggghhh!
+WAIT   | 1
+DIALOG | Turald | UNGHHH!!!
+WAIT   | 1
+PLAYSET | o_turald01 | pulled | pulledLast
+WAIT   | 1.5
+EVENT  | o_turald_fish | 6
+WAIT   | 0
+EVENT  | o_turald_fish | 7
+SURPRISEAT | o_turald01
+GOTO   | FISHGUT40_END
+
+END
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gpcn4"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(0, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdds3"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(62, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngpua"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(124, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suylt"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(186, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wea65"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(248, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v68wv"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(310, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdeaw"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(372, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a46or"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(434, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhatd"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(496, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8sm5"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(558, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5evq"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(620, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6mdw"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(682, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56k8f"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(744, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wmri"]
+atlas = ExtResource("2_j7y8d")
+region = Rect2(744, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckupt"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(0, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k3m4"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(54, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq3xw"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(108, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ns0x8"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(162, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qrnh"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(216, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhoyb"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(270, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqpst"]
+atlas = ExtResource("3_4v8uc")
+region = Rect2(324, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqegt"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(0, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ge7sv"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(109, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_no0my"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(218, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24mmf"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(327, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_110qp"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(436, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6q3n"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(545, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tbhm"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(654, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5yt2"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(763, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8s0r"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(872, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt1tu"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(981, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lovo7"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1090, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_es42e"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1199, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh382"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1308, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qddao"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1417, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dalce"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1526, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l86xw"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1635, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bic8"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1744, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_208rl"]
+atlas = ExtResource("4_sx8xe")
+region = Rect2(1744, 0, 109, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbnev"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(0, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xdww"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(62, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdy00"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(124, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c86pa"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(186, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ty2mj"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(248, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qd3eh"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(310, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_siwvk"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(372, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0csdl"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(434, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1t2en"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(496, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2wvh4"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(558, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ip7ml"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(620, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pvo1"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(682, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xje7n"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(744, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3bye"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(806, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f308k"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(868, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ih04e"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(930, 0, 62, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd3wh"]
+atlas = ExtResource("5_bmb7i")
+region = Rect2(930, 0, 62, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rino0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gpcn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdds3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngpua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suylt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wea65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v68wv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cdeaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a46or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhatd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8sm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5evq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6mdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56k8f")
+}],
+"loop": true,
+"name": &"catch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wmri")
+}],
+"loop": true,
+"name": &"catchLast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckupt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4k3m4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq3xw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ns0x8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qrnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhoyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqpst")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqegt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ge7sv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_no0my")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24mmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_110qp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6q3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tbhm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5yt2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8s0r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt1tu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lovo7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_es42e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh382")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qddao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dalce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l86xw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bic8")
+}],
+"loop": true,
+"name": &"pulled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_208rl")
+}],
+"loop": true,
+"name": &"pulledLast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbnev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xdww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdy00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c86pa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ty2mj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qd3eh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_siwvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0csdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1t2en")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2wvh4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ip7ml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7pvo1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xje7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3bye")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f308k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ih04e")
+}],
+"loop": true,
+"name": &"reeling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yd3wh")
+}],
+"loop": true,
+"name": &"reelingLast",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bmb7i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dodg3"]
+size = Vector2(29, 37)
+
+[node name="o_turald01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_cro0t")
+mouse_detection_area = NodePath("ActorInteract")
+interactive_distance = 85
+cutscene_script = SubResource("Resource_sx8xe")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_rino0")
+centered = false
+offset = Vector2(-18, -33)
+metadata/default = {
+"bbox_bottom": "36",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "19",
+"frames": ["images\\s_turald01_0.png", "images\\s_turald01_1.png", "images\\s_turald01_2.png", "images\\s_turald01_3.png", "images\\s_turald01_4.png", "images\\s_turald01_5.png", "images\\s_turald01_6.png"],
+"height": "55",
+"name": "s_turald01",
+"width": "54",
+"xorig": "18",
+"yorigin": "33"
+}
+metadata/reeling = {
+"bbox_bottom": "53",
+"bbox_left": "2",
+"bbox_right": "51",
+"bbox_top": "1",
+"frames": ["images\\s_turald_pull_up_0.png", "images\\s_turald_pull_up_1.png", "images\\s_turald_pull_up_2.png", "images\\s_turald_pull_up_3.png", "images\\s_turald_pull_up_4.png", "images\\s_turald_pull_up_5.png", "images\\s_turald_pull_up_6.png", "images\\s_turald_pull_up_7.png", "images\\s_turald_pull_up_8.png", "images\\s_turald_pull_up_9.png", "images\\s_turald_pull_up_10.png", "images\\s_turald_pull_up_11.png", "images\\s_turald_pull_up_12.png", "images\\s_turald_pull_up_13.png", "images\\s_turald_pull_up_14.png", "images\\s_turald_pull_up_15.png"],
+"height": "55",
+"name": "s_turald_pull_up",
+"width": "62",
+"xorig": "20",
+"yorigin": "42"
+}
+metadata/reelingLast = {
+"bbox_bottom": "53",
+"bbox_left": "2",
+"bbox_right": "51",
+"bbox_top": "1",
+"frames": ["images\\s_turald_pull_up_0.png", "images\\s_turald_pull_up_1.png", "images\\s_turald_pull_up_2.png", "images\\s_turald_pull_up_3.png", "images\\s_turald_pull_up_4.png", "images\\s_turald_pull_up_5.png", "images\\s_turald_pull_up_6.png", "images\\s_turald_pull_up_7.png", "images\\s_turald_pull_up_8.png", "images\\s_turald_pull_up_9.png", "images\\s_turald_pull_up_10.png", "images\\s_turald_pull_up_11.png", "images\\s_turald_pull_up_12.png", "images\\s_turald_pull_up_13.png", "images\\s_turald_pull_up_14.png", "images\\s_turald_pull_up_15.png"],
+"height": "55",
+"name": "s_turald_pull_up",
+"width": "62",
+"xorig": "20",
+"yorigin": "42"
+}
+metadata/catch = {
+"bbox_bottom": "53",
+"bbox_left": "2",
+"bbox_right": "51",
+"bbox_top": "1",
+"frames": ["images\\s_turald_pull_fish_0.png", "images\\s_turald_pull_fish_1.png", "images\\s_turald_pull_fish_2.png", "images\\s_turald_pull_fish_3.png", "images\\s_turald_pull_fish_4.png", "images\\s_turald_pull_fish_5.png", "images\\s_turald_pull_fish_6.png", "images\\s_turald_pull_fish_7.png", "images\\s_turald_pull_fish_8.png", "images\\s_turald_pull_fish_9.png", "images\\s_turald_pull_fish_10.png", "images\\s_turald_pull_fish_11.png", "images\\s_turald_pull_fish_12.png"],
+"height": "55",
+"name": "s_turald_pull_fish",
+"width": "62",
+"xorig": "20",
+"yorigin": "42"
+}
+metadata/catchLast = {
+"bbox_bottom": "53",
+"bbox_left": "2",
+"bbox_right": "51",
+"bbox_top": "1",
+"frames": ["images\\s_turald_pull_fish_0.png", "images\\s_turald_pull_fish_1.png", "images\\s_turald_pull_fish_2.png", "images\\s_turald_pull_fish_3.png", "images\\s_turald_pull_fish_4.png", "images\\s_turald_pull_fish_5.png", "images\\s_turald_pull_fish_6.png", "images\\s_turald_pull_fish_7.png", "images\\s_turald_pull_fish_8.png", "images\\s_turald_pull_fish_9.png", "images\\s_turald_pull_fish_10.png", "images\\s_turald_pull_fish_11.png", "images\\s_turald_pull_fish_12.png"],
+"height": "55",
+"name": "s_turald_pull_fish",
+"width": "62",
+"xorig": "20",
+"yorigin": "42"
+}
+metadata/pulled = {
+"bbox_bottom": "53",
+"bbox_left": "1",
+"bbox_right": "88",
+"bbox_top": "0",
+"frames": ["images\\s_turald_pull_under_0.png", "images\\s_turald_pull_under_1.png", "images\\s_turald_pull_under_2.png", "images\\s_turald_pull_under_3.png", "images\\s_turald_pull_under_4.png", "images\\s_turald_pull_under_5.png", "images\\s_turald_pull_under_6.png", "images\\s_turald_pull_under_7.png", "images\\s_turald_pull_under_8.png", "images\\s_turald_pull_under_9.png", "images\\s_turald_pull_under_10.png", "images\\s_turald_pull_under_11.png", "images\\s_turald_pull_under_12.png", "images\\s_turald_pull_under_13.png", "images\\s_turald_pull_under_14.png", "images\\s_turald_pull_under_15.png", "images\\s_turald_pull_under_16.png"],
+"height": "68",
+"name": "s_turald_pull_under",
+"width": "109",
+"xorig": "20",
+"yorigin": "42"
+}
+metadata/pulledLast = {
+"bbox_bottom": "53",
+"bbox_left": "1",
+"bbox_right": "88",
+"bbox_top": "0",
+"frames": ["images\\s_turald_pull_under_0.png", "images\\s_turald_pull_under_1.png", "images\\s_turald_pull_under_2.png", "images\\s_turald_pull_under_3.png", "images\\s_turald_pull_under_4.png", "images\\s_turald_pull_under_5.png", "images\\s_turald_pull_under_6.png", "images\\s_turald_pull_under_7.png", "images\\s_turald_pull_under_8.png", "images\\s_turald_pull_under_9.png", "images\\s_turald_pull_under_10.png", "images\\s_turald_pull_under_11.png", "images\\s_turald_pull_under_12.png", "images\\s_turald_pull_under_13.png", "images\\s_turald_pull_under_14.png", "images\\s_turald_pull_under_15.png", "images\\s_turald_pull_under_16.png"],
+"height": "68",
+"name": "s_turald_pull_under",
+"width": "109",
+"xorig": "20",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-2, -6)
+shape = SubResource("CircleShape2D_bmb7i")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-4.5, -12.5)
+shape = SubResource("RectangleShape2D_dodg3")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -46,4 +46,4 @@ func show_notify_screen( text : String ) -> void:
 	await tween.finished
 	notify_item.hide()
 	is_showing_notify = false
-	return
+	queue_free()

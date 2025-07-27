@@ -12,44 +12,44 @@ const O_ZONE_NAME = preload("res://barkley2/objects/oZoneName.tscn")
 signal permission_changed
 signal pacify_changed( activated : bool )
 
-@export var populate_reference_layer := true
+@export var populate_reference_layer := true 			## Automatically try to populate "reference_layer" with TileMapLayers
 @export var reference_layer : Array[TileMapLayer]
-@onready var astar : AStarGrid2D
+@onready var astar : AStarGrid2D ## DEPRECATED
 
 var astar_solid_tiles := Array() # used for debug
 var astar_valid_tiles := Array() # used for debug
 
 @export_category("DEBUG")
-@export var debug_create_player_scene_at_room_start 		:= false		# create player if you run this scene independetly
-@export var debug_player_scene_pos 							:= Vector2.ZERO # if you run this individual scene, where hoopz will be created.
-@export var load_debug_save_data							:= false
+@export var debug_create_player_scene_at_room_start 		:= false		## create player if you run this scene independetly
+@export var debug_player_scene_pos 							:= Vector2.ZERO ## if you run this individual scene, where hoopz will be created.
+@export var load_debug_save_data							:= false		## Pretty self explanatory
 
 @export var teleport_spot		:= false			## In Certain situations, hoopz can teleport to a room. This enables that function
 @export var teleport_node		: B2_Teleport_Mark	## The room have a "o_teleport_mark" node to mark the spot
 @export var teleport_pos		:= Vector2.ZERO		## A specific position to transport
 
 @export_category("Room")
-@export var collision_layer 		: TileMapLayer
-@export var collision_layer_semi 	: TileMapLayer
+@export var collision_layer 		: TileMapLayer	## The tilemap that handles colision of everything.
+@export var collision_layer_semi 	: TileMapLayer	## The tilemap that handles colision for somethings (like actors, but not for bullets)
 
 @export_category("Room Options")
-@export var enable_hud					:= true
-@export var is_interior					:= false # lowers the music volume of the music
-@export var play_room_music				:= true
-@export var room_music_name				:= ""
-@export var room_pacify 				:= true # Player cant draw weapons.
-@export var room_player_can_roll 		:= true # Player can roll around.
-@export var show_zone_banner			:= true
-@export var override_zone_name			:= "" ## Allow custom zone name (upper text)
-@export var override_zone_flavor		:= "" ## Allow custom zone flavor (bottom text)
-@export var camera_bound_to_map			:= false # Camera cannot see outside the map.
+@export var enable_hud					:= true		## Allow the hud to show up
+@export var is_interior					:= false 	## lowers the music volume of the music 
+@export var play_room_music				:= true		## This room can play a music
+@export var room_music_name				:= ""		## Forces a speccific music
+@export var room_pacify 				:= true 	## Player cant draw weapons.
+@export var room_player_can_roll 		:= true 	## Player can roll around.
+@export var show_zone_banner			:= true		## Show the zone banner in this room
+@export var override_zone_name			:= "" 		## Allow custom zone name (upper text)
+@export var override_zone_flavor		:= "" 		## Allow custom zone flavor (bottom text)
+@export var camera_bound_to_map			:= false 	## Camera cannot see outside the map.
 
 @export_category("Navigation")
 @export var source_geometry_mode := NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 
 @export_category("Cinematics")
-@export var player_can_pause			:= true
-@export var play_cinema_at_room_start 	:= true
+@export var player_can_pause			:= true		## Player can pause in this room
+@export var play_cinema_at_room_start 	:= true		## Play some cutscene when the player loads this room.
 #@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
 @export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
 @export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.

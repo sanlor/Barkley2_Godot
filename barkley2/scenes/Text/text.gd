@@ -174,7 +174,8 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 			parsed_str_var = str( B2_Item.count_item( str_var ) )
 			
 		elif str_var.contains("note"):
-			pass # TODO
+			parsed_str_var = B2_CManager.cinema_player.selected_note
+			
 		elif str_var.contains("shop"):
 			pass # TODO
 		elif str_var.contains("gunsbag"):

@@ -1,5 +1,7 @@
 extends Control
 class_name B2_Confirm
+## Check oConfirm
+
 
 enum MODE{CONFIRM, NOTICE}
 var curr_mode := MODE.CONFIRM

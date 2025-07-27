@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=4 uid="uid://b6n7di0yer5fx"]
+[gd_scene load_steps=108 format=4 uid="uid://b6n7di0yer5fx"]
 
 [ext_resource type="Script" uid="uid://d0722o7rfubn4" path="res://barkley2/rooms/sewers floor1/r_sw_1_baldomero_01.gd" id="1_g25nt"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_srpkv"]
@@ -1586,6 +1586,93 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
+atlas = ExtResource("10_ihfk3")
+region = Rect2(0, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtbkh"]
+atlas = ExtResource("10_ihfk3")
+region = Rect2(16, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dycko"]
+atlas = ExtResource("10_ihfk3")
+region = Rect2(32, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idcrh"]
+atlas = ExtResource("10_ihfk3")
+region = Rect2(48, 0, 16, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv4nh"]
+atlas = ExtResource("11_a8a6p")
+region = Rect2(0, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfe2s"]
+atlas = ExtResource("11_a8a6p")
+region = Rect2(80, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovvij"]
+atlas = ExtResource("11_a8a6p")
+region = Rect2(160, 0, 80, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_706hu"]
+atlas = ExtResource("11_a8a6p")
+region = Rect2(240, 0, 80, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ihfk3"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_k1q64")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_4geab")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_a2mh7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_5oup8")
+}],
+"loop": true,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": true,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": true,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_jshd0"]
 atlas = ExtResource("16_4bm2h")
 region = Rect2(192, 0, 48, 64)
@@ -2138,6 +2225,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." instance=ExtResource("13_wm7lj")]
 position = Vector2(208, 152)
+sprite_frames = SubResource("SpriteFrames_ihfk3")
 teleport_destination = "r_sw1_closet01, 224, 272"
 metadata/code = "RoomXY(r_sw1_closet01, 224, 272);"
 metadata/inst_name = "inst_BFBCD28D"
@@ -2150,9 +2238,6 @@ metadata/code = ""
 metadata/inst_name = "inst_05C75462"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_baldomero01" parent="." instance=ExtResource("17_4geab")]
-position = Vector2(320, 216)
-
 [node name="o_baldoLetter01" parent="." node_paths=PackedStringArray("o_baldomero01") instance=ExtResource("18_ag0ej")]
 position = Vector2(304, 240)
 sprite_frames = SubResource("SpriteFrames_7okw4")
@@ -2162,17 +2247,8 @@ metadata/code = ""
 metadata/inst_name = "inst_43E3AB56"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_room_interior" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = ""
-metadata/inst_name = "inst_4AC5B6AC"
-metadata/scale = Vector2(1, 1)
-
-[node name="P12 - o_room_pacify" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = ""
-metadata/inst_name = "inst_5966612B"
-metadata/scale = Vector2(1, 1)
+[node name="o_baldomero01" parent="." instance=ExtResource("17_4geab")]
+position = Vector2(320, 216)
 
 [node name="o_pelekryte01" parent="." instance=ExtResource("17_5oup8")]
 position = Vector2(192, 200)
@@ -2187,12 +2263,6 @@ position = Vector2(288, 224)
 script = ExtResource("18_jyurv")
 metadata/code = ""
 metadata/inst_name = "inst_0E17E80F"
-metadata/scale = Vector2(1, 1)
-
-[node name="P15 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 64)
-metadata/code = ""
-metadata/inst_name = "inst_A52472D2"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_cinema1" type="Marker2D" parent="."]
@@ -2242,4 +2312,22 @@ script = ExtResource("18_jyurv")
 cinema_id = 10
 metadata/code = ""
 metadata/inst_name = "inst_16624686"
+metadata/scale = Vector2(1, 1)
+
+[node name="P11 - o_room_interior" type="Marker2D" parent="."]
+position = Vector2(-120, 0)
+metadata/code = ""
+metadata/inst_name = "inst_4AC5B6AC"
+metadata/scale = Vector2(1, 1)
+
+[node name="P12 - o_room_pacify" type="Marker2D" parent="."]
+position = Vector2(-120, 32)
+metadata/code = ""
+metadata/inst_name = "inst_5966612B"
+metadata/scale = Vector2(1, 1)
+
+[node name="P15 - o_room_unbound" type="Marker2D" parent="."]
+position = Vector2(-120, 64)
+metadata/code = ""
+metadata/inst_name = "inst_A52472D2"
 metadata/scale = Vector2(1, 1)

@@ -25,7 +25,7 @@ var event_placeholder = null
 
 func _ready() -> void:
 	#init_setup()
-	B2_Note.take_note( "Wilmer's Amortization Schedule" ) ## DEBUG
+	#B2_Note.take_note( "Wilmer's Amortization Schedule" ) ## DEBUG
 	
 	## Json convertion.
 	#var note = FileAccess.open( "res://barkley2/resources/B2_Note/notes.json", FileAccess.WRITE )
@@ -34,7 +34,7 @@ func _ready() -> void:
 	#pers.store_string( JSON.stringify(persons, "\t") )
 	#var art = FileAccess.open( "res://barkley2/resources/B2_Note/arts.json", FileAccess.WRITE )
 	#art.store_string( JSON.stringify(arts, "\t") )
-	
+	pass
 	
 #func init_setup() -> void:
 	### NOTES - add_note( subimage, name, sound)
@@ -169,12 +169,11 @@ static func take_note( note_title : String ): # as in, hoopz receives the note
 		my_notes = []
 			
 	if has_note_in_db( note_title ): # check ifg the actual note exists
-		if not my_notes.has(note_title): # check if the players has the note
+		if not my_notes.has( note_title ): # check if the players has the note
 			my_notes.append( note_title )
 			B2_Config.set_user_save_data("quest.notes", my_notes)
-			return
-		
-		push_error("WARNING: You are taking a note you already have.")
+		else:
+			push_error("WARNING: You are taking a note you already have.")
 	else:
 		push_error("WARNING: You are taking a note that doesn't exist.")
 	
@@ -186,12 +185,11 @@ static func give_note( note_title : String ): # as in, hoopz gives the note away
 		my_notes = []
 			
 	if has_note_in_db( note_title ): # check ifg the actual note exists
-		if my_notes.has(note_title): # check if the players has the note
-			my_notes.append( note_title )
+		if my_notes.has( note_title ): # check if the players has the note
+			my_notes.erase( note_title )
 			B2_Config.set_user_save_data("quest.notes", my_notes)
-			return
-		
-		push_error("WARNING: You are giving away a note you don't have.")
+		else:
+			push_error("WARNING: You are giving away a note you don't have.")
 	else:
 		push_error("WARNING: You are giving away a note that doesn't exist.")
 

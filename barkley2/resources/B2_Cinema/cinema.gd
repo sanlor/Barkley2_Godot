@@ -51,14 +51,14 @@ var object_map := {
 	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
 	"o_hoopz_black":			preload("res://barkley2/scenes/Objects/_cutscenes/_sceneBranding/o_hoopz_black.tscn"),
 	"virtual_spawn":			preload("res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn"),
-	
-	"o_enemy_drone_egg":		 preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn"),
+	"o_turald_fish":			preload("res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_turald_fish.tscn"),
+	"o_enemy_drone_egg":		preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn"),
 }
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
 var camera						: Camera2D
-var all_nodes					:= []
+var all_nodes					: Array[Node] = []
 var array_dirty					:= false
 
 #var room := ""
@@ -79,6 +79,9 @@ var breakout_data := {
 var flourish_enabled 	:= false
 var flourish_portrait 	:= ""
 var flourish_time 		:= 0.0
+
+## Note stuff
+var selected_note : String
 
 func _ready() -> void:
 	pass
@@ -704,14 +707,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if parsed_line[1].strip_edges() == "take": # as in, hoopz gains a new note.
 						B2_Note.take_note( Text.pr( parsed_line[2].strip_edges() ) )
 						if debug_note: print_rich("[color=yellow]Note %s received![/color]" % Text.pr( parsed_line[2].strip_edges() ))
+						
 					elif parsed_line[1].strip_edges() == "give": # as in, hoopz loses a note.
-						B2_Note.give_note( Text.pr( parsed_line[2].strip_edges() ) )
-						if debug_note: print_rich("[color=yellow]Note %s lost![/color]" % Text.pr( parsed_line[2].strip_edges() ))
+						var note : String = parsed_line[2].strip_edges()
+						if note == "note":
+							note = selected_note
+						B2_Note.give_note( note )
+						if debug_note: print_rich("[color=yellow]Note %s lost![/color]" % note )
+						
 					elif parsed_line[1].strip_edges() == "select": # as in, hoopz selects a note for something.
 						# Check Note line 216
 						# WARNING Need to handle and note exclusion list ----> global.noteExclude = scr_quest_get_state("note_exclude_" + string_lower(argument[1]));
-						var selected_note := "Farts"
-						breakpoint ## TODO
+						B2_Screen.show_note_screen( 1 )
+						selected_note = await B2_Screen.note_selected
+						
 						if debug_note: print_rich("[color=yellow]Note %s selected![/color]" % Text.pr( selected_note ))
 					elif parsed_line[1].strip_edges() == "gallery": # as in, hoopz browses and art gallery. BrainCity stuff.
 						breakpoint ## TODO
@@ -965,14 +974,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						await get_tree().process_frame
 					
 					var emote_type 		: String = parsed_line[1]
-					var emote_target 	: B2_InteractiveActor_Player = B2_CManager.o_cts_hoopz # This is the default
+					var emote_target 	: B2_Actor = B2_CManager.o_cts_hoopz # This is the default
 					var xoffset 		:= 0.0
 					var yoffset			:= 0.0
 					var emote_node		:= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn").instantiate() as AnimatedSprite2D
 					
 					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
 					
-					if parsed_line.size() > 2: emote_target = get_node_from_name( all_nodes, parsed_line[2] )
+					if parsed_line.size() > 2: emote_target = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
 					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
 					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
 					
@@ -1012,7 +1021,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		
 	return true
 
-func get_all_nodes() -> Array:
+func get_all_nodes() -> Array[Node]:
 	if get_tree().current_scene != null:
 		return get_tree().current_scene.get_children()
 	else:
@@ -1095,6 +1104,9 @@ func parse_if( line : String ) -> bool:
 	elif str_var == "inside":
 		quest_var = is_inside_room() as bool
 		cond_value = bool( int( condidion_line[ 2 ] ) )
+	elif str_var == "note":
+		quest_var = selected_note
+		cond_value = str( condidion_line[ 2 ] ).strip_edges()
 		
 	## WTF, what a mess!!
 	## Sometimes, item checks doesnt have the prefix "item", the have 2 @s
@@ -1140,11 +1152,13 @@ func get_node_from_name( _array, _name, warn := true ) -> Object:
 		if is_instance_valid(item):
 			if item is Object:
 				if item.name == _name:
+					#print(item.name)				## DEBUG
+					#print(item.get_class())		## DEBUG
 					node = item
 					break
 		else:
 			if warn: # sometimes a warning is not needed.
-				#push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
+				push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
 				array_dirty = true
 	if not is_instance_valid(node):
 		#if warn:

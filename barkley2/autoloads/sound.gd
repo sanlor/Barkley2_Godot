@@ -132,6 +132,8 @@ func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1,
 		return AudioStreamPlayer.new() # -1;
 		
 func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
+	if soundID.begins_with("sn_debug"): print("Debug sound used (%s). Change this for final release." % soundID)
+	
 	if sound_bank.has(soundID):
 		return queue(soundID, start_at, priority, loops, pitch)
 		

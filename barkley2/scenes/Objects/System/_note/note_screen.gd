@@ -1,23 +1,31 @@
-@tool
 extends CanvasLayer
+
+const CONFIRMATION_BOX = preload("uid://dkqmhxi70d2o7")
 
 ## NOTE What a nightmare this was!!
 ## NOTE Missing fonts are set as null right now.
-
+# NOTE Need to act the "select" command. check https://youtu.be/kMybONQr0wA?t=15952
 var verbose_prints := true
 
 @onready var color_rect: ColorRect = $ColorRect
 
-@onready var no_notes_lbl: Label = $ColorRect/no_notes_lbl
-@onready var note_name: Label = $ColorRect/B2_Border/note_name
-@onready var note_itself: TextureRect = $ColorRect/note_itself
-@onready var fade_effect: ColorRect = $ColorRect/fade_effect
-@onready var prev_note: TextureButton = $ColorRect/prev_note
-@onready var next_note: TextureButton = $ColorRect/next_note
-@onready var exit_button: TextureButton = $ColorRect/exit_button
-@onready var exit_spr: AnimatedSprite2D = $ColorRect/exit_button/exit_spr
-@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var no_notes_lbl: 			Label = $ColorRect/no_notes_lbl
+@onready var note_name: 			Label = $ColorRect/B2_Border/note_name
+@onready var note_itself: 			TextureRect = $ColorRect/note_itself
+@onready var fade_effect: 			ColorRect = $ColorRect/fade_effect
+@onready var prev_note: 			TextureButton = $ColorRect/prev_note
+@onready var next_note: 			TextureButton = $ColorRect/next_note
+@onready var exit_button: 			TextureButton = $ColorRect/exit_button
+@onready var give_button: 			B2_Border_Button = $ColorRect/give_button
+@onready var exit_spr: 				AnimatedSprite2D = $ColorRect/exit_button/exit_spr
+@onready var audio_stream_player: 	AudioStreamPlayer = $AudioStreamPlayer
+@onready var animation_player: 		AnimationPlayer = $AnimationPlayer
+
+@onready var confirm_bg: 			ColorRect = $confirm_bg
+@onready var give_lbl: 				Label = $confirm_bg/dialog/VBoxContainer/give_lbl
+@onready var yes_btn: 				Button = $confirm_bg/dialog/VBoxContainer/HBoxContainer/yes_btn
+@onready var no_btn: 				Button = $confirm_bg/dialog/VBoxContainer/HBoxContainer/no_btn
+
 
 const text_size := 9216.0
 const map_size := 384.0
@@ -25,25 +33,26 @@ const map_speed := 0.15
 var tween : Tween
 
 var avaiable_notes := []
+var mode := 0 # 0 = Viewer, 1 = Select
 
 var note_fonts := [ ## Incomplete list. I am too lazy.
-	load("res://barkley2/resources/fonts/fn1.tres"),
-	load("res://barkley2/resources/fonts/fn1o.tres"),
-	load("res://barkley2/resources/fonts/fn2.tres"),
+	load("res://barkley2/resources/fonts/fn1.tres"), 			# 0
+	load("res://barkley2/resources/fonts/fn1o.tres"), 			# 1
+	load("res://barkley2/resources/fonts/fn2.tres"), 			# 2
 	
-	load("res://barkley2/resources/fonts/fn_small.tres"), # 3
-	load("res://barkley2/resources/fonts/fn2c.tres"),
-	load("res://barkley2/resources/fonts/fn2o.tres"),
-	load("res://barkley2/resources/fonts/fn2f.tres"), # 6
+	load("res://barkley2/resources/fonts/fn_small.tres"), 		# 3
+	load("res://barkley2/resources/fonts/fn2c.tres"),			# 4
+	load("res://barkley2/resources/fonts/fn2o.tres"),			# 5
+	load("res://barkley2/resources/fonts/fn2f.tres"), 			# 6
 	
-	load("res://barkley2/resources/fonts/fn5o.tres"),
-	null, # fn_7oc
-	null, # fn_12o
-	null, # fn_5os
-	null, # fn_7ocs
-	null, # fn_12ocs
-	null, # fn_tactics
-	null, # fn_tactics_bold
+	load("res://barkley2/resources/fonts/fn5o.tres"),					# 7
+	load("res://barkley2/resources/fonts/fn_7oc.tres"), # fn_7oc		# 8
+	load("res://barkley2/resources/fonts/fn_12ocs.tres"), # fn_12o 		# 9
+	load("res://barkley2/resources/fonts/s_fn5os.tres"), # fn_5os		# 10
+	load("res://barkley2/resources/fonts/fn_7ocs.tres"), # fn_7ocs		# 11
+	load("res://barkley2/resources/fonts/fn_12ocs.tres"), # fn_12ocs	# 12
+	load("res://barkley2/resources/fonts/fn_tactics.tres"), # fn_tactics			# 13
+	load("res://barkley2/resources/fonts/fn_tactics_bold.tres"), # fn_tactics_bold	#14
 ]
 
 var selected_note := 0 :
@@ -60,7 +69,19 @@ func _ready() -> void:
 	
 	avaiable_notes = B2_Note.get_all()
 	
-	# No maps avaiable, show nothing.
+	if mode == 0:		## Viewer
+		give_button.queue_free()
+	elif mode == 1:		## Select
+		exit_button.queue_free()
+	else:
+		pass
+	
+	# Button setup
+	yes_btn.text 	= Text.pr(yes_btn.text)
+	no_btn.text 	= Text.pr(no_btn.text)
+	confirm_bg.hide()
+	
+	# No notes avaiable, show nothing.
 	if avaiable_notes.is_empty():
 		prev_note.queue_free()
 		next_note.queue_free()
@@ -73,7 +94,7 @@ func _ready() -> void:
 		next_note.queue_free()
 		no_notes_lbl.hide()
 		change_note()
-		
+	# Has some notes.
 	else:
 		no_notes_lbl.hide()
 		change_note()
@@ -86,9 +107,10 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 	# get note name from the directory
 	#note_name.text = Text.pr( B2_Note.notes[ avaiable_notes[selected_note] ] )
 	note_name.text = Text.pr( avaiable_notes[selected_note] )
-	note_itself.texture.region.position.x = B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_id"] * map_size
-	note_itself.texture.region.position.x = wrapf(note_itself.texture.region.position.x, 0, text_size)
-	# ^^^^ Lol, wtf?
+	if note_itself:
+		note_itself.texture.region.position.x = B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_id"] * map_size
+		note_itself.texture.region.position.x = wrapf(note_itself.texture.region.position.x, 0, text_size)
+		# ^^^^ Lol, wtf?
 	
 	#purge old data
 	for c in note_itself.get_children():
@@ -218,3 +240,18 @@ func hide_menu():
 	animation_player.play("hide_myself")
 	audio_stream_player.play()
 	return await animation_player.animation_finished
+
+func _on_give_button_button_pressed() -> void:
+	give_lbl.text = Text.pr( "Would you like to give '%s' ?" % str( avaiable_notes[selected_note] ) )
+	animation_player.play("confirm_show")
+
+func _on_yes_btn_pressed() -> void:
+	animation_player.play("confirm_hide")
+	print_rich("[color=yellow]Selected note '%s'.[/color]" % str( avaiable_notes[selected_note] ) )
+	await animation_player.animation_finished
+	B2_Screen.note_selected.emit( str( avaiable_notes[selected_note] ) )
+	B2_Screen.hide_note_screen()
+
+func _on_no_btn_pressed() -> void:
+	animation_player.play("confirm_hide")
+	

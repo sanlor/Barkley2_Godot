@@ -6,6 +6,7 @@ extends CanvasLayer
 # THis autoload handles the mouse cursor, along with its trail.
 
 signal shop_closed
+signal note_selected( note_string : String )
 
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
@@ -360,10 +361,11 @@ func hide_shop_screen() -> void:
 	shop_closed.emit()
 	
 ## Note
-func show_note_screen() -> void:
+func show_note_screen( mode := 0 ) -> void:
 	is_notes_open = true
 	get_tree().paused = true
 	note_screen = NOTE_SCREEN.instantiate()
+	note_screen.mode = mode
 	get_tree().current_scene.add_child( note_screen )
 	B2_Music.volume_menu()
 	
@@ -378,8 +380,9 @@ func hide_note_screen() -> void:
 	get_tree().paused = false
 	B2_Music.volume_menu()
 	
-	if is_instance_valid(B2_CManager.o_hud):
-		B2_CManager.o_hud.show_hud()
+	if not B2_Input.cutscene_is_playing:
+		if is_instance_valid(B2_CManager.o_hud):
+			B2_CManager.o_hud.show_hud()
 
 ## Quick Menu
 func show_quickmenu_screen() -> void:

@@ -4,6 +4,9 @@ class_name B2_DoorLight
 
 const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
+## Debug stuff
+var show_destination := true
+
 # Base class for doorlight directions.
 @export_category("DoorLight setup")
 @export var locked				:= false
@@ -182,3 +185,5 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 func _draw() -> void:
 	if debug_door_exit_marker and Engine.is_editor_hint():
 		draw_circle( debug_door_exit_marker_pos, 2, Color.RED )
+	if show_destination:
+		draw_string( preload("uid://cbgm2fhhwo0ld"), Vector2(0, -16), teleport_destination, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.DEEP_SKY_BLUE )
