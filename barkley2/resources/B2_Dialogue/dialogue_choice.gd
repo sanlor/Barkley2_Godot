@@ -130,7 +130,8 @@ func add_choice( choice_text : String ) -> void:
 	var my_choice_id : int 				= choice_vbox_node.get_child_count()
 	var my_selection_button 			:= Button.new()
 	my_selection_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	my_selection_button.custom_minimum_size = Vector2( 300, 11 )
+	my_selection_button.custom_minimum_size = Vector2( 250, 11 )
+	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_WORD
 	
 	my_selection_button.text = Text.pr( Text.qst( choice_text ) )
 	

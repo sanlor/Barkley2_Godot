@@ -46,14 +46,15 @@ signal set_interactivity(enabled : bool)
 
 # used for the "CREATE" event
 ## NOTE need a dynamic way to load these.
-var object_map := {
-	"o_tutorial_popups01" : 	preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
-	"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
-	"o_hoopz_black":			preload("res://barkley2/scenes/Objects/_cutscenes/_sceneBranding/o_hoopz_black.tscn"),
-	"virtual_spawn":			preload("res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn"),
-	"o_turald_fish":			preload("res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_turald_fish.tscn"),
-	"o_enemy_drone_egg":		preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn"),
-}
+#var object_map := {
+	#"o_tutorial_popups01" : 	preload("res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_tutorial_popups01.tscn"),
+	#"oBossName" : 				preload("res://barkley2/scenes/Objects/System/o_boss_name.tscn"),
+	#"o_hoopz_black":			preload("res://barkley2/scenes/Objects/_cutscenes/_sceneBranding/o_hoopz_black.tscn"),
+	#"virtual_spawn":			preload("res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn"),
+	#"o_turald_fish":			preload("res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_turald_fish.tscn"),
+	#"o_enemy_drone_egg":		preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn"),
+#}
+## NOTE 26/07/25 found a way. B2_CManager.get_cached_scene( scene_name ).
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
@@ -1158,7 +1159,7 @@ func get_node_from_name( _array, _name, warn := true ) -> Object:
 					break
 		else:
 			if warn: # sometimes a warning is not needed.
-				push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
+				#push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
 				array_dirty = true
 	if not is_instance_valid(node):
 		#if warn:
@@ -1303,23 +1304,21 @@ func Create( parsed_line : PackedStringArray ):
 	
 	#print("Create: %s arguments." % str(misc_arguments) )
 	#print( parsed_line )
+	var object_map := B2_CManager.get_cached_scene( parsed_line[1].strip_edges() )
+	if object_map == null:
+		push_error("object " + parsed_line[1] + " is null. fix this.")
+		return
 	
-	if object_map.has( parsed_line[1] ):
-		if object_map[ parsed_line[1] ] == null:
-			push_error("object " + parsed_line[1] + " is null. fix this.")
-			return
-		
-		var obj_scene : PackedScene = object_map[ parsed_line[1] ]
-		#var object : Node2D = obj_scene.instantiate() # can also be a Canvas Layer
-		var object = obj_scene.instantiate()
-		if object is Node2D or object is Control:
-			if misc_arguments >= 1:
-				object.position.x = float( parsed_line[2] )
-			if misc_arguments >= 2:
-				object.position.y = float( parsed_line[3] )
-		add_sibling( object, true )
-	else:
-		push_error("object %s not in object_map dictionary. you dun goofed." % str( parsed_line[1] ) )
+	var obj_scene : PackedScene = object_map
+	#var object : Node2D = obj_scene.instantiate() # can also be a Canvas Layer
+	var object = obj_scene.instantiate()
+	if object is Node2D or object is Control:
+		if misc_arguments >= 1:			object.position.x = float( parsed_line[2] )
+		if misc_arguments >= 2:			object.position.y = float( parsed_line[3] )
+	add_sibling( object, true )
+	
+	## Refresh array.
+	all_nodes = get_all_nodes()
 
 ## NOTE Stolen from B2_Actor
 # Check if the actor is inside a building. return false if the parent is not B2_ROOMS

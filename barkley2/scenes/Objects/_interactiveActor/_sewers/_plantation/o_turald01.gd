@@ -1,5 +1,7 @@
 extends B2_InteractiveActor
 
+# Check https://youtu.be/SQKRnzWSW0M?t=8674
+
 ##Turald's Fishgut's Quest
 ##turaldState
 	#0 - Not talked to

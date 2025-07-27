@@ -7,6 +7,11 @@ signal event_started
 signal event_ended
 signal hoopz_got_hit ## Used during combat, for action canceling.
 
+const SCENE_INDEX = preload("res://barkley2/resources/B2_CManager/scene_index.json")
+
+## Cutscene scenes.
+var scene_index	: Dictionary = Dictionary()
+
 ## Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
@@ -43,6 +48,41 @@ var o_cbt_hoopz 			: B2_HoopzCombatActor		 	= null ## Combat Hoopz
 var combat_manager			: B2_CombatManager
 var combat_cinema_player 	: B2_Combat_CinemaPlayer
 var cinema_caller			: Node
+
+## Index all scenes
+func _index_scenes():
+	print_rich("[color=web_purple]Scene Index called.[/color]")
+	scene_index.clear()
+	var scene_array = FileSearch.search_dir( "res://barkley2/scenes/", "", true )
+	## Godot is kinda weird sometimes.
+	## PackedScene in exported projects are named *.tscn.remap for some reason.
+	## This basically handles the project in the editor and on exported projects.
+	for s : String in scene_array:
+		if 	s.ends_with(".tscn"):			## <- used in the godot editor
+			var s_name = s.rsplit("/", true, 1)[1].trim_suffix(".tscn")
+			scene_index[s_name] = s
+		elif s.ends_with(".tscn.remap"):	## <- used in the exported project
+			var s_name = s.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
+			scene_index[s_name] = s.trim_suffix(".remap")
+	print_rich("[color=web_purple]Index rooms ended: ", Time.get_ticks_msec(), " msecs. - ", scene_index.size(), " room_index key entries[/color]")
+	_save_sceneindex_to_disk()
+
+## This writes the Sound list to disk to avoid unecessary lookups during boot.
+func _save_sceneindex_to_disk() -> void:
+	print_rich("[color=cyan]WARNING: Saving SceneIndex to disk.[/color]")
+	var file = FileAccess.open( "res://barkley2/resources/B2_CManager/scene_index.json", FileAccess.WRITE )
+	file.store_string( JSON.stringify(scene_index, "\t") )
+
+func _ready() -> void:
+	scene_index = SCENE_INDEX.data
+
+func get_cached_scene( scene_name : String ) -> PackedScene:
+	if scene_index.has(scene_name):
+		return load( scene_index.get(scene_name) )
+	else:
+		push_error("Scene cache miss (%s). Cache has %s scenes. Reindexing the cache." % [scene_name, str(scene_index.size())])
+		_index_scenes()
+		return null
 
 func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscene_mask = [] ) -> void:
 	cinema_player = B2_CinemaPlayer.new()
