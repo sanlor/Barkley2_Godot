@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://boih08ny16mlo"]
+
+[ext_resource type="Texture2D" uid="uid://dbxvuebn1al8v" path="res://barkley2/assets/b2_original/images/merged/s_sw1_cogSmall.png" id="1_q02tt"]
+[ext_resource type="Script" uid="uid://dxn35oyvbmm07" path="res://barkley2/scenes/Objects/_environs/_unique/_sewers/sewer_cogs.gd" id="2_q02tt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0bgv"]
+atlas = ExtResource("1_q02tt")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f18kn"]
+atlas = ExtResource("1_q02tt")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64scp"]
+atlas = ExtResource("1_q02tt")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnqkn"]
+atlas = ExtResource("1_q02tt")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_no0ok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0bgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f18kn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64scp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xnqkn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_sw1_cogSm_B" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_no0ok")
+centered = false
+offset = Vector2(-20, -20)
+script = ExtResource("2_q02tt")
+metadata/default = {
+"bbox_bottom": "39",
+"bbox_left": "0",
+"bbox_right": "39",
+"bbox_top": "0",
+"height": "40",
+"name": "s_sw1_cogSmall",
+"width": "40",
+"xorig": "20",
+"yorigin": "20"
+}

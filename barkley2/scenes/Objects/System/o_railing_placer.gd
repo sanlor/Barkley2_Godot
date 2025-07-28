@@ -26,58 +26,70 @@ var my_col : CollisionShape2D
 @export_category("Setup")
 @export var start_offset_x 	:= 0.0 :
 	set(a): 
-		start_offset_x = a
+		start_offset_x = snapped( a, Vector2(8.0,0.0) )
 		_update_railing()
 @export var start_offset_y 	:= -14.0 : 
 	set(a): 
-		start_offset_y = a
+		start_offset_y = snapped( a, Vector2(0.0,25.0) )
 		_update_railing()
 @export var h_start_tile 	:= Vector2(72, 0) :
 	set(a): 
-		h_start_tile = a
+		h_start_tile = snapped( a, Vector2(8.0,0.0) )
 		_update_railing()
 @export var h_end_tile 		:= Vector2(56, 0) :
 	set(a): 
-		h_end_tile = a
+		h_end_tile = snapped( a, Vector2(8.0,0.0) )
 		_update_railing()
 @export var v_start_tile 	:= Vector2(48, 0):
 	set(a): 
-		v_start_tile = a
+		v_start_tile = snapped( a, Vector2(8.0,0.0) )
 		_update_railing()
 @export var v_end_tile 		:= Vector2(64, 0):
 	set(a): 
 		v_end_tile = a
 		_update_railing()
 
+@export_category("Collision Setup")
+@export var v_start_col_offset 		:= Vector2(4.0,2.5)
+@export var v_end_col_offset 		:= Vector2(4.0,0.0)
+@export var h_start_col_offset 		:= Vector2(-3.0,4.0)
+@export var h_end_col_offset 		:= Vector2(-9.0,4.0)
+
 var tile_size := Vector2(8,25)
 
 @export_category("Run")
-@export var update := false :
-	set(d):
-		_update_railing()
+@export_tool_button("Update Railing") var update : Callable = _add_collision
+		
+func _init() -> void:
+	add_to_group("navigation_polygon_source_geometry_group")
 		
 func _ready() -> void:
 	_update_railing()
 		
-func _update_railing():
-	queue_redraw()
-	_add_collision()
-	pass
-
 func _add_collision():
-	var seg = SegmentShape2D.new()
-	
-	if orientation == 1:
-		seg.b = Vector2(0, size * 8 )
-	if orientation == 0:
-		seg.b = Vector2(size * 15, 0 )
-	
 	if not is_instance_valid( my_col ):
 		my_col = CollisionShape2D.new()
 		add_child( my_col, true)
-		
-	my_col.shape = seg
-	my_col.debug_color = col_color
+		my_col.z_index = 1000
+	_update_collision_pos()
+
+func _update_railing():
+	_add_collision()
+	queue_redraw()
+
+func _update_collision_pos() -> void:
+	var seg = SegmentShape2D.new()
+	
+	if orientation == 1:
+		seg.a = Vector2.ZERO 			+ v_start_col_offset
+		seg.b = Vector2(0, size * 8 ) 	+ v_end_col_offset
+	if orientation == 0:
+		seg.a = Vector2.ZERO 			+ h_start_col_offset
+		seg.b = Vector2(size * 15, 0 ) 	+ h_end_col_offset
+	
+	if is_instance_valid( my_col ):
+		my_col.shape = seg
+		my_col.debug_color = col_color
 
 func _draw() -> void:
 	if orientation == 0:

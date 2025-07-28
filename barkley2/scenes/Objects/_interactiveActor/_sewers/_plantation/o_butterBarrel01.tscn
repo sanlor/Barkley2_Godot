@@ -1,0 +1,227 @@
+[gd_scene load_steps=22 format=3 uid="uid://dqy48wbj6og8n"]
+
+[ext_resource type="Texture2D" uid="uid://vsydaioyx847" path="res://barkley2/assets/b2_original/images/merged/s_sw1_butterBarrel01.png" id="1_1pvhe"]
+[ext_resource type="Script" uid="uid://pyjusjciqh81" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_butter_barrel_01.gd" id="2_8kdns"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_0axvy"]
+[ext_resource type="AudioStream" uid="uid://bmaquctvwym2l" path="res://barkley2/assets/b2_original/audio/Environment/TirNaNog/sn_bubbles01.ogg" id="4_0axvy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0axvy"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(0, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8vxl"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(24, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrhey"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(48, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g01g"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(72, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfqsu"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(96, 0, 24, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1m2f"]
+atlas = ExtResource("1_1pvhe")
+region = Rect2(120, 0, 24, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_guety"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0axvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8vxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrhey")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g01g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfqsu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1m2f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_x8vxl"]
+script = ExtResource("3_0axvy")
+original_script = "IF butterBarrelState == 3 | GOTO | BARREL03
+IF butterBarrelState == 2 | IF @Garlics@ >= 1 | GOTO | GARLICSOPTION
+IF butterBarrelState == 1 | IF @Garlics@ >= 1 | GOTO | GARLICSOPTION
+IF butterBarrelState == 2 | GOTO | BARREL02
+IF butterBarrelState == 1 | GOTO | BARREL01
+IF butterBarrelState == 0 | GOTO | BARREL00
+
+BARREL03
+DIALOG | P_NAME | (I want nothing more to do with this disgusting enterprise... bleghh.)
+
+GARLICSOPTION
+DIALOG | P_NAME | (Hmmm, since I have these Garlics... I wonder if I should add them to the butter...)
+CHOICE | Season the Butter with the Garlics?
+REPLY  | GARLICS_YES | Kick it up a notch.
+REPLY  | GARLICS_NO | Don't meddle with the recipe.
+
+GARLICS_YES
+IF knowGarlics <= 2  | GOTO | GARLICS_ONE
+IF knowGarlics >= 3 | GOTO | GARLICSPOTENCY
+
+GARLICS_NO
+DIALOG | P_NAME | No, I don't think I should mess with this mess... At least, not yet.
+
+GARLICSPOTENCY
+DIALOG | P_NAME | (Do I really want to drop both Garlics in the butter?)
+CHOICE | How many Garlics in the butter?
+REPLY  | GARLICS_ONE | One Garlics.
+REPLY  | GARLICS_TWO | Two Garlics.
+
+GARLICS_ONE
+DIALOG | P_NAME | (I'm not quite certain on what these Garlics will do in this butter, so I'll just add one.)
+USEAT  | o_butterBarrel01
+SOUND  | sn_splashobject09
+WAIT   | 1.0
+EVENT  | o_butterBarrel01 | 0
+WAIT   | 1.0
+ITEM   | Garlics | -1
+QUEST  | garlicButter = 1
+NOTIFY | Added a Garlics to the Butter Barrel.
+DIALOG | P_NAME | There we go... I wonder what I do now...
+GOTO   | GARLICBUTTER
+
+GARLICS_TWO
+DIALOG | P_NAME | (Let's throw caution to the wind and really dose this swamp butter with TWO, count'em T_W_O, Columbus Day Garlics.)
+USEAT  | o_butterBarrel01
+SOUND  | sn_splashobject09
+WAIT   | 1.0
+EVENT  | o_butterBarrel01 | 0
+WAIT   | 1.0
+DIALOG | P_NAME | Clispaeth help me withstand the stench...
+USEAT  | o_butterBarrel01
+SOUND  | sn_splashobject09
+WAIT   | 2.0
+ITEM   | Garlics | -2
+QUEST  | garlicButter = 2 
+NOTIFY | Added two Garlics to the Butter Barrel
+DIALOG | P_NAME | There we go... I wonder what I do now...
+GOTO   | GARLICBUTTER
+
+GARLICBUTTER
+WAIT   | 3.0
+DIALOG | P_NAME | Oh this is truly wretched... the sewer foam is congealing with the tuber and garlic scum. It's... BUTTER now?
+USEAT  | o_butterBarrel01
+NOTIFY | Skimmed off the Sewer Butter!
+ITEM   | Sewer Butter | 1
+WAIT   | 1.0
+DIALOG | P_NAME | I guess this is all I need...
+QUEST  | butterBarrelState = 3
+
+BARREL02
+DIALOG | P_NAME | ... the smell is noxious...
+
+BARREL01
+DIALOG | P_NAME = s_port_hoopzSurprise | Oh god that smell... this must be the Barrel of Butter... It looks completely and wholy unappetizing.
+QUEST  | butterBarrelState = 2
+IF @Garlics@ >= 1 | GOTO | GARLICSOPTION
+
+BARREL00
+DIALOG | P_NAME = s_port_hoopzShock | Oh god that smell... What in the lard is this? ._._._ Butter?!
+QUEST  | butterBarrelState = 1
+IF @Garlics@ >= 1 | GOTO | GARLICSOPTION"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="Gradient" id="Gradient_yrhey"]
+colors = PackedColorArray(0.99116415, 0.99116427, 0.99116415, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1g01g"]
+gradient = SubResource("Gradient_yrhey")
+fill = 1
+fill_from = Vector2(0.49532712, 0.5)
+fill_to = Vector2(0.5186916, 0.57476634)
+
+[sub_resource type="Curve" id="Curve_hfqsu"]
+_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(0.2651515, 0.24719107), -0.47984117, -0.47984117, 0, 0, Vector2(1, 0.022471905), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_g1m2f"]
+curve = SubResource("Curve_hfqsu")
+
+[sub_resource type="Curve" id="Curve_guety"]
+_data = [Vector2(0, 0.3146068), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ajqx8"]
+curve = SubResource("Curve_guety")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lqbx4"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, -20, 0)
+scale_curve = SubResource("CurveTexture_ajqx8")
+alpha_curve = SubResource("CurveTexture_g1m2f")
+turbulence_enabled = true
+turbulence_noise_scale = 5.322
+turbulence_noise_speed_random = 0.5
+turbulence_influence_min = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0axvy"]
+size = Vector2(25, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x8vxl"]
+
+[node name="o_butterBarrel01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_guety")
+autoplay = "default"
+frame_progress = 0.4425481
+centered = false
+offset = Vector2(-11, -31)
+script = ExtResource("2_8kdns")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_x8vxl")
+metadata/default = {
+"bbox_bottom": "35",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "0",
+"height": "36",
+"name": "s_sw1_butterBarrel01",
+"width": "24",
+"xorig": "11",
+"yorigin": "31"
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_0axvy")
+autoplay = true
+max_distance = 150.0
+bus = &"Audio"
+
+[node name="bubbles" type="GPUParticles2D" parent="."]
+position = Vector2(1, -24)
+amount = 64
+texture = SubResource("GradientTexture2D_1g01g")
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_lqbx4")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, -14)
+shape = SubResource("RectangleShape2D_0axvy")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_x8vxl")

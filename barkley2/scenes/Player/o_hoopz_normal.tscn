@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=17 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="Script" uid="uid://h3801n3p6aiv" path="res://barkley2/scenes/Player/o_hoopz_normal.gd" id="1_dvmm0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_vnb8r"]
+[ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_ac4jf"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_1qnxd"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="5_qxiei"]
 [ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="6_u8bon"]
@@ -18,14 +19,14 @@ bounce = 0.25
 absorbent = true
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
-polygon = PackedVector2Array(-10, -7, -6, -13, 2, -15, 9, -11, 10, -5, 4, 1, -2, 2, -8, -2)
+polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke")]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "flashlight_pivot", "flashlight")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
@@ -45,11 +46,25 @@ combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+flashlight_pivot = NodePath("flashlight_pivot")
+flashlight = NodePath("flashlight_pivot/flashlight")
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_ufjxn")
+sdf_collision = false
+
+[node name="flashlight_pivot" type="Marker2D" parent="."]
+position = Vector2(0, -25)
+
+[node name="flashlight" type="PointLight2D" parent="flashlight_pivot"]
+position = Vector2(3, 53)
+rotation = -1.5707964
+scale = Vector2(0.5, 0.5)
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("3_ac4jf")
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)

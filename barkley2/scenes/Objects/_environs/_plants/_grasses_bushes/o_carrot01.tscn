@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtqbn24kltpb4"]
+
+[ext_resource type="Texture2D" uid="uid://cdg15qrbcoi5x" path="res://barkley2/assets/b2_original/images/merged/s_carrot01.png" id="1_hiytf"]
+[ext_resource type="Script" uid="uid://bwjqbyhojy02i" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_mrcfj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntypx"]
+atlas = ExtResource("1_hiytf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k05dm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ntypx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_carrot01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_k05dm")
+centered = false
+offset = Vector2(-8, -8)
+script = ExtResource("2_mrcfj")
+circle_radius = 4
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "0",
+"bbox_top": "15",
+"height": "16",
+"name": "s_carrot01",
+"width": "16",
+"xorig": "8",
+"yorigin": "8"
+}

@@ -44,6 +44,10 @@ var astar_valid_tiles := Array() # used for debug
 @export var override_zone_flavor		:= "" 		## Allow custom zone flavor (bottom text)
 @export var camera_bound_to_map			:= false 	## Camera cannot see outside the map.
 
+@export_category("Room light")
+@export var is_this_room_dark			:= false	## Adds a canvas modulate to the scene, to simulate a dark room
+@export var room_darkness_color			:= Color(0.5, 0.5, 0.5, 1.0)
+
 @export_category("Navigation")
 @export var source_geometry_mode := NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
 
@@ -83,6 +87,17 @@ func _enter_tree() -> void:
 		
 	y_sort_enabled = true
 	ready.connect( _after_ready )
+	
+	if is_this_room_dark:
+		var room_darkness_node := CanvasModulate.new()
+		room_darkness_node.color = room_darkness_color
+		add_child( room_darkness_node )
+		#move_child( room_darkness_node, 0 )
+		#room_darkness_node.owner = self
+		print( "room_darkness_node created for room '%s'." % name )
+
+func _ready() -> void:
+	push_error("Room %s not setup." % get_room_name())
 
 func _hide_collision_layer() -> void:
 	if is_instance_valid(collision_layer):
@@ -155,8 +170,6 @@ func _after_ready() -> void:
 		# do something
 		pass
 		
-	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data()
-		
 	if show_zone_banner:
 		var zone := O_ZONE_NAME.instantiate()
 		zone.zone_data( name )
@@ -200,6 +213,7 @@ func _setup_player_node():
 		b2_camera.set_camera_bound( camera_bound_to_map )
 		
 	add_child( player )
+	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data()
 	return player
 	
 func _setup_camera( player ):

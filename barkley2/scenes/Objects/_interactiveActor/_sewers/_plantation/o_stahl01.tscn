@@ -1,0 +1,86 @@
+[gd_scene load_steps=9 format=3 uid="uid://1gj0508tg4rk"]
+
+[ext_resource type="Script" uid="uid://s2p57uli33i8" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_stahl01.gd" id="1_vyp0b"]
+[ext_resource type="Texture2D" uid="uid://c56jgd6lurk0v" path="res://barkley2/assets/b2_original/images/merged/sPrisonStahl.png" id="2_8usjm"]
+[ext_resource type="Texture2D" uid="uid://bf235l0sigp06" path="res://barkley2/assets/b2_original/images/merged/s_sw1_stahl01.png" id="3_lg1cr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s6t1"]
+atlas = ExtResource("2_8usjm")
+region = Rect2(0, 0, 21, 43)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b6p7"]
+atlas = ExtResource("3_lg1cr")
+region = Rect2(0, 0, 29, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i4w2e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s6t1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b6p7")
+}],
+"loop": true,
+"name": &"sewer",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vyp0b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8slpt"]
+size = Vector2(20, 41)
+
+[node name="o_stahl01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vyp0b")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_i4w2e")
+animation = &"sewer"
+centered = false
+offset = Vector2(-10, -38)
+metadata/default = {
+"bbox_bottom": "40",
+"bbox_left": "0",
+"bbox_right": "19",
+"bbox_top": "2",
+"frames": ["images\\sPrisonStahl_0.png"],
+"height": "43",
+"name": "sPrisonStahl",
+"width": "21",
+"xorig": "10",
+"yorigin": "38"
+}
+metadata/sewer = {
+"bbox_bottom": "40",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_stahl01_0.png"],
+"height": "41",
+"name": "s_sw1_stahl01",
+"width": "29",
+"xorig": "13",
+"yorigin": "32"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_vyp0b")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -16.5)
+shape = SubResource("RectangleShape2D_8slpt")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

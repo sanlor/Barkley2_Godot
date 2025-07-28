@@ -225,6 +225,8 @@ func fuck_around_with_nodes():
 	
 	var all_nodes : Array
 	for c in get_parent().get_children():
+		if c.name.begins_with("B2_TOOL"):
+			continue
 		if c is Marker2D:
 			if c.name.begins_with("P"):
 				all_nodes.append(c)

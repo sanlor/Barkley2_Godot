@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://cw3yki1y1o27q"]
+
+[ext_resource type="Texture2D" uid="uid://05a3sko8sudx" path="res://barkley2/assets/b2_original/images/merged/s_fishingPole01.png" id="1_gp8ar"]
+[ext_resource type="Script" uid="uid://bxflccuf3pt85" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_fishing_pole_01.gd" id="2_nnh1x"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_hppku"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hppku"]
+atlas = ExtResource("1_gp8ar")
+region = Rect2(0, 0, 17, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gw54e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hppku")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_gw54e"]
+script = ExtResource("3_hppku")
+original_script = "IF benedictPoleBuy == 1 | GOTO | TAKEPOLE
+GOTO | POLEREMARK
+
+TAKEPOLE
+DIALOG | P_NAME | I guess this is mine now...
+USEAT  | o_fishingPole01
+ITEM   | Fishing Pole | 1
+QUEST  | benedictPole = 1
+EVENT  | o_fishingPole | 1
+
+POLEREMARK
+DIALOG | P_NAME | Cast Rabbit 7100... looks like a fine piece of gear to dip into the sewer streams... wonder if I could get my hands on one someday."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gp8ar"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nnh1x"]
+size = Vector2(16, 51)
+
+[node name="o_fishingPole01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_gw54e")
+centered = false
+offset = Vector2(-9, -48)
+script = ExtResource("2_nnh1x")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_gw54e")
+metadata/default = {
+"bbox_bottom": "51",
+"bbox_left": "2",
+"bbox_right": "16",
+"bbox_top": "34",
+"height": "54",
+"name": "s_fishingPole01",
+"width": "17",
+"xorig": "9",
+"yorigin": "48"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_gp8ar")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -21.5)
+shape = SubResource("RectangleShape2D_nnh1x")

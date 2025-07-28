@@ -1,0 +1,114 @@
+[gd_scene load_steps=13 format=3 uid="uid://d0t3d0whjpu6q"]
+
+[ext_resource type="Script" uid="uid://bae6key4xk7oi" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_gruft01.gd" id="1_qsjej"]
+[ext_resource type="Texture2D" uid="uid://b0jj1xif1e8y5" path="res://barkley2/assets/b2_original/images/merged/s_sw1_gruft01.png" id="2_5casi"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_ro2xk"]
+
+[sub_resource type="Resource" id="Resource_k3vgh"]
+script = ExtResource("2_ro2xk")
+original_script = "IF bossBabby == 1  | GOTO | HUDDLE
+IF gordoState == 2 | GOTO | PLANTATION_AFTERMATH
+IF gruftState == 1 | GOTO | GRUFT_1
+IF gruftState == 0 | GOTO | GRUFT_0
+
+HUDDLE 
+DIALOG | Gruft  | I just want to hoe again...
+
+PLANTATION_AFTERMATH
+DIALOG | Gruft  | Hoe hoe hoe. Hoe all day, hoe all night! Hoe!
+
+GRUFT_1
+DIALOG | Gruft  | Just gotta keep hoeing. Hoeing is the best compared to the Butter Barrel.
+
+GRUFT_0
+DIALOG | Gruft  | Please, I'm hoeing, don't put me on Garlics duty! The smell makes me faint. The heat makes me faint. At least when I pass out from hoeing I can hold onto the hoe!
+DIALOG | P_NAME | I'm not-
+DIALOG | Gruft  | Hoe hoe hoe. I love to hoe! Work with the hoe is better than Garlics duty...
+QUEST  | gruftState = 1
+QUEST  | gordoChide = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ro2xk"]
+atlas = ExtResource("2_5casi")
+region = Rect2(0, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3vgh"]
+atlas = ExtResource("2_5casi")
+region = Rect2(30, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqiqx"]
+atlas = ExtResource("2_5casi")
+region = Rect2(60, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l2u0i"]
+atlas = ExtResource("2_5casi")
+region = Rect2(90, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_318yb"]
+atlas = ExtResource("2_5casi")
+region = Rect2(120, 0, 30, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vd7pj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ro2xk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3vgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqiqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l2u0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_318yb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aqiqx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mr7mu"]
+size = Vector2(20, 36)
+
+[node name="o_gruft01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_qsjej")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_k3vgh")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vd7pj")
+autoplay = "default"
+centered = false
+offset = Vector2(-14, -34)
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_gruft01_0.png", "images\\s_sw1_gruft01_1.png", "images\\s_sw1_gruft01_2.png", "images\\s_sw1_gruft01_3.png", "images\\s_sw1_gruft01_4.png"],
+"height": "45",
+"name": "s_sw1_gruft01",
+"width": "30",
+"xorig": "14",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aqiqx")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_mr7mu")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

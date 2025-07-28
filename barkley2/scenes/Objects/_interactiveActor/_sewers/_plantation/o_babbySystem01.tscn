@@ -1,0 +1,166 @@
+[gd_scene load_steps=21 format=3 uid="uid://c7ywdmpshijwy"]
+
+[ext_resource type="Script" uid="uid://ry47me22p2l8" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_babbySystem01.gd" id="1_pxllc"]
+[ext_resource type="Texture2D" uid="uid://hpr82atdu7ad" path="res://barkley2/assets/b2_original/images/merged/s_babbySystem.png" id="1_v42r5"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_dxma7"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="4_defpn"]
+
+[sub_resource type="Resource" id="Resource_exad3"]
+script = ExtResource("2_dxma7")
+original_script = "DIALOG | P_NAME | (Frightening armaments.)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_an4qh"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(1068, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxma7"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(0, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_defpn"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(89, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_exad3"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(178, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vsbk"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(267, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_inbfc"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(356, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v13ih"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(445, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7er55"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(534, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8d08"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(623, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5e67n"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(712, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mowcq"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(801, 0, 89, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qm2ym"]
+atlas = ExtResource("1_v42r5")
+region = Rect2(890, 0, 89, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hm331"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_an4qh")
+}],
+"loop": true,
+"name": &"awake",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxma7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_defpn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_exad3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vsbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_inbfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v13ih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7er55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8d08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5e67n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mowcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qm2ym")
+}],
+"loop": false,
+"name": &"awaken",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxma7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0vsbk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fekky"]
+size = Vector2(26, 45)
+
+[node name="o_babbySystem01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_pxllc")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_exad3")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_hm331")
+animation = &"awaken"
+centered = false
+offset = Vector2(-44, -45)
+metadata/default = {
+"bbox_bottom": "55",
+"bbox_left": "0",
+"bbox_right": "88",
+"bbox_top": "0",
+"frames": ["images\\s_babbySystem_0.png", "images\\s_babbySystem_1.png", "images\\s_babbySystem_2.png", "images\\s_babbySystem_3.png", "images\\s_babbySystem_4.png", "images\\s_babbySystem_5.png", "images\\s_babbySystem_6.png", "images\\s_babbySystem_7.png", "images\\s_babbySystem_8.png", "images\\s_babbySystem_9.png", "images\\s_babbySystem_10.png", "images\\s_babbySystem_11.png", "images\\s_babbySystem_12.png", "images\\s_babbySystem_13.png", "images\\s_babbySystem_14.png", "images\\s_babbySystem_15.png", "images\\s_babbySystem_16.png", "images\\s_babbySystem_17.png", "images\\s_babbySystem_18.png", "images\\s_babbySystem_19.png", "images\\s_babbySystem_20.png", "images\\s_babbySystem_21.png", "images\\s_babbySystem_22.png", "images\\s_babbySystem_23.png", "images\\s_babbySystem_24.png", "images\\s_babbySystem_25.png", "images\\s_babbySystem_26.png"],
+"height": "56",
+"name": "s_babbySystem",
+"width": "89",
+"xorig": "44",
+"yorigin": "45"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_0vsbk")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-3, -4.5)
+shape = SubResource("RectangleShape2D_fekky")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("4_defpn")
+title_color = Color(1, 0, 0, 1)
+notes = "Add Battle system"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

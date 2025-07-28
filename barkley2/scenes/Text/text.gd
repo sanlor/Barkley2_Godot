@@ -184,7 +184,8 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 			parsed_str_var = B2_Playerdata.Quest( "gamename", null, "Invalid Vidcon" )
 		else:
 			# Cinema() line 678
-			parsed_str_var = B2_Playerdata.Quest( str_var )
+			var temp = B2_Playerdata.Quest( str_var )
+			parsed_str_var = B2_Playerdata.Quest( str_var, null, "INVALID QUEST VARIABLE '%s'" % str_var )
 
 		text = text.erase( first_at, (second_at - first_at) + 1 )
 		text = text.insert( first_at, parsed_str_var )

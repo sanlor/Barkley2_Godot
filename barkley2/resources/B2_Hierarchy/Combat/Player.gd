@@ -65,6 +65,7 @@ var curr_STATE := STATE.NORMAL :
 	set(s) : 
 		curr_STATE = s
 		_change_sprites()
+		_update_flashlight()
 
 # Combat Animations
 var aim_dir := Vector2.ZERO
@@ -249,6 +250,8 @@ func _change_sprites():
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
 	var input 			:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	
+	_point_flashlight( input )
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
@@ -601,8 +604,14 @@ func _input(event: InputEvent) -> void:
 			if Input.is_key_pressed(KEY_F4):
 				toggle_collision()
 
+func _update_flashlight() -> void:
+	match curr_STATE:
+		STATE.NORMAL, STATE.AIM:
+			flashlight.enabled = (true == flashlight_enabled) ## is only true if both is true.
+		_:
+			flashlight.enabled = false
+
 func _physics_process(delta: float) -> void:
-		
 	match curr_STATE:
 		STATE.ROLL:
 			if linear_velocity.length() < 8.0:

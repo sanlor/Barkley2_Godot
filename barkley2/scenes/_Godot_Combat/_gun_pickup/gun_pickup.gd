@@ -42,6 +42,13 @@ func setup_from_db( db_gun_name : String ) -> void:
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
 	weapon_pickup_color = my_gun.weapon_pickup_color
 
+func setup_from_gun( _my_gun : B2_Weapon ) -> void:
+	my_gun = _my_gun
+	@warning_ignore("narrowing_conversion")
+	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
+	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
+	weapon_pickup_color = my_gun.weapon_pickup_color
+
 func _ready() -> void:
 	## TODO Fix the pickup name color and correct name
 	if not my_gun:

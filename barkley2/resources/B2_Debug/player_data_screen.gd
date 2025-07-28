@@ -1,6 +1,6 @@
 extends ScrollContainer
 
-@onready var data: Label = $VBoxContainer/data
+@onready var data: Label = $choices/VBoxContainer/data
 
 func _on_visibility_changed() -> void:
 	if visible and is_node_ready():

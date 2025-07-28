@@ -166,7 +166,7 @@ func cinema_dialog( _line : String ) -> void:
 	
 func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 	# this is confusing. This can set quest states, change states, like quest += 1 and fuck aroung with money and time. weird
-	var quest_stuff := parsed_line[ 1 ].split(" ", false)
+	var quest_stuff := parsed_line[ 1 ].strip_edges().split(" ", false, 2)
 	var qstNam = quest_stuff[0]
 	var qstTyp = quest_stuff[1]
 	var qstVal = quest_stuff[2]
@@ -188,14 +188,20 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 		else:
 			breakpoint
 	else:
+		# qstVal = float( qstVal ) # 27/07/25 disabled this. having issues with adding strings values to quests.
+		pass
+	
+	if qstVal.is_valid_int() or qstVal.is_valid_float():
 		qstVal = float( qstVal )
 		
-	if qstTyp == "+=":
-		B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
-	elif qstTyp == "-=":
-		B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
+		if qstTyp == "+=":
+			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
+		elif qstTyp == "-=":
+			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
+		else:
+			B2_Playerdata.Quest(qstNam, qstVal )
 	else: # = or ==
-		B2_Playerdata.Quest(qstNam, float(qstVal) )
+		B2_Playerdata.Quest(qstNam, str(qstVal) )
 	
 	if debug: print( "Quest: ", quest_stuff )
 

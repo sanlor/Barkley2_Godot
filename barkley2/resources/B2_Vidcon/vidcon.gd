@@ -98,13 +98,14 @@ static func give_vidcon( index : int ) -> void:
 	if index in range(VIDCON_N):
 		change_vidcon( index, 1 )
 		change_vidconboxed( index, 1 )
+		print_rich("[color=yellow]Got vidcon '%s'." % get_vidcon_name(index) )
 	else:
 		push_error("Invalid Vidcon index '%s'." % index)
 		
 static func has_vidcon( index : int ) -> int:
 	if index in range(VIDCON_N):
 		var vidconHave : Array = B2_Config.get_user_save_data("player.xp.vidcons", get_dummy_array() )
-		return vidconHave[index]
+		return vidconHave[index] as int
 	else:
 		push_error("Invalid Vidcon index '%s'." % index)
 		return 0

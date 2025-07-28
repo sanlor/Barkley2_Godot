@@ -1,0 +1,125 @@
+[gd_scene load_steps=16 format=3 uid="uid://btan3e5wa46pk"]
+
+[ext_resource type="Texture2D" uid="uid://mppetidayf8d" path="res://barkley2/assets/b2_original/images/merged/s_sw1_camera01.png" id="1_a40u7"]
+[ext_resource type="Script" uid="uid://r1c4aufp6npl" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/s_plantation_camera_01.gd" id="2_a40u7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xolpo"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(0, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mblx"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(80, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7uje"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(160, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8pcqw"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(240, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sr7nq"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(320, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq1fn"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(400, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xj4s"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(480, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arehi"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(560, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tv1hv"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(640, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7oq2"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(720, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_447ds"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(800, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1r5h"]
+atlas = ExtResource("1_a40u7")
+region = Rect2(880, 0, 80, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0n5yb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xolpo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mblx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7uje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8pcqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sr7nq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq1fn")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xj4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arehi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tv1hv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7oq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_447ds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1r5h")
+}],
+"loop": true,
+"name": &"unlit",
+"speed": 5.0
+}]
+
+[node name="s_plantation_camera01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0n5yb")
+centered = false
+offset = Vector2(-40, -31)
+script = ExtResource("2_a40u7")
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "79",
+"bbox_top": "0",
+"height": "32",
+"name": "s_sw1_camera01",
+"width": "80",
+"xorig": "40",
+"yorigin": "31"
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

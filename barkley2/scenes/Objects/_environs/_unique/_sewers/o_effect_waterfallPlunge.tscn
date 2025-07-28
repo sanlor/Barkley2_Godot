@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://eyoy0eipna2p"]
+
+[ext_resource type="Texture2D" uid="uid://c3scp6fps3fve" path="res://barkley2/assets/b2_original/images/merged/s_waterfallPlunge.png" id="1_b6eas"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_2v43g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kprst"]
+atlas = ExtResource("1_b6eas")
+region = Rect2(0, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqdsv"]
+atlas = ExtResource("1_b6eas")
+region = Rect2(48, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bqu2"]
+atlas = ExtResource("1_b6eas")
+region = Rect2(96, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rw0x4"]
+atlas = ExtResource("1_b6eas")
+region = Rect2(144, 0, 48, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_533ep"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kprst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqdsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bqu2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rw0x4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_effect_waterfallPlunge" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_533ep")
+autoplay = "default"
+frame_progress = 0.84604794
+centered = false
+script = ExtResource("2_2v43g")

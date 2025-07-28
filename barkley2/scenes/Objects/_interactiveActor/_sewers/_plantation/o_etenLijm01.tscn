@@ -1,0 +1,352 @@
+[gd_scene load_steps=12 format=3 uid="uid://rpxaj1o31g58"]
+
+[ext_resource type="Script" uid="uid://ch2ufpkhwukrm" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_etenLijm01.gd" id="1_7587n"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_dhcdj"]
+[ext_resource type="Texture2D" uid="uid://bcb8kik1gftpl" path="res://barkley2/assets/b2_original/images/merged/s_sw1_etenLijm01.png" id="2_ir3qw"]
+
+[sub_resource type="Resource" id="Resource_44efx"]
+script = ExtResource("2_dhcdj")
+original_script = "IF bossBabby == 1       | IF gordoState == 2 | GOTO | HUDDLE
+IF gordoState == 2      | GOTO | PLANTATION_AFTERMATH
+IF etenLijmGarlics == 3 | GOTO | GARLICS_DONE_REPEAT
+IF etenLijmGarlics == 2 | GOTO | GARLICS_DONE
+IF etenLijmGarlics == 1 | GOTO | GARLICS_WAIT
+IF etenLijmState == 6   | GOTO | ETEN_6
+IF etenLijmState == 5   | GOTO | ETEN_5
+IF etenLijmState == 4   | GOTO | ETEN_4
+IF etenLijmState == 3   | GOTO | ETEN_3
+IF etenLijmState == 2   | GOTO | ETEN_2
+IF etenLijmState == 1   | GOTO | ETEN_1
+IF etenLijmState == 0   | GOTO | ETEN_0
+
+HUDDLE
+DIALOG | Eten-Lijm | I don't know what's going on. What's the scoop?
+GOTO   | PLANTATION_AFTERMATH
+
+PLANTATION_AFTERMATH
+DIALOG | P_NAME    | Hey, you guys are free to go! That fat guy is a goner!
+DIALOG | Eten-Lijm | What? Where would we go? Why would we leave this plance?
+DIALOG | P_NAME    | What are you saying? Don't you want to leave this awful place?
+DIALOG | Eten-Lijm | To be honest with you, no. I... I belong here. Picking up veggies is all I know. It's all I care about.
+DIALOG | P_NAME    | But there's no one to keep you down here anymore!
+DIALOG | Eten-Lijm | Oh I'm sure they'll send someone else down here after a while. It has happened before.
+DIALOG | P_NAME    | B-but...!
+DIALOG | Eten-Lijm | Look, I appreciate what you've done for us, but I'm afraid it was all for naught. This is our home. Sorry.
+DIALOG | P_NAME    | ...
+QUEST  | etenLijmState = 6
+
+GARLICS_DONE_REPEAT
+DIALOG | Eten-Lijm | /'Enjoy/' those Garlics, hehe.
+
+GARLICS_DONE
+DIALOG | Eten-Lijm | Hey I got those Garlics you asked for. It took a while but these are about as potent a bulb as you can get.
+DIALOG | P_NAME    | Oh that's great, just what I needed.
+DIALOG | Eten-Lijm | Here you are, still kinda perplexed on why you need them, but I learned a long time ago that it's best to not ask questions and assume no one is trying to take advantage of me.
+USEAT  | o_etenLijm01
+ITEM   | Garlics   | 2
+NOTIFY | Got 2 Garlics!
+DIALOG | P_NAME    | Thanks again, Eten-Lijm.
+DIALOG | Eten-Lijm | Don't mention it please. Good luck.
+QUEST  | etenLijmGarlics = 3
+
+GARLICS_WAIT
+DIALOG | Eten-Lijm | Garlics aren't done yet, but you can smell them already.
+DIALOG | P_NAME    | Okay, just checking.
+DIALOG | Eten-Lijm | Come back in a bit.
+
+GOT_MORE_GARLICS
+DIALOG | P_NAME    | Do you have any Garlics on hand?
+DIALOG | Eten-Lijm | Garlics, eh? The Devil's Bulb? No not really... we normally toss them right out as soon as we see them harvested. Why would you want something as undesirable as Garlics?
+DIALOG | P_NAME    | Let's just say I have my reasons.
+DIALOG | Eten-Lijm | Well... I guess I could plant some of these Baby Columbus Day Garlics. But it'll take a few hours to get them mature. Could you come back then?
+DIALOG | P_NAME    | Hmmm, sure... so three hours?
+DIALOG | Eten-Lijm | Yeah, come back in three hours.
+DIALOG | P_NAME = s_port_hoopzHappy | Okay sure! Thanks for doing this!
+ClockTime | event | etenLijmGarlics | 2 | 160
+QUEST  | etenLijmGarlics = 1
+
+ETEN_QUESTIONS
+QUEST  | etenLijmState = 2
+CHOICE | Any questions for Eten-Lijm?
+IF etenWhere == 0 | REPLY | WHERE_ARE_WE | What is this place?
+IF etenWhat == 0  | REPLY | WHAT_PLANTING | What are you planting?
+IF etenWhere == 1 | IF etenWhat == 1 | REPLY | GARLICS_INFO | Why do you need to remove the Garlics?
+IF etenWhere == 1 | IF etenWhat == 1 | IF knowGarlics >= 1 | REPLY  | GOT_MORE_GARLICS | Got any Garlics to share?
+REPLY | NARY_YE_MIND | Gotta go...
+
+GARLICS_INFO
+DIALOG | P_NAME    | So you don't want the Garlics?
+DIALOG | Eten-Lijm | Well, I think they're delicious, but they are expressly forbidden by the Overlord.
+DIALOG | P_NAME    | Do you know why?
+DIALOG | Eten-Lijm | Something to do with `sq`debilitating autoimmune reactions?`rt` I'm not sure... the Overlord are really wise, so they would know what they can and cannot handle.
+DIALOG | P_NAME    | Who is this Overlord?
+DIALOG | Eten-Lijm | They... or er, I_T_... is many. I guess it's hard to explain, you'll have to see for yourself. Plus I have to get back to my labor... talk to you later, P_NAME_S.
+QUEST  | knowGarlics = 3
+QUEST  | etenLijmState = 3
+EXIT |
+
+WHERE_ARE_WE
+DIALOG | P_NAME    | Where are we? What is this place?
+DIALOG | Eten-Lijm | Oh it's just a `kw`Glorious Sewer Plantation.`rt` What you've never seen a place like this?
+DIALOG | P_NAME    | Uh not really...
+DIALOG | Eten-Lijm | Well you must have not been looking, our Plantation Overlord say that Sewer Plantations are locked in a tight economic battle for superiority.
+DIALOG | P_NAME    | Overlord?
+DIALOG | Eten-Lijm | Yeah they are in that hole over there, but `sq`I wouldn't go in unless you have something for them._ Butter most likely.`rt` Unfortunately all we've planted recently are a variety of tubers and tuber-like root vegetables.
+QUEST  | etenWhere = 1
+GOTO   | ETEN_QUESTIONS
+
+WHAT_PLANTING
+DIALOG | P_NAME    | So what exactly are you planting?
+DIALOG | Eten-Lijm | Roots and tasteless tubers. `sq`The Overlord pretty much only want butter`rt` and there isn't much in the way of dairy in the sewers. So we grow a lot of root vegetables and boil them down to a sludge in those barrels. The sludge eventually coagulates into a foamy cream which is then further processed into a fatty, spoonable sustenance.
+DIALOG | P_NAME = s_port_hoopzHappy | Wow, you Dwarfs are so resourceful.
+DIALOG | Eten-Lijm | Well the Overlord and their desires are tantamount to all. My job is mainly just to fish out those `kw`troublesome Columbus Day Garlics`rt` that grow like weeds here in the sewers.
+QUEST  | butterBarrelState = 1
+QUEST  | etenWhat = 1
+GOTO   | ETEN_QUESTIONS
+
+ETEN_0
+DIALOG | Eten-Lijm | This is so much more fun than my last forced servitude!
+QUEST  | etenLijmState = 1 
+GOTO | ETEN_1
+
+ETEN_1
+DIALOG | Eten-Lijm | Hey! I made a song about being trapped on a Sewer Plantation and constantly teetering on the precipice of diciplinary torture. Do you want to hear it?!
+CHOICE | Hear the song?
+REPLY  | HEAR_SONG | Sure.
+REPLY  | NO_SONG | No thanks.
+
+ETEN_2
+DIALOG | Eten-Lijm | Hey P_NAME_S.
+DIALOG | P_NAME    | Hey, I have a few more questions.
+GOTO   | ETEN_QUESTIONS
+
+ETEN_3
+DIALOG | Eten-Lijm | Gotta get back to work. Maybe come back later and we can talk.
+
+ETEN_4
+DIALOG | Eten-Lijm | I'm trying to harvest and you're standing on my root vegetables.
+DIALOG | P_NAME    | Oh_ sorry.
+
+ETEN_5
+DIALOG | Eten-Lijm | Hey P_NAME_S, I have been thinking... I just want to say that it's water under the bridge. The whole singing thing. I kinda realized that I'm probably better off sticking to spoken word and SLAM poetry.
+DIALOG | P_NAME    | Oh? Well I guess that's a good hobby.
+DIALOG | Eten-Lijm | Pretty lucrative, I've heard. Anyways... what can I do for you?
+CHOICE | Anything for Eten-Lijm?
+REPLY  | GOT_MORE_GARLICS | Got any Garlics to share?
+REPLY  | NARY_YE_MIND | Nary ye mind.
+
+ETEN_6
+DIALOG | P_NAME    | ... I can't believe you guys want to stay down here...
+
+HEAR_SONG
+DIALOG | P_NAME | Oh, uh sure.
+//TODO: lower music!
+DIALOG | Eten-Lijm | Okay great, ahem...
+WAIT   | 2.0
+DIALOG | Eten-Lijm | OH I WORK ALL DAY AND I WORK ALL NIGHT,
+DIALOG | Eten-Lijm | WHAT COMRADES CALL PLIGHT, I CALL DELIGHT.
+DIALOG | Eten-Lijm | RUTABEGAS IN THE GREEN PILE, GARLICS IN THE REDDDDDDD!
+WAIT   | 1.5
+DIALOG | Eten-Lijm | CONFUSE YOUR ROOTS AND YOU'LL END UP DEAD!
+QUEST  | knowGarlics += 1
+WAIT   | 0.5
+//TODO: music comes back on
+WAIT   | 1.0
+QUEST  | gordoChide = 1
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow, that's uh- a-
+CHOICE | Rate the song?
+REPLY  | TEN   | Ten out of Ten.
+REPLY  | NINE  | Nine out of Ten.
+REPLY  | EIGHT | Eight out of Ten.
+REPLY  | SEVEN | Seven out of Ten.
+REPLY  | SIX   | Six out of Ten.
+REPLY  | FIVE  | Five out of Ten.
+REPLY  | FOUR  | Four out of Ten.
+REPLY  | THREE | Three out of Ten.
+REPLY  | TWO   | Two out of Ten.
+REPLY  | ONE   | One out of Ten.
+REPLY  | ZERO  | None out of Ten.
+
+TEN
+DIALOG | P_NAME | Ten out of Ten.
+QUEST  | etenRating = 10
+QUEST  | behaveFib += 1
+GOTO   | LIAR
+
+NINE
+DIALOG | P_NAME | Nine out of Ten.
+QUEST  | behaveFib += 1
+GOTO   | BEST_RATING
+
+EIGHT
+DIALOG | P_NAME | Eight out of Ten.
+GOTO   | BEST_RATING
+
+SEVEN
+DIALOG | P_NAME | Seven out of Ten.
+GOTO   | BEST_RATING
+
+SIX
+DIALOG | P_NAME | Six out of Ten.
+GOTO   | DECENT_RATING
+
+FIVE
+DIALOG | P_NAME | Five out of Ten.
+GOTO   | DECENT_RATING
+
+FOUR
+DIALOG | P_NAME | Four out of Ten.
+GOTO   | BAD_RATING
+
+THREE
+DIALOG | P_NAME | Three out of Ten.
+GOTO   | BAD_RATING
+
+TWO
+DIALOG | P_NAME | Two out of Ten.
+GOTO   | BAD_RATING
+
+ONE
+DIALOG | P_NAME | One out of Ten.
+GOTO   | BAD_RATING
+
+ZERO
+DIALOG | P_NAME | None out of Ten.
+GOTO   | BAD_RATING
+
+LIAR
+DIALOG | Eten-Lijm | Really? So you're saying I have no room for improvement?
+DIALOG | P_NAME    | Well uh, I thought it was really good.
+DIALOG | Eten-Lijm | You know, I opened my heart and voice to you, and was looking for honest feedback not patronizing fibbery.
+IF bootyBassQuest == 3 | GOTO | BOOTY_WIN
+DIALOG | P_NAME = s_port_hoopzSad | I'm sorry I was just trying to be nice...
+DIALOG | Eten-Lijm | Nothing nice about lying to new friends. I'll get back to sorting root vegetables now. Good bye.
+DIALOG | P_NAME = s_port_hoopzSad | Bye...
+QUEST  | etenLijmState = 4
+ClockTime | event | etenLijmState | 5 | 120
+
+BEST_RATING
+DIALOG | Eten-Lijm | Really?! You think so?
+DIALOG | P_NAME = s_port_hoopzHappy | Yeah! I think you have a real gift for libretto. Your plight as a slave clearly inspires your transportative lyrics.
+DIALOG | Eten-Lijm | Oh, well I was going for a more celebratory tone, but it's still open for revision and I guess, uh interpretation. Anyways, thank you, what can I help you with?
+GOTO   | ETEN_QUESTIONS
+
+DECENT_RATING
+DIALOG | Eten-Lijm | Really? That's not so bad!
+IF faveMusic == 0  | DIALOG | P_NAME | It wasn't at all. I just really haven't found my musical calling yet... it feels like maybe I just missed my big break in that area, but if I had... I probably would have really appreciated whatever it was you just sang.
+IF faveMusic != 0  | DIALOG | P_NAME | It wasn't at all. I'm more into @faveMusic@, so that's probably what threw me off at first. But I think if this whole slavery thing doesn't work out, you might find a comfortable profession in the realm of songwriting.
+DIALOG | Eten-Lijm | Why thank you very much, P_NAME_S. Moving on, is there something I can help you with?
+GOTO   | ETEN_QUESTIONS
+
+BAD_RATING
+DIALOG | Eten-Lijm | Ouch... that low huh?
+DIALOG | P_NAME    | Well, I was trying to be as honest as I can.
+IF bootyBassQuest == 3 | GOTO | BOOTY_WIN
+GOTO   | NO_BOOTY
+
+BOOTY_WIN
+DIALOG | P_NAME     | Also, I do kinda know what I am talking about though when it comes to music. I am @djName@, the Baron of Booty.
+DIALOG | Eten-Lijm  | Wow, really?! The Baron of Booty! In the flesh!
+IF etenRating != 10 | DIALOG | Eten-Lijm | Great to meet you and thank you so much for your devastating yet brutally fair criticism of my heart and soul that I poured out to you.
+IF etenRating == 10 | DIALOG | Eten-Lijm | Great to meet you and thank you so much for bolstering my confidence as a performer. Coming from such an illustrious musical dignitary as yourself...
+DIALOG | @djName@ = s_port_hoopzHappy | Well heh, I wouldn't get too carried away...
+DIALOG | Eten-Lijm  | Oh yes, of course, Baron. How can I help you otherwise?
+GOTO   | ETEN_QUESTIONS
+
+NO_BOOTY
+DIALOG | Eten-Lijm | Well what do you know about music?
+DIALOG | P_NAME    | Oh_ uh... well nothing I guess.
+DIALOG | Eten-Lijm | Yeah maybe next time you should think about that before dropping such a harsh numerical critique of my work. Now if you'll excuse me... I have a hard labor quota to fall just short of.
+DIALOG | P_NAME = s_port_hoopzSad | Oh, okay sorry...
+QUEST  | etenLijmState = 3
+ClockTime | event | etenLijmState | 5 | 50
+
+NO_SONG
+DIALOG | P_NAME    | Um, not right now, that okay?
+DIALOG | Eten-Lijm | Ok! Let me know if you change your mind!
+
+NARY_YE_MIND
+DIALOG | P_NAME | Nary ye mind, I'll take my leave.
+DIALOG | Eten-Lijm | Fare thee well."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhcdj"]
+atlas = ExtResource("2_ir3qw")
+region = Rect2(0, 0, 44, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44efx"]
+atlas = ExtResource("2_ir3qw")
+region = Rect2(44, 0, 44, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae23a"]
+atlas = ExtResource("2_ir3qw")
+region = Rect2(88, 0, 44, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1xn6"]
+atlas = ExtResource("2_ir3qw")
+region = Rect2(132, 0, 44, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mn03y"]
+atlas = ExtResource("2_ir3qw")
+region = Rect2(176, 0, 44, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0kn1q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhcdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44efx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ae23a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1xn6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mn03y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_27k4w"]
+size = Vector2(20, 36)
+
+[node name="o_etenLijm01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_7587n")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_44efx")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0kn1q")
+autoplay = "default"
+centered = false
+offset = Vector2(-19, -29)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "0",
+"bbox_right": "43",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_etenLijm01_0.png", "images\\s_sw1_etenLijm01_1.png", "images\\s_sw1_etenLijm01_2.png", "images\\s_sw1_etenLijm01_3.png", "images\\s_sw1_etenLijm01_4.png"],
+"height": "39",
+"name": "s_sw1_etenLijm01",
+"width": "44",
+"xorig": "19",
+"yorigin": "29"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_27k4w")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

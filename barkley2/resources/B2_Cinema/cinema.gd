@@ -125,6 +125,10 @@ func update_pathfinding():
 		push_warning("Who am I...? what am I...? (Meaning, the Cinema node is not where its suposed to be. Cant update pathfinding.)")
 	
 func load_hoopz_actor():
+	if is_instance_valid(B2_CManager.o_cts_hoopz):
+		push_warning( "Hoopz actor already loaded." )
+		return
+		
 	var hoopz_lookup := get_tree().current_scene.get_children()
 	for n in hoopz_lookup:
 		if n.name == "o_hoopz":
@@ -159,6 +163,9 @@ func load_hoopz_actor():
 		Vector2.RIGHT: 		B2_CManager.o_cts_hoopz.cinema_look( "EAST" )
 	
 func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
+	if is_instance_valid(B2_CManager.o_hoopz):
+		push_warning( "Hoopz player is already loaded." )
+		return
 	var hoopz_lookup := get_tree().current_scene.get_children()
 	for n in hoopz_lookup:
 		if n.name == "o_cts_hoopz":
@@ -1049,7 +1056,8 @@ func parse_if( line : String ) -> bool:
 	# clean the conditions
 	## ALERT Due to messy code, sometimes Items are checked with its names (@Lock Pick@) that contain spaces.
 	line = line.trim_prefix("IF ")
-	var condidion_line : PackedStringArray = line.split( " ", false, 2 ) ## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
+	var condidion_line : PackedStringArray = line.rsplit( " ", false, 2 ) ## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
+	## 27/07/25 This is still bugged. using .split() is causing issues with items (@Fiscian Gut's@). Trying rsplit again.
 	
 	var str_var 	: String 		= condidion_line[ 0 ]
 	var comparator 	: String 		= condidion_line[ 1 ]
@@ -1111,6 +1119,7 @@ func parse_if( line : String ) -> bool:
 		
 	## WTF, what a mess!!
 	## Sometimes, item checks doesnt have the prefix "item", the have 2 @s
+	# ^^ Right?? why not just add the item_ prefix??
 	elif str_var.count("@") > 1:
 		quest_var = B2_Item.count_item( str_var.replace("@", "").strip_edges() )
 		cond_value = int( condidion_line[ 2 ] )
@@ -1118,6 +1127,12 @@ func parse_if( line : String ) -> bool:
 	if not quest_var is bool:
 		# different types of vars will always be false.
 		if quest_var is int and (cond_value is not int and cond_value is not float):
+			return false
+			
+		## 27/07/25 This system fucking sucks! Floats mixed with strings and all that.
+		# This tries to fix it before the comparisson.
+		if quest_var is String and not cond_value is String:
+			#print("aa")
 			return false
 			
 		match comparator:

@@ -43,6 +43,11 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 @export var hoopz_normal_body: 	AnimatedSprite2D
 @export var step_smoke: 		GPUParticles2D
 
+@export_category("Light Stuff")
+@export var flashlight_enabled 		:= true
+@export var flashlight_pivot 		: Marker2D
+@export var flashlight 				: PointLight2D
+
 ## Sound
 var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
@@ -60,11 +65,15 @@ func add_smoke():
 	#for i in randi_range( 1, 2 ):
 	step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
+func _point_flashlight( input : Vector2 ) -> void:
+	flashlight_pivot.rotation = input.angle() - PI/2
+	
 func normal_animation(delta : float):
 	var input := Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
+		_point_flashlight( input )
 		if last_input != input:
 			add_smoke()
 			
@@ -100,6 +109,8 @@ func normal_animation(delta : float):
 		
 		if follow_mouse:
 			curr_direction = position.direction_to( get_global_mouse_position() ).round()
+			if input == Vector2.ZERO:
+				_point_flashlight( position.direction_to( get_global_mouse_position() ) )
 		
 		if curr_direction != last_direction:
 			turning_time = 1.0

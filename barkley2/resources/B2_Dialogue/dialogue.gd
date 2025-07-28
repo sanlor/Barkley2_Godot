@@ -204,7 +204,7 @@ func display_dialog( _is_boxless := false ):
 		title_node.size 		= Vector2( 250, 12 )
 
 		title_node.push_color( _title_color )
-		title_node.append_text( Text.pr( _title ) )
+		title_node.append_text( Text.qst( Text.pr( _title ) ) )
 		title_node.pop_all()
 	
 	text_node.name 				= "Text"

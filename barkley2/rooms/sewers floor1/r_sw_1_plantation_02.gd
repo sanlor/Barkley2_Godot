@@ -2,6 +2,9 @@
 extends B2_ROOMS
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+		
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
 	_set_region()

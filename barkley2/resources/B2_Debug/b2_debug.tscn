@@ -1,10 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=21 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
 [ext_resource type="Script" uid="uid://1p2a3mchu1cr" path="res://barkley2/resources/B2_Debug/player_data_screen.gd" id="3_vdeye"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_coofk"]
+[ext_resource type="Script" uid="uid://k67fiie877xd" path="res://barkley2/resources/B2_Debug/quest_checker.gd" id="4_ecn0k"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="5_iquyo"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="7_hkl2t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
 bg_color = Color(0, 0, 0, 0.75)
@@ -191,6 +193,7 @@ func _on_pressed() -> void:
 "
 
 [node name="b2_debug" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("1_jshnt")
 
 [node name="player_data" type="ScrollContainer" parent="."]
@@ -201,15 +204,19 @@ theme = ExtResource("2_pawx4")
 theme_override_styles/panel = SubResource("StyleBoxFlat_ssblh")
 script = ExtResource("3_vdeye")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="player_data"]
+[node name="choices" type="VBoxContainer" parent="player_data"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_data/choices"]
 layout_mode = 2
 
-[node name="title" type="Label" parent="player_data/VBoxContainer"]
+[node name="title" type="Label" parent="player_data/choices/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Player's data"
 
-[node name="data" type="Label" parent="player_data/VBoxContainer"]
+[node name="data" type="Label" parent="player_data/choices/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "PLACEHOLDER
@@ -218,6 +225,7 @@ label_settings = SubResource("LabelSettings_dvnvw")
 tab_stops = PackedFloat32Array(10)
 
 [node name="player_vars" type="ScrollContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(150, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -421,6 +429,43 @@ text = "Generate a random weapon (Gunbag)"
 script = SubResource("GDScript_sww13")
 bandolier = false
 
+[node name="AcceptDialog" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(300, 143)
+
+[node name="quest_checker" type="VBoxContainer" parent="AcceptDialog"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -142.0
+offset_top = -63.5
+offset_right = 142.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("4_ecn0k")
+
+[node name="quest_check_title" type="Label" parent="AcceptDialog/quest_checker"]
+layout_mode = 2
+text = "Quest var check"
+horizontal_alignment = 1
+
+[node name="quest_request" type="LineEdit" parent="AcceptDialog/quest_checker"]
+custom_minimum_size = Vector2(160, 32)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_hkl2t")
+placeholder_text = "Type a quest variable here"
+
+[node name="result_lbl" type="Label" parent="AcceptDialog/quest_checker"]
+modulate = Color(1, 0, 1, 1)
+layout_mode = 2
+text = "Result: NaN"
+horizontal_alignment = 1
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
@@ -438,3 +483,4 @@ bandolier = false
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/camera_data/cam_btn" to="player_vars/MarginContainer/VBoxContainer/camera_data" method="_on_cam_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
+[connection signal="text_submitted" from="AcceptDialog/quest_checker/quest_request" to="AcceptDialog/quest_checker" method="_on_quest_request_text_submitted"]

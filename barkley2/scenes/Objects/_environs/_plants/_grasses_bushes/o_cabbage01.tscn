@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://b2sbba1m0mibx"]
+
+[ext_resource type="Texture2D" uid="uid://b2neg7prxp3cy" path="res://barkley2/assets/b2_original/images/merged/s_cabbage01.png" id="1_iih43"]
+[ext_resource type="Script" uid="uid://bwjqbyhojy02i" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_4fhdk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmw2c"]
+atlas = ExtResource("1_iih43")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_skrcm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmw2c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_cabbage01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_skrcm")
+centered = false
+offset = Vector2(-8, -8)
+script = ExtResource("2_4fhdk")
+circle_radius = 5
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "0",
+"bbox_top": "15",
+"height": "16",
+"name": "s_cabbage01",
+"width": "16",
+"xorig": "8",
+"yorigin": "8"
+}

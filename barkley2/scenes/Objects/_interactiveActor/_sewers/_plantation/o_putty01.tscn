@@ -1,0 +1,163 @@
+[gd_scene load_steps=17 format=3 uid="uid://bpy2iv4i5fr4y"]
+
+[ext_resource type="Script" uid="uid://d3x6u535rv1yy" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_putty01.gd" id="1_c1hob"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_88urq"]
+[ext_resource type="Texture2D" uid="uid://cykotlbbw1nj1" path="res://barkley2/assets/b2_original/images/merged/s_sw1_putty01.png" id="2_xh7ig"]
+
+[sub_resource type="Resource" id="Resource_grh77"]
+script = ExtResource("2_88urq")
+original_script = "IF puttyState == 2 | GOTO | PUTTY_2
+IF bossBabby == 1  | GOTO | HUDDLE
+IF gordoState == 2 | GOTO | PLANTATION_AFTERMATH
+IF puttyState == 0 | GOTO | PUTTY_0
+IF puttyState == 1 | GOTO | PUTTY_1
+
+HUDDLE
+DIALOG | Putty  | Uh... Can we go back to growing veggies now?
+GOTO   | PLANTATION_AFTERMATH
+
+PLANTATION_AFTERMATH
+DIALOG | P_NAME | Hey, guess what I just did!
+DIALOG | Putty  | ...I don't know.
+DIALOG | P_NAME | I just gave that fat guy a lesson he will not soon forget!
+DIALOG | Putty  | What fat guy?
+DIALOG | P_NAME | The....the fat guy! The one who runs the plantation! You're free! You can leave!!!
+DIALOG | Putty  | Why bother. I've been here my whole life, just like a couple others here. I tried escaping a couple times, and BABBY always just finds me and brings me back.
+DIALOG | P_NAME | But there's nobody to take you back anymore! Everything is fixed!
+DIALOG | Putty  | There's nothing out there for me. I escaped for a couple months one time. I didn't know what to do. Farming is all I know. I'm better off just staying here, sticking to what I know.
+DIALOG | P_NAME | But-
+DIALOG | Putty  | Thanks for going through all the trouble to save us. I wish I had something to give you, but I don't have anything. You're a nice person, I hope being told that is its own reward.
+DIALOG | P_NAME | ...
+QUEST  | puttyState = 2
+
+PUTTY_0
+DIALOG | Putty  | Did you see Grigory on the way here?
+DIALOG | P_NAME | I don't know. Who is Grigory?
+DIALOG | Putty  | Grigory is my best friend. He tried to escape but Rubby went after him. I heard some laser fire, but Rubby came back alone. I was hoping Grigory managed to escape...
+DIALOG | P_NAME | I don't think I saw your friend. Maybe he got away?
+DIALOG | Putty  | You would have seen him running. Grigory is big and slow. He cannot hide so well.
+DIALOG | P_NAME | I'm sure he got away. He probably just went a different way.
+DIALOG | Putty  | I doubt it. BABBY vaporizes anybody who escapes now. That's probably why you didn't see him. Well, thanks for talking to me. I better get back to work before BABBY cuts another one of my toes off. I don't have many left.
+QUEST  | puttyState = 1
+QUEST  | gordoChide = 1
+
+PUTTY_1
+DIALOG | Putty  | ...
+
+PUTTY_2
+DIALOG | Putty  | You better get going. Eventually someone else will show up and claim the plantation. The cycle always repeats."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_88urq"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(0, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_grh77"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(72, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tylb4"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(144, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hxku"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(216, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_puu34"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(288, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftrhx"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(360, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lhwy"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(432, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1n2y7"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(504, 0, 72, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5x48e"]
+atlas = ExtResource("2_xh7ig")
+region = Rect2(576, 0, 72, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5t3ln"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_88urq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_grh77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tylb4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hxku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_puu34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftrhx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lhwy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1n2y7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5x48e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tylb4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_51eyj"]
+size = Vector2(40, 44)
+
+[node name="o_putty01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_c1hob")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_grh77")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5t3ln")
+autoplay = "default"
+centered = false
+offset = Vector2(-23, -36)
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "71",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_putty01_0.png", "images\\s_sw1_putty01_1.png", "images\\s_sw1_putty01_2.png", "images\\s_sw1_putty01_3.png", "images\\s_sw1_putty01_4.png", "images\\s_sw1_putty01_5.png", "images\\s_sw1_putty01_6.png", "images\\s_sw1_putty01_7.png", "images\\s_sw1_putty01_8.png"],
+"height": "45",
+"name": "s_sw1_putty01",
+"width": "72",
+"xorig": "23",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tylb4")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_51eyj")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
