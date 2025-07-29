@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://tg84mmh521k6"]
 
 [ext_resource type="Texture2D" uid="uid://c2b7esenwgvet" path="res://barkley2/assets/b2_original/images/merged/s_couch_full_front01.png" id="1_khmge"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_w2pux"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_w2pux"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sow7v"]
 atlas = ExtResource("1_khmge")
@@ -18,8 +18,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8e5nm"]
-radius = 32.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0k00"]
+size = Vector2(68, 29)
 
 [node name="o_couch_full_front01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_s8sio")
@@ -42,4 +42,5 @@ metadata/default = {
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("CircleShape2D_8e5nm")
+position = Vector2(40, -13.5)
+shape = SubResource("RectangleShape2D_a0k00")

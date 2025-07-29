@@ -18,11 +18,11 @@ class_name B2_TOOL_ROOM_CONVERTER
 @export var convert_known_nodes		:= false ## Attempt to search the game files for nodes with the same name. might fuck thins up.
 
 @export_category("Exec")
-@export var simulate 			:= true					## Dont change anything, just check if everything is working fine
-@export var remove_nodes 		:= false
-@export var start_conversion 	:= false :				## Start the conversion process.
-	set(b):
-		lets_goooo()
+@export var simulate 					:= true					## Dont change anything, just check if everything is working fine
+@export var remove_nodes 				:= false
+@export var adjust_layer_z_index		:= true
+@export var set_room_settings			:= true
+@export_tool_button("start_conversion") var start_conversion 	: Callable = lets_goooo				## Start the conversion process.
 		
 func _ready() -> void:
 	#lets_goooo()
@@ -33,7 +33,44 @@ func lets_goooo():
 	if convert_collision: 		collision()
 	if convert_door:			regular_door()
 	if convert_door_light:		door_light()
+	if adjust_layer_z_index:	fix_z_index()
+	if set_room_settings:		set_room()
 	if convert_known_nodes:		fuck_around_with_nodes()
+
+func set_room() -> void:
+	var cleanup := []
+	for l : Node in get_clean_nodes():
+		if not get_parent().navigation_polygon:
+			get_parent().navigation_polygon = NavigationPolygon.new()
+		if l.name == "o_teleport_mark":
+			get_parent().debug_create_player_scene_at_room_start = true
+			get_parent().debug_player_scene_pos = l.position
+			get_parent().load_debug_save_data = true
+		elif l.name == "layer - collision":
+			get_parent().collision_layer = l
+		elif l.name == "layer - collision 2":
+			get_parent().collision_layer_semi = l
+		elif l.name.ends_with( "o_room_pacify" ):
+			get_parent().room_pacify = true
+			cleanup.append(l)
+		elif l.name.ends_with( "o_room_interior" ):
+			get_parent().is_interior = true
+			cleanup.append(l)
+	
+	for l in cleanup:
+		l.queue_free()
+
+func fix_z_index() -> void:
+	for l in get_clean_nodes():
+		if l is TileMapLayer:
+			if l.name.begins_with("layer"):
+				l.z_index = -10
+			if l.name.get_slice(" ", 1).to_int() < 0:
+				l.z_index = 100
+			if l.name == "layer - collision":
+				l.z_index = 100
+			if l.name == "layer - collision 2":
+				l.z_index = 100
 
 func get_clean_nodes() -> Array:
 	return get_parent().get_children()
