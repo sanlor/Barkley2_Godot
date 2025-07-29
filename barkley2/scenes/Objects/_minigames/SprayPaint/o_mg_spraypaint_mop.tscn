@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://b2qwwb40j8pft"]
+
+[ext_resource type="Texture2D" uid="uid://bnbkup80y4pdb" path="res://barkley2/assets/b2_original/images/merged/s_mg_spraypaint_mop.png" id="1_eu87a"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_2jfik"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_2jfik"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee73j"]
+atlas = ExtResource("1_eu87a")
+region = Rect2(0, 0, 29, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5a1uk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ee73j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_ma6lh"]
+script = ExtResource("3_2jfik")
+original_script = "IF sewerWallTagged == 0 | GOTO | TAG
+IF sewerWallTagged == 1 | GOTO | CLEAN
+
+TAG
+DIALOG  |   P_NAME  |   This mop is damp... must be used to quickly and easily wash off the spraypaint.
+
+CLEAN
+DIALOG | P_NAME | Hmm, I  think I got a better idea about what to tag this wall with. Good thing damp mops are so good at pulling spray paint off dank sewers walls.
+CHOICE | Remove the previous tag?
+REPLY | YES | Yeah, I gotta get up!
+REPLY | NO | I think this current message still needs to be seen.
+
+YES
+FADE  | 1 | 1
+WAIT  | 1.25
+QUEST | puzzleSpraypaintWho = 11
+QUEST | puzzleSpraypaintWatches = 11
+QUEST | puzzleSpraypaintBluemen = 11
+SOUND | sn_mopbucket
+FADE  | 0 | 1
+WAIT  | 1.25
+QUEST | sewerWallTagged = 0
+EXIT |
+
+NO
+DIALOG | P_NAME | Nah, I like my handiwork here.
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k6x42"]
+resource_local_to_scene = true
+size = Vector2(20, 50)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r4fxx"]
+
+[node name="o_mg_spraypaint_mop" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_5a1uk")
+centered = false
+offset = Vector2(-10, -40)
+script = ExtResource("2_2jfik")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_ma6lh")
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "2",
+"bbox_right": "28",
+"bbox_top": "0",
+"height": "47",
+"name": "s_mg_spraypaint_mop",
+"width": "29",
+"xorig": "10",
+"yorigin": "40"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_k6x42")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_r4fxx")

@@ -1,0 +1,254 @@
+[gd_scene load_steps=9 format=3 uid="uid://dpa1qx5ltn85m"]
+
+[ext_resource type="Texture2D" uid="uid://e0nofd47y1u1" path="res://barkley2/assets/b2_original/images/merged/s_mg_spraypaint_can.png" id="1_wxt8n"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_rgeg8"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_rgeg8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfujm"]
+atlas = ExtResource("1_wxt8n")
+region = Rect2(0, 0, 14, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pokif"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfujm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_djs2p"]
+script = ExtResource("3_rgeg8")
+original_script = "IF sewerWallTagged == 0 | GOTO |   TAGCHOICE
+IF sewerWallTagged == 1 | GOTO |   CLEAN
+
+CLEAN
+DIALOG | P_NAME | I'm thinking I should clean this wall off before I tag anything else.
+
+TAGCHOICE
+DIALOG | P_NAME | I bet I could use this spray paint to write something...
+CHOICE | Tag something?
+REPLY | STARTTAG | Let's get up! (Contents under pressure.)
+REPLY | BACKDOWN | Now is not the time for tagging.
+
+BACKDOWN
+DIALOG | P_NAME | Nah, I'm not gonna tag,_ for explicit reasons.
+EXIT |
+
+STARTTAG
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT |
+LOOK | o_cts_hoopz | NORTHEAST
+WAIT | 0.5
+QUEST  | puzzleSpraypaintWho = 10
+CHOICE | What should tag here?
+REPLY  | WHAT   | What
+REPLY  | WHERE  | Where
+REPLY  | HOW    | How
+REPLY  | WHO    | Who
+REPLY  | WHEN   | When
+REPLY  | WHY    | Why
+REPLY  | THUS   | Thus
+REPLY  | ANYONE | Anyone
+REPLY  | WHENCE | Whence
+
+WHO
+QUEST  | sprayWord01 = 1
+GOTO   | PAINT01
+
+WHAT
+QUEST  | sprayWord01 = 2
+GOTO   | PAINT01
+
+WHEN
+QUEST  | sprayWord01 = 3
+GOTO   | PAINT01
+
+WHERE
+QUEST  | sprayWord01 = 4
+GOTO   | PAINT01
+
+WHY
+QUEST  | sprayWord01 = 5
+GOTO   | PAINT01
+
+HOW
+QUEST  | sprayWord01 = 6
+GOTO   | PAINT01
+
+THUS
+QUEST  | sprayWord01 = 7
+GOTO   | PAINT01
+
+ANYONE
+QUEST  | sprayWord01 = 8
+GOTO   | PAINT01
+
+WHENCE
+QUEST  | sprayWord01 = 9
+GOTO   | PAINT01
+
+PAINT01
+USEAT | o_mg_spraypaint_word03
+FADE   | 1 | 1
+WAIT   | 1.25
+QUEST  | puzzleSpraypaintWho = @sprayWord01@
+SOUND  | sn_spraypaintcan01
+FADE   | 0 | 1
+WAIT   | 1.25
+
+QUEST   | puzzleSpraypaintWatches = 10
+CHOICE | What should I write here?
+REPLY  | DOES    | Does
+REPLY  | WILL    | Will
+REPLY  | IS      | Is
+REPLY  | WATCHES | Watches
+REPLY  | BETRAYS | Betrays
+REPLY  | HELPS   | Helps
+REPLY  | BECOMES | Becomes
+REPLY  | CHEATS  | Cheats
+REPLY  | HAS     | Has
+
+WATCHES
+QUEST  | sprayWord02 = 1
+GOTO   | PAINT02
+
+BECOMES
+QUEST  | sprayWord02 = 2
+GOTO   | PAINT02
+
+IS
+QUEST  | sprayWord02 = 3
+GOTO   | PAINT02
+
+WILL
+QUEST  | sprayWord02 = 4
+GOTO   | PAINT02
+
+DOES
+QUEST  | sprayWord02 = 5
+GOTO   | PAINT02
+
+BETRAYS
+QUEST  | sprayWord02 = 6
+GOTO   | PAINT02
+
+HELPS
+QUEST  | sprayWord02 = 7
+GOTO   | PAINT02
+
+CHEATS
+QUEST  | sprayWord02 = 8
+GOTO   | PAINT02
+
+HAS
+QUEST  | sprayWord02 = 9
+GOTO   | PAINT02
+
+PAINT02
+USEAT | o_mg_spraypaint_word03
+FADE   | 1 | 1
+WAIT   | 1.25
+QUEST  | puzzleSpraypaintWatches = @sprayWord02@
+SOUND  | sn_spraypaintcan02
+FADE   | 0 | 1
+WAIT   | 1.25
+QUEST   | puzzleSpraypaintBluemen = 10
+CHOICE | What should I write here?
+REPLY  | FATHER     | my Father
+REPLY  | BLUEMEN    | The Bluemen
+REPLY  | CUCHULAINN | Cuchulainn
+REPLY  | BEEF       | The Beef
+REPLY  | FATE       | F.A.T.E.
+REPLY  | CYBERDWARF | The Cyberdwarf
+REPLY  | APPLE      | Apple
+REPLY  | LONGINUS   | LONGINUS
+REPLY  | BABBY      | Babby Formed
+
+BLUEMEN
+QUEST  | sprayWord03 = 1
+GOTO   | PAINT03
+
+FATHER
+QUEST  | sprayWord03 = 2
+GOTO   | PAINT03
+
+CYBERDWARF
+QUEST  | sprayWord03 = 3
+GOTO   | PAINT03
+
+CUCHULAINN
+QUEST  | sprayWord03 = 4
+GOTO   | PAINT03
+
+BEEF
+QUEST  | sprayWord03 = 5
+GOTO   | PAINT03
+
+APPLE
+QUEST  | sprayWord03 = 6
+GOTO   | PAINT03
+
+LONGINUS
+QUEST  | sprayWord03 = 7
+GOTO   | PAINT03
+
+FATE
+QUEST  | sprayWord03 = 8
+GOTO   | PAINT03
+
+BABBY
+QUEST  | sprayWord03 = 9
+GOTO   | PAINT03
+
+PAINT03
+USEAT | o_mg_spraypaint_word03
+FADE   | 1 | 1
+WAIT   | 1.25
+QUEST  | puzzleSpraypaintBluemen = @sprayWord03@
+SOUND  | sn_spraypaintcan03
+IF puzzleSpraypaintWho == 1 | IF puzzleSpraypaintWatches == 1 | IF puzzleSpraypaintBluemen == 1 | QUEST | sprayPaintSolved = 1
+EVENT  | o_mg_spraypaint_ladder01 | 0 
+FADE   | 0 | 1
+WAIT   | 1.25
+QUEST   |   sewerWallTagged = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xh5p2"]
+resource_local_to_scene = true
+size = Vector2(20, 24)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_omhwo"]
+radius = 5.0990195
+
+[node name="o_mg_spraypaint_can" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_pokif")
+centered = false
+offset = Vector2(-7, -11)
+script = ExtResource("2_rgeg8")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_djs2p")
+metadata/default = {
+"bbox_bottom": "13",
+"bbox_left": "0",
+"bbox_right": "13",
+"bbox_top": "0",
+"height": "14",
+"name": "s_mg_spraypaint_can",
+"width": "14",
+"xorig": "7",
+"yorigin": "11"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_xh5p2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_omhwo")

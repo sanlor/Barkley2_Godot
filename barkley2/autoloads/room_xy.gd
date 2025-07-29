@@ -234,7 +234,7 @@ func respawn( area : String, room_name : String ) -> void:
 		respawnX = 136; 
 		respawnY = 296;
 		
-	## NOTE This piece of code was moves to the gameover screen -> uid://cqm2w1d4jwnwn
+	## NOTE This piece of code was moved to the gameover screen -> uid://cqm2w1d4jwnwn
 	## Increase death count
 	#var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
 	#deaths += 1

@@ -1,0 +1,115 @@
+[gd_scene load_steps=16 format=3 uid="uid://bu3bv8cde4b78"]
+
+[ext_resource type="Texture2D" uid="uid://tklxv202u74w" path="res://barkley2/assets/b2_original/images/merged/s_mg_spraypaint_word01.png" id="1_1ahd1"]
+[ext_resource type="Script" uid="uid://4tjm0og860f" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_word.gd" id="2_1ahd1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo0x5"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(0, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgp5i"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(48, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lr4jj"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(96, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sudqw"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(144, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn7si"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(192, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ve08j"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(240, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2hpf"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(288, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqj10"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(336, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pf76"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(384, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2u4u"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(432, 0, 48, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrrq6"]
+atlas = ExtResource("1_1ahd1")
+region = Rect2(480, 0, 48, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7tpeu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo0x5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgp5i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lr4jj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sudqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn7si")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ve08j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2hpf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqj10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pf76")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2u4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrrq6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kap1l"]
+size = Vector2(35, 20)
+
+[node name="o_mg_spraypaint_word01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7tpeu")
+centered = false
+offset = Vector2(-33, -15)
+script = ExtResource("2_1ahd1")
+metadata/default = {
+"bbox_bottom": "25",
+"bbox_left": "1",
+"bbox_right": "47",
+"bbox_top": "3",
+"height": "27",
+"name": "s_mg_spraypaint_word01",
+"width": "48",
+"xorig": "33",
+"yorigin": "15"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-4.5, 0)
+shape = SubResource("RectangleShape2D_kap1l")
