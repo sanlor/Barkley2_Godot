@@ -1,0 +1,136 @@
+[gd_scene load_steps=12 format=3 uid="uid://dtlxj2pjd4e1t"]
+
+[ext_resource type="Texture2D" uid="uid://cldca74fhmqyb" path="res://barkley2/assets/b2_original/images/merged/s_fedeArm01.png" id="1_wan6k"]
+[ext_resource type="Script" uid="uid://wcomffgeykht" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_clinic/o_fede_arm_01.gd" id="2_n6tgr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_n6tgr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfa0p"]
+atlas = ExtResource("1_wan6k")
+region = Rect2(0, 0, 13, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4phnu"]
+atlas = ExtResource("1_wan6k")
+region = Rect2(13, 0, 13, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxnmo"]
+atlas = ExtResource("1_wan6k")
+region = Rect2(26, 0, 13, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg0jr"]
+atlas = ExtResource("1_wan6k")
+region = Rect2(39, 0, 13, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jcq6d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfa0p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4phnu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxnmo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg0jr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg0jr")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_gfa0p"]
+script = ExtResource("3_n6tgr")
+original_script = "IF fedeArmTouched == 1 | GOTO | ARM_DONE
+IF fedeState == 0 | GOTO | ARM_STRANGER
+GOTO | ARM_FEDE
+
+ARM_DONE
+IF fedeState == 0 | DIALOG | P_NAME | The gizmo seems to be busted now. I'll just leave it be.
+IF fedeState != 0 | DIALOG | P_NAME | The Wrist-CONP 2054 seems to be off now. I'll just leave it be.
+
+ARM_STRANGER
+DIALOG | P_NAME | It's a severed arm with some kind of flashing gizmo on it.
+CHOICE | Touch the gizmo?
+REPLY  | GIZMO_YES | Touch the gizmo.
+REPLY  | GIZMO_NO  | Leave the gizmo.
+
+GIZMO_YES
+DIALOG | P_NAME | Maybe there's something cool on the gizmo!
+GOTO   | GIZMO_GET
+
+GIZMO_NO
+DIALOG | P_NAME | I think I'll just leave it be.
+
+ARM_FEDE
+DIALOG | P_NAME | I know that Wrist-CONP 2054... That's Fede's!
+IF fedeState == 4 | GOTO | DONT_WANT
+GOTO | DO_WANT
+
+DONT_WANT
+DIALOG | P_NAME | I think I'll just leave it be.
+
+DO_WANT
+DIALOG | P_NAME | I bet there's some cool vidcons on there!
+GOTO   | GIZMO_GET
+
+GIZMO_GET
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+FRAME  | CAMERA_NORMAL | o_cinema0 | o_fedeArm01
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_fedeArm01
+WAIT   | 0.25
+USEAT  | o_fedeArm01
+SET    | o_fedeArm01 | off
+WAIT   | 0.25
+//TODO: Play printing sound
+DIALOG | P_NAME | Huh? What's this? Some kind of invitation...
+NOTE   | take | Printed Invitation
+NOTIFY | Got Printed Invitation!
+QUEST  | fedeArmTouched = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4phnu"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vxnmo"]
+radius = 5.0
+
+[node name="o_fedeArm01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_jcq6d")
+animation = &"off"
+centered = false
+offset = Vector2(-6, -10)
+script = ExtResource("2_n6tgr")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_gfa0p")
+metadata/default = {
+"bbox_bottom": "16",
+"bbox_left": "0",
+"bbox_right": "12",
+"bbox_top": "0",
+"height": "17",
+"name": "s_fedeArm01",
+"width": "13",
+"xorig": "6",
+"yorigin": "10"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_4phnu")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_vxnmo")

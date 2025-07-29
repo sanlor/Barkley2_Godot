@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjihyl206xdwd"]
+
+[ext_resource type="Texture2D" uid="uid://b64f13y0111by" path="res://barkley2/assets/b2_original/images/merged/s_respawn_pile01.png" id="1_t4vfs"]
+[ext_resource type="Script" uid="uid://bwjqbyhojy02i" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_nvogd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nvogd"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t4vfs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4mo1k"]
+size = Vector2(91, 40)
+
+[node name="o_respawn_pile01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_nvogd")
+centered = false
+offset = Vector2(-54.68, -35)
+script = ExtResource("2_nvogd")
+create_col = false
+circle_radius = 30
+metadata/default = {
+"bbox_bottom": "70",
+"bbox_left": "0",
+"bbox_right": "51",
+"bbox_top": "0",
+"height": "71",
+"name": "s_respawn_pile05",
+"width": "52",
+"xorig": "26",
+"yorigin": "35"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-3.5, 10)
+shape = SubResource("RectangleShape2D_4mo1k")
