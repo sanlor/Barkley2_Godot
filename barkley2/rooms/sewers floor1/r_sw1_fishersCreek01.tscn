@@ -1,10 +1,10 @@
 [gd_scene load_steps=78 format=4 uid="uid://uy6rai3pu4ym"]
 
 [ext_resource type="Script" uid="uid://jqthlmfuvowi" path="res://barkley2/rooms/sewers floor1/r_sw_1_fishers_creek_01.gd" id="1_agfjd"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_fg53i"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_s76cq"]
 [ext_resource type="AudioStream" uid="uid://c8fgtcjbkxxv2" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_sewers_drip.ogg" id="3_dq0p1"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="3_of3c8"]
+[ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="4_agfjd"]
 [ext_resource type="AudioStream" uid="uid://c7u6lycjxww5l" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_env_waterRushing01.ogg" id="4_gpoe1"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="5_dq0p1"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="6_gpoe1"]
@@ -2477,17 +2477,8 @@ load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_fg53i")
-convert_cinema_spots = false
-convert_door_light = false
-convert_door = false
-convert_collision = false
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
+is_this_room_dark = true
+room_darkness_color = Color(1, 1, 1, 1)
 
 [node name="sn_sewers_drip" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_dq0p1")
@@ -2498,6 +2489,12 @@ bus = &"Audio"
 stream = ExtResource("4_gpoe1")
 autoplay = true
 bus = &"Audio"
+
+[node name="wall_light" parent="." instance=ExtResource("4_agfjd")]
+position = Vector2(110.29852, 89.59067)
+
+[node name="wall_light2" parent="." instance=ExtResource("4_agfjd")]
+position = Vector2(206, 73)
 
 [node name="layer 100" type="TileMapLayer" parent="."]
 z_index = -10
@@ -2726,20 +2723,8 @@ metadata/code = ""
 metadata/inst_name = "inst_E50E0EE7"
 metadata/scale = Vector2(2, 0)
 
-[node name="P8 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = "color = make_color_rgb(7, 7, 13);"
-metadata/inst_name = "inst_7CE6FBCB"
-metadata/scale = Vector2(1, 1)
-
 [node name="P40 - o_mg_escort_control_gutterhound01" type="Marker2D" parent="."]
 position = Vector2(-120, 0)
 metadata/code = ""
 metadata/inst_name = "inst_12B39CF7"
-metadata/scale = Vector2(1, 1)
-
-[node name="P42 - o_room_environSound" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = "sound = \"sn_env_waterRushing01\";"
-metadata/inst_name = "inst_F5C32095"
 metadata/scale = Vector2(1, 1)

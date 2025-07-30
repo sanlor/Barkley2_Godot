@@ -7,8 +7,7 @@ func _ready() -> void:
 	_set_region()
 	
 	await get_tree().process_frame
-	## Initial Cutscene
-	if play_cinema_at_room_start and is_instance_valid( cutscene_script ) and B2_Playerdata.Quest("hoopzGetup") > 0:
+	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
 		B2_CManager.play_cutscene( cutscene_script, self, [] )
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )

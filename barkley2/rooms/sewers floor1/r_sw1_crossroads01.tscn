@@ -1,10 +1,11 @@
-[gd_scene load_steps=99 format=4 uid="uid://drl1q0lc6lj3v"]
+[gd_scene load_steps=97 format=4 uid="uid://drl1q0lc6lj3v"]
 
 [ext_resource type="Script" uid="uid://py2eovvvfd34" path="res://barkley2/rooms/sewers floor1/r_sw_1_crossroads_01.gd" id="1_4os6y"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_hri03"]
 [ext_resource type="AudioStream" uid="uid://c8fgtcjbkxxv2" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_sewers_drip.ogg" id="2_iyo1m"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="3_ojnlt"]
 [ext_resource type="AudioStream" uid="uid://c7u6lycjxww5l" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_env_waterRushing01.ogg" id="3_vmojr"]
+[ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="4_qtox0"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="5_lq76s"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="6_y17rx"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="7_vwpam"]
@@ -27,20 +28,17 @@
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="26_tu1ow"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="27_j8glh"]
 [ext_resource type="PackedScene" uid="uid://cifjdailrohp8" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stageHazard_sewerSludge.tscn" id="27_lq76s"]
-[ext_resource type="Texture2D" uid="uid://dng20n2wrbo3o" path="res://barkley2/assets/b2_original/images/merged/s_stageHazard_sewerSludge.png" id="28_n181g"]
-[ext_resource type="Script" uid="uid://68pid3fy0qiy" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stage_hazard_sewer_sludge.gd" id="29_6h1wt"]
 [ext_resource type="PackedScene" uid="uid://b606vfruixvcu" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/oSewerBridge0.tscn" id="30_0lf3d"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="31_48x2c"]
 [ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="31_b2in8"]
 [ext_resource type="PackedScene" uid="uid://cc7836a5ruw04" path="res://barkley2/scenes/Objects/_map/Wading/o_wading16.tscn" id="31_mtj7v"]
-[ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="32_mtj7v"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="34_eg0q6"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="35_8h1jm"]
-[ext_resource type="Script" uid="uid://cfc8dinflygy0" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch_01.gd" id="36_ko22n"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="37_6h1wt"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_bb6y3"]
-vertices = PackedVector2Array(500.14063, 662, 460.70313, 662, 463.02344, 659.6797, 406.64844, 659, 407.46094, 662, 395.85938, 662, 465.35156, 651, 198, 202, 342, 202, 342, 410, 298, 395.85938, 276.14063, 374, 202, 214, 570, 324.14063, 570, 202, 666, 202, 635.8594, 374, 666, 170, 678, 170, 678, 202, 710, 202, 710, 374, 484.14063, 410, 550, 459.85938, 438, 470, 550, 470, 426, 470, 438, 602, 550, 602, 550, 650, 532.1406, 678, 463.02344, 642.3203, 456.6797, 635.97656, 586, 650, 586, 634, 630, 634, 630, 650, 852.1406, 634, 950, 634, 950, 678, 827.8594, 678, 836.1406, 650, 811.8594, 694, 548.1406, 694, 342, 715.8594, 342, 790, 298, 790, 298, 699.8594, 260.14063, 662, 170, 662, 170, 634, 218, 634, 218, 602, 230, 602, 230, 634, 298, 634, 426, 602, 298, 602, 298, 470, 10, 374, 10, 346, 202, 346, 10, 214, 10, 202, 88.53125, 202, 88.97656, 203.67969, 186, 202, 186, 170, 198, 170, 432.97656, 642.3203, 432.53906, 643.9375, 424, 641.64844, 135.02344, 203.67969, 135.46875, 202, 408.97656, 650.3203, 415.3203, 643.97656, 439.3203, 635.97656, 448, 633.64844, 95.32031, 210.02344, 516.1406, 678, 128.67969, 210.02344, 120, 212.35156, 104, 212.35156, 112, 210.20313, 774, 614, 666, 614, 666, 602, 774, 602, 390, 566, 298, 566, 298, 506, 390, 506, 550, 566, 474, 566, 474, 506, 550, 506, 870, 268, 870, 297.29688, 864.6797, 291.97656, 864, 340.35156, 870, 338.72656, 870, 374, 746, 374, 855.3203, 338.02344, 848.97656, 331.6797, 746, 268, 846.64844, 323, 846.9922, 321.6875, 840.97656, 315.6797, 838.64844, 307, 840.97656, 298.3203, 847.3203, 291.97656, 856, 289.64844, 166, 310, 10, 310, 10, 250, 166, 250, 870, 207, 746, 207, 746, 202, 870, 202)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(0, 2, 6), PackedInt32Array(7, 8, 9, 10, 11, 12), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(15, 17, 18, 19), PackedInt32Array(19, 20, 21, 16), PackedInt32Array(15, 19, 16), PackedInt32Array(22, 13, 16, 23, 24), PackedInt32Array(23, 25, 24), PackedInt32Array(9, 22, 24, 26), PackedInt32Array(27, 28, 29, 30, 0, 31, 32), PackedInt32Array(33, 34, 35, 36), PackedInt32Array(37, 38, 39, 40, 41), PackedInt32Array(36, 41, 40, 42, 43), PackedInt32Array(33, 36, 43), PackedInt32Array(29, 33, 43, 30), PackedInt32Array(44, 45, 46, 47), PackedInt32Array(48, 49, 50, 51), PackedInt32Array(51, 52, 53, 54), PackedInt32Array(48, 51, 54), PackedInt32Array(48, 54, 55), PackedInt32Array(44, 47, 48, 55, 56, 5), PackedInt32Array(55, 57, 56), PackedInt32Array(26, 58, 10, 9), PackedInt32Array(11, 59, 60, 61), PackedInt32Array(62, 63, 64, 65), PackedInt32Array(66, 67, 68, 7), PackedInt32Array(69, 70, 71, 56), PackedInt32Array(72, 73, 66), PackedInt32Array(11, 61, 12), PackedInt32Array(74, 3, 5), PackedInt32Array(74, 5, 56, 75), PackedInt32Array(71, 75, 56), PackedInt32Array(76, 69, 56), PackedInt32Array(77, 76, 56, 27), PackedInt32Array(0, 6, 31), PackedInt32Array(62, 65, 78), PackedInt32Array(30, 79, 0), PackedInt32Array(27, 32, 77), PackedInt32Array(24, 27, 56, 26), PackedInt32Array(80, 66, 7, 12, 81), PackedInt32Array(80, 72, 66), PackedInt32Array(82, 83, 81), PackedInt32Array(81, 12, 62, 82), PackedInt32Array(82, 62, 78), PackedInt32Array(84, 85, 86, 87), PackedInt32Array(88, 89, 90, 91), PackedInt32Array(92, 93, 94, 95), PackedInt32Array(96, 97, 98), PackedInt32Array(99, 100, 101, 102), PackedInt32Array(103, 99, 102), PackedInt32Array(104, 103, 102, 105), PackedInt32Array(106, 104, 105), PackedInt32Array(107, 106, 105, 108), PackedInt32Array(109, 108, 105), PackedInt32Array(110, 109, 105), PackedInt32Array(110, 105, 96, 111), PackedInt32Array(112, 111, 96), PackedInt32Array(96, 98, 112), PackedInt32Array(113, 114, 115, 116), PackedInt32Array(117, 118, 119, 120)])
+vertices = PackedVector2Array(500.14063, 662, 460.70313, 662, 463.02344, 659.6797, 406.64844, 659, 407.46094, 662, 395.85938, 662, 465.35156, 651, 198, 202, 342, 202, 342, 410, 298, 395.85938, 276.14063, 374, 202.79688, 230, 570, 324.14063, 570, 202, 666, 202, 635.8594, 374, 666, 170, 678, 170, 678, 202, 710, 202, 710, 374, 484.14063, 410, 550, 459.85938, 438, 486, 550, 486, 426, 486, 438, 586.7031, 550, 586.7031, 550, 650, 532.1406, 678, 516.1406, 678, 586, 650, 586, 618, 630, 618, 630, 650, 852.1406, 634, 950, 634, 950, 678, 827.8594, 678, 836.1406, 650, 811.8594, 694, 548.1406, 694, 342, 715.8594, 342, 790, 298, 790, 298, 699.8594, 260.14063, 662, 170, 662, 170, 634, 218, 634, 218, 602, 230, 602, 230, 634, 298, 634, 425.79688, 586.7969, 298, 586.7969, 448, 633.64844, 425.79688, 586, 426, 586, 456.6797, 635.97656, 298, 486, 10, 374, 10, 330.70313, 202.79688, 330.70313, 10, 230, 10, 202, 104, 212.35156, 186, 202, 186, 170, 198, 170, 432.97656, 642.3203, 432.53906, 643.9375, 424, 641.64844, 88.53125, 202, 88.97656, 203.67969, 135.02344, 203.67969, 135.46875, 202, 408.97656, 650.3203, 415.3203, 643.97656, 439.3203, 635.97656, 463.02344, 642.3203, 128.67969, 210.02344, 95.32031, 210.02344, 120, 212.35156, 112, 210.20313, 774, 614, 666, 614, 666, 602, 774, 602, 870, 268, 870, 297.29688, 864.6797, 291.97656, 864, 340.35156, 870, 338.72656, 870, 374, 746, 374, 855.3203, 338.02344, 848.97656, 331.6797, 746, 268, 846.64844, 323, 846.9922, 321.6875, 840.97656, 315.6797, 838.64844, 307, 840.97656, 298.3203, 847.3203, 291.97656, 856, 289.64844, 870, 207, 746, 207, 746, 202, 870, 202)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(0, 2, 6), PackedInt32Array(7, 8, 9, 10, 11, 12), PackedInt32Array(13, 14, 15, 16), PackedInt32Array(15, 17, 18, 19), PackedInt32Array(19, 20, 21, 16), PackedInt32Array(15, 19, 16), PackedInt32Array(22, 13, 16, 23, 24), PackedInt32Array(23, 25, 24), PackedInt32Array(9, 22, 24, 26), PackedInt32Array(27, 28, 29, 30, 31, 0), PackedInt32Array(32, 33, 34, 35), PackedInt32Array(36, 37, 38, 39, 40), PackedInt32Array(35, 40, 39, 41, 42), PackedInt32Array(32, 35, 42), PackedInt32Array(29, 32, 42, 30), PackedInt32Array(43, 44, 45, 46), PackedInt32Array(47, 48, 49, 50), PackedInt32Array(50, 51, 52, 53), PackedInt32Array(47, 50, 53), PackedInt32Array(47, 53, 54), PackedInt32Array(5, 43, 46, 47, 54, 55), PackedInt32Array(54, 56, 55), PackedInt32Array(57, 55, 58, 59, 27, 60), PackedInt32Array(26, 61, 10, 9), PackedInt32Array(11, 62, 63, 64), PackedInt32Array(12, 65, 66, 67), PackedInt32Array(68, 69, 70, 7), PackedInt32Array(71, 72, 73, 55), PackedInt32Array(66, 74, 75), PackedInt32Array(76, 77, 68, 12), PackedInt32Array(3, 5, 55, 78), PackedInt32Array(79, 78, 55), PackedInt32Array(73, 79, 55), PackedInt32Array(80, 71, 55), PackedInt32Array(57, 80, 55), PackedInt32Array(11, 64, 12), PackedInt32Array(0, 6, 81), PackedInt32Array(27, 0, 81, 60), PackedInt32Array(24, 27, 59, 26), PackedInt32Array(68, 7, 12), PackedInt32Array(82, 76, 12), PackedInt32Array(66, 75, 83), PackedInt32Array(84, 82, 12), PackedInt32Array(67, 85, 84), PackedInt32Array(67, 84, 12), PackedInt32Array(67, 66, 83), PackedInt32Array(86, 87, 88, 89), PackedInt32Array(90, 91, 92), PackedInt32Array(93, 94, 95, 96), PackedInt32Array(97, 93, 96), PackedInt32Array(98, 97, 96, 99), PackedInt32Array(100, 98, 99), PackedInt32Array(101, 100, 99, 102), PackedInt32Array(103, 102, 99), PackedInt32Array(104, 103, 99), PackedInt32Array(104, 99, 90, 105), PackedInt32Array(106, 105, 90), PackedInt32Array(90, 92, 106), PackedInt32Array(107, 108, 109, 110)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 800, 960, 800, 960, 0)])
 source_geometry_mode = 1
 
@@ -2152,6 +2150,9 @@ teleport_pos = Vector2(600, 656)
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
+camera_bound_to_map = true
+is_this_room_dark = true
+room_darkness_color = Color(1, 1, 1, 1)
 
 [node name="sn_sewers_drip" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_iyo1m")
@@ -2162,6 +2163,30 @@ bus = &"Audio"
 stream = ExtResource("3_vmojr")
 autoplay = true
 bus = &"Audio"
+
+[node name="wall_light" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(446, 324)
+
+[node name="wall_light2" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(384, 324)
+
+[node name="wall_light3" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(316, 114)
+
+[node name="wall_light4" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(35, 109)
+
+[node name="wall_light5" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(685, 512)
+
+[node name="wall_light6" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(751, 513)
+
+[node name="wall_light7" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(879, 545)
+
+[node name="wall_light8" parent="." instance=ExtResource("4_qtox0")]
+position = Vector2(927, 547)
 
 [node name="layer 100" type="TileMapLayer" parent="."]
 z_index = -10
@@ -2396,10 +2421,8 @@ metadata/code = ""
 metadata/inst_name = "inst_00000132"
 metadata/scale = Vector2(12, 5)
 
-[node name="o_stageHazard_sewerSludge2" type="Sprite2D" parent="." instance=ExtResource("27_lq76s")]
+[node name="o_stageHazard_sewerSludge2" parent="." instance=ExtResource("27_lq76s")]
 position = Vector2(440, 408)
-texture = ExtResource("28_n181g")
-script = ExtResource("29_6h1wt")
 metadata/code = ""
 metadata/inst_name = "inst_12410091"
 metadata/scale = Vector2(1, 1)
@@ -2407,18 +2430,14 @@ metadata/scale = Vector2(1, 1)
 [node name="o_stageHazard_sewerSludge" parent="." instance=ExtResource("27_lq76s")]
 position = Vector2(376, 408)
 
-[node name="o_stageHazard_sewerSludge3" type="Sprite2D" parent="." instance=ExtResource("27_lq76s")]
+[node name="o_stageHazard_sewerSludge3" parent="." instance=ExtResource("27_lq76s")]
 position = Vector2(376, 408)
-texture = ExtResource("28_n181g")
-script = ExtResource("29_6h1wt")
 metadata/code = ""
 metadata/inst_name = "inst_D6D6D5F4"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_stageHazard_sewerSludge4" type="Sprite2D" parent="." instance=ExtResource("27_lq76s")]
+[node name="o_stageHazard_sewerSludge4" parent="." instance=ExtResource("27_lq76s")]
 position = Vector2(392, 424)
-texture = ExtResource("28_n181g")
-script = ExtResource("29_6h1wt")
 metadata/code = ""
 metadata/inst_name = "inst_8BAAEE00"
 metadata/scale = Vector2(1, 1)
@@ -2430,16 +2449,13 @@ metadata/code = "initial_height = -32;
 metadata/inst_name = "inst_456C8290"
 metadata/scale = Vector2(1, 1)
 
-[node name="oSewerBridge0" type="TextureRect" parent="." instance=ExtResource("30_0lf3d")]
-clip_contents = true
+[node name="oSewerBridge0" parent="." instance=ExtResource("30_0lf3d")]
+anchors_preset = -1
 offset_left = 408.0
 offset_top = 498.0
 offset_right = 457.0
 offset_bottom = 576.0
 texture = SubResource("AtlasTexture_lp73p")
-expand_mode = 1
-stretch_mode = 2
-script = ExtResource("32_mtj7v")
 metadata/code = ""
 metadata/inst_name = "inst_258BF2AD"
 metadata/scale = Vector2(1, 6)
@@ -2485,24 +2501,12 @@ metadata/code = "initial_height = -32;
 metadata/inst_name = "inst_03E500B8"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_sewer_switch01" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("oBridge", "mouse_detection_area") instance=ExtResource("34_eg0q6")]
+[node name="o_sewer_switch01" parent="." node_paths=PackedStringArray("oBridge") instance=ExtResource("34_eg0q6")]
+material = ExtResource("31_48x2c")
 position = Vector2(600, 584)
 sprite_frames = SubResource("SpriteFrames_os02d")
-centered = false
-script = ExtResource("36_ko22n")
 oBridge = NodePath("../oSewerBridge0")
-mouse_detection_area = NodePath("Area2D")
-metadata/default = {
-"bbox_bottom": "15",
-"bbox_left": "0",
-"bbox_right": "15",
-"bbox_top": "0",
-"height": "16",
-"name": "s_sewer_switch01",
-"width": "16",
-"xorig": "0",
-"yorigin": "0"
-}
+is_interactive = false
 metadata/code = "switchName = \"sewerSwitch4\";
 event_user(1);
 "

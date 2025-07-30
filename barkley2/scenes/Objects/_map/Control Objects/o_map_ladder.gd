@@ -8,7 +8,10 @@ extends Area2D
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 @export_category("Setup")
-@export var stretch := Vector2.ONE
+@export var stretch := Vector2.ONE :
+	set(s):
+		stretch = s
+		icon.scale = stretch
 
 @export_category("SFX")
 @export var ladder_sound := "ladder_other";

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://b10wlfqjmwfwo"]
+[gd_scene load_steps=27 format=4 uid="uid://b10wlfqjmwfwo"]
 
 [ext_resource type="Script" uid="uid://bvfigbkdlawg1" path="res://barkley2/resources/rooms/B2_rooms.gd" id="1_jlbok"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_urfqx"]
@@ -12,9 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_e3alp"]
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="13_mnopw"]
 [ext_resource type="PackedScene" uid="uid://4njejlpu64xb" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.tscn" id="14_52sjt"]
-[ext_resource type="Texture2D" uid="uid://dghken2xfn3g5" path="res://barkley2/assets/b2_original/images/merged/s_manhole.png" id="15_oep3p"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="15_uciyn"]
-[ext_resource type="Script" uid="uid://dfa7foid4lml3" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.gd" id="16_in11w"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_fkrnx"]
 
@@ -1764,6 +1762,8 @@ script = ExtResource("1_jlbok")
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
+camera_bound_to_map = true
+is_this_room_dark = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -1797,6 +1797,7 @@ tile_set = ExtResource("4_52sjt")
 [node name="o_doorlight_down" parent="." instance=ExtResource("5_oep3p")]
 position = Vector2(160, 272)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
+frame = 0
 teleport_destination = "r_sw1_pool01, 688, 584);
 "
 metadata/code = "RoomXY(r_sw1_pool01, 688, 584);
@@ -1812,11 +1813,8 @@ metadata/code = ""
 metadata/inst_name = "inst_81E8EF75"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_teleport_manhole" type="Sprite2D" parent="." instance=ExtResource("14_52sjt")]
-z_index = -5
+[node name="o_teleport_manhole" parent="." instance=ExtResource("14_52sjt")]
 position = Vector2(240, 216)
-texture = ExtResource("15_oep3p")
-script = ExtResource("16_in11w")
 teleport_room_string = "r_sw2_start01, 192, 120"
 metadata/code = "RoomXY(r_sw2_start01, 192, 120);
 "

@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://fmwxdl4sjoah"]
+
+[ext_resource type="Texture2D" uid="uid://cei7w40mq6i5" path="res://barkley2/assets/b2_original/images/merged/s_garlics01.png" id="1_0cg8p"]
+[ext_resource type="Script" uid="uid://de1qmw0dnksb6" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_sw_1_garlics_01.gd" id="2_0cg8p"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_wrlj4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k71tx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0cg8p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_2kplv"]
+script = ExtResource("3_wrlj4")
+original_script = "DIALOG | P_NAME | Hmm, what's this?
+USEAT  | o_sw1_garlics01
+ITEM   | Garlics | 2
+EVENT  | o_sw1_garlics01 | 4
+NOTIFY | Picked up two Columbus Day Garlics.
+DIALOG | P_NAME | `kw`Columbus Day Garlics,`rt` huh? Don't really care much for Garlics but perhaps I can find some application for these.
+QUEST  | garlicsPicked = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xwj30"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_esg1f"]
+radius = 5.0
+
+[node name="o_sw1_garlics01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_k71tx")
+centered = false
+offset = Vector2(-3, -13)
+script = ExtResource("2_0cg8p")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_2kplv")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(10, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_xwj30")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(10, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_esg1f")

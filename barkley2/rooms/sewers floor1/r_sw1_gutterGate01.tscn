@@ -1,8 +1,9 @@
-[gd_scene load_steps=89 format=4 uid="uid://btj58dlcukfek"]
+[gd_scene load_steps=93 format=4 uid="uid://btj58dlcukfek"]
 
 [ext_resource type="Script" uid="uid://dtfvenigxq33g" path="res://barkley2/rooms/sewers floor1/r_sw_1_gutter_gate_01.gd" id="1_0togm"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_51ryf"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_500ew"]
+[ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="3_0vclp"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_1r632"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="5_grs1w"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_qscdf"]
@@ -18,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://b5g16pdck5s53" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_plantingSpot01.tscn" id="20_cvww6"]
 [ext_resource type="Texture2D" uid="uid://bkreoy61tc4qd" path="res://barkley2/assets/b2_original/images/merged/s_plantingSpot01.png" id="21_tln3o"]
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="22_gbsp4"]
+[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="23_11uwk"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="24_3yw0e"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="25_bt6bb"]
 [ext_resource type="PackedScene" uid="uid://hhg2vthadjy1" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_gbl_drawing_point.tscn" id="27_6pmn2"]
@@ -1666,6 +1668,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eerlu"]
+size = Vector2(33, 85)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qkhy6"]
 atlas = ExtResource("18_l7n3s")
 region = Rect2(0, 0, 26, 32)
@@ -1970,6 +1975,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l8fck"]
+resource_local_to_scene = true
+shader = ExtResource("23_11uwk")
+shader_parameter/enable = false
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 1.0000000475000002
+shader_parameter/pattern = 0
+shader_parameter/inside = true
+shader_parameter/add_margins = false
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_gaax3"]
 atlas = ExtResource("28_etmu8")
 region = Rect2(0, 0, 24, 16)
@@ -2176,6 +2191,18 @@ simulate = false
 remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
+[node name="wall_light" parent="." instance=ExtResource("3_0vclp")]
+position = Vector2(382, 121)
+
+[node name="wall_light2" parent="." instance=ExtResource("3_0vclp")]
+position = Vector2(126, 302)
+
+[node name="wall_light3" parent="." instance=ExtResource("3_0vclp")]
+position = Vector2(189, 299)
+
+[node name="wall_light4" parent="." instance=ExtResource("3_0vclp")]
+position = Vector2(255, 297)
+
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
 tile_map_data = PackedByteArray("AAAOAAoAAAAJABAAAAAPAAoAAAAEABAAAAAQAAoAAAAFABAAAAARAAoAAAAEABAAAAASAAoAAAAFABAAAAATAAoAAAAEABAAAAAUAAoAAAAFABAAAAAVAAoAAAAEABAAAAAaAAoAAAAJABAAAAAbAAoAAAAEABAAAAAOAAsAAAAJAA8AAAAOAAwAAAAJABAAAAAPAAsAAAAEAA8AAAAPAAwAAAAEABAAAAAQAAsAAAAFAA8AAAAQAAwAAAAFABAAAAARAAsAAAAEAA8AAAARAAwAAAAEABAAAAASAAsAAAAIABEAAAATAAsAAAAJABEAAAAUAAsAAAAFAA8AAAAUAAwAAAAFABAAAAAVAAsAAAAEAA8AAAAVAAwAAAAEABAAAAAaAAsAAAAHAA8AAAAbAAsAAAAEAA8AAAAbAAwAAAAEABAAAAASAAwAAAAFABAAAAATAAwAAAAEABAAAAAWAAwAAAAFABAAAAAXAAwAAAAEABAAAAAYAAwAAAAFABAAAAAZAAwAAAAEABAAAAAaAAwAAAAFABAAAAATAA0AAAAEAA8AAAATAA4AAAAEABAAAAAUAA0AAAAFAA8AAAAUAA4AAAAFABAAAAAVAA0AAAAEAA8AAAAVAA4AAAAEABAAAAAWAA0AAAAFAA8AAAAWAA4AAAAFABAAAAAXAA0AAAAEAA8AAAAXAA4AAAAEABAAAAAYAA0AAAAFAA8AAAAYAA4AAAAFABAAAAAZAA0AAAAEAA8AAAAZAA4AAAAEABAAAAAaAA0AAAAFAA8AAAAaAA4AAAAFABAAAAAbAA0AAAAEAA8AAAAbAA4AAAAEABAAAAATAA8AAAAIAA8AAAATABAAAAAIABAAAAAUAA8AAAAFAA8AAAAUABAAAAAFABAAAAAVAA8AAAAEAA8AAAAVABAAAAAEABAAAAAWAA8AAAAFAA8AAAAWABAAAAAFABAAAAAXAA8AAAAEAA8AAAAYAA8AAAAFAA8AAAAZAA8AAAAEAA8AAAAaAA8AAAAFAA8AAAAbAA8AAAAEAA8AAAAbABAAAAAEABAAAAAXABAAAAAEABAAAAAYABAAAAAIABIAAAAZABAAAAAJABIAAAAaABAAAAAFABAAAAATABEAAAAIAA8AAAATABIAAAAIABAAAAAUABEAAAAFAA8AAAAUABIAAAAFABAAAAAVABEAAAAJABEAAAAVABIAAAAJABIAAAAWABEAAAAFAA8AAAAWABIAAAAFABAAAAAXABEAAAAEAA8AAAAXABIAAAAEABAAAAAYABEAAAAFAA8AAAAYABIAAAAFABAAAAAZABEAAAAEAA8AAAAZABIAAAAEABAAAAAaABEAAAAFAA8AAAAaABIAAAAFABAAAAAbABEAAAAEAA8AAAAbABIAAAAEABAAAAATABMAAAAIAA8AAAATABQAAAAIABAAAAAUABMAAAAFAA8AAAAUABQAAAAFABAAAAAVABMAAAAEAA8AAAAVABQAAAAEABAAAAAWABMAAAAFAA8AAAAWABQAAAAFABAAAAAXABMAAAAEAA8AAAAXABQAAAAEABAAAAAYABMAAAAFAA8AAAAYABQAAAAFABAAAAAZABMAAAAEAA8AAAAZABQAAAAEABAAAAAaABMAAAAFAA8AAAAaABQAAAAFABAAAAAbABMAAAAEAA8AAAAbABQAAAAEABAAAAATABUAAAAIAA8AAAAUABUAAAAFAA8AAAAUABYAAAAFABAAAAAVABUAAAAEAA8AAAAVABYAAAAEABAAAAAWABUAAAAFAA8AAAAWABYAAAAFABAAAAAXABUAAAAEAA8AAAAXABYAAAAEABAAAAAYABUAAAAFAA8AAAAYABYAAAAFABAAAAAZABUAAAAEAA8AAAAZABYAAAAEABAAAAAaABUAAAAFAA8AAAAaABYAAAAFABAAAAAbABUAAAAEAA8AAAAbABYAAAAEABAAAAATABYAAAAGABAAAAAFABcAAAAIAA8AAAAFABgAAAAIABAAAAAGABcAAAAFAA8AAAAGABgAAAAFABAAAAAHABcAAAAEAA8AAAAHABgAAAAEABAAAAAIABcAAAAFAA8AAAAIABgAAAAFABAAAAAJABcAAAAEAA8AAAAJABgAAAAEABAAAAAKABcAAAAFAA8AAAAKABgAAAAFABAAAAALABcAAAAEAA8AAAALABgAAAAEABAAAAAMABcAAAAFAA8AAAAMABgAAAAFABAAAAANABcAAAAEAA8AAAANABgAAAAEABAAAAAOABcAAAAFAA8AAAAOABgAAAAFABAAAAAPABcAAAAEAA8AAAAPABgAAAAEABAAAAAQABcAAAAFAA8AAAAQABgAAAAFABAAAAARABcAAAAEAA8AAAARABgAAAAEABAAAAASABcAAAAFAA8AAAASABgAAAAFABAAAAATABcAAAAEAA8AAAATABgAAAAEABAAAAAUABcAAAAIABEAAAAVABcAAAAJABEAAAAWABcAAAAFAA8AAAAWABgAAAAFABAAAAAXABcAAAAEAA8AAAAXABgAAAAEABAAAAAYABcAAAAFAA8AAAAYABgAAAAFABAAAAAZABcAAAAEAA8AAAAZABgAAAAEABAAAAAaABcAAAAFAA8AAAAaABgAAAAFABAAAAAbABcAAAAEAA8AAAAbABgAAAAEABAAAAAUABgAAAAFABAAAAAVABgAAAAEABAAAAAFABkAAAAIAA8AAAAFABoAAAAIABAAAAAGABkAAAAFAA8AAAAGABoAAAAFABAAAAAHABkAAAAdAAAAAAAHABoAAAAdAAEAAAAIABkAAAAeAAAAAAAIABoAAAAeAAEAAAAJABkAAAAEAA8AAAAJABoAAAAEABAAAAAKABkAAAAFAA8AAAAKABoAAAAFABAAAAALABkAAAAJABEAAAALABoAAAAJABIAAAAMABkAAAAFAA8AAAAMABoAAAAFABAAAAANABkAAAAEAA8AAAANABoAAAAEABAAAAAOABkAAAAFAA8AAAAOABoAAAAFABAAAAAPABkAAAAEAA8AAAAPABoAAAAEABAAAAAQABkAAAAFAA8AAAAQABoAAAAFABAAAAARABkAAAAEAA8AAAARABoAAAAEABAAAAASABkAAAAFAA8AAAASABoAAAAFABAAAAATABkAAAAEAA8AAAATABoAAAAEABAAAAAUABkAAAAFAA8AAAAUABoAAAAFABAAAAAVABkAAAAEAA8AAAAVABoAAAAEABAAAAAWABkAAAAFAA8AAAAWABoAAAAFABAAAAAXABkAAAAEAA8AAAAXABoAAAAEABAAAAAYABkAAAAFAA8AAAAYABoAAAAFABAAAAAZABkAAAAEAA8AAAAZABoAAAAEABAAAAAaABkAAAAFAA8AAAAaABoAAAAFABAAAAAbABkAAAAEAA8AAAAbABoAAAAEABAAAAAFABsAAAAIAA8AAAAGABsAAAAFAA8AAAAHABsAAAAEAA8AAAAHABwAAAAEABAAAAAIABsAAAAFAA8AAAAIABwAAAAFABAAAAAJABsAAAAEAA8AAAAKABsAAAAFAA8AAAALABsAAAAEAA8AAAAMABsAAAAFAA8AAAANABsAAAAEAA8AAAAOABsAAAAFAA8AAAAPABsAAAAEAA8AAAAQABsAAAAFAA8AAAARABsAAAAEAA8AAAASABsAAAAFAA8AAAATABsAAAAEAA8AAAAUABsAAAAFAA8AAAAVABsAAAAEAA8AAAAWABsAAAAFAA8AAAAXABsAAAAEAA8AAAAYABsAAAAFAA8AAAAZABsAAAAEAA8AAAAaABsAAAAFAA8AAAAbABsAAAAEAA8AAAAJABwAAAAEABAAAAAQABwAAAAFABAAAAARABwAAAAEABAAAAA=")
@@ -2222,6 +2249,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_doorlight_down" parent="." instance=ExtResource("13_rh2kp")]
 position = Vector2(256, 448)
 sprite_frames = SubResource("SpriteFrames_fsjw5")
+frame = 0
 teleport_destination = "r_sw1_gap01, 272, 216);
 "
 metadata/code = "RoomXY(r_sw1_gap01, 272, 216);
@@ -2231,9 +2259,14 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_map_ladder" parent="." instance=ExtResource("15_3ot1g")]
 position = Vector2(272, 80)
+stretch = Vector2(1, 2.385)
 metadata/code = ""
 metadata/inst_name = "inst_739D297A"
 metadata/scale = Vector2(1, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_ladder"]
+position = Vector2(15.5, 32.5)
+shape = SubResource("RectangleShape2D_eerlu")
 
 [node name="o_barrel_wood01" parent="." instance=ExtResource("17_xqk3o")]
 position = Vector2(157, 368)
@@ -2315,6 +2348,7 @@ metadata/inst_name = "inst_F5079A07"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_gbl_drawing_point" parent="." instance=ExtResource("27_6pmn2")]
+material = SubResource("ShaderMaterial_l8fck")
 position = Vector2(384, 208)
 sprite_frames = SubResource("SpriteFrames_sneus")
 cutscene_script = SubResource("Resource_m2px3")
@@ -2333,16 +2367,3 @@ position = Vector2(288, 168)
 metadata/code = ""
 metadata/inst_name = "inst_DA4CAE41"
 metadata/scale = Vector2(2, 0)
-
-[node name="P14 - o_room_pacify" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = ""
-metadata/inst_name = "inst_1777B18A"
-metadata/scale = Vector2(1, 1)
-
-[node name="P30 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 64)
-metadata/code = "color = make_color_rgb(7, 7, 13);
-"
-metadata/inst_name = "inst_54309E36"
-metadata/scale = Vector2(1, 1)

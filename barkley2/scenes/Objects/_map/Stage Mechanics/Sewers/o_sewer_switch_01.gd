@@ -12,6 +12,8 @@ func _get_switch_name() -> void:
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
+		animation = "default"
+		is_interactive = true
 		return
 		
 	## Sometimes, bidges can take a while to load, causing some issues with unloadd collisions.
@@ -20,6 +22,8 @@ func _ready() -> void:
 	if B2_Playerdata.Quest(switchName) == 1:
 		execute_event_user_2()
 	else:
+		animation = "default"
+		is_interactive = true
 		execute_event_user_1()
 	
 func execute_event_user_1() -> void:
