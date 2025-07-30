@@ -1,0 +1,100 @@
+[gd_scene load_steps=9 format=3 uid="uid://dxwo543v8plaa"]
+
+[ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="1_7gbyg"]
+[ext_resource type="Script" uid="uid://cbo5v81kjhby4" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_plantation_switch_01.gd" id="2_6hdob"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_m7h23"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7h23"]
+atlas = ExtResource("1_7gbyg")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36uvw"]
+atlas = ExtResource("1_7gbyg")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s0hj1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7h23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36uvw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36uvw")
+}],
+"loop": true,
+"name": &"flipped",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_36uvw"]
+script = ExtResource("3_m7h23")
+original_script = "IF gordoState <= 1     | GOTO | GORDO
+IF plantationGate == 0 | GOTO | FLIPPER
+IF plantationGate == 1 | GOTO | FLIPPED
+
+GORDO
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.25
+DIALOG | Fallen Gordo | `w1`*Sniff* *Sniff*`w0` Hmm, I smell a rodent behind me.
+WAIT   | 1.0
+SET    | o_fallenGordo01 | lookBack
+WAIT   | 1.0
+LOOK   | o_cts_hoopz  | EAST 
+DIALOG | Fallen Gordo | You aren't a rodent! You are a dwarf! Get away from my back immediately or I'll have you gutted and turned into fertilizer!
+DIALOG | P_NAME       | *Gulp* O-oh, sorry!
+MOVETO | o_cts_hoopz  | o_cinema3 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+SET    | o_fallenGordo01 | default
+
+FLIPPER
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+USEAT  | NORTH
+WAIT   | 0.25
+SOUND  | sn_mg_puzzlelock_open1
+EVENT  | o_plantation_switch01 | 0
+WAIT   | 0.25
+DIALOG | P_NAME | According to the plate I might have just opened a gate somewhere. Hmm, where is there a `kw`GATE`rt` here in the `kw`PLANTATION?`rt` Could it be that this switch just opened a `kw`WAY FORWARD?`rt`
+QUEST  | plantationGate = 1
+
+FLIPPED
+DIALOG | P_NAME | I already flipped this bad boy."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s0hj1"]
+radius = 25.019993
+
+[node name="o_plantation_switch01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_s0hj1")
+animation = &"flipped"
+centered = false
+script = ExtResource("2_6hdob")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_36uvw")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "0",
+"height": "16",
+"name": "s_sewer_switch01",
+"width": "16",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_s0hj1")

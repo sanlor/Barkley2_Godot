@@ -1,0 +1,637 @@
+[gd_scene load_steps=32 format=3 uid="uid://lqbyfbdek5g4"]
+
+[ext_resource type="Script" uid="uid://cmbgosb1gb2wj" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_fallenGordo01.gd" id="1_yjmv3"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1ic28"]
+[ext_resource type="Texture2D" uid="uid://db7phc7jqmrqk" path="res://barkley2/assets/b2_original/images/merged/s_sw1_fallenGordoGarlics01.png" id="2_c8ug6"]
+[ext_resource type="Texture2D" uid="uid://c65jqipusj4cn" path="res://barkley2/assets/b2_original/images/merged/s_sw1_fallenGordo01.png" id="3_1ic28"]
+
+[sub_resource type="Resource" id="Resource_48l2a"]
+script = ExtResource("2_1ic28")
+original_script = "IF gordoState == 0 | GOTO | GORDO_0
+IF gordoState == 1 | GOTO | GORDO_1
+IF gordoState == 2 | GOTO | GORDO_2
+
+GORDO_0
+DIALOG | Fallen Gordo | `mq`B.A.B.B.Y.`rt` we require more `mq`butter....`rt`
+WAIT   | 1.0
+SET    | o_fallenGordo01 | lookBack
+WAIT   | 1.0
+DIALOG | Fallen Gordo | You're not B.A.B.B.Y.! What have you done with our B.A.B.B.Y.?! B.A.B.B.Y.!
+SURPRISEAT            | o_fallenGordo01
+DIALOG | P_NAME       | `w1`Yipes!`w0` Sorry I didn't mean to intrude!
+DIALOG | Fallen Gordo | Who subjugated you to the `kw`Glorious Plantation?`rt` Was it B.A.B.B.Y.? Where is your mask?
+LOOKAT | o_cts_hoopz  | o_fallenGordo01
+DIALOG | P_NAME       | Oh, well I'm just passing through. I have amnesia.
+DIALOG | Fallen Gordo | Your feeble mental posture is no excuse. Get to work! We require more `mq`butter!`rt`
+QUEST  | gordoState = 1
+GOTO   | GORDOINFO
+
+GORDO_1
+SET    | o_fallenGordo01 | lookBack
+WAIT   | 0.5
+DIALOG | Fallen Gordo | What is it? Is it time for `kw`Butter Lunch`rt` again?
+GOTO   | GORDOINFO
+
+GORDO_2
+DIALOG | P_NAME | He won't be subjugating any dwarfs from now on.
+
+GORDOINFO
+CHOICE | Ask Fallen Gordo?
+IF gordoAskWhere == 0 | REPLY  | ASKDOWNHERE | Why are you down here?
+IF @Sewer Butter@ >= 1 | REPLY | GORDOBUTTER | Would you like some butter?
+IF gordoChide == 1  | REPLY | CHIDE | You should stop being so mean to your workers!
+IF gordoPlural == 0 | REPLY | WHOISUS | Why the first person plural?
+IF gordoPlural == 2 | IF gordoChair == 0 | REPLY | HOWMANY | How many of /'you/' are there?
+IF gordoEat >= 2 | IF knowGarlics >= 2 | REPLY | EATGARLICS | What if I got you Garlics?
+IF gordoEat >= 2 | REPLY | GETBUTTER | What if I got you butter?
+IF gordoEat == 2 | REPLY | ASKEAT2 | Let's break down the math of `kw`procre-eating...`rt`
+IF gordoEat == 1 | REPLY | ASKEAT1 | Uh... `w1``kw`procre-eat?`rt``w0`
+REPLY | NARYYEMIND | I best be on my way.
+
+ASKDOWNHERE
+DIALOG | P_NAME       | Who are you? Why are you alone down here?
+DIALOG | Fallen Gordo | We are Fallen Gordo, masters of all you see and hear. You are in our realm, so you better be on your best behavior.
+DIALOG | P_NAME       | Oh, so you run the `kw`Plantation?`rt`
+DIALOG | Fallen Gordo | We ARE the Plantation. Without the guidance of our fist, this Plantation would fall into RUIN!! Through this remote we control the greatest symphony of torture and agriculture in the history of time.
+QUEST | gordoAskWhere = 1
+GOTO   | GORDOINFO
+
+CHIDE
+DIALOG | P_NAME = s_port_hoopzAngry | I think it's really mean what you're doing to all your workers up there. They're all miserable and don't even know it.
+DIALOG | Fallen Gordo | Flattery will get you nowhere, Fraulein. We would not lower ourselves to `kw`procre-eat`rt` with something with such an unbecoming hairstyle.
+QUEST  | gordoEat = 1
+QUEST  | gordoChide = 2
+GOTO   | GORDOINFO
+
+WHOISUS
+DIALOG | P_NAME       | What do you mean we? You're just one person.
+DIALOG | Fallen Gordo | ONE PERSON? You know nothing! Your insular mind cannot comprehend Fallen Gordo!
+DIALOG | P_NAME       | So when you are this fat you count as more than one person?
+DIALOG | Fallen Gordo | Wrong all the time! When B.A.B.B.Y. comes you will be put on `mq`Garlics Removal Duty.`rt` And it will be your job to remove those `kw`replusive bulbs!`rt`
+QUEST  | knowGarlics += 1
+DIALOG | P_NAME = s_port_hoopzAngry | I-I_ don't get it...
+QUEST  | gordoPlural = 1
+GOTO   | GORDOINFO
+
+ASKEAT1
+DIALOG | P_NAME       | `kw`Procre-eat?`rt` What's that?
+DIALOG | Fallen Gordo | We were once one inside, now we are many inside. When one Duergar eats another, one may appear to be left, but inside there are two. When stupid, pitiful Dwarf eats it is one divided by one. When noble, strong Duergar eats it is one PLUS one.
+WAIT   | 1.0
+DIALOG | P_NAME       | Uh...
+DIALOG | Fallen Gordo | When this Duergar eats more Duergars, that Duergar too is added. All Duergars are added to Fallen Gordo. We are all here. There is no limit to the amount of lifeforms that may be added to the collective. `w1`Such is the true power of `kw`procre-eating.`rt``w0`
+DIALOG | P_NAME       | So... if one Duergar eats another Duergar, the mind of the Duergar eaten becomes part of the eating Duergar?
+DIALOG | Fallen Gordo | Correct.
+DIALOG | P_NAME = s_port_hoopzAngry | (Gross.)
+QUEST  | gordoEat = 2
+QUEST  | gordoPlural = 2
+GOTO   | GORDOINFO
+
+ASKEAT2
+DIALOG | P_NAME       | So if one Duergar eats ten Duergars, the Duergar shares his mind with ten Duergars?
+DIALOG | Fallen Gordo | YES!
+DIALOG | P_NAME       | What if a Duergar who has eaten fifty five Duergars eats a Duergar who has eaten one hundred and seventy four Duergars? Does that mean two hundred... something... Duergars?
+DIALOG | Fallen Gordo | YES! Two hundred and twenty nine. We are the `kw`Master Educators`rt` to have instructed such a pathetic inferior creature as yourself on the exquisite science of the Duergar.
+DIALOG | P_NAME       | That's really, really bizarre.
+DIALOG | Fallen Gordo | You will learn the miserable ecstasy of our Duergar metabolism before your shift is up! I am sure of it! Now `sq`get butter or get B.A.B.B.Y, either one!`rt`
+QUEST  | gordoEat = 3
+GOTO   | GORDOINFO
+
+HOWMANY
+DIALOG | P_NAME       | So how many people am I talking to right now?
+DIALOG | Fallen Gordo | You are in the presence of the nine great minds:_ Pug, Aloysius P. Arbogast III, Jung, Jong, The Baby from Dinosaurs, Orlandu, Opie, Leif, and Chair.
+DIALOG | P_NAME       | /'Chair/' is an unusual name for a Duergar...
+DIALOG | Fallen Gordo | We have also absorbed the chair we are sitting in. When you speak to us, you are speaking to Chair!
+DIALOG | P_NAME       | Poor Chair...
+DIALOG | Fallen Gordo | Chair is pleased despite our complaints of the opressive weight!
+DIALOG | P_NAME       | Oh I'm just saying it seems like a rough life...
+DIALOG | Fallen Gordo | You will know the true meaning of a rough life when B.A.B.B.Y. tears your arms and legs off and forces you to walk around on your tongue!
+QUEST  | gordoChair = 1
+GOTO   | GORDOINFO
+
+GETBUTTER
+DIALOG | P_NAME       | What if I got you some `mq`butter?`rt`
+DIALOG | Fallen Gordo | That is B.A.B.B.Y.'s job! Get B.A.B.B.Y. to get butter! Butter is already with us but we could always have more of us.
+DIALOG | P_NAME       | Uh okay...
+QUEST  | gordoButter = 1
+GOTO   | GORDOINFO
+
+EATGARLICS
+DIALOG | P_NAME       | What if I got you some `mq`Garlics?`rt`
+DIALOG | Fallen Gordo | NO! Don't you know anything?! `mq`Garlics`rt` are not to be `kw`procre-eaten`rt` with! `mq`Garlics`rt` are NON-COMPATIBLE with the eroticism of Duergar metabolism!
+DIALOG | P_NAME       | Oh okay so no `mq`Garlics,`rt` then...
+DIALOG | Fallen Gordo | No `mq`Garlics,`rt` or else...
+DIALOG | P_NAME       | Or else what?
+DIALOG | Fallen Gordo | Or else... b_o_o_m.
+QUEST  | knowGarlics += 1
+GOTO   | GORDOINFO
+
+NARYYEMIND
+DIALOG | P_NAME       | I'll get out of here, see you later.
+DIALOG | Fallen Gordo | We will see you this evening for your daily quota review.
+SET    | o_fallenGordo01 | default
+
+GORDOOFFER
+DIALOG | P_NAME       | Umm, excuse me, Mr. Gordo?
+DIALOG | Fallen Gordo | What is it? Why are you here? Why aren't you working? We only `kw`procre-eat`rt` with those that deserve it and you are showing a funny way of deserving it!
+CHOICE | Got anything for Fallen Gordo?
+REPLY  | GORDOBUTTER  | I have some butter for you all.
+REPLY  | GORDOINFO    | Let me ask you something.
+REPLY  | NARYYEMIND   | Nary ye mind.
+
+GORDOBUTTER
+DIALOG | P_NAME       | Great Plantation Overlord, I have your hourly helping of `kw`Sewer Butter.`rt`
+DIALOG | Fallen Gordo | What? Where? We can't turn around come here, `sq`bring the BUTTER!`rt`
+DIALOG | P_NAME       | Uh, yes masters...
+MOVETO | o_cts_hoopz  | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+DIALOG | Fallen Gordo | Now, slather it on our belly. Miss not one spot, ignore not one crease.
+DIALOG | P_NAME = s_port_hoopzShock | My Clispaeth! You can't be serious?
+DIALOG | Fallen Gordo | You must! We command it! You won't worm away from this duty!
+CHOICE | Debase yourself?
+REPLY  | BELLYBUTTER   | Alright, let me baste those folds.
+REPLY  | CONVINCETOEAT | Can't you see how much you want to eat it instead?
+
+CONVINCETOEAT
+DIALOG | P_NAME       | You know, masters. Why don't you taste it instead of the belly application? Don't you want to eat the glorious butter?
+DIALOG | Fallen Gordo | The smell disturbs us, we would rather have it on the skin. Prove to us that it tastes of the butter of old. `s1`Eat the butter. Eat the butter!`s0`
+DIALOG | P_NAME = s_port_hoopzSurprise | (Gulp...)
+CHOICE | Now what?
+REPLY  | BELLYBUTTER | Fine, I'll rub the belly...
+REPLY  | EATBUTTER   | Fine, I'll eat the butter...
+
+EATBUTTER
+DIALOG  | P_NAME = s_port_hoopzSurprise | (What am I doing?!)
+WAIT    | 0.25
+SOUND   | sn_pdt_organgrab01
+WAIT    | 0.75
+SOUND   | sn_mg_creepypasta_scream3
+KNEELAT | o_fallenGordo01
+WAIT    | 0
+WAIT    | 0.5
+DIALOG  | P_NAME = s_port_hoopzShock | (Mercy me! This taste! It burns! I must summon my strength! I feel the butter bonding to my throat... my stomach... my soul...)
+NOTIFYALT | You suffer a -1 penalty to your GLAMP!
+GLAMP   | guts | -1
+GLAMP   | luck | -1
+GLAMP   | acrobatics | -1
+GLAMP   | might | -1
+GLAMP   | piety | -1
+WAIT    | 1.0
+DIALOG  | P_NAME = s_port_hoopzHappy | Mmmm! This has to be the best Sewer Butter I have ever tasted!
+DIALOG  | Fallen Gordo | What?! The best? Why are you procre-eating with Sewer Butter and not us?! Give it! Give it to us!
+LOOKAT  | o_cts_hoopz  | o_fallenGordo01
+USEAT   | o_fallenGordo01
+WAIT    | 0.5
+SET     | o_fallenGordo01 | default
+WAIT    | 0.75
+SOUND   | sn_pdt_organgrab01
+WAIT    | 1.0
+DIALOG  | Fallen Gordo | You were right. This is delicious Butter. We will share it with no one and only ourselves.
+QUEST   | gordoButterEat = 1
+GOTO    | GORDOREACTION
+
+BELLYBUTTER
+DIALOG | P_NAME = s_port_hoopzShock | Oh yes, my supreme masters. (Gulp) Let me smother you in golden glory.
+MOVETO | o_cts_hoopz | o_cinema4 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+SET    | o_fallenGordo01 | default
+WAIT   | 0.5
+DIALOG | Fallen Gordo               | If your hand gets stuck use more butter or B.A.B.B.Y. will have to saw it off. You will NOT get your hand back!
+DIALOG | P_NAME = s_port_hoopzShock | (C-Clispaeth._._._ give me strength._._.)
+WAIT   | 0.5
+SOUND  | sn_pdt_organgrab01
+USEAT  | NORTHWEST
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzShock | (Ungh!)
+SOUND  | sn_pdt_organgrab01
+USEAT  | NORTHWEST
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzShock | (Eeew!)
+SOUND  | sn_pdt_organgrab01
+USEAT  | NORTHWEST
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzShock | (Mein gott... I'm gonna throw up...)
+SOUND  | sn_pdt_organgrab01
+USEAT  | NORTHWEST
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzShock | (It's over, thank Clispaeth...)
+WAIT   | 1.0
+DIALOG | P_NAME = s_port_hoopzShock | I._._._ I will never... forget what I just did for the rest of my natural life... I will be permanently scarred and all other experiences will be tainted by what I just took part in. I hope that in the next life, whatever it is beyond, karma will wipe the slate clean.
+QUEST  | behaveJaded += 1
+GOTO   | GORDOREACTION
+
+GORDOREACTION
+DIALOG  | Fallen Gordo | You have served Fallen Gordo well. We may just consume you after all.
+WAIT    | 1.0
+PLAYSET | o_fallenGordo01 | stroke | strokeback
+SOUND   | sn_mg_creepypasta_scream3
+WAIT    | 1.0
+DIALOG  | Fallen Gordo    | What_ what is this... what is this... feeling... we do not know this feeling... this_
+PLAYSET | o_fallenGordo01 | swell | swellHold
+WAIT    | 0.2
+SOUND   | sn_mg_creepypasta_scream3
+WAIT    | 1.0
+GOTO    | GARLICSSORT
+
+GARLICSSORT
+QUEST | time += 1
+IF gordoButterEat == 1 | GOTO | FASTDEATH
+IF garlicButter == 2   | GOTO | FASTDEATH
+IF garlicButter == 1   | GOTO | BABBYFIGHT
+
+BABBYFIGHT
+DIALOG      | Fallen Gordo | What did you do? What did you do to us you miserable-
+WAIT        | 1.0
+DIALOG      | Fallen Gordo | B.A.B.B.Y.! Save us B.A.B.B.Y.!
+EVENT       | o_fallenGordo01 | 4
+WAIT        | 0.3
+SURPRISEAT  | NORTHWEST
+EVENT       | o_fallenGordo01 | 1
+FRAME       | CAMERA_FAST | o_cinema10
+WAIT        | 0
+EVENT       | o_fallenGordo01 | 3 // Light up
+WAIT        | 0.5
+CREATE      | oBossName
+WAIT        | 0.1
+SOUND       | sn_crabtron_legmotor02
+WAIT        | 0.6
+SOUND       | sn_enemy_ruineddroid_alert03
+WAIT        | 5.0
+DIALOG      | B.A.B.B.Y. | B.A.B.B.Y. System Initialized. Scanning for victims... 
+DIALOG      | B.A.B.B.Y. | Victim found. Target Lock: `kw`Forlorn Youngster.`rt`
+FRAME       | CAMERA_FAST | o_fallenGordo01
+WAIT        | 0
+DIALOG      | Fallen Gordo    | BABBY! `s1`Avenge ussssssss!`s0`
+SURPRISEAT  | o_fallenGordo01
+PLAYSET     | o_fallenGordo01 | pop | dead
+SOUND       | sn_gordodeath01
+SOUND       | sn_bubblepop03
+WAIT        | 0.15
+SOUND       | sn_bubblepop02
+WAIT        | 2.5
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+MOVETO      | o_cts_hoopz | o_cinema1 | MOVE_FAST
+WAIT        | 0
+LOOKAT      | o_cts_hoopz | o_enemy_babbySystem
+WAIT        | 0.25
+DIALOG      | P_NAME | Looks like I have no choice but to brast my way out of here. That `mq`GATE SWITCH`rt` next to that overlord will have to wait until later.
+WAIT        | 0.5
+QUEST       | gordoState = 2
+QUEST       | bossBabby = 1
+EVENT       | o_fallenGordo01 | 2
+Misc        | music | mus_snail_ambush | 1
+
+FASTDEATH
+DIALOG     | Fallen Gordo | This feeling._._._
+WAIT       | 1.0
+DIALOG     | Fallen Gordo | `w2`GAAAAAARRRRRRRRLICCCCCSSSSSSS!`w0`
+WAIT       | 0.5
+SURPRISEAT | o_fallenGordo01
+PLAYSET    | o_fallenGordo01 | pop | dead
+SOUND      | sn_gordodeath01
+SOUND      | sn_bubblepop03
+WAIT       | 0.15
+SOUND      | sn_bubblepop02
+WAIT       | 2.5
+LOOKAT     | o_cts_hoopz | o_fallenGordo01
+DIALOG     | P_NAME = s_port_hoopzSmirk | Heh, now that's what I call an /'eye opening experience./'
+WAIT       | 0.4
+LOOKAT     | o_cts_hoopz | o_plantation_switch01
+WAIT       | 0.4
+DIALOG     | P_NAME | Now I think I should investigate `mq`that switch on the wall`rt` there...
+QUEST      | gordoState = 2
+QUEST      | bossBabby = 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_c8ug6"]
+polygon = PackedVector2Array(0, 1, -12, -6, -17, -17, -11, -27, 1, -31, 11, -27, 15, -19, 13, -8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48l2a"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(988, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0qem"]
+atlas = ExtResource("3_1ic28")
+region = Rect2(0, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo25n"]
+atlas = ExtResource("3_1ic28")
+region = Rect2(76, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hafg"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(532, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrj6p"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(608, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpcch"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(684, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5frxa"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(760, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j8a0b"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(836, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yg4kr"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(912, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klsym"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(988, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8gfx"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(0, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s06q4"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(76, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0u44"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(152, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h3scm"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(76, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tjvw"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(0, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_20oiu"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(76, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ewo4"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(152, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8wfl"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(228, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64vsr"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(304, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67ua4"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(380, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lh2o1"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(456, 0, 76, 97)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mqm5"]
+atlas = ExtResource("2_c8ug6")
+region = Rect2(456, 0, 76, 97)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ndca7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_48l2a")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0qem")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo25n")
+}],
+"loop": true,
+"name": &"lookBack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hafg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrj6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpcch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5frxa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j8a0b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yg4kr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klsym")
+}],
+"loop": true,
+"name": &"pop",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8gfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s06q4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0u44")
+}],
+"loop": true,
+"name": &"stroke",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3scm")
+}],
+"loop": true,
+"name": &"strokeback",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6tjvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20oiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ewo4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8wfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64vsr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67ua4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lh2o1")
+}],
+"loop": true,
+"name": &"swell",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mqm5")
+}],
+"loop": true,
+"name": &"swellHold",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y0qem"]
+radius = 19.026299
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41sm3"]
+size = Vector2(50, 66)
+
+[node name="o_fallenGordo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_yjmv3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_48l2a")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_c8ug6")
+occluder_light_mask = 519
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ndca7")
+centered = false
+offset = Vector2(-35, -75)
+metadata/default = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordo01_0.png", "images\\s_sw1_fallenGordo01_1.png"],
+"height": "97",
+"name": "s_sw1_fallenGordo01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/lookBack = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordo01_0.png", "images\\s_sw1_fallenGordo01_1.png"],
+"height": "97",
+"name": "s_sw1_fallenGordo01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/swell = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/swellHold = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/pop = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/dead = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/stroke = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+metadata/strokeback = {
+"bbox_bottom": "96",
+"bbox_left": "0",
+"bbox_right": "75",
+"bbox_top": "0",
+"frames": ["images\\s_sw1_fallenGordoGarlics01_0.png", "images\\s_sw1_fallenGordoGarlics01_1.png", "images\\s_sw1_fallenGordoGarlics01_2.png", "images\\s_sw1_fallenGordoGarlics01_3.png", "images\\s_sw1_fallenGordoGarlics01_4.png", "images\\s_sw1_fallenGordoGarlics01_5.png", "images\\s_sw1_fallenGordoGarlics01_6.png", "images\\s_sw1_fallenGordoGarlics01_7.png", "images\\s_sw1_fallenGordoGarlics01_8.png", "images\\s_sw1_fallenGordoGarlics01_9.png", "images\\s_sw1_fallenGordoGarlics01_10.png", "images\\s_sw1_fallenGordoGarlics01_11.png", "images\\s_sw1_fallenGordoGarlics01_12.png", "images\\s_sw1_fallenGordoGarlics01_13.png"],
+"height": "97",
+"name": "s_sw1_fallenGordoGarlics01",
+"width": "76",
+"xorig": "35",
+"yorigin": "75"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -16)
+shape = SubResource("CircleShape2D_y0qem")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-2, -3)
+shape = SubResource("RectangleShape2D_41sm3")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -1,0 +1,104 @@
+[gd_scene load_steps=9 format=3 uid="uid://lnhbwwn7ecg4"]
+
+[ext_resource type="Script" uid="uid://dthrfh6apxxag" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/o_sewerKnight01.gd" id="1_s8nga"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2k14u"]
+[ext_resource type="Texture2D" uid="uid://dp0ky6wl3k01l" path="res://barkley2/assets/b2_original/images/merged/s_sewerKnight01.png" id="2_ghqgt"]
+
+[sub_resource type="Resource" id="Resource_3voe1"]
+script = ExtResource("2_2k14u")
+original_script = "IF archibaldState == 0 | GOTO | ARCH_0
+IF archibaldState == 1 | GOTO | ARCH_1
+IF archibaldState == 2 | GOTO | ARCH_2
+
+ARCH_0
+DIALOG | Archibald | Stand ho! Nay weaklings can ent'r beyond this doth'r! A most wondrous evil lurks th're!
+DIALOG | P_NAME    | Say what?
+DIALOG | Archibald | The Bass Mother awaits f'r thee beyond this do'r. I can bid yond thou art a youngster looking f'r gold and glory but hark to me: Thou art not yet stout enow to square that lady. Turn back anon and doth not returneth without the power of the Jello Zauber.
+DIALOG | P_NAME    | Pfft, get real, grandpa! I'm a True Braster, I can handle anything you can throw at me!
+DIALOG | Archibald | Such arrogance. Very well then. If 't be true thee wonneth't heareth mine own council then wend fia, and kicketh the bucket! I care not!
+DIALOG | P_NAME    | *Gulp* (Maybe I do need to power up...)
+QUEST  | archibaldState = 1
+QUEST  | archibaldCollision = 0 
+
+ARCH_1
+DIALOG | Archibald | Stand ho! Thou art not yet eft to proce'd. Turn back and doth not returneth without the Jello Zauber!
+CHOICE | Proceed without the Jello Zauber?
+REPLY  | ZAUBER_NAY | Screw the Jello Zauber...
+REPLY  | ZAUBER_YAY | Hmm, I should go and find one...
+
+ZAUBER_NAY
+DIALOG | P_NAME    | Screw your Zauber, old man! 
+DIALOG | Archibald | Thee daw! Wend on then! Wend and kicketh the bucket! I care not...
+QUEST  | archibaldState = 2
+QUEST  | archibaldCollision = 0 
+
+ZAUBER_YAY
+DIALOG | P_NAME    | Hmm, I think you are right, old man. I shouldn't venture into danger unprepared.
+DIALOG | Archibald | Wise choice, youngster. Thee may survive this after all...
+DIALOG | P_NAME    | Do you know where I could get one of those Jello Zauber thingies?
+DIALOG | Archibald | Search f'r the wise fusty tree. He shall bid thee the secrets of the Jello Zauber.
+DIALOG | P_NAME    | Oh, okay... (What the gunk does that mean?) 
+QUEST  | archibaldCollision = 0 
+
+ARCH_2
+DIALOG | Archibald | Thee daw! Wend and kicketh the bucket! I care not...
+QUEST  | archibaldCollision = 0 "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2k14u"]
+atlas = ExtResource("2_ghqgt")
+region = Rect2(0, 0, 44, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3voe1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2k14u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmk1h"]
+radius = 13.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kmk1h"]
+size = Vector2(39, 55)
+
+[node name="o_sewerKnight01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_s8nga")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_3voe1")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_3voe1")
+centered = false
+offset = Vector2(-22, -50)
+metadata/default = {
+"bbox_bottom": "55",
+"bbox_left": "3",
+"bbox_right": "39",
+"bbox_top": "3",
+"frames": ["images\\s_sewerKnight01_0.png"],
+"height": "60",
+"name": "s_sewerKnight01",
+"width": "44",
+"xorig": "22",
+"yorigin": "50"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_kmk1h")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-0.5, -20.5)
+shape = SubResource("RectangleShape2D_kmk1h")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

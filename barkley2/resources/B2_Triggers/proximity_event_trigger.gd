@@ -8,7 +8,6 @@ class_name B2_ProxEventTrigger
 var trigger_col : CollisionShape2D
 
 func _enter_tree() -> void:
-	
 	var shape 	:= CircleShape2D.new()
 	shape.radius = radius_distance
 	trigger_col = CollisionShape2D.new()

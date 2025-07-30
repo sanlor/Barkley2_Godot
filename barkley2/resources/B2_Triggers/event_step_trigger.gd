@@ -11,3 +11,11 @@ func _enter_tree() -> void:
 func _pre_event_trigger(_body : Node2D) -> void:
 	if _body is B2_Player:
 		event_trigger( _body )
+
+func event_trigger( _node ):
+	if is_instance_valid(cutscene_script):
+		B2_CManager.play_cutscene( cutscene_script, self, [] )
+		await B2_CManager.event_ended
+		await get_tree().process_frame
+		if cutscene_hook:
+			B2_CManager.play_cutscene( cutscene_hook.cutscene_script, self, cutscene_hook.cutscene_script_mask )

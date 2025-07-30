@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=4 uid="uid://blb4af8ebgtfv"]
+[gd_scene load_steps=72 format=4 uid="uid://blb4af8ebgtfv"]
 
 [ext_resource type="Script" uid="uid://b1gd47kjk13bv" path="res://barkley2/rooms/sewers floor1/r_sw_1_long_ways_01.gd" id="1_060w3"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_3l1dt"]
@@ -17,10 +17,12 @@
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="18_2msac"]
 [ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="20_ccvsm"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="21_253av"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="22_0ctsy"]
 [ext_resource type="PackedScene" uid="uid://cifjdailrohp8" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stageHazard_sewerSludge.tscn" id="23_bn5cg"]
 [ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="24_0fgps"]
 [ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="25_0ctsy"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="26_6tqe6"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="26_l8yfh"]
 [ext_resource type="PackedScene" uid="uid://cc7836a5ruw04" path="res://barkley2/scenes/Objects/_map/Wading/o_wading16.tscn" id="29_wxqgm"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="31_xsd5f"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="32_rtqkn"]
@@ -2253,9 +2255,12 @@ metadata/inst_name = "inst_00000135"
 metadata/scale = Vector2(4, 6)
 
 [node name="o_sewer_switch01" parent="." node_paths=PackedStringArray("oBridge") instance=ExtResource("31_xsd5f")]
+material = ExtResource("22_0ctsy")
 position = Vector2(1224, 232)
 sprite_frames = SubResource("SpriteFrames_os02d")
+switchName = "sewerSwitchDarkestalley"
 oBridge = NodePath("../oSewerBridge0lr")
+is_interactive = false
 metadata/code = "switchName = \"sewerSwitchDarkestalley\";
 event_user(1);"
 metadata/inst_name = "inst_98E5B695"
@@ -2281,9 +2286,12 @@ position = Vector2(24, 46.5)
 shape = SubResource("RectangleShape2D_b12q8")
 
 [node name="o_sewer_switch02" parent="." node_paths=PackedStringArray("oBridge") instance=ExtResource("31_xsd5f")]
+material = ExtResource("26_l8yfh")
 position = Vector2(360, 152)
 sprite_frames = SubResource("SpriteFrames_os02d")
+switchName = "sewerSwitchLongways"
 oBridge = NodePath("../oSewerBridge0lr2")
+is_interactive = false
 metadata/code = "switchName = \"sewerSwitchLongways\";
 event_user(1);
 "

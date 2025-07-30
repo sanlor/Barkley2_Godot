@@ -1,9 +1,18 @@
+@tool
 extends B2_EnvironInteractive
 
 @export var switchName := "sewerSwitch4";
 @export var oBridge : Control
+@export_tool_button("Get SwitchName") var _s : Callable = _get_switch_name
+
+func _get_switch_name() -> void:
+	var n : String = get_meta("code")
+	var p_name := n.get_slice('"', 1)
+	switchName = p_name
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	execute_event_user_1()
 	
 func execute_event_user_1() -> void:

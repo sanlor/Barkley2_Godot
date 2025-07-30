@@ -7,12 +7,7 @@ func _ready() -> void:
 	_set_region()
 	
 	await get_tree().process_frame
-	## Do not perform this if it has already happened ##
-	if B2_Playerdata.Quest("indianRopeTrick") == 1: play_cinema_at_room_start = false
-	if B2_Playerdata.Quest("pelekryteState") < 2 or B2_Playerdata.Quest("pelekryteState") == 3 or B2_Playerdata.Quest("pelekryteState") >= 5: play_cinema_at_room_start = false
-	
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
-		## The ol' Indian Rope Trick ##
 		B2_CManager.play_cutscene( cutscene_script, self, [] )
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )

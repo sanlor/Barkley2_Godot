@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ctw65syskxqnk"]
+
+[ext_resource type="Texture2D" uid="uid://dpq8sk3j22g4r" path="res://barkley2/assets/b2_original/images/merged/s_mg_booty_tv.png" id="1_lcfc2"]
+[ext_resource type="Script" uid="uid://cb4bbuhi51hnm" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_mg_booty_tv.gd" id="2_1j4a4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnnwb"]
+atlas = ExtResource("1_lcfc2")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j4a4"]
+atlas = ExtResource("1_lcfc2")
+region = Rect2(48, 0, 48, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ohfa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnnwb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1j4a4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_rnnwb"]
+colors = PackedColorArray(0.98234254, 0.9823423, 0.9823424, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1j4a4"]
+gradient = SubResource("Gradient_rnnwb")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.85981303, 0.8691588)
+
+[node name="o_mg_booty_tv" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0ohfa")
+autoplay = "default"
+frame_progress = 0.074429415
+centered = false
+offset = Vector2(-24, -40)
+script = ExtResource("2_1j4a4")
+
+[node name="light" type="PointLight2D" parent="."]
+position = Vector2(-6, -9)
+range_z_max = 90
+range_item_cull_mask = 3
+texture = SubResource("GradientTexture2D_1j4a4")
+texture_scale = 3.0
+
+[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
