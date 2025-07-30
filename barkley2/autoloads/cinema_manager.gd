@@ -186,7 +186,9 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 			qstVal = qstVal.trim_prefix("time_")
 			push_warning("Time function is not implemented.")
 		else:
-			breakpoint
+			## Sometimes, quests variables are also in the value variable.
+			qstVal = str( B2_Playerdata.Quest(qstVal) )
+			#breakpoint
 	else:
 		# qstVal = float( qstVal ) # 27/07/25 disabled this. having issues with adding strings values to quests.
 		pass

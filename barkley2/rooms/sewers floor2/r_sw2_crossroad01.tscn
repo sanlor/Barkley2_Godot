@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=4 uid="uid://bhwxumxcatcf3"]
+[gd_scene load_steps=71 format=4 uid="uid://bhwxumxcatcf3"]
 
 [ext_resource type="Script" uid="uid://c347xfdo5vkih" path="res://barkley2/rooms/sewers floor2/r_sw_2_crossroad_01.gd" id="1_obtvw"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_26jb3"]
@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b1gr0un0jq3od" path="res://barkley2/assets/b2_original/images/merged/s_door_sewer01.png" id="17_vyuji"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="19_kvq6t"]
 [ext_resource type="PackedScene" uid="uid://cc7836a5ruw04" path="res://barkley2/scenes/Objects/_map/Wading/o_wading16.tscn" id="22_6qbdu"]
-[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="23_e84ru"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="23_gt21s"]
 [ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="24_h3sh8"]
 [ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="25_cy5ry"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="26_t74fi"]
@@ -1993,16 +1993,6 @@ region = Rect2(98, 0, 49, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lasqp"]
 size = Vector2(32, 106.125)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lg246"]
-resource_local_to_scene = true
-shader = ExtResource("23_e84ru")
-shader_parameter/enable = false
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0000000475000002
-shader_parameter/pattern = 0
-shader_parameter/inside = true
-shader_parameter/add_margins = false
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_8h1jm"]
 atlas = ExtResource("27_nv0u3")
 region = Rect2(0, 0, 16, 16)
@@ -2284,6 +2274,7 @@ metadata/scale = Vector2(6, 2)
 [node name="oSewerBridge0lr" type="TextureRect" parent="."]
 z_index = -5
 clip_contents = true
+anchors_preset = -1
 offset_left = 834.0
 offset_top = 232.0
 offset_right = 883.0
@@ -2304,11 +2295,12 @@ position = Vector2(23.99997, 40.9375)
 shape = SubResource("RectangleShape2D_lasqp")
 
 [node name="o_sewer_switch01" parent="." node_paths=PackedStringArray("oBridge") instance=ExtResource("26_t74fi")]
-material = SubResource("ShaderMaterial_lg246")
+material = ExtResource("23_gt21s")
 position = Vector2(760, 104)
 sprite_frames = SubResource("SpriteFrames_os02d")
 switchName = "sewerSwitchF2Crossroad"
 oBridge = NodePath("../oSewerBridge0lr")
+is_interactive = false
 metadata/code = "switchName = \"sewerSwitchF2Crossroad\";
 event_user(1);
 "
@@ -2353,10 +2345,4 @@ metadata/scale = Vector2(1, 1)
 position = Vector2(-120, 0)
 metadata/code = ""
 metadata/inst_name = "inst_FD9812E6"
-metadata/scale = Vector2(1, 1)
-
-[node name="P80 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 96)
-metadata/code = ""
-metadata/inst_name = "inst_0BA91CC7"
 metadata/scale = Vector2(1, 1)

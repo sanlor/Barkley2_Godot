@@ -13,12 +13,16 @@ func _get_switch_name() -> void:
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-	execute_event_user_1()
+		
+	## Sometimes, bidges can take a while to load, causing some issues with unloadd collisions.
+	await get_tree().process_frame
+	
+	if B2_Playerdata.Quest(switchName) == 1:
+		execute_event_user_2()
+	else:
+		execute_event_user_1()
 	
 func execute_event_user_1() -> void:
-	if B2_Playerdata.Quest(switchName) == 1:
-		execute_event_user_10()
-		
 	var scr := B2_Script_Legacy.new()
 	var my_script := \
 	"MOVETO  | o_cts_hoopz | %s | MOVE_NORMAL

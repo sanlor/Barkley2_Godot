@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=4 uid="uid://dcp8t4ewqjilq"]
+[gd_scene load_steps=111 format=4 uid="uid://dcp8t4ewqjilq"]
 
 [ext_resource type="Script" uid="uid://bhnwhwriyrrry" path="res://barkley2/rooms/sewers floor2/r_sw_2_end_01.gd" id="1_q16pv"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="2_sjwtk"]
@@ -30,13 +30,12 @@
 [ext_resource type="Texture2D" uid="uid://liigltgu1opl" path="res://barkley2/assets/b2_original/images/merged/s_mg_spraypaint_question.png" id="24_prkj0"]
 [ext_resource type="PackedScene" uid="uid://b2qwwb40j8pft" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_mop.tscn" id="24_pspb7"]
 [ext_resource type="PackedScene" uid="uid://curfom8cwmuji" path="res://barkley2/scenes/Objects/_environs/_unique/_sewers/o_sewerLamp01.tscn" id="25_d05hn"]
-[ext_resource type="Texture2D" uid="uid://dfdckadmntqq" path="res://barkley2/assets/b2_original/images/merged/s_mg_spraypaint_ladder.png" id="26_0hi8v"]
-[ext_resource type="Script" uid="uid://w8x5rcdmn6ys" path="res://barkley2/resources/B2_Cinema/B2_Script_Mask.gd" id="27_etdjh"]
 [ext_resource type="PackedScene" uid="uid://bu3bv8cde4b78" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_word01.tscn" id="27_mae36"]
 [ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="28_wwvsv"]
 [ext_resource type="PackedScene" uid="uid://du2e1i40e3jmm" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_word02.tscn" id="29_fom6c"]
 [ext_resource type="PackedScene" uid="uid://bna736u1es0na" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_word03.tscn" id="31_d05hn"]
 [ext_resource type="PackedScene" uid="uid://dpa1qx5ltn85m" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_can.tscn" id="33_34vjv"]
+[ext_resource type="PackedScene" uid="uid://61fiae1y0pqp" path="res://barkley2/scenes/Objects/_minigames/SprayPaint/o_mg_spraypaint_ladder.tscn" id="33_etdjh"]
 [ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="38_qrqbi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_wwvsv"]
@@ -1820,9 +1819,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_veoo8"]
-size = Vector2(32, 17)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ktbhw"]
 atlas = ExtResource("22_prkj0")
 region = Rect2(0, 0, 76, 43)
@@ -2146,6 +2142,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etdjh"]
+size = Vector2(33, 31.599995)
+
 [sub_resource type="Resource" id="Resource_2s55h"]
 script = ExtResource("23_mae36")
 original_script = "IF room == r_sw1_fishersCreek01 | DIALOG | Dr. Pelekryte | Alright, our goal is to reach the shecond floor of the shewersh and then find the shervice tunnel. Let's get moving.
@@ -2182,6 +2181,8 @@ collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 camera_bound_to_map = true
+is_this_room_dark = true
+room_darkness_color = Color(0.735357, 0.735357, 0.735357, 1)
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("2_wwvsv")
@@ -2261,17 +2262,6 @@ metadata/code = ""
 metadata/inst_name = "inst_709BF510"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_spraypaint_ladder" type="Sprite2D" parent="."]
-position = Vector2(256, 192)
-texture = ExtResource("26_0hi8v")
-offset = Vector2(0, -37.725)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="o_mg_spraypaint_ladder"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="o_mg_spraypaint_ladder/StaticBody2D"]
-position = Vector2(0, -8.5)
-shape = SubResource("RectangleShape2D_veoo8")
-
 [node name="o_mg_spraypaint_oldmarks" parent="." instance=ExtResource("21_0hi8v")]
 position = Vector2(409, 156)
 sprite_frames = SubResource("SpriteFrames_drel2")
@@ -2306,13 +2296,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_mg_spraypaint_word01" parent="." instance=ExtResource("27_mae36")]
 position = Vector2(395, 144)
 sprite_frames = SubResource("SpriteFrames_7tpeu")
-script = ExtResource("5_qrqbi")
-is_interactive = false
-interactive_shader = "res://barkley2/resources/shaders/selected_outline.material"
-interactive_distance = 64
-cutscene_script = null
-cutscene_script2 = null
-cutscene_script_mask = Array[ExtResource("27_etdjh")]([])
+quest_var = "puzzleSpraypaintWho"
 metadata/code = ""
 metadata/inst_name = "inst_64944C82"
 metadata/scale = Vector2(1, 1)
@@ -2320,13 +2304,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_mg_spraypaint_word02" parent="." instance=ExtResource("29_fom6c")]
 position = Vector2(444, 148)
 sprite_frames = SubResource("SpriteFrames_c32ke")
-script = ExtResource("5_qrqbi")
-is_interactive = false
-interactive_shader = "res://barkley2/resources/shaders/selected_outline.material"
-interactive_distance = 64
-cutscene_script = null
-cutscene_script2 = null
-cutscene_script_mask = Array[ExtResource("27_etdjh")]([])
+quest_var = "puzzleSpraypaintWatches"
 metadata/code = ""
 metadata/inst_name = "inst_13B30736"
 metadata/scale = Vector2(1, 1)
@@ -2334,13 +2312,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_mg_spraypaint_word03" parent="." instance=ExtResource("31_d05hn")]
 position = Vector2(396, 171)
 sprite_frames = SubResource("SpriteFrames_r82h2")
-script = ExtResource("5_qrqbi")
-is_interactive = false
-interactive_shader = "res://barkley2/resources/shaders/selected_outline.material"
-interactive_distance = 64
-cutscene_script = null
-cutscene_script2 = null
-cutscene_script_mask = Array[ExtResource("27_etdjh")]([])
+quest_var = "puzzleSpraypaintBluemen"
 metadata/code = ""
 metadata/inst_name = "inst_5E29BD0A"
 metadata/scale = Vector2(1, 1)
@@ -2353,11 +2325,20 @@ metadata/inst_name = "inst_FFA9D176"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_map_ladder" parent="." instance=ExtResource("16_hkpnk")]
+z_index = -1
 position = Vector2(240, 112)
 scale = Vector2(1, 2.5)
 metadata/code = ""
 metadata/inst_name = "inst_95E62920"
 metadata/scale = Vector2(1, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_ladder"]
+position = Vector2(15.5, 15.400002)
+shape = SubResource("RectangleShape2D_etdjh")
+
+[node name="o_mg_spraypaint_ladder01" parent="." instance=ExtResource("33_etdjh")]
+z_index = -1
+position = Vector2(256, 192)
 
 [node name="o_pelekryte01" parent="." instance=ExtResource("21_qbj3a")]
 position = Vector2(144, 216)
@@ -2405,5 +2386,5 @@ metadata/scale = Vector2(1, 1)
 z_index = 4000
 position = Vector2(407, 141)
 script = ExtResource("38_qrqbi")
-notes = "Need to find a better way to handle this."
+notes = "The puzzle works, but seems incorrect."
 metadata/_custom_type_script = "uid://8gyk7lcowpky"
