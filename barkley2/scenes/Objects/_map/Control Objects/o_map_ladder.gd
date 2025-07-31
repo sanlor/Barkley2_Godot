@@ -11,7 +11,8 @@ extends Area2D
 @export var stretch := Vector2.ONE :
 	set(s):
 		stretch = s
-		icon.scale = stretch
+		if icon:
+			icon.scale = stretch
 
 @export_category("SFX")
 @export var ladder_sound := "ladder_other";

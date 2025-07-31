@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3 uid="uid://6wefpxqxp5qm"]
+
+[ext_resource type="Texture2D" uid="uid://dkga7hyqa825u" path="res://barkley2/assets/b2_original/images/merged/sRopeVase.png" id="1_tely8"]
+[ext_resource type="Script" uid="uid://b8tfbd3ve13lr" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_ropeindian_pelekryte.gd" id="2_de5xc"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_o4qau"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4qau"]
+atlas = ExtResource("1_tely8")
+region = Rect2(0, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6j41"]
+atlas = ExtResource("1_tely8")
+region = Rect2(23, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj3m5"]
+atlas = ExtResource("1_tely8")
+region = Rect2(46, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ywyk"]
+atlas = ExtResource("1_tely8")
+region = Rect2(69, 0, 23, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0t1c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4qau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6j41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj3m5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ywyk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_h6j41"]
+script = ExtResource("3_o4qau")
+original_script = "IF pelekryteState == 5 | GOTO | FLUB
+GOTO | DEF
+
+FLUB
+DIALOG | P_NAME | Dag-flubbit... The rope that Pelekryte used to get out is gone.
+
+DEF
+DIALOG | P_NAME | Hmm... Indian Rope..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bj3m5"]
+radius = 22.36068
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ywyk"]
+radius = 10.049875
+
+[node name="o_ropeindianPelekryte" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_j0t1c")
+frame = 3
+centered = false
+offset = Vector2(-11, -20)
+script = ExtResource("2_de5xc")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_h6j41")
+metadata/default = {
+"bbox_bottom": "25",
+"bbox_left": "0",
+"bbox_right": "22",
+"bbox_top": "0",
+"height": "26",
+"name": "sRopeVase",
+"width": "23",
+"xorig": "11",
+"yorigin": "20"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_bj3m5")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_2ywyk")

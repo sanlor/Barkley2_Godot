@@ -4,6 +4,9 @@ extends B2_ROOMS
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
+	# o_room_variable
+	B2_Playerdata.Quest("aelfledaSewerShortcut", 1);
+	
 	_set_region()
 	
 	await get_tree().process_frame

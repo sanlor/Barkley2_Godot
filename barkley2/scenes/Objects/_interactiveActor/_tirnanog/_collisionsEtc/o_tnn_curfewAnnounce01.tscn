@@ -1,0 +1,105 @@
+[gd_scene load_steps=6 format=3 uid="uid://de6ek86mag4uq"]
+
+[ext_resource type="Script" uid="uid://b1yhjokt8ijp0" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfew_announce_01.gd" id="1_0gvq7"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_0gvq7"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="3_lv7lu"]
+
+[sub_resource type="Resource" id="Resource_lv7lu"]
+script = ExtResource("2_0gvq7")
+original_script = "IF curfewAnnouncement == 0 | GOTO | CURFEW_START_CHECK
+IF curfewAnnouncement == 1 | GOTO | CURFEW_END_CHECK
+
+CURFEW_START_CHECK
+IF area == tnn | GOTO | CURFEW_START_TNN
+GOTO | CURFEW_START_SEWER
+
+CURFEW_END_CHECK
+IF area == tnn | GOTO | CURFEW_END_TNN
+GOTO | CURFEW_END_SEWER
+
+CURFEW_START_TNN
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+LOOKAT | o_cts_hoopz | o_tnn_loudspeaker01
+WAIT   | 0.25
+Emote  | ? 
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's going on?
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 0
+WAIT   | 0.25
+FRAME  | MOVE_NORMAL | o_tnn_loudspeaker01
+WAIT   | 0
+QUEST  | tnnLoudspeaker = 1
+SOUND  | sn_tnnIntercomSpeech01
+DIALOG | Loudspeaker | Attention all citizens! A curfew is now in effect. Everyone must retreat to their housing units and remain there until further notice. No unauthorized personnel are allowed anywhere near the bank. Anyone breaking these rules will be punished accordingly.
+DIALOG | Loudspeaker | Now move it, you lazy sacks of shit!
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 1
+QUEST  | tnnLoudspeaker = 0
+PEDESTRIAN | off
+WAIT   | 1.75
+DIALOG | P_NAME | Whoa, this sounds serious. I'd better stay out of sight of those duergars.            
+QUEST  | curfewAnnouncement = 1
+QUEST  | tnnCurfew = 1
+FADE   | 1 | 1
+WAIT   | 1.25
+EVENT  | o_tnn_curfewAnnounce01 | 0
+
+CURFEW_START_SEWER
+QUEST  | curfewAnnouncement = 1
+QUEST  | curfewSurprise = 1
+QUEST  | tnnCurfew = 1
+
+CURFEW_END_TNN
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+LOOKAT | o_cts_hoopz | o_tnn_loudspeaker01
+WAIT   | 0.25
+Emote  | ?
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's this now?
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 0
+WAIT   | 0.25
+FRAME  | MOVE_NORMAL | o_tnn_loudspeaker01
+WAIT   | 0
+QUEST  | tnnLoudspeaker | 1
+SOUND  | sn_tnnIntercomSpeech01
+DIALOG | Loudspeaker | Attention all citizens! The curfew is now over and you may return to your sad, pathetic lives.
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 1
+QUEST  | tnnLoudspeaker = 0
+WAIT   | 1.25
+DIALOG | P_NAME | Hey, cool.            
+QUEST  | curfewAnnouncement = 2
+QUEST  | tnnCurfew = 2
+FADE   | 1 | 1
+WAIT   | 1.25
+EVENT  | o_tnn_curfewAnnounce01 | 0
+
+CURFEW_END_SEWER                    
+QUEST  | curfewAnnouncement = 2
+QUEST  | curfewSurprise = 2
+QUEST  | tnnCurfew = 2"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w588s"]
+resource_local_to_scene = true
+size = Vector2(64, 20)
+
+[node name="o_tnn_curfewAnnounce01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_0gvq7")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_lv7lu")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_w588s")
+debug_color = Color(0.89224607, 0.31886163, 0.14049134, 0.25490198)
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("3_lv7lu")
+notes = "Curfew not implemented"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

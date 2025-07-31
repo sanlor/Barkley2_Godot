@@ -1,6 +1,8 @@
 @tool
 extends B2_ROOMS
 
+## Unused map. Neat.
+
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	

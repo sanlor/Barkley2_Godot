@@ -1,10 +1,7 @@
-[gd_scene load_steps=72 format=4 uid="uid://blyd1ggdeftcy"]
+[gd_scene load_steps=71 format=4 uid="uid://blyd1ggdeftcy"]
 
 [ext_resource type="Script" uid="uid://bnpk8v1nytux" path="res://barkley2/rooms/sewers floor1/r_sw_1_tnn_shortcut_01.gd" id="1_lcc34"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_dbead"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_omlcp"]
-[ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="3_6idx5"]
-[ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="4_bxlbu"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="6_05dvk"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="7_mg6vi"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="8_f0lk6"]
@@ -19,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://0ko8dmrlobil" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum_open01.tscn" id="17_k7xsl"]
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="18_fe1px"]
 [ext_resource type="PackedScene" uid="uid://dcwg3tuy7wfxg" path="res://barkley2/scenes/Objects/_doors/o_door_sewer01.tscn" id="20_7ctbb"]
+[ext_resource type="PackedScene" uid="uid://de6ek86mag4uq" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfewAnnounce01.tscn" id="21_savey"]
 [ext_resource type="Texture2D" uid="uid://b1gr0un0jq3od" path="res://barkley2/assets/b2_original/images/merged/s_door_sewer01.png" id="21_ykxu1"]
 [ext_resource type="PackedScene" uid="uid://dfmdcfl5ec7bj" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_ladder.tscn" id="23_fhrdc"]
 [ext_resource type="PackedScene" uid="uid://cx2bfqr3jw6c4" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_observatory/o_pelekryte01.tscn" id="23_ykxu1"]
@@ -30,8 +28,6 @@
 [ext_resource type="Texture2D" uid="uid://bi12wy4tw3u56" path="res://barkley2/resources/B2_Railing_Placer/rail_placer.tres" id="29_n81yu"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_yttd6"]
-vertices = PackedVector2Array(202, 202, 202, 186, 266, 186, 266, 154, 278, 154, 278, 186, 342, 186, 342, 218, 166, 230, 358, 218, 358, 230, 166, 202, 166, 310, 150, 310, 154, 202, 150, 326, 138, 326, 138, 310, 90, 310, 90, 186, 118, 202, 118, 186, 166, 122, 154, 122)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(2, 3, 4, 5), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(7, 9, 10, 8), PackedInt32Array(2, 5, 8, 0), PackedInt32Array(11, 0, 8), PackedInt32Array(8, 12, 13, 14), PackedInt32Array(13, 15, 16, 17), PackedInt32Array(17, 18, 19, 20), PackedInt32Array(19, 21, 20), PackedInt32Array(17, 20, 14, 13), PackedInt32Array(11, 8, 14), PackedInt32Array(22, 11, 14, 23)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 400, 480, 400, 480, 0)])
 source_geometry_mode = 1
 
@@ -1697,7 +1693,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
@@ -1805,6 +1801,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7xsl"]
+size = Vector2(32, 75)
+
 [sub_resource type="Resource" id="Resource_2s55h"]
 script = ExtResource("25_fhrdc")
 original_script = "IF room == r_sw1_fishersCreek01 | DIALOG | Dr. Pelekryte | Alright, our goal is to reach the shecond floor of the shewersh and then find the shervice tunnel. Let's get moving.
@@ -1859,25 +1858,6 @@ collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 camera_bound_to_map = true
 is_this_room_dark = true
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_dbead")
-convert_cinema_spots = false
-convert_door_light = false
-convert_door = false
-convert_collision = false
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
-
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="."]
-script = ExtResource("3_6idx5")
-metadata/_custom_type_script = "uid://bjj6h5usin15g"
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="."]
-script = ExtResource("4_bxlbu")
-metadata/_custom_type_script = "uid://c27swp8gt5woq"
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -1948,6 +1928,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_machine_coolingunit01" parent="." instance=ExtResource("15_fx4l4")]
 position = Vector2(264, 295)
 sprite_frames = SubResource("SpriteFrames_qnmav")
+frame_progress = 0.33653814
 metadata/code = ""
 metadata/inst_name = "inst_00000014"
 metadata/scale = Vector2(1, 1)
@@ -1991,9 +1972,14 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_map_ladder" parent="." instance=ExtResource("23_fhrdc")]
 position = Vector2(144, 112)
+stretch = Vector2(1, 2.445)
 metadata/code = ""
 metadata/inst_name = "inst_1C5A4F6E"
 metadata/scale = Vector2(1, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_ladder"]
+position = Vector2(16, 37.5)
+shape = SubResource("RectangleShape2D_k7xsl")
 
 [node name="o_pelekryte01" parent="." instance=ExtResource("23_ykxu1")]
 position = Vector2(104, 296)
@@ -2002,11 +1988,8 @@ metadata/code = ""
 metadata/inst_name = "inst_17EB1CA7"
 metadata/scale = Vector2(1, 1)
 
-[node name="P17 - o_tnn_curfewAnnounce01" type="Marker2D" parent="."]
+[node name="o_tnn_curfewAnnounce01" parent="." instance=ExtResource("21_savey")]
 position = Vector2(160, 200)
-metadata/code = ""
-metadata/inst_name = "inst_9B2E9DDB"
-metadata/scale = Vector2(2, 0)
 
 [node name="o_teleport_mark" parent="." instance=ExtResource("25_n81yu")]
 position = Vector2(144, 232)
@@ -2039,36 +2022,6 @@ metadata/scale = Vector2(23, 1)
 [node name="B2_Railing_Placer" type="StaticBody2D" parent="P24 - oRailing0Placer"]
 script = ExtResource("28_leueh")
 rail_atlas = ExtResource("29_n81yu")
-size = 23
+size = 13
 h_start_tile = Vector2(8, 0)
 metadata/_custom_type_script = "uid://cyembus1y5yd"
-
-[node name="P20 - o_room_variable" type="Marker2D" parent="."]
-position = Vector2(-120, 0)
-metadata/code = "Quest(\"aelfledaSewerShortcut\", 1);
-/* Move Aelfleda's matress
-if (Quest(\"aelfledaMattress\") < 2)
-{
-    Quest(\"aelfledaMattress\", 3);
-    Quest(\"aelfledaSewerShortcut\", 1);
-}"
-metadata/inst_name = "inst_46991BA1"
-metadata/scale = Vector2(1, 1)
-
-[node name="P15 - o_room_interior" type="Marker2D" parent="."]
-position = Vector2(-120, 32)
-metadata/code = ""
-metadata/inst_name = "inst_D0928FC1"
-metadata/scale = Vector2(1, 1)
-
-[node name="P22 - o_room_pacify" type="Marker2D" parent="."]
-position = Vector2(-120, 64)
-metadata/code = ""
-metadata/inst_name = "inst_9724A311"
-metadata/scale = Vector2(1, 1)
-
-[node name="P32 - o_room_unbound" type="Marker2D" parent="."]
-position = Vector2(-120, 96)
-metadata/code = ""
-metadata/inst_name = "inst_B418687D"
-metadata/scale = Vector2(1, 1)

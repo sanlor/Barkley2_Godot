@@ -7,12 +7,22 @@ class_name B2_AudioEmitter
 
 func _ready() -> void:
 	bus = "Audio"
-	var audio : AudioStreamOggVorbis = load( B2_Sound.get_sound(sound) )
-	stream = audio
-	volume_db = linear_to_db(soundVolume)
-	play()
-	finished.connect( play )
-	_after_ready()
+	var audio_res
+	if sound.begins_with("mus"):
+		audio_res = load( B2_Music.music_bank.get(sound) )
+	else:
+		audio_res = load( B2_Sound.get_sound(sound) )
+		
+	if audio_res:
+		var audio : AudioStreamOggVorbis = audio_res
+		stream = audio
+		volume_db = linear_to_db(soundVolume)
+		play()
+		finished.connect( play )
+		_after_ready()
+	else:
+		push_error("Audio file %s for node %s (%s) not found. Check this." % [sound, name, get_parent().name] )
+		breakpoint
 
 func _after_ready() -> void:
 	pass

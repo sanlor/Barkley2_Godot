@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=81 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="1_8qs0c"]
 [ext_resource type="Script" uid="uid://cinyaks7663jo" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
@@ -49,6 +49,7 @@
 [ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="43_081ea"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="43_scsf8"]
 [ext_resource type="Script" uid="uid://21bcte5vesst" path="res://barkley2/scenes/border/B2_panel_bg_button.gd" id="44_f8qw8"]
+[ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="45_12ava"]
 [ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="46_cs6wg"]
 [ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="46_r8obs"]
 [ext_resource type="Script" uid="uid://f2v4fq1poida" path="res://barkley2/scenes/sTitle/character_window.gd" id="46_rtgnt"]
@@ -58,6 +59,9 @@
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="55_1ur83"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="55_m5n1q"]
 [ext_resource type="Script" uid="uid://hbqw42dr1flh" path="res://barkley2/scenes/sTitle/vr_missions/vr_data.gd" id="56_x1p1y"]
+
+[sub_resource type="Environment" id="Environment_ms03e"]
+glow_enabled = true
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wvayj"]
 animations = [{
@@ -462,10 +466,13 @@ grow_vertical = 2
 theme = ExtResource("1_8qs0c")
 script = ExtResource("1_w55ib")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ms03e")
+
 [node name="bg" type="ColorRect" parent="."]
 z_index = -10
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 384.0
@@ -559,7 +566,7 @@ movement_limit = 96
 [node name="s_barkley2_logo" type="TextureRect" parent="."]
 z_index = 10
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -150.5
@@ -585,7 +592,7 @@ script = ExtResource("40_yg4vf")
 
 [node name="title_panel" parent="title_layer" instance=ExtResource("36_5qb0r")]
 material = ExtResource("43_67nul")
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -630,7 +637,7 @@ text = "Quit"
 clip_text = true
 
 [node name="OOC_button" type="Button" parent="title_layer"]
-anchors_preset = 3
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -641,12 +648,12 @@ offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("45_12ava")
 text = "?"
 script = ExtResource("43_4mace")
 
 [node name="vr_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
-anchors_preset = 0
 offset_top = 205.0
 offset_right = 110.0
 offset_bottom = 240.0
@@ -672,7 +679,6 @@ vertical_alignment = 1
 
 [node name="debug_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
-anchors_preset = 0
 offset_top = 166.0
 offset_right = 110.0
 offset_bottom = 201.0
@@ -710,7 +716,6 @@ color = Color(0, 0, 0, 1)
 
 [node name="game_slot_1" type="Control" parent="gameslot_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_left = NodePath("../back_panel")
@@ -724,7 +729,6 @@ content_highlight_color = Color(1, 0.647059, 0, 1)
 
 [node name="game_slot_2" type="Control" parent="gameslot_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_left = NodePath("../back_panel")
@@ -738,7 +742,6 @@ content_highlight_color = Color(1, 0.647059, 0, 1)
 
 [node name="game_slot_3" type="Control" parent="gameslot_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_left = NodePath("../back_panel")
@@ -753,7 +756,6 @@ content_highlight_color = Color(1, 0.647059, 0, 1)
 
 [node name="back_panel" type="Control" parent="gameslot_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_left = NodePath("../delete_panel")
@@ -766,7 +768,6 @@ script = ExtResource("44_f8qw8")
 
 [node name="delete_panel" type="Control" parent="gameslot_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_left = NodePath("../back_panel")
@@ -802,6 +803,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="settings_panel" parent="settings_layer" instance=ExtResource("36_5qb0r")]
 material = ExtResource("43_67nul")
+anchors_preset = -1
 offset_left = 32.0
 offset_top = 43.0
 offset_right = 360.0
@@ -1149,7 +1151,6 @@ color = Color(0, 0, 0, 1)
 
 [node name="CC_Button" type="Control" parent="character_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_top = NodePath("../Return_Button")
@@ -1160,7 +1161,6 @@ script = ExtResource("44_f8qw8")
 
 [node name="X1_Button" type="Control" parent="character_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_top = NodePath("../CC_Button")
@@ -1171,7 +1171,6 @@ script = ExtResource("44_f8qw8")
 
 [node name="Skip_Button" type="Control" parent="character_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_top = NodePath("../X1_Button")
@@ -1182,7 +1181,6 @@ script = ExtResource("44_f8qw8")
 
 [node name="Return_Button" type="Control" parent="character_layer"]
 layout_mode = 3
-anchors_preset = 0
 offset_right = 50.0
 offset_bottom = 50.0
 focus_neighbor_top = NodePath("../Skip_Button")
@@ -1220,7 +1218,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
 [node name="vr_death_counter" type="Label" parent="vr_layer"]
-anchors_preset = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -84.0
@@ -1243,7 +1241,6 @@ color = Color(0, 0, 0, 0)
 [node name="mission_list" type="Control" parent="vr_layer"]
 material = ExtResource("43_67nul")
 layout_mode = 3
-anchors_preset = 0
 offset_left = 7.0
 offset_top = 84.0
 offset_right = 127.0
@@ -1328,6 +1325,7 @@ script = ExtResource("56_x1p1y")
 my_mission_id = 4
 
 [node name="mission_desc" type="ColorRect" parent="vr_layer"]
+anchors_preset = -1
 offset_left = 131.0
 offset_top = 163.0
 offset_right = 310.0
@@ -1356,7 +1354,6 @@ autowrap_mode = 2
 
 [node name="begin_btn" type="Control" parent="vr_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
-anchors_preset = 0
 offset_left = 316.0
 offset_top = 163.0
 offset_right = 381.0
@@ -1383,7 +1380,6 @@ vertical_alignment = 1
 
 [node name="back_btn" type="Control" parent="vr_layer" node_paths=PackedStringArray("manual_decorations")]
 layout_mode = 3
-anchors_preset = 0
 offset_left = 316.0
 offset_top = 199.0
 offset_right = 381.0
@@ -1410,18 +1406,21 @@ vertical_alignment = 1
 
 [node name="game_version_lbl" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -24.5
-offset_top = -9.0
-offset_right = 24.5
+offset_left = -36.0
+offset_top = -10.0
+offset_right = 36.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 0
-text = " Game Version"
+text = " ??? Game Version"
 label_settings = SubResource("LabelSettings_ms03e")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]

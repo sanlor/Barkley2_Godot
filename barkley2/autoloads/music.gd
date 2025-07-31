@@ -1,5 +1,8 @@
 extends Node
 
+## The static music database
+const MUSICBANK 		= preload("res://barkley2/resources/B2_Music/musicbank.json")
+
 ## Music that plays during combat.
 const BATTLE_MUSIC := [
 	"mus_tnn_jockjam",
@@ -9,15 +12,17 @@ const BATTLE_MUSIC := [
 const END_BATTLE_MUSIC := [
 	"shitworld",
 ]
+
+## The star of the show. Plays the music.
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
 ## emited when a sound had a invalid data
 signal music_bank_dirty
 
-const MUSICBANK 		= preload("res://barkley2/resources/B2_Music/musicbank.json")
-const MUSICBANKWEB 		= preload("res://barkley2/resources/B2_Music/musicbankweb.json")
+## The volatile music database.
 var music_bank := {}
 
+## Volume tweener. makes the music fade in/out
 var tween : Tween
 
 # Old b2 variable. Not sure how its going to be used
@@ -33,6 +38,7 @@ var stored_playing_track_time	:= 0.0
 # some rooms have the audio volume modified, like interiors
 var volume_mod := 1.0
 
+## DEBUG USE ONLY. incase a music cache misses, reindex all music files.
 func _load_music_banks( music_folder : String ):
 	## Load music tracks
 	push_error("Music reindex called.")
@@ -43,30 +49,24 @@ func _load_music_banks( music_folder : String ):
 			music_bank[ file_split.back().trim_suffix(".ogg.import") ] = str( file.trim_suffix(".import") )
 	print_rich("[color=blue_violet]Init music banks ended: ", Time.get_ticks_msec(), " msecs. - ", music_bank.size(), " music_bank entries.[/color]")
 	
-
+## DEBUG USE ONLY. incase a music cache misses, reindex all music files.
 func _save_musicbank_to_disk() -> void:
 	print_rich("[color=cyan]WARNING: Saving Musicbank to disk.[/color]")
 	var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbank.json", FileAccess.WRITE )
 	file.store_string( JSON.stringify(music_bank, "\t") )
 
-func _enter_tree() -> void:
-	## Load lower quality Music for web export.
-	if OS.has_feature("web"):		music_bank = MUSICBANKWEB.data
-	else:							music_bank = MUSICBANK.data
-
 ## DEBUG Stuff. reindex json if needed.
 func _reindex_musicbank() -> void:
 	push_error("Music reindex called.")
-	if OS.has_feature("web"):
-		_load_music_banks( "res://barkley2/assets/b2_original/audio/MusicWeb/" )
-		var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbankweb.json", FileAccess.WRITE )
-		file.store_string( JSON.stringify(music_bank, "\t") )
-	else:
-		_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
-		var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbank.json", FileAccess.WRITE )
-		file.store_string( JSON.stringify(music_bank, "\t") )
-	print_rich("[color=cyan]WARNING: Saving musicbank to disk.[/color]")
+	_load_music_banks( "res://barkley2/assets/b2_original/audio/Music/" )
+	var file = FileAccess.open( "res://barkley2/resources/B2_Music/musicbank.json", FileAccess.WRITE )
+	file.store_string( JSON.stringify(music_bank, "\t") )
+	print_rich("[color=cyan]NOTE: Saving musicbank to disk.[/color]")
+	music_bank = MUSICBANK.data
 	
+func _enter_tree() -> void:
+	## Load lower quality Music for web export.
+	music_bank = MUSICBANK.data
 
 func _ready():
 	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
@@ -87,24 +87,23 @@ func set_volume( raw_value : float): # 0 - 100
 func get_volume() -> float:
 	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
 
+## Absolute bonkers function. Plays music based on the area that the player is right now. Someone wen mental on the if/else statements.
 func room_get( room_name : String):
-	
 	#Music("queue", "mus_blankTEMP"); ## Default no music if not specified
 	if room_name == "r_title":
-		play("mus_gbl_aristocrat", 0.0 )
+		await get_tree().create_timer(0.5).timeout
+		play( "mus_gbl_aristocrat", 0.25 )
 		
 	elif room_name.contains("tnn"):
 		## Tir Na Nog
 		### Inside Bootybass ##
 		if room_name == "r_tnn_bootybass02":
 			play("mus_tnn_bootylectro")
-			return
 			
 		### Gov Speech ##
 		if room_name == "r_tnn_maingate02":
 			if B2_Playerdata.Quest("govSpeechInitiate") == 2:
 				play("mus_blankTEMP")
-				return
 				
 		### Wilmer's House ## Wakeup Intro also ##   
 		if room_name == "r_tnn_wilmer02":
@@ -112,25 +111,21 @@ func room_get( room_name : String):
 				play("mus_blankTEMP")
 			else:
 				play("mus_wilmer")
-				return
 				
 		### Wilmer's house ##
 		if room_name == "r_tnn_wilmer01":
 			play("mus_wilmer")
-			return
 			
 		### Mortgage room ## No music during the waiting game ##
 		if room_name == "r_tnn_mortgage01":
 			play("mus_blankTEMP")
-			return
 			
 		### TNN L.O.N.G.I.N.U.S. Base ##
 		if room_name == "r_tnn_rebelbase02":
 			play("mus_rebelbase")
-			return
 			
 		### Normal TNN Music ## During curfew and non-curfew ##
-		if room_name == "tnnCurfew":
+		if room_name == "tnnCurfew": ## WARNING The room name may be incorrect. <---- Verify
 			## Need to setup the day_night system ## DONE!
 			if B2_Database.time_check("tnnCurfew") == "during":
 				play("mus_dancePAX")
@@ -142,7 +137,6 @@ func room_get( room_name : String):
 		### Industrial Zone ##
 		if room_name == "r_est_industrialZone01":
 			play("mus_wst_industrialzone_gumpus")
-			return
 			
 		### Default Eastelands music ## Post Tutorial Check ##
 		elif B2_Playerdata.Quest("tutorialProgress") == 0 or B2_Playerdata.Quest("tutorialProgress") >= 12:
@@ -235,16 +229,12 @@ func play( track_name : String, speed := 0.25, loop := true ):
 ## Play combat music
 func play_combat( speed := 0.25, force_track := "" ) -> void:
 	store_curr_music()
-	if force_track:
-		queue( music_bank.get( force_track, "" ), speed )
-	else:
-		queue( music_bank.get( BATTLE_MUSIC.pick_random(), "" ), speed )
+	if force_track:		queue( music_bank.get( force_track, "" ), speed )
+	else:				queue( music_bank.get( BATTLE_MUSIC.pick_random(), "" ), speed )
 
 func play_end_combat( force_track := "" ) -> void:
-	if not force_track.is_empty():
-		B2_Music.play( force_track )
-	else:
-		B2_Music.play( END_BATTLE_MUSIC.pick_random() )
+	if force_track:		B2_Music.play( force_track )
+	else:				B2_Music.play( END_BATTLE_MUSIC.pick_random() )
 
 ## keep track of the current room music
 func store_curr_music() -> void:

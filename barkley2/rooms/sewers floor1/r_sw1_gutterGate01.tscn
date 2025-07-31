@@ -1,7 +1,6 @@
-[gd_scene load_steps=93 format=4 uid="uid://btj58dlcukfek"]
+[gd_scene load_steps=95 format=4 uid="uid://btj58dlcukfek"]
 
 [ext_resource type="Script" uid="uid://dtfvenigxq33g" path="res://barkley2/rooms/sewers floor1/r_sw_1_gutter_gate_01.gd" id="1_0togm"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_51ryf"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_500ew"]
 [ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="3_0vclp"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/collision_tileset.tres" id="4_1r632"]
@@ -21,7 +20,9 @@
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="22_gbsp4"]
 [ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="23_11uwk"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="24_3yw0e"]
+[ext_resource type="PackedScene" uid="uid://de6ek86mag4uq" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfewAnnounce01.tscn" id="25_11uwk"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="25_bt6bb"]
+[ext_resource type="Script" uid="uid://b1yhjokt8ijp0" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfew_announce_01.gd" id="26_eerlu"]
 [ext_resource type="PackedScene" uid="uid://hhg2vthadjy1" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_gbl_drawing_point.tscn" id="27_6pmn2"]
 [ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="28_etmu8"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="30_amq0o"]
@@ -2172,6 +2173,86 @@ GLAMP | piety | 10
 CANCEL
 DIALOG | | Junction did not occur."
 
+[sub_resource type="Resource" id="Resource_lv7lu"]
+script = ExtResource("30_amq0o")
+original_script = "IF curfewAnnouncement == 0 | GOTO | CURFEW_START_CHECK
+IF curfewAnnouncement == 1 | GOTO | CURFEW_END_CHECK
+
+CURFEW_START_CHECK
+IF area == tnn | GOTO | CURFEW_START_TNN
+GOTO | CURFEW_START_SEWER
+
+CURFEW_END_CHECK
+IF area == tnn | GOTO | CURFEW_END_TNN
+GOTO | CURFEW_END_SEWER
+
+CURFEW_START_TNN
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+LOOKAT | o_cts_hoopz | o_tnn_loudspeaker01
+WAIT   | 0.25
+Emote  | ? 
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's going on?
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 0
+WAIT   | 0.25
+FRAME  | MOVE_NORMAL | o_tnn_loudspeaker01
+WAIT   | 0
+QUEST  | tnnLoudspeaker = 1
+SOUND  | sn_tnnIntercomSpeech01
+DIALOG | Loudspeaker | Attention all citizens! A curfew is now in effect. Everyone must retreat to their housing units and remain there until further notice. No unauthorized personnel are allowed anywhere near the bank. Anyone breaking these rules will be punished accordingly.
+DIALOG | Loudspeaker | Now move it, you lazy sacks of shit!
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 1
+QUEST  | tnnLoudspeaker = 0
+PEDESTRIAN | off
+WAIT   | 1.75
+DIALOG | P_NAME | Whoa, this sounds serious. I'd better stay out of sight of those duergars.            
+QUEST  | curfewAnnouncement = 1
+QUEST  | tnnCurfew = 1
+FADE   | 1 | 1
+WAIT   | 1.25
+EVENT  | o_tnn_curfewAnnounce01 | 0
+
+CURFEW_START_SEWER
+QUEST  | curfewAnnouncement = 1
+QUEST  | curfewSurprise = 1
+QUEST  | tnnCurfew = 1
+
+CURFEW_END_TNN
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+LOOKAT | o_cts_hoopz | o_tnn_loudspeaker01
+WAIT   | 0.25
+Emote  | ?
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's this now?
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 0
+WAIT   | 0.25
+FRAME  | MOVE_NORMAL | o_tnn_loudspeaker01
+WAIT   | 0
+QUEST  | tnnLoudspeaker | 1
+SOUND  | sn_tnnIntercomSpeech01
+DIALOG | Loudspeaker | Attention all citizens! The curfew is now over and you may return to your sad, pathetic lives.
+WAIT   | 0.25
+SOUND  | sn_tnnIntercomScreech01
+EVENT  | o_tnn_loudspeakerPedestrianSpot01 | 1
+QUEST  | tnnLoudspeaker = 0
+WAIT   | 1.25
+DIALOG | P_NAME | Hey, cool.            
+QUEST  | curfewAnnouncement = 2
+QUEST  | tnnCurfew = 2
+FADE   | 1 | 1
+WAIT   | 1.25
+EVENT  | o_tnn_curfewAnnounce01 | 0
+
+CURFEW_END_SEWER                    
+QUEST  | curfewAnnouncement = 2
+QUEST  | curfewSurprise = 2
+QUEST  | tnnCurfew = 2"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [node name="r_sw1_gutterGate01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_0mrxm")
@@ -2183,13 +2264,6 @@ load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 camera_bound_to_map = true
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_51ryf")
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
 [node name="wall_light" parent="." instance=ExtResource("3_0vclp")]
 position = Vector2(382, 121)
@@ -2356,14 +2430,18 @@ metadata/code = ""
 metadata/inst_name = "inst_53D3C28C"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_tnn_curfewAnnounce01" type="Area2D" parent="." node_paths=PackedStringArray("col_shape") instance=ExtResource("25_11uwk")]
+position = Vector2(288, 168)
+script = ExtResource("26_eerlu")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_lv7lu")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+metadata/code = ""
+metadata/inst_name = "inst_DA4CAE41"
+metadata/scale = Vector2(2, 0)
+
 [node name="P12 - o_mg_escort_control01" type="Marker2D" parent="."]
 position = Vector2(-120, 32)
 metadata/code = ""
 metadata/inst_name = "inst_01EDC705"
 metadata/scale = Vector2(1, 1)
-
-[node name="P13 - o_tnn_curfewAnnounce01" type="Marker2D" parent="."]
-position = Vector2(288, 168)
-metadata/code = ""
-metadata/inst_name = "inst_DA4CAE41"
-metadata/scale = Vector2(2, 0)

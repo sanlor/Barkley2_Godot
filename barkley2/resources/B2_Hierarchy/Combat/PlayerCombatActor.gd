@@ -1,5 +1,5 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent.png")
-extends B2_CombatActor
+extends 
 class_name B2_PlayerCombatActor
 
 ## Class used only by Hoopz - Mostly used to organize things.

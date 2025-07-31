@@ -1,6 +1,8 @@
 @tool
 extends B2_ROOMS
 
+## Cool concept. Alse check "res://barkley2/rooms/sewers floor1/r_sw1_longPit01_drain.tscn"
+
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	

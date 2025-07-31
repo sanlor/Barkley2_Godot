@@ -130,6 +130,14 @@ var dry
 var tim := 0.0 ## important variable. controles how much ot the ziggurat is near hell. range from 0 to 1
 
 func _ready():
+	## Logo Flash
+	s_barkley_2_logo.modulate = Color.WHITE * 2.0
+	
+	## Logo Flash normalizer
+	var t := create_tween()
+	t.tween_property(s_barkley_2_logo, "modulate", Color.WHITE, 1.0)
+	
+	## Load Title stuff
 	B2_Config.title_screen_loaded.emit()
 	
 	for n in bg.get_children():

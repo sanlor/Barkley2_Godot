@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://dehyb282qf6vu"]
+[gd_scene load_steps=48 format=4 uid="uid://dehyb282qf6vu"]
 
 [ext_resource type="Script" uid="uid://dw0f5mbjc2g2" path="res://barkley2/rooms/sewers floor2/r_sw_2_indian_rope_trick_01.gd" id="1_r4kyn"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_0548t"]
@@ -12,7 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="10_veg0u"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="11_11on3"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="12_0ycaj"]
+[ext_resource type="PackedScene" uid="uid://6wefpxqxp5qm" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_ropeindianPelekryte.tscn" id="14_g0l1p"]
 [ext_resource type="PackedScene" uid="uid://cx2bfqr3jw6c4" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_observatory/o_pelekryte01.tscn" id="14_itrps"]
+[ext_resource type="Texture2D" uid="uid://dkga7hyqa825u" path="res://barkley2/assets/b2_original/images/merged/sRopeVase.png" id="15_0548t"]
+[ext_resource type="Script" uid="uid://b8tfbd3ve13lr" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_ropeindian_pelekryte.gd" id="16_61v7t"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="16_oeivi"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="17_8lwus"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="18_ry8ew"]
@@ -1669,6 +1672,54 @@ DIALOG | Dr. Pelekryte | Youngshter, thish sheemsh like a nice place to resht yo
 DIALOG | P_NAME        | Hmm..."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4qau"]
+atlas = ExtResource("15_0548t")
+region = Rect2(0, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6j41"]
+atlas = ExtResource("15_0548t")
+region = Rect2(23, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj3m5"]
+atlas = ExtResource("15_0548t")
+region = Rect2(46, 0, 23, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ywyk"]
+atlas = ExtResource("15_0548t")
+region = Rect2(69, 0, 23, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0t1c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4qau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6j41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj3m5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ywyk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_h6j41"]
+script = ExtResource("2_0548t")
+original_script = "IF pelekryteState == 5 | GOTO | FLUB
+GOTO | DEF
+
+FLUB
+DIALOG | P_NAME | Dag-flubbit... The rope that Pelekryte used to get out is gone.
+
+DEF
+DIALOG | P_NAME | Hmm... Indian Rope..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
 atlas = ExtResource("18_ry8ew")
 region = Rect2(0, 0, 16, 16)
@@ -1792,17 +1843,28 @@ metadata/code = ""
 metadata/inst_name = "inst_7F29665D"
 metadata/scale = Vector2(1, 1)
 
-[node name="P2 - o_ropeindianPelekryte" type="Marker2D" parent="."]
-position = Vector2(240, 226)
+[node name="o_ropeindianPelekryte" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("mouse_detection_area") instance=ExtResource("14_g0l1p")]
+position = Vector2(240, 228)
+sprite_frames = SubResource("SpriteFrames_j0t1c")
+frame = 3
+centered = false
+offset = Vector2(-11, -20)
+script = ExtResource("16_61v7t")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_h6j41")
+metadata/default = {
+"bbox_bottom": "25",
+"bbox_left": "0",
+"bbox_right": "22",
+"bbox_top": "0",
+"height": "26",
+"name": "sRopeVase",
+"width": "23",
+"xorig": "11",
+"yorigin": "20"
+}
 metadata/code = ""
 metadata/inst_name = "inst_228CBA84"
-metadata/scale = Vector2(1, 1)
-
-[node name="P5 - o_room_cutscene" type="Marker2D" parent="."]
-position = Vector2(-128, 0)
-metadata/code = "dsl_sw2_pelekryte();
-"
-metadata/inst_name = "inst_1431A067"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_cinema0" type="Marker2D" parent="."]
@@ -1873,4 +1935,11 @@ position = Vector2(192, 144)
 sprite_frames = SubResource("SpriteFrames_0i5i1")
 metadata/code = ""
 metadata/inst_name = "inst_DB87CC0D"
+metadata/scale = Vector2(1, 1)
+
+[node name="P5 - o_room_cutscene" type="Marker2D" parent="."]
+position = Vector2(-128, 0)
+metadata/code = "dsl_sw2_pelekryte();
+"
+metadata/inst_name = "inst_1431A067"
 metadata/scale = Vector2(1, 1)

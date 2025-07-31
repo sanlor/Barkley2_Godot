@@ -4,14 +4,14 @@ signal key_pressed
 signal dnet_closed
 
 const MUSIC_DNET := [
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track1.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track3.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track4.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track5.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track6.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track7.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track8.ogg"),
-	preload("res://barkley2/assets/b2_original/audio/MusicWeb/mus_dnet_track9.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track1.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track3.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track4.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track5.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track6.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track7.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track8.ogg"),
+	preload("res://barkley2/assets/b2_original/audio/Music/mus_dnet_track9.ogg"),
 ]
 var music_index := 0
 
