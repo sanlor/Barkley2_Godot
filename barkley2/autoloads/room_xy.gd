@@ -45,7 +45,7 @@ var room_load_lock		:= false # disallow loading a new room defore the current on
 var room_array 			:= []
 var room_index 			:= {}
 var room_scene 			: PackedScene
-var room_reference		: Node				## Reference used for static functions to fin the SceneTree.
+var room_reference		: B2_ROOMS				## Reference used for static functions to fin the SceneTree.
 var room_is_invalid 	:= false
 
 const ROOM_PROGRESS_BAR 		= preload("res://barkley2/resources/autoloads/room_progress_bar.tscn")
@@ -96,6 +96,14 @@ func _ready() -> void:
 
 func _reset_data():
 	reset_room()
+
+## Check if hoopz can draw its gun in the current room.
+func can_aim_gun() -> bool:
+	if room_reference:
+		return not room_reference.room_pacify 
+	else:
+		push_error("B2_ROOMS not loaded: %s" % room_reference)
+		return false
 
 func is_room_valid( strict := false) -> bool:
 	if strict:

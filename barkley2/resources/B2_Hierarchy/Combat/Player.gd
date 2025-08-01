@@ -60,12 +60,12 @@ const COMBAT_WALK_SW		:= "walk_SW"
 const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
-enum STATE{NORMAL,ROLL,AIM}
-var curr_STATE := STATE.NORMAL :
-	set(s) : 
-		curr_STATE = s
-		_change_sprites()
-		_update_flashlight()
+#enum STATE{NORMAL,ROLL,AIM}
+#var curr_STATE := STATE.NORMAL :
+	#set(s) : 
+		#curr_STATE = s
+		#_change_sprites()
+		#_update_flashlight()
 
 # Combat Animations
 var aim_dir := Vector2.ZERO
@@ -92,6 +92,9 @@ var debug_walk_dir 		: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	assert( is_instance_valid(actor_ai), "No valid AI found." )
+	actor_ai.actor = self
+	
 	B2_CManager.o_hoopz = self
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
 	B2_Playerdata.gun_changed.connect( _update_held_gun )
@@ -103,36 +106,20 @@ func _ready() -> void:
 	hoopz_normal_body.animation = "stand"
 	hoopz_normal_body.frame = 6
 	
-	if get_parent() is B2_ROOMS:
-		get_parent().permission_changed.connect( get_room_permissions )
+	state_changed.connect( _changed_state )
 	
-	get_room_permissions()
+func _changed_state():
+	_change_sprites()
+	_update_flashlight()
 	
-func toggle_collision() -> void:
-	var hoopz_collision: CollisionShape2D = $hoopz_collision
-	hoopz_collision.disabled = not hoopz_collision.disabled
-	print_rich("[color=red][b]Hoopz collision has been changed to %s. This should not happen outside of DEBUG situations.[/b][/color]" % not hoopz_collision.disabled)
-		
-func get_room_permissions():
-	if get_parent() is B2_ROOMS:
-		can_roll 			= get_parent().room_player_can_roll
-		#can_shoot 			= not get_parent().room_pacify ## DEBUG disabled
-		can_draw_weapon 	= not get_parent().room_pacify
-	else:
-		print("B2_PLAYER: Not inside a room. do whatever is set on exports")
-	
-## TODO remove this section with old code.
-#func _update_held_gun() -> void:
-	#var gun := B2_Gun.get_current_gun()
-	#set_gun( gun.get_held_sprite(), gun.weapon_type )
-	#
-	### Change color.
-	#print(gun.get_gun_color1())
-	#combat_weapon.modulate 				= gun.get_gun_color1()
-	#combat_weapon_parts.modulate 		= gun.get_gun_color2()
-	#combat_weapon_parts.modulate.a 		= gun.get_gun_alpha()
-	#combat_weapon_spots.modulate 		= gun.get_gun_color3()
-## update the current gun sprite, adding details if needed (spots, parts).
+## TODO remove this old section
+#func get_room_permissions():
+	#if get_parent() is B2_ROOMS:
+		#can_roll 			= get_parent().room_player_can_roll
+		##can_shoot 			= not get_parent().room_pacify ## DEBUG disabled
+		#can_draw_weapon 	= not get_parent().room_pacify
+	#else:
+		#print("B2_PLAYER: Not inside a room. do whatever is set on exports")
 
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -325,155 +312,36 @@ func combat_aim_animation():
 	## Remember, 0.9999999999999 != 1.0
 	match mouse_input:
 			# Normal stuff
-			Vector2(0,	-0.99):
-				dir_frame = 		4
-			Vector2(-0.99,	0):
-				dir_frame = 		8
-			Vector2(0,	0.99):
-				dir_frame = 		12
-			Vector2(0.99,	0):	
-				dir_frame = 		0
+			Vector2(0,	-0.99):				dir_frame = 		4
+			Vector2(-0.99,	0):				dir_frame = 		8
+			Vector2(0,	0.99):				dir_frame = 		12
+			Vector2(0.99,	0):				dir_frame = 		0
 				
 			# Diagonal stuff
-			Vector2(0.66,	0.66): # Low Right
-				dir_frame = 		14
-			Vector2(-0.66,	0.66): # Low Left
-				dir_frame = 		10
-			Vector2(0.66,	-0.66): # High Right
-				dir_frame = 		2
-			Vector2(-0.66,	-0.66):	# High Left
-				dir_frame = 		6
-			
+			Vector2(0.66,	0.66): dir_frame = 			14	# Low Right
+			Vector2(-0.66,	0.66): dir_frame = 			10	# Low Left
+			Vector2(0.66,	-0.66): dir_frame = 		2	# High Right
+			Vector2(-0.66,	-0.66):	dir_frame = 		6	# High Left
+				
 			# Madness
 			#Down
-			Vector2(0.33,	0.99): # Rightish
-				dir_frame = 		13
-			Vector2(-0.33,	0.99): # Leftish
-				dir_frame = 		11
+			Vector2(0.33,	0.99): dir_frame = 		13	# Rightish
+			Vector2(-0.33,	0.99): dir_frame = 		11	# Leftish
 			#Up
-			Vector2(0.33,	-0.99): # Rightish
-				dir_frame = 		3
-			Vector2(-0.33,	-0.99): # Leftish
-				dir_frame = 		5
+			Vector2(0.33,	-0.99): dir_frame = 	3	# Rightish
+			Vector2(-0.33,	-0.99): dir_frame = 	5	# Leftish
 			#Left
-			Vector2(-0.99,	0.33): # Upish
-				dir_frame = 		9
-			Vector2(-0.99,	-0.33): # Downish
-				dir_frame = 	7
-
+			Vector2(-0.99,	0.33): dir_frame = 		9	# Upish
+			Vector2(-0.99,	-0.33): dir_frame = 	7	# Downish
 			#Right
-			Vector2(0.99,	0.33): # Upish
-				dir_frame = 	15
-
-			Vector2(0.99,	-0.33): # Downish
-				dir_frame = 	1
-	
+			Vector2(0.99,	0.33): dir_frame = 		15	# Upish
+			Vector2(0.99,	-0.33): dir_frame = 	1	# Downish
+				
 	# only change if there is a change in dir
 	if dir_frame != combat_upper_sprite.frame:
 		combat_upper_sprite.frame = 	dir_frame
 		combat_arm_back.frame = 		dir_frame
 		combat_arm_front.frame = 		dir_frame
-
-## Aiming is a bitch, it has a total of 16 positions for smooth movement.
-## TODO remove this ection later
-#func combat_weapon_animation():
-	## That Vector is an offset to make the calculation origin to be Hoopz torso
-	#var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
-	#var gun_pos 		:= Vector2(18, 0)
-	#
-	### Many Manual touch ups.
-	#var s_frame 		:= combat_weapon.frame
-	#var angle 			:= 0.0
-	#var height_offset	:= Vector2(0, 4)
-	#var _z_index		:= 0
-	#
-	#match mouse_input:
-			## Normal stuff
-			#Vector2(0,	-0.99): # Up
-				#s_frame = 	4
-				#angle = 270
-				#_z_index = -1
-			#Vector2(-0.99,	0): # Left
-				#s_frame = 	8
-				#angle = 180
-				#height_offset = Vector2.ZERO
-			#Vector2(0,	0.99): # Down
-				#s_frame = 	12
-				#angle = 90
-				#height_offset *= -1
-			#Vector2(0.99,	0):	 # Right
-				#s_frame = 	0
-				#angle = 0
-				#height_offset = Vector2.ZERO
-				#
-			## Diagonal stuff
-			#Vector2(0.66,	0.66): # Low Right
-				#s_frame = 	14
-				#angle = 45
-				#height_offset *= -1
-			#Vector2(-0.66,	0.66): # Low Left
-				#s_frame = 	10
-				#angle = 135
-				#height_offset *= -1
-			#Vector2(0.66,	-0.66): # High Right
-				#s_frame = 	2
-				#angle = 315
-			#Vector2(-0.66,	-0.66):	# High Left
-				#s_frame = 	6
-				#angle = 225
-			#
-			## Madness
-			##Down
-			#Vector2(0.33,	0.99): # Rightish
-				#s_frame = 	13
-				#angle = 60
-				#height_offset *= -1
-			#Vector2(-0.33,	0.99): # Leftish
-				#s_frame = 	11
-				#angle = 120
-				#height_offset *= -1
-			##Up
-			#Vector2(0.33,	-0.99): # Rightish
-				#s_frame = 	3
-				#angle = 300
-			#Vector2(-0.33,	-0.99): # Leftish
-				#s_frame = 	5
-				#angle = 240
-			##Left
-			#Vector2(-0.99,	0.33): # Downish
-				#s_frame = 	9
-				#angle = 150
-				#height_offset *= -1
-			#Vector2(-0.99,	-0.33): # Upish
-				#s_frame = 	7
-				#angle = 210
-				##height_offset *= -1
-			##Right
-			#Vector2(0.99,	0.33): # Downish
-				#s_frame = 	15
-				#angle = 30
-				#height_offset *= -1
-			#Vector2(0.99,	-0.33): # Upish
-				#s_frame = 	1
-				#angle = 330
-			#_:
-				##print(mouse_input)
-				#pass
-				#
-	#if combat_weapon.frame != s_frame:
-		#combat_weapon.frame 	= s_frame
-		#combat_weapon.offset 	= gun_pos.rotated( deg_to_rad(angle) ) + height_offset
-		#combat_weapon.z_index	= _z_index
-		#
-		#combat_weapon_parts.frame 	= combat_weapon.frame
-		#combat_weapon_parts.offset 	= combat_weapon.offset
-		#combat_weapon_parts.z_index	= combat_weapon.z_index
-		#
-		#combat_weapon_spots.frame 	= combat_weapon.frame
-		#combat_weapon_spots.offset 	= combat_weapon.offset
-		#combat_weapon_spots.z_index	= combat_weapon.z_index
-		#
-		#aim_dir = mouse_input
 
 func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
@@ -568,7 +436,6 @@ func combat_weapon_animation() -> void:
 	## My own slop.
 	## Decide where the gun should be placed in relation to the player sprite.
 	## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
-	
 	var new_gun_pos := Vector2.ZERO
 	
 	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
@@ -598,20 +465,11 @@ func combat_weapon_animation() -> void:
 		combat_weapon_spots.position 	= new_gun_pos
 		combat_weapon_spots.z_index		= _z_index
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if B2_Debug.can_disable_player_col:
-			if Input.is_key_pressed(KEY_F4):
-				toggle_collision()
-
-func _update_flashlight() -> void:
-	match curr_STATE:
-		STATE.NORMAL, STATE.AIM:
-			flashlight.enabled = (true == flashlight_enabled) ## is only true if both is true.
-		_:
-			flashlight.enabled = false
-
 func _physics_process(delta: float) -> void:
+	## Makers the AI think.
+	if actor_ai:
+		actor_ai.step()
+		
 	match curr_STATE:
 		STATE.ROLL:
 			if linear_velocity.length() < 8.0:
@@ -683,7 +541,7 @@ func _physics_process(delta: float) -> void:
 					
 					var roll_dir 	: Vector2
 					#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
-					var input 		:= Input.get_vector("Left","Right","Up","Down")
+					var input 		:= curr_input # Input.get_vector("Left","Right","Up","Down")
 					
 					## Cool ass animation
 					if input != Vector2.ZERO:
@@ -713,7 +571,7 @@ func _physics_process(delta: float) -> void:
 					return
 				
 				# Take the input from the keyboard / Gamepag and apply directly.
-				var move := Input.get_vector("Left","Right","Up","Down")
+				var move := curr_input # Input.get_vector("Left","Right","Up","Down")
 				velocity = ( walk_speed * delta ) * move
 			else:
 				velocity = Vector2.ZERO
@@ -759,3 +617,24 @@ func _on_combat_lower_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
+
+## handle step sounds for normal state hoopz
+func _on_hoopz_normal_body_frame_changed() -> void:
+	if hoopz_normal_body.animation.begins_with("walk_"):
+		if hoopz_normal_body.frame in [0,2]: # play audio only on frame 0 or 2
+			if move_dist <= 0.0:
+				B2_Sound.play_pick("hoopz_footstep")
+				move_dist = min_move_dist
+		else:
+			move_dist -= 1.0
+	if hoopz_normal_body.animation.begins_with("full_roll"):
+		if hoopz_normal_body.frame in [0,1,2]:
+			# hoopz_normal_body.look_at( linear_velocity ) ## Test for changing roll sprite direction. need a better fix.
+			step_smoke.emitting = false
+		elif hoopz_normal_body.frame in [3,4,5,6]:
+			hoopz_normal_body.rotation = 0
+			if not step_smoke.emitting:
+				step_smoke.emitting = true
+		else:
+			step_smoke.emitting = false
+			hoopz_normal_body.rotation = 0

@@ -7,6 +7,8 @@ signal stop_animation 			## Stop all active animations (Walking, attacking, dodg
 signal destination_reached 		## Actor was moving, reached its destination.
 signal set_played 				## Actor was playing some animation, but its done now.
 
+signal state_changed			## emitted when the actor state (attack, aim, normal) changes.
+
 ## Cinema Movement
 @export var ActorAnim 			: AnimatedSprite2D
 @export var ActorAudioPlayer	: AudioStreamPlayer2D
@@ -20,6 +22,10 @@ var speed_normal 			:= 9.5 * speed_multiplier # was 2.5
 var speed_fast 				:= 9.5 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
 
+## Sets the actor AI. Hoopz should use a special "player" AI that handles user inputs.
+@export_category("A.I") ## Artificial... Inteligence... -Neil Breen
+@export var actor_ai 		: B2_AI
+
 @export_category("Pathfinding")
 @export var path_desired_distance 	= 4.0
 @export var target_desired_distance = 4.0
@@ -31,6 +37,12 @@ var is_moving 		:= false ## The actor is moving somewhere.
 var is_playingset 	:= false ## The actor is playing some animation.
 
 var facing_vector			:= Vector2.DOWN ## Where the actor should look at
+
+# Actions - Used By AIs
+var curr_input 				:= Vector2.ZERO
+var curr_aim				:= Vector2.ZERO
+var last_direction 			:= Vector2.ZERO
+var last_input 				:= Vector2.ZERO
 
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO

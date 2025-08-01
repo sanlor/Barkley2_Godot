@@ -92,8 +92,6 @@ const COMBAT_WALK_SE		:= "walk_SE"
 @onready var aim_origin: 		Marker2D = $aim_origin
 
 ## General Animation
-var last_direction 				:= Vector2.ZERO
-var last_input 					:= Vector2.ZERO
 var is_turning 					:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
 var turning_time 				:= 1.0
 var step_anim_played			:= false

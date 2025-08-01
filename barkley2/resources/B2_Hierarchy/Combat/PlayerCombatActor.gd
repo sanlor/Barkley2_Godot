@@ -1,11 +1,11 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent.png")
-extends 
+extends B2_CombatActor
 class_name B2_PlayerCombatActor
 
 ## Class used only by Hoopz - Mostly used to organize things.
 ## WARNING Class incomplete. Its missing a lot of things.
 
-## CHeck B2_Player for the movement code and aiming, damage and such.
+## Check B2_Player for the movement code and aiming, damage and such.
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
@@ -28,8 +28,7 @@ const WALK_SW		:= "walk_SW"
 const WALK_S		:= "walk_S"
 const WALK_SE		:= "walk_SE"
 
-@export var ROLL			:= "full_roll" # "diaper_gooroll"
-@export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
+
 
 # Used on the tutorial
 const DIAPER_GROUND 	:= "diaper_ground"
@@ -38,7 +37,14 @@ const DIAPER_GETUP 		:= "diaper_getup"
 const DIAPER_GOOROLL 	:= "diaper_gooroll"
 const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 
+enum STATE{NORMAL,ROLL,AIM}
+var curr_STATE := STATE.NORMAL :
+	set(s) : 
+		curr_STATE = s
+		state_changed.emit()
 
+@export var ROLL			:= "full_roll" # "diaper_gooroll"
+@export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
 
 @export var hoopz_normal_body: 	AnimatedSprite2D
 @export var step_smoke: 		GPUParticles2D
@@ -51,15 +57,24 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 ## Sound
 var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
-
-## Animation
-var last_direction 	:= Vector2.ZERO
-var last_input 		:= Vector2.ZERO
+ 
+# Animation
 var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
 var turning_time 	:= 1.0
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if B2_Debug.can_disable_player_col:
+			if Input.is_key_pressed(KEY_F4):
+				toggle_collision()
+
+func toggle_collision() -> void:
+	var hoopz_collision: CollisionShape2D = $hoopz_collision
+	hoopz_collision.disabled = not hoopz_collision.disabled
+	print_rich("[color=red][b]Hoopz collision has been changed to %s. This should not happen outside of DEBUG situations.[/b][/color]" % not hoopz_collision.disabled)
 
 func add_smoke():
 	#for i in randi_range( 1, 2 ):
@@ -68,38 +83,37 @@ func add_smoke():
 func _point_flashlight( input : Vector2 ) -> void:
 	flashlight_pivot.rotation = input.angle() - PI/2
 	
+func _update_flashlight() -> void:
+	match curr_STATE:
+		STATE.NORMAL, STATE.AIM:
+			flashlight.enabled = (true == flashlight_enabled) ## is only true if both is true.
+		_:
+			flashlight.enabled = false
+			
 func normal_animation(delta : float):
-	var input := Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	var input := curr_input
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
 		_point_flashlight( input )
+		
 		if last_input != input:
 			add_smoke()
 			
-			match input:
-				Vector2.UP + Vector2.LEFT:
-					hoopz_normal_body.play(WALK_NW)
-				Vector2.UP + Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_NE)
-				Vector2.DOWN + Vector2.LEFT:
-					hoopz_normal_body.play(WALK_SW)
-				Vector2.DOWN + Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_SE)
+			match input.round():
+				Vector2.UP + Vector2.LEFT:			hoopz_normal_body.play(WALK_NW)
+				Vector2.UP + Vector2.RIGHT:			hoopz_normal_body.play(WALK_NE)
+				Vector2.DOWN + Vector2.LEFT:		hoopz_normal_body.play(WALK_SW)
+				Vector2.DOWN + Vector2.RIGHT:		hoopz_normal_body.play(WALK_SE)
 					
-				Vector2.UP:
-					hoopz_normal_body.play(WALK_N)
-				Vector2.LEFT:
-					hoopz_normal_body.play(WALK_W)
-				Vector2.DOWN:
-					hoopz_normal_body.play(WALK_S)
-				Vector2.RIGHT:
-					hoopz_normal_body.play(WALK_E)
+				Vector2.UP:							hoopz_normal_body.play(WALK_N)
+				Vector2.LEFT:						hoopz_normal_body.play(WALK_W)
+				Vector2.DOWN:						hoopz_normal_body.play(WALK_S)
+				Vector2.RIGHT:						hoopz_normal_body.play(WALK_E)
 					
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
 					print("Catch all, ", input)
-					
 	else:
 		# player is not moving the character anymore
 		hoopz_normal_body.stop()
@@ -108,9 +122,11 @@ func normal_animation(delta : float):
 		var curr_direction : Vector2 = input
 		
 		if follow_mouse:
-			curr_direction = position.direction_to( get_global_mouse_position() ).round()
+			curr_direction = position.direction_to( curr_aim ) # position.direction_to( get_global_mouse_position() ).round()
 			if input == Vector2.ZERO:
-				_point_flashlight( position.direction_to( get_global_mouse_position() ) )
+				_point_flashlight( curr_direction )
+				
+			curr_direction = curr_direction.round()
 		
 		if curr_direction != last_direction:
 			turning_time = 1.0
@@ -155,5 +171,6 @@ func normal_animation(delta : float):
 				
 		# Update var
 		last_direction = curr_direction
+		
 	# Update var
 	last_input = input

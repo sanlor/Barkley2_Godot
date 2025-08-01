@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=18 format=3 uid="uid://cm02gfex41gr0"]
 
-[ext_resource type="Script" uid="uid://h3801n3p6aiv" path="res://barkley2/scenes/Player/o_hoopz_normal.gd" id="1_dvmm0"]
+[ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
+[ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/Player.gd" id="2_6d2l0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_vnb8r"]
 [ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_ac4jf"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="3_ykikx"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_1qnxd"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="5_qxiei"]
 [ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="6_u8bon"]
@@ -13,11 +15,6 @@
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="10_7qowe"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_ac4jf"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_g0dal"]
-friction = 0.25
-bounce = 0.25
-absorbent = true
-
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
 polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
 
@@ -26,16 +23,19 @@ polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "flashlight_pivot", "flashlight")]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "flashlight_pivot", "flashlight", "ActorCol", "actor_ai")]
 collision_layer = 3
 mass = 70.0
-physics_material_override = SubResource("PhysicsMaterial_g0dal")
+physics_material_override = ExtResource("1_6d2l0")
 gravity_scale = 0.0
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
-script = ExtResource("1_dvmm0")
+script = ExtResource("2_6d2l0")
+can_roll = null
+can_draw_weapon = null
+can_shoot = null
 combat_upper_sprite = NodePath("combat_upper_body")
 combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
@@ -44,10 +44,26 @@ combat_weapon = NodePath("combat_weapon")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
+walk_speed = null
+roll_impulse = null
+walk_damp = null
+roll_damp = null
+ROLL = null
+ROLL_BACK = null
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+flashlight_enabled = null
 flashlight_pivot = NodePath("flashlight_pivot")
 flashlight = NodePath("flashlight_pivot/flashlight")
+ActorCol = NodePath("hoopz_collision")
+actor_ai = NodePath("B2_AI_Player")
+path_desired_distance = null
+target_desired_distance = null
+animation_speed = null
+
+[node name="B2_AI_Player" type="Node" parent="."]
+script = ExtResource("3_ykikx")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
 

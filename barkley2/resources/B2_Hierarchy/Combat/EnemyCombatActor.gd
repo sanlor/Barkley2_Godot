@@ -1,4 +1,3 @@
-@tool
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_3.png")
 extends B2_CombatActor
 class_name B2_EnemyCombatActor
@@ -23,7 +22,7 @@ var is_changing_states := false
 @export var cast_shadow			:= true
 @export var shadow_scale		:= 1.0
 
-@export var smoke_emitter		: GPUParticles2D
+@export var ActorSmokeEmitter		: GPUParticles2D
 @export var has_collision 		:= true
 #@export var ActorCol 			: CollisionShape2D
 
@@ -56,18 +55,12 @@ var playing_animation 			:= "stand"
 
 @export_category("Enemy Stats")
 @export var enemy_name				:= ""
-@export_tool_button("Fetch Enemy Data") var fetch_enemy_data = _fetch_enemy_data
+#@export_tool_button("Fetch Enemy Data") var fetch_enemy_data = _fetch_enemy_data
 @export var enemy_data				: B2_EnemyData
 @export var enemy_weapon_type		: B2_Gun.TYPE
 @export var enemy_weapon_material	: B2_Gun.MATERIAL
 var enemy_ranged 					: B2_Weapon
 @export var enemy_melee				: B2_MeleeAttack ## TODO
-
-@export_category("A.I") ## Artificial... Inteligence... -Neil Breen
-@export var disable_ai			:= false
-@export var inactive_ai 		: B2_AI_Wander
-#@export var chase_ai 			: B2_AI_Chase
-@export var combat_ai 			: B2_AI_Combat
 
 ## Control stuff
 var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
@@ -88,23 +81,26 @@ func _ready() -> void:
 	
 func _setup_enemy() -> void:
 	if not is_instance_valid( ActorAnim ):
-		ActorAnim 	= get_node( "ActorAnim" )
+		ActorAnim 			= get_node( "ActorAnim" )
 	if not is_instance_valid( ActorCol ):
-		ActorCol 	= get_node( "ActorCol" )
+		ActorCol 			= get_node( "ActorCol" )
 	if not is_instance_valid( ActorAudioPlayer ):
 		ActorAudioPlayer 	= get_node( "ActorAudioPlayer" )
+	if not is_instance_valid( ActorSmokeEmitter ):
+		ActorAudioPlayer 	= get_node( "ActorSmokeEmitter" )
 		
 	## A.I.
-	if not disable_ai:
-		if not is_instance_valid( inactive_ai ):
-			push_error("%s: inactive_ai not set." % name)
-		else:
-			if my_nest:		inactive_ai.home_point = my_nest.global_position
-			else:			inactive_ai.home_point = global_position
-			inactive_ai.emote.connect( _emote )
-			
-		if not is_instance_valid( combat_ai ):
-			push_error("%s: combat_ai not set." % name)
+	## Disabled this on 31/07/25 fix this later.
+	#if not disable_ai:
+		#if not is_instance_valid( inactive_ai ):
+			#push_error("%s: inactive_ai not set." % name)
+		#else:
+			#if my_nest:		inactive_ai.home_point = my_nest.global_position
+			#else:			inactive_ai.home_point = global_position
+			#inactive_ai.emote.connect( _emote )
+			#
+		#if not is_instance_valid( combat_ai ):
+			#push_error("%s: combat_ai not set." % name)
 		
 	if cast_shadow:
 		my_shadow = O_SHADOW.instantiate()
@@ -177,8 +173,9 @@ func play_idle_anim() -> void:
 	
 func set_mode( mode : MODE ) -> void:
 	curr_MODE = mode
-	if curr_MODE == MODE.INACTIVE: 	set_inactive_ai(); 	speed = speed_slow
-	if curr_MODE == MODE.COMBAT: 	set_combat_ai(); 	speed = speed_normal
+	## Disabled this on 31/07/25 fix this later
+	#if curr_MODE == MODE.INACTIVE: 	set_inactive_ai(); 	speed = speed_slow
+	#if curr_MODE == MODE.COMBAT: 	set_combat_ai(); 	speed = speed_normal
 	
 func _physics_process( delta: float ) -> void:
 	if Engine.is_editor_hint():
@@ -186,8 +183,8 @@ func _physics_process( delta: float ) -> void:
 		
 	match curr_MODE:
 		MODE.INACTIVE:
-			if inactive_ai:
-				inactive_ai.step()
+			#if inactive_ai:
+			#	inactive_ai.step()
 			_animations()
 			
 		MODE.COMBAT:
@@ -252,46 +249,46 @@ func cinema_charge_at( _charge_target : Vector2, _charge_speed : float ) -> void
 	var my_dir := global_position.direction_to( charge_target )
 	linear_damp = 5.0
 	apply_central_impulse( my_dir * charge_speed * 0.35)
-	smoke_emitter.get_process_material().direction = Vector3( -my_dir.x, -my_dir.y, 0 )
-	smoke_emitter.emitting = true
+	ActorSmokeEmitter.get_process_material().direction = Vector3( -my_dir.x, -my_dir.y, 0 )
+	ActorSmokeEmitter.emitting = true
 	B2_Sound.play( sound_charge )
 
-## Combat stuff
-func has_combat_ai() -> bool:
-	if combat_ai:
-		return true
-	else:
-		return false
-	
-func has_inactive_ai() -> bool:
-	if inactive_ai:
-		return true
-	else:
-		return false
-	
-func get_combat_ai() -> B2_AI_Combat:
-	if combat_ai:
-		return combat_ai
-	else:
-		return B2_AI_Combat.new()
-		
-func get_inactive_ai() -> B2_AI_Wander:
-	if inactive_ai:
-		return inactive_ai
-	else:
-		return B2_AI_Wander.new()
-
-func set_combat_ai() -> void:
-	if inactive_ai:
-		inactive_ai.is_active 	= false
-	if combat_ai:
-		combat_ai.is_active 	= true
-	
-func set_inactive_ai() -> void:
-	if inactive_ai:
-		inactive_ai.is_active 	= true
-	if combat_ai:
-		combat_ai.is_active 	= false
+## Combat stuff ## Disabled this on 31/07/25 fix this later
+#func has_combat_ai() -> bool:
+	#if combat_ai:
+		#return true
+	#else:
+		#return false
+	#
+#func has_inactive_ai() -> bool:
+	#if inactive_ai:
+		#return true
+	#else:
+		#return false
+	#
+#func get_combat_ai() -> B2_AI_Combat:
+	#if combat_ai:
+		#return combat_ai
+	#else:
+		#return B2_AI_Combat.new()
+		#
+#func get_inactive_ai() -> B2_AI_Wander:
+	#if inactive_ai:
+		#return inactive_ai
+	#else:
+		#return B2_AI_Wander.new()
+#
+#func set_combat_ai() -> void:
+	#if inactive_ai:
+		#inactive_ai.is_active 	= false
+	#if combat_ai:
+		#combat_ai.is_active 	= true
+	#
+#func set_inactive_ai() -> void:
+	#if inactive_ai:
+		#inactive_ai.is_active 	= true
+	#if combat_ai:
+		#combat_ai.is_active 	= false
 
 func play_local_sound( sound_name : String ) -> void:
 	if ActorAudioPlayer:
@@ -346,8 +343,10 @@ func destroy_actor() -> void:
 	#B2_Sound.play( sound_death )
 	play_local_sound( sound_death )
 	B2_CManager.combat_manager.enemy_defeated(self)
-	if combat_ai:
-		combat_ai.combat_cancel( true )
+	
+	## Disabled this on 31/07/25 fix this later
+	#if combat_ai:
+		#combat_ai.combat_cancel( true )
 	
 	if explode_on_death:
 		for i in randi_range(3,8):
