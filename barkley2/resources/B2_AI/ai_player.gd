@@ -6,3 +6,14 @@ func step() -> void:
 	if actor:
 		actor.curr_input = Input.get_vector("Left","Right","Up","Down")
 		actor.curr_aim = actor.get_global_mouse_position()
+		
+		_input_process()
+
+func _input_process() -> void:
+	if B2_Input.player_has_control:
+		ranged_attack_trigger.emit( 	Input.is_action_pressed("Action") 		)
+		
+		if Input.is_action_just_pressed("Holster"):		aim_trigger.emit( true )
+		elif Input.is_action_just_released("Holster"):	aim_trigger.emit( false )
+		
+		if Input.is_action_just_pressed( "Roll" ):		roll_trigger.emit( true )

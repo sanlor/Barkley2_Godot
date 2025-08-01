@@ -94,6 +94,7 @@ var debug_walk_dir 		: Vector2
 func _ready() -> void:
 	assert( is_instance_valid(actor_ai), "No valid AI found." )
 	actor_ai.actor = self
+	_connect_ai_signals()
 	
 	B2_CManager.o_hoopz = self
 	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
@@ -112,6 +113,21 @@ func _changed_state():
 	_change_sprites()
 	_update_flashlight()
 	
+func _ai_ranged_attack( enabled : bool ) -> void:
+	if enabled:
+		if curr_STATE == STATE.AIM:
+			shoot_gun()
+		
+func _ai_aim_ranged( enabled : bool ) -> void:
+	if curr_STATE == STATE.NORMAL:
+		if enabled:
+			## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
+			if  B2_Gun.has_any_guns():
+				aim_gun( enabled )
+	elif curr_STATE == STATE.AIM:
+		if enabled:
+			aim_gun( not enabled )
+			
 ## TODO remove this old section
 #func get_room_permissions():
 	#if get_parent() is B2_ROOMS:
@@ -204,6 +220,17 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	else:
 		## Unknown type.
 		breakpoint
+	
+func aim_gun( enabled : bool ) -> void:
+	if enabled:
+		# change state, allowing the player to aim.
+		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
+		curr_STATE = STATE.AIM
+		B2_Sound.play_pick("hoopz_swapguns")
+	else:
+		curr_STATE = STATE.NORMAL
+		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+		B2_Sound.play_pick("hoopz_swapguns")
 	
 ## Debug function. Should not be used normaly.
 func shoot_gun() -> void:
@@ -496,42 +523,42 @@ func _physics_process(delta: float) -> void:
 				else:
 					push_warning("Weird state: ", curr_STATE)
 				
-				## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
-				if Input.is_action_just_pressed("Holster") and can_draw_weapon and not B2_Gun.get_bandolier().is_empty():
-					# check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
-					if curr_STATE == STATE.NORMAL:
-						# change state, allowing the player to aim.
-						B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
-						curr_STATE = STATE.AIM
-						B2_Sound.play_pick("hoopz_swapguns")
-						
-					elif curr_STATE == STATE.AIM:
-						curr_STATE = STATE.NORMAL
-						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-						B2_Sound.play_pick("hoopz_swapguns")
-						
-					else:
-						# maybe unneeded?
-						B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
-						B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-				
-				# player shoots its weapon.
-				elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM:
-					#shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
-					# 18/03/25 kinda functional now. u can shoot at least.
-					#B2_Sound.play_pick("hoopz_click")
-					## CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
-					if can_shoot:
-						shoot_gun()
-					else:
-						B2_Sound.play_pick("hoopz_click")
+				### Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
+				#if Input.is_action_just_pressed("Holster") and can_draw_weapon and not B2_Gun.get_bandolier().is_empty():
+					## check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
+					#if curr_STATE == STATE.NORMAL:
+						## change state, allowing the player to aim.
+						#B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
+						#curr_STATE = STATE.AIM
+						#B2_Sound.play_pick("hoopz_swapguns")
+						#
+					#elif curr_STATE == STATE.AIM:
+						#curr_STATE = STATE.NORMAL
+						#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+						#B2_Sound.play_pick("hoopz_swapguns")
+						#
+					#else:
+						## maybe unneeded?
+						#B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
+						#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+				#
+				## player shoots its weapon.
+				#elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM:
+					##shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
+					## 18/03/25 kinda functional now. u can shoot at least.
+					##B2_Sound.play_pick("hoopz_click")
+					### CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
+					#if can_shoot:
+						#shoot_gun()
+					#else:
+						#B2_Sound.play_pick("hoopz_click")
 					
-				# player has no permission to draw weapon or has no weapon.
-				elif Input.is_action_just_pressed("Holster") and (not can_draw_weapon or B2_Gun.get_bandolier().is_empty()):
-					B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
-					# if a battle ends and the player still have its weapon drawn, this enables it to holster it.
-					curr_STATE = STATE.NORMAL
-					B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+				## player has no permission to draw weapon or has no weapon.
+				#elif Input.is_action_just_pressed("Holster") and (not can_draw_weapon or B2_Gun.get_bandolier().is_empty()):
+					#B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
+					## if a battle ends and the player still have its weapon drawn, this enables it to holster it.
+					#curr_STATE = STATE.NORMAL
+					#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 				
 				# Roll action
 				if Input.is_action_just_pressed("Roll") and can_roll:

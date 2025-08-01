@@ -56,6 +56,32 @@ var is_actor_dead	:= false
 #func apply_damage( _damage : float) -> void:
 #	push_warning("Method not setup for node %s." % name)
 
+## TODO
+func _connect_ai_signals() -> void:
+	if actor_ai:
+		actor_ai.aim_trigger.connect( _ai_aim_ranged )
+		actor_ai.melee_attack_trigger.connect( _ai_melee_attack )
+		actor_ai.ranged_attack_trigger.connect( _ai_ranged_attack )
+		actor_ai.roll_trigger.connect( _ai_roll_at )
+		actor_ai.charge_trigger.emit( _ai_charge_at )
+	else:
+		push_error("Actor AI not loaded on node %s." % name)
+
+func _ai_ranged_attack( _enabled : bool ) -> void:
+	pass
+	
+func _ai_melee_attack( _enabled : bool ) -> void:
+	pass
+	
+func _ai_aim_ranged( _enabled : bool ) -> void:
+	pass
+	
+func _ai_charge_at( _enabled : bool ) -> void:
+	pass
+	
+func _ai_roll_at( _enabled : bool ) -> void:
+	pass
+
 ## Used for pathfinding to a specific location
 func set_movement_target(movement_target: Vector2):
 	ActorNav.set_target_position(movement_target)
