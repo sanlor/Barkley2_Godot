@@ -7,7 +7,7 @@ class_name B2_PlayerCombatActor
 
 ## Check B2_Player for the movement code and aiming, damage and such.
 
-# Sprite frame indexes - s_cts_hoopz_stand
+# Non combat related animations
 const SHUFFLE 		:= "shuffle"
 const STAND 		:= "stand"
 const STAND_E 		:= 0
@@ -28,6 +28,27 @@ const WALK_SW		:= "walk_SW"
 const WALK_S		:= "walk_S"
 const WALK_SE		:= "walk_SE"
 
+# Combat related animations
+const COMBAT_SHUFFLE 		:= "aim_shuffle"
+const COMBAT_STAND 			:= "aim_stand"
+const COMBAT_STAND_E 		:= 0
+const COMBAT_STAND_NE 		:= 1
+const COMBAT_STAND_N		:= 2
+const COMBAT_STAND_NW		:= 3
+const COMBAT_STAND_W		:= 4
+const COMBAT_STAND_SW		:= 5
+const COMBAT_STAND_S		:= 6
+const COMBAT_STAND_SE		:= 7
+
+const COMBAT_WALK_E 		:= "walk_E"
+const COMBAT_WALK_NE 		:= "walk_NE"
+const COMBAT_WALK_N			:= "walk_N"
+const COMBAT_WALK_NW		:= "walk_NW"
+const COMBAT_WALK_W			:= "walk_W"
+const COMBAT_WALK_SW		:= "walk_SW"
+const COMBAT_WALK_S			:= "walk_S"
+const COMBAT_WALK_SE		:= "walk_SE"
+
 # Used on the tutorial
 const DIAPER_GROUND 	:= "diaper_ground"
 const DIAPER_SPANK 		:= "diaper_spank"
@@ -35,11 +56,25 @@ const DIAPER_GETUP 		:= "diaper_getup"
 const DIAPER_GOOROLL 	:= "diaper_gooroll"
 const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 
+@export_category("Combat Sprites")
+@export var combat_upper_sprite 	: AnimatedSprite2D
+@export var combat_lower_sprite 	: AnimatedSprite2D
+@export var combat_arm_back 		: AnimatedSprite2D
+@export var combat_arm_front 		: AnimatedSprite2D
+@export var combat_weapon 			: AnimatedSprite2D
+@export var combat_weapon_parts 	: AnimatedSprite2D
+@export var combat_weapon_spots 	: AnimatedSprite2D
+@export var gun_muzzle				: Marker2D
+
+@export_category("Animation")
+@export var STAGGER			:= "stagger"
 @export var ROLL			:= "full_roll" # "diaper_gooroll"
 @export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
 
 @export var hoopz_normal_body: 	AnimatedSprite2D
 @export var step_smoke: 		GPUParticles2D
+@export var hit_timer: 			Timer
+@export var i_frame_timer:		Timer
 
 @export_category("Light Stuff")
 @export var flashlight_enabled 		:= true
@@ -56,6 +91,30 @@ var turning_time 	:= 1.0
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
+
+# Used when you are hit.
+var hit_tween : Tween
+
+# Combat Vars, used for animations
+var aim_dir := Vector2.ZERO
+var waddle	:= false # If hoopz legs should waddle torward the aiming direction
+
+var combat_last_direction 	:= Vector2.ZERO
+var combat_last_input 		:= Vector2.ZERO
+
+var prev_gun : B2_Weapon ## Used to update animations
+
+func _enter_tree() -> void:
+	if hit_timer:
+		hit_timer.timeout.connect( _on_hit_timer_timeout )
+
+func apply_curr_input( dir : Vector2 ) -> void:
+	if curr_STATE != STATE.HIT:
+		curr_input = dir
+	
+func apply_curr_aim( dir : Vector2 ) -> void:
+	if curr_STATE != STATE.HIT:
+		curr_aim = dir
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -81,6 +140,29 @@ func _update_flashlight() -> void:
 			flashlight.enabled = (true == flashlight_enabled) ## is only true if both is true.
 		_:
 			flashlight.enabled = false
+			
+func _change_sprites():
+	match curr_STATE:
+		STATE.NORMAL, STATE.ROLL:
+			hoopz_normal_body.show()
+			
+			combat_lower_sprite.hide()
+			combat_upper_sprite.hide()
+			combat_arm_back.hide()
+			combat_arm_front.hide()
+			combat_weapon.hide()
+			combat_weapon_parts.hide()
+			combat_weapon_spots.hide()
+		STATE.AIM:
+			hoopz_normal_body.hide()
+			
+			combat_lower_sprite.show()
+			combat_upper_sprite.show()
+			combat_arm_back.show()
+			combat_arm_front.show()
+			combat_weapon.show()
+			combat_weapon_parts.show()
+			combat_weapon_spots.show()
 			
 func normal_animation(delta : float):
 	var input := curr_input
@@ -139,30 +221,149 @@ func normal_animation(delta : float):
 			
 		# change the animation itself.
 		match last_direction:
-			Vector2.UP + Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_NW
-			Vector2.UP + Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_NE
-			Vector2.DOWN + Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_SW
-			Vector2.DOWN + Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_SE
+			Vector2.UP + Vector2.LEFT:				hoopz_normal_body.frame = STAND_NW
+			Vector2.UP + Vector2.RIGHT:				hoopz_normal_body.frame = STAND_NE
+			Vector2.DOWN + Vector2.LEFT:			hoopz_normal_body.frame = STAND_SW
+			Vector2.DOWN + Vector2.RIGHT:			hoopz_normal_body.frame = STAND_SE
 				
-			Vector2.UP:
-				hoopz_normal_body.frame = STAND_N
-			Vector2.LEFT:
-				hoopz_normal_body.frame = STAND_W
-			Vector2.DOWN:
-				hoopz_normal_body.frame = STAND_S
-			Vector2.RIGHT:
-				hoopz_normal_body.frame = STAND_E
+			Vector2.UP:				hoopz_normal_body.frame = STAND_N
+			Vector2.LEFT:			hoopz_normal_body.frame = STAND_W
+			Vector2.DOWN:			hoopz_normal_body.frame = STAND_S
+			Vector2.RIGHT:			hoopz_normal_body.frame = STAND_E
 				
 			_: # Catch All
 				hoopz_normal_body.frame = STAND_S
-				# print("Catch all, ", input)
 				
 		# Update var
 		last_direction = curr_direction
 		
 	# Update var
 	last_input = input
+
+func damage_actor( damage : float, force : Vector2 ) -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## Dont apply damage if the battle is over.
+		return
+		
+	if curr_STATE == STATE.ROLL:
+		## Dont apply damage if the player is rolling.
+		return
+		
+	if curr_STATE != STATE.DEFENDING:
+		if i_frame_timer.is_stopped():
+			## Hoopz got hit
+			hit_timer.start( 0.5 )
+			if curr_STATE == STATE.ROLL:
+				linear_velocity = Vector2.ZERO
+				B2_Playerdata.player_stats.block_action_increase = false
+				
+			## Hoopz was hit, start stagger animation and related shit.
+			i_frame_timer.start()
+			curr_STATE = STATE.HIT
+			
+			## TODO Add chance for hoopz not to stagger when hit.
+			if hoopz_normal_body.sprite_frames.has_animation(STAGGER):
+				hoopz_normal_body.stop()
+				hoopz_normal_body.animation = STAGGER
+				hoopz_normal_body.frame = 0
+				curr_aim = Vector2.ZERO
+				curr_input = Vector2.ZERO
+			else: print("o_cbt_hoopz: has no stagger animation.")
+			
+			#B2_Sound.play_pick( "general_impact" ) ## TODO Better impact sounds. check B2_Sound line 1025
+			B2_Sound.play_pick( "hoopzDmgSoundNormal" ) ## TODO add different sfx based on the attack type.
+			
+			if hit_tween:
+				hit_tween.kill()
+			hit_tween = create_tween()
+			modulate = Color.WHITE * 5.0
+			hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+		else:
+			## I frame is running. Do nothing.
+			pass
+		
+	else:
+		## Hoopz was defending
+		B2_Sound.play_pick("crab_hit_metal")
+		@warning_ignore("narrowing_conversion")
+		damage *= 0.5
+	
+	B2_Screen.display_damage_number( self, damage )
+	apply_central_impulse( force )
+	
+	@warning_ignore("narrowing_conversion")
+	B2_Playerdata.player_stats.decrease_hp( damage )
+	
+	## Check if ded :(
+	if B2_Playerdata.player_stats.curr_health == 0:
+		print_rich("[color=red]H O O P Z I S D E A D .[/color]")
+		linear_velocity = Vector2.ZERO
+		
+		defeat_anim()
+		
+		if is_instance_valid( B2_CManager.combat_manager ):
+			B2_CManager.combat_manager.player_defeated()
+		else:
+			## CM should be loaded.
+			# 02/08/25 Not always.
+			#breakpoint
+			push_warning("Combat Manager not loaded.")
+			
+		## Add a bunch of blood. Go crazy with it.
+		for i in randi_range(10,60):
+			@warning_ignore("narrowing_conversion")
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-8) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randf_range(0.5,5.0) )
+			for d in randi_range(0,2):
+				await get_tree().physics_frame
+	else:
+		if B2_Gun.get_current_gun().is_shooting: ## Stop shooting if hit.
+			B2_Gun.get_current_gun().abort_shooting = true
+			
+		## Make some blood splatter
+		@warning_ignore("integer_division")
+		@warning_ignore("narrowing_conversion")
+		var n : int = max( 1.0, randi_range( 1.0, damage / 15.0 ) )
+		for i in n:
+			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
+			
+		B2_CManager.hoopz_got_hit.emit() ## Allow for action cancel.
+		B2_Playerdata.player_stats.block_action_increase = false
+
+func defeat_anim() -> void:
+	## TODO Defeat doesnt exits yet.
+	## NOTE 26/04/25 it does now.
+	if curr_STATE == STATE.ROLL:
+		stop_rolling()
+	if curr_STATE == STATE.AIM:
+		stop_aiming()
+	curr_STATE = STATE.DEFEAT
+	_change_sprites()
+	hoopz_normal_body.flip_h = false
+	B2_Sound.play( "hoopz_demise" )
+	hoopz_normal_body.play( "demise" )
+
+# Roll action
+func start_rolling() -> void:
+	pass
+	
+func stop_rolling() -> void:
+	pass
+	
+func start_aiming() -> void:
+	pass
+	
+func stop_aiming() -> void:
+	pass
+
+func _on_hit_timer_timeout() -> void:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+		## stop processing states if the battle is over.
+		return
+		
+	if curr_STATE == STATE.HIT:
+		if prev_STATE == STATE.ROLL: ## Avoid issues with being hit while rolling.
+			stop_rolling()
+		elif prev_STATE == STATE.DEFENDING:
+			curr_STATE = STATE.NORMAL
+		else:
+			curr_STATE = prev_STATE

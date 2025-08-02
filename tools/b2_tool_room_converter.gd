@@ -10,6 +10,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 @export var convert_collision 		:= true
 @export var col_object_name 		:= "o_solid"
 @export var semicol_object_name 	:= "o_semisolid"
+@export var wade_object_name 		:= "o_wading"
 @export var col_object_warn 		:= ["o_rigid", "_tri"]
 
 @export_category("Dangerous")
@@ -50,6 +51,8 @@ func set_room() -> void:
 			get_parent().collision_layer = l
 		elif l.name == "layer - collision 2":
 			get_parent().collision_layer_semi = l
+		elif l.name == "layer - wading":
+			get_parent().collision_wade = l
 		elif l.name.ends_with( "o_room_pacify" ):
 			get_parent().room_pacify = true
 			cleanup.append(l)
@@ -71,9 +74,12 @@ func fix_z_index() -> void:
 				l.z_index = 100
 			if l.name == "layer - collision 2":
 				l.z_index = 100
+			if l.name == "layer - wading":
+				l.z_index = 100
 
 func get_clean_nodes() -> Array:
 	return get_parent().get_children()
+	
 func door_light():
 	print("starting doorlight convertion...")
 	var all_nodes := get_clean_nodes()
@@ -130,8 +136,9 @@ func collision():
 	print("starting collision convertion...")
 	# assume no collision node
 	
-	var solid_name 	:= "layer - collision"
-	var semi_solid_name	:= "layer - collision 2"
+	var solid_name 			:= "layer - collision"
+	var semi_solid_name		:= "layer - collision 2"
+	var wade_solid_name		:= "layer - wading"
 	
 	var all_nodes := get_parent().get_children()
 	for c in all_nodes: # check for existing collision node.
@@ -140,15 +147,21 @@ func collision():
 	
 	var collision_layer := TileMapLayer.new()
 	collision_layer.name 		= solid_name
-	collision_layer.z_index 	= 1000
+	collision_layer.z_index 	= 100
 	add_sibling.call_deferred(collision_layer, true)
 	collision_layer.set_owner.call_deferred( get_parent() )
 	
 	var semi_collision_layer := TileMapLayer.new()
 	semi_collision_layer.name 		= semi_solid_name
-	semi_collision_layer.z_index 	= 1000
+	semi_collision_layer.z_index 	= 100
 	add_sibling.call_deferred(semi_collision_layer, true)
 	semi_collision_layer.set_owner.call_deferred( get_parent() )
+	
+	var wade_collision_layer := TileMapLayer.new()
+	wade_collision_layer.name 		= wade_solid_name
+	wade_collision_layer.z_index 	= 100
+	add_sibling.call_deferred(wade_collision_layer, true)
+	wade_collision_layer.set_owner.call_deferred( get_parent() )
 	
 	print( "Total of %s nodes." % str(all_nodes.size() ) )
 	#print(all_nodes)
@@ -172,9 +185,11 @@ func collision():
 		
 	print("writing changes...")
 	collision_layer.clear()
-	collision_layer.tile_set 	= load( "res://barkley2/resources/collision_tileset.tres" )
+	collision_layer.tile_set 		= load( "uid://n70843ohvm84" )
 	semi_collision_layer.clear()
-	semi_collision_layer.tile_set 	= load( "res://barkley2/resources/collision_tileset.tres" )
+	semi_collision_layer.tile_set 	= load( "uid://cbgwi3h47ghpg" )
+	wade_collision_layer.clear()
+	wade_collision_layer.tile_set 	= load( "uid://m673wsth5kja" )
 	
 	for col in col_nodes:
 		var pos 		:= col.global_position as Vector2i

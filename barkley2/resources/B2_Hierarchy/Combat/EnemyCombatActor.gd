@@ -304,7 +304,7 @@ func play_local_sound( sound_name : String ) -> void:
 	else:
 		push_error("ActorAudioPlayer for actor %s not setup, dumbass." % name)
 
-func damage_actor( damage : int, force : Vector2 ) -> void:
+func damage_actor( damage : float, force : Vector2 ) -> void:
 	## Cant be damaged if its not in combat.
 	## TODO implement enviromental harm.
 	#if curr_MODE == MODE.INACTIVE or curr_MODE == MODE.NONE:
@@ -313,6 +313,10 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	if actor_is_dying or is_actor_dead: # dont process damage if the actor is dying.
 		return
 		
+	## TODO apply resistances
+	push_warning("Applying dummy resistance reduction.")
+	damage *= 0.05
+	
 	print( "Damaged actor %s with %s points of damage." % [self.name, damage] ) ## DEBUG
 	
 	B2_Screen.display_damage_number( self, damage )
@@ -381,7 +385,7 @@ func destroy_actor() -> void:
 		ActorCol.queue_free()
 	else:
 		var t := create_tween()
-		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.5 ) )
+		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.1 ) )
 		## Disabled 21-04-25
 		#if is_instance_valid(B2_CManager.combat_manager):
 			#t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )

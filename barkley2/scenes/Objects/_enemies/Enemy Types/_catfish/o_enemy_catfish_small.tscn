@@ -1,6 +1,6 @@
 [gd_scene load_steps=62 format=3 uid="uid://dl0ylc1ocrp5l"]
 
-[ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Real_Time/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
+[ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_wejwp"]
 [ext_resource type="Texture2D" uid="uid://dyd6gp6lc4ppb" path="res://barkley2/assets/b2_original/images/merged/s_catfish_small.png" id="2_mkogk"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_wejwp"]
@@ -472,8 +472,10 @@ sound_alert = " alertSound"
 sound_damage = "catfishsmall_grunt"
 sound_death = "catfishsmall_death"
 gib_sprite = "s_catfish_gibs"
+splatSound = "kobold_splatter"
 bloodburst = "s_catfish_bloodsmall"
 explode_on_death = false
+death_animation = "catfish_stagger"
 enemy_name = "Catfish (Small)"
 enemy_data = ExtResource("4_jd0uj")
 ActorAnim = NodePath("ActorAnim")
@@ -618,11 +620,13 @@ shape = SubResource("CircleShape2D_4duym")
 
 [node name="ActorBloodSpill" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_r81gg")
+position = Vector2(0, -8)
 emitting = false
 amount = 4
 texture = ExtResource("9_iwhau")
+lifetime = 0.5
 one_shot = true
-explosiveness = 0.5
+explosiveness = 1.0
 process_material = ExtResource("10_p2h0x")
 
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

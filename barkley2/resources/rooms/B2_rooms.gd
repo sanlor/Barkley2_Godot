@@ -6,8 +6,11 @@ class_name B2_ROOMS
 ## WARNING Pathfinding sucks. it has many issues related to the starting and finish positions.
 ## Maybe improve AstarGrid2D resolution?
 
-const O_HUD = preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
-const O_ZONE_NAME = preload("res://barkley2/objects/oZoneName.tscn")
+const O_HUD 					= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
+const O_ZONE_NAME 				= preload("res://barkley2/objects/oZoneName.tscn")
+const COLLISION_WADING_TILESET 	= preload("uid://m673wsth5kja")
+const COLLISION_2_TILESET 		= preload("uid://cbgwi3h47ghpg")
+const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
 
 signal permission_changed
 signal pacify_changed( activated : bool )
@@ -31,6 +34,8 @@ var astar_valid_tiles := Array() # used for debug
 @export_category("Room")
 @export var collision_layer 		: TileMapLayer	## The tilemap that handles colision of everything.
 @export var collision_layer_semi 	: TileMapLayer	## The tilemap that handles colision for somethings (like actors, but not for bullets)
+@export var collision_layer_wade 	: TileMapLayer	## The tilemap that handles colision for water (casing and bullets falling in the water)
+var collision_array 				: Array[TileMapLayer] = []
 
 @export_category("Room Options")
 @export var enable_hud					:= true		## Allow the hud to show up
@@ -100,11 +105,25 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
 
+## manually check collision againt all tilemap layers on the reference layer
+func check_tilemap_collision( pos : Vector2, collision_mask : int ) -> bool:
+	var local_pos : Vector2i = reference_layer.front().local_to_map( pos )
+	for tilemap : TileMapLayer in collision_array:
+		# check if the cell is being used
+		if tilemap.get_cell_source_id(local_pos) >= 0:
+			## Check if the collision mask match
+			if tilemap.tile_set.get_physics_layer_collision_layer(0) || collision_mask != 0: ## bitwise op OR
+				return true
+	## No collision
+	return false
+
 func _hide_collision_layer() -> void:
 	if is_instance_valid(collision_layer):
 		collision_layer.hide()
 	if is_instance_valid(collision_layer_semi):
 		collision_layer_semi.hide()
+	if is_instance_valid(collision_layer_wade):
+		collision_layer_wade.hide()
 
 func _set_region():
 	if populate_reference_layer:
@@ -118,13 +137,23 @@ func _set_region():
 				c.add_to_group("navigation_polygon_source_geometry_group")
 				
 				## Set stuff in case you forgot to do it manually
-				if not is_instance_valid( collision_layer ):
-					if c.name == "layer - collision":
+				if c.name == "layer - collision":
+					if not is_instance_valid( collision_layer ):
 						collision_layer = c
-						
-				if not is_instance_valid( collision_layer_semi ):
-					if c.name == "layer - collision 2":
-						collision_layer = c
+					collision_layer.tile_set = COLLISION_TILESET
+					collision_array.append(c)
+					
+				if c.name == "layer - collision 2":
+					if not is_instance_valid( collision_layer_semi ):
+						collision_layer_semi = c
+					collision_layer_semi.tile_set = COLLISION_2_TILESET
+					collision_array.append(c)
+					
+				if c.name == "layer - wading":
+					if not is_instance_valid( collision_layer_wade ):
+						collision_layer_wade = c
+					collision_layer_wade.tile_set = COLLISION_WADING_TILESET
+					collision_array.append(c)
 	
 	## Players dont need to see this, only during development.
 	_hide_collision_layer()

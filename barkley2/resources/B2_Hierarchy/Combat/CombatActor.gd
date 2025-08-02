@@ -93,6 +93,12 @@ var jump_target := Vector2.ZERO
 #func apply_damage( _damage : float) -> void:
 #	push_warning("Method not setup for node %s." % name)
 
+func apply_curr_input( dir : Vector2 ) -> void:
+	curr_input = dir
+	
+func apply_curr_aim( dir : Vector2 ) -> void:
+	curr_aim = dir
+
 ## TODO
 func _connect_ai_signals() -> void:
 	if actor_ai:
@@ -236,7 +242,7 @@ func check_actor_activity() -> void:
 
 ## Combat stuff
 
-func damage_actor( _damage : int, _force : Vector2 ) -> void:
+func damage_actor( _damage : float, _force : Vector2 ) -> void:
 	push_warning("Damage behaviour not set for actor %s. Doing nothing." % self.name )
 	_after_damage()
 

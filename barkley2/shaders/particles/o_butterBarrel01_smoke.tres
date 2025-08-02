@@ -1,0 +1,27 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=5 format=3 uid="uid://ktss8585vxc2"]
+
+[sub_resource type="Curve" id="Curve_hfqsu"]
+_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(0.2651515, 0.24719107), -0.47984117, -0.47984117, 0, 0, Vector2(1, 0.022471905), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_g1m2f"]
+curve = SubResource("Curve_hfqsu")
+
+[sub_resource type="Curve" id="Curve_guety"]
+_data = [Vector2(0, 0.3146068), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ajqx8"]
+curve = SubResource("Curve_guety")
+
+[resource]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, -20, 0)
+scale_curve = SubResource("CurveTexture_ajqx8")
+alpha_curve = SubResource("CurveTexture_g1m2f")
+turbulence_enabled = true
+turbulence_noise_scale = 5.322
+turbulence_noise_speed_random = 0.5
+turbulence_influence_min = 0.0

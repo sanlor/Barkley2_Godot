@@ -1,6 +1,6 @@
 @icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
-extends  B2_CombatActor
-class_name B2_HoopzCombatActor
+extends  B2_PlayerCombatActor
+class_name B2_Player_FreeRoam ## TODO merge this with the other Hoopz combat actor (B2_Player)
 
 ## Class used by the player actor, during combat. Original system, so it probably wont work well.
 ## large part of the codebase were ported from B2_PlayerCombatActor, B2_Player
@@ -618,7 +618,7 @@ func stop_aiming() -> void:
 		B2_Playerdata.player_stats.block_action_increase = false
 		B2_Playerdata.is_holding_gun = false
 	
-func damage_actor( damage : int, force : Vector2 ) -> void:
+func damage_actor( damage : float, force : Vector2 ) -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
 		## Dont apply damage if the battle is over.
 		return
@@ -654,6 +654,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	B2_Screen.display_damage_number( self, damage )
 	apply_central_impulse( force )
 	
+	@warning_ignore("narrowing_conversion")
 	B2_Playerdata.player_stats.decrease_hp( damage )
 	
 	## Check if ded :(
@@ -671,6 +672,7 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 			
 		## Add a bunch of blood. Go crazy with it.
 		for i in randi_range(10,60):
+			@warning_ignore("narrowing_conversion")
 			B2_Screen.make_blood_drop( global_position + Vector2(0,-8) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randf_range(0.5,5.0) )
 			for d in randi_range(0,2):
 				await get_tree().physics_frame
@@ -680,7 +682,8 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 			
 		## Make some blood splatter
 		@warning_ignore("integer_division")
-		var n : int = max( 1, randi_range( 1, damage / 15 ) )
+		@warning_ignore("narrowing_conversion")
+		var n : int = max( 1.0, randi_range( 1.0, damage / 15.0 ) )
 		for i in n:
 			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
 			

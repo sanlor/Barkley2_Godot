@@ -2,7 +2,7 @@ extends B2_Environ
 class_name B2_EnvironInteractive
 
 @export_category("Interactive")
-@export var is_interactive 								:= true;
+@export var is_interactive 								:= true
 @export_file("*.material") var interactive_shader		:= "res://barkley2/resources/shaders/selected_outline.material"
 
 @export_category("Mouse")

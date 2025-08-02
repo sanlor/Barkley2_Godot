@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnbunxj15a4q1"]
+
+[ext_resource type="Texture2D" uid="uid://bq65f8w0bms51" path="res://barkley2/assets/b2_original/images/merged/s_effect_SludgeDrip.png" id="1_5x632"]
+[ext_resource type="Script" uid="uid://b4xl3a1a8g56m" path="res://barkley2/scenes/_Godot_Combat/_Guns/s_effect_sludge_drip.gd" id="2_jgqw4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuwf5"]
+atlas = ExtResource("1_5x632")
+region = Rect2(0, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kxr4u"]
+atlas = ExtResource("1_5x632")
+region = Rect2(16, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bclao"]
+atlas = ExtResource("1_5x632")
+region = Rect2(32, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vu75w"]
+atlas = ExtResource("1_5x632")
+region = Rect2(48, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2l2bq"]
+atlas = ExtResource("1_5x632")
+region = Rect2(64, 0, 16, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhiot"]
+atlas = ExtResource("1_5x632")
+region = Rect2(80, 0, 16, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rg7l1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuwf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kxr4u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bclao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vu75w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2l2bq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhiot")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="s_effect_SludgeDrip" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_rg7l1")
+autoplay = "default"
+centered = false
+offset = Vector2(-8, -12)
+script = ExtResource("2_jgqw4")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

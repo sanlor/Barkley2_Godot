@@ -2,6 +2,8 @@ extends Node2D
 ## Bullet casings.
 ## NOTE Not all guns have bullet casings.
 
+const S_EFFECT_SLUDGE_DRIP = preload("uid://bnbunxj15a4q1")
+
 @onready var spr: Sprite2D = $spr
 
 ## Sound
@@ -38,6 +40,12 @@ func cleanup() -> void:
 	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 8.0, 16.0 ) )
 	t.tween_callback( queue_free )
 
+func can_bounce() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 20 ) ## 20 is wading
+	return true
+
 func _physics_process(delta: float) -> void:
 	position 			+= velocity * delta
 	
@@ -57,9 +65,18 @@ func _physics_process(delta: float) -> void:
 			set_physics_process( false )
 			return
 		else:
-			velocity			*= bounce
-			upward_velocity 	*= bounce
-			angular_velocity 	*= bounce
+			if can_bounce():
+				velocity			*= bounce
+				upward_velocity 	*= bounce
+				angular_velocity 	*= bounce
+			else:
+				## TODO If the casing feel in a void???
+				
+				# fell in water
+				var drip = S_EFFECT_SLUDGE_DRIP.instantiate()
+				add_sibling( drip, true )
+				drip.global_position = global_position
+				queue_free()
 			
 	else:
 		z_index = 1

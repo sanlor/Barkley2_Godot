@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=3 uid="uid://74tkdn6wv67c"]
+
+[ext_resource type="Texture2D" uid="uid://lulocnw1elck" path="res://barkley2/assets/b2_original/images/merged/s_enemy_ratNest.png" id="1_g22jn"]
+[ext_resource type="Script" uid="uid://bdosbsjte5key" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_rat_nest.gd" id="2_kikin"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dn54f"]
+atlas = ExtResource("1_g22jn")
+region = Rect2(0, 0, 36, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krmvq"]
+atlas = ExtResource("1_g22jn")
+region = Rect2(36, 0, 36, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx0hm"]
+atlas = ExtResource("1_g22jn")
+region = Rect2(72, 0, 36, 31)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2avby"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dn54f")
+}],
+"loop": true,
+"name": &"editor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krmvq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx0hm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krmvq")
+}],
+"loop": true,
+"name": &"eyes",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aktsk"]
+radius = 64.0
+
+[node name="o_enemy_ratNest" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_2avby")
+animation = &"editor"
+centered = false
+offset = Vector2(-18, -24)
+script = ExtResource("2_kikin")
+
+[node name="cooldown_timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="spawn_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="spawn_distance" type="Area2D" parent="."]
+monitorable = false
+
+[node name="spawn_collision" type="CollisionShape2D" parent="spawn_distance"]
+shape = SubResource("CircleShape2D_aktsk")
+debug_color = Color(0.36166647, 0, 0.6999999, 0.078431375)
+
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="body_entered" from="spawn_distance" to="." method="_on_spawn_distance_body_entered"]

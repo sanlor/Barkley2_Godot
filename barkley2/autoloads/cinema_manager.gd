@@ -6,6 +6,7 @@ extends Node
 signal event_started
 signal event_ended
 signal hoopz_got_hit ## Used during combat, for action canceling.
+signal hoopz_was_killed ## Used for combat, to let the workd know that hoopz died.
 
 const SCENE_INDEX = preload("res://barkley2/resources/B2_CManager/scene_index.json")
 

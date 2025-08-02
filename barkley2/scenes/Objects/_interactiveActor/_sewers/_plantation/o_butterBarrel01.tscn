@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dqy48wbj6og8n"]
+[gd_scene load_steps=18 format=3 uid="uid://dqy48wbj6og8n"]
 
 [ext_resource type="Texture2D" uid="uid://vsydaioyx847" path="res://barkley2/assets/b2_original/images/merged/s_sw1_butterBarrel01.png" id="1_1pvhe"]
 [ext_resource type="Script" uid="uid://pyjusjciqh81" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_butter_barrel_01.gd" id="2_8kdns"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_0axvy"]
 [ext_resource type="AudioStream" uid="uid://bmaquctvwym2l" path="res://barkley2/assets/b2_original/audio/Environment/TirNaNog/sn_bubbles01.ogg" id="4_0axvy"]
+[ext_resource type="Material" uid="uid://ktss8585vxc2" path="res://barkley2/shaders/particles/o_butterBarrel01_smoke.tres" id="5_x8vxl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0axvy"]
 atlas = ExtResource("1_1pvhe")
@@ -149,32 +150,6 @@ fill = 1
 fill_from = Vector2(0.49532712, 0.5)
 fill_to = Vector2(0.5186916, 0.57476634)
 
-[sub_resource type="Curve" id="Curve_hfqsu"]
-_data = [Vector2(0, 0.011235952), 0.0, 0.0, 0, 0, Vector2(0.2651515, 0.24719107), -0.47984117, -0.47984117, 0, 0, Vector2(1, 0.022471905), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_g1m2f"]
-curve = SubResource("Curve_hfqsu")
-
-[sub_resource type="Curve" id="Curve_guety"]
-_data = [Vector2(0, 0.3146068), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ajqx8"]
-curve = SubResource("Curve_guety")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lqbx4"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 8.0
-gravity = Vector3(0, -20, 0)
-scale_curve = SubResource("CurveTexture_ajqx8")
-alpha_curve = SubResource("CurveTexture_g1m2f")
-turbulence_enabled = true
-turbulence_noise_scale = 5.322
-turbulence_noise_speed_random = 0.5
-turbulence_influence_min = 0.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0axvy"]
 size = Vector2(25, 40)
 
@@ -212,7 +187,7 @@ position = Vector2(1, -24)
 amount = 64
 texture = SubResource("GradientTexture2D_1g01g")
 lifetime = 3.0
-process_material = SubResource("ParticleProcessMaterial_lqbx4")
+process_material = ExtResource("5_x8vxl")
 
 [node name="Area2D" type="Area2D" parent="."]
 

@@ -1,6 +1,6 @@
 @icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
 extends B2_PlayerCombatActor
-class_name B2_Player
+class_name B2_Player_FreeRoam
 
 # I THINK o_hoopz is the main player object. there is also o_cts_hoopz, but I think its only meant for cutscenes. 
 # Not being able to debug the original game makes this harder.
@@ -28,53 +28,7 @@ class_name B2_Player
 @export var can_draw_weapon := true
 @export var can_shoot		:= true
 
-@export_category("Combat Sprites")
-@export var combat_upper_sprite 	: AnimatedSprite2D
-@export var combat_lower_sprite 	: AnimatedSprite2D
-@export var combat_arm_back 		: AnimatedSprite2D
-@export var combat_arm_front 		: AnimatedSprite2D
-@export var combat_weapon 			: AnimatedSprite2D
-@export var combat_weapon_parts 	: AnimatedSprite2D
-@export var combat_weapon_spots 	: AnimatedSprite2D
-@export var gun_muzzle				: Marker2D
-
 @onready var aim_origin: Marker2D = $aim_origin
-
-const COMBAT_SHUFFLE 		:= "aim_shuffle"
-const COMBAT_STAND 			:= "aim_stand"
-const COMBAT_STAND_E 		:= 0
-const COMBAT_STAND_NE 		:= 1
-const COMBAT_STAND_N		:= 2
-const COMBAT_STAND_NW		:= 3
-const COMBAT_STAND_W		:= 4
-const COMBAT_STAND_SW		:= 5
-const COMBAT_STAND_S		:= 6
-const COMBAT_STAND_SE		:= 7
-
-const COMBAT_WALK_E 		:= "walk_E"
-const COMBAT_WALK_NE 		:= "walk_NE"
-const COMBAT_WALK_N			:= "walk_N"
-const COMBAT_WALK_NW		:= "walk_NW"
-const COMBAT_WALK_W			:= "walk_W"
-const COMBAT_WALK_SW		:= "walk_SW"
-const COMBAT_WALK_S			:= "walk_S"
-const COMBAT_WALK_SE		:= "walk_SE"
-
-#enum STATE{NORMAL,ROLL,AIM}
-#var curr_STATE := STATE.NORMAL :
-	#set(s) : 
-		#curr_STATE = s
-		#_change_sprites()
-		#_update_flashlight()
-
-# Combat Animations
-var aim_dir := Vector2.ZERO
-var waddle	:= false # If hoopz legs should waddle torward the aiming direction
-
-var combat_last_direction 	:= Vector2.ZERO
-var combat_last_input 		:= Vector2.ZERO
-
-var prev_gun : B2_Weapon ## Used to update animations
 
 ## Debug
 var debug_line 			: Vector2
@@ -113,15 +67,15 @@ func _ai_aim_ranged( enabled : bool ) -> void:
 		if enabled:
 			## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
 			if  B2_Gun.has_any_guns():
-				aim_gun( true)
+				start_aiming()
 				
 	elif curr_STATE == STATE.AIM:
 		if enabled:
-			aim_gun( false )
+			stop_aiming()
 			
 func _ai_roll_at( enabled : bool ) -> void:
 	if enabled:
-		start_roll()
+		start_rolling()
 
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -207,13 +161,13 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 		## Unknown type.
 		breakpoint
 	
-func aim_gun( enabled : bool ) -> void:
-	if enabled:
+func start_aiming() -> void:
 		# change state, allowing the player to aim.
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 		curr_STATE = STATE.AIM
 		B2_Sound.play_pick("hoopz_swapguns")
-	else:
+
+func stop_aiming() -> void:
 		curr_STATE = STATE.NORMAL
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 		B2_Sound.play_pick("hoopz_swapguns")
@@ -229,28 +183,7 @@ func shoot_gun() -> void:
 			if curr_STATE == STATE.SHOOT:
 				curr_STATE = STATE.AIM
 	
-func _change_sprites():
-	match curr_STATE:
-		STATE.NORMAL, STATE.ROLL:
-			hoopz_normal_body.show()
-			
-			combat_lower_sprite.hide()
-			combat_upper_sprite.hide()
-			combat_arm_back.hide()
-			combat_arm_front.hide()
-			combat_weapon.hide()
-			combat_weapon_parts.hide()
-			combat_weapon_spots.hide()
-		STATE.AIM:
-			hoopz_normal_body.hide()
-			
-			combat_lower_sprite.show()
-			combat_upper_sprite.show()
-			combat_arm_back.show()
-			combat_arm_front.show()
-			combat_weapon.show()
-			combat_weapon_parts.show()
-			combat_weapon_spots.show()
+
 
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
@@ -484,7 +417,7 @@ func combat_weapon_animation() -> void:
 		combat_weapon_spots.z_index		= _z_index
 
 # Roll action
-func start_roll() -> void:
+func start_rolling() -> void:
 	# Roooolliiing staaaaart! ...here vvv
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
@@ -521,7 +454,7 @@ func start_roll() -> void:
 	#hoopz_normal_body.offset.y += 15
 	return
 
-func end_roll() -> void:
+func stop_rolling() -> void:
 	if linear_velocity.length() < 8.0:
 		## DEBUG - TODO Improve this.
 		if hoopz_normal_body.animation == ROLL or hoopz_normal_body.animation == ROLL_BACK:
@@ -542,7 +475,7 @@ func _physics_process(delta: float) -> void:
 		
 	match curr_STATE:
 		STATE.ROLL:
-			end_roll()
+			stop_rolling()
 				
 		STATE.NORMAL, STATE.AIM, STATE.SHOOT:
 			#if B2_Input.player_has_control:

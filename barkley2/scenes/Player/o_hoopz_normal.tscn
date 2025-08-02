@@ -23,8 +23,9 @@ polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "flashlight_pivot", "flashlight", "ActorCol", "actor_ai")]
-collision_layer = 3
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "flashlight_pivot", "flashlight", "ActorCol", "actor_ai")]
+collision_layer = 1572865
+collision_mask = 1572865
 mass = 70.0
 physics_material_override = ExtResource("1_6d2l0")
 gravity_scale = 0.0
@@ -43,6 +44,8 @@ combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+hit_timer = NodePath("hit_timer")
+i_frame_timer = NodePath("i_frame_timer")
 flashlight_pivot = NodePath("flashlight_pivot")
 flashlight = NodePath("flashlight_pivot/flashlight")
 ActorCol = NodePath("hoopz_collision")
@@ -146,6 +149,13 @@ current = true
 [node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
 visible = false
 texture = SubResource("PlaceholderTexture2D_ufjxn")
+
+[node name="hit_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="i_frame_timer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

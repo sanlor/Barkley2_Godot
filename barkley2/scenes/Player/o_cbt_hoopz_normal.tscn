@@ -132,6 +132,9 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("1_kxy2o")
+STAGGER = null
+ROLL = null
+ROLL_BACK = null
 hoopz_normal_body = NodePath("hoopz_normal_body")
 hoopz_roll_direction = NodePath("hoopz_roll_direction")
 combat_upper_sprite = NodePath("combat_upper_body")
@@ -146,6 +149,13 @@ gun_muzzle = NodePath("gun_muzzle")
 step_smoke = NodePath("step_smoke")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("hoopz_collision")
+walk_speed = null
+roll_impulse = null
+walk_damp = null
+roll_damp = null
+path_desired_distance = null
+target_desired_distance = null
+animation_speed = null
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_6c22w")]
 
@@ -158,7 +168,7 @@ position = Vector2(0, -1)
 amount = 30
 
 [node name="hoopz_roll_direction" type="Line2D" parent="."]
-modulate = Color(1, 1, 1, 1.0778)
+modulate = Color(1, 1, 1, 0.9615464)
 points = PackedVector2Array(12, 0, 24, 0)
 width_curve = SubResource("Curve_qfgrm")
 gradient = SubResource("Gradient_wsajw")
@@ -238,7 +248,7 @@ texture = SubResource("PlaceholderTexture2D_ty5ks")
 
 [node name="ready_label" type="RichTextLabel" parent="."]
 material = SubResource("ShaderMaterial_qfgrm")
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

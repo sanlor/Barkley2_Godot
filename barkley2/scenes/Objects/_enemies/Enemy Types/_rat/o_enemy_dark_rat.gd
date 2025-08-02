@@ -1,14 +1,15 @@
-@icon("res://barkley2/assets/b2_original/images/merged/s_catfish_head.png")
 extends B2_EnemyCombatActor
-class_name B2_Enemy_CatFish
+class_name B2_EnemyRat
 
-## Check o_enemygroup_catfish
-## Parent class for all Catfish enemies, since they all behave in a similar way.
+## Check o_enemygroup_rat. Some rat types can explode.
+# https://youtu.be/SQKRnzWSW0M?t=12323
 
 @onready var actor_blood_spill: GPUParticles2D = $ActorBloodSpill
 
 func _ready() -> void:
 	assert( is_instance_valid(actor_ai), "No valid AI found." )
+	assert( enemy_data, "No enemy data ")
+	enemy_data.resource_local_to_scene = true
 	actor_ai.actor = self
 	_connect_ai_signals()
 
@@ -17,6 +18,7 @@ func _ai_ranged_attack( enabled : bool ) -> void:
 		if curr_STATE == STATE.NORMAL:
 			if not animation_attack:
 				push_error("Attack animation not set.")
+				return
 			curr_STATE = STATE.AIM
 			ActorAnim.animation = animation_attack
 			ActorAnim.sprite_frames.set_animation_loop( animation_attack, false )
@@ -27,9 +29,6 @@ func _ai_jump( enabled : bool ) -> void:
 	if enabled:
 		if curr_STATE == STATE.NORMAL:
 			cinema_jump( curr_input * 200.0 ) ## Debug direction
-
-func _before_death() -> void:
-	actor_blood_spill.emitting = true
 
 func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 	if jump_tween: jump_tween.kill()
@@ -50,10 +49,7 @@ func normal_animation(_delta : float):
 	if input != Vector2.ZERO: # AI is moving the Actor
 		if last_input != input:
 			## Flip sprite if needed.
-			ActorAnim.flip_h = input.x < 0 ## If going left, flip the sprite
-			if input.y < 0:
-				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
-				ActorAnim.flip_h = not ActorAnim.flip_h
+			ActorAnim.flip_h = input.x < 0 ## If going left, flip the spritesd
 			
 			match input.round():
 				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
@@ -69,8 +65,26 @@ func normal_animation(_delta : float):
 				_: # Catch All
 					print("Catch all, ", input)
 	else:
-		# AI is not moving the actor anymore
-		ActorAnim.play( actor_animations.ANIMATION_STAND )
+		if last_input != input:
+			# AI is not moving the actor anymore
+			ActorAnim.animation = actor_animations.ANIMATION_STAND
+			ActorAnim.stop()
+			
+			# change the animation itself.
+			match last_input.round():
+				Vector2.UP + Vector2.LEFT:			ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[3]
+				Vector2.UP + Vector2.RIGHT:			ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[5]
+				Vector2.DOWN + Vector2.LEFT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[7]
+				Vector2.DOWN + Vector2.RIGHT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[1]
+					
+				Vector2.UP:			ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[4]
+				Vector2.LEFT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[6]
+				Vector2.DOWN:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[0]
+				Vector2.RIGHT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[2]
+					
+				_: # Catch All
+					#ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[0]
+					pass
 		
 		var curr_direction : Vector2 = input
 	
@@ -101,14 +115,13 @@ func _physics_process(delta: float) -> void:
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_force( velocity / Engine.time_scale )
 
-func _on_actor_anim_frame_changed() -> void:
-	if ActorAnim.animation.begins_with("catfish_walk"):
-		if ActorAnim.frame in [1,3]:
-			## Play step sound
-			play_local_sound( "hoopz_puddlestep" )
-			
-	if ActorAnim.animation == animation_attack:
-		if ActorAnim.frame == 5:
-			## Play Attack sound
-			play_local_sound( "catfishsmall_attack")
-			
+func _on_body_entered( body : Node ) -> void:
+	## Check scr_AI_action_kamikaze
+	if body is B2_Player:
+		## Do not explode if player is rolling.
+		if body.curr_STATE != B2_Player.STATE.ROLL:
+			destroy_actor()
+			body.damage_actor( 1.0, position.direction_to(body.position) * 200.0 )
+
+func _before_death() -> void:
+	actor_blood_spill.emitting = true
