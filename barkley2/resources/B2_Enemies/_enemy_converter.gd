@@ -7,7 +7,7 @@ extends EditorScript
 
 func _run() -> void:
 	const ENEMY_DB 			= preload("res://barkley2/resources/B2_Enemies/enemyDB.json")
-	const ENEMY_FOLDER 		:= "res://barkley2/resources/B2_Enemies/"
+	const ENEMY_FOLDER 		:= "res://barkley2/resources/B2_EnemyData/"
 
 	for key : String in ENEMY_DB.data:
 		var enemy_data 				:= B2_EnemyData.new()

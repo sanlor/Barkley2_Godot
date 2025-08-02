@@ -917,15 +917,15 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.bullets_per_shot 	= 10
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.0
-			wpn.bullet_spread 		= 0.35
+			wpn.bullet_spread 		= 0.5
 			if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
 				wpn.bullets_per_shot 	*= 2
 				wpn.ammo_per_shot 		*= 2
 				
 		GROUP.AUTOMATIC:
-			wpn.bullets_per_shot 	= 10
-			wpn.ammo_per_shot 		= 10
-			wpn.wait_per_shot 		= 0.05
+			wpn.bullets_per_shot 	= 1
+			wpn.ammo_per_shot 		= 1
+			wpn.wait_per_shot 		= 0.2
 			wpn.bullet_spread 		= 0.1
 			
 			## Skills
@@ -933,14 +933,14 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.skill_list[SKILL.FULL_AUTO] 	= 0
 			
 		GROUP.MOUNTED:
-			wpn.bullets_per_shot 	= 25
-			wpn.ammo_per_shot 		= 25
+			wpn.bullets_per_shot 	= 1
+			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.05
 			wpn.bullet_spread 		= 0.20
 			
 		GROUP.PISTOLS:
-			wpn.bullets_per_shot 	= 3
-			wpn.ammo_per_shot 		= 3
+			wpn.bullets_per_shot 	= 1
+			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.2
 			wpn.bullet_spread 		= 0.05
 			
@@ -951,13 +951,13 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		GROUP.PROJECTILE:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.0
+			wpn.wait_per_shot 		= 1.0
 			wpn.bullet_spread 		= 0.0
 			
 		GROUP.RIFLES:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.1
+			wpn.wait_per_shot 		= 1.0
 			wpn.bullet_spread 		= 0.025
 			
 			## Skills

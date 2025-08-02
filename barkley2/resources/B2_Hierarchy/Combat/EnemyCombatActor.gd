@@ -219,7 +219,8 @@ func cinema_look( _direction : Vector2 ) -> void:
 	stop_animation.emit()
 	movement_vector = _direction
 
-func cinema_jump( times := 1 ) -> void:
+## TODO Fix this, is incompatible with the old system
+func _cinema_jump( times := 1 ) -> void:
 	var t := create_tween()
 	t.tween_interval(0.1)
 	for i in times:
@@ -306,8 +307,8 @@ func play_local_sound( sound_name : String ) -> void:
 func damage_actor( damage : int, force : Vector2 ) -> void:
 	## Cant be damaged if its not in combat.
 	## TODO implement enviromental harm.
-	if curr_MODE == MODE.INACTIVE or curr_MODE == MODE.NONE:
-		return
+	#if curr_MODE == MODE.INACTIVE or curr_MODE == MODE.NONE:
+	#	return
 		
 	if actor_is_dying or is_actor_dead: # dont process damage if the actor is dying.
 		return
@@ -319,30 +320,35 @@ func damage_actor( damage : int, force : Vector2 ) -> void:
 	play_local_sound( sound_damage )
 	apply_central_impulse( force )
 	
-	@warning_ignore("narrowing_conversion")
-	enemy_data.curr_health = clampi( enemy_data.curr_health - damage, 0, enemy_data.max_health )
-	
-	actor_died.emit()
-	
-	if enemy_data.curr_health <= 0.0:
-		actor_is_dying 	= true
-		is_actor_dead 	= true
-		destroy_actor()
-	else:
-		if hit_tween:
-			hit_tween.kill()
-		hit_tween = create_tween()
-		modulate = Color.WHITE * 5.0
-		hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+	if enemy_data:
+		@warning_ignore("narrowing_conversion")
+		enemy_data.curr_health = clampi( enemy_data.curr_health - damage, 0, enemy_data.max_health )
 		
+		if enemy_data.curr_health <= 0.0:
+			actor_is_dying 	= true
+			is_actor_dead 	= true
+			actor_died.emit()
+			destroy_actor()
+		else:
+			if hit_tween:
+				hit_tween.kill()
+			hit_tween = create_tween()
+			modulate = Color.WHITE * 5.0
+			hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+			
+	else: push_warning("Enemy data not loaded for %s." % name )
 	_after_damage()
 
 func destroy_actor() -> void:
+	_before_death()
 	#ActorCol.disabled = true
 	ActorCol.queue_free()
 	#B2_Sound.play( sound_death )
 	play_local_sound( sound_death )
-	B2_CManager.combat_manager.enemy_defeated(self)
+	
+	## If TurnBased combat is active, let the system know that the enemy was defeated.
+	if B2_CManager.combat_manager:
+		B2_CManager.combat_manager.enemy_defeated(self)
 	
 	## Disabled this on 31/07/25 fix this later
 	#if combat_ai:
@@ -356,7 +362,7 @@ func destroy_actor() -> void:
 	## TEMP
 	if make_gibs:
 		const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
-		for i in randi_range(0,8) + 2:
+		for i in randi_range(2,8) + 2:
 			var gib = O_GIBS.instantiate()
 			gib.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
 			gib.gib_sprite = gib_sprite
@@ -375,12 +381,13 @@ func destroy_actor() -> void:
 		ActorCol.queue_free()
 	else:
 		var t := create_tween()
-		t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.5 ) )
+		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.5 ) )
 		## Disabled 21-04-25
 		#if is_instance_valid(B2_CManager.combat_manager):
 			#t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
 		#else:
 			#push_warning( "Combat manager not loaded" )
+		t.tween_interval( 5.0 ) ## Add a small delay to wait on some animations to finish.
 		t.tween_callback( get_parent().remove_child.bind(self) )
 	
 	B2_Drop.create_drops( enemy_data, global_position, false )

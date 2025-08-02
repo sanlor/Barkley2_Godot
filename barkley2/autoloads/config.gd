@@ -41,7 +41,7 @@ const PLAYER_MELEE_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the player's
 const ENEMY_BULLET_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the enemies's bullets
 const ENEMY_MELEE_DAMAGE_MULTIPLIER		:= 1.0 ## Final multiplier for the enemies's melee damage
 
-const BULLET_SPREAD_MULTIPLIER		:= 0.0125	## When firing an automatic weapon, apply an penalty to accuracy. lower is less accurate (i think).
+const BULLET_SPREAD_MULTIPLIER		:= 0.00125	## When firing an automatic weapon, apply an penalty to accuracy. lower is less accurate (i think).
 
 # Dialog stuff
 var dialogY := 140.0

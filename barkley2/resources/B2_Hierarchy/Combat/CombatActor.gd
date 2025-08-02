@@ -9,6 +9,27 @@ signal set_played 				## Actor was playing some animation, but its done now.
 
 signal state_changed			## emitted when the actor state (attack, aim, normal) changes.
 
+## Actor state, shared betweem all actors.
+enum STATE{
+	NORMAL, 	## Normal state. Do normal stuff for the context
+	ROLL, 		## Actor is currently rolling
+	AIM, 		## Actor is Aiming at something
+	SHOOT,		## Actor is shooting at something
+	POINT, 		## Actor is pointing at something
+	HIT, 		## Actor is being hit
+	JUMP, 		## Actor is jumping
+	DEFENDING, 	## Actor is defending
+	VICTORY, 	## Turn-based Combat - Actor Won
+	DEFEAT		## Turn-based Combat - Actor lost
+	}
+var prev_STATE := STATE.NORMAL
+var curr_STATE := STATE.NORMAL :
+	set(s) : 
+		if not curr_STATE == s:
+			prev_STATE = curr_STATE
+			curr_STATE = s
+			state_changed.emit()
+
 ## Cinema Movement
 @export var ActorAnim 			: AnimatedSprite2D
 @export var ActorAudioPlayer	: AudioStreamPlayer2D
@@ -21,6 +42,16 @@ var speed_slow 				:= 2.0 * speed_multiplier # was 1.5
 var speed_normal 			:= 9.5 * speed_multiplier # was 2.5
 var speed_fast 				:= 9.5 * speed_multiplier # was 5.0
 var speed 					:= speed_normal
+
+# Movement
+var external_velocity 	:= Vector2.ZERO
+var velocity			:= Vector2.ZERO
+
+@export_category("Movement Physics")
+@export var walk_speed			:= 5000000
+@export var roll_impulse		:= 25000
+@export var walk_damp			:= 10.0
+@export var roll_damp			:= 4.0
 
 ## Sets the actor AI. Hoopz should use a special "player" AI that handles user inputs.
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
@@ -53,6 +84,12 @@ var last_movement_vector 	:= Vector2.ZERO
 var actor_is_dying 	:= false
 var is_actor_dead	:= false
 
+## Jump
+var jump_tween : Tween
+var jump_height := 32.0
+var jump_speed	:= 0.35
+var jump_target := Vector2.ZERO
+
 #func apply_damage( _damage : float) -> void:
 #	push_warning("Method not setup for node %s." % name)
 
@@ -63,7 +100,8 @@ func _connect_ai_signals() -> void:
 		actor_ai.melee_attack_trigger.connect( _ai_melee_attack )
 		actor_ai.ranged_attack_trigger.connect( _ai_ranged_attack )
 		actor_ai.roll_trigger.connect( _ai_roll_at )
-		actor_ai.charge_trigger.emit( _ai_charge_at )
+		actor_ai.charge_trigger.connect( _ai_charge_at )
+		actor_ai.jump_trigger.connect( _ai_jump )
 	else:
 		push_error("Actor AI not loaded on node %s." % name)
 
@@ -81,10 +119,55 @@ func _ai_charge_at( _enabled : bool ) -> void:
 	
 func _ai_roll_at( _enabled : bool ) -> void:
 	pass
+	
+func _ai_jump( _enabled : bool ) -> void:
+	pass
+
+## Handle the most basic animations
+func normal_animation(_delta : float):
+	var input := curr_input
+	
+	if input != Vector2.ZERO: # AI is moving the Actor
+		if last_input != input:
+			
+			match input.round():
+				Vector2.UP + Vector2.LEFT:			pass # hoopz_normal_body.play(WALK_NW)
+				Vector2.UP + Vector2.RIGHT:			pass # hoopz_normal_body.play(WALK_NE)
+				Vector2.DOWN + Vector2.LEFT:		pass # hoopz_normal_body.play(WALK_SW)
+				Vector2.DOWN + Vector2.RIGHT:		pass # hoopz_normal_body.play(WALK_SE)
+					
+				Vector2.UP:							pass # hoopz_normal_body.play(WALK_N)
+				Vector2.LEFT:						pass # hoopz_normal_body.play(WALK_W)
+				Vector2.DOWN:						pass # hoopz_normal_body.play(WALK_S)
+				Vector2.RIGHT:						pass # hoopz_normal_body.play(WALK_E)
+					
+				_: # Catch All
+					print("Catch all, ", input)
+	else:
+		# AI is not moving the actor anymore
+		pass
+		
+		var curr_direction : Vector2 = input
+	
+		# Update var
+		last_direction = curr_direction
+		
+	# Update var
+	last_input = input
 
 ## Used for pathfinding to a specific location
 func set_movement_target(movement_target: Vector2):
 	ActorNav.set_target_position(movement_target)
+
+func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
+	if jump_tween: jump_tween.kill()
+	jump_tween = create_tween()
+	jump_tween.tween_callback( set.bind("curr_STATE", STATE.JUMP) )
+	jump_tween.tween_callback( set.bind("jump_target", position + jump_offset) )
+	jump_tween.tween_property( ActorAnim, "position:y", -jump_height, jump_speed ).set_trans(		Tween.TRANS_SINE)
+	jump_tween.tween_property( ActorAnim, "position:y", 0.0, jump_speed ).set_trans(				Tween.TRANS_SINE)
+	jump_tween.tween_callback( set.bind("curr_STATE", STATE.NORMAL) )
+	jump_tween.tween_callback( set.bind("last_input", Vector2.INF) )					## Reset last input (For animations)
 
 func cinema_lookat( target_node : Node2D ) -> void:
 	var _direction := position.direction_to( target_node.position ).round()
@@ -162,7 +245,11 @@ func _after_damage() -> void:
 
 func destroy_actor() -> void:
 	push_warning("Death behaviour not set for actor %s. Doing nothing." % self.name )
+	_before_death()
 	_after_death()
+
+func _before_death() -> void:
+	pass
 
 func _after_death() -> void:
 	pass

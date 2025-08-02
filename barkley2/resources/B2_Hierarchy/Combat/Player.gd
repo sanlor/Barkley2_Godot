@@ -76,16 +76,6 @@ var combat_last_input 		:= Vector2.ZERO
 
 var prev_gun : B2_Weapon ## Used to update animations
 
-# Movement
-var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
-var velocity			:= Vector2.ZERO
-
-@export_category("Movement Physics")
-@export var walk_speed			:= 5000000
-@export var roll_impulse		:= 25000
-@export var walk_damp			:= 10.0
-@export var roll_damp			:= 3.5
-
 ## Debug
 var debug_line 			: Vector2
 var debug_walk_dir 		: Vector2
@@ -123,19 +113,15 @@ func _ai_aim_ranged( enabled : bool ) -> void:
 		if enabled:
 			## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
 			if  B2_Gun.has_any_guns():
-				aim_gun( enabled )
+				aim_gun( true)
+				
 	elif curr_STATE == STATE.AIM:
 		if enabled:
-			aim_gun( not enabled )
+			aim_gun( false )
 			
-## TODO remove this old section
-#func get_room_permissions():
-	#if get_parent() is B2_ROOMS:
-		#can_roll 			= get_parent().room_player_can_roll
-		##can_shoot 			= not get_parent().room_pacify ## DEBUG disabled
-		#can_draw_weapon 	= not get_parent().room_pacify
-	#else:
-		#print("B2_PLAYER: Not inside a room. do whatever is set on exports")
+func _ai_roll_at( enabled : bool ) -> void:
+	if enabled:
+		start_roll()
 
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -233,10 +219,15 @@ func aim_gun( enabled : bool ) -> void:
 		B2_Sound.play_pick("hoopz_swapguns")
 	
 ## Debug function. Should not be used normaly.
+## Maybe not so debug anymore
 func shoot_gun() -> void:
-	var gun := B2_Gun.get_current_gun()
-	if gun:
-		gun.use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ), self )
+	if B2_Gun.has_any_guns():
+		if curr_STATE == STATE.AIM:
+			curr_STATE = STATE.SHOOT
+			B2_Gun.get_current_gun().use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ), self )
+			await B2_Gun.get_current_gun().finished_combat_action
+			if curr_STATE == STATE.SHOOT:
+				curr_STATE = STATE.AIM
 	
 func _change_sprites():
 	match curr_STATE:
@@ -492,6 +483,58 @@ func combat_weapon_animation() -> void:
 		combat_weapon_spots.position 	= new_gun_pos
 		combat_weapon_spots.z_index		= _z_index
 
+# Roll action
+func start_roll() -> void:
+	# Roooolliiing staaaaart! ...here vvv
+	curr_STATE = STATE.ROLL
+	linear_damp = roll_damp
+	
+	var roll_dir 	: Vector2
+	#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	var input 		:= curr_input # Input.get_vector("Left","Right","Up","Down")
+	
+	## Cool ass animation
+	if input != Vector2.ZERO:
+		roll_dir 	= input
+		hoopz_normal_body.play( ROLL )
+		hoopz_normal_body.flip_h = roll_dir.x < 0
+		
+	else:
+		# Use the mouse to decide the roll direction. (Inverted)
+		roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
+		hoopz_normal_body.play( ROLL_BACK )
+		hoopz_normal_body.flip_h = roll_dir.x >= 0
+	
+	linear_velocity = Vector2.ZERO
+	apply_central_impulse( roll_dir * roll_impulse )
+	
+	## Reset some vars
+	combat_last_direction 	= Vector2.ZERO
+	last_direction 			= Vector2.ZERO
+	last_input 				= Vector2.ZERO
+	combat_last_input 		= Vector2.ZERO
+	
+	## Fluff
+	B2_Sound.play("sn_hoopz_roll")
+	if B2_CManager.get_BodySwap() == "diaper":
+		step_smoke.emitting = true
+	#hoopz_normal_body.offset.y += 15
+	return
+
+func end_roll() -> void:
+	if linear_velocity.length() < 8.0:
+		## DEBUG - TODO Improve this.
+		if hoopz_normal_body.animation == ROLL or hoopz_normal_body.animation == ROLL_BACK:
+			if hoopz_normal_body.frame < 9: ## Wait for the animation to finish - TODO Signals?
+				return
+				
+		# Roooolliiing eeeeennd.
+		curr_STATE = STATE.NORMAL
+		hoopz_normal_body.animation = "stand"
+		linear_damp = walk_damp
+		step_smoke.emitting = false
+		hoopz_normal_body.flip_h = false
+
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.
 	if actor_ai:
@@ -499,110 +542,29 @@ func _physics_process(delta: float) -> void:
 		
 	match curr_STATE:
 		STATE.ROLL:
-			if linear_velocity.length() < 8.0:
-				# Roooolliiing eeeeennd.
-				curr_STATE = STATE.NORMAL
-				hoopz_normal_body.animation = "stand"
-				linear_damp = walk_damp
-				step_smoke.emitting = false
-				hoopz_normal_body.flip_h = false
+			end_roll()
 				
-		STATE.NORMAL, STATE.AIM:
-			if B2_Input.player_has_control:
-				## Player has influence over this node
+		STATE.NORMAL, STATE.AIM, STATE.SHOOT:
+			#if B2_Input.player_has_control:
+			## Player has influence over this node
+			
+			## Play Animations
+			if curr_STATE == STATE.NORMAL:
+				normal_animation(delta)
 				
-				## Play Animations
-				if curr_STATE == STATE.NORMAL:
-					normal_animation(delta)
-				elif  curr_STATE == STATE.AIM:
-					_update_held_gun()
-					
-					combat_walk_animation( delta ) # delta is for the turning animation
-					combat_aim_animation()
-					combat_weapon_animation()
-				else:
-					push_warning("Weird state: ", curr_STATE)
+			elif  curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
+				_update_held_gun()
 				
-				### Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
-				#if Input.is_action_just_pressed("Holster") and can_draw_weapon and not B2_Gun.get_bandolier().is_empty():
-					## check scr_player_setGunHolstered( bool ). This script fucks with the save game data, probably to store some reference data.
-					#if curr_STATE == STATE.NORMAL:
-						## change state, allowing the player to aim.
-						#B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
-						#curr_STATE = STATE.AIM
-						#B2_Sound.play_pick("hoopz_swapguns")
-						#
-					#elif curr_STATE == STATE.AIM:
-						#curr_STATE = STATE.NORMAL
-						#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-						#B2_Sound.play_pick("hoopz_swapguns")
-						#
-					#else:
-						## maybe unneeded?
-						#B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
-						#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-				#
-				## player shoots its weapon.
-				#elif Input.is_action_just_pressed("Action") and curr_STATE == STATE.AIM:
-					##shuuut. Combat is nonfunctional, so pretend the gun is out of ammo
-					## 18/03/25 kinda functional now. u can shoot at least.
-					##B2_Sound.play_pick("hoopz_click")
-					### CRITICAL other SFX related to guns are here: scr_soundbanks_init() line 850
-					#if can_shoot:
-						#shoot_gun()
-					#else:
-						#B2_Sound.play_pick("hoopz_click")
-					
-				## player has no permission to draw weapon or has no weapon.
-				#elif Input.is_action_just_pressed("Holster") and (not can_draw_weapon or B2_Gun.get_bandolier().is_empty()):
-					#B2_Sound.play( "sn_pacify" ) # found at scr_player_stance_standard() line 47
-					## if a battle ends and the player still have its weapon drawn, this enables it to holster it.
-					#curr_STATE = STATE.NORMAL
-					#B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-				
-				# Roll action
-				if Input.is_action_just_pressed("Roll") and can_roll:
-					# Roooolliiing staaaaart! ...here vvv
-					curr_STATE = STATE.ROLL
-					linear_damp = roll_damp
-					
-					var roll_dir 	: Vector2
-					#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
-					var input 		:= curr_input # Input.get_vector("Left","Right","Up","Down")
-					
-					## Cool ass animation
-					if input != Vector2.ZERO:
-						roll_dir 	= input
-						hoopz_normal_body.play( ROLL )
-						hoopz_normal_body.flip_h = roll_dir.x < 0
-					else:
-						# Use the mouse to decide the roll direction. (Inverted)
-						roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
-						hoopz_normal_body.play( ROLL_BACK )
-						hoopz_normal_body.flip_h = roll_dir.x >= 0
-					
-					linear_velocity = Vector2.ZERO
-					apply_central_impulse( roll_dir * roll_impulse )
-					
-					## Reset some vars
-					combat_last_direction 	= Vector2.ZERO
-					last_direction 			= Vector2.ZERO
-					last_input 				= Vector2.ZERO
-					combat_last_input 		= Vector2.ZERO
-					
-					## Fluff
-					B2_Sound.play("sn_hoopz_roll")
-					if B2_CManager.get_BodySwap() == "diaper":
-						step_smoke.emitting = true
-					#hoopz_normal_body.offset.y += 15
-					return
-				
-				# Take the input from the keyboard / Gamepag and apply directly.
-				var move := curr_input # Input.get_vector("Left","Right","Up","Down")
-				velocity = ( walk_speed * delta ) * move
+				combat_walk_animation( delta ) # delta is for the turning animation
+				combat_aim_animation()
+				combat_weapon_animation()
 			else:
-				velocity = Vector2.ZERO
-				
+				push_warning("Weird state: ", curr_STATE)
+			
+			# Take the input from the keyboard / Gamepag and apply directly.
+			var move := curr_input
+			velocity = ( walk_speed * delta ) * move
+			
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_force( velocity / Engine.time_scale )
@@ -623,6 +585,7 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
+			
 	if hoopz_normal_body.animation.begins_with("full_roll"):
 		if hoopz_normal_body.frame in [0,1,2]:
 			#hoopz_normal_body.look_at( linear_velocity )
@@ -654,6 +617,7 @@ func _on_hoopz_normal_body_frame_changed() -> void:
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
+			
 	if hoopz_normal_body.animation.begins_with("full_roll"):
 		if hoopz_normal_body.frame in [0,1,2]:
 			# hoopz_normal_body.look_at( linear_velocity ) ## Test for changing roll sprite direction. need a better fix.

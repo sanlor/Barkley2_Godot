@@ -33,7 +33,7 @@ var is_active := true
 
 func _ready() -> void:
 	# Set the initial velocity of the bullet casing
-	velocity 			= dir * randf_range( 50.0, 250.0 )
+	velocity 			= dir * randf_range( 50.0, 150.0 )
 	angular_velocity 	= randf_range(-15, 15) ## Speen
 	upward_velocity 	= randf_range(150,350) ## How high the gib initially can go.
 	

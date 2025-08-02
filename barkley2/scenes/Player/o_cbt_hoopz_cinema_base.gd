@@ -10,16 +10,13 @@ signal aim_target_changed
 signal move_target_changed
 
 ## Pointing is used to move during battle.
-enum STATE{NORMAL,ROLL,AIM, POINT, HIT, DEFENDING, VICTORY, DEFEAT}
-var prev_STATE := STATE.NORMAL
-var curr_STATE := STATE.NORMAL :
-	set(s) : 
-		if not curr_STATE == s:
-			prev_STATE = curr_STATE
-			curr_STATE = s
-			_update_held_gun()
-			#print(curr_STATE)
-			#print_stack()
+#var prev_STATE := STATE.NORMAL
+#var curr_STATE := STATE.NORMAL :
+	#set(s) : 
+		#if not curr_STATE == s:
+			#prev_STATE = curr_STATE
+			#curr_STATE = s
+			#_update_held_gun()
 
 # Sprite frame indexes - s_cts_hoopz_stand
 const SHUFFLE 		:= "shuffle"
@@ -105,14 +102,14 @@ var combat_last_direction 	:= Vector2.ZERO
 var combat_last_input 		:= Vector2.ZERO
 
 ## Movement
-var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
+#var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
 #var velocity			:= Vector2.ZERO
 
-@export_category("Movement Physics")
-@export var walk_speed			:= 500000 # 5000000
-@export var roll_impulse		:= 50000
-@export var walk_damp			:= 10.0
-@export var roll_damp			:= 3.5
+#@export_category("Movement Physics")
+#@export var walk_speed			:= 500000 # 5000000
+#@export var roll_impulse		:= 50000
+#@export var walk_damp			:= 10.0
+#@export var roll_damp			:= 3.5
 
 ## Sound
 var min_move_dist 	:= 1.0
@@ -164,6 +161,11 @@ func _ready() -> void:
 	## Default animation
 	hoopz_normal_body.animation = "stand"
 	hoopz_normal_body.frame = 6
+	state_changed.connect( _changed_state )
+	
+func _changed_state():
+	_change_sprites()
+	#_update_flashlight()
 
 ## update the current gun sprite, adding details if needed (spots, parts).
 func _update_held_gun() -> void:

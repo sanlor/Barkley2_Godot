@@ -84,6 +84,7 @@ func _enter_tree() -> void:
 	if enable_hud:
 		hud_node = O_HUD.instantiate()
 		add_child( hud_node, true )
+		hud_node.call_deferred( "show_hud" )
 		
 	y_sort_enabled = true
 	ready.connect( _after_ready )

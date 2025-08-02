@@ -10,7 +10,7 @@ class_name B2_MeleeAttack
 signal action_finished
 
 func action( source : B2_EnemyCombatActor, target : Vector2 ) -> void:
-	await source.cinema_jump( number_of_jumps )
+	#await source.cinema_jump( number_of_jumps ) ## TODO Fix this
 	source.cinema_charge_at( target, charge_force )
 	await source.finished_charge_action
 	

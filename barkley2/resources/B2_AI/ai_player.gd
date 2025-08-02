@@ -17,3 +17,4 @@ func _input_process() -> void:
 		elif Input.is_action_just_released("Holster"):	aim_trigger.emit( false )
 		
 		if Input.is_action_just_pressed( "Roll" ):		roll_trigger.emit( true )
+		if Input.is_action_just_pressed("Item Use"):	jump_trigger.emit( true )

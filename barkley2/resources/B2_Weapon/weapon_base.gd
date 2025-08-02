@@ -253,51 +253,45 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	if delay_before_action > 0.0:
 		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
 	
-	## shotgun behaviour.
-	if wait_per_shot == 0.0:
+	if has_ammo():
 		use_ammo( ammo_per_shot )
 		B2_Sound.play( get_soundID() )
 		create_flash(scene_to_place, source_pos, dir, 1.5)
 		for i in ammo_per_shot: ## Double barrel shotgun spawn 2 casings
 			create_casing(scene_to_place, casing_pos)
 		
-	for i in bullets_per_shot:
-		if abort_shooting:
-			abort_shooting = false
-			break
+		for i in bullets_per_shot:
+			if abort_shooting:
+				abort_shooting = false
+				break
+				
+			var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
+			my_spread_offset -= bullet_spread / bullets_per_shot
 			
-		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
-		my_spread_offset -= bullet_spread / bullets_per_shot
-		
-		var my_acc := get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
-		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
-		
-		var bullet = O_BULLET.instantiate()
-		bullet.my_gun = self
-		bullet.set_direction( b_dir )
-		bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
-		bullet.source_actor = source_actor
-		scene_to_place.add_child( bullet, true )
-		bullet.position = source_pos
-		bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
-		
-		## "not a shotgun" behaviour.
-		if wait_per_shot > 0.0:
-			use_ammo( ammo_per_shot )
-			B2_Sound.play( get_soundID() )
-			create_flash(scene_to_place, source_pos, b_dir)
-			create_casing(scene_to_place, casing_pos)
-			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
+			var my_acc := get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 			
-		## Stop firing if you have no ammo.
-		if not has_ammo():
-			B2_Sound.play( "hoopz_click" )
-			break
+			var bullet = O_BULLET.instantiate()
+			bullet.my_gun = self
+			bullet.set_direction( b_dir )
+			bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
+			bullet.source_actor = source_actor
+			scene_to_place.add_child( bullet, true )
+			bullet.position = source_pos
+			bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
+	else:
+		## Out of ammo.
+		B2_Sound.play( "hoopz_click" )
+	
+	await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
 	
 	#use_ammo( ammo_per_shot )
 	reset_action( curr_action - attack_cost )
-	if not abort_shooting: ## Only delay if it was not aborted
-		await scene_to_place.get_tree().create_timer( delay_after_action ).timeout ## Small delay after shooting.
+	
+	## 01/08/25 Disabled below. check if its still needed.
+	#if not abort_shooting: ## Only delay if it was not aborted
+	#	await scene_to_place.get_tree().create_timer( delay_after_action ).timeout ## Small delay after shooting.
+		
 	abort_shooting = false
 	is_shooting = false
 	

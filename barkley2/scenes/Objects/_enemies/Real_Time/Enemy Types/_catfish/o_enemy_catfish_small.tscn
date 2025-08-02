@@ -1,10 +1,15 @@
-[gd_scene load_steps=56 format=3 uid="uid://dl0ylc1ocrp5l"]
+[gd_scene load_steps=62 format=3 uid="uid://dl0ylc1ocrp5l"]
 
 [ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Real_Time/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_wejwp"]
 [ext_resource type="Texture2D" uid="uid://dyd6gp6lc4ppb" path="res://barkley2/assets/b2_original/images/merged/s_catfish_small.png" id="2_mkogk"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_wejwp"]
+[ext_resource type="Script" uid="uid://c37s6nxxyegmw" path="res://barkley2/resources/B2_AI/ai_dummy.gd" id="4_ce0n6"]
+[ext_resource type="Resource" uid="uid://clqikgufvlq0d" path="res://barkley2/resources/B2_EnemyData/catfish_small.tres" id="4_jd0uj"]
 [ext_resource type="Texture2D" uid="uid://qncevfm4omya" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_medium.png" id="4_rikcj"]
+[ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="5_ce0n6"]
+[ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
+[ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
 
 [sub_resource type="Resource" id="Resource_bsxaw"]
 script = ExtResource("2_wejwp")
@@ -22,18 +27,6 @@ metadata/_custom_type_script = "uid://j3rexlxomei3"
 [sub_resource type="AtlasTexture" id="AtlasTexture_mc11s"]
 atlas = ExtResource("2_mkogk")
 region = Rect2(245, 0, 49, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsxaw"]
-atlas = ExtResource("2_mkogk")
-region = Rect2(539, 0, 49, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4duym"]
-atlas = ExtResource("2_mkogk")
-region = Rect2(588, 0, 49, 42)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nkfwl"]
-atlas = ExtResource("2_mkogk")
-region = Rect2(539, 0, 49, 42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5myi6"]
 atlas = ExtResource("2_mkogk")
@@ -54,6 +47,18 @@ region = Rect2(441, 0, 49, 42)
 [sub_resource type="AtlasTexture" id="AtlasTexture_37oeb"]
 atlas = ExtResource("2_mkogk")
 region = Rect2(490, 0, 49, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkfwl"]
+atlas = ExtResource("2_mkogk")
+region = Rect2(539, 0, 49, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsxaw"]
+atlas = ExtResource("2_mkogk")
+region = Rect2(539, 0, 49, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4duym"]
+atlas = ExtResource("2_mkogk")
+region = Rect2(588, 0, 49, 42)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sce6a"]
 atlas = ExtResource("2_mkogk")
@@ -219,6 +224,35 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_5myi6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l3t6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5w6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2wm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37oeb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkfwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsxaw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4duym")
+}],
+"loop": false,
+"name": &"catfish_shot",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_bsxaw")
 }, {
 "duration": 1.0,
@@ -303,7 +337,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_oyonn")
 }],
 "loop": true,
-"name": &"catfish_walk_up",
+"name": &"catfish_walk_north",
 "speed": 5.0
 }, {
 "frames": [{
@@ -416,7 +450,13 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_4duym"]
 radius = 12.0
 
-[node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorCol")]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r81gg"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorCol", "actor_ai")]
 mass = 100.0
 physics_material_override = ExtResource("1_wejwp")
 gravity_scale = 0.0
@@ -425,15 +465,31 @@ linear_damp = 10.0
 script = ExtResource("1_pied4")
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
 actor_animations = SubResource("Resource_bsxaw")
+animation_attack = "catfish_shot"
+animation_jump = "catfish_jump"
+animation_stagger = "catfish_stagger"
 sound_alert = " alertSound"
 sound_damage = "catfishsmall_grunt"
 sound_death = "catfishsmall_death"
+gib_sprite = "s_catfish_gibs"
+bloodburst = "s_catfish_bloodsmall"
+explode_on_death = false
+enemy_name = "Catfish (Small)"
+enemy_data = ExtResource("4_jd0uj")
 ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorCol = NodePath("ActorCol")
+actor_ai = NodePath("B2_AI_Dummy")
+
+[node name="B2_AI_Dummy" type="Node" parent="."]
+script = ExtResource("4_ce0n6")
+metadata/_custom_type_script = "uid://c37s6nxxyegmw"
+
+[node name="o_Shadow" parent="." instance=ExtResource("5_ce0n6")]
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 max_distance = 350.0
+max_polyphony = 5
 bus = &"Audio"
 
 [node name="ActorSmokeEmitter" type="GPUParticles2D" parent="."]
@@ -442,7 +498,7 @@ emitting = false
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hlfig")
-animation = &"catfish_shot_before"
+animation = &"catfish_stagger"
 centered = false
 offset = Vector2(-24, -37)
 metadata/default = {
@@ -559,3 +615,14 @@ position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_4duym")
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="ActorBloodSpill" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_r81gg")
+emitting = false
+amount = 4
+texture = ExtResource("9_iwhau")
+one_shot = true
+explosiveness = 0.5
+process_material = ExtResource("10_p2h0x")
+
+[connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]
