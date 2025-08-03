@@ -178,7 +178,8 @@ func shoot_gun() -> void:
 	if B2_Gun.has_any_guns():
 		if curr_STATE == STATE.AIM:
 			curr_STATE = STATE.SHOOT
-			B2_Gun.get_current_gun().use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, position.direction_to( -aim_origin.position + get_global_mouse_position() ), self )
+			var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
+			B2_Gun.get_current_gun().use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim, self )
 			await B2_Gun.get_current_gun().finished_combat_action
 			if curr_STATE == STATE.SHOOT:
 				curr_STATE = STATE.AIM

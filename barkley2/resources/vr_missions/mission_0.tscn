@@ -1,5 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://h3f8mx7bv8x1"]
 
+[ext_resource type="Script" uid="uid://c0nlpdr8t5vrg" path="res://barkley2/resources/vr_missions/mission_0.gd" id="1_0ayqi"]
 [ext_resource type="AudioStream" uid="uid://dv8mqi4daib48" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm02.ogg" id="1_mcl3i"]
 [ext_resource type="AudioStream" uid="uid://dq6xqqy33v5rj" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm03.ogg" id="2_0ayqi"]
 [ext_resource type="AudioStream" uid="uid://ci2l8glreat1x" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm01.ogg" id="3_14uj0"]
@@ -9,16 +10,8 @@
 [ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="7_hh046"]
 [ext_resource type="PackedScene" uid="uid://vj7yjaqpqmai" path="res://barkley2/scenes/sTitle/vr_missions/virtual_spawn.tscn" id="8_s8wo1"]
 
-[sub_resource type="GDScript" id="GDScript_mcl3i"]
-resource_name = "mission_0"
-script/source = "extends Node2D
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-
-func play( anim_name : String ) -> void:
-	animation_player.play( anim_name )
-"
-
 [sub_resource type="Animation" id="Animation_xqe2f"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -275,20 +268,6 @@ _data = {
 
 [sub_resource type="Resource" id="Resource_05auw"]
 script = ExtResource("5_f232q")
-notes = "Use '\\' to add comments to the code.
-MOVE 		
-MOVE_POS 	
-LOOK		
-LOOK_AT		
-WAIT		
-START_BATTLE
-ACTIVATE_BLOCKER
-DEACTIVATE_BLOCKER
-MAKE_HUD
-MAKE_MIN_HUD
-FOLLOWFRAME
-PLAYSET
-"
 combat_script = "ACTIVATE_BLOCKER | o_blocker_up
 QUEUE_BATTLE_MUSIC
 QUEUE_END_BATTLE_MUSIC | shitworld
@@ -304,16 +283,8 @@ resource_local_to_scene = true
 script = ExtResource("7_hh046")
 enemy_name = "Egg Drone"
 hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
 max_health = 150.0
 curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
 speed = 10.0
 resistance_mental = 100.0
 resistance_normal = 20.0
@@ -324,42 +295,22 @@ resistance_bio = 100.0
 resistance_stagger = 20.0
 resistance_knockback = 20.0
 zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
 vuln_mental = 3.0
 vuln_zauber = 3.0
 vuln_cyber = 5.0
 vuln_bio = 1.0
-vuln_cosmic = 3.0
 gunsdrop = 0.0
 generic = 0.0
-shotguns = 0.0
 rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
 wtc = 10.0
-experience = 10.0
-money = 1.0
 
 [sub_resource type="Resource" id="Resource_33khu"]
 resource_local_to_scene = true
 script = ExtResource("7_hh046")
 enemy_name = "Egg Drone"
 hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
 max_health = 150.0
 curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
 speed = 10.0
 resistance_mental = 100.0
 resistance_normal = 20.0
@@ -370,42 +321,22 @@ resistance_bio = 100.0
 resistance_stagger = 20.0
 resistance_knockback = 20.0
 zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
 vuln_mental = 3.0
 vuln_zauber = 3.0
 vuln_cyber = 5.0
 vuln_bio = 1.0
-vuln_cosmic = 3.0
 gunsdrop = 0.0
 generic = 0.0
-shotguns = 0.0
 rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
 wtc = 10.0
-experience = 10.0
-money = 1.0
 
 [sub_resource type="Resource" id="Resource_4f5rw"]
 resource_local_to_scene = true
 script = ExtResource("7_hh046")
 enemy_name = "Egg Drone"
 hp = 10.0
-weight = 12.0
-max_action = 100.0
-curr_action = 0.0
 max_health = 150.0
 curr_health = 150.0
-guts = 12.0
-luck = 12.0
-agile = 12.0
-might = 12.0
-piety = 12.0
 speed = 10.0
 resistance_mental = 100.0
 resistance_normal = 20.0
@@ -416,30 +347,18 @@ resistance_bio = 100.0
 resistance_stagger = 20.0
 resistance_knockback = 20.0
 zauber = 0.0
-cosmic = 0.0
-bio = 0.0
-mental = 0.0
-cyber = 0.0
 vuln_mental = 3.0
 vuln_zauber = 3.0
 vuln_cyber = 5.0
 vuln_bio = 1.0
-vuln_cosmic = 3.0
 gunsdrop = 0.0
 generic = 0.0
-shotguns = 0.0
 rifles = 0.0
-mounted = 0.0
-pistols = 0.0
-automatic = 0.0
-projectile = 0.0
 wtc = 10.0
-experience = 10.0
-money = 1.0
 
 [node name="mission_0" type="Node2D"]
 y_sort_enabled = true
-script = SubResource("GDScript_mcl3i")
+script = ExtResource("1_0ayqi")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -32.0
@@ -464,6 +383,7 @@ position = Vector2(353, 304)
 enemy_data = SubResource("Resource_xqe2f")
 
 [node name="virtual_spawn" parent="o_enemy_drone_egg" instance=ExtResource("8_s8wo1")]
+emitting = true
 
 [node name="o_enemy_drone_egg2" parent="." instance=ExtResource("6_1unr4")]
 modulate = Color(1, 1, 1, 0)
@@ -471,6 +391,7 @@ position = Vector2(400, 305)
 enemy_data = SubResource("Resource_33khu")
 
 [node name="virtual_spawn" parent="o_enemy_drone_egg2" instance=ExtResource("8_s8wo1")]
+emitting = true
 
 [node name="o_enemy_drone_egg3" parent="." instance=ExtResource("6_1unr4")]
 modulate = Color(1, 1, 1, 0)
@@ -478,3 +399,4 @@ position = Vector2(445, 306)
 enemy_data = SubResource("Resource_4f5rw")
 
 [node name="virtual_spawn" parent="o_enemy_drone_egg3" instance=ExtResource("8_s8wo1")]
+emitting = true

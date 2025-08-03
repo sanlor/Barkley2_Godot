@@ -7,11 +7,15 @@ const O_ENEMY_RAT_DUMMY = preload("uid://b80c8ql127wud")
 @onready var spawn_distance: 	Area2D = $spawn_distance
 @onready var spawn_collision: 	CollisionShape2D = $spawn_distance/spawn_collision
 @onready var cooldown_timer: Timer = $cooldown_timer
-@onready var spawn_timer: 		Timer = $spawn_timer
+@onready var spawn_timer: 	Timer = $spawn_timer
 
 @export var spawn_cooldown_time 	:= 10.0
 @export var full_auto 				:= false				## keep spawing rats.
 var can_spawn_rats					:= true
+
+func enable_full_auto( enabled : bool ) -> void:
+	full_auto = enabled
+	_ready()
 
 func _ready() -> void:
 	if full_auto:

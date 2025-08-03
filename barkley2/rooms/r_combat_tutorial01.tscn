@@ -1,16 +1,14 @@
-[gd_scene load_steps=45 format=4 uid="uid://ba3127w1hjnnw"]
+[gd_scene load_steps=41 format=4 uid="uid://ba3127w1hjnnw"]
 
 [ext_resource type="Script" uid="uid://bbyd5s5nkf1x" path="res://barkley2/rooms/r_combat_tutorial_01.gd" id="1_a15wa"]
 [ext_resource type="Texture2D" uid="uid://cju34m8c74a8i" path="res://barkley2/assets/b2_original/backgrounds/tls_virtual01.png" id="1_c5nwf"]
-[ext_resource type="PackedScene" uid="uid://74tkdn6wv67c" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_ratNest.tscn" id="2_6tpds"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hypcc"]
-[ext_resource type="Script" uid="uid://dnobq75g8svot" path="res://barkley2/resources/vr_missions/mission_1.gd" id="2_w0rfe"]
+[ext_resource type="AudioStream" uid="uid://dv8mqi4daib48" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm02.ogg" id="2_w0rfe"]
+[ext_resource type="AudioStream" uid="uid://dq6xqqy33v5rj" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm03.ogg" id="3_ixe20"]
 [ext_resource type="TileSet" uid="uid://snddsm584j8b" path="res://barkley2/resources/rooms/collision_abyss_tileset.tres" id="4_6tpds"]
-[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="4_ixe20"]
+[ext_resource type="AudioStream" uid="uid://ci2l8glreat1x" path="res://barkley2/assets/b2_original/audio/Enemies/Junkbots/sn_junkbot_alarm01.ogg" id="4_ve348"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="5_33khu"]
-[ext_resource type="Texture2D" uid="uid://vbnrl8wjv6as" path="res://barkley2/assets/b2_original/images/merged/s_enemy_rat_dark.png" id="5_ve348"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_ki4pa"]
-[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="6_t4a32"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="7_7sr6w"]
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="8_mm51m"]
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="9_w0rfe"]
@@ -26,26 +24,261 @@
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xqe2f"]
 
-[sub_resource type="Gradient" id="Gradient_t4a32"]
-offsets = PackedFloat32Array(0.61077845, 0.61976045)
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+[sub_resource type="Animation" id="Animation_xqe2f"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_0/o_enemy_drone_egg:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_0/o_enemy_drone_egg2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mission_0/o_enemy_drone_egg3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("mission_0/o_enemy_drone_egg3/virtual_spawn:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("mission_0/o_enemy_drone_egg2/virtual_spawn:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("mission_0/o_enemy_drone_egg/virtual_spawn:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_mj6vg"]
-gradient = SubResource("Gradient_t4a32")
-width = 32
-height = 32
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[sub_resource type="Animation" id="Animation_a15wa"]
+resource_name = "encounter_01"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_0/o_enemy_drone_egg:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mission_0/o_enemy_drone_egg2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.966667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mission_0/o_enemy_drone_egg3:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("mission_0/o_enemy_drone_egg3/virtual_spawn:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("mission_0/o_enemy_drone_egg2/virtual_spawn:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("mission_0/o_enemy_drone_egg/virtual_spawn:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("mission_0/o_enemy_drone_egg")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("mission_0/o_enemy_drone_egg2")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("mission_0/o_enemy_drone_egg3")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["IDLE1", "default", 10.0, false],
+"method": &"cinema_playset"
+}]
+}
+tracks/9/type = "audio"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("mission_0/AudioStreamPlayer")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_ve348")
+}],
+"times": PackedFloat32Array(1)
+}
+tracks/9/use_blend = true
+tracks/10/type = "audio"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("mission_0/AudioStreamPlayer")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_w0rfe")
+}],
+"times": PackedFloat32Array(1.76667)
+}
+tracks/10/use_blend = true
+tracks/11/type = "audio"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("mission_0/AudioStreamPlayer")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_ixe20")
+}],
+"times": PackedFloat32Array(1.25)
+}
+tracks/11/use_blend = true
+tracks/12/type = "method"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("mission_0/enemy_nest")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
 
-[sub_resource type="LabelSettings" id="LabelSettings_mj6vg"]
-font = ExtResource("4_ixe20")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vwjay"]
-atlas = ExtResource("5_ve348")
-region = Rect2(0, 0, 36, 31)
-
-[sub_resource type="LabelSettings" id="LabelSettings_bxqo7"]
-font = ExtResource("6_t4a32")
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yee3r"]
+_data = {
+&"RESET": SubResource("Animation_xqe2f"),
+&"encounter_01": SubResource("Animation_a15wa")
+}
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_f5io5"]
 blend_mode = 3
@@ -588,78 +821,11 @@ override_zone_flavor = "It all seems so real..."
 camera_bound_to_map = true
 metadata/_custom_type_script = "uid://bvfigbkdlawg1"
 
-[node name="mission_1" type="Node2D" parent="."]
-script = ExtResource("2_w0rfe")
-
-[node name="mission_timer" type="Timer" parent="mission_1"]
-wait_time = 120.00000000000001
-one_shot = true
-
-[node name="nest_bg" type="TextureRect" parent="mission_1"]
-anchors_preset = -1
-offset_left = 499.0
-offset_top = 332.0
-offset_right = 540.0
-offset_bottom = 373.0
-texture = SubResource("GradientTexture2D_mj6vg")
-
-[node name="nest_bg2" type="TextureRect" parent="mission_1"]
-anchors_preset = -1
-offset_left = 300.0
-offset_top = 171.0
-offset_right = 341.0
-offset_bottom = 212.0
-texture = SubResource("GradientTexture2D_mj6vg")
-
-[node name="o_enemy_ratNest" parent="mission_1" instance=ExtResource("2_6tpds")]
-position = Vector2(320, 204)
-spawn_cooldown_time = 5.0
-full_auto = true
-
-[node name="o_enemy_ratNest2" parent="mission_1" instance=ExtResource("2_6tpds")]
-position = Vector2(520, 365)
-spawn_cooldown_time = 5.0
-full_auto = true
-
-[node name="mission_ui" type="CanvasLayer" parent="mission_1"]
-
-[node name="screen" type="MarginContainer" parent="mission_1/mission_ui"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="mission_timer_label" type="Label" parent="mission_1/mission_ui/screen"]
-custom_minimum_size = Vector2(100, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-text = "2:00"
-label_settings = SubResource("LabelSettings_mj6vg")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="enemy_hbox" type="HBoxContainer" parent="mission_1/mission_ui/screen"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="enemy_texture" type="TextureRect" parent="mission_1/mission_ui/screen/enemy_hbox"]
-layout_mode = 2
-texture = SubResource("AtlasTexture_vwjay")
-
-[node name="enemy_count_lbl" type="Label" parent="mission_1/mission_ui/screen/enemy_hbox"]
-custom_minimum_size = Vector2(30, 20)
-layout_mode = 2
-text = "x00"
-label_settings = SubResource("LabelSettings_bxqo7")
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("")
+libraries = {
+&"": SubResource("AnimationLibrary_yee3r")
+}
 
 [node name="bg" type="ColorRect" parent="."]
 z_index = -10
@@ -780,7 +946,21 @@ metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
 z_index = 4000
 position = Vector2(400, 305)
 script = ExtResource("13_ixe20")
+cinema_id = 6
+metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
+
+[node name="o_cinema6" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(519, 360)
+script = ExtResource("13_ixe20")
 cinema_id = 5
+metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
+
+[node name="o_cinema7" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(318, 197)
+script = ExtResource("13_ixe20")
+cinema_id = 7
 metadata/_custom_type_script = "uid://cfuqh2kvag8tk"
 
 [node name="P9 - o_zsurvey" type="Marker2D" parent="."]
@@ -841,7 +1021,3 @@ position = Vector2(614, 183)
 texture = ExtResource("12_a15wa")
 script = ExtResource("12_4ln1s")
 metadata/_custom_type_script = "uid://dv0mr30osx6j"
-
-[connection signal="child_entered_tree" from="mission_1" to="mission_1" method="_on_child_entered_tree"]
-[connection signal="child_exiting_tree" from="mission_1" to="mission_1" method="_on_child_exiting_tree"]
-[connection signal="timeout" from="mission_1/mission_timer" to="mission_1" method="_on_mission_timer_timeout"]

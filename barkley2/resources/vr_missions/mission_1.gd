@@ -3,11 +3,30 @@ extends Node2D
 @onready var mission_timer: Timer = $mission_timer
 @onready var mission_timer_label: Label = $mission_ui/screen/mission_timer_label
 @onready var enemy_count_lbl: Label = $mission_ui/screen/enemy_hbox/enemy_count_lbl
+@onready var screen: MarginContainer = $mission_ui/screen
+@onready var o_enemy_rat_nest: AnimatedSprite2D = $o_enemy_ratNest
+@onready var o_enemy_rat_nest_2: AnimatedSprite2D = $o_enemy_ratNest2
 
 var enemy_count := 0
 
 func _ready() -> void:
+	screen.modulate = Color.TRANSPARENT
+	o_enemy_rat_nest.enable_full_auto( false )
+	o_enemy_rat_nest_2.enable_full_auto( false )
+
+func execute_event_user_0() -> void:
+	var t := create_tween()
+	t.tween_property(screen, "modulate", Color.WHITE, 3.0)
+	await t.finished
+	o_enemy_rat_nest.enable_full_auto( true )
+	o_enemy_rat_nest_2.enable_full_auto( true )
 	mission_timer.start()
+
+func disable_hoopz_control() -> void:
+	B2_Input.player_has_control = false
+	
+func enable_hoopz_control() -> void:
+	B2_Input.player_has_control = true
 
 func count_enemies() -> void:
 	var c := 0

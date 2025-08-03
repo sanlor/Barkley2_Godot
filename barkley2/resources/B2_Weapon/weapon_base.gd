@@ -259,6 +259,9 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 		create_flash(scene_to_place, source_pos, dir, 1.5)
 		for i in ammo_per_shot: ## Double barrel shotgun spawn 2 casings
 			create_casing(scene_to_place, casing_pos)
+			
+		## only apply knockback if you actually fire the weapon.
+		source_actor.apply_central_impulse( -dir * get_gun_knockback() ) 
 		
 		for i in bullets_per_shot:
 			if abort_shooting:
@@ -296,7 +299,6 @@ func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos :
 	is_shooting = false
 	
 	finished_combat_action.emit()
-	
 #endregion
 
 #region Weapon Mgmt
@@ -361,6 +363,9 @@ func has_sufficient_ammo( amount : int ) -> bool:
 #endregion
 
 #region Weapon Combat
+func get_gun_knockback() -> float: ## TODO add a propper value
+	return 2000.0
+	
 func get_att() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")
 	return att

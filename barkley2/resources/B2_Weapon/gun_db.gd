@@ -925,8 +925,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		GROUP.AUTOMATIC:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.2
-			wpn.bullet_spread 		= 0.1
+			wpn.wait_per_shot 		= 0.1
+			wpn.bullet_spread 		= 0.075
 			
 			## Skills
 			wpn.skill_list[SKILL.BURST_FIRE] 	= 0
@@ -1015,6 +1015,10 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	
 	## Save points used.
 	wpn.pts = points
+	
+	## Increase max ammo as a test.
+	wpn.max_ammo *= 3
+	wpn.curr_action = wpn.max_ammo
 	
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic

@@ -66,9 +66,9 @@ func _physics_process(_delta: float) -> void:
 func _on_begin_btn_button_pressed() -> void:
 	## Quest "vr_mission_x" || 1 -> selected mission || 2 -> Begun mission || 3 -> Finished mission
 	# B2_Playerdata.preload_skip_tutorial_save_data() <- is this needed?
+	print("Loading Mission %s data." % str(selected_mission + 1) )
 	match selected_mission:
 		0: ## Mission 01
-			print("Loading Mission %s data." % str(selected_mission + 1) )
 			B2_CManager.BodySwap("hoopz") 				## hoopz - diaper
 			B2_Playerdata.Quest( "infiniteAmmo", 		1 )
 			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
@@ -99,7 +99,33 @@ func _on_begin_btn_button_pressed() -> void:
 			
 		1:
 			## Etc...
-			breakpoint
+			B2_CManager.BodySwap("hoopz") 				## hoopz - diaper
+			B2_Playerdata.Quest( "infiniteAmmo", 		1 )
+			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
+			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
+			B2_Playerdata.Quest( "vr_mission_1", 		1 )
+			B2_Playerdata.Quest( "escape_disabled", 	1 )
+			
+			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
+			
+			B2_Jerkin.reset()
+			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
+			B2_Jerkin.equip_jerkin( "Cornhusk Jerkin" )
+			
+			B2_Candy.reset()
+			B2_Candy.gain_candy( "Butterscotch" )
+			B2_Candy.gain_candy( "Chickenfry Dew" )
+			
+			B2_Gun.reset()
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"BUTT", false )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	"BUST", false )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"OMGA", false )
+			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		"TRSH", true )
+			
+			B2_HoopzStats.reset()
+			B2_Playerdata.player_stats.full_restore()
 		_:
 			## Etc...
 			breakpoint

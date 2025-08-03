@@ -1,0 +1,108 @@
+[gd_scene load_steps=11 format=3 uid="uid://by4ybeytmn3yi"]
+
+[ext_resource type="Script" uid="uid://dnobq75g8svot" path="res://barkley2/resources/vr_missions/mission_1.gd" id="1_jkj14"]
+[ext_resource type="PackedScene" uid="uid://74tkdn6wv67c" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_ratNest.tscn" id="2_sl356"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_64vem"]
+[ext_resource type="Texture2D" uid="uid://vbnrl8wjv6as" path="res://barkley2/assets/b2_original/images/merged/s_enemy_rat_dark.png" id="4_58n1g"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="5_xeugt"]
+
+[sub_resource type="Gradient" id="Gradient_t4a32"]
+offsets = PackedFloat32Array(0.61077845, 0.61976045)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mj6vg"]
+gradient = SubResource("Gradient_t4a32")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mj6vg"]
+font = ExtResource("3_64vem")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwjay"]
+atlas = ExtResource("4_58n1g")
+region = Rect2(0, 0, 36, 31)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxqo7"]
+font = ExtResource("5_xeugt")
+
+[node name="mission_1" type="Node2D"]
+script = ExtResource("1_jkj14")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(400, 369)
+enabled = false
+
+[node name="mission_timer" type="Timer" parent="."]
+wait_time = 120.0
+one_shot = true
+
+[node name="nest_bg" type="TextureRect" parent="."]
+anchors_preset = -1
+offset_left = 499.0
+offset_top = 332.0
+offset_right = 540.0
+offset_bottom = 373.0
+texture = SubResource("GradientTexture2D_mj6vg")
+
+[node name="nest_bg2" type="TextureRect" parent="."]
+anchors_preset = -1
+offset_left = 300.0
+offset_top = 171.0
+offset_right = 341.0
+offset_bottom = 212.0
+texture = SubResource("GradientTexture2D_mj6vg")
+
+[node name="o_enemy_ratNest" parent="." instance=ExtResource("2_sl356")]
+position = Vector2(320, 204)
+spawn_cooldown_time = 5.0
+
+[node name="o_enemy_ratNest2" parent="." instance=ExtResource("2_sl356")]
+position = Vector2(520, 365)
+spawn_cooldown_time = 5.0
+
+[node name="mission_ui" type="CanvasLayer" parent="."]
+
+[node name="screen" type="MarginContainer" parent="mission_ui"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="mission_timer_label" type="Label" parent="mission_ui/screen"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "2:00"
+label_settings = SubResource("LabelSettings_mj6vg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="enemy_hbox" type="HBoxContainer" parent="mission_ui/screen"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="enemy_texture" type="TextureRect" parent="mission_ui/screen/enemy_hbox"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_vwjay")
+
+[node name="enemy_count_lbl" type="Label" parent="mission_ui/screen/enemy_hbox"]
+custom_minimum_size = Vector2(30, 20)
+layout_mode = 2
+text = "x00"
+label_settings = SubResource("LabelSettings_bxqo7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="timeout" from="mission_timer" to="." method="_on_mission_timer_timeout"]
