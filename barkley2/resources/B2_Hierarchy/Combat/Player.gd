@@ -75,7 +75,7 @@ func _ai_aim_ranged( enabled : bool ) -> void:
 			
 func _ai_roll_at( enabled : bool ) -> void:
 	if enabled:
-		start_rolling()
+		start_rolling( curr_input )
 
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -183,8 +183,6 @@ func shoot_gun() -> void:
 			if curr_STATE == STATE.SHOOT:
 				curr_STATE = STATE.AIM
 	
-
-
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
 	var input 			:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
@@ -417,18 +415,13 @@ func combat_weapon_animation() -> void:
 		combat_weapon_spots.z_index		= _z_index
 
 # Roll action
-func start_rolling() -> void:
+func start_rolling( roll_dir : Vector2 ) -> void:
 	# Roooolliiing staaaaart! ...here vvv
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
 	
-	var roll_dir 	: Vector2
-	#var input 		:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
-	var input 		:= curr_input # Input.get_vector("Left","Right","Up","Down")
-	
 	## Cool ass animation
-	if input != Vector2.ZERO:
-		roll_dir 	= input
+	if roll_dir != Vector2.ZERO:
 		hoopz_normal_body.play( ROLL )
 		hoopz_normal_body.flip_h = roll_dir.x < 0
 		
@@ -469,6 +462,11 @@ func stop_rolling() -> void:
 		hoopz_normal_body.flip_h = false
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("DEBUG_DAMAGE"):
+		damage_actor(0, Vector2.ZERO)
+	if Input.is_action_just_pressed("DEBUG_DEATH"):
+		damage_actor(9999, Vector2.ZERO)
+		
 	## Makers the AI think.
 	if actor_ai:
 		actor_ai.step()

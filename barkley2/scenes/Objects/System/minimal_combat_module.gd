@@ -20,7 +20,7 @@ signal battle_results_finished
 
 @onready var battle_results: 	NinePatchRect = $"../battle_results"
 
-var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
+var player_character 	: B2_Player_TurnBased						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 		## List of all active enemies
 
 var aiming_angle 		:= Vector2.RIGHT
@@ -43,7 +43,7 @@ func _ready() -> void:
 func can_resume_combat() -> bool:
 	return curr_action == NOTHING
 
-func register_player( player : B2_HoopzCombatActor ) -> void:
+func register_player( player : B2_Player_TurnBased ) -> void:
 	player_character = player
 	
 ## Add enemies to an Array

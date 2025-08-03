@@ -419,7 +419,7 @@ func add_player_to_room( pos : Vector2, add_camera : bool ):
 		return
 
 	var player_scene 	:= B2_CManager.o_hoopz_scene
-	var player_node 	:= player_scene.instantiate() as B2_Player
+	var player_node 	:= player_scene.instantiate() as B2_Player_FreeRoam
 
 	player_node.position = pos
 	get_tree().current_scene.add_child( player_node, true )

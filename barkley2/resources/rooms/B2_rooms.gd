@@ -254,7 +254,7 @@ func _setup_camera( player ):
 	b2_camera = B2_Camera_Hoopz.new()
 	if not player == null:
 		b2_camera.follow_mouse = true
-		b2_camera.follow_player( player as B2_Player )
+		b2_camera.follow_player( player as B2_Player_FreeRoam )
 	add_child( b2_camera, true )
 	b2_camera.set_camera_bound( camera_bound_to_map )
 	b2_camera.name = "room_created_camera"

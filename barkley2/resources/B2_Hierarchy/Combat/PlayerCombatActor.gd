@@ -64,6 +64,7 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 @export var combat_weapon 			: AnimatedSprite2D
 @export var combat_weapon_parts 	: AnimatedSprite2D
 @export var combat_weapon_spots 	: AnimatedSprite2D
+@export var combat_shield			: AnimatedSprite2D
 @export var gun_muzzle				: Marker2D
 
 @export_category("Animation")
@@ -279,20 +280,17 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 			modulate = Color.WHITE * 5.0
 			hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
 		else:
-			## I frame is running. Do nothing.
-			pass
-		
+			pass ## I frame is running. Do nothing.
 	else:
 		## Hoopz was defending
 		B2_Sound.play_pick("crab_hit_metal")
 		@warning_ignore("narrowing_conversion")
 		damage *= 0.5
 	
-	B2_Screen.display_damage_number( self, damage )
-	apply_central_impulse( force )
-	
 	@warning_ignore("narrowing_conversion")
 	B2_Playerdata.player_stats.decrease_hp( damage )
+	B2_Screen.display_damage_number( self, damage )
+	apply_central_impulse( force )
 	
 	## Check if ded :(
 	if B2_Playerdata.player_stats.curr_health == 0:
@@ -343,7 +341,7 @@ func defeat_anim() -> void:
 	hoopz_normal_body.play( "demise" )
 
 # Roll action
-func start_rolling() -> void:
+func start_rolling( _roll_dir : Vector2 ) -> void:
 	pass
 	
 func stop_rolling() -> void:
@@ -360,6 +358,11 @@ func _on_hit_timer_timeout() -> void:
 		## stop processing states if the battle is over.
 		return
 		
+	## Reset some stuff relatedto animations
+	last_input 				= Vector2.INF
+	last_direction 			= Vector2.INF
+	last_movement_vector 	= Vector2.INF
+	
 	if curr_STATE == STATE.HIT:
 		if prev_STATE == STATE.ROLL: ## Avoid issues with being hit while rolling.
 			stop_rolling()

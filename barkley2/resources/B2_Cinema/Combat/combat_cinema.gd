@@ -466,7 +466,7 @@ func _load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 			
 	# if fake is loaded, load real hoopz.
 	if not is_instance_valid(B2_CManager.o_hoopz):
-		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate() as B2_Player
+		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate() as B2_Player_FreeRoam
 		
 	if is_instance_valid(B2_CManager.o_cbt_hoopz):
 		B2_CManager.o_hoopz.position = B2_CManager.o_cbt_hoopz.position

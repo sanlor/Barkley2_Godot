@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func _on_spawn_distance_body_entered(body: Node2D) -> void:
 	if cooldown_timer.is_stopped():
-		if body is B2_Player:
+		if body is B2_Player_FreeRoam:
 			spawn_collision.set_deferred("disabled", true)
 			spawn_timer.start()
 			show()
@@ -27,3 +27,4 @@ func _on_spawn_timer_timeout() -> void:
 	rat.position = position
 	hide()
 	cooldown_timer.start()
+	spawn_collision.set_deferred("disabled", false)

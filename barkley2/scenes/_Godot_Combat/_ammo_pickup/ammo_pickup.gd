@@ -81,7 +81,7 @@ func _physics_process(delta: float) -> void:
 		ammo_sprite.position.y -= sin(arch) * 35
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is B2_HoopzCombatActor or body is B2_Player:
+	if body is B2_Player_TurnBased or body is B2_Player_FreeRoam:
 		## TODO Reload ammo
 		push_warning("Reload not setup yet.")
 		_pickup_gun()

@@ -17,7 +17,7 @@ extends Control
 
 @onready var timer: Timer = $Timer
 
-@onready var o_cbt_hoopz: B2_HoopzCombatActor = $o_cbt_hoopz
+@onready var o_cbt_hoopz: B2_Player_TurnBased = $o_cbt_hoopz
 
 @onready var playfield: Node2D = $playfield
 

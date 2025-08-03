@@ -1,6 +1,6 @@
 @icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
 extends  B2_PlayerCombatActor
-class_name B2_Player_FreeRoam ## TODO merge this with the other Hoopz combat actor (B2_Player)
+class_name B2_Player_TurnBased ## TODO merge this with the other Hoopz combat actor (B2_Player)
 
 ## Class used by the player actor, during combat. Original system, so it probably wont work well.
 ## large part of the codebase were ported from B2_PlayerCombatActor, B2_Player
@@ -18,102 +18,18 @@ signal move_target_changed
 			#curr_STATE = s
 			#_update_held_gun()
 
-# Sprite frame indexes - s_cts_hoopz_stand
-const SHUFFLE 		:= "shuffle"
-const STAND 		:= "stand"
-#const ROLL			:= "hoopz_gooroll"
-const STAND_E 		:= 0
-const STAND_NE 		:= 1
-const STAND_N		:= 2
-const STAND_NW		:= 3
-const STAND_W		:= 4
-const STAND_SW		:= 5
-const STAND_S		:= 6
-const STAND_SE		:= 7
-
-const WALK_E 		:= "walk_E"
-const WALK_NE 		:= "walk_NE"
-const WALK_N		:= "walk_N"
-const WALK_NW		:= "walk_NW"
-const WALK_W		:= "walk_W"
-const WALK_SW		:= "walk_SW"
-const WALK_S		:= "walk_S"
-const WALK_SE		:= "walk_SE"
-
-# Combat Sprite frame indexes
-const COMBAT_SHUFFLE 		:= "aim_shuffle"
-const COMBAT_STAND 			:= "aim_stand"
-const COMBAT_STAND_E 		:= 0
-const COMBAT_STAND_NE 		:= 1
-const COMBAT_STAND_N		:= 2
-const COMBAT_STAND_NW		:= 3
-const COMBAT_STAND_W		:= 4
-const COMBAT_STAND_SW		:= 5
-const COMBAT_STAND_S		:= 6
-const COMBAT_STAND_SE		:= 7
-
-const COMBAT_WALK_E 		:= "walk_E"
-const COMBAT_WALK_NE 		:= "walk_NE"
-const COMBAT_WALK_N			:= "walk_N"
-const COMBAT_WALK_NW		:= "walk_NW"
-const COMBAT_WALK_W			:= "walk_W"
-const COMBAT_WALK_SW		:= "walk_SW"
-const COMBAT_WALK_S			:= "walk_S"
-const COMBAT_WALK_SE		:= "walk_SE"
-
-@export var STAGGER			:= "stagger"
-@export var ROLL			:= "full_roll" # "diaper_gooroll"
-@export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
-
 @export_category("Normal Sprites")
-@export var hoopz_normal_body		: AnimatedSprite2D
 @export var hoopz_roll_direction	: Line2D
 
-@export_category("Combat Sprites")
-@export var combat_upper_sprite 	: AnimatedSprite2D
-@export var combat_lower_sprite 	: AnimatedSprite2D
-@export var combat_arm_back 		: AnimatedSprite2D
-@export var combat_arm_front 		: AnimatedSprite2D
-@export var combat_shield			: AnimatedSprite2D
-@export var combat_weapon 			: AnimatedSprite2D
-@export var combat_weapon_parts		: AnimatedSprite2D
-@export var combat_weapon_spots		: AnimatedSprite2D
-@export var gun_muzzle				: Marker2D
-
 @export_category("Misc")
-@export var step_smoke: 		GPUParticles2D
 @onready var ready_label: RichTextLabel = $ready_label
 
-@onready var hit_timer: 		Timer = $hit_timer
 @onready var gun_down_timer: 	Timer = $gun_down_timer
 @onready var aim_origin: 		Marker2D = $aim_origin
 
 ## General Animation
-var is_turning 					:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
-var turning_time 				:= 1.0
 var step_anim_played			:= false
 #var last_combat_weapon_frame 	:= 9999
-
-## Combat Animations
-#var aim_vector 		:= Vector2.ZERO
-var waddle			:= false # If hoopz legs should waddle torward the aiming direction
-
-var combat_last_direction 	:= Vector2.ZERO
-var combat_last_input 		:= Vector2.ZERO
-
-## Movement
-#var external_velocity 	:= Vector2.ZERO ## DEBUG - applyied by the door.
-#var velocity			:= Vector2.ZERO
-
-#@export_category("Movement Physics")
-#@export var walk_speed			:= 500000 # 5000000
-#@export var roll_impulse		:= 50000
-#@export var walk_damp			:= 10.0
-#@export var roll_damp			:= 3.5
-
-## Sound
-var min_move_dist 	:= 1.0
-var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
 
 ## Control stuff
 #var is_moving 		:= false
@@ -121,7 +37,6 @@ var move_target 	:= movement_vector ## Cinema stuff: Tells where the node should
 var aim_target 		:= movement_vector ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 var roll_power		:= 0.0
 
-var hit_tween : Tween
 
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self

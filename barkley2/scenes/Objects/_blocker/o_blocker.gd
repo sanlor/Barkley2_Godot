@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 	if push_area.has_overlapping_bodies():
 		var body : Array[Node2D] = push_area.get_overlapping_bodies()
 		for b in body:
-			if (b is B2_Player) or (b is B2_HoopzCombatActor):
+			if (b is B2_Player) or (b is B2_Player_TurnBased):
 				push_player( b, delta )
 				has_player = true
 	

@@ -1369,7 +1369,7 @@ func _on_body_entered( body: Node2D ) -> void:
 		## ignore collisions with source actor (unless it ricochets)
 		return
 		
-	if body is B2_HoopzCombatActor:
+	if body is B2_Player_TurnBased:
 		# can hit yourself if its a ricochet
 		## TODO
 		pass

@@ -1,7 +1,7 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_2.png")
 #extends B2_HoopzCombatActor_Base
-extends B2_HoopzCombatActor
-class_name B2_HoopzCombatActor_Control
+extends B2_Player_TurnBased
+class_name B2_Player_TurnBased_Control
 
 ## Class used to receive commands from B2_CombatCinemaPlayer
 ## Acts much like the B2_Actor class, but focus on combat.

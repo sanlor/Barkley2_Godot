@@ -15,7 +15,7 @@ signal enemy_was_defeated( enemy_data : B2_EnemyData )
 
 var combat_cinema : B2_Combat_CinemaPlayer
 #var combat_camera
-var player_character 	: B2_HoopzCombatActor						## In this game, only one player character exists. 
+var player_character 	: B2_Player_TurnBased						## In this game, only one player character exists. 
 var enemy_list 			: Array[B2_EnemyCombatActor] 	= [] 	## List of all active enemies
 var defeated_enemy_list : Array[B2_EnemyCombatActor] 	= [] 	## List of all defeated enemies. Used on the end of the battle, to add EXP, item drops and cleanup.
 
@@ -41,7 +41,7 @@ class queue: # class used for action queue
 	var finish_action	: Callable
 
 ## keep a refere for the player
-func register_player( player : B2_HoopzCombatActor ) -> void:
+func register_player( player : B2_Player_TurnBased ) -> void:
 	player_character = player
 	#player.combat_manager = self
 	
@@ -263,7 +263,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
-	if source_actor is B2_HoopzCombatActor:
+	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Bullets direction
@@ -307,7 +307,7 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : 
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
 	
-	if source_actor is B2_HoopzCombatActor:
+	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Skill direction

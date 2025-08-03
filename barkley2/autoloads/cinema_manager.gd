@@ -38,13 +38,13 @@ var o_cts_hoopz 	: B2_Actor 						= null :## Cutscene Hoopz
 	set(h):
 		o_cts_hoopz = h
 		#print_stack() ## Debug
-var o_hoopz 		: B2_PlayerCombatActor		 				= null ## PLayer controlled Hoopz
+var o_hoopz 		: B2_Player_FreeRoam		 				= null ## PLayer controlled Hoopz
 var o_hud			: B2_Hud						= null ## Main HUD, with combat attachments.
 var camera			: B2_Camera_Hoopz #Camera2D
 var cinema_player 	: B2_CinemaPlayer
 
 ## Combat stuff
-var o_cbt_hoopz 			: B2_HoopzCombatActor		 	= null ## Combat Hoopz
+var o_cbt_hoopz 			: B2_Player_TurnBased		 	= null ## Combat Hoopz
 #var o_combat_ui				: CanvasLayer					= null ## Combat UI (Is this needed?)
 var combat_manager			: B2_CombatManager
 var combat_cinema_player 	: B2_Combat_CinemaPlayer

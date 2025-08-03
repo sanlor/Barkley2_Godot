@@ -117,9 +117,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered( body : Node ) -> void:
 	## Check scr_AI_action_kamikaze
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		## Do not explode if player is rolling.
-		if body.curr_STATE != B2_Player.STATE.ROLL:
+		if body.curr_STATE != B2_PlayerCombatActor.STATE.ROLL:
 			destroy_actor()
 			body.damage_actor( 1.0, position.direction_to(body.position) * 200.0 )
 

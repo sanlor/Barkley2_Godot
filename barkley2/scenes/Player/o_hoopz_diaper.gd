@@ -1,4 +1,4 @@
-extends B2_Player
+extends B2_Player_FreeRoam
 ## Diaper exceptions
 
 ## handle step sounds for normal state hoopz
