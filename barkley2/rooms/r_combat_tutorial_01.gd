@@ -20,6 +20,12 @@ func _ready() -> void:
 		var mission_0 = preload("res://barkley2/resources/vr_missions/mission_0.tscn").instantiate()
 		add_child( mission_0, true )
 		mission_0.play("encounter_01")
+	elif B2_Playerdata.Quest("vr_mission_1" ) == 1:
+		B2_Playerdata.Quest("vr_mission_1", 2 )
+		B2_CManager.play_cutscene( preload("uid://b4q2wqh34t6kl"), self )
+		#var mission_1 = preload("res://barkley2/resources/vr_missions/mission_1.tscn").instantiate()
+		#add_child( mission_1, true )
+		#mission_1.play("encounter_01")
 
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )

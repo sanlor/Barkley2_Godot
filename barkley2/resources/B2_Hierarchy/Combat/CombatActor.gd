@@ -1,6 +1,7 @@
 extends RigidBody2D
 class_name B2_CombatActor
 
+signal actor_created			## used during combat. ## NOTE Unused
 signal actor_died				## used during combat.
 
 signal stop_animation 			## Stop all active animations (Walking, attacking, dodging, etc) ## NOTE it this used?

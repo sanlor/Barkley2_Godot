@@ -9,6 +9,7 @@ class_name B2_ROOMS
 const O_HUD 					= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
 const O_ZONE_NAME 				= preload("res://barkley2/objects/oZoneName.tscn")
 const COLLISION_WADING_TILESET 	= preload("uid://m673wsth5kja")
+const COLLISION_ABYSS_TILESET 	= preload("uid://snddsm584j8b")
 const COLLISION_2_TILESET 		= preload("uid://cbgwi3h47ghpg")
 const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
 
@@ -35,6 +36,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var collision_layer 		: TileMapLayer	## The tilemap that handles colision of everything.
 @export var collision_layer_semi 	: TileMapLayer	## The tilemap that handles colision for somethings (like actors, but not for bullets)
 @export var collision_layer_wade 	: TileMapLayer	## The tilemap that handles colision for water (casing and bullets falling in the water)
+@export var collision_layer_abyss 	: TileMapLayer	## The tilemap that handles colision for bottomless pits (casing and bullets disappear)
 var collision_array 				: Array[TileMapLayer] = []
 
 @export_category("Room Options")
@@ -124,7 +126,9 @@ func _hide_collision_layer() -> void:
 		collision_layer_semi.hide()
 	if is_instance_valid(collision_layer_wade):
 		collision_layer_wade.hide()
-
+	if is_instance_valid(collision_layer_abyss):
+		collision_layer_abyss.hide()
+		
 func _set_region():
 	if populate_reference_layer:
 		reference_layer.clear()
@@ -153,6 +157,12 @@ func _set_region():
 					if not is_instance_valid( collision_layer_wade ):
 						collision_layer_wade = c
 					collision_layer_wade.tile_set = COLLISION_WADING_TILESET
+					collision_array.append(c)
+					
+				if c.name == "layer - abyss":
+					if not is_instance_valid( collision_layer_abyss ):
+						collision_layer_abyss = c
+					collision_layer_abyss.tile_set = COLLISION_ABYSS_TILESET
 					collision_array.append(c)
 	
 	## Players dont need to see this, only during development.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=22 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/resources/B2_Debug/b2_debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://k67fiie877xd" path="res://barkley2/resources/B2_Debug/quest_checker.gd" id="4_ecn0k"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="5_iquyo"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="7_hkl2t"]
+[ext_resource type="Script" uid="uid://yai8fhb612w6" path="res://barkley2/resources/B2_Debug/teleport_window.gd" id="8_ir2hf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
 bg_color = Color(0, 0, 0, 0.75)
@@ -198,6 +199,7 @@ script = ExtResource("1_jshnt")
 
 [node name="player_data" type="ScrollContainer" parent="."]
 custom_minimum_size = Vector2(256, 240)
+anchors_preset = -1
 offset_right = 200.0
 offset_bottom = 240.0
 theme = ExtResource("2_pawx4")
@@ -225,9 +227,8 @@ label_settings = SubResource("LabelSettings_dvnvw")
 tab_stops = PackedFloat32Array(10)
 
 [node name="player_vars" type="ScrollContainer" parent="."]
-visible = false
 custom_minimum_size = Vector2(150, 0)
-anchors_preset = 11
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -250,6 +251,10 @@ theme_override_constants/margin_bottom = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="player_vars/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 1
+
+[node name="teleport_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Teleport!"
 
 [node name="money" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -435,7 +440,7 @@ initial_position = 1
 size = Vector2i(300, 143)
 
 [node name="quest_checker" type="VBoxContainer" parent="AcceptDialog"]
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -466,7 +471,26 @@ layout_mode = 2
 text = "Result: NaN"
 horizontal_alignment = 1
 
+[node name="teleport_window" type="ConfirmationDialog" parent="."]
+editor_description = "Test"
+oversampling_override = 1.0
+title = "Teleport to..."
+initial_position = 1
+size = Vector2i(350, 350)
+exclusive = false
+ok_button_text = "Teleport"
+script = ExtResource("8_ir2hf")
+
+[node name="tree_node" type="Tree" parent="teleport_window"]
+anchors_preset = -1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 342.0
+offset_bottom = 301.0
+hide_root = true
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
+[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/teleport_btn" to="." method="_on_button_pressed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]
@@ -484,3 +508,5 @@ horizontal_alignment = 1
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
 [connection signal="text_submitted" from="AcceptDialog/quest_checker/quest_request" to="AcceptDialog/quest_checker" method="_on_quest_request_text_submitted"]
+[connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]
+[connection signal="item_activated" from="teleport_window/tree_node" to="teleport_window" method="_on_tree_node_item_activated"]

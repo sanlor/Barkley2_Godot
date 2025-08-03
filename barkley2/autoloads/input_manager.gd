@@ -5,9 +5,6 @@ extends Node
 
 var debug := true
 
-var debug_camera_enabled 	:= false
-var debug_camera_node		: Camera2D
-
 enum CONTROL{KEYBOARD, GAMEPAD}
 var curr_CONTROL := CONTROL.KEYBOARD
 
@@ -34,32 +31,6 @@ func _physics_process(_delta: float) -> void:
 	## DEBUG
 	#if Input.is_action_just_pressed("Roll"):
 		#B2_Screen.show_notify_screen("Big Butts")
-	
-	if debug:
-		if debug_camera_enabled:
-			if is_instance_valid(debug_camera_node):
-				var move := Input.get_vector("Left","Right","Up","Down")
-				if move:
-					debug_camera_node.position += ( move * 400 ) * _delta
-		
-		## Create a free flying camera to check thinks out.
-		if Input.is_action_just_pressed("DEBUG_CAMERA"):
-			if debug_camera_enabled: # if enabled, disable it.
-				if is_instance_valid(debug_camera_node):
-					debug_camera_node.queue_free()
-				
-				B2_CManager.camera.enabled = true
-				player_has_control = true
-				debug_camera_enabled = false
-				
-			else:
-				B2_CManager.camera.enabled = false
-				debug_camera_node = Camera2D.new()
-				get_tree().current_scene.add_child( debug_camera_node )
-				debug_camera_node.enabled = true
-				debug_camera_enabled = true
-				player_has_control = false
-		
 	
 	if can_switch_guns:
 		if Input.is_action_just_pressed("Weapon >"):

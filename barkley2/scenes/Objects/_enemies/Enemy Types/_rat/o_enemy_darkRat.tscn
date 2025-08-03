@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bw704hnw70nik"]
+[gd_scene load_steps=28 format=3 uid="uid://bw704hnw70nik"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_e52ma"]
 [ext_resource type="Script" uid="uid://b27os8s1rafsy" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_dark_rat.gd" id="2_fhxio"]
@@ -48,10 +48,6 @@ region = Rect2(432, 0, 36, 31)
 atlas = ExtResource("5_8k41c")
 region = Rect2(576, 0, 36, 31)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6drh2"]
-atlas = ExtResource("5_8k41c")
-region = Rect2(324, 0, 36, 31)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_8se51"]
 atlas = ExtResource("5_8k41c")
 region = Rect2(360, 0, 36, 31)
@@ -59,10 +55,6 @@ region = Rect2(360, 0, 36, 31)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gdpyp"]
 atlas = ExtResource("5_8k41c")
 region = Rect2(396, 0, 36, 31)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t6k6t"]
-atlas = ExtResource("5_8k41c")
-region = Rect2(612, 0, 36, 31)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yn6kd"]
 atlas = ExtResource("5_8k41c")
@@ -72,10 +64,6 @@ region = Rect2(648, 0, 36, 31)
 atlas = ExtResource("5_8k41c")
 region = Rect2(684, 0, 36, 31)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fjgq0"]
-atlas = ExtResource("5_8k41c")
-region = Rect2(468, 0, 36, 31)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_i4yfo"]
 atlas = ExtResource("5_8k41c")
 region = Rect2(504, 0, 36, 31)
@@ -83,10 +71,6 @@ region = Rect2(504, 0, 36, 31)
 [sub_resource type="AtlasTexture" id="AtlasTexture_b4yc5"]
 atlas = ExtResource("5_8k41c")
 region = Rect2(540, 0, 36, 31)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7wwep"]
-atlas = ExtResource("5_8k41c")
-region = Rect2(36, 0, 36, 31)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_do3hc"]
 atlas = ExtResource("5_8k41c")
@@ -96,10 +80,6 @@ region = Rect2(72, 0, 36, 31)
 atlas = ExtResource("5_8k41c")
 region = Rect2(108, 0, 36, 31)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0ld5e"]
-atlas = ExtResource("5_8k41c")
-region = Rect2(180, 0, 36, 31)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_mybxv"]
 atlas = ExtResource("5_8k41c")
 region = Rect2(216, 0, 36, 31)
@@ -108,7 +88,7 @@ region = Rect2(216, 0, 36, 31)
 atlas = ExtResource("5_8k41c")
 region = Rect2(252, 0, 36, 31)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_iem54"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_48n6s"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -132,9 +112,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6drh2")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_8se51")
 }, {
 "duration": 1.0,
@@ -145,9 +122,6 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t6k6t")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yn6kd")
 }, {
@@ -160,9 +134,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fjgq0")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_i4yfo")
 }, {
 "duration": 1.0,
@@ -174,9 +145,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7wwep")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_do3hc")
 }, {
 "duration": 1.0,
@@ -187,9 +155,6 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0ld5e")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mybxv")
 }, {
@@ -227,7 +192,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-walk_speed = 250000
+walk_speed = 550000
 actor_ai = NodePath("B2_AI_Chase_Stop")
 
 [node name="B2_AI_Chase_Stop" type="Node" parent="."]
@@ -252,9 +217,9 @@ process_material = ExtResource("6_8k41c")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
-sprite_frames = SubResource("SpriteFrames_iem54")
-animation = &"stand"
-speed_scale = 2.0
+sprite_frames = SubResource("SpriteFrames_48n6s")
+animation = &"walk_n"
+speed_scale = 1.25
 centered = false
 offset = Vector2(-18, -24)
 metadata/default = {

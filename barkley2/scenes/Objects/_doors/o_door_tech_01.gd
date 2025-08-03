@@ -30,10 +30,10 @@ func _after_ready() -> void:
 	pass
 
 func detect_player_exit( body ):
-	if body is B2_Player:# or body is B2_InteractiveActor:
+	if body is B2_PlayerCombatActor:# or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
-				if body is B2_Player: # Avoid actors triggering these messages 
+				if body is B2_PlayerCombatActor: # Avoid actors triggering these messages 
 					hide_locked_message()
 			return
 		else:
@@ -41,10 +41,10 @@ func detect_player_exit( body ):
 				door_close()
 
 func detect_player_enter( body ):
-	if body is B2_Player:# or body is B2_InteractiveActor:
+	if body is B2_PlayerCombatActor:# or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
-				if body is B2_Player: # Avoid actors triggering these messages
+				if body is B2_PlayerCombatActor: # Avoid actors triggering these messages
 					show_locked_message()
 			return
 		else:

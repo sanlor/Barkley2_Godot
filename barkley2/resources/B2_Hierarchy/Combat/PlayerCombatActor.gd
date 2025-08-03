@@ -144,7 +144,7 @@ func _update_flashlight() -> void:
 			
 func _change_sprites():
 	match curr_STATE:
-		STATE.NORMAL, STATE.ROLL:
+		STATE.NORMAL, STATE.ROLL, STATE.HIT:
 			hoopz_normal_body.show()
 			
 			combat_lower_sprite.hide()
@@ -154,7 +154,7 @@ func _change_sprites():
 			combat_weapon.hide()
 			combat_weapon_parts.hide()
 			combat_weapon_spots.hide()
-		STATE.AIM:
+		STATE.AIM, STATE.SHOOT:
 			hoopz_normal_body.hide()
 			
 			combat_lower_sprite.show()
@@ -257,6 +257,10 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 			if curr_STATE == STATE.ROLL:
 				linear_velocity = Vector2.ZERO
 				B2_Playerdata.player_stats.block_action_increase = false
+				
+			## Deal with some issues with animations and getting stuck on wrong states
+			if curr_STATE == STATE.SHOOT:
+				curr_STATE = STATE.AIM
 				
 			## Hoopz was hit, start stagger animation and related shit.
 			i_frame_timer.start()
@@ -368,5 +372,14 @@ func _on_hit_timer_timeout() -> void:
 			stop_rolling()
 		elif prev_STATE == STATE.DEFENDING:
 			curr_STATE = STATE.NORMAL
+			
+		elif curr_STATE == STATE.AIM:
+			curr_STATE = STATE.NORMAL
+			
+		elif curr_STATE == STATE.SHOOT:
+			curr_STATE = STATE.NORMAL
+			
 		else:
 			curr_STATE = prev_STATE
+	else:
+		breakpoint

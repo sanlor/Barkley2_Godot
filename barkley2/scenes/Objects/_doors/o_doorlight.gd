@@ -176,11 +176,17 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 					is_warping = true
 					B2_Sound.play_pick( "trailing_steps" )
 					B2_RoomXY.warp_to( teleport_destination, 0.0 )
+					## Fade player
+					var t := create_tween()
+					t.tween_property( body, "modulate", Color.TRANSPARENT, 0.1 )
 			else:
 				push_warning("DEBUG TELEPORT: ", debug_teleport_destination )
 				is_warping = true
 				B2_Sound.play_pick( "trailing_steps" )
 				B2_RoomXY.warp_to( debug_teleport_destination, 0.0 )
+				## Fade player
+				var t := create_tween()
+				t.tween_property( body, "modulate", Color.TRANSPARENT, 0.1 )
 			
 func _draw() -> void:
 	if debug_door_exit_marker and Engine.is_editor_hint():

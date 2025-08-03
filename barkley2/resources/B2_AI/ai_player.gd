@@ -4,11 +4,11 @@ class_name B2_AI_Player
 ## Player AI. Receives user inputs and puppeters the parent node (o_hoopz).
 func step() -> void:
 	if actor:
-		
-		actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
-		actor.apply_curr_aim( actor.get_global_mouse_position() )
-		
-		_input_process()
+		if B2_Input.player_has_control:
+			actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
+			actor.apply_curr_aim( actor.get_global_mouse_position() )
+			
+			_input_process()
 
 func _input_process() -> void:
 	if B2_Input.player_has_control:

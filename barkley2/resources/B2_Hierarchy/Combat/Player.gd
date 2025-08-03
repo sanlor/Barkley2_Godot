@@ -499,6 +499,10 @@ func _physics_process(delta: float) -> void:
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_force( velocity / Engine.time_scale )
+			
+	# Reset input (Test)
+	#curr_input = Vector2.ZERO
+	#curr_aim = Vector2.ZERO
 
 func _on_combat_actor_entered(body: Node) -> void:
 	if body is B2_CombatActor:

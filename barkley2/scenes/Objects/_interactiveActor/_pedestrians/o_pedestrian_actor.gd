@@ -393,7 +393,7 @@ func _on_velocity_computed(safe_velocity: Vector2):
 
 func _on_body_entered(body: Node) -> void:
 	if gossip_timer.is_stopped():
-		if body is B2_Player and ped_can_gossip:
+		if body is B2_PlayerCombatActor and ped_can_gossip:
 			gossip_timer.start( ped_timer / 10.0 ) ## DEBUG
 			actor_anim.stop()
 			actor_anim.animation = "stand"
