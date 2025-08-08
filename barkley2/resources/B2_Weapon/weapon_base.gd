@@ -364,7 +364,7 @@ func has_sufficient_ammo( amount : int ) -> bool:
 
 #region Weapon Combat
 func get_gun_knockback() -> float: ## TODO add a propper value
-	return 2000.0
+	return 2000.0 * max(1.0, bullets_per_shot)
 	
 func get_att() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
 	@warning_ignore("narrowing_conversion")

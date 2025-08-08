@@ -916,7 +916,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		GROUP.SHOTGUNS:
 			wpn.bullets_per_shot 	= 10
 			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.0
+			wpn.wait_per_shot 		= 0.5
 			wpn.bullet_spread 		= 0.5
 			if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
 				wpn.bullets_per_shot 	*= 2
@@ -967,6 +967,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			## summtin REEEALY isnt right.
 			breakpoint
 	
+	## Increase max ammo as a test.
+	wpn.max_ammo *= 3
+	wpn.curr_action = wpn.max_ammo
+	
 	return wpn
 	
 static func apply_stats( wpn : B2_Weapon ) -> void:
@@ -1015,10 +1019,6 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	
 	## Save points used.
 	wpn.pts = points
-	
-	## Increase max ammo as a test.
-	wpn.max_ammo *= 3
-	wpn.curr_action = wpn.max_ammo
 	
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic

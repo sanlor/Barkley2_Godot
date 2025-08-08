@@ -26,22 +26,14 @@ var is_fastforwarding		:= false 	# Set to true when you are FFWD
 var can_switch_guns			:= true	# if the player can swap guns (Should be disabled in menus)
 
 # Node responsible for the Input management.
+# NOTE Some functions were moved to the B2_AI_Player
 
 func _physics_process(_delta: float) -> void:
 	## DEBUG
 	#if Input.is_action_just_pressed("Roll"):
 		#B2_Screen.show_notify_screen("Big Butts")
 	
-	if can_switch_guns:
-		if Input.is_action_just_pressed("Weapon >"):
-			B2_Gun.next_band_gun()
-		if Input.is_action_just_pressed("Weapon <"):
-			B2_Gun.prev_band_gun()
-		if Input.is_action_just_pressed("Gun'sbag"):
-			
-			B2_Gun.toggle_gunbag()
-			
-			
+	
 	if Input.is_action_just_pressed("Action"):
 		action_pressed.emit()
 		

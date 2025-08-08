@@ -67,15 +67,18 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 @export var combat_shield			: AnimatedSprite2D
 @export var gun_muzzle				: Marker2D
 
-@export_category("Animation")
-@export var STAGGER			:= "stagger"
-@export var ROLL			:= "full_roll" # "diaper_gooroll"
-@export var ROLL_BACK		:= "full_roll_back" # "diaper_gooroll"
+@export_category("Gun Handler")
+@export var gun_handler				: Node
 
-@export var hoopz_normal_body: 	AnimatedSprite2D
-@export var step_smoke: 		GPUParticles2D
-@export var hit_timer: 			Timer
-@export var i_frame_timer:		Timer
+@export_category("Animation")
+@export var STAGGER					:= "stagger"
+@export var ROLL					:= "full_roll" # "diaper_gooroll"
+@export var ROLL_BACK				:= "full_roll_back" # "diaper_gooroll"
+
+@export var hoopz_normal_body		: AnimatedSprite2D
+@export var step_smoke				: GPUParticles2D
+@export var hit_timer				: Timer
+@export var i_frame_timer			: Timer
 
 @export_category("Light Stuff")
 @export var flashlight_enabled 		:= true
