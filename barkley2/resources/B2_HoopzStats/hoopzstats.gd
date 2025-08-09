@@ -187,7 +187,7 @@ func load_stats() -> void:
 		for stat : String in my_stats_current:
 			if stat.to_lower() in self: set(stat, my_stats_current[stat] )
 	
-	B2_Playerdata.stat_updated.emit()
+	B2_SignalBus.stat_updated.emit()
 
 ## Increase base stats by a set amount. Used in leveling up.
 func increase_base_stat(  stat : String, value : float ) -> void:
@@ -204,7 +204,7 @@ func increase_base_stat(  stat : String, value : float ) -> void:
 func set_base_stat( stat : String, value : float ) -> void:
 	set(stat.to_lower(), value)
 	if get(stat.to_lower()) == value:
-		B2_Playerdata.stat_updated.emit()
+		B2_SignalBus.stat_updated.emit()
 	else:
 		push_error( "%s is not a valid stat. %s - %s." % [stat.to_lower(), get(stat.to_lower()), value] )
 

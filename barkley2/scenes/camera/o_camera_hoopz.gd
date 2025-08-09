@@ -80,7 +80,7 @@ func _ready() -> void:
 	offset 				= camera_normal_offset
 	
 	B2_CManager.camera 	= self
-	B2_Input.camera_follow_mouse.connect( func(state): follow_mouse = state )
+	B2_SignalBus.camera_follow_mouse.connect( func(state): follow_mouse = state )
 	
 	if show_debug_data:
 		debug_data 								= Label.new()

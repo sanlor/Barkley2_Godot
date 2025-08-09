@@ -76,8 +76,8 @@ func _ready() -> void:
 	
 	_change_visibility()
 		
-	B2_Playerdata.quest_updated.connect( _change_visibility )
-	B2_Playerdata.gun_changed.connect( _flash_hud )
+	B2_SignalBus.quest_updated.connect( _change_visibility )
+	B2_SignalBus.gun_changed.connect( _flash_hud )
 	
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y

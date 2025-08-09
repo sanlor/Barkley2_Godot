@@ -52,7 +52,7 @@ func _enter_tree() -> void:
 		sound_pick = SOUNDPICK.data
 	
 func _ready():
-	B2_Playerdata.gun_changed.connect( _play_gun_swap_sfx )
+	B2_SignalBus.gun_changed.connect( _play_gun_swap_sfx )
 	for i in sound_pool_amount:
 		sound_pool.append( AudioStreamPlayer.new() )
 		

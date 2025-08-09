@@ -1,4 +1,7 @@
 extends Node
+## TODO 08/08/25 save this data on a json file.
+## TODO Implement icons
+## TODO Remove this from an autoload
 
 var sMapIconHoopz 		= null
 var sMapIconCyberdwarf 	= null

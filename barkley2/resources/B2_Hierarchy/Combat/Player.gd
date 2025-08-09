@@ -41,8 +41,8 @@ func _ready() -> void:
 	_connect_ai_signals()
 	
 	B2_CManager.o_hoopz = self
-	B2_Input.player_follow_mouse.connect( func(state): follow_mouse = state )
-	B2_Playerdata.gun_changed.connect( _update_held_gun )
+	B2_SignalBus.player_follow_mouse.connect( func(state): follow_mouse = state )
+	B2_SignalBus.gun_changed.connect( _update_held_gun )
 	linear_damp = walk_damp
 	
 	_change_sprites()
@@ -179,8 +179,7 @@ func shoot_gun() -> void:
 		if curr_STATE == STATE.AIM:
 			curr_STATE = STATE.SHOOT
 			var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
-			B2_Gun.get_current_gun().use_normal_attack( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim, self )
-			await B2_Gun.get_current_gun().finished_combat_action
+			gun_handler.use_normal_attack( combat_weapon.global_position, gun_muzzle.global_position, aim, self )
 			if curr_STATE == STATE.SHOOT:
 				curr_STATE = STATE.AIM
 	

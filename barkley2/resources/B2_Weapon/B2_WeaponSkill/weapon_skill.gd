@@ -47,65 +47,69 @@ signal action_finished
 @export var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
 @export var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
 
+@warning_ignore("unused_parameter")
 func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor, weapon : B2_Weapon ) -> void:
-	weapon.is_shooting = true
+	## TODO Migrate this to Gun Handler
+	pass
 	
-	if pause_combat_during_action:
-		B2_CManager.combat_manager.pause_combat()
-	
-	if delay_before_action > 0.0:
-		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
-		
-	## shotgun behaviour.
-	if wait_per_shot == 0.0: 
-		weapon.use_ammo( ammo_per_shot )
-		B2_Sound.play( weapon.get_soundID() )
-		weapon.create_flash(scene_to_place, source_pos, dir)
-		for i in ammo_per_shot:
-			weapon.create_casing(scene_to_place, casing_pos)
-		
-	for i in min( bullets_per_shot, weapon.max_ammo ): ## Avoid infinite shooting. https://youtu.be/i7ZGlL8ms_M
-		## User was hit, abort shooting.
-		if weapon.abort_shooting:
-			weapon.abort_shooting = false
-			break
-			
-		var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
-		my_spread_offset -= bullet_spread / bullets_per_shot
-		
-		var my_acc := weapon.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
-		my_acc *= acc ## Apply skill modifier.
-		var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
-		
-		## TODO add skill modifiers
-		var bullet = load("uid://ds37xyh4m61b1").instantiate()
-		bullet.my_gun = weapon
-		bullet.set_direction( b_dir )
-		bullet.apply_stat_mods( att, spd )
-		bullet.apply_attribute_mods( bio_damage, cyber_damage, mental_damage, cosmic_damage, zauber_damage )
-		bullet.setup_bullet_sprite( weapon.get_bullet_sprite(), weapon.get_bullet_color() )
-		bullet.source_actor = source_actor
-		scene_to_place.add_child( bullet, true )
-		bullet.position = source_pos
-		bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
-		
-		if wait_per_shot > 0.0: 
-			weapon.use_ammo( ammo_per_shot )
-			B2_Sound.play( weapon.get_soundID() )
-			weapon.create_flash( scene_to_place, source_pos, b_dir )
-			weapon.create_casing( scene_to_place, casing_pos )
-			await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
-		
-		## Stop firing if you have no ammo.
-		if not weapon.has_ammo():
-			B2_Sound.play( "hoopz_click" )
-			break
-	
-	weapon.reset_action( weapon.curr_action - skill_action_cost )
-	if not weapon.abort_shooting:
-		await scene_to_place.get_tree().create_timer( delay_after_action ).timeout
-	weapon.abort_shooting = false
-	weapon.is_shooting = false
-	
-	weapon.finished_combat_action.emit()
-	action_finished.emit()
+	#weapon.is_shooting = true
+	#
+	#if pause_combat_during_action:
+		#B2_CManager.combat_manager.pause_combat()
+	#
+	#if delay_before_action > 0.0:
+		#await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
+		#
+	### shotgun behaviour.
+	#if wait_per_shot == 0.0: 
+		#weapon.use_ammo( ammo_per_shot )
+		#B2_Sound.play( weapon.get_soundID() )
+		#weapon.create_flash(scene_to_place, source_pos, dir)
+		#for i in ammo_per_shot:
+			#weapon.create_casing(scene_to_place, casing_pos)
+		#
+	#for i in min( bullets_per_shot, weapon.max_ammo ): ## Avoid infinite shooting. https://youtu.be/i7ZGlL8ms_M
+		### User was hit, abort shooting.
+		#if weapon.abort_shooting:
+			#weapon.abort_shooting = false
+			#break
+			#
+		#var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
+		#my_spread_offset -= bullet_spread / bullets_per_shot
+		#
+		#var my_acc := weapon.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+		#my_acc *= acc ## Apply skill modifier.
+		#var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
+		#
+		### TODO add skill modifiers
+		#var bullet = load("uid://ds37xyh4m61b1").instantiate()
+		#bullet.my_gun = weapon
+		#bullet.set_direction( b_dir )
+		#bullet.apply_stat_mods( att, spd )
+		#bullet.apply_attribute_mods( bio_damage, cyber_damage, mental_damage, cosmic_damage, zauber_damage )
+		#bullet.setup_bullet_sprite( weapon.get_bullet_sprite(), weapon.get_bullet_color() )
+		#bullet.source_actor = source_actor
+		#scene_to_place.add_child( bullet, true )
+		#bullet.position = source_pos
+		#bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
+		#
+		#if wait_per_shot > 0.0: 
+			#weapon.use_ammo( ammo_per_shot )
+			#B2_Sound.play( weapon.get_soundID() )
+			#weapon.create_flash( scene_to_place, source_pos, b_dir )
+			#weapon.create_casing( scene_to_place, casing_pos )
+			#await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
+		#
+		### Stop firing if you have no ammo.
+		#if not weapon.has_ammo():
+			#B2_Sound.play( "hoopz_click" )
+			#break
+	#
+	#weapon.reset_action( weapon.curr_action - skill_action_cost )
+	#if not weapon.abort_shooting:
+		#await scene_to_place.get_tree().create_timer( delay_after_action ).timeout
+	#weapon.abort_shooting = false
+	#weapon.is_shooting = false
+	#
+	#weapon.finished_combat_action.emit()
+	#action_finished.emit()

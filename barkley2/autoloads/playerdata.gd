@@ -1,9 +1,5 @@
 extends Node
 
-signal quest_updated
-signal stat_updated
-signal gun_changed
-
 #region CC Data
 var paxEnable = 0;
 
@@ -96,7 +92,7 @@ var selected_gun := 0 :
 			selected_gun = wrapi( s, 0, bandolier.size() )
 		if selected_gun != previous_gun:
 			previous_gun = selected_gun
-			gun_changed.emit()
+			B2_SignalBus.gun_changed.emit()
 			
 var bandolier 	: Array[B2_Weapon] ## Main weapons
 var gun_bag 	: Array[B2_Weapon] ## Trash weapons
@@ -202,7 +198,7 @@ func Quest(key : String, value = null, default = 0):
 			return _key_value
 	else:
 		B2_Config.set_user_save_data(questpath, value)
-		quest_updated.emit()
+		B2_SignalBus.quest_updated.emit()
 		return true
 		
 func get_quest_state(key : String, default = null ):

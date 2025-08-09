@@ -74,7 +74,7 @@ func _ready() -> void:
 	escape_btn.pressed.connect( 	_on_escape_btn )
 	move_btn.pressed.connect( 		_on_move_btn )
 	defend_btn.pressed.connect( 	_on_defend_btn )
-	B2_CManager.hoopz_got_hit.connect( _cancel_action )
+	B2_SignalBus.hoopz_got_hit.connect( _cancel_action )
 	
 # Is this needed?
 func register_player( player : B2_Player_TurnBased ) -> void:

@@ -145,6 +145,10 @@ func _ready() -> void:
  
 ## based on some settings, some sprites can change. ## o_bullet alarm 0
 func sprite_selection() -> void:
+	if not my_gun:
+		push_error("Gun resource not loaded")
+		return
+		
 	var _pow := my_gun.att ## missing other stats
 	
 	match bullet_spr.animation:

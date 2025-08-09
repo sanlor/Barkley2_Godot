@@ -6,9 +6,9 @@ class_name B2_Weapon
 
 signal finished_combat_action
 
-const O_BULLET 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
-const O_CASINGS 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
-const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
+#const O_BULLET 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
+#const O_CASINGS 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
+#const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
 
 enum EFFECT{ DAMAGE, RECOVERY }
 
@@ -225,80 +225,6 @@ func get_casing_speed() -> float:
 		return 1.0 # Default
 	else:
 		return float( B2_Gun.TYPE_LIST[weapon_type].bcasingSpd )
-#endregion
-
-#region Weapon Operation
-func create_flash(scene_to_place : Node, source_pos : Vector2, dir : Vector2, _scale := 1.0) -> void:
-	if get_flash_sprite():
-		var flash = S_FLASH.instantiate()
-		flash.position = source_pos
-		flash.look_at( (source_pos + dir) )
-		flash.rotation += randf_range( -PI/32.0, PI/32.0 )
-		flash.scale = Vector2.ONE * randf_range( 0.8, 1.2 )
-		flash.scale *= _scale
-		flash.modulate.a *= randf_range( 0.8, 1.2 )
-		scene_to_place.add_child( flash, true )
-		flash.play( get_flash_sprite() )
-		
-func create_casing(scene_to_place : Node, casing_pos : Vector2) -> void:
-	if get_casing_sound():
-		var casing = O_CASINGS.instantiate()
-		casing.setup( get_casing_sound(), get_casing_scale(), get_casing_speed(), get_casing_color() )
-		casing.position = casing_pos
-		scene_to_place.add_child( casing, true )
-		
-func use_normal_attack( scene_to_place : Node, casing_pos : Vector2,source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
-	is_shooting = true
-	
-	if delay_before_action > 0.0:
-		await scene_to_place.get_tree().create_timer( delay_before_action ).timeout
-	
-	if has_ammo():
-		use_ammo( ammo_per_shot )
-		B2_Sound.play( get_soundID() )
-		create_flash(scene_to_place, source_pos, dir, 1.5)
-		for i in ammo_per_shot: ## Double barrel shotgun spawn 2 casings
-			create_casing(scene_to_place, casing_pos)
-			
-		## only apply knockback if you actually fire the weapon.
-		source_actor.apply_central_impulse( -dir * get_gun_knockback() ) 
-		
-		for i in bullets_per_shot:
-			if abort_shooting:
-				abort_shooting = false
-				break
-				
-			var my_spread_offset := bullet_spread * ( float(i) / float(bullets_per_shot) )
-			my_spread_offset -= bullet_spread / bullets_per_shot
-			
-			var my_acc := get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
-			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
-			
-			var bullet = O_BULLET.instantiate()
-			bullet.my_gun = self
-			bullet.set_direction( b_dir )
-			bullet.setup_bullet_sprite( get_bullet_sprite(), get_bullet_color() )
-			bullet.source_actor = source_actor
-			scene_to_place.add_child( bullet, true )
-			bullet.position = source_pos
-			bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
-	else:
-		## Out of ammo.
-		B2_Sound.play( "hoopz_click" )
-	
-	await scene_to_place.get_tree().create_timer( wait_per_shot ).timeout
-	
-	#use_ammo( ammo_per_shot )
-	reset_action( curr_action - attack_cost )
-	
-	## 01/08/25 Disabled below. check if its still needed.
-	#if not abort_shooting: ## Only delay if it was not aborted
-	#	await scene_to_place.get_tree().create_timer( delay_after_action ).timeout ## Small delay after shooting.
-		
-	abort_shooting = false
-	is_shooting = false
-	
-	finished_combat_action.emit()
 #endregion
 
 #region Weapon Mgmt

@@ -114,6 +114,9 @@ func is_room_valid( strict := false) -> bool:
 func get_room_pos() -> Vector2:
 	return Vector2( this_room_x, this_room_y )
 
+func get_curr_room() -> B2_ROOMS:
+	return room_reference
+
 # Reset room data. is this needed?
 func reset_room() -> void:
 	this_room 		= ""

@@ -206,8 +206,8 @@ func end_cutscene():
 		camera.set_camera_bound( false )
 		
 	camera.follow_player( B2_CManager.o_hoopz )
-	B2_Input.player_follow_mouse.emit( true )
-	B2_Input.camera_follow_mouse.emit( true )
+	B2_SignalBus.player_follow_mouse.emit( true )
+	B2_SignalBus.camera_follow_mouse.emit( true )
 	
 	# actors may moved during the cutscene, update the PF.
 	update_pathfinding()
@@ -246,8 +246,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	B2_Input.player_has_control 	= false
 	B2_Input.can_switch_guns		= false
 	
-	B2_Input.player_follow_mouse.emit( false )
-	B2_Input.camera_follow_mouse.emit( false )
+	B2_SignalBus.player_follow_mouse.emit( false )
+	B2_SignalBus.camera_follow_mouse.emit( false )
 	
 	B2_CManager.event_started.emit()
 	

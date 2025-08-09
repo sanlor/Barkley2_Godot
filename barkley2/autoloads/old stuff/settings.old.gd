@@ -1,4 +1,5 @@
 extends Node
+## NOTE Is this still needed?
 
 ## NOTES
 # null values are temp, since they call scripts or functions taht doesnt exist yet
