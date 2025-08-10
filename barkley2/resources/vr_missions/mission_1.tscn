@@ -34,8 +34,10 @@ script = ExtResource("1_jkj14")
 position = Vector2(400, 369)
 enabled = false
 
+[node name="mission_ticker" type="Timer" parent="."]
+
 [node name="mission_timer" type="Timer" parent="."]
-wait_time = 120.0
+wait_time = 30.000000000000004
 one_shot = true
 
 [node name="nest_bg" type="TextureRect" parent="."]
@@ -56,11 +58,11 @@ texture = SubResource("GradientTexture2D_mj6vg")
 
 [node name="o_enemy_ratNest" parent="." instance=ExtResource("2_sl356")]
 position = Vector2(320, 204)
-spawn_cooldown_time = 5.0
+spawn_cooldown_time = 2.5
 
 [node name="o_enemy_ratNest2" parent="." instance=ExtResource("2_sl356")]
 position = Vector2(520, 365)
-spawn_cooldown_time = 5.0
+spawn_cooldown_time = 2.5
 
 [node name="mission_ui" type="CanvasLayer" parent="."]
 
@@ -105,4 +107,5 @@ vertical_alignment = 1
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
+[connection signal="timeout" from="mission_ticker" to="." method="_on_mission_ticker_timeout"]
 [connection signal="timeout" from="mission_timer" to="." method="_on_mission_timer_timeout"]

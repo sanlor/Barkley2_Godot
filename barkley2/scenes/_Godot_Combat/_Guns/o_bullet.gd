@@ -19,11 +19,11 @@ extends Area2D
 
 const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
 
-@onready var bullet_trail: Line2D 				= $bullet_trail
-@onready var bullet_spr: AnimatedSprite2D 		= $bullet_spr
-@onready var smoke_trail: GPUParticles2D 		= $smoke_trail
-@onready var bullet_sfx: AudioStreamPlayer2D 	= $bullet_sfx
-@onready var bullet_life: Timer 				= $bullet_life
+@onready var bullet_trail: 				Line2D 					= $bullet_trail
+@onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
+@onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
+@onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
+@onready var bullet_life: 				Timer 					= $bullet_life
 
 var dir : Vector2
 var speed := 10.0

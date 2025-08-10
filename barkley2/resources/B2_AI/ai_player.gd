@@ -7,8 +7,11 @@ func step() -> void:
 		if B2_Input.player_has_control:
 			actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
 			actor.apply_curr_aim( actor.get_global_mouse_position() )
+		else:
+			actor.apply_curr_input( Vector2.ZERO )
+			actor.apply_curr_aim( Vector2.ZERO )
 			
-			_input_process()
+		_input_process()
 
 func _input_process() -> void:
 	if B2_Input.player_has_control:

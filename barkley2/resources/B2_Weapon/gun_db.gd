@@ -1201,7 +1201,7 @@ static func toggle_gunbag() -> void:
 	if get_gunbag().size() > 0:
 		B2_Playerdata.gunbag_open = not B2_Playerdata.gunbag_open
 		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
-		B2_Playerdata.gun_changed.emit()
+		B2_SignalBus.gun_changed.emit()
 	
 static func next_band_gun() -> void:
 	B2_Playerdata.selected_gun += 1

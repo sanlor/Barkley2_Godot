@@ -40,7 +40,7 @@ var roll_power		:= 0.0
 
 func _ready() -> void:
 	B2_CManager.o_cbt_hoopz = self
-	B2_Playerdata.gun_changed.connect( _update_held_gun )
+	B2_SignalBus.gun_changed.connect( _update_held_gun )
 	
 	## Fallback setup
 	if not is_instance_valid( hoopz_normal_body ):

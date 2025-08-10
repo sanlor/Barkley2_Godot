@@ -25,7 +25,8 @@ const O_SMOKE 				= preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
 const SMOKE_MASS 			= preload("res://barkley2/resources/Smoke/smoke_mass.tres")
 
 # battle related
-const DAMAGE_NUMBER 				= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
+const DAMAGE_NUMBER 				:= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
+const MISSION_COMPLETE 				:= preload("uid://chpd2adtksefl")
 
 # Item efffect
 const O_ENTITY_INDICATOR_TEXT 		= preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
@@ -157,6 +158,13 @@ func display_item_effect( header : String, text : String ) -> void:
 	print( "B2_Screen: Item effect spawned near ", origin_node.name )
 	
 	it.global_position = origin_node.global_position
+
+func show_mission_complete_screen() -> void:
+	var mission := MISSION_COMPLETE.instantiate()
+	get_tree().current_scene.add_child( mission, true )
+	B2_Input.player_has_control = false
+	await mission.animation_finished
+	B2_Input.player_has_control = true
 
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()

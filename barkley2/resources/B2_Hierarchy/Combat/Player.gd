@@ -175,7 +175,7 @@ func stop_aiming() -> void:
 ## Debug function. Should not be used normaly.
 ## Maybe not so debug anymore
 func shoot_gun() -> void:
-	if B2_Gun.has_any_guns():
+	if B2_Gun.has_any_guns() and B2_Input.player_has_control:
 		if curr_STATE == STATE.AIM:
 			curr_STATE = STATE.SHOOT
 			var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
@@ -185,7 +185,7 @@ func shoot_gun() -> void:
 	
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
-	var input 			:= Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	var input 			:= curr_input # Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
 	_point_flashlight( input )
 	
@@ -255,164 +255,168 @@ func combat_walk_animation(delta : float):
 	
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation():
-	var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
-	var dir_frame = combat_upper_sprite.frame
-	
-	## Remember, 0.9999999999999 != 1.0
-	match mouse_input:
-			# Normal stuff
-			Vector2(0,	-0.99):				dir_frame = 		4
-			Vector2(-0.99,	0):				dir_frame = 		8
-			Vector2(0,	0.99):				dir_frame = 		12
-			Vector2(0.99,	0):				dir_frame = 		0
-				
-			# Diagonal stuff
-			Vector2(0.66,	0.66): dir_frame = 			14	# Low Right
-			Vector2(-0.66,	0.66): dir_frame = 			10	# Low Left
-			Vector2(0.66,	-0.66): dir_frame = 		2	# High Right
-			Vector2(-0.66,	-0.66):	dir_frame = 		6	# High Left
-				
-			# Madness
-			#Down
-			Vector2(0.33,	0.99): dir_frame = 		13	# Rightish
-			Vector2(-0.33,	0.99): dir_frame = 		11	# Leftish
-			#Up
-			Vector2(0.33,	-0.99): dir_frame = 	3	# Rightish
-			Vector2(-0.33,	-0.99): dir_frame = 	5	# Leftish
-			#Left
-			Vector2(-0.99,	0.33): dir_frame = 		9	# Upish
-			Vector2(-0.99,	-0.33): dir_frame = 	7	# Downish
-			#Right
-			Vector2(0.99,	0.33): dir_frame = 		15	# Upish
-			Vector2(0.99,	-0.33): dir_frame = 	1	# Downish
-				
-	# only change if there is a change in dir
-	if dir_frame != combat_upper_sprite.frame:
-		combat_upper_sprite.frame = 	dir_frame
-		combat_arm_back.frame = 		dir_frame
-		combat_arm_front.frame = 		dir_frame
+	if B2_Input.player_has_control:
+		var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
+		var dir_frame = combat_upper_sprite.frame
+		
+		_point_flashlight( mouse_input )
+		
+		## Remember, 0.9999999999999 != 1.0
+		match mouse_input:
+				# Normal stuff
+				Vector2(0,	-0.99):				dir_frame = 		4
+				Vector2(-0.99,	0):				dir_frame = 		8
+				Vector2(0,	0.99):				dir_frame = 		12
+				Vector2(0.99,	0):				dir_frame = 		0
+					
+				# Diagonal stuff
+				Vector2(0.66,	0.66): dir_frame = 			14	# Low Right
+				Vector2(-0.66,	0.66): dir_frame = 			10	# Low Left
+				Vector2(0.66,	-0.66): dir_frame = 		2	# High Right
+				Vector2(-0.66,	-0.66):	dir_frame = 		6	# High Left
+					
+				# Madness
+				#Down
+				Vector2(0.33,	0.99): dir_frame = 		13	# Rightish
+				Vector2(-0.33,	0.99): dir_frame = 		11	# Leftish
+				#Up
+				Vector2(0.33,	-0.99): dir_frame = 	3	# Rightish
+				Vector2(-0.33,	-0.99): dir_frame = 	5	# Leftish
+				#Left
+				Vector2(-0.99,	0.33): dir_frame = 		9	# Upish
+				Vector2(-0.99,	-0.33): dir_frame = 	7	# Downish
+				#Right
+				Vector2(0.99,	0.33): dir_frame = 		15	# Upish
+				Vector2(0.99,	-0.33): dir_frame = 	1	# Downish
+					
+		# only change if there is a change in dir
+		if dir_frame != combat_upper_sprite.frame:
+			combat_upper_sprite.frame = 	dir_frame
+			combat_arm_back.frame = 		dir_frame
+			combat_arm_front.frame = 		dir_frame
 
 func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
-	# That Vector is an offset to make the calculation origin to be Hoopz torso
-	var target_dir 		:= global_position.direction_to( 		-aim_origin.position + get_global_mouse_position() )
-	var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + get_global_mouse_position() )
-	var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
-	
-	## Many Manual touch ups.
-	var s_frame 		:= combat_weapon.frame
-	var angle 			:= 0.0
-	var height_offset	:= Vector2(0, 0) ## DEPRECATED
-	var _z_index		:= 0
-	
-	match mouse_input:
-			# Normal stuff
-			Vector2(0,	-0.99): # Up
-				s_frame = 	4
-				angle = 270
-				_z_index = -1
-			Vector2(-0.99,	0): # Left
-				s_frame = 	8
-				angle = 180
-				_z_index = -1
+	if B2_Input.player_has_control:
+		# That Vector is an offset to make the calculation origin to be Hoopz torso
+		var target_dir 		:= global_position.direction_to( 		-aim_origin.position + get_global_mouse_position() )
+		var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + get_global_mouse_position() )
+		var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
+		
+		## Many Manual touch ups.
+		var s_frame 		:= combat_weapon.frame
+		var angle 			:= 0.0
+		var height_offset	:= Vector2(0, 0) ## DEPRECATED
+		var _z_index		:= 0
+		
+		match mouse_input:
+				# Normal stuff
+				Vector2(0,	-0.99): # Up
+					s_frame = 	4
+					angle = 270
+					_z_index = -1
+				Vector2(-0.99,	0): # Left
+					s_frame = 	8
+					angle = 180
+					_z_index = -1
+					
+				Vector2(0,	0.99): # Down
+					s_frame = 	12
+					angle = 90
+					#height_offset *= -1
+				Vector2(0.99,	0):	 # Right
+					s_frame = 	0
+					angle = 0
+					#height_offset = Vector2.ZERO
+					
+				# Diagonal stuff
+				Vector2(0.66,	0.66): # Low Right
+					s_frame = 	14
+					angle = 45
+					#height_offset *= -1
+				Vector2(-0.66,	0.66): # Low Left
+					s_frame = 	10
+					angle = 135
+					#_z_index = -1
+					#height_offset *= -1
+				Vector2(0.66,	-0.66): # High Right
+					s_frame = 	2
+					angle = 315
+					_z_index = -1
+				Vector2(-0.66,	-0.66):	# High Left
+					s_frame = 	6
+					angle = 225
+					_z_index = -1
 				
-			Vector2(0,	0.99): # Down
-				s_frame = 	12
-				angle = 90
-				#height_offset *= -1
-			Vector2(0.99,	0):	 # Right
-				s_frame = 	0
-				angle = 0
-				#height_offset = Vector2.ZERO
-				
-			# Diagonal stuff
-			Vector2(0.66,	0.66): # Low Right
-				s_frame = 	14
-				angle = 45
-				#height_offset *= -1
-			Vector2(-0.66,	0.66): # Low Left
-				s_frame = 	10
-				angle = 135
-				#_z_index = -1
-				#height_offset *= -1
-			Vector2(0.66,	-0.66): # High Right
-				s_frame = 	2
-				angle = 315
-				_z_index = -1
-			Vector2(-0.66,	-0.66):	# High Left
-				s_frame = 	6
-				angle = 225
-				_z_index = -1
+				# Madness
+				#Down
+				Vector2(0.33,	0.99): # Rightish
+					s_frame = 	13
+					angle = 60
+					height_offset *= -1
+				Vector2(-0.33,	0.99): # Leftish
+					s_frame = 	11
+					angle = 120
+					#height_offset *= -1
+				#Up
+				Vector2(0.33,	-0.99): # Rightish
+					s_frame = 	3
+					angle = 300
+				Vector2(-0.33,	-0.99): # Leftish
+					s_frame = 	5
+					angle = 240
+				#Left
+				Vector2(-0.99,	0.33): # Downish
+					s_frame = 	9
+					angle = 150
+					#height_offset *= -1
+				Vector2(-0.99,	-0.33): # Upish
+					s_frame = 	7
+					angle = 210
+					#height_offset *= -1
+				#Right
+				Vector2(0.99,	0.33): # Downish
+					s_frame = 	15
+					angle = 30
+					#height_offset *= -1
+				Vector2(0.99,	-0.33): # Upish
+					s_frame = 	1
+					angle = 330
+				_:
+					#print(mouse_input)
+					pass
+					
+		## My own slop.
+		## Decide where the gun should be placed in relation to the player sprite.
+		## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
+		var new_gun_pos := Vector2.ZERO
+		
+		# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
+		# took 3 days finetuning this. 11/03/25 
+		new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
+		
+		new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
+		new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
+		new_gun_pos.y 	*= 0.75
+		new_gun_pos.y 	-= 18.0 # was 16.0
+		new_gun_pos 	= new_gun_pos.round()
+		
+		## Decide where the muzzle is.
+		gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
+		gun_muzzle.position.y -= 3.0
+		
+		if combat_weapon.frame != s_frame:
+			combat_weapon.frame 			= s_frame
+			combat_weapon.position 			= new_gun_pos
+			combat_weapon.z_index			= _z_index
 			
-			# Madness
-			#Down
-			Vector2(0.33,	0.99): # Rightish
-				s_frame = 	13
-				angle = 60
-				height_offset *= -1
-			Vector2(-0.33,	0.99): # Leftish
-				s_frame = 	11
-				angle = 120
-				#height_offset *= -1
-			#Up
-			Vector2(0.33,	-0.99): # Rightish
-				s_frame = 	3
-				angle = 300
-			Vector2(-0.33,	-0.99): # Leftish
-				s_frame = 	5
-				angle = 240
-			#Left
-			Vector2(-0.99,	0.33): # Downish
-				s_frame = 	9
-				angle = 150
-				#height_offset *= -1
-			Vector2(-0.99,	-0.33): # Upish
-				s_frame = 	7
-				angle = 210
-				#height_offset *= -1
-			#Right
-			Vector2(0.99,	0.33): # Downish
-				s_frame = 	15
-				angle = 30
-				#height_offset *= -1
-			Vector2(0.99,	-0.33): # Upish
-				s_frame = 	1
-				angle = 330
-			_:
-				#print(mouse_input)
-				pass
-				
-	## My own slop.
-	## Decide where the gun should be placed in relation to the player sprite.
-	## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
-	var new_gun_pos := Vector2.ZERO
-	
-	# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
-	# took 3 days finetuning this. 11/03/25 
-	new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
-	
-	new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
-	new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
-	new_gun_pos.y 	*= 0.75
-	new_gun_pos.y 	-= 18.0 # was 16.0
-	new_gun_pos 	= new_gun_pos.round()
-	
-	## Decide where the muzzle is.
-	gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
-	gun_muzzle.position.y -= 3.0
-	
-	if combat_weapon.frame != s_frame:
-		combat_weapon.frame 			= s_frame
-		combat_weapon.position 			= new_gun_pos
-		combat_weapon.z_index			= _z_index
-		
-		combat_weapon_parts.frame 		= s_frame
-		combat_weapon_parts.position 	= new_gun_pos
-		combat_weapon_parts.z_index		= _z_index
-		
-		combat_weapon_spots.frame 		= s_frame
-		combat_weapon_spots.position 	= new_gun_pos
-		combat_weapon_spots.z_index		= _z_index
+			combat_weapon_parts.frame 		= s_frame
+			combat_weapon_parts.position 	= new_gun_pos
+			combat_weapon_parts.z_index		= _z_index
+			
+			combat_weapon_spots.frame 		= s_frame
+			combat_weapon_spots.position 	= new_gun_pos
+			combat_weapon_spots.z_index		= _z_index
 
 # Roll action
 func start_rolling( roll_dir : Vector2 ) -> void:

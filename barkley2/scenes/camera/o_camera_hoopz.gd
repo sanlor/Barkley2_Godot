@@ -297,7 +297,7 @@ func _physics_process(delta: float) -> void:
 			## NOTE What feels better? Lerp of move_torward?
 			position 	= position.move_toward( avg_pos, (speed * 20) * delta )
 			#position 	= position.lerp( avg_pos, (speed * 10) * delta )
-			offset 	= 	offset.move_toward( camera_normal_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
+			offset 		= offset.move_toward( camera_normal_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
 			#offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
 			
 		MODE.CINEMA:
@@ -326,8 +326,11 @@ func _physics_process(delta: float) -> void:
 				position = position.move_toward(player_node.position, 120 * delta)
 				
 				if follow_mouse:
-					var mouse_dir 	:= player_node.position.direction_to( 	get_global_mouse_position() )
-					var mouse_dist 	:= player_node.position.distance_to( 	get_global_mouse_position() )
+					var mouse_dir 	:= Vector2.ZERO
+					var mouse_dist 	:= 0.0
+					if B2_Input.player_has_control: ## Cant influence camera if the player doesnt have control.
+						mouse_dir 	= player_node.position.direction_to( 	get_global_mouse_position() )
+						mouse_dist 	= player_node.position.distance_to( 	get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0, 250.0 )
 					offset = offset.move_toward( mouse_dir * mouse_dist / 3.0, camera_follow_speed * delta ) + camera_shake_offset
 					#offset = offset.round() # fixes jittery movement. THIS TIME!

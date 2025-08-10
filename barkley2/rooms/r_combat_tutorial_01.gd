@@ -4,6 +4,11 @@ extends B2_ROOMS
 ## Zone Virtual Reality
 ## Flavor It all seems so real...
 
+@onready var o_field_medic: 		B2_InteractiveActor = $o_field_medic
+@onready var o_running_mantis_01: 	B2_InteractiveActor = $o_runningMantis01
+@onready var o_blocker_up: 			B2_Blocker 			= $o_blocker_up
+@onready var o_doorlight_up: 		B2_DoorLight 		= $o_doorlight_up
+
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
@@ -19,6 +24,8 @@ func _ready() -> void:
 		B2_CManager.play_cutscene( preload("uid://b4q2wqh34t6kl"), self )
 		var mission_0 = preload("res://barkley2/resources/vr_missions/mission_0.tscn").instantiate()
 		add_child( mission_0, true )
+		_start_mission()
+		mission_0.mission_over.connect( _finish_mission )
 		mission_0.play("encounter_01")
 		
 	elif B2_Playerdata.Quest("vr_mission_1" ) == 1:
@@ -26,9 +33,23 @@ func _ready() -> void:
 		B2_CManager.play_cutscene( preload("uid://2uemk7x05n81"), self )
 		var mission_1 = preload("res://barkley2/resources/vr_missions/mission_1.tscn").instantiate()
 		add_child( mission_1, true )
+		_start_mission()
+		mission_1.mission_over.connect( _finish_mission )
 	
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 		
 	else:
 		_setup_camera( _setup_player_node() )
+
+func _start_mission() -> void:
+	o_field_medic.is_interactive 			= false
+	o_running_mantis_01.is_interactive 		= false
+	o_blocker_up.is_active = true
+	o_doorlight_up.enabled = false
+
+func _finish_mission() -> void:
+	o_field_medic.is_interactive 			= true
+	o_running_mantis_01.is_interactive 		= true
+	o_blocker_up.is_active = false
+	o_doorlight_up.enabled = true
