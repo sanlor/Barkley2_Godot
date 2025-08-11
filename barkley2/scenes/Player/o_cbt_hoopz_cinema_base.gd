@@ -602,7 +602,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		for i in n:
 			B2_Screen.make_blood_drop( global_position + Vector2(0,-16) + Vector2( randf_range(-15,15), randf_range(-15,15) ), randi_range(1,2) )
 			
-		B2_CManager.hoopz_got_hit.emit() ## Allow for action cancel.
+		B2_SignalBus.hoopz_got_hit.emit() ## Allow for action cancel.
 		B2_Playerdata.player_stats.block_action_increase = false
 		
 func victory_anim() -> void:

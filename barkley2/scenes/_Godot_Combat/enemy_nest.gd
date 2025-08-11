@@ -72,7 +72,8 @@ func begin_battle() -> void:
 		
 	B2_CManager.cinema_caller = self
 	B2_CManager.start_combat( combat_script, my_enemies )
-	B2_CManager.combat_manager.combat_ended.connect( _post_battle_end )
+	#B2_CManager.combat_manager.combat_ended.connect( _post_battle_end )
+	B2_CombatManager.combat_ended.connect( _post_battle_end )
 	deactivate_nest()
 
 # Called before the battle starts. Used for specific events.

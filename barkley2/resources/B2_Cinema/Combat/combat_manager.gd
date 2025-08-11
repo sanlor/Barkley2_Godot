@@ -1,7 +1,11 @@
-extends Resource
-class_name B2_CombatManager
+#extends Resource
+#class_name B2_CombatManager
+@icon("res://barkley2/assets/b2_original/images/merged/s_bct_gunPedestal01.png")
+extends Node
+
 ## This Resource handles the combat actions, turns, etc.
 ## When the battle finished, report back to the Combat Cinema Player.
+## 10/08/25 Made this an autoload. need some way to store data during combat.
 
 const ENEMY_STATS = preload("res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn")
 
@@ -24,8 +28,9 @@ var combat_paused 	:= false :
 		combat_paused = c
 		#if not c:
 		#	print_stack()
-var combat_won		:= false
-var escaped_combat	:= false ## enabled if the player escaped combat
+var turn_based_combat_running 	:= false
+var combat_won					:= false
+var escaped_combat				:= false ## enabled if the player escaped combat
 var action_queue : Array[queue]
 
 var can_manipulate_camera := true
@@ -54,7 +59,7 @@ func start_battle():
 	B2_Input.can_fast_forward = false
 	
 	B2_Input.can_switch_guns = true
-	B2_CManager.combat_manager = self
+	#B2_CManager.combat_manager = self
 	assert( B2_CManager.o_hud, "o_hud not loaded. Check the battle script.")
 	B2_CManager.o_hud.show_battle_ui()
 	
@@ -159,13 +164,25 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 
 ## stop combat, play the defeat animation.
 func player_defeated() -> void:
+	B2_Input.player_has_control = false
 	B2_Music.stop( 1.0 )
 	B2_CManager.o_hud.combat_module.reset()
 	B2_CManager.o_hud.hide_battle_ui()
 	pause_combat()
 	if B2_CManager.camera:
+		B2_CManager.camera.camera_bound_to_map = false
 		var c := B2_CManager.camera
-		var p := B2_CManager.o_cbt_hoopz
+		var p : B2_PlayerCombatActor
+		if B2_CManager.o_hoopz:
+			p = B2_CManager.o_hoopz
+		elif B2_CManager.o_cbt_hoopz:
+			p = B2_CManager.o_cbt_hoopz
+		else:
+			push_error("Both type of actors are unloaded. This is critical."); breakpoint
+			
+		## Additional check
+		if B2_CManager.o_cbt_hoopz and B2_CManager.o_hoopz: push_error("Wow, both combat and regular Hoopz are loaded at the same time. This is not something normal.")
+			
 		var t := c.create_tween()
 		#t.set_parallel( true )
 		t.tween_callback( c.set.bind("manual_target", p) )
@@ -210,9 +227,8 @@ func tick_combat() -> void:
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
-					if enemy.has_combat_ai():
-						if enemy.get_combat_ai().combat_action( player_character, enemy_list, self ):
-							return
+					if enemy.get_ai_turnbased().combat_action( player_character, enemy_list, self ):
+						return
 				else:
 					pass
 			else:
@@ -245,7 +261,7 @@ func process() -> void:
 		B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
 ## Combat actions
-# Public func. Queue action
+# Public func. Queue action for turn based combat
 func shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
 	var q := queue.new()
 	q.type = QUEUE_TYPE.NORMAL_ATTACK
@@ -263,10 +279,12 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
+	var gun_handler	: B2_GunHandler
 	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Bullets direction
+		gun_handler = source_actor.gun_handler
 		B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
 		
 	elif source_actor is B2_EnemyCombatActor:
@@ -278,8 +296,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 		
 	## avoid cases where the source_actor dies while geting ready to attack.
 	if is_instance_valid( source_actor ):
-		used_weapon.use_normal_attack( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
-		await used_weapon.finished_combat_action ## Wait for the gun to fire or whatever.
+		gun_handler.use_normal_attack( casing_pos, muzzle_pos, aim_direction, source_actor )
 		
 		if finish_action: ## Avoid calling invalid functions.
 			finish_action.call()
@@ -330,6 +347,7 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : 
 ## Helper functions, used to control the camera position.
 # Get the average position of all combat actors
 func get_avg_pos() -> Vector2:
+	assert( is_instance_valid(player_character), "Turn-Based player not loaded." )
 	var n_combatants := 1
 	var avg_pos	:= player_character.position
 	for e : B2_CombatActor in enemy_list:

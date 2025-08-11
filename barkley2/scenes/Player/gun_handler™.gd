@@ -1,4 +1,5 @@
 extends Node
+class_name B2_GunHandler
 ## Node used to interface the player with its gun.
 ## The Gun_Handler™ handles guns. duh.
 # Mainly, its an interface to help communications with the gun resource, holding timers and such.
@@ -25,7 +26,6 @@ func _ready() -> void:
 	post_shooting_timer.one_shot		= true
 	_gun_changed()
 	B2_SignalBus.gun_changed.connect( _gun_changed )
-	
 	
 #region Weapon Operation
 ## Create a muzzle flash on the current room

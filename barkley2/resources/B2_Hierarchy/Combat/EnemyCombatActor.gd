@@ -165,6 +165,9 @@ func _animations() -> void:
 		else:
 			ActorAnim.flip_h = false
 		
+func get_ai_turnbased() -> B2_AI_Combat:
+	return actor_ai
+		
 func play_idle_anim() -> void:
 	if not actor_animations.ANIMATION_IDLE.is_empty():
 		ActorAnim.play( actor_animations.ANIMATION_IDLE.pick_random() )
@@ -234,10 +237,8 @@ func _cinema_jump( times := 1 ) -> void:
 func cinema_charge_telegraph( target_dir : Vector2 ) -> void:
 	## TODO add charging animation
 	curr_MODE = MODE.AIMING
-	if target_dir.y >= 0:
-		ActorAnim.play( actor_animations.CHARGE_DOWN )
-	else:
-		ActorAnim.play( actor_animations.CHARGE_UP )
+	if target_dir.y >= 0:		ActorAnim.play( actor_animations.CHARGE_DOWN )
+	else:						ActorAnim.play( actor_animations.CHARGE_UP )
 	ActorAnim.flip_h = target_dir.x < 0
 	return
 	
@@ -351,8 +352,7 @@ func destroy_actor() -> void:
 	play_local_sound( sound_death )
 	
 	## If TurnBased combat is active, let the system know that the enemy was defeated.
-	if B2_CManager.combat_manager:
-		B2_CManager.combat_manager.enemy_defeated(self)
+	B2_CombatManager.enemy_defeated(self)
 	
 	## Disabled this on 31/07/25 fix this later
 	#if combat_ai:

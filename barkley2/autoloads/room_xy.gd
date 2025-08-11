@@ -370,7 +370,11 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 
 	# Give back player control
 	#B2_Input.player_has_control = true
-	room_reference = get_tree().current_scene
+	if get_tree().current_scene is B2_ROOMS:
+		room_reference = get_tree().current_scene
+	else:
+		if not get_tree().current_scene.name == "r_title": # Title screen room. Used when you exit the debug room.
+			push_warning("Loaded a non B2_ROOMS scene. is this expected?")
 	room_finished_loading.emit()
 	room_load_lock = false
 	if print_debug_logs: print("Finished loading room %s." % room_name)

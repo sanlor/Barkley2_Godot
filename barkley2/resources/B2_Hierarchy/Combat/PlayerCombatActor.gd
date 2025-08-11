@@ -110,7 +110,8 @@ var prev_gun : B2_Weapon ## Used to update animations
 
 func _enter_tree() -> void:
 	if hit_timer:
-		hit_timer.timeout.connect( _on_hit_timer_timeout )
+		if not hit_timer.timeout.is_connected( _on_hit_timer_timeout ):
+			hit_timer.timeout.connect( _on_hit_timer_timeout )
 
 func apply_curr_input( dir : Vector2 ) -> void:
 	if curr_STATE != STATE.HIT:
@@ -306,13 +307,16 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		
 		defeat_anim()
 		
-		if is_instance_valid( B2_CManager.combat_manager ):
-			B2_CManager.combat_manager.player_defeated()
-		else:
-			## CM should be loaded.
-			# 02/08/25 Not always.
-			#breakpoint
-			push_warning("Combat Manager not loaded.")
+		B2_CombatManager.player_defeated()
+		
+		if false: # 10/08/25 disabled the code bellow.
+			if is_instance_valid( B2_CManager.combat_manager ):
+				B2_CManager.combat_manager.player_defeated()
+			else:
+				## CM should be loaded.
+				# 02/08/25 Not always.
+				#breakpoint
+				push_warning("Combat Manager not loaded.")
 			
 		## Add a bunch of blood. Go crazy with it.
 		for i in randi_range(10,60):

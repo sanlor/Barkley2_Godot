@@ -124,9 +124,7 @@ func _input(event: InputEvent) -> void:
 						player_character.aim_gun( aiming_angle )
 						
 						if Input.is_action_just_pressed("Action"):
-							#player_character.shoot_gun()
-							var combat_manager := B2_CManager.combat_manager
-							combat_manager.shoot_projectile( 
+							B2_CombatManager.shoot_projectile( 
 								player_character, 
 								player_character.global_position + player_character.aim_target, 
 								B2_Gun.get_current_gun(), 
@@ -230,8 +228,8 @@ func action_queued() -> void:
 	item_and_skill_list.hide_menu()
 	instructions.hide()
 	resume_time()
-	B2_CManager.combat_manager.resume_combat()
-	B2_CManager.combat_manager.can_manipulate_camera = true
+	B2_CombatManager.resume_combat()
+	B2_CombatManager.can_manipulate_camera = true
 	curr_action = NOTHING
 
 func reset() -> void:
@@ -273,8 +271,7 @@ func use_skill( skill : B2_WeaponSkill ) -> void:
 		push_error("Trying to attack when the battle is over. This should not happen.")
 		return
 		
-	var combat_manager := B2_CManager.combat_manager
-	combat_manager.use_skill( 
+	B2_CombatManager.use_skill( 
 		player_character, 
 		player_character.global_position + player_character.aim_target, 
 		B2_Gun.get_current_gun(), 
@@ -287,7 +284,7 @@ func _on_attack_btn() -> void:
 		push_error("Trying to attack when the battle is over. This should not happen.")
 		return
 		
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 		
 	## Disabled 22/04/25
@@ -307,7 +304,7 @@ func _on_attack_btn() -> void:
 	slow_time()
 	
 func _on_skill_btn() -> void:
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 	
 	item_and_skill_list.show_skill_menu()
@@ -322,7 +319,7 @@ func _on_skill_btn() -> void:
 	slow_time()
 	
 func _on_item_btn() -> void:
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 	
 	item_and_skill_list.show_item_menu()
@@ -337,10 +334,10 @@ func _on_item_btn() -> void:
 	slow_time()
 	
 func _on_move_btn() -> void:
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
 	
-	B2_CManager.combat_manager.can_manipulate_camera = false
+	B2_CombatManager.can_manipulate_camera = false
 	B2_CManager.camera.combat_focus( player_character.global_position, 1.0 )
 	player_character.point_at( aiming_angle, roll_power )
 		
@@ -386,16 +383,16 @@ func darken_screen() -> void:
 	var tween := create_tween()
 	fade.show()
 	fade.modulate = Color.TRANSPARENT
-	tween.tween_callback( B2_CManager.combat_manager.pause_combat )
+	tween.tween_callback( B2_CombatManager.pause_combat )
 	tween.tween_callback( o_hud.hide_battle_ui )
 	tween.tween_property( fade, "modulate", Color.WHITE, 1.0 )
-	tween.tween_callback( B2_CManager.combat_manager.escape_combat )
+	tween.tween_callback( B2_CombatManager.escape_combat )
 	tween.tween_interval( 0.5 )
 	tween.tween_property( fade, "modulate", Color.TRANSPARENT, 1.0 )
 	tween.tween_callback( fade.hide )
 	tween.tween_interval( 0.5 )
 	#tween.tween_callback( B2_CManager.combat_manager.resume_combat )
-	tween.tween_callback( B2_CManager.combat_manager.finish_combat )
+	tween.tween_callback( B2_CombatManager.finish_combat )
 	await tween.finished
 
 func add_result_message( _msg : String, sfx := "" ) -> void:

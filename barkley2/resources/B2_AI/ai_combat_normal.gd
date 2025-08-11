@@ -1,5 +1,5 @@
 extends B2_AI_Combat
-class_name B2_AI_Combat_Normal
+class_name B2_AI_Combat_TurnBased_Normal
 ## Standard Combat AI
 
 const COMBAT_TARGET = preload("res://barkley2/scenes/_Godot_Combat/combat_target.tscn")

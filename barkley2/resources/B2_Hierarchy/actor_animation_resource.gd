@@ -14,8 +14,10 @@ class_name B2_Actor_Animations
 @export var ANIMATION_EAST 							:= ""
 @export var ANIMATION_STAND_SPRITE_INDEX 			:= [1, 1, 0, 0, 0, 0, 0, 1]
 @export var ANIMATION_IDLE 							: Array[String] = []
-#@export var CHARGE_UP								:= "CHARGE_UP"
-#@export var CHARGE_DOWN								:= "CHARGE_DOWN"
+
+@export_category("Special animations")
+@export var CHARGE_UP								:= "CHARGE_UP"
+@export var CHARGE_DOWN								:= "CHARGE_DOWN"
 
 func setup_walk_anim() -> void: ## TODO
 	pass

@@ -43,8 +43,8 @@ var cinema_player 	: B2_CinemaPlayer
 
 ## Combat stuff
 var o_cbt_hoopz 			: B2_Player_TurnBased		 	= null ## Combat Hoopz
-#var o_combat_ui				: CanvasLayer					= null ## Combat UI (Is this needed?)
-var combat_manager			: B2_CombatManager
+#var o_combat_ui			: CanvasLayer					= null ## Combat UI (Is this needed?)
+#var combat_manager			: B2_CombatManager
 var combat_cinema_player 	: B2_Combat_CinemaPlayer
 var cinema_caller			: Node
 
@@ -89,7 +89,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	cinema_player.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
 func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
-	combat_manager 				= B2_CombatManager.new()
+	#combat_manager 				= B2_CombatManager.new()
+	B2_CombatManager.turn_based_combat_running = true
 	combat_cinema_player 		= B2_Combat_CinemaPlayer.new()
 	combat_cinema_player.name 	= "combat_cinema_player"
 	get_tree().current_scene.add_child( combat_cinema_player, true )

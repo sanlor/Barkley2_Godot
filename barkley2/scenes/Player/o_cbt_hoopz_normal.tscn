@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://bustae523mxua"]
+[gd_scene load_steps=29 format=3 uid="uid://bustae523mxua"]
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
+[ext_resource type="Script" uid="uid://dnfb7mklmfjcp" path="res://barkley2/scenes/Player/gun_handler™.gd" id="2_wsajw"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="3_dl1mb"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="4_yeelg"]
 [ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="5_xt58p"]
@@ -122,7 +123,7 @@ func start_loading( speed := 1.0 ) -> void:
 	tween.tween_callback( hide )
 "
 
-[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_shield", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "step_smoke", "ActorNav", "ActorCol")]
+[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "combat_shield", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorNav", "ActorCol")]
 collision_layer = 3
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_sbutq")
@@ -132,30 +133,36 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("1_kxy2o")
-STAGGER = null
-ROLL = null
-ROLL_BACK = null
-hoopz_normal_body = NodePath("hoopz_normal_body")
 hoopz_roll_direction = NodePath("hoopz_roll_direction")
 combat_upper_sprite = NodePath("combat_upper_body")
 combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
 combat_arm_front = NodePath("combat_arm_front")
-combat_shield = NodePath("combat_shield")
 combat_weapon = NodePath("combat_weapon")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
+combat_shield = NodePath("combat_shield")
 gun_muzzle = NodePath("gun_muzzle")
+gun_handler = NodePath("Gun_Handler™")
+hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+hit_timer = NodePath("hit_timer")
+i_frame_timer = NodePath("i_frame_timer")
+flashlight_enabled = false
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("hoopz_collision")
-walk_speed = null
-roll_impulse = null
-walk_damp = null
-roll_damp = null
-path_desired_distance = null
-target_desired_distance = null
-animation_speed = null
+
+[node name="Gun_Handler™" type="Node" parent="."]
+script = ExtResource("2_wsajw")
+
+[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™"]
+one_shot = true
+
+[node name="firing_rate" type="Timer" parent="Gun_Handler™"]
+one_shot = true
+
+[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
+one_shot = true
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_6c22w")]
 
@@ -168,7 +175,7 @@ position = Vector2(0, -1)
 amount = 30
 
 [node name="hoopz_roll_direction" type="Line2D" parent="."]
-modulate = Color(1, 1, 1, 0.9938578)
+modulate = Color(1, 1, 1, 0.99412113)
 points = PackedVector2Array(12, 0, 24, 0)
 width_curve = SubResource("Curve_qfgrm")
 gradient = SubResource("Gradient_wsajw")
@@ -271,9 +278,13 @@ visible_ratio = 0.0
 script = SubResource("GDScript_47sbk")
 
 [node name="hit_timer" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
 [node name="gun_down_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="i_frame_timer" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]

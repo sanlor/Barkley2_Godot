@@ -1,34 +1,59 @@
 extends CanvasLayer
-## TODO THis is incomplete.
+## TODO This is incomplete.
 # https://youtu.be/kMybONQr0wA?t=11255
 # check o_hoopz_death_grayscale
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var bg: ColorRect = $bg
-@onready var ded_hoopz: AnimatedSprite2D = $bg/Control/ded_hoopz
+@onready var animation_player: 	AnimationPlayer = $AnimationPlayer
+@onready var bg: 				ColorRect = $bg
+@onready var ded_hoopz: 		AnimatedSprite2D = $bg/Control/ded_hoopz
 
-@onready var defeat_text: RichTextLabel = $bg/defeat_text
-@onready var defeat_flavor: Label = $bg/VBoxContainer/defeat_flavor
+@onready var defeat_flavor: 	Label = $bg/VBoxContainer/defeat_flavor
 
-@onready var continue_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/continue
-@onready var give_up_btn: Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/give_up
+@onready var continue_btn: 		Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/continue
+@onready var give_up_btn: 		Button = $bg/VBoxContainer/B2_Border/MarginContainer/CenterContainer/VBoxContainer/give_up
 
-## TODO get original games text
+@onready var haiku_text_vbox: 	VBoxContainer = $bg/haiku_text_vbox
+@onready var haiku_lbl_1: 		Label = $bg/haiku_text_vbox/haiku_lbl_1
+@onready var haiku_lbl_2: 		Label = $bg/haiku_text_vbox/haiku_lbl_2
+@onready var haiku_lbl_3: 		Label = $bg/haiku_text_vbox/haiku_lbl_3
+
+## TODO get original game's text
 const GO_NAMES := [
 	"Got dunked on!",
 	"You ate some dirt!",
 	"Well... Shit."
-]
+	]
 const GO_FLAVOR := [
 	"At that moment, you thought...",
-]
+	]
+
+const HAIKUS : Array[Array] = [
+		["A fond memory",				"Passes like a gentle breeze",			"As my heart draws still"],
+		["A collection of",				"memories and thoughts and dreams;", 	"That is all I was"],
+		["Living essence spills;", 		"Ebbing tides on a bank that", 			"falls forever dry"],
+		["Petals fall like rain", 		"I close my eyes one last time", 		"And feel their caress"],
+		["A refreshing mist", 			"Cooling my descent to Hell;", 			"A final comfort"],
+		["From my breast spills forth", "The essence that sustains me", 		"And a cleft Mars Bar"],
+		["A bolt of lightning!", 		"A brief reprieve from the dark;",		"Gone from whence it came"],
+		["So little can one", 			"human hope to achieve in", 			"but a single life"],
+		["I recall the taste", 			"of ripe plums from the orchard", 		"as I fall asleep"],
+		["I raise my hand to", 			"run my fingers through the clouds", 	"as my soul ascends"],
+		["My eyes shed no tears", 		"For I already knew the", 				"ending of this tale"],
+		["I had hoped to see", 			"Mount Fuji in the autumn", 			"Before my time came"],
+		["An old shepherd plays", 		"A sweet pipe melody to", 				"mark the coming spring"],
+		["An unmarked gravestone", 		"tells neither truths nor fiction;", 	"neither names nor deeds"],
+	]
+
+var play_haykus := true
 
 func _ready() -> void:
-	defeat_text.clear()
-	defeat_text.parse_bbcode( "[wave amp=50.0 freq=5.0 connected=1] %s [/wave]" % Text.pr( GO_NAMES.pick_random() ) )
 	defeat_flavor.text = Text.pr( GO_FLAVOR.pick_random() )
 	
-	animation_player.play("haha you goofed")
+	if play_haykus:
+		_load_haikus()
+		animation_player.play("spin some haikus")
+	else:
+		animation_player.play("haha you goofed")
 	
 	## Increase death count - NOTE Taken from the B2_ROOMXY script.
 	var deaths : int = B2_Config.get_user_save_data( "player.deaths.total", 0 )
@@ -45,6 +70,12 @@ func _ready() -> void:
 	
 func play_music() -> void:
 	B2_Music.play("mus_gameover")
+
+func _load_haikus():
+	var haiku : Array = HAIKUS.pick_random()
+	haiku_lbl_1.text = haiku[0]
+	haiku_lbl_2.text = haiku[1]
+	haiku_lbl_3.text = haiku[2]
 
 func _on_give_up_pressed() -> void:
 	B2_Sound.play( "sn_cc_death" )

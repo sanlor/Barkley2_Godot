@@ -51,7 +51,6 @@ var combat_ticker 	: Timer ## Timers use to keep control the passage of the time
 
 var ui					: CanvasLayer
 
-var combat_manager		: B2_CombatManager
 var action_queue		: Array[Array]	## All combat actions should be queued.
 var ongoing_actions		: Array			## Actors doing specific actions.
 var tick_lock := false		## Block the _tick() func, used to give time for the battlers to perform actions withouc recharging its action counter.
@@ -102,8 +101,8 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 	_load_combat_hoopz_actor()
 	#await get_tree().process_frame
 	
-	B2_Input.player_follow_mouse.emit( false )
-	B2_Input.camera_follow_mouse.emit( false )
+	B2_SignalBus.player_follow_mouse.emit( false )
+	B2_SignalBus.camera_follow_mouse.emit( false )
 	
 	#_load_combat_ui()
 	
@@ -172,7 +171,7 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 						## Keep playing current music, but keep track of it.
 						B2_Music.store_curr_music()
 					start_combat( enemies )
-					var result = await combat_manager.combat_ended
+					var result = await B2_CombatManager.combat_ended
 					## TODO handle the battle result
 					## NOTE Result is not needed, but we need to await the combat end signal to continue.
 					# Its only emited if the player wins or runs from combat.
@@ -307,15 +306,15 @@ func setup_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCom
 				
 func start_combat( enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_ticker = Timer.new(); add_child( combat_ticker, true ); combat_ticker.wait_time = B2_Config.COMBAT_TICKER_SPEED; 		## Ticker setup.
-	combat_ticker.ignore_time_scale = true; combat_ticker.name = "combat_ticker_timer"	 				## Ticker setup.
-	combat_manager = B2_CManager.combat_manager; combat_manager.combat_cinema = self;					## Combat manager setup.
-	combat_ticker.timeout.connect( _tick_combat )														## Tick tock
-	combat_manager.register_enemy_list( enemies )
-	combat_manager.register_player( B2_CManager.o_cbt_hoopz )
-	combat_manager.enemy_was_defeated.connect(_track_combat)
+	combat_ticker.ignore_time_scale = true; combat_ticker.name = "combat_ticker_timer"	 											## Ticker setup.
+	B2_CombatManager.combat_cinema = self;																							## Combat manager setup.
+	combat_ticker.timeout.connect( _tick_combat )																					## Tick tock
+	B2_CombatManager.register_enemy_list( enemies )
+	B2_CombatManager.register_player( B2_CManager.o_cbt_hoopz )
+	B2_CombatManager.enemy_was_defeated.connect(_track_combat)
 	combat_ticker.start()
-	combat_manager.tick_toggled.connect( toggle_combat_ticker )
-	combat_manager.start_battle()
+	B2_CombatManager.tick_toggled.connect( toggle_combat_ticker )
+	B2_CombatManager.start_battle()
 	
 	if track_battle_time:
 		battle_time_timer = Timer.new(); add_child( battle_time_timer, true ); battle_time_timer.wait_time = 1.0; 
@@ -341,8 +340,8 @@ func _track_combat( enemy_data : B2_EnemyData ):
 func end_combat():
 	if track_battle_time:
 		battle_time_timer.queue_free()
-	combat_manager.enemy_was_defeated.disconnect(_track_combat)
-	combat_manager.tick_toggled.disconnect( toggle_combat_ticker )
+	B2_CombatManager.enemy_was_defeated.disconnect(_track_combat)
+	B2_CombatManager.tick_toggled.disconnect( toggle_combat_ticker )
 	#await get_tree().process_frame
 	_load_hoopz_player()
 	
@@ -479,11 +478,4 @@ func _load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 
 ## Combat clock. Check the Combat manager to get the combat action stuff
 func _tick_combat() -> void:
-	if combat_manager:
-		combat_manager.tick_combat()
-	else:
-		push_warning("Combat Manager not loaded. This should never happen.")
-		
-func _physics_process( _delta: float ) -> void:
-	if combat_manager:
-		combat_manager.process()
+	B2_CombatManager.tick_combat()

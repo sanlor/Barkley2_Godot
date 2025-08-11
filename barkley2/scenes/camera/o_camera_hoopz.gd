@@ -270,7 +270,7 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
 func _physics_process(delta: float) -> void:
-	if manual_control:
+	if manual_control and manual_target:
 		global_position 	= global_position.lerp( manual_target.global_position, 0.1 )
 		#offset 				= offset.lerp( Vector2.ZERO, 0.1 )
 		offset 				= offset.lerp( camera_normal_offset, 0.1 )

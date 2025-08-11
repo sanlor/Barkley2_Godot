@@ -52,7 +52,7 @@ func register_enemies( _enemy_list ) -> void:
 	
 
 func _on_attack_btn() -> void:
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	
 	## Disabled 22/04/25
 	if B2_Gun.get_current_gun():
@@ -74,7 +74,7 @@ func _on_item_btn() -> void:
 	print("o_hud_minimal: action disabled during tutorial.")
 	
 func _on_move_btn() -> void:
-	B2_CManager.combat_manager.pause_combat()
+	B2_CombatManager.pause_combat()
 	
 	enemy_selected = enemy_selected # seems stupid, but this is important. avoid OOB array issues when enemies are removed/defeated.
 	aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position )
@@ -115,8 +115,7 @@ func _input(event: InputEvent) -> void:
 						player_character.aim_gun( aiming_angle )
 						
 						if Input.is_action_pressed("Action"):
-							var combat_manager := B2_CManager.combat_manager
-							combat_manager.shoot_projectile( 
+							B2_CombatManager.shoot_projectile( 
 								player_character, 
 								player_character.global_position + player_character.aim_target, 
 								B2_Gun.get_current_gun(), 
@@ -171,7 +170,7 @@ func action_queued() -> void:
 Either [color=yellow]Shoot[/color] or [color=yellow]Roll[/color] when you have enough [color=yellow]Action Points[/color]."
 
 	attack_btn.grab_focus()
-	B2_CManager.combat_manager.resume_combat()
+	B2_CombatManager.resume_combat()
 	curr_action = NOTHING
 	
 func add_result_message( _msg : String, sfx := "sn_mouse_analoghover01" ) -> void:
