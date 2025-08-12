@@ -296,6 +296,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 		
 	## avoid cases where the source_actor dies while geting ready to attack.
 	if is_instance_valid( source_actor ):
+		gun_handler.select_gun( used_weapon )
 		gun_handler.use_normal_attack( casing_pos, muzzle_pos, aim_direction, source_actor )
 		
 		if finish_action: ## Avoid calling invalid functions.

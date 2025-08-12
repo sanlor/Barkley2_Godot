@@ -72,6 +72,9 @@ func _create_bullet( source_pos : Vector2, dir : Vector2, source_actor : B2_Comb
 func _can_shoot() -> bool:
 	return firing_rate.is_stopped() and pre_shooting_timer.is_stopped() and post_shooting_timer.is_stopped() and not is_shooting
 		
+func select_gun( force_gun : B2_Weapon ) -> void:
+	B2_Gun.select_gun_from_resource( force_gun )
+		
 func pre_attack_action() -> void:
 	pass
 	

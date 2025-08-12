@@ -1211,6 +1211,16 @@ static func prev_band_gun() -> void:
 	B2_Playerdata.selected_gun -= 1
 	# push_warning("DEBUG disabled")
 	
+static func select_gun_from_resource( gun_resource : B2_Weapon ) -> void:
+	if get_bandolier().has( gun_resource ):
+		select_band_gun( get_bandolier().find(gun_resource) )
+	elif get_gunbag().has( gun_resource ):
+		select_gunbag_gun( get_gunbag().find(gun_resource) )
+	else:
+		push_error( "Invalid gun selected" )
+		breakpoint
+	
+	
 static func select_band_gun( id : int ) -> void:
 	if id > B2_Playerdata.bandolier.size():
 		push_error("Tried to select a weapon that does not exist.")
