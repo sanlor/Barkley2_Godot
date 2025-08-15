@@ -169,6 +169,98 @@ func _change_sprites():
 			combat_weapon_parts.show()
 			combat_weapon_spots.show()
 			
+func _update_held_gun() -> void:
+	if curr_STATE == STATE.AIM:
+		var gun := B2_Gun.get_current_gun()
+		if gun:
+			if gun != prev_gun:
+				set_gun( gun.get_held_sprite(), gun.weapon_type )
+				
+				## Change color.
+				var colors := gun.get_gun_colors()
+				combat_weapon.modulate 					= colors[0]
+				
+				if colors[1]:
+					combat_weapon_parts.show()
+					combat_weapon_parts.modulate 		= colors[1]
+				else:
+					combat_weapon_parts.hide()
+					
+				if colors[2]:
+					combat_weapon_spots.show()
+					combat_weapon_spots.modulate 		= colors[2]
+				else:
+					combat_weapon_spots.hide()
+				prev_gun = gun
+			
+## Change the held weapon sprite. Also can change hoopz torso.
+## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
+## WARNING Missing "Dual" type. TODO
+func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
+	if combat_weapon.sprite_frames.has_animation( gun_name ):
+		combat_weapon.show()
+		combat_weapon.animation = gun_name
+	else: combat_weapon.hide(); push_warning("Invalid main gun sprite")
+		
+	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
+		combat_weapon_parts.show()
+		combat_weapon_parts.animation = gun_name
+	else: combat_weapon_parts.hide()
+		
+	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
+		combat_weapon_spots.show()
+		combat_weapon_spots.animation = gun_name
+	else: combat_weapon_spots.hide()
+	
+	# Save current frame. changing animations resets the frame
+	var combat_arm_back_frame 	:= combat_arm_back.frame
+	var combat_arm_front_frame 	:= combat_arm_front.frame
+	
+	# Apply new torso animation
+	if [
+		B2_Gun.TYPE.GUN_TYPE_REVOLVER,
+		B2_Gun.TYPE.GUN_TYPE_PISTOL,
+		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
+		B2_Gun.TYPE.GUN_TYPE_MAGNUM,
+		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL ].has( gun_type ): 
+			combat_arm_back.animation 	= "s_HoopzTorso_Handgun"
+			combat_arm_front.animation 	= "s_HoopzTorso_Handgun"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_RIFLE,
+		B2_Gun.TYPE.GUN_TYPE_MUSKET,
+		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,
+		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,
+		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER,
+		B2_Gun.TYPE.GUN_TYPE_CROSSBOW,
+		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Rifle"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rifle"
+	elif [
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN,
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE,
+		B2_Gun.TYPE.GUN_TYPE_BFG,].has( gun_type ):
+			combat_arm_back.animation 	= "s_HoopzTorso_Heavy"
+			combat_arm_front.animation 	= "s_HoopzTorso_Heavy"
+	elif gun_type == B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
+			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
+	else:
+		## Unknown type. Should never hit this.
+		breakpoint
+		
+	# reapply the animation frame
+	combat_arm_back.frame 	= combat_arm_back_frame
+	combat_arm_front.frame 	= combat_arm_front_frame
+			
 func normal_animation(delta : float):
 	var input := curr_input
 	

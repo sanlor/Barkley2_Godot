@@ -1,6 +1,6 @@
 extends Control
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+#@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @onready var top_panel: NinePatchRect = $top_panel
 
@@ -13,6 +13,7 @@ extends Control
 var has_item 	:= false
 var has_skill 	:= false
 var desc_tween 	: Tween
+var menu_tween	: Tween # Tweener used to show / hide the menu.
 
 func _ready() -> void:
 	description.hide()
@@ -30,7 +31,7 @@ func populate_skill_list():
 	has_skill = false
 	var first_skill : Button
 	
-	description_text.text = Text.pr( "Description not loaded (BUG)") ## Avoid loading previous item description.
+	description_text.text = Text.pr( "Description not loaded (BUG)" ) ## Avoid loading previous item description.
 	
 	var wpn : B2_Weapon = B2_Gun.get_current_gun()
 	
@@ -121,23 +122,36 @@ func populate_item_list():
 			# ?????????
 			breakpoint
 
+func focus_on_first_item() -> void:
+	item_list.get_children().front().grab_focus()
+
 func show_skill_menu() -> void:
 	show()
+	top_panel.show()
 	description.hide()
 	populate_skill_list()
-	animation_player.play("show")
+	if menu_tween: menu_tween.kill()
+	menu_tween = create_tween()
+	menu_tween.set_ignore_time_scale( true )
+	menu_tween.tween_property(top_panel, "position:y", -57.0, 0.25) # animation_player.play("show")
 	B2_Sound.play("sn_mouse_analoghover01")
-	await animation_player.animation_finished
+	await menu_tween.finished # await animation_player.animation_finished
+	focus_on_first_item()
 	if has_skill:
 		show_desc()
 	
 func show_item_menu() -> void:
 	show()
+	top_panel.show()
 	description.hide()
 	populate_item_list()
-	animation_player.play("show")
+	if menu_tween: menu_tween.kill()
+	menu_tween = create_tween()
+	menu_tween.set_ignore_time_scale( true )
+	menu_tween.tween_property(top_panel, "position:y", -57.0, 0.25) # animation_player.play("show")
 	B2_Sound.play("sn_mouse_analoghover01")
-	await animation_player.animation_finished
+	await menu_tween.finished # await animation_player.animation_finished
+	focus_on_first_item()
 	if has_item:
 		show_desc()
 	
@@ -145,23 +159,26 @@ func hide_menu() -> void:
 	if has_item or has_skill:
 		hide_desc()
 	if visible:
+		top_panel.show()
 		disable_all_buttons( true )
-		animation_player.play("hide")
+		if menu_tween: menu_tween.kill()
+		menu_tween = create_tween()
+		menu_tween.set_ignore_time_scale( true )
+		menu_tween.tween_property(top_panel, "position:y", 0, 0.25) # animation_player.play("hide")
 		B2_Sound.play("sn_mouse_analoghover01")
-		await animation_player.animation_finished
+		await menu_tween.finished # await animation_player.animation_finished
 		hide()
+		top_panel.hide()
 	
 	
 func show_desc() -> void:
 	description.show()
-	if desc_tween:
-		desc_tween.kill()
+	if desc_tween: desc_tween.kill()
 	desc_tween = create_tween()
 	desc_tween.tween_property(description, "modulate", Color.WHITE, 0.15)
 	
 func hide_desc() -> void:
-	if desc_tween:
-		desc_tween.kill()
+	if desc_tween: desc_tween.kill()
 	desc_tween = create_tween()
 	desc_tween.tween_property( description, "modulate", Color.TRANSPARENT, 0.15 )
 	desc_tween.tween_callback( description.hide )

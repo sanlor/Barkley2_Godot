@@ -202,6 +202,7 @@ func show_player_controls() -> void:
 	player_control_move.show()
 	player_control_defend.show()
 	weapon_stats_mini.show()
+	item_and_skill_list.hide_menu()
 	
 func hide_player_controls() -> void:
 	player_controls_new.hide_menu()

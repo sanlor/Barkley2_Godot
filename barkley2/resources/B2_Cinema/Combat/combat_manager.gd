@@ -338,17 +338,19 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
-	
+	var gun_handler	: B2_GunHandler_TurnBased
 	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Skill direction
+		gun_handler = source_actor.gun_handler
 	else: breakpoint ## Unknown actor.
 		
 	## avoid cases where the source_actor dies while geting ready to perform.
 	if is_instance_valid( source_actor ):
 		lock_player_action = true
-		used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
+		#used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
+		gun_handler.use_gun_skill( casing_pos, muzzle_pos, aim_direction, used_skill, source_actor )
 		await used_skill.action_finished ## Wait for the skill to finish and shiet.
 		if finish_action: finish_action.call() ## Avoid calling invalid functions.
 		lock_player_action = false

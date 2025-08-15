@@ -9,22 +9,12 @@ class_name B2_Player_TurnBased ## TODO merge this with the other Hoopz combat ac
 signal aim_target_changed
 signal move_target_changed
 
-## Pointing is used to move during battle.
-#var prev_STATE := STATE.NORMAL
-#var curr_STATE := STATE.NORMAL :
-	#set(s) : 
-		#if not curr_STATE == s:
-			#prev_STATE = curr_STATE
-			#curr_STATE = s
-			#_update_held_gun()
-
 @export_category("Normal Sprites")
 @export var hoopz_roll_direction	: Line2D
 
 @export_category("Misc")
 @onready var ready_label: RichTextLabel = $ready_label
 
-@onready var gun_down_timer: 	Timer = $gun_down_timer
 @onready var aim_origin: 		Marker2D = $aim_origin
 
 ## General Animation
@@ -71,40 +61,11 @@ func _ready() -> void:
 func _changed_state():
 	_change_sprites()
 	#_update_flashlight()
-
-## update the current gun sprite, adding details if needed (spots, parts).
-func _update_held_gun() -> void:
-	if B2_Playerdata.bandolier.size() > 0:
-		_change_sprites()
-		combat_weapon_animation()
-	
-		if curr_STATE == STATE.AIM:
-			var gun := B2_Gun.get_current_gun()
-			if gun:
-				set_gun( gun.get_held_sprite(), gun.weapon_type )
-				
-				## Change color.
-				var colors := gun.get_gun_colors()
-				combat_weapon.modulate = colors[0]
-				
-				if colors[1]:
-					combat_weapon_parts.show()
-					combat_weapon_parts.modulate = colors[1]
-				else:
-					combat_weapon_parts.hide()
-					
-				if colors[2]:
-					combat_weapon_spots.show()
-					combat_weapon_spots.modulate = colors[2]
-				else:
-					combat_weapon_spots.hide()
-	
 		
 func _change_sprites():
 	match curr_STATE:
 		STATE.NORMAL, STATE.ROLL, STATE.HIT, STATE.VICTORY, STATE.DEFEAT, STATE.DEFENDING:
 			hoopz_normal_body.show()
-			
 			combat_shield.visible = curr_STATE == STATE.DEFENDING
 			
 			## Hide combat related sprites
@@ -403,87 +364,6 @@ func combat_weapon_animation() -> void:
 	combat_weapon_spots.frame 		= s_frame
 	combat_weapon_spots.position 	= new_gun_pos
 	combat_weapon_spots.z_index		= _z_index
-		
-
-
-## Change the held weapon sprite. Also can change hoopz torso.
-## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
-## WARNING Missing "Dual" type. TODO
-func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
-	if combat_weapon.sprite_frames.has_animation( gun_name ):
-		combat_weapon.show()
-		combat_weapon.animation = gun_name
-	else: combat_weapon.hide(); push_warning("Invalid main gun sprite")
-		
-	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
-		combat_weapon_parts.show()
-		combat_weapon_parts.animation = gun_name
-	else: combat_weapon_parts.hide()
-		
-	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
-		combat_weapon_spots.show()
-		combat_weapon_spots.animation = gun_name
-	else: combat_weapon_spots.hide()
-	
-	# Save current frame. changing animations resets the frame
-	var combat_arm_back_frame 	:= combat_arm_back.frame
-	var combat_arm_front_frame 	:= combat_arm_front.frame
-	
-	# Apply new torso animation
-	if [
-		B2_Gun.TYPE.GUN_TYPE_REVOLVER,
-		B2_Gun.TYPE.GUN_TYPE_PISTOL,
-		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
-		B2_Gun.TYPE.GUN_TYPE_MAGNUM,
-		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL ].has( gun_type ): 
-			combat_arm_back.animation 	= "s_HoopzTorso_Handgun"
-			combat_arm_front.animation 	= "s_HoopzTorso_Handgun"
-	elif [
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_RIFLE,
-		B2_Gun.TYPE.GUN_TYPE_MUSKET,
-		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,
-		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER,
-		B2_Gun.TYPE.GUN_TYPE_CROSSBOW,
-		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE].has( gun_type ):
-			combat_arm_back.animation 	= "s_HoopzTorso_Rifle"
-			combat_arm_front.animation 	= "s_HoopzTorso_Rifle"
-	elif [
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN,
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE,
-		B2_Gun.TYPE.GUN_TYPE_BFG,].has( gun_type ):
-			combat_arm_back.animation 	= "s_HoopzTorso_Heavy"
-			combat_arm_front.animation 	= "s_HoopzTorso_Heavy"
-	elif gun_type == B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
-			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
-	else:
-		## Unknown type. Should never hit this.
-		breakpoint
-		
-	# reapply the animation frame
-	combat_arm_back.frame 	= combat_arm_back_frame
-	combat_arm_front.frame 	= combat_arm_front_frame
-	
-## NOTE disabled due to changes in the combat manager pipeline
-#func shoot_gun() -> void:
-	#var gun := B2_Gun.get_current_gun()
-	#if gun:
-		#ready_label.start_loading( 0.5 )
-		#B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
-		#await ready_label.finish_loading
-		#gun.shoot_gun( get_parent(), combat_weapon.global_position, gun_muzzle.global_position, aim_target )
-	#else:
-		#push_warning("No Gun???")
 
 func point_at( _aim_target : Vector2, _roll_power : float ) -> void:
 	B2_Playerdata.player_stats.block_action_increase = true
@@ -692,10 +572,20 @@ func _physics_process(delta: float) -> void:
 		STATE.NORMAL:
 			## Play Animations
 			normal_animation( delta )
-		STATE.AIM:
-			combat_walk_animation( delta ) # delta is for the turning animation
-			combat_aim_animation()
-			combat_weapon_animation()
+		STATE.NORMAL, STATE.AIM, STATE.SHOOT:
+			## Play Animations
+			if curr_STATE == STATE.NORMAL:
+				normal_animation(delta)
+				
+			elif  curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
+				_update_held_gun( )
+				
+				combat_walk_animation( delta ) # delta is for the turning animation
+				combat_aim_animation( )
+				combat_weapon_animation( )
+			else:
+				push_warning("Weird state: ", curr_STATE)
+				
 		STATE.POINT:
 			point_animation( )
 				
@@ -719,9 +609,6 @@ func _on_hit_timer_timeout() -> void:
 			curr_STATE = STATE.NORMAL
 		else:
 			curr_STATE = prev_STATE
-
-func _on_gun_down_timer_timeout() -> void:
-	pass
 
 func _on_combat_actor_entered(body: Node) -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.VICTORY:

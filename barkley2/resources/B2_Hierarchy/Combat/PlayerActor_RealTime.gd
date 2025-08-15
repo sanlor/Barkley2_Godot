@@ -76,90 +76,6 @@ func _ai_aim_ranged( enabled : bool ) -> void:
 func _ai_roll_at( enabled : bool ) -> void:
 	if enabled:
 		start_rolling( curr_input )
-
-func _update_held_gun() -> void:
-	if curr_STATE == STATE.AIM:
-		var gun := B2_Gun.get_current_gun()
-		if gun:
-			if gun != prev_gun:
-				set_gun( gun.get_held_sprite(), gun.weapon_type )
-				
-				## Change color.
-				var colors := gun.get_gun_colors()
-				combat_weapon.modulate 					= colors[0]
-				
-				if colors[1]:
-					combat_weapon_parts.show()
-					combat_weapon_parts.modulate 		= colors[1]
-				else:
-					combat_weapon_parts.hide()
-					
-				if colors[2]:
-					combat_weapon_spots.show()
-					combat_weapon_spots.modulate 		= colors[2]
-				else:
-					combat_weapon_spots.hide()
-				prev_gun = gun
-	
-## Change the held weapon sprite. Also can change hoopz torso.
-## NOTE Check combat_gunwield_drawGun_player_frontHand() and combat_gunwield_drawGun_player_backHand().
-## WARNING Missing "Dual" type. TODO
-func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
-	if combat_weapon.sprite_frames.has_animation( gun_name ):
-		combat_weapon.show()
-		combat_weapon.animation = gun_name
-	else:
-		push_warning("Invalid main gun sprite")
-		combat_weapon.hide()
-		
-	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
-		combat_weapon_parts.show()
-		combat_weapon_parts.animation = gun_name
-	else: combat_weapon_parts.hide()
-		
-	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
-		combat_weapon_spots.show()
-		combat_weapon_spots.animation = gun_name
-	else: combat_weapon_spots.hide()
-	
-	if [B2_Gun.TYPE.GUN_TYPE_REVOLVER,
-		B2_Gun.TYPE.GUN_TYPE_PISTOL,
-		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN,
-		B2_Gun.TYPE.GUN_TYPE_MAGNUM,
-		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL ].has( gun_type ): 
-			combat_arm_back.animation 	= "s_HoopzTorso_Handgun"
-			combat_arm_front.animation 	= "s_HoopzTorso_Handgun"
-	elif [
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_RIFLE,
-		B2_Gun.TYPE.GUN_TYPE_MUSKET,
-		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,
-		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,
-		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER,
-		B2_Gun.TYPE.GUN_TYPE_CROSSBOW,
-		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE].has( gun_type ):
-			combat_arm_back.animation 	= "s_HoopzTorso_Rifle"
-			combat_arm_front.animation 	= "s_HoopzTorso_Rifle"
-	elif [
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN,
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE,
-		B2_Gun.TYPE.GUN_TYPE_BFG,].has( gun_type ):
-			combat_arm_back.animation 	= "s_HoopzTorso_Heavy"
-			combat_arm_front.animation 	= "s_HoopzTorso_Heavy"
-	elif gun_type == B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			combat_arm_back.animation 	= "s_HoopzTorso_Rocket"
-			combat_arm_front.animation 	= "s_HoopzTorso_Rocket"
-	else:
-		## Unknown type.
-		breakpoint
 	
 func start_aiming() -> void:
 		# change state, allowing the player to aim.
@@ -256,7 +172,7 @@ func combat_walk_animation(delta : float):
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation():
 	if B2_Input.player_has_control:
-		var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( get_global_mouse_position() ).snapped( Vector2(0.33,0.33) )
+		var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( curr_aim ).snapped( Vector2(0.33,0.33) )
 		var dir_frame = combat_upper_sprite.frame
 		
 		_point_flashlight( mouse_input )
@@ -480,9 +396,6 @@ func _physics_process(delta: float) -> void:
 			stop_rolling()
 				
 		STATE.NORMAL, STATE.AIM, STATE.SHOOT:
-			#if B2_Input.player_has_control:
-			## Player has influence over this node
-			
 			## Play Animations
 			if curr_STATE == STATE.NORMAL:
 				normal_animation(delta)
