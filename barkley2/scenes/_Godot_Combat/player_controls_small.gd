@@ -23,6 +23,7 @@ func _ready() -> void:
 	pass
 
 func show_menu() -> void:
+	
 	animation_player.play("show")
 	disable_all_buttons( false )
 	B2_Sound.play("sn_mouse_analoghover01")

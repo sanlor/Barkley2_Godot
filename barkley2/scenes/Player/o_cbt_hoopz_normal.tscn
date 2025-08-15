@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/o_cbt_hoopz_cinema_base.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="2_6c22w"]
-[ext_resource type="Script" uid="uid://dnfb7mklmfjcp" path="res://barkley2/scenes/Player/gun_handler™.gd" id="2_wsajw"]
+[ext_resource type="Script" uid="uid://d1ce0668klg2b" path="res://barkley2/scenes/Player/gun_handler™_turnbased_edition.gd" id="2_wsajw"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="3_dl1mb"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="4_yeelg"]
 [ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="5_xt58p"]
@@ -125,6 +125,7 @@ func start_loading( speed := 1.0 ) -> void:
 
 [node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "combat_shield", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorNav", "ActorCol")]
 collision_layer = 3
+collision_mask = 1835009
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_sbutq")
 gravity_scale = 0.0
@@ -143,7 +144,7 @@ combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 combat_shield = NodePath("combat_shield")
 gun_muzzle = NodePath("gun_muzzle")
-gun_handler = NodePath("Gun_Handler™")
+gun_handler = NodePath("Gun_Handler™_TurnBased_Edition")
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
 hit_timer = NodePath("hit_timer")
@@ -151,17 +152,20 @@ i_frame_timer = NodePath("i_frame_timer")
 flashlight_enabled = false
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("hoopz_collision")
+walk_damp = 14.0
+roll_damp = 3.5
 
-[node name="Gun_Handler™" type="Node" parent="."]
+[node name="Gun_Handler™_TurnBased_Edition" type="Node" parent="."]
 script = ExtResource("2_wsajw")
 
-[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™"]
+[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
 one_shot = true
 
-[node name="firing_rate" type="Timer" parent="Gun_Handler™"]
+[node name="firing_rate" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
 one_shot = true
 
-[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
+[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
+wait_time = 0.5
 one_shot = true
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_6c22w")]
@@ -175,7 +179,7 @@ position = Vector2(0, -1)
 amount = 30
 
 [node name="hoopz_roll_direction" type="Line2D" parent="."]
-modulate = Color(1, 1, 1, 0.99412113)
+modulate = Color(1, 1, 1, 0.6435905)
 points = PackedVector2Array(12, 0, 24, 0)
 width_curve = SubResource("Curve_qfgrm")
 gradient = SubResource("Gradient_wsajw")

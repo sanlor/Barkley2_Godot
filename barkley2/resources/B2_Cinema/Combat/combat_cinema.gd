@@ -363,8 +363,8 @@ func end_combat():
 	camera.manual_target 	= null
 	
 	camera.follow_player( B2_CManager.o_hoopz )
-	B2_Input.player_follow_mouse.emit( true )
-	B2_Input.camera_follow_mouse.emit( true )
+	B2_SignalBus.player_follow_mouse.emit( true )
+	B2_SignalBus.camera_follow_mouse.emit( true )
 	
 	# actors may moved during the cutscene, update the PF.
 	if is_instance_valid(B2_CManager.o_hud) and not has_mini_hud:

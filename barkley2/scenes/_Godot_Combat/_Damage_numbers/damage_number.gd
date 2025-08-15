@@ -6,7 +6,7 @@ var friction = 0.999
 var linger_time := 2.0
 
 func setup(source : Node2D, damage, _linger_time := 2.0) -> void:
-	text 				= str(damage)
+	text 				= String.num(damage, 2)
 	global_position 	= source.global_position
 	global_position.y 	-= 16.0
 	linger_time = _linger_time

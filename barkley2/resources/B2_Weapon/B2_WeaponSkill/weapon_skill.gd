@@ -48,7 +48,7 @@ signal action_finished
 @export var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
 
 @warning_ignore("unused_parameter")
-func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor, weapon : B2_Weapon ) -> void:
+func action( scene_to_place : Node, casing_pos : Vector2, source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
 	## TODO Migrate this to Gun Handler
 	pass
 	

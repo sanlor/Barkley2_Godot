@@ -43,26 +43,16 @@ func _ready() -> void:
 	B2_SignalBus.gun_changed.connect( _update_held_gun )
 	
 	## Fallback setup
-	if not is_instance_valid( hoopz_normal_body ):
-		hoopz_normal_body = get_node( "hoopz_normal_body" )
-	if not is_instance_valid( hoopz_roll_direction ):
-		hoopz_roll_direction = get_node( "hoopz_roll_direction" )
-	if not is_instance_valid( combat_upper_sprite ):
-		hoopz_normal_body = get_node( "combat_upper_sprite" )
-	if not is_instance_valid( combat_lower_sprite ):
-		hoopz_normal_body = get_node( "combat_lower_sprite" )
-	if not is_instance_valid( combat_arm_back ):
-		hoopz_normal_body = get_node( "combat_arm_back" )
-	if not is_instance_valid( combat_arm_front ):
-		hoopz_normal_body = get_node( "combat_arm_front" )
-	if not is_instance_valid( combat_weapon ):
-		hoopz_normal_body = get_node( "combat_weapon" )
-	if not is_instance_valid( combat_shield ):
-		hoopz_normal_body = get_node( "combat_shield" )
-	if not is_instance_valid( combat_weapon_parts ):
-		hoopz_normal_body = get_node( "combat_weapon_parts" )
-	if not is_instance_valid( combat_weapon_spots ):
-		hoopz_normal_body = get_node( "combat_weapon_spots" )
+	if not is_instance_valid( hoopz_normal_body ):			hoopz_normal_body = get_node( "hoopz_normal_body" )
+	if not is_instance_valid( hoopz_roll_direction ):		hoopz_roll_direction = get_node( "hoopz_roll_direction" )
+	if not is_instance_valid( combat_upper_sprite ):		hoopz_normal_body = get_node( "combat_upper_sprite" )
+	if not is_instance_valid( combat_lower_sprite ):		hoopz_normal_body = get_node( "combat_lower_sprite" )
+	if not is_instance_valid( combat_arm_back ):			hoopz_normal_body = get_node( "combat_arm_back" )
+	if not is_instance_valid( combat_arm_front ):			hoopz_normal_body = get_node( "combat_arm_front" )
+	if not is_instance_valid( combat_weapon ):				hoopz_normal_body = get_node( "combat_weapon" )
+	if not is_instance_valid( combat_shield ):				hoopz_normal_body = get_node( "combat_shield" )
+	if not is_instance_valid( combat_weapon_parts ):		hoopz_normal_body = get_node( "combat_weapon_parts" )
+	if not is_instance_valid( combat_weapon_spots ):		hoopz_normal_body = get_node( "combat_weapon_spots" )
 	
 	hoopz_roll_direction.hide()
 	
@@ -579,11 +569,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		
 		defeat_anim()
 		
-		if is_instance_valid( B2_CManager.combat_manager ):
-			B2_CManager.combat_manager.player_defeated()
-		else:
-			## CM should be loaded.
-			breakpoint
+		B2_CombatManager.player_defeated()
 			
 		## Add a bunch of blood. Go crazy with it.
 		for i in randi_range(10,60):

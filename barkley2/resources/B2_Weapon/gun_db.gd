@@ -918,6 +918,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.5
 			wpn.bullet_spread 		= 0.5
+			wpn.turnbased_burst		= 1
 			if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
 				wpn.bullets_per_shot 	*= 2
 				wpn.ammo_per_shot 		*= 2
@@ -927,6 +928,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.1
 			wpn.bullet_spread 		= 0.075
+			wpn.turnbased_burst		= 6
 			
 			## Skills
 			wpn.skill_list[SKILL.BURST_FIRE] 	= 0
@@ -937,12 +939,14 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.05
 			wpn.bullet_spread 		= 0.20
+			wpn.turnbased_burst		= 10
 			
 		GROUP.PISTOLS:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 0.2
 			wpn.bullet_spread 		= 0.05
+			wpn.turnbased_burst		= 4
 			
 			## Skills
 			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
@@ -953,12 +957,14 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 1.0
 			wpn.bullet_spread 		= 0.0
+			wpn.turnbased_burst		= 1
 			
 		GROUP.RIFLES:
 			wpn.bullets_per_shot 	= 1
 			wpn.ammo_per_shot 		= 1
 			wpn.wait_per_shot 		= 1.0
 			wpn.bullet_spread 		= 0.025
+			wpn.turnbased_burst		= 3
 			
 			## Skills
 			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
@@ -1105,24 +1111,18 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B
 			
 	var my_gun := B2_Weapon.new()
 	# scr_gun_db
-	## GD  Ge Bi Cy Me Ko Za Au Mo Pi Pr Ri Sh
-	## [56, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]
-	##  00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 
+	##  GD	Ge 	Bi 	Cy 	Me 	Ko 	Za 	Au 	Mo 	Pi 	Pr 	Ri 	Sh
+	## [56,	1, 	0, 	0, 	0, 	0, 	0, 	1, 	0, 	0, 	0, 	0, 	0]
+	##  00,	1, 	2, 	3, 	4, 	5, 	6, 	7, 	8, 	9, 	10, 11,	12, 
 	var db_gun : Array = gun_db.get( gun_db_name, Array() )
 	var choices : Array[GROUP]
 	if db_gun:
-		if db_gun[7]:
-			choices.append( GROUP.AUTOMATIC )
-		if db_gun[8]:
-			choices.append( GROUP.MOUNTED )
-		if db_gun[9]:
-			choices.append( GROUP.PISTOLS )
-		if db_gun[10]:
-			choices.append( GROUP.PROJECTILE )
-		if db_gun[11]:
-			choices.append( GROUP.RIFLES )
-		if db_gun[12]:
-			choices.append( GROUP.SHOTGUNS )
+		if db_gun[7]:			choices.append( GROUP.AUTOMATIC )
+		if db_gun[8]:			choices.append( GROUP.MOUNTED )
+		if db_gun[9]:			choices.append( GROUP.PISTOLS )
+		if db_gun[10]:			choices.append( GROUP.PROJECTILE )
+		if db_gun[11]:			choices.append( GROUP.RIFLES )
+		if db_gun[12]:			choices.append( GROUP.SHOTGUNS )
 			
 		my_gun = generate_gun( choices.pick_random(), MATERIAL.NONE, gun_name, true )
 		

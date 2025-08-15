@@ -118,7 +118,7 @@ func _input(event: InputEvent) -> void:
 							B2_CombatManager.shoot_projectile( 
 								player_character, 
 								player_character.global_position + player_character.aim_target, 
-								B2_Gun.get_current_gun(), 
+								#B2_Gun.get_current_gun(), 
 								player_character.stop_aiming 
 								)
 								

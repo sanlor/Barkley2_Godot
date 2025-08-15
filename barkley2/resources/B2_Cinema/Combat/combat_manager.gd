@@ -31,6 +31,7 @@ var combat_paused 	:= false :
 var turn_based_combat_running 	:= false
 var combat_won					:= false
 var escaped_combat				:= false ## enabled if the player escaped combat
+var lock_player_action			:= false ## Allow the player to select attacks, skills or items.
 var action_queue : Array[queue]
 
 var can_manipulate_camera := true
@@ -72,6 +73,8 @@ func start_battle():
 	
 	B2_CManager.o_hud.get_combat_module().register_player( player_character )
 	B2_CManager.o_hud.get_combat_module().register_enemies( enemy_list )
+	
+	turn_based_combat_running = true
 
 ## Stop combat tick during target selection, etc.
 func pause_combat() -> void: 
@@ -100,6 +103,7 @@ func finish_combat() -> void:
 		push_warning("Called 'finish_combat()' twice, mistakenly. You need to check why.")
 		return
 	combat_won = true
+	turn_based_combat_running = false
 	pause_combat()
 	B2_CManager.o_cbt_hoopz.cinema_look( Vector2.DOWN )
 	B2_CManager.o_cbt_hoopz.victory_anim()
@@ -164,6 +168,7 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 
 ## stop combat, play the defeat animation.
 func player_defeated() -> void:
+	turn_based_combat_running = false
 	B2_Input.player_has_control = false
 	B2_Music.stop( 1.0 )
 	B2_CManager.o_hud.combat_module.reset()
@@ -197,6 +202,8 @@ func player_defeated() -> void:
 	pause_combat()
 
 func tick_combat() -> void:
+	#print( "Curr gun is ", B2_Gun.get_current_gun().get_full_name() ) ## DEBUG
+	
 	if not combat_paused:
 		## Check if the combat is finished ( no enemies are on the battlefield )
 		if enemy_list.is_empty() and not combat_won:
@@ -227,7 +234,7 @@ func tick_combat() -> void:
 		for enemy : B2_EnemyCombatActor in enemy_list:
 			if enemy.enemy_data:
 				if enemy.enemy_data.increase_action():
-					if enemy.get_ai_turnbased().combat_action( player_character, enemy_list, self ):
+					if enemy.get_ai_turnbased().combat_action( player_character, enemy_list ):
 						return
 				else:
 					pass
@@ -244,42 +251,45 @@ func tick_combat() -> void:
 			if is_instance_valid( action.source_actor ):
 				match action.type:
 					QUEUE_TYPE.NORMAL_ATTACK:
-						action.action.call( action.source_actor, action.target, action.used_weapon, action.finish_action )
-					
+						action.action.call( action.source_actor, action.target, action.finish_action )
 					QUEUE_TYPE.OFFENSIVE_SKILL:
-						action.action.call( action.source_actor, action.target, action.used_weapon, action.used_skill, action.finish_action )
-						
+						action.action.call( action.source_actor, action.target, action.used_skill, action.finish_action )
+					_:
+						breakpoint
 			else:
 				## source action was "killed" before executing the action".
 				push_warning("The actor was killed before execution its action queue.")
 
-func process() -> void:
-	if can_manipulate_camera:
-		var avg_pos 					:= get_avg_pos()
-		B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
-		B2_CManager.camera.focus 		= avg_pos
-		B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
+func _physics_process(_delta: float) -> void:
+	if turn_based_combat_running:
+		if can_manipulate_camera:
+			var avg_pos 					:= get_avg_pos()
+			B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
+			B2_CManager.camera.focus 		= avg_pos
+			B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
 ## Combat actions
 # Public func. Queue action for turn based combat
-func shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
+func shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_action : Callable ) -> void:
 	var q := queue.new()
 	q.type = QUEUE_TYPE.NORMAL_ATTACK
 	q.action = _shoot_projectile
 	q.source_actor = source_actor
 	q.target = target
-	q.used_weapon = used_weapon
+	#q.used_weapon = used_weapon
 	q.finish_action = finish_action
 	action_queue.append( q )
 	print( "action queued: ", action_queue.size() )
 	
 # Execute queued action
-func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, finish_action : Callable ) -> void:
-	#pause_combat()
+func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_action : Callable ) -> void:
+	print( "%s: Started shooting." % name )
+	pause_combat()
+	#B2_CManager.o_hud.get_combat_module().hide_player_controls()
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
-	var gun_handler	: B2_GunHandler
+	var gun_handler	: B2_GunHandler_TurnBased
 	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
 		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
@@ -296,31 +306,35 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, used_we
 		
 	## avoid cases where the source_actor dies while geting ready to attack.
 	if is_instance_valid( source_actor ):
-		gun_handler.select_gun( used_weapon )
+		lock_player_action = true
+		# gun_handler.select_gun( used_weapon ) ## NOTE This was breaking the gun selection stuff.
 		gun_handler.use_normal_attack( casing_pos, muzzle_pos, aim_direction, source_actor )
-		
-		if finish_action: ## Avoid calling invalid functions.
-			finish_action.call()
+		await gun_handler.attack_finished
+		if finish_action: finish_action.call() ## Avoid calling invalid functions.
+		lock_player_action = false
+	else: breakpoint
 		
 	if B2_CManager.o_hud.get_combat_module().can_resume_combat():
+		#B2_CManager.o_hud.get_combat_module().show_player_controls()
 		resume_combat()
 	else:
 		print("Could not unpause the battle.")
 		print_stack()
 	
-func use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
+	
+func use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
 	var q := queue.new()
 	q.type = QUEUE_TYPE.OFFENSIVE_SKILL
 	q.action = _use_skill
 	q.source_actor = source_actor
 	q.target = target
-	q.used_weapon = used_weapon
+	#q.used_weapon = used_weapon
 	q.used_skill = used_skill
 	q.finish_action = finish_action
 	action_queue.append( q )
 	
-func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : B2_Weapon, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
-	#pause_combat()
+func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
+	pause_combat()
 	var casing_pos := Vector2.ZERO
 	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
@@ -333,18 +347,20 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_weapon : 
 		
 	## avoid cases where the source_actor dies while geting ready to perform.
 	if is_instance_valid( source_actor ):
-		used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor, used_weapon )
+		lock_player_action = true
+		used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
 		await used_skill.action_finished ## Wait for the skill to finish and shiet.
-		
-		if finish_action: ## Avoid calling invalid functions.
-			finish_action.call()
-		
+		if finish_action: finish_action.call() ## Avoid calling invalid functions.
+		lock_player_action = false
+	else: breakpoint
+	
 	if B2_CManager.o_hud.get_combat_module().can_resume_combat():
 		resume_combat()
 	else:
 		print("Could not unpause the battle.")
 		print_stack()
-		
+	
+	
 ## Helper functions, used to control the camera position.
 # Get the average position of all combat actors
 func get_avg_pos() -> Vector2:

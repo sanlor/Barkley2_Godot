@@ -6,10 +6,6 @@ class_name B2_Weapon
 
 signal finished_combat_action
 
-#const O_BULLET 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
-#const O_CASINGS 	= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
-#const S_FLASH 		= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
-
 enum EFFECT{ DAMAGE, RECOVERY }
 
 @export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL
@@ -88,6 +84,7 @@ var generation					:= 1
 @export var ammo_per_shot		:= 5 	## how much ammo is used
 @export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
 @export var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
+@export var turnbased_burst		:= 1	## How many bullets are shot at once, during a turn-based attack.
 
 var is_shooting		:= false
 var abort_shooting 	:= false

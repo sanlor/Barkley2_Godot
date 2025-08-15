@@ -131,7 +131,7 @@ func set_cursor_type( type : TYPE) -> void:
 func is_any_menu_open() -> bool:
 	return B2_Screen.is_map_open or B2_Screen.is_notes_open or B2_Screen.is_shop_open or B2_Screen.is_quickmenu_open
 
-func display_damage_number( caller_node : Node, damage, color := Color.WHITE, linger_time := 2.0 ) -> void:
+func display_damage_number( caller_node : Node, damage : float, color := Color.WHITE, linger_time := 2.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
 	d.setup(caller_node, damage, linger_time)
 	d.modulate = color

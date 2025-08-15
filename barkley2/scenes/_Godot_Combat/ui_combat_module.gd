@@ -127,7 +127,7 @@ func _input(event: InputEvent) -> void:
 							B2_CombatManager.shoot_projectile( 
 								player_character, 
 								player_character.global_position + player_character.aim_target, 
-								B2_Gun.get_current_gun(), 
+								#B2_Gun.get_current_gun(), 
 								player_character.stop_aiming 
 								)
 								
@@ -196,6 +196,20 @@ func _cancel_action():
 		
 		action_queued()
 
+func show_player_controls() -> void:
+	player_controls_new.show_menu()
+	player_control_weapons.show()
+	player_control_move.show()
+	player_control_defend.show()
+	weapon_stats_mini.show()
+	
+func hide_player_controls() -> void:
+	player_controls_new.hide_menu()
+	player_control_weapons.hide()
+	player_control_move.hide()
+	player_control_defend.hide()
+	weapon_stats_mini.hide()
+
 func slow_time( _time := 0.25 ):
 	slowdown_label.modulate.a = 0.0
 	if battle_tween:
@@ -219,11 +233,7 @@ func resume_time( _time := 0.25 ):
 	print_rich("[color=pink]Combat Module: Time resumed.[/color]")
 
 func action_queued() -> void:
-	player_controls_new.show_menu()
-	player_control_weapons.show()
-	player_control_move.show()
-	player_control_defend.show()
-	weapon_stats_mini.show()
+	show_player_controls()
 	
 	item_and_skill_list.hide_menu()
 	instructions.hide()
@@ -274,7 +284,7 @@ func use_skill( skill : B2_WeaponSkill ) -> void:
 	B2_CombatManager.use_skill( 
 		player_character, 
 		player_character.global_position + player_character.aim_target, 
-		B2_Gun.get_current_gun(), 
+		#B2_Gun.get_current_gun(), 
 		skill,
 		player_character.stop_aiming 
 		)
@@ -293,12 +303,7 @@ func _on_attack_btn() -> void:
 		enemy_selected = enemy_selected # seems stupid, but this is important. avoid OOB array issues when enemies are removed/defeated.
 		aiming_angle = ( Vector2(0,-16) + player_character.position ).direction_to( enemy_list[ enemy_selected ].position ) 
 		player_character.aim_gun( aiming_angle )
-		
-	player_controls_new.hide_menu()
-	
-	player_control_weapons.hide()
-	player_control_move.hide()
-	player_control_defend.hide()
+	hide_player_controls()
 	instructions.show()
 	curr_action = PLAYER_AIMING
 	slow_time()
@@ -306,46 +311,26 @@ func _on_attack_btn() -> void:
 func _on_skill_btn() -> void:
 	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
-	
 	item_and_skill_list.show_skill_menu()
-	
-	player_controls_new.hide_menu()
-	
-	weapon_stats_mini.hide()
-	player_control_weapons.hide()
-	player_control_move.hide()
-	player_control_defend.hide()
+	hide_player_controls()
 	curr_action = PLAYER_SELECTING_SOMETHING
 	slow_time()
 	
 func _on_item_btn() -> void:
 	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
-	
 	item_and_skill_list.show_item_menu()
-	
-	player_controls_new.hide_menu()
-	
-	weapon_stats_mini.hide()
-	player_control_weapons.hide()
-	player_control_move.hide()
-	player_control_defend.hide()
+	hide_player_controls()
 	curr_action = PLAYER_SELECTING_SOMETHING
 	slow_time()
 	
 func _on_move_btn() -> void:
 	B2_CombatManager.pause_combat()
 	await get_tree().process_frame ## Wait to avoid triggering multiple states (pressing a button and executing the action at the same time)
-	
 	B2_CombatManager.can_manipulate_camera = false
 	B2_CManager.camera.combat_focus( player_character.global_position, 1.0 )
 	player_character.point_at( aiming_angle, roll_power )
-		
-	player_controls_new.hide_menu()
-		
-	player_control_weapons.hide()
-	player_control_move.hide()
-	player_control_defend.hide()
+	hide_player_controls()
 	instructions.show()
 	curr_action = PLAYER_MOVING
 	slow_time()
@@ -427,8 +412,26 @@ func tick_combat() -> void:
 	defend_btn.disabled 		= not ( B2_Playerdata.player_stats.is_at_max_action() and B2_Playerdata.Quest("hoopz_shield") 		!= 0 ) ## Only use shied if you have shield.
 	item_btn.disabled 			= not B2_Playerdata.player_stats.is_at_max_action()
 	escape_btn.disabled 		= not ( B2_Playerdata.player_stats.is_at_max_action() and B2_Playerdata.Quest("escape_disabled") 	== 0 ) ## in certain situations, escape can be disabled.
+	
+	
 
 func _physics_process(_delta: float) -> void:
 	if slowdown_label.visible:
 		slowdown_label.text = Text.pr("Slowdown: %sx" % str(Engine.time_scale).pad_decimals(2) )
-	pass
+	
+	## Disabled players actions if the combat manager tells me so.
+	if B2_CombatManager.lock_player_action:
+		attack_btn.disabled 	= true
+		skill_btn.disabled 		= true
+		move_btn.disabled 		= true
+		defend_btn.disabled 	= true
+		item_btn.disabled 		= true
+	
+	## Allow CBT Hoopz to change weapons.as
+	if B2_Input.can_switch_guns:
+		if Input.is_action_just_pressed("Weapon >"):
+			B2_Gun.next_band_gun()
+		if Input.is_action_just_pressed("Weapon <"):
+			B2_Gun.prev_band_gun()
+		if Input.is_action_just_pressed("Gun'sbag"):
+			B2_Gun.toggle_gunbag()

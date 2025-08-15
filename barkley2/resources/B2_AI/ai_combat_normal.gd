@@ -11,7 +11,7 @@ var has_target 					:= false
 var my_bulleye					: AnimatedSprite2D
 
 ## AI Action
-func combat_action( player_character : B2_CombatActor, _enemy_list : Array[B2_EnemyCombatActor], combat_manager : B2_CombatManager ) -> bool:
+func combat_action( player_character : B2_CombatActor, _enemy_list : Array[B2_EnemyCombatActor] ) -> bool:
 	if is_disabled: ## Disabled AI.
 		if my_bulleye:
 			my_bulleye.queue_free()
@@ -30,7 +30,7 @@ func combat_action( player_character : B2_CombatActor, _enemy_list : Array[B2_En
 				has_target = false
 				curr_delay_before_attack = 0.0
 				my_bulleye.destroy()
-				combat_manager.shoot_projectile( get_parent(), my_bulleye.my_target, get_parent().enemy_ranged, Callable() )
+				B2_CombatManager.shoot_projectile( get_parent(), my_bulleye.my_target, Callable() )
 				enemy_data.reset_action()
 				return true
 		else:
