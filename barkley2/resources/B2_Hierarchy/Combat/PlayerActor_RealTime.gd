@@ -95,7 +95,7 @@ func shoot_gun() -> void:
 		if curr_STATE == STATE.AIM:
 			curr_STATE = STATE.SHOOT
 			var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
-			gun_handler.use_normal_attack( combat_weapon.global_position, gun_muzzle.global_position, aim, self )
+			gun_handler.use_normal_attack( combat_weapon.global_position, aim, self )
 			if curr_STATE == STATE.SHOOT:
 				curr_STATE = STATE.AIM
 	
@@ -215,8 +215,8 @@ func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
 	if B2_Input.player_has_control:
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		var target_dir 		:= global_position.direction_to( 		-aim_origin.position + get_global_mouse_position() )
-		var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + get_global_mouse_position() )
+		var target_dir 		:= global_position.direction_to( 		-aim_origin.position + curr_aim )
+		var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + curr_aim )
 		var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 		
 		## Many Manual touch ups.
@@ -336,6 +336,9 @@ func combat_weapon_animation() -> void:
 
 # Roll action
 func start_rolling( roll_dir : Vector2 ) -> void:
+	if curr_STATE != STATE.NORMAL and curr_STATE != STATE.AIM: ## Stop rolling when not possible to roll.
+		return
+		
 	# Roooolliiing staaaaart! ...here vvv
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
@@ -347,7 +350,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 		
 	else:
 		# Use the mouse to decide the roll direction. (Inverted)
-		roll_dir 	= position.direction_to( get_global_mouse_position() ) * -1
+		roll_dir 	= position.direction_to( curr_input ) * -1
 		hoopz_normal_body.play( ROLL_BACK )
 		hoopz_normal_body.flip_h = roll_dir.x >= 0
 	

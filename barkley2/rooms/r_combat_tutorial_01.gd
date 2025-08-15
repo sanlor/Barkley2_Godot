@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 ## Music mus_vrw
@@ -53,3 +54,4 @@ func _finish_mission() -> void:
 	o_running_mantis_01.is_interactive 		= true
 	o_blocker_up.is_active = false
 	o_doorlight_up.enabled = true
+	B2_Screen.show_mission_complete_screen()

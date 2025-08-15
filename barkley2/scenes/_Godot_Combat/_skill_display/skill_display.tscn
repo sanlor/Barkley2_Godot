@@ -1,0 +1,146 @@
+[gd_scene load_steps=9 format=3 uid="uid://douftxhh1k2w2"]
+
+[ext_resource type="Script" uid="uid://dxeujg47dj563" path="res://barkley2/scenes/_Godot_Combat/_skill_display/skill_display.gd" id="1_utijy"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="2_otym0"]
+
+[sub_resource type="Animation" id="Animation_5uqkd"]
+resource_name = "show_skill_name"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skill_name_lbl:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.06666667, 0.1, 0.13333334, 0.16666667, 0.2, 0.23333333, 0.26666668, 0.3, 0.33333334, 0.36666667, 0.4, 0.43333334, 0.46666667, 0.5, 1.75, 1.7833333, 1.8166667, 1.85, 1.8833333, 1.9166666, 1.95, 1.9833333, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(384, 5), Vector2(335.15112, 5), Vector2(289.6711, 5), Vector2(247.56001, 5), Vector2(208.81776, 5), Vector2(173.44443, 5), Vector2(141.43999, 5), Vector2(112.80444, 5), Vector2(87.53775, 5), Vector2(65.639984, 5), Vector2(47.111145, 5), Vector2(31.95111, 5), Vector2(20.159973, 5), Vector2(11.737793, 5), Vector2(6.6844482, 5), Vector2(5, 5), Vector2(5, 5), Vector2(3.5066664, 5), Vector2(-0.9733343, 5), Vector2(-8.440001, 5), Vector2(-18.893337, 5), Vector2(-32.333336, 5), Vector2(-48.760002, 5), Vector2(-68.17333, 5), Vector2(-79, 5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("line_bg:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 1.89, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("backdrop:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.15, 1.85, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nwe7o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("skill_name_lbl:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5, 5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("line_bg:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("backdrop:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8fgfn"]
+_data = {
+&"RESET": SubResource("Animation_nwe7o"),
+&"show_skill_name": SubResource("Animation_5uqkd")
+}
+
+[sub_resource type="Gradient" id="Gradient_utijy"]
+colors = PackedColorArray(0, 0, 0, 0.75000006, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_otym0"]
+gradient = SubResource("Gradient_utijy")
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qqwhw"]
+font = ExtResource("2_otym0")
+
+[node name="skill_display" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_utijy")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8fgfn")
+}
+autoplay = "show_skill_name"
+
+[node name="backdrop" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(384, 80)
+layout_mode = 1
+anchors_preset = -1
+offset_right = 384.0
+offset_bottom = 80.0
+texture = SubResource("GradientTexture2D_otym0")
+
+[node name="skill_name_lbl" type="Label" parent="."]
+light_mask = 2
+visibility_layer = 2
+layout_mode = 1
+anchors_preset = -1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 64.00043
+offset_bottom = 28.0
+text = "Skill Name"
+label_settings = SubResource("LabelSettings_qqwhw")
+
+[node name="line_bg" type="Line2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+light_mask = 2
+visibility_layer = 2
+points = PackedVector2Array(4, 25, 380, 25)
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+
+[node name="line_fg" type="Line2D" parent="line_bg"]
+points = PackedVector2Array(5, 25, 379, 25)
+width = 1.0
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,5 +1,5 @@
 extends B2_EnemyCombatActor
-class_name B2_EnemyRat
+class_name B2_Enemy_EnemyRat
 
 ## Check o_enemygroup_rat. Some rat types can explode.
 # https://youtu.be/SQKRnzWSW0M?t=12323
@@ -94,6 +94,29 @@ func normal_animation(_delta : float):
 	# Update var
 	last_input = input
 
+## Special gibs for rats
+func spawn_gibs() -> void:
+	const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
+	## Make head bone.
+	var gib_head = O_GIBS.instantiate()
+	gib_head.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
+	gib_head.splatSound = splatSound
+	gib_head.bloodburst = bloodburst
+	add_sibling( gib_head, true )
+	gib_head.force_sprite( gib_sprite )
+	gib_head.force_frame( 1 )
+	
+	## Make body bones.
+	for i in randi_range(2,4):
+		var gib_bone = O_GIBS.instantiate()
+		gib_bone.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
+		gib_bone.gib_sprite = gib_sprite
+		gib_bone.splatSound = splatSound
+		gib_bone.bloodburst = bloodburst
+		add_sibling( gib_bone, true )
+		gib_bone.force_sprite( gib_sprite )
+		gib_bone.force_frame( 0 )
+
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.
 	if actor_ai:
@@ -121,7 +144,8 @@ func _on_body_entered( body : Node ) -> void:
 		## Do not explode if player is rolling.
 		if body.curr_STATE != B2_PlayerCombatActor.STATE.ROLL:
 			destroy_actor()
-			body.damage_actor( 1.0, position.direction_to(body.position) * 200.0 )
+			var damage := randf_range(1.0,10.0)
+			body.damage_actor( damage, position.direction_to(body.position) * 50.0 * damage )
 
 func _before_death() -> void:
 	actor_blood_spill.emitting = true

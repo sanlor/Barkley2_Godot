@@ -113,11 +113,13 @@ func setup_bullet_sprite( _spr : String, _col : Color ) -> void:
 func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
 
+## Modifiers applied by skills and such
 func apply_stat_mods( _att : float, _spd : float ) -> void:
 	att = _att
 	spd = _spd
 
 ## TODO add modifiers
+## Modifiers applied by skills and such
 func apply_attribute_mods( _bio_damage : float, _cyber_damage : float, _mental_damage : float, _cosmic_damage : float, _zauber_damage : float, ) -> void:
 	bio_damage = _bio_damage
 	cyber_damage = _cyber_damage
@@ -1386,7 +1388,7 @@ func _on_body_entered( body: Node2D ) -> void:
 				## Apply attack modifier
 				my_att *= att 
 				@warning_ignore("narrowing_conversion")
-				my_att = my_att / float(my_gun.bullets_per_shot )
+				my_att = my_att / float(my_gun.bullets_per_shot ) * 0.85 ## 15/08/25 added the 0.85 as a test. Shotgun bullets seem to be way weak.
 				@warning_ignore("narrowing_conversion")
 				my_att = clampi( my_att * final_multiplier , 1, 999 )
 				

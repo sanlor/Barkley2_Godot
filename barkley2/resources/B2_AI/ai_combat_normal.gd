@@ -58,7 +58,6 @@ func combat_action( player_character : B2_CombatActor, _enemy_list : Array[B2_En
 			get_parent().cinema_charge_telegraph( get_parent().global_position.direction_to( player_character.global_position ) )
 			has_target = true
 			_make_bulleye( player_character )
-	
 	return false
 
 func _make_bulleye( player_character : B2_CombatActor ) -> void:

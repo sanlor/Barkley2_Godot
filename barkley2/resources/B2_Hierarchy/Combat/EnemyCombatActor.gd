@@ -345,6 +345,18 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 	else: push_warning("Enemy data not loaded for %s." % name )
 	_after_damage()
 
+func spawn_gibs() -> void:
+	const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
+	for i in randi_range(2,8) + 2:
+		var gib = O_GIBS.instantiate()
+		gib.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
+		gib.gib_sprite = gib_sprite
+		gib.splatSound = splatSound
+		gib.bloodburst = bloodburst
+		add_sibling( gib, true )
+		for p in randf_range(0,10): ## add some random delays
+			await get_tree().process_frame
+
 func destroy_actor() -> void:
 	_before_death()
 	#ActorCol.disabled = true
@@ -366,17 +378,8 @@ func destroy_actor() -> void:
 	
 	## TEMP
 	if make_gibs:
-		const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
-		for i in randi_range(2,8) + 2:
-			var gib = O_GIBS.instantiate()
-			gib.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
-			gib.gib_sprite = gib_sprite
-			gib.splatSound = splatSound
-			gib.bloodburst = bloodburst
-			add_sibling( gib, true )
-			for p in randf_range(0,10): ## add some random delays
-				await get_tree().process_frame
-	
+		spawn_gibs()
+		
 	if death_animation:
 		ActorAnim.sprite_frames.set_animation_loop(death_animation, false)
 		ActorAnim.play(death_animation)

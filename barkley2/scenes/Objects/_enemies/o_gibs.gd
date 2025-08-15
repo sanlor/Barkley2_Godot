@@ -1,6 +1,8 @@
 extends Node2D
 ## Generic Gibs object for defeated enemies.
 
+const S_EFFECT_SLUDGE_DRIP = preload("uid://bnbunxj15a4q1")
+
 @onready var part_sprite		: AnimatedSprite2D 		= $part_sprite
 @onready var gib_life_timer		: Timer 				= $gib_life_timer
 @onready var gib_sfx			: AudioStreamPlayer2D 	= $gib_sfx
@@ -41,10 +43,31 @@ func _ready() -> void:
 	gib_life_timer.timeout.connect( cleanup )
 	
 	## set a random sprite
-	part_sprite.frame = randi_range( 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
+	if gib_sprite:
+		part_sprite.animation = gib_sprite
+		part_sprite.frame = randi_range( 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
 	
 	if splatSound: gib_sfx.stream = load( B2_Sound.get_sound( splatSound ) )
 
+## Some enemies have specific gibs
+func force_sprite( animation_name : String ) -> void:
+	part_sprite.animation = animation_name
+	
+## Some enemies have specific gibs
+func force_frame( frame_id : int ) -> void:
+	part_sprite.frame = frame_id
+
+func check_for_water() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 20 ) ## 20 is wading
+	return true
+	
+func check_for_abyss() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 19 ) ## 19 is abyss
+	return true
 	
 func _physics_process( delta: float ) -> void:
 	position 			+= velocity * delta
@@ -70,9 +93,19 @@ func _physics_process( delta: float ) -> void:
 			set_physics_process( false )
 			return
 		else:
-			#velocity			*= bounce
-			upward_velocity 	*= bounce
-			angular_velocity 	*= bounce
+			if not check_for_water():
+				# fell in water
+				var drip = S_EFFECT_SLUDGE_DRIP.instantiate()
+				add_sibling( drip, true )
+				drip.global_position = global_position
+				queue_free()
+			elif not check_for_abyss():
+				queue_free()
+			else:
+				## TODO If the casing feel in a void???
+				#velocity			*= bounce
+				upward_velocity 	*= bounce
+				angular_velocity 	*= bounce
 			
 	else:
 		z_index = 1

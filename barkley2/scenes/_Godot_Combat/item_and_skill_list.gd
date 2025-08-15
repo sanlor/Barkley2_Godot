@@ -94,7 +94,6 @@ func populate_item_list():
 				
 				var candy_data : Dictionary = B2_Candy.get_candy( item )
 				btn.tooltip_text = Text.pr( candy_data["utility"] + "\n\n" + '"' + candy_data["flavor"] + '"' )
-				
 				btn.mouse_entered.connect( btn.call_deferred.bind("grab_focus") )
 				btn.focus_entered.connect( description_text.set_text.bind( btn.tooltip_text ) )
 				btn.pressed.connect( get_parent().use_item.bind( slot ) ) ## use_item is on the combat module.
@@ -165,7 +164,7 @@ func hide_menu() -> void:
 		menu_tween = create_tween()
 		menu_tween.set_ignore_time_scale( true )
 		menu_tween.tween_property(top_panel, "position:y", 0, 0.25) # animation_player.play("hide")
-		B2_Sound.play("sn_mouse_analoghover01")
+		#B2_Sound.play("sn_mouse_analoghover01")
 		await menu_tween.finished # await animation_player.animation_finished
 		hide()
 		top_panel.hide()

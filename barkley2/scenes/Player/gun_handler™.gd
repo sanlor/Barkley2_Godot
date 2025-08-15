@@ -58,10 +58,13 @@ func _create_casing( casing_pos : Vector2) -> void:
 		B2_RoomXY.get_curr_room().add_child( casing, true )
 		
 ## Create a bullet object on the current room
-func _create_bullet( source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
+func _create_bullet( source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor, skill_mod : B2_WeaponSkill = null ) -> void:
 	var bullet = O_BULLET.instantiate()
 	bullet.my_gun = curr_gun
 	bullet.set_direction( dir )
+	if skill_mod:
+		bullet.apply_stat_mods( skill_mod.att, skill_mod.spd )
+		bullet.apply_attribute_mods( skill_mod.bio_damage, skill_mod.cyber_damage, skill_mod.mental_damage, skill_mod.cosmic_damage, skill_mod.zauber_damage )
 	bullet.setup_bullet_sprite( curr_gun.get_bullet_sprite(), curr_gun.get_bullet_color() )
 	bullet.source_actor = source_actor
 	B2_RoomXY.get_curr_room().add_child( bullet, true )
@@ -81,7 +84,7 @@ func pre_attack_action() -> void:
 func post_attack_action() -> void:
 	pass
 		
-func use_normal_attack( casing_pos : Vector2,source_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
+func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
 	if not curr_gun:
 		push_error("Gun resource not loaded correctly.")
 		return
@@ -93,6 +96,8 @@ func use_normal_attack( casing_pos : Vector2,source_pos : Vector2, dir : Vector2
 	## Start timers and necessary variables.
 	is_shooting = true
 	firing_rate.start( curr_gun.wait_per_shot )
+	
+	var source_pos : Vector2 = get_parent().get_muzzle_position()
 	
 	## Only shoot if you have ammo.
 	if curr_gun.has_ammo():
@@ -107,6 +112,8 @@ func use_normal_attack( casing_pos : Vector2,source_pos : Vector2, dir : Vector2
 		
 		## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
 		for i in curr_gun.bullets_per_shot:
+			source_pos = get_parent().get_muzzle_position() ## Update position.
+			
 			var my_spread_offset := curr_gun.bullet_spread * ( float(i) / float(curr_gun.bullets_per_shot) )
 			my_spread_offset -= curr_gun.bullet_spread / curr_gun.bullets_per_shot
 			

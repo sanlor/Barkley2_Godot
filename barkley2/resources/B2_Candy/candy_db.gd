@@ -2,6 +2,7 @@ extends Resource
 class_name B2_Candy
 
 ## Define candies in order of weakest to strongest Drop value
+## TODO Decide if this should be a JSON resource.
 
 enum {SUB,DROP,SMELT,MARQUEE,DESCRIPTION,FLAVOR}
 const CANDY_LIST := {
@@ -27,7 +28,7 @@ const CANDY_EFFECT := {
 	"Chickenfry Dew": 		[	[	"heal", 40], 	["mightBoost", 2, 60] 	 ],
 	#  Black Licorice
 	# TODO: ailment immunity
-	"Black Licorice": 		[	"heal", 100],
+	"Black Licorice": 		[	[	"heal", 100] ],
 	# Candy Corn
 	# TODO: element resistance
 	"Candy Corn": 			[	["heal", 100] ],
@@ -52,7 +53,6 @@ static func gain_candy( candy_name : String ) -> void:
 			##my_items.sort() ## is this necessary?
 			#B2_Config.set_user_save_data("player.items.has", my_items )
 			B2_Jerkin.add_pocket_content( candy_name ) ## FIXME
-	pass
 	
 ## DEPRECATED
 static func remove_candy( candy_name : String ) -> void:

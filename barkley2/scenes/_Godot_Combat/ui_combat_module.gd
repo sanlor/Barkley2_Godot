@@ -417,22 +417,24 @@ func tick_combat() -> void:
 	
 
 func _physics_process(_delta: float) -> void:
-	if slowdown_label.visible:
-		slowdown_label.text = Text.pr("Slowdown: %sx" % str(Engine.time_scale).pad_decimals(2) )
-	
-	## Disabled players actions if the combat manager tells me so.
-	if B2_CombatManager.lock_player_action:
-		attack_btn.disabled 	= true
-		skill_btn.disabled 		= true
-		move_btn.disabled 		= true
-		defend_btn.disabled 	= true
-		item_btn.disabled 		= true
-	
-	## Allow CBT Hoopz to change weapons.as
-	if B2_Input.can_switch_guns:
-		if Input.is_action_just_pressed("Weapon >"):
-			B2_Gun.next_band_gun()
-		if Input.is_action_just_pressed("Weapon <"):
-			B2_Gun.prev_band_gun()
-		if Input.is_action_just_pressed("Gun'sbag"):
-			B2_Gun.toggle_gunbag()
+	if B2_CombatManager.turn_based_combat_running:
+		if slowdown_label.visible:
+			slowdown_label.text = Text.pr("Slowdown: %sx" % str(Engine.time_scale).pad_decimals(2) )
+		
+		## Disabled players actions if the combat manager tells me so.
+		if B2_CombatManager.lock_player_action:
+			attack_btn.disabled 	= true
+			skill_btn.disabled 		= true
+			move_btn.disabled 		= true
+			defend_btn.disabled 	= true
+			item_btn.disabled 		= true
+		
+		
+		## Allow CBT Hoopz to change weapons.as
+		if B2_Input.can_switch_guns:
+			if Input.is_action_just_pressed("Weapon >"):
+				B2_Gun.next_band_gun()
+			if Input.is_action_just_pressed("Weapon <"):
+				B2_Gun.prev_band_gun()
+			if Input.is_action_just_pressed("Gun'sbag"):
+				B2_Gun.toggle_gunbag()

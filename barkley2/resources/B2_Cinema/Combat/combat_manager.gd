@@ -147,17 +147,14 @@ func finish_combat() -> void:
 	combat_ended.emit()
 
 func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
-	if enemy_list.has( enemy_node ):
-		enemy_list.erase( enemy_node )
-		print( "Enemy %s removed from enemy list." % enemy_node.name )
-	else:
-		## Trying to remove an enemy that wasnt on the enemy list
-		breakpoint
-	enemy_was_defeated.emit( enemy_node.enemy_data )
-	
-	# No more enemies, finish combat.
-	# if enemy_list.is_empty():
-		# finish_combat()
+	if turn_based_combat_running:
+		if enemy_list.has( enemy_node ):
+			enemy_list.erase( enemy_node )
+			print( "Enemy %s removed from enemy list." % enemy_node.name )
+		else:
+			## Trying to remove an enemy that wasnt on the enemy list
+			breakpoint
+		enemy_was_defeated.emit( enemy_node.enemy_data )
 	
 	## Cleanup the defeated enemy action ( avoid dead enemies performing actions ).
 	var stale_action : queue
@@ -168,12 +165,15 @@ func enemy_defeated( enemy_node : B2_EnemyCombatActor ) -> void:
 
 ## stop combat, play the defeat animation.
 func player_defeated() -> void:
-	turn_based_combat_running = false
+	if turn_based_combat_running:
+		turn_based_combat_running = false
+		pause_combat()
+		B2_CManager.o_hud.combat_module.reset()
+		B2_CManager.o_hud.hide_battle_ui()
+		
 	B2_Input.player_has_control = false
 	B2_Music.stop( 1.0 )
-	B2_CManager.o_hud.combat_module.reset()
-	B2_CManager.o_hud.hide_battle_ui()
-	pause_combat()
+	
 	if B2_CManager.camera:
 		B2_CManager.camera.camera_bound_to_map = false
 		var c := B2_CManager.camera
@@ -197,9 +197,9 @@ func player_defeated() -> void:
 	else:
 		### ???? camera not loaded.
 		breakpoint
+		
 	B2_Screen.show_defeat_screen()
 	B2_CManager.o_hud.hide_hud()
-	pause_combat()
 
 func tick_combat() -> void:
 	#print( "Curr gun is ", B2_Gun.get_current_gun().get_full_name() ) ## DEBUG
@@ -264,7 +264,7 @@ func _physics_process(_delta: float) -> void:
 	if turn_based_combat_running:
 		if can_manipulate_camera:
 			var avg_pos 					:= get_avg_pos()
-			B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos))
+			B2_CManager.camera.combat_focus( avg_pos, get_avg_dist(avg_pos) )
 			B2_CManager.camera.focus 		= avg_pos
 			B2_CManager.camera.cam_zoom 	= get_avg_dist(avg_pos)
 
@@ -287,12 +287,10 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_
 	pause_combat()
 	#B2_CManager.o_hud.get_combat_module().hide_player_controls()
 	var casing_pos := Vector2.ZERO
-	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
 	var gun_handler	: B2_GunHandler_TurnBased
 	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
-		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Bullets direction
 		gun_handler = source_actor.gun_handler
 		B2_Sound.play_pick( B2_Gun.get_current_gun().get_reload_sound() )
@@ -300,7 +298,6 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_
 	elif source_actor is B2_EnemyCombatActor:
 		# An enemy is shooting.
 		aim_direction = source_actor.global_position.direction_to( target )
-		muzzle_pos = source_actor.global_position
 		B2_Sound.play( source_actor.sound_alert )
 	else: breakpoint ## Unknown actor.
 		
@@ -308,7 +305,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_
 	if is_instance_valid( source_actor ):
 		lock_player_action = true
 		# gun_handler.select_gun( used_weapon ) ## NOTE This was breaking the gun selection stuff.
-		gun_handler.use_normal_attack( casing_pos, muzzle_pos, aim_direction, source_actor )
+		gun_handler.use_normal_attack( casing_pos, aim_direction, source_actor )
 		await gun_handler.attack_finished
 		if finish_action: finish_action.call() ## Avoid calling invalid functions.
 		lock_player_action = false
@@ -336,12 +333,10 @@ func use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B2
 func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B2_WeaponSkill, finish_action : Callable ) -> void:
 	pause_combat()
 	var casing_pos := Vector2.ZERO
-	var muzzle_pos := Vector2.ZERO
 	var aim_direction := Vector2.ZERO
 	var gun_handler	: B2_GunHandler_TurnBased
 	if source_actor is B2_Player_TurnBased:
 		casing_pos = source_actor.combat_weapon	.global_position				## where should a casing spawn
-		muzzle_pos = source_actor.gun_muzzle.global_position					## where the bullet should spawn
 		aim_direction = source_actor.global_position.direction_to( target )		## Skill direction
 		gun_handler = source_actor.gun_handler
 	else: breakpoint ## Unknown actor.
@@ -349,9 +344,10 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B
 	## avoid cases where the source_actor dies while geting ready to perform.
 	if is_instance_valid( source_actor ):
 		lock_player_action = true
-		#used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
-		gun_handler.use_gun_skill( casing_pos, muzzle_pos, aim_direction, used_skill, source_actor )
-		await used_skill.action_finished ## Wait for the skill to finish and shiet.
+		# used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
+		# await used_skill.action_finished ## Wait for the skill to finish and shiet.
+		gun_handler.use_gun_skill( casing_pos, aim_direction, used_skill, source_actor )
+		await gun_handler.attack_finished ## Wait for the skill to finish and shiet.
 		if finish_action: finish_action.call() ## Avoid calling invalid functions.
 		lock_player_action = false
 	else: breakpoint

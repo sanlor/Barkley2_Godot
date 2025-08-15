@@ -29,7 +29,7 @@ func step() -> void:
 	## Check if has a valid target
 	if B2_CManager.o_hoopz:
 		if actor:
-			if chase_timer.time_left:
+			if chase_timer.time_left and not B2_CManager.o_hoopz.is_actor_dead:
 				var ActorNav := actor.ActorNav
 				var target := B2_CManager.o_hoopz
 				

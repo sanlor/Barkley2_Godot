@@ -12,7 +12,7 @@ var enemy_count := 0
 
 func _ready() -> void:
 	@warning_ignore("narrowing_conversion")
-	mission_timer_label.text = convert_seconds( mission_timer.time_left )
+	mission_timer_label.text = convert_seconds( mission_timer.wait_time )
 	screen.modulate = Color.TRANSPARENT
 	o_enemy_rat_nest.enable_full_auto( false )
 	o_enemy_rat_nest_2.enable_full_auto( false )
@@ -56,8 +56,9 @@ func _on_child_exiting_tree(node: Node) -> void:
 		count_enemies()
 
 func _physics_process(_delta: float) -> void:
-	@warning_ignore("narrowing_conversion")
-	mission_timer_label.text = convert_seconds( mission_timer.time_left )
+	if not mission_ticker.is_stopped(): 
+		@warning_ignore("narrowing_conversion")
+		mission_timer_label.text = convert_seconds( mission_timer.time_left )
 
 func _on_mission_timer_timeout() -> void:
 	o_enemy_rat_nest.enabled = false
@@ -75,5 +76,3 @@ func _on_mission_ticker_timeout() -> void:
 		t.tween_callback( mission_over.emit )
 		t.tween_property( self, "modulate", Color.TRANSPARENT, 1.0 )
 		t.tween_callback( queue_free )
-		
-		B2_Screen.show_mission_complete_screen()

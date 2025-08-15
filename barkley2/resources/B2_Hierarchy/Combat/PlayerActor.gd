@@ -261,6 +261,10 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	combat_arm_back.frame 	= combat_arm_back_frame
 	combat_arm_front.frame 	= combat_arm_front_frame
 			
+## Used to know where should a bullet spawn
+func get_muzzle_position() -> Vector2:
+	return gun_muzzle.global_position
+			
 func normal_animation(delta : float):
 	var input := curr_input
 	
@@ -385,14 +389,14 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		## Hoopz was defending
 		B2_Sound.play_pick("crab_hit_metal")
 		@warning_ignore("narrowing_conversion")
-		damage *= 0.5
+		damage *= 0.5 ## TODO add actually some calculations to specifi the shields damage reduction.
 	
 	@warning_ignore("narrowing_conversion")
 	B2_Playerdata.player_stats.decrease_hp( damage )
 	B2_Screen.display_damage_number( self, damage )
 	apply_central_impulse( force )
 	
-	## Check if ded :(
+	## ## Hoopz was hit, Check if ded :(
 	if B2_Playerdata.player_stats.curr_health == 0:
 		print_rich("[color=red]H O O P Z I S D E A D .[/color]")
 		linear_velocity = Vector2.ZERO
@@ -400,15 +404,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		defeat_anim()
 		
 		B2_CombatManager.player_defeated()
-		
-		if false: # 10/08/25 disabled the code bellow.
-			if is_instance_valid( B2_CManager.combat_manager ):
-				B2_CManager.combat_manager.player_defeated()
-			else:
-				## CM should be loaded.
-				# 02/08/25 Not always.
-				#breakpoint
-				push_warning("Combat Manager not loaded.")
+		is_actor_dead = true
 			
 		## Add a bunch of blood. Go crazy with it.
 		for i in randi_range(10,60):
@@ -416,6 +412,8 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 			B2_Screen.make_blood_drop( global_position + Vector2(0,-8) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randf_range(0.5,5.0) )
 			for d in randi_range(0,2):
 				await get_tree().physics_frame
+	
+	## Hoopz was hit, but is still alive
 	else:
 		if B2_Gun.get_current_gun().is_shooting: ## Stop shooting if hit.
 			B2_Gun.get_current_gun().abort_shooting = true

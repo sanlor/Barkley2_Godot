@@ -1,3 +1,4 @@
+@icon("res://barkley2/assets/b2_original/images/merged/s_casing.png")
 extends Node2D
 ## Bullet casings.
 ## NOTE Not all guns have bullet casings.
@@ -40,10 +41,16 @@ func cleanup() -> void:
 	t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 8.0, 16.0 ) )
 	t.tween_callback( queue_free )
 
-func can_bounce() -> bool:
+func check_for_water() -> bool:
 	if get_parent() is B2_ROOMS:
 		var room : B2_ROOMS = get_parent()
 		return not room.check_tilemap_collision( global_position, 20 ) ## 20 is wading
+	return true
+	
+func check_for_abyss() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 19 ) ## 19 is abyss
 	return true
 
 func _physics_process(delta: float) -> void:
@@ -65,18 +72,20 @@ func _physics_process(delta: float) -> void:
 			set_physics_process( false )
 			return
 		else:
-			if can_bounce():
-				velocity			*= bounce
-				upward_velocity 	*= bounce
-				angular_velocity 	*= bounce
-			else:
-				## TODO If the casing feel in a void???
-				
+			if not check_for_water():
 				# fell in water
 				var drip = S_EFFECT_SLUDGE_DRIP.instantiate()
 				add_sibling( drip, true )
 				drip.global_position = global_position
 				queue_free()
+			elif not check_for_abyss():
+				queue_free()
+			else:
+				## TODO If the casing feel in a void???
+				velocity			*= bounce
+				upward_velocity 	*= bounce
+				angular_velocity 	*= bounce
+				
 			
 	else:
 		z_index = 1

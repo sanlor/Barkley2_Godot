@@ -141,6 +141,10 @@ func _setup_actor():
 	if not is_instance_valid( ActorCol ):
 		push_error( "ActorCol is invalid for node %s." % name )
 		
+	## Set collision layers and masks.
+	collision_layer 	= 5
+	collision_mask 		= 1 + 2 + 3 + 5 + 19 + 20 + 21
+		
 	if cast_shadow:
 		my_shadow = O_SHADOW.instantiate()
 		add_child( my_shadow, true)

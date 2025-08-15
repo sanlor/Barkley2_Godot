@@ -1,0 +1,2 @@
+extends B2_EnemyCombatActor
+class_name B2_Enemy_EggDrone

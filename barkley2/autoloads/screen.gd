@@ -3,7 +3,8 @@ extends CanvasLayer
 # This autoload replaces o_curs, o_screen and o_pointer objects
 # i think...
 
-# THis autoload handles the mouse cursor, along with its trail.
+# This autoload handles the mouse cursor, along with its trail.
+# WARNING This is becoming a huge mess. Stuff like SKILL_DISPLAY and MISSION_COMPLETE are instantiated on the room scene instead of here.
 
 signal shop_closed
 signal note_selected( note_string : String )
@@ -27,6 +28,7 @@ const SMOKE_MASS 			= preload("res://barkley2/resources/Smoke/smoke_mass.tres")
 # battle related
 const DAMAGE_NUMBER 				:= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
 const MISSION_COMPLETE 				:= preload("uid://chpd2adtksefl")
+const SKILL_DISPLAY 				:= preload("uid://douftxhh1k2w2")
 
 # Item efffect
 const O_ENTITY_INDICATOR_TEXT 		= preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
@@ -159,9 +161,14 @@ func display_item_effect( header : String, text : String ) -> void:
 	
 	it.global_position = origin_node.global_position
 
+func show_skill_name( skill_name : String ) -> void:
+	var skill := SKILL_DISPLAY.instantiate()
+	add_child( skill, true )
+	skill.set_skill_name( skill_name )
+
 func show_mission_complete_screen() -> void:
 	var mission := MISSION_COMPLETE.instantiate()
-	get_tree().current_scene.add_child( mission, true )
+	add_child( mission, true )
 	B2_Input.player_has_control = false
 	await mission.animation_finished
 	B2_Input.player_has_control = true

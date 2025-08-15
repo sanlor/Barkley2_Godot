@@ -1198,10 +1198,16 @@ static func get_gunbag() -> Array[B2_Weapon]:
 	return B2_Playerdata.gun_bag
 	
 static func toggle_gunbag() -> void:
-	if get_gunbag().size() > 0:
-		B2_Playerdata.gunbag_open = not B2_Playerdata.gunbag_open
-		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
-		B2_SignalBus.gun_changed.emit()
+	if B2_Playerdata.gunbag_open:
+		if has_gun_in_bandolier():
+			B2_Playerdata.gunbag_open = false
+		else: print_rich("[color=yellow]B2_Gun: No bandolier gun avaiable. Can't switch to bandolier.[/color]")
+	else:
+		if has_gun_in_gunbag():
+			B2_Playerdata.gunbag_open = true
+		else: print_rich("[color=yellow]B2_Gun: No gunbag gun avaiable. Can't switch to gunbag.[/color]")
+	B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
+	B2_SignalBus.gun_changed.emit()
 	
 static func next_band_gun() -> void:
 	B2_Playerdata.selected_gun += 1

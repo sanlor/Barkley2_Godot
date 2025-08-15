@@ -93,6 +93,8 @@ var selected_gun := 0 :
 		if selected_gun != previous_gun:
 			previous_gun = selected_gun
 			B2_SignalBus.gun_changed.emit()
+		
+		#print_stack()
 			
 var bandolier 	: Array[B2_Weapon] ## Main weapons
 var gun_bag 	: Array[B2_Weapon] ## Trash weapons

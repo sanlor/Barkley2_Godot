@@ -5,6 +5,45 @@
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_jo10s"]
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="4_jkpkq"]
 
+[sub_resource type="Animation" id="Animation_ql4dg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mission_label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(142, 90)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("complete_label:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(142, 108.5)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_ch8mp"]
 resource_name = "show"
 length = 4.0
@@ -45,45 +84,6 @@ tracks/2/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_ql4dg"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("mission_label:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(142, 90)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("complete_label:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(142, 108.5)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AudioStreamPlayer:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oscw2"]
 _data = {
 &"RESET": SubResource("Animation_ql4dg"),
@@ -97,12 +97,13 @@ font = ExtResource("3_jo10s")
 font = ExtResource("4_jkpkq")
 font_color = Color(1, 1, 0, 1)
 
-[node name="mission_complete" type="CanvasLayer"]
-layer = 100
+[node name="mission_complete" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_65il3")
 
 [node name="Control" type="Control" parent="."]
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -121,15 +122,16 @@ bus = &"Music"
 
 [node name="mission_label" type="Label" parent="."]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -292.0
-offset_top = -30.0
-offset_right = -191.99992
-offset_bottom = -7.0
+offset_left = 142.0
+offset_top = 90.0
+offset_right = 242.00008
+offset_bottom = 113.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "MISSION"
@@ -139,15 +141,16 @@ vertical_alignment = 1
 
 [node name="complete_label" type="Label" parent="."]
 custom_minimum_size = Vector2(100, 0)
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 192.0
-offset_top = -11.5
-offset_right = 292.00034
-offset_bottom = 11.5
+offset_left = 142.0
+offset_top = 108.5
+offset_right = 242.00034
+offset_bottom = 131.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "COMPLETE"

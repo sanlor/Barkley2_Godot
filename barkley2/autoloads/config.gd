@@ -36,7 +36,7 @@ const WEAPON_ACTION_MULTIPLIER 		:= 0.20		## Player's weapon speed multiplier (a
 const OVERHEAT_WEAPON_PENALTY 		:= 0.25		## Penalty applied to an oveheating weapon. Lower is slower (Duh)
 const ENEMY_ACTION_MULTIPLIER 		:= 0.05		## Enemy speed multiplier (action recovery)
 
-const PLAYER_BULLET_DAMAGE_MULTIPLIER	:= 5.0 ## Final multiplier for the player's bullets
+const PLAYER_BULLET_DAMAGE_MULTIPLIER	:= 7.0 ## Final multiplier for the player's bullets
 const PLAYER_MELEE_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the player's melee damage
 const ENEMY_BULLET_DAMAGE_MULTIPLIER	:= 1.0 ## Final multiplier for the enemies's bullets
 const ENEMY_MELEE_DAMAGE_MULTIPLIER		:= 1.0 ## Final multiplier for the enemies's melee damage
