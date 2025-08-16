@@ -24,10 +24,10 @@ func _ready() -> void:
 	door_sensor.body_exited.connect( detect_player_exit )
 
 func detect_player_exit( body ):
-	if body is B2_Player:# or body is B2_InteractiveActor:
+	if body is B2_PlayerCombatActor:# or body is B2_InteractiveActor:
 		if locked:
 			if not is_open:
-				if body is B2_Player: # Avoid actors triggering these messages 
+				if body is B2_PlayerCombatActor: # Avoid actors triggering these messages 
 					hide_locked_message()
 			return
 		else:
@@ -35,13 +35,13 @@ func detect_player_exit( body ):
 				door_close()
 
 func detect_player_enter( body ):
-	if body is B2_Player:# or body is B2_InteractiveActor:
+	if body is B2_PlayerCombatActor:# or body is B2_InteractiveActor:
 		if locked:
 			if not draw_locked:
 				return
 				
 			if not is_open:
-				if body is B2_Player: # Avoid actors triggering these messages
+				if body is B2_PlayerCombatActor: # Avoid actors triggering these messages
 					## NOTE Why 2 check for the same actor?
 					show_locked_message()
 			return

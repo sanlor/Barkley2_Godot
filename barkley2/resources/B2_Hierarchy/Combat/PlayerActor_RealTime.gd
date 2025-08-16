@@ -371,7 +371,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 	return
 
 func stop_rolling() -> void:
-	if linear_velocity.length() < 8.0:
+	if linear_velocity.length() < 16.0:
 		## DEBUG - TODO Improve this.
 		if hoopz_normal_body.animation == ROLL or hoopz_normal_body.animation == ROLL_BACK:
 			if hoopz_normal_body.frame < 9: ## Wait for the animation to finish - TODO Signals?

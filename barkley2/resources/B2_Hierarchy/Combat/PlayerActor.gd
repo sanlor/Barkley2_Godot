@@ -403,6 +403,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		
 		defeat_anim()
 		
+		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT ) ## Change cursor to its default (in case you die while shooting)
 		B2_CombatManager.player_defeated()
 		is_actor_dead = true
 			
@@ -453,6 +454,22 @@ func start_aiming() -> void:
 	
 func stop_aiming() -> void:
 	pass
+
+## Used to throw gunbag guns, when in a pinch.
+func throw_gun() -> void:
+	if curr_STATE == STATE.AIM:
+		if B2_Playerdata.gunbag_open:
+			const O_THROWN_OBJECT = preload("uid://ubxvkr2io2ix")
+			var obj := O_THROWN_OBJECT.instantiate()
+			add_sibling( obj, true )
+			obj.global_position = global_position + Vector2(0,-8)
+			obj.setup( global_position.direction_to(curr_aim), B2_Gun.get_current_gun().get_weapon_hud_sprite() )
+			obj.damage_amount = maxf( float( B2_Gun.get_current_gun().curr_ammo ) / float( B2_Gun.get_current_gun().max_ammo ), 0.25 )
+			B2_Gun.remove_gun_from_gunbag( B2_Gun.get_current_gun() )
+			_update_held_gun()
+			B2_Sound.play("catfishshield_netthrow")
+		else: print("Throwing a Bando gun not supported.")
+	
 
 func _on_hit_timer_timeout() -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:

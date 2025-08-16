@@ -26,7 +26,7 @@ func _ready() -> void:
 		var mission_0 = preload("res://barkley2/resources/vr_missions/mission_0.tscn").instantiate()
 		add_child( mission_0, true )
 		_start_mission()
-		mission_0.mission_over.connect( _finish_mission )
+		mission_0.mission_over.connect( _finish_mission.bind(0) )
 		mission_0.play("encounter_01")
 		
 	elif B2_Playerdata.Quest("vr_mission_1" ) == 1:
@@ -35,7 +35,7 @@ func _ready() -> void:
 		var mission_1 = preload("res://barkley2/resources/vr_missions/mission_1.tscn").instantiate()
 		add_child( mission_1, true )
 		_start_mission()
-		mission_1.mission_over.connect( _finish_mission )
+		mission_1.mission_over.connect( _finish_mission.bind(1) )
 	
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
@@ -49,9 +49,10 @@ func _start_mission() -> void:
 	o_blocker_up.is_active = true
 	o_doorlight_up.enabled = false
 
-func _finish_mission() -> void:
+func _finish_mission( mission_id : int ) -> void:
 	o_field_medic.is_interactive 			= true
 	o_running_mantis_01.is_interactive 		= true
 	o_blocker_up.is_active = false
 	o_doorlight_up.enabled = true
+	B2_Playerdata.Quest("vr_mission_%s_complete" % str(mission_id), 1)
 	B2_Screen.show_mission_complete_screen()

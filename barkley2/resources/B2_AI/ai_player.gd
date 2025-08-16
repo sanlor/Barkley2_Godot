@@ -24,6 +24,8 @@ func _input_process() -> void:
 		if Input.is_action_just_pressed("Item Use"):	jump_trigger.emit( true )
 		
 		if B2_Input.can_switch_guns:
+			if Input.is_action_just_pressed("throw_gun"):
+				actor.throw_gun()
 			if Input.is_action_just_pressed("Weapon >"):
 				B2_Gun.next_band_gun()
 			if Input.is_action_just_pressed("Weapon <"):

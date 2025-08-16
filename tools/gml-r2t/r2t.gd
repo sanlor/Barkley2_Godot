@@ -8,7 +8,7 @@ extends Control
 @onready var menu_order : 			VBoxContainer 		= $MarginContainer/VBoxContainer
 @onready var tilemap_container: 	ScrollContainer 	= $MarginContainer/VBoxContainer/tilemap
 
-var room_folder_path 	:= "Y:/tmp/barkley_2/Barkley2.gmx/rooms/"
+var room_folder_path 	:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/rooms/" # "Y:/tmp/barkley_2/Barkley2.gmx/rooms/"
 
 var selected_room 	:= ""
 

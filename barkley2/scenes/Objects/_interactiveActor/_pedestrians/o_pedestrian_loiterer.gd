@@ -21,8 +21,13 @@ func _ready() -> void:
 	if B2_Playerdata.Quest("gutterEscape") == 1:
 		queue_free()
 	## Disable during TNN CURFEW ##
-	# Curfew not implemented
-	# if (scr_time_db("tnnCurfew") == "during" && scr_area_get() == "tnn") { instance_destroy(); exit; }
+	# Curfew not implemented TODO
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		if B2_Database.time_check("tnnCurfew") == "during" && room.get_room_area() == "tnn": queue_free()
+	else:
+		push_error("Issue loading Ped.")
+		breakpoint
 	
 	## Disable randomly ##
 	if randi_range(0,99) <= 40:
@@ -130,7 +135,7 @@ func change_costume():
 
 func _on_gossip_detection_body_entered(body: Node2D) -> void:
 	if gossip_timer.is_stopped():
-		if body is B2_Player and ped_can_gossip:
+		if body is B2_PlayerCombatActor and ped_can_gossip:
 			gossip_timer.start( ped_timer / 10.0 ) ## DEBUG
 			var gos = O_ENTITY_INDICATOR_GOSSIP.instantiate()
 			gos.position.y -= 64.0

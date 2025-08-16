@@ -428,9 +428,9 @@ const suffix : Dictionary = {
 		"of Flicker": ["down", "bio", "reactive", "Bullets have a very short lifespan.", null], 
 		"of the Circus": ["down", "cosmic", "aggressive", "Rolling increases Periodic Meter.", null], 
 		"of the Dying Youth": ["down", "cosmic", "passive", "Bonus damage based on missing hitpoints.", null], 
-		"of the Bad Aim": ["down", "cosmic", "reactive", "Braster\'s aim is terrible.", null], 
+		"of the Bad Aim": ["down", "cosmic", "reactive", "Braster's aim is terrible.", null], 
 		"of the Clock": ["down", "cyber", "aggressive", "Bonus damage based on passage of time.", null], 
-		"of the Today\'s Youth": ["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null], 
+		"of the Today's Youth": ["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null], 
 		"of the Paintball": ["down", "cyber", "reactive", "Adds a splash of paint to shots.", null], 
 		"of Muramasa": ["down", "mental", "aggressive", "Target is pulled towards the braster.", null], 
 		"of Masamune": ["down", "mental", "passive", "Zero damage, increased knockback strength.", null], 
@@ -438,10 +438,10 @@ const suffix : Dictionary = {
 		"cursed by a Wicca Hex": ["down", "zauber", "aggressive", "Periodic Meter is broken.", null], 
 		"of the Lich": ["down", "zauber", "passive", "Bonus damage based on total deaths.", null], 
 		"of the Elements": ["down", "zauber", "reactive", "Bullets are imbued with elemental powers.", null], 
-		"of Leper\'s Digest": ["strange", "bio", "aggressive", "While you have ammo, you lose health.", null], 
+		"of Leper's Digest": ["strange", "bio", "aggressive", "While you have ammo, you lose health.", null], 
 		"of Chaining": ["strange", "bio", "passive", "Bullets chain to nearest enemy.", null], 
 		"of the Bazinga": ["strange", "bio", "reactive", "Bullets heal target.", null], 
-		"of Jeeper\'s Digest": ["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null], 
+		"of Jeeper's Digest": ["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null], 
 		"of Dotlining": ["strange", "cosmic", "passive", "Bullets move in a dotline.", null], 
 		"of Sacrifice": ["strange", "cosmic", "reactive", "Shoot out your own lifeforce.", null], 
 		"with Nanomachines": ["strange", "cyber", "aggressive", "Regain up to 20% of ammo.", null], 
@@ -449,8 +449,8 @@ const suffix : Dictionary = {
 		"of Lets Play": ["strange", "cyber", "reactive", "Remember to like and subscribe.", null], 
 		"with a Battery Charger": ["strange", "mental", "aggressive", "Damage based on remaining ammo.", null], 
 		"of Magicing": ["strange", "mental", "passive", "Bullets spawn from around the braster.", null], 
-		"of the Pacifist": ["strange", "mental", "reactive", "Bullets don\'t deal damage.", null], 
-		"of Reaper\'s Digest": ["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null], 
+		"of the Pacifist": ["strange", "mental", "reactive", "Bullets don't deal damage.", null], 
+		"of Reaper's Digest": ["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null], 
 		"of Surfing": ["strange", "zauber", "passive", "Bullets move in a wave pattern.", null], 
 		"of Triskelion": ["strange", "zauber", "reactive", "Deals 9999 damage while in Triskelion.", null], 
 		"of the Entlord": ["up", "bio", "aggressive", "Bonus BIO damage.", null], 
@@ -665,6 +665,7 @@ const geneMaximumVariance 		:= 30;	## Range = 1-100
 
 const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
+# Penchant is a funny word. No idea what it means.
 
 static func reset() -> void:
 	reset_bandolier()
@@ -973,9 +974,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			## summtin REEEALY isnt right.
 			breakpoint
 	
-	## Increase max ammo as a test.
+	## Increase max ammo as a test. FIXME
 	wpn.max_ammo *= 3
-	wpn.curr_action = wpn.max_ammo
+	wpn.curr_ammo = wpn.max_ammo
 	
 	return wpn
 	
@@ -1172,9 +1173,14 @@ static func remove_gun( wpn : B2_Weapon ) -> void:
 
 static func remove_gun_from_bandolier( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.bandolier.erase( wpn )
+	B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 	
 static func remove_gun_from_gunbag( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.gun_bag.erase( wpn )
+	print( B2_Playerdata.gun_bag )
+	if has_gun_in_gunbag(): # Gun removed. there are any guns in the gunbag?
+		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
+	elif B2_Playerdata.gunbag_open: toggle_gunbag()
 
 static func clear_guns() -> void:
 	B2_Playerdata.bandolier.clear()

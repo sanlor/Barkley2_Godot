@@ -1,5 +1,5 @@
 @icon("res://barkley2/assets/b2_original/images/merged/sHoopzFace.png")
-extends  B2_PlayerCombatActor
+extends B2_PlayerCombatActor
 class_name B2_Player_TurnBased ## TODO merge this with the other Hoopz combat actor (B2_Player)
 
 ## Class used by the player actor, during combat. Original system, so it probably wont work well.

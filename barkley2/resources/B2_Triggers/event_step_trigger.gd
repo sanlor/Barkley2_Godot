@@ -9,7 +9,7 @@ func _enter_tree() -> void:
 	body_entered.connect( _pre_event_trigger )
 
 func _pre_event_trigger(_body : Node2D) -> void:
-	if _body is B2_Player:
+	if _body is B2_PlayerCombatActor:
 		event_trigger( _body )
 
 func event_trigger( _node ):

@@ -31,11 +31,11 @@ func _ready() -> void:
 	audio_stream_player_2d.volume_db = linear_to_db( B2_Config.sfx_gain_master )
 
 func _on_body_entered(body: Node2D) -> void:
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		player_is_on_ladder = true
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is B2_Player:
+	if body is B2_PlayerCombatActordddddddd:
 		player_is_on_ladder = false
 
 func _physics_process(_delta: float) -> void:

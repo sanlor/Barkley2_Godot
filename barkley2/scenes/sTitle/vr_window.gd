@@ -69,8 +69,8 @@ func _on_begin_btn_button_pressed() -> void:
 	print("Loading Mission %s data." % str(selected_mission + 1) )
 	match selected_mission:
 		0: ## Mission 01
-			B2_CManager.BodySwap("hoopz") 				## hoopz - diaper
-			B2_Playerdata.Quest( "infiniteAmmo", 		1 )
+			B2_CManager.BodySwap("hoopz") 				## Hoopz - Normal
+			B2_Playerdata.Quest( "infiniteAmmo", 		1 ) ## infinite ammo. Mo' fun this way.
 			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
 			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
 			B2_Playerdata.Quest( "vr_mission_0", 		1 )
@@ -99,8 +99,8 @@ func _on_begin_btn_button_pressed() -> void:
 			
 		1:
 			## Etc...
-			B2_CManager.BodySwap("hoopz") 				## hoopz - diaper
-			B2_Playerdata.Quest( "infiniteAmmo", 		1 )
+			B2_CManager.BodySwap("hoopz") 				## Hoopz - Normal
+			B2_Playerdata.Quest( "infiniteAmmo", 		0 ) ## No infinite ammo.
 			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
 			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
 			B2_Playerdata.Quest( "vr_mission_1", 		1 )
