@@ -23,7 +23,7 @@ const GAME_OVER 			= preload("res://barkley2/scenes/_Godot_Combat/_gameover/game
 
 # Smoke Emitter
 const O_SMOKE 				= preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
-const SMOKE_MASS 			= preload("res://barkley2/resources/Smoke/smoke_mass.tres")
+const SMOKE_MASS 			= preload("uid://621y6e2ytfw1")
 
 # battle related
 const DAMAGE_NUMBER 				:= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")

@@ -1,0 +1,194 @@
+[gd_scene load_steps=10 format=3 uid="uid://fbhp07nlerih"]
+
+[ext_resource type="Script" uid="uid://cti3kqte5w4wl" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_lugner/o_batteredDwarf01.gd" id="1_vw6md"]
+[ext_resource type="Texture2D" uid="uid://n13jkjvcpasn" path="res://barkley2/assets/b2_original/images/merged/s_batteredDwarf01.png" id="2_27tcd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_pgn32"]
+
+[sub_resource type="Resource" id="Resource_7l4cs"]
+script = ExtResource("2_pgn32")
+original_script = "IF batteredDwarfState == 0 | GOTO | DWARF_0
+DIALOG | Battered Dwarf | ...
+
+DWARF_0
+QUEST | batteredDwarfState = 1
+ClockTime | event | clockBatteredDwarfHospital | 1 | 5
+IF curfew == during | GOTO | DWARF_CURFEW
+GOTO  | DWARF_LUGNER
+
+DWARF_CURFEW
+DIALOG | P_NAME | Are you okay?
+WAIT   | 0.75
+DIALOG | Battered Dwarf | ._._.  I just._._._ rest a little._._._
+
+DWARF_LUGNER
+WAIT   | 0.75
+MOVETO | o_cts_hoopz | o_cinema7 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_batteredDwarf01
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_batteredDwarf01
+KNEELAT | o_batteredDwarf01
+IF body == hoopz | DIALOG | P_NAME | Are you okay?
+WAIT   | 0.75
+DIALOG | Battered Dwarf | ._._.  Those Duergars ... they normally don't kick ... only punch.
+DIALOG | Battered Dwarf | I ._._.
+DIALOG | Battered Dwarf | ._._.
+Create | o_lugner01 | 1146 | 904
+IF body == hoopz | DIALOG | P_NAME | He's passed out. How could anybody do something so horrible?
+IF body == hoopz | DIALOG | Lugner | We're not all like that, you know.
+WAIT   | 0.25
+LOOKAT | o_cts_hoopz | o_lugner01
+WAIT   | 0.25
+Emote  | ?
+WAIT   | 0.55
+MOVETO | o_lugner01 | o_cinema9 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_lugner01
+LOOKAT | o_lugner01 | o_cts_hoopz
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_lugner01
+IF body == hoopz | GOTO | DWARF_HOOPZ
+GOTO   | DWARF_GOVERNOR
+
+DWARF_HOOPZ
+DIALOG | P_NAME | What?
+DIALOG | Lugner | Like that guy. We're not all like that. Not all duergars find that fun. Making dwarfs hurt, picking on them._ Most of us do, sure, but not all of us.
+DIALOG | P_NAME = s_port_hoopzAngry | All of the duergars I've met have been pretty mean.
+DIALOG | Lugner | You can't really tell much about someone just by looking at them. It's less about what they look like, more what they have inside that counts. 
+WAIT | .20
+DIALOG | Lugner | I didn't choose this face, just like I wasn't the one to kick this poor Dwarf in the ribs.
+CHOICE | Listen to Lugner?
+REPLY  | SORRY     | I'm sorry.
+REPLY  | LEAVE     | Leave me alone.
+
+DWARF_GOVERNOR
+DIALOG | Lugner | Leave him to me Mr. Governor.
+MOVETO | o_lugner01 | o_cinema6 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_lugner01 | SOUTHWEST
+
+SORRY
+DIALOG | P_NAME | Oh... I-I'm sorry if I hurt your feelings. I didn't mean it.
+DIALOG | Lugner | No, it's ok, I should be able to take anything by now. Imagine you were me for a minute, seeing the Dwarfs living like this, being expected to do terrible things day after day. Just the way people look at me. Repulsion, resentment, like I did all this to them. Hard to even look at yourself in the mirror on days like that. You start wondering `w1`if you REALLY ARE a monster.`w0`
+DIALOG | P_NAME | That sounds really hard on you.
+DIALOG | Lugner | It's ok. Not your fault that I'm stuck doing this. All you can ever do is try making the best of things...
+DIALOG | Lugner | Actually._._._ `w1`Can you keep a `kw`secret?`rt``w0`
+DIALOG | P_NAME | A secret? What kind of secret?
+DIALOG | Lugner | I have a way of making the best of this job. Kind of my own little way of doing something important. But_, `sq`you have to promise me you won't tell anybody.`rt` I could get in real trouble if anybody found out.
+CHOICE | Promise Lugner?
+REPLY  | PROMISE      | I promise. I want to help the dwarfs too.
+REPLY  | DONT_PROMISE | I don't know...
+
+PROMISE
+DIALOG | P_NAME | I promise! I want to help the Dwarfs any way I can.
+DIALOG | Lugner | There's a cargo ship here that periodically brings various supplies from other galaxies. What I've been doing is filling up one of the empty storage containers with Dwarfs and enough food for space travel whenever the cargo ship is heading back to the Sombrero Galaxy. You see, a friend of mine runs the local church around here, Father Giuseppe, and he's been hiding Dwarfs that have been having a particularly tough time with the other Duergars.
+DIALOG | P_NAME = s_port_hoopzHappy | Wow! That's great.
+DIALOG | Lugner | It's great seeing the look on their face when you tell them that they're finally going home. But, just look around... there's so many more coming in every day, so many still left, and I can't take too many of them at a time.
+DIALOG | P_NAME | Don't talk like that. What you're doing is wonderful. You should be proud of what you've done.
+DIALOG | Lugner | Thanks. I guess some days I feel like I'm their only hope. That's why I need to keep this a secret.
+DIALOG | P_NAME | Don't worry, I won't tell anybody.
+DIALOG | Lugner | Say, do you want to help me? The cargo ship is leaving today, but with all the eyes around town seeing that the new Governor is showing up, I can't get over to Giuseppe to give the word to send over the Dwarfs._ `sq`Maybe you could talk to Father Giuseppe for me, have him just send the dwarfs over...?`rt`
+DIALOG | P_NAME | Wouldn't this be dangerous?
+DIALOG | Lugner | This place already is dangerous. Can you help me?
+CHOICE | Help Lugner?
+REPLY  | HELP | Yeah. (Aye.)
+REPLY  | DONT_HELP | Nah. (Nay.)
+
+DONT_PROMISE
+DIALOG | P_NAME | I don't know. I don't think I should get involved in anything.
+DIALOG | Lugner | Heh. At least you're honest. So long, kid. Don't get eaten by Kobolds. Disgusting creatures.
+QUEST  | lugnerQuest = 1
+MOVETO | o_lugner01 | o_cinema6 | MOVE_NORMAL
+WAIT   | LOOK   | o_lugner01 | SOUTHWEST
+EXIT |
+
+LEAVE
+DIALOG | P_NAME | Can you just leave me alone? I know you're trying to be nice and all, but I don't feel much like talking after what just happened.
+DIALOG | Lugner | Then fuck off. Nobody's keeping you here.
+MOVETO | o_lugner01 | o_cinema6 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_lugner01 | SOUTHWEST
+QUEST  | lugnerQuest = 1
+EXIT |
+
+HELP
+DIALOG | P_NAME = s_port_hoopzHappy | I'll help you however I can!
+DIALOG | Lugner = s_port_lugnerHappy | Thank you! This really means a lot to me, and even more the Dwarfs!_ What you need to do is `sq`track down Father Giuseppe at the Klispian church in the Market District. Just tell him to send the Dwarfs all to the `rt``kw``w1`blue container`w0``rt``sq` in the warehouse this time.`rt` Be careful, and `sq`don't use my name.`rt` Father could be killed if other duergars found out we were doing this._._. `w1`not to mention me.`w0`
+DIALOG | P_NAME | No problem. You can trust me.
+DIALOG | Lugner | Again, you have my thanks. You're doing a wonderful thing. Send the Dwarfs to the warehouse, but remember,_ `sq`send them to the blue container.`rt`
+MOVETO | o_lugner01 | o_cinema6 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_lugner01 | SOUTHWEST
+QUEST  | lugnerQuest = 3
+QUEST  | slagChase = 1 
+Create | o_slag01 | 528 | 880
+
+DONT_HELP
+DIALOG | P_NAME | I can't do this right now. I've got other things I need to do.
+DIALOG | Lugner | Oh... I'm... I'm sorry that I wasted so much of your time, then. Come back if you change your mind. Don't wait too long, though. They send out the cargo ship later today. They're all just stuck here if you don't help.
+MOVETO | o_lugner01 | o_cinema6 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_lugner01 | SOUTHWEST
+QUEST  | lugnerQuest = 2"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgn32"]
+atlas = ExtResource("2_27tcd")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7l4cs"]
+atlas = ExtResource("2_27tcd")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vccss"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgn32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7l4cs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vccss"]
+radius = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyyib"]
+size = Vector2(39, 29)
+
+[node name="o_batteredDwarf01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vw6md")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_7l4cs")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vccss")
+centered = false
+offset = Vector2(-23, -30)
+metadata/default = {
+"bbox_bottom": "37",
+"bbox_left": "2",
+"bbox_right": "36",
+"bbox_top": "3",
+"frames": ["images\\s_batteredDwarf01_0.png", "images\\s_batteredDwarf01_1.png"],
+"height": "40",
+"name": "s_batteredDwarf01",
+"width": "40",
+"xorig": "23",
+"yorigin": "30"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vccss")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-5.5, -3.5)
+shape = SubResource("RectangleShape2D_vyyib")

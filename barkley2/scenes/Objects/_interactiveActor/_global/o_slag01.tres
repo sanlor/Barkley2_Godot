@@ -1,0 +1,436 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://chg4472tpkf21"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_utdvj"]
+
+[resource]
+script = ExtResource("1_utdvj")
+original_script = "IF area == est | GOTO | SOCIAL_SORT
+GOTO | TNN_SORT
+
+TNN_SORT
+Duergar | alive | lugner
+//IF duergar == dead  | GOTO | HOOPZ_KILLED_LUGNER
+IF lugnerQuest == 8 | GOTO | OFFER_STILL_STANDS
+IF lugnerQuest == 6 | GOTO | OFFER_STILL_STANDS
+IF room == r_tnn_businessDistrict01 | GOTO | WHERE_DWARFS
+IF room == r_tnn_marketDistrict01 | GOTO | WHERE_DWARFS
+IF slagLugnerOffer == 1 | IF lugnerQuest == 3 | GOTO | WHERE_DWARFS
+IF lugnerQuest == 7 | GOTO | LUGNER_7
+IF slagLugnerOffer == 5 | GOTO | SLAG_KILLED_LUGNER_0
+IF slagLugnerOffer == 3 | GOTO | SLAG_KILLED_LUGNER_1
+IF slagLugnerOffer == 4 | GOTO | SLAG_KILLED_LUGNER_2
+IF slagLugnerOffer == 2 | GOTO | NO_DWARFS_1
+GOTO | GIVE_SLAG_DWARFS
+
+HOOPZ_KILLED_LUGNER
+DIALOG | Slag   | Nice moves in there. You got some cold blood in you after all.
+DIALOG | P_NAME = s_port_hoopzAngry | Lugner turned out to be liar and a scoundrel. I had to do what's right.
+DIALOG | Slag   | If that's what helps you sleep at night, kid. Way I see it, one less Duergar to rumble my game.
+
+LUGNER_7
+IF lugnerLost == 1 | DIALOG | Slag | Look how happy that ugly fuck is. Disgusting. Happiness in others really rubs me the wrong way.
+IF lugnerLost == 1 | EXIT |
+DIALOG | Slag   | Heh, I see he didn't come through on the deal.
+DIALOG | P_NAME | ... what?
+DIALOG | Slag   | The money. He didn't give you the money he promised.
+DIALOG | P_NAME | He didn't promise me any money.
+DIALOG | Slag   | What the f-?_ What did he offer you, then?
+DIALOG | P_NAME | He said he was going to put them on a cargo ship back to the Sombrero Galaxy.
+DIALOG | Slag   | You believed that shit?
+DIALOG | P_NAME | I didn't know he was a liar...
+DIALOG | Slag   | Heh, guess it's good you learned this pretty young. Always assume every one of these jockslobberers you run into is trying to pull a fast one. They're just waiting for you to look away long enough to stick a knife up in your ribs. `w1`Money's the only truth on Necron 7.`w0`
+DIALOG | P_NAME | Why should I believe you? What do you know about telling the truth?
+DIALOG | Slag   | I don't know nothing. We're just talking.
+DIALOG | Slag   | What I do know is if you went along with old Slag here we'd have quite a few more happy folks right now. I'd have my money, you'd have your money, and a handful of stupidass Dwarfs would be on their way to mining work right about now.
+DIALOG | P_NAME | I didn't know that's where you were sending them. I thought you were going to do something bad to them. They.....probably would have really liked that.
+DIALOG | Slag   | Should have asked. So long, kid.
+QUEST  | lugnerLost = 1
+
+WHERE_DWARFS
+DIALOG | Slag   | Where are my goddamn Dwarfs?!?
+DIALOG | P_NAME | ...
+DIALOG | Slag   | Don't just stand there, move it!
+            
+OFFER_STILL_STANDS
+DIALOG | Slag | Not too late to change your mind, kid. Offer's still out there if you've come to your senses.
+CHOICE | Change of mind?
+REPLY  | RATHER_SLAG | I'd rather go with you.
+REPLY  | NO_THANKS | No thanks.
+
+RATHER_SLAG
+DIALOG | P_NAME | Maybe going with you is not such a bad idea after all.
+DIALOG | Slag   | I knew it. One look into these sulfur yellow eyes gets 'em every time. You distract your blue friend over there. Act normal, like everything's just peachy. I'll take care of the rest.
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema7 | MOVE_FAST
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_lugner01
+LOOKAT | o_lugner01  | o_cts_hoopz
+FRAME  | CAMERA_FAST | o_lugner01 | o_cts_hoopz
+WAIT   | 0
+IF lugnerQuest == 8 | GOTO | RATHER_SLAG_A
+GOTO | RATHER_SLAG_B
+
+RATHER_SLAG_A
+DIALOG | P_NAME | So I'm supposed to push this switch?
+MOVETO | o_slag01 | o_cinema6 | MOVE_SLOW
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 1
+LOOKAT | o_cts_hoopz | o_lugner01
+GOTO   | RATHER_SLAG_1
+
+RATHER_SLAG_B
+DIALOG | Lugner = s_port_lugnerHappy | Hey, you're back. I didn't think I'd see you again.
+MOVETO | o_slag01 | o_cinema6 | MOVE_SLOW
+DIALOG | P_NAME | I really wanted to help you out. I hate seeing the Dwarfs live like this.
+GOTO   | RATHER_SLAG_1
+
+RATHER_SLAG_1
+IF lugnerQuest == 8 | DIALOG | Lugner = s_port_lugnerThilled | That's right...
+IF lugnerQuest != 8 | DIALOG | Lugner = s_port_lugnerHappy | I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...
+WAIT   | 0
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz
+WAIT   | 0
+PLAYSET| o_slag01 | slagShoot | stand_SE
+WAIT   | 0.75
+SOUND  | sn_revolver1_3
+Misc   | entity settings | o_lugner01 | 0 | 0 | 0
+Duergar| kill | lugner
+PLAYSET| o_lugner01 | lugnerShot | lugnerDead
+WAIT   | 0
+PLAYSET| o_cts_hoopz | surpriseSW | surpriseHoldSW
+WAIT   | 2
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz
+DIALOG | Slag | Fucking Duergars.
+DIALOG | Slag | Just not good for business.
+LOOKAT | o_cts_hoopz | o_slag01
+//MOVETO | o_slag01 | o_cinema6 | MOVE_SLOW
+//WAIT   | 0
+//LOOKAT | o_slag01 | SOUTHEAST
+//LOOK   | o_lugner01 | NORTHEAST
+//SOUND  | sn_revolver1_3 
+//PLAYSET| o_slag01 | slagShoot | stand_SE
+//WAIT   | 0
+//Misc   | entity settings | o_lugner01 | 0 | 0 | 0
+//PLAYSET| o_lugner01 | lugnerShot | lugnerDead
+//WAIT   | 0
+EVENT  | o_cts_lugnerlever01 | 0
+QUEST  | lugnerQuest = 9
+QUEST  | lugnerFlipFlop = 1
+QUEST  | slagLugnerOffer = 5
+
+NO_THANKS
+DIALOG | P_NAME | What am I thinking? I need to get these Dwarfs to the Sombrero Galaxy.
+DIALOG | Slag   | Waste of time, waste of my damn time.
+
+// After you killed Lugner
+
+SLAG_KILLED_LUGNER_0
+DIALOG | P_NAME | You... you killed him?
+DIALOG | Slag   | No kidding? Wondered what all that red shit was. Ah, I see why you come back to old Slag after all. I guess he didn't tell you about the piston up front. Clever shit, never would have guessed. When did you spot it?
+DIALOG | P_NAME | What?
+DIALOG | Slag   | You didn't know? You just wanted the cash?
+DIALOG | P_NAME | I don't know what I wanted...
+DIALOG | Slag   | You're ok, kid. Maybe I can teach you a thing or two after all. You see that thing next to the container on the left side?
+DIALOG | P_NAME | No...
+DIALOG | Slag   | Well, I ain't gonna show you. It's a piston and it was set to go the moment you pressed the green button on here. Would have completely smashed the whole container and my payday woulda been as thin as a _ crushed dwarf.
+DIALOG | P_NAME | Wait, it would have killed them?
+DIALOG | Slag   | Dwarfs' probably got bones and a skull and all that. Doubt all that works too good when you grind it into a paste.
+DIALOG | P_NAME | Wow, I had no idea that's what Lugner really wanted. I guess I made the right decision going to you.
+DIALOG | Slag   | No shit, I told you that before. You just don't listen too good, kid. Duergars are always up to no good. Better to go with Slag and sell them off somewhere to do mining work, make a bit of coin in the process. Shit, these kids nowadays. Like throwing a check away before you add a couple zeros and cash it.
+DIALOG | P_NAME | Hey, you never said anything about that. I didn't know you were going to send them to do mining work. They'd probably really like that.
+DIALOG | Slag   | I'll make sure these twerps get their stupid fun with their stupid rocks.
+EVENT  | o_slag01 | 15
+Breakout | add | money
+DIALOG | Slag   | One more loose end to tie up. Here's your money, kid.
+QUEST  | money += @tempMoney@
+DIALOG | P_NAME | Did you mean all of that? Was he really going to kill them? Are you really sending them to do mining work?
+Breakout | clear
+DIALOG | Slag   | Kid, if I was playing you for a fool, I'd be hiding two bodies right now. It'd be no leather off my ass. But you came through for old Slag here. You didn't fuck up my gig.
+DIALOG | Slag   | Gotta say though, some of that money's counterfeit, but you can spend it just fine.
+DIALOG | P_NAME | Well, thanks, I guess.
+DIALOG | Slag   | Any time. Now, you better fuck off unless you want a crash course in hiding a dead duergar.
+QUEST  | slagLugnerOffer = 3
+
+SLAG_KILLED_LUGNER_1
+DIALOG | Slag   | Still kicking around, eh? Wanna help me hide this dead body? Figure it's a good learning experience for ya. Feeling generous, so I won't even charge you for my expertise this time.
+DIALOG | P_NAME | No thanks. Maybe next time.
+DIALOG | Slag   | Yeah, well I'm holding you to that. About time I got me a protege to absorb my elite duergar body hiding skills.
+QUEST  | slagLugnerOffer = 4
+
+SLAG_KILLED_LUGNER_2
+DIALOG | Slag | Heh, maybe I'll dump this sack of shit down in the mines. Send those duergars a little love letter..._
+
+// When you choose Slag as the person to give dwarves, you can't double cross him
+// All dialog with slag for when you select him is below  
+
+GIVE_SLAG_DWARFS
+IF dwarfCustody != 0 | GOTO | GIVE_SLAG_DWARFS_OVER_0
+GOTO   | GIVE_SLAG_DWARFS_1
+
+GIVE_SLAG_DWARFS_OVER_0
+LOOK   | o_slag01 | SOUTHEAST
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_slag01
+WAIT   | 0.25
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz
+GOTO   | GIVE_SLAG_DWARFS_1
+
+GIVE_SLAG_DWARFS_1
+DIALOG | Slag | Took you long enough.
+DIALOG | P_NAME | Yes, do you have my money?
+DIALOG | Slag | Look at you, little businessman. Yeah, I got the money. Let's do a headcount, see how much you got coming to you.
+IF dwarfCustody == 0  | GOTO | GIVE_SLAG_DWARFS_NONE
+IF dwarfCustody <= 14 | GOTO | GIVE_SLAG_DWARFS_SOME
+IF dwarfCustody == 15 | GOTO | GIVE_SLAG_DWARFS_ALL
+
+GIVE_SLAG_DWARFS_NONE
+DIALOG | Slag | So... I don't see no Dwarfs.
+DIALOG | P_NAME | Yeah, I couldn't get any from Giuseppe.
+DIALOG | Slag | So... let's do the math... paying you @slagDwarfPrice@ by the head... times zero Dwarfs...
+DIALOG | Slag | That comes out to absolutely nothing.
+DIALOG | Slag | Pleasure doing business with you.
+QUEST  | slagLugnerOffer = 2
+
+NO_DWARFS_1
+DIALOG | Slag | Got this here necklace made out of duergar teeth. For you, 75 n-sheks. No? Come on, kid, you're breaking my heart.
+
+GIVE_SLAG_DWARFS_SOME
+DIALOG | Slag | A couple, not bad. Enough for a night or two on the town.
+GOTO   | GIVE_SLAG_DWARFS_2
+
+GIVE_SLAG_DWARFS_ALL
+DIALOG | Slag | Heh, look at that. Got quite a few there. Looks like we got a small fortune coming to us.
+GOTO   | GIVE_SLAG_DWARFS_2
+
+GIVE_SLAG_DWARFS_2
+DIALOG | Slag | Now let's get your money.
+DIALOG | P_NAME | Wait a minute.
+DIALOG | Slag | Nah, you aren't pulling this shit on me now. You didn't string me along to fuck me now.
+DIALOG | P_NAME | I just want to know where you're taking them, or we're all leaving.
+DIALOG | Slag | What is this bullshit?
+DIALOG | Slag | ._._._ Alright, there's some star that this rich asshole has decided he's going to mine, needs a bunch of miners, dwarfs are the best at that shit. Rich man said he'd pay by the head for any of these little bastards I could skim off the top here.
+DIALOG | P_NAME | Oh. I didn't know that you were going to send them to a mining colony. That sounds like it might be nice ... well for dwarfs at least.
+// TODO: create Lugner and walk him down into the alley.
+DIALOG | Slag | Yeah, nice for us, dumb dwarfs love that shit so much they don't even know we just sold them into slavery. That's how you win the game, kid, when you fuck 'em so hard they don't even know you fucked 'em.
+DIALOG | Slag | So you aren't going to ruin the deal, are you? I got an advance to make this happen.
+DIALOG | P_NAME | No, go ahead. This has to be better than just leaving th-
+Misc   | set | o_lugner01 | o_cinema1
+DIALOG | Lugner | HEY!
+MOVETO | o_lugner01 | o_cinema2 | MOVE_FAST
+WAIT   | 0
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz | o_lugner01
+LOOKAT | o_cts_hoopz | o_lugner01
+DIALOG | Lugner | What the fuck are you doing with my Dwarfs?!?
+DIALOG | Slag | Hey, can it there, shit-for-brains. So kid, we got a deal?
+DIALOG | Lugner | What deal? There is no deal. THESE ARE MY DWARFS.
+LOOKAT | o_slag01 | o_lugner01
+DIALOG | Slag | Hey, buttplug! Do I look like I'm fucking talking to you? Me and my associate are trying to complete a business transaction. Now if you don't mind taking your ugly mug elsewhere...
+MOVETO | o_lugner01 | o_cinema3 | MOVE_FAST
+WAIT   | 0
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz | o_lugner01
+LOOKAT | o_lugner01 | o_cts_hoopz
+LOOKAT | o_cts_hoopz | o_lugner01
+DIALOG | Lugner | You... betrayed me...
+//scr_event_build_move_backwards(o_cts_hoopz, 50, 0); //o_cinema4.x, o_cinema4.y);
+EVENT  | o_slag01 | 0 // Backwards set
+MOVE   | o_cts_hoopz | 50 | 0 | MOVE_FAST
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_lugner01
+FRAME  | CAMERA_FAST | o_slag01 | o_cts_hoopz | o_lugner01
+DIALOG | P_NAME | Lugner.....I was afraid you-
+DIALOG | Lugner | Figured out I was lying, huh? Figured I was going to get all the Dwarfs and smash them in the most inventive way possible. Good for fucking you.
+DIALOG | P_NAME | No, I was afraid you'd get into trouble. This guy said he'd take the Dwarfs to a mining colony. I didn't know you were...
+DIALOG | Lugner | Oh, this is even better. Now you're trying to bullshit me. I'm really going to enjoy tearing you apart.
+PLAYSET| o_slag01 | slagShoot | stand_SE
+WAIT   | 0.75
+SOUND  | sn_revolver1_3
+Misc   | entity settings | o_lugner01 | 0 | 0 | 0
+Duergar| kill | lugner
+PLAYSET| o_lugner01 | lugnerShot | lugnerDead
+WAIT   | 0
+SURPRISEAT | o_lugner01
+FRAME | CAMERA_FAST | o_slag01 | o_cts_hoopz
+DIALOG | Slag | Fucking Duergars.
+DIALOG | Slag | Just not good for business.
+LOOKAT | o_cts_hoopz | o_slag01
+DIALOG | P_NAME | Th... thanks... I didn't think he was like that...
+DIALOG | Slag | That's one for you. Now you owe me one someday.
+WAIT   | 1
+EVENT  | o_slag01 | 15
+Breakout | add | money
+DIALOG | Slag | Oh, here's your money, kid.
+QUEST  | money += @tempMoney@
+DIALOG | P_NAME | It feels good doing something nice for the Dwarfs. They really need people like us.
+Breakout | clear
+DIALOG | Slag | Heh, I guess. Probably wrong to leave them here, living in this nightmare._____._____.______.______._____
+DIALOG | Slag | .....when there's so much fucking money to be made off of them.
+DIALOG | Slag | See you around, kid. Don't get caught with your pants down.
+//scr_event_build_flip(o_slag01, -1);
+QUEST | lugnerQuest = 9
+QUEST | slagLugnerOffer = 3
+IF dwarfCustody != 0 | scr_time_change | 1
+
+SOCIAL_SORT
+MOVETO | o_cts_hoopz | o_cinema7 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST
+IF knowSlag == 0 | GOTO | DONTKNOWSLAG
+IF knowSlag >= 1 | GOTO | KNOWSLAG
+
+DONTKNOWSLAG
+DIALOG | Slag   | What are you lookin' at?
+DIALOG | P_NAME | Oh, sorry... Umm..._ You are a kobold, right?
+DIALOG | Slag   | That depends. Who's asking?
+DIALOG | P_NAME | Oh, I'm just... I just had a question for you?
+WAIT   | 1.0
+DIALOG | Slag   | And that question is?
+GOTO   | INTERRUPTCHOICE
+
+KNOWSLAG
+IF escapedFromTNN == 2 | DIALOG | Slag | Well well, if it isn't the `kw`Babe in the Woods.`rt` You got out of that Klispforsaken cyberghetto as well? Good for you... gold star, gold star.
+IF escapedFromTNN == 3 | DIALOG | Slag | Well, if it isn't P_NAME. Heard you got sent up the river but it looks like they couldn't hold you down for long. Heh, nice work, kid.
+DIALOG | P_NAME = s_port_hoopzAngry | Hi Slag.
+DIALOG | Slag   | Why that face, headfan? I thought we were best buds...
+DIALOG | P_NAME = s_port_hoopzAngry | Well, back in Tir-
+DIALOG | Slag   | You know what people say about bygones? Take 'em and shove em where the sun only shines when your asshole is up in the air.
+DIALOG | P_NAME | Uh,_ I guess. 
+DIALOG | Slag   | So what's on your mind, kid?
+IF operationX == 3 | GOTO | INTERRUPTCHOICE
+GOTO   | NARY_YE_MIND
+
+INTERRUPTCHOICE
+CHOICE | Interrupt Slag?
+REPLY  | OPERATION_X_DISCUSS | I need a little help with this Dossier.
+REPLY  | NARY_YE_MIND        | Ah, nary ye mind...
+
+NARY_YE_MIND
+DIALOG | P_NAME | Nary ye mind...
+DIALOG | Slag   | Heh, stay frosty, kid.
+
+OPERATION_X_DISCUSS
+DIALOG | P_NAME | Actually, I have something I need you to help `w1`me`w0` with.
+DIALOG | Slag   | Well lookee here. The little sprite is steppin' up to the plate. What's got you so motivated? Is it_ `w1`the strange?`w0`
+DIALOG | P_NAME = s_port_hoopzAngry | Uh, I don't even know what_ `w1`the strange`w0` is.
+DIALOG | Slag   | People do crazy things for `w1`the strange.`w0` Dangerous things.
+DIALOG | P_NAME | It's not `w1`the strange,`w0` okay? It's about `kw`Operation: Reverse Dunkirk.`rt`
+DIALOG | Slag   | `kw`Reverse Dunkirk,`rt` eh?
+DIALOG | P_NAME | Yeah do you know it?
+DIALOG | Slag   | All I know is what to do when someone hands me that Dossier.
+DIALOG | P_NAME | Well then...
+GOTO   | NOTE_PROCESS
+
+NOTE_PROCESS
+NOTE | select | Slag
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Sealed Secret Dossier | GOTO | DOSSIER_SWAP01
+IF note == Resealed Secret Dossier | GOTO | DOSSIER_SWAP02
+IF note == Re-resealed Secret Dossier | GOTO | DOSSIER_SWAP03
+IF note == Re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP04
+IF note == Re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP05
+IF note == Re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP06
+IF note == Re-re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP07
+IF note == Re-re-re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP08
+GOTO | NOTE_OTHER
+
+NOTE_NONE
+DIALOG | P_NAME = s_port_hoopzSad | Looks like I don't have that note anymore...
+DIALOG | Slag   | Well... someone fucked up...
+DIALOG | P_NAME | I uh... I'm not even really sure what happened to it?
+DIALOG | Slag   | Start with the basics... did you wipe your ass with it?
+DIALOG | P_NAME = s_port_hoopzAngry | No I didn't-
+DIALOG | Slag   | You don't wipe your ass? Klispaeth-christ, kid...
+DIALOG | P_NAME | I'm going... goodbye.
+
+NOTE_OTHER
+DIALOG | Slag   | What am I supposed to do with this?
+DIALOG | P_NAME | Um... I dunno?
+DIALOG | Slag   | I don't need this. I need that dossier. Use your raisin.
+GOTO   | NOTE_PROCESS
+
+NOTE_EXIT
+DIALOG | P_NAME | Hmmm... I'm not really ready to part with this yet.
+DIALOG | Slag   | Goddamn kid, it's not a sick puppy you're putting down and you want to say one more goodbye. It's a fuckin' letter._ Gimme.
+DIALOG | P_NAME = s_port_hoopzSad | ...
+
+DOSSIER_SWAP01
+NOTE  | give | Sealed Secret Dossier
+NOTE  | take | Resealed Secret Dossier
+QUEST | newNote = Resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP02
+NOTE  | give | Resealed Secret Dossier
+NOTE  | take | Re-resealed Secret Dossier
+QUEST | newNote = Re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP03
+NOTE  | give | Re-resealed Secret Dossier
+NOTE  | take | Re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP04
+NOTE  | give | Re-re-resealed Secret Dossier
+NOTE  | take | Re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP05
+NOTE  | give | Re-re-re-re-resealed Secret Dossier
+NOTE  | take | Re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP06
+NOTE  | give | Re-re-re-re-re-resealed Secret Dossier
+NOTE  | take | Re-re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+DOSSIER_SWAP07
+NOTE  | give | Re-re-re-re-re-re-resealed Secret Dossier
+NOTE  | take | Re-re-re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-re-re-resealed Secret Dossier
+GOTO  | SWAP_ACTION
+
+SWAP_ACTION
+DIALOG | Slag | Ah, here she is.
+WAIT   | 0.5
+//TODO: PLAYSET | Slag opens the dossier, takes out the money
+DIALOG | Slag | This is for me._ annnd-_
+//TODO: PLAYSET | CLOSES THE DOSSIER
+DIALOG | Slag | -this is for you.
+USEAT  | o_slag01
+WAIT   | 0.5
+NOTIFY | Got The Gilbert's Base Tactical Map
+Map    | gain   | Gilbert's Base
+DIALOG | P_NAME | That's it? A map?
+DIALOG | Slag   | And this-
+USEAT  | o_slag01
+NOTIFY | Got the @newNote@.
+DIALOG | P_NAME | I'm getting the dossier back?
+DIALOG | Slag   | Minus my cut, yep._ `sq`Take it to Lafayette in the mountain pass leading up to Gilbert's Peak.`rt`_ Or don't, I don't really care anymore.
+IF knowLafayette <= 1 | DIALOG | P_NAME | I don't get it._ Why did I even need to talk to you? I could have just gone right to this Lafayette guy.
+IF knowLafayette >= 2 | DIALOG | P_NAME | I don't get it._ Why did I even need to talk to you? I could have just gone straight to Lafayette.
+DIALOG | Slag   | Look, some things are just `w1`by design,`w0` kid. Don't ask me who's pulling the string just as long as mine stays loose. 
+DIALOG | Slag   | Now follow that map away from me and try to keep your head on. I got a feeling a few are going to start rolling around these parts soon, which is why I'm changing the scene ASAP. See you later, kid.
+MOVETO | o_slag01 | o_cinema8 | MOVE_NORMAL
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0
+EVENT  | o_slag01 | 6
+IF knowLafayette <= 1 | DIALOG | P_NAME | What a strange character. 
+IF knowLafayette <= 1 | DIALOG | P_NAME | Hmm... looks like I need to find this `kw`Lafayette`rt` guy somewhere in `sq`Gilbert's Peak.`rt`
+IF knowLafayette >= 2 | DIALOG | P_NAME | What a strange character.
+IF knowLafayette >= 2 | DIALOG | P_NAME | Well, I'd better `kw`get this dossier to Lafayette`rt` as soon as possible.
+KNOW   | knowLafayette    | 1
+KNOW   | knowGilbertsPeak | 1
+QUEST  | operationX = 4"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

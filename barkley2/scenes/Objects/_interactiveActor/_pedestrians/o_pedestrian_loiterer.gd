@@ -26,7 +26,7 @@ func _ready() -> void:
 		var room : B2_ROOMS = get_parent()
 		if B2_Database.time_check("tnnCurfew") == "during" && room.get_room_area() == "tnn": queue_free()
 	else:
-		push_error("Issue loading Ped.")
+		push_error("Issue loading Ped. %s %s " % [get_parent(), get_parent().name])
 		breakpoint
 	
 	## Disable randomly ##

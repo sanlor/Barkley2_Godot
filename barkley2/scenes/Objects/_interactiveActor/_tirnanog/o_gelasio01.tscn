@@ -1,0 +1,1094 @@
+[gd_scene load_steps=31 format=3 uid="uid://b3n0td24883q4"]
+
+[ext_resource type="Script" uid="uid://bcwe24pmgrjda" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_gelasio01.gd" id="1_gshxn"]
+[ext_resource type="Texture2D" uid="uid://baqiy5ndrm8d1" path="res://barkley2/assets/b2_original/images/merged/s_gelasio01.png" id="2_a7cga"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_haxws"]
+
+[sub_resource type="Resource" id="Resource_g2abq"]
+script = ExtResource("2_haxws")
+original_script = "IF body == governor  | GOTO | GOVNA
+IF gelasioState == 5 | GOTO | GELASIO_5
+IF gelasioState == 4 | GOTO | GELASIO_4
+IF gelasioState == 3 | GOTO | GELASIO_3
+IF gelasioState == 2 | GOTO | GELASIO_2
+IF gelasioState == 1 | GOTO | GELASIO_1
+IF gelasioState == 0 | GOTO | GELASIO_0
+
+GOVNA
+DIALOG | Gelasio             | Hey, how's it going, boss?
+DIALOG | Governor Elagabalus | It's going quite alright, citizen. Carry on! 
+
+NOTES_FOR_GELASIO
+CHOICE | Any clues for Gelasio?
+REPLY  | NOTES_SELECT  | Let me show you something.
+IF gelasioDuergar == 1 | REPLY | AUGUSTINE_QUESTION | Let me ask you about this supposed /'Augustine/' fellow.
+REPLY  | NOTES_CANCEL  | Nothing at the moment.
+
+NOTES_CANCEL         
+DIALOG | P_NAME  | I'll get back to you with some clues.
+DIALOG | Gelasio | Hurry gumshoe, `kw`Augustine`rt` and `kw`The Grape`rt` are waiting!
+
+AUGUSTINE_QUESTION
+DIALOG | P_NAME  | Actually I have some questions about Augustine.
+DIALOG | Gelasio | For me, eh? Well what do you want to know?
+GOTO   | AUGUSTINE_ASK
+
+GRAPE_ACCEPT
+DIALOG | P_NAME  | Hmm, I guess I'm good for one.
+DIALOG | Gelasio | Attaboy, tiger, have a seat here and get ready to pucker on that `w1`purple nectar.`w0`
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+SET    | o_cts_hoopz | grapePrepare
+WAIT   | 0.1
+DIALOG | Gelasio | Abdul, two rounds of the grape.
+DIALOG | P_NAME  | (Gulp._._._ my first sup of the grape._._._ Am I ready?)
+CHOICE | Psych yourself up for the GRAPE?
+REPLY  | GRAPE_BALLER  | All the best ballers grape...
+REPLY  | GRAPE_VIDCONS | I've heard that The Grape increases my Gamerscore.
+REPLY  | GRAPE_CANDY   | It's fine, just like a purple lollipop.
+
+GRAPE_BALLER
+DIALOG | P_NAME | (These blocks of wood on my sneakers only get my calves so ripped. I think this Grape will give be the edge I need. But will this get out of control?)
+//ROUNDMOUND - add BBALL
+QUEST  | rmBball += 1
+GOTO   | GRAPE_DRINK_WARMUP
+
+GRAPE_CANDY
+DIALOG | P_NAME | (Purple is as purple does, it's just a flavor, no big deal P_NAME_S.)
+//ROUNDMOUND - add CANDY
+QUEST  | rmCandy += 1
+GOTO   | GRAPE_DRINK_WARMUP
+
+GRAPE_VIDCONS
+DIALOG | P_NAME | (If I do this, I'll be able to stay up all night and break through /'the grind ceiling/' on Hyperborea no Legends.)
+//ROUNDMOUND - add to vidcon
+QUEST  | rmVidcon += 1
+GOTO   | GRAPE_DRINK_WARMUP
+
+GRAPE_DRINK_WARMUP
+DIALOG | P_NAME | Gelasio...
+DIALOG | P_NAME = s_port_hoopzHappy | Pour me that hard grape!
+QUEST  | temp = followup
+GOTO   | GRAPE_DRINK
+
+GRAPE_DRINK
+FRAME   | CAMERA_NORMAL | o_cts_hoopz | o_gelasio01
+WAIT    | 0
+PLAYSET | o_gelasio01 | grapeGet | grapeHold
+WAIT    | 0
+SET     | o_gelasio01 | grapeHand
+WAIT    | 0.5
+SET     | o_gelasio01 | grapeHandEmpty
+SET     | o_cts_hoopz | grapeFull
+WAIT    | 0.5
+PLAYSET | o_gelasio01 | grapeAnother | grapeAnotherFreeze
+WAIT    | 0
+PLAYSET | o_gelasio01 | grapeGet | grapeHold
+WAIT    | 0
+DIALOG  | Gelasio | Cheers, kid.
+WAIT    | 0.5
+PLAYSET | o_gelasio01 | drink | drank
+PLAYSET | o_cts_hoopz | grapeDrink | grapeEmpty
+WAIT    | 0.5
+SOUND   | sn_juicechug01
+WAIT    | 0
+WAIT    | 1
+GLAMP   | guts | 1
+NOTIFY  | Gut's increased by 1!
+IF temp == followup | GOTO | GRAPE_DRINK_FOLLOWUP
+GOTO    | GRAPE_REWARD_PREPARE
+
+GRAPE_DRINK_FOLLOWUP
+DIALOG | Gelasio | `w1`Yowweee!`w0`_ That's the `kw`Deep Grape`rt` right there! You can feel it all the way down!
+DIALOG | P_NAME  | I_, I_, just Graped (like an adult).
+DIALOG | Gelasio | There is plenty more where that came from, ace.
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_gelasio01
+DIALOG | P_NAME  | (Keep it together, P_NAME_S. Can't show that The Grape is going straight to my dome!)
+DIALOG | Gelasio | Say, how long have you been here in Tir na nOg?
+DIALOG | P_NAME  | Oh not too long, I just got here. I have amnesia.
+DIALOG | Gelasio | Yeah I hear ya, kid. We've all got amnesia these days.
+DIALOG | P_NAME  | No, I mean I really have amn-
+DIALOG | Gelasio | Say hoss, to be honest I just got back to town myself. Me and my pal `kw`Augustine`rt` were on some serious labor duty in the mines, but let's just say we /'outfoxed the fox/'. Haha! Where the Duergars were the fox and_ we_ were_ the other fox.
+DIALOG | P_NAME = s_port_hoopzHappy | Oh... good for you!
+DIALOG | Gelasio | Thanks shooter. Me and Augie were livin' lavish, that is until yesterday... `sq`Augie done up and dissappeared.`rt` Some say he turned and ran with our cash, but that's not the case. I think he's still out there, lost in the `kw`Sewers`rt` and as sober as a fox, just searchin' for another shot of the The Ol' Grape.
+QUEST  | knowGrape = 3
+GOTO   | AUGUSTINE_QUEST_CHOICES
+
+AUGUSTINE_QUEST_CHOICES
+CHOICE | Offer to help with the search?
+REPLY  | AUGUSTINE_SEARCH_ACCEPT  | I'll help look for Augustine.
+IF gelasioDuergar == 1 | REPLY    | AUGUSTINE_QUESTION | Let me ask you about this supposed /'Augustine/' fellow.
+REPLY  | AUGUSTINE_SEARCH_DECLINE | Not right now.
+
+AUGUSTINE_SEARCH_ACCEPT
+QUEST  | gelasioState = 3
+DIALOG | P_NAME  | How can I help look for Augustine?
+DIALOG | Gelasio | You wanna help? Aww hell that's swell as heck, kid. So look._._._ we're not in the best of company.
+DIALOG | P_NAME  | Wh-what do you mean?
+DIALOG | Gelasio | Well, there might be something else pulling strings here in Tir na nOg. And I have reason to believe that those same strings got around Ol' Augie's neck.
+DIALOG | P_NAME  | Wow, sounds-
+DIALOG | Gelasio | Dastardly, I know.
+DIALOG | P_NAME  | Do you have any-
+DIALOG | Gelasio | Proof?_ Nah not yet, but that's where you can come in. Help me gather some intel and maybe you and me can get to the bottom of this.
+DIALOG | P_NAME  | What should I look for?
+DIALOG | Gelasio | `kw`/'The diablo's in the details./'`rt` That's what Augie's abuela used to tell us. So let's start looking through anything you dig up. `kw`Notes,`rt` `sq`books,`rt` `mq`C_L_U_E_S.`rt` You'll be my ears on the street, a ummm, `kw``w1`G_U_M_S_H_O_E_ L_E_V_E_L_ O_N_E_.`w0``kw`
+//TODO: add GUMSHOE sound
+WAIT   | 0.3
+NOTIFY | P_NAME is now GUMSHOE LEVEL ONE!
+QUEST  | hoopzGumshoe = 1
+SOUND  | sn_debug_eight
+DIALOG | P_NAME = s_port_hoopzHappy | Wow gee, this is exciting, I've never been a detective before, well at least not that I can remember.
+DIALOG | Gelasio | Don't get ahead of yourself, real detectives find Augustine.
+DIALOG | P_NAME = s_port_hoopzHappy | Ah you're right! I'm on the case!
+DIALOG | Gelasio | Great, got any clues?
+GOTO   | NOTES_FOR_GELASIO
+
+AUGUSTINE_SEARCH_DECLINE  
+QUEST  | gelasioState = 2
+IF gelasioFlavorRespond == 0 | GOTO | AUGUSTINE_SEARCH_DECLINE_FLAVOR
+DIALOG | P_NAME  | Uh, I'm kinda busy right now, maybe later.
+DIALOG | Gelasio | That right? Well, I'll be here if you change your mind.
+DIALOG | P_NAME  | Okay, I'll be back.
+DIALOG | Gelasio | That's what Augie said.
+
+AUGUSTINE_SEARCH_DECLINE_FLAVOR
+DIALOG  | P_NAME  | Sorry, my schedule is bustin' at the seams. Look's like I'll have to help later.
+DIALOG  | Gelasio | That's okay sport. I mean look at me, sitting on my `w1`keister`w0` and pouring The Grape down my gullet. I could be out looking for Augie but, in times like these...
+PLAYSET | o_gelasio01 | grapeAnother | grapeAnotherFreeze
+WAIT    | 0
+PLAYSET | o_gelasio01 | grapeGet | grapeHold
+WAIT    | 0
+WAIT    | 0.5
+PLAYSET | o_gelasio01 | drink | drank
+WAIT    | 0.5
+SOUND   | sn_juicechug01
+WAIT    | 0
+WAIT    | 1.0
+DIALOG  | Gelasio | Maybe drinking is all you can do._._._
+QUEST   | gelasioFlavorRespond = 1
+
+GOVERNOR
+DIALOG | Gelasio | 'eeey, you're the new Governor, right? Abdul! Gimme a grape on the rocks for our new governor, my treat!
+DIALOG | P_NAME  | That is a very generous offer, citizen! But remember what they say - /'generosity killed the cat!/' Well, I've got to run. Be sure to tell everyone you see that you got to meet me, the real, 100% authentic Governor!
+
+GELASIO_5
+DIALOG | Gelasio | Augustine still in the sewers? Can't be... I'm gonna need to check for myself. After_ (gulp) this_ (gulp) drink.
+
+GELASIO_4
+DIALOG | Gelasio | HAHAHAHA! More Grape, Abdul! I got a whole brain's worth of neuroshekels to drink through!
+DIALOG | P_NAME = s_port_hoopzAngry | ...
+
+GELASIO_3
+DIALOG | Gelasio | How's the hunt for clues, gummie?
+GOTO   | NOTES_CHOICE
+
+GELASIO_2
+DIALOG | Gelasio | Hey kid, want to help search for my ol' pal Augustine?
+GOTO   | AUGUSTINE_QUEST_CHOICES
+
+GELASIO_1
+DIALOG | Gelasio | Hey, kid! Back for some fruit?
+GOTO   | BACK_FOR_GRAPES
+
+GELASIO_0
+DIALOG | Gelasio | I tell ya Abdul... I survived the mines, and now I gorge on fine fruits. How could life be better? My pal `kw`Augustine`rt` usually gets grapes with me but alas... ah well, fruit and toil, fruit and toil!
+DIALOG | P_NAME  | (Interesting fellow...)
+DIALOG | Gelasio | Huh? You!
+DIALOG | P_NAME  | (Gulp!) Me?
+DIALOG | Gelasio | How did you get out?
+CHOICE | Reaction?
+REPLY  | OUT_OF_WHAT | Out of what?
+REPLY  | OUT_OF_EGG  | You mean the egg?
+
+OUT_OF_WHAT
+DIALOG | P_NAME  | Out of what?
+DIALOG | Gelasio | Uh, um... I could have sworn...
+WAIT   | 0.3
+DIALOG | Gelasio | Aww heck, nary ye mind!
+GOTO   | GELASIO_FIRST_ENCOUNTER
+
+OUT_OF_EGG
+DIALOG | P_NAME  | You mean the egg?
+DIALOG | Gelasio | Egg? What egg?
+DIALOG | P_NAME  | I mean I came out of an egg and then-
+DIALOG | Gelasio | Naw, tyke. Not an egg, Aw heck, nary ye mind!
+GOTO   | GELASIO_FIRST_ENCOUNTER
+
+GELASIO_FIRST_ENCOUNTER
+DIALOG | Gelasio | Here, you_ kid, come have a seat by Ol' Gelasio. Let me buy you a shot of_ The_ Grape!
+DIALOG | P_NAME = s_port_hoopzSurprise | (Gulp, T_H_E_ _G_R_A_P_E_?_!)
+QUEST  | gelasioState = 1
+GOTO   | GRAPE_QUESTION
+
+BACK_FOR_GRAPES
+CHOICE | Drink with Gelasio?
+REPLY  | GRAPE_ACCEPT  | Well, if everyone's doing it...
+REPLY  | GRAPE_DECLINE | Not yet, gotta think about that one.
+
+GRAPE_QUESTION
+CHOICE | Drink with Gelasio?
+REPLY  | GRAPE_ACCEPT  | Sure, I'm definitely of legal Grape drinking age.
+REPLY  | GRAPE_DECLINE | Maybe in X number of years once I figure out how old I am.
+
+GRAPE_DECLINE
+DIALOG | P_NAME  | No thanks, I'm staying `kw`GRAPEFREE`rt` this summer.
+DIALOG | Gelasio | Suit yourself. Come back when you want some hair on your chest. HAHA!
+
+NOTES_CHOICE
+CHOICE | Any clues for Gelasio?
+REPLY  | NOTES_SELECT | I got a clue for you!
+IF gelasioAugustine == 1 | REPLY | AUGUSTINE_ASK | Let me ask you about this /'Augustine/'
+REPLY  | NOTES_STILL_WORKING | Still working the beat.
+
+NOTES_SELECT
+DIALOG | P_NAME | What do you make of this?
+NOTE   | select | Gelasio
+IF note == exit | GOTO | NARY_YE_MIND
+IF note == none | GOTO | NONE
+IF note == Printed Invitation | GOTO |  PRINTEDINVITE
+IF note == Clandestine Courts Baller Zine | GOTO |  BALLERZINE
+IF note == Gamesmasterjasper's Vidcon Almanac | GOTO |  VIDCONALMANAC
+IF note == Ancient Scroll | GOTO |  ANCIENTSCROLL
+IF note == Sealed Letter | GOTO |  LETTER
+IF note == Love Letter | GOTO |  LETTER
+IF note == Bloody Paper | GOTO |  BLOODYPAPER
+IF note == Dead Soldier's Note | GOTO |  LONGINUS
+IF note == Joad's Note | GOTO |  LONGINUS
+IF note == Dead Soldier's Note (reused) | GOTO |  LONGINUS
+IF note == Joad's Note (reused) | GOTO |  LONGINUS
+IF note == Tattered Paper | GOTO |  LONGINUS
+IF note == Cornrow's Plea | GOTO |  CORNROW
+IF note == Suicide Note | GOTO |  SUICIDE
+IF note == Augustino's Letter | GOTO |  AUGUSTINO
+IF note == Blank Paper | GOTO |  BLANK
+IF note == Wilmer's Amortization Schedule | GOTO |  WILMEREVICT
+IF note == Aelfleda's Eviction | GOTO |  AELFLEDA_MONEYEVICT
+IF note == Pravda Tir na nOg | GOTO |  PRAVDA
+IF note == Decoded Pravda | GOTO |  DECODED
+GOTO | GENERIC_NOTE
+
+NARY_YE_MIND
+DIALOG | P_NAME  | Oh um, nary ye mind.
+DIALOG | Gelasio | Take your time, gumshoe.
+    
+NONE
+DIALOG | P_NAME  | Oh, actually I don't think I have anything to show you yet. I'm clueless.
+DIALOG | Gelasio | Don't worry about it gumshoe, let the clues come to you. Augustine is out there somewhere.
+
+GENERIC_NOTE
+DIALOG | Gelasio | Hmmm, this isn't anything that really pops out to me. Sorry, kid.
+GOTO   | NOTES_ASK_FOR_MORE
+
+PRINTEDINVITE
+DIALOG | Gelasio | Ah, so the `kw`Gaming Klatch`rt` does exist. I owe you a drink my boy, here have a grape on me, in exchange for the letter of course.
+QUEST  | duergarInfoGamingKlatch = 1
+NOTE   | give | Printed Invitation
+GOTO   | GRAPE_REWARD
+
+BALLERZINE    
+DIALOG | Gelasio | B-ball, eh? Not my favorite sport, no that's assuredly the great disc sport variant: `kw`Urban Ringo.`rt` But I do know someone who could use this.
+QUEST  | duergarInfoBBall = 1
+NOTE   | give | Clandestine Courts Baller Zine
+GOTO   | GRAPE_REWARD
+    
+ANCIENTSCROLL
+DIALOG | Gelasio | An ancient ruins in the `kw`Undersewers?`rt` Hmm... someone I know could really use this information.
+QUEST  | duergarInfoRuins = 1
+NOTE   | give | Ancient Scroll
+GOTO   | GRAPE_REWARD
+
+CORNROW
+DIALOG | Gelasio | Ah so I see, these guys are the ones who were runnin' those `kw`Choco-mallows.`rt` Looks like the Duergars had it coming to them. Let me take this off your hands for ya.
+QUEST  | duergarInfoCornrow = 1
+NOTE   | give | Cornrow's Plea
+GOTO   | GRAPE_REWARD
+
+SUICIDE
+DIALOG | Gelasio | Wh-what is this?
+DIALOG | P_NAME  | It was a suicide note... from a, uh, body that I found in the sewers. I was thinking that is might be Augustine.
+DIALOG | Gelasio | Suicide you say?_ Hmmm...
+WAIT   | 0.5
+DIALOG | Gelasio | Nah, this isn't Augustine. Can't be.
+DIALOG | P_NAME  | What makes you so sure, Gelasio?
+DIALOG | Gelasio | Look, shooter. There is a lot of things ol' Gelasio has up in his computer, and some of them are a little to sensitive for a GUMSHOE LEVEL ONE. You should just drop it.
+CHOICE | Was it really Augie?
+REPLY  | AUGUSTINE_IT_WAS_HIM | It was Augustine!
+REPLY  | AUGUSTINE_IT_WAS_NOT_HIM | Maybe you're right...
+
+AUGUSTINO
+DIALOG | Gelasio | Wh-what is this?
+DIALOG | P_NAME = s_port_hoopzHappy | It's a note from Augustine! I found him in the sewers!
+WAIT   | 0.4
+DIALOG | Gelasio | But, but..._ this can't be. Augie can't be in the sewers.
+DIALOG | P_NAME  | What are you talking about? Of course he can, that's where you sent me to look right?
+DIALOG | Gelasio | No_ uh..._ kid, you were supposed to look around the city, gather intel. This guy you met, he said he was Augustine?
+DIALOG | P_NAME  | Yep! I gotta admit he was kind of a weird fella, just lying around in the sewers.
+DIALOG | Gelasio | But- I thought Augie-_ This couldn't have been him._._._ could it?
+DIALOG | P_NAME  | Maybe you should ask him.
+DIALOG | Gelasio | I_._._._ impossible.
+DIALOG | P_NAME  | What's going on, Gelasio?
+DIALOG | Gelasio | Look, chief, I gotta get going. Thanks for the intel but I gotta get moving and uh_ do my own detective work. (gulp) Abdul!
+FRAME  | CAMERA_NORMAL | o_gelasio01 | o_abdul_gafur01
+DIALOG | Gelasio | Abdul, close me out, brother.
+DIALOG | Abdul-Gafur | Finally...
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_gelasio01
+QUEST  | gelasioState = 5
+CHOICE | Ask for a reward?
+REPLY  | GRAPE_REQUEST_YES | Do I get a shot of The Grape?
+REPLY  | GRAPE_REQUEST_NO  | Nah, (Gelasio has a lot on his mind.)
+
+GRAPE_REQUEST_YES
+DIALOG | P_NAME  | So._._._ think I could still get a shot of That Grape?
+DIALOG | Gelasio | What? Oh, c'mon gumshoe, I'm thinkin' here can't you see that?
+DIALOG | P_NAME  | Yeah I just thought that maybe LEVEL TWO wa-
+DIALOG | Gelasio | Didn't you hear me, punk? `s1`SCRAM`s0` I got a lot on my mind!
+DIALOG | P_NAME = s_port_hoopzAngry | Geez, I was just doing my job. So long...
+DIALOG | Gelasio | ... how could this be..._ Augie, what's your game...?
+
+GRAPE_REQUEST_NO
+DIALOG | P_NAME  | Well, maybe I should just go...
+DIALOG | Gelasio | What? Whatever, kid.
+DIALOG | P_NAME = s_port_hoopzAngry | ...
+DIALOG | Gelasio | ... how could this be..._ Augie, what's your game...?
+
+WILMEREVICT
+IF wilmerEvict == 3 | GOTO | WILMER_EVICT_YOURFAULT
+IF wilmerEvict == 8 | GOTO | WILMER_EVICT_YOURFAULT
+IF wilmerPaymentFailure == 1 | GOTO | WILMEREVICT_SPENT
+IF wilmerPaymentFailure == 2 | GOTO | WILMEREVICT_DISPUTE
+IF wilmerPaymentFailure == 3 | GOTO | WILMEREVICT_LATEKNOWN
+IF wilmerPaymentFailure == 4 | GOTO | WILMEREVICT_LATEUNKNOWN
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh?
+DIALOG | P_NAME  | Yeah. Mr. Wilmer is real nice, but I was thinking maybe we could help him or something, and this could be a clue.
+DIALOG | Gelasio | Yeah, yeah I see your angle here, scout. And I like it. This is good work. Let me hold onto this and see what I can do for this_ Mr. Wilmer.
+DIALOG | P_NAME = s_port_hoopzHappy | You'll do that? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | You know it, scooter.
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 12
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+WILMER_EVICT_YOURFAULT
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh?
+DIALOG | P_NAME  | Y-yes... Mr. Wilmer entrusted me with it but I failed him... Now he is living on the streets.
+DIALOG | Gelasio | Ouchie-mama. That's a damn shame, kid.
+DIALOG | P_NAME  | Gelasio, do you know if there's anything I can do to get Mr. Wilmer his house back?
+DIALOG | Gelasio | No, I don't think `w1`YOU`w0` can. But I on the other hand, I've got some, uh, connections. If I show this mortgage paper to the right people, I think I might be able to get this_ Mr. Wilmer_ a roof over his head.
+DIALOG | P_NAME = s_port_hoopzHappy | You think so? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | Heh, I hope this Wilmer fellow likes orange. 
+DIALOG | P_NAME  | Do you mean the fruit or the color?
+DIALOG | Gelasio | Yeah, that's right, uh huh. Speaking of fruits, I think it's time for the purple stuff...
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 11
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+WILMEREVICT_SPENT
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh?
+DIALOG | P_NAME  | Yeah... Mr. Wilmer told me to go and pay his mortgage for him, but I wasted his money on other things...
+DIALOG | Gelasio | Wow, that's a pretty ansty thing you did, kid.
+DIALOG | P_NAME  | Gelasio, is there anything I can still do to pay Mr. Wilmer's mortgage so that he doesn't lose his house?
+DIALOG | Gelasio | You should've been more careful with your spending, kid. I tell you what, why don't you just let me hold onto this and I'll see what I can do for this_ Mr. Wilmer.
+DIALOG | P_NAME = s_port_hoopzHappy | You'll do that? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | You know it, scooter.
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 12
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+WILMEREVICT_DISPUTE
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh?
+DIALOG | P_NAME  | Yeah... Mr. Wilmer told me to go and pay his mortgage for him, but I started mouthing off at the duergars and they threw me out of the mortgage office...
+DIALOG | Gelasio | Heh, you've got some guts, kid, going around yelling at duergars.
+DIALOG | P_NAME  | Gelasio, is there anything I can do so that Mr. Wilmer's mortgage doesn't lose his house?
+DIALOG | Gelasio | Hmm, probably not. But I've got an idea... I tell you what, why don't you just let me hold onto this and I'll see what I can do for this_ Mr. Wilmer.
+DIALOG | P_NAME = s_port_hoopzHappy | You'll do that? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | You know it, scooter.
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 12
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+WILMEREVICT_LATEKNOWN
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh?
+DIALOG | P_NAME  | Mr. Wilmer told me to take care of it but I, uh, forgot about it. Now it's loo late...
+DIALOG | Gelasio | `w1`*Sigh*`w0` You want me to take care of this, don't you? 
+DIALOG | P_NAME  | Take care of it? You mean like... fix this mess I've gotten myself in?
+DIALOG | Gelasio | Let me hold onto this and see what I can do for this_ Mr. Wilmer. I know some guys who might be interested in this.
+DIALOG | P_NAME = s_port_hoopzHappy | You'll do that? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | You know it, scooter.
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 12
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+WILMEREVICT_LATEUNKNOWN
+DIALOG | Gelasio | Hmmm, a `kw`delinquent mortgage,`rt` eh? What am I supposed to do with this?
+DIALOG | P_NAME  | Uh, I'm not sure.
+DIALOG | Gelasio | `w1`*Sigh*`w0` You want me to take care of this, don't you? 
+DIALOG | P_NAME  | Uh, no. Well, I mean, if it's no trouble then...
+DIALOG | Gelasio | Alright. Let me hold onto this and see what I can do for this_ Mr. Wilmer.
+DIALOG | P_NAME = s_port_hoopzHappy | You'll do that? Gee, Gelasio, you're the best!
+DIALOG | Gelasio | You know it, scooter.
+QUEST  | duergarInfoWilmer = 1
+QUEST  | wilmerEvict = 12
+NOTE   | give | Wilmer's Amortization Schedule
+GOTO   | GRAPE_REWARD
+
+AELFLEDA_MONEYEVICT
+IF chanticleerRoommate == 3 | GOTO | AELFLEDA_CHANTI
+DIALOG | Gelasio | Ah, looks like ol' `kw`Aelfleda's been evicted,`rt` finally.
+DIALOG | P_NAME  | You know her?
+DIALOG | Gelasio | Yeah, sad case if I do say so myself sport. She runs up a mondo tab, then can't pay. That's what happens when The Grape gets a hold of your reigns.
+DIALOG | P_NAME = s_port_hoopzSad | ... dangerous stuff, but so good...
+DIALOG | Gelasio |  Look, slick. I'll take this off your hands and me and a few friends of mine will see if we can find some new digs for poor Aelfeda here.
+DIALOG | P_NAME = s_port_hoopzHappy | Really you mean it?
+DIALOG | Gelasio | Yeah for sure kid. What did I tell ya, you get the clues, and I'll provide the action. We'll set things straight, don't you worry.
+DIALOG | P_NAME = s_port_hoopzHappy | That's wonderful! I'm gonna go tell Aelfleda!
+QUEST  | duergarInfoAelfleda = 1
+NOTE   | give | Aelfleda's Eviction
+GOTO   | GRAPE_REWARD
+
+AELFLEDA_CHANTI
+DIALOG | Gelasio | Ah, looks like ol' `kw`Aelfleda's been evicted,`rt` finally.
+DIALOG | P_NAME  | Yeah, but there's good news!  I found a place for her to stay in the sewers so everything is_ `w1`a_ok.`w0`
+DIALOG | Gelasio | In the sewers huh, whereabouts? With anyone else?
+DIALOG | P_NAME  | Yeah this cool guy Chanticleer is hiding out down there and-
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzSad | Actually I think I should probably be keeping that a secret... I think he doesn't really want anyone to know he's down there.
+DIALOG | Gelasio |  Look, slick. You got nothing to worry about, I'll take care of ole Chanti and Aelfleda. I've got some connections in the Sewers. You know me.
+DIALOG | P_NAME = s_port_hoopzHappy | Really you mean it?
+DIALOG | Gelasio | Yeah for sure kid. What did I tell ya, you get the clues, and I'll provide the action. We'll set things straight, don't you worry.
+DIALOG | P_NAME = s_port_hoopzHappy | That's wonderful!
+QUEST  | duergarInfoAelfleda = 3
+NOTE   | give | Aelfleda's Eviction
+GOTO   | GRAPE_REWARD
+
+LONGINUS
+DIALOG | Gelasio | Oh wow, this is some `kw`juicy intel.`rt` I mean, hey let me take this one off your hands, P_NAME_S, I think I know some guys who can make use of this.
+DIALOG | P_NAME = s_port_hoopzHappy | Really? You think so?
+DIALOG | Gelasio | Definitely, they'll be tickled blue to read this many CLUES all in one spot!
+DIALOG | P_NAME  | You mean tickled /'pink?/'
+DIALOG | Gelasio | Ah the only color I care about killer, is PURPLE!
+QUEST  | duergarInfoLonginus = 1
+NOTE   | give | note
+GOTO   | GRAPE_REWARD
+
+DECODED
+DIALOG | Gelasio | Whoah, is this some kind of `kw`secret code?`rt` Hot Damn, gummie! This is the jackpot!
+DIALOG | P_NAME = s_port_hoopzHappy | Yeah I thought that secret code was too good to pass up!
+DIALOG | Gelasio | This is gonna make us set for life! I know just the fellas who can benefit from this. And when they benefit, gummie,_ WE BENEFIT. 
+DIALOG | Gelasio | `w1`The Grape is gonna flow tonight!`w0`
+DIALOG | P_NAME = s_port_hoopzHappy | Hooray!
+QUEST  | duergarInfoLonginus = 1
+NOTE   | give | note
+GOTO   | GRAPE_REWARD
+
+VIDCONALMANAC
+DIALOG | Gelasio | `kw`Vidcon's`rt` eh? I'm more into the flying disc sports if you catch my drift: Ultimate, Dodge Disc, Flutterguts, hell, even Goaltimate and Hot Box. If it spins, it wins in my book. When it comes to vidcons, however, I'm afraid that frisbee is just out of my reach.
+GOTO   | NOTES_ASK_FOR_MORE
+
+LETTER
+DIALOG | Gelasio | Hey hey, I'm all about the connection of two souls, when a dwarf loves another dwarf, man I just want to pour them both a shot of the grape, but this isn't really my thing.
+GOTO   | NOTES_ASK_FOR_MORE
+    
+BLOODYPAPER
+DIALOG | Gelasio | Kind of troubling that you'd be walking around with someone's blood n'guts all over. I'd rather not look at that one, slick. Ball this up and zap it in the zibby bin why don't ya.
+GOTO   | NOTES_ASK_FOR_MORE
+
+BLANK
+DIALOG | Gelasio | What the hell is this, youngbuck? `s1`It's blank!`s+`
+DIALOG | P_NAME  | It's not what the paper says, Gelasio. It's what it DOESN'T SAY.
+WAIT   | 0.5
+DIALOG | Gelasio | P_NAME_S, this is one of the worst showings of `kw`gumshoesmanship`rt` in my year of intelligence gathering. You're gonna have to hit the street double-time if you want another sup of The Grape.
+DIALOG | P_NAME = s_port_hoopzSad | Oh, sorry...
+GOTO   | NOTES_ASK_FOR_MORE
+
+PRAVDA
+DIALOG | Gelasio | Hmmm. `kw`The Pravda,`rt` eh? Wasn't this classified as /'fake news./'_ Sorry gummy, there's nothing new about this...
+GOTO   | NOTES_ASK_FOR_MORE
+
+AUGUSTINE_IT_WAS_HIM
+DIALOG | P_NAME = s_port_hoopzAngry | But it was Augustine! I feel it in my core!
+DIALOG | Gelasio | Clispaeth Christ Gumshoe! I told you to drop this thing!
+DIALOG | P_NAME P_NAME = s_port_hoopzAngry | You told me to follow my nose, sir, and my nose smells something fishier than the corpses I had to drop to get this clue! Why won't you follow this lead?
+DIALOG | Gelasio | Because it ain't Augie!
+DIALOG | P_NAME  | How do you know?
+DIALOG | Gelasio | Stand down. You're biting off more than you can chew, little'un.
+QUEST  | gelasioDuergar += 1
+CHOICE | Push for the /'truth?/'
+REPLY  | AUGUSTINE_CONFRONTATION  | I got a big appetite, sir. For the truth.
+REPLY  | AUGUSTINE_SURRENDER      | You're right, game respects game.
+
+AUGUSTINE_IT_WAS_NOT_HIM
+DIALOG | P_NAME  | Hmmm... I guess you are right Gelasio.
+DIALOG | Gelasio | Yeah it's cool, tiger. Everything's cool. You followed the lead, and I respect that. Let me take this note off your hands and let's have a drink!
+DIALOG | P_NAME = s_port_hoopzHappy | Great! Thanks!
+GOTO   | GRAPE_REWARD 
+
+AUGUSTINE_CONFRONTATION
+DIALOG | P_NAME = s_port_hoopzAngry | I might be just a GUMSHOE LEVEL ONE, but I know a scam when I see it.
+DIALOG | Gelasio | How dare you, squirt. How dare you.
+DIALOG | P_NAME = s_port_hoopzAngry | How dare YOU, sir!
+DIALOG | Gelasio | What are you insinuating, tiger?
+QUEST  | gelasioDuergar = 3
+GOTO   | AUGUSTINE_ASK
+
+AUGUSTINE_SURRENDER
+DIALOG | P_NAME = s_port_hoopzSad | I..._ I'm sorry, Gelasio. You're right.
+DIALOG | Gelasio | Don't worry about it, champ. I'm gonna hold onto this, just the same, but let's just move on and follow some more valueable leads.
+DIALOG | P_NAME  | You got it, I'll stand down.
+NOTIFY | Gave up the Suicide Note.
+NOTE   | give | Suicide Note
+WAIT   | 0.2
+GOTO   | NOTES_ASK_FOR_MORE
+
+GRAPE_REWARD
+DIALOG | Gelasio | Well looks like you get a shot of `kw`The Grape,`rt` and are one step closer to that promotion!
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+SET    | o_cts_hoopz | grapePrepare
+WAIT   | 0.1
+QUEST  | temp = GRAPE_REWARD_PREPARE
+GOTO   | GRAPE_DRINK
+
+GRAPE_REWARD_PREPARE
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_gelasio01
+QUEST  | gelasioDrinkLadder += 1
+IF gelasioDrinkLadder = 5 | GOTO | GRAPE_LADDER_5
+IF gelasioDrinkLadder = 4 | GOTO | GRAPE_LADDER_4
+IF gelasioDrinkLadder = 3 | GOTO | GRAPE_LADDER_3
+IF gelasioDrinkLadder = 2 | GOTO | GRAPE_LADDER_2
+IF gelasioDrinkLadder = 1 | GOTO | GRAPE_LADDER_1
+
+GRAPE_LADDER_5
+DIALOG | P_NAME = s_port_hoopzShock | Zooks to the sky... I don't think I can have another sip of This Grape.
+DIALOG | Gelasio | Awww c'mon, shooter. One more and you'll get that promotion!
+DIALOG | P_NAME  | Yeah but do I need to drink anymore?
+DIALOG | Gelasio | Ha! I like you, ace. Let's just say that when you L_E_V_E_L_ U_P, you'll want to celebrate with the rest of this bottle. I guarantee it! So-
+GOTO   | NOTES_ASK_FOR_MORE
+
+GRAPE_LADDER_4
+DIALOG | P_NAME = s_port_hoopzShock | Clispeath... why do I feel like I'm gonna throw up?
+DIALOG | Gelasio | Ha! It think they call that astringency. We're closin' in on the end of this bottle, champ_ and also your promotion to G_U_M_S_H_O_E L_E_V_E_L_ T_W_O.
+DIALOG | P_NAME = s_port_hoopzSurprise | Oh! This detective work is hard, but sure is rewarding!
+DIALOG | Gelasio | So, kiddo-
+GOTO   | NOTES_ASK_FOR_MORE
+
+GRAPE_LADDER_3
+DIALOG | Gelasio | Ahhhh! That's the stuff!
+DIALOG | P_NAME  | (Phew... I should slow down that one got to me... am I biting off more than I can chew? How much longer to GUMSHOE LEVEL TWO?)
+GOTO   | NOTES_ASK_FOR_MORE
+
+GRAPE_LADDER_2
+DIALOG | P_NAME = s_port_hoopzShock | Hotdigs that's got a bite to it!
+DIALOG | Gelasio | Bites like hell, don't it greenhorn?_ Now-
+QUEST  | abdulOffer = 1
+GOTO   | NOTES_ASK_FOR_MORE
+
+GRAPE_LADDER_1
+DIALOG | P_NAME = s_port_hoopzShock | Geeeeyow! The Grape is so strong!
+DIALOG | Gelasio | You said it, chief. Savor that strong Niagra flavor!_ Say-
+GOTO   | NOTES_ASK_FOR_MORE
+
+NOTES_ASK_FOR_MORE
+DIALOG | Gelasio | Any other clues for me?
+CHOICE | Any clues for Gelasio?
+REPLY  | NOTES_GIVE | Let me show you something.
+REPLY  | NOTES_END  | Not now, maybe later.
+
+NOTES_GIVE           
+DIALOG | P_NAME | How's this for a scoop?
+GOTO   | NOTES_SELECT
+    
+NOTES_END           
+DIALOG | P_NAME  | I'll get back to you with some clues.
+DIALOG | Gelasio | Good luck, gumshoe. But, remember this: don't go barkin' up a tree unless you are ready for what falls down from the branches.
+DIALOG | P_NAME = s_port_hoopzHappy | Aye, aye!
+
+NOTES_STILL_WORKING
+DIALOG | P_NAME  | Um not yet, sorry, Gelasio.
+DIALOG | Gelasio | A thoughtful detective makes the right call, the FIRST TIME. I like your process, gumshoe.
+
+AUGUSTINE_ASK
+QUEST  | gelasioState = 2
+IF gelasioDuergar == 4 | GOTO | AUGUSTINE_QUESTIONING_OVER
+IF gelasioDuergar == 3 | GOTO | AUGUSTINE_CONFRONT_GELASIO
+IF gelasioDuergar == 2 | GOTO | AUGUSTINE_QUESTIONING_2
+IF gelasioDuergar == 1 | GOTO | AUGUSTINE_QUESTIONING_1
+
+AUGUSTINE_QUESTIONING_OVER
+DIALOG | Gelasio | Actually sport, I don't think there is that much left to talk about regarding Augustine, unless you have something new to bring to the table, I suggest you stay down and keep searchin' through the crumbs.
+
+AUGUSTINE_QUESTIONING_2
+IF aelfedaAugustine == 4  | IF jindrichDoubt == 2 | GOTO | AUGUSTINE_CONFRONT_GELASIO
+CHOICE | Ask about Augie?
+IF aelfledaAugustine == 2 | REPLY | GRAPE_MONEY | What did you do with Aelfleda's money?
+IF jindrichDoubt == 1     | REPLY | AUGUSTINE_DISAPPEAR | More Grape for you with Augie gone?
+REPLY  | NEVERMIND | Nary ye mind.
+
+AUGUSTINE_QUESTIONING_1
+CHOICE | Ask about Augie?
+IF gelasioHistoryAsk == 0 | REPLY | AUGUSTINE_HISTORY | What's your history with Augustine?
+IF gelasioRecentAsk == 0  | REPLY | AUGUSTINE_RECENT  | What were you and Augustine up to?
+IF aelfledaAugustine == 2 | REPLY | AELFLEDA_MONEY    | Aelfleda says you have her money.
+REPLY  | NEVERMIND | Nary ye mind.
+
+AELFLEDA_MONEY
+DIALOG | P_NAME  | I talked to Aelfleda and she said she's out on the street because of Augustine.
+DIALOG | Gelasio | She said that? Aww hell, sport, you gonna believe that sullen ol' buzzkill?
+DIALOG | P_NAME  | Well, she got evicted.
+DIALOG | Gelasio | Yeah because of her own bad spending habits! Look, say what you will about my Grapefilled Lifestyle, but I can guarantee you I live within my means, and so did Augustine. That Aelfleda lass drank away her own mortgage! Nothing ol' Augie and I could do but feel bad for her.
+DIALOG | P_NAME = s_port_hoopzSad | I felt really bad for her too...
+QUEST  | aelfledaAugustine = 3
+GOTO   | AUGUSTINE_QUESTIONING_1
+
+AUGUSTINE_RECENT
+DIALOG | P_NAME  | What were you and Augustine doing to in Tir na nOg?
+DIALOG | Gelasio | What were we up to? Oh well just drinkin' `kw`The Grape and rabblerousin'`rt` like the old times.
+DIALOG | P_NAME  | Oh okay, sounds like you two were good friends.
+DIALOG | Gelasio | Yeah you could say that. `kw`The Mines`rt` has a way of forcing some pretty necessary bedfellows. It's hard to survive down there on your own. And not just physically, those Duergars are always trying to turn dwarf against dwarf down there, face them off and see who they can squeeze for more information. It's brutal. I'm lucky to get out of there.
+DIALOF | P_NAME  | Ah I see...
+QUEST  | gelasioRecentAsk = 1
+GOTO   | AUGUSTINE_QUESTIONING_1
+
+AUGUSTINE_HISTORY
+DIALOG | Gelasio | You see, my boy Augie, he... well... ok, here it goes. When Augustine and I were first shipped off to the mines, we had no hope of coming back. No dwarfs ever have... from what we know. We knew we faced labor and an inglorious death in the mines, but neither of us would allow the other to sweat it. So we worked tirelessly, blowing out channels of rock, finding new paths, exploring the underground. If we were there, we were going to make the most of it. We kept each other's hopes up, but I don't know how much longer it would have lasted... then Augie found something.
+DIALOG | P_NAME  | Something?
+DIALOG | Gelasio | Yeah... something or should I say... someO_N_E_.
+DIALOG | P_NAME = s_port_hoopzSurprise | Someone? What do you mean?
+DIALOG | Gelasio | You don't know what I'm talking about do ya, kid? Eh, well, it's not a big deal._._._ forget about it.
+DIALOG | P_NAME  | Ah, okay.
+QUEST  | gelasioHistoryAsk = 1
+GOTO   | AUGUSTINE_QUESTIONING_1
+
+GRAPE_MONEY
+DIALOG | P_NAME  | Sure been nice with all this `kw`Grape money,`rt` hasn't it?
+DIALOG | Gelasio | What's it to ya?
+DIALOG | P_NAME  | Nothin', I'm just saying that Grape ain't cheap, and I've never heard of a dwarf salary being able to cover it. Two dwarf's salaries, maybe.
+DIALOG | Gelasio | You're startin' to test my patience, gumshoe... 
+QUEST  | aelfedaAugustine = 4
+GOTO   | AUGUSTINE_QUESTIONING_2
+
+AUGUSTINE_DISAPPEAR
+DIALOG | P_NAME  | Just sayin' that there's lot more of the Grape around without Augie drinkin' it all.
+DIALOG | Gelasio | Look, partner, I don't know where you are going with this line of interrogation, but I'm Gelasio, I'm the one buyin' you this drink. It could have been Augie-
+DIALOG | P_NAME  | Yeah, could have been Augie, but he's missing bad...
+DIALOG | Gelasio | And what are you suggesting?
+QUEST  | jindrichDoubt = 2
+GOTO   | AUGUSTINE_QUESTIONING_2
+
+AUGUSTINE_CONFRONT_GELASIO
+WAIT    | 0.1
+//TIME ADVANCE!
+QUEST   | time += 1
+DIALOG  | P_NAME  | Sounds like you and the duergars are pretty chummy-chummy?
+DIALOG  | Gelasio | Huh? What's your angle, skip?
+DIALOG  | P_NAME  | My angle is that it seems like you and the Duergars have been on good terms since you got out of the mines. And it seems even more that the only one in Tir na nOg that would know anything about Augustine's disappearance is you.
+DIALOG  | Gelasio | Don't bark up the wrong tree, gummy. You might not like what comes down from the branches.
+DIALOG  | P_NAME = s_port_hoopzAngry | I already know what's in those branches... the `kw`Frisbee of Foul Play.`rt` And I'm the `kw`Hound of Justice`rt` that's gonna stay down here until it falls to the ground. Now tell me what happened to Augustine!
+DIALOG  | Gelasio | He asked too many questions is what he did!
+Misc    | music   | mus_blankTEMP | 0
+WAIT    | 1.0
+DIALOG  | Gelasio | That's right, he was always naggin' me about what we had found in the mines. He'd still be down there if it wasn't for me talkin' us both out. He owed me his freedom -heh- only fitting I should take it away.
+SURPRISEAT | o_gelasio01
+DIALOG  | P_NAME = s_port_hoopzShock | So it was you!
+DIALOG  | Gelasio | That's right, you're so smart... Augustine couldn't handle his Grape just like he couldn't handle his past. He had to go, and the Duergars made it easy for him to... relocate.
+DIALOG  | P_NAME = s_port_hoopzSurprise | What did they do with him?!
+DIALOG  | Gelasio | Don't get your mohawk in a knot, twerp, he's not dead. He's just in a place you definitely DON'T wanna visit.
+DIALOG  | P_NAME = s_port_hoopzAngry | This is low down. This is dastardly.
+DIALOG  | Gelasio | Maybe so. Maybe ol' Gelasio ain't the chum you thought he was... maybe he'd the other kind of chum... the stuff you toss out to attract the more repulsive things in life. But hey, I'm here,_ I'm drunk on Grape,_ and best of all, you can't do anything about it.
+DIALOG  | P_NAME = s_port_hoopzAngry | Oh yeah?
+DIALOG  | Gelasio | That's right. What are you gonna do, get ol' Blue to arrest me? Heh. The Duergars were the ones who took Augie away, and very generously benefitted me with his shekels I might add. Haha!
+DIALOG  | P_NAME = s_port_hoopzAngry | ...
+DIALOG  | Gelasio | I gotta give it to you though, slick. You asked the right questions, you figured it out. You barked up the right tree... too bad ain't nothin' is coming down.
+WAIT    | 0.3
+NOTIFY  | P_NAME is now GUMSHOE LEVEL TWO.
+//TODO: add GUMSHOE sound
+DIALOG  | P_NAME = s_port_hoopzAngry | You won't get away with this, Gelasio.
+DIALOG  | Gelasio | Correction, P_NAME. I already have.___`w1`HAHAHAHAHAHA_HA!`w0`
+QUEST   | gelasioState = 4
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | WEST
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | SOUTHWEST
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | SOUTH
+WAIT    | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT    | 1.00
+DIALOG  | P_NAME = s_port_hoopzSad | (What in the world can you do, P_NAME_S? Life's not fair and then the Duergars take you away._._._)
+// TODO: Return the area music here, wether it's TNN normal or curfew
+
+NEVERMIND
+DIALOG | P_NAME  | Ah, nary ye mind.
+DIALOG | Gelasio | See ya, kid."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_haxws"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(0, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2abq"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(440, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vurcs"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(200, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbd1l"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(240, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt5x3"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(280, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5kws"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(320, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0771"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(360, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03vyl"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(400, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ig8j"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(440, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kp4kt"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(520, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6sc0"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(560, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dl32"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(600, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30o1l"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(640, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u733d"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(680, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aq3wl"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(680, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhv82"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(80, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxnl2"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(120, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqp3e"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(160, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_steo2"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(200, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtx4y"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(240, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hcmn"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(480, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0msis"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(520, 0, 40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkx4o"]
+atlas = ExtResource("2_a7cga")
+region = Rect2(200, 0, 40, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_veoos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_haxws")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2abq")
+}],
+"loop": true,
+"name": &"drank",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vurcs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbd1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt5x3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5kws")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0771")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03vyl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ig8j")
+}],
+"loop": true,
+"name": &"drink",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kp4kt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6sc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dl32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30o1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u733d")
+}],
+"loop": true,
+"name": &"grapeAnother",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aq3wl")
+}],
+"loop": true,
+"name": &"grapeAnotherFreeze",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhv82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxnl2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqp3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_steo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtx4y")
+}],
+"loop": true,
+"name": &"grapeGet",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hcmn")
+}],
+"loop": true,
+"name": &"grapeHand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0msis")
+}],
+"loop": true,
+"name": &"grapeHandEmpty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkx4o")
+}],
+"loop": true,
+"name": &"grapeHold",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vurcs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_13ip1"]
+size = Vector2(20, 36)
+
+[node name="o_gelasio01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_gshxn")
+is_interactive = null
+interactive_timer = null
+interactive_shader = null
+mouse_detection_area = NodePath("ActorInteract")
+interactive_distance = null
+player_can_pause = null
+cutscene_script = SubResource("Resource_g2abq")
+cutscene_script_mask = null
+debug_move_finish = null
+debug_check_movement_vector = null
+cast_shadow = null
+ActorAnim = NodePath("ActorAnim")
+flip_h = null
+has_collision = null
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+_automatic_animation = null
+_current_animation = null
+path_desired_distance = null
+target_desired_distance = null
+animation_speed = null
+disable_auto_flip_h = null
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_veoos")
+centered = false
+offset = Vector2(-18, -42)
+metadata/default = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeGet = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeHold = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/drink = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/drank = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeHand = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeHandEmpty = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeAnother = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+metadata/grapeAnotherFreeze = {
+"bbox_bottom": "55",
+"bbox_left": "2",
+"bbox_right": "39",
+"bbox_top": "0",
+"frames": ["images\\s_gelasio01_0.png", "images\\s_gelasio01_1.png", "images\\s_gelasio01_2.png", "images\\s_gelasio01_3.png", "images\\s_gelasio01_4.png", "images\\s_gelasio01_5.png", "images\\s_gelasio01_6.png", "images\\s_gelasio01_7.png", "images\\s_gelasio01_8.png", "images\\s_gelasio01_9.png", "images\\s_gelasio01_10.png", "images\\s_gelasio01_11.png", "images\\s_gelasio01_12.png", "images\\s_gelasio01_13.png", "images\\s_gelasio01_14.png", "images\\s_gelasio01_15.png", "images\\s_gelasio01_16.png", "images\\s_gelasio01_17.png"],
+"height": "56",
+"name": "s_gelasio01",
+"width": "40",
+"xorig": "18",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vurcs")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_13ip1")

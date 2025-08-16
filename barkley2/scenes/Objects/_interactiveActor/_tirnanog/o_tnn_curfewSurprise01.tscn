@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq8mwxucj0btu"]
+
+[ext_resource type="Script" uid="uid://c3nwsgsn7tley" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_tnn_curfew_surprise_01.gd" id="1_mlatk"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_217fo"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="2_mlatk"]
+
+[sub_resource type="Resource" id="Resource_arjud"]
+script = ExtResource("2_217fo")
+original_script = "IF curfewSurprise == 1 | GOTO | SURPRISE_1
+IF curfewSurprise == 2 | GOTO | SURPRISE_2
+
+SURPRISE_1
+QUEST  | curfewCollision = 1
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 2.0
+Emote  | ?
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's going on?
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.75
+DIALOG | P_NAME | It's as silent as a crypt in here... It's almost like a `mq`[CURFEW]`rt` or something. I'd better stay on my toes... This is just a `kw`-HUNCH-`rt` but I think the `sq`[DUERGARS]`rt` might be up to no good.
+WAIT   | 0.25
+QUEST  | curfewSurprise = 3
+
+SURPRISE_2
+QUEST  | curfewCollision2 = 1
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 2.0
+Emote  | ?
+WAIT   | 1.25
+DIALOG | P_NAME | Huh? What's going on?
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.75
+DIALOG | P_NAME | It looks like that curfew dealio is all done and dusted. The people are back on the streets, enjoying their lives...
+WAIT   | 0.25
+QUEST  | curfewSurprise = 4"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_217fo"]
+size = Vector2(48, 8)
+
+[node name="o_tnn_curfewSurprise01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_mlatk")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_arjud")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_217fo")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("2_mlatk")
+title = "Verify..."
+notes = "Add Curfew"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

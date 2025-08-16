@@ -1,8 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2otmm8u46uk4"]
+[gd_scene load_steps=11 format=3 uid="uid://b2otmm8u46uk4"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amalberga01.gd" id="1_twvs6"]
+[ext_resource type="Script" uid="uid://bu1yilbppymym" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amalberga01.gd" id="1_twvs6"]
 [ext_resource type="Texture2D" uid="uid://buujcwuw2507u" path="res://barkley2/assets/b2_original/images/merged/s_amalberga01.png" id="2_84ak8"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hqai5"]
 [ext_resource type="Texture2D" uid="uid://b6pwmj61hj7xu" path="res://barkley2/assets/b2_original/images/merged/s_amalberga02.png" id="3_gcn0r"]
+
+[sub_resource type="Resource" id="Resource_t41tx"]
+script = ExtResource("2_hqai5")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF govCar == 2 | GOTO | CAR2
+IF govCar == 3 | GOTO | CAR3
+IF curfew == during | GOTO | CURFEW
+GOTO   | AMALBERGA
+
+GOVERNOR
+DIALOG | Amalberga | Hello, Mr. Governor... wouldn't mind some new tools or a garage to work on this thing in. Just throwing it out there.
+QUEST  | govCar = 1
+
+CAR2
+DIALOG | Amalberga | Hey, did you catch the new governor's speech? Isn't it so weird that we're getting a new garage to work in? Hildy and I were only working on the car for fun, to keep our minds off of how crummy and boring it is here. But it really looks like we may actually get this thing done soon. Maybe the new governor isn't so bad after all.
+QUEST  | govCar = 3
+
+CAR3
+DIALOG | Amalberga | Sometimes late at night, I think I can hear the sound of speeding cars coming from outside the city. You think people out there might be racing? When we get this thing souped up, nobody's gonna beat us.
+
+CURFEW
+DIALOG | Amalberga | Sigh. Flippin' curfew. One of these days, Hildy and I are gonna fix that clunker up and break out through the front gate. Then we'll be the queens of the road... if there are any roads out there.
+QUEST  | govCar = 1
+
+AMALBERGA
+DIALOG | Amalberga | Hildy and I have been working on this baby for as long as we've been here. They said it would be a real fixer-upper and they were right, but the main problem is that the parts we need just don't exist anymore. I mean, I have no idea how old this thing is but it's amazing that it's not just a lump of rust. If we could get an ancient catalytic converter, we could really get this thing purring again.
+QUEST  | govCar = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ihq6"]
 atlas = ExtResource("2_84ak8")
@@ -40,6 +69,7 @@ size = Vector2(20, 36)
 [node name="o_amalberga01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_twvs6")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_t41tx")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
@@ -77,6 +107,7 @@ metadata/inside = {
 shape = SubResource("CircleShape2D_5gb0i")
 
 [node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
 shape = SubResource("RectangleShape2D_mjbv4")

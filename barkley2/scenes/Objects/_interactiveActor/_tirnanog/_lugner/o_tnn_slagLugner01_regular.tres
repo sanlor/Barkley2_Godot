@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://41o7lnuatrn5"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_3p5td"]
+
+[resource]
+script = ExtResource("1_3p5td")
+original_script = "QUEST | slagChase = 2
+IF room == r_tnn_marketDistrict01   | GOTO | MEETING_MARKET
+IF room == r_tnn_businessDistrict01 | GOTO | MEETING_BUSINESS
+  
+MEETING_MARKET                                    
+LOOK   | o_slag01 | EAST
+MOVETO | o_cts_hoopz | o_cinema12 | MOVE_NORMAL
+WAIT   | 0.75
+MOVETO | o_slag01 | o_cinema10 | MOVE_FAST
+WAIT   | 0                    
+//SET     | o_slag01 | default
+//WAIT    | 0.25
+GOTO   | DEAL_MAKE
+             
+MEETING_BUSINESS                                 
+MOVETO | o_cts_hoopz | o_cinema8 | MOVE_NORMAL
+WAIT   | 0
+GOTO   | DEAL_MAKE
+ 
+DEAL_MAKE
+LOOKAT | o_slag01 | o_cts_hoopz
+LOOKAT | o_cts_hoopz | o_slag01
+DIALOG | Slag | Where ya goin, kid?
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_slag01
+WAIT   | 0               
+DIALOG | P_NAME | None of your `w1`beeswax.`w0`
+DIALOG | Slag   | Heh... that right? Well, an interested party may have just overheard that `w1`heart-worming`w0` conversation you and that sweet little Duergar just had. You gotta figure that an interested party may have a pretty good idea where you'd be going after a conversation like that.
+DIALOG | P_NAME = s_port_hoopzAngry | ... I don't know what you're talking about.
+DIALOG | Slag   | Talking? We're not even talking at all. Just two passing strangers in the street, asking each other the time. Look down at your watch.
+DIALOG | P_NAME | What?
+DIALOG | Slag   | Your watch. Look down at it.
+DIALOG | P_NAME | I'm not wearing a watch.
+DIALOG | Slag   | Just look down at your arm and say `w1`7:30.`w0`
+DIALOG | P_NAME | Uh..._ 7:30?
+DIALOG | Slag   | There, that wasn't so hard. Now everybody in an earshot heard you. Alibi, kid, don't leave home without it._ So these Dwarfs you're about to have sent over. `sq`You don't want to bring them to that Duergar you just ran into.`rt`
+DIALOG | P_NAME | What are you trying to say?
+DIALOG | Slag   | Heh. I'm saying that I'll pay you @money_slagDwarfPrice@ neuro-shekels a head for every Dwarf you bring to `w1`me`w0` instead of that Duergar. Cash in hand, no questions asked.
+CHOICE | Response?
+REPLY  | NO_THANKS | No thanks. (No.)
+REPLY  | FLY_A_KITE | Go fly a kite. (No.)
+
+NO_THANKS
+DIALOG | P_NAME = s_port_hoopzAngry | No thank you.
+GOTO   | DEAL_MAKE_CONT
+
+FLY_A_KITE
+DIALOG | P_NAME = s_port_hoopzAngry | Go fly a kite, dude.
+GOTO   | DEAL_MAKE_CONT
+
+DEAL_MAKE_CONT
+DIALOG | Slag   | Not even gonna think about it? Just think about that money when you're out there getting those dwarfs. You could go buy yourself a hat as pretty as my hat._ Ain't my hat pretty?
+DIALOG | P_NAME | I don't think it fits your head right.
+DIALOG | Slag   | Bullshit, I'm a goddamn dreamboat in this fucking hat. Why the fuck don't you wear a hat? Your head looks stupid without one.
+DIALOG | P_NAME | I gotta protect the 'hawk.
+DIALOG | Slag   | Tough luck. Meditate a little bit about the merits of crushed dwarf skulls over some tender, loving fistful of cash from your friendly neighborhood businessman. If you have a change of heart, I'll be in the warehouse. Just send them to the `sq`red container`rt` and you'll make a fortune for yourself.         
+DIALOG | Slag   | Au revoir, slick.
+MOVETO | o_slag01 | o_cinema31 | MOVE_NORMAL
+WAIT   | 0
+Destroy | o_slag01
+KNOW   | knowSlag | 1
+QUEST  | slagMet = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

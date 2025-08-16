@@ -1,8 +1,41 @@
-[gd_scene load_steps=28 format=3 uid="uid://c0lu2mi230i77"]
+[gd_scene load_steps=30 format=3 uid="uid://c0lu2mi230i77"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hildeberga01.gd" id="1_0eg3w"]
+[ext_resource type="Script" uid="uid://dbuojxjxvel4s" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hildeberga01.gd" id="1_0eg3w"]
 [ext_resource type="Texture2D" uid="uid://cget40cbh3so4" path="res://barkley2/assets/b2_original/images/merged/s_hildeberga01.png" id="2_0qik5"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4pjdt"]
 [ext_resource type="Texture2D" uid="uid://cb571hypewlww" path="res://barkley2/assets/b2_original/images/merged/s_hildeberga02.png" id="3_r7u7h"]
+
+[sub_resource type="Resource" id="Resource_xpdis"]
+script = ExtResource("2_4pjdt")
+original_script = "IF body == governor | GOTO | GOVNA
+IF curfew == during | GOTO | ZZZ
+IF govCar == 3 | GOTO | GARAGE3
+IF govCar == 2 | GOTO | GARAGE2
+IF body == governor | GOTO | GOVNAH
+IF govCar == 1 | GOTO | GARAGE0
+IF govCar == 0 | GOTO | GARAGE0
+    
+GOVNA
+DIALOG | Hildeburge | So you're the governor, huh? I figured you'd be taller.
+
+ZZZ
+DIALOG | Hildeburge | `w1`Zzz...`w0` cars... `w1`zzz...`w0`
+
+GARAGE3
+DIALOG | Hildeburge | We're gonna supercharge the engine, put in a new ignition system, put on some low profile tires, maybe even install a nitrous injector. And don't even forget the loudest stereo system this side of a Jamaican dancehall. Yeah, no question, we're gonna have the sweetest ride on the Necron 7.
+
+GARAGE2
+DIALOG | Hildeburge | Hahaha, can you believe it? The new governor said we're getting a brand new garage with all the tools we need to soup this bad boy up. Doesn't he realize we're just gonna break out the front gate with it?
+QUEST  | govCar = 3
+
+GOVNAH
+DIALOG | Hildeburge | I just want to cruise... don't care about Cuchulainn, don't care about Tir na Nog... I just wanna feel the wind in my hair...
+QUEST  | govCar = 1
+
+GARAGE0
+DIALOG | Hildeburge | Amy and I have big plans for this bad boy. I'd like to see the Duergars try to keep us in Tir na Nog while we're pushing this baby as hard as it goes. Look at that speedometer. It goes all the way to 200! I just don't know whether it's in miles or kilometers...
+QUEST  | govCar = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vn2np"]
 atlas = ExtResource("2_0qik5")
@@ -173,6 +206,7 @@ size = Vector2(20, 36)
 [node name="o_hildeberga01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0eg3w")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_xpdis")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

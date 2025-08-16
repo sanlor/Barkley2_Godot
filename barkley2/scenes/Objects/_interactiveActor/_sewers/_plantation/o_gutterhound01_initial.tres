@@ -1,0 +1,343 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://degbu30jeb7dm"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_jdvwq"]
+
+[resource]
+script = ExtResource("1_jdvwq")
+original_script = "EVENT   | o_gutterhound01 | 9
+IF gutterEscape >= 1     | GOTO | EMPTY_CANS
+IF body == governor      | GOTO | GOV
+IF gutterhoundQuest == 3 | GOTO | GUTTER03
+IF tnnCurfew == 0 | IF time >= @timeRobbery@   | GOTO | INSTANT_ROB
+IF gutterhoundQuest >= 4 | GOTO | GUTTERHOUSE
+IF gutterhoundQuest == 2 | GOTO | GUTTER02
+IF gutterhoundQuest == 1 | GOTO | GUTTER01
+IF gutterhoundQuest == 0 | GOTO | GUTTER00
+
+INSTANT_ROB
+IF gutterhoundQuest == 0 | GOTO | INSTANT_ROB_DONT_KNOW
+IF gutterhoundQuest == 1 | GOTO | INSTANT_ROB_DONT_KNOW
+GOTO | INSTANT_ROB_CHOOSE
+
+INSTANT_ROB_DONT_KNOW
+DIALOG | Gutterhound | Get outta of my hair, kid. I've got some /'business/' to attend to...
+
+INSTANT_ROB_CHOOSE
+DIALOG | Gutterhound | No time for dicking around, it's now or never. You robbin' or what?
+CHOICE | Help Gutterhound rob the bank?
+REPLY  | GUTTERROB | I can't wait to rob!
+REPLY  | GUTTER03 | Hey bonehead, the answer's NO.
+
+EMPTY_CANS
+DIALOG | P_NAME | The bad brew that was once inside these bottles is now long gone.
+
+GOV
+DIALOG | Gutterhound | Lookin' sharp, P_NAME_S. Knock 'em dead out there. Oh, and... legalize it.
+
+GUTTER03
+DIALOG | Gutterhound | Get steppin', brat, I'm gonna make this withdrawal myself, and it's going alll_l_l straight to my brainpan. Scram.
+GOTO   | END
+
+GUTTER02
+DIALOG | Gutterhound | What the hell do you want, chump? I'm done with you. We've got nothin' to talk about. Unless you want to talk about partyin' up and paintin' the town grape.
+DIALOG | P_NAME | Well...
+CHOICE | Help Gutterhound rob the bank?
+REPLY  | YESROB2 | On second thought, sure...
+REPLY  | THINKABOUTIT | Let me think it over still.
+REPLY  | NOROB2 | Hey bonehead, the answer's NO.
+
+YESROB2
+DIALOG | P_NAME | Well... I don't know about partying... I'm more of a vidcons kind of guy... but I was thinking maybe we could talk about breaking into that Duergar bank... the one you were talking about earlier?
+DIALOG | Gutterhound | Ha HA! I knew you'd be back, kid! Lemme tell you something: you shouldn't feel bad about taking from Duergars. Those mother hubbards would slit your throat in an instant if they could make a dime off it. They take from the dwarfs every day. Look at this place. Look at Tir na Nog. I'm glad as hell I got out of here when I could 'cuz this is a pig sty and who do we have to thank for that? Cuchulainn and the Duergars. Well I say we take back, get off our asses unlike these so-called rebels and show the Duergars what's what.
+GOTO   | YESROB
+
+THINKABOUTIT
+DIALOG | P_NAME | Actually, I'm gonna keep mulling this one over.
+DIALOG | Gutterhound | You gonna pussyfoot around everything in life? Fine, tyke, but just know I'm going in whether you are with more or not.
+GOTO   | END
+
+NOROB2
+DIALOG | P_NAME | No way, I'm not a crook. I don't care that it's the Duergars or Cuchulainn or whoever, I'm not going to steal from anyone. Stealing is wrong...
+DIALOG | Gutterhound | Man, you're as lame as they come. Forget it, kid. I don't want nothin' to do with you. /'Stealing is wrong./' Wah wah. Learn to live a little.
+QUEST  | gutterhoundQuest = 3
+
+GUTTER01
+DIALOG | Gutterhound | Hey party animal, ready to hear my big idea now?
+CHOICE | Hear out Gutterhound?
+REPLY  | LISTEN | Sure, what's this big idea?
+REPLY  | DONTLISTEN | Sorry, gotta dash.
+
+GUTTER00
+DIALOG | Gutterhound | Look at these poseurs. `kw`/'Rebels/'.`rt` Sittin' on their `w1``sq`bumpers`rt``w0` all day waitin' for someone to fix all their problems. Well that ain't gonna be me! I'm here to party! Where's that purple stuff at? Ol' Gutterhound's gotta wet his whistle! Oooh boy, I'm gonna get `kw`cuffed up`rt` tonight!
+IF knowLONGINUSTnn == 0 | GOTO | REBELASK
+GOTO   | GUTTER00_CONT1
+\" + 
+//TODO: This needs to reflect the new rebel thing
+//      not sure what this is above anymore?
+
+REBELASK    
+DIALOG | P_NAME | Huh? What rebels?
+DIALOG | Gutterhound | The ones up that ladder and through that door!
+LOOKAT | o_cts_hoopz | o_cinema10
+FRAME  | CAMERA_NORMAL | o_cinema10
+WAIT   | 0
+DIALOG | Gutterhound | That `mq`secret hideout`rt` ain't exactly secret, damn nincompoops. They think they can keep pushing against that `kw`Ole Man Cuchu`rt` and get some ground. Hell, only ground I need is where I pass out each morning! Ha!
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_gutterhound01
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_gutterhound01
+KNOW   | knowLONGINUSTnn | 2
+GOTO   | GUTTER00_CONT1
+
+GUTTER00_CONT1
+DIALOG | P_NAME | What's your problem with the rebels?
+DIALOG | Gutterhound | I got two problems with 'em. First, they don't know how to party. That's the big one. Second, they don't do diddly. I hiked all the way through the sewers by myself to see what kind of shennanigans were going down. And what do I see when I get there? /'We've got this chair that'll scramble your brains,/' and all that egghead bunk. Waste of my damn time.
+DIALOG | P_NAME | Wait, you made it all the way through the sewers on your own?
+DIALOG | Gutterhound | Lemme tell you somethin', kid - I eat `kw`Fiscians`rt` like I eat grapes: by the cluster. Hey speaking of, you got any of that purple stuff?
+IF knowGrape == 1 | GOTO | KNOWGRAPE
+IF knowGrape == 0 | GOTO | DUNNOGRAPE
+
+DUNNOGRAPE
+DIALOG | P_NAME | Purple stuff? What's that?
+DIALOG | Gutterhound | Ahhhh, you're straight off the vine my friend. Purple stuff - it's grape juice, Mother Nature's sweet, sweet gift to dwarfs. It's how the REAL rebels roll back in the BC - Brain City.
+QUEST  | knowGrape = 1
+DIALOG | P_NAME | That grape stuff sounds good._._._
+GOTO   | GUTTER00_CONT2
+
+KNOWGRAPE
+DIALOG | P_NAME | You mean... (gulp) T_H_E_ G_R_A_P_E_?
+DIALOG | Gutterhound | Well too be honest for me that's a broad term. I'll drink it whether it's from the vine or from the bathtub, ha!
+GOTO   | GUTTER00_CONT2
+
+GUTTER00_CONT2
+WAIT   | 0.5
+DIALOG | P_NAME | Well, I'm not supposed to talk to strangers. Bye.
+DIALOG | Gutterhound | Hey now, we just started chewing the flubber, don't need to rush off._ Tell ya what, I got an idea, kid, wanna hear it?
+QUEST  | gutterhoundQuest = 1
+GOTO   | GUTTERPROPOSITION
+
+GUTTERPROPOSITION
+CHOICE | Hear out Gutterhound?
+REPLY  | LISTEN | Aye, you have my ear.
+REPLY  | DONTLISTEN | Mine ear is none but mine own, begone.
+
+LISTEN
+KNOW   | knowGutterhoundRobbery | 1
+DIALOG | P_NAME | Well, I guess you can tell me.
+DIALOG | Gutterhound | Attaboy._._._ So look, I got a plan. If I'm gonna get fully `w1`C_U_F_F_E_D_ U_P`w0` tonight, I'm gonna need some serious scratch. `kw`Moolah,`rt` you follow? And you know where they keep it?
+FRAME  | CAMERA_NORMAL | o_cinema4
+WAIT   | 0
+WAIT   | 1
+DIALOG | Gutterhound | That's Cuchulainn's safe house, where the Duergars keep their loot. All day I've been watchin' the blueskins marching in neuroshekels by the brainload. I'm thinking we bust the place up, run off with the dough and split it fifty-fifty. And THEN we hit that purple stuff. Heh heh, what do you say kid?
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_gutterhound01
+WAIT   | 0
+CHOICE | Help Gutterhound rob the bank?
+REPLY  | YESROB | Sure, I'm in.
+REPLY  | NOROB  | No, thou shalt not heist.
+
+YESROB
+DIALOG | P_NAME      | Well, I don't know about stealing... but if it's from the Duergars, I guess it's okay.
+DIALOG | Gutterhound | Awww yeah, that's what I like to hear. So here's the skinny, kid. The bank is closed down you see, all chained up. Plus there are blueskins lousin' up the place at all hours of the day. But I got a little birdie that told me something might just be `sq`hitting the mainframe shortly`rt` and then ... poof, lights out - we get to work.
+DIALOG | P_NAME      | Ah, what does that mean?
+DIALOG | Gutterhound | It means it'll be time to make a withdrawal... by force.
+DIALOG | P_NAME = s_port_hoopzSurprise | That sounds `w1`X_-_T_R_E_E_M.`w0
+DIALOG | Gutterhound | Not only `w1`X_-_T_R_E_E_M,`w0` but in fact, `s1`T_R_I_P_L_E_X_-_T_R_E_E_M.`s0` So I need you come back here in a bit and we'll start the operation, got it?
+DIALOG | P_NAME = s_port_hoopzHappy | Got it!
+DIALOG | Gutterhound | But there is actually something that you can do for me now. You see, when we come bustin's out of that bank with a lobe full of shekels, `sq`we are gonna need a place to lay low for a bit.`rt` There's gonna be a lot of blue heat on the streets after this heist.
+DIALOG | P_NAME = s_port_hoopzSurprise | Oh! You're right, I didn't think of that.
+DIALOG | Gutterhound | What did my pappy always say before that particular potent strain of `kw`Concord Juice`rt` took his life? Plan your heist and heist your plan.
+DIALOG | P_NAME = s_port_hoopzHappy | Well I've made a lot of good friends in Tir na nOg already! Mr. Wil-
+DIALOG | Gutterhound | Nah. kid. The nOg's got eyes in the walls. We'd be rounded up before the new Governor even got here. We gotta go deeper...
+DIALOG | P_NAME      | Deeper?
+DIALOG | Gutterhound | Yeah, I've heard of those rotten blueskins patrolling the `sq`sewers`rt` but if you can find a good hiding spot for us, we'll be able to law low until the heat drops.
+DIALOG | P_NAME      | Okay so I'll try to find a safe place in the sewers!
+DIALOG | Gutterhound | You got it! And don't forget, kid, we don't have all day. The borking is going to hit the system shortly. Be here before then and we can start cashing in. But don't be late!
+DIALOG | P_NAME      | Okay, I'll be back.
+QUEST  | gutterhoundQuest = 4
+GOTO   | END
+
+NOROB
+DIALOG | P_NAME = s_port_hoopzSurprise | No way! I'm not gonna help you rob a bank! Are you out of your mind? Do you even have a plan? What if we get caught? What if... what if...
+DIALOG | Gutterhound | Awww, c'mon man. You're no fun. It's just a little theft, a little rough housin'. Who cares if a couple Duergars get smashed up in the process? It's all in good fun. Just a little Robin Hood'n around.
+DIALOG | P_NAME      | No. No way, I'm sorry, but theft is wrong and I'm not going to have anything to do with it. You need to get off the grape juice and take a bath.
+DIALOG | Gutterhound | I thought you might be up for a good time, but you're a party pooper just like these rebels, kid. Can't NOBODY in this kennel run with the Hound! Awooooo!
+DIALOG | P_NAME = s_port_hoopzAngry | You're out of your gourd... you're out of your dippin' gourd.
+QUEST  | gutterhoundQuest = 2
+
+DONTLISTEN
+DIALOG | P_NAME      | Sorry gotta skeedaddle to a place that doesn't reek of dwarfen garbage.
+DIALOG | Gutterhound | Suit yourself, kid. I happen to like the smell.
+QUEST  | gutterhoundQuest = 1
+
+END
+EXIT |
+
+GUTTERHOUSE
+DIALOG | Gutterhound | Hey partner, you find that safe house for us?
+CHOICE | Find anything?
+IF gutterhoundQuest != 5 | REPLY | ROBANYWAY | Fruck the safe house, let's start robbin'.
+IF gutterhoundQuest == 5 | REPLY | HERMITYES | I found a place, let's do this!
+REPLY  | STILLLOOKING | I'm still looking.
+
+HERMITYES
+DIALOG | P_NAME = s_port_hoopzHappy | Yeah I got a place! It's a cozy little flat in the middle of the sewers. The guy who lives there says you can stay as long as you'd like!
+DIALOG | Gutterhound | Whoah whoah, kid. You getting other people involved in this? I thought this was a two-man operation!
+DIALOG | P_NAME = s_port_hoopzSurprise | But! I was jus-
+DIALOG | Gutterhound | Ah! Nary ye mind, P_NAME_S. Just as long as you pay him from your cut, we're all square. Now, let's party!
+QUEST  | gutterhoundQuest = 5
+GOTO   | ROBCHOICE
+
+ROBANYWAY
+DIALOG | P_NAME | To heck with the safe house! Let's start the action N_O_W_!
+DIALOG | Gutterhound | That's what I like to hear. Once the heat comes down you won't have time for candy shoppin' so you better be ready. You give the word.
+QUEST  | gutterhoundQuest = 6
+GOTO   | ROBCHOICE
+
+ROBCHOICE
+CHOICE | Rob the damn bank?
+REPLY  | GUTTERROB | I can't wait to rob!
+REPLY  | GUTTERWAIT | Robbin' can wait, gotta gear up.
+
+GUTTERWAIT
+DIALOG | P_NAME | Actually, I'll be right back. Gotta prep.
+DIALOG | Gutterhound | Suit yourself kid, but remember, I'm going in at `kw`@timeRobberyString@`rt` anyways whether you are here or not.
+//TODO: say the actual time here
+DIALOG | P_NAME | You got it, Mr. Hound!
+GOTO   | END
+
+STILLLOOKING
+DIALOG | P_NAME | Yeah sorry, still looking for an option...
+DIALOG | Gutterhound | Options slow you down, kid. I only have one option... and that's to rob this muthafuckin' bank. See you in `kw`@timeRobberyDifferenceString@`rt`.
+//TODO: add in the Time Check above for time left until the Gutterhound Robbery
+GOTO   | END
+
+GUTTERROB
+EVENT   | o_mg_escort_control_gutterhound01 | 10
+MOVETO  | o_cts_hoopz | o_cinema11 | MOVE_NORMAL
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_gutterhound01
+FRAME   | CAMERA_NORMAL | o_gutterhound01
+WAIT    | 0.25
+PLAYSET | o_gutterhound01 | stand | standLast
+WAIT    | 0.4
+SOUND   | sn_bubblepop01
+WAIT    | 0.4
+SOUND   | sn_gutterhound_beerchug
+WAIT    | 0.8
+SOUND   | sn_gutterhound_swallow
+WAIT    | 0.5
+SOUND   | sn_gutterhound_smash
+WAIT    | 0.7
+SOUND   | sn_gutterhound_knockover
+WAIT    | 0.8
+DIALOG  | Gutterhound | It's party time!
+Misc    | shadow | o_gutterhound01 | 0
+EVENT   | o_gutterhound01 | 11 // unset rigid
+SET     | o_gutterhound01 | gone
+Create  | o_gutterhound02 | \" + string(o_gutterhound01.x) + \" | \" + string(o_gutterhound01.y) + \"
+DIALOG  | Gutterhound | Snatch those bolt cutters.
+MOVETO  | o_cts_hoopz | o_cinema12 | MOVE_NORMAL
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_boltCutters01
+USEAT   | o_boltCutters01
+EVENT   | o_boltCutters01 | 1
+ITEM    | Bolt Cutters | 1
+NOTIFY  | Got the Bolt Cutters!
+WAIT    | 0.25
+LOOKAT  | o_cts_hoopz | o_gutterhound01
+WAIT    | 0.25
+DIALOG  | Gutterhound | Let's get this show on the road. Woooooo!!!
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO  | o_gutterhound02 | o_cinema13 | MOVE_NORMAL
+WAIT    | 1
+MOVETO  | o_cts_hoopz | o_cinema14 | MOVE_NORMAL
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_gutterhound02
+LOOKAT  | o_gutterhound02 | o_cts_hoopz
+DIALOG  | Gutterhound | No more turnin' back now, kid.
+WAIT    | 0.5
+DIALOG  | P_NAME | (Gulp...)
+USEAT   | o_chains01
+PLAYSET | o_chains01 | cutting | cut
+SOUND   | sn_gun_reload11
+WAIT    | 0
+MOVETO  | o_cts_hoopz | o_cinema15 | MOVE_NORMAL
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_gutterhound02
+FRAME   | CAMERA_NORMAL | o_cinema16
+WAIT    | 0
+DIALOG  | Gutterhound | Mainframe's gonna be hit in... 5... 4... 3...
+EVENT   | o_gutterhound01 | 10
+EVENT   | o_gutterhound01 | 15
+WAIT    | 1
+Misc    | music | mus_blankTEMP | 0
+DIALOG  | Gutterhound | Close enough.
+FRAME   | CAMERA_FAST | o_cts_hoopz | o_gutterhound02
+MOVETO  | o_gutterhound02 | o_cinema14 | MOVE_NORMAL
+WAIT    | 0
+DIALOG  | Gutterhound | I'm heading in, keep your eyes peeled and your fists clenched.
+LOOKAT  | o_gutterhound02 | o_cinema16
+EVENT   | o_gutterhound01 | 12
+WAIT    | 1
+LOOK    | o_gutterhound02 | SOUTH
+FRAME   | CAMERA_FAST | o_cts_hoopz
+LOOK    | o_cts_hoopz | SOUTH
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTHWEST
+WAIT    | 1
+LOOK    | o_cts_hoopz | WEST
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTHWEST
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTH
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTHEAST
+WAIT    | 1
+LOOK    | o_cts_hoopz | EAST
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTHEAST
+WAIT    | 1
+LOOK    | o_cts_hoopz | SOUTH
+WAIT    | 1
+DIALOG  | P_NAME = s_port_hoopzSmirk | The coast is clear. It's all going according to plan...
+WAIT    | 1
+SOUNDLOOP | sn_bankalarm01
+PEDESTRIAN | off
+Emote   | !
+WAIT    | 1
+LOOK    | o_cts_hoopz | NORTHWEST
+WAIT    | 1
+EVENT   | o_gutterhound01 | 13
+FRAME   | CAMERA_FAST | o_cts_hoopz | o_gutterhound02
+Misc    | music | mus_rush | 1
+WAIT    | 0.5
+LOOKAT  | o_cts_hoopz | o_gutterhound02
+DIALOG  | Gutterhound | Some fancy pants alarm triggered when I grabbed the loot! No time to muck about, kid!
+FOLLOWFRAME | CAMERA_FAST | o_gutterhound02
+MOVETO  | o_gutterhound02 | o_cinema17 | MOVE_FAST
+WAIT    | 0
+LOOKAT  | o_gutterhound02 | o_cts_hoopz
+LOOKAT  | o_cts_hoopz | o_gutterhound02
+DIALOG  | Gutterhound | C'mon! Let's motor!
+MOVETO  | o_gutterhound02 | o_cinema18 | MOVE_FAST
+MOVETO  | o_cts_hoopz | o_cinema2 | MOVE_FAST
+WAIT    | 0
+LOOKAT  | o_gutterhound02 | o_cts_hoopz
+LOOKAT  | o_cts_hoopz | o_gutterhound02
+FRAME   | CAMERA_FAST | o_gutterhound02
+WAIT    | 0
+DIALOG  | P_NAME | What do we do now?
+//Emote   | ! | o_gutterhound02
+//WAIT    | 1
+//DIALOG  | Gutterhound | Pipe down! I hear the filth approaching.
+DIALOG  | Gutterhound | We're gonna lay low here and let the heat die down. Hold tight...
+WAIT    | 0.5
+KNEELAT | SOUTHWEST
+//LOOK    | o_cts_hoopz | SOUTH
+//LOOK    | o_gutterhound02 | SOUTH
+WAIT    | 1
+EVENT   | o_gutterhound01 | 14
+FADE    | 1 | 1.5
+WAIT    | 2
+SOUNDSTOP | sn_bankalarm01
+Teleport | \" + string(r_tnn_businessDistrict01) + \" | \" + string(o_cinema2.x) + \" | \" + string(o_cinema2.y) + \" | 1.5"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

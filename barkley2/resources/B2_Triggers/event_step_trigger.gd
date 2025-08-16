@@ -1,3 +1,4 @@
+@icon("uid://bas0fj5xlp6fj")
 extends B2_Event_Root
 class_name B2_Event_Step_Trigger
 
@@ -13,9 +14,10 @@ func _pre_event_trigger(_body : Node2D) -> void:
 		event_trigger( _body )
 
 func event_trigger( _node ):
-	if is_instance_valid(cutscene_script):
-		B2_CManager.play_cutscene( cutscene_script, self, [] )
-		await B2_CManager.event_ended
-		await get_tree().process_frame
-		if cutscene_hook:
-			B2_CManager.play_cutscene( cutscene_hook.cutscene_script, self, cutscene_hook.cutscene_script_mask )
+	if is_active:
+		if is_instance_valid(cutscene_script):
+			B2_CManager.play_cutscene( cutscene_script, self, [] )
+			await B2_CManager.event_ended
+			await get_tree().process_frame
+			if cutscene_hook:
+				B2_CManager.play_cutscene( cutscene_hook.cutscene_script, self, cutscene_hook.cutscene_script_mask )

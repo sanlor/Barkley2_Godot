@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmfoludmrp5wl"]
+
+[ext_resource type="Script" uid="uid://prkg18avlcdg" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_gov_balcony_door.gd" id="1_lxdmo"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_mkb7b"]
+
+[sub_resource type="Resource" id="Resource_xfbri"]
+script = ExtResource("2_mkb7b")
+original_script = "GOTO | OLDSTART
+
+NEWSTART
+FADE   | 1 | 1
+WAIT   | 1
+Teleport | r_tnn_govMansionFloorOne01 | 184 | 384 | 1
+
+OLDSTART
+IF body == governor | GOTO | ENTERMANSION
+
+ENTERMANSION
+CHOICE | Enter the mansion?
+REPLY | YES | Let's do it.
+REPLY | NO | Let's not do it.
+
+YES
+DIALOG | Governor Elagabalus | (Hold on to something.)
+FADE   | 1 | 1
+WAIT   | 1
+Teleport | r_tnn_govMansionFloorOne01 | 184 | 384 | 1
+
+NO
+MOVETO | o_cts_hoopz | o_cinema30 | MOVE_NORMAL
+WAIT   | 0
+DIALOG | Governor Elagabalus | (Not yet...)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4bv1l"]
+size = Vector2(57, 20)
+
+[node name="o_gov_balcony_door" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_lxdmo")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_xfbri")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_4bv1l")
+debug_color = Color(0.74068236, 0.46662462, 0, 0.25490198)

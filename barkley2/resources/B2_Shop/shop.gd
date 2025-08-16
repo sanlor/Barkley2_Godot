@@ -146,6 +146,12 @@ static var gun_inventory 	: Array[B2_Weapon] 	= []
 static var gun_prices		: Array[int] 		= []
 static var bought_items		: Dictionary		= {} ## List of bought items. not saved, so it will reset when you quit. Used mostly for guns
 
+## certain shops (Milagro) need to know its stock.
+static func check_stock( shop_name : String ) -> int:
+	push_error("Stock check not implemented. Shop %s will receive an incorrect stock amount." % shop_name)
+	return 10
+	
+
 static func get_shop_data( shop_name : String ) -> Dictionary:
 	if DB.has( shop_name ):
 		return DB.get( shop_name )

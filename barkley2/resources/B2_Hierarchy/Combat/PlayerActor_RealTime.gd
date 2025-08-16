@@ -78,6 +78,7 @@ func _ai_roll_at( enabled : bool ) -> void:
 		start_rolling( curr_input )
 	
 func start_aiming() -> void:
+	if not get_room_pacify():
 		# change state, allowing the player to aim.
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 		curr_STATE = STATE.AIM
@@ -91,13 +92,14 @@ func stop_aiming() -> void:
 ## Debug function. Should not be used normaly.
 ## Maybe not so debug anymore
 func shoot_gun() -> void:
-	if B2_Gun.has_any_guns() and B2_Input.player_has_control:
-		if curr_STATE == STATE.AIM:
-			curr_STATE = STATE.SHOOT
-			var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
-			gun_handler.use_normal_attack( combat_weapon.global_position, aim, self )
-			if curr_STATE == STATE.SHOOT:
-				curr_STATE = STATE.AIM
+	if not get_room_pacify():
+		if B2_Gun.has_any_guns() and B2_Input.player_has_control:
+			if curr_STATE == STATE.AIM:
+				curr_STATE = STATE.SHOOT
+				var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
+				gun_handler.use_normal_attack( combat_weapon.global_position, aim, self )
+				if curr_STATE == STATE.SHOOT:
+					curr_STATE = STATE.AIM
 	
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):

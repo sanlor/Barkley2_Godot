@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=4 uid="uid://dko35wh2ny03f"]
+[gd_scene load_steps=72 format=4 uid="uid://dko35wh2ny03f"]
 
 [ext_resource type="Script" uid="uid://c8156kfv1a3wt" path="res://barkley2/rooms/sewers floor2/r_sw_2_balcony_01.gd" id="1_bejyp"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_fgbyt"]
@@ -20,7 +20,6 @@
 [ext_resource type="Texture2D" uid="uid://dyv3f48om3rok" path="res://barkley2/assets/b2_original/images/merged/s_sewerLamp01.png" id="20_qadim"]
 [ext_resource type="PackedScene" uid="uid://dcwg3tuy7wfxg" path="res://barkley2/scenes/Objects/_doors/o_door_sewer01.tscn" id="20_u42m6"]
 [ext_resource type="Texture2D" uid="uid://b1gr0un0jq3od" path="res://barkley2/assets/b2_original/images/merged/s_door_sewer01.png" id="21_dhnik"]
-[ext_resource type="Script" uid="uid://bym6b4e62yhxs" path="res://barkley2/scenes/Objects/_environs/_unique/_sewers/o_sewer_lamp_01.gd" id="21_wt4tj"]
 [ext_resource type="PackedScene" uid="uid://0ko8dmrlobil" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum_open01.tscn" id="23_luok8"]
 [ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="24_eknxm"]
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="24_vhvr5"]
@@ -1900,6 +1899,7 @@ load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
+room_pacify = false
 camera_bound_to_map = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
@@ -1997,54 +1997,45 @@ metadata/code = ""
 metadata/inst_name = "inst_01D0EDE9"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open01" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("23_luok8")]
+[node name="o_drum_open01" parent="." instance=ExtResource("23_luok8")]
 position = Vector2(272, 267)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000022"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open02" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("23_luok8")]
+[node name="o_drum_open02" parent="." instance=ExtResource("23_luok8")]
 position = Vector2(256, 275)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000023"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open03" parent="." node_paths=PackedStringArray("EnvCol") instance=ExtResource("23_luok8")]
+[node name="o_drum_open03" parent="." instance=ExtResource("23_luok8")]
 position = Vector2(248, 355)
 sprite_frames = SubResource("SpriteFrames_esvbv")
 frame = 1
-EnvCol = NodePath("StaticBody2D2")
 metadata/code = ""
 metadata/inst_name = "inst_00000024"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_sewerLamp01" type="AnimatedSprite2D" parent="." instance=ExtResource("19_ux4oc")]
+[node name="o_sewerLamp01" parent="." instance=ExtResource("19_ux4oc")]
 position = Vector2(240, 96)
 sprite_frames = SubResource("SpriteFrames_0i5i1")
-centered = false
-script = ExtResource("21_wt4tj")
 metadata/code = ""
 metadata/inst_name = "inst_59BB619B"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_sewerLamp02" type="AnimatedSprite2D" parent="." instance=ExtResource("19_ux4oc")]
+[node name="o_sewerLamp02" parent="." instance=ExtResource("19_ux4oc")]
 position = Vector2(496, 96)
 sprite_frames = SubResource("SpriteFrames_0i5i1")
-centered = false
-script = ExtResource("21_wt4tj")
 metadata/code = ""
 metadata/inst_name = "inst_7BF46AB9"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_sewerLamp03" type="AnimatedSprite2D" parent="." instance=ExtResource("19_ux4oc")]
+[node name="o_sewerLamp03" parent="." instance=ExtResource("19_ux4oc")]
 position = Vector2(352, 96)
 sprite_frames = SubResource("SpriteFrames_0i5i1")
-centered = false
-script = ExtResource("21_wt4tj")
 metadata/code = ""
 metadata/inst_name = "inst_F889627D"
 metadata/scale = Vector2(1, 1)

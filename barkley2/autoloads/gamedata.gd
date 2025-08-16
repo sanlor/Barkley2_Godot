@@ -331,13 +331,19 @@ func _reset_data():
 func _load_portrait_data():
 	var time := Time.get_ticks_msec()
 	for file : String in DirAccess.get_files_at( PORTRAIT_PATH ):
-		if file.ends_with(".png.import"): ## Godot stuff.
-			#if file.find("_strip"): ## had an issue with this file: res://barkley2/assets/b2_original/portraits/s_port_doris.png
-			if file.begins_with("s_port_"):
-				if file.count("_") > 2:
-					portrait_map[ file.rsplit("_", false, 1)[ 0 ] ] = file.trim_suffix(".import")
+		if file.begins_with("s_port_"):
+			if file.ends_with(".png.import"): ## Godot stuff.
+				## NOTE 16/08/25 vvvvvv Why is this here?
+				# Seems to be an issue with the portrait formating. -> s_port_tutorialbot_strip4.png.import
+				# No idea how the game handles it, but we need to strip the "_strip4" off the file.
+				# the issue is with some exceptions, like "s_port_mortimer_rob.png.import", so I cant rely on the "_" count. FUCK.
+				if file.contains("strip"):
+					if file.count("_") > 2: 
+						portrait_map[ file.rsplit("_", false, 1)[ 0 ] ] = file.trim_suffix(".import")
+					#print(file)
 				else:
 					portrait_map[ file.trim_suffix(".import").trim_suffix(".png") ] = file.trim_suffix(".import")
+				
 	print("_load_portrait_data() - Added " + str( portrait_map.size() ) + " portraits in %s msecs." % str( Time.get_ticks_msec() - time ) )
 
 # get currents hoopz portrait.

@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=3 uid="uid://cliy8fx5qjtqw"]
+
+[ext_resource type="Script" uid="uid://couyardyofl84" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_grieg01.gd" id="1_ymvcr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_5wbqy"]
+[ext_resource type="Texture2D" uid="uid://dvm6l6v8ac1b4" path="res://barkley2/assets/b2_original/images/merged/s_grieg01.png" id="2_7vix6"]
+
+[sub_resource type="Resource" id="Resource_mf44m"]
+script = ExtResource("2_5wbqy")
+original_script = "IF area == tnn | GOTO | AREA_TNN
+IF area == est | GOTO | AREA_EST
+
+AREA_TNN
+IF body == governor | GOTO | GOVERNOR
+IF griegState == 0  | GOTO | STATE_0_TNN
+IF griegState == 1  | GOTO | STATE_1_TNN
+
+GOVERNOR
+DIALOG | Grieg               | Excuse me, sir. When is the `kw`next train`rt` leaving Tir na Nog?
+DIALOG | Governor Elagabalus | Yes, yes, yes. I am the Governor so I ride the trains often. Thank you for bringing this to my attention.
+
+STATE_0_TNN
+DIALOG | Grieg  | Excuse me.
+DIALOG | Grieg  | When is the `kw`next train`rt` leaving Tir na Nog?
+DIALOG | P_NAME | I don't know. Does this town have a train?
+DIALOG | Grieg  | Yes, I'm sure of it. There must be a train. How else does anybody get back home?
+QUEST  | griegState = 1
+QUEST  | knowTNNTrain = 1
+
+STATE_1_TNN
+DIALOG | Grieg  | I can't wait to go home.
+
+AREA_EST
+IF @Train Ticket@ >= 1 | IF griegTicket == 0 | GOTO | TICKET_HAVE
+IF griegState == 0 | GOTO | STATE_0_EST
+IF griegState == 1 | GOTO | STATE_1_EST
+IF griegState == 2 | GOTO | STATE_2_EST
+IF griegState == 3 | GOTO | STATE_3_EST
+
+STATE_0_EST
+DIALOG | Grieg  | Excuse me. When is the `kw`next train`rt` leaving The Social?
+DIALOG | P_NAME | I don't know. Does this town have a train?
+DIALOG | Grieg  | Yes, I'm sure of it. There must be a train. How else does anybody get back home?
+QUEST  | griegState = 1
+
+STATE_1_EST
+DIALOG | Grieg | I can't wait to go home.
+
+STATE_2_EST
+DIALOG | Grieg | The headmaster always told me that it doesn't take much to make a dream. Now that I have a train ticket, `w1`I can dream again.`w0`
+
+STATE_3_EST
+DIALOG | Grieg | I can't wait to use this chup to enjoy trains more!
+
+TICKET_HAVE
+DIALOG   | Grieg  | Excuse me, do you know when the `kw`next train`rt` is leaving The Social?
+DIALOG   | P_NAME | I don't know. Pretty soon, I think. I just bought a train ticket.
+DIALOG   | Grieg  | You... you got a `w1`train ticket?!?!`w0`
+DIALOG   | P_NAME | Yeah, take a look, this guy is over there selling them.
+DIALOG   | Grieg  | Wow... you are so cool... to have your very own train ticket... I want to be a cool guy like you and have my own train ticket so I can ride the train.
+CHOICE   | Give him my ticket?
+REPLY    | TICKET_GIVE | You could have my ticket, I guess...
+REPLY    | TICKET_KEEP | You snooze you lose.
+
+TICKET_GIVE
+DIALOG   | P_NAME | I can give you mine, I guess. It's just a train ticket. I guess I can buy another one.
+DIALOG   | Grieg  | `s1`You'd do that for me????`s0`
+DIALOG   | P_NAME | Sure. I can see how much it means to you.
+DIALOG   | Grieg  | Wow, great!!! Wait, does that mean you won't be a cool guy without a train ticket anymore?? This is a `sq`big decision`rt` for you...
+DIALOG   | P_NAME | No, it's really fine. It looks like you need it more than me.
+BREAKOUT | add    | money
+DIALOG   | Grieg  | You are the absolute best ever!!!_ Wait, I have to give you something for it, let me check my pockets... Oooh! Here!!!
+QUEST    | temp = @money_griegTicket@
+QUEST    | temp -= @griegSpent@
+NOTIFY   | Got handful of boogers and @temp@ neuro-shekels!
+QUEST    | money += @temp@
+ITEM     | Train Ticket | -1
+DIALOG   | Grieg  | This is the greatest. Now I can finally go home. `s1`Thank you so much!!`s0`
+BREAKOUT | clear
+QUEST    | griegState = 2
+QUEST    | griegTicket = 1
+
+TICKET_KEEP
+DIALOG   | P_NAME | I got the last train ticket. Looks like you're stuck here forever now. Too bad, pal.
+DIALOG   | Grieg  | My life... Is over..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wbqy"]
+atlas = ExtResource("2_7vix6")
+region = Rect2(0, 0, 26, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mf44m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wbqy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6g8yo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6g8yo"]
+size = Vector2(20, 36)
+
+[node name="o_grieg01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_ymvcr")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_mf44m")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mf44m")
+centered = false
+offset = Vector2(-15, -42)
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "25",
+"bbox_top": "32",
+"frames": ["images\\s_grieg01_0.png"],
+"height": "49",
+"name": "s_grieg01",
+"width": "26",
+"xorig": "15",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-3, -5)
+shape = SubResource("CircleShape2D_6g8yo")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(-3, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_6g8yo")

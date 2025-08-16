@@ -36,7 +36,7 @@ func _physics_process(_delta: float) -> void:
 		rotation = lerp(rotation, 0.0, 0.2)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		if shrink_on_collision:
 			var t = create_tween()
 			t.tween_property(self, "scale", Vector2.ONE * 0.85, 0.25)
@@ -45,7 +45,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		if sound: audio_stream_player_2d.play()
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		if shrink_on_collision:
 			var t = create_tween()
 			t.tween_property(self, "scale", Vector2.ONE, 0.25)

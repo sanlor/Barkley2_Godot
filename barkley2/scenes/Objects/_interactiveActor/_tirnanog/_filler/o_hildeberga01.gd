@@ -34,7 +34,6 @@ func _ready() -> void:
 		
 	ActorAnim.play()
 	
-	
 func _on_actor_anim_frame_changed() -> void:
 	if get_room_name() == "r_tnn_marketDistrict01":
 		if ActorAnim.frame == 1:

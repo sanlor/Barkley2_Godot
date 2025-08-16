@@ -35,7 +35,7 @@ func _on_body_entered(body: Node2D) -> void:
 		player_is_on_ladder = true
 
 func _on_body_exited(body: Node2D) -> void:
-	if body is B2_PlayerCombatActordddddddd:
+	if body is B2_PlayerCombatActor:
 		player_is_on_ladder = false
 
 func _physics_process(_delta: float) -> void:

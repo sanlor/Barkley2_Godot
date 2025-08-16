@@ -1,0 +1,211 @@
+[gd_scene load_steps=9 format=3 uid="uid://bc3e8rjx5dd2h"]
+
+[ext_resource type="Script" uid="uid://cgeh7epdxfb7n" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_jindrich01.gd" id="1_opxqt"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_i0hai"]
+[ext_resource type="Texture2D" uid="uid://c1fw1b770dsi3" path="res://barkley2/assets/b2_original/images/merged/s_jindrich01.png" id="2_xdtnw"]
+
+[sub_resource type="Resource" id="Resource_mbuyo"]
+script = ExtResource("2_i0hai")
+original_script = "IF body == governor     | GOTO | GOVERNOR
+IF jindrich45 == 0      | IF clock > 2.75 | GOTO | JINDRICH04
+IF jindrichApricot == 1 | GOTO | JINDRICHAPRICOT01
+IF jindrichApricot == 2 | GOTO | JINDRICHAPRICOT02
+IF jindrichApricot == 3 | GOTO | JINDRICHAPRICOT03
+IF jindrichApricot == 4 | GOTO | JINDRICHAPRICOT04
+IF jindrichState == 0   | GOTO | JINDRICH00
+IF jindrichState == 1   | GOTO | JINDRICH01
+IF jindrichState == 2   | GOTO | JINDRICH02
+IF jindrichState == 3   | GOTO | JINDRICH03
+
+GOVERNOR
+DIALOG   | Jindrich            | Hey Mr. Governor, just throwing it out there, but what do you think about subsidizing the cost of fruit?
+DIALOG   | Governor Elagabalus | Good advice. Great advice! Thanks for doing your civic duty and telling me that thing about fruit. I will certainly think about it, because I am the Governor, and it's my job to think about things.
+
+JINDRICHAPRICOT01
+DIALOG   | Jindrich | It's not time yet. Come back later.
+
+JINDRICHAPRICOT02
+DIALOG   | Jindrich | Psst..._ psst...
+DIALOG   | P_NAME   | Hey, what's up?
+DIALOG   | Jindrich | Psst... it's a little weird seeing Gelasio here. They shipped him and his buddy Augustine off to the mines for awhile, and I've never seen a dwarf come back from there. He's also been spending lots of neuro-shekels_ and getting really generous with the fruit juice if you know what I mean. I wonder what his angle is?
+DIALOG   | P_NAME   | Interesting...
+DIALOG   | Jindrich | Not to mention, Augie's been missing for a day or so... I wonder if Gelasio knows more than what he's letting on.
+CHOICE   | About that Gelasio...
+REPLY    | TRUST    | Maybe he was just being friendly?
+REPLY    | UNTRUST  | I smell a rat.
+
+JINDRICHAPRICOT03
+DIALOG   | Jindrich | That Gelasio's an allllright dwarf. I think all the apricot has gone straight to my domepiece and I can't tell friend from foe anymore._._._ Maybe another swig will get me straight?
+
+JINDRICHAPRICOT04
+DIALOG   | Jindrich | Keep an eye out for that crafty pompodour over there. There's something shifty going on underneath it.
+LOOKAT   | o_cts_hoopz | o_gelasio01
+FRAME    | CAMERA_NORMAL | o_cts_hoopz | o_gelasio01
+WAIT     | 0.4
+
+TRUST
+DIALOG   | P_NAME   | Maybe he was just being friendly?
+DIALOG   | Jindrich | Eh maybe you're right..._ I think this macrodose of apricot is making me paranoid. Should probably throttle back..._ tomorrow.
+QUEST    | jindrichApricot = 3
+
+UNTRUST
+DIALOG   | P_NAME   | Sounds like something's amiss.
+DIALOG   | Jindrich | You bet your money that I need to borrow something's amiss!
+DIALOG   | P_NAME   | Well, what can we do?
+DIALOG   | Jindrich | Ummm_ how about we._._._ drink?
+WAIT     | 0.5
+SOUND    | sn_juicechug01
+WAIT     | 0.5
+DIALOG   | P_NAME   | Well I guess that's that then... Don't worry Jindrich, enjoy your apricots, I'll get to the bottom of this whole Gelasio rigamarole.
+QUEST    | jindrichApricot = 4
+QUEST    | gelasioDuergar = 1
+QUEST    | gelasioAugustine = 1
+QUEST    | jindrichDoubt = 1
+
+JINDRICH00
+DIALOG   | Jindrich | Oh come on, no more?
+FRAME    | CAMERA_NORMAL | o_evander01 | o_jindrich01
+WAIT     | 0
+DIALOG   | Evander  | Your tab is too high, Jindrich. You don't have to go home, but I can't serve you anything unless you pony up some neuro-shekels.
+DIALOG   | Jindrich | But I want fruit... I want apricots. I want fruit. I want fruit juice.
+DIALOG   | Evander  | And I actually NEED @money_apricotPrice@ neuro-shekels. I'll be in trouble if the Duergars try to collect and they see an empty juice-rack and an empty till too.
+DIALOG   | Jindrich | I_ want_ fruit_ juice._ I_ want_ fruit._ I want juice!!!
+FRAME    | CAMERA_NORMAL | o_jindrich01 | o_cts_hoopz
+WAIT     | 0
+DIALOG   | P_NAME   | Hmm...
+BREAKOUT | add | money
+QUEST    | jindrichState = 1
+GOTO     | MONEY_CHECK
+
+JINDRICH01
+DIALOG   | Jindrich | I_ want_ fruit._ I_ want_ fruit_ juice.
+FRAME    | CAMERA_NORMAL | o_jindrich01 | o_cts_hoopz
+WAIT     | 0
+DIALOG   | P_NAME   | Hmm...
+BREAKOUT | add | money
+QUEST    | jindrichState = 2
+GOTO     | MONEY_CHECK
+
+JINDRICH02
+FRAME    | CAMERA_NORMAL | o_jindrich01 | o_evander01
+DIALOG   | Jindrich | C'mon barkeep, fill up this thirsty goblet. You know I'm good for it!
+DIALOG   | Evander  | Jindrich, you're a no good bankrupt souse. See if Gelasio over there will cover your tab. I hear he come into some duckets.
+WAIT     | 0.5
+FRAME    | CAMERA_NORMAL | o_jindrich01 | o_gelasio01
+WAIT     | 0.5
+DIALOG   | Jindrich | Gelasio! You holdin' out on my you sonofasundered?! Help me with my tab and I'll make it._._._ WORTH_ YOUR_ WHILE_...
+WAIT     | 1.7
+DIALOG   | Jindrich | ..._ Musta not heard me...
+GOTO     | MONEY_CHECK
+
+JINDRICH03
+DIALOG   | Jindrich | Fruit juice! Fruit... juice...
+
+JINDRICH04
+DIALOG   | Jindrich | Gelasio's rocking my world, kid. This is paradise! I'm heavy-laden with apricots. Maybe too many apricots. Ugh... maybe paradise isn't for the weak...
+
+MONEY_CHECK
+IF money >= @money_apricotPrice@ | GOTO | MONEY_ENOUGH
+IF money < @money_apricotPrice@  | GOTO | MONEY_NOT_ENOUGH
+IF money == 0 | GOTO | MONEY_NONE
+
+MONEY_ENOUGH
+BREAKOUT  | add | money
+CHOICE    | Buy Jindrich a can of apricot juice?
+REPLY     | BUY_YES | Sure. (@money_apricotPrice@ neuroshekels.)
+REPLY     | BUY_NO  | Save my money.
+
+MONEY_NOT_ENOUGH
+DIALOG   | P_NAME   | Let's see here_...
+DIALOG   | P_NAME   | money_phrase ..._ but I guess that won't cut it.
+DIALOG   | Jindrich | I_ want_ fruit...
+BREAKOUT | clear
+
+MONEY_NONE
+DIALOG   | P_NAME   | (I don't have any money at all either... I'm gonna be in trouble if I ever start craving juice like these dwarfs.)
+BREAKOUT | clear
+
+BUY_YES
+FRAME     | CAMERA_NORMAL | o_evander01 | o_jindrich01
+DIALOG    | P_NAME   | Excuse me sir, I have @money_apricotPrice@ neuro-shekels. I'll buy him his apricot juice.
+QUEST     | money -= @money_apricotPrice@
+WAIT      | 0.25
+USEAT     | o_evander01
+WAIT      | 0.25
+DIALOG    | Evander  | Thanks kid, that will shut him up for awhile... hopefully. But don't get any misconceptions, I still can't serve fruit juice to a youngster like you.
+BREAKOUT  | clear
+QUEST     | jindrichApricot = 1
+SOUND     | sn_juicechug01
+WAIT      | 0.5
+DIALOG    | Jindrich | Juice,_ juice_, fruit_ juice_._._._ *gulp* I_ LOVE_ FRUIT_ JUICE!
+DIALOG    | P_NAME = s_port_hoopzAngry | ...
+DIALOG    | Jindrich | Thanks kid! I was really tweakin' for that mellow nectar!_ Say, let me pound a few more and get my tab back up to a disrespectable level. Come by in a little bit, maybe I'll make it... WORTH_ YOUR_ WHILE_.
+DIALOG    | P_NAME = s_port_hoopzSurprise | I'm not sure I like the sound of that!
+DIALOG    | Jindrich | Just come back in like an hour or so, kid. Trust me.
+ClockTime | event    | jindrichApricot | 2 | 45                  
+IF abdulOffer == 0 | QUEST | abdulOffer = 1
+
+BUY_NO
+DIALOG   | P_NAME   | (Best stay out of this, monetarily.)
+BREAKOUT | clear
+DIALOG   | Jindrich | I_ want_ fruit juice._ I_ want_ fruit.
+QUEST    | jindrichState = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0hai"]
+atlas = ExtResource("2_xdtnw")
+region = Rect2(0, 0, 33, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mbuyo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0hai")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2o66u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2o66u"]
+size = Vector2(29, 41)
+
+[node name="o_jindrich01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_opxqt")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_mbuyo")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mbuyo")
+centered = false
+offset = Vector2(-17, -43)
+flip_h = true
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "6",
+"bbox_right": "30",
+"bbox_top": "5",
+"frames": ["images\\s_jindrich01_0.png"],
+"height": "47",
+"name": "s_jindrich01",
+"width": "33",
+"xorig": "17",
+"yorigin": "43"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -6)
+shape = SubResource("CircleShape2D_2o66u")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-2.5, -2.5)
+shape = SubResource("RectangleShape2D_2o66u")

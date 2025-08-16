@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://kqu8s781gsn1"]
+
+[ext_resource type="Texture2D" uid="uid://1sgcyko26p83" path="res://barkley2/assets/b2_original/images/merged/s_tnn_FoodSign.png" id="1_4j58u"]
+[ext_resource type="Script" uid="uid://bo7atqavvkmbr" path="res://barkley2/scenes/Objects/_environs/_unique/o_tnn_food_sign.gd" id="2_4j58u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08hfk"]
+atlas = ExtResource("1_4j58u")
+region = Rect2(0, 0, 22, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cydt5"]
+atlas = ExtResource("1_4j58u")
+region = Rect2(22, 0, 22, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4utxi"]
+atlas = ExtResource("1_4j58u")
+region = Rect2(44, 0, 22, 87)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4y52b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_08hfk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cydt5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4utxi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_tnn_foodSign" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_4y52b")
+centered = false
+script = ExtResource("2_4j58u")
+metadata/default = {
+"bbox_bottom": "86",
+"bbox_left": "1",
+"bbox_right": "20",
+"bbox_top": "0",
+"height": "87",
+"name": "s_tnn_FoodSign",
+"width": "22",
+"xorig": "0",
+"yorigin": "0"
+}

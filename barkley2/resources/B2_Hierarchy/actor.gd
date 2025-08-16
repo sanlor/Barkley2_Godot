@@ -121,7 +121,7 @@ func _setup_actor():
 	if can_move_around:
 		if not is_instance_valid( ActorNav):
 			ActorNav	= get_node( "ActorNav" )
-		if is_instance_valid( ActorNav ): # Setup NavigationAgent2D
+		if is_instance_valid( ActorNav ): # Setup NavigationAgent2D <- done.
 			ActorNav.path_desired_distance 		= path_desired_distance
 			ActorNav.target_desired_distance 	= target_desired_distance
 			ActorNav.velocity_computed.connect( Callable(_on_velocity_computed) )

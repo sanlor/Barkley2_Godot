@@ -1,0 +1,134 @@
+[gd_scene load_steps=17 format=3 uid="uid://b3q3l30pbvkjx"]
+
+[ext_resource type="Script" uid="uid://dkox3q35imi0p" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_milagros.gd" id="1_6n8u2"]
+[ext_resource type="Texture2D" uid="uid://def5am3g6jc5h" path="res://barkley2/assets/b2_original/images/merged/s_milagros01.png" id="2_m1q6y"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_y71da"]
+
+[sub_resource type="Resource" id="Resource_q1iq3"]
+script = ExtResource("2_y71da")
+original_script = "EVENT | o_milagros | 10
+IF shopEmpty == 1  | GOTO | SHOP_EMPTY
+GOTO  | SHOP_OPEN
+
+SHOP_EMPTY
+DIALOG | Milagros | Sorry, I don't have anything for sale at the moment.
+
+SHOP_OPEN
+DIALOG | Milagros | Milagros' Vidcon Palazzo! How can I help you?
+QUEST  | milagrosShopped = 1
+SHOP   | open | Milagros' Palazzo
+IF shop == exit   | DIALOG | Milagros | Come back if you ever need a new 'con.
+IF shop == bought | DIALOG | Milagros | Thanks for shopping local!"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y71da"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(0, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1iq3"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(39, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksd7e"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(78, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpxuc"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(117, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8uf8q"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(156, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx66u"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(195, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tun6s"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(234, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnvag"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(273, 0, 39, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkb18"]
+atlas = ExtResource("2_m1q6y")
+region = Rect2(312, 0, 39, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b4pi1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y71da")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1iq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ksd7e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpxuc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8uf8q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cx66u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tun6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tnvag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkb18")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6n8u2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7c7xi"]
+size = Vector2(20, 36)
+
+[node name="o_milagros" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_6n8u2")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_q1iq3")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_b4pi1")
+centered = false
+offset = Vector2(-21, -49)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "1",
+"bbox_right": "34",
+"bbox_top": "4",
+"frames": ["images\\s_milagros01_0.png", "images\\s_milagros01_1.png", "images\\s_milagros01_2.png", "images\\s_milagros01_3.png", "images\\s_milagros01_4.png", "images\\s_milagros01_5.png", "images\\s_milagros01_6.png", "images\\s_milagros01_7.png", "images\\s_milagros01_8.png"],
+"height": "56",
+"name": "s_milagros01",
+"width": "39",
+"xorig": "21",
+"yorigin": "49"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_6n8u2")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(-1, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_7c7xi")

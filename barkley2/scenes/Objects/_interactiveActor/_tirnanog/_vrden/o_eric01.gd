@@ -3,7 +3,7 @@ extends B2_InteractiveActor
 const O_ERICFLY = preload("res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_ericfly.tscn")
 
 @onready var audio_emitter: B2_AudioEmitter = $B2_AudioEmitter
-@onready var flies: Node = $flies
+@onready var flies: Node2D = $flies
 
 
 ## Made with B2_TOOL_DWARF_CONVERTER

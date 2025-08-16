@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3ewjgn1eocen"]
+
+[ext_resource type="Script" uid="uid://3woefn66x557" path="res://barkley2/rooms/r_shader_loader.gd" id="1_cg64c"]
+[ext_resource type="Texture2D" uid="uid://p1fyr4oxbcub" path="res://barkley2/assets/b2_original/images/merged/s_bball.png" id="2_3m7pj"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_3m7pj"]
+
+[node name="r_shader_loader" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cg64c")
+
+[node name="cuck_box" type="Control" parent="."]
+anchors_preset = 0
+offset_left = -378.0
+offset_top = 89.0
+offset_right = -338.0
+offset_bottom = 129.0
+
+[node name="bg" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ball_sprite" type="Sprite2D" parent="."]
+position = Vector2(218, 211)
+texture = ExtResource("2_3m7pj")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="loading_lbl" type="RichTextLabel" parent="MarginContainer"]
+custom_minimum_size = Vector2(150, 32)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/normal_font = ExtResource("3_3m7pj")
+text = "Now Loading..."

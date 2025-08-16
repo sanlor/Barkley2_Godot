@@ -24,7 +24,7 @@ func destroy_entity():
 		queue_free()
 
 func _on_col_predictor_body_entered(body: Node2D) -> void:
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		if body.curr_STATE == B2_Player.STATE.ROLL:
 			smoke_up()
 			play_sound()

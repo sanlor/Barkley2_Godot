@@ -9,7 +9,7 @@ func _ready() -> void:
 	_on_timer_timeout()
 
 func event_trigger( node ) -> void:
-	if node is B2_Player:
+	if node is B2_PlayerCombatActor:
 		queue_free()
 		
 # Apply gossip box

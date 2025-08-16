@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://duw81il1o8twp"]
+
+[ext_resource type="Texture2D" uid="uid://cx462gnrw53ds" path="res://barkley2/assets/b2_original/images/merged/s_hoop02.png" id="1_71f72"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_gvlc5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f61q5"]
+atlas = ExtResource("1_71f72")
+region = Rect2(0, 0, 64, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ylntf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f61q5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_71f72"]
+radius = 6.0827627
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_71f72"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f61q5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_hoop02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ylntf")
+centered = false
+offset = Vector2(0, -111)
+script = ExtResource("2_gvlc5")
+metadata/default = {
+"bbox_bottom": "111",
+"bbox_left": "52",
+"bbox_right": "63",
+"bbox_top": "104",
+"height": "112",
+"name": "s_hoop02",
+"width": "64",
+"xorig": "0",
+"yorigin": "111"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(58, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_71f72")
+
+[node name="shadow" type="AnimatedSprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.5)
+z_index = -1
+position = Vector2(0, 0.4375)
+scale = Vector2(1, 0.5)
+skew = 0.7853982
+sprite_frames = SubResource("SpriteFrames_71f72")
+centered = false
+offset = Vector2(0, -111)

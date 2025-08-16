@@ -17,7 +17,7 @@ func event_trigger( node ) -> void:
 	if activated: # run only once
 		return 
 		
-	if node is B2_Player:
+	if node is B2_PlayerCombatActor:
 		B2_Playerdata.Quest( "tutorialZaneOverHere", 1 );
 		activated = true
 		# Move zane torward the door

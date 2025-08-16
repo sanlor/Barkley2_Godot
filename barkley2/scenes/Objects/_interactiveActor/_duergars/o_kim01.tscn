@@ -1,10 +1,16 @@
-[gd_scene load_steps=34 format=3 uid="uid://cx6dbffu5rt4i"]
+[gd_scene load_steps=36 format=3 uid="uid://cx6dbffu5rt4i"]
 
 [ext_resource type="Texture2D" uid="uid://cjp1gnua6y2iu" path="res://barkley2/assets/b2_original/images/merged/s_kim01.png" id="1_npkeh"]
 [ext_resource type="Script" uid="uid://0n1itq1sqybj" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_kim01.gd" id="1_w4wqw"]
 [ext_resource type="Texture2D" uid="uid://b7c6gwnj4kvmr" path="res://barkley2/assets/b2_original/images/merged/s_kimPunch.png" id="2_gk4ki"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hpf6q"]
 [ext_resource type="Texture2D" uid="uid://dmdxrnnq3hp50" path="res://barkley2/assets/b2_original/images/merged/s_kimNE.png" id="3_gvc5l"]
 [ext_resource type="Texture2D" uid="uid://8egvcgst66a0" path="res://barkley2/assets/b2_original/images/merged/s_kimSE.png" id="4_vycnk"]
+
+[sub_resource type="Resource" id="Resource_3pkgg"]
+script = ExtResource("2_hpf6q")
+original_script = "DIALOG | @duergar_kim@ | I've got no clue why the Governor let you out of Tir na nOg, but you'd better get the hell out of here before I smash your face in. Stay safe out there in the barren hellscapes! Bwahahahaha!"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhjpb"]
 atlas = ExtResource("1_npkeh")
@@ -234,6 +240,7 @@ size = Vector2(20, 36)
 script = ExtResource("1_w4wqw")
 duergar_name = "kim"
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_3pkgg")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")

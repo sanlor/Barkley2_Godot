@@ -1,0 +1,89 @@
+[gd_scene load_steps=10 format=3 uid="uid://brqbutpnapx2y"]
+
+[ext_resource type="Texture2D" uid="uid://dtuv610ibcytx" path="res://barkley2/assets/b2_original/images/merged/s_chains01.png" id="1_oa5mj"]
+[ext_resource type="Script" uid="uid://nk5fwsqljl03" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_chains_01.gd" id="2_oa5mj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvfy0"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(370, 0, 74, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_webjm"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(0, 0, 74, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y05t"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(74, 0, 74, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vv3ps"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(148, 0, 74, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7vd8"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(222, 0, 74, 51)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1by4s"]
+atlas = ExtResource("1_oa5mj")
+region = Rect2(296, 0, 74, 51)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_20k3t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvfy0")
+}],
+"loop": true,
+"name": &"cut",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_webjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y05t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vv3ps")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7vd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1by4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvfy0")
+}],
+"loop": true,
+"name": &"cutting",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_webjm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_chains01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_20k3t")
+animation = &"cut"
+centered = false
+offset = Vector2(-8, -27)
+script = ExtResource("2_oa5mj")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "50",
+"bbox_left": "5",
+"bbox_right": "69",
+"bbox_top": "4",
+"height": "51",
+"name": "s_chains01",
+"width": "74",
+"xorig": "8",
+"yorigin": "27"
+}

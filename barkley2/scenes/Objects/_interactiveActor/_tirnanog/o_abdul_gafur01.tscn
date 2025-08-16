@@ -1,0 +1,673 @@
+[gd_scene load_steps=27 format=3 uid="uid://bmkpiyr5jq7t4"]
+
+[ext_resource type="Script" uid="uid://cccc1qyt032f5" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_abdul_gafur01.gd" id="1_eot8y"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_bxc1l"]
+[ext_resource type="Texture2D" uid="uid://mwre47qoicaf" path="res://barkley2/assets/b2_original/images/merged/s_abdul_gafur01.png" id="2_n7hmq"]
+[ext_resource type="AudioStream" uid="uid://dvdpku5vn45su" path="res://barkley2/assets/b2_original/audio/NPC/sn_abdul_glass.ogg" id="4_bxc1l"]
+
+[sub_resource type="Resource" id="Resource_2fntl"]
+script = ExtResource("2_bxc1l")
+original_script = "GOTO | MAIN
+
+MAIN
+IF body == governor  | IF abdulGovernor == 0 | GOTO | GOVERNOR_0
+IF body == governor  | IF abdulGovernor == 1 | GOTO | GOVERNOR_1
+IF abdulState == 4   | GOTO | ABDUL_END
+IF abdulOffer >= 5   | GOTO | GET_THE_SPEAR
+IF abdulOffer >= 2   | GOTO | NEGOTIATION_CONTINUE
+IF abdulOffer == 1   | GOTO | NEGOTIATION_BEGIN
+IF abdulState == 3   | GOTO | ABDUL_3
+IF gelasioState == 6 | GOTO | ABDUL_GELASIO_GONE
+IF abdulState == 2   | GOTO | ABDUL_2
+IF abdulOpen <= 1    | IF abdulState <= 1 | GOTO | ABDUL_TOO_EARLY
+IF abdulState <= 1   | GOTO | ABDUL_1
+
+//MAIN STATES
+GOVERNOR_0
+DIALOG | Abdul-Gafur         | It's good to see you, Mr. Governor! I've been saving this bottle of `kw`The Grape`rt` for after your inaugural address, but since you're here I might as well give it to you now. It's pure strain `w1`Malbec,`w0` vintage 665X.
+DIALOG | Governor Elagabalus | Mmmmmm! Grapes! Boy, do I love to drink grape juice! Because I'm the Governor, an full-grown adult, and it's legal for me to drink it! Well, goodbye!
+NOTIFY | You got a Bottle of Vintage Grape
+ITEM   | Vintage Grape | 1
+QUEST  | abdulGovernor = 1
+
+GOVERNOR_1
+DIALOG | Abdul-Gafur         | Ah, Mr. Governor! Thank you for blessing my establishment with your presence!
+DIALOG | Governor Elagabalus | Uh, be blessed, and stay blessed.
+
+ABDUL_TOO_EARLY
+IF abdulOpen == 0 | GOTO | TOO_EARLY_0
+IF abdulOpen == 1 | GOTO | TOO_EARLY_1
+
+TOO_EARLY_0
+DIALOG | Abdul-Gafur | We're not open yet.
+DIALOG | P_NAME      | What is this place?
+DIALOG | Abdul-Gafur | This is the `kw`Duergar's Officer's Club`rt` and I'm Abdul-Gafur. I run the finest bar in Tir na nOg, and the only one fit for a Duergar in this slum. I'm setting things up for a very important customer right now. We will open up for business shortly.
+DIALOG | P_NAME      | Okay, I'll come back later then.
+QUEST  | abdulOpen = 1
+
+TOO_EARLY_1
+DIALOG | P_NAME      | Hey, Abdul-Gafur. Open yet?
+DIALOG | Abdul-Gafur | No. Come back later.
+
+ABDUL_GELASIO_GONE
+IF abdulGelasioGone == 1 | GOTO | ABDUL_2
+DIALOG | P_NAME      | Hey, where is Gelasio?
+DIALOG | Abdul-Gafur | He left. In quite a hurry I might add.
+DIALOG | P_NAME      | Hmmm... how am I gonna get to `kw`GUMSHOE LEVEL TWO`rt` now?
+QUEST  | abdulGelasioGone = 1
+
+ABDUL_1
+FRAME  | CAMERA_NORMAL | o_abdul_gafur01 | o_gelasio01
+DIALOG | Gelasio     | Hey! Abdul! 
+DIALOG | Abdul-Gafur | Gafur, sir.
+DIALOG | Gelasio     | Huh, what?
+DIALOG | Abdul-Gafur | Abdul-Gafur, sir. My name. It's hyphenated.
+DIALOG | Gelasio     | Hyphenated, eh?
+WAIT   | 0.3
+DIALOG | Gelasio     | `w1`HAHA`w0` Abdul! I like your style. Pour yourself a drink why don't ya, loosen up! And give yourself a nice tip too! Leave uh... leave what I'd leave!
+DIALOG | Abdul-Gafur | Why thank you, Mr. Gelasio. You are very generous, as always.
+WAIT   | 0.5
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_abdul_gafur01
+DIALOG | Abdul-Gafur | Good day, what can I make for you?
+DIALOG | P_NAME      | Oh, um nothing I guess I was just soaking in the sights and sounds of this fair city.
+DIALOG | Abdul-Gafur | Ah, a tourist?
+DIALOG | P_NAME      | Umm, I guess you could say that.
+DIALOG | Abdul-Gafur | Hmmm, well as a passer-through, dare I warn you about the various pitfalls and pratfalls that could befall an statured person such as yourself walking the mean streets such as these.
+DIALOG | P_NAME      | Whoah, what do you mean?
+DIALOG | Abdul-Gafur | Well, it's survival. Survival physically, mentally, cybiotically and most importantly, fiscally._ That's right, I speak of_ The Art of the Deal. Watch out for scams or even worse: `kw`flimflams.`rt`
+DIALOG | P_NAME      | What's a flimflam?
+DIALOG | Abdul-Gafur | To truly understand a flimflam I think you'll need to be on the receiving end, unfortunately. But regardless, `sq`I will let you know if a deal comes around at any point, sir.`rt` Until then, fare thee well.
+QUEST  | abdulState = 2
+
+ABDUL_2
+DIALOG | Abdul-Gafur | Like a mug of `kw`The Grape,`rt` sir. Stay frosty.
+
+NEGOTIATION_CONTINUE
+BREAKOUT | add | money
+IF abdulOffer == 2   | DIALOG | Abdul-Gafur | Greetings, P_NAME. You have contemplated my offer, I trust. @money_abdulBigOffer@ Neuro-Shekels is the offer I'm making here... 
+IF abdulOffer == 3   | DIALOG | Abdul-Gafur | Greetings, P_NAME. You have contemplated my offer, I trust. @money_abdulLilOffer@ Neuro-Shekels is the current price... 
+IF abdulOffer == 4   | DIALOG | Abdul-Gafur | Greetings, P_NAME. You have contemplated my offer, I trust. @money_abdulHalfOffer@ Neuro-Shekels now and another @money_abdulHalfOffer@ Neuro-Shekels later... 
+DIALOG | Abdul-Gafur | Shall we continue the negotiations?
+CHOICE | Continue the negotiations?
+REPLY  | OFFER_PARSER | Yeah, let's split hairs.
+REPLY  | OFFER_LEAVE  | Actually, no.
+
+CANT_AFFORD_BIG
+IF jindrichApricot >= 1 | DIALOG | P_NAME | I just can't afford your offer right now. Almost though! Maybe that apricot I bought was one apricot too many...
+IF jindrichApricot == 0 | DIALOG | P_NAME | I just can't afford your offer right now.
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | Money's always short around Tir na Nog... unless you know the right people. But I've got a deal for you. @money_abdulLilOffer@ Neuro-Shekels... `mq`how's that sound?`rt`
+GOTO   | OFFER_LITTLE
+
+CANT_AFFORD_LITTLE
+DIALOG | P_NAME      | I appreciate the cheaper offer but the price is still too high for me...
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | I see, well the offer will stand for a while longer. That is, until the Duergars begin their patronage. See you, P_NAME.
+
+CANT_AFFORD_HALF
+DIALOG | P_NAME      | I can't afford that...
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | I see, well the offer will stand for a while longer. That is, until the Duergars begin their patronage. See you, P_NAME.
+
+OFFER_PARSER
+IF abdulOffer == 2 | GOTO | OFFER_BIG
+IF abdulOffer == 3 | GOTO | OFFER_LITTLE
+IF abdulOffer == 4 | GOTO | OFFER_HALF
+
+OFFER_LEAVE
+DIALOG | P_NAME      | Actually, I have something else on my mind right now. I'll check out your offer later.
+DIALOG | Abdul-Gafur | Hmm, as you wish. The offer won't last forever though. Keep that in mind. 
+
+//MORE EXPENSIVE CHOICE, BUT YOU GET IT QUICKER (BIG)
+//TODO: add proper standard for purchasing... is it in the CHOICE or in the REPLY?
+OFFER_BIG
+BREAKOUT | add | money
+IF money < @money_abdulBigOffer@ | GOTO | CANT_AFFORD_BIG
+GOTO   | OFFER_BIG_CHOICES
+
+OFFER_BIG_CHOICES
+CHOICE | Buy the mystery item for @money_abdulBigOffer@ shekels?
+IF abdulItemInfo == 0 | REPLY | OFFER_BIG_TELLME | Tell me what it is first.
+REPLY | OFFER_BIG_BUY      | Sure thing, I love spending money!
+REPLY | OFFER_BIG_TOO_MUCH | I'd like to, but that's too much.
+REPLY | OFFER_BIG_DECLINE  | I just can't do it!
+
+OFFER_BIG_TELLME
+DIALOG | P_NAME      | Tell me what it is first. I'm a well informed consumer and will not be goofed.
+DIALOG | Abdul-Gafur | Well, I'm not entirely sure myself but the experts tell me that_ `mq`it is a weapon of immense power.`rt`
+DIALOG | P_NAME      | Whoa...
+QUEST  | abdulItemInfo = 1
+GOTO   | OFFER_BIG_CHOICES
+
+OFFER_BIG_BUY
+DIALOG | P_NAME      | Sure, I've got @money_abdulBigOffer@ neuro-shekels right here.
+DIALOG | Abdul-Gafur | Excellent. Cognate me the neuro-shekels, discreetly please.
+WAIT   | 0.5
+QUEST  | money -= @money_abdulBigOffer@
+GOTO   | ITEM_BUY_BIG_OR_LITTLE
+
+OFFER_BIG_TOO_MUCH
+DIALOG | P_NAME      | I'd like to, but that's too much.
+DIALOG | Abdul-Gafur | Too much? My good youngster, this is no toy that I'm offering you. It is worth every penny.
+DIALOG | P_NAME      | But I don't even know what exactly you are selling to me.
+DIALOG | Abdul-Gafur | You are a hard sell, P_NAME. Alright then... how about @money_abdulLilOffer@?
+QUEST  | abdulOffer = 3
+GOTO   | OFFER_LITTLE
+
+OFFER_BIG_DECLINE
+DIALOG | P_NAME      | No way, can't do it.
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | Listen, you're making a mistake. We are talking about fiscal survival here. This is a deal you should not, nay, cannot wantonly pass by. Come back if you are interested in more information.
+DIALOG | P_NAME      | Okay... I will, but you're gonna have to sweeten the deal.
+DIALOG | Abdul-Gafur | We'll talk, but until then...
+WAIT   | 0.7
+DIALOG | Abdul-Gafur | Stay Frosty.
+
+//CHEAPER CHOICE (LIL)
+OFFER_LITTLE
+BREAKOUT | add | money
+IF money < @money_abdulLilOffer@ | GOTO | CANT_AFFORD_LITTLE
+GOTO   | OFFER_LITTLE_CHOICES
+
+OFFER_LITTLE_CHOICES
+CHOICE | @money_abdulLilOffer@ shekels for the mystery item?
+IF abdulItemInfo == 0 | REPLY | OFFER_LITTLE_TELLME | Tell me what it is first.
+REPLY | OFFER_LITTLE_BUY      | Sure, I can spend @money_abdulLilOffer@.
+REPLY | OFFER_LITTLE_TOO_MUCH | That's still too much.
+REPLY | OFFER_LITTLE_DECLINE  | I just can't do it!
+
+OFFER_LITTLE_TELLME
+DIALOG | P_NAME      | You have to tell me about it first. I'm not to be goofed on by shady dealings.
+DIALOG | Abdul-Gafur | I'm not entirely sure myself but the many experts I've consulted about it tell me that_ `mq`it is a weapon of immense power.`rt`
+DIALOG | P_NAME      | Whoa...
+QUEST  | abdulItemInfo = 1
+GOTO   | OFFER_LITTLE_CHOICES
+
+OFFER_LITTLE_BUY
+DIALOG | P_NAME      | You've got yourself a deal! @money_abdulLilOffer@ neuro-shekels right here.
+DIALOG | Abdul-Gafur | Excellent. Cognate me the neuro-shekels, discreetly please.
+WAIT   | 0.5
+QUEST  | money -= @money_abdulLilOffer@
+GOTO   | ITEM_BUY_BIG_OR_LITTLE
+
+OFFER_LITTLE_TOO_MUCH
+DIALOG | P_NAME      | It's still too much for a blind purchase. I can't spend that much without knowing what I'm getting.
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | Hmm, wealthy and shrewd too. Maybe we can figure this out... 
+WAIT   | 0.5
+DIALOG | Abdul-Gafur | Yes, I think I may have a solution. You wish to know the identity of the item, and for that I cannot give it away for free. For you see, knowledge is power and power is money and money is insight and insight is truth. The contract such as the one I propose to you is not merely a transaction, it is a Covenant of Truth. Your neuroshekels are the truth I desire and the item's true form is yours.
+DIALOG | Abdul-Gafur | Pay me @money_abdulHalfOffer@ now, I will tell you what it is. Then you can pay me the other @money_abdulHalfOffer@ when I get the item.
+QUEST  | abdulOffer = 4
+DIALOG | P_NAME      | Wait you don't even have it on you?
+DIALOG | Abdul-Gafur | An item such as this is not something kept in a glass case, but rather a Chobham Vault! You pay me the @money_abdulHalfOffer@ and I will order it's fetching. Then you'll have TWO HOURS to come up with the rest of the funds to cover the second half of the purchase. `mq`Do we have a deal?`rt`
+GOTO   | OFFER_HALF
+
+OFFER_LITTLE_DECLINE
+DIALOG | P_NAME      | Listen, I still can't do it. I can't buy something sight-unseen. I just can't...
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | Tsk, tsk... an ancient dwarf koan: 
+DIALOG | Abdul-Gafur | /'Where is the worth of a shekel found--in the sealed coffers of the miser, or the empty coinpurse of the fool?/'
+DIALOG | P_NAME      | W... wow...
+DIALOG | Abdul-Gafur | Come back when you've changed your mind.
+
+//HALF PAYMENT CHOICE
+OFFER_HALF
+BREAKOUT | add | money
+IF money < @money_abdulHalfOffer@ | GOTO | CANT_AFFORD_HALF
+GOTO   | OFFER_HALF_CHOICES
+
+OFFER_HALF_CHOICES
+CHOICE | @money_abdulHalfOffer@ now and @money_abdulHalfOffer@ later?
+IF abdulItemInfo == 0 | REPLY | OFFER_HALF_TELLME | Tell me what it is first.
+REPLY | OFFER_HALF_BUY     | I gotta know what it is, here is your fee.
+REPLY | OFFER_HALF_DECLINE | I just can't do it!
+
+OFFER_HALF_TELLME
+DIALOG | P_NAME      | So what are you even selling here? I'm still not clear on that.
+DIALOG | Abdul-Gafur | Something majestic. Something mysterious. I myself am no expert on the subject but the people who are have described this item as_ `mq`a weapon of immense power.`rt`
+DIALOG | P_NAME      | Whoa...
+QUEST  | abdulItemInfo = 1
+GOTO   | OFFER_HALF_CHOICES
+
+OFFER_HALF_BUY
+DIALOG | P_NAME      | I gotta know, we have a deal.
+DIALOG | Abdul-Gafur | Excellent. Cognate me the neuro-shekels, discreetly please.
+WAIT   | 0.5
+QUEST  | money -= @money_abdulHalfOffer@
+GOTO   | ITEM_BUY_HALF
+
+OFFER_HALF_DECLINE
+DIALOG | P_NAME      | Listen, I still can't do it. I can't buy something sight-unseen. I just can't...
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | Tsk, tsk... an ancient dwarf koan: 
+DIALOG | Abdul-Gafur | /'Where is the worth of a shekel found? In the sealed coffers of the miser, or the empty coinpurse of the fool?/'
+DIALOG | P_NAME      | W... wow...
+DIALOG | Abdul-Gafur | Come back when you've changed your mind.
+
+//PURCHASING THE ITEM (either LIL or BIG)
+ITEM_BUY_BIG_OR_LITTLE
+NOTIFY   | Paid Abdul-Gafur for the Mystery Item!
+BREAKOUT | clear
+DIALOG | P_NAME      | This had better be good...
+DIALOG | Abdul-Gafur | Trust me, don't worry. It'll take a bit of time to get here, so just check back with me later. I'm preparing to serve the Duergars later, so you probably should not be around then.
+DIALOG | P_NAME = s_port_hoopzSurprise | What the girdz?! You don't even have it on you?
+QUEST  | abdulOffer = 5
+DIALOG | Abdul-Gafur | Bad news is that it is a little too /'hot/' here to just hand it to you. Fear not, most magnanimous consumer, the item is in a safe place and well worth your while. `mq`Please, come back in TWO HOURS and I'll have it for you.`rt`
+GOTO   | ITEM_SCAM_END
+
+//PURCHASING THE ITEM BY HALF, LEARNING IT'S IDENTITY
+ITEM_BUY_HALF
+DIALOG | Abdul-Gafur | Thank you, for your business P_NAME_S. You're healthy investment only solididies your reputation as a dwarf of considerable means.
+BREAKOUT | clear
+DIALOG | P_NAME      | I'm not really a dwarf though. Anyways, what is the item?
+DIALOG | Abdul-Gafur | Ah yes, the item is ._._._
+WAIT   | 0.5
+DIALOG | Abdul-Gafur | `mq`A weapon.`rt`
+DIALOG | P_NAME      | A weapon? What kind of weapon?
+DIALOG | Abdul-Gafur | Well, some say it is a weapon...
+DIALOG | P_NAME      | Oh you're killing me, Abdul-Gafur! What is it?
+DIALOG | Abdul-Gafur | Some say weapon, `mq`some say key. I can definitively say it is a spear,`rt` or at the very least, part of a spear.
+DIALOG | P_NAME = s_port_hoopzAngry | A spear? Why would I need a spear, I'm a gun'sbraster!
+DIALOG | Abdul-Gafur | No this spear is different, some say it holds, `mq`A_R_C_A_N_E_ B_-B_A_L_L_ E_N_E_R_G_I_E_S.`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | B-B-B-B-ball? Is that so?
+DIALOG | Abdul-Gafur | Indeed, although alternatively I have heard it is just an `kw`oversized novelty USB-6.0 Flash Drive.`rt` Either way, the sheer value of your purchase will continue to reap dividends, especially with the devaluation of the neuroshekel against the Cuchubuck. You've made the right choice. `mq`I hope to see you soon with the other half of your payment.`rt`
+DIALOG | P_NAME      | WHAT? For @money_abdulLilOffer@ neuroshekels I'll get a FLASH DRIVE?
+DIALOG | Abdul-Gafur | I'm sure it's the former, I'm sure it's a spear, a real spear, almost completely sure. `mq`Just make sure you come by with the other half in a few hours.`rt` Soon I'll open up for the Duergars, and you really should not be around then.
+QUEST  | abdulOffer = 6
+GOTO   | ITEM_SCAM_END
+
+//THIS ENDS BOTH PURCHASES
+ITEM_SCAM_END
+DIALOG | P_NAME = s_port_hoopzAngry | Hmmm. I can't help but feel a little flim-flammed here.
+DIALOG | Abdul-Gafur | I assure you, P_NAME_S, there is no flim. No flamming of the sort, you will get your item on the agreed upon time or my name isn't Abdul-Gafur..._ (hyphenated).
+DIALOG | P_NAME | Alright... I'll be back later.
+ClockTime | event | spearDeliveryStatus | 2 | 120
+ClockTime | event | spearDeliveryStatus | 3 | 180
+ClockTime | event | zolaSellSpear | 1 | 240
+QUEST  | spearDeliveryStatus = 1
+
+GET_THE_SPEAR
+IF abdulOffer == 5 | GOTO | FULL_TIMECHECK
+IF abdulOffer == 6 | GOTO | HALF_TIMECHECK
+IF abdulOffer == 9 | GOTO | ABDUL_END
+IF zolaBuyOff >= 2 | GOTO | ZOLA_SOLD
+IF abdulOffer == 7 | GOTO | ZOLA_FIND
+
+ZOLA_FIND
+DIALOG | Abdul-Gafur | Remember, kid... go see Zola. She sells papers all around the city.
+
+ZOLA_SOLD
+DIALOG | Abdul-Gafur | Go see Zola.
+DIALOG | P_NAME = s_port_hoopzSurprise | I did! She sold it too!
+DIALOG | Abdul-Gafur | That... is unfortunate. But understand: in Tir na Nog, the lives of dwarfs are short, dangerous, and unpredictable. Death ruins contracts, most of the time. But money always works! Money always gets you what you want!
+DIALOG | P_NAME      | It's not right!
+DIALOG | Abdul-Gafur | Maybe not. But it's a lesson.
+DIALOG | P_NAME      | It's not right...
+DIALOG | Abdul-Gafur | An expensive lesson, but a lesson all the same.
+QUEST  | abdulOffer = 9
+
+ABDUL_END
+DIALOG | Abdul-Gafur | Good to see you, P_NAME. Remember, lay low and spend well...
+DIALOG | P_NAME = s_port_hoopzAngry | Hmmpf...
+
+FULL_TIMECHECK
+IF spearDeliveryStatus = 3 | GOTO | FULL_LATE
+IF spearDeliveryStatus = 2 | GOTO | FULL_TIMELY
+IF spearDeliveryStatus = 1 | GOTO | FULL_EARLY
+
+HALF_TIMECHECK
+IF spearDeliveryStatus = 3 | GOTO | HALF_LATE
+IF spearDeliveryStatus = 2 | GOTO | HALF_TIMELY
+IF spearDeliveryStatus = 1 | GOTO | HALF_EARLY
+
+FULL_LATE
+DIALOG | P_NAME      | Hey, so where's that thing?
+DIALOG | Abdul-Gafur | What thing?
+DIALOG | P_NAME      | What thing? I don't know, YOU'RE the one who's supposed to know... the cool thing. I paid for it and you said come back in TWO HOURS, now I'm here. Is it ready?
+GOTO   | TOO_LATE_SOLD_TO_ZOLA
+
+FULL_TIMELY
+DIALOG | P_NAME       | Hey, I'm back. Where's that thing?
+DIALOG | Abdul-Gafur  | Ah yes, here you are, P_NAME. Your purchase has arrived.
+GOTO   | ITEM_GET
+
+FULL_EARLY
+DIALOG | P_NAME      | Hey, I'm back!
+DIALOG | Abdul-Gafur | Sorry kid, not ready yet.
+DIALOG | P_NAME      | Really? Dang...
+DIALOG | Abdul-Gafur | No, but have faith. Give me a little more time.
+DIALOG | P_NAME      | Okay...
+
+HALF_LATE
+DIALOG | P_NAME      | Hey, so where's that thing?
+DIALOG | Abdul-Gafur | What thing?
+DIALOG | P_NAME      | What thing? The spear! The cool thing you sold me! I paid for half of it, now I'm here. Is it ready?
+GOTO   | TOO_LATE_SOLD_TO_ZOLA
+
+HALF_TIMELY
+DIALOG | P_NAME        | Hey, I'm back. Where's that thing?
+BREAKOUT | add | money
+DIALOG | Abdul-Gafur   | Got the rest of the money? @money_abdulHalfOffer@ shekels?
+IF money < @money_abdulHalfOffer@ | GOTO | HALF_NOT_ENOUGH_MONEY
+CHOICE | Pay the man?
+REPLY  | HALF_PAYMENT  | Yes, here's the money.
+REPLY  | HALF_NO_PAY   | Let me think if I really want to spend the rest.
+
+HALF_EARLY
+DIALOG | P_NAME      | Hey, I'm back!
+DIALOG | Abdul-Gafur | Sorry kid, not ready yet.
+DIALOG | P_NAME      | Really? Dang...
+DIALOG | Abdul-Gafur | No, but have faith. Give me a little more time.
+DIALOG | P_NAME      | Okay...
+
+TOO_LATE_SOLD_TO_ZOLA
+DIALOG  | Abdul-Gafur  | Ah, well, about that... you know how things are. I didn't know if you were coming, and it seemed wiser to do business with someone else...
+PLAYSET | o_cts_hoopz  | surpriseSW | surpriseHoldSW
+DIALOG  | P_NAME = s_port_hoopzSurprise | So you sold it? Are you kidding me?
+DIALOG  | Abdul-Gafur  | Well, only slightly. I was offered @money_zolaSpear@ shekels for it, and that's more than I was going to get from you anyway, so I let it fall into the possession of a dwarf named Zola. Don't look at me like that! A lot of dwarfs disappear in Tir na Nog, how could I know you were coming back? I told you to be persistent, didn't I? No hard feelings, kid. Right?
+DIALOG  | P_NAME = s_port_hoopzSurprise | This is... this... come on!
+DIALOG  | Abdul-Gafur  | Sorry, kid. I said two hours and you were just too late. I just assumed you were floating face down in the Sewers. Death by Fishlian null and voids any fiscal contract. You can go see Zola if you're really dying for it. She's normally selling papers around here somewhere...
+QUEST   | abdulOffer = 7
+DIALOG  | P_NAME = s_port_hoopzAngry | I was right, this was a flim-flam!
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | WEST
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | SOUTHWEST
+WAIT    | 0.25
+LOOK    | o_cts_hoopz | SOUTH
+WAIT    | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT    | 0.5
+DIALOG  | P_NAME = s_port_hoopzSad | (I guess I should have been here on time... smooth move P_NAME_S!)
+
+HALF_NOT_ENOUGH_MONEY
+DIALOG | P_NAME      | Uh... on me? Hold on a sec.
+BREAKOUT | clear
+DIALOG | Abdul-Gafur | This is a very in-demand item, P_NAME_S. 
+DIALOG | P_NAME      | Dagnabbit! Abdul-Gafur, I'm sorry. I'll be right back with the money.
+DIALOG | Abdul-Gafur | Make it soon, P_NAME. I can't guarantee this item will wait around for you, regardless of your interest or investment.
+DIALOG | P_NAME      | Alright, alright.
+
+HALF_PAYMENT
+DIALOG | P_NAME | Of course I've got it.
+QUEST  | money -= @money_abdulHalfOffer@
+DIALOG | Abdul-Gafur | Great, great. But keep it to yourself for the time being. I am not sure when a commodity of this import will grace the Tir na nOg market again, I would prefer that you keep your connections, i.e. ME, confidential.
+BREAKOUT | clear
+GOTO   | ITEM_GET
+
+HALF_NO_PAY
+DIALOG | P_NAME      | Hmmm, let me think if I really want to spend the rest.
+DIALOG | Abdul-Gafur | What? You aren't going to second guess this transaction at this point are you?
+DIALOG | P_NAME      | Mr. Abdul-Gafur, I'm a youngster but one day I will be a grownup. One of the cobblestones on that path to grownuphood is weighing all of your options. That is what I'm doing here.
+DIALOG | Abdul-Gafur | ... I see. You'd best weigh in your options in a timely manner. I can't promise I won't sell this majestic item to someone else if they have enough shekels in their pockets.
+DIALOG | P_NAME      | Okay.
+
+ITEM_GET
+USEAT  | o_abdul_gafur01
+WAIT   | 0.25
+NOTIFY | Got the Object of Dubious Consequence
+ITEM   | Object of Dubious Consequence | 1
+DIALOG | P_NAME = s_port_hoopzSad | This... this is it?
+DIALOG | Abdul-Gafur | It is indeed.
+DIALOG | P_NAME      | I don't even know what to say... this... isn't anything at all...
+WAIT   | 0.5 
+DIALOG | P_NAME = s_port_hoopzAngry | It's a broken hunk of metal!
+WAIT   | 0.5
+DIALOG | Abdul-Gafur | All sales final.
+WAIT   | 1.0
+DIALOG | P_NAME = s_port_hoopzSad | (Scammed again, P_NAME_S. Gotta get some street smarts.)
+QUEST  | abdulState = 4
+
+NEGOTIATION_BEGIN
+IF gelasioDrinkLadder >= 2 | GOTO | OFFER_GELASIO
+IF jindrichApricot = 1     | GOTO | OFFER_JINDRICH
+GOTO   | OFFER_GENERIC
+
+OFFER_GELASIO
+DIALOG | Abdul-Gafur | Forgive me, but I have been following your work with Gelasio here. And I must say I am struck by your obvious Gumshoe Gumption.
+DIALOG | P_NAME      | Gee, thanks.
+DIALOG | Abdul-Gafur | I call it like I see it, and what I see before me now is a._._._ dwarf?._._._ dwarfoid of considerable means.
+DIALOG | P_NAME      | Me? Means? Well not really I only have a few shekels here and there.
+DIALOG | Abdul-Gafur | And you want to put those shekels to good use I presume?_ I can tell you that my employment here gives me a few connections. I may be able to find something useful to your end. Let me ask you, P_NAME_S, `sq`is there anything that you really desire?`rt`
+GOTO   | OFFER_CONNECT
+
+OFFER_JINDRICH
+DIALOG | Abdul-Gafur | I saw what you did for Jindrich. My, it is nice to see someone new sharing shekels here in Tir na nOg! Nice for me anyway, nice for Jindrich. I'd say nice for all of us, but I'm sure the Duergars won't like it.
+DIALOG | P_NAME      | Huh I didn't mean to do anything wrong. I thought you're supposed to share what you have!
+DIALOG | Abdul-Gafur | Don't get me wrong, everyone loves big spenders. Take a look at Gelasio here. But you also put a target on your back. The Duergars like roughing up dwarfs, and roughing up rich dwarfs even more.
+IF gelasioState <= 4 | IF clock >= 1 | DIALOG | Gelasio | Bwahaha, you're crazy Abdul! And hey, how about some more fruit! Ummm, gimme a shot of the `kw`Concord`rt` this time!
+DIALOG | P_NAME      | I don't think I did anything wrong...
+DIALOG | Abdul-Gafur | Agreed, sir. As that is so, you'd be fully justified in defending yourself! Fortunately for you, my employment here gives me a few connections. I may be able to find something useful to your end. `sq`Is there anything you need?`rt`
+GOTO   | OFFER_CONNECT
+
+OFFER_GENERIC
+DIALOG | Abdul-Gafur | I can tell you that my employment here gives me a few connections. I may be able to find something useful to your end. Let me ask you, P_NAME_S, is there anything that you really desire?
+GOTO   | OFFER_CONNECT
+
+OFFER_CONNECT
+CHOICE | What do you want?
+REPLY  | GUNS      | Gun's.
+REPLY  | COMPUTERS | Computers.
+REPLY  | VIDCONS   | Vidcons.
+REPLY  | CANDY     | Candy.
+
+GUNS
+DIALOG | P_NAME | I don't want to have to fight... but I'd brast a mean gun if I got into some deep you-know-what with the Duergars.
+QUEST  | rmTab += 1
+QUEST  | rmBrast += 1
+GOTO   | ITEM_CONT
+
+COMPUTERS
+DIALOG | P_NAME | I like to solve problems with my mind... but some good tech's gotta help! Do you think you can get me a computer? Or something like a computer?
+GOTO   | ITEM_CONT
+
+VIDCONS
+DIALOG | P_NAME | When when I play games I can usually get a lot of thinking done. Maybe I just need to think of a plan over some great gameplay...
+QUEST  | rmTab += 1
+QUEST  | rmVidcon += 1
+GOTO   | ITEM_CONT
+
+CANDY
+IF mortimerState >= 1 | DIALOG | P_NAME | I'll definitely need some candy, but I already know Mr. Mortimer. Candy is the only thing that keeps me going when things get really dark.
+IF mortimerState == 0 | DIALOG | P_NAME | I'll definitely need some candy. Candy is the only thing that keeps me going when things get really dark.
+QUEST  | rmTab += 1
+QUEST  | rmCandy += 1
+GOTO   | ITEM_CONT
+
+ITEM_CONT
+DIALOG | Abdul-Gafur | Hmmm... a true survivalist in our midst. Outstanding. But let me think, `mq`I have something that will keep you a little safer.`rt` I respect your wealth, P_NAME_S. I'm looking out for you! But you never know who's listening around here, so I can't say too much. But this item, while of immense value, will take equal parts money and machination to get to your hands. The item surely desires a wealthy patron as it's owner. It offers you unparalleled utility in return. `mq`Do you think you can make an investment, P_NAME_S?`rt` How does @money_abdulBigOffer@ neuro-shekels sound?
+QUEST  | abdulOffer = 2
+GOTO   | OFFER_BIG"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxc1l"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(0, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fntl"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(68, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyg1d"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(136, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4on0c"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(204, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ao0hs"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(272, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0m66f"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(340, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36kf5"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(408, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_juqy5"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(476, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xf7s1"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(544, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fiq4"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(612, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kcqwf"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(680, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4e8we"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(748, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vtbgf"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(816, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krx1v"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(884, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph2jf"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(952, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmoff"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(1020, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uob70"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(1088, 0, 68, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btefg"]
+atlas = ExtResource("2_n7hmq")
+region = Rect2(1156, 0, 68, 58)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tsa0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxc1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fntl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dyg1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4on0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ao0hs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0m66f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36kf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_juqy5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xf7s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fiq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kcqwf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4e8we")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vtbgf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krx1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph2jf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmoff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uob70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btefg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n8fu4"]
+size = Vector2(45, 39)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dyg1d"]
+radius = 85.02353
+
+[node name="o_abdul_gafur01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_eot8y")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_2fntl")
+ActorAnim = NodePath("ActorAnim")
+has_collision = false
+ActorCol = NodePath("")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_tsa0v")
+autoplay = "default"
+centered = false
+offset = Vector2(-23, -51)
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "5",
+"bbox_right": "49",
+"bbox_top": "3",
+"frames": ["images\\s_abdul_gafur01_0.png", "images\\s_abdul_gafur01_1.png", "images\\s_abdul_gafur01_2.png", "images\\s_abdul_gafur01_3.png", "images\\s_abdul_gafur01_4.png", "images\\s_abdul_gafur01_5.png", "images\\s_abdul_gafur01_6.png", "images\\s_abdul_gafur01_7.png", "images\\s_abdul_gafur01_8.png", "images\\s_abdul_gafur01_9.png", "images\\s_abdul_gafur01_10.png", "images\\s_abdul_gafur01_11.png", "images\\s_abdul_gafur01_12.png", "images\\s_abdul_gafur01_13.png", "images\\s_abdul_gafur01_14.png", "images\\s_abdul_gafur01_15.png", "images\\s_abdul_gafur01_16.png", "images\\s_abdul_gafur01_17.png"],
+"height": "58",
+"name": "s_abdul_gafur01",
+"width": "68",
+"xorig": "23",
+"yorigin": "51"
+}
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(2.5, -28.5)
+shape = SubResource("RectangleShape2D_n8fu4")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_bxc1l")
+max_distance = 400.0
+bus = &"Audio"
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(3, -24)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_dyg1d")
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[connection signal="animation_finished" from="ActorAnim" to="." method="_on_actor_anim_animation_finished"]
+[connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

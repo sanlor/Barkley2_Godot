@@ -1,0 +1,92 @@
+[gd_scene load_steps=5 format=3 uid="uid://c17aqutp7xio0"]
+
+[ext_resource type="Script" uid="uid://dlv7ha8bd7x2t" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_tnn_escape_01.gd" id="1_fwn0o"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_gclnf"]
+
+[sub_resource type="Resource" id="Resource_jy7ov"]
+script = ExtResource("2_gclnf")
+original_script = "IF farewellTNN == 0 | GOTO | GIVE_FAREWELL
+IF farewellTNN == 2 | GOTO | TNN_LOCKED
+
+TNN_LOCKED
+QUEST      | farewellTNN = 3
+SURPRISEAT | NORTH
+Emote      | !
+WAIT       | 0.75
+LOOK       | o_cts_hoopz | NORTH
+FRAME      | CAMERA_NORMAL | o_cinema10
+WAIT       | 0
+WAIT       | 0.5
+DIALOG     | P_NAME | Oh... The gate is closed. Looks like there's no way in.
+WAIT       | 1
+FRAME      | CAMERA_NORMAL | o_cts_hoopz 
+WAIT       | 0
+WAIT       | 0.5
+
+GIVE_FAREWELL
+QUEST  | farewellTNN = 1
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.75
+DIALOG | P_NAME | ...
+WAIT   | 0.75
+DIALOG | P_NAME | Am I really ready to leave Tir na nog? I don't think those blue brutes are going to let me back in later on...
+CHOICE | Leave Tir na Nog behind?
+REPLY  | LEAVE_YAY | Yes!
+REPLY  | LEAVE_NAY | No!
+
+LEAVE_YAY
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.75
+FRAME  | CAMERA_NORMAL | o_cinema9
+WAIT   | 0
+WAIT   | 0.5
+DIALOG | P_NAME | Tir na nog... It looks just like it did back when I first came here.
+WAIT   | 1
+DIALOG | P_NAME | All the many friends and foes I've made, all the laughs and gamer feels... I got beat up and scammed a thousand times, but now that I'm here outside her gates I feel a little homesick.
+WAIT   | 1
+FRAME  | CAMERA_NORMAL | o_cts_hoopz 
+WAIT   | 0
+WAIT   | 0.5
+DIALOG | P_NAME | Farewell Tir na nog...
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+MOVETO | o_cts_hoopz | o_cinema8 | MOVE_SLOW
+WAIT   | 0.5
+FADE   | 3 | 1
+WAIT   | 3
+QUEST  | escapedFromTNN = 2
+IF mainQuest < 2 | QUEST | mainQuest = 2
+Teleport | r_wst_tnnEntrance01 | 520 | 32 | 2
+
+LEAVE_NAY
+DIALOG | P_NAME | No, I shouldn't leave yet. I have to make sure there are no `kw`/'Loose Ends/'`rt` to tie together...
+MOVETO | o_cts_hoopz | o_cinema19 | MOVE_NORMAL
+WAIT   | 0
+QUEST  | farewellTNN = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jmw7"]
+size = Vector2(112, 20)
+
+[node name="o_tnn_escape01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_fwn0o")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_jy7ov")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_5jmw7")
+debug_color = Color(0.8004089, 0.4209764, 1.92523e-07, 0.25490198)

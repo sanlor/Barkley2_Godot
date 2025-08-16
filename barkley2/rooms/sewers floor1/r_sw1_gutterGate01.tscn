@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=4 uid="uid://btj58dlcukfek"]
+[gd_scene load_steps=94 format=4 uid="uid://btj58dlcukfek"]
 
 [ext_resource type="Script" uid="uid://dtfvenigxq33g" path="res://barkley2/rooms/sewers floor1/r_sw_1_gutter_gate_01.gd" id="1_0togm"]
 [ext_resource type="Texture2D" uid="uid://dyafern7aglo5" path="res://barkley2/assets/b2_original/backgrounds/tls_sw1_sewers02.png" id="2_500ew"]
@@ -22,7 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="24_3yw0e"]
 [ext_resource type="PackedScene" uid="uid://de6ek86mag4uq" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfewAnnounce01.tscn" id="25_11uwk"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="25_bt6bb"]
-[ext_resource type="Script" uid="uid://b1yhjokt8ijp0" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfew_announce_01.gd" id="26_eerlu"]
 [ext_resource type="PackedScene" uid="uid://hhg2vthadjy1" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_gbl_drawing_point.tscn" id="27_6pmn2"]
 [ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="28_etmu8"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="30_amq0o"]
@@ -2263,6 +2262,7 @@ debug_player_scene_pos = Vector2(344, 232)
 load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
+is_interior = true
 camera_bound_to_map = true
 
 [node name="wall_light" parent="." instance=ExtResource("3_0vclp")]
@@ -2430,12 +2430,9 @@ metadata/code = ""
 metadata/inst_name = "inst_53D3C28C"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_tnn_curfewAnnounce01" type="Area2D" parent="." node_paths=PackedStringArray("col_shape") instance=ExtResource("25_11uwk")]
+[node name="o_tnn_curfewAnnounce01" parent="." instance=ExtResource("25_11uwk")]
 position = Vector2(288, 168)
-script = ExtResource("26_eerlu")
-col_shape = NodePath("CollisionShape2D")
 cutscene_script = SubResource("Resource_lv7lu")
-metadata/_custom_type_script = "uid://dh1uq5b27ucip"
 metadata/code = ""
 metadata/inst_name = "inst_DA4CAE41"
 metadata/scale = Vector2(2, 0)

@@ -1,0 +1,500 @@
+[gd_scene load_steps=44 format=3 uid="uid://r75tawnpu4nc"]
+
+[ext_resource type="Script" uid="uid://c4aned1tpcekl" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_mortimer01.gd" id="1_b15al"]
+[ext_resource type="Texture2D" uid="uid://t3ut7x4vr5kw" path="res://barkley2/assets/b2_original/images/merged/s_mortimer01.png" id="2_41u35"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_njrpt"]
+[ext_resource type="Texture2D" uid="uid://dwcli77jlg5kl" path="res://barkley2/assets/b2_original/images/merged/s_mortimer_scared.png" id="3_njrpt"]
+[ext_resource type="AudioStream" uid="uid://bnl4fgchv2a4l" path="res://barkley2/assets/b2_original/audio/NPC/sn_mortimer_drumroll.ogg" id="5_yokt6"]
+
+[sub_resource type="Resource" id="Resource_0jj5a"]
+script = ExtResource("2_njrpt")
+original_script = "IF govCandy == 2    | GOTO | GIVE_CANDY
+IF body == governor | GOTO | GOVERNOR
+IF comServ == 4     | GOTO | ROBBERY
+IF mortimerState == 3 | GOTO | MORTIMER_03
+IF mortimerRobbed == 2 | GOTO | ROBBEDREPEAT
+IF mortimerRobbed == 1 | GOTO | ROBBED
+IF mortimerState == 1 | GOTO | MORTIMER_01
+IF mortimerState == 0 | GOTO | MORTIMER_00
+
+GIVE_CANDY
+DIALOG | Mortimer | That Governor... He's a real piece of work! I don't even have any candy to give. What am I gonna do?
+
+GOVERNOR
+IF mortimerGov == 1 | GOTO | GOVERNOR1
+DIALOG | Mortimer | Y-you must be the new g-g-governor! P-pleasure to meet you, sir! // P-p-please take this black licorice recipe... It's on me, sir!
+//NOTIFY | Got Black Licorice Recipe!
+DIALOG | Governor Elagabalus | Thank you! // But you didn't need to do that...
+QUEST  | mortimerGov = 1
+GOTO | END
+
+GOVERNOR1
+DIALOG | Mortimer = s_port_mortimer_rob | M-m-mr. Governor! Please stop by Mortimer's Candy Shop anytime! W-w-we love to serve Duergars!
+GOTO | END
+
+//ROBBERY SEQUENCE
+ROBBERY
+DIALOG | Mortimer | Welcome to Mortimer's Candy Shop! What can I get for you, youngster?
+DIALOG | P_NAME   | Hi! I'm here to pick up some money for Mr. Cornrow and Mr. Juicebox. Mr. Cornrow said Mr. Juicebox gave you some money and got the wrong change in return.
+DIALOG | Mortimer | Ha, kid, you're too nice to get mixed up with the likes of those two miscreants.
+DIALOG | P_NAME = s_port_hoopzAngry | Isn't miscreant a kinda harsh word? Mr. Cornrow told me to show you his gun so you'd know I'm here for him.
+//TODO: add either a \"aiming gun sprite\", (which could be useful) or even further, a \"fake gun draw\" that essentially looks like this GUNDRAW | bando 1-5 | (direction of object to draw at)
+SET    | o_mortimer01 | scared1
+BREAKOUT | add | money
+DIALOG | Mortimer = s_port_mortimer_rob  | Wh-whoa! Let's s-slow down here! Uhhh, y-y-yeah! What the hell is Cornrow trying to pull? Tell him I wasn't moving in on his shipment, I was just trying to get my piece of the pie!
+DIALOG | P_NAME | Oh, I'm sure this isn't that big of a deal... Mr. Cornrow is just trying to help Juicebox with his numbers.
+EVENT  | o_mortimer01 | 9
+IF chocomallowsRecipeHas == 0 | GOTO | ROB_STANDARD
+GOTO   | ROB_SPECIAL
+
+ROB_STANDARD
+DIALOG | Mortimer = s_port_mortimer_rob  | Look, man. Take the recipe, and tell Cornrow I didn't mean anything by it.
+DIALOG | P_NAME | What recipe?
+WAIT   | 0.3
+NOTIFY | Mortimer coughed up the Choco-mallows Recipe!
+Candy  | recipe add | Choco-mallows
+DIALOG | P_NAME = s_port_hoopzHappy | Wow, this looks like a great recipe! Cornrow will love it!
+GOTO   | ROB_CONTINUE
+
+ROB_SPECIAL
+DIALOG | Mortimer = s_port_mortimer_rob  | Look, man. I don't know what you're playing at, you already have the Choco-mallows recipe!
+DIALOG | P_NAME | (Hmmm, I wonder why he's talking about the recipe I bought from him...)
+GOTO   | ROB_CONTINUE
+
+ROB_CONTINUE
+DIALOG | Mortimer = s_port_mortimer_rob  | J-just, put the gun down and let me run my shop in peace...
+DIALOG | P_NAME | Oh... what about Juicebox's change?
+DIALOG | Mortimer = s_port_mortimer_rob  | Clispaeth Christ... where are the Duergars when you need them?!
+WAIT | 0.5
+QUEST  | money += @money_mortimerRobbery@
+DIALOG | P_NAME | Thanks, Morty! I'll see you later!
+BREAKOUT | clear
+SET    | o_mortimer01 | scared2
+DIALOG | Mortimer = s_port_mortimer_sad | H-holy Clispaeth...
+QUEST | mortimerRobbed = 1
+ClockTime | event | mortimerState | 3 | 60
+QUEST  | comServ = 5
+GOTO | END
+
+ROBBED
+SET    | o_mortimer01 | scared2
+DIALOG | Mortimer = s_port_mortimer_sad | You again?! J-just leave me alone!
+DIALOG | P_NAME | I was thinking I could get some candy from you?
+DIALOG | Mortimer = s_port_mortimer_sad | Shop's closed, give me some time to process what just happened!
+GOTO | END
+
+ROBBEDREPEAT
+IF time >= timerReopen | GOTO | MORTIMER_02
+DIALOG | Mortimer = s_port_mortimer_sad | Shop's closed.
+GOTO | END
+
+MORTIMER_03
+QUEST | mortimerState = 3
+SET | o_mortimer01 | scared2
+DIALOG | Mortimer = s_port_mortimer_sad | I don't want any trouble, just buy what you need and get out of here!
+GOTO | CANDYSHOP
+
+MORTIMER_01
+DIALOG | Mortimer | Whattday know, P_NAME_S?
+GOTO | CANDY_CHOICE
+
+MORTIMER_00
+DIALOG | Mortimer | Welcome to Mortimer's Candy Shop, youngster. What can I get for you?
+DIALOG | P_NAME = s_port_hoopzHappy | This is a candy store? Then I want CANDY, of course! Candy, candy, candy!
+DIALOG | Mortimer | Well... I just sell recipes here actually. During the transition to the new governor, we can't sell candy, go to the bank, or get out of Tir na nOg.
+DIALOG | P_NAME = s_port_hoopzAngry | A candy store with no candy? What kind of scam is this?
+DIALOG | Mortimer | Well there's no law against selling recipes. In case you come across another confectioner out in the Wastelands or, I suppose a 3D Printer would work too...
+QUEST | mortimerState = 1
+GOTO | CANDY_CHOICE
+
+CANDY_CHOICE
+CHOICE | Whaddya want?
+IF knowCandyPrint == 0 | REPLY | PRINTEDCANDY | 3D Printing Candy?
+REPLY | SHOP_OPEN | Let me see your recipes.
+IF mortimerRobbed == 0 | IF mortimerShopped >= 1 | REPLY | CHOCOMALLOWS | Why are Choco-mallows so expensive?
+IF ericQuest == 2 | IF mortimerJobOpen == 0 | REPLY | JOBOPENING | Got any job openings?
+REPLY | NEVERMIND | Nary ye mind.
+
+PRINTEDCANDY
+DIALOG | P_NAME | What did you mean by printing candy?
+DIALOG | Mortimer | I meant what I said, candy printing from a 3D printer.
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow! You can do that?!
+DIALOG | Mortimer | Of course you can! What year do you think we're livin' in, 2053?! You can print out anything you'd like, gun's, candy, organs... vidcons even if you aren't a purist.
+DIALOG | P_NAME | Wow...
+DIALOG | Mortimer | Too bad the Governor also outlawed 3D Printers... but maybe outside Tir na nOg you can find one. So what do you say, want some recipes?
+QUEST | knowCandyPrint = 1
+GOTO | CANDY_CHOICE
+
+SHOP_OPEN
+DIALOG | P_NAME | Sure let me take a look at your recipes.
+GOTO | CANDYSHOP
+
+CHOCOMALLOWS
+DIALOG | P_NAME | Why are those Choco-mallows so expensive?
+DIALOG | Mortimer | Supply and demand, kid. You see, there used to be a steady stream of Choco-mallows coming into Tir na nOg, and prices were low. Problem was, it was all black market mallows, some say shipped in Underground from Al Akihabara. Recently the Duergars started cracking down illegal strweets - that's short for /'street sweets./'
+DIALOG | P_NAME | Strweets? I was even listening to you and I have no idea how to prounounce that...
+DIALOG | Mortimer | Well regardless, the crackdown hit and the strweets dried up, and with them Choco-mallows became rarer than hen's nipples. Hence the price hike.
+DIALOG | P_NAME | Doesn't seem fair to all the mallow lovers out there without the means.
+DIALOG | Mortimer | Laissez-faire, kid. If you really want it, you'll buy it.
+GOTO | CANDY_CHOICE
+
+JOBOPENING
+DIALOG | P_NAME | I was just wondering if you had any jobs available.
+DIALOG | Mortimer | You gotta be joking, I can barely limp by now while the Candy Ban is active and the Chocomallow supply dried up. You'd be better off selling pet food than candy.
+DIALOG | P_NAME | Ahh... good to know.
+GOTO | CANDY_CHOICE
+
+NEVERMIND
+DIALOG | P_NAME | Nary ye mind, I'll check out your stock more later!
+GOTO | END
+
+END
+EXIT |
+
+CANDYSHOP
+QUEST | mortimerShopped = 1
+EVENT | o_mortimer01 | 10 // Check if the shop is empty
+IF shopEmpty == 1 | GOTO | SHOP_EMPTY
+SHOP | open | Mortimer's Candy Shop
+IF mortimerState == 3 | DIALOG | Mortimer | You got what you came for, just go...
+IF mortimerState != 3 | DIALOG | Mortimer | Thank you, come again.
+EXIT |
+
+SHOP_EMPTY
+DIALOG | Mortimer | Oh, I'm all out of recipes... Is there anything else I can do for you?
+GOTO   | CANDY_CHOICE"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yokt6"]
+atlas = ExtResource("2_41u35")
+region = Rect2(0, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jj5a"]
+atlas = ExtResource("2_41u35")
+region = Rect2(33, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6grpb"]
+atlas = ExtResource("2_41u35")
+region = Rect2(66, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p81f3"]
+atlas = ExtResource("2_41u35")
+region = Rect2(99, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57ddj"]
+atlas = ExtResource("2_41u35")
+region = Rect2(132, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_felq3"]
+atlas = ExtResource("2_41u35")
+region = Rect2(165, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ebf1"]
+atlas = ExtResource("2_41u35")
+region = Rect2(198, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwaln"]
+atlas = ExtResource("2_41u35")
+region = Rect2(231, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qv2qu"]
+atlas = ExtResource("2_41u35")
+region = Rect2(264, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojoqm"]
+atlas = ExtResource("2_41u35")
+region = Rect2(297, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7dgs"]
+atlas = ExtResource("2_41u35")
+region = Rect2(330, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2wf0"]
+atlas = ExtResource("2_41u35")
+region = Rect2(363, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vogp"]
+atlas = ExtResource("2_41u35")
+region = Rect2(396, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k5ybg"]
+atlas = ExtResource("2_41u35")
+region = Rect2(429, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smeux"]
+atlas = ExtResource("2_41u35")
+region = Rect2(462, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svew7"]
+atlas = ExtResource("2_41u35")
+region = Rect2(495, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xyuby"]
+atlas = ExtResource("2_41u35")
+region = Rect2(528, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnbpn"]
+atlas = ExtResource("2_41u35")
+region = Rect2(561, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnsci"]
+atlas = ExtResource("2_41u35")
+region = Rect2(594, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17dya"]
+atlas = ExtResource("2_41u35")
+region = Rect2(627, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8i08x"]
+atlas = ExtResource("2_41u35")
+region = Rect2(660, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dte1y"]
+atlas = ExtResource("2_41u35")
+region = Rect2(693, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubkkn"]
+atlas = ExtResource("2_41u35")
+region = Rect2(726, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmtsv"]
+atlas = ExtResource("2_41u35")
+region = Rect2(759, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ien54"]
+atlas = ExtResource("2_41u35")
+region = Rect2(792, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhe65"]
+atlas = ExtResource("2_41u35")
+region = Rect2(825, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wom2i"]
+atlas = ExtResource("2_41u35")
+region = Rect2(858, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvi6q"]
+atlas = ExtResource("2_41u35")
+region = Rect2(891, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3a4df"]
+atlas = ExtResource("2_41u35")
+region = Rect2(924, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ew35"]
+atlas = ExtResource("2_41u35")
+region = Rect2(957, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18j0p"]
+atlas = ExtResource("2_41u35")
+region = Rect2(990, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01cl7"]
+atlas = ExtResource("2_41u35")
+region = Rect2(1023, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xljcp"]
+atlas = ExtResource("2_41u35")
+region = Rect2(1056, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isxmn"]
+atlas = ExtResource("3_njrpt")
+region = Rect2(0, 0, 33, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmfa4"]
+atlas = ExtResource("3_njrpt")
+region = Rect2(33, 0, 33, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g0n1w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yokt6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jj5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6grpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p81f3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57ddj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_felq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ebf1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwaln")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qv2qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojoqm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7dgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2wf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6vogp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k5ybg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smeux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svew7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xyuby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnbpn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnsci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17dya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8i08x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dte1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubkkn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmtsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ien54")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhe65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wom2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvi6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3a4df")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ew35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18j0p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01cl7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xljcp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isxmn")
+}],
+"loop": true,
+"name": &"scared1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmfa4")
+}],
+"loop": true,
+"name": &"scared2",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lv76h"]
+size = Vector2(33, 32)
+
+[node name="o_mortimer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim")]
+script = ExtResource("1_b15al")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_0jj5a")
+ActorAnim = NodePath("ActorAnim")
+has_collision = false
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_g0n1w")
+autoplay = "default"
+frame_progress = 0.4755293
+centered = false
+offset = Vector2(-17, -34)
+metadata/default = {
+"bbox_bottom": "35",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "23",
+"frames": ["images\\s_mortimer01_0.png", "images\\s_mortimer01_1.png", "images\\s_mortimer01_2.png", "images\\s_mortimer01_3.png", "images\\s_mortimer01_4.png", "images\\s_mortimer01_5.png", "images\\s_mortimer01_6.png", "images\\s_mortimer01_7.png", "images\\s_mortimer01_8.png", "images\\s_mortimer01_9.png", "images\\s_mortimer01_10.png", "images\\s_mortimer01_11.png", "images\\s_mortimer01_12.png", "images\\s_mortimer01_13.png", "images\\s_mortimer01_14.png", "images\\s_mortimer01_15.png", "images\\s_mortimer01_16.png", "images\\s_mortimer01_17.png", "images\\s_mortimer01_18.png", "images\\s_mortimer01_19.png", "images\\s_mortimer01_20.png", "images\\s_mortimer01_21.png", "images\\s_mortimer01_22.png", "images\\s_mortimer01_23.png", "images\\s_mortimer01_24.png", "images\\s_mortimer01_25.png", "images\\s_mortimer01_26.png", "images\\s_mortimer01_27.png", "images\\s_mortimer01_28.png", "images\\s_mortimer01_29.png", "images\\s_mortimer01_30.png", "images\\s_mortimer01_31.png", "images\\s_mortimer01_32.png"],
+"height": "37",
+"name": "s_mortimer01",
+"width": "33",
+"xorig": "17",
+"yorigin": "34"
+}
+metadata/scared1 = {
+"bbox_bottom": "33",
+"bbox_left": "2",
+"bbox_right": "29",
+"bbox_top": "4",
+"frames": ["images\\s_mortimer_scared_0.png", "images\\s_mortimer_scared_1.png"],
+"height": "37",
+"name": "s_mortimer_scared",
+"width": "33",
+"xorig": "17",
+"yorigin": "34"
+}
+metadata/scared2 = {
+"bbox_bottom": "33",
+"bbox_left": "2",
+"bbox_right": "29",
+"bbox_top": "4",
+"frames": ["images\\s_mortimer_scared_0.png", "images\\s_mortimer_scared_1.png"],
+"height": "37",
+"name": "s_mortimer_scared",
+"width": "33",
+"xorig": "17",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(-1, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-1.5, -2)
+shape = SubResource("RectangleShape2D_lv76h")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_yokt6")
+max_distance = 400.0
+bus = &"Audio"
+
+[connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

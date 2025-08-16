@@ -9,7 +9,7 @@ class_name B2_Database
 ## Data related to money. Maybe this should be a Json or other kind of DB? yes, anything can be a DB if you are dumb enough.
 ## Not money anymore, every "DB" is a dictionary now. Dictionaries can be DBs too.
 
-const money := {
+const money : Dictionary[String, int] = {
 	##--------------------------------------------------------------------
 	##  TIR NA NOG ~ the HomeTown of the Dwarfs ~
 	##--------------------------------------------------------------------
@@ -195,7 +195,7 @@ const money := {
 	250, 
 	##Your cut of the Tontine (half of 
 	"tontineCut":
-	250.0 * 0.5, #scr_money_db("tontineFull") * 0.5, 
+	250 * 1, #scr_money_db("tontineFull") * 0.5, 
 	## Chup sales ##
 	"brimbleChupNote": 10, 
 	"sureshChupShekel": 26, 
@@ -456,6 +456,9 @@ const items := {
 	## Debug
 	"Placeholder Item": { "id": 0, "description": "A silly debug item. does nothing" }
 	}
+
+static func money_check_value( money_key : String ) -> int:
+	return money.get( money_key, 0 )
 
 ## Add or remove money
 static func money_change( amount ) -> void:

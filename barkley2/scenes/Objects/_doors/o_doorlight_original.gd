@@ -192,7 +192,7 @@ func _physics_process(_delta: float) -> void:
 	if light_activation_area.has_overlapping_bodies():
 		var body : Array[Node2D] = light_activation_area.get_overlapping_bodies()
 		for b in body:
-			if b is B2_Player: # or b is B2_InteractiveActor:
+			if b is B2_PlayerCombatActor: # or b is B2_InteractiveActor:
 				var b_distance := global_position.distance_to( b.global_position )
 				var alpha : float = b_distance / light_activation_shape.shape.radius
 				
@@ -202,7 +202,7 @@ func _physics_process(_delta: float) -> void:
 	if push_area.has_overlapping_bodies():
 		var body : Array[Node2D] = push_area.get_overlapping_bodies()
 		for b in body:
-			if b is B2_Player:
+			if b is B2_PlayerCombatActor:
 				push_player( b, _delta )
 	
 func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
@@ -216,7 +216,7 @@ func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
 	if not enabled:
 		return
 		
-	if body is B2_Player:
+	if body is B2_PlayerCombatActor:
 		# Debug Destination has priority
 		if locked:
 			B2_Sound.play_pick( "door_locked" )

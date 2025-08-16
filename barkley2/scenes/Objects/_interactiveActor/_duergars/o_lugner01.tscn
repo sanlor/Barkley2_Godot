@@ -1,0 +1,438 @@
+[gd_scene load_steps=38 format=3 uid="uid://brspu5ogsk81h"]
+
+[ext_resource type="Script" uid="uid://bblk5d1n55kuk" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lugner01.gd" id="1_7wyo1"]
+[ext_resource type="Texture2D" uid="uid://b7xtcils1lio5" path="res://barkley2/assets/b2_original/images/merged/s_lugner01.png" id="2_x831r"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_xu8u0"]
+[ext_resource type="Texture2D" uid="uid://bmbmred0xhuhq" path="res://barkley2/assets/b2_original/images/merged/s_lugnerShot01.png" id="3_xu8u0"]
+[ext_resource type="Texture2D" uid="uid://8pbu5xn3woat" path="res://barkley2/assets/b2_original/images/merged/s_lugnerEvil01.png" id="4_5kqdc"]
+[ext_resource type="Texture2D" uid="uid://da5hjlrynvlcw" path="res://barkley2/assets/b2_original/images/merged/s_lugnerTimid01.png" id="5_01803"]
+[ext_resource type="Texture2D" uid="uid://belo6booh255s" path="res://barkley2/assets/b2_original/images/merged/s_lugnerNE.png" id="6_pg7rb"]
+[ext_resource type="Texture2D" uid="uid://dc447q5vtxyuy" path="res://barkley2/assets/b2_original/images/merged/s_lugnerSE.png" id="7_h61vj"]
+
+[sub_resource type="Resource" id="Resource_5kqdc"]
+script = ExtResource("2_xu8u0")
+original_script = "IF body == governor  | GOTO | GOVERNOR              
+IF lugnerQuest == 1  | GOTO | BEAT_UP_DWARF
+IF lugnerQuest == 2  | GOTO | TRY_AGAIN
+IF lugnerQuest == 3  | GOTO | NO_DWARFS_YET
+IF lugnerQuest == 4  | GOTO | ZERO_DWARFS
+IF lugnerQuest == 6  | GOTO | DWARFS_BROUGHT
+IF lugnerQuest == 7  | GOTO | GET_LOST
+IF lugnerQuest == 8  | GOTO | LUGNER_BUTTON_REPEAT    
+IF lugnerQuest == 10 | GOTO | OUT_OF_SIGHT 
+           
+GOVERNOR 
+DIALOG | Lugner | Your cruelness! Don't worry, this scumbag will be swept up before you know it. 
+
+OUT_OF_SIGHT
+DIALOG | Lugner | Get out of my sight.
+             
+BEAT_UP_DWARF
+DIALOG | Lugner | Still worried about this guy? Don't be. I've got this covered.
+ 
+TRY_AGAIN
+DIALOG | Lugner | Had a change of heart? The cargo ships still haven't left yet.
+GOTO   | DWARF_CHOICE
+
+NO_DWARFS_YET
+DIALOG | Lugner | Hey pal, any luck yet?
+DIALOG | P_NAME | Not yet, sorry.
+DIALOG | Lugner | Well don't take too long. That cargo ships leave today.
+        
+ZERO_DWARFS
+DIALOG | Lugner | Hey, you're back. I didn't think I'd see you again.
+DIALOG | P_NAME | I really wanted to help you out. I hate seeing the Dwarfs live like this.
+DIALOG | Lugner | I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...
+DIALOG | Lugner | Wait a minute, where are they?
+DIALOG | P_NAME | Giuseppe didn't believe me. He wouldn't send any of them.
+DIALOG | Lugner | Are you kidding me? You couldn't get ANY?
+DIALOG | P_NAME = s_port_hoopzSad | No, I-
+DIALOG | Lugner | For fuck's sake, what the hell good are you? It's not like I asked you to do very much here. Just bring a couple of Dwarfs here, that's it. There's tons of these idiots running around out there, you didn't have to get them all from Giuseppe.
+DIALOG | P_NAME = s_port_hoopzSad | I'm sorry...
+DIALOG | Lugner | Well all these dwarfs are going to be dead and it's going to be your fault.
+DIALOG | P_NAME = s_port_hoopzSad | ...
+DIALOG | Lugner | Get out of my sight, idiot.
+QUEST  | lugnerQuest = 10
+
+DWARFS_BROUGHT 
+DIALOG | Lugner = s_port_lugnerHappy | Hey, you're back. I didn't think I'd see you again.
+DIALOG | P_NAME | I really wanted to help you out. I hate seeing the Dwarfs live like this.
+DIALOG | Lugner = s_port_lugnerHappy | I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...
+IF dwarfCustody <= 14 | DIALOG | Lugner = s_port_lugnerHappy | You got some. That's good! Not as many as I hoped, but this is better than nothing. There should be more than enough food for the trip in there already. Thought you'd bring a little more, so I guess I over prepared.                
+IF dwarfCustody == 15 | DIALOG | Lugner = s_port_lugnerThilled | Wow, you got a lot of them! Nice work. I knew I could count on you. There should be enough food for the trip in there already. Had a feeling you'd come through, so I got a little extra.               
+DIALOG | Lugner | I guess that's everything. Now I just need to load the container into the ship.
+DIALOG | Lugner = s_port_lugnerHappy | This never gets old. Always the same excitement, just a couple button presses away.
+DIALOG | P_NAME = s_port_hoopzHappy  | Yeah!
+DIALOG | Lugner = s_port_lugnerHappy | Ok, it's ready. Do you want to have the honors?
+DIALOG | P_NAME | What do I have to do?
+DIALOG | Lugner = s_port_lugnerHappy | There's a little green button right here. All you need to do is push it. They'll be loaded on the ship, and the ship will automatically start the engines and embark on its course to the Sombrero Galaxy.
+DIALOG | P_NAME | Just that one little button means so much to them.
+DIALOG | Lugner = s_port_lugnerThilled | That's right, just one little button. Go ahead and press it if you want.
+//ADVANCE TIME!
+QUEST | time += 1
+QUEST | lugnerQuest = 8
+EVENT | o_cts_lugnerlever01 | 1 
+           
+LUGNER_BUTTON_REPEAT 
+DIALOG | Lugner = s_port_lugnerThilled | Aren't you going to press the button?
+            
+GET_LOST
+DIALOG | Lugner = s_port_lugnerHappy | You're still here? Get lost. Let me enjoy the moment.
+CHOICE | What the heck do I do?
+REPLY  | HOOPZ_REVENGE | Seek vengenace!
+REPLY  | HOOPZ_COWER | Take the loss.
+
+HOOPZ_COWER
+DIALOG | P_NAME = s_port_hoopzSad | (There's nothing I can do... The dwarfs are dead.)
+
+HOOPZ_REVENGE
+DIALOG | P_NAME = s_port_hoopzAngry | Know what Lugner? You're a real piece of work. You tricked me into hurting those dwarfs!
+DIALOG | P_NAME = s_port_hoopzAngry | I may be small... `s1`But I sure am strong!`s0`
+DIALOG | Lugner = s_port_lugnerHappy | Let's tango, bitch!
+EVENT  | o_lugner01 | 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2r2dv"]
+atlas = ExtResource("2_x831r")
+region = Rect2(0, 0, 27, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2aat"]
+atlas = ExtResource("2_x831r")
+region = Rect2(27, 0, 27, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mpn0"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(648, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6q67"]
+atlas = ExtResource("4_5kqdc")
+region = Rect2(0, 0, 31, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qglot"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(0, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgchi"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(72, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ux8in"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(144, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22i77"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(216, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_he6b6"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(288, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70oe2"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(360, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_td5wm"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(432, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bad62"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(504, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5snck"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(576, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy8ny"]
+atlas = ExtResource("3_xu8u0")
+region = Rect2(648, 0, 72, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_labs5"]
+atlas = ExtResource("5_01803")
+region = Rect2(0, 0, 23, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhdhh"]
+atlas = ExtResource("2_x831r")
+region = Rect2(0, 0, 27, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofxnt"]
+atlas = ExtResource("2_x831r")
+region = Rect2(27, 0, 27, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p18w"]
+atlas = ExtResource("6_pg7rb")
+region = Rect2(0, 0, 27, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3d28"]
+atlas = ExtResource("6_pg7rb")
+region = Rect2(27, 0, 27, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eexpm"]
+atlas = ExtResource("6_pg7rb")
+region = Rect2(54, 0, 27, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crdta"]
+atlas = ExtResource("6_pg7rb")
+region = Rect2(81, 0, 27, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6hj0"]
+atlas = ExtResource("7_h61vj")
+region = Rect2(0, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm2ku"]
+atlas = ExtResource("7_h61vj")
+region = Rect2(29, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs0am"]
+atlas = ExtResource("7_h61vj")
+region = Rect2(58, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lef65"]
+atlas = ExtResource("7_h61vj")
+region = Rect2(87, 0, 29, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_blk1v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2r2dv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2aat")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mpn0")
+}],
+"loop": true,
+"name": &"lugnerDead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6q67")
+}],
+"loop": true,
+"name": &"lugnerEvil",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qglot")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgchi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ux8in")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22i77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_he6b6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70oe2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_td5wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bad62")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5snck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jy8ny")
+}],
+"loop": true,
+"name": &"lugnerShot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_labs5")
+}],
+"loop": true,
+"name": &"lugnerTimid",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhdhh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofxnt")
+}],
+"loop": true,
+"name": &"s_lugner01",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p18w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3d28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eexpm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crdta")
+}],
+"loop": true,
+"name": &"s_lugnerNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6hj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm2ku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs0am")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lef65")
+}],
+"loop": true,
+"name": &"s_lugnerSE",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_01803"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ngo3"]
+size = Vector2(20, 36)
+
+[node name="o_lugner01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_7wyo1")
+duergar_name = "lugner"
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_5kqdc")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_blk1v")
+animation = &"s_lugnerSE"
+centered = false
+offset = Vector2(-14, -32)
+metadata/default = {
+"bbox_bottom": "40",
+"bbox_left": "4",
+"bbox_right": "26",
+"bbox_top": "29",
+"frames": ["images\\s_lugner01_0.png", "images\\s_lugner01_1.png"],
+"height": "39",
+"name": "s_lugner01",
+"width": "27",
+"xorig": "14",
+"yorigin": "32"
+}
+metadata/lugnerShot = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "71",
+"bbox_top": "0",
+"frames": ["images\\s_lugnerShot01_0.png", "images\\s_lugnerShot01_1.png", "images\\s_lugnerShot01_2.png", "images\\s_lugnerShot01_3.png", "images\\s_lugnerShot01_4.png", "images\\s_lugnerShot01_5.png", "images\\s_lugnerShot01_6.png", "images\\s_lugnerShot01_7.png", "images\\s_lugnerShot01_8.png", "images\\s_lugnerShot01_9.png"],
+"height": "42",
+"name": "s_lugnerShot01",
+"width": "72",
+"xorig": "15",
+"yorigin": "33"
+}
+metadata/lugnerDead = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "71",
+"bbox_top": "0",
+"frames": ["images\\s_lugnerShot01_0.png", "images\\s_lugnerShot01_1.png", "images\\s_lugnerShot01_2.png", "images\\s_lugnerShot01_3.png", "images\\s_lugnerShot01_4.png", "images\\s_lugnerShot01_5.png", "images\\s_lugnerShot01_6.png", "images\\s_lugnerShot01_7.png", "images\\s_lugnerShot01_8.png", "images\\s_lugnerShot01_9.png"],
+"height": "42",
+"name": "s_lugnerShot01",
+"width": "72",
+"xorig": "15",
+"yorigin": "33"
+}
+metadata/lugnerTimid = {
+"bbox_bottom": "38",
+"bbox_left": "0",
+"bbox_right": "22",
+"bbox_top": "0",
+"frames": ["images\\s_lugnerTimid01_0.png"],
+"height": "39",
+"name": "s_lugnerTimid01",
+"width": "23",
+"xorig": "12",
+"yorigin": "32"
+}
+metadata/lugnerEvil = {
+"bbox_bottom": "40",
+"bbox_left": "4",
+"bbox_right": "32",
+"bbox_top": "24",
+"frames": ["images\\s_lugnerEvil01_0.png"],
+"height": "39",
+"name": "s_lugnerEvil01",
+"width": "31",
+"xorig": "13",
+"yorigin": "33"
+}
+metadata/s_lugner01 = {
+"bbox_bottom": "40",
+"bbox_left": "4",
+"bbox_right": "26",
+"bbox_top": "29",
+"frames": ["images\\s_lugner01_0.png", "images\\s_lugner01_1.png"],
+"height": "39",
+"name": "s_lugner01",
+"width": "27",
+"xorig": "14",
+"yorigin": "32"
+}
+metadata/s_lugnerNE = {
+"bbox_bottom": "40",
+"bbox_left": "4",
+"bbox_right": "26",
+"bbox_top": "29",
+"frames": ["images\\s_lugnerNE_0.png", "images\\s_lugnerNE_1.png", "images\\s_lugnerNE_2.png", "images\\s_lugnerNE_3.png"],
+"height": "38",
+"name": "s_lugnerNE",
+"width": "27",
+"xorig": "15",
+"yorigin": "30"
+}
+metadata/s_lugnerSE = {
+"bbox_bottom": "40",
+"bbox_left": "4",
+"bbox_right": "26",
+"bbox_top": "29",
+"frames": ["images\\s_lugnerSE_0.png", "images\\s_lugnerSE_1.png", "images\\s_lugnerSE_2.png", "images\\s_lugnerSE_3.png"],
+"height": "39",
+"name": "s_lugnerSE",
+"width": "29",
+"xorig": "15",
+"yorigin": "32"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_01803")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_0ngo3")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -399,12 +399,16 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="r_sw2_pools01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
+[node name="r_sw2_pools01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_r70pp")
 script = ExtResource("1_7i7kc")
 reference_layer = [NodePath("layer 100"), NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer 1"), NodePath("layer 0"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 collision_layer = NodePath("layer - collision 2")
 collision_layer_semi = NodePath("layer - collision 2")
+collision_layer_wade = NodePath("layer - wading")
+is_interior = true
+room_pacify = false
+camera_bound_to_map = true
 
 [node name="sn_sewers_drip" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_mhyu1")

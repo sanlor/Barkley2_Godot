@@ -15,8 +15,8 @@ const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
 
 signal permission_changed
 signal pacify_changed( activated : bool )
-
-@export var populate_reference_layer := true 			## Automatically try to populate "reference_layer" with TileMapLayers
+@export var preview_navigation_mesh		:= false
+@export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D ## DEPRECATED
 
@@ -33,6 +33,8 @@ var astar_valid_tiles := Array() # used for debug
 @export var teleport_pos		:= Vector2.ZERO		## A specific position to transport
 
 @export_category("Room")
+@export var play_enviro_sounds		:= false		## Some rooms have ambient sound
+@export var enviro_sound_array		: Array[String]	## a list of all ambient sounds that this room has.
 @export var collision_layer 		: TileMapLayer	## The tilemap that handles colision of everything.
 @export var collision_layer_semi 	: TileMapLayer	## The tilemap that handles colision for somethings (like actors, but not for bullets)
 @export var collision_layer_wade 	: TileMapLayer	## The tilemap that handles colision for water (casing and bullets falling in the water)
@@ -103,7 +105,23 @@ func _enter_tree() -> void:
 		#move_child( room_darkness_node, 0 )
 		#room_darkness_node.owner = self
 		print( "room_darkness_node created for room '%s'." % name )
-
+	
+	if play_enviro_sounds:
+		if enviro_sound_array.is_empty():
+			push_warning("Room is set to play some soothing enviro sounds, but no sound was added to the array.")
+		else:
+			for sound in enviro_sound_array:
+				var stream : String = B2_Sound.get_sound(sound)
+				if stream.is_empty():
+					push_error("Invalid sound added for enviro: %s" % sound)
+					break
+				var sound_node := AudioStreamPlayer.new()
+				add_child( sound_node )
+				sound_node.stream = load( stream )
+				sound_node.stream.loop = true
+				sound_node.bus = "audio"
+				sound_node.play()
+			
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
 
@@ -130,6 +148,10 @@ func _hide_collision_layer() -> void:
 		collision_layer_abyss.hide()
 		
 func _set_region():
+	if Engine.is_editor_hint():
+		if not preview_navigation_mesh:
+			return
+		
 	if populate_reference_layer:
 		reference_layer.clear()
 		for c in get_children():

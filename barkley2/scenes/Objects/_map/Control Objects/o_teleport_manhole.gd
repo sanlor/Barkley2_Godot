@@ -33,7 +33,7 @@ func open_manhole( body : Node2D ) -> void:
 		return
 	if B2_Input.cutscene_is_playing:
 		return
-	if not body is B2_Player:
+	if not body is B2_PlayerCombatActor:
 		return
 	if not silent: B2_Sound.play("manhole_opening_closing")
 	if tween:
@@ -47,7 +47,7 @@ func close_manhole( body : Node2D ) -> void:
 		return
 	if B2_Input.cutscene_is_playing:
 		return
-	if not body is B2_Player:
+	if not body is B2_PlayerCombatActor:
 		return
 	if not silent: B2_Sound.play("manhole_opening_closing")
 	if tween:
@@ -56,7 +56,7 @@ func close_manhole( body : Node2D ) -> void:
 	tween.tween_property( s_manhole_cover, "position", Vector2.ZERO, 0.5 ).set_ease(Tween.EASE_IN_OUT)
 
 func teleport_to_room( body : Node2D ) -> void:
-	if not body is B2_Player:
+	if not body is B2_PlayerCombatActor:
 		return
 	_make_cinema_script()
 	B2_CManager.play_cutscene( cutscene_script, self, [] )

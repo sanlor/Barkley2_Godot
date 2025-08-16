@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=4 uid="uid://bo0o6oohu0tt0"]
+[gd_scene load_steps=94 format=4 uid="uid://bo0o6oohu0tt0"]
 
 [ext_resource type="Script" uid="uid://bkk8snha0vseb" path="res://barkley2/rooms/sewers floor1/r_sw_1_rathell_01.gd" id="1_pagdo"]
 [ext_resource type="AudioStream" uid="uid://c7u6lycjxww5l" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_env_waterRushing01.ogg" id="3_81f4c"]
@@ -21,9 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="19_2x4ly"]
 [ext_resource type="PackedScene" uid="uid://74tkdn6wv67c" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_ratNest.tscn" id="21_rg2sc"]
 [ext_resource type="Texture2D" uid="uid://lulocnw1elck" path="res://barkley2/assets/b2_original/images/merged/s_enemy_ratNest.png" id="22_mpn7o"]
-[ext_resource type="Script" uid="uid://bdosbsjte5key" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_rat_nest.gd" id="23_80b00"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="23_nledp"]
-[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/resources/shaders/selected_outline.gdshader" id="25_80b00"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/resources/shaders/selected_outline.material" id="24_81f4c"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="26_l3ewv"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="27_wxqdl"]
 [ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="29_cboy0"]
@@ -419,16 +418,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_vc2uo"]
-resource_local_to_scene = true
-shader = ExtResource("25_80b00")
-shader_parameter/enable = false
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0000000475000002
-shader_parameter/pattern = 0
-shader_parameter/inside = true
-shader_parameter/add_margins = false
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_8h1jm"]
 atlas = ExtResource("27_wxqdl")
 region = Rect2(0, 0, 16, 16)
@@ -626,6 +615,7 @@ collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 collision_layer_wade = NodePath("layer - wading")
 is_interior = true
+room_pacify = false
 camera_bound_to_map = true
 
 [node name="sn_env_waterRushing01" type="AudioStreamPlayer" parent="."]
@@ -782,52 +772,40 @@ metadata/code = "initial_height = -32;
 metadata/inst_name = "inst_5029DFE9"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_enemy_ratNest" type="AnimatedSprite2D" parent="." instance=ExtResource("21_rg2sc")]
+[node name="o_enemy_ratNest" parent="." instance=ExtResource("21_rg2sc")]
 position = Vector2(288, 648)
 sprite_frames = SubResource("SpriteFrames_2avby")
 animation = &"idle"
-centered = false
-offset = Vector2(-18, -24)
-script = ExtResource("23_80b00")
 metadata/code = ""
 metadata/inst_name = "inst_ADF2C5C8"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_enemy_ratNest2" type="AnimatedSprite2D" parent="." instance=ExtResource("21_rg2sc")]
+[node name="o_enemy_ratNest2" parent="." instance=ExtResource("21_rg2sc")]
 position = Vector2(496, 648)
 sprite_frames = SubResource("SpriteFrames_2avby")
 animation = &"idle"
-centered = false
-offset = Vector2(-18, -24)
-script = ExtResource("23_80b00")
 metadata/code = ""
 metadata/inst_name = "inst_B91B7B19"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_enemy_ratNest3" type="AnimatedSprite2D" parent="." instance=ExtResource("21_rg2sc")]
+[node name="o_enemy_ratNest3" parent="." instance=ExtResource("21_rg2sc")]
 position = Vector2(400, 184)
 sprite_frames = SubResource("SpriteFrames_2avby")
 animation = &"idle"
-centered = false
-offset = Vector2(-18, -24)
-script = ExtResource("23_80b00")
 metadata/code = ""
 metadata/inst_name = "inst_7479B587"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_enemy_ratNest4" type="AnimatedSprite2D" parent="." instance=ExtResource("21_rg2sc")]
+[node name="o_enemy_ratNest4" parent="." instance=ExtResource("21_rg2sc")]
 position = Vector2(160, 168)
 sprite_frames = SubResource("SpriteFrames_2avby")
 animation = &"idle"
-centered = false
-offset = Vector2(-18, -24)
-script = ExtResource("23_80b00")
 metadata/code = ""
 metadata/inst_name = "inst_0D6220B2"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_sewer_switch01" parent="." node_paths=PackedStringArray("oBridge") instance=ExtResource("26_l3ewv")]
-material = SubResource("ShaderMaterial_vc2uo")
+material = ExtResource("24_81f4c")
 position = Vector2(568, 424)
 sprite_frames = SubResource("SpriteFrames_os02d")
 switchName = "sewerSwitchRat"

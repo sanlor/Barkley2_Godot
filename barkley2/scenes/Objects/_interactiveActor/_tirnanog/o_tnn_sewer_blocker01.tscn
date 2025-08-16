@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://d8cuo2iimjme"]
+
+[ext_resource type="Script" uid="uid://cwpw3mdd76dj" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_tnn_sewer_blocker_01.gd" id="1_ymfnr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_f2wok"]
+
+[sub_resource type="Resource" id="Resource_oftmg"]
+script = ExtResource("2_f2wok")
+original_script = "DIALOG | Governor Elagabalus | (Why would I want to go into the sewers? I've got a mission to complete!)
+MOVETO | o_cts_hoopz | o_cinema6 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wvsiw"]
+size = Vector2(51, 12)
+
+[node name="o_tnn_sewer_blocker01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_ymfnr")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_oftmg")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -4)
+shape = SubResource("RectangleShape2D_wvsiw")
+debug_color = Color(0.650404, 0.5191356, 0.073032714, 0.25490198)

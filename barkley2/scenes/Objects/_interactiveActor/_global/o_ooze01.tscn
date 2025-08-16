@@ -1,0 +1,458 @@
+[gd_scene load_steps=42 format=3 uid="uid://bcuhs4kis38a0"]
+
+[ext_resource type="Script" uid="uid://beli2fdc6mrsb" path="res://barkley2/scenes/Objects/_interactiveActor/_global/o_ooze01.gd" id="1_v5p6s"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_b10jn"]
+[ext_resource type="Texture2D" uid="uid://co5j12sg2qjl6" path="res://barkley2/assets/b2_original/images/merged/s_ooze01.png" id="2_h8n0n"]
+
+[sub_resource type="Resource" id="Resource_618i8"]
+script = ExtResource("2_b10jn")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF oozeBall == 3  | GOTO | OOZEBBALL03
+IF oozeBall == 2  | GOTO | OOZEBBALL02
+IF oozeBall == 1  | GOTO | OOZEBBALL01
+IF uschiBall == 3 | IF oozeCheckKicks >= 1 | GOTO | ASKTOBALL
+IF uschiBall == 2 | IF oozeCheckKicks >= 1 | GOTO | ASKTOBALL
+IF oozeState == 2 | GOTO | OOZE02
+IF oozeState == 1 | GOTO | OOZE01
+IF oozeState == 0 | GOTO | OOZE00
+GOTO | OOZE
+
+GOVERNOR
+DIALOG | Ooze | /'Governor./'
+DIALOG | Governor Elagabalus | (???)
+
+OOZEBBALL03
+DIALOG | Ooze   | Keep moving, kid. I ain't got all day to waste waiting for this game to start.
+DIALOG | P_NAME | Just hold on for a bit longer. I need to go and get some Duergars to play against us.
+DIALOG | Ooze   | Pfft...
+
+OOZEBBALL02
+DIALOG | Ooze   | When's the game?
+DIALOG | P_NAME | Soon!
+
+OOZEBBALL01
+BREAKOUT | add | money
+DIALOG | Ooze  | Offer still stands.
+GOTO   | OOZEPAYMENT
+
+CHECKOUTCHOICE
+CHOICE | Check out Ooze?
+IF oozeCheckBandana == 0 | REPLY | CHECKOUTBANDANA | Check out his bandana.
+IF oozeCheckJacket == 0  | REPLY | CHECKOUTJACKET  | Check out his jacket.
+IF oozeCheckSword == 0   | REPLY | CHECKOUTSWORD   | Check out his sword.
+IF oozeCheckGloves == 0  | REPLY | CHECKOUTGLOVES  | Check out his gloves.
+IF oozeCheckKicks == 0   | REPLY | CHECKOUTKICKS   | Check out his kicks.
+REPLY | NARYYEMIND | Nary ye mind.
+
+NARYYEMIND
+DIALOG | P_NAME | Nary ye mind.
+DIALOG | Ooze   | Alright._ I won't.
+
+CHECKOUTBANDANA
+DIALOG | P_NAME | That's a really swank bandana.
+DIALOG | Ooze   | Yeah kid, I scored this a while back. I'd say it keeps the sweat out of my eyes but I've never really broken one.
+DIALOG | P_NAME | Whoah...
+WAIT   | 0.5
+DIALOG | Ooze   | That it? Just gonna ogle?
+DIALOG | P_NAME | Oh, er... um...
+QUEST  | oozeCheckBandana = 1
+GOTO   | CHECKOUTCHOICE
+
+CHECKOUTJACKET
+DIALOG | P_NAME | That jacket is really fly.
+DIALOG | Ooze   | Thanks, kid, it's an anti-ballistic, alumi-crete polymer. It normally comes in jerkin, but_ mine's got `w1`sleeves.`w0`
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow!
+DIALOG | Ooze   | Anything else?
+QUEST  | oozeCheckJacket = 1
+GOTO   | CHECKOUTCHOICE
+
+CHECKOUTSWORD
+DIALOG | P_NAME | That sword is...
+DIALOG | Ooze   | Psionic?_ Nah, but I get that a lot. It's a refined plas-steel and rare bio-modded zaubric earth metal amalgamate.
+DIALOG | P_NAME | Whoah, what do you call it?
+DIALOG | Ooze   | Her name...-
+//TODO: if we use Ooze elsewhere (he becomes a bigger character), we'll have him do a POSE and Baba Yaga flourish!
+DIALOG | Ooze | `w2``kw`-is Baba Yaga!`rt``w0`
+SURPRISEAT | o_ooze01
+WAIT | 0.5
+DIALOG | Ooze | Half BIO damage, half Cyber. At fifty-fifty, I can pretty much take out anything on Necron 7.
+DIALOG | P_NAME = s_port_hoopzSurprise | Whatttt? That's incredible!
+DIALOG | Ooze | Incredible is as incredible does. Unfortunately for our enemies, me and Baba Yaga do `w1`incredible`w0` a lot. Any more questions?
+LOOKAT | o_cts_hoopz | o_ooze01
+DIALOG | P_NAME | Oh, um...
+KNOW   | knowOozeSword | 3
+QUEST  | oozeCheckSword = 1
+GOTO   | CHECKOUTCHOICE
+
+CHECKOUTGLOVES
+DIALOG | P_NAME | Your gloves-
+DIALOG | Ooze | That's right, fingerless.
+DIALOG | P_NAME = s_port_hoopzSurprise | `w1`So outrageous!`w0`
+QUEST  | oozeCheckGloves = 1
+GOTO   | CHECKOUTCHOICE
+
+CHECKOUTKICKS
+DIALOG | P_NAME | Those are some fresh kicks.
+IF knowOozeSword == 1 | DIALOG | Ooze | Heh, Jordan XIs, these are over four millennia old but haven't a scuff on them. That's no accident. If anyone gets close to these suckers, Baba Yaga cuts them down like fresh grass on the weekend.
+IF knowOozeSword == 0 | DIALOG | Ooze | Heh, Jordan XIs, these are over four millennia old but haven't a scuff on them. That's no accident. If anyone gets close to these suckers, my blade cuts them down like fresh grass on the weekend.
+DIALOG | P_NAME | Wow. Fierce.
+DIALOG | Ooze   | What I wear is a reflection of my spirit, and my sprit is a Badass BIO Magician and Atma Jock.
+DIALOG | P_NAME | Atma Jock?
+DIALOG | Ooze   | Atma Jocks excel in all sports, especially the ball and puck sports like b-ball or hockey.
+DIALOG | P_NAME | B-b-b-ball?
+DIALOG | Ooze   | That's right b-ball, what's it to you?
+IF uschiBall == 2 | GOTO | ASKTOBALL
+DIALOG | P_NAME | Oh well, uh, nothing I guess.
+QUEST  | oozeCheckKicks = 1
+GOTO   | CHECKOUTCHOICE
+
+ASKTOBALL
+CHOICE | Ask Ooze to ball?
+REPLY  | CANYOUBALL | Do you want to play a game with Uschi and me?
+REPLY  | NARYYEMIND | Nary ye mind, you wouldn't wanna anyways.
+
+CANYOUBALL
+DIALOG | P_NAME | Hey we have a game of b-ball starting pretty soon and we need some more ballers. Want to join?
+DIALOG | Ooze   | B-ball, eh? Why that old pastime and not something more athletic like LAN Darts?
+DIALOG | P_NAME | Well there is a whole b-ball court on the other end of town.
+DIALOG | Ooze   | Hmmmm._._._
+WAIT   | 1.0
+DIALOG | Ooze   | @money_oozeBallFee@ sheks.
+DIALOG | P_NAME | What? @money_oozeBallFee@ neuroshekels?
+DIALOG | Ooze   | That's right. If you want the skills you gotta pay the bills.
+BREAKOUT | add  | money | -@money_oozeBallFee@ | 0
+DIALOG | P_NAME | Diabolical...
+GOTO   | OOZEPAYMENT
+
+OOZEPAYMENT
+CHOICE | Pay for Ooze's skillz?
+IF money >= @money_oozeBallFee@ | REPLY | FINEPAY | Fine, here's your fee.
+REPLY  | TOOMUCH | It's too much.
+
+FINEPAY
+DIALOG | P_NAME | Fine, here. You better be good.
+QUEST  | money -= @money_oozeBallFee@
+DIALOG | Ooze | I'm better than good.
+BREAKOUT | clear
+DIALOG | P_NAME | Okay well, I'll try to get the game going soon.
+DIALOG | Ooze | Alright, kid. Let me know.
+QUEST  | oozeBall = 2
+
+TOOMUCH
+DIALOG | P_NAME | I'm sorry, but @money_oozeBallFee@ is too rich for my blood.
+BREAKOUT | clear
+DIALOG | Ooze   | Suit yourself. I'll be here if you are looking for a sure thing.
+QUEST  | oozeBall = 1
+
+OOZE02
+DIALOG | Ooze   | Move on, kid. Unless you got a job for me, I'm not interested.
+DIALOG | P_NAME | Oh, sorry.
+
+OOZEBBALLWAIT
+QUEST  | oozeState = 2
+DIALOG | Ooze   | Done staring or do you plan on making me uncomfortable?
+DIALOG | P_NAME | Oh sorry.
+
+OOZE01
+IF oozeCheckBandana == 1 | IF oozeCheckJacket == 1 | IF oozeCheckSword == 1 | IF oozeCheckGloves == 1 | IF oozeCheckKicks == 1 | GOTO | OOZEBBALLWAIT
+DIALOG | Ooze | What is it, kid?
+GOTO | CHECKOUTCHOICE
+
+OOZE00
+WAIT   | 0.5
+DIALOG | Ooze | Piss off, kid.
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzAngry | (Well that was rude... but I have to admit, this guy is fresh dressed like a million shekels!)
+QUEST  | oozeState = 1
+GOTO   | CHECKOUTCHOICE"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b10jn"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(0, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_618i8"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(45, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2grgs"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(90, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abvo0"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(135, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tv5nb"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(180, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yu6c"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(225, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdvj0"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(270, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrblk"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(315, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75crr"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(360, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fflbq"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(405, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g6p4"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(450, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8aoci"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(495, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dujvm"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(540, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhux6"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(585, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqe0l"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(630, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2qxl"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(675, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb4n5"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(720, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7bwl"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(765, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_js13v"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(810, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn4b8"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(855, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2pav"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(900, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1vrc"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(945, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyplm"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(990, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2w3i"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1035, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egoud"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1080, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbh8t"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1125, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63yd1"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1170, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygnbq"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1215, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do4va"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1260, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jp1ys"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1305, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_assqs"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1350, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgu7l"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1395, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3i4i3"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1440, 0, 45, 57)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjkav"]
+atlas = ExtResource("2_h8n0n")
+region = Rect2(1485, 0, 45, 57)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wi5m5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b10jn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_618i8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2grgs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abvo0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tv5nb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1yu6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdvj0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mrblk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75crr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fflbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g6p4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8aoci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dujvm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhux6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqe0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2qxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb4n5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7bwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_js13v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn4b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2pav")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1vrc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyplm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2w3i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_egoud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbh8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63yd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ygnbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do4va")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jp1ys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_assqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tgu7l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3i4i3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjkav")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2grgs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_enkf6"]
+size = Vector2(20, 36)
+
+[node name="o_ooze01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_v5p6s")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_618i8")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_wi5m5")
+frame_progress = 0.7567946
+centered = false
+offset = Vector2(-22, -49)
+metadata/default = {
+"bbox_bottom": "56",
+"bbox_left": "4",
+"bbox_right": "43",
+"bbox_top": "32",
+"frames": ["images\\s_ooze01_0.png", "images\\s_ooze01_1.png", "images\\s_ooze01_2.png", "images\\s_ooze01_3.png", "images\\s_ooze01_4.png", "images\\s_ooze01_5.png", "images\\s_ooze01_6.png", "images\\s_ooze01_7.png", "images\\s_ooze01_8.png", "images\\s_ooze01_9.png", "images\\s_ooze01_10.png", "images\\s_ooze01_11.png", "images\\s_ooze01_12.png", "images\\s_ooze01_13.png", "images\\s_ooze01_14.png", "images\\s_ooze01_15.png", "images\\s_ooze01_16.png", "images\\s_ooze01_17.png", "images\\s_ooze01_18.png", "images\\s_ooze01_19.png", "images\\s_ooze01_20.png", "images\\s_ooze01_21.png", "images\\s_ooze01_22.png", "images\\s_ooze01_23.png", "images\\s_ooze01_24.png", "images\\s_ooze01_25.png", "images\\s_ooze01_26.png", "images\\s_ooze01_27.png", "images\\s_ooze01_28.png", "images\\s_ooze01_29.png", "images\\s_ooze01_30.png", "images\\s_ooze01_31.png", "images\\s_ooze01_32.png", "images\\s_ooze01_33.png"],
+"height": "57",
+"name": "s_ooze01",
+"width": "45",
+"xorig": "22",
+"yorigin": "49"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2grgs")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_enkf6")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

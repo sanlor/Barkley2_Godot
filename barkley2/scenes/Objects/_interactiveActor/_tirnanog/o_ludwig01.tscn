@@ -1,0 +1,248 @@
+[gd_scene load_steps=14 format=3 uid="uid://cqlwnu6er8s5k"]
+
+[ext_resource type="Script" uid="uid://bo7k3j2m13pkh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_ludwig01.gd" id="1_04iee"]
+[ext_resource type="Texture2D" uid="uid://bpesl0057u1q2" path="res://barkley2/assets/b2_original/images/merged/s_ludwig01.png" id="2_r2jgf"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_sq8f2"]
+
+[sub_resource type="Resource" id="Resource_xd6hy"]
+script = ExtResource("2_sq8f2")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF ludwigState == 8 | GOTO | LUDWIG8
+IF ludwigState == 7 | GOTO | LUDWIG7
+IF ludwigState == 6 | GOTO | LUDWIG6
+IF ludwigState == 5 | GOTO | LUDWIG5
+IF ludwigState == 4 | GOTO | LUDWIG4
+IF ludwigState == 3 | GOTO | LUDWIG3
+IF ludwigState == 2 | GOTO | LUDWIG2
+IF ludwigState == 1 | GOTO | LUDWIG1
+IF ludwigState == 0 | GOTO | LUDWIG0
+
+GOVERNOR
+DIALOG | Ludwig | ...
+
+LUDWIG0
+DIALOG | Ludwig | Hey, P_NAME_S. I'm surprised you aren't tired of talking with me yet.
+DIALOG | Ludwig | Not that I have anything against you, I really like talking with you. I'm fortunate you're even talking to me. It's just...
+DIALOG | P_NAME | Excuse me, have we met before?
+DIALOG | Ludwig | Yeah... yeah, we met before. You really don't remember me?
+DIALOG | P_NAME | ... no.
+DIALOG | Ludwig | Just as well. I'd hate to mess up your life any more than I already have...
+DIALOG | Ludwig | Thanks for talking with me as long as you have. It means a lot that you tried.
+QUEST  | ludwigState = 1
+ClockTime | event | ludwigState | 2 | 3
+
+LUDWIG1
+DIALOG | P_NAME | What do you mean we've met before? I don't think I know you.
+DIALOG | Ludwig | I... that's unfortunate to hear. I was really hoping you'd remember me.
+DIALOG | P_NAME | What?
+DIALOG | Ludwig | Nevermind.
+
+LUDWIG2
+DIALOG | Ludwig | Hello...
+DIALOG | P_NAME | So have we met before?
+DIALOG | Ludwig | Does it matter? It's probably clear by now that we aren't capable of having a meaningful conversation.
+DIALOG | P_NAME = s_port_hoopzSad | Um, I guess so.
+QUEST  | ludwigState = 3
+ClockTime | event | ludwigState | 4 | 3
+
+LUDWIG3
+DIALOG | Ludwig | I'm pretty sure I've never seen you before. It's not like we were good friends and I forgot or anything. I don't really know what I am, but I know I wouldn't do that.
+DIALOG | P_NAME = s_port_hoopzSurprise | Yeah that's what I was saying! We had never met before!
+
+LUDWIG4
+DIALOG | Ludwig | Hello, nice to meet you.
+DIALOG | P_NAME | We just met!
+DIALOG | Ludwig | I... No, you're just trying to trick me.
+DIALOG | P_NAME | Why would I trick you?
+DIALOG | Ludwig | I'm an Eintag Dwarf. I'm very valuable. Supposedly, anyway... I don't know if that's still the case...
+DIALOG | P_NAME | What does that mean?
+DIALOG | Ludwig | I'm not sure how to say this. You're the only person I've ever spoken to...
+DIALOG | P_NAME | I don't really understand.
+DIALOG | Ludwig | It's difficult to describe, but, I'm an Eintag Dwarf. We have many traits, most of which we aren't aware of until we're a little older...or is it younger? If we even get that far.
+DIALOG | P_NAME | What does this mean?
+DIALOG | Ludwig | Most of us just pass by the people to whom we belong. Only if we're really lucky we can establish some sort of bond with someone.
+DIALOG | P_NAME = s_port_hoopzHappy | Oh! So that's me? I can help you?
+DIALOG | Ludwig | I don't know if you can help me. Eintag Dwarfs have a different perception of spatial reality than others, even other Dwarfs. We're born knowing quite a few things, but aren't always on the proper spatial trajectory to do anything about it. Most of us just fade away.
+DIALOG | P_NAME | How can I help you, then? We're friends!
+DIALOG | Ludwig = s_port_ludwig_happy | Really?
+DIALOG | P_NAME = s_port_hoopzHappy | Definitely!
+DIALOG | Ludwig | Thanks... I'm not sure if our lives share the same trajectory. The things you've said to me thus far suggest this. You may not be able to help me, even if you want to.
+DIALOG | P_NAME | What do I need to do?
+DIALOG | Ludwig | Ask me to come with you.
+DIALOG | P_NAME | Where?
+DIALOG | Ludwig | Anywhere. Away. Not here. I'll die if I stay here.
+DIALOG | P_NAME | Okay then...
+QUEST  | ludwigState = 5
+GOTO   | LUDWIG5
+
+LUDWIG5
+CHOICE | Invite Ludwig to accompany you?
+REPLY  | YES | Sure! Join my party!
+REPLY  | NO  | Not right now, sorry.
+
+YES         
+DIALOG | P_NAME | Please, I need you to come with me.
+WAIT | 1.0
+DIALOG | Ludwig | Huh? What?
+DIALOG | P_NAME | Come on, let's go. I want to help you.
+DIALOG | Ludwig | I don't understand. Go where?
+DIALOG | P_NAME | Anywhere. Away. Not here. You told me this is what you wanted.
+DIALOG | Ludwig | I didn't say those things. I don't even know who you are.
+DIALOG | P_NAME | Yes, you do. We just talked! You told me all about you!
+GOTO | LUDWIG5_CONT
+
+NO
+DIALOG | P_NAME | I'm sorry I don't think you can come with me right now.  I have a Cyberdwarf AND a destiny to discover.
+WAIT | 1.0
+DIALOG | Ludwig | What?
+DIALOG | P_NAME | I feel bad though, because want to help you.
+DIALOG | Ludwig | Help me how?
+DIALOG | P_NAME | You just said you wanted to get out of here.
+DIALOG | Ludwig | Um, not sure what you are talking about but if you could please give me some space.
+DIALOG | P_NAME = s_port_hoopzSurprise | What? We just talked! You told me all about you!
+GOTO | LUDWIG5_CONT
+
+LUDWIG5_CONT
+DIALOG | Ludwig | No, I've only just seen you! I don't understand this!
+DIALOG | P_NAME = s_port_hoopzSurprise | Please, let me help you!
+DIALOG | Ludwig | I don't understand! What's going on?!
+DIALOG | P_NAME = s_port_hoopzSad | ...
+QUEST  | ludwigState = 6
+ClockTime | event | ludwigState | 7 | 3
+
+LUDWIG6
+DIALOG | Ludwig | Things are really hazy right now... is this what it's like to be an Eintag?
+DIALOG | P_NAME = s_port_hoopzSad | I don't know, Ludwig...
+
+LUDWIG7
+DIALOG | Ludwig = s_port_ludwig_happy | Hi, I'm Ludwig! I was just born.
+DIALOG | P_NAME = s_port_hoopzSad | You... You don't remember me at all?
+DIALOG | Ludwig = s_port_ludwig_happy | How can I remember you when I was just born?
+DIALOG | P_NAME | We were just talking. You told me to ask you to come with me.
+DIALOG | Ludwig = s_port_ludwig_happy | I'm pretty sure I didn't do that! I was just born this very minute!
+DIALOG | Ludwig = s_port_ludwig_happy | It's pretty exciting to be alive. I know a lot of things. I'm just starting to be aware of it all.
+DIALOG | P_NAME | Isn't there anything I can do to make you come with me?
+DIALOG | Ludwig = s_port_ludwig_happy | What? That's a curious thing to say.
+WAIT | 1.0
+DIALOG | P_NAME | You don't remember speaking to me?
+DIALOG | Ludwig | I'm sorry, I don't. Are you all right?
+DIALOG | P_NAME = s_port_hoopzSad | I don't think so...
+DIALOG | Ludwig | I'm sorry.
+DIALOG | P_NAME | I...
+DIALOG | Ludwig | What?
+WAIT | 0.5
+DIALOG | P_NAME | ... I don't know. Ludwig, I...
+SOUND | sn_debug_five
+PLAYSET| o_ludwig01 | disappear | gone
+WAIT   | 2
+EVENT  | o_ludwig01 | 0
+DIALOG | P_NAME = s_port_hoopzSad | ... Goodbye, Ludwig._._._
+QUEST  | ludwigState = 8"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sq8f2"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(0, 0, 29, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xd6hy"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(29, 0, 29, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ushkj"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(58, 0, 29, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ok70s"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(87, 0, 29, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8gsvp"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(116, 0, 29, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpyfm"]
+atlas = ExtResource("2_r2jgf")
+region = Rect2(145, 0, 29, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_snd25"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq8f2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sq8f2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xd6hy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ushkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ok70s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8gsvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpyfm")
+}],
+"loop": true,
+"name": &"disappear",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpyfm")
+}],
+"loop": true,
+"name": &"gone",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ushkj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5lxpr"]
+size = Vector2(20, 36)
+
+[node name="o_ludwig01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_04iee")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_xd6hy")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_snd25")
+centered = false
+offset = Vector2(-15, -39)
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "5",
+"bbox_right": "26",
+"bbox_top": "32",
+"frames": ["images\\s_ludwig01_0.png", "images\\s_ludwig01_1.png", "images\\s_ludwig01_2.png", "images\\s_ludwig01_3.png", "images\\s_ludwig01_4.png", "images\\s_ludwig01_5.png"],
+"height": "45",
+"name": "s_ludwig01",
+"width": "29",
+"xorig": "15",
+"yorigin": "39"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -5)
+shape = SubResource("CircleShape2D_ushkj")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_5lxpr")
