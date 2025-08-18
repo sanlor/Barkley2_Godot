@@ -1,0 +1,144 @@
+[gd_scene load_steps=14 format=3 uid="uid://42ha11ng7xdn"]
+
+[ext_resource type="Script" uid="uid://bf2h6skldava3" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_rosario01.gd" id="1_7hovd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4l65b"]
+[ext_resource type="Texture2D" uid="uid://vt3407clfbnp" path="res://barkley2/assets/b2_original/images/merged/s_rosario01.png" id="2_5hmi2"]
+
+[sub_resource type="Resource" id="Resource_egghs"]
+script = ExtResource("2_4l65b")
+original_script = "IF bootyBassQuest == 3 | GOTO | BOOTY3
+IF bootyBassQuest == 2 | GOTO | BOOTY2
+IF curfew == after     | GOTO | BOOTY3
+IF rosarioState == 1   | GOTO | ROSARIO1
+GOTO | BOOTY1
+
+BOOTY3
+DIALOG | Rosario | Dang, that was the freshest post-jock jam bootycore I've ever heard. Scene's gonna go nuts when this hits the blogs.
+
+BOOTY2
+DIALOG | Rosario | You don't beat The Anime Bulldog. Not on your first try, kid. His bite is as fierce as his bark and his beats are sicker than the booty plague. Just go home.
+
+ROSARIO1
+DIALOG | Rosario | I'm feelin' it... I'm feelin' it!! Someone get me a mechanic, 'cuz my keister's on the fritz!
+
+BOOTY1
+DIALOG | Rosario | Oh man, oh man, the Anime Bulldog is so cool... but so is DJ Booty Slayer... I can't tell who's gonna be crowned the Baron of Booty, they've both brought their A-game.
+QUEST  | rosarioState = 1
+CHOICE | Who will be the Baron of Booty?
+REPLY  | ANIME   | The Anime Bulldog.
+REPLY  | DJ      | DJ Booty Slayer.
+REPLY  | ME      | I'm going to be the Baron of Booty.
+REPLY  | CANT    | I can't decide.
+
+ANIME
+DIALOG | P_NAME  | I like the Anime Bulldog better.
+DIALOG | Rosario | Yeah, the Anime Bulldog's got that pumpin' beat and mature sound but I don't know, DJ Booty Slayer's got that psychedelic bootytrance going. I'm gonna have to flip a coin on this one because they're both on fire.
+
+DJ
+DIALOG | P_NAME  | The Anime Bulldog's not bad, but DJ Booty Slayer's got it going on.
+DIALOG | Rosario | The Anime Bulldog's all about ambient bloghouse booty samples but DJ Booty Slayer's the master of bitcrushed bootywave. I guess you've just gotta be in the mood for it.
+
+ME
+DIALOG | P_NAME  | Forget about them. There's a new Baron of Booty in town.
+DIALOG | Rosario | Haha, are you kidding me kid? You think you've got the booty beats to take on the Anime Bulldog AND DJ Booty Slayer? You're out of your mind. These are the two freshest dudes on the scene. You'd better be one bumpin' DJ.
+DIALOG | P_NAME  | Heh, you better believe it. I'll get your rump bumpin' AND gumpin', buddy.
+DIALOG | Rosario | Yeah, well we'll see about that kid.
+
+CANT
+DIALOG | P_NAME  | I can't really decide.
+DIALOG | Rosario | Yeah, me neither man, tonight is wild. This is definitely the best Booty Bass blowout ever. My tookis is goin' haywire!"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4l65b"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(0, 0, 40, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_egghs"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(40, 0, 40, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8skxc"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(80, 0, 40, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fq8ic"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(120, 0, 40, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tcglu"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(160, 0, 40, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mm62e"]
+atlas = ExtResource("2_5hmi2")
+region = Rect2(200, 0, 40, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qwngm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4l65b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_egghs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8skxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fq8ic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tcglu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mm62e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5hmi2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_us415"]
+size = Vector2(20, 36)
+
+[node name="o_rosario01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_7hovd")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_egghs")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_qwngm")
+autoplay = "default"
+frame_progress = 0.1570179
+speed_scale = 1.5
+centered = false
+offset = Vector2(-20, -46)
+metadata/default = {
+"bbox_bottom": "51",
+"bbox_left": "4",
+"bbox_right": "35",
+"bbox_top": "35",
+"frames": ["images\\s_rosario01_0.png", "images\\s_rosario01_1.png", "images\\s_rosario01_2.png", "images\\s_rosario01_3.png", "images\\s_rosario01_4.png", "images\\s_rosario01_5.png"],
+"height": "53",
+"name": "s_rosario01",
+"width": "40",
+"xorig": "20",
+"yorigin": "46"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_5hmi2")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_us415")

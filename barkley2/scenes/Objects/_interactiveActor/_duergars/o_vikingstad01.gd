@@ -28,4 +28,5 @@ func _ready() -> void:
 		
 	## Mortgage sprite ##
 	if get_room_name() == "r_tnn_mortgage01":
-		ActorAnim.animation = "fucker"
+		#ActorAnim.animation = "fucker"
+		ActorAnim.animation = "default"

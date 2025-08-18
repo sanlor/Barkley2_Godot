@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc5y1xn03dw3c"]
+
+[ext_resource type="Texture2D" uid="uid://c2gtn17atwk5e" path="res://barkley2/assets/b2_original/images/merged/s_cts_container02.png" id="1_kyug2"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_8sjy4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_txmyu"]
+atlas = ExtResource("1_kyug2")
+region = Rect2(168, 0, 168, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjgc4"]
+atlas = ExtResource("1_kyug2")
+region = Rect2(0, 0, 168, 87)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hnv23"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_txmyu")
+}],
+"loop": true,
+"name": &"containerDwarfed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjgc4")
+}],
+"loop": true,
+"name": &"containerEmpty",
+"speed": 5.0
+}]
+
+[node name="o_cts_container02" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_hnv23")
+animation = &"containerEmpty"
+centered = false
+script = ExtResource("2_8sjy4")
+is_interactive = false
+mouse_detection_area = NodePath("Area2D")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]

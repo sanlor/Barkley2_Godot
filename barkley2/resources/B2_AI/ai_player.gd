@@ -1,20 +1,23 @@
 extends B2_AI
 class_name B2_AI_Player
 
+@export var force_player_control := false
+
 ## Player AI. Receives user inputs and puppeters the parent node (o_hoopz).
 func step() -> void:
 	if actor:
-		if B2_Input.player_has_control:
+		if B2_Input.player_has_control or force_player_control:
 			actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
 			actor.apply_curr_aim( actor.get_global_mouse_position() )
 		else:
+			#actor.apply_curr_aim( Vector2.ZERO )
 			actor.apply_curr_input( Vector2.ZERO )
-			actor.apply_curr_aim( Vector2.ZERO )
+			
 			
 		_input_process()
 
 func _input_process() -> void:
-	if B2_Input.player_has_control:
+	if B2_Input.player_has_control or force_player_control:
 		ranged_attack_trigger.emit( 	Input.is_action_pressed("Action") 		)
 		
 		if Input.is_action_just_pressed("Holster"):		aim_trigger.emit( true )
@@ -25,7 +28,8 @@ func _input_process() -> void:
 		
 		if B2_Input.can_switch_guns:
 			if Input.is_action_just_pressed("throw_gun"):
-				actor.throw_gun()
+				if actor.has_method("throw_gun"):
+					actor.throw_gun()
 			if Input.is_action_just_pressed("Weapon >"):
 				B2_Gun.next_band_gun()
 			if Input.is_action_just_pressed("Weapon <"):

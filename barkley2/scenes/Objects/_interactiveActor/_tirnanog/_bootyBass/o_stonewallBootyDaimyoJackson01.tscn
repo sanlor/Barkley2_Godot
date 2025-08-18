@@ -1,0 +1,622 @@
+[gd_scene load_steps=12 format=3 uid="uid://xjy2idn2m6ab"]
+
+[ext_resource type="Script" uid="uid://77i3kxo64kra" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_stonewallBootyDaimyoJackson01.gd" id="1_0grow"]
+[ext_resource type="Texture2D" uid="uid://bxxjubaw3rjl5" path="res://barkley2/assets/b2_original/images/merged/s_stonewallBootyDaimyoJackson01.png" id="2_3omut"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_u7btc"]
+
+[sub_resource type="Resource" id="Resource_qc0n1"]
+script = ExtResource("2_u7btc")
+original_script = "GOTO | MAIN
+
+MAIN
+IF bootyBassQuest == 3       | GOTO | WON
+IF bootyBassQuest == 2       | GOTO | FAILED
+IF booty_just_won == 1       | GOTO | WIN
+IF booty_just_lost == 1      | GOTO | LOSE
+IF booty_bulldog_go == 1     | GOTO | PERFORMANCE_3
+IF booty_bootyslayer_go == 1 | GOTO | PERFORMANCE_2
+IF booty_dj_spotlight >= 1   | GOTO | SPOTLIGHT_CHANGE
+IF booty_just_named == 1     | GOTO | PERFORMANCE_1
+IF curfew == before          | GOTO | BOOTYBASS
+IF curfew == after           | DIALOG | Stonewall /'Booty Daimyo/' Jackson | Heeeey, what's goin' on kid? You here for the Bootypocalypse? You're a little late to the party, that hootenanny's done and over but we've still got DJ Booty Slayer and the Anime Bulldog up there spinning the hottest booty bass vinyl this side of Brain City. Why don't you stick around and listen to our new Barons of Booty tear it up?
+
+WIN
+Misc   | music | mus_tnn_bootylectro | 1
+WAIT   | 1
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Let's hear it for @djName@, everyone! It's finally time to count the votes and see who our next Baron of Booty's gonna be. Will it be the metaphysical booty pilgrim Booty Slayer? The silent and mysterious Anime Bulldog? Or our loose booty bass cannon @djName@? It looks like the votes are in and our next Baron of Booty is officially...
+QUEST  | bootybassSpotlight = 1
+WAIT   | 1.5
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | ...@djName@! Our wild card wunderkind's come outta nowhere and rocked our rumps to the next level! Congratulations, @djName@, you're the presiding Baron of Booty! Everyone give 'em a hand!
+DIALOG | Crowd | @djNamePrefix@! @djNamePrefix@! @djNamePrefix@!
+DIALOG | The Anime Bulldog | Not bad, kid... not bad...
+DIALOG | DJ Booty Slayer | A Kaleidoscope Of Booties... Booty Fractals Shrinking, Evolving Into Thousands, Millions Of Booty Molecules. A Brief But Intense Glimmer Of Something Beyond Our Mortal Understanding. Brilliance... Nirvana... @djName@...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | C'mere, Baron! I've got something for you...
+QUEST  | bootybassSpotlight = 0
+FRAME  | CAMERA_NORMAL | o_cinema0
+WAIT   | 0.25
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_stonewallBootyDaimyoJackson01
+WAIT   | 0.5
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Only the Baron gets to wear this bad boy. Try it on, it'll look good on you! It's the one and only... Booty Jerkin!
+Jerkin | gain | Booty Jerkin
+NOTIFY | Got the Booty Jerkin.
+DIALOG | @djName@ = s_port_hoopz | Wh-whoa... thank you...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | No, @djNamePrefix@... thank you. I'm glad I took a chance on you. All I want now is to see what comes next. Keep killin' it, @djName@. The booty bass scene is expecting big things from our new baron.
+DIALOG | @djName@ = s_port_hoopz | Y-yeah... I'll keep at it!
+WAIT   | 0.5
+QUEST  | bootyBassQuest = 3
+QUEST  | time += 1
+EXIT | 
+
+LOSE
+Misc   | music | mus_tnn_bootylectro | 1
+QUEST  | booty_just_lost = 0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Let's hear it for @djName@, everyone! It's finally time to count the votes and see who our next Baron of Booty's gonna be. Will it be the metaphysical booty pilgrim Booty Slayer? The silent and mysterious Anime Bulldog? Or our loose booty bass cannon @djName@? It looks like the votes are in and our next Baron of Booty is officially...
+WAIT   | 1.5
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | ...NOT @djName@! Let's give DJ Booty Slayer and the Anime Bulldog, the real bad boys of booty bass, a hand and boo this clown off the stage! Booooo! Boooo!
+DIALOG | Crowd | Boooooo!
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Get outta here, chump! Ya blew it! Ya blew it!
+DIALOG | The Anime Bulldog | You make me sick... after all I've done for you...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Scram, kid! You'll never be a booty bass DJ! Never!
+DIALOG | @djName@ = s_port_hoopzSad | I'm... I'm sorry everyone... I didn't mean to ruin everything...
+QUEST  | behaveJaded += 1
+WAIT   | 0.5
+FRAME  | CAMERA_FAST | o_cinema3
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.2
+QUEST  | bootyBassQuest = 2
+QUEST  | time += 1
+EXIT | 
+
+PERFORMANCE_3
+Misc   | music | mus_tnn_bootylectro | 1
+QUEST  | booty_bulldog_go = 0
+FRAME  | CAMERA_FAST |  o_cts_hoopz
+DIALOG | @djName@ = s_port_hoopz | (Whoa... that was so mature... so that's what adults listen to...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | You better clench yourself before you drench yourself, cuz the Anime Bulldog's on a rampage tonight and he's shaking beaucoup booties!
+DIALOG | The Anime Bulldog | S-Sakura...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | But we've still got one challenger remaining. This DJ's a newcomer to the booty bass scene, the Bootypocalypse wild card. Are they gonna shake things up, or is this just another flat tire?  Last and potentially not least... @djName@!
+DIALOG | @djName@ = s_port_hoopz | I... I'm up...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | (Psst, kid! You know how to do this, right?)
+DIALOG | @djName@ = s_port_hoopz | (Umm... I think so...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | (Just smash buttons. Don't even look at them, roll your face against your keyboard. Pummel 'em. Each key makes a different sound - it's all about that sweet spot, finding that sound people wanna hear.)
+DIALOG | @djName@ = s_port_hoopz | (This doesn't sound too tough...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Hit it, @djName@!
+WAIT   | 1
+QUEST  | bootybassSpotlight = 1
+Misc   | music | mus_blankTEMP | 0
+Create | o_mg_booty_minigame
+
+PERFORMANCE_2
+Misc   | music | mus_tnn_bootylectro | 1
+QUEST  | booty_bootyslayer_go = 0
+FRAME  | CAMERA_FAST | o_cts_hoopz
+LOOK   | o_cts_hoopz | SOUTH
+DIALOG | @djName@ = s_port_hoopz | (Th-that was awesome... how am I gonna top that...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Gatdam! No wonder they call him the Booty Slayer - cuz he killed it! But you may be barkin' up the wrong rump, cuz there's a bulldog on the loose and he wants revenge. Give it up for the Anime Bulldog!
+DIALOG | The Anime Bulldog | Heh... bow wow.
+QUEST  | booty_bulldog_go = 1
+Misc   | music | mus_blankTEMP | 0
+Create | o_mg_booty_dj_animebulldog
+
+PERFORMANCE_1
+QUEST  | booty_just_named = 0
+DIALOG | P_NAME | Um... @djName@.
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Dang, that's got a ring to it. I like it. You better get on stage, cuz the Bootypocalypse is about to come thunderin' down.
+FRAME  | CAMERA_NORMAL | o_animeBulldog01
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.1
+DIALOG | The Anime Bulldog | @djName@, huh? I liked your psy-bootytronica remix of Cryptic Butt Zone. Let's see if you can top it.
+DIALOG | DJ Booty Slayer | This Isn't About Winning. It's About The Journey. Discovering Your Applebottom. Check This Out.
+WAIT   | 0.5
+SET    | o_bootySlayer01 | frenzy
+WAIT   | 0.1
+SOUND  | sn_bb_orchit
+WAIT   | 1
+SOUND  | sn_bb_orchit
+WAIT   | 1
+SOUND  | sn_bb_orchit
+WAIT   | 1
+SOUND  | sn_bb_orchit
+WAIT   | 1
+SET    | o_bootySlayer01 | default
+WAIT   | 1.5
+IF booty_dj_spotlight == 0 | GOTO | SPOTLIGHT_CHANGE
+
+SPOTLIGHT_CHANGE
+DIALOG | @djName@ = s_port_hoopz | Th-the Anime Bulldog... DJ Booty Slayer... whoa...
+WAIT   | 0.4
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Ladies and gentlemen, the Bootypocalypse is upon us! We've got three of the hypest up-and-coming booty masters this side of Brain City here to sonically melt your gluteus maximus! But they're not just spinning for your pleasure, this is for the big one, the title of Baron of Booty, the ultimate honor! Who's it gonna be? The Anime Bulldog?
+QUEST  | bootybassSpotlight = 2
+DIALOG | The Anime Bulldog | Heh... so desu ne...
+WAIT   | 1
+QUEST  | bootybassSpotlight = 3
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | DJ Booty Slayer?
+DIALOG | DJ Booty Slayer | Charging My Booty Chakras...
+WAIT   | 1
+QUEST  | bootybassSpotlight = 1
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Or newcomer @djName@?
+DIALOG | @djName@ = s_port_hoopz | G-gulp...
+WAIT   | 1
+QUEST  | bootybassSpotlight = 0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | So without further ado... kick it off, Booty Slayer!
+QUEST  | booty_bootyslayer_go = 1
+Misc   | music | mus_blankTEMP | 0
+Create | o_mg_booty_dj_bootyslayer
+
+WON
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | M-my liege... I knew there was something special about you when you walked in here. Your air of dignity, your august fanny... it is an honor to be in your presence, oh Baron of Booty.
+DIALOG | @djName@ = s_port_hoopz | It's good to be the baron.
+
+FAILED
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Hmmm... maybe you weren't the booty jockey I thought you were. Do you even know how to spin? F for effort AND execution. The blogs are gonna have a field day with this one. Your career's over, buddy.
+DIALOG | @djName@ = s_port_hoopz | G-geez...
+
+BOOTYBASS
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_stonewallBootyDaimyoJackson01
+IF bootyBassQuest == 1 | DIALOG | Stonewall /'Booty Daimyo/' Jackson | Well dang, it looks like the prodigal child of booty bass has returned. There's something special about you, kid. I can tell by the twinkle in your tookis, you might have what it takes to be the Baron of Booty.
+IF bootyBassQuest != 1 | DIALOG | Stonewall /'Booty Daimyo/' Jackson | Look at this. Look at this booty blowout, son. We got a booty hootenanny goin' on here. We got booties across the board. We got them big bubba booties and them petite keisters. We got booty beasts and applebottom addicts booty thunderin' up in here. But we're missing one thing, the most important thing... we're missing the Baron of Booty. Who's it gonna be? Is it gonna be DJ Booty Slayer? The Anime Bulldog? Or someone else, someone like... you?
+GOTO   | ASKING
+
+ASKING
+CHOICE | Reply?
+REPLY  | YEAH | Heck yeah!
+REPLY  | NOPE | Um, I don't think so.
+REPLY  | WHAT_BOOTY | What's the Baron of Booty?
+REPLY  | WHO_BOOTY | DJ Booty Slayer and The Anime Bulldog?
+
+WHAT_BOOTY
+DIALOG | P_NAME | What's the Baron of Booty?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Every year, booty scholars, ballers, spinners and sinners gather for the annual Bootypocalypse, the biggest blowout for booty bass connoisseurs on Necron 7. This is it, kid. Welcome to the epicenter of the applebottom phenomenon.
+DIALOG | P_NAME | Whoa...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | The top booty bass DJs spin their vinyl in contest for the title of Baron of Booty, whereafter they are recognized as an official pillar of the rump and tookis community. It is the greatest honor a booty bass (and any affiliated sub-genre (e.g. bootycore, ambient bootyhouse)) DJ can ever achieve. It's what DJs spend their entire lives striving for.
+DIALOG | P_NAME | I wanna be the Baron of Booty...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | So what do you say, are you in?
+GOTO   | ASKING
+
+WHO_BOOTY
+DIALOG | P_NAME | DJ Booty Slayer and The Anime Bulldog? Who are they?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Who are DJ Booty Slayer and the Anime Bulldog? Only the two hottest creatives in the booty bass scene. /'36 Bronze Booties of Humility/' by the Slayer, /'Booty Dracula/' by the Bulldog... you've never heard 'em before?
+DIALOG | P_NAME | Umm, I don't think so...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Well then feast your ears (and your keister) on the seismic bootyquaking rhythms they're playing right now. That's them on the stage and they're killin' it. Why don't you go talk to them yourself?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | So what do you say, are you in?
+GOTO   | ASKING
+
+NOPE
+DIALOG | P_NAME | I think I'll sit this one out...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Too bad, kid. You could've made it big. I could tell just by looking at your keister that there's something special about you. Guess we'll never know what it is.
+QUEST  | bootyBassQuest = 1
+
+YEAH
+DIALOG | P_NAME | Heck yeah, I'm gonna be the next Baron of Booty. Flub the haters (or worse...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | You got here just in the nick of time, the signups are almost over and the Bootypocalypse is about to begin. Haven't seen you around before, you new to the booty bass scene? What do you spin?
+DIALOG | P_NAME | Uhh, spin?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Vinyl, man - what do you play?
+DIALOG | P_NAME | Oh, yeah, of course, uh...
+CHOICE | What do you DJ?
+REPLY  | JOCK     | Jock Jams.
+REPLY  | DOOWOP   | Doo Wop.
+REPLY  | JAZZ     | Smooth Jazz.
+REPLY  | ANIMETAL | Animetal.
+
+JOCK
+DIALOG | P_NAME | I usually play jock jams... but I also like Operation Ground and Pound by Dragonforce.
+QUEST  | faveMusic = Jock Jams
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?
+GOTO   | NAME_SELECT
+
+DOOWOP
+DIALOG | P_NAME | I usually play doo wop... but I also like Operation Ground and Pound by Dragonforce.
+QUEST  | faveMusic = Doo Wop
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Wop man! We've got a wop man on the premises! We've got a wop man on the premises! I like the sound of that, kid. We need some fresh blood in the Tir na Nog booty scene. What's your stage name?
+GOTO   | NAME_SELECT
+
+JAZZ
+DIALOG | P_NAME | I usually play smooth jazz... but I also like Operation Ground and Pound by Dragonforce.
+QUEST  | faveMusic = Smooth Jazz
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?
+GOTO   | NAME_SELECT
+
+ANIMETAL
+DIALOG | P_NAME | I usually play animetal... but I also like Operation Ground and Pound by Dragonforce.
+QUEST  | faveMusic = Animetal
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?
+GOTO   | NAME_SELECT
+
+NAME_SELECT
+DIALOG | P_NAME | Uhh...
+QUEST  | booty_just_named = 1
+CHOICE | What's my name?
+REPLY  | DJBASKETBALL | DJ Basket Ball
+REPLY  | ERKINBABA    | Erkin Baba
+REPLY  | WISETONY     | WISE TONY
+REPLY  | DADDYMULK    | Daddy Mulk
+REPLY  | DJ8BIT       | DJ 8-bit
+REPLY  | DJRETRO      | DJ Retro
+REPLY  | DJBRANDLOYALTY | DJ Brand Loyalty
+REPLY  | DJIRCCOP | DJ IRC Cop
+REPLY  | DJCHATROOM_BOI | DJ chatroom_boi
+REPLY  | DJCHATROOM_GURL | DJ chatroom_gurl
+REPLY  | DJFEUDALISM | DJ Feudalism
+REPLY  | DJNASCAR | DJ NASCAR
+REPLY  | DJGRANDSLAMBREAKFAST | DJ Grand Slam Breakfast
+REPLY  | DJSENSITIVEHEDGEHOG | DJ Sensitive Hedgehog
+REPLY  | DJCHADTHECOUNTRY | DJ Chad (the Country)
+REPLY  | DJGAMER | DJ Gamer
+REPLY  | DJWISEJOCK | DJ Wise Jock
+REPLY  | DJCONTACTJUGGLING | DJ Contact Juggling
+REPLY  | DJDVD | DJ DVD
+REPLY  | DJBAYEUXTAPESTRY | DJ Bayeux Tapestry
+REPLY  | DJHDDVD | DJ HD DVD
+REPLY  | DJBUCCANEERNUGGET | DJ Buccaneer Nugget
+REPLY  | DJCROSBYSTILLSNASHANDYOUNG | DJ Crosby, Stills, Nash and Young
+REPLY  | DJTUBER | DJ Tuber
+REPLY  | DJGUNGANAUTONOMYNOW | DJ Gungan Autonomy Now
+REPLY  | DJXFILE | DJ X-File
+REPLY  | DJALAZLAM | DJ Alazlam
+REPLY  | DJCASTESYSTEM | DJ Caste System
+REPLY  | DJALTHISTORY | DJ Alt. History
+REPLY  | DJSHARDMASTER | DJ Shardmaster
+REPLY  | DJSOCCER | DJ Soccer
+REPLY  | DJPETSMART | DJ Petsmart
+REPLY  | DJBLOODHERMIT | DJ Blood Hermit
+REPLY  | DJTAMIFLU | DJ Tamiflu
+REPLY  | DJINSIDEJOB | DJ Inside Job
+REPLY  | DJNEWMANSOWN | DJ Newman's Own
+REPLY  | DJSPINDASH | DJ Spindash
+REPLY  | DJHUMONGOUSLATVIAN | DJ Humongous Latvian
+REPLY  | DJSORGHUM | DJ Sorghum
+REPLY  | DJKERMIT | DJ Kermit
+REPLY  | DJIBOUTI | DJ iBouti
+REPLY  | DJARTAGNAN | DJ'Artagnan
+REPLY  | DJDEATHFIRE | DJ Deathfire
+REPLY  | DJHERBIEFULLYLOADED | DJ Herbie Fully Loaded
+REPLY  | DJDANGLE | DJ Dangle
+REPLY  | DJHOOTDOG | DJ Hoot Dog
+REPLY  | DJBOOTYVAMP | DJ Bootyvamp
+REPLY  | YUNGVASECTOMY | Yung Vasectomy
+REPLY  | FUNKMASTERTAMERLANE | Funkmaster Tamerlane
+
+DJBASKETBALL
+QUEST  | djName = DJ Basket Ball
+QUEST  | djNamePrefix = Basket Ball
+GOTO   | MAIN
+
+ERKINBABA
+QUEST  | djName = Erkin Baba
+QUEST  | djNamePrefix = Erkin
+GOTO   | MAIN
+
+WISETONY
+QUEST  | djName = WISE TONY
+QUEST  | djNamePrefix = TONY
+GOTO   | MAIN
+
+DADDYMULK
+QUEST  | djName = Daddy Mulk
+QUEST  | djNamePrefix = Mulk
+GOTO   | MAIN
+
+DJ8BIT
+QUEST  | djName = DJ 8-bit
+QUEST  | djNamePrefix = 8-bit
+GOTO   | MAIN
+
+DJRETRO
+QUEST  | djName = DJ Retro
+QUEST  | djNamePrefix = Retro
+GOTO   | MAIN
+
+DJBRANDLOYALTY
+QUEST  | djName = DJ Brand Loyalty
+QUEST  | djNamePrefix = Brand Loyalty
+GOTO   | MAIN
+
+DJIRCCOP
+QUEST  | djName = DJ IRC Cop
+QUEST  | djNamePrefix = IRC Cop
+GOTO   | MAIN
+
+DJCHATROOM_BOI
+QUEST  | djName = DJ chatroom_boi
+QUEST  | djNamePrefix = chatroom_boi
+GOTO   | MAIN
+
+DJCHATROOM_GURL
+QUEST  | djName = DJ chatroom_gurl
+QUEST  | djNamePrefix = chatroom_gurl
+GOTO   | MAIN
+
+DJFEUDALISM
+QUEST  | djName = DJ Feudalism
+QUEST  | djNamePrefix = Feudalism
+GOTO   | MAIN
+
+DJNASCAR
+QUEST  | djName = DJ NASCAR
+QUEST  | djNamePrefix = NASCAR
+GOTO   | MAIN
+
+DJGRANDSLAMBREAKFAST
+QUEST  | djName = DJ Grand Slam Breakfast
+QUEST  | djNamePrefix = Grand Slam Breakfast
+GOTO   | MAIN
+
+DJSENSITIVEHEDGEHOG
+QUEST  | djName = DJ Sensitive Hedgehog
+QUEST  | djNamePrefix = Sensitive Hedgehog
+GOTO   | MAIN
+
+DJCHADTHECOUNTRY
+QUEST  | djName = DJ Chad (the Country)
+QUEST  | djNamePrefix = Chad (the Country)
+GOTO   | MAIN
+
+DJGAMER
+QUEST  | djName = DJ Gamer
+QUEST  | djNamePrefix = Gamer
+GOTO   | MAIN
+
+DJWISEJOCK
+QUEST  | djName = DJ Wise Jock
+QUEST  | djNamePrefix = Wise Jock
+GOTO   | MAIN
+
+DJCONTACTJUGGLING
+QUEST  | djName = DJ Contact Juggling
+QUEST  | djNamePrefix = Contact Juggling
+GOTO   | MAIN
+
+DJDVD
+QUEST  | djName = DJ DVD
+QUEST  | djNamePrefix = DVD
+GOTO   | MAIN
+
+DJBAYEUXTAPESTRY
+QUEST  | djName = DJ Bayeux Tapestry
+QUEST  | djNamePrefix = Bayeux
+GOTO   | MAIN
+
+DJHDDVD
+QUEST  | djName = DJ HD DVD
+QUEST  | djNamePrefix = HD DVD
+GOTO   | MAIN
+
+DJBUCCANEERNUGGET
+QUEST  | djName = DJ Buccaneer Nugget
+QUEST  | djNamePrefix = Nugget
+GOTO   | MAIN
+
+DJCROSBYSTILLSNASHANDYOUNG
+QUEST  | djName = DJ Crosby, Stills, Nash and Young
+QUEST  | djNamePrefix = Crosby, Stills, Nash and Young
+GOTO   | MAIN
+
+DJTUBER
+QUEST  | djName = DJ Tuber
+QUEST  | djNamePrefix = Tuber
+GOTO   | MAIN
+
+DJGUNGANAUTONOMYNOW
+QUEST  | djName = DJ Gungan Autonomy Now
+QUEST  | djNamePrefix = Gungan Autonomy Now
+GOTO   | MAIN
+
+DJXFILE
+QUEST  | djName = DJ X-File
+QUEST  | djNamePrefix = X-File
+GOTO   | MAIN
+
+DJALAZLAM
+QUEST  | djName = DJ Alazlam
+QUEST  | djNamePrefix = Alazlam
+GOTO   | MAIN
+
+DJCASTESYSTEM
+QUEST  | djName = DJ Caste System
+QUEST  | djNamePrefix = Caste System
+GOTO   | MAIN
+
+DJALTHISTORY
+QUEST  | djName = DJ Alt. History
+QUEST  | djNamePrefix = Alt. History
+GOTO   | MAIN
+
+DJSHARDMASTER
+QUEST  | djName = DJ Shardmaster
+QUEST  | djNamePrefix = Shardmaster
+GOTO   | MAIN
+
+DJSOCCER
+QUEST  | djName = DJ Soccer
+QUEST  | djNamePrefix = Soccer
+GOTO   | MAIN
+
+DJPETSMART
+QUEST  | djName = DJ Petsmart
+QUEST  | djNamePrefix = Petsmart
+GOTO   | MAIN
+
+DJBLOODHERMIT
+QUEST  | djName = DJ Blood Hermit
+QUEST  | djNamePrefix = Blood Hermit
+GOTO   | MAIN
+
+DJTAMIFLU
+QUEST  | djName = DJ Tamiflu
+QUEST  | djNamePrefix = Tamiflu
+GOTO   | MAIN
+
+DJINSIDEJOB
+QUEST  | djName = DJ Inside Job
+QUEST  | djNamePrefix = Inside Job
+GOTO   | MAIN
+
+DJNEWMANSOWN
+QUEST  | djName = DJ Newman's Own
+QUEST  | djNamePrefix = Newman
+GOTO   | MAIN
+
+DJSPINDASH
+QUEST  | djName = DJ Spindash
+QUEST  | djNamePrefix = Spindash
+GOTO   | MAIN
+
+DJHUMONGOUSLATVIAN
+QUEST  | djName = DJ Humongous Latvian
+QUEST  | djNamePrefix = Humongous Latvian
+GOTO   | MAIN
+
+DJSORGHUM
+QUEST  | djName = DJ Sorghum
+QUEST  | djNamePrefix = Sorghum
+GOTO   | MAIN
+
+DJKERMIT
+QUEST  | djName = DJ Kermit
+QUEST  | djNamePrefix = Kermit
+GOTO   | MAIN
+
+DJIBOUTI
+QUEST  | djName = DJ iBouti
+QUEST  | djNamePrefix = iBouti
+GOTO   | MAIN
+
+DJARTAGNAN
+QUEST  | djName = DJ'Artagnan
+QUEST  | djNamePrefix = Artagnan
+GOTO   | MAIN
+
+DJDEATHFIRE
+QUEST  | djName = DJ Deathfire
+QUEST  | djNamePrefix = Guido
+GOTO   | MAIN
+
+DJHERBIEFULLYLOADED
+QUEST  | djName = DJ Herbie Fully Loaded
+QUEST  | djNamePrefix = Herbie Fully Loaded
+GOTO   | MAIN
+
+DJDANGLE
+QUEST  | djName = DJ Dangle
+QUEST  | djNamePrefix = Dangle
+GOTO   | MAIN
+
+DJHOOTDOG
+QUEST  | djName = DJ Hoot Dog
+QUEST  | djNamePrefix = Hoot Dog
+GOTO   | MAIN
+
+DJBOOTYVAMP
+QUEST  | djName = DJ Bootyvamp
+QUEST  | djNamePrefix = Bootyvamp
+GOTO   | MAIN
+
+YUNGVASECTOMY
+QUEST  | djName = Yung Vasectomy
+QUEST  | djNamePrefix = Yung Vasectomy
+GOTO   | MAIN
+
+FUNKMASTERTAMERLANE
+QUEST  | djName = Funkmaster Tamerlane
+QUEST  | djNamePrefix = Tamerlane
+GOTO   | MAIN"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7btc"]
+atlas = ExtResource("2_3omut")
+region = Rect2(0, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qc0n1"]
+atlas = ExtResource("2_3omut")
+region = Rect2(30, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on5hq"]
+atlas = ExtResource("2_3omut")
+region = Rect2(60, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_djckb"]
+atlas = ExtResource("2_3omut")
+region = Rect2(90, 0, 30, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s04p4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7btc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qc0n1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on5hq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_djckb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_on5hq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c62n5"]
+size = Vector2(20, 36)
+
+[node name="o_stonewallBootyDaimyoJackson01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_0grow")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_qc0n1")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_s04p4")
+centered = false
+offset = Vector2(-14, -34)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "1",
+"bbox_right": "28",
+"bbox_top": "26",
+"frames": ["images\\s_stonewallBootyDaimyoJackson01_0.png", "images\\s_stonewallBootyDaimyoJackson01_1.png", "images\\s_stonewallBootyDaimyoJackson01_2.png", "images\\s_stonewallBootyDaimyoJackson01_3.png"],
+"height": "46",
+"name": "s_stonewallBootyDaimyoJackson01",
+"width": "30",
+"xorig": "14",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_on5hq")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_c62n5")

@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://cuqrs625hyny0"]
+
+[ext_resource type="Script" uid="uid://cegrn5wd43xml" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_vortigern01.gd" id="1_ebud0"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_5wu2v"]
+[ext_resource type="Texture2D" uid="uid://cgskcynvon02v" path="res://barkley2/assets/b2_original/images/merged/s_vortigern01.png" id="2_vijb4"]
+
+[sub_resource type="Resource" id="Resource_x6rij"]
+script = ExtResource("2_5wu2v")
+original_script = "IF bootyBassQuest > 1 | DIALOG | Vortigern | Yeah, I guess you're alright.
+IF bootyBassQuest < 2 | DIALOG | Vortigern | I respect what they're going for but to be honest, I'm more of a jazztronica fan."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wu2v"]
+atlas = ExtResource("2_vijb4")
+region = Rect2(0, 0, 24, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x6rij"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wu2v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_800c8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_800c8"]
+size = Vector2(20, 36)
+
+[node name="o_vortigern01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_ebud0")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_x6rij")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_x6rij")
+centered = false
+offset = Vector2(-11, -35)
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "22",
+"frames": ["images\\s_vortigern01_0.png"],
+"height": "47",
+"name": "s_vortigern01",
+"width": "24",
+"xorig": "11",
+"yorigin": "35"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_800c8")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_800c8")

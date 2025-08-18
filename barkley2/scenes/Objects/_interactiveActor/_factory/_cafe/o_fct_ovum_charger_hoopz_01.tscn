@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://dgyfcwaljmgpr"]
+[gd_scene load_steps=17 format=3 uid="uid://dgyfcwaljmgpr"]
 
 [ext_resource type="Texture2D" uid="uid://dhohwyl70ki6t" path="res://barkley2/assets/b2_original/images/merged/s_fct_ovumCharger01.png" id="1_p8lqu"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_ovum_charger_hoopz_01.gd" id="2_bjw2l"]
+[ext_resource type="Script" uid="uid://dkgriqmyt5tyw" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_ovum_charger_hoopz_01.gd" id="2_bjw2l"]
+[ext_resource type="Material" uid="uid://brwthy85vrs3t" path="res://barkley2/shaders/particles/egg_room_machine_smoke.tres" id="4_6k2i0"]
 [ext_resource type="Texture2D" uid="uid://0ktvwsivslfi" path="res://barkley2/assets/b2_original/images/merged/s_lensflare.png" id="4_vtkov"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0gnrh"]
@@ -113,43 +114,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sv1xv"]
 size = Vector2(39, 55)
 
-[sub_resource type="Curve" id="Curve_6hyrl"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 0.388578), 0.0, 0.0, 0, 0, Vector2(0.378223, 0.963606), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 4
-
-[sub_resource type="CurveTexture" id="CurveTexture_oqg1m"]
-curve = SubResource("Curve_6hyrl")
-
-[sub_resource type="Gradient" id="Gradient_lag2i"]
-offsets = PackedFloat32Array(0, 0.283489, 1)
-colors = PackedColorArray(0, 0, 0.211765, 1, 0.258659, 0.338635, 0.552835, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_qp251"]
-gradient = SubResource("Gradient_lag2i")
-
-[sub_resource type="Curve" id="Curve_a8ncd"]
-_data = [Vector2(0, 0.366741), 0.0, 0.0, 0, 0, Vector2(0.25788, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.672452), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_yghsp"]
-curve = SubResource("Curve_a8ncd")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7cc36"]
-lifetime_randomness = 0.5
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(16, 4, 1)
-direction = Vector3(0, -1, 0)
-spread = 22.0
-initial_velocity_min = 5.0
-initial_velocity_max = 35.0
-gravity = Vector3(0, -10, 0)
-scale_min = 0.02
-scale_max = 0.15
-scale_curve = SubResource("CurveTexture_yghsp")
-color_ramp = SubResource("GradientTexture1D_qp251")
-alpha_curve = SubResource("CurveTexture_oqg1m")
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgdrw"]
 atlas = ExtResource("4_vtkov")
 region = Rect2(0, 0, 64, 64)
@@ -175,6 +139,6 @@ shape = SubResource("RectangleShape2D_sv1xv")
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(0, -48)
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_7cc36")
 texture = SubResource("AtlasTexture_lgdrw")
 lifetime = 2.0
+process_material = ExtResource("4_6k2i0")

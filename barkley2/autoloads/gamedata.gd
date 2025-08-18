@@ -134,7 +134,7 @@ const portrait_from_name := {
 	"Zola" : "s_port_zola",
 
 	#Booty Bass
-	'Stonewall "Booty Daimyo" Jackson' : "s_port_daimyo",
+	"Stonewall /'Booty Daimyo/' Jackson" : "s_port_daimyo",
 	"The Anime Bulldog" : "s_port_animebulldog",
 	"DJ Booty Slayer" : "s_port_bootyslayer",
 
@@ -348,6 +348,7 @@ func _load_portrait_data():
 
 # get currents hoopz portrait.
 # Hoopz portrait can change when bodyswapping (Diaper > Normal)
+## FIXME 17/08/25 This function is old. move it to B2_CManager
 func get_hoopz_portrait() -> String:
 	match B2_Config.get_user_save_data("player.body"):
 		"hoopz":

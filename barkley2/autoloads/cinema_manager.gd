@@ -175,8 +175,8 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 		# What a beautifull mess.
 		
 		qstVal = qstVal.replace("@", "")
-		if qstVal.begins_with("money_"):
-			qstVal = qstVal.trim_prefix("money_")
+		if qstVal.begins_with("money_"): # <- was money_
+			qstVal = qstVal.trim_prefix("money_") # <- was money_
 			if not B2_Database.money.has(qstVal):
 				push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
 			qstVal = B2_Database.money.get( qstVal, "69420666" )
@@ -190,18 +190,26 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 	else:
 		# qstVal = float( qstVal ) # 27/07/25 disabled this. having issues with adding strings values to quests.
 		pass
-	
-	if qstVal.is_valid_int() or qstVal.is_valid_float():
-		qstVal = float( qstVal )
 		
+	
+		
+	if qstVal is String:
+		if qstVal.is_valid_int() or qstVal.is_valid_float():
+			qstVal = float( qstVal )
 		if qstTyp == "+=":
 			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
 		elif qstTyp == "-=":
 			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
 		else:
 			B2_Playerdata.Quest(qstNam, qstVal )
-	else: # = or ==
-		B2_Playerdata.Quest(qstNam, str(qstVal) )
+			
+	else: # 16/08/25 Like always, some very specific bulshit is breaking the code. Its a GREAT idea to mix INT and FLOATS with STRINGS. FUUUUUUN!
+		if qstTyp == "+=":
+			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
+		elif qstTyp == "-=":
+			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
+		else: # = or ==
+			B2_Playerdata.Quest(qstNam, str(qstVal) )
 	
 	if debug: print( "Quest: ", quest_stuff )
 

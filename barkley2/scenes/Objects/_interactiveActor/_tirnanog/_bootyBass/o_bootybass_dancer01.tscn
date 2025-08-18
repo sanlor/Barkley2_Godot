@@ -1,0 +1,107 @@
+[gd_scene load_steps=14 format=3 uid="uid://c2ngddxqy7t84"]
+
+[ext_resource type="Script" uid="uid://chsd6uxvlsmul" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_bootybass_dancer01.gd" id="1_xnti1"]
+[ext_resource type="Texture2D" uid="uid://dggahe61i5ryl" path="res://barkley2/assets/b2_original/images/merged/s_bootybass_dancer01.png" id="2_mha4a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8ul2"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(0, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhn8y"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(47, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4yif"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(94, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lx5ug"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(141, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcguw"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(188, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fntyw"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(235, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkv5o"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(282, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krtp2"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(329, 0, 47, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_orhey"]
+atlas = ExtResource("2_mha4a")
+region = Rect2(376, 0, 47, 61)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0av3q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8ul2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhn8y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4yif")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lx5ug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcguw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fntyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkv5o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krtp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_orhey")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xnti1"]
+
+[node name="o_bootybass_dancer01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+script = ExtResource("1_xnti1")
+is_interactive = false
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0av3q")
+autoplay = "default"
+frame_progress = 0.5612188
+centered = false
+offset = Vector2(-23, -51)
+metadata/default = {
+"bbox_bottom": "60",
+"bbox_left": "7",
+"bbox_right": "41",
+"bbox_top": "39",
+"frames": ["images\\s_bootybass_dancer01_0.png", "images\\s_bootybass_dancer01_1.png", "images\\s_bootybass_dancer01_2.png", "images\\s_bootybass_dancer01_3.png", "images\\s_bootybass_dancer01_4.png", "images\\s_bootybass_dancer01_5.png", "images\\s_bootybass_dancer01_6.png", "images\\s_bootybass_dancer01_7.png", "images\\s_bootybass_dancer01_8.png"],
+"height": "61",
+"name": "s_bootybass_dancer01",
+"width": "47",
+"xorig": "23",
+"yorigin": "51"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xnti1")

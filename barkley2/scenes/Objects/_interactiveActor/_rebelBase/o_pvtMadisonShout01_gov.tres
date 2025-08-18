@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://bfyfbrm1wvgqx"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_5oalo"]
+
+[resource]
+script = ExtResource("1_5oalo")
+original_script = "QUEST | governorRebelLeave = 1
+CHOICE | Am I ready to leave?
+REPLY | YEAH | Yeah.
+REPLY | NAH  | Nah.
+
+YEAH
+QUEST | ladderReached = 0
+FADE  | 1 | 2
+WAIT  | 2
+Teleport | r_tnn_businessDistrict01 | 624 | 768 | 2
+
+NAH
+MOVETO | o_cts_hoopz | o_cinema9 | MOVE_NORMAL
+WAIT   | 0
+QUEST | governorRebelLeave = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

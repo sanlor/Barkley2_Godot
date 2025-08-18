@@ -1,0 +1,91 @@
+[gd_scene load_steps=9 format=3 uid="uid://dfoonh5febm0r"]
+
+[ext_resource type="Texture2D" uid="uid://b8366p50s0fuy" path="res://barkley2/assets/b2_original/images/merged/s_mg_booty_table.png" id="1_82vhl"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_4mgsv"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_4mgsv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1yq1"]
+atlas = ExtResource("1_82vhl")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r4pqh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1yq1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_r1yq1"]
+script = ExtResource("3_4mgsv")
+original_script = "IF bootyBassQuest == 3 | GOTO | BOOTY3
+IF bootyBassQuest == 2 | GOTO | BOOTY2
+GOTO | BOOTY1
+
+BOOTY3
+DIALOG | P_NAME | Should I bless 'em on the decks?
+DIALOG | P_NAME | Nah.
+
+BOOTY2
+IF bootyRecordState == 1 | GOTO | BOOTY2_1
+GOTO   | BOOTY2_0
+
+BOOTY2_1
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | HEY! Come on, kid. We're trying to 'Feel The Bass' here... can you feel it? I guess you can't feel it. All of us can feel it! Can't we!?
+DIALOG | Crowd | Yeaaaaah! Woo hoo! We feel it! Yeah, the bass! Our booties are shuddering! Wahooooooo!
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | See, @bootyDjName@? We're all feeling it here. You're the odd one out...
+
+BOOTY2_0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Oh no you don't! You had a shot, kid. These booties were yearning for bass... you denied the crowd... and so shamed the decks! Keep your clumsy hands off 'em!
+DIALOG | P_NAME | (Geez, you don't have to be so mean...)
+QUEST  | bootyRecordState = 1
+
+BOOTY1
+IF bootyRecordState == 1 | GOTO | BOOTY1_1
+DIALOG | P_NAME | (Wow, look at these turntables... I wish I could get my chance to step up to the plate. I think I could really pump it up...)
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | You there, youngster! Yes you, the one fervently ironing the 1's and 2's!
+QUEST  | bootyRecordState = 1
+
+BOOTY1_1
+DIALOG | P_NAME | (Could this be me?)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4pqh"]
+size = Vector2(35, 19)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gm53l"]
+radius = 18.0
+
+[node name="o_bootybassrecordtable01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_r4pqh")
+centered = false
+offset = Vector2(-20, -31)
+script = ExtResource("2_4mgsv")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_r1yq1")
+metadata/default = {
+"bbox_bottom": "30",
+"bbox_left": "1",
+"bbox_right": "37",
+"bbox_top": "26",
+"height": "32",
+"name": "s_mg_booty_table",
+"width": "40",
+"xorig": "20",
+"yorigin": "31"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -11.5)
+shape = SubResource("RectangleShape2D_r4pqh")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_gm53l")

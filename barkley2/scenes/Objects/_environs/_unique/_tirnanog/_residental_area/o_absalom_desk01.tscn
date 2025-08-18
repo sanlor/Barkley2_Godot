@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://4gjgkbmse0yl"]
+
+[ext_resource type="Texture2D" uid="uid://bviamronw7u0y" path="res://barkley2/assets/b2_original/images/merged/s_computer_nochair_front01.png" id="1_p1qvj"]
+[ext_resource type="Script" uid="uid://b4wng7e5x5qlt" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_absalom_desk_01.gd" id="2_p1qvj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic0lc"]
+atlas = ExtResource("1_p1qvj")
+region = Rect2(96, 0, 48, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwu6e"]
+atlas = ExtResource("1_p1qvj")
+region = Rect2(144, 0, 48, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqhga"]
+atlas = ExtResource("1_p1qvj")
+region = Rect2(0, 0, 48, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67wcs"]
+atlas = ExtResource("1_p1qvj")
+region = Rect2(48, 0, 48, 74)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_75h7f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic0lc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwu6e")
+}],
+"loop": true,
+"name": &"bad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqhga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67wcs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s10jm"]
+size = Vector2(46, 32)
+
+[node name="o_absalom_desk01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_75h7f")
+frame_progress = 0.3970474
+centered = false
+offset = Vector2(-1, -60)
+script = ExtResource("2_p1qvj")
+metadata/default = {
+"bbox_bottom": "68",
+"bbox_left": "1",
+"bbox_right": "47",
+"bbox_top": "27",
+"height": "74",
+"name": "s_computer_nochair_front01",
+"width": "48",
+"xorig": "1",
+"yorigin": "60"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(23, -17)
+shape = SubResource("RectangleShape2D_s10jm")

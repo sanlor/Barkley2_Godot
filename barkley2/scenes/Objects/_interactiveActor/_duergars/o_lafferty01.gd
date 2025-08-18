@@ -17,3 +17,15 @@ func _ready() -> void:
 	ANIMATION_EAST 							= "s_laffertySE"
 	ANIMATION_STAND_SPRITE_INDEX 			= [1, 1, 0, 0, 0, 0, 0, 1]
 	ActorAnim.animation 					= "s_lafferty01"
+
+	## Cuchu's Lair ##
+	if get_room_name() == "r_chu_arena01":
+		cinema_look( "SOUTHWEST" )
+		
+	## Rebel base ##
+	if get_room_name() == "r_tnn_rebelbase02":
+		cinema_look( "SOUTHWEST" )
+		
+	## Mortgage sprite ##
+	if get_room_name() == "r_tnn_mortgage01":
+		ActorAnim.animation = "idling"

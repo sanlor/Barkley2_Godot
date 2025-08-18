@@ -1260,6 +1260,7 @@ static func can_add_gun_to_gunbag() -> bool:
 	return B2_Playerdata.gun_bag.size() >= GUNBAG_SIZE
 	
 static func get_current_gun() -> B2_Weapon:
+	B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 	if B2_Playerdata.gunbag_open:
 		if has_gun_in_gunbag():
 			return B2_Playerdata.gun_bag[ B2_Playerdata.selected_gun ] ## FIXME

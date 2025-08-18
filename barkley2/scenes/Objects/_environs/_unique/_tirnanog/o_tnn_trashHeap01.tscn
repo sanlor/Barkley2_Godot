@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://ck7f8u3jkyrnu"]
+
+[ext_resource type="Texture2D" uid="uid://d3fmdijnhmsyl" path="res://barkley2/assets/b2_original/images/merged/s_tnn_trashHeap01.png" id="1_dmok5"]
+[ext_resource type="Script" uid="uid://lwyvpfofhql7" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_tnn_trash_heap_01.gd" id="2_dmok5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06eu6"]
+atlas = ExtResource("1_dmok5")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qm2os"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06eu6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_06gvc"]
+radius = 24.0
+
+[node name="o_tnn_trashHeap01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_qm2os")
+centered = false
+offset = Vector2(-32, -63)
+script = ExtResource("2_dmok5")
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "4",
+"bbox_right": "63",
+"bbox_top": "16",
+"height": "64",
+"name": "s_tnn_trashHeap01",
+"width": "64",
+"xorig": "32",
+"yorigin": "63"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-3, -21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_06gvc")

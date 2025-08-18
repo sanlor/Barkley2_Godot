@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0bkdmse44q2h"]
+
+[ext_resource type="Script" uid="uid://b6ye87tq3uyhb" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_absalomCaptured01.gd" id="1_3gcrk"]
+[ext_resource type="Texture2D" uid="uid://cnku4lrxl26wd" path="res://barkley2/assets/b2_original/images/merged/s_absalomCaptured01.png" id="2_7hrdg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kul0a"]
+atlas = ExtResource("2_7hrdg")
+region = Rect2(0, 0, 50, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_grqnq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kul0a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_farph"]
+size = Vector2(20, 36)
+
+[node name="o_absalomCaptured01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_3gcrk")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_grqnq")
+centered = false
+offset = Vector2(-26, -21)
+metadata/default = {
+"bbox_bottom": "26",
+"bbox_left": "0",
+"bbox_right": "49",
+"bbox_top": "0",
+"frames": ["images\\s_absalomCaptured01_0.png"],
+"height": "27",
+"name": "s_absalomCaptured01",
+"width": "50",
+"xorig": "26",
+"yorigin": "21"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_farph")

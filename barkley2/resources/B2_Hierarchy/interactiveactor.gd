@@ -38,6 +38,13 @@ var is_player_near 		:= false
 @export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
+## Used to overide the cutscene script (and inject variables).
+func set_new_cinemascript( script_text : String ) -> void:
+	var scr := B2_Script_Legacy.new()
+	var my_script := script_text
+	scr.original_script = my_script
+	cutscene_script = scr
+
 func _setup_interactiveactor():
 	if is_interactive:
 		if not is_instance_valid(mouse_detection_area):

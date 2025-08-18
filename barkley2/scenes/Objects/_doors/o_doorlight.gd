@@ -5,7 +5,7 @@ class_name B2_DoorLight
 const O_ENTITY_INDICATOR_GOSSIP = preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
 ## Debug stuff
-var show_destination := true
+var show_destination := false
 
 # Base class for doorlight directions.
 @export_category("DoorLight setup")

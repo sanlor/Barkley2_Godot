@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://breohuw8qkaja"]
+
+[ext_resource type="Script" uid="uid://bfaxmkc5kf1ht" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_bootybass_dancer02.gd" id="1_4yn2g"]
+[ext_resource type="Texture2D" uid="uid://n65ax4qyjqi7" path="res://barkley2/assets/b2_original/images/merged/s_bootyvass_dancer02.png" id="2_355l6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2ukh"]
+atlas = ExtResource("2_355l6")
+region = Rect2(0, 0, 42, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k22k4"]
+atlas = ExtResource("2_355l6")
+region = Rect2(42, 0, 42, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rb21k"]
+atlas = ExtResource("2_355l6")
+region = Rect2(84, 0, 42, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0d8a"]
+atlas = ExtResource("2_355l6")
+region = Rect2(126, 0, 42, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tlvc"]
+atlas = ExtResource("2_355l6")
+region = Rect2(168, 0, 42, 61)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lwyed"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2ukh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k22k4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rb21k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0d8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tlvc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4yn2g"]
+
+[node name="o_bootybass_dancer02" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+script = ExtResource("1_4yn2g")
+is_interactive = false
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_lwyed")
+autoplay = "default"
+frame_progress = 0.8589364
+centered = false
+offset = Vector2(-19, -48)
+metadata/default = {
+"bbox_bottom": "58",
+"bbox_left": "1",
+"bbox_right": "40",
+"bbox_top": "35",
+"frames": ["images\\s_bootyvass_dancer02_0.png", "images\\s_bootyvass_dancer02_1.png", "images\\s_bootyvass_dancer02_2.png", "images\\s_bootyvass_dancer02_3.png", "images\\s_bootyvass_dancer02_4.png"],
+"height": "61",
+"name": "s_bootyvass_dancer02",
+"width": "42",
+"xorig": "19",
+"yorigin": "48"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4yn2g")

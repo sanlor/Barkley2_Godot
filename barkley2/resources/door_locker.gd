@@ -1,5 +1,6 @@
 extends Node
 class_name B2_DoorLocker
+## Easly set a condition to lock / unlock a door
 
 enum OP{EQUAL,NOT_EQUAL,GREATER,LESSER,GREATER_EQUAL,LESSER_EQUAL}
 enum ACT{LOCK, UNLOCK, LOCK_AND_LOG, UNLOCK_AND_LOG}
@@ -8,10 +9,11 @@ enum ACT{LOCK, UNLOCK, LOCK_AND_LOG, UNLOCK_AND_LOG}
 @export var compare		:= OP.GREATER
 @export var value		:= 0
 @export var action		:= ACT.LOCK
+@export var block_governor	:= true
 @export_multiline var comments : String
 
 func _ready() -> void:
-	var q = B2_Playerdata.Quest(quest_name, null, 0)
+	var q := int( B2_Playerdata.Quest(quest_name, null, 0) )
 	var m := false
 	match compare:
 		OP.EQUAL:
@@ -41,6 +43,10 @@ func _ready() -> void:
 				print_rich("%s was [b]unlocked[/b] due to a quest flag. %s - %s" % [get_parent().name, quest_name, str(value)])
 			_:
 				breakpoint
+	if block_governor:
+		if B2_CManager.curr_BODY == B2_CManager.BODY.GOVERNOR:
+			lock()
+	
 	# remove myself
 	queue_free()
 

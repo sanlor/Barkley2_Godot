@@ -1,0 +1,268 @@
+[gd_scene load_steps=12 format=3 uid="uid://iam5tx1aqj5b"]
+
+[ext_resource type="Script" uid="uid://b84at8yhd7k8f" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_kelpster01.gd" id="1_c285k"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_ejmeb"]
+[ext_resource type="Texture2D" uid="uid://bsfyr0q84yb2q" path="res://barkley2/assets/b2_original/images/merged/s_kelpster01.png" id="2_quxu4"]
+
+[sub_resource type="Resource" id="Resource_ky7pc"]
+script = ExtResource("2_ejmeb")
+original_script = "IF body == governor  | IF kelpsterState = 0 | GOTO | GOVERNOR2
+IF body == governor  | IF kelpsterState = 1 | GOTO | GOVERNOR2
+IF body == governor  | IF kelpsterState = 2 | GOTO | GOVERNOR2
+IF body == governor  | IF kelpsterState = 3 | GOTO | GOVERNOR3
+IF body == governor  | IF kelpsterState = 4 | GOTO | GOVERNOR3
+IF kelpsterState = 0 | GOTO | KELPSTER0
+IF kelpsterState = 1 | GOTO | KELPSTER1
+IF kelpsterState = 2 | GOTO | KELPSTER2
+IF kelpsterState = 3 | GOTO | KELPSTER3
+IF kelpsterState = 4 | GOTO | KELPSTER4
+
+GOVERNOR1
+DIALOG | Kelpster            | `s1`Heh`s0`, a-are you the g-governor!? Look, I... I haven't been naughty, `s1`hehehehe...`s0` P-please, have mercy on me, please!
+DIALOG | Governor Elagabalus | Hmm, I think I'm going to have mercy on you, but only this once. That is what real governors like me do. 
+DIALOG | Kelpster            | T-thank you, m'lord! Thank you! `s1`Heh!`s0`
+QUEST  | kelpsterState = 4
+QUEST  | knowKelpster = 1
+
+GOVERNOR2
+DIALOG | Kelpster            | `w1`*Gulp*`w0` Mister g-governor!? W-w-what b-brings you to my, `s1`heh`s0`, h-humble d-d-d-domain, your m-majesty?
+DIALOG | Governor Elagabalus | Uh, I'm just making sure everything is as it should. It's a tough job governing a city, but as the governor it is my job to govern.
+DIALOG | Kelpster            | O-oh, well, t-that's good to hear. Here, you c-can have this, `s1`heh`s0`, vidcon as a t-t-token of my loyalty.
+NOTIFY | Got the vidcon @gamename@
+EVENT  | o_kelpster01 | 0
+DIALOG | Governor Elagabalus | Whoa, Thanks! Uh, I mean... This tribute pleases me greatly. Now I must bid you farewell.
+DIALOG | Kelpster            | Y-yes, of course. `s1`Hehehehe...`s0` (*Phew*)
+QUEST  | kelpsterState = 4
+               
+GOVERNOR3          
+DIALOG | Kelpster            | M'lord! `s1`Heh`s0`, h-how may I serve you?
+DIALOG | Governor Elagabalus | Oh, I was just... Uh... I think this is the wrong house. Stand tall, citizen. I must go now.
+DIALOG | Kelpster            | Yessir! Absolutely, sir!
+            
+KELPSTER0
+DIALOG | Kelpster | Hey man... What's up?
+DIALOG | P_NAME   | Uh, not much I guess.
+DIALOG | Kelpster | Yeah... Same here... `s1`Heh`s0`, just surfing the `kw`Teletext`rt` here. Not much else to do since they banned me on the `kw`DwarfNET forums`rt`... It's not the same though... Teletext just doesn't have the same, uh, content... The sort of thing I'm into, `s1`heh... Hehehehe...`s0`
+DIALOG | P_NAME   | Are you alright mister?
+DIALOG | Kelpster | I guess... I mean, I could be better... Actually, since you're here... Can you do something for me?
+DIALOG | P_NAME   | I'm not sure. What do you want me to do?
+DIALOG | Kelpster | `s1`Heh... Hehehehehehe...`s0` Don't you worry about that right now... I'll tell you what I want... You can bet on that... I'm just asking if you're willing and able...
+QUEST  | knowKelpster = 1
+GOTO   | BARGAINS
+            
+KELPSTER1
+DIALOG | Kelpster | Ah, it's the youngster... `s1`Heh`s0`, so you've come back to me, just as I predicted. `s1`Hehehehehe...`s0` You want the vidcon, right?
+DIALOG | P_NAME   | Yeah. After all, I am a gamer, proud and true.
+DIALOG | Kelpster | `s1`Hehehehe... Good... Good...`s0`
+DIALOG | P_NAME   | So what game is this, and how much are you asking for it?
+DIALOG | Kelpster | `s1`Heh`s0`, straight to the point, huh? `s1`Hehehehe...`s0` Alright then... It's called `sq`@gamename@...`rt` You probably haven't heard about it since you are a kid... This game is more for, `s1`heh`s0`, adults only. If you know what I mean... `s1`Hehehehe...`s0`
+DIALOG | P_NAME   | Nope, never heard about it. Is it any good?
+DIALOG | Kelpster | Oh, you bet... You bet your butt it's good... `s1`Hehehehe...`s0` Alright. All I'm asking for it is just @money_kelpsterArtifact@ neuroshekels. What do you say?
+CHOICE | Purchase @gamename@?
+REPLY  | PURCHASE | Yeah, gimme!
+REPLY  | DECLINE  | No thanks...   
+   
+KELPSTER2
+DIALOG | Kelpster | So, you are back, eh? `s1`Hehehehe...`s0` Back for that vidcon, no doubt? So what will it be, youngster... `s1`Heh...`s0` What will you use to pay for it? Money or Fruit?
+GOTO   | BARGAINS2
+   
+KELPSTER3
+DIALOG | Kelpster | `s1`Hehehehe...`s0` Hope you enjoy that vidcon, kid... `s1`Hehehehehe...`s0`
+
+KELPSTER4
+DIALOG | Kelpster | Oh, I can't wait to, `s1`heh`s0`, dig in to these juicy fruits...
+
+BARGAINS
+CHOICE | Am I willing and able?
+REPLY  | INTEREST | I guess so.
+REPLY  | NOTHANKS | Nope.
+
+BARGAINS2
+BREAKOUT | add | money
+CHOICE | Purchase @gamename@?
+IF money >= @money_kelpsterArtifact@ | REPLY | PURCHASEMONEY | Buy it with @money_kelpsterArtifact@ neuroshekels
+IF @Fruit Basket@ >= 1 | REPLY | FRUITGIVE | Buy it with the Fruit Basket
+REPLY  | DECLINE2 | No thanks
+
+INTEREST
+DIALOG | P_NAME   | I guess so.
+DIALOG | Kelpster | `s1`Heh... Hehehehehe...`s0` A-alright, `s1`heh...`s0` I'm looking to sell this `kw`vidcon`rt` I have to uh... help finance my hobbies, so to speak, `s1`heh...`s0`
+DIALOG | P_NAME   | Oh, alright. What's it called?
+DIALOG | Kelpster | `s1`Heh...`s0` I don't think a kid like you would have heard about this one... Or maybe you are a naughty little kid and you've played it before, eh? `s1`Hehehe...`s0` It's called @gamename@... `s1`Heh`s0`... Ring any bells?
+DIALOG | P_NAME   | Nope, I've never heard about that one. Is it any good?
+BREAKOUT | add    | money
+DIALOG | Kelpster | `s1`Hehehehe...`s0` Oh, you bet... It's a real treat, `s1`heh...`s0` All I'm asking for it is @money_kelpsterArtifact@ neuroshekels. `s1`Heh`s0`, what do you say, pal...?
+QUEST  | govKelpster = 1
+CHOICE | Purchase @gamename@?
+REPLY  | PURCHASE | Yeah, gimme!
+REPLY  | DECLINE  | No thanks...
+
+NOTHANKS
+DIALOG | P_NAME   | Nope. I'm neither willing or able. Whatever that means.
+DIALOG | Kelpster | Ah... Well... I'll be here if you change your mind... `s1`Hehehehehe...`s0` All I want is to do a little... Trading... A `kw`vidcon`rt` for some money or a special little favour, `s1`hehehehehe...`s0`
+DIALOG | P_NAME   | Uh huh, sure...
+QUEST  | govKelpster = 1
+QUEST  | kelpsterState = 1
+                    
+PURCHASE
+DIALOG | P_NAME   | Yeah, gimme! I'll take it.
+IF money >= @money_kelpsterArtifact@ | GOTO | AFFORD
+IF money < @money_kelpsterArtifact@ | GOTO | NOAFFORD
+
+PURCHASEMONEY
+DIALOG | P_NAME   | Alright, I've got the money for it now. Here you go.
+QUEST  | money -= @money_kelpsterArtifact@
+DIALOG | Kelpster | Good... `s1`Heh`s0`, here's the game, have fun... `s1`Hehehehehe...`s0`
+BREAKOUT | clear
+NOTIFY | You got the vidcon @gamename@
+DIALOG | P_NAME   | I will, mister. You can count on that!
+DIALOG | Kelpster | I'll be here if you want to, `s1`heh`s0`, talk about tips and tricks... `s1`Hehehehehe...`s0` Or anything really... Or if you want something more than that, `s1`heh...`s0`
+QUEST  | kelpsterState = 3
+EVENT  | o_kelpster01 | 0
+QUEST  | kelpsterGame = 1
+
+AFFORD
+QUEST    | money -= @money_kelpsterArtifact@
+DIALOG   | Kelpster | Good... Here you go, have fun... `s1`Hehehehehe...`s0`
+BREAKOUT | clear
+NOTIFY   | You got the vidcon @gamename@
+DIALOG   | P_NAME   | I will, mister. You can count on that!
+DIALOG   | Kelpster | I'll be here if you want to, `s1`heh`s0`, talk about tips and tricks... `s1`Hehehehehe...`s0` Or anything really... Or if you want something more than that, `s1`heh...`s0`
+QUEST    | kelpsterState = 3
+EVENT    | o_kelpster01 | 0
+QUEST    | kelpsterGame = 1
+
+NOAFFORD
+DIALOG | Kelpster | Alright... Wait a minute. `s1`Heh`s0`, do you even have the money for this?
+DIALOG | P_NAME   | I uhh... no. Could you give me a discount?
+BREAKOUT | clear
+DIALOG | Kelpster | A discount...? `s1`Heh`s0`, not a chance... `s1`Hehehehe...`s0` Well, actually, I could accept something else as payment, `s1`heh...`s0` If you know what I mean? `s1`Hehehehe...`s0`
+DIALOG | P_NAME | No, I don't know what you mean.
+DIALOG | Kelpster | What I mean is that I think you have just what I want, `s1`heh. Hehehehe...`s0` What I want from you is to suck on some big... Black... Juicy... Hard... Grapes. `s1`Heh`s0`, you got some fruits on you, right?
+IF @Fruit Basket@ >= 1 | GOTO | GOTFRUIT
+IF @Fruit Basket@ == 0 | GOTO | NOFRUIT
+
+GOTFRUIT
+DIALOG | P_NAME       | Uh, yeah actually. I do. 
+DIALOG | Kelpster     | Oh, gimme... Please gimme! `s1`Heh`s0`, I want it... I want the fruits!
+CHOICE | Give Kelpster the Cornucopia?
+REPLY  | FRUITGIVE    | Okay, here's the fruits
+REPLY  | FRUITWITHELD | Nah, I can't give these fruits away
+
+FRUITGIVE
+BREAKOUT | clear
+DIALOG   | P_NAME       | Alright. I'll give you these fruits for that vidcon.
+DIALOG   | Kelpster     | Yes! `s1`Heh`s0`, finally! I love fruits! Fruits aplenty! Here's your vidcon, pal. `s1`Heh...`s0`
+NOTIFY   | You gave away the Fruit Basket and got the vidcon @gamename@
+DIALOG   | P_NAME       | Hmm... @gamename@. I wonder if this was worth it.
+ITEM     | Fruit Basket | -1
+QUEST    | kelpsterState = 4
+QUEST    | kelpsterFruit = 1
+EVENT    | o_kelpster01 | 0
+QUEST    | kelpsterGame = 1
+
+FRUITWITHELD
+BREAKOUT | clear
+DIALOG   | P_NAME   | I'm afraid I want ot keep these fruits for myself.
+DIALOG   | Kelpster | `s1`Heh`s0`, oh... Uh... I... `s1`Hehehehehehe...`s0` Well, that was... `s1`Heh`s0`, unexpected... Alright... If you change oyur mind I'll, `s1`heh`s0`, I'll be here...
+DIALOG   | P_NAME   | Yeah, okay...
+QUEST    | kelpsterState = 2
+
+NOFRUIT
+DIALOG   | P_NAME   | Fruits? Uh, I don't think I have any on me, sorry.
+DIALOG   | Kelpster | In that case these negotiations are, `s1`heh`s0`, over. `s1`Hehehehe...`s0`
+DIALOG   | P_NAME   | Aw shucks...
+DIALOG   | Kelpster | `s1`Heh`s0`, don't... Don't worry kid. Just get some money or, `s1`heh`s0`, fruits... I'll be here...
+QUEST    | kelpsterState = 2
+
+DECLINE
+DIALOG   | P_NAME   | Sorry, but I honestly can't afford that.
+BREAKOUT | clear
+DIALOG   | Kelpster | `s1`Heh`s0`, no? Alright then... `s1`Hehehehe...`s0` You know if you don't want to, `s1`heh`s0`, spend your shekels on this... I could consider other ways you could pay... If you know what I mean... `s1`Hehehehe...`s0`
+DIALOG   | P_NAME   | Uh, I have no idea what you're saying.
+DIALOG   | Kelpster | What I'm saying is that, `s1`heh`s0`, I think you have... You have just what I want, `s1`heh. Hehehehe...`s0` What I want from you is to suck on some big... Black... Juicy... Hard... Grapes. `s1`Heh`s0`, you got some fruits on you, right?
+IF @Fruit Basket@ >= 1 | GOTO | GOTFRUIT
+IF @Fruit Basket@ == 0 | GOTO | NOFRUIT
+
+DECLINE2
+DIALOG   | P_NAME   | No thanks, mister.
+BREAKOUT | clear
+DIALOG   | Kelpster | `s1`Heh`s0`, no? You don't know what you are, `s1`heh`s0`, missing out on... Well, if you change your mind then... I'll be here... Just remember to bring some, `s1`heh`s0`, money or fruit..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_quxu4"]
+closed = false
+polygon = PackedVector2Array(-13, -9, -12, -18, -8, -25, -1, -30, 6, -28, 9, -22, 13, -15, 13, -9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejmeb"]
+atlas = ExtResource("2_quxu4")
+region = Rect2(0, 0, 26, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky7pc"]
+atlas = ExtResource("2_quxu4")
+region = Rect2(26, 0, 26, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixip3"]
+atlas = ExtResource("2_quxu4")
+region = Rect2(52, 0, 26, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0kkv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejmeb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky7pc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixip3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ixip3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4hd1"]
+size = Vector2(20, 36)
+
+[node name="o_kelpster01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_c285k")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ky7pc")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_quxu4")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0kkv4")
+centered = false
+offset = Vector2(-13, -32)
+metadata/default = {
+"bbox_bottom": "35",
+"bbox_left": "0",
+"bbox_right": "25",
+"bbox_top": "0",
+"frames": ["images\\s_kelpster01_0.png", "images\\s_kelpster01_1.png", "images\\s_kelpster01_2.png"],
+"height": "36",
+"name": "s_kelpster01",
+"width": "26",
+"xorig": "13",
+"yorigin": "32"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_ixip3")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_c4hd1")

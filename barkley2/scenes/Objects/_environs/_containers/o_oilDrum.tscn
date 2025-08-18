@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsrnvo8vplpla"]
+
+[ext_resource type="Texture2D" uid="uid://bpbywcg2igthi" path="res://barkley2/assets/b2_original/images/merged/s_oilDrum.png" id="1_ve353"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46vjs"]
+atlas = ExtResource("1_ve353")
+region = Rect2(0, 0, 16, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jr2y"]
+atlas = ExtResource("1_ve353")
+region = Rect2(16, 0, 16, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oom7u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46vjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jr2y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wn04l"]
+radius = 7.0
+
+[node name="o_oilDrum" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_oom7u")
+offset = Vector2(0, -7)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_wn04l")

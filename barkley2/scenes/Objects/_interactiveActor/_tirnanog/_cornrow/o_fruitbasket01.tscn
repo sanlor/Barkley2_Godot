@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://boesy5y3le46w"]
+
+[ext_resource type="Texture2D" uid="uid://dtmj1mhivdjf0" path="res://barkley2/assets/b2_original/images/merged/s_fruitbasket01.png" id="1_anoo5"]
+[ext_resource type="Script" uid="uid://58go11apeytd" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_fruitbasket_01.gd" id="2_anoo5"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_fahk7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_slwx8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_anoo5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_v58il"]
+script = ExtResource("3_fahk7")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF fruitbasketRotten == 0 | GOTO | TAKE
+GOTO | ROTTEN
+
+GOVERNOR
+DIALOG | Governor Elagabalus | (These fruits... are truly juicy!)
+
+TAKE
+IF comServ == 2 | DIALOG | P_NAME | (Hmmm, I think this is that fruit basket Mr. Cornrow asked me to get. Should I take it?)
+IF comServ != 2 | DIALOG | P_NAME | (Wow, that's one big fruit basket. I wouldn't mind a grape... but that would be stealing...)
+CHOICE | Take the fruit basket?
+REPLY  | YES | Yeah. (Yes)
+REPLY  | NO  | Nah. (No)
+
+YES
+QUEST  | fruitbasketTake = 1
+EVENT  | o_fruitbasket01 | 0
+ITEM   | Fruit Basket | 1
+NOTIFY | Got the Fruit Basket!
+IF comServ == 2 | DIALOG | P_NAME | (Gotta feed those kids!)
+IF comServ != 2 | DIALOG | P_NAME | (Heh. I make my own morals. This fruit is all mine...)
+WAIT | 0.5
+DIALOG | P_NAME | Huh..._ what's this, behind the rambutans..._ a note?
+WAIT | 0.3
+DIALOG | P_NAME | Wait, this isn't a note, it's a._._._
+DIALOG | P_NAME = s_port_hoopzSurprise | MAP!
+NOTIFY | Found Sewers Floor 2 Map!
+Map    | gain | Sewers Floor 2
+DIALOG | P_NAME = s_port_hoopzHappy | Wow, this could be really useful!
+IF comServ == 2 | DIALOG | P_NAME | (Hmmm... should I tell Cornrow? Or keep it for myself?)
+GOTO | END
+
+NO
+DIALOG | P_NAME | (Nah, I think I'll leave it...)
+
+ROTTEN
+IF comServ == 2 | DIALOG | P_NAME | (Hmmm, I think this is that fruit basket Mr. Cornrow asked me to get... but it looks rotten now... I think I came too late...)
+IF comServ != 2 | DIALOG | P_NAME | (Pee-yuw! This fruit is rotten.)
+
+END
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v25na"]
+radius = 19.0
+
+[node name="o_fruitbasket01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_slwx8")
+offset = Vector2(0, -2)
+script = ExtResource("2_anoo5")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_v58il")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_v25na")

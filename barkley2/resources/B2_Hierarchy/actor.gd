@@ -149,6 +149,8 @@ func _setup_actor():
 		my_shadow = O_SHADOW.instantiate()
 		add_child( my_shadow, true)
 
+
+
 func play_animations():
 	if _automatic_animation:
 		if ActorAnim.sprite_frames.has_animation(_current_animation):

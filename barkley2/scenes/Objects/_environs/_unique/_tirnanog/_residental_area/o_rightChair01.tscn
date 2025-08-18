@@ -1,0 +1,126 @@
+[gd_scene load_steps=13 format=3 uid="uid://b47w7b0knvr86"]
+
+[ext_resource type="Texture2D" uid="uid://d1sqjrrcbkxxh" path="res://barkley2/assets/b2_original/images/merged/s_chair01.png" id="1_gfa7c"]
+[ext_resource type="Script" uid="uid://dun5javqr5kp2" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_right_chair_01.gd" id="2_s3nco"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_h2bp0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa8ss"]
+atlas = ExtResource("1_gfa7c")
+region = Rect2(0, 0, 37, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsb7k"]
+atlas = ExtResource("1_gfa7c")
+region = Rect2(37, 0, 37, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auxm0"]
+atlas = ExtResource("1_gfa7c")
+region = Rect2(74, 0, 37, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mhgq"]
+atlas = ExtResource("1_gfa7c")
+region = Rect2(111, 0, 37, 61)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_unr50"]
+atlas = ExtResource("1_gfa7c")
+region = Rect2(148, 0, 37, 61)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e2f62"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa8ss")
+}],
+"loop": true,
+"name": &"empty",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsb7k")
+}],
+"loop": true,
+"name": &"governor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auxm0")
+}],
+"loop": true,
+"name": &"governorclamp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mhgq")
+}],
+"loop": true,
+"name": &"hoopz",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_unr50")
+}],
+"loop": true,
+"name": &"hoopzclamp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsb7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auxm0")
+}],
+"loop": false,
+"name": &"shake",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_gfa7c"]
+script = ExtResource("3_h2bp0")
+original_script = "IF govQuest == 6 | DIALOG | P_NAME | (It was an interesting experience, but I think I'm sticking with my own body from now on...)
+IF govQuest == 5 | DIALOG | P_NAME = s_port_hoopzAngry | You mother fuckers! You idiots! Get me back my body right now! Do you know what Cuchulainn will do when he finds out you're got me kidnapped? You're fucking dead! Dead!!!
+IF govQuest == 4 | DIALOG | P_NAME | (I hope this thing's safe... it looks like some kinda medieval torture chair...)
+IF govQuest <= 3 | DIALOG | P_NAME | (I think this chair is part of Dr. Liu's weird device. I probably shouldn't touch it.)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_auxm0"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8mhgq"]
+radius = 29.017237
+
+[node name="o_rightChair01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_e2f62")
+animation = &"empty"
+centered = false
+offset = Vector2(-16, -54)
+script = ExtResource("2_s3nco")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_gfa7c")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+metadata/default = {
+"bbox_bottom": "60",
+"bbox_left": "0",
+"bbox_right": "32",
+"bbox_top": "41",
+"height": "61",
+"name": "s_chair01",
+"width": "37",
+"xorig": "16",
+"yorigin": "54"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(2, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_auxm0")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(3, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_8mhgq")

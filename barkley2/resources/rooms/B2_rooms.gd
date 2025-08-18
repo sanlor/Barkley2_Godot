@@ -294,6 +294,10 @@ func _setup_camera( player ):
 	B2_CManager.camera = b2_camera
 	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )
 
+## return true if the room is dark
+func get_room_darkness() -> bool:
+	return is_this_room_dark
+
 # Check if the actor is inside a building. return false if the parent is not B2_ROOMS
 func is_inside_room() -> bool:
 	return is_interior

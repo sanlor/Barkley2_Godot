@@ -1,0 +1,204 @@
+[gd_scene load_steps=21 format=3 uid="uid://c7e8kw0fjeef2"]
+
+[ext_resource type="Script" uid="uid://cin87r1trcn7x" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_naoko01.gd" id="1_u8yd2"]
+[ext_resource type="Texture2D" uid="uid://nws6kgnqej7" path="res://barkley2/assets/b2_original/images/merged/s_naoko01.png" id="2_ls224"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_tacmd"]
+[ext_resource type="Texture2D" uid="uid://b8gb0pryswos" path="res://barkley2/assets/b2_original/images/merged/s_pri_naoko01.png" id="4_xwiw7"]
+
+[sub_resource type="Resource" id="Resource_xu8jl"]
+script = ExtResource("2_tacmd")
+original_script = "IF room == r_pri_prisonInside01 | GOTO | PRISONER
+IF govQuest == 6 | GOTO | NAOKO6
+IF body == governor | GOTO | GOVNAH
+IF govQuest == 4 | GOTO | NAOKO4
+IF govQuest == 3 | GOTO | NAOKO3
+IF govQuest == 2 | GOTO | NAOKO2
+IF govQuest == 1 | GOTO | NAOKO1
+IF govQuest == 0 | GOTO | NAOKO0
+
+PRISONER
+DIALOG | Naoko | I wonder how those duergs found out about our rebel hideout? Maybe there is a traitor among us...
+
+NAOKO6
+IF longinusGov >= 1 | DIALOG | Naoko | Hey, the body switching chair looks pretty fun! I wouldn't mind giving it a try!
+IF longinusGov == 0 | DIALOG | Naoko | That really sucks that you were in the Governor's body and instead of doing some real crazy stuff you just did what he would do... come on, P_NAME!
+
+GOVNAH
+DIALOG | Naoko | How's my hand look? A seven of mangos and a grape sultan. Should I go all in? I don't really know how to play...
+DIALOG | R. Itkonen | Hey! Don't tell her anything! No cheating - that goes for all of you!
+
+NAOKO4
+DIALOG | Naoko | I don't even know how to play poker. R. Itkonen makes us do it...
+
+NAOKO3
+DIALOG | Naoko | Hey, you're back! I guess that means you got the Duergar uh... material?
+
+NAOKO2
+DIALOG | Naoko | Are you one of L.O.N.G.I.N.U.S. now? Or are you just helping out?
+
+NAOKO1
+DIALOG | Naoko | I guess I can understand if you don't want to be a rebel... but I personally don't want to live the rest of my life in fear of Cuchulainn... maybe that's just me...
+
+NAOKO0
+DIALOG | Naoko | Huh? Oh, I thought you were Gutterhound for a second. He cheats at cards and drinks all our grape juice."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tacmd"]
+atlas = ExtResource("2_ls224")
+region = Rect2(0, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwiw7"]
+atlas = ExtResource("2_ls224")
+region = Rect2(35, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xu8jl"]
+atlas = ExtResource("2_ls224")
+region = Rect2(70, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3oba"]
+atlas = ExtResource("2_ls224")
+region = Rect2(105, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y7nk"]
+atlas = ExtResource("2_ls224")
+region = Rect2(140, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5roxu"]
+atlas = ExtResource("2_ls224")
+region = Rect2(175, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq3nm"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(0, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81wwd"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(35, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyn6d"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(70, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3vvh"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(105, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2bto"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(140, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5038i"]
+atlas = ExtResource("4_xwiw7")
+region = Rect2(175, 0, 35, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vq3nm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tacmd")
+}],
+"loop": true,
+"name": &"pause",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tacmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwiw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xu8jl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3oba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y7nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5roxu")
+}],
+"loop": true,
+"name": &"play",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vq3nm")
+}],
+"loop": true,
+"name": &"pri_pause",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vq3nm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81wwd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyn6d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3vvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2bto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5038i")
+}],
+"loop": true,
+"name": &"pri_play",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u8yd2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_81wwd"]
+size = Vector2(20, 36)
+
+[node name="o_naoko01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_u8yd2")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_xu8jl")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vq3nm")
+animation = &"pri_pause"
+centered = false
+offset = Vector2(-14, -36)
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "34",
+"bbox_top": "0",
+"frames": ["images\\s_naoko01_0.png", "images\\s_naoko01_1.png", "images\\s_naoko01_2.png", "images\\s_naoko01_3.png", "images\\s_naoko01_4.png", "images\\s_naoko01_5.png"],
+"height": "42",
+"name": "s_naoko01",
+"width": "35",
+"xorig": "14",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_u8yd2")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_81wwd")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

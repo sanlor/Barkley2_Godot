@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://cdx8m4fo3mio4"]
+
+[ext_resource type="Texture2D" uid="uid://b0gye3vi7im2h" path="res://barkley2/assets/b2_original/images/merged/s_clispaethBroken01.png" id="1_ygjfd"]
+[ext_resource type="Texture2D" uid="uid://7anacw0fm1e6" path="res://barkley2/assets/b2_original/images/merged/s_clispaethDisco01.png" id="2_4o8of"]
+[ext_resource type="Script" uid="uid://b5qjarxte5036" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_clispaeth_broken_01.gd" id="3_tycbn"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="4_wr1kx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4o8of"]
+atlas = ExtResource("1_ygjfd")
+region = Rect2(0, 0, 82, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eth36"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j34wg"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2dp7"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtqqa"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwem1"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(384, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pcgv2"]
+atlas = ExtResource("2_4o8of")
+region = Rect2(480, 0, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tycbn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4o8of")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eth36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j34wg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2dp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtqqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwem1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pcgv2")
+}],
+"loop": true,
+"name": &"fancy",
+"speed": 7.5
+}]
+
+[sub_resource type="Resource" id="Resource_bbm6a"]
+script = ExtResource("4_wr1kx")
+original_script = "IF body == governor | GOTO | GOVNA
+IF govChurch < 2  | DIALOG | P_NAME | Clispaeth, huh? I wonder what all this hullaballoo is about...
+IF govChurch >= 2 | DIALOG | P_NAME | Whoa, someone has done a number on this poor statue.
+
+GOVNA
+DIALOG | Governor Elagabalus | I don't have time to pray right now. I'm a man on a mission."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_itx40"]
+radius = 21.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yk22c"]
+size = Vector2(53, 86)
+
+[node name="o_clispaethBroken01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_tycbn")
+animation = &"fancy"
+frame_progress = 0.39027888
+centered = false
+offset = Vector2(-31, -88)
+script = ExtResource("3_tycbn")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_bbm6a")
+metadata/default = {
+"bbox_bottom": "92",
+"bbox_left": "5",
+"bbox_right": "77",
+"bbox_top": "4",
+"height": "96",
+"name": "s_clispaethBroken01",
+"width": "82",
+"xorig": "31",
+"yorigin": "88"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(6, -14)
+shape = SubResource("CircleShape2D_itx40")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(4.5, -43)
+shape = SubResource("RectangleShape2D_yk22c")

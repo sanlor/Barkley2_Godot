@@ -1,0 +1,88 @@
+[gd_scene load_steps=11 format=3 uid="uid://837201yacaa"]
+
+[ext_resource type="Texture2D" uid="uid://xf8xu2tqthej" path="res://barkley2/assets/b2_original/images/merged/s_mg_booty_tv2.png" id="1_lp1va"]
+[ext_resource type="Script" uid="uid://dqvt17pagccy0" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_mg_booty_tv_2.gd" id="2_lp1va"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ts3co"]
+atlas = ExtResource("1_lp1va")
+region = Rect2(0, 0, 48, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1vrs"]
+atlas = ExtResource("1_lp1va")
+region = Rect2(48, 0, 48, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5u6ob"]
+atlas = ExtResource("1_lp1va")
+region = Rect2(96, 0, 48, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_as6uh"]
+atlas = ExtResource("1_lp1va")
+region = Rect2(144, 0, 48, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_csccg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ts3co")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1vrs")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5u6ob")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_as6uh")
+}],
+"loop": false,
+"name": &"flash",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oy8yd"]
+radius = 20.0
+
+[sub_resource type="Gradient" id="Gradient_lp1va"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_oy8yd"]
+gradient = SubResource("Gradient_lp1va")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[node name="o_mg_booty_tv2" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_csccg")
+autoplay = "default"
+centered = false
+offset = Vector2(-24, -27)
+script = ExtResource("2_lp1va")
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "7",
+"bbox_right": "39",
+"bbox_top": "21",
+"height": "54",
+"name": "s_mg_booty_tv2",
+"width": "48",
+"xorig": "24",
+"yorigin": "27"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_oy8yd")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0, 0, 1)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_oy8yd")

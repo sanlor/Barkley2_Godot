@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://5vw3nsgghtye"]
+
+[ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="1_xo2qw"]
+[ext_resource type="Script" uid="uid://cmgpkwdn3i7rb" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/_light/spotlight.gd" id="2_f828x"]
+
+[node name="spotlight" type="PointLight2D"]
+rotation = -1.1500008
+texture = ExtResource("1_xo2qw")
+offset = Vector2(-80, 0)
+texture_scale = 0.8
+script = ExtResource("2_f828x")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,3 +1,4 @@
+@icon("uid://v5cq0dt6obso")
 extends B2_Environ
 class_name B2_Teleport_Mark
 

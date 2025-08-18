@@ -130,8 +130,10 @@ func add_choice( choice_text : String ) -> void:
 	var my_choice_id : int 				= choice_vbox_node.get_child_count()
 	var my_selection_button 			:= Button.new()
 	my_selection_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	my_selection_button.custom_minimum_size = Vector2( 250, 11 )
-	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_WORD
+	my_selection_button.custom_minimum_size = Vector2( 265, 11 )
+	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_OFF # TextServer.AUTOWRAP_WORD # <- 17/08/25 disabled this
+	my_selection_button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	my_selection_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
 	my_selection_button.text = Text.pr( Text.qst( choice_text ) )
 	
@@ -164,8 +166,8 @@ func display_choices():
 	choice_node.scroll_vertical_custom_step 	= 24
 	choice_node.horizontal_scroll_mode 			= ScrollContainer.SCROLL_MODE_DISABLED
 	choice_node.theme 							= preload("res://barkley2/themes/dialogue_choice.tres")
-	choice_node.position 						= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 + 16)
-	choice_node.size 							= Vector2( 250, 11 * 4)
+	choice_node.position 						= Vector2( _draw_x + 25 + _text_offset, _draw_y + 12 + 5 + 14)
+	choice_node.size 							= Vector2( 260, 11 * 4)
 	
 # Title in this case is the question.
 func set_title( _text_title : String ) -> void:
@@ -181,7 +183,7 @@ func set_title( _text_title : String ) -> void:
 	
 	title_node.name 		= "Title_text"
 	title_node.position 	= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 )
-	title_node.size 		= Vector2( 250, 12 )
+	title_node.size 		= Vector2( 280, 12 )
 
 	title_node.push_color( _title_color )
 	title_node.append_text( Text.pr( Text.qst( _title ) ) )

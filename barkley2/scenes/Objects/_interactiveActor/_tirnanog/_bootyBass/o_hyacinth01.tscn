@@ -1,0 +1,349 @@
+[gd_scene load_steps=20 format=3 uid="uid://2wd64jhdxcjp"]
+
+[ext_resource type="Script" uid="uid://bbmjf06qw18v5" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_hyacinth01.gd" id="1_vylay"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_72shs"]
+[ext_resource type="Texture2D" uid="uid://dr3v1iaxn0rbl" path="res://barkley2/assets/b2_original/images/merged/s_hyacinth01.png" id="2_ucvuf"]
+
+[sub_resource type="Resource" id="Resource_3lcub"]
+script = ExtResource("2_72shs")
+original_script = "IF bootyBassQuest == 2 | GOTO | BOOTY2
+IF bootyBassQuest == 3 | GOTO | BOOTY3
+IF hyacinthState == 0  | GOTO | HYACINTH0
+GOTO | HYACINTH1
+
+BOOTY2
+DIALOG | Hyacinth | So what if you're not the Baron of Booty? You went up there, gave it your all and had a good time. Right?
+DIALOG | P_NAME   | Yeah, I guess...
+DIALOG | Hyacinth | Maybe you're the baron of something else, something bigger than booties. You'll never know unless you go out there and try. Just take what life gives you and give it your best shot. Okay?
+
+BOOTY3
+DIALOG | Hyacinth | See that? You went with the flow, tried something new and came out on top. Sometimes you've just gotta be impulsive. That's what it's all about.
+
+HYACINTH0
+QUEST  | hyacinthState = 1
+DIALOG | Hyacinth | You might think this is crazy, but sometimes the best thing you can do is let yourself get absorbed in the collective energy of a crowd. Lose your mind and just dance. You should join me!
+CHOICE | Join her?
+REPLY  | YES | Yeah.
+REPLY  | NO  | Nah.
+
+YES
+DIALOG | P_NAME   | Yeah, that sounds cool!
+DIALOG | Hyacinth | Let's dance!
+DIALOG | P_NAME   | You want to dance? I'll show you how to dance. Check this one out!
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.01
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.75
+LOOKAT | o_cts_hoopz | o_hyacinth01
+DIALOG | Hyacinth | Wow!!! Hey, you're a cool kid. Listen to this: to get the most out of life, sometimes you have to make decisions that take you out of your comfort zone. Sometimes you just have to let life take you places. Don't forget that, okay?
+DIALOG | P_NAME   | I'll remember that!
+
+NO
+DIALOG | P_NAME   | Umm, I'm sorry... I need to uh, deliver some milk bottles...
+DIALOG | Hyacinth | You'd enjoy life more if you let yourself go sometimes. It's not always about making the most rational choice. Next time you're presented a choice that takes you out of your comfort zone, you should take it. I challenge you.
+
+HYACINTH1
+DIALOG | Hyacinth | When I dance, I let my mind go and I don't care about anything else. Life just takes you away sometimes. That's what I like about it."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="Animation" id="Animation_mx7e5"]
+resource_name = "boogie"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ActorAnim:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("light_right:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0429376, 0.12165653, 0.19500826, 0.27193812, 0.3273992, 0.40254, 0.47410265),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(11, -33), Vector2(11, -29), Vector2(19, -8), Vector2(19, -2), Vector2(17, -2), Vector2(21, -4), Vector2(19, -21), Vector2(13.125783, -29.811325)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("light_left:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0429376, 0.12165653, 0.19500826, 0.27193812, 0.3273992, 0.40254, 0.47410265),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-7, -34), Vector2(-7, -29), Vector2(-17, -8), Vector2(-16, -2), Vector2(-16, 0), Vector2(-19, -5), Vector2(-19, -19), Vector2(-12, -31)]
+}
+
+[sub_resource type="Animation" id="Animation_d6ytj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ActorAnim:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("light_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(11, -33)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("light_left:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7, -34)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lda4c"]
+_data = {
+&"RESET": SubResource("Animation_d6ytj"),
+&"boogie": SubResource("Animation_mx7e5")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72shs"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(0, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3lcub"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(54, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx7e5"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(108, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6ytj"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(162, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lda4c"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(216, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3au5"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(270, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb3fo"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(324, 0, 54, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgxru"]
+atlas = ExtResource("2_ucvuf")
+region = Rect2(378, 0, 54, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m58m2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72shs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3lcub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx7e5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6ytj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lda4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3au5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb3fo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bgxru")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybk68"]
+size = Vector2(20, 36)
+
+[sub_resource type="Gradient" id="Gradient_g3au5"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yb3fo"]
+gradient = SubResource("Gradient_g3au5")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 1)
+
+[node name="o_hyacinth01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vylay")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_3lcub")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lda4c")
+}
+autoplay = "boogie"
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_m58m2")
+centered = false
+offset = Vector2(-25, -39)
+metadata/default = {
+"bbox_bottom": "52",
+"bbox_left": "1",
+"bbox_right": "51",
+"bbox_top": "30",
+"frames": ["images\\s_hyacinth01_0.png", "images\\s_hyacinth01_1.png", "images\\s_hyacinth01_2.png", "images\\s_hyacinth01_3.png", "images\\s_hyacinth01_4.png", "images\\s_hyacinth01_5.png", "images\\s_hyacinth01_6.png", "images\\s_hyacinth01_7.png"],
+"height": "55",
+"name": "s_hyacinth01",
+"width": "54",
+"xorig": "25",
+"yorigin": "39"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_ybk68")
+
+[node name="light_left" type="PointLight2D" parent="."]
+position = Vector2(-7, -34)
+color = Color(0, 1, 0, 1)
+shadow_enabled = true
+shadow_filter = 1
+texture = SubResource("GradientTexture2D_yb3fo")
+
+[node name="light_right" type="PointLight2D" parent="."]
+position = Vector2(11, -33)
+color = Color(0, 1, 0, 1)
+texture = SubResource("GradientTexture2D_yb3fo")

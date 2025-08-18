@@ -1,0 +1,148 @@
+[gd_scene load_steps=12 format=3 uid="uid://ctl6it80qa7q"]
+
+[ext_resource type="Script" uid="uid://c1uw7pgr325ci" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_animeBulldog01.gd" id="1_32m2g"]
+[ext_resource type="Texture2D" uid="uid://dvalxrwtn2fkf" path="res://barkley2/assets/b2_original/images/merged/s_animeBulldog01.png" id="2_sg1p4"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_yem6s"]
+
+[sub_resource type="Resource" id="Resource_os6ni"]
+script = ExtResource("2_yem6s")
+original_script = "IF bootyBassQuest == 3     | GOTO | BOOTY3
+IF bootyBassQuest == 2     | GOTO | BOOTY2
+IF bootyBassQuest == 1     | GOTO | BOOTY1
+IF animeBulldogState == 1  | GOTO | ANIME1
+GOTO | ANIME0
+
+BOOTY3
+IF animeBulldogState == 3  | GOTO | BOOTY3_3
+IF animeBulldogState == 2  | DIALOG | The Anime Bulldog | You're not bad, Baron. Sorry I gave you a hard time before the compo. I like what I heard up there. Keep it up, you'll go places.
+IF animeBulldogState != 2  | DIALOG | The Anime Bulldog | You're not bad, Baron. I like what I heard up there. Keep it up, you'll go places.
+DIALOG | @djName@ = s_port_hoopz         | (He talked to me...)
+DIALOG | The Anime Bulldog | Oh, and @djNamePrefix@, one more thing.
+DIALOG | @djName@ = s_port_hoopz           | Yeah?
+DIALOG | The Anime Bulldog | Google 'Japanimation.' Trust me.
+DIALOG | @djName@ = s_port_hoopz           | Th-thank you Mr. Bulldog!
+QUEST  | animeBulldogState = 3
+
+BOOTY3_3
+DIALOG | The Anime Bulldog | The Baron's back! Hats off to the Baron!
+DIALOG | @djName@          | (He's... he's just flattering me...)
+DIALOG | The Anime Bulldog | Remember, kid. 'Japanimation.'
+
+BOOTY2
+DIALOG | The Anime Bulldog | Pathetic... not surprising, but pathetic.
+DIALOG | @djName@ = s_port_hoopz           | It was my fi-
+DIALOG | The Anime Bulldog | Don't even talk to me, kid. I don't want to hear it. Not after the way you betrayed everyone at the Bootypocalypse. I'm just glad DJ Booty Slayer and I could clean up the mess you made.
+DIALOG | @djName@ = s_port_hoopz           | I'm sorry...
+QUEST  | animeBulldogState = 3
+
+BOOTY2_3
+DIALOG | The Anime Bulldog | Don't speak, just bow! Bow down to your new Barons!
+
+BOOTY1
+QUEST  | animeBulldogState = 2
+IF animeBulldogState == 0  | GOTO | BOOTY1_0
+DIALOG | The Anime Bulldog | I thought you were just a fan... but now you're sniffing around the Daimyo? Enter at your own peril. I've got a Gluteal-Kei barnburner ready... you got what it takes to top that?
+DIALOG | P_NAME            | (G-Gluteal-Kei? I've never even heard of it...)
+
+BOOTY1_0
+DIALOG | The Anime Bulldog | What have we here... a new DJ trying to build a name? Better carve your niche and carve it fast, and don't bother with Gluteal-Kei. It's my turf and I will defend it fiercely.
+DIALOG | P_NAME            | (G-Gluteal-Kei? I've never even heard of it...)
+
+ANIME1
+DIALOG | The Anime Bulldog | You want an autograph, kid? Meet me after the show.
+DIALOG | P_NAME            | (Whoa... I wonder if he likes anime...)
+
+ANIME0
+DIALOG | The Anime Bulldog | Hey, what's up? Diggin' the track? This is a collab, me versus DJ Booty Slayer. He was basically going for a booty-nouveau feel while I maintained the crispness and punch of modern keisterstep. Hope you like it.
+DIALOG | P_NAME            | (W-whoa... I can't believe he talked to me... he's so cool...)
+DIALOG | The Anime Bulldog | Speechless, huh? Well stick around for a real show. Don't tell him I said this, but I'm going to crush DJ Booty Slayer in the Bootypocalypse!
+QUEST  | animeBulldogState = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yem6s"]
+atlas = ExtResource("2_sg1p4")
+region = Rect2(0, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_os6ni"]
+atlas = ExtResource("2_sg1p4")
+region = Rect2(37, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fr6or"]
+atlas = ExtResource("2_sg1p4")
+region = Rect2(74, 0, 37, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxfms"]
+atlas = ExtResource("2_sg1p4")
+region = Rect2(111, 0, 37, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wlhc4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yem6s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_os6ni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fr6or")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxfms")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yem6s")
+}],
+"loop": true,
+"name": &"stop",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fr6or"]
+size = Vector2(36, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlg17"]
+size = Vector2(32, 36)
+
+[node name="o_animeBulldog01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_32m2g")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_os6ni")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_wlhc4")
+autoplay = "default"
+frame_progress = 0.39726624
+centered = false
+offset = Vector2(-18, -40)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "6",
+"bbox_right": "31",
+"bbox_top": "24",
+"frames": ["images\\s_animeBulldog01_0.png", "images\\s_animeBulldog01_1.png", "images\\s_animeBulldog01_2.png", "images\\s_animeBulldog01_3.png"],
+"height": "54",
+"name": "s_animeBulldog01",
+"width": "37",
+"xorig": "18",
+"yorigin": "40"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_fr6or")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_tlg17")

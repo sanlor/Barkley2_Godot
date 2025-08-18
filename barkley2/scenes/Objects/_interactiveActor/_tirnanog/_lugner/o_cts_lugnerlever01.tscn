@@ -1,0 +1,94 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckwuoxl22gy8v"]
+
+[ext_resource type="Texture2D" uid="uid://bjlveasxbp60r" path="res://barkley2/assets/b2_original/images/merged/s_machine_gauges_left01.png" id="1_cjrod"]
+[ext_resource type="Script" uid="uid://c4hfxtbnis6ev" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_lugner/o_cts_lugnerlever_01.gd" id="2_n53ca"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_wnmk7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnmk7"]
+atlas = ExtResource("1_cjrod")
+region = Rect2(0, 0, 30, 61)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_50ckv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnmk7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_50ckv"]
+script = ExtResource("3_wnmk7")
+original_script = "EVENT  | o_cts_lugnerlever01 | 0
+FRAME  | CAMERA_NORMAL | o_cinema9
+MOVETO | o_cts_hoopz | o_cinema9 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.5
+PLAYSET | o_cts_hoopz | action_E | stand_E
+WAIT   | 0
+WAIT   | 1
+LOOK   | o_cts_hoopz | NORTHWEST
+LOOK   | o_lugner01  | NORTHEAST
+FRAME  | CAMERA_NORMAL | o_cinema8
+WAIT   | 0
+WAIT   | 2
+SOUND  | sn_squish5
+PLAYSET | o_cts_container01 | containerCrush | containerDestroyed
+WAIT   | 0
+WAIT   | 1
+PLAYSET | o_cts_hoopz | surpriseSW | surpriseHoldSW
+WAIT   | 1.5
+DIALOG | P_NAME = s_port_hoopzShock    | ... what...
+DIALOG | Lugner = s_port_lugnerThilled | Oh my...
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_lugner01
+WAIT   | 0
+LOOK   | o_cts_hoopz | WEST
+LOOK   | o_lugner01  | EAST
+DIALOG | P_NAME = s_port_hoopzShock    | WHAT JUST HAPPENED?!?
+DIALOG | Lugner = s_port_lugnerThilled | Darn! That must have been the wrong button. I guess the red button was the save all Dwarfs from certain death on Necron 7 button. Green must have been the crush all the stupid goddamn Dwarfs with a heavy thing button.
+DIALOG | Lugner = s_port_lugnerThilled | I always get the two mixed up.
+DIALOG | P_NAME = s_port_hoopzShock    | WHAT DID YOU JUST DO?!?!?
+DIALOG | Lugner = s_port_lugnerThilled | What did I do? What did YOU do? You pressed the button. Shouldn't go around pressing buttons like that. Never know what they're going to do. Buttons can be pretty dangerous.
+DIALOG | P_NAME = s_port_hoopzSurprise | But...but...you made me do it!!! You told me to push the button!!
+DIALOG | Lugner = s_port_lugnerThilled | I didn't make you do it. You could have walked away. I didn't make you do anything.
+SET    | o_lugner01 | lugnerEvil
+DIALOG | Lugner = s_port_lugnerPsycho  | It's your stupid fault that all these sweet, innocent Dwarfs are dead now!
+DIALOG | P_NAME = s_port_hoopzSurprise | No... what... what have I done?
+DIALOG | Lugner = s_port_lugnerPsycho  | You know, we could always just send the crushed crate of smashed Dwarf bones to the Sombrero Galaxy anyway. Let them worry about it before it starts stinking up the place. They wanted to leave heeheehee, probably should have been more specific about how uncrushed they expected their bones to be.
+DIALOG | P_NAME = s_port_hoopzSad      | ......
+DIALOG | Lugner = s_port_lugnerPsycho  | I'm sure I'll get this straightened out one day. Look, why don't you bring a bunch more of them back and we can have at it again? I mean, what are the odds this happens again?
+DIALOG | Lugner = s_port_lugnerPsycho  | Seriously, what are the odds?
+DIALOG | P_NAME = s_port_hoopzAngry    | You are a horrible person.
+DIALOG | Lugner = s_port_lugnerPsycho  | No, I'm seriously asking you the odds. I got bored of kicking Dwarfs down the stairwell so long ago. The more of these wastes of space I can kill, the closer I am to getting off this rock, finding something else to smash for a change.
+DIALOG | Lugner = s_port_lugnerPsycho  | Kobolds are just too goddamn squishy to smash effectively. It needs to be Dwarfs. I NEED THIS.
+DIALOG | Lugner = s_port_lugnerPsycho  | YOU DON'T KNOW HOW MUCH I FUCKING NEED THIS.
+// Crestfall choice starts here
+DIALOG | P_NAME = s_port_hoopzSad      | ......
+LOOK   | o_lugner01 | EAST
+DIALOG | Lugner | Oh, look at this, you're crying now... and not even in one of those blubbering, dramatic ways. Just silently weeping like your little puppy got strangled.
+DIALOG | Lugner | Get the fuck out of my face. As reward for bringing me such joy, I will not smash you and roll around in your entrails.
+scr_time_change | 1
+QUEST  | lugnerQuest = 7
+QUEST  | behaveJaded += 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n53ca"]
+radius = 26.0
+
+[node name="o_cts_lugnerlever01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_50ckv")
+centered = false
+offset = Vector2(0, -60)
+script = ExtResource("2_n53ca")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_50ckv")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(13, -26)
+shape = SubResource("CircleShape2D_n53ca")

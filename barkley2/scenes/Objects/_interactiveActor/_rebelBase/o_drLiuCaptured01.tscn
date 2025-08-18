@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://cmaoa6upq7prl"]
+
+[ext_resource type="Script" uid="uid://dmy5d2ub7ns" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_drLiuCaptured01.gd" id="1_rthkq"]
+[ext_resource type="Texture2D" uid="uid://crx4pavagmkat" path="res://barkley2/assets/b2_original/images/merged/s_drLiuCaptured01.png" id="2_t3c8u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omw1b"]
+atlas = ExtResource("2_t3c8u")
+region = Rect2(0, 0, 43, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_umrvj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omw1b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0nut"]
+size = Vector2(20, 36)
+
+[node name="o_drLiuCaptured01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_rthkq")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_umrvj")
+centered = false
+offset = Vector2(-19, -20)
+metadata/default = {
+"bbox_bottom": "24",
+"bbox_left": "0",
+"bbox_right": "42",
+"bbox_top": "0",
+"frames": ["images\\s_drLiuCaptured01_0.png"],
+"height": "25",
+"name": "s_drLiuCaptured01",
+"width": "43",
+"xorig": "19",
+"yorigin": "20"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_p0nut")

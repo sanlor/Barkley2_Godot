@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbg4l0soxttx6"]
+[gd_scene load_steps=13 format=3 uid="uid://cbg4l0soxttx6"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_zhang01.gd" id="1_by474"]
+[ext_resource type="Script" uid="uid://cljf48v8201su" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_zhang01.gd" id="1_by474"]
 [ext_resource type="Texture2D" uid="uid://btnjb6yinrhi6" path="res://barkley2/assets/b2_original/images/merged/s_tnn_zhang01.png" id="2_7d8yb"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_caf84"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_caf84"]
 [ext_resource type="AudioStream" uid="uid://185jxa2rgqef" path="res://barkley2/assets/b2_original/audio/Environment/Mountain_Pass/sn_bubblepop01.ogg" id="4_73pla"]
 [ext_resource type="Texture2D" uid="uid://delsibv5e8oi8" path="res://barkley2/assets/b2_original/images/merged/s_effect_affix_blink.png" id="4_qasyj"]
+[ext_resource type="Material" uid="uid://7ksejqij7mob" path="res://barkley2/shaders/particles/o_zhang01_confetti.tres" id="6_0rnar"]
 
 [sub_resource type="Resource" id="Resource_ktr56"]
 script = ExtResource("2_caf84")
@@ -90,27 +91,6 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Curve" id="Curve_1qa6n"]
-_data = [Vector2(0, 0.320225), 0.0, 1.31735, 0, 0, Vector2(0.929062, 0), -2.13828, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_rfpma"]
-curve = SubResource("Curve_1qa6n")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ofhfc"]
-particle_flag_disable_z = true
-direction = Vector3(-0.5, -1, 0)
-spread = 22.0
-initial_velocity_min = 70.0
-initial_velocity_max = 150.0
-gravity = Vector3(0, 98, 0)
-scale_max = 1.5
-alpha_curve = SubResource("CurveTexture_rfpma")
-hue_variation_min = -0.25
-hue_variation_max = 0.25
-anim_speed_min = 1.0
-anim_speed_max = 2.0
-
 [node name="o_zhang01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_by474")
 mouse_detection_area = NodePath("ActorInteract")
@@ -155,10 +135,10 @@ material = SubResource("CanvasItemMaterial_75hlb")
 position = Vector2(0, -19)
 emitting = false
 amount = 16
-process_material = SubResource("ParticleProcessMaterial_ofhfc")
 texture = ExtResource("4_qasyj")
 one_shot = true
 explosiveness = 0.8
+process_material = ExtResource("6_0rnar")
 
 [node name="Timer" type="Timer" parent="."]
 

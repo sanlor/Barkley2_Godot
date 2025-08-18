@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://r2lly01rw1f"]
+
+[ext_resource type="Texture2D" uid="uid://ct2y2cegqqv2a" path="res://barkley2/assets/b2_original/images/merged/s_table_circle_wood01.png" id="1_rs3pw"]
+[ext_resource type="Script" uid="uid://b0geb02w45cur" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_table_poker_01.gd" id="2_rs3pw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nu53"]
+atlas = ExtResource("1_rs3pw")
+region = Rect2(0, 0, 54, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d466m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nu53")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cmgny"]
+radius = 21.023796
+
+[node name="o_table_poker01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_d466m")
+centered = false
+offset = Vector2(0, -45)
+script = ExtResource("2_rs3pw")
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "16",
+"bbox_right": "40",
+"bbox_top": "20",
+"height": "46",
+"name": "s_table_circle_wood01",
+"width": "54",
+"xorig": "0",
+"yorigin": "45"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(27, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_cmgny")

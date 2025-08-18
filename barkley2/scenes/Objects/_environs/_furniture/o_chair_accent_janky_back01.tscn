@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://1qndxxjnqpld"]
+
+[ext_resource type="Texture2D" uid="uid://bp1sx81xpr6kc" path="res://barkley2/assets/b2_original/images/merged/s_chair_accent_janky_back01.png" id="1_hgavl"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_xlwww"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mscf"]
+atlas = ExtResource("1_hgavl")
+region = Rect2(0, 0, 48, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l3lkn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mscf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgavl"]
+size = Vector2(34, 18)
+
+[node name="o_chair_accent_janky_back01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_l3lkn")
+centered = false
+offset = Vector2(0, -37)
+script = ExtResource("2_xlwww")
+metadata/default = {
+"bbox_bottom": "37",
+"bbox_left": "0",
+"bbox_right": "47",
+"bbox_top": "17",
+"height": "38",
+"name": "s_chair_accent_janky_back01",
+"width": "48",
+"xorig": "0",
+"yorigin": "37"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(24, -9)
+shape = SubResource("RectangleShape2D_hgavl")

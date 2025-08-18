@@ -1,5 +1,7 @@
 extends Control
 
+## Scene used to load most of the shaders / particles to reduce stutters during gameplay.
+
 const SHADER_FOLDER := "res://barkley2/shaders/particles/"
 const R_TITLE 		:= preload("uid://bpjwpt1mao0nm")
 

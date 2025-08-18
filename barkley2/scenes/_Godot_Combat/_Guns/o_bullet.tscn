@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://ds37xyh4m61b1"]
+[gd_scene load_steps=9 format=3 uid="uid://ds37xyh4m61b1"]
 
 [ext_resource type="Script" uid="uid://brdkn1jwtp53p" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.gd" id="1_aj05g"]
 [ext_resource type="SpriteFrames" uid="uid://6342huyjqpi6" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tres" id="2_6dtqo"]
+[ext_resource type="Material" uid="uid://dbpye6a26kgwt" path="res://barkley2/shaders/particles/o_bullet_smoke_trail.tres" id="3_0ronc"]
 [ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="188_eku8p"]
 
 [sub_resource type="Curve" id="Curve_6dtqo"]
@@ -17,23 +18,6 @@ particles_animation = true
 particles_anim_h_frames = 3
 particles_anim_v_frames = 1
 particles_anim_loop = false
-
-[sub_resource type="Curve" id="Curve_g38ti"]
-_data = [Vector2(0, 0.348315), 0.0, 0.0, 0, 0, Vector2(0.551471, 0.966292), 0.0, 0.0, 0, 0, Vector2(1, 0.382023), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_teoik"]
-curve = SubResource("Curve_g38ti")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_70msf"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 5.0
-gravity = Vector3(0, -58, 0)
-scale_min = 0.5
-scale_max = 5.0
-alpha_curve = SubResource("CurveTexture_teoik")
-anim_speed_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6dtqo"]
 radius = 6.0
@@ -56,7 +40,7 @@ emitting = false
 amount = 32
 texture = ExtResource("188_eku8p")
 lifetime = 0.5
-process_material = SubResource("ParticleProcessMaterial_70msf")
+process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_6dtqo")

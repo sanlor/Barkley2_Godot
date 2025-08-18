@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://crxqn5j8y5cn1"]
+
+[ext_resource type="Texture2D" uid="uid://bq72fckrce6fj" path="res://barkley2/assets/b2_original/images/merged/s_rebelLever01.png" id="1_ndrt2"]
+[ext_resource type="Script" uid="uid://dradticrixq0v" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_lever_01.gd" id="2_l0hpd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_8fefk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fefk"]
+atlas = ExtResource("1_ndrt2")
+region = Rect2(0, 0, 33, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8dx3"]
+atlas = ExtResource("1_ndrt2")
+region = Rect2(33, 0, 33, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m7bga"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fefk")
+}],
+"loop": true,
+"name": &"off",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8dx3")
+}],
+"loop": true,
+"name": &"on",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_q8dx3"]
+script = ExtResource("3_8fefk")
+original_script = "IF body == governor | DIALOG | Governor Elagabalus | (It's the lever for Dr. Liu's body transference device. I probably shouldn't touch it... at least if I wanna go back to being me...)
+IF body != governor | DIALOG | P_NAME | (It's the lever for Dr. Liu's body transference device. I'd better not mess with it...)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m7bga"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_we32v"]
+radius = 16.0
+
+[node name="o_lever01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_m7bga")
+animation = &"on"
+offset = Vector2(0, -7)
+script = ExtResource("2_l0hpd")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_q8dx3")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_m7bga")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_we32v")

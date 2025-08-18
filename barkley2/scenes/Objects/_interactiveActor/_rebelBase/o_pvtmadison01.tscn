@@ -1,0 +1,208 @@
+[gd_scene load_steps=18 format=3 uid="uid://byfwaljlknwua"]
+
+[ext_resource type="Script" uid="uid://di55w2xcx45pw" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_pvtmadison01.gd" id="1_1db55"]
+[ext_resource type="Texture2D" uid="uid://vlos5fph10kg" path="res://barkley2/assets/b2_original/images/merged/s_pvtmadison01.png" id="2_33qco"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_xhfok"]
+
+[sub_resource type="Resource" id="Resource_uhp3a"]
+script = ExtResource("2_xhfok")
+original_script = "IF body == governor | GOTO | GOVNAH
+IF govQuest == 6 | IF govBomb == 2 | GOTO | BOMBA1
+IF govQuest == 6 | IF govBomb != 2 | GOTO | BOMBA2
+IF govQuest == 4 | GOTO | CHIDE
+IF govQuest == 3 | GOTO | BOMBAGREED
+IF govQuest == 2 | GOTO | BOMBAGREED
+IF govQuest == 1 | GOTO | MAD1
+IF govQuest == 0 | GOTO | MAD0
+
+GOVNAH
+DIALOG | Pvt. Madison | Get out of my face.
+
+BOMBA1
+IF longinusGov >= 1 | DIALOG | Pvt. Madison | Well, you did it. You managed to pull off Dr. Liu's stupid little parlor trick and it looks like it went unnoticed. For now at least. We've got a screaming Duergar Governor on our hands and we don't know what we're going to do from here. But your stupid charade worked. Thanks for lying to me about the bomb, by the way. Get out of my face, P_NAME_S.
+IF longinusGov == 0 | DIALOG | Pvt. Madison | Pretty funny that it went exactly as I thought it would. Well, I actually thought you and the Governor's heads would have exploded, or that you'd get both your bodies melted together into some horrible abomination... but it still didn't do any good. First you lied to me about planting the bomb, and then you went and screwed that up too. Good going, P_NAME_S.   
+    
+BOMBA2
+IF longinusGov >= 1 | DIALOG | Pvt. Madison | Well it looks like Dr. Liu's stupid little parlor trick went off without a hitch, except that we've got a screaming Duergar governor in the hideout that we don't know what to do with. Guess we overlooked that part. We should've just blown the mansion sky high.
+IF longinusGov == 0 | DIALOG | Pvt. Madison | So, you went through all that trouble to swap places with the Governor, and all you did was secure a way out for yourself. I'm kind of impressed you got that done using Dr. Liu's stupid little parlor trick. Thanks for leaving us with a screaming Duergar governor, asshole. We should've just blown the mansion like I said...
+
+CHIDE
+IF govBomb == 2 | DIALOG | Pvt. Madison | Thought you were going to plant the bomb at the base of the Governor's mansion like we talked about. Can't say I'm not a little disappointed. You know, I don't really feel like looking at you right now. Get out of my sight.
+IF govBomb != 2 | DIALOG | Pvt. Madison | Well, you've gone and done a pretty stupid thing. Can't say I'm not surprised. That seems to be how L.O.N.G.I.N.U.S. operates these days.
+
+BOMBAGREED
+IF govBomb == 2 | GOTO | BOMBAGREED2
+IF govBomb == 1 | GOTO | BOMBAGREED1
+IF govBomb == 0 | GOTO | BOMBAGREED0
+
+BOMBAGREED2
+DIALOG | Pvt. Madison | Remember, all you have to do is plant the bomb behind the plaque of the Cuchulainn statue in front of the Governor's mansion. Make sure that it triggers when Governor Elagabalus comes out to give his speech, and get outta there. L.O.N.G.I.N.U.S. can take over after that. You escape, we take Tir na Nog - everyone wins. Got it?
+DIALOG | P_NAME | Yeah, I've got it.
+DIALOG | Pvt. Madison | Good. Good luck then. You'll need it.
+
+BOMBAGREED1
+DIALOG | Pvt. Madison | Look. There's not much time left. I know you turned me down before, but if you plant the bomb in the Cuchulainn statue outside the Governor's mansion, you'll be able to escape in the chaos. L.O.N.G.I.N.U.S. takes over Tir na Nog and we don't have to deal with Duergars anymore. Everyone wins. What do you say?
+GOTO | BOMB
+
+BOMBAGREED0
+DIALOG | Pvt. Madison | Listen, I've got a proposition for you... forget this body transference bullpuck. It's not gonna do a damn thing.
+DIALOG | P_NAME | I'm sorry?
+DIALOG | Pvt. Madison | I mean what the heck are we doing? Sitting around playing poker? No. No way. We're wasting our time. We either take the fight to Cuchulainn or roll over and die, and I'm sure as hell not rolling over. I've been sitting on some explosives for a while now - the good stuff, not that firecracker black powder crap - and I think the Governor's speech is the right time to use it. Think about it - if it goes off during the speech, the Governor and half the Duergars in Tir na Nog are history. There'll be riots in the streets, dwarfs fighting against Duergars, the oppressed killing the oppressor. This is the opportunity we've been waiting for and I don't want to let it slip.
+DIALOG | P_NAME | What did you have in mind?
+DIALOG | Pvt. Madison | All you have to do is `sq`set this bomb near there and trigger it to explode when the Governor start with the Inaugural Address.`rt` I've got the perfect spot too. What do you say, P_NAME_S? Are you gonna help L.O.N.G.I.N.U.S. or are you gonna play along with Dr. Liu's buffoonery until it gets us all killed?
+GOTO | BOMB
+
+BOMB
+CHOICE | Bomb the Governor's speech?
+REPLY | NOPE | I won't do it.
+REPLY | YUP  | Okay, I'll do it.
+
+NOPE
+DIALOG | P_NAME | Sorry but this doesn't sound like a good idea to me. I already told Dr. Liu I'd help her out, I don't want to break my promise.
+DIALOG | Pvt. Madison | Her stupid plan isn't going to do a damn bit of good. I mean, luring the Governor to our hideout with Duergar piss? Are you insane? Clispaeth Christ, kid, am I the only person in L.O.N.G.I.N.U.S. with a lick of sense? But whatever. Get yourself killed, I don't even care.
+QUEST  | govBomb = 1
+
+YUP
+DIALOG | P_NAME | Well, Dr. Liu's idea is pretty crazy... I mean, I'm not even sure her body transference chair even works. Okay, I'll do it. Give me the bomb. What do I have to do?
+DIALOG | Pvt. Madison | Heh, I knew I wasn't the only one here who wasn't a complete nutcase. I like you, kid. Get this... right in front of the Governor's mansion is a statue of Cuchulainn. There's a brass plaque on the front, and for weeks now, every night at midnight I've given each screw a quarter turn, under the cover of darkness. I finally got it loose, and nobody's the wiser. What you need to do is enter the square, place the bomb behind the plaque, and set it to explode during the new Governor's speech. I can see it already... Cuchulainn's statue rupturing in fire, shrapnel and dead Duergars everywhere! Don't worry about the crowd. There'll be collateral damage, but the important thing is that we wipe out the Governor and his lackeys. When the people see their opportunity, they'll take it. I can take over from there and you can slip out. We all win.
+NOTIFY | Got a bomb!
+ITEM   | Bomb | +1
+DIALOG | P_NAME | If this is the only thing that's really gonna help the dwarfs of Tir na Nog, then I guess I'll take it...
+DIALOG | Pvt. Madison | Good luck, P_NAME_S. See you in the chaos.
+QUEST  | govBomb = 2
+
+MAD1
+DIALOG | Pvt. Madison | Can't say I disagree with your decision not to help Dr. Liu. I respect her, she's a smart lady but this idea just seems too ridiculous, too risky. If it were up to me, we'd blow the Governor's mansion to smithereens and take the fight to Cuchulainn. Too bad I'm just the quartermaster.
+
+MAD0
+DIALOG | Pvt. Madison | Bridget Madison, class V L.O.N.G.I.N.U.S. quartermaster, service number LON 544 8853. Did two tours in the Hive, served in the elite Necropolis task force, proud L.O.N.G.I.N.U.S. fighter for 12 years. I've been all over the Necron 7 and compared to some of the places out there, like the Duergar Mines, Tir na Nog seems pretty tame. A word of advice - don't end up in the Mines."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4aar4"]
+atlas = ExtResource("2_33qco")
+region = Rect2(0, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j61j6"]
+atlas = ExtResource("2_33qco")
+region = Rect2(42, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5knw5"]
+atlas = ExtResource("2_33qco")
+region = Rect2(84, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4xjr"]
+atlas = ExtResource("2_33qco")
+region = Rect2(126, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w12pe"]
+atlas = ExtResource("2_33qco")
+region = Rect2(168, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tqs0t"]
+atlas = ExtResource("2_33qco")
+region = Rect2(210, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhfok"]
+atlas = ExtResource("2_33qco")
+region = Rect2(0, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrlgu"]
+atlas = ExtResource("2_33qco")
+region = Rect2(252, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4coy2"]
+atlas = ExtResource("2_33qco")
+region = Rect2(294, 0, 42, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tyiu"]
+atlas = ExtResource("2_33qco")
+region = Rect2(336, 0, 42, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uhp3a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4aar4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j61j6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5knw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4xjr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w12pe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tqs0t")
+}],
+"loop": false,
+"name": &"check",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhfok")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrlgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4coy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tyiu")
+}],
+"loop": false,
+"name": &"stopcheck",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_paueh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4aar4"]
+size = Vector2(20, 36)
+
+[node name="o_pvtmadison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_1db55")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_uhp3a")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_uhp3a")
+centered = false
+offset = Vector2(-21, -41)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "1",
+"bbox_right": "39",
+"bbox_top": "2",
+"frames": ["images\\s_pvtmadison01_0.png", "images\\s_pvtmadison01_1.png", "images\\s_pvtmadison01_2.png", "images\\s_pvtmadison01_3.png", "images\\s_pvtmadison01_4.png", "images\\s_pvtmadison01_5.png", "images\\s_pvtmadison01_6.png", "images\\s_pvtmadison01_7.png", "images\\s_pvtmadison01_8.png"],
+"height": "48",
+"name": "s_pvtmadison01",
+"width": "42",
+"xorig": "21",
+"yorigin": "41"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_paueh")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_4aar4")

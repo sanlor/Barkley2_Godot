@@ -46,6 +46,9 @@ func _ready() -> void:
 	linear_damp = walk_damp
 	
 	_change_sprites()
+	if get_parent() is B2_ROOMS: flashlight_enabled = get_parent().get_room_darkness()
+	else: flashlight_enabled = false
+	flashlight.enabled = flashlight_enabled
 	
 	## Default animation
 	hoopz_normal_body.animation = "stand"
@@ -130,7 +133,7 @@ func combat_walk_animation(delta : float):
 		# player is not moving the character anymore
 		combat_lower_sprite.stop()
 		
-		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( get_global_mouse_position() ).round()
+		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( curr_aim ).round()
 		
 		if curr_direction != combat_last_direction:
 			turning_time = 1.0
