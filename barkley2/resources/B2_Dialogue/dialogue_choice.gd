@@ -131,7 +131,8 @@ func add_choice( choice_text : String ) -> void:
 	var my_selection_button 			:= Button.new()
 	my_selection_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	my_selection_button.custom_minimum_size = Vector2( 265, 11 )
-	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_OFF # TextServer.AUTOWRAP_WORD # <- 17/08/25 disabled this
+	#my_selection_button.autowrap_mode = TextServer.AUTOWRAP_OFF
+	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_WORD # <- 17/08/25 disabled this
 	my_selection_button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	my_selection_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	

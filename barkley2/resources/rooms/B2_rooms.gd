@@ -15,7 +15,6 @@ const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
 
 signal permission_changed
 signal pacify_changed( activated : bool )
-@export var preview_navigation_mesh		:= false
 @export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D ## DEPRECATED
@@ -148,10 +147,6 @@ func _hide_collision_layer() -> void:
 		collision_layer_abyss.hide()
 		
 func _set_region():
-	if Engine.is_editor_hint():
-		if not preview_navigation_mesh:
-			return
-		
 	if populate_reference_layer:
 		reference_layer.clear()
 		for c in get_children():
