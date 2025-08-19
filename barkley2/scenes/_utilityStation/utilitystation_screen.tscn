@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="3_8sg6d"]
 [ext_resource type="Texture2D" uid="uid://dgnpnn7uepcb2" path="res://barkley2/assets/b2_original/images/merged/sMenuUtility.png" id="3_yaeih"]
 [ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="4_qw4ou"]
-[ext_resource type="Shader" uid="uid://deybi0hau31lk" path="res://barkley2/resources/shaders/square.gdshader" id="4_uitkm"]
+[ext_resource type="Shader" uid="uid://cufayi31b8vmx" path="res://barkley2/shaders/shader_code/square.gdshader" id="4_uitkm"]
 [ext_resource type="Texture2D" uid="uid://dyg64vycb2d3c" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityFaces.png" id="6_2v4t6"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="6_inixc"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="8_tq0ww"]
@@ -38,7 +38,7 @@
 [ext_resource type="PackedScene" uid="uid://5nr8pp2lmcn2" path="res://barkley2/scenes/_utilityStation/gun_info_breed_animation_panel.tscn" id="33_305tp"]
 [ext_resource type="Script" uid="uid://ctmkrq484it1o" path="res://barkley2/scenes/_utilityStation/brain_vidcon_panel.gd" id="34_8we6v"]
 [ext_resource type="Texture2D" uid="uid://comd5tp605hpu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityLevelUp.png" id="34_qcuev"]
-[ext_resource type="Shader" uid="uid://d4hnqlrxkxuj3" path="res://barkley2/scenes/_utilityStation/utilitystation_brain.gdshader" id="34_sf8h1"]
+[ext_resource type="Shader" uid="uid://d4hnqlrxkxuj3" path="res://barkley2/shaders/shader_code/utilitystation_brain.gdshader" id="34_sf8h1"]
 [ext_resource type="Script" uid="uid://bhltncgexx1bj" path="res://barkley2/scenes/_utilityStation/gun_reload_menu.gd" id="34_t58kc"]
 [ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="35_8we6v"]
 [ext_resource type="Script" uid="uid://s4alhc01g8am" path="res://barkley2/scenes/_utilityStation/candy_panel.gd" id="37_2654u"]
@@ -508,7 +508,7 @@ offset_bottom = 8.0
 [node name="name_value" type="Label" parent="frame/main_info_panel/status/name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -530,7 +530,7 @@ offset_bottom = 58.0
 
 [node name="portrait_text" type="TextureRect" parent="frame/main_info_panel/status/portrait"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -801,7 +801,7 @@ offset_bottom = 49.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/glamp/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -849,7 +849,7 @@ offset_right = 136.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/personae/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -881,7 +881,7 @@ offset_bottom = 65.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/datum/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -1165,7 +1165,7 @@ vertical_alignment = 1
 
 [node name="spinning_dna" type="TextureRect" parent="frame/main_info_panel/trans/trans"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1194,7 +1194,7 @@ offset_right = 72.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/trans/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -1224,7 +1224,7 @@ offset_right = 55.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/resistances/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -1256,7 +1256,7 @@ stretch_mode = 3
 
 [node name="defense_value" type="Label" parent="frame/main_info_panel/resistances/defense"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 7.0
@@ -1279,7 +1279,7 @@ rot_offset = 2.5
 
 [node name="res_blip" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1295,7 +1295,7 @@ stretch_mode = 2
 
 [node name="res_blip2" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1311,7 +1311,7 @@ stretch_mode = 2
 
 [node name="res_blip3" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1327,7 +1327,7 @@ stretch_mode = 2
 
 [node name="res_blip4" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1343,7 +1343,7 @@ stretch_mode = 2
 
 [node name="res_blip5" type="TextureRect" parent="frame/main_info_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1365,7 +1365,7 @@ offset_bottom = 41.0
 
 [node name="res_cosmic" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1391,7 +1391,7 @@ horizontal_alignment = 2
 
 [node name="res_mental" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1417,7 +1417,7 @@ horizontal_alignment = 2
 
 [node name="res_cyber" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1443,7 +1443,7 @@ horizontal_alignment = 2
 
 [node name="res_bio" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1469,7 +1469,7 @@ horizontal_alignment = 2
 
 [node name="res_zauber" type="TextureRect" parent="frame/main_info_panel/resistances/res_list"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1511,7 +1511,7 @@ offset_bottom = 8.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/equipment/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -1628,7 +1628,7 @@ mouse_filter = 2
 [node name="hud_weight_number" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -1641,7 +1641,7 @@ texture = ExtResource("17_8sg6d")
 
 [node name="TextureRect" type="TextureRect" parent="frame/main_info_panel/weight/weight/hud_weight"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 13.0
@@ -1667,7 +1667,7 @@ offset_bottom = 48.0
 [node name="tab_label" type="Label" parent="frame/main_info_panel/weight/tab_name"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
@@ -1717,7 +1717,7 @@ offset_bottom = 212.0
 
 [node name="gunbag_title" type="Label" parent="frame/gun_info_panel/gunbag"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
 offset_bottom = 20.0
 grow_horizontal = 2
@@ -1728,7 +1728,7 @@ vertical_alignment = 1
 
 [node name="gunbag_value" type="Label" parent="frame/gun_info_panel/gunbag"]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
@@ -1763,7 +1763,7 @@ offset_bottom = 40.0
 
 [node name="smelt_gauge" type="TextureRect" parent="frame/gun_info_panel/smelt/smelt_panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1802,7 +1802,7 @@ offset_right = 192.0
 
 [node name="smelt_title" type="Label" parent="frame/gun_info_panel/smelt/smelt_title"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -1905,7 +1905,7 @@ offset_bottom = 8.0
 [node name="title_lbl" type="Label" parent="frame/gun_info_breed_panel/breed_data/top_gun/title_panel"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.5
@@ -1935,6 +1935,7 @@ label_settings = SubResource("LabelSettings_psrdb")
 
 [node name="brain_breed_gun_data" parent="frame/gun_info_breed_panel/breed_data/top_gun/top_gun_panel" instance=ExtResource("30_psrdb")]
 layout_mode = 1
+anchors_preset = -1
 
 [node name="top_gene" type="Control" parent="frame/gun_info_breed_panel/breed_data" node_paths=PackedStringArray("dna_bullshit")]
 anchors_preset = 0
@@ -1953,7 +1954,7 @@ offset_bottom = 8.0
 [node name="title_lbl" type="Label" parent="frame/gun_info_breed_panel/breed_data/top_gene/title_panel"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.5
@@ -1973,7 +1974,7 @@ offset_bottom = 72.0
 
 [node name="dna_bullshit" type="GridContainer" parent="frame/gun_info_breed_panel/breed_data/top_gene/top_gene_panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2128,7 +2129,7 @@ offset_bottom = 88.0
 [node name="title_lbl" type="Label" parent="frame/gun_info_breed_panel/breed_data/bottom_gun/title_panel"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.5
@@ -2158,6 +2159,7 @@ label_settings = SubResource("LabelSettings_psrdb")
 
 [node name="brain_breed_gun_data" parent="frame/gun_info_breed_panel/breed_data/bottom_gun/bottom_gun_panel" instance=ExtResource("30_psrdb")]
 layout_mode = 1
+anchors_preset = -1
 
 [node name="bottom_gene" type="Control" parent="frame/gun_info_breed_panel/breed_data" node_paths=PackedStringArray("dna_bullshit")]
 anchors_preset = 0
@@ -2177,7 +2179,7 @@ offset_bottom = 88.0
 [node name="title_lbl" type="Label" parent="frame/gun_info_breed_panel/breed_data/bottom_gene/title_panel"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.5
@@ -2197,7 +2199,7 @@ offset_bottom = 80.0
 
 [node name="dna_bullshit" type="GridContainer" parent="frame/gun_info_breed_panel/breed_data/bottom_gene/bottom_gene_panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2355,7 +2357,7 @@ offset_bottom = 32.0
 [node name="title_lbl" type="Label" parent="frame/gun_info_breed_panel/breed_data/compatibility/title_panel"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.5
@@ -2662,7 +2664,7 @@ offset_bottom = 156.0
 
 [node name="pocket_title" type="Label" parent="frame/candy_panel/pocket_title"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2687,7 +2689,7 @@ offset_bottom = 108.0
 
 [node name="scheme_title" type="Label" parent="frame/candy_panel/scheme_title"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2712,7 +2714,7 @@ offset_bottom = 212.0
 
 [node name="jerkin_name" type="Label" parent="frame/candy_panel/jerkin"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
 offset_left = 3.0
 offset_top = 2.0
@@ -2727,7 +2729,7 @@ autowrap_mode = 2
 
 [node name="jerkin_texture" type="TextureRect" parent="frame/candy_panel/jerkin"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2742,7 +2744,7 @@ texture = SubResource("AtlasTexture_xk021")
 
 [node name="jerking_pocket" type="Label" parent="frame/candy_panel/jerkin"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2773,7 +2775,7 @@ offset_bottom = 40.0
 [node name="item_icon" type="TextureRect" parent="frame/candy_panel/curr_scheme/candy_image"]
 custom_minimum_size = Vector2(36, 36)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2794,7 +2796,7 @@ offset_bottom = 40.0
 
 [node name="candy_name" type="Label" parent="frame/candy_panel/curr_scheme/candy_description"]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = -1
 anchor_right = 1.0
 offset_left = 2.0
 offset_right = -2.0
@@ -2805,7 +2807,7 @@ label_settings = SubResource("LabelSettings_en4f6")
 
 [node name="candy_effect" type="Label" parent="frame/candy_panel/curr_scheme/candy_description"]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -2824,7 +2826,7 @@ offset_right = 40.0
 
 [node name="info_title" type="Label" parent="frame/candy_panel/curr_scheme/info_title"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2854,7 +2856,7 @@ offset_bottom = 40.0
 
 [node name="smelt_gauge" type="TextureRect" parent="frame/candy_panel/smelt/smelt_panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2903,7 +2905,7 @@ offset_right = 192.0
 
 [node name="smelt_title" type="Label" parent="frame/candy_panel/smelt/smelt_title"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -2961,7 +2963,7 @@ vertical_alignment = 1
 
 [node name="main_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2977,7 +2979,7 @@ texture = SubResource("AtlasTexture_46cem")
 [node name="left_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
 material = SubResource("ShaderMaterial_4w3xs")
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -2993,7 +2995,7 @@ texture = SubResource("AtlasTexture_6r7ck")
 [node name="right_brain" type="TextureRect" parent="frame/brain_info_panel/big_brain/large_spaghetti"]
 material = SubResource("ShaderMaterial_hpkte")
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3057,7 +3059,7 @@ offset_bottom = 41.0
 [node name="exp_title" type="Label" parent="frame/brain_info_panel/exp/exp"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -3101,7 +3103,7 @@ offset_bottom = 41.0
 [node name="next_title" type="Label" parent="frame/brain_info_panel/next_lvl/next"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -3126,7 +3128,7 @@ offset_bottom = 32.0
 
 [node name="curr_lvl_value" type="Label" parent="frame/brain_info_panel/curr_lvl/curr_lvl"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3144,7 +3146,7 @@ vertical_alignment = 1
 
 [node name="level_up_text" type="TextureRect" parent="frame/brain_info_panel/curr_lvl/curr_lvl"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3166,7 +3168,7 @@ offset_bottom = 41.0
 [node name="curr_title" type="Label" parent="frame/brain_info_panel/curr_lvl/curr"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -3201,7 +3203,7 @@ label_settings = SubResource("LabelSettings_6r7ck")
 
 [node name="helper_value" type="Label" parent="frame/brain_info_panel/work_side/helper"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3236,7 +3238,7 @@ horizontal_alignment = 2
 
 [node name="exp_gained_value" type="Label" parent="frame/brain_info_panel/work_side/exp_gained"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3262,7 +3264,7 @@ offset_bottom = 73.0
 [node name="work_title" type="Label" parent="frame/brain_info_panel/work_side/work"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -3321,7 +3323,7 @@ vertical_alignment = 1
 
 [node name="vidcon_owned_value" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3339,7 +3341,7 @@ vertical_alignment = 1
 
 [node name="vidcon_unboxed_value" type="Label" parent="frame/brain_info_panel/play_side/vidcons"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3374,7 +3376,7 @@ horizontal_alignment = 2
 
 [node name="exp_gained_value" type="Label" parent="frame/brain_info_panel/play_side/exp_gained"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3398,7 +3400,7 @@ offset_right = 40.0
 [node name="play_title" type="Label" parent="frame/brain_info_panel/play_side/play"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -3563,7 +3565,7 @@ offset_bottom = 56.0
 [node name="description_value" type="Label" parent="frame/brain_vidcon_panel/description/main"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -3829,7 +3831,7 @@ offset_bottom = 20.0
 [node name="Label" type="Label" parent="frame/brain_vidcon_levelup_panel/title_panel"]
 self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -3873,7 +3875,7 @@ offset_bottom = 16.0
 [node name="band_lbl" type="Label" parent="frame/brain_vidcon_levelup_panel/bandwidth/bandwidth_title_panel"]
 self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -3892,7 +3894,7 @@ offset_bottom = 16.0
 [node name="level_lbl" type="Label" parent="frame/brain_vidcon_levelup_panel/bandwidth/bandwidth_lvl1_panel"]
 self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -3911,7 +3913,7 @@ offset_bottom = 16.0
 [node name="level_lbl" type="Label" parent="frame/brain_vidcon_levelup_panel/bandwidth/bandwidth_lvl2_panel"]
 self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -3930,7 +3932,7 @@ offset_bottom = 16.0
 [node name="level_lbl" type="Label" parent="frame/brain_vidcon_levelup_panel/bandwidth/bandwidth_lvl3_panel"]
 self_modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 1.0
@@ -3954,7 +3956,7 @@ offset_bottom = 152.0
 
 [node name="my_main_man" type="TextureRect" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/hoopz"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -3976,7 +3978,7 @@ offset_bottom = 24.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/weight"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4009,7 +4011,7 @@ offset_bottom = 48.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/guts"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4042,7 +4044,7 @@ offset_bottom = 72.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/luck"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4075,7 +4077,7 @@ offset_bottom = 96.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/acro"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4108,7 +4110,7 @@ offset_bottom = 120.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/might"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4141,7 +4143,7 @@ offset_bottom = 144.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/brain_vidcon_levelup_panel/hoopz_stat/piety"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4196,7 +4198,6 @@ stat_name = "PIETY"
 [node name="equipment_panel" type="Control" parent="frame"]
 visible = false
 layout_mode = 1
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 11.0
@@ -4227,7 +4228,7 @@ offset_bottom = 23.0
 [node name="tab_label" type="Label" parent="frame/equipment_panel/resistances/tab_name_res"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -4248,7 +4249,7 @@ offset_bottom = -1.0
 [node name="tab_label" type="Label" parent="frame/equipment_panel/resistances/tab_name_def"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -4278,7 +4279,7 @@ stretch_mode = 3
 
 [node name="defense_value" type="Label" parent="frame/equipment_panel/resistances/defense"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 7.0
@@ -4302,7 +4303,7 @@ rot_offset = 2.5
 
 [node name="res_blip" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4318,7 +4319,7 @@ stretch_mode = 2
 
 [node name="res_blip2" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4334,7 +4335,7 @@ stretch_mode = 2
 
 [node name="res_blip3" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4350,7 +4351,7 @@ stretch_mode = 2
 
 [node name="res_blip4" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4366,7 +4367,7 @@ stretch_mode = 2
 
 [node name="res_blip5" type="TextureRect" parent="frame/equipment_panel/resistances/res_graph"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4389,7 +4390,7 @@ offset_bottom = 15.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/bio_panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4422,7 +4423,7 @@ offset_bottom = 15.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/cyber_panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4455,7 +4456,7 @@ offset_bottom = 15.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/mental_panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4488,7 +4489,7 @@ offset_bottom = 15.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/kosmic_panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4521,7 +4522,7 @@ offset_bottom = 15.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/resistances/zauber_panel"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4560,7 +4561,7 @@ offset_bottom = 150.0
 
 [node name="my_main_man" type="TextureRect" parent="frame/equipment_panel/hoopz_stat/hoopz"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4583,7 +4584,7 @@ offset_bottom = 110.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/pockets"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4616,7 +4617,7 @@ offset_bottom = 23.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/weight"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4649,7 +4650,7 @@ offset_bottom = 47.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/guts"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4682,7 +4683,7 @@ offset_bottom = 71.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/luck"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4715,7 +4716,7 @@ offset_bottom = 95.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/acro"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4748,7 +4749,7 @@ offset_bottom = 119.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/might"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4781,7 +4782,7 @@ offset_bottom = 143.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/hoopz_stat/piety"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
@@ -4822,7 +4823,7 @@ offset_bottom = 8.0
 [node name="tab_label" type="Label" parent="frame/equipment_panel/helm/tab_name_res"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -4841,7 +4842,7 @@ offset_bottom = 48.0
 
 [node name="equip_texture" type="TextureRect" parent="frame/equipment_panel/helm/equip_texture"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4856,7 +4857,7 @@ texture = ExtResource("40_dvexd")
 
 [node name="equip_weight" type="Label" parent="frame/equipment_panel/helm/equip_texture"]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4878,7 +4879,7 @@ offset_bottom = 48.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/helm/equip_data"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
@@ -4941,7 +4942,7 @@ offset_bottom = 8.0
 [node name="tab_label" type="Label" parent="frame/equipment_panel/jerkin/tab_name_res"]
 modulate = Color(0.745098, 0.745098, 0.745098, 1)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 2.0
@@ -4960,7 +4961,7 @@ offset_bottom = 48.0
 
 [node name="jerkin_texture" type="TextureRect" parent="frame/equipment_panel/jerkin/jerkin_texture"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -4975,7 +4976,7 @@ texture = SubResource("AtlasTexture_en4f6")
 
 [node name="jerkin_weight" type="Label" parent="frame/equipment_panel/jerkin/jerkin_texture"]
 layout_mode = 1
-anchors_preset = 12
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -4997,7 +4998,7 @@ offset_bottom = 48.0
 
 [node name="vbox" type="VBoxContainer" parent="frame/equipment_panel/jerkin/jerkin_data"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
@@ -5096,7 +5097,7 @@ offset_bottom = 40.0
 
 [node name="descr_value" type="Label" parent="frame/inventory_panel/description/descr"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
@@ -5216,7 +5217,7 @@ metadata/_custom_type_script = "uid://eir54p1frfp7"
 
 [node name="SGlebFace" type="TextureRect" parent="frame/dwarfnet_panel"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

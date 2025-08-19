@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=49 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" uid="uid://vfshhp2o15pw" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.gd" id="1_juf8c"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
 [ext_resource type="Script" uid="uid://bnj0tqbocuaui" path="res://barkley2/resources/B2_AI/ai_combat_normal.gd" id="4_w86x0"]
+[ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.45
@@ -432,32 +433,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Curve" id="Curve_p3mjv"]
-_data = [Vector2(0, 0.258427), 0.0, 0.0, 0, 0, Vector2(0.49, 0.47191), 0.0, 0.0, 0, 0, Vector2(1, 0.0337079), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_h5xhx"]
-curve = SubResource("Curve_p3mjv")
-
-[sub_resource type="Curve" id="Curve_4kpmn"]
-_limits = [0.0, 5.0, 0.0, 1.0]
-_data = [Vector2(0, 0), 0.0, 7.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_4jtvp"]
-curve = SubResource("Curve_4kpmn")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_84gbg"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 4.0
-inherit_velocity_ratio = 0.25
-initial_velocity_min = 30.0
-initial_velocity_max = 75.0
-gravity = Vector3(0, -78, 0)
-scale_curve = SubResource("CurveTexture_4jtvp")
-alpha_curve = SubResource("CurveTexture_h5xhx")
-
 [node name="o_enemy_drone_egg" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 5
 collision_mask = 1835019
@@ -576,6 +551,6 @@ amount = 32
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.75
-process_material = SubResource("ParticleProcessMaterial_84gbg")
+process_material = ExtResource("9_17vq5")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
