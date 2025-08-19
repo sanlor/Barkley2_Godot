@@ -32,7 +32,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_shop			:= true
 @export var print_comments		:= false
 
-@export var print_line_report 	:= false ## details about the current script line.
+@export var print_line_report 	:= true ## details about the current script line.
 
 @export_category("Cinema Config")
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
@@ -300,6 +300,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				
 			var line : String = split_script[ curr_line ]
 			
+			if print_line_report:
+				print( str(curr_line), " - ", line )
+			
+			## Motherfucker. ofcourse empty lines arent always empty. sometimes they have "     " as characters. Need to check for that too.
+			line = line.strip_edges()
+			
 			if line.is_empty():
 				#push_warning("Empty line. I THINK this means end of event.")
 				## ^^^^ Yes, it is.
@@ -328,6 +334,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					choices_strings					= []
 				else:
 					loop_finished = true
+					print_rich("[color=red]CINEMA: Empty line reached, this is not good. Aborting script.[/color]")
 					break # exit the loop
 			
 			if line.begins_with('"'):
@@ -1016,9 +1023,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 			
 			# Jump to next line
 			curr_line += 1
-			
-			if print_line_report:
-				print( str(curr_line), " - ", parsed_line )
 				
 			if array_dirty:
 				# some invalid node was foing in the array

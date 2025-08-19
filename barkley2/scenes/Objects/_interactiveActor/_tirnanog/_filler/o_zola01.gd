@@ -1,12 +1,7 @@
 extends B2_InteractiveActor
 ## "Zola" the newspaper seller, bounces around TNN
 
-## Made with B2_TOOL_DWARF_CONVERTER
-func _ready() -> void:
-	_setup_actor()
-	_setup_interactiveactor()
-
-	#Variables
+#Variables
 		#zolaState
 			#0 = never talked
 			#1 = talked
@@ -24,6 +19,11 @@ func _ready() -> void:
 			#1 = Return to negotiate the spear purchase
 			#2 = Spear has been reaquired
 			#3 = Hint about Ooze
+
+## Made with B2_TOOL_DWARF_CONVERTER
+func _ready() -> void:
+	_setup_actor()
+	_setup_interactiveactor()
 	
 	if get_room_name() == "r_tnn_warehouseDistrict01":
 		## In the Warehouse District for 22:30 to 21:00
