@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://cu6y6dadela8c"]
+
+[ext_resource type="Texture2D" uid="uid://cljw7cqyhsu6e" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner03.png" id="1_qu3k8"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_cte2t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ni7ky"]
+atlas = ExtResource("1_qu3k8")
+region = Rect2(0, 0, 25, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c2et3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ni7ky")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rt1ys"]
+radius = 12.0415945
+
+[node name="o_bct_bitcoiner03" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_c2et3")
+centered = false
+offset = Vector2(-12, -41)
+script = ExtResource("2_cte2t")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "24",
+"bbox_top": "24",
+"height": "42",
+"name": "s_bct_bitcoiner03",
+"width": "25",
+"xorig": "12",
+"yorigin": "41"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_rt1ys")

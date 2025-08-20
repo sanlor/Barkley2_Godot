@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://1lkgukry7p5j"]
+
+[ext_resource type="Texture2D" uid="uid://bqv2rwtua1fcp" path="res://barkley2/assets/b2_original/images/merged/s_bct_arcadeBilliards01.png" id="1_12dd5"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_iso35"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xipsu"]
+atlas = ExtResource("1_12dd5")
+region = Rect2(0, 0, 96, 83)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4p3t6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xipsu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wt6iq"]
+radius = 38.4
+
+[node name="o_bct_arcadeBilliards01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_4p3t6")
+centered = false
+offset = Vector2(-48, -41)
+script = ExtResource("2_iso35")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "82",
+"bbox_left": "0",
+"bbox_right": "95",
+"bbox_top": "0",
+"height": "83",
+"name": "s_bct_arcadeBilliards01",
+"width": "96",
+"xorig": "48",
+"yorigin": "41"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_wt6iq")

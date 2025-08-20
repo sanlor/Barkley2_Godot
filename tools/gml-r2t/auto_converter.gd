@@ -1,12 +1,12 @@
 @tool
 extends Control
-## The absolute lazy script! All this does is convert the gml room to godot's tilemaplayer.
+## The absolute lazy script! All this does is convert the gml room to godot's tilemaplayer, in batch.
 
 const temp_room_folder 		:= "res://tools/gml-r2t/temp_room_folder/"
-const r2t_script 			:= preload("uid://be81dfq2iw58x")
-const room_folder_path 		:= "Y:/tmp/barkley_2/Barkley2.gmx/rooms/"
+#const r2t_script 			:= preload("uid://be81dfq2iw58x")
+const room_folder_path 		:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/rooms/" # "Y:/tmp/barkley_2/Barkley2.gmx/rooms/"
 
-@export var room_prefix := "r_sw2"
+@export var room_prefix := "r_pri"
 @export_tool_button("Let it rip!") var ripper : Callable = _ripper
 
 func _ready() -> void:
@@ -178,6 +178,12 @@ func _ripper() -> void:
 						_my_tilemap.set_cell( pos_in_tilemap + Vector2i( x, y ), bg_index[ tile_name ], pos_in_bg )
 						
 		tilemap_root = B2_ROOMS.new()
+		
+		## Love being lazy.
+		tilemap_root.add_child( B2_TOOL_ROOM_CONVERTER.new(), true )
+		tilemap_root.add_child( B2_TOOL_GML_SPRITE_CONVERTER_LITE.new(), true )
+		tilemap_root.add_child( B2_TOOL_DWARF_CONVERTER.new(), true )
+		
 		for layer in layer_index.values():
 			tilemap_root.add_child( layer, true )
 			
@@ -207,6 +213,7 @@ func _ripper() -> void:
 		print( "Objects created: %s . " % str( tilemap_root.get_child_count() ), Time.get_ticks_msec() - time )
 		
 		var time2 := Time.get_ticks_msec()
+		
 		print("Saving...")
 		if selected_room.is_empty():
 			breakpoint
@@ -233,6 +240,11 @@ func _ripper() -> void:
 			
 		tilemap_root.name = file_name
 		scene.pack( tilemap_root )
+		
+		if FileAccess.file_exists( temp_room_folder + "%s.tscn" % file_name ):
+			print_rich("[color=red]Whoa baby, file already exists. Remove the file manually. bypassing this one...[/color]")
+			continue
+			
 		ResourceSaver.save(scene, temp_room_folder + "%s.tscn" % file_name)
 		print( "Objects saved at user://%s.tscn" % file_name )
 		print( "saving took: %s msecs. " % str(Time.get_ticks_msec() - time2) )

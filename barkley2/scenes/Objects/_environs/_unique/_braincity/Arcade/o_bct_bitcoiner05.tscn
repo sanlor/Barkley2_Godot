@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://b7afr115sxiwj"]
+
+[ext_resource type="Texture2D" uid="uid://gwr3borsqmqv" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner05.png" id="1_0a25e"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_6mkib"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_doq8e"]
+atlas = ExtResource("1_0a25e")
+region = Rect2(0, 0, 30, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr7h7"]
+atlas = ExtResource("1_0a25e")
+region = Rect2(30, 0, 30, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fl7ht"]
+atlas = ExtResource("1_0a25e")
+region = Rect2(60, 0, 30, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5uxa"]
+atlas = ExtResource("1_0a25e")
+region = Rect2(90, 0, 30, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vg7i5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_doq8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr7h7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fl7ht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5uxa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jceke"]
+radius = 12.0
+
+[node name="o_bct_bitcoiner05" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_vg7i5")
+frame = 3
+centered = false
+offset = Vector2(-17, -47)
+script = ExtResource("2_6mkib")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "4",
+"bbox_right": "30",
+"bbox_top": "28",
+"height": "48",
+"name": "s_bct_bitcoiner05",
+"width": "30",
+"xorig": "17",
+"yorigin": "47"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_jceke")

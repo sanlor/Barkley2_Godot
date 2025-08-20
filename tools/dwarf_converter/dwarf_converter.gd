@@ -82,6 +82,7 @@ func _ready() -> void:
 		push_error( "B2_TOOL_DWARF_CONVERTER still exists on the %s node." % get_parent().name )
 		#return
 		#lets_goooo()
+	name = "B2_TOOL_DWARF_CONVERTER"
 	
 func lets_goooo():
 	assert( is_instance_valid(target), "No target selected." )

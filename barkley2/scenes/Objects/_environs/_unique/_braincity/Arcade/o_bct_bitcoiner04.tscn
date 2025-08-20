@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://fi0lg06tya0t"]
+
+[ext_resource type="Texture2D" uid="uid://dqfnyvyxhtw42" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner04.png" id="1_d781o"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_025t8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21rpc"]
+atlas = ExtResource("1_d781o")
+region = Rect2(0, 0, 49, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0t08"]
+atlas = ExtResource("1_d781o")
+region = Rect2(49, 0, 49, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r51cw"]
+atlas = ExtResource("1_d781o")
+region = Rect2(98, 0, 49, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ieig"]
+atlas = ExtResource("1_d781o")
+region = Rect2(147, 0, 49, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8s6qm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21rpc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0t08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r51cw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ieig")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_01c7u"]
+radius = 15.0
+
+[node name="o_bct_bitcoiner04" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_8s6qm")
+frame = 3
+centered = false
+offset = Vector2(-24, -48)
+script = ExtResource("2_025t8")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "52",
+"bbox_left": "6",
+"bbox_right": "38",
+"bbox_top": "32",
+"height": "55",
+"name": "s_bct_bitcoiner04",
+"width": "49",
+"xorig": "24",
+"yorigin": "48"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-2, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_01c7u")

@@ -44,6 +44,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		push_error( "B2_TOOL_GML_SPRITE_CONVERTER still exists on the %s node." % get_parent().name )
 		return
+	name = "B2_TOOL_GML_SPRITE_CONVERTER_LITE"
 	
 func lets_goooo():
 	if sprite_name.is_empty():

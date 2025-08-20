@@ -15,19 +15,19 @@ class_name B2_TOOL_ROOM_CONVERTER
 
 @export_category("Dangerous")
 @export var known_packed_scenes 	: Array[PackedScene]
-@export var known_packed_scenes_exceptions : Array[String] = ["o_doorlight_", "o_cinema"]
-@export var convert_known_nodes		:= false ## Attempt to search the game files for nodes with the same name. might fuck thins up.
+@export var known_packed_scenes_exceptions : Array[String] = ["o_doorlight_", "o_cinema", "B2_TOOL"]
+@export var convert_known_nodes		:= true ## Attempt to search the game files for nodes with the same name. might fuck thins up.
 
 @export_category("Exec")
-@export var simulate 					:= true					## Dont change anything, just check if everything is working fine
-@export var remove_nodes 				:= false
+@export var simulate 					:= false					## Dont change anything, just check if everything is working fine
+@export var remove_nodes 				:= true
 @export var adjust_layer_z_index		:= true
 @export var set_room_settings			:= true
 @export_tool_button("start_conversion") var start_conversion 	: Callable = lets_goooo				## Start the conversion process.
 		
+		
 func _ready() -> void:
-	#lets_goooo()
-	pass
+	name = "B2_TOOL_ROOM_CONVERTER"
 	
 func lets_goooo():
 	if convert_cinema_spots: 	cinemaspot()
@@ -121,6 +121,7 @@ func door_light():
 		for n in to_delete:
 			n.queue_free()
 		
+	convert_door_light = false
 	print("finished doorlight convertion...")
 
 func regular_door():
@@ -131,6 +132,7 @@ func regular_door():
 		if node.name.contains( "o_door_" ) and node is Marker2D:
 			## TODO code to convert stuff.
 			pass
+	convert_door = false
 	
 func collision():
 	print("starting collision convertion...")
@@ -229,6 +231,7 @@ func collision():
 			n.queue_free()
 		semi_col_nodes.clear()
 		
+	convert_collision = false
 	print("Task done.")
 	print_rich("[color=pink] Warning nodes are %s.[/color]" % str(warn_nodes) )
 
@@ -270,6 +273,7 @@ func cinemaspot():
 		c_spot.global_position = n_pos
 		changes += 1
 		
+	convert_cinema_spots = false
 	print("Finished. %s changes made." % str(changes) )
 
 func fuck_around_with_nodes():

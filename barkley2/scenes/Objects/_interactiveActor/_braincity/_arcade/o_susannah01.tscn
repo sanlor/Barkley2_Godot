@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://is4vndtwjx2"]
+
+[ext_resource type="Script" uid="uid://546ugy8o1mub" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_arcade/o_susannah01.gd" id="1_a81fg"]
+[ext_resource type="Texture2D" uid="uid://brey4d6r1p7k1" path="res://barkley2/assets/b2_original/images/merged/s_susannahStand01.png" id="2_2vq7f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1csdu"]
+atlas = ExtResource("2_2vq7f")
+region = Rect2(0, 0, 42, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwkc5"]
+atlas = ExtResource("2_2vq7f")
+region = Rect2(42, 0, 42, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ixwe1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1csdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwkc5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a81fg"]
+radius = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l2mnj"]
+size = Vector2(41, 52)
+
+[node name="o_susannah01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_a81fg")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ixwe1")
+centered = false
+offset = Vector2(-19, -55)
+metadata/default = {
+"bbox_bottom": "60",
+"bbox_left": "2",
+"bbox_right": "40",
+"bbox_top": "3",
+"frames": ["images\\s_susannahStand01_0.png", "images\\s_susannahStand01_1.png"],
+"height": "64",
+"name": "s_susannahStand01",
+"width": "42",
+"xorig": "19",
+"yorigin": "55"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_a81fg")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, -8)
+shape = SubResource("RectangleShape2D_l2mnj")

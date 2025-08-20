@@ -1,0 +1,93 @@
+[gd_scene load_steps=5 format=3 uid="uid://bmdl1mx16vjl1"]
+
+[ext_resource type="Script" uid="uid://nleiwgcineo2" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_arcade/o_pelekryte_observatory_01.gd" id="1_ol2gl"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2fmmq"]
+
+[sub_resource type="Resource" id="Resource_lsmki"]
+script = ExtResource("2_2fmmq")
+original_script = "QUEST  | peleScope = 1
+IF peleStarState == 0 | GOTO | MEETING
+IF peleStarState == 1 | GOTO | MINIGAME
+
+MEETING
+WAIT   | 0.25
+SURPRISEAT | o_pelekryte01
+Emote  | !
+DIALOG | P_NAME = s_port_hoopzShock | Clisp almighty!
+FRAME  | CAMERA_NORMAL | o_pelekryte01
+WAIT   | 0.5
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_pelekryte01
+WAIT   | 0.25
+DIALOG | P_NAME = s_port_hoopzHappy | Mr. Pelekryte!_ Wowzers!_ So you made it after all. I thought you were a goner for sure.
+DIALOG | Dr. Pelekryte | Ah, it'sh you! The youngshter who `sq`helped me eshcape Tir na nog!`rt`_ I'm forever in your debt, my friend!
+DIALOG | P_NAME        | What happened to you? One moment you were there, doing the `sq`Indian Rope Trick,`rt` and then all of a sudden you had disappeared into a hole in the wall.
+DIALOG | Dr. Pelekryte | Ah, it'sh a long shtory. Shorry about leaving you behind, youngshter. I had no idea the rope had shuch velocity. It shot me all the way through the shervice tunnel in a matter of shecondsh.
+DIALOG | P_NAME        | Oh, it's fine. I made it out of Tir na nog on my own anyway.
+DIALOG | Dr. Pelekryte | Hah, indeed you did. Anyway, ash I wash shaying, the rope carried me all the way through the shervice tunnel and then I found myshelf in the `kw`Weshtelandsh.`rt` What followed wash one tribulation after another, but with shome persheverance and a lot of good luck I made it to Braincity. 
+DIALOG | P_NAME        | Whoa! That's so dope, dude.
+DIALOG | Dr. Pelekryte | Yesh, it's dope ash shit! 
+DIALOG | P_NAME        | So I see you finally got back to astronomy. Is this your `sq`observatory?`rt`
+DIALOG | Dr. Pelekryte | Thish ish the one and only `sq`Braincity Obshervatory.`rt`_ Uh, actually to be totally honesht with you, it'sh not much of anything yet. Jusht look at all thish shtuff I shtill need to short out. But I'm hopeful that with shome time and effort I'll make thish into a bashtion of knowledge.
+DIALOG | P_NAME        | Yeah, it's a real pigsty in here. No offense.
+DIALOG | Dr. Pelekryte | None taken, youngshter.
+DIALOG | P_NAME        | Hey, mind if I take a peek at the stars?
+DIALOG | Dr. Pelekryte | You can't. Well, not quite yet anyway. You shee that thing needsh a bit of maintenance to put it lightly. Uh, you wouldn't mind helping me out with the `sq`teleshcope?`rt` I know you've already done sho much for me, but I'm a shitty, decrepit old man. I can't do thish on my own.
+CHOICE | Agree to fix the telescope?
+REPLY  | FIX_YAY | Yeah, sure!
+REPLY  | FIX_NAY | No!
+
+FIX_YAY
+DIALOG | P_NAME        | Okay, I guess I can help a bit. What exactly do you need me to do?
+DIALOG | Dr. Pelekryte | Oh that'sh great newsh! Yeah, sho ash you can shee all the neceshshary partsh are shtrewn about the would-be obshervatory. If you could, pleashe help me shet them in their proper placesh.
+DIALOG | P_NAME        | Alright. How do I know which thing goes where?
+DIALOG | Dr. Pelekryte | Let'sh do it like thish: you pick up an inshtrument you want to know about, and I'll tell you where it'sh shupposhed to go. Then you shimply put it in it'sh place.
+DIALOG | P_NAME        | Okay, sounds easy enough. Here we go...
+QUEST  | peleStarState = 1
+QUEST  | peleScope = 0
+
+FIX_NAY
+DIALOG | P_NAME        | Sorry but I've got other things to do.
+DIALOG | Dr. Pelekryte | Oh that'sh quite alright. Maybe shome other time then?
+DIALOG | P_NAME        | Yeah, I might come back here later. Good luck, and stay frosty.
+DIALOG | Dr. Pelekryte | Thanksh!
+QUEST  | peleStarState = 2
+QUEST  | peleScope = 0
+
+MINIGAME
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_pelekryte01
+WAIT   | 0
+LOOKAT | o_cts_hoopz   | o_pelekryte01
+DIALOG | Dr. Pelekryte | Hey, are you leaving already? What about the telescope?
+CHOICE | Abort the minigame?
+REPLY  | MINIGAME_YAY | Yes!
+REPLY  | MINIGAME_NAY | No!
+
+MINIGAME_YAY
+DIALOG | P_NAME        | Hey, nothing personal, but I've got places to be, people to see._ I'll drop by later.
+DIALOG | Dr. Pelekryte | O-oh...
+QUEST  | peleStarState = 2
+QUEST  | peleScope = 0
+
+MINIGAME_NAY
+DIALOG | P_NAME        | I wasn't going to bail out on you, Mr. Pelekryte. I was just looking at this conundrum from a different angle, that's all.
+DIALOG | Dr. Pelekryte | Oh, I see.
+MOVETO | o_cts_hoopz   | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+QUEST  | peleScope = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ely0y"]
+size = Vector2(55, 20)
+
+[node name="o_pelekryte_observatory01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_ol2gl")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_lsmki")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_ely0y")
+debug_color = Color(0.59652233, 0.54541934, 0, 0.25490198)

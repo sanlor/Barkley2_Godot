@@ -13,7 +13,7 @@ var _active = true;
 # True if you can interact with this event.
 @export var is_interactive 								:= true;
 @export var interactive_timer 							:= 0.0;
-@export_file("*.material") var interactive_shader		:= "res://barkley2/resources/shaders/selected_outline.material"
+@export_file("*.material") var interactive_shader		:= "uid://cf0ojjtgkt2y8" # <- selected_outline.material
 
 @export_category("Mouse")
 @export var mouse_detection_area 		: Area2D

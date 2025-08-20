@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://qbgmvdc8fn1n"]
+
+[ext_resource type="Texture2D" uid="uid://de8fe00qa8os" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner01.png" id="1_1nakt"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_u6184"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_786du"]
+atlas = ExtResource("1_1nakt")
+region = Rect2(0, 0, 35, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_becxv"]
+atlas = ExtResource("1_1nakt")
+region = Rect2(35, 0, 35, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tti14"]
+atlas = ExtResource("1_1nakt")
+region = Rect2(70, 0, 35, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxvi1"]
+atlas = ExtResource("1_1nakt")
+region = Rect2(105, 0, 35, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qd5uv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_786du")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_becxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tti14")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxvi1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4aja8"]
+radius = 12.0
+
+[node name="o_bct_bitcoiner01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_qd5uv")
+frame = 3
+centered = false
+offset = Vector2(-17, -47)
+script = ExtResource("2_u6184")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "4",
+"bbox_right": "30",
+"bbox_top": "28",
+"height": "48",
+"name": "s_bct_bitcoiner01",
+"width": "35",
+"xorig": "17",
+"yorigin": "47"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_4aja8")

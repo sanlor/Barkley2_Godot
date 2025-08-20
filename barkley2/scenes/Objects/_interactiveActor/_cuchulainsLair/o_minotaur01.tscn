@@ -1,0 +1,127 @@
+[gd_scene load_steps=11 format=3 uid="uid://i3mfcgvsnjtq"]
+
+[ext_resource type="Script" uid="uid://0mpxksyj2bek" path="res://barkley2/scenes/Objects/_interactiveActor/_cuchulainsLair/o_minotaur01.gd" id="1_vgrb0"]
+[ext_resource type="Texture2D" uid="uid://bxja7xd7j42wn" path="res://barkley2/assets/b2_original/images/merged/s_minotaur01.png" id="2_ije1q"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="3_ije1q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmac8"]
+atlas = ExtResource("2_ije1q")
+region = Rect2(132, 0, 132, 101)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fr3yv"]
+atlas = ExtResource("2_ije1q")
+region = Rect2(0, 0, 132, 101)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iog27"]
+atlas = ExtResource("2_ije1q")
+region = Rect2(0, 0, 132, 101)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnwkb"]
+atlas = ExtResource("2_ije1q")
+region = Rect2(132, 0, 132, 101)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uwfhm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmac8")
+}],
+"loop": true,
+"name": &"bearMarket",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fr3yv")
+}],
+"loop": true,
+"name": &"bullMarket",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iog27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnwkb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vmac8"]
+radius = 17.0
+height = 86.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvjfa"]
+size = Vector2(111, 90)
+
+[node name="o_minotaur01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vgrb0")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_uwfhm")
+animation = &"bullMarket"
+centered = false
+offset = Vector2(-65, -86)
+metadata/default = {
+"bbox_bottom": "100",
+"bbox_left": "0",
+"bbox_right": "131",
+"bbox_top": "0",
+"frames": ["images\\s_minotaur01_0.png", "images\\s_minotaur01_1.png"],
+"height": "101",
+"name": "s_minotaur01",
+"width": "132",
+"xorig": "65",
+"yorigin": "86"
+}
+metadata/bullMarket = {
+"bbox_bottom": "100",
+"bbox_left": "0",
+"bbox_right": "131",
+"bbox_top": "0",
+"frames": ["images\\s_minotaur01_0.png", "images\\s_minotaur01_1.png"],
+"height": "101",
+"name": "s_minotaur01",
+"width": "132",
+"xorig": "65",
+"yorigin": "86"
+}
+metadata/bearMarket = {
+"bbox_bottom": "100",
+"bbox_left": "0",
+"bbox_right": "131",
+"bbox_top": "0",
+"frames": ["images\\s_minotaur01_0.png", "images\\s_minotaur01_1.png"],
+"height": "101",
+"name": "s_minotaur01",
+"width": "132",
+"xorig": "65",
+"yorigin": "86"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_vmac8")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-2.5, -27)
+shape = SubResource("RectangleShape2D_rvjfa")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+position = Vector2(0, -38)
+script = ExtResource("3_ije1q")
+notes = "Cool Actor. Related to those \"stock tickers\" in the main menu."
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
