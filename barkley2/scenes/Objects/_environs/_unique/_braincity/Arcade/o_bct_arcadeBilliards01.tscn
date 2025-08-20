@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://1lkgukry7p5j"]
+[gd_scene load_steps=7 format=3 uid="uid://1lkgukry7p5j"]
 
 [ext_resource type="Texture2D" uid="uid://bqv2rwtua1fcp" path="res://barkley2/assets/b2_original/images/merged/s_bct_arcadeBilliards01.png" id="1_12dd5"]
 [ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_iso35"]
+[ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="3_iso35"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xipsu"]
 atlas = ExtResource("1_12dd5")
@@ -43,3 +44,8 @@ metadata/default = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource("CircleShape2D_wt6iq")
+
+[node name="o_Shadow" parent="." instance=ExtResource("3_iso35")]
+z_index = -1
+position = Vector2(0, 16)
+scale = Vector2(1.5, 0.75)

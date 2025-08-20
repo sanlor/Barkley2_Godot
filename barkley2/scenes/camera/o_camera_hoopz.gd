@@ -20,7 +20,7 @@ var debug_data: Label
 
 @export var speed_slow 			:= 3.5
 @export var speed_normal 		:= 5.0
-@export var speed_fast 			:= 7.5
+@export var speed_fast 			:= 8.5
 @export var camera_follow_speed := 750.0 # Speed that the camera follows the mouse.
 
 var speed := speed_normal
@@ -131,8 +131,8 @@ func cinema_frame( _destination : Vector2, _speed : String ):
 	# move torward the target
 	var tween := create_tween()
 	tween.set_parallel(true)
-	tween.tween_property( self, "position", 	_destination, 	speed / 30)
-	tween.tween_property( self, "offset", 		Vector2(0,20), 	speed / 30 )
+	tween.tween_property( self, "position", 	_destination, 	speed / 30).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property( self, "offset", 		Vector2(0,20), 	speed / 30 ).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
 	await tween.finished
 	zoom = Vector2.ONE
 	return 

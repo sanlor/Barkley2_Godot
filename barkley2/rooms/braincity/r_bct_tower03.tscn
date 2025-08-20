@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=4 uid="uid://dsbmn5xoki26j"]
+[gd_scene load_steps=147 format=4 uid="uid://dsbmn5xoki26j"]
 
 [ext_resource type="Script" uid="uid://g1fbax3mroyf" path="res://barkley2/rooms/braincity/r_bct_tower_03.gd" id="1_s7p2w"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_pvpf3"]
@@ -60,6 +60,7 @@
 [ext_resource type="Texture2D" uid="uid://cljw7cqyhsu6e" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner03.png" id="61_y5b6h"]
 [ext_resource type="PackedScene" uid="uid://fi0lg06tya0t" path="res://barkley2/scenes/Objects/_environs/_unique/_braincity/Arcade/o_bct_bitcoiner04.tscn" id="62_cxdxe"]
 [ext_resource type="Texture2D" uid="uid://dqfnyvyxhtw42" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner04.png" id="63_28rdf"]
+[ext_resource type="PackedScene" uid="uid://r5hcfnldats0" path="res://barkley2/scenes/Objects/_doors/_warp/o_bct_warp.tscn" id="63_g2por"]
 [ext_resource type="PackedScene" uid="uid://b7afr115sxiwj" path="res://barkley2/scenes/Objects/_environs/_unique/_braincity/Arcade/o_bct_bitcoiner05.tscn" id="64_1bi7x"]
 [ext_resource type="Texture2D" uid="uid://gwr3borsqmqv" path="res://barkley2/assets/b2_original/images/merged/s_bct_bitcoiner05.png" id="65_pkr1a"]
 
@@ -1274,6 +1275,96 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_g2por"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 351.0 1315.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_grd_down
+	FRAME  | CAMERA_FAST | o_bct_warp_grd_down
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 160.0 952.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
+[sub_resource type="Resource" id="Resource_j8td0"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 160.0 916.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_bsm_up
+	FRAME  | CAMERA_FAST | o_bct_warp_bsm_up
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 351.0 1351.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
+[sub_resource type="Resource" id="Resource_fja5j"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 350.0 916.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_1_down
+	FRAME  | CAMERA_FAST | o_bct_warp_1_down
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 160.0 551.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
+[sub_resource type="Resource" id="Resource_0bc54"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 160.0 515.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_grd_up
+	FRAME  | CAMERA_FAST | o_bct_warp_grd_up
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 350.0 952.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
+[sub_resource type="Resource" id="Resource_iprgu"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 349.0 515.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_2_down
+	FRAME  | CAMERA_FAST | o_bct_warp_2_down
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 159.0 152.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
+[sub_resource type="Resource" id="Resource_celu7"]
+script = ExtResource("24_ks3m3")
+original_script = "MOVETO | o_cts_hoopz | 159.0 116.0 | MOVE_NORMAL
+	WAIT   | 0
+	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+	WAIT   | 0
+	Misc   | set | o_cts_hoopz | o_bct_warp_1_up
+	FRAME  | CAMERA_FAST | o_bct_warp_1_up
+	WAIT   | 2            
+	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+	WAIT   | 0
+	MOVETO | o_cts_hoopz | 349.0 551.0 | MOVE_NORMAL
+	WAIT   | 0
+	LOOK   | o_cts_hoopz | SOUTH"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
 atlas = ExtResource("20_7t7bh")
 region = Rect2(0, 0, 16, 16)
@@ -1776,6 +1867,42 @@ teleport_destination = "r_bct_bridge01, 80, 204"
 metadata/code = "RoomXY(r_bct_bridge01, 80, 204);"
 metadata/inst_name = "inst_3939972D"
 metadata/scale = Vector2(1, 2)
+
+[node name="o_bct_warp_bsm_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(351, 1315)
+warp_destination = NodePath("../o_bct_warp_grd_down")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_g2por")
+
+[node name="o_bct_warp_grd_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(160, 916)
+warp_destination = NodePath("../o_bct_warp_bsm_up")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_j8td0")
+
+[node name="o_bct_warp_grd_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(350, 916)
+warp_destination = NodePath("../o_bct_warp_1_down")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_fja5j")
+
+[node name="o_bct_warp_1_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(160, 515)
+warp_destination = NodePath("../o_bct_warp_grd_up")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_0bc54")
+
+[node name="o_bct_warp_1_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(349, 515)
+warp_destination = NodePath("../o_bct_warp_2_down")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_iprgu")
+
+[node name="o_bct_warp_2_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("63_g2por")]
+position = Vector2(159, 116)
+warp_destination = NodePath("../o_bct_warp_1_up")
+exit_point = Vector2(0, 36)
+cutscene_script = SubResource("Resource_celu7")
 
 [node name="o_teleport_mark" parent="." instance=ExtResource("19_omyyl")]
 position = Vector2(102, 1032)

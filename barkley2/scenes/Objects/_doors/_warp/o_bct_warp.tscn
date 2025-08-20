@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://r5hcfnldats0"]
+
+[ext_resource type="Script" uid="uid://dvtutqnfv1vsl" path="res://barkley2/scenes/Objects/_doors/_warp/o_bct_warp.gd" id="1_ncjab"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2oq4f"]
+
+[sub_resource type="Resource" id="Resource_o5lal"]
+script = ExtResource("2_2oq4f")
+original_script = "TELEPORTERO
+QUEST  | bct_teleport = 1
+MOVETO | o_cts_hoopz | oBCTWarpA | MOVE_NORMAL
+WAIT   | 0
+PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+WAIT   | 0
+Misc   | set | o_cts_hoopz | o_cinema_b2  
+//Misc   | set | o_hoopz | o_cinema_b2     
+WAIT   | 2            
+PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema_b | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+QUEST  | bct_teleport = 0
+EVENT  | oBCTWarpA | 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ncjab"]
+radius = 16.0
+
+[node name="o_bct_warp" type="Area2D"]
+z_index = 4096
+script = ExtResource("1_ncjab")
+exit_point = Vector2(0, 32)
+cutscene_script = SubResource("Resource_o5lal")
+
+[node name="warp_col" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ncjab")
+debug_color = Color(0, 0.6, 0.69803923, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
