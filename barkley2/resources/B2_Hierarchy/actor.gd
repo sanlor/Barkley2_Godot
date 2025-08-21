@@ -496,6 +496,7 @@ func _physics_process( _delta: float ) -> void:
 		if ActorNav.is_navigation_finished():
 			playing_animation = ""
 			return
+		
 		#print( speed * speed_multiplier / Engine.time_scale )
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
 		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / lerpf(1.0, Engine.time_scale, 0.25) ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
@@ -504,10 +505,9 @@ func _physics_process( _delta: float ) -> void:
 		real_movement_vector 	= position.direction_to( next_path_position )
 		movement_vector 		= real_movement_vector.round()
 		
-		if ActorNav.avoidance_enabled:
-			ActorNav.set_velocity(new_velocity)
-		else:
-			_on_velocity_computed(new_velocity)
+		if ActorNav.avoidance_enabled:			ActorNav.set_velocity(new_velocity)
+		else:									_on_velocity_computed(new_velocity)
+			
 		
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity

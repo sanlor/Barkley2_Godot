@@ -3,10 +3,12 @@ extends B2_Environ
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
+
+@export var is_cyborg			:= false
 @onready var gossip_detection: Area2D = $gossip_detection
 @onready var gossip_timer: Timer = $GossipTimer
 
-
+var anim				:= "default"
 var gossip_pool 		:= []
 var ped_can_gossip 		:= true
 var gossip_area 		:= 0
@@ -14,17 +16,22 @@ var my_gossip 			:= 0
 var ped_timer 			:= 55.0
 
 func _ready() -> void:
-	# Quest vars
-	## Not allowed to exist during gov speech or gutter escape ##
-	if B2_Playerdata.Quest("govSpeechInitiate") == 2:
-		queue_free()
-	if B2_Playerdata.Quest("gutterEscape") == 1:
-		queue_free()
-	## Disable during TNN CURFEW ##
-	# Curfew not implemented TODO
+	if is_cyborg:
+		anim = "cyborg"
+		
+	# Quest vars (TNN only)
 	if get_parent() is B2_ROOMS:
 		var room : B2_ROOMS = get_parent()
-		if B2_Database.time_check("tnnCurfew") == "during" && room.get_room_area() == "tnn": queue_free()
+		if room.get_room_area() == "tnn":
+			## Not allowed to exist during gov speech or gutter escape ##
+			if B2_Playerdata.Quest("govSpeechInitiate") == 2:
+				queue_free()
+			if B2_Playerdata.Quest("gutterEscape") == 1:
+				queue_free()
+			## Disable during TNN CURFEW ##
+			# Curfew not implemented TODO
+			if B2_Database.time_check("tnnCurfew") == "during" && room.get_room_area() == "tnn":
+				queue_free()
 	else:
 		push_error("Issue loading Ped. %s %s " % [get_parent(), get_parent().name])
 		breakpoint
@@ -35,6 +42,7 @@ func _ready() -> void:
 	
 	my_gossip = randi_range(0,9)
 	
+	_set_area()
 	change_costume()
 	
 	gossip_pool.resize( 8 )
@@ -130,8 +138,25 @@ func _ready() -> void:
 	gossip_pool[7][8] = "Knowledge is power";
 	gossip_pool[7][9] = "Sepideh's machine will save us all";
 	
+func _set_area() -> void:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		var area_name := room.get_room_area()
+		var room_name := room.get_room_name()
+		if area_name == "tnn": 			gossip_area = 0;
+		elif area_name == "bct": 		gossip_area = 1;
+		elif area_name == "ala": 		gossip_area = 2; 
+		elif area_name == "pdt": 		gossip_area = 3;
+		elif area_name == "tri": 
+			gossip_area = 4
+			if room_name == "r_tri_bar01": 		gossip_area = 5;
+			if room_name == "r_tri_ghetto01": 	gossip_area = 6;
+		elif area_name == "wst":  		gossip_area = 7;
+		else: 							gossip_area = 0;
+	
 func change_costume():
-	frame = randi_range(0, sprite_frames.get_frame_count("default") - 1 )
+	animation = anim
+	frame = randi_range(0, sprite_frames.get_frame_count(anim) - 1 )
 
 func _on_gossip_detection_body_entered(body: Node2D) -> void:
 	if gossip_timer.is_stopped():

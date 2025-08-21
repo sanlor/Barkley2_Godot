@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://blhak37p085nd"]
+
+[ext_resource type="Script" uid="uid://npgorugawd1j" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_bct_neneDrunk01.gd" id="1_bh1k3"]
+[ext_resource type="Texture2D" uid="uid://bh18tol53hlpk" path="res://barkley2/assets/b2_original/images/merged/s_neneDrunk01.png" id="2_h5voe"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_igdf1"]
+
+[sub_resource type="Resource" id="Resource_eec7v"]
+script = ExtResource("2_igdf1")
+original_script = "DIALOG | Nene | ... `w1`*Hic*...`10` Hey, don't... know you?_ Marcus, right? Heeeeyyyy... 
+WAIT   | 1
+DIALOG | Nene | ... Can... a few shekels?_ I... `w1`*Hic*`w0` need that 2%..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igdf1"]
+atlas = ExtResource("2_h5voe")
+region = Rect2(0, 0, 34, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eec7v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igdf1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xl5sn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xl5sn"]
+size = Vector2(20, 36)
+
+[node name="o_bct_neneDrunk01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_bh1k3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_eec7v")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_eec7v")
+centered = false
+offset = Vector2(-21, -39)
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "0",
+"frames": ["images\\s_neneDrunk01_0.png"],
+"height": "47",
+"name": "s_neneDrunk01",
+"width": "34",
+"xorig": "21",
+"yorigin": "39"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xl5sn")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_xl5sn")

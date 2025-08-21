@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://buptc6xfysoef"]
+
+[ext_resource type="Script" uid="uid://c6160lyu2eb3w" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_heimdal01.gd" id="1_k75dh"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hxb7g"]
+[ext_resource type="Texture2D" uid="uid://b3vv456ux1vq" path="res://barkley2/assets/b2_original/images/merged/s_heimdal01.png" id="2_hyd4h"]
+
+[sub_resource type="Resource" id="Resource_0wpk2"]
+script = ExtResource("2_hxb7g")
+original_script = "IF heidalState == 4 | GOTO  | HEIMDALRAPBATTLE
+IF heimdalState == 2 | GOTO | HEIMDAL02
+IF heimdalState == 1 | GOTO | HEIMDAL01
+IF heimdalState == 0 | GOTO | HEIMDAL00
+
+HEIMDAL02
+DIALOG | Heimdal | I'm not long for this world. Self destruct initiated.
+ClockTime | event | heimdalState | 3 | 15
+EXIT |
+
+HEIMDAL01
+DIALOG | Heimdal | Greetings for a second time.
+QUEST  | heimdalState = 2
+
+HEIMDAL00
+DIALOG | Heimdal | Greetings.
+QUEST  | heimdalState = 1
+
+HEIMDALRAPBATTLE
+DIALOG | Heimdal | Let's go.
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxb7g"]
+atlas = ExtResource("2_hyd4h")
+region = Rect2(0, 0, 53, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0wpk2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxb7g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a5wvv"]
+radius = 15.033297
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a5wvv"]
+size = Vector2(39, 56)
+
+[node name="o_heimdal01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_k75dh")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_0wpk2")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0wpk2")
+centered = false
+offset = Vector2(-27, -45)
+metadata/default = {
+"bbox_bottom": "55",
+"bbox_left": "7",
+"bbox_right": "47",
+"bbox_top": "38",
+"frames": ["images\\s_heimdal01_0.png"],
+"height": "56",
+"name": "s_heimdal01",
+"width": "53",
+"xorig": "27",
+"yorigin": "45"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(2, -3)
+shape = SubResource("CircleShape2D_a5wvv")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, -17)
+shape = SubResource("RectangleShape2D_a5wvv")

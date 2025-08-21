@@ -32,7 +32,8 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_shop			:= true
 @export var print_comments		:= false
 
-@export var print_line_report 	:= true ## details about the current script line.
+## Enable this to know what script line is being executed.
+@export var print_line_report 	:= false ## details about the current script line.
 
 @export_category("Cinema Config")
 @export var async_camera_move 	:= false ## Script does not wait for the movement to finish if this is enabled.
@@ -101,6 +102,7 @@ func get_camera_on_tree() -> Camera2D:
 		return B2_CManager.camera
 	
 	# No camera loaded. Create a new one
+	push_warning("No camera loaded. Create a new one")
 	var _cam := B2_Camera_Hoopz.new()
 	_cam.name = "cinema_created_camera"
 	B2_CManager.camera = _cam
@@ -267,7 +269,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		#await camera.cinema_frame( 	init_frame_target, "CAMERA_SLOW" ) 	# sync movement
 	#else:
 		#camera.cinema_frame( 		init_frame_target, "CAMERA_SLOW" ) 	# async movement
-	camera.follow_actor( [ B2_CManager.o_cts_hoopz ], "CAMERA_NORMAL" )
+	
+	camera.follow_actor( [ B2_CManager.o_cts_hoopz ], "CAMERA_SLOW" )
 	
 	# this should be here?
 	update_pathfinding()

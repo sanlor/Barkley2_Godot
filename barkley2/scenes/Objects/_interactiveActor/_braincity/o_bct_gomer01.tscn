@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://245aerk0pxro"]
+
+[ext_resource type="Script" uid="uid://70y3gxvgcb34" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_bct_gomer01.gd" id="1_76qyl"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_koecy"]
+[ext_resource type="Texture2D" uid="uid://ccilx2hm2sllf" path="res://barkley2/assets/b2_original/images/merged/s_gomer01.png" id="2_xra60"]
+
+[sub_resource type="Resource" id="Resource_hr5f7"]
+script = ExtResource("2_koecy")
+original_script = "IF gomerState == 0 | GOTO | GOMER_0
+IF gomerState == 1 | GOTO | GOMER_1
+
+GOMER_0
+DIALOG | Gomer | The first thing I'm gonna do when I win the lottery is buy a car. 
+DIALOG | Gomer | The second thing I'm gonna do is buy a bumper sticker that says `w1`/'baby on board./'`w0`
+QUEST  | gomerState = 1
+
+DIALOG | Gomer | Truth is, I already have the bumper sticker.
+QUEST  | gomerState = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_koecy"]
+atlas = ExtResource("2_xra60")
+region = Rect2(0, 0, 29, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hr5f7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_koecy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qunae"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qunae"]
+size = Vector2(20, 36)
+
+[node name="o_bct_gomer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_76qyl")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_hr5f7")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_hr5f7")
+centered = false
+offset = Vector2(-14, -36)
+metadata/default = {
+"bbox_bottom": "39",
+"bbox_left": "0",
+"bbox_right": "27",
+"bbox_top": "25",
+"frames": ["images\\s_gomer01_0.png"],
+"height": "41",
+"name": "s_gomer01",
+"width": "29",
+"xorig": "14",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_qunae")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_qunae")

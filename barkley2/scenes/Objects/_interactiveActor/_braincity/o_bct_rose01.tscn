@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://cexybjyq7mh5y"]
+
+[ext_resource type="Script" uid="uid://beo0eo4h3cb25" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_bct_rose01.gd" id="1_f0tjw"]
+[ext_resource type="Texture2D" uid="uid://cxqt5ugy6iryc" path="res://barkley2/assets/b2_original/images/merged/s_bct_rose01.png" id="2_svti2"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_wjju0"]
+
+[sub_resource type="Resource" id="Resource_y6v0u"]
+script = ExtResource("2_wjju0")
+original_script = "DIALOG | Rose | `w1`*Hic*`w0`"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjju0"]
+atlas = ExtResource("2_svti2")
+region = Rect2(0, 0, 25, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y6v0u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjju0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nrg8q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrg8q"]
+size = Vector2(20, 36)
+
+[node name="o_bct_rose01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_f0tjw")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_y6v0u")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_y6v0u")
+centered = false
+offset = Vector2(-13, -38)
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "24",
+"bbox_top": "0",
+"frames": ["images\\s_bct_rose01_0.png"],
+"height": "42",
+"name": "s_bct_rose01",
+"width": "25",
+"xorig": "13",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_nrg8q")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_nrg8q")

@@ -4,17 +4,18 @@ extends Area2D
 class_name B2_BrainWarp
 ## Node used for the BrainCity Warp. Very different from the original.
 
+enum DIRECTION{UP, DOWN}
 const FN_SMALL = preload("uid://c5asr1c5g1w6h")
 
 @onready var warp_col: CollisionShape2D = $warp_col
 
 @export_category("Warp setup")
 @export var warp_destination : B2_BrainWarp
-@export var warp_radius := 16.0 :
+@export var warp_radius := 8.0 :
 	set(w):
 		warp_radius = w
 		_update_radius()
-
+@export var stair_direction := DIRECTION.DOWN
 @export_tool_button("Connect Warp") var c : Callable = _connect_warp
 @export var exit_point 	:= Vector2( 0, 36 )
 @export_tool_button("Flip exit point") var f : Callable = func(): exit_point *= -1; queue_redraw()
@@ -32,7 +33,8 @@ func _enter_tree() -> void:
 	_setup_warp_cutscene()
 
 func _update_radius() -> void:
-	warp_col.shape.radius = warp_radius
+	if warp_col:
+		warp_col.shape.radius = warp_radius
 	queue_redraw()
 
 ## Update graphics and setup warp.
@@ -44,23 +46,46 @@ func _connect_warp() -> void:
 
 func _setup_warp_cutscene() -> void:
 	if not warp_destination:
-		push_error("No warp destination. Fix this.")
+		push_error("No warp destination (%s). Fix this." % name)
 		breakpoint
 		
-	var script := \
-	"MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
-	WAIT   | 0
-	PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
-	WAIT   | 0
-	Misc   | set | o_cts_hoopz | %s
-	FRAME  | CAMERA_FAST | %s
-	WAIT   | 2            
-	PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
-	WAIT   | 0
-	MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
-	WAIT   | 0
-	LOOK   | o_cts_hoopz | SOUTH" % [global_position.x, global_position.y, warp_destination.name, warp_destination.name, warp_destination.get_exit_point().x, warp_destination.get_exit_point().y]
-	_set_new_cinemascript( script )
+	match stair_direction:
+		DIRECTION.UP:
+			var script := \
+			"MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_up | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | %s
+			FRAME  | CAMERA_FAST | %s
+			WAIT   | 2     
+			PLAYSET | o_cts_hoopz | stairs_exit_up | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0" % [global_position.x, global_position.y, warp_destination.name, warp_destination.name, warp_destination.get_exit_point().x, warp_destination.get_exit_point().y]
+			_set_new_cinemascript( script )
+		DIRECTION.DOWN:
+			var script := \
+			"MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | %s
+			FRAME  | CAMERA_FAST | %s
+			WAIT   | 2            
+			PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | %s %s | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0" % [global_position.x, global_position.y, warp_destination.name, warp_destination.name, warp_destination.get_exit_point().x, warp_destination.get_exit_point().y]
+			_set_new_cinemascript( script )
+		_:
+			breakpoint
 
 func _set_new_cinemascript( script_text : String ) -> void:
 	var scr := B2_Script_Legacy.new()

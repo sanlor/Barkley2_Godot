@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=3 uid="uid://cb6n5ouoqd1xe"]
+
+[ext_resource type="Script" uid="uid://27r1qq1snviy" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_zionDJ01.gd" id="1_dgt1d"]
+[ext_resource type="Texture2D" uid="uid://c8dxiwve8wa3w" path="res://barkley2/assets/b2_original/images/merged/s_bootySlayer01.png" id="2_qdu83"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0g6b3"]
+atlas = ExtResource("2_qdu83")
+region = Rect2(0, 0, 52, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ytnmw"]
+atlas = ExtResource("2_qdu83")
+region = Rect2(52, 0, 52, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04lea"]
+atlas = ExtResource("2_qdu83")
+region = Rect2(104, 0, 52, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htgji"]
+atlas = ExtResource("2_qdu83")
+region = Rect2(156, 0, 52, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7judr"]
+atlas = ExtResource("2_qdu83")
+region = Rect2(208, 0, 52, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gphar"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0g6b3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ytnmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04lea")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htgji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7judr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dgt1d"]
+size = Vector2(36, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c116"]
+size = Vector2(35, 36)
+
+[node name="o_zionDJ01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_dgt1d")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_gphar")
+autoplay = "default"
+frame_progress = 0.042995397
+centered = false
+offset = Vector2(-25, -51)
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "10",
+"bbox_right": "40",
+"bbox_top": "34",
+"frames": ["images\\s_bootySlayer01_0.png", "images\\s_bootySlayer01_1.png", "images\\s_bootySlayer01_2.png", "images\\s_bootySlayer01_3.png", "images\\s_bootySlayer01_4.png"],
+"height": "64",
+"name": "s_bootySlayer01",
+"width": "52",
+"xorig": "25",
+"yorigin": "51"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dgt1d")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, -16)
+shape = SubResource("RectangleShape2D_4c116")

@@ -1,6 +1,6 @@
-[gd_scene load_steps=49 format=4 uid="uid://d0ghe7s5130ru"]
+[gd_scene load_steps=52 format=4 uid="uid://d0ghe7s5130ru"]
 
-[ext_resource type="Script" uid="uid://bvfigbkdlawg1" path="res://barkley2/resources/rooms/B2_rooms.gd" id="1_qstuv"]
+[ext_resource type="Script" uid="uid://bq0ccqq2e4yxn" path="res://barkley2/rooms/braincity/r_bct_tower_01.gd" id="1_234wp"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_3dr0s"]
 [ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="3_k6ks2"]
 [ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="4_2o2te"]
@@ -15,16 +15,13 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="13_dvnpo"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="14_40juc"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="15_jgp5d"]
-[ext_resource type="Script" uid="uid://bhusgslc37kdp" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.gd" id="16_5bs2b"]
 [ext_resource type="PackedScene" uid="uid://bnxoqmiv12gk8" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn" id="17_mpxgh"]
-[ext_resource type="Script" uid="uid://oghgupw4syu7" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.gd" id="18_rouya"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="19_a24te"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="20_75gs4"]
-[ext_resource type="Script" uid="uid://cpkg6sx0wyg20" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.gd" id="21_ffi2x"]
+[ext_resource type="PackedScene" uid="uid://r5hcfnldats0" path="res://barkley2/scenes/Objects/_doors/_warp/o_bct_warp.tscn" id="21_234wp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="22_73x5f"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="22_bsppy"]
 [ext_resource type="PackedScene" uid="uid://4njejlpu64xb" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.tscn" id="23_fhbct"]
-[ext_resource type="Texture2D" uid="uid://dghken2xfn3g5" path="res://barkley2/assets/b2_original/images/merged/s_manhole.png" id="24_nn3wv"]
-[ext_resource type="Script" uid="uid://dfa7foid4lml3" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.gd" id="25_tquwp"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_w6xau"]
 
@@ -1233,6 +1230,108 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_234wp"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 352.0 1330.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_up | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_grd_down
+			FRAME  | CAMERA_FAST | o_bct_warp_grd_down
+			WAIT   | 2     
+			PLAYSET | o_cts_hoopz | stairs_exit_up | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 160.0 965.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
+[sub_resource type="Resource" id="Resource_73x5f"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 160.0 933.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_bsm_up
+			FRAME  | CAMERA_FAST | o_bct_warp_bsm_up
+			WAIT   | 2            
+			PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 352.0 1362.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
+[sub_resource type="Resource" id="Resource_b25oq"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 352.0 932.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_up | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_1_down
+			FRAME  | CAMERA_FAST | o_bct_warp_1_down
+			WAIT   | 2     
+			PLAYSET | o_cts_hoopz | stairs_exit_up | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 160.0 565.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
+[sub_resource type="Resource" id="Resource_xvbld"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 160.0 533.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_grd_up
+			FRAME  | CAMERA_FAST | o_bct_warp_grd_up
+			WAIT   | 2            
+			PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 352.0 964.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
+[sub_resource type="Resource" id="Resource_c1j3v"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 352.0 532.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_up | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_2_down
+			FRAME  | CAMERA_FAST | o_bct_warp_2_down
+			WAIT   | 2     
+			PLAYSET | o_cts_hoopz | stairs_exit_up | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 160.0 165.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
+[sub_resource type="Resource" id="Resource_0qy4g"]
+script = ExtResource("22_73x5f")
+original_script = "MOVETO | o_cts_hoopz | 160.0 133.0 | MOVE_NORMAL
+			WAIT   | 0
+			PLAYSET | o_cts_hoopz | stairs_enter_down | invisible
+			WAIT   | 0
+			Misc   | set | o_cts_hoopz | o_bct_warp_1_up
+			FRAME  | CAMERA_FAST | o_bct_warp_1_up
+			WAIT   | 2            
+			PLAYSET | o_cts_hoopz | stairs_exit_down | stand_DOWN
+			WAIT   | 0
+			MOVETO | o_cts_hoopz | 352.0 564.0 | MOVE_NORMAL
+			WAIT   | 0
+			FRAME | CAMERA_NORMAL | o_cts_hoopz
+			LOOK   | o_cts_hoopz | SOUTH
+			WAIT   | 0"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
 atlas = ExtResource("20_75gs4")
 region = Rect2(0, 0, 16, 16)
@@ -1250,7 +1349,12 @@ animations = [{
 
 [node name="r_bct_tower01" type="NavigationRegion2D"]
 navigation_polygon = SubResource("NavigationPolygon_w6xau")
-script = ExtResource("1_qstuv")
+script = ExtResource("1_234wp")
+debug_create_player_scene_at_room_start = true
+debug_player_scene_pos = Vector2(280, 1008)
+load_debug_save_data = true
+is_interior = true
+camera_bound_to_map = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("2_3dr0s")
@@ -1301,70 +1405,64 @@ visible = false
 z_index = 100
 tile_set = ExtResource("8_0qy4g")
 
-[node name="o_doorlight_left" type="AnimatedSprite2D" parent="." instance=ExtResource("9_jro3n")]
-z_index = -10
+[node name="o_doorlight_left" parent="." instance=ExtResource("9_jro3n")]
 position = Vector2(0, 1008)
 scale = Vector2(1, 2.03125)
 sprite_frames = SubResource("SpriteFrames_nh87f")
-animation = &"debug_icons"
-frame = 2
-centered = false
-script = ExtResource("16_5bs2b")
-editor_frame = 2
-running_anim = "s_doorlight_lr"
-flip_h_running_anim = true
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_bct_bridge01, 688, 204);
 "
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_bct_bridge01, 688, 204);
 "
 metadata/inst_name = "inst_9F9CDD94"
 metadata/scale = Vector2(1, 2)
 
-[node name="o_doorlight_right" type="AnimatedSprite2D" parent="." instance=ExtResource("17_mpxgh")]
-z_index = -10
+[node name="o_doorlight_right" parent="." instance=ExtResource("17_mpxgh")]
 position = Vector2(496, 1008)
 scale = Vector2(1, 2)
 sprite_frames = SubResource("SpriteFrames_d48ui")
-animation = &"debug_icons"
-frame = 3
-centered = false
-script = ExtResource("18_rouya")
-editor_frame = 3
-running_anim = "s_doorlight_lr"
-debug_door_exit_marker_pos = Vector2(16, -12)
-door_exit_marker_global_pos = Vector2(16, -12)
-teleport_string = "@SubViewport@9101,16,-12"
-debug_teleport_create_o_hoopz = false
 teleport_destination = "r_bct_bridge01, 80, 204);
 "
-teleport_create_o_hoopz = false
 metadata/code = "RoomXY(r_bct_bridge01, 80, 204);
 "
 metadata/inst_name = "inst_BBD3A396"
 metadata/scale = Vector2(1, 2)
 
-[node name="o_teleport_mark" type="AnimatedSprite2D" parent="." instance=ExtResource("19_a24te")]
+[node name="o_bct_warp_bsm_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(352, 1330)
+warp_destination = NodePath("../o_bct_warp_grd_down")
+stair_direction = 0
+cutscene_script = SubResource("Resource_234wp")
+
+[node name="o_bct_warp_grd_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(160, 933)
+warp_destination = NodePath("../o_bct_warp_bsm_up")
+cutscene_script = SubResource("Resource_73x5f")
+
+[node name="o_bct_warp_grd_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(352, 932)
+warp_destination = NodePath("../o_bct_warp_1_down")
+stair_direction = 0
+cutscene_script = SubResource("Resource_b25oq")
+
+[node name="o_bct_warp_1_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(160, 533)
+warp_destination = NodePath("../o_bct_warp_grd_up")
+cutscene_script = SubResource("Resource_xvbld")
+
+[node name="o_bct_warp_1_up" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(352, 532)
+warp_destination = NodePath("../o_bct_warp_2_down")
+stair_direction = 0
+cutscene_script = SubResource("Resource_c1j3v")
+
+[node name="o_bct_warp_2_down" parent="." node_paths=PackedStringArray("warp_destination") instance=ExtResource("21_234wp")]
+position = Vector2(160, 133)
+warp_destination = NodePath("../o_bct_warp_1_up")
+cutscene_script = SubResource("Resource_0qy4g")
+
+[node name="o_teleport_mark" parent="." instance=ExtResource("19_a24te")]
 position = Vector2(280, 1008)
 sprite_frames = SubResource("SpriteFrames_0e0sl")
-centered = false
-offset = Vector2(-8, -8)
-script = ExtResource("21_ffi2x")
-metadata/default = {
-"bbox_bottom": "15",
-"bbox_left": "0",
-"bbox_right": "15",
-"bbox_top": "0",
-"height": "16",
-"name": "s_teleport_mark",
-"width": "16",
-"xorig": "8",
-"yorigin": "8"
-}
 metadata/code = ""
 metadata/inst_name = "inst_6B0D0AC4"
 metadata/scale = Vector2(1, 1)
@@ -1726,11 +1824,8 @@ metadata/code = ""
 metadata/inst_name = "inst_A1054233"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_teleport_manhole" type="Sprite2D" parent="." instance=ExtResource("23_fhbct")]
-z_index = -5
+[node name="o_teleport_manhole" parent="." instance=ExtResource("23_fhbct")]
 position = Vector2(160, 1320)
-texture = ExtResource("24_nn3wv")
-script = ExtResource("25_tquwp")
 metadata/code = "RoomXY(r_swp_bcentrance01, 144, 120);
 visible = false;
 silent = true;
