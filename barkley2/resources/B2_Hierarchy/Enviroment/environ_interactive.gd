@@ -3,7 +3,7 @@ class_name B2_EnvironInteractive
 
 @export_category("Interactive")
 @export var is_interactive 								:= true
-@export_file("*.material") var interactive_shader		:= "res://barkley2/resources/shaders/selected_outline.material"
+var interactive_shader := "uid://cf0ojjtgkt2y8" # "res://barkley2/shaders/material/selected_outline.material"
 
 @export_category("Mouse")
 @export var mouse_detection_area 		: Area2D

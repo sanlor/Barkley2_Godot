@@ -1,0 +1,73 @@
+[gd_scene load_steps=9 format=3 uid="uid://3lwlggo5bxlj"]
+
+[ext_resource type="Texture2D" uid="uid://d1ljb2wokcxuw" path="res://barkley2/assets/b2_original/images/merged/s_vending02.png" id="1_nyrsp"]
+[ext_resource type="Script" uid="uid://cgxl8kx7ijyl6" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_dwarfZion/o_vending_parent.gd" id="2_253y5"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="3_aqcr1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqcr1"]
+atlas = ExtResource("1_nyrsp")
+region = Rect2(0, 0, 27, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pjiv"]
+atlas = ExtResource("1_nyrsp")
+region = Rect2(27, 0, 27, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u3de5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqcr1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pjiv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3pjiv"]
+radius = 23.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u3de5"]
+size = Vector2(25, 16.5)
+
+[node name="o_vending02" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_u3de5")
+autoplay = "default"
+frame_progress = 0.2991446
+centered = false
+offset = Vector2(-13, -38)
+script = ExtResource("2_253y5")
+vendingIndex = 1
+mouse_detection_area = NodePath("Area2D")
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "26",
+"bbox_top": "0",
+"height": "45",
+"name": "s_vending02",
+"width": "27",
+"xorig": "13",
+"yorigin": "38"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_3pjiv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -10.75)
+shape = SubResource("RectangleShape2D_u3de5")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("3_aqcr1")
+notes = "Manchurian Quest (o_vendingParent)"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

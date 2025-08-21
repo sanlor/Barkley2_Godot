@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://yxyw8i5qulow"]
+
+[ext_resource type="Texture2D" uid="uid://5k0hnh81n0x2" path="res://barkley2/assets/b2_original/images/merged/s_jerkinRack01.png" id="1_6hox1"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_j37jk"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_c4u7y"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="4_m5fol"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4u7y"]
+atlas = ExtResource("1_6hox1")
+region = Rect2(0, 0, 33, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5fol"]
+atlas = ExtResource("1_6hox1")
+region = Rect2(33, 0, 33, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jn2r7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4u7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5fol")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_jn2r7"]
+script = ExtResource("3_c4u7y")
+original_script = "DIALOG | P_NAME = s_port_hoopzHypno | Jerkins..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dfq85"]
+radius = 23.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pnmyh"]
+
+[node name="o_jerkinRack02" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_jn2r7")
+centered = false
+offset = Vector2(-16, -31)
+script = ExtResource("2_j37jk")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_jn2r7")
+metadata/default = {
+"bbox_bottom": "36",
+"bbox_left": "2",
+"bbox_right": "30",
+"bbox_top": "1",
+"height": "39",
+"name": "s_jerkinRack01",
+"width": "33",
+"xorig": "16",
+"yorigin": "31"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_dfq85")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -12.5)
+shape = SubResource("CircleShape2D_pnmyh")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("4_m5fol")
+notes = "Manchurian Quest"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

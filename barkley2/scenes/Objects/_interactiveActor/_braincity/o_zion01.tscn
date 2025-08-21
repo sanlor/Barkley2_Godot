@@ -1,0 +1,117 @@
+[gd_scene load_steps=16 format=3 uid="uid://sxyxirpox0d0"]
+
+[ext_resource type="Script" uid="uid://csvfob7u08i5h" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_zion01.gd" id="1_vih5v"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hc2nk"]
+[ext_resource type="Texture2D" uid="uid://dy2tmese3xoh0" path="res://barkley2/assets/b2_original/images/merged/s_placeholder.png" id="2_nyabm"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="4_aj3sc"]
+
+[sub_resource type="Resource" id="Resource_q1dxn"]
+script = ExtResource("2_hc2nk")
+original_script = "LOOKAT| o_cts_hoopz | o_zion02
+WAIT  | 0.5
+DIALOG | P_NAME | Here's how much I'd pay for `w1`the twinks`w0` freedom:_____ 0 dollars.
+EVENT | o_zion02 | 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hc2nk"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aj3sc"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1dxn"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvgpe"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdc77"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jio7m"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wahl2"]
+atlas = ExtResource("2_nyabm")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0s27v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hc2nk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aj3sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1dxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvgpe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdc77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jio7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wahl2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uvgpe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5hdm8"]
+size = Vector2(39, 36)
+
+[node name="o_zion01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vih5v")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_q1dxn")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0s27v")
+centered = false
+offset = Vector2(-16, -24)
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"frames": ["images\\s_placeholder_0.png", "images\\s_placeholder_1.png", "images\\s_placeholder_2.png", "images\\s_placeholder_3.png", "images\\s_placeholder_4.png", "images\\s_placeholder_5.png", "images\\s_placeholder_6.png"],
+"height": "32",
+"name": "s_placeholder",
+"width": "32",
+"xorig": "16",
+"yorigin": "24"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uvgpe")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, -9)
+shape = SubResource("RectangleShape2D_5hdm8")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("4_aj3sc")
+notes = "Manchurian Quest"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"

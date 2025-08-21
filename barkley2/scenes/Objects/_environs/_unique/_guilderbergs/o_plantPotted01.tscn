@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkmox7ansng8t"]
+
+[ext_resource type="Texture2D" uid="uid://dub2olif8ey67" path="res://barkley2/assets/b2_original/images/merged/s_plantPotted01.png" id="1_73bl7"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_37j3c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpk40"]
+atlas = ExtResource("1_73bl7")
+region = Rect2(0, 0, 24, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u8wc6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpk40")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uraoj"]
+radius = 9.6
+
+[node name="o_plantPotted01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_u8wc6")
+centered = false
+offset = Vector2(0, -45)
+script = ExtResource("2_37j3c")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "40",
+"height": "56",
+"name": "s_plantPotted01",
+"width": "24",
+"xorig": "0",
+"yorigin": "45"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(8, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_uraoj")

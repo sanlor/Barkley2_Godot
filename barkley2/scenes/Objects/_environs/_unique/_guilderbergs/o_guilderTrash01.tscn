@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cygbjs1vqbj4w"]
+
+[ext_resource type="Texture2D" uid="uid://dl3j4euq7f3po" path="res://barkley2/assets/b2_original/images/merged/s_guilderTrash01.png" id="1_tuhrp"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_waksu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2scn8"]
+atlas = ExtResource("1_tuhrp")
+region = Rect2(0, 0, 17, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bj24f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2scn8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wo3cj"]
+radius = 6.8
+
+[node name="o_guilderTrash01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_bj24f")
+centered = false
+offset = Vector2(-9, -16)
+script = ExtResource("2_waksu")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "20",
+"bbox_left": "3",
+"bbox_right": "14",
+"bbox_top": "10",
+"height": "22",
+"name": "s_guilderTrash01",
+"width": "17",
+"xorig": "9",
+"yorigin": "16"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_wo3cj")

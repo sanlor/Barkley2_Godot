@@ -1,0 +1,80 @@
+[gd_scene load_steps=10 format=3 uid="uid://cenobfqmclacw"]
+
+[ext_resource type="Script" uid="uid://caa55luyrgpb1" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_bct_bartender01.gd" id="1_c02e8"]
+[ext_resource type="Texture2D" uid="uid://cef4dsb7qmp3o" path="res://barkley2/assets/b2_original/images/merged/s_bct_bartender01.png" id="2_51j08"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_rxoqw"]
+
+[sub_resource type="Resource" id="Resource_l5bmk"]
+script = ExtResource("2_rxoqw")
+original_script = "DIALOG | Bartender 2000 | State the nature of your gulping emergency.
+DIALOG | P_NAME         | Uh... Grape juice?
+WAIT   | 0.75
+DIALOG | Bartender 2000 | Grape juice currently unavailable.
+DIALOG | P_NAME         | Ah, drats. Alright, I'll see you later then."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxoqw"]
+atlas = ExtResource("2_51j08")
+region = Rect2(0, 0, 44, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5bmk"]
+atlas = ExtResource("2_51j08")
+region = Rect2(44, 0, 44, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0xdtc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxoqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5bmk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0xdtc"]
+radius = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tio63"]
+size = Vector2(44, 53)
+
+[node name="o_bct_bartender01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_c02e8")
+mouse_detection_area = NodePath("ActorInteract")
+interactive_distance = 80
+cutscene_script = SubResource("Resource_l5bmk")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0xdtc")
+centered = false
+offset = Vector2(-30, -42)
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "0",
+"bbox_right": "43",
+"bbox_top": "0",
+"frames": ["images\\s_bct_bartender01_0.png", "images\\s_bct_bartender01_1.png"],
+"height": "48",
+"name": "s_bct_bartender01",
+"width": "44",
+"xorig": "30",
+"yorigin": "42"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-6, -7)
+shape = SubResource("CircleShape2D_0xdtc")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-6, -17.5)
+shape = SubResource("RectangleShape2D_tio63")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

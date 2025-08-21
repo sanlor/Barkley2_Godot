@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://do3pkwe3hnefe"]
+
+[ext_resource type="Texture2D" uid="uid://2iby4xjtmixd" path="res://barkley2/assets/b2_original/images/merged/s_pdt_smokingRock01.png" id="1_b4x4s"]
+[ext_resource type="Script" uid="uid://buuup48n4dosn" path="res://barkley2/scenes/Objects/_environs/_unique/_braincity/Zion/o_bct_drink_01.gd" id="2_b4x4s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cd8sp"]
+atlas = ExtResource("1_b4x4s")
+region = Rect2(0, 0, 8, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uu8c2"]
+atlas = ExtResource("1_b4x4s")
+region = Rect2(8, 0, 8, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jmyhs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cd8sp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uu8c2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_bct_drink01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_jmyhs")
+centered = false
+offset = Vector2(-4, -20)
+script = ExtResource("2_b4x4s")
+metadata/default = {
+"bbox_bottom": "21",
+"bbox_left": "0",
+"bbox_right": "7",
+"bbox_top": "0",
+"height": "22",
+"name": "s_pdt_smokingRock01",
+"width": "8",
+"xorig": "4",
+"yorigin": "20"
+}

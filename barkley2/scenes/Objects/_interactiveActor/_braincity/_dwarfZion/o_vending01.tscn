@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://dwpsj4thdbxup"]
+
+[ext_resource type="Texture2D" uid="uid://bfjauo5roedks" path="res://barkley2/assets/b2_original/images/merged/s_vending01.png" id="1_5wsmf"]
+[ext_resource type="Script" uid="uid://cgxl8kx7ijyl6" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_dwarfZion/o_vending_parent.gd" id="2_ax7y2"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="3_uqcft"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uqcft"]
+atlas = ExtResource("1_5wsmf")
+region = Rect2(0, 0, 27, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lss0q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uqcft")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lss0q"]
+radius = 23.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_utdki"]
+size = Vector2(25, 16.5)
+
+[node name="o_vending01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_lss0q")
+centered = false
+offset = Vector2(-13, -38)
+script = ExtResource("2_ax7y2")
+mouse_detection_area = NodePath("Area2D")
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "0",
+"bbox_right": "26",
+"bbox_top": "0",
+"height": "44",
+"name": "s_vending01",
+"width": "27",
+"xorig": "13",
+"yorigin": "38"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_lss0q")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(1, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -10.75)
+shape = SubResource("RectangleShape2D_utdki")
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("3_uqcft")
+notes = "Manchurian Quest (o_vendingParent)"
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
