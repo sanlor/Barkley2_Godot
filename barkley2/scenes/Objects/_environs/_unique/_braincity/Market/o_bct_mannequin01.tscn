@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://dkrv740spi8ft"]
+
+[ext_resource type="Texture2D" uid="uid://bc5pehyo870fl" path="res://barkley2/assets/b2_original/images/merged/s_bct_mannequin01.png" id="1_cwjrw"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_v7mbr"]
+[ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="3_v7mbr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mou4a"]
+atlas = ExtResource("1_cwjrw")
+region = Rect2(0, 0, 27, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1bj01"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mou4a")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nl6vo"]
+radius = 10.8
+
+[node name="o_bct_mannequin01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_1bj01")
+centered = false
+offset = Vector2(-13, -48)
+script = ExtResource("2_v7mbr")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "51",
+"bbox_left": "4",
+"bbox_right": "22",
+"bbox_top": "42",
+"height": "56",
+"name": "s_bct_mannequin01",
+"width": "27",
+"xorig": "13",
+"yorigin": "48"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_nl6vo")
+
+[node name="o_Shadow" parent="." instance=ExtResource("3_v7mbr")]
+z_index = -1
+position = Vector2(0, 1)

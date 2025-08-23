@@ -1,0 +1,91 @@
+[gd_scene load_steps=9 format=3 uid="uid://dv3euu6as36k"]
+
+[ext_resource type="Texture2D" uid="uid://e1gdkarwxvtu" path="res://barkley2/assets/b2_original/images/merged/s_bct_cdwarfComputer01.png" id="1_448r2"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_mnhgd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7o6y"]
+atlas = ExtResource("1_448r2")
+region = Rect2(0, 0, 26, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lphvf"]
+atlas = ExtResource("1_448r2")
+region = Rect2(26, 0, 26, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbcvp"]
+atlas = ExtResource("1_448r2")
+region = Rect2(52, 0, 26, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x4hl3"]
+atlas = ExtResource("1_448r2")
+region = Rect2(78, 0, 26, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7xk4y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7o6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lphvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbcvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4hl3")
+}],
+"loop": true,
+"name": &"activate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4hl3")
+}],
+"loop": true,
+"name": &"active",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7o6y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lphvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbcvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x4hl3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_448r2"]
+
+[node name="o_cdwarfComputer01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7xk4y")
+centered = false
+offset = Vector2(-13, -35)
+script = ExtResource("2_mnhgd")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "36",
+"bbox_left": "0",
+"bbox_right": "25",
+"bbox_top": "0",
+"height": "37",
+"name": "s_bct_cdwarfComputer01",
+"width": "26",
+"xorig": "13",
+"yorigin": "35"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_448r2")

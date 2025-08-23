@@ -1,0 +1,138 @@
+[gd_scene load_steps=18 format=3 uid="uid://ch51f30ptj32v"]
+
+[ext_resource type="Script" uid="uid://cotknscgvx4yf" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_guillaumeWedding02.gd" id="1_hjw7t"]
+[ext_resource type="Texture2D" uid="uid://cxugglht241fe" path="res://barkley2/assets/b2_original/images/merged/s_guillaume01.png" id="2_tswot"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptjdh"]
+atlas = ExtResource("2_tswot")
+region = Rect2(0, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j23cw"]
+atlas = ExtResource("2_tswot")
+region = Rect2(33, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7mmk"]
+atlas = ExtResource("2_tswot")
+region = Rect2(66, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86kin"]
+atlas = ExtResource("2_tswot")
+region = Rect2(99, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hbbj"]
+atlas = ExtResource("2_tswot")
+region = Rect2(132, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybjkn"]
+atlas = ExtResource("2_tswot")
+region = Rect2(165, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xx7q7"]
+atlas = ExtResource("2_tswot")
+region = Rect2(198, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anvub"]
+atlas = ExtResource("2_tswot")
+region = Rect2(231, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1aald"]
+atlas = ExtResource("2_tswot")
+region = Rect2(264, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7qte"]
+atlas = ExtResource("2_tswot")
+region = Rect2(297, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pgd2"]
+atlas = ExtResource("2_tswot")
+region = Rect2(330, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a12ft"]
+atlas = ExtResource("2_tswot")
+region = Rect2(363, 0, 33, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0wdai"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ptjdh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j23cw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p7mmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86kin")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hbbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ybjkn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xx7q7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_anvub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1aald")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7qte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pgd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a12ft")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hjw7t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_633ua"]
+size = Vector2(20, 36)
+
+[node name="o_guillaumeWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hjw7t")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0wdai")
+autoplay = "default"
+frame_progress = 0.9119272
+centered = false
+offset = Vector2(-13, -40)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "6",
+"bbox_right": "26",
+"bbox_top": "28",
+"frames": ["images\\s_guillaume01_0.png", "images\\s_guillaume01_1.png", "images\\s_guillaume01_2.png", "images\\s_guillaume01_3.png", "images\\s_guillaume01_4.png", "images\\s_guillaume01_5.png", "images\\s_guillaume01_6.png", "images\\s_guillaume01_7.png", "images\\s_guillaume01_8.png", "images\\s_guillaume01_9.png", "images\\s_guillaume01_10.png", "images\\s_guillaume01_11.png"],
+"height": "42",
+"name": "s_guillaume01",
+"width": "33",
+"xorig": "13",
+"yorigin": "40"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_hjw7t")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_633ua")

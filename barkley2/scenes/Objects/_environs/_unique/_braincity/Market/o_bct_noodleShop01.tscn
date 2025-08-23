@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://c5m4xi53llrod"]
+
+[ext_resource type="Texture2D" uid="uid://dmo77w1x2p5m" path="res://barkley2/assets/b2_original/images/merged/s_bct_noodleShop01.png" id="1_sdfxd"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_f83h4"]
+[ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_shadow.tscn" id="3_f83h4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7ial"]
+atlas = ExtResource("1_sdfxd")
+region = Rect2(0, 0, 63, 87)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_65ve2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7ial")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4b8kh"]
+radius = 25.2
+
+[node name="o_bct_noodleShop01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_65ve2")
+centered = false
+offset = Vector2(-31, -56)
+script = ExtResource("2_f83h4")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "86",
+"bbox_left": "0",
+"bbox_right": "62",
+"bbox_top": "0",
+"height": "87",
+"name": "s_bct_noodleShop01",
+"width": "63",
+"xorig": "31",
+"yorigin": "56"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-6, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_4b8kh")
+
+[node name="o_Shadow" parent="." instance=ExtResource("3_f83h4")]
+z_index = -1
+position = Vector2(-5, 18)
+scale = Vector2(1, 0.5)

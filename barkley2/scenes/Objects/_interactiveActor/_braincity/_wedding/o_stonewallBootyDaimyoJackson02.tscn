@@ -1,0 +1,210 @@
+[gd_scene load_steps=12 format=3 uid="uid://diimuyjmngb27"]
+
+[ext_resource type="Script" uid="uid://wojxeulk16jn" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_stonewallBootyDaimyoJackson02.gd" id="1_qprl7"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_j556h"]
+[ext_resource type="Texture2D" uid="uid://bxxjubaw3rjl5" path="res://barkley2/assets/b2_original/images/merged/s_stonewallBootyDaimyoJackson01.png" id="2_uu2eo"]
+
+[sub_resource type="Resource" id="Resource_eq8yg"]
+script = ExtResource("2_j556h")
+original_script = "IF weddingQuest == 3         | GOTO | POST_WEDDING
+IF stonewallWeddingFail == 1 | GOTO | BETRAYAL_AFTER
+IF weddingQuest == 2         | GOTO | BETRAYAL
+IF stonewallBrain == 0       | GOTO | STONEWALL_0
+IF stonewallBrain == 1       | GOTO | STONEWALL_1
+
+STONEWALL_0
+IF bootyBassQuest == 3 | GOTO | BARON_WINNER_0
+IF bootyBassQuest == 2 | GOTO | BARON_LOSER_0
+GOTO | BARON_NONE_0
+
+STONEWALL_1
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Hey, the prodigal booty Baryshnikov returns. You back for more of Booty Slayer and the Anime Bulldog's rump-numbing sonic keistercore? What's poppin', kiddo?
+GOTO   | QUESTIONS
+
+BARON_WINNER_0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | 'eeeeeey! It's our reigning Baron of Booty! Hey everyone, we got a VIP in the building - it's the Baron of Booty! Woooooo! Been a while since the mean streets of Tir na Nog, huh?
+DIALOG | P_NAME                             | Wow, a booty bass club here in Brain City? I might have to cause some damage on the vinyl.
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Awww snap! Now that's what I like to hear! We've got another contest goin' down soon... this one's for the crown - the Duke of Booty. I hope you're down, 'cuz we're gonna need your funk, kiddo. So what's poppin'?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Awww man, you know you just missed the Duke of Booty contest? So what's poppin', kid?
+QUEST  | stonewallBrain = 1
+GOTO   | QUESTIONS
+
+BARON_LOSER_0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Hey, kid, I recognize you. You were a regular in the Tir na Nog Booty Bass scene... what was your name again? DJ uh... Booty Crumpet, right?
+DIALOG | P_NAME                             | Not quite. I participated in the Baron of Booty contest but got my booty handed to me...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Yeah, yeah, I remember now! Tough luck, Bootyslayer and The Anime Bulldog were killin' it that night. Killin' it now, too. What's shakin', kiddo? You here for the Duke of Booty contest?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Yeah, yeah, I remember now! Tough luck, Bootyslayer and The Anime Bulldog were killin' it that night. Killin' it now, too. So what's shakin', kiddo?
+QUEST  | stonewallBrain = 1
+GOTO   | QUESTIONS
+
+BARON_NONE_0
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Dang, you're lookin' slick, kid. That's one booty-poppin' hawk you're rockin'. I think you'll fit right in here. What's up? You here for the Duke of Booty contest, the biggest booty bass hootenany this side of the Sombrero Galaxy?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Dang, you're lookin' slick, kid. That's one booty-poppin' hawk you're rockin'. I think you'll fit right in here. If you're here for the Duke of Booty contest, I've got bad news: ya missed it! But our new booty royalty, DJ Booty Slayer and The Anime Bulldog are still tearin' it up on stage. So what's up, kiddo?
+QUEST  | stonewallBrain = 1
+GOTO   | QUESTIONS
+
+QUESTIONS
+CHOICE | I've got a question...
+REPLY  | ASK_BROUHAHA | What is this booty brouhaha?
+IF weddingQuest == 1 | IF musicianCount >= 4 | REPLY | MUSICIANS_FOUND | I've finally got four musicians for the wedding band.
+IF weddingQuest == 1 | IF musicianCount < 4  | REPLY | ASK_WHAT_DO     | What am I supposed to do for this wedding thing again?
+IF weddingQuest == 0 | REPLY | ASK_WORK | Is there any work around here?
+REPLY  | ASK_LEAVE | I'll see you later.           
+  
+ASK_BROUHAHA          
+DIALOG | P_NAME                             | Hey, so what are all the booty shenanigans going on?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Huh, you mean the club? Man, this is the most poppin' booty bass venue this side of the Sombrero Galaxy. Forget that Tir na Nog warehouse, we can really cut loose and flex our glutes here. The Anime Bulldog and DJ Booty Slayer are the perfect match for this place and keep the rump ruckus hype. You gonna be here for the Duke of Booty contest? Man, this place is gonna be wild when that gets going. It's pretty soon, too. Get here early 'cuz this place is gonna be packed.            
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Man, you just missed the Duke of Booty contest, the hypest booty blowout this side of the Sombrero Galaxy. You shoulda been here, the crowd was goin' nuts. This is the place, man, the hottest spot to rock what you got in Brain City. Don't forget it.   
+GOTO   | QUESTIONS
+             
+MUSICIANS_FOUND
+DIALOG | P_NAME                             | Hey, I've got four musicians for the wedding band. What do we do now?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Awww, man, I knew you could do it. Good job, kid. Took your time, but at least we gotta band now...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Alright, let's do a little gathering and figure everything out.
+FADE   | 1 | 1.5
+WAIT   | 1.5
+
+ASK_WHAT_DO
+DIALOG | P_NAME                             | Hey, what am I supposed to do for this wedding thing again?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | So I'm putting together a rock band for a wedding that's going on pretty soon. I need you to find some musicians who are willing to do the gig - I don't care what they play as long as they're good. We'll need 4 and right now we've got \" + string(scr_quest_get_state(\"musicianCount\")) + \". We'll need 'em fast 'cuz the wedding is soon, so get on it! Anything else?
+GOTO   | QUESTIONS
+       
+ASK_WORK
+DIALOG | P_NAME | You seem like the kind of guy who knows what's going on in Brain City. Is there any work for a kid like me here?
+IF bootyBassQuest == 3 | GOTO | WEDDING_WORK_AVAILABLE_BARON
+IF bootyBassQuest != 3 | GOTO | WEDDING_WORK_AVAILABLE
+IF clock > 10 | GOTO | WEDDING_WORK_TOO_LATE
+IF clock < 4  | GOTO | WEDDING_WORK_TOO_EARLY 
+
+WEDDING_WORK_AVAILABLE_BARON
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Work, huh? Yeah, you know, you might just be the one for the job, being Baron of Booty and all. So there's this wedding going on at the church soon and they asked me to put together a rock band for the wedding party. I'm down with that, you know, I'm all about the jams but I've got a club to run, y'know? I don't have the time to run around lookin' for musicians for a band. But what if I had someone I knew I could trust, the Baron of Booty help me out? I mean there's gotta be a ton of good musicians looking for a gig out there. So whaddaya say? You think you've got the time to help me put together a rock group for the wedding?
+GOTO   | WEDDING_QUEST
+   
+WEDDING_WORK_AVAILABLE         
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Work, huh? Well, yeah, I've got a job if you've got any music experience. So there's this wedding going on at the church soon and they asked me to put together a rock band for the wedding party. I'm down with that, you know, I'm all about the jams but I've got a club to run, y'know? I don't have the time to run around lookin' for musicians for a band. But what if I had someone help me out, a talent scout? I mean there's gotta be a ton of good musicians looking for a gig out there. So whaddaya say? You think you've got the time to help me put together a rock group for the wedding?
+GOTO   | WEDDING_QUEST
+        
+WEDDING_WORK_TOO_LATE
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Man, if only you'd have shown up a little earlier. There was this gig at the church you probably could've helped me out with. Priest at the church asked me to help him put together a rock group for a wedding but it kinda fell through. Too bad.
+DIALOG | P_NAME    | Shucks... I love to work...
+        
+WEDDING_WORK_TOO_EARLY 
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Haha, lookin' for employment, huh? Aren't we all. Nah, I don't have anything for you right now, but I might if you come back in a little bit. I've always got an ear out for ways to make a little extra scratch.
+
+WEDDING_QUEST
+CHOICE | Do I have time to help Stonewall?
+REPLY  | BAND_YAY | Sure, I can help you put together a band.
+REPLY  | BAND_NAY | Sorry, I don't think I have the time.
+
+BAND_YAY
+DIALOG | P_NAME                             | Sure, I guess I could help you out. What do I need to do?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Oh man, I knew I could count on you. Okay, here's what I'm thinkin': a good band has like what, four members? If you can find four musicians who wanna help us out, then tell 'em to come back here and we can rehearse a little. I don't care what instruments they play, pick up anyone as long as they seem kinda competent. Just be quick about it, 'cuz this wedding is going down pretty soon, okay?
+DIALOG | P_NAME                             | Sounds good, I'll try to be quick.
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Nice, nice. Now was there anything else?
+QUEST  | weddingQuest = 1
+GOTO   | QUESTIONS 
+
+BAND_NAY
+DIALOG | P_NAME                             | Wow, it sounds like you've got your work cut out for you. I don't actually like to work, I just like asking about it.
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Aww man. I thought you'd be able to help me out. I think this is gonna fall through. Come back if you find the time, okay?
+
+ASK_LEAVE
+DIALOG | P_NAME                             | Hey, I'm taking off. See you later, Stonewall!
+IF bootyBassQuest == 3 | DIALOG | Stonewall /'Booty Daimyo/' Jackson | You bet. Keep it real, kid. Hey everyone, the Baron is leaving the premises! I repeat:_ the Baron!_ Is leaving!_ The premises!
+IF bootyBassQuest != 3 | DIALOG | Stonewall /'Booty Daimyo/' Jackson | You bet. Keep it real, kid.
+
+POST_WEDDING
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | 'eeeeeey, there's that Jazzy Rascal! What's going on, kiddo?
+DIALOG | P_NAME                             | (Don't call me a Jazzy Rascal...)
+GOTO   | QUESTIONS
+
+BETRAYAL
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Hey, real funny, you showing up here after you blew it like that.
+DIALOG | P_NAME                             | B-blew it? I didn't blow it! What are you talking about?
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | What am I talking about? Get choomed, kid! The wedding! I'm talking about the wedding! You were supposed to find a bunch of musicians for the wedding! I told you there wasn't much time left! What the hell, kid?
+DIALOG | P_NAME                             | C-crud... I swear I was gonna get to it...
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Yeah, well you didn't and it was a bunch of egg on my face. That's the last time I ever trust you with anything.
+DIALOG | P_NAME                             | S-sorry...
+QUEST  | stonewallWeddingFail = 1
+
+BETRAYAL_AFTER
+DIALOG | Stonewall /'Booty Daimyo/' Jackson | Oh, it's you again. What the hell do you want, kid?
+GOTO   | QUESTIONS"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j556h"]
+atlas = ExtResource("2_uu2eo")
+region = Rect2(0, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq8yg"]
+atlas = ExtResource("2_uu2eo")
+region = Rect2(30, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6rnbj"]
+atlas = ExtResource("2_uu2eo")
+region = Rect2(60, 0, 30, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2tff"]
+atlas = ExtResource("2_uu2eo")
+region = Rect2(90, 0, 30, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5odsr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j556h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq8yg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6rnbj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2tff")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6rnbj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dbmd0"]
+size = Vector2(20, 36)
+
+[node name="o_stonewallBootyDaimyoJackson02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_qprl7")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_eq8yg")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5odsr")
+centered = false
+offset = Vector2(-14, -34)
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "1",
+"bbox_right": "28",
+"bbox_top": "26",
+"frames": ["images\\s_stonewallBootyDaimyoJackson01_0.png", "images\\s_stonewallBootyDaimyoJackson01_1.png", "images\\s_stonewallBootyDaimyoJackson01_2.png", "images\\s_stonewallBootyDaimyoJackson01_3.png"],
+"height": "46",
+"name": "s_stonewallBootyDaimyoJackson01",
+"width": "30",
+"xorig": "14",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_6rnbj")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_dbmd0")

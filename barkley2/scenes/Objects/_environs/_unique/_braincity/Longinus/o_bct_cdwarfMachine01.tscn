@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=3 uid="uid://br7tf8ts156ud"]
+
+[ext_resource type="Texture2D" uid="uid://dlp5cddklcux" path="res://barkley2/assets/b2_original/images/merged/s_cdwarfMachine02.png" id="1_qokd6"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_aam6r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5i5j"]
+atlas = ExtResource("1_qokd6")
+region = Rect2(0, 0, 64, 89)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5l72"]
+atlas = ExtResource("1_qokd6")
+region = Rect2(64, 0, 64, 89)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpgrw"]
+atlas = ExtResource("1_qokd6")
+region = Rect2(128, 0, 64, 89)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jb4xa"]
+atlas = ExtResource("1_qokd6")
+region = Rect2(192, 0, 64, 89)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hjgy1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5i5j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5l72")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpgrw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jb4xa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qokd6"]
+size = Vector2(64, 38)
+
+[node name="o_bct_cdwarfMachine01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_hjgy1")
+autoplay = "default"
+frame_progress = 0.2594913
+speed_scale = 1.5
+centered = false
+offset = Vector2(-32, -68)
+script = ExtResource("2_aam6r")
+EnvCol = NodePath("StaticBody2D")
+change_frame_at_sudo_random = false
+metadata/default = {
+"bbox_bottom": "88",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "89",
+"name": "s_cdwarfMachine02",
+"width": "64",
+"xorig": "32",
+"yorigin": "68"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_qokd6")

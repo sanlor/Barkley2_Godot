@@ -1,0 +1,103 @@
+[gd_scene load_steps=13 format=3 uid="uid://bu7wnwbw0alm1"]
+
+[ext_resource type="Script" uid="uid://b31kgd16i8aii" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_brainfanTwo01.gd" id="1_eejf8"]
+[ext_resource type="Texture2D" uid="uid://dy2tmese3xoh0" path="res://barkley2/assets/b2_original/images/merged/s_placeholder.png" id="2_puoov"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rg42n"]
+atlas = ExtResource("2_puoov")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v67wk"]
+atlas = ExtResource("2_puoov")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7a5b"]
+atlas = ExtResource("2_puoov")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqxv6"]
+atlas = ExtResource("2_puoov")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uds70"]
+atlas = ExtResource("2_puoov")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itiix"]
+atlas = ExtResource("2_puoov")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxfer"]
+atlas = ExtResource("2_puoov")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mabkg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rg42n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v67wk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7a5b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqxv6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uds70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_itiix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxfer")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_eejf8"]
+radius = 11.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_63j3o"]
+size = Vector2(40, 38)
+
+[node name="o_brainfanTwo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_eejf8")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mabkg")
+autoplay = "default"
+centered = false
+offset = Vector2(-16, -24)
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"frames": ["images\\s_placeholder_0.png", "images\\s_placeholder_1.png", "images\\s_placeholder_2.png", "images\\s_placeholder_3.png", "images\\s_placeholder_4.png", "images\\s_placeholder_5.png", "images\\s_placeholder_6.png"],
+"height": "32",
+"name": "s_placeholder",
+"width": "32",
+"xorig": "16",
+"yorigin": "24"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_eejf8")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_63j3o")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

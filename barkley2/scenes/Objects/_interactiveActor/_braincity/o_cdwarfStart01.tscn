@@ -1,0 +1,366 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkw6xw3u5diqy"]
+
+[ext_resource type="Script" uid="uid://dh543rybxuev3" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_cdwarf_start_01.gd" id="1_bjusy"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_b0nk7"]
+
+[sub_resource type="Resource" id="Resource_omwpi"]
+script = ExtResource("2_b0nk7")
+original_script = "IF cdwarfStart == 0  | GOTO | CDWARF_MEET
+IF cdwarfCinema == 8 | GOTO | CDWARF_IDENTITY
+GOTO | BHROOM
+
+BHROOM
+QUEST  | cdwarfCinema = 9
+DIALOG | Bhroom | This is not supposed to happen!
+EXIT   | 
+
+CDWARF_MEET
+QUEST  | cdwarfStart = 1
+LOOK   | o_cts_hoopz | SOUTH
+Misc   | music | mus_blankTEMP | 1
+WAIT   | 1
+MOVETO | o_cts_hoopz | o_cinema18 | MOVE_SLOW
+WAIT   | 0
+WAIT   | 0.4
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.75
+FOLLOWFRAME  | CAMERA_NORMAL | o_cts_hoopz | o_cinema24
+WAIT   | 0.5
+DIALOG | P_NAME | ...?
+WAIT   | 1
+MOVETO | o_cts_hoopz | o_cinema19 | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.4
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.75
+DIALOG | P_NAME | Cyberdwarf...?
+WAIT   | 0.75
+MOVETO | o_cts_hoopz | o_cinema20 | MOVE_SLOW
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 1.0
+Emote  | ?
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.75
+DIALOG | P_NAME | Hello...?
+WAIT   | 1.25
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 1.0
+DIALOG | P_NAME | Is anyone in here?
+WAIT   | 1.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 1.25
+DIALOG | P_NAME | ...
+WAIT   | 1.25
+FRAME  | CAMERA_SLOW | o_cts_hoopz
+DIALOG | P_NAME | There's no one here.
+WAIT   | 0.5
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT    | 0
+DIALOG  | P_NAME = s_port_hoopzSad | After all I've been through... He's not here either._ He probably doesn't even exist.
+PLAYSET | o_cts_hoopz | sad2 | sad3
+WAIT    | 0
+QUEST   | behaveJaded += 1
+PLAYSET | o_cdwarfComputer01 | activate | active
+Emote  | !
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.1
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.1
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.1
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+DIALOG | P_NAME | Huh?
+WAIT   | 1
+DIALOG | Disembodied Vocals | It has been so long, child._ I have been waiting for the span of more than 4,000 years.
+WAIT   | 0.5
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_cdwarfHead01
+Misc   | music  | mus_gbl_aristocrat | 1
+WAIT   | 2.5
+DIALOG | P_NAME | Cyberdwarf? 
+DIALOG | ???    | One of my many names. 
+DIALOG | P_NAME | W-where are you?
+WAIT   | 0.5
+DIALOG | Disembodied Vocals | Tell me, child, do you know your own name?_ Your own destiny?
+WAIT   | 1.5
+DIALOG | P_NAME | My destiny...?
+WAIT   | 0.75
+DIALOG | P_NAME | I was inside an... egg._ The L.O.N.G.I.N.U.S. rebels rescued me from there. 
+DIALOG | P_NAME | I don't remember where I'm from or who I am._ I..._ I don't even know my own name. 
+WAIT   | 1.5
+DIALOG | Disembodied Vocals | You want to know yourself? Perhaps you should first know me. We may not be as different as you think, you and I...
+WAIT   | 0.5
+SET    | o_cdwarfHead01 | idle
+Misc   | alpha | o_cdwarfHead01 | 0.66 | 5
+WAIT   | 4
+SURPRISEAT | NORTHEAST
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | You seem surprised by my appearance, child. Is it perhaps my b-ball skin? Or that I am a computer? 
+DIALOG | Cyberdwarf     | Perhaps you expected me to be a living, organic being like the dwarfs you have come to surround yourself with. 
+DIALOG | Cyberdwarf     | I apologize. My corporeal body has long since left this existence, lost to the ages, it's passage expedited by misuse and the recklessness of my youth. 
+DIALOG | Cyberdwarf     | You see, my child, I am an AI, much like our mutual foe Cuchulainn. But unlike Cuchulainn, I am not a Malevolent AI. My desire is not to subjugate or destroy. Indeed, as a Benevolent AI, I exist for one purpose: to serve you.
+SET    | o_cdwarfHead01 | idle
+WAIT   | 1
+LOOK   | o_cts_hoopz    | NORTH
+DIALOG | P_NAME         | Wh-what? Serve me? What are you talking about?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Tell me, child, how much do you know about... the Space Jam?
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | Is... is that a vidcon? It sounds kinda familiar...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | It should, for your past... and your destiny... are deeply entwined with it. Whether or not you realize it, my child, basketball is the most important thing in this universe. 
+DIALOG | Cyberdwarf     | It governs all things. From the physical, the gentle swish of the net as the ball caresses it, to the spiritual, the inquisitive coo of the newborn babe in the woods, adrift in a world of unlimited novelties. 
+DIALOG | Cyberdwarf     | B-ball is neither sport nor spoof, but a force unto itself. Long ago, the very essence of b-ball was threatened when a foe of unparalleled magnitude, the Monstars, sought to harness its powers not to edutain, but to enslave all mankind. The heroes of b-ball, a cast of loony but well-intentioned sportsmen, assembled the greatest team of ballers ever known and confronted the Monstars not on the battlefield, but on the court. Though the game was fierce, the Monstars were defeated and b-ball was saved, though at a terrible cost. This confrontation... this game... was known as the Space Jam, and the world we know is its ultimate consequence.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | But... but what does that have to do with me?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | You are the final heir of the Barkley dynasty, a once-noble house and key player in the Space Jam. Your father, and in fact you, saved mankind from the terrible aftermath of the Space Jam and restored the sport of b-ball to its former glory. You are the Savior of B-ball, the Messiah, and it is your destiny to save mankind once again. You... are Hoopz Barkley.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | Wh-what...?_ What?_ My father...?_ I'm... I'm the B-ball Messiah?_ It's my... destiny to save mankind?_ What do you...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Cuchulainn threatens to end all dwarfkind; he has gathered every dwarf in the universe and is hurtling the Necron 7 towards Hell to destroy them forever. 
+DIALOG | Cyberdwarf     | You have been in a stasis for the past 4,000 years but have finally awakened. It is your destiny, your divine mandate, to stop Cuchulainn and return to Earth, where humanity awaits their B-ball Messiah... 
+DIALOG | Cyberdwarf     | You are that Messiah. You are... `mq`Hoopz Barkley.`rt`
+SET    | o_cdwarfHead01 | idle
+IF crustDead == 1 | GOTO | KILLED_CUCHU
+GOTO   | PART_2
+
+KILLED_CUCHU
+DIALOG | P_NAME         | What are you talking about? I already beat Cuchulainn!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Indeed, my child, you have won a hard-fought victory, a victory that proves you are the choosen one, our B-ball Messiah. But what you fought was merely Cuchulainn's most primitive manifestation, a mere fraction of his true power. He yet lives and in fact grows stronger with each passing moment.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_2
+
+PART_2
+WAIT   | 1
+//TODO: this backwards call doesn't work...
+Misc   | backwards    | o_cts_hoopz | 1
+MOVE   | o_cts_hoopz  | 0 | 12 | MOVE_NORMAL
+Misc   | backwards    | o_cts_hoopz | 0
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzSad | N-no...
+WAIT   | 0.75
+LOOK   | o_cts_hoopz  | NORTHWEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz  | WEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz  | SOUTHWEST
+WAIT   | 1
+FRAME  | CAMERA_NORMAL | o_cts_hoopz
+PLAYSET | o_cts_hoopz | anguishDrop | anguishKneel
+WAIT   | 0
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzSad | But... but I can't be the Messiah... 
+DIALOG | P_NAME = s_port_hoopzSad | I'm just a kid... I'm not this Hoopz Barkley person. 
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzSad | You've got it all wrong, Cyberdwarf! I'm just a regular kid! I just wanna go home!
+SET    | o_cdwarfHead01 | talk
+FRAME  | CAMERA_NORMAL  | o_cts_hoopz | o_cdwarfHead01
+DIALOG | Cyberdwarf     | Cast off the mantle of ignorance and assume your true identity, Hoopz Barkley! I have been waiting for 4,000 years to guide you to your destiny, to destroy Cuchulainn and save the universe. 
+DIALOG | Cyberdwarf     | Look into your heart. You'll know it to be true.
+SET    | o_cdwarfHead01 | idle
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+PLAYSET | o_cts_hoopz | anguish | anguishLast
+DIALOG | Forlorn Youngster = s_port_hoopzAngry | No! I don't believe you! I'm NOT Hoopz Barkley! I'm not the B-ball Messiah! You're a liar! You're... you're just a big liar!!
+WAIT   | 0.5
+KNEELAT | SOUTHWEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.15
+MOVETO | o_cts_hoopz | o_cinema21 | MOVE_SLOW
+WAIT   | 0
+FADE   | 1 | 2
+MOVETO | o_cts_hoopz | o_cinema22 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema23 | MOVE_FAST
+WAIT   | 0
+DIALOG | Cyberdwarf  | Halt! Where are you going, child? Halt! You must reclaim your birthright!
+WAIT   | 2
+QUEST  | cdwarfCinema = 2
+Misc   | music | mus_blankTEMP | 0
+DIALOG | Forlorn Youngster = s_port_hoopzShock | I don't believe you! I'm not who you say I am. I just want to be me... Why can't I just be me!?
+Teleport | r_bct_tower06 | 0 | 0
+
+CDWARF_IDENTITY
+QUEST  | jhodfreyMap = 1
+QUEST  | wiglafMission = 5
+QUEST  | cdwarfCinema = 9
+Misc   | alpha | o_cdwarfHead01 | 0.66 | 5
+LOOK   | o_cts_hoopz | SOUTH
+Misc   | music | mus_blankTEMP | 1
+WAIT   | 1
+MOVETO | o_cts_hoopz | o_cinema18 | MOVE_NORMAL
+WAIT   | 0
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz | o_cinema24
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema19 | MOVE_NORMAL
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema20 | MOVE_NORMAL
+WAIT   | 1.0
+//EVENT  | o_room_cdwarf | 0 // 4 lights
+WAIT   | 0
+LOOK   | o_cts_hoopz | o_cdawrfHead01
+WAIT   | 0.75
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | You have returned to me, my child, as I knew you would._ Allow me to apologize for earlier. 
+DIALOG | Cyberdwarf     | I had not considered the mental anguish you would suffer under the sharp blade known as truth. I should have wielded my tongue more... carefully.
+SET    | o_cdwarfHead01 | idle
+WAIT   | 1.0
+DIALOG | Determined Youngster = s_port_hoopzAngry | Listen up, Cyberdwarf. 
+WAIT   | 0.75
+DIALOG | Cyberdwarf     | ...?
+WAIT   | 0.75
+DIALOG | Determined Youngster = s_port_hoopzAngry | I don't know who I am or why I'm here, but I know this: if I don't stop Cuchulainn, I and every dwarf on this ship are getting a one-way ticket to Hec-... to Hell.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | I see. Cuchulainn has made his intentions apparent to you. Without you, we are all doomed. But you are wrong about one thing...
+SET    | o_cdwarfHead01 | idle
+DIALOG | Determined Youngster = s_port_hoopzAngry | Huh?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | You DO know who you are. Tell me, child... `kw`who are you?`rt`
+SET    | o_cdwarfHead01 | idle
+NOTE   | identity
+IF note == Hoopz | GOTO | ME_BE_HOOPZ
+//TODO: add in the identity CC connection to beginning of game
+GOTO   | ME_BE_STEVE
+
+ME_BE_HOOPZ
+QUEST  | playerIdentity = 1
+QUEST  | playerNameShort = Hoopz
+QUEST  | playerName = Hoopz
+QUEST  | playerNameFull = Hoopz Barkley
+DIALOG | P_NAME         | My name is `mq`Hoopz Barkley...`rt` I am he and he is I. What you say is true, Cyberdwarf.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Hoopz Barkley... the words I have waited eons to hear from your very lips, youngster. Finally, the prophecy is ready to be fulfilled. We must make haste to defeat Cuchulainn, my child.
+SET    | o_cdwarfHead01 | idle
+GOTO   | POST_IDENTITY
+
+ME_BE_STEVE
+QUEST  | playerIdentity = 2
+QUEST  | playerNameShort = Steve
+QUEST  | playerName = Steve Bompo
+QUEST  | playerNameFull = Steve Bompo
+DIALOG | P_NAME         | My name is `mq`P_NAME...`rt` no, I AM P_NAME!... and P_NAME is me. 
+DIALOG | P_NAME         | I've always known in my heart that P_NAME is who I've always been, and yet also that P_NAME is who I was born to become. I've never been more certain of anything, Cyberdwarf.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | So it seems. You truly are P_NAME. Then it is you who shall have to fulfill the prophecy. I knew my faith in you was not misplaced. And now, my child, we must make haste to defeat Cuchulainn.
+SET    | o_cdwarfHead01 | idle
+GOTO   | POST_IDENTITY
+
+POST_IDENTITY
+IF crustDead == 1     | GOTO | CUCHU_KILLED
+IF crustFightAny == 1 | GOTO | CUCHU_FIGHT
+GOTO | CUCHU_ATTEMPT
+
+CUCHU_KILLED
+DIALOG | P_NAME         | But Cyberdwarf, when I confronted Cuchulainn, I wiped the floor with him. It was a tough fight, but I mean, c'mon, he didn't REALLY stand a chance.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | That is true, P_NAME, you handily defeated his first form and for that I commend you. But it was merely his weakest manifestation and Cuchulainn remains vigilant. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to forever defeat Cuchulainn: the Cyberspear of Destiny.
+SET    | o_cdwarfHead01 | idle
+GOTO   | CSPEAR_QUEST
+
+CUCHU_FIGHT
+DIALOG | P_NAME         | But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. I didn't even come close to beating him.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | It's true, P_NAME, you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the `mq`Cyberspear of Destiny.`rt`
+SET    | o_cdwarfHead01 | idle
+GOTO   | CSPEAR_QUEST
+
+CUCHU_ATTEMPT
+DIALOG | P_NAME         | But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. Or, his dungeon did anyway. I didn't even come close...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | It's true, P_NAME, you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the `mq`Cyberspear of Destiny.`rt`
+SET    | o_cdwarfHead01 | idle
+GOTO   | CSPEAR_QUEST
+
+CSPEAR_QUEST
+DIALOG | P_NAME         | The Cyberspear of Destiny? What's that?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | The Gae Bolg, Ascalon, the Lance of Longinus... The Cyberspear of Destiny, the ancient javelin of monumental power once wielded by Cuchulainn himself. 
+DIALOG | Cyberdwarf     | Since the time of my imprisonment on Necron 7, I have tasked L.O.N.G.I.N.U.S. with keeping three things safe. My potent `s1`k`rt``w1`e`rt``s2`r`rt`n`w2`e`rt``s1`l`rt`, the location of the Cyberspear, and the life of you - the one F.A.T.E.d to wield it.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | Okay. Where can we find it?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | It has been kept from Cuchulainn and his dreaded Bainshees in the `mq`AI Ruins,`rt` an elephant graveyard of artificial intelligence modules long forgotten. His minions haven't yet looked there, perhaps because of the perils they present.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | I'm not afraid. Just tell me how to get there.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | You must temper your bravado with caution, child! To reach the AI Ruins is no easy feat, to enter them is nigh impossible, and to survive them is an even greater task. They can be reached `kw`through the Undersewer tunnels`rt` that sprawl beneath the whole of the Necron 7. But there are other ways as well...
+SET    | o_cdwarfHead01 | idle
+WAIT   | 0.5
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Speak to those hapless rebels outside. I will instruct that miserable wretch Jhodfrey to give you a map. Follow it to the AI Ruins and there I will meet you there.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | Okay!_ Wait, how will you meet me there if you are in that tube?_ Does that mean...
+DIALOG | P_NAME = s_port_hoopzHappy | ARE YOU COMING WITH ME?!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | What?_ No. Stay your insolence and let me explain.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSad | Oh...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Cuchulainn's Cronies scour the entirety of Necron 7 looking for both of us. They search not only the floor, but the airwaves as well. Communication of the dwarfs has gone_ LOW TECH.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzHappy | Like `w1`MORSE CODE?!`w0`
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Hush, Your unfledged ponderings belong only in your private mind and not on your public tongue. Listen, P_NAME_S. L_i_s_t_e_n.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSad | Oh, sorry...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | The technology was called `mq`/'Wi-Fi,/'`rt` also known as the `mq`/'Wilfred Fidelis Protocols./'`rt` 
+DIALOG | Cyberdwarf     | Used at the time of the first Cyberpocalypse... Cuchulainn was imprisoned at the time and is unaware of Wi-Fi's shadowy existence.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow... arcane tech...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | We will use these Wi-Fi Protocols for encrypted communications... 
+DIALOG | Cyberdwarf     | As we speak all branches of L.O.N.G.I.N.U.S. are deploying and installing `mq`/'routers/',`rt` devices necessary for our desired communications, all over Necron 7. 
+DIALOG | Cyberdwarf     | For some reason they do not yet work but I have faith that once you find them you will be able to complete their installation. Only then will you gain the power of the ancient Wi-Fi Communication Arts.
+DIALOG | Cyberdwarf     | You will need an user account for the Wi-Fi communication app, my child. Do you happen to have one?
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | Uhh... No, I don't think so.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Hmm... I was afraid you would say that, my child.
+DIALOG | Cyberdwarf     | Given the circumstances I believe there is only one thing to do._ Talk to `mq`Jhodfrey`rt` and he will give you access to an account you can use. 
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME         | I-_I won't let you down Cyberdwarf!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf     | Child... I know... I know... `mq`Now make haste to Jhodfrey, get the map and find the router of the Undersewers!`rt` We will speak again shortly.
+SET    | o_cdwarfHead01 | idle
+Misc   | alpha | o_cdwarfHead01 | 0 | 2
+WAIT   | 2
+LOOK   | o_cts_hoopz | o_cdwarfHead01
+QUEST  | csQuest = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjusy"]
+size = Vector2(55, 20)
+
+[node name="o_cdwarfStart01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_bjusy")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_omwpi")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_bjusy")
+debug_color = Color(0.63415647, 0.52815026, 0, 0.25490198)

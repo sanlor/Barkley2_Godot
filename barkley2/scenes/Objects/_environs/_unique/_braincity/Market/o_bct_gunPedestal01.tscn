@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://ylyf7sk0eixj"]
+
+[ext_resource type="Texture2D" uid="uid://dj13r5dnvtbn3" path="res://barkley2/assets/b2_original/images/merged/s_bct_gunPedestal01.png" id="1_toqmx"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_6ojet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulp64"]
+atlas = ExtResource("1_toqmx")
+region = Rect2(0, 0, 48, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1m2xt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ulp64")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1cir3"]
+radius = 19.2
+
+[node name="o_bct_gunPedestal01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_1m2xt")
+centered = false
+offset = Vector2(-24, -23)
+script = ExtResource("2_6ojet")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "45",
+"bbox_left": "4",
+"bbox_right": "44",
+"bbox_top": "16",
+"height": "47",
+"name": "s_bct_gunPedestal01",
+"width": "48",
+"xorig": "24",
+"yorigin": "23"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_1cir3")

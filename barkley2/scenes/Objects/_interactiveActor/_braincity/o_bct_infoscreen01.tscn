@@ -1,0 +1,125 @@
+[gd_scene load_steps=9 format=3 uid="uid://cpvaiey20ngh3"]
+
+[ext_resource type="Texture2D" uid="uid://b31f2pe1kjq4d" path="res://barkley2/assets/b2_original/images/merged/s_bct_infoscreen01.png" id="1_ecfno"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_sh2tf"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_sh2tf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgbfd"]
+atlas = ExtResource("1_ecfno")
+region = Rect2(0, 0, 81, 59)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vaotb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fgbfd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_fgbfd"]
+script = ExtResource("3_sh2tf")
+original_script = "IF bctMonitor = 1        | GOTO | EGG_SNATCH
+IF bctMonitor = 2        | GOTO | EGG_SNATCHED
+IF @Influence Ovum@ >= 1 | GOTO | EGG_INSERT_PRELUDE
+GOTO   | SCREEN0
+
+EGG_SNATCHED
+DIALOG | P_NAME | This thing is just a total hunk of junk as far as I'm concerned.
+
+EGG_SNATCH
+DIALOG | P_NAME | I guess there's no need to have this egg in here since I already got that map...
+CHOICE | Snatch the Influence Ovum?
+REPLY  | SNATCH_YAY | Yeah!
+REPLY  | SNATCH_NAY | Nay!
+
+SNATCH_YAY
+DIALOG | P_NAME | No more freeloading for these guys. This egg is coming back home to papa.
+USEAT  | o_bct_infoscreen01
+SET    | o_bct_infoscreen01 | default
+NOTIFY | Found Influence Ovum!
+ITEM   | Influence Ovum | +1
+QUEST  | bctMonitor = 2
+
+SNATCH_NAY
+DIALOG | P_NAME | Nah... Maybe later.
+
+SCREEN0
+DIALOG | P_NAME | A monitor of some sort. Looks like it's out of juice.
+
+EGG_INSERT_PRELUDE
+DIALOG | P_NAME | It's a monitor of some sort. Looks like it's all out of juice.
+WAIT   | 0.75
+DIALOG | P_NAME | Hmm... There's a slot here that's shaped like an egg...
+DIALOG | P_NAME | Hey! I think I have one of those egg shaped thingamajigs with me.
+CHOICE | Use an Influence Ovum?
+REPLY  | EGG_USE_YAY | Yeah!
+REPLY  | EGG_USE_NAY | Nay!
+
+EGG_USE_YAY
+DIALOG | P_NAME | Okay, here goes.
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+USEAT  | NORTH
+SET    | o_bct_infoscreen01 | battery
+WAIT   | 0.5
+NOTIFY | Lost an Influence Ovum!
+ITEM   | Influence Ovum | -1
+DIALOG | P_NAME | Uh... Did that do anything?
+WAIT   | 0.75
+DIALOG | P_NAME | I guess I'll try and turn this thing on.
+USEAT  | NORTH
+SET    | o_bct_infoscreen01 | map
+WAIT   | 0.75
+DIALOG | P_NAME | Hey, cool! It's like a map of some sort. I'd better cyber-scan it into my neuro-memory cortex.
+NOTIFY | Found Braincity map!
+WAIT   | 0.75
+DIALOG | P_NAME | Mission accomplished.
+QUEST  | bctMonitor = 1
+
+EGG_USE_NAY
+DIALOG | P_NAME | Nah..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vaotb"]
+size = Vector2(86, 65)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0l5sa"]
+radius = 12.0
+height = 80.0
+
+[node name="o_bct_infoscreen01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_vaotb")
+centered = false
+offset = Vector2(-40, -58)
+script = ExtResource("2_sh2tf")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_fgbfd")
+metadata/default = {
+"bbox_bottom": "58",
+"bbox_left": "0",
+"bbox_right": "80",
+"bbox_top": "0",
+"height": "59",
+"name": "s_bct_infoscreen01",
+"width": "81",
+"xorig": "40",
+"yorigin": "58"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, -29.5)
+shape = SubResource("RectangleShape2D_vaotb")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -12)
+rotation = 1.5707964
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CapsuleShape2D_0l5sa")

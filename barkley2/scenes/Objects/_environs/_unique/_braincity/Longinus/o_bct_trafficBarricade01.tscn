@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://decfsqsk2lf7o"]
+
+[ext_resource type="Texture2D" uid="uid://d223fg345bnad" path="res://barkley2/assets/b2_original/images/merged/s_bct_trafficBarricade01.png" id="1_kj3i8"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_jpc3m"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6u2c"]
+atlas = ExtResource("1_kj3i8")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bsr60"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6u2c")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kj3i8"]
+height = 38.0
+
+[node name="o_bct_trafficBarricade01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_bsr60")
+centered = false
+offset = Vector2(-23, -23)
+script = ExtResource("2_jpc3m")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "4",
+"bbox_right": "45",
+"bbox_top": "16",
+"height": "32",
+"name": "s_bct_trafficBarricade01",
+"width": "48",
+"xorig": "23",
+"yorigin": "23"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, -4)
+rotation = 1.4272983
+shape = SubResource("CapsuleShape2D_kj3i8")

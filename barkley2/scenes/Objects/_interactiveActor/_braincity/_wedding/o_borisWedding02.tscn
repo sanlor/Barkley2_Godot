@@ -1,0 +1,135 @@
+[gd_scene load_steps=14 format=3 uid="uid://jwuf17r01wvs"]
+
+[ext_resource type="Script" uid="uid://dmn8ymwu4vre" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_borisWedding02.gd" id="1_t18em"]
+[ext_resource type="Texture2D" uid="uid://clc66bn82ap3d" path="res://barkley2/assets/b2_original/images/merged/s_boris01.png" id="2_joa67"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8p7iu"]
+atlas = ExtResource("2_joa67")
+region = Rect2(0, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lak55"]
+atlas = ExtResource("2_joa67")
+region = Rect2(40, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynexj"]
+atlas = ExtResource("2_joa67")
+region = Rect2(80, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpbho"]
+atlas = ExtResource("2_joa67")
+region = Rect2(120, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lancb"]
+atlas = ExtResource("2_joa67")
+region = Rect2(160, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idbf0"]
+atlas = ExtResource("2_joa67")
+region = Rect2(200, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hbttv"]
+atlas = ExtResource("2_joa67")
+region = Rect2(240, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3dlh"]
+atlas = ExtResource("2_joa67")
+region = Rect2(280, 0, 40, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_78lra"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8p7iu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lak55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynexj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpbho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lancb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idbf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbttv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3dlh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lak55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ynexj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpbho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lancb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idbf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hbttv")
+}],
+"loop": true,
+"name": &"playing",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t18em"]
+radius = 11.045361
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kxw5w"]
+size = Vector2(29, 38)
+
+[node name="o_borisWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_t18em")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_78lra")
+animation = &"playing"
+autoplay = "playing"
+frame_progress = 0.14492135
+centered = false
+offset = Vector2(-21, -33)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "15",
+"bbox_right": "42",
+"bbox_top": "31",
+"frames": ["images\\s_boris01_0.png", "images\\s_boris01_1.png", "images\\s_boris01_2.png", "images\\s_boris01_3.png", "images\\s_boris01_4.png", "images\\s_boris01_5.png", "images\\s_boris01_6.png", "images\\s_boris01_7.png"],
+"height": "37",
+"name": "s_boris01",
+"width": "40",
+"xorig": "21",
+"yorigin": "33"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_t18em")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, -15)
+shape = SubResource("RectangleShape2D_kxw5w")

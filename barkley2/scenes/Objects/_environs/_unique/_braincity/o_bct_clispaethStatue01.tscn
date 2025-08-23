@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://yipgkg8yuahl"]
+
+[ext_resource type="Texture2D" uid="uid://d2ipuenne1u86" path="res://barkley2/assets/b2_original/images/merged/s_bct_clispaethStatue01.png" id="1_6ana0"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_dco7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmetk"]
+atlas = ExtResource("1_6ana0")
+region = Rect2(0, 0, 100, 102)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jm526"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmetk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tryfa"]
+radius = 18.0
+
+[node name="o_bct_clispaethStatue01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_jm526")
+centered = false
+offset = Vector2(-5, -21)
+script = ExtResource("2_dco7n")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "101",
+"bbox_left": "32",
+"bbox_right": "99",
+"bbox_top": "0",
+"height": "102",
+"name": "s_bct_clispaethStatue01",
+"width": "100",
+"xorig": "5",
+"yorigin": "21"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(54, 69)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_tryfa")

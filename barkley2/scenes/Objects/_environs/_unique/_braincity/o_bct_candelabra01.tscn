@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://6nbku8yxfx02"]
+
+[ext_resource type="Texture2D" uid="uid://btndj2asa245t" path="res://barkley2/assets/b2_original/images/merged/s_bct_candelabra01.png" id="1_p0ma2"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_pbne0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ult16"]
+atlas = ExtResource("1_p0ma2")
+region = Rect2(0, 0, 30, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qghj6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ult16")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yf3su"]
+radius = 8.0
+
+[node name="o_bct_candelabra01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_qghj6")
+centered = false
+offset = Vector2(-15, -54)
+script = ExtResource("2_pbne0")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "57",
+"bbox_left": "8",
+"bbox_right": "21",
+"bbox_top": "48",
+"height": "60",
+"name": "s_bct_candelabra01",
+"width": "30",
+"xorig": "15",
+"yorigin": "54"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_yf3su")

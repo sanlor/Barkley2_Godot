@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://dswnmfyf2gyij"]
+
+[ext_resource type="Texture2D" uid="uid://bkfd1fy2ee7sa" path="res://barkley2/assets/b2_original/images/merged/s_bct_pew01.png" id="1_25out"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_mbyj1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buwao"]
+atlas = ExtResource("1_25out")
+region = Rect2(0, 0, 36, 74)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5xc5o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buwao")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_25out"]
+radius = 17.0
+height = 56.0
+
+[node name="o_bct_pew01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_5xc5o")
+centered = false
+offset = Vector2(-18, -73)
+script = ExtResource("2_mbyj1")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "73",
+"bbox_left": "-8",
+"bbox_right": "42",
+"bbox_top": "14",
+"height": "74",
+"name": "s_bct_pew01",
+"width": "36",
+"xorig": "18",
+"yorigin": "73"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CapsuleShape2D_25out")

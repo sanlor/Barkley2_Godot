@@ -1,0 +1,110 @@
+[gd_scene load_steps=14 format=3 uid="uid://begbi13xwhd5f"]
+
+[ext_resource type="Script" uid="uid://cyt51q23eq0bs" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_garciaWedding02.gd" id="1_15v15"]
+[ext_resource type="Texture2D" uid="uid://diebs3ocfhrq1" path="res://barkley2/assets/b2_original/images/merged/s_garciaPlay01.png" id="2_bp5tn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dpfv"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(0, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpqpr"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(48, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d6q31"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(96, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p74na"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(144, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yk0ny"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(192, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpxjv"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(240, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_275na"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(288, 0, 48, 70)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cj68l"]
+atlas = ExtResource("2_bp5tn")
+region = Rect2(336, 0, 48, 70)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kbrly"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dpfv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpqpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d6q31")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p74na")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yk0ny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpxjv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_275na")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cj68l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_15v15"]
+radius = 15.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s4b0b"]
+size = Vector2(32, 61)
+
+[node name="o_garciaWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_15v15")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_kbrly")
+autoplay = "default"
+frame_progress = 0.89316374
+centered = false
+offset = Vector2(-29, -53)
+metadata/default = {
+"bbox_bottom": "83",
+"bbox_left": "18",
+"bbox_right": "65",
+"bbox_top": "48",
+"frames": ["images\\s_garciaPlay01_0.png", "images\\s_garciaPlay01_1.png", "images\\s_garciaPlay01_2.png", "images\\s_garciaPlay01_3.png", "images\\s_garciaPlay01_4.png", "images\\s_garciaPlay01_5.png", "images\\s_garciaPlay01_6.png", "images\\s_garciaPlay01_7.png"],
+"height": "70",
+"name": "s_garciaPlay01",
+"width": "48",
+"xorig": "29",
+"yorigin": "53"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_15v15")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(1, -22.5)
+shape = SubResource("RectangleShape2D_s4b0b")

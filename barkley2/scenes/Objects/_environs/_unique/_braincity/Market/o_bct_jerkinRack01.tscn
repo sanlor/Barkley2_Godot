@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://4aotu8l6jood"]
+
+[ext_resource type="Texture2D" uid="uid://5rco4r4k3oc4" path="res://barkley2/assets/b2_original/images/merged/s_bct_jerkinRack01.png" id="1_wqlvh"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_th7bx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxrmc"]
+atlas = ExtResource("1_wqlvh")
+region = Rect2(0, 0, 31, 104)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d30jh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxrmc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wqlvh"]
+height = 60.0
+
+[node name="o_bct_jerkinRack01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_d30jh")
+centered = false
+offset = Vector2(-15, -52)
+script = ExtResource("2_th7bx")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "103",
+"bbox_left": "0",
+"bbox_right": "30",
+"bbox_top": "0",
+"height": "104",
+"name": "s_bct_jerkinRack01",
+"width": "31",
+"xorig": "15",
+"yorigin": "52"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CapsuleShape2D_wqlvh")

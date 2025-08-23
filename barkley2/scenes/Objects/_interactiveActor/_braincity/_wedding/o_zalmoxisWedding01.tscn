@@ -1,0 +1,136 @@
+[gd_scene load_steps=14 format=3 uid="uid://dkckbkio4jb4q"]
+
+[ext_resource type="Script" uid="uid://cgful7aa142ln" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_zalmoxisWedding01.gd" id="1_l5c6l"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_n5r2j"]
+[ext_resource type="Texture2D" uid="uid://bheyqp8ljree8" path="res://barkley2/assets/b2_original/images/merged/s_zalmoxis01.png" id="2_pqsuk"]
+
+[sub_resource type="Resource" id="Resource_mbgs1"]
+script = ExtResource("2_n5r2j")
+original_script = "IF janeWedding == 1  | IF zalmoxisJane == 0  | GOTO | JANE_HAVE
+IF wayneWedding == 1 | IF zalmoxisWayne == 0 | GOTO | WAYNE_HAVE
+IF polyWedding == 1  | IF zalmoxisPoly == 0  | GOTO | POLY_HAVE
+IF borisWedding == 1 | IF zalmoxisBoris == 0 | GOTO | BORIS_HAVE
+IF zalmoxisWait == 0 | GOTO | WAITING
+IF zalmoxisWait == 1 | GOTO | WAITING_REPEAT
+
+JANE_HAVE
+DIALOG | Zalmoxis | Someone needs to tell that insufferable sea captain that her accordion sounds like it's been out of tune for the last 200 years. How can I possibly play my cuica zauber over that unbearable racket?
+QUEST  | zalmoxisWait 1
+QUEST  | zalmoxisJane 1
+    
+WAYNE_HAVE
+DIALOG | Zalmoxis | Has that simpleton Wayne never touched an instrument before in his life? Those 'doo' sounds... unbearable... simply unbearable!
+QUEST  | zalmoxisWait 1
+QUEST  | zalmoxisWayne 1
+    
+POLY_HAVE
+DIALOG | Zalmoxis | Poly's personality is as odious as her (negligible) drumming ability. Why would you have me play with someone as intolerable and musically pedestrian as her!
+QUEST  | zalmoxisWait 1
+QUEST  | zalmoxisPoly 1
+
+BORIS_HAVE
+DIALOG | Zalmoxis | Hmph. I can /almost/ tolerate the flautist's playing, but I have no time for his eccentricities! Riddles and rhymes and alliterations! Am I a child? I am here for one thing and one thing only - to enlighten the masses to the glory of cuica zauber!
+QUEST  | zalmoxisWait = 1
+QUEST  | zalmoxisBoris = 1
+
+WAITING_REPEAT
+DIALOG | Zalmoxis | I can hardly concentrate on my cuica zauber with this booty drivel playing, let alone with you pestering me. Begone, gnat! Begone!
+    
+WAITING
+DIALOG | Zalmoxis | You return. Tell me then how I'm supposed to prepare myself for the wedding with this insufferable /'booty bass/' nonsense blasting everywhere?
+QUEST  | zalmoxisWait = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5r2j"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(0, 0, 44, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbgs1"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(44, 0, 44, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_int2h"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(88, 0, 44, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fy6l"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(132, 0, 44, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wau16"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(176, 0, 44, 55)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22d6u"]
+atlas = ExtResource("2_pqsuk")
+region = Rect2(220, 0, 44, 55)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2tp5l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5r2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbgs1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_int2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fy6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wau16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22d6u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_int2h"]
+radius = 13.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rl0au"]
+size = Vector2(30, 50)
+
+[node name="o_zalmoxisWedding01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_l5c6l")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_mbgs1")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_2tp5l")
+autoplay = "default"
+frame_progress = 0.077651165
+centered = false
+offset = Vector2(-25, -50)
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "12",
+"bbox_right": "50",
+"bbox_top": "43",
+"frames": ["images\\s_zalmoxis01_0.png", "images\\s_zalmoxis01_1.png", "images\\s_zalmoxis01_2.png", "images\\s_zalmoxis01_3.png", "images\\s_zalmoxis01_4.png", "images\\s_zalmoxis01_5.png"],
+"height": "55",
+"name": "s_zalmoxis01",
+"width": "44",
+"xorig": "25",
+"yorigin": "50"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_int2h")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(1, -22)
+shape = SubResource("RectangleShape2D_rl0au")

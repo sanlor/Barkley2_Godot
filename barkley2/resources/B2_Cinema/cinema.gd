@@ -192,6 +192,7 @@ func end_cutscene():
 	if B2_CManager.event_lock:
 		print("Wow, something enabled the event lock. Cinema Script is waiting for the right signal.")
 		await B2_CManager.release_event_lock
+		B2_CManager.event_lock = false
 		
 	#await get_tree().process_frame
 	load_hoopz_player()

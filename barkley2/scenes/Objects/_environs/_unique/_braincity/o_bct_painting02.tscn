@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://n4v65tlr05kx"]
+
+[ext_resource type="Texture2D" uid="uid://btpdcn6hhjv8v" path="res://barkley2/assets/b2_original/images/merged/s_bct_painting02.png" id="1_qdqay"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_2ym53"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1s3r"]
+atlas = ExtResource("1_qdqay")
+region = Rect2(0, 0, 24, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tvpt4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1s3r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_bct_painting02" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_tvpt4")
+centered = false
+offset = Vector2(-12, -16)
+script = ExtResource("2_2ym53")
+EnvCol = NodePath("")
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "0",
+"height": "32",
+"name": "s_bct_painting02",
+"width": "24",
+"xorig": "12",
+"yorigin": "16"
+}

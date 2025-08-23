@@ -7,8 +7,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_uhmex"]
 radius = 64.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5115"]
-size = Vector2(27, 7)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_v5115"]
+radius = 14.0
+height = 34.0
 
 [node name="o_teleport_manhole" type="Sprite2D"]
 z_index = -5
@@ -30,8 +31,9 @@ shape = SubResource("CircleShape2D_uhmex")
 debug_color = Color(0.7607843, 0.44705883, 0.23137257, 0.05490196)
 
 [node name="teleport_area" type="Area2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_area"]
-position = Vector2(0, -7)
-shape = SubResource("RectangleShape2D_v5115")
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_v5115")
 debug_color = Color(0.2901961, 0.59607846, 0.2509804, 0.65882355)

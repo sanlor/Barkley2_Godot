@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6qicw4uboaq8"]
+
+[ext_resource type="Texture2D" uid="uid://m56j8gr5ndg5" path="res://barkley2/assets/b2_original/images/merged/s_bct_graffiti01.png" id="1_64eks"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_vq2pi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1tu2"]
+atlas = ExtResource("1_64eks")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ghyyi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1tu2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_bct_graffiti01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ghyyi")
+centered = false
+offset = Vector2(-32, -16)
+script = ExtResource("2_vq2pi")
+metadata/default = {
+"bbox_bottom": "30",
+"bbox_left": "2",
+"bbox_right": "63",
+"bbox_top": "1",
+"height": "32",
+"name": "s_bct_graffiti01",
+"width": "64",
+"xorig": "32",
+"yorigin": "16"
+}
