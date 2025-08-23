@@ -14,6 +14,7 @@ class_name B2_EnvironProp
 
 @export var cast_shadow 				:= false
 @export var draw_base					:= false
+@export var flip_sprite					:= false
 
 @export_category("Collision")
 @export var shape 			:= SHAPES.CIRCLE
@@ -60,7 +61,7 @@ func _ready() -> void:
 			add_child( shadow_node, true )
 		else:
 			push_warning("No animation %s on node %s." % ["shadow", name] )
-	
+	flip_h = flip_sprite
 		
 func lazy_bastard():
 	EnvCol = StaticBody2D.new()

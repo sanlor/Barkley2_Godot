@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=3 uid="uid://cokd26wt1rgv8"]
+
+[ext_resource type="Script" uid="uid://b0b8u2lmfunsy" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_bct_kelpenhoff01.gd" id="1_8gvt1"]
+[ext_resource type="Texture2D" uid="uid://cjbjqc8lknl0h" path="res://barkley2/assets/b2_original/images/merged/s_bct_kelpenhoff01.png" id="2_2cdq8"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_a33qw"]
+
+[sub_resource type="Resource" id="Resource_0vtpc"]
+script = ExtResource("2_a33qw")
+original_script = "IF kelpenhoffState == 0 | GOTO | KELP_0
+IF kelpenhoffState == 1 | GOTO | KELP_1
+IF kelpenhoffState == 2 | GOTO | KELP_2
+IF kelpenhoffState == 3 | GOTO | KELP_3
+
+KELP_0
+DIALOG | Kelpenhoff | /'Ah, cometh h're mine own cousin, and taketh a sipeth of this fine brew. This brew is fiteth f'r a king/', the jester proudly claimed.
+DIALOG | Kelpenhoff | /'Go suck an egg, you disgusting fool./' Mario responded in anger.
+DIALOG | Kelpenhoff | Ah, I love the adventures of Mario Kojima. He is my favorite fantasy character. This book series has me totally hooked!
+QUEST  | kelpenhoffState = 1
+
+KELP_1
+DIALOG | Kelpenhoff | /'Behold! behold at this sw'rd did bind in the ancient rocketh! Tis the sw'rd of legends, the Gruggnaptor!/', Thuriel the Peasant shouted.
+DIALOG | Kelpenhoff | /'Sucketh mine own dick, thee knave. I needeth not thy dumb sw'rd, n'r thy no more brain than stone counsel/' Mario responded in anger.
+DIALOG | Kelpenhoff | Aw damn, son. Mario Kojima `w1`BRASTED`w0` that fool Thuriel right to his face.
+QUEST  | kelpenhoffState = 2
+
+KELP_2
+DIALOG | Kelpenhoff | /'Holp me, mario. The carrions art knawing mine own at forks/', Ezmeralda pleaded.
+DIALOG | Kelpenhoff | /'Alas thee, thee dumb wench. Behold bef're thee leapeth. I shall not holp thee/' Mario responded in anger.
+DIALOG | Kelpenhoff | Wow! Ice cold, Mario. Ice cold...
+QUEST  | kelpenhoffState = 3
+
+KELP_3
+DIALOG | Kelpenhoff | /'The dragon hast been slain. Valorous w'rk, mario. The kingdom is in thy debt/', said King Hocapunto XIV, gesturing at his court jester to fetch the bucket full of gold. 
+DIALOG | Kelpenhoff | /'Sayeth t sprayeth not t, thee fusty blinking idiot/' Mario responded in anger.
+DIALOG | Kelpenhoff | Heh, looks like that king just got owned. Mario... you are so cool!
+QUEST  | kelpenhoffState = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a33qw"]
+atlas = ExtResource("2_2cdq8")
+region = Rect2(0, 0, 46, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0vtpc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a33qw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rt10j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rt10j"]
+size = Vector2(38, 48)
+
+[node name="o_bct_kelpenhoff01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_8gvt1")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_0vtpc")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0vtpc")
+centered = false
+offset = Vector2(-25, -44)
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "4",
+"bbox_right": "42",
+"bbox_top": "0",
+"frames": ["images\\s_bct_kelpenhoff01_0.png"],
+"height": "50",
+"name": "s_bct_kelpenhoff01",
+"width": "46",
+"xorig": "25",
+"yorigin": "44"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_rt10j")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(-2, 6)
+shape = SubResource("RectangleShape2D_rt10j")

@@ -26,6 +26,9 @@ const FN_SMALL = preload("uid://c5asr1c5g1w6h")
 @export_category("Warp details")
 @export var no_destination_text := "No Destination"
 
+func _ready() -> void:
+	queue_redraw()
+
 func get_exit_point() -> Vector2:
 	return global_position + exit_point
 

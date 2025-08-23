@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://cmwrri7q2ykle"]
+
+[ext_resource type="Script" uid="uid://coot5xwqu34mq" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_mehmet01.gd" id="1_oulm8"]
+[ext_resource type="Texture2D" uid="uid://d0g8j4oap8f7x" path="res://barkley2/assets/b2_original/images/merged/s_bct_mehmet01.png" id="2_0rmmg"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_5de12"]
+
+[sub_resource type="Resource" id="Resource_gb138"]
+script = ExtResource("2_5de12")
+original_script = "IF clock >= 0  | IF clock <= 8  | GOTO | TIME_ONE
+IF clock >= 9  | IF clock <= 10 | GOTO | TIME_TWO
+IF clock >= 11 | IF clock <= 14 | GOTO | TIME_THREE
+IF clock >= 15 | IF clock <= 18 | GOTO | TIME_FOUR
+IF clock >= 19 | IF clock <= 21 | GOTO | TIME_FIVE
+IF clock >= 22 | IF clock <= 24 | GOTO | TIME_SIX
+
+TIME_ONE
+DIALOG | Mehmet | Jacques Cousteau and the StarKist Tuna, that's the one couple you'd think would never fail. And yet... and yet I just can't get them to ship in my latest fic... what am I doing wrong? Why can't this work? Am I a failure as a writer?
+
+TIME_TWO
+DIALOG | Mehmet | Two words. Waluigi. Corleone. I mean, think about it. Why is Waluigi so secretive about his last name? Why is he constantly involved in morally questionable activities? BECAUSE HE'S THE HEIR TO THE CORLEONE CRIME FAMILY. At least in my latest fanfic, which also throws in a dash of steampunk + is set on Gilligan's Island.
+
+TIME_THREE
+DIALOG | Mehmet | The flank has fallen! We're surrounded on all sides!/' Sir Roland bellowed, his face glowering with worry. /'How are we gonna spindash our way out of this one...?/' Emperor Chandler quipped to himself...
+
+TIME_FOUR
+DIALOG | Mehmet | Hey, let me ask you something. Who do you think would win in a duel, Charlemagne or Chandler Bing?
+CHOICE | Who would win in a duel...?
+REPLY  | DUEL_CHARLEMA | Charlemagne.
+REPLY  | DUEL_CHANDLER | Chandler.
+
+DUEL_CHARLEMA
+DIALOG | P_NAME | Uhh, Charlemagne?
+DIALOG | Mehmet | Heh, nice guess. That's what the Franks thought too - BEFORE Chandler found the Chaos Emeralds. It's sad, but Charlemagne never even stood a chance. Just a little something I'm cookin' up in my latest fic. Check up on me once in a while, this is a good one.
+            
+DUEL_CHANDLER 
+DIALOG | P_NAME | Um, is it Chandler?
+DIALOG | Mehmet | Heh, I'm surprised you got it. Chandler weakened Charlemagne's defenses with some high level sarcasm... and the FREAKING CHAOS EMERALDS. Yep, it's hard to believe but Chandler somehow managed to get his snarky mitts on the Chaos Emeralds. At least in my latest fanfic. This is a juicy one, you should check up on me once in a while for updates.
+     
+TIME_FIVE
+DIALOG | Mehmet | Boy, this NaNoWriMo has been a doozy - my characters have really taken a life of their own! I went in thinking I'd ship The Nanny with Orville Redenbacher. Imagine my surprise when, in the end, she was with... well, me!       
+
+TIME_SIX
+DIALOG | Mehmet | I'm Mehmet, a professional writer. I specialize in fiction - more specifically, fan fiction. Huckleberry Hound and the Green M&M, the Nasonex Bee and the Pep Boys (yep, all three), Elaine Benes and Ben Franklin - I've shipped 'em all! And I'm not afraid to admit that sometimes... it gets a little lemon."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5de12"]
+atlas = ExtResource("2_0rmmg")
+region = Rect2(0, 0, 29, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gb138"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5de12")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5n4oq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5n4oq"]
+size = Vector2(20, 36)
+
+[node name="o_mehmet01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_oulm8")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_gb138")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_gb138")
+centered = false
+offset = Vector2(-11, -48)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_bct_mehmet01_0.png"],
+"height": "54",
+"name": "s_bct_mehmet01",
+"width": "29",
+"xorig": "11",
+"yorigin": "48"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5n4oq")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -19)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_5n4oq")

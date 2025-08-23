@@ -337,7 +337,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					choices_strings					= []
 				else:
 					loop_finished = true
-					print_rich("[color=red]CINEMA: Empty line reached, this is not good. Aborting script.[/color]")
+					print_rich("[color=red]CINEMA: Empty line reached (%s), this is not good. Aborting script.[/color]" % curr_line )
+					if curr_line > 0:
+						print_rich("[color=red]CINEMA: Previous line was: %s[/color]" % split_script[ curr_line - 1] )
 					break # exit the loop
 			
 			if line.begins_with('"'):
@@ -523,7 +525,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					await dialogue.display_dialog()
 					dialogue.queue_free()
 				"SHAKE":
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					if debug_unhandled: print_rich( "[color=red]Unhandled mode: %s[/color]" % parsed_line )
 				"ITEM", "Item":
 					if parsed_line[ 1 ].strip_edges() == "gain": # Weird edge case, only 1 script use this.
 						B2_Item.gain_item( parsed_line[ 2 ].strip_edges() )

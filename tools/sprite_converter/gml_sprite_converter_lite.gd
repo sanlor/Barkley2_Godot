@@ -81,6 +81,13 @@ func lets_goooo():
 				object.square_size = collision_square_size
 		TYPE.INTERACTIVE:
 			object = B2_EnvironInteractive.new()
+			var area := Area2D.new()
+			area.add_child( CollisionShape2D.new(), true )
+			var sta := StaticBody2D.new()
+			sta.add_child( CollisionShape2D.new(), true )
+			object.add_child( area, true )
+			object.add_child( sta, true )
+			
 	animatedsprite 		= object
 	spr_frames			= SpriteFrames.new()
 	

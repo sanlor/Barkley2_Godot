@@ -1,0 +1,137 @@
+[gd_scene load_steps=10 format=3 uid="uid://bpv3mfuimjfdh"]
+
+[ext_resource type="Script" uid="uid://bk0x2c5xaj3lk" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_ozanne01.gd" id="1_fmjr8"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_64vit"]
+[ext_resource type="Texture2D" uid="uid://jyvtupwvqonf" path="res://barkley2/assets/b2_original/images/merged/s_ozanne01.png" id="2_vaplr"]
+
+[sub_resource type="Resource" id="Resource_lf243"]
+script = ExtResource("2_64vit")
+original_script = "IF ozanneState == 0 | GOTO | OZANNE_0
+IF ozanneState == 1 | GOTO | OZANNE_1
+
+OZANNE_0
+DIALOG | Ozanne | Welcome to the Brain City Library. Computer sign-ups are over there.
+DIALOG | P_NAME | The library, huh? So I can check out any of these?
+DIALOG | Ozanne | That's right. We've got some great collections in here. Is there anything in particular you are looking for? Any genre you are fond of?
+QUEST  | ozanneState = 1
+GOTO   | BOOKS
+
+OZANNE_1
+DIALOG | Ozanne | Welcome back to the Brain City Library. Is there anything I can help you with?
+GOTO   | BOOKS
+
+BOOKS
+CHOICE | What am I looking for?
+REPLY  | LOOK_FANTASY   | Fantasy books
+REPLY  | LOOK_INFO      | Informative books
+REPLY  | LOOK_LORE      | Lore books
+REPLY  | LOOK_SELFHELP  | Self-help books
+REPLY  | LOOK_TRAVEL    | Travel books
+REPLY  | LOOK_GAME      | Vidcon books
+REPLY  | LOOK_DETECTIVE | Detective books
+REPLY  | LOOK_NOTHING   | Nary ye mind...
+
+LOOK_FANTASY
+DIALOG | P_NAME | I want to read some fantasy books. Like... knights and magick spells and stuff like that.
+DIALOG | Ozanne | Ah, I see. Yes, we have a nice collection of Orc books down in the back. They are right in the back there on the Orc section.
+DIALOG | P_NAME | Alright, thanks a lot!
+
+LOOK_INFO 
+DIALOG | P_NAME | I want to read some informative books. I want to be filled with information because information is power, and I need more power.
+DIALOG | Ozanne | Hmm. I suppose all these books hold lots of information but what you seem to be looking for in particular can be found in our Infodump section right over there.
+DIALOG | P_NAME | Alright, thanks. I'll check it out.
+
+LOOK_LORE 
+DIALOG | P_NAME | I want some lore on me. I want to read some nice, juicy item descriptions. Who was the king's uncle, and why did he build the bridge? I need to impress my fellow gamers on the forums.
+DIALOG | Ozanne | Item descriptions, huh? Hmm... Yes... Yes, I think what you are looking for is in the Item Descriptions section.
+DIALOG | P_NAME | Alright, thanks!
+
+LOOK_SELFHELP 
+DIALOG | P_NAME | I think the only person I can trust is yours truly. So I think what I need is some self-help books to boost my knowledge. 
+DIALOG | Ozanne | Hmm... That's a tough one. We don't really have self-help books, or anything that really comes even close.
+DIALOG | P_NAME | W-what...?
+DIALOG | Ozanne | Sorry, I guess you are out of luck on this one.
+DIALOG | P_NAME | Aww shucks...
+
+LOOK_TRAVEL 
+DIALOG | P_NAME | I think I would like to take a nice vacation, but first I need to learn about some potential traveling destinations.
+DIALOG | Ozanne | Uh, I don't think we have anything about traveling, unless it's within Necron 7's borders. Sorry.
+DIALOG | P_NAME | Aww, crud...
+
+LOOK_GAME
+DIALOG | P_NAME | I want to dive deep into some game reviews. Whacha got for me?
+DIALOG | Ozanne | Game reviews? Uh... I don't think we have any. Sorry.
+DIALOG | P_NAME | W-what? N-no...
+DIALOG | Ozanne | Yeah, sorry. I think you might want to try DwarfNET for that sort of a thing.
+
+LOOK_DETECTIVE
+DIALOG | P_NAME | I want to read some spooky detective stories. Criminals and robber barons dueling in the heart of the city with only one man able to stop them.
+DIALOG | Ozanne | Hmm... No, sorry. We don't have those.
+DIALOG | P_NAME | Darn...
+
+LOOK_NOTHING
+DIALOG | P_NAME | Nary ye mind..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64vit"]
+atlas = ExtResource("2_vaplr")
+region = Rect2(0, 0, 57, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lf243"]
+atlas = ExtResource("2_vaplr")
+region = Rect2(57, 0, 57, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_npcgv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64vit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lf243")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_npcgv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxxdk"]
+size = Vector2(37, 36)
+
+[node name="o_ozanne01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_fmjr8")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_lf243")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_npcgv")
+centered = false
+offset = Vector2(-29, -45)
+metadata/default = {
+"bbox_bottom": "50",
+"bbox_left": "3",
+"bbox_right": "52",
+"bbox_top": "5",
+"frames": ["images\\s_ozanne01_0.png", "images\\s_ozanne01_1.png"],
+"height": "53",
+"name": "s_ozanne01",
+"width": "57",
+"xorig": "29",
+"yorigin": "45"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_npcgv")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_nxxdk")

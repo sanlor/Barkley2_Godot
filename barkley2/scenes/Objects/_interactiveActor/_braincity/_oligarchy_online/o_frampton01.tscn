@@ -1,0 +1,243 @@
+[gd_scene load_steps=9 format=3 uid="uid://ennck8smgv08"]
+
+[ext_resource type="Script" uid="uid://colndex8cid" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_frampton01.gd" id="1_aug17"]
+[ext_resource type="Texture2D" uid="uid://b7deoa00y66gp" path="res://barkley2/assets/b2_original/images/merged/s_frampton01.png" id="2_2xt5g"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_424fg"]
+
+[sub_resource type="Resource" id="Resource_w4e6f"]
+script = ExtResource("2_424fg")
+original_script = "IF framptonState == 0 | GOTO | FRAMPTON_0
+IF framptonState == 1 | GOTO | FRAMPTON_1
+IF framptonState == 2 | GOTO | CHIDED_TOO_MUCH
+IF framptonState == 3 | GOTO | FRIENDLY
+IF framptonState == 4 | GOTO | FRAMPTON_4
+
+FRAMPTON_1
+IF knowOO >= 1 | GOTO | OO_EXPERIENCE
+IF knowOO == 0 | GOTO | OO_QUESTIONS
+
+CHIDED_TOO_MUCH
+DIALOG | Frampton | I've chided you one too many times. Get out of my sight.
+
+FRIENDLY
+DIALOG | Frampton | Hello, P_NAME. Back for some more O.O.?
+DIALOG | P_NAME   | Mayhaps, Frampton. Mayhaps.
+DIALOG | Frampton | Hah. Same ol' P_NAME._ Enjoy your stay.
+
+FRAMPTON_4
+DIALOG | Frampton | Oligarchy Online isn't just a mere virtual literal social media stratum simulator and currency exchanger. It's a way of life, and a way of unlife.
+
+FRAMPTON_0
+DIALOG | Frampton | Just like everyone else. You can sign up for an account upstairs at the Intra-Reality Annex. Cosette can get you started with an Oligarchy Online account.
+QUEST  | framptonState = 1 
+GOTO   | OO_QUESTIONS
+
+OO_QUESTIONS
+CHOICE | I have some questions.
+REPLY  | IS_THIS_OO       | What is all of this?
+REPLY  | HOW_DO_I_SIGN_UP | How do I sign up for this?
+IF framptonSpikey == 0 | REPLY | WHO_IS_SPIKEY_HAIR | Who's that spikey haired guy over there?  
+IF knowDwarfNET >= 1 | IF knowOO == 0 | REPLY | IS_IT_LIKE_DNET | Is this like DwarfNET?
+REPLY  | MAYBE_LATER | Nah, I'm good.
+
+IS_THIS_OO
+DIALOG | P_NAME   | What is all this?
+DIALOG | Frampton | All this? Well it depends on how much time you have to kill.
+CHOICE | Got time to kill?
+REPLY  | LOADS_OF_TIMES | Loads. Tell me what I need to do.
+REPLY  | MAYBE_LATER    | Work's got me by the orbs, maybe later!
+
+LOADS_OF_TIMES
+DIALOG | P_NAME   | Time is on my side. What are these machines?
+DIALOG | Frampton | These are the Technorganic Interface Stations for Oligarchy Online. The premiere online experience on Necron 7. 
+DIALOG | Frampton | You've never heard of these?
+DIALOG | P_NAME   | No, can't say that I have.
+DIALOG | Frampton | They are the most state of the art machines this side of the galaxy, capable of fulfilling anyone's wildest dreams and ambitions. And Oligarchy Online? A superb masterpiece of gaming technology hatched by the most brilliant of dwarf minds.
+DIALOG | Frampton | Many historians and ancient scholars say that the moment when O.O. was first introduced to the Technorganic Interface Stations of Necron 7 was the moment when history was split into two eras: Pre-Oligarchy and Post-Oligarchy.
+DIALOG | P_NAME   | Wow, sounds like people really love this stuff.
+DIALOG | Frampton | More than you could ever know. Now, was there something else?
+KNOW   | knowOO   | 1
+GOTO   | OO_QUESTIONS
+
+MAYBE_LATER
+DIALOG | P_NAME   | Sorry friend, duty calls.
+DIALOG | Frampton | One less mouth to gel ... have a good one.
+
+HOW_DO_I_SIGN_UP
+DIALOG | P_NAME   | How do I sign up for this service?
+DIALOG | Frampton | For Oligarchy Online? Just head upstairs and talk to Cosette. She'll have you hooked up in no time.
+DIALOG | Frampton | Was there anything else?
+GOTO   | MORE_INFO
+
+WHO_IS_SPIKEY_HAIR
+DIALOG | P_NAME   | Who's that spikey haired guy? He looks pretty cool.
+DIALOG | Frampton | Yes, his hairdo is almost as mad as yours.
+DIALOG | P_NAME   | He looks... well, is he L.O.N.G.I-
+IF framptonChides >= 1 | DIALOG | Frampton | Clispaeth's Poker! What did I just tell you?! Watch your tongue! Loose lips scratch discs. Look, I'm not a reb, but I sympathize. And the last thing I do is endanger the safety of my patrons by running my gums.
+IF framptonChides >= 1 | QUEST  | framptonChides += 1
+IF framptonChides == 0 | DIALOG | Frampton | Hush it. This isn't the place for the L-word.
+DIALOG | P_NAME   | Oh sorry.
+DIALOG | Frampton | It's called OPSEC. Anyways, if you want to know just ask him.
+DIALOG | P_NAME   | Ask him? He doesn't look like he's gonna be able to answer too much here.
+DIALOG | Frampton | Well he's not really /'here/' is he?       
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzHappy | Ohhhh I get what you mean ... not /'here, here./'
+DIALOG | Frampton | Right, I'll see you in the chair.
+DIALOG | Frampton | Now, was there something else?
+QUEST  | framptonSpikey = 1
+GOTO   | OO_QUESTIONS
+     
+IS_IT_LIKE_DNET
+DIALOG | P_NAME   | Is this like jacking into DwarfNET?
+DIALOG | Frampton | Easy with the D-word! You never know who's listening. No this is NOT that. O.O. is tied directly to the eco-balance here on Necron 7.
+QUEST  | framptonChides += 1
+DIALOG | P_NAME   | So what does it do, exactly?       
+DIALOG | Frampton | What doesn't it do? Pay your rent, feed your cat, vote for absolutely anything gubernatorial. You whole life is in O.O.. Vidcons if you want them.
+DIALOG | P_NAME = s_port_hoopzHappy | I love Vidcons!                   
+DIALOG | Frampton | Well those are probably coming once Oligarchy Online reaches Beta. Right now users are restricted to Early Access Intra-Reality Purchasing and Virtual Libations. If you think about it for a really long time, you'll see that it's the best way to get access to your favorite brands.
+DIALOG | P_NAME   | Sounds complicated.
+DIALOG | Frampton | It's not too bad once you realize you need it.
+KNOW   | knowOO = 1
+   
+MORE_INFO
+CHOICE | Need more info?
+REPLY  | TELL_ME_MORE | Yeah I have a few more questions.
+REPLY  | TELL_ME_LESS | No thanks.
+
+TELL_ME_MORE
+DIALOG | P_NAME = s_port_hoopzHappy | Actually, a few more questions. 
+DIALOG | Frampton | I guess this is what they pay me for. What do you want to know?                
+GOTO   | OO_QUESTIONS
+
+TELL_ME_LESS
+DIALOG | P_NAME | I'm just admiring your steady hand. See you.
+
+CHIDE_MAXIMUM
+DIALOG | Frampton | What you made was a sore error. I'll look the other way when you can't keep your mouth shut to protect a dwarf, but when you lie to me, that's when I realize all my chidings fall on deaf ears. Get lost.
+QUEST  | framptonState = 2
+                            
+OO_EXPERIENCE
+DIALOG | Frampton | How are you enjoying Oligarchy Online?
+CHOICE | Oligarchy Online...            
+REPLY  | I_HATE_OO          | I hate OO!
+IF vrwLoggedIn == 0 | REPLY | I_HAVENT_LOGGED_IN | I haven't logged in yet.
+REPLY  | OO_LOVE            | I love OO!
+
+I_HAVENT_LOGGED_IN
+DIALOG | P_NAME = s_port_hoopzHappy | I haven't got around to logging in yet.
+WAIT   | 0.75
+DIALOG | Frampton | Huh...
+DIALOG | P_NAME   | What?
+DIALOG | Frampton | I think there is a sale going on and I see a free chair, so you might want to seize the moment.
+DIALOG | P_NAME   | Hey, thanks for the tip. I'll investigate. 
+QUEST  | framptonState = 4
+
+I_HATE_OO
+DIALOG | P_NAME = s_port_hoopzHappy | Honestly, every moment that I'm logged out of Oligarchy Online is a moment I cherish. The experience was slipshod and empty, something I thought I never would live through again after having an account with /'Gem Barrio: The World is Yours/'.
+WAIT   | 0.75
+DIALOG | Frampton | Huh...
+DIALOG | P_NAME   | I'm sorry; too harsh?
+IF vrwLoggedIn == 1 | GOTO | I_HATE_OO_TRUTH
+IF vrwLoggedIn == 0 | GOTO | I_HATE_OO_SCAM
+
+I_HATE_OO_TRUTH
+DIALOG | Frampton | No, not at all. That's the kind of honesty I love to hear from someone who's clearly examined the experience from within the system.
+DIALOG | P_NAME   | Phew.
+QUEST  | framptonState = 3
+
+I_HATE_OO_SCAM
+DIALOG | Frampton | Look I've seen a lot of dwarfs come in and out of these chairs. And they all leave with a sliver of color missing from their eyes. Like they leave a piece of their soul inside.
+DIALOG | P_NAME   | Yeah and-.
+DIALOG | Frampton | And you still have that sliver, that piece of yourself. You've never gone in. You've never visited O.O.. You're telling tales and flabbin' gums.
+WAIT   | 0.3
+DIALOG | P_NAME   | I made a mistake.
+QUEST  | framptonChides += 1
+IF framptonChides >= 2 | GOTO | CHIDE_MAXIMUM
+DIALOG | Frampton | You did indeed.
+DIALOG | P_NAME   | Sorry.
+QUEST  | framptonState = 4
+
+OO_LOVE
+DIALOG | P_NAME = s_port_hoopzHappy | I love O.O.! The only reason I'm IRL is that I'm just waiting for my Purchase Tokens to refill.
+WAIT   | 0.3
+DIALOG | Frampton | Huh...
+DIALOG | P_NAME   | Wait... what?
+IF vrwLoggedIn == 1 | GOTO | OO_LOGGED_IN
+IF vrwLoggedIn == 0 | GOTO | OO_LOGGED_IN_NOT
+
+OO_LOGGED_IN
+DIALOG | Frampton | Oh nothing, I just thought you would deride the graphics and features as barely passable for even a prototype. And that there is nothing to actually DO in Oligarchy Online. That it's just a communal bonfire of neuro-shekels, everydwarf throwing in their share just to impress the others on how much higher the flames reach.
+DIALOG | P_NAME   | Oh... No I thought it was pretty neat.
+WAIT   | 0.3
+DIALOG | Frampton | That's interesting. I guess I'll be seeing a lot more of you then.
+QUEST  | framptonState = 3
+            
+OO_LOGGED_IN_NOT
+DIALOG | Frampton | Look I've seen a lot of dwarfs come in and out of these chairs. And they all leave with a sliver of color missing from their eyes. Like they leave a piece of their soul inside.
+DIALOG | P_NAME   | Yeah and-.
+DIALOG | Frampton | And you still have that sliver, that piece of yourself. You've never gone in. You've never visited O.O.. You're telling tales and flabbin' gums.
+WAIT   | 0.3
+DIALOG | P_NAME   | I made a mistake.
+QUEST  | framptonChides += 1
+IF framptonChides >= 2 | GOTO | CHIDE_MAXIMUM
+DIALOG | Frampton | You did indeed.
+DIALOG | P_NAME   | Sorry.
+QUEST  | framptonState = 4"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_424fg"]
+atlas = ExtResource("2_2xt5g")
+region = Rect2(0, 0, 27, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w4e6f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_424fg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xoy7t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xoy7t"]
+size = Vector2(20, 52)
+
+[node name="o_frampton01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_aug17")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_w4e6f")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_w4e6f")
+centered = false
+offset = Vector2(-13, -45)
+flip_h = true
+metadata/default = {
+"bbox_bottom": "54",
+"bbox_left": "1",
+"bbox_right": "25",
+"bbox_top": "2",
+"frames": ["images\\s_frampton01_0.png"],
+"height": "56",
+"name": "s_frampton01",
+"width": "27",
+"xorig": "13",
+"yorigin": "45"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xoy7t")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -25)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_xoy7t")

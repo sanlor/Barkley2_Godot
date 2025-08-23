@@ -1,0 +1,256 @@
+[gd_scene load_steps=9 format=3 uid="uid://40nfdeaojxsq"]
+
+[ext_resource type="Script" uid="uid://fsccuem4ff5" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_cosette01.gd" id="1_1mbif"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_11upm"]
+[ext_resource type="Texture2D" uid="uid://cep10dnoeh0bc" path="res://barkley2/assets/b2_original/images/merged/s_cosette01.png" id="2_23n8y"]
+
+[sub_resource type="Resource" id="Resource_6540g"]
+script = ExtResource("2_11upm")
+original_script = "IF vrwAccount = 1    | GOTO | COSETTE03
+IF cosetteState == 2 | GOTO | COSETTE02
+IF cosetteState == 1 | GOTO | COSETTE01
+IF cosetteState == 0 | GOTO | COSETTE00
+
+ACCOUNT_SETUP
+DIALOG | Cosette | And you're all done, `w1`muffin.`w0` 
+DIALOG | P_NAME = s_port_hoopzHappy | Cool beans!
+DIALOG | Cosette | To get started you should head downstairs and talk to `kw`Frampton.`rt` He'll set you up with a chair. 
+DIALOG | Cosette | Enjoy the wonders of `mq`Oligarchy Online!`rt`
+DIALOG | P_NAME = s_port_hoopzHappy | Thank you, ma'am!
+QUEST  | vrwAccount = 1
+
+AUTHORIZE
+CREATE_WAIT | o_mg_vrw_authorize
+WAIT        | 0
+GOTO        | ACCOUNT_SETUP
+
+ACCOUNTTYPES
+BREAKOUT | add | money
+CHOICE   | What type of account?
+REPLY    | ACCOUNT_YRLY | @money_ooUnlimited@ - Unlimited Subscription!
+REPLY    | ACCOUNT_HRLY | @money_ooHourly@ - Hourly Rate Deal!
+REPLY    | ACCOUNT_PAYP | @money_ooPayp_Reup@ - Pay-As-You-Pwn Account!
+REPLY    | NOTHANKS     | Let me think about this...
+
+ACCOUNT_YRLY
+IF money < @money_ooUnlimited@ | DIALOG | P_NAME  | (Oh shucks! I can't afford that.)
+IF money < @money_ooUnlimited@ | GOTO   | ACCOUNTTYPES
+DIALOG   | P_NAME  | I'll take the `kw`Unlimited Subscription!`rt`
+BREAKOUT | clear
+DIALOG   | Cosette | Very well, you `w1`scrumptious little cheese danish.`w0` 
+DIALOG   | Cosette | Your `kw`15`rt` `sq`digi-ducats`rt` will be available as soon as you login. And we'll connect your account to automatically `kw`/'top-off/'`rt` your ducats when you are running low. Please just authorize here sugar-
+QUEST    | vrwType = 3
+QUEST    | digiducats = 15
+GOTO     | AUTHORIZE
+
+ACCOUNT_HRLY
+IF money < @money_ooHourly@ | DIALOG | P_NAME  | (Oh shucks! I can't afford that.)
+IF money < @money_ooHourly@ | GOTO   | ACCOUNTTYPES
+DIALOG   | P_NAME  | I'll take the `kw`Hourly Subscription!`rt`
+BREAKOUT | clear
+DIALOG   | Cosette | Very well, you `w1`scrumptious little breakfast scone.`w0` 
+DIALOG   | Cosette | Your `kw`15`rt` `sq`digi-ducats`rt` will be available as soon as you login. And we'll connect your account to automatically `kw`/'top-off/'`rt` your ducats when you are running low. Please just authorize here sugar-
+QUEST    | vrwType = 2
+QUEST    | digiducats = 15
+GOTO     | AUTHORIZE
+
+ACCOUNT_PAYP
+IF money < @money_ooPayp_Reup@ | DIALOG | P_NAME  | (Oh shucks! I can't afford that.)
+IF money < @money_ooPayp_Reup@ | GOTO   | ACCOUNTTYPES
+DIALOG   | P_NAME  | I'll take the `kw`Pay-As-You-Pwn`rt` option.
+BREAKOUT | clear
+DIALOG   | Cosette | Very well `w1`sweetie!`w0` I think that's an excellent choice. Now we'll have to get you to authorize your account.
+QUEST    | vrwType = 1
+GOTO     | AUTHORIZE
+
+COSETTE03
+DIALOG | Cosette | There is a lot to do in `mq`Oligarchy Online,`rt` try decorating your Intro-zone!
+
+COSETTE02
+DIALOG | Cosette | Why if it isn't my favorite little adventurer. Have you thought about getting that account, `w1`dumpling?`w0`
+GOTO   | COSETTENEED
+
+COSETTE01
+DIALOG | Cosette | Well hello, `w1`P_NAME_S,`w0` how wonderful to see you again, how can I help you young'un?
+GOTO   | COSETTENEED
+
+COSETTE00
+DIALOG | Cosette | My aren't you a `w1`cutie,`w0` how can I help you sugar?
+QUEST  | cosetteState = 1
+GOTO   | COSETTENEED
+
+COSETTENEED
+CHOICE | What do you need?
+IF vrwAccount == 0  | IF knowOO >= 2 | REPLY | GIVEMEACCOUNT | I'd like an Oligarchy Account please.
+IF cosetteInfo == 0 | REPLY | WHATISALLTHIS  | What is all this?
+REPLY  | NOTHANKS   | I'm good for now.
+
+GIVEMEACCOUNT
+DIALOG | P_NAME  | I'll take an `mq`Oligarchy Account,`rt` please ma'am.
+DIALOG | Cosette | Oh such a nice young man. What type of account would you like?
+GOTO   | ACCOUNT_SORTER
+
+NOTHANKS
+DIALOG | P_NAME  | I'm good for now, ma'am thank you.
+DIALOG | Cosette | Okay `w1`deary,`w0` see you soon.
+EXIT |
+
+WHATISALLTHIS
+DIALOG | P_NAME  | What is all this?
+DIALOG | Cosette | Why it's `mq`Oligarchy Online`rt` of course! I thought you young'uns were all `w1`hip`w0` to the `s1`jive.`s0`
+DIALOG | P_NAME  | Oh well, I have amnesia.
+DIALOG | Cosette | Oh sweetie, we all have a little amnesia now and then, it's quite alright.
+DIALOG | Cosette | Oligarchy Online is a virtual literal social media stratum simulator and currency exchanger, it's all the rage with the teenz. Remember to check out `kw`Teen Zone`rt` while you're /'jacked in./'
+DIALOG | P_NAME  | Oh, that sounds_ interesting...
+DIALOG | Cosette | Currently Oligarchy Online is in `sq`/'perpetual alpha./'`rt` So most of the fun features you see once you are /'jacked in/' will be getting upgrades as the grosses increase. 
+DIALOG | P_NAME  | So, uh... what do I do?
+DIALOG | Cosette | Well `w1`cutie,`w0` first you have to set up a payment plan. 
+DIALOG | Cosette | The currency in Oligarchy Online,_ or `sq`/'The OO/'`rt`_ as the teenz call it, is called `kw`/'digi-ducats/'`rt` so your first step is linking your neural currency bank to our digi-ducat exchange system. 
+DIALOG | Cosette | What do you say, little'un?_ Wanna /'jack in?/'
+KNOW   | knowOO  | 3
+GOTO   | ACCOUNTCHOICES
+
+ACCOUNTCHOICES
+CHOICE | Want to know about O.O.?
+REPLY  | LEARN_PAYMENT | Tell me about the payment structures.
+IF cosetteOptions == 1 | REPLY | FLIP_PAYMENT | I'd like to register an account.
+REPLY  | NOTHANKS      | I'll take my leave.
+
+LEARN_PAYMENT
+DIALOG | P_NAME  | I would like to know what kind of payment options you have available.
+DIALOG | Cosette | Oh that's so responsible of you, `w1`patootie.`w0` 
+DIALOG | Cosette | So we have three options: `kw`Unlimited,`rt` `sq`Hourly`rt` and `mq`Pay-As-You-Pwn.`rt`
+DIALOG | P_NAME = s_port_hoopzSmirk | I like the sound of that! Tell me more!
+GOTO   | PAYMENT_OPTIONS
+
+PAYMENT_OPTIONS
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | GOTO | ACCOUNT_SORTER
+CHOICE | Learn about O.O. payment options:
+IF cosetteOptions == 1 | REPLY | FLIP_PAYMENT | I'd like to register an account, now!
+REPLY  | PAY_OPTION_1    | Unlimited!
+REPLY  | PAY_OPTION_2    | Hourly!
+REPLY  | PAY_OPTION_3    | Pay-As-You-Pwn!
+REPLY  | ACCOUNTCHOICES_BACK  | Nary ye mind... something else...
+
+ACCOUNTCHOICES_BACK
+DIALOG | P_NAME  | Actually, I have another question.
+DIALOG | Cosette | Yes, dear?
+GOTO   | ACCOUNTCHOICES
+
+PAY_OPTION_1
+DIALOG | P_NAME  | Tell me about the Unlimited Plan, please.
+DIALOG | Cosette | The Unlimited Plan covers all connectivity fees and in-realm purchases using digi-ducats spending. 
+DIALOG | Cosette | That costs a flat, discounted, fee of `sq`@money_ooUnlimited@ neuro-shekels,`rt` and you'll be automatically renewed each month. Fees are paid at the incept of your billing cycle, which coincidentally is_ `kw`NOW.`rt`
+DIALOG | P_NAME  | Ok...
+QUEST  | cosetteState = 2
+IF cosetteUnlimited != 2 | QUEST | cosetteUnlimited = 1
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | P_NAME  | Alright... so let me make sure I got this correct. `kw`Unlimited`rt` is expensive unless I use it all the time, `kw`Hourly`rt` is less expensive but more confusing, and `kw`Pay-As-You-Pwn`rt` is very expensive but if I don't do much it could be the cheapest?
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | Cosette | Well... why_ YES! That's exactly right.
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteUnlimited = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteHourly = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosettePremium = 2
+QUEST  | cosetteOptions = 1
+GOTO   | PAYMENT_OPTIONS
+
+PAY_OPTION_2
+DIALOG | P_NAME  | Tell me about the Hourly Plan, please.
+DIALOG | Cosette | The Hourly Plan is the most versatile, allowing you connections for one hour of Oligarchy activity at a time. Much like the Unlimited Plan, it gives you unlimited access to the system, but you'll only get 120 digi-ducats to spend. 
+DIALOG | Cosette | Hourly fees are assessed at the incept of your billing cycle, which is NOW, and you'll need to authorize your neuro-shekel bank to automatically debit for each hour spent in Oligarchy Online. That's `sq`@money_ooHourly@ neuro-shekels.`rt`
+DIALOG | P_NAME  | Uh... okay...
+QUEST  | cosetteState = 2
+IF cosetteHourly != 2 | QUEST | cosetteHourly = 1
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | P_NAME  | Alright... so let me make sure I got this correct. `kw`Unlimited`rt` is expensive unless I use it all the time, `kw`Hourly`rt` is less expensive but more confusing, and `kw`Pay-As-You-Pwn`rt` is very expensive but if I don't do much it could be the cheapest?
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | Cosette | Well... why_ YES! That's exactly right.
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteUnlimited = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteHourly = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosettePremium = 2
+QUEST  | cosetteOptions = 1
+GOTO   | PAYMENT_OPTIONS
+
+PAY_OPTION_3
+DIALOG | P_NAME  | Tell me about the Pay-As-You-Pwn Plan, please.
+DIALOG | Cosette | For a premium rate, you can forgo a payment plan and connect your neural currency bank directly to our digi-ducats servers and navigate through Oligarchy Online through the power of microtransactions. 
+DIALOG | Cosette | You'll need to authorize just like in the other plans, but you'll only be charged a starting fee of `sq`@money_ooPayp_Reup@ neuro-shekels`rt` to begin, and then charged the same `kw`re-up`rt` fee each time you need ducats.
+DIALOG | P_NAME  | Okay cool...
+QUEST  | cosetteState = 2
+IF cosettePremium != 2 | QUEST | cosettePremium = 1
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | P_NAME  | Alright... so let me make sure I got this correct. `kw`Unlimited`rt` is expensive unless I use it all the time, `kw`Hourly`rt` is less expensive but more confusing, and `kw`Pay-As-You-Pwn`rt` is very expensive but if I don't do much it could be the cheapest?
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | DIALOG | Cosette | Well... why_ YES! That's exactly right.
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteUnlimited = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosetteHourly = 2
+IF cosetteUnlimited == 1 | IF cosetteHourly == 1 | IF cosettePremium == 1 | QUEST  | cosettePremium = 2
+QUEST  | cosetteOptions = 1
+GOTO   | PAYMENT_OPTIONS
+
+ACCOUNT_SORTER
+IF money >= @money_ooUnlimited@ | DIALOG | P_NAME | (I have enough dough to pick any one of these fine options. The world is my oyster.)
+IF money >= @money_ooHourly@    | IF money < @money_ooUnlimited@ | DIALOG | P_NAME | (Looks like I'm a little short for the Unlimited Subscription... maybe the Hourly?)
+IF money >= @money_ooPayp_Reup@ | IF money < @money_ooHourly@    | DIALOG | P_NAME = s_port_hoopzSad | (Dag-nabbit. I can't afford anything but Pay-As-You-Pwn, but is it the most responsible choice?)
+IF money < @money_ooPayp_Reup@  | GOTO   | BEGGAR
+GOTO   | ACCOUNTTYPES
+
+BEGGAR
+DIALOG | P_NAME  | Er... Ms. Cosette, I seem to have left my shekels in my other cerebellum. I'll be back soon.
+DIALOG | Cosette | Oh don't you fret `w1`sweet thing.`w0` I'll be here.
+EXIT   |
+
+FLIP_PAYMENT
+DIALOG | P_NAME  | I'd like to register an account.
+DIALOG | Cosette | Ah, and what sort of an account would you like?
+GOTO   | ACCOUNTTYPES"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11upm"]
+atlas = ExtResource("2_23n8y")
+region = Rect2(0, 0, 27, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6540g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11upm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jan0f"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jan0f"]
+size = Vector2(20, 36)
+
+[node name="o_cosette01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_1mbif")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_6540g")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_6540g")
+centered = false
+offset = Vector2(-13, -26)
+metadata/default = {
+"bbox_bottom": "34",
+"bbox_left": "1",
+"bbox_right": "25",
+"bbox_top": "1",
+"frames": ["images\\s_cosette01_0.png"],
+"height": "36",
+"name": "s_cosette01",
+"width": "27",
+"xorig": "13",
+"yorigin": "26"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jan0f")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_jan0f")

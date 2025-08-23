@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://jlb27s8wcu01"]
+
+[ext_resource type="Texture2D" uid="uid://chk8mgbsf18m" path="res://barkley2/assets/b2_original/images/merged/s_bct_libraryBooks03.png" id="1_ch1ln"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_u21v7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rswdi"]
+atlas = ExtResource("1_ch1ln")
+region = Rect2(0, 0, 37, 9)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bim7w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rswdi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ch1ln"]
+size = Vector2(29, 11)
+
+[node name="o_bct_bookpile05" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_bim7w")
+centered = false
+offset = Vector2(-18, -4)
+script = ExtResource("2_u21v7")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "8",
+"bbox_left": "0",
+"bbox_right": "36",
+"bbox_top": "0",
+"height": "9",
+"name": "s_bct_libraryBooks03",
+"width": "37",
+"xorig": "18",
+"yorigin": "4"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_ch1ln")

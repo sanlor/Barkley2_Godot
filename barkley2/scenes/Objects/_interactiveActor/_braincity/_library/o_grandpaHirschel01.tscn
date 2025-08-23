@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://c83ek3yrkbeif"]
+
+[ext_resource type="Script" uid="uid://c6626s6u4ott3" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_grandpaHirschel01.gd" id="1_6os5t"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3qors"]
+[ext_resource type="Texture2D" uid="uid://ct1dbfuu2lie8" path="res://barkley2/assets/b2_original/images/merged/s_bct_hirschel01.png" id="2_lv4tr"]
+
+[sub_resource type="Resource" id="Resource_dwt5t"]
+script = ExtResource("2_3qors")
+original_script = "IF hirschelState == 0 | GOTO | HIR_0
+IF hirschelState == 1 | GOTO | HIR_1
+IF hirschelState == 2 | GOTO | HIR_2
+
+HIR_0
+DIALOG | Grandpa Hirschel | Ahhhh... reading is fundamental.
+QUEST  | hirschelState = 1
+
+HIR_1
+DIALOG | Grandpa Hirschel | Books... yes!_ Books!_ `w1`Bwahahaha!`w0`_ Books!!!
+QUEST  | hirschelState = 2
+
+HIR_2
+DIALOG | Grandpa Hirschel | Have you heard? Brain City has the `kw`largest library on Necron 7!`rt` Books..._ `s1`BOOKS!`s0`_ Bwahahaha!!!
+QUEST  | hirschelState = 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3qors"]
+atlas = ExtResource("2_lv4tr")
+region = Rect2(0, 0, 36, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dwt5t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3qors")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h7yob"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h7yob"]
+size = Vector2(32, 50)
+
+[node name="o_grandpaHirschel01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_6os5t")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_dwt5t")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_dwt5t")
+centered = false
+offset = Vector2(-18, -50)
+metadata/default = {
+"bbox_bottom": "53",
+"bbox_left": "4",
+"bbox_right": "33",
+"bbox_top": "4",
+"frames": ["images\\s_bct_hirschel01_0.png"],
+"height": "56",
+"name": "s_bct_hirschel01",
+"width": "36",
+"xorig": "18",
+"yorigin": "50"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h7yob")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_h7yob")

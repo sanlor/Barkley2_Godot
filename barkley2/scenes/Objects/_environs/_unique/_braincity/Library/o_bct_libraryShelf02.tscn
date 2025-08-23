@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhaaygws6hfdl"]
+
+[ext_resource type="Texture2D" uid="uid://wjtt0a8vhone" path="res://barkley2/assets/b2_original/images/merged/s_bct_libraryShelf02.png" id="1_7ai5w"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_o22c4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfr4p"]
+atlas = ExtResource("1_7ai5w")
+region = Rect2(0, 0, 14, 122)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7ohy0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfr4p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7ai5w"]
+size = Vector2(13, 90)
+
+[node name="o_bct_libraryShelf02" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_7ohy0")
+centered = false
+script = ExtResource("2_o22c4")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "121",
+"bbox_left": "0",
+"bbox_right": "13",
+"bbox_top": "0",
+"height": "122",
+"name": "s_bct_libraryShelf02",
+"width": "14",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(6.5, 75)
+shape = SubResource("RectangleShape2D_7ai5w")
