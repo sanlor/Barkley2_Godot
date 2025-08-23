@@ -1,0 +1,230 @@
+[gd_scene load_steps=17 format=3 uid="uid://gfui0qvtady7"]
+
+[ext_resource type="Texture2D" uid="uid://kqh0bio8ht65" path="res://barkley2/assets/b2_original/images/merged/s_bct_doorEyehole01.png" id="1_2mvpa"]
+[ext_resource type="Script" uid="uid://bnlcuecxfepi1" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_bct_longinus_door_01.gd" id="2_y1rk4"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_0k66y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0k66y"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(0, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ewpkr"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(62, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8shyb"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(124, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxxrs"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(186, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8r2vu"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(248, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r32fl"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(310, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfv54"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(372, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8ksu"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(434, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtjo1"]
+atlas = ExtResource("1_2mvpa")
+region = Rect2(496, 0, 62, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kln4b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0k66y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ewpkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8shyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxxrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8r2vu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r32fl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfv54")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8ksu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtjo1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_ewpkr"]
+script = ExtResource("3_0k66y")
+original_script = "IF longinusDoorOpen == 4  | GOTO | TELEPORT
+IF longinusDoorOpen == 3  | GOTO | SUCCESS
+IF longinusDoorOpen == 2  | GOTO | AFTER_KNOCK_CHOICE
+IF longinusDoorOpen == 1  | GOTO | FAILED
+IF knowCdwarf < 4         | GOTO | DONT_KNOW
+IF longinusDoorState == 1 | GOTO | DOOR_1
+IF knowNene == 2 | IF preNeneKnockAttempt == 0 | GOTO | DOOR_NENE
+GOTO | DOOR_0
+
+DOOR_NENE
+DIALOG | P_NAME | Hello! Hello! I found that Nene guy... he's jacked in deep in-
+DIALOG | Cunning Voice | Well then if you `w1`found`w0` Nene then that must mean you `w1`aren't`w0` Nene!
+DIALOG | Husky Voice | Yeah, she has a point! We only open for the knock and the only one who knows the knock is Nene! Scram!
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzSad | `w1`(Shucks-a-million...`w0` I gotta get to Nene somehow!)
+QUEST  | preNeneKnockAttempt = 1
+EXIT   |  
+
+DOOR_0
+DIALOG | P_NAME | Huh, a door. Maybe I should knock...
+GOTO   | BEFORE_KNOCK_CHOICE
+
+DOOR_1
+DIALOG | P_NAME | These L.O.N.G.I.N.U.S. didn't let me through before.
+IF neneKnock == 1 | GOTO | AFTER_KNOCK_CHOICE
+GOTO   | BEFORE_KNOCK_CHOICE
+
+TELEPORT
+CHOICE | Enter L.O.N.G.I.N.U.S. HQ?
+REPLY  | HQ_ENTER | Yeah!
+REPLY  | HQ_LEAVE | Nope!
+
+HQ_ENTER
+FADE     | 1 | 1
+WAIT     | 1
+Teleport | r_bct_tower06 | 160 | 552 | 1
+
+HQ_LEAVE
+DIALOG   | P_NAME | Nay...
+
+SUCCESS
+QUEST  | longinusDoorOpen = 4
+DIALOG | Husky Voice | Hey, that's the knock, must be Nene. Let him in!
+PLAYSET | o_bct_longinusDoor01 | open | opened
+EXIT   |
+//taking these out so the player can decide to go up to Wiglaf
+//WAIT   | 1
+//FADE   | 1 | 2
+//WAIT   | 2
+//Misc   | set | o_cts_hoopz | o_cinema15
+
+FAILED
+DIALOG | Husky Voice | What was that disgraceful excuse for a knock? Get lost, buddy! L.O.N.G.I.N.U.S. only!
+QUEST  | longinusDoorOpen = 0
+
+DONT_KNOW
+DIALOG | P_NAME | Hello? Greets? Meets..?
+WAIT   | 2
+DIALOG | P_NAME | (I wonder what's behind that door...)
+
+BEFORE_KNOCK_CHOICE
+CHOICE | Knock on the door?
+REPLY  | BEFORE_KNOCK | Knock.
+REPLY  | BEFORE_BELAY | Belay that knock.
+
+BEFORE_KNOCK
+WAIT   | 0.5
+MOVETO | o_cts_hoopz | o_cinema8 | MOVE_NORMAL
+WAIT   | 0
+USEAT  | o_bct_longinusDoor01
+SOUND  | sn_longinusdoor_knock01
+WAIT   | 0.1
+USEAT  | o_bct_longinusDoor01
+WAIT   | 2.0
+IF longinusDoorState == 1 | GOTO | BEFORE_KNOCK_1
+DIALOG | Husky Voice   | What the heck was that? `s1`That wasn't the knock!`s0`_ This clown's obviously not L.O.N.G.I.N.U.S.
+DIALOG | Cunning Voice | `mq`Nene`rt` has forgotten the knock. Yet again. He never fails to `sq`get drunk at the milk bar.`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | Hey, wait a sec, did you say L.O.N.G.I.N.U.S.? Is the Cyberdwarf in there? I'm P_NAME, I was rescued from an egg by L.O.N.G.I.N.U.S. and they told me to find the Cyberdwarf. You gotta let me in!
+DIALOG | Husky Voice   | I don't care who you are, you're not getting in unless you know the `mq`knock!`rt`
+DIALOG | P_NAME = s_port_hoopzSad | S-shucks... looks like I've gotta learn the `mq`knock...`rt`
+KNOW   | knowNene | 1
+QUEST  | longinusDoorState = 1
+EXIT   |
+
+BEFORE_KNOCK_1
+DIALOG | Husky Voice   | It's the same joker as last time! Flub off unless you know the `mq`knock!`rt` L.O.N.G.I.N.U.S. only!
+DIALOG | Cunning Voice | Nene's wasted again. Mhm hm. He'll sober up in the morning.
+
+BEFORE_BELAY
+DIALOG | P_NAME | There's an old saying, /'Knocking is for the weak./' And honestly? Sometimes I believe it...
+
+AFTER_KNOCK_CHOICE
+CHOICE | Knock on the door?
+REPLY  | AFTER_KNOCK | Knock.
+REPLY  | AFTER_BELAY | Belay that knock.
+
+AFTER_KNOCK
+MOVETO | o_cts_hoopz | o_cinema8 | MOVE_NORMAL
+WAIT | 0
+LOOK | o_cts_hoopz | NORTH
+IF longinusDoorOpen == 2 | DIALOG | P_NAME | Now how did it go again?
+IF neneKnock == 1        | DIALOG | P_NAME | Okay... here goes...
+DIALOG | DEBUG | Left, Up, Left, Left, Up, Left, Down, Down, Down, Right
+Create | o_mg_knocking_minigame
+
+AFTER_BELAY
+DIALOG | P_NAME      | I wonder what will happen if I just... don't knock.
+WAIT   | 1
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 1
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 1
+LOOK   | o_cts_hoopz | SOUTH
+DIALOG | P_NAME      | Nothing... I reaped what I sowed."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8shyb"]
+size = Vector2(60, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fxxrs"]
+radius = 32.01562
+
+[node name="o_bct_longinusDoor01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_kln4b")
+centered = false
+offset = Vector2(-31, -31)
+script = ExtResource("2_y1rk4")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_ewpkr")
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "0",
+"bbox_right": "61",
+"bbox_top": "0",
+"height": "62",
+"name": "s_bct_doorEyehole01",
+"width": "62",
+"xorig": "31",
+"yorigin": "31"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_8shyb")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_fxxrs")

@@ -1,0 +1,117 @@
+[gd_scene load_steps=17 format=3 uid="uid://b8mx1xbwlskec"]
+
+[ext_resource type="Texture2D" uid="uid://ddqs0kvbo4j0b" path="res://barkley2/assets/b2_original/images/merged/s_bct_doorValve01.png" id="1_bb2pu"]
+[ext_resource type="Script" uid="uid://ccwm5qbav52b7" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_bct_cdwarf_door_01.gd" id="2_lxhne"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_opqvt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opqvt"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(0, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xbq7v"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(62, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hcnt1"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(124, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y347g"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(186, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jijhq"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(248, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oedad"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(310, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v2x7k"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(372, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn1no"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(434, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u86vu"]
+atlas = ExtResource("1_bb2pu")
+region = Rect2(496, 0, 62, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jdixt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opqvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbq7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hcnt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y347g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jijhq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oedad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v2x7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn1no")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u86vu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_xbq7v"]
+script = ExtResource("3_opqvt")
+original_script = "DIALOG | P_NAME | *Gulp* Could this sealed door lead to... The Cyberdwarf?"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hcnt1"]
+size = Vector2(60, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y347g"]
+radius = 32.01562
+
+[node name="o_bct_cdwarfDoor01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_jdixt")
+centered = false
+offset = Vector2(-31, -31)
+script = ExtResource("2_lxhne")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_xbq7v")
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "0",
+"bbox_right": "61",
+"bbox_top": "0",
+"height": "62",
+"name": "s_bct_doorValve01",
+"width": "62",
+"xorig": "31",
+"yorigin": "31"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_hcnt1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_y347g")

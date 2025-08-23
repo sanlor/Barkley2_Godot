@@ -1,0 +1,135 @@
+[gd_scene load_steps=17 format=3 uid="uid://o5mft60fk033"]
+
+[ext_resource type="Texture2D" uid="uid://qiwv1b4rui7r" path="res://barkley2/assets/b2_original/images/merged/s_bct_doorSigil01.png" id="1_bp4pb"]
+[ext_resource type="Script" uid="uid://rfbptoac5lhy" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_bct_barracks_door_01.gd" id="2_yvbqh"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_assw1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_assw1"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(0, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tv6lp"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(62, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okxqs"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(124, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_626p8"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(186, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r7nm"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(248, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xtobp"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(310, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ebf5"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(372, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnpy6"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(434, 0, 62, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crrbl"]
+atlas = ExtResource("1_bp4pb")
+region = Rect2(496, 0, 62, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v00en"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_assw1")
+}],
+"loop": true,
+"name": &"locked",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_assw1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tv6lp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okxqs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_626p8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r7nm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xtobp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ebf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnpy6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crrbl")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crrbl")
+}],
+"loop": true,
+"name": &"opened",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_tv6lp"]
+script = ExtResource("3_assw1")
+original_script = "DIALOG | P_NAME | A locked door. There's some sort of a marking on it."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_okxqs"]
+size = Vector2(60, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_626p8"]
+radius = 32.01562
+
+[node name="o_bct_barracksDoor01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_v00en")
+animation = &"locked"
+speed_scale = 2.0
+centered = false
+offset = Vector2(-31, -31)
+script = ExtResource("2_yvbqh")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_tv6lp")
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "0",
+"bbox_right": "61",
+"bbox_top": "0",
+"height": "62",
+"name": "s_bct_doorSigil01",
+"width": "62",
+"xorig": "31",
+"yorigin": "31"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_okxqs")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_626p8")

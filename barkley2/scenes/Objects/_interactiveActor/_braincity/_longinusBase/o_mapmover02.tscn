@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://bxwen64ivha5o"]
+
+[ext_resource type="Script" uid="uid://bptjp1qflafw3" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_mapmover02.gd" id="1_vojcq"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_8psew"]
+[ext_resource type="Texture2D" uid="uid://c1cyxq1vgcow" path="res://barkley2/assets/b2_original/images/merged/s_mapmover02.png" id="2_f54g5"]
+
+[sub_resource type="Resource" id="Resource_iuh7p"]
+script = ExtResource("2_8psew")
+original_script = "DIALOG | P_NAME | (Wow... I wonder what they're planning.)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8psew"]
+atlas = ExtResource("2_f54g5")
+region = Rect2(0, 0, 60, 63)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iuh7p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8psew")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ih4i7"]
+radius = 15.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ih4i7"]
+size = Vector2(25, 64)
+
+[node name="o_mapmover02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vojcq")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_iuh7p")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_iuh7p")
+centered = false
+offset = Vector2(-12, -55)
+metadata/default = {
+"bbox_bottom": "62",
+"bbox_left": "0",
+"bbox_right": "59",
+"bbox_top": "0",
+"frames": ["images\\s_mapmover02_0.png", "images\\s_mapmover02_1.png", "images\\s_mapmover02_2.png", "images\\s_mapmover02_3.png", "images\\s_mapmover02_4.png", "images\\s_mapmover02_5.png", "images\\s_mapmover02_6.png", "images\\s_mapmover02_7.png"],
+"height": "63",
+"name": "s_mapmover02",
+"width": "60",
+"xorig": "12",
+"yorigin": "55"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(4, -3)
+shape = SubResource("CircleShape2D_ih4i7")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -39)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(2.5, 14)
+shape = SubResource("RectangleShape2D_ih4i7")

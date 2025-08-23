@@ -1,5 +1,6 @@
 @tool
 extends B2_ROOMS
+## https://www.youtube.com/watch?v=kMybONQr0wA&t=12981s
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
