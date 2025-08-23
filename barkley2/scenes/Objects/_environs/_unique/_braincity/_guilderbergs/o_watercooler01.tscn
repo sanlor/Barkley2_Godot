@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://djxe417ol05a1"]
+
+[ext_resource type="Texture2D" uid="uid://nf6hofxis4yx" path="res://barkley2/assets/b2_original/images/merged/s_watercooler01.png" id="1_odovf"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_t4ysd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8t78y"]
+atlas = ExtResource("1_odovf")
+region = Rect2(0, 0, 30, 69)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qbkps"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8t78y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xno2l"]
+radius = 12.0
+
+[node name="o_watercooler01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_qbkps")
+centered = false
+offset = Vector2(0, -60)
+script = ExtResource("2_t4ysd")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "68",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "50",
+"height": "69",
+"name": "s_watercooler01",
+"width": "30",
+"xorig": "0",
+"yorigin": "60"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(10, -5)
+shape = SubResource("CircleShape2D_xno2l")

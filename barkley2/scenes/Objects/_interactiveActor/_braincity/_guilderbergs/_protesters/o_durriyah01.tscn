@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfxfflrvi2ja2"]
+
+[ext_resource type="Script" uid="uid://ciwuy6f18hm0o" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_guilderbergs/_protesters/o_durriyah01.gd" id="1_sgtqo"]
+[ext_resource type="Texture2D" uid="uid://0fdysmmtajil" path="res://barkley2/assets/b2_original/images/merged/s_durriyah01.png" id="2_1w0a6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcaef"]
+atlas = ExtResource("2_1w0a6")
+region = Rect2(0, 0, 46, 74)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k7s5t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mcaef")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sgtqo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6kde3"]
+size = Vector2(40, 72)
+
+[node name="o_durriyah01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_sgtqo")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_k7s5t")
+centered = false
+offset = Vector2(-17, -66)
+metadata/default = {
+"bbox_bottom": "70",
+"bbox_left": "7",
+"bbox_right": "28",
+"bbox_top": "56",
+"frames": ["images\\s_durriyah01_0.png"],
+"height": "74",
+"name": "s_durriyah01",
+"width": "46",
+"xorig": "17",
+"yorigin": "66"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sgtqo")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(7, -18)
+shape = SubResource("RectangleShape2D_6kde3")

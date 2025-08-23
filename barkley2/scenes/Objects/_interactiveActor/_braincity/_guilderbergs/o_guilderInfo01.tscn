@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bau0pn21hnopr"]
+
+[ext_resource type="Texture2D" uid="uid://wf7j4oeilb8r" path="res://barkley2/assets/b2_original/images/merged/s_guilderInfo01.png" id="1_80vh3"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_wxjv7"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_wxjv7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l03kt"]
+atlas = ExtResource("1_80vh3")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7gqk8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l03kt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_l03kt"]
+script = ExtResource("3_wxjv7")
+original_script = "DIALOG | Guilderberg Group | 101 - Shipping and Recieving #102 - Data Processing #200 - Lobby / Reception #301 - Sentient Resources - Quartermaine #302 - Public Relations - Wentworth #401 - Mergers - Pembroke #402 - Acquisitions - Pomeroy
+KNOW | knowGuilderDirectory | 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7gqk8"]
+radius = 12.0415945
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y7wsl"]
+size = Vector2(29, 66)
+
+[node name="o_guilderInfo01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_7gqk8")
+centered = false
+offset = Vector2(-15, -53)
+script = ExtResource("2_wxjv7")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_l03kt")
+metadata/default = {
+"bbox_bottom": "59",
+"bbox_left": "3",
+"bbox_right": "26",
+"bbox_top": "5",
+"height": "64",
+"name": "s_guilderInfo01",
+"width": "32",
+"xorig": "15",
+"yorigin": "53"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_7gqk8")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, -23)
+shape = SubResource("RectangleShape2D_y7wsl")

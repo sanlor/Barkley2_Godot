@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5jynrpc8r23f"]
+
+[ext_resource type="Script" uid="uid://ci75dm7khj07n" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_guilderbergs/_protesters/o_ertharin01.gd" id="1_5aee6"]
+[ext_resource type="Texture2D" uid="uid://vq05p2clv6t5" path="res://barkley2/assets/b2_original/images/merged/s_ertharin01.png" id="2_50mf3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3134"]
+atlas = ExtResource("2_50mf3")
+region = Rect2(0, 0, 32, 61)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4un8b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3134")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5aee6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2vqy8"]
+size = Vector2(20, 56)
+
+[node name="o_ertharin01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_5aee6")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_4un8b")
+centered = false
+offset = Vector2(-15, -50)
+metadata/default = {
+"bbox_bottom": "57",
+"bbox_left": "4",
+"bbox_right": "24",
+"bbox_top": "47",
+"frames": ["images\\s_ertharin01_0.png"],
+"height": "61",
+"name": "s_ertharin01",
+"width": "32",
+"xorig": "15",
+"yorigin": "50"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_5aee6")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -30)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_2vqy8")

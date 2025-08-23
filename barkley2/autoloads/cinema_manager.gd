@@ -6,6 +6,9 @@ extends Node
 signal event_started
 signal event_ended
 
+## Some scenes may lock the cinema script, preventing the cinema script to finish.
+signal release_event_lock
+
 const SCENE_INDEX = preload("res://barkley2/resources/B2_CManager/scene_index.json")
 
 ## Cutscene scenes.
@@ -47,6 +50,8 @@ var o_cbt_hoopz 			: B2_Player_TurnBased		 	= null ## Combat Hoopz
 #var combat_manager			: B2_CombatManager
 var combat_cinema_player 	: B2_Combat_CinemaPlayer
 var cinema_caller			: Node
+
+var event_lock := false
 
 ## Index all scenes
 func _index_scenes():

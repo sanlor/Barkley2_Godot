@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://daw6eqekbf2sq"]
+
+[ext_resource type="Texture2D" uid="uid://dfvtssr3vg8e0" path="res://barkley2/assets/b2_original/images/merged/s_lobbyDesk01.png" id="1_wydo6"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_y2s4d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i4ygd"]
+atlas = ExtResource("1_wydo6")
+region = Rect2(0, 0, 96, 71)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rnfsh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4ygd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wydo6"]
+size = Vector2(95, 33)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y2s4d"]
+
+[node name="o_lobbyDesk01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_rnfsh")
+centered = false
+offset = Vector2(-48, -70)
+script = ExtResource("2_y2s4d")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "70",
+"bbox_left": "0",
+"bbox_right": "95",
+"bbox_top": "40",
+"height": "71",
+"name": "s_lobbyDesk01",
+"width": "96",
+"xorig": "48",
+"yorigin": "70"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, -16.5)
+shape = SubResource("RectangleShape2D_wydo6")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-2, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(-0.5, -16.5)
+shape = SubResource("CircleShape2D_y2s4d")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bp6r0xnhat5mq"]
+[gd_scene load_steps=8 format=3 uid="uid://bp6r0xnhat5mq"]
 
 [ext_resource type="Texture2D" uid="uid://qcuiwu3mmhwq" path="res://barkley2/assets/b2_original/images/merged/s_bct_libraryBooks04.png" id="1_3sdau"]
-[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_jelc5"]
+[ext_resource type="Script" uid="uid://breqo5c6eg8cm" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_bct_bookpile_03.gd" id="2_3sdau"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_jelc5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cdb1d"]
 atlas = ExtResource("1_3sdau")
@@ -18,15 +19,47 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_cdb1d"]
+script = ExtResource("3_jelc5")
+original_script = "DIALOG | P_NAME | A pile of books...
+CHOICE | Rummage through the books?
+REPLY  | RUMMAGE_YAY | Yes!
+REPLY  | RUMMAGE_NAY | No!
+
+RUMMAGE_YAY
+DIALOG | P_NAME | Time to sophisticate myself..._ I'll just pick one of these book at random.
+USEAT  | o_bct_bookpile03
+IF bctBookpile == 0 | GOTO | BOOK_0
+IF bctBookpile == 1 | GOTO | BOOK_1
+IF bctBookpile == 2 | GOTO | BOOK_2
+IF bctBookpile == 3 | GOTO | BOOK_3
+
+BOOK_0
+EVENT | o_bct_bookpile03 | 0
+
+BOOK_1
+EVENT | o_bct_bookpile03 | 1
+
+BOOK_2
+EVENT | o_bct_bookpile03 | 2
+
+BOOK_3
+EVENT | o_bct_bookpile03 | 3
+
+RUMMAGE_NAY
+DIALOG | P_NAME | Nah..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3sdau"]
 size = Vector2(29, 11)
 
-[node name="o_bct_bookpile03" type="AnimatedSprite2D"]
+[node name="o_bct_bookpile03" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_6a7rk")
 centered = false
 offset = Vector2(-17, -4)
-script = ExtResource("2_jelc5")
-is_interactive = false
+script = ExtResource("2_3sdau")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_cdb1d")
 metadata/default = {
 "bbox_bottom": "8",
 "bbox_left": "0",

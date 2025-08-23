@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://dlx0h47nqsddj"]
+
+[ext_resource type="Texture2D" uid="uid://c613yv5slchhm" path="res://barkley2/assets/b2_original/images/merged/s_guilderTank01.png" id="1_bv2aj"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_l64vn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivcuj"]
+atlas = ExtResource("1_bv2aj")
+region = Rect2(0, 0, 96, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r8gt0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivcuj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bv2aj"]
+size = Vector2(93, 24)
+
+[node name="o_guilderTank01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_r8gt0")
+centered = false
+offset = Vector2(-48, -46)
+script = ExtResource("2_l64vn")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "95",
+"bbox_top": "0",
+"height": "47",
+"name": "s_guilderTank01",
+"width": "96",
+"xorig": "48",
+"yorigin": "46"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0.5, -12)
+shape = SubResource("RectangleShape2D_bv2aj")

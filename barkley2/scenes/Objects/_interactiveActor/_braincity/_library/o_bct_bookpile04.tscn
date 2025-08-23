@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://ifhfeijqnsiv"]
+[gd_scene load_steps=8 format=3 uid="uid://ifhfeijqnsiv"]
 
 [ext_resource type="Texture2D" uid="uid://by0a8ri30quni" path="res://barkley2/assets/b2_original/images/merged/s_bct_libraryBooks02.png" id="1_r8sra"]
-[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_xp1mi"]
+[ext_resource type="Script" uid="uid://bgg047ttltuub" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_bct_bookpile_04.gd" id="2_r8sra"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_xp1mi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qpxxv"]
 atlas = ExtResource("1_r8sra")
@@ -18,15 +19,39 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_qpxxv"]
+script = ExtResource("3_xp1mi")
+original_script = "DIALOG | P_NAME | A pile of books...
+CHOICE | Rummage through the books?
+REPLY  | RUMMAGE_YAY | Yes!
+REPLY  | RUMMAGE_NAY | No!
+
+RUMMAGE_YAY
+DIALOG | P_NAME | Time to sophisticate myself..._ I'll just pick one of these book at random.
+USEAT  | o_bct_bookpile04
+IF bctBookpile <= 1 | GOTO | BOOK_0
+IF bctBookpile >= 2 | GOTO | BOOK_1
+
+BOOK_0
+EVENT | o_bct_bookpile04 | 0
+
+BOOK_1
+EVENT | o_bct_bookpile04 | 1
+
+RUMMAGE_NAY
+DIALOG | P_NAME | Nah..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r8sra"]
 size = Vector2(29, 11)
 
-[node name="o_bct_bookpile04" type="AnimatedSprite2D"]
+[node name="o_bct_bookpile04" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_p3fmy")
 centered = false
 offset = Vector2(-13, -4)
-script = ExtResource("2_xp1mi")
-is_interactive = false
+script = ExtResource("2_r8sra")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_qpxxv")
 metadata/default = {
 "bbox_bottom": "8",
 "bbox_left": "0",

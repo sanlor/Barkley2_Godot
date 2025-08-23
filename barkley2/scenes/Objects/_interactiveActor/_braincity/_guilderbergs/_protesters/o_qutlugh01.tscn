@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxjs58n78tw8l"]
+
+[ext_resource type="Script" uid="uid://cwoasv6eosrg7" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_guilderbergs/_protesters/o_qutlugh01.gd" id="1_7hs6d"]
+[ext_resource type="Texture2D" uid="uid://bh48hv4ch5kbh" path="res://barkley2/assets/b2_original/images/merged/s_qutlugh01.png" id="2_hoeew"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k40gm"]
+atlas = ExtResource("2_hoeew")
+region = Rect2(0, 0, 47, 75)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1vp6q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k40gm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7hs6d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tvpba"]
+size = Vector2(30, 70)
+
+[node name="o_qutlugh01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_7hs6d")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_1vp6q")
+centered = false
+offset = Vector2(-20, -68)
+metadata/default = {
+"bbox_bottom": "73",
+"bbox_left": "12",
+"bbox_right": "30",
+"bbox_top": "64",
+"frames": ["images\\s_qutlugh01_0.png"],
+"height": "75",
+"name": "s_qutlugh01",
+"width": "47",
+"xorig": "20",
+"yorigin": "68"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_7hs6d")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(1, -20)
+shape = SubResource("RectangleShape2D_tvpba")

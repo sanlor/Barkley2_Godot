@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://thp5ier5kyv3"]
+
+[ext_resource type="Texture2D" uid="uid://b0i3612gr4t12" path="res://barkley2/assets/b2_original/images/merged/s_bct_washroomTable01.png" id="1_u6lpe"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_wo8fh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkvy7"]
+atlas = ExtResource("1_u6lpe")
+region = Rect2(0, 0, 81, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e6wk1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mkvy7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u6lpe"]
+size = Vector2(77, 30)
+
+[node name="o_bct_washroomTable01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_e6wk1")
+centered = false
+offset = Vector2(-40, -41)
+script = ExtResource("2_wo8fh")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "80",
+"bbox_top": "12",
+"height": "42",
+"name": "s_bct_washroomTable01",
+"width": "81",
+"xorig": "40",
+"yorigin": "41"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0.5, -14)
+shape = SubResource("RectangleShape2D_u6lpe")

@@ -209,7 +209,7 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 		if not dir_2_vec_map.has(target): push_warning("no target called %s." % target) ## Debug
 		dir = dir_2_vec_map.get(target, Vector2.DOWN) as Vector2
 	elif target 	is Node2D:
-		dir = position.direction_to(target.position).round() # sign()
+		dir = position.direction_to(target.global_position).round() # sign()
 	else:
 		push_warning( "Which USEAT anim is this? ", target )
 		breakpoint
@@ -240,7 +240,15 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	await ActorAnim.animation_finished
 	
 	## 25-12-24 vvv
-	#cinema_look( vec_2_dir_map.get( dir, "SOUTH" ) ) # 24/07/25 disabled this.
+	if vec_2_dir_map.has( dir ):
+		cinema_look( vec_2_dir_map.get( dir ) ) # 24/07/25 disabled this. 
+	else:
+		push_error("Invalid dir. check shit out -> %s" % dir)
+		cinema_look( "SOUTH" )
+	# 22/08/25 enabled this.
+	# this last part ensures that the actor will look at some point AFTER the animation finishes.
+	# Why did I disable this last month? 
+	
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	

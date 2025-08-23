@@ -188,6 +188,11 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	
 	
 func end_cutscene():
+	## Some scenes may want to prevent the cutscene to finish.
+	if B2_CManager.event_lock:
+		print("Wow, something enabled the event lock. Cinema Script is waiting for the right signal.")
+		await B2_CManager.release_event_lock
+		
 	#await get_tree().process_frame
 	load_hoopz_player()
 	
