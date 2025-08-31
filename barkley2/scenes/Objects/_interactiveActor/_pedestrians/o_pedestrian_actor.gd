@@ -5,22 +5,8 @@ class_name B2_Pedestrian
 const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
 const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
-@onready var actor_anim: 	AnimatedSprite2D = $ActorAnim
-@onready var actor_nav: 	NavigationAgent2D = $ActorNav
-@onready var gossip_timer: Timer = $GossipTimer
-
-## DEBUG
-@export_category("Debug")
-@export var debug_move_finish 				:= false ## Print some debug shit.
-@export var debug_check_movement_vector 	:= false ## Draw lines to show the current movement vector.
-
-## Pedestrian stuff
-var ped_exits 		:= []
-var ped_entrances 	:= []
-var ped_waypoints 	:= []
-
 # List of sprites that the peds can use.
-var ped_sprites := [
+const PED_SPRITES := [
 	"res://barkley2/resources/B2_Pedestrians/s_ped_01.tres",
 	"res://barkley2/resources/B2_Pedestrians/s_ped_02.tres",
 	"res://barkley2/resources/B2_Pedestrians/s_ped_03.tres",
@@ -44,7 +30,23 @@ var ped_sprites := [
 	"res://barkley2/resources/B2_Pedestrians/s_ped_26.tres",
 	"res://barkley2/resources/B2_Pedestrians/s_ped_28.tres",
 	"res://barkley2/resources/B2_Pedestrians/s_ped_30.tres",
-]
+	]
+
+@onready var actor_anim: 	AnimatedSprite2D = $ActorAnim
+@onready var actor_nav: 	NavigationAgent2D = $ActorNav
+@onready var gossip_timer: Timer = $GossipTimer
+
+## DEBUG
+@export_category("Debug")
+@export var debug_move_finish 				:= false ## Print some debug shit.
+@export var debug_check_movement_vector 	:= false ## Draw lines to show the current movement vector.
+
+## Pedestrian stuff
+var ped_exits 		:= []
+var ped_entrances 	:= []
+var ped_waypoints 	:= []
+
+
 var gossip_pool 		:= []
 var ped_can_gossip 		:= false
 var gossip_area 		:= 0
@@ -302,7 +304,7 @@ func pedestrians_destiny():
 		ActorNav.set_target_position( ped_waypoints.pick_random().position )
 	
 func change_costume():
-	var costume : SpriteFrames = load( ped_sprites.pick_random() )
+	var costume : SpriteFrames = load( PED_SPRITES.pick_random() )
 	ActorAnim.sprite_frames = costume
 	
 	#actor_anim.stop()
