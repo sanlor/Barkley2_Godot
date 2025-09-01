@@ -1,0 +1,227 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2vy4sl26avcl"]
+
+[ext_resource type="SpriteFrames" uid="uid://b6i4d22b56sqk" path="res://barkley2/scenes/Objects/_minigames/Wait in Line/o_vikingstad01_desk.tres" id="1_4go2o"]
+[ext_resource type="Script" uid="uid://dvfo1uittxmjo" path="res://barkley2/scenes/Objects/_minigames/Wait in Line/o_vikingstad_01_desk.gd" id="2_n32jd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_hcrgt"]
+[ext_resource type="AudioStream" uid="uid://di02fkhchbp3d" path="res://barkley2/assets/b2_original/audio/Minigames/Wait_In_Line/sn_mg_wait_bell01.ogg" id="4_ie6ak"]
+
+[sub_resource type="Resource" id="Resource_ryyi5"]
+script = ExtResource("3_hcrgt")
+original_script = "IF wilmerEvict == 1 | GOTO | VIKINGSTAD01
+IF vikingstadState == 1 | GOTO | VIKINGSTAD02
+GOTO | VIKINGSTAD00
+
+PAYRENTWILM
+QUEST  | money -= @money_vikingstadDemand1@
+DIALOG | P_NAME | Well... I guess I've got no choice. I don't want Mr. Wilmer to get evicted after all he's done for me. Okay, here's the money...
+BREAKOUT | clear
+DIALOG | Vikingstad | Gwahaha, thanks for your business! We'll make sure Wilmer gets to stay in house a little longer. Now get outta here, we're closing! It's my lunch break and I'll be damned if I miss my potted meat with termite spread for you. Scram, kid!
+NOTE   | give | Wilmer's Amortization Schedule
+QUEST  | wilmerEvict = 4
+IF vikingstadTnn < 2 | QUEST | vikingstadTnn = 2
+IF vikingstadTnn >= 2 | QUEST | vikingstadTnn = 4
+QUEST  | mortgageOver = 1
+QUEST  | wilmerSleep = 0
+GOTO   | ANYTHINGELSE
+
+NOTE_CHOOSE
+NOTE | select | Vikingstad
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Wilmer's Amortization Schedule | GOTO | NOTE_WILMER
+IF note == Aelfleda's Eviction | GOTO | NOTE_AELFLEDA
+GOTO | NOTACCEPTED
+
+NOTE_EXIT
+DIALOG | Vikingstad | Wait so do you have something or not?
+DIALOG | P_NAME = s_port_hoopzSurprise | Oh well um-
+GOTO   | ANYTHINGELSE
+
+NOTE_NONE
+DIALOG | P_NAME | Oh well, um I don't have any papers, really. Looks like I gummed this one up.
+DIALOG | Vikingstad | You're gonna be like gum at the bottom of my boot if you don't get the fuck out of my office.
+DIALOG | P_NAME | Oh. Um, sorry.
+DIALOG | Vikingstad | Stuff your sorries in your ballsac, chump. Next.
+QUEST  | vikingstadTnn = 1
+QUEST  | mortgageOver = 1
+QUEST  | wilmerSleep = 0
+GOTO   | MORTGAGEFALLEN
+
+NOTE_WILMER
+NOTIFY | Gave Vikingstad Wilmer's Amortization Schedule
+DIALOG | P_NAME | Um, I'm here on behalf of Mr. Wilmer. He needs me make his mortgage payment... um... I've never done this before, am I doing it right?
+DIALOG | Vikingstad | Mr. Wilmer... yes, yes, Bungalow 2... more like Mr. Delinquent! That'll be @money_wilmerMortgage@ neuro-shekels to renew... with a @money_wilmerSurcharge@ surcharge for umm, let's call it /'expedient processing,/' bringing the total to @money_vikingstadDemand1@ neuro-shekels!
+DIALOG | P_NAME = s_port_hoopzSurprise | (But... Wilmer said it would only be @money_wilmerMortgage@ neuro-shekels!
+DIALOG | Vikingstad | Is crybaby gonna go to the back of the line or is crybaby gonna pay up?
+IF money < @money_vikingstadDemand1@ | GOTO | SHORTONMONEYWILM
+IF money >= @money_vikingstadDemand1@ | GOTO | ENOUGHMONEYWILM
+
+SHORTONMONEYWILM
+DIALOG | P_NAME | I... I don't have that much... I already spent it.
+DIALOG | Vikingstad | Well then you're outta luck, kid! You stood in line for all that time for nothing! It's my lunch break and we're closing in a few minutes! I'll be damned if I miss my potted meat with termite spread for you. Scram, kid!
+DIALOG | P_NAME | But I really have to renew Mr. Wilmer's mortgage! C'mon, cut me a break just this once!
+DIALOG | Vikingstad | And I'VE really gotta get to this potted meat! I told you to scram! Don't make me get the guards!
+DIALOG | P_NAME = s_port_hoopzSad | (Dad jiggit... I blew it, Mr. Wilmer...)
+QUEST  | vikingstadTnn = 1
+QUEST  | mortgageOver = 1
+QUEST  | wilmerEvict = 2
+QUEST  | wilmerSleep = 0
+QUEST  | wilmerPaymentFailure = 1
+
+ENOUGHMONEYWILM
+BREAKOUT | add | money
+CHOICE   | Pay the mortgage?
+REPLY    | PAYRENTWILM | Pay up already.
+REPLY    | DISPUTEWILM | Dispute it! It should only cost @money_wilmerMortgage@!
+
+DISPUTEWILM
+DIALOG | P_NAME = s_port_hoopzSurprise | B-but Mr. Wilmer said it would only be @money_wilmerMortgage@ neuro-shekels! He gave me @money_wilmerMortgageTotal@ neuro-shekels, @money_wilmerMortgage@ for you, and @money_wilmerMortgageBonus@  for me for helping him out.
+DIALOG | Vikingstad | Well it looks like it's @money_vikingstadDemand1@ for me and @money_vikingstadTease@ for you now! Gwahaha!
+CHOICE | Submit to the shakedown?
+REPLY  | PAYRENTWILM | Fine, here's the money.
+REPLY  | REFUSE | Frup this, I'm out of here.
+
+REFUSE
+DIALOG   | P_NAME = s_port_hoopzAngry | You've got some nerve, and won't get a nickel of Wilmer's money. I'm contacti-
+BREAKOUT | clear
+DIALOG   | Vikingstad | Contacting the what?! Ain't nobody here gives a damn about your senile old grandpa. Now scram and use whatever rest of the money you haven't STOLEN, and buy that old timer a nice warm tarp for the streets! Gwahaha!
+QUEST    | vikingstadTnn = 1
+QUEST    | mortgageOver = 1
+QUEST    | wilmerEvict = 2
+QUEST    | wilmerSleep = 0
+QUEST    | wilmerPaymentFailure = 2
+GOTO     | MORTGAGEFALLEN
+
+MORTGAGEFALLEN
+DIALOG | P_NAME | ...
+
+NOTE_AELFLEDA
+IF     | chanticleerRoommate == 3 | GOTO | AELFLEDA_CHANTI
+NOTIFY | Gave Vikingstad Aelfleda's Eviction
+DIALOG | P_NAME | Um, I'm here on behalf of Aelfleda. I think she's battling foreclosure.
+DIALOG | Vikingstad | What do you have some kind of generous bone? I know a guy in Brain City who can help you remove that.
+DIALOG | P_NAME = s_port_hoopzSad | I like my generous bone...
+DIALOG | Vikingstad | Whatever, @money_aelfledaRent@ shekels, and well what do we have here, another surcharge for not going paperless... that's @money_vikingstadAelfleda@, so a total of @money_aelfledaFull@!
+IF money < @money_aelfledaFull@ | GOTO | SHORTONMONEYAELF
+IF money >= @money_aelfledaFull@ | GOTO | ENOUGHMONEYAELF
+
+AELFLEDA_CHANTI
+DIALOG | P_NAME | (Wait a minute... Aelfleda's already moved in with Chanticleer, I'd be a total dullard to pay this now!)
+GOTO   | NOTE_CHOOSE
+
+SHORTONMONEYAELF
+DIALOG | P_NAME = s_port_hoopzSad | I... I don't have that much... 
+DIALOG | Vikingstad | Well then why the hell are you giving me this paper?! I swear to Cuchu that you dwarfs are lost as a jungler trying to hard carry.
+DIALOG | P_NAME = s_port_hoopzSad | ._._._ 
+QUEST  | vikingstadTnn = 3
+QUEST  | mortgageAelfledaNoMoney = 1
+QUEST  | mortgageOver = 1
+QUEST  | wilmerSleep = 0
+GOTO   | ANYTHINGELSE
+
+ENOUGHMONEYAELF                     
+BREAKOUT | add | money
+CHOICE   | Pay off Aelfleda's Overages?
+REPLY    | PAYRENTAELF | Pay it ... forward.
+REPLY    | DISPUTEAELF | Dispute it! It should only cost @money_aelfledaRent@!
+
+PAYRENTAELF
+DIALOG   | P_NAME | If I had a grandma, it would be like she might have always said. /'A good deed never gets punished./' Here you go.
+QUEST    | money -= @money_aelfledaRent@
+DIALOG   | Vikingstad | That's not how that go-___ eh you'll figure it out on your own, gruel for brains. Out in Tir na nOg, everyone is punished. Gwahahahaha!
+BREAKOUT | clear
+NOTE     | give | Aelfleda's Eviction
+QUEST    | aelfledaEvict = 2
+IF vikingstadTnn < 2 | QUEST | vikingstadTnn = 3
+IF vikingstadTnn >= 2 | QUEST | vikingstadTnn = 4
+QUEST    | mortgageOver = 1
+QUEST    | wilmerSleep = 0
+GOTO     | ANYTHINGELSE
+
+DISPUTEAELF
+DIALOG  | P_NAME | Oh, I um I don't want to pay that. I think I made a mistake.
+DIALOG  | Vikingstad | You sure did._ Oh and I'm keeping this. Due to your_ /'heroism/' this little bitch Aelfleda is going to get a very personal escort into the Hoosegow!
+PLAYSET | o_cts_hoopz | surpriseNE | surpriseHoldNE
+WAIT    | 0.5
+DIALOG  | P_NAME = s_port_hoopzShock | Oh no!
+DIALOG  | Vikingstad | Gwahahahah! Scram kid!
+NOTE    | give | Aelfleda's Eviction
+QUEST   | aelfledaEvict = 3
+IF vikingstadTnn < 2 | QUEST | vikingstadTnn = 1
+QUEST   | mortgageOver = 1
+QUEST   | wilmerSleep = 0
+GOTO    | ANYTHINGELSE
+
+NOTACCEPTED
+DIALOG | Vikingstad | ._._._ what the hell is this garbage? I oughta throw you in the hoosegow for showing me this bullshit. Now show me official Cuchulainn Documents or go suck a bag of eggs.
+GOTO   | NOTE_CHOOSE
+
+GOVERNOR
+DIALOG | Vikingstad | M-Mr. Governor, sir! If I had known you were in line, I would've let you right through! What can I do for you, sir?
+DIALOG | Governor Elagabalus | Good eye, subordinate! It is, in fact, I, the Governor. Be sure to tell your friends and coworkers that I, the 100% authentic Governor was here!
+
+ANYTHINGELSE
+DIALOG | Vikingstad | Anything else? Hurry up!
+CHOICE | Anything else? (you should hurry)
+REPLY  | MORENOTES | I have something else!
+REPLY  | THATSIT | I guess that's it.
+
+MORENOTES
+DIALOG | P_NAME | Well I have something else for you...
+DIALOG | Vikingstad | Make it quick.
+GOTO   | NOTE_CHOOSE
+
+THATSIT
+DIALOG | P_NAME | I guess that's it...
+DIALOG | Vikingstad | Good, closer to lunch time with every slack-jawed dwarf processed. Now scram!
+GOTO   | MORTGAGEFALLEN
+
+VIKINGSTAD02
+DIALOG | Vikingstad | What're you doing still standing around here? I told you to scram! Now beat it, kid! We're closing soon enough!
+GOTO   | MORTGAGEFALLEN
+
+VIKINGSTAD01 
+QUEST  | mortgageDoorRealize = 1
+DIALOG | P_NAME | Am I up next? Is this the Housing Department?
+DIALOG | Vikingstad | Yes, yes, this is the Department of Population and Housing... where's your papers?
+DIALOG | P_NAME | Oh umm...
+QUEST  | vikingstadState = 1
+QUEST  | time += 1
+GOTO   | NOTE_CHOOSE
+
+VIKINGSTAD00
+DIALOG | P_NAME | ...
+WAIT   | 0.3
+DIALOG | Vikingstad | ._._._ well?
+DIALOG | P_NAME | Umm... I'm not sure why I'm here.
+WAIT   | 1
+DIALOG | Vikingstad | You waited in that line for this?_ Next.
+QUEST  | vikingstadState = 1
+GOTO   | MORTGAGEFALLEN"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_501h6"]
+radius = 27.018513
+
+[node name="o_vikingstad01_desk" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = ExtResource("1_4go2o")
+animation = &"paperwork_check"
+speed_scale = 1.25
+script = ExtResource("2_n32jd")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_ryyi5")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ie6ak")
+max_distance = 600.0
+bus = &"Audio"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_501h6")
+debug_color = Color(0.32331553, 0.6189403, 0.24943152, 0.25490198)
+
+[connection signal="animation_changed" from="." to="." method="_on_animation_changed"]
+[connection signal="frame_changed" from="." to="." method="_on_frame_changed"]

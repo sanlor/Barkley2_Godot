@@ -51,7 +51,8 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var start_button 		= $title_layer/title_panel/start_button
 @onready var settings_button 	= $title_layer/title_panel/settings_button
 @onready var quit_button 		= $title_layer/title_panel/quit_button
-@onready var vr_button 			= $title_layer/vr_btn
+@onready var vr_button: 		B2_Border_Button 	= $title_layer/vr_btn
+@onready var debug_button: 		B2_Border_Button 	= $title_layer/debug_btn
 
 ## VR Stuff
 @onready var mission_1: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_1
@@ -216,7 +217,7 @@ func _input(event: InputEvent) -> void:
 		## Handle keyboard and gamepad inputs, to make sure that "something" always has input focus.
 		match mode:
 			"basic":
-				if not check_focus( [ start_button, settings_button, quit_button, vr_button ] ):
+				if not check_focus( [ start_button, settings_button, quit_button, vr_button, debug_button ] ):
 					start_button.grab_focus()
 			"settings":
 				pass

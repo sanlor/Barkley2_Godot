@@ -1,6 +1,6 @@
 extends B2_ROOMS
 
-const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
+#const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
 const O_ENEMY_DRONE_EGG_FINAL 	= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.tscn")
 const GENERIC_EXPLOSION 		= preload("res://barkley2/scenes/Objects/System/generic_explosion.tscn")
 

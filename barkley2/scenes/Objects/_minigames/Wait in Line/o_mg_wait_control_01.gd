@@ -13,6 +13,8 @@ signal line_move_requested
 @onready var clock_timer: 	Timer = $clock_timer
 @onready var line_timer: 	Timer = $line_timer
 
+@onready var o_vikingstad_01_desk: B2_EnvironInteractive = $"../o_vikingstad01_desk"
+@onready var o_mg_wait_clock: 	B2_Environ = $"../o_mg_wait_clock"
 @onready var o_mg_wait_spot_13: Sprite2D = $"../o_mg_wait_spot13"
 @onready var o_mg_wait_spot_12: Sprite2D = $"../o_mg_wait_spot12"
 @onready var o_mg_wait_spot_11: Sprite2D = $"../o_mg_wait_spot11"
@@ -60,8 +62,6 @@ signal line_move_requested
 				o_mg_wait_spot_13: Vector2.UP,
 	}
 
-@export var o_mg_wait_clock : B2_Environ
-
 ## Wow, its an array full of peds!
 var ped_array := []
 
@@ -73,35 +73,69 @@ func _ready() -> void:
 	
 	clock_timer.start( 1.0 )
 	
-	for i in 1:
+	for i in 12:
 		var pre_ped : B2_Pedestrian_Mortgage = O_MORTAGE_PROLE.instantiate()
 		pre_ped.o_mg_wait_control01 = self
 		pre_ped.name = "OG_Queuer_" + NAMES.pick_random()
 		pre_ped.office_exit_path = [ped_bye_bye_waypoint, ped_gestation_and_incineration_stop]
-		ped_array.append( pre_ped )
 		pre_ped.global_position = o_mg_wait_spot[i].global_position
 		add_sibling.call_deferred( pre_ped, true )
-		#pre_ped.set_target.call_deferred( o_mg_wait_spot[i] )
-		pre_ped.set_target.call_deferred( o_mg_wait_spot.front() )
-
+		register_ped( pre_ped )
+		pre_ped.set_target.call_deferred( o_mg_wait_spot[i] )
+	
+	# Unreverse it.
+	o_mg_wait_spot.reverse()
+	
+	o_vikingstad_01_desk.play("paperwork_check")
+	o_vikingstad_01_desk.is_interactive = false
+	
 ## Make a walking ped, from the door to the cashier.
 func make_a_ped() -> void:
-	var path = o_mg_wait_spot.duplicate()
-	path.reverse()
-	#path.resize(5)
-	
 	var ped : B2_Pedestrian_Mortgage = O_MORTAGE_PROLE.instantiate()
 	ped.o_mg_wait_control01 = self
 	ped.name = "New_Queuer_" + NAMES.pick_random()
-	ped.office_exit_path = [ped_bye_bye_waypoint, ped_gestation_and_incineration_stop]
+	#ped.office_exit_path = [ped_bye_bye_waypoint, ped_gestation_and_incineration_stop]
 	ped.global_position = ped_gestation_and_incineration_stop.global_position
 	add_sibling.call_deferred( ped, true )
-	
-	ped.set_target_list( path )
+	register_ped(ped)
+	ped.set_target( o_mg_wait_spot_01 )
+
+func register_ped( ped_node : B2_Pedestrian_Mortgage ) -> void:
+	if not ped_array.has( ped_node ):		ped_array.append( ped_node )
+	else:									push_error("Registering duplicated ped.")
+
+func unregister_ped( ped_node : B2_Pedestrian_Mortgage ) -> void:
+	if ped_array.has( ped_node ):		ped_array.erase( ped_node )
+	else:								push_error("Tried to unregister an invalid ped.")
 
 func move_the_line() -> void:
-	line_move_requested.emit()
-
+	o_vikingstad_01_desk.is_interactive = false
+	o_vikingstad_01_desk.paperwork_end_animation()
+	await o_vikingstad_01_desk.animation_finished
+	
+	for ped : B2_Pedestrian_Mortgage in ped_array:
+		match ped.my_curr_target:
+			o_mg_wait_spot_01: ped.set_target( o_mg_wait_spot_02 )
+			o_mg_wait_spot_02: ped.set_target( o_mg_wait_spot_03 )
+			o_mg_wait_spot_03: ped.set_target( o_mg_wait_spot_04 )
+			o_mg_wait_spot_04: ped.set_target( o_mg_wait_spot_05 )
+			o_mg_wait_spot_05: ped.set_target( o_mg_wait_spot_06 )
+			o_mg_wait_spot_06: ped.set_target( o_mg_wait_spot_07 )
+			o_mg_wait_spot_07: ped.set_target( o_mg_wait_spot_08 )
+			o_mg_wait_spot_08: ped.set_target( o_mg_wait_spot_09 )
+			o_mg_wait_spot_09: ped.set_target( o_mg_wait_spot_10 )
+			o_mg_wait_spot_10: ped.set_target( o_mg_wait_spot_11 )
+			o_mg_wait_spot_11: ped.set_target( o_mg_wait_spot_12 )
+			o_mg_wait_spot_12: ped.set_target( o_mg_wait_spot_13 )
+			o_mg_wait_spot_13: ped.set_target_list( [ped_bye_bye_waypoint, ped_gestation_and_incineration_stop] )
+			_: breakpoint
+	
+	## TODO check if player is at 13 spot
+	await get_tree().create_timer(3.0).timeout ## wait for ped to reach the counter
+	o_vikingstad_01_desk.is_interactive = false
+	
+	o_vikingstad_01_desk.paperwork_pick_animation()
+	
 # o_mg_wait_control01 event 0
 func _clock_timer_timeout() -> void:
 	var spot := _check_hoopz_spot()
@@ -120,6 +154,9 @@ func _clock_timer_timeout() -> void:
 		00:				B2_Sound.play("sn_mg_wait_clock01")
 		_:				B2_Sound.play("sn_mg_wait_clock01")
 	
+	## Move clock hands
+	o_mg_wait_clock.frame = wrapi( o_mg_wait_clock.frame + 1, 0, 16 )
+	
 	clock_timer.start( 1.0 + float(spot) * 0.1 )
 
 ## Which spot is hoopz on?
@@ -127,12 +164,12 @@ func _check_hoopz_spot() -> int:
 	var id := 0 ## in no spot
 	for s in o_mg_wait_spot:
 		if s.spot_holder is B2_Player_FreeRoam:
-			id = _get_spot_id( s )
+			id = get_spot_id( s )
 			break
 	return id
 
 ## Return the spot ID (last 2 digits). Spot 01 is ID 00
-func _get_spot_id( spot : B2_MiniGame_Mortage_Spot ) -> int:
+func get_spot_id( spot : B2_MiniGame_Mortage_Spot ) -> int:
 	return spot.name.right(2).to_int() - 1
 
 func _count_free_spots() -> int:

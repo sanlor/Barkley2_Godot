@@ -1,8 +1,11 @@
 @tool
 extends B2_ROOMS
-## https://www.youtube.com/watch?v=kMybONQr0wA&t=12981s
+## https://youtu.be/kMybONQr0wA?t=15367
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
+		
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
 	_set_region()

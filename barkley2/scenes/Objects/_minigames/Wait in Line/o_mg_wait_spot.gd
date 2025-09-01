@@ -28,7 +28,7 @@ func _ready() -> void:
 	## color stuff
 	collision_shape_2d.debug_color = SPOT_EMPTY
 	
-	#hide()
+	hide()
 
 func _register_holder( node : Node2D ) -> void:
 	if node is B2_PlayerCombatActor or node is B2_Pedestrian_Mortgage:
@@ -53,5 +53,5 @@ func _unregister_holder( node : Node2D ) -> void:
 						break
 
 ## peds use this function to check if they can move.
-func can_enter() -> bool:
-	return (spot_holder == null)
+func can_enter( source_ped ) -> bool:
+	return spot_holder == null or spot_holder == source_ped

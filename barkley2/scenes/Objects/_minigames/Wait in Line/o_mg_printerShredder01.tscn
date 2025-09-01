@@ -1,7 +1,8 @@
 [gd_scene load_steps=43 format=3 uid="uid://r2s34tpvoagt"]
 
 [ext_resource type="Texture2D" uid="uid://cll8gt14etu1i" path="res://barkley2/assets/b2_original/images/merged/s_mg_printerShredder01.png" id="1_0a0l0"]
-[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_8j3f0"]
+[ext_resource type="Script" uid="uid://4gmjxivw0gc6" path="res://barkley2/scenes/Objects/_minigames/Wait in Line/o_mg_printer_shredder_01.gd" id="2_8j3f0"]
+[ext_resource type="AudioStream" uid="uid://bpt2e547nkm0d" path="res://barkley2/assets/b2_original/audio/Minigames/Wait_In_Line/sn_mg_wait_printer01.ogg" id="3_ad053"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ad053"]
 atlas = ExtResource("1_0a0l0")
@@ -272,21 +273,20 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f0y24")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ru1l2"]
-radius = 24.8
-
-[node name="o_mg_printerShredder01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+[node name="o_mg_printerShredder01" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_3wweb")
-frame = 7
+frame = 37
+frame_progress = 1.0
+speed_scale = 0.9
 centered = false
 offset = Vector2(0, -48)
 script = ExtResource("2_8j3f0")
-EnvCol = NodePath("StaticBody2D")
+change_frame_at_sudo_random = false
 metadata/default = {
 "bbox_bottom": "48",
 "bbox_left": "3",
@@ -299,8 +299,12 @@ metadata/default = {
 "yorigin": "48"
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(25, -15)
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-shape = SubResource("CircleShape2D_ru1l2")
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ad053")
+max_distance = 750.0
+bus = &"Audio"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

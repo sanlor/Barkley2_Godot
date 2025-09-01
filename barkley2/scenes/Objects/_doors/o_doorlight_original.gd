@@ -170,7 +170,7 @@ func _update_sprite():
 	
 	is_loaded = true
 
-func push_player( body : B2_Player, delta : float ):
+func push_player( body : B2_PlayerCombatActor, delta : float ):
 	var push_vector := Vector2.ZERO
 	match type:
 		DOOR_TYPE.UP: 		push_vector = Vector2.UP

@@ -2,6 +2,8 @@
 extends RigidBody2D
 class_name B2_Pedestrian_Mortgage
 ## Special version of a pedestrian, used in the Mortgage minigame.
+# 31-08-25 - OK, this sucks. I keep overcomplicating this. My main issue is that this object is quite different from the original game.
+# I cant just port the code from GML to godot. Right now, im trying to simplify this.
 
 # List of sprites that the peds can use.
 const PED_SPRITES := [
@@ -32,7 +34,7 @@ const PED_SPRITES := [
 
 signal destination_reached
 
-enum {ON_QUEUE,ON_COUNTER,LEAVING}
+enum {ON_QUEUE, LEAVING}
 var ped_state := ON_QUEUE
 
 ## Debug
@@ -81,9 +83,9 @@ var velocity				:= Vector2.ZERO
 
 ## List of spots that the actor must follow.
 var my_target_list			:= []
-var my_target_index			:= 0
+# var my_target_index			:= 0												# 31-09-25 Disabled this.
 var my_curr_target			: Node2D	# <- Where the ped wants to go
-var my_last_target			: Node2D	# <- Where the ped is currently at.
+# var my_last_target			: Node2D	# <- Where the ped is currently at. 	# 31-09-25 Disabled this.
 
 ## if another person is in my target, flip this var and wait.
 var is_waiting_for_spot_vacancy := false
@@ -107,7 +109,7 @@ func _ready() -> void:
 	_change_costume()
 	
 	## Connect signals.
-	o_mg_wait_control01.line_move_requested.connect( _move_line )
+	# o_mg_wait_control01.line_move_requested.connect( _move_line ) # 31-09-25 Disabled this.
 	
 func _setup_actor():
 	if not is_instance_valid( ActorAnim ):
@@ -133,16 +135,14 @@ func _setup_actor():
 		push_error( "ActorCol is invalid for node %s." % name )
 		
 func set_target( target : Node2D ) -> void:
-	is_moving = true
+	#is_moving = true
 	my_curr_target = target
-	my_last_target = target
 	_move_to( my_curr_target.global_position )
 		
 func set_target_list( target_list : Array ) -> void:
-	my_target_index = 0
+	ped_state = LEAVING
 	my_target_list = target_list
-	my_curr_target = my_target_list[my_target_index]
-	my_last_target = my_curr_target
+	my_curr_target = my_target_list.pop_front()
 	is_moving = true
 	_move_to( my_curr_target.global_position )
 		
@@ -201,40 +201,18 @@ func _ped_animation(): # Apply animation when the character is moved by a cinema
 	
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
+	is_moving = true
 	apply_central_force( velocity )
 	_ped_animation()
 
 func _move_to( _position : Vector2 ) -> void:
 	ActorNav.set_target_position( _position )
 
-func _move_line() -> void:
-	## Ped should be stopped, on the counter.
-	if ped_state == ON_COUNTER:
-		## The ped **SHOULD** be in the 13 spot.
-		if my_curr_target.name == "o_mg_wait_spot13":
-			if debug: print(office_exit_path)
-			ped_state = LEAVING
-			#is_waiting_for_spot_vacancy = false ## <- sometimes the var stayied as true, for some reason.
-			set_target_list( office_exit_path )
-	
-
 func _ped_stopped_moving() -> void:
+#	velocity = Vector2.ZERO
 	is_moving = false
-	movement_vector = o_mg_wait_control01.get_ped_face_direction( my_last_target )
-	last_movement_vector = movement_vector
+#	last_movement_vector = movement_vector
 	_ped_animation()
-
-## Select next queue stop.
-func _set_next_spot() -> void:
-	my_last_target = my_curr_target
-	if my_target_index + 1 < my_target_list.size():
-		my_target_index += 1
-		my_curr_target = my_target_list[my_target_index]
-	else: print("OOB")
-
-## Return true if all destinetions were reached.
-func _is_at_destination() -> bool:
-	return my_target_index + 1 >= my_target_list.size()
 
 ## This is a mess. Im was working on this for a few days, 15 minutes at a time.
 func _physics_process(delta: float) -> void:
@@ -244,68 +222,29 @@ func _physics_process(delta: float) -> void:
 	
 	match ped_state:
 		ON_QUEUE:
-			if is_waiting_for_spot_vacancy:
+			## Check if the ped can move to the next spot
+			if not my_curr_target.can_enter( self ):
+				#_ped_stopped_moving()
+				return
 				
-				if my_last_target:
-					## Avoid situations where the player tries to cut in line.
-					global_position = global_position.lerp( my_last_target.global_position, 5.0 * delta )
-					
-				if my_curr_target and my_curr_target is B2_MiniGame_Mortage_Spot:
-					## check if the next spot is occupied.
-					if my_curr_target.can_enter():
-						if debug: print("target cleared for entry: ", my_curr_target.name)
-						is_waiting_for_spot_vacancy = false
-						is_moving = true
-						_move_to( my_curr_target.global_position )
-				else:
-					push_error( my_curr_target.name )
-					## weird situation.
-					breakpoint
-			
 			# Finish navigation
-			if ActorNav.is_target_reached():
-				## Check if there is any new target.
-				if not _is_at_destination():
-					## Check if the ped can move to the next spot
-					if my_curr_target.global_position.distance_to( global_position ) < 2.0:
-						_set_next_spot()
-						
-						assert( my_curr_target, "Null target." )
-						if debug: print("curr target: ", my_curr_target.name)
-						
-						## Check if the spot is free.
-						if my_curr_target.can_enter():
-							_move_to( my_curr_target.global_position ) ## It is, move torward it.
-							if debug: print("Move torward ", my_curr_target.name)
-							
-						else: ## Its not, wait for it to be free.
-							is_waiting_for_spot_vacancy = true
-							_ped_stopped_moving()
-							if debug: print("wait ", is_waiting_for_spot_vacancy)
-							
-				else: ## Reached final destination. Chillout.
-					if is_moving:
-						velocity = Vector2.ZERO
-						_ped_stopped_moving()
-						is_waiting_for_spot_vacancy = false
-						ped_state = ON_COUNTER
-						destination_reached.emit()
-						if debug: print( "Mortgage ped %s reached its target %s." % [name, my_curr_target.name] )
-			
-		ON_COUNTER:
-			global_position = global_position.lerp( my_curr_target.global_position, 10.0 * delta )
-			movement_vector = Vector2.UP
-			_ped_animation()
-			return ## Do nothing beyond the above.
+			if my_curr_target.global_position.distance_to( global_position ) < 5.0:
+				_ped_stopped_moving()
+				global_position = global_position.lerp( my_curr_target.global_position, 5.0 * delta )
+				movement_vector = o_mg_wait_control01.get_ped_face_direction( my_curr_target )
 			
 		LEAVING:
 			# Finish navigation
 			if my_curr_target.global_position.distance_to( global_position ) < 5.0:
-				if _is_at_destination():
+				if my_target_list.is_empty():
+					o_mg_wait_control01.unregister_ped(self)
 					queue_free()
 				else:
-					_set_next_spot()
+					my_curr_target = my_target_list.pop_front()
 					_move_to( my_curr_target.global_position )
+		
+	if ActorNav.is_target_reached():
+		return
 		
 	if ActorNav.is_navigation_finished():
 		return
