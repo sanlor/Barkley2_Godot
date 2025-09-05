@@ -16,7 +16,7 @@ var player_has_control 		:= true # Set to false during cutscenes and conversatio
 signal action_pressed
 
 # FFWD Stuff
-var ff_time_scale			:= 5.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
+var ff_time_scale			:= 6.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
 var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
 var is_fastforwarding		:= false 	# Set to true when you are FFWD
 var can_switch_guns			:= true	# if the player can swap guns (Should be disabled in menus)
@@ -28,14 +28,12 @@ func _physics_process(_delta: float) -> void:
 	## DEBUG
 	#if Input.is_action_just_pressed("Roll"):
 		#B2_Screen.show_notify_screen("Big Butts")
-	
-	
 	if Input.is_action_just_pressed("Action"):
 		action_pressed.emit()
 		
 func _input(_event: InputEvent) -> void:
 	if Input.is_action_pressed("Holster") or Input.is_action_just_released("Holster"):
-		if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF"):
+		if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF") or B2_Debug.ENABLE_FREE_FFWD: ## DEBUG
 			if Input.is_action_pressed("Holster"):
 				ffwd( true )
 			else:

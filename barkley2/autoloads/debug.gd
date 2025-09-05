@@ -3,6 +3,8 @@ extends CanvasLayer
 
 const O_CAMERA_DEBUG = preload("uid://dvdkuaawlgfqd")
 
+const ENABLE_FREE_FFWD := true
+
 # vvv dont remember what this does.
 const ENABLE_CINEMASPOT := false
 
@@ -32,6 +34,13 @@ func _ready() -> void:
 	
 	player_vars.visible = false
 	player_data.visible = false
+	
+	if ENABLE_FREE_FFWD: 					print_rich("[color=red]B2_Debug: ENABLE_FREE_FFWD[/color]")
+	if ENABLE_CINEMASPOT: 					print_rich("[color=red]B2_Debug: ENABLE_CINEMASPOT[/color]")
+	if PATHFIND_SHOW: 						print_rich("[color=red]B2_Debug: PATHFIND_SHOW[/color]")
+	if ENABLE_MOVEMENT_VECTOR_VISUALIZE: 	print_rich("[color=red]B2_Debug: ENABLE_MOVEMENT_VECTOR_VISUALIZE[/color]")
+	if WARN_INVALID_CHECKS : 				print_rich("[color=red]B2_Debug: WARN_INVALID_CHECKS [/color]")
+	
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey:

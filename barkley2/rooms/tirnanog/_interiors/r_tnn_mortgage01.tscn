@@ -1,8 +1,7 @@
-[gd_scene load_steps=110 format=4 uid="uid://liwjw8vvog8t"]
+[gd_scene load_steps=109 format=4 uid="uid://liwjw8vvog8t"]
 
 [ext_resource type="Script" uid="uid://1jfkfipy4vfs" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_mortgage_01.gd" id="1_a1gwr"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_b1kls"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_w2smx"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="4_cnkbd"]
 [ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="5_cxbbh"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="6_uxngo"]
@@ -3688,13 +3687,14 @@ play_room_music = false
 camera_bound_to_map = true
 metadata/_custom_type_script = "uid://bvfigbkdlawg1"
 
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
-script = ExtResource("2_w2smx")
-convert_cinema_spots = false
-convert_door_light = false
-convert_door = false
-convert_collision = false
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
+[node name="o_mg_wait_control01" parent="." instance=ExtResource("63_ymkt5")]
+position = Vector2(-120, 96)
+
+[node name="ped_gestation_and_incineration_stop" type="Marker2D" parent="."]
+position = Vector2(128, 365)
+
+[node name="ped_bye_bye_waypoint" type="Marker2D" parent="."]
+position = Vector2(291, 282)
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -3929,80 +3929,93 @@ metadata/code = ""
 metadata/inst_name = "inst_7C45567A"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot13" parent="." instance=ExtResource("48_07jnl")]
+[node name="o_mg_wait_spot13" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("48_07jnl")]
 position = Vector2(272, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_5D40A40C"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot12" parent="." instance=ExtResource("51_eaf6a")]
+[node name="o_mg_wait_spot12" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("51_eaf6a")]
 position = Vector2(240, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_B16A97D0"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot11" parent="." instance=ExtResource("53_3jvci")]
+[node name="o_mg_wait_spot11" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("53_3jvci")]
 position = Vector2(208, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_AFECB129"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot10" parent="." instance=ExtResource("55_jknw4")]
+[node name="o_mg_wait_spot10" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("55_jknw4")]
 position = Vector2(176, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_163EEBCB"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot09" parent="." instance=ExtResource("57_j1gkn")]
+[node name="o_mg_wait_spot09" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("57_j1gkn")]
 position = Vector2(144, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_15743595"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot08" parent="." instance=ExtResource("59_x4rcw")]
+[node name="o_mg_wait_spot08" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("59_x4rcw")]
 position = Vector2(144, 208)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_7C2FBC77"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot07" parent="." instance=ExtResource("61_3ns7u")]
+[node name="o_mg_wait_spot07" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("61_3ns7u")]
 position = Vector2(144, 176)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_592E5EAE"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot06" parent="." instance=ExtResource("63_o1xvi")]
+[node name="o_mg_wait_spot06" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("63_o1xvi")]
 position = Vector2(144, 144)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_04BBCB11"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot05" parent="." instance=ExtResource("65_ax3xf")]
+[node name="o_mg_wait_spot05" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("65_ax3xf")]
 position = Vector2(104, 144)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_C161711E"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot04" parent="." instance=ExtResource("67_p5506")]
+[node name="o_mg_wait_spot04" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("67_p5506")]
 position = Vector2(104, 176)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_1464725E"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot03" parent="." instance=ExtResource("69_ea5o4")]
+[node name="o_mg_wait_spot03" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("69_ea5o4")]
 position = Vector2(104, 208)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_6BED76C0"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot02" parent="." instance=ExtResource("71_xxltp")]
+[node name="o_mg_wait_spot02" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("71_xxltp")]
 position = Vector2(104, 240)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_834C1D1F"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_spot01" parent="." instance=ExtResource("73_p2p18")]
+[node name="o_mg_wait_spot01" parent="." node_paths=PackedStringArray("o_mg_wait_control01") instance=ExtResource("73_p2p18")]
 position = Vector2(104, 272)
+o_mg_wait_control01 = NodePath("../o_mg_wait_control01")
 metadata/code = ""
 metadata/inst_name = "inst_27886A81"
 metadata/scale = Vector2(1, 1)
@@ -4037,17 +4050,8 @@ metadata/code = ""
 metadata/inst_name = "inst_D1FAB44A"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_wait_control01" parent="." instance=ExtResource("63_ymkt5")]
-position = Vector2(-120, 96)
-
 [node name="P47 - o_room_unbound" type="Marker2D" parent="."]
 position = Vector2(-120, 128)
 metadata/code = ""
 metadata/inst_name = "inst_76C4DACB"
 metadata/scale = Vector2(1, 1)
-
-[node name="ped_gestation_and_incineration_stop" type="Marker2D" parent="."]
-position = Vector2(128, 365)
-
-[node name="ped_bye_bye_waypoint" type="Marker2D" parent="."]
-position = Vector2(291, 282)
