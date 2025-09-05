@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://byic41mw3be6h"]
+[gd_scene load_steps=45 format=3 uid="uid://byic41mw3be6h"]
 
 [ext_resource type="Script" uid="uid://5l8otjly77sy" path="res://barkley2/scenes/Objects/System/_note/note_screen.gd" id="1_7b5k1"]
 [ext_resource type="Theme" uid="uid://dmi5aktus8lnp" path="res://barkley2/resources/misc/map.tres" id="2_k33xd"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://bdaandl5n3ux8" path="res://barkley2/assets/b2_original/images/merged/sMapFlip.png" id="8_25toe"]
 [ext_resource type="Texture2D" uid="uid://d4itg2q4pkvp7" path="res://barkley2/assets/b2_original/images/merged/sButtonExit.png" id="9_7ipqm"]
 [ext_resource type="Script" uid="uid://21bcte5vesst" path="res://barkley2/scenes/border/B2_panel_bg_button.gd" id="9_bkvq5"]
+[ext_resource type="Texture2D" uid="uid://7x8pm4mil0l7" path="res://barkley2/assets/b2_original/images/merged/sGallery.png" id="9_ch6jd"]
 [ext_resource type="AudioStream" uid="uid://bfbeo7aju4b6p" path="res://barkley2/assets/b2_original/audio/UI_Notes/sn_mnu_exit01.ogg" id="10_bkn65"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="10_iir8f"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="11_gss3i"]
 [ext_resource type="Texture2D" uid="uid://dueq0vi38g65c" path="res://barkley2/assets/Confirm/s_diag_bg.png" id="12_ch6jd"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="13_iir8f"]
@@ -42,6 +44,14 @@ region = Rect2(60, 0, 30, 29)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vklxe"]
 atlas = ExtResource("8_25toe")
 region = Rect2(30, 0, 30, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iir8f"]
+atlas = ExtResource("9_ch6jd")
+region = Rect2(0, 0, 132, 176)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wdtch"]
+font = ExtResource("10_iir8f")
+shadow_color = Color(0, 0, 0, 0.75000006)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_30sak"]
 region = Rect2(700, 0, 100, 41)
@@ -247,6 +257,160 @@ tracks/10/keys = {
 "update": 0,
 "values": [Vector2(192, 120)]
 }
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("ColorRect/gallery/sGallery:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(15, 27)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("ColorRect/gallery/sGallery_text:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(165, 41)]
+}
+
+[sub_resource type="Animation" id="Animation_gss3i"]
+resource_name = "confirm_show"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("confirm_bg:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("confirm_bg/dialog:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(384, 90), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("confirm_bg/dialog:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("confirm_bg:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("confirm_bg/dialog:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 80), Vector2(192, 120)]
+}
+
+[sub_resource type="Animation" id="Animation_wdtch"]
+resource_name = "confirm_show"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("confirm_bg:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("confirm_bg/dialog:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(384, 90)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("confirm_bg/dialog:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("confirm_bg:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("confirm_bg/dialog:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(192, 120), Vector2(0, 80)]
+}
 
 [sub_resource type="Animation" id="Animation_2ds6k"]
 resource_name = "show_myself"
@@ -399,41 +563,41 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(142, 239), Vector2(142, 200)]
+"values": [Vector2(284, 239), Vector2(284, 200)]
 }
 
-[sub_resource type="Animation" id="Animation_wdtch"]
-resource_name = "confirm_show"
+[sub_resource type="Animation" id="Animation_86gir"]
+resource_name = "show_myself"
 length = 0.25
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("confirm_bg:visible")
-tracks/0/interp = 1
+tracks/0/path = NodePath("ColorRect/exit_button:position")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"times": PackedFloat32Array(0.1, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(142, 239), Vector2(142, 199)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("confirm_bg/dialog:size")
-tracks/1/interp = 1
+tracks/1/path = NodePath("ColorRect/B2_Border:position")
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
+"times": PackedFloat32Array(0.1, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(384, 90)]
+"values": [Vector2(-25, -50), Vector2(-25, -25)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("confirm_bg/dialog:modulate")
+tracks/2/path = NodePath("ColorRect:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -445,60 +609,60 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("confirm_bg:modulate")
-tracks/3/interp = 1
+tracks/3/path = NodePath("ColorRect/gallery/sGallery:position")
+tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Vector2(-132, 27), Vector2(15, 27)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("confirm_bg/dialog:position")
-tracks/4/interp = 1
+tracks/4/path = NodePath("ColorRect/gallery/sGallery_text:position")
+tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(192, 120), Vector2(0, 80)]
+"values": [Vector2(384, 41), Vector2(165, 41)]
 }
 
-[sub_resource type="Animation" id="Animation_gss3i"]
-resource_name = "confirm_show"
+[sub_resource type="Animation" id="Animation_iir8f"]
+resource_name = "hide_myself_gallery"
 length = 0.25
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("confirm_bg:visible")
-tracks/0/interp = 1
+tracks/0/path = NodePath("ColorRect/exit_button:position")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
+"update": 0,
+"values": [Vector2(142, 199), Vector2(142, 239)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("confirm_bg/dialog:size")
-tracks/1/interp = 1
+tracks/1/path = NodePath("ColorRect/B2_Border:position")
+tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(384, 90), Vector2(0, 0)]
+"values": [Vector2(-25, -25), Vector2(-25, -50)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("confirm_bg/dialog:modulate")
+tracks/2/path = NodePath("ColorRect:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -510,26 +674,26 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("confirm_bg:modulate")
+tracks/3/path = NodePath("ColorRect/gallery/sGallery:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Vector2(15, 27), Vector2(-132, 27)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("confirm_bg/dialog:position")
+tracks/4/path = NodePath("ColorRect/gallery/sGallery_text:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 80), Vector2(192, 120)]
+"values": [Vector2(165, 41), Vector2(384, 41)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_73434"]
@@ -538,7 +702,9 @@ _data = {
 &"confirm_hide": SubResource("Animation_gss3i"),
 &"confirm_show": SubResource("Animation_wdtch"),
 &"hide_myself": SubResource("Animation_2ds6k"),
-&"show_myself": SubResource("Animation_r62t0")
+&"hide_myself_gallery": SubResource("Animation_iir8f"),
+&"show_myself": SubResource("Animation_r62t0"),
+&"show_myself_gallery": SubResource("Animation_86gir")
 }
 
 [node name="note_screen" type="CanvasLayer"]
@@ -547,7 +713,6 @@ layer = 29
 script = ExtResource("1_7b5k1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -584,8 +749,9 @@ texture = SubResource("AtlasTexture_q5any")
 material = ExtResource("3_gb7bn")
 anchors_preset = 0
 offset_left = -25.0
-offset_top = -50.0
+offset_top = -25.0
 offset_right = 409.0
+offset_bottom = 25.0
 theme = ExtResource("4_gxy4n")
 script = ExtResource("5_nsqon")
 border_size = Vector2(434, 50)
@@ -620,8 +786,8 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = -30.0
 offset_top = -14.5
+offset_right = 30.0
 offset_bottom = 14.5
 grow_vertical = 2
 texture_normal = SubResource("AtlasTexture_ayilk")
@@ -636,14 +802,41 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_left = -30.0
 offset_top = -14.5
-offset_right = 30.0
 offset_bottom = 14.5
 grow_horizontal = 0
 grow_vertical = 2
 texture_normal = SubResource("AtlasTexture_knjcf")
 texture_pressed = SubResource("AtlasTexture_fg52d")
 texture_hover = SubResource("AtlasTexture_vklxe")
+
+[node name="gallery" type="Control" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="sGallery" type="TextureRect" parent="ColorRect/gallery"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 27.0
+offset_right = 147.0
+offset_bottom = 203.0
+texture = SubResource("AtlasTexture_iir8f")
+
+[node name="sGallery_text" type="Label" parent="ColorRect/gallery"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 41.0
+offset_right = 350.00043
+offset_bottom = 193.0
+text = "Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder Placeholder "
+label_settings = SubResource("LabelSettings_wdtch")
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="give_button" type="Control" parent="ColorRect"]
 layout_mode = 1
@@ -680,9 +873,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -50.0
-offset_top = -1.0
+offset_top = -41.0
 offset_right = 50.0
-offset_bottom = 40.0
+offset_bottom = 4.5776367e-05
 grow_horizontal = 2
 grow_vertical = 0
 texture_normal = SubResource("AtlasTexture_30sak")
@@ -692,7 +885,6 @@ sprite_frames = SubResource("SpriteFrames_dkmn1")
 centered = false
 
 [node name="confirm_bg" type="ColorRect" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 4096
 anchors_preset = 15
@@ -704,6 +896,7 @@ theme = ExtResource("11_gss3i")
 color = Color(0, 0, 0, 0.749)
 
 [node name="dialog" type="TextureRect" parent="confirm_bg"]
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(1, 1, 1, 0.75)
 clip_contents = true
 layout_mode = 1

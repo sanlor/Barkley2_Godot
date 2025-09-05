@@ -2,10 +2,26 @@ extends CanvasLayer
 
 const CONFIRMATION_BOX = preload("uid://dkqmhxi70d2o7")
 
+const ART_DATA : Dictionary[String, Array]= {
+##	NAME				ID		DESCRIPTION
+	"Goofster": 		[00, 	"Goofsters are tall and slender creatures most well known for their supernatural hardy constitution. ##While Goofsters are considered to be benevolent, social creatures, they are rarely, if ever, seen among their kin. Instead they prefer the company of sentient mallards and rats. ##Goofsters live and thrive in ancient subterranean ruins but are highly susceptible to microwave tunnels."],
+	"Slender Man":		[01, 	"Slender Men are the cursed offspring of a forgotten Mesopotamian King. They are born without a face and as such are forever plagued by an unsatiable hunger. ##The dark magicks that run in their veins makes them immortal, which rather than being a divine blessing only serves to prolong their suffering. These conditions make the Slender Men weak and malnourished, hence their name."],
+	"Drakescorned": 	[02, 	"The Drakescorned are a noble subgenus of orc who shun the use of all nunchucks. ##Versed in asceticism, the Drakescorned live in secluded mountain monasteries where they train their minds and bodies to deflect bows and arrows. ##As their name implies, they recieve a -2 penalty to all drake-based skill checks but more than make up for it with high level juggling. ##The Drakescorned are known for their elaborate wicker baskets."],
+	"Sergal": 			[03, 	"Sergals are the mystical offspring of highborne elves and werewolves. They are worshipped in many cultures almost exclusively as benevolent deities protecting the realm. ##All Sergals have a pathological fear of ghosts, and they try to avoid ancient ruins and graveyards any way they can."],
+	"Geldrach": 		[04, 	"Geldrachs are a very common barnyard animal found on many traditional farms. They are a genetically engineered species that are bred for the sole purpose of being cattle, and on some more rare occasions, for their milk. ##They are easily identifiable by their mixture of black and brown fur."],
+	"Dire Juggler": 	[05, 	"Dire Juggler are distant cousins of more well known species, Jugglers. Isolated and imprisoned onto a distant island during the events of The Second Cudgel War the Firstborne Jugglers slowly changed to a more dire existence. ##To this day not much else is known about the Dire Jugglers, but their recent resurgence aligns with the prophecy of the end times."],
+	"Hellmonster": 		[06, 	"Hellmonster are considered to be one of the most formidable demons of Hell, and their high position in the demon hierarchy supports this viewpoint. They use devastating Hell Magicks to battle their foes and have the ability to conjure Illiorchs Infernal Worms without spending any magicpoints. ##Hellmonsters are archenemies with Sporelips and Elder Stardusters."],
+	"Mujahoudini": 		[07, 	"The Mujahoudini are desert dwelling mystics who live solely to entertain people with their crazy stunts and daring feats. ##Not much is known about their day to day existence, but many rumours suggest that the Mujahoudini do not eat, drink or sleep, but rather spend every waking moment honing their art and protecting their oil."],
+}
+
 ## NOTE What a nightmare this was!!
 ## NOTE Missing fonts are set as null right now.
 # NOTE Need to act the "select" command. check https://youtu.be/kMybONQr0wA?t=15952
 var verbose_prints := true
+
+## When giving a note to someone, inform what note you selected.
+#signal note_selected( selected_note_name : String )
+# Dumbass, there is an signal for this already: B2_Screen.note_selected
 
 @onready var color_rect: ColorRect = $ColorRect
 
@@ -25,6 +41,10 @@ var verbose_prints := true
 @onready var give_lbl: 				Label = $confirm_bg/dialog/VBoxContainer/give_lbl
 @onready var yes_btn: 				Button = $confirm_bg/dialog/VBoxContainer/HBoxContainer/yes_btn
 @onready var no_btn: 				Button = $confirm_bg/dialog/VBoxContainer/HBoxContainer/no_btn
+
+@onready var gallery: 				Control = $ColorRect/gallery
+@onready var s_gallery: TextureRect = $ColorRect/gallery/sGallery
+@onready var s_gallery_text: Label = $ColorRect/gallery/sGallery_text
 
 
 const text_size := 9216.0
@@ -61,6 +81,7 @@ var selected_note := 0 :
 
 func _ready() -> void:
 	layer = B2_Config.NOTE_LAYER
+	B2_Input.ffwd( false )
 	
 	no_notes_lbl.text 		= Text.pr("No notes available.")
 	exit_spr.frame 			= 0
@@ -71,10 +92,21 @@ func _ready() -> void:
 	
 	if mode == 0:		## Viewer
 		give_button.queue_free()
+		gallery.queue_free()
 	elif mode == 1:		## Select
-		exit_button.queue_free()
+		## Disable button if there are no notes.
+		give_button.disabled = avaiable_notes.is_empty()			## Show "no notes" screen and disable the "give" button.
+		gallery.queue_free()
+	elif mode == 2:		## Gallery
+		color_rect.color.a = 0.85
+		prev_note.queue_free()
+		next_note.queue_free()
+		give_button.queue_free()
+		note_itself.queue_free()
+		gallery.show()
 	else:
-		pass
+		## weird mode
+		breakpoint
 	
 	# Button setup
 	yes_btn.text 	= Text.pr(yes_btn.text)
@@ -100,12 +132,21 @@ func _ready() -> void:
 		change_note()
 		#avaiable_maps.sort()
 		
-	animation_player.play("show_myself")
-	audio_stream_player.play()
+	if mode == 2:
+		animation_player.play("show_myself_gallery")
+	else:
+		animation_player.play("show_myself")
+		audio_stream_player.play()
 	
 func change_note() -> void: ## CRITICAL Need to change this to support the mental way B2 handles Notes.
+	if mode == 2: ## Gallery mode.
+		## Set gallery
+		var art : Array = ART_DATA.get(B2_Note.gallery_name)
+		s_gallery.texture.region.position.x = 132 * art[0]
+		note_name.text = Text.pr( B2_Note.gallery_name )
+		s_gallery_text.text = Text.pr( art[1] )
+		return
 	# get note name from the directory
-	#note_name.text = Text.pr( B2_Note.notes[ avaiable_notes[selected_note] ] )
 	note_name.text = Text.pr( avaiable_notes[selected_note] )
 	if note_itself:
 		note_itself.texture.region.position.x = B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_id"] * map_size
@@ -234,11 +275,15 @@ func _on_next_map_pressed() -> void:
 	t.tween_callback( next_note.set_disabled.bind(false) )
 
 func _on_exit_button_pressed() -> void:
+	B2_Screen.note_selected.emit( "exit" )
 	B2_Screen.hide_note_screen() # gracefully close the screen
 	
 func hide_menu():
-	animation_player.play("hide_myself")
-	audio_stream_player.play()
+	if mode == 2:
+		animation_player.play("hide_myself_gallery")
+	else:
+		animation_player.play("hide_myself")
+		audio_stream_player.play()
 	return await animation_player.animation_finished
 
 func _on_give_button_button_pressed() -> void:

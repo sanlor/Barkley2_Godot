@@ -32,7 +32,7 @@ func _ready() -> void:
 	## color stuff
 	collision_shape_2d.debug_color = SPOT_EMPTY
 	
-	#hide()
+	hide()
 
 func _register_holder( node : Node2D ) -> void:
 	if node is B2_PlayerCombatActor or node is B2_Pedestrian_Mortgage:

@@ -253,13 +253,18 @@ func clear_curr_music() -> void:
 	stored_playing_track_time 		= 0.0
 
 func stop( speed := 0.25 ):
-	#queue( music_bank.get("mus_blankTEMP.ogg", ""), speed )
-	if tween != null:
-		tween.kill()
-	tween = create_tween()
-	tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
-	await tween.finished
-	audio_stream_player.stop()
+	if not audio_stream_player:
+		return
+		
+	if audio_stream_player.playing:
+		if tween != null:
+			tween.kill()
+		tween = create_tween()
+		tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
+		await tween.finished
+		audio_stream_player.stop()
+	else:
+		push_warning("Trying to stop playing music when its not playing music.")
 
 func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := true ): ## track name should exist in the Music Bank dict.
 	if track_name == "":

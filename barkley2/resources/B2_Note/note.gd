@@ -17,7 +17,9 @@ const PERSONS 	= preload("res://barkley2/resources/B2_Note/persons.json")
 
 ## NOTE Original Text contains the escape character "\n". replaced it with "#". check NOTE() line 448
 
-var event_placeholder = null
+#var event_placeholder = null
+
+static var gallery_name := "Goofster"
 
 #var notes 		:= {}
 #var persons 	:= {}
@@ -114,6 +116,7 @@ func _ready() -> void:
 	#add_art( 6, "Hellmonster", "Hellmonster are considered to be one of the most formidable demons of Hell, and their high position in the demon hierarchy supports this viewpoint. They use devastating Hell Magicks to battle their foes and have the ability to conjure Illiorchs Infernal Worms without spending any magicpoints. ##Hellmonsters are archenemies with Sporelips and Elder Stardusters.");
 	###add_art( 7, "Mujahoudini", "The Mujahoudini are desert dwelling mystics who live solely to entertain people with their crazy stunts and daring feats. ##Not much is known about their day to day existence, but many rumours suggest that the Mujahoudini do not eat, drink or sleep, but rather spend every waking moment honing their art and protecting their oil.");
 	### NOTE cool, unused art? try to enable it later.
+	## 05/09/25 -> moved to the note node.
 	#
 #func add_note( note_id : int, note_title : String, note_sfx : String, note_data : String) -> void:
 	#notes[note_title] = {

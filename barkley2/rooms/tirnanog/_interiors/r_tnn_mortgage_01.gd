@@ -1,6 +1,7 @@
 @tool
 extends B2_ROOMS
 ## https://youtu.be/kMybONQr0wA?t=15367
+## 05/09/25 Finally done!
 
 func _ready() -> void:
 	if Engine.is_editor_hint():

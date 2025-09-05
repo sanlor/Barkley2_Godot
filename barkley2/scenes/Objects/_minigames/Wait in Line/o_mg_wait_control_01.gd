@@ -77,16 +77,25 @@ var ped_array := []
 var hoopz_last_known_spot := 999
 
 func _ready() -> void:
+	hide()
+	
 	# Whops, ordered the array wrong.
 	o_mg_wait_spot.reverse()
 	
 	clock_timer.timeout.connect( _clock_timer_timeout )
 	line_timer.timeout.connect( _line_timer_timeout )
+	free_spot_check_timer.timeout.connect( _free_spot_timeout )
 	
 	clock_timer.start( 1.0 )
 	
-	for i in 3: ## <- Debug
-	#for i in 12:
+	var queue_size := 12
+	#B2_Playerdata.Quest("mortgageOver", 2) ## DEBUG
+	if B2_Playerdata.Quest("mortgageOver") == 0:	queue_size = 12
+	else:											queue_size = 02 ## Minigame over
+	
+	## Create initial queue. check 'o_mg_wait_spot_parent' create event.
+	#for i in 1: ## <- Debug
+	for i in queue_size:
 		var pre_ped : B2_Pedestrian_Mortgage = O_MORTAGE_PROLE.instantiate()
 		pre_ped.o_mg_wait_control01 = self
 		pre_ped.name = "OG_Queuer_" + NAMES.pick_random()
@@ -102,10 +111,12 @@ func _ready() -> void:
 	o_vikingstad_01_desk.play("paperwork_check")
 	o_vikingstad_01_desk.is_interactive = false
 	
-	start_minigame()
+	if B2_Playerdata.Quest("mortgageOver") == 0:
+		start_minigame()
 	
 func start_minigame() -> void:
 	line_timer.start(LINE_EVENT_TIME)
+	free_spot_check_timer.start( 10.0 )
 	
 ## Make a walking ped, from the door to the cashier.
 func make_a_ped() -> void:
@@ -126,16 +137,34 @@ func unregister_ped( ped_node : B2_Pedestrian_Mortgage ) -> void:
 	if ped_array.has( ped_node ):		ped_array.erase( ped_node )
 	else:								push_error("Tried to unregister an invalid ped.")
 
+# TODO <- TODONE
 ## Check for free spots on the line. Hoopz moved from its spot or something like that.
 func free_spot_check() -> void:
-	# TODO
-	for s in o_mg_wait_spot:
-		if is_instance_valid(s.spot_holder):
-			if s.spot_holder == null:
-				
-	pass
+	# Lol, I'll live with my mistakes.
+	var spot := o_mg_wait_spot.duplicate()
+	spot.reverse()
+	
+	var empty_spot : B2_MiniGame_Mortage_Spot = null
+	for s in spot:
+		if not is_instance_valid(s.spot_holder):
+			## Spot empty
+			empty_spot = s
+		else:
+			if s.spot_holder is B2_Player_FreeRoam:
+				## reset empty_spot, because hoopz should manually move to its position.
+				empty_spot = null
+			elif s.spot_holder is B2_Pedestrian_Mortgage: ## Check if its not Hoopz.
+				# Ped is behind an empty spot. move forward
+				if empty_spot:
+					s.spot_holder.set_target( empty_spot )
+					empty_spot = s
+	#print("Debug Line check, " + empty_spot)
 
 func move_the_line() -> void:
+	## Do nothing if hoopz is talking to the Duergar.
+	if B2_Input.cutscene_is_playing:
+		return
+		
 	## Hoopz is at the counter, stop moving the line.
 	if _check_hoopz_spot() == 13:
 		return
@@ -144,24 +173,26 @@ func move_the_line() -> void:
 	o_vikingstad_01_desk.paperwork_end_animation()
 	await o_vikingstad_01_desk.animation_finished
 	
+	## Lol, what a mess. Messy but worky.
 	for ped : B2_Pedestrian_Mortgage in ped_array:
 		match ped.my_curr_target:
-			o_mg_wait_spot_01: ped.set_target( o_mg_wait_spot_02 )
-			o_mg_wait_spot_02: ped.set_target( o_mg_wait_spot_03 )
-			o_mg_wait_spot_03: ped.set_target( o_mg_wait_spot_04 )
-			o_mg_wait_spot_04: ped.set_target( o_mg_wait_spot_05 )
-			o_mg_wait_spot_05: ped.set_target( o_mg_wait_spot_06 )
-			o_mg_wait_spot_06: ped.set_target( o_mg_wait_spot_07 )
-			o_mg_wait_spot_07: ped.set_target( o_mg_wait_spot_08 )
-			o_mg_wait_spot_08: ped.set_target( o_mg_wait_spot_09 )
-			o_mg_wait_spot_09: ped.set_target( o_mg_wait_spot_10 )
-			o_mg_wait_spot_10: ped.set_target( o_mg_wait_spot_11 )
-			o_mg_wait_spot_11: ped.set_target( o_mg_wait_spot_12 )
+			o_mg_wait_spot_01: if o_mg_wait_spot_02.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_02 )
+			o_mg_wait_spot_02: if o_mg_wait_spot_03.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_03 )
+			o_mg_wait_spot_03: if o_mg_wait_spot_04.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_04 )
+			o_mg_wait_spot_04: if o_mg_wait_spot_05.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_05 )
+			o_mg_wait_spot_05: if o_mg_wait_spot_06.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_06 )
+			o_mg_wait_spot_06: if o_mg_wait_spot_07.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_07 )
+			o_mg_wait_spot_07: if o_mg_wait_spot_08.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_08 )
+			o_mg_wait_spot_08: if o_mg_wait_spot_09.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_09 )
+			o_mg_wait_spot_09: if o_mg_wait_spot_10.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_10 )
+			o_mg_wait_spot_10: if o_mg_wait_spot_11.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_11 )
+			o_mg_wait_spot_11: if o_mg_wait_spot_12.spot_holder != B2_Player_TurnBased: ped.set_target( o_mg_wait_spot_12 )
 			o_mg_wait_spot_12: ped.set_target( o_mg_wait_spot_13 )
 			o_mg_wait_spot_13: ped.set_target_list( [ped_bye_bye_waypoint, ped_gestation_and_incineration_stop] )
-			_: breakpoint
+			_: 	print("move_the_line(): Weird situation.")
+				#breakpoint
 	
-	await get_tree().create_timer(3.0).timeout ## wait for ped to reach the counter
+	await get_tree().create_timer(2.0).timeout ## wait for ped to reach the counter
 	
 	## Nobody stepped on the 13 spot yet. Unusual.
 	if o_mg_wait_spot_13.spot_holder == null:
@@ -182,8 +213,15 @@ func move_the_line() -> void:
 		print( o_mg_wait_spot_13.spot_holder )
 		breakpoint
 
+func _free_spot_timeout() -> void:
+	free_spot_check()
+
 ## Move the line or spawn a new ped
 func _line_timer_timeout() -> void:
+	## Do nothing if hoopz is talking to the Duergar.
+	if B2_Input.cutscene_is_playing:
+		return
+		
 	if o_mg_wait_spot_01.spot_holder == null:
 		make_a_ped()
 	else:
@@ -193,26 +231,26 @@ func _line_timer_timeout() -> void:
 	
 # o_mg_wait_control01 event 0
 func _clock_timer_timeout() -> void:
-	if B2_Playerdata.Quest("mortgageOver") == 2:
-		B2_Sound.play("sn_mg_wait_clock01")
-		return
-		
 	var spot := _check_hoopz_spot()
-	match spot:
-		11:				B2_Sound.play("sn_mg_wait_clock10")
-		10:				B2_Sound.play("sn_mg_wait_clock09")
-		09:				B2_Sound.play("sn_mg_wait_clock08")
-		08:				B2_Sound.play("sn_mg_wait_clock07")
-		07:				B2_Sound.play("sn_mg_wait_clock06")
-		06:				B2_Sound.play("sn_mg_wait_clock05")
-		05:				B2_Sound.play("sn_mg_wait_clock04")
-		04:				B2_Sound.play("sn_mg_wait_clock03")
-		03:				B2_Sound.play("sn_mg_wait_clock02")
-		02:				B2_Sound.play("sn_mg_wait_clock01")
-		01:				B2_Sound.play("sn_mg_wait_clock01")
-		00:				B2_Sound.play("sn_mg_wait_clock01")
-		_:				B2_Sound.play("sn_mg_wait_clock01")
 	
+	if B2_Playerdata.Quest("mortgageOver") != 2:
+		match spot:
+			11:				B2_Sound.play("sn_mg_wait_clock10")
+			10:				B2_Sound.play("sn_mg_wait_clock09")
+			09:				B2_Sound.play("sn_mg_wait_clock08")
+			08:				B2_Sound.play("sn_mg_wait_clock07")
+			07:				B2_Sound.play("sn_mg_wait_clock06")
+			06:				B2_Sound.play("sn_mg_wait_clock05")
+			05:				B2_Sound.play("sn_mg_wait_clock04")
+			04:				B2_Sound.play("sn_mg_wait_clock03")
+			03:				B2_Sound.play("sn_mg_wait_clock02")
+			02:				B2_Sound.play("sn_mg_wait_clock01")
+			01:				B2_Sound.play("sn_mg_wait_clock01")
+			00:				B2_Sound.play("sn_mg_wait_clock01")
+			_:				B2_Sound.play("sn_mg_wait_clock01")
+	## Minigame over, just play the regular sound.
+	else:
+		B2_Sound.play("sn_mg_wait_clock01")
 	## Move clock hands
 	o_mg_wait_clock.frame = wrapi( o_mg_wait_clock.frame + 1, 0, 16 )
 	

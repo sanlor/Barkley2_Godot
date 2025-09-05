@@ -227,6 +227,10 @@ func _physics_process(delta: float) -> void:
 				#_ped_stopped_moving()
 				return
 				
+			## Avoid issues with this spot and hoopz trying to talk with the Duergar.
+			if my_curr_target.name == "o_table_counter13" and B2_Input.cutscene_is_playing:
+				return
+				
 			# Finish navigation
 			if my_curr_target.global_position.distance_to( global_position ) < 5.0:
 				_ped_stopped_moving()

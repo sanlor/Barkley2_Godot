@@ -91,7 +91,7 @@ var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement.
  
 # Animation
 var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
-var turning_time 	:= 1.0
+var turning_time 	:= 0.25
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
@@ -304,7 +304,7 @@ func normal_animation(delta : float):
 			curr_direction = curr_direction.round()
 		
 		if curr_direction != last_direction:
-			turning_time = 1.0
+			turning_time = 0.5
 		
 		# handle the turning animation for a litle while.
 		if turning_time > 0.0:

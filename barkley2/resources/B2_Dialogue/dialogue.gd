@@ -66,9 +66,9 @@ signal awnsered_question( bool )
 
 var return_sprite : Sprite2D
 
-var textbox_width := 384
-var textbox_height := 240
-var text_offset = textbox_width - 64;
+var textbox_width 			:= 384
+var textbox_height 			:= 240
+var text_offset 			:= textbox_width - 64;
 
 var border_node 			: B2_Border
 var portrait_frame_node 	: TextureRect
@@ -77,8 +77,8 @@ var portrait_img_node 		: AnimatedSprite2D
 var title_node 				: RichTextLabel
 var text_node 				: RichTextLabel
 
-var has_portrait := false
-var port_load_failed := false
+var has_portrait 			:= false
+var port_load_failed 		:= false
 
 ## Typing stuff
 var textbox_pause 			:= 0.015 	#0.05; # Set tyhe typing speed.
@@ -91,36 +91,36 @@ var dash_pause 				:= 0.20 			#0.2
 var question_pause 			:= 0.45 			#0.5 ## Added by me, not on the original.
 var exclamation_pause 		:= 0.45 			#0.5 ## Added by me, not on the original.
 
-var normal_typing 			:= 0.8			#1.0
+var normal_typing 			:= 0.8				#1.0
 var fast_typing 			:= 0.2
 var curr_typing_speed := normal_typing
 
 var portrait_talk_speed		:= 0.1
 var portrait_talk_time 		:= -100.0
 
-var portrait_talk_frame		:= 0 # Animation frame for the protrait
+var portrait_talk_frame		:= 0 		# Animation frame for the protrait
 
 var return_sprite_time 		:= 0.2		#0.2
-var return_sprite_cooldown 	:= 0.2	#0.2
+var return_sprite_cooldown 	:= 0.2		#0.2
 
-var type_timer := 0.0
-var can_type := false
-var is_typing := false
+var type_timer 				:= 0.0
+var can_type := false							# <- Left like this on purpose to trigger someone's OCD.
+var is_typing 				:= false
 
-var voice_sound_played := false
+var voice_sound_played 		:= false
 
-var is_waiting_input := false
-var text_delays : PackedInt32Array
+var is_waiting_input 		:= false
+var text_delays 			: PackedInt32Array
 
 ## Textbox Screens (More than 4 lines of texts)
-var max_screens 	:= 1
-var curr_screen 	:= 1
-const max_lines		:= 4
+var max_screens 			:= 1
+var curr_screen 			:= 1
+const max_lines				:= 4
 
 ## Portrait stuff
-var blink_cooldown 	:= 0.0
-var blink_speed 	:= 5.50
-var is_talking		:= false
+var blink_cooldown 			:= 0.0
+var blink_speed 			:= 5.50
+var is_talking				:= false
 
 func _ready() -> void:
 	if debug: print_debug("DEBUG enabled.")
@@ -343,7 +343,7 @@ func _portrait_is_talking(delta):
 		# check scr_event_action_dialogue()
 		# check o_dialogue draw_end event.
 	else:
-		portrait_talk_time -= 15.0 * delta
+		portrait_talk_time -= 25.0 * delta
 		#is_talking = false
 
 func _type_next_letter(delta):

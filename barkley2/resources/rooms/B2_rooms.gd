@@ -87,8 +87,9 @@ func _enter_tree() -> void:
 		
 	B2_Screen.can_pause = player_can_pause
 	_hide_collision_layer()
-	if play_room_music:
-		ready.connect( _play_room_music )
+	if play_room_music:		ready.connect( _play_room_music )
+	else:					B2_Music.stop( 1.0 )
+	
 	if enable_hud:
 		hud_node = O_HUD.instantiate()
 		add_child( hud_node, true )

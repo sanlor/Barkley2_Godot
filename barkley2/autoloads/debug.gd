@@ -3,7 +3,7 @@ extends CanvasLayer
 
 const O_CAMERA_DEBUG = preload("uid://dvdkuaawlgfqd")
 
-const ENABLE_FREE_FFWD := true
+const ENABLE_FREE_FFWD := false
 
 # vvv dont remember what this does.
 const ENABLE_CINEMASPOT := false

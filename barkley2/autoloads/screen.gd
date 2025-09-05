@@ -44,8 +44,8 @@ var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 @onready var mouse = $mouse
 @onready var trail = $trail
 
-var max_trail := 4 # 3 is pretty cool
-var mouse_offset := Vector2.ZERO
+var max_trail 		:= 6 # 3 is pretty cool
+var mouse_offset 	:= Vector2.ZERO
 
 var pause_screen: CanvasLayer
 var can_pause := false # Cant pause during the title screens and certain parts.

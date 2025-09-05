@@ -300,7 +300,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		var choices_labels					:= []
 		var choices_strings					:= []
 		
-		#for line : String in split_script:
+		## El biggo loopo.
 		while loop_finished or curr_line == script_size:
 			if curr_line >= script_size:
 				# push_warning("Cinema script exited unexpectedly. It should always finish with the EXIT command.")
@@ -749,7 +749,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						
 						if debug_note: print_rich("[color=yellow]Note %s selected![/color]" % Text.pr( selected_note ))
 					elif parsed_line[1].strip_edges() == "gallery": # as in, hoopz browses and art gallery. BrainCity stuff.
-						breakpoint ## TODO
+						B2_Note.gallery_name = parsed_line[2].strip_edges()
+						if debug_note: print_rich("[color=yellow]Note gallery %s open![/color]" % B2_Note.gallery_name)
+						B2_Screen.show_note_screen( 2 )
+						selected_note = await B2_Screen.note_selected
+						if debug_note: print_rich("[color=yellow]Note gallery %s closed![/color]" % B2_Note.gallery_name)
+						await get_tree().create_timer(0.5).timeout
+						
 					elif parsed_line[1].strip_edges() == "identity": # as in, hoopz ... um... fuck, no idea what this does.
 						# Maybe related to chosing you identity when talking to CyberDwarf? check this sprite out: res://barkley2/assets/b2_original/images/merged/sIdentity.png
 						# Check oNote
@@ -1071,11 +1077,30 @@ func parse_if( line : String ) -> bool:
 	# clean the conditions
 	## ALERT Due to messy code, sometimes Items are checked with its names (@Lock Pick@) that contain spaces.
 	line = line.trim_prefix("IF ")
-	var condidion_line : PackedStringArray = line.rsplit( " ", false, 2 ) ## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
+	var condidion_line := PackedStringArray() # = line.rsplit( " ", false, 2 ) # <- Fuck this.
+	condidion_line.resize(3)
+	## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
 	## 27/07/25 This is still bugged. using .split() is causing issues with items (@Fiscian Gut's@). Trying rsplit again.
+	## 05/09/25 Now rsplit is causing issues with note selection ( IF note == Wilmer's Amortization Schedule ) 
+	# Using Space as a terminator is a terrible idea.. what to do now...?
+	# Alright, lets make some spaghetti.
+	var comparator 	: String
+	if line.contains("=="): 	comparator = "=="
+	elif line.contains("!="): 	comparator = "!="
+	elif line.contains(">="): 	comparator = ">="
+	elif line.contains("<="): 	comparator = "<="
+	elif line.contains("<"): 	comparator = "<"
+	elif line.contains(">"): 	comparator = ">"
+	elif line.contains("="): 	comparator = "="
+	else:
+		push_error("Unknown operation ", line)
+		return false
+		
+	condidion_line[0] = line.get_slice( comparator, 	0).strip_edges()
+	condidion_line[1] = comparator
+	condidion_line[2] = line.get_slice( comparator, 	1).strip_edges()
 	
 	var str_var 	: String 		= condidion_line[ 0 ]
-	var comparator 	: String 		= condidion_line[ 1 ]
 	
 	## CRITICAL condition is not always an INT. check o_dubre01 event 0.
 	# using Text.qst() to check for variables
@@ -1129,8 +1154,9 @@ func parse_if( line : String ) -> bool:
 		quest_var = is_inside_room() as bool
 		cond_value = bool( int( condidion_line[ 2 ] ) )
 	elif str_var == "note":
-		quest_var = selected_note
+		quest_var = selected_note.strip_edges()
 		cond_value = str( condidion_line[ 2 ] ).strip_edges()
+		
 		
 	## WTF, what a mess!!
 	## Sometimes, item checks doesnt have the prefix "item", the have 2 @s
@@ -1138,6 +1164,9 @@ func parse_if( line : String ) -> bool:
 	elif str_var.count("@") > 1:
 		quest_var = B2_Item.count_item( str_var.replace("@", "").strip_edges() )
 		cond_value = int( condidion_line[ 2 ] )
+		
+	print(quest_var) # Debug
+	print(cond_value) # Debug
 		
 	if not quest_var is bool:
 		# different types of vars will always be false.

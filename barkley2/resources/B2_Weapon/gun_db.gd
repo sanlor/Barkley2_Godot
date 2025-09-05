@@ -5,6 +5,14 @@ class_name B2_Gun
 # Also HUD line 25 for gunsheet shit.
 # also scr_combat_weapons_generate for material an gun generation.
 
+## TODO 05/09/25 - Study these for later.
+# https://www.resetera.com/threads/barkley-2-is-effectively-dead.120487/page-2
+# https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=240
+# https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=240#post495611610
+# https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=240#post495613877
+# https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=241#post495614977
+# https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=242#post495618733
+
 ## Skills
 enum SKILL{NONE,PRECISION_SHOT,FULL_AUTO,BURST_FIRE}
 const SKILL_LIST : Dictionary[SKILL,B2_WeaponSkill] = {
