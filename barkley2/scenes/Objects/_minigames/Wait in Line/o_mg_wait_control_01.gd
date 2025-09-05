@@ -129,6 +129,10 @@ func unregister_ped( ped_node : B2_Pedestrian_Mortgage ) -> void:
 ## Check for free spots on the line. Hoopz moved from its spot or something like that.
 func free_spot_check() -> void:
 	# TODO
+	for s in o_mg_wait_spot:
+		if is_instance_valid(s.spot_holder):
+			if s.spot_holder == null:
+				
 	pass
 
 func move_the_line() -> void:
@@ -164,13 +168,13 @@ func move_the_line() -> void:
 		push_warning(name + ": Waiting for someone to step torward the counter.")
 		await o_mg_wait_spot_13.new_spot_holder_registered
 	
-	## Hoopz is ataw the counter, enable the Duergar.
+	## Hoopz is at the counter, enable the Duergar.
 	if o_mg_wait_spot_13.spot_holder is B2_PlayerCombatActor:
 		o_vikingstad_01_desk.is_interactive = true
 		print("Hoopz at the counter.")
 		
 	elif o_mg_wait_spot_13.spot_holder is B2_Pedestrian_Mortgage:
-		## TODO check if player is at 13 spot
+		## TODO check if player is at 13 spot <- TODONE.
 		o_vikingstad_01_desk.is_interactive = false
 		o_vikingstad_01_desk.paperwork_pick_animation()
 		print("Ped at the counter.")
