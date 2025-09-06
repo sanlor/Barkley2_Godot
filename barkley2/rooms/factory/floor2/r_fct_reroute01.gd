@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 ## Railing() script is important. Need to mess with it.

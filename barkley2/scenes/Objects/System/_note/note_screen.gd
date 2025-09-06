@@ -17,7 +17,7 @@ const ART_DATA : Dictionary[String, Array]= {
 ## NOTE What a nightmare this was!!
 ## NOTE Missing fonts are set as null right now.
 # NOTE Need to act the "select" command. check https://youtu.be/kMybONQr0wA?t=15952
-var verbose_prints := true
+var verbose_prints := false
 
 ## When giving a note to someone, inform what note you selected.
 #signal note_selected( selected_note_name : String )
@@ -98,6 +98,7 @@ func _ready() -> void:
 		give_button.disabled = avaiable_notes.is_empty()			## Show "no notes" screen and disable the "give" button.
 		gallery.queue_free()
 	elif mode == 2:		## Gallery
+		## Also, check o_mg_artgallery. seems to be unused.
 		color_rect.color.a = 0.85
 		prev_note.queue_free()
 		next_note.queue_free()

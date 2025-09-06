@@ -92,6 +92,8 @@ var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement.
 # Animation
 var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
 var turning_time 	:= 0.25
+var is_on_a_puddle	:= false
+var is_on_water		:= false
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
@@ -134,7 +136,8 @@ func toggle_collision() -> void:
 
 func add_smoke():
 	#for i in randi_range( 1, 2 ):
-	step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+	if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
+		step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
 func _point_flashlight( input : Vector2 ) -> void:
 	flashlight_pivot.rotation = input.angle() - PI/2
@@ -270,7 +273,8 @@ func normal_animation(delta : float):
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
-		_point_flashlight( input )
+		if flashlight:
+			_point_flashlight( input )
 		
 		if last_input != input:
 			add_smoke()
@@ -299,7 +303,8 @@ func normal_animation(delta : float):
 		if follow_mouse:
 			curr_direction = position.direction_to( curr_aim ) # position.direction_to( get_global_mouse_position() ).round()
 			if input == Vector2.ZERO:
-				_point_flashlight( curr_direction )
+				if flashlight:
+					_point_flashlight( curr_direction )
 				
 			curr_direction = curr_direction.round()
 		

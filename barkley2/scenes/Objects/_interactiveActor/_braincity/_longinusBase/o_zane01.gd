@@ -30,7 +30,8 @@ func execute_event_user_5():
 
 func execute_event_user_6():
 	## new function! Add some blood :)
-	B2_Screen.make_blood_drop( global_position + Vector2(0, -16), randi_range(15,50), Color.RED, 2.0 )
+	for i in 15:
+		B2_Screen.make_blood_drop( global_position + Vector2(0, -16), randi_range(15,50), Color.RED, 2.0 )
 
 func execute_event_user_15():
 	## Lock door at "r_fct_accessHall01"

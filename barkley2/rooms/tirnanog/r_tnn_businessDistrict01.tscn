@@ -1,4 +1,4 @@
-[gd_scene load_steps=302 format=4 uid="uid://v8fun2dqmp3w"]
+[gd_scene load_steps=303 format=4 uid="uid://v8fun2dqmp3w"]
 
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="1_jsbjo"]
 [ext_resource type="Script" uid="uid://d0u48qtprc3w6" path="res://barkley2/rooms/tirnanog/r_tnn_business_district_01.gd" id="1_sfo7k"]
@@ -95,6 +95,7 @@
 [ext_resource type="PackedScene" uid="uid://cx6dbffu5rt4i" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_kim01.tscn" id="92_wnvip"]
 [ext_resource type="PackedScene" uid="uid://cud5ql0w84cbk" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_zola01.tscn" id="94_0r7mc"]
 [ext_resource type="PackedScene" uid="uid://dd0txwpusg54l" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_smog.tscn" id="96_u1f1t"]
+[ext_resource type="PackedScene" uid="uid://b60ghkm4yfnb8" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_rain.tscn" id="96_yh342"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_lits0"]
 vertices = PackedVector2Array(559.3828, 602.5, 557.52344, 602, 570, 602, 576.3828, 618.5, 565.5, 608.6172, 582, 602, 879.02344, 947.6797, 881.1406, 939.78125, 883.3203, 941.96094, 768, 758.75, 774, 757.1328, 774, 762, 1078, 698, 1078, 787.2578, 1072, 785.64844, 1018, 698, 1074.3516, 846.5, 1073.1484, 842, 1078, 842, 1078, 890, 1071.8984, 855.6719, 1065.1719, 862.39844, 751.6172, 740.5, 751.64844, 740.5, 751.25, 742, 698, 762, 1066.9688, 787, 1022, 787, 1018, 890, 1022, 826, 843.7031, 938, 846.7031, 938.7969, 846.64844, 939, 1110, 490, 1190, 490, 1190, 518, 986, 518, 986, 406, 1110, 362, 870, 406, 870, 422, 710, 422, 554, 378, 710, 470, 682, 470, 682, 454, 646, 602, 662, 602, 662, 646, 630, 646, 698, 682, 742, 682, 742, 730, 806, 762, 806, 922, 822, 922, 822, 938, 746, 982, 917.96094, 907.3203, 916.3906, 905.75, 932.1406, 890, 1046, 826, 1046, 831.4297, 1040.1016, 837.3281, 1037.6484, 846.5, 1040.1016, 855.6719, 1046.8281, 862.39844, 1190, 890, 1190, 918, 1078, 918, 1078, 982, 864, 956.35156, 489.3203, 842, 502, 842, 502, 858, 410, 934, 618, 986, 618, 938, 646, 938, 646, 986, 710, 986, 710, 1094, 566, 1094, 550, 986, 522, 1110, 489, 1079, 489, 1015, 566, 1206, 522, 1206, 410, 1110, 410, 1079, 410, 1015, 527.6172, 868.5, 536, 870.75, 378, 934, 378, 694, 422, 699.8594, 422, 794, 282, 694, 282, 634, 458, 634, 459.85938, 662, 458, 522, 518, 522, 518, 662, 618, 646, 586, 646, 586, 627, 634, 602, 570, 554, 582, 554, 598, 454, 598, 470, 554, 470, 986, 378, 986, 362, 634, 454, 568, 616.25, 567.5703, 616.3594, 500.14063, 794, 484.20313, 829.64844, 1056, 864.85156, 544, 868.60156, 550, 870.21094, 583.1406, 627, 582.5, 624.6172, 744.3203, 730, 745.5, 734.3828, 753.5, 750.3828, 520.3203, 858, 521.5, 862.3828, 896, 945.35156, 523.8594, 790, 504.9297, 808.9297, 532.1406, 762, 746, 790, 618, 762, 759.6172, 756.5, 848.97656, 947.6797, 921.35156, 920, 917.96094, 932.6797, 646, 454, 630, 762, 855.3203, 954.02344, 908.6797, 941.96094, 872.6797, 954.02344)
@@ -4997,6 +4998,7 @@ load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 camera_bound_to_map = true
+room_weather = 3
 metadata/_custom_type_script = "uid://bvfigbkdlawg1"
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
@@ -5005,9 +5007,6 @@ convert_cinema_spots = false
 convert_door_light = false
 convert_door = false
 convert_collision = false
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
 metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
 [node name="layer 93" type="TileMapLayer" parent="."]
@@ -5905,13 +5904,6 @@ metadata/code = ""
 metadata/inst_name = "inst_112A4392"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_effect_smog" parent="." instance=ExtResource("96_u1f1t")]
-offset_right = 0.0
-offset_bottom = 0.0
-metadata/code = "fog_intensity = 6;
-"
-metadata/inst_name = "inst_30D0FB89"
-
 [node name="o_cinema31" type="Marker2D" parent="."]
 z_index = 4000
 position = Vector2(540, 1048)
@@ -5950,3 +5942,14 @@ position = Vector2(-128, 32)
 metadata/code = ""
 metadata/inst_name = "inst_9222127C"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_effect_smog" parent="." instance=ExtResource("96_u1f1t")]
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/code = "fog_intensity = 6;
+"
+metadata/inst_name = "inst_30D0FB89"
+
+[node name="o_effect_rain" parent="." instance=ExtResource("96_yh342")]
+z_index = 1001
+mouse_filter = 2

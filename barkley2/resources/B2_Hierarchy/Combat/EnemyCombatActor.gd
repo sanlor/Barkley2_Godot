@@ -87,7 +87,7 @@ func _setup_enemy() -> void:
 	if not is_instance_valid( ActorAudioPlayer ):
 		ActorAudioPlayer 	= get_node( "ActorAudioPlayer" )
 	if not is_instance_valid( ActorSmokeEmitter ):
-		ActorAudioPlayer 	= get_node( "ActorSmokeEmitter" )
+		ActorSmokeEmitter 	= get_node( "ActorSmokeEmitter" )
 		
 	## A.I.
 	## Disabled this on 31/07/25 fix this later.

@@ -46,9 +46,10 @@ func _ready() -> void:
 	linear_damp = walk_damp
 	
 	_change_sprites()
-	if get_parent() is B2_ROOMS: flashlight_enabled = get_parent().get_room_darkness()
-	else: flashlight_enabled = false
-	flashlight.enabled = flashlight_enabled
+	if flashlight:
+		if get_parent() is B2_ROOMS: flashlight_enabled = get_parent().get_room_darkness()
+		else: flashlight_enabled = false
+		flashlight.enabled = flashlight_enabled
 	
 	## Default animation
 	hoopz_normal_body.animation = "stand"
@@ -58,7 +59,8 @@ func _ready() -> void:
 	
 func _changed_state():
 	_change_sprites()
-	_update_flashlight()
+	if flashlight:
+		_update_flashlight()
 	
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:
@@ -108,7 +110,8 @@ func shoot_gun() -> void:
 func combat_walk_animation(delta : float):
 	var input 			:= curr_input # Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
-	_point_flashlight( input )
+	if flashlight:
+		_point_flashlight( input )
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		# Emit a puff of smoke during the inicial direction change.
@@ -180,7 +183,8 @@ func combat_aim_animation():
 		var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( curr_aim ).snapped( Vector2(0.33,0.33) )
 		var dir_frame = combat_upper_sprite.frame
 		
-		_point_flashlight( mouse_input )
+		if flashlight:
+			_point_flashlight( mouse_input )
 		
 		## Remember, 0.9999999999999 != 1.0
 		match mouse_input:
@@ -376,7 +380,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 	return
 
 func stop_rolling() -> void:
-	if linear_velocity.length() < 16.0:
+	if linear_velocity.length() < 10.0:
 		## DEBUG - TODO Improve this.
 		if hoopz_normal_body.animation == ROLL or hoopz_normal_body.animation == ROLL_BACK:
 			if hoopz_normal_body.frame < 9: ## Wait for the animation to finish - TODO Signals?
@@ -441,7 +445,9 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 		# play audio only on frame 0 or 2
 		if hoopz_normal_body.frame in [0,2]:
 			if move_dist <= 0.0:
-				B2_Sound.play_pick("hoopz_footstep")
+				if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
+				elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
+				else:					B2_Sound.play_pick("hoopz_footstep")
 				move_dist = min_move_dist
 		else:
 			move_dist -= 1.0
@@ -453,7 +459,8 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 		elif hoopz_normal_body.frame in [3,4,5,6]:
 			hoopz_normal_body.rotation = 0
 			if not step_smoke.emitting:
-				step_smoke.emitting = true
+				if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
+					step_smoke.emitting = true
 		else:
 			step_smoke.emitting = false
 			hoopz_normal_body.rotation = 0
@@ -485,7 +492,8 @@ func _on_hoopz_normal_body_frame_changed() -> void:
 		elif hoopz_normal_body.frame in [3,4,5,6]:
 			hoopz_normal_body.rotation = 0
 			if not step_smoke.emitting:
-				step_smoke.emitting = true
+				if not is_on_a_puddle and not is_on_water:
+					step_smoke.emitting = true
 		else:
 			step_smoke.emitting = false
 			hoopz_normal_body.rotation = 0

@@ -1,0 +1,21 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=3 format=3 uid="uid://cumv81ygsmsqt"]
+
+[sub_resource type="Curve" id="Curve_dhdgo"]
+_data = [Vector2(0, 0.05065787), 0.0, 0.0, 0, 0, Vector2(0.21498373, 0.86315787), 0.0, 0.0, 0, 0, Vector2(0.40716615, 0.61513156), -2.9173968, -2.9173968, 0, 0, Vector2(0.9869707, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_y5ovt"]
+curve = SubResource("Curve_dhdgo")
+
+[resource]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 2.0
+spread = 180.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, -7.5, 0)
+scale_min = 0.7
+scale_max = 1.3
+alpha_curve = SubResource("CurveTexture_y5ovt")
+hue_variation_min = -1.0
+hue_variation_max = 0.99999994

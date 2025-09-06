@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b60ghkm4yfnb8"]
+
+[ext_resource type="Script" uid="uid://opvia7rx6wld" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_rain.gd" id="1_ymqw8"]
+[ext_resource type="Material" uid="uid://coewj7b865cqp" path="res://barkley2/shaders/material/o_effect_rain.tres" id="2_xx0ci"]
+[ext_resource type="AudioStream" uid="uid://cyqdmdcikgck7" path="res://barkley2/assets/b2_original/audio/Environment/TirNaNog/sn_rain_normal01.ogg" id="3_xx0ci"]
+
+[node name="o_effect_rain" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ymqw8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = ExtResource("2_xx0ci")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="rain_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xx0ci")
+autoplay = true
+bus = &"Audio"
+parameters/looping = true

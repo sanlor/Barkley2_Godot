@@ -1,3 +1,4 @@
+@tool
 extends B2_ROOMS
 
 #const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
@@ -38,8 +39,8 @@ func _ready() -> void:
 		_setup_camera( _setup_player_node() )
 
 func flip_switch():
-	o_egg_drone_01.queue_free() # Destroy(o_eggDrone01);
-	o_tutorial_egg_drone.queue_free()
+	if o_egg_drone_01: o_egg_drone_01.queue_free() # Destroy(o_eggDrone01);
+	if o_tutorial_egg_drone: o_tutorial_egg_drone.queue_free()
 	if B2_Playerdata.Quest("factoryEggs") < 1:
 		B2_Playerdata.Quest("factoryEggs", 1)
 		

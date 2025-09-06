@@ -1,0 +1,76 @@
+[gd_scene load_steps=13 format=3 uid="uid://b853315o1wese"]
+
+[ext_resource type="Texture2D" uid="uid://cb450gipxy07q" path="res://barkley2/assets/b2_original/images/merged/s_cyberspearPieces01.png" id="1_2sk2j"]
+[ext_resource type="Script" uid="uid://cktt7cj3xpv5" path="res://barkley2/scenes/Objects/_interactiveActor/_cuchulainsLair/Crustacea/o_chu_cyberspear.gd" id="2_fivqw"]
+[ext_resource type="Material" uid="uid://cumv81ygsmsqt" path="res://barkley2/shaders/particles/o_chu_cyberspear.tres" id="3_nsx0p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fmh2"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(0, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ftx"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(80, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vra8r"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(160, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iksd1"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(240, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjwrp"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(320, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kctsl"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(400, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8qpn"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(480, 0, 80, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1y3g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fmh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ftx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vra8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iksd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjwrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kctsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8qpn")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fivqw"]
+atlas = ExtResource("1_2sk2j")
+region = Rect2(320, 0, 80, 32)
+
+[node name="o_chu_cyberspear" type="AnimatedSprite2D"]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_q1y3g")
+frame = 4
+script = ExtResource("2_fivqw")
+
+[node name="o_chu_cyberspear_effect" type="GPUParticles2D" parent="."]
+texture = SubResource("AtlasTexture_fivqw")
+process_material = ExtResource("3_nsx0p")

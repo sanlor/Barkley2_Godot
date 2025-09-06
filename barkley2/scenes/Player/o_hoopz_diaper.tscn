@@ -1,10 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=19 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" uid="uid://2tpsmo6wotoo" path="res://barkley2/scenes/Player/o_hoopz_diaper.gd" id="1_3cthp"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_4umcs"]
 [ext_resource type="SpriteFrames" uid="uid://b7053quyhfo7l" path="res://barkley2/resources/Player/hoopz_normal_diaper.tres" id="2_5da33"]
 [ext_resource type="Texture2D" uid="uid://cqkmb88d18yj8" path="res://barkley2/assets/b2_original/images/merged/s_lensflare_mod.png" id="2_cx2lw"]
 [ext_resource type="SpriteFrames" uid="uid://dpoxlps7mg0dy" path="res://barkley2/resources/Player/combat_lower_body_diaper.tres" id="3_4wjkq"]
 [ext_resource type="Script" uid="uid://bs5lue5dkvd7a" path="res://barkley2/scenes/Objects/System/o_Shadow.gd" id="3_a06su"]
+[ext_resource type="Script" uid="uid://dnfb7mklmfjcp" path="res://barkley2/scenes/Player/gun_handler™.gd" id="3_acr08"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_0p8gy"]
 [ext_resource type="SpriteFrames" uid="uid://bxgcfih7grb05" path="res://barkley2/resources/Player/combat_upper_body_diaper.tres" id="4_qwl6u"]
 [ext_resource type="SpriteFrames" uid="uid://bv6xvill7phcw" path="res://barkley2/resources/Player/combat_arm_back_diaper.tres" id="5_68psw"]
@@ -18,12 +20,17 @@ friction = 0.5
 bounce = 0.25
 absorbent = true
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_b6ns7"]
+polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4umcs"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "hoopz_normal_body", "step_smoke", "ActorCol")]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorCol", "actor_ai")]
+collision_layer = 3
+collision_mask = 1572885
 mass = 70.0
 physics_material_override = SubResource("PhysicsMaterial_g0dal")
 gravity_scale = 0.0
@@ -41,18 +48,43 @@ combat_weapon = NodePath("combat_weapon")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
-roll_damp = 5.5
+gun_handler = NodePath("Gun_Handler™")
 ROLL = "diaper_gooroll"
 ROLL_BACK = "diaper_gooroll"
 hoopz_normal_body = NodePath("hoopz_normal_body")
 step_smoke = NodePath("step_smoke")
+hit_timer = NodePath("hit_timer")
+i_frame_timer = NodePath("i_frame_timer")
 ActorCol = NodePath("hoopz_collision")
+roll_damp = 5.5
+actor_ai = NodePath("B2_AI_Player")
+
+[node name="B2_AI_Player" type="Node" parent="."]
+script = ExtResource("2_4umcs")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="Gun_Handler™" type="Node" parent="."]
+script = ExtResource("3_acr08")
+
+[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™"]
+one_shot = true
+
+[node name="firing_rate" type="Timer" parent="Gun_Handler™"]
+one_shot = true
+
+[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
+one_shot = true
 
 [node name="o_Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.25)
 scale = Vector2(0.5, 0.25)
 texture = ExtResource("2_cx2lw")
 script = ExtResource("3_a06su")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_b6ns7")
+sdf_collision = false
+occluder_light_mask = 3
 
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
@@ -65,9 +97,8 @@ amount = 30
 [node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 sprite_frames = ExtResource("2_5da33")
-animation = &"stand"
-frame = 6
-speed_scale = 1.5
+animation = &"diaper_gooroll"
+speed_scale = 2.0
 centered = false
 offset = Vector2(-22, -41)
 
@@ -128,6 +159,13 @@ current = true
 [node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
 visible = false
 texture = SubResource("PlaceholderTexture2D_4umcs")
+
+[node name="hit_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="i_frame_timer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

@@ -1,9 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://bon7jbw3v5c2p"]
+[gd_scene load_steps=21 format=3 uid="uid://bon7jbw3v5c2p"]
 
 [ext_resource type="Script" uid="uid://c7wvtd1a2c1kl" path="res://barkley2/scenes/Objects/_enemies/Destructibles/o_woodBarrel.gd" id="1_gf45x"]
 [ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="2_b33hw"]
 [ext_resource type="Texture2D" uid="uid://df3lowj02tmda" path="res://barkley2/assets/b2_original/images/merged/s_woodBarrel.png" id="2_l7aa4"]
 [ext_resource type="Texture2D" uid="uid://dafxbby5bplxa" path="res://barkley2/assets/b2_original/images/merged/s_effect_smog.png" id="3_03iah"]
+[ext_resource type="Script" uid="uid://c37s6nxxyegmw" path="res://barkley2/resources/B2_AI/ai_dummy.gd" id="3_ktpca"]
+[ext_resource type="Material" uid="uid://cco0ibgg3vaut" path="res://barkley2/shaders/particles/o_woodBarrel_smoke.tres" id="5_2uxag"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_eva7e"]
 rough = true
@@ -17,7 +19,6 @@ enemy_name = "Wooden Barrel"
 hp = 0.0
 weight = 0.0
 max_action = 0.0
-curr_action = 0.0
 max_health = 15.0
 curr_health = 15.0
 guts = 0.0
@@ -35,19 +36,14 @@ resistance_bio = 0.0
 resistance_stagger = 0.0
 resistance_knockback = 0.0
 zauber = 0.0
-cosmic = 0.0
 bio = 1.0
-mental = 0.0
-cyber = 0.0
 vuln_mental = 0.0
 vuln_zauber = 0.0
 vuln_cyber = 0.0
 vuln_bio = 0.0
 vuln_cosmic = 0.0
 gunsdrop = 53.0
-generic = 1.0
 shotguns = 1.0
-rifles = 1.0
 mounted = 1.0
 pistols = 2.0
 automatic = 1.0
@@ -134,31 +130,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e26sp"]
 
-[sub_resource type="Curve" id="Curve_agpq6"]
-_data = [Vector2(0, 0.525778), 0.0, 0.0, 0, 0, Vector2(0.403553, 0.690175), -0.53977, -0.53977, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_ko1yr"]
-curve = SubResource("Curve_agpq6")
-
-[sub_resource type="Curve" id="Curve_aymqj"]
-_data = [Vector2(0.00507614, 0.538424), 0.0, 0.0, 0, 0, Vector2(0.281726, 0.82928), 0.856366, 0.856366, 0, 0, Vector2(0.809645, 0.747082), -1.77946, -1.77946, 0, 0, Vector2(1, 0.355058), 0.0, 0.0, 0, 0]
-point_count = 4
-
-[sub_resource type="CurveTexture" id="CurveTexture_srxcv"]
-curve = SubResource("Curve_aymqj")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bvpvs"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 16.0
-gravity = Vector3(0, -8, 0)
-scale_min = 0.1
-scale_max = 0.2
-scale_curve = SubResource("CurveTexture_srxcv")
-alpha_curve = SubResource("CurveTexture_ko1yr")
-
-[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("smoke_emitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol")]
+[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 300.0
 physics_material_override = SubResource("PhysicsMaterial_eva7e")
 gravity_scale = 0.0
@@ -167,7 +139,7 @@ lock_rotation = true
 linear_damp = 30.0
 script = ExtResource("1_gf45x")
 curr_MODE = 0
-smoke_emitter = NodePath("GPUParticles2D")
+ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
 sound_damage = "destructible_woodBarrel"
 sound_death = "destructible_woodBarrel"
 make_gibs = false
@@ -182,6 +154,11 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
+actor_ai = NodePath("B2_AI_Dummy")
+
+[node name="B2_AI_Dummy" type="Node" parent="."]
+script = ExtResource("3_ktpca")
+metadata/_custom_type_script = "uid://c37s6nxxyegmw"
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_eweig")
@@ -196,10 +173,10 @@ shape = SubResource("CircleShape2D_e26sp")
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="."]
 position = Vector2(0, -3.29898)
 emitting = false
 amount = 32
 texture = ExtResource("3_03iah")
 one_shot = true
-process_material = SubResource("ParticleProcessMaterial_bvpvs")
+process_material = ExtResource("5_2uxag")

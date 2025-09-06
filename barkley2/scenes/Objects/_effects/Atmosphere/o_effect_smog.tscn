@@ -1,14 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dd0txwpusg54l"]
+[gd_scene load_steps=3 format=3 uid="uid://dd0txwpusg54l"]
 
 [ext_resource type="Script" uid="uid://dabmwbisrf2s5" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_smog.gd" id="1_2764d"]
-[ext_resource type="Shader" uid="uid://drwtq61hq1487" path="res://barkley2/shaders/shader_code/o_effect_smog2.gdshader" id="2_qvtcc"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kfyfd"]
-shader = ExtResource("2_qvtcc")
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/alpha = 0.25
-shader_parameter/speed = 0.5
-shader_parameter/OCTAVES = 4
+[ext_resource type="Material" uid="uid://t7ici3dqxygg" path="res://barkley2/shaders/material/o_effect_smog.tres" id="2_bgc2a"]
 
 [node name="o_effect_smog" type="Control"]
 z_index = 1001
@@ -23,7 +16,7 @@ metadata/inst_name = "inst_DAACFED8"
 metadata/scale = Vector2(1, 1)
 
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_kfyfd")
+material = ExtResource("2_bgc2a")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

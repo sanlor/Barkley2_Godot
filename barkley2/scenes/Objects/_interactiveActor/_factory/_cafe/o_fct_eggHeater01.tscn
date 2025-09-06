@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://0de3go76bs7x"]
+
+[ext_resource type="Texture2D" uid="uid://4udbkyf4bsxc" path="res://barkley2/assets/b2_original/images/merged/s_fct_eggHeater01.png" id="1_6nf43"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k25x6"]
+atlas = ExtResource("1_6nf43")
+region = Rect2(0, 0, 58, 132)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47ay3"]
+atlas = ExtResource("1_6nf43")
+region = Rect2(58, 0, 58, 132)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_va0he"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k25x6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47ay3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w18uw"]
+radius = 28.0
+height = 132.0
+
+[node name="o_fct_eggHeater01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_va0he")
+frame = 1
+centered = false
+offset = Vector2(-29, -65)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CapsuleShape2D_w18uw")
