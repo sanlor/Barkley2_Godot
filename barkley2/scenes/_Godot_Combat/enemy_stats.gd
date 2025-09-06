@@ -3,6 +3,9 @@ extends Control
 @onready var health_progress: 	Control = $health_progress
 @onready var action_progress: 	Control = $action_progress
 
+@export var show_health := true
+@export var show_action := true
+
 var my_data 	: B2_EnemyData
 var my_cbt 		#: CombatCharacter
 
@@ -22,16 +25,19 @@ func _ready() -> void:
 		update_stats()
 		
 	modulate = Color.TRANSPARENT
+	if not show_health: health_progress.queue_free()
+	if not show_action: action_progress.queue_free()
 	show_stats()
 	
 func update_stats() -> void:
-	health_progress.max_value 	= my_data.max_health
-	health_progress.value		= my_data.curr_health
-	action_progress.max_value 	= my_data.max_action
-	action_progress.value 		= my_data.curr_action
-	
-	health_progress.update_bar()
-	action_progress.update_bar()
+	if show_health:
+		health_progress.max_value 	= my_data.max_health
+		health_progress.value		= my_data.curr_health
+		health_progress.update_bar()
+	if show_action:
+		action_progress.max_value 	= my_data.max_action
+		action_progress.value 		= my_data.curr_action
+		action_progress.update_bar()
 	
 	if my_data.curr_health <= 0.0:
 		parent_is_alive = false

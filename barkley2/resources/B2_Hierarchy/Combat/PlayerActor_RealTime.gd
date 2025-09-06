@@ -101,7 +101,7 @@ func shoot_gun() -> void:
 		if B2_Gun.has_any_guns() and B2_Input.player_has_control:
 			if curr_STATE == STATE.AIM:
 				curr_STATE = STATE.SHOOT
-				var aim := position.direction_to( -aim_origin.position + get_global_mouse_position() )
+				var aim := position.direction_to( -aim_origin.position + curr_aim )
 				gun_handler.use_normal_attack( combat_weapon.global_position, aim, self )
 				if curr_STATE == STATE.SHOOT:
 					curr_STATE = STATE.AIM

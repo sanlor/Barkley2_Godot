@@ -67,6 +67,7 @@ func make_collision():
 			
 	add_child(EnvSolid, true)
 	EnvSolid.add_child(EnvCol, true)
+	EnvSolid.collision_layer = 21
 	EnvSolid.position += fit_offset
 	EnvCol.debug_color = Color( collision_color, collision_alpha )
 	

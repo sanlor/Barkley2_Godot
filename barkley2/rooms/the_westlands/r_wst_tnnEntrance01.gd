@@ -20,6 +20,8 @@ func _ready() -> void:
 	
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
 		if B2_Playerdata.Quest("hoopzGetup") > 0:
+			B2_Gun.clear_guns() ## Remove tutorial gun.
+			
 			if enable_hud: ## Hide hud for the tutorial. might change this later.
 				if is_instance_valid(B2_CManager.o_hud):
 					B2_CManager.o_hud.hide()

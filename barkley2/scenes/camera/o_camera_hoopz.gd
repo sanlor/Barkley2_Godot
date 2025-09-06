@@ -343,10 +343,18 @@ func _physics_process(delta: float) -> void:
 				offset = offset.lerp( camera_normal_offset + camera_shake_offset, 0.05 )
 			
 			if camera_bound_to_map:
+				## When the HUD is open, it messes the camera bounding when the player leaves via a door to the south.
+				## Add a offset to account for that.
+				var hud_offset := 0.0
+				if B2_CManager.o_hud:
+					if B2_CManager.o_hud.visible:
+						hud_offset = 40.0
+						
 				## Avoid seeing outside the map.
 				## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
 				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
-				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y) )
+				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y - hud_offset) )
+				
 		
 		MODE.COMBAT:
 			offset = offset.lerp( camera_combat_offset, (speed / 200.0) ) + camera_shake_offset

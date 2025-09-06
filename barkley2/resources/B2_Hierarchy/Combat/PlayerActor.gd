@@ -269,17 +269,17 @@ func get_muzzle_position() -> Vector2:
 	return gun_muzzle.global_position
 			
 func normal_animation(delta : float):
-	var input := curr_input
+	var input := curr_input.round()
 	
 	if input != Vector2.ZERO: # Player is moving the character
-		# Emit a puff of smoke during the inicial direction change.
 		if flashlight:
 			_point_flashlight( input )
-		
+			
+		# Emit a puff of smoke during the inicial direction change.
 		if last_input != input:
 			add_smoke()
 			
-			match input.round():
+			match input:
 				Vector2.UP + Vector2.LEFT:			hoopz_normal_body.play(WALK_NW)
 				Vector2.UP + Vector2.RIGHT:			hoopz_normal_body.play(WALK_NE)
 				Vector2.DOWN + Vector2.LEFT:		hoopz_normal_body.play(WALK_SW)
@@ -298,16 +298,16 @@ func normal_animation(delta : float):
 		hoopz_normal_body.stop()
 		move_dist = min_move_dist
 		
-		var curr_direction : Vector2 = input
+		var curr_direction : Vector2 = position.direction_to( last_input )
 		
-		if follow_mouse:
+		if follow_mouse and curr_aim: # if curr_aim == Vector.ZERO, leave this alone.
 			curr_direction = position.direction_to( curr_aim ) # position.direction_to( get_global_mouse_position() ).round()
 			if input == Vector2.ZERO:
 				if flashlight:
 					_point_flashlight( curr_direction )
 				
 			curr_direction = curr_direction.round()
-		
+			
 		if curr_direction != last_direction:
 			turning_time = 0.5
 		
@@ -336,9 +336,9 @@ func normal_animation(delta : float):
 			Vector2.LEFT:			hoopz_normal_body.frame = STAND_W
 			Vector2.DOWN:			hoopz_normal_body.frame = STAND_S
 			Vector2.RIGHT:			hoopz_normal_body.frame = STAND_E
-				
 			_: # Catch All
-				hoopz_normal_body.frame = STAND_S
+				#hoopz_normal_body.frame = STAND_S
+				pass
 				
 		# Update var
 		last_direction = curr_direction

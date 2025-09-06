@@ -27,7 +27,7 @@ func _ready() -> void:
 	
 	if monitor_pacify:
 		if get_parent() is B2_ROOMS:
-			get_parent().pacify_changed.connect( change_state )
+			B2_SignalBus.room_pacify_changed.connect( change_state )
 		else:
 			push_error("Ops, unknown parent.")
 	

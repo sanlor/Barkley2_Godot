@@ -58,9 +58,9 @@ func _draw():
 		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false ) ## Checkered BG
 	
 	if is_highlighted or has_focus():
-		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.05), false )
+		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.15), false )
 	if is_pressed:
-		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_selected_color, 0.25), false )
+		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_selected_color, 0.45), false )
 		
 	if change_children_color:
 		for n in decorations:

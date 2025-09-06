@@ -1,0 +1,96 @@
+[gd_scene load_steps=13 format=3 uid="uid://cgjfb2cxwlwoa"]
+
+[ext_resource type="Texture2D" uid="uid://c42cymhqpmi1i" path="res://barkley2/assets/b2_original/images/merged/s_trash_bag01.png" id="1_yycv5"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_6moi7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2llvp"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(0, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n5jq"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(26, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm1j0"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(52, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5jyo"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(78, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkws0"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(104, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hyj8"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(130, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpmgu"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(156, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7bnj"]
+atlas = ExtResource("1_yycv5")
+region = Rect2(182, 0, 26, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fh1bm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2llvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n5jq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm1j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5jyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkws0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hyj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpmgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7bnj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a13vp"]
+radius = 10.4
+
+[node name="o_trash_bag01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_fh1bm")
+frame = 4
+centered = false
+offset = Vector2(-13, -16)
+script = ExtResource("2_6moi7")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "3",
+"bbox_right": "21",
+"bbox_top": "18",
+"height": "29",
+"name": "s_trash_bag01",
+"width": "26",
+"xorig": "13",
+"yorigin": "16"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 2)
+shape = SubResource("CircleShape2D_a13vp")

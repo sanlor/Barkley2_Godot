@@ -1,15 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bylu26hba0jv0"]
+[gd_scene load_steps=12 format=3 uid="uid://bylu26hba0jv0"]
 
 [ext_resource type="Texture2D" uid="uid://knrfbgwnrob8" path="res://barkley2/assets/b2_original/images/merged/s_cdwarfTalk01.png" id="1_e4376"]
-[ext_resource type="Shader" uid="uid://1hfmriaxqa05" path="res://barkley2/shaders/shader_code/o_cdwarfHead01.gdshader" id="1_i2p7f"]
+[ext_resource type="Material" uid="uid://b1xlnuebc2jbk" path="res://barkley2/shaders/material/o_cdwarfHead01.tres" id="1_i2p7f"]
 [ext_resource type="Script" uid="uid://deqfmone48bu7" path="res://barkley2/scenes/Objects/_environs/_unique/_braincity/Longinus/o_cdwarf_head_01.gd" id="2_e4376"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rqpu4"]
-shader = ExtResource("1_i2p7f")
-shader_parameter/shaking = true
-shader_parameter/amplitude = 1.0
-shader_parameter/noise_scale = 10.0
-shader_parameter/noise_speed = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rqpu4"]
 atlas = ExtResource("1_e4376")
@@ -74,7 +67,7 @@ animations = [{
 }]
 
 [node name="o_cdwarfHead01" type="AnimatedSprite2D"]
-material = SubResource("ShaderMaterial_rqpu4")
+material = ExtResource("1_i2p7f")
 sprite_frames = SubResource("SpriteFrames_ppuoq")
 animation = &"idle"
 centered = false

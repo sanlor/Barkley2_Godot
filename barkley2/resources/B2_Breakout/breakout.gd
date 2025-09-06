@@ -84,16 +84,16 @@ func _ready() -> void:
 	value_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hbox.add_child(value_node)
 	
+	# Diagbox sizing
+	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )
+	diag_box.set_panel_size( max(breakout_size.x, breakoutXSpc), max(breakout_size.y, breakoutYSpc) )
+	
 	await get_tree().process_frame # The size propriety is avaiable only after a process frame.
 	breakout_size = hbox.size
 	breakout_size.x += 32 # small buffer
 	
 	hbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	
-	# Diagbox sizing
-	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )
-	diag_box.set_panel_size( max(breakout_size.x, breakoutXSpc), max(breakout_size.y, breakoutYSpc) )
 	
 	fancy_value_change()
 	

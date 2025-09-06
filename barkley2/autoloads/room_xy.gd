@@ -270,6 +270,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		return
 	if randi_range(0,99) == 69: print_rich( "[color=red][bgcolor=white]BAZINGA![/bgcolor][/color]" ) ## VERY IMPORTANT. CRITICAL even.
 		
+	t1 = 0.0
+	t2 = 0.0
+		
 	room_load_lock = true
 	started_loading.emit()
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
@@ -300,7 +303,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		this_room_x 	= room_x
 		this_room_y 	= room_y
 
-		if B2_Playerdata.Quest("saveDisabled") == 0:
+		if B2_Playerdata.Quest("saveDisabled") == 0: ## Save enabled, save the room destination to the savegame file.
 			B2_Config.set_user_save_data("map.room", this_room)
 			B2_Config.set_user_save_data("map.x", this_room_x);
 			B2_Config.set_user_save_data("map.y", this_room_y);
@@ -319,7 +322,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	# Take away the player control.
 	B2_Input.player_has_control = false
 
-	if not its_the_same_room:
+	if not its_the_same_room: ## Interior rooms dont need to load new rooms, since interior rooms contains all rooms in the same scene.
+		## Start to load the room in the background, during the fadeout.
 		begin_load_room_scene( room_name )
 
 	var tween : Tween
@@ -341,6 +345,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		await get_tree().process_frame
 
 	if not its_the_same_room:
+		## Wait for the room to finish loading.
 		finish_loading_room_scene( room_name ) 				# Load the next room
 		get_tree().change_scene_to_packed( room_scene )		# change the current room
 		await get_tree().process_frame
@@ -388,7 +393,7 @@ func begin_load_room_scene( room_name : String ) -> void:
 	t1 = Time.get_ticks_msec()
 	if room_index.has( room_name ):
 		path_loading_room = room_index[ room_name ]
-		if print_debug_logs: print(path_loading_room)
+		#if print_debug_logs: print(path_loading_room)
 		ResourceLoader.load_threaded_request( path_loading_room, "PackedScene", use_subthreads, cachemode )
 		is_loading_room = true
 
@@ -411,7 +416,7 @@ func finish_loading_room_scene( room_name ) -> void:
 		room_scene = ResourceLoader.load( invalid_room, "PackedScene", cachemode ) as PackedScene
 		
 	## Performance debug data.
-	t2 = Time.get_ticks_msec() - t1
+	t2 = Time.get_ticks_msec() - t1 ## TODO Figure out why its always 1499.0 msecs.
 	if print_room_load_logs: print_rich( "[bgcolor=black]B2_RoomXY: Room %s loading took %s msecs.[/bgcolor]" % [ room_name, str(t2 ) ] )
 	if t2 > 1000.0:
 		if print_room_load_logs: print_rich("[color=yellow]Warning: room load took a long time.[/color]")

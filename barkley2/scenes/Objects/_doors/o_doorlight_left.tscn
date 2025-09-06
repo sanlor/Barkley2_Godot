@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://chrgy7qi1depa"]
+[gd_scene load_steps=20 format=3 uid="uid://chrgy7qi1depa"]
 
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_lx7gd"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_nqkxc"]
@@ -101,6 +101,9 @@ radius = 64.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnlim"]
 size = Vector2(16, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i0bi7"]
+size = Vector2(32, 4)
+
 [node name="o_doorlight_left" type="AnimatedSprite2D"]
 z_index = -10
 sprite_frames = SubResource("SpriteFrames_qubxx")
@@ -140,5 +143,12 @@ linear_damp = 25.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
 shape = SubResource("RectangleShape2D_hnlim")
 debug_color = Color(0.964706, 0.0509804, 0.466667, 0)
+
+[node name="door_blockade" type="StaticBody2D" parent="."]
+position = Vector2(-14, 16)
+rotation = 1.5707964
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door_blockade"]
+shape = SubResource("RectangleShape2D_i0bi7")
 
 [connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]

@@ -2,7 +2,7 @@
 extends RigidBody2D
 class_name B2_Pedestrian
 
-const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
 # List of sprites that the peds can use.

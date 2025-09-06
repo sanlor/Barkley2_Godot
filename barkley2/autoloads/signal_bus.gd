@@ -6,6 +6,9 @@ extends Node
 signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )
 
+## Room permisions
+signal room_permission_changed
+signal room_pacify_changed( activated : bool )
 
 ### Combat
 ## Hoopz events (Was in B2_CManager)

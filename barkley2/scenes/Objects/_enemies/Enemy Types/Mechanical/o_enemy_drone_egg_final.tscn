@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene load_steps=50 format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" uid="uid://vfshhp2o15pw" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.gd" id="1_juf8c"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
 [ext_resource type="Script" uid="uid://bnj0tqbocuaui" path="res://barkley2/resources/B2_AI/ai_combat_normal.gd" id="4_w86x0"]
 [ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
+[ext_resource type="PackedScene" uid="uid://ip8ryvrniime" path="res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn" id="10_6hb1w"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.45
@@ -542,6 +543,7 @@ metadata/s_eggDroneDOWN01 = {
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 max_polyphony = 5
+bus = &"Audio"
 
 [node name="ActorNav" type="NavigationAgent2D" parent="."]
 
@@ -552,5 +554,8 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 0.75
 process_material = ExtResource("9_17vq5")
+
+[node name="combatant_stats" parent="." instance=ExtResource("10_6hb1w")]
+show_action = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

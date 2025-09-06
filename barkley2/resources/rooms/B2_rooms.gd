@@ -13,8 +13,7 @@ const COLLISION_ABYSS_TILESET 	= preload("uid://snddsm584j8b")
 const COLLISION_2_TILESET 		= preload("uid://cbgwi3h47ghpg")
 const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
 
-signal permission_changed
-signal pacify_changed( activated : bool )
+
 @export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
 @export var reference_layer : Array[TileMapLayer]
 @onready var astar : AStarGrid2D ## DEPRECATED
@@ -247,12 +246,12 @@ func update_pathfind():
 
 func set_pacify( state : bool ):
 	room_pacify = state
-	permission_changed.emit()
-	pacify_changed.emit( not room_pacify )
+	B2_SignalBus.room_permission_changed.emit()
+	B2_SignalBus.room_pacify_changed.emit( not room_pacify )
 	
 func set_roll( state : bool ):
 	room_player_can_roll = state
-	permission_changed.emit()
+	B2_SignalBus.room_permission_changed.emit()
 
 func _play_room_music():
 	if room_music_name.is_empty():

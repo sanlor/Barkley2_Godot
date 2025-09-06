@@ -1,4 +1,4 @@
-@tool
+#@tool
 extends B2_ROOMS
 
 #const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
@@ -10,7 +10,7 @@ const GENERIC_EXPLOSION 		= preload("res://barkley2/scenes/Objects/System/generi
 @onready var o_egg_drone_01: 			B2_InteractiveActor = $o_eggDrone01
 var o_enemy_drone_egg : 				B2_EnemyCombatActor
 
-@onready var enemy_nest_drone_egg: Area2D = $enemy_nest
+#@onready var enemy_nest_drone_egg: Area2D = $enemy_nest
 
 
 @onready var o_tutorial_egg_drone: 		Area2D = $o_tutorial_eggDrone
@@ -68,11 +68,15 @@ func pre_drone_fight():
 	o_enemy_drone_egg = O_ENEMY_DRONE_EGG_FINAL.instantiate() # O_ENEMY_DRONE_EGG.instantiate()
 	o_enemy_drone_egg.position = o_egg_drone_01.position
 	add_child( o_enemy_drone_egg, true )
-	enemy_nest_drone_egg.add_enemy( o_enemy_drone_egg )
+	#enemy_nest_drone_egg.add_enemy( o_enemy_drone_egg )
 	o_egg_drone_01.queue_free()
 	
-	enemy_nest_drone_egg.deactivate_nest()
-	enemy_nest_drone_egg.begin_battle()
+	#enemy_nest_drone_egg.deactivate_nest()
+	#enemy_nest_drone_egg.begin_battle()
+	print("Battle begun")
+	await  o_enemy_drone_egg.enemy_was_defeated
+	print("Battle over")
+	post_drone_fight()
 
 # setup stuff after drone fight. code was on o_enemy_drone_egg
 func post_drone_fight():

@@ -1,7 +1,7 @@
 @icon("res://barkley2/assets/b2_original/images/merged/s_pedestrianIcon.png")
 extends B2_Environ
 
-const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_ENTITY_INDICATOR_GOSSIP 	= preload("res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_entity_indicatorGossip.tscn")
 
 

@@ -232,8 +232,8 @@ func make_blood_drop( pos : Vector2, amount : int, color := Color.RED, velocity_
 		blood.velocity_mod			= velocity_mod
 		get_tree().current_scene.add_child( blood, true )
 		
-		for ii in randi_range(0,5): ## Random delay.
-			await get_tree().process_frame
+		#for ii in randi_range(0,5): ## Random delay.
+		#	await get_tree().process_frame
 
 func _physics_process(_delta: float) -> void:
 	if trail.is_inside_tree():
@@ -296,6 +296,9 @@ func _process(_delta: float) -> void:
 		if Input.is_action_just_pressed("Quickmenu"):
 			if (not is_paused or is_quickmenu_open) and is_instance_valid(B2_CManager.o_hoopz):
 				if is_map_open: # check for others open screens.
+					return
+					
+				if B2_Playerdata.Quest("hudVisible") == 0: ## Hud should not be visible (tutorial)
 					return
 					
 				if is_notes_open: # check for others open screens.

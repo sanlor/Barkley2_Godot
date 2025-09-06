@@ -5,7 +5,7 @@ class_name B2_Actor
 signal sprite_offset_centered
 signal sprite_collision_adjusted
 
-const O_SHADOW = preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_SHADOW = preload("uid://c54kloot7bcu2")
 
 ## DEBUG
 @export_category("Debug")

@@ -5,7 +5,6 @@ class_name B2_MiniGame_Document
 @onready var frame: TextureRect = $frame
 @onready var document_underline: TextureRect = $document_underline
 
-
 @onready var document_title_lbl: 	Label 			= $frame/PanelContainer/document_title_lbl
 @onready var document_content_lbl: 	Label 			= $frame/document_content_lbl
 @onready var document_page_lbl: 	Label 			= $document_underline/document_page_lbl

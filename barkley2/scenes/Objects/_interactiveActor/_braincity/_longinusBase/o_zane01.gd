@@ -35,7 +35,8 @@ func execute_event_user_6():
 func execute_event_user_15():
 	## Lock door at "r_fct_accessHall01"
 	# Not sure if needed, since Jodfrey is already blocking the door.
-	pass
+	# 06/09/25 needed now, since I tweeked the collision size.
+	$"../o_doorlight_down_tutorial_2".locked = true
 
 func execute_event_user_10():
 	## Disable click

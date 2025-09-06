@@ -1,4 +1,6 @@
 extends Node
+## Autoload that controls the Music.
+# TODO Improve this script. Volume control sucks.
 
 ## The static music database
 const MUSICBANK 		= preload("res://barkley2/resources/B2_Music/musicbank.json")
@@ -262,6 +264,7 @@ func stop( speed := 0.25 ):
 		tween = create_tween()
 		tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
 		await tween.finished
+		curr_playing_track = ""
 		audio_stream_player.stop()
 	else:
 		push_warning("Trying to stop playing music when its not playing music.")
@@ -273,7 +276,7 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := t
 		music_bank_dirty.emit()
 		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
 		
-	elif curr_playing_track == track_name:
+	elif curr_playing_track == track_name and audio_stream_player.playing:
 		# already playing that track, do nothing.
 		return
 		

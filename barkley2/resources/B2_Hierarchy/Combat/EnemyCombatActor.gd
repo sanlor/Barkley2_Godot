@@ -3,12 +3,13 @@ extends B2_CombatActor
 class_name B2_EnemyCombatActor
 ## Base class for all Combat enemies o_enemy_drone_egg
 
-const O_SHADOW 						= preload("res://barkley2/scenes/Objects/System/o_shadow.tscn")
+const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
 signal aim_target_changed
 signal move_target_changed
 signal finished_charge_action	## Actor is done with its charge/rush action.
+signal enemy_was_defeated
 
 enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}
 @export var curr_MODE := MODE.INACTIVE
@@ -255,43 +256,6 @@ func cinema_charge_at( _charge_target : Vector2, _charge_speed : float ) -> void
 	ActorSmokeEmitter.emitting = true
 	B2_Sound.play( sound_charge )
 
-## Combat stuff ## Disabled this on 31/07/25 fix this later
-#func has_combat_ai() -> bool:
-	#if combat_ai:
-		#return true
-	#else:
-		#return false
-	#
-#func has_inactive_ai() -> bool:
-	#if inactive_ai:
-		#return true
-	#else:
-		#return false
-	#
-#func get_combat_ai() -> B2_AI_Combat:
-	#if combat_ai:
-		#return combat_ai
-	#else:
-		#return B2_AI_Combat.new()
-		#
-#func get_inactive_ai() -> B2_AI_Wander:
-	#if inactive_ai:
-		#return inactive_ai
-	#else:
-		#return B2_AI_Wander.new()
-#
-#func set_combat_ai() -> void:
-	#if inactive_ai:
-		#inactive_ai.is_active 	= false
-	#if combat_ai:
-		#combat_ai.is_active 	= true
-	#
-#func set_inactive_ai() -> void:
-	#if inactive_ai:
-		#inactive_ai.is_active 	= true
-	#if combat_ai:
-		#combat_ai.is_active 	= false
-
 func play_local_sound( sound_name : String ) -> void:
 	if ActorAudioPlayer:
 		var sfx : String = B2_Sound.get_sound( sound_name )
@@ -399,6 +363,7 @@ func destroy_actor() -> void:
 		t.tween_callback( get_parent().remove_child.bind(self) )
 	
 	B2_Drop.create_drops( enemy_data, global_position, false )
+	enemy_was_defeated.emit()
 	_after_death()
 
 func _on_body_entered(body: Node) -> void:

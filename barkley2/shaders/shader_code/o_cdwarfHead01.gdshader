@@ -1,6 +1,7 @@
 // https://godotshaders.com/shader/line-jitter-stroke-shake-effect/
 shader_type canvas_item;
 
+uniform vec4 color_overide = vec4(1.0,1.0,1.0,1.0);
 uniform bool shaking       = false;
 uniform float amplitude    = 1.0;
 uniform float noise_scale  = 20.0;
@@ -44,5 +45,6 @@ void fragment() {
     // Offset along a random direction
     vec2 uv2 = uv + rand_dir * off * TEXTURE_PIXEL_SIZE;
     COLOR = texture(TEXTURE, uv2);
+	COLOR *= color_overide;
   }
 }

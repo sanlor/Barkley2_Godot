@@ -11,7 +11,8 @@ func step() -> void:
 			actor.apply_curr_aim( actor.get_global_mouse_position() )
 		else:
 			#actor.apply_curr_aim( Vector2.ZERO )
-			actor.apply_curr_input( Vector2.ZERO )
+			#actor.apply_curr_input( Vector2.ZERO )
+			pass
 			
 			
 		_input_process()
