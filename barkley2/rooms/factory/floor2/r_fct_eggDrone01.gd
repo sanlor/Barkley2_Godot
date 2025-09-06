@@ -30,6 +30,17 @@ var o_enemy_drone_egg : 				B2_EnemyCombatActor
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
+	## Debug
+	#B2_Playerdata.preload_CC_save_data()
+	#B2_Gun.add_gun_to_bandolier()
+	#B2_Gun.add_gun_to_bandolier()
+	#B2_Gun.add_gun_to_bandolier()
+	#B2_CManager.BodySwap("diaper");
+	#B2_Playerdata.Quest("hudVisible", 		0);
+	#B2_Playerdata.Quest("zoneVisible", 		0);
+	#B2_Playerdata.Quest("dropEnabled", 		0);
+	#B2_Playerdata.Quest("infiniteAmmo", 	1);
+	
 	_set_region()
 	
 	await get_tree().process_frame
@@ -39,8 +50,8 @@ func _ready() -> void:
 		_setup_camera( _setup_player_node() )
 
 func flip_switch():
-	if o_egg_drone_01: o_egg_drone_01.queue_free() # Destroy(o_eggDrone01);
-	if o_tutorial_egg_drone: o_tutorial_egg_drone.queue_free()
+	if o_egg_drone_01: 			o_egg_drone_01.queue_free() # Destroy(o_eggDrone01);
+	if o_tutorial_egg_drone: 	o_tutorial_egg_drone.queue_free()
 	if B2_Playerdata.Quest("factoryEggs") < 1:
 		B2_Playerdata.Quest("factoryEggs", 1)
 		

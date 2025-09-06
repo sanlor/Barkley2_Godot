@@ -351,18 +351,12 @@ func _load_portrait_data():
 ## FIXME 17/08/25 This function is old. move it to B2_CManager
 func get_hoopz_portrait() -> String:
 	match B2_Config.get_user_save_data("player.body"):
-		"hoopz":
-			return "s_port_hoopz"
-		"governor":
-			return "s_port_governor"
-		"matthias":
-			return "s_port_matthias"
-		"untamo":
-			return "s_port_untamo"
-		"diaper":
-			return "s_port_hoopzDiaper"
-		"prison":
-			return "s_port_hoopzPrison"
+		"hoopz":			return "s_port_hoopz"
+		"governor":			return "s_port_governor"
+		"matthias":			return "s_port_matthias"
+		"untamo":			return "s_port_untamo"
+		"diaper":			return "s_port_hoopzDiaper"
+		"prison":			return "s_port_hoopzPrison"
 		_:
 			# Invalid hoopz state
 			#breakpoint
@@ -384,8 +378,6 @@ func just_convert_gamemaker_color_to_hex_already( stupid_color : int ) -> Color:
 	var g := stupid_hex_color.substr(2, 1)
 	var b := stupid_hex_color.substr(0, 1)
 	
-	if str(r + g + b).is_valid_hex_number():
-		my_col = Color( r + g + b )
-	else:
-		push_warning("Invalid color :" + r + g + b)
+	if str(r + g + b).is_valid_hex_number():		my_col = Color( r + g + b )
+	else:											push_warning("Invalid color :" + r + g + b)
 	return my_col

@@ -231,6 +231,9 @@ func make_blood_drop( pos : Vector2, amount : int, color := Color.RED, velocity_
 		blood.z_index				= 0
 		blood.velocity_mod			= velocity_mod
 		get_tree().current_scene.add_child( blood, true )
+		
+		for ii in randi_range(0,5): ## Random delay.
+			await get_tree().process_frame
 
 func _physics_process(_delta: float) -> void:
 	if trail.is_inside_tree():

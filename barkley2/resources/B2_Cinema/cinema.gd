@@ -1165,8 +1165,8 @@ func parse_if( line : String ) -> bool:
 		quest_var = B2_Item.count_item( str_var.replace("@", "").strip_edges() )
 		cond_value = int( condidion_line[ 2 ] )
 		
-	print(quest_var) # Debug
-	print(cond_value) # Debug
+	#print(quest_var) # Debug
+	#print(cond_value) # Debug
 		
 	if not quest_var is bool:
 		# different types of vars will always be false.
@@ -1180,21 +1180,12 @@ func parse_if( line : String ) -> bool:
 			return false
 			
 		match comparator:
-			"==":
-				return quest_var == cond_value
-			"!=":
-				return quest_var != cond_value
-			">=":
-				return quest_var >= cond_value
-			"<=":
-				return quest_var <= cond_value
-			"<":
-				return quest_var < cond_value
-			">":
-				return quest_var > cond_value
-			"=":
-				## basically error handling in case someone mistyped.
-				return quest_var == cond_value
+			"==","=":			return quest_var == cond_value
+			"!=":				return quest_var != cond_value
+			">=":				return quest_var >= cond_value
+			"<=":				return quest_var <= cond_value
+			"<":				return quest_var < cond_value
+			">":				return quest_var > cond_value
 			_:
 				push_error("Unknown operation ", comparator)
 				return false

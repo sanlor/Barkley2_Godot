@@ -29,30 +29,30 @@ func _load_gdshader() -> void:
 	var files := DirAccess.get_files_at( SHADER_CODE )
 	for file : String in files:
 		if file.ends_with(".gdshader"):
-			await get_tree().process_frame
 			var part := ColorRect.new()
 			part.material = ShaderMaterial.new()
 			part.material.shader = load( SHADER_CODE + "/" + file )
 			cuck_box.add_child( part )
+			await get_tree().process_frame
 
 func _load_materials() -> void:
 	var files := DirAccess.get_files_at( MATERIAL_FOLDER )
 	for file : String in files:
 		if file.ends_with(".material") or file.ends_with(".tres"):
-			await get_tree().process_frame
 			var part := ColorRect.new()
 			part.material = load( MATERIAL_FOLDER + "/" + file )
 			cuck_box.add_child( part )
+			await get_tree().process_frame
 
 func _load_particles() -> void:
 	var files := DirAccess.get_files_at( PARTICLES_FOLDER )
 	for file : String in files:
 		if file.ends_with(".tres"):
-			await get_tree().process_frame
 			var part := GPUParticles2D.new()
 			part.process_material = load( PARTICLES_FOLDER + "/" + file )
 			part.emitting = true
 			cuck_box.add_child( part )
+			await get_tree().process_frame
 		
 func _physics_process(delta: float) -> void:
 	t += 10.0 * delta

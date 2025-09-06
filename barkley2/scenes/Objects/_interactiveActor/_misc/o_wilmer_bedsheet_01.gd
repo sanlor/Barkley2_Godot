@@ -1,3 +1,4 @@
+@tool
 extends B2_EnvironProp
 
 func _ready() -> void:
