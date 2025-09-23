@@ -89,10 +89,10 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Candy.gain_candy( "Chickenfry Dew" )
 			
 			B2_Gun.reset()
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"BUTT", false )
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	"BUST", false )
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"OMGA", false )
-			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		"TRSH", true )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		{"wpn_name":"BUTT","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	{"wpn_name":"BUST","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		{"wpn_name":"OMGA","add_affixes":false} 	)
+			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		{"wpn_name":"TRSH","add_affixes":true} 		)
 			
 			B2_HoopzStats.reset()
 			B2_Playerdata.player_stats.full_restore()
@@ -119,10 +119,10 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Candy.gain_candy( "Chickenfry Dew" )
 			
 			B2_Gun.reset()
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		"BUTT", false )
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	"BUST", false )
-			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		"OMGA", false )
-			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		"TRSH", true )
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		{"wpn_name":"BUTT","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	{"wpn_name":"BUST","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		{"wpn_name":"OMGA","add_affixes":false} 	)
+			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		{"wpn_name":"TRSH","add_affixes":true} 		)
 			
 			B2_HoopzStats.reset()
 			B2_Playerdata.player_stats.full_restore()

@@ -70,10 +70,12 @@ var curr_ammo					:= 30
 
 ## Genetics
 var favorite					:= false
-var son							:= "" # B2_Weapon ## TODO Add Lineage stuff
-var lineage_top					:= "" ## ????
-var lineage_bot					:= "" ## ????
+var son							:= {} ## child gun
+var lineage_top					:= {} ## parent gun (top)
+var lineage_bot					:= {} ## parent gun (bottom)
 var generation					:= 1
+
+var dominant_genes				:= [] # List of all dominant genes that this gun has.
 
 #@export var normal_attack	: B2_WeaponAttack						## Normal attack
 @export var skill_list		: Dictionary[B2_Gun.SKILL, int] 		## List of attacks, with the EXP necessary to unlock it

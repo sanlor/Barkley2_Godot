@@ -1,4 +1,4 @@
-extends Resource
+extends B2_Gun_Base
 class_name B2_Gun
 ## Static data for Guns.
 # Check scr_gun_db(), Drop() and Gun()
@@ -346,138 +346,137 @@ const gun_db := {
 #endregion
 
 const prefix1 : Dictionary = { 
-		"empty": ["empty", "empty", ""], 
-		"NoScope360": ["minus", "random", "Shots fire into random directions. N00bs only."], 
-		"Polarized": ["minus", "homing", "Shots avoid enemies."], 
-		"Fetching": ["minus", "bounce", "Shots return to the shooter."], 
-		"Lobbing": ["minus", "curved", "Shots lob into the air."], 
-		"Pensioner\'s": ["minus", "firing", "Shots slow down after being fired."], 
-		"Afterburner": ["minus", "linear", "Shots fire from behind the braster."], 
-		"Magician\'s": ["plus", "random", "Shots fire from around the player."], 
-		"Gravitational": ["plus", "homing", "Shots seek the nearest enemy."], 
-		"Ricocheting": ["plus", "bounce", "Shots ricochet off solid surfaces."], 
-		"Surfing": ["plus", "curved", "Shots move in a wave pattern."], 
-		"Flooding": ["plus", "firing", "Gun\'s fires multiple, wasteful shots at once."], 
-		"Ghostic": ["plus", "linear", "Shots pierce through enemies."], 
-		"Goofed": ["pound", "random", "Shots are out of control."], 
-		"Proximity": ["pound", "homing", "Shots fire towards nearest enemy."], 
-		"Chaining": ["pound", "bounce", "Shots chain to multiple enemies."], 
-		"Orbiting": ["pound", "curved", "Shots circle around the braster."], 
-		"Berzerk\'d": ["pound", "firing", "Gun\'s has anger issues."], 
-		"Dotline": ["pound", "linear", "Shots turn periodically."] 
+		"empty": 			["empty", "empty", ""], 
+		"NoScope360": 		["minus", "random", "Shots fire into random directions. N00bs only."], 
+		"Polarized": 		["minus", "homing", "Shots avoid enemies."], 
+		"Fetching": 		["minus", "bounce", "Shots return to the shooter."], 
+		"Lobbing": 			["minus", "curved", "Shots lob into the air."], 
+		"Pensioner\'s":		["minus", "firing", "Shots slow down after being fired."], 
+		"Afterburner": 		["minus", "linear", "Shots fire from behind the braster."], 
+		"Magician\'s": 		["plus", "random", "Shots fire from around the player."], 
+		"Gravitational": 	["plus", "homing", "Shots seek the nearest enemy."], 
+		"Ricocheting": 		["plus", "bounce", "Shots ricochet off solid surfaces."], 
+		"Surfing": 			["plus", "curved", "Shots move in a wave pattern."], 
+		"Flooding": 		["plus", "firing", "Gun\'s fires multiple, wasteful shots at once."], 
+		"Ghostic": 			["plus", "linear", "Shots pierce through enemies."], 
+		"Goofed": 			["pound", "random", "Shots are out of control."], 
+		"Proximity": 		["pound", "homing", "Shots fire towards nearest enemy."], 
+		"Chaining": 		["pound", "bounce", "Shots chain to multiple enemies."], 
+		"Orbiting": 		["pound", "curved", "Shots circle around the braster."], 
+		"Berzerk\'d": 		["pound", "firing", "Gun\'s has anger issues."], 
+		"Dotline": 			["pound", "linear", "Shots turn periodically."] 
 	}
 const prefix2 : Dictionary = { 
-		"empty": ["empty", "empty", "empty", "", null], 
-		"Pachinkode\'d": ["top", "cosmic", "hp", "Periodic deals LUCK % extra damage.", null], 
-		"Klisp\'d": ["top", "mental", "hp", "Periodic deals PIETY % extra damage.", null], 
-		"Juice\'d": ["top", "bio", "hp", "Periodic deals MIGHT % extra damage.", null], 
-		"Parkour\'d": ["top", "cyber", "hp", "Periodic deals ACRO % extra damage.", null], 
-		"Impose\'d": ["top", "zauber", "hp", "Periodic deals GUTS % extra damage.", null], 
-		"Gambling": ["charm", "cosmic", "hp", "Periodic deals 0 - 400% KOSMIC instead of normal damage.", null], 
-		"Agonizing": ["charm", "mental", "hp", "Periodic inflicts anguish that deals target MENTAL damage while moving.", null], 
-		"Thorny": ["charm", "bio", "hp", "Periodic inflicts target with thornball that shoots out damaging BIO thorns.", null], 
-		"Deathbound": ["charm", "cyber", "hp", "Periodic deals extra CYBER damage based on how many times you died.", null], 
-		"Radiating": ["charm", "zauber", "hp", "Periodic inflicts cloud that deals ZAUBER damage to nearby enemies.", null], 
-		"Galactic": ["bottom", "cosmic", "hp", "Periodic deals 150% KOSMIC instead of normal damage.", null], 
-		"Migraining": ["bottom", "mental", "hp", "Periodic deals 150% MENTAL instead of normal damage.", null], 
-		"Gooping": ["bottom", "bio", "hp", "Periodic deals 150% BIO instead of normal damage.", null], 
-		"Overloading": ["bottom", "cyber", "hp", "Periodic deals 150% CYBER instead of normal damage.", null], 
-		"Zaubering": ["bottom", "zauber", "hp", "Periodic deals 150% ZAUBER instead of normal damage.", null], 
-		"KosmicBoost": ["top", "cosmic", "capability", "Periodic raises target KOSMIC resistence 60%, lowers other resistences 15%.", null], 
-		"MentalBoost": ["top", "mental", "capability", "Periodic raises target MENTAL resistence 60%, lowers other resistences 15%.", null], 
-		"BioBoost": ["top", "bio", "capability", "Periodic raises target BIO resistence 60%, lowers other resistences 15%.", null], 
-		"CyberBoost": ["top", "cyber", "capability", "Periodic raises target CYBER resistence 60%, lowers other resistences 15%.", null], 
-		"ZauberBoost": ["top", "zauber", "capability", "Periodic raises target ZAUBER resistence 60%, lowers other resistences 15%.", null], 
-		"ResistRespec": ["charm", "cosmic", "capability", "Periodic respecs target resistences randomly.", null], 
-		"ResistLower": ["charm", "mental", "capability", "Periodic lowers target resistences by 20%.", null], 
-		"Milkdrop": ["charm", "bio", "capability", "Periodic makes target resistences go off the deep end.", null], 
-		"ResistSwap": ["charm", "cyber", "capability", "Periodic randomly swaps target resistences.", null], 
-		"ResistEqual": ["charm", "zauber", "capability", "Periodic averages target resistences.", null], 
-		"KosmicFallen": ["bottom", "cosmic", "capability", "Periodic lowers target KOSMIC resistence by 30%.", null], 
-		"MentalFallen": ["bottom", "mental", "capability", "Periodic lowers target MENTAL resistence by 30%.", null], 
-		"BioFallen": ["bottom", "bio", "capability", "Periodic lowers target BIO resistence by 30%.", null], 
-		"CyberFallen": ["bottom", "cyber", "capability", "Periodic lowers target CYBER resistence by 30%.", null], 
-		"ZauberFallen": ["bottom", "zauber", "capability", "Periodic lowers target ZAUBER resistence by 30%.", null], 
-		"LuckBoost": ["top", "cosmic", "properties", "Periodic raises LUCK 60%, lowers all other stats 15%.", null], 
-		"PietyBoost": ["top", "mental", "properties", "Periodic raises PIETY 60%, lowers all other stats 15%.", null], 
-		"MightBoost": ["top", "bio", "properties", "Periodic raises MIGHT 60%, lowers all other stats 15%.", null], 
-		"AcroBoost": ["top", "cyber", "properties", "Periodic raises ACRO 60%, lowers all other stats 15%.", null], 
-		"GutsBoost": ["top", "zauber", "properties", "Periodic raises GUTS 60%, lowers all other stats 15%.", null], 
-		"Respeccing": ["charm", "cosmic", "properties", "Periodic respecs target GLAMP randomly.", null], 
-		"Withering": ["charm", "mental", "properties", "Periodic lowers target GLAMP by 20%.", null], 
-		"Dyslexic": ["charm", "bio", "properties", "Periodic makes target GLAMP go off the deep end.", null], 
-		"Hotswapping": ["charm", "cyber", "properties", "Periodic randomly swaps target GLAMP.", null], 
-		"Equalizing": ["charm", "zauber", "properties", "Periodic averages target GLAMP.", null], 
-		"LuckFallen": ["bottom", "cosmic", "properties", "Periodic lowers target LUCK by 30%.", null], 
-		"PietyFallen": ["bottom", "mental", "properties", "Periodic lowers target PIETY by 30%.", null], 
-		"MightFallen": ["bottom", "bio", "properties", "Periodic lowers target MIGHT by 30%.", null], 
-		"AcroFallen": ["bottom", "cyber", "properties", "Periodic lowers target ACRO by 30%.", null], 
-		"GutsFallen": ["bottom", "zauber", "properties", "Periodic lowers target GUTS by 30%.", null], 
-		"WeightLower": ["top", "cosmic", "weight", "Periodic lowers target WEIGHT 50%, lowers DEFENSE 25%.", null],
-		"BrainGain": ["top", "mental", "weight", "Periodic raises target BRAIN 100%, lowers DEFENSE 25%.", null], 
-		"DefenseGain": ["top", "bio", "weight", "Periodic raises target DEFENSE by 50%, lowers BP by 50%.", null],
-		"KnockGain": ["top", "cyber", "weight", "Periodic raises target knockback resistence 200%, WEIGHT 25%.", null], 
-		"StaggerGain": ["top", "zauber", "weight", "Periodic raises target stagger resistence 200%, WEIGHT 25%.", null], 
-		"Pilfering": ["charm", "cosmic", "weight", "Periodic makes target drop a candy.", null], 
-		"Adhesive": ["charm", "mental", "weight", "Periodic makes target immobile for 5-10 seconds.", null], 
-		"Smelting": ["charm", "bio", "weight", "Periodic makes target drop ammo.", null], 
-		"Busting": ["charm", "cyber", "weight", "Periodic staggers target for 2-5 seconds.", null], 
-		"Blinking": ["charm", "zauber", "weight", "Periodic teleports target to nearby location.", null], 
-		"Heavy": ["bottom", "cosmic", "weight", "Periodic raises target WEIGHT by 25%.", null], 
-		"Foggy": ["bottom", "mental", "weight", "Periodic lowers target BRAIN by 50%.", null], 
-		"Risky": ["bottom", "bio", "weight", "Periodic lowers target DEFENSE by 25%.", null], 
-		"Slippery": ["bottom", "cyber", "weight", "Periodic lowers target knockback resistence by 100%.", null], 
-		"Goofy": ["bottom", "zauber", "weight", "Periodic lowers target stagger resistence by 100%.", null] 
+		"empty": 			["empty", "empty", "empty", "", null], 
+		"Pachinkode\'d": 	["top", "cosmic", "hp", "Periodic deals LUCK % extra damage.", null], 
+		"Klisp\'d": 		["top", "mental", "hp", "Periodic deals PIETY % extra damage.", null], 
+		"Juice\'d": 		["top", "bio", "hp", "Periodic deals MIGHT % extra damage.", null], 
+		"Parkour\'d": 		["top", "cyber", "hp", "Periodic deals ACRO % extra damage.", null], 
+		"Impose\'d": 		["top", "zauber", "hp", "Periodic deals GUTS % extra damage.", null], 
+		"Gambling": 		["charm", "cosmic", "hp", "Periodic deals 0 - 400% KOSMIC instead of normal damage.", null], 
+		"Agonizing": 		["charm", "mental", "hp", "Periodic inflicts anguish that deals target MENTAL damage while moving.", null], 
+		"Thorny": 			["charm", "bio", "hp", "Periodic inflicts target with thornball that shoots out damaging BIO thorns.", null], 
+		"Deathbound": 		["charm", "cyber", "hp", "Periodic deals extra CYBER damage based on how many times you died.", null], 
+		"Radiating": 		["charm", "zauber", "hp", "Periodic inflicts cloud that deals ZAUBER damage to nearby enemies.", null], 
+		"Galactic": 		["bottom", "cosmic", "hp", "Periodic deals 150% KOSMIC instead of normal damage.", null], 
+		"Migraining": 		["bottom", "mental", "hp", "Periodic deals 150% MENTAL instead of normal damage.", null], 
+		"Gooping": 			["bottom", "bio", "hp", "Periodic deals 150% BIO instead of normal damage.", null], 
+		"Overloading": 		["bottom", "cyber", "hp", "Periodic deals 150% CYBER instead of normal damage.", null], 
+		"Zaubering": 		["bottom", "zauber", "hp", "Periodic deals 150% ZAUBER instead of normal damage.", null], 
+		"KosmicBoost": 		["top", "cosmic", "capability", "Periodic raises target KOSMIC resistence 60%, lowers other resistences 15%.", null], 
+		"MentalBoost": 		["top", "mental", "capability", "Periodic raises target MENTAL resistence 60%, lowers other resistences 15%.", null], 
+		"BioBoost": 		["top", "bio", "capability", "Periodic raises target BIO resistence 60%, lowers other resistences 15%.", null], 
+		"CyberBoost": 		["top", "cyber", "capability", "Periodic raises target CYBER resistence 60%, lowers other resistences 15%.", null], 
+		"ZauberBoost": 		["top", "zauber", "capability", "Periodic raises target ZAUBER resistence 60%, lowers other resistences 15%.", null], 
+		"ResistRespec": 	["charm", "cosmic", "capability", "Periodic respecs target resistences randomly.", null], 
+		"ResistLower": 		["charm", "mental", "capability", "Periodic lowers target resistences by 20%.", null], 
+		"Milkdrop": 		["charm", "bio", "capability", "Periodic makes target resistences go off the deep end.", null], 
+		"ResistSwap": 		["charm", "cyber", "capability", "Periodic randomly swaps target resistences.", null], 
+		"ResistEqual": 		["charm", "zauber", "capability", "Periodic averages target resistences.", null], 
+		"KosmicFallen": 	["bottom", "cosmic", "capability", "Periodic lowers target KOSMIC resistence by 30%.", null], 
+		"MentalFallen": 	["bottom", "mental", "capability", "Periodic lowers target MENTAL resistence by 30%.", null], 
+		"BioFallen": 		["bottom", "bio", "capability", "Periodic lowers target BIO resistence by 30%.", null], 
+		"CyberFallen": 		["bottom", "cyber", "capability", "Periodic lowers target CYBER resistence by 30%.", null], 
+		"ZauberFallen": 	["bottom", "zauber", "capability", "Periodic lowers target ZAUBER resistence by 30%.", null], 
+		"LuckBoost": 		["top", "cosmic", "properties", "Periodic raises LUCK 60%, lowers all other stats 15%.", null], 
+		"PietyBoost": 		["top", "mental", "properties", "Periodic raises PIETY 60%, lowers all other stats 15%.", null], 
+		"MightBoost": 		["top", "bio", "properties", "Periodic raises MIGHT 60%, lowers all other stats 15%.", null], 
+		"AcroBoost": 		["top", "cyber", "properties", "Periodic raises ACRO 60%, lowers all other stats 15%.", null], 
+		"GutsBoost": 		["top", "zauber", "properties", "Periodic raises GUTS 60%, lowers all other stats 15%.", null], 
+		"Respeccing": 		["charm", "cosmic", "properties", "Periodic respecs target GLAMP randomly.", null], 
+		"Withering": 		["charm", "mental", "properties", "Periodic lowers target GLAMP by 20%.", null], 
+		"Dyslexic": 		["charm", "bio", "properties", "Periodic makes target GLAMP go off the deep end.", null], 
+		"Hotswapping": 		["charm", "cyber", "properties", "Periodic randomly swaps target GLAMP.", null], 
+		"Equalizing": 		["charm", "zauber", "properties", "Periodic averages target GLAMP.", null], 
+		"LuckFallen": 		["bottom", "cosmic", "properties", "Periodic lowers target LUCK by 30%.", null], 
+		"PietyFallen": 		["bottom", "mental", "properties", "Periodic lowers target PIETY by 30%.", null], 
+		"MightFallen": 		["bottom", "bio", "properties", "Periodic lowers target MIGHT by 30%.", null], 
+		"AcroFallen": 		["bottom", "cyber", "properties", "Periodic lowers target ACRO by 30%.", null], 
+		"GutsFallen": 		["bottom", "zauber", "properties", "Periodic lowers target GUTS by 30%.", null], 
+		"WeightLower": 		["top", "cosmic", "weight", "Periodic lowers target WEIGHT 50%, lowers DEFENSE 25%.", null],
+		"BrainGain": 		["top", "mental", "weight", "Periodic raises target BRAIN 100%, lowers DEFENSE 25%.", null], 
+		"DefenseGain": 		["top", "bio", "weight", "Periodic raises target DEFENSE by 50%, lowers BP by 50%.", null],
+		"KnockGain": 		["top", "cyber", "weight", "Periodic raises target knockback resistence 200%, WEIGHT 25%.", null], 
+		"StaggerGain": 		["top", "zauber", "weight", "Periodic raises target stagger resistence 200%, WEIGHT 25%.", null], 
+		"Pilfering": 		["charm", "cosmic", "weight", "Periodic makes target drop a candy.", null], 
+		"Adhesive": 		["charm", "mental", "weight", "Periodic makes target immobile for 5-10 seconds.", null], 
+		"Smelting": 		["charm", "bio", "weight", "Periodic makes target drop ammo.", null], 
+		"Busting": 			["charm", "cyber", "weight", "Periodic staggers target for 2-5 seconds.", null], 
+		"Blinking": 		["charm", "zauber", "weight", "Periodic teleports target to nearby location.", null], 
+		"Heavy": 			["bottom", "cosmic", "weight", "Periodic raises target WEIGHT by 25%.", null], 
+		"Foggy": 			["bottom", "mental", "weight", "Periodic lowers target BRAIN by 50%.", null], 
+		"Risky": 			["bottom", "bio", "weight", "Periodic lowers target DEFENSE by 25%.", null], 
+		"Slippery": 		["bottom", "cyber", "weight", "Periodic lowers target knockback resistence by 100%.", null], 
+		"Goofy": 			["bottom", "zauber", "weight", "Periodic lowers target stagger resistence by 100%.", null] 
 	}
 const suffix : Dictionary = { 
-		"empty": ["empty", "empty", "empty", "", null], 
-		"of the Dracula": ["down", "bio", "aggressive", "Slurp hitpoints from enemy.", null], 
-		"of the Healthy Youth": ["down", "bio", "passive", "Bonus damage based on max hitpoints.", null], 
-		"of Flicker": ["down", "bio", "reactive", "Bullets have a very short lifespan.", null], 
-		"of the Circus": ["down", "cosmic", "aggressive", "Rolling increases Periodic Meter.", null], 
-		"of the Dying Youth": ["down", "cosmic", "passive", "Bonus damage based on missing hitpoints.", null], 
-		"of the Bad Aim": ["down", "cosmic", "reactive", "Braster's aim is terrible.", null], 
-		"of the Clock": ["down", "cyber", "aggressive", "Bonus damage based on passage of time.", null], 
-		"of the Today's Youth": ["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null], 
-		"of the Paintball": ["down", "cyber", "reactive", "Adds a splash of paint to shots.", null], 
-		"of Muramasa": ["down", "mental", "aggressive", "Target is pulled towards the braster.", null], 
-		"of Masamune": ["down", "mental", "passive", "Zero damage, increased knockback strength.", null], 
-		"of Murasame": ["down", "mental", "reactive", "Braster and target are thrown about.", null], 
-		"cursed by a Wicca Hex": ["down", "zauber", "aggressive", "Periodic Meter is broken.", null], 
-		"of the Lich": ["down", "zauber", "passive", "Bonus damage based on total deaths.", null], 
-		"of the Elements": ["down", "zauber", "reactive", "Bullets are imbued with elemental powers.", null], 
-		"of Leper's Digest": ["strange", "bio", "aggressive", "While you have ammo, you lose health.", null], 
-		"of Chaining": ["strange", "bio", "passive", "Bullets chain to nearest enemy.", null], 
-		"of the Bazinga": ["strange", "bio", "reactive", "Bullets heal target.", null], 
-		"of Jeeper's Digest": ["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null], 
-		"of Dotlining": ["strange", "cosmic", "passive", "Bullets move in a dotline.", null], 
-		"of Sacrifice": ["strange", "cosmic", "reactive", "Shoot out your own lifeforce.", null], 
-		"with Nanomachines": ["strange", "cyber", "aggressive", "Regain up to 20% of ammo.", null], 
-		"of Ghosting": ["strange", "cyber", "passive", "Bullets pierce through targets.", null], 
-		"of Lets Play": ["strange", "cyber", "reactive", "Remember to like and subscribe.", null], 
-		"with a Battery Charger": ["strange", "mental", "aggressive", "Damage based on remaining ammo.", null], 
-		"of Magicing": ["strange", "mental", "passive", "Bullets spawn from around the braster.", null], 
-		"of the Pacifist": ["strange", "mental", "reactive", "Bullets don't deal damage.", null], 
-		"of Reaper's Digest": ["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null], 
-		"of Surfing": ["strange", "zauber", "passive", "Bullets move in a wave pattern.", null], 
-		"of Triskelion": ["strange", "zauber", "reactive", "Deals 9999 damage while in Triskelion.", null], 
-		"of the Entlord": ["up", "bio", "aggressive", "Bonus BIO damage.", null], 
-		"of the Iceman": ["up", "bio", "passive", "Bonus damage based on enemies defeated.", null], 
-		"with a hole in the Pocket": ["up", "bio", "reactive", "Ammo depletes constantly.", null], 
-		"of the Quasar": ["up", "cosmic", "aggressive", "Bonus KOSMIC damage.", null], 
-		"of the Perfectionist": ["up", "cosmic", "passive", "Bonus damage when at full health.", null], 
-		"of Eternity": ["up", "cosmic", "reactive", "Bullet have increased lifespans.", null], 
-		"of the Doxxer": ["up", "cyber", "aggressive", "Bonus CYBER damage.", null], 
-		"of the Metallic Muscle": ["up", "cyber", "passive", "Bonus damage based on Transhumanism.", null], 
-		"of the Planet of Vapes": ["up", "cyber", "reactive", "Guns are of the Planet of the Vapes.", null], 
-		"of the Encephalon": ["up", "mental", "aggressive", "Bonus MENTAL damage.", null], 
-		"from Heck": ["up", "mental", "passive", "Damage varies from 0x to 2.5x.", null], 
-		"of Deep Welling": ["up", "mental", "reactive", "Periodic Meter increases constantly.", null], 
-		"of the Ps. Pocus": ["up", "zauber", "aggressive", "Bonus ZAUBER damage.", null], 
-		"of the Becker": ["up", "zauber", "passive", "Damn slow, but damn hard-hitter!", null], 
-		"of the Forever Man": ["up", "zauber", "reactive", "Gun\'s sacrifices itself to save braster.", null] 
+		"empty": 						["empty", "empty", "empty", "", null], 
+		"of the Dracula": 				["down", "bio", "aggressive", "Slurp hitpoints from enemy.", null], 
+		"of the Healthy Youth":			["down", "bio", "passive", "Bonus damage based on max hitpoints.", null], 
+		"of Flicker": 					["down", "bio", "reactive", "Bullets have a very short lifespan.", null], 
+		"of the Circus": 				["down", "cosmic", "aggressive", "Rolling increases Periodic Meter.", null], 
+		"of the Dying Youth": 			["down", "cosmic", "passive", "Bonus damage based on missing hitpoints.", null], 
+		"of the Bad Aim": 				["down", "cosmic", "reactive", "Braster's aim is terrible.", null], 
+		"of the Clock": 				["down", "cyber", "aggressive", "Bonus damage based on passage of time.", null], 
+		"of the Today's Youth": 		["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null], 
+		"of the Paintball": 			["down", "cyber", "reactive", "Adds a splash of paint to shots.", null], 
+		"of Muramasa": 					["down", "mental", "aggressive", "Target is pulled towards the braster.", null], 
+		"of Masamune": 					["down", "mental", "passive", "Zero damage, increased knockback strength.", null], 
+		"of Murasame": 					["down", "mental", "reactive", "Braster and target are thrown about.", null], 
+		"cursed by a Wicca Hex": 		["down", "zauber", "aggressive", "Periodic Meter is broken.", null], 
+		"of the Lich": 					["down", "zauber", "passive", "Bonus damage based on total deaths.", null], 
+		"of the Elements": 				["down", "zauber", "reactive", "Bullets are imbued with elemental powers.", null], 
+		"of Leper's Digest": 			["strange", "bio", "aggressive", "While you have ammo, you lose health.", null], 
+		"of Chaining": 					["strange", "bio", "passive", "Bullets chain to nearest enemy.", null], 
+		"of the Bazinga": 				["strange", "bio", "reactive", "Bullets heal target.", null], 
+		"of Jeeper's Digest": 			["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null], 
+		"of Dotlining": 				["strange", "cosmic", "passive", "Bullets move in a dotline.", null], 
+		"of Sacrifice": 				["strange", "cosmic", "reactive", "Shoot out your own lifeforce.", null], 
+		"with Nanomachines": 			["strange", "cyber", "aggressive", "Regain up to 20% of ammo.", null], 
+		"of Ghosting": 					["strange", "cyber", "passive", "Bullets pierce through targets.", null], 
+		"of Lets Play": 				["strange", "cyber", "reactive", "Remember to like and subscribe.", null], 
+		"with a Battery Charger": 		["strange", "mental", "aggressive", "Damage based on remaining ammo.", null], 
+		"of Magicing": 					["strange", "mental", "passive", "Bullets spawn from around the braster.", null], 
+		"of the Pacifist": 				["strange", "mental", "reactive", "Bullets don't deal damage.", null], 
+		"of Reaper's Digest": 			["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null], 
+		"of Surfing": 					["strange", "zauber", "passive", "Bullets move in a wave pattern.", null], 
+		"of Triskelion": 				["strange", "zauber", "reactive", "Deals 9999 damage while in Triskelion.", null], 
+		"of the Entlord": 				["up", "bio", "aggressive", "Bonus BIO damage.", null], 
+		"of the Iceman": 				["up", "bio", "passive", "Bonus damage based on enemies defeated.", null], 
+		"with a hole in the Pocket": 	["up", "bio", "reactive", "Ammo depletes constantly.", null], 
+		"of the Quasar": 				["up", "cosmic", "aggressive", "Bonus KOSMIC damage.", null], 
+		"of the Perfectionist": 		["up", "cosmic", "passive", "Bonus damage when at full health.", null], 
+		"of Eternity":					["up", "cosmic", "reactive", "Bullet have increased lifespans.", null], 
+		"of the Doxxer": 				["up", "cyber", "aggressive", "Bonus CYBER damage.", null], 
+		"of the Metallic Muscle": 		["up", "cyber", "passive", "Bonus damage based on Transhumanism.", null], 
+		"of the Planet of Vapes": 		["up", "cyber", "reactive", "Guns are of the Planet of the Vapes.", null], 
+		"of the Encephalon": 			["up", "mental", "aggressive", "Bonus MENTAL damage.", null], 
+		"from Heck": 					["up", "mental", "passive", "Damage varies from 0x to 2.5x.", null], 
+		"of Deep Welling": 				["up", "mental", "reactive", "Periodic Meter increases constantly.", null], 
+		"of the Ps. Pocus": 			["up", "zauber", "aggressive", "Bonus ZAUBER damage.", null], 
+		"of the Becker": 				["up", "zauber", "passive", "Damn slow, but damn hard-hitter!", null], 
+		"of the Forever Man": 			["up", "zauber", "reactive", "Gun\'s sacrifices itself to save braster.", null] 
 	}
-
 
 ## List of B2_WeaponMaterial resources.
 const MATERIAL_LIST : Dictionary[MATERIAL, B2_WeaponMaterial] = {
@@ -685,154 +684,49 @@ static func reset_bandolier() -> void:
 static func reset_gunbag() -> void:
 	B2_Playerdata.gun_bag.clear()
 
-#region save and load guns.
-static func save_guns() -> void:
-	var gun_array := []
-	if B2_Playerdata.bandolier:
-		for gun in B2_Playerdata.bandolier:
-			if gun is B2_Weapon:
-				gun_array.append( gun_to_dict( gun ) )
-	B2_Config.set_user_save_data( "player.guns.bandolier", gun_array )
-	
-	var gunbag_array := []
-	if B2_Playerdata.gun_bag:
-		for gunbag in B2_Playerdata.gun_bag:
-			if gunbag is B2_Weapon:
-				gunbag_array.append( gun_to_dict( gunbag ) )
-	B2_Config.set_user_save_data( "player.guns.bag", gunbag_array )
-	
-## TODO Fix loading. NOTE Fixed. 
-static func load_guns() -> void:
-	var gun_array : Array = B2_Config.get_user_save_data( "player.guns.bandolier", [] )
-	if gun_array:
-		for gun in gun_array:
-			if gun is Dictionary:
-				var loaded_gun : B2_Weapon = dict_to_gun( gun )
-				B2_Playerdata.bandolier.append( loaded_gun )
-			else:
-				push_error( "Invalid gun loaded: ", gun )
-	
-	var gunbag_array : Array = B2_Config.get_user_save_data( "player.guns.bag", [] )
-	if gunbag_array:
-		for gunbag in gun_array:
-			if gunbag is Dictionary:
-				var loaded_gun : B2_Weapon = dict_to_gun( gunbag )
-				B2_Playerdata.gun_bag.append( loaded_gun )
-			else:
-				push_error( "Invalid gun loaded: ", gunbag )
-	
-## Gun serialization.
-## TODO HANDLE SKILLS
-static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
-	var gun_dict := Dictionary()
-	gun_dict[ "weapon_type" ] 			= var_to_str( gun.weapon_type )
-	gun_dict[ "weapon_material" ] 		= var_to_str( gun.weapon_material )
-	gun_dict[ "weapon_group" ]			= var_to_str( gun.weapon_group )
-
-	gun_dict[ "weapon_name" ] 			= var_to_str( gun.weapon_name )
-	gun_dict[ "weapon_short_name" ] 	= var_to_str( gun.weapon_short_name )
-	gun_dict[ "weapon_pickup_name" ] 	= var_to_str( gun.weapon_pickup_name )
-	gun_dict[ "weapon_pickup_color" ] 	= var_to_str( gun.weapon_pickup_color )
-	
-	gun_dict[ "prefix1" ] 				= var_to_str( gun.prefix1 )
-	gun_dict[ "prefix2" ] 				= var_to_str( gun.prefix2 )
-	gun_dict[ "suffix" ] 				= var_to_str( gun.suffix )
-	gun_dict[ "att" ] 					= var_to_str( gun.att )
-	gun_dict[ "spd" ] 					= var_to_str( gun.spd )
-	gun_dict[ "acc" ] 					= var_to_str( gun.acc )
-	gun_dict[ "afx" ] 					= var_to_str( gun.afx )
-	gun_dict[ "wgt" ] 					= var_to_str( gun.wgt )
-
-	gun_dict[ "max_action" ] 			= var_to_str( gun.max_action )
-	gun_dict[ "curr_action" ] 			= var_to_str( gun.curr_action )
-
-	gun_dict[ "max_ammo" ] 				= var_to_str( gun.max_ammo )
-	gun_dict[ "curr_ammo" ] 			= var_to_str( gun.curr_ammo )
-
-	gun_dict[ "attack_cost" ] 			= var_to_str( gun.attack_cost )
-	
-	gun_dict[ "generic_damage" ] 		= var_to_str( gun.generic_damage )
-	gun_dict[ "bio_damage" ] 			= var_to_str( gun.bio_damage )
-	gun_dict[ "cyber_damage" ] 			= var_to_str( gun.cyber_damage )
-	gun_dict[ "mental_damage" ] 		= var_to_str( gun.mental_damage )
-	gun_dict[ "cosmic_damage" ] 		= var_to_str( gun.cosmic_damage )
-	gun_dict[ "zauber_damage" ] 		= var_to_str( gun.zauber_damage )
-
-	gun_dict[ "weapon_lvl" ] 			= var_to_str( gun.weapon_lvl )
-	gun_dict[ "weapon_xp" ] 			= var_to_str( gun.weapon_xp )
-	gun_dict[ "skill_list" ] 			= var_to_str( gun.skill_list )
-	
-	gun_dict[ "favorite" ] 				= var_to_str( gun.favorite )
-	gun_dict[ "son" ] 					= var_to_str( gun.son )
-	gun_dict[ "lineage_top" ] 			= var_to_str( gun.lineage_top )
-	gun_dict[ "lineage_bot" ] 			= var_to_str( gun.lineage_bot )
-	gun_dict[ "generation" ] 			= var_to_str( gun.generation )
-
-	gun_dict[ "bullets_per_shot" ] 		= var_to_str( gun.bullets_per_shot )
-	gun_dict[ "ammo_per_shot" ] 		= var_to_str( gun.ammo_per_shot )
-	gun_dict[ "wait_per_shot" ] 		= var_to_str( gun.wait_per_shot )
-	gun_dict[ "bullet_spread" ] 		= var_to_str( gun.bullet_spread )
-	return gun_dict
-	
-## TODO HANDLE SKILLS
-static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
-	var gun := B2_Weapon.new()
-	gun.weapon_type 					= str_to_var( gun_dict.get( "weapon_type") )
-	gun.weapon_material 				= str_to_var( gun_dict.get( "weapon_material" ) )
-	gun.weapon_group 					= str_to_var( gun_dict.get( "weapon_group" ) )
-
-	gun.weapon_name 					= str_to_var( gun_dict.get( "weapon_name" ) )
-	gun.weapon_short_name 				= str_to_var( gun_dict.get( "weapon_short_name" ) )
-	gun.weapon_pickup_name 				= str_to_var( gun_dict.get( "weapon_pickup_name" ) )
-	gun.weapon_pickup_color 			= str_to_var( gun_dict.get( "weapon_pickup_color" ) )
-	
-	gun.prefix1 						= str_to_var( gun_dict.get( "prefix1" ) )
-	gun.prefix2 						= str_to_var( gun_dict.get( "prefix2" ) )
-	gun.suffix 							= str_to_var( gun_dict.get( "suffix" ) )
-	gun.att 							= str_to_var( gun_dict.get( "att" ) )
-	gun.spd 							= str_to_var( gun_dict.get( "spd" ) )
-	gun.acc 							= str_to_var( gun_dict.get( "acc" ) )
-	gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
-	gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
-
-	gun.max_action 						= str_to_var( gun_dict.get( "max_action" ) )
-	gun.curr_action 					= str_to_var( gun_dict.get( "curr_action" ) )
-
-	gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
-	gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
-
-	gun.attack_cost 					= str_to_var( gun_dict.get( "attack_cost" ) )
-	
-	gun.generic_damage 					= str_to_var( gun_dict.get( "generic_damage" ) )
-	gun.bio_damage 						= str_to_var( gun_dict.get( "bio_damage" ) )
-	gun.cyber_damage 					= str_to_var( gun_dict.get( "cyber_damage" ) )
-	gun.mental_damage 					= str_to_var( gun_dict.get( "mental_damage" ) )
-	gun.cosmic_damage 					= str_to_var( gun_dict.get( "cosmic_damage" ) )
-	gun.zauber_damage 					= str_to_var( gun_dict.get( "zauber_damage" ) )
-
-	gun.weapon_lvl 						= str_to_var( gun_dict.get( "weapon_lvl" ) )
-	gun.weapon_xp 						= str_to_var( gun_dict.get( "weapon_xp" ) )
-	
-	gun.skill_list 						= str_to_var( gun_dict.get( "skill_list" ) )
-	
-	gun.favorite 						= str_to_var( gun_dict.get( "favorite" ) )
-	gun.son 							= str_to_var( gun_dict.get( "son" ) )
-	gun.lineage_top 					= str_to_var( gun_dict.get( "lineage_top" ) )
-	gun.lineage_bot 					= str_to_var( gun_dict.get( "lineage_bot" ) )
-	gun.generation 						= str_to_var( gun_dict.get( "generation" ) )
-
-	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
-	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )
-	gun.wait_per_shot 					= str_to_var( gun_dict.get( "wait_per_shot" ) )
-	gun.bullet_spread 					= str_to_var( gun_dict.get( "bullet_spread" ) )
-	return gun
-#endregion
-
 ## Code related to weapon creation, generation and fusion (maybe?).
 #region Gun creation
+## With this function, we can mix 2 guns into one. You can also not provide a certain parent to create a random one. 
+# NOTE This SUCKS so far. Its basically random.
+static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bottom : B2_Weapon = null ) -> B2_Weapon:
+	if not parent_top:
+		parent_top = generate_gun()
+	if not parent_bottom:
+		parent_bottom = generate_gun()
+	
+	var my_gun := generate_gun()
+	my_gun.lineage_top = gun_to_dict(parent_top)
+	my_gun.lineage_bot = gun_to_dict(parent_bottom)
+	
+	return my_gun
+
+## With this function, you can simulate which parents a "generic" gun (ones you havent breed yet) could have.
+static func generate_parent_gun( child_gun : B2_Weapon, same_type : bool ) -> B2_Weapon:
+	var parent_gun : B2_Weapon
+	var same_mat := randf() > 0.5 ## Randomly, weapons can have the same or a random material.
+	
+	if same_type:
+		if same_mat:	parent_gun = generate_gun( child_gun.weapon_type, child_gun.weapon_material )
+		else:			parent_gun = generate_gun( child_gun.weapon_type )
+	else:
+		if same_mat:	parent_gun = generate_gun( TYPE.GUN_TYPE_NONE, child_gun.weapon_material )
+		else:			parent_gun = generate_gun( TYPE.GUN_TYPE_NONE )
+		
+	parent_gun.son = gun_to_dict(child_gun)
+	
+	return parent_gun
+
+# Make a very generic gun, with parents and genes.
+static func generate_generic_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
+	var my_gun := generate_gun(type, material, options)
+	my_gun.lineage_top = gun_to_dict( generate_parent_gun(my_gun, randf() > 0.5) )
+	my_gun.lineage_bot = gun_to_dict( generate_parent_gun(my_gun, randf() > 0.5) )
+	return my_gun
+
 # Check Drop("generate") line 396
 ## For now, luck stat plays no part in this
-static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> B2_Weapon:
+## 20/09/25 May need to change the name for this function. This will generate a bastard gun with fake parents.
+static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
 	var wpn := B2_Weapon.new()
 	
 	## Pick weapon type if not specified
@@ -843,10 +737,6 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		if type_rand < 80:		wpn.weapon_type = RARITY_TYPE[RARITY.TRASH].pick_random()
 		elif type_rand < 95:	wpn.weapon_type = RARITY_TYPE[RARITY.MEH].pick_random()
 		else:					wpn.weapon_type = RARITY_TYPE[RARITY.RARE].pick_random()
-	
-	## Get the type resource
-	# wpn.type_data = weapon_type( wpn.weapon_type ) ## DEPRECATED
-	# wpn.type_data 			= B2_Gun.TYPE_LIST[ wpn.weapon_type ]
 	
 	## Pick weapon material if not specified
 	if material != MATERIAL.NONE:
@@ -866,7 +756,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	
 	var affix_count := 0
 	var affix_rand := 0
-	if add_affixes:
+	if options.has("add_affixes"):
 		## Pick affixes
 		
 		affix_rand = randi_range(0,99)
@@ -892,8 +782,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	else:
 		wpn.weapon_name = gun_names[ wpn.weapon_type ]
 		
-	if wpn_name:
-		wpn.weapon_short_name = wpn_name
+	if options.has("wpn_name"):
+		wpn.weapon_short_name = options["wpn_name"]
 	else:
 		## o_debugMode_gunfusinglab
 		wpn.weapon_short_name = char( 65 + floor( randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor( randi_range(0,26) ) );
@@ -986,6 +876,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	wpn.max_ammo *= 3
 	wpn.curr_ammo = wpn.max_ammo
 	
+	## Apply generic genes
+	B2_Gun_Genes.apply_genes( wpn, 6 )
+	
 	return wpn
 	
 static func apply_stats( wpn : B2_Weapon ) -> void:
@@ -1060,7 +953,6 @@ static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_we
 
 ## Code related to adding guns, taking guns and stuff like that.
 #region Gun management
-
 static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B2_Weapon:
 	## NOTE Once again, im porting old code jankiness.
 	match gun_db_name:
@@ -1133,7 +1025,7 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B
 		if db_gun[11]:			choices.append( GROUP.RIFLES )
 		if db_gun[12]:			choices.append( GROUP.SHOTGUNS )
 			
-		my_gun = generate_gun( choices.pick_random(), MATERIAL.NONE, gun_name, true )
+		my_gun = generate_generic_gun( choices.pick_random(), MATERIAL.NONE, {"wpn_name" : gun_name,} )
 		
 		my_gun.generic_damage 	= db_gun[1]
 		my_gun.bio_damage 		= db_gun[2]
@@ -1150,9 +1042,9 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B
 	return my_gun
 	
 ## Add generate a gun and add it to bandolier.
-static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
+static func add_gun_to_bandolier( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> void: ## TODO
 	## Gun names are only 4 letter words.
-	append_gun_to_bandolier( generate_gun(type, material, wpn_name.left(4), add_affixes) )
+	append_gun_to_bandolier( generate_generic_gun(type, material, options) )
 
 static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 	print_rich("[color=orange]Appending gun to bandolier: %s.[/color]" % wpn.get_full_name())
@@ -1162,8 +1054,8 @@ static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 		print("B2_Gun: Bandolier full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
 
 ## Add generate a gun and add it to bandolier.
-static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, wpn_name := "", add_affixes := true ) -> void: ## TODO
-	append_gun_to_gunbag( generate_gun(type, material,  wpn_name, add_affixes) )
+static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> void: ## TODO
+	append_gun_to_gunbag( generate_generic_gun(type, material, options) )
 	
 static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
 	print_rich("[color=orange]Appending gun to gunbag: %s.[/color]" % wpn.get_full_name())
@@ -1279,116 +1171,4 @@ static func get_current_gun() -> B2_Weapon:
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
 			return B2_Weapon.new()
-#endregion
-
-#region Position the gun on the players hand
-## NOTE THis section was on the player script
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-static func get_muzzle_dist() -> float:
-	var heldBulletDist := 0.0
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldBulletDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldBulletDist = 16.0
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldBulletDist = 20.0
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 10.0 # was 8.0
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldBulletDist = 8.0
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldBulletDist = 16.0
-	return heldBulletDist
-	
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-static func get_muzzle_pos() -> float: ## TODO
-	return 0.0
-	
-## scr_player_getGunShifts - set the offsef for the held gun
-static func get_gun_held_dist() -> float:
-	var heldDist := 0.0
-
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldDist = -6.0
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldDist = -4.0
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldDist = 0.0
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldDist = 14.0
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldDist = 22.0
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN, B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN, B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN, B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldDist = 14.0
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldDist = 18.0
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldDist = 16.0
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.TYPE.GUN_TYPE_MAGNUM, B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldDist = 22.0 # was 17.0
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldDist = 17.0 # was 17.0
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldDist = 0.0
-		_:
-			print( B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
-	return heldDist
-
-## scr_player_getGunShifts - set the offsef for the held gun
-static func get_gun_shifts() -> Vector2:
-	var heldHShift := 0.0
-	var heldVShift := 0.0
-	match B2_Gun.get_current_gun().weapon_type:
-		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
-			heldVShift = -2;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:
-			heldVShift = 3;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
-			heldVShift = 3;
-			heldHShift = -12;
-		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:
-			heldVShift = 0;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
-			heldVShift = 1;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN,B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
-			heldVShift = 0;
-			heldHShift = -8;
-		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:
-			heldVShift = 2;
-			heldHShift = -8;
-		## rocket launchers are on the shoulder.
-		B2_Gun.TYPE.GUN_TYPE_ROCKET:
-			heldVShift = 12;
-			heldHShift = 8;
-		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldHShift = 0; # 0
-			heldVShift = 5; # 5
-		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
-			heldHShift = 0;
-			heldVShift = 6;
-		B2_Gun.TYPE.GUN_TYPE_BFG:
-			heldVShift = 3;
-			heldHShift = -12;
-	
-	#heldVShift = 0 ## DEBUG
-	#return Vector2( heldHShift, heldVShift )
-	return Vector2( heldVShift, heldHShift )
 #endregion
