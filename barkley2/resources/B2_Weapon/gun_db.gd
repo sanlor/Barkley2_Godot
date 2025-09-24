@@ -687,14 +687,34 @@ static func reset_gunbag() -> void:
 ## Code related to weapon creation, generation and fusion (maybe?).
 #region Gun creation
 ## With this function, we can mix 2 guns into one. You can also not provide a certain parent to create a random one. 
-# NOTE This SUCKS so far. Its basically random.
+# NOTE This SUCKS so far (22/09/25). Its basically random.
+## Some code related to gun breeding can be found here: Utility() line 1890, Gun*() line 131 and Drop() line 462
+# scr_combat_weapons_fusion() too, godamit
+# and Gunsmap() line 540...
+# and scr_combat_weapons_fusion_material() and scr_combat_weapons_fusion_affix() too
 static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bottom : B2_Weapon = null ) -> B2_Weapon:
+	push_error("Gun fusing is not working correcly yet.")
+	
 	if not parent_top:
 		parent_top = generate_gun()
 	if not parent_bottom:
 		parent_bottom = generate_gun()
 	
-	var my_gun := generate_gun()
+	## TODO actually mix the guns into a new one.
+	var my_gun := generate_gun() # Make a generic gun
+	
+	## TODO CRITICAL Add stats fusion.
+	# scr_combat_weapons_fusion() line 18
+	# scr_combat_weapons_fusion_stats()
+	
+	## Gun type is decided by the gunmap.
+	## TODO CRITICAL Add gunmap type shit.
+	# scr_combat_weapons_fusion() line 22 to 25
+	
+	## TODO CRITICAL Add material fuse stuff.
+	## Gun material is decided by the material periodic table
+	my_gun.weapon_material = B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
+	
 	my_gun.lineage_top = gun_to_dict(parent_top)
 	my_gun.lineage_bot = gun_to_dict(parent_bottom)
 	
@@ -727,6 +747,11 @@ static func generate_generic_gun( type := TYPE.GUN_TYPE_NONE, material := MATERI
 ## For now, luck stat plays no part in this
 ## 20/09/25 May need to change the name for this function. This will generate a bastard gun with fake parents.
 static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
+	# INFO: options are:
+	#	"add_affixes" 	-> bool
+	#	"wpn_name"		-> string
+	# Ex.: {"wpn_name":"BUTT","add_affixes":false}
+	
 	var wpn := B2_Weapon.new()
 	
 	## Pick weapon type if not specified
