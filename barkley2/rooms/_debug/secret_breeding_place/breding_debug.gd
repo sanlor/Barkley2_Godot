@@ -101,7 +101,11 @@ const MATERIAL := {
 	Vector2(18,6) : ["Pinata",		8,	222	],
 }
 func _ready() -> void:
+	#var my_mat : Dictionary = {}
+	#for m : Vector2 in MATERIAL:
+		#my_mat[ MATERIAL[m][0] ] = [ int(m.x), int(m.y), MATERIAL[m][1], MATERIAL[m][2] ]
+	#
 	#var file = FileAccess.open( "res://barkley2/resources/B2_Weapon/material_table.json", FileAccess.WRITE )
-	#file.store_string( JSON.stringify( JSON.from_native(MATERIAL), "\t", false) )
+	#file.store_string( JSON.stringify( my_mat, "\t", false) )
 	#file.close()
 	pass
