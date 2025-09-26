@@ -35,3 +35,6 @@ func _update_data() -> void:
 		gun_title_lbl.text = "No gun :("
 		gun_texture.texture = PlaceholderTexture2D.new()
 		gun_texture.texture.size = Vector2(49.0, 24.0)
+
+func _on_rebreed_btn_pressed() -> void:
+	_make_offspring()

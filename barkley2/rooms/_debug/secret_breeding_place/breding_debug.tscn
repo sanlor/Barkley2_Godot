@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://drskb5jxyoewf"]
+[gd_scene load_steps=15 format=3 uid="uid://drskb5jxyoewf"]
 
 [ext_resource type="Script" uid="uid://fy6wggxwcpf1" path="res://barkley2/rooms/_debug/secret_breeding_place/breding_debug.gd" id="1_jps7p"]
 [ext_resource type="Theme" uid="uid://bel3c3184om4i" path="res://barkley2/themes/debug/gun_debug.tres" id="1_og2xi"]
@@ -7,12 +7,26 @@
 [ext_resource type="Script" uid="uid://beydc4wg0myj4" path="res://barkley2/rooms/_debug/secret_breeding_place/gun_parent.gd" id="4_5rms5"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="5_ydw5n"]
 [ext_resource type="Script" uid="uid://gg7yyn84cce" path="res://barkley2/rooms/_debug/secret_breeding_place/camera_debug.gd" id="6_ydw5n"]
+[ext_resource type="Script" uid="uid://dhbyvaycc82gi" path="res://barkley2/rooms/_debug/secret_breeding_place/gun_map_text.gd" id="8_mxupr"]
+[ext_resource type="Texture2D" uid="uid://skgcdpe1ctna" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunMapMarker.png" id="9_elh2k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5rms5"]
 font = ExtResource("5_ydw5n")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_b3mt3"]
 size = Vector2(49, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hihea"]
+atlas = ExtResource("9_elh2k")
+region = Rect2(9, 0, 9, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4b0c"]
+atlas = ExtResource("9_elh2k")
+region = Rect2(0, 0, 9, 9)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6tne2"]
+atlas = ExtResource("9_elh2k")
+region = Rect2(18, 0, 9, 9)
 
 [node name="breding_debug" type="Control"]
 layout_mode = 3
@@ -168,3 +182,56 @@ stretch_mode = 5
 [node name="camera_debug" type="Camera2D" parent="."]
 position = Vector2(192, 120)
 script = ExtResource("6_ydw5n")
+
+[node name="rebreed_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 149.0
+offset_top = 138.0
+offset_right = 235.0
+offset_bottom = 155.0
+text = "Re-breeeed"
+
+[node name="gun_map_text" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 53.0
+offset_top = 189.0
+offset_right = 53.0
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 2
+script = ExtResource("8_mxupr")
+
+[node name="gun_marker_bottom" type="TextureRect" parent="gun_map_text"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = -4.0
+offset_right = 14.0
+offset_bottom = 5.0
+pivot_offset = Vector2(4, 4)
+texture = SubResource("AtlasTexture_hihea")
+
+[node name="gun_marker_top" type="TextureRect" parent="gun_map_text"]
+layout_mode = 0
+offset_left = -15.0
+offset_top = -4.0
+offset_right = -6.0
+offset_bottom = 5.0
+pivot_offset = Vector2(4, 4)
+texture = SubResource("AtlasTexture_c4b0c")
+
+[node name="gun_marker_occupied" type="TextureRect" parent="gun_map_text"]
+layout_mode = 0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 5.0
+offset_bottom = 5.0
+pivot_offset = Vector2(4, 4)
+texture = SubResource("AtlasTexture_6tne2")
+
+[connection signal="pressed" from="rebreed_btn" to="gun_child" method="_on_rebreed_btn_pressed"]

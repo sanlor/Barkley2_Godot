@@ -638,12 +638,8 @@ static func reset_gunbag() -> void:
 # and Gunsmap() line 540...
 # and scr_combat_weapons_fusion_material() and scr_combat_weapons_fusion_affix() too
 static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bottom : B2_Weapon = null ) -> B2_Weapon:
-	push_error("Gun fusing is not working correcly yet.")
-	
-	if not parent_top:
-		parent_top = generate_gun()
-	if not parent_bottom:
-		parent_bottom = generate_gun()
+	if not parent_top:		parent_top 		= generate_gun()
+	if not parent_bottom:	parent_bottom 	= generate_gun()
 	
 	## TODO actually mix the guns into a new one.
 	var my_gun := generate_gun() # Make a generic gun
@@ -655,11 +651,13 @@ static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bot
 	## Gun type is decided by the gunmap.
 	## TODO CRITICAL Add gunmap type shit.
 	# scr_combat_weapons_fusion() line 22 to 25
+	my_gun.weapon_type		= B2_Gun_Fuse.fuse_type( parent_top.weapon_type, parent_bottom.weapon_type )
+	my_gun.weapon_group 	= GROUP_LIST.get( my_gun.weapon_type )
 	
-	## TODO CRITICAL Add material fuse stuff.
 	## Gun material is decided by the material periodic table
-	my_gun.weapon_material = B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
+	my_gun.weapon_material 	= B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
 	
+	# Record thy lineage
 	my_gun.lineage_top = gun_to_dict(parent_top)
 	my_gun.lineage_bot = gun_to_dict(parent_bottom)
 	
