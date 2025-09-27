@@ -43,5 +43,5 @@ func _update_data() -> void:
 		name_value.text 		= str( my_gun.get_short_name() )
 		dmg_value.text 			= str( int(my_gun.get_att()) )
 		rte_value.text 			= str( int(my_gun.get_spd()) )
-		spc_value.text 			= str( my_gun.afx_count() )
+		spc_value.text 			= str( my_gun.get_afx_count() )
 		cap_value.text 			= "%s ( %s )" % [ str(my_gun.curr_ammo), str(my_gun.max_ammo) ]

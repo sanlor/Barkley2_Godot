@@ -18,7 +18,7 @@ func setup( gun : B2_Weapon ) -> void:
 	gun_texture.texture = gun.get_weapon_hud_sprite()
 	dmg_value.text 			= str( int(gun.get_att()) )
 	rte_value.text 			= str( int(gun.get_spd()) )
-	spc_value.text 			= str( gun.afx_count() )
+	spc_value.text 			= str( gun.get_afx_count() )
 	cap_value.text 			= str(gun.max_ammo)
 	
 	gun_prefix_1.text 		= Text.pr( gun.prefix1 )

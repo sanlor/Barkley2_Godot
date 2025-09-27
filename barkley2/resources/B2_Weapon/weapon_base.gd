@@ -26,6 +26,7 @@ enum EFFECT{ DAMAGE, RECOVERY }
 var prefix1			: String # Dictionary ## Set by the wpn generation
 var prefix2			: String # Dictionary ## Set by the wpn generation
 var suffix			: String # Dictionary ## Set by the wpn generation
+var afx_count		:= 0
 
 ## SFX stuff
 var max_action_sfx_played 		:= false
@@ -68,6 +69,8 @@ var curr_ammo					:= 30
 @export var delay_before_action				:= 0.0		## Add a dramatic delay before the shot.
 @export var delay_after_action				:= 0.75		## Add a dramatic delay after the shot.
 
+var gunmap_pos					:= Vector2i.ZERO # Used for fusing and drawing the gunmap.
+
 ## Genetics
 var favorite					:= false
 var son							:= {} ## child gun
@@ -92,12 +95,8 @@ var is_shooting		:= false
 var abort_shooting 	:= false
 
 #region Weapon data
-func afx_count() -> int:
-	var c := 0
-	if prefix1: 	c += 1
-	if prefix2: 	c += 1
-	if suffix: 		c += 1
-	return c
+func get_afx_count() -> int:
+	return afx_count
 	
 func get_skill_list() -> Dictionary:
 	var s_list : Dictionary[B2_WeaponSkill,int] = {}
@@ -143,12 +142,14 @@ func get_secret_name() -> String:
 func get_short_name() -> String:
 	return weapon_short_name
 
-func get_power_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
-func get_speed_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
-func get_ammo_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
-func get_affix_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
-#func get_luck_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0
-func get_acc_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0
+func get_power_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
+func get_max_power_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0
+func get_speed_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
+func get_ammo_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
+func get_affix_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
+#func get_luck_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0
+func get_acc_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0
+#func get_weight_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
 
 func get_held_sprite() -> String:
 	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite

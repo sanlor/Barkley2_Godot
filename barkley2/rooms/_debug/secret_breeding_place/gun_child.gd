@@ -6,6 +6,8 @@ extends PanelContainer
 @onready var gun_title_lbl: 	Label = $gun_container/gun_title_lbl
 @onready var gun_texture: 		TextureRect = $gun_container/gun_texture
 
+@onready var v_slider: VSlider = $"../VSlider"
+
 var top_gun : 		B2_Weapon
 var bottom_gun : 	B2_Weapon
 var my_gun : 		B2_Weapon
@@ -24,7 +26,7 @@ func _load_bottom_gun( gun : B2_Weapon ) -> void:
 
 func _make_offspring() -> void:
 	if top_gun and bottom_gun:
-		my_gun = B2_Gun.generate_gun_from_parents(top_gun, bottom_gun)
+		my_gun = B2_Gun.generate_gun_from_parents(top_gun, bottom_gun, v_slider.value)
 		_update_data()
 
 func _update_data() -> void:

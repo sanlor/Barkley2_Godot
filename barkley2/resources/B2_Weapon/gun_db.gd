@@ -637,7 +637,7 @@ static func reset_gunbag() -> void:
 # scr_combat_weapons_fusion() too, godamit
 # and Gunsmap() line 540...
 # and scr_combat_weapons_fusion_material() and scr_combat_weapons_fusion_affix() too
-static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bottom : B2_Weapon = null ) -> B2_Weapon:
+static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bottom : B2_Weapon = null, bias := 0.5 ) -> B2_Weapon:
 	if not parent_top:		parent_top 		= generate_gun()
 	if not parent_bottom:	parent_bottom 	= generate_gun()
 	
@@ -645,17 +645,25 @@ static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bot
 	var my_gun := generate_gun() # Make a generic gun
 	
 	## TODO CRITICAL Add stats fusion.
-	# scr_combat_weapons_fusion() line 18
-	# scr_combat_weapons_fusion_stats()
+	# check scr_combat_weapons_fusion() line 18
+	# check scr_combat_weapons_fusion_stats()
+	# check scr_combat_weapons_fusion_prestats
+	B2_Gun_Fuse.fuse_stats( parent_top, parent_bottom, my_gun )
 	
 	## Gun type is decided by the gunmap.
-	## TODO CRITICAL Add gunmap type shit.
-	# scr_combat_weapons_fusion() line 22 to 25
-	my_gun.weapon_type		= B2_Gun_Fuse.fuse_type( parent_top.weapon_type, parent_bottom.weapon_type )
-	my_gun.weapon_group 	= GROUP_LIST.get( my_gun.weapon_type )
+	# check scr_combat_weapons_fusion() line 22 to 25
+	var gunmap_data : Array = B2_Gunmap.get_gun_type_from_parent_position( parent_top.gunmap_pos, parent_bottom.gunmap_pos, bias )
+	my_gun.weapon_type		= gunmap_data[0]
+	my_gun.gunmap_pos		= gunmap_data[1]
+	my_gun.weapon_group 	= GROUP_LIST.get( my_gun.weapon_type, B2_Gun.GROUP.NONE )
+	assert( my_gun.weapon_type != B2_Gun.TYPE.GUN_TYPE_NONE, 	"Invalid gun type '%s'." % my_gun.weapon_type )
+	assert( my_gun.weapon_group != B2_Gun.GROUP.NONE, 			"Invalid gun group '%s'." % my_gun.weapon_group )
 	
 	## Gun material is decided by the material periodic table
 	my_gun.weapon_material 	= B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
+	
+	## Reapply the gun name
+	apply_name( my_gun )
 	
 	# Record thy lineage
 	my_gun.lineage_top = gun_to_dict(parent_top)
@@ -706,6 +714,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		elif type_rand < 95:	wpn.weapon_type = RARITY_TYPE[RARITY.MEH].pick_random()
 		else:					wpn.weapon_type = RARITY_TYPE[RARITY.RARE].pick_random()
 	
+	## Set the gunmap.
+	wpn.gunmap_pos = B2_Gunmap.get_gun_type_pos_from_map(wpn.weapon_type)
+	
 	## Pick weapon material if not specified
 	if material != MATERIAL.NONE:
 		wpn.weapon_material = material
@@ -722,7 +733,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	if TYPE_LIST[ wpn.weapon_type ] == null:			push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
 	if MATERIAL_LIST[ wpn.weapon_material ] == null:	push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
-	var affix_count := 0
+	#var affix_count := 0
 	var affix_rand := 0
 	if options.has("add_affixes"):
 		## Pick affixes
@@ -730,40 +741,21 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		affix_rand = randi_range(0,99)
 		if affix_rand < geneAffixChance:
 			wpn.prefix1 = prefix1.keys().pick_random()
-			affix_count += 1
+			wpn.afx_count += 1
 			
 		affix_rand = randi_range(0,99)
 		if affix_rand < geneAffixChance:
 			wpn.prefix2 = prefix2.keys().pick_random()
-			affix_count += 1
+			wpn.afx_count += 1
 			
 		affix_rand = randi_range(0,99)
 		if affix_rand < geneAffixChance:
 			wpn.suffix = suffix.keys().pick_random()
-			affix_count += 1
+			wpn.afx_count += 1
 		
 	apply_stats( wpn )
 		
-	## Set base name
-	if wpn.weapon_material != MATERIAL.STEEL:
-		wpn.weapon_name = str( MATERIAL.keys()[wpn.weapon_material] ).capitalize() + " " + gun_names[ wpn.weapon_type ] ## material different from steel have a different name.
-	else:
-		wpn.weapon_name = gun_names[ wpn.weapon_type ]
-		
-	if options.has("wpn_name"):
-		wpn.weapon_short_name = options["wpn_name"]
-	else:
-		## o_debugMode_gunfusinglab
-		wpn.weapon_short_name = char( 65 + floor( randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor( randi_range(0,26) ) );
-	
-	## Name used for gun pickups (Used for gunbag guns)
-	var tx := ""
-	match affix_count:
-		1: tx = ["bizarre ","eerie ","odd ","weird "].pick_random(); wpn.weapon_pickup_color = Color.AQUA
-		2: tx = ["rare ","special ","strange ","glowing "].pick_random(); wpn.weapon_pickup_color = Color.YELLOW
-		3: tx = ["mystical ","ancient ", "mythical ","impossible ","grotesque "].pick_random(); Color.from_rgba8(213,114,177)
-			
-	wpn.weapon_pickup_name = tx + wpn.weapon_name
+	apply_name( wpn, options )
 	
 	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
 		
@@ -895,6 +887,29 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	
 	## Save points used.
 	wpn.pts = points
+	
+## Apply the name to the gun
+static func apply_name( wpn : B2_Weapon, options : Dictionary = {} ) -> void:
+	## Set base name
+	if wpn.weapon_material != MATERIAL.STEEL:
+		wpn.weapon_name = str( MATERIAL.keys()[wpn.weapon_material] ).capitalize() + " " + gun_names[ wpn.weapon_type ] ## material different from steel have a different name.
+	else:
+		wpn.weapon_name = gun_names[ wpn.weapon_type ]
+		
+	if options.has("wpn_name"):
+		wpn.weapon_short_name = options["wpn_name"]
+	else:
+		## o_debugMode_gunfusinglab
+		wpn.weapon_short_name = char( 65 + floor( randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor(randi_range(0,26) ) ) + char( 65 + floor( randi_range(0,26) ) );
+	
+	## Name used for gun pickups (Used for gunbag guns)
+	var tx := ""
+	match wpn.afx_count:
+		1: tx = ["bizarre ","eerie ","odd ","weird "].pick_random(); wpn.weapon_pickup_color = Color.AQUA
+		2: tx = ["rare ","special ","strange ","glowing "].pick_random(); wpn.weapon_pickup_color = Color.YELLOW
+		3: tx = ["mystical ","ancient ", "mythical ","impossible ","grotesque "].pick_random(); Color.from_rgba8(213,114,177)
+			
+	wpn.weapon_pickup_name = tx + wpn.weapon_name
 	
 ## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
 static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic

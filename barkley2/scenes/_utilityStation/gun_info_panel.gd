@@ -167,16 +167,16 @@ func update_data( gun : B2_Weapon ) -> void:
 		
 	selected_gun = gun
 	
-	var map_size := Vector2(60,60)
-	gun_map_text.texture 			= B2_Gunmap.get_gun_map( map_size )
-	gun_marker_bottom.position 		= B2_Gunmap.get_gun_map_position( 0, gun.weapon_name, map_size )
-	gun_marker_top.position 		= B2_Gunmap.get_gun_map_position( 1, gun.weapon_name, map_size )
-	gun_marker_occupied.position 	= B2_Gunmap.get_gun_map_position( 2, gun.weapon_name, map_size )
+	#var map_size := Vector2(60,60) ## NOTE disabled this on 27/09/25 is this still needed?
+	gun_map_text.texture 			= B2_Gunmap.get_gun_map(  )
+	gun_marker_bottom.position 		= B2_Gunmap.get_gun_map_position( 0, gun.weapon_name )
+	gun_marker_top.position 		= B2_Gunmap.get_gun_map_position( 1, gun.weapon_name )
+	gun_marker_occupied.position 	= B2_Gunmap.get_gun_map_position( 2, gun.weapon_name )
 	
 	gun_bullet_text.texture.region.position.x = 15 * B2_Gun.TYPE_ICON_LIST.get( gun.weapon_type, 0 )
 	dmg_value.text 			= str( int(gun.get_att()) )
 	rte_value.text 			= str( int(gun.get_spd()) )
-	spc_value.text 			= str( gun.afx_count() )
+	spc_value.text 			= str( gun.get_afx_count() )
 	cap_value.text 			= "%s ( %s )" % [ str(gun.curr_ammo), str(gun.max_ammo) ]
 	
 	gun_name_value.text = Text.pr( gun.weapon_name )

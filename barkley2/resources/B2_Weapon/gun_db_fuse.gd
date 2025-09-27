@@ -47,6 +47,7 @@ const MATERIALDIATOMICLIST := [
 const MATERIALVOLATILITY := [ # check scr_combat_weapons_fusion_material line 115
 	2, 2, 3, 1, 1, 2, 1
 ]
+const SETTINGFUSEWEIGHT := 0.75
 
 static func get_material_data( material_name : String ) -> Array:
 	if not MATERIAL.data.has(material_name):
@@ -173,7 +174,141 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 	# wow, what a mess, huh?
 	return final_material
 
+## check the stats for 2 guns and fuse them into one. will apply the changes directly to the child gun.
+static func fuse_stats( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun : B2_Weapon ) -> void:
+	var gunStatDivisionBonus 	:= 25 		# was 15
+	var gunPowerRatio 			:= 1.2 		# was 1.2
+	var gunNoisePercent 		:= .05
+	
+	# Grabbed values
+	var fga := top_gun		## Love these 3 leter variables!
+	var fgb := bottom_gun	## Love these 3 leter variables!
+	
+	## Declaring some variables.
+	## So stupid. This creates an array to with the stat for each weapon. Fuck it, just going to copy and paste code now.
+	# Grabbed values
+	var gunPower 		:= [top_gun.att,		bottom_gun.att]
+	var gunROF 			:= [top_gun.spd,		bottom_gun.spd]		# Rate of fire?
+	var gunAmmo 		:= [top_gun.max_ammo,	bottom_gun.max_ammo]
+	var gunAffix 		:= [top_gun.afx,		bottom_gun.afx]
+	var gunWeight 		:= [top_gun.wgt,		bottom_gun.wgt]
 
-static func fuse_type( type_1 : B2_Gun.TYPE, type_2 : B2_Gun.TYPE ) -> B2_Gun.TYPE:
-	push_error("Gun TYPE fusing is not working correcly yet.")
-	return B2_Gun.TYPE.values().pick_random()
+	var gunPowerMod 	:= [
+		top_gun.get_power_mod() 	+ top_gun.get_max_power_mod() / 2, 
+		bottom_gun.get_power_mod() 	+ bottom_gun.get_max_power_mod() / 2
+		]
+	var gunROFMod 		:= [top_gun.get_speed_mod(),	bottom_gun.get_speed_mod()]
+	var gunAmmoMod 		:= [top_gun.get_ammo_mod(),		bottom_gun.get_ammo_mod()]
+	var gunAffixMod 	:= [top_gun.get_affix_mod(),	bottom_gun.get_affix_mod()]
+	var gunWeightMod 	:= [1,	1] # gun[? "pWeightMod"];
+	
+	# Generate totals, priorities, bonus
+	var gunTotal 		:= [ 
+		gunPower[0] + gunROF[0] + gunAmmo[0] + gunAffix[0], 
+		gunPower[1] + gunROF[1] + gunAmmo[1] + gunAffix[1],
+		] # priority
+	var gunRatio 		:= [ 0.5, 0.5 ] ## Default ratio, i guess?
+	var gunRatioPower 	:= [ 0.5, 0.5 ] ## Default ratio, i guess?
+
+	var gunPowerTotal 	:= [ gunPower[0] * gunPowerMod[0], gunPower[1] * gunPowerMod[1] ]
+	var gunROFTotal 	:= [ gunROF[0] * gunROFMod[0], gunROF[1] * gunROFMod[1] ]
+	var gunAmmoTotal	:= [ gunAmmo[0] * gunAmmoMod[0], gunAmmo[1] * gunAmmoMod[1] ]
+	var gunAffixTotal	:= [ gunAffix[0] * gunAffixMod[0], gunAffix[1] * gunAffixMod[1] ]
+	var gunWeightTotal	:= [ gunWeight[0] * gunWeightMod[0], gunWeight[1] * gunWeightMod[1] ]
+
+	var gunPowerBonus	:= [ gunPowerTotal[0] / gunStatDivisionBonus, gunPowerTotal[1] / gunStatDivisionBonus ] # total divided by bonus division
+	var gunROFBonus		:= [ gunROFTotal[0] / gunStatDivisionBonus, gunROFTotal[1] / gunStatDivisionBonus ]
+	var gunAmmoBonus	:= [ gunAmmoTotal[0] / gunStatDivisionBonus, gunAmmoTotal[1] / gunStatDivisionBonus ]
+	var gunAffixBonus	:= [ gunAffixTotal[0] / gunStatDivisionBonus, gunAffixTotal[1] / gunStatDivisionBonus ]
+	var gunWeightBonus	:= [ gunWeightTotal[0] / gunStatDivisionBonus, gunWeightTotal[1] / gunStatDivisionBonus ]
+
+	# Do ratios
+	gunRatio[0] = gunTotal[0] / (gunTotal[0] + gunTotal[1]) ## Apply correct ratio? Ratio for what?
+	gunRatio[1] = gunTotal[1] / (gunTotal[0] + gunTotal[1]);
+	
+	# Do power ratios
+	if gunRatio[0] == gunRatio[1]:
+		gunRatioPower[0] = 0.5
+		gunRatioPower[1] = 0.5
+	else:
+		if gunRatio[0] > gunRatio[1]:
+			gunRatioPower[0] = 1 - pow(gunRatio[1], gunPowerRatio)
+		else:
+			gunRatioPower[0] = pow(gunRatio[0], gunPowerRatio)
+		gunRatioPower[1] = abs(gunRatioPower[0] - 1)
+	
+	var ratio = gunRatioPower[0]; # <- WTF doest this do ????
+	
+	## I asume that this should be a float? Im so glad that GML allows such a sloppy code. 
+	var gunPowerAverage 	: float = (gunPower[0] * gunRatioPower[0]) + (gunPower[1] * gunRatioPower[1]);
+	var gunROFAverage 		: float = (gunROF[0] * gunRatioPower[0]) + (gunROF[1] * gunRatioPower[1]);
+	var gunAmmoAverage 		: float = (gunAmmo[0] * gunRatioPower[0]) + (gunAmmo[1] * gunRatioPower[1]);
+	var gunAffixAverage 	: float = (gunAffix[0] * gunRatioPower[0]) + (gunAffix[1] * gunRatioPower[1]);
+	var gunWeightAverage 	: float = (gunWeight[0] * gunRatioPower[0]) + (gunWeight[1] * gunRatioPower[1]);
+	
+	# bonus times the other power ratio
+	var gunPowerGain 		: float = (gunPowerBonus[0] * gunRatioPower[1]) + (gunPowerBonus[1] * gunRatioPower[0]);
+	var gunROFGain 			: float = (gunROFBonus[0] * gunRatioPower[1]) + (gunROFBonus[1] * gunRatioPower[0]);
+	var gunAmmoGain 		: float = (gunAmmoBonus[0] * gunRatioPower[1]) + (gunAmmoBonus[1] * gunRatioPower[0]);
+	var gunAffixGain 		: float = (gunAffixBonus[0] * gunRatioPower[1]) + (gunAffixBonus[1] * gunRatioPower[0]);
+	var gunWeightGain 		: float = (gunWeightBonus[0] * gunRatioPower[1]) + (gunWeightBonus[1] * gunRatioPower[0]);
+	
+	# New total
+	var gunPowerNew			: float = gunPowerAverage + gunPowerGain;
+	var gunROFNew			: float = gunROFAverage + gunROFGain;
+	var gunAmmoNew 			: float = gunAmmoAverage + gunAmmoGain;
+	var gunAffixNew			: float = gunAffixAverage + gunAffixGain;
+	var gunWeightNew		: float = gunWeightAverage + gunWeightGain + SETTINGFUSEWEIGHT
+	var gunTotalWorkingNew	: float = gunPowerNew + gunROFNew + gunAmmoNew + gunAffixNew; # + gunWeightNew;
+	
+	# NOISE
+	var gunPowerNoise		: float = max(gunPower[0], gunPower[1]) * gunNoisePercent;
+	var gunROFNoise			: float = max(gunROF[0], gunROF[1]) * gunNoisePercent;
+	var gunAmmoNoise		: float = max(gunAmmo[0], gunAmmo[1]) * gunNoisePercent;
+	var gunAffixNoise		: float = max(gunAffix[0], gunAffix[1]) * gunNoisePercent;
+	var gunWeightNoise		: float = max(gunWeight[0], gunWeight[1]) * gunNoisePercent;
+	
+	# RANDOM
+	var gunPowerNoiseEffect		: float = randf_range(0.0,gunPowerNoise) 	* [1, -1].pick_random()
+	var gunROFNoiseEffect		: float = randf_range(0.0,gunROFNoise) 		* [1, -1].pick_random()
+	var gunAmmoNoiseEffect		: float = randf_range(0.0,gunAmmoNoise) 	* [1, -1].pick_random()
+	var gunAffixNoiseEffect		: float = randf_range(0.0,gunAffixNoise) 	* [1, -1].pick_random()
+	var gunWeightNoiseEffect	: float = randf_range(0.0,gunWeightNoise) # * choose(1, -1);
+	
+	# Noise total
+	var gunPowerNoiseTotal	: float = gunPowerNew + gunPowerNoiseEffect;
+	var gunROFNoiseTotal	: float = gunROFNew + gunROFNoiseEffect;
+	var gunAmmoNoiseTotal	: float = gunAmmoNew + gunAmmoNoiseEffect;
+	var gunAffixNoiseTotal	: float = gunAffixNew + gunAffixNoiseEffect;
+	var gunWeightNoiseTotal	: float = gunWeightNew + gunWeightNoiseEffect;
+	
+	# GZ ADD
+	var gunTotalNoiseless	: float = gunPowerNew + gunROFNew + gunAmmoNew + gunAffixNew;
+	# GZ NEW WEIGHT
+	gunWeightNoiseTotal = max(gunWeight[0], gunWeight[1]);
+	if gunTotal[0] > gunTotal[1]:
+		gunWeightNoiseTotal += fga.generation * SETTINGFUSEWEIGHT;
+	else:
+		gunWeightNoiseTotal += fgb.generation * SETTINGFUSEWEIGHT;
+
+	var gunTotalFinal := gunPowerNoiseTotal + gunROFNoiseTotal + gunAmmoNoiseTotal + gunAffixNoiseTotal + gunWeightNoiseTotal;
+	
+	## END OF THE CODE DUMP.
+	# Now, how do I use this in my code...?
+	
+	child_gun.att = gunPowerNoiseTotal
+	child_gun.spd = gunROFNoiseTotal
+	child_gun.max_ammo = int(gunAmmoNoiseTotal)
+	child_gun.afx = gunAffixNoiseTotal
+	child_gun.wgt = gunWeightNoiseTotal
+	
+	## TODO feels like this is missing something...
+	
+	
+# Take 2 gun types and use the Gunmap to find what type will result
+#static func fuse_type( type_1 : B2_Gun.TYPE, type_2 : B2_Gun.TYPE ) -> Array:
+	#push_error("Gun TYPE fusing is not working correcly yet.")
+	#var t : B2_Gun.TYPE = B2_Gun.TYPE.values().pick_random()
+	#while t == B2_Gun.TYPE.GUN_TYPE_NONE:
+		#t = B2_Gun.TYPE.values().pick_random()
+	#return t
