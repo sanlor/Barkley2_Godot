@@ -191,6 +191,16 @@ offset_right = 235.0
 offset_bottom = 155.0
 text = "Re-breeeed"
 
+[node name="HSlider" type="HSlider" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 223.0
+offset_right = 117.0
+offset_bottom = 239.0
+min_value = 1.0
+max_value = 128.0
+value = 8.0
+
 [node name="gun_map_text" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -235,3 +245,4 @@ pivot_offset = Vector2(4, 4)
 texture = SubResource("AtlasTexture_6tne2")
 
 [connection signal="pressed" from="rebreed_btn" to="gun_child" method="_on_rebreed_btn_pressed"]
+[connection signal="value_changed" from="HSlider" to="gun_map_text" method="_on_h_slider_value_changed"]

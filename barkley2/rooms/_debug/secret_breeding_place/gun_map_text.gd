@@ -10,3 +10,7 @@ extends TextureRect
 
 func _ready() -> void:
 	texture = B2_Gunmap.get_gun_map()
+
+func _on_h_slider_value_changed(value: float) -> void:
+	B2_Gunmap.PERMUTATIONS = int(value)
+	_ready()
