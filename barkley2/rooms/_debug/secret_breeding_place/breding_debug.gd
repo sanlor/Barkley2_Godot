@@ -1,5 +1,7 @@
 extends Control
 
+@onready var material_list_window: AcceptDialog = $material_list_window
+
 const MATERIAL := {
 	Vector2(1,1) : ["Candy",	1,	1	],
 	Vector2(1,2) : ["Soiled",	1,	7	],
@@ -108,4 +110,11 @@ func _ready() -> void:
 	#var file = FileAccess.open( "res://barkley2/resources/B2_Weapon/material_table.json", FileAccess.WRITE )
 	#file.store_string( JSON.stringify( my_mat, "\t", false) )
 	#file.close()
+	get_window().content_scale_size = Vector2i(900, 900)
+	get_window().size = Vector2i(900, 900)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	pass
+
+
+func _on_material_list_btn_pressed() -> void:
+	material_list_window.show()

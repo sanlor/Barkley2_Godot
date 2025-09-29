@@ -116,7 +116,7 @@ static func generate_map() -> void:
 	for i : B2_Gun.TYPE in B2_Gun.TYPE.values(): # 27 types of guns - Add seed position.
 		var region_pos := gun_group_claimed_pos[ GUNMAP_DEFINE[i][GROUP] ]
 		var gunman_pos := Vector2i( region_pos + Vector2i( fuckme.randi_range(-TYPE_SPREAD,TYPE_SPREAD), fuckme.randi_range(-TYPE_SPREAD,TYPE_SPREAD) ) ).clamp( Vector2.ZERO, SIZE - Vector2i.ONE )
-		while gun_type_map[gunman_pos] != B2_Gun.TYPE.GUN_TYPE_NONE: # Reroll position while you have a duplicated position in the map.
+		while gun_type_map.get(gunman_pos, B2_Gun.TYPE.GUN_TYPE_NONE) != B2_Gun.TYPE.GUN_TYPE_NONE: # Reroll position while you have a duplicated position in the map.
 			gunman_pos = region_pos + Vector2i( fuckme.randi_range(-TYPE_SPREAD,TYPE_SPREAD), fuckme.randi_range(-TYPE_SPREAD,TYPE_SPREAD) )
 		
 		gun_type_map[gunman_pos] = i							## Claimed position on the "global" map.
@@ -189,11 +189,18 @@ static func get_gun_map() -> Texture:
 	
 ## return a random position from claimed positions for the selected guntype.
 static func get_gun_type_pos_from_map( gun_type : B2_Gun.TYPE ) -> Vector2i:
+	if gun_type_map.is_empty():
+		push_error("Gunmap was no generated previously. doing it now.")
+		generate_map()
 	return gun_type_claimed_pos[gun_type].pick_random() as Vector2i
 	
 ## Get a Gun type and map position from the parent types.
 static func get_gun_type_from_parent_position( top_pos : Vector2i, bottom_pos : Vector2i, bias : float ) -> Array:
 	# just ate some offbrand icecream. sometimes, life is good.
+	if gun_type_map.is_empty():
+		push_error("Gunmap was no generated previously. doing it now.")
+		generate_map()
+		
 	var data : Array = [] # Data -> [B2_Gun.TYPE, Vector2i]
 	
 	var average_pos : Vector2i = Vector2(bottom_pos).lerp( Vector2(top_pos), bias )

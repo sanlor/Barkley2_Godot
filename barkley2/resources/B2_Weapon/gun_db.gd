@@ -850,12 +850,12 @@ static func apply_stats( wpn : B2_Weapon ) -> void:
 	@warning_ignore("integer_division")
 	var poinst_each 	:= points_left / 5 # was 7
 	
-	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_power_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_speed_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_affix_mod() 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
+	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_att_mod() 	- 1 ) / 2 ) + 1 ) )
+	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_spd_mod() 	- 1 ) / 2 ) + 1 ) )
+	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_afx_mod() 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
 	#wpn.lck 		= ceil( poinst_each * ( ( ( wpn.get_luck_mod() 		- 1 ) / 2 ) + 1 ) )
 	wpn.acc 		= ceil( poinst_each * ( ( ( wpn.get_acc_mod() 		- 1 ) / 2 ) + 1 ) )
-	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_ammo_mod() 		- 1 ) / 2 ) + 1 ) )
+	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_amm_mod() 		- 1 ) / 2 ) + 1 ) )
 		
 	wpn.att 		= clamp(wpn.att, 0, 90 )
 	wpn.spd 		= clamp(wpn.spd, 0, 90 )

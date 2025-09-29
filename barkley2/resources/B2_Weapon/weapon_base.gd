@@ -142,14 +142,29 @@ func get_secret_name() -> String:
 func get_short_name() -> String:
 	return weapon_short_name
 
-func get_power_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
-func get_max_power_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0
-func get_speed_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
-func get_ammo_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
-func get_affix_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
+func get_att() -> float:		return att
+#func get_max_power() -> float:	return pmx
+func get_spd() -> float:		return spd
+func get_amm() -> float:		return max_ammo
+func get_afx() -> float:		return afx
+func get_acc() -> float:		return acc
+
+func get_att_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
+func get_max_att_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0
+func get_spd_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
+func get_amm_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
+func get_afx_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
 #func get_luck_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0
 func get_acc_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0
-#func get_weight_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
+func get_wgt_mod() -> float:		return B2_Gun.MATERIAL_LIST[weapon_material]._wgt # ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
+
+func get_effective_att() -> float:			return att * get_att_mod()
+#func get_effective_max_power() -> float:	return pmx * get_max_power_mod()
+func get_effective_spd() -> float:			return spd * get_spd_mod()
+func get_effective_amm() -> float:			return max_ammo * get_amm_mod()
+func get_effective_afx() -> float:			return afx * get_afx_mod()
+func get_effective_acc() -> float:			return acc * get_acc_mod()
+func get_effective_wgt() -> float:			return wgt * get_wgt_mod()
 
 func get_held_sprite() -> String:
 	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite
@@ -291,16 +306,4 @@ func has_sufficient_ammo( amount : int ) -> bool:
 #region Weapon Combat
 func get_gun_knockback() -> float: ## TODO add a propper value
 	return 2000.0 * max(1.0, bullets_per_shot)
-	
-func get_att() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
-	@warning_ignore("narrowing_conversion")
-	return att
-	
-func get_acc() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
-	@warning_ignore("narrowing_conversion")
-	return acc
-	
-func get_spd() -> float: ## TODO calculate effective stats (type, material and afixes modifiers)
-	@warning_ignore("narrowing_conversion")
-	return spd
 #endregion

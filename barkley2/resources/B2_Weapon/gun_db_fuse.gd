@@ -3,6 +3,8 @@ class_name B2_Gun_Fuse
 ## Class that handles some of the gun breeding / fuse.
 # There is a file called "material.csv" on the game files, that had a bunch of atomic info about materials, but the way it was stores was terrible. Need to convert it to json os something like that
 
+const DEBUG := true
+
 enum {ROW,COLUMN,ELECTRONS,ATOMIC_WEIGHT} # <- no idea what info1 and info2 are yet.
 const MATERIAL := preload("res://barkley2/resources/B2_Weapon/material_table.json") ## Material periodic table (converted from csv to json)
 ## NOTE check "res://barkley2/resources/B2_Weapon/periodic.png"
@@ -13,6 +15,7 @@ const MATERIAL := preload("res://barkley2/resources/B2_Weapon/material_table.jso
 # check scr_combat_weapons_fusion_material line 194
 enum {EXCEPTION_A,EXCEPTION_B,EXCEPTION_RESULT}
 const MATERIAL_EXCEPIONS := [
+	# Studded
 	["Studded", "Studded", "Studded"],
 	["Leather", "Soiled", "Studded"],
 	["Leather", "Broken", "Studded"],
@@ -47,7 +50,7 @@ const MATERIALDIATOMICLIST := [
 const MATERIALVOLATILITY := [ # check scr_combat_weapons_fusion_material line 115
 	2, 2, 3, 1, 1, 2, 1
 ]
-const SETTINGFUSEWEIGHT := 0.75
+const SETTINGFUSEWEIGHT := 0.75 ## Used for stat fusing
 
 static func get_material_data( material_name : String ) -> Array:
 	if not MATERIAL.data.has(material_name):
@@ -55,7 +58,11 @@ static func get_material_data( material_name : String ) -> Array:
 	return MATERIAL.data.get( material_name, [0,0, -999, -999] )
 
 ## Mix 2 materials into 1. Uses a lot of GML code. Seems to work somehow???
+# 28/09/25 - it does not. it only generates 3 or 4 types or materials. something went wrong with my implementation...
+# It only generates 3D printed, Neon and Dual materials. They are the heaviest materials, it seems.
 static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MATERIAL ) -> B2_Gun.MATERIAL:
+	if DEBUG: print_rich( "[bgcolor=white][color=red]fuse_material: Begin[/color][/bgcolor]" )
+	
 	# Index some arrays for those stupid checks.
 	var materialBoxV 			:= {} # Atomic Weight
 	var materialBoxN 			:= {} # Material name
@@ -63,7 +70,7 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 	var materialBoxD			:= {} ## NOTE this seems to be unused.
 	var materialBoxDiatomic 	:= {} # Is material Diatomic
 	
-	## Those +1 are because a pos "0" does not exist.
+	## Those +1 are because position "0" does not exist.
 	for r in 18 + 1:		# Row
 		for c in 7 + 1:		# Column
 			materialBoxV[ Vector2(r,c) ] = -999
@@ -101,11 +108,13 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 	
 	# Check if both materials are the same.
 	if mat_1_data[ROW] == mat_2_data[ROW] and mat_1_data[COLUMN] == mat_2_data[COLUMN]:
+		if DEBUG: print( "fuse_material: Both materials are the same." )
 		finalR = mat_1_data[ROW]
 		finalC = mat_1_data[COLUMN]
 		didSelf = 1
 	
 	# Exception table
+	## NOTE 28/09/25 Seems that this is causing issues. Most materials are falling into the exception rule. <- this is incorrect. exception rules has nothing to do with the bug.
 	if finalR == -1:
 		# global.materialBoxN seems to be the material name.
 		var n0 = B2_Gun.MATERIAL_NAMES.get(material_1, B2_Gun.MATERIAL.NONE) # Material name
@@ -115,6 +124,7 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 			var v0 = i[EXCEPTION_A] # Maybe "v" means value?
 			var v1 = i[EXCEPTION_B]
 			if n0 == v0 && n1 == v1 or n0 == v1 && n1 == v0:
+				if DEBUG: print( "fuse_material: hit a material exception." )
 				var v2 		:= "" # name the an mateiral created during the exception check.
 				var rowNew 	:= 0	# Row for the exception material
 				var colNew 	:= 0	# Column for the exception material
@@ -127,24 +137,39 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 				finalR = rowNew;
 				finalC = colNew;
 				didSelf = 1;
+				if DEBUG: print( "fuse_material: Material exception - %s selected." % materialBoxN[ Vector2(finalR, finalC) ] )
 				break ## Is this needed? I added this.
+				if DEBUG: print( "fuse_material: Material exception selection finished." )
 
 	## Get mean value
 	# NOTE WTF is a mean value???
 	if finalR == -1:
+		## NOTE WTF is this loop doing?
+		# This seems to select the LAST LIGHT material on the list. it tends to select Mercury, Gold or Imaginary materials.
+		# This seems wrong. The original game probably uses some special order for the array.
+		##		Looks like the array is stored left to right, top to bottom. Lets try to modify this loop so loof for the LAST LIGHT material using the row / column as a parameter.
+		var new_vvv2 := 0.0
 		for i in MATERIAL.data:
-			var int0 = MATERIAL.data[i][ATOMIC_WEIGHT]
+			var int0 : float = MATERIAL.data[i][ATOMIC_WEIGHT]
 			if vvv2 >= int0:
-				meanR = MATERIAL.data[i][ROW]
-				meanC = MATERIAL.data[i][COLUMN]
+				#if MATERIAL.data[i][ROW] > meanR : 				## Added this on 28/09/25
+				#	if MATERIAL.data[i][COLUMN] > meanC:			## Added this on 28/09/25
+				if int0 > new_vvv2:
+					new_vvv2 = int0
+					meanR = MATERIAL.data[i][ROW]
+					meanC = MATERIAL.data[i][COLUMN]
+					print( "vvv2 %s - int0 %s - %s" % [vvv2, int0, Vector2i(meanR, meanC)] )
 
 		## If you have enough electrons, drop down
-		if meanR + 1 < 7:
+		#if meanR + 1 < 7: # Why it was + 1?
+		if meanR < 7:
+			if DEBUG: print( "fuse_material: Dropping eletrons. (was %s)" % materialBoxN[ Vector2(meanR, meanC)] )
 			if materialBoxV[ Vector2(meanR + 1, meanC)] != -999:
 				var v = MATERIALVOLATILITY[meanR]; # volitility level
 				electrons = mat_1_data[ELECTRONS] + mat_2_data[ELECTRONS]
 				if (electrons / v) != round(electrons / v):
 					elecR = meanR + 1;
+					#elecR = meanR;
 					elecC = meanC;
 
 		if elecR == -1: finalR = meanR; finalC = meanC;
@@ -153,6 +178,8 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 	# If it's diatomic, go to heaviest non diatomic material that weighs less than the target
 	if didSelf == 0:
 		if materialBoxDiatomic[ Vector2(finalR, finalC) ] == 1:
+			if DEBUG: print( "fuse_material: Diatomic selection started. Curr pos is %s (%s)" % [Vector2(finalR, finalC), materialBoxN[ Vector2(finalR, finalC) ] ] )
+			
 			## NOTE This seems a weird way to do this check. looks like its going to go OOB easily.
 			#while materialBoxDiatomic[ Vector2(finalR, finalC) ] == 1:
 			#	ind = ds_list_find_index(global.materialName, global.materialBoxN[finalR, finalC]);
@@ -161,16 +188,27 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 			
 			var curr_weight		: int = materialBoxV[ Vector2(finalR, finalC) ]
 			var new_mat 		: String = ""
-			var new_mat_weight 	: int = 0
+			var new_mat_weight 	: int = 9999
 			for i in MATERIAL.data:
-				if MATERIAL.data[i][ATOMIC_WEIGHT] < curr_weight and MATERIAL.data[i][ATOMIC_WEIGHT] > new_mat_weight:
+				if MATERIAL.data[i][ATOMIC_WEIGHT] > curr_weight and MATERIAL.data[i][ATOMIC_WEIGHT] < new_mat_weight:
 					new_mat = i
 					new_mat_weight = MATERIAL.data[i][ATOMIC_WEIGHT]
-			finalR = MATERIAL.data[new_mat][ROW]
-			finalC = MATERIAL.data[new_mat][COLUMN]
+					if DEBUG: print_rich( "fuse_material: Diatomic - [color=green]%s[/color] selected." % i )
+					break # this seems necessary
+				else:
+					if DEBUG: print_rich( "fuse_material: Diatomic - %s [b]NOT[/b] selected." % i )
 			
+			if new_mat:
+				finalR = MATERIAL.data[new_mat][ROW]
+				finalC = MATERIAL.data[new_mat][COLUMN]
+				if DEBUG: print( "fuse_material: Diatomic selection finalized." )
+			else:
+				push_error("Issue with Material fusing (Diatomic). Fix this.")
+			
+	if DEBUG: print( "fuse_material: Material %s created." % materialBoxN[ Vector2(finalR, finalC) ])
 	var final_material : B2_Gun.MATERIAL = B2_Gun.MATERIAL_NAMES.find_key( materialBoxN[ Vector2(finalR, finalC) ] )
 	
+	if DEBUG: print_rich( "[bgcolor=white][color=blue]fuse_material: Finish.[/color][/bgcolor]" )
 	# wow, what a mess, huh?
 	return final_material
 
@@ -194,12 +232,12 @@ static func fuse_stats( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun :
 	var gunWeight 		:= [top_gun.wgt,		bottom_gun.wgt]
 
 	var gunPowerMod 	:= [
-		top_gun.get_power_mod() 	+ top_gun.get_max_power_mod() / 2, 
-		bottom_gun.get_power_mod() 	+ bottom_gun.get_max_power_mod() / 2
+		top_gun.get_att_mod() 	+ top_gun.get_max_att_mod() / 2, 
+		bottom_gun.get_att_mod() 	+ bottom_gun.get_max_att_mod() / 2
 		]
-	var gunROFMod 		:= [top_gun.get_speed_mod(),	bottom_gun.get_speed_mod()]
-	var gunAmmoMod 		:= [top_gun.get_ammo_mod(),		bottom_gun.get_ammo_mod()]
-	var gunAffixMod 	:= [top_gun.get_affix_mod(),	bottom_gun.get_affix_mod()]
+	var gunROFMod 		:= [top_gun.get_spd_mod(),	bottom_gun.get_spd_mod()]
+	var gunAmmoMod 		:= [top_gun.get_amm_mod(),		bottom_gun.get_amm_mod()]
+	var gunAffixMod 	:= [top_gun.get_afx_mod(),	bottom_gun.get_afx_mod()]
 	var gunWeightMod 	:= [1,	1] # gun[? "pWeightMod"];
 	
 	# Generate totals, priorities, bonus

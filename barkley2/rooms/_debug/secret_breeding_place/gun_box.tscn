@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://g1os55vj4wja"]
+[gd_scene load_steps=8 format=3 uid="uid://g1os55vj4wja"]
 
 [ext_resource type="Script" uid="uid://nd337cuxlarv" path="res://barkley2/rooms/_debug/secret_breeding_place/gun_box.gd" id="1_54v2y"]
+[ext_resource type="Theme" uid="uid://bel3c3184om4i" path="res://barkley2/themes/debug/gun_debug.tres" id="1_dvprq"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="2_dvprq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tqfm8"]
@@ -14,11 +15,15 @@ bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0.25)
 font = ExtResource("2_dvprq")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_48ff5"]
-size = Vector2(49, 24)
+size = Vector2(98, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dvprq"]
+font = ExtResource("2_dvprq")
 
 [node name="gun_box" type="PanelContainer"]
 offset_right = 156.0
 offset_bottom = 90.0
+theme = ExtResource("1_dvprq")
 theme_override_styles/panel = SubResource("StyleBoxFlat_tqfm8")
 script = ExtResource("1_54v2y")
 
@@ -26,7 +31,6 @@ script = ExtResource("1_54v2y")
 layout_mode = 2
 
 [node name="gun_title_lbl" type="Label" parent="gun_container"]
-custom_minimum_size = Vector2(148, 26)
 layout_mode = 2
 text = "Gun Top"
 label_settings = SubResource("LabelSettings_48ff5")
@@ -35,9 +39,14 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="gun_texture" type="TextureRect" parent="gun_container"]
+custom_minimum_size = Vector2(98, 48)
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_48ff5")
 stretch_mode = 5
+
+[node name="rand_btn" type="Button" parent="gun_container"]
+layout_mode = 2
+text = "Randomize"
 
 [node name="option_containers" type="VBoxContainer" parent="gun_container"]
 layout_mode = 2
@@ -58,8 +67,42 @@ item_count = 1
 popup/item_0/text = "Placeholder"
 popup/item_0/id = 0
 
+[node name="stat_container" type="VBoxContainer" parent="gun_container"]
+layout_mode = 2
+
+[node name="attack_stat_lbl" type="Label" parent="gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_dvprq")
+justification_flags = 161
+
+[node name="speed_stat_lbl" type="Label" parent="gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_dvprq")
+justification_flags = 161
+
+[node name="ammo_stat_lbl" type="Label" parent="gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_dvprq")
+justification_flags = 161
+
+[node name="affix_stat_lbl" type="Label" parent="gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_dvprq")
+justification_flags = 161
+
+[node name="weight_stat_lbl" type="Label" parent="gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_dvprq")
+justification_flags = 161
+
 [node name="gen_btn" type="Button" parent="gun_container"]
 layout_mode = 2
 text = "Genereate Gun"
 
+[connection signal="pressed" from="gun_container/rand_btn" to="." method="_on_rand_btn_pressed"]
 [connection signal="pressed" from="gun_container/gen_btn" to="." method="_on_gen_btn_pressed"]

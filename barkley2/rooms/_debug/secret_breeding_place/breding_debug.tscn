@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://drskb5jxyoewf"]
+[gd_scene load_steps=17 format=3 uid="uid://drskb5jxyoewf"]
 
 [ext_resource type="Script" uid="uid://fy6wggxwcpf1" path="res://barkley2/rooms/_debug/secret_breeding_place/breding_debug.gd" id="1_jps7p"]
 [ext_resource type="Theme" uid="uid://bel3c3184om4i" path="res://barkley2/themes/debug/gun_debug.tres" id="1_og2xi"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://gg7yyn84cce" path="res://barkley2/rooms/_debug/secret_breeding_place/camera_debug.gd" id="6_ydw5n"]
 [ext_resource type="Script" uid="uid://dhbyvaycc82gi" path="res://barkley2/rooms/_debug/secret_breeding_place/gun_map_text.gd" id="8_mxupr"]
 [ext_resource type="Texture2D" uid="uid://skgcdpe1ctna" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunMapMarker.png" id="9_elh2k"]
+[ext_resource type="Script" uid="uid://cx0tegdednio7" path="res://barkley2/rooms/_debug/secret_breeding_place/material_list.gd" id="10_elh2k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5rms5"]
 font = ExtResource("5_ydw5n")
@@ -28,6 +29,10 @@ region = Rect2(0, 0, 9, 9)
 atlas = ExtResource("9_elh2k")
 region = Rect2(18, 0, 9, 9)
 
+[sub_resource type="Curve" id="Curve_elh2k"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.1484716), -0.452217, 0.0, 0, 0]
+point_count = 2
+
 [node name="breding_debug" type="Control"]
 layout_mode = 3
 anchors_preset = 0
@@ -39,14 +44,47 @@ layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 161.0
-offset_bottom = 118.0
+offset_bottom = 234.0
+
+[node name="gun_bottom" parent="." instance=ExtResource("3_tqfm8")]
+layout_mode = 0
+offset_left = 215.0
+offset_top = 5.0
+offset_right = 371.0
+offset_bottom = 234.0
+
+[node name="gun_child" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 421.0
+offset_top = 33.0
+offset_right = 569.0
+offset_bottom = 236.0
+script = ExtResource("4_1mg8s")
+
+[node name="gun_container" type="VBoxContainer" parent="gun_child"]
+layout_mode = 2
+
+[node name="gun_title_lbl" type="Label" parent="gun_child/gun_container"]
+custom_minimum_size = Vector2(148, 26)
+layout_mode = 2
+text = "Gun Top"
+label_settings = SubResource("LabelSettings_5rms5")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="gun_texture" type="TextureRect" parent="gun_child/gun_container"]
+custom_minimum_size = Vector2(98, 48)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_b3mt3")
+stretch_mode = 5
 
 [node name="gun_top_parent_top" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = -154.0
-offset_top = 2.0
-offset_right = -6.0
-offset_bottom = 70.0
+offset_left = 4.0
+offset_top = -148.0
+offset_right = 152.0
+offset_bottom = -78.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_top")
 is_top = true
@@ -70,10 +108,10 @@ stretch_mode = 5
 
 [node name="gun_top_parent_bottom" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = -154.0
-offset_top = 76.0
-offset_right = -6.0
-offset_bottom = 144.0
+offset_left = 4.0
+offset_top = -74.0
+offset_right = 152.0
+offset_bottom = -4.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_top")
 
@@ -94,19 +132,12 @@ layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_b3mt3")
 stretch_mode = 5
 
-[node name="gun_bottom" parent="." instance=ExtResource("3_tqfm8")]
-layout_mode = 0
-offset_left = 223.0
-offset_top = 4.0
-offset_right = 379.0
-offset_bottom = 117.0
-
 [node name="gun_bottom_parent_top" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = 390.0
-offset_top = 2.0
-offset_right = 538.0
-offset_bottom = 70.0
+offset_left = 215.0
+offset_top = -148.0
+offset_right = 363.0
+offset_bottom = -78.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_bottom")
 is_top = true
@@ -130,10 +161,10 @@ stretch_mode = 5
 
 [node name="gun_bottom_parent_bottom" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = 390.0
-offset_top = 76.0
-offset_right = 538.0
-offset_bottom = 144.0
+offset_left = 215.0
+offset_top = -74.0
+offset_right = 363.0
+offset_bottom = -4.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_bottom")
 
@@ -154,58 +185,34 @@ layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_b3mt3")
 stretch_mode = 5
 
-[node name="gun_child" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_left = 119.0
-offset_top = 156.0
-offset_right = 267.0
-offset_bottom = 210.0
-script = ExtResource("4_1mg8s")
-
-[node name="gun_container" type="VBoxContainer" parent="gun_child"]
-layout_mode = 2
-
-[node name="gun_title_lbl" type="Label" parent="gun_child/gun_container"]
-custom_minimum_size = Vector2(148, 26)
-layout_mode = 2
-text = "Gun Top"
-label_settings = SubResource("LabelSettings_5rms5")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
-[node name="gun_texture" type="TextureRect" parent="gun_child/gun_container"]
-layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_b3mt3")
-stretch_mode = 5
-
 [node name="camera_debug" type="Camera2D" parent="."]
-position = Vector2(192, 120)
+position = Vector2(443, 292)
 script = ExtResource("6_ydw5n")
 
 [node name="rebreed_btn" type="Button" parent="."]
 layout_mode = 0
-offset_left = 149.0
-offset_top = 138.0
-offset_right = 235.0
-offset_bottom = 155.0
+offset_left = 423.0
+offset_top = 12.0
+offset_right = 509.0
+offset_bottom = 29.0
 text = "Re-breeeed"
 
 [node name="VSlider" type="VSlider" parent="."]
 layout_mode = 0
-offset_left = 102.0
-offset_top = 145.0
-offset_right = 118.0
-offset_bottom = 225.0
+offset_left = 571.0
+offset_top = -152.0
+offset_right = 587.0
+offset_bottom = -4.0
 max_value = 1.0
 step = 0.01
 value = 0.5
 
 [node name="HSlider" type="HSlider" parent="."]
 layout_mode = 0
-offset_top = 224.0
-offset_right = 116.0
-offset_bottom = 240.0
+offset_left = 589.0
+offset_top = 10.0
+offset_right = 749.0
+offset_bottom = 26.0
 min_value = 1.0
 max_value = 128.0
 value = 8.0
@@ -217,13 +224,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 53.0
-offset_top = 184.0
-offset_right = 53.0
-offset_bottom = 184.0
+offset_left = 591.0
+offset_top = -155.0
+offset_right = 671.0
+offset_bottom = -75.0
 grow_horizontal = 2
 grow_vertical = 2
-stretch_mode = 2
+scale = Vector2(2, 2)
 script = ExtResource("8_mxupr")
 
 [node name="Line2D" type="Line2D" parent="gun_map_text"]
@@ -250,6 +257,45 @@ offset_bottom = 9.0
 pivot_offset = Vector2(-8, -8)
 texture = SubResource("AtlasTexture_6tne2")
 
+[node name="material_list_window" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Material list"
+initial_position = 1
+size = Vector2i(108, 100)
+exclusive = false
+ok_button_text = "Close"
+
+[node name="material list" type="GridContainer" parent="material_list_window"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 65.0
+columns = 19
+script = ExtResource("10_elh2k")
+
+[node name="line_1" type="Line2D" parent="material_list_window"]
+width_curve = SubResource("Curve_elh2k")
+default_color = Color(0.6745098, 0.6745098, 0.6745098, 0.5019608)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="line_2" type="Line2D" parent="material_list_window"]
+width_curve = SubResource("Curve_elh2k")
+default_color = Color(0.6745098, 0.6745098, 0.6745098, 0.5019608)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="material_list_btn" type="Button" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 265.0
+offset_right = 136.0
+offset_bottom = 282.0
+text = "Show Material List"
+
 [connection signal="pressed" from="rebreed_btn" to="gun_child" method="_on_rebreed_btn_pressed"]
 [connection signal="value_changed" from="VSlider" to="gun_map_text" method="_on_v_slider_value_changed"]
 [connection signal="value_changed" from="HSlider" to="gun_map_text" method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="material_list_btn" to="." method="_on_material_list_btn_pressed"]
