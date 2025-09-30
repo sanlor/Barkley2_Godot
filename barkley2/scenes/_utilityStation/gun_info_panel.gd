@@ -52,6 +52,7 @@ const PANEL_GUN_SEL = preload("res://barkley2/scenes/_utilityStation/panel_gun_s
 ## Lineage
 @onready var gun_lineage: Control = $data/gun_lineage
 
+@onready var gunmap_lineage_line: Line2D = $data/gun_map/gun_map_text/gunmap_lineage_line
 @onready var daddy_cont: 		HBoxContainer = $data/gun_lineage/gun_name_lineage_1/daddy_cont
 @onready var lin_gun_texture: 	TextureRect = $data/gun_lineage/gun_text_lineage_1/gun_texture
 @onready var lin_wgt_value: 	Label = $data/gun_lineage/gun_text_lineage_1/wgt_value
@@ -167,11 +168,18 @@ func update_data( gun : B2_Weapon ) -> void:
 		
 	selected_gun = gun
 	
+	var parent_top := B2_Gun.dict_to_gun( gun.lineage_top )
+	var parent_bot := B2_Gun.dict_to_gun( gun.lineage_bot )
+	
 	#var map_size := Vector2(60,60) ## NOTE disabled this on 27/09/25 is this still needed?
+	gunmap_lineage_line.clear_points()
 	gun_map_text.texture 			= B2_Gunmap.get_gun_map(  )
-	gun_marker_bottom.position 		= B2_Gunmap.get_gun_map_position( 0, gun.weapon_name )
-	gun_marker_top.position 		= B2_Gunmap.get_gun_map_position( 1, gun.weapon_name )
-	gun_marker_occupied.position 	= B2_Gunmap.get_gun_map_position( 2, gun.weapon_name )
+	gun_marker_bottom.position 		= parent_bot.gunmap_pos - Vector2i(4,4)
+	gun_marker_top.position 		= parent_top.gunmap_pos - Vector2i(4,4)
+	gun_marker_occupied.position 	= gun.gunmap_pos - Vector2i(4,4)
+	gunmap_lineage_line.add_point( parent_bot.gunmap_pos )
+	gunmap_lineage_line.add_point( gun.gunmap_pos )
+	gunmap_lineage_line.add_point( parent_top.gunmap_pos )
 	
 	gun_bullet_text.texture.region.position.x = 15 * B2_Gun.TYPE_ICON_LIST.get( gun.weapon_type, 0 )
 	dmg_value.text 			= str( int(gun.get_att()) )
@@ -214,29 +222,30 @@ func update_data( gun : B2_Weapon ) -> void:
 	
 	## Lineage
 	if gun.lineage_top:
-		lin_wgt_value.text = "???ç"
-		prefix_1_label.text = "???"
-		prefix_2_label.text = "???"
-		name_label.text = "???"
-		suffix_label.text = "???"
+		lin_wgt_value.text 			= "%sç" % int(parent_top.get_wgt())
+		prefix_1_label.text 		= Text.pr( parent_top.prefix1 )
+		prefix_2_label.text 		= Text.pr( parent_top.prefix2 )
+		name_label.text 			= Text.pr( parent_top.weapon_name )
+		suffix_label.text 			= Text.pr( parent_top.suffix )
 	else:
-		lin_wgt_value.text = "0ç"
-		prefix_1_label.text = ""
-		prefix_2_label.text = ""
-		name_label.text = "Not Implemented"
-		suffix_label.text = ""
+		lin_wgt_value.text 			= "0ç"
+		prefix_1_label.text 		= ""
+		prefix_2_label.text 		= ""
+		name_label.text 			= "Not Implemented"
+		suffix_label.text 			= ""
 	
 	if gun.lineage_bot:
-		lin_wgt_value_2.text = "???ç"
-		prefix_1_label_2.text = "???"
-		prefix_2_label_2.text = "???"
-		suffix_label_2.text = "???"
+		lin_wgt_value_2.text 		= "%sç" % int(parent_bot.get_wgt())
+		prefix_1_label_2.text 		= Text.pr( parent_bot.prefix1 )
+		prefix_2_label_2.text 		= Text.pr( parent_bot.prefix2 )
+		name_label_2.text 			= Text.pr( parent_bot.weapon_name )
+		suffix_label_2.text 		= Text.pr( parent_bot.suffix )
 	else:
-		lin_wgt_value_2.text = "0ç"
-		prefix_1_label_2.text = ""
-		prefix_2_label_2.text = ""
-		name_label_2.text = "Not Implemented"
-		suffix_label_2.text = ""
+		lin_wgt_value_2.text 		= "0ç"
+		prefix_1_label_2.text 		= ""
+		prefix_2_label_2.text 		= ""
+		name_label_2.text 			= "Not Implemented"
+		suffix_label_2.text 		= ""
 	
 	update_smelt_gauge()
 
@@ -263,9 +272,11 @@ func update_smelt_gauge() -> void:
 	
 var t := 0.0
 func _process(delta: float) -> void:
-	t += 3.0 * delta
-	var c := Color.WHITE * ( 1.0 + sin( t ) )
-	if spin_gun: gun_texture.scale.x = sin( t * spin_speed )
-	gun_marker_bottom.modulate 		= c
-	gun_marker_top.modulate 		= c
-	gun_marker_occupied.modulate 	= c
+	if visible:
+		t += 3.0 * delta
+		var c := Color.WHITE * ( 1.0 + sin( t ) )
+		if spin_gun: gun_texture.scale.x = sin( t * spin_speed )
+		gunmap_lineage_line.modulate	= c
+		gun_marker_bottom.modulate 		= c
+		gun_marker_top.modulate 		= c
+		gun_marker_occupied.modulate 	= c

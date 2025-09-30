@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://d2hha6frqxoja"]
+[gd_scene load_steps=67 format=3 uid="uid://d2hha6frqxoja"]
 
 [ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="1_n037p"]
 [ext_resource type="Script" uid="uid://dsk5qqh2yowtx" path="res://barkley2/scenes/Objects/System/_shop/shop_screen.gd" id="1_qjdko"]
@@ -605,6 +605,8 @@ region = Rect2(18, 0, 9, 9)
 [sub_resource type="LabelSettings" id="LabelSettings_mg0ru"]
 font = ExtResource("9_icx7d")
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_2f8jg"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_2le3s"]
 line_spacing = 0.0
 font = ExtResource("17_x1u4u")
@@ -622,6 +624,8 @@ func _draw() -> void:
 	draw_line( Vector2(-1, 	size.y + 3), Vector2(size.x + 1, 	size.y + 3), Color.BLACK, 3, false )
 	draw_line( Vector2(0, 	size.y + 3), Vector2(size.x, 		size.y + 3), Color.WHITE )
 "
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mg0ru"]
 
 [sub_resource type="Animation" id="Animation_fljct"]
 length = 0.001
@@ -1149,7 +1153,6 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_yvjwj")
 
 [node name="info_panel" type="Control" parent="."]
-visible = false
 z_index = 4096
 layout_mode = 3
 anchors_preset = 15
@@ -1465,23 +1468,34 @@ text = "Lineage"
 label_settings = SubResource("LabelSettings_mg0ru")
 horizontal_alignment = 1
 
-[node name="daddy_cont" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage"]
+[node name="top_gun" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage"]
 layout_mode = 2
-alignment = 1
 
-[node name="prefix_1_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/daddy_cont"]
+[node name="gun_texture" type="TextureRect" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun"]
+custom_minimum_size = Vector2(49, 24)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_2f8jg")
+
+[node name="daddy_cont" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="prefix_1_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont"]
+custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 
-[node name="prefix_2_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/daddy_cont"]
+[node name="prefix_2_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont"]
+custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 
-[node name="name_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/daddy_cont"]
+[node name="name_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont"]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_vertical = 0
 text = "Not implemented"
@@ -1490,31 +1504,43 @@ horizontal_alignment = 1
 vertical_alignment = 2
 script = SubResource("GDScript_4bf8j")
 
-[node name="suffix_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/daddy_cont"]
+[node name="suffix_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="mommy_cont" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage"]
+[node name="bottom_gun" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage"]
 layout_mode = 2
-alignment = 1
 
-[node name="prefix_1_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/mommy_cont"]
+[node name="gun_texture" type="TextureRect" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun"]
+custom_minimum_size = Vector2(49, 24)
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_mg0ru")
+
+[node name="mommy_cont" type="HBoxContainer" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="prefix_1_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont"]
+custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 
-[node name="prefix_2_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/mommy_cont"]
+[node name="prefix_2_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont"]
+custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 
-[node name="name_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/mommy_cont"]
+[node name="name_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont"]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 size_flags_vertical = 0
 text = "Not implemented"
@@ -1523,12 +1549,13 @@ horizontal_alignment = 1
 vertical_alignment = 2
 script = SubResource("GDScript_4bf8j")
 
-[node name="suffix_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/mommy_cont"]
+[node name="suffix_label" type="Label" parent="info_panel/bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 1
 label_settings = SubResource("LabelSettings_2le3s")
-vertical_alignment = 2
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="pad2" type="Control" parent="info_panel/bg1/VBoxContainer/gun_lineage"]

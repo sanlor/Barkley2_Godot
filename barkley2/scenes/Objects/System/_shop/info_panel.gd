@@ -25,14 +25,17 @@ signal menu_closed
 @onready var wgt_value: Label = $bg1/VBoxContainer/gun_stats/wgt/wgt_value
 
 ## Lineage
-@onready var d_prefix_1_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/daddy_cont/prefix_1_label
-@onready var d_prefix_2_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/daddy_cont/prefix_2_label
-@onready var d_name_label: 		Label = $bg1/VBoxContainer/gun_lineage/lineage/daddy_cont/name_label
-@onready var d_suffix_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/daddy_cont/suffix_label
-@onready var m_prefix_1_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/mommy_cont/prefix_1_label
-@onready var m_prefix_2_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/mommy_cont/prefix_2_label
-@onready var m_name_label: 		Label = $bg1/VBoxContainer/gun_lineage/lineage/mommy_cont/name_label
-@onready var m_suffix_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/mommy_cont/suffix_label
+@onready var d_gun_texture: TextureRect = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/gun_texture
+@onready var d_prefix_1_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/prefix_1_label
+@onready var d_prefix_2_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/prefix_2_label
+@onready var d_name_label: 		Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/name_label
+@onready var d_suffix_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/suffix_label
+
+@onready var m_gun_texture: TextureRect = $bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/gun_texture
+@onready var m_prefix_1_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont/prefix_1_label
+@onready var m_prefix_2_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont/prefix_2_label
+@onready var m_name_label: 		Label = $bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont/name_label
+@onready var m_suffix_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/bottom_gun/mommy_cont/suffix_label
 
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -62,11 +65,6 @@ func _setup_menu() -> void:
 	afx_value.text		= str( my_gun.get_afx_count() )
 	wgt_value.text		= str( my_gun.wgt ) + "ç"
 	
-	gun_map.texture 				= 	B2_Gunmap.get_gun_map()
-	gun_marker_bottom.position 		= B2_Gunmap.get_gun_map_position( 0, my_gun.weapon_name )
-	gun_marker_top.position 		= B2_Gunmap.get_gun_map_position( 1, my_gun.weapon_name )
-	gun_marker_occupied.position 	= B2_Gunmap.get_gun_map_position( 2, my_gun.weapon_name )
-	
 	if my_gun.prefix1:
 		prefix_1_name.text = Text.pr( my_gun.prefix1 )
 		prefix_1_description.text = Text.pr( B2_Gun.prefix1[my_gun.prefix1][2] )
@@ -87,6 +85,41 @@ func _setup_menu() -> void:
 	else:
 		suffix_name.modulate = Color.TRANSPARENT
 		suffix_description.modulate = Color.TRANSPARENT
+		
+	## Lineage setup
+	var daddy_gun := B2_Gun.dict_to_gun(my_gun.lineage_top)
+	var mommy_gun := B2_Gun.dict_to_gun(my_gun.lineage_bot)
+	
+	d_prefix_1_label.modulate 	= Color.WHITE
+	d_prefix_2_label.modulate 	= Color.WHITE
+	d_suffix_label.modulate 	= Color.WHITE
+	m_prefix_1_label.modulate 	= Color.WHITE
+	m_prefix_2_label.modulate 	= Color.WHITE
+	m_suffix_label.modulate 	= Color.WHITE
+	
+	d_name_label.text = Text.pr( daddy_gun.weapon_name )
+	d_gun_texture.texture = daddy_gun.get_weapon_hud_sprite()
+	if daddy_gun.prefix1:		d_prefix_1_label.text = Text.pr( daddy_gun.prefix1 )
+	else:						d_prefix_1_label.modulate = Color.TRANSPARENT
+	if daddy_gun.prefix2:		d_prefix_2_label.text = Text.pr( daddy_gun.prefix2 )
+	else:						d_prefix_2_label.modulate = Color.TRANSPARENT
+	if daddy_gun.suffix:		d_suffix_label.text = Text.pr( daddy_gun.suffix )
+	else:						d_suffix_label.modulate = Color.TRANSPARENT
+	
+	m_name_label.text = Text.pr( mommy_gun.weapon_name )
+	m_gun_texture.texture = mommy_gun.get_weapon_hud_sprite()
+	if mommy_gun.prefix1:		m_prefix_1_label.text = Text.pr( mommy_gun.prefix1 )
+	else:						m_prefix_1_label.modulate = Color.TRANSPARENT
+	if mommy_gun.prefix2:		m_prefix_2_label.text = Text.pr( mommy_gun.prefix2 )
+	else:						m_prefix_2_label.modulate = Color.TRANSPARENT
+	if mommy_gun.suffix:		m_suffix_label.text = Text.pr( mommy_gun.suffix )
+	else:						m_suffix_label.modulate = Color.TRANSPARENT
+	
+	## Set GunMap
+	gun_map.texture 				= B2_Gunmap.get_gun_map()
+	gun_marker_bottom.position 		= daddy_gun.gunmap_pos - Vector2i(4,4)
+	gun_marker_top.position 		= mommy_gun.gunmap_pos - Vector2i(4,4)
+	gun_marker_occupied.position 	= my_gun.gunmap_pos - Vector2i(4,4)
 	
 func _input(event: InputEvent) -> void:
 	if visible:

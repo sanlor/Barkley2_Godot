@@ -217,10 +217,15 @@ static func get_gun_type_from_parent_position( top_pos : Vector2i, bottom_pos : 
 			breakpoint
 			break
 	data = [ gun_type_map[average_pos], average_pos ]
-	return data # Data -> [B2_Gun.TYPE, Vector2i]
+	return data # data -> [B2_Gun.TYPE, Vector2i]
 	
 static func get_gun_map_position( dont_care := 2, wpn_name := "", size := Vector2(80,80) ) -> Vector2:
 	var fuckyou := RandomNumberGenerator.new()
 	fuckyou.seed = hash("IS THIS HAPPENING FOR REAL?????") + hash(dont_care) + hash(wpn_name) ## Make this "random" function predictive
 	@warning_ignore("narrowing_conversion")
 	return Vector2( fuckyou.randi_range(0, size.x), fuckyou.randi_range(0, size.y) )
+
+## Return the rarity by type. Some guns are rarer (is that evena word?) than others.
+static func get_rarity_by_type( gun_type : B2_Gun.TYPE ) -> int:
+	assert( GUNMAP_DEFINE.has(gun_type), "Invalid Gun Type." )
+	return GUNMAP_DEFINE.get( gun_type, 00 )

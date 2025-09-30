@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://drskb5jxyoewf"]
+[gd_scene load_steps=21 format=3 uid="uid://drskb5jxyoewf"]
 
 [ext_resource type="Script" uid="uid://fy6wggxwcpf1" path="res://barkley2/rooms/_debug/secret_breeding_place/breding_debug.gd" id="1_jps7p"]
 [ext_resource type="Theme" uid="uid://bel3c3184om4i" path="res://barkley2/themes/debug/gun_debug.tres" id="1_og2xi"]
@@ -11,11 +11,32 @@
 [ext_resource type="Texture2D" uid="uid://skgcdpe1ctna" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunMapMarker.png" id="9_elh2k"]
 [ext_resource type="Script" uid="uid://cx0tegdednio7" path="res://barkley2/rooms/_debug/secret_breeding_place/material_list.gd" id="10_elh2k"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_elh2k"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [sub_resource type="LabelSettings" id="LabelSettings_5rms5"]
 font = ExtResource("5_ydw5n")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_b3mt3"]
 size = Vector2(49, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_c4b0c"]
+font = ExtResource("5_ydw5n")
+
+[sub_resource type="LabelSettings" id="LabelSettings_elh2k"]
+font = ExtResource("5_ydw5n")
+
+[sub_resource type="LabelSettings" id="LabelSettings_hihea"]
+font = ExtResource("5_ydw5n")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hihea"]
 atlas = ExtResource("9_elh2k")
@@ -59,6 +80,7 @@ offset_left = 421.0
 offset_top = 33.0
 offset_right = 569.0
 offset_bottom = 236.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_elh2k")
 script = ExtResource("4_1mg8s")
 
 [node name="gun_container" type="VBoxContainer" parent="gun_child"]
@@ -78,6 +100,77 @@ custom_minimum_size = Vector2(98, 48)
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_b3mt3")
 stretch_mode = 5
+
+[node name="stat_container" type="VBoxContainer" parent="gun_child/gun_container"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="points_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_c4b0c")
+justification_flags = 161
+
+[node name="type_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="material_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="attack_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="speed_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="ammo_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="affix_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="weight_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_elh2k")
+justification_flags = 161
+
+[node name="affix1_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_hihea")
+justification_flags = 161
+
+[node name="affix2_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_hihea")
+justification_flags = 161
+
+[node name="affix3_stat_lbl" type="Label" parent="gun_child/gun_container/stat_container"]
+layout_mode = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_hihea")
+justification_flags = 161
 
 [node name="gun_top_parent_top" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0

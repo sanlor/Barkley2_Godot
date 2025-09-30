@@ -142,29 +142,30 @@ func get_secret_name() -> String:
 func get_short_name() -> String:
 	return weapon_short_name
 
-func get_att() -> float:		return att
-#func get_max_power() -> float:	return pmx
-func get_spd() -> float:		return spd
-func get_amm() -> float:		return max_ammo
-func get_afx() -> float:		return afx
-func get_acc() -> float:		return acc
+func get_att() -> float:		return snappedf( att, 0.01)
+#func get_max_power() -> float:	return snappedf( pmx
+func get_spd() -> float:		return snappedf( spd, 0.01)
+func get_amm() -> float:		return snappedf( max_ammo, 0.01)
+func get_afx() -> float:		return snappedf( afx, 0.01)
+func get_acc() -> float:		return snappedf( acc, 0.01)
+func get_wgt() -> float:		return snappedf( wgt, 0.01)
 
-func get_att_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0
-func get_max_att_mod() -> float:	return ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0
-func get_spd_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0
-func get_amm_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0
-func get_afx_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0
-#func get_luck_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0
-func get_acc_mod() -> float:		return ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0
-func get_wgt_mod() -> float:		return B2_Gun.MATERIAL_LIST[weapon_material]._wgt # ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
+func get_att_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0, 0.01)
+func get_max_att_mod() -> float:	return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0, 0.01)
+func get_spd_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0, 0.01)
+func get_amm_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0, 0.01)
+func get_afx_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0, 0.01)
+#func get_luck_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0, 0.01)
+func get_acc_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0, 0.01)
+func get_wgt_mod() -> float:		return snappedf( B2_Gun.MATERIAL_LIST[weapon_material]._wgt, 0.01) # ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
 
-func get_effective_att() -> float:			return att * get_att_mod()
-#func get_effective_max_power() -> float:	return pmx * get_max_power_mod()
-func get_effective_spd() -> float:			return spd * get_spd_mod()
-func get_effective_amm() -> float:			return max_ammo * get_amm_mod()
-func get_effective_afx() -> float:			return afx * get_afx_mod()
-func get_effective_acc() -> float:			return acc * get_acc_mod()
-func get_effective_wgt() -> float:			return wgt * get_wgt_mod()
+func get_effective_att() -> float:			return snappedf(att * get_att_mod(), 0.01)
+#func get_effective_max_power() -> float:	return snappedf(pmx * get_max_power_mod(), 0.01)
+func get_effective_spd() -> float:			return snappedf(spd * get_spd_mod(), 0.01)
+func get_effective_amm() -> float:			return snappedf( float(max_ammo) * get_amm_mod(), 0.01)
+func get_effective_afx() -> float:			return snappedf(afx * get_afx_mod(), 0.01)
+func get_effective_acc() -> float:			return snappedf(acc * get_acc_mod(), 0.01)
+func get_effective_wgt() -> float:			return snappedf(wgt * get_wgt_mod(), 0.01)
 
 func get_held_sprite() -> String:
 	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite

@@ -1,5 +1,8 @@
 @tool
 extends Control
+## 30/09/25 No idea why I named this like this.
+# this is actually the influence / bias a gun can have over another.
+## TODO make this work.
 
 const MIN_POS := 0.0
 const MAX_POS := 120.0

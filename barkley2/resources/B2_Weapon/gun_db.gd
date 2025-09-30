@@ -652,18 +652,27 @@ static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bot
 	
 	## Gun type is decided by the gunmap.
 	# check scr_combat_weapons_fusion() line 22 to 25
-	var gunmap_data : Array = B2_Gunmap.get_gun_type_from_parent_position( parent_top.gunmap_pos, parent_bottom.gunmap_pos, bias )
-	my_gun.weapon_type		= gunmap_data[0]
-	my_gun.gunmap_pos		= gunmap_data[1]
-	my_gun.weapon_group 	= GROUP_LIST.get( my_gun.weapon_type, B2_Gun.GROUP.NONE )
-	assert( my_gun.weapon_type != B2_Gun.TYPE.GUN_TYPE_NONE, 	"Invalid gun type '%s'." % my_gun.weapon_type )
+	var gunmap_data : Array 	= B2_Gunmap.get_gun_type_from_parent_position( parent_top.gunmap_pos, parent_bottom.gunmap_pos, bias )
+	my_gun.weapon_type			= gunmap_data[0]
+	my_gun.gunmap_pos			= gunmap_data[1]
+	my_gun.weapon_group 		= GROUP_LIST.get( my_gun.weapon_type, B2_Gun.GROUP.NONE )
+	assert( my_gun.weapon_type 	!= B2_Gun.TYPE.GUN_TYPE_NONE, 	"Invalid gun type '%s'." % my_gun.weapon_type )
 	assert( my_gun.weapon_group != B2_Gun.GROUP.NONE, 			"Invalid gun group '%s'." % my_gun.weapon_group )
 	
 	## Gun material is decided by the material periodic table
-	my_gun.weapon_material 	= B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
+	my_gun.weapon_material 		= B2_Gun_Fuse.fuse_material( parent_top.weapon_material, parent_bottom.weapon_material )
+	
+	## Apply affix fusing.
+	B2_Gun_Fuse.fuse_affix( parent_top, parent_bottom, my_gun )
 	
 	## Reapply the gun name
 	apply_name( my_gun )
+	my_gun.weapon_short_name = "FUZE"
+	
+	## Apply the correct amount of ammo.
+	var curr_ammo_1 : float = float(parent_top.curr_ammo) / float(parent_top.max_ammo)			# percentage of the current ammo for top gun
+	var curr_ammo_2 : float = float(parent_bottom.curr_ammo) / float(parent_bottom.max_ammo)	# percentage of the current ammo for bottom gun
+	my_gun.curr_ammo = maxi( int( float(my_gun.max_ammo) * (curr_ammo_1 + curr_ammo_2) / 2.0 ), my_gun.max_ammo) # percentage of the current ammo for the new gun
 	
 	# Record thy lineage
 	my_gun.lineage_top = gun_to_dict(parent_top)
@@ -733,11 +742,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	if TYPE_LIST[ wpn.weapon_type ] == null:			push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
 	if MATERIAL_LIST[ wpn.weapon_material ] == null:	push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
-	#var affix_count := 0
 	var affix_rand := 0
-	if options.has("add_affixes"):
+	if options.get("add_affixes", true): ## By default, add affixes.
 		## Pick affixes
-		
 		affix_rand = randi_range(0,99)
 		if affix_rand < geneAffixChance:
 			wpn.prefix1 = prefix1.keys().pick_random()
@@ -753,7 +760,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			wpn.suffix = suffix.keys().pick_random()
 			wpn.afx_count += 1
 		
-	apply_stats( wpn )
+	# Check Drop("stats")
+	# Drop("stats", 50, ClockTime("time"), scr_stats_getEffectiveStat(o_hoopz, STAT_BASE_LUCK) + Quest("playerCCBonus"));
+	var stat_points : int = options.get("gunsdrop", randi_range(70,90) )
+	apply_stats( wpn, stat_points, B2_ClockTime.time_display() )
 		
 	apply_name( wpn, options )
 	
@@ -764,6 +774,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		
 	## Adjust some details
 	# check scr_combat_weapons_prepPattern()
+	## Gun firing patters
 	
 	## 18/05/25 - also add some freshly baked xXx-C0mB@7_Sk1l1zz-xXx to a weapon group.
 	wpn.weapon_group = GROUP_LIST.get( wpn.weapon_type, GROUP.NONE ) ## Group is important for the type of fire that the weapon uses.
@@ -831,37 +842,62 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		_:
 			## summtin REEEALY isnt right.
 			breakpoint
+	# Lol, look at this guy. he doesnt even know that I gave up on the turn-based combat thing. He just wasted a lot of time on that.
 	
 	## Increase max ammo as a test. FIXME
 	wpn.max_ammo *= 3
 	wpn.curr_ammo = wpn.max_ammo
 	
 	## Apply generic genes
-	B2_Gun_Genes.apply_genes( wpn, 6 )
+	B2_Gun_Genes.apply_genes( wpn, 6 ) # <- Is this needed?
 	
 	return wpn
 	
-static func apply_stats( wpn : B2_Weapon ) -> void:
+static func apply_stats( wpn : B2_Weapon, points : int, current_time : String ) -> void:
 	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
 	## 22/04/25 Stat generation is scary.
+	## 30/09/25 True
 	
-	var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
+	# Base Stats
+	@warning_ignore("integer_division")
+	var sttPow : int = points / 4
+	@warning_ignore("integer_division")
+	var sttCap : int = points / 4
+	@warning_ignore("integer_division")
+	var sttAff : int = points / 4
+	@warning_ignore("integer_division")
+	var sttSpd : int = points / 4
+	
+	# Bonus Apply = Is even and not 0
+	assert(current_time.length() == 5, "Time with the incorrect format -> %s" % current_time)
+	var num : int
+	num = int( current_time.left(0) )
+	if (float(num) / 2.0 == floor(float(num) / 2.0) && num != 0.0): sttPow += B2_Playerdata.Quest("playerCCPowerBonus")
+	num = int( current_time.left(1) )
+	if (float(num) / 2.0 == floor(float(num) / 2.0) && num != 0.0): sttCap += B2_Playerdata.Quest("playerCCCapacityBonus")
+	num = int( current_time.left(3) )
+	if (float(num) / 2.0 == floor(float(num) / 2.0) && num != 0.0): sttAff += B2_Playerdata.Quest("playerCCAffixBonus")
+	num = int( current_time.left(4) )
+	if (float(num) / 2.0 == floor(float(num) / 2.0) && num != 0.0): sttSpd += B2_Playerdata.Quest("playerCCSpeedBonus")
+	# WARNING Im not doing anithing with the data above. How should we apply it?
+	
+	# var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
 	var points_left 	:= points
 	@warning_ignore("integer_division")
-	var poinst_each 	:= points_left / 5 # was 7
+	var poinst_each 	:= points_left / 7 # was 7
 	
 	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_att_mod() 	- 1 ) / 2 ) + 1 ) )
 	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_spd_mod() 	- 1 ) / 2 ) + 1 ) )
 	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_afx_mod() 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
-	#wpn.lck 		= ceil( poinst_each * ( ( ( wpn.get_luck_mod() 		- 1 ) / 2 ) + 1 ) )
-	wpn.acc 		= ceil( poinst_each * ( ( ( wpn.get_acc_mod() 		- 1 ) / 2 ) + 1 ) )
-	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_amm_mod() 		- 1 ) / 2 ) + 1 ) )
+	#wpn.lck 		= ceil( poinst_each * ( ( ( wpn.get_luck_mod() 	- 1 ) / 2 ) + 1 ) )
+	wpn.acc 		= ceil( poinst_each * ( ( ( wpn.get_acc_mod() 	- 1 ) / 2 ) + 1 ) ) # is this needed?
+	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_amm_mod() 	- 1 ) / 2 ) + 1 ) )
 		
 	wpn.att 		= clamp(wpn.att, 0, 90 )
 	wpn.spd 		= clamp(wpn.spd, 0, 90 )
 	wpn.afx 		= clamp(wpn.afx, 0, 90 )
 	#wpn.lck 		= clamp(wpn.lck, 0, 90 )
-	wpn.acc			= clamp(wpn.acc, 0, 90 )
+	wpn.acc			= clamp(wpn.acc, 0, 90 ) # is this needed?
 	wpn.max_ammo 	= clamp(wpn.max_ammo, 0, 90 )
 	
 	## distribute remaining core points randomly

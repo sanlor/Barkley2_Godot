@@ -3,7 +3,7 @@ class_name B2_Gun_Fuse
 ## Class that handles some of the gun breeding / fuse.
 # There is a file called "material.csv" on the game files, that had a bunch of atomic info about materials, but the way it was stores was terrible. Need to convert it to json os something like that
 
-const DEBUG := true
+const DEBUG := false
 
 enum {ROW,COLUMN,ELECTRONS,ATOMIC_WEIGHT} # <- no idea what info1 and info2 are yet.
 const MATERIAL := preload("res://barkley2/resources/B2_Weapon/material_table.json") ## Material periodic table (converted from csv to json)
@@ -158,7 +158,7 @@ static func fuse_material( material_1 : B2_Gun.MATERIAL, material_2 : B2_Gun.MAT
 					new_vvv2 = int0
 					meanR = MATERIAL.data[i][ROW]
 					meanC = MATERIAL.data[i][COLUMN]
-					print( "vvv2 %s - int0 %s - %s" % [vvv2, int0, Vector2i(meanR, meanC)] )
+					# print( "vvv2 %s - int0 %s - %s" % [vvv2, int0, Vector2i(meanR, meanC)] )
 
 		## If you have enough electrons, drop down
 		#if meanR + 1 < 7: # Why it was + 1?
@@ -339,14 +339,46 @@ static func fuse_stats( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun :
 	child_gun.max_ammo = int(gunAmmoNoiseTotal)
 	child_gun.afx = gunAffixNoiseTotal
 	child_gun.wgt = gunWeightNoiseTotal
+	@warning_ignore("narrowing_conversion")
+	child_gun.pts = gunPowerNoiseTotal + gunROFNoiseTotal + gunAmmoNoiseTotal + gunAffixNoiseTotal
 	
 	## TODO feels like this is missing something...
 	
+# Check scr_combat_weapons_fusion_affix()
+# Check scr_combat_weapons_fusion_affixdb()
+# Check scr_combat_weapons_fusion_affixhood()
+# https://learn.genetics.utah.edu/content/basics/patterns/
+static func fuse_affix( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun : B2_Weapon ) -> void:
+	# OK, so this code is way, way too confusing. no idea what its exacly doing, but I got the gist of it.
+	# No idea what "aGenePenchant" is doing. I guess it applies some kind of preference for genes / affixes?
+	var compare_empty := func(afx1 : String,afx2 : String): return afx1.is_empty() and afx2.is_empty()
+	var return_dominant_affix := func(afx1 : String,afx2 : String):
+		if afx1.is_empty():			return afx2
+		elif afx2.is_empty():		return afx1
+		else:						return [afx1,afx2].pick_random() ## both guns have affixes. return a random one.
 	
-# Take 2 gun types and use the Gunmap to find what type will result
-#static func fuse_type( type_1 : B2_Gun.TYPE, type_2 : B2_Gun.TYPE ) -> Array:
-	#push_error("Gun TYPE fusing is not working correcly yet.")
-	#var t : B2_Gun.TYPE = B2_Gun.TYPE.values().pick_random()
-	#while t == B2_Gun.TYPE.GUN_TYPE_NONE:
-		#t = B2_Gun.TYPE.values().pick_random()
-	#return t
+	## Reset suffixes
+	child_gun.prefix1 	= ""
+	child_gun.prefix2 	= ""
+	child_gun.suffix 	= ""
+	
+	## Both guns do not have prefix 1.
+	if compare_empty.call( top_gun.prefix1, bottom_gun.prefix1 ):
+		if randf() < 0.15:
+			child_gun.prefix1 = B2_Gun.prefix1.keys().pick_random()
+			child_gun.afx_count += 1
+	else: child_gun.prefix1 = return_dominant_affix.call( top_gun.prefix1, bottom_gun.prefix1 ); child_gun.afx_count += 1
+			
+	## Both guns do not have prefix 2.
+	if compare_empty.call( top_gun.prefix2, bottom_gun.prefix2 ):
+		if randf() < 0.15:
+			child_gun.prefix2 = B2_Gun.prefix2.keys().pick_random()
+			child_gun.afx_count += 1
+	else: child_gun.prefix2 = return_dominant_affix.call( top_gun.prefix2, bottom_gun.prefix2 ); child_gun.afx_count += 1
+	
+	## Both guns do not have suffix.
+	if compare_empty.call( top_gun.suffix, bottom_gun.suffix ):
+		if randf() < 0.15:
+			child_gun.suffix = B2_Gun.suffix.keys().pick_random()
+			child_gun.afx_count += 1
+	else: child_gun.suffix = return_dominant_affix.call( top_gun.suffix, bottom_gun.suffix ); child_gun.afx_count += 1

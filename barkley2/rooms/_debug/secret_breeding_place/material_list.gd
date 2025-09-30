@@ -49,20 +49,22 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	line_1.clear_points()
 	line_2.clear_points()
+	line_1.points = [Vector2i.ZERO, Vector2i.ZERO]
+	line_2.points = [Vector2i.ZERO, Vector2i.ZERO]
 	for c in get_children():
 		if c.mat != B2_Gun.MATERIAL.NONE:
 			c.modulate = Color.WHITE
 			if gun_top.my_gun:
 				if c.mat == gun_top.my_gun.weapon_material:
 					c.modulate = Color.BLUE
-					line_1.add_point( c.global_position + Vector2(25,25) )
+					line_1.points[0] = c.global_position + Vector2(25,25)
 			if gun_bottom.my_gun:
 				if c.mat == gun_bottom.my_gun.weapon_material:
 					c.modulate = Color.DARK_CYAN
-					line_2.add_point( c.global_position + Vector2(25,25) )
+					line_2.points[0] = c.global_position + Vector2(25,25)
 			if gun_child.my_gun:
 				if c.mat == gun_child.my_gun.weapon_material:
 					c.modulate = Color.GREEN_YELLOW
-					line_1.add_point( c.global_position + Vector2(25,25) )
-					line_2.add_point( c.global_position + Vector2(25,25) )
+					line_1.points[1] = c.global_position + Vector2(25,25)
+					line_2.points[1] = c.global_position + Vector2(25,25)
 				

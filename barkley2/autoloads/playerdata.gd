@@ -454,7 +454,8 @@ func preload_CC_save_data():
 	
 	# Gunmap - Generate hoopz's gun map for this game
 	#Gunsmap("generate");
-	B2_Config.set_user_save_data("gunsmap.seed", 0); # was global.gunsmapSeed
+	B2_Config.set_user_save_data("gunsmap.seed", randi()); # was global.gunsmapSeed
+	B2_Gunmap.generate_map()
 	
 	# Generate guns
 	B2_Gun.reset()
