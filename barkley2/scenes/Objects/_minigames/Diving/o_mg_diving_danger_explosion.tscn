@@ -1,0 +1,125 @@
+[gd_scene load_steps=19 format=3 uid="uid://s7vkb38vjeab"]
+
+[ext_resource type="Script" uid="uid://bf8mb35vv7fmb" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_explosion.gd" id="1_yywtf"]
+[ext_resource type="Texture2D" uid="uid://dsiueknaqtagf" path="res://barkley2/assets/b2_original/images/merged/s_effect_explo_48.png" id="2_ath27"]
+[ext_resource type="PackedScene" uid="uid://8ibtf83ou5xs" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_spawn_bubbles.tscn" id="3_61dvn"]
+[ext_resource type="Material" uid="uid://bqreexguh2m04" path="res://barkley2/shaders/particles/o_mg_diving_danger_explosion_bubbles.tres" id="4_tdgu8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oib7m"]
+atlas = ExtResource("2_ath27")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0q575"]
+atlas = ExtResource("2_ath27")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfhgo"]
+atlas = ExtResource("2_ath27")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l07lo"]
+atlas = ExtResource("2_ath27")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6nos"]
+atlas = ExtResource("2_ath27")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vs4cs"]
+atlas = ExtResource("2_ath27")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jb30m"]
+atlas = ExtResource("2_ath27")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60lgx"]
+atlas = ExtResource("2_ath27")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qx4wr"]
+atlas = ExtResource("2_ath27")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_temv4"]
+atlas = ExtResource("2_ath27")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lipa"]
+atlas = ExtResource("2_ath27")
+region = Rect2(480, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tdk2"]
+atlas = ExtResource("2_ath27")
+region = Rect2(528, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wmwqn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oib7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0q575")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfhgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l07lo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6nos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vs4cs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jb30m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60lgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qx4wr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_temv4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lipa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tdk2")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1cfqx"]
+radius = 30.066593
+
+[node name="o_mg_diving_danger_explosion" type="Area2D"]
+script = ExtResource("1_yywtf")
+
+[node name="s_effect_explo_48" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wmwqn")
+autoplay = "default"
+frame = 11
+frame_progress = 1.0
+
+[node name="o_mg_diving_spawn_bubbles" parent="." instance=ExtResource("3_61dvn")]
+emitting = false
+amount = 128
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("4_tdgu8")
+script = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1cfqx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="s_effect_explo_48" to="." method="_on_s_effect_explo_48_animation_finished"]

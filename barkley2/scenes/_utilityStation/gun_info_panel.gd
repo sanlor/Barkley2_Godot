@@ -190,7 +190,7 @@ func update_data( gun : B2_Weapon ) -> void:
 	gun_name_value.text = Text.pr( gun.weapon_name )
 	gun_texture.texture = gun.get_weapon_hud_sprite()
 	pts_value.text = str( int( gun.pts ) )
-	wgt_value.text = str( int( gun.wgt ) )
+	wgt_value.text = "%sç" % str( int( gun.wgt ) )
 	
 	## Affix
 	if gun.prefix1:
@@ -222,12 +222,14 @@ func update_data( gun : B2_Weapon ) -> void:
 	
 	## Lineage
 	if gun.lineage_top:
+		lin_gun_texture.texture		= parent_top.get_weapon_hud_sprite()
 		lin_wgt_value.text 			= "%sç" % int(parent_top.get_wgt())
 		prefix_1_label.text 		= Text.pr( parent_top.prefix1 )
 		prefix_2_label.text 		= Text.pr( parent_top.prefix2 )
 		name_label.text 			= Text.pr( parent_top.weapon_name )
 		suffix_label.text 			= Text.pr( parent_top.suffix )
 	else:
+		lin_gun_texture.texture		= null
 		lin_wgt_value.text 			= "0ç"
 		prefix_1_label.text 		= ""
 		prefix_2_label.text 		= ""
@@ -235,12 +237,14 @@ func update_data( gun : B2_Weapon ) -> void:
 		suffix_label.text 			= ""
 	
 	if gun.lineage_bot:
+		lin_gun_texture_2.texture	= parent_bot.get_weapon_hud_sprite()
 		lin_wgt_value_2.text 		= "%sç" % int(parent_bot.get_wgt())
 		prefix_1_label_2.text 		= Text.pr( parent_bot.prefix1 )
 		prefix_2_label_2.text 		= Text.pr( parent_bot.prefix2 )
 		name_label_2.text 			= Text.pr( parent_bot.weapon_name )
 		suffix_label_2.text 		= Text.pr( parent_bot.suffix )
 	else:
+		lin_gun_texture_2.texture	= null
 		lin_wgt_value_2.text 		= "0ç"
 		prefix_1_label_2.text 		= ""
 		prefix_2_label_2.text 		= ""

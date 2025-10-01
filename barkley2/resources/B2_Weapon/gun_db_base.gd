@@ -85,7 +85,7 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	gun_dict[ "lineage_top" ] 			= var_to_bytes( gun.lineage_top 	).compress()
 	gun_dict[ "lineage_bot" ] 			= var_to_bytes( gun.lineage_bot 	).compress()
 	gun_dict[ "dominant_genes" ] 		= var_to_bytes( gun.dominant_genes 	).compress()
-	
+	gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos )
 
 	gun_dict[ "bullets_per_shot" ] 		= var_to_str( gun.bullets_per_shot )
 	gun_dict[ "ammo_per_shot" ] 		= var_to_str( gun.ammo_per_shot )
@@ -140,7 +140,7 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	gun.lineage_top 					= bytes_to_var( gun_dict.get( "lineage_top" 	).decompress(32000) )
 	gun.lineage_bot 					= bytes_to_var( gun_dict.get( "lineage_bot" 	).decompress(32000) )
 	gun.dominant_genes 					= bytes_to_var( gun_dict.get( "dominant_genes" 	).decompress(32000) )
-	
+	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
 
 	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
 	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )

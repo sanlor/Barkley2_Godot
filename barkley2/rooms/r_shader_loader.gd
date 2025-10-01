@@ -31,7 +31,7 @@ func _load_gdshader() -> void:
 		if file.ends_with(".gdshader"):
 			var part := ColorRect.new()
 			part.material = ShaderMaterial.new()
-			part.material.shader = load( SHADER_CODE + "/" + file )
+			part.material.shader = ResourceLoader.load( SHADER_CODE + "/" + file, "", ResourceLoader.CACHE_MODE_REUSE )
 			cuck_box.add_child( part )
 			await get_tree().process_frame
 

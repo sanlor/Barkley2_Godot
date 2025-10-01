@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://8ibtf83ou5xs"]
+
+[ext_resource type="Texture2D" uid="uid://cj6syyeyugijj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble.png" id="1_4vccv"]
+[ext_resource type="Material" uid="uid://yhyqhjouyr40" path="res://barkley2/shaders/particles/o_mg_diving_spawn_bubbles_bubble.tres" id="2_3jvoy"]
+[ext_resource type="Script" uid="uid://buwkqjbdgyfcg" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_spawn_bubbles.gd" id="3_3jvoy"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nd48b"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="o_mg_diving_spawn_bubbles" type="GPUParticles2D"]
+material = SubResource("CanvasItemMaterial_nd48b")
+amount = 48
+texture = ExtResource("1_4vccv")
+lifetime = 3.0
+process_material = ExtResource("2_3jvoy")
+script = ExtResource("3_3jvoy")

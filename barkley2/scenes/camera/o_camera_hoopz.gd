@@ -75,7 +75,11 @@ func _ready() -> void:
 	if player_node != null:
 		position 	= player_node.position
 		#_position 	= player_node.position
-		
+	
+	if camera_bound_to_map:
+		await get_tree().process_frame
+		set_camera_bound( true )
+	
 	position 			= position.round()
 	offset 				= camera_normal_offset
 	

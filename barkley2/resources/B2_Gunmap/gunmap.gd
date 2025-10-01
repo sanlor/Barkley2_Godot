@@ -180,11 +180,11 @@ static func get_gun_map() -> Texture:
 	
 	# Draw the fucking map.
 	for map_pos : Vector2i in gun_type_map:
-			var gun_type : B2_Gun.TYPE = gun_type_map[ map_pos ]
-			var c_array : Array = GUNMAP_DEFINE[gun_type][COLOR]
-			var c : Color = Color.from_hsv( c_array[0], c_array[1], c_array[2] )
-			img.set_pixel( map_pos.x, map_pos.y, c )
-			#if gun_type != 25: print(gun_type,map_pos)
+		var gun_type : B2_Gun.TYPE = gun_type_map[ map_pos ]
+		var c_array : Array = GUNMAP_DEFINE[gun_type][COLOR]
+		var c : Color = Color.from_hsv( c_array[0], c_array[1], c_array[2] )
+		img.set_pixel( map_pos.x, map_pos.y, c )
+		#if gun_type != 25: print(gun_type,map_pos)
 	return ImageTexture.create_from_image( img )
 	
 ## return a random position from claimed positions for the selected guntype.
@@ -204,8 +204,15 @@ static func get_gun_type_from_parent_position( top_pos : Vector2i, bottom_pos : 
 	var data : Array = [] # Data -> [B2_Gun.TYPE, Vector2i]
 	
 	var average_pos : Vector2i = Vector2(bottom_pos).lerp( Vector2(top_pos), bias )
-	var tries := 0
+	if gun_type_map.get(average_pos,B2_Gun.TYPE.GUN_TYPE_NONE) == B2_Gun.TYPE.GUN_TYPE_NONE:
+		average_pos = get_nearest_valid_pos(average_pos)
 	
+	data = [ gun_type_map[average_pos], average_pos ]
+	return data # data -> [B2_Gun.TYPE, Vector2i]
+	
+static func get_nearest_valid_pos( pos : Vector2i ) -> Vector2i:
+	var tries := 0
+	var average_pos := pos
 	## sometimes, the position can be somewhere that is not a landmass. search for the nearest landmass.
 	while gun_type_map.get(average_pos,B2_Gun.TYPE.GUN_TYPE_NONE) == B2_Gun.TYPE.GUN_TYPE_NONE:
 		tries += 1
@@ -216,14 +223,18 @@ static func get_gun_type_from_parent_position( top_pos : Vector2i, bottom_pos : 
 		if tries > 50: ## Im lost! give up before something bad happens.
 			breakpoint
 			break
-	data = [ gun_type_map[average_pos], average_pos ]
-	return data # data -> [B2_Gun.TYPE, Vector2i]
-	
+	return average_pos
+			
 static func get_gun_map_position( dont_care := 2, wpn_name := "", size := Vector2(80,80) ) -> Vector2:
 	var fuckyou := RandomNumberGenerator.new()
 	fuckyou.seed = hash("IS THIS HAPPENING FOR REAL?????") + hash(dont_care) + hash(wpn_name) ## Make this "random" function predictive
 	@warning_ignore("narrowing_conversion")
 	return Vector2( fuckyou.randi_range(0, size.x), fuckyou.randi_range(0, size.y) )
+
+static func get_gun_type_from_gunmap_pos( pos : Vector2i ) -> B2_Gun.TYPE:
+	if gun_type_map.get(pos,B2_Gun.TYPE.GUN_TYPE_NONE) == B2_Gun.TYPE.GUN_TYPE_NONE:
+		push_error("get_gun_type_from_gunmap_pos: invalid position %s. Returning B2_Gun.TYPE.GUN_TYPE_NONE." % pos)
+	return gun_type_map.get(pos, B2_Gun.TYPE.GUN_TYPE_NONE)
 
 ## Return the rarity by type. Some guns are rarer (is that evena word?) than others.
 static func get_rarity_by_type( gun_type : B2_Gun.TYPE ) -> int:

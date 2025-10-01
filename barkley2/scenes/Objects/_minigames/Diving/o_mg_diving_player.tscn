@@ -1,0 +1,147 @@
+[gd_scene load_steps=22 format=3 uid="uid://biuhtefvpkmgh"]
+
+[ext_resource type="Texture2D" uid="uid://cncgt5y7xagix" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerAirgulp_prison.png" id="1_fbixb"]
+[ext_resource type="Script" uid="uid://cuv2jfhnj31qf" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_player.gd" id="1_u8q4v"]
+[ext_resource type="Texture2D" uid="uid://cwssn61xji4aq" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_player_prison.png" id="2_u8q4v"]
+[ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_uxnjm"]
+[ext_resource type="Texture2D" uid="uid://cj6syyeyugijj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble.png" id="4_lgayp"]
+[ext_resource type="Material" uid="uid://cxcmquvapfd2e" path="res://barkley2/shaders/particles/o_mg_diving_player_bubble.tres" id="6_uxnjm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3rkw"]
+atlas = ExtResource("1_fbixb")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h3jm6"]
+atlas = ExtResource("1_fbixb")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bvf6"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_da6mg"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eutpa"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ey8ef"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twlco"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu0v4"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc7u1"]
+atlas = ExtResource("2_u8q4v")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gxok4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3rkw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3jm6")
+}],
+"loop": true,
+"name": &"gulp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bvf6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_da6mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eutpa")
+}],
+"loop": true,
+"name": &"swim_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ey8ef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twlco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lu0v4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc7u1")
+}],
+"loop": true,
+"name": &"swim_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_helxe"]
+radius = 4.0
+
+[sub_resource type="Gradient" id="Gradient_m241x"]
+offsets = PackedFloat32Array(0, 0.59076923)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c3rkw"]
+gradient = SubResource("Gradient_m241x")
+fill = 1
+fill_from = Vector2(0.508547, 0.48290598)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4bvf6"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uxnjm"]
+polygon = PackedVector2Array(0, 2, -2, 0, 0, -2, 2, 0)
+
+[node name="o_mg_diving_player" type="RigidBody2D"]
+mass = 50.0
+gravity_scale = 0.1
+lock_rotation = true
+linear_damp = 10.0
+script = ExtResource("1_u8q4v")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gxok4")
+animation = &"swim_up"
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_helxe")
+
+[node name="radiant_light" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_c3rkw")
+
+[node name="flashlight" type="PointLight2D" parent="."]
+scale = Vector2(-1, 1)
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("3_uxnjm")
+offset = Vector2(-50, 0)
+texture_scale = 0.5
+
+[node name="bubbles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_4bvf6")
+position = Vector2(6, -7)
+amount = 3
+texture = ExtResource("4_lgayp")
+lifetime = 2.0
+process_material = ExtResource("6_uxnjm")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_uxnjm")

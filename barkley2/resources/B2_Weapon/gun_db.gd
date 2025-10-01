@@ -681,26 +681,54 @@ static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bot
 	return my_gun
 
 ## With this function, you can simulate which parents a "generic" gun (ones you havent breed yet) could have.
-static func generate_parent_gun( child_gun : B2_Weapon, same_type : bool ) -> B2_Weapon:
-	var parent_gun : B2_Weapon
-	var same_mat := randf() > 0.5 ## Randomly, weapons can have the same or a random material.
+static func generate_parent_gun( child_gun : B2_Weapon ) -> Array:
+	var lineage_top : B2_Weapon
+	var lineage_bot : B2_Weapon
 	
-	if same_type:
-		if same_mat:	parent_gun = generate_gun( child_gun.weapon_type, child_gun.weapon_material )
-		else:			parent_gun = generate_gun( child_gun.weapon_type )
-	else:
-		if same_mat:	parent_gun = generate_gun( TYPE.GUN_TYPE_NONE, child_gun.weapon_material )
-		else:			parent_gun = generate_gun( TYPE.GUN_TYPE_NONE )
+	var lineage_top_influence : float = 1.0
+	var lineage_bot_influence : float = 1.0
+	
+	var gunmap_distance : float = randf() * 40.0 # the gunmap is 80x80. a randon distance of 0 to 40 will help avoing OOB issues.
+	
+	var child_gunmap_pos : Vector2 = child_gun.gunmap_pos
+	var rand_dir := Vector2( randf_range(-1,1), randf_range(-1,1) )
+	
+	## reroll to ensure thar rand_dir is never Vectori(0,0).
+	while rand_dir == Vector2.ZERO: rand_dir = Vector2( randf_range(-1,1), randf_range(-1,1) )
+	
+	## make some random guns
+	lineage_top = generate_gun()
+	lineage_bot = generate_gun()
+	
+	## Pick a gunmap pos based on the influence
+	lineage_top.gunmap_pos = B2_Gunmap.get_nearest_valid_pos( child_gunmap_pos + (+rand_dir * gunmap_distance * lineage_top_influence) )
+	lineage_bot.gunmap_pos = B2_Gunmap.get_nearest_valid_pos( child_gunmap_pos + (-rand_dir * gunmap_distance * lineage_bot_influence) )
 		
-	parent_gun.son = gun_to_dict(child_gun)
+	## Change type
+	lineage_top.weapon_type = B2_Gunmap.get_gun_type_from_gunmap_pos(lineage_top.gunmap_pos)
+	lineage_bot.weapon_type = B2_Gunmap.get_gun_type_from_gunmap_pos(lineage_bot.gunmap_pos)
 	
-	return parent_gun
+	## Change materials
+	## TODO
+		
+	## Apply the correct names
+	apply_name( lineage_top )
+	apply_name( lineage_bot )
+		
+	## Add lienage_stuff
+	lineage_top.son = gun_to_dict(child_gun)
+	lineage_bot.son = gun_to_dict(child_gun)
+	
+	return [lineage_top,lineage_bot]
 
 # Make a very generic gun, with parents and genes.
 static func generate_generic_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
 	var my_gun := generate_gun(type, material, options)
-	my_gun.lineage_top = gun_to_dict( generate_parent_gun(my_gun, randf() > 0.5) )
-	my_gun.lineage_bot = gun_to_dict( generate_parent_gun(my_gun, randf() > 0.5) )
+	
+	var my_parents := generate_parent_gun(my_gun) # <- [lineage_top,lineage_bot]
+	my_gun.lineage_top = gun_to_dict( my_parents[0] )
+	my_gun.lineage_bot = gun_to_dict( my_parents[1] )
+	
 	return my_gun
 
 # Check Drop("generate") line 396

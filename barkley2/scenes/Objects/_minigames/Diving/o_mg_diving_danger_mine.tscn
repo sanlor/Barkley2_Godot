@@ -1,0 +1,130 @@
+[gd_scene load_steps=14 format=3 uid="uid://buhv1mth1kb2l"]
+
+[ext_resource type="Texture2D" uid="uid://c77qkj3udepoe" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_mine.png" id="1_fbmj0"]
+[ext_resource type="Script" uid="uid://k5wbej7o76y1" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_mine.gd" id="1_n8itn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8itn"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(80, 0, 16, 16)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17spy"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ndot2"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffv8t"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vjbv"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_su0cs"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_su55q"]
+atlas = ExtResource("1_fbmj0")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7rjne"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17spy")
+}],
+"loop": true,
+"name": &"chain",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ndot2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffv8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vjbv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su0cs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su55q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_su55q")
+}],
+"loop": true,
+"name": &"trigger",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_e115q"]
+offsets = PackedFloat32Array(0, 0.59076923)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gdtcc"]
+gradient = SubResource("Gradient_e115q")
+fill = 1
+fill_from = Vector2(0.508547, 0.48290598)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n8itn"]
+radius = 9.0
+
+[node name="o_mg_diving_danger_mine" type="Area2D"]
+script = ExtResource("1_n8itn")
+
+[node name="s_mg_diving_mine_chain2" type="TextureRect" parent="."]
+offset_left = -8.0
+offset_top = 18.0
+offset_right = 8.0
+offset_bottom = 34.0
+texture = SubResource("AtlasTexture_n8itn")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="s_mg_diving_mine_chain3" type="TextureRect" parent="."]
+offset_left = -8.0
+offset_top = 34.0
+offset_right = 8.0
+offset_bottom = 50.0
+texture = SubResource("AtlasTexture_n8itn")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="s_mg_diving_mine_chain" type="TextureRect" parent="."]
+offset_left = -8.0
+offset_top = 2.0
+offset_right = 8.0
+offset_bottom = 18.0
+texture = SubResource("AtlasTexture_n8itn")
+expand_mode = 1
+stretch_mode = 1
+
+[node name="s_mg_diving_mine" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7rjne")
+autoplay = "default"
+frame_progress = 0.85014963
+
+[node name="flash" type="PointLight2D" parent="."]
+energy = 0.1
+texture = SubResource("GradientTexture2D_gdtcc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_n8itn")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="frame_changed" from="s_mg_diving_mine" to="." method="_on_s_mg_diving_mine_frame_changed"]

@@ -25,6 +25,8 @@ signal menu_closed
 @onready var wgt_value: Label = $bg1/VBoxContainer/gun_stats/wgt/wgt_value
 
 ## Lineage
+@onready var gun_map_line: Line2D = $bg1/VBoxContainer/gun_lineage/gun_map/gun_map_line
+
 @onready var d_gun_texture: TextureRect = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/gun_texture
 @onready var d_prefix_1_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/prefix_1_label
 @onready var d_prefix_2_label: 	Label = $bg1/VBoxContainer/gun_lineage/lineage/top_gun/daddy_cont/prefix_2_label
@@ -116,10 +118,17 @@ func _setup_menu() -> void:
 	else:						m_suffix_label.modulate = Color.TRANSPARENT
 	
 	## Set GunMap
+	gun_map_line.clear_points()
 	gun_map.texture 				= B2_Gunmap.get_gun_map()
 	gun_marker_bottom.position 		= daddy_gun.gunmap_pos - Vector2i(4,4)
-	gun_marker_top.position 		= mommy_gun.gunmap_pos - Vector2i(4,4)
+	gun_map_line.add_point(daddy_gun.gunmap_pos)
 	gun_marker_occupied.position 	= my_gun.gunmap_pos - Vector2i(4,4)
+	gun_map_line.add_point(my_gun.gunmap_pos)
+	gun_marker_top.position 		= mommy_gun.gunmap_pos - Vector2i(4,4)
+	gun_map_line.add_point(mommy_gun.gunmap_pos)
+	
+	#print(mommy_gun.gunmap_pos)
+	#print(daddy_gun.gunmap_pos)
 	
 func _input(event: InputEvent) -> void:
 	if visible:
@@ -156,6 +165,7 @@ func _physics_process(_delta: float) -> void:
 func _process(delta: float) -> void:
 	t += 3.0 * delta
 	var c := Color.WHITE * ( 1.0 + sin( t ) )
+	gun_map_line.modulate			= c
 	gun_marker_bottom.modulate 		= c
 	gun_marker_top.modulate 		= c
 	gun_marker_occupied.modulate 	= c
