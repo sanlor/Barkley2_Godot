@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://vy07l8nlfxqg"]
+
+[ext_resource type="Texture2D" uid="uid://qhryi14yytdp" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_eel.png" id="1_ft6xh"]
+[ext_resource type="Script" uid="uid://duw3txkbhljbk" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_eel.gd" id="1_gqbxy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqbxy"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(0, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvesk"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(48, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_df6gb"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(96, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcqfl"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(144, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aw2bg"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(192, 0, 48, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dv8t"]
+atlas = ExtResource("1_ft6xh")
+region = Rect2(240, 0, 48, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_866qj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqbxy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvesk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_df6gb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcqfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aw2bg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dv8t")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_36pom"]
+size = Vector2(46, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xbm82"]
+size = Vector2(71, 16)
+
+[node name="o_mg_diving_danger_eel" type="Area2D"]
+script = ExtResource("1_gqbxy")
+
+[node name="das_eel" type="Area2D" parent="."]
+
+[node name="s_mg_diving_eel" type="AnimatedSprite2D" parent="das_eel"]
+sprite_frames = SubResource("SpriteFrames_866qj")
+autoplay = "default"
+frame_progress = 0.14770836
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="das_eel"]
+position = Vector2(-2, 0)
+shape = SubResource("RectangleShape2D_36pom")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(25.5, 0)
+shape = SubResource("RectangleShape2D_xbm82")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -14,7 +14,7 @@ func _on_s_mg_diving_mine_frame_changed() -> void:
 func _explode() -> void:
 	var expl := O_MG_DIVING_DANGER_EXPLOSION.instantiate()
 	expl.global_position = global_position
-	add_sibling( expl, true )
+	add_sibling.call_deferred( expl, true )
 	queue_free()
 
 func _on_body_entered(body: Node2D) -> void:

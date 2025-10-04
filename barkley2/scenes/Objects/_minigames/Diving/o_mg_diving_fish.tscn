@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://chquhdugt7oe1"]
+
+[ext_resource type="Script" uid="uid://bgscus5y1l6fq" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_fish.gd" id="1_wbjrp"]
+[ext_resource type="Texture2D" uid="uid://ih8ou2ymtg8g" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_fish.png" id="2_77q0u"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wbjrp"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0o6kj"]
+atlas = ExtResource("2_77q0u")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxxpg"]
+atlas = ExtResource("2_77q0u")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssmub"]
+atlas = ExtResource("2_77q0u")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kosus"]
+atlas = ExtResource("2_77q0u")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m5ubq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0o6kj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxxpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssmub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kosus")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[node name="o_mg_diving_fish" type="Area2D"]
+z_index = -1
+linear_damp_space_override = 1
+linear_damp = 3.0
+script = ExtResource("1_wbjrp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wbjrp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_m5ubq")
+autoplay = "default"
+frame_progress = 0.5726208
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

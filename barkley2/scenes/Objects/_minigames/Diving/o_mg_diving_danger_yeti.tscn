@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://ba1sy2cmllwxi"]
+
+[ext_resource type="Script" uid="uid://dsfvdbdqkiixf" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_yeti.gd" id="1_75hit"]
+[ext_resource type="Texture2D" uid="uid://5an5j4thos3y" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_water_yeti.png" id="1_e0ckr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75hit"]
+atlas = ExtResource("1_e0ckr")
+region = Rect2(0, 0, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ads04"]
+atlas = ExtResource("1_e0ckr")
+region = Rect2(42, 0, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmnsx"]
+atlas = ExtResource("1_e0ckr")
+region = Rect2(84, 0, 42, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56w3h"]
+atlas = ExtResource("1_e0ckr")
+region = Rect2(126, 0, 42, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_edgmt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75hit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ads04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmnsx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56w3h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_agjdk"]
+radius = 12.0415945
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c5461"]
+radius = 67.00746
+
+[node name="o_mg_diving_danger_yeti" type="Area2D"]
+script = ExtResource("1_75hit")
+
+[node name="s_mg_diving_water_yeti" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_edgmt")
+autoplay = "default"
+frame_progress = 0.1722867
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_agjdk")
+debug_color = Color(0.7845117, 0.11516548, 0.99999994, 0.25490198)
+
+[node name="detection_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
+shape = SubResource("CircleShape2D_c5461")
+debug_color = Color(0, 0.6431373, 0.29411766, 0.4627451)
+
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]

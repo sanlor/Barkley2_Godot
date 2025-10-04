@@ -2,9 +2,25 @@ extends RigidBody2D
 
 @onready var flashlight: PointLight2D = $flashlight
 @onready var actor_anim: AnimatedSprite2D = $ActorAnim
+@onready var bubbles: GPUParticles2D = $bubbles
+@onready var bubbles_hurt: GPUParticles2D = $bubbles_hurt
+
+@export var ui : CanvasLayer
+
+var hurt_sfx := [
+	"sn_mg_diving_hit1",
+	"sn_mg_diving_hit2",
+	"sn_mg_diving_hit3",
+	"sn_mg_diving_hit4",
+]
 
 var speed := 10000.0
 var prev_input := Vector2.ZERO
+
+func hurt() -> void:
+	bubbles_hurt.emitting = true
+	B2_Sound.play( hurt_sfx.pick_random() )
+	ui.oxygen += 10.0
 
 func _physics_process(_delta: float) -> void:
 	flashlight.look_at( get_global_mouse_position() )

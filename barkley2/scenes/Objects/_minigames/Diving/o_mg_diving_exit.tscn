@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://q53vqywuvs5p"]
+
+[ext_resource type="Texture2D" uid="uid://btio5etnmvxbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_exit.png" id="1_4mtva"]
+[ext_resource type="Script" uid="uid://cer1jnd3vulpq" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_exit.gd" id="1_6ohrm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_echjn"]
+size = Vector2(32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_soo5y"]
+atlas = ExtResource("1_4mtva")
+region = Rect2(0, 0, 32, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pr1po"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_soo5y")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_mg_diving_exit" type="Area2D"]
+gravity_space_override = 1
+gravity = 200.0
+script = ExtResource("1_6ohrm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_echjn")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_echjn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pr1po")

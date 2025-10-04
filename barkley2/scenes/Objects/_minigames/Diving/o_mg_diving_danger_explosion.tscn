@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://s7vkb38vjeab"]
+[gd_scene load_steps=21 format=3 uid="uid://s7vkb38vjeab"]
 
 [ext_resource type="Script" uid="uid://bf8mb35vv7fmb" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_explosion.gd" id="1_yywtf"]
 [ext_resource type="Texture2D" uid="uid://dsiueknaqtagf" path="res://barkley2/assets/b2_original/images/merged/s_effect_explo_48.png" id="2_ath27"]
@@ -100,6 +100,16 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_1cfqx"]
 radius = 30.066593
 
+[sub_resource type="Gradient" id="Gradient_yywtf"]
+offsets = PackedFloat32Array(0, 0.7569231)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ath27"]
+gradient = SubResource("Gradient_yywtf")
+fill = 1
+fill_from = Vector2(0.4957265, 0.52991456)
+fill_to = Vector2(0, 0)
+
 [node name="o_mg_diving_danger_explosion" type="Area2D"]
 script = ExtResource("1_yywtf")
 
@@ -120,6 +130,11 @@ script = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_1cfqx")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 5.0
+texture = SubResource("GradientTexture2D_ath27")
+texture_scale = 4.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="animation_finished" from="s_effect_explo_48" to="." method="_on_s_effect_explo_48_animation_finished"]

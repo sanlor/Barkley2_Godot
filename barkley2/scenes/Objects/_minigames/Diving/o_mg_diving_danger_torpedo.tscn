@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://dytqavwygm2rh"]
+
+[ext_resource type="Texture2D" uid="uid://4f1igos1l157" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_torpedo.png" id="1_0w4v8"]
+[ext_resource type="Script" uid="uid://dad7trrmrn6cc" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_torpedo.gd" id="1_4q16w"]
+[ext_resource type="Texture2D" uid="uid://cj6syyeyugijj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble.png" id="2_4q16w"]
+[ext_resource type="Material" uid="uid://yhyqhjouyr40" path="res://barkley2/shaders/particles/o_mg_diving_spawn_bubbles_bubble.tres" id="3_emiqw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2u5c"]
+atlas = ExtResource("1_0w4v8")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85vql"]
+atlas = ExtResource("1_0w4v8")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idk0q"]
+atlas = ExtResource("1_0w4v8")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2dis"]
+atlas = ExtResource("1_0w4v8")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_26hiv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2u5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85vql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idk0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2dis")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnc2o"]
+radius = 5.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_7o0wi"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="o_mg_diving_danger_torpedo" type="Area2D"]
+script = ExtResource("1_4q16w")
+
+[node name="s_mg_diving_torpedo" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_26hiv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rnc2o")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_7o0wi")
+amount = 32
+texture = ExtResource("2_4q16w")
+process_material = ExtResource("3_emiqw")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

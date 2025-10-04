@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://c7xb2fn7ywgsw"]
+
+[ext_resource type="Script" uid="uid://c8vb3iod1e4qv" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_jellyfish.gd" id="1_gsv0p"]
+[ext_resource type="Texture2D" uid="uid://7r5d5relewfw" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_jellyfish.png" id="1_xrctb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsv0p"]
+atlas = ExtResource("1_xrctb")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sf4nj"]
+atlas = ExtResource("1_xrctb")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pe1p"]
+atlas = ExtResource("1_xrctb")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33a80"]
+atlas = ExtResource("1_xrctb")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkyhl"]
+atlas = ExtResource("1_xrctb")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_quuo7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsv0p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sf4nj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pe1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33a80")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkyhl")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yav67"]
+radius = 5.0
+
+[node name="o_mg_diving_danger_jellyfish" type="Area2D"]
+script = ExtResource("1_gsv0p")
+
+[node name="s_mg_diving_jellyfish" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_quuo7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_yav67")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

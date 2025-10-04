@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://biuhtefvpkmgh"]
+[gd_scene load_steps=24 format=3 uid="uid://biuhtefvpkmgh"]
 
 [ext_resource type="Texture2D" uid="uid://cncgt5y7xagix" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerAirgulp_prison.png" id="1_fbixb"]
 [ext_resource type="Script" uid="uid://cuv2jfhnj31qf" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_player.gd" id="1_u8q4v"]
@@ -6,6 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_uxnjm"]
 [ext_resource type="Texture2D" uid="uid://cj6syyeyugijj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble.png" id="4_lgayp"]
 [ext_resource type="Material" uid="uid://cxcmquvapfd2e" path="res://barkley2/shaders/particles/o_mg_diving_player_bubble.tres" id="6_uxnjm"]
+[ext_resource type="Material" uid="uid://b7mdkkdrfjk1i" path="res://barkley2/shaders/particles/o_mg_diving_spawn_bubbles_bubble_hurt.tres" id="7_lgayp"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lgayp"]
+friction = 0.5
+bounce = 0.75
+absorbent = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3rkw"]
 atlas = ExtResource("1_fbixb")
@@ -111,10 +117,11 @@ particles_anim_loop = false
 polygon = PackedVector2Array(0, 2, -2, 0, 0, -2, 2, 0)
 
 [node name="o_mg_diving_player" type="RigidBody2D"]
-mass = 50.0
+mass = 60.0
+physics_material_override = SubResource("PhysicsMaterial_lgayp")
 gravity_scale = 0.1
 lock_rotation = true
-linear_damp = 10.0
+linear_damp = 3.5
 script = ExtResource("1_u8q4v")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
@@ -142,6 +149,17 @@ amount = 3
 texture = ExtResource("4_lgayp")
 lifetime = 2.0
 process_material = ExtResource("6_uxnjm")
+
+[node name="bubbles_hurt" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_4bvf6")
+position = Vector2(6, -7)
+emitting = false
+amount = 50
+texture = ExtResource("4_lgayp")
+lifetime = 3.0
+one_shot = true
+explosiveness = 0.75
+process_material = ExtResource("7_lgayp")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_uxnjm")

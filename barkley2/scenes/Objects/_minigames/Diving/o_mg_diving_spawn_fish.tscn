@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5opecl4tw5lu"]
+
+[ext_resource type="Script" uid="uid://dkbova1f7ire3" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_spawn_fish.gd" id="1_cvujl"]
+[ext_resource type="Texture2D" uid="uid://cmt7smcwl0080" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_fish_spawn.png" id="1_hesju"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvujl"]
+radius = 64.28063
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n32nj"]
+atlas = ExtResource("1_hesju")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xd3s5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n32nj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_mg_diving_spawn_fish" type="Area2D"]
+script = ExtResource("1_cvujl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cvujl")
+debug_color = Color(0.5471407, 0.5648441, 0.04310608, 0.25490198)
+
+[node name="s_mg_diving_fish_spawn" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xd3s5")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

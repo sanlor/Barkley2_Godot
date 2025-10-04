@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://ctbp1fn4xr0t6"]
+
+[ext_resource type="Script" uid="uid://b50ji5j26puv1" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_alien.gd" id="1_f5w6r"]
+[ext_resource type="Texture2D" uid="uid://f83dj17go6ns" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_alien.png" id="1_feaux"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5w6r"]
+atlas = ExtResource("1_feaux")
+region = Rect2(0, 0, 22, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmr3l"]
+atlas = ExtResource("1_feaux")
+region = Rect2(22, 0, 22, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfi1m"]
+atlas = ExtResource("1_feaux")
+region = Rect2(44, 0, 22, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqp6b"]
+atlas = ExtResource("1_feaux")
+region = Rect2(66, 0, 22, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ojbpg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5w6r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmr3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfi1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqp6b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bg4nh"]
+radius = 5.0
+height = 24.0
+
+[node name="o_mg_diving_danger_alien" type="Area2D"]
+script = ExtResource("1_f5w6r")
+
+[node name="s_mg_diving_alien" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ojbpg")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_bg4nh")
