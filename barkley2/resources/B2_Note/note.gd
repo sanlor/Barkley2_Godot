@@ -196,6 +196,15 @@ static func give_note( note_title : String ): # as in, hoopz gives the note away
 	else:
 		push_error("WARNING: You are giving away a note that doesn't exist.")
 
+## Check if a player has a speccific note (Thanks Cherlindria).
+static func has_note( note_title : String ) -> bool:
+	var my_notes = B2_Config.get_user_save_data("quest.notes")
+	
+	if my_notes is not Array:
+		my_notes = []
+		
+	return my_notes.has( note_title )
+
 static func has_note_in_db( note_title : String ) -> bool:
 	return NOTES.data.has( note_title )
 

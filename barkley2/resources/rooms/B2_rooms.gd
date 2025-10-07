@@ -67,7 +67,8 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 @export_category("Weather")
-@export_flags("Rain:1", "Smog:2") var room_weather := 0 ## ALERT not implemented. Need to work on this.
+@export var weather_rain 	:= false
+@export var weather_fog 	:= false
 
 var astar_pos_offset := Vector2i(8,8)
 
@@ -120,7 +121,11 @@ func _enter_tree() -> void:
 				sound_node.stream.loop = true
 				sound_node.bus = "audio"
 				sound_node.play()
-			
+	
+	## Applies weather.
+	B2_Shaders.toggle_fog_shader( weather_fog )
+	B2_Shaders.toggle_rain_shader( weather_rain )
+	
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
 
@@ -218,14 +223,6 @@ func _after_ready() -> void:
 		B2_Music.volume_mod = 0.75 
 	else:
 		B2_Music.volume_mod = 1.00
-		
-	## add weather effects
-	if room_weather & 0b01 == 0b01: ## Rain effect
-		# do something
-		pass
-	elif room_weather & 0b10 == 0b10: ## Smog effect
-		# do something
-		pass
 		
 	if show_zone_banner:
 		var zone := O_ZONE_NAME.instantiate()

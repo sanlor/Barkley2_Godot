@@ -609,30 +609,30 @@ border_size = Vector2(116, 75)
 [node name="start_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 10.5
+offset_top = 11.5
 offset_right = 108.0
-offset_bottom = 27.5
-focus_neighbor_left = NodePath("../../vr_btn")
+offset_bottom = 28.5
+focus_neighbor_left = NodePath("../../extra_btn")
 text = "Game Time"
 clip_text = true
 
 [node name="settings_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 26.5
+offset_top = 27.5
 offset_right = 108.0
-offset_bottom = 43.5
-focus_neighbor_left = NodePath("../../vr_btn")
+offset_bottom = 44.5
+focus_neighbor_left = NodePath("../../extra_btn")
 text = "Settings"
 clip_text = true
 
 [node name="quit_button" type="Button" parent="title_layer/title_panel"]
 layout_mode = 0
 offset_left = 8.0
-offset_top = 42.5
+offset_top = 43.5
 offset_right = 108.0
-offset_bottom = 59.5
-focus_neighbor_left = NodePath("../../vr_btn")
+offset_bottom = 60.5
+focus_neighbor_left = NodePath("../../extra_btn")
 text = "Quit"
 clip_text = true
 
@@ -652,61 +652,93 @@ theme = ExtResource("45_12ava")
 text = "?"
 script = ExtResource("43_4mace")
 
-[node name="vr_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
+[node name="extra_btn" type="Control" parent="title_layer"]
 layout_mode = 3
 anchors_preset = 0
 offset_top = 205.0
 offset_right = 110.0
 offset_bottom = 240.0
-focus_neighbor_top = NodePath("../debug_btn")
 focus_neighbor_right = NodePath("../title_panel/start_button")
-focus_neighbor_bottom = NodePath("../debug_btn")
 focus_mode = 2
 script = ExtResource("44_f8qw8")
-content_highlight_color = Color(1, 0.647059, 0, 1)
-manual_decorations = [NodePath("vr_label")]
 border_size = Vector2(110, 35)
 metadata/_custom_type_script = "uid://21bcte5vesst"
 
-[node name="vr_label" type="Label" parent="title_layer/vr_btn"]
+[node name="extra_label" type="Label" parent="title_layer/extra_btn"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "V.R. Training"
+text = "Extra Stuff"
 label_settings = SubResource("LabelSettings_hdv4t")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="debug_btn" type="Control" parent="title_layer" node_paths=PackedStringArray("manual_decorations")]
+[node name="extra_menu" type="Control" parent="title_layer"]
 layout_mode = 3
 anchors_preset = 0
-offset_top = 166.0
-offset_right = 110.0
-offset_bottom = 201.0
-focus_neighbor_top = NodePath("../vr_btn")
-focus_neighbor_right = NodePath("../title_panel/start_button")
-focus_neighbor_bottom = NodePath("../vr_btn/vr_label")
-focus_mode = 2
-script = ExtResource("44_f8qw8")
-content_highlight_color = Color(1, 0.647059, 0, 1)
-manual_decorations = [NodePath("debug_label")]
-border_size = Vector2(110, 35)
-metadata/_custom_type_script = "uid://21bcte5vesst"
+offset_left = 2.0
+offset_top = 138.0
+offset_right = 112.0
+offset_bottom = 238.0
+theme = ExtResource("43_081ea")
+script = ExtResource("54_tbif1")
+border_size = Vector2(110, 100)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
 
-[node name="debug_label" type="Label" parent="title_layer/debug_btn"]
+[node name="MarginContainer" type="MarginContainer" parent="title_layer/extra_menu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="ScrollContainer" type="ScrollContainer" parent="title_layer/extra_menu/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="title_layer/extra_menu/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="vr_btn" type="Button" parent="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../../../title_panel/start_button")
+text = "V.R. Training"
+
+[node name="debug_btn" type="Button" parent="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../../../title_panel/start_button")
 text = "Debug Room"
-label_settings = SubResource("LabelSettings_hdv4t")
-horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="map_select_btn" type="Button" parent="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../../../title_panel/start_button")
+text = "Map Select"
+
+[node name="padding" type="Control" parent="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="extra_back_btn" type="Button" parent="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../../../title_panel/start_button")
+text = "Back"
 
 [node name="gameslot_layer" type="CanvasLayer" parent="."]
 visible = false
@@ -1374,6 +1406,7 @@ offset_top = 163.0
 offset_right = 381.0
 offset_bottom = 198.0
 focus_neighbor_left = NodePath("../mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_1")
+focus_neighbor_bottom = NodePath("../back_btn")
 focus_mode = 2
 script = ExtResource("44_f8qw8")
 content_highlight_color = Color(1, 0.647059, 0, 1)
@@ -1401,6 +1434,7 @@ offset_top = 199.0
 offset_right = 381.0
 offset_bottom = 234.0
 focus_neighbor_left = NodePath("../mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_1")
+focus_neighbor_top = NodePath("../begin_btn")
 focus_mode = 2
 script = ExtResource("44_f8qw8")
 content_highlight_color = Color(1, 0.647059, 0, 1)
@@ -1442,8 +1476,11 @@ vertical_alignment = 1
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
 [connection signal="pressed" from="title_layer/OOC_button" to="title_layer/OOC_button" method="_on_pressed"]
-[connection signal="button_pressed" from="title_layer/vr_btn" to="." method="_on_vr_btn_button_pressed"]
-[connection signal="button_pressed" from="title_layer/debug_btn" to="." method="_on_debug_btn_button_pressed"]
+[connection signal="button_pressed" from="title_layer/extra_btn" to="title_layer" method="_on_extra_btn_button_pressed"]
+[connection signal="pressed" from="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/vr_btn" to="." method="_on_vr_btn_button_pressed"]
+[connection signal="pressed" from="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/debug_btn" to="." method="_on_debug_btn_button_pressed"]
+[connection signal="pressed" from="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/map_select_btn" to="." method="_on_map_select_btn_pressed"]
+[connection signal="pressed" from="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/extra_back_btn" to="title_layer" method="_on_extra_back_btn_pressed"]
 [connection signal="visibility_changed" from="gameslot_layer" to="gameslot_layer" method="_on_visibility_changed"]
 [connection signal="visibility_changed" from="settings_layer" to="settings_layer" method="_on_visibility_changed"]
 [connection signal="pressed" from="settings_layer/settings_panel/general/settings_name_0/minus" to="settings_layer" method="_on_music_minus_pressed"]

@@ -1,3 +1,11 @@
+## The Almighty B2_Sound Node
+# Handles all generic SFX from the game. Also helps delivering SFX stream files to be used in AudioPlayer2D
+# NOTE All music files are indexed inside the 'SOUNDBANK' json file.
+# NOTE 'SOUNDPICK' json file is responsible for all soundpick, which are 'nicknames' for a group of sfx. Ex. "shoot_gun" would pick (at random) gun_shoot01, gun_shoot02 or gun_shoot03.
+# This also uses a pool of audio players. This way, multiple SFX can be playied at the same time.
+# @tutorial: https://www.youtube.com/watch?v=eRHJWVY2nT8
+
+@icon("uid://bl0xx87ug1w7k")
 extends Node
 
 ## NOTES
@@ -52,12 +60,10 @@ func _enter_tree() -> void:
 		sound_pick = SOUNDPICK.data
 	
 func _ready():
-	B2_SignalBus.gun_changed.connect( _play_gun_swap_sfx )
-	for i in sound_pool_amount:
+	B2_SignalBus.gun_changed.connect( _play_gun_swap_sfx )		## Play gun change sfx
+	for i in sound_pool_amount:									## Load audio pool
 		sound_pool.append( AudioStreamPlayer.new() )
-		
-	sound_bank_dirty.connect( _init_sound_banks )
-		
+	sound_bank_dirty.connect( _init_sound_banks )				## Handle cache misses
 	if debug_messages: print( "Sound: sound_pool: x", sound_pool.size() ); print( "Sound: sound_bank entries: %s. sound_pick entries: %s." % [ sound_bank.size(), sound_pick.size() ] )
 
 	
@@ -83,12 +89,10 @@ func get_volume() -> float:
 
 ## Plays SFX when the player changes Weapons.
 func _play_gun_swap_sfx() -> void:
-	var wpn = B2_Gun.get_current_gun()
+	var wpn : B2_Weapon = B2_Gun.get_current_gun()
 	## Tries to pick a specific swapsound. if it cant, play the default one.
-	if wpn:
-		play_pick( wpn.get_swap_sound() )
-	else:
-		play_pick( "hoopz_swapguns" ) ## "hoopz_swapguns" is the default is no sound exists
+	if wpn:		play_pick( wpn.get_swap_sound() )
+	else:		play_pick( "hoopz_swapguns" ) ## "hoopz_swapguns" is the default is no sound exists
 
 ## used for Positional sounds. # Return the file name for a sound effect
 func get_sound(soundID : String) -> String:
@@ -107,8 +111,7 @@ func get_sound_pick(soundpickID : String) -> String:
 		assert( not sound_pick[soundpickID].is_empty(), "It should not be empty, i think." )
 		return sound_pick[soundpickID].pick_random() as String # <- Important
 	else:
-		# Sound not found
-		return soundpickID
+		return soundpickID # Sound not found
 		
 ## stop the player from playing, emit a signal to force a graceful stop
 ## You can also do some fancy stuff, like fading aout the audio before stopping it.
@@ -145,11 +148,11 @@ func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitc
 	else: ## Invalid sound
 		if soundID.is_empty():			push_warning("B2_Sound: Empty SoundID called.")
 		else:							push_warning("Invalid SoundID: ", soundID); sound_bank_dirty.emit()
-		return AudioStreamPlayer.new() # -1;
+		return AudioStreamPlayer.new()
 
 func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0 ) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
-		push_error("No audiostreeeeeeen on the pool. This is CRITICAL!")
+		push_error("No audiostreeeeeeeam on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound := load( sound_bank[soundID] )
@@ -158,12 +161,15 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 	sfx.finished.connect( finished_playing.bind(sfx) )
 	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
 	sfx.pitch_scale = pitch
+	sfx.bus = "Audio"
+	
 	## Loop Setup
 	sound_loop[sfx] = loops
 	
+	## Play the damn thing.
 	add_child(sfx)
 	sfx.play( start_at )
-	return sfx
+	return sfx			## Some nodes ant to monitor the state of its AudioPlayer
 
 ## Loop - Allow infinite looping SFX while changing rooms. for limited looping, use play()
 func play_loop( soundID : String ):
@@ -185,11 +191,13 @@ func set_loop_volume( volume : float ):
 	audio_loop.volume_db = linear_to_db( volume )
 
 func finished_playing( sfx : AudioStreamPlayer ):
-	if sound_loop.has(sfx):
-		sound_loop[sfx] -= 1
-		if sound_loop[sfx] > 0:
+	if sound_loop.has(sfx):		## Check if its looping
+		sound_loop[sfx] -= 1	## Decrease loops
+		if sound_loop[sfx] > 0:	## There are still loops to be looped. play anbother one.
 			sfx.play()
 			return
+			
+	## Finished playing. cleanup and return to the pool.
 	sfx.finished.disconnect( finished_playing.bind(sfx) )
 	remove_child( sfx )
 	sound_pool.push_back( sfx )

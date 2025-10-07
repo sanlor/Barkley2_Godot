@@ -1,0 +1,188 @@
+[gd_scene load_steps=9 format=3 uid="uid://dqfvhdn8juqkn"]
+
+[ext_resource type="Script" uid="uid://crxuqfqs8dy3s" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_sureshPrison01.gd" id="1_uuj3i"]
+[ext_resource type="Texture2D" uid="uid://nxsbqthacu4a" path="res://barkley2/assets/b2_original/images/merged/s_suresh_prison.png" id="2_5kcj3"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_vqghg"]
+
+[sub_resource type="Resource" id="Resource_g134n"]
+script = ExtResource("2_vqghg")
+original_script = "IF darchPrisonShank == 1 | GOTO | WAITINGTOSHANK
+IF shankPending == 1 | GOTO | SHANKPENDING
+IF prisonQuest >= 2 | GOTO | SURESH01
+
+WAITINGTOSHANK
+DIALOG | Suresh = s_port_sureshJail | What's the holdup?`sq` Shank that bastard.`rt`
+EXIT |
+
+SHANKPENDING
+DIALOG | Suresh = s_port_sureshJail | Your end is coming. Don't drop the soap... `w1`or your guard.`w0`
+EXIT |
+
+SURESH01
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Oh, Suresh! I didn't think I'd see you in here.
+DIALOG | Suresh = s_port_sureshJail | You didn't think you'd see me in here?! `s1`You were the one who put me in here!`rt`
+WAIT | 1.0
+SURPRISEAT | o_sureshPrison01
+DIALOG | P_NAME = s_port_hoopzPrisonShock | `w1`(Gadzooks! I forgot I'm the reason he's in here!)`w0`
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Suresh, about that...
+DIALOG | Suresh = s_port_sureshJail | What could you possibly say?
+CHOICE | About that, Suresh...
+REPLY | IMSORRY | I'm so sorry to get you arrested!
+REPLY | TOUGHBUNK | Tough bunk, perp.
+
+IMSORRY
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Suresh, I'm sorry... I was just_ `w1`laying down the law.`w0`
+DIALOG | Suresh = s_port_sureshJail | What law? I didn't kill Figbottom!
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | You didn't?!
+DIALOG | Suresh = s_port_sureshJail | Of course not! All I wanted was to collect trash and wallow in trash and now I'm stuck in here. There is no trash in the Hoosegow... in the hoosegow, you are the trash.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I don't know what to say.
+DIALOG | Suresh = s_port_sureshJail | I had to join MS-13 just to get access to contraband trash.
+DIALOG | P_NAME | Uh...
+DIALOG | Suresh = s_port_sureshJail | I had to_ `s1`merc a noob`s0` on their first night here. All to get an empty coffee can. It was the first of many mercs... now I'm building a collection of trash but... at what cost?
+DIALOG | P_NAME | Uh_ I have no idea to say.
+DIALOG | Suresh = s_port_sureshJail | I do... `sq`Prepare to `s1`get shanked in the name of vengeance.`s0``rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (How am I gonna get out of this one?)
+CHOICE | Anything you can do?
+REPLY | CANIDOSOMETHING | Is there anything I can do?
+REPLY | TOUGHBUNK | Just try and shank me, SUCKA!
+
+CANIDOSOMETHING
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Is,_ is there anything-_anything at all that I can do to make this right?
+WAIT | 0.5
+DIALOG | Suresh = s_port_sureshJail | Hmmm... well..._ This hoosegow... it's not all it's cracked up to be. The things I have to do to keep the trash pile behind me growing will haunt me for the rest of my natural life. But..._ I need more, more trash.
+DIALOG | P_NAME | Can I help?
+DIALOG | Suresh = s_port_sureshJail | In order to get contraband trash, I need to do something for the MS-13 Familia. That means only one thing: `s1`a hoosegow shanking.`s0`
+Emote | ! | o_cts_hoopz | 0 | 0
+SURPRISEAT | o_sureshPrison01
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | `s1`A hoosegow shanking?!`s0`
+DIALOG | Suresh = s_port_sureshJail | For the last four thousand years, the MS-13's have grown to be the most ruthless and depraved criminal gang in the known Universe. They crush their enemies with `s1`shankings and gankings,`s0` and right now, rival gang `sq`The Gaming Klatch`rt` have drawn the MS-13's ire.
+IF knowGamingKlatch <= 1 | GOTO | KNOWKLATCH
+GOTO | DONTKNOWKLATCH
+
+KNOWKLATCH
+DIALOG | P_NAME | I've heard of The Gaming Klatch but I had no idea they'd have a foothold in the Hoosegow.
+DIALOG | Suresh = s_port_sureshJail | Well they do but not for long, MS-13 is about to root out the Klatch with an `sq`epic hoosegow shanking.`rt` It's up to me to stick it in the leader of the Klatch,_ `sq`D'archimedes.`rt`
+GOTO | WHOSINKLATCH
+
+DONTKNOWKLATCH
+DIALOG | P_NAME | The Gaming Klatch?
+DIALOG | Suresh = s_port_sureshJail | They're posse of ruffians that exist completely on DwarfNET. I'm not really sure what their deal is, but they seem to treat trash like something to be thrown out._ Animals. `sq`They're based in Al Akihabara,`rt` but they have representation here in the Hoosegow too, I think.
+KNOW | knowGamingKlatch | 2
+//TODO: fix location of the Gaming Klatch to be either Al Akihabara or Brain City
+GOTO | WHOSINKLATCH
+
+WHOSINKLATCH
+DIALOG | P_NAME | How can you tell who's part of The Gaming Klatch?
+DIALOG | Suresh = s_port_sureshJail | That's been my problem too, the Klatch hides behind their screen names and so-called `sq`alterNET identities.`rt` In order for me to get some contraband to get my life back on track I need to kill the only Klatch member who hides in broad daylight: `sq`D'archimedes.`rt`
+IF knowDarchimedes >= 1 | GOTO | IKNOWHIM
+IF knowDarchimedes == 0 | GOTO | DARCHIMEDESINFO
+
+IKNOWHIM
+DIALOG | P_NAME | Yeah I know him... what am I supposed to do?
+GOTO | WHATTODO
+
+DARCHIMEDESINFO
+DIALOG | P_NAME | Who is D'archimedes?
+DIALOG | Suresh = s_port_sureshJail | He's monitoring the only turf the Klatch has in the Hoosegow, `w1`the terlet.`w0`
+WAIT   | 0.5
+PLAYSET| o_cts_hoopz | stomach_start | stomach_end
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (The terlet...)
+LOOKAT | o_cts_hoopz | o_sureshPrison01
+WAIT | 0.5
+DIALOG | P_NAME | But what am I supposed to do?
+GOTO | WHATTODO
+
+WHATTODO
+DIALOG | Suresh = s_port_sureshJail | `sq`You need to take my shiv and stick it right into D'archimedes kidney. Either right or left.`rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I-_I_ don't know if I can do that... shank a dwarf?
+DIALOG | Suresh = s_port_sureshJail | It's to shank or be shanked for you. What will it be?
+CHOICE | Shank or be shanked?
+REPLY | SHANK | Shank.
+REPLY | BESHANKED | Be shanked.
+
+SHANK
+DIALOG | P_NAME | Alright, hand me the shiv... I guess I have no choice if I want to save one of my own kidneys.
+WAIT | 0.25
+USEAT | o_sureshPrison01
+WAIT | 0.25
+NOTIFY | Got Suresh's Shiv
+Item | gain | Suresh's Shiv
+DIALOG | Suresh = s_port_sureshJail | Take this and deposit it in that trashless heathen's kidneys. Do it now, before I use my shiv for what I really should use it for... Y_O_U.
+DIALOG | P_NAME | `w1`(Gulp...)`w0`_ Okay... here goes nothing._ I'm sorry again about sending you in here.
+DIALOG | Suresh = s_port_sureshJail | We're all square after you drop that mask-wearing freak. 
+QUEST | darchPrisonShank = 1
+EXIT |
+
+BESHANKED
+DIALOG | P_NAME | I'd rather lose some blood from my kidney than wear that blood on my hands, no thank you...
+DIALOG | Suresh = s_port_sureshJail | You just signed your kidney's shank warrant. Enjoy eating out of a fuckin' straw for the rest of your life with only one bean in your body.
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (Gulp.)
+QUEST | shankPending = 1
+EXIT |
+
+TOUGHBUNK
+DIALOG | P_NAME = s_port_hoopzPrisonSmirk | Just put your shiv anywhere close to my kidneys and I'll make sure your crumpled frame is a permanent addition to the trash pile behind you!
+DIALOG | Suresh = s_port_sureshJail | Oh you just fucked up. You just fucked yourself up.
+DIALOG | P_NAME = s_port_hoopzPrisonSmirk | I'm a dog, whoof whoof whoof!
+DIALOG | Suresh = s_port_sureshJail | My shiv of choice is a filed-down toothbrush... and it's gonna be flossin' your kidneys when you least expect it. Now get out of my cell.
+DIALOG | P_NAME = s_port_hoopzPrisonAngry | Pfffft.
+QUEST | shankPending = 1
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqghg"]
+atlas = ExtResource("2_5kcj3")
+region = Rect2(0, 0, 42, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g134n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqghg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f7hlo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f7hlo"]
+size = Vector2(20, 36)
+
+[node name="o_sureshPrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_uuj3i")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_g134n")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_g134n")
+centered = false
+offset = Vector2(-18, -44)
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "5",
+"bbox_right": "35",
+"bbox_top": "2",
+"frames": ["images\\s_suresh_prison_0.png"],
+"height": "50",
+"name": "s_suresh_prison",
+"width": "42",
+"xorig": "18",
+"yorigin": "44"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(1, -6)
+shape = SubResource("CircleShape2D_f7hlo")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(2, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_f7hlo")

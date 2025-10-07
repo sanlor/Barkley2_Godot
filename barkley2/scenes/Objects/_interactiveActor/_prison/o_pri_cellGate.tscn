@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmuthvjgg7a60"]
+
+[ext_resource type="Texture2D" uid="uid://xa7b452dkydm" path="res://barkley2/assets/b2_original/images/merged/s_pri_cellGate.png" id="1_q7qoq"]
+[ext_resource type="Script" uid="uid://dtu5vneutx7up" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_pri_cell_gate.gd" id="2_q7qoq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5k7i0"]
+atlas = ExtResource("1_q7qoq")
+region = Rect2(0, 0, 96, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nivgv"]
+atlas = ExtResource("1_q7qoq")
+region = Rect2(96, 0, 96, 87)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nj08e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5k7i0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nivgv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yf0ea"]
+size = Vector2(26, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5k7i0"]
+size = Vector2(42, 11)
+
+[node name="o_pri_cellGate" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_nj08e")
+centered = false
+offset = Vector2(0, -87)
+script = ExtResource("2_q7qoq")
+metadata/default = {
+"bbox_bottom": "87",
+"bbox_left": "0",
+"bbox_right": "95",
+"bbox_top": "79",
+"height": "87",
+"name": "s_pri_cellGate",
+"width": "96",
+"xorig": "0",
+"yorigin": "87"
+}
+
+[node name="gate_collision" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gate_collision"]
+position = Vector2(13, -6)
+shape = SubResource("RectangleShape2D_yf0ea")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="gate_collision"]
+position = Vector2(75, -6.5)
+shape = SubResource("RectangleShape2D_5k7i0")
+
+[node name="door_collision" type="StaticBody2D" parent="."]
+
+[node name="door_collision_shape" type="CollisionShape2D" parent="door_collision"]
+position = Vector2(40, -6.5)
+shape = SubResource("RectangleShape2D_yf0ea")
+
+[node name="door_sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -87)
+sprite_frames = SubResource("SpriteFrames_nj08e")
+frame = 1
+centered = false

@@ -4,6 +4,7 @@ extends B2_InteractiveActor
 func _ready() -> void:
 	_setup_actor()
 	_setup_interactiveactor()
+	ActorAnim.frame = 0
 	
 	## NOTE Went to prison
 	if get_room_name() == "r_pri_prisonInside01":

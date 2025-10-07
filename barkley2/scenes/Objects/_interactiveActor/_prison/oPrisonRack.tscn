@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://c08wjc74lbmf4"]
+
+[ext_resource type="Texture2D" uid="uid://2235fyum66j4" path="res://barkley2/assets/b2_original/images/merged/sPrisonRack.png" id="1_is8un"]
+[ext_resource type="Script" uid="uid://ctbyvod8228ni" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_rack.gd" id="2_lall6"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_vkxtk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkxtk"]
+atlas = ExtResource("1_is8un")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72g04"]
+atlas = ExtResource("1_is8un")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxvok"]
+atlas = ExtResource("1_is8un")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cg6u7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkxtk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72g04")
+}],
+"loop": true,
+"name": &"guns",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pxvok")
+}],
+"loop": true,
+"name": &"jerkin",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_72g04"]
+script = ExtResource("3_vkxtk")
+original_script = "IF prisonLiberated >= 2 | GOTO | NONE
+IF prisonDive >= 30     | GOTO | NONE
+IF prisonRackguns == 0     | GOTO | FULL
+GOTO | EMPTY
+
+NONE
+DIALOG | P_NAME | There's nothing here.
+
+FULL
+SET | oPrisonRack_guns | default
+NOTIFY | Got your guns back!
+EVENT  | oPrisonSwitch | 0
+QUEST  | prisonRackguns = 1
+
+EMPTY
+DIALOG | P_NAME | I got everything here already."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lall6"]
+size = Vector2(44, 61)
+
+[node name="oPrisonRack" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_cg6u7")
+centered = false
+offset = Vector2(-24, -64)
+script = ExtResource("2_lall6")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_72g04")
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "47",
+"bbox_top": "0",
+"height": "64",
+"name": "sPrisonRack",
+"width": "48",
+"xorig": "24",
+"yorigin": "64"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -30.5)
+shape = SubResource("RectangleShape2D_lall6")

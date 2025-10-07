@@ -1,0 +1,214 @@
+[gd_scene load_steps=9 format=3 uid="uid://cnj875v4rkgk6"]
+
+[ext_resource type="Script" uid="uid://dc3vxwvx1lq3v" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/oPrisonCherlindria.gd" id="1_hvu7r"]
+[ext_resource type="Texture2D" uid="uid://cputh5yev0ylm" path="res://barkley2/assets/b2_original/images/merged/sPrisonCherlindria.png" id="2_mbxnq"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_r75rt"]
+
+[sub_resource type="Resource" id="Resource_107d3"]
+script = ExtResource("2_r75rt")
+original_script = "EVENT | oPrisonCherlindria | 1
+IF prisonLiberated >= 3  | GOTO | MEET_CAVE
+IF cherlindriaState == 1 | GOTO | NONOTE_CHAT
+IF cherlindriaState == 0 | GOTO | MEET_PRISON
+
+NONOTE_CHAT
+DIALOG | Cherlindria | Look, kid, you don't have what I need. The mission is over. Let me come to terms with my twelve hundred year sentence.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Okay...
+
+MEET_PRISON
+KNOW   | knowCherlindria | 2
+DIALOG | P_NAME      | Hi, I'm P_NAME_S. I'm new.
+DIALOG | Cherlindria | No shit, you don't say...
+DIALOG | P_NAME      | Uh... what are you in for?
+DIALOG | Cherlindria | Look, if you aren't here to bust me out, I'm not really up for making friends._ Wait, `kw`Lafayette`rt` didn't send you did he?
+IF lafayetteState >= 1 | GOTO | KNOW_LAFAYETTE
+DIALOG | P_NAME      | Uh... no I don't think so...
+GOTO   | ASK_LIU
+
+KNOW_LAFAYETTE
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Oh yeah, I know Lafayette! I met him in a cave on Gilbert's Peak! What a nice guy...
+DIALOG | P_NAME = s_port_hoopzPrisonSad   | I feel sorry about his legs though...
+DIALOG | Cherlindria | Yeah, you're sorry, I'm sorry, we're all sorry._ He didn't give you anything did he? A dossier by chance?
+IF cherlindriaDossierCheck == 1 | GOTO | HAVE_DOSSIER
+GOTO   | DONTHAVE_DOSSIER
+
+ASK_LIU
+DIALOG | Cherlindria    | Hmmm, damn... how about `kw`Liu?_ Dr. Rita Maria Liu?`rt` That ring a bell?
+IF knowLONGINUSTnn >= 3 | GOTO | KNOW_LIU
+GOTO   | DONTKNOW_LIU
+
+DONTKNOW_LIU
+DIALOG | P_NAME      | Uh... sorry. Haven't met her, but I'm sure she's a great doctor.
+DIALOG | Cherlindria | Looks like I'm stuck here... stuck in the Hoosegow for the rest of my natural and virtual life.
+DIALOG | P_NAME      | Is there anything I can do to help?
+DIALOG | Cherlindria | Unless you can pull a `kw`Secret L.O.N.G.I.N.U.S. Dossier`rt` out of your keister, I don't think so.
+IF cherlindriaDossierCheck == 1 | GOTO | HAVE_DOSSIER
+GOTO   | BRUTALREALIZATION
+
+KNOW_LIU
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Yeah! I know Dr. Liu!
+DIALOG | Cherlindria | Oh thank Klisp. Did she give you the dossier? This is `w1`crucial!`w0` Where is that dossier?
+IF cherlindriaDossierCheck == 1 | GOTO | HAVE_DOSSIER
+GOTO   | BRUTALREALIZATION
+
+BRUTALREALIZATION
+DIALOG | P_NAME      | Um, I don't think so.
+DIALOG | Cherlindria | Frack... That's it..._ I'm stuck here.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I'm sorry, I wish I could do something.
+DIALOG | Cherlindria | We all do, kid.
+QUEST  | cherlindriaState = 1
+
+HAVE_DOSSIER
+DIALOG | P_NAME = s_port_hoopzPrisonSmirk | A_ dossier you say?
+NOTE   | select | Cherlindria
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Sealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Re-resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Re-re-resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Resealed Dossier | GOTO | NOTE_DOSSIER
+GOTO   | NOTE_OTHER
+
+NOTE_EXIT
+DIALOG | Cherlindria | ...?
+DIALOG | P_NAME      | Actually, let me wait on that dossier, I have something important I need to do first.
+DIALOG | Cherlindria | What could possibly be more important here in the Hoosegow?
+DIALOG | P_NAME      | Well... let's call it an uh_ emergency...
+WAIT   | 0.5
+DIALOG | Cherlindria | Number 1 or Number 2?
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | prison_sad0 | prison_sad1
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Feels like Number 4.
+PLAYSET | o_cts_hoopz | prison_sad2 | prison_sad3
+WAIT   | 0
+WAIT   | 0.25
+DIALOG | Cherlindria | Sheesh._ Get back to me soon then.
+
+NOTE_NONE
+DIALOG | Cherlindria | No notes?
+DIALOG | P_NAME      | No notes, sorry...
+
+NOTE_DOSSIER
+DIALOG | Cherlindria | This is it! Scratch Cuchu's belly! Finally!
+NOTE   | give | Sealed Secret Dossier
+NOTE   | give | Resealed Secret Dossier
+NOTE   | give | Re-resealed Secret Dossier
+NOTE   | give | Re-re-resealed Secret Dossier
+DIALOG | Cherlindria | Okay, let's see...
+WAIT   | 1
+//TODO: remove her cut, give back a processed note
+DIALOG | Cherlindria | And here you go...
+NOTE   | take        | Cuchu Cashier's Cheque
+USEAT  | o_cherlindria01
+DIALOG | P_NAME      | What is this?
+DIALOG | Cherlindria | It's the key to everything... a `kw`Cashier's Cheque.`rt`
+DIALOG | P_NAME      | Was this in there the whole time?
+DIALOG | Cherlindria | Yep... minus my stipend.
+DIALOG | P_NAME = s_port_hoopzPrisonAngry | Ugh... fine... so a `kw`Cashier's Cheque`rt`... what do I do with it?
+DIALOG | Cherlindria | How am I supposed to know? It's got something to do with `kw`The Guilderbergs and Cuchu-bucks.`rt` The rest is above my pay grade. There's only one rebel that knows the inner workings of that `w1`shadowy group:`w0`_ `kw`Chandragupta.`rt` I'd `sq`talk to him in Brain City and ask him what to do with it.`rt`
+QUEST  | operationX = 6
+KNOW   | knowGuilderbergs | 1
+GOTO   | INFO_CHOICE
+
+INFO_CHOICE
+CHOICE | What's the scoop?
+IF cherlindraBucksInfo == 0 | REPLY | LOTSOFMONEY       | Isn't this cheque a ton of money?
+IF knowGuilderbergs <= 1    | REPLY | KNOW_GUILDERBERGS | Who are the Guilderbergs?
+REPLY  | NARYYEMIND  | Nary ye mind.
+
+KNOW_GUILDERBERGS
+DIALOG | P_NAME      | Who are the Guilderbergs?
+DIALOG | Cherlindria | Like I said, they are a `w1`shadowy group.`w0` Best way I could describe is this:_
+DIALOG | Cherlindria | You know how there is a sort of `kw`spiritual energy,`rt`_ an ethereal substance that streams beneath the surface of all planets in the galaxy?
+DIALOG | P_NAME      | Yeah, the `kw`the Lifestream.`rt` Everyone knows that. 
+DIALOG | Cherlindria | Well there also a kind of `kw`fiduciary energy,`rt`_ a force that influences all market transactions and exchanges. The Guilderbergs are stewards of that financial ebb and flow.
+DIALOG | P_NAME      | Sounds like a powerful force...
+DIALOG | Cherlindria | Maybe,_ `sq`ask Chandragupta in Brain City for more information.`rt` Anything else?
+GOTO   | INFO_CHOICE
+
+LOTSOFMONEY
+DIALOG | P_NAME      | This cheque is for... wow, like `w1`9 hundred billion Cuchu-bucks.`w0` Isn't that a ton of money?
+DIALOG | Cherlindria | You obviously aren't so knowledgeable on the intricacies of numismatics.
+DIALOG | P_NAME      | I guess I'm not.
+DIALOG | Cherlindria | Cuchu-bucks are a new `kw`hypnocurrency.`rt` It's new, it's got the backing of that inglorious basterd Cuchulainn, but for now, it doesn't have much financial clout. And that makes it vulnerable. `kw`Operation: Reverse Dunkirk`rt` is looking to exploit that. `kw`Chandragupta`rt` could probably tell you the rest.
+KNOW   | knowCuchubucks | 2
+QUEST  | cherlindraBucksInfo = 1
+GOTO   | INFO_CHOICE
+
+NOTE_OTHER
+IF cherlindriaDossierOther == 0 | DIALOG | Cherlindria | What am I gonna do with this? I'm looking for a `sq`D_O_S_S_I_E_R,`rt` not whatever this is.
+IF cherlindriaDossierOther == 1 | DIALOG | Cherlindria | Not this either...
+IF cherlindriaDossierOther == 0 | DIALOG | P_NAME | Oh right...
+IF cherlindriaDossierOther == 1 | DIALOG | P_NAME | Durn it...
+QUEST | cherlindriaDosserOther = 1
+GOTO  | HAVE_DOSSIER
+
+DONTHAVE_DOSSIER
+DIALOG | P_NAME      | No he didn't...
+DIALOG | Cherlindria | Crap. Well, we have nothing to talk about then...
+QUEST  | cherlindriaState = 1
+
+NARYYEMIND
+DIALOG | P_NAME      | Nary ye mind, I'll head out."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r75rt"]
+atlas = ExtResource("2_mbxnq")
+region = Rect2(0, 0, 24, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_107d3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r75rt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wq8n2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wq8n2"]
+size = Vector2(20, 52)
+
+[node name="oPrisonCherlindria" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hvu7r")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_107d3")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_107d3")
+centered = false
+offset = Vector2(-14, -49)
+metadata/default = {
+"bbox_bottom": "52",
+"bbox_left": "0",
+"bbox_right": "23",
+"bbox_top": "0",
+"frames": ["images\\sPrisonCherlindria_0.png"],
+"height": "53",
+"name": "sPrisonCherlindria",
+"width": "24",
+"xorig": "14",
+"yorigin": "49"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_wq8n2")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -31)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_wq8n2")

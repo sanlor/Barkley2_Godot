@@ -3,6 +3,9 @@ extends CanvasLayer
 # https://youtu.be/kMybONQr0wA?t=11255
 # check o_hoopz_death_grayscale
 
+## WARNING Junklord not implemented.
+# check o_gbl_junklord01
+
 @onready var animation_player: 	AnimationPlayer = $AnimationPlayer
 @onready var bg: 				ColorRect = $bg
 @onready var ded_hoopz: 		AnimatedSprite2D = $bg/Control/ded_hoopz
@@ -47,11 +50,18 @@ const HAIKUS : Array[Array] = [
 var play_haykus := true
 
 func _ready() -> void:
+	## Set the correct grayscale
+	if B2_CManager.get_BodySwap() == "prison": 	ded_hoopz.animation = "grayscale_prison"
+	else:										ded_hoopz.animation = "grayscale"
+	
 	defeat_flavor.text = Text.pr( GO_FLAVOR.pick_random() )
 	
 	if play_haykus:
 		_load_haikus()
-		animation_player.play("spin some haikus")
+		if B2_CManager.get_BodySwap() == "prison":
+			animation_player.play("spin some haikus_prison")
+		else:
+			animation_player.play("spin some haikus")
 	else:
 		animation_player.play("haha you goofed")
 	
@@ -94,7 +104,12 @@ func _on_give_up_pressed() -> void:
 
 func _on_continue_pressed() -> void:
 	B2_Sound.play( "sn_dwarfchain" )
-	animation_player.play("nevah giveup")
+	## Set the correct grayscale
+	
+	if B2_CManager.get_BodySwap() == "prison":
+		animation_player.play("nevah giveup_prison")
+	else:
+		animation_player.play("nevah giveup")
 	B2_Music.stop()
 	_disable_buttons()
 	await animation_player.animation_finished

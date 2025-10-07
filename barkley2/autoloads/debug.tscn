@@ -199,7 +199,6 @@ script = ExtResource("1_jshnt")
 
 [node name="player_data" type="ScrollContainer" parent="."]
 custom_minimum_size = Vector2(256, 240)
-anchors_preset = -1
 offset_right = 200.0
 offset_bottom = 240.0
 theme = ExtResource("2_pawx4")
@@ -228,7 +227,7 @@ tab_stops = PackedFloat32Array(10)
 
 [node name="player_vars" type="ScrollContainer" parent="."]
 custom_minimum_size = Vector2(150, 0)
-anchors_preset = -1
+anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -440,7 +439,7 @@ initial_position = 1
 size = Vector2i(300, 143)
 
 [node name="quest_checker" type="VBoxContainer" parent="AcceptDialog"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -473,21 +472,28 @@ horizontal_alignment = 1
 
 [node name="teleport_window" type="ConfirmationDialog" parent="."]
 editor_description = "Test"
+canvas_item_default_texture_filter = 0
 oversampling_override = 1.0
 title = "Teleport to..."
 initial_position = 1
-size = Vector2i(350, 350)
+size = Vector2i(384, 240)
 exclusive = false
+extend_to_title = true
+maximize_disabled = false
+content_scale_mode = 2
+content_scale_aspect = 1
+content_scale_stretch = 1
 ok_button_text = "Teleport"
 script = ExtResource("8_ir2hf")
 
 [node name="tree_node" type="Tree" parent="teleport_window"]
-anchors_preset = -1
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 342.0
 offset_bottom = 301.0
+column_titles_visible = true
 hide_root = true
+scroll_horizontal_enabled = false
 
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/teleport_btn" to="." method="_on_button_pressed"]
@@ -508,5 +514,6 @@ hide_root = true
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
 [connection signal="text_submitted" from="AcceptDialog/quest_checker/quest_request" to="AcceptDialog/quest_checker" method="_on_quest_request_text_submitted"]
+[connection signal="canceled" from="teleport_window" to="teleport_window" method="_on_canceled"]
 [connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]
 [connection signal="item_activated" from="teleport_window/tree_node" to="teleport_window" method="_on_tree_node_item_activated"]

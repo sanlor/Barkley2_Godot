@@ -34,3 +34,4 @@ func _explode() -> void:
 func _on_timer_timeout() -> void:
 	speed = position.direction_to(target.position) * 1.0
 	can_seek = true
+	s_mg_diving_torpedo.play("default")

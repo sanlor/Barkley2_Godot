@@ -1,6 +1,9 @@
 @tool
 extends B2_ROOMS
 
+## I was tired of coding the Gun fusing.
+## This is a very simple minigame, very fun one to port, actually.
+# It does seem unfinished, I think. The way that the teleportation is implemented seems wrong.
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.from_rgba8(0,0,15,255) ) ## TEMP
 	

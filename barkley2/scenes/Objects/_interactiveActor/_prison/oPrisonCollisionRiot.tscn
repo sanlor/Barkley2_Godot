@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dycnfv8hewi8c"]
+
+[ext_resource type="Script" uid="uid://bk38u1pxv5k8n" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_collision_riot.gd" id="1_5066d"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_y57r0"]
+
+[sub_resource type="Resource" id="Resource_fet1y"]
+script = ExtResource("2_y57r0")
+original_script = "DIALOG | P_NAME | I better get my gear back.
+MOVETO | o_cts_hoopz | o_cinema17 | MOVE_NORMAL
+WAIT   | 0.0
+LOOK   | o_cts_hoopz | NORTH"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5066d"]
+size = Vector2(49, 29)
+
+[node name="oPrisonCollisionRiot" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_5066d")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_fet1y")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, -4.5)
+shape = SubResource("RectangleShape2D_5066d")
+debug_color = Color(0.5242308, 0.5735265, 1.92523e-07, 0.25490198)

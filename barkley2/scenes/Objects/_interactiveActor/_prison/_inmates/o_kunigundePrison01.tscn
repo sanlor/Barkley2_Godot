@@ -1,7 +1,136 @@
-[gd_scene load_steps=13 format=3 uid="uid://c6jg6nrc1w6ju"]
+[gd_scene load_steps=15 format=3 uid="uid://c6jg6nrc1w6ju"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_kunigundePrison01.gd" id="1_pv1t4"]
+[ext_resource type="Script" uid="uid://dyknmqtv4bsco" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_kunigundePrison01.gd" id="1_pv1t4"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_xx8lu"]
 [ext_resource type="Texture2D" uid="uid://c0d2f27s4hmlk" path="res://barkley2/assets/b2_original/images/merged/s_kunigunde_prison.png" id="5_jrpp4"]
+
+[sub_resource type="Resource" id="Resource_gwyds"]
+script = ExtResource("2_xx8lu")
+original_script = "IF darchPrisonShank == 1 | GOTO | WAITINGTOSHANK
+IF shivPending == 1 | GOTO | SHANKPENDING
+IF prisonQuest >= 4 | GOTO | KUNI03
+IF prisonQuest >= 4 | GOTO | KUNI02
+IF prisonQuest >= 2 | GOTO | KUNI01
+
+WAITINGTOSHANK
+DIALOG | Kunigunde = s_port_kunigundeJail | What's the holdup.`sq` Shank that fucker.`rt`
+EXIT |
+
+SHANKPENDING
+DIALOG | Kunigunde = s_port_kunigundeJail | Your end is coming, sweet ass. Don't drop the soap... `w1`or your guard.`w0`
+EXIT |
+
+KUNI01
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Oh, Kunigunde! I didn't think I'd see you in here.
+DIALOG | Kunigunde = s_port_kunigundeJail | Watch your back, tallboy.
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | I'm sorry?
+DIALOG | Kunigunde = s_port_kunigundeJail | Did I fuckin' stutter? Is your head so far up Masego's ass that you can't hear me threaten your measly ass with a quick death? I said `s1`watch_ your_ fuckin'_ back.`s0`
+SURPRISEAT | o_kunigundePrison01
+DIALOG | P_NAME = s_port_hoopzPrisonShock | `w1`(Gadzooks! I forgot I'm the reason she's in here!)`w0`
+CHOICE | About that, Kunigunde...
+REPLY | IMSORRY | I'm so sorry about that Kunigunde!
+REPLY | TOUGHBUNK | Tough bunk, perp.
+
+IMSORRY
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Kunigunde! I'm so sorry! I didn't mean this to turn out the way it did!
+DIALOG | Kunigunde = s_port_kunigundeJail | You didn't mean it?! You framed me! I didn't kill Figbottom!
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | You didn't?!
+DIALOG | Kunigunde = s_port_kunigundeJail | Of course not! I was at the top of the The Social Scene. I had flimflams and boytoys eating out of my slender hand. Now look at my hands! They are sausages! The meals here are carb heavy millet cakes or nothing.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I don't know what to say.
+DIALOG | Kunigunde = s_port_kunigundeJail | I had to join the MS-13s! I think I'm a dwarf-supremacist now. Look at this under my eye, you know what that means?
+LOOKAT | o_cts_hoopz | o_kunigundePrison01
+DIALOG | P_NAME | Uh...
+DIALOG | Kunigunde = s_port_kunigundeJail | It means I scammed some first nighter... and domed him after nerfing his pasty ass.
+DIALOG | P_NAME | Uh_ I have no idea what that means.
+DIALOG | Kunigunde = s_port_kunigundeJail | Neither do I... but I did it, and I'll do the same thing to you, you sonofabitch. Prepare to `s1`get shanked in the name of vengeance.`s0`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (I'm in a real humdinger here...)
+CHOICE | Anything you can do?
+REPLY | CANIDOSOMETHING | Is there anything I can do?
+REPLY | TOUGHBUNK | I'm stickin' with TOUGH BUNK, SUCKA!
+
+CANIDOSOMETHING
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Is,_ is there anything-_anything at all that I can do to make this right?
+WAIT | 0.5
+DIALOG | Kunigunde = s_port_kunigundeJail | Hmmm... well..._ Let me level with you, sweet cakes. This hoosegow... it's not all it's cracked up to be. Look at this ghastly attire. `w1`Orange is the new dreck.`w0` I miss my black-footed ferret pelt coat and gormstone earrings... If I can't get back out to the Wastelands, I can at least bring the Wastelands to the Hoosegow. `sq`That means contraband.`w0`
+DIALOG | P_NAME | I'm not following...
+DIALOG | Kunigunde = s_port_kunigundeJail | In order to get contraband, I need to do something for the MS-13 Familia. That means only one thing: `s1`a hoosegow shanking.`s0`
+Emote | ! | o_cts_hoopz | 0 | 0
+SURPRISEAT | o_kunigundePrison01
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | `s1`A hoosegow shanking?!`s0`
+DIALOG | Kunigunde = s_port_kunigundeJail | That's right. For the last four thousand years, the MS-13's have grown to be the most ruthless and depraved criminal gang in the known Universe. They crush their enemies with `s1`shankings and gankings,`s0` and right now, rival gang `sq`The Gaming Klatch`rt` have drawn the MS-13's ire.
+IF knowGamingKlatch <= 1 | GOTO | KNOWKLATCH
+GOTO | DONTKNOWKLATCH
+
+KNOWKLATCH
+DIALOG | P_NAME | I've heard of The Gaming Klatch but I had no idea they'd have a foothold in the Hoosegow.
+DIALOG | Kunigunde = s_port_kunigundeJail | Well they do but not for long, MS-13 is about to root out the Klatch with an `sq`epic hoosegow shanking.`rt` It's up to me to stick it in the leader of the Klatch.
+GOTO | WHOSINKLATCH
+
+DONTKNOWKLATCH
+DIALOG | P_NAME | The Gaming Klatch?
+DIALOG | Kunigunde = s_port_kunigundeJail | An upstart posse of ruffians that exist completely on DwarfNET. What MS-13 does with drugs and sex trafficking, The Gaming Klatch is said to match with doxxes and illicit nudes sharing. `sq`They are said to be based in Al Akihabara,`rt` but they have representation here in the Hoosegow too.
+KNOW | knowGamingKlatch | 2
+//TODO: fix location of the Gaming Klatch to be either Al Akihabara or Brain City
+GOTO | WHOSINKLATCH
+
+WHOSINKLATCH
+DIALOG | P_NAME | How can you tell who's part of The Gaming Klatch?
+DIALOG | Kunigunde = s_port_kunigundeJail | That's been my problem too, the Klatch hides behind their screen names and so-called `sq`alterNET identities.`rt` In order for me to get some contraband to get my life back on track I need to kill the only Klatch member I know is the only one who hides in broad daylight: `sq`D'archimedes.`rt`
+IF knowDarchimedes >= 1 | GOTO | IKNOWHIM
+IF knowDarchimedes == 0 | GOTO | DARCHIMEDESINFO
+
+IKNOWHIM
+DIALOG | P_NAME | Yeah I know him... what am I supposed to do?
+GOTO | WHATTODO
+
+DARCHIMEDESINFO
+DIALOG | P_NAME | Who is D'archimedes?
+DIALOG | Kunigunde = s_port_kunigundeJail | He's monitoring the only turf the Klatch has in the Hoosegow, `w1`the terlet.`w0`
+WAIT   | 0.5
+PLAYSET| o_cts_hoopz | stomach_start | stomach_end
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (The terlet...)
+LOOKAT | o_cts_hoopz | o_kunigundePrison01
+WAIT | 0.5
+DIALOG | P_NAME | But what am I supposed to do?
+GOTO | WHATTODO
+
+WHATTODO
+DIALOG | Kunigunde = s_port_kunigundeJail | `sq`You need to take my shiv and stick it right into D'archimedes kidney.`rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I-_I_ don't know if I can do that... shank a dwarf?
+DIALOG | Kunigunde = s_port_kunigundeJail | It's to shank or be shanked for you, ese. What will it be?
+CHOICE | Shank or be shanked?
+REPLY | SHANK | Shank.
+REPLY | BESHANKED | Be shanked.
+
+SHANK
+DIALOG | P_NAME | Alright, hand me the shiv... I guess I have no choice if I want to save my own kidney.
+WAIT | 0.25
+USEAT | o_kunigundePrison01
+WAIT | 0.25
+NOTIFY | Got Kunigunde's Shiv
+Item   | gain | Kunigunde's Shiv
+DIALOG | Kunigunde = s_port_kunigundeJail | Take this and deposit it in that mother fuckers kidneys. Do it now, before I take it back and use it for what I really should use it for.
+DIALOG | P_NAME | `w1`(Gulp...)`w0`_ Okay... here goes nothing._ I'm sorry again about sending you in here.
+DIALOG | Kunigunde = s_port_kunigundeJail | We're all square when you drop that mask-wearing sucka. 
+QUEST | darchPrisonShank = 1
+EXIT |
+
+BESHANKED
+DIALOG | P_NAME | I'd rather lose some blood from my kidney than wear that blood on my hands, no thank you...
+DIALOG | Kunigunde = s_port_kunigundeJail | You just signed your kidney's shank warrant. Enjoy eating out of a fuckin straw for the rest of your life with only one bean in your body.
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (Gulp.)
+QUEST | shivPending = 1
+EXIT |
+
+TOUGHBUNK
+DIALOG | P_NAME | How about- 
+DIALOG | P_NAME = s_port_hoopzPrisonSmirk | Tough bunk, perp. You did the crime now... burn in heck. I got a hoosegow break to engineer. See you in the yard, square.
+DIALOG | Kunigunde = s_port_kunigundeJail | Oh you just fucked up. You just fucked yourself up.
+DIALOG | P_NAME = s_port_hoopzPrisonSmirk | Try me, loser!
+QUEST | shivPending = 1
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_olkky"]
 size = Vector2(22, 49)
@@ -68,6 +197,7 @@ animations = [{
 [node name="o_kunigundePrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_pv1t4")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_gwyds")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")

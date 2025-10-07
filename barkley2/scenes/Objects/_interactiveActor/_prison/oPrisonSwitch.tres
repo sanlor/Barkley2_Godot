@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://b1h0m7hl5d48x"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_o2xll"]
+
+[resource]
+script = ExtResource("1_o2xll")
+original_script = "MOVETO  | o_cts_hoopz | o_cinema69 | MOVE_NORMAL
+WAIT    | 0
+USEAT   | EAST
+SOUND   | sn_mg_puzzlelock_open1
+WAIT    | 0.2
+EVENT   | oPrisonSwitch | 10
+WAIT    | 0.2
+WAIT    | 1.5
+QUEST   | switchPrison0 = 1
+QUEST   | prisonPatrollers = 2
+QUEST   | junklordSpecial = 0
+// RIOT
+FADE   | 1 | 1
+WAIT   | 1
+Duergar| alive | dozier
+IF duergar == alive | CREATE | o_dozier01 | 728 | 376
+IF duergar == alive | CREATE | o_astyages01 | 760 | 384
+Camera | snap | o_cinema3
+FRAME  | CAMERA_FAST | o_cinema3
+WAIT   | 0
+FADE   | 0 | 1
+WAIT   | 1
+IF duergar == alive | MOVETO | o_dozier01 | o_cinema1 | MOVE_FAST
+IF duergar == alive | MOVETO | o_astyages01 | o_cinema2 | MOVE_FAST
+WAIT   | 0
+IF duergar == alive | CREATE | oPrisonDozier | 472 | 376
+IF duergar == alive | CREATE | oPrisonAstyages | 512 | 392
+IF duergar == alive | Misc   | visible | o_dozier01 | 0
+IF duergar == alive | Misc   | visible | o_astyages01 | 0
+//Misc   | flip | oPrisonDozier | 1
+//WAIT   | 0.5
+//Misc   | flip | oPrisonAstyages | 1
+//WAIT   | 0.5
+IF duergar == alive | Emote  | ! | oPrisonDozier | 0 | 0
+IF duergar == alive | Emote  | ! | oPrisonAstyages | 0 | 0
+IF duergar == alive | DIALOG | Dozier | What the scrooge!? Someone just hit the evacuation switch! All the gates are open! 
+IF duergar == alive | DIALOG | Astyages | The Hoosegowers are making a run for it! Hold the line!
+CREATE | oPrisonRiot  | 344 | 360
+WAIT   | 15
+//WAIT was 16
+FADE   | 1 | 1
+WAIT   | 1
+Destroy| oPrisonRiot
+Destroy| oPrisonDozier
+Destroy| oPrisonAstyages
+IF duergar == alive | Destroy| o_dozier01
+IF duergar == alive | Destroy| o_astyages01
+Duergar| kill | dozier
+Duergar| kill | astyages
+Destroy| oPrisonRioter
+Destroy| oPrisonBlood
+Camera | snap | o_cts_hoopz
+FRAME  | CAMERA_FAST | o_cts_hoopz
+FADE   | 0 | 1
+WAIT   | 1
+QUEST  | prisonEnding = 1
+QUEST  | prisonDoors = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

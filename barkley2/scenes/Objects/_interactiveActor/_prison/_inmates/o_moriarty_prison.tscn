@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn5bnnmrf3fnt"]
+
+[ext_resource type="Script" uid="uid://bdpg8qwkqgha6" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_moriarty_prison.gd" id="1_rtapt"]
+[ext_resource type="Texture2D" uid="uid://beew5bgglhpp7" path="res://barkley2/assets/b2_original/images/merged/s_moriarty_prison.png" id="2_iylyu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dvy4"]
+atlas = ExtResource("2_iylyu")
+region = Rect2(0, 0, 35, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_82rrm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8dvy4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoujm"]
+size = Vector2(20, 36)
+
+[node name="o_moriarty_prison" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_rtapt")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_82rrm")
+centered = false
+offset = Vector2(-16, -32)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "2",
+"bbox_right": "32",
+"bbox_top": "3",
+"frames": ["images\\s_moriarty_prison_0.png"],
+"height": "41",
+"name": "s_moriarty_prison",
+"width": "35",
+"xorig": "16",
+"yorigin": "32"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_aoujm")

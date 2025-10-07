@@ -1,10 +1,23 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://t7ici3dqxygg"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://t7ici3dqxygg"]
 
-[ext_resource type="Shader" uid="uid://drwtq61hq1487" path="res://barkley2/shaders/shader_code/o_effect_smog2.gdshader" id="1_esucr"]
+[ext_resource type="Shader" uid="uid://c5xwgde7egatq" path="res://barkley2/shaders/shader_code/o_effect_smog3.gdshader" id="1_esucr"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_xs0m8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ryv78"]
+noise = SubResource("FastNoiseLite_xs0m8")
+seamless = true
 
 [resource]
 shader = ExtResource("1_esucr")
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/alpha = 0.25
-shader_parameter/speed = 0.5
-shader_parameter/OCTAVES = 4
+shader_parameter/camera_position = Vector2(0, 0)
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/movement_position_speed = 0.026
+shader_parameter/movement_offset_speed = 0.026000001235
+shader_parameter/octaves = 8
+shader_parameter/starting_amplitude = 0.5
+shader_parameter/starting_frequency = 0.1
+shader_parameter/shift = -0.23099996347249996
+shader_parameter/velocity = Vector2(0, 0)
+shader_parameter/fog_color = Color(1, 1, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_ryv78")

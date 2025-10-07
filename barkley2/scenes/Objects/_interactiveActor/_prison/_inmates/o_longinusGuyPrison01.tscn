@@ -1,0 +1,153 @@
+[gd_scene load_steps=9 format=3 uid="uid://l7us5fhjhvcm"]
+
+[ext_resource type="Script" uid="uid://b54ykgudmtx6" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_longinusGuyPrison01.gd" id="1_vho64"]
+[ext_resource type="Texture2D" uid="uid://tskqn56f3aj" path="res://barkley2/assets/b2_original/images/merged/sPrisonLonginusGuy.png" id="2_bbjkr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_t1y56"]
+
+[sub_resource type="Resource" id="Resource_0vmkq"]
+script = ExtResource("2_t1y56")
+original_script = "IF benedictMole == 0 | GOTO | BENE_0
+IF benedictMole == 1 | GOTO | BENE_1
+IF benedictMole == 2 | GOTO | BENE_2
+IF benedictMole == 3 | GOTO | BENE_3
+
+BENE_3
+DIALOG | Benedict Mole-Judas | Come on man, you gotta help me! Give me some juicy intel or something.
+DIALOG | P_NAME              | Umm... no.
+
+BENE_2
+DIALOG | Benedict Mole-Judas | Come on, man! Scram! We gotta keep our distance or the duergs will get suspicious!
+
+BENE_1
+DIALOG | Benedict Mole-Judas | Pfft! Get the heck out of my face, loser!
+
+BENE_0
+DIALOG | P_NAME              | Hey, what's up? I'm P_NAME_S. I'm new.
+DIALOG | Benedict Mole-Judas | New? You wouldn't happen to be affiliated with L.O.N.G.I.N.U.S., now would you?
+DIALOG | P_NAME              | Why do you want to know?
+DIALOG | Benedict Mole-Judas | Look, just cut the crud, okay? I'm all business, no pleasure.
+DIALOG | P_NAME              | Who exactly are you?
+DIALOG | Benedict Mole-Judas | I'm the secret informant working for L.O.N.G.I.N.U.S. from within the system.
+CHOICE | Secret informant?!
+IF operationX == 5  | REPLY  | INTEL_GIVE | Hey, I think I have some intel for you.
+REPLY  | INTEL_DONT | I'm not convinced.
+REPLY  | INTEL_NARY | Nary ye mind...
+
+INTEL_GIVE
+DIALOG | P_NAME | Hey, I think I have some intel for you. Take a look at this.
+NOTE   | select | Benedict Mole-Judas
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Sealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Re-resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Re-re-resealed Secret Dossier | GOTO | NOTE_DOSSIER
+IF note == Resealed Dossier | GOTO | NOTE_DOSSIER
+GOTO   | NOTE_OTHER
+
+NOTE_OTHER
+DIALOG | Benedict Mole-Judas | What? This is a total piece of shit! Why would you try to give me this?
+DIALOG | P_NAME              | I thought that-
+DIALOG | Benedict Mole-Judas | You thought wrong! Get a clue, newbie! You're not worth my breath. Get the heck out of my face!
+DIALOG | P_NAME              | Sheesh...
+QUEST  | benedictMole = 1
+
+NOTE_EXIT
+DIALOG | P_NAME              | Actually, nary ye mind...
+DIALOG | Benedict Mole-Judas | What? Are you just trying to goof on me? You son of a scrooge!
+DIALOG | P_NAME              | No, I'm not goofing on you, I'm just-
+DIALOG | Benedict Mole-Judas | Shut it! Shut your trap, newbie! You're not worth my breath. Get the heck out of my face!
+DIALOG | P_NAME              | Sheesh...
+QUEST  | benedictMole = 1
+
+NOTE_NONE
+DIALOG | Benedict Mole-Judas | Well?
+DIALOG | P_NAME              | Sorry, I got nothing.
+DIALOG | Benedict Mole-Judas | Pfft! Go flip yourself, newbie! You're not worth my breath. Get the heck out of my face!
+DIALOG | P_NAME              | Sheesh...
+QUEST  | benedictMole = 1
+
+NOTE_DOSSIER
+DIALOG | Benedict Mole-Judas | Wow! This looks like something super important.
+NOTE   | give | Sealed Secret Dossier
+NOTE   | give | Resealed Secret Dossier
+NOTE   | give | Re-resealed Secret Dossier
+NOTE   | give | Re-re-resealed Secret Dossier
+WAIT   | 1
+DIALOG | P_NAME              | Aren't you going to open it?
+DIALOG | Benedict Mole-Judas | What are you bonkers? This is my ticket out of this craphole.
+DIALOG | P_NAME = s_port_hoopzSurprise | What? What do you mean?
+DIALOG | Benedict Mole-Judas | Uh, nothing. Forget I said anything. It's uh... top secret. Just act like none of this ever happened.
+DIALOG | P_NAME              | Umm... Okay.
+DIALOG | Benedict Mole-Judas | Now get the flip out of here. We have to keep our distance so the duergs don't get suspicious.
+QUEST  | benedictMole = 2
+
+INTEL_DONT
+DIALOG | P_NAME              | I'm not too convinced about you being L.O.N.G.I.N.U.S..
+DIALOG | Benedict Mole-Judas | What? Hey man, do you see this green armband? That's all the proof you need. Come on man, you gotta help me! Give me some juicy intel or something.
+DIALOG | P_NAME              | Maybe some other time.
+QUEST  | benedictMole = 3
+
+INTEL_NARY
+DIALOG | P_NAME              | Nary ye mind...
+DIALOG | Benedict Mole-Judas | What? Hey man, don't leave me hanging. Come on man, you gotta help me! Give me some juicy intel or something.
+DIALOG | P_NAME              | Maybe some other time.
+QUEST  | benedictMole = 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1y56"]
+atlas = ExtResource("2_bbjkr")
+region = Rect2(0, 0, 29, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0vmkq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1y56")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmcc1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fmcc1"]
+size = Vector2(20, 46)
+
+[node name="o_longinusGuyPrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vho64")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_0vmkq")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0vmkq")
+centered = false
+offset = Vector2(-16, -44)
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "0",
+"bbox_right": "26",
+"bbox_top": "0",
+"frames": ["images\\sPrisonLonginusGuy_0.png"],
+"height": "49",
+"name": "sPrisonLonginusGuy",
+"width": "29",
+"xorig": "16",
+"yorigin": "44"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_fmcc1")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_fmcc1")

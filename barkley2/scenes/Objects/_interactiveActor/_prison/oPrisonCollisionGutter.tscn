@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=3 uid="uid://cb8j0y2o3pna4"]
+
+[ext_resource type="Script" uid="uid://s363tvkbceyt" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_collision_gutter.gd" id="1_b5u0x"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_qqt2y"]
+
+[sub_resource type="Resource" id="Resource_b2stl"]
+script = ExtResource("2_qqt2y")
+original_script = "QUEST  | gutterhoundPrisonEscape = 2
+Misc   | set | o_gutterhoundPrison01 | o_cinema25
+Misc   | visible | oPrisonGenericToilet | 0 // Hide prisoner on toilet
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+FRAME  | CAMERA_NORMAL | o_cinema29
+WAIT   | 0.0
+DIALOG | ??? | Hey boyyyyyy!
+Emote  | ?
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+//WAIT   | 0
+//Emote  | ! | o_cts_hoopz | 0 | 0
+//MOVETO | o_gutterhoundPrison01 | o_cinema1 | MOVE_FAST
+//WAIT   | 0
+//DIALOG | Gutterhound | Hey kid! Let's blow this joint!
+//MOVETO | o_gutterhoundPrison01 | o_cinema31 | MOVE_FAST
+//WAIT   | 1
+//LOOK   | o_cts_hoopz | EAST
+//WAIT   | 2
+//Misc   | set | o_gutterhoundPrison01 | o_cinema27
+MOVETO | o_cts_hoopz | o_cinema12 | MOVE_FAST
+WAIT   | 0
+DIALOG | P_NAME | Huh? Gutterhound?
+DIALOG | Gutterhound | Let's get ready to chew some glass and kick some ass, broseph!
+FRAME  | CAMERA_FAST | o_cinema25
+WAIT   | 1
+Shake  | add | 5 | 9999 | 0 | 0 | 2
+EVENT  | o_darchimedesPrison01 | 2
+WAIT   | 1
+Smoke  | mass | 848 | 216 | 16 | 5
+WAIT   | 0.5
+Misc   | visible | oPrisonToiletHole | 1
+EVENT  | o_darchimedesPrison01 | 3
+WAIT   | 1
+Emote  | !
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzShock | Gutterhound! You blew up the can!
+DIALOG | Gutterhound | That's right and now I'm gonna_ `w2`flush myself free!`w0` So long, bitches!
+WAIT   | 0.5
+SET    | o_gutterhoundPrison01 | diving
+MOVETO | o_gutterhoundPrison01 | o_cinema24 | MOVE_FAST
+Misc   | automatic animation | o_gutterhoundPrison01 | 0
+WAIT   | 0
+Misc   | alpha | o_gutterhoundPrison01 | 0 | 0.5
+MOVETO | o_gutterhoundPrison01 | o_cinema11 | MOVE_FAST
+Misc   | automatic animation | o_gutterhoundPrison01 | 0
+WAIT   | 0
+Misc   | set | o_gutterhoundPrison01 | o_cinema30
+MOVETO | o_cts_hoopz | o_cinema25 | MOVE_FAST
+WAIT   | 0
+WAIT   | 0.5
+SET    | o_cts_hoopz | diving
+MOVETO | o_cts_hoopz | o_cinema24 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+Misc   | alpha | o_cts_hoopz | 0 | 0.5
+MOVETO | o_cts_hoopz | o_cinema11 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+FADE   | 1 | 3
+WAIT   | 3
+QUEST  | prisonDive = 20
+Teleport | r_mng_diving | 0 | 0 | 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b5u0x"]
+size = Vector2(20, 78)
+
+[node name="oPrisonCollisionGutter" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_b5u0x")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_b2stl")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_b5u0x")
+debug_color = Color(0.52285886, 0.5740021, 3.85046e-07, 0.25490198)

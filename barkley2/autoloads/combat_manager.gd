@@ -198,7 +198,7 @@ func player_defeated() -> void:
 		### ???? camera not loaded.
 		breakpoint
 		
-	B2_Screen.show_defeat_screen()
+	B2_Screen.show_defeat_screen() # <- show the gameover screen
 	B2_CManager.o_hud.hide_hud()
 
 func tick_combat() -> void:

@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4ad0w0by4uoy"]
+
+[ext_resource type="Script" uid="uid://bcoq8imlf8cpb" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_shank_event_01.gd" id="1_vrjou"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_obrdg"]
+
+[sub_resource type="Resource" id="Resource_6j1pm"]
+script = ExtResource("2_obrdg")
+original_script = "QUEST | shankExecuted = 2
+WAIT | 0.5
+MOVETO | o_cts_hoopz | o_cinema4 | MOVE_NORMAL
+FRAME  | CAMERA_NORMAL | o_cinema4
+WAIT | 1.0
+LOOK | o_cts_hoopz | SOUTHEAST
+WAIT | 0.2
+LOOK | o_cts_hoopz | EAST
+WAIT | 0.3
+LOOK | o_cts_hoopz | SOUTHEAST
+WAIT | 0.2
+LOOK | o_cts_hoopz | SOUTH
+WAIT | 0.2
+LOOK | o_cts_hoopz | SOUTHWEST
+WAIT | 0.2
+LOOK | o_cts_hoopz | WEST
+WAIT | 0.3
+LOOK | o_cts_hoopz | SOUTHWEST
+WAIT | 0.2
+LOOK | o_cts_hoopz | SOUTH
+WAIT | 1.0
+Emote | ? | o_cts_hoopz | 0 | 0
+CREATE | oPrisonShanker | 296 | 376
+//FRAME  | CAMERA_FAST | o_cinema4
+//Misc   | set | o_cts_hoopz | o_cinema4
+//WAIT   | 0
+//FADE   | 0 | 1
+SET    | o_cts_hoopz | stand_DOWN
+WAIT   | 1.65 // 2.5
+SOUND  | sn_debug_one
+PLAYSET| o_cts_hoopz | stomach_start | stomach_end
+WAIT   | 0
+WAIT   | 2.5 // 4
+SOUND  | sn_hoopz_demiseLAZ01
+PLAYSET| o_cts_hoopz | death_play | death_end
+WAIT   | 0
+EVENT  | o_shankEvent01 | 0
+WAIT   | 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vrjou"]
+size = Vector2(42, 26)
+
+[node name="o_shankEvent01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_vrjou")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_6j1pm")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_vrjou")
+debug_color = Color(0.47263026, 0.5900909, 0, 0.25490198)

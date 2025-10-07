@@ -1,10 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://biuhtefvpkmgh"]
+[gd_scene load_steps=41 format=3 uid="uid://biuhtefvpkmgh"]
 
 [ext_resource type="Texture2D" uid="uid://cncgt5y7xagix" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerAirgulp_prison.png" id="1_fbixb"]
 [ext_resource type="Script" uid="uid://cuv2jfhnj31qf" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_player.gd" id="1_u8q4v"]
+[ext_resource type="Texture2D" uid="uid://jlnn6mppvtix" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerDrown.png" id="2_irnqx"]
+[ext_resource type="Texture2D" uid="uid://bq28c5ogpebih" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerDrown_prison.png" id="2_n0d5c"]
 [ext_resource type="Texture2D" uid="uid://cwssn61xji4aq" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_player_prison.png" id="2_u8q4v"]
 [ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_uxnjm"]
 [ext_resource type="Texture2D" uid="uid://cj6syyeyugijj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble.png" id="4_lgayp"]
+[ext_resource type="Texture2D" uid="uid://fxtu1na70p6c" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerAirgulp.png" id="4_ur3w3"]
+[ext_resource type="Texture2D" uid="uid://b25abt560wiru" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_player.png" id="6_olluh"]
 [ext_resource type="Material" uid="uid://cxcmquvapfd2e" path="res://barkley2/shaders/particles/o_mg_diving_player_bubble.tres" id="6_uxnjm"]
 [ext_resource type="Material" uid="uid://b7mdkkdrfjk1i" path="res://barkley2/shaders/particles/o_mg_diving_spawn_bubbles_bubble_hurt.tres" id="7_lgayp"]
 
@@ -13,6 +17,30 @@ friction = 0.5
 bounce = 0.75
 absorbent = true
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0u8p"]
+atlas = ExtResource("2_irnqx")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbla8"]
+atlas = ExtResource("2_irnqx")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xiv1"]
+atlas = ExtResource("2_n0d5c")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttq7g"]
+atlas = ExtResource("2_n0d5c")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqw0d"]
+atlas = ExtResource("4_ur3w3")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mh4rr"]
+atlas = ExtResource("4_ur3w3")
+region = Rect2(48, 0, 48, 48)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3rkw"]
 atlas = ExtResource("1_fbixb")
 region = Rect2(0, 0, 48, 48)
@@ -20,6 +48,18 @@ region = Rect2(0, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_h3jm6"]
 atlas = ExtResource("1_fbixb")
 region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0abq"]
+atlas = ExtResource("6_olluh")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xp2u"]
+atlas = ExtResource("6_olluh")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5y0k"]
+atlas = ExtResource("6_olluh")
+region = Rect2(384, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4bvf6"]
 atlas = ExtResource("2_u8q4v")
@@ -32,6 +72,22 @@ region = Rect2(336, 0, 48, 48)
 [sub_resource type="AtlasTexture" id="AtlasTexture_eutpa"]
 atlas = ExtResource("2_u8q4v")
 region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3q4cm"]
+atlas = ExtResource("6_olluh")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y62et"]
+atlas = ExtResource("6_olluh")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4dho"]
+atlas = ExtResource("6_olluh")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ys3rn"]
+atlas = ExtResource("6_olluh")
+region = Rect2(144, 0, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ey8ef"]
 atlas = ExtResource("2_u8q4v")
@@ -53,13 +109,60 @@ region = Rect2(144, 0, 48, 48)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_r0u8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbla8")
+}],
+"loop": false,
+"name": &"drown",
+"speed": 0.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xiv1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttq7g")
+}],
+"loop": false,
+"name": &"drown_prison",
+"speed": 0.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqw0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mh4rr")
+}],
+"loop": false,
+"name": &"gulp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_c3rkw")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h3jm6")
 }],
+"loop": false,
+"name": &"gulp_prison",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0abq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8xp2u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5y0k")
+}],
 "loop": true,
-"name": &"gulp",
+"name": &"swim_down",
 "speed": 5.0
 }, {
 "frames": [{
@@ -73,7 +176,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_eutpa")
 }],
 "loop": true,
-"name": &"swim_down",
+"name": &"swim_down_prison",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3q4cm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y62et")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4dho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ys3rn")
+}],
+"loop": true,
+"name": &"swim_up",
 "speed": 5.0
 }, {
 "frames": [{
@@ -90,22 +210,25 @@ animations = [{
 "texture": SubResource("AtlasTexture_vc7u1")
 }],
 "loop": true,
-"name": &"swim_up",
+"name": &"swim_up_prison",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_helxe"]
 radius = 4.0
 
-[sub_resource type="Gradient" id="Gradient_m241x"]
+[sub_resource type="Gradient" id="Gradient_n0d5c"]
 offsets = PackedFloat32Array(0, 0.59076923)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_c3rkw"]
-gradient = SubResource("Gradient_m241x")
+gradient = SubResource("Gradient_n0d5c")
 fill = 1
 fill_from = Vector2(0.508547, 0.48290598)
 fill_to = Vector2(0, 0)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uxnjm"]
+polygon = PackedVector2Array(0, 2, -2, 0, 0, -2, 2, 0)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4bvf6"]
 particles_animation = true
@@ -113,14 +236,13 @@ particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uxnjm"]
-polygon = PackedVector2Array(0, 2, -2, 0, 0, -2, 2, 0)
-
 [node name="o_mg_diving_player" type="RigidBody2D"]
 mass = 60.0
 physics_material_override = SubResource("PhysicsMaterial_lgayp")
-gravity_scale = 0.1
+gravity_scale = 0.05
 lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 2
 linear_damp = 3.5
 script = ExtResource("1_u8q4v")
 
@@ -134,25 +256,33 @@ shape = SubResource("CircleShape2D_helxe")
 [node name="radiant_light" type="PointLight2D" parent="."]
 texture = SubResource("GradientTexture2D_c3rkw")
 
-[node name="flashlight" type="PointLight2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_uxnjm")
+
+[node name="boost_timer" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[node name="head_position_marker" type="Marker2D" parent="."]
+position = Vector2(9, 7)
+
+[node name="flashlight" type="PointLight2D" parent="head_position_marker"]
 scale = Vector2(-1, 1)
 shadow_enabled = true
 shadow_item_cull_mask = 2
 texture = ExtResource("3_uxnjm")
-offset = Vector2(-50, 0)
-texture_scale = 0.5
+offset = Vector2(-75, 0)
+texture_scale = 0.75
 
-[node name="bubbles" type="GPUParticles2D" parent="."]
+[node name="bubbles" type="GPUParticles2D" parent="head_position_marker"]
 material = SubResource("CanvasItemMaterial_4bvf6")
-position = Vector2(6, -7)
 amount = 3
 texture = ExtResource("4_lgayp")
 lifetime = 2.0
 process_material = ExtResource("6_uxnjm")
 
-[node name="bubbles_hurt" type="GPUParticles2D" parent="."]
+[node name="bubbles_hurt" type="GPUParticles2D" parent="head_position_marker"]
 material = SubResource("CanvasItemMaterial_4bvf6")
-position = Vector2(6, -7)
 emitting = false
 amount = 50
 texture = ExtResource("4_lgayp")
@@ -161,5 +291,4 @@ one_shot = true
 explosiveness = 0.75
 process_material = ExtResource("7_lgayp")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_uxnjm")
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

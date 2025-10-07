@@ -136,11 +136,15 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	
 	gun.favorite 						= str_to_var( gun_dict.get( "favorite" ) )
 	gun.generation 						= str_to_var( gun_dict.get( "generation" ) )
-	gun.son 							= bytes_to_var( gun_dict.get( "son" 			).decompress(32000) )
-	gun.lineage_top 					= bytes_to_var( gun_dict.get( "lineage_top" 	).decompress(32000) )
-	gun.lineage_bot 					= bytes_to_var( gun_dict.get( "lineage_bot" 	).decompress(32000) )
-	gun.dominant_genes 					= bytes_to_var( gun_dict.get( "dominant_genes" 	).decompress(32000) )
 	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
+	if gun_dict.get( "son" 				) is Array:
+		gun.son 							= bytes_to_var( gun_dict.get( "son" 			).decompress(32000) )
+	if gun_dict.get( "lineage_top" 		) is Array:
+		gun.lineage_top 					= bytes_to_var( gun_dict.get( "lineage_top" 	).decompress(32000) )
+	if gun_dict.get( "lineage_bot" 		) is Array:
+		gun.lineage_bot 					= bytes_to_var( gun_dict.get( "lineage_bot" 	).decompress(32000) )
+	if gun_dict.get( "dominant_genes" 	) is Array:
+		gun.dominant_genes 					= bytes_to_var( gun_dict.get( "dominant_genes" 	).decompress(32000) )
 
 	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
 	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )

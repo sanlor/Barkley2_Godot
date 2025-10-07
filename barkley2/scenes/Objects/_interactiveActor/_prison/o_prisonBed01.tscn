@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxhbjfhiuxs0v"]
+
+[ext_resource type="Texture2D" uid="uid://bxx1byvfwer2m" path="res://barkley2/assets/b2_original/images/merged/s_prisonBed01.png" id="1_eelln"]
+[ext_resource type="Script" uid="uid://oycyw3ejyc85" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_bed_01.gd" id="2_eelln"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o61jq"]
+atlas = ExtResource("1_eelln")
+region = Rect2(0, 0, 52, 121)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uqblp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o61jq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o3eq4"]
+size = Vector2(47, 70)
+
+[node name="o_prisonBed01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_uqblp")
+centered = false
+offset = Vector2(0, -114)
+script = ExtResource("2_eelln")
+metadata/default = {
+"bbox_bottom": "120",
+"bbox_left": "0",
+"bbox_right": "47",
+"bbox_top": "0",
+"height": "121",
+"name": "s_prisonBed01",
+"width": "52",
+"xorig": "0",
+"yorigin": "114"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(23.5, -35)
+shape = SubResource("RectangleShape2D_o3eq4")

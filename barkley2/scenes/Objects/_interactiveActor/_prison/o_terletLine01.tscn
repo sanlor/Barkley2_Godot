@@ -1,0 +1,103 @@
+[gd_scene load_steps=5 format=3 uid="uid://w4bdjx3v38oe"]
+
+[ext_resource type="Script" uid="uid://boggoaqukqkau" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_terlet_line_01.gd" id="1_fq4ln"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_71lny"]
+
+[sub_resource type="Resource" id="Resource_x24tw"]
+script = ExtResource("2_71lny")
+original_script = "IF darchimedesLineState == 2 | GOTO | DISTRESSSORT
+IF darchimedesLineState == 1 | GOTO | SECONDSTOP
+IF darchimedesLineState == 0 | GOTO | FIRSTSTOP
+
+SECONDSTOP
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_darchimedesPrison01
+DIALOG | D'archimedes = s_port_darchimedes_prison | Ah-ah-ah! What did I say, sport? That terlet is Gaming Klatch turf. It's closed._ For you at least.
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01 
+QUEST  | darchimedesLineState = 2
+
+FIRSTSTOP
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_darchimedesPrison01
+DIALOG | D'archimedes = s_port_darchimedes_prison | Hey buster, no cutsies, queue jumping, butting, barging, budding, budging, skipping, ditching, breaking, shorting, or pushing in. This is Gaming Klatch territory. We control the terlets.
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01 
+\" +
+//THESE LABELS ARE INCLUDED IN D'ARCHIMEDES OBJECT
+\"
+QUEST | darchimedesLineState = 1
+QUEST | darchimedesPrisonState = 1
+IF knowDarchimedes >= 1 | GOTO | DARCHKNOW00
+IF knowGamingKlatch == 0 | GOTO | WHATISKLATCH
+IF knowGamingKlatch >= 1 | GOTO | KNOWKLATCH
+
+DISTRESSSORT
+IF prisonDistress == 5 | GOTO | DISTRESS05
+IF prisonDistress == 4 | GOTO | DISTRESS04
+IF prisonDistress == 3 | GOTO | DISTRESS03
+IF prisonDistress == 2 | GOTO | DISTRESS02
+IF prisonDistress == 1 | GOTO | DISTRESS01
+GOTO | SECONDSTOP
+
+DISTRESS05
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (`w1`Urgh!`w0` My guts are about to explode!_ I gotta get permission to use the toilet, and I gotta get it fast!)
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+
+DISTRESS04
+DIALOG | P_NAME | (Time's tickin', P_NAME_S. You gotta get out of here A_S_A_P or you'll be in deep C_R_A_P.)
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+QUEST  | prisonDistress = 5
+
+DISTRESS03
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (Lordy, lordy... this is horrible.)
+FRAME  | CAMERA_FAST | o_cts_hoopz | o_cinema30
+WAIT   | 0
+WAIT   | 1
+FRAME  | CAMERA_FAST | o_cts_hoopz
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzPrisonShock | (A devastatingly long line and `s1`only one operating throne!`s0`)
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | If I don't `sq`get out of here soon, I'm going to soil my britches!`rt`
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+QUEST  | prisonDistress = 4
+
+DISTRESS02
+DIALOG | P_NAME | (Gotta hold out... until I get out.)
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+
+DISTRESS01
+LOOK   | o_cts_hoopz | NORTH
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | `s1`Duglubbit!`s0`
+FRAME  | CAMERA_FAST | o_cinema15
+WAIT   | 0
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | That's the line for the bathroom! I'm in trouble... `sq`gotta hold out until I can get out of here.`rt`
+FRAME  | CAMERA_FAST | o_cts_hoopz
+WAIT   | 0
+WAIT   | 0.5
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_NORMAL
+WAIT   | 0
+QUEST  | prisonDistress = 2
+EVENT | 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jr5yw"]
+size = Vector2(62, 18)
+
+[node name="o_terletLine01" type="Area2D" node_paths=PackedStringArray("col_shape")]
+script = ExtResource("1_fq4ln")
+col_shape = NodePath("CollisionShape2D")
+cutscene_script = SubResource("Resource_x24tw")
+metadata/_custom_type_script = "uid://dh1uq5b27ucip"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_jr5yw")
+debug_color = Color(0.61273676, 0.53822136, 0, 0.25490198)

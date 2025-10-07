@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 		for body in get_overlapping_bodies():
 			if body.name == "o_mg_diving_player":
 				body.hurt()
-				body.apply_central_impulse( global_position.direction_to(body.global_position) * 10000.0 )
+				body.apply_central_impulse( global_position.direction_to(body.global_position) * 5000.0 )
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.name == "o_mg_diving_player":

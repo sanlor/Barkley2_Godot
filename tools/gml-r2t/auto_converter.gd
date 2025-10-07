@@ -6,7 +6,7 @@ const temp_room_folder 		:= "res://tools/gml-r2t/temp_room_folder/"
 #const r2t_script 			:= preload("uid://be81dfq2iw58x")
 const room_folder_path 		:= "/home/sanlo/Documents/GitHub/Barkley2_Original/barkley_2/Barkley2.gmx/rooms/" # "Y:/tmp/barkley_2/Barkley2.gmx/rooms/"
 
-@export var room_prefix := "r_pri"
+@export var room_prefix := "r_pea"
 @export_tool_button("Let it rip!") var ripper : Callable = _ripper
 
 func _ready() -> void:

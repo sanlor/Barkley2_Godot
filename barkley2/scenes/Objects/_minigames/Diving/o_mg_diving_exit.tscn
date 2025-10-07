@@ -30,11 +30,13 @@ script = ExtResource("1_6ohrm")
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_echjn")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="detection_area" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
 position = Vector2(0, -20)
 shape = SubResource("RectangleShape2D_echjn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_pr1po")
+
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]

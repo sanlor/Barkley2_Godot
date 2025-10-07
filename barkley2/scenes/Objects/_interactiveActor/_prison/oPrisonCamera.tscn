@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://dx2xpovievo1r"]
+
+[ext_resource type="Texture2D" uid="uid://wd7j6ar8ap3i" path="res://barkley2/assets/b2_original/images/merged/sPrisonCamera.png" id="1_rglws"]
+[ext_resource type="Script" uid="uid://dwu1ur6h6ownj" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_camera.gd" id="2_rglws"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5anhd"]
+atlas = ExtResource("1_rglws")
+region = Rect2(0, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccevg"]
+atlas = ExtResource("1_rglws")
+region = Rect2(22, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8hcd"]
+atlas = ExtResource("1_rglws")
+region = Rect2(44, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ppje"]
+atlas = ExtResource("1_rglws")
+region = Rect2(66, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0whm"]
+atlas = ExtResource("1_rglws")
+region = Rect2(88, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0l3eo"]
+atlas = ExtResource("1_rglws")
+region = Rect2(110, 0, 22, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rglws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5anhd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccevg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8hcd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ppje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0whm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0l3eo")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="oPrisonCamera" type="AnimatedSprite2D"]
+position = Vector2(10, 0)
+sprite_frames = SubResource("SpriteFrames_rglws")
+centered = false
+offset = Vector2(-16, 0)
+flip_h = true
+script = ExtResource("2_rglws")
+metadata/default = {
+"bbox_bottom": "23",
+"bbox_left": "0",
+"bbox_right": "21",
+"bbox_top": "0",
+"height": "25",
+"name": "sPrisonCamera",
+"width": "22",
+"xorig": "16",
+"yorigin": "0"
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

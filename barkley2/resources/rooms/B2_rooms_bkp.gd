@@ -223,7 +223,7 @@ func _setup_player_node():
 func _setup_camera( player ):
 	b2_camera = B2_Camera_Hoopz.new()
 	if not player == null:
-		b2_camera.follow_player( player as B2_Player )
+		b2_camera.follow_player( player as B2_PlayerCombatActor )
 		b2_camera.follow_mouse = true
 	add_child( b2_camera, true )
 	print_rich( "[color=orange]Room %s: created player at DEBUG location %s.[/color]" % [name, debug_player_scene_pos] )

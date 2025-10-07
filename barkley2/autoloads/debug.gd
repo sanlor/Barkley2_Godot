@@ -40,7 +40,6 @@ func _ready() -> void:
 	if PATHFIND_SHOW: 						print_rich("[color=red]B2_Debug: PATHFIND_SHOW[/color]")
 	if ENABLE_MOVEMENT_VECTOR_VISUALIZE: 	print_rich("[color=red]B2_Debug: ENABLE_MOVEMENT_VECTOR_VISUALIZE[/color]")
 	if WARN_INVALID_CHECKS : 				print_rich("[color=red]B2_Debug: WARN_INVALID_CHECKS [/color]")
-	
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -73,6 +72,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			
 		#get_tree().paused = player_data.visible or player_vars.visible or accept_dialog.visible
 
-
 func _on_button_pressed() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	player_vars.visible = false
 	teleport_window.show()

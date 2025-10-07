@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dytqavwygm2rh"]
+[gd_scene load_steps=14 format=3 uid="uid://dytqavwygm2rh"]
 
 [ext_resource type="Texture2D" uid="uid://4f1igos1l157" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_torpedo.png" id="1_0w4v8"]
 [ext_resource type="Script" uid="uid://dad7trrmrn6cc" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_torpedo.gd" id="1_4q16w"]
@@ -50,6 +50,16 @@ particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
+[sub_resource type="Gradient" id="Gradient_m241x"]
+offsets = PackedFloat32Array(0, 0.59076923)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_4q16w"]
+gradient = SubResource("Gradient_m241x")
+fill = 1
+fill_from = Vector2(0.508547, 0.48290598)
+fill_to = Vector2(0, 0)
+
 [node name="o_mg_diving_danger_torpedo" type="Area2D"]
 script = ExtResource("1_4q16w")
 
@@ -68,5 +78,10 @@ process_material = ExtResource("3_emiqw")
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="radiant_light" type="PointLight2D" parent="."]
+position = Vector2(-4, 0)
+texture = SubResource("GradientTexture2D_4q16w")
+texture_scale = 0.25
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

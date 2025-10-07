@@ -1,0 +1,509 @@
+[gd_scene load_steps=16 format=3 uid="uid://cxp8egrmyxhht"]
+
+[ext_resource type="Script" uid="uid://cg2mhwx4ekc4p" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_darchimedesPrison01.gd" id="1_uqkcl"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_brvy2"]
+[ext_resource type="Texture2D" uid="uid://b8bnrdxnn4dc4" path="res://barkley2/assets/b2_original/images/merged/s_darchimedesPrison01.png" id="2_m4drk"]
+[ext_resource type="Texture2D" uid="uid://dvuy7vdl0d7ca" path="res://barkley2/assets/b2_original/images/merged/s_darchimedesPrisonShanked01.png" id="3_m4drk"]
+
+[sub_resource type="Resource" id="Resource_era7l"]
+script = ExtResource("2_brvy2")
+original_script = "IF prisonQuest == 7            | GOTO | DISTRESSEND
+IF darchPrisonShank == 1       | GOTO | SHANKDARCHCHOICE
+IF darchimedesPrisonState == 1 | GOTO | DARCH01
+IF darchimedesPrisonState == 0 | GOTO | DARCH00
+GOTO | CATCHALL
+
+SHANKDARCHCHOICE
+DIALOG | P_NAME = s_port_hoopzPrisonSad | (It's shank or be shanked...)
+CHOICE | Shank D'archimedes as promised?
+REPLY  | DARCHSHANK | Shank the freak.
+REPLY  | DONTSHANK  | Stay thy shiv, ask a question.
+//See event_user(1) for the shanking scene
+DONTSHANK
+DIALOG | P_NAME | Hey, D'archimedes... I have a question...
+DIALOG | D'archimedes = s_port_darchimedes_prison | What's going on?
+GOTO   | DARCHQUESTIONS
+
+BLASTSEQUENCE
+DIALOG | P_NAME | Would this explosive help? I got it from-
+DIALOG | D'archimedes | `w1`Explosive?!`w0` What in the zooks? Have you been holding onto that beauty all this time? How did you even get it into the Hoosegow?
+CHOICE | How should I start?
+REPLY | INTERRUPT_L | It's a long story, have a seat.
+REPLY | INTERRUPT_S | It's a quick scoop, lemme tell ya.
+
+INTERRUPT_L
+DIALOG | P_NAME | Well it all started with an eg-
+GOTO | INTERRUPT
+
+INTERRUPT_S
+DIALOG | P_NAME | So here I was in the Hoose-
+GOTO | INTERRUPT
+
+INTERRUPT
+DIALOG | D'archimedes | Can it. Come here.
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema26 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01
+DIALOG | D'archimedes |  Stories can wait. Liberation for the `kw`The Gaming Klatch`rt` can't._ Head `sq`straight to the terlet and drop this sucker in there!`rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Does that mean...
+DIALOG | D'archimedes | Yes yes yes. `sq`Welcome to the Gaming Klatch. We'll see you at the meeting in Al Akihabara.`rt` Here,_ you'll need this.
+USEAT | o_darchimedesPrison01
+NOTE | take | D'archimedes Invitation
+NOTIFY | Got D'archimedes Gaming Klatch Invitiation!
+DIALOG | P_NAME | Cool beans... I'll be sure to make it!
+DIALOG | D'archimedes | Great, now get in there and `w1``sq`blow this commode to smithereens.`rt``w0`
+Misc   | visible | oPrisonGenericToilet | 0
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema27 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz | EAST
+DIALOG | P_NAME | Here goes...
+//TODO: add a fuse smoke event, toss into toilet (shangrila)
+USEAT | o_cinema28
+WAIT   | 2
+Emote  | ?
+//TODO: groaning toilet sound
+SOUND | sn_debug_seven
+Shake  | add | 5 | 9999 | 0 | 0 | 2
+//PLAYSET | o_broken_terlet01 | toiletExplode | toiletExplodeEnd
+EVENT  | o_darchimedesPrison01 | 2
+WAIT   | 1
+Smoke  | mass | 848 | 216 | 16 | 5
+WAIT   | 0.5
+Misc   | visible | oPrisonToiletHole | 1
+EVENT  | o_darchimedesPrison01 | 3
+WAIT   | 1
+Emote  | !
+WAIT   | 0.5
+// Explode
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Great googly...
+WAIT   | 0.5 
+DIALOG | P_NAME | Hmm, looks like my path lies before me...
+MOVETO | o_cts_hoopz | o_cinema25 | MOVE_FAST
+WAIT   | 0
+WAIT   | 0.5
+SET    | o_cts_hoopz | diving
+MOVETO | o_cts_hoopz | o_cinema24 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+Misc   | alpha | o_cts_hoopz | 0 | 0.5
+MOVETO | o_cts_hoopz | o_cinema11 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+WAIT   | 1
+FADE   | 1 | 1
+WAIT   | 1
+QUEST  | prisonDive = 10
+Teleport | r_mng_diving | 0 | 0 | 3
+EXIT |
+
+DISTRESSEND
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema26 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_darchimedesPrison01
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Look, D'archimedes, I've entered `s1`the danger zone!`s0` I need to go and I need to go now!
+DIALOG | D'archimedes = s_port_darchimedes_prison | Well well well, looks like you're ready to `sq`join the Gaming Klatch after all.`rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Yes, whatever, please this is `s1`AN EMERGENCY!`s0`
+DIALOG | D'archimedes = s_port_darchimedes_prison | Will you join the Gaming Klatch?
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Yes! Yes! Please let me go!
+DIALOG | D'archimedes = s_port_darchimedes_prison | Here, take this, `sq`welcome to the Gaming Klatch. We'll see you at the meeting in Al Akihabara.`rt`
+KNOW   | knowGamingKlatch | 2
+USEAT  | o_darchimedesPrison01
+NOTE | take | D'archimedes Invitation
+NOTIFY | Got D'archimedes Gaming Klatch Invitiation!
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Fine, fine! Here I GO!
+Misc   | visible | oPrisonGenericToilet | 0
+GOTO   | BOWEL_MOVEMENT
+
+BOWEL_MOVEMENT
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema28 | MOVE_FAST
+WAIT   | 0
+Misc   | alpha | o_cts_hoopz | 0 | 0
+EVENT  | oPrisonGenericToilet | 0
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Ughhhh!
+QUEST  | prisonUsedToilet = 1
+Shake  | add | 5 | 9999 | 0 | 0 | 2.5
+WAIT   | 3
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | `w1`*Phew*`w0` That was one tough customer. Uh... Where's the toilet paper?
+Emote  | !
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | N-nein! There is no toilet paper!
+WAIT   | 1
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | I'll have to improvise...
+NOTE | select | Terlet
+IF note == exit | GOTO | NOTE_EXIT
+GOTO | BOWLCRACKER
+
+BOWLCRACKER
+EVENT | o_darchimedesPrison01 | 4
+DIALOG | P_NAME | Sacrifices have to be made sometimes... Good bye, beloved note.
+// Flush sound
+WAIT   | 0.5
+Misc   | visible | oPrisonGenericToilet | 0
+Misc   | alpha | o_cts_hoopz | 1 | 0
+MOVETO | o_cts_hoopz | o_cinema27 | MOVE_NORMAL
+WAIT   | 0
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | EAST
+Shake  | add | 5 | 9999 | 0 | 0 | 2
+//PLAYSET| o_broken_terlet01 | toiletExplode | toiletExplodeEnd
+EVENT  | o_darchimedesPrison01 | 2
+WAIT   | 1
+Smoke  | mass | 848 | 216 | 16 | 5
+WAIT   | 0.5
+Misc   | visible | oPrisonToiletHole | 1
+EVENT  | o_darchimedesPrison01 | 3
+WAIT   | 1
+Emote  | !
+WAIT   | 0.5
+// Explode
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Golly gee! 
+DIALOG | P_NAME | Looks like the t_erlet exploded. This is my golden ticket out of here!
+MOVETO | o_cts_hoopz | o_cinema25 | MOVE_FAST
+WAIT   | 0
+WAIT   | 0.5
+SET    | o_cts_hoopz | diving
+MOVETO | o_cts_hoopz | o_cinema24 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+Misc   | alpha | o_cts_hoopz | 0 | 0.5
+MOVETO | o_cts_hoopz | o_cinema11 | MOVE_FAST
+Misc   | automatic animation | o_cts_hoopz | 0
+WAIT   | 0
+WAIT   | 1
+FADE   | 1 | 1
+WAIT   | 1
+QUEST  | prisonDive = 10
+Teleport | r_mng_diving | 0 | 0 | 3
+
+NOTE_EXIT
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | I gotta use something!
+NOTE | select | Terlet
+IF note != exit | GOTO | BOWLCRACKER
+GOTO | NOTE_EXIT
+
+WHATISKLATCH
+DIALOG | P_NAME | What is the Gaming Klatch?
+DIALOG | D'archimedes = s_port_darchimedes_prison | What did you do at that rock you were living under order to get into the Hoosegow? You don't know Gaming Klatch? We are the tideforce that ebbs and flows upon the Gaming Community at large. Only recently did we extend our influence into the realm of organized crime. At first, we were small, but now? We're the `w1`belle of the ball.`w0` Those pansy MS-13 goons have nothing against the force of_ `s1`The Gaming Klatch.`s0`
+KNOW   | knowGamingKlatch | 1
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (Golly...)
+DIALOG | D'archimedes = s_port_darchimedes_prison | So what else do you want? I've got this terlet to keep an eye on.
+GOTO   | DARCHQUESTIONS
+
+KNOWKLATCH
+IF knowGamingKlatch == 0 | GOTO | KNOWKLATCHLOCATION
+IF knowGamingKlatch >= 1 | GOTO | DONTKNOWKLATCHLOCATION
+
+KNOWKLATCHLOCATION
+DIALOG | P_NAME | The Gaming Klatch... is here?_ I thought it was in Al Akihabara!
+DIALOG | D'archimedes = s_port_darchimedes_prison | You know your stuff, kid. It normally is, but we got got.
+DIALOG | P_NAME | Huh?
+GOTO   | DARCHSTING
+
+DONTKNOWKLATCHLOCATION
+DIALOG | P_NAME | The Gaming Klatch... is here?
+DIALOG | D'archimedes = s_port_darchimedes_prison | Not normally... we're at a `sq`nondisclosed location in Al Akihabara.`rt`
+KNOW   | knowGamingKlatch | 2
+DIALOG | P_NAME | Oh... I see...
+DIALOG | D'archimedes = s_port_darchimedes_prison | Problem is, we got got.
+DIALOG | P_NAME | Huh?
+GOTO   | DARCHSTING
+
+DARCHKNOW00
+DIALOG | P_NAME | Oh, D'archimedes... what are you doing here?
+GOTO   | DARCHSTING
+
+DARCHSTING
+DIALOG | D'archimedes = s_port_darchimedes_prison | Got caught up in a Gaming in Public sting. We had a `sq`hot game of Joust`rt` going in the swamps and two Duergars swooped in and rounded us up.
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Oh no! How long are you stuck in here?
+DIALOG | D'archimedes = s_port_darchimedes_prison | Can't say, but we have the Klatch Meeting starting in Al Akihabara in ___ hours.
+//TODO: add in both proper location for Klatch meeting and proper TIME
+DIALOG | P_NAME | (Gotta remember that! `sq`Al Akihabara has the Gaming Klatch meetup!)`rt`
+KNOW   | knowGamingKlatch | 2
+DIALOG | D'archimedes = s_port_darchimedes_prison | So what do you want?
+GOTO   | DARCHQUESTIONS
+
+CANIGO02
+DIALOG | P_NAME | No headway on me using the toilet in privacy is there?
+DIALOG | D'archimedes = s_port_darchimedes_prison | First of all, it's pronounced `w1`/'ter-`w0`let/' and secondly no, we're in the process of cloggin' the pipes. You either contribute to the cause or get left behind when we bust out of here.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | (Daggone, I've gotta get over myself... I just can't yet).
+EXIT |
+
+CANIGO01
+DIALOG | P_NAME | D'archimedes... I just wanted to use the_ um,_ facilities.
+DIALOG | D'archimedes = s_port_darchimedes_prison | Too bad, P_NAME_S, the facilities are tied up in a turf war. I can't be letting any old jumo walk in without good reason.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Well I can think of one `s1`very obvious`s0` reason you should let me use the bathroom...
+DIALOG | D'archimedes = s_port_darchimedes_prison | No can do. Tell you what- `sq`you join the Gaming Klatch and I'll grant you... access.`rt`
+DIALOG | P_NAME | Well, it's not that I don't want to join the Klatch; it's more that I can't really um... go_ with others around.
+DIALOG | D'archimedes = s_port_darchimedes_prison | This is the Hoosegow, P_NAME_S. You better get used to doing a lot of thing with /'others around./'
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I-_ I just can't.
+DIALOG | D'archimedes = s_port_darchimedes_prison | You're gonna need to `sq`come to terms with that.`rt` Until then, get s_c_o_o_t_i_n'.
+QUEST  | canIGo = 1
+EXIT |
+
+DARCHQUESTIONS
+CHOICE | Any questions for D'archimedes?
+IF @Military Grade M-80@ >= 1 | REPLY | BLASTSEQUENCE | Would this explosive help?
+IF prisonDistress == 5 | REPLY | DISTRESSEND | I can't wait any longer! I need access!
+IF canIGo == 1 | IF prisonDistress != 5 | REPLY | CANIGO02 | Yeah so think maybe I can GO now?
+IF canIGo == 0 | IF prisonDistress != 5 | REPLY | CANIGO01 | Think I could use the bathroom?
+IF darchimedesPrisonQuest == 0 | REPLY | TERLETPLAN | What's with the line for the toilets?
+IF knowGamingKlatch == 1 | REPLY | WHEREISKLATCH | Where's Gaming Klatch Headquarters?
+REPLY | NARYYEMIND | Nary ye mind.
+
+DARCH01
+DIALOG | D'archimedes = s_port_darchimedes_prison | What is it, P_NAME_S?
+GOTO | DARCHQUESTIONS
+
+DARCH00
+QUEST  | darchimedesPrisonState = 1
+QUEST  | darchimedesLineState = 1
+IF knowDarchimedes >= 1 | GOTO | DARCHKNOW00
+DIALOG | P_NAME | Hello, is this the line for the bathroom?
+DIALOG | D'archimedes = s_port_darchimedes_prison | It is, but what's it to ya?
+DIALOG | P_NAME | Well I uh... gotta go.
+DIALOG | D'archimedes = s_port_darchimedes_prison | Tough squat. This is `sq`Gaming Klatch`rt` territory. What are you, Salvatrucha?
+DIALOG | P_NAME | I'm sorry?
+DIALOG | D'archimedes = s_port_darchimedes_prison | MS-13... you a_ `s1`gangbanger?`s0`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | No way! I walk the straight and narrow, I'd never be a_ `s1`gangbanger!`s0`
+DIALOG | D'archimedes = s_port_darchimedes_prison | Alright well, these terlets are for Gaming Klatch schemes only. There are plenty of corners for you to_ `w1`pop a squat.`w0`
+DIALOG | P_NAME | Uh... well I think I can hold it until I find a Utility Station... know of any here?
+DIALOG | D'archimedes = s_port_darchimedes_prison | Utility Station? What do I look like, a Lone Gun'sbraster?
+DIALOG | P_NAME | I guess not...
+DIALOG | D'archimedes = s_port_darchimedes_prison | Anything else?
+KNOW   | knowDarchimedes | 2
+GOTO | DARCHQUESTIONS
+
+TERLETPLAN
+DIALOG | P_NAME = s_port_hoopzPrisonAngry | The toilets seems like a weird place to want to control in a Hoosegow.
+DIALOG | D'archimedes = s_port_darchimedes_prison | Don't worry, `sq`we Gaming Klatch have a plan.`rt`
+DIALOG | P_NAME | A plan?
+DIALOG | D'archimedes = s_port_darchimedes_prison | Yeah... so check this out._ See that `w1`Terlet`w0` up there?
+WAIT   | 0.25
+LOOK   | o_cts_hoopz   | NORTH
+FRAME  | CAMERA_NORMAL | o_cinema27 
+WAIT   | 0
+WAIT   | 1.25
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_darchimedesPrison01
+LOOK   | o_cts_hoopz   | WEST
+WAIT   | 0.5
+DIALOG | P_NAME | Yeah, I see it... looks_ beleaguered.
+DIALOG | D'archimedes = s_port_darchimedes_prison | That's right... we've already taken down three of the four terlets...one by one, with the duties of countless prisoners. You know what happens when all four of the pipes clog up?
+WAIT   | 0.5
+DIALOG | D'archimedes = s_port_darchimedes_prison | Ka_blooey.
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Daggone...
+DIALOG | D'archimedes = s_port_darchimedes_prison | So if you want to join up with the Gaming Klatch, just be ready to_ `sq``w1`drop trou' and_ contribute to the cause.`w0``rt` What do you say?
+DIALOG | P_NAME = s_port_hoopzPrisonSad | Well I_..._ I would if I could but I kind of have a problem with,_ y'know, going in public.
+DIALOG | D'archimedes = s_port_darchimedes_prison | We're in the hoosegow, P_NAME_S. Everything is public here. You need to unclench yourself from the fear you cling to and leave it all out there.
+DIALOG | P_NAME | I'll try, I'm just not ready yet...
+DIALOG | D'archimedes = s_port_darchimedes_prison | Very well, come back when you need to_ `w1`answer the call.`w0`
+QUEST  | darchimedesPrisonQuest = 1
+EXIT |
+
+WHEREISKLATCH
+DIALOG | P_NAME | So where exactly is the Gaming Klatch.
+DIALOG | D'archimedes = s_port_darchimedes_prison | Well our exact meetings are shrouded in the darkness of the DeepDwarfNET. But let me tell you... our members aren't all work and no play... we enjoy the sun and sand... let's just say... `w1`life's a beach.`w0`
+DIALOG | P_NAME | Beach? Sun? Sand?
+WAIT   | 0.5
+// TODO: Add in knowledge check for Al Akihabara
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Al Akihabara!
+DIALOG | D'archimedes = s_port_darchimedes_prison | Heh, you didn't hear it from me._ Or did you? See you around, P_NAME_S.
+DIALOG | P_NAME | (Wow, if I ever get out of here, `sq`I should check out Al Akihabara and try to find the Gaming Klatch meetup.)`rt`
+KNOW   | knowGamingKlatch | 2
+EXIT |
+
+NARYYEMIND
+DIALOG | P_NAME | Nary ye mind, I'll get going.
+DIALOG | D'archimedes = s_port_darchimedes_prison | Keep and eye out for shivs, they have a funny way of ending up in your kidneys.
+EXIT |
+
+DARCHSHANK
+WAIT | 0.25
+DIALOG | P_NAME | (This is it. Time to shank and bail.)
+WAIT | 0.5
+//TODO: Animate Hoopz to shank D'archimedes
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema26 | MOVE_NORMAL
+WAIT   | 0
+USEAT  | o_darchimedesPrison01
+Emote | ! | o_darchimedesPrison01 | 0 | 0
+WAIT | 0.5
+DIALOG | D'archimedes = s_port_darchimedes_prison | I-_I've been_ `s1`SHANKED!`s0`
+PLAYSET| o_darchimedesPrison01 | shankStart | shankEnd
+WAIT   | 0
+SURPRISEAT | o_darchimedesPrison01
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzPrisonShock | (I-_I did it... I_ `s1`shanked a fool.`s0`)
+LOOK | o_cts_hoopz | EAST
+WAIT | 0.25
+DIALOG | P_NAME = s_port_hoopzPrisonSad | (I'll never be the same again...)
+QUEST | behaveJaded += 1
+DIALOG | P_NAME | Something fell out... what is this?
+//TODO: Hoopz walks over and grabs the note
+//TODO: Note | take | Bloody Prison Writ
+USEAT | o_darchimedesPrison01
+NOTE | take | D'archimedes Invitation
+NOTIFY | Got D'archimedes Gaming Klatch Invitiation!
+LOOK | o_cts_hoopz | WEST
+WAIT | 0.5
+LOOK | o_cts_hoopz | SOUTH
+WAIT | 0.5
+LOOK | o_cts_hoopz | EAST
+WAIT | 0.5
+EVENT   | oPrisonSwitch | 10
+EVENT   | oPrisonRioter | 0
+WAIT  | 1
+Emote | ! | o_cts_hoopz | 0 | 0
+DIALOG | P_NAME | (Zucks and Ducks! I gotta get to a safe spot!)
+Emote | ? | o_cts_hoopz | 0 | 0
+WAIT  | 0.5
+LOOK | o_cts_hoopz | SOUTH
+WAIT | 0.5
+LOOK | o_cts_hoopz | EAST
+WAIT | 0.5
+LOOK | o_cts_hoopz | SOUTH
+WAIT | 0.5
+Misc   | visible | oPrisonGenericToilet | 0
+MOVETO | o_cts_hoopz | o_cinema29 | MOVE_FAST
+WAIT | 0
+MOVETO | o_cts_hoopz | o_cinema27 | MOVE_FAST
+WAIT | 0
+LOOK | o_cts_hoopz | SOUTH
+FRAME | CAMERA_FAST | o_cinema6 | o_cinema31
+CREATE | o_dozier01 | \" + string(o_cinema31.x) + \" | \" + string(o_cinema31.y + 200) + \"
+CREATE | o_astyages01 | \" + string(o_cinema6.x) + \" | \" + string(o_cinema6.y + 200) + \"
+MOVETO | o_dozier01 | o_cinema31 | MOVE_FAST
+MOVETO | o_astyages01 | o_cinema6 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_dozier01 | NORTH
+LOOK   | o_astyages01 | NORTHWEST
+WAIT | 0
+DIALOG | Dozier | Cuchu-christ look at this stuck pig... looks like a real pro kidney shot.
+DIALOG | Astyages | Hmmm, this reeks of MS-13. What should we do?
+DIALOG | Dozier | What else can we do but round up some freaks and fillet the hell out of their backsides.
+DIALOG | Astyages | Thrax has been itchin' for a reason to string up another crucifix. You check the terlets, I'll start rounding up some perps from the cells.
+FRAME | CAMERA_FAST | o_cts_hoopz
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | (Fragdabbit! My goose is cooked for sure!)
+WAIT   | 0.5
+PLAYSET| o_cts_hoopz | stomach_start | stomach_end
+WAIT   | 0
+DIALOG | P_NAME | (Gumdrops! I can't wait any longer! It's no good! I got_ `s1`A BOWLCRACKER INBOUND!)`s0`
+LOOK   | o_cts_hoopz | EAST
+GOTO   | BOWEL_MOVEMENT"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_brvy2"]
+atlas = ExtResource("2_m4drk")
+region = Rect2(0, 0, 35, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_era7l"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(180, 0, 36, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0ufl"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(0, 0, 36, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6x5rq"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(36, 0, 36, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qf2cq"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(72, 0, 36, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4s6g"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(108, 0, 36, 47)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u22ra"]
+atlas = ExtResource("3_m4drk")
+region = Rect2(144, 0, 36, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_era7l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brvy2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_era7l")
+}],
+"loop": true,
+"name": &"shankEnd",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0ufl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6x5rq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qf2cq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4s6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u22ra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_era7l")
+}],
+"loop": false,
+"name": &"shankStart",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_36hur"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0ufl"]
+size = Vector2(20, 36)
+
+[node name="o_darchimedesPrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_uqkcl")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_era7l")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_era7l")
+autoplay = "shankStart"
+centered = false
+offset = Vector2(-16, -38)
+metadata/default = {
+"bbox_bottom": "40",
+"bbox_left": "1",
+"bbox_right": "34",
+"bbox_top": "1",
+"frames": ["images\\s_darchimedesPrison01_0.png"],
+"height": "42",
+"name": "s_darchimedesPrison01",
+"width": "35",
+"xorig": "16",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_36hur")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_r0ufl")

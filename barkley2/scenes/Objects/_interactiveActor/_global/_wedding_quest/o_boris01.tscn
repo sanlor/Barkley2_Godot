@@ -1,0 +1,255 @@
+[gd_scene load_steps=16 format=3 uid="uid://jxmbmjb2s1xl"]
+
+[ext_resource type="Script" uid="uid://chsjmlf4p87ws" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_wedding_quest/o_boris01.gd" id="1_4qs4t"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_8mdm5"]
+[ext_resource type="Texture2D" uid="uid://clc66bn82ap3d" path="res://barkley2/assets/b2_original/images/merged/s_boris01.png" id="2_uq6ew"]
+
+[sub_resource type="Resource" id="Resource_heq3t"]
+script = ExtResource("2_8mdm5")
+original_script = "IF room == r_pri_prisonInside01 | GOTO | LOCKED_UP
+IF weddingQuest == 3 | IF borisWedding == 3 | GOTO | POST_WEDDING
+IF weddingQuest == 2 | IF borisWedding == 1 | IF clock >= 11 | GOTO | BETRAYAL
+IF borisWedding == 2 | GOTO | BETRAYAL_REPEAT   
+IF borisState == 0 | GOTO | BORIS_0
+IF borisState == 1 | GOTO | BORIS_1
+IF borisState == 2 | GOTO | BORIS_2
+
+LOCKED_UP
+DIALOG | Boris  | I am become toot, placater of ears...
+
+BORIS_0
+DIALOG | Boris  | Gather 'round, `w1`kinder,`w0` gather 'round, and cup your ear for my soothing... and salacious flute toots. 
+DIALOG | Boris  | But fret not, `kw`noble jugend,`rt` for these pipes are neither pied nor piercing, but indeed, pleasing to any palate. 
+DIALOG | Boris  | Ah, I beseech thee, most august of moppets, to harken to my `w1`sensual woodwind,`w0` which, when tended with a tender mouth honk, emits a coo most gilded.
+QUEST  | borisState = 1
+GOTO   | LISTEN_TOOT_CHOICE
+
+BORIS_1
+DIALOG | Boris  | Do mine eyes reveal a wanderer most nubile, whose ear, it seems, desires a toot from my `w1`supple`w0` woodwind? 
+DIALOG | Boris  | For if indeed my eyes speak true, t'would be my pleasure to `w1`boon`w0` thee with a toot euphonic! Pray tell, pubescent pilgrim, is it my flute that brought you here?
+GOTO   | LISTEN_TOOT_CHOICE
+
+BORIS_2
+DIALOG | Boris  | Ah, 'tis the nubile wanderer. Back to rest your ears and mind with a toot and a honk from my flute, yes?
+GOTO   | LISTEN_TOOT_CHOICE
+    
+LISTEN_TOOT_CHOICE
+CHOICE | Listen to Boris' flute playing?
+IF weddingQuest == 1 | IF musicianCount <= 3 | IF clock <= 10 | REPLY | GOT_WEDDING | I'm forming a band for a wedding, want to join?
+REPLY  | TOOT_LISTEN | Sure.
+REPLY  | TOOT_REJECT | No thanks.
+IF industrialRules == 1 | REPLY | VERBOTEN | I don't think you're allowed to toot that flute here.
+
+TOOT_LISTEN
+DIALOG | P_NAME | Um, sure, I guess I don't mind listening.  
+GOTO   | TOOT_PLAY
+
+TOOT_REJECT
+DIALOG | P_NAME | Save your toots, pappy. I don't have the time of day.
+DIALOG | Boris  | Then I shall have to work harder to impress you, o' discriminating lass or lad. My toots shall increase in both `kw`deftness`rt` and `sq`decibel.`rt` But don't mark my words... mark my toots.
+              
+VERBOTEN
+DIALOG | P_NAME | Um, don't you know it's against the rules to toot any flutes in The Social?
+DIALOG | Boris  | It is not I that toots this flute, o' precocious jugend. The reed rests between lips far meatier than mine own - lips belonging to a force called `mq`F.A.T.E.`rt` 
+DIALOG | Boris  | Perhaps if I cannot bend your ear... `mq`F.A.T.E.`rt` can. What say you, salubrious kinder, to a tour de force of dulcet honks and bellowing `w1`wam pams.`w0`
+CHOICE | Listen to Boris' flute playing?                
+REPLY  | HATE_RULES | I hate rules, I'll listen.
+REPLY  | LOVE_RULES | Not if it breaks the rules.
+
+HATE_RULES
+DIALOG | P_NAME | Sure, I'll listen. I hate rules.
+GOTO   | TOOT_PLAY
+
+LOVE_RULES
+DIALOG | P_NAME | No way. I'm a rule abider, not a rule derider.
+DIALOG | Boris  | I suppose I'll have to ply my toots to an ear more agreeable. But if you change your tune, I am always willing to regale you with my ribald dithyrambus.
+
+TOOT_PLAY
+DIALOG  | Boris | Ahh, the curious cherub shall I enthral with `w1`bombastic`w0` toots and woodwind drawl. Prepare yourself for a toot cavalcade most cadent!
+    //scr_event_build_dialogue_debug(TODO, NULL, The music fades out and Boris plays his flute song.
+SET     | o_boris01 | tooting
+WAIT    | 5
+SET     | o_boris01 | default 
+DIALOG  | Boris | 'Twas a bawdy ballad done in the style of late dwarf romantic I like to call... Great Tooting. What say you, o delicate ephebe (or radiant... no... miraculous maiden)?
+GOTO    | TOOT_RESPONSE
+
+TOOT_RESPONSE
+CHOICE | What did I think of his performance?
+IF weddingQuest >= 1 | REPLY  | GREAT_TOOT | Great! I'm forming a band for a wedding, want to join?
+REPLY  | BOMB_TOOT   | Bombastic toots.
+REPLY  | OKAY_TOOT   | It was okay.
+REPLY  | SHIT_TOOT   | I didn't like it.
+REPLY  | JOCK_TOOT   | Know any jock jams?
+
+GREAT_TOOT
+DIALOG | P_NAME | Oh man, Boris, your flute toots hit the spot! Hey, I'm putting together a band for a wedding in Brain City - would you be interested in playing for it?
+QUEST  | borisState = 2
+
+BOMB_TOOT
+DIALOG | P_NAME | Your toots were bombastic!
+DIALOG | Boris  | Ah, I am thrilled by your eager adulation. Clap away, `w1`mon petit!`w0` There are none who toot more vigorously than I, for I would toot from atop the highest mountain or chimney. Do not forget my toots, meek and mild youngster. Do not forget my toots.
+QUEST  | borisState = 2
+
+OKAY_TOOT
+DIALOG | P_NAME | Uh, it was okay. I mean I'm not flipping out or anything.                        
+DIALOG | Boris  | So my `kw`Juilliardian toots`rt` did not impress. I... I see... Perhaps it would be best if you left me alone for now, yon stony-hearted tyke, to practice my fingering techniques in grief...
+DIALOG | P_NAME | Sorry...  
+QUEST  | borisState = 2
+
+SHIT_TOOT
+DIALOG | P_NAME | It was pretty bad.
+DIALOG | Boris  | Hmm, what's that? You'll need to speak up, dear jugend. My ears are still ringing from the toots.
+DIALOG | P_NAME | Nary ye mind...
+QUEST  | borisState = 2    
+
+JOCK_TOOT
+DIALOG | P_NAME | I'm more into jock jams. Know anything that'll get me juiced up to shoot some hoops?
+DIALOG | Boris  | Ah, you seek a passepied most potent. I must confess my pipes are not nearly pied enough, though my brainpan, once panned, recalls a pianist in the City of Brains who can accompany your request.
+QUEST  | borisState = 2
+
+WEDDING_ASK
+DIALOG | P_NAME | Save your toots, Boris. I'm forming a `sq`wedding band,`rt` do you want to join?
+DIALOG | Boris  | The ultimate consumation of the love of two dwarfs... would I indeed be willing to ply my flautistry to the ears of those gathered for so joyous an event? Why, 'twould be my honor, `w1`dear kinder!`w0`
+DIALOG | P_NAME | Okay, great, the band definitely needs a flute master. I'm still putting it together, so I'll be a while, but if you head down south to Brain City, I'll meet you there with the others.
+DIALOG | Boris  | Abscond I shall, with woodwind in tow, to the temple of music in the Brain Chateau...
+FADE   | 1 | 2
+WAIT   | 0
+QUEST  | borisWedding = 1
+QUEST  | musicianCount += 1
+Destroy | o_boris01
+FADE   | 0 | 2
+WAIT   | 0
+IF musicianCount == 1 | DIALOG | P_NAME | That's one musician recruited for the band. I to find need 3 more...
+IF musicianCount == 2 | DIALOG | P_NAME | That's two musicians now. Halfway there...
+IF musicianCount == 3 | DIALOG | P_NAME | One more musician for the band. That means only 1 more to go...
+IF musicianCount == 4 | DIALOG | P_NAME | All right, I did it! The band's got 4 members. I should get back to the Booty Daimyo and let him know.
+
+POST_WEDDING
+DIALOG | Boris  | Ah, my fellow `kw`Jazzy Rascal`rt` returns! 'tis fantastic to see you again, dear kinder! Has the allure of my impassioned piping drawn you back, most nubile wayferer? 'tis a wonderous day for toots.
+DIALOG | P_NAME | (Ugh, I hate the Jazzy Rascals...)
+
+BETRAYAL
+DIALOG | Boris  | Though your visage is that of the kinder, your deceit betrays your true colors: you are a `s1`knave!`s0` A knave, I say, for allowing me to travel to the City of Brains and never meeting me there! Where were you, youngster? Speak up!
+DIALOG | P_NAME | Sorry, Boris... I kinda forgot...
+DIALOG | Boris  | Well forget about my bawdy toots, for never again shall I play them for an ear so duplicitous. You have rent my heart in twain, thou beguiling bambino... and it shall never again mend...
+QUEST  | borisWedding = 2
+
+BETRAYAL_REPEAT 
+DIALOG | Boris | `s1`Alack!`s0` Alack, I say! I refuse to play even a single toot for a `s1`fraud`s0` such as yourself! I trusted your sterling words, but alas, they were impostrous! So alack, I say! `s1`Alack!`s0`"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8prjx"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(0, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njdyh"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(280, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joad1"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(40, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_35p8e"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(80, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uatm6"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(120, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aat7e"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(160, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1pwr"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(200, 0, 40, 37)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdaee"]
+atlas = ExtResource("2_uq6ew")
+region = Rect2(240, 0, 40, 37)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tnokr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8prjx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njdyh")
+}],
+"loop": true,
+"name": &"prison",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_joad1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_35p8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uatm6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aat7e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1pwr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdaee")
+}],
+"loop": true,
+"name": &"tooting",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fait3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdjbr"]
+size = Vector2(20, 36)
+
+[node name="o_boris01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_4qs4t")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_heq3t")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_tnokr")
+animation = &"prison"
+centered = false
+offset = Vector2(-21, -33)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "15",
+"bbox_right": "42",
+"bbox_top": "31",
+"frames": ["images\\s_boris01_0.png", "images\\s_boris01_1.png", "images\\s_boris01_2.png", "images\\s_boris01_3.png", "images\\s_boris01_4.png", "images\\s_boris01_5.png", "images\\s_boris01_6.png", "images\\s_boris01_7.png"],
+"height": "37",
+"name": "s_boris01",
+"width": "40",
+"xorig": "21",
+"yorigin": "33"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_fait3")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_fdjbr")

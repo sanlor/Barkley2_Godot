@@ -1,0 +1,173 @@
+[gd_scene load_steps=11 format=3 uid="uid://r0y7gbc2ivnc"]
+
+[ext_resource type="Script" uid="uid://cifa36jf36mn5" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_gutterhoundPrison01.gd" id="1_hmdl3"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2cc4n"]
+[ext_resource type="Texture2D" uid="uid://4k3k5l3kli2n" path="res://barkley2/assets/b2_original/images/merged/s_gutterhound_prison.png" id="2_ccsjv"]
+
+[sub_resource type="Resource" id="Resource_frmx5"]
+script = ExtResource("2_2cc4n")
+original_script = "IF gutterhoundPrison == 2 | GOTO | GUTTER_SMOKING
+IF gutterhoundPrison == 1 | GOTO | GUTTER01
+IF gutterhoundQuest <= 4  | GOTO | GUTTERPLANNING
+IF gutterhoundQuest == 8  | GOTO | GUTTERSHUN
+GOTO | GUTTERPLANNING
+
+GUTTER_SMOKING
+DIALOG | Gutterhound | Nothin' beats the smooth, bold taste of caner sticks. Thanks kid.
+
+GUTTER01
+DIALOG | Gutterhound | Scram... y'boy's busy.
+DIALOG | P_NAME = s_port_hoopzPrisonAngry | ...
+
+GUTTERPLANNING
+IF knowGutterhound >= 2 | GOTO | KNOWGUTTER
+IF knowGutterhound <= 1 | GOTO | DONTKNOWGUTTER
+
+KNOWGUTTER
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Hey Gutterhound!
+DIALOG | Gutterhound | Huh?_ What the nards happened to you, kid?
+DIALOG | P_NAME = s_port_hoopzPrisonSad | I_ uh, got arrested for-
+DIALOG | Gutterhound | Don't matter. Don't care. How 'bout you skedaddle and let Ole Gutterhound figure out a way to bust out of this joint.
+DIALOG | P_NAME | Oh, okay. Well I'll see ya I guess._._._
+GOTO   | WALKAWAY
+
+DONTKNOWGUTTER
+DIALOG | Gutterhound | Scram, kid. I'm working on my break out plan.
+DIALOG | P_NAME | Oh... okay... sorry.
+QUEST  | gutterhoundPrison = 1
+
+WALKAWAY
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_SLOW
+WAIT   | 0.5
+DIALOG | Gutterhound | Hey kid...
+Emote  | ? | o_cts_hoopz | 0 | 0
+LOOKAT | o_cts_hoopz | o_gutterhoundPrison01
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_gutterhoundPrison01
+DIALOG | P_NAME | Yeah?
+DIALOG | Gutterhound | Got any_ `kw`smokes?`rt`
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Smokes?
+DIALOG | Gutterhound | Yeah, y'know. Smokes, butts, lung darts, caner sticks.
+DIALOG | P_NAME | Caner sticks? Well uh...
+IF @Pack of Smokes@ >= 1 | GOTO | SMOKESCHOICE
+IF @Pack of Smokes@ == 0 | GOTO | DONTHAVESMOKES
+
+DONTHAVESMOKES
+DIALOG | P_NAME | Well, I don't have anything like that right now, but I'll keep an eye out for it.
+DIALOG | Gutterhound | You do that kid. I'll `sq`make it worth your while.`rt`
+DIALOG | P_NAME | Uh okay...
+
+SMOKESCHOICE
+CHOICE | Give Gutterhound your smokes?
+REPLY  | GIVESMOKES | Sure, I guess...
+REPLY  | KEEPSMOKES | Sorry, hoss.
+
+GIVESMOKES
+QUEST  | gutterhoundPrison = 2
+DIALOG | P_NAME | Hmmm, what else could I use them for? I'll just give them to you, and darn the consequences.
+USEAT  | o_gutterhoundPrison01
+Item   | Pack of Smokes | -1
+NOTIFY | Gave Gutterhound the Pack of Smokes
+//TODO: puff smoke out of Gutterhound's mouth (shangrila)
+WAIT   | 2.0
+DIALOG | Gutterhound | `w1`Hoowee!`w0` Now I'm in flavor country, baby! Oh my oh my, this brand of cigarette really agrees with my `kw`T-Zone.`rt` Thanks kid... here, take this.
+USEAT  | o_gutterhoundPrison01
+//TODO: NOTIFY | Got Mysteriouse Parchment
+//TODO: give the appropriate map
+DIALOG | P_NAME | Thanks_ uh what is it?
+DIALOG | Gutterhound | It's a map of the Undersewers, kid. Don't worry about where I marked my hiding places. I already spent that cash. But you could use it to get around if you find yerself in that dankness.
+DIALOG | P_NAME = s_port_hoopzPrisonHappy | Oh gee, thanks Gutterhound, this is great. Enjoy that cool flavor of those Hoosegow smokes.
+DIALOG | Gutterhound | You know it kid. Peace to you.
+
+KEEPSMOKES
+DIALOG | P_NAME | Sorry, hoss. I'm keeping these caner sticks for now.
+DIALOG | Gutterhound | Damn. Guess my hankerin' for that nicotine ain't goin' anywhere for a bit still.
+
+GUTTERSHUN
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | Gutterhound! You got caught!
+DIALOG | Gutterhound | Yeah yeah, Ol' Blue caught me... they were the ones who put the chains on me, but the real reason I'm in here is standing right in front of me.
+Emote  | ! | o_cts_hoopz | 0 | 0
+DIALOG | P_NAME = s_port_hoopzPrisonSurprise | You don't mean!
+DIALOG | Gutterhound | I sure as shit mean it, bunghole! We were partners in the heist in Tir na Nog and you left the Hound blowin' in the wind! I was scooped up in no time.
+DIALOG | P_NAME | Why didn't you just_ `w1`NOT`w0` rob the bank?
+DIALOG | Gutterhound | What am I? A quitter? 
+WAIT   | 1.0
+DIALOG | Gutterhound | Just get out of here sucka, and let me work on bustin' out of this joint.
+DIALOG | P_NAME = s_port_hoopzPrisonSad | ...
+QUEST  | gutterhoundPrison = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cc4n"]
+atlas = ExtResource("2_ccsjv")
+region = Rect2(0, 0, 41, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frmx5"]
+atlas = ExtResource("2_ccsjv")
+region = Rect2(41, 0, 41, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5p4wk"]
+atlas = ExtResource("2_ccsjv")
+region = Rect2(82, 0, 41, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_12tkd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cc4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frmx5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5p4wk")
+}],
+"loop": true,
+"name": &"diving",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hmdl3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_65m17"]
+size = Vector2(20, 36)
+
+[node name="o_gutterhoundPrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hmdl3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_frmx5")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_12tkd")
+centered = false
+offset = Vector2(-20, -47)
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "2",
+"bbox_right": "38",
+"bbox_top": "1",
+"frames": ["images\\s_gutterhound_prison_0.png", "images\\s_gutterhound_prison_1.png", "images\\s_gutterhound_prison_2.png"],
+"height": "50",
+"name": "s_gutterhound_prison",
+"width": "41",
+"xorig": "20",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_hmdl3")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_65m17")

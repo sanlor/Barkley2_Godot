@@ -30,6 +30,7 @@ func _load_gdshader() -> void:
 	for file : String in files:
 		if file.ends_with(".gdshader"):
 			var part := ColorRect.new()
+			part.size = Vector2(50,50)
 			part.material = ShaderMaterial.new()
 			part.material.shader = ResourceLoader.load( SHADER_CODE + "/" + file, "", ResourceLoader.CACHE_MODE_REUSE )
 			cuck_box.add_child( part )
@@ -40,6 +41,7 @@ func _load_materials() -> void:
 	for file : String in files:
 		if file.ends_with(".material") or file.ends_with(".tres"):
 			var part := ColorRect.new()
+			part.size = Vector2(50,50)
 			part.material = load( MATERIAL_FOLDER + "/" + file )
 			cuck_box.add_child( part )
 			await get_tree().process_frame
@@ -49,6 +51,7 @@ func _load_particles() -> void:
 	for file : String in files:
 		if file.ends_with(".tres"):
 			var part := GPUParticles2D.new()
+			part.texture = preload("uid://ba1yave72rmvn")
 			part.process_material = load( PARTICLES_FOLDER + "/" + file )
 			part.emitting = true
 			cuck_box.add_child( part )

@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://cqw4vibkpfp17"]
+
+[ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="1_ulrkj"]
+[ext_resource type="Script" uid="uid://4w15kgqogbm1" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/o_prison_switch.gd" id="2_i4fsg"]
+[ext_resource type="Resource" uid="uid://b1h0m7hl5d48x" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/oPrisonSwitch.tres" id="3_i4fsg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hpn3"]
+atlas = ExtResource("1_ulrkj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kunl0"]
+atlas = ExtResource("1_ulrkj")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2hqqn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hpn3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kunl0")
+}],
+"loop": true,
+"name": &"flipped",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hqqn"]
+
+[node name="oPrisonSwitch" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_2hqqn")
+centered = false
+script = ExtResource("2_i4fsg")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = ExtResource("3_i4fsg")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "0",
+"height": "16",
+"name": "s_sewer_switch01",
+"width": "16",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(8, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_2hqqn")

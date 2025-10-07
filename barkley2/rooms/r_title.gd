@@ -51,8 +51,13 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var start_button 		= $title_layer/title_panel/start_button
 @onready var settings_button 	= $title_layer/title_panel/settings_button
 @onready var quit_button 		= $title_layer/title_panel/quit_button
-@onready var vr_button: 		B2_Border_Button 	= $title_layer/vr_btn
-@onready var debug_button: 		B2_Border_Button 	= $title_layer/debug_btn
+@onready var extra_btn: 		B2_Border_Button = $title_layer/extra_btn
+@onready var extra_menu: 		B2_Border = $title_layer/extra_menu
+@onready var vr_btn: 			Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/vr_btn
+@onready var debug_btn: 		Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/debug_btn
+@onready var map_select_btn: 	Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/map_select_btn
+@onready var extra_back_btn: 	Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/extra_back_btn
+
 
 ## VR Stuff
 @onready var mission_1: 	Button = $vr_layer/mission_list/MarginContainer/ScrollContainer/VBoxContainer/mission_1
@@ -217,7 +222,10 @@ func _input(event: InputEvent) -> void:
 		## Handle keyboard and gamepad inputs, to make sure that "something" always has input focus.
 		match mode:
 			"basic":
-				if not check_focus( [ start_button, settings_button, quit_button, vr_button, debug_button ] ):
+				# This is a very unsustenable way to do this. 05/10/25
+				# need to find a better way to deal with loss of input focus.
+				## TODO deal with this.
+				if not check_focus( [ start_button, settings_button, quit_button, extra_btn, vr_btn, debug_btn, map_select_btn, extra_back_btn ] ):
 					start_button.grab_focus()
 			"settings":
 				pass
@@ -263,6 +271,14 @@ func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad",
 			gameslot_layer.hide()
 			character_layer.hide()
 			vr_layer.hide()
+			extra_menu.hide()
+			extra_btn.show()
+			
+			start_button.focus_neighbor_left 		= extra_btn.get_path()
+			settings_button.focus_neighbor_left 	= extra_btn.get_path()
+			quit_button.focus_neighbor_left 		= extra_btn.get_path()
+			
+			begin_btn.grab_focus()
 		"settings", "keymap", "gamepad":
 			title_layer.hide()
 			settings_layer.show() 		# <-
@@ -357,3 +373,8 @@ func _on_debug_btn_button_pressed() -> void:
 	B2_Music.stop( 2.0 )
 	B2_Playerdata.Quest("saveDisabled", 1) ## Disable save for the debug room.
 	B2_RoomXY.warp_to( "r_air_entrance03, 417, 615, 1", 2.0 )
+
+func _on_map_select_btn_pressed() -> void:
+	mode = "basic"
+	change_menu()
+	B2_Debug._on_button_pressed()

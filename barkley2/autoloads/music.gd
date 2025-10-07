@@ -1,3 +1,11 @@
+## B2_Music, my beloved...
+# This nodes handles the music playing in a room, when changing a room or during cutsenes.
+# All music files are indexed on the 'MUSICBANK' json file.
+# If you try to access a sound file that does not exist, the script will try to re-index the json file. WARNING This only works on debug builds.
+# NOTE Check out the 'room_get' function. It has some data related which music track belongs to each map / room. Neat.
+# @tutorial: https://www.youtube.com/watch?v=MIxowl5YuaQ
+
+@icon("uid://cvmurdsjjl1af")
 extends Node
 ## Autoload that controls the Music.
 # TODO Improve this script. Volume control sucks.
@@ -39,6 +47,8 @@ var stored_playing_track_time	:= 0.0
 ## Room audio modifier
 # some rooms have the audio volume modified, like interiors
 var volume_mod := 1.0
+
+var music_audio_bus_index := AudioServer.get_bus_index("Music")
 
 ## DEBUG USE ONLY. incase a music cache misses, reindex all music files.
 func _load_music_banks( music_folder : String ):
@@ -89,48 +99,56 @@ func set_volume( raw_value : float): # 0 - 100
 func get_volume() -> float:
 	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
 
-## Absolute bonkers function. Plays music based on the area that the player is right now. Someone wen mental on the if/else statements.
+## Absolute bonkers function. Plays music based on the area that the player is right now. Someone went mental on the if/else statements.
+# 05/10/25 Sometimes, I just stare at this mess. I love it.
 func room_get( room_name : String):
 	#Music("queue", "mus_blankTEMP"); ## Default no music if not specified
 	if room_name == "r_title":
 		await get_tree().create_timer(0.5).timeout
 		play( "mus_gbl_aristocrat", 0.25 )
+		return
 		
 	elif room_name.contains("tnn"):
 		## Tir Na Nog
 		### Inside Bootybass ##
 		if room_name == "r_tnn_bootybass02":
 			play("mus_tnn_bootylectro")
+			return
 			
 		### Gov Speech ##
 		if room_name == "r_tnn_maingate02":
 			if B2_Playerdata.Quest("govSpeechInitiate") == 2:
 				play("mus_blankTEMP")
+				return
 				
 		### Wilmer's House ## Wakeup Intro also ##   
 		if room_name == "r_tnn_wilmer02":
 			if B2_Playerdata.Quest("sceneBrandingStart") <= 3:
 				play("mus_blankTEMP")
+				return
 			else:
 				play("mus_wilmer")
+				return
 				
 		### Wilmer's house ##
 		if room_name == "r_tnn_wilmer01":
 			play("mus_wilmer")
+			return
 			
 		### Mortgage room ## No music during the waiting game ##
 		if room_name == "r_tnn_mortgage01":
 			play("mus_blankTEMP")
+			return
 			
 		### TNN L.O.N.G.I.N.U.S. Base ##
 		if room_name == "r_tnn_rebelbase02":
 			play("mus_rebelbase")
+			return
 			
 		### Normal TNN Music ## During curfew and non-curfew ##
-		if room_name == "tnnCurfew": ## WARNING The room name may be incorrect. <---- Verify
-			## Need to setup the day_night system ## DONE!
-			if B2_Database.time_check("tnnCurfew") == "during":
-				play("mus_dancePAX")
+		## Need to setup the day_night system ## DONE!
+		if B2_Database.time_check("tnnCurfew") == "during":
+			play("mus_dancePAX")
 		else:
 			play("mus_tnn_shadowrun2")
 			
@@ -155,11 +173,12 @@ func room_get( room_name : String):
 		### Prison / Hoosegow ##
 
 		### Prison Intro ## Being walked into the Hoosegow, Thrax' speech and processed into the system ##
-		if room_name == "r_pri_prisonGate01"and B2_Playerdata.Quest("prisonIntro") < 5:
+		if room_name == "r_pri_prisonGate01" and B2_Playerdata.Quest("prisonArrested") >= 1 and B2_Playerdata.Quest("prisonIntro") < 5:
 			play("mus_blankTEMP")
 		### Prison itself ##
 		else :
 			play("mus_blankTEMP")
+		# Weird, does the prison have no music?
 		
 		### Sewers Floor 1 and Floor 2 ##
 	elif room_name.contains("_sw1_") or room_name.contains("_sw2_"): 
@@ -262,7 +281,7 @@ func stop( speed := 0.25 ):
 		if tween != null:
 			tween.kill()
 		tween = create_tween()
-		tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
+		tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
 		await tween.finished
 		curr_playing_track = ""
 		audio_stream_player.stop()
@@ -270,45 +289,45 @@ func stop( speed := 0.25 ):
 		push_warning("Trying to stop playing music when its not playing music.")
 
 func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := true ): ## track name should exist in the Music Bank dict.
+	var _curr_playing_track := curr_playing_track
 	if track_name == "":
-		push_warning("Invalid track name: '%s'. Playing a classic instead: mus_blankTEMP." % track_name)
+		push_warning("Invalid track name: ' %s '. Playing a classic instead: mus_blankTEMP." % track_name)
 		print_rich("[color=cyan] Music cache miss. Get ready to reindex the music stuff. [/color][color=blue]Queue the error messages![/color]")
 		music_bank_dirty.emit()
 		track_name = music_bank.get( "mus_blankTEMP" ) # music_folder + "mus_blankTEMP.ogg"
-		
-	elif curr_playing_track == track_name and audio_stream_player.playing:
-		# already playing that track, do nothing.
-		return
-		
+	elif curr_playing_track == track_name and audio_stream_player.playing: 
+		return # already playing that track, do nothing.
 	else:
-		# update track name, queue the change
-		curr_playing_track = track_name
-	
-	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
-	next_music.loop = loop
+		curr_playing_track = track_name # update track name, queue the change
 	
 	# handle sudden change is music tracks.
 	if is_instance_valid(tween):
 		if tween.is_running():
-			push_warning("You are changing music tracks ( %s ) too fast. Volume tweener is still running. Waiting for it to finish." % track_name)
+			push_warning("You are changing music tracks ( %s ) too fast. Volume tweener is still running. Waiting for ' %s ' to finish." % [track_name, _curr_playing_track])
 			await tween.finished
 	
+	var next_music : AudioStreamOggVorbis = ResourceLoader.load( track_name, "AudioStreamOggVorbis" )
+	next_music.loop = loop ## Apply looping if "loop" is true
+	
+	## Fade out the currennt music track
 	if audio_stream_player.playing:
-		tween = create_tween()
-		tween.tween_property(audio_stream_player, "volume_db", -80.0, speed)
-		await tween.finished
+		if speed != 0.0: # fade in music
+			tween = create_tween()
+			tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
+			await tween.finished
 		audio_stream_player.stop()
 		
+	## Load stream file and play the damn music.
 	audio_stream_player.stream = next_music
 	audio_stream_player.play( track_position )
-	audio_stream_player.volume_db = -80.0
+	audio_stream_player.volume_db = linear_to_db(0.0)
 	
+	## Fade in the new music track
 	if speed != 0.0: # fade in music
 		tween = create_tween()
-		tween.tween_property(audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod), speed)
+		tween.tween_property( audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed).from( 0.0 )
 		await tween.finished
 	else: # instant music
-		audio_stream_player.volume_db = linear_to_db(B2_Config.bgm_gain_master)
-		audio_stream_player.volume_db *= volume_mod
+		audio_stream_player.volume_db = linear_to_db(B2_Config.bgm_gain_master * volume_mod)
 	
 	bgm_music = track_name # argument[1];

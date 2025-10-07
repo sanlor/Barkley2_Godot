@@ -40,7 +40,7 @@ var fade_time_out 		:= B2_Config.settingFadeOut
 var invalid_room 		:= "res://barkley2/rooms/ai_ruins/r_air_throneRoom01.tscn" # "res://barkley2/rooms/r_wip.tscn" # Fallback room
 var room_folder 		:= "res://barkley2/rooms/"
 
-var room_load_lock		:= false # disallow loading a new room defore the current one finishes loading
+var room_load_lock		:= false # disallow loading a new room defore the current one finishes loading. For some reason, this can happen a bunch of times.
 
 var room_array 			:= []
 var room_index 			:= {}

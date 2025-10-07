@@ -1,3 +1,6 @@
+## This is a VERY BAD resource. Is so messy and I keep forgeting what it even does.
+# FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+
 extends Resource
 class_name B2_Database
 
