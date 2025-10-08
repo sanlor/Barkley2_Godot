@@ -64,7 +64,7 @@ func lets_goooo():
 	match node_type:
 		TYPE.PROP:
 			object = B2_EnvironProp.new()
-			object.shape = collision_shape
+			#object.shape = collision_shape
 		TYPE.ENVIRON:
 			object = B2_Environ.new()
 		TYPE.ENVIRONSOLID:

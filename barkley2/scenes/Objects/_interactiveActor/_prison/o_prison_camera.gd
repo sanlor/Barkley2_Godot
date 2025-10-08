@@ -11,10 +11,8 @@ func _ready() -> void:
 		timer.start( randf() * 2.0 )
 	
 func _on_timer_timeout() -> void:
-	if speed_scale < 0:
-		play("default", randf_range(0.6,1.4) )
-	else:
-		play("default", -randf_range(0.6,1.4) )
-
+	if frame == 0:			play( "default", randf_range(0.6,1.4) )
+	else:					play_backwards( "default" )
+	
 func _on_animation_finished() -> void:
 	timer.start( randf() * 2.0 )

@@ -266,7 +266,7 @@ func fancy_warp_to( respawnRoom : String, respawnX : float, respawnY : float ):
 ## Compatibility with old GML transport string.
 func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
 	if room_load_lock:
-		push_warning("B2_RoomXY: Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
+		push_warning("Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
 	if randi_range(0,99) == 69: print_rich( "[color=red][bgcolor=white]BAZINGA![/bgcolor][/color]" ) ## VERY IMPORTANT. CRITICAL even.
 		

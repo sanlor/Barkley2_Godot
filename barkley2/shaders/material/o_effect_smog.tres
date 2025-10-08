@@ -1,23 +1,40 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://t7ici3dqxygg"]
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://t7ici3dqxygg"]
 
-[ext_resource type="Shader" uid="uid://c5xwgde7egatq" path="res://barkley2/shaders/shader_code/o_effect_smog3.gdshader" id="1_esucr"]
+[ext_resource type="Shader" uid="uid://cs54al8tofwd2" path="res://barkley2/shaders/shader_code/o_effect_smog5.gdshader" id="1_esucr"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_xs0m8"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_esucr"]
+seed = 420
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ryv78"]
-noise = SubResource("FastNoiseLite_xs0m8")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xs0m8"]
+width = 384
+height = 240
+noise = SubResource("FastNoiseLite_esucr")
 seamless = true
+seamless_blend_skirt = 1.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ryv78"]
+seed = 69
+frequency = 0.03
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pr4i5"]
+width = 384
+height = 240
+noise = SubResource("FastNoiseLite_ryv78")
+seamless = true
+seamless_blend_skirt = 1.0
 
 [resource]
 shader = ExtResource("1_esucr")
 shader_parameter/camera_position = Vector2(0, 0)
 shader_parameter/camera_offset = Vector2(0, 0)
-shader_parameter/movement_position_speed = 0.026
-shader_parameter/movement_offset_speed = 0.026000001235
-shader_parameter/octaves = 8
-shader_parameter/starting_amplitude = 0.5
-shader_parameter/starting_frequency = 0.1
-shader_parameter/shift = -0.23099996347249996
-shader_parameter/velocity = Vector2(0, 0)
-shader_parameter/fog_color = Color(1, 1, 1, 1)
-shader_parameter/noise = SubResource("NoiseTexture2D_ryv78")
+shader_parameter/camera_position_speed = 0.025
+shader_parameter/camera_offset_speed = 0.025
+shader_parameter/noise_texture_1 = SubResource("NoiseTexture2D_xs0m8")
+shader_parameter/noise_texture_2 = SubResource("NoiseTexture2D_pr4i5")
+shader_parameter/noise_blend = 0.450000021375
+shader_parameter/noise_speed_1 = 0.250000011875
+shader_parameter/noise_speed_2 = 0.150000007125
+shader_parameter/noise_dir_1 = Vector2(-1, -1)
+shader_parameter/noise_dir_2 = Vector2(1, 1)
+shader_parameter/smoke_color = Color(0.79624295, 0.796243, 0.7962429, 1)
+shader_parameter/density = 0.2000000095

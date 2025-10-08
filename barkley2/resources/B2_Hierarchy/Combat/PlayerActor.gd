@@ -115,6 +115,11 @@ func _enter_tree() -> void:
 		if not hit_timer.timeout.is_connected( _on_hit_timer_timeout ):
 			hit_timer.timeout.connect( _on_hit_timer_timeout )
 
+## Debug stuff
+func debug_enable_collision( enabled : bool ) -> void:
+	push_error( "%s: collision -> ' %s '." % [name,not enabled] )
+	ActorCol.disabled = enabled
+
 func apply_curr_input( dir : Vector2 ) -> void:
 	if curr_STATE != STATE.HIT:
 		curr_input = dir

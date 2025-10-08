@@ -66,6 +66,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			pass
 		elif event.is_action_pressed("DEBUG_VARS"):
 			player_vars.visible = not player_vars.visible
+			if B2_CManager.o_hoopz:
+				B2_CManager.o_hoopz.debug_enable_collision( player_vars.visible )
 			
 		elif event.is_action_pressed("DEBUG_QUESTS"):
 			accept_dialog.visible = not accept_dialog.visible

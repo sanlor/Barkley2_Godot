@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=3 uid="uid://bx1x4ggoumbkl"]
 
 [ext_resource type="Texture2D" uid="uid://idd5ng7mh53t" path="res://barkley2/assets/b2_original/images/merged/s_junkpile_average01.png" id="1_h1e5w"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_bxb25"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_bxb25"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kk5f6"]
 atlas = ExtResource("1_h1e5w")
@@ -137,13 +137,13 @@ animations = [{
 radius = 22.0
 height = 64.0
 
-[node name="o_junkpile_average01" type="AnimatedSprite2D"]
-position = Vector2(136, 262)
+[node name="o_junkpile_average01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_fyn3j")
 frame = 6
 centered = false
 offset = Vector2(0, -62)
 script = ExtResource("2_bxb25")
+EnvCol = NodePath("StaticBody2D")
 limit_frame_range = true
 limit_frame_end = 7
 cast_shadow = true

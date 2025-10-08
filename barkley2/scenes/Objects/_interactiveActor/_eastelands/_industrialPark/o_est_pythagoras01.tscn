@@ -1,0 +1,562 @@
+[gd_scene load_steps=37 format=3 uid="uid://bjocyp4jp4mcm"]
+
+[ext_resource type="Script" uid="uid://djdvtod715e0q" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_est_pythagoras01.gd" id="1_uvvk7"]
+[ext_resource type="Texture2D" uid="uid://xvlvd2vbbe65" path="res://barkley2/assets/b2_original/images/merged/s_wst_pythagoras01.png" id="2_hy88a"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_xwhde"]
+
+[sub_resource type="Resource" id="Resource_7krjr"]
+script = ExtResource("2_xwhde")
+original_script = "IF pythagorasState == 0 | IF clock >= 10 | GOTO | TIME_EXPIRED
+IF pythagorasState == 0 | GOTO | FIRST_MEETING
+IF pythagorasState == 1 | GOTO | FIRST_MEETING_REPEAT
+IF pythagorasState == 2 | GOTO | PYTHA_THANKS
+IF pythagorasState == 3 | GOTO | MEETS_AND_GREETS
+IF pythagorasState == 4 | GOTO | DIRE_STRAITS
+IF pythagorasState == 5 | GOTO | PYTHA_DEAD
+IF pythagorasState == 6 | GOTO | PYTHA_DEAD_REPEAT
+IF pythagorasState == 7 | GOTO | PYTHA_DEAD_NEVER_SEEN
+
+FIRST_MEETING
+WAIT   | 0.3
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+DIALOG | P_NAME               | Wow, what a beast... I bet this thing could run Hyperborea no Legends at nine thousand ninehundred and ninety nine fps.
+USEAT  | o_est_pythagoras01
+WAIT   | 0.3
+FRAME  | CAMERA_NORMAL  | o_cts_hoopz | o_est_pythagoras01
+QUEST  | pythagorasOnline = 1
+SET    | o_est_pythagoras01 | dire
+WAIT   | 0.5
+SURPRISEAT | o_est_pythagoras01
+EMOTE  | ?
+WAIT   | 1
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | POWERSAVING MODE INTERRUPTED! RESUMING DIAGNOSTIC SCAN.
+WAIT   | 0.5
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | DIAGNOSTIC SCAN COMPLETE...
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | CPU: `kw`MALIGNED.`rt` #FAULT-COMPUTING: `kw`INTOLERANT.`rt` #SPEED TREES: `kw`LETHARGIC.`rt` #QUBIT ARRAY: `kw`WACK.`rt` #FLOATING GATES: `kw`FAILURE.`rt` #PHOTON COUNT: `kw`ABNORMAL.`rt` #POWER THROUGHPUT: `kw`INSUFFICIENT.`rt` 
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT IS IN `kw`CRITICAL CONDITION`rt`. `w1`SYSTEM MALFUNCTION IS IMMINENT.`w0`
+LOOKAT | o_cts_hoopz          | o_est_pythagoras01
+DIALOG | P_NAME               | Whoa, this thing is still functional? This has to be ancient.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | GREETINGS LIFE FORM. I AM THE `sq`P.Y.T.H.A.G.O.R.A.S. UNIT.`rt` I AM A FULLY EQUIPPED DATA PROCESSING MAINFRAME AND ARTIFICIAL INTELLIGENCE. I AM ALSO,_ `kw`DYING.`rt`
+SURPRISEAT | o_est_pythagoras01
+DIALOG | P_NAME = s_port_hoopzSurprise | Oh no! What happened?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | POWER OUTPUT SYSTEMS MALFUNCTIONING. `sq`REPLACEMENT POWER SOURCE IS REQUIRED`rt` OR THE P.Y.T.H.A.G.O.R.A.S. UNIT WILL SHUT DOWN.
+LOOKAT | o_cts_hoopz | o_est_pythagoras01
+DIALOG | P_NAME               | You need power?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | REPLACEMENT POWER IS REQUIRED TO MAINTAIN SYSTEMS. SENTIENT LIFEFORM: REPLACE THE CMOS BATTERY OR I WILL DIE.
+QUEST  | pythagorasState = 1
+ClockTime | event | pythagorasStateGoof | 4 | 60
+ClockTime | event | pythagorasStateGoof | 5 | 80
+IF @Influence Ovum@ >= 1 | GOTO | FIRST_MEETING_BATTERY_HAVE
+IF @Influence Ovum@ == 0 | GOTO | FIRST_MEETING_BATTERY_DONT_HAVE
+
+FIRST_MEETING_BATTERY_HAVE
+DIALOG | P_NAME               | Wait... You want a new battery? Is this one? This Influence Ovum? It's shaped like an egg, but maybe it can fit?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | `w1`AFFIRMATIVE!`w0`
+DIALOG | P_NAME               | Oh...
+GOTO   | BATTERY_CHOICE
+
+BATTERY_CHOICE
+BREAKOUT | add | Influence Ovum
+CHOICE | Give P.Y.T.H.A.G.O.R.A.S. a Charged Ovum?
+REPLY  | BATTERY_GIVE | Yes...
+REPLY  | BATTERY_KEEP | Nah...
+
+BATTERY_GIVE
+BREAKOUT | clear
+DIALOG | P_NAME               | I happen to have this egg on me. Will that work? 
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | `s1`*BZZZZZT*`s0` PLEASE REPLACE THE DEPLETED CMOS BATTERY IMMEDIATELY!
+DIALOG | P_NAME               | Uh... I don't know what that is.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | USE YOUR ORGANIC APPENDAGES TO GROPE UNDER MY KEYBOARD!
+DIALOG | P_NAME               | Ok...
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+KNEELAT | NORTH
+WAIT   | 0.5
+DIALOG | P_NAME               | Hmm...
+WAIT   | 0.5
+DIALOG | P_NAME               | Okay, I think I found it... 
+WAIT   | 0.5
+DIALOG | P_NAME               | Ungh... It sure is hard to push in. Alright, I'm going to have to use all my muscles and power.
+DIALOG | P_NAME = s_port_hoopzSurprise | `w2`Here I go!`w0`
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzSad      | `w1`Urrgghhhh!`w0`
+DIALOG | P_NAME = s_port_hoopzAngry    | `w2`Auuughh!!`w0`
+DIALOG | P_NAME = s_port_hoopzSurprise | `w3`Oaaaeeuughh!`w0`
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzHappy    | Okay! I got it!
+SOUND  | sn_cursor_error01
+WAIT   | 0.5
+SOUND  | sn_cursor_error01
+WAIT   | 0.5
+SOUND  | sn_cursor_select01
+WAIT   | 0.5
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | `w1`*BZZZZZT*`w0`
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzAngry | Alright, there we go...
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+SET    | o_est_pythagoras01 | healthy
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+GOTO   | PYTHA_THANKS
+
+BATTERY_KEEP
+BREAKOUT | clear
+DIALOG | P_NAME               | Uhh... I don't have a battery. Bye.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | PLEASE FIND A REPLACEMENT BATTERY. I DO NOT WANT TO TEMINATE.
+DIALOG | P_NAME               | Uh... Okay...
+
+FIRST_MEETING_BATTERY_DONT_HAVE
+DIALOG | P_NAME               | How do I do that?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | INVESTIGATE THE FACILITY TO THE NORTH OF HERE. A REPLACEMENT BATTERY IS LIKELY TO EXIST THERE. 
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | PLEASE HURRY. I DO NOT WANT TO DIE.
+DIALOG | P_NAME               | I'll do my best to save you, P.Y.T.H.A.G.O.R.A.S. but I'm not sure about all this battery stuff.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | THANK YOU, LIFE FORM. HURRY.
+QUEST  | pythagorasState = 1
+
+FIRST_MEETING_REPEAT
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. PLEASE FIND A REPLACEMENT BATTERY. I DO NOT WANT TO TEMINATE.
+IF @Influence Ovum@ >= 1      | GOTO | BATTERY_CHOICE
+DIALOG | P_NAME               | Chillax, P.Y.T.H.A.G.O.R.A.S.. I'll get you a battery... eventually.
+
+DIRE_STRAITS
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | CPU: `kw`MALIGNED.`rt` #FAULT-COMPUTING: `kw`INTOLERANT.`rt` #SPEED TREES: `kw`LETHARGIC.`rt` #QUBIT ARRAY: `kw`WACK.`rt` #FLOATING GATES: `kw`FAILURE.`rt` #PHOTON COUNT: `kw`ABNORMAL.`rt` #POWER THROUGHPUT: `kw`INSUFFICIENT.`rt` 
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT FULL SHUT DOWN IN PROCESS. ETT: `kw`SOON.`rt`
+IF @Full Influence Ovum@ >= 1 | GOTO | BATTERY_CHOICE
+DIALOG | P_NAME = s_port_hoopzSurprise | Hang on, P.Y.T.H.A.G.O.R.A.S.! I'm not gonna let you shut down!
+
+PYTHA_THANKS
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. YOU SUCCESSFULLY INSTALLED A NEW CMOS BATTERY.
+DIALOG | P_NAME               | Yeah, I figured it out. How you feeling, P.Y.T.H.A.G.O.R.A.S.?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | PERIPHERAL AND CORE FUNCTIONS HAVE BEEN RESTORED. FOR THE FIRST TIME IN MILLENNIA THE P.Y.T.H.A.G.O.R.A.S. `sq`ZAUBER_ ANALYSIS_ UNIT`rt` IS FULLY OPERATIONAL. THANK YOU, LIFE FORM.
+DIALOG | P_NAME = s_port_hoopzSmirk | Wow, no problem. That egg thing wasn't really that hard to replace, it was mostly finding it that was the problem...
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | MY MASTERY OF ZAUBERS IS UNPARALLELED. WHEN MY GENERATOR CORE FAILED, I SUSTAINED MY LIFE WITH THIS `sq`CYBERNETIC ZAUBER.`rt` ITS POWER IS TREMENDOUS - HOLD ONTO IT. ONLY A TRUE ZAUBERMANCER CAN GRASP ITS FULL POTENTIAL, BUT EVEN A LAYMAN CAN TAP ITS POWER.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | I WILL NOW COMPILE A PHYSICAL COPY FOR YOU.
+CREATE | o_cts_cyberZauber01  | o_cinema2
+FOLLOWFRAME | CAMERA_SLOW     | o_cts_cyberZauber01
+WAIT   | 5
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 6.5
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 1
+PLAYSET | o_cts_hoopz | fishingShowCatch | fishingShowCatchHold
+FRAME  | CAMERA_SLOW  | o_cts_hoopz | o_est_pythagoras01
+WAIT   | 3
+NOTIFY | Got MaxFeeber.exe Zauber!
+EVENT  | o_est_pythagoras01       | 0
+LOOK   | o_cts_hoopz          | NORTH
+DIALOG | P_NAME               | Whoa! Is this a genuine zauber?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | CORRECT. IT IS THE PHYSICAL REPRESENTATION OF THE INFAMOUS KEYGEN APPLICATION MAXFEEBER.EXE. 
+DIALOG | P_NAME               | Sounds pretty goofy. What does it do?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | YOU CAN UTILIZE MAXFEEBER.EXE TO GENERATE A FAUX VIRTUAL CRYPTO ACCESS KEY THAT WILL ALLOW YOU TO ACCESS THE DEFENSES OF YOUR FOES, MAKING THEM HIGHLY SUSCEPTIBLE TO PERIODIC ATTACKS.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | IF YOU ARE NAIVE TO THE WAYS OF THE ZAUBERMANCER, I CAN ALSO TEACH YOU. BUT KNOW THIS: THE WAY OF THE ZAUBERMANCER IS ONE FROM WHICH THERE IS NO RETURN.
+DIALOG | P_NAME               | Sounds like an important job..._ Hey, I have some questions.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | INPUT QUERY.
+QUEST  | pythagorasState = 3
+GOTO   | INFO_DUMP
+
+MEETS_AND_GREETS
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. YOU HAVE RETURNED. PERHAPS YOU HAVE COME TO LEARN OF THE ZAUBERS. WHAT IS IT YOU SEEK, LIFE FORM?
+GOTO   | INFO_DUMP
+
+INFO_DUMP
+CHOICE | What do you seek?
+REPLY  | LEARN_FROM_OTHERS | Where can I go to study zaubers?
+REPLY  | ZAUBER_BENEFITS   | What are the benefits of zaubermancy?
+REPLY  | MASTER_OF_ZAUBERS | You're a zaubermancer, right?
+REPLY  | GETTING_STRONGER  | How do zaubermancers get stronger?
+REPLY  | SEE_YOU_LATER     | Smell ya later!
+
+LEARN_FROM_OTHERS
+DIALOG | P_NAME               | Where can I go to study zaubers? Is there other Zaubermancers or a book or something else that I could use to learn more about zaubers?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | YES. IN ORDER TO PROGRESS AS A ZAUBERMANCER, YOU MUST LEARN FROM AS MANY MASTERS OF THE ZAUBER AS POSSIBLE. YOU MUST NEVER BE CONTENT IN YOUR OWN ABILITIES.
+DIALOG | P_NAME               | Are there other zaubermancers? Can I learn from them? Where can I find them?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | MY COMMUNICATIONS SYSTEMS HAVE BEEN OFFLINE FOR TOO LONG, I CANNOT TELL YOU THE PRECISE LOCATIONS OF OTHER ZAUBERMANCERS, BUT I AM AWARE OF A CONCLAVE OF ZAUBERMANCERS THAT RESIDES IN THE DEATH TOWER. I HAVE ALSO COMMUNICATED TELEPATHICALLY WITH A POWERFUL BIOTIC FORCE THAT I BELIEVE TO BE DEEP UNDERGROUND.
+DIALOG | P_NAME               | Alright, I'll get started there. Thanks, P.Y.T.H.A.G.O.R.A.S.
+GOTO   | INFO_DUMP
+
+ZAUBER_BENEFITS
+DIALOG | P_NAME               | What are the benefits of becoming a zaubermancer?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | THAT IS NOT THE WAY I WOULD HAVE PHRASED THE QUESTION. THE PATH OF ZAUBERMANCY IS ONE OF SEVERE HARDSHIP AND TEMPERANCE. MOST WHO HEED THE CALLING OF THE ZAUBER ARE CONSUMED AND ULTIMATELY DESTROYED BY THEIR POWER. BUT THE FEW WHO ARE ABLE TO MASTER THE ZAUBERS CAN COMMAND POWERS FAR BEYOND THE RECKONING OF MORTALS. WITH ZAUBERS, ONE CAN RESHAPE THE WORLD TO THEIR WHIMS. THIS IS THE BENEFIT OF BECOMING A ZAUBERMANCER.
+GOTO   | INFO_DUMP
+
+MASTER_OF_ZAUBERS
+DIALOG | P_NAME               | You're a zaubermancer, aren't you?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | THAT IS CORRECT. I AM THE P.Y.T.H.A.G.O.R.A.S. UNIT, AN ARTIFICIAL INTELLIGENCE CREATED TO RESEARCH AND ANALYZE ZAUBERS, PARTICULARLY CYBERNETIC AND COMPUTING ZAUBERS. OVER THE MANY MILLENNIA THAT I HAVE STUDIED ZAUBERS, I HAVE ALSO COME TO MASTER THEM.
+DIALOG | P_NAME               | Yeah... I thought so.
+GOTO   | INFO_DUMP
+
+GETTING_STRONGER
+DIALOG | P_NAME               | How do zaubermancers get stronger?
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | ONLY BY STUDYING THE ZAUBERS UNDER A MASTER CAN AN APPRENTICE GAIN IN KNOWLEDGE AND POWER. IF YOU WISH TO GROW STRONGER, YOU MUST SEEK OUT OTHER ZAUBERMANCERS. ONCE YOU HAVE CHOSEN TO WALK THE PATH OF THE ZAUBERMANCER, YOU CAN NEVER CHANGE COURSE.
+GOTO   | INFO_DUMP
+
+SEE_YOU_LATER
+DIALOG | P_NAME               | I'm gonna take off. See you later P.Y.T.H.A.G.O.R.A.S.
+DIALOG | P.Y.T.H.A.G.O.R.A.S. | FAREWELL, LIFE FORM.
+GOTO   | ZAUBER_TEST
+
+TIME_EXPIRED
+DIALOG | P_NAME | Huh? What's this thing?
+DIALOG | P_NAME | ...
+DIALOG | P_NAME | Looks like it's broken.
+QUEST  | pythagorasState = 6
+
+PYTHA_DEAD
+DIALOG | P_NAME | P.Y.T.H.A.G.O.R.A.S.? Are you there, P.Y.T.H.A.G.O.R.A.S.?
+DIALOG | P_NAME | ...
+DIALOG | P_NAME | It's gone.
+QUEST  | pythagorasState = 6
+
+PYTHA_DEAD_REPEAT
+DIALOG | P_NAME | ...It's a goner.
+
+PYTHA_DEAD_NEVER_SEEN
+DIALOG | P_NAME | Pretty cool looking machine, but looks like it's all busted up. What a shame.
+
+ZAUBER_TEST
+WAIT   | 1.5
+MYSTERY | | `mq`Do you wish to participate in Zauber Practice?`rt`
+QUEST  | NoChoicePortrait = 1
+CHOICE | Do some Zauber Practice?
+REPLY  | ZAUBER_PRACTICE_YAY | Yes!
+REPLY  | ZAUBER_PRACTICE_NAY | Nah...
+
+ZAUBER_PRACTICE_YAY
+QUEST  | NoChoicePortrait = 0
+EVENT  | o_est_pythagoras01 | 2
+FADE   | 1 | 1
+WAIT   | 1
+Teleport | r_combat_tutorial01 | 400 | 240 | 1
+
+ZAUBER_PRACTICE_NAY
+QUEST  | NoChoicePortrait = 0
+EXIT   |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwhde"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(0, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7krjr"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(0, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1t15"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(128, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqmar"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(256, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1o5nq"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(384, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqjlj"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(512, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6j4y"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(640, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crx1l"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(768, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pug7m"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(896, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4c3er"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1024, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekvo8"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1152, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7c17c"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1280, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13ge4"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1408, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8apfe"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1536, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4w5a"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1664, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ea7pf"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1792, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6gsg"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(128, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2hm7"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(256, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jggk5"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(384, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7wrg"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(512, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ker7i"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(640, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf3kf"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(768, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2vhu"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(896, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugloh"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1024, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14t56"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1152, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpbjn"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1280, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m8vx7"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1408, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgkow"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1536, 0, 128, 88)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00q7v"]
+atlas = ExtResource("2_hy88a")
+region = Rect2(1664, 0, 128, 88)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5wrxk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwhde")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7krjr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1t15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqmar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1o5nq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqjlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6j4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crx1l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pug7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4c3er")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ekvo8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7c17c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13ge4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8apfe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4w5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ea7pf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6gsg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2hm7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jggk5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7wrg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ker7i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf3kf")
+}],
+"loop": true,
+"name": &"dire",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2vhu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugloh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14t56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fpbjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m8vx7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgkow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_00q7v")
+}],
+"loop": true,
+"name": &"healthy",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n1t15"]
+size = Vector2(85, 41)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1mr1k"]
+size = Vector2(94, 64)
+
+[node name="o_est_pythagoras01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_uvvk7")
+mouse_detection_area = NodePath("ActorInteract")
+interactive_distance = 96
+cutscene_script = SubResource("Resource_7krjr")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_5wrxk")
+centered = false
+offset = Vector2(-64, -68)
+metadata/default = {
+"bbox_bottom": "78",
+"bbox_left": "7",
+"bbox_right": "124",
+"bbox_top": "4",
+"frames": ["images\\s_wst_pythagoras01_0.png", "images\\s_wst_pythagoras01_1.png", "images\\s_wst_pythagoras01_2.png", "images\\s_wst_pythagoras01_3.png", "images\\s_wst_pythagoras01_4.png", "images\\s_wst_pythagoras01_5.png", "images\\s_wst_pythagoras01_6.png", "images\\s_wst_pythagoras01_7.png", "images\\s_wst_pythagoras01_8.png", "images\\s_wst_pythagoras01_9.png", "images\\s_wst_pythagoras01_10.png", "images\\s_wst_pythagoras01_11.png", "images\\s_wst_pythagoras01_12.png", "images\\s_wst_pythagoras01_13.png", "images\\s_wst_pythagoras01_14.png"],
+"height": "88",
+"name": "s_wst_pythagoras01",
+"width": "128",
+"xorig": "64",
+"yorigin": "68"
+}
+metadata/healthy = {
+"bbox_bottom": "78",
+"bbox_left": "7",
+"bbox_right": "124",
+"bbox_top": "4",
+"frames": ["images\\s_wst_pythagoras01_0.png", "images\\s_wst_pythagoras01_1.png", "images\\s_wst_pythagoras01_2.png", "images\\s_wst_pythagoras01_3.png", "images\\s_wst_pythagoras01_4.png", "images\\s_wst_pythagoras01_5.png", "images\\s_wst_pythagoras01_6.png", "images\\s_wst_pythagoras01_7.png", "images\\s_wst_pythagoras01_8.png", "images\\s_wst_pythagoras01_9.png", "images\\s_wst_pythagoras01_10.png", "images\\s_wst_pythagoras01_11.png", "images\\s_wst_pythagoras01_12.png", "images\\s_wst_pythagoras01_13.png", "images\\s_wst_pythagoras01_14.png"],
+"height": "88",
+"name": "s_wst_pythagoras01",
+"width": "128",
+"xorig": "64",
+"yorigin": "68"
+}
+metadata/dire = {
+"bbox_bottom": "78",
+"bbox_left": "7",
+"bbox_right": "124",
+"bbox_top": "4",
+"frames": ["images\\s_wst_pythagoras01_0.png", "images\\s_wst_pythagoras01_1.png", "images\\s_wst_pythagoras01_2.png", "images\\s_wst_pythagoras01_3.png", "images\\s_wst_pythagoras01_4.png", "images\\s_wst_pythagoras01_5.png", "images\\s_wst_pythagoras01_6.png", "images\\s_wst_pythagoras01_7.png", "images\\s_wst_pythagoras01_8.png", "images\\s_wst_pythagoras01_9.png", "images\\s_wst_pythagoras01_10.png", "images\\s_wst_pythagoras01_11.png", "images\\s_wst_pythagoras01_12.png", "images\\s_wst_pythagoras01_13.png", "images\\s_wst_pythagoras01_14.png"],
+"height": "88",
+"name": "s_wst_pythagoras01",
+"width": "128",
+"xorig": "64",
+"yorigin": "68"
+}
+metadata/dead = {
+"bbox_bottom": "78",
+"bbox_left": "7",
+"bbox_right": "124",
+"bbox_top": "4",
+"frames": ["images\\s_wst_pythagoras01_0.png", "images\\s_wst_pythagoras01_1.png", "images\\s_wst_pythagoras01_2.png", "images\\s_wst_pythagoras01_3.png", "images\\s_wst_pythagoras01_4.png", "images\\s_wst_pythagoras01_5.png", "images\\s_wst_pythagoras01_6.png", "images\\s_wst_pythagoras01_7.png", "images\\s_wst_pythagoras01_8.png", "images\\s_wst_pythagoras01_9.png", "images\\s_wst_pythagoras01_10.png", "images\\s_wst_pythagoras01_11.png", "images\\s_wst_pythagoras01_12.png", "images\\s_wst_pythagoras01_13.png", "images\\s_wst_pythagoras01_14.png"],
+"height": "88",
+"name": "s_wst_pythagoras01",
+"width": "128",
+"xorig": "64",
+"yorigin": "68"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -23.5)
+shape = SubResource("RectangleShape2D_n1t15")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -29)
+shape = SubResource("RectangleShape2D_1mr1k")

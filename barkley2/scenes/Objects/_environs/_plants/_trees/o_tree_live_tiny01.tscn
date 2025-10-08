@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://boe2xx1yy6did"]
+
+[ext_resource type="Texture2D" uid="uid://2qko4hytigbk" path="res://barkley2/assets/b2_original/images/merged/s_tree_live_tiny01.png" id="1_svdg5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwvct"]
+atlas = ExtResource("1_svdg5")
+region = Rect2(0, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvnti"]
+atlas = ExtResource("1_svdg5")
+region = Rect2(64, 0, 64, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ia40"]
+atlas = ExtResource("1_svdg5")
+region = Rect2(128, 0, 64, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sh6y8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwvct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvnti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ia40")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_svdg5"]
+radius = 12.165525
+
+[node name="o_tree_live_tiny01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_sh6y8")
+frame = 1
+centered = false
+offset = Vector2(0, -95)
+metadata/default = {
+"bbox_bottom": "95",
+"bbox_left": "2",
+"bbox_right": "62",
+"bbox_top": "0",
+"height": "96",
+"name": "s_tree_live_tiny01",
+"width": "64",
+"xorig": "0",
+"yorigin": "95"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(34, -13)
+shape = SubResource("CircleShape2D_svdg5")
+
+[node name="tree_top" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+position = Vector2(32, -47)
+sprite_frames = SubResource("SpriteFrames_sh6y8")
+frame = 2

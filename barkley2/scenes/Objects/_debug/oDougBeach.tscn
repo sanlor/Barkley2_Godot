@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://pc1rncygg630"]
+
+[ext_resource type="Script" uid="uid://b03mmdxquruog" path="res://barkley2/scenes/Objects/_debug/oDougBeach.gd" id="1_vigtm"]
+[ext_resource type="Texture2D" uid="uid://gcpssbbiqrff" path="res://barkley2/assets/b2_original/images/merged/s_gzdebug0.png" id="2_x2css"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tqni"]
+atlas = ExtResource("2_x2css")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p1gej"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tqni")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vigtm"]
+radius = 11.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x64bw"]
+size = Vector2(28, 36)
+
+[node name="oDougBeach" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_vigtm")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_p1gej")
+centered = false
+offset = Vector2(-13, -43)
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "12",
+"frames": ["images\\s_gzdebug0_0.png"],
+"height": "48",
+"name": "s_gzdebug0",
+"width": "32",
+"xorig": "13",
+"yorigin": "43"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(1, -4)
+shape = SubResource("CircleShape2D_vigtm")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_x64bw")

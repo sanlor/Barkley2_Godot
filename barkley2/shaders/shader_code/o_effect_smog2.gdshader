@@ -1,12 +1,17 @@
 shader_type canvas_item;
 
+uniform vec2 camera_position;
+uniform vec2 camera_offset;
+uniform float camera_position_speed: hint_range(0.0, 1.0) = 0.025;
+uniform float camera_offset_speed: hint_range(0.0, 1.0) = 0.025;
+
 // Gonkee's fog shader for Godot 3 - full tutorial https://youtu.be/QEaTsz_0o44
 // If you use this shader, I would prefer it if you gave credit to me and my channel
 
 uniform vec3 color : source_color;
-uniform float alpha = 0.25;
-uniform float speed = 0.25;
-uniform int OCTAVES = 4;
+uniform float alpha: hint_range(0.0, 1.0) = 0.25;
+uniform float speed: hint_range(0.0, 1.0) = 0.25;
+uniform int OCTAVES: hint_range(2, 16) = 4;
 
 float rand(vec2 coord){
 	return fract(sin(dot(coord, vec2(56, 78)) * 1000.0) * 1000.0);
@@ -40,8 +45,9 @@ float fbm(vec2 coord){
 }
 
 void fragment() {
+	vec2 offset = ( (camera_position * camera_position_speed) + (camera_offset * camera_offset_speed) );
 	vec2 coord = UV * 20.0;
-
+	coord += offset;
 	vec2 motion = vec2( fbm(coord + vec2(TIME * -0.5, TIME * 0.5) ) );
 
 	float final = fbm(coord + motion * speed );

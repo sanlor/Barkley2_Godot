@@ -1,0 +1,238 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://p0eoaj1sheif"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_15wdx"]
+
+[resource]
+script = ExtResource("1_15wdx")
+original_script = "MAIN
+CHOICE | what to do?
+REPLY  | PRISON | being dragged to prison
+REPLY  | LEAVE  | nothing
+IF body == hoopz | REPLY  | HOOPZ | change to prison clothes
+IF body == prison | REPLY  | PRISON | change to hoopz clothes
+REPLY  | GUTTER_ESC | gutterhound auto-escape
+REPLY  | PRISON_SET | set prisonQuest to 2
+REPLY  | LOCK_UP    | change who's in prison
+REPLY  | BEGIN      | prison riot
+REPLY  | HOOPZ_CELL | hoopz brought to cell
+REPLY  | MEETMASKS  | meet all the mask wearers
+REPLY  | LOCK       | lock all doors
+REPLY  | OPEN       | open all doors
+REPLY  | LOCK_THIS  | lock this door
+REPLY  | OPEN_THIS  | open this door
+REPLY  | SHANK      | shank scene
+REPLY  | NOTES      | give some notes
+REPLY  | LEAVE      | exit
+
+PRISON
+QUEST | prisonArrested = 1
+QUEST | prisonIntro = 1
+QUEST | govZhang = 2
+QUEST | govKelpster = 2
+QUEST | comServ = 8
+QUEST | oozeBall = 4
+FADE  | 1 | 1
+WAIT  | 1
+Teleport | r_pri_prisonGate01 | 480 | 480 | 1
+
+GUTTER_ESC
+BodySwap | prison
+QUEST  | gutterhoundPrisonEscape = 1
+QUEST  | gutterhoundArrest = 1
+DIALOG | doug beach | exit the cell to escape after the room reloads
+Teleport | r_pri_prisonInside01 | 496 | 304 | 0
+
+SHANK
+BodySwap | prison
+QUEST  | shankExecute = 1
+QUEST  | sureshCanShank = 1
+QUEST  | kunigundeCanShank = 1
+QUEST  | pelekryteCanShank = 1
+DIALOG | doug beach | exit the cell now to get shanked
+
+PRISON_SET
+QUEST  | prisonQuest = 2
+GOTO   | MAIN
+
+LOCK_UP
+CHOICE | who to lock up? (restart room to see)
+IF kunigundeArrest == 0   | REPLY | JAIL_KUNIGUNDE   | (kunigundeArrest = 0) Jail Kunigunde
+IF kunigundeArrest == 1   | REPLY | FREE_KUNIGUNDE   | (kunigundeArrest = 1) Free Kunigunde
+IF moriartyArrest == 0    | REPLY | JAIL_MORIARTY    | (moriartyArrest = 0) Jail Moriarty
+IF moriartyArrest == 1    | REPLY | FREE_MORIARTY    | (moriartyArrest = 1) Free Moriarty
+IF sureshArrest == 0      | REPLY | JAIL_SURESH      | (sureshArrest = 0) Jail Suresh
+IF sureshArrest == 1      | REPLY | FREE_SURESH      | (sureshArrest = 1) Free Suresh
+IF aelfledaArrest == 0    | REPLY | JAIL_AELFLEDA    | (aelfledaArrest = 0) Jail Aelfleda
+IF aelfledaArrest == 1    | REPLY | FREE_AELFLEDA    | (aelfledaArrest = 1) Free Aelfleda
+IF gutterhoundArrest == 0 | REPLY | JAIL_GUTTERHOUND | (gutterhoundArrest = 0) Jail GHND
+IF gutterhoundArrest == 1 | REPLY | FREE_GUTTERHOUND | (gutterhoundArrest = 1) Free GHND
+IF duergarInfoWilmer == 0 | REPLY | JAIL_WILMER      | (duergarInfoWilmer = 0) Jail Wilmer
+IF duergarInfoWilmer == 1 | REPLY | FREE_WILMER      | (duergarInfoWilmer = 1) Free Wilmer
+//IF pelekryteState == 5  | REPLY | JAIL_PELEKRYTE   | (pelekryteState = 5) Jail Pelekryte
+//IF pelekryteState == 0  | REPLY | FREE_PELEKRYTE   | (pelekryteState = 0) Free Pelekryte
+//IF pelekryteState == 2  | REPLY | FREE_PELEKRYTE   | (pelekryteState = 2) Free Pelekryte
+IF pelekryteArrest == 0   | REPLY | JAIL_PELEKRYTE   | (pelekryteArrest = 0) Jail Pelekryte
+IF pelekryteArrest == 1   | REPLY | FREE_PELEKRYTE   | (pelekryteArrest = 1) Free Pelekryte
+IF borisArrest == 0       | REPLY | JAIL_BORIS       | (borisArrest = 0) Jail Boris
+IF borisArrest == 1       | REPLY | FREE_BORIS       | (borisArrest = 1) Free Boris
+IF rebelsArrest == 0      | REPLY | JAIL_REBELS      | (rebelsArrest = 0) Jail Rebels
+IF rebelsArrest == 1      | REPLY | FREE_REBELS      | (rebelsArrest = 1) Free Rebels
+REPLY | RESTART | restart room to see changes
+REPLY | MAIN | go back to main convo
+
+RESTART
+FADE | 1 | 0.25
+WAIT | 0.25
+Teleport | r_pri_prisonInside01 | 496 | 304 | 0.25
+
+JAIL_REBELS
+QUEST | rebelsArrest = 1
+GOTO  | LOCK_UP
+
+FREE_REBELS
+QUEST | rebelsArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_BORIS
+QUEST | borisArrest = 1
+GOTO  | LOCK_UP
+
+FREE_BORIS
+QUEST | borisArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_SURESH
+QUEST | sureshArrest = 1
+QUEST | kunigundeArrest = 0
+QUEST | moriartyArrest = 0
+GOTO  | LOCK_UP
+
+FREE_SURESH
+QUEST | sureshArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_MORIARTY
+QUEST | sureshArrest = 0
+QUEST | kunigundeArrest = 0
+QUEST | moriartyArrest = 1
+GOTO  | LOCK_UP
+
+FREE_MORIARTY
+QUEST | moriartyArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_KUNIGUNDE
+QUEST | sureshArrest = 0
+QUEST | kunigundeArrest = 1
+QUEST | moriartyArrest = 0
+GOTO  | LOCK_UP
+
+FREE_KUNIGUNDE
+QUEST | kunigundeArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_AELFLEDA
+QUEST | aelfledaArrest = 1
+GOTO  | LOCK_UP
+
+FREE_AELFLEDA
+QUEST | aelfledaArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_GUTTERHOUND
+QUEST | gutterhoundArrest = 1
+GOTO  | LOCK_UP
+
+FREE_GUTTERHOUND
+QUEST | gutterhoundArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_PELEKRYTE
+//QUEST | pelekryteState = 2
+QUEST | pelekryteArrest = 1
+GOTO  | LOCK_UP
+
+FREE_PELEKRYTE
+//QUEST | pelekryteState = 5
+QUEST | pelekryteArrest = 0
+GOTO  | LOCK_UP
+
+JAIL_WILMER
+QUEST | duergarInfoWilmer = 1
+GOTO  | LOCK_UP
+
+FREE_WILMER
+QUEST | duergarInfoWilmer = 0
+GOTO  | LOCK_UP
+
+HOOPZ
+BodySwap | prison
+
+PRISON
+BodySwap | hoopz
+
+LOCK
+QUEST  | prisonDoors = 1
+EVENT  | o_pri_cellGate | 10
+
+OPEN
+QUEST  | prisonDoors = 0
+EVENT  | o_pri_cellGate | 11
+
+LOCK_THIS
+EVENT  | \" + string(gat) + \" | 10
+
+OPEN_THIS
+EVENT  | \" + string(gat) + \" | 11
+
+BEGIN
+BodySwap | prison
+DIALOG | doug beach | go to the switch to activate riot
+Misc | set | o_cts_hoopz | o_cinema17
+
+MEETMASKS
+KNOW | knowStahl | 3
+KNOW | knowRedfield | 2
+KNOW | knowBagler | 2
+KNOW | knowDarchimedes | 2
+DIALOG | Bhroom | You've met Stahl, Redfield, Bagler, and D'archimedes.
+EXIT |
+
+HOOPZ_CELL
+BodySwap | prison
+QUEST  | prisonArrested = 1
+QUEST  | prisonIntro = 4
+FADE   | 1 | 1
+WAIT   | 1
+Teleport | r_pri_prisonInside01 | 0 | 0 | 1
+
+NOTES
+CHOICE | Which note?
+REPLY | DOSSIER00 | Sealed Secret Dossier
+REPLY | DOSSIER01 | Resealed Secret Dossier
+REPLY | DOSSIER02 | Re-resealed Secret Dossier
+REPLY | DOSSIER03 | Re-re-resealed Secret Dossier
+
+DOSSIER00
+NOTE | take | Sealed Secret Dossier
+DIALOG | Bhroom | You got Sealed Secret Dossier
+EXIT | 
+
+DOSSIER01
+NOTE | take | Resealed Secret Dossier
+DIALOG | Bhroom | You got Resealed Secret Dossier
+EXIT |
+ 
+DOSSIER02
+NOTE | take | Re-resealed Secret Dossier
+DIALOG | Bhroom | You got Re-resealed Secret Dossier
+EXIT |
+
+DOSSIER03
+NOTE | take | Re-re-resealed Secret Dossier
+DIALOG | Bhroom | You got Re-re-resealed Secret Dossier
+EXIT |
+
+LEAVE
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

@@ -1,0 +1,299 @@
+[gd_scene load_steps=16 format=3 uid="uid://bi57a8cokjikp"]
+
+[ext_resource type="Script" uid="uid://d3imgfmgs82av" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_sepidehDrone01.gd" id="1_kxy4v"]
+[ext_resource type="Texture2D" uid="uid://coq6lemrphkey" path="res://barkley2/assets/b2_original/images/merged/s_sepidehDrone01.png" id="2_st6da"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_yhqao"]
+
+[sub_resource type="Resource" id="Resource_l0lqg"]
+script = ExtResource("2_yhqao")
+original_script = "IF sepidehState == 3 | IF @Influence Ovum@ == 1 | GOTO | BATTERY_NOT_INSERTED 
+IF sepidehState == 3 | IF @Influence Ovum@ == 0 | GOTO | BATTERY_NOT_INSERTED_NO_BATTERY 
+IF @Influence Ovum@ >= 1    | GOTO | GOT_A_BATTERY
+IF sepidehDrone == 2 | GOTO | SEPIDEH_MENTIONED_AGAIN
+IF sepidehState == 1 | GOTO | SEPIDEH_MENTIONED 
+IF sepidehDrone == 1 | GOTO | JUST_A_DRONE_AGAIN
+IF sepidehState == 0 | GOTO | JUST_A_DRONE
+
+GOT_A_BATTERY
+IF sepidehState >= 1 | IF sepidehDrone == 1 | DIALOG | P_NAME | It's Sepideh's drone, and it needs to be powered up...
+IF sepidehState == 0 | IF sepidehDrone == 1 | DIALOG | P_NAME | It's the drone that needs a replacement battery...
+IF sepidehState >= 1 | IF sepidehDrone == 0 | DIALOG | P_NAME | Hey, this must be Sepideh's drone. Looks like the battery is dead.
+IF sepidehState == 0 | IF sepidehDrone == 0 | DIALOG | P_NAME | Hmm, a drone. Looks like the battery is dead...
+WAIT   | 0.5
+GOTO   | BATTERY_NOT_INSERTED
+
+BATTERY_NOT_INSERTED_NO_BATTERY 
+DIALOG | P_NAME | I don't have anything to power up this drone...
+
+BATTERY_NOT_INSERTED
+DIALOG | P_NAME | Hmm, I do have this `kw`Influence Ovum.`rt` Maybe I should use it to power up this drone. 
+GOTO   | POWER_UP_DRONE
+
+POWER_UP_DRONE
+CHOICE | Insert Influence Ovum into the drone?
+REPLY  | POWER_UP_YAY | Yeah!
+REPLY  | POWER_UP_NAY | Nope.
+
+POWER_UP_YAY
+DIALOG | P_NAME | Alright, let's see what this bad boy can do.
+IF temp == 0 | GOTO | BOTTOM_SIDE
+IF temp == 1 | GOTO | TOP_SIDE
+
+BOTTOM_SIDE
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+USEAT  | o_sepidehDrone01
+WAIT   | 0.5
+ITEM   | Influence Ovum | -1
+NOTIFY | Inserted Influence Ovum!
+PLAYSET | o_sepidehDrone01 | powered | powered_up
+WAIT   | 0
+DIALOG | P_NAME | Okay, I think it's working.
+WAIT   | 0.5
+DIALOG | P_NAME | Uh... how do you control this thing?
+WAIT   | 0.2
+SET    | o_sepidehDrone01 | powered
+WAIT   | 0.2
+SURPRISEAT | o_sepidehDrone01
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzSurprise | Whoa! It's flipping out! W-what do I do?
+FRAME  | CAMERA_NORMAL | o_cinema0
+WAIT   | 0.5
+EVENT  | o_sepidehDrone01 | 0
+WAIT   | 7
+LOOK   | o_cts_hoopz | NORTHWEST
+WAIT   | 3
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 4
+GOTO   | DRONE_DEMISE
+
+TOP_SIDE
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+USEAT  | o_sepidehDrone01
+WAIT   | 0.5
+ITEM   | Influence Ovum | -1
+NOTIFY | Inserted Influence Ovum!
+PLAYSET | o_sepidehDrone01 | powered | powered_up
+WAIT   | 0
+DIALOG | P_NAME | Okay, I think it's working.
+WAIT   | 0.5
+DIALOG | P_NAME | Uh... how do you control this thing?
+WAIT   | 0.2
+SET    | o_sepidehDrone01 | powered
+WAIT   | 0.2
+SURPRISEAT | o_sepidehDrone01
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzSurprise | Whoa! It's flipping out! W-what do I do?
+FRAME  | CAMERA_NORMAL | o_cinema0
+WAIT   | 0.5
+EVENT  | o_sepidehDrone01 | 0
+WAIT   | 7
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 3
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 4
+GOTO   | DRONE_DEMISE
+
+DRONE_DEMISE
+QUEST   | sepidehDrone = 4
+EVENT   | o_sepidehDrone01 | 1
+Duergar | alive | osiris
+IF duergar == alive  | QUEST | sepidehDroneFrame = 0
+IF duergar == dead   | QUEST | sepidehDroneFrame = 1
+Duergar | kill | osiris
+Duergar | kill | deveraux
+FRAME   | CAMERA_NORMAL | o_cts_hoopz
+WAIT    | 0
+DIALOG  | P_NAME = s_port_hoopzSurprise | I wonder where the heck it went...
+EVENT  | o_sepidehDrone01 | 2
+
+POWER_UP_NAY
+DIALOG | P_NAME | Nah...
+QUEST  | sepidehDrone = 3
+
+SEPIDEH_MENTIONED_AGAIN
+DIALOG | P_NAME | It's a Sepideh's drone, and it's out of power. I'm pretty sure I could make it work if I had any sort of a `sq`power source`rt` for it.
+
+SEPIDEH_MENTIONED 
+DIALOG | P_NAME | What's this? A drone?
+WAIT   | 1
+DIALOG | P_NAME | Looks like it's out of juice... Oh! This must be Sepideh's drone.
+USEAT  | o_sepidehDrone01
+DIALOG | P_NAME | I could probably make this thing work again if I had a `sq`power source`rt` of some kind.
+QUEST  | sepidehDrone = 2
+
+JUST_A_DRONE_AGAIN
+DIALOG | P_NAME | It's a drone that's out of power. I'm pretty sure I could make it work if I had any sort of a `sq`power source`rt` for it.
+
+JUST_A_DRONE
+DIALOG | P_NAME | What's this? A drone?
+WAIT   | 1
+DIALOG | P_NAME | Looks like it's out of juice...
+USEAT  | o_sepidehDrone01
+DIALOG | P_NAME | I could probably make this thing work again if I had a `sq`power source`rt` of some kind.
+QUEST  | sepidehDrone = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhqao"]
+atlas = ExtResource("2_st6da")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0lqg"]
+atlas = ExtResource("2_st6da")
+region = Rect2(400, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j140c"]
+atlas = ExtResource("2_st6da")
+region = Rect2(480, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ji2vc"]
+atlas = ExtResource("2_st6da")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8i5n"]
+atlas = ExtResource("2_st6da")
+region = Rect2(160, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpjyd"]
+atlas = ExtResource("2_st6da")
+region = Rect2(240, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ameu4"]
+atlas = ExtResource("2_st6da")
+region = Rect2(320, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpqp7"]
+atlas = ExtResource("2_st6da")
+region = Rect2(320, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n038j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhqao")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0lqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j140c")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ji2vc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8i5n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpjyd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ameu4")
+}],
+"loop": true,
+"name": &"powered",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpqp7")
+}],
+"loop": true,
+"name": &"powered_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j140c"]
+radius = 26.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2h260"]
+size = Vector2(50, 63)
+
+[node name="o_sepidehDrone01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_kxy4v")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_l0lqg")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_n038j")
+centered = false
+offset = Vector2(-40, -54)
+metadata/default = {
+"bbox_bottom": "62",
+"bbox_left": "14",
+"bbox_right": "67",
+"bbox_top": "1",
+"frames": ["images\\s_sepidehDrone01_0.png", "images\\s_sepidehDrone01_1.png", "images\\s_sepidehDrone01_2.png", "images\\s_sepidehDrone01_3.png", "images\\s_sepidehDrone01_4.png", "images\\s_sepidehDrone01_5.png", "images\\s_sepidehDrone01_6.png"],
+"height": "64",
+"name": "s_sepidehDrone01",
+"width": "80",
+"xorig": "40",
+"yorigin": "54"
+}
+metadata/powered = {
+"bbox_bottom": "62",
+"bbox_left": "14",
+"bbox_right": "67",
+"bbox_top": "1",
+"frames": ["images\\s_sepidehDrone01_0.png", "images\\s_sepidehDrone01_1.png", "images\\s_sepidehDrone01_2.png", "images\\s_sepidehDrone01_3.png", "images\\s_sepidehDrone01_4.png", "images\\s_sepidehDrone01_5.png", "images\\s_sepidehDrone01_6.png"],
+"height": "64",
+"name": "s_sepidehDrone01",
+"width": "80",
+"xorig": "40",
+"yorigin": "54"
+}
+metadata/powered_up = {
+"bbox_bottom": "62",
+"bbox_left": "14",
+"bbox_right": "67",
+"bbox_top": "1",
+"frames": ["images\\s_sepidehDrone01_0.png", "images\\s_sepidehDrone01_1.png", "images\\s_sepidehDrone01_2.png", "images\\s_sepidehDrone01_3.png", "images\\s_sepidehDrone01_4.png", "images\\s_sepidehDrone01_5.png", "images\\s_sepidehDrone01_6.png"],
+"height": "64",
+"name": "s_sepidehDrone01",
+"width": "80",
+"xorig": "40",
+"yorigin": "54"
+}
+metadata/flight = {
+"bbox_bottom": "62",
+"bbox_left": "14",
+"bbox_right": "67",
+"bbox_top": "1",
+"frames": ["images\\s_sepidehDrone01_0.png", "images\\s_sepidehDrone01_1.png", "images\\s_sepidehDrone01_2.png", "images\\s_sepidehDrone01_3.png", "images\\s_sepidehDrone01_4.png", "images\\s_sepidehDrone01_5.png", "images\\s_sepidehDrone01_6.png"],
+"height": "64",
+"name": "s_sepidehDrone01",
+"width": "80",
+"xorig": "40",
+"yorigin": "54"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_j140c")
+debug_color = Color(0.9997725, 0, 0.11707086, 0.25490198)
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 9.5)
+shape = SubResource("RectangleShape2D_2h260")

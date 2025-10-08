@@ -1,0 +1,195 @@
+[gd_scene load_steps=9 format=3 uid="uid://basuqrpbubpif"]
+
+[ext_resource type="Script" uid="uid://c2ngu12l57kmo" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/o_est_canondorf01.gd" id="1_3spq3"]
+[ext_resource type="Texture2D" uid="uid://cv73dmc06ei4j" path="res://barkley2/assets/b2_original/images/merged/s_gbl_fortuneTeller01.png" id="2_sf36n"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_y6rsk"]
+
+[sub_resource type="Resource" id="Resource_kjair"]
+script = ExtResource("2_y6rsk")
+original_script = "IF canondorfState == 0 | GOTO | CANON_0
+IF canondorfState == 1 | GOTO | CANON_1
+IF canondorfState == 2 | GOTO | CANON_2
+IF canondorfState == 3 | GOTO | CANON_3
+
+CANON_0
+DIALOG | Madam Canondorf | `w1`Alakazam, abracadoo...`w0`_ Oh! I didn't see you there. I was just conjuring a devilish hex upon my many foes. I like to dabble in the dark arts in my spare time. 
+BREAKOUT | add | money
+DIALOG | Madam Canondorf | But enough about me. Would you like to know your future? It's only `kw`@money_fortuneTeller@ Neuro-Shekels.`rt`
+DIALOG | P_NAME          | Umm...
+QUEST  | canondorfState = 1
+GOTO   | READING_CHOICE
+
+CANON_1
+DIALOG | Madam Canondorf | `s1`Death!`s0`_ Death and torment to my enemies._ Oh, hello there, youngster. Have you returned for another reading? 
+BREAKOUT | add | money
+DIALOG | Madam Canondorf | The deal is the same as before. `kw`@money_fortuneTeller@ Neuro-Shekels`rt` and I will tell you your future.
+DIALOG | P_NAME          | Umm...
+GOTO   | READING_CHOICE
+
+CANON_2
+DIALOG | Madam Canondorf | `w1`Gruaaghh...`w0` Ah, sorry youngster, I'm still recouping from that intense reading._ If you want another reading then you will have to come back later.
+DIALOG | P_NAME          | Oh, okay. Get better soon.
+
+CANON_3
+DIALOG | Madam Canondorf | The Beast... `w1``mq`6`rt``sq`6`rt``kw`6`rt`...`w0`
+
+READING_CHOICE
+CHOICE | Do you want to know your future? (£@money_fortuneTeller@)
+IF money >= @money_fortuneTeller@ | REPLY | FUTURE   | Tell me my future.
+IF money >= @money_fortuneTeller@ | REPLY | NARYYE   | Nary ye mind...
+IF money < @money_fortuneTeller@  | REPLY | NOAFFORD | I don't have enough money... 
+
+FUTURE
+DIALOG | P_NAME = s_port_hoopzHappy | Yeah, let's do it! This sounds like it'll be fun! 
+DIALOG | Madam Canondorf | Ah, bold move, my friend. Not everyone can handle the full weight of their destiny laid bare before them.
+BREAKOUT | clear
+DIALOG | P_NAME          | I'm not afraid. Bring it on.
+DIALOG | Madam Canondorf | `w1`*Ahem*`w0` Here we go...
+DIALOG | Madam Canondorf | `w1`Alakazam... Dippity doo...`w0` Tell me the future of you!
+QUEST  | canondorfReadings += 1
+WAIT   | 0.75
+IF mainQuest <= 1  | GOTO | GOAL_DEBUG
+IF mainQuest == 2  | GOTO | GOAL_BCT
+IF mainQuest == 3  | GOTO | GOAL_REBELS
+IF mainQuest == 4  | GOTO | GOAL_CUCHULAIR
+IF mainQuest == 5  | GOTO | GOAL_CDWARF
+IF mainQuest == 6  | GOTO | GOAL_IDENTITY
+IF mainQuest >= 7  | GOTO | GOAL_FINAL
+
+NARYYE
+DIALOG | P_NAME          | No thanks, maybe some other time.
+DIALOG | Madam Canondorf | As you wish...
+
+NOAFFORD
+DIALOG | P_NAME          | I don't have enough money... :(
+DIALOG | Madam Canondorf | `w1`Kwehehehehe!`w0` No money, no funny!
+
+GOAL_DEBUG
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` I see... I see a `mq`great city,`rt` shrouded in smog and filth.
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The arcane powers... `s1`They are so intense!`s0`
+DIALOG | Madam Canondorf | `w1`Guh...`w0` Ah, I see... a search for answers, and `mq`a man made out of B-Balls.`rt` `w1`Graaah!`w0`
+GOTO   | POST_READING
+
+GOAL_BCT
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` I see... I see a great shadowy shape rising from the earth. `mq`A mountain perhaps? Or a tower of some sort?`rt` 
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The... The visions... They are so `s1`intense!`s0`
+DIALOG | Madam Canondorf | `w1`Guh...`w0` Yes, I see... I see a great, tall shape rising from the earth, and there are people in there. `mq`There are people inside this shape.`rt` Dwarfs... Dwarfs everywhere! `w1`Graaah!`w0`
+GOTO   | POST_READING
+
+GOAL_REBELS
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` I see... I see a `mq`purple behemoth,`rt` standing it's ground, surrounded by `w1`greenery.`w0`
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The arcane powers... They burn my eyes, but I see glimpses of the `s1`future!`s0`
+DIALOG | Madam Canondorf | `w1`Guh...`w0` Yes! I see a locked door, shaped like a circle. I see a `mq`drunkard deep within another dimension.`rt` He knows the `kw`secret knock...`rt``w1`Graaah!`w0`
+GOTO   | POST_READING
+
+GOAL_CDWARF
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` This... This vision, it is so strange. I see... I see a `mq`talking basketball,`rt` locked away in a purple tower. 
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The vision! It is so `s1`intense!`s0`
+DIALOG | Madam Canondorf | `w1`Guh...`w0` `s1`Aurrghh`s0` Yes! I see `w1`tubers!`w0` I see `mq`The Beast!`rt` A dark tower leading to the heavens. `w1`Graaah!`w0`
+GOTO   | POST_READING
+
+GOAL_IDENTITY
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` This... This vision, there is a `w1`duality`w0` to it. Two sides... Two choices? A nameless shadow gazing back from within a mirror...
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The vision! It is so `s1`intense!`s0`
+DIALOG | Madam Canondorf | `w1`Guh...`w0` `s1`Aurrghh`s0` Yes! There is a `mq`soul that is maturing,`rt` molding into a shape. But who is it? I... I do not know._ A choice is about to be made... `w1`Graaah!`w0`
+GOTO   | POST_READING
+
+GOAL_FINAL
+DIALOG | Madam Canondorf | `w1`Urghh...`w0` `mq`The Beast!`rt` The Beast is about to devour the dwarfs! N-no! It can not be!
+DIALOG | Madam Canondorf | `w1`Ungh...`w0` The Beast! Look out for The Beast!
+DIALOG | Madam Canondorf | `mq``w1`Guh...`w0` On top of the Ziggurat, on top of the entire world... The Beast! It will kill us all!`w1`Graaah!`w0``rt`
+WAIT   | 0.75 
+DIALOG | P_NAME = s_port_hoopzShock | H-hey, are you alright?
+DIALOG | Madam Canondorf | `w1`Unghh... The Beast... Ugh...`w0`
+DIALOG | P_NAME = s_port_hoopzShock | Holy flippers!
+DIALOG | Madam Canondorf | Y-you must go, youngster. You must climb to the top of this world, and save... the dwarfs...
+DIALOG | P_NAME          | Save them? From what?
+DIALOG | Madam Canondorf | Save them... from The Beast...
+QUEST  | canondorfState = 3
+
+POST_READING
+WAIT   | 0.75 
+DIALOG | Madam Canondorf | Ah, forgive me, youngster. That is all I can manage for now... 
+WAIT   | 0.75
+DIALOG | P_NAME = s_port_hoopzShock | H-hey, are you alright?
+DIALOG | Madam Canondorf | Yes, I'll be fine... I just need to take a short power nap.
+DIALOG | P_NAME          | ... Oh... Okay.
+IF canondorfReadings == 3 | GOTO | CUSTOMER_REWARD
+GOTO   | READING_END
+
+CUSTOMER_REWARD
+WAIT   | 0.75
+DIALOG | Madam Canondorf | Youngster, I would like to give you something._ A vidcon that a youngster such as yourself can surely appreciate more than I ever could. 
+DIALOG | Madam Canondorf | Consider this a token of my good will.
+USEAT  | o_est_canondorf01
+NOTIFY | Got @gamename@!
+EVENT  | o_est_canondorf01 | 0
+DIALOG | P_NAME          | Wow, thanks. This looks really cool. But..._ Why are you giving it to me?
+DIALOG | Madam Canondorf | Your future `w1`intrigues`w0` me, youngster, and I believe this vidcon will play a small part in it. 
+DIALOG | P_NAME          | Umm... I'm not sure I really understand, but thanks anyway.
+GOTO   | READING_END
+
+READING_END
+WAIT   | 0.75
+DIALOG | Madam Canondorf | Come and see me later, after I've recovered. Your densetsu is about to unfold and I'm intrigued by it.
+DIALOG | P_NAME          | Okay, sure._ Hey, thanks for the reading. It was pretty fun, but also very scary. 
+DIALOG | Madam Canondorf | Kuwabara, youngster._ Kuwabara.
+QUEST  | canondorfState = 2
+ClockTime | event | canondorfState | 1 | 30"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6rsk"]
+atlas = ExtResource("2_sf36n")
+region = Rect2(0, 0, 29, 35)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kjair"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6rsk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3spq3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nmpyg"]
+size = Vector2(20, 36)
+
+[node name="o_est_canondorf01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_3spq3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_kjair")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_kjair")
+centered = false
+offset = Vector2(-14, -31)
+metadata/default = {
+"bbox_bottom": "34",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_gbl_fortuneTeller01_0.png"],
+"height": "35",
+"name": "s_gbl_fortuneTeller01",
+"width": "29",
+"xorig": "14",
+"yorigin": "31"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -5)
+shape = SubResource("CircleShape2D_3spq3")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(-1, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_nmpyg")

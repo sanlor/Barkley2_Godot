@@ -7,6 +7,12 @@
 
 shader_type canvas_item;
 
+// Stuff related to camera position and offsets
+uniform vec2 camera_position;
+uniform vec2 camera_offset;
+uniform float camera_position_speed: 	hint_range(0.0, 1.0) 	= 0.025;
+uniform float camera_offset_speed: 		hint_range(0.0, 1.0) 	= 0.025;
+
 // can make snow by adjusting values
 uniform int count: hint_range(0, 2000) = 150;
 uniform float slant: hint_range(-0.1, 0.1) = -0.01;
@@ -37,7 +43,7 @@ void fragment() {
 	// slant each line left or right
     uv.x += uv.y * slant;
     float output = 0.0;
-    
+
     for (int i = 1; i <= count; i++) {
         float h1 = Hash(float(i));
         float h2 = Hash2(float(i));
@@ -48,8 +54,11 @@ void fragment() {
         float pos_mod_x = h1 * 1.2;
 		// there is probably better way to do this, to prevent line from moving too slow compared to other lines
         float pos_mod_y = max(h2 * speed, pos_mod_x * speed);
+
+		vec2 offset = ( (camera_position * camera_position_speed) + (camera_offset * camera_offset_speed) );
+
 		// wrap y values around to loop the anim
-        vec2 position = vec2(pos_mod_x + sl, -mod(-pos_mod_y * time * 0.1, -1.));
+        vec2 position = vec2(pos_mod_x + sl, -mod(-pos_mod_y * time * 0.1, -1.)) + offset;
         float sdf = line_sdf(uv - position, s);
         output += clamp(- sdf / blur, 0.0, 1.0);
     }

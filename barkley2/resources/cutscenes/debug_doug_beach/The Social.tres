@@ -1,0 +1,99 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://c53jsr55kd7gx"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_srcg7"]
+
+[resource]
+script = ExtResource("1_srcg7")
+original_script = "GOTO   | MAIN
+
+MAIN
+Duergar | alive | osiris
+CHOICE | what to do
+IF prisonClosed == 1 | REPLY  | PRISON_LIVE  | (prisonClosed = 1) make prison active
+IF prisonClosed == 0 | REPLY  | PRISON_DEAD  | (prisonClosed = 0) make prison closed
+IF duergar == alive  | REPLY  | DUERGAR_DEAD | osiris / deveraux = alive
+IF duergar == dead   | REPLY  | DUERGAR_LIVE | osiris / deveraux = dead
+REPLY  | ARREST_CHUP | Arrest for Chups.
+REPLY  | ARREST_MASE | Arrest for accusing Masego.
+REPLY  | TIME_ADVANCE | Add 9 clocktimes (Clive enable).
+REPLY  | DUERGAR_AGGRO| Aggro duergars
+REPLY  | LEAVE       | leave
+
+TIME_ADVANCE
+ClockTime | process | 32400
+Teleport | r_est_industrialZone01 | 544 | 600
+
+DUERGAR_AGGRO
+Duergar | aggro | osiris | 1
+Duergar | aggro | deveraux | 1
+Teleport | r_est_industrialZone01 | 544 | 600
+
+DUERGAR_LIVE
+Duergar| alive | osiris | 0
+Duergar| alive | deveraux | 0
+GOTO   | MAIN
+
+DUERGAR_DEAD
+Duergar| kill | osiris
+Duergar| kill | deveraux
+GOTO   | MAIN
+
+PRISON_LIVE
+QUEST  | prisonClosed = 0
+GOTO   | MAIN
+
+PRISON_DEAD
+QUEST  | prisonClosed = 1
+GOTO   | MAIN
+
+ARREST_CHUP
+QUEST  | prisonSocialReason = 1
+GOTO   | ARREST
+
+ARREST_MASE
+QUEST  | prisonSocialReason = 2
+GOTO   | ARREST
+
+ARREST
+FADE   | 1 | 1
+WAIT   | 1
+Misc   | set | o_cts_hoopz   | o_cinema29
+Misc   | set | o_osiris01    | o_cinema30
+Misc   | set | o_deveraux01  | o_cinema31
+Misc   | set | o_kunigunde01 | o_cinema10
+Camera | snap | o_cts_hoopz
+FRAME  | CAMERA_FAST | o_cts_hoopz | o_osiris01 | o_deveraux01
+PEDESTRIAN | off
+LOOK   | o_cts_hoopz  | north
+LOOKAT | o_osiris01   | o_cts_hoopz
+LOOKAT | o_deveraux01 | o_cts_hoopz
+FADE   | 0 | 1
+WAIT   | 1
+IF prisonClosed == 0 | GOTO | PRISON
+IF prisonSocialReason == 1 | DIALOG | Osiris   | Thought you could get away with selling chups, huh?
+IF prisonSocialReason == 2 | DIALOG | Osiris   | Thought you could pin the Figbottom murder on Masego, huh?
+DIALOG | Deveraux   | Looks like it's your `s1`unlucky`s0` day! The Hoosegow is out of order. You know what that means...
+DIALOG | Osiris     | It's open season on dwarfs! Let's ice this fucker!
+Duergar| aggro | osiris
+Duergar| aggro | deveraux
+Duergar| spawn | osiris   | \" + string(o_cinema30.x) + \" | \" + string(o_cinema30.y) + \" 
+Duergar| spawn | deveraux | \" + string(o_cinema31.x) + \" | \" + string(o_cinema31.y) + \" 
+Destroy| o_osiris01
+Destroy| o_deveraux01
+
+PRISON
+Duergar| aggro | osiris
+Duergar| aggro | deveraux
+IF prisonSocialReason == 1 | DIALOG | Osiris   | Thought you could get away with selling chups, huh?
+IF prisonSocialReason == 2 | DIALOG | Osiris   | Thought you could pin the Figbottom murder on Masego, huh?
+DIALOG | Deveraux | Guess again, bitch! Off to the Hoosegow for you! `w1`Kweheheehehehe!`w0`
+QUEST  | waldoChup = 1
+QUEST  | prisonArrested = 5
+QUEST  | prisonIntro = 1
+FADE   | 1 | 1
+WAIT   | 1
+Teleport | r_pri_prisonGate01 | 464 | 1072
+
+LEAVE
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

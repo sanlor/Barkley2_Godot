@@ -31,3 +31,7 @@ func _process(_delta: float) -> void:
 			if B2_CManager.camera: ## FIXME 
 				$fog_shader.material.set_shader_parameter( "camera_position", B2_CManager.camera.global_position )
 				$fog_shader.material.set_shader_parameter( "camera_offset", B2_CManager.camera.offset )
+		#if $rain_shader.visible:
+			#if B2_CManager.camera: ## FIXME 
+				#$rain_shader.material.set_shader_parameter( "camera_position", B2_CManager.camera.global_position )
+				#$rain_shader.material.set_shader_parameter( "camera_offset", B2_CManager.camera.offset )

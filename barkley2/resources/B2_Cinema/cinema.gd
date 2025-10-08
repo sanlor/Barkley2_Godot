@@ -793,6 +793,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					Create( parsed_line )
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
+					breakpoint ## TODO add this function
+					# Create( parsed_line, true ) <- true should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SURPRISEAT":
 					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
@@ -1363,8 +1365,15 @@ func Create( parsed_line : PackedStringArray ):
 	#var object : Node2D = obj_scene.instantiate() # can also be a Canvas Layer
 	var object = obj_scene.instantiate()
 	if object is Node2D or object is Control:
-		if misc_arguments >= 1:			object.position.x = float( parsed_line[2] )
-		if misc_arguments >= 2:			object.position.y = float( parsed_line[3] )
+		if misc_arguments >= 1:
+			if parsed_line[2].contains("o_cinema"): ## 07/10/25 Added suport for objects in this section. The old code had to fuck around with variable injection on the script itself. Suboptimal.
+				var o_cinema : B2_CinemaSpot = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
+				object.position = o_cinema.position
+			else:
+				object.position.x = float( parsed_line[2] )
+			if misc_arguments >= 2:
+				object.position.y = float( parsed_line[3] )
+				
 	add_sibling( object, true )
 	
 	## Refresh array.

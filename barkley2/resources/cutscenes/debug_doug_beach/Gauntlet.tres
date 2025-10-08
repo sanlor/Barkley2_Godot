@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://20diwpk4wx1v"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_2oy60"]
+
+[resource]
+script = ExtResource("1_2oy60")
+original_script = "CHOICE | what to do...
+IF powerMines == 0     | REPLY  | TURN_ON        | Turn Mines power on.
+IF powerMines == 1     | REPLY  | TURN_OFF       | Turn Mines power off.
+IF playerBlueFace == 0 | REPLY  | GAIN_BLUE_FACE | Gain blueface.
+IF playerBlueFace == 1 | REPLY  | LOSE_BLUE_FACE | Lose blueface.
+
+TURN_ON
+QUEST | powerMines = 1
+DIALOG | doug beach | POWER ON. you must enter a new room to see changes take effect
+
+TURN_OFF
+QUEST | powerMines = 0
+DIALOG | doug beach | POWER OFF. you must enter a new room to see changes take effect
+
+GAIN_BLUE_FACE
+QUEST | playerBlueFaceName = Becker
+QUEST | playerBlueFace = 1
+QUEST | playerName = @playerBlueFaceName@
+QUEST | playerNameFull = @playerBlueFaceName@
+QUEST | playerNameShort = @playerBlueFaceName@
+DIALOG| P_NAME = s_port_hoopzSmirk | HEH!
+
+LOSE_BLUE_FACE
+QUEST | playerBlueFace = 0
+QUEST | playerName = X114JAM9
+QUEST | playerNameFull = X114JAM9
+QUEST | playerNameShort = X1
+DIALOG| P_NAME = s_port_hoopzSad | Back to being a sap.
+
+TEXT_EFFECT
+DIALOG | doug beach = s_port_hoopz | Hello there... Extra text, for testing purposes. I'm a `mq``w2`fucker`w0``rt` that is `w1``mq`testing`rt``w0` something `sq`important`rt` and I want to mention `mq`the fire temple`rt`. They call me the `sq`Beachmaster`rt`. 1a 1b 1c 2a 2b 3 4 5 6 7 8 9 `sq`10`rt`
+DIALOG | doug beach = s_port_hoopzShock | `s1`Yipe!`s0`
+DIALOG | doug beach = s_port_hoopz | Testing l_i_t_t_l_e_m_o_n_e_y_."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

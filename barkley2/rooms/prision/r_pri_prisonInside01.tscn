@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=4 uid="uid://d1scxnx8gfs8o"]
+[gd_scene load_steps=127 format=4 uid="uid://d1scxnx8gfs8o"]
 
 [ext_resource type="Script" uid="uid://dy6pgo54vfyhg" path="res://barkley2/rooms/prision/r_pri_prison_inside_01.gd" id="1_q040a"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_nwyqb"]
@@ -61,6 +61,7 @@
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="54_bxr2m"]
 [ext_resource type="PackedScene" uid="uid://dycnfv8hewi8c" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/oPrisonCollisionRiot.tscn" id="59_x7sm4"]
 [ext_resource type="PackedScene" uid="uid://cqw4vibkpfp17" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/oPrisonSwitch.tscn" id="60_a5nog"]
+[ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="63_rlkb3"]
 [ext_resource type="PackedScene" uid="uid://conh8pcl7wnww" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/oPrisonToiletLine.tscn" id="65_0p6it"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6f8wh"]
@@ -4725,10 +4726,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_pri_prisonInside01" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi", "collision_layer_wade")]
+[node name="r_pri_prisonInside01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_6f8wh")
 script = ExtResource("1_q040a")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer -1000001"), NodePath("layer - wading"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(650, 400)
 collision_layer = NodePath("layer - collision")
@@ -4737,7 +4739,6 @@ collision_layer_wade = NodePath("layer - wading")
 is_interior = true
 camera_bound_to_map = true
 source_geometry_mode = 0
-weather_fog = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("2_nwyqb")
@@ -5406,6 +5407,8 @@ metadata/scale = Vector2(-1, 1)
 
 [node name="oPrisonCamera2" parent="." instance=ExtResource("29_5or7u")]
 position = Vector2(472, 80)
+frame = 5
+frame_progress = 1.0
 offset = Vector2(-8, 0)
 metadata/code = ""
 metadata/inst_name = "inst_81DBE9BF"
@@ -5555,3 +5558,13 @@ position = Vector2(-121, 96)
 metadata/code = ""
 metadata/inst_name = "inst_F58AAF0E"
 metadata/scale = Vector2(1, 1)
+
+[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("63_rlkb3")
+dwarf_actor_file_path = "res://barkley2/scenes/Objects/_debug/"
+save_to_disk = true
+target = NodePath("../P26 - oDougBeach")
+sprite_name = "s_gzdebug0"
+create_actor_navigation = false
+lazy_mode = true
+metadata/_custom_type_script = "uid://bjj6h5usin15g"

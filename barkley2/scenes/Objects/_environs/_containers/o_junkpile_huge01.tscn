@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://b52jv22aa4uea"]
 
 [ext_resource type="Texture2D" uid="uid://elr7ctbq22c8" path="res://barkley2/assets/b2_original/images/merged/s_junkpile_huge01.png" id="1_lb86l"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_wcb1x"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_wcb1x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_coo8i"]
 atlas = ExtResource("1_lb86l")
@@ -123,16 +123,19 @@ animations = [{
 radius = 45.0
 height = 124.0
 
-[node name="o_junkpile_huge01" type="AnimatedSprite2D"]
+[node name="o_junkpile_huge01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_7xykj")
 frame = 5
 centered = false
 offset = Vector2(0, -112)
 script = ExtResource("2_wcb1x")
+EnvCol = NodePath("StaticBody2D")
 limit_frame_range = true
 limit_frame_end = 6
 cast_shadow = true
 draw_base = true
+shape = 0
+create_collision = false
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(71, 7)

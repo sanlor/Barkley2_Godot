@@ -1,0 +1,148 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" load_steps=2 format=3 uid="uid://84gtul73cxgm"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_snad6"]
+
+[resource]
+script = ExtResource("1_snad6")
+original_script = "CHOICE | Which cinema to play?
+REPLY  | ROSEN | R = Kill Rosencrantz
+REPLY  | GUILD | G = Kill Guildenstern
+REPLY  | KNOWS | 0 = Know CDwarf, can knock door.
+REPLY  | NENE  | 1 = Learned the knock from Nene.
+REPLY  | ENTRY | 2 = Knock inputted, can enter base.
+REPLY  | TUBER | 3 = Tuber closet.
+REPLY  | AFTER | 4 = After tuber peeling.
+REPLY  | WALTZ | 5 = Base open, can walk freely.
+REPLY  | BORK  | 6b = Before Swamp Variable scene.
+REPLY  | BORKA | 6a = After Swamp Variable scene.
+REPLY  | RETURN| 7 = Return to base after lair death
+REPLY  | CYBER | 7 = Meeting Cyberdwarf 1st time.
+REPLY  | CHASE | 8 = Running from CDwarf.
+REPLY  | IDENT | 9 = Choose identity.
+
+ROSEN
+Duergar | kill | rosencrantz
+
+GUILD
+Duergar | kill | guildenstern
+
+KNOWS
+KNOW  | knowCdwarf | 4
+QUEST | zaneState = 7
+
+NENE
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorState = 1
+QUEST | neneKnock = 1
+
+ENTRY
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorState = 1
+QUEST | longinusDoorOpen = 3
+QUEST | wiglafState = 0
+QUEST | wiglafMission = 0
+QUEST | tuberPeel = 0
+DIALOG| doug beach | click the door to longinus to continue
+
+TUBER
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 1
+QUEST | wiglafMission = 0
+QUEST | tuberPeel = 1
+Teleport | r_usw_rootstock01 | 0 | 0
+
+AFTER
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 2
+QUEST | wiglafMission = 0
+QUEST | tuberPeel = 2
+Teleport | r_bct_tower06 | 256 | 1016
+
+WALTZ
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 2
+QUEST | tuberPeel = 3
+QUEST | cdwarfCinema = 1
+QUEST | csQuest = 1
+QUEST | wiglafMission = 1
+QUEST | trigalScene = 0
+Teleport | r_bct_tower06 | 256 | 1016
+
+BORK
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 2
+QUEST | tuberPeel = 4
+QUEST | cdwarfCinema = 0
+QUEST | csQuest = 0
+QUEST | cuchuRespawn = 1
+QUEST | wiglafMission = 2
+QUEST | trigalScene = 0
+Teleport | r_swp_cuchuelevator01 | 240 | 544
+
+BORKA
+QUEST | cuchu_elevator_floor = 0
+QUEST | cuchu_elevator_floor_goal = 0
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 2
+QUEST | tuberPeel = 3
+QUEST | cdwarfCinema = 0
+QUEST | csQuest = 0
+QUEST | cuchuRespawn = 1
+QUEST | wiglafMission = 3
+QUEST | trigalScene = 0
+Teleport | r_swp_cuchuelevator01 | 240 | 544
+
+RETURN
+QUEST | cuchuLairDeath = 1
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 2
+QUEST | tuberPeel = 3
+QUEST | cuchuRespawn = 2
+QUEST | csQuest = 1
+QUEST | wiglafMission = 3
+QUEST | trigalScene = 0
+Teleport | r_bct_tower06 | 256 | 1016
+
+CYBER
+QUEST | cuchuLairDeath = 1
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 3
+QUEST | tuberPeel = 3
+QUEST | cdwarfCinema = 1
+QUEST | csQuest = 1
+QUEST | wiglafMission = 4
+QUEST | trigalScene = 0
+Teleport | r_bct_tower06 | 320 | 624
+
+CHASE
+QUEST | cuchuLairDeath = 1
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 3
+QUEST | tuberPeel = 3
+QUEST | cdwarfCinema = 2
+QUEST | csQuest = 1
+QUEST | wiglafMission = 4
+QUEST | trigalScene = 0
+Teleport | r_bct_tower06 | 0 | 0
+
+IDENT
+QUEST | cuchuLairDeath = 1
+QUEST | cdwarfStart = 1
+KNOW  | knowCdwarf | 4
+QUEST | longinusDoorOpen = 4
+QUEST | wiglafState = 3
+QUEST | tuberPeel = 3
+QUEST | cdwarfCinema = 8
+QUEST | csQuest = 1
+QUEST | wiglafMission = 4
+QUEST | trigalScene = 1
+Teleport | r_bct_tower06 | 0 | 0"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

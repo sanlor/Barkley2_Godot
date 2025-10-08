@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dro3r4ifn5fex"]
 
 [ext_resource type="Texture2D" uid="uid://budjruk7bbs4h" path="res://barkley2/assets/b2_original/images/merged/s_barrel_big_fallen02.png" id="1_aabaw"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_25hqh"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_25hqh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxv4r"]
 atlas = ExtResource("1_aabaw")
@@ -28,12 +28,13 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_60ees"]
 radius = 15.0333
 
-[node name="o_barrel_big_fallen02" type="AnimatedSprite2D"]
-position = Vector2(413, 848)
+[node name="o_barrel_big_fallen02" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_yh0h4")
+frame = 1
 centered = false
 offset = Vector2(-13, -16)
 script = ExtResource("2_25hqh")
+EnvCol = NodePath("StaticBody2D")
 metadata/default = {
 "bbox_bottom": "32",
 "bbox_left": "2",

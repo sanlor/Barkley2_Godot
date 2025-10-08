@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3 uid="uid://bosqir6e1ftaa"]
+
+[ext_resource type="Texture2D" uid="uid://l8qiqcno5lbv" path="res://barkley2/assets/b2_original/images/merged/s_table_fortune01.png" id="1_wq0lf"]
+[ext_resource type="Script" uid="uid://bwjqbyhojy02i" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environsolid.gd" id="2_nx3f0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_somtt"]
+atlas = ExtResource("1_wq0lf")
+region = Rect2(0, 0, 80, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wy2rg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_somtt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wq0lf"]
+size = Vector2(80, 39)
+
+[node name="o_table_fortune01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_wy2rg")
+centered = false
+offset = Vector2(-40, -19)
+script = ExtResource("2_nx3f0")
+create_col = false
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "0",
+"bbox_right": "79",
+"bbox_top": "8",
+"height": "50",
+"name": "s_table_fortune01",
+"width": "80",
+"xorig": "40",
+"yorigin": "19"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 9.5)
+shape = SubResource("RectangleShape2D_wq0lf")

@@ -211,6 +211,7 @@ func _set_region():
 		
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
+	navigation_polygon.agent_radius = 16.0
 	navigation_polygon.source_geometry_mode = source_geometry_mode
 	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )

@@ -1,3 +1,4 @@
+@icon("uid://h7o1mi0km2lu")
 @tool
 extends B2_Environ
 class_name B2_EnvironProp
@@ -15,12 +16,6 @@ class_name B2_EnvironProp
 @export var cast_shadow 				:= false
 @export var draw_base					:= false
 @export var flip_sprite					:= false
-
-@export_category("Collision")
-@export var shape 			:= SHAPES.CIRCLE
-@export var create_collision := false :
-	set(b):
-		lazy_bastard()
 
 func _ready() -> void:
 	add_to_group("navigation_polygon_source_geometry_group")
@@ -62,20 +57,3 @@ func _ready() -> void:
 		else:
 			push_warning("No animation %s on node %s." % ["shadow", name] )
 	flip_h = flip_sprite
-		
-func lazy_bastard():
-	EnvCol = StaticBody2D.new()
-	var col := CollisionShape2D.new()
-	if shape == SHAPES.CIRCLE:
-		var _shape := CircleShape2D.new()
-		_shape.radius = sprite_frames.get_frame_texture("default", 0).get_width() * 0.4
-		col.shape = _shape
-	elif shape == SHAPES.SQUARE:
-		var _shape := RectangleShape2D.new()
-		_shape.size = sprite_frames.get_frame_texture("default", 0).get_size() * 0.8
-		col.shape = _shape
-		
-	EnvCol.add_child( col, true)
-	add_child( EnvCol, true )
-	col.owner = self
-	EnvCol.owner = self

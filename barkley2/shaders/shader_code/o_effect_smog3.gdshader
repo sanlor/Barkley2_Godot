@@ -4,7 +4,10 @@ shader_type canvas_item;
 uniform vec2 camera_position;
 uniform vec2 camera_offset;
 uniform float movement_position_speed: hint_range(0.0, 1.0,0.000001) = 0.005;
+uniform float movement_position_speed_y_mod: hint_range(0.0, 1.0,0.001) = 0.8;
 uniform float movement_offset_speed: hint_range(0.0, 1.0) = 0.0025;
+uniform float movement_offset_speed_y_mod: hint_range(0.0, 1.0,0.001) = 0.8;
+
 
 // Amount of detail.
 uniform int octaves = 4;
@@ -32,7 +35,7 @@ float rand(vec2 uv) {
     float frequency = starting_frequency;
     float output = 0.0;
     for (int i = 0; i < octaves; i++) {
-        output += texture(noise, (uv + (camera_position * movement_position_speed * 0.1) + (camera_offset * movement_offset_speed * 0.1) ) * frequency).x * amplitude;
+        output += texture(noise, (uv + ( vec2(camera_position.x,camera_position.y * movement_position_speed_y_mod) * movement_position_speed * 0.1) + (vec2(camera_offset.x,camera_offset.y * movement_offset_speed_y_mod) * movement_offset_speed * 0.1) ) * frequency).x * amplitude;
         amplitude /= 2.0;
         frequency *= 2.0;
     }
