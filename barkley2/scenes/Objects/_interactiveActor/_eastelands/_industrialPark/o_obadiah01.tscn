@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=3 uid="uid://c3x0qwl4dgiw5"]
+
+[ext_resource type="Script" uid="uid://bu4qss0rnfi0f" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_obadiah01.gd" id="1_k87i0"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_sywku"]
+[ext_resource type="Texture2D" uid="uid://bxf2w3cyviuwn" path="res://barkley2/assets/b2_original/images/merged/s_obadiah01.png" id="2_terph"]
+
+[sub_resource type="Resource" id="Resource_amhva"]
+script = ExtResource("2_sywku")
+original_script = "IF obadiahState == 0 | GOTO | OBA0
+IF obadiahState == 1 | GOTO | OBA1
+IF obadiahState == 2 | GOTO | OBA2
+IF obadiahState == 3 | GOTO | OBA3
+IF obadiahState == 4 | GOTO | OBA4
+IF obadiahState == 5 | GOTO | OBA5
+
+OBA0
+DIALOG | Obadiah | I'm old. My bones hurt when it rains. I hate chewing food. I'm afraid of loud noises. Young people scare me. I don't like what they do with their hair.
+QUEST  | obadiahState = 1  
+            
+OBA1
+DIALOG | Obadiah | I want a blanket. I can't hear anything. Where's my newspaper? There's too much sulphur in the water. My grandkids never visit. A penny saved is a penny earned.
+QUEST  | obadiahState = 2 
+                 
+OBA2
+DIALOG | Obadiah | I can't understand what they're saying in that rap music. My neighbors are too loud. I miss my hair. The early bird gets the worm. I want a steak and kidney pie.
+QUEST  | obadiahState = 3  
+                 
+OBA3
+DIALOG | Obadiah | Moths ate all my clothes. Why don't they make Charleston Chews anymore? Looks like all the geese have gone south for the winter. I'll be damned if they make me take a bath!
+QUEST  | obadiahState = 4 
+                
+OBA4
+DIALOG | Obadiah | I like the cut of that Matlock's jib. You can't judge a book by its cover. Pecans are too hard to chew these days. My gout's flaring up.
+QUEST  | obadiahState = 5   
+                 
+OBA5
+DIALOG | Obadiah | Eh? What's that youngster? You need to speak up! Old Obadiah can barely hear you!      
+QUEST  | obadiahState = 0    "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sywku"]
+atlas = ExtResource("2_terph")
+region = Rect2(0, 0, 50, 43)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_amhva"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sywku")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v6t8r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6t8r"]
+size = Vector2(20, 36)
+
+[node name="o_obadiah01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_k87i0")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_amhva")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_amhva")
+centered = false
+offset = Vector2(-16, -34)
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "0",
+"bbox_right": "36",
+"bbox_top": "29",
+"frames": ["images\\s_obadiah01_0.png"],
+"height": "43",
+"name": "s_obadiah01",
+"width": "50",
+"xorig": "16",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_v6t8r")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_v6t8r")

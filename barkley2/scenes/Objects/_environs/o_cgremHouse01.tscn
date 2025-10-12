@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://qq2b38nqm82k"]
+
+[ext_resource type="Texture2D" uid="uid://d3e1ni64rf1vw" path="res://barkley2/assets/b2_original/images/merged/s_cgremHouse01.png" id="1_pue05"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_mu4ba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np4mt"]
+atlas = ExtResource("1_pue05")
+region = Rect2(0, 0, 80, 66)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t43p6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_np4mt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pue05"]
+size = Vector2(67, 32)
+
+[node name="o_cgremHouse01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_t43p6")
+centered = false
+offset = Vector2(-40, -54)
+script = ExtResource("2_mu4ba")
+metadata/default = {
+"bbox_bottom": "65",
+"bbox_left": "0",
+"bbox_right": "79",
+"bbox_top": "0",
+"height": "66",
+"name": "s_cgremHouse01",
+"width": "80",
+"xorig": "40",
+"yorigin": "54"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-2.5, -6)
+shape = SubResource("RectangleShape2D_pue05")

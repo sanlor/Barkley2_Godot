@@ -1,0 +1,359 @@
+[gd_scene load_steps=26 format=3 uid="uid://bouc7ex0shw0p"]
+
+[ext_resource type="Script" uid="uid://oksvmdx2ifu4" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_kunigunde01.gd" id="1_8djp1"]
+[ext_resource type="Texture2D" uid="uid://csdkxhurj7d0s" path="res://barkley2/assets/b2_original/images/merged/s_kunigunde01.png" id="2_0jx1g"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_yp6co"]
+
+[sub_resource type="Resource" id="Resource_1ygmd"]
+script = ExtResource("2_yp6co")
+original_script = "IF figbottomQuest == 9 | GOTO | FIG9
+IF kunigundeState == 1 | GOTO | KUNI1
+GOTO | KUNI0
+
+FIG9
+DIALOG | Kunigunde | Oh, I'm certainly glad the matter of `kw`Figbottom`rt` has been cleared up. Can you imagine the scandal if I had been unjustly thrown in to the Hoosegow? You'd never hear the end of it from my supporters. Oh, but I don't have all day to answer your questions, but I suppose I can answer a few.
+GOTO   | SECOND_QUESTION 
+  
+KUNI1
+DIALOG | Kunigunde | Oh, it's you again! I hope you understand how `w1`busy`w0` I am and how much it inconveniences me to answer your questions all day long. It's not as if you're the only person in `kw`The Social`rt` who wants to interview me! Oh, but I suppose I could spare a moment. Go ahead, ask away...
+GOTO   | SECOND_QUESTION 
+      
+KUNI0
+DIALOG | Kunigunde | Hm? Are you new here? I'm `w1`certain`w0` I've never seen you around before. Ah, yes, my manners. `sq`Welcome to The Social.`rt` I'm Kunigunde, the -official- town greeter. My fellows in The Social have -chosen- me for the privilege of being town greeter, no doubt because of my extensive knowledge of the local goings-on and alluring, amiable demeanor (which I'm sure you've noticed by now). Oh, but I'm sure you have questions. Go ahead and ask them, I'm all ears.
+GOTO   | FIRST_QUESTION
+
+FIRST_QUESTION
+CHOICE | Ask...
+REPLY  | FQ_WHEREAM | This is kind of a weird question but... where am I? 
+REPLY  | FQ_CUCHU   | Do you know anything about Cuchulainn?
+REPLY  | FQ_LONGINU | Who or what is L.O.N.G.I.N.U.S.?
+REPLY  | FQ_HAPS    | Is anything interesting happening?
+REPLY  | SQ_CYBER   | Do you know anything about the Cyberdwarf?
+IF figbottomQuest == 4 | REPLY  | FQ_FIG | I'm investigating Figbottom's disappearance.
+IF figbottomQuest == 7 | REPLY  | FQ_FIG | What do you know about Figbottom?
+IF figbottomQuest == 8 | REPLY  | FQ_SUSPECT | You're one of the primary suspects in the disappearance of Figbottom.
+REPLY  | FQ_NEVER   | Nary ye mind...
+
+FQ_WHEREAM
+DIALOG | P_NAME | This is kind of a weird question but... where a-
+GOTO   | RANT
+
+FQ_CUCHU 
+DIALOG | P_NAME | Do you know anything about Cuchul-
+GOTO   | RANT
+
+FQ_LONGINU 
+DIALOG | P_NAME | Who or what is L.O.N.G.I-
+GOTO   | RANT
+
+FQ_HAPS
+DIALOG | P_NAME | Is anything interesting ha-
+GOTO   | RANT
+
+FQ_CYBER
+DIALOG | P_NAME | Do you know anything about the Cy-
+GOTO   | RANT
+
+FQ_INFO
+DIALOG | P_NAME | I'm investigating Figbottom's disappea-
+GOTO   | RANT
+
+FQ_FIG
+DIALOG | P_NAME | What do you know about the disappearance of-
+GOTO   | RANT
+
+FQ_SUSPECT
+DIALOG | P_NAME | Just so you know, you are one of the primary sus-
+GOTO   | RANT
+    
+FQ_NEVER
+DIALOG | P_NAME    | Actually, nary ye mind.
+DIALOG | Kunigunde | Hmm? How rude. I hope the next time we talk YOU will have learned some manners, young man.
+
+RANT
+DIALOG | Kunigunde | Oh heavens, I meant about myself. I'm sure you've got questions abound regarding The Social's premiere socialite. Where my impeccable social graces or understated but immaculately articulated elegance comes from? Grooming inquiries? Fashion, perfumes? Well, okay, okay, I suppose I can give you the time. I suppose I was born with this beauty, but I certainly had to work to-
+DIALOG | P_NAME    | Actually, I kind of wanted to know about-
+DIALOG | Kunigunde | The burden of being a social icon at the forefront of the fashion world? Of course, of course, it's what everyone wants to know. Honestly, sometimes the burden is too much, but then I remind myself that I do this all for you...
+WAIT   | 0.25
+FADE   | 1 | 2
+WAIT   | 2
+FADE   | 0 | 2
+WAIT   | 2
+WAIT   | 0.25
+DIALOG | Kunigunde | ...and `w1`that`w0` is why you `w1`never`w0` RSVP to Duergar events. So uncouth! Oh, but was there anything else you wanted to know?
+DIALOG | P_NAME = s_port_hoopzSad  | ...sigh... well...
+QUEST  | kunigundeState = 1
+GOTO   | SECOND_QUESTION
+    
+SECOND_QUESTION
+CHOICE | Ask...
+REPLY  | SQ_WHEREAM | This is kind of a weird question but... where am I? 
+REPLY  | SQ_CUCHU   | Do you know anything about Cuchulainn?
+REPLY  | SQ_LONGINU | Who or what is L.O.N.G.I.N.U.S.?
+REPLY  | SQ_HAPS    | Is anything interesting happening?
+REPLY  | SQ_CYBER   | Do you know anything about the Cyberdwarf?
+IF figbottomQuest == 4 | REPLY  | SQ_FIG1 | I'm investigating Figbottom's disappearance.
+IF figbottomQuest == 7 | REPLY  | SQ_FIG2 | What do you know about Figbottom?
+IF figbottomQuest == 8 | IF kunigundeSuspect == 0 | REPLY  | SQ_SUSPECT | You're one of the primary suspects in the disappearance of Figbottom.
+REPLY  | SQ_NEVER   | Nary ye mind...
+
+SQ_WHEREAM
+DIALOG | P_NAME    | This is kind of a weird question but... where am I?
+DIALOG | Kunigunde | Oh, just The Social, a dwarfzone on the edge of Tir na Nog. It's basically a rest stop on the way to bigger, better places. It's boring, nothing to see here. I suppose if you're looking for `w1`real night life,`w0` `sq`you'd head to Brain City.`rt` I hear it's supposed to be somewhere in the Swamps. Was there anything else?
+DIALOG | P_NAME    | (The swamps, eh?)
+KNOW | knowBrainCity | 2
+GOTO   | SECOND_QUESTION
+ 
+SQ_CUCHU
+DIALOG | P_NAME    | Do you know anything about Cuchulainn?
+DIALOG | Kunigunde | Ugh, Cuchulainn. How tiresome. Well nobody knows -too- much about him, but he is supposed to be a benevolent AI. Anyway, I heard a rumor that Cuchulainn is located in the exact center of the Necron 7. Ooh, and he's the ghost of a Celtic warlord from long ago. Oh, ex-Celtic. Anything else?
+GOTO   | SECOND_QUESTION
+                
+SQ_LONGINU
+DIALOG | P_NAME    | Who or what is L.O.N.G.I.N.U.S.?
+DIALOG | Kunigunde | Oh, L.O.N.G.I.N.U.S.? I think that's the name of those little goblin things that live outside of town. They've got a village around here made out of garbage, if you could believe it. Terribly ill-behaved and horrendously smelly. I try to stay away from them.
+GOTO   | SECOND_QUESTION
+                    
+SQ_HAPS
+DIALOG | P_NAME    | Is anything interesting happening?
+DIALOG | Kunigunde | Well people always come and go because The Social is so close to Tir na Nog. Most of the time it's vagrants or bums on the run, but sometimes it's someone interesting. So I guess if you've got the time, you could always do some people watching. Is that all?
+GOTO   | SECOND_QUESTION
+
+SQ_CYBER
+DIALOG | P_NAME    | Do you know anything about the Cyberdwarf?
+DIALOG | Kunigunde | The Cyberdwarf? Hmmm, that name sounds familiar, let me think... oh yes, the Cyberdwarf! I believe he's supposed to be a malevolent AI or somesuch. Cruel warlord leading his band of brigands against the commoners? Certainly not my affair. I wouldn't associate with it if I were you, malevolent AIs are such terrible creatures.
+GOTO   | SECOND_QUESTION
+
+SQ_FIG1
+DIALOG | P_NAME    | I'm investigating Figbottom's disappearance, do you know anything?
+DIALOG | Kunigunde | Oh dear, the business with Figbottom. I'd heard about it, but I know very little. I mean, how COULD I know? I never spoke to the man. He was always so... dirty and disheveled. He really could have done with a bath. Well I suppose it's too late for that now, but the sentiment remains.
+DIALOG | P_NAME    | You haven't noticed anything suspicious or concerning lately?
+DIALOG | Kunigunde | Well, I've noticed a particularly shifty-looking vagrant hanging around lately. I believe his name is Morrison or somesuch. He loiters all around the town, muttering to himself. I'd be careful if I were you, he's got a crazy look in his eyes, like he's got nothing to lose. If anyone knows something about Figbottom's disappearance, it's him. Certainly not me, though. I never spoke to him.
+KNOW   | knowIllicitIndustrialActivity | 1
+DIALOG | P_NAME    | Thank you. I appreciate it.
+DIALOG | Kunigunde | Was there anything else?
+QUEST  | figbottomQuest = 5
+GOTO   | SECOND_QUESTION
+
+SQ_FIG2
+DIALOG | P_NAME    | Okay Kunigunde, Suresh says you know more than you're telling, that you used to know Figbottom back in Tir na Nog.
+DIALOG | Kunigunde | Well of course I knew him, always rooting around in the trash and making a racket. Everyone here -knew- him. But I would never, EVER associate with him.
+DIALOG | P_NAME    | Then what about the tontine?
+DIALOG | Kunigunde | Oh, well that's something else entirely. Yes, we were both the last members of a money pool and whoever was last to die would get the money, but I'm certainly not so uncouth as to dirty my hands to get it. I certainly don't hope you suspect someone of -my- stature of stooping so low.
+DIALOG | P_NAME    | Actually, I'm not so sure of that, especially since you told me you didn't know Figbottom before. In fact, it seems like quite a few people profited from his death. I think it's time for me to head back to Marshal Masego and go over the evidence with her.
+DIALOG | Kunigunde | Hmph! To be treated so inconsiderately! Yes, I received quite a large sum of money on Figbottom's death, but I surely didn't hasten it. And to think that I would be a suspect in this unfortunate accident! How EXTREMELY inconvenient.
+DIALOG | P_NAME    | Yeah, right...
+QUEST  | figbottomQuest = 8
+GOTO   | SECOND_QUESTION
+
+SQ_SUSPECT
+DIALOG | P_NAME    | Just so you know, I consider you one of the primary suspects in the disappearance of Figbottom and it seems to me that you profited the most from his death.
+DIALOG | Kunigunde | Well I certainly hope this isn't how you begin most conversations! I can assure you that although I recieved a large sum of money on Mr. Figbottom's demise, I played absolutely no role in it. It's unfortunate that he passed away and even more unfortunate that you'd suspect me. Now if you're all done, I'd like you to leave.
+DIALOG | P_NAME    | You better not leave town...
+QUEST  | kunigundeSuspect = 1
+GOTO   | SECOND_QUESTION
+
+SQ_NEVER
+DIALOG | P_NAME    | Actually, nary ye mind.
+DIALOG | Kunigunde | Hmph. Suit yourself then."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yp6co"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(0, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ygmd"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(34, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lcshn"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(68, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dysir"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(102, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwp4c"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(136, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53gp5"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(170, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3b3w1"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(204, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcqy1"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(238, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boqr4"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(272, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buand"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(306, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvvu0"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(340, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrdgl"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(374, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfo84"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(408, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq1yv"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(442, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gj0q"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(476, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq1ah"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(510, 0, 34, 54)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktp26"]
+atlas = ExtResource("2_0jx1g")
+region = Rect2(544, 0, 34, 54)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2rk7l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yp6co")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ygmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lcshn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dysir")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwp4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53gp5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3b3w1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcqy1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boqr4")
+}],
+"loop": false,
+"name": &"bow",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yp6co")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buand")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvvu0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrdgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfo84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq1yv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gj0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq1ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktp26")
+}],
+"loop": false,
+"name": &"hair_bob",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8djp1"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t1ac3"]
+size = Vector2(28, 46)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0jx1g"]
+radius = 90.27181
+
+[node name="o_kunigunde01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_8djp1")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_1ygmd")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_2rk7l")
+animation = &"bow"
+centered = false
+offset = Vector2(-15, -47)
+metadata/default = {
+"bbox_bottom": "58",
+"bbox_left": "3",
+"bbox_right": "32",
+"bbox_top": "42",
+"frames": ["images\\s_kunigunde01_0.png", "images\\s_kunigunde01_1.png", "images\\s_kunigunde01_2.png", "images\\s_kunigunde01_3.png", "images\\s_kunigunde01_4.png", "images\\s_kunigunde01_5.png", "images\\s_kunigunde01_6.png", "images\\s_kunigunde01_7.png", "images\\s_kunigunde01_8.png", "images\\s_kunigunde01_9.png", "images\\s_kunigunde01_10.png", "images\\s_kunigunde01_11.png", "images\\s_kunigunde01_12.png", "images\\s_kunigunde01_13.png", "images\\s_kunigunde01_14.png", "images\\s_kunigunde01_15.png", "images\\s_kunigunde01_16.png"],
+"height": "54",
+"name": "s_kunigunde01",
+"width": "34",
+"xorig": "15",
+"yorigin": "47"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_8djp1")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(2, 5)
+shape = SubResource("RectangleShape2D_t1ac3")
+
+[node name="timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="player_detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_detection"]
+shape = SubResource("CircleShape2D_0jx1g")
+
+[connection signal="animation_finished" from="ActorAnim" to="." method="_on_actor_anim_animation_finished"]
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="player_detection" to="." method="_on_player_detection_body_entered"]

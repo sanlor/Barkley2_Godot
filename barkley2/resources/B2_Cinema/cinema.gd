@@ -1007,7 +1007,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						push_error("Hoopz combat actor not in the correct place yet.")
 						await get_tree().process_frame
 					
-					var emote_type 		: String = parsed_line[1]
+					var emote_type 		: String = parsed_line[1].strip_edges()
 					var emote_target 	: B2_Actor = B2_CManager.o_cts_hoopz # This is the default
 					var xoffset 		:= 0.0
 					var yoffset			:= 0.0
@@ -1019,6 +1019,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
 					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
 					
+					assert(emote_target, "No target found -> %s" % str(parsed_line) )
 					
 					## TODO 15/10/24 add other arguments, current solution only take 1 argument.
 					## 03/11/24 fixed, i think.
@@ -1366,9 +1367,10 @@ func Create( parsed_line : PackedStringArray ):
 	var object = obj_scene.instantiate()
 	if object is Node2D or object is Control:
 		if misc_arguments >= 1:
-			if parsed_line[2].contains("o_cinema"): ## 07/10/25 Added suport for objects in this section. The old code had to fuck around with variable injection on the script itself. Suboptimal.
-				var o_cinema : B2_CinemaSpot = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
-				object.position = o_cinema.position
+			#if parsed_line[2].contains("o_cinema"): ## 07/10/25 Added suport for objects in this section. The old code had to fuck around with variable injection on the script itself. Suboptimal.
+			if not parsed_line[2].is_valid_float() or not parsed_line[2].is_valid_int(): ## 11/10/25 Had to fix the code above. the object is not always a cinema spot.
+				var dest_object : Node2D = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
+				object.position = dest_object.position
 			else:
 				object.position.x = float( parsed_line[2] )
 			if misc_arguments >= 2:

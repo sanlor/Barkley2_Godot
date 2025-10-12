@@ -5,9 +5,20 @@ const DEBUG := true
 
 
 
-func toggle_rain_shader( state : bool ):
-	var rain_shader: 		ColorRect = $rain_shader
+func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ):
+	var rain_shader: 		GPUParticles2D = $rain_shader
+	rain_shader.emitting = state
 	rain_shader.visible = state
+	
+	if state:
+		match rain_type:
+			"light":		rain_shader.amount = 50
+			"normal":		rain_shader.amount = 100
+			"heavy":		rain_shader.amount = 200
+			_:				rain_shader.amount = 50
+				
+		if thunder: push_error("Thunder not implemented yet.")
+	
 	if DEBUG: print_rich("[color=pink] shader '%s' is %s." % ["rain_shader",state] )
 
 func toggle_fog_shader( state : bool ):

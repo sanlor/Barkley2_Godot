@@ -1,0 +1,255 @@
+[gd_scene load_steps=15 format=3 uid="uid://dulqnlp5hmtnm"]
+
+[ext_resource type="Script" uid="uid://cdqqny1gd8lrp" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_sepideh01.gd" id="1_0s55i"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_j6dd8"]
+[ext_resource type="Texture2D" uid="uid://bxjrwqlgnd0cd" path="res://barkley2/assets/b2_original/images/merged/s_sepideh01.png" id="2_sfuid"]
+
+[sub_resource type="Resource" id="Resource_38krj"]
+script = ExtResource("2_j6dd8")
+original_script = "IF sepidehDrone == 4 | GOTO | DRONE_SMASHED
+IF sepidehState == 0 | GOTO | SEPIDEH_0
+IF sepidehState == 1 | GOTO | SEPIDEH_1
+IF sepidehState == 2 | GOTO | SEPIDEH_2
+IF sepidehState == 3 | GOTO | SEPIDEH_3
+
+DRONE_SMASHED
+DIALOG | Sepideh | Look at this... look at `kw`my drone!`rt` It's ruined! Man... now we will never catch those `sq`Clispmas Ham thieves.`rt` 
+DIALOG | Sepideh | Oh lord..._ Clispmas is ruined!
+
+SEPIDEH_0
+DIALOG | Sepideh | Look man, I know this is inconvenient for you and everyone else here, but I'm in a bit of a pickle right now and I can't charge anyone's `kw`digital portable media players.`rt`
+DIALOG | P_NAME  | Oh well I'm not here to charge my digital portable media player. I don't even have one.
+DIALOG | Sepideh | What do you mean, everyone in `kw`The Social`rt` has a digital portable media player.
+DIALOG | P_NAME  | Well I'm not from around here. I hatched out of an egg a while back.
+DIALOG | Sepideh | An egg, huh?
+WAIT   | 1.0
+DIALOG | Sepideh | Do you recall what kind of egg?
+IF time >= 16 | GOTO | EGG_LONGAGO
+IF time >= 6  | GOTO | EGG_BARELYREMEMBER
+IF time >= 0  | GOTO | EGG_JUSTHAPPENED
+
+SEPIDEH_1
+DIALOG | Sepideh | Hey man, what's the scoop? Got any spare Influence Ovums on you? If so, please, `w1`PLEASE`w0` use one of them to power up my drone. I'd do it myself but I don't have an Influence Ovum, I can't survive out there on my own and I'm not sure where exactly the drone is located.
+
+SEPIDEH_2
+DIALOG | Sepideh | Hey man, any luck on getting that drone powered up?
+DIALOG | P_NAME  | Uh, not yet. 
+DIALOG | Sepideh | Alright, well, keep me posted. And remember, you can find the Influence Ovums in the `kw`Power Plant`rt` to the Northeast of here.
+
+SEPIDEH_3
+DIALOG | Sepideh | Hey man, have you found any Influence Ovums?
+IF @Influence Ovum@ == 0 | GOTO | OVUMS_STILL_DONT_HAVE 
+IF @Influence Ovum@ >= 1 | GOTO | OVUMS_HAVE_THEM_NOW
+
+OVUMS_STILL_DONT_HAVE 
+DIALOG | P_NAME  | Uh, no. Sorry.
+DIALOG | Sepideh | Ah, shucks...
+
+OVUMS_HAVE_THEM_NOW
+DIALOG | P_NAME  | I have actually. 
+DIALOG | Sepideh | Wow! That's great! Okay, can you PLEASE use it to power up my drone? 
+CHOICE | Promise to help Sepideh?
+REPLY  | PROMISE_YAY | Yeah, sure...
+REPLY  | PROMISE_NAY | Nope.
+
+EGG_LONGAGO
+DIALOG | P_NAME | Oh, man that was `w1`forever ago,`w0`. I can't even remember what it looks like.
+GOTO   | EGG_WHATEVER
+
+EGG_BARELYREMEMBER
+DIALOG | P_NAME | Oh, well I can barely remember what it looks like, but it was this_ blue-ish room with all kind of tubes and things. I'm not really sure what I was doing there in the first place.
+GOTO   | EGG_WHATEVER
+
+EGG_JUSTHAPPENED
+DIALOG | P_NAME | Oh, sure I do, it just happened a while ago. One minute I was floating in this `w1`goop`w0` and the next minute I was hatching and these dwarfs picked me up and started taking me out of there. That's when `kw`Zane`rt` was kill-
+GOTO   | EGG_WHATEVER
+
+EGG_WHATEVER
+DIALOG | Sepideh | Okay, yeah. Whatever. Listen, you came from the Eastelands, right? Did you happen to see a drone there by any chance?
+IF sepidehDrone >= 1 | GOTO | DRONE_SPOTTED
+IF sepidehDrone == 0 | GOTO | DRONE_SPOTTED_NOT
+
+DRONE_SPOTTED
+DIALOG | P_NAME  | A drone? Oh, yeah. Yeah, I've seen one.
+DIALOG | Sepideh | You've seen it? Where was it? Somewhere to the East from here, right?
+DIALOG | P_NAME  | Yeah, I saw it just a bit to the East from here. It was out of power though.
+DIALOG | Sepideh | I knew it! I knew it was still out there. Oh man, this is great news!
+DIALOG | P_NAME  | Uh, you're welcome.
+DIALOG | Sepideh | Hey, do you have any `sq`Influence Ovums`rt` on you?
+IF knowInfluenceOvum >= 1 | GOTO | KNOW_OVUM
+IF knowInfluenceOvum == 0 | GOTO | KNOW_OVUM_NOT
+
+KNOW_OVUM
+DIALOG | P_NAME  | Maybe I do. What's it to you?
+DIALOG | Sepideh | Oh, hey, sorry. I got a bit carried away there. It's just that, well, I could fly that drone back home if I had an Influence Ovum to power it up with.
+IF @Influence Ovum@ >= 1 | GOTO | OVUM_GOT
+IF @Influence Ovum@ == 0 | GOTO | OVUM_NOT
+
+KNOW_OVUM_NOT
+DIALOG | P_NAME  | Do I have what on me?
+DIALOG | Sepideh | Influence Ovums. You know, those egg shaped batteries? Come on man, have you been living under a rock? Even toddlers know about Influence Ovums.
+DIALOG | P_NAME  | O-oh, right. Influence Ovums. Y-yeah, I know what those are.
+DIALOG | Sepideh | No, you don't. Okay, here's what they are: `sq`Influence Ovums`rt` are egg shaped batteries. The most likely place to find them is the `kw`Power Plant`rt` to the Northeast from here. On the second floor of the Power Plant there are three different `sq`Dynamoeufs`rt` that are, among other things, used for recharging Influence Ovums.
+DIALOG | P_NAME  | Dyna-?
+DIALOG | Sepideh | -moeuf. Dynamoeuf. Oh, it doesn't matter anyway because it looks like you don't have any Influence Ovums on you.
+KNOW   | knowDynamoeuf     | 1
+KNOW   | knowPowerPlant    | 2
+KNOW   | knowInfluenceOvum | 1
+IF @Influence Ovum@ >= 1 | GOTO | OVUM_GOT_ACTUALLY
+IF @Influence Ovum@ == 0 | GOTO | OVUM_NOT_ACTUALLY
+
+OVUM_GOT
+DIALOG | P_NAME  | I see... It just so happens that I do have an Influence Ovum on me. But if I give this to you then what's in it for me?
+DIALOG | Sepideh | Oh, uh... I'm an engineer so I could craft up something you could use. You know, like some new brastware for example. What do you say? All you gotta do is go over there and power up the drone.
+DIALOG | P_NAME  | Wait, you want me to go out there to fix the drone for you?
+DIALOG | Sepideh | You don't need to fix anything. Just put the Influence Ovum in the drone and it should be good to go. Like I said, I'm an engineer. I don't think I could make it out there on my own. Come on, what do you say?
+CHOICE | Promise to help Sepideh?
+REPLY  | PROMISE_YAY | Yeah, sure...
+REPLY  | PROMISE_NAY | Nope.
+
+OVUM_GOT_ACTUALLY
+DIALOG | P_NAME  | H-hey! Now that you mention it, I think I actually have something like that on me. Here, is this what you are talking about?
+USEAT  | o_sepideh01
+NOTIFY | Showed Influence Ovum!
+DIALOG | Sepideh | Y-yes! That's an Influence Ovum! So you do have at least one of them. Okay, this is great. Can I have it?
+DIALOG | P_NAME  | What do you want it for?
+DIALOG | Sepideh | I need it to power up my drone so I can fly it back home.
+DIALOG | P_NAME  | Oh, cool dude.
+DIALOG | Sepideh | So can I have it? I mean, I wouldn't take it from you, but rather you would go and use it on the drone for me.
+DIALOG | P_NAME  | Wait a minute. You want me to go out there and fix your drone?
+DIALOG | Sepideh | You don't need to fix anything. Just put the Influence Ovum in the drone and it should be good to go. Come on, what do you say?
+CHOICE | Promise to help Sepideh?
+REPLY  | PROMISE_YAY | Yeah, sure...
+REPLY  | PROMISE_NAY | Nope.
+
+OVUM_NOT_ACTUALLY
+DIALOG | P_NAME  | Yeah, uh, I don't think I have any Influence Ovums on me.
+DIALOG | Sepideh | I guessed as much. Anyway, if you ever come across one then let me know. I could REALLY use one to power up the drone I lost. Assuming, of course, that the drone isn't smashed to pieces by now.
+DIALOG | P_NAME  | Okay, I'll keep my eye open and my ears perked.
+QUEST  | sepidehState = 3
+
+PROMISE_YAY
+DIALOG | P_NAME  | Well, okay. I guess I could do it.
+DIALOG | Sepideh | Oh, thank you so much! Okay, so just go over where the drone is, power it up and I'll handle the rest remotely.
+DIALOG | P_NAME  | Alright. Smell ya later.
+QUEST  | sepidehState = 2
+
+PROMISE_NAY
+DIALOG | P_NAME  | Uh, look. I might have some other uses for Influence Ovums. Sorry.
+DIALOG | Sepideh | Ah, man. Alright, look. If you happen to find a spare Influence Ovum then please, PLEASE use it to power up the drone. It's very important to me.
+DIALOG | P_NAME  | Okay, but I'm not making any promises.
+QUEST  | sepidehState = 1
+
+DRONE_SPOTTED_NOT
+DIALOG | P_NAME  | A drone? Uh, no. Haven't seen one.
+DIALOG | Sepideh | Ah, shucks! I wonder if it's even still in one piece. I was flying it around to the East from here, just surveying the surrounding areas, trying to find the `kw`Clispmas Ham thieves,`rt` but then something went wrong and I lost control.
+DIALOG | P_NAME  | You mean it broke or something?
+DIALOG | Sepideh | No I think what happened was that it ran out of juice. It needs a new `kw`Influence Ovum.`rt` Hey, you wouldn't happen to have any Influence Ovums on you?
+IF knowInfluenceOvum >= 1 | GOTO | KNOW_OVUM
+IF knowInfluenceOvum == 0 | GOTO | KNOW_OVUM_NOT"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6dd8"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(0, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38krj"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(44, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpftt"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(88, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggv4f"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(132, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htuvo"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(176, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqy16"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(220, 0, 44, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0yn5"]
+atlas = ExtResource("2_sfuid")
+region = Rect2(264, 0, 44, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r8j0d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6dd8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38krj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpftt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggv4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htuvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqy16")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0yn5")
+}],
+"loop": true,
+"name": &"working",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bpftt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbxvd"]
+size = Vector2(20, 50)
+
+[node name="o_sepideh01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_0s55i")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_38krj")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_r8j0d")
+animation = &"working"
+centered = false
+offset = Vector2(-23, -55)
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "13",
+"bbox_right": "36",
+"bbox_top": "48",
+"frames": ["images\\s_sepideh01_0.png", "images\\s_sepideh01_1.png", "images\\s_sepideh01_2.png", "images\\s_sepideh01_3.png", "images\\s_sepideh01_4.png", "images\\s_sepideh01_5.png", "images\\s_sepideh01_6.png"],
+"height": "64",
+"name": "s_sepideh01",
+"width": "44",
+"xorig": "23",
+"yorigin": "55"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_bpftt")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -29)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_mbxvd")

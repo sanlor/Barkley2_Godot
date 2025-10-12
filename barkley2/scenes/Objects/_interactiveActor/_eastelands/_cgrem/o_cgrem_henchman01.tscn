@@ -1,0 +1,181 @@
+[gd_scene load_steps=22 format=3 uid="uid://cndavc75druhm"]
+
+[ext_resource type="Script" uid="uid://d10oss3gkavqu" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_cgrem_henchman01.gd" id="1_wyyyq"]
+[ext_resource type="Texture2D" uid="uid://omeraxbekxj1" path="res://barkley2/assets/b2_original/images/merged/s_cgrem_henchman01_NE.png" id="2_i2w63"]
+[ext_resource type="Texture2D" uid="uid://b20ryfgwwhwjd" path="res://barkley2/assets/b2_original/images/merged/s_cgrem_henchman01_SE.png" id="3_vf5ln"]
+[ext_resource type="Texture2D" uid="uid://bjh68sldepkex" path="res://barkley2/assets/b2_original/images/merged/s_cgrem_henchman01_stand.png" id="4_xyphc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipfdd"]
+atlas = ExtResource("2_i2w63")
+region = Rect2(0, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85i72"]
+atlas = ExtResource("2_i2w63")
+region = Rect2(28, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d2qf"]
+atlas = ExtResource("2_i2w63")
+region = Rect2(56, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nv1tx"]
+atlas = ExtResource("2_i2w63")
+region = Rect2(84, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3arnf"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(0, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6di6i"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(28, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2tjk0"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(56, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4lid"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(84, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mrd2"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(0, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ml0d3"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(28, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d06d6"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(56, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lyhd"]
+atlas = ExtResource("3_vf5ln")
+region = Rect2(84, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_462ph"]
+atlas = ExtResource("4_xyphc")
+region = Rect2(0, 0, 28, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngcid"]
+atlas = ExtResource("4_xyphc")
+region = Rect2(28, 0, 28, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v7qj3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipfdd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85i72")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d2qf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nv1tx")
+}],
+"loop": true,
+"name": &" s_cgrem_henchman01_NE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3arnf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6di6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2tjk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4lid")
+}],
+"loop": true,
+"name": &" s_cgrem_henchman01_SE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mrd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ml0d3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d06d6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lyhd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_462ph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ngcid")
+}],
+"loop": true,
+"name": &"s_cgrem_henchman01_stand",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wyyyq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gtx1w"]
+size = Vector2(20, 36)
+
+[node name="o_cgrem_henchman01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_wyyyq")
+mouse_detection_area = NodePath("ActorInteract")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_v7qj3")
+centered = false
+offset = Vector2(-14, -35)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "2",
+"bbox_right": "26",
+"bbox_top": "3",
+"frames": ["images\\s_cgrem_henchman01_SE_0.png", "images\\s_cgrem_henchman01_SE_1.png", "images\\s_cgrem_henchman01_SE_2.png", "images\\s_cgrem_henchman01_SE_3.png"],
+"height": "40",
+"name": "s_cgrem_henchman01_SE",
+"width": "28",
+"xorig": "14",
+"yorigin": "35"
+}
+metadata/s_cgrem_henchman01_stand = {
+"bbox_bottom": "38",
+"bbox_left": "3",
+"bbox_right": "24",
+"bbox_top": "3",
+"frames": ["images\\s_cgrem_henchman01_stand_0.png", "images\\s_cgrem_henchman01_stand_1.png"],
+"height": "40",
+"name": "s_cgrem_henchman01_stand",
+"width": "28",
+"xorig": "14",
+"yorigin": "35"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_wyyyq")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_gtx1w")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

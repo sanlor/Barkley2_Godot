@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqoucgwinebj7"]
+
+[ext_resource type="Texture2D" uid="uid://byvp1gn5f5il0" path="res://barkley2/assets/b2_original/images/merged/s_merchantDoor01.png" id="1_li56a"]
+[ext_resource type="Script" uid="uid://c76byci6jqrq1" path="res://barkley2/scenes/Objects/_environs/_unique/_eastelands/o_merchantDoor01.gd" id="2_1xqvq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwqk1"]
+atlas = ExtResource("1_li56a")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_74atu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwqk1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ddk3r"]
+size = Vector2(64, 62)
+
+[node name="o_merchantDoor01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_74atu")
+centered = false
+offset = Vector2(-32, -63)
+script = ExtResource("2_1xqvq")
+metadata/default = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_merchantDoor01",
+"width": "64",
+"xorig": "32",
+"yorigin": "63"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_ddk3r")

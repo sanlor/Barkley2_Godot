@@ -1,0 +1,123 @@
+[gd_scene load_steps=10 format=3 uid="uid://bjqs7kvhdx21i"]
+
+[ext_resource type="Texture2D" uid="uid://ch1on0hqg3kdw" path="res://barkley2/assets/b2_original/images/merged/s_gbl_eggHole01.png" id="1_guw56"]
+[ext_resource type="Script" uid="uid://c2gfo5s3l8p4c" path="res://barkley2/scenes/Objects/_interactiveActor/_global/o_wst_eggSwitch01.gd" id="2_nn1q0"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_rxpv1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxpv1"]
+atlas = ExtResource("1_guw56")
+region = Rect2(0, 0, 14, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5g3wq"]
+atlas = ExtResource("1_guw56")
+region = Rect2(14, 0, 14, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfea8"]
+atlas = ExtResource("1_guw56")
+region = Rect2(28, 0, 14, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dq67b"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxpv1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5g3wq")
+}],
+"loop": true,
+"name": &"filled",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfea8")
+}],
+"loop": true,
+"name": &"used",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_5g3wq"]
+script = ExtResource("3_rxpv1")
+original_script = "IF wstMerchantDoor == 0 | GOTO | EGG_ENTER
+IF wstMerchantDoor == 1 | GOTO | EGG_RECLAIM
+IF wstMerchantDoor == 2 | GOTO | EGG_EMPTY
+
+EGG_ENTER
+DIALOG | P_NAME | Hmm... An egg shaped hole in the wall.
+WAIT   | 0.5
+IF @Influence Ovum@ >= 1 | GOTO | EGG_CHOICE
+
+EGG_CHOICE
+CHOICE | Use an Influence Ovum?
+REPLY  | EGG_USE | Yes.
+REPLY  | EGG_NAY | No.
+
+EGG_USE
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+USEAT  | NORTH
+SET    | o_wst_eggSwitch01 | filled
+SOUND  | sn_mg_puzzlelock_open1
+NOTIFY | Used an Influence Ovum!
+ITEM   | Influence Ovum | -1
+EVENT  | o_wst_eggSwitch01 | 0
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 2
+SET    | o_wst_eggSwitch01 | used
+QUEST  | wstMerchantDoor = 1
+
+EGG_NAY
+EXIT   |
+
+EGG_RECLAIM
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.25
+DIALOG | P_NAME | This egg is all drained out. I guess I might as well reclaim it.
+USEAT  | NORTH
+SET    | o_wst_eggSwitch01 | default
+NOTIFY | Got an Empty Influence Ovum!
+ITEM   | Empty Influence Ovum | +1
+QUEST  | wstMerchantDoor = 2
+
+EGG_EMPTY
+DIALOG | P_NAME | There is no more use for this..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nfea8"]
+radius = 25.179358
+
+[node name="o_wst_eggSwitch01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_dq67b")
+centered = false
+offset = Vector2(-7, -8)
+script = ExtResource("2_nn1q0")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_5g3wq")
+metadata/default = {
+"bbox_bottom": "15",
+"bbox_left": "0",
+"bbox_right": "13",
+"bbox_top": "0",
+"height": "16",
+"name": "s_gbl_eggHole01",
+"width": "14",
+"xorig": "7",
+"yorigin": "8"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_nfea8")

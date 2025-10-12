@@ -56,7 +56,8 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var room_darkness_color			:= Color(0.5, 0.5, 0.5, 1.0)
 
 @export_category("Navigation")
-@export var source_geometry_mode := NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+@export var source_geometry_mode 		:= NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
+@export var agent_radius				:= 16.0
 
 @export_category("Cinematics")
 @export var player_can_pause			:= true		## Player can pause in this room
@@ -67,6 +68,7 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 @export_category("Weather")
+@export var esoteric_rain_conditions := true ## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
 @export var weather_rain 	:= false
 @export var weather_fog 	:= false
 
@@ -124,7 +126,25 @@ func _enter_tree() -> void:
 	
 	## Applies weather.
 	B2_Shaders.toggle_fog_shader( weather_fog )
-	B2_Shaders.toggle_rain_shader( weather_rain )
+	if esoteric_rain_conditions and weather_rain:
+		if get_room_area() == "tnn": # TNN #
+			# Rain moves #
+			if B2_ClockTime.time_gate() >= 5 and B2_ClockTime.time_gate() < 6: 
+				B2_Shaders.toggle_rain_shader( true, "light", false )
+			elif B2_ClockTime.time_gate() >= 6 and B2_ClockTime.time_gate() < 7:
+				B2_Shaders.toggle_rain_shader( true, "normal", true )
+			elif B2_ClockTime.time_gate() >= 7 and B2_ClockTime.time_gate() < 8:
+				B2_Shaders.toggle_rain_shader( true, "heavy", true )
+			elif B2_ClockTime.time_gate() >= 9 and B2_ClockTime.time_gate() < 10:
+				B2_Shaders.toggle_rain_shader( true, "normal", false )
+			elif B2_ClockTime.time_gate() >= 11 and B2_ClockTime.time_gate() < 12:
+				B2_Shaders.toggle_rain_shader( true, "light", false )
+			else:
+				B2_Shaders.toggle_rain_shader( false, "", false )
+		else:
+			B2_Shaders.toggle_rain_shader( weather_rain, "normal", false )
+	else:
+		B2_Shaders.toggle_rain_shader( weather_rain, "normal", false )
 	
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
@@ -211,7 +231,7 @@ func _set_region():
 		
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
-	navigation_polygon.agent_radius = 16.0
+	navigation_polygon.agent_radius = agent_radius
 	navigation_polygon.source_geometry_mode = source_geometry_mode
 	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
@@ -268,7 +288,7 @@ func _setup_player_node():
 		b2_camera.set_camera_bound( camera_bound_to_map )
 		
 	add_child( player )
-	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data()
+	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data(); B2_Config.set_user_save_data("player.shekels", 420)
 	return player
 	
 func _setup_camera( player ):

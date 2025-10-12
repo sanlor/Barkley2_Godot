@@ -1,0 +1,135 @@
+[gd_scene load_steps=9 format=3 uid="uid://bka22ak4k721p"]
+
+[ext_resource type="Script" uid="uid://v5qf3jklj88n" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_deaconBrimble01.gd" id="1_xux78"]
+[ext_resource type="Texture2D" uid="uid://ddbj7hhdvpi0l" path="res://barkley2/assets/b2_original/images/merged/s_deaconBrimble01.png" id="2_hk8dr"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_w0nxo"]
+
+[sub_resource type="Resource" id="Resource_em25y"]
+script = ExtResource("2_w0nxo")
+original_script = "IF irmingardState == 2  | GOTO | GRUDGE
+IF irmingardState == 3  | GOTO | GRUDGE
+IF conversionQuest >= 4 | GOTO | CONVERSION_COMPLETE
+IF conversionQuest == 3 | GOTO | CONVERSION_RELIC
+IF conversionQuest == 2 | GOTO | CONVERSION_START
+IF conversionQuest == 1 | GOTO | CONVERSION_NOT_STARTED_YET
+IF brimbleState == 0    | GOTO | BRIMBLE0
+
+GRUDGE
+DIALOG | Deacon Brimble | Heh, you really gave that old biddy a much needed reality check. I appreciate it, brah.
+DIALOG | P_NAME         | Oh, uh... thanks.
+
+CONVERSION_COMPLETE
+IF brimbleState == 3 | DIALOG | Deacon Brimble | Well dude, I'm impressed. I kinda threw in the towel when I saw the trash mounds and rotting crud. Not that this place is much better or anything.
+IF brimbleState != 3 | GOTO   | CONGRATS
+
+CONVERSION_RELIC
+IF brimbleState == 0 | GOTO   | BRIMBLE_RANT
+IF brimbleState == 2 | DIALOG | Deacon Brimble | Look dude, if you wanna convert the Cybergremlins, you gotta speak their language, y'know? Do they REALLY want some old ass rosary, or do they want a smelly ass, chewed up tennis shoe? I'll let you be the judge of that.
+IF brimbleState != 2 | GOTO   | CONVERSIONHINT
+
+CONVERSION_START
+IF brimbleState == 0 | GOTO   | HOTTIP
+IF brimbleState == 1 | DIALOG | Deacon Brimble | 'ey, don't say I didn't warn you. That's all I'm sayin'. 
+
+CONVERSION_NOT_STARTED_YET
+DIALOG | Deacon Brimble | 'ey, what's the haps? Hope you don't mind but I overheard your conversation with `sq`Sister Irmingard`rt` about the `sq`Cybergremlin village?`rt` 
+DIALOG | Deacon Brimble | Don't do it dude, those guys are nasty. Like trash-eating, not bathing kind of nasty. I mean, I've been there, I've been there, but it's not like... my THING, you know? Anyway, I just wanted to say Sister Irmingard's a persistent lady and she'll probably ask you to do it again. Take my advice: don't do it. Gat_DAM don't do it. That's all.
+
+CONGRATS
+DIALOG | Deacon Brimble | Dang dude, I heard the news. You actually converted the Cybergremlins, huh?
+DIALOG | P_NAME         | Uh, heh, yeah, I guess so...
+DIALOG | Deacon Brimble | So what'd you do, give 'em a `kw`beat up license plate`rt` or something?
+DIALOG | P_NAME         | Uh... maybe something like that.
+DIALOG | Deacon Brimble | Heh heh, that's what I woulda done too if I'd cared enough. Well, good goin' sport._ You're a real beacon of the community.
+DIALOG | P_NAME         | Thanks...
+QUEST  | brimbleState = 3
+
+CONVERSIONHINT
+DIALOG | P_NAME         | Hey, you know a lot about the Cybergremlins, right?
+DIALOG | Deacon Brimble | More than I'd like to. Is there something you want to know about them?
+DIALOG | P_NAME         | The Cybergremlins say they're only willing to convert if I can give them an `sq`artifact`rt` that belonged to Clispaeth... how am I supposed to find one of Clispaeth's relics? How do I even know what Clispaeth's relics are?
+DIALOG | Deacon Brimble | Heh... you ever think of maybe just... making one up?
+DIALOG | P_NAME         | Wh-what?
+DIALOG | Deacon Brimble | It's not like they're gonna know the difference. There's crap all over the place, just give 'em a piece of trash or something. It'll fit right in and they'll love it.
+DIALOG | P_NAME         | Are you even a priest?
+DIALOG | Deacon Brimble | Look dude, I didn't know what deacon meant when I signed up for the job. I thought it was the guy who trains pigs to search for `kw`truffles.`rt` Besides, Clispaeth made this stuff up as he went along. Why can't you do it too?
+DIALOG | P_NAME         | As morally dubious as it sounds... it might be my only option...
+QUEST  | brimbleState = 2
+
+HOTTIP
+DIALOG | Deacon Brimble | Ayo! Don't take this the wrong way but I was listening to your conversation with `sq`Sister Irmingard.`rt` You're goin' to that Cybergremlin village? 
+DIALOG | Deacon Brimble | I mean, maybe this is your thing or whatever, and I'm not judging because we've all got things, heh, but that's sort of like diving head first into a septic tank. Look dude, I've been there, those guys are fuckin' idiots.
+DIALOG | P_NAME         | Aren't you a priest? That seems like a pretty terrible thing to say, how can you say that? 
+DIALOG | Deacon Brimble | You can't teach an old dog new tricks and you can't teach a fuckin' idiot dog new tricks either. Just sayin'. Peace, `w1`hombre.`w0`
+QUEST  | brimbleState = 1
+        
+BRIMBLE_RANT
+DIALOG | Deacon Brimble | So, you've thrown your life away and become a missionary, huh? That was a total shit choice, my friend.
+DIALOG | P_NAME         | W-what?
+DIALOG | Deacon Brimble | Those critters you want to convert? Forget about it. It's a lost cause.
+DIALOG | P_NAME         | How can you say that? Aren't you a priest or something?
+DIALOG | Deacon Brimble | Trust me, pal. I know what I'm talking about. I've been there. 
+DIALOG | Deacon Brimble | You would be better off eating dog turds off the streets than trying to convert those lunatics. But hey, don't let me stop ya. Follow your heart and all that shit.
+DIALOG | P_NAME         | ...
+QUEST  | brimbleState = 1
+
+BRIMBLE0
+DIALOG | Deacon Brimble | Dear Clispaeth: hey. Uh, I ask for the uh, `kw`holy libations`rt` of your greatness and sacraments of your grace... in these times of... grace. 
+DIALOG | Deacon Brimble | And that Sister Irmingard doesn't send me back to the `sq`Cybergremlin village.`rt` Thanks in advance. Keep it real."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0nxo"]
+atlas = ExtResource("2_hk8dr")
+region = Rect2(0, 0, 25, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_em25y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0nxo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k7iqh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k7iqh"]
+size = Vector2(20, 36)
+
+[node name="o_deaconBrimble01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_xux78")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_em25y")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_em25y")
+centered = false
+offset = Vector2(-12, -36)
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "1",
+"bbox_right": "23",
+"bbox_top": "32",
+"frames": ["images\\s_deaconBrimble01_0.png"],
+"height": "45",
+"name": "s_deaconBrimble01",
+"width": "25",
+"xorig": "12",
+"yorigin": "36"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_k7iqh")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_k7iqh")

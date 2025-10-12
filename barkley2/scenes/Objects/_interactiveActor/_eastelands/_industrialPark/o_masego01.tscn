@@ -1,0 +1,378 @@
+[gd_scene load_steps=14 format=3 uid="uid://cdet6bhvt1yj6"]
+
+[ext_resource type="Script" uid="uid://bmyurhkyv00rt" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_masego01.gd" id="1_uf8gm"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_a0f4v"]
+[ext_resource type="Texture2D" uid="uid://bhj8key8ronct" path="res://barkley2/assets/b2_original/images/merged/s_masego01.png" id="2_pjhjt"]
+
+[sub_resource type="Resource" id="Resource_ypfhl"]
+script = ExtResource("2_a0f4v")
+original_script = "IF masegoState == 1 | GOTO | MASEGO01
+IF masegoState == 0 | GOTO | MASEGO00
+
+MASEGO00
+DIALOG | Marshal Masego | I don't know if you're a drifter or if you're here to stay, but you're new to the `kw`The Social`rt` so I'm gonna lay down the ground rules. Let's get the obvious stuff out of the way: `sq`no killing, no stealing, no gun'sbrasting.`rt` If you see anyone doing any of these things, you tell me and I'll take care of it. `sq`No begging, no flute playing and especially_ `w1`NO CHUPS.`w0` You follow these rules or you get tossed in the hoosegow,`rt` no questions, no exceptions. Most importantly, I can change any of these rules at my or the Duergar's discretion, especially if we're tired of you. With that, `sq`I welcome you to The Social.`rt` You got any questions?
+QUEST  | masegoState = 1
+QUEST  | industrialRules = 1
+GOTO   | OPTIONS
+
+MASEGO01
+IF figbottomQuest == 9 | DIALOG | Marshal Masego | Well if it isn't the sleuth. How's it going, gumshoe? What can I do for you?
+IF figbottomQuest != 9 | DIALOG | Marshal Masego | Still here, huh? You need something?
+GOTO   | OPTIONS
+        
+OPTIONS
+CHOICE | What do?
+IF knowIllicitIndustrialActivity >= 1 | REPLY  | MASEGO_REPORT  | Report something to Masego.
+REPLY  | MASEGO_ASK     | Ask Masego something.
+REPLY  | MASEGO_HELP    | Offer to help Masego.
+REPLY  | MASEGO_LEAVE   | Leave Masego alone.
+
+MASEGO_REPORT
+CHOICE | Tell Masego...
+IF borisState == 1 | IF borisArrest != 1 | REPLY | REPORT_FLUTE | I saw a guy tooting a flute.     
+IF chupQuest == 1  | IF cliveArrest != 1 | REPLY | REPORT_CHUP  | A guy named Clive is selling chups.
+IF figbottomQuest >= 5 | REPLY | REPORT_FIGBOTTOM | I've figured out Figbottom's ultimate demise.
+REPLY | REPORT_NONE    | Nary ye mind...   
+
+REPORT_FLUTE    
+DIALOG | P_NAME         | I saw a guy tooting a flute near the wall. His name is Boris and he was really going at it.
+DIALOG | Marshal Masego | Flute flauting, eh? The Duergars are gonna `w1`love this one.`w0` Thanks for letting me know, kid. I'll get this taken care of right away.
+QUEST  | borisArrest = 1
+GOTO | MOVEANDFADE
+                
+REPORT_CHUP
+DIALOG | P_NAME | There was this guy named Clive who was trying to sell chups by the junk pile over there. He seemed like a really weird and dangerous guy.
+DIALOG | Marshal Masego | Selling chups, huh? Not on my watch. Thanks for the tip, kid. You did the right thing. I think Clive's gonna be spending some hard time in the Hoosegow.
+QUEST  | cliveArrest = 1
+QUEST  | chupQuest = 4
+EVENT  | o_clive01 | 3
+GOTO   | MASEGO_REPORT
+            
+REPORT_FIGBOTTOM
+DIALOG | P_NAME         | Marshal Masego, I think I know something about Figbottom's disappearance.
+DIALOG | Marshal Masego | Yeah? What is it?
+GOTO   | KILLER_CHOICE
+
+REPORT_NONE        
+DIALOG | P_NAME         | Nary ye mind. Just spoofin' you.
+DIALOG | Marshal Masego | Was there anything else?
+GOTO   | OPTIONS
+
+MASEGO_HELP
+DIALOG | P_NAME         | Hey, is there anything I can do to help?
+DIALOG | Marshal Masego | Yeah, actually. `sq`Take a look at these posters up here if you are looking for things to do.`rt`
+DIALOG | P_NAME         | Okay, I'll check them out.
+DIALOG | Marshal Masego | Anything else?
+GOTO   | OPTIONS
+
+MASEGO_ASK
+DIALOG | P_NAME | Actually, I have these questions few.
+CHOICE | Got any questions?
+REPLY  | ASK_INDUSTRIAL | What's The Social?
+REPLY  | ASK_RULES      | What were those rules again?      
+REPLY  | ASK_HAPPENINGS | What's going on here?  
+REPLY  | REPORT_NONE    | Nary ye mind...
+
+ASK_INDUSTRIAL
+DIALOG | P_NAME         | This might seem like a kind of stupid question but... exactly is The Social?
+DIALOG | Marshal Masego | It's a `kw`dwarf zone.`rt` Tir na Nog is pretty crammed with dwarfs so the Duergars are setting up a few `kw`new containment areas.`rt` One of them is here- `sq`The Social.`rt` Not the most clever name for a fledgling ghetto, Duergar's must have gotten lazy._ But anyways, we're all gathering here, and they picked me as the Dwarf Marshal!
+GOTO   | MASEGO_ASK
+
+ASK_RULES
+DIALOG | P_NAME         | Could you go over those rules for me one more time?
+DIALOG | Marshal Masego | There's the obvious stuff: no killing, no stealing, no gun'sbrasting. `sq`No begging, no flute toots, NO CHUPS,_ period.`rt` If you see anyone doing any of these things, you report it to me. We've got better things to worry about than ourselves, okay?
+DIALOG | P_NAME         | Yeah, got it. Thanks.
+GOTO   | MASEGO_ASK  
+
+ASK_HAPPENINGS
+DIALOG | P_NAME         | Is anything special going on right now?
+DIALOG | Marshal Masego | Special's not the way I'd put it. I'm a `sq`deputized Duergar`rt` and I have those guys breathing down my neck.`sq`Figbottom's disappearance`rt` is at the center of it. I think `sq`Sister Irmingard is trying to convert the Cybergremlins`rt` and our `sq`mechanic Sepideh is building some ridiculous contraption like usual.`rt` We've got drifters coming into The Social and making trouble and I've got arrest quotas with the Duergars to fulfill. That and my last nap was hours ago...
+GOTO   | MASEGO_ASK
+    
+ASK_BASIC
+DIALOG | P_NAME         | I had some other questions.
+DIALOG | Marshal Masego | Yeah?
+GOTO   | MASEGO_ASK
+            
+ASK_NOTHING
+DIALOG | P_NAME         | That's all I wanted to know. Thanks.
+DIALOG | Marshal Masego | Yeah, alright.
+GOTO   | OPTIONS
+
+MASEGO_LEAVE
+DIALOG | P_NAME | Gotta run. Smell ya later.
+
+KILLER_CHOICE
+CHOICE | What happened to Figbottom?
+IF figbottomQuest >= 6 | REPLY  | KILLER_MORIARTY  | Moriarty, the vagrant, killed him.
+IF figbottomQuest >= 8 | REPLY  | KILLER_KUNIGUNDE | Kunigunde, the town gossip, killed him.
+IF figbottomQuest >= 7 | REPLY  | KILLER_SURESH    | Suresh, the junk collector, killed him.
+REPLY  | KILLER_MASEGO | Masego, the Marshal, killed him.
+REPLY  | KILLER_NONE   | Uhm, nary ye mind...
+
+KILLER_MORIARTY    
+DIALOG | P_NAME         | I think Moriarty, a vagrant living at the edge of town, killed him.
+DIALOG | Marshal Masego | A vagrant, huh? Doesn't surprise me. What's the MO?
+DIALOG | P_NAME         | Moriarty was really hostile when I talked to him and refused to let me ask him questions. He was chewing on a bloody glove that I think might have been Figbottom's. To be honest, he seemed pretty crazy and dangerous. I was a little intimidated being around him.
+DIALOG | Marshal Masego | So you think this crazy vagrant might have killed Figbottom then?
+CHOICE | Confirm Moriarty as the killer?
+REPLY  | CONFIRM_MORIARTY | Lock him up.
+REPLY  | CONFIRM_CANCEL   | Nope!
+
+CONFIRM_MORIARTY
+DIALOG | P_NAME         | Well, that's my theory but maybe we should investigate more?
+DIALOG | Marshal Masego | Nope, that's good enough reason for me. I'm heading right to the Duergars with this information. Thanks Gumshoe!
+QUEST  | figbottomQuest = 9
+QUEST  | moriartyArrest = 1
+QUEST  | figbottomPerp = 3
+//TODO: Increase Gumshoe points
+GOTO | MOVEANDFADE
+          
+KILLER_KUNIGUNDE        
+DIALOG | P_NAME         | I think Kunigunde, the town gossip, killed Figbottom.
+DIALOG | Marshal Masego | Yeah? And why's that? 
+DIALOG | P_NAME         | You wouldn't think Figbottom and Kunigunde really knew each other, right? Well it turns out they did a long time ago back when they were in Tir na Nog. They were part of a tontine together and were its last remaining members; the death of one would directly profit the other. When Figbottom died, Kunigunde inherited the money from the tontine.
+DIALOG | Marshal Masego | And so you think Kunigunde killed Figbottom to get the tontine money?
+DIALOG | P_NAME         | You wouldn't think Figbottom and Kunigunde really knew each other, right? Well guess what Suresh told me? They were part of a tontine together and were its last remaining members; the death of one would directly profit the other. When Figbottom died, Kunigunde inherited the money from the tontine.
+DIALOG | Marshal Masego | And so you think Kunigunde killed Figbottom to get the tontine money?        
+DIALOG | P_NAME         | Uhhh. To be honest, I'm just kind of throwing her name out there. It might have been her, I guess. I mean, she seems to know what's up about most stuff, so why wouldn't she know what happened to Figbottom?
+DIALOG | Marshal Masego | And so you think Kunigunde killed Figbottom for no real reason?
+CHOICE | Confirm Kunigunde as the killer?
+REPLY  | CONFIRM_KUNIGUNDE | Yes!
+REPLY  | CONFIRM_CANCEL    | Nope!
+
+CONFIRM_KUNIGUNDE                   
+DIALOG | P_NAME         | It's my theory but I don't think we've got the whole story to be honest.
+DIALOG | Marshal Masego | ...Okay. That sounds reasonable enough to me. I'm locking her up.
+QUEST  | figbottomQuest = 9
+QUEST  | kunigundeArrest = 1
+QUEST  | figbottomPerp = 2
+//TODO: Increase Gumshoe points
+GOTO | MOVEANDFADE
+      
+KILLER_SURESH
+DIALOG | P_NAME         | I think Suresh the junk collector killed him.
+DIALOG | Marshal Masego | Yeah? Why's that?
+IF figbottomQuest == 6  | GOTO | KILLER_SURESH_LOW
+IF figbottomQuest == 7  | GOTO | KILLER_SURESH_MID
+IF figbottomQuest == 8  | GOTO | KILLER_SURESH_TOP
+
+KILLER_SURESH_LOW
+DIALOG | P_NAME         | Well, I'm not really sure. Just a hunch, I guess, but it seems suspicious that Suresh doesn't seem to care that his pal is gone. I mean, I'd be pretty upset about it.
+DIALOG | Marshal Masego | And that's it? You think Suresh killed just because?
+GOTO   | CONFIRM_SURESH
+
+KILLER_SURESH_MID
+DIALOG | P_NAME         | Moriarty, this crazy vagrant, told me he saw Suresh and Figbottom fighting over a jerkin shortly before he disappeared. Not only does Suresh have the jerkin now, but he deliberately withheld this information from me. He's clearly hiding something to protect himself.
+DIALOG | Marshal Masego | And that's it? You think Suresh killed just because?
+GOTO   | CONFIRM_SURESH
+
+KILLER_SURESH_TOP
+DIALOG | P_NAME         | Well, Suresh and Figbottom found a jerkin while scavenging the Junk Yard together and got into a fight over who got to keep it. It got pretty bitter and the two ended up having a falling out the day before Figbottom disappeared. Now Suresh is wearing the jerkin and Figbottom's gone.
+DIALOG | Marshal Masego | And that's it? You think Suresh killed him for the jerkin?
+GOTO   | CONFIRM_SURESH
+
+CONFIRM_SURESH
+DIALOG | P_NAME         | Well, I think it could have happened that way, it's just a theory. We should probably investigate more.
+DIALOG | Marshal Masego | ...Okay. Good enough for me. I'm locking him up.
+QUEST  | figbottomQuest = 9
+QUEST  | sureshArrest = 1
+QUEST  | figbottomPerp = 1
+//TODO: Increase Gumshoe points
+GOTO | MOVEANDFADE
+
+KILLER_MASEGO
+DIALOG | P_NAME         | I think you killed him.
+DIALOG | Marshal Masego | Are you just goofing me or are you serious?
+CHOICE | Confirm Masego as the killer?
+REPLY  | CONFIRM_MASEGO | Yes!
+REPLY  | CONFIRM_CANCEL | Nope!
+            
+CONFIRM_MASEGO
+DIALOG | P_NAME | This isn't a goof, I'm being completely serious. I think you set this whole thing up as a convenient excuse to get rid of Figbottom. You're acting concerned to deflect suspicion from yourself as the culprit.
+DIALOG | Marshal Masego | You... I can't believe this... you stupid kid. Do you know how hard I work to keep this place safe? You know how much sleep I lose over Cuchulainn and vagrants and The Social and criminals and everything else? To say I killed Figbottom when I'm the only one who cares is... you stupid kid...
+DIALOG | P_NAME | Whoa, uh, maybe I was wrong. Don't get so worked up about it...
+DIALOG | Marshal Masego | I can't believe I ever trusted you to investigate Figbottom's disappearance! I guess this was a real wakeup call: you can't trust anyone who just walks in here no matter how competent they seem. I'm throwing you in jail, you gatdam brat.
+DIALOG | P_NAME | What? Jail? I didn't do anything!
+DIALOG | Marshal Masego | Shut up, you insolent little brat! You're coming with me!
+DIALOG | P_NAME | Looks like the one who got goofed... was me...
+QUEST  | figbottomPerp = 4
+//TODO: Duergar arrest sequence
+
+KILLER_NONE
+DIALOG | P_NAME | Uh, actually, nary ye mind.
+GOTO   | OPTIONS
+
+CONFIRM_CANCEL
+DIALOG | P_NAME | Wait, I might be wrong, let me think...
+GOTO   | KILLER_CHOICE
+
+MOVEANDFADE
+MOVETO | o_masego01 | o_cinema10 | MOVE_NORMAL
+FADE   | 1 | 1.5
+WAIT   | 1.5
+Destroy | o_masego01
+FADE   | 0 | 1.5
+WAIT   | 1.5
+EXIT |
+
+ARREST_FLUTE
+DIALOG | Marshal Masego | You did a good job, kid. I got that scumbag Boris off the streets and sent him off to the Hoosegow. Keep it up, we need more people like you in The Social. Was there anything else?
+GOTO   | MASEGO_REPORT
+
+ARREST_CHUP
+DIALOG | Marshal Masego | Well, he put up a chase but I managed to get him. Selling chups in The Social: 25 years. Resisting arrest: 10 years. We won't be seeing Clive for a long time. Good catch, kid. You got anything else for me?
+GOTO | MASEGO_REPORT
+
+ARREST_MORIARTY
+DIALOG | Marshal Masego | Well, that slimy cretin's rotting in a jail cell as we speak. You were on the money with that one, that guy was nuts. He had this crazy look in his eyes, almost like he wanted to eat me. There's no doubt in my mind that he was responsible for the string of disappearances lately.
+DIALOG | P_NAME         | How many people disappeared? Are you sure they're all related to this guy?
+DIALOG | Marshal Masego | It's been a problem for a while now but people come and go. Figbottom was a regular, though. He wouldn't leave The Social without telling us. Justice is served in my books. Good work kid.
+DIALOG | P_NAME         | Are you sure? I mean, I think it was probably him, but doesn't he deserve a trial or something?
+DIALOG | Marshal Masego | Hey, so about that bloody glove? I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. Do you want to keep it as a souvenir or something? I don't want it.
+DIALOG | P_NAME         | Ummm, not really... but I guess I'll take it...
+DIALOG | Marshal Masego | No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+DIALOG | P_NAME         | Thanks... (did we really get the right guy?)
+EXIT |
+          
+ARREST_KUNIGUNDE        
+DIALOG | Marshal Masego | That scumbag Kunigunde's rotting in a hoosegow cell as we speak. I never trusted her anyway, always poking her nose in everyone's business and yapping about things she didn't know about. Whether or not she did it, the town's better off without her. Justice is served in my books.
+DIALOG | P_NAME         | Glad I could help... but you seemed a little eager to arrest her though... shouldn't she at least have gotten a trial? Did you lock her up as an excuse to get rid of her?
+DIALOG | Marshal Masego | Hey, so about that tontine money. I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. What do you say we split it 50/50? That'd make your cut @money_tontineCut@ neuro-shekels.
+//TODO: add money db for tontine payment
+//TODO: have her say \"just don't tell the duergars!\"
+DIALOG | P_NAME         | Oh, wow, I wasn't expecting this. Thanks, I guess.
+DIALOG | Marshal Masego | No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+DIALOG | P_NAME         | Thanks... (did we really get the right person?)
+EXIT |
+
+ARREST_SURESH
+DIALOG | Marshal Masego | Welp, justice has been served. That scumbag's rotting in a prison cell as we speak. I never trusted that guy, he always seemed like he was only out for himself, like he'd turn on you as soon as he knew he could get away with it. Well Suresh didn't get away with it this time and he won't be getting away with it again.
+//TODO: reminder to give player the bottlecap jerkin
+DIALOG | P_NAME         | Glad I could help... but you seemed a little eager to arrest him though... shouldn't he at least have gotten a trial?
+EXIT | "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0f4v"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(0, 0, 45, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubjem"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(855, 0, 45, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmxsm"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(675, 0, 45, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnfku"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(720, 0, 45, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sl27j"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(765, 0, 45, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbt35"]
+atlas = ExtResource("2_pjhjt")
+region = Rect2(810, 0, 45, 53)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ya5iv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0f4v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubjem")
+}],
+"loop": true,
+"name": &"drawn",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmxsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnfku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sl27j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbt35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubjem")
+}],
+"loop": true,
+"name": &"sword_draw",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubjem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbt35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sl27j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnfku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmxsm")
+}],
+"loop": true,
+"name": &"sword_putaway",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pni11"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ll5mp"]
+size = Vector2(20, 36)
+
+[node name="o_masego01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_uf8gm")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ypfhl")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ya5iv")
+centered = false
+offset = Vector2(-27, -44)
+metadata/default = {
+"bbox_bottom": "57",
+"bbox_left": "12",
+"bbox_right": "43",
+"bbox_top": "40",
+"frames": ["images\\s_masego01_0.png", "images\\s_masego01_1.png", "images\\s_masego01_2.png", "images\\s_masego01_3.png", "images\\s_masego01_4.png", "images\\s_masego01_5.png", "images\\s_masego01_6.png", "images\\s_masego01_7.png", "images\\s_masego01_8.png", "images\\s_masego01_9.png", "images\\s_masego01_10.png", "images\\s_masego01_11.png", "images\\s_masego01_12.png", "images\\s_masego01_13.png", "images\\s_masego01_14.png", "images\\s_masego01_15.png", "images\\s_masego01_16.png", "images\\s_masego01_17.png", "images\\s_masego01_18.png", "images\\s_masego01_19.png"],
+"height": "53",
+"name": "s_masego01",
+"width": "45",
+"xorig": "27",
+"yorigin": "44"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_pni11")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_ll5mp")

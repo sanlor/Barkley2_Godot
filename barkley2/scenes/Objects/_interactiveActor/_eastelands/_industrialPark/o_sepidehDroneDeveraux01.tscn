@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://6w803jjiftt5"]
+
+[ext_resource type="Texture2D" uid="uid://4okdbpnus0q2" path="res://barkley2/assets/b2_original/images/merged/s_sepidehDroneCrashed01.png" id="1_hq336"]
+[ext_resource type="Script" uid="uid://do2d3fdjv4y5k" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_sepideh_drone_deveraux_01.gd" id="2_hq336"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8c7wg"]
+atlas = ExtResource("1_hq336")
+region = Rect2(0, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5n4o"]
+atlas = ExtResource("1_hq336")
+region = Rect2(69, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1nyti"]
+atlas = ExtResource("1_hq336")
+region = Rect2(138, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efnfl"]
+atlas = ExtResource("1_hq336")
+region = Rect2(207, 0, 69, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7f5d3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8c7wg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5n4o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1nyti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efnfl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rcdpp"]
+radius = 14.035668
+
+[node name="o_sepidehDroneDeveraux01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_7f5d3")
+centered = false
+offset = Vector2(-34, -20)
+script = ExtResource("2_hq336")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "59",
+"bbox_left": "0",
+"bbox_right": "68",
+"bbox_top": "0",
+"height": "60",
+"name": "s_sepidehDroneCrashed01",
+"width": "69",
+"xorig": "34",
+"yorigin": "20"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_rcdpp")

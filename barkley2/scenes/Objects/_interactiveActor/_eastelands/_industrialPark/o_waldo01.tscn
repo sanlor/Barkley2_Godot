@@ -1,0 +1,103 @@
+[gd_scene load_steps=9 format=3 uid="uid://cm7ri5gt23nu6"]
+
+[ext_resource type="Script" uid="uid://hkkejf5mpoxh" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_waldo01.gd" id="1_ceqpb"]
+[ext_resource type="Texture2D" uid="uid://b3jccn8frsvl4" path="res://barkley2/assets/b2_original/images/merged/s_waldo01.png" id="2_8osvp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_cmky7"]
+
+[sub_resource type="Resource" id="Resource_0em7v"]
+script = ExtResource("2_cmky7")
+original_script = "IF waldoState == 0 | GOTO | WALDO0
+IF waldoState == 1 | GOTO | WALDO1
+
+WALDO0
+QUEST  | waldoState = 1
+DIALOG | Waldo  | Yo yiggidy yo, `w1`homedog.`w0` What's the haps, paps? Keeping it real and /'down low/', mac daddy? Keeping it `w1`cracka-lackin'?`w0`
+DIALOG | P_NAME | Uh, yeah, I was just... What are you saying?
+DIALOG | Waldo  | `w1`Bling bling!`w0` Keep on thugging, brah!
+DIALOG | P_NAME | Y-yeah, thugging.
+DIALOG | Waldo  | Hey, listen up, brah! I'm looking for `kw`some crunk.`rt` Crunk off of that slam diggity. You wouldn't know how to hook a brother up, would you?
+CHOICE | What is this guy talking about...?
+REPLY  | CHUPS1 | What are you saying?
+REPLY  | CHUPS2 | Are you alright?
+
+WALDO1
+DIALOG | Waldo  | `w1`Mama mia,`w0` look what the cat dragged in. It's The Social's freshest shorty, \" + P_NAME + \"! You know what's up, I'm just breaking it down and practicing my krumping.
+DIALOG | P_NAME | Oh...
+DIALOG | Waldo  | It's getting hype up in here! `w1`Raise the roof!`w0` Hey, remember that heart to heart we had earlier? About hooking your boy Waldo up with that `kw`Juicy Fruit?`rt` I'm gonna go boogaloo style if I don't get my skeez on soon, you think you can hustle me some of that `kw`Stinky Pete?`rt` But remember, we have to keep it on /'the D.L./'.
+CHOICE | What is this guy talking about...?
+REPLY  | CHUPS3 | What are you saying?
+REPLY  | CHUPS2 | Are you alright?
+
+CHUPS1
+DIALOG | P_NAME | Uh, sorry mister. I don't think I've got what you're looking for.
+DIALOG | Waldo  | Aw snap. Skeet skeet, `w1`homey.`w0` Jigga what? You fronting me? I don't want no scrubs, you dig? For reals, you get that hookup, you come back and drop some science on your wanksta Waldo. You know the `w1`dillio.`w0`
+DIALOG | P_NAME | Okay...
+
+CHUPS2
+DIALOG | P_NAME | Are you alright? You seem kinda... weird.
+DIALOG | Waldo  | Hey, don't be hatin' on a player. I'm just breaking it down and practicing `w1`my krumping.`w0`
+DIALOG | P_NAME | What...?
+DIALOG | Waldo  | You a real homey, yo. Keep it real and stay frosty.
+DIALOG | P_NAME | Uh, yeah, sure.
+
+CHUPS3
+DIALOG | P_NAME | Uh, sorry. I'm not really even sure what you're saying.
+DIALOG | Waldo  | That's cool, that's cool. `w1`Yo, yo, yo!`w0` Look, you get that wiffle ball connection, you know where to go, okay? You come to your /'baby daddy/' Waldo and drop that flow on him.
+DIALOG | P_NAME | Okay..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmky7"]
+atlas = ExtResource("2_8osvp")
+region = Rect2(0, 0, 28, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0em7v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmky7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_47j3y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_47j3y"]
+size = Vector2(20, 36)
+
+[node name="o_waldo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_ceqpb")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_0em7v")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_0em7v")
+centered = false
+offset = Vector2(-14, -35)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "4",
+"bbox_right": "25",
+"bbox_top": "28",
+"frames": ["images\\s_waldo01_0.png"],
+"height": "44",
+"name": "s_waldo01",
+"width": "28",
+"xorig": "14",
+"yorigin": "35"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_47j3y")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_47j3y")

@@ -1,0 +1,85 @@
+[gd_scene load_steps=9 format=3 uid="uid://di405tdvq4gp2"]
+
+[ext_resource type="Script" uid="uid://cwjuvotgjygl0" path="res://barkley2/scenes/Objects/_interactiveActor/_westelands/o_wst_samwise01.gd" id="1_rd73e"]
+[ext_resource type="Texture2D" uid="uid://b5qxt1xl3mgjd" path="res://barkley2/assets/b2_original/images/merged/s_samwise01.png" id="2_cmjxh"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_mq51i"]
+
+[sub_resource type="Resource" id="Resource_cbhyp"]
+script = ExtResource("2_mq51i")
+original_script = "DIALOG | Samwise Bubkis | Why, hello there, friend! Can I interest you in some brastware upgrades?
+CHOICE | Check out the warez?
+REPLY  | WAREZ_YAY | Let's see what you got. 
+REPLY  | WAREZ_NAY | Not interested.
+
+WAREZ_YAY 
+IF gunsbag == 20 | GOTO | GUNSBAG_FULL
+QUEST | shopQuality = 0
+EVENT | o_wst_samwise01 | 5
+QUEST | shopObject = Gun's de la Samwise // So I can get local vars
+SHOP  | open | Gun's de la Samwise
+EVENT |  o_wst_samwise01 | 6
+IF shop == bought_toomuch | DIALOG | P_NAME | I filled up my gun'sbag, I have to stop shopping...
+
+GUNSBAG_FULL
+DIALOG | P_NAME | Whoops, my gunsbag is full. Guess I'll shop some other time...
+
+WAREZ_NAY 
+DIALOG | P_NAME         | Not interested.
+DIALOG | Samwise Bubkis | O-oh... I see. I, uh, I'll be here if you change your mind. It's not like I have anywhere else to go..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mq51i"]
+atlas = ExtResource("2_cmjxh")
+region = Rect2(0, 0, 35, 41)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cbhyp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mq51i")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0ussc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ussc"]
+size = Vector2(20, 36)
+
+[node name="o_wst_samwise01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_rd73e")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_cbhyp")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_cbhyp")
+centered = false
+offset = Vector2(-18, -31)
+metadata/default = {
+"bbox_bottom": "40",
+"bbox_left": "0",
+"bbox_right": "34",
+"bbox_top": "0",
+"frames": ["images\\s_samwise01_0.png"],
+"height": "41",
+"name": "s_samwise01",
+"width": "35",
+"xorig": "18",
+"yorigin": "31"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_0ussc")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -11)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_0ussc")

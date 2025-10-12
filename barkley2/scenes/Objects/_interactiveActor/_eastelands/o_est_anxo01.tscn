@@ -1,0 +1,117 @@
+[gd_scene load_steps=10 format=3 uid="uid://dky157k0yqtsu"]
+
+[ext_resource type="Script" uid="uid://br4sh5genk7jn" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/o_est_anxo01.gd" id="1_gha6l"]
+[ext_resource type="Texture2D" uid="uid://b50brjmiemq1t" path="res://barkley2/assets/b2_original/images/merged/s_anxo01.png" id="2_7poqy"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_k14qw"]
+
+[sub_resource type="Resource" id="Resource_h4175"]
+script = ExtResource("2_k14qw")
+original_script = "IF anxoState == 0 | GOTO | ANXO_0
+IF anxoState == 1 | GOTO | ANXO_1
+IF anxoState == 2 | GOTO | ANXO_2
+
+ANXO_0
+DIALOG | P_NAME | Yikes!_ I think this guy might be toast...
+WAIT   | 0.75
+DIALOG | P_NAME | Hey, there's something in his pocket._ Maybe I should take a look...
+GOTO   | RANSACKER
+
+RANSACKER
+CHOICE | Ransack the corpse?
+REPLY  | RANSACK_YES | Yes!
+REPLY  | RANSACK_NAY | Nah...
+
+RANSACK_YES
+DIALOG | P_NAME | Okay._ Here I go.
+MOVETO | o_cts_hoopz | o_cinema1 | MOVE_SLOW
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 0.5
+KNEELAT | NORTH
+WAIT   | 0.5
+NOTIFY | Found @gamename@!
+EVENT  | o_est_anxo01 | 1
+DIALOG | P_NAME | Wow, cool beans!
+QUEST  | anxoState = 1
+
+RANSACK_NAY
+DIALOG | P_NAME | Nay! I must protect my gamer pride.
+QUEST  | anxoState = 2
+
+ANXO_1
+DIALOG | P_NAME | Rest in piece, my dwarf friend...
+
+ANXO_2
+DIALOG | P_NAME | I stayed my hand before but... maybe I should...
+GOTO   | RANSACKER"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h4175"]
+atlas = ExtResource("2_7poqy")
+region = Rect2(56, 0, 56, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k14qw"]
+atlas = ExtResource("2_7poqy")
+region = Rect2(0, 0, 56, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_12ncn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h4175")
+}],
+"loop": true,
+"name": &"awake",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k14qw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gha6l"]
+radius = 13.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6m2mp"]
+size = Vector2(34, 48)
+
+[node name="o_est_anxo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_gha6l")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_h4175")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_12ncn")
+centered = false
+offset = Vector2(-26, -31)
+metadata/default = {
+"bbox_bottom": "35",
+"bbox_left": "3",
+"bbox_right": "52",
+"bbox_top": "3",
+"frames": ["images\\s_anxo01_0.png", "images\\s_anxo01_1.png"],
+"height": "38",
+"name": "s_anxo01",
+"width": "56",
+"xorig": "26",
+"yorigin": "31"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_gha6l")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(0, -21)
+shape = SubResource("RectangleShape2D_6m2mp")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

@@ -1,0 +1,204 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5tdt6twe87c1"]
+
+[ext_resource type="Script" uid="uid://djlsevj6a5ayj" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_suresh01.gd" id="1_008yt"]
+[ext_resource type="Texture2D" uid="uid://dw38frnmsu78e" path="res://barkley2/assets/b2_original/images/merged/s_suresh01.png" id="2_d1g67"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_wgwl2"]
+
+[sub_resource type="Resource" id="Resource_np2ow"]
+script = ExtResource("2_wgwl2")
+original_script = "IF figbottomQuest == 3 | GOTO | FIG3
+IF figbottomQuest == 4 | GOTO | FIG45
+IF figbottomQuest == 5 | GOTO | FIG45
+IF figbottomQuest == 6 | GOTO | FIG6
+IF figbottomQuest == 7 | GOTO | FIG7
+IF figbottomQuest == 9 | GOTO | FIG9
+IF sureshState = 0 | GOTO | SURESH0
+IF sureshState = 1 | GOTO | SURESH1
+IF sureshState = 2 | GOTO | SURESH2
+IF sureshState = 3 | GOTO | SURESH3
+
+FIG3
+DIALOG | P_NAME | Hey, you're Suresh, right? You used to be a `kw`friend of Figbottom's.`rt` I'm looking for some information about Figbottom's disappearance, is there anything you could tell me?
+DIALOG | Suresh | Hi. I'm Suresh and I love trash. So did Figbottom. We were best trash friends and we used to dig around in the trash together. That was our job, looking in the trash.
+DIALOG | P_NAME | Yeah, I gathered that. Is there anything you could tell me about his disappearance?
+DIALOG | Suresh | Um, no, I don't think so. I haven't seen him in a long time. That's all.
+DIALOG | P_NAME | Well is there anyone else who might know more?
+DIALOG | Suresh | Um, you should ask `sq`Kunigunde`rt` because she always knows everything. But you shouldn't ask me because I don't know anything.
+DIALOG | P_NAME | Okay, I'll do that. But if I find out you're hiding anything from me, I'll be back.
+DIALOG | Suresh | Don't come back please.
+QUEST  | figbottomQuest = 4
+ 
+FIG45
+DIALOG | Suresh | Hi again. I'm Suresh the trash lover. I remember you. We just spoke about Figbottom. I don't know anything about Figbottom's disappearance so I don't think we have anything to talk about. Well, see ya!
+
+FIG6
+DIALOG | P_NAME | Suresh, `kw`Moriarty the vagrant`rt` told me he saw you and Figbottom arguing about something a few days ago.
+DIALOG | Suresh | Hi. I don't know who Moriarty is. Sorry.
+DIALOG | P_NAME | Cut it out, Suresh. You know you're a suspect in this case and if you're holding out on information, you could be in big trouble.
+DIALOG | Suresh | Umm, okay, I'm sorry. Yes, we had a big argument about some trash we found together. It's the `kw`jerkin I'm wearing.`rt` Do you like it?
+DIALOG | P_NAME | Wait, what was the argument about?
+DIALOG | Suresh | Um, it was about who got to keep it. I said it was mine because I found it, but Figbottom said it was his because we split everything. But since he's gone now, I get to keep it.
+DIALOG | P_NAME | Suresh, did you kill him in order to take the jerkin?
+DIALOG | Suresh | Um, no, I don't think so. I think it was `sq`Kunigunde.`rt` Figbottom and Kunigunde used to know each other a long time ago.
+KNOW   | knowIllicitIndustrialActivity | 1
+DIALOG | P_NAME | What? How did they know each other? Why didn't you tell me that earlier?
+DIALOG | Suresh | They used to know each other back in Tir na Nog. I think they were part of a `sq`tontine`rt` together. Do you know what that is? Everyone puts money into a pot and when everyone in the tontine dies, the last remaining person gets the pot.
+DIALOG | P_NAME | You should have told me this earlier, Suresh.
+DIALOG | Suresh | I was thinking about trash.
+DIALOG | P_NAME | I'm leaving, but don't forget that you're still a suspect, Suresh.
+DIALOG | Suresh | Bye. Don't return, please.
+QUEST  | figbottomQuest = 7           
+
+FIG7
+DIALOG | Suresh | Hi. If you think I killed Figbottom for the jerkin, you're wrong. But I like my new jerkin. That's all. I also like trash.
+     
+FIG9
+DIALOG | Suresh | Hi. Thanks for telling Marshal Masego I didn't kill Figbottom. He was a friend of mine. I really didn't want to go to jail. 
+            
+SURESH0
+DIALOG | Suresh | Hey, guess what: I like trash. If you like it too, we can be friends.            
+QUEST  | sureshState = 1
+CHOICE | Your response to Suresh:
+REPLY  | RESPOND0 | I'm the trash bigshot.
+REPLY  | RESPOND1 | Give me a break.
+REPLY  | RESPOND2 | You think you know about trash?
+REPLY  | RESPOND3 | Spoof me once, shame on you.
+REPLY  | RESPOND4 | Trash is not a toy.
+REPLY  | RESPOND5 | Speak up? Speak up? Eh? 
+
+SURESH1
+DIALOG | Suresh | I find great things in the trash every day. You should also look in the trash if you want to find great stuff. But don't look in my trash.
+QUEST  | sureshState = 2
+CHOICE | Your response to Suresh:
+REPLY  | RESPONSE0 | I go where I want.
+REPLY  | RESPONSE1 | Listen well, trashmonger.
+REPLY  | RESPONSE2 | Fie fie.
+REPLY  | RESPONSE3 | A penny for your thoughts.
+REPLY  | RESPONSE4 | Cram it, rat pip.
+REPLY  | RESPONSE5 | There is much knowledge in the trash.
+
+RESPONSE0
+DIALOG | P_NAME | I go where I want. Capice?
+DIALOG | Suresh | I understand that. So do I. Maybe if you like trash too, we could be friends. I had a trash friend a little while ago but he's gone now. I miss him.
+
+RESPONSE1
+DIALOG | P_NAME | Listen well, trashmonger: I don't give a hoot. I'm not convinced it's a good idea to touch garbage.
+DIALOG | Suresh | I think it's a great idea to touch garbage. Like my jerkin? I found it in the garbage with my friend. My friend's gone now. I miss him. I hope I've convinced you to touch garbage.
+
+RESPONSE2
+DIALOG | P_NAME | A-fie fie... For shame... for shame... a-tut tut...
+DIALOG | Suresh | It's okay if you don't like digging through trash, but the truth is you can find great stuff there. It's what I like to do with my time. I spend my days and nights looking for good stuff. It's my job. It could be yours too. Do you believe me? Think about it.
+
+RESPONSE3
+DIALOG | P_NAME | A penny for your thoughts. A penny for your thoughts.
+DIALOG | Suresh | Right now I'm thinking about trash. I think there's a lot of good stuff in the trash. Like this jerkin I'm wearing. Do you like it? You can find great stuff in trash all the time, so you should do it too. Well, let's be trash friends.
+
+RESPONSE4
+DIALOG | P_NAME | Cram it, rat pip. Cram it, scrudtoucher.
+DIALOG | Suresh | If that's the way you feel, I guess I have no choice... I just wanted to tell you how I feel about trash... a.k.a. I love it... but if that's how you feel... I guess I'll cork my yapper...
+
+RESPONSE5
+DIALOG | P_NAME | It appears there is much to be gleaned from the trash...
+DIALOG | Suresh | That's true. But it's not just knowledge, it's also great stuff like chocolate dubloons, tin foil, dirty pots and sometimes even old receipts. Think well on this, youngster. I have thought about it two or three times.
+
+SURESH2
+DIALOG | Suresh | I liked it when my pal Figbottom and I used to look for trash together. I haven't seen Figbottom in a while and I miss him. We used to be trash friends.       
+QUEST  | sureshState = 3
+
+RESPOND0
+DIALOG | P_NAME | I'm the trash bigshot around here.
+DIALOG | Suresh | Ahhh... ahhh... that's what I want to hear. Let me tell you a secret, youngster. People think trash is junk, but I know the truth. Trash is actually really great. This jerkin I'm wearing? I found it in the trash. I hope you believe me.
+
+RESPOND1
+DIALOG | P_NAME | Give me a break. Ah, ah, give me a break.
+DIALOG | Suresh | If you don't believe me, that's okay. I'm content with myself and trash. I think about trash at all times and I think about garbage at all times. It's a mental exercise for me.
+
+RESPOND2
+DIALOG | P_NAME | You think you know everything about trash?
+DIALOG | Suresh | Anyone who tells you they know everything about trash is a liar, a huckster, a mountebank or a numps. I don't know everything there is to know about trash, but I know a fair amount, and let me tell you youngster, trash is treasure. Trash is treasure...
+
+RESPOND3
+DIALOG | P_NAME | Spoof me once, shame on you. Spoof me twice, shame on me.
+DIALOG | Suresh | Not buying it, eh? Let me tell you this, youngster. This jerkin I'm wearing? Got it from the trash. If you think you can't find anything good in the trash, you're out of your gourd. That's why I say look to the trash. Try it, youngster.
+
+RESPOND4
+DIALOG | P_NAME | Tut tut... trash is not a toy.
+DIALOG | Suresh | The youngster speaks truth... the youngster speaks truth... listen up youngster, I know the ins and outs of trash. You can always find something good in the trash. That's what I always say. That's why you should look in the trash. I hope you believe me.
+
+RESPOND5
+DIALOG | P_NAME | Speak up? Eh? Speak up? Could you pipe up? Eh? Eh?
+DIALOG | Suresh | To me, trash is important to me. You never know what you'll find in the trash. That's why I always look in the trash. You would be wise to look in the trash too. Don't forget my advice.
+
+SURESH3
+DIALOG | Suresh | Listen closely, youngster. I love trash and I love garbage. "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wgwl2"]
+atlas = ExtResource("2_d1g67")
+region = Rect2(0, 0, 38, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_np2ow"]
+atlas = ExtResource("2_d1g67")
+region = Rect2(38, 0, 38, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lbser"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wgwl2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_np2ow")
+}],
+"loop": true,
+"name": &"jerkin",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lbser"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pxff2"]
+size = Vector2(25, 36)
+
+[node name="o_suresh01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_008yt")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_np2ow")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_lbser")
+centered = false
+offset = Vector2(-17, -43)
+metadata/default = {
+"bbox_bottom": "49",
+"bbox_left": "3",
+"bbox_right": "35",
+"bbox_top": "36",
+"frames": ["images\\s_suresh01_0.png", "images\\s_suresh01_1.png"],
+"height": "52",
+"name": "s_suresh01",
+"width": "38",
+"xorig": "17",
+"yorigin": "43"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_lbser")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(2.5, 0)
+shape = SubResource("RectangleShape2D_pxff2")

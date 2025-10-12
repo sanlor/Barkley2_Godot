@@ -1,0 +1,830 @@
+[gd_scene load_steps=18 format=3 uid="uid://4lyo6qqdy6gc"]
+
+[ext_resource type="Script" uid="uid://dox6hvpdoc2cm" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_clive01.gd" id="1_od2tp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_if1ya"]
+[ext_resource type="Texture2D" uid="uid://dikrnq6qltmoh" path="res://barkley2/assets/b2_original/images/merged/s_clive01.png" id="2_ppp27"]
+
+[sub_resource type="Resource" id="Resource_w1qty"]
+script = ExtResource("2_if1ya")
+original_script = "IF chupQuest == 0 | GOTO | CHUPQUEST0
+IF chupQuest == 1 | GOTO | CHUPQUEST1
+
+CHUPQUEST0
+DIALOG | Clive  | Psst, hey kid! You `kw`hype the pipe?`rt`
+DIALOG | P_NAME | Huh? What pipe?
+DIALOG | Clive  | You heard the `kw`dirty bird?`rt`
+DIALOG | P_NAME | Dirty bird? Um, is that a vidcon?
+DIALOG | Clive  | `kw`The Rittbomm,`rt` kid. You `w1`hitbomb the Rittbomm?`w0`
+DIALOG | P_NAME | Okay, I've definitely got no idea what you're talking about now.
+DIALOG | Clive  | `sq``s1`CHUPS!`s0``rt` You down with chups?
+DIALOG | P_NAME | Ohhh, chups...
+CHOICE | Am I into chups?
+REPLY  | LIKECHUPS    | Um, I like chups...
+REPLY  | HATECHUPS    | No way. Chups are wack.
+REPLY  | WHATARECHUPS | What are chups?
+REPLY  | CHUPCURIOUS  | I'm chup-curious.
+
+LIKECHUPS
+DIALOG | P_NAME | Chups? I'm, um... diggity down with them.
+DIALOG | Clive  | Heh, knew it. I could tell you were on the chup when I saw you. 
+DIALOG | Clive  | Listen kid, what do you think about making a quick buck, `w1`a little spending money?`w0` The work ain't hard, all you gotta do is `sq`move some chups around,`rt` ship some product, you know what I mean? Get these chups into the hands of the people. What do you say?
+GOTO   | FOLLOWUP
+
+HATECHUPS
+DIALOG | P_NAME | Back off, jack. Chups are `s1`wack.`s0`
+DIALOG | Clive  | Heh, good. Means you won't dip into the product.
+DIALOG | Clive  | Look kid, I'm trying to offload some chups here, make a little change, spread those neuro-shekels, you know what I mean? What do you say you give me a hand, move some of that `sq`Stinky Pete`rt` for me and we split the money right down the middle? Work's real easy and you'll make a quick buck.
+GOTO   | FOLLOWUP
+ 
+WHATARECHUPS
+DIALOG | P_NAME | Um... what are chups?
+DIALOG | Clive  | C'mon kid, Stinky Pete, Greasy Gomer, Goose Plampers, that Juicy Jasper... chups!
+DIALOG | P_NAME | Oh, Goose Plampers... you should've just said that to begin with...
+DIALOG | Clive  | So kid, I've got these chups I'm tryin' to offload, spread to the people, y'know? Like a real Robin Hood. All I need is a little help, a right hand man so-to-speak, who can distribute for me, you see? You'd `sq`sell 'em to people`rt` and we'd split the profits right down the middle. It's real easy work, a good way to make a quick buck. What do you say?
+GOTO   | FOLLOWUP
+
+CHUPCURIOUS
+DIALOG | P_NAME | I've never done a chup before... but I'm chup-curious.
+DIALOG | Clive  | Heh, I was around your age when I did my first chup. Now I'm hooked, `w1`baby.`w0` 
+DIALOG | Clive  | Look, I'm trying to move some units, ship some product, make a little scratch, y'know? What do you say to giving me a hand, `sq`moving some chups around`rt` with me and we split the take down the middle, huh? Real easy work, no effort involved, just walkin' and talkin'.
+GOTO   | FOLLOWUP
+
+FOLLOWUP
+DIALOG | P_NAME | Wait, what do you want me to do? Is it legal? And... is it moral?
+DIALOG | Clive  | Don't worry about the rules, kid. All you gotta do is talk to people, see if they want what we're selling. It's no big deal, just like a door-to-door vacuum seller, y' know? `sq`Sell it for as much as you can`rt` and we'll split the money down the middle. Just... be real smart about what you say to the customers. You gotta get a feel for them, smell who they are, figure out how much they'll be willing to pay. Ask too much and the deal is off, ask too little and they'll get suspicious about the quality. 
+DIALOG | Clive  | There's even a rumour about a `sq`narc`rt` looming about and that's why you'll have to be extra careful. So what do you say, you down? If you do real good, I'll give you something nice on top of your share of the profits...
+CHOICE | Become a chup salesman?
+REPLY  | I_CANSELL | I can sell some chups.
+REPLY  | I_SAYNO   | No way!
+REPLY  | I_BUSTYOU | What's stopping me from turning you in?
+
+I_CANSELL
+DIALOG | P_NAME | Okay... I'm in. We'll split the money 50/50.
+DIALOG | Clive  | Heh, I knew you were a dopelover the moment I saw you. Alright kid, let's get moving. I know a good spot here in `kw`The Social`rt` that we can use to ship the merch.
+GOTO   | CHUP_ZONE
+
+I_SAYNO
+DIALOG | P_NAME | Frag off, freakazoid. Chups are wacky and I DON'T need them to have a good time. Get out of my face.
+DIALOG | Clive  | I'm only givin' you one chance. There are a million kids out there who want a shot at this kinda money and it don't mean nothin' to me if you turn it down. This is the real deal, if you get your foot in the door with the fellas I work for, the money you make doing this is gonna look like chump change. 
+DIALOG | Clive  | Besides, all the `kw`cool kids do chups.`rt` This is your last chance, are you in or are you walkin' away?
+CHOICE | Last shot... am I walking away?                     
+REPLY  | I_AMCOOL   | I wanna be cool... I'm in.
+REPLY  | I_SAYNOWAY | Not in this lifetime, BOZO!
+
+I_BUSTYOU
+DIALOG | P_NAME | So what's stopping me from turning you in to the cops?
+DIALOG | Clive  | Are you flubbin' serious, kid? Do you know who I am? Look, this is your in. Your /'in,/' y'know what I mean? With the shot callers, the big leagues. If you blow this, if you get me in trouble... you're dead, kid. But if you do a good job, I might put in a good word for you, maybe get your foot in the door for some bigger jobs. 
+DIALOG | Clive  | So what do you say, kid?
+DIALOG | P_NAME | (Th-this guy sounds dangerous... maybe I shouldn't mess with him...)
+CHOICE | Last shot... am I walking away?                     
+REPLY  | I_AMCOOL   | I wanna be cool... I'm in.
+REPLY  | I_SAYNOWAY | Not in this lifetime, BOZO!
+
+I_AMCOOL
+DIALOG | P_NAME | Okay... you've peer pressured me enough... I'm in.
+DIALOG | Clive  | Heh, I knew you were cool. Here are the chups. Take 'em... don't let anyone see. These chups are hot, and we need to get 'em in circulation quick. Like `w1`immediately.`w0` I know this great spot that's perfect for shipping the merch.
+DIALOG | P_NAME | (G-gulp... maybe I'm in over my head...)
+DIALOG | Clive  | Alright, let's roll.
+GOTO   | CHUP_ZONE
+
+I_SAYNOWAY
+DIALOG | P_NAME | Get a grip, corn chip. Go sling your goofballs somewhere else... like OFF A CLIFF.
+DIALOG | Clive  | Yeah, whatever. Fuckin' lamewad.
+QUEST  | chupQuest = 1
+
+CHUPQUEST1
+DIALOG | Clive  | Fuck off, lamewad.
+
+CHUP_ZONE
+FADE    | 1 | 1
+WAIT    | 1.5
+EVENT   | o_clive01 | 2 // Save values
+Misc    | set | o_cts_hoopz | o_cinema0
+Misc    | set | o_clive01 | o_cinema1
+Camera  | snap | o_cts_hoopz
+LOOKAT  | o_cts_hoopz | o_cinema1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive | Alright, here we are, in `sq`the dreaded chup zone.`rt` Now we just gotta wait for some sucker to walk by...
+WAIT    | 0.5
+DIALOG  | Clive | Okay, here comes one. Get ready kid. I'll just monitor the operation from over here. Don't let me down.
+GOTO    | CHUP_CUSTOMER_1
+
+CHUP_CUSTOMER_1
+FADE    | 1 | 1
+WAIT    | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema2
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema2
+FADE    | 0 | 1
+Misc    | set | o_deaconBrimble01 | o_cinema2
+WAIT    | 1
+DIALOG  | Deacon Brimble | Uh, hey. You guys are cool, right?
+DIALOG  | P_NAME         | Yeah, that's right. We are cool as heck.
+DIALOG  | Deacon Brimble | Good, good. I, uh, I gotta get some relief here, and I've got to get it fast.
+DIALOG  | P_NAME         | Oh, uh... Is everything alright?
+DIALOG  | Deacon Brimble | What?_ No, not really. Look, do you got some of `kw`the dank stuff`rt` on you or not?
+CHOICE  | Your response:
+REPLY   | CHUP_ZONE_1_TRY | I've got some premium goods right here.
+REPLY   | CHUP_ZONE_1_CRY | Get the flip out of my face! 
+
+CHUP_ZONE_1_TRY
+DIALOG  | P_NAME         | I've got some premium goods right here.
+DIALOG  | Deacon Brimble | Oooooh shit. Is this that `sq`Mambo No. 5?`rt` Holy Clispaeth, it is. I could tell you were carrying from like 100 feet away, that shit's `w1`danker`w0` than a dog sack. 
+DIALOG  | Deacon Brimble | Look at that sticky shit. It's like the `sq`Summer of '33`rt` up in here. Hell yeah dude, lemme at it.
+DIALOG  | P_NAME         | Not so fast, buddy. That's gonna cost you.
+DIALOG  | Deacon Brimble | Chill, chill bro. `w1`Chill.`w0` I've played the game before, I know how it works. I got you covered. Check out this @money_brimbleChupNote@ note.
+CHOICE  | Sell a chup for @money_brimbleChupNote@ neuro-shekels?
+REPLY   | CHUP_SELL_1_TOP | Not enough. Give me $@money_chupTop@.
+REPLY   | CHUP_SELL_1_MID | Not enough. Give me $@money_chupMid@.
+REPLY   | CHUP_SELL_1_LOW | Alright, it's a deal for @money_brimbleChupNote@ neuro-shekels.
+
+CHUP_SELL_1_TOP
+DIALOG  | Deacon Brimble | What? Is this like a `kw`scam`rt` or something?
+DIALOG  | P_NAME         | Take it or leave it, pal.
+DIALOG  | Deacon Brimble | Come on, man. Don't do this to me. I don't have that much money on me...
+DIALOG  | P_NAME         | That's too bad for you then. Get the flip out of here...
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | You blew it, kid. Didn't you see that guy? He looked like a hobo. He wasn't going to pay you that much for chups. `s1`Get real!`s0`
+DIALOG  | P_NAME | S-sorry...
+DIALOG  | Clive  | Pfft...
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one. Don't fuck it up again.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_2
+
+CHUP_SELL_1_MID
+DIALOG  | Deacon Brimble | Ugh... Are you serious?
+DIALOG  | P_NAME         | Yeah, I am. Now cough up the dough or no chups for you.
+DIALOG  | Deacon Brimble | Damnit... Look dude, this deacon gig isn't bringing in `kw`the big bux,`rt` you know? Can't you cut me some slack?
+DIALOG  | P_NAME         | No. The price is @money_chupMid@ neuro-shekels. Take it or leave it.
+DIALOG  | Deacon Brimble | Alright. Okay. I... I'll take it. Gimme that sweet stuff. Awwww, these are some `sq`Juicy Jaspers!`rt` I knew you were chill as hell. Clispaeth_ `s1`mofuggin'`rt` Christ, `w2`HOOOOOEEEEEY!`w0` Smell these bad boys!
+NOTIFY  | Sold a chup for @money_chupMid@ neuro-shekels! 
+QUEST   | money += @money_chupMid@
+QUEST   | temp += @money_chupMid@
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | Not bad, kid.
+DIALOG  | P_NAME | That was easy!
+DIALOG  | Clive  | Don't get cocky, we still have a lot more merch to sell.
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_2
+
+CHUP_SELL_1_LOW
+DIALOG  | Deacon Brimble | Yep, here you go! Well, I've got some sacred... sacraments to do. May you forever follow the blessings of Clispaeth's blessing.
+QUEST   | money += @money_chupLow@
+QUEST   | temp += @money_chupLow@
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | That's not how you make a good profit, kid. You gotta try to squeeze more out of your customers.
+DIALOG  | P_NAME | Oh, sorry.
+DIALOG  | Clive  | It's fine as long as you get a better profit from now on.
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_2
+
+CHUP_ZONE_1_CRY
+DIALOG  | P_NAME         | Get a grip! Get a frickin' grip! Get the flip out of my sight!
+DIALOG  | Deacon Brimble | A-alright! Geez Louise! I'm going, I'm going!
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | What the hell was that?
+DIALOG  | P_NAME | `w1`*Gulp*`w0` S-sorry, I think I had some rage building inside me.
+DIALOG  | Clive  | For the love of chups... You better get your act together or else!
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one. Don't fuck this up!
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_2
+
+CHUP_CUSTOMER_2
+IF sureshArrest == 1 | GOTO | CHUP_CUSTOMER_3
+FADE    | 1 | 1
+WAIT    | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema2
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema2
+FADE    | 0 | 1
+Misc    | set | o_suresh01 | o_cinema2
+WAIT    | 1 
+DIALOG  | Suresh | Oh, hey. I didn't know anyone was in here.
+CHOICE  | Your response:
+REPLY   | CHUP_ZONE_2_TRY | Want some chups?
+REPLY   | CHUP_ZONE_2_CRY | Keep walking, pal.
+
+CHUP_ZONE_2_TRY
+DIALOG  | P_NAME | Hey, you're lookin' for trash, right?
+DIALOG  | Suresh | W-wow, how'd you know?
+DIALOG  | P_NAME | Just a hunch. Hey, you tried searching with chups yet? These babies will help you find `w1`the good stuff`w0` right away. That's what they're good for, finding great trash.
+DIALOG  | Suresh | I... I gotta get some chups! I love looking for trash! Okay... I'll give you all the money I've got for a chup. It's not much but... is @money_sureshChupShekel@ neuro-shekels enough?
+CHOICE  | Sell a chup for @money_sureshChupShekel@ neuro-shekels?
+REPLY   | CHUP_SELL_2_TOP | I'll sell it for $@money_chupTop@ neuro-shekels.
+REPLY   | CHUP_SELL_2_MID | I'll sell it for $@money_chupMid@ neuro-shekels.
+REPLY   | CHUP_SELL_2_LOW | Alright, I'll sell it for $@money_sureshChupShekel@ neuro-shekels.
+
+CHUP_SELL_2_TOP
+DIALOG  | Suresh | O-oh... I don't have that much.
+DIALOG  | P_NAME | Forget it, if you wanna find the real trash you'll need to pay real money. Just how it works.
+DIALOG  | Suresh | Okay...
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | That was a botched sale, kid.
+DIALOG  | P_NAME | S-sorry! I guess I'm not very good at this.
+DIALOG  | Clive  | You better get your mind in the game or you'll be in a world of trouble.
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_3
+
+CHUP_SELL_2_MID
+DIALOG  | Suresh | I don't have that much. I only have @money_sureshChupShekel@ neuro-shekels...
+DIALOG  | P_NAME | Then I guess you aren't getting a chup.
+DIALOG  | Suresh | But I need it to look for trash...
+DIALOG  | P_NAME | Sorry, pal. No deal.
+DIALOG  | Suresh | O-oh, okay...
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | That was a botched sale, kid.
+DIALOG  | P_NAME | S-sorry! I guess I'm not very good at this.
+DIALOG  | Clive  | You should've just taken what he was offering, you dumbass.
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_3
+
+CHUP_SELL_2_LOW
+DIALOG  | Suresh | Wow, I can't wait for all the great trash I'll find with this! Thank you!
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | Alright, looks like our profits just went up. Nice work, kid.
+DIALOG  | P_NAME | T-thanks...
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_3
+
+CHUP_ZONE_2_CRY
+DIALOG  | P_NAME | Keep on walking, pal. There's nothing here for you to see.
+DIALOG  | Suresh | O-oh, sorry. I'll go and look trash somewhere else.
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | What the hell was that? You thought that goofball was a `sq`narc?`rt`
+DIALOG  | P_NAME | Oh, uh, I guess he really wasn't.
+DIALOG  | Clive  | Yeah, he sure as fuck wasn't. Get a grip, kid!
+WAIT    | 0.5
+DIALOG  | Clive  | Alright, here comes another one. Don't fuck this one up.
+WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_3
+
+CHUP_CUSTOMER_3
+FADE    | 1 | 1
+WAIT    | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema2
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema2
+FADE    | 0 | 1
+Misc    | set | o_grieg01 | o_cinema2
+WAIT    | 1
+DIALOG  | Grieg  | Hey man. Do you know anything about trains?
+CHOICE  | Your response:
+REPLY   | CHUP_ZONE_3_TRY | No, but I do know about chups.
+REPLY   | CHUP_ZONE_3_CRY | Get away from me!
+
+CHUP_ZONE_3_TRY
+DIALOG  | P_NAME | I don't know `w1`bupkis`w0` about trains. But I do know a lot about chups.
+DIALOG  | Grieg  | C-chups?
+DIALOG  | P_NAME | That's right. If you really want to enjoy a train then you gotta ride one while chupped up to the gills.
+DIALOG  | Grieg  | Really? `s1`Wow!`s0` I love trains! Where can I get these chups?
+DIALOG  | P_NAME | I've got some right here, pal. Interested?
+DIALOG  | Grieg  | Yeah! Hand 'em over!
+DIALOG  | P_NAME | Hold your horses! You gotta pay first.
+IF griegState != 2 | GOTO | CHUP_SELL_3_PRICES
+IF griegState == 2 | GOTO | CHUP_SELL_3_NO 
+
+CHUP_SELL_3_PRICES
+DIALOG  | Grieg  | Oh, okay. How much?
+CHOICE  | Your price:
+REPLY   | CHUP_SELL_3_TOP | $@money_chupTop@
+REPLY   | CHUP_SELL_3_MID | $@money_chupMid@
+REPLY   | CHUP_SELL_3_LOW | $@money_chupLow@
+
+CHUP_ZONE_3_CRY
+DIALOG  | P_NAME | Get away from me, you fiend!
+DIALOG  | Grieg  | Whoa, take it easy. I just wanted to learn more about trains.
+DIALOG  | P_NAME | Hit the road, jack!
+DIALOG  | Grieg  | Alright, I'm going!
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | What the hell are you doing, kid?
+DIALOG  | P_NAME | Uh, I think I flubbed that one.
+DIALOG  | Clive  | Yes, you fucking flubbed that one.
+WAIT    | 0.5
+Duergar | alive | osiris
+IF duergar != dead | DIALOG  | Clive  | Alright, here comes another one. Don't fuck it up this time!
+IF duergar != dead | WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_4
+
+CHUP_SELL_3_TOP
+DIALOG  | Grieg | Hmm, that's a lot of money but if it helps me to enjoy trains more, then I have to do it. Alright, give me that chup.
+QUEST   | griegSpent += @money_chupTop@
+QUEST   | money += @money_chupTop@
+QUEST   | temp += @money_chupTop@
+QUEST   | griegState = 3
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | Whoa, nice going kid!
+DIALOG  | P_NAME | T-thanks!
+DIALOG  | Clive  | That was a good deal.
+WAIT    | 0.5
+Duergar | alive | osiris
+IF duergar != dead | DIALOG | Clive | Okay, here comes another goofball. Get ready.
+IF duergar != dead | WAIT   | 0.5
+GOTO    | CHUP_CUSTOMER_4
+
+CHUP_SELL_3_MID
+DIALOG  | Grieg | Oh, that's pretty affordable. My train lifestyle is about to get a whole lot more enjoyable. Alright, give me that chup.
+QUEST   | griegSpent += @money_chupMid@
+QUEST   | money += @money_chupMid@
+QUEST   | temp += @money_chupMid@
+QUEST   | griegState = 3
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | Hey, nice one, kid.
+DIALOG  | P_NAME | T-thanks!
+WAIT    | 0.5
+Duergar | alive | osiris
+IF duergar != dead | DIALOG | Clive | Okay, here comes another goofball. Get ready.
+IF duergar != dead | WAIT   | 0.5
+GOTO    | CHUP_CUSTOMER_4
+
+CHUP_SELL_3_LOW
+DIALOG  | Grieg | Hey, that sounds like a great deal. Alright, I'll take it!
+QUEST   | griegSpent += @money_chupLow@
+QUEST   | money += @money_chupLow@
+QUEST   | temp += @money_chupLow@
+QUEST   | griegState = 3
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | I think you could've gotten more out of that guy.
+DIALOG  | P_NAME | O-oh. Sorry.
+WAIT    | 0.5
+Duergar | alive | osiris
+IF duergar != dead | DIALOG | Clive | Okay, here comes another goofball. Get ready.
+IF duergar != dead | WAIT   | 0.5
+GOTO    | CHUP_CUSTOMER_4
+
+CHUP_SELL_3_NO 
+DIALOG  | Grieg  | Oh... I don't have any money on me. I spent everything I had on this `sq`Train Ticket.`rt`
+DIALOG  | P_NAME | I guess you are out of luck then.
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | P_NAME | I couldn't have sold that guy a chup no matter what.
+DIALOG  | Clive  | Yeah, that sorry piece of shit didn't have a penny on him. You're off the hook, this time.
+WAIT    | 0.5
+Duergar | alive | osiris
+IF duergar != dead | DIALOG  | Clive  | Okay, here comes another goofball. Get ready.
+IF duergar != dead | WAIT    | 0.5
+GOTO    | CHUP_CUSTOMER_4
+
+CHUP_CUSTOMER_4
+Duergar| alive | osiris
+IF duergar == dead | GOTO | CHUP_FINAL_ENDING
+FADE    | 1 | 1
+WAIT    | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema2
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema2
+FADE    | 0 | 1
+Misc   | set | o_waldo01 | o_cinema2
+WAIT   | 1
+DIALOG | Waldo  | Yo yiggidy yo, `w1`homedog.`w0` What's the haps, daddy-o? Keeping it real and `w1`/'down low/',`w0` mac daddy? Keeping it `kw`cracka-lackin'?`rt`
+DIALOG | P_NAME | Uh, I think so.
+DIALOG | Waldo  | Bling bling! That's my `sq`shiznit,`rt` brah! Straight pimping, straight thugging. You know how we do, `w1`boo.`w0`
+DIALOG | P_NAME | I guess...
+DIALOG | Waldo  | Hey, you seem like a real `mq`jiggy cat,`rt` someone I can trust. You know how gangsters are these days, always snitching on a player. Get out of my grill, you know what I mean?  Look, I'm feeling down to `w1`get crunk.`w0` Crunk off of that slam diggity. You wouldn't know how to hook a brother up, would you?
+CHOICE | What is this guy talking about...?
+REPLY  | CHUP_ZONE_4_TRY | Are you talking about chups?
+REPLY  | CHUP_ZONE_4_CRY | I don't think I have what you're looking for.
+
+CHUP_ZONE_4_TRY
+DIALOG | P_NAME | I think I know what you're saying... you want chups, right?
+DIALOG | Waldo  | THE RED SUBMARINE HAS DOCKED AT LAKE SUPERIOR. `w1`Riiiight,`w0` you got me, I want that hookup. Can you say that again a little clearer and closer to my collar?
+DIALOG | P_NAME | Chups?
+DIALOG | Waldo  | THE BRASS CANNON HAS SUNK THE SPANISH GALLEON. That's hype, home skillet. I'll `kw`/'spread the cheddar/'`rt` for some chups, you feel me? I can slip you `sq`500 bones,`rt` the commonly agreed-upon street price for a Grade A chup. You diggity down?
+CHOICE | Sell Waldo a chup for 500 neuro-shekels?
+REPLY  | CHUP_ZONE_4_DEAL   | Good deal, here's your chup.
+REPLY  | CHUP_ZONE_4_NODEAL | No thanks, I don't have any chups.
+
+CHUP_ZONE_4_DEAL
+DIALOG   | P_NAME | Yeah, that's a good deal. Here's your chup, don't let anyone see.
+DIALOG   | Waldo  | Hands behind your back! I'm `sq`Deputy Waldo`rt` of the `kw`Necron 7 Narcotics Department`rt` and you're under arrest for the illicit trafficking of chups and chup paraphernalia. You have the right to remain silent. Anything you say or do may be used against you in a court of law. 
+SURPRISEAT | NORTHEAST
+DIALOG   | P_NAME = s_port_hoopzShock | W-what? Hey wait a minute!
+DIALOG   | Waldo  | You're going to jail, `w1`buster brown.`w0`
+DIALOG   | P_NAME = s_port_hoopzShock | Clive, help me! It's the boys in the blue!
+DIALOG   | Clive  | Hmm? Do I know you?
+LOOK     | o_cts_hoopz | EAST
+DIALOG   | P_NAME = s_port_hoopzShock | W-what? Come on, man! We gotta get out of here!
+DIALOG   | Clive  | Hey, is this kid giving you trouble, officer?
+DIALOG   | Waldo  | Thank you for your concern, citizen, but this is nothing I can't handle. Now move it, bucko! I'm going to hand you over to my `kw`Duergar contacts.`rt`
+DIALOG   | P_NAME = s_port_hoopzSad | Dad fruggit... I knew this was a bad idea...
+WAIT     | 0.25
+FADE     | 1 | 2.0
+WAIT     | 3.0
+QUEST    | waldoChup = 1
+QUEST    | prisonArrested = 5
+QUEST    | prisonIntro = 1
+Teleport | r_pri_prisonGate01 | 464 | 1072
+
+CHUP_ZONE_4_NODEAL 
+DIALOG | P_NAME | Uh, no thanks... I don't have any chups... I was just trying to figure out what you were talking about...
+DIALOG | Waldo  | You buggin', `w1`home slice!`w0` Are you going to ghost on me when we were this close to a deal? Don't come all up in my crib if you don't have that bub, gee. If you want to roll with Waldo, you've got to have swag. Don't play me.
+DIALOG | P_NAME | Oh. Sorry. See ya.
+GOTO   | CHUP_PROFIT_ENDING
+
+CHUP_ZONE_4_CRY
+DIALOG | P_NAME | Uh, sorry mister. I don't think I've got what you're looking for.
+DIALOG | Waldo  | Aw snap. Skeet skeet, homey. `kw`Jigga what?`rt` You fronting me? I don't want no scrubs, you dig? `w1`For reals,`w0` you get that hookup, you come back and drop some science on your wanksta Waldo. You know the dillio.
+DIALOG | P_NAME | Okay...
+GOTO   | CHUP_PROFIT_ENDING
+
+CHUP_PROFIT_ENDING
+FADE    | 1 | 1
+WAIT    | 1
+EVENT   | o_clive01 | 1
+FRAME   | CAMERA_FAST | o_cinema0 | o_cinema1
+WAIT    | 0
+LOOKAT  | o_cts_hoopz | o_cinema1
+FADE    | 0 | 1
+WAIT    | 1.5
+DIALOG  | Clive  | Good call, kid. I think that guy was a narc.
+DIALOG  | P_NAME | A narc?
+DIALOG  | Clive  | Yeah. Can't put my finger on it but... that was definetly a narc. Alright, that was all the chups for now. Let's motor out of here.
+GOTO    | CHUP_FINAL_ENDING
+
+CHUP_FINAL_ENDING
+WAIT    | 0.25
+FADE    | 1 | 2
+WAIT    | 2
+Misc    | set | o_clive01 | o_cinema3
+Misc    | set | o_cts_hoopz | o_cinema4
+Camera  | snap | o_cinema3
+FRAME   | CAMERA_FAST | o_cinema3 | o_cinema4
+WAIT    | 0
+LOOK    | o_cts_hoopz | NORTHEAST
+FADE    | 0 | 2
+WAIT    | 2 
+DIALOG  | Clive | Alright, kid. Let's see our profits...
+WAIT    | 1
+IF temp == 0   | GOTO | CHUPSALE_ZERO 
+IF temp >= 10  | IF temp <= 20 | GOTO | CHUPSALE_WEAK  
+IF temp >= 30  | IF temp <= 40 | GOTO | CHUPSALE_OK
+IF temp >= 50  | GOTO | CHUPSALE_GOOD 
+
+CHUPSALE_ZERO
+DIALOG | Clive | Wait, we didn't get a single fucking dime! `s1`What a load of shit!`s0` 
+DIALOG | Clive | Man... `s1`Fuck you,`s0` pal! You suck! I'm out of here.
+FADE   | 1 | 1
+WAIT   | 1
+EVENT  | o_clive01 | 3
+FADE   | 0 | 1
+WAIT   | 1
+DIALOG | P_NAME | Chups are for losers anyway...
+QUEST  | chupQuest = 2
+
+CHUPSALE_WEAK
+DIALOG | Clive | Hmm, looks like you got us @temp@ neuro-shekels. `kw`Pretty weak,`rt` if you ask me. But a deal is a deal. Here's your share.
+EVENT  | o_clive01 | 0
+NOTIFY | You found @temp@ neuro-shekels!
+DIALOG | Clive | Alright man, I gotta run.
+FADE   | 1 | 1
+WAIT   | 1
+EVENT  | o_clive01 | 3
+FADE   | 0 | 1
+WAIT   | 1
+DIALOG | P_NAME | Dang, I should've tried harder! Well, it's too late now. I will just have to learn to live with this epic phail.
+QUEST  | chupQuest = 3
+
+CHUPSALE_OK
+DIALOG | Clive | Hmm, looks like you got us @temp@ neuro-shekels. `kw`Not bad,`rt` not bad at all! Here's your share.
+EVENT  | o_clive01 | 0
+NOTIFY | You found @temp@ neuro-shekels!
+DIALOG | Clive | Alright man, I gotta run.
+FADE   | 1 | 1
+WAIT   | 1
+EVENT  | o_clive01 | 3
+FADE   | 0 | 1
+WAIT   | 1
+DIALOG | P_NAME | All's well that ends well, I guess.
+QUEST  | chupQuest = 3
+
+CHUPSALE_GOOD
+DIALOG | Clive | Hmm, looks like you got us @temp@ neuro-shekels. Man, `kw`you really aced it!`rt` Here's your share.
+EVENT  | o_clive01 | 0
+NOTIFY | You found @temp@ neuro-shekels!
+DIALOG | Clive | Alright man, I gotta run.
+FADE   | 1 | 1
+WAIT   | 1
+EVENT  | o_clive01 | 3
+FADE   | 0 | 1
+WAIT   | 1
+DIALOG | P_NAME | This whole ordeal proved to me that if I wanted to become a chup kingpin, I could.
+QUEST  | chupQuest = 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t5d1j"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(175, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llbss"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(200, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4mpj"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(225, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8duw"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(150, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f2w8u"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(125, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4knlx"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(100, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_finn2"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(75, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnqll"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(50, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1qty"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(25, 0, 25, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_if1ya"]
+atlas = ExtResource("2_ppp27")
+region = Rect2(0, 0, 25, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4wb8r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5d1j")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5d1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llbss")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4mpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llbss")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5d1j")
+}],
+"loop": false,
+"name": &"look_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5d1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8duw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2w8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2w8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2w8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2w8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f2w8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8duw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t5d1j")
+}],
+"loop": false,
+"name": &"look_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4knlx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_finn2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xnqll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1qty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_if1ya")
+}],
+"loop": false,
+"name": &"open_hood",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_if1ya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1qty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xnqll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_finn2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4knlx")
+}],
+"loop": false,
+"name": &"pull_hood",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_if1ya")
+}],
+"loop": true,
+"name": &"unhooded",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xnqll"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pt7oe"]
+size = Vector2(20, 36)
+
+[node name="o_clive01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_od2tp")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_w1qty")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_4wb8r")
+animation = &"unhooded"
+centered = false
+offset = Vector2(-12, -38)
+metadata/default = {
+"bbox_bottom": "49",
+"bbox_left": "2",
+"bbox_right": "28",
+"bbox_top": "32",
+"frames": ["images\\s_clive01_0.png", "images\\s_clive01_1.png", "images\\s_clive01_2.png", "images\\s_clive01_3.png", "images\\s_clive01_4.png", "images\\s_clive01_5.png", "images\\s_clive01_6.png", "images\\s_clive01_7.png", "images\\s_clive01_8.png", "images\\s_clive01_9.png"],
+"height": "45",
+"name": "s_clive01",
+"width": "25",
+"xorig": "12",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_xnqll")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_pt7oe")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="animation_finished" from="ActorAnim" to="." method="_on_actor_anim_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

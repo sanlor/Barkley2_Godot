@@ -1,0 +1,422 @@
+[gd_scene load_steps=22 format=3 uid="uid://bt1iiieguserp"]
+
+[ext_resource type="Script" uid="uid://bjv3k5sw5ufiv" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_zenobia01.gd" id="1_iolgd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_loyda"]
+[ext_resource type="Texture2D" uid="uid://b24mv1lhljxcc" path="res://barkley2/assets/b2_original/images/merged/s_zenobiaNE.png" id="2_sxlwa"]
+[ext_resource type="Texture2D" uid="uid://c1etw86qc4wwf" path="res://barkley2/assets/b2_original/images/merged/s_zenobiaSE.png" id="3_loyda"]
+[ext_resource type="Texture2D" uid="uid://bayftxueo8e7w" path="res://barkley2/assets/b2_original/images/merged/s_zenobia01.png" id="4_nq3dr"]
+
+[sub_resource type="Resource" id="Resource_nq3dr"]
+script = ExtResource("2_loyda")
+original_script = "IF cgremQuest <= 2 | GOTO | ZENOBIA_CHAT
+IF cgremQuest >= 3 | GOTO | ZENOBIA_CONVERTED
+
+ZENOBIA_CONVERTED
+DIALOG | Elder Zenobia | All hail our l0rd and saver, Clippaste!
+
+ZENOBIA_CHAT
+DIALOG | Elder Zenobia | Whatcha want, ape-man?
+DIALOG | P_NAME        | Well, uh...
+GOTO   | INFO_CHOICE
+
+INFO_CHOICE
+CHOICE | What you want?
+IF cyberspearGremlinPieces >= 1 | REPLY | RELIC_CHECK         | I've got a sumptious relic for you...
+IF cgremQuest == 1              | REPLY | RELIC_STILL_LOOKING | Still looking for that Relic.
+IF cgremQuest == 2              | REPLY | RELIC_UNPAUSE       | I'm ready to keep looking for that Relic.
+IF cgremQuest == 1              | REPLY | RELIC_PAUSE         | I need a break from all this fetching.
+REPLY | NARYYEMIND | Nary ye mind.
+
+NARYYEMIND
+DIALOG | P_NAME | Nary ye mind. Be back later.
+
+RELIC_CHECK
+DIALOG | P_NAME | Check this out!
+CHOICE | What is your offer?
+IF @Iron Crown of Jackson@ >= 1 | IF zenobiaJackson == 0  | REPLY | OFFER_JACKSON  | The Iron Crown of Jackson!
+IF @Veil of Valanciunas@ >= 1   | IF zenobiaVeil == 0     | REPLY | OFFER_VEIL     | Veil of Valanciunas!
+IF @Blood of Klisp@ >= 1        | IF zenobiaBlood == 0    | REPLY | OFFER_BLOOD    | Blood of Klisp!
+IF @Scala Iactus@ >= 1          | IF zenobiaScala == 0    | REPLY | OFFER_SCALA    | Scala Iactus!
+IF @Mandyblue@ >= 1             | IF zenobiaMandy == 0    | REPLY | OFFER_MANDY    | Mandyblue!
+IF @Crown of Jalapenos@ >= 1    | IF zenobiaJalapeno == 0 | REPLY | OFFER_JALAPENO | Crown of Jalapenos!
+IF @Shroud of Ballin'@ >= 1     | IF zenobiaShroud == 0   | REPLY | OFFER_SHROUD   | Shroud of Ballin´
+IF @Grape-topped Grail@ >= 1    | IF zenobiaGrail == 0    | REPLY | OFFER_GRAIL    | Grape-topped Grail!
+REPLY  | OFFER_NADA | Nary ye mind...
+GOTO   | DEBUG_OFFER
+
+OFFER_JACKSON
+DIALOG | P_NAME | Here it is! The Iron Crown of Jackson!
+USEAT  | o_zenobia01
+WAIT   | 0.25
+IF relicSearch == 1 | ITEM   | Iron Crown of Jackson | -1 
+IF relicSearch == 1 | NOTIFY | Gave away The Iron Crown of Jackson!
+IF relicSearch == 1 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 1 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 1 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 1 | FADE   | 1 | 1
+IF relicSearch == 1 | WAIT   | 1
+IF relicSearch == 1 | SET    | o_wst_belorkHead01 | iron
+IF relicSearch == 1 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 1 | FADE   | 0 | 1
+IF relicSearch == 1 | WAIT   | 1
+IF relicSearch == 1 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaJackson = 1
+GOTO  | OFFER_WRONG
+
+OFFER_VEIL
+DIALOG | P_NAME | Here it is! The Veil of Valanciunas!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 2 | ITEM   | Veil of Valanciunas | -1 
+IF relicSearch == 2 | NOTIFY | Gave away The Veil of Valanciunas!
+IF relicSearch == 2 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 2 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 2 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 2 | FADE   | 1 | 1
+IF relicSearch == 2 | WAIT   | 1
+IF relicSearch == 2 | SET    | o_wst_belorkHead01 | veil 
+IF relicSearch == 2 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 2 | FADE   | 0 | 1
+IF relicSearch == 2 | WAIT   | 1
+IF relicSearch == 2 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaVeil = 1
+GOTO  | OFFER_WRONG
+
+OFFER_BLOOD
+DIALOG | P_NAME | Here it is! The Blood of Klisp!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 3 | ITEM   | Blood of Klisp | -1 
+IF relicSearch == 3 | NOTIFY | Gave away The Blood of Klisp!
+IF relicSearch == 3 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 3 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 3 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 3 | FADE   | 1 | 1
+IF relicSearch == 3 | WAIT   | 1
+IF relicSearch == 3 | SET    | o_wst_belorkHead01 | blood
+IF relicSearch == 3 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 3 | FADE   | 0 | 1
+IF relicSearch == 3 | WAIT   | 1
+IF relicSearch == 3 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaBlood = 1
+GOTO  | OFFER_WRONG
+
+OFFER_SCALA
+DIALOG | P_NAME | Here it is! The Scala Iactus!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 4 | ITEM   | Scala Iactus | -1 
+IF relicSearch == 4 | NOTIFY | Gave away The Scala Iactus!
+IF relicSearch == 4 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 4 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 4 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 4 | FADE   | 1 | 1
+IF relicSearch == 4 | WAIT   | 1
+IF relicSearch == 4 | SET    | o_wst_belorkHead01 | block 
+IF relicSearch == 4 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 4 | FADE   | 0 | 1
+IF relicSearch == 4 | WAIT   | 1
+IF relicSearch == 4 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaScala = 1
+GOTO  | OFFER_WRONG
+
+OFFER_MANDY
+DIALOG | P_NAME | Here it is! The Mandyblue!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 5 | ITEM   | Mandyblue | -1 
+IF relicSearch == 5 | NOTIFY | Gave away The Mandyblue!
+IF relicSearch == 5 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 5 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 5 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 5 | FADE   | 1 | 1
+IF relicSearch == 5 | WAIT   | 1
+IF relicSearch == 5 | SET    | o_wst_belorkHead01 | mandyblue
+IF relicSearch == 5 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 5 | FADE   | 0 | 1
+IF relicSearch == 5 | WAIT   | 1
+IF relicSearch == 5 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaMandy = 1
+GOTO  | OFFER_WRONG
+
+OFFER_JALAPENO
+DIALOG | P_NAME | Here it is! The Crown of Jalapenos!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 6 | ITEM   | Crown of Jalapenos | -1 
+IF relicSearch == 6 | NOTIFY | Gave away The Crown of Jalapenos!
+IF relicSearch == 6 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 6 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 6 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 6 | FADE   | 1 | 1
+IF relicSearch == 6 | WAIT   | 1
+IF relicSearch == 6 | SET    | o_wst_belorkHead01 | jalapenos 
+IF relicSearch == 6 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 6 | FADE   | 0 | 1
+IF relicSearch == 6 | WAIT   | 1
+IF relicSearch == 6 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaJalapeno = 1
+GOTO  | OFFER_WRONG
+
+OFFER_SHROUD
+DIALOG | P_NAME | Here it is! The Shroud of Ballin'!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 7 | ITEM   | Shroud of Ballin' | -1 
+IF relicSearch == 7 | NOTIFY | Gave away The Shroud of Ballin'!
+IF relicSearch == 7 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 7 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 7 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 7 | FADE   | 1 | 1
+IF relicSearch == 7 | WAIT   | 1
+IF relicSearch == 7 | SET    | o_wst_belorkHead01 | shroud
+IF relicSearch == 7 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 7 | FADE   | 0 | 1
+IF relicSearch == 7 | WAIT   | 1
+IF relicSearch == 7 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaShroud = 1
+GOTO  | OFFER_WRONG
+
+OFFER_GRAIL
+DIALOG | P_NAME | Here it is! The Grape-topped Grail!
+USEAT  | o_zenobia01
+WAIT   | 1.0
+IF relicSearch == 8 | ITEM   | Grape-topped Grail | -1 
+IF relicSearch == 8 | NOTIFY | Gave away The Grape-topped Grail!
+IF relicSearch == 8 | DIALOG | Elder Zenobia | Diz... Diz iz da `w1`most best`w0` relic, ape-man! Clippaste be praised!
+IF relicSearch == 8 | DIALOG | P_NAME        | Yeah, this one is a really holy relic. 
+IF relicSearch == 8 | DIALOG | Elder Zenobia | Diz 1 is goin' straight to da Belork altar!
+IF relicSearch == 8 | FADE   | 1 | 1
+IF relicSearch == 8 | WAIT   | 1
+IF relicSearch == 8 | SET    | o_wst_belorkHead01 | mug
+IF relicSearch == 8 | QUEST  | zenobiaNewRelic = @relicSearch@
+IF relicSearch == 8 | FADE   | 0 | 1
+IF relicSearch == 8 | WAIT   | 1
+IF relicSearch == 8 | GOTO   | OFFER_CORRECT
+QUEST | zenobiaGrail = 1
+GOTO  | OFFER_WRONG
+
+OFFER_WRONG
+IF relicTryTimes == 0 | GOTO | AINT_RELIC01
+IF relicTryTimes == 1 | GOTO | AINT_RELIC02
+IF relicTryTimes >= 2 | GOTO | AINT_RELIC03
+
+AINT_RELIC01
+DIALOG | Elder Zenobia | Uh... dis it?
+DIALOG | P_NAME  = s_port_hoopzHappy | Yep! I can't speak enough about the sanctity of such a relevant piece of `sq`Klispian Antiquity`rt`!
+DIALOG | Elder Zenobia | Dis not wut we discus'd. Dis ain't a Relic. If Gremz wanted dis type of Relic for Belork den Gremz woulda crapped it out usselves!
+DIALOG | P_NAME = s_port_hoopzSad | Oh... sorry.
+DIALOG | Elder Zenobia | Git back out der an' keep lookin'! `w1`Fetch`w0` dat relic ya promised, ape-man!
+DIALOG | P_NAME        | (I guess these guys will only accept the genuine `sq`Fetcher's Quest,`rt` and nothing else will do...)
+QUEST  | relicTryTimes += 1
+
+AINT_RELIC02
+DIALOG | Elder Zenobia | Try more, ape-man. Dis iz not what promised! Dis Relic iz insult to make-believe God Belork! `w1`Fetch`w0` sumfin' betta, you hairless primate bitch! 
+DIALOG | P_NAME = s_port_hoopzSurprise | Geez-lousie, I'm going, I'm going.
+QUEST  | relicTryTimes += 1
+
+AINT_RELIC03
+DIALOG | Elder Zenobia | Dis iz not it! Dis sucks, keep `w1`fetchin'`w0`.
+DIALOG | P_NAME = s_port_hoopzSad | Durn, it.
+
+OFFER_CORRECT
+QUEST  | cgremQuest = 3
+IF hoopzSkelly == 1 | QUEST | hoopzSkelly = 2
+IF hoopzSkelly == 3 | QUEST | hoopzSkelly = 2
+DIALOG | Elder Zenobia | `s1`(Guggle guggle!)`s0` It iz PERFECT RELIC! Where u fetch it from??
+DIALOG | P_NAME        | It was a pain in the keister but I found it out in the Eastelands!
+DIALOG | Elder Zenobia | Dis wuz out in da Easties?! `s1`(Guggle guggle!)`s0`_ U rly outdid urself dis time, apeman! So shiny and..._ and_ `w2`powerful.`w0`
+DIALOG | P_NAME = s_port_hoopzHappy | This'll be a perfect `sq`Klispian Relic`rt`!
+DIALOG | Elder Zenobia | U right again apeman..._ Here, take this.
+USEAT  | o_zenobia01  
+NOTIFY | Found Fetcher's Quest!
+Vidcon | give | 11
+DIALOG | P_NAME = s_port_hoopzHappy | Swell! Thanks Elder!
+WAIT   | 1.0
+IF hoopzSkelly == 2 | DIALOG | P_NAME        | Uh... Elder Zenobia, could I also have my skelly back now that you don't need it anymore?
+IF hoopzSkelly == 2 | DIALOG | Elder Zenobia | Wut? Skelly? Ya, sure. Da skelly sux anyway.
+IF hoopzSkelly == 2 | USEAT  | o_zenobia01
+IF hoopzSkelly == 2 | NOTIFY | Found Youngster Skelly!
+IF hoopzSkelly == 2 | ITEM   | Youngster Skelly | +1
+DIALOG | Elder Zenobia  | Da relic... it so beautyfulp... Clippaste be praise!
+IF conversionQuestActive == 1 | DIALOG | P_NAME | (I should go tell Irmingard that my mission was a success!)
+IF conversionQuestActive == 1 | QUEST  | conversionQuest = 4
+
+OFFER_NADA
+DIALOG | P_NAME        | Uh, nary ye mind...
+
+RELIC_UNPAUSE
+DIALOG | P_NAME        | Hey I'm ready to start my search again, thanks for your patience.
+DIALOG | Elder Zenobia | K, ape-man. Be fast dis time!
+QUEST  | cgremQuest = 1
+
+RELIC_PAUSE
+DIALOG | P_NAME        | Hey do you think I could take a quick break from the search? I remember I have... uh practice tonight.
+DIALOG | Elder Zenobia | Ugh... fine, ape-man... but come back when u wanna do da work u promise me and da Gremz!
+DIALOG | P_NAME        | You got it, thanks!
+QUEST  | cgremQuest = 2
+
+RELIC_STILL_LOOKING
+DIALOG | P_NAME        | I'm still looking for that relic, thanks for your patience.
+DIALOG | Elder Zenobia | No moar patience! U fetch Relic soon!"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsce2"]
+atlas = ExtResource("2_sxlwa")
+region = Rect2(0, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tkxx"]
+atlas = ExtResource("2_sxlwa")
+region = Rect2(39, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bgh6"]
+atlas = ExtResource("2_sxlwa")
+region = Rect2(78, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae1b6"]
+atlas = ExtResource("2_sxlwa")
+region = Rect2(117, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fj2eb"]
+atlas = ExtResource("3_loyda")
+region = Rect2(0, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3iwq"]
+atlas = ExtResource("3_loyda")
+region = Rect2(39, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ooyk0"]
+atlas = ExtResource("3_loyda")
+region = Rect2(78, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0547x"]
+atlas = ExtResource("3_loyda")
+region = Rect2(117, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tiv3"]
+atlas = ExtResource("4_nq3dr")
+region = Rect2(0, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_diiap"]
+atlas = ExtResource("4_nq3dr")
+region = Rect2(39, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dan0"]
+atlas = ExtResource("4_nq3dr")
+region = Rect2(0, 0, 39, 44)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5w4d"]
+atlas = ExtResource("4_nq3dr")
+region = Rect2(39, 0, 39, 44)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bd3ye"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsce2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tkxx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bgh6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ae1b6")
+}],
+"loop": true,
+"name": &" s_zenobiaNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fj2eb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3iwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ooyk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0547x")
+}],
+"loop": true,
+"name": &" s_zenobiaSE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tiv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_diiap")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dan0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5w4d")
+}],
+"loop": true,
+"name": &"s_zenobia01",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lsce2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ugejh"]
+size = Vector2(20, 36)
+
+[node name="o_zenobia01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_iolgd")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_nq3dr")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_bd3ye")
+centered = false
+offset = Vector2(-19, -34)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "7",
+"bbox_right": "33",
+"bbox_top": "30",
+"frames": ["images\\s_zenobia01_0.png", "images\\s_zenobia01_1.png"],
+"height": "44",
+"name": "s_zenobia01",
+"width": "39",
+"xorig": "19",
+"yorigin": "34"
+}
+metadata/s_zenobia01 = {
+"bbox_bottom": "42",
+"bbox_left": "7",
+"bbox_right": "33",
+"bbox_top": "30",
+"frames": ["images\\s_zenobia01_0.png", "images\\s_zenobia01_1.png"],
+"height": "44",
+"name": "s_zenobia01",
+"width": "39",
+"xorig": "19",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_lsce2")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_ugejh")

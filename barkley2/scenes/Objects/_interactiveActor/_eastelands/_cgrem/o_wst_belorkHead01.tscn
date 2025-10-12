@@ -1,0 +1,210 @@
+[gd_scene load_steps=18 format=3 uid="uid://dydwpxn54dp2d"]
+
+[ext_resource type="Texture2D" uid="uid://drmbd40516f0f" path="res://barkley2/assets/b2_original/images/merged/s_wst_belorkHead01.png" id="1_a27hv"]
+[ext_resource type="Script" uid="uid://dkqfk58k56p6v" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_wst_belorkHead01.gd" id="2_wstsb"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_3fktj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1h0up"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(236, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pw64u"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(177, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nsfmj"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(0, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3fktj"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(59, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wmybb"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(354, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2s8ac"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(295, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_leokm"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(472, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqkmv"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(413, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn5vb"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(531, 0, 59, 49)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aaif5"]
+atlas = ExtResource("1_a27hv")
+region = Rect2(118, 0, 59, 49)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1w3j7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1h0up")
+}],
+"loop": true,
+"name": &"block",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pw64u")
+}],
+"loop": true,
+"name": &"blood",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nsfmj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3fktj")
+}],
+"loop": true,
+"name": &"iron",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmybb")
+}],
+"loop": true,
+"name": &"jalapenos",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2s8ac")
+}],
+"loop": true,
+"name": &"mandyblue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_leokm")
+}],
+"loop": true,
+"name": &"mug",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqkmv")
+}],
+"loop": true,
+"name": &"shroud",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn5vb")
+}],
+"loop": true,
+"name": &"skeleton",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aaif5")
+}],
+"loop": true,
+"name": &"veil",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_aaif5"]
+script = ExtResource("3_3fktj")
+original_script = "IF hoopzSkelly == 1     | GOTO | SKELETON
+IF hoopzSkelly == 3     | GOTO | SKELETON
+IF zenobiaNewRelic == 1 | GOTO | IRON 
+IF zenobiaNewRelic == 2 | GOTO | VEIL 
+IF zenobiaNewRelic == 3 | GOTO | BLOOD 
+IF zenobiaNewRelic == 4 | GOTO | SCALA
+IF zenobiaNewRelic == 5 | GOTO | MANDY
+IF zenobiaNewRelic == 6 | GOTO | JALAPENO 
+IF zenobiaNewRelic == 7 | GOTO | SHROUD 
+IF zenobiaNewRelic == 8 | GOTO | GRAIL
+GOTO | BELORK
+
+SKELETON
+DIALOG | P_NAME | M-my skelly...
+
+IRON
+DIALOG | P_NAME | Ah, a crown fit for a king... or a grifter's god.
+
+VEIL
+DIALOG | P_NAME | Not the most pristine piece of fabric I've seen, but good enough for Belork.
+
+BLOOD
+DIALOG | P_NAME | Blood of Klisp... Actually, I think it might be just some steak marinade.
+
+SCALA
+DIALOG | P_NAME | A common brick if I've ever seen one.
+
+MANDY
+DIALOG | P_NAME | A dirty, disgusting jockstrap.
+
+JALAPENO
+DIALOG | P_NAME | The Crown of Jalapenos. I wonder who originally built it?
+
+SHROUD
+DIALOG | P_NAME | The Shroud of Ballin'... Or rather a towel of some sort.  
+
+GRAIL
+DIALOG | P_NAME | Hmm... That coffee mug has seen it's share of beaning action.
+
+BELORK
+DIALOG | P_NAME | Belork, huh?_ Zenobia has quite the grift going on her villagers..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3fktj"]
+radius = 12.0415945
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aaif5"]
+size = Vector2(56, 51)
+
+[node name="o_wst_belorkHead01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_1w3j7")
+centered = false
+offset = Vector2(-27, -39)
+script = ExtResource("2_wstsb")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_aaif5")
+metadata/default = {
+"bbox_bottom": "48",
+"bbox_left": "0",
+"bbox_right": "58",
+"bbox_top": "0",
+"height": "49",
+"name": "s_wst_belorkHead01",
+"width": "59",
+"xorig": "27",
+"yorigin": "39"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_3fktj")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, -10.5)
+shape = SubResource("RectangleShape2D_aaif5")

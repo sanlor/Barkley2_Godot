@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=42 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/autoloads/debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -8,6 +8,24 @@
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="5_iquyo"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="7_hkl2t"]
 [ext_resource type="Script" uid="uid://yai8fhb612w6" path="res://barkley2/resources/B2_Debug/teleport_window.gd" id="8_ir2hf"]
+[ext_resource type="Script" uid="uid://s0a13i5ygcc7" path="res://barkley2/resources/B2_Debug/input_checker.gd" id="9_lsfsp"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="10_fcqti"]
+[ext_resource type="Texture2D" uid="uid://dce28vp8s5lq0" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_0.png" id="11_hgrbu"]
+[ext_resource type="Texture2D" uid="uid://c8wesb0pfj4af" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_1.png" id="12_27myr"]
+[ext_resource type="Texture2D" uid="uid://c03fdfeeowd50" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_2.png" id="13_qyn30"]
+[ext_resource type="Texture2D" uid="uid://ba2gaab04fsiv" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_3.png" id="14_x2v0w"]
+[ext_resource type="Texture2D" uid="uid://c4034wopodaod" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_4.png" id="15_u28q3"]
+[ext_resource type="Texture2D" uid="uid://d18o3lr8ogvam" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_5.png" id="16_38kdx"]
+[ext_resource type="Texture2D" uid="uid://gqr2u8rlvmxd" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_6.png" id="17_tvar4"]
+[ext_resource type="Texture2D" uid="uid://6uu3umw2hhk2" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_10.png" id="18_nykp6"]
+[ext_resource type="Texture2D" uid="uid://bum76micvbuim" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_11.png" id="19_mubt8"]
+[ext_resource type="Texture2D" uid="uid://cogk11rls42cp" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_7.png" id="20_2nwji"]
+[ext_resource type="Texture2D" uid="uid://bfonogro044cr" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_8.png" id="21_d8etw"]
+[ext_resource type="Texture2D" uid="uid://cvd42ksmkebf8" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_9.png" id="22_yvkhc"]
+[ext_resource type="Texture2D" uid="uid://4j6nyjcjxadc" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_12.png" id="23_hnck4"]
+[ext_resource type="Texture2D" uid="uid://cygspyk2c4uau" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_13.png" id="24_26ris"]
+[ext_resource type="Texture2D" uid="uid://dej34worj0txu" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_14.png" id="25_nm5g3"]
+[ext_resource type="Texture2D" uid="uid://dt1gao1p1uu0d" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_15.png" id="26_13kru"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
 bg_color = Color(0, 0, 0, 0.75)
@@ -193,11 +211,18 @@ func _on_pressed() -> void:
 	print(\"New gun generated! - %s\" % B2_Gun.get_current_gun().get_full_name() )
 "
 
+[sub_resource type="LabelSettings" id="LabelSettings_2n5ny"]
+font = ExtResource("10_fcqti")
+
+[sub_resource type="LabelSettings" id="LabelSettings_uokvk"]
+font = ExtResource("5_iquyo")
+
 [node name="b2_debug" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_jshnt")
 
 [node name="player_data" type="ScrollContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(256, 240)
 offset_right = 200.0
 offset_bottom = 240.0
@@ -226,6 +251,7 @@ label_settings = SubResource("LabelSettings_dvnvw")
 tab_stops = PackedFloat32Array(10)
 
 [node name="player_vars" type="ScrollContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(150, 0)
 anchors_preset = 11
 anchor_left = 1.0
@@ -495,6 +521,110 @@ column_titles_visible = true
 hide_root = true
 scroll_horizontal_enabled = false
 
+[node name="input_checker" type="CenterContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_lsfsp")
+
+[node name="PanelContainer" type="PanelContainer" parent="input_checker"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="input_checker/PanelContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="Label" parent="input_checker/PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Input Checker"
+label_settings = SubResource("LabelSettings_2n5ny")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="button_a" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(58, 42)
+texture = ExtResource("11_hgrbu")
+
+[node name="button_b" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(77, 42)
+texture = ExtResource("12_27myr")
+
+[node name="button_x" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(96, 43)
+texture = ExtResource("13_qyn30")
+
+[node name="button_y" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(117, 43)
+texture = ExtResource("14_x2v0w")
+
+[node name="button_lb" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(55, 67)
+texture = ExtResource("15_u28q3")
+
+[node name="button_rb" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(90, 67)
+texture = ExtResource("16_38kdx")
+
+[node name="button_lt" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(57, 84)
+texture = ExtResource("17_tvar4")
+
+[node name="analog_right" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(22, 41)
+texture = ExtResource("18_nykp6")
+
+[node name="analog_left" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(22, 81)
+texture = ExtResource("19_mubt8")
+
+[node name="button_rt" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(78, 84)
+texture = ExtResource("20_2nwji")
+
+[node name="button_select" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(112, 90)
+texture = ExtResource("21_d8etw")
+
+[node name="button_start" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(133, 90)
+texture = ExtResource("22_yvkhc")
+
+[node name="arrow_up" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(161, 32)
+texture = ExtResource("23_hnck4")
+
+[node name="arrow_right" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(174, 45)
+texture = ExtResource("24_26ris")
+
+[node name="arrow_down" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(162, 61)
+texture = ExtResource("25_nm5g3")
+
+[node name="arrow_left" type="Sprite2D" parent="input_checker/PanelContainer/VBoxContainer"]
+position = Vector2(148, 45)
+texture = ExtResource("26_13kru")
+
+[node name="input_name" type="Label" parent="input_checker/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+
+[node name="input_name2" type="Label" parent="input_checker/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+
+[node name="input_type" type="Label" parent="input_checker/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 10
+text = "GAMEPAD"
+label_settings = SubResource("LabelSettings_uokvk")
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/teleport_btn" to="." method="_on_button_pressed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
@@ -517,3 +647,4 @@ scroll_horizontal_enabled = false
 [connection signal="canceled" from="teleport_window" to="teleport_window" method="_on_canceled"]
 [connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]
 [connection signal="item_activated" from="teleport_window/tree_node" to="teleport_window" method="_on_tree_node_item_activated"]
+[connection signal="visibility_changed" from="input_checker" to="input_checker" method="_on_visibility_changed"]

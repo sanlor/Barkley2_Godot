@@ -1,0 +1,99 @@
+[gd_scene load_steps=9 format=3 uid="uid://8sgr4ialcrla"]
+
+[ext_resource type="Script" uid="uid://dpbrdfx8fbldj" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_wst_cameraGrem01.gd" id="1_h1v4v"]
+[ext_resource type="Texture2D" uid="uid://b21g67s68d1j2" path="res://barkley2/assets/b2_original/images/merged/s_wst_cameraGrem01.png" id="2_p8ent"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_v7tk7"]
+
+[sub_resource type="Resource" id="Resource_vch3o"]
+script = ExtResource("2_v7tk7")
+original_script = "IF rumiCamera == 3 | GOTO | MOVIE_IN_PRODUCTION
+IF rumiCamera == 2 | GOTO | MOVIE_AGREED_TO_HELP
+IF rumiCamera == 1 | GOTO | MOVIE_REJECTION
+IF rumiState == 0  | GOTO | MOVIE_NOT_MENTIONED
+IF rumiState == 1  | GOTO | MOVIE_REJECTION
+GOTO   | RUMI_ERROR
+
+MOVIE_IN_PRODUCTION
+DIALOG | Biggz  | Clisp almighty... Now dat Rumi got those pics he gunna have me and Wadge out in the wyldz filmin' with him. Is suicide...
+
+MOVIE_NOT_MENTIONED
+DIALOG | Biggz  | Wut you want, apester? We dun have de time to speak wicha. We dun hafta make stupid movie wid Rumi.
+
+MOVIE_AGREED_TO_HELP
+IF biggzState == 1 | GOTO | BIGGZ_TALK
+DIALOG | Biggz  | Hey, ape-man. You talk wid Rumi? He tell ya to help wid de movies, ya?
+DIALOG | P_NAME | Yeah, that's right. He asked me to go and take a few photos.
+DIALOG | Biggz  | Hah, dat Rumi iz a stupid stinkin' piez-e-shit. He a real stinka. Ape-man issa dumb-dumb for helpin out stupid stinka Rumi. 
+DIALOG | P_NAME | W-what? What do you mean?
+DIALOG | Biggz  | He dun no nottin about no movies. He be an idiot. Me and Wadge gatta help him. That's the rulez. Issa all about dat Cgrem Culture. Respekt ya eldars. 
+DIALOG | P_NAME | He doesn't seem all that old really. Like an elder old. 
+DIALOG | Biggz  | Rumi be me and Wadge's brudda. He only 1 jiffy older than me and Wadge._ He force us to help him wid dis stupid movie krap._ He a real sonnuva biytch.
+DIALOG | P_NAME | It doesn't sound that bad...
+DIALOG | Biggz  | It total shyte, man! Me hope dat dis movie bombs big so Rumi no wanna make movies no more.
+DIALOG | P_NAME | He doesn't really seem to know what he's doing so I think you might get your wish.
+DIALOG | Biggz  | Ya, ape-man. I hope so...
+QUEST  | biggzState = 1
+
+BIGGZ_TALK
+DIALOG | Biggz  | Dis is like a nitemare, ape-man. Gremz shoulda not be playin' director or watchin' movies. Mark my wordies, ape-man: Rumi guna pay for dis...
+
+MOVIE_REJECTION
+DIALOG | Biggz  | Aye, ape-man! Hahaha, you dun told Rumi to suck some eggs, ya? Ya dun a real service, man! Me and Wadge gonna have no longer do no movie. Dank ye plenty, ape-man!
+DIALOG | P_NAME | Oh, uh, you're welcome...?"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7tk7"]
+atlas = ExtResource("2_p8ent")
+region = Rect2(0, 0, 30, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vch3o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7tk7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fj7p3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7p3"]
+size = Vector2(20, 36)
+
+[node name="o_wst_cameraGrem01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_h1v4v")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_vch3o")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_vch3o")
+centered = false
+offset = Vector2(-11, -31)
+metadata/default = {
+"bbox_bottom": "35",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "0",
+"frames": ["images\\s_wst_cameraGrem01_0.png"],
+"height": "36",
+"name": "s_wst_cameraGrem01",
+"width": "30",
+"xorig": "11",
+"yorigin": "31"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_fj7p3")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_fj7p3")

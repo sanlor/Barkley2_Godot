@@ -1,0 +1,154 @@
+[gd_scene load_steps=8 format=3 uid="uid://dkobeee4nmlfp"]
+
+[ext_resource type="Texture2D" uid="uid://58645btvhui1" path="res://barkley2/assets/b2_original/images/merged/s_gremTrap.png" id="1_mmc0x"]
+[ext_resource type="Script" uid="uid://beadrn232vdpe" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_cgremTrap01.gd" id="2_luvhc"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_7hysc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hysc"]
+atlas = ExtResource("1_mmc0x")
+region = Rect2(0, 0, 36, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x7n3v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hysc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_x7n3v"]
+script = ExtResource("3_7hysc")
+original_script = "IF cgremTrap == 3 | GOTO | NOMORE
+IF cgremTrap == 2 | GOTO | AGAIN
+IF cgremTrap == 1 | GOTO | YIKES
+IF cgremTrap == 0 | GOTO | WONDER
+
+NOMORE
+DIALOG | P_NAME | Glad I don't have to do that again... sheesh-louise!
+
+AGAIN
+DIALOG | P_NAME = s_port_hoopzAngry | (Ugh..._ am I gonna have to walk into this thing again?_ It's the only way back into the Cybergremlin Village...)
+CHOICE | Stand on the X, again?
+REPLY  | STANDAGAIN | Stand on it again.
+REPLY  | NOTREADY   | Not quite ready.
+
+NOTREADY
+DIALOG | P_NAME | (Not yet, let me prepare... emotionally and physically.)
+
+STANDAGAIN
+DIALOG | P_NAME = s_port_hoopzAngry | Here... goes..._ `w1`(Gulp)`w0`
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+FRAME  | CAMERA_NORMAL | o_cinema1
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+Emote  | ?
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzAngry | (Is it working?)
+QUEST  | cgremTrap = 3
+GOTO   | MAGNETDROP
+
+YIKES
+DIALOG | P_NAME = s_port_hoopzSurprise | (Yiiikes. Did that thing really drop on my head? I'm surprised I'm still walking...)
+
+WONDER
+DIALOG | P_NAME | (Wonder what this X means?)
+CHOICE | Stand on the X?
+REPLY  | STAND  | Sure, what's the worst that can happen?
+REPLY  | AVOID  | Fat chance, it's certainly a trap.
+
+STAND
+DIALOG | P_NAME = s_port_hoopzSmirk | (Aw heck I can't resist. When I see an X on the ground I just get this hankerin' to stand on it!)
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+FRAME  | CAMERA_NORMAL | o_cinema1
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+Emote  | ? 
+WAIT   | 0.5
+DIALOG | P_NAME = s_port_hoopzAngry | (Looks like this X is another scam... nothing happened... So much for getting my hopes up.)
+QUEST  | zenobiaEncounter = 1
+QUEST  | cgremTrap = 1
+GOTO   | MAGNETDROP
+
+MAGNETDROP
+EVENT    | o_wst_craneMagnet01 | 5
+WAIT     | 0.25
+SOUND    | sn_mg_wait_clock10
+WAIT     | 0.05
+SOUND    | sn_hoopz_demiseERICW01
+PLAYSET  | o_cts_hoopz | demise | demiseEnd
+WAIT     | 5
+FADE     | 1 | 2
+WAIT     | 2
+Teleport | r_est_cgremVillage01 | 392 | 760 | 2
+
+AVOID
+DIALOG | P_NAME = s_port_hoopzSmirk | (Nahhh, like I've always said: X's are for squares.)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_clu8k"]
+radius = 37.215588
+
+[node name="o_cgremTrap01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_x7n3v")
+centered = false
+offset = Vector2(-18, 0)
+script = ExtResource("2_luvhc")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_x7n3v")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+metadata/default = {
+"bbox_bottom": "31",
+"bbox_left": "0",
+"bbox_right": "35",
+"bbox_top": "0",
+"height": "32",
+"name": "s_gremTrap",
+"width": "36",
+"xorig": "18",
+"yorigin": "0"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_clu8k")

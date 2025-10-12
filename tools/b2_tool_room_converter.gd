@@ -5,6 +5,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 @export var convert_cinema_spots 	:= true
 @export var convert_door_light 		:= true
 @export var convert_door	 		:= true
+@export var create_room_script		:= true
 
 @export_category("Collision")
 @export var convert_collision 		:= true
@@ -15,7 +16,7 @@ class_name B2_TOOL_ROOM_CONVERTER
 
 @export_category("Dangerous")
 @export var known_packed_scenes 	: Array[PackedScene]
-@export var known_packed_scenes_exceptions : Array[String] = ["o_doorlight_", "o_cinema", "B2_TOOL"]
+@export var known_packed_scenes_exceptions : Array[String] = ["o_doorlight_", "o_cinema", "B2_TOOL", "o_effect_smog"]
 @export var convert_known_nodes		:= true ## Attempt to search the game files for nodes with the same name. might fuck thins up.
 
 @export_category("Exec")
@@ -30,6 +31,7 @@ func _ready() -> void:
 	name = "B2_TOOL_ROOM_CONVERTER"
 	
 func lets_goooo():
+	if create_room_script:		room_script()
 	if convert_cinema_spots: 	cinemaspot()
 	if convert_collision: 		collision()
 	if convert_door:			regular_door()
@@ -59,9 +61,31 @@ func set_room() -> void:
 		elif l.name.ends_with( "o_room_interior" ):
 			get_parent().is_interior = true
 			cleanup.append(l)
+		elif l.name.contains( "o_teleport_mark" ):
+			get_parent().teleport_spot = true
+			get_parent().teleport_node = l
+			get_parent().load_debug_save_data = true
+		elif l.name == "o_effect_smog":
+			get_parent().weather_fog = true
+			cleanup.append(l)
+		elif l.name == "o_effect_rain":
+			get_parent().weather_rain = true
+			cleanup.append(l)
+		elif l.name.begins_with("o_effect_"):
+			push_error("Weird effect found. doing nothing.")
 	
 	for l in cleanup:
 		l.queue_free()
+
+func room_script() -> void:
+	#if not get_parent().get_script():
+	const DEFAULTSCRIPT = preload("uid://b3w1qi846g3lr")
+	var room_path := get_parent().scene_file_path.get_base_dir()
+	ResourceSaver.save( DEFAULTSCRIPT, room_path + "/" + get_parent().name + ".gd" )
+	get_parent().set_script( load( room_path + "/" + get_parent().name + ".gd" ) )
+	#else:
+	#	print("room_script(): Already has a script attached.")
+	create_room_script = false
 
 func fix_z_index() -> void:
 	for l in get_clean_nodes():

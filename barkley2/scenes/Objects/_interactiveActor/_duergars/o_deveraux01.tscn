@@ -1,0 +1,236 @@
+[gd_scene load_steps=22 format=3 uid="uid://bvvf2wrmrpwjo"]
+
+[ext_resource type="Script" uid="uid://bo67h4su6pj55" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_deveraux01.gd" id="1_8uknu"]
+[ext_resource type="Texture2D" uid="uid://8fph8ctor6s3" path="res://barkley2/assets/b2_original/images/merged/s_deveraux01.png" id="2_7tmt5"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_p76n6"]
+[ext_resource type="Texture2D" uid="uid://g5ct3pri8gii" path="res://barkley2/assets/b2_original/images/merged/s_deverauxNE.png" id="3_p76n6"]
+[ext_resource type="Texture2D" uid="uid://cbgf2gc4e5k7r" path="res://barkley2/assets/b2_original/images/merged/s_deverauxSE.png" id="4_akk4p"]
+
+[sub_resource type="Resource" id="Resource_akk4p"]
+script = ExtResource("2_p76n6")
+original_script = "IF deverauxState == 0 | GOTO | DEVERAUX_0
+IF deverauxState == 1 | GOTO | DEVERAUX_1
+IF deverauxState == 2 | GOTO | DEVERAUX_2
+
+DEVERAUX_0
+DIALOG | Deveraux | What the `w1`flip`w0` do you want, you disgusting dwarf? Do you wanna die?
+DIALOG | P_NAME   | N-no, that is not what I want.
+DIALOG | Deveraux | Are you sure? Are you sure you don't want to die?
+CHOICE | Do you want to die?
+REPLY  | DIE_YAY  | Y-yes...
+REPLY  | DIE_NAY  | NO!!!!
+
+DIE_YAY
+DIALOG | P_NAME   | Yeah, sure, whatever.
+DIALOG | Deveraux | Well, this is quite something. An honest dwarf!
+DIALOG | Deveraux | Alright then... Your wish is my command!
+QUEST  | deverauxState = 3
+EVENT  | o_osiris01   | 1
+EVENT  | o_deveraux01 | 1
+
+DIE_NAY
+DIALOG | P_NAME   | `w1`*Gulp*`w0` N-no thanks.
+DIALOG | Deveraux | Suit yourself. Oh, and also... get the frudge out of my face, you `w1`flippin' scrooge!`w0`
+QUEST  | deverauxState = 1
+
+DEVERAUX_1
+DIALOG | Deveraux | Lookey lookey, what do we got here? I thought I told you to frudge off. Why are you still here?
+DIALOG | P_NAME   | Oh, oops. I guess I forgot to frudge off...
+DIALOG | Deveraux | I think you should try to talk to me one more time. I'm so anxious to just `kw`kill you,`rt` and I'm hoping you'd pester me just a lil' bit more, just enough to push me over the edge. You wanna do that, dwarf? You wanna push me over the edge?
+DIALOG | P_NAME   | ...
+DIALOG | Deveraux | Yeah, didn't think so.
+QUEST  | deverauxState = 2
+
+DEVERAUX_2
+DIALOG | Deveraux | Oh, wow. You really came back to pester me, huh? Oh man, you are really going to get butchered now.
+DIALOG | Deveraux | Time to die, `s1`bitch!`s0`
+QUEST  | deverauxState = 3
+EVENT  | o_osiris01   | 1
+EVENT  | o_deveraux01 | 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4dtk"]
+atlas = ExtResource("2_7tmt5")
+region = Rect2(0, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axjy7"]
+atlas = ExtResource("2_7tmt5")
+region = Rect2(30, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stxlh"]
+atlas = ExtResource("2_7tmt5")
+region = Rect2(0, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asgp0"]
+atlas = ExtResource("2_7tmt5")
+region = Rect2(30, 0, 30, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prd45"]
+atlas = ExtResource("3_p76n6")
+region = Rect2(0, 0, 34, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0ish"]
+atlas = ExtResource("3_p76n6")
+region = Rect2(34, 0, 34, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86db3"]
+atlas = ExtResource("3_p76n6")
+region = Rect2(68, 0, 34, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j21p3"]
+atlas = ExtResource("3_p76n6")
+region = Rect2(102, 0, 34, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku105"]
+atlas = ExtResource("4_akk4p")
+region = Rect2(0, 0, 33, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sf2a7"]
+atlas = ExtResource("4_akk4p")
+region = Rect2(33, 0, 33, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn0bj"]
+atlas = ExtResource("4_akk4p")
+region = Rect2(66, 0, 33, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqgeb"]
+atlas = ExtResource("4_akk4p")
+region = Rect2(99, 0, 33, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mow45"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4dtk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axjy7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stxlh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_asgp0")
+}],
+"loop": true,
+"name": &"s_deveraux01",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prd45")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0ish")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86db3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j21p3")
+}],
+"loop": true,
+"name": &"s_deverauxNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku105")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sf2a7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn0bj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqgeb")
+}],
+"loop": true,
+"name": &"s_deverauxSE",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o4dtk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qhbta"]
+size = Vector2(20, 36)
+
+[node name="o_deveraux01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_8uknu")
+duergar_name = "deveraux"
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_akk4p")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_mow45")
+centered = false
+offset = Vector2(-15, -40)
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "0",
+"frames": ["images\\s_deveraux01_0.png", "images\\s_deveraux01_1.png"],
+"height": "45",
+"name": "s_deveraux01",
+"width": "30",
+"xorig": "15",
+"yorigin": "40"
+}
+metadata/s_deveraux01 = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "29",
+"bbox_top": "0",
+"frames": ["images\\s_deveraux01_0.png", "images\\s_deveraux01_1.png"],
+"height": "45",
+"name": "s_deveraux01",
+"width": "30",
+"xorig": "15",
+"yorigin": "40"
+}
+metadata/s_deverauxNE = {
+"bbox_bottom": "45",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "0",
+"frames": ["images\\s_deverauxNE_0.png", "images\\s_deverauxNE_1.png", "images\\s_deverauxNE_2.png", "images\\s_deverauxNE_3.png"],
+"height": "46",
+"name": "s_deverauxNE",
+"width": "34",
+"xorig": "16",
+"yorigin": "40"
+}
+metadata/s_deverauxSE = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "32",
+"bbox_top": "0",
+"frames": ["images\\s_deverauxSE_0.png", "images\\s_deverauxSE_1.png", "images\\s_deverauxSE_2.png", "images\\s_deverauxSE_3.png"],
+"height": "45",
+"name": "s_deverauxSE",
+"width": "33",
+"xorig": "17",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_o4dtk")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_qhbta")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

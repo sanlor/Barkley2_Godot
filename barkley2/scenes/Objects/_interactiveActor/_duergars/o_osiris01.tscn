@@ -1,0 +1,265 @@
+[gd_scene load_steps=22 format=3 uid="uid://b3dy1xa6wib8o"]
+
+[ext_resource type="Script" uid="uid://bma312wo3o28" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_osiris01.gd" id="1_hcskh"]
+[ext_resource type="Texture2D" uid="uid://b856l7vrwww70" path="res://barkley2/assets/b2_original/images/merged/s_osiris01.png" id="2_67ask"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_mvfhf"]
+[ext_resource type="Texture2D" uid="uid://bpauaiifok81s" path="res://barkley2/assets/b2_original/images/merged/s_osirisNE.png" id="3_mvfhf"]
+[ext_resource type="Texture2D" uid="uid://b7ndxo5w5y0kp" path="res://barkley2/assets/b2_original/images/merged/s_osirisSE.png" id="4_2iasg"]
+
+[sub_resource type="Resource" id="Resource_2iasg"]
+script = ExtResource("2_mvfhf")
+original_script = "IF osirisState == 0 | GOTO | OSIRIS00
+IF osirisState == 1 | GOTO | OSIRIS01
+IF osirisState == 2 | GOTO | OSIRIS02
+
+OSIRIS02
+DIALOG | Osiris | Keep movin', cuck.
+
+OSIRIS01
+DIALOG | Osiris | What part of /'Keep movin', cuck/' did you not understand?
+CHOICE | What did you not understand?
+REPLY  | UNDERSTOOD | I understood it all, sir.
+REPLY  | MOVINPART  | Not sure where I move to...
+REPLY  | CUCKPART   | The cuck part.
+REPLY  | DONTGIVE   | The part where I give a huck.
+
+UNDERSTOOD
+DIALOG | P_NAME | Oh no sir, I totally understood! I'll getsta steppin'.
+DIALOG | Osiris | That's right, getsta steppin'.
+GOTO   | QUESTCLOCKSET
+
+MOVINPART
+DIALOG | P_NAME | I'm not really sure where I move to.
+DIALOG | Osiris | Where?_ Who gives two shits where you or any other measly dwarf goes on this ship?
+DIALOG | P_NAME | B-but...
+DIALOG | Osiris | Ugh... Another clueless idiot.
+DIALOG | Osiris | Make yourself marginally useful and go offer some help to that weakling `sq`Masego.`rt` We've got her managing these uppity dwarfs for us and me and Deveraux don't need to lift one blue finger, `w1`gee hee hee!`w0`
+DIALOG | P_NAME | Masego, huh?
+DIALOG | Osiris | Yeah `sq`she's investigating a few crimes,`rt` and hey, the more dwarfs you can help us get locked up the Hoosegow, the better. Ole' Warden Thrax has been complainin' about empty bunks for weeks.
+DIALOG | P_NAME | Okay... thanks... I guess.
+KNOW   | knowHoosegow | 1
+QUEST  | osirisState = 2
+GOTO   | QUESTCLOCKSET
+ 
+CUCKPART
+DIALOG | P_NAME  | What's a_ cuck?
+DIALOG | Osiris  | Look in the freakin' mirror! It if walks like a cuck, and talks like a cuck-
+LOOKAT | o_deveraux01 | o_cts_hoopz
+FRAME  | CAMERA_FAST  | o_deveraux01 | o_cts_hoopz | o_osiris01
+DIALOG | Deveraux | It's a `w1`cuck!`w0`
+DIALOG | Osiris   | `w2`Gee hee hee hee!`w0`
+DIALOG | Deveraux | `w1`Gwo ho ho ho!`w0`
+DIALOG | P_NAME = s_port_hoopzSad | I get it... I guess...
+DIALOG | Osiris   | Good for you, now get lost.
+GOTO   | QUESTCLOCKSET
+ 
+QUESTCLOCKSET
+QUEST     | osirisState = 2
+ClockTime | event | osirisState | 1 | 55
+ 
+DONTGIVE
+DIALOG   | P_NAME = s_port_hoopzSmirk | The part where I give a huck.
+WAIT     | 0.1
+Emote    | ! | o_osiris01 | 0 | 0
+WAIT     | 0.1
+LOOKAT   | o_deveraux01 | o_cts_hoopz
+DIALOG   | Osiris   | Excuse me, `s1`what the fuck did you say?!`s0`
+DIALOG   | P_NAME   | I said-
+DIALOG   | Osiris   | That was a rhetorical question. Hey Deveraux, what has a hard time answering rhetorical questions.
+DIALOG   | Deveraux | A_ `w1`flippin'_`w0` `s1`CORPSE!`s0` 
+SURPRISEAT | o_deveraux01
+WAIT     | 0.25
+QUEST    | osirisState = 3
+EVENT    | o_deveraux01 | 1
+EVENT    | o_osiris01   | 1
+
+OSIRIS00
+DIALOG | Osiris | Keep movin' cuck. 
+QUEST  | osirisState = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aa2kx"]
+atlas = ExtResource("2_67ask")
+region = Rect2(0, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yeqvt"]
+atlas = ExtResource("2_67ask")
+region = Rect2(29, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1vl0h"]
+atlas = ExtResource("2_67ask")
+region = Rect2(0, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73jjc"]
+atlas = ExtResource("2_67ask")
+region = Rect2(29, 0, 29, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wn2sq"]
+atlas = ExtResource("3_mvfhf")
+region = Rect2(0, 0, 34, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2ruj"]
+atlas = ExtResource("3_mvfhf")
+region = Rect2(34, 0, 34, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv808"]
+atlas = ExtResource("3_mvfhf")
+region = Rect2(68, 0, 34, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arpd2"]
+atlas = ExtResource("3_mvfhf")
+region = Rect2(102, 0, 34, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4g8se"]
+atlas = ExtResource("4_2iasg")
+region = Rect2(0, 0, 33, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx3sv"]
+atlas = ExtResource("4_2iasg")
+region = Rect2(33, 0, 33, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qucj8"]
+atlas = ExtResource("4_2iasg")
+region = Rect2(66, 0, 33, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhf86"]
+atlas = ExtResource("4_2iasg")
+region = Rect2(99, 0, 33, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qjhx8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aa2kx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yeqvt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1vl0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_73jjc")
+}],
+"loop": true,
+"name": &"s_osiris01",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wn2sq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2ruj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wv808")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arpd2")
+}],
+"loop": true,
+"name": &"s_osirisNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4g8se")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx3sv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qucj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhf86")
+}],
+"loop": true,
+"name": &"s_osirisSE",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aa2kx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hn8nv"]
+size = Vector2(20, 36)
+
+[node name="o_osiris01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hcskh")
+duergar_name = "osiris"
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_2iasg")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_qjhx8")
+centered = false
+offset = Vector2(-14, -34)
+metadata/default = {
+"bbox_bottom": "38",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_osiris01_0.png", "images\\s_osiris01_1.png"],
+"height": "39",
+"name": "s_osiris01",
+"width": "29",
+"xorig": "14",
+"yorigin": "34"
+}
+metadata/s_osiris01 = {
+"bbox_bottom": "38",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"frames": ["images\\s_osiris01_0.png", "images\\s_osiris01_1.png"],
+"height": "39",
+"name": "s_osiris01",
+"width": "29",
+"xorig": "14",
+"yorigin": "34"
+}
+metadata/s_osirisNE = {
+"bbox_bottom": "38",
+"bbox_left": "0",
+"bbox_right": "33",
+"bbox_top": "0",
+"frames": ["images\\s_osirisNE_0.png", "images\\s_osirisNE_1.png", "images\\s_osirisNE_2.png", "images\\s_osirisNE_3.png"],
+"height": "39",
+"name": "s_osirisNE",
+"width": "34",
+"xorig": "17",
+"yorigin": "32"
+}
+metadata/s_osirisSE = {
+"bbox_bottom": "39",
+"bbox_left": "0",
+"bbox_right": "32",
+"bbox_top": "0",
+"frames": ["images\\s_osirisSE_0.png", "images\\s_osirisSE_1.png", "images\\s_osirisSE_2.png", "images\\s_osirisSE_3.png"],
+"height": "40",
+"name": "s_osirisSE",
+"width": "33",
+"xorig": "16",
+"yorigin": "34"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_aa2kx")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_hn8nv")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="."]

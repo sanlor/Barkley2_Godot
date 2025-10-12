@@ -1,0 +1,74 @@
+[gd_scene load_steps=10 format=3 uid="uid://x37ug87s1tn6"]
+
+[ext_resource type="Texture2D" uid="uid://byfsoi3ujpmsk" path="res://barkley2/assets/b2_original/images/merged/s_mg_caves_rupee.png" id="1_ju262"]
+[ext_resource type="Script" uid="uid://b5ec4tvn8qr0i" path="res://barkley2/scenes/Objects/_minigames/Caves/o_mg_caves_rupee.gd" id="2_ju262"]
+[ext_resource type="FontFile" uid="uid://b2j3wdvgah5aj" path="res://barkley2/resources/fonts/fn_tactics.tres" id="3_s4ve6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6o4yu"]
+atlas = ExtResource("1_ju262")
+region = Rect2(0, 0, 7, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_va4ru"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6o4yu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s4ve6"]
+radius = 12.0415945
+
+[sub_resource type="Gradient" id="Gradient_ju262"]
+offsets = PackedFloat32Array(0, 0.7723077)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s4ve6"]
+gradient = SubResource("Gradient_ju262")
+width = 96
+height = 96
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6o4yu"]
+font = ExtResource("3_s4ve6")
+
+[node name="o_mg_caves_rupee" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_va4ru")
+script = ExtResource("2_ju262")
+metadata/default = {
+"bbox_bottom": "13",
+"bbox_left": "0",
+"bbox_right": "6",
+"bbox_top": "0",
+"height": "14",
+"name": "s_mg_caves_rupee",
+"width": "7",
+"xorig": "3",
+"yorigin": "7"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_s4ve6")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_s4ve6")
+
+[node name="points_lbl" type="Label" parent="."]
+offset_left = -40.0
+offset_top = 13.0
+offset_right = 40.0
+offset_bottom = 22.0
+text = "69"
+label_settings = SubResource("LabelSettings_6o4yu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

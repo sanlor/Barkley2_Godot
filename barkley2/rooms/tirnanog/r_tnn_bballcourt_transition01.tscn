@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=4 uid="uid://bel0qilvf4l1n"]
+[gd_scene load_steps=94 format=4 uid="uid://bel0qilvf4l1n"]
 
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="1_jo44o"]
 [ext_resource type="Script" uid="uid://bib1h6axcklut" path="res://barkley2/rooms/tirnanog/r_tnn_bballcourt_transition_01.gd" id="1_ob6cf"]
@@ -31,16 +31,15 @@
 [ext_resource type="PackedScene" uid="uid://dyaef4swi5cr0" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianActor.tscn" id="30_lrw8w"]
 [ext_resource type="PackedScene" uid="uid://ckym5lsw8iwxd" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_tnn_feedingGround.tscn" id="31_dg8n5"]
 [ext_resource type="PackedScene" uid="uid://cyfh5go8wc5t5" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_exit.tscn" id="33_rubta"]
-[ext_resource type="PackedScene" uid="uid://b60ghkm4yfnb8" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_rain.tscn" id="35_qjgnr"]
 [ext_resource type="PackedScene" uid="uid://crosaq5k0wdnl" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_waypoint.tscn" id="36_u08hi"]
 [ext_resource type="PackedScene" uid="uid://biteiiqmqobp1" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_entrance.tscn" id="39_carue"]
-[ext_resource type="PackedScene" uid="uid://dd0txwpusg54l" path="res://barkley2/scenes/Objects/_effects/Atmosphere/o_effect_smog.tscn" id="42_cdqxl"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_p2756"]
-vertices = PackedVector2Array(239.61719, 116.5, 239.64844, 116.5, 239.25, 118, 247.61719, 132.5, 247.64844, 132.5, 247.25, 134, 262, 282, 278, 282, 278, 314, 310, 314, 310, 346, 250, 426, 391, 346, 391, 377, 473, 377, 473, 346, 486, 346, 486, 486, 138, 486, 138, 426, 255.61719, 148.5, 262, 150.21094, 250, 262, 138, 262, 138, 182, 154, 138, 10, 182, 10, 138, 154, 10, 214, 10, 214, 106, 249.5, 142.38281, 241.5, 126.38281, 233.5, 110.38281, 232.32031, 106)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(6, 7, 8), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(10, 12, 13, 11), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(13, 14, 17, 18, 11), PackedInt32Array(18, 19, 11), PackedInt32Array(20, 21, 22, 23, 24, 25), PackedInt32Array(24, 26, 27, 25), PackedInt32Array(25, 28, 29, 30), PackedInt32Array(8, 11, 22, 6), PackedInt32Array(21, 6, 22), PackedInt32Array(31, 20, 25), PackedInt32Array(31, 25, 30, 5), PackedInt32Array(3, 5, 30, 32), PackedInt32Array(2, 32, 30), PackedInt32Array(0, 2, 30, 33), PackedInt32Array(33, 30, 34)])
+vertices = PackedVector2Array(272, 320, 304, 320, 304, 352, 256, 432, 385, 352, 385, 383, 479, 383, 479, 352, 480, 352, 480, 480, 144, 480, 144, 432, 256, 288, 272, 288, 256, 154.8125, 256, 256, 144, 256, 144, 176, 252.50781, 153.88281, 16, 144, 160, 144, 244.11719, 145.49219, 16, 176, 241.17188, 134.53906, 236.11719, 129.49219, 228.11719, 113.49219, 233.17188, 118.53906, 208, 112, 160, 16, 208, 16, 227.71875, 112)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 4, 5, 3), PackedInt32Array(6, 7, 8, 9), PackedInt32Array(5, 6, 9, 10, 3), PackedInt32Array(10, 11, 3), PackedInt32Array(3, 12, 13, 0), PackedInt32Array(14, 15, 16, 17, 18), PackedInt32Array(19, 20, 21, 18, 17, 22), PackedInt32Array(23, 21, 20, 24), PackedInt32Array(25, 26, 24, 20, 27), PackedInt32Array(20, 28, 29, 27), PackedInt32Array(25, 27, 30)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 560, 560, 560, 560, 0)])
 source_geometry_mode = 1
+agent_radius = 16.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1arom"]
 resource_name = "tls_tnn_tirnanog01"
@@ -3174,7 +3173,8 @@ teleport_node = NodePath("o_teleport_mark")
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 camera_bound_to_map = true
-room_weather = 3
+weather_rain = true
+weather_fog = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -3404,14 +3404,3 @@ position = Vector2(-120, 192)
 metadata/code = ""
 metadata/inst_name = "inst_C0CE43BD"
 metadata/scale = Vector2(1, 1)
-
-[node name="o_effect_smog" parent="." instance=ExtResource("42_cdqxl")]
-offset_right = 0.0
-offset_bottom = 0.0
-metadata/code = "fog_intensity = 6;
-"
-metadata/inst_name = "inst_5A14026C"
-
-[node name="o_effect_rain" parent="." instance=ExtResource("35_qjgnr")]
-z_index = 1001
-mouse_filter = 2

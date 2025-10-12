@@ -1,0 +1,190 @@
+[gd_scene load_steps=10 format=3 uid="uid://bbd626ugitpk7"]
+
+[ext_resource type="Texture2D" uid="uid://jc1owoi13g35" path="res://barkley2/assets/b2_original/images/merged/s_clispaethStatue01.png" id="1_kv00h"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_2eobq"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_2sb7f"]
+[ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="4_g36ql"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2sb7f"]
+atlas = ExtResource("1_kv00h")
+region = Rect2(0, 0, 110, 118)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g36ql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2sb7f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_bbnc0"]
+script = ExtResource("3_2sb7f")
+original_script = "IF clispaethStatue == 2 | GOTO | RUDE_SPEAK
+IF clispaethStatue == 1 | GOTO | SECOND_SPEAK
+IF clispaethStatue == 0 | GOTO | FIRST_SPEAK
+
+FIRST_SPEAK
+FRAME  | CAMERA_NORMAL | o_clispaethstatue01
+WAIT   | 1.5
+DIALOG | P_NAME | Hey, it's a Clispaeth statue... 
+WAIT   | 1
+DIALOG | P_NAME | I wonder if he can hear me...
+WAIT   | 1
+DIALOG | P_NAME | Hey Clispaeth. I know it's been a while and I'm not sure if you're listening, but... 
+WAIT   | 0.75
+DIALOG | P_NAME | Well, here goes. There's a lot going on right now and I've got a lot on my chest. You don't have to listen if you don't want. I mean, I know you're busy and everything, but I guess I just wanted to talk about...
+GOTO   | FIRSTCHOICE        
+
+SECOND_SPEAK      
+DIALOG | P_NAME | I don't want to bother Clispaeth right now. I'm sure he's got enough on his plate...
+
+RUDE_SPEAK
+DIALOG | P_NAME | Not gonna waste my time with this thing.
+
+POSTPRAYER
+WAIT   | 2
+DIALOG | P_NAME | ...
+WAIT   | 2
+DIALOG | P_NAME | Wow. I guess I forgot how hard it is being honest with yourself. 
+WAIT   | 1
+DIALOG | P_NAME | Maybe I should try being open more often. Whether or not you were listening, Clispaeth, I think this was a good thing...
+QUEST  | clispaethStatue = 1
+
+FIRSTCHOICE
+CHOICE | I want to talk to you about...
+IF mainQuest == 0 | REPLY | WHOAMI | ... who I am.
+IF mainQuest == 0 | REPLY | HOME   | ... going home.
+REPLY | CUCHU  | ... Cuchulainn.
+REPLY | RESPON | ... responsibility.
+REPLY | BBALL  | ... b-ball.
+REPLY | GIVEME | I'd really like you to give me...
+REPLY | KISS   | Kiss my grits!
+           
+WHOAMI
+DIALOG | P_NAME | Who am I?_ I... I don't remember who I am, Clispaeth. I don't know who I used to be or where I came from or what any of this Cyberdwarf stuff I've been thrown into has to do with me. All I know is that the Cyberdwarf knows something and that I've got to find him... Clispaeth, did I used to be a bad person? Whatever I did to get tangled up in all this stuff... was I one of the bad guys? I guess that's the thing I'm most scared of, knowing who I used to be... because... because if I was one of the bad guys, maybe I do deserve this. That's all.
+GOTO   | POSTPRAYER             
+
+HOME
+DIALOG | P_NAME | ... going home. I woke up without my memory in the generator room of the dwarf space ziggurat Necron 7 and have been pushed around by people I don't know ever since. I don't know where I am or where I'm going or what's happening or why I'm being forced to do this crazy stuff. I don't know what the deal with Cuchulainn or the dwarfs or Cyberdwarf is... I... I just wanna go home. But I don't even know where that is. I... probably sound like I'm whining right now, don't I, Clispaeth? I'm sorry. That's not how I mean to sound. I can take care of myself and I'm learning that I can take care of other people too. But... but I'm still just a kid. I want to shoot hoops with my friends and play vidcons and eat candy. This Cyberdwarf stuff... I get it, it's my responsibility now. There are questions that need to be answered and things that need to be done. But... but I wish I wasn't the one who had to do them. I just want to go home...
+GOTO   | POSTPRAYER   
+
+CUCHU
+DIALOG | P_NAME | ...Cuchulainn. Now this guy's a real piece of work. I spent some time in Tir na Nog, this ghetto where Cuchulainn's been rounding up dwarfs and let me tell you, he really gets my goat. And get this: apparently he was keeping me in some sort of stasis and using my body as a generator for the Necron 7. I mean, what the cluck? He could have at least thrown me a permission waiver or something. And here's the weird thing - nobody's actually seen or knows who this guy is. This may just be a hunch, but I think something weird's going on. I'm going to gumshoe my way to bottom of this one way or another...
+GOTO   | POSTPRAYER             
+
+RESPON
+DIALOG | P_NAME | ...responsibility. With Cuchulainn and the Cyberdwarf and the dwarfs and everything... Being thrust into all this crazy stuff that I don't know the first thing about. Why does it have to be me? Why do I have to do this Cyberdwarf stuff, help all those dwarfs? But... I guess looking out for people who can't look out for themselves is part of being a good person. It's... it's pretty tough to be the good guy sometimes, and I wish it didn't have to be me. I want to go home. I just... I don't want any of this. I'm a kid. I want to shoot hoops with my friends and go to school and play vidcons and eat candy. But I guess it's part of growing up, being responsible. I didn't want this, but sometimes you've gotta live with what you've been given, make grapeade out of grapes. That's what dad always used to say.
+WAIT   | 3
+DIALOG | P_NAME | ...dad?
+GOTO   | POSTPRAYER  
+        
+BBALL
+DIALOG | P_NAME | ...b-ball. People don't really seem to care much about b-ball around here, do they? It kind of stinks... I mean, I love b-ball. I wish I had someone to talk to about it. Like layups and dunks and stuff. I guess I just feel kind of alone... nobody to talk to about my interests or anything... it really stinks. I wish I had someone to hang out with or play a quick round, maybe some horse or something. I dunno. Well, I don't want to take up your time. I'm sure you've got way more important stuff to hear about than freethrows.
+GOTO   | POSTPRAYER
+                    
+GIVEME
+DIALOG | P_NAME | I know it's been a while, Clispaeth, and I'm sorry. I try to be a good Klispin but sometimes it's hard, especially with the way things have been. I don't know if you can hear me, but if you can, there's something I'd like to ask of you. This might sound kind of selfish, and I'm sorry, but I need you right now Clispaeth. I'd like...
+CHOICE | I'd really like...
+REPLY  | LIKE_POWER | ...power.
+REPLY  | LIKE_CANDY | ...candy.
+REPLY  | LIKE_BALLX | ...to get good at b-ball.
+            
+LIKE_POWER
+DIALOG | P_NAME | ...power, so I can fell my foes with a snap of my fingers. But I don't just need any power, I need the power of...
+CHOICE | I'd like the power of...
+REPLY  | POWER_GUNS   | ...gun's.
+REPLY  | POWER_ZAUB   | ...zaubers.
+REPLY  | POWER_TECH   | ...technology.
+REPLY  | POWER_JAMS   | ...the Verboten Jams.
+ 
+POWER_GUNS
+DIALOG | P_NAME | ...gun's. I need huge gun's, fast gun's, shotgun's, machine gun's, bazooka gun's, ooze gun's, zauber gun's, cyber gun's... a veritable bento of gun's. I need to get better with gun's in every conceivable way and more importantly, I need to get better at fusing them. I want to create the greatest, most powerful gun's of all time; I want to be the greatest gun'smith to have ever lived. That's what I want. Amen.
+QUEST  | rmBrast += 1
+GOTO   | POSTPRAYER
+
+POWER_ZAUB
+DIALOG | P_NAME | ...zaubers. I want to be the most powerful zaubermancer in the galaxy, more powerful than the great Balthios of the James dynasty. I want the power of the zaubers to destroy Cuchulainn and free the dwarfs of Necron 7. But I also want to explore their ancient and cosmic wisdom, study their forgotten insights and ponder the forbidden philosophies of the zaubermancers of old. I want the power of the zaubers because of their potential to reshape reality to my desires. That's what I want. Amen.
+GOTO   | POSTPRAYER                    
+
+POWER_TECH
+DIALOG | P_NAME | ...technology. There are answers I need and people I need to protect but I can't do it the way I am now. I want to upgrade my body to do things nobody else can do. I want to run faster, see farther, ball harder than anyone who's ever lived. I want to be something more than I am, something... post-human. Clispaeth, I don't know if you can hear me, but if you can, I want you to give me the power of technology so I can face the dangers ahead and help the dwarfs... amen.
+GOTO   | POSTPRAYER
+
+POWER_JAMS
+DIALOG | P_NAME | Cuchulainn, the Cyberdwarf, the Duergars, L.O.N.G.I.N.U.S... what does it even matter? What does it matter in the face of a power so extraordinary that it can reshape the universe, that it can birth and destroy with a single jam? 
+DIALOG | P_NAME | The power I seek is greater than any ever known, the power to defy any man or god, the power to create from the infinitely intangible. If you can hear me, Clispaeth, what I need is the power of the Verboten Ja-
+DIALOG | P_NAME | ...huh? What did I just say?
+WAIT   | 3
+DIALOG | P_NAME | ...
+WAIT   | 3
+DIALOG | P_NAME | `mq`...the Chaos Dunk.`rt`
+QUEST  | clispaethStatue = 1
+QUEST  | rmBball += 1
+GOTO   | POSTPRAYER
+            
+LIKE_CANDY
+DIALOG | P_NAME | ...candy. I want `w1`candy,`w0` every kind in the world. I don't care about anything else, I just wanna get lots of candy. Malt balls, chocolate dubloons, butterscotch, salt water taffy... heck, even `kw`candy corn!`rt` I just want candy. I wanna eat it all and I don't care who knows because dad's not here to stop me. 
+DIALOG | P_NAME | Clispaeth, if you can hear me... I need a bento of candy. Amen.
+QUEST  | rmCandy += 1
+GOTO   | POSTPRAYER                                          
+
+LIKE_BALLX
+DIALOG | P_NAME | ...to get really good at `kw`b-ball.`rt` I want to be the best b-ball player ever, better than Chocolate Thunder, King James, Air Jordan or even the Round Mound of Rebound himself. I want to be able to juke out my foes, both on the court... and off. And most importantly, I want the power of... the Verboten Jams. Doubleteam, the Showboat Jam, the Juke Warp and... and even the Chaos Dunk. That's all I want. To be a great baller just like all my heroes were. Amen.
+QUEST  | rmBball += 1
+GOTO   | POSTPRAYER 
+            
+KISS
+DIALOG | P_NAME | Hey Clispaeth: `w1`kiss my grits!`w0` You're a `kw`crock of crud`rt` and a `kw`crock of bull puck!`rt` 
+DIALOG | P_NAME | Get a life... capice?_ See ya... wouldn't wanna be ya.
+QUEST  | clispaethStatue = 2                
+
+WHOAMI
+DIALOG | P_NAME | ...to know who I really am. I don't know anything about the Cyberdwarf or Cuchulainn or Duergars any of that stuff. I don't know why I have to find the Cyberdwarf or why I'm here or what's going on. I just... I just want to know who I am, why this is happening to me. I'm just a kid. I want to go home and have friends and be with my family, even if I don't know who that is. I just... I don't know Clispaeth. I just want to be me... I just want to be me. Amen.
+GOTO   | POSTPRAYER "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_77o8s"]
+radius = 19.026299
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2sb7f"]
+size = Vector2(52, 103)
+
+[node name="o_clispaethstatue01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_g36ql")
+centered = false
+offset = Vector2(-66, -108)
+script = ExtResource("2_2eobq")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_bbnc0")
+metadata/default = {
+"bbox_bottom": "117",
+"bbox_left": "29",
+"bbox_right": "100",
+"bbox_top": "78",
+"height": "118",
+"name": "s_clispaethStatue01",
+"width": "110",
+"xorig": "66",
+"yorigin": "108"
+}
+
+[node name="B2_PendingWork" type="Node2D" parent="."]
+z_index = 4000
+script = ExtResource("4_g36ql")
+notes = "Re-enabled some old dialog for this."
+metadata/_custom_type_script = "uid://8gyk7lcowpky"
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -13)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_77o8s")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -43.5)
+shape = SubResource("RectangleShape2D_2sb7f")

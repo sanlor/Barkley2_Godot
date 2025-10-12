@@ -1,0 +1,359 @@
+[gd_scene load_steps=26 format=3 uid="uid://r0fatladb67q"]
+
+[ext_resource type="Script" uid="uid://bbqpp54ctkf8a" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_rumi01.gd" id="1_e8a11"]
+[ext_resource type="Texture2D" uid="uid://wla7ovep72ma" path="res://barkley2/assets/b2_original/images/merged/s_rumi01.png" id="2_456df"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_bu4ui"]
+
+[sub_resource type="Resource" id="Resource_keorl"]
+script = ExtResource("2_bu4ui")
+original_script = "IF rumiCamera == 3 | GOTO | CAMERA_3
+IF rumiCamera == 2 | GOTO | CAMERA_2
+IF rumiCamera == 1 | GOTO | CAMERA_1
+IF rumiState == 0  | GOTO | RUMI_0
+IF rumiState == 1  | GOTO | RUMI_1
+GOTO   | RUMI_ERROR
+
+CAMERA_3
+DIALOG | Rumi   | Hey P_NAME! 
+DIALOG | Rumi   | Still working on the film. Things are going really well. For the first time in my life, I feel confident. I think I'm really onto something here and I owe it all to you. 
+DIALOG | Rumi   | Why don't you come back in 20 years when I'm done and we can watch the film together?
+DIALOG | P_NAME | Yeah, uh, sure. I'll see you then.
+
+CAMERA_2
+DIALOG | Rumi   | Ah, you're back! Sorry if I'm a little excited, how is the location scouting going?
+CHOICE | Location scouting progress?
+IF rumiCave == 1 | IF rumiDumpster == 1 | IF rumiTree == 1 | REPLY | PROGRESS_DONE | It's all done and dusted... 
+REPLY  | PROGRESS_GOOD | It's coming along...
+REPLY  | PROGRESS_BAD  | Not good
+REPLY  | PROGRESS_WHAT | What was I supposed to look for?
+
+ALL_GOTTEN
+DIALOG | Rumi   | Wait a minute... This means that you've got all the pictures! Let me take another look at them.
+GOTO   | MISSION_ACCOMPLISHED
+
+PROGRESS_DONE
+DIALOG | Rumi   | You're back! Do you have them? Do you have the pictures? Did you find the locations?
+DIALOG | P_NAME | You want pictures? I've got your pictures right here...
+GOTO   | MISSION_ACCOMPLISHED
+
+MISSION_ACCOMPLISHED
+USEAT  | o_rumi01
+WAIT   | 0.75 
+DIALOG | Rumi   | ... ... ... ...
+WAIT   | 0.75 
+DIALOG | Rumi   | They're perfect! This is perfect! You've done it, P_NAME! You've done it! 
+DIALOG | Rumi   | I-I-I... need to slow down and catch my breath... I can't believe it! I can't believe you did it... and that you'd do it for me! Oh, you're the best human I've ever met!
+DIALOG | P_NAME | It wasn't really a problem...
+DIALOG | Rumi   | P_NAME, I can't thank you enough. I know it's not much but... well, I want you to have this. It's uh... a wad of cash. 
+DIALOG | Rumi   | I guess you'll have to unwrap it... Um, and I'll need my camera back... but thank you... look, I've got to work on the film, but if you come back in a while, like in about 20 years or so, maybe we could watch it together. 
+DIALOG | Rumi   | I have really high hopes for this and I think I can sweep the `kw`Vid Cannes...`rt` if you want to come back then and take it down to `kw`Brain City`rt` for me, I'd appreciate it more than anything. But you've already helped me so much so I can't ask much more of you.
+DIALOG | P_NAME | Yeah, I guess I'll see you in 20 years then.
+DIALOG | Rumi   | Oh, thank you P_NAME! I've got a really good feeling about this... a `w1`really`w0` good feeling!
+ITEM   | Camera | -1           
+QUEST  | rumiCamera = 3
+
+PROGRESS_GOOD
+DIALOG | P_NAME | Don't you worry, it's coming along...
+
+PROGRESS_BAD
+DIALOG | P_NAME | To be honest with you, not good.
+DIALOG | Rumi   | O-oh...
+
+PROGRESS_WHAT
+DIALOG | P_NAME | Can you remind me again what you need me to take pictures of?
+DIALOG | Rumi   | Yes, of course...
+IF rumiCave == 1     | DIALOG | Rumi | You've already got the picture of the `sq`the great wall`rt` I need, so don't worry about that...
+IF rumiCave == 0     | DIALOG | Rumi | I need a picture of a `sq`the great wall.`rt` It's the wall north of here, you'll know when you see it. I think it's kind of ominous-looking, maybe?
+IF rumiDumpster == 1 | DIALOG | Rumi | The `sq`bonfire`rt` picture you've got seems pretty good. I don't think I'll need another...
+IF rumiDumpster == 0 | DIALOG | Rumi | I'll need a picture of a `sq`bonfire.`rt` It doesn't need to be magically imbued, just a normal bonfire will do.
+IF rumiTree == 1     | DIALOG | Rumi | And you've got the `sq`dying tree`rt` picture I need, so you can check that off the list.
+IF rumiTree == 0     | DIALOG | Rumi | And I'll need a picture of a `sq`dying tree.`rt` It shouldn't have any leaves on it and it should be old and withered. I... I don't want to give too much away, but the tree... represents me.           
+IF rumiCave == 1 | IF rumiDumpster == 1 | IF rumiTree == 1 | GOTO | ALL_GOTTEN
+DIALOG | Rumi   | And just to make it clear, all these things should be in the `sq`Eastelands`rt` or the `kw`Westelands.`rt`
+DIALOG | P_NAME | Yeah, I got it. Thanks Rumi.
+
+CAMERA_1
+DIALOG | Rumi | Y-you're back! I wasn't expecting this! 
+DIALOG | Rumi | Um, I know you're busy and you don't have a lot of time, but have you given any thought to helping me `sq`scout locations for my film?`rt` I-it would mean a lot to me...
+CHOICE | Help Rumi with his film?
+REPLY  | HELP_YES | Sure, I'll help.
+REPLY  | HELP_NO2 | No, I don't have the time.
+
+HELP_NO2
+DIALOG | P_NAME | Yeah, I'd like to help but I'm still busy. Sorry, man.
+DIALOG | Rumi   | Oh... oh. Oh, yeah. Yeah... I knew you were busy. 
+DIALOG | Rumi   | Just... uh... never mind.
+        
+RUMI_0
+DIALOG | Rumi   | Umm... I hate to bother you... but you're a `kw`human,`rt` right?
+CHOICE | I'm human right?
+REPLY  | HUMAN_YES | Yeah.
+REPLY  | HUMAN_NO  | Nah.
+
+HUMAN_YES
+DIALOG | P_NAME | Yes, I'm a human. Why?
+DIALOG | Rumi   | Okay, I thought so... I mean, I'm not judging or anything... by your exterior, I mean. 
+DIALOG | Rumi   | You could be anything. I mean... what I'm saying is... you've seen a `kw`movie`rt` before, right? Like a... film movie?
+GOTO   | MOVIE_CHOICE
+
+HUMAN_NO
+DIALOG | P_NAME | Human? Heh, only on the outside.
+DIALOG | Rumi   | O-okay... but you've seen `kw`films`rt` before, right? Like... movie films?
+GOTO   | MOVIE_CHOICE
+
+MOVIE_CHOICE
+CHOICE | Have I seen any movies...?
+REPLY  | MOVIE_YES | Yes.
+REPLY  | MOVIE_NO  | No.
+            
+MOVIE_NO
+DIALOG | P_NAME | Nope, never seen a movie before.
+DIALOG | Rumi   | Um, I mean like... a cinema movie... um... or even a DwarfTube movie... or like... anything that moves... right? You've seen one?
+CHOICE | A moving picture? A talkie?
+REPLY  | MOVIE_YES | Oh yeaaaaah, MOVIES.
+REPLY  | MOVIE_NO2 | Never heard of them.
+
+MOVIE_NO2
+DIALOG | P_NAME | Nope. Movies? I have no idea what you're talking about.
+DIALOG | Rumi   | O-oh. Never mind. Sorry for bothering you...
+QUEST  | rumiState = 1
+
+MOVIE_YES
+DIALOG | P_NAME | Uh... I guess so. Why?
+DIALOG | Rumi   | I, um... well... okay, I'm just going to start over. 
+DIALOG | Rumi   | My name is Rumi and you might have noticed, but the other Cybergremlins like to fight and steal and cause trouble. 
+DIALOG | Rumi   | They also like to bully anyone smaller than them. Or anyone who doesn't like to go on raids or get into fist fights. Um... I guess I get bullied a lot.
+DIALOG | P_NAME | Sounds rough. I can teach you to stand up for yourself if you want.
+DIALOG | Rumi   | `s1`N-no!`s0` I don't want that! I-I mean... 
+DIALOG | Rumi   | What I'm trying to say is that I guess I'm a little more sensitive than the other Cybergremlins. 
+DIALOG | Rumi   | I... I really like art. Especially film. Or I mean, what I've heard about it. That's something Cybergremlins don't really do, watch films... or make them...
+DIALOG | P_NAME | I love movies, especially movie adaptations of vidcons.
+DIALOG | Rumi   | I've had this idea for a film for so long. I don't know how to explain it, but it's about... about me on the inside, not society's expectations and not what people look at me and see, but who I really am. 
+DIALOG | Rumi   | I found this `kw`camera`rt` in the garbage and the script's all written... I think I'm finally ready to start filming it. I just... uh, well, I need some help.
+DIALOG | P_NAME | Yeah?
+DIALOG | Rumi   | `w1`I... I...`w0` excuse me for hyperventilating... deep breaths... I need someone to `sq`scout locations`rt` for me. 
+DIALOG | Rumi   | The film won't... the film won't work unless the locations are perfect. I'm not strong, I can't defend myself out there. I'm only good for... for making art. I know it will take some time and it needs to be done fairly soon... before the `sq`Brain City film fest, Vid Cannes...`rt` but... will you help me?
+KNOW   | knowBrainCity | 1
+CHOICE | Help Rumi with his film?
+REPLY  | HELP_YES    | Yes.
+REPLY  | HELP_NO     | No.
+REPLY  | HELP_INSULT | I crush wimps.
+        
+HELP_NO
+DIALOG | P_NAME | Sorry, I don't think I'm gonna have the time to help.
+DIALOG | Rumi   | `w1`Ah...`w0` I, uh... yes. I see. I don't know why I thought you would, or why you'd care. I see.
+DIALOG | P_NAME | Sorry...
+QUEST  | rumiCamera = 1
+
+HELP_INSULT
+DIALOG | P_NAME | Listen up,_ dorkus malorkus._ I better not catch you running around with that camera, 'cuz if I do? 
+DIALOG | P_NAME | `s1`BOOM`s0` - sport tackle from the shadows. 
+DIALOG | P_NAME | `s1`BOOM`s0` - tibia busted. 
+DIALOG | P_NAME | `s1`BOOM`s0` - every vertebrae in your spine compacted. 
+DIALOG | P_NAME | `s1`BOOM`s0` - you're in glute hell for the rest of your life. `w1`Capice?`w0`
+DIALOG | Rumi   | C-C-C-Clispaeth Christ... yeah, yeah, I get it. I-I-I-I... I'll take up pottery.
+DIALOG | P_NAME | You better...
+QUEST  | rumiState = 1
+
+HELP_YES
+DIALOG | P_NAME | Sure, I don't mind, I can scout locations for you.
+DIALOG | Rumi   | I, ahh... yes, I understand, you don't have the ti- `s1`what?`s0` 
+DIALOG | Rumi   | You'll help? I, uh... I wasn't expecting that! Th-thank you! Thank you very much!
+DIALOG | P_NAME | Yeah, it's no problem. What are you looking for?
+DIALOG | Rumi   | Y-yes! I'm looking for three locations in particular. Write these down, okay? 
+DIALOG | Rumi   | I'm looking for a `sq`bonfire.`rt` 
+DIALOG | Rumi   | An old, `sq`withered tree`rt` and... 
+DIALOG | Rumi   | A picture of `sq`the great wall`rt` at the north edge of the Westelands. I'm not willing to go any further than the Eastelands and Westelands, okay, so all of these places should be fairly close. I-it's not that I'm afraid! I just... want the film to be closer to home, you know?
+DIALOG | P_NAME | Yeah, so a bonfire, a dying tree and the great wall. Okay, I think I've got it.
+DIALOG | Rumi   | Take my camera. When you see places that meet the description, take pictures and bring them back to me. I'll let you know if they're what I'm looking for. 
+DIALOG | Rumi   | Oh, you're kind of a... gun's warrior, right? I guess shooting the camera's kind of like shooting gun's... maybe a little more artistic... actually it's probably nothing like shooting a gun's...
+DIALOG | Rumi   | To be honest, shooting a camera is like `sq`walking into a red marker,`rt` it's nothing like shooting gun's.
+DIALOG | P_NAME | There's an art in gun'sbrasting, Rumi, but I know what you're saying. I'll look for these places and come back when I've got 'em, okay?
+DIALOG | Rumi   | `w1`Th-thank you!`w0` Thank you very much! 
+DIALOG | Rumi   | I'll be waiting here... but please don't take too long! I need to have this done by the `kw`Brain City`kw` film fest, `kw`Vid Cannes!`rt`
+KNOW   | knowBrainCity | 1
+ITEM   | Camera | +1
+QUEST  | rumiCamera = 2
+NOTIFY | Got a Camera!
+
+RUMI_1
+DIALOG | Rumi | Hello... to you... on this day... today...
+
+RUMI_ERROR
+DIALOG | Rumi | How did you get here?"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bu4ui"]
+atlas = ExtResource("2_456df")
+region = Rect2(0, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_keorl"]
+atlas = ExtResource("2_456df")
+region = Rect2(38, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nvwte"]
+atlas = ExtResource("2_456df")
+region = Rect2(76, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5m30"]
+atlas = ExtResource("2_456df")
+region = Rect2(114, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uenh4"]
+atlas = ExtResource("2_456df")
+region = Rect2(152, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44bon"]
+atlas = ExtResource("2_456df")
+region = Rect2(190, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uw13m"]
+atlas = ExtResource("2_456df")
+region = Rect2(228, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krehy"]
+atlas = ExtResource("2_456df")
+region = Rect2(266, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2r8h"]
+atlas = ExtResource("2_456df")
+region = Rect2(304, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ru70"]
+atlas = ExtResource("2_456df")
+region = Rect2(342, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4o1oj"]
+atlas = ExtResource("2_456df")
+region = Rect2(380, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdni8"]
+atlas = ExtResource("2_456df")
+region = Rect2(418, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glkg5"]
+atlas = ExtResource("2_456df")
+region = Rect2(456, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxix8"]
+atlas = ExtResource("2_456df")
+region = Rect2(494, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3leq"]
+atlas = ExtResource("2_456df")
+region = Rect2(532, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uwfc"]
+atlas = ExtResource("2_456df")
+region = Rect2(570, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3x7xn"]
+atlas = ExtResource("2_456df")
+region = Rect2(608, 0, 38, 46)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dijjs"]
+atlas = ExtResource("2_456df")
+region = Rect2(646, 0, 38, 46)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tb0k8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bu4ui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_keorl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nvwte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5m30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uenh4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44bon")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uw13m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krehy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2r8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ru70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4o1oj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdni8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glkg5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxix8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3leq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uwfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3x7xn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dijjs")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nvwte"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_80x7b"]
+size = Vector2(20, 36)
+
+[node name="o_rumi01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_e8a11")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_keorl")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_tb0k8")
+centered = false
+offset = Vector2(-18, -38)
+metadata/default = {
+"bbox_bottom": "42",
+"bbox_left": "4",
+"bbox_right": "28",
+"bbox_top": "31",
+"frames": ["images\\s_rumi01_0.png", "images\\s_rumi01_1.png", "images\\s_rumi01_2.png", "images\\s_rumi01_3.png", "images\\s_rumi01_4.png", "images\\s_rumi01_5.png", "images\\s_rumi01_6.png", "images\\s_rumi01_7.png", "images\\s_rumi01_8.png", "images\\s_rumi01_9.png", "images\\s_rumi01_10.png", "images\\s_rumi01_11.png", "images\\s_rumi01_12.png", "images\\s_rumi01_13.png", "images\\s_rumi01_14.png", "images\\s_rumi01_15.png", "images\\s_rumi01_16.png", "images\\s_rumi01_17.png"],
+"height": "46",
+"name": "s_rumi01",
+"width": "38",
+"xorig": "18",
+"yorigin": "38"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_nvwte")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_80x7b")

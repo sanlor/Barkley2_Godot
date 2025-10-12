@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=3 uid="uid://dvamrgq8ttid3"]
+
+[ext_resource type="Texture2D" uid="uid://csdi0l4kv38qs" path="res://barkley2/assets/b2_original/images/merged/s_wst_cgremGate01.png" id="1_e1jq0"]
+[ext_resource type="Script" uid="uid://k55pino7dink" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_wst_cgremGate01.gd" id="2_cexaj"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_n6idg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6idg"]
+atlas = ExtResource("1_e1jq0")
+region = Rect2(0, 0, 139, 82)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1l5k"]
+atlas = ExtResource("1_e1jq0")
+region = Rect2(139, 0, 139, 82)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cqao0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6idg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1l5k")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_q1l5k"]
+script = ExtResource("3_n6idg")
+original_script = "IF knowCgremVillage == 3 | GOTO | LOCKEDAGAIN
+IF knowCgremVillage == 2 | GOTO | GHOULISH
+IF knowCgremVillage == 1 | GOTO | MUSTBEGREMS
+IF knowCgremVillage == 0 | GOTO | GATEREMARK
+
+LOCKEDAGAIN
+DIALOG | P_NAME | Hmmm... those grems must keep this gate shut._
+DIALOG | P_NAME = s_port_hoopzSurprise | Don't tell me that the only way in is through that magnet!
+QUEST  | cgremTrap = 2
+
+GHOULISH
+DIALOG | P_NAME | Such a ghoulish gate... But how do I get past it?
+
+MUSTBEGREMS
+DIALOG | P_NAME | This must be the entrance to the Cybergremlin Village I heard about... there must be a way in somewhere.
+KNOW   | knowCgremVillage | 2
+
+GATEREMARK
+DIALOG | P_NAME | I wonder what this menacing gate is for... and what those menacing tribal beats I hear yonder portend..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cqao0"]
+size = Vector2(116, 43)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gggqm"]
+radius = 49.010204
+
+[node name="o_wst_cgremGate01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_cqao0")
+centered = false
+offset = Vector2(-69, -65)
+script = ExtResource("2_cexaj")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_q1l5k")
+metadata/default = {
+"bbox_bottom": "0",
+"bbox_left": "0",
+"bbox_right": "0",
+"bbox_top": "0",
+"height": "82",
+"name": "s_wst_cgremGate01",
+"width": "139",
+"xorig": "69",
+"yorigin": "65"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -11.5)
+shape = SubResource("RectangleShape2D_cqao0")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_gggqm")

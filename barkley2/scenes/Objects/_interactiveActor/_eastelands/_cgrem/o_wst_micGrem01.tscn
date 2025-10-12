@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=3 uid="uid://cr8nn8xfisttw"]
+
+[ext_resource type="Script" uid="uid://b3b0auu1s57yf" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_wst_micGrem01.gd" id="1_71mxp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_0xqr2"]
+[ext_resource type="Texture2D" uid="uid://dod4llvi53bx2" path="res://barkley2/assets/b2_original/images/merged/s_wst_micGrem01.png" id="2_638nf"]
+
+[sub_resource type="Resource" id="Resource_iag45"]
+script = ExtResource("2_0xqr2")
+original_script = "IF rumiCamera == 3 | GOTO | MOVIE_IN_PRODUCTION
+IF rumiCamera == 2 | GOTO | MOVIE_AGREED_TO_HELP
+IF rumiCamera == 1 | GOTO | MOVIE_REJECTION
+IF rumiState == 0  | GOTO | MOVIE_NOT_MENTIONED
+IF rumiState == 1  | GOTO | MOVIE_REJECTION
+GOTO   | RUMI_ERROR
+
+MOVIE_IN_PRODUCTION
+DIALOG | Wadge  | Da dumb movie productionz bizz is gunna get me und Biggz killed. Mebbe we shulda jes' make a run for it?
+
+MOVIE_NOT_MENTIONED
+DIALOG | Wadge  | Get outta my hair, ape-man. Me waitin' for stupid Rumi da find the courage to make dumb movies.
+
+MOVIE_AGREED_TO_HELP
+IF wadgeState == 1 | GOTO | WADGE_TALK
+DIALOG | Wadge  | Hey, apester. Ya woulda dun us a real favor if ye talkin' some smack to Rumi. Make him stop the dumb-dumb movie making.
+DIALOG | P_NAME | You don't want to be involved?
+DIALOG | Wadge  | Ya got dat right, ape-man. We be Gremz, we dunna make no moviez. We praise Belork and grow veggiez. No time for movie make.
+DIALOG | P_NAME | Rumi has quite the different point of my view.
+DIALOG | Wadge  | Ha, dun make me laff. Rumi a stupid idiot. He dunna no how to make anythin'..._ He drag me and Biggz into dis mess. We gotta do as he say. Grem rules.
+DIALOG | P_NAME | You'll make it, I'm sure. 
+DIALOG | Wadge  | Dis nut about makin' it, ape-man. Dis about Grem Honor._ Makin dem movies..._ Bah! Bah I say to Rumi!
+QUEST  | wadgeState = 1
+
+WADGE_TALK
+DIALOG | Wadge  | Me honor down the tubez...
+
+MOVIE_REJECTION
+DIALOG | Wadge  | Hey, ape-man. Dat wuz some smooth flyin', tellin' Rumi to go suck an egg. You dun good work, ape-man!
+DIALOG | P_NAME | Oh, uh, thanks...?"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xqr2"]
+atlas = ExtResource("2_638nf")
+region = Rect2(0, 0, 32, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iag45"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xqr2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mc4wc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mc4wc"]
+size = Vector2(20, 36)
+
+[node name="o_wst_micGrem01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_71mxp")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_iag45")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_iag45")
+centered = false
+offset = Vector2(-17, -43)
+metadata/default = {
+"bbox_bottom": "46",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "0",
+"frames": ["images\\s_wst_micGrem01_0.png"],
+"height": "47",
+"name": "s_wst_micGrem01",
+"width": "32",
+"xorig": "17",
+"yorigin": "43"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_mc4wc")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_mc4wc")

@@ -1,0 +1,426 @@
+[gd_scene load_steps=9 format=3 uid="uid://eqplcj7l6b17"]
+
+[ext_resource type="Script" uid="uid://evpt5s6y4qif" path="res://barkley2/scenes/Objects/_interactiveActor/_global/o_mekhanes01.gd" id="1_hr8wt"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_63o87"]
+[ext_resource type="Texture2D" uid="uid://qnelv538b2yy" path="res://barkley2/assets/b2_original/images/merged/s_mekhanes01.png" id="2_w476e"]
+
+[sub_resource type="Resource" id="Resource_dpik4"]
+script = ExtResource("2_63o87")
+original_script = "IF mekhanesRemind == 1 | GOTO | REMINDSORTER
+IF mekhanesState == 3  | GOTO | ADD_MEET
+IF mekhanesState == 2  | GOTO | THIRDMEET
+IF mekhanesState == 1  | GOTO | SECONDMEET
+IF mekhanesState == 0  | GOTO | FIRSTMEET
+
+FIRSTMEET
+DIALOG | P_NAME   | Uh hello?
+DIALOG | Mekhanes | P_NAME_S?_ Er... P_NAME_F?
+DIALOG | P_NAME   | Well I think that's my name. But I have amnesia.
+DIALOG | Mekhanes | Am_ne_sia? What is this? This amnesia?
+DIALOG | P_NAME   | Its like when you forget things...
+DIALOG | P_NAME = s_port_hoopzSad | ...everything sometimes.
+DIALOG | Mekhanes | Ah yes yes. I know this word. My little Diantha she forget to write me. I ask, Diantha, Diantha... you never write to me in my journeys. I go_ here,_ I go there_ all over the Necron and I have no letters from my Diantha. She forget about her pater... out here in the wilds. Amnesia, yes?
+DIALOG | P_NAME   | Well-
+DIALOG | Mekhanes | `w1`Ah ha ho!`w0` Kids... maybe. That's what you would say. Not your problem, little pitit...
+\" +
+//TODO: Mekhanes sits down on a log maybe?
+\"
+DIALOG | Mekhanes | Here, please please, come next to me.
+\" +
+//TODO: walk over to cinema marker where Mekhanes is
+\"
+WAIT  | 0.25
+USEAT | o_mekhanes01
+WAIT  | 0.25
+QUEST | mekhanesState += 1
+GOTO  | STATESORTER
+
+//TODO: add these second, third and repeating meets
+SECONDMEET
+DIALOG | Bhroom | This is the second meet.
+DIALOG | Mekhanes | Here, please please, come next to me.
+QUEST  | mekhanesState += 1
+GOTO   | STATESORTER
+
+THIRDMEET
+DIALOG | Bhroom | This is the third meet.
+DIALOG | Mekhanes | Here, please please, come next to me.
+QUEST  | mekhanesState += 1
+GOTO   | STATESORTER
+
+ADD_MEET
+DIALOG | Bhroom | This is the fourth and repeating meet.
+DIALOG | Mekhanes | Here, please please, come next to me.
+GOTO   | STATESORTER
+
+STATESORTER
+QUEST | mekhanesRemind = 1
+ClockTime | event | mekhanesRemind | 0 | 20
+IF mekhanesSlag == 1 | GOTO | SLAG01
+IF mekhanesLafayette == 1 | GOTO | LAFA01
+IF mekhanesLafayette == 2 | GOTO | LAFA02
+IF mekhanesChandragupta == 1 | GOTO | CHANDRA01
+IF mekhanesChandragupta == 2 | GOTO | CHANDRA02
+IF mekhanesChandragupta == 3 | GOTO | CHANDRA03
+IF mekhanesChandragupta == 4 | GOTO | CHANDRA04
+GOTO | BHROOMCATCH
+
+SLAG01
+DIALOG | Mekhanes | Ah yes yes. Lets us see here...
+WAIT   | 0.25
+DIALOG | Mekhanes | Ah, indeed. Yes this is it, This is the one.
+WAIT   | 0.25
+USEAT  | o_mekhanes01
+NOTE   | take | Resealed Secret Dossier
+NOTIFY | Got the Resealed Secret Dossier
+WAIT   | 0.25
+DIALOG | P_NAME   | What exactly is this?
+DIALOG | Mekhanes | What do you mean what is it? Look at it... it's a `kw`Top Secret Dossier`rt` of course! It is from the group of `mq`L.O.N.G.I.N.U.S.`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | `w1`L.O.N.G.I.N.U.S.?!`w0`
+DIALOG | P_NAME   | Why is it all taped up?
+DIALOG | Mekhanes | Because I open it, little one. I open and read the instruction. And now... I tell the instruction to you.
+DIALOG | P_NAME   | Can I open it?
+DIALOG | Mekhanes | Haha, no no... little one, you cannot. This is what they say... `w1`For the Bird's Eye Only.`w0` Keep it closed, pitit. And `mq`take it to the village in the Eastelands.`rt` You know this village?
+IF knowTheSocial >= 0 | GOTO | SOCIAL_UNKNOWN
+IF knowTheSocial >= 1 | GOTO | SOCIAL_KNOWN
+IF knowTheSocial >= 2 | GOTO | SOCIAL_BEEN
+
+SOCIAL_UNKNOWN
+DIALOG | P_NAME   | No, I don't think I do. A village?
+DIALOG | Mekhanes | Ah it is called `kw`The Social.`rt` Yes yes, `kw`The Social`rt` In the Eastelands, yes?
+KNOW   | knowTheSocial | 1
+DIALOG | P_NAME   | Okay well,_ I'll look for it... what do I do there?
+GOTO   | SLAG01_CONT
+
+SOCIAL_KNOWN
+DIALOG | P_NAME   | I haven't been there but I've head of it.
+DIALOG | Mekhanes | It is in Eastelands, you know this Eastelands?
+DIALOG | P_NAME   | Yeah I can find it. What do I do there?
+GOTO   | SLAG01_CONT
+
+SOCIAL_BEEN
+DIALOG | P_NAME | Yeah I've been there. What do I do?
+GOTO   | SLAG01_CONT
+
+SLAG01_CONT
+DIALOG | Mekhanes | Ah yes yes. `kw`You find the Kobold with the name `w1`the Slag,`w0``rt` yes? 
+DIALOG | Mekhanes | `kw`You find him and his instructions are in the envelope.`rt`
+DIALOG | P_NAME   | Find Slag in the The Social._._._
+DIALOG | P_NAME = s_port_hoopzHappy | Got it! I can do that!
+DIALOG | Mekhanes | Good good, yes yes. You are strong, pitit. Your haunches are good for hiking. They take you to The Social, the Social_ `w1`and beyond.`w0`
+DIALOG | P_NAME   | Uh, thanks Mekhanes. I'll help you out.
+DIALOG | Mekhanes | Good, good, pitit. I rest my haunches here for a bit. I see you soon... if you need another visit from me! `w1`Ah ha ho!`w0`
+DIALOG | P_NAME   | Uh, okay then... see you.
+QUEST  | operationX = 3
+
+LAFA01
+DIALOG | Mekhanes | Yes yes, it is in my haversack... you will wait, yes? Forgive me.
+WAIT   | 1.0
+DIALOG | Mekhanes | Ah yes... this!
+WAIT   | 0.25
+USEAT  | o_makhanes01
+NOTE   | take | Re-re-resealed Secret Dossier
+NOTIFY | Got the Re-re-resealed Secret Dossier
+DIALOG | P_NAME   | What exactly is this?
+DIALOG | Mekhanes | What do you mean what is it? Look at it... it's a `kw`Top Secret Dossier`rt` of course! it is from the group of `mq`L.O.N.G.I.N.U.S.`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | `w1`L.O.N.G.I.N.U.S.?!`w0`
+DIALOG | P_NAME   | Huh, why is it all taped up?
+DIALOG | Mekhanes | Because I open it, little one. I open and read the instruction. And now... I tell the instruction to you.
+DIALOG | P_NAME   | Can I open it?
+DIALOG | Mekhanes | Haha, no no... little one, you cannot. This is what they say... `w1`For the Bird's Eye View Only.`w0` Keep it closed, pitit. And `mq`take it to the hideout in The Peak of Gilbert.`rt` Yes? `kw`Gilbert's Peak?`rt`
+GOTO   | LAFA_GILBERTSORT
+
+LAFA_GILBERTSORT
+IF knowGilbertsPeak >= 2 | GOTO | GILBERT_BEEN
+IF knowGilbertsPeak == 1 | GOTO | GILBERT_KNOWN
+IF knowGilbertsPeak == 0 | GOTO | GILBERT_UNKNOWN
+
+GILBERT_UNKNOWN
+DIALOG | P_NAME   | No, I don't think I do. What is Gilbert's Peak?
+DIALOG | Mekhanes | Ah it is the `sq`Mountain to the south and to the east.`rt`
+KNOW   | knowGilbertsPeak | 1
+DIALOG | P_NAME   | Okay well,_ I'll look for it... what do I do there?
+GOTO   | LAFA_CONT
+
+GILBERT_KNOWN
+DIALOG | P_NAME   | I haven't been there but I've head of it.
+DIALOG | Mekhanes | It is in the far east past Hoosegow and near the `kw`Tabernacle.`rt`
+KNOW   | knowTabernacle | 1
+DIALOG | P_NAME   | Yeah I can find it. What do I do there?
+GOTO   | LAFA_CONT
+
+GILBERT_BEEN
+DIALOG | P_NAME | Yeah I've been there. What do I do?
+GOTO   | LAFA_CONT
+
+LAFA02
+DIALOG | Mekhanes | Yes, yes... you still have `kw`envelope,`rt` yes? The, how you say, `kw`dossier?`rt` Please, please, `sq`give it to me.`rt`
+DIALOG | P_NAME   | Dossier?
+DIALOG | Mekhanes | Yes yes. I hear that the kobold has left the village. `sq`You were supposed to meet him were you not?`rt`
+DIALOG | P_NAME = r_port_hoopzSurprise | Oh shoot! Dagnugget! I was supposed to meet up with Slag at The Social.
+DIALOG | Mehankes | Yes yes, pitit finally remembers. Here, give me `kw`envelope.`rt` I will tell you where to go next...
+DIALOG | P_NAME = s_port_hoopzSad | Okayyy.
+GOTO   | NOTE_PROCESS
+
+LAFA02_CONT
+DIALOG | P_NAME = s_port_hoopzAngry | What? So I can't look inside?
+DIALOG | Mekhanes | Not yet, pitit... you must get the envelop to the next destination. You must move your haunches! Move them to `kw`The Peak of Gilbert.`rt` You know this, yes?
+GOTO   | LAFA_GILBERTSORT
+
+LAFA_CONT
+DIALOG | Mekhanes | Ah yes yes. `kw`You find the Rebel Scout with the name `w1`Lafayette,`w0``rt` yes? He is there. `kw`You find him and his instructions are in the envelope.`rt`
+DIALOG | P_NAME   | Find Lafayette somewhere on Gilbert's Peak._._._
+DIALOG | P_NAME = s_port_hoopzHappy | Got it! I can do that!
+DIALOG | Mekhanes | Good good, yes yes. You are strong, pitit. Your haunches are good for hiking. They take you to The Peak of Gilbert... `w1`all the way to the ceiling!`w0`
+DIALOG | P_NAME   | Uh, thanks Mekhanes. I'll help you out.
+DIALOG | Mekhanes | Good, good, pitit. I rest my haunches here for a bit. I see you soon... if you need another visit from me! `w1`Ah ha ho!`w0`
+DIALOG | P_NAME   | Uh, okay then... see you.
+QUEST  | operationX = 4
+
+CHANDRA01
+DIALOG | Mekhanes | Ah yes yes. Lets us see here...
+WAIT   | 0.25
+DIALOG | Mekhanes | Ah, indeed. Yes this is it,_ this is the one.
+WAIT   | 0.25
+USEAT  | o_makhanes01
+NOTE   | take | Re-re-re-re-resealed Secret Dossier
+NOTIFY | Got the Re-re-re-re-resealed Secret Dossier
+WAIT   | 0.25
+DIALOG | P_NAME   | What exactly is this?
+DIALOG | Mekhanes | What do you mean what is it? Look at it... it's a `kw`Top Secret Dossier`rt` of course! it is from the group of `mq`L.O.N.G.I.N.U.S.`rt`
+DIALOG | P_NAME = s_port_hoopzSurprise | `w1`L.O.N.G.I.N.U.S.?!`w0`
+DIALOG | P_NAME   | What's will all the tape?
+DIALOG | Mekhanes | Because someone opened it, pitit. Someone opened and read the instruction. And the instruction say to bring to someone else... and then that person open. And then another person open and open. Again and again. That is how this works. And now... I tell the instruction to you, and you bing it to new someone.
+DIALOG | P_NAME   | Can I open it, myself?
+DIALOG | Mekhanes | Haha, no no... little one, you cannot. The last one to open it was a woman. A `w1`beautiful woman,`w0` most beautiful in Necron. She was a prisoner. Sadly... `kw`she is dead...`rt` Keep it closed, pitit. And `mq`take it to the City of Towers in the Swamps.`rt` You know this city?
+GOTO   | CHANDRA_BRAINSORT
+
+CHANDRA_BRAINSORT
+IF knowBrainCity >= 2 | GOTO | BRAIN_BEEN
+IF knowBrainCity == 1 | GOTO | BRAIN_KNOWN
+IF knowBrainCity == 0 | GOTO | BRAIN_UNKNOWN
+
+BRAIN_UNKNOWN
+DIALOG | P_NAME   | No, I don't think I do. What is The City of Towers?
+DIALOG | Mekhanes | Ah it is the `kw`Brain City.`rt` It is past the `kw`swamps`rt`... to the west, pitit. Much much farther to the west.
+KNOW   | knowBrainCity | 1
+DIALOG | P_NAME   | Okay well,_ I'll look for it... what do I do there?
+GOTO   | CHANDRA_CONT
+
+BRAIN_KNOWN
+DIALOG | P_NAME   | I haven't been there but I've head of it.
+DIALOG | Mekhanes | It is in the `sq`far west through the Swamps.`rt` Only the finest haunches will move a dwarf through that muck. `w1`Ah ha ho!`w0`
+KNOW   | knowTabernacle | 1
+DIALOG | P_NAME   | I'm can find it. What do I do there?
+GOTO   | CHANDRA_CONT
+
+BRAIN_BEEN
+DIALOG | P_NAME | Yeah I've been there. What do I do?
+GOTO   | CHANDRA_CONT
+
+CHANDRA02
+DIALOG | Mekhanes | Yes, yes... you still have `kw`envelope,`rt` yes? The, how you say, `kw`dossier?`rt` Please, please, `sq`give it to me.`rt`
+DIALOG | P_NAME   | Dossier?
+DIALOG | Mekhanes | Yes yes. I hear that the kobold has left the village. `sq`You were supposed to meet him were you not?`rt`
+DIALOG | P_NAME = r_port_hoopzSurprise | Oh shoot! Dagnugget! I was supposed to meet up with Slag at The Social.
+DIALOG | Mehankes | Yes yes, pitit finally remembers. Here, give me `kw`envelope.`rt` I will tell you where to go next...
+DIALOG | P_NAME = s_port_hoopzSad | Okayyy.
+GOTO   | NOTE_PROCESS
+
+CHANDRA03
+DIALOG | Mekhanes | Yes, yes... you still have `kw`envelope,`rt` yes? The, how you say, `kw`dossier?`rt` Please, please, `sq`give it to me.`rt`
+DIALOG | P_NAME   | Oh right! Wasn't I supposed to do something with this?
+DIALOG | Mekhanes | Yes yes, pitit! The one named Lafayette in the Mountains! `sq`You were supposed to meet him were you, not?`rt` You are as forgetful as my Diantha!
+DIALOG | P_NAME = r_port_hoopzSurprise | Oh shoot! Dagnugget! I was supposed to meet him at Gilbert's Peak. What a botch job...
+DIALOG | Mehankes | Yes yes, pitit finally remembers. Here, give me `kw`envelope.`rt` I will tell you where to go next...
+DIALOG | P_NAME = s_port_hoopzSad | Ugh, sorry Mekhanes.
+GOTO   | NOTE_PROCESS
+
+CHANDRA04
+DIALOG | Mekhanes | Yes, yes... you still have `kw`envelope,`rt` yes? The, how you say, `kw`dossier?`rt` Please, please, `sq`give it to me.`rt`
+DIALOG | P_NAME   | Oh right! Wasn't I supposed to do something with this?
+DIALOG | Mekhanes | You and my Diantha are one and in common, pitit! You foget, your elders tell you and you foget.
+DIALOG | P_NAME = r_port_hoopzSurprise | Oh shoot! Dagnugget! I was `sq`supposed to make contact with that prisoner in the Hoosegow.`rt` I hope they're okay!
+DIALOG | Mehankes | No no, they are not okay. They are hanging from the gallows now... The mission, pitit, was failed. I am sorry to say.
+DIALOG | P_NAME = s_port_hoopzSad | (Oh no... my inaction has caused a death...)
+//TODO: crestfall event for the death of Cherlindria
+GOTO | NOTE_PROCESS
+
+CHANDRA_CONT
+DIALOG | Mekhanes | You will enter `kw`Brain City,`rt` pitit. Yes. Then you `mq`will find the scheming rebel of the name of Chandragupta.`rt`
+DIALOG | P_NAME   | Chandragupta?
+DIALOG | Mekhanes | Indeed yes, indeed. That is the instruction.
+DIALOG | P_NAME = s_port_hoopzSmirk | Well then you've got nothing to worry about Mekhanes!
+DIALOG | Mekhanes | Good, good, pitit. I rest my haunches here for a bit. I see you soon... if you need another visit from me! `w1`Ah ha ho!`w0`
+DIALOG | P_NAME   | Uh, okay then... see you.
+QUEST  | operationX = 6
+
+REMINDSORTER
+IF mekhanesChandragupta >= 1 | GOTO | CHANDRA_REMIND01
+IF mekhanesLafayette >= 1 | GOTO | LAFA_REMIND
+IF mekhanesSlag >= 1 | GOTO | SLAG_REMIND01
+
+SLAG_REMIND01
+IF mekhanesSlagFlav = 1 | GOTO | SLAG_REMIND02
+DIALOG | Mekhanes | We walk different paths now, little pitit. You have your task, you know where to go...
+DIALOG | P_NAME   | Uh, I do?
+DIALOG | Mekhanes | `mq`You must find the kobold Slag in the Eastelands Village,`rt` yes? He will surely help you with this package. I can do no more for you now.
+QUEST  | mekhanesSlagFlav = 1
+
+SLAG_REMIND02
+DIALOG | Mekhanes | I maybe can help at a later date, pitit,_ but for now you are on your own. `mq`Find the kobold with the name of the Slag. He is in the Eastelands`rt`
+
+LAFA_REMIND01
+IF mekhanesLafaFlav = 1 | GOTO | CHANDRA_REMIND02
+DIALOG | Mekhanes | Our journeys diverge, pitit. I go may way for a while, and you go yours, yes?
+DIALOG | P_NAME   | Yeah, but remind me again what I should do?
+DIALOG | Mekhanes | `mq`Find Lafatette in the Mountain.`rt` yes? Take him the envelope, of course. `mq`Do not throw it away,`rt` pitit. You will see me again, pitit, if you need me, yes? You understand?
+DIALOG | P_NAME = s_port_hoopzHappy | I think I do, thank you Mekhanes!
+QUEST  | mekhanesLafaFlav = 1
+
+LAFA_REMIND02
+DIALOG | Mekhanes | `mq`Find Lafatette in the Mountain.`rt` He can explain more, yes? You understand now, I'm sure, pitit.
+
+CHANDRA_REMIND01
+IF mekhanesChandraFlav = 1 | GOTO | CHANDRA_REMIND02
+DIALOG | Mekhanes | Our journeys are no longer,_ how you say... `w1`parallel,`w0` pitit. Time is now for you to go your own way, yes?
+DIALOG | P_NAME   | Uh, I guess so...
+DIALOG | Mekhanes | `mq`You get to Chandragupta in Brain City,`rt` yes? That will surely help you with this package. I can do no more.
+QUEST  | mekhanesChandraFlav = 1
+
+CHANDRA_REMIND02
+DIALOG | Mekhanes | I can do no more. `mq`Got to Brain City, find Chandragupta.`rt` Fare thee well, pitit.
+
+BHROOMCATCH
+DIALOG | Bhroom | This shouldn't happen!
+
+NOTE_PROCESS
+NOTE | select | [name]
+IF note == exit | GOTO | NOTE_EXIT
+IF note == none | GOTO | NOTE_NONE
+IF note == Sealed Secret Dossier | GOTO | DOSSIER_SWAP01
+IF note == Resealed Secret Dossier | GOTO | DOSSIER_SWAP02
+IF note == Re-resealed Secret Dossier | GOTO | DOSSIER_SWAP03
+IF note == Re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP04
+IF note == Re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP05
+IF note == Re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP06
+IF note == Re-re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP07
+IF note == Re-re-re-re-re-re-resealed Secret Dossier | GOTO | DOSSIER_SWAP08
+GOTO | NOTE_OTHER
+
+NOTE_OTHER
+DIALOG | [name] | 
+GOTO | NOTE_PROCESS
+
+NOTE_EXIT
+DIALOG | [name] | 
+GOTO | NOTE_PROCESS
+
+DOSSIER_SWAP01
+NOTE | give | Sealed Secret Dossier
+NOTE | take | Resealed Secret Dossier
+QUEST | newNote = Resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP02
+NOTE | give | Resealed Secret Dossier
+NOTE | take | Re-resealed Secret Dossier
+QUEST | newNote = Re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP03
+NOTE | give | Re-resealed Secret Dossier
+NOTE | take | Re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP04
+NOTE | give | Re-re-resealed Secret Dossier
+NOTE | take | Re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP05
+NOTE | give | Re-re-re-re-resealed Secret Dossier
+NOTE | take | Re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP06
+NOTE | give | Re-re-re-re-re-resealed Secret Dossier
+NOTE | take | Re-re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+DOSSIER_SWAP07
+NOTE | give | Re-re-re-re-re-re-resealed Secret Dossier
+NOTE | take | Re-re-re-re-re-re-re-resealed Secret Dossier
+QUEST | newNote = Re-re-re-re-re-re-re-resealed Secret Dossier
+GOTO | SWAP_ACTION
+
+SWAP_ACTION
+WAIT | 0.25
+USEAT | [name]
+NOTIFY | Got the @newNote@.
+WAIT | 0.25
+IF mekhanesChandragupta == 4 | GOTO | CHANDRA04_CONT
+IF mekhanesChandragupta == 3 | GOTO | CHANDRA03_CONT
+IF mekhanesChandragupta == 2 | GOTO | CHANDRA02_CONT
+IF mekhanesLafayette == 2 | GOTO | LAFA02_CONT"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63o87"]
+atlas = ExtResource("2_w476e")
+region = Rect2(0, 0, 47, 47)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dpik4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63o87")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hr8wt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c5jp0"]
+size = Vector2(20, 36)
+
+[node name="o_mekhanes01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_hr8wt")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_dpik4")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_dpik4")
+centered = false
+offset = Vector2(-26, -39)
+metadata/default = {
+"bbox_bottom": "43",
+"bbox_left": "2",
+"bbox_right": "44",
+"bbox_top": "5",
+"frames": ["images\\s_mekhanes01_0.png"],
+"height": "47",
+"name": "s_mekhanes01",
+"width": "47",
+"xorig": "26",
+"yorigin": "39"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -5)
+shape = SubResource("CircleShape2D_hr8wt")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_c5jp0")

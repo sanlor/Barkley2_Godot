@@ -1,0 +1,184 @@
+[gd_scene load_steps=9 format=3 uid="uid://cliyiql1oljj5"]
+
+[ext_resource type="Script" uid="uid://drkhp2t4c6t67" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_wst_filip01.gd" id="1_mh6ng"]
+[ext_resource type="Texture2D" uid="uid://br3dbs4h3appc" path="res://barkley2/assets/b2_original/images/merged/o_filip01.png" id="2_7jvql"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_klqyj"]
+
+[sub_resource type="Resource" id="Resource_fr7f5"]
+script = ExtResource("2_klqyj")
+original_script = "IF wstFilip == 5 | GOTO | FILIP_5
+IF wstFilip == 6 | GOTO | FILIP_6
+IF wstFilipPurchase == 1 | GOTO | PURCHASE_CONTINUE
+IF wstFilipMissed == 1 | GOTO | MISSED_TRAIN
+IF wstFilip == 0 | GOTO | FILIP_0
+IF wstFilip == 1 | GOTO | FILIP_1
+IF wstFilip == 2 | GOTO | FILIP_2
+IF wstFilip == 3 | GOTO | FILIP_3
+IF wstFilip == 4 | GOTO | FILIP_4
+    
+PURCHASE_CONTINUE
+DIALOG | Filip | Ah, you're back. So you want a `kw`train ticket`rt` after all, eh?
+GOTO   | PURCHASE
+   
+FILIP_0        
+DIALOG | Filip | Train tickets here!! Only place in The Social to buy `kw`train tickets!!!`rt` Only @money_filipTicket@ neo-shekels!! You there, want to buy a train ticket? Better act now, they're going fast. Only way you're ever going to get out of The Social!
+GOTO   | PURCHASE
+
+FILIP_1
+DIALOG | Filip | Oh, excuse me. I was just `kw`daydreaming`rt` about all the wonderful places you can visit on a train.
+
+FILIP_2
+DIALOG | Filip | You certainly are lucky. I always say that a man with a train ticket in his hand is a man with good fortune.
+ 
+FILIP_3
+DIALOG | Filip | What are you still doing here!?! You need to `s1`hurry,`s0` the train leaves any minute now!!
+  
+FILIP_4
+DIALOG | Filip | Quite a bargain you got on that train ticket. Tell all your friends about me, I'm the only place you can get train tickets right now.
+
+FILIP_5
+DIALOG | Filip | Come on, your anti-train smirks are scaring off the customers. Get lost.
+QUEST  | wstFilip = 6
+    
+FILIP_6
+DIALOG | Filip | I just want to jizz on a cybergremlin's face before I die._ That's all I want.
+
+MISSED_TRAIN
+DIALOG | Filip  | My goodness! What are you still doing here? `s1`You missed the train!`s0`
+DIALOG | P_NAME | I did? Shucks, I couldn't find it.
+DIALOG | Filip  | That's terrible. Your ticket's `kw`expired`rt` too. Here, let me take your old ticket. It's just no good anymore.
+NOTIFY | Filip snatched your expired ticket!
+ITEM   | Train Ticket | -1
+DIALOG | Filip  | It's all sweaty. You should put it in your pocket next time. You don't want all the ink to smear. So, let's get you a new ticket. That'll be another @money_filipTicket@ neo-shekels.
+GOTO   | PURCHASE              
+  
+PURCHASE
+BREAKOUT | add | money
+CHOICE | Want to buy a train ticket for $@money_filipTicket@?
+IF money < @money_filipTicket@  | REPLY | CHOICE_YES_POOR | Yes!
+IF money >= @money_filipTicket@ | REPLY | CHOICE_YES_RICH | Yes!
+REPLY | CHOICE_NO_THANKS | Nope!
+
+CHOICE_YES_POOR
+DIALOG | P_NAME | I don't have that much money.....
+BREAKOUT | clear
+DIALOG | Filip  | Oh no!! I guess you're just stuck here, then. The train is the only way out of The Social. You better save up enough money or you're never getting out of here.
+QUEST  | wstFilipPurchase = 1
+QUEST  | wstFilipMissed = 0
+       
+CHOICE_YES_RICH
+DIALOG | P_NAME | I'll definitely take one!
+QUEST  | money -= @money_filipTicket@
+NOTIFY | Purchased a Train Ticket!
+ITEM   | Train Ticket | 1
+DIALOG | Filip | `w1`Wonderful!!`w0` Here's your ticket!! Have a safe and pleasant journey!!!
+BREAKOUT | clear
+QUEST  | wstFilipPurchase = 0
+QUEST  | wstFilipMissed = 0
+IF wstFilip < 5 | ClockTime | event | wstFilipMissed | 1 | 30
+GOTO   | POSTPURCHASE
+                    
+CHOICE_NO_THANKS
+DIALOG | P_NAME | No thanks. Maybe some other time.
+BREAKOUT | clear
+DIALOG | Filip  | This isn't the sort of place for a little youngster like you to be running around. You should really take the train right now!
+QUEST  | wstFilipPurchase = 1
+QUEST  | wstFilipMissed = 0
+
+POSTPURCHASE
+IF wstFilip == 4 | GOTO | POSTPURCHASE_4
+IF wstFilip == 3 | GOTO | POSTPURCHASE_3
+IF wstFilip == 2 | GOTO | POSTPURCHASE_2
+IF wstFilip == 1 | GOTO | POSTPURCHASE_1
+IF wstFilip == 0 | GOTO | POSTPURCHASE_0
+
+POSTPURCHASE_0
+DIALOG | P_NAME | So where does the train go?
+DIALOG | Filip  | Anywhere you'd want it to go. It's that kind of train, the best there is. I myself like to rest somewhere in the shade and have a little daydream about the places I want to go. Then I go there. It's like I'm following my own dreams, they do all the talking for me.
+DIALOG | P_NAME | Uh, ok. I just want to get as far away from here as I can.
+DIALOG | Filip  | Well, it's a good thing you found me, then. Better run along now, don't want to miss that train.
+QUEST  | wstFilip = 1
+
+POSTPURCHASE_1
+DIALOG | P_NAME | So, where is the train station?
+DIALOG | Filip  | It's where I get all my tickets from. You'll find it, it's right over there.
+DIALOG | P_NAME | Ok, thanks.
+QUEST  | wstFilip = 2
+         
+POSTPURCHASE_2
+DIALOG | P_NAME | Are there any of those duergar guys on the train? I don't like them very much.
+DIALOG | Filip  | No. Trains are a no-duergar zone. This is me fighting back against the duergar system. Imagine a poor mother, not unlike yourself, running from land mines holding her baby crying in a dark alley. This is the image that inspires me to sell train tickets. I will sell train tickets until I die.
+DIALOG | P_NAME | Ok, thanks, that's all I wanted to know.
+DIALOG | Filip  | Just remember to hurry and find the train station or the train will leave without you! That ticket is only good for this train. You miss it and you'll have to buy another from me.
+QUEST  | wstFilip = 3
+
+POSTPURCHASE_3
+DIALOG | P_NAME | These prices are kinda high for a train ticket. Why is it so expensive?
+DIALOG | Filip  | Oh? I suppose you know of a cheaper train in town, then? Come, show me this cheaper train ticket. I'll sell them instead.
+DIALOG | P_NAME | I don't know of a cheaper train. It's just expensive, that's all.
+DIALOG | Filip  | That's why it's expensive, there's no other trains. You're lucky they're this cheap. Now, hurry on. You don't want to miss the train.
+QUEST  | wstFilip = 4
+
+POSTPURCHASE_4
+DIALOG | P_NAME | Why aren't more people taking the train out of town? I don't think many people really like it here.
+DIALOG | Filip  | I don't know. Maybe they can't afford it. Tickets aren't cheap. Maybe they're afraid to leave, afraid it's no better anywhere else. Maybe some people just love their land, no matter how polluted it gets. They're like a train, can't go anywhere but where their rails take it.......
+DIALOG | P_NAME | You'd think if their life was really like a train it would take them to the train station.
+DIALOG | Filip  | Fruck you, what the fruck do you know about trains? 70% of my body is made of trains. You're just a train amateur. Now scram, I don't need your stupid amateur train commentary.
+QUEST  | wstFilip = 5"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klqyj"]
+atlas = ExtResource("2_7jvql")
+region = Rect2(0, 0, 27, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fr7f5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klqyj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_16xou"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16xou"]
+size = Vector2(20, 36)
+
+[node name="o_wst_filip01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_mh6ng")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_fr7f5")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_fr7f5")
+centered = false
+offset = Vector2(-13, -44)
+metadata/default = {
+"bbox_bottom": "49",
+"bbox_left": "3",
+"bbox_right": "24",
+"bbox_top": "4",
+"frames": ["images\\o_filip01_0.png"],
+"height": "52",
+"name": "o_filip01",
+"width": "27",
+"xorig": "13",
+"yorigin": "44"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_16xou")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -17)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+shape = SubResource("RectangleShape2D_16xou")

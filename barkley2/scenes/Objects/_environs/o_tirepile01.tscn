@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnqiwvh1wnnfg"]
+
+[ext_resource type="Texture2D" uid="uid://dbndwj061nsrk" path="res://barkley2/assets/b2_original/images/merged/s_tirepile01.png" id="1_ppd2k"]
+[ext_resource type="Script" uid="uid://cnmy82oeeeflq" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ.gd" id="2_sla86"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adp88"]
+atlas = ExtResource("1_ppd2k")
+region = Rect2(0, 0, 28, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bchdl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adp88")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ppd2k"]
+radius = 13.038404
+
+[node name="o_tirepile01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_bchdl")
+centered = false
+offset = Vector2(-14, -32)
+script = ExtResource("2_sla86")
+metadata/default = {
+"bbox_bottom": "44",
+"bbox_left": "0",
+"bbox_right": "27",
+"bbox_top": "0",
+"height": "45",
+"name": "s_tirepile01",
+"width": "28",
+"xorig": "14",
+"yorigin": "32"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_ppd2k")

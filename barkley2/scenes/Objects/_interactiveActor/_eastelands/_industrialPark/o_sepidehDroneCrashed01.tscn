@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://cro0ipboppcx0"]
+
+[ext_resource type="Texture2D" uid="uid://4okdbpnus0q2" path="res://barkley2/assets/b2_original/images/merged/s_sepidehDroneCrashed01.png" id="1_mryoc"]
+[ext_resource type="Script" uid="uid://cl7b8ei3aesks" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_sepideh_drone_crashed_01.gd" id="2_1aise"]
+[ext_resource type="Texture2D" uid="uid://csbe7re716n5r" path="res://barkley2/assets/b2_original/images/cc/s_effect_smog_0.png" id="3_ivgmy"]
+[ext_resource type="Material" uid="uid://by54mx3ljmedq" path="res://barkley2/shaders/particles/o_sepidehDroneCrashed01.tres" id="4_bjjuo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1aise"]
+atlas = ExtResource("1_mryoc")
+region = Rect2(0, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivgmy"]
+atlas = ExtResource("1_mryoc")
+region = Rect2(69, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjjuo"]
+atlas = ExtResource("1_mryoc")
+region = Rect2(138, 0, 69, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_coha5"]
+atlas = ExtResource("1_mryoc")
+region = Rect2(207, 0, 69, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xd4ad"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1aise")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivgmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjjuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_coha5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1aise"]
+radius = 14.035668
+
+[node name="o_sepidehDroneCrashed01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_xd4ad")
+centered = false
+offset = Vector2(-34, -20)
+script = ExtResource("2_1aise")
+is_interactive = false
+metadata/default = {
+"bbox_bottom": "59",
+"bbox_left": "0",
+"bbox_right": "68",
+"bbox_top": "0",
+"height": "60",
+"name": "s_sepidehDroneCrashed01",
+"width": "69",
+"xorig": "34",
+"yorigin": "20"
+}
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 128
+texture = ExtResource("3_ivgmy")
+lifetime = 2.0
+process_material = ExtResource("4_bjjuo")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, 15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_1aise")
