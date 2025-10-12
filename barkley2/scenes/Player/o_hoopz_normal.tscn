@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=32 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_6d2l0"]
@@ -91,9 +91,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ph4w5"]
-size = Vector2(5, 5)
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_uptpk"]
 radius = 4.0
 
@@ -153,20 +150,6 @@ occluder = SubResource("OccluderPolygon2D_ufjxn")
 sdf_collision = false
 occluder_light_mask = 3
 
-[node name="flashlight_pivot" type="Marker2D" parent="."]
-position = Vector2(0, -25)
-
-[node name="flashlight" type="PointLight2D" parent="flashlight_pivot"]
-position = Vector2(3, 53)
-rotation = -1.5707964
-scale = Vector2(0.5, 0.5)
-range_z_max = 90
-range_item_cull_mask = 3
-shadow_enabled = true
-shadow_item_cull_mask = 2
-texture = ExtResource("3_ac4jf")
-height = 16.0
-
 [node name="hoopz_collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_aubae")
@@ -183,30 +166,6 @@ frame = 6
 speed_scale = 2.0
 centered = false
 offset = Vector2(-22, -41)
-
-[node name="aim_origin" type="Marker2D" parent="."]
-position = Vector2(0, -16)
-
-[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin"]
-visible = false
-z_index = 100
-z_as_relative = false
-sprite_frames = SubResource("SpriteFrames_5m4dk")
-animation = &"bulls"
-autoplay = "bulls"
-
-[node name="interaction_node" type="Area2D" parent="aim_origin"]
-editor_description = "Previously called \"Large dong of interaction\".
-Used for Gamepad interactions."
-monitoring = false
-script = ExtResource("19_ph4w5")
-
-[node name="Sprite2D" type="Sprite2D" parent="aim_origin/interaction_node"]
-texture = SubResource("PlaceholderTexture2D_ph4w5")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node"]
-shape = SubResource("CircleShape2D_uptpk")
-debug_color = Color(0.99460953, 0, 0.226715, 0.25490198)
 
 [node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -257,6 +216,45 @@ offset = Vector2(-22, -41)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
+
+[node name="flashlight_pivot" type="Marker2D" parent="."]
+position = Vector2(0, -25)
+
+[node name="flashlight" type="PointLight2D" parent="flashlight_pivot"]
+position = Vector2(3, 53)
+rotation = -1.5707964
+scale = Vector2(0.5, 0.5)
+range_z_max = 90
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_item_cull_mask = 2
+texture = ExtResource("3_ac4jf")
+height = 16.0
+
+[node name="aim_origin" type="Marker2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin"]
+visible = false
+z_index = 100
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_5m4dk")
+animation = &"bulls"
+autoplay = "bulls"
+
+[node name="interaction_node" type="Area2D" parent="aim_origin"]
+editor_description = "Previously called \"Large dong of interaction\".
+Used for Gamepad interactions."
+monitoring = false
+script = ExtResource("19_ph4w5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node"]
+shape = SubResource("CircleShape2D_uptpk")
+debug_color = Color(0.99460953, 0, 0.226715, 0.25490198)
+
+[node name="debug_text" type="Sprite2D" parent="aim_origin/interaction_node"]
+visible = false
+texture = SubResource("PlaceholderTexture2D_ufjxn")
 
 [node name="gun_muzzle" type="Marker2D" parent="."]
 
