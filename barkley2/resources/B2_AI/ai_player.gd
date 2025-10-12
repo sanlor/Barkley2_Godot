@@ -8,12 +8,13 @@ func step() -> void:
 	if actor:
 		if B2_Input.player_has_control or force_player_control:
 			actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
-			actor.apply_curr_aim( actor.get_global_mouse_position() )
-		else:
-			#actor.apply_curr_aim( Vector2.ZERO )
-			#actor.apply_curr_input( Vector2.ZERO )
-			pass
 			
+			if B2_Input.is_using_gamepad():
+				var g_input := Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down")
+				if g_input:			actor.apply_curr_aim( g_input )
+				else:				actor.apply_curr_aim( Vector2.ZERO ) ## <- Is this needed?
+			else:
+				actor.apply_curr_aim( actor.get_aim_origin().direction_to( actor.get_global_mouse_position() ) )
 			
 		_input_process()
 

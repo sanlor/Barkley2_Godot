@@ -67,7 +67,8 @@ func _create_bullet( source_pos : Vector2, dir : Vector2, source_actor : B2_Comb
 		bullet.apply_attribute_mods( skill_mod.bio_damage, skill_mod.cyber_damage, skill_mod.mental_damage, skill_mod.cosmic_damage, skill_mod.zauber_damage )
 	bullet.setup_bullet_sprite( curr_gun.get_bullet_sprite(), curr_gun.get_bullet_color() )
 	bullet.source_actor = source_actor
-	B2_RoomXY.get_curr_room().add_child( bullet, true )
+	#B2_RoomXY.get_curr_room().add_child( bullet, true )
+	source_actor.add_sibling( bullet, true )
 	bullet.position = source_pos
 	bullet.final_multiplier = B2_Config.PLAYER_BULLET_DAMAGE_MULTIPLIER
 		

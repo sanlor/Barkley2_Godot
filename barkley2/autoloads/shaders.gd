@@ -1,11 +1,10 @@
 ## B2_Shader <- The weird one.
 # Applies shaders to the whole screen. Was negleted for a long time.
+# NOTE Not sure if this is useful or not. We already have B2_Screen that handles lots of "screen" related stuff.
 extends CanvasLayer
 const DEBUG := true
 
-
-
-func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ):
+func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ): # toggled by the current room settings
 	var rain_shader: 		GPUParticles2D = $rain_shader
 	rain_shader.emitting = state
 	rain_shader.visible = state
@@ -19,22 +18,22 @@ func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ):
 				
 		if thunder: push_error("Thunder not implemented yet.")
 	
-	if DEBUG: print_rich("[color=pink] shader '%s' is %s." % ["rain_shader",state] )
+	if DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"rain_shader",state] )
 
-func toggle_fog_shader( state : bool ):
+func toggle_fog_shader( state : bool ): # toggled by the current room settings
 	var fog_shader: 		ColorRect = $fog_shader
 	fog_shader.visible = state
-	if DEBUG: print_rich("[color=pink] shader '%s' is %s." % ["fog_shader",state] )
+	if DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"fog_shader",state] )
 
-func toggle_crt_shader( state : bool ):
+func toggle_crt_shader( state : bool ): # toggled by the game settings
 	var shader_canvas: 	ColorRect = $shader_canvas
 	shader_canvas.visible 	= state
-	if DEBUG: print_rich("[color=pink] shader '%s' is %s." % ["shader_canvas",state] )
+	if DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"shader_canvas",state] )
 	
 func toggle_ff_shader( state : bool ): # toggled by the B2_Input autoload
 	var ff_shader: 		ColorRect = $ff_shader
 	ff_shader.visible 		= state
-	if DEBUG: print_rich("[color=pink] shader '%s' is %s." % ["ff_shader",state] )
+	if DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"ff_shader",state] )
 
 func _process(_delta: float) -> void:
 	if is_node_ready():

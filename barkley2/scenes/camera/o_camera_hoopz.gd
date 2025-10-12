@@ -48,8 +48,11 @@ var player_node : Node2D
 var actor_array : Array
 
 ## Camera stuff
-var camera_normal_offset := Vector2( 0,20 )
-var camera_combat_offset := Vector2( 0,0 )
+const CAMERA_NORMAL_OFFSET 		:= Vector2( 0,0 ) # <- Still need to figure out. In cutscenes, 20 is good. During gameplay, -20 is good.
+const CAMERA_CUTSCENE_OFFSET 	:= Vector2( 0,20 )
+const CAMERA_COMBAT_OFFSET 		:= Vector2( 0,0 )
+
+var camera_offset			:= Vector2.ZERO
 
 ## Shake stuff
 var shake_rng 				:= RandomNumberGenerator.new()
@@ -81,7 +84,7 @@ func _ready() -> void:
 		set_camera_bound( true )
 	
 	position 			= position.round()
-	offset 				= camera_normal_offset
+	offset 				= camera_offset
 	
 	B2_CManager.camera 	= self
 	B2_SignalBus.camera_follow_mouse.connect( func(state): follow_mouse = state )
@@ -121,7 +124,7 @@ func follow_actor( _actor_array : Array, _speed : String ):
 func cinema_snap( _destination : Vector2 ):
 	curr_MODE 	= MODE.CINEMA
 	position 	= _destination
-	offset 		= camera_normal_offset
+	offset 		= camera_offset
 	zoom = Vector2.ONE
 
 # move to the target
@@ -274,10 +277,15 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
 func _physics_process(delta: float) -> void:
+	if B2_Input.cutscene_is_playing:
+		camera_offset = CAMERA_CUTSCENE_OFFSET
+	else:
+		camera_offset = CAMERA_NORMAL_OFFSET
+		
 	if manual_control and manual_target:
 		global_position 	= global_position.lerp( manual_target.global_position, 0.1 )
 		#offset 				= offset.lerp( Vector2.ZERO, 0.1 )
-		offset 				= offset.lerp( camera_normal_offset, 0.1 )
+		offset 				= offset.lerp( camera_offset, 0.1 )
 		zoom 				= zoom.lerp( Vector2.ONE, 0.1)
 		return
 		
@@ -301,7 +309,8 @@ func _physics_process(delta: float) -> void:
 			## NOTE What feels better? Lerp of move_torward?
 			position 	= position.move_toward( avg_pos, (speed * 20) * delta )
 			#position 	= position.lerp( avg_pos, (speed * 10) * delta )
-			offset 		= offset.move_toward( camera_normal_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
+			
+			offset 		= offset.move_toward( camera_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
 			#offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
 			
 		MODE.CINEMA:
@@ -314,7 +323,7 @@ func _physics_process(delta: float) -> void:
 					
 			#position = _position.round()
 			#position = _position.floor()
-			offset	= offset.move_toward(camera_normal_offset, camera_follow_speed * delta) + camera_shake_offset
+			offset	= offset.move_toward(camera_offset, camera_follow_speed * delta) + camera_shake_offset
 			#position = _position
 			
 		MODE.FOLLOW:
@@ -333,18 +342,24 @@ func _physics_process(delta: float) -> void:
 					var mouse_dir 	:= Vector2.ZERO
 					var mouse_dist 	:= 0.0
 					if B2_Input.player_has_control: ## Cant influence camera if the player doesnt have control.
-						mouse_dir 	= player_node.position.direction_to( 	get_global_mouse_position() )
-						mouse_dist 	= player_node.position.distance_to( 	get_global_mouse_position() )
-					mouse_dist = clampf( mouse_dist, 0.0, 250.0 )
-					offset = offset.move_toward( camera_normal_offset + (mouse_dir * mouse_dist / 3.0), camera_follow_speed * delta ) + camera_shake_offset
+						if B2_Input.is_using_gamepad():
+							var g_input := Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down") * 500.0
+							g_input.y *= 0.75 # <- to adjust for the screen ratio
+							mouse_dir 	= player_node.position.direction_to( g_input + global_position )
+							mouse_dist 	= player_node.position.distance_to( g_input + global_position )
+						else:
+							mouse_dir 	= player_node.position.direction_to( 	get_global_mouse_position() )
+							mouse_dist 	= player_node.position.distance_to( 	get_global_mouse_position() )
+					mouse_dist = clampf( mouse_dist, 0.0, 275.0 )
+					offset = offset.move_toward( camera_offset + (mouse_dir * mouse_dist / 3.0), camera_follow_speed * delta ) + camera_shake_offset
 					#offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
-					offset = offset.move_toward( camera_normal_offset, camera_follow_speed * delta ) + camera_shake_offset
+					offset = offset.move_toward( camera_offset, camera_follow_speed * delta ) + camera_shake_offset
 					
 			else:
 				is_lost = true
 				#print(offset)
-				offset = offset.lerp( camera_normal_offset + camera_shake_offset, 0.05 )
+				offset = offset.lerp( camera_offset + camera_shake_offset, 0.05 )
 			
 			if camera_bound_to_map:
 				## When the HUD is open, it messes the camera bounding when the player leaves via a door to the south.
@@ -361,7 +376,7 @@ func _physics_process(delta: float) -> void:
 				
 		
 		MODE.COMBAT:
-			offset = offset.lerp( camera_combat_offset, (speed / 200.0) ) + camera_shake_offset
+			offset = offset.lerp( camera_offset, (speed / 200.0) ) + camera_shake_offset
 			position = position.lerp( focus, (speed / 200.0) )
 			zoom = zoom.lerp( Vector2.ONE / clampf( cam_zoom / 50.0, 1.0, 2.0 ), ( speed / 100.0 ) )
 		

@@ -55,6 +55,9 @@ func _input(event: InputEvent) -> void:
 			# normalize engine speed.
 			ffwd( false )
 
+func is_using_gamepad() -> bool:
+	return curr_CONTROL == CONTROL.GAMEPAD
+
 func ffwd( active : bool ):
 	if active:
 		Engine.time_scale = ff_time_scale

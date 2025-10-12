@@ -72,9 +72,11 @@ var facing_vector			:= Vector2.DOWN ## Where the actor should look at
 
 # Actions - Used By AIs
 var curr_input 				:= Vector2.ZERO
-var curr_aim				:= Vector2.ZERO
-var last_direction 			:= Vector2.ZERO
 var last_input 				:= Vector2.ZERO
+var curr_aim				:= Vector2.ZERO
+var last_aim				:= Vector2.ZERO
+var last_direction 			:= Vector2.ZERO
+
 
 # used to define the movement sprite
 var movement_vector 		:= Vector2.ZERO
@@ -134,6 +136,7 @@ func apply_curr_input( dir : Vector2 ) -> void:
 	
 func apply_curr_aim( dir : Vector2 ) -> void:
 	curr_aim = dir
+	#print(curr_aim)
 
 ## TODO
 func _connect_ai_signals() -> void:
@@ -164,6 +167,9 @@ func _ai_roll_at( _enabled : bool ) -> void:
 	
 func _ai_jump( _enabled : bool ) -> void:
 	pass
+
+func get_aim_origin() -> Vector2:
+	return Vector2.ZERO
 
 ## Handle the most basic animations
 func normal_animation(_delta : float):

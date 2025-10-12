@@ -54,6 +54,8 @@ func _setup_interactiveactor():
 		if is_instance_valid(mouse_detection_area):
 			mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
 			mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
+			mouse_detection_area.area_entered.connect( gamepad_detection_area_entered )
+			mouse_detection_area.area_exited.connect( gamepad_detection_area_exited )
 		else:
 			push_error("%s has no node named 'mouse_detection_area' used for interaction." % name)
 		
@@ -71,13 +73,18 @@ func _setup_interactiveactor():
 func _input(event: InputEvent) -> void:
 	if not B2_Input.cutscene_is_playing: # only handle inputs if there are not cutscenes or dialogs running
 		if is_mouse_hovering:
-			if event is InputEventMouseMotion:
+			if event is InputEventMouseMotion or event is InputEventJoypadMotion:
 				_process_mouse_events()
 				
 			if is_player_near:
-				if event is InputEventMouseButton:
-					if Input.is_action_just_pressed("Action"):
-						interaction()
+				if B2_Input.is_using_gamepad():
+					if event is InputEventJoypadButton:
+						if Input.is_action_just_pressed("Action"):
+							interaction()
+				else:
+					if event is InputEventMouseButton:
+						if Input.is_action_just_pressed("Action"):
+							interaction()
 		
 func interaction() -> void:
 	if is_interactive:
@@ -85,6 +92,15 @@ func interaction() -> void:
 			B2_CManager.play_cutscene( cutscene_script, self, cutscene_script_mask )
 		else:
 			push_warning( "Player is interacting with actor %s but no script is attached." % name )
+	
+func gamepad_detection_area_entered( player_interaction_node : Node2D ) -> void: ## Allow for player using a gamepad to interact with stuff.
+	if player_interaction_node is B2_Player_Interaction_Node and B2_Input.is_using_gamepad():
+		is_mouse_hovering = true
+
+func gamepad_detection_area_exited( player_interaction_node : Node2D ) -> void: ## Allow for player using a gamepad to interact with stuff.
+	if player_interaction_node is B2_Player_Interaction_Node and B2_Input.is_using_gamepad():
+		is_mouse_hovering = false
+		_process_mouse_events()
 	
 func mouse_detection_area_entered() -> void:
 	if not B2_Input.cutscene_is_playing:

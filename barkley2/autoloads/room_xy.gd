@@ -114,8 +114,12 @@ func is_room_valid( strict := false) -> bool:
 func get_room_pos() -> Vector2:
 	return Vector2( this_room_x, this_room_y )
 
-func get_curr_room() -> B2_ROOMS:
-	return room_reference
+func get_curr_room() -> Node2D: #B2_ROOMS:
+	if room_reference:
+		return room_reference
+	else:
+		push_error("Not in B2_ROOMS.")
+		return get_tree().current_scene
 
 # Reset room data. is this needed?
 func reset_room() -> void:

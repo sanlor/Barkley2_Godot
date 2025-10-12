@@ -1,0 +1,2 @@
+extends Area2D
+class_name B2_Player_Interaction_Node

@@ -28,7 +28,9 @@ class_name B2_Player_FreeRoam
 @export var can_draw_weapon := true
 @export var can_shoot		:= true
 
-@onready var aim_origin: Marker2D = $aim_origin
+@onready var aim_origin: 		Marker2D 					= $aim_origin
+@onready var aim_reticle: 		AnimatedSprite2D 			= $aim_origin/aim_reticle
+@onready var interaction_node: 	B2_Player_Interaction_Node 	= $aim_origin/interaction_node
 
 ## Debug
 var debug_line 			: Vector2
@@ -52,7 +54,7 @@ func _ready() -> void:
 		flashlight.enabled = flashlight_enabled
 	
 	## Default animation
-	hoopz_normal_body.animation = "stand"
+	hoopz_normal_body.animation = STAND
 	hoopz_normal_body.frame = 6
 	
 	state_changed.connect( _changed_state )
@@ -71,8 +73,8 @@ func _ai_aim_ranged( enabled : bool ) -> void:
 	if curr_STATE == STATE.NORMAL:
 		if enabled:
 			## Aiming is complex. Original code takes inertia to move the character, aparently. check scr_player_stance_drawing() line 71
-			if  B2_Gun.has_any_guns():
-				start_aiming()
+			if B2_Gun.has_any_guns(): start_aiming()
+			else:	print_rich("[color=yellow]Can't aim without any guns, stupid.[/color]")
 				
 	elif curr_STATE == STATE.AIM:
 		if enabled:
@@ -82,17 +84,22 @@ func _ai_roll_at( enabled : bool ) -> void:
 	if enabled:
 		start_rolling( curr_input )
 	
+func get_aim_origin() -> Vector2:
+	return aim_origin.global_position
+	
 func start_aiming() -> void:
 	if not get_room_pacify():
 		# change state, allowing the player to aim.
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 		curr_STATE = STATE.AIM
 		B2_Sound.play_pick("hoopz_swapguns")
+		aim_reticle.show()
 
 func stop_aiming() -> void:
 		curr_STATE = STATE.NORMAL
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 		B2_Sound.play_pick("hoopz_swapguns")
+		aim_reticle.hide()
 	
 ## Debug function. Should not be used normaly.
 ## Maybe not so debug anymore
@@ -101,14 +108,21 @@ func shoot_gun() -> void:
 		if B2_Gun.has_any_guns() and B2_Input.player_has_control:
 			if curr_STATE == STATE.AIM:
 				curr_STATE = STATE.SHOOT
-				var aim := position.direction_to( -aim_origin.position + curr_aim )
-				gun_handler.use_normal_attack( combat_weapon.global_position, aim, self )
+				var my_aim := Vector2.ZERO
+				if curr_aim != Vector2.ZERO:	my_aim = curr_aim
+				else: 							my_aim = last_aim
+				gun_handler.use_normal_attack( combat_weapon.global_position, my_aim, self ) ## TODO fix this. 
 				if curr_STATE == STATE.SHOOT:
 					curr_STATE = STATE.AIM
 	
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):
+	## TODO fix the leg walking animation when aiming.
 	var input 			:= curr_input # Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
+	
+	#print( input )
+	
+	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
 	
 	if flashlight:
 		_point_flashlight( input )
@@ -118,7 +132,7 @@ func combat_walk_animation(delta : float):
 		if combat_last_input != input:
 			add_smoke()
 			
-			match input:
+			match input.round():
 				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW)
 				Vector2.UP + Vector2.RIGHT:			combat_lower_sprite.play(WALK_NE)
 				Vector2.DOWN + Vector2.LEFT:		combat_lower_sprite.play(WALK_SW)
@@ -130,7 +144,7 @@ func combat_walk_animation(delta : float):
 				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E)
 				_: # Catch All
 					combat_lower_sprite.play(WALK_S)
-					print("Catch all, ", input)
+					print("Hoopz combat_walk_animation: Catch all, ", input)
 					
 	else:
 		# player is not moving the character anymore
@@ -144,16 +158,17 @@ func combat_walk_animation(delta : float):
 		# handle the turning animation for a litle while.
 		if turning_time > 0.0:
 			combat_lower_sprite.animation = COMBAT_SHUFFLE
-			if not is_turning:
-				# play step sound when you change directions, during shuffle. 
-				## WARNING Original game doesnt do this.
-				#B2_Sound.play_pick("hoopz_footstep")
-				is_turning = true
-				
+			if not is_turning: # play step sound when you change directions, during shuffle.
+				#B2_Sound.play_pick("hoopz_footstep") ## WARNING Original game doesnt do this.
+				add_smoke()
+				is_turning = true # Ensures that the SFX plays only once.
 			turning_time -= 6.0 * delta
 		else:
 			combat_lower_sprite.animation = COMBAT_STAND
+			combat_lower_sprite.frame = last_combat_stand_frame
 			is_turning = false
+		
+		combat_lower_sprite.frame = last_combat_stand_frame ## The last frame is the default.
 		
 		# change the animation itself.
 		match combat_last_direction:
@@ -168,8 +183,9 @@ func combat_walk_animation(delta : float):
 			Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_E
 				
 			_: # Catch All
-				combat_lower_sprite.frame = STAND_S
-				print("Catch all, ", input)
+				#combat_lower_sprite.frame = STAND_S
+				#print("Catch all, ", input)
+				pass
 				
 		# Update var
 		combat_last_direction = curr_direction
@@ -180,7 +196,11 @@ func combat_walk_animation(delta : float):
 ## Aiming is a bitch, it has a total of 16 positions for smooth movement.
 func combat_aim_animation():
 	if B2_Input.player_has_control:
-		var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( curr_aim ).snapped( Vector2(0.33,0.33) )
+		if curr_aim == Vector2.ZERO: ## Gamepad issues. Values of ZERO messes up the code bellow.
+			return
+			
+		#var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( curr_aim ).snapped( Vector2(0.33,0.33) )
+		var mouse_input 	:= curr_aim.snapped( Vector2(0.33,0.33) )
 		var dir_frame = combat_upper_sprite.frame
 		
 		if flashlight:
@@ -223,9 +243,14 @@ func combat_aim_animation():
 func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
 	if B2_Input.player_has_control:
+		if curr_aim == Vector2.ZERO: ## Gamepad issues. Values of ZERO messes up the code bellow.
+			return
+			
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		var target_dir 		:= global_position.direction_to( 		-aim_origin.position + curr_aim )
-		var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + curr_aim )
+		#var target_dir 		:= global_position.direction_to( 		-aim_origin.position + curr_aim )
+		#var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + curr_aim )
+		var target_dir 		:= curr_aim
+		var target_angle	:= curr_aim.angle()
 		var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 		
 		## Many Manual touch ups.
@@ -349,6 +374,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 		return
 		
 	# Roooolliiing staaaaart! ...here vvv
+	hoopz_normal_body.speed_scale = normal_anim_speed_scale
 	curr_STATE = STATE.ROLL
 	linear_damp = roll_damp
 	
@@ -376,7 +402,7 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 	B2_Sound.play("sn_hoopz_roll")
 	if B2_CManager.get_BodySwap() == "diaper":
 		step_smoke.emitting = true
-	#hoopz_normal_body.offset.y += 15
+		#hoopz_normal_body.offset.y += 15
 	return
 
 func stop_rolling() -> void:
@@ -387,7 +413,7 @@ func stop_rolling() -> void:
 				return
 				
 		# Roooolliiing eeeeennd.
-		curr_STATE = STATE.NORMAL
+		curr_STATE = prev_STATE
 		hoopz_normal_body.animation = "stand"
 		linear_damp = walk_damp
 		step_smoke.emitting = false
@@ -411,10 +437,14 @@ func _physics_process(delta: float) -> void:
 			## Play Animations
 			if curr_STATE == STATE.NORMAL:
 				normal_animation(delta)
+				if curr_input.round() != Vector2.ZERO:
+					interaction_node.position = curr_input.round() * 32.0
 				
 			elif  curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
 				_update_held_gun()
-				
+				if curr_aim != Vector2.ZERO:
+					aim_reticle.position = aim_origin.global_position.direction_to(curr_aim) * 64.0
+					#print( aim_reticle.position )
 				combat_walk_animation( delta ) # delta is for the turning animation
 				combat_aim_animation()
 				combat_weapon_animation()

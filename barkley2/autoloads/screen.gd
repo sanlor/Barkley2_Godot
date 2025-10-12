@@ -71,6 +71,7 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	set_cursor_type( TYPE.POINT )
 	B2_Config.title_screen_loaded.connect( _reset_data )
+	B2_Input.input_changed.connect( change_input_mouse )
 
 func _reset_data():
 	pause_screen 		= null
@@ -85,6 +86,14 @@ func _reset_data():
 
 	quickmenu_screen 	= null
 	is_quickmenu_open 	= false
+
+func change_input_mouse( control_type : B2_Input.CONTROL ) -> void:
+	if B2_Input.CONTROL.GAMEPAD == control_type:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		mouse.hide()
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		mouse.show()
 
 func set_cursor_type( type : TYPE) -> void:
 	mouse.stop()

@@ -71,6 +71,7 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 @export var gun_handler				: Node
 
 @export_category("Animation")
+@export var normal_anim_speed_scale	:= 2.0
 @export var STAGGER					:= "stagger"
 @export var ROLL					:= "full_roll" # "diaper_gooroll"
 @export var ROLL_BACK				:= "full_roll_back" # "diaper_gooroll"
@@ -90,10 +91,12 @@ var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
  
 # Animation
-var is_turning 		:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
-var turning_time 	:= 0.25
-var is_on_a_puddle	:= false
-var is_on_water		:= false
+var is_turning 					:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
+var turning_time 				:= 0.25
+var is_on_a_puddle				:= false
+var is_on_water					:= false
+var last_stand_frame 			:= 0	# Used to remember the last animation frame used.
+var last_combat_stand_frame 	:= 0 # Used to remember the last animation frame used. (Combat related)
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
@@ -127,22 +130,24 @@ func apply_curr_input( dir : Vector2 ) -> void:
 func apply_curr_aim( dir : Vector2 ) -> void:
 	if curr_STATE != STATE.HIT:
 		curr_aim = dir
+		if curr_aim != Vector2.ZERO:
+			last_aim = curr_aim
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if B2_Debug.can_disable_player_col:
 			if Input.is_key_pressed(KEY_F4):
 				toggle_collision()
-
+	
 func toggle_collision() -> void:
 	var hoopz_collision: CollisionShape2D = $hoopz_collision
 	hoopz_collision.disabled = not hoopz_collision.disabled
 	print_rich("[color=red][b]Hoopz collision has been changed to %s. This should not happen outside of DEBUG situations.[/b][/color]" % not hoopz_collision.disabled)
 
-func add_smoke():
-	#for i in randi_range( 1, 2 ):
+func add_smoke(): ## TODO Web exports dont support this. Maybe fix this?
 	if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
-		step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+		for i in randi_range( 1, 2 ):
+			step_smoke.emit_particle( Transform2D( 0, step_smoke.position ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
 	
 func _point_flashlight( input : Vector2 ) -> void:
 	flashlight_pivot.rotation = input.angle() - PI/2
@@ -274,7 +279,9 @@ func get_muzzle_position() -> Vector2:
 	return gun_muzzle.global_position
 			
 func normal_animation(delta : float):
-	var input := curr_input.round()
+	var input := curr_input.normalized().round()
+	
+	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
 	
 	if input != Vector2.ZERO: # Player is moving the character
 		if flashlight:
@@ -297,41 +304,41 @@ func normal_animation(delta : float):
 					
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
-					print("Catch all, ", input)
+					print("Hoopz normal_animation: input -> Catch all, ", input)
 	else:
 		# player is not moving the character anymore
 		hoopz_normal_body.stop()
 		move_dist = min_move_dist
+		var curr_direction : Vector2 = last_input 
 		
-		var curr_direction : Vector2 = position.direction_to( last_input )
-		
-		if follow_mouse and curr_aim: # if curr_aim == Vector.ZERO, leave this alone.
-			curr_direction = position.direction_to( curr_aim ) # position.direction_to( get_global_mouse_position() ).round()
+		if follow_mouse and curr_aim != Vector2.ZERO: # if curr_aim == Vector.ZERO, leave this alone.
+			curr_direction = position.direction_to( curr_aim )
 			if input == Vector2.ZERO:
-				if flashlight:
-					_point_flashlight( curr_direction )
-				
+				if flashlight:		_point_flashlight( curr_direction )
 			curr_direction = curr_direction.round()
 			
-		if curr_direction != last_direction:
-			turning_time = 0.5
+		if curr_direction != last_direction and curr_direction != Vector2.ZERO: ## Handle the Shuffling animation when you change facind direction.
+			if hoopz_normal_body.animation == STAND:
+				turning_time = 0.5
 		
 		# handle the turning animation for a litle while.
 		if turning_time > 0.0:
 			hoopz_normal_body.animation = SHUFFLE
-			if not is_turning:
-				# play step sound when you change directions, during shuffle.
-				## WARNING Original game doesnt do this.
-				#B2_Sound.play_pick("hoopz_footstep")
-				is_turning = true
-				
+			if not is_turning: # play step sound when you change directions, during shuffle.
+				#B2_Sound.play_pick("hoopz_footstep") ## WARNING Original game doesnt do this.
+				add_smoke()
+				is_turning = true # Ensures that the SFX plays only once.
 			turning_time -= 6.0 * delta
 		else:
 			hoopz_normal_body.animation = STAND
+			hoopz_normal_body.frame = last_stand_frame
 			is_turning = false
 			
-		# change the animation itself.
-		match last_direction:
+		hoopz_normal_body.frame = last_stand_frame ## The last frame is the default.
+		
+		# change the standing animation itself.
+		match curr_direction:
+		#match last_direction:
 			Vector2.UP + Vector2.LEFT:				hoopz_normal_body.frame = STAND_NW
 			Vector2.UP + Vector2.RIGHT:				hoopz_normal_body.frame = STAND_NE
 			Vector2.DOWN + Vector2.LEFT:			hoopz_normal_body.frame = STAND_SW
@@ -342,14 +349,19 @@ func normal_animation(delta : float):
 			Vector2.DOWN:			hoopz_normal_body.frame = STAND_S
 			Vector2.RIGHT:			hoopz_normal_body.frame = STAND_E
 			_: # Catch All
-				#hoopz_normal_body.frame = STAND_S
+				#hoopz_normal_body.frame = last_stand_frame
 				pass
-				
+		
+		if hoopz_normal_body.frame != last_stand_frame:
+			last_stand_frame = hoopz_normal_body.frame
+		
 		# Update var
 		last_direction = curr_direction
 		
 	# Update var
 	last_input = input
+	#print(hoopz_normal_body.animation)
+	#print(hoopz_normal_body.frame)
 
 func damage_actor( damage : float, force : Vector2 ) -> void:
 	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:

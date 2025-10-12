@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=33 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_6d2l0"]
@@ -15,12 +15,87 @@
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ufjxn"]
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="10_7qowe"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_ac4jf"]
+[ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="16_uptpk"]
+[ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="17_ph4w5"]
+[ext_resource type="Texture2D" uid="uid://ca2uer1n2rgjh" path="res://barkley2/assets/cursor/s_curs_gunmode_2.png" id="18_hpqxc"]
+[ext_resource type="Script" uid="uid://0luqbfm4rhh8" path="res://barkley2/scenes/Player/player_interaction_node.gd" id="19_ph4w5"]
+[ext_resource type="Texture2D" uid="uid://dg2gspahteiw6" path="res://barkley2/assets/cursor/s_curs2_0.png" id="19_y5kte"]
+[ext_resource type="Texture2D" uid="uid://doehwej7utvu6" path="res://barkley2/assets/cursor/s_curs2_2.png" id="20_jncqf"]
+[ext_resource type="Texture2D" uid="uid://ojoqkotd8san" path="res://barkley2/assets/cursor/s_curs2_3.png" id="21_mcmji"]
+[ext_resource type="Texture2D" uid="uid://b4hs662bc4lvx" path="res://barkley2/assets/cursor/s_curs2_1.png" id="22_n1076"]
+[ext_resource type="Texture2D" uid="uid://kwp4adx8xv1k" path="res://barkley2/assets/cursor/s_curs_0.png" id="23_gcmyv"]
+[ext_resource type="Texture2D" uid="uid://xed4c0p862fo" path="res://barkley2/assets/cursor/s_curs_1.png" id="24_083ds"]
+[ext_resource type="Texture2D" uid="uid://i1nicnst0a0f" path="res://barkley2/assets/cursor/s_curs_2.png" id="25_oijcr"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
 polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 radius = 8.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5m4dk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_uptpk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ph4w5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_hpqxc")
+}],
+"loop": true,
+"name": &"bulls",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_y5kte")
+}],
+"loop": true,
+"name": &"cursor",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_jncqf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_mcmji")
+}],
+"loop": true,
+"name": &"grab",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_n1076")
+}],
+"loop": true,
+"name": &"hand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("23_gcmyv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_083ds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_oijcr")
+}],
+"loop": true,
+"name": &"point",
+"speed": 5.0
+}]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ph4w5"]
+size = Vector2(5, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uptpk"]
+radius = 4.0
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
@@ -111,6 +186,27 @@ offset = Vector2(-22, -41)
 
 [node name="aim_origin" type="Marker2D" parent="."]
 position = Vector2(0, -16)
+
+[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin"]
+visible = false
+z_index = 100
+z_as_relative = false
+sprite_frames = SubResource("SpriteFrames_5m4dk")
+animation = &"bulls"
+autoplay = "bulls"
+
+[node name="interaction_node" type="Area2D" parent="aim_origin"]
+editor_description = "Previously called \"Large dong of interaction\".
+Used for Gamepad interactions."
+monitoring = false
+script = ExtResource("19_ph4w5")
+
+[node name="Sprite2D" type="Sprite2D" parent="aim_origin/interaction_node"]
+texture = SubResource("PlaceholderTexture2D_ph4w5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node"]
+shape = SubResource("CircleShape2D_uptpk")
+debug_color = Color(0.99460953, 0, 0.226715, 0.25490198)
 
 [node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
 visible = false
