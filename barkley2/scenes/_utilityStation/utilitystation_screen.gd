@@ -1,8 +1,8 @@
 extends CanvasLayer
-
 ## Handles the UI for the Utility Station.
 # Check ustation, Utility and o_utilitystation
 ## NOTE I think this is the largest scene I ever created.
+# Yep, its also the worst performing scene in the game. Mostly because of the "flicker" effect.
 
 signal set_color( color : Color )
 signal set_bg_intensity( intensity : float ) ## Set glow intensity for the Background lines
@@ -561,7 +561,9 @@ func _flicker() -> void:
 	flickered.emit( f )
 	if randf() > 0.90:
 		## vvvv causes an absurd lag spike.
-		style_box_utility.bg_color 		= Color(grid_color, f * intensity * 0.125) 
+		## FIXME add a way to flicker without causing perfoprmance issues. Shader?
+		#style_box_utility.bg_color 		= Color(grid_color, f * intensity * 0.125) 
+		pass
 
 func _on_main_btn_pressed() -> void:
 	if _change_menu_state( MAIN ):

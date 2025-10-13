@@ -385,7 +385,8 @@ func start_rolling( roll_dir : Vector2 ) -> void:
 		
 	else:
 		# Use the mouse to decide the roll direction. (Inverted)
-		roll_dir 	= position.direction_to( curr_input ) * -1
+		if curr_aim:	roll_dir 	= ( curr_aim * 128.0 ).normalized() * -1 # position.direction_to
+		else:			roll_dir 	= ( last_aim * 128.0 ).normalized() * -1 # position.direction_to
 		hoopz_normal_body.play( ROLL_BACK )
 		hoopz_normal_body.flip_h = roll_dir.x >= 0
 	

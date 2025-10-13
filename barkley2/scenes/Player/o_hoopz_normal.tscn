@@ -1,11 +1,13 @@
-[gd_scene load_steps=32 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=35 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_6d2l0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_Shadow.tscn" id="2_vnb8r"]
 [ext_resource type="Texture2D" uid="uid://dtgih8y1hd7r8" path="res://barkley2/assets/b2_original/images/merged/s_hoopz_lightcone.png" id="3_ac4jf"]
+[ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="3_y5kte"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="3_ykikx"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="4_1qnxd"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_jncqf"]
 [ext_resource type="Script" uid="uid://dnfb7mklmfjcp" path="res://barkley2/scenes/Player/gun_handler™.gd" id="4_kw4pa"]
 [ext_resource type="SpriteFrames" uid="uid://24eor6kh3hdq" path="res://barkley2/resources/Player/hoopz_normal.tres" id="5_qxiei"]
 [ext_resource type="SpriteFrames" uid="uid://be8tuhwe6258k" path="res://barkley2/resources/Player/combat_lower_body_normal.tres" id="6_u8bon"]
@@ -26,6 +28,9 @@
 [ext_resource type="Texture2D" uid="uid://kwp4adx8xv1k" path="res://barkley2/assets/cursor/s_curs_0.png" id="23_gcmyv"]
 [ext_resource type="Texture2D" uid="uid://xed4c0p862fo" path="res://barkley2/assets/cursor/s_curs_1.png" id="24_083ds"]
 [ext_resource type="Texture2D" uid="uid://i1nicnst0a0f" path="res://barkley2/assets/cursor/s_curs_2.png" id="25_oijcr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mcmji"]
+font = ExtResource("4_jncqf")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
 polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
@@ -126,6 +131,27 @@ flashlight = NodePath("flashlight_pivot/flashlight")
 ActorCol = NodePath("hoopz_collision")
 walk_speed = 4000000
 actor_ai = NodePath("B2_AI_Player")
+
+[node name="debug_data" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -55.0
+offset_top = -73.0
+offset_right = 60.0
+offset_bottom = -57.0
+script = ExtResource("3_y5kte")
+
+[node name="Label" type="Label" parent="debug_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "placeholder"
+label_settings = SubResource("LabelSettings_mcmji")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="B2_AI_Player" type="Node" parent="."]
 script = ExtResource("3_ykikx")

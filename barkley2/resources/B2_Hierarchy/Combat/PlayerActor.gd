@@ -279,7 +279,7 @@ func get_muzzle_position() -> Vector2:
 	return gun_muzzle.global_position
 			
 func normal_animation(delta : float):
-	var input := curr_input.normalized().round()
+	var input := curr_input.round()
 	
 	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
 	
@@ -312,7 +312,7 @@ func normal_animation(delta : float):
 		var curr_direction : Vector2 = last_input 
 		
 		if follow_mouse and curr_aim != Vector2.ZERO: # if curr_aim == Vector.ZERO, leave this alone.
-			curr_direction = position.direction_to( curr_aim )
+			curr_direction = curr_aim # position.direction_to( curr_aim )
 			if input == Vector2.ZERO:
 				if flashlight:		_point_flashlight( curr_direction )
 			curr_direction = curr_direction.round()
