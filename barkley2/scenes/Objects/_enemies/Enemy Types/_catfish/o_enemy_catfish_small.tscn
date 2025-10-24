@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://dl0ylc1ocrp5l"]
+[gd_scene load_steps=62 format=3 uid="uid://dl0ylc1ocrp5l"]
 
 [ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_wejwp"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_Shadow.tscn" id="5_ce0n6"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
-[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="11_sj8r4"]
 
 [sub_resource type="Resource" id="Resource_bsxaw"]
 script = ExtResource("2_wejwp")
@@ -457,7 +456,7 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorCol", "actor_ai")]
+[node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 100.0
 physics_material_override = ExtResource("1_wejwp")
 gravity_scale = 0.0
@@ -481,12 +480,9 @@ enemy_name = "Catfish (Small)"
 enemy_data = ExtResource("4_jd0uj")
 ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
+ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Player")
-
-[node name="B2_AI_Player" type="Node" parent="."]
-script = ExtResource("11_sj8r4")
-metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+actor_ai = NodePath("B2_AI_Dummy")
 
 [node name="B2_AI_Dummy" type="Node" parent="."]
 script = ExtResource("4_ce0n6")
@@ -505,7 +501,6 @@ emitting = false
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hlfig")
-animation = &"catfish_stagger"
 centered = false
 offset = Vector2(-24, -37)
 metadata/default = {
