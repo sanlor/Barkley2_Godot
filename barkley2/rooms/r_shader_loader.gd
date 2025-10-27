@@ -10,22 +10,30 @@ const R_TITLE 			:= preload("uid://bpjwpt1mao0nm")
 
 const CACHE := ResourceLoader.CACHE_MODE_REPLACE_DEEP
 
-@onready var ball_sprite: Sprite2D 			= $ball_sprite
-@onready var loading_lbl: RichTextLabel 	= $MarginContainer/loading_lbl
-@onready var cuck_box: Control 				= $cuck_box
+@onready var ball_sprite: 			Sprite2D 			= $ball_sprite
+@onready var loading_lbl: 			RichTextLabel 	= $MarginContainer/loading_lbl
+@onready var loading_detail_lbl: 	Label = $MarginContainer/loading_detail_lbl
+@onready var cuck_box: 				Control 				= $cuck_box
 
 const MAX_DOTS 		:= 10
 var curr_dots 		:= 0
 var t 				:= 0.0
 
 func _ready() -> void:
+	loading_detail_lbl.text = ""
 	await get_tree().create_timer(0.5).timeout
+	loading_detail_lbl.text = Text.pr("Loading particles...")
+	await  get_tree().process_frame
 	print("%s: Loading particles... %s" % [name, Time.get_time_string_from_system() ])
 	_load_particles()
 	await get_tree().create_timer(0.1).timeout
+	loading_detail_lbl.text = Text.pr("Loading materials...")
+	await  get_tree().process_frame
 	print("%s: Loading materials... %s" % [name, Time.get_time_string_from_system() ])
 	_load_materials()
 	await get_tree().create_timer(0.1).timeout
+	loading_detail_lbl.text = Text.pr("Loading shaders...")
+	await  get_tree().process_frame
 	print("%s: Loading shaders... %s" % [name, Time.get_time_string_from_system() ])
 	_load_gdshader()
 	print("%s: Finished! %s" % [name, Time.get_time_string_from_system() ])

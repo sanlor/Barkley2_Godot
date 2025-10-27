@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3ewjgn1eocen"]
+[gd_scene load_steps=6 format=3 uid="uid://d3ewjgn1eocen"]
 
 [ext_resource type="Script" uid="uid://3woefn66x557" path="res://barkley2/rooms/r_shader_loader.gd" id="1_cg64c"]
 [ext_resource type="Texture2D" uid="uid://p1fyr4oxbcub" path="res://barkley2/assets/b2_original/images/merged/s_bball.png" id="2_3m7pj"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_3m7pj"]
+[ext_resource type="FontFile" uid="uid://cyhd7mric16e1" path="res://barkley2/resources/fonts/fn2o.tres" id="4_sgs1q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xy27y"]
+font = ExtResource("4_sgs1q")
+font_color = Color(0.07683588, 0.0768358, 0.0768358, 1)
 
 [node name="r_shader_loader" type="Control"]
 layout_mode = 3
@@ -53,6 +58,14 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/normal_font = ExtResource("3_3m7pj")
 text = "Now Loading..."
+
+[node name="loading_detail_lbl" type="Label" parent="MarginContainer"]
+custom_minimum_size = Vector2(150, 10)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_xy27y")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.25
