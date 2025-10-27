@@ -14,11 +14,12 @@ grow_vertical = 2
 script = ExtResource("1_cg64c")
 
 [node name="cuck_box" type="Control" parent="."]
-anchors_preset = 0
-offset_left = -378.0
-offset_top = 89.0
-offset_right = -338.0
-offset_bottom = 129.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="bg" type="ColorRect" parent="."]
 layout_mode = 1
@@ -52,3 +53,9 @@ size_flags_horizontal = 8
 size_flags_vertical = 8
 theme_override_fonts/normal_font = ExtResource("3_3m7pj")
 text = "Now Loading..."
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

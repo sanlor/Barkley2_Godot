@@ -8,21 +8,25 @@ const SHADER_CODE 		:= "res://barkley2/shaders/shader_code/"
 
 const R_TITLE 			:= preload("uid://bpjwpt1mao0nm")
 
-const CACHE := ResourceLoader.CACHE_MODE_REUSE
+const CACHE := ResourceLoader.CACHE_MODE_REPLACE_DEEP
 
 @onready var ball_sprite: Sprite2D 			= $ball_sprite
 @onready var loading_lbl: RichTextLabel 	= $MarginContainer/loading_lbl
 @onready var cuck_box: Control 				= $cuck_box
 
-var t := 0.0
+const MAX_DOTS 		:= 10
+var curr_dots 		:= 0
+var t 				:= 0.0
 
 func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
-	print("%s: Loading shaders... %s" % [name, Time.get_time_string_from_system() ])
+	print("%s: Loading particles... %s" % [name, Time.get_time_string_from_system() ])
 	_load_particles()
 	await get_tree().create_timer(0.1).timeout
+	print("%s: Loading materials... %s" % [name, Time.get_time_string_from_system() ])
 	_load_materials()
 	await get_tree().create_timer(0.1).timeout
+	print("%s: Loading shaders... %s" % [name, Time.get_time_string_from_system() ])
 	_load_gdshader()
 	print("%s: Finished! %s" % [name, Time.get_time_string_from_system() ])
 	await get_tree().create_timer(0.5).timeout
@@ -38,7 +42,6 @@ func _load_gdshader() -> void:
 			part.material = ShaderMaterial.new()
 			part.material.shader = ResourceLoader.load( SHADER_CODE + "/" + file, "", CACHE )
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 
 func _load_materials() -> void:
 	var files := DirAccess.get_files_at( MATERIAL_FOLDER )
@@ -48,7 +51,6 @@ func _load_materials() -> void:
 			part.size = Vector2(50,50)
 			part.material = ResourceLoader.load( MATERIAL_FOLDER + "/" + file, "", CACHE )
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 
 func _load_particles() -> void:
 	var files := DirAccess.get_files_at( PARTICLES_FOLDER )
@@ -59,11 +61,19 @@ func _load_particles() -> void:
 			part.process_material = ResourceLoader.load( PARTICLES_FOLDER + "/" + file, "", CACHE )
 			part.emitting = true
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 		
+
+
 func _physics_process(delta: float) -> void:
 	t += 10.0 * delta
 	ball_sprite.scale.x = sin( t ) #speen
 	if ball_sprite.scale.x < 0.0: ball_sprite.modulate = 		Color.DARK_GRAY
 	else: ball_sprite.modulate = 								Color.WHITE
  
+
+
+func _on_timer_timeout() -> void:
+	curr_dots = wrapi( curr_dots + 1, 0, MAX_DOTS )
+	loading_lbl.text = Text.pr("Now Loading")
+	for dot in curr_dots:
+		loading_lbl.text += "."

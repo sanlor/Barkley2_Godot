@@ -1,20 +1,14 @@
 @tool
 extends B2_Border
 
-@onready var mouse_tim = $MarginContainer/VBoxContainer/mouse_tim
-@onready var dev_nodes = $MarginContainer/VBoxContainer/dev_notes
-
+@onready var rich_text_label: RichTextLabel = $MarginContainer/VBoxContainer/ColorRect/MarginContainer/RichTextLabel
 
 func _ready():
-	set_panel_size( 210, 200 ) # why this keeps reseting to 50x50 using the @export? had to set it manually
-	mouse_tim.button_pressed = B2_Config.tim_follow_mouse
-	dev_nodes.button_pressed = B2_Config.dev_notes
+	set_panel_size( 300, 220 ) # why this keeps reseting to 50x50 using the @export? had to set it manually
+	rich_text_label.grab_focus()
 
 func _on_close_pressed():
 	get_parent().queue_free()
 
-func _on_mouse_tim_pressed() -> void:
-	B2_Config.tim_follow_mouse = mouse_tim.button_pressed
-
-func _on_dev_notes_pressed() -> void:
-	B2_Config.dev_notes = dev_nodes.button_pressed
+func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
+	OS.shell_open( str(meta) )

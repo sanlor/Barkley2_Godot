@@ -1,19 +1,24 @@
 extends Control
-
 ## NOTE This room loads the oTitle object.
 # This also forces the resolution to 384 x 240.
 # This scene tries to recreate the room r_title, with the object oTitle.
 
-@export var debug_data 			:= false
+## WARNING This script is a huge mess. I love this mess.
+# This was the first attempr to recreate something from B2. Its inneficient, weird and hard to debug, but it works.
+# There are lots of better ways to do what this title screen does, but this works and I'm not going to mess with it.
+# there are some bugs with it. When I have spare time, I may fix them.
+## @tutorial(): https://www.youtube.com/watch?v=ZnJqtwQtbTY
+
+## Godot Specific:
 @export var show_demo_msg 		:= true
 @export var show_janky_logo		:= true
 @export var show_stock_ticker 	:= false
-## Godot Specific:
 
 signal mode_change(String)
 
-#region Images
+const MAX_STARS := 40 # amount of stars flying
 
+#region Images
 @onready var bg = $bg
 const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.tscn")
 
@@ -34,11 +39,9 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var s_title_nebula_blue_bottom = $bg/sTitleNebulaBlueBottom
 @onready var s_title_nebula_red = $bg/sTitleNebulaRed
 @onready var s_title_nebula_red_hell = $bg/sTitleNebulaRedHell
-
 #endregion
 
-# region Panels
-
+#region Panels
 ## Title panel
 @onready var title_layer: CanvasLayer 		= $title_layer
 @onready var settings_layer: CanvasLayer 	= $settings_layer
@@ -46,13 +49,15 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 @onready var vr_layer: CanvasLayer 			= $vr_layer
 
 @onready var title_panel = $title_layer/title_panel
+#endregion
 
 ## Inside the Title panel
-@onready var start_button 		= $title_layer/title_panel/start_button
-@onready var settings_button 	= $title_layer/title_panel/settings_button
-@onready var quit_button 		= $title_layer/title_panel/quit_button
+@onready var start_button: 		Button = $title_layer/title_panel/start_button
+@onready var settings_button: 	Button = $title_layer/title_panel/settings_button
+@onready var quit_button: 		Button = $title_layer/title_panel/quit_button
 @onready var extra_btn: 		B2_Border_Button = $title_layer/extra_btn
 @onready var extra_menu: 		B2_Border = $title_layer/extra_menu
+@onready var ooc_button: 		Button = $title_layer/OOC_button
 @onready var vr_btn: 			Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/vr_btn
 @onready var debug_btn: 		Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/debug_btn
 @onready var map_select_btn: 	Button = $title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/map_select_btn
@@ -82,11 +87,11 @@ const O_TITLE_STARPASS = preload("res://barkley2/scenes/sTitle/oTitleStarpass.ts
 
 ## Character Slots
 @onready var gameslot_layer = $gameslot_layer
-#endregion
 
+## Game version (Bottom)
 @onready var game_version_lbl: Label = $game_version_lbl
 
-# region Color stuff
+#region Color stuff
 var text_color_normal := Color.GRAY # c_gray; // For text that cannot be interacted with
 var text_color_button := Color.LIGHT_GRAY # c_ltgray; // Text that can be clicked
 var text_color_hover  := Color.WHITE # c_white;
@@ -96,44 +101,44 @@ var title_highlight_color := Color.ORANGE
 var settings_highlight_color := Color.ORANGE
 var gameslot_highlight_color := Color.ORANGE
 
-var key_highlight_color := Color(240, 50, 255) # make_color_rgb(240, 50, 255);
+var key_highlight_color := Color.from_rgba8(240, 50, 255) # make_color_rgb(240, 50, 255);
 
 ## Stock ticker -- This was disabled on the janky demo
 var stock_x : Array[float]
 var stock_y : float
-
 #endregion
 
 # menu state
-var mode = "basic" :# "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character", "vr" ## NOTE This reeeealy should be an enum.
+var mode = "basic" :# "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character", "vr", "about" ## NOTE This reeeealy should be an enum.
 	set(_mode):
 		mode = _mode
 		change_menu() #automatically update the menu
 		mode_change.emit()
-
 #endregion
 
 #region Bunch of stupid variables related to the menus layout
 
 ## Basic title
-var title_x = 142
-var title_y = 170
+var title_x 			= 142
+var title_y 			= 170
 
-var title_row = 16
-var title_gap = 0
+var title_row 			= 16
+var title_gap 			= 0
 
 ## Other garbage ##
-var confirm_x = 132;
-var confirm_y = 150;
-var confirm_width = 50;
-var confirm_gap = 20;
+var confirm_x 			= 132;
+var confirm_y 			= 150;
+var confirm_width 		= 50;
+var confirm_gap 		= 20;
 
+## Love these tiny variable names. Its like we are paying money for each letter we use. 
+# the original code use them, so I can't easly change them. Dont really remember how they are used.
 var drx
 var dry
 
 #endregion
 
-var tim := 0.0 ## important variable. controles how much ot the ziggurat is near hell. range from 0 to 1
+var tim := 0.0 ## important variable. controls how much ot the ziggurat is near hell. range from 0 to 1
 
 func _ready():
 	## Logo Flash
@@ -163,7 +168,7 @@ func _ready():
 	B2_Music.room_get( "r_title" )
 	mode = "basic" ## default state of the game.
 	
-	for i in 40:
+	for i in MAX_STARS:
 		var star = O_TITLE_STARPASS.instantiate()
 		star.position = Vector2( randf_range(0, get_viewport_rect().end.x), randf_range(0, get_viewport_rect().end.y) )
 		star.name = "star" + str(i)
@@ -218,6 +223,8 @@ func _input(event: InputEvent) -> void:
 			if Input.is_key_pressed(KEY_3):
 				show_stock_ticker = not show_stock_ticker
 				queue_redraw()
+			if Input.is_key_pressed(KEY_4):
+				B2_Config.tim_follow_mouse = not B2_Config.tim_follow_mouse
 		
 		## Handle keyboard and gamepad inputs, to make sure that "something" always has input focus.
 		match mode:
@@ -225,7 +232,7 @@ func _input(event: InputEvent) -> void:
 				# This is a very unsustenable way to do this. 05/10/25
 				# need to find a better way to deal with loss of input focus.
 				## TODO deal with this.
-				if not check_focus( [ start_button, settings_button, quit_button, extra_btn, vr_btn, debug_btn, map_select_btn, extra_back_btn ] ):
+				if not check_focus( [ start_button, settings_button, quit_button, extra_btn, vr_btn, debug_btn, map_select_btn, extra_back_btn, ooc_button ] ):
 					start_button.grab_focus()
 			"settings":
 				pass
@@ -243,6 +250,8 @@ func _input(event: InputEvent) -> void:
 			"vr":
 				if not check_focus( [ mission_1, mission_2, mission_3, mission_4, mission_5, begin_btn, back_btn ] ):
 					mission_1.grab_focus()
+			"about":
+				pass
 
 func check_focus( btn_array : Array ) -> bool:
 	for btn in btn_array:
@@ -303,6 +312,11 @@ func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad",
 			gameslot_layer.hide()
 			character_layer.hide()
 			vr_layer.show() 			# <-
+		"about":
+			title_layer.hide()
+			settings_layer.hide()
+			gameslot_layer.hide()
+			character_layer.hide()
 			
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
@@ -378,3 +392,15 @@ func _on_map_select_btn_pressed() -> void:
 	mode = "basic"
 	change_menu()
 	B2_Debug._on_button_pressed()
+
+func _on_ooc_button_pressed() -> void:
+	mode = "about"
+	change_menu()
+	B2_Music.volume_menu( true )
+	var about : ColorRect = load("res://barkley2/scenes/sTitle/custom/about_menu.tscn").instantiate()
+	add_child( about )
+	await about.tree_exiting
+	
+	mode = "basic"
+	change_menu()
+	B2_Music.volume_menu( false )

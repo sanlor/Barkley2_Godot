@@ -56,8 +56,8 @@ var givX_1 = floor(givWid / 2) - 10 - 81 + 2;
 var alpBgn = 0.75; 						## Alpha of grid background
 var butSpd = 0.15; 						## Speed at which buttons hilight in seconds
 
-var butHilCol = Color(48, 52, 45);		## Hilight color
-var butTxtCol = Color(255, 202, 19);	## Hilight color
+var butHilCol = Color.from_rgba8(48, 52, 45);		## Hilight color
+var butTxtCol = Color.from_rgba8(255, 202, 19);	## Hilight color
 
 var curOvr = -1;
 var curHov = 0;

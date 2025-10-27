@@ -54,34 +54,34 @@ var zauberRoomNameX = 264
 var zauberRoomNameY = 224
 
 # original #  Combat Settings
-var ammoBooster = 0.25 # original # % boost to all ammo counts
-var rateBooster = 0.5 # original # % boost of all gun's firing rate
-var pietyBonus = 1 # original #  Gain this for every point of PIETY for resist
-var baseSpeed = 8.5 # original # previously 9
-var lethargyMod = 0.05
-var encumbranceMod = 0.5 # original #  loss of speed for each point of weight over - OLD = 0.05
-var logWeight = 1
-var baseShake = 1
-var marksmanMod = 17.5
+var ammoBooster :		= 0.25 # original # % boost to all ammo counts
+var rateBooster :		= 0.5 # original # % boost of all gun's firing rate
+var pietyBonus :		= 1.0 # original #  Gain this for every point of PIETY for resist
+var baseSpeed :			= 8.5 # original # previously 9
+var lethargyMod :		= 0.05
+var encumbranceMod :	= 0.5 # original #  loss of speed for each point of weight over - OLD = 0.05
+var logWeight :			= 1.0
+var baseShake :			= 1.0
+var marksmanMod :		= 17.5
 
 # original # Text Colors (Converted from make_colour_rgb to Color)
-var textcolorMainquest = Color(255, 190, 40)
-var textcolorSidequest = Color(140, 160, 255)
-var textcolorKeyword = Color(110, 250, 150)
-var textcolorRegular = Color(255, 255, 255)
-var textcolorCurses = Color(255, 210, 210)
-var textcolorNames = Color(200, 200, 255) 
-var textcolorTime = Color(220, 220, 20) 
-var textcolorFlavor = Color(255, 230, 255)
-var textcolorEncounter = Color(255, 255, 150)
-var textcolorQuote = Color(230, 255, 240)
+var textcolorMainquest :		= Color.from_rgba8(255, 190, 40)
+var textcolorSidequest :		= Color.from_rgba8(140, 160, 255)
+var textcolorKeyword :			= Color.from_rgba8(110, 250, 150)
+var textcolorRegular :			= Color.from_rgba8(255, 255, 255)
+var textcolorCurses :			= Color.from_rgba8(255, 210, 210)
+var textcolorNames :			= Color.from_rgba8(200, 200, 255) 
+var textcolorTime :				= Color.from_rgba8(220, 220, 20) 
+var textcolorFlavor :			= Color.from_rgba8(255, 230, 255)
+var textcolorEncounter :		= Color.from_rgba8(255, 255, 150)
+var textcolorQuote :			= Color.from_rgba8(230, 255, 240)
 
-var textcolorCuchulainn = Color(40, 90, 220)
-var textcolorCyberdwarf = Color(255, 185, 80)
+var textcolorCuchulainn :		= Color.from_rgba8(40, 90, 220)
+var textcolorCyberdwarf :		= Color.from_rgba8(255, 185, 80)
 
-var textcolorHoopzBanter = Color(255, 255, 255)
-var textcolorHoopzDamage = Color(255, 50, 100)
-var textcolorHoopzCandy = Color(100, 50, 255)
+var textcolorHoopzBanter :		= Color.from_rgba8(255, 255, 255)
+var textcolorHoopzDamage :		= Color.from_rgba8(255, 50, 100)
+var textcolorHoopzCandy :		= Color.from_rgba8(100, 50, 255)
 
 # original #  Utility Menu Settings
 var settingUtilitySmelt = 50 # original #  How much smelt you get per gun - balance 30->50 on 031719 - bhroom

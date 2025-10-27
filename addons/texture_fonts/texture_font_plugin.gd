@@ -55,4 +55,3 @@ func _on_filesystem_changed():
 	if _handled_font_ref and _is_font_saved_on_disk:
 		if not _handled_font_ref.get_ref() or _handled_font_ref.get_ref().resource_path == "":
 			_close_editor()
-

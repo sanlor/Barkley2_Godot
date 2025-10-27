@@ -1,0 +1,2 @@
+extends B2_AI_Catfish
+class_name B2_AI_Catfish_Small

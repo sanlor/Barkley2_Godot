@@ -1,3 +1,4 @@
+@icon("uid://cmy1updvjdpaf")
 extends Node
 class_name B2_GunHandler
 ## Node used to interface the player with its gun.

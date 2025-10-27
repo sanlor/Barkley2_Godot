@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://bpjwpt1mao0nm"]
+[gd_scene load_steps=80 format=3 uid="uid://bpjwpt1mao0nm"]
 
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="1_8qs0c"]
 [ext_resource type="Script" uid="uid://cinyaks7663jo" path="res://barkley2/rooms/r_title.gd" id="1_w55ib"]
@@ -49,7 +49,6 @@
 [ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="43_081ea"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="43_scsf8"]
 [ext_resource type="Script" uid="uid://21bcte5vesst" path="res://barkley2/scenes/border/B2_panel_bg_button.gd" id="44_f8qw8"]
-[ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="45_12ava"]
 [ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="46_cs6wg"]
 [ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="46_r8obs"]
 [ext_resource type="Script" uid="uid://f2v4fq1poida" path="res://barkley2/scenes/sTitle/character_window.gd" id="46_rtgnt"]
@@ -613,6 +612,7 @@ offset_top = 11.5
 offset_right = 108.0
 offset_bottom = 28.5
 focus_neighbor_left = NodePath("../../extra_btn")
+focus_neighbor_right = NodePath("../../OOC_button")
 text = "Game Time"
 clip_text = true
 
@@ -623,6 +623,7 @@ offset_top = 27.5
 offset_right = 108.0
 offset_bottom = 44.5
 focus_neighbor_left = NodePath("../../extra_btn")
+focus_neighbor_right = NodePath("../../OOC_button")
 text = "Settings"
 clip_text = true
 
@@ -633,6 +634,7 @@ offset_top = 43.5
 offset_right = 108.0
 offset_bottom = 60.5
 focus_neighbor_left = NodePath("../../extra_btn")
+focus_neighbor_right = NodePath("../../OOC_button")
 text = "Quit"
 clip_text = true
 
@@ -648,7 +650,8 @@ offset_right = -5.0
 offset_bottom = -5.0
 grow_horizontal = 0
 grow_vertical = 0
-theme = ExtResource("45_12ava")
+focus_neighbor_left = NodePath("../title_panel/start_button")
+theme = ExtResource("43_scsf8")
 text = "?"
 script = ExtResource("43_4mace")
 
@@ -834,6 +837,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="settings_layer" type="CanvasLayer" parent="."]
+visible = false
 script = ExtResource("42_iyvkj")
 
 [node name="settings_bg" type="ColorRect" parent="settings_layer"]
@@ -1476,6 +1480,7 @@ vertical_alignment = 1
 [connection signal="pressed" from="title_layer/title_panel/start_button" to="title_layer" method="_on_start_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/settings_button" to="title_layer" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="title_layer/title_panel/quit_button" to="title_layer" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="title_layer/OOC_button" to="." method="_on_ooc_button_pressed"]
 [connection signal="pressed" from="title_layer/OOC_button" to="title_layer/OOC_button" method="_on_pressed"]
 [connection signal="button_pressed" from="title_layer/extra_btn" to="title_layer" method="_on_extra_btn_button_pressed"]
 [connection signal="pressed" from="title_layer/extra_menu/MarginContainer/ScrollContainer/VBoxContainer/vr_btn" to="." method="_on_vr_btn_button_pressed"]
