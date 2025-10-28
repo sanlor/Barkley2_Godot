@@ -8,12 +8,13 @@ const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o
 
 signal aim_target_changed
 signal move_target_changed
+signal finished_attack_action
 signal finished_charge_action	## Actor is done with its charge/rush action.
 signal enemy_was_defeated
 
-enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}
-@export var curr_MODE := MODE.INACTIVE
-var is_changing_states := false
+enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}		## TODO check if this is still used.
+@export var curr_MODE := MODE.INACTIVE						## TODO check if this is still used.
+var is_changing_states := false								## TODO check if this is still used.
 
 @export_category("Enemy stuff")
 @export var my_nest					: Area2D
@@ -58,10 +59,6 @@ var playing_animation 			:= "stand"
 @export var enemy_name				:= ""
 #@export_tool_button("Fetch Enemy Data") var fetch_enemy_data = _fetch_enemy_data
 @export var enemy_data				: B2_EnemyData
-@export var enemy_weapon_type		: B2_Gun.TYPE
-@export var enemy_weapon_material	: B2_Gun.MATERIAL
-var enemy_ranged 					: B2_Weapon
-@export var enemy_melee				: B2_MeleeAttack ## TODO
 
 ## Control stuff
 var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.

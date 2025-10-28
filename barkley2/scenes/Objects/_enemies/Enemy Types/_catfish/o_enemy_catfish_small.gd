@@ -5,6 +5,8 @@ class_name B2_Enemy_CatFish
 ## Check o_enemygroup_catfish
 ## Parent class for all Catfish enemies, since they all behave in a similar way.
 
+const O_ENEMY_ATTACK_BLOWDART = preload("uid://bqoqnwresdv00")
+
 @onready var actor_blood_spill: GPUParticles2D = $ActorBloodSpill
 
 func _ready() -> void:
@@ -22,7 +24,12 @@ func _ai_ranged_attack( enabled : bool ) -> void:
 			curr_STATE = STATE.AIM
 			ActorAnim.animation = animation_attack
 			ActorAnim.sprite_frames.set_animation_loop( animation_attack, false )
+			ActorAnim.play()
+			ActorAnim.flip_h = curr_aim.x < 0.0
 			await ActorAnim.animation_finished
+			finished_attack_action.emit()
+			_shoot_dart()
+			last_input = Vector2.INF
 			curr_STATE = STATE.NORMAL
 	
 func _ai_jump( enabled : bool ) -> void:
@@ -30,9 +37,20 @@ func _ai_jump( enabled : bool ) -> void:
 		if curr_STATE == STATE.NORMAL:
 			cinema_jump( curr_input * 200.0 ) ## Debug direction
 
-func _before_death() -> void:
-	actor_blood_spill.emitting = true
+func _shoot_dart() -> void:
+	var dart := O_ENEMY_ATTACK_BLOWDART.instantiate()
+	dart.set_direction( curr_aim, 3.0 )
+	#if B2_CManager.o_hoopz:		dart.set_target( B2_CManager.o_hoopz.global_position )
+	#else:							dart.set_direction( curr_aim )
+	dart.global_position = global_position + Vector2(0,-8)
+	add_sibling( dart, true )
 
+func _before_death() -> void:
+	my_shadow.hide()
+	actor_blood_spill.emitting = true
+	set_physics_process( false ) # Also stops the AI.
+
+## DEBUG jump
 func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 	if jump_tween: jump_tween.kill()
 	jump_tween = create_tween()
@@ -45,6 +63,9 @@ func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 	jump_tween.tween_callback( set.bind("curr_STATE", STATE.NORMAL) )
 	jump_tween.tween_callback( set.bind("last_input", Vector2.INF) )					## Reset last input (For animations)
 
+func get_aim_origin() -> Vector2:
+	return global_position + Vector2(0,-12)
+
 ## Handle the most basic animations
 func normal_animation(_delta : float):
 	var input := curr_input
@@ -52,8 +73,8 @@ func normal_animation(_delta : float):
 	if input != Vector2.ZERO: # AI is moving the Actor
 		if last_input != input:
 			## Flip sprite if needed.
-			ActorAnim.flip_h = input.x < 0 ## If going left, flip the sprite
-			if input.y < 0:
+			ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
+			if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
 				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
 				ActorAnim.flip_h = not ActorAnim.flip_h
 			

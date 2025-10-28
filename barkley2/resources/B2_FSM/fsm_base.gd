@@ -11,6 +11,9 @@ var my_ai			: B2_AI
 var my_actor 		: B2_CombatActor
 var enemy_actor 	: B2_CombatActor
 
+func _ready() -> void:
+	B2_CManager.o_hoopz_changed.connect( func(): enemy_actor = B2_CManager.o_hoopz )
+
 func register_my_actor( _my_actor : B2_CombatActor ) -> void:
 	my_actor = _my_actor
 
@@ -19,9 +22,8 @@ func register_enemy_actor( _enemy_actor : B2_CombatActor ) -> void:
 
 ## AI Entered a new state
 func enter() -> void:
-	if not is_instance_valid(my_ai): 		my_ai 			= get_parent()
-	if not is_instance_valid(my_actor): 	breakpoint
-	if not is_instance_valid(enemy_actor): 	enemy_actor 	= B2_CManager.o_hoopz
+	if not my_ai: 			my_ai 			= get_parent()
+	if not my_actor: 		breakpoint
 
 ## AI exited a state
 func exit() -> void:

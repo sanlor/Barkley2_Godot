@@ -6,7 +6,10 @@ class_name B2_GunHandler
 # Mainly, its an interface to help communications with the gun resource, holding timers and such.
 
 # the ™ was added for fun. Im curious to see if it can break any part of the game.
-# Once, in a Checkpoint firewall, we added a rule with a comment (or name? dont remmember) with a 'ç' on it. The firewall wasnt able to save policies anymore and we spent a few hours trying to fin the reason.
+# Once, in a Checkpoint firewall, we added a rule with a comment (or name? dont remmember) with a 'ç' on it. The firewall wasnt able to save policies anymore and we spent a few hours trying to find the reason.
+# Lol, whats this guy event talking about?
+
+## NOTE Enemies should be ale to use this too.
 
 const O_BULLET 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
 const O_CASINGS 	:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://dl0ylc1ocrp5l"]
+[gd_scene load_steps=70 format=3 uid="uid://dl0ylc1ocrp5l"]
 
 [ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_wejwp"]
@@ -7,11 +7,16 @@
 [ext_resource type="Resource" uid="uid://clqikgufvlq0d" path="res://barkley2/resources/B2_EnemyData/catfish_small.tres" id="4_jd0uj"]
 [ext_resource type="Texture2D" uid="uid://qncevfm4omya" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_medium.png" id="4_rikcj"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_Shadow.tscn" id="5_ce0n6"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="5_e35da"]
 [ext_resource type="Script" uid="uid://drt6du7p7v1mk" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small.gd" id="5_pum08"]
 [ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/idle/fsm_idle.gd" id="6_sj8r4"]
 [ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/chase/fsm_chase.gd" id="7_643qn"]
+[ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/attack/fsm_attack.gd" id="8_nrbbj"]
+[ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/ready_attack/fsm_ready_attack.gd" id="9_e35da"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
+[ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="16_fjx5q"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="17_hfen3"]
 
 [sub_resource type="Resource" id="Resource_bsxaw"]
 script = ExtResource("2_wejwp")
@@ -458,6 +463,9 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
+[sub_resource type="LabelSettings" id="LabelSettings_l0gdt"]
+font = ExtResource("17_hfen3")
+
 [node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 100.0
 physics_material_override = ExtResource("1_wejwp")
@@ -484,22 +492,38 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Catfish_Small")
+actor_ai = NodePath("B2_AI_Player")
 
-[node name="B2_AI_Catfish_Small" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="B2_AI_Player" type="Node2D" parent="."]
+script = ExtResource("5_e35da")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_Catfish_Small" type="Node2D" parent="."]
 script = ExtResource("5_pum08")
-initial_state = NodePath("B2_FSM_Idle")
 metadata/_custom_type_script = "uid://drt6du7p7v1mk"
 
 [node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small"]
 script = ExtResource("6_sj8r4")
+enemy_detection_radius = 128.0
 my_STATE = 1
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
 [node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small"]
 script = ExtResource("7_643qn")
+enemy_attack_radius = 64.0
+enemy_de_aggro_radius = 156.0
 my_STATE = 2
 metadata/_custom_type_script = "uid://cby82k6m3df21"
+
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small"]
+script = ExtResource("9_e35da")
+my_STATE = 3
+metadata/_custom_type_script = "uid://i6own6gfjft5"
+
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small"]
+script = ExtResource("8_nrbbj")
+my_STATE = 4
+metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
 [node name="o_Shadow" parent="." instance=ExtResource("5_ce0n6")]
 
@@ -641,5 +665,26 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("10_p2h0x")
+
+[node name="debug_data" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -55.0
+offset_top = -73.0
+offset_right = 60.0
+offset_bottom = -57.0
+script = ExtResource("16_fjx5q")
+
+[node name="Label" type="Label" parent="debug_data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "placeholder"
+label_settings = SubResource("LabelSettings_l0gdt")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

@@ -6,6 +6,9 @@ extends Node
 signal event_started
 signal event_ended
 
+signal o_hoopz_changed
+signal o_cts_hoopz_changed
+
 ## Some scenes may lock the cinema script, preventing the cinema script to finish.
 signal release_event_lock
 
@@ -35,12 +38,15 @@ var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
 var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
-var o_cts_hoopz 	: B2_Actor 						= null :## Cutscene Hoopz
+var o_cts_hoopz 	: B2_Actor 								= null :## Cutscene Hoopz
 	set(h):
 		o_cts_hoopz = h
-		#print_stack() ## Debug
-var o_hoopz 		: B2_Player_FreeRoam		 				= null ## PLayer controlled Hoopz
-var o_hud			: B2_Hud						= null ## Main HUD, with combat attachments.
+		o_cts_hoopz_changed.emit()
+var o_hoopz 		: B2_Player_FreeRoam		 			= null :## PLayer controlled Hoopz
+	set(h):
+		o_hoopz = h
+		o_hoopz_changed.emit()
+var o_hud			: B2_Hud								= null ## Main HUD, with combat attachments.
 var camera			: B2_Camera_Hoopz #Camera2D
 var cinema_player 	: B2_CinemaPlayer
 

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqoqnwresdv00"]
+
+[ext_resource type="Texture2D" uid="uid://d2yf2h8txhotr" path="res://barkley2/assets/b2_original/images/merged/s_catfish_atk_dart.png" id="1_dnys0"]
+[ext_resource type="Texture2D" uid="uid://xe6dtt4ns2bo" path="res://barkley2/assets/b2_original/images/merged/s_catfish_atk_dart_stuck.png" id="2_fckmn"]
+[ext_resource type="Script" uid="uid://d2cmqu5wj4uf8" path="res://barkley2/scenes/Objects/_enemies/Enemy Attacks/Unique/catfish/o_enemy_attack_blowdart.gd" id="3_aqyck"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jde3"]
+atlas = ExtResource("1_dnys0")
+region = Rect2(0, 0, 16, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rdhrx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jde3")
+}],
+"loop": true,
+"name": &"flying",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fckmn")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}]
+
+[node name="o_enemyAttack_blowdart" type="Node2D"]
+script = ExtResource("3_aqyck")
+
+[node name="dart" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_rdhrx")
+animation = &"flying"

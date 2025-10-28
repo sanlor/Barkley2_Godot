@@ -13,4 +13,6 @@ func step() -> void:
 	if enemy_actor:
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) < enemy_detection_radius:
 			my_ai.state_transition( my_STATE, B2_AI.STATE.CHASE )
-			print( "chase" )
+	
+	my_actor.curr_input 	= my_actor.curr_input.lerp(Vector2.ZERO,0.1)
+	my_actor.curr_aim 		= my_actor.curr_aim.lerp(Vector2.ZERO,0.1)
