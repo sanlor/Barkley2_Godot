@@ -22,45 +22,14 @@ signal jump_trigger(			active : bool ) ## Actor is Jumping
 # Signals used to control the behaviour for the FSM.
 signal state_changed( state : B2_FSM )
 
-enum STATE{IDLE}
-
-@export var initial_state : B2_FSM
-var my_states : Dictionary[STATE, B2_FSM]
-var curr_STATE : STATE
+enum STATE{NONE,IDLE,CHASE}
 
 var actor : B2_CombatActor 		## That me!
 var is_active := false			## NOTE Is this used?
 
-func _init() -> void:
-	ready.connect( _populate_states )
-	
-## After the ready function, register all curr states, look for duplicates and shiet.
-func _populate_states() -> void:
-	for child in get_children():
-		if child is B2_FSM:
-			if my_states.has( child.my_STATE ): push_error("Duplicated AI State: %s - %s" % [child.name, get_parent().name]); continue
-			my_states[ child.my_STATE ] = child
-		else:
-			push_error("Invalid AI State: %s - %s" % [child.name, get_parent().name]); continue
-
-func state_transition( _curr_state : STATE, _new_state : STATE ) -> void:
-	if _curr_state == _new_state:	return
-	if curr_STATE == _new_state:	return
-		
-	if my_states.has( _curr_state ):		## Run Exit function.
-		my_states[_curr_state].exit()
-	else: push_error( "Invalid AI State: %s - %s" % [STATE.keys()[_curr_state], get_parent().name] )
-	
-	if my_states.has( _new_state ):			## Register stuff and run Enter function.
-		curr_STATE = _new_state
-		my_states[_new_state].enter()
-		state_changed.emit( curr_STATE )
-	else: push_error( "Invalid AI State: %s - %s" % [STATE.keys()[_new_state], get_parent().name] )
-	
 ## Step function, executed on every process frame
 func step() -> void:
-	if curr_STATE:
-		my_states[curr_STATE].step()
+	pass
 
 ## AI Action
 func action() -> void:

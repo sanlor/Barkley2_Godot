@@ -4,6 +4,10 @@ class_name B2_AI_Player
 
 @export var force_player_control := false
 
+## Mainly, this disables the default "_ready" function.
+func _ready() -> void:
+	pass
+
 func step() -> void:
 	if actor:
 		## Analog input processing.
