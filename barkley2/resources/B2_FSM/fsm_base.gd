@@ -5,6 +5,8 @@ class_name B2_FSM
 ## Base class for all FSM states, used in B2_AI.
 ## @tutorial(): https://www.youtube.com/watch?v=ow_Lum-Agbs
 
+const TIME_DECREASE := 1.0
+
 @export var my_STATE := B2_AI.STATE.NONE
 
 var my_ai			: B2_AI

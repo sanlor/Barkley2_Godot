@@ -98,7 +98,7 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.player_stats.full_restore()
 			
 		1:
-			## Etc...
+			## Mission 02
 			B2_CManager.BodySwap("hoopz") 				## Hoopz - Normal
 			B2_Playerdata.Quest( "infiniteAmmo", 		0 ) ## No infinite ammo.
 			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
@@ -126,6 +126,37 @@ func _on_begin_btn_button_pressed() -> void:
 			
 			B2_HoopzStats.reset()
 			B2_Playerdata.player_stats.full_restore()
+		
+		2:
+			## Mission 03
+			B2_CManager.BodySwap("hoopz") 				## Hoopz - Normal
+			B2_Playerdata.Quest( "infiniteAmmo", 		0 ) ## No infinite ammo.
+			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
+			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
+			B2_Playerdata.Quest( "vr_mission_2", 		1 )
+			B2_Playerdata.Quest( "escape_disabled", 	1 )
+			
+			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
+			
+			B2_Jerkin.reset()
+			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
+			B2_Jerkin.equip_jerkin( "Cornhusk Jerkin" )
+			
+			B2_Candy.reset()
+			B2_Candy.gain_candy( "Butterscotch" )
+			B2_Candy.gain_candy( "Chickenfry Dew" )
+			
+			B2_Gun.reset()
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, 			B2_Gun.MATERIAL.STEEL, 		{"wpn_name":"BUTT","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, 	B2_Gun.MATERIAL.MYTHRIL, 	{"wpn_name":"BUST","add_affixes":false} 	)
+			B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN,			B2_Gun.MATERIAL.IRON, 		{"wpn_name":"OMGA","add_affixes":false} 	)
+			B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,		B2_Gun.MATERIAL.STEEL,		{"wpn_name":"TRSH","add_affixes":true} 		)
+			
+			B2_HoopzStats.reset()
+			B2_Playerdata.player_stats.full_restore()
+			
 		_:
 			## Etc...
 			breakpoint

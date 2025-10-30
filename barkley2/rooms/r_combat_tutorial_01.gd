@@ -36,6 +36,13 @@ func _ready() -> void:
 		add_child( mission_1, true )
 		_start_mission()
 		mission_1.mission_over.connect( _finish_mission.bind(1) )
+	elif B2_Playerdata.Quest("vr_mission_2" ) == 1:
+		B2_Playerdata.Quest("vr_mission_2", 2 )
+		B2_CManager.play_cutscene( preload("uid://dg1n50hr8h034"), self )
+		var mission_2 = preload("res://barkley2/resources/vr_missions/mission_2.tscn").instantiate()
+		add_child( mission_2, true )
+		_start_mission()
+		mission_2.mission_over.connect( _finish_mission.bind(2) )
 	
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )

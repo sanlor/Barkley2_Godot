@@ -27,6 +27,7 @@ enum STATE{
 	NONE,			## Invalid state.
 	IDLE,			## AI is not doing anything
 	CHASE,			## Chasing the enemy
+	WANDER,			## Was idle, move to a different location
 	READY_ATTACK,	## Is begining to attack or charging an attack
 	ATTACK,			## Is attacking. NOTE should last 1 frame most of the time.
 	DYING,			## Its dying, emitting particles, gibs and such. cant be removed yet.

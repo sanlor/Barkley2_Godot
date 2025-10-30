@@ -10,14 +10,14 @@ const MISSION_DB := {
 	},
 	1 : {
 		"image" :		"",
-		"description" : "An endurance battle with a never ending stream of exploding rats. Survive for 2 minutes to claim victory.",
+		"description" : "An endurance battle with a never ending stream of exploding rats.\nSurvive for 2 minutes to claim victory.",
 		"room_name" : 	"",
 		"room_x"	: 	0.0,
 		"room_y"	: 	0.0,
 	},
 	2 : {
 		"image" :		"",
-		"description" : "",
+		"description" : "A thrilling battle agains an advanced AI.\n\nNote: The advanced AI may be underwelming.",
 		"room_name" : 	"",
 		"room_x"	: 	0.0,
 		"room_y"	: 	0.0,

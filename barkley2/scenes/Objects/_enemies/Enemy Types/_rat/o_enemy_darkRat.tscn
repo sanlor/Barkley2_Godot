@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bw704hnw70nik"]
+[gd_scene load_steps=34 format=3 uid="uid://bw704hnw70nik"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_e52ma"]
 [ext_resource type="Script" uid="uid://b27os8s1rafsy" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_dark_rat.gd" id="2_fhxio"]
@@ -6,8 +6,14 @@
 [ext_resource type="Resource" uid="uid://dlua4bvophi2d" path="res://barkley2/resources/B2_EnemyData/darkRat.tres" id="4_8k41c"]
 [ext_resource type="Texture2D" uid="uid://vbnrl8wjv6as" path="res://barkley2/assets/b2_original/images/merged/s_enemy_rat_dark.png" id="5_8k41c"]
 [ext_resource type="Script" uid="uid://d1gen3361144x" path="res://barkley2/resources/B2_AI/ai_chase_stop.gd" id="5_8qs7v"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="5_dqcrk"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="6_8k41c"]
 [ext_resource type="Texture2D" uid="uid://boo8ilhgasala" path="res://barkley2/assets/b2_original/images/merged/s_fx_bloodBurst.png" id="6_48n6s"]
+[ext_resource type="Script" uid="uid://dqye8jmfdc363" path="res://barkley2/resources/B2_AI/Rato/ai_darkrat.gd" id="7_ybsmp"]
+[ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/idle/fsm_idle.gd" id="8_6drh2"]
+[ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/chase/fsm_chase.gd" id="9_8se51"]
+[ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/ready_attack/fsm_ready_attack.gd" id="10_gdpyp"]
+[ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/attack/fsm_attack.gd" id="11_t6k6t"]
 
 [sub_resource type="Resource" id="Resource_8qs7v"]
 script = ExtResource("3_fhxio")
@@ -180,6 +186,7 @@ contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
 script = ExtResource("2_fhxio")
+shadow_scale = 0.75
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
 actor_animations = SubResource("Resource_8qs7v")
 sound_alert = "explosiverat_alert"
@@ -195,12 +202,44 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-walk_speed = 550000
-actor_ai = NodePath("B2_AI_Chase_Stop")
+walk_speed = 650000
+actor_ai = NodePath("B2_AI_Player")
 
-[node name="B2_AI_Chase_Stop" type="Node" parent="."]
+[node name="B2_AI_Player" type="Node2D" parent="."]
+script = ExtResource("5_dqcrk")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_Chase_Stop" type="Node2D" parent="."]
 script = ExtResource("5_8qs7v")
 metadata/_custom_type_script = "uid://d1gen3361144x"
+
+[node name="B2_AI_DarkRat" type="Node2D" parent="."]
+script = ExtResource("7_ybsmp")
+metadata/_custom_type_script = "uid://dqye8jmfdc363"
+
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_DarkRat"]
+script = ExtResource("8_6drh2")
+enemy_detection_radius = 128.0
+my_STATE = 1
+metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
+
+[node name="B2_FSM_Chase" type="Node" parent="B2_AI_DarkRat"]
+script = ExtResource("9_8se51")
+enemy_attack_radius = 80.0
+enemy_de_aggro_radius = 156.0
+my_STATE = 2
+metadata/_custom_type_script = "uid://cby82k6m3df21"
+
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_DarkRat"]
+script = ExtResource("10_gdpyp")
+attack_delay = 0.0
+my_STATE = 3
+metadata/_custom_type_script = "uid://i6own6gfjft5"
+
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_DarkRat"]
+script = ExtResource("11_t6k6t")
+my_STATE = 4
+metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 max_distance = 350.0
@@ -221,8 +260,8 @@ process_material = ExtResource("6_8k41c")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_48n6s")
-animation = &"walk_n"
-speed_scale = 1.25
+animation = &"walk_se"
+speed_scale = 1.5
 centered = false
 offset = Vector2(-18, -24)
 metadata/default = {

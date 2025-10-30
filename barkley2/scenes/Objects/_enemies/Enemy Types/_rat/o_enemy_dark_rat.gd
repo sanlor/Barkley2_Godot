@@ -5,8 +5,11 @@ class_name B2_Enemy_EnemyRat
 # https://youtu.be/SQKRnzWSW0M?t=12323
 
 @onready var actor_blood_spill: GPUParticles2D = $ActorBloodSpill
+var exploding := false
+
 
 func _ready() -> void:
+	super()
 	assert( is_instance_valid(actor_ai), "No valid AI found." )
 	assert( enemy_data, "No enemy data ")
 	enemy_data.resource_local_to_scene = true
@@ -16,14 +19,40 @@ func _ready() -> void:
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:
 		if curr_STATE == STATE.NORMAL:
-			if not animation_attack:
-				push_error("Attack animation not set.")
-				return
-			curr_STATE = STATE.AIM
-			ActorAnim.animation = animation_attack
-			ActorAnim.sprite_frames.set_animation_loop( animation_attack, false )
-			await ActorAnim.animation_finished
-			curr_STATE = STATE.NORMAL
+			_begin_attack()
+
+func _begin_attack() -> void:
+	if exploding:
+		return
+	
+	exploding = true
+	var attack_tween := create_tween()
+	attack_tween.tween_property( ActorAnim, "modulate", Color.WHITE * 5.0, 0.5 )
+	attack_tween.tween_callback( destroy_actor )
+	attack_tween.tween_callback( play_temp_local_sound.bind( "catfishsmall_attack") )
+	attack_tween.tween_callback( _finish_attack )
+	
+
+	
+func _finish_attack() -> void:
+	destroy_actor()
+	var damage := randf_range(1.0,10.0)
+	#body.damage_actor( damage, position.direction_to(body.position) * 50.0 * damage )
+	if B2_CManager.o_hoopz: B2_CManager.o_hoopz.damage_actor( damage, position.direction_to(B2_CManager.o_hoopz.position) * 50.0 * damage )
+	push_error("DEBUG: Weird RATO damage. FIXME")
+	finished_attack_action.emit()
+
+#func _ai_ranged_attack( enabled : bool ) -> void:
+	#if enabled:
+		#if curr_STATE == STATE.NORMAL:
+			#if not animation_attack:
+				#push_error("Attack animation not set.")
+				#return
+			#curr_STATE = STATE.AIM
+			#ActorAnim.animation = animation_attack
+			#ActorAnim.sprite_frames.set_animation_loop( animation_attack, false )
+			#await ActorAnim.animation_finished
+			#curr_STATE = STATE.NORMAL
 	
 func _ai_jump( enabled : bool ) -> void:
 	if enabled:
@@ -143,9 +172,7 @@ func _on_body_entered( body : Node ) -> void:
 	if body is B2_PlayerCombatActor:
 		## Do not explode if player is rolling.
 		if body.curr_STATE != B2_PlayerCombatActor.STATE.ROLL:
-			destroy_actor()
-			var damage := randf_range(1.0,10.0)
-			body.damage_actor( damage, position.direction_to(body.position) * 50.0 * damage )
+			_ai_ranged_attack(true)
 
 func _before_death() -> void:
 	actor_blood_spill.emitting = true

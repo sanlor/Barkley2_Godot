@@ -7,6 +7,10 @@ var curr_max_attack_wait_time := 0.0
 
 var has_attacked := false
 
+func _init() -> void:
+	if my_STATE == B2_AI.STATE.NONE:
+		my_STATE = B2_AI.STATE.ATTACK
+
 func enter() -> void:
 	super()
 	my_actor.finished_attack_action.connect(_attack_finished)

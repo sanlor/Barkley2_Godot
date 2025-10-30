@@ -253,6 +253,7 @@ func cinema_charge_at( _charge_target : Vector2, _charge_speed : float ) -> void
 	ActorSmokeEmitter.emitting = true
 	B2_Sound.play( sound_charge )
 
+## Cheap. Play SFX on personal audiotream.
 func play_local_sound( sound_name : String ) -> void:
 	if ActorAudioPlayer:
 		var sfx : String = B2_Sound.get_sound( sound_name )
@@ -265,6 +266,11 @@ func play_local_sound( sound_name : String ) -> void:
 			push_warning("Invalid sound name: ", sound_name, " - ", sfx, ".")
 	else:
 		push_error("ActorAudioPlayer for actor %s not setup, dumbass." % name)
+		
+## Expensive. Play SFX on another audiotream.
+func play_temp_local_sound( sound_name : String ) -> void:
+	var temp_sfx := B2_Temp_AudioEmitter.new( sound_name )
+	add_child( temp_sfx, true )
 
 func damage_actor( damage : float, force : Vector2 ) -> void:
 	## Cant be damaged if its not in combat.
@@ -319,6 +325,7 @@ func spawn_gibs() -> void:
 			await get_tree().process_frame
 
 func destroy_actor() -> void:
+	if my_shadow: my_shadow.hide()
 	_before_death()
 	#ActorCol.disabled = true
 	ActorCol.queue_free()

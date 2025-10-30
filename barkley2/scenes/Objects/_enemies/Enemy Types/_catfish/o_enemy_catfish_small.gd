@@ -7,9 +7,10 @@ class_name B2_Enemy_CatFish
 
 const O_ENEMY_ATTACK_BLOWDART = preload("uid://bqoqnwresdv00")
 
-@onready var actor_blood_spill: GPUParticles2D = $ActorBloodSpill
+@onready var actor_blood_spill: 			GPUParticles2D = $ActorBloodSpill
 
 func _ready() -> void:
+	super()
 	assert( is_instance_valid(actor_ai), "No valid AI found." )
 	assert( enemy_data, "No enemy data ")
 	enemy_data.resource_local_to_scene = true
@@ -19,18 +20,8 @@ func _ready() -> void:
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:
 		if curr_STATE == STATE.NORMAL:
-			if not animation_attack:
-				push_error("Attack animation not set.")
-			curr_STATE = STATE.AIM
-			ActorAnim.animation = animation_attack
-			ActorAnim.sprite_frames.set_animation_loop( animation_attack, false )
-			ActorAnim.play()
-			ActorAnim.flip_h = curr_aim.x < 0.0
-			await ActorAnim.animation_finished
-			finished_attack_action.emit()
-			_shoot_dart()
-			last_input = Vector2.INF
-			curr_STATE = STATE.NORMAL
+			_begin_attack()
+			
 	
 func _ai_jump( enabled : bool ) -> void:
 	if enabled:
@@ -39,14 +30,46 @@ func _ai_jump( enabled : bool ) -> void:
 
 func _shoot_dart() -> void:
 	var dart := O_ENEMY_ATTACK_BLOWDART.instantiate()
-	dart.set_direction( curr_aim, 3.0 )
-	#if B2_CManager.o_hoopz:		dart.set_target( B2_CManager.o_hoopz.global_position )
-	#else:							dart.set_direction( curr_aim )
-	dart.global_position = global_position + Vector2(0,-8)
+	#dart.set_direction( curr_aim, 3.0 )
+	if B2_CManager.o_hoopz:		dart.set_target( B2_CManager.o_hoopz.global_position + Vector2(0,-4) )
+	else:						dart.set_target( get_global_mouse_position() ); push_error("ERROR: No hoopz to target")
+	play_temp_local_sound("catfishsmall_shoot")
+	dart.my_shooter = self
+	dart.global_position = get_aim_origin()
+	dart.global_position += curr_aim * 12.0 # small offset to avoid creating the arrow on the enemy's center
 	add_sibling( dart, true )
 
+func _begin_attack() -> void:
+	if not animation_attack:
+		push_error("Attack animation not set.")
+	curr_STATE = STATE.AIM
+	
+	ActorAnim.animation = "catfish_shot_attack"
+	ActorAnim.flip_h = curr_aim.x < 0.0
+	if roundf(curr_aim.y) < 0.0: # needs to be rounded, or else it will flip all the time.
+		ActorAnim.animation = "catfish_shot_attack_up"
+		ActorAnim.flip_h = not ActorAnim.flip_h
+	
+	ActorAnim.stop()
+	ActorAnim.frame = 0 ## Reset frame count
+	var attack_tween := create_tween()
+	attack_tween.tween_property( ActorAnim, "frame", 5, 0.25 )
+	attack_tween.tween_interval( 0.35 )
+	attack_tween.tween_callback( _shoot_dart )
+	attack_tween.tween_callback( play_temp_local_sound.bind( "catfishsmall_attack") )
+	#attack_tween.tween_interval( 0.15 )
+	attack_tween.tween_property( ActorAnim, "frame", 7, 0.15 )
+	attack_tween.tween_interval( 0.15 )
+	attack_tween.tween_callback( _finish_attack )
+	
+func _finish_attack() -> void:
+	finished_attack_action.emit()
+	last_input = Vector2.INF
+	curr_STATE = STATE.NORMAL
+
 func _before_death() -> void:
-	my_shadow.hide()
+	if my_shadow:
+		my_shadow.hide()
 	actor_blood_spill.emitting = true
 	set_physics_process( false ) # Also stops the AI.
 
@@ -115,9 +138,7 @@ func _physics_process(delta: float) -> void:
 			
 		STATE.NORMAL:
 			normal_animation(delta)
-			
-			# Take the input from the keyboard / Gamepag and apply directly.
-			var move := curr_input
+			var move := curr_input # Take the input from the keyboard / Gamepag and apply directly.
 			velocity = ( walk_speed * delta ) * move
 			
 			velocity += external_velocity
@@ -133,5 +154,6 @@ func _on_actor_anim_frame_changed() -> void:
 	if ActorAnim.animation == animation_attack:
 		if ActorAnim.frame == 5:
 			## Play Attack sound
-			play_local_sound( "catfishsmall_attack")
+			#play_local_sound( "catfishsmall_attack")
+			pass
 			

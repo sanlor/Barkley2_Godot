@@ -170,15 +170,12 @@ one_shot = true
 one_shot = true
 
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
+scale = Vector2(0.4, 0.2)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="."]
 occluder = SubResource("OccluderPolygon2D_ufjxn")
 sdf_collision = false
 occluder_light_mask = 3
-
-[node name="hoopz_collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
-shape = SubResource("CircleShape2D_aubae")
 
 [node name="step_smoke" parent="." instance=ExtResource("4_1qnxd")]
 position = Vector2(0, -1)
@@ -239,6 +236,10 @@ sprite_frames = ExtResource("10_7qowe")
 animation = &"s_HoopzTorso_Handgun"
 centered = false
 offset = Vector2(-22, -41)
+
+[node name="hoopz_collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_aubae")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
