@@ -2,14 +2,14 @@
 extends B2_FSM
 class_name B2_FSM_Attack
 
-@export var max_attack_wait_time := 1000.0
-var curr_max_attack_wait_time := 0.0
+@export var state_after_attack		:= B2_AI.STATE.IDLE
+@export var max_attack_wait_time 	:= 1000.0
+var curr_max_attack_wait_time 		:= 0.0
 
 var has_attacked := false
 
 func _init() -> void:
-	if my_STATE == B2_AI.STATE.NONE:
-		my_STATE = B2_AI.STATE.ATTACK
+	my_STATE = B2_AI.STATE.ATTACK
 
 func enter() -> void:
 	super()
@@ -22,7 +22,7 @@ func exit() -> void:
 	my_actor.finished_attack_action.disconnect(_attack_finished)
 
 func step() -> void:
-	if enemy_actor and not has_attacked:
+	if _has_enemy_actor() and not has_attacked:
 		my_actor.curr_input 	= my_actor.global_position.direction_to( enemy_actor.global_position )
 		my_actor.curr_aim 		= my_actor.global_position.direction_to( enemy_actor.global_position )
 		my_ai.ranged_attack_trigger.emit( true )
@@ -31,8 +31,8 @@ func step() -> void:
 		curr_max_attack_wait_time -= 1.0
 	else:
 		push_error("%s: Attack animation timeout. this is bad and should not happen." % my_actor.name)
-		my_ai.state_transition( my_STATE, B2_AI.STATE.IDLE )
+		my_ai.state_transition( my_STATE, state_after_attack )
 		
 
 func _attack_finished():
-	my_ai.state_transition( my_STATE, B2_AI.STATE.IDLE )
+	my_ai.state_transition( my_STATE, state_after_attack )

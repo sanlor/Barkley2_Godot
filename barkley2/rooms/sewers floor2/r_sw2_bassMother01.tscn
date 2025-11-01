@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://c10fnfyrfyguc"]
+[gd_scene load_steps=29 format=4 uid="uid://c10fnfyrfyguc"]
 
 [ext_resource type="Script" uid="uid://6qd3p7bl513d" path="res://barkley2/rooms/sewers floor2/r_sw2_bassMother01.gd" id="1_ai3o8"]
 [ext_resource type="TileSet" uid="uid://3dkm6rp2k422" path="res://barkley2/resources/tileset/sw2_01.tres" id="2_25wve"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="12_x6h6y"]
 [ext_resource type="PackedScene" uid="uid://dl0ylc1ocrp5l" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/o_enemy_catfish_small.tscn" id="13_j7v3w"]
 [ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="14_x6h6y"]
+[ext_resource type="PackedScene" uid="uid://bw704hnw70nik" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_darkRat.tscn" id="16_jw3ul"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_25wve"]
 vertices = PackedVector2Array(368, 400, 368, 384, 416, 384, 416, 416, 384, 416, 384, 592, 496, 592, 496, 608, 384, 608, 384, 640, 96, 640, 96, 384, 144, 400, 144, 384)
@@ -139,6 +140,40 @@ generic = 2.0
 pistols = 5.0
 wtc = 10.0
 
+[sub_resource type="Resource" id="Resource_7mylb"]
+resource_local_to_scene = true
+resource_name = "darkRat"
+script = ExtResource("14_x6h6y")
+enemy_name = "Dark Rat"
+hp = 25.0
+weight = 25.0
+guts = 25.0
+luck = 25.0
+agile = 25.0
+might = 25.0
+piety = 35.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 25.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 10.0
+resistance_knockback = 30.0
+zauber = 4.0
+bio = 1.0
+cyber = 1.0
+vuln_mental = 2.0
+vuln_zauber = 3.0
+vuln_bio = 4.0
+gunsdrop = 70.0
+generic = 2.0
+rifles = 0.0
+automatic = 5.0
+projectile = 1.0
+wtc = 10.0
+
 [node name="r_sw2_bassMother01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_25wve")
 script = ExtResource("1_ai3o8")
@@ -218,3 +253,7 @@ position = Vector2(232, 576)
 [node name="o_enemy_catfish_small" parent="." instance=ExtResource("13_j7v3w")]
 position = Vector2(240, 440)
 enemy_data = SubResource("Resource_j7v3w")
+
+[node name="o_enemy_darkRat" parent="." instance=ExtResource("16_jw3ul")]
+position = Vector2(136, 525)
+enemy_data = SubResource("Resource_7mylb")

@@ -4,6 +4,7 @@ class_name B2_Enemy_EnemyRat
 ## Check o_enemygroup_rat. Some rat types can explode.
 # https://youtu.be/SQKRnzWSW0M?t=12323
 
+@export var rat_explosion_radius		:= 32.0
 @onready var actor_blood_spill: GPUParticles2D = $ActorBloodSpill
 var exploding := false
 
@@ -37,8 +38,15 @@ func _begin_attack() -> void:
 func _finish_attack() -> void:
 	destroy_actor()
 	var damage := randf_range(1.0,10.0)
+	#scr_stats_setBaseStat(self, STAT_BASE_HP, 0.01);
+	#scr_stats_setBaseStat(self, STAT_BASE_GUTS, 0.01);
+	#scr_stats_genEffectiveStats();
+	#scr_stats_resetCurrentStats();
+	
 	#body.damage_actor( damage, position.direction_to(body.position) * 50.0 * damage )
-	if B2_CManager.o_hoopz: B2_CManager.o_hoopz.damage_actor( damage, position.direction_to(B2_CManager.o_hoopz.position) * 50.0 * damage )
+	if B2_CManager.o_hoopz: 
+		if global_position.distance_to(B2_CManager.o_hoopz.global_position) < rat_explosion_radius:
+			B2_CManager.o_hoopz.damage_actor( damage, position.direction_to(B2_CManager.o_hoopz.position) * 50.0 * damage )
 	push_error("DEBUG: Weird RATO damage. FIXME")
 	finished_attack_action.emit()
 
@@ -166,12 +174,16 @@ func _physics_process(delta: float) -> void:
 			velocity += external_velocity
 			external_velocity = Vector2.ZERO # Reset Ext velocity
 			apply_central_force( velocity / Engine.time_scale )
+			
+			if not get_colliding_bodies().is_empty():
+				for body in get_colliding_bodies():
+					_on_body_entered( body )
 
 func _on_body_entered( body : Node ) -> void:
 	## Check scr_AI_action_kamikaze
 	if body is B2_PlayerCombatActor:
 		## Do not explode if player is rolling.
-		if body.curr_STATE != B2_PlayerCombatActor.STATE.ROLL:
+		if body.can_be_damaged():
 			_ai_ranged_attack(true)
 
 func _before_death() -> void:

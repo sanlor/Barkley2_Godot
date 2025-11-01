@@ -61,8 +61,8 @@ var playing_animation 			:= "stand"
 @export var enemy_data				: B2_EnemyData
 
 ## Control stuff
-var move_target 	:= Vector2.ZERO ## Cinema stuff: Tells where the node should walk to.
-var aim_target 		:= Vector2.ZERO ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
+var move_target 	:= Vector2.INF ## Cinema stuff: Tells where the node should walk to.
+var aim_target 		:= Vector2.INF ## Cinema stuff: Tells where the node should aim to. Can be used with "move_target" to move and aim at the same time.
 var charge_target	:= Vector2.ZERO ## Combat stuff: Tells where the enemy should charge torward
 var charge_speed	:= 0.0
 var charge_stopping := false
@@ -299,7 +299,6 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		
 		if enemy_data.curr_health <= 0.0:
 			actor_is_dying 	= true
-			is_actor_dead 	= true
 			actor_died.emit()
 			destroy_actor()
 		else:
@@ -325,10 +324,16 @@ func spawn_gibs() -> void:
 			await get_tree().process_frame
 
 func destroy_actor() -> void:
+	if is_actor_dead: ## Avoid running this more than once
+		#return
+		pass
+		
+	is_actor_dead 	= true
 	if my_shadow: my_shadow.hide()
 	_before_death()
 	#ActorCol.disabled = true
-	ActorCol.queue_free()
+	if ActorCol: ActorCol.queue_free()
+	else: push_warning("Collision was previously removed. Why it was removed? issue is with %s actor." % name) # Was having issues with the collision being removed twice. No idea why.
 	#B2_Sound.play( sound_death )
 	play_local_sound( sound_death )
 	
@@ -354,7 +359,7 @@ func destroy_actor() -> void:
 	
 	if stay_after_death:
 		#ActorCol.disabled = true
-		ActorCol.queue_free()
+		pass
 	else:
 		var t := create_tween()
 		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.1 ) )

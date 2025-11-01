@@ -27,6 +27,7 @@ enum STATE{
 	NONE,			## Invalid state.
 	IDLE,			## AI is not doing anything
 	CHASE,			## Chasing the enemy
+	STOP,
 	WANDER,			## Was idle, move to a different location
 	READY_ATTACK,	## Is begining to attack or charging an attack
 	ATTACK,			## Is attacking. NOTE should last 1 frame most of the time.
@@ -66,7 +67,7 @@ func state_transition( _curr_state : STATE, _new_state : STATE ) -> void:
 		curr_STATE = _new_state
 		my_states[_new_state].enter()
 		state_changed.emit( curr_STATE, _new_state )
-	else: push_error( "Invalid AI State: %s - %s - %s" % [STATE.keys()[_new_state], get_parent().name, my_states] )
+	else: push_error( "Invalid AI State: %s - %s - %s" % [STATE.keys()[_new_state], get_parent().name, my_states] ); breakpoint
 	print_rich("[color=red][b]%s: DEBUG changed state from %s to %s.[/b][/color]" % [get_parent().name, STATE.keys()[_curr_state], STATE.keys()[_new_state]])
 
 ## Step function, executed on every process frame

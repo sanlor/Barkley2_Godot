@@ -9,7 +9,7 @@ const ENABLE_FREE_FFWD := false
 const ENABLE_CINEMASPOT := false
 
 # show debug pathfind path
-const PATHFIND_SHOW := false
+const PATHFIND_SHOW := true
 
 # show the way the actor is facing
 const ENABLE_MOVEMENT_VECTOR_VISUALIZE := false

@@ -37,7 +37,7 @@ func combat_action( player_character : B2_CombatActor, _enemy_list : Array[B2_En
 			has_target = true
 			_make_bulleye( player_character )
 	else:
-		var enemy_melee = get_parent().enemy_melee
+		var enemy_melee := B2_MeleeAttack.new()
 		if not enemy_melee:
 			push_error("%s: Melee action not set." % get_parent().name )
 			return false

@@ -4,7 +4,7 @@ class_name B2_MeleeAttack
 
 @export var number_of_jumps 	:= 2
 @export var charge_time 		:= 0.5
-@export var charge_force		:= 200.0
+@export var charge_force		:= 50000.0
 @export var charge_damage		:= 10
 
 signal action_finished

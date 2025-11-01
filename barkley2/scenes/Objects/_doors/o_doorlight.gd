@@ -123,12 +123,10 @@ func push_player( _body : B2_PlayerCombatActor, _delta : float ):
 	pass
 	
 func _physics_process(_delta: float) -> void:
-	if Engine.is_editor_hint():
-		return
+	if Engine.is_editor_hint():			return
 		
 	# player is being warped to the next room.
-	if is_warping:
-		return
+	if is_warping:						return
 		
 	modulate.a = 0.0
 	
@@ -149,15 +147,12 @@ func _physics_process(_delta: float) -> void:
 				push_player( b, _delta )
 	
 func _on_teleport_activation_area_body_entered(body: Node2D) -> void:
-	if not is_loaded:
-		return
+	if not is_loaded:	return
 		
 	# avoid double loading the same room
-	if is_warping: 
-		return
+	if is_warping: 		return
 		
-	if not enabled:
-		return
+	if not enabled:		return
 		
 	if body is B2_PlayerCombatActor:
 		# Debug Destination has priority

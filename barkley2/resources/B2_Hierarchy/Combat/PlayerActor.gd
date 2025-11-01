@@ -363,13 +363,19 @@ func normal_animation(delta : float):
 	#print(hoopz_normal_body.animation)
 	#print(hoopz_normal_body.frame)
 
+func can_be_damaged() -> bool:
+	return curr_STATE == STATE.SHOOT or curr_STATE == STATE.AIM or curr_STATE == STATE.NORMAL or curr_STATE == STATE.JUMP or curr_STATE == STATE.POINT
+
 func damage_actor( damage : float, force : Vector2 ) -> void:
-	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT:
+	if curr_STATE == STATE.DEFEAT or curr_STATE == STATE.DEFEAT: ## TODO remove this check
 		## Dont apply damage if the battle is over.
 		return
 		
-	if curr_STATE == STATE.ROLL:
+	if curr_STATE == STATE.ROLL: ## TODO remove this check
 		## Dont apply damage if the player is rolling.
+		return
+		
+	if not can_be_damaged():
 		return
 		
 	if curr_STATE != STATE.DEFENDING:
@@ -430,7 +436,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		is_actor_dead = true
 			
 		## Add a bunch of blood. Go crazy with it.
-		for i in randi_range(10,60):
+		for i in randi_range(10,30):
 			@warning_ignore("narrowing_conversion")
 			B2_Screen.make_blood_drop( global_position + Vector2(0,-8) + Vector2( randf_range(-8,8), randf_range(-8,8) ), randf_range(0.5,5.0) )
 			for d in randi_range(0,2):
