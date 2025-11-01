@@ -49,7 +49,7 @@ func deactivate_block():
 	hide()
 	modulate.a = 0.0
 	is_active = false
-	blocker_collision.disabled = true
+	blocker_collision.set_deferred("disabled", true)
 
 func push_player( body : RigidBody2D, delta : float ):
 	body.external_velocity = push_vector * pushResist * delta

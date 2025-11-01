@@ -26,6 +26,10 @@ func _enter_tree() -> void:
 			await get_tree().process_frame
 			mouse_detection_area.mouse_entered.connect(	mouse_detection_area_entered )
 			mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
+			mouse_detection_area.area_entered.connect( gamepad_detection_area_entered )
+			mouse_detection_area.area_exited.connect( gamepad_detection_area_exited )
+			mouse_detection_area.monitorable = true
+			mouse_detection_area.monitoring = true
 			
 			var shader : ShaderMaterial = ResourceLoader.load( interactive_shader, "ShaderMaterial", ResourceLoader.CACHE_MODE_IGNORE )
 			material = shader
@@ -74,13 +78,18 @@ func get_room_name() -> String:
 func _input(event: InputEvent) -> void:
 	if not B2_Input.cutscene_is_playing: # only handle inputs if there are not cutscenes or dialogs running
 		if is_mouse_hovering:
-			if event is InputEventMouseMotion:
+			if event is InputEventMouseMotion or event is InputEventJoypadMotion:
 				_process_mouse_events()
 				
 			if is_player_near:
-				if event is InputEventMouseButton:
-					if Input.is_action_just_pressed("Action"):
-						interaction()
+				if B2_Input.is_using_gamepad():
+					if event is InputEventJoypadButton:
+						if Input.is_action_just_pressed("Action"):
+							interaction()
+				else:
+					if event is InputEventMouseButton:
+						if Input.is_action_just_pressed("Action"):
+							interaction()
 		
 func interaction() -> void:
 	if is_interactive:
@@ -104,6 +113,16 @@ func mouse_detection_area_exited() -> void:
 	is_mouse_hovering = false
 	_process_mouse_events()
 	
+func gamepad_detection_area_entered( player_interaction_node : Node2D ) -> void: ## Allow for player using a gamepad to interact with stuff.
+	if player_interaction_node is B2_Player_Interaction_Node and B2_Input.is_using_gamepad():
+		is_mouse_hovering = true
+		_process_mouse_events()
+
+func gamepad_detection_area_exited( player_interaction_node : Node2D ) -> void: ## Allow for player using a gamepad to interact with stuff.
+	if player_interaction_node is B2_Player_Interaction_Node and B2_Input.is_using_gamepad():
+		is_mouse_hovering = false
+		_process_mouse_events()
+	
 func _process_mouse_events() -> void: ## Perform mouse click and position checks
 	if not is_interactive:
 		return
@@ -116,6 +135,7 @@ func _process_mouse_events() -> void: ## Perform mouse click and position checks
 	
 	material.set_shader_parameter("enable", false)
 
+## Compatibility layer for Cinema Scripts.
 func execute_event_user_0(): 	push_warning("%s: Event not set" % name)
 func execute_event_user_1(): 	push_warning("%s: Event not set" % name)
 func execute_event_user_2(): 	push_warning("%s: Event not set" % name)

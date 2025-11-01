@@ -102,7 +102,8 @@ func get_camera_on_tree() -> Camera2D:
 		return B2_CManager.camera
 	
 	# No camera loaded. Create a new one
-	push_warning("No camera loaded. Create a new one")
+	#push_warning("No camera loaded on room %s. Create a new one" % name)
+	print("No camera loaded on room %s. Create a new one" % name)
 	var _cam := B2_Camera_Hoopz.new()
 	_cam.name = "cinema_created_camera"
 	B2_CManager.camera = _cam

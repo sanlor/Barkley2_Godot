@@ -183,7 +183,7 @@ func stop_loop():
 	if audio_loop.playing:
 		audio_loop.stop()
 	else:
-		push_warning("Nothing is playing. something may be wrong.")
+		push_warning("Nothing is playing. Cant stop something that isnt playing. Something may be wrong...")
 
 func set_loop_volume( volume : float ):
 	if volume > 1.0:

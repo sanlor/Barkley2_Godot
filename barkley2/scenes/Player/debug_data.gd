@@ -4,7 +4,7 @@ extends Control
 @export var ai : B2_AI
 
 func _ready() -> void:
-	z_index = 9999
+	z_index = 1000
 
 func _physics_process(_delta: float) -> void:
 	label.text = "Inputs:\n"

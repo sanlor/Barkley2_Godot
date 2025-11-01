@@ -6,12 +6,16 @@ class_name B2_ROOMS
 ## WARNING Pathfinding sucks. it has many issues related to the starting and finish positions.
 ## Maybe improve AstarGrid2D resolution?
 
-const O_HUD 					= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
-const O_ZONE_NAME 				= preload("res://barkley2/objects/oZoneName.tscn")
-const COLLISION_WADING_TILESET 	= preload("uid://m673wsth5kja")
-const COLLISION_ABYSS_TILESET 	= preload("uid://snddsm584j8b")
-const COLLISION_2_TILESET 		= preload("uid://cbgwi3h47ghpg")
-const COLLISION_TILESET 		= preload("uid://n70843ohvm84")
+const FOG_SHADER 				:= preload("uid://d4gjnvy7l6fkf")
+const RAIN_SHADER 				:= preload("uid://be0suyhkic6u8")
+
+
+const O_HUD 					:= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
+const O_ZONE_NAME 				:= preload("res://barkley2/objects/oZoneName.tscn")
+const COLLISION_WADING_TILESET 	:= preload("uid://m673wsth5kja")
+const COLLISION_ABYSS_TILESET 	:= preload("uid://snddsm584j8b")
+const COLLISION_2_TILESET 		:= preload("uid://cbgwi3h47ghpg")
+const COLLISION_TILESET 		:= preload("uid://n70843ohvm84")
 
 
 @export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
@@ -57,7 +61,8 @@ var collision_array 				: Array[TileMapLayer] = []
 
 @export_category("Navigation")
 @export var source_geometry_mode 		:= NavigationPolygon.SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN
-@export var agent_radius				:= 16.0
+@export var agent_radius				:= 10.0
+@export var cell_size					:= 01.0
 
 @export_category("Cinematics")
 @export var player_can_pause			:= true		## Player can pause in this room
@@ -125,29 +130,43 @@ func _enter_tree() -> void:
 				sound_node.play()
 	
 	## Applies weather.
-	B2_Shaders.toggle_fog_shader( weather_fog )
+	if weather_fog:
+		toggle_fog_shader( weather_fog )
+	
 	if esoteric_rain_conditions and weather_rain:
 		if get_room_area() == "tnn": # TNN #
 			# Rain moves #
 			if B2_ClockTime.time_gate() >= 5 and B2_ClockTime.time_gate() < 6: 
-				B2_Shaders.toggle_rain_shader( true, "light", false )
+				toggle_rain_shader( true, "light", false )
 			elif B2_ClockTime.time_gate() >= 6 and B2_ClockTime.time_gate() < 7:
-				B2_Shaders.toggle_rain_shader( true, "normal", true )
+				toggle_rain_shader( true, "normal", true )
 			elif B2_ClockTime.time_gate() >= 7 and B2_ClockTime.time_gate() < 8:
-				B2_Shaders.toggle_rain_shader( true, "heavy", true )
+				toggle_rain_shader( true, "heavy", true )
 			elif B2_ClockTime.time_gate() >= 9 and B2_ClockTime.time_gate() < 10:
-				B2_Shaders.toggle_rain_shader( true, "normal", false )
+				toggle_rain_shader( true, "normal", false )
 			elif B2_ClockTime.time_gate() >= 11 and B2_ClockTime.time_gate() < 12:
-				B2_Shaders.toggle_rain_shader( true, "light", false )
+				toggle_rain_shader( true, "light", false )
 			else:
-				B2_Shaders.toggle_rain_shader( false, "", false )
+				toggle_rain_shader( false, "", false )
 		else:
-			B2_Shaders.toggle_rain_shader( weather_rain, "normal", false )
+			toggle_rain_shader( weather_rain, "normal", false )
 	else:
-		B2_Shaders.toggle_rain_shader( weather_rain, "normal", false )
+		toggle_rain_shader( weather_rain, "normal", false )
 	
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
+
+func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ) -> void: # toggled by the current room settings
+	var rain : GPUParticles2D = RAIN_SHADER.instantiate()
+	add_child( rain, true )
+	rain.toggle_rain_shader( state , rain_type , thunder, is_interior )
+	rain.z_index = 4096
+	
+func toggle_fog_shader( _weather_fog : bool ) -> void:
+	var fog : ColorRect = FOG_SHADER.instantiate()
+	add_child( fog, true )
+	fog.toggle_fog_shader( _weather_fog )
+	fog.z_index = 4096
 
 ## manually check collision againt all tilemap layers on the reference layer
 func check_tilemap_collision( pos : Vector2, collision_mask : int ) -> bool:
@@ -232,6 +251,7 @@ func _set_region():
 	navigation_polygon.clear_outlines()
 	navigation_polygon.add_outline( poly )
 	navigation_polygon.agent_radius = agent_radius
+	navigation_polygon.cell_size = cell_size
 	navigation_polygon.source_geometry_mode = source_geometry_mode
 	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
 	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )

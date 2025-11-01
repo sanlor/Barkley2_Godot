@@ -56,6 +56,8 @@ func _setup_interactiveactor():
 			mouse_detection_area.mouse_exited.connect(	mouse_detection_area_exited )
 			mouse_detection_area.area_entered.connect( gamepad_detection_area_entered )
 			mouse_detection_area.area_exited.connect( gamepad_detection_area_exited )
+			mouse_detection_area.monitorable 	= true
+			mouse_detection_area.monitoring 	= true
 		else:
 			push_error("%s has no node named 'mouse_detection_area' used for interaction." % name)
 		

@@ -352,6 +352,11 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		## Wait for the room to finish loading.
 		finish_loading_room_scene( room_name ) 				# Load the next room
 		get_tree().change_scene_to_packed( room_scene )		# change the current room
+		# 01/11/25 -> E 0:11:40:900   room_xy.gd:354 @ warp_to(): Animation 'burst' doesn't exist.
+			#  <C++ Error>   Condition "!E" is true. Returning: 0
+			#  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
+			#  <Stack Trace> room_xy.gd:354 @ warp_to()
+
 		await get_tree().process_frame
 	else:
 		if is_instance_valid( B2_CManager.o_hoopz ):

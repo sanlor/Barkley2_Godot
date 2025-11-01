@@ -38,6 +38,7 @@ func _begin_attack() -> void:
 func _finish_attack() -> void:
 	destroy_actor()
 	var damage := randf_range(1.0,10.0)
+	## TODO Add the correct damage calculation
 	#scr_stats_setBaseStat(self, STAT_BASE_HP, 0.01);
 	#scr_stats_setBaseStat(self, STAT_BASE_GUTS, 0.01);
 	#scr_stats_genEffectiveStats();
