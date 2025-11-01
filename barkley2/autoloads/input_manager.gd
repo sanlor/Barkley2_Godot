@@ -11,10 +11,11 @@ signal input_changed(CONTROL)
 enum CONTROL{KEYBOARD, GAMEPAD}
 var curr_CONTROL := CONTROL.KEYBOARD
 
-
-
 var cutscene_is_playing 	:= false # Set to true during cutscenes and conversations
-var player_has_control 		:= true # Set to false during cutscenes and conversations
+var player_has_control 		:= true :# Set to false during cutscenes and conversations
+	set(p):
+		player_has_control = p
+		B2_SignalBus.player_input_permission_changed.emit()
 
 signal action_pressed
 

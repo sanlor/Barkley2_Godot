@@ -44,6 +44,7 @@ func _ready() -> void:
 	
 	B2_CManager.o_hoopz = self
 	B2_SignalBus.player_follow_mouse.connect( func(state): follow_mouse = state )
+	B2_SignalBus.player_input_permission_changed.connect( func(): curr_aim = Vector2.ZERO; curr_input = Vector2.ZERO ) ## Avoid moving torward a direction if control is taken from the player.
 	B2_SignalBus.gun_changed.connect( _update_held_gun )
 	linear_damp = walk_damp
 	
@@ -93,7 +94,8 @@ func start_aiming() -> void:
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 		curr_STATE = STATE.AIM
 		B2_Sound.play_pick("hoopz_swapguns")
-		aim_reticle.show()
+		if B2_Input.curr_CONTROL == B2_Input.CONTROL.GAMEPAD: ## Only show if its using a gamepad
+			aim_reticle.show()
 
 func stop_aiming() -> void:
 		curr_STATE = STATE.NORMAL
@@ -142,6 +144,8 @@ func combat_walk_animation(delta : float):
 				Vector2.LEFT:		combat_lower_sprite.play(WALK_W)
 				Vector2.DOWN:		combat_lower_sprite.play(WALK_S)
 				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E)
+				Vector2.ZERO:		pass
+				
 				_: # Catch All
 					combat_lower_sprite.play(WALK_S)
 					print("Hoopz combat_walk_animation: Catch all, ", input)
@@ -181,6 +185,7 @@ func combat_walk_animation(delta : float):
 			Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_W
 			Vector2.DOWN:	combat_lower_sprite.frame = COMBAT_STAND_S
 			Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_E
+			Vector2.ZERO:	pass
 				
 			_: # Catch All
 				#combat_lower_sprite.frame = STAND_S
@@ -220,7 +225,7 @@ func combat_aim_animation():
 				Vector2(0.66,	-0.66): dir_frame = 		2	# High Right
 				Vector2(-0.66,	-0.66):	dir_frame = 		6	# High Left
 					
-				# Madness
+				## Madness
 				#Down
 				Vector2(0.33,	0.99): dir_frame = 		13	# Rightish
 				Vector2(-0.33,	0.99): dir_frame = 		11	# Leftish
@@ -247,7 +252,7 @@ func combat_weapon_animation() -> void:
 			return
 			
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		#var target_dir 		:= global_position.direction_to( 		-aim_origin.position + curr_aim )
+		#var target_dir 	:= global_position.direction_to( 		-aim_origin.position + curr_aim )
 		#var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + curr_aim )
 		var target_dir 		:= curr_aim
 		var target_angle	:= curr_aim.angle()
@@ -256,9 +261,10 @@ func combat_weapon_animation() -> void:
 		## Many Manual touch ups.
 		var s_frame 		:= combat_weapon.frame
 		var angle 			:= 0.0
-		var height_offset	:= Vector2(0, 0) ## DEPRECATED
+		#var height_offset	:= Vector2(0, 0) ## DEPRECATED
 		var _z_index		:= 0
 		
+		## This needs to be fixed. It has to be a better way to do this. TODO
 		match mouse_input:
 				# Normal stuff
 				Vector2(0,	-0.99): # Up
@@ -303,7 +309,7 @@ func combat_weapon_animation() -> void:
 				Vector2(0.33,	0.99): # Rightish
 					s_frame = 	13
 					angle = 60
-					height_offset *= -1
+					#height_offset *= -1
 				Vector2(-0.33,	0.99): # Leftish
 					s_frame = 	11
 					angle = 120
@@ -443,9 +449,9 @@ func _physics_process(delta: float) -> void:
 				
 			elif  curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
 				_update_held_gun()
-				if curr_aim != Vector2.ZERO:
-					aim_reticle.position = aim_origin.global_position.direction_to(curr_aim) * 64.0
-					#print( aim_reticle.position )
+				#if curr_aim != Vector2.ZERO:
+				aim_reticle.position = curr_aim * 64.0 #aim_origin.position.direction_to(curr_aim) * 64.0
+				#print( aim_reticle.position )
 				combat_walk_animation( delta ) # delta is for the turning animation
 				combat_aim_animation()
 				combat_weapon_animation()

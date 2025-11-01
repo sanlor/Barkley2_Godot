@@ -111,9 +111,9 @@ func normal_animation(_delta : float):
 				Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
 				Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
 				Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
-					
+				Vector2.ZERO:						pass
 				_: # Catch All
-					print("Catch all, ", input)
+					print("Catch all 'input' for %s -> %s " % [name, input])
 	else:
 		# AI is not moving the actor anymore
 		ActorAnim.play( actor_animations.ANIMATION_STAND )

@@ -86,7 +86,7 @@ func normal_animation(_delta : float):
 	if input != Vector2.ZERO: # AI is moving the Actor
 		if last_input != input:
 			## Flip sprite if needed.
-			ActorAnim.flip_h = input.x < 0 ## If going left, flip the spritesd
+			ActorAnim.flip_h = input.x < 0 ## If going left, flip the sprite
 			
 			match input.round():
 				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
@@ -98,9 +98,10 @@ func normal_animation(_delta : float):
 				Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
 				Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
 				Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
+				Vector2.ZERO:						pass
 					
 				_: # Catch All
-					print("Catch all, ", input)
+					print("Catch all 'input' for %s -> %s " % [name, input])
 	else:
 		if last_input != input:
 			# AI is not moving the actor anymore
@@ -118,10 +119,11 @@ func normal_animation(_delta : float):
 				Vector2.LEFT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[6]
 				Vector2.DOWN:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[0]
 				Vector2.RIGHT:		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[2]
-					
+				Vector2.ZERO:		pass
+				
 				_: # Catch All
 					#ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[0]
-					pass
+					print("Catch all 'last_input' for %s -> %s " % [name, last_input])
 		
 		var curr_direction : Vector2 = input
 	

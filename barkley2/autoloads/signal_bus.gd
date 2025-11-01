@@ -5,6 +5,7 @@ extends Node
 ## Player / Camera stuff (Was in B2_Input)
 signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )
+signal player_input_permission_changed
 
 ## Room permisions
 signal room_permission_changed
