@@ -113,11 +113,20 @@ enum CONTROL{KEYBOARD,GAMEPAD}
 var curr_CONTROL := CONTROL.KEYBOARD
 
 func _init():
-	config_load()
-	apply_config(false)
+	#_load_media_pack()
+	pass
+	
+func _load_media_pack():
+	# This could fail if, for example, mod.pck cannot be found.
+	var success = ProjectSettings.load_resource_pack(OS.get_executable_path().get_base_dir().path_join("media.pck"))
+	if success: print_rich("[color=pink][b]Using media.pck for Audio.[/b][/color]")
+	else:
+		if OS.has_feature("web"):
+			print_rich("[color=red][b]Web export has no media.pck avaiable for Audio...[/b][/color]")
 	
 func _ready():
-	pass
+	config_load()
+	apply_config(false)
 
 func _notification(what):
 	## Save game during game exit.

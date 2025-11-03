@@ -15,5 +15,5 @@ func _process(_delta: float) -> void:
 			if B2_CManager.camera: ## FIXME 
 				material.set_shader_parameter( "camera_position", B2_CManager.camera.global_position )
 				material.set_shader_parameter( "camera_offset", B2_CManager.camera.offset )
-				position = B2_CManager.camera.position - Vector2(384.0,240.0) / 2.0
+				position = B2_CManager.camera.position - get_viewport_rect().size / 2.0
 				position += B2_CManager.camera.offset

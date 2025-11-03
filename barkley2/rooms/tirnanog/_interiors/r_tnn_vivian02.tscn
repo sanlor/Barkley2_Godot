@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=4 uid="uid://b0pmqvvo4ad23"]
+[gd_scene load_steps=26 format=4 uid="uid://b0pmqvvo4ad23"]
 
 [ext_resource type="Script" uid="uid://bhsrrv7xr76ky" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_vivian_02.gd" id="1_f5fpd"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_x55xq"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="3_jafjg"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="3_p2diy"]
+[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="3_q7fxf"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="4_0j1sq"]
 [ext_resource type="PackedScene" uid="uid://boesy5y3le46w" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_fruitbasket01.tscn" id="4_omxe5"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="5_yese7"]
@@ -14,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="10_ly3vy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_up3xm"]
+vertices = PackedVector2Array(198, 218, 214, 218, 214, 234, 122, 278, 138, 234, 266, 234, 266, 218, 282, 218, 310, 278, 298, 278, 282, 202, 330, 202, 390, 278, 330, 170, 390, 170, 310, 342, 298, 342, 122, 234, 138, 170, 198, 170)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8, 9), PackedInt32Array(8, 7, 10, 11, 12), PackedInt32Array(11, 13, 14, 12), PackedInt32Array(8, 15, 16, 9), PackedInt32Array(5, 9, 3, 2), PackedInt32Array(3, 17, 4), PackedInt32Array(0, 4, 18, 19)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 384, 512, 384, 512, 0)])
+source_geometry_mode = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1pbq3"]
 resource_name = "tls_gbl_interiors01"
@@ -3357,15 +3362,18 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_tnn_vivian02" type="NavigationRegion2D" node_paths=PackedStringArray("collision_layer", "collision_layer_semi")]
+[node name="r_tnn_vivian02" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 navigation_polygon = SubResource("NavigationPolygon_up3xm")
 script = ExtResource("1_f5fpd")
+reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - collision 2"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(288, 272)
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 camera_bound_to_map = true
+is_this_room_dark = true
+weather_rain = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -3391,7 +3399,7 @@ tile_set = SubResource("TileSet_k2b83")
 visible = false
 z_index = 1000
 tile_map_data = PackedByteArray("AAAOAAwAGQACAAIAAAAOAA0AGQACAAIAAAAPAAwAGQACAAIAAAAPAA0AGQACAAIAAAA=")
-tile_set = ExtResource("3_jafjg")
+tile_set = ExtResource("3_q7fxf")
 
 [node name="layer - collision" type="TileMapLayer" parent="."]
 visible = false
@@ -3437,6 +3445,3 @@ metadata/scale = Vector2(1, 1)
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
 script = ExtResource("3_p2diy")
-convert_known_nodes = true
-simulate = false
-remove_nodes = true

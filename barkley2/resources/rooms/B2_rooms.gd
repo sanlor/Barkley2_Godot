@@ -159,7 +159,7 @@ func _ready() -> void:
 func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ) -> void: # toggled by the current room settings
 	var rain : GPUParticles2D = RAIN_SHADER.instantiate()
 	add_child( rain, true )
-	rain.toggle_rain_shader( state , rain_type , thunder, is_interior )
+	rain.call_deferred( "toggle_rain_shader", state , rain_type , thunder, is_interior )
 	rain.z_index = 4096
 	
 func toggle_fog_shader( _weather_fog : bool ) -> void:

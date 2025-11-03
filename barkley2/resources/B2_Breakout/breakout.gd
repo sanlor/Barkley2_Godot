@@ -9,7 +9,7 @@ const ICON_ATLAS = preload("res://barkley2/resources/B2_Breakout/icon_atlas.tres
 
 # minimum breakout height
 var breakoutYSpc := 42
-var breakoutXSpc := 32 * 2
+var breakoutXSpc := 32 * 3
 
 # icon size
 var icon_size := 16
@@ -56,7 +56,10 @@ func _ready() -> void:
 	set_values()
 	
 	var hbox := HBoxContainer.new()
-	diag_box.add_child( hbox )
+	var margin := MarginContainer.new()
+	margin.set_anchors_preset( Control.PRESET_FULL_RECT )
+	margin.add_child( hbox, true )
+	diag_box.add_child( margin, true  )
 	
 	if txt == "":
 		# Add Icon
@@ -64,14 +67,14 @@ func _ready() -> void:
 		icon_node.texture = ICON_ATLAS
 		icon_node.texture.region.position.x *= icon_id
 		icon_node.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
-		hbox.add_child( icon_node )
+		hbox.add_child( icon_node, true )
 	elif icon_id >= 0 and icon_id <= 8:
 		# Add id text
 		txt_node = Label.new()
 		txt_node.text = txt + " " # add a space to make sure it looks good.
 		#txt_node.custom_minimum_size = Vector2(36, 0)
 		txt_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		hbox.add_child(txt_node)
+		hbox.add_child( txt_node, true )
 	else:
 		# weird situation. someone fucked up.
 		# either and invalid id is set or something wans set properly.
@@ -82,7 +85,7 @@ func _ready() -> void:
 	value_node.text = str( old_value ) 
 	value_node.custom_minimum_size = Vector2(36, 0)
 	value_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hbox.add_child(value_node)
+	hbox.add_child(value_node,true)
 	
 	# Diagbox sizing
 	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )

@@ -1,6 +1,6 @@
 @tool
 extends Control
-# Fun name. Controls the gun's chunklets.
+# Fun name. Controls the gun's chunklets during the DNA fusing
 
 #const GUN_DNA_SHADER_MATERIAL = preload("res://barkley2/scenes/_utilityStation/breed/gun_dna_shader_material.tres")
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")

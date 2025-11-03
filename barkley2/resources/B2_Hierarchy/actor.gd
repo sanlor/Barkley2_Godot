@@ -50,9 +50,9 @@ var last_movement_vector 	:= Vector2.ZERO
 @export_category("Movement Stuff")
 ## Speed stuff
 var speed_multiplier 	:= 20.0
-var speed_slow 			:= 2.0 * speed_multiplier # was 1.5
-var speed_normal 		:= 3.0 * speed_multiplier # was 2.5
-var speed_fast 			:= 6.0 * speed_multiplier # was 5.0
+var speed_slow 			:= 1.0 * speed_multiplier # was 1.5
+var speed_normal 		:= 2.0 * speed_multiplier # was 2.5
+var speed_fast 			:= 4.0 * speed_multiplier # was 5.0
 var speed 				:= speed_normal
 
 @export_category("Pathfinding")

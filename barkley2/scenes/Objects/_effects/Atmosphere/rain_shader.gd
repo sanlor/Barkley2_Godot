@@ -21,19 +21,19 @@ func toggle_rain_shader( state : bool, rain_type : String, thunder : bool, inter
 	if state:
 		match rain_type:
 			"light":		
-				amount = 50; 
+				amount = 200; 
 				if interior: 	_setup_audio(SN_RAIN_LIGHT_INDOORS_01); 
 				else: 			_setup_audio(SN_RAIN_LIGHT_01)
 			"normal":		
-				amount = 100
+				amount = 400
 				if interior: 	_setup_audio(SN_RAIN_NORMAL_INDOORS_01); 
 				else: 			_setup_audio(SN_RAIN_NORMAL_01)
 			"heavy":		
-				amount = 200
+				amount = 800
 				if interior: 	_setup_audio(SN_RAIN_HEAVY_INDOORS_01); 
 				else: 			_setup_audio(SN_RAIN_HEAVY_01)
 			_:				
-				amount = 50
+				amount = 200
 				if interior: 	_setup_audio(SN_RAIN_NORMAL_INDOORS_01); 
 				else: 			_setup_audio(SN_RAIN_NORMAL_01)
 				

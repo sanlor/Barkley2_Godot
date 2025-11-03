@@ -459,7 +459,9 @@ func _physics_process(delta: float) -> void:
 				push_warning("Weird state: ", curr_STATE)
 			
 			# Take the input from the keyboard / Gamepag and apply directly.
-			var move := curr_input
+			var move := Vector2.ZERO
+			if (curr_input * 2.5).normalized().round(): ## Check to avoid moving without activating the animation.
+				move = curr_input
 			velocity = ( walk_speed * delta ) * move
 			
 			velocity += external_velocity

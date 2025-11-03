@@ -1,8 +1,9 @@
-[gd_scene load_steps=51 format=4 uid="uid://qfx0po6pln18"]
+[gd_scene load_steps=52 format=4 uid="uid://qfx0po6pln18"]
 
 [ext_resource type="Script" uid="uid://midrv3urgxhf" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_wilmer_02.gd" id="1_koiu5"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_0vsta"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="3_rjyur"]
+[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="4_jav2g"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="4_tw0tv"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_uehgb"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_x3d3j"]
@@ -26,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://nwabjymcirav" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_stairs_0.tscn" id="23_2r4ah"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_h18au"]
-vertices = PackedVector2Array(336, 209.352, 342, 207.742, 342, 228, 286, 228, 323.32, 205.961, 342, 138, 342, 160.25, 336, 158.648, 314, 138, 314, 154, 323.32, 162.039, 314.039, 196.68, 314.039, 171.32, 286, 262, 234, 262, 234, 198, 198, 198, 198, 262, 186, 262, 186, 198, 170, 198, 170, 138, 230, 138, 230, 154, 310.648, 184)
+vertices = PackedVector2Array(336, 209.35156, 342, 207.74219, 342, 228, 286, 228, 323.3203, 205.96094, 342, 138, 342, 160.25, 336, 158.64844, 314, 138, 314, 154, 323.3203, 162.03906, 314.03906, 196.67969, 314.03906, 171.32031, 286, 262, 234, 262, 234, 198, 198, 198, 198, 262, 186, 262, 186, 198, 170, 198, 170, 138, 230, 138, 230, 154, 310.64844, 184)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(9, 8, 7, 10), PackedInt32Array(11, 4, 3), PackedInt32Array(9, 10, 12), PackedInt32Array(3, 13, 14, 15), PackedInt32Array(16, 17, 18, 19), PackedInt32Array(19, 20, 21, 22, 23), PackedInt32Array(16, 19, 23), PackedInt32Array(15, 16, 23, 9), PackedInt32Array(3, 15, 9, 12, 24), PackedInt32Array(3, 24, 11)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 384, 512, 384, 512, 0)])
 source_geometry_mode = 1
@@ -3500,6 +3501,7 @@ collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 show_zone_banner = false
 cutscene_script = SubResource("Resource_4dbcx")
+weather_rain = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -3525,7 +3527,7 @@ tile_set = SubResource("TileSet_aa3vh")
 visible = false
 z_index = 10
 tile_map_data = PackedByteArray("AAARAAcAGQACAAIAAAARAAgAGQACAAIAAAASAAcAGQACAAIAAAASAAgAGQACAAIAAAATAAcAGQACAAIAAAAUAAcAGQACAAIAAAAVAAcAGQACAAIAAAA=")
-tile_set = ExtResource("4_tw0tv")
+tile_set = ExtResource("4_jav2g")
 
 [node name="layer - collision" type="TileMapLayer" parent="."]
 visible = false
@@ -3556,7 +3558,6 @@ position = Vector2(176, 132)
 sprite_frames = SubResource("SpriteFrames_rrjjw")
 script = ExtResource("19_gq8ni")
 is_interactive = false
-interactive_shader = "res://barkley2/resources/shaders/selected_outline.material"
 interactive_distance = 64
 cutscene_script = null
 cutscene_script2 = null
@@ -3578,7 +3579,6 @@ position = Vector2(288, 120)
 
 [node name="o_wilmerBedsheet01" parent="." instance=ExtResource("20_fjx2w")]
 position = Vector2(304, 176)
-shape = 1
 
 [node name="o_map_stairs_0" parent="." instance=ExtResource("23_2r4ah")]
 position = Vector2(176, 208)

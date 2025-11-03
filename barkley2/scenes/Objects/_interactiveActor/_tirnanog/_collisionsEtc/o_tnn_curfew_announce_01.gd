@@ -16,3 +16,6 @@ func _ready() -> void:
 	## Disable object ## Curfew announcment has been made already ##
 	elif B2_Playerdata.Quest("curfewAnnouncement") == 2:
 		queue_free()
+
+	push_error("Curfew trigger auto-removed. Fix this.")
+	queue_free()

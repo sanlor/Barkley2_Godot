@@ -17,7 +17,7 @@ class_name B2_Gun
 enum SKILL{NONE,PRECISION_SHOT,FULL_AUTO,BURST_FIRE}
 const SKILL_LIST : Dictionary[SKILL,B2_WeaponSkill] = {
 	SKILL.NONE 				: null,
-	SKILL.PRECISION_SHOT 	: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/precision_shot.tres"),
+	#SKILL.PRECISION_SHOT 	: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/precision_shot.tres"),
 	#SKILL.FULL_AUTO 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/full_auto.tres"), ## CRITICAL 27/10/25 The game decided not to work with this enabled. Leaving this disabled for now.
 	#SKILL.BURST_FIRE 		: preload("res://barkley2/resources/B2_Weapon/B2_WeaponSkill/burst_fire.tres"), ## CRITICAL 27/10/25 The game decided not to work with this enabled. Leaving this disabled for now.
 }

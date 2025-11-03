@@ -279,7 +279,7 @@ func get_muzzle_position() -> Vector2:
 	return gun_muzzle.global_position
 			
 func normal_animation(delta : float):
-	var input := curr_input.round()
+	var input := (curr_input * 2.5).normalized().round()
 	
 	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
 	

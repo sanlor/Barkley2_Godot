@@ -1,6 +1,6 @@
-// https://godotshaders.com/shader/screen-smoke-fog/
+// Based on https://godotshaders.com/shader/screen-smoke-fog/
 shader_type canvas_item;
-//render_mode blend_add;
+render_mode blend_mix;
 
 // Stuff related to camera position and offsets
 uniform vec2 camera_position;

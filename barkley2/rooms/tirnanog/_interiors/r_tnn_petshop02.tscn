@@ -47,7 +47,7 @@
 [ext_resource type="PackedScene" uid="uid://myfr0v4o136a" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_cuthbert01.tscn" id="39_n8mx1"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_431am"]
-vertices = PackedVector2Array(170, 298, 170, 202.813, 173.82, 206.633, 184, 209.352, 218, 310, 374, 266, 406, 266, 406, 278, 346, 278, 346, 190, 374, 138, 330, 138, 330, 186, 294, 190, 214.797, 186, 294, 278, 278, 278, 210.18, 190.633, 203.43, 192.43, 278, 310, 230, 310, 201.633, 199.18, 194.18, 206.633, 230, 358, 218, 358, 154, 310, 154, 298, 90, 262, 90, 234.031, 94.4219, 238.453, 129.578, 238.453, 134, 234.031, 134, 262, 112, 243.148, 134, 138, 134, 181.969, 129.578, 177.547, 94.4219, 177.547, 90, 181.969, 90, 138, 112, 172.852)
+vertices = PackedVector2Array(170, 298, 170, 202.8125, 173.82031, 206.63281, 184, 209.35156, 218, 310, 374, 266, 406, 266, 406, 278, 346, 278, 346, 190, 374, 138, 330, 138, 330, 186, 294, 190, 214.79688, 186, 294, 278, 278, 278, 210.17969, 190.63281, 203.42969, 192.42969, 278, 310, 230, 310, 201.63281, 199.17969, 194.17969, 206.63281, 230, 358, 218, 358, 154, 310, 154, 298, 90, 262, 90, 234.03125, 94.421875, 238.45313, 129.57813, 238.45313, 134, 234.03125, 134, 262, 112, 243.14844, 134, 138, 134, 181.96875, 129.57813, 177.54688, 94.421875, 177.54688, 90, 181.96875, 90, 138, 112, 172.85156)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(5, 8, 9, 10), PackedInt32Array(11, 10, 9, 12), PackedInt32Array(12, 9, 13, 14), PackedInt32Array(14, 13, 15, 16, 17), PackedInt32Array(18, 17, 16, 19, 20, 21), PackedInt32Array(22, 21, 20, 4), PackedInt32Array(20, 23, 24, 4), PackedInt32Array(3, 22, 4), PackedInt32Array(0, 4, 25, 26), PackedInt32Array(27, 28, 29), PackedInt32Array(30, 31, 32), PackedInt32Array(30, 32, 27, 33), PackedInt32Array(33, 27, 29), PackedInt32Array(34, 35, 36), PackedInt32Array(37, 38, 39), PackedInt32Array(34, 36, 40, 39), PackedInt32Array(39, 40, 37)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 416, 512, 416, 512, 0)])
 source_geometry_mode = 1
@@ -4395,7 +4395,7 @@ DIALOG | P_NAME   | Hey that's alright mister. I'm just glad I could help.
 
 // DIALOG | Cuthbert | You looking for an animal companion? Dog? Cat? Lizard? Goldfish? Better act fast. I'm pretty sure we're going out of business."
 
-[node name="r_tnn_petshop02" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer")]
+[node name="r_tnn_petshop02" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_431am")
 script = ExtResource("1_48dgj")
@@ -4403,6 +4403,9 @@ reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 9
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(208, 208)
 collision_layer = NodePath("layer - collision 2")
+collision_layer_semi = NodePath("layer - collision 2")
+is_interior = true
+weather_rain = true
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -4442,9 +4445,6 @@ convert_cinema_spots = false
 convert_door_light = false
 convert_door = false
 convert_collision = false
-convert_known_nodes = true
-simulate = false
-remove_nodes = true
 
 [node name="o_doorlight_down_outside2" parent="." instance=ExtResource("5_yv2bo")]
 position = Vector2(208, 304)
