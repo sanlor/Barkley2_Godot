@@ -4,6 +4,9 @@ extends Control
 @export var ai : B2_AI
 
 func _ready() -> void:
+	if not OS.is_debug_build():
+		print( "Removing debug label from %s. remember to manually remove it." % get_parent().name )
+		queue_free()
 	z_index = 1000
 
 func _physics_process(_delta: float) -> void:

@@ -11,8 +11,9 @@ const SN_RAIN_NORMAL_INDOORS_01 	:= preload("uid://c4lr4q7k7qffx")
 
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
-#func _ready() -> void:
-	#toggle_rain_shader()
+func _ready() -> void:
+	if OS.has_feature("web"): ## Disable trail if web export, since its not supported.
+		trail_enabled = false
 
 func toggle_rain_shader( state : bool, rain_type : String, thunder : bool, interior : bool ): # toggled by the current room settings
 	emitting = state and not interior 	## Only visible outside
