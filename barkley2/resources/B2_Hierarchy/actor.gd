@@ -237,21 +237,26 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	
 	#print("USEAT anim: %s." % new_anim)
 	cinema_playset( new_anim, old_anim, 10.0 * force_speed, disable_auto_flip_h )
-	await ActorAnim.animation_finished
+	await set_played
 	
 	## 25-12-24 vvv
-	if vec_2_dir_map.has( dir ):
-		cinema_look( vec_2_dir_map.get( dir ) ) # 24/07/25 disabled this. 
-	else:
-		push_error("Invalid dir. check shit out -> %s" % dir)
-		cinema_look( "SOUTH" )
+	# 24/07/25 disabled this. 
 	# 22/08/25 enabled this.
 	# this last part ensures that the actor will look at some point AFTER the animation finishes.
 	# Why did I disable this last month? 
-	
+	# 04/11/25 Still having issues with this. Surprise at not working for some reason.
+	## 04/11/25 Alright, disabled this again. Enabling this causes issues with animations not stopping and hoopz reseting the final animation.
+	# Main issue is, I don't remember why I keep enabling this again. CRITICAL document the reason for this piece of code.
+	## vvvvvv
+	#if vec_2_dir_map.has( dir ):
+	#	cinema_look( vec_2_dir_map.get( dir ) ) 
+	#else:
+	#	push_error("Invalid dir. check shit out -> %s" % dir)
+	#	cinema_look( "SOUTH" )
+	## 111111
+	# To test this, load r_air_throneRoom01 and talk with o_cuchutamo02.
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
-	
 	return
 
 func cinema_set( _sprite_frame : String ):

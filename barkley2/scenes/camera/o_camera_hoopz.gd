@@ -276,7 +276,7 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Height: " 	+ str(limit_height) 	+ "\n"
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if B2_Input.cutscene_is_playing:
 		camera_offset = CAMERA_CUTSCENE_OFFSET
 	else:

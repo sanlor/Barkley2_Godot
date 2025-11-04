@@ -980,10 +980,23 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"ClockTime":
 					## Set timed quest variables.
 					if parsed_line[1].strip_edges() == "event":
-						assert( parsed_line.size() == 5 )
-						var quest = parsed_line[2].strip_edges()
-						var value = parsed_line[3].strip_edges()
-						var timer = parsed_line[4].strip_edges()
+						var quest
+						var value
+						var timer
+						
+						if parsed_line.size() == 2: ## No additional arguments returns number of events
+							## NOTE Should never happen in this version.
+							breakpoint
+						elif parsed_line.size() == 3: ## Arg1 = Integer, returns three vars
+							quest = parsed_line[2].strip_edges()
+							value = parsed_line[2].strip_edges()
+							timer = parsed_line[2].strip_edges()
+						else:
+							assert( parsed_line.size() == 5 )
+							quest = parsed_line[2].strip_edges()
+							value = parsed_line[3].strip_edges()
+							timer = parsed_line[4].strip_edges()
+						
 						B2_ClockTime.time_event( quest, value, timer )
 						
 					else:

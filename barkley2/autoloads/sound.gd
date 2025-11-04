@@ -105,6 +105,15 @@ func get_sound(soundID : String) -> String:
 	else:
 		return ""
 	
+func get_sound_stream(soundID : String) -> AudioStream:
+	var sound_file := get_sound( soundID )
+	if sound_file:
+		return load( sound_file )
+	else:
+		push_error( "Invalid SoundID - '%s' -> '%s'" % [soundID, sound_file] )
+		return AudioStream.new()
+	
+	
 # Return the file name for a soundpick
 func get_sound_pick(soundpickID : String) -> String:
 	if sound_pick.has(soundpickID): ## Fallback to soundpick

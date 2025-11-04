@@ -39,7 +39,10 @@ var tween : Tween
 var bgm_music 					:= ""
 
 ## What track is being played. useful when changing rooms that use the same music track.
-var curr_playing_track 			:= ""
+var curr_playing_track 			:= "" :
+	set(t):
+		#print_stack() ## DEBUG Something was reseting this value, causing issues with persistant music tracks when changing the room.
+		curr_playing_track = t
 var prev_playing_track 			:= ""
 var stored_playing_track		:= ""
 var stored_playing_track_time	:= 0.0
