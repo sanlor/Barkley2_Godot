@@ -55,9 +55,9 @@ func _create_casing( casing_pos : Vector2) -> void:
 		push_error("Gun resource not loaded correctly.")
 		return
 		
-	if curr_gun.get_casing_sound():
+	if curr_gun.get_casing_name():
 		var casing = O_CASINGS.instantiate()
-		casing.setup( curr_gun.get_casing_sound(), curr_gun.get_casing_scale(), curr_gun.get_casing_speed(), curr_gun.get_casing_color() )
+		casing.setup( curr_gun.get_casing_name(), curr_gun.get_casing_sound(), curr_gun.get_casing_scale(), curr_gun.get_casing_speed(), curr_gun.get_casing_color() )
 		casing.position = casing_pos
 		B2_RoomXY.get_curr_room().add_child( casing, true )
 		

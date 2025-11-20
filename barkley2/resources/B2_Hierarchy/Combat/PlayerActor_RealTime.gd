@@ -507,9 +507,7 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 
 func _on_combat_lower_body_frame_changed() -> void:
 	if curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
-		print( combat_lower_sprite.animation )
 		if combat_lower_sprite.animation.begins_with("walk_"):
-			
 			# play audio only on frame 0 or 2
 			if combat_lower_sprite.frame in [0,2]:
 				if move_dist <= 0.0:

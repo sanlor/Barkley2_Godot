@@ -741,6 +741,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	# Ex.: {"wpn_name":"BUTT","add_affixes":false}
 	
 	var wpn := B2_Weapon.new()
+	wpn.weapon_stats = B2_WeaponStats.new() ## Add some default stats.
 	
 	## Pick weapon type if not specified
 	if type != TYPE.GUN_TYPE_NONE:

@@ -1,5 +1,6 @@
 #extends Node2D
 extends Area2D
+class_name B2_Bullet
 ## Bullet Scene for all bullet type weapons.
 
 ## Once again, due to B2´s weirdness, I have to create some weird code.
@@ -16,6 +17,8 @@ extends Area2D
 # Check o_bullet alarm0
 
 ## NOTE main theme for coding this section of the game: https://youtu.be/bFMWuAC5HV4
+
+## WARNING as of 20/11/25, im trying to improve performance due to issues ith slowdowns on certain situations.
 
 const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
 
@@ -106,6 +109,7 @@ var velocity : Vector2
 # here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
 # my idea is this: lets make an animation on the fly! shouldnt impact the performance.
 ## NOTE forget that, I just added all animations using a convetion script. 11/03/25
+## NOTE 20/11/25 I have no idea what I mean with the text above.
 func setup_bullet_sprite( _spr : String, _col : Color ) -> void:
 	spr = _spr
 	col = _col
@@ -146,9 +150,11 @@ func _ready() -> void:
 		bullet_trail.hide()
  
 ## based on some settings, some sprites can change. ## o_bullet alarm 0
+# NOTE Ok, this is a mess. This function tries to emulate the original behaviour. I cant think of a better way to handle this besides a big ass match check.
 func sprite_selection() -> void:
 	if not my_gun:
 		push_error("Gun resource not loaded")
+		breakpoint
 		return
 		
 	var _pow := my_gun.att ## missing other stats
@@ -165,7 +171,7 @@ func sprite_selection() -> void:
 			scale.x *= 1.0 # 1.5;
 			scale.y *= 1.0 # 1.4;
 
-		#/NORMAL CROSSBOWS
+		#NORMAL CROSSBOWS
 		"s_bull_arrowHead":
 			bullet_spr.frame = clamp(floor(_pow / 10), 0, 7)
 			bullet_spriteTurn = true;
@@ -207,18 +213,12 @@ func sprite_selection() -> void:
 
 		# CARBON
 		"s_bull_carbon":
-			if(_pow>32):
-				bullet_spr.frame = 5
-			elif (_pow>24):
-				bullet_spr.frame = 4
-			elif (_pow>18):
-				bullet_spr.frame = 3
-			elif (_pow>12):
-				bullet_spr.frame = 2
-			elif (_pow>6):
-				bullet_spr.frame = 1
-			else:
-				bullet_spr.frame = 0
+			if(_pow>32):			bullet_spr.frame = 5
+			elif (_pow>24):			bullet_spr.frame = 4
+			elif (_pow>18):			bullet_spr.frame = 3
+			elif (_pow>12):			bullet_spr.frame = 2
+			elif (_pow>6):			bullet_spr.frame = 1
+			else:					bullet_spr.frame = 0
 			lobAngledSprite = true;
 			
 			if(speedBonus>1.5):
@@ -233,31 +233,30 @@ func sprite_selection() -> void:
 
 		# BRONZE
 		"s_bull_rusty":
-			if(_pow>64):bullet_spr.frame = 8
-			elif (_pow>48):bullet_spr.frame = 7
-			elif (_pow>32):bullet_spr.frame = 6
-			elif (_pow>24):bullet_spr.frame = 5
-			elif (_pow>18):bullet_spr.frame = 4
-			elif (_pow>12):bullet_spr.frame = 3
-			elif (_pow>8):bullet_spr.frame = 2
-			elif (_pow>4):bullet_spr.frame = 1
-			else:
-				bullet_spr.frame = 0
+			if(_pow>64):		bullet_spr.frame 	= 8
+			elif (_pow>48):		bullet_spr.frame 	= 7
+			elif (_pow>32):		bullet_spr.frame 	= 6
+			elif (_pow>24):		bullet_spr.frame 	= 5
+			elif (_pow>18):		bullet_spr.frame 	= 4
+			elif (_pow>12):		bullet_spr.frame 	= 3
+			elif (_pow>8):		bullet_spr.frame 	= 2
+			elif (_pow>4):		bullet_spr.frame 	= 1
+			else:				bullet_spr.frame 	= 0
 			if(speedBonus>1.5): speedBonus = 1.5
 			lobAngledSprite = true;
 
 		# Foil
 		"s_bull_foil":
-			if(_pow>80):bullet_spr.frame = 9
-			elif (_pow>64):bullet_spr.frame = 8
-			elif (_pow>48):bullet_spr.frame = 7
-			elif (_pow>32):bullet_spr.frame = 6
-			elif (_pow>24):bullet_spr.frame = 5
-			elif (_pow>18):bullet_spr.frame = 4
-			elif (_pow>12):bullet_spr.frame = 3
-			elif (_pow>8):bullet_spr.frame = 2
-			elif (_pow>4):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
+			if(_pow>80):		bullet_spr.frame = 9
+			elif (_pow>64):		bullet_spr.frame = 8
+			elif (_pow>48):		bullet_spr.frame = 7
+			elif (_pow>32):		bullet_spr.frame = 6
+			elif (_pow>24):		bullet_spr.frame = 5
+			elif (_pow>18):		bullet_spr.frame = 4
+			elif (_pow>12):		bullet_spr.frame = 3
+			elif (_pow>8):		bullet_spr.frame = 2
+			elif (_pow>4):		bullet_spr.frame = 1
+			else: 				bullet_spr.frame = 0
 			if(speedBonus>1.5): speedBonus = 1.5
 			lobAngledSprite = true;
 			scale.y = [1,-1].pick_random();
@@ -273,15 +272,15 @@ func sprite_selection() -> void:
 
 		# GLASS
 		"s_bull_glass_light":
-			if(_pow>80):bullet_spr.frame = 8
-			elif (_pow>64):bullet_spr.frame = 7
-			elif (_pow>48):bullet_spr.frame = 6
-			elif (_pow>32):bullet_spr.frame = 5
-			elif (_pow>24):bullet_spr.frame = 4
-			elif (_pow>18):bullet_spr.frame = 3
-			elif (_pow>12):bullet_spr.frame = 2
-			elif (_pow>6):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
+			if(_pow>80):		bullet_spr.frame = 8
+			elif (_pow>64):		bullet_spr.frame = 7
+			elif (_pow>48):		bullet_spr.frame = 6
+			elif (_pow>32):		bullet_spr.frame = 5
+			elif (_pow>24):		bullet_spr.frame = 4
+			elif (_pow>18):		bullet_spr.frame = 3
+			elif (_pow>12):		bullet_spr.frame = 2
+			elif (_pow>6):		bullet_spr.frame = 1
+			else: 				bullet_spr.frame = 0
 			modulate.a = 0.6
 			lobAngledSprite = true;
 			if(speedBonus>1.5): speedBonus = 1.5  

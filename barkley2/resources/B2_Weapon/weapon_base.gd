@@ -11,6 +11,7 @@ enum EFFECT{ DAMAGE, RECOVERY }
 @export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL
 @export var weapon_material		:= B2_Gun.MATERIAL.STEEL
 @export var weapon_group 		:= B2_Gun.GROUP.PISTOLS
+@export var weapon_stats		: B2_WeaponStats # Gun stats, bullet behaviour, casing, effects, etc.
 
 @export_category("Weapon ID")
 @export var weapon_name			:= "Undefined"
@@ -219,6 +220,10 @@ func get_bullet_color() -> Color:
 		return Color.WHITE # Default
 	else:
 		return Color( B2_Gun.MATERIAL_LIST[weapon_material].pBulletColor )
+
+## Bullet casing name. Empty names means that the bullet has no casing.
+func get_casing_name() -> String:
+	return B2_Gun.TYPE_LIST[weapon_type].bcasing
 
 ## Bullet casing sound
 func get_casing_sound() -> String:

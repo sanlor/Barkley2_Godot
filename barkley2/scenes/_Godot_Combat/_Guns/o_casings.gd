@@ -3,7 +3,8 @@ extends Node2D
 ## Bullet casings.
 ## NOTE Not all guns have bullet casings.
 
-const S_EFFECT_SLUDGE_DRIP = preload("uid://bnbunxj15a4q1")
+const S_EFFECT_SLUDGE_DRIP 		= preload("uid://bnbunxj15a4q1")
+const S_PLANTAIN_PEEL 			= preload("uid://b8kyohwqvtug")
 
 @onready var spr: Sprite2D = $spr
 
@@ -30,7 +31,9 @@ func _ready() -> void:
 	upward_velocity 	= randf_range(150,350) ## How high the casings initially can go.
 	#position.y += 16.0
 
-func setup( _bounce_soundid : String, _scale : float, _speed : float, _color : Color ) -> void:
+func setup( _casing_name : String, _bounce_soundid : String, _scale : float, _speed : float, _color : Color ) -> void:
+	if _casing_name.is_empty(): ## Should never happen.
+		breakpoint
 	bounce_soundid = _bounce_soundid
 	scale *= _scale ## 0.5 seems to be the default
 	## TODO speed
