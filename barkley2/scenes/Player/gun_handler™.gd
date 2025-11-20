@@ -1,4 +1,4 @@
-@icon("uid://cmy1updvjdpaf")
+@icon("uid:##cmy1updvjdpaf")
 extends Node
 class_name B2_GunHandler
 ## Node used to interface the player with its gun.
@@ -14,6 +14,40 @@ class_name B2_GunHandler
 const O_BULLET 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
 const O_CASINGS 	:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
 const S_FLASH 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
+
+##################################
+######## AFFIX Settings ##########
+##################################
+
+## Magician
+const affixMagicianDegrees 			:= 210; ## Deviation in degrees it can shoot from barrel 
+
+## Flooding - Set the lowest bullets it can shoot and highest per shot
+const affixFloodingMin 				:= 2;
+const affixFloodingMax 				:= 8;
+const affixFloodingAim 				:= 20; ## In degrees, aim penalty of flooding
+
+## NoScope360
+const affixNoScope360 				:= 8; ## Number of bullets to shoot
+const affixNoScope360Distance 		:= 12; ## Distance to generate bullets from player
+const affixNoScope360Knockback 		:= 0; ## If 0, shooting with noscope360 has no knockback
+
+## Ghostic
+const affixGhosticDamage 			:= 0.6; ## Multiplier for bullet damage, 0.6 = 60%
+
+## Gravitational
+const affixGravitationalSpeed 		:= 0.4;
+const affixGravitationalSeek 		:= 64; ## Higher number = more seeking
+const affixGravitationalSeekRange 	:= 200; ## In pixels from bullet
+
+## Chaining
+const affixChainingRange 			:= 200; ## Distance to next enemy to get chain
+const affixChainingEnemies 			:= 3; ## How many enemies it can hit
+const affixChainingReduction 		:= 0.5; ## How much to lose damage per hit, 0.5 = 50% reduce
+
+## Power
+const powerMinesLight 				:= 0.5; ## Darkness in mines
+const colorGuilderberg 				:= B2_Gamedata.c_cosmic;
 
 @onready var pre_shooting_timer		: Timer = $pre_shooting_timer	## Timer used when a gun need some time before firing (muskets)
 @onready var firing_rate			: Timer = $firing_rate			## Timer used to control the firing rate
@@ -89,6 +123,9 @@ func pre_attack_action() -> void:
 func post_attack_action() -> void:
 	pass
 		
+## Check combat_gunwield_firing
+## Check combat_gunwield_shoot
+## Check o_bullet
 func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
 	if not curr_gun:
 		push_error("Gun resource not loaded correctly.")
@@ -102,34 +139,86 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_C
 	is_shooting = true
 	firing_rate.start( curr_gun.wait_per_shot )
 	
-	var source_pos : Vector2 = get_parent().get_muzzle_position()
+	var source_pos 	: Vector2 = get_parent().get_muzzle_position()
+	var may_shoot	:= true ## Certain situations may disable shooting the gun
 	
-	## Only shoot if you have ammo.
-	if curr_gun.has_ammo():
-		curr_gun.use_ammo( curr_gun.ammo_per_shot )
-		B2_Sound.play( curr_gun.get_soundID() )
-		_create_flash( source_pos, dir, 1.5)
-		for i in curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
-			_create_casing( casing_pos)
+	## Material and stat related checks before shooting the gun.
+	var shotRepeats 	:= 1 		# Amount of bullet to shoot at once.
+	var nosDir 			:= 0		# NOTE Not sure
+	var nosSpl 			:= 0		# NOTE Not sure
+	var shotEffects 	:= true; 	# shot SFX and muzzle flash should be turned off after the first repeat
+	
+	## Broken / Junk gun related vars.
+	var malfunction 	:= 0.0;
+	var _junkAmount 	:= 0;
+	var _junkSize 		:= 0;
+	
+	if curr_gun.prefix1 == "Flooding":
+		shotRepeats = affixFloodingMin + randi_range(0, affixFloodingMax - affixFloodingMin);
+	if curr_gun.prefix1 == "NoScope360":
+		shotRepeats = affixNoScope360
+		@warning_ignore("integer_division")
+		nosSpl = 360 / affixNoScope360
+	
+	var soilClog 		:= false 	# Clog weapon, shotting a glob os sludge.
+	if curr_gun.weapon_material == B2_Gun.MATERIAL.SOILED:
+		if randi_range(0,3) == 0:
+			soilClog = true
 			
-		## only apply knockback if you actually fire the weapon.
-		source_actor.apply_central_impulse( -dir * curr_gun.get_gun_knockback() ) 
+	if curr_gun.weapon_material == B2_Gun.MATERIAL.BROKEN:
+		if randi_range(0,3) == 0:
+			var indicatorText 		:= ""
+			_junkAmount 			= 0
+			_junkSize 				= 3
+			var malfunctionDraw 	:= randf()
+			var malfunctionCol 		:= Color.RED;
+			if malfunctionDraw > 0.90: ## the gun makes a big spark and deals a bit of cyber damage to you and nearby enemies.
+				B2_Sound.play("hoopzweap_broken_misfire");
+				if randf() <= 0.1: 	malfunction = 5; _junkSize = 6; _junkAmount = 8 + randi_range(0,12); indicatorText = "GUN EXPLODED!"
+				else: 				malfunction = 4;_junkAmount = 4 + randi_range(0,4); indicatorText = "ELECTRIC SHOCK!"
+			# the gun blows up in your hands, the explosion does a lot of damage to you and everyone nearby.
+			elif malfunctionDraw > 0.70: malfunction=3; _junkAmount = 0; malfunctionCol = Color.TEAL # the powerful shot
+			elif malfunctionDraw > 0.40: malfunction=2; _junkAmount = 1+randi_range(0,2); malfunctionCol = Color.ORANGE; B2_Sound.play("hoopzweap_broken_misfire") #the gun fails to fire, and a screw falls off
+			else: malfunction = 1; _junkAmount = 1 # the gun fires a wildly inaccurate shot
+			print_rich("[color=red]MALFUNCTION! %s[/color]" % malfunction );
+			
+			if indicatorText != "":
+				B2_Screen.display_generic_text( source_actor, indicatorText, malfunctionCol )
+	
+	if curr_gun.weapon_material == B2_Gun.MATERIAL.JUNK:
+		@warning_ignore("integer_division")
+		_junkSize = randi_range(0,3) + randi_range(0, floor( int( curr_gun.get_gun_stat("pDamageMin") ) / 30 ) );
+		_junkAmount = 1;
+	
+	for repeat : int in shotRepeats:
+		B2_Screen.pulse_cursor()
 		
-		## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
-		for i in curr_gun.bullets_per_shot:
-			source_pos = get_parent().get_muzzle_position() ## Update position.
+		## Only shoot if you have ammo.
+		if curr_gun.has_ammo() and may_shoot:
+			curr_gun.use_ammo( curr_gun.ammo_per_shot )
+			B2_Sound.play( curr_gun.get_soundID() )
+			_create_flash( source_pos, dir, 1.5)
+			for i in curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
+				_create_casing( casing_pos)
+				
+			## only apply knockback if you actually fire the weapon.
+			source_actor.apply_central_impulse( -dir * curr_gun.get_gun_knockback() ) 
 			
-			var my_spread_offset := curr_gun.bullet_spread * ( float(i) / float(curr_gun.bullets_per_shot) )
-			my_spread_offset -= curr_gun.bullet_spread / curr_gun.bullets_per_shot
-			
-			## Aim variations
-			var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
-			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
-			
-			_create_bullet( source_pos, b_dir, source_actor )
-	else:
-		## Out of ammo.
-		B2_Sound.play( "hoopz_click" )
+			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
+			for i in curr_gun.bullets_per_shot:
+				source_pos = get_parent().get_muzzle_position() ## Update position.
+				
+				var my_spread_offset := curr_gun.bullet_spread * ( float(i) / float(curr_gun.bullets_per_shot) )
+				my_spread_offset -= curr_gun.bullet_spread / curr_gun.bullets_per_shot
+				
+				## Aim variations
+				var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
+				
+				_create_bullet( source_pos, b_dir, source_actor )
+		else:
+			## Out of ammo.
+			B2_Sound.play( "hoopz_click" )
 	
 	## Used by the turn-based combat
 	curr_gun.reset_action( curr_gun.curr_action - curr_gun.attack_cost )
@@ -148,8 +237,9 @@ func _update_timers() -> void:
 	firing_rate.start( curr_gun.wait_per_shot )
 	post_shooting_timer.start( curr_gun.delay_after_action )
 
-#region timer signal callbacks
 
+
+#region timer signal callbacks
 func _on_pre_shooting_timer_timeout() -> void:
 	pass # Replace with function body.
 

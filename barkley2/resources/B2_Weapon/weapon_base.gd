@@ -235,17 +235,15 @@ func get_casing_color() -> Color:
 	
 ## Bullet casing size/scale
 func get_casing_scale() -> float:
-	if B2_Gun.TYPE_LIST[weapon_type].bcasingScale.is_empty():
-		return 0.5 # Default
-	else:
-		return float( B2_Gun.TYPE_LIST[weapon_type].bcasingScale )
+	return float( B2_Gun.TYPE_LIST[weapon_type].bcasingScale )
 	
 ## Bullet casing speed/gravity
 func get_casing_speed() -> float:
-	if B2_Gun.TYPE_LIST[weapon_type].bcasingSpd.is_empty():
-		return 1.0 # Default
-	else:
-		return float( B2_Gun.TYPE_LIST[weapon_type].bcasingSpd )
+	return float( B2_Gun.TYPE_LIST[weapon_type].bcasingSpd )
+
+func get_gun_stat( stat_name : String ):
+	## TODO add better stats retrieval
+	return ( weapon_stats.get(stat_name) )
 #endregion
 
 #region Weapon Mgmt

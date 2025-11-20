@@ -1,5 +1,5 @@
-#@tool
-extends Node2D
+@tool
+extends EditorScript
 
 const GUN_TYPE_DB 	= preload("res://barkley2/resources/B2_Weapon/gun_type_db.json")
 const TYPE_FOLDER 	:= "res://barkley2/resources/B2_Weapon/type/"
@@ -27,8 +27,9 @@ var c := {
 }
 
 # Called when the script is executed (using File -> Run in Script Editor).
-#func _run():
-func _ready() -> void:
+# NOTE I made this in a rush. Its confusing and noone know how it works anymore.
+func _run():
+#func _ready() -> void:
 	var missing := []
 	for type : String in  GUN_TYPE_DB.data:
 		var my_enum : B2_Gun.TYPE = B2_Gun.TYPE.get( type, B2_Gun.TYPE.GUN_TYPE_NONE )
@@ -43,7 +44,7 @@ func _ready() -> void:
 						my_type.set( data, float(d) )
 					else:
 						if c.has( d ):
-							d = B2_Gamedata.just_convert_gamemaker_color_to_hex_already( c[d] ).to_html()
+							d = load("res://barkley2/autoloads/gamedata.gd").just_convert_gamemaker_color_to_hex_already( c[d] ).to_html()
 						if d.count(",") == 2:
 							var split = d.split(",")
 							d = Color.from_rgba8( int(split[0]), int(split[1]), int(split[2]), 255 ).to_html()

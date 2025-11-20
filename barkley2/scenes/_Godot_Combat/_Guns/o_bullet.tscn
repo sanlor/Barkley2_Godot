@@ -22,11 +22,8 @@ particles_anim_loop = false
 [sub_resource type="CircleShape2D" id="CircleShape2D_6dtqo"]
 radius = 3.0
 
-[node name="o_bullet" type="Area2D"]
+[node name="o_bullet" type="Node2D"]
 physics_interpolation_mode = 1
-collision_layer = 8
-collision_mask = 5
-monitorable = false
 script = ExtResource("1_aj05g")
 
 [node name="bullet_trail" type="Line2D" parent="."]
@@ -45,6 +42,15 @@ process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_6dtqo")
+animation = &"s_bull_diamondShard"
+frame_progress = 0.1061102
+
+[node name="bullet_spr_shadow" type="AnimatedSprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.5)
+sprite_frames = ExtResource("2_6dtqo")
+animation = &"s_bull_diamondShard"
+frame_progress = 0.2635865
+offset = Vector2(0, 16)
 
 [node name="bullet_sfx" type="AudioStreamPlayer2D" parent="."]
 max_distance = 400.0
@@ -61,6 +67,5 @@ shape = SubResource("CircleShape2D_6dtqo")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="bullet_life" to="." method="_on_bullet_life_timeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

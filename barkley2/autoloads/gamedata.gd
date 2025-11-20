@@ -1,3 +1,4 @@
+#@tool
 extends Node
 
 # This is a helper autoload that holds some "static data" : like portrait maps.
@@ -370,7 +371,8 @@ func just_convert_gamemaker_color_to_hex_already( stupid_color : int ) -> Color:
 	# check https://marketplace.gamemaker.io/assets/2074/number-conversion-and-other
 	## Shit, I just got it!!! Gamemaker uses a weird decimal sistem to set color!!!
 	# check https://manual.gamemaker.io/lts/en/GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/Colour_And_Alpha.htm#
-	# c_lime 	  	65280 -> 0x00FF00 ( 00 B - FF G - 00 R )
+	# c_lime 	  	INT 65280 -> HEX 0x00FF00 ( 00 B - FF G - 00 R )
+	# NOTE 20/11/25 I'm still so proud of myself for figuring it all by myself.
 	var my_col := Color.WHITE
 	
 	var stupid_hex_color := String.num_int64( stupid_color, 16, true).lpad(6,"0")

@@ -121,7 +121,7 @@ func set_cursor_type( type : TYPE) -> void:
 				remove_child(trail)
 		TYPE.BULLS:
 			mouse.animation = "bulls"
-			mouse.play("bulls")
+			#mouse.play("bulls")
 			mouse.frame = 0
 			mouse.centered = true
 			mouse_offset = Vector2.ZERO
@@ -138,9 +138,18 @@ func set_cursor_type( type : TYPE) -> void:
 	curr_TYPE = type
 	mouse.modulate.a = 1.0
 			
+func pulse_cursor() -> void:
+	if curr_TYPE == TYPE.BULLS:
+		mouse.play_backwards("bulls")
 
 func is_any_menu_open() -> bool:
 	return B2_Screen.is_map_open or B2_Screen.is_notes_open or B2_Screen.is_shop_open or B2_Screen.is_quickmenu_open
+
+func display_generic_text( caller_node : Node, text : String, color : Color, linger_time := 2.0, force := 50.0 ) -> void:
+	var d = DAMAGE_NUMBER.instantiate()
+	d.setup(caller_node, text, linger_time, force)
+	d.modulate = color
+	caller_node.add_sibling(d)
 
 func display_damage_number( caller_node : Node, damage, color := Color.WHITE, linger_time := 2.0, force := 50.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
@@ -255,7 +264,7 @@ func _process(_delta: float) -> void:
 	## Mouse stuff
 	mouse.position = get_viewport().get_mouse_position().round() + mouse_offset
 	
-	if curr_TYPE == TYPE.POINT:
+	if curr_TYPE == TYPE.POINT or curr_TYPE == TYPE.BULLS:
 		mouse.modulate.a = randf_range(0.55,0.90)
 	if curr_TYPE == TYPE.GRAB:
 		if Input.is_action_pressed("Action"):

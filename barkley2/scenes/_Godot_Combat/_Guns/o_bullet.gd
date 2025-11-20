@@ -1,5 +1,5 @@
-#extends Node2D
-extends Area2D
+extends Node2D
+#extends Area2D
 class_name B2_Bullet
 ## Bullet Scene for all bullet type weapons.
 
@@ -24,6 +24,7 @@ const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o
 
 @onready var bullet_trail: 				Line2D 					= $bullet_trail
 @onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
+@onready var bullet_spr_shadow: 		AnimatedSprite2D 		= $bullet_spr_shadow
 @onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
 @onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
 @onready var bullet_life: 				Timer 					= $bullet_life
@@ -139,10 +140,16 @@ func _ready() -> void:
 			bullet_spr.animation = spr
 		else:
 			push_warning("No animation called %s." % spr)
+	else:
+		## WTF???
+		breakpoint
 	
 	bullet_spr.look_at( dir.normalized() )
 	bullet_spr.modulate = col
 	sprite_selection()
+	
+	bullet_spr_shadow.animation = bullet_spr.animation
+	bullet_spr_shadow.rotation = bullet_spr.rotation
 	
 	if has_trail:
 		bullet_trail.show()
@@ -1231,7 +1238,6 @@ func sprite_selection() -> void:
 			## TODO scale.y = choose(1,-1);
 			bullet_spriteTurn = true;
 		
-
 		"s_bull_diamond", "s_bull_diamondShard":
 			if (_pow>100):bullet_spr.frame = 10
 			elif (_pow>80):bullet_spr.frame = 9
@@ -1356,6 +1362,31 @@ func _physics_process(_delta: float) -> void:
 		bullet_trail.add_point( global_position )
 		if bullet_trail.get_point_count() > trail_len:
 			bullet_trail.remove_point(0)
+			
+	check_collision()
+
+func check_collision() -> void:
+	var space_state = get_world_2d().direct_space_state
+	var params = PhysicsPointQueryParameters2D.new()#.create(global_position, global_position + Vector2(0, 1))
+	params.collide_with_areas 	= false
+	params.collide_with_bodies 	= true
+	#params.exclude = [ get_rid(), source_actor.get_rid() ]
+	params.exclude = [ source_actor.get_rid() ]
+	params.collision_mask 		= 1 & 3
+	params.position 			= global_position
+	var result : Array[Dictionary] = space_state.intersect_point(params)
+	if result:
+		for r : Dictionary in result:
+			if r["collider"] is Node2D:
+				_on_body_entered( r["collider"] )
+			else:
+				print( "%s: invalid collider -> %s" % [name, r] )
+		
+		
+	#if result["collider"] is StaticBody2D:
+	#var normal: Vector2 = result.normal
+	#var angle = rad_to_deg(normal.angle()) + 90
+	#print( get_overlapping_bodies() )
 
 func ricochet( ric_dir : Vector2 ) -> void:
 	var rico 			= O_RICOCHET.instantiate()
@@ -1370,6 +1401,7 @@ func destroy_bullet() -> void:
 	queue_free() ## add a tween, fade bullet out.
 
 func _on_body_entered( body: Node2D ) -> void:
+	
 	if body == source_actor:
 		## ignore collisions with source actor (unless it ricochets)
 		return
@@ -1404,7 +1436,8 @@ func _on_body_entered( body: Node2D ) -> void:
 	if body is TileMapLayer:
 		## TODO add bullet ricochet
 		# I was running into issues with the ricochet code, mostly because of tilemap colision shapes.
-		# 21/03 oh shit, Godot 4.5 might acually fix this. https://github.com/godotengine/godot/pull/102662
+		# 21/03/25 oh shit, Godot 4.5 might acually fix this. https://github.com/godotengine/godot/pull/102662
+		# 20/11/25 Fix what?? Dont remember What i meant by that.
 		source_actor = null
 		destroy_bullet() ## temp
 

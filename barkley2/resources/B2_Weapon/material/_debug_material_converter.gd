@@ -1,5 +1,5 @@
-#@tool
-extends Node2D
+@tool
+extends EditorScript
 
 var c := {
 	"c_aqua" :	  		16776960,
@@ -27,10 +27,12 @@ const GUN_MATERIAL_DB 	= preload("res://barkley2/resources/B2_Weapon/gun_materia
 const MATERIAL_FOLDER 		:= "res://barkley2/resources/B2_Weapon/material/"
 
 # Called when the script is executed (using File -> Run in Script Editor).
-#func _run():
-func _ready() -> void:
+func _run():
+#func _ready() -> void:
 	var missing := []
 	for mat : String in  GUN_MATERIAL_DB.data:
+		#if mat == "3D Printed": 	mat = "PRINTED"
+		#if mat == "Anti-Matter": 	mat = "ANTI_MATTER"
 		var my_enum : B2_Gun.MATERIAL = B2_Gun.MATERIAL.get( mat.to_upper(), B2_Gun.MATERIAL.NONE )
 		if my_enum != null:
 			if my_enum == B2_Gun.MATERIAL.NONE:
@@ -46,7 +48,7 @@ func _ready() -> void:
 						my_mat.set( data, float(d) )
 					else:
 						if c.has( d ):
-							d = B2_Gamedata.just_convert_gamemaker_color_to_hex_already( c[d] ).to_html()
+							d = load("res://barkley2/autoloads/gamedata.gd").just_convert_gamemaker_color_to_hex_already( c[d] ).to_html()
 						if d.count(",") == 2:
 							var split = d.split(",")
 							d = Color.from_rgba8( int(split[0]), int(split[1]), int(split[2]), 255 ).to_html()
@@ -57,7 +59,7 @@ func _ready() -> void:
 			
 			ResourceSaver.save(my_mat, MATERIAL_FOLDER + mat + ".tres", )
 		else:
-			print( mat )
+			print( "Material: ", mat )
 		pass
 		
 	for m : String in missing:

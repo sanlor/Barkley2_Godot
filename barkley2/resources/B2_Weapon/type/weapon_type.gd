@@ -29,9 +29,9 @@ class_name B2_WeaponType
 ## Weird ass variables. No idea what they do.
 @export var soundLoop 				:= false
 @export var bExplodeDamageMod 		:= 1.0	## NOTE Huge mess. Both scr_combat_weapons_applyGraphic and scr_combat_weapons_applyType change this value.
-@export var bUseMoveOffset 			: String
-@export var periodic_mutlishot 		: String
-@export var pChargeLossTime 		: String
+@export var bUseMoveOffset 			: bool
+@export var periodic_mutlishot 		: float
+@export var pChargeLossTime 		: float
 
 ## scr_combat_weapons_resetStats
 # Stats used directly for the weapon behavior. Built from the weapon stats, ratios and affixes.
