@@ -8,37 +8,38 @@ signal finished_combat_action
 
 enum EFFECT{ DAMAGE, RECOVERY }
 
-@export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL
-@export var weapon_material		:= B2_Gun.MATERIAL.STEEL
+@export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL	# "pType"
+@export var weapon_material		:= B2_Gun.MATERIAL.STEEL		# "pMaterial"
 @export var weapon_group 		:= B2_Gun.GROUP.PISTOLS
 @export var weapon_stats		: B2_WeaponStats # Gun stats, bullet behaviour, casing, effects, etc.
 
 @export_category("Weapon ID")
-@export var weapon_name			:= "Undefined"
+@export var weapon_name			:= "Undefined"			# "pName"
 @export var weapon_short_name	:= "FUCK"
-@export var weapon_pickup_name 	:= "Undefined"
-@export var weapon_pickup_color	:= Color.WHITE
+@export var weapon_pickup_name 	:= "Undefined"			# "pickupName"
+@export var weapon_pickup_color	:= Color.WHITE			# "pickCol"
 
 ## gun[? "gunmap_pos"] = -1; 	## TODO
 ## gun[? "numberval"] = 0; 		## TODO
 ## gun[? "rarity"] = 0; 		## TODO
 ## gun[? "pointsUsed"] = 0; 	## TODO
 
-var prefix1			: String # Dictionary ## Set by the wpn generation
-var prefix2			: String # Dictionary ## Set by the wpn generation
-var suffix			: String # Dictionary ## Set by the wpn generation
+var prefix1			: String # Dictionary ## Set by the wpn generation	# "pPrefix1"
+var prefix2			: String # Dictionary ## Set by the wpn generation	# "pPrefix2
+var suffix			: String # Dictionary ## Set by the wpn generation	# "pSuffix"
 var afx_count		:= 0
 
 ## SFX stuff
 var max_action_sfx_played 		:= false
 
-@export_category("Gun stats") ## TODO
-@export var att					:= 30.0
-@export var spd					:= 30.0
-@export var acc					:= 30.0 ## Lower is better
-@export var afx					:= 30.0 ## Affix is not used currently
-@export var wgt					:= 10.0
-var pts							:= 10 ## Points used to generate stats
+
+#@export_category("Gun stats") ## TODO
+#@export var att					:= 30.0										# "sPower"
+#@export var spd					:= 30.0										# "sSpeed"
+#@export var acc					:= 30.0 ## Lower is better
+#@export var afx					:= 30.0 ## Affix is not used currently
+#@export var wgt					:= 10.0
+#var pts							:= 10 ## Points used to generate stats
 
 @export var max_action			:= 100.0 :
 	set(a):
@@ -53,6 +54,11 @@ var curr_action					:= 100.0
 var curr_ammo					:= 30
 
 @export var attack_cost			:= 90			## How many action point cost for reloading this weapon
+
+@export_category("Gun SFX") 
+@export var windupSound 		:= ""		## Wind up SFX (Ex.: Minigun)
+@export var winddownSound 		:= ""		## Wind down SFX (Ex.: Minigun)
+@export var sustainSound 		:= ""		## Wind Sustain SFX (Ex.: Minigun)
 
 @export_category("Attribute Modifiers") ## TODO
 @export var generic_damage					:= 1.0 ## Add Generic damage type to this attack
@@ -72,12 +78,12 @@ var curr_ammo					:= 30
 
 var gunmap_pos					:= Vector2i.ZERO # Used for fusing and drawing the gunmap.
 
-## Genetics
-var favorite					:= false
-var son							:= {} ## child gun
-var lineage_top					:= {} ## parent gun (top)
-var lineage_bot					:= {} ## parent gun (bottom)
-var generation					:= 1
+@export_category("Gun Genetics")
+@export var favorite					:= false
+@export var son							:= {} ## child gun
+@export var lineage_top					:= {} ## parent gun (top)
+@export var lineage_bot					:= {} ## parent gun (bottom)
+@export var generation					:= 1
 
 var dominant_genes				:= [] # List of all dominant genes that this gun has.
 
@@ -143,51 +149,55 @@ func get_secret_name() -> String:
 func get_short_name() -> String:
 	return weapon_short_name
 
-func get_att() -> float:		return snappedf( att, 0.01)
+## 23/11/25 Disabled this temporarelly.
+# FIXME
+func get_att() -> float:		return 0.0 # FIXME return snappedf( att, 0.01)
 #func get_max_power() -> float:	return snappedf( pmx
-func get_spd() -> float:		return snappedf( spd, 0.01)
-func get_amm() -> float:		return snappedf( max_ammo, 0.01)
-func get_afx() -> float:		return snappedf( afx, 0.01)
-func get_acc() -> float:		return snappedf( acc, 0.01)
-func get_wgt() -> float:		return snappedf( wgt, 0.01)
+func get_spd() -> float:					return 0.0 # FIXME return snappedf( spd, 0.01)
+func get_amm() -> float:					return 0.0 # FIXME return snappedf( max_ammo, 0.01)
+func get_afx() -> float:					return 0.0 # FIXME return snappedf( afx, 0.01)
+func get_acc() -> float:					return 0.0 # FIXME return snappedf( acc, 0.01)
+func get_wgt() -> float:					return 0.0 # FIXME return snappedf( wgt, 0.01)
 
-func get_att_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._pow + B2_Gun.MATERIAL_LIST[weapon_material]._pow ) / 2.0, 0.01)
-func get_max_att_mod() -> float:	return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._pmx + B2_Gun.MATERIAL_LIST[weapon_material]._pmx ) / 2.0, 0.01)
-func get_spd_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._spd + B2_Gun.MATERIAL_LIST[weapon_material]._spd ) / 2.0, 0.01)
-func get_amm_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._amm + B2_Gun.MATERIAL_LIST[weapon_material]._amm ) / 2.0, 0.01)
-func get_afx_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._afx + B2_Gun.MATERIAL_LIST[weapon_material]._afx ) / 2.0, 0.01)
-#func get_luck_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._lck + B2_Gun.MATERIAL_LIST[weapon_material]._lck ) / 2.0, 0.01)
-func get_acc_mod() -> float:		return snappedf( ( B2_Gun.TYPE_LIST[weapon_type]._acc + B2_Gun.MATERIAL_LIST[weapon_material]._acc ) / 2.0, 0.01)
-func get_wgt_mod() -> float:		return snappedf( B2_Gun.MATERIAL_LIST[weapon_material]._wgt, 0.01) # ( B2_Gun.TYPE_LIST[weapon_type]._wgt + B2_Gun.MATERIAL_LIST[weapon_material]._wgt ) / 2.0
+func get_att_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._pow + weapon_stats._pow ) / 2.0, 0.01)
+func get_max_att_mod() -> float:			return 0.0 # FIXME return snappedf( ( weapon_stats._pmx + weapon_stats._pmx ) / 2.0, 0.01)
+func get_spd_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._spd + weapon_stats._spd ) / 2.0, 0.01)
+func get_amm_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._amm + weapon_stats._amm ) / 2.0, 0.01)
+func get_afx_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._afx + weapon_stats._afx ) / 2.0, 0.01)
+#func get_luck_mod() -> float:				return snappedf( ( weapon_stats._lck + weapon_stats._lck ) / 2.0, 0.01)
+func get_acc_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._acc + weapon_stats._acc ) / 2.0, 0.01)
+func get_wgt_mod() -> float:				return 0.0 # FIXME return snappedf( weapon_stats._wgt, 0.01) # ( weapon_stats._wgt + weapon_stats._wgt ) / 2.0
 
-func get_effective_att() -> float:			return snappedf(att * get_att_mod(), 0.01)
+func get_effective_att() -> float:			return 0.0 # FIXME return snappedf(att * get_att_mod(), 0.01)
 #func get_effective_max_power() -> float:	return snappedf(pmx * get_max_power_mod(), 0.01)
-func get_effective_spd() -> float:			return snappedf(spd * get_spd_mod(), 0.01)
-func get_effective_amm() -> float:			return snappedf( float(max_ammo) * get_amm_mod(), 0.01)
-func get_effective_afx() -> float:			return snappedf(afx * get_afx_mod(), 0.01)
-func get_effective_acc() -> float:			return snappedf(acc * get_acc_mod(), 0.01)
-func get_effective_wgt() -> float:			return snappedf(wgt * get_wgt_mod(), 0.01)
+func get_effective_spd() -> float:			return 0.0 # FIXME return snappedf(spd * get_spd_mod(), 0.01)
+func get_effective_amm() -> float:			return 0.0 # FIXME return snappedf( float(max_ammo) * get_amm_mod(), 0.01)
+func get_effective_afx() -> float:			return 0.0 # FIXME return snappedf(afx * get_afx_mod(), 0.01)
+func get_effective_acc() -> float:			return 0.0 # FIXME return snappedf(acc * get_acc_mod(), 0.01)
+func get_effective_wgt() -> float:			return 0.0 # FIXME return snappedf(wgt * get_wgt_mod(), 0.01)
+# FIXME
 
 func get_held_sprite() -> String:
-	return B2_Gun.TYPE_LIST[weapon_type].gunHeldSprite
+	#return weapon_stats.gunHeldSprite
+	return weapon_stats.gunHeldSprite
 #
 # Return an array of colors for the main color, parts color, spots color and parts alpha.
 # Color.HOT_PINK means ERROR
 func get_gun_colors() -> Array:
 	var colors := [ Color.WHITE, null, null ]
-	if B2_Gun.MATERIAL_LIST[weapon_material].col:
-		colors[0] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].col, 			Color.HOT_PINK )
-	if B2_Gun.MATERIAL_LIST[weapon_material].displayParts:
-		colors[1] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].gunheldcol2, 	Color.HOT_PINK )
-	if B2_Gun.MATERIAL_LIST[weapon_material].displaySpots:
-		colors[2] = Color.from_string( B2_Gun.MATERIAL_LIST[weapon_material].gunheldcol3, 	Color.HOT_PINK )
+	if weapon_stats.col:
+		colors[0] = Color.from_string( weapon_stats.col, 			Color.HOT_PINK )
+	if weapon_stats.displayParts:
+		colors[1] = Color.from_string( weapon_stats.gunheldcol2, 	Color.HOT_PINK )
+	if weapon_stats.displaySpots:
+		colors[2] = Color.from_string( weapon_stats.gunheldcol3, 	Color.HOT_PINK )
 	return colors
 
 ## Gunshot sound
 func get_soundID() -> String:
-	var soundId := B2_Gun.TYPE_LIST[weapon_type].soundId
-	if B2_Gun.MATERIAL_LIST[weapon_material].soundId: ## Material sound override
-		soundId = B2_Gun.MATERIAL_LIST[weapon_material].soundId
+	var soundId := weapon_stats.soundId
+	if weapon_stats.soundId: ## Material sound override
+		soundId = weapon_stats.soundId
 	if soundId.is_empty():
 		soundId = "hoopz_shellcasing_light" ## Default
 		## NOTE This is wrong.
@@ -195,51 +205,51 @@ func get_soundID() -> String:
 	
 ## Gunshot flash sprite
 func get_flash_sprite() -> String:
-	return B2_Gun.TYPE_LIST[weapon_type].flashSprite
+	return weapon_stats.flashSprite
 
 ## Gun Swap sound
 func get_swap_sound() -> String:
-	if B2_Gun.TYPE_LIST[weapon_type].swapSound.is_empty():
+	if weapon_stats.swapSound.is_empty():
 		return "hoopz_swapguns" # Default
 	else:
-		return B2_Gun.TYPE_LIST[weapon_type].swapSound
+		return weapon_stats.swapSound
 
 func get_reload_sound() -> String:
-	if B2_Gun.TYPE_LIST[weapon_type].reloadSound.is_empty():
+	if weapon_stats.reloadSound.is_empty():
 		return "hoopz_reload" # Default
 	else:
-		return B2_Gun.TYPE_LIST[weapon_type].reloadSound
+		return weapon_stats.reloadSound
 
 ## Bullet sprite
 func get_bullet_sprite() -> String:
-	return B2_Gun.MATERIAL_LIST[weapon_material].pBulletSprite
+	return weapon_stats.pBulletSprite
 
 ## Bullet´s color
 func get_bullet_color() -> Color:
-	if B2_Gun.MATERIAL_LIST[weapon_material].pBulletColor.is_empty():
+	if weapon_stats.pBulletColor.is_empty():
 		return Color.WHITE # Default
 	else:
-		return Color( B2_Gun.MATERIAL_LIST[weapon_material].pBulletColor )
+		return Color( weapon_stats.pBulletColor )
 
 ## Bullet casing name. Empty names means that the bullet has no casing.
 func get_casing_name() -> String:
-	return B2_Gun.TYPE_LIST[weapon_type].bcasing
+	return weapon_stats.bcasing
 
 ## Bullet casing sound
 func get_casing_sound() -> String:
-	return B2_Gun.TYPE_LIST[weapon_type].casingSound
+	return weapon_stats.casingSound
 	
 ## Bullet casing color
 func get_casing_color() -> Color:
-	return Color.from_string( B2_Gun.TYPE_LIST[weapon_type].bcasingCol, Color.HOT_PINK )
+	return Color.from_string( weapon_stats.bcasingCol, Color.HOT_PINK )
 	
 ## Bullet casing size/scale
 func get_casing_scale() -> float:
-	return float( B2_Gun.TYPE_LIST[weapon_type].bcasingScale )
+	return float( weapon_stats.bcasingScale )
 	
 ## Bullet casing speed/gravity
 func get_casing_speed() -> float:
-	return float( B2_Gun.TYPE_LIST[weapon_type].bcasingSpd )
+	return float( weapon_stats.bcasingSpd )
 
 func get_gun_stat( stat_name : String ):
 	## TODO add better stats retrieval

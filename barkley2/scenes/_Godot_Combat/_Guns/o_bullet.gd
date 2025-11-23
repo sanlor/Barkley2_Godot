@@ -164,7 +164,7 @@ func sprite_selection() -> void:
 		breakpoint
 		return
 		
-	var _pow := my_gun.att ## missing other stats
+	var _pow := my_gun.get_att() ## missing other stats
 	
 	match bullet_spr.animation:
 	# NORMAL BULLETS #

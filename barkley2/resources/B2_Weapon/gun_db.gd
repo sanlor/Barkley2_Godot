@@ -84,7 +84,7 @@ enum MATERIAL{
 	
 ## Weapon groups. no idea how its used.
 ## 22-04-25 I have some idea how its used. It kinda defines how the gun behaves, like a shotgun spreads bullets while an automatic fires directly multiple times.
-enum GROUP{ 
+enum GROUP{
 	AUTOMATIC,
 	MOUNTED,
 	PISTOLS,
@@ -206,144 +206,144 @@ const gun_db := {
 }
 
 ## List of affixes. Add modifiers to guns
-const prefix1 : Dictionary = { 
-		"empty": 			["empty", "empty", ""], 
-		"NoScope360": 		["minus", "random", "Shots fire into random directions. N00bs only."], 
-		"Polarized": 		["minus", "homing", "Shots avoid enemies."], 
-		"Fetching": 		["minus", "bounce", "Shots return to the shooter."], 
-		"Lobbing": 			["minus", "curved", "Shots lob into the air."], 
-		"Pensioner\'s":		["minus", "firing", "Shots slow down after being fired."], 
-		"Afterburner": 		["minus", "linear", "Shots fire from behind the braster."], 
-		"Magician\'s": 		["plus", "random", "Shots fire from around the player."], 
-		"Gravitational": 	["plus", "homing", "Shots seek the nearest enemy."], 
-		"Ricocheting": 		["plus", "bounce", "Shots ricochet off solid surfaces."], 
-		"Surfing": 			["plus", "curved", "Shots move in a wave pattern."], 
-		"Flooding": 		["plus", "firing", "Gun\'s fires multiple, wasteful shots at once."], 
-		"Ghostic": 			["plus", "linear", "Shots pierce through enemies."], 
-		"Goofed": 			["pound", "random", "Shots are out of control."], 
-		"Proximity": 		["pound", "homing", "Shots fire towards nearest enemy."], 
-		"Chaining": 		["pound", "bounce", "Shots chain to multiple enemies."], 
-		"Orbiting": 		["pound", "curved", "Shots circle around the braster."], 
-		"Berzerk\'d": 		["pound", "firing", "Gun\'s has anger issues."], 
-		"Dotline": 			["pound", "linear", "Shots turn periodically."] 
-	}
-const prefix2 : Dictionary = { 
-		"empty": 			["empty", "empty", "empty", "", null], 
-		"Pachinkode\'d": 	["top", "cosmic", "hp", "Periodic deals LUCK % extra damage.", null], 
-		"Klisp\'d": 		["top", "mental", "hp", "Periodic deals PIETY % extra damage.", null], 
-		"Juice\'d": 		["top", "bio", "hp", "Periodic deals MIGHT % extra damage.", null], 
-		"Parkour\'d": 		["top", "cyber", "hp", "Periodic deals ACRO % extra damage.", null], 
-		"Impose\'d": 		["top", "zauber", "hp", "Periodic deals GUTS % extra damage.", null], 
-		"Gambling": 		["charm", "cosmic", "hp", "Periodic deals 0 - 400% KOSMIC instead of normal damage.", null], 
-		"Agonizing": 		["charm", "mental", "hp", "Periodic inflicts anguish that deals target MENTAL damage while moving.", null], 
-		"Thorny": 			["charm", "bio", "hp", "Periodic inflicts target with thornball that shoots out damaging BIO thorns.", null], 
-		"Deathbound": 		["charm", "cyber", "hp", "Periodic deals extra CYBER damage based on how many times you died.", null], 
-		"Radiating": 		["charm", "zauber", "hp", "Periodic inflicts cloud that deals ZAUBER damage to nearby enemies.", null], 
-		"Galactic": 		["bottom", "cosmic", "hp", "Periodic deals 150% KOSMIC instead of normal damage.", null], 
-		"Migraining": 		["bottom", "mental", "hp", "Periodic deals 150% MENTAL instead of normal damage.", null], 
-		"Gooping": 			["bottom", "bio", "hp", "Periodic deals 150% BIO instead of normal damage.", null], 
-		"Overloading": 		["bottom", "cyber", "hp", "Periodic deals 150% CYBER instead of normal damage.", null], 
-		"Zaubering": 		["bottom", "zauber", "hp", "Periodic deals 150% ZAUBER instead of normal damage.", null], 
-		"KosmicBoost": 		["top", "cosmic", "capability", "Periodic raises target KOSMIC resistence 60%, lowers other resistences 15%.", null], 
-		"MentalBoost": 		["top", "mental", "capability", "Periodic raises target MENTAL resistence 60%, lowers other resistences 15%.", null], 
-		"BioBoost": 		["top", "bio", "capability", "Periodic raises target BIO resistence 60%, lowers other resistences 15%.", null], 
-		"CyberBoost": 		["top", "cyber", "capability", "Periodic raises target CYBER resistence 60%, lowers other resistences 15%.", null], 
-		"ZauberBoost": 		["top", "zauber", "capability", "Periodic raises target ZAUBER resistence 60%, lowers other resistences 15%.", null], 
-		"ResistRespec": 	["charm", "cosmic", "capability", "Periodic respecs target resistences randomly.", null], 
-		"ResistLower": 		["charm", "mental", "capability", "Periodic lowers target resistences by 20%.", null], 
-		"Milkdrop": 		["charm", "bio", "capability", "Periodic makes target resistences go off the deep end.", null], 
-		"ResistSwap": 		["charm", "cyber", "capability", "Periodic randomly swaps target resistences.", null], 
-		"ResistEqual": 		["charm", "zauber", "capability", "Periodic averages target resistences.", null], 
-		"KosmicFallen": 	["bottom", "cosmic", "capability", "Periodic lowers target KOSMIC resistence by 30%.", null], 
-		"MentalFallen": 	["bottom", "mental", "capability", "Periodic lowers target MENTAL resistence by 30%.", null], 
-		"BioFallen": 		["bottom", "bio", "capability", "Periodic lowers target BIO resistence by 30%.", null], 
-		"CyberFallen": 		["bottom", "cyber", "capability", "Periodic lowers target CYBER resistence by 30%.", null], 
-		"ZauberFallen": 	["bottom", "zauber", "capability", "Periodic lowers target ZAUBER resistence by 30%.", null], 
-		"LuckBoost": 		["top", "cosmic", "properties", "Periodic raises LUCK 60%, lowers all other stats 15%.", null], 
-		"PietyBoost": 		["top", "mental", "properties", "Periodic raises PIETY 60%, lowers all other stats 15%.", null], 
-		"MightBoost": 		["top", "bio", "properties", "Periodic raises MIGHT 60%, lowers all other stats 15%.", null], 
-		"AcroBoost": 		["top", "cyber", "properties", "Periodic raises ACRO 60%, lowers all other stats 15%.", null], 
-		"GutsBoost": 		["top", "zauber", "properties", "Periodic raises GUTS 60%, lowers all other stats 15%.", null], 
-		"Respeccing": 		["charm", "cosmic", "properties", "Periodic respecs target GLAMP randomly.", null], 
-		"Withering": 		["charm", "mental", "properties", "Periodic lowers target GLAMP by 20%.", null], 
-		"Dyslexic": 		["charm", "bio", "properties", "Periodic makes target GLAMP go off the deep end.", null], 
-		"Hotswapping": 		["charm", "cyber", "properties", "Periodic randomly swaps target GLAMP.", null], 
-		"Equalizing": 		["charm", "zauber", "properties", "Periodic averages target GLAMP.", null], 
-		"LuckFallen": 		["bottom", "cosmic", "properties", "Periodic lowers target LUCK by 30%.", null], 
-		"PietyFallen": 		["bottom", "mental", "properties", "Periodic lowers target PIETY by 30%.", null], 
-		"MightFallen": 		["bottom", "bio", "properties", "Periodic lowers target MIGHT by 30%.", null], 
-		"AcroFallen": 		["bottom", "cyber", "properties", "Periodic lowers target ACRO by 30%.", null], 
-		"GutsFallen": 		["bottom", "zauber", "properties", "Periodic lowers target GUTS by 30%.", null], 
-		"WeightLower": 		["top", "cosmic", "weight", "Periodic lowers target WEIGHT 50%, lowers DEFENSE 25%.", null],
-		"BrainGain": 		["top", "mental", "weight", "Periodic raises target BRAIN 100%, lowers DEFENSE 25%.", null], 
-		"DefenseGain": 		["top", "bio", "weight", "Periodic raises target DEFENSE by 50%, lowers BP by 50%.", null],
-		"KnockGain": 		["top", "cyber", "weight", "Periodic raises target knockback resistence 200%, WEIGHT 25%.", null], 
-		"StaggerGain": 		["top", "zauber", "weight", "Periodic raises target stagger resistence 200%, WEIGHT 25%.", null], 
-		"Pilfering": 		["charm", "cosmic", "weight", "Periodic makes target drop a candy.", null], 
-		"Adhesive": 		["charm", "mental", "weight", "Periodic makes target immobile for 5-10 seconds.", null], 
-		"Smelting": 		["charm", "bio", "weight", "Periodic makes target drop ammo.", null], 
-		"Busting": 			["charm", "cyber", "weight", "Periodic staggers target for 2-5 seconds.", null], 
-		"Blinking": 		["charm", "zauber", "weight", "Periodic teleports target to nearby location.", null], 
-		"Heavy": 			["bottom", "cosmic", "weight", "Periodic raises target WEIGHT by 25%.", null], 
-		"Foggy": 			["bottom", "mental", "weight", "Periodic lowers target BRAIN by 50%.", null], 
-		"Risky": 			["bottom", "bio", "weight", "Periodic lowers target DEFENSE by 25%.", null], 
-		"Slippery": 		["bottom", "cyber", "weight", "Periodic lowers target knockback resistence by 100%.", null], 
-		"Goofy": 			["bottom", "zauber", "weight", "Periodic lowers target stagger resistence by 100%.", null] 
-	}
-const suffix : Dictionary = { 
-		"empty": 						["empty", "empty", "empty", "", null], 
-		"of the Dracula": 				["down", "bio", "aggressive", "Slurp hitpoints from enemy.", null], 
-		"of the Healthy Youth":			["down", "bio", "passive", "Bonus damage based on max hitpoints.", null], 
-		"of Flicker": 					["down", "bio", "reactive", "Bullets have a very short lifespan.", null], 
-		"of the Circus": 				["down", "cosmic", "aggressive", "Rolling increases Periodic Meter.", null], 
-		"of the Dying Youth": 			["down", "cosmic", "passive", "Bonus damage based on missing hitpoints.", null], 
-		"of the Bad Aim": 				["down", "cosmic", "reactive", "Braster's aim is terrible.", null], 
-		"of the Clock": 				["down", "cyber", "aggressive", "Bonus damage based on passage of time.", null], 
-		"of the Today's Youth": 		["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null], 
-		"of the Paintball": 			["down", "cyber", "reactive", "Adds a splash of paint to shots.", null], 
-		"of Muramasa": 					["down", "mental", "aggressive", "Target is pulled towards the braster.", null], 
-		"of Masamune": 					["down", "mental", "passive", "Zero damage, increased knockback strength.", null], 
-		"of Murasame": 					["down", "mental", "reactive", "Braster and target are thrown about.", null], 
-		"cursed by a Wicca Hex": 		["down", "zauber", "aggressive", "Periodic Meter is broken.", null], 
-		"of the Lich": 					["down", "zauber", "passive", "Bonus damage based on total deaths.", null], 
-		"of the Elements": 				["down", "zauber", "reactive", "Bullets are imbued with elemental powers.", null], 
-		"of Leper's Digest": 			["strange", "bio", "aggressive", "While you have ammo, you lose health.", null], 
-		"of Chaining": 					["strange", "bio", "passive", "Bullets chain to nearest enemy.", null], 
-		"of the Bazinga": 				["strange", "bio", "reactive", "Bullets heal target.", null], 
-		"of Jeeper's Digest": 			["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null], 
-		"of Dotlining": 				["strange", "cosmic", "passive", "Bullets move in a dotline.", null], 
-		"of Sacrifice": 				["strange", "cosmic", "reactive", "Shoot out your own lifeforce.", null], 
-		"with Nanomachines": 			["strange", "cyber", "aggressive", "Regain up to 20% of ammo.", null], 
-		"of Ghosting": 					["strange", "cyber", "passive", "Bullets pierce through targets.", null], 
-		"of Lets Play": 				["strange", "cyber", "reactive", "Remember to like and subscribe.", null], 
-		"with a Battery Charger": 		["strange", "mental", "aggressive", "Damage based on remaining ammo.", null], 
-		"of Magicing": 					["strange", "mental", "passive", "Bullets spawn from around the braster.", null], 
-		"of the Pacifist": 				["strange", "mental", "reactive", "Bullets don't deal damage.", null], 
-		"of Reaper's Digest": 			["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null], 
-		"of Surfing": 					["strange", "zauber", "passive", "Bullets move in a wave pattern.", null], 
-		"of Triskelion": 				["strange", "zauber", "reactive", "Deals 9999 damage while in Triskelion.", null], 
-		"of the Entlord": 				["up", "bio", "aggressive", "Bonus BIO damage.", null], 
-		"of the Iceman": 				["up", "bio", "passive", "Bonus damage based on enemies defeated.", null], 
-		"with a hole in the Pocket": 	["up", "bio", "reactive", "Ammo depletes constantly.", null], 
-		"of the Quasar": 				["up", "cosmic", "aggressive", "Bonus KOSMIC damage.", null], 
-		"of the Perfectionist": 		["up", "cosmic", "passive", "Bonus damage when at full health.", null], 
-		"of Eternity":					["up", "cosmic", "reactive", "Bullet have increased lifespans.", null], 
-		"of the Doxxer": 				["up", "cyber", "aggressive", "Bonus CYBER damage.", null], 
-		"of the Metallic Muscle": 		["up", "cyber", "passive", "Bonus damage based on Transhumanism.", null], 
-		"of the Planet of Vapes": 		["up", "cyber", "reactive", "Guns are of the Planet of the Vapes.", null], 
-		"of the Encephalon": 			["up", "mental", "aggressive", "Bonus MENTAL damage.", null], 
-		"from Heck": 					["up", "mental", "passive", "Damage varies from 0x to 2.5x.", null], 
-		"of Deep Welling": 				["up", "mental", "reactive", "Periodic Meter increases constantly.", null], 
-		"of the Ps. Pocus": 			["up", "zauber", "aggressive", "Bonus ZAUBER damage.", null], 
-		"of the Becker": 				["up", "zauber", "passive", "Damn slow, but damn hard-hitter!", null], 
-		"of the Forever Man": 			["up", "zauber", "reactive", "Gun\'s sacrifices itself to save braster.", null] 
-	}
+const prefix1 : Dictionary = {
+	"empty": 			["empty", "empty", ""],
+	"NoScope360": 		["minus", "random", "Shots fire into random directions. N00bs only."],
+	"Polarized": 		["minus", "homing", "Shots avoid enemies."],
+	"Fetching": 		["minus", "bounce", "Shots return to the shooter."],
+	"Lobbing": 			["minus", "curved", "Shots lob into the air."],
+	"Pensioner\'s":		["minus", "firing", "Shots slow down after being fired."],
+	"Afterburner": 		["minus", "linear", "Shots fire from behind the braster."],
+	"Magician\'s": 		["plus", "random", "Shots fire from around the player."],
+	"Gravitational": 	["plus", "homing", "Shots seek the nearest enemy."],
+	"Ricocheting": 		["plus", "bounce", "Shots ricochet off solid surfaces."],
+	"Surfing": 			["plus", "curved", "Shots move in a wave pattern."],
+	"Flooding": 		["plus", "firing", "Gun\'s fires multiple, wasteful shots at once."],
+	"Ghostic": 			["plus", "linear", "Shots pierce through enemies."],
+	"Goofed": 			["pound", "random", "Shots are out of control."],
+	"Proximity": 		["pound", "homing", "Shots fire towards nearest enemy."],
+	"Chaining": 		["pound", "bounce", "Shots chain to multiple enemies."],
+	"Orbiting": 		["pound", "curved", "Shots circle around the braster."],
+	"Berzerk\'d": 		["pound", "firing", "Gun\'s has anger issues."],
+	"Dotline": 			["pound", "linear", "Shots turn periodically."]
+}
+const prefix2 : Dictionary = {
+	"empty": 			["empty", "empty", "empty", "", null],
+	"Pachinkode\'d": 	["top", "cosmic", "hp", "Periodic deals LUCK % extra damage.", null],
+	"Klisp\'d": 		["top", "mental", "hp", "Periodic deals PIETY % extra damage.", null],
+	"Juice\'d": 		["top", "bio", "hp", "Periodic deals MIGHT % extra damage.", null],
+	"Parkour\'d": 		["top", "cyber", "hp", "Periodic deals ACRO % extra damage.", null],
+	"Impose\'d": 		["top", "zauber", "hp", "Periodic deals GUTS % extra damage.", null],
+	"Gambling": 		["charm", "cosmic", "hp", "Periodic deals 0 - 400% KOSMIC instead of normal damage.", null],
+	"Agonizing": 		["charm", "mental", "hp", "Periodic inflicts anguish that deals target MENTAL damage while moving.", null],
+	"Thorny": 			["charm", "bio", "hp", "Periodic inflicts target with thornball that shoots out damaging BIO thorns.", null],
+	"Deathbound": 		["charm", "cyber", "hp", "Periodic deals extra CYBER damage based on how many times you died.", null],
+	"Radiating": 		["charm", "zauber", "hp", "Periodic inflicts cloud that deals ZAUBER damage to nearby enemies.", null],
+	"Galactic": 		["bottom", "cosmic", "hp", "Periodic deals 150% KOSMIC instead of normal damage.", null],
+	"Migraining": 		["bottom", "mental", "hp", "Periodic deals 150% MENTAL instead of normal damage.", null],
+	"Gooping": 			["bottom", "bio", "hp", "Periodic deals 150% BIO instead of normal damage.", null],
+	"Overloading": 		["bottom", "cyber", "hp", "Periodic deals 150% CYBER instead of normal damage.", null],
+	"Zaubering": 		["bottom", "zauber", "hp", "Periodic deals 150% ZAUBER instead of normal damage.", null],
+	"KosmicBoost": 		["top", "cosmic", "capability", "Periodic raises target KOSMIC resistence 60%, lowers other resistences 15%.", null],
+	"MentalBoost": 		["top", "mental", "capability", "Periodic raises target MENTAL resistence 60%, lowers other resistences 15%.", null],
+	"BioBoost": 		["top", "bio", "capability", "Periodic raises target BIO resistence 60%, lowers other resistences 15%.", null],
+	"CyberBoost": 		["top", "cyber", "capability", "Periodic raises target CYBER resistence 60%, lowers other resistences 15%.", null],
+	"ZauberBoost": 		["top", "zauber", "capability", "Periodic raises target ZAUBER resistence 60%, lowers other resistences 15%.", null],
+	"ResistRespec": 	["charm", "cosmic", "capability", "Periodic respecs target resistences randomly.", null],
+	"ResistLower": 		["charm", "mental", "capability", "Periodic lowers target resistences by 20%.", null],
+	"Milkdrop": 		["charm", "bio", "capability", "Periodic makes target resistences go off the deep end.", null],
+	"ResistSwap": 		["charm", "cyber", "capability", "Periodic randomly swaps target resistences.", null],
+	"ResistEqual": 		["charm", "zauber", "capability", "Periodic averages target resistences.", null],
+	"KosmicFallen": 	["bottom", "cosmic", "capability", "Periodic lowers target KOSMIC resistence by 30%.", null],
+	"MentalFallen": 	["bottom", "mental", "capability", "Periodic lowers target MENTAL resistence by 30%.", null],
+	"BioFallen": 		["bottom", "bio", "capability", "Periodic lowers target BIO resistence by 30%.", null],
+	"CyberFallen": 		["bottom", "cyber", "capability", "Periodic lowers target CYBER resistence by 30%.", null],
+	"ZauberFallen": 	["bottom", "zauber", "capability", "Periodic lowers target ZAUBER resistence by 30%.", null],
+	"LuckBoost": 		["top", "cosmic", "properties", "Periodic raises LUCK 60%, lowers all other stats 15%.", null],
+	"PietyBoost": 		["top", "mental", "properties", "Periodic raises PIETY 60%, lowers all other stats 15%.", null],
+	"MightBoost": 		["top", "bio", "properties", "Periodic raises MIGHT 60%, lowers all other stats 15%.", null],
+	"AcroBoost": 		["top", "cyber", "properties", "Periodic raises ACRO 60%, lowers all other stats 15%.", null],
+	"GutsBoost": 		["top", "zauber", "properties", "Periodic raises GUTS 60%, lowers all other stats 15%.", null],
+	"Respeccing": 		["charm", "cosmic", "properties", "Periodic respecs target GLAMP randomly.", null],
+	"Withering": 		["charm", "mental", "properties", "Periodic lowers target GLAMP by 20%.", null],
+	"Dyslexic": 		["charm", "bio", "properties", "Periodic makes target GLAMP go off the deep end.", null],
+	"Hotswapping": 		["charm", "cyber", "properties", "Periodic randomly swaps target GLAMP.", null],
+	"Equalizing": 		["charm", "zauber", "properties", "Periodic averages target GLAMP.", null],
+	"LuckFallen": 		["bottom", "cosmic", "properties", "Periodic lowers target LUCK by 30%.", null],
+	"PietyFallen": 		["bottom", "mental", "properties", "Periodic lowers target PIETY by 30%.", null],
+	"MightFallen": 		["bottom", "bio", "properties", "Periodic lowers target MIGHT by 30%.", null],
+	"AcroFallen": 		["bottom", "cyber", "properties", "Periodic lowers target ACRO by 30%.", null],
+	"GutsFallen": 		["bottom", "zauber", "properties", "Periodic lowers target GUTS by 30%.", null],
+	"WeightLower": 		["top", "cosmic", "weight", "Periodic lowers target WEIGHT 50%, lowers DEFENSE 25%.", null],
+	"BrainGain": 		["top", "mental", "weight", "Periodic raises target BRAIN 100%, lowers DEFENSE 25%.", null],
+	"DefenseGain": 		["top", "bio", "weight", "Periodic raises target DEFENSE by 50%, lowers BP by 50%.", null],
+	"KnockGain": 		["top", "cyber", "weight", "Periodic raises target knockback resistence 200%, WEIGHT 25%.", null],
+	"StaggerGain": 		["top", "zauber", "weight", "Periodic raises target stagger resistence 200%, WEIGHT 25%.", null],
+	"Pilfering": 		["charm", "cosmic", "weight", "Periodic makes target drop a candy.", null],
+	"Adhesive": 		["charm", "mental", "weight", "Periodic makes target immobile for 5-10 seconds.", null],
+	"Smelting": 		["charm", "bio", "weight", "Periodic makes target drop ammo.", null],
+	"Busting": 			["charm", "cyber", "weight", "Periodic staggers target for 2-5 seconds.", null],
+	"Blinking": 		["charm", "zauber", "weight", "Periodic teleports target to nearby location.", null],
+	"Heavy": 			["bottom", "cosmic", "weight", "Periodic raises target WEIGHT by 25%.", null],
+	"Foggy": 			["bottom", "mental", "weight", "Periodic lowers target BRAIN by 50%.", null],
+	"Risky": 			["bottom", "bio", "weight", "Periodic lowers target DEFENSE by 25%.", null],
+	"Slippery": 		["bottom", "cyber", "weight", "Periodic lowers target knockback resistence by 100%.", null],
+	"Goofy": 			["bottom", "zauber", "weight", "Periodic lowers target stagger resistence by 100%.", null]
+}
+const suffix : Dictionary = {
+	"empty": 						["empty", "empty", "empty", "", null],
+	"of the Dracula": 				["down", "bio", "aggressive", "Slurp hitpoints from enemy.", null],
+	"of the Healthy Youth":			["down", "bio", "passive", "Bonus damage based on max hitpoints.", null],
+	"of Flicker": 					["down", "bio", "reactive", "Bullets have a very short lifespan.", null],
+	"of the Circus": 				["down", "cosmic", "aggressive", "Rolling increases Periodic Meter.", null],
+	"of the Dying Youth": 			["down", "cosmic", "passive", "Bonus damage based on missing hitpoints.", null],
+	"of the Bad Aim": 				["down", "cosmic", "reactive", "Braster's aim is terrible.", null],
+	"of the Clock": 				["down", "cyber", "aggressive", "Bonus damage based on passage of time.", null],
+	"of the Today's Youth": 		["down", "cyber", "passive", "Bonus damage based on current hitpoints.", null],
+	"of the Paintball": 			["down", "cyber", "reactive", "Adds a splash of paint to shots.", null],
+	"of Muramasa": 					["down", "mental", "aggressive", "Target is pulled towards the braster.", null],
+	"of Masamune": 					["down", "mental", "passive", "Zero damage, increased knockback strength.", null],
+	"of Murasame": 					["down", "mental", "reactive", "Braster and target are thrown about.", null],
+	"cursed by a Wicca Hex": 		["down", "zauber", "aggressive", "Periodic Meter is broken.", null],
+	"of the Lich": 					["down", "zauber", "passive", "Bonus damage based on total deaths.", null],
+	"of the Elements": 				["down", "zauber", "reactive", "Bullets are imbued with elemental powers.", null],
+	"of Leper's Digest": 			["strange", "bio", "aggressive", "While you have ammo, you lose health.", null],
+	"of Chaining": 					["strange", "bio", "passive", "Bullets chain to nearest enemy.", null],
+	"of the Bazinga": 				["strange", "bio", "reactive", "Bullets heal target.", null],
+	"of Jeeper's Digest": 			["strange", "cosmic", "aggressive", "While you have ammo, you gain health.", null],
+	"of Dotlining": 				["strange", "cosmic", "passive", "Bullets move in a dotline.", null],
+	"of Sacrifice": 				["strange", "cosmic", "reactive", "Shoot out your own lifeforce.", null],
+	"with Nanomachines": 			["strange", "cyber", "aggressive", "Regain up to 20% of ammo.", null],
+	"of Ghosting": 					["strange", "cyber", "passive", "Bullets pierce through targets.", null],
+	"of Lets Play": 				["strange", "cyber", "reactive", "Remember to like and subscribe.", null],
+	"with a Battery Charger": 		["strange", "mental", "aggressive", "Damage based on remaining ammo.", null],
+	"of Magicing": 					["strange", "mental", "passive", "Bullets spawn from around the braster.", null],
+	"of the Pacifist": 				["strange", "mental", "reactive", "Bullets don't deal damage.", null],
+	"of Reaper's Digest": 			["strange", "zauber", "aggressive", "While you have ammo, everyone is immortal.", null],
+	"of Surfing": 					["strange", "zauber", "passive", "Bullets move in a wave pattern.", null],
+	"of Triskelion": 				["strange", "zauber", "reactive", "Deals 9999 damage while in Triskelion.", null],
+	"of the Entlord": 				["up", "bio", "aggressive", "Bonus BIO damage.", null],
+	"of the Iceman": 				["up", "bio", "passive", "Bonus damage based on enemies defeated.", null],
+	"with a hole in the Pocket": 	["up", "bio", "reactive", "Ammo depletes constantly.", null],
+	"of the Quasar": 				["up", "cosmic", "aggressive", "Bonus KOSMIC damage.", null],
+	"of the Perfectionist": 		["up", "cosmic", "passive", "Bonus damage when at full health.", null],
+	"of Eternity":					["up", "cosmic", "reactive", "Bullet have increased lifespans.", null],
+	"of the Doxxer": 				["up", "cyber", "aggressive", "Bonus CYBER damage.", null],
+	"of the Metallic Muscle": 		["up", "cyber", "passive", "Bonus damage based on Transhumanism.", null],
+	"of the Planet of Vapes": 		["up", "cyber", "reactive", "Guns are of the Planet of the Vapes.", null],
+	"of the Encephalon": 			["up", "mental", "aggressive", "Bonus MENTAL damage.", null],
+	"from Heck": 					["up", "mental", "passive", "Damage varies from 0x to 2.5x.", null],
+	"of Deep Welling": 				["up", "mental", "reactive", "Periodic Meter increases constantly.", null],
+	"of the Ps. Pocus": 			["up", "zauber", "aggressive", "Bonus ZAUBER damage.", null],
+	"of the Becker": 				["up", "zauber", "passive", "Damn slow, but damn hard-hitter!", null],
+	"of the Forever Man": 			["up", "zauber", "reactive", "Gun\'s sacrifices itself to save braster.", null]
+}
 
 const MATERIAL_NAMES : Dictionary[MATERIAL, String] = {
 	MATERIAL.PRINTED : 			"3D Printed",
 	MATERIAL.ADAMANTIUM : 		"Adamantium",
 	MATERIAL.AEROGEL : 			"Aerogel",
-	MATERIAL.ALUMINIUM : 		"Aluminium", ## Lol, just noticed this. 
+	MATERIAL.ALUMINIUM : 		"Aluminium", ## Lol, just noticed this.
 	MATERIAL.ALUMINUM : 		"Aluminum",
 	MATERIAL.ANALOG : 			"Analog",
 	MATERIAL.ANTI_MATTER : 		"Anti-Matter",
@@ -424,118 +424,121 @@ const MATERIAL_NAMES : Dictionary[MATERIAL, String] = {
 	}
 
 ## List of B2_WeaponMaterial resources.
-const MATERIAL_LIST : Dictionary[MATERIAL, B2_WeaponMaterial] = {
-	MATERIAL.PRINTED : 			preload("res://barkley2/resources/B2_Weapon/material/3D Printed.tres"),
-	MATERIAL.ADAMANTIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Adamantium.tres"),
-	MATERIAL.AEROGEL : 			preload("res://barkley2/resources/B2_Weapon/material/Aerogel.tres"),
-	MATERIAL.ALUMINIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Aluminium.tres"), ## Lol, just noticed this. 
-	MATERIAL.ALUMINUM : 		preload("res://barkley2/resources/B2_Weapon/material/Aluminum.tres"),
-	MATERIAL.ANALOG : 			preload("res://barkley2/resources/B2_Weapon/material/Analog.tres"),
-	MATERIAL.ANTI_MATTER : 		preload("res://barkley2/resources/B2_Weapon/material/Anti-Matter.tres"),
-	MATERIAL.BLASTER : 			preload("res://barkley2/resources/B2_Weapon/material/Blaster.tres"),
-	MATERIAL.BLOOD : 			preload("res://barkley2/resources/B2_Weapon/material/Blood.tres"),
-	MATERIAL.BONE : 			preload("res://barkley2/resources/B2_Weapon/material/Bone.tres"),
-	MATERIAL.BRAIN : 			preload("res://barkley2/resources/B2_Weapon/material/Brain.tres"),
-	MATERIAL.BRASS : 			preload("res://barkley2/resources/B2_Weapon/material/Brass.tres"),
-	MATERIAL.BROKEN : 			preload("res://barkley2/resources/B2_Weapon/material/Broken.tres"),
-	MATERIAL.BRONZE : 			preload("res://barkley2/resources/B2_Weapon/material/Bronze.tres"),
-	MATERIAL.CANDY : 			preload("res://barkley2/resources/B2_Weapon/material/Candy.tres"),
-	MATERIAL.CARBON : 			preload("res://barkley2/resources/B2_Weapon/material/Carbon.tres"),
-	MATERIAL.CHITIN : 			preload("res://barkley2/resources/B2_Weapon/material/Chitin.tres"),
-	MATERIAL.CHOBHAM : 			preload("res://barkley2/resources/B2_Weapon/material/Chobham.tres"),
-	MATERIAL.CHROME : 			preload("res://barkley2/resources/B2_Weapon/material/Chrome.tres"),
-	MATERIAL.COBALT : 			preload("res://barkley2/resources/B2_Weapon/material/Cobalt.tres"),
-	MATERIAL.COPPER : 			preload("res://barkley2/resources/B2_Weapon/material/Copper.tres"),
-	MATERIAL.CRYSTAL : 			preload("res://barkley2/resources/B2_Weapon/material/Crystal.tres"),
-	MATERIAL.DAMASCUS : 		preload("res://barkley2/resources/B2_Weapon/material/Damascus.tres"),
-	MATERIAL.DENIM : 			preload("res://barkley2/resources/B2_Weapon/material/Denim.tres"),
-	MATERIAL.DIAMOND : 			preload("res://barkley2/resources/B2_Weapon/material/Diamond.tres"),
-	MATERIAL.DIGITAL : 			preload("res://barkley2/resources/B2_Weapon/material/Digital.tres"),
-	MATERIAL.DUAL : 			preload("res://barkley2/resources/B2_Weapon/material/Dual.tres"),
-	MATERIAL.FIBERGLASS : 		preload("res://barkley2/resources/B2_Weapon/material/Fiberglass.tres"),
-	MATERIAL.FOIL : 			preload("res://barkley2/resources/B2_Weapon/material/Foil.tres"),
-	MATERIAL.FRANCIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Francium.tres"),
-	MATERIAL.FRANKINCENSE : 	preload("res://barkley2/resources/B2_Weapon/material/Frankincense.tres"),
-	MATERIAL.FUNGUS : 			preload("res://barkley2/resources/B2_Weapon/material/Fungus.tres"),
-	MATERIAL.GLASS : 			preload("res://barkley2/resources/B2_Weapon/material/Glass.tres"),
-	MATERIAL.GOLD : 			preload("res://barkley2/resources/B2_Weapon/material/Gold.tres"),
-	MATERIAL.GRASS : 			preload("res://barkley2/resources/B2_Weapon/material/Grass.tres"),
-	MATERIAL.IMAGINARY : 		preload("res://barkley2/resources/B2_Weapon/material/Imaginary.tres"),
-	MATERIAL.IRON : 			preload("res://barkley2/resources/B2_Weapon/material/Iron.tres"),
-	MATERIAL.ITANO : 			preload("res://barkley2/resources/B2_Weapon/material/Itano.tres"),
-	MATERIAL.JUNK : 			preload("res://barkley2/resources/B2_Weapon/material/Junk.tres"),
-	MATERIAL.LEAD : 			preload("res://barkley2/resources/B2_Weapon/material/Lead.tres"),
-	MATERIAL.LEATHER : 			preload("res://barkley2/resources/B2_Weapon/material/Leather.tres"),
-	MATERIAL.MARBLE : 			preload("res://barkley2/resources/B2_Weapon/material/Marble.tres"),
-	MATERIAL.MERCURY : 			preload("res://barkley2/resources/B2_Weapon/material/Mercury.tres"),
-	MATERIAL.MYRRH : 			preload("res://barkley2/resources/B2_Weapon/material/Myrrh.tres"),
-	MATERIAL.MYTHRIL : 			preload("res://barkley2/resources/B2_Weapon/material/Mythril.tres"),
-	MATERIAL.NANOTUBE : 		preload("res://barkley2/resources/B2_Weapon/material/Nanotube.tres"),
-	MATERIAL.NAPALM : 			preload("res://barkley2/resources/B2_Weapon/material/Napalm.tres"),
-	MATERIAL.NEON : 			preload("res://barkley2/resources/B2_Weapon/material/Neon.tres"),
-	MATERIAL.NICKEL : 			preload("res://barkley2/resources/B2_Weapon/material/Nickel.tres"),
-	MATERIAL.OBSIDIAN : 		preload("res://barkley2/resources/B2_Weapon/material/Obsidian.tres"),
-	MATERIAL.OFFAL : 			preload("res://barkley2/resources/B2_Weapon/material/Offal.tres"),
-	MATERIAL.ORB : 				preload("res://barkley2/resources/B2_Weapon/material/Orb.tres"),
-	MATERIAL.ORICHALCUM : 		preload("res://barkley2/resources/B2_Weapon/material/Orichalcum.tres"),
-	MATERIAL.ORIGAMI : 			preload("res://barkley2/resources/B2_Weapon/material/Origami.tres"),
-	MATERIAL.PEARL : 			preload("res://barkley2/resources/B2_Weapon/material/Pearl.tres"),
-	MATERIAL.PINATA : 			preload("res://barkley2/resources/B2_Weapon/material/Pinata.tres"),
-	MATERIAL.PLANTAIN : 		preload("res://barkley2/resources/B2_Weapon/material/Plantain.tres"),
-	MATERIAL.PLASTIC : 			preload("res://barkley2/resources/B2_Weapon/material/Plastic.tres"),
-	MATERIAL.PLATINUM : 		preload("res://barkley2/resources/B2_Weapon/material/Platinum.tres"),
-	MATERIAL.POLENTA : 			preload("res://barkley2/resources/B2_Weapon/material/Polenta.tres"),
-	MATERIAL.PORCELAIN : 		preload("res://barkley2/resources/B2_Weapon/material/Porcelain.tres"),
-	MATERIAL.ROTTEN : 			preload("res://barkley2/resources/B2_Weapon/material/Rotten.tres"),
-	MATERIAL.RUBBER : 			preload("res://barkley2/resources/B2_Weapon/material/Rubber.tres"),
-	MATERIAL.RUSTY : 			preload("res://barkley2/resources/B2_Weapon/material/Rusty.tres"),
-	MATERIAL.SALT : 			preload("res://barkley2/resources/B2_Weapon/material/Salt.tres"),
-	MATERIAL.SILK : 			preload("res://barkley2/resources/B2_Weapon/material/Silk.tres"),
-	MATERIAL.SILVER : 			preload("res://barkley2/resources/B2_Weapon/material/Silver.tres"),
-	MATERIAL.SINEW : 			preload("res://barkley2/resources/B2_Weapon/material/Sinew.tres"),
-	MATERIAL.SOILED : 			preload("res://barkley2/resources/B2_Weapon/material/Soiled.tres"),
-	MATERIAL.SOY : 				preload("res://barkley2/resources/B2_Weapon/material/Soy.tres"),
-	MATERIAL.STEEL : 			preload("res://barkley2/resources/B2_Weapon/material/Steel.tres"),
-	MATERIAL.STONE : 			preload("res://barkley2/resources/B2_Weapon/material/Stone.tres"),
-	MATERIAL.STUDDED : 			preload("res://barkley2/resources/B2_Weapon/material/Studded.tres"),
-	MATERIAL.TAXIDERMY : 		preload("res://barkley2/resources/B2_Weapon/material/Taxidermy.tres"),
-	MATERIAL.TIN : 				preload("res://barkley2/resources/B2_Weapon/material/Tin.tres"),
-	MATERIAL.TITANIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Titanium.tres"),
-	MATERIAL.TUNGSTEN : 		preload("res://barkley2/resources/B2_Weapon/material/Tungsten.tres"),
-	MATERIAL.UNTAMONIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Untamonium.tres"),
-	MATERIAL.WOOD : 			preload("res://barkley2/resources/B2_Weapon/material/Wood.tres"),
-	MATERIAL.YGGDRASIL : 		preload("res://barkley2/resources/B2_Weapon/material/Yggdrasil.tres"),
-	MATERIAL.ZINC : 			preload("res://barkley2/resources/B2_Weapon/material/Zinc.tres"),
-	}
+# DEPRECATED 23/11/25
+#const MATERIAL_LIST : Dictionary[MATERIAL, B2_WeaponMaterial] = {
+	#MATERIAL.PRINTED : 			preload("res://barkley2/resources/B2_Weapon/material/3D Printed.tres"),
+	#MATERIAL.ADAMANTIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Adamantium.tres"),
+	#MATERIAL.AEROGEL : 			preload("res://barkley2/resources/B2_Weapon/material/Aerogel.tres"),
+	#MATERIAL.ALUMINIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Aluminium.tres"), ## Lol, just noticed this. 
+	#MATERIAL.ALUMINUM : 		preload("res://barkley2/resources/B2_Weapon/material/Aluminum.tres"),
+	#MATERIAL.ANALOG : 			preload("res://barkley2/resources/B2_Weapon/material/Analog.tres"),
+	#MATERIAL.ANTI_MATTER : 		preload("res://barkley2/resources/B2_Weapon/material/Anti-Matter.tres"),
+	#MATERIAL.BLASTER : 			preload("res://barkley2/resources/B2_Weapon/material/Blaster.tres"),
+	#MATERIAL.BLOOD : 			preload("res://barkley2/resources/B2_Weapon/material/Blood.tres"),
+	#MATERIAL.BONE : 			preload("res://barkley2/resources/B2_Weapon/material/Bone.tres"),
+	#MATERIAL.BRAIN : 			preload("res://barkley2/resources/B2_Weapon/material/Brain.tres"),
+	#MATERIAL.BRASS : 			preload("res://barkley2/resources/B2_Weapon/material/Brass.tres"),
+	#MATERIAL.BROKEN : 			preload("res://barkley2/resources/B2_Weapon/material/Broken.tres"),
+	#MATERIAL.BRONZE : 			preload("res://barkley2/resources/B2_Weapon/material/Bronze.tres"),
+	#MATERIAL.CANDY : 			preload("res://barkley2/resources/B2_Weapon/material/Candy.tres"),
+	#MATERIAL.CARBON : 			preload("res://barkley2/resources/B2_Weapon/material/Carbon.tres"),
+	#MATERIAL.CHITIN : 			preload("res://barkley2/resources/B2_Weapon/material/Chitin.tres"),
+	#MATERIAL.CHOBHAM : 			preload("res://barkley2/resources/B2_Weapon/material/Chobham.tres"),
+	#MATERIAL.CHROME : 			preload("res://barkley2/resources/B2_Weapon/material/Chrome.tres"),
+	#MATERIAL.COBALT : 			preload("res://barkley2/resources/B2_Weapon/material/Cobalt.tres"),
+	#MATERIAL.COPPER : 			preload("res://barkley2/resources/B2_Weapon/material/Copper.tres"),
+	#MATERIAL.CRYSTAL : 			preload("res://barkley2/resources/B2_Weapon/material/Crystal.tres"),
+	#MATERIAL.DAMASCUS : 		preload("res://barkley2/resources/B2_Weapon/material/Damascus.tres"),
+	#MATERIAL.DENIM : 			preload("res://barkley2/resources/B2_Weapon/material/Denim.tres"),
+	#MATERIAL.DIAMOND : 			preload("res://barkley2/resources/B2_Weapon/material/Diamond.tres"),
+	#MATERIAL.DIGITAL : 			preload("res://barkley2/resources/B2_Weapon/material/Digital.tres"),
+	#MATERIAL.DUAL : 			preload("res://barkley2/resources/B2_Weapon/material/Dual.tres"),
+	#MATERIAL.FIBERGLASS : 		preload("res://barkley2/resources/B2_Weapon/material/Fiberglass.tres"),
+	#MATERIAL.FOIL : 			preload("res://barkley2/resources/B2_Weapon/material/Foil.tres"),
+	#MATERIAL.FRANCIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Francium.tres"),
+	#MATERIAL.FRANKINCENSE : 	preload("res://barkley2/resources/B2_Weapon/material/Frankincense.tres"),
+	#MATERIAL.FUNGUS : 			preload("res://barkley2/resources/B2_Weapon/material/Fungus.tres"),
+	#MATERIAL.GLASS : 			preload("res://barkley2/resources/B2_Weapon/material/Glass.tres"),
+	#MATERIAL.GOLD : 			preload("res://barkley2/resources/B2_Weapon/material/Gold.tres"),
+	#MATERIAL.GRASS : 			preload("res://barkley2/resources/B2_Weapon/material/Grass.tres"),
+	#MATERIAL.IMAGINARY : 		preload("res://barkley2/resources/B2_Weapon/material/Imaginary.tres"),
+	#MATERIAL.IRON : 			preload("res://barkley2/resources/B2_Weapon/material/Iron.tres"),
+	#MATERIAL.ITANO : 			preload("res://barkley2/resources/B2_Weapon/material/Itano.tres"),
+	#MATERIAL.JUNK : 			preload("res://barkley2/resources/B2_Weapon/material/Junk.tres"),
+	#MATERIAL.LEAD : 			preload("res://barkley2/resources/B2_Weapon/material/Lead.tres"),
+	#MATERIAL.LEATHER : 			preload("res://barkley2/resources/B2_Weapon/material/Leather.tres"),
+	#MATERIAL.MARBLE : 			preload("res://barkley2/resources/B2_Weapon/material/Marble.tres"),
+	#MATERIAL.MERCURY : 			preload("res://barkley2/resources/B2_Weapon/material/Mercury.tres"),
+	#MATERIAL.MYRRH : 			preload("res://barkley2/resources/B2_Weapon/material/Myrrh.tres"),
+	#MATERIAL.MYTHRIL : 			preload("res://barkley2/resources/B2_Weapon/material/Mythril.tres"),
+	#MATERIAL.NANOTUBE : 		preload("res://barkley2/resources/B2_Weapon/material/Nanotube.tres"),
+	#MATERIAL.NAPALM : 			preload("res://barkley2/resources/B2_Weapon/material/Napalm.tres"),
+	#MATERIAL.NEON : 			preload("res://barkley2/resources/B2_Weapon/material/Neon.tres"),
+	#MATERIAL.NICKEL : 			preload("res://barkley2/resources/B2_Weapon/material/Nickel.tres"),
+	#MATERIAL.OBSIDIAN : 		preload("res://barkley2/resources/B2_Weapon/material/Obsidian.tres"),
+	#MATERIAL.OFFAL : 			preload("res://barkley2/resources/B2_Weapon/material/Offal.tres"),
+	#MATERIAL.ORB : 				preload("res://barkley2/resources/B2_Weapon/material/Orb.tres"),
+	#MATERIAL.ORICHALCUM : 		preload("res://barkley2/resources/B2_Weapon/material/Orichalcum.tres"),
+	#MATERIAL.ORIGAMI : 			preload("res://barkley2/resources/B2_Weapon/material/Origami.tres"),
+	#MATERIAL.PEARL : 			preload("res://barkley2/resources/B2_Weapon/material/Pearl.tres"),
+	#MATERIAL.PINATA : 			preload("res://barkley2/resources/B2_Weapon/material/Pinata.tres"),
+	#MATERIAL.PLANTAIN : 		preload("res://barkley2/resources/B2_Weapon/material/Plantain.tres"),
+	#MATERIAL.PLASTIC : 			preload("res://barkley2/resources/B2_Weapon/material/Plastic.tres"),
+	#MATERIAL.PLATINUM : 		preload("res://barkley2/resources/B2_Weapon/material/Platinum.tres"),
+	#MATERIAL.POLENTA : 			preload("res://barkley2/resources/B2_Weapon/material/Polenta.tres"),
+	#MATERIAL.PORCELAIN : 		preload("res://barkley2/resources/B2_Weapon/material/Porcelain.tres"),
+	#MATERIAL.ROTTEN : 			preload("res://barkley2/resources/B2_Weapon/material/Rotten.tres"),
+	#MATERIAL.RUBBER : 			preload("res://barkley2/resources/B2_Weapon/material/Rubber.tres"),
+	#MATERIAL.RUSTY : 			preload("res://barkley2/resources/B2_Weapon/material/Rusty.tres"),
+	#MATERIAL.SALT : 			preload("res://barkley2/resources/B2_Weapon/material/Salt.tres"),
+	#MATERIAL.SILK : 			preload("res://barkley2/resources/B2_Weapon/material/Silk.tres"),
+	#MATERIAL.SILVER : 			preload("res://barkley2/resources/B2_Weapon/material/Silver.tres"),
+	#MATERIAL.SINEW : 			preload("res://barkley2/resources/B2_Weapon/material/Sinew.tres"),
+	#MATERIAL.SOILED : 			preload("res://barkley2/resources/B2_Weapon/material/Soiled.tres"),
+	#MATERIAL.SOY : 				preload("res://barkley2/resources/B2_Weapon/material/Soy.tres"),
+	#MATERIAL.STEEL : 			preload("res://barkley2/resources/B2_Weapon/material/Steel.tres"),
+	#MATERIAL.STONE : 			preload("res://barkley2/resources/B2_Weapon/material/Stone.tres"),
+	#MATERIAL.STUDDED : 			preload("res://barkley2/resources/B2_Weapon/material/Studded.tres"),
+	#MATERIAL.TAXIDERMY : 		preload("res://barkley2/resources/B2_Weapon/material/Taxidermy.tres"),
+	#MATERIAL.TIN : 				preload("res://barkley2/resources/B2_Weapon/material/Tin.tres"),
+	#MATERIAL.TITANIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Titanium.tres"),
+	#MATERIAL.TUNGSTEN : 		preload("res://barkley2/resources/B2_Weapon/material/Tungsten.tres"),
+	#MATERIAL.UNTAMONIUM : 		preload("res://barkley2/resources/B2_Weapon/material/Untamonium.tres"),
+	#MATERIAL.WOOD : 			preload("res://barkley2/resources/B2_Weapon/material/Wood.tres"),
+	#MATERIAL.YGGDRASIL : 		preload("res://barkley2/resources/B2_Weapon/material/Yggdrasil.tres"),
+	#MATERIAL.ZINC : 			preload("res://barkley2/resources/B2_Weapon/material/Zinc.tres"),
+	#}
 	
 ## List of B2_WeaponType resources.
-const TYPE_LIST : Dictionary[TYPE, B2_WeaponType] = {
-	TYPE.GUN_TYPE_ASSAULTRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ASSAULTRIFLE.tres"),
-	TYPE.GUN_TYPE_BFG : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_BFG.tres"),
-	TYPE.GUN_TYPE_CROSSBOW : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_CROSSBOW.tres"),
-	TYPE.GUN_TYPE_DOUBLESHOTGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_DOUBLESHOTGUN.tres"),
-	TYPE.GUN_TYPE_ELEPHANTGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ELEPHANTGUN.tres"),
-	TYPE.GUN_TYPE_FLAMETHROWER : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAMETHROWER.tres"),
-	TYPE.GUN_TYPE_FLAREGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAREGUN.tres"),
-	TYPE.GUN_TYPE_FLINTLOCK : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLINTLOCK.tres"),
-	TYPE.GUN_TYPE_GATLINGGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_GATLINGGUN.tres"),
-	TYPE.GUN_TYPE_HEAVYMACHINEGUN : 	preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HEAVYMACHINEGUN.tres"),
-	TYPE.GUN_TYPE_HUNTINGRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HUNTINGRIFLE.tres"),
-	TYPE.GUN_TYPE_MACHINEPISTOL : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MACHINEPISTOL.tres"),
-	TYPE.GUN_TYPE_MAGNUM : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MAGNUM.tres"),
-	TYPE.GUN_TYPE_MINIGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MINIGUN.tres"),
-	TYPE.GUN_TYPE_MITRAILLEUSE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MITRAILLEUSE.tres"),
-	TYPE.GUN_TYPE_MUSKET : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MUSKET.tres"),
-	TYPE.GUN_TYPE_PISTOL : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_PISTOL.tres"),
-	TYPE.GUN_TYPE_REVOLVER : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVER.tres"),
-	TYPE.GUN_TYPE_REVOLVERSHOTGUN : 	preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVERSHOTGUN.tres"),
-	TYPE.GUN_TYPE_RIFLE : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_RIFLE.tres"),
-	TYPE.GUN_TYPE_ROCKET : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ROCKET.tres"),
-	TYPE.GUN_TYPE_SHOTGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SHOTGUN.tres"),
-	TYPE.GUN_TYPE_SNIPERRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SNIPERRIFLE.tres"),
-	TYPE.GUN_TYPE_SUBMACHINEGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SUBMACHINEGUN.tres"),
-	TYPE.GUN_TYPE_TRANQRIFLE : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_TRANQRIFLE.tres"),
-}
+# DEPRECATED 23/11/25
+#const TYPE_LIST : Dictionary[TYPE, B2_WeaponType] = {
+	#TYPE.GUN_TYPE_ASSAULTRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ASSAULTRIFLE.tres"),
+	#TYPE.GUN_TYPE_BFG : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_BFG.tres"),
+	#TYPE.GUN_TYPE_CROSSBOW : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_CROSSBOW.tres"),
+	#TYPE.GUN_TYPE_DOUBLESHOTGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_DOUBLESHOTGUN.tres"),
+	#TYPE.GUN_TYPE_ELEPHANTGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ELEPHANTGUN.tres"),
+	#TYPE.GUN_TYPE_FLAMETHROWER : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAMETHROWER.tres"),
+	#TYPE.GUN_TYPE_FLAREGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLAREGUN.tres"),
+	#TYPE.GUN_TYPE_FLINTLOCK : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_FLINTLOCK.tres"),
+	#TYPE.GUN_TYPE_GATLINGGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_GATLINGGUN.tres"),
+	#TYPE.GUN_TYPE_HEAVYMACHINEGUN : 	preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HEAVYMACHINEGUN.tres"),
+	#TYPE.GUN_TYPE_HUNTINGRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_HUNTINGRIFLE.tres"),
+	#TYPE.GUN_TYPE_MACHINEPISTOL : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MACHINEPISTOL.tres"),
+	#TYPE.GUN_TYPE_MAGNUM : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MAGNUM.tres"),
+	#TYPE.GUN_TYPE_MINIGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MINIGUN.tres"),
+	#TYPE.GUN_TYPE_MITRAILLEUSE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MITRAILLEUSE.tres"),
+	#TYPE.GUN_TYPE_MUSKET : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_MUSKET.tres"),
+	#TYPE.GUN_TYPE_PISTOL : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_PISTOL.tres"),
+	#TYPE.GUN_TYPE_REVOLVER : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVER.tres"),
+	#TYPE.GUN_TYPE_REVOLVERSHOTGUN : 	preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_REVOLVERSHOTGUN.tres"),
+	#TYPE.GUN_TYPE_RIFLE : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_RIFLE.tres"),
+	#TYPE.GUN_TYPE_ROCKET : 				preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_ROCKET.tres"),
+	#TYPE.GUN_TYPE_SHOTGUN : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SHOTGUN.tres"),
+	#TYPE.GUN_TYPE_SNIPERRIFLE : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SNIPERRIFLE.tres"),
+	#TYPE.GUN_TYPE_SUBMACHINEGUN : 		preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_SUBMACHINEGUN.tres"),
+	#TYPE.GUN_TYPE_TRANQRIFLE : 			preload("res://barkley2/resources/B2_Weapon/type/GUN_TYPE_TRANQRIFLE.tres"),
+#}
+
 ## STUPID LIST for icons used in only one menu. check Gun line 297 and Utility line 2062. FUCK
 const TYPE_ICON_LIST : Dictionary[TYPE, int] = {
 	TYPE.GUN_TYPE_ASSAULTRIFLE : 		3,
@@ -604,6 +607,10 @@ const GROUP_TYPE_LIST : Dictionary[GROUP, Array] = {
 
 ## Merged sprite sheet. way simpler.
 const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns.png")
+
+## Script to modify the gun script based on its material or type.
+const apply_mat_script := preload("uid://cn3pthgmp6ajv")
+const apply_typ_script := preload("uid://bieh3fvpmvkb2")
 
 ## Gene Settings ##
 const geneAffixChance 			:= 25;	## Range = 1-100% | Rolled 3 times per gun, 1 for each affix slot.
@@ -740,7 +747,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	#	"wpn_name"		-> string
 	# Ex.: {"wpn_name":"BUTT","add_affixes":false}
 	
-	var wpn := B2_Weapon.new()
+	var wpn 		:= B2_Weapon.new()
 	wpn.weapon_stats = B2_WeaponStats.new() ## Add some default stats.
 	
 	## Pick weapon type if not specified
@@ -765,11 +772,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		elif mat_rand < 98:			wpn.weapon_material = RARITY_MATERIAL[RARITY.RARE].pick_random()
 		else:						wpn.weapon_material = RARITY_MATERIAL[RARITY.GODAM].pick_random()
 	
-	## Get the material resource
-	#wpn.material_data = weapon_material( wpn.weapon_material ) ## DEPRECATED
-	
-	if TYPE_LIST[ wpn.weapon_type ] == null:			push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
-	if MATERIAL_LIST[ wpn.weapon_material ] == null:	push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
+	#if TYPE_LIST[ wpn.weapon_type ] == null:			push_warning( "Gun %s has no valid type." % wpn.get_full_name() )
+	#if MATERIAL_LIST[ wpn.weapon_material ] == null:	push_warning( "Gun %s has no valid material." % wpn.get_full_name() )
 	
 	var affix_rand := 0
 	if options.get("add_affixes", true): ## By default, add affixes.
@@ -788,6 +792,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 		if affix_rand < geneAffixChance:
 			wpn.suffix = suffix.keys().pick_random()
 			wpn.afx_count += 1
+		
+	## Apply Mat and type modifiers
+	apply_mat_script.apply_material( wpn, wpn.weapon_material )
+	apply_typ_script.apply_type( wpn, wpn.weapon_type )
 		
 	# Check Drop("stats")
 	# Drop("stats", 50, ClockTime("time"), scr_stats_getEffectiveStat(o_hoopz, STAT_BASE_LUCK) + Quest("playerCCBonus"));
@@ -886,6 +894,7 @@ static func apply_stats( wpn : B2_Weapon, points : int, current_time : String ) 
 	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
 	## 22/04/25 Stat generation is scary.
 	## 30/09/25 True
+	## 23/11/25 Need to fuck around with this again...
 	
 	# Base Stats
 	@warning_ignore("integer_division")
@@ -911,47 +920,77 @@ static func apply_stats( wpn : B2_Weapon, points : int, current_time : String ) 
 	# WARNING Im not doing anithing with the data above. How should we apply it?
 	
 	# var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
-	var points_left 	:= points
+	# var points_left 	:= points ## 23/11/25 disabled this
+	var points_left 	:= wpn.weapon_stats.numberval - wpn.weapon_stats.pointsUsed
 	@warning_ignore("integer_division")
 	var poinst_each 	:= points_left / 7 # was 7
 	
-	wpn.att 		= ceil( poinst_each * ( ( ( wpn.get_att_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.spd 		= ceil( poinst_each * ( ( ( wpn.get_spd_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.afx			= ceil( poinst_each * ( ( ( wpn.get_afx_mod() 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
-	#wpn.lck 		= ceil( poinst_each * ( ( ( wpn.get_luck_mod() 	- 1 ) / 2 ) + 1 ) )
-	wpn.acc 		= ceil( poinst_each * ( ( ( wpn.get_acc_mod() 	- 1 ) / 2 ) + 1 ) ) # is this needed?
-	wpn.max_ammo 	= ceil( poinst_each * ( ( ( wpn.get_amm_mod() 	- 1 ) / 2 ) + 1 ) )
+	wpn.weapon_stats.sPower 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pPowerMod 	- 1 ) / 2 ) + 1 ) )
+	wpn.weapon_stats.sSpeed 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pSpeedMod 	- 1 ) / 2 ) + 1 ) )
+	wpn.weapon_stats.sAffix			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAmmoMod 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
+	wpn.weapon_stats.sAmmo			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAffixMod 	- 1 ) / 2 ) + 1 ) )
 		
-	wpn.att 		= clamp(wpn.att, 0, 90 )
-	wpn.spd 		= clamp(wpn.spd, 0, 90 )
-	wpn.afx 		= clamp(wpn.afx, 0, 90 )
-	#wpn.lck 		= clamp(wpn.lck, 0, 90 )
-	wpn.acc			= clamp(wpn.acc, 0, 90 ) # is this needed?
-	wpn.max_ammo 	= clamp(wpn.max_ammo, 0, 90 )
+	wpn.weapon_stats.sPower 		= clamp(wpn.weapon_stats.sPower, 0, 90 )
+	wpn.weapon_stats.sSpeed 		= clamp(wpn.weapon_stats.sSpeed, 0, 90 )
+	wpn.weapon_stats.sAffix 		= clamp(wpn.weapon_stats.sAffix, 0, 90 )
+	wpn.weapon_stats.sAmmo 			= clamp(wpn.weapon_stats.sAmmo, 0, 90 )
 	
 	## distribute remaining core points randomly
-	var remain_points = poinst_each * 2 + ( poinst_each * 5 - ( wpn.att + wpn.spd + wpn.max_ammo + wpn.afx ) );
+	var remain_points = poinst_each * 2 + ( poinst_each * 5 - ( wpn.weapon_stats.sPower + wpn.weapon_stats.sSpeed + wpn.weapon_stats.sAffix + wpn.weapon_stats.sAmmo ) );
 		
 	var tries := 10;
 	while remain_points > 0:
 		match randi_range(0,3):
-			0: pass
-			1: pass
-			2: pass
-			3: pass
+			0: wpn.weapon_stats.sPower 	+= 1
+			1: wpn.weapon_stats.sSpeed 	+= 1
+			2: wpn.weapon_stats.sAffix 	+= 1
+			3: wpn.weapon_stats.sAmmo 	+= 1
 		
 		var tryit := false ## if a weapon generates an individual stat above 90, it tries again
-		if wpn.att > 90: wpn.att = 90; 				tryit = true
-		if wpn.spd > 90: wpn.spd = 90; 				tryit = true
-		if wpn.max_ammo > 90: wpn.max_ammo = 90; 	tryit = true
-		if wpn.afx > 90: wpn.afx = 90; 				tryit = true
+		if wpn.weapon_stats.sPower > 90: wpn.weapon_stats.sPower = 90; 		tryit = true
+		if wpn.weapon_stats.sSpeed > 90: wpn.weapon_stats.sSpeed = 90; 		tryit = true
+		if wpn.weapon_stats.sAffix > 90: wpn.weapon_stats.sAffix = 90; 		tryit = true
+		if wpn.weapon_stats.sAmmo > 90: wpn.weapon_stats.sAmmo = 90; 		tryit = true
 		
 		## after 10 tries it gives up on fitting the points, and points are lost.
 		if !tryit || tries <= 0: 	remain_points -= 1
-		else:						tries -= 1 
+		else:						tries -= 1
 	
 	## Save points used.
-	wpn.pts = points
+	#wpn.pts = points ## FIXME
+	
+	# Check scr_combat_weapons_prepareStats
+	
+	# bullet color, temporary fix until we figure out bullet appearance better
+	## NOTE What a weird way to handle colors...
+	if wpn.weapon_stats.pBulletColor == Color.WHITE.to_html():
+		wpn.weapon_stats.pBulletColor = Color.from_hsv(
+			Color( wpn.weapon_stats.col ).h,
+			Color( wpn.weapon_stats.col ).s,
+			255 - ( (255 - Color( wpn.weapon_stats.col ).v ) /3)
+			).to_html()
+
+	# make basic stats from core stats, type and material
+	wpn.weapon_stats.pDamageMin = wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMod;
+	wpn.weapon_stats.pDamageRand = (wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMaxMod) - wpn.weapon_stats.pDamageMin
+	wpn.weapon_stats.pFireSpeed = wpn.weapon_stats.sSpeed * wpn.weapon_stats.pSpeedMod;
+	wpn.weapon_stats.pRange = (wpn.weapon_stats.sRange * wpn.weapon_stats.pRangeMod);
+	wpn.weapon_stats.pMaxAmmo = round(wpn.weapon_stats.sAmmo * wpn.weapon_stats.pAmmoMod * 1.2) + wpn.weapon_stats.pAmmoBase; # Balanced the max ammo UP to 1.2 instead of 1.0 (06/06/15)
+	wpn.weapon_stats.pCurAmmo = round(wpn.weapon_stats.pMaxAmmo); # * random_range(0.2, 0.65) is a possibility for dropped gun's...?
+	wpn.weapon_stats.pAffix = wpn.weapon_stats.sAffix * wpn.weapon_stats.pAffixMod;
+	wpn.weapon_stats.pWeight = wpn.weapon_stats.sWeight * wpn.weapon_stats.pWeightMod
+
+	@warning_ignore("narrowing_conversion")
+	wpn.weapon_stats.numberval = wpn.weapon_stats.sPower + wpn.weapon_stats.sSpeed + wpn.weapon_stats.sAmmo + wpn.weapon_stats.sAffix
+
+	if wpn.weapon_stats.bDistanceLife != -1:
+		# If bullet has distance limit, increase it with gun range
+		wpn.weapon_stats.bDistanceLife += wpn.weapon_stats.pRange * 2;
+	if wpn.weapon_stats.bTimeLife == -1:
+		# If bullet has no lifetime set, calulate it based on distance and speed
+		wpn.weapon_stats.bTimeLife = (wpn.weapon_stats.bDistanceLife / wpn.weapon_stats.bSpeed) * 4;
+
+	wpn.weapon_stats.bShadow = 0 # 1.5*pBulletScale; # bullet shadow
 	
 ## Apply the name to the gun
 static func apply_name( wpn : B2_Weapon, options : Dictionary = {} ) -> void:
@@ -1009,10 +1048,10 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B
 			gun_name = "WILM"
 		"estherGun": # You get this for free from Wilmer
 			gun_db_name = "esthers gun"
-			gun_name = "ESTR"    
+			gun_name = "ESTR"
 		"wilmerPax1": # PAX2015 - Get this from Wilmer also
 			gun_db_name = "generic pistol"
-			gun_name = "URGH"    
+			gun_name = "URGH"
 		"wilmerPax2": # PAX2015 - Get this from Wilmer also
 			gun_db_name = "generic automatic"
 			gun_name = "ZOAL"

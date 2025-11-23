@@ -108,14 +108,20 @@ func shoot_gun( enabled : bool ) -> void:
 	if not get_room_pacify():
 		if B2_Gun.has_any_guns() and B2_Input.player_has_control:
 			if curr_STATE == STATE.AIM:
-				curr_STATE = STATE.SHOOT
+				if enabled:
+					curr_STATE = STATE.SHOOT
+					
+				gun_handler.shoot_gun( enabled )
+				
+				## Reset vars.
 				var my_aim := Vector2.ZERO
 				if curr_aim != Vector2.ZERO:	my_aim = curr_aim
 				else: 							my_aim = last_aim
-				gun_handler.shoot_gun( enabled )
+				
 				#gun_handler.use_normal_attack( combat_weapon.global_position, my_aim, self ) ## TODO fix this. 
-				if curr_STATE == STATE.SHOOT:
-					curr_STATE = STATE.AIM
+				if enabled:
+					if curr_STATE == STATE.SHOOT:
+						curr_STATE = STATE.AIM
 	
 ## Very similar to normal animation control, but with some more details related to the diffferent body parts.
 func combat_walk_animation(delta : float):

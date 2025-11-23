@@ -2,7 +2,23 @@ extends Resource
 class_name B2_WeaponStats
 ## Class to hold Weapon data.
 # Should be similar to the gun[?, "example dictionary from the original game.
+# check scr_combat_weapons_new
 # check scr_combat_weapons_resetStats
+
+## Weapon stats, thats what goes up as you fuse gun's and raise levels on em.
+@export var sPower  			: float = 30
+@export var sSpeed  			: float = 30
+@export var sRange  			: float = 30
+@export var sAmmo  				: float = 30
+@export var sAffix  			: float = 30
+@export var sWeight  			: float = 3
+@export var pEquipped 			:= false
+
+@export var numberval 			:= 0; 		## TODO
+@export var rarity 				:= 0; 		## TODO
+@export var pointsUsed 			:= 0; 		## TODO
+
+#scr_combat_weapons_resetStats(gun);
 
 ## Charge variables
 @export var pChargeGain 			:= "cg_shot";
@@ -45,9 +61,32 @@ class_name B2_WeaponStats
 @export var pBulletSprite 			:= "s_bull"
 @export var pBulletBurst 			:= "s_ricochet"
 
-@export var col 					: String = ""; ####blend color of gun sprite in the hud
-@export var gunheldcol 				: String = ""; ####blend color of gun held in hoopz hands
+@export var col 					: String = Color.WHITE.to_html(); ####blend color of gun sprite in the hud
+@export var gunheldcol 				: String = Color.WHITE.to_html(); ####blend color of gun held in hoopz hands
 @export var bulscale 				: float = 1;
+
+## Material
+@export var gunheldcol1 			: String = ""
+@export var displaySpots  			: bool = false
+@export var gunheldcol3  			: String = ""
+@export var displayParts  			: bool = false
+@export var gunheldcol2  			: String = ""
+
+@export var normalFlame  			: bool = false
+@export var specialFlame  			: bool = false
+@export var sound_normalPitchDmg 	: float = 1
+@export var specialBFG  			: bool = false
+@export var specialFlaregun  		: bool = false
+@export var specialRocket  			: bool = false
+
+@export var speedBonus 				: float = 1
+
+## Type
+@export var soundLoop 				:= false
+@export var bExplodeDamageMod 		:= 1.0	## NOTE Huge mess. Both scr_combat_weapons_applyGraphic and scr_combat_weapons_applyType change this value.
+@export var bUseMoveOffset 			: bool = false
+@export var periodic_mutlishot 		: float = 1.0
+@export var pChargeLossTime 		: float = 1.0
 
 ## Bullet casings
 @export var readyCasing 			: int = 0;
@@ -61,13 +100,13 @@ class_name B2_WeaponStats
 @export var bcasingScale 			: float = 0.5;
 @export var bcasingCol 				: String = Color.YELLOW.to_html()
 
-####Position into gunspace
+#### Position into gunspace
 @export var pGunspaceX 				: float = 0;
 @export var pGunspaceY 				: float = 0;
 
 @export var pBurstSpeed 			: float = 0;
 
-####stat ratios. Modified by weapon material, type and affixes.
+#### stat ratios. Modified by weapon material, type and affixes.
 @export var pPowerMod 				: float = 1;
 @export var pPowerMaxMod 			: float = 1;
 @export var pSpeedMod 				: float = 1;
@@ -82,10 +121,11 @@ class_name B2_WeaponStats
 
 @export var pKnockback 				: float = 0;
 @export var pStagger 				: float = 1;
+@export var pStaggerHardness 		: float = 1
 @export var pRecoil 				: float = 0.3;
 
-####Stats used directly for the weapon behavior. Built from the weapon stats, ratios and affixes.
-@export var pPattern 				= "pt_norm" ##/basic pattern of shooting
+#### Stats used directly for the weapon behavior. Built from the weapon stats, ratios and affixes.
+@export var pPattern 				= "pt_norm" ## basic pattern of shooting
 
 @export var pSpreadAmount 			: float = 0; 	# angle of shooting spread, in degrees. Low accuracy means the bullets are less predictable in the spread.
 @export var pShots 					: float = 1; 	# maximum number of shots fired at a time. They are evenly distributed on the spread amount. If more than one shot is fired, they have a random start position.
@@ -129,13 +169,13 @@ class_name B2_WeaponStats
 ## the following values are the NORMAL bullet defaults.
 ## FOLLOWING NUMBERS ARE THE SIMPLE BULLET STATS.
 @export var bLongTimeOut 		:= false;
-@export var bDistanceLife 		: float = 30; ##/distance the bullet travels before destroying itself.
-@export var bTimeLife 			: float = -1; ##/number of steps before the bullet destroys itself
+@export var bDistanceLife 		: float = 30; ## distance the bullet travels before destroying itself.
+@export var bTimeLife 			: float = -1; ## number of steps before the bullet destroys itself
 
-@export var bSpeed 				: float = 56;## initial speed the bullet travels at every step. I feel 56 is a good starting point! Bhroom
-@export var bAccel 				: float = 0; ##/bullet acceleration at every step (or deceleration)
-@export var bMaxSpeed 			: float = 86; ##doubled from 48 (after Bisse's bullet code fix 120414)
-@export var bMinSpeed 			: float = 24; ##doubled as well
+@export var bSpeed 				: float = 56;	## initial speed the bullet travels at every step. I feel 56 is a good starting point! Bhroom
+@export var bAccel 				: float = 0; 	## bullet acceleration at every step (or deceleration)
+@export var bMaxSpeed 			: float = 86; 	## doubled from 48 (after Bisse's bullet code fix 120414)
+@export var bMinSpeed 			: float = 24; 	## doubled as well
 
 @export var damageRatio 		: float = 1;
 

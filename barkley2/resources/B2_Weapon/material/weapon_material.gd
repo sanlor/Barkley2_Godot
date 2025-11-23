@@ -1,9 +1,8 @@
-extends B2_WeaponStats
-class_name B2_WeaponMaterial
+#extends B2_WeaponStats
+#class_name B2_WeaponMaterial
+extends Resource
 
 ## Oh boy. There are a lot of conditioning stuff to apply speccial effects / behaviour depending on the gun type (Flamethrower for example).
-
-
 @export var _pow 			:= 1.0
 @export var _pmx 			:= 1.0
 @export var _spd 			:= 1.0

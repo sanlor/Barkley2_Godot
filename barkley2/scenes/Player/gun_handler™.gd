@@ -11,6 +11,9 @@ class_name B2_GunHandler
 
 ## NOTE Enemies should be ale to use this too.
 
+signal spin_up_now(		) # Used to play the spin up sfx and the sustain sfx
+signal spin_down_now(	) # used to play the spin down sfx
+
 const O_BULLET 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
 const O_CASINGS 	:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
 const S_FLASH 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/muzzle_flash/s_flash.tscn")
@@ -63,6 +66,13 @@ var is_shooting 	:= false 	## Is the players activally shooting?
 var curr_gun 		: B2_Weapon
 var source_actor	: B2_CombatActor
 
+## SFX control
+var currently_playing	:= ""		## Keep track of which SFX is playhing right now
+var windupSound 		:= ""		## Wind up SFX (Ex.: Minigun)
+var winddownSound 		:= ""		## Wind down SFX (Ex.: Minigun)
+var sustainSound 		:= ""		## Wind Sustain SFX (Ex.: Minigun)
+var spinning_up			:= false	## Used to check if the Wind up or Sustain should be played.
+
 func _ready() -> void:
 	pre_shooting_timer.one_shot			= true
 	firing_rate.one_shot				= true
@@ -86,19 +96,18 @@ func select_gun( force_gun : B2_Weapon ) -> void:
 		
 ## Actor is shooting a gun (or not, it depends on the "action" var)
 func shoot_gun( action : bool ) -> void:
-	if action:
-		if pre_attack_action( action ):
-			
-			attack_action()
+	if pre_attack_action( action ):
+		
+		attack_action()
 		
 		
 ## Check combat_gunwield_firing
 # Perform speccific checks and actions before firing a gun.
 @warning_ignore("unused_parameter")
 func pre_attack_action( action : bool ) -> bool:
-	var windupSound 	:= curr_gun.weapon_stats.windupSound
-	var winddownSound 	:= curr_gun.weapon_stats.winddownSound
-	var sustainSound 	:= curr_gun.weapon_stats.sustainSound
+	windupSound 	= curr_gun.windupSound
+	winddownSound 	= curr_gun.winddownSound
+	sustainSound 	= curr_gun.sustainSound
 	
 	var pWindUp 		:= curr_gun.weapon_stats.pWindUp
 	
@@ -125,12 +134,8 @@ func pre_attack_action( action : bool ) -> bool:
 			
 			if pWindUp < 100.0:
 				if not windupSound.is_empty():
-					#if (triggerPressed || !audio_is_playing_ext(windupSound)):
-					#	audio_stop_sound_ext(windupSound);
-					#	if(gun[? "pWindUp"] <= 60) 
-					#		audio_play_sound_on_actor(actor,windupSound,false,90);
-					#		audio_sound_gain_ext(windupSound,1,0);
-					pass
+					if pWindUp <= 60.0:
+						spin_up_now.emit()
 			
 				## Wind up gun
 				# Increase the gun Windup variable. NOTE this need to be tweaked to work on this new system.
@@ -143,7 +148,7 @@ func pre_attack_action( action : bool ) -> bool:
 				pass # TODO audio_sound_gain_ext(windupSound,0,500);
 			if pWindUp > 60:
 				if not winddownSound.is_empty(): # TODO && !audio_is_playing_ext(winddownSound)) {
-					pass # TODO audio_play_sound_on_actor(actor,winddownSound,false,90);
+					spin_down_now.emit()
 			# gun[? "reloaded"] = false;
 			if pWindUp > 4:
 				pWindUp -= 24 * get_physics_process_delta_time() * windupModifier
@@ -158,13 +163,16 @@ func pre_attack_action( action : bool ) -> bool:
 				#if(audio_is_playing_ext(sustainSound))
 				#	audio_stop_sound_ext(sustainSound);
 	
+	curr_gun.weapon_stats.pWindUp = pWindUp
+	print( curr_gun.weapon_stats.pWindUp )
+	
 	## delayed shot: flintlocks etc
 	if delayTimer > 0:
 		pass
 		
 	## Actually shoot the gun.
 	## TODO
-	return true
+	return action 
 	
 @warning_ignore("unused_parameter")
 func post_attack_action() -> void:
@@ -349,6 +357,36 @@ func _on_post_shooting_timer_timeout() -> void:
 	pass # Replace with function body.
 #endregion
 
-## TODO
+func _spin_up_sfx_requested() -> void:
+	spinning_up = true
+	if gun_noises_stream.playing: gun_noises_stream.stop()
+			
+	if not windupSound.is_empty() and currently_playing != windupSound:
+		var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( windupSound )
+		sfx.loop = false
+		gun_noises_stream.stream = sfx
+		gun_noises_stream.play()
+		currently_playing = windupSound
+
+func _spin_down_sfx_requested() -> void:
+	spinning_up = false
+	if gun_noises_stream.playing: gun_noises_stream.stop()
+			
+	if not winddownSound.is_empty() and currently_playing != winddownSound:
+		var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( winddownSound )
+		sfx.loop = false
+		gun_noises_stream.stream = sfx
+		gun_noises_stream.play()
+		currently_playing = winddownSound
+
 func _on_gun_noises_stream_finished() -> void:
-	pass # Replace with function body.
+	if spinning_up:
+		spinning_up = false
+		if gun_noises_stream.playing: gun_noises_stream.stop()
+		
+		if not sustainSound.is_empty() and currently_playing != sustainSound:
+			var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( sustainSound )
+			sfx.loop = true
+			gun_noises_stream.stream = sfx
+			gun_noises_stream.play()
+			currently_playing = sustainSound

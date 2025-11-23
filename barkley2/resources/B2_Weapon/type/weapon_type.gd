@@ -1,13 +1,14 @@
 ## Class used to apply different gun type stat modifiers
-extends B2_WeaponStats
-class_name B2_WeaponType
+#extends B2_WeaponStats
+#class_name B2_WeaponType
+extends Resource
 
 ## NOTE What a mess.
 # Its hard to manage weapons like this. The way that B2 handles weapon modifiers, effects and special behaviours isnt very good.
 # Im having a hard time trying to port the behaviour to this version.
+# check scr_combat_weapons_applyType
 
 ## TODO Figure this shit out.
-
 @export var speedBonus		:= 1.0
 @export var _riflebonus 	:= 1.5
 @export var _pow 			:= 1.0
