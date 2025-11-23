@@ -170,6 +170,9 @@ one_shot = true
 [node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
 one_shot = true
 
+[node name="gun_noises_stream" type="AudioStreamPlayer" parent="Gun_Handler™"]
+bus = &"Audio"
+
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
 scale = Vector2(0.4, 0.2)
 
@@ -297,5 +300,6 @@ one_shot = true
 [node name="i_frame_timer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="finished" from="Gun_Handler™/gun_noises_stream" to="Gun_Handler™" method="_on_gun_noises_stream_finished"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

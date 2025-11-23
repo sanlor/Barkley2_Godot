@@ -17,7 +17,8 @@ signal hoopz_got_hit ## Used during combat, for action canceling.
 signal hoopz_was_killed ## Used for combat, to let the workd know that hoopz died.
 
 ## Gun events (Was in B2_PlayerData)
-signal gun_changed
+signal gun_changed			## Player selected a new gun
+signal gun_owned_changed	## Player gained or lost a gun
 
 ## Quest events (Was in B2_PlayerData)
 signal quest_updated

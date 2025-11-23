@@ -66,9 +66,8 @@ func _changed_state():
 		_update_flashlight()
 	
 func _ai_ranged_attack( enabled : bool ) -> void:
-	if enabled:
-		if curr_STATE == STATE.AIM:
-			shoot_gun()
+	if curr_STATE == STATE.AIM:
+		shoot_gun( enabled )
 		
 func _ai_aim_ranged( enabled : bool ) -> void:
 	if curr_STATE == STATE.NORMAL:
@@ -98,14 +97,14 @@ func start_aiming() -> void:
 			aim_reticle.show()
 
 func stop_aiming() -> void:
-		curr_STATE = STATE.NORMAL
-		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
-		B2_Sound.play_pick("hoopz_swapguns")
-		aim_reticle.hide()
+	curr_STATE = STATE.NORMAL
+	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+	B2_Sound.play_pick("hoopz_swapguns")
+	aim_reticle.hide()
 	
 ## Debug function. Should not be used normaly.
 ## Maybe not so debug anymore
-func shoot_gun() -> void:
+func shoot_gun( enabled : bool ) -> void:
 	if not get_room_pacify():
 		if B2_Gun.has_any_guns() and B2_Input.player_has_control:
 			if curr_STATE == STATE.AIM:
@@ -113,7 +112,8 @@ func shoot_gun() -> void:
 				var my_aim := Vector2.ZERO
 				if curr_aim != Vector2.ZERO:	my_aim = curr_aim
 				else: 							my_aim = last_aim
-				gun_handler.use_normal_attack( combat_weapon.global_position, my_aim, self ) ## TODO fix this. 
+				gun_handler.shoot_gun( enabled )
+				#gun_handler.use_normal_attack( combat_weapon.global_position, my_aim, self ) ## TODO fix this. 
 				if curr_STATE == STATE.SHOOT:
 					curr_STATE = STATE.AIM
 	

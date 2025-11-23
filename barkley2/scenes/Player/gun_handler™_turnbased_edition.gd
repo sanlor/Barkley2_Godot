@@ -6,7 +6,7 @@ signal attack_finished
 
 # GunHandler version to manage the turnbased gameplay
 
-func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_CombatActor ) -> void:
+func use_normal_attack( casing_pos : Vector2, dir : Vector2 ) -> void:
 	if not curr_gun:
 		push_error("Gun resource not loaded correctly.")
 		await get_tree().process_frame
@@ -58,7 +58,7 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_C
 				var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
 				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 				
-				_create_bullet( source_pos, b_dir, source_actor )
+				_create_bullet( source_pos, b_dir )
 		else:
 			## Out of ammo.
 			B2_Sound.play( "hoopz_click" )
@@ -75,7 +75,7 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2, source_actor : B2_C
 	is_shooting = false
 	attack_finished.emit()
 
-func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill, source_actor : B2_CombatActor ) -> void:
+func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill ) -> void:
 	if not curr_gun:
 		push_error("Gun resource not loaded correctly.")
 		await get_tree().process_frame
@@ -129,7 +129,7 @@ func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill,
 			var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
 			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 			
-			_create_bullet( source_pos, b_dir, source_actor, skill )
+			_create_bullet( source_pos, b_dir, skill )
 		else:
 			## Out of ammo.
 			B2_Sound.play( "hoopz_click" )

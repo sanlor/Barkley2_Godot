@@ -305,7 +305,7 @@ func _shoot_projectile( source_actor : B2_CombatActor, target : Vector2, finish_
 	if is_instance_valid( source_actor ):
 		lock_player_action = true
 		# gun_handler.select_gun( used_weapon ) ## NOTE This was breaking the gun selection stuff.
-		gun_handler.use_normal_attack( casing_pos, aim_direction, source_actor )
+		gun_handler.use_normal_attack( casing_pos, aim_direction )
 		await gun_handler.attack_finished
 		if finish_action: finish_action.call() ## Avoid calling invalid functions.
 		lock_player_action = false
@@ -346,7 +346,7 @@ func _use_skill( source_actor : B2_CombatActor, target : Vector2, used_skill : B
 		lock_player_action = true
 		# used_skill.action( source_actor.get_parent(), casing_pos, muzzle_pos, aim_direction, source_actor )
 		# await used_skill.action_finished ## Wait for the skill to finish and shiet.
-		gun_handler.use_gun_skill( casing_pos, aim_direction, used_skill, source_actor )
+		gun_handler.use_gun_skill( casing_pos, aim_direction, used_skill )
 		await gun_handler.attack_finished ## Wait for the skill to finish and shiet.
 		if finish_action: finish_action.call() ## Avoid calling invalid functions.
 		lock_player_action = false

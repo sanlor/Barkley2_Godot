@@ -1100,6 +1100,7 @@ static func append_gun_to_bandolier( wpn : B2_Weapon ) -> void:
 	if B2_Playerdata.bandolier.size() > BANDOLIER_SIZE:
 		B2_Playerdata.bandolier.pop_front() ## Remove the first gun from the bandolier.
 		print("B2_Gun: Bandolier full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
+	B2_SignalBus.gun_owned_changed.emit()
 
 ## Add generate a gun and add it to bandolier.
 static func add_gun_to_gunbag( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> void: ## TODO
@@ -1111,6 +1112,7 @@ static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
 	if B2_Playerdata.gun_bag.size() > GUNBAG_SIZE:
 		B2_Playerdata.gun_bag.pop_front() ## Remove the first gun from the gunbag
 		print("B2_Gun: Gunbag full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
+	B2_SignalBus.gun_owned_changed.emit()
 	
 	
 ## remove specific gun from inventory
@@ -1122,6 +1124,7 @@ static func remove_gun( wpn : B2_Weapon ) -> void:
 static func remove_gun_from_bandolier( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.bandolier.erase( wpn )
 	B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
+	B2_SignalBus.gun_owned_changed.emit()
 	
 static func remove_gun_from_gunbag( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.gun_bag.erase( wpn )
@@ -1129,6 +1132,7 @@ static func remove_gun_from_gunbag( wpn : B2_Weapon ) -> void:
 	if has_gun_in_gunbag(): # Gun removed. there are any guns in the gunbag?
 		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 	elif B2_Playerdata.gunbag_open: toggle_gunbag()
+	B2_SignalBus.gun_owned_changed.emit()
 
 static func clear_guns() -> void:
 	B2_Playerdata.bandolier.clear()

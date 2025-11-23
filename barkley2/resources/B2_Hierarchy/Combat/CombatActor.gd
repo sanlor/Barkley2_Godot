@@ -131,6 +131,10 @@ func get_room_pacify() -> bool:
 		push_warning("Parent is not a B2_ROOMS.")
 		return false
 
+## Source from ranged projectiles. Used mostly by Hoopz
+func get_attack_origin() -> Vector2:
+	return Vector2.ZERO
+
 func apply_curr_input( dir : Vector2 ) -> void:
 	curr_input = dir
 	

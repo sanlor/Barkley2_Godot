@@ -104,6 +104,7 @@ class_name B2_WeaponStats
 @export var pRange 					: float = 1;
 @export var pFireSpeed 				: float = 0;
 @export var pFireDelay 				: float = 0;
+@export var pShotDelay 				: float = 0.0;
 @export var pAimMod 				: float = 0;
 @export var bRangeEndGrav 			: float = 7;
 @export var pAffix 					: float = 0;

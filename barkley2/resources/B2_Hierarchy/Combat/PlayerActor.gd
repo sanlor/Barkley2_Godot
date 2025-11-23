@@ -277,7 +277,11 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 ## Used to know where should a bullet spawn
 func get_muzzle_position() -> Vector2:
 	return gun_muzzle.global_position
-			
+
+## Used to know where the gun currlently is.
+func get_attack_origin() -> Vector2:
+	return combat_weapon.global_position
+
 func normal_animation(delta : float):
 	var input := (curr_input * 2.5).normalized().round()
 	
