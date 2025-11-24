@@ -885,6 +885,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	wpn.max_ammo *= 3
 	wpn.curr_ammo = wpn.max_ammo
 	
+	#print( JSON.from_native(wpn.weapon_stats, true) )
+	
 	## Apply generic genes
 	B2_Gun_Genes.apply_genes( wpn, 6 ) # <- Is this needed?
 	

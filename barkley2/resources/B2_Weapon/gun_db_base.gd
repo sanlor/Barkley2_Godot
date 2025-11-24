@@ -2,6 +2,9 @@ extends Resource
 class_name B2_Gun_Base
 ## Resource created to organize some miscelaneous functions.
 
+const BUFFER_SIZE		:= 32000
+const COMPRESS_MODE 	:= FileAccess.CompressionMode.COMPRESSION_DEFLATE
+
 #region save and load guns.
 static func save_guns() -> void:
 	var gun_array := []
@@ -45,6 +48,9 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	gun_dict[ "weapon_type" ] 			= var_to_str( gun.weapon_type )
 	gun_dict[ "weapon_material" ] 		= var_to_str( gun.weapon_material )
 	gun_dict[ "weapon_group" ]			= var_to_str( gun.weapon_group )
+	#gun_dict[ "weapon_stats" ]			= JSON.from_native(gun.weapon_stats, true)
+	var stats							:= var_to_bytes_with_objects(gun.weapon_stats).compress( COMPRESS_MODE )
+	gun_dict[ "weapon_stats" ]			= var_to_str(stats)
 
 	gun_dict[ "weapon_name" ] 			= var_to_str( gun.weapon_name )
 	gun_dict[ "weapon_short_name" ] 	= var_to_str( gun.weapon_short_name )
@@ -63,8 +69,8 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	gun_dict[ "max_action" ] 			= var_to_str( gun.max_action )
 	gun_dict[ "curr_action" ] 			= var_to_str( gun.curr_action )
 
-	gun_dict[ "max_ammo" ] 				= var_to_str( gun.max_ammo )
-	gun_dict[ "curr_ammo" ] 			= var_to_str( gun.curr_ammo )
+	#gun_dict[ "max_ammo" ] 				= var_to_str( gun.max_ammo )
+	#gun_dict[ "curr_ammo" ] 			= var_to_str( gun.curr_ammo )
 
 	gun_dict[ "attack_cost" ] 			= var_to_str( gun.attack_cost )
 	
@@ -81,10 +87,16 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	
 	gun_dict[ "favorite" ] 				= var_to_str( gun.favorite )
 	gun_dict[ "generation" ] 			= var_to_str( gun.generation )
-	gun_dict[ "son" ] 					= var_to_bytes( gun.son 			).compress()
-	gun_dict[ "lineage_top" ] 			= var_to_bytes( gun.lineage_top 	).compress()
-	gun_dict[ "lineage_bot" ] 			= var_to_bytes( gun.lineage_bot 	).compress()
-	gun_dict[ "dominant_genes" ] 		= var_to_bytes( gun.dominant_genes 	).compress()
+	
+	var son								:= var_to_bytes(gun.son).compress( COMPRESS_MODE )
+	gun_dict[ "son" ] 					= var_to_str( son )
+	var lineage_top						:= var_to_bytes(gun.lineage_top).compress( COMPRESS_MODE )
+	gun_dict[ "lineage_top" ] 			= var_to_str( lineage_top )
+	var lineage_bot						:= var_to_bytes(gun.lineage_bot).compress( COMPRESS_MODE )
+	gun_dict[ "lineage_bot" ] 			= var_to_str( lineage_bot )
+	var dominant_genes					:= var_to_bytes(gun.dominant_genes).compress( COMPRESS_MODE )
+	gun_dict[ "dominant_genes" ] 		= var_to_str( dominant_genes )
+	
 	gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos )
 
 	gun_dict[ "bullets_per_shot" ] 		= var_to_str( gun.bullets_per_shot )
@@ -99,6 +111,14 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	gun.weapon_type 					= str_to_var( gun_dict.get( "weapon_type") )
 	gun.weapon_material 				= str_to_var( gun_dict.get( "weapon_material" ) )
 	gun.weapon_group 					= str_to_var( gun_dict.get( "weapon_group" ) )
+	#gun.weapon_stats 					= JSON.to_native( gun_dict.get( "weapon_stats" ), true)
+	var stats							: PackedByteArray = str_to_var( gun_dict.get( "weapon_stats") )
+	if bytes_to_var_with_objects( stats.decompress(BUFFER_SIZE, COMPRESS_MODE ) ) is B2_WeaponStats:
+		gun.weapon_stats				= bytes_to_var_with_objects( stats.decompress(BUFFER_SIZE, COMPRESS_MODE) ) as B2_WeaponStats
+	else:
+		gun.weapon_stats 				= B2_WeaponStats.new()
+		push_error( "Error while loading gun stats." )
+
 
 	gun.weapon_name 					= str_to_var( gun_dict.get( "weapon_name" ) )
 	gun.weapon_short_name 				= str_to_var( gun_dict.get( "weapon_short_name" ) )
@@ -108,17 +128,17 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	gun.prefix1 						= str_to_var( gun_dict.get( "prefix1" ) )
 	gun.prefix2 						= str_to_var( gun_dict.get( "prefix2" ) )
 	gun.suffix 							= str_to_var( gun_dict.get( "suffix" ) )
-	gun.att 							= str_to_var( gun_dict.get( "att" ) )
-	gun.spd 							= str_to_var( gun_dict.get( "spd" ) )
-	gun.acc 							= str_to_var( gun_dict.get( "acc" ) )
-	gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
-	gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
+	#gun.att 							= str_to_var( gun_dict.get( "att" ) )
+	#gun.spd 							= str_to_var( gun_dict.get( "spd" ) )
+	#gun.acc 							= str_to_var( gun_dict.get( "acc" ) )
+	#gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
+	#gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
 
 	gun.max_action 						= str_to_var( gun_dict.get( "max_action" ) )
 	gun.curr_action 					= str_to_var( gun_dict.get( "curr_action" ) )
 
-	gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
-	gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
+	#gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
+	#gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
 
 	gun.attack_cost 					= str_to_var( gun_dict.get( "attack_cost" ) )
 	
@@ -137,14 +157,22 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	gun.favorite 						= str_to_var( gun_dict.get( "favorite" ) )
 	gun.generation 						= str_to_var( gun_dict.get( "generation" ) )
 	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
-	if gun_dict.get( "son" 				) is Array:
-		gun.son 							= bytes_to_var( gun_dict.get( "son" 			).decompress(32000) )
-	if gun_dict.get( "lineage_top" 		) is Array:
-		gun.lineage_top 					= bytes_to_var( gun_dict.get( "lineage_top" 	).decompress(32000) )
-	if gun_dict.get( "lineage_bot" 		) is Array:
-		gun.lineage_bot 					= bytes_to_var( gun_dict.get( "lineage_bot" 	).decompress(32000) )
-	if gun_dict.get( "dominant_genes" 	) is Array:
-		gun.dominant_genes 					= bytes_to_var( gun_dict.get( "dominant_genes" 	).decompress(32000) )
+		
+	var son : PackedByteArray 			= str_to_var( gun_dict.get( "son") )
+	if bytes_to_var( son.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
+		gun.son							= bytes_to_var( son.decompress(BUFFER_SIZE, COMPRESS_MODE) )
+		
+	var lineage_top : PackedByteArray 	= str_to_var( gun_dict.get( "lineage_top") )
+	if bytes_to_var( lineage_top.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
+		gun.lineage_top					= bytes_to_var( lineage_top.decompress(BUFFER_SIZE, COMPRESS_MODE) )
+		
+	var lineage_bot : PackedByteArray 	= str_to_var( gun_dict.get( "lineage_bot") )
+	if bytes_to_var( lineage_bot.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
+		gun.lineage_bot					= bytes_to_var( lineage_bot.decompress(BUFFER_SIZE, COMPRESS_MODE) )
+		
+	var dominant_genes: PackedByteArray = str_to_var( gun_dict.get( "dominant_genes") )
+	if bytes_to_var( dominant_genes.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Array:
+		gun.dominant_genes				= bytes_to_var( dominant_genes.decompress(BUFFER_SIZE, COMPRESS_MODE) )
 
 	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
 	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )
