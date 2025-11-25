@@ -45,139 +45,116 @@ static func load_guns() -> void:
 ## TODO HANDLE SKILLS
 static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	var gun_dict := Dictionary()
-	gun_dict[ "weapon_type" ] 			= var_to_str( gun.weapon_type )
-	gun_dict[ "weapon_material" ] 		= var_to_str( gun.weapon_material )
-	gun_dict[ "weapon_group" ]			= var_to_str( gun.weapon_group )
-	#gun_dict[ "weapon_stats" ]			= JSON.from_native(gun.weapon_stats, true)
-	var stats							:= var_to_bytes_with_objects(gun.weapon_stats).compress( COMPRESS_MODE )
-	gun_dict[ "weapon_stats" ]			= var_to_str(stats)
+	gun_dict[ "weapon_type" ] 			= gun.weapon_type
+	gun_dict[ "weapon_material" ] 		= gun.weapon_material
+	gun_dict[ "weapon_group" ]			= gun.weapon_group
+	gun_dict[ "weapon_stats" ]			= gun.weapon_stats.stat_to_dict()
 
-	gun_dict[ "weapon_name" ] 			= var_to_str( gun.weapon_name )
-	gun_dict[ "weapon_short_name" ] 	= var_to_str( gun.weapon_short_name )
-	gun_dict[ "weapon_pickup_name" ] 	= var_to_str( gun.weapon_pickup_name )
-	gun_dict[ "weapon_pickup_color" ] 	= var_to_str( gun.weapon_pickup_color )
+	gun_dict[ "weapon_name" ] 			= gun.weapon_name
+	gun_dict[ "weapon_short_name" ] 	= gun.weapon_short_name
+	gun_dict[ "weapon_pickup_name" ] 	= gun.weapon_pickup_name
+	gun_dict[ "weapon_pickup_color" ] 	= gun.weapon_pickup_color.to_html()
 	
-	gun_dict[ "prefix1" ] 				= var_to_str( gun.prefix1 )
-	gun_dict[ "prefix2" ] 				= var_to_str( gun.prefix2 )
-	gun_dict[ "suffix" ] 				= var_to_str( gun.suffix )
+	gun_dict[ "prefix1" ] 				= gun.prefix1
+	gun_dict[ "prefix2" ] 				= gun.prefix2
+	gun_dict[ "suffix" ] 				= gun.suffix
 	#gun_dict[ "att" ] 					= var_to_str( gun.att )
 	#gun_dict[ "spd" ] 					= var_to_str( gun.spd )
 	#gun_dict[ "acc" ] 					= var_to_str( gun.acc )
 	#gun_dict[ "afx" ] 					= var_to_str( gun.afx )
 	#gun_dict[ "wgt" ] 					= var_to_str( gun.wgt )
 
-	gun_dict[ "max_action" ] 			= var_to_str( gun.max_action )
-	gun_dict[ "curr_action" ] 			= var_to_str( gun.curr_action )
+	gun_dict[ "max_action" ] 			= gun.max_action
+	gun_dict[ "curr_action" ] 			= gun.curr_action
 
 	#gun_dict[ "max_ammo" ] 				= var_to_str( gun.max_ammo )
 	#gun_dict[ "curr_ammo" ] 			= var_to_str( gun.curr_ammo )
 
-	gun_dict[ "attack_cost" ] 			= var_to_str( gun.attack_cost )
+	gun_dict[ "attack_cost" ] 			= gun.attack_cost
 	
-	gun_dict[ "generic_damage" ] 		= var_to_str( gun.generic_damage )
-	gun_dict[ "bio_damage" ] 			= var_to_str( gun.bio_damage )
-	gun_dict[ "cyber_damage" ] 			= var_to_str( gun.cyber_damage )
-	gun_dict[ "mental_damage" ] 		= var_to_str( gun.mental_damage )
-	gun_dict[ "cosmic_damage" ] 		= var_to_str( gun.cosmic_damage )
-	gun_dict[ "zauber_damage" ] 		= var_to_str( gun.zauber_damage )
+	gun_dict[ "generic_damage" ] 		= gun.generic_damage
+	gun_dict[ "bio_damage" ] 			= gun.bio_damage
+	gun_dict[ "cyber_damage" ] 			= gun.cyber_damage
+	gun_dict[ "mental_damage" ] 		= gun.mental_damage
+	gun_dict[ "cosmic_damage" ] 		= gun.cosmic_damage
+	gun_dict[ "zauber_damage" ] 		= gun.zauber_damage
 
-	gun_dict[ "weapon_lvl" ] 			= var_to_str( gun.weapon_lvl )
-	gun_dict[ "weapon_xp" ] 			= var_to_str( gun.weapon_xp )
-	gun_dict[ "skill_list" ] 			= var_to_str( gun.skill_list )
+	gun_dict[ "weapon_lvl" ] 			= gun.weapon_lvl
+	gun_dict[ "weapon_xp" ] 			= gun.weapon_xp
+	gun_dict[ "skill_list" ] 			= gun.skill_list
 	
 	gun_dict[ "favorite" ] 				= var_to_str( gun.favorite )
-	gun_dict[ "generation" ] 			= var_to_str( gun.generation )
+	gun_dict[ "generation" ] 			= gun.generation
 	
-	var son								:= var_to_bytes(gun.son).compress( COMPRESS_MODE )
-	gun_dict[ "son" ] 					= var_to_str( son )
-	var lineage_top						:= var_to_bytes(gun.lineage_top).compress( COMPRESS_MODE )
-	gun_dict[ "lineage_top" ] 			= var_to_str( lineage_top )
-	var lineage_bot						:= var_to_bytes(gun.lineage_bot).compress( COMPRESS_MODE )
-	gun_dict[ "lineage_bot" ] 			= var_to_str( lineage_bot )
-	var dominant_genes					:= var_to_bytes(gun.dominant_genes).compress( COMPRESS_MODE )
-	gun_dict[ "dominant_genes" ] 		= var_to_str( dominant_genes )
+	gun_dict[ "son" ] 					= gun.son
+	gun_dict[ "lineage_top" ] 			= gun.lineage_top
+	gun_dict[ "lineage_bot" ] 			= gun.lineage_bot
+	gun_dict[ "dominant_genes" ] 		= gun.dominant_genes
 	
-	gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos )
+	#gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos )
 
-	gun_dict[ "bullets_per_shot" ] 		= var_to_str( gun.bullets_per_shot )
-	gun_dict[ "ammo_per_shot" ] 		= var_to_str( gun.ammo_per_shot )
-	gun_dict[ "wait_per_shot" ] 		= var_to_str( gun.wait_per_shot )
-	gun_dict[ "bullet_spread" ] 		= var_to_str( gun.bullet_spread )
+	gun_dict[ "bullets_per_shot" ] 		= gun.bullets_per_shot
+	gun_dict[ "ammo_per_shot" ] 		= gun.ammo_per_shot
+	gun_dict[ "wait_per_shot" ] 		= gun.wait_per_shot
+	gun_dict[ "bullet_spread" ] 		= gun.bullet_spread
 	return gun_dict
 	
 ## TODO HANDLE SKILLS
 static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	var gun := B2_Weapon.new()
-	gun.weapon_type 					= str_to_var( gun_dict.get( "weapon_type") )
-	gun.weapon_material 				= str_to_var( gun_dict.get( "weapon_material" ) )
-	gun.weapon_group 					= str_to_var( gun_dict.get( "weapon_group" ) )
-	#gun.weapon_stats 					= JSON.to_native( gun_dict.get( "weapon_stats" ), true)
-	var stats							: PackedByteArray = str_to_var( gun_dict.get( "weapon_stats") )
-	if bytes_to_var_with_objects( stats.decompress(BUFFER_SIZE, COMPRESS_MODE ) ) is B2_WeaponStats:
-		gun.weapon_stats				= bytes_to_var_with_objects( stats.decompress(BUFFER_SIZE, COMPRESS_MODE) ) as B2_WeaponStats
-	else:
-		gun.weapon_stats 				= B2_WeaponStats.new()
-		push_error( "Error while loading gun stats." )
+	gun.weapon_type 					= gun_dict.get( "weapon_type", B2_Gun.TYPE.GUN_TYPE_PISTOL)
+	gun.weapon_material 				= gun_dict.get( "weapon_material", B2_Gun.MATERIAL.STEEL )
+	gun.weapon_group 					= gun_dict.get( "weapon_group", B2_Gun.GROUP.PISTOLS )
+	gun.weapon_stats 					= B2_WeaponStats.new()
+	gun.weapon_stats.dict_to_stat( gun_dict.get( "weapon_stats", {} ) )
 
-
-	gun.weapon_name 					= str_to_var( gun_dict.get( "weapon_name" ) )
-	gun.weapon_short_name 				= str_to_var( gun_dict.get( "weapon_short_name" ) )
-	gun.weapon_pickup_name 				= str_to_var( gun_dict.get( "weapon_pickup_name" ) )
-	gun.weapon_pickup_color 			= str_to_var( gun_dict.get( "weapon_pickup_color" ) )
+	gun.weapon_name 					= gun_dict.get( "weapon_name", "LOAD_ERROR" )
+	gun.weapon_short_name 				= gun_dict.get( "weapon_short_name", "ERRO" )
+	gun.weapon_pickup_name 				= gun_dict.get( "weapon_pickup_name", "ERROR" )
+	gun.weapon_pickup_color 			= Color( gun_dict.get( "weapon_pickup_color", Color.WHITE.to_html() ) )
 	
-	gun.prefix1 						= str_to_var( gun_dict.get( "prefix1" ) )
-	gun.prefix2 						= str_to_var( gun_dict.get( "prefix2" ) )
-	gun.suffix 							= str_to_var( gun_dict.get( "suffix" ) )
+	gun.prefix1 						= gun_dict.get( "prefix1", "" )
+	gun.prefix2 						= gun_dict.get( "prefix2", "" )
+	gun.suffix 							= gun_dict.get( "suffix", "" )
 	#gun.att 							= str_to_var( gun_dict.get( "att" ) )
 	#gun.spd 							= str_to_var( gun_dict.get( "spd" ) )
 	#gun.acc 							= str_to_var( gun_dict.get( "acc" ) )
 	#gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
 	#gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
 
-	gun.max_action 						= str_to_var( gun_dict.get( "max_action" ) )
-	gun.curr_action 					= str_to_var( gun_dict.get( "curr_action" ) )
-
+	gun.max_action 						= gun_dict.get( "max_action" )
+	gun.curr_action 					= gun_dict.get( "curr_action" )
+	
 	#gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
 	#gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
 
-	gun.attack_cost 					= str_to_var( gun_dict.get( "attack_cost" ) )
+	gun.attack_cost 					= gun_dict.get( "attack_cost" )
 	
-	gun.generic_damage 					= str_to_var( gun_dict.get( "generic_damage" ) )
-	gun.bio_damage 						= str_to_var( gun_dict.get( "bio_damage" ) )
-	gun.cyber_damage 					= str_to_var( gun_dict.get( "cyber_damage" ) )
-	gun.mental_damage 					= str_to_var( gun_dict.get( "mental_damage" ) )
-	gun.cosmic_damage 					= str_to_var( gun_dict.get( "cosmic_damage" ) )
-	gun.zauber_damage 					= str_to_var( gun_dict.get( "zauber_damage" ) )
+	gun.generic_damage 					= gun_dict.get( "generic_damage", 	1.0 )
+	gun.bio_damage 						= gun_dict.get( "bio_damage", 		1.0 )
+	gun.cyber_damage 					= gun_dict.get( "cyber_damage", 	1.0 )
+	gun.mental_damage 					= gun_dict.get( "mental_damage", 	1.0 )
+	gun.cosmic_damage 					= gun_dict.get( "cosmic_damage", 	1.0 )
+	gun.zauber_damage 					= gun_dict.get( "zauber_damage", 	1.0 )
 
-	gun.weapon_lvl 						= str_to_var( gun_dict.get( "weapon_lvl" ) )
-	gun.weapon_xp 						= str_to_var( gun_dict.get( "weapon_xp" ) )
+	gun.weapon_lvl 						= gun_dict.get( "weapon_lvl", 		1 )
+	gun.weapon_xp 						= gun_dict.get( "weapon_xp", 		0 )
 	
-	gun.skill_list 						= str_to_var( gun_dict.get( "skill_list" ) )
+	#gun.skill_list 						= str_to_var( gun_dict.get( "skill_list" ) )
 	
-	gun.favorite 						= str_to_var( gun_dict.get( "favorite" ) )
-	gun.generation 						= str_to_var( gun_dict.get( "generation" ) )
-	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
+	gun.favorite 						= str_to_var( gun_dict.get( "favorite", "false" ) )
+	gun.generation 						= gun_dict.get( "generation", 1 )
+	#gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
 		
-	var son : PackedByteArray 			= str_to_var( gun_dict.get( "son") )
-	if bytes_to_var( son.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
-		gun.son							= bytes_to_var( son.decompress(BUFFER_SIZE, COMPRESS_MODE) )
-		
-	var lineage_top : PackedByteArray 	= str_to_var( gun_dict.get( "lineage_top") )
-	if bytes_to_var( lineage_top.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
-		gun.lineage_top					= bytes_to_var( lineage_top.decompress(BUFFER_SIZE, COMPRESS_MODE) )
-		
-	var lineage_bot : PackedByteArray 	= str_to_var( gun_dict.get( "lineage_bot") )
-	if bytes_to_var( lineage_bot.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Dictionary:
-		gun.lineage_bot					= bytes_to_var( lineage_bot.decompress(BUFFER_SIZE, COMPRESS_MODE) )
-		
-	var dominant_genes: PackedByteArray = str_to_var( gun_dict.get( "dominant_genes") )
-	if bytes_to_var( dominant_genes.decompress(BUFFER_SIZE, COMPRESS_MODE) ) is Array:
-		gun.dominant_genes				= bytes_to_var( dominant_genes.decompress(BUFFER_SIZE, COMPRESS_MODE) )
+	gun.son							= gun_dict.get( "son", {} )
+	gun.lineage_top					= gun_dict.get( "lineage_top", {} )
+	gun.lineage_bot					= gun_dict.get( "lineage_bot", {} )
+	gun.dominant_genes				= gun_dict.get( "dominant_genes", [] )
 
-	gun.bullets_per_shot 				= str_to_var( gun_dict.get( "bullets_per_shot" ) )
-	gun.ammo_per_shot 					= str_to_var( gun_dict.get( "ammo_per_shot" ) )
-	gun.wait_per_shot 					= str_to_var( gun_dict.get( "wait_per_shot" ) )
-	gun.bullet_spread 					= str_to_var( gun_dict.get( "bullet_spread" ) )
+	gun.bullets_per_shot 				= gun_dict.get( "bullets_per_shot" )
+	gun.ammo_per_shot 					= gun_dict.get( "ammo_per_shot" )
+	gun.wait_per_shot 					= gun_dict.get( "wait_per_shot" )
+	gun.bullet_spread 					= gun_dict.get( "bullet_spread" )
 	return gun
 #endregion
 

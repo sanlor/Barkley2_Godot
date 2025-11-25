@@ -229,7 +229,7 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	selected_slot = slot
 	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )
 	#var json := JSON.new()
-	savefile.store_string( JSON.stringify( usersavefile, "\t" ) )
+	savefile.store_string( JSON.stringify( usersavefile, "\t", false ) )
 	savefile.close()
 	print_rich( "[color=blue]Game savedusing slot %s.[/color]" % slot )
 	

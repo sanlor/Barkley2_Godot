@@ -259,3 +259,31 @@ class_name B2_WeaponStats
 
 ## Script to perform each step
 @export var stepScript 			:= "";
+
+func stat_to_dict() -> Dictionary:
+	var my_dict := {}
+	var properties := get_property_list()
+	for my_var : Dictionary in properties:
+		## Ignore useless items
+		match my_var["name"]:
+			"RefCounted", "Resource", "resource_local_to_scene", "resource_path", "resource_name", "resource_scene_unique_id", "script", "weapon_stats.gd":
+				continue
+		var my_value = get( my_var["name"] )
+		if my_value is String or my_value is int or my_value is float:
+			my_dict[ my_var["name"] ] = get( my_var["name"] )
+		else:
+			my_dict[ my_var["name"] ] = var_to_str( get(my_var["name"]) )
+	pass
+	return my_dict
+
+func dict_to_stat( my_dict ) -> void:
+	if my_dict is Dictionary:
+		for my_var : String in my_dict.keys():
+			var my_value = get(my_var)
+			if my_value is String or my_value is int or my_value is float:
+				set( my_var, my_dict[my_var] )
+			else:
+				set( my_var, str_to_var( my_dict[my_var] ) )
+	else:
+		push_error("Error loading a dictionary. -> ", my_dict)
+	
