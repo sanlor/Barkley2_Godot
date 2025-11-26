@@ -24,11 +24,11 @@ var debug_messages := false
 ## Godot stuff
 @export var audio_folder := "res://barkley2/assets/b2_original/audio/"
 
-const SOUNDBANK 		= preload("res://barkley2/resources/B2_Sound/soundbank.json")
-const SOUNDPICK 		= preload("res://barkley2/resources/B2_Sound/soundpick.json")
+const SOUNDBANK 			:= preload("res://barkley2/resources/B2_Sound/soundbank.json")
+const SOUNDPICK 			:= preload("res://barkley2/resources/B2_Sound/soundpick.json")
 
-var sound_bank := {} ## all sounds that the game has.
-var sound_pick := {} ## Allow for multipls sounds for the same effect (Like footsteps having random sounds each step)
+var sound_bank 				:= {} ## all sounds that the game has.
+var sound_pick 				:= {} ## Allow for multipls sounds for the same effect (Like footsteps having random sounds each step)
 
 var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
 var sound_pool_amount 		:= 50
@@ -105,6 +105,7 @@ func get_sound(soundID : String) -> String:
 	else:
 		return ""
 	
+# Return a Audio stream file for the SoundID.
 func get_sound_stream(soundID : String) -> AudioStream:
 	var sound_file := get_sound( soundID )
 	if sound_file:
@@ -134,33 +135,35 @@ func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0):
 	if sfx != null:
 		sfx.finished.emit()
 
-func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
+func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0, volume_mod := 1.0) -> AudioStreamPlayer:
 	if sound_pick.has(soundID):
 		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
 		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
-		return play(soundVal, start_at, priority, loops, pitch)
+		return play(soundVal, start_at, priority, loops, pitch, volume_mod)
 	else:
 		push_warning("Invalid SoundID: ", soundID); sound_bank_dirty.emit()
 		return AudioStreamPlayer.new() # -1;
 		
-func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0) -> AudioStreamPlayer:
+func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0, volume_mod := 1.0) -> AudioStreamPlayer:
 	if soundID.begins_with("sn_debug"): print("Debug sound used (%s). Change this for final release." % soundID)
 	
 	if sound_bank.has(soundID):
-		return queue(soundID, start_at, priority, loops, pitch)
+		return queue(soundID, start_at, priority, loops, pitch, volume_mod)
 		
 	elif sound_pick.has(soundID): ## Fallback to soundpick
 		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
 		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
-		return play(soundVal, start_at, priority, loops, pitch) ## NOTE We looping, bitch
+		return play(soundVal, start_at, priority, loops, pitch, volume_mod) ## NOTE We looping, bitch
 		
 	else: ## Invalid sound
 		if soundID.is_empty():			push_warning("B2_Sound: Empty SoundID called.")
 		else:							push_warning("Invalid SoundID: ", soundID); sound_bank_dirty.emit()
 		return AudioStreamPlayer.new()
 
-func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0 ) -> AudioStreamPlayer:
+func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0, volume_mod := 1.0 ) -> AudioStreamPlayer:
 	if sound_pool.is_empty():
+		# This happens if a lot of SFX are playied at the same time. This should never occur.
+		# WARNING sound_pool_amount controls that amount. Dont fuck with it.
 		push_error("No audiostreeeeeeeam on the pool. This is CRITICAL!")
 		return AudioStreamPlayer.new()
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
@@ -168,7 +171,7 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 	sfx.stream = sound
 	sfx.name = soundID + "_" + str(randi())
 	sfx.finished.connect( finished_playing.bind(sfx) )
-	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master )
+	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master * volume_mod )
 	sfx.pitch_scale = pitch
 	sfx.bus = "Audio"
 	
@@ -189,10 +192,8 @@ func play_loop( soundID : String ):
 	audio_loop.play()
 	
 func stop_loop():
-	if audio_loop.playing:
-		audio_loop.stop()
-	else:
-		push_warning("Nothing is playing. Cant stop something that isnt playing. Something may be wrong...")
+	if audio_loop.playing:	audio_loop.stop()
+	else:					push_warning("Nothing is playing. Cant stop something that isnt playing. Something may be wrong...")
 
 func set_loop_volume( volume : float ):
 	if volume > 1.0:
@@ -202,7 +203,7 @@ func set_loop_volume( volume : float ):
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):		## Check if its looping
 		sound_loop[sfx] -= 1	## Decrease loops
-		if sound_loop[sfx] > 0:	## There are still loops to be looped. play anbother one.
+		if sound_loop[sfx] > 0:	## There are still loops to be looped. play another one.
 			sfx.play()
 			return
 			

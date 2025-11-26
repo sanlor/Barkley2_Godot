@@ -31,21 +31,21 @@ var movement_tween : Tween
 func setup( type : B2_Gun.TYPE, gundrop : int ) -> void:
 	my_gun = B2_Gun.generate_gun( type, B2_Gun.MATERIAL.NONE, {"gundrop" : gundrop} )
 	@warning_ignore("narrowing_conversion")
-	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
+	my_gun.set_curr_ammo( my_gun.get_max_ammo() * B2_Drop.settingDropAmmo )
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
 	weapon_pickup_color = my_gun.weapon_pickup_color
 	
 func setup_from_db( db_gun_name : String ) -> void:
 	my_gun = B2_Gun.get_gun_from_db(db_gun_name)
 	@warning_ignore("narrowing_conversion")
-	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
+	my_gun.set_curr_ammo( my_gun.get_max_ammo() * B2_Drop.settingDropAmmo )
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
 	weapon_pickup_color = my_gun.weapon_pickup_color
 
 func setup_from_gun( _my_gun : B2_Weapon ) -> void:
 	my_gun = _my_gun
 	@warning_ignore("narrowing_conversion")
-	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
+	my_gun.set_curr_ammo( my_gun.get_max_ammo() * B2_Drop.settingDropAmmo )
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )
 	weapon_pickup_color = my_gun.weapon_pickup_color
 

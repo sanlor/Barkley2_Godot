@@ -9,28 +9,28 @@ const AMMO_PICKUP 					= preload("uid://b408woyvd6k12")
 # Check Settings() line 129 and Drop()
 
 ## Drop settings
-const settingDropScale = 0.7; 				# Scale (of gun drawn on floor) of dropped guns
-const settingFuseCompatibility = 0.95; 		# Range guns can be within, 0.95 = 5%
-const settingFuseWeight = 0.75; 			# Weight gain for every fuse
-const settingDropWeightPercent = 0.10; 		# 10% - Percent of gunsvalue that is weight for new gun
-const settingDropWeightAdd = 1.0; 			# was 1.5 - Add this to percent of gunsvalue on fresh gun
-const settingDropAmmo = 0.25; 				# (down from 0.5, bhroom) How much ammo dropped guns have (0.5 = 50%)
-const settingDropTimeMin = 4; 				# Minimum time an item stays on the ground
-const settingDropTimeLuck = 8; 				# Add this number * (Luck / 100) in seconds to min time
+const settingDropScale 				:= 0.7; 			# Scale (of gun drawn on floor) of dropped guns
+const settingFuseCompatibility 		:= 0.95; 			# Range guns can be within, 0.95 = 5%
+const settingFuseWeight 			:= 0.75; 			# Weight gain for every fuse
+const settingDropWeightPercent 		:= 0.10; 			# 10% - Percent of gunsvalue that is weight for new gun
+const settingDropWeightAdd 			:= 1.0; 			# was 1.5 - Add this to percent of gunsvalue on fresh gun
+const settingDropAmmo 				:= 0.25; 			# (down from 0.5, bhroom) How much ammo dropped guns have (0.5 = 50%)
+const settingDropTimeMin 			:= 4.0; 			# Minimum time an item stays on the ground
+const settingDropTimeLuck 			:= 8.0; 			# Add this number * (Luck / 100) in seconds to min time
 
 # Drop percentages - Make values under 100 total, any remaining of the 100 will drop nothing
 # (change quest constiable dropTable to define which table is used)
 # Normal drop table
-const settingDropGun = 85;      				# (up from 60, bhroom)
-const settingDropCandy = 10;    				# 
-const settingDropWildAmmo = 5; 				# Wild Ammo - Either FULL for one gun, or 20% for BANDO
+const settingDropGun 				:= 85.0;      		# (up from 60, bhroom)
+const settingDropCandy 				:= 10.0;    		# 
+const settingDropWildAmmo 			:= 5.0; 			# Wild Ammo - Either FULL for one gun, or 20% for BANDO
 
 ## Boss fighting drop table 
-const settingBossDropGun = 25;      			# (up from 55, bhroom) Gun + Candy + Nothing must equal 100
-const settingBossDropCandy = 25;    			# (bhroom) Gun + Candy + Nothing must equal 100
-const settingBossDropWildAmmo = 50; 			# Wild Ammo - Either FULL for one gun, or 20% for BANDO
+const settingBossDropGun 			:= 25.0;      		# (up from 55, bhroom) Gun + Candy + Nothing must equal 100
+const settingBossDropCandy 			:= 25.0;    		# (bhroom) Gun + Candy + Nothing must equal 100
+const settingBossDropWildAmmo 		:= 50.0; 			# Wild Ammo - Either FULL for one gun, or 20% for BANDO
 ## scr_combat_weapons_buildName has cryptic names for dropped guns
-const settingAmmoRandom = 50; 				# Percent chance it will give 100% to current gun
+const settingAmmoRandom 			:= 50.0; 			# Percent chance it will give 100% to current gun
 
 static func create_drops_from_db( db_name : String, src_pos : Vector2, dst_pos : Vector2, force : float ) -> void:
 	var gun := GUN_PICKUP.instantiate()
@@ -48,8 +48,8 @@ static func create_drops( enemy_data : B2_EnemyData, pos : Vector2, is_a_boss : 
 		
 	var drop_chance := randf() * 100.0
 	if drop_chance <= enemy_data.gunsdrop:
-		var DropWildAmmo 	:= 0
-		var DropCandy 		:= 0
+		var DropWildAmmo 	:= 0.0
+		var DropCandy 		:= 0.0
 		
 		## Drop Tables
 		if is_a_boss:

@@ -66,7 +66,7 @@ func _physics_process(delta: float) -> void:
 	## casing hit the floor. should bounce back and lose some velocity
 	if spr.global_position.y > global_position.y:
 		z_index = 0
-		if bounce_soundid: B2_Sound.play_pick( bounce_soundid ) ## Avoid playing invalid sound files.
+		if bounce_soundid: B2_Sound.play_pick( bounce_soundid, 0.0, false, 1, 1.0, 0.5 ) ## Avoid playing invalid sound files.
 		
 		spr.global_position.y = global_position.y
 		if velocity.length() < 8.0:

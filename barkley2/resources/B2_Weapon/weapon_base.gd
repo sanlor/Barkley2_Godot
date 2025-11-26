@@ -71,7 +71,7 @@ var dominant_genes							:= [] # List of all dominant genes that this gun has.
 #@export var ammo_per_shot		:= 5 	## how much ammo is used
 #@export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
 #@export var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
-#@export var turnbased_burst		:= 1	## How many bullets are shot at once, during a turn-based attack.
+#@export var turnbased_burst	:= 1	## How many bullets are shot at once, during a turn-based attack.
 
 var is_shooting		:= false
 var abort_shooting 	:= false
@@ -98,7 +98,7 @@ func get_full_name() -> String:
 	return full_name
 
 ## Used when you dont know the affixes yet 
-## TODO AFIXES BITCH!
+## TODO AFFIXES BITCH!
 func get_secret_name() -> String:
 	var full_name := ""
 	if prefix1:
@@ -262,24 +262,20 @@ func get_gun_stat( stat_name : String ):		return ( weapon_stats.get(stat_name) )
 	#curr_action = force_value
 	
 func recover_ammo( amount : int ) -> bool:
-	if get_curr_ammo() >= get_max_ammo():
-		return false
-	else:
-		weapon_stats.pCurAmmo = clampi( get_curr_ammo() + amount, 0, get_max_ammo() )
-		return true
+	if get_curr_ammo() >= get_max_ammo():													return false
+	else: weapon_stats.pCurAmmo = clampi( get_curr_ammo() + amount, 0, get_max_ammo() ); 	return true
 	
 func use_ammo( amount : int ) -> void:
-	if B2_Playerdata.Quest("infiniteAmmo") == 0:
+	if B2_Playerdata.Quest("infiniteAmmo") == 0: ## infinite ammo enabled. Do not decrease ammo.
 		weapon_stats.pCurAmmo = clampi( get_curr_ammo() - amount, 0, get_max_ammo() )
-	else:
-		## infinite ammo enabled. Do not decrease ammo.
-		pass
 	
 func has_ammo() -> bool:							return weapon_stats.pCurAmmo > 0
 func has_sufficient_ammo( amount : int ) -> bool:	return weapon_stats.pCurAmmo - amount > 0
 func get_curr_ammo() -> int:						return weapon_stats.pCurAmmo
 func get_max_ammo() -> int:							return weapon_stats.pMaxAmmo
 func get_gun_level() -> float:						return weapon_stats.sLevel
+
+func set_curr_ammo( ammo ) -> void:					weapon_stats.pCurAmmo = clampi( ammo, 0, get_max_ammo() )
 #endregion
 
 ## TODO add a propper value

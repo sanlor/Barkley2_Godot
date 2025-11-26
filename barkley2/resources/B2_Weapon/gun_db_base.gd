@@ -64,17 +64,17 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	#gun_dict[ "afx" ] 					= var_to_str( gun.afx )
 	#gun_dict[ "wgt" ] 					= var_to_str( gun.wgt )
 
-	gun_dict[ "max_action" ] 			= gun.max_action
-	gun_dict[ "curr_action" ] 			= gun.curr_action
+	#gun_dict[ "max_action" ] 			= gun.max_action
+	#gun_dict[ "curr_action" ] 			= gun.curr_action
 
-	#gun_dict[ "max_ammo" ] 				= var_to_str( gun.max_ammo )
+	#gun_dict[ "max_ammo" ] 			= var_to_str( gun.max_ammo )
 	#gun_dict[ "curr_ammo" ] 			= var_to_str( gun.curr_ammo )
 
-	gun_dict[ "attack_cost" ] 			= gun.attack_cost
+	#gun_dict[ "attack_cost" ] 			= gun.attack_cost
 	
 	#gun_dict[ "generic_damage" ] 		= gun.generic_damage
 	#gun_dict[ "bio_damage" ] 			= gun.bio_damage
-	#gun_dict[ "cyber_damage" ] 			= gun.cyber_damage
+	#gun_dict[ "cyber_damage" ] 		= gun.cyber_damage
 	#gun_dict[ "mental_damage" ] 		= gun.mental_damage
 	#gun_dict[ "cosmic_damage" ] 		= gun.cosmic_damage
 	#gun_dict[ "zauber_damage" ] 		= gun.zauber_damage
@@ -91,9 +91,9 @@ static func gun_to_dict( gun : B2_Weapon ) -> Dictionary:
 	gun_dict[ "lineage_bot" ] 			= gun.lineage_bot
 	#gun_dict[ "dominant_genes" ] 		= gun.dominant_genes
 	
-	#gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos )
+	gun_dict[ "gunmap_pos" ] 			= var_to_str( gun.gunmap_pos ) # Vector2
 
-	#gun_dict[ "bullets_per_shot" ] 		= gun.bullets_per_shot
+	#gun_dict[ "bullets_per_shot" ] 	= gun.bullets_per_shot
 	#gun_dict[ "ammo_per_shot" ] 		= gun.ammo_per_shot
 	#gun_dict[ "wait_per_shot" ] 		= gun.wait_per_shot
 	#gun_dict[ "bullet_spread" ] 		= gun.bullet_spread
@@ -122,34 +122,34 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	#gun.afx 							= str_to_var( gun_dict.get( "afx" ) )
 	#gun.wgt 							= str_to_var( gun_dict.get( "wgt" ) )
 
-	gun.max_action 						= gun_dict.get( "max_action" )
-	gun.curr_action 					= gun_dict.get( "curr_action" )
+	#gun.max_action 					= gun_dict.get( "max_action" )
+	#gun.curr_action 					= gun_dict.get( "curr_action" )
 	
 	#gun.max_ammo 						= str_to_var( gun_dict.get( "max_ammo" ) )
 	#gun.curr_ammo 						= str_to_var( gun_dict.get( "curr_ammo" ) )
 
 	#gun.attack_cost 					= gun_dict.get( "attack_cost" )
 	#
-	#gun.generic_damage 					= gun_dict.get( "generic_damage", 	1.0 )
-	#gun.bio_damage 						= gun_dict.get( "bio_damage", 		1.0 )
+	#gun.generic_damage 				= gun_dict.get( "generic_damage", 	1.0 )
+	#gun.bio_damage 					= gun_dict.get( "bio_damage", 		1.0 )
 	#gun.cyber_damage 					= gun_dict.get( "cyber_damage", 	1.0 )
 	#gun.mental_damage 					= gun_dict.get( "mental_damage", 	1.0 )
 	#gun.cosmic_damage 					= gun_dict.get( "cosmic_damage", 	1.0 )
 	#gun.zauber_damage 					= gun_dict.get( "zauber_damage", 	1.0 )
 #
-	#gun.weapon_lvl 						= gun_dict.get( "weapon_lvl", 		1 )
+	#gun.weapon_lvl 					= gun_dict.get( "weapon_lvl", 		1 )
 	#gun.weapon_xp 						= gun_dict.get( "weapon_xp", 		0 )
 	
-	#gun.skill_list 						= str_to_var( gun_dict.get( "skill_list" ) )
+	#gun.skill_list 					= str_to_var( gun_dict.get( "skill_list" ) )
 	
 	gun.favorite 						= str_to_var( gun_dict.get( "favorite", "false" ) )
 	gun.generation 						= gun_dict.get( "generation", 1 )
-	#gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) )
+	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) ) # Vector2
 		
-	gun.son							= gun_dict.get( "son", {} )
-	gun.lineage_top					= gun_dict.get( "lineage_top", {} )
-	gun.lineage_bot					= gun_dict.get( "lineage_bot", {} )
-	gun.dominant_genes				= gun_dict.get( "dominant_genes", [] )
+	gun.son								= gun_dict.get( "son", {} )
+	gun.lineage_top						= gun_dict.get( "lineage_top", {} )
+	gun.lineage_bot						= gun_dict.get( "lineage_bot", {} )
+#	gun.dominant_genes					= gun_dict.get( "dominant_genes", [] )
 
 	#gun.bullets_per_shot 				= gun_dict.get( "bullets_per_shot" )
 	#gun.ammo_per_shot 					= gun_dict.get( "ammo_per_shot" )
