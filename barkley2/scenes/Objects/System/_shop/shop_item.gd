@@ -120,7 +120,7 @@ func _ready() -> void:
 		gun_name.text 		= Text.pr( my_gun.weapon_name )
 		gun_cost.text 		= "£" + str(my_item_cost)
 		
-		dmg_value.text 		= str( int( my_gun.get_att() ) )
+		dmg_value.text 		= str( int( my_gun.get_pow() ) )
 		rte_value.text		= str( int( my_gun.get_spd() ) ) ## THIS IS WRONG
 		cap_value.text		= str( my_gun.max_ammo )
 		afx_value.text		= str( my_gun.get_afx_count() )

@@ -36,10 +36,10 @@ func setup() -> void:
 	spr_breedanm_bulletbars.frame = 0
 	var tt := create_tween()
 	tt.tween_property(spr_breedanm_bulletbars, "frame", get_bullet_frame_count(), 1.5)
-	tt.parallel().tween_property(self, "gun_power", my_selected_gun.get_att() / 100.0, 1.5 * randf_range(0.5,1.0) )
+	tt.parallel().tween_property(self, "gun_power", my_selected_gun.get_pow() / 100.0, 1.5 * randf_range(0.5,1.0) )
 	
 func get_bullet_frame_count() -> int:
-	var bullets := my_selected_gun.max_ammo
+	var bullets := my_selected_gun.get_max_ammo()
 	if bullets<4:	return 2
 	elif bullets<8: return 3 
 	elif bullets<16: return 4 

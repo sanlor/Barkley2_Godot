@@ -225,20 +225,20 @@ static func fuse_stats( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun :
 	## Declaring some variables.
 	## So stupid. This creates an array to with the stat for each weapon. Fuck it, just going to copy and paste code now.
 	# Grabbed values
-	var gunPower 		:= [top_gun.att,		bottom_gun.att]
-	var gunROF 			:= [top_gun.spd,		bottom_gun.spd]		# Rate of fire?
-	var gunAmmo 		:= [top_gun.max_ammo,	bottom_gun.max_ammo]
-	var gunAffix 		:= [top_gun.afx,		bottom_gun.afx]
-	var gunWeight 		:= [top_gun.wgt,		bottom_gun.wgt]
+	var gunPower 		:= [top_gun.get_pow(),		bottom_gun.get_pow()]
+	var gunROF 			:= [top_gun.get_spd(),		bottom_gun.get_spd()]		# Rate of fire?
+	var gunAmmo 		:= [top_gun.get_amm(),		bottom_gun.get_amm()]
+	var gunAffix 		:= [top_gun.get_afx(),		bottom_gun.get_afx()]
+	var gunWeight 		:= [top_gun.get_wgt(),		bottom_gun.get_wgt()]
 
 	var gunPowerMod 	:= [
-		top_gun.get_att_mod() 	+ top_gun.get_max_att_mod() / 2, 
-		bottom_gun.get_att_mod() 	+ bottom_gun.get_max_att_mod() / 2
+		top_gun.get_pow_mod() 	+ top_gun.get_pow_max_mod() / 2, 
+		bottom_gun.get_pow_mod() 	+ bottom_gun.get_pow_max_mod() / 2
 		]
 	var gunROFMod 		:= [top_gun.get_spd_mod(),	bottom_gun.get_spd_mod()]
-	var gunAmmoMod 		:= [top_gun.get_amm_mod(),		bottom_gun.get_amm_mod()]
+	var gunAmmoMod 		:= [top_gun.get_amm_mod(),	bottom_gun.get_amm_mod()]
 	var gunAffixMod 	:= [top_gun.get_afx_mod(),	bottom_gun.get_afx_mod()]
-	var gunWeightMod 	:= [1,	1] # gun[? "pWeightMod"];
+	var gunWeightMod 	:= [top_gun.get_wgt_mod(),	bottom_gun.get_wgt_mod()]
 	
 	# Generate totals, priorities, bonus
 	var gunTotal 		:= [ 
@@ -334,13 +334,13 @@ static func fuse_stats( top_gun : B2_Weapon, bottom_gun : B2_Weapon, child_gun :
 	## END OF THE CODE DUMP.
 	# Now, how do I use this in my code...?
 	
-	child_gun.att = gunPowerNoiseTotal
-	child_gun.spd = gunROFNoiseTotal
-	child_gun.max_ammo = int(gunAmmoNoiseTotal)
-	child_gun.afx = gunAffixNoiseTotal
-	child_gun.wgt = gunWeightNoiseTotal
-	@warning_ignore("narrowing_conversion")
-	child_gun.pts = gunPowerNoiseTotal + gunROFNoiseTotal + gunAmmoNoiseTotal + gunAffixNoiseTotal
+	child_gun.weapon_stats.sPower = gunPowerNoiseTotal
+	child_gun.weapon_stats.sSpeed = gunROFNoiseTotal
+	child_gun.weapon_stats.sAmmo = int(gunAmmoNoiseTotal)
+	child_gun.weapon_stats.sAffix = gunAffixNoiseTotal
+	child_gun.weapon_stats.sWeight = gunWeightNoiseTotal
+	#@warning_ignore("narrowing_conversion")
+	#child_gun.pts = gunPowerNoiseTotal + gunROFNoiseTotal + gunAmmoNoiseTotal + gunAffixNoiseTotal
 	
 	## TODO feels like this is missing something...
 	

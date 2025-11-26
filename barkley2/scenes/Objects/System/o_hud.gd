@@ -260,7 +260,7 @@ func _physics_process(_delta: float) -> void:
 		if curr_wpn != prev_gun or not hud_gun_sprite.texture:
 			hud_gun_sprite.texture = curr_wpn.get_weapon_hud_sprite()
 			prev_gun = curr_wpn
-		set_ammo_amt( curr_wpn.curr_ammo )
+		set_ammo_amt( curr_wpn.get_curr_ammo() )
 	else:
 		hud_gun_sprite.texture = null
 		set_ammo_amt( 0 )

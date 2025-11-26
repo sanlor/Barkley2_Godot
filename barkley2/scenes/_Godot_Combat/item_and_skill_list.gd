@@ -36,7 +36,7 @@ func populate_skill_list():
 	var wpn : B2_Weapon = B2_Gun.get_current_gun()
 	
 	if wpn:
-		var wpn_xp := wpn.weapon_xp
+		var wpn_xp := 0 ## TODO Maybe add gun experience back?
 		for skill_name : B2_Gun.SKILL in wpn.skill_list:
 			var skill := B2_Gun.get_skill( skill_name )
 			

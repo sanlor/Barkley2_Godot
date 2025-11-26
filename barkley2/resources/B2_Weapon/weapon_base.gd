@@ -4,14 +4,10 @@ class_name B2_Weapon
 ## Holds a list of stats, attack types and skills
 # Check Gun(), GunMap(), scr_combat_weapons_generate()
 
-signal finished_combat_action
-
-enum EFFECT{ DAMAGE, RECOVERY }
-
 @export var weapon_type 		:= B2_Gun.TYPE.GUN_TYPE_PISTOL	# "pType"
 @export var weapon_material		:= B2_Gun.MATERIAL.STEEL		# "pMaterial"
 @export var weapon_group 		:= B2_Gun.GROUP.PISTOLS
-@export var weapon_stats		: B2_WeaponStats # Gun stats, bullet behaviour, casing, effects, etc.
+@export var weapon_stats		:= B2_WeaponStats.new() # Gun stats, bullet behaviour, casing, effects, etc.
 
 @export_category("Weapon ID")
 @export var weapon_name			:= "Undefined"			# "pName"
@@ -19,84 +15,63 @@ enum EFFECT{ DAMAGE, RECOVERY }
 @export var weapon_pickup_name 	:= "Undefined"			# "pickupName"
 @export var weapon_pickup_color	:= Color.WHITE			# "pickCol"
 
-## gun[? "gunmap_pos"] = -1; 	## TODO
-## gun[? "numberval"] = 0; 		## TODO
-## gun[? "rarity"] = 0; 		## TODO
-## gun[? "pointsUsed"] = 0; 	## TODO
-
-var prefix1			: String # Dictionary ## Set by the wpn generation	# "pPrefix1"
-var prefix2			: String # Dictionary ## Set by the wpn generation	# "pPrefix2
-var suffix			: String # Dictionary ## Set by the wpn generation	# "pSuffix"
-var afx_count		:= 0
+var prefix1						:= "" # Dictionary ## Set by the wpn generation	# "pPrefix1"
+var prefix2						:= "" # Dictionary ## Set by the wpn generation	# "pPrefix2
+var suffix						:= "" # Dictionary ## Set by the wpn generation	# "pSuffix"
+var afx_count					:= 0
 
 ## SFX stuff
-var max_action_sfx_played 		:= false
+#var max_action_sfx_played 		:= false
 
-
-#@export_category("Gun stats") ## TODO
-#@export var att					:= 30.0										# "sPower"
-#@export var spd					:= 30.0										# "sSpeed"
-#@export var acc					:= 30.0 ## Lower is better
-#@export var afx					:= 30.0 ## Affix is not used currently
-#@export var wgt					:= 10.0
-#var pts							:= 10 ## Points used to generate stats
-
-@export var max_action			:= 100.0 :
+@export var max_action						:= 100.0 :
 	set(a):
 		max_action = a
 		curr_action = clamp(curr_action, 0.0, max_action)
-var curr_action					:= 100.0
+var curr_action								:= 100.0
+@export var attack_cost						:= 90			## How many action point cost for reloading this weapon
 
-@export var max_ammo			:= 30 :
-	set(a):
-		max_ammo = a
-		curr_ammo = clamp(curr_ammo, 0, max_ammo)
-var curr_ammo					:= 30
+#@export_category("Gun SFX") 
+#@export var windupSound 		:= ""		## Wind up SFX (Ex.: Minigun)
+#@export var winddownSound 		:= ""		## Wind down SFX (Ex.: Minigun)
+#@export var sustainSound 		:= ""		## Wind Sustain SFX (Ex.: Minigun)
+#
+#@export_category("Attribute Modifiers") ## TODO
+#@export var generic_damage					:= 1.0 ## Add Generic damage type to this attack
+#@export var bio_damage						:= 1.0 ## Add Bio damage type to this attack
+#@export var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
+#@export var mental_damage					:= 1.0 ## Add Mental damage type to this attack
+#@export var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
+#@export var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
 
-@export var attack_cost			:= 90			## How many action point cost for reloading this weapon
-
-@export_category("Gun SFX") 
-@export var windupSound 		:= ""		## Wind up SFX (Ex.: Minigun)
-@export var winddownSound 		:= ""		## Wind down SFX (Ex.: Minigun)
-@export var sustainSound 		:= ""		## Wind Sustain SFX (Ex.: Minigun)
-
-@export_category("Attribute Modifiers") ## TODO
-@export var generic_damage					:= 1.0 ## Add Generic damage type to this attack
-@export var bio_damage						:= 1.0 ## Add Bio damage type to this attack
-@export var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
-@export var mental_damage					:= 1.0 ## Add Mental damage type to this attack
-@export var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
-@export var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
-
-@export_category("Gun level")
-@export var weapon_lvl					:= 1			## gun[? "sLevel"] = 1;
-@export var weapon_xp					:= 0			## Unlocks new skill when you use this weapon for long enough
+#@export_category("Gun level")
+#@export var weapon_lvl						:= 1			## gun[? "sLevel"] = 1;
+#@export var weapon_xp						:= 0			## Unlocks new skill when you use this weapon for long enough
 
 @export_category("Cinema settings") ## TODO
 @export var delay_before_action				:= 0.0		## Add a dramatic delay before the shot.
 @export var delay_after_action				:= 0.75		## Add a dramatic delay after the shot.
 
-var gunmap_pos					:= Vector2i.ZERO # Used for fusing and drawing the gunmap.
+var gunmap_pos								:= Vector2i.ZERO # Used for fusing and drawing the gunmap.
 
 @export_category("Gun Genetics")
-@export var favorite					:= false
-@export var son							:= {} ## child gun
-@export var lineage_top					:= {} ## parent gun (top)
-@export var lineage_bot					:= {} ## parent gun (bottom)
-@export var generation					:= 1
+@export var favorite						:= false
+@export var son								:= {} ## child gun
+@export var lineage_top						:= {} ## parent gun (top)
+@export var lineage_bot						:= {} ## parent gun (bottom)
+@export var generation						:= 1
 
-var dominant_genes				:= [] # List of all dominant genes that this gun has.
+var dominant_genes							:= [] # List of all dominant genes that this gun has.
 
 #@export var normal_attack	: B2_WeaponAttack						## Normal attack
 @export var skill_list		: Dictionary[B2_Gun.SKILL, int] 		## List of attacks, with the EXP necessary to unlock it
 
 ## TODO add a custom resource or an external resource for this.
-@export_category("Bullet settings")
-@export var bullets_per_shot 	:= 5 	## how many bullets are spawn
-@export var ammo_per_shot		:= 5 	## how much ammo is used
-@export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
-@export var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
-@export var turnbased_burst		:= 1	## How many bullets are shot at once, during a turn-based attack.
+#@export_category("Bullet settings")
+#@export var bullets_per_shot 	:= 5 	## how many bullets are spawn
+#@export var ammo_per_shot		:= 5 	## how much ammo is used
+#@export var wait_per_shot		:= 0.1	## Shotgun spawn all bullets at the same time. Machine gun spawn one at a time
+#@export var bullet_spread		:= 0.0	## NOT related to accuracy. Shotgun will spread the bullets on a wide arc. a saw-off shotgun should spread a bit more. 0.0 means no spread and TAU is shooting at random. keep at 0.0 to 0.25.
+#@export var turnbased_burst		:= 1	## How many bullets are shot at once, during a turn-based attack.
 
 var is_shooting		:= false
 var abort_shooting 	:= false
@@ -120,7 +95,6 @@ func get_full_name() -> String:
 	if prefix2:		full_name += prefix2 + " "
 	full_name += weapon_name
 	if suffix:		full_name += " " + suffix
-	
 	return full_name
 
 ## Used when you dont know the affixes yet 
@@ -151,46 +125,52 @@ func get_short_name() -> String:
 
 ## 23/11/25 Disabled this temporarelly.
 # FIXME
-func get_att() -> float:		return 0.0 # FIXME return snappedf( att, 0.01)
-#func get_max_power() -> float:	return snappedf( pmx
-func get_spd() -> float:					return 0.0 # FIXME return snappedf( spd, 0.01)
-func get_amm() -> float:					return 0.0 # FIXME return snappedf( max_ammo, 0.01)
-func get_afx() -> float:					return 0.0 # FIXME return snappedf( afx, 0.01)
-func get_acc() -> float:					return 0.0 # FIXME return snappedf( acc, 0.01)
-func get_wgt() -> float:					return 0.0 # FIXME return snappedf( wgt, 0.01)
+func get_pow() -> float:					return snappedf( weapon_stats.sPower, 0.01) 		# Power 	# FIXME return snappedf( att, 0.01)
+func get_spd() -> float:					return snappedf( weapon_stats.sSpeed, 0.01) 		# Speed 	# FIXME return snappedf( spd, 0.01)
+func get_amm() -> float:					return snappedf( weapon_stats.sAmmo, 0.01) 			# Ammo 		# FIXME return snappedf( max_ammo, 0.01)
+func get_amm_base() -> float:				return snappedf( weapon_stats.pAmmoBase, 0.01) 		# Ammo 		# FIXME return snappedf( max_ammo, 0.01)
+func get_afx() -> float:					return snappedf( weapon_stats.sAffix , 0.01)		# Affix 	# FIXME return snappedf( afx, 0.01)
+func get_rng() -> float:					return snappedf( weapon_stats.sRange, 0.01) 		# Range 	# FIXME return snappedf( afx, 0.01)
+func get_wgt() -> float:					return snappedf( weapon_stats.sWeight, 0.01) 		# Weight 	# FIXME return snappedf( wgt, 0.01)
 
-func get_att_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._pow + weapon_stats._pow ) / 2.0, 0.01)
-func get_max_att_mod() -> float:			return 0.0 # FIXME return snappedf( ( weapon_stats._pmx + weapon_stats._pmx ) / 2.0, 0.01)
-func get_spd_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._spd + weapon_stats._spd ) / 2.0, 0.01)
-func get_amm_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._amm + weapon_stats._amm ) / 2.0, 0.01)
-func get_afx_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._afx + weapon_stats._afx ) / 2.0, 0.01)
-#func get_luck_mod() -> float:				return snappedf( ( weapon_stats._lck + weapon_stats._lck ) / 2.0, 0.01)
-func get_acc_mod() -> float:				return 0.0 # FIXME return snappedf( ( weapon_stats._acc + weapon_stats._acc ) / 2.0, 0.01)
-func get_wgt_mod() -> float:				return 0.0 # FIXME return snappedf( weapon_stats._wgt, 0.01) # ( weapon_stats._wgt + weapon_stats._wgt ) / 2.0
+func get_pow_mod() -> float:				return snappedf( weapon_stats.pPowerMod, 0.01) 		# FIXME return snappedf( ( weapon_stats._pow + weapon_stats._pow ) / 2.0, 0.01)
+func get_pow_max_mod() -> float:			return snappedf( weapon_stats.pPowerMaxMod, 0.01) 	# FIXME return snappedf( ( weapon_stats._pmx + weapon_stats._pmx ) / 2.0, 0.01)
+func get_spd_mod() -> float:				return snappedf( weapon_stats.pSpeedMod, 0.01) 		# FIXME return snappedf( ( weapon_stats._spd + weapon_stats._spd ) / 2.0, 0.01)
+func get_amm_mod() -> float:				return snappedf( weapon_stats.pAmmoMod, 0.01) 		# FIXME return snappedf( ( weapon_stats._amm + weapon_stats._amm ) / 2.0, 0.01)
+func get_afx_mod() -> float:				return snappedf( weapon_stats.pAffixMod, 0.01) 		# FIXME return snappedf( ( weapon_stats._afx + weapon_stats._afx ) / 2.0, 0.01)
+func get_wgt_mod() -> float:				return snappedf( weapon_stats.pWeightMod, 0.01) 	# FIXME return snappedf( weapon_stats._wgt, 0.01) # ( weapon_stats._wgt + weapon_stats._wgt ) / 2.0
 
-func get_effective_att() -> float:			return 0.0 # FIXME return snappedf(att * get_att_mod(), 0.01)
-#func get_effective_max_power() -> float:	return snappedf(pmx * get_max_power_mod(), 0.01)
-func get_effective_spd() -> float:			return 0.0 # FIXME return snappedf(spd * get_spd_mod(), 0.01)
-func get_effective_amm() -> float:			return 0.0 # FIXME return snappedf( float(max_ammo) * get_amm_mod(), 0.01)
-func get_effective_afx() -> float:			return 0.0 # FIXME return snappedf(afx * get_afx_mod(), 0.01)
-func get_effective_acc() -> float:			return 0.0 # FIXME return snappedf(acc * get_acc_mod(), 0.01)
-func get_effective_wgt() -> float:			return 0.0 # FIXME return snappedf(wgt * get_wgt_mod(), 0.01)
+func get_effective_pow() -> float:			return snappedf( get_pow() * get_pow_mod(), 0.01 ) # FIXME return snappedf(att * get_pow_mod(), 0.01)
+func get_effective_spd() -> float:			return snappedf( get_spd() * get_spd_mod(), 0.01 ) # FIXME return snappedf(spd * get_spd_mod(), 0.01)
+func get_effective_amm() -> float:			return snappedf( get_amm() * get_amm_mod(), 0.01 ) # FIXME return snappedf( float(max_ammo) * get_amm_mod(), 0.01)
+func get_effective_afx() -> float:			return snappedf( get_afx() * get_afx_mod(), 0.01 ) # FIXME return snappedf(afx * get_afx_mod(), 0.01)
+func get_effective_wgt() -> float:			return snappedf( get_wgt() * get_wgt_mod(), 0.01 ) # FIXME return snappedf(wgt * get_wgt_mod(), 0.01)
+
 # FIXME
+## Get gun firerate
+func get_rate() -> float:
+	var sSpeed 			:= get_spd()
+	var sSpeedMod 		:= get_spd_mod()
+	var POWER 			:= 1.75;
+	var DIVISOR 		:= 4.0;
+	var TARGET 			:= 300.0;  # pre-GoG value was 350 - bhroom
+	var pFireSpeed 		:= sSpeed * sSpeedMod
+	var stepInterval 	:= 15.0 + ( pow(1 + pFireSpeed, POWER) / DIVISOR)
+	var timeInterval 	:= (TARGET / stepInterval) / 10
+	var perSecond 		:= 1.0 / timeInterval
+	return 1.0 / perSecond
 
-func get_held_sprite() -> String:
-	#return weapon_stats.gunHeldSprite
-	return weapon_stats.gunHeldSprite
+func get_damage() -> float:			return weapon_stats.pDamageMin
+func get_rate_total() -> String:	return str( get_rate() ) + "/s"
+func get_held_sprite() -> String:	return weapon_stats.gunHeldSprite
 #
 # Return an array of colors for the main color, parts color, spots color and parts alpha.
 # Color.HOT_PINK means ERROR
 func get_gun_colors() -> Array:
 	var colors := [ Color.WHITE, null, null ]
-	if weapon_stats.col:
-		colors[0] = Color.from_string( weapon_stats.col, 			Color.HOT_PINK )
-	if weapon_stats.displayParts:
-		colors[1] = Color.from_string( weapon_stats.gunheldcol2, 	Color.HOT_PINK )
-	if weapon_stats.displaySpots:
-		colors[2] = Color.from_string( weapon_stats.gunheldcol3, 	Color.HOT_PINK )
+	if weapon_stats.col:				colors[0] = Color.from_string( weapon_stats.col, 			Color.HOT_PINK )
+	if weapon_stats.displayParts:		colors[1] = Color.from_string( weapon_stats.gunheldcol2, 	Color.HOT_PINK )
+	if weapon_stats.displaySpots:		colors[2] = Color.from_string( weapon_stats.gunheldcol3, 	Color.HOT_PINK )
 	return colors
 
 ## Gunshot sound
@@ -204,120 +184,103 @@ func get_soundID() -> String:
 	return soundId
 	
 ## Gunshot flash sprite
-func get_flash_sprite() -> String:
-	return weapon_stats.flashSprite
+func get_flash_sprite() -> String:				return weapon_stats.flashSprite
 
 ## Gun Swap sound
 func get_swap_sound() -> String:
-	if weapon_stats.swapSound.is_empty():
-		return "hoopz_swapguns" # Default
-	else:
-		return weapon_stats.swapSound
+	if weapon_stats.swapSound.is_empty():		return "hoopz_swapguns" # Default
+	else:										return weapon_stats.swapSound
 
 func get_reload_sound() -> String:
-	if weapon_stats.reloadSound.is_empty():
-		return "hoopz_reload" # Default
-	else:
-		return weapon_stats.reloadSound
+	if weapon_stats.reloadSound.is_empty():		return "hoopz_reload" # Default
+	else:										return weapon_stats.reloadSound
 
 ## Bullet sprite
-func get_bullet_sprite() -> String:
-	return weapon_stats.pBulletSprite
+func get_bullet_sprite() -> String:				return weapon_stats.pBulletSprite
 
 ## Bullet´s color
 func get_bullet_color() -> Color:
-	if weapon_stats.pBulletColor.is_empty():
-		return Color.WHITE # Default
-	else:
-		return Color( weapon_stats.pBulletColor )
+	if weapon_stats.pBulletColor.is_empty():	return Color.WHITE # Default
+	else:										return Color( weapon_stats.pBulletColor )
 
 ## Bullet casing name. Empty names means that the bullet has no casing.
-func get_casing_name() -> String:
-	return weapon_stats.bcasing
+func get_casing_name() -> String:				return weapon_stats.bcasing
 
 ## Bullet casing sound
-func get_casing_sound() -> String:
-	return weapon_stats.casingSound
+func get_casing_sound() -> String:				return weapon_stats.casingSound
 	
 ## Bullet casing color
-func get_casing_color() -> Color:
-	return Color.from_string( weapon_stats.bcasingCol, Color.HOT_PINK )
+func get_casing_color() -> Color:				return Color.from_string( weapon_stats.bcasingCol, Color.HOT_PINK )
 	
 ## Bullet casing size/scale
-func get_casing_scale() -> float:
-	return float( weapon_stats.bcasingScale )
+func get_casing_scale() -> float:				return float( weapon_stats.bcasingScale )
 	
 ## Bullet casing speed/gravity
-func get_casing_speed() -> float:
-	return float( weapon_stats.bcasingSpd )
+func get_casing_speed() -> float:				return float( weapon_stats.bcasingSpd )
 
-func get_gun_stat( stat_name : String ):
-	## TODO add better stats retrieval
-	return ( weapon_stats.get(stat_name) )
+## TODO add better stats retrieval
+func get_gun_stat( stat_name : String ):		return ( weapon_stats.get(stat_name) )
 #endregion
 
 #region Weapon Mgmt
-func gain_exp( _exp ) -> void: ## TODO add level up
-	weapon_xp += _exp
+#func gain_exp( _exp ) -> void: ## TODO add level up
+	#weapon_xp += _exp
 	
-func increase_action() -> void:
-	if has_ammo():
-		var my_spd 		:= get_spd() * B2_Config.WEAPON_ACTION_MULTIPLIER
-		
-		if is_overheating(): ## Apply speed penalty to overheated weapons.
-			my_spd *= B2_Config.OVERHEAT_WEAPON_PENALTY
-			
-		curr_action 	= clampf( curr_action + my_spd, -max_action, max_action )
-		
-		## Play the "ready" sfx.
-		if curr_action == max_action:
-			if not max_action_sfx_played:
-				# print("asdasd")
-				if weapon_group == B2_Gun.GROUP.SHOTGUNS:
-					B2_Sound.play_pick("hoopz_reload")
-				elif weapon_group == B2_Gun.GROUP.PROJECTILE:
-					B2_Sound.play_pick("hoopz_reloadcrossbow")
-				else:
-					B2_Sound.play_pick("hoopz_pistol_reload")
-					
-				max_action_sfx_played = true
-		else:
-			if curr_action < max_action:
-				max_action_sfx_played = false
-			
-func is_at_max_action() -> bool:
-	return curr_action == max_action
+#func increase_action() -> void:
+	#if has_ammo():
+		#var my_spd 		:= get_spd() * B2_Config.WEAPON_ACTION_MULTIPLIER
+		#
+		#if is_overheating(): ## Apply speed penalty to overheated weapons.
+			#my_spd *= B2_Config.OVERHEAT_WEAPON_PENALTY
+			#
+		#curr_action 	= clampf( curr_action + my_spd, -max_action, max_action )
+		#
+		### Play the "ready" sfx.
+		#if curr_action == max_action:
+			#if not max_action_sfx_played:
+				## print("asdasd")
+				#if weapon_group == B2_Gun.GROUP.SHOTGUNS:
+					#B2_Sound.play_pick("hoopz_reload")
+				#elif weapon_group == B2_Gun.GROUP.PROJECTILE:
+					#B2_Sound.play_pick("hoopz_reloadcrossbow")
+				#else:
+					#B2_Sound.play_pick("hoopz_pistol_reload")
+					#
+				#max_action_sfx_played = true
+		#else:
+			#if curr_action < max_action:
+				#max_action_sfx_played = false
+			#
+#func is_at_max_action() -> bool:
+	#return curr_action == max_action
 
 # Certain skill should oveheat the weapon.
-func is_overheating() -> bool:
-	return curr_action < 0.0
-
-func reset_action( force_value := 0.0 ) -> void:
-	curr_action = force_value
+#func is_overheating() -> bool:
+	#return curr_action < 0.0
+#
+#func reset_action( force_value := 0.0 ) -> void:
+	#curr_action = force_value
 	
 func recover_ammo( amount : int ) -> bool:
-	if curr_ammo >= max_ammo:
+	if get_curr_ammo() >= get_max_ammo():
 		return false
 	else:
-		curr_ammo = clampi( curr_ammo + amount, 0, max_ammo )
+		weapon_stats.pCurAmmo = clampi( get_curr_ammo() + amount, 0, get_max_ammo() )
 		return true
 	
 func use_ammo( amount : int ) -> void:
 	if B2_Playerdata.Quest("infiniteAmmo") == 0:
-		curr_ammo = clampi( curr_ammo - amount, 0, max_ammo )
+		weapon_stats.pCurAmmo = clampi( get_curr_ammo() - amount, 0, get_max_ammo() )
 	else:
 		## infinite ammo enabled. Do not decrease ammo.
 		pass
 	
-func has_ammo() -> bool:
-	return curr_ammo > 0
-
-func has_sufficient_ammo( amount : int ) -> bool:
-	return curr_ammo - amount > 0
-	
+func has_ammo() -> bool:							return weapon_stats.pCurAmmo > 0
+func has_sufficient_ammo( amount : int ) -> bool:	return weapon_stats.pCurAmmo - amount > 0
+func get_curr_ammo() -> int:						return weapon_stats.pCurAmmo
+func get_max_ammo() -> int:							return weapon_stats.pMaxAmmo
+func get_gun_level() -> float:						return weapon_stats.sLevel
 #endregion
 
-#region Weapon Combat
-func get_gun_knockback() -> float: ## TODO add a propper value
-	return 2000.0 * max(1.0, bullets_per_shot)
-#endregion
+## TODO add a propper value
+func get_gun_knockback() -> float: 					return 2000.0 * max(1.0, 1.0) ## TODO Add a better knockback factor

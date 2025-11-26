@@ -47,12 +47,12 @@ func _update_data() -> void:
 	if my_gun:
 		gun_title_lbl.text = "%s (%s)" % [my_gun.get_full_name(), my_gun.get_short_name() ]
 		gun_texture.texture = my_gun.get_weapon_hud_sprite()
-		points_stat_lbl.text	= str("POINTS:		%s" % my_gun.pts)
+		points_stat_lbl.text	= str("POINTS:		%s" % str( min(my_gun.get_pow()  + my_gun.get_spd() + my_gun.get_afx() + my_gun.get_amm(), 999 ) ).pad_decimals(0) )
 		type_stat_lbl.text 		= str("TYPE: 	 	%s" % B2_Gun.TYPE.keys()[my_gun.weapon_type] )
 		material_stat_lbl.text 	= str("MATERIAL:  	%s" % B2_Gun.MATERIAL.keys()[my_gun.weapon_material])
-		attack_stat_lbl.text 	= str("POWER:	  	%s x %s = %s" % [my_gun.get_att(), my_gun.get_att_mod(), my_gun.get_effective_att() ])
+		attack_stat_lbl.text 	= str("POWER:	  	%s x %s = %s" % [my_gun.get_pow(), my_gun.get_pow_mod(), my_gun.get_effective_pow() ])
 		speed_stat_lbl.text 	= str("SPEED: 	 	%s x %s = %s" % [my_gun.get_spd(), my_gun.get_spd_mod(), my_gun.get_effective_spd() ])
-		ammo_stat_lbl.text 		= str("AMMO:  		%s x %s = %s" % [my_gun.max_ammo, my_gun.get_amm_mod(), my_gun.get_effective_amm() ])
+		ammo_stat_lbl.text 		= str("AMMO:  		%s x %s = %s" % [my_gun.get_amm(), my_gun.get_amm_mod(), my_gun.get_effective_amm() ])
 		affix_stat_lbl.text 	= str("AFFIX:  		%s x %s = %s" % [my_gun.get_afx(), my_gun.get_afx_mod(), my_gun.get_effective_afx() ])
 		weight_stat_lbl.text 	= str("WEIGHT: 		 %s x %s = %s" % [my_gun.get_wgt(), my_gun.get_wgt_mod(), my_gun.get_effective_wgt() ])
 		affix_1_stat_lbl.text	= "PREFFIX1:  		%s" % my_gun.prefix1

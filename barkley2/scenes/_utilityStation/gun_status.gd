@@ -41,7 +41,7 @@ func _update_data() -> void:
 		sprite_value.texture 	= my_gun.get_weapon_hud_sprite()
 		weight_value.text 		= str( int(my_gun.wgt) ) + "~"
 		name_value.text 		= str( my_gun.get_short_name() )
-		dmg_value.text 			= str( int(my_gun.get_att()) )
+		dmg_value.text 			= str( int(my_gun.get_pow()) )
 		rte_value.text 			= str( int(my_gun.get_spd()) )
 		spc_value.text 			= str( my_gun.get_afx_count() )
 		cap_value.text 			= "%s ( %s )" % [ str(my_gun.curr_ammo), str(my_gun.max_ammo) ]

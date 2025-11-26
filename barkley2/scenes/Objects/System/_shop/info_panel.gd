@@ -61,7 +61,7 @@ func _setup_menu() -> void:
 	gun_texture.texture 	= my_gun.get_weapon_hud_sprite()
 	gun_name.text 			= Text.pr( my_gun.weapon_name )
 	
-	dmg_value.text 		= str( int( my_gun.get_att() ) )
+	dmg_value.text 		= str( int( my_gun.get_pow() ) )
 	rte_value.text		= str( int( my_gun.get_spd() ) ) ## THIS IS WRONG
 	cap_value.text		= str( my_gun.max_ammo )
 	afx_value.text		= str( my_gun.get_afx_count() )

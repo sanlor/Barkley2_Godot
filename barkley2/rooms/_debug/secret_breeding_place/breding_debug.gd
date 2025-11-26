@@ -2,6 +2,10 @@ extends Control
 
 @onready var material_list_window: AcceptDialog = $material_list_window
 
+@onready var points_line: LineEdit = $points_and_shit/MarginContainer/VBoxContainer/points_line
+@onready var rarity_line: LineEdit = $points_and_shit/MarginContainer/VBoxContainer/rarity_line
+
+
 const MATERIAL := {
 	Vector2(1,1) : ["Candy",	1,	1	],
 	Vector2(1,2) : ["Soiled",	1,	7	],
@@ -102,6 +106,10 @@ const MATERIAL := {
 	Vector2(18,5) : ["Analog",		8,	131	],
 	Vector2(18,6) : ["Pinata",		8,	222	],
 }
+
+var points 	:= 80
+var rarity	:= 100
+
 func _ready() -> void:
 	#var my_mat : Dictionary = {}
 	#for m : Vector2 in MATERIAL:
@@ -110,11 +118,20 @@ func _ready() -> void:
 	#var file = FileAccess.open( "res://barkley2/resources/B2_Weapon/material_table.json", FileAccess.WRITE )
 	#file.store_string( JSON.stringify( my_mat, "\t", false) )
 	#file.close()
-	get_window().content_scale_size = Vector2i(900, 900)
-	get_window().size = Vector2i(900, 900)
+	#get_window().content_scale_size = Vector2i(900, 900)
+	#get_window().size = Vector2i(900, 900)
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	pass
 
 
 func _on_material_list_btn_pressed() -> void:
 	material_list_window.show()
+
+
+func _on_points_line_text_changed(new_text: String) -> void:
+	points = new_text.to_int()
+	points_line.text = str( points )
+
+func _on_rarity_line_text_changed(new_text: String) -> void:
+	rarity = new_text.to_int()
+	rarity_line.text = str( rarity )

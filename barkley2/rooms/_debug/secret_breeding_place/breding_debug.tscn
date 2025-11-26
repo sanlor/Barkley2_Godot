@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://skgcdpe1ctna" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunMapMarker.png" id="9_elh2k"]
 [ext_resource type="Script" uid="uid://cx0tegdednio7" path="res://barkley2/rooms/_debug/secret_breeding_place/material_list.gd" id="10_elh2k"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_5rms5"]
+font = ExtResource("5_ydw5n")
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_elh2k"]
 content_margin_left = 2.0
 content_margin_top = 2.0
@@ -22,9 +25,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
-
-[sub_resource type="LabelSettings" id="LabelSettings_5rms5"]
-font = ExtResource("5_ydw5n")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_b3mt3"]
 size = Vector2(49, 24)
@@ -60,25 +60,69 @@ anchors_preset = 0
 theme = ExtResource("1_og2xi")
 script = ExtResource("1_jps7p")
 
-[node name="gun_top" parent="." instance=ExtResource("3_tqfm8")]
+[node name="points_and_shit" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 462.0
+offset_top = -143.0
+offset_right = 549.0
+offset_bottom = -23.0
+
+[node name="MarginContainer" type="MarginContainer" parent="points_and_shit"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="points_and_shit/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="points_lbl" type="Label" parent="points_and_shit/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Points"
+label_settings = SubResource("LabelSettings_5rms5")
+
+[node name="points_line" type="LineEdit" parent="points_and_shit/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_ydw5n")
+theme_override_font_sizes/font_size = 32
+text = "80"
+placeholder_text = "Points"
+
+[node name="rarity_lbl" type="Label" parent="points_and_shit/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Rarity"
+label_settings = SubResource("LabelSettings_5rms5")
+
+[node name="rarity_line" type="LineEdit" parent="points_and_shit/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_ydw5n")
+theme_override_font_sizes/font_size = 32
+text = "10"
+placeholder_text = "Rarity"
+
+[node name="gun_top" parent="." node_paths=PackedStringArray("point_source") instance=ExtResource("3_tqfm8")]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 161.0
 offset_bottom = 234.0
+point_source = NodePath("..")
 
-[node name="gun_bottom" parent="." instance=ExtResource("3_tqfm8")]
+[node name="gun_bottom" parent="." node_paths=PackedStringArray("point_source") instance=ExtResource("3_tqfm8")]
 layout_mode = 0
-offset_left = 215.0
+offset_left = 219.0
 offset_top = 5.0
-offset_right = 371.0
-offset_bottom = 234.0
+offset_right = 375.0
+offset_bottom = 239.0
+point_source = NodePath("..")
 
 [node name="gun_child" type="PanelContainer" parent="."]
 layout_mode = 0
-offset_left = 421.0
+offset_left = 464.0
 offset_top = 33.0
-offset_right = 569.0
+offset_right = 616.0
 offset_bottom = 236.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_elh2k")
 script = ExtResource("4_1mg8s")
@@ -227,9 +271,9 @@ stretch_mode = 5
 
 [node name="gun_bottom_parent_top" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = 215.0
+offset_left = 219.0
 offset_top = -148.0
-offset_right = 363.0
+offset_right = 367.0
 offset_bottom = -78.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_bottom")
@@ -254,9 +298,9 @@ stretch_mode = 5
 
 [node name="gun_bottom_parent_bottom" type="PanelContainer" parent="." node_paths=PackedStringArray("my_child")]
 layout_mode = 0
-offset_left = 215.0
+offset_left = 219.0
 offset_top = -74.0
-offset_right = 363.0
+offset_right = 367.0
 offset_bottom = -4.0
 script = ExtResource("4_5rms5")
 my_child = NodePath("../gun_bottom")
@@ -279,14 +323,15 @@ texture = SubResource("PlaceholderTexture2D_b3mt3")
 stretch_mode = 5
 
 [node name="camera_debug" type="Camera2D" parent="."]
-position = Vector2(443, 292)
+position = Vector2(384, 81)
+zoom = Vector2(0.5, 0.5)
 script = ExtResource("6_ydw5n")
 
 [node name="rebreed_btn" type="Button" parent="."]
 layout_mode = 0
-offset_left = 423.0
+offset_left = 465.0
 offset_top = 12.0
-offset_right = 509.0
+offset_right = 551.0
 offset_bottom = 29.0
 text = "Re-breeeed"
 
@@ -388,6 +433,8 @@ offset_right = 136.0
 offset_bottom = 282.0
 text = "Show Material List"
 
+[connection signal="text_changed" from="points_and_shit/MarginContainer/VBoxContainer/points_line" to="." method="_on_points_line_text_changed"]
+[connection signal="text_changed" from="points_and_shit/MarginContainer/VBoxContainer/rarity_line" to="." method="_on_rarity_line_text_changed"]
 [connection signal="pressed" from="rebreed_btn" to="gun_child" method="_on_rebreed_btn_pressed"]
 [connection signal="value_changed" from="VSlider" to="gun_map_text" method="_on_v_slider_value_changed"]
 [connection signal="value_changed" from="HSlider" to="gun_map_text" method="_on_h_slider_value_changed"]

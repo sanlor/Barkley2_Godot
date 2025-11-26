@@ -164,7 +164,7 @@ func sprite_selection() -> void:
 		breakpoint
 		return
 		
-	var _pow := my_gun.get_att() ## missing other stats
+	var _pow := my_gun.get_pow() ## missing other stats
 	
 	match bullet_spr.animation:
 	# NORMAL BULLETS #
@@ -1414,12 +1414,12 @@ func _on_body_entered( body: Node2D ) -> void:
 	if body is B2_CombatActor:
 		if not body.is_actor_dead: ## Avoid shooting dead bodies.
 			if body.has_method("damage_actor"):
-				var my_att := my_gun.get_att()
+				var my_att := my_gun.get_pow()
 				
 				## Apply attack modifier
 				my_att *= att 
 				@warning_ignore("narrowing_conversion")
-				my_att = my_att / float(my_gun.bullets_per_shot ) * 0.85 ## 15/08/25 added the 0.85 as a test. Shotgun bullets seem to be way weak.
+				my_att = my_att / float( 1.0 ) * 0.85 ## FIXME 25/11/25 1.0 is TEMP - 15/08/25 added the 0.85 as a test. Shotgun bullets seem to be way weak.
 				@warning_ignore("narrowing_conversion")
 				my_att = clampi( my_att * final_multiplier , 1, 999 )
 				

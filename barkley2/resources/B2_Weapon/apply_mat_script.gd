@@ -41,8 +41,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 0;
 			col = c_white;
 			
-			
-			
 		"3D Printed":
 			_pow = 0.700;
 			_pmx = 0.730;
@@ -56,8 +54,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 1;
 			col = c_white;
-			
-			
 			
 		"Soiled":
 			_pow = 0.712;
@@ -73,8 +69,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 2;
 			col = c_white;
 			
-			
-			
 		"Rotten":
 			_pow = 0.720;
 			_pmx = 0.724;
@@ -88,8 +82,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 3;
 			col = c_white;
-			
-			
 			
 		"Broken":
 			_pow = 0.718;
@@ -105,8 +97,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 4;
 			col = c_white;
 			
-			
-			
 		"Carbon":
 			_pow = 0.718;
 			_pmx = 0.745;
@@ -120,8 +110,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 5;
 			col = c_white;
-			
-			
 			
 		"Mythril":
 			_pow = 0.640;
@@ -137,8 +125,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 6;
 			col = c_white;
 			
-			
-			
 		"Rusty":
 			_pow = 0.748;
 			_pmx = 0.748;
@@ -152,8 +138,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 7;
 			col = c_white;
-			
-			
 			
 		"Junk":
 			_pow = 0.759;
@@ -169,8 +153,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 8;
 			col = c_white;
 			
-			
-			
 		"Neon":
 			_pow = 0.700;
 			_pmx = 0.700;
@@ -184,8 +166,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 9;
 			col = c_white;
-			
-			
 			
 		"Salt":
 			_pow = 0.766;
@@ -201,8 +181,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 10;
 			col = c_white;
 			
-			
-			
 		"Wood":
 			_pow = 0.868;
 			_pmx = 0.946;
@@ -216,8 +194,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 11;
 			col = c_white;
-			
-			
 			
 		"Aluminum":
 			_pow = 0.791;
@@ -233,8 +209,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 12;
 			col = c_white;
 			
-			
-			
 		"Glass":
 			_pow = 0.795;
 			_pmx = 0.795;
@@ -248,8 +222,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 13;
 			col = c_white;
-			
-			
 			
 		"Plastic":
 			_pow = 0.700;
@@ -265,8 +237,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 14;
 			col = c_white;
 			
-			
-			
 		"Leather":
 			_pow = 0.811;
 			_pmx = 0.811;
@@ -280,8 +250,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 15;
 			col = c_white;
-			
-			
 			
 		"Studded":
 			_pow = 0.998;
@@ -297,8 +265,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 16;
 			col = c_white;
 			
-			
-			
 		"Dual":
 			_pow = 0.843;
 			_pmx = 0.843;
@@ -312,8 +278,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 17;
 			col = c_white;
-			
-			
 			
 		"Plantain":
 			_pow = 0.839;
@@ -329,8 +293,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 18;
 			col = c_white;
 			
-			
-			
 		"Bone":
 			_pow = 0.958;
 			_pmx = 0.958;
@@ -344,8 +306,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 19;
 			col = c_white;
-			
-			
 			
 		"Aluminium":
 			_pow = 0.760;
@@ -361,8 +321,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 20;
 			col = c_white;
 			
-			
-			
 		"Titanium":
 			_pow = 1.360;
 			_pmx = 1.360;
@@ -376,8 +334,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 21;
 			col = c_white;
-			
-			
 			
 		"Stone":
 			_pow = 0.826;
@@ -393,8 +349,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 22;
 			col = c_white;
 			
-			
-			
 		"Chrome":
 			_pow = 0.940;
 			_pmx = 0.940;
@@ -408,8 +362,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 23;
 			col = c_white;
-			
-			
 			
 		"Frankincense":
 			_pow = 0.902;
@@ -425,8 +377,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 24;
 			col = c_white;
 			
-			
-			
 		"Iron":
 			_pow = 0.906;
 			_pmx = 0.906;
@@ -440,8 +390,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 25;
 			col = c_white;
-			
-			
 			
 		"Cobalt":
 			_pow = 0.918;
@@ -457,8 +405,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 26;
 			col = c_white;
 			
-			
-			
 		"Nickel":
 			_pow = 0.918;
 			_pmx = 0.918;
@@ -472,8 +418,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 27;
 			col = c_white;
-			
-			
 			
 		"Copper":
 			_pow = 0.938;
@@ -489,8 +433,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 28;
 			col = c_white;
 			
-			
-			
 		"Zinc":
 			_pow = 0.942;
 			_pmx = 0.942;
@@ -504,8 +446,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 29;
 			col = c_white;
-			
-			
 			
 		"Fiberglass":
 			_pow = 0.962;
@@ -521,8 +461,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 30;
 			col = c_white;
 			
-			
-			
 		"Grass":
 			_pow = 0.974;
 			_pmx = 0.974;
@@ -536,8 +474,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 31;
 			col = c_white;
-			
-			
 			
 		"Soy":
 			_pow = 0.981;
@@ -553,8 +489,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 32;
 			col = c_white;
 			
-			
-			
 		"Steel":
 			_pow = 1.000;
 			_pmx = 1.000;
@@ -568,8 +502,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 33;
 			col = c_white;
-			
-			
 			
 		"Brass":
 			_pow = 1.001;
@@ -585,8 +517,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 34;
 			col = c_white;
 			
-			
-			
 		"Orichalcum":
 			_pow = 1.017;
 			_pmx = 1.017;
@@ -600,8 +530,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 35;
 			col = c_white;
-			
-			
 			
 		"Napalm":
 			_pow = 1.021;
@@ -617,8 +545,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 36;
 			col = c_white;
 			
-			
-			
 		"Origami":
 			_pow = 0.880;
 			_pmx = 0.880;
@@ -632,8 +558,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 37;
 			col = c_white;
-			
-			
 			
 		"Offal":
 			_pow = 1.037;
@@ -649,8 +573,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 38;
 			col = c_white;
 			
-			
-			
 		"Crystal":
 			_pow = 1.045;
 			_pmx = 1.045;
@@ -664,8 +586,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 39;
 			col = c_white;
-			
-			
 			
 		"Adamantium":
 			_pow = 1.053;
@@ -681,8 +601,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 40;
 			col = c_white;
 			
-			
-			
 		"Silk":
 			_pow = 1.065;
 			_pmx = 1.065;
@@ -696,8 +614,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 41;
 			col = c_white;
-			
-			
 			
 		"Marble":
 			_pow = 1.073;
@@ -713,8 +629,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 42;
 			col = c_white;
 			
-			
-			
 		"Rubber":
 			_pow = 1.085;
 			_pmx = 1.085;
@@ -728,8 +642,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 43;
 			col = c_white;
-			
-			
 			
 		"Foil":
 			_pow = 1.093;
@@ -745,8 +657,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 44;
 			col = c_white;
 			
-			
-			
 		"Blood":
 			_pow = 1.104;
 			_pmx = 1.104;
@@ -760,8 +670,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 45;
 			col = c_white;
-			
-			
 			
 		"Silver":
 			_pow = 1.112;
@@ -777,8 +685,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 46;
 			col = c_white;
 			
-			
-			
 		"Chitin":
 			_pow = 1.128;
 			_pmx = 1.128;
@@ -792,8 +698,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 47;
 			col = c_white;
-			
-			
 			
 		"Sinew":
 			_pow = 1.140;
@@ -809,8 +713,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 48;
 			col = c_white;
 			
-			
-			
 		"Tin":
 			_pow = 1.156;
 			_pmx = 1.156;
@@ -824,8 +726,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 49;
 			col = c_white;
-			
-			
 			
 		"Obsidian":
 			_pow = 1.168;
@@ -841,8 +741,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 50;
 			col = c_white;
 			
-			
-			
 		"Fungus":
 			_pow = 1.192;
 			_pmx = 1.192;
@@ -856,8 +754,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 51;
 			col = c_white;
-			
-			
 			
 		"Damascus":
 			_pow = 1.188;
@@ -873,8 +769,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 52;
 			col = c_white;
 			
-			
-			
 		"Analog":
 			_pow = 1.204;
 			_pmx = 1.204;
@@ -888,8 +782,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 53;
 			col = c_white;
-			
-			
 			
 		"Digital":
 			_pow = 1.211;
@@ -905,8 +797,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 54;
 			col = c_white;
 			
-			
-			
 		"Brain":
 			_pow = 1.227;
 			_pmx = 1.227;
@@ -920,8 +810,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 55;
 			col = c_white;
-			
-			
 			
 		"Chobham":
 			_pow = 1.235;
@@ -937,8 +825,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 56;
 			col = c_white;
 			
-			
-			
 		"Bronze":
 			_pow = 1.390;
 			_pmx = 1.390;
@@ -952,8 +838,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 57;
 			col = c_white;
-			
-			
 			
 		"Blaster":
 			_pow = 1.402;
@@ -969,8 +853,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 58;
 			col = c_white;
 			
-			
-			
 		"Tungsten":
 			_pow = 1.414;
 			_pmx = 1.414;
@@ -984,8 +866,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 59;
 			col = c_white;
-			
-			
 			
 		"Itano":
 			_pow = 1.422;
@@ -1001,8 +881,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 60;
 			col = c_white;
 			
-			
-			
 		"Pearl":
 			_pow = 1.420;
 			_pmx = 1.540;
@@ -1016,8 +894,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 61;
 			col = c_white;
-			
-			
 			
 		"Myrrh":
 			_pow = 1.445;
@@ -1033,8 +909,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 62;
 			col = c_white;
 			
-			
-			
 		"Platinum":
 			_pow = 1.457;
 			_pmx = 1.457;
@@ -1048,8 +922,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 63;
 			col = c_white;
-			
-			
 			
 		"Gold":
 			_pow = 1.465;
@@ -1065,8 +937,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 64;
 			col = c_white;
 			
-			
-			
 		"Mercury":
 			_pow = 1.477;
 			_pmx = 1.477;
@@ -1080,8 +950,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 65;
 			col = c_white;
-			
-			
 			
 		"Imaginary":
 			_pow = 1.493;
@@ -1097,8 +965,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 66;
 			col = c_white;
 			
-			
-			
 		"Lead":
 			_pow = 1.505;
 			_pmx = 1.505;
@@ -1112,8 +978,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 67;
 			col = c_white;
-			
-			
 			
 		"Diamond":
 			_pow = 1.513;
@@ -1129,8 +993,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 68;
 			col = c_white;
 			
-			
-			
 		"Polenta":
 			_pow = 1.513;
 			_pmx = 1.513;
@@ -1144,8 +1006,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 69;
 			col = c_white;
-			
-			
 			
 		"Yggdrasil":
 			_pow = 1.517;
@@ -1161,8 +1021,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 70;
 			col = c_white;
 			
-			
-			
 		"Pinata":
 			_pow = 1.564;
 			_pmx = 1.564;
@@ -1176,8 +1034,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 71;
 			col = c_white;
-			
-			
 			
 		"Francium":
 			_pow = 1.568;
@@ -1193,8 +1049,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 72;
 			col = c_white;
 			
-			
-			
 		"Orb":
 			_pow = 1.580;
 			_pmx = 1.660;
@@ -1208,8 +1062,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 73;
 			col = c_white;
-			
-			
 			
 		"Nanotube":
 			_pow = 1.540;
@@ -1225,8 +1077,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 74;
 			col = c_white;
 			
-			
-			
 		"Taxidermy":
 			_pow = 1.000;
 			_pmx = 1.000;
@@ -1240,8 +1090,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 75;
 			col = c_white;
-			
-			
 			
 		"Porcelain":
 			_pow = 1.000;
@@ -1257,8 +1105,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 76;
 			col = c_white;
 			
-			
-			
 		"Anti-Matter":
 			_pow = 1.000;
 			_pmx = 1.000;
@@ -1272,8 +1118,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 77;
 			col = c_white;
-			
-			
 			
 		"Aerogel":
 			_pow = 1.000;
@@ -1289,8 +1133,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 78;
 			col = c_white;
 			
-			
-			
 		"Denim":
 			_pow = 1.000;
 			_pmx = 1.000;
@@ -1305,8 +1147,6 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			# gun[?"hudIconFrame"] = 79;
 			col = c_white;
 			
-			
-			
 		"Untamonium":
 			_pow = 1.000;
 			_pmx = 1.000;
@@ -1320,6 +1160,9 @@ static func apply_material( gun : B2_Weapon, material : B2_Gun.MATERIAL ) -> voi
 			gunheldcol = col;
 			# gun[?"hudIconFrame"] = 80;
 			col = c_white;
+		_:
+			push_error( "Unknown material: %s" % B2_Gun.MATERIAL_NAMES.get(material) )
+			breakpoint
 			
 	if _pattern != "":
 		gun.weapon_stats.pPattern		= _pattern

@@ -6,12 +6,14 @@ class_name B2_WeaponStats
 # check scr_combat_weapons_resetStats
 
 ## Weapon stats, thats what goes up as you fuse gun's and raise levels on em.
+# Why these start with "s"?
 @export var sPower  			: float = 30
 @export var sSpeed  			: float = 30
 @export var sRange  			: float = 30
 @export var sAmmo  				: float = 30
 @export var sAffix  			: float = 30
 @export var sWeight  			: float = 3
+@export var sLevel  			: float = 3
 @export var pEquipped 			:= false
 
 @export var numberval 			:= 0; 		## TODO
@@ -71,6 +73,10 @@ class_name B2_WeaponStats
 @export var gunheldcol3  			: String = ""
 @export var displayParts  			: bool = false
 @export var gunheldcol2  			: String = ""
+
+@export var gunHeldSprite2  		: String = ""
+@export var gunHeldSprite3  		: String = ""
+@export var gunHeldSprite2Alpha		: float = 1.0
 
 @export var normalFlame  			: bool = false
 @export var specialFlame  			: bool = false

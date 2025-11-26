@@ -105,9 +105,9 @@ func shoot_gun( action : bool ) -> void:
 # Perform speccific checks and actions before firing a gun.
 @warning_ignore("unused_parameter")
 func pre_attack_action( action : bool ) -> bool:
-	windupSound 	= curr_gun.windupSound
-	winddownSound 	= curr_gun.winddownSound
-	sustainSound 	= curr_gun.sustainSound
+	windupSound 	= curr_gun.weapon_stats.windupSound
+	winddownSound 	= curr_gun.weapon_stats.winddownSound
+	sustainSound 	= curr_gun.weapon_stats.sustainSound
 	
 	var pWindUp 		:= curr_gun.weapon_stats.pWindUp
 	
@@ -192,7 +192,7 @@ func attack_action() -> void:
 		
 	## Start timers and necessary variables.
 	is_shooting = true
-	firing_rate.start( curr_gun.wait_per_shot )
+	# FIXME firing_rate.start( curr_gun.wait_per_shot )
 	
 	var source_pos 	: Vector2 = get_parent().get_muzzle_position()
 	var may_shoot	:= true ## Certain situations may disable shooting the gun
@@ -250,24 +250,24 @@ func attack_action() -> void:
 		
 		## Only shoot if you have ammo.
 		if curr_gun.has_ammo() and may_shoot:
-			curr_gun.use_ammo( curr_gun.ammo_per_shot )
+			# FIXME curr_gun.use_ammo( curr_gun.ammo_per_shot )
 			B2_Sound.play( curr_gun.get_soundID() )
 			_create_flash( source_pos, dir, 1.5)
-			for i in curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
+			for i in 1: # FIXME curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
 				_create_casing( casing_pos)
 				
 			## only apply knockback if you actually fire the weapon.
 			source_actor.apply_central_impulse( -dir * curr_gun.get_gun_knockback() ) 
 			
 			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
-			for i in curr_gun.bullets_per_shot:
+			for i in 1: # FIXME curr_gun.bullets_per_shot:
 				source_pos = get_parent().get_muzzle_position() ## Update position.
 				
-				var my_spread_offset := curr_gun.bullet_spread * ( float(i) / float(curr_gun.bullets_per_shot) )
-				my_spread_offset -= curr_gun.bullet_spread / curr_gun.bullets_per_shot
+				var my_spread_offset := 1.0 * ( float(i) / 1.0 ) # FIXME float(curr_gun.bullets_per_shot) ) ## TODO add better spread
+				my_spread_offset -= 0.0 # FIXME curr_gun.bullet_spread / curr_gun.bullets_per_shot
 				
 				## Aim variations
-				var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+				var my_acc := 1.0 * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 				
 				_create_bullet( source_pos, b_dir )
@@ -289,9 +289,11 @@ func _gun_changed() -> void:
 	
 ## After a gun changes, update its timers to avoid being able to change weapont and instantly shooting them.
 func _update_timers() -> void:
-	pre_shooting_timer.start( curr_gun.delay_before_action )
-	firing_rate.start( curr_gun.wait_per_shot )
-	post_shooting_timer.start( curr_gun.delay_after_action )
+	#pre_shooting_timer.start( curr_gun.delay_before_action )
+	#firing_rate.start( curr_gun.wait_per_shot )
+	#post_shooting_timer.start( curr_gun.delay_after_action )
+	## TODO add back the wait timers
+	pass
 
 func gun_noises_control( sfx_name : String ) -> void:
 	if gun_noises_stream.playing:

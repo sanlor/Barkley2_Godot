@@ -611,6 +611,8 @@ const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns
 ## Script to modify the gun script based on its material or type.
 const apply_mat_script := preload("uid://cn3pthgmp6ajv")
 const apply_typ_script := preload("uid://bieh3fvpmvkb2")
+const apply_gfx_script := preload("uid://dmcba8gomi654")
+
 
 ## Gene Settings ##
 const geneAffixChance 			:= 25;	## Range = 1-100% | Rolled 3 times per gun, 1 for each affix slot.
@@ -677,9 +679,9 @@ static func generate_gun_from_parents( parent_top : B2_Weapon = null, parent_bot
 	my_gun.weapon_short_name = "FUZE"
 	
 	## Apply the correct amount of ammo.
-	var curr_ammo_1 : float = float(parent_top.curr_ammo) / float(parent_top.max_ammo)			# percentage of the current ammo for top gun
-	var curr_ammo_2 : float = float(parent_bottom.curr_ammo) / float(parent_bottom.max_ammo)	# percentage of the current ammo for bottom gun
-	my_gun.curr_ammo = maxi( int( float(my_gun.max_ammo) * (curr_ammo_1 + curr_ammo_2) / 2.0 ), my_gun.max_ammo) # percentage of the current ammo for the new gun
+	var curr_ammo_1 : float = float(parent_top.get_curr_ammo()) / float(parent_top.get_max_ammo())			# percentage of the current ammo for top gun
+	var curr_ammo_2 : float = float(parent_bottom.get_curr_ammo()) / float(parent_bottom.get_max_ammo())	# percentage of the current ammo for bottom gun
+	my_gun.weapon_stats.pCurAmmo = maxi( int( float(my_gun.get_max_ammo() ) * (curr_ammo_1 + curr_ammo_2) / 2.0 ), my_gun.get_max_ammo() ) # percentage of the current ammo for the new gun
 	
 	# Record thy lineage
 	my_gun.lineage_top = gun_to_dict(parent_top)
@@ -796,11 +798,12 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	## Apply Mat and type modifiers
 	apply_mat_script.apply_material( wpn, wpn.weapon_material )
 	apply_typ_script.apply_type( wpn, wpn.weapon_type )
+	apply_gfx_script.apply_graphic( wpn )
 		
 	# Check Drop("stats")
 	# Drop("stats", 50, ClockTime("time"), scr_stats_getEffectiveStat(o_hoopz, STAT_BASE_LUCK) + Quest("playerCCBonus"));
 	var stat_points : int = options.get("gunsdrop", randi_range(70,90) )
-	apply_stats( wpn, stat_points, B2_ClockTime.time_display() )
+	apply_stats( wpn, stat_points, B2_ClockTime.time_display(), B2_Playerdata.Quest("playerCCBonus", null, 10 ) )
 		
 	apply_name( wpn, options )
 	
@@ -815,75 +818,75 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	
 	## 18/05/25 - also add some freshly baked xXx-C0mB@7_Sk1l1zz-xXx to a weapon group.
 	wpn.weapon_group = GROUP_LIST.get( wpn.weapon_type, GROUP.NONE ) ## Group is important for the type of fire that the weapon uses.
-	match wpn.weapon_group:
-		GROUP.NONE:
-			## summtin isnt right.
-			breakpoint
-			
-		GROUP.SHOTGUNS:
-			wpn.bullets_per_shot 	= 10
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.5
-			wpn.bullet_spread 		= 0.5
-			wpn.turnbased_burst		= 1
-			if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
-				wpn.bullets_per_shot 	*= 2
-				wpn.ammo_per_shot 		*= 2
-				
-		GROUP.AUTOMATIC:
-			wpn.bullets_per_shot 	= 1
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.1
-			wpn.bullet_spread 		= 0.075
-			wpn.turnbased_burst		= 6
-			
-			## Skills
-			wpn.skill_list[SKILL.BURST_FIRE] 	= 0
-			wpn.skill_list[SKILL.FULL_AUTO] 	= 0
-			
-		GROUP.MOUNTED:
-			wpn.bullets_per_shot 	= 1
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.05
-			wpn.bullet_spread 		= 0.20
-			wpn.turnbased_burst		= 10
-			
-		GROUP.PISTOLS:
-			wpn.bullets_per_shot 	= 1
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 0.2
-			wpn.bullet_spread 		= 0.05
-			wpn.turnbased_burst		= 4
-			
-			## Skills
-			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
-			wpn.skill_list[SKILL.BURST_FIRE] 		= 25
-			
-		GROUP.PROJECTILE:
-			wpn.bullets_per_shot 	= 1
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 1.0
-			wpn.bullet_spread 		= 0.0
-			wpn.turnbased_burst		= 1
-			
-		GROUP.RIFLES:
-			wpn.bullets_per_shot 	= 1
-			wpn.ammo_per_shot 		= 1
-			wpn.wait_per_shot 		= 1.0
-			wpn.bullet_spread 		= 0.025
-			wpn.turnbased_burst		= 3
-			
-			## Skills
-			wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
-			wpn.skill_list[SKILL.BURST_FIRE] 		= 25
-		_:
-			## summtin REEEALY isnt right.
-			breakpoint
+	#match wpn.weapon_group:
+		#GROUP.NONE:
+			### summtin isnt right.
+			#breakpoint
+			#
+		#GROUP.SHOTGUNS:
+			#wpn.bullets_per_shot 	= 10
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 0.5
+			#wpn.bullet_spread 		= 0.5
+			#wpn.turnbased_burst		= 1
+			#if wpn.weapon_type == TYPE.GUN_TYPE_DOUBLESHOTGUN:
+				#wpn.bullets_per_shot 	*= 2
+				#wpn.ammo_per_shot 		*= 2
+				#
+		#GROUP.AUTOMATIC:
+			#wpn.bullets_per_shot 	= 1
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 0.1
+			#wpn.bullet_spread 		= 0.075
+			#wpn.turnbased_burst		= 6
+			#
+			### Skills
+			#wpn.skill_list[SKILL.BURST_FIRE] 	= 0
+			#wpn.skill_list[SKILL.FULL_AUTO] 	= 0
+			#
+		#GROUP.MOUNTED:
+			#wpn.bullets_per_shot 	= 1
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 0.05
+			#wpn.bullet_spread 		= 0.20
+			#wpn.turnbased_burst		= 10
+			#
+		#GROUP.PISTOLS:
+			#wpn.bullets_per_shot 	= 1
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 0.2
+			#wpn.bullet_spread 		= 0.05
+			#wpn.turnbased_burst		= 4
+			#
+			### Skills
+			#wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
+			#wpn.skill_list[SKILL.BURST_FIRE] 		= 25
+			#
+		#GROUP.PROJECTILE:
+			#wpn.bullets_per_shot 	= 1
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 1.0
+			#wpn.bullet_spread 		= 0.0
+			#wpn.turnbased_burst		= 1
+			#
+		#GROUP.RIFLES:
+			#wpn.bullets_per_shot 	= 1
+			#wpn.ammo_per_shot 		= 1
+			#wpn.wait_per_shot 		= 1.0
+			#wpn.bullet_spread 		= 0.025
+			#wpn.turnbased_burst		= 3
+			#
+			### Skills
+			#wpn.skill_list[SKILL.PRECISION_SHOT] 	= 0
+			#wpn.skill_list[SKILL.BURST_FIRE] 		= 25
+		#_:
+			### summtin REEEALY isnt right.
+			#breakpoint
 	# Lol, look at this guy. he doesnt even know that I gave up on the turn-based combat thing. He just wasted a lot of time on that.
 	
 	## Increase max ammo as a test. FIXME
-	wpn.max_ammo *= 3
-	wpn.curr_ammo = wpn.max_ammo
+	#wpn.max_ammo *= 3
+	#wpn.curr_ammo = wpn.max_ammo
 	
 	#print( JSON.from_native(wpn.weapon_stats, true) )
 	
@@ -892,21 +895,26 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	
 	return wpn
 	
-static func apply_stats( wpn : B2_Weapon, points : int, current_time : String ) -> void:
+static func apply_stats( wpn : B2_Weapon, points : int, current_time : String, bonus := 10 ) -> void:
 	## Set base stats (Random for now). This should be modified by the material, type, and affixes. ## WARNING It isnt at this moment 28/02/25
 	## 22/04/25 Stat generation is scary.
 	## 30/09/25 True
 	## 23/11/25 Need to fuck around with this again...
 	
+	## Check Drop("stats")
+	# RETURNS sttPow, sttCap, sttAff, sttSpd
+	@warning_ignore("integer_division")
+	var _pow = points / 4; 		# Gunsdrop
+	@warning_ignore("integer_division")
+	var _tim = current_time; 	# "24:00"
+	@warning_ignore("integer_division")
+	var _bon = bonus / 10; 		# Bonus Value usually is Player Luck + CCBonus
+	
 	# Base Stats
-	@warning_ignore("integer_division")
-	var sttPow : int = points / 4
-	@warning_ignore("integer_division")
-	var sttCap : int = points / 4
-	@warning_ignore("integer_division")
-	var sttAff : int = points / 4
-	@warning_ignore("integer_division")
-	var sttSpd : int = points / 4
+	var sttPow : int = _pow
+	var sttCap : int = _pow
+	var sttAff : int = _pow
+	var sttSpd : int = _pow
 	
 	# Bonus Apply = Is even and not 0
 	assert(current_time.length() == 5, "Time with the incorrect format -> %s" % current_time)
@@ -921,45 +929,56 @@ static func apply_stats( wpn : B2_Weapon, points : int, current_time : String ) 
 	if (float(num) / 2.0 == floor(float(num) / 2.0) && num != 0.0): sttSpd += B2_Playerdata.Quest("playerCCSpeedBonus")
 	# WARNING Im not doing anithing with the data above. How should we apply it?
 	
+	## Check Drop("generate")
+	
+	wpn.weapon_stats.sPower 		= sttPow
+	wpn.weapon_stats.sSpeed 		= sttSpd
+	wpn.weapon_stats.sAffix			= sttAff
+	wpn.weapon_stats.sAmmo			= sttCap
+	wpn.weapon_stats.sWeight		= ((sttPow + sttSpd + sttCap + sttAff) * B2_Drop.settingDropWeightPercent) + B2_Drop.settingDropWeightAdd;
+	
+	#region 25/11/25 old, disabled code.
+	
+	# check scr_combat_weapons_generate
+	## CRITICAL his code is WRONG. scr_combat_weapons_generate is never used in the final game, besides for debug stuff.
 	# var points 			:= 100 ## points for stat generation. NOTE I have no idea how the game generate this number. 100 seems normal.
 	# var points_left 	:= points ## 23/11/25 disabled this
-	var points_left 	:= wpn.weapon_stats.numberval - wpn.weapon_stats.pointsUsed
-	@warning_ignore("integer_division")
-	var poinst_each 	:= points_left / 7 # was 7
+#	var points_left 	:= wpn.weapon_stats.numberval - wpn.weapon_stats.pointsUsed
+#	@warning_ignore("integer_division")
+#	var poinst_each 	:= points_left / 7 # was 7
 	
-	wpn.weapon_stats.sPower 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pPowerMod 	- 1 ) / 2 ) + 1 ) )
-	wpn.weapon_stats.sSpeed 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pSpeedMod 	- 1 ) / 2 ) + 1 ) )
-	wpn.weapon_stats.sAffix			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAmmoMod 	- 1 ) / 2 ) + 1 ) ) # NOTE Not implemented.
-	wpn.weapon_stats.sAmmo			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAffixMod 	- 1 ) / 2 ) + 1 ) )
+#	wpn.weapon_stats.sPower 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pPowerMod 	- 1 ) / 2 ) + 1 ) )
+#	wpn.weapon_stats.sSpeed 		= ceil( poinst_each * ( ( ( wpn.weapon_stats.pSpeedMod 	- 1 ) / 2 ) + 1 ) )
+#	wpn.weapon_stats.sAffix			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAmmoMod 	- 1 ) / 2 ) + 1 ) )
+#	wpn.weapon_stats.sAmmo			= ceil( poinst_each * ( ( ( wpn.weapon_stats.pAffixMod 	- 1 ) / 2 ) + 1 ) )
 		
-	wpn.weapon_stats.sPower 		= clamp(wpn.weapon_stats.sPower, 0, 90 )
-	wpn.weapon_stats.sSpeed 		= clamp(wpn.weapon_stats.sSpeed, 0, 90 )
-	wpn.weapon_stats.sAffix 		= clamp(wpn.weapon_stats.sAffix, 0, 90 )
-	wpn.weapon_stats.sAmmo 			= clamp(wpn.weapon_stats.sAmmo, 0, 90 )
+#	wpn.weapon_stats.sPower 		= clamp(wpn.weapon_stats.sPower, 0, 90 )
+#	wpn.weapon_stats.sSpeed 		= clamp(wpn.weapon_stats.sSpeed, 0, 90 )
+#	wpn.weapon_stats.sAffix 		= clamp(wpn.weapon_stats.sAffix, 0, 90 )
+#	wpn.weapon_stats.sAmmo 			= clamp(wpn.weapon_stats.sAmmo, 0, 90 )
 	
 	## distribute remaining core points randomly
-	var remain_points = poinst_each * 2 + ( poinst_each * 5 - ( wpn.weapon_stats.sPower + wpn.weapon_stats.sSpeed + wpn.weapon_stats.sAffix + wpn.weapon_stats.sAmmo ) );
+#	var remain_points = poinst_each * 2 + ( poinst_each * 5 - ( wpn.weapon_stats.sPower + wpn.weapon_stats.sSpeed + wpn.weapon_stats.sAffix + wpn.weapon_stats.sAmmo ) );
 		
-	var tries := 10;
-	while remain_points > 0:
-		match randi_range(0,3):
-			0: wpn.weapon_stats.sPower 	+= 1
-			1: wpn.weapon_stats.sSpeed 	+= 1
-			2: wpn.weapon_stats.sAffix 	+= 1
-			3: wpn.weapon_stats.sAmmo 	+= 1
+#	var tries := 10;
+#	while remain_points > 0:
+#		match randi_range(0,3):
+#			0: wpn.weapon_stats.sPower 	+= 1
+#			1: wpn.weapon_stats.sSpeed 	+= 1
+#			2: wpn.weapon_stats.sAffix 	+= 1
+#			3: wpn.weapon_stats.sAmmo 	+= 1
 		
-		var tryit := false ## if a weapon generates an individual stat above 90, it tries again
-		if wpn.weapon_stats.sPower > 90: wpn.weapon_stats.sPower = 90; 		tryit = true
-		if wpn.weapon_stats.sSpeed > 90: wpn.weapon_stats.sSpeed = 90; 		tryit = true
-		if wpn.weapon_stats.sAffix > 90: wpn.weapon_stats.sAffix = 90; 		tryit = true
-		if wpn.weapon_stats.sAmmo > 90: wpn.weapon_stats.sAmmo = 90; 		tryit = true
+#		var tryit := false ## if a weapon generates an individual stat above 90, it tries again
+#		if wpn.weapon_stats.sPower > 90: wpn.weapon_stats.sPower = 90; 		tryit = true
+#		if wpn.weapon_stats.sSpeed > 90: wpn.weapon_stats.sSpeed = 90; 		tryit = true
+#		if wpn.weapon_stats.sAffix > 90: wpn.weapon_stats.sAffix = 90; 		tryit = true
+#		if wpn.weapon_stats.sAmmo > 90: wpn.weapon_stats.sAmmo = 90; 		tryit = true
 		
-		## after 10 tries it gives up on fitting the points, and points are lost.
-		if !tryit || tries <= 0: 	remain_points -= 1
-		else:						tries -= 1
+#		## after 10 tries it gives up on fitting the points, and points are lost.
+#		if !tryit || tries <= 0: 	remain_points -= 1
+#		else:						tries -= 1
 	
-	## Save points used.
-	#wpn.pts = points ## FIXME
+	#endregion
 	
 	# Check scr_combat_weapons_prepareStats
 	
@@ -1116,12 +1135,13 @@ static func get_gun_from_db( gun_db_name : String, gun_name : String = "" ) -> B
 			
 		my_gun = generate_generic_gun( choices.pick_random(), MATERIAL.NONE, {"wpn_name" : gun_name,} )
 		
-		my_gun.generic_damage 	= db_gun[1]
-		my_gun.bio_damage 		= db_gun[2]
-		my_gun.cyber_damage 	= db_gun[3]
-		my_gun.mental_damage 	= db_gun[4]
-		my_gun.cosmic_damage 	= db_gun[5]
-		my_gun.zauber_damage 	= db_gun[6]
+		## TODO 25/11/25 Replace this with something useful
+		#my_gun.generic_damage 	= db_gun[1]
+		#my_gun.bio_damage 		= db_gun[2]
+		#my_gun.cyber_damage 	= db_gun[3]
+		#my_gun.mental_damage 	= db_gun[4]
+		#my_gun.cosmic_damage 	= db_gun[5]
+		#my_gun.zauber_damage 	= db_gun[6]
 		
 		#append_gun_to_bandolier( my_gun )
 		print( "B2_Gun: Gun '%s' named '%s' generated." % [gun_db_name, gun_name] )

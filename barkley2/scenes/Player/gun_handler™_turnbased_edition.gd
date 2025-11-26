@@ -51,11 +51,11 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2 ) -> void:
 			
 			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
 			for i in curr_gun.bullets_per_shot:
-				var my_spread_offset := curr_gun.bullet_spread * ( float(i) / float(curr_gun.bullets_per_shot) )
+				var my_spread_offset := 1.0 * ( float(i) / float(curr_gun.bullets_per_shot) ) ## TODO add better spread
 				my_spread_offset -= curr_gun.bullet_spread / curr_gun.bullets_per_shot
 				
 				## Aim variations
-				var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+				var my_acc := 1.0 * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 				
 				_create_bullet( source_pos, b_dir )
@@ -126,7 +126,7 @@ func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill 
 			my_spread_offset -= skill.bullet_spread / skill.bullets_per_shot
 			
 			## Aim variations
-			var my_acc := curr_gun.get_acc() * B2_Config.BULLET_SPREAD_MULTIPLIER
+			var my_acc := 1.0 * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 			
 			_create_bullet( source_pos, b_dir, skill )

@@ -35,14 +35,14 @@ func _ready() -> void:
 
 func setup_button( wpn : B2_Weapon ) -> void:
 	gun_name.text 		= wpn.get_short_name()
-	gun_ammo.text 		= str(wpn.curr_ammo).pad_decimals(0)
+	gun_ammo.text 		= str(wpn.get_curr_ammo() ).pad_decimals(0)
 	## NOTE The values bellow are very different from the original
 	gun_weight.text 	= str( wpn.get_wgt() ).pad_decimals(0)
-	pts_value.text		= str( (wpn.get_att()  + wpn.get_spd() + wpn.get_afx() + wpn.get_acc() ) / 4.0 ).pad_decimals(0)
-	dmg_value.text		= str( wpn.get_att() ).pad_decimals(0)
-	rte_value.text		= str( wpn.get_spd() ).pad_decimals(0)
+	pts_value.text		= str( min(wpn.get_pow()  + wpn.get_spd() + wpn.get_afx() + wpn.get_amm(), 999 ) ).pad_decimals(0)
+	dmg_value.text		= str( wpn.get_damage() ).pad_decimals(0)
+	rte_value.text		= wpn.get_rate_total() # str( wpn.get_spd() ).pad_decimals(0)
 	spc_value.text		= str( wpn.get_afx() ).pad_decimals(0)
-	cap_value.text		= str( wpn.max_ammo ).pad_decimals(0)
+	cap_value.text		= str( wpn.get_max_ammo() ).pad_decimals(0)
 
 func _on_mouse_entered() -> void:
 	gun_ammo.modulate 		= sel_ammo_color

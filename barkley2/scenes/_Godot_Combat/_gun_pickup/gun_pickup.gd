@@ -28,8 +28,8 @@ var picked_up := false
 var disapear_tween : Tween
 var movement_tween : Tween
 
-func setup( type : B2_Gun.TYPE ) -> void:
-	my_gun = B2_Gun.generate_gun( type )
+func setup( type : B2_Gun.TYPE, gundrop : int ) -> void:
+	my_gun = B2_Gun.generate_gun( type, B2_Gun.MATERIAL.NONE, {"gundrop" : gundrop} )
 	@warning_ignore("narrowing_conversion")
 	my_gun.curr_ammo = my_gun.max_ammo * B2_Drop.settingDropAmmo
 	weapon_pickup_name = Text.pr( my_gun.weapon_pickup_name.capitalize() )

@@ -1143,7 +1143,7 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 	gun.weapon_stats.pPowerMaxMod *= _pmx;
 	gun.weapon_stats.pSpeedMod = gun.weapon_stats.pSpeedMod*( _spd + ( _spd * rateBooster) ) # added rate booster, in Settings()
 
-	gun.weapon_stats.sRange = 40*_rng;
+	gun.weapon_stats.sRange = 40 * _rng;
 
 	gun.weapon_stats.pAmmoMod *= (_amm + (_amm * ammoBooster ) ); # added ammo booster
 	gun.weapon_stats.pAffixMod *= _afx;

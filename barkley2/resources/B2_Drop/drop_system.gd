@@ -88,7 +88,7 @@ static func create_drops( enemy_data : B2_EnemyData, pos : Vector2, is_a_boss : 
 			var sel_choice = choices.pick_random()
 			
 			if is_instance_valid( B2_RoomXY.room_reference ):
-				gun.setup( sel_choice )
+				gun.setup( sel_choice, enemy_data.gunsdrop )
 				B2_RoomXY.room_reference.call_deferred( "add_child", gun, true )
 				gun.position = pos
 				## TODO apply stat modifiers to the weapon.
