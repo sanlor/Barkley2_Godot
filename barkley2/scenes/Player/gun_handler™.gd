@@ -106,72 +106,63 @@ func shoot_gun( action : bool ) -> void:
 # Perform speccific checks and actions before firing a gun.
 @warning_ignore("unused_parameter")
 func pre_attack_action( action : bool ) -> bool:
+	## controls the 'windup' variable. Some guns need to wind up before shooting (minigun).
+	var pWindUp 	:= curr_gun.weapon_stats.pWindUp
 	windupSound 	= curr_gun.weapon_stats.windupSound
 	winddownSound 	= curr_gun.weapon_stats.winddownSound
 	sustainSound 	= curr_gun.weapon_stats.sustainSound
 	
-	var pWindUp 		:= curr_gun.weapon_stats.pWindUp
-	
-	var fireTimer 	:= curr_gun.weapon_stats.pFireTimerTarget * ( 1 - curr_gun.weapon_stats.pShotDelay)
+	## Some guns have a delay before shooting, like muskets.
+	var fireTimer 	:= curr_gun.weapon_stats.pFireTimerTarget * ( 1.0 - curr_gun.weapon_stats.pShotDelay)
 	var delayTimer 	:= curr_gun.weapon_stats.pFireTimerTarget * (curr_gun.weapon_stats.pShotDelay)
 	
+	## Control if the gun can be shot or not.
 	var can_shoot	:= action
 	
-	## TODO check if this applies to this version.
-	#if (gun[? "pChargeRatio"] >= 1 and actor.gunBursting > 0 and (
-	#	gun[? "pType"] == GUN_TYPE_MACHINEPISTOL or
-	#	gun[? "pType"] == GUN_TYPE_ASSAULTRIFLE)) {
-	#actor.gunBursting = 0;
-	#}
-	
+	## Gun needs to wind up before shooting.
 	if curr_gun.weapon_stats.pWindUpSpeed > 0.0:
 		
 		## Player is holding the trigger
-		if action: ## CRITICAL TODO Check if player is holding the trigger
+		if action:
+			## Shoot if the windup is full
+			can_shoot = pWindUp >= 100.0 
 			
-			can_shoot = pWindUp >= 100 ## Shoot if the windup is full
-			
-			## Unsure what this does. Maybe play sfx only after a certain threshold? <- Understood it now.
+			## Unsure what this does. Maybe play sfx only after a certain threshold? <- Understand it now.
 			# Handles SpinUp and SpinDown sfx, based on if you are holding the trigger.
 			# NOTE This should not work as is, since we are using a different method to trigger a gun.
-			if pWindUp > 60.0 and not winddownSound.is_empty(): spin_up_now.emit() ## TODO play spin up sfx
+			#if pWindUp > 60.0 and not winddownSound.is_empty(): 
+			#	spin_up_now.emit() ## TODO play spin up sfx
+			# NOTE 26/11/25 disabled the above. Seems redundant.
 			
 			if pWindUp < 100.0:
 				if not windupSound.is_empty():
-					if pWindUp <= 60.0:
-						spin_up_now.emit()
+					spin_up_now.emit()
 						
 				## Wind up gun
 				# Increase the gun Windup variable. NOTE this need to be tweaked to work on this new system.
-				pWindUp += max( 3, curr_gun.weapon_stats.pWindUpSpeed / curr_gun.weapon_stats.pWeight * 0.5) * windupModifier * 10.0 * get_physics_process_delta_time()
-				pWindUp = min( 100, pWindUp )
+				var godot_modifier := 10.0 # An extra modifier, since in Godot the pWindUp value increases to slowly.
+				pWindUp += max( 3.0, curr_gun.weapon_stats.pWindUpSpeed / curr_gun.weapon_stats.pWeight * 0.5) * windupModifier * godot_modifier * get_physics_process_delta_time()
+				pWindUp = clamp( pWindUp, 0.0, 100.0 ) # improved version of 'pWindUp = min( 100, pWindUp )'.
+		
+		# 26/11/25 cleaned up some code not being used in the Godot version.
 		
 		## Player is NOT holding the trigger
 		else:
-			if not windupSound.is_empty():
-				pass # TODO audio_sound_gain_ext(windupSound,0,500);
-			if pWindUp > 60:
-				if not winddownSound.is_empty(): # TODO && !audio_is_playing_ext(winddownSound)) {
+			if pWindUp > 0.0: #60:
+				if not winddownSound.is_empty():
 					spin_down_now.emit()
 			# gun[? "reloaded"] = false;
-			if pWindUp > 4:
-				pWindUp -= 24 * windupModifier * get_physics_process_delta_time()
-				pWindUp = max(0, pWindUp);
+			if pWindUp > 4.0:
+				pWindUp -= 24.0 * windupModifier * get_physics_process_delta_time()
+				pWindUp = max(0.0, pWindUp);
 			else:
-				pWindUp = 0;
-				if not windupSound.is_empty():
-					pass # TODO audio_stop_sound_ext(windupSound);
-			if not sustainSound.is_empty():
-				pass
-				## TODO
-				#if(audio_is_playing_ext(sustainSound))
-				#	audio_stop_sound_ext(sustainSound);
+				pWindUp = 0.0;
 	
+	## Save the modified 'pWindUp' value.
 	curr_gun.weapon_stats.pWindUp = pWindUp
-	print( curr_gun.weapon_stats.pWindUp )
 	
-	## delayed shot: flintlocks etc
-	if delayTimer > 0:
+	## delayed shot: flintlocks, etc.
+	if delayTimer > 0.0:
 		pass
 		
 	## Actually shoot the gun.
@@ -299,15 +290,6 @@ func _update_timers() -> void:
 	## TODO add back the wait timers
 	pass
 
-func gun_noises_control( sfx_name : String ) -> void:
-	if gun_noises_stream.playing:
-		push_warning("gun_noises_stream was playin something...")
-		gun_noises_stream.stop()
-	var stream_file : AudioStreamOggVorbis = B2_Sound.get_sound_stream( sfx_name )
-	stream_file.loop = false
-	gun_noises_stream.stream = stream_file
-	gun_noises_stream.play()
-
 ## Create a bullet object on the current room
 func _create_bullet( source_pos : Vector2, dir : Vector2, skill_mod : B2_WeaponSkill = null ) -> void:
 	var bullet = O_BULLET.instantiate()
@@ -363,35 +345,51 @@ func _on_post_shooting_timer_timeout() -> void:
 	pass # Replace with function body.
 #endregion
 
+## Controls the Wind up SFX.
 func _spin_up_sfx_requested() -> void:
 	if not windupSound.is_empty() and currently_playing != windupSound and not spinning_up:
-		print("spinup")
-		if gun_noises_stream.playing: gun_noises_stream.stop()
+		var playback_position	:= 0.0		## Used to play the spin up and down correctly.
+		#print("spinup")
+		if gun_noises_stream.playing: 
+			playback_position 	= gun_noises_stream.get_playback_position()
+			gun_noises_stream.stop()
 		var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( windupSound )
 		sfx.loop = false
 		gun_noises_stream.stream = sfx
-		gun_noises_stream.play()
+		if playback_position > 0.0:
+			var curr_sfx_lenght := gun_noises_stream.stream.get_length()
+			gun_noises_stream.play( curr_sfx_lenght - playback_position )
+		else:
+			gun_noises_stream.play()
 		currently_playing = windupSound
 		
 		spinning_up = true
 
+## Controls the Wind down SFX.
 func _spin_down_sfx_requested() -> void:
-	if not winddownSound.is_empty() and currently_playing != winddownSound and spinning_up:
-		print("spindown")
-		if gun_noises_stream.playing: gun_noises_stream.stop()
+	if not winddownSound.is_empty() and currently_playing != winddownSound:
+		var playback_position	:= 0.0		## Used to play the spin up and down correctly.
+		#print("spindown")
+		if gun_noises_stream.playing: 
+			playback_position 	= gun_noises_stream.get_playback_position()
+			gun_noises_stream.stop()
 		var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( winddownSound )
 		sfx.loop = false
 		gun_noises_stream.stream = sfx
-		gun_noises_stream.play()
+		if playback_position > 0.0:
+			var curr_sfx_lenght := gun_noises_stream.stream.get_length()
+			gun_noises_stream.play( curr_sfx_lenght - playback_position )
+		else:
+			gun_noises_stream.play()
 		currently_playing = winddownSound
 		
 		spinning_up = false
 
+## Used to play the "sustain" sfx the WindUp SFX.
 func _on_gun_noises_stream_finished() -> void:
 	if spinning_up:
 		spinning_up = false
 		if gun_noises_stream.playing: gun_noises_stream.stop()
-		
 		if not sustainSound.is_empty() and currently_playing != sustainSound:
 			var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( sustainSound )
 			sfx.loop = true
