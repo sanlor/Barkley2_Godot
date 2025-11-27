@@ -168,9 +168,10 @@ func get_held_sprite() -> String:	return weapon_stats.gunHeldSprite
 # Color.HOT_PINK means ERROR
 func get_gun_colors() -> Array:
 	var colors := [ Color.WHITE, null, null ]
-	if weapon_stats.col:				colors[0] = Color.from_string( weapon_stats.col, 			Color.HOT_PINK )
-	if weapon_stats.displayParts:		colors[1] = Color.from_string( weapon_stats.gunheldcol2, 	Color.HOT_PINK )
-	if weapon_stats.displaySpots:		colors[2] = Color.from_string( weapon_stats.gunheldcol3, 	Color.HOT_PINK )
+	if weapon_stats.col:				colors[0] = Color.html( weapon_stats.col )
+	if weapon_stats.displayParts:		colors[1] = Color.html( weapon_stats.gunheldcol2 )
+	if weapon_stats.displaySpots:		colors[2] = Color.html( weapon_stats.gunheldcol3 )
+	print(colors)
 	return colors
 
 ## Gunshot sound

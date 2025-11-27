@@ -62,6 +62,7 @@ const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 @export var combat_arm_back 		: AnimatedSprite2D
 @export var combat_arm_front 		: AnimatedSprite2D
 @export var combat_weapon 			: AnimatedSprite2D
+@export var combat_weapon_fuse		: AnimatedSprite2D
 @export var combat_weapon_parts 	: AnimatedSprite2D
 @export var combat_weapon_spots 	: AnimatedSprite2D
 @export var combat_shield			: AnimatedSprite2D
@@ -204,6 +205,7 @@ func _update_held_gun() -> void:
 					combat_weapon_spots.modulate 		= colors[2]
 				else:
 					combat_weapon_spots.hide()
+				
 				prev_gun = gun
 			
 ## Change the held weapon sprite. Also can change hoopz torso.
@@ -273,6 +275,20 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	# reapply the animation frame
 	combat_arm_back.frame 	= combat_arm_back_frame
 	combat_arm_front.frame 	= combat_arm_front_frame
+			
+func switch_combat_weapon_anim( anim : String ) -> void:
+	if combat_weapon.sprite_frames.has_animation(anim):
+		var last_frame := combat_weapon.frame
+		combat_weapon.animation = anim
+		combat_weapon.frame = last_frame
+	else:
+		push_error("Invalid Animation: ", anim)
+			
+## For spreccific guns
+func light_fuse() -> void:
+	if combat_weapon_fuse:
+		combat_weapon_fuse.play()
+	else: push_error( "combat_weapon_fuse -> not set." )
 			
 ## Used to know where should a bullet spawn
 func get_muzzle_position() -> Vector2:

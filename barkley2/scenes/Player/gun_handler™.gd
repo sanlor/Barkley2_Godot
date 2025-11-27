@@ -13,6 +13,7 @@ class_name B2_GunHandler
 
 signal spin_up_now(		) # Used to play the spin up sfx and the sustain sfx
 signal spin_down_now(	) # used to play the spin down sfx
+signal no_ammo(			) # Used to alert that the ammo was spent up.
 
 const O_BULLET 		:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tscn")
 const O_CASINGS 	:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/o_casings.tscn")
@@ -72,6 +73,8 @@ var windupSound 		:= ""		## Wind up SFX (Ex.: Minigun)
 var winddownSound 		:= ""		## Wind down SFX (Ex.: Minigun)
 var sustainSound 		:= ""		## Wind Sustain SFX (Ex.: Minigun)
 var spinning_up			:= false	## Used to check if the Wind up or Sustain should be played.
+var minigun_spin_anim	:= ["s_Minigun", "s_Minigun_Anim"]
+var magnun_spin_anim	:= ["s_Magnum", "s_Magnum_Anim"]
 
 func _ready() -> void:
 	pre_shooting_timer.one_shot			= true
@@ -90,8 +93,8 @@ func _ready() -> void:
 #region Weapon Operation
 		
 ## Check if the gun can be shot right now.
-func _can_shoot() -> bool:
-	return firing_rate.is_stopped() and pre_shooting_timer.is_stopped() and post_shooting_timer.is_stopped() and not is_shooting
+#func _can_shoot() -> bool:
+#	return firing_rate.is_stopped() and pre_shooting_timer.is_stopped() and post_shooting_timer.is_stopped() and not is_shooting
 		
 func select_gun( force_gun : B2_Weapon ) -> void:
 	B2_Gun.select_gun_from_resource( force_gun )
@@ -106,6 +109,13 @@ func shoot_gun( action : bool ) -> void:
 # Perform speccific checks and actions before firing a gun.
 @warning_ignore("unused_parameter")
 func pre_attack_action( action : bool ) -> bool:
+	## Delay is running
+	if not pre_shooting_timer.is_stopped():
+		return false
+	if not post_shooting_timer.is_stopped():
+		return false
+		
+		
 	## controls the 'windup' variable. Some guns need to wind up before shooting (minigun).
 	var pWindUp 	:= curr_gun.weapon_stats.pWindUp
 	windupSound 	= curr_gun.weapon_stats.windupSound
@@ -121,7 +131,11 @@ func pre_attack_action( action : bool ) -> bool:
 	
 	## Gun needs to wind up before shooting.
 	if curr_gun.weapon_stats.pWindUpSpeed > 0.0:
-		
+		if pWindUp > 0.0:
+			if source_actor is B2_PlayerCombatActor:
+				if randf_range(pWindUp,100) > 85:
+					source_actor.switch_combat_weapon_anim( minigun_spin_anim.front() )
+					minigun_spin_anim.reverse()
 		## Player is holding the trigger
 		if action:
 			## Shoot if the windup is full
@@ -162,8 +176,19 @@ func pre_attack_action( action : bool ) -> bool:
 	curr_gun.weapon_stats.pWindUp = pWindUp
 	
 	## delayed shot: flintlocks, etc.
-	if delayTimer > 0.0:
-		pass
+	if delayTimer > 0.0 and action:
+		print("Delay -> ", curr_gun.weapon_stats.pFireTimer)
+		
+		match curr_gun.weapon_type:
+			B2_Gun.TYPE.GUN_TYPE_MUSKET:			B2_Sound.play( "musket_fuse" )
+			B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:			B2_Sound.play( "flintlock_fuse" )
+			B2_Gun.TYPE.GUN_TYPE_BFG:				B2_Sound.play( "hoopzweap_BFG_charge" )
+		
+		if source_actor is B2_PlayerCombatActor:
+			source_actor.light_fuse()
+		
+		pre_shooting_timer.start( curr_gun.weapon_stats.pFireTimer * 0.003 )
+		can_shoot = false
 		
 	## Actually shoot the gun.
 	## TODO
@@ -180,7 +205,7 @@ func attack_action() -> void:
 	if not curr_gun: push_error("Gun resource not loaded correctly."); return
 		
 	## Can't shoot again while the respective timers are still active.
-	if not _can_shoot(): return
+	#if not _can_shoot(): return
 		
 	var casing_pos 	:= source_actor.get_attack_origin()
 	var dir			:= source_actor.curr_aim
@@ -245,9 +270,10 @@ func attack_action() -> void:
 		
 		## Only shoot if you have ammo.
 		if curr_gun.has_ammo() and may_shoot:
-			# FIXME curr_gun.use_ammo( curr_gun.ammo_per_shot )
+			curr_gun.use_ammo( 1 )
 			B2_Sound.play( curr_gun.get_soundID(), 0.0, false, 1, 1.0, 0.5 )
 			_create_flash( source_pos, dir, 1.5)
+			
 			for i in 1: # FIXME curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
 				_create_casing( casing_pos)
 				
@@ -255,32 +281,53 @@ func attack_action() -> void:
 			source_actor.apply_central_impulse( -dir * curr_gun.get_gun_knockback() ) 
 			
 			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
-			for i in 1: # FIXME curr_gun.bullets_per_shot:
+			for i in curr_gun.weapon_stats.pShots: # FIXME curr_gun.bullets_per_shot:
 				source_pos = get_parent().get_muzzle_position() ## Update position.
 				
-				var my_spread_offset := 1.0 * ( float(i) / 1.0 ) # FIXME float(curr_gun.bullets_per_shot) ) ## TODO add better spread
-				my_spread_offset -= 0.0 # FIXME curr_gun.bullet_spread / curr_gun.bullets_per_shot
+				var my_spread_offset := curr_gun.weapon_stats.pSpreadAmount / curr_gun.weapon_stats.pShots # 1.0 * ( float(i) / 1.0 ) # FIXME float(curr_gun.bullets_per_shot) ) ## TODO add better spread
+				my_spread_offset = randf_range( -my_spread_offset, my_spread_offset )
 				
 				## Aim variations
-				var my_acc := 1.0 * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
+				var my_acc := curr_gun.weapon_stats.pAccuracy * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
+				
+				## broken gun malfunction 1: inaccurate shot
+				if malfunction == 1: b_dir += Vector2.from_angle( deg_to_rad( 35.0 + randf_range(0.0,35.0) ) * [1.0,-1.0].pick_random() )
+				if malfunction >= 4: b_dir = dir + Vector2.from_angle( deg_to_rad(180) )
+				if malfunction == 5: curr_gun.weapon_stats.pCurAmmo = 0 ## on malfunction 5, gun breaks
 				
 				_create_bullet( source_pos, b_dir )
 		else:
 			## Out of ammo.
 			B2_Sound.play( "hoopz_click" )
 	
-	## Used by the turn-based combat
-	#curr_gun.reset_action( curr_gun.curr_action - curr_gun.attack_cost )
-	
-	## Reset variable. NOTE This may not be needed anymore, since we don't AWAIT stuff no more.
-	is_shooting = false
+	post_attack_action()
 #endregion
 		
 func _gun_changed() -> void:
+	# Reset some vars
+	currently_playing	= ""		## Keep track of which SFX is playhing right now
+	windupSound 		= ""		## Wind up SFX (Ex.: Minigun)
+	winddownSound 		= ""		## Wind down SFX (Ex.: Minigun)
+	sustainSound 		= ""		## Wind Sustain SFX (Ex.: Minigun)
+	spinning_up			= false		## Used to check if the Wind up or Sustain should be played.
+
+	# register new guns
 	if B2_Gun.has_any_guns():
 		curr_gun = B2_Gun.get_current_gun()
 		_update_timers()
+	else:
+		curr_gun = null
+	
+	# Stop SFX
+	gun_noises_stream.stop()
+	
+	# Stop timers
+	if curr_gun:
+		curr_gun.weapon_stats.pWindUp = 0
+	pre_shooting_timer.stop()
+	post_shooting_timer.stop()
+	firing_rate.stop()
 	
 ## After a gun changes, update its timers to avoid being able to change weapont and instantly shooting them.
 func _update_timers() -> void:
@@ -336,7 +383,8 @@ func _create_casing( casing_pos : Vector2) -> void:
 
 #region timer signal callbacks
 func _on_pre_shooting_timer_timeout() -> void:
-	pass # Replace with function body.
+	print("Delayed shot")
+	attack_action()
 
 func _on_firing_rate_timeout() -> void:
 	pass # Replace with function body.
@@ -370,8 +418,9 @@ func _spin_down_sfx_requested() -> void:
 	if not winddownSound.is_empty() and currently_playing != winddownSound:
 		var playback_position	:= 0.0		## Used to play the spin up and down correctly.
 		#print("spindown")
-		if gun_noises_stream.playing: 
-			playback_position 	= gun_noises_stream.get_playback_position()
+		if gun_noises_stream.playing:
+			if currently_playing == windupSound: # Avoid issues with sustain sfx.
+				playback_position 	= gun_noises_stream.get_playback_position()
 			gun_noises_stream.stop()
 		var sfx : AudioStreamOggVorbis = B2_Sound.get_sound_stream( winddownSound )
 		sfx.loop = false

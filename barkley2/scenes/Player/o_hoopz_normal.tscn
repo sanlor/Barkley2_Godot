@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=42 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_6d2l0"]
@@ -17,6 +17,7 @@
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ufjxn"]
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="10_7qowe"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_ac4jf"]
+[ext_resource type="Texture2D" uid="uid://dp4tnuvq0yojo" path="res://barkley2/assets/b2_original/images/merged/s_GunSpark.png" id="14_jncqf"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="16_uptpk"]
 [ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="17_ph4w5"]
 [ext_resource type="Texture2D" uid="uid://ca2uer1n2rgjh" path="res://barkley2/assets/cursor/s_curs_gunmode_2.png" id="18_hpqxc"]
@@ -34,6 +35,52 @@ font = ExtResource("4_jncqf")
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ufjxn"]
 polygon = PackedVector2Array(-7, -8, -7, -20, 0, -25, 7, -20, 7, -8, 7, -2, 0, 1, -7, -2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcmji"]
+atlas = ExtResource("14_jncqf")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1076"]
+atlas = ExtResource("14_jncqf")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcmyv"]
+atlas = ExtResource("14_jncqf")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_083ds"]
+atlas = ExtResource("14_jncqf")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oijcr"]
+atlas = ExtResource("14_jncqf")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dm763"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mcmji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1076")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcmyv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_083ds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oijcr")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aubae"]
 radius = 8.0
@@ -102,7 +149,7 @@ radius = 4.0
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "flashlight_pivot", "flashlight", "ActorCol", "actor_ai")]
+[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_fuse", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "flashlight_pivot", "flashlight", "ActorCol", "actor_ai")]
 collision_layer = 3
 collision_mask = 1572885
 mass = 70.0
@@ -118,6 +165,7 @@ combat_lower_sprite = NodePath("combat_lower_body")
 combat_arm_back = NodePath("combat_arm_back")
 combat_arm_front = NodePath("combat_arm_front")
 combat_weapon = NodePath("combat_weapon")
+combat_weapon_fuse = NodePath("combat_weapon/combat_weapon_fuse")
 combat_weapon_parts = NodePath("combat_weapon_parts")
 combat_weapon_spots = NodePath("combat_weapon_spots")
 gun_muzzle = NodePath("gun_muzzle")
@@ -220,7 +268,13 @@ offset = Vector2(-22, -41)
 visible = false
 position = Vector2(0, -18)
 sprite_frames = ExtResource("9_effw1")
-animation = &"s_AssaultRifle"
+animation = &"s_Magnum"
+
+[node name="combat_weapon_fuse" type="AnimatedSprite2D" parent="combat_weapon"]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_dm763")
+frame = 5
+frame_progress = 1.0
 
 [node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
 visible = false
@@ -300,6 +354,9 @@ one_shot = true
 [node name="i_frame_timer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="timeout" from="Gun_Handler™/pre_shooting_timer" to="Gun_Handler™" method="_on_pre_shooting_timer_timeout"]
+[connection signal="timeout" from="Gun_Handler™/firing_rate" to="Gun_Handler™" method="_on_firing_rate_timeout"]
+[connection signal="timeout" from="Gun_Handler™/post_shooting_timer" to="Gun_Handler™" method="_on_post_shooting_timer_timeout"]
 [connection signal="finished" from="Gun_Handler™/gun_noises_stream" to="Gun_Handler™" method="_on_gun_noises_stream_finished"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

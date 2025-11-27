@@ -352,6 +352,9 @@ func combat_weapon_animation() -> void:
 		## My own slop.
 		## Decide where the gun should be placed in relation to the player sprite.
 		## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
+		# NOTE 27/11/25 Fun fact: the 'My own slop.' text was written because this was my first attempt to use AI to write code, trying to translate the-
+		# GML code to Godot. It was messy and did not work. After banging my head, tryin to fix copilot's code, i gave up and came with my own solution.
+		# I try to avoid using AI as much as possible. It's fun to think on my own.
 		var new_gun_pos := Vector2.ZERO
 		
 		# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.

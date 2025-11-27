@@ -18,3 +18,4 @@ func _ready() -> void:
 		_setup_camera( _setup_player_node() )
 	
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MINIGUN )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN )

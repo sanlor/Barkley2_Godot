@@ -15,11 +15,11 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2 ) -> void:
 		return
 		
 	## Can't shoot again while the respective timers are still active.
-	if not _can_shoot():
-		await get_tree().process_frame
-		is_shooting = false
-		attack_finished.emit()
-		return
+	#if not _can_shoot():
+		#await get_tree().process_frame
+		#is_shooting = false
+		#attack_finished.emit()
+		#return
 		
 	## Start timers and necessary variables.
 	is_shooting = true
@@ -84,11 +84,11 @@ func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill 
 		return
 		
 	## Can't shoot again while the respective timers are still active.
-	if not _can_shoot():
-		await get_tree().process_frame
-		is_shooting = false
-		attack_finished.emit()
-		return
+	#if not _can_shoot():
+		#await get_tree().process_frame
+		#is_shooting = false
+		#attack_finished.emit()
+		#return
 		
 	## Start timers and necessary variables.
 	is_shooting = true
