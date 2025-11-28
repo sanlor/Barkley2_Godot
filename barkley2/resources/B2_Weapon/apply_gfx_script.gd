@@ -39,8 +39,8 @@ static func apply_graphic( gun : B2_Weapon ) -> void:
 	var overlayAlpha 	:= 1;
 
 	# Use decals or not #
-	var displaySpots 	:= false;
-	var displayParts 	:= false;
+	var displaySpots 	:= false
+	var displayParts 	:= false
 
 	# Hoopz's torso sprite for this particular gun #
 	var torsoFrame 		:= "s_HoopzTorsoAim";
@@ -1748,6 +1748,9 @@ static func apply_graphic( gun : B2_Weapon ) -> void:
 			"GUN_TYPE_ROCKET": thirdSprite = "s_Rocket_Spots"
 			"GUN_TYPE_BFG": thirdSprite = "s_Supergun_Spots"
 
+	gun.weapon_stats.displayParts = displayParts
+	gun.weapon_stats.displaySpots = displaySpots
+	
 	# Apply Gun decal colors #
 	gun.weapon_stats.gunheldcol1 = gunheldcol1.to_html()
 	gun.weapon_stats.gunheldcol2 = gunheldcol2.to_html()

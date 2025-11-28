@@ -60,6 +60,7 @@ const windupModifier 				:= 2; ## 1 = 100% speed, 1.5 = 150% speed, etc
 @onready var pre_shooting_timer		: Timer = $pre_shooting_timer	## Timer used when a gun need some time before firing (muskets)
 @onready var firing_rate			: Timer = $firing_rate			## Timer used to control the firing rate
 @onready var post_shooting_timer	: Timer = $post_shooting_timer	## ## Timer used when a gun need some time after firing
+@onready var reload_timer			: Timer = $reload_timer		## Timer used to play the reload sound (Shotgun + Crossbow)
 
 var is_shooting 	:= false 	## Is the players activally shooting?
 #var can_shoot 		:= true		## Can the player shoot right now?
@@ -114,7 +115,6 @@ func pre_attack_action( action : bool ) -> bool:
 		return false
 	if not post_shooting_timer.is_stopped():
 		return false
-		
 		
 	## controls the 'windup' variable. Some guns need to wind up before shooting (minigun).
 	var pWindUp 	:= curr_gun.weapon_stats.pWindUp
@@ -189,15 +189,16 @@ func pre_attack_action( action : bool ) -> bool:
 		
 		pre_shooting_timer.start( curr_gun.weapon_stats.pFireTimer * 0.003 )
 		can_shoot = false
-		
+	
 	## Actually shoot the gun.
 	## TODO
 	return can_shoot 
 	
 @warning_ignore("unused_parameter")
 func post_attack_action() -> void:
-	pass
-		
+	var rate := curr_gun.get_rate()
+	post_shooting_timer.start( rate )
+	reload_timer.start( rate / 4.0 )
 
 ## Check combat_gunwield_shoot
 ## Check o_bullet
@@ -270,7 +271,7 @@ func attack_action() -> void:
 		
 		## Only shoot if you have ammo.
 		if curr_gun.has_ammo() and may_shoot:
-			curr_gun.use_ammo( 1 )
+			curr_gun.use_ammo( int(curr_gun.weapon_stats.pAmmoCost) )
 			B2_Sound.play( curr_gun.get_soundID(), 0.0, false, 1, 1.0, 0.5 )
 			_create_flash( source_pos, dir, 1.5)
 			
@@ -278,7 +279,13 @@ func attack_action() -> void:
 				_create_casing( casing_pos)
 				
 			## only apply knockback if you actually fire the weapon.
-			source_actor.apply_central_impulse( -dir * curr_gun.get_gun_knockback() ) 
+			var bonus_knockback := 0.0
+			var dir_knockback := -dir
+			if curr_gun.prefix1 == "Afterburner":
+				bonus_knockback = 4.0
+			if curr_gun.prefix1 == "NoScope360":
+				dir_knockback = dir
+			source_actor.apply_central_impulse( dir_knockback * curr_gun.get_gun_knockback() * bonus_knockback ) 
 			
 			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
 			for i in curr_gun.weapon_stats.pShots: # FIXME curr_gun.bullets_per_shot:
@@ -313,11 +320,8 @@ func _gun_changed() -> void:
 	spinning_up			= false		## Used to check if the Wind up or Sustain should be played.
 
 	# register new guns
-	if B2_Gun.has_any_guns():
-		curr_gun = B2_Gun.get_current_gun()
-		_update_timers()
-	else:
-		curr_gun = null
+	if B2_Gun.has_any_guns():	curr_gun = B2_Gun.get_current_gun()
+	else:						curr_gun = null
 	
 	# Stop SFX
 	gun_noises_stream.stop()
@@ -327,24 +331,17 @@ func _gun_changed() -> void:
 		curr_gun.weapon_stats.pWindUp = 0
 	pre_shooting_timer.stop()
 	post_shooting_timer.stop()
+	reload_timer.stop()
 	firing_rate.stop()
 	
-## After a gun changes, update its timers to avoid being able to change weapont and instantly shooting them.
-func _update_timers() -> void:
-	#pre_shooting_timer.start( curr_gun.delay_before_action )
-	#firing_rate.start( curr_gun.wait_per_shot )
-	#post_shooting_timer.start( curr_gun.delay_after_action )
-	## TODO add back the wait timers
-	pass
-
 ## Create a bullet object on the current room
-func _create_bullet( source_pos : Vector2, dir : Vector2, skill_mod : B2_WeaponSkill = null ) -> void:
+func _create_bullet( source_pos : Vector2, dir : Vector2 ) -> void: #, skill_mod : B2_WeaponSkill = null ) -> void:
 	var bullet = O_BULLET.instantiate()
 	bullet.my_gun = curr_gun
 	bullet.set_direction( dir )
-	if skill_mod:
-		bullet.apply_stat_mods( skill_mod.att, skill_mod.spd )
-		bullet.apply_attribute_mods( skill_mod.bio_damage, skill_mod.cyber_damage, skill_mod.mental_damage, skill_mod.cosmic_damage, skill_mod.zauber_damage )
+	#if skill_mod:
+	#	bullet.apply_stat_mods( skill_mod.att, skill_mod.spd )
+	#	bullet.apply_attribute_mods( skill_mod.bio_damage, skill_mod.cyber_damage, skill_mod.mental_damage, skill_mod.cosmic_damage, skill_mod.zauber_damage )
 	bullet.setup_bullet_sprite( curr_gun.get_bullet_sprite(), curr_gun.get_bullet_color() )
 	bullet.source_actor = source_actor
 	#B2_RoomXY.get_curr_room().add_child( bullet, true )
@@ -362,10 +359,10 @@ func _create_flash( source_pos : Vector2, dir : Vector2, _scale := 1.0) -> void:
 		var flash = S_FLASH.instantiate()
 		flash.position = source_pos
 		flash.look_at( (source_pos + dir) )
-		flash.rotation += randf_range( -PI/32.0, PI/32.0 )
+		flash.rotation += randf_range( -PI/28.0, PI/28.0 )
 		flash.scale = Vector2.ONE * randf_range( 0.8, 1.2 )
 		flash.scale *= _scale
-		flash.modulate.a *= randf_range( 0.8, 1.2 )
+		flash.modulate.a *= randf_range( 0.4, 1.0 )
 		B2_RoomXY.get_curr_room().add_child( flash, true )
 		flash.play( curr_gun.get_flash_sprite() )
 		
@@ -391,13 +388,16 @@ func _on_firing_rate_timeout() -> void:
 
 func _on_post_shooting_timer_timeout() -> void:
 	pass # Replace with function body.
+
+## Reload SFX
+func _on_reload_timer_timeout() -> void:
+	B2_Sound.play( curr_gun.weapon_stats.reloadSound )
 #endregion
 
 ## Controls the Wind up SFX.
 func _spin_up_sfx_requested() -> void:
 	if not windupSound.is_empty() and currently_playing != windupSound and not spinning_up:
 		var playback_position	:= 0.0		## Used to play the spin up and down correctly.
-		#print("spinup")
 		if gun_noises_stream.playing: 
 			playback_position 	= gun_noises_stream.get_playback_position()
 			gun_noises_stream.stop()
@@ -417,7 +417,6 @@ func _spin_up_sfx_requested() -> void:
 func _spin_down_sfx_requested() -> void:
 	if not winddownSound.is_empty() and currently_playing != winddownSound:
 		var playback_position	:= 0.0		## Used to play the spin up and down correctly.
-		#print("spindown")
 		if gun_noises_stream.playing:
 			if currently_playing == windupSound: # Avoid issues with sustain sfx.
 				playback_position 	= gun_noises_stream.get_playback_position()

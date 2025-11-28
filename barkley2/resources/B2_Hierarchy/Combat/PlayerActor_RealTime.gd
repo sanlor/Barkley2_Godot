@@ -201,6 +201,7 @@ func combat_walk_animation(delta : float):
 				
 		# Update var
 		combat_last_direction = curr_direction
+		
 	# Update var
 	combat_last_input = input
 	debug_walk_dir = input
@@ -256,98 +257,77 @@ func combat_weapon_animation() -> void:
 	## TODO backport this to o_hoopz.
 	if B2_Input.player_has_control:
 		if curr_aim == Vector2.ZERO: ## Gamepad issues. Values of ZERO messes up the code bellow.
-			return
+			#return
+			pass
 			
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		#var target_dir 	:= global_position.direction_to( 		-aim_origin.position + curr_aim )
-		#var target_angle	:= global_position.angle_to_point( 		-aim_origin.position + curr_aim )
 		var target_dir 		:= curr_aim
 		var target_angle	:= curr_aim.angle()
 		var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
 		
 		## Many Manual touch ups.
-		var s_frame 		:= combat_weapon.frame
-		var angle 			:= 0.0
-		#var height_offset	:= Vector2(0, 0) ## DEPRECATED
-		var _z_index		:= 0
+		var s_frame 				:= 999#combat_weapon.frame
+		var _z_index				:= 0
+		var update_gun_position 	:= false ## Force sprite update. This 'fixes' a bug with sprite frame 0.
 		
 		## This needs to be fixed. It has to be a better way to do this. TODO
+		# The way hoopz aims is not a simple 8 way direction. It's 16 way, thats why I made this mess.
 		match mouse_input:
 				# Normal stuff
 				Vector2(0,	-0.99): # Up
 					s_frame = 	4
-					angle = 270
 					_z_index = -1
 				Vector2(-0.99,	0): # Left
 					s_frame = 	8
-					angle = 180
 					_z_index = -1
-					
 				Vector2(0,	0.99): # Down
 					s_frame = 	12
-					angle = 90
-					#height_offset *= -1
 				Vector2(0.99,	0):	 # Right
 					s_frame = 	0
-					angle = 0
-					#height_offset = Vector2.ZERO
+					target_dir 		= Vector2.RIGHT				# Set a known target dir.
+					target_angle	= Vector2.RIGHT.angle()		# Set a known angle.
+					update_gun_position = true
+					## Wow, Im a genius coder!
+					# This fixes a stuppid bug, that impedes the gun position update when the frame 0 is selected.
+					# its a dumb fix, but it works.
 					
 				# Diagonal stuff
 				Vector2(0.66,	0.66): # Low Right
 					s_frame = 	14
-					angle = 45
-					#height_offset *= -1
 				Vector2(-0.66,	0.66): # Low Left
 					s_frame = 	10
-					angle = 135
 					#_z_index = -1
-					#height_offset *= -1
 				Vector2(0.66,	-0.66): # High Right
 					s_frame = 	2
-					angle = 315
 					_z_index = -1
 				Vector2(-0.66,	-0.66):	# High Left
 					s_frame = 	6
-					angle = 225
 					_z_index = -1
 				
 				# Madness
 				#Down
 				Vector2(0.33,	0.99): # Rightish
 					s_frame = 	13
-					angle = 60
-					#height_offset *= -1
 				Vector2(-0.33,	0.99): # Leftish
 					s_frame = 	11
-					angle = 120
-					#height_offset *= -1
 				#Up
 				Vector2(0.33,	-0.99): # Rightish
 					s_frame = 	3
-					angle = 300
 				Vector2(-0.33,	-0.99): # Leftish
 					s_frame = 	5
-					angle = 240
 				#Left
 				Vector2(-0.99,	0.33): # Downish
 					s_frame = 	9
-					angle = 150
-					#height_offset *= -1
 				Vector2(-0.99,	-0.33): # Upish
 					s_frame = 	7
-					angle = 210
-					#height_offset *= -1
 				#Right
 				Vector2(0.99,	0.33): # Downish
 					s_frame = 	15
-					angle = 30
-					#height_offset *= -1
 				Vector2(0.99,	-0.33): # Upish
 					s_frame = 	1
-					angle = 330
 				_:
-					#print(mouse_input)
-					pass
+					# Use the previous frame
+					s_frame = combat_weapon.frame
 					
 		## My own slop.
 		## Decide where the gun should be placed in relation to the player sprite.
@@ -371,7 +351,7 @@ func combat_weapon_animation() -> void:
 		gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
 		gun_muzzle.position.y -= 3.0
 		
-		if combat_weapon.frame != s_frame:
+		if combat_weapon.frame != s_frame or update_gun_position:
 			combat_weapon.frame 			= s_frame
 			combat_weapon.position 			= new_gun_pos
 			combat_weapon.z_index			= _z_index
@@ -457,11 +437,9 @@ func _physics_process(delta: float) -> void:
 				if curr_input.round() != Vector2.ZERO:
 					interaction_node.position = curr_input.round() * 32.0
 				
-			elif  curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
+			elif curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
 				_update_held_gun()
-				#if curr_aim != Vector2.ZERO:
 				aim_reticle.position = curr_aim * 64.0 #aim_origin.position.direction_to(curr_aim) * 64.0
-				#print( aim_reticle.position )
 				combat_walk_animation( delta ) # delta is for the turning animation
 				combat_aim_animation()
 				combat_weapon_animation()

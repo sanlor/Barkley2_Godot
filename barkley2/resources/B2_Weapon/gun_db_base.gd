@@ -196,7 +196,7 @@ static func get_muzzle_pos() -> float: ## TODO
 ## scr_player_getGunShifts - set the offsef for the held gun
 static func get_gun_held_dist() -> float:
 	var heldDist := 0.0
-
+	
 	match B2_Gun.get_current_gun().weapon_type:
 		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
 			heldDist = -6.0
@@ -222,7 +222,7 @@ static func get_gun_held_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_BFG:
 			heldDist = 0.0
 		_:
-			print( B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
+			push_warning( "Invalid gun type: ", B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
 	return heldDist
 
 ## scr_player_getGunShifts - set the offsef for the held gun
@@ -264,6 +264,8 @@ static func get_gun_shifts() -> Vector2:
 		B2_Gun.TYPE.GUN_TYPE_BFG:
 			heldVShift = 3;
 			heldHShift = -12;
+		_:
+			push_warning( "Invalid gun type: ", B2_Gun.TYPE.keys()[B2_Gun.get_current_gun().weapon_type] )
 	
 	#heldVShift = 0 ## DEBUG
 	#return Vector2( heldHShift, heldVShift )

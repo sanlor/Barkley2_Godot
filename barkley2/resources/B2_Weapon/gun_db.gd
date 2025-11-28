@@ -747,7 +747,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	# INFO: options are:
 	#	"add_affixes" 	-> bool
 	#	"wpn_name"		-> string
-	# Ex.: {"wpn_name":"BUTT","add_affixes":false}
+	#	"gunsdrop"		-> int
+	# Ex.: {"wpn_name":"BUTT", "add_affixes":false, "gunsdrop":100}
 	
 	var wpn 		:= B2_Weapon.new()
 	wpn.weapon_stats = B2_WeaponStats.new() ## Add some default stats.
@@ -1278,10 +1279,10 @@ static func get_current_gun() -> B2_Weapon:
 		if has_gun_in_gunbag():
 			return B2_Playerdata.gun_bag[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
-			return B2_Weapon.new()
+			return null
 	else:
 		if has_gun_in_bandolier():
 			return B2_Playerdata.bandolier[ B2_Playerdata.selected_gun ] ## FIXME
 		else:
-			return B2_Weapon.new()
+			return null
 #endregion

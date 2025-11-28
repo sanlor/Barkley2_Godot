@@ -129,7 +129,7 @@ func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill 
 			var my_acc := 1.0 * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 			var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
 			
-			_create_bullet( source_pos, b_dir, skill )
+			_create_bullet( source_pos, b_dir )
 		else:
 			## Out of ammo.
 			B2_Sound.play( "hoopz_click" )

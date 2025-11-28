@@ -2,7 +2,11 @@
 extends B2_AI
 class_name B2_AI_Player
 
+const AIM_SPEED := 0.1
+
 @export var force_player_control := false
+
+var g_input := Vector2.ZERO
 
 ## Mainly, this disables the default "_ready" function.
 func _ready() -> void:
@@ -17,11 +21,13 @@ func step() -> void:
 			
 			## Aiming input (Normalized)
 			if B2_Input.is_using_gamepad():
-				var g_input := 		Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down")
+				g_input = g_input.slerp( Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down"), AIM_SPEED )
 				if g_input:			actor.apply_curr_aim( g_input )
 				else:				actor.apply_curr_aim( Vector2.ZERO ) ## <- Is this needed?
 			else: # Mouse aiming requires additional processing to be normalized.
-				actor.apply_curr_aim( actor.get_aim_origin().direction_to( actor.get_global_mouse_position() ) )
+				g_input = g_input.slerp( actor.get_aim_origin().direction_to( actor.get_global_mouse_position() ), AIM_SPEED )
+				# oooh mister fancy guy, using slerp() and shit. must be a math wizard or something.
+			actor.apply_curr_aim( g_input )
 			
 		_input_process()
 

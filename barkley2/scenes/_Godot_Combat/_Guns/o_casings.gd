@@ -6,7 +6,8 @@ extends Node2D
 const S_EFFECT_SLUDGE_DRIP 		= preload("uid://bnbunxj15a4q1")
 const S_PLANTAIN_PEEL 			= preload("uid://b8kyohwqvtug")
 
-@onready var spr: Sprite2D = $spr
+@onready var spr: 			Sprite2D = $spr
+@onready var spr_shadow: 	Sprite2D = $spr_shadow
 
 ## Sound
 var bounce_soundid := ""
@@ -24,7 +25,6 @@ var original_y			:= 0.0
 var is_active := true
 
 func _ready() -> void:
-		
 	# Set the initial velocity of the bullet casing
 	velocity 			= Vector2.DOWN.rotated( randf_range(-PI/6, PI/6) ) * randf_range( 50.0, 150.0 ) ## Casings fly mostly downward
 	angular_velocity 	= randf_range(-15, 15) ## Speen
@@ -61,6 +61,8 @@ func _physics_process(delta: float) -> void:
 	
 	spr.rotation 		+= angular_velocity * delta
 	spr.position.y 		-= upward_velocity * delta
+	if spr_shadow:
+		spr_shadow.rotation = spr.rotation
 	upward_velocity 	-= gravity * delta
 	
 	## casing hit the floor. should bounce back and lose some velocity
@@ -71,6 +73,7 @@ func _physics_process(delta: float) -> void:
 		spr.global_position.y = global_position.y
 		if velocity.length() < 8.0:
 			## Bullet basically stopped bouncing. stop processing.
+			spr_shadow.queue_free()
 			set_process( false )
 			set_physics_process( false )
 			return
@@ -81,15 +84,16 @@ func _physics_process(delta: float) -> void:
 				add_sibling( drip, true )
 				drip.global_position = global_position
 				queue_free()
+				
 			elif not check_for_abyss():
 				queue_free()
+				
 			else:
 				## TODO If the casing feel in a void???
 				velocity			*= bounce
 				upward_velocity 	*= bounce
 				angular_velocity 	*= bounce
 				
-			
 	else:
 		z_index = 1
 		pass

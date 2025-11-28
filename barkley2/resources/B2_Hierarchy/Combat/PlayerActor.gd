@@ -180,8 +180,9 @@ func _change_sprites():
 			combat_arm_back.show()
 			combat_arm_front.show()
 			combat_weapon.show()
-			combat_weapon_parts.show()
-			combat_weapon_spots.show()
+			if B2_Gun.get_current_gun():
+				combat_weapon_parts.visible 	= B2_Gun.get_current_gun().weapon_stats.displayParts
+				combat_weapon_spots.visible 	= B2_Gun.get_current_gun().weapon_stats.displaySpots
 			
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -190,21 +191,15 @@ func _update_held_gun() -> void:
 			if gun != prev_gun:
 				set_gun( gun.get_held_sprite(), gun.weapon_type )
 				
-				## Change color.
-				var colors := gun.get_gun_colors()
-				combat_weapon.modulate 					= colors[0]
+				assert( is_instance_valid(gun.weapon_stats), "Gun stats invalid.")
 				
-				if colors[1]:
-					combat_weapon_parts.show()
-					combat_weapon_parts.modulate 		= colors[1]
-				else:
-					combat_weapon_parts.hide()
+				combat_weapon.modulate 			= Color.html( gun.weapon_stats.gunheldcol1 )	## Base color
+				
+				combat_weapon_parts.visible 	= gun.weapon_stats.displayParts
+				combat_weapon_parts.modulate 	= Color.html( gun.weapon_stats.gunheldcol2 )	## Parts color
 					
-				if colors[2]:
-					combat_weapon_spots.show()
-					combat_weapon_spots.modulate 		= colors[2]
-				else:
-					combat_weapon_spots.hide()
+				combat_weapon_spots.visible 	= gun.weapon_stats.displaySpots
+				combat_weapon_spots.modulate 	= Color.html( gun.weapon_stats.gunheldcol3 )	## Spots color
 				
 				prev_gun = gun
 			
@@ -220,12 +215,12 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	if combat_weapon_parts.sprite_frames.has_animation( gun_name ):
 		combat_weapon_parts.show()
 		combat_weapon_parts.animation = gun_name
-	else: combat_weapon_parts.hide()
+	else: combat_weapon_parts.hide(); push_warning("Invalid main gun parts sprite")
 		
 	if combat_weapon_spots.sprite_frames.has_animation( gun_name ):
 		combat_weapon_spots.show()
 		combat_weapon_spots.animation = gun_name
-	else: combat_weapon_spots.hide()
+	else: combat_weapon_spots.hide(); push_warning("Invalid main gun spots sprite")
 	
 	# Save current frame. changing animations resets the frame
 	var combat_arm_back_frame 	:= combat_arm_back.frame
@@ -276,6 +271,7 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 	combat_arm_back.frame 	= combat_arm_back_frame
 	combat_arm_front.frame 	= combat_arm_front_frame
 			
+## Minigun & Magnum spin animation
 func switch_combat_weapon_anim( anim : String ) -> void:
 	if combat_weapon.sprite_frames.has_animation(anim):
 		var last_frame := combat_weapon.frame
@@ -439,6 +435,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		@warning_ignore("narrowing_conversion")
 		damage *= 0.5 ## TODO add actually some calculations to specifi the shields damage reduction.
 	
+	## Apply damage
 	@warning_ignore("narrowing_conversion")
 	B2_Playerdata.player_stats.decrease_hp( damage )
 	B2_Screen.display_damage_number( self, damage )
@@ -448,7 +445,6 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 	if B2_Playerdata.player_stats.curr_health == 0:
 		print_rich("[color=red]H O O P Z I S D E A D .[/color]")
 		linear_velocity = Vector2.ZERO
-		
 		defeat_anim()
 		
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT ) ## Change cursor to its default (in case you die while shooting)
