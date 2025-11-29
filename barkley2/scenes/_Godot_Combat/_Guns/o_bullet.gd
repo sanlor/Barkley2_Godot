@@ -57,6 +57,11 @@ var lastDmg 			= 0;		## ??? ##
 var lastHitKilled 		= false;	## If bullet kills something, this is used to count up the kill periodic charge ##
 var lobAngledSprite 	= false;	## Angled sprite for vertically moving bullets ## Z axis ##
 var wallRicochet 		= 0;		## Richochet off walls ##
+var bloodTrail			:= 0
+var image_speed			:= 0.0		## Define if a bullet has a animation
+
+var shadow_visible 		:= false;
+var show_hiteffect 		:= false;
 
 var throughWalls 		= 0;
 var rangeEndGrav 		= 0;
@@ -92,6 +97,31 @@ var neonSize 		:= 1.0
 var neonTrail 		:= 1;
 var colorBlend 		:= Color.from_hsv(neonHue,neonSat,neonVal);
 var useColorBlend 	:= true;
+
+var flyflutter 		:= 0
+var flyBaseframe	:= 0
+
+var sinewparts		:= 0.0
+
+var plantInterval 	:= 0.0
+var plantNext 		:= 0.0
+var plantSize 		:= 0.0
+
+var grassTimer		:= 0.0
+
+var steamTimer 		:= 0.0
+var steamInterval 	:= 0.0
+var steamStop 		:= 0.0
+
+## bullet fired from francium gun
+var franciumShot 	:= false;
+var franciumScale 	:= 0.01;
+var franciumMax 	:= 1.0;
+var franciumSnd 	:= "hoopzweap_francium_hum"
+
+var wingSprite		:= ""
+var featherInterval := 0
+var featherNext		:= 0
 
 ## Godot bullet mods
 # Damage Modifiers
@@ -326,7 +356,7 @@ func sprite_selection() -> void:
 			colorBlend = Color.from_hsv(neonHue,neonSat,neonVal);
 			if speedBonus>1.2 :speedBonus = 1.2
 			useColorBlend = true;
-			#image_speed = 0;
+			image_speed = 0.0
 			bullet_spr.frame = 1;
 
 			var scl = _pow/80;
@@ -516,26 +546,25 @@ func sprite_selection() -> void:
 			scale.y = 1;
 			if(speedBonus>1.2):speedBonus = 1.0
 	
-		"s_bull_plantain": ## TODO Finish this
-			#/bullet_spr.frame = 6 + clamp(0,13,floor(_pow/5)-1+irandom(2));
-			#image_angle = 0;#/choose(0,90,180,270);
-			if(_pow>120):bullet_spr.frame = 13
-			elif (_pow>100):bullet_spr.frame = 12
-			elif (_pow>80):bullet_spr.frame = 11
-			elif (_pow>70):bullet_spr.frame = 10
-			elif (_pow>60):bullet_spr.frame = 9
-			elif (_pow>50):bullet_spr.frame = 8
-			elif (_pow>40):bullet_spr.frame = 7
-			elif (_pow>33):bullet_spr.frame = 6
-			elif (_pow>26):bullet_spr.frame = 5
-			elif (_pow>20):bullet_spr.frame = 4
-			elif (_pow>12):bullet_spr.frame = 3
-			elif (_pow>7):bullet_spr.frame = 2
-			elif (_pow>4):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
+		"s_bull_plantain":
+			if(_pow>120):			bullet_spr.frame = 13
+			elif (_pow>100):		bullet_spr.frame = 12
+			elif (_pow>80):			bullet_spr.frame = 11
+			elif (_pow>70):			bullet_spr.frame = 10
+			elif (_pow>60):			bullet_spr.frame = 9
+			elif (_pow>50):			bullet_spr.frame = 8
+			elif (_pow>40):			bullet_spr.frame = 7
+			elif (_pow>33):			bullet_spr.frame = 6
+			elif (_pow>26):			bullet_spr.frame = 5
+			elif (_pow>20):			bullet_spr.frame = 4
+			elif (_pow>12):			bullet_spr.frame = 3
+			elif (_pow>7):			bullet_spr.frame = 2
+			elif (_pow>4):			bullet_spr.frame = 1
+			else: 					bullet_spr.frame = 0
+			
+			bullet_spr.flip_h = randf() > 0.5
+			bullet_spr.flip_v = randf() > 0.5
 
-			## TODO scale.x = choose(1,-1);
-			## TODO scale.y = choose(1,-1);
 			lobAngledSprite = true;
 			bullet_spriteTurn = true;
 			specialBFG = true;
@@ -556,10 +585,10 @@ func sprite_selection() -> void:
 	
 		# GOO
 		"s_bull_goo_med":
-			if(_pow>48):		bullet_spr.animation = "s_bull_goo_large"
-			elif (_pow>24):	bullet_spr.animation = "s_bull_goo_med"
-			elif (_pow>12):	bullet_spr.animation = "s_bull_goo_small"
-			else: 			bullet_spr.animation = "s_bull_goo_tiny"
+			if(_pow>48):			bullet_spr.animation = "s_bull_goo_large"
+			elif (_pow>24):			bullet_spr.animation = "s_bull_goo_med"
+			elif (_pow>12):			bullet_spr.animation = "s_bull_goo_small"
+			else: 					bullet_spr.animation = "s_bull_goo_tiny"
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spr.speed_scale = 0.25;
@@ -580,12 +609,12 @@ func sprite_selection() -> void:
 		"s_bull_paper":
 			specialShot = "paper";
 			var playedPapersound = true;
-			if(_pow>64):bullet_spr.frame = 5
-			elif (_pow>48):bullet_spr.frame = 4
-			elif (_pow>24):bullet_spr.frame = 3
-			elif (_pow>12):bullet_spr.frame = 2
-			elif (_pow>6):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
+			if(_pow>64):			bullet_spr.frame = 5
+			elif (_pow>48):			bullet_spr.frame = 4
+			elif (_pow>24):			bullet_spr.frame = 3
+			elif (_pow>12):			bullet_spr.frame = 2
+			elif (_pow>6):			bullet_spr.frame = 1
+			else: 					bullet_spr.frame = 0
 			
 			if(bullet_spr.frame >=3 ) :playedPapersound = false
 			if(flaregun):
@@ -603,7 +632,7 @@ func sprite_selection() -> void:
 			scale.y = 1;
 			specialBFG = true;
 			if(speedBonus>1.2):speedBonus = 1.2
-			if playedPapersound: B2_Sound.play("hoopzweap_origami_fly")
+			if playedPapersound: play_sound("hoopzweap_origami_fly", false)
 	
 		# GOLD #
 		"s_bull_gold":
@@ -624,24 +653,24 @@ func sprite_selection() -> void:
 			var trailScale = 1;
 			#trailAngle = choose(0,90,180,270);
 			speedBonus = 1;
-			if(_pow>96):bullet_spr.frame = 7
-			elif (_pow>80):bullet_spr.frame = 6; trailScale = 0.9
-			elif (_pow>64):bullet_spr.frame = 5; trailScale = 0.8
-			elif (_pow>48):bullet_spr.frame = 4; trailScale = 0.6
-			elif (_pow>32):bullet_spr.frame = 3; trailScale = 0.5
-			elif (_pow>16):bullet_spr.frame = 2; trailScale = 0.4
-			elif (_pow>8):bullet_spr.frame = 1; trailScale = 0.3
-			else: bullet_spr.frame = 0;trailScale = 0.2
+			if(_pow>96):			bullet_spr.frame = 7
+			elif (_pow>80):			bullet_spr.frame = 6; trailScale = 0.9
+			elif (_pow>64):			bullet_spr.frame = 5; trailScale = 0.8
+			elif (_pow>48):			bullet_spr.frame = 4; trailScale = 0.6
+			elif (_pow>32):			bullet_spr.frame = 3; trailScale = 0.5
+			elif (_pow>16):			bullet_spr.frame = 2; trailScale = 0.4
+			elif (_pow>8):			bullet_spr.frame = 1; trailScale = 0.3
+			else: 					bullet_spr.frame = 0;trailScale = 0.2
 			scale.x = 1;
 			scale.y = 1;
 
 			if(matName=="Itano"):
 				if(rocketShot):
-					if(_pow<50):bullet_spr.frame += 1
-					else: bullet_spr.animation = "s_bull_itanoRocket"
+					if(_pow<50):	bullet_spr.frame += 1
+					else: 			bullet_spr.animation = "s_bull_itanoRocket"
 				if(bfgShot):
-					if(_pow<50):bullet_spr.frame += 2
-					else: bullet_spr.animation = "s_bull_itanoBFG"
+					if(_pow<50):	bullet_spr.frame += 2
+					else: 			bullet_spr.animation = "s_bull_itanoBFG"
 			lobAngledSprite = true;
 			# Play a looping exhaust effect on rockets, create sound emitter for this.
 			play_sound( "hoopzweap_rocket_exhaust", true );
@@ -650,9 +679,9 @@ func sprite_selection() -> void:
 			speedBonus = 1;
 			bullet_spr.frame = clamp(0, 15, floor(_pow / 8) - 2 + randi_range(0,4) );
 			scale.x = 1;
-			## TODO scale.y = choose(-1,1);
+			scale.y = [1,-1].pick_random()
 			specialBFG = true;
-			## TODO bloodTrail = 1+irandom(6);
+			bloodTrail = 1 + randi_range(0,6);
 	
 		"s_bull_blood":
 			speedBonus = 1;
@@ -660,10 +689,10 @@ func sprite_selection() -> void:
 			specialBFG = true;
 			bullet_spr.frame = clamp(0,7,floor(_pow / 12));
 			scale.x = 1;
-			## TODO scale.y = choose(-1,1);
-			## TODO bloodTrail = 1+irandom(6);
+			scale.y = [1,-1].pick_random()
+			bloodTrail = 1 + randi_range(0,6);
 			lobAngledSprite = true;
-			if(bfgShot):
+			if bfgShot:
 				bullet_spr.animation = "s_bull_bloodBFG"; 
 				bullet_spr.speed_scale = 0.1; 
 				scale.y = 1; 
@@ -673,17 +702,17 @@ func sprite_selection() -> void:
 			speedBonus = 1;
 			bullet_spr.frame = clamp(0,7,floor(_pow / 12));
 			scale.x = 1;
-			## TODO scale.y = choose(-1,1);
-			## TODO bloodTrail = 1+irandom(6);
+			scale.y = [1,-1].pick_random()
+			bloodTrail = 1 + randi_range(0,6);
 		
 		"s_bull_tofu1":
 			if(_pow>64):		bullet_spr.animation = "s_bull_tofu5"
-			elif (_pow>32):	bullet_spr.animation = "s_bull_tofu4"
-			elif (_pow>16):	bullet_spr.animation = "s_bull_tofu3"
-			elif (_pow>8):	bullet_spr.animation = "s_bull_tofu2"
-			else: 			bullet_spr.animation = "s_bull_tofu1"
+			elif (_pow>32):		bullet_spr.animation = "s_bull_tofu4"
+			elif (_pow>16):		bullet_spr.animation = "s_bull_tofu3"
+			elif (_pow>8):		bullet_spr.animation = "s_bull_tofu2"
+			else: 				bullet_spr.animation = "s_bull_tofu1"
 			## TODO image_angle = choose(0,90,180,270);
-			## TODO image_speed = 0.25;
+			image_speed = 0.25;
 			scale.x = 1;
 			scale.y = 1;
 			bullet_spriteTurn = false;
@@ -705,8 +734,8 @@ func sprite_selection() -> void:
 			elif (_pow>4):	bullet_spr.frame = 2
 			elif (_pow>2):	bullet_spr.frame = 1
 			scale.x = 1;
-			## TODO scale.y = choose(1,-1);
-			## TODO grassTimer = 0.2;
+			scale.y = [1,-1].pick_random()
+			grassTimer = 0.2;
 			specialBFG = true;
 			lobAngledSprite = true;
 			if(speedBonus>1.2):speedBonus = 1.2
@@ -794,9 +823,9 @@ func sprite_selection() -> void:
 			#Smoke("customcolor",make_color_rgb(10,5,8),make_color_rgb(46,30,40),make_color_rgb(115,50,70),0)
 			#var smk = Smoke("puff",x,y,z,max(4,_pow*1.5));
 			#Smoke("init",0,0,0,0);
-			#if(speedBonus>1.2):speedBonus = 1.2
-			#scale.x = 1;
-			#scale.y = choose(1,-1);
+			if(speedBonus>1.2):speedBonus = 1.2
+			scale.x = 1;
+			scale.y = [1,-1].pick_random()
 			## TODO 
 			smoke_trail.emitting = true
 			has_trail = false
@@ -911,46 +940,42 @@ func sprite_selection() -> void:
 		"s_bull_francium":
 			## TODO 
 			#mask_index = s_bull_francium
-			#motionBlur = true;
-			#scale.x = 1;
-			#scale.y = 1;
-			#image_speed = 0.2;
-			#franciumMax = 1;
-			#if(_pow<3):franciumMax = 0.06
-			#elif(_pow<6):franciumMax = 0.1
-			#elif(_pow<12):franciumMax = 0.2
-			#elif(_pow<18):franciumMax = 0.3
-			#elif(_pow<24):franciumMax = 0.4
-			#elif(_pow<30):franciumMax = 0.5
-			#elif(_pow<40):franciumMax = 0.6
-			#elif(_pow<50):franciumMax = 0.7
-			#elif(_pow<60):franciumMax = 0.8
-			#elif(_pow<70):franciumMax = 0.9
-			#elif(_pow<80):franciumMax = 1
-			#elif(_pow<100):franciumMax = 1.1
-			#elif(_pow<120):franciumMax = 1.2
-			#elif(_pow<140):franciumMax = 1.3
-			#elif(_pow<180):franciumMax = 1.4
-			#elif(_pow<220):franciumMax = 1.5
-			#elif(_pow<240):franciumMax = 1.6
-			#elif(_pow<260):franciumMax = 1.7
-			#elif(_pow<280):franciumMax = 1.8
-			#elif(_pow<300):franciumMax = 1.9
-			#else: franciumMax = 2
+			motionBlur = true;
+			scale.x = 1;
+			scale.y = 1;
+			image_speed = 0.2;
+			franciumMax = 1;
+			if(_pow<3):				franciumMax = 0.06
+			elif(_pow<6):			franciumMax = 0.1
+			elif(_pow<12):			franciumMax = 0.2
+			elif(_pow<18):			franciumMax = 0.3
+			elif(_pow<24):			franciumMax = 0.4
+			elif(_pow<30):			franciumMax = 0.5
+			elif(_pow<40):			franciumMax = 0.6
+			elif(_pow<50):			franciumMax = 0.7
+			elif(_pow<60):			franciumMax = 0.8
+			elif(_pow<70):			franciumMax = 0.9
+			elif(_pow<80):			franciumMax = 1.0
+			elif(_pow<100):			franciumMax = 1.1
+			elif(_pow<120):			franciumMax = 1.2
+			elif(_pow<140):			franciumMax = 1.3
+			elif(_pow<180):			franciumMax = 1.4
+			elif(_pow<220):			franciumMax = 1.5
+			elif(_pow<240):			franciumMax = 1.6
+			elif(_pow<260):			franciumMax = 1.7
+			elif(_pow<280):			franciumMax = 1.8
+			elif(_pow<300):			franciumMax = 1.9
+			else: 					franciumMax = 2.0
 #
 			#image_angle = choose(0,90,180,270);
-			#shadow_visible = false;
-			#show_hiteffect = false;
-			#franciumScale = 0.01;
-			#scale.x = franciumMax*franciumScale;
-			#scale.y = franciumMax*franciumScale;
-			#bullet_spriteTurn = false;
-			#if(speedBonus>1.2):speedBonus = 1.2
-			#if (!audio_is_playing_ext(franciumSnd)):
-				#scr_entity_makeSoundEmitter();
-				#audio_play_sound_on_actor(id,franciumSnd, true, 0);
-			## TODO 
-			pass
+			shadow_visible = false;
+			show_hiteffect = false;
+			franciumScale = 0.01;
+			scale.x = franciumMax*franciumScale;
+			scale.y = franciumMax*franciumScale;
+			bullet_spriteTurn = false;
+			if(speedBonus>1.2):speedBonus = 1.2
+			play_sound(franciumSnd, true);
 			
 		"s_bull_scrollWeapon":
 			bullet_spr.speed_scale = 0;
@@ -1000,55 +1025,55 @@ func sprite_selection() -> void:
 		
 		"s_bull_angelCore":
 			## TODO 
-			#scale.x = 1;
-			#scale.y = 1;
+			scale.x = 1;
+			scale.y = 1;
 			#if(speedBonus>1.2):speedBonus = 1; accel = accel*2; move_dist= (move_dist+1)*2
 #
 			#bullet_spriteTurn = false;
 			#wingSprite = "noone";
 			#wingFrame = 0;
 			## TODO 
-			if(_pow>200):bullet_spr.frame = 13
-			elif (_pow>160):bullet_spr.frame = 12
-			elif (_pow>140):bullet_spr.frame = 11
-			elif (_pow>120):bullet_spr.frame = 10
-			elif (_pow>96):bullet_spr.frame = 9
-			elif (_pow>84):bullet_spr.frame = 8
-			elif (_pow>72):bullet_spr.frame = 7
-			elif (_pow>60):bullet_spr.frame = 6
-			elif (_pow>48):bullet_spr.frame = 5
-			elif (_pow>36):bullet_spr.frame = 4
-			elif (_pow>24):bullet_spr.frame = 3
-			elif (_pow>12):bullet_spr.frame = 2
-			elif (_pow>6):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
+			if(_pow>200):			bullet_spr.frame = 13
+			elif (_pow>160):		bullet_spr.frame = 12
+			elif (_pow>140):		bullet_spr.frame = 11
+			elif (_pow>120):		bullet_spr.frame = 10
+			elif (_pow>96):			bullet_spr.frame = 9
+			elif (_pow>84):			bullet_spr.frame = 8
+			elif (_pow>72):			bullet_spr.frame = 7
+			elif (_pow>60):			bullet_spr.frame = 6
+			elif (_pow>48):			bullet_spr.frame = 5
+			elif (_pow>36):			bullet_spr.frame = 4
+			elif (_pow>24):			bullet_spr.frame = 3
+			elif (_pow>12):			bullet_spr.frame = 2
+			elif (_pow>6):			bullet_spr.frame = 1
+			else: 					bullet_spr.frame = 0
 			
 			## TODO 
-			#if(image_index==0):wingSprite 		= "s_bull_angel_tiny"
-			#elif(image_index<=2):wingSprite 	= "s_bull_angel_small"
-			#elif(image_index<=4):wingSprite 	= "s_bull_angel_medium"
-			#elif(image_index<=6):wingSprite 	= "s_bull_angel_large"
-			#elif(image_index<=8):wingSprite 	= "s_bull_angel_huge"
-			#else: wingSprite = "s_bull_angel_giant"
+			if		bullet_spr.frame:	wingSprite	= "s_bull_angel_tiny"
+			elif	bullet_spr.frame:	wingSprite 	= "s_bull_angel_small"
+			elif	bullet_spr.frame:	wingSprite 	= "s_bull_angel_medium"
+			elif	bullet_spr.frame:	wingSprite 	= "s_bull_angel_large"
+			elif	bullet_spr.frame:	wingSprite 	= "s_bull_angel_huge"
+			else: 						wingSprite 	= "s_bull_angel_giant"
 #
-			#var featherCount = 1;
-			#if(_pow>240):featherCount 	= 3+irandom(6)
-			#elif(_pow>120):featherCount 	= 2+irandom(4)
-			#elif(_pow>60):featherCount 	= 1+irandom(3)
-			#elif(_pow>30):featherCount 	= 1+irandom(2)
-			#elif(_pow>15):featherCount 	= 1+irandom(1)
-			#else: featherCount 			= 1
+			var featherCount 					= 1;
+			if(_pow>240):	featherCount 		= 3 + randi_range(0,6)
+			elif(_pow>120):	featherCount 		= 2 + randi_range(0,4)
+			elif(_pow>60):	featherCount 		= 1 + randi_range(0,3)
+			elif(_pow>30):	featherCount 		= 1 + randi_range(0,2)
+			elif(_pow>15):	featherCount 		= 1 + randi_range(0,1)
+			else: 			featherCount 		= 1
 			## TODO 
 			if(bfgShot):
-				## TODO featherCount = featherCount*2; 
+				featherCount = featherCount*2; 
 				bullet_spr.animation = "s_bull_angelBFG"
 				bullet_spr.frame = 0; 
-				## TODO wingSprite = "noone"
+				wingSprite = "noone"
 
 			specialShot = "angel";
 
-			## TODO featherInterval = 10;
-			## TODO featherNext = irandom(featherInterval);
+			featherInterval = 10;
+			featherNext = randi_range(0,featherInterval);
 			
 			## TODO Disabled the bellow temporarelly
 			#repeat(featherCount)
@@ -1065,25 +1090,24 @@ func sprite_selection() -> void:
 		
 		###SINEW
 		"s_bull_sinew":
-			if (_pow>96):bullet_spr.frame = 12
-			elif (_pow>72):bullet_spr.frame = 11
-			elif (_pow>64):bullet_spr.frame = 10
-			elif (_pow>56):bullet_spr.frame = 9
-			elif (_pow>48):bullet_spr.frame = 8
-			elif (_pow>40):bullet_spr.frame = 7
-			elif (_pow>32):bullet_spr.frame = 6
-			elif (_pow>24):bullet_spr.frame = 5
-			elif (_pow>18):bullet_spr.frame = 4
-			elif (_pow>12):bullet_spr.frame = 3
-			elif (_pow>6):bullet_spr.frame = 2
-			elif (_pow>3):bullet_spr.frame = 1
-			else: bullet_spr.frame = 0
-			## TODO scale.y = choose(1,-1);
+			if (_pow>96):		bullet_spr.frame = 12
+			elif (_pow>72):		bullet_spr.frame = 11
+			elif (_pow>64):		bullet_spr.frame = 10
+			elif (_pow>56):		bullet_spr.frame = 9
+			elif (_pow>48):		bullet_spr.frame = 8
+			elif (_pow>40):		bullet_spr.frame = 7
+			elif (_pow>32):		bullet_spr.frame = 6
+			elif (_pow>24):		bullet_spr.frame = 5
+			elif (_pow>18):		bullet_spr.frame = 4
+			elif (_pow>12):		bullet_spr.frame = 3
+			elif (_pow>6):		bullet_spr.frame = 2
+			elif (_pow>3):		bullet_spr.frame = 1
+			else: 				bullet_spr.frame = 0
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = true;
 			lobAngledSprite = true;
-			## TODO sinewparts = 0.2;
+			sinewparts = 0.2;
 		
-
 		"s_bull_orb":
 			## TODO 
 			#shotOriginx = dx;
@@ -1095,7 +1119,7 @@ func sprite_selection() -> void:
 			#laserTrail = 8;
 			#trailLength = 24;
 			#speedBonus = 1;
-			#match laserGen:
+			#match laserGen: ## WARNING Migrate this
 				#"0": laserCol = c_white; 
 				#"1": laserCol = make_color_rgb(136,249,157); 
 				#"2": laserCol = make_color_rgb(0,255,0); 
@@ -1120,7 +1144,7 @@ func sprite_selection() -> void:
 			elif (_pow>8):bullet_spr.frame = 2
 			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			## TODO scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = true;
 			specialBFG = true;
 			if(speedBonus>1):speedBonus = 1
@@ -1138,14 +1162,13 @@ func sprite_selection() -> void:
 			elif (_pow>8):bullet_spr.frame = 2
 			elif (_pow>4):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			## TODO plantInterval = max(0.1,(7-_pow/10)/6);
-			## TODO plantNext = random(plantInterval);
-			## TODO plantSize = 5+_pow;
+			plantInterval = max( 0.1, ( 7 - _pow / 10 ) / 6 );
+			plantNext = randf_range(0,plantInterval);
+			plantSize = 5 + _pow;
 			if(speedBonus>1.2):speedBonus = 1
 			specialBFG = true;
 			lobAngledSprite = true;
 		
-
 		# CHOBHAM
 		"s_bull_chobham":
 			if(_pow>64):bullet_spr.frame = 8
@@ -1175,12 +1198,12 @@ func sprite_selection() -> void:
 			elif (_pow>6):bullet_spr.frame = 2
 			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			## TODO scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = true;
 
-			## TODO steamTimer = 4+_pow/3;
-			## TODO steamInterval = 4;
-			## TODO steamStop = 6;
+			steamTimer = 4 + _pow / 3
+			steamInterval = 4;
+			steamStop = 6;
 			lobAngledSprite = true;
 			## TODO Smoke("puff",x,y,z,2+max(5,_pow));
 			smoke_trail.emitting = true
@@ -1202,7 +1225,7 @@ func sprite_selection() -> void:
 			elif (_pow>3):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
 			lobAngledSprite = true;
-			## TODO scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = true;
 		
 
@@ -1223,8 +1246,8 @@ func sprite_selection() -> void:
 			elif (_pow>12):bullet_spr.frame = 2
 			elif (_pow>6):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			## TODO scale.x = choose(1,-1);
-			## TODO scale.y = choose(1,-1);
+			scale.x = [1,-1].pick_random();
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = false;
 			specialBFG = true;
 
@@ -1244,7 +1267,7 @@ func sprite_selection() -> void:
 			elif (_pow>4):bullet_spr.frame = 2
 			elif (_pow>2):bullet_spr.frame = 1
 			else: bullet_spr.frame = 0
-			## TODO scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 			bullet_spriteTurn = true;
 		
 		"s_bull_diamond", "s_bull_diamondShard":
@@ -1272,13 +1295,13 @@ func sprite_selection() -> void:
 		"s_bull_pinataShot":
 			bullet_spr.frame = clamp(0, 21, (_pow/6) - 2 + randi_range(0,4) );
 			if(speedBonus>1.5):speedBonus = 1
-			## TODO scale.y = choose(1,-1);
+			scale.y = [1,-1].pick_random()
 			## TODO image_angle = choose(0,90,180,270);
 			bullet_spriteTurn = false;
-			## TODO bulletSpin = choose(1,-1)*(5+irandom(20));
-
+			bulletSpin = [1,-1].pick_random() * ( 5.0 + randf_range(0,20) );
 			## TODO var dr = point_direction(0,0,move_x,move_y);
-			## TODO amnt = floor(1 + _pow/20 + irandom(_pow/10))
+			@warning_ignore("narrowing_conversion")
+			var amnt : int = floor(1 + _pow / 20 + randi_range(0, _pow / 10 ) )
 			
 			## TODO Disabled the bellow temporarelly
 			#repeat(amnt)
@@ -1303,50 +1326,47 @@ func sprite_selection() -> void:
 			elif (_pow>10):bullet_spr.frame = 2
 			elif (_pow>4):bullet_spr.frame = 1
 			bullet_spriteTurn = true;
-			## TODO steamTimer = 5+_pow/3;
-			## TODO steamInterval = 4;
-			## TODO steamStop = 3;
+			steamTimer = 5 + _pow / 3;
+			steamInterval = 4;
+			steamStop = 3;
 			speedBonus = 1;
 		
 		"s_bull_flyshot":
-			## TODO 
-			#flyflutter = 0;
-			#flyBaseframe = 0;
-			#if (_pow>40):flyBaseframe = 8
-			#elif (_pow>20):flyBaseframe = 6
-			#elif (_pow>10):flyBaseframe = 4
-			#elif (_pow>4):flyBaseframe = 2
-			#bullet_spriteTurn = true;
-			#speedBonus = 1;
-			## TODO 
-			pass
+			flyflutter = 0;
+			flyBaseframe = 0;
+			if (_pow>40):		flyBaseframe = 8
+			elif (_pow>20):		flyBaseframe = 6
+			elif (_pow>10):		flyBaseframe = 4
+			elif (_pow>4):		flyBaseframe = 2
+			bullet_spriteTurn = true;
+			speedBonus = 1;
 		
 		"s_bull_aerogel":
 			if(speedBonus>1.5):speedBonus = 1
 			bullet_spriteTurn = false;
-			bullet_spr.frame = clamp(0,17,_pow/6);
+			bullet_spr.frame = clamp(0,17,_pow/6)
 			if(_pow>3): bullet_spr.frame +=1
 			modulate.a = 0.3;
 		
 		# Untamonium
 		"s_bull_untamonium_med":
 			if(_pow>48):		bullet_spr.animation = "s_bull_untamonium_large"
-			elif (_pow>24):	bullet_spr.animation = "s_bull_untamonium_med"
-			elif (_pow>12):	bullet_spr.animation = "s_bull_untamonium_small"
-			else: 			bullet_spr.animation = "s_bull_untamonium_tiny"
+			elif (_pow>24):		bullet_spr.animation = "s_bull_untamonium_med"
+			elif (_pow>12):		bullet_spr.animation = "s_bull_untamonium_small"
+			else: 				bullet_spr.animation = "s_bull_untamonium_tiny"
 			scale.x = 1;
 			scale.y = 1;
-			## TODO image_speed = 0.25;
+			image_speed = 0.25;
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
 		
 
 		"s_bull_untamonium_bfg":
-			#specialBFG = true;
-			#specialShot = "goo";
+			specialBFG = true;
+			specialShot = "goo";
 			var scl = 1;
 			scl = clamp(0.5,2,_pow / 70);
-			## TODO image_speed = 0.25;
+			image_speed = 0.25;
 			scale.x = scl;
 			scale.y = scl;
 			specialBFG = true;

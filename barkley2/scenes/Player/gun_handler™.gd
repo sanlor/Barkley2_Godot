@@ -391,7 +391,8 @@ func _on_post_shooting_timer_timeout() -> void:
 
 ## Reload SFX
 func _on_reload_timer_timeout() -> void:
-	B2_Sound.play( curr_gun.weapon_stats.reloadSound )
+	if curr_gun.weapon_stats.reloadSound:
+		B2_Sound.play( curr_gun.weapon_stats.reloadSound )
 #endregion
 
 ## Controls the Wind up SFX.
