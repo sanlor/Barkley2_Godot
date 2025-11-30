@@ -75,6 +75,7 @@ func use_normal_attack( casing_pos : Vector2, dir : Vector2 ) -> void:
 	is_shooting = false
 	attack_finished.emit()
 
+## DEPRECATED
 func use_gun_skill( casing_pos : Vector2, dir : Vector2, skill : B2_WeaponSkill ) -> void:
 	if not curr_gun:
 		push_error("Gun resource not loaded correctly.")

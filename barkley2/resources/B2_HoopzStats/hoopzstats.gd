@@ -216,27 +216,29 @@ func get_base_stat( stat : String ) -> int:
 @warning_ignore_start("narrowing_conversion")
 ## TODO Setup effective stats
 func get_effective_stat( stat : String ) -> int:
-	match stat.to_lower():
-		STAT_EFFECTIVE_MAX_HP:	return max_health
-		STAT_BASE_GUTS:			return guts
-		STAT_BASE_LUCK:			return luck
-		STAT_BASE_AGILE:		return agile
-		STAT_BASE_MIGHT:		return might
-		STAT_BASE_PIETY:		return piety
-		STAT_BASE_WEIGHT:		return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
+	match stat:
+		"STAT_EFFECTIVE_MAX_HP":	return max_health
+		"STAT_BASE_GUTS":			return guts
+		"STAT_BASE_LUCK":			return luck
+		"STAT_BASE_AGILE":			return agile
+		"STAT_BASE_MIGHT":			return might
+		"STAT_BASE_PIETY":			return piety
+		"STAT_BASE_WEIGHT":			return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
 		
-		STAT_BASE_RESISTANCE_BIO:		return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
-		STAT_BASE_RESISTANCE_COSMIC:	return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )
-		STAT_BASE_RESISTANCE_CYBER:		return resistance_cyber 	+ int( B2_Jerkin.get_jerkin_stats()["Cyber"] )
-		STAT_BASE_RESISTANCE_MENTAL:	return resistance_mental 	+ int( B2_Jerkin.get_jerkin_stats()["Mental"] )
-		STAT_BASE_RESISTANCE_NORMAL:	return resistance_normal 	+ int( B2_Jerkin.get_jerkin_stats()["Normal"] )
-		STAT_BASE_RESISTANCE_ZAUBER:	return resistance_zauber 	+ int( B2_Jerkin.get_jerkin_stats()["Zauber"] )
-		STAT_BASE_RESISTANCE_KNOCKBACK:	return resistance_knockback
-		STAT_BASE_RESISTANCE_STAGGER:	return resistance_stagger
+		"STAT_BASE_RESISTANCE_BIO":			return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
+		"STAT_BASE_RESISTANCE_COSMIC":		return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )
+		"STAT_BASE_RESISTANCE_CYBER":		return resistance_cyber 	+ int( B2_Jerkin.get_jerkin_stats()["Cyber"] )
+		"STAT_BASE_RESISTANCE_MENTAL":		return resistance_mental 	+ int( B2_Jerkin.get_jerkin_stats()["Mental"] )
+		"STAT_BASE_RESISTANCE_NORMAL":		return resistance_normal 	+ int( B2_Jerkin.get_jerkin_stats()["Normal"] )
+		"STAT_BASE_RESISTANCE_ZAUBER":		return resistance_zauber 	+ int( B2_Jerkin.get_jerkin_stats()["Zauber"] )
+		"STAT_BASE_RESISTANCE_KNOCKBACK":	return resistance_knockback
+		"STAT_BASE_RESISTANCE_STAGGER":		return resistance_stagger
 			
 		_:	## No "effective" data to calculate.
-			if get( stat.to_lower() ) == null: push_warning( "Invalid stat get - ", stat, ": ", get( stat.to_lower() ) )
-			return get( stat.to_lower() )
+			if get( stat ) == null: 
+				push_warning( "Invalid stat get - ", stat, ": ", get( stat ) )
+				return 0
+			return get( stat )
 @warning_ignore_restore("narrowing_conversion")
 
 func get_curr_action() -> float:	return curr_action

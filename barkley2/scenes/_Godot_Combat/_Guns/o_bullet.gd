@@ -22,15 +22,14 @@ class_name B2_Bullet
 
 const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
 
-@onready var bullet_trail: 				Line2D 					= $bullet_trail
+@onready var bullet_motion_blur: 		GPUParticles2D 			= $bullet_spr/bullet_motion_blur
 @onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
-@onready var bullet_spr_shadow: 		AnimatedSprite2D 		= $bullet_spr_shadow
 @onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
 @onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
 @onready var bullet_life: 				Timer 					= $bullet_life
 
 var dir : Vector2
-var speed := 10.0
+var speed := 2000.0
 
 ## The gun that fired me
 var my_gun : B2_Weapon
@@ -39,8 +38,7 @@ var my_gun : B2_Weapon
 var source_actor : B2_CombatActor
 
 ## Bullet trail
-var has_trail		:= true
-var trail_len 		:= 16
+var has_trail		:= false
 
 ## Ricochet
 var max_ricochet	:= 3
@@ -189,14 +187,12 @@ func _ready() -> void:
 	sprite_selection() 	## Apply some simple config related to sprites
 	bullet_setup()		## Enable / Disable bullet options based on the gun stats (trail, etc)
 	
-	bullet_spr_shadow.animation = bullet_spr.animation
-	bullet_spr_shadow.rotation = bullet_spr.rotation
+	#bullet_spr_shadow.animation 	= bullet_spr.animation
+	#bullet_spr_shadow.frame			= bullet_spr.frame
+	#bullet_spr_shadow.rotation 		= bullet_spr.rotation
 	
-	if has_trail:
-		bullet_trail.show()
-	else:
-		bullet_trail.hide()
- 
+	bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
+	
 ## TODO
 # Remove unused nodes
 func bullet_setup() -> void:
@@ -215,14 +211,14 @@ func sprite_selection() -> void:
 	match bullet_spr.animation:
 	# NORMAL BULLETS #
 		"s_bull":
-			modulate = Color.YELLOW
+			#modulate = Color.YELLOW
 			if !superShot:
 				bullet_spr.animation = "s_physShot";
 				motionBlur = true;
 			else:
 				bullet_spr.animation = "s_physShot";
-			scale.x *= 1.5;
-			scale.y *= 1.4;
+			scale.x *= 1.0#1.5;
+			scale.y *= 1.0#1.4;
 
 		#NORMAL CROSSBOWS
 		"s_bull_arrowHead":
@@ -1381,16 +1377,16 @@ func play_sound(soundID : String, loop : bool) -> void:
 	else:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
-func _physics_process(_delta: float) -> void:
-	velocity = dir * speed
-	velocity *= spd ## Apply speed modifier
-	position += velocity ## TEMP
+func _process( delta: float ) -> void:
+	velocity = dir * speed * delta
+	velocity *= spd 		## Apply speed modifier
+	position += velocity 	## TEMP
 	
-	if has_trail:
-		## Update trail
-		bullet_trail.add_point( global_position )
-		if bullet_trail.get_point_count() > trail_len:
-			bullet_trail.remove_point(0)
+	#if has_trail:
+	#	## Update trail
+	#	bullet_trail.add_point( global_position )
+	#	if bullet_trail.get_point_count() > trail_len:
+	#		bullet_trail.remove_point(0)
 			
 	check_collision()
 
@@ -1426,8 +1422,15 @@ func ricochet( ric_dir : Vector2 ) -> void:
 	rico.look_at( position + ric_dir.rotated( randf_range( -PI/8, PI/8 ) ) )
 	
 func destroy_bullet() -> void:
-	ricochet( - dir )
-	queue_free() ## add a tween, fade bullet out.
+	#ricochet( - dir )
+	ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
+	if smoke_trail: smoke_trail.emitting = false
+	if bullet_motion_blur: bullet_motion_blur.emitting = false
+	set_physics_process( false )
+	set_process( false )
+	var t := create_tween()
+	t.tween_property( self, "modulate", Color.TRANSPARENT, 0.1 )
+	t.tween_callback( queue_free )
 
 func _on_body_entered( body: Node2D ) -> void:
 	
@@ -1476,3 +1479,9 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _on_bullet_life_timeout() -> void:
 	destroy_bullet()
+
+func _draw() -> void:
+	if shadow_visible: ## Cast shadow without making a new node.
+		var bull_text := bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
+		draw_set_transform( Vector2(0,16), bullet_spr.rotation, bullet_spr.scale )
+		draw_texture( bull_text, Vector2(0,0), Color("00000080") )

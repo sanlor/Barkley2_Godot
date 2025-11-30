@@ -284,5 +284,7 @@ func get_gun_knockback() -> float:
 	var knockback_force = 2000.0
 	if B2_Gun.get_current_gun():
 		knockback_force *= B2_Gun.get_current_gun().weapon_stats.pRecoil * 10.0
+	else:
+		push_warning("No gun????")
 			
 	return knockback_force

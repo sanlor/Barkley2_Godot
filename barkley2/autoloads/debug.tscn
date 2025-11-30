@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=44 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/autoloads/debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -6,6 +6,8 @@
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_coofk"]
 [ext_resource type="Script" uid="uid://k67fiie877xd" path="res://barkley2/resources/B2_Debug/quest_checker.gd" id="4_ecn0k"]
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="5_iquyo"]
+[ext_resource type="Script" uid="uid://bkh06y7n0spse" path="res://barkley2/resources/B2_Debug/gun_stats.gd" id="6_fcqti"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="7_hgrbu"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="7_hkl2t"]
 [ext_resource type="Script" uid="uid://yai8fhb612w6" path="res://barkley2/resources/B2_Debug/teleport_window.gd" id="8_ir2hf"]
 [ext_resource type="Script" uid="uid://s0a13i5ygcc7" path="res://barkley2/resources/B2_Debug/input_checker.gd" id="9_lsfsp"]
@@ -459,6 +461,32 @@ text = "Generate a random weapon (Gunbag)"
 script = SubResource("GDScript_sww13")
 bandolier = false
 
+[node name="gun_stats" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(250, 0)
+offset_right = 250.0
+offset_bottom = 198.0
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("6_fcqti")
+
+[node name="update_timer" type="Timer" parent="gun_stats"]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="gun_stats"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="gun_stats_lbl" type="RichTextLabel" parent="gun_stats/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_fonts/normal_font = ExtResource("7_hgrbu")
+bbcode_enabled = true
+text = "No"
+
 [node name="AcceptDialog" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
 initial_position = 1
@@ -643,6 +671,8 @@ label_settings = SubResource("LabelSettings_uokvk")
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/camera_data/cam_btn" to="player_vars/MarginContainer/VBoxContainer/camera_data" method="_on_cam_btn_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen" to="player_vars/MarginContainer/VBoxContainer/gun_gen" method="_on_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
+[connection signal="visibility_changed" from="gun_stats" to="gun_stats" method="_on_visibility_changed"]
+[connection signal="timeout" from="gun_stats/update_timer" to="gun_stats" method="_on_update_timer_timeout"]
 [connection signal="text_submitted" from="AcceptDialog/quest_checker/quest_request" to="AcceptDialog/quest_checker" method="_on_quest_request_text_submitted"]
 [connection signal="canceled" from="teleport_window" to="teleport_window" method="_on_canceled"]
 [connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]

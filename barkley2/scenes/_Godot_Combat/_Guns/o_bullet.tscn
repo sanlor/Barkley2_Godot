@@ -2,16 +2,10 @@
 
 [ext_resource type="Script" uid="uid://brdkn1jwtp53p" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.gd" id="1_aj05g"]
 [ext_resource type="SpriteFrames" uid="uid://6342huyjqpi6" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tres" id="2_6dtqo"]
+[ext_resource type="Texture2D" uid="uid://c4vso82asrusa" path="res://barkley2/assets/b2_original/images/merged/s_physShot.png" id="2_c0ser"]
 [ext_resource type="Material" uid="uid://dbpye6a26kgwt" path="res://barkley2/shaders/particles/o_bullet_smoke_trail.tres" id="3_0ronc"]
+[ext_resource type="Material" uid="uid://cv3uyb26qc5kv" path="res://barkley2/shaders/particles/o_bullet_bullet_motion_blur.tres" id="3_3rtrf"]
 [ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="188_eku8p"]
-
-[sub_resource type="Curve" id="Curve_6dtqo"]
-_data = [Vector2(0, 0.146068), -1.93633, 0.0, 0, 0, Vector2(0.680851, 0.898876), 0.0, 0.0, 0, 0, Vector2(0.984043, 0.539326), -2.48513, 3.16854, 0, 0]
-point_count = 3
-
-[sub_resource type="Gradient" id="Gradient_0ronc"]
-offsets = PackedFloat32Array(0, 0.7, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.0588235, 1, 1, 1, 0.3529412)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4ycrq"]
 particles_animation = true
@@ -26,12 +20,6 @@ radius = 3.0
 physics_interpolation_mode = 1
 script = ExtResource("1_aj05g")
 
-[node name="bullet_trail" type="Line2D" parent="."]
-top_level = true
-width = 3.0
-width_curve = SubResource("Curve_6dtqo")
-gradient = SubResource("Gradient_0ronc")
-
 [node name="smoke_trail" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_4ycrq")
 emitting = false
@@ -42,14 +30,13 @@ process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_6dtqo")
-animation = &"s_bull_flyshot"
+animation = &"s_physShot"
 
-[node name="bullet_spr_shadow" type="AnimatedSprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.5)
-sprite_frames = ExtResource("2_6dtqo")
-animation = &"s_bull_diamondShard"
-frame_progress = 0.2635865
-offset = Vector2(0, 16)
+[node name="bullet_motion_blur" type="GPUParticles2D" parent="bullet_spr"]
+emitting = false
+texture = ExtResource("2_c0ser")
+lifetime = 0.15000000000000002
+process_material = ExtResource("3_3rtrf")
 
 [node name="bullet_sfx" type="AudioStreamPlayer2D" parent="."]
 volume_db = -60.0

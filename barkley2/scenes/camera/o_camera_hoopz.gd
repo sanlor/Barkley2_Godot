@@ -203,7 +203,7 @@ func set_camera_bound( _is_bound : bool ):
 ## Shake functions, controls camera shake. check Shake().
 func add_shake( shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
 	var index = shake_array.size()
-	var shake_data := [ shakeStrength * 0.35, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
+	var shake_data := [ shakeStrength * 0.50, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
 	shake_array.append( shake_data )
 	return index
 	

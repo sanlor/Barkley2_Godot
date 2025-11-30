@@ -4,6 +4,9 @@ class_name B2_Gun
 # Check scr_gun_db(), Drop() and Gun()
 # Also HUD line 25 for gunsheet shit.
 # also scr_combat_weapons_generate for material an gun generation.
+# WARNING 29/11/25 Dont listen to the dum-dum above. scr_combat_weapons_generate is NOT used for regular gun generation, only for DEBUG gun gen.
+# for the actual guns, check scr_combat_weapons_new and scr_combat_weapons_resetStats.
+
 
 ## TODO 05/09/25 - Study these for later.
 # https://www.resetera.com/threads/barkley-2-is-effectively-dead.120487/page-2
@@ -27,13 +30,15 @@ const GUNPERSHEET 	= 9; 	## Number of guns to put per sheet. If loading a sheet 
 const GUNMATERIALS 	= 81; 	## Maximum number of gun materials in game
 const GUNTYPES 		= 26;	## Maximum number of types of guns we'll have
 
-const BANDOLIER_SIZE 	:= 3
+const BANDOLIER_SIZE 	:= 5
 const GUNBAG_SIZE 		:= 14
 
+# NOTE The Submachinegun and Machinepistol were switched for the longest time. No idea how I got this wrong.
+# NOTE GUN_TYPE_MACHINEPISTOL -> Uzi
 enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_PISTOL,
 	GUN_TYPE_FLINTLOCK,
-	GUN_TYPE_SUBMACHINEGUN,
+	GUN_TYPE_MACHINEPISTOL, #GUN_TYPE_SUBMACHINEGUN, 
 	GUN_TYPE_REVOLVER,
 	GUN_TYPE_MAGNUM,
 	GUN_TYPE_FLAREGUN,
@@ -43,7 +48,7 @@ enum TYPE{ ## List of guntypes. check Gun("init")
 	GUN_TYPE_TRANQRIFLE,
 	GUN_TYPE_SNIPERRIFLE,
 	GUN_TYPE_ASSAULTRIFLE,
-	GUN_TYPE_MACHINEPISTOL,
+	GUN_TYPE_SUBMACHINEGUN, #GUN_TYPE_MACHINEPISTOL,	
 	GUN_TYPE_HEAVYMACHINEGUN,
 	GUN_TYPE_GATLINGGUN,
 	GUN_TYPE_MINIGUN,
@@ -612,6 +617,8 @@ const FRANKIE_GUNS = preload("res://barkley2/assets/b2_original/guns/FrankieGuns
 const apply_mat_script := preload("uid://cn3pthgmp6ajv")
 const apply_typ_script := preload("uid://bieh3fvpmvkb2")
 const apply_gfx_script := preload("uid://dmcba8gomi654")
+const apply_pat_script := preload("uid://b6biaj4onmifq")
+
 
 
 ## Gene Settings ##
@@ -805,7 +812,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	# Drop("stats", 50, ClockTime("time"), scr_stats_getEffectiveStat(o_hoopz, STAT_BASE_LUCK) + Quest("playerCCBonus"));
 	var stat_points : int = options.get("gunsdrop", randi_range(70,90) )
 	apply_stats( wpn, stat_points, B2_ClockTime.time_display(), B2_Playerdata.Quest("playerCCBonus", null, 10 ) )
-		
+	apply_pat_script.apply_pattern( wpn )
 	apply_name( wpn, options )
 	
 	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
@@ -1037,7 +1044,7 @@ static func apply_name( wpn : B2_Weapon, options : Dictionary = {} ) -> void:
 			
 	wpn.weapon_pickup_name = tx + wpn.weapon_name
 	
-## Assign a texture, color, shit like that. Simulates scr_combat_weapons_applyGraphic()
+## Return the gun HUD icon from a atlas.
 static func weapon_graphics( wpn : B2_Weapon ) -> AtlasTexture: ## scr_combat_weapons_applyGraphic
 	var first_atlas 					:= AtlasTexture.new() ## Hud Image
 	first_atlas.atlas 					= FRANKIE_GUNS

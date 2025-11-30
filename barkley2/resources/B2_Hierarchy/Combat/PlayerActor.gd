@@ -56,6 +56,24 @@ const DIAPER_GETUP 		:= "diaper_getup"
 const DIAPER_GOOROLL 	:= "diaper_gooroll"
 const DIAPER_SPANKCRY 	:= "diaper_spankcry"
 
+## Used to calculate aim, look and move direction
+const DIR_RIGHT				:= 0.0
+const DIR_RIGHT_DOWNISH 	:= 0.46364760398865
+const DIR_RIGHT_DOWN		:= 0.78539818525314
+const DIR_DOWN_RIGHTISH		:= 1.10714876651764
+const DIR_DOWN				:= 1.57079637050629
+const DIR_DOWN_LEFTISH		:= 2.03444385528564
+const DIR_LEFT_DOWN			:= 2.35619449615479
+const DIR_LEFT_DOWNISH		:= 2.67794513702393
+const DIR_LEFT				:= 3.14159274101257
+const DIR_LEFT_UPISH		:= -2.67794513702393
+const DIR_LEFT_UP			:= -2.35619449615479
+const DIR_UP_LEFTISH		:= -2.03444385528564
+const DIR_UP				:= -1.57079637050629
+const DIR_UP_RIGHTISH		:= -1.10714876651764
+const DIR_RIGHT_UP			:= -0.78539818525314
+const DIR_RIGHT_UPISH	 	:= -0.46364760398865
+
 @export_category("Combat Sprites")
 @export var combat_upper_sprite 	: AnimatedSprite2D
 @export var combat_lower_sprite 	: AnimatedSprite2D
@@ -287,12 +305,22 @@ func light_fuse() -> void:
 	else: push_error( "combat_weapon_fuse -> not set." )
 			
 ## Used to know where should a bullet spawn
-func get_muzzle_position() -> Vector2:
-	return gun_muzzle.global_position
-
+func get_muzzle_position( inverted := false, random := false ) -> Vector2:
+	var pos : Vector2
+	if random: ## Return a random position, around the player
+		pos = to_global( gun_muzzle.position.rotated( randf_range(0,TAU) ) )
+	else:
+		if inverted:	pos = to_global(gun_muzzle.position)
+		else:			pos = gun_muzzle.global_position
+	return pos
+	
 ## Used to know where the gun currlently is.
 func get_attack_origin() -> Vector2:
 	return combat_weapon.global_position
+
+## Used to apply a gun offset when a shot is fired.
+func set_gun_reloaded( _reload_state : bool ) -> void:
+	pass
 
 func normal_animation(delta : float):
 	var input := (curr_input * 2.5).normalized().round()

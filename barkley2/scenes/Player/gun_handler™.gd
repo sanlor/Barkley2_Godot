@@ -56,6 +56,17 @@ const colorGuilderberg 				:= B2_Gamedata.c_cosmic;
 ## Gun balance
 const windupModifier 				:= 2; ## 1 = 100% speed, 1.5 = 150% speed, etc
 
+## Combat Settings
+var ammoBooster 	:= 0.25; 		# % boost to all ammo counts
+var rateBooster 	:= 0.5; 		# % boost of all gun's firing rate
+var pietyBonus 		:= 1.0; 		# Gain this for every point of PIETY for resist
+var baseSpeed 		:= 8.5; 		# previously 9
+var lethargyMod 	:= 0.05;
+var encumbranceMod 	:= 0.5; 		# loss of speed for each point of weight over - OLD = 0.05
+var logWeight 		:= 1.0;
+var baseShake 		:= 1.0;
+var marksmanMod 	:= 17.5;
+
 @onready var gun_noises_stream		: AudioStreamPlayer = $gun_noises_stream ## Responsible to produce gun noises (winding, for example)
 @onready var pre_shooting_timer		: Timer = $pre_shooting_timer	## Timer used when a gun need some time before firing (muskets)
 @onready var firing_rate			: Timer = $firing_rate			## Timer used to control the firing rate
@@ -198,7 +209,7 @@ func pre_attack_action( action : bool ) -> bool:
 func post_attack_action() -> void:
 	var rate := curr_gun.get_rate()
 	post_shooting_timer.start( rate )
-	reload_timer.start( rate / 4.0 )
+	reload_timer.start( rate / 3.0 )
 
 ## Check combat_gunwield_shoot
 ## Check o_bullet
@@ -208,7 +219,6 @@ func attack_action() -> void:
 	## Can't shoot again while the respective timers are still active.
 	#if not _can_shoot(): return
 		
-	var casing_pos 	:= source_actor.get_attack_origin()
 	var dir			:= source_actor.curr_aim
 		
 	## Start timers and necessary variables.
@@ -241,6 +251,7 @@ func attack_action() -> void:
 		if randi_range(0,3) == 0:
 			soilClog = true
 			
+	## May break gun.
 	if curr_gun.weapon_material == B2_Gun.MATERIAL.BROKEN:
 		if randi_range(0,3) == 0:
 			var indicatorText 		:= ""
@@ -275,28 +286,28 @@ func attack_action() -> void:
 			B2_Sound.play( curr_gun.get_soundID(), 0.0, false, 1, 1.0, 0.5 )
 			_create_flash( source_pos, dir, 1.5)
 			
-			for i in 1: # FIXME curr_gun.ammo_per_shot: ## Double barrel shotgun spawn 2 casings
-				_create_casing( casing_pos)
-				
 			## only apply knockback if you actually fire the weapon.
-			var bonus_knockback := 0.0
+			var bonus_knockback := 1.0
 			var dir_knockback := -dir
 			if curr_gun.prefix1 == "Afterburner":
 				bonus_knockback = 4.0
 			if curr_gun.prefix1 == "NoScope360":
 				dir_knockback = dir
+				source_pos = get_parent().get_muzzle_position( true ) ## Update position.
 			source_actor.apply_central_impulse( dir_knockback * curr_gun.get_gun_knockback() * bonus_knockback ) 
 			
 			## Spawn bullets. Handguns shoot only one bullet per shot. Shotguns can shoot many per shot.
 			for i in curr_gun.weapon_stats.pShots: # FIXME curr_gun.bullets_per_shot:
-				source_pos = get_parent().get_muzzle_position() ## Update position.
+				#source_pos = get_parent().get_muzzle_position() ## Update position.
 				
-				var my_spread_offset := curr_gun.weapon_stats.pSpreadAmount / curr_gun.weapon_stats.pShots # 1.0 * ( float(i) / 1.0 ) # FIXME float(curr_gun.bullets_per_shot) ) ## TODO add better spread
+				var my_spread_offset := deg_to_rad( curr_gun.weapon_stats.pSpreadAmount / curr_gun.weapon_stats.pShots )
 				my_spread_offset = randf_range( -my_spread_offset, my_spread_offset )
 				
 				## Aim variations
 				var my_acc := curr_gun.weapon_stats.pAccuracy * B2_Config.BULLET_SPREAD_MULTIPLIER ## TODO add better accuracy
 				var b_dir := dir.rotated( randf_range( -my_acc, my_acc ) + my_spread_offset )
+				if curr_gun.prefix1 == "NoScope360":
+					b_dir *= -1 # Invert directionq
 				
 				## broken gun malfunction 1: inaccurate shot
 				if malfunction == 1: b_dir += Vector2.from_angle( deg_to_rad( 35.0 + randf_range(0.0,35.0) ) * [1.0,-1.0].pick_random() )
@@ -308,6 +319,8 @@ func attack_action() -> void:
 			## Out of ammo.
 			B2_Sound.play( "hoopz_click" )
 	
+	source_actor.set_gun_reloaded( false )
+	_shake_screen()
 	post_attack_action()
 #endregion
 		
@@ -333,6 +346,18 @@ func _gun_changed() -> void:
 	post_shooting_timer.stop()
 	reload_timer.stop()
 	firing_rate.stop()
+	
+func _shake_screen() -> void:
+	var agile = B2_Playerdata.Stat("STAT_BASE_AGILE")
+	var weight = B2_Playerdata.Stat("STAT_BASE_WEIGHT")
+	var lethargy = max( ((agile - weight) * lethargyMod), -1);
+	var speed_log = max( log(lethargy + logWeight) / log(10.0), -1) # lethargy
+	var marksmanship = abs(speed_log);
+	var shakiness = marksmanship * marksmanMod + baseShake;
+	var effectiveShake = shakiness;
+	var actor := B2_CManager.o_hoopz.global_position
+	
+	B2_CManager.camera.add_shake( effectiveShake, 999, actor.x, actor.y, max(effectiveShake / 2.0, 1.0) / 10.0 )
 	
 ## Create a bullet object on the current room
 func _create_bullet( source_pos : Vector2, dir : Vector2 ) -> void: #, skill_mod : B2_WeaponSkill = null ) -> void:
@@ -387,12 +412,19 @@ func _on_firing_rate_timeout() -> void:
 	pass # Replace with function body.
 
 func _on_post_shooting_timer_timeout() -> void:
-	pass # Replace with function body.
+	if curr_gun.weapon_stats.readyCasing > 1:
+		var casing_pos 	:= source_actor.get_attack_origin()
+		for i in curr_gun.weapon_stats.readyCasing: ## Double barrel shotgun spawn 2 casings
+			_create_casing( casing_pos )
+	source_actor.set_gun_reloaded( true )
 
 ## Reload SFX
 func _on_reload_timer_timeout() -> void:
 	if curr_gun.weapon_stats.reloadSound:
 		B2_Sound.play( curr_gun.weapon_stats.reloadSound )
+	## create bullet casing
+	if not curr_gun.weapon_stats.bcasing.is_empty(): # Certain guns dont produce bullet casings.
+		_create_casing( source_actor.get_attack_origin() )
 #endregion
 
 ## Controls the Wind up SFX.

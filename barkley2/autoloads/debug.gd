@@ -24,10 +24,11 @@ var debug_camera_node : B2_Camera_Debug
 ## player debug
 var can_disable_player_col := false
 
-@onready var player_data: ScrollContainer = $player_data
-@onready var player_vars: ScrollContainer = $player_vars
-@onready var accept_dialog: AcceptDialog = $AcceptDialog
-@onready var teleport_window: ConfirmationDialog = $teleport_window
+@onready var player_data: 		ScrollContainer = $player_data
+@onready var player_vars: 		ScrollContainer = $player_vars
+@onready var accept_dialog: 	AcceptDialog = $AcceptDialog
+@onready var teleport_window: 	ConfirmationDialog = $teleport_window
+@onready var gun_stats: 		MarginContainer = $gun_stats
 
 func _ready() -> void:
 	layer = B2_Config.DEBUG_LAYER
@@ -60,14 +61,20 @@ func _unhandled_key_input(event: InputEvent) -> void:
 				
 		if event.is_action_pressed("DEBUG_DATA"):
 			player_data.visible = not player_data.visible
+			
 		elif event.is_action_pressed("DEBUG_FF"): ## TODO add some UI fluff
 			print_rich("[color=pink]DEBUG can FF.[/color]")
+			
 		elif event.is_action_released("DEBUG_FF"):
 			pass
+			
 		elif event.is_action_pressed("DEBUG_VARS"):
 			player_vars.visible = not player_vars.visible
 			if B2_CManager.o_hoopz:
 				B2_CManager.o_hoopz.debug_enable_collision( player_vars.visible )
+				
+		elif event.is_action_pressed("DEBUG_1"):
+			gun_stats.visible = not gun_stats.visible
 			
 		elif event.is_action_pressed("DEBUG_QUESTS"):
 			accept_dialog.visible = not accept_dialog.visible

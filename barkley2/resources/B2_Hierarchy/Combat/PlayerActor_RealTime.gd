@@ -23,6 +23,8 @@ class_name B2_Player_FreeRoam
 # Check scr_player_stance_gunmode()
 # Check scr_player_draw_walking_gunmode()
 
+
+
 @export_category("Player Permission")
 @export var can_roll 		:= true
 @export var can_draw_weapon := true
@@ -31,6 +33,9 @@ class_name B2_Player_FreeRoam
 @onready var aim_origin: 		Marker2D 					= $aim_origin
 @onready var aim_reticle: 		AnimatedSprite2D 			= $aim_origin/aim_reticle
 @onready var interaction_node: 	B2_Player_Interaction_Node 	= $aim_origin/interaction_node
+
+## Gun Stuff
+var gun_held_offset := 0.0 # offset used when a gun was not reloaded / cocked yet.
 
 ## Debug
 var debug_line 			: Vector2
@@ -84,8 +89,9 @@ func _ai_roll_at( enabled : bool ) -> void:
 	if enabled:
 		start_rolling( curr_input )
 	
-func get_aim_origin() -> Vector2:
-	return aim_origin.global_position
+func get_aim_origin( is_local := false ) -> Vector2:
+	if is_local: 	return aim_origin.position
+	else:			return aim_origin.global_position
 	
 func start_aiming() -> void:
 	if not get_room_pacify():
@@ -213,40 +219,38 @@ func combat_aim_animation():
 			return
 			
 		#var mouse_input 	:= ( position + Vector2( 0, -16 ) ).direction_to( curr_aim ).snapped( Vector2(0.33,0.33) )
-		var mouse_input 	:= curr_aim.snapped( Vector2(0.33,0.33) )
+		#var mouse_input 	:= curr_aim.snapped( Vector2(0.33,0.33) )
 		var dir_frame = combat_upper_sprite.frame
+		# That Vector is an offset to make the calculation origin to be Hoopz torso
+		var target_dir 			:= curr_aim
+		var target_angle		:= target_dir.angle()
+		var target_dir_snap 	:= curr_aim.snappedf( TAU / 16.0 )
+		var target_angle_snap	:= target_dir_snap.angle()
 		
 		if flashlight:
-			_point_flashlight( mouse_input )
+			_point_flashlight( Vector2.from_angle(target_angle_snap) )
 		
-		## Remember, 0.9999999999999 != 1.0
-		match mouse_input:
-				# Normal stuff
-				Vector2(0,	-0.99):				dir_frame = 		4
-				Vector2(-0.99,	0):				dir_frame = 		8
-				Vector2(0,	0.99):				dir_frame = 		12
-				Vector2(0.99,	0):				dir_frame = 		0
-					
-				# Diagonal stuff
-				Vector2(0.66,	0.66): dir_frame = 			14	# Low Right
-				Vector2(-0.66,	0.66): dir_frame = 			10	# Low Left
-				Vector2(0.66,	-0.66): dir_frame = 		2	# High Right
-				Vector2(-0.66,	-0.66):	dir_frame = 		6	# High Left
-					
-				## Madness
-				#Down
-				Vector2(0.33,	0.99): dir_frame = 		13	# Rightish
-				Vector2(-0.33,	0.99): dir_frame = 		11	# Leftish
-				#Up
-				Vector2(0.33,	-0.99): dir_frame = 	3	# Rightish
-				Vector2(-0.33,	-0.99): dir_frame = 	5	# Leftish
-				#Left
-				Vector2(-0.99,	0.33): dir_frame = 		9	# Upish
-				Vector2(-0.99,	-0.33): dir_frame = 	7	# Downish
-				#Right
-				Vector2(0.99,	0.33): dir_frame = 		15	# Upish
-				Vector2(0.99,	-0.33): dir_frame = 	1	# Downish
-					
+		if is_equal_approx(target_angle_snap, DIR_UP): 				dir_frame = 4	# Up
+		elif is_equal_approx(target_angle_snap, DIR_LEFT): 			dir_frame = 8 	# Left
+		elif is_equal_approx(target_angle_snap, DIR_DOWN): 			dir_frame = 12	# Down
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT):			dir_frame = 0 	# Right
+		# Diagonal stuff
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_DOWN): 	dir_frame = 14	# Low Right
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWN): 	dir_frame = 10	# Low Left
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UP): 		dir_frame = 2	# High Right
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_UP):		dir_frame = 6	# High Left
+				
+		# Madness
+		elif is_equal_approx(target_angle_snap, DIR_DOWN_RIGHTISH): dir_frame =	13	# Down Rightish
+		elif is_equal_approx(target_angle_snap, DIR_DOWN_LEFTISH): 	dir_frame =	11	# Down Leftish
+		elif is_equal_approx(target_angle_snap, DIR_UP_RIGHTISH): 	dir_frame = 3	# Up Rightish
+		elif is_equal_approx(target_angle_snap, DIR_UP_LEFTISH): 	dir_frame = 5	# Up Leftish
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWNISH): 	dir_frame =	9	# Left Downish
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_UPISH): 	dir_frame = 7	# Left Upish
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_DOWNISH): dir_frame =	15	# Right Downish
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UPISH): 	dir_frame = 1	# Right Upish
+		else: print( "Invalid combat_aim angle: ", target_angle_snap )
+		
 		# only change if there is a change in dir
 		if dir_frame != combat_upper_sprite.frame:
 			combat_upper_sprite.frame = 	dir_frame
@@ -261,108 +265,79 @@ func combat_weapon_animation() -> void:
 			pass
 			
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		var target_dir 		:= curr_aim
-		var target_angle	:= curr_aim.angle()
-		var mouse_input 	:= target_dir.snapped( Vector2(0.33,0.33) )
+		var target_dir 			:= curr_aim
+		var target_angle		:= target_dir.angle()
+		var target_dir_snap 	:= curr_aim.snappedf( TAU / 16.0 )
+		var target_angle_snap	:= target_dir_snap.angle()
 		
 		## Many Manual touch ups.
-		var s_frame 				:= 999#combat_weapon.frame
+		var s_frame 				:= 999 #combat_weapon.frame
 		var _z_index				:= 0
-		var update_gun_position 	:= false ## Force sprite update. This 'fixes' a bug with sprite frame 0.
+		var update_gun_position 	:= true ## Force sprite update. This 'fixes' a bug with sprite frame 0.
 		
 		## This needs to be fixed. It has to be a better way to do this. TODO
 		# The way hoopz aims is not a simple 8 way direction. It's 16 way, thats why I made this mess.
-		match mouse_input:
-				# Normal stuff
-				Vector2(0,	-0.99): # Up
-					s_frame = 	4
-					_z_index = -1
-				Vector2(-0.99,	0): # Left
-					s_frame = 	8
-					_z_index = -1
-				Vector2(0,	0.99): # Down
-					s_frame = 	12
-				Vector2(0.99,	0):	 # Right
-					s_frame = 	0
-					target_dir 		= Vector2.RIGHT				# Set a known target dir.
-					target_angle	= Vector2.RIGHT.angle()		# Set a known angle.
-					update_gun_position = true
-					## Wow, Im a genius coder!
-					# This fixes a stuppid bug, that impedes the gun position update when the frame 0 is selected.
-					# its a dumb fix, but it works.
-					
-				# Diagonal stuff
-				Vector2(0.66,	0.66): # Low Right
-					s_frame = 	14
-				Vector2(-0.66,	0.66): # Low Left
-					s_frame = 	10
-					#_z_index = -1
-				Vector2(0.66,	-0.66): # High Right
-					s_frame = 	2
-					_z_index = -1
-				Vector2(-0.66,	-0.66):	# High Left
-					s_frame = 	6
-					_z_index = -1
-				
-				# Madness
-				#Down
-				Vector2(0.33,	0.99): # Rightish
-					s_frame = 	13
-				Vector2(-0.33,	0.99): # Leftish
-					s_frame = 	11
-				#Up
-				Vector2(0.33,	-0.99): # Rightish
-					s_frame = 	3
-				Vector2(-0.33,	-0.99): # Leftish
-					s_frame = 	5
-				#Left
-				Vector2(-0.99,	0.33): # Downish
-					s_frame = 	9
-				Vector2(-0.99,	-0.33): # Upish
-					s_frame = 	7
-				#Right
-				Vector2(0.99,	0.33): # Downish
-					s_frame = 	15
-				Vector2(0.99,	-0.33): # Upish
-					s_frame = 	1
-				_:
-					# Use the previous frame
-					s_frame = combat_weapon.frame
-					
+		# NOTICE Please believe me, this mess is not my fault... Ive spent so many hours trying to make this work....
+		if is_equal_approx(target_angle_snap, DIR_UP): 				s_frame = 	4;	_z_index = -1	# Up
+		elif is_equal_approx(target_angle_snap, DIR_LEFT): 			s_frame = 	8;	_z_index = -1	# Left
+		elif is_equal_approx(target_angle_snap, DIR_DOWN): 			s_frame = 	12					# Down
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT):	 		s_frame = 	0					# Right
+		
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_DOWN): 	s_frame = 	14					# Low Right
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWN): 	s_frame = 	10;#_z_index = -1 	# Low Left
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UP):		s_frame = 	2;_z_index = -1 	# High Right	
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_UP):		s_frame = 	6;_z_index = -1		# High Left
+			
+		elif is_equal_approx(target_angle_snap, DIR_DOWN_RIGHTISH): s_frame = 	13					# Down Rightish
+		elif is_equal_approx(target_angle_snap, DIR_DOWN_LEFTISH): 	s_frame = 	11					# Down Leftish
+		elif is_equal_approx(target_angle_snap, DIR_UP_RIGHTISH): 	s_frame = 	3					# Up Rightish
+		elif is_equal_approx(target_angle_snap, DIR_UP_LEFTISH): 	s_frame = 	5					# Up Leftish
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWNISH): 	s_frame = 	9					# Left Downish
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_UPISH): 	s_frame = 	7					# Left Upish
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_DOWNISH): s_frame = 	15					# Right Downish
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UPISH): 	s_frame = 	1					# Right Upish
+		else:			print( "Invalid Gun angle: ", target_angle_snap )
+		
 		## My own slop.
 		## Decide where the gun should be placed in relation to the player sprite.
 		## Handguns usually are placed on the center, but rifles and heavy weapons are held by the right of the PC.
 		# NOTE 27/11/25 Fun fact: the 'My own slop.' text was written because this was my first attempt to use AI to write code, trying to translate the-
 		# GML code to Godot. It was messy and did not work. After banging my head, tryin to fix copilot's code, i gave up and came with my own solution.
 		# I try to avoid using AI as much as possible. It's fun to think on my own.
-		var new_gun_pos := Vector2.ZERO
+		var new_gun_pos := target_dir_snap
 		
 		# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 		# took 3 days finetuning this. 11/03/25 
-		new_gun_pos 	= target_dir * B2_Gun.get_gun_held_dist()
+		new_gun_pos 	*= B2_Gun.get_gun_held_dist()
 		
-		new_gun_pos 	-= B2_Gun.get_gun_shifts().rotated( target_angle )
+		new_gun_pos 	-= B2_Gun.get_gun_shifts( gun_held_offset ).rotated( target_angle_snap )
 		new_gun_pos.y 	-= B2_Gun.get_gun_shifts().y * 0.75
 		new_gun_pos.y 	*= 0.75
 		new_gun_pos.y 	-= 18.0 # was 16.0
 		new_gun_pos 	= new_gun_pos.round()
 		
 		## Decide where the muzzle is.
-		gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
+		gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle_snap )
 		gun_muzzle.position.y -= 3.0
 		
-		if combat_weapon.frame != s_frame or update_gun_position:
-			combat_weapon.frame 			= s_frame
-			combat_weapon.position 			= new_gun_pos
-			combat_weapon.z_index			= _z_index
-			
-			combat_weapon_parts.frame 		= s_frame
-			combat_weapon_parts.position 	= new_gun_pos
-			combat_weapon_parts.z_index		= _z_index
-			
-			combat_weapon_spots.frame 		= s_frame
-			combat_weapon_spots.position 	= new_gun_pos
-			combat_weapon_spots.z_index		= _z_index
+		#if combat_weapon.frame != s_frame or update_gun_position:
+		combat_weapon.frame 			= s_frame
+		combat_weapon.position 			= new_gun_pos
+		combat_weapon.z_index			= _z_index
+		
+		combat_weapon_parts.frame 		= s_frame
+		combat_weapon_parts.position 	= new_gun_pos
+		combat_weapon_parts.z_index		= _z_index
+		
+		combat_weapon_spots.frame 		= s_frame
+		combat_weapon_spots.position 	= new_gun_pos
+		combat_weapon_spots.z_index		= _z_index
+
+## Used to apply a gun offset when a shot is fired.
+func set_gun_reloaded( reload_state : bool ) -> void:
+	if not reload_state:	gun_held_offset = 2.0
+	else:					gun_held_offset = 0.0
+		
 
 # Roll action
 func start_rolling( roll_dir : Vector2 ) -> void:

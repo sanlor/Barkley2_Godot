@@ -182,7 +182,7 @@ static func get_muzzle_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldBulletDist = 20.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 10.0 # was 8.0
+			heldBulletDist = 20.0 # was 8.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldBulletDist = 8.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
@@ -226,7 +226,7 @@ static func get_gun_held_dist() -> float:
 	return heldDist
 
 ## scr_player_getGunShifts - set the offsef for the held gun
-static func get_gun_shifts() -> Vector2:
+static func get_gun_shifts( gun_held_offset := 0.0 ) -> Vector2:
 	var heldHShift := 0.0
 	var heldVShift := 0.0
 	match B2_Gun.get_current_gun().weapon_type:
@@ -269,5 +269,5 @@ static func get_gun_shifts() -> Vector2:
 	
 	#heldVShift = 0 ## DEBUG
 	#return Vector2( heldHShift, heldVShift )
-	return Vector2( heldVShift, heldHShift )
+	return Vector2( heldVShift + gun_held_offset, heldHShift )
 #endregion
