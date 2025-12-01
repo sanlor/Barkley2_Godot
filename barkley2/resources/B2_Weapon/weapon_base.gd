@@ -161,7 +161,7 @@ func get_rate() -> float:
 	return 1.0 / perSecond
 
 func get_damage() -> float:			return weapon_stats.pDamageMin
-func get_rate_total() -> String:	return str( get_rate() ) + "/s"
+func get_rate_total() -> String:	return str( snappedf(get_rate(), 0.01) )# + "/s"
 func get_held_sprite() -> String:	return weapon_stats.gunHeldSprite
 #
 # Return an array of colors for the main color, parts color, spots color and parts alpha.
@@ -205,19 +205,14 @@ func get_bullet_color() -> Color:
 	else:										return Color( weapon_stats.pBulletColor )
 
 ## Bullet casing name. Empty names means that the bullet has no casing.
-func get_casing_name() -> String:				return weapon_stats.bcasing
-
-## Bullet casing sound
-func get_casing_sound() -> String:				return weapon_stats.casingSound
-	
-## Bullet casing color
-func get_casing_color() -> Color:				return Color.from_string( weapon_stats.bcasingCol, Color.HOT_PINK )
-	
-## Bullet casing size/scale
-func get_casing_scale() -> float:				return float( weapon_stats.bcasingScale )
-	
-## Bullet casing speed/gravity
-func get_casing_speed() -> float:				return float( weapon_stats.bcasingSpd )
+func get_casing_name() -> String:		return weapon_stats.bcasing
+func get_casing_sound() -> String:		return weapon_stats.casingSound														## Bullet casing sound
+func get_casing_color() -> Color:		return Color.from_string( weapon_stats.bcasingCol, Color.HOT_PINK.to_html() )		## Bullet casing color
+func get_casing_scale() -> float:		return float( weapon_stats.bcasingScale )											## Bullet casing size/scale
+func get_casing_speed() -> float:		return float( weapon_stats.bcasingSpd )												## Bullet casing directional speed
+func get_casing_vert_speed() -> float:	return float( weapon_stats.bcasingVertSpd )											## Bullet casing speed/gravity
+func get_casing_dir() -> Vector2:		return Vector2.from_angle( deg_to_rad(weapon_stats.bcasingDir) )
+func get_casing_spin() -> float:		return float( weapon_stats.bcasingSpin )
 
 ## TODO add better stats retrieval
 func get_gun_stat( stat_name : String ):		return ( weapon_stats.get(stat_name) )
@@ -262,6 +257,10 @@ func get_gun_stat( stat_name : String ):		return ( weapon_stats.get(stat_name) )
 #func reset_action( force_value := 0.0 ) -> void:
 	#curr_action = force_value
 	
+## get current charge ratio
+func get_curr_charge() -> float:
+	return weapon_stats.pChargeRatio
+	
 func recover_ammo( amount : int ) -> bool:
 	if get_curr_ammo() >= get_max_ammo():													return false
 	else: weapon_stats.pCurAmmo = clampi( get_curr_ammo() + amount, 0, get_max_ammo() ); 	return true
@@ -270,7 +269,7 @@ func use_ammo( amount : int ) -> void:
 	if B2_Playerdata.Quest("infiniteAmmo") == 0: ## infinite ammo enabled. Do not decrease ammo.
 		weapon_stats.pCurAmmo = clampi( get_curr_ammo() - amount, 0, get_max_ammo() )
 	
-func has_ammo() -> bool:							return weapon_stats.pCurAmmo - weapon_stats.pAmmoCost > 0
+func has_ammo() -> bool:							return weapon_stats.pCurAmmo > 0 # NOTE check this later. # had '- int(weapon_stats.pAmmoCost) > 0'
 func has_sufficient_ammo( amount : int ) -> bool:	return weapon_stats.pCurAmmo - amount > 0
 func get_curr_ammo() -> int:						return weapon_stats.pCurAmmo
 func get_max_ammo() -> int:							return weapon_stats.pMaxAmmo

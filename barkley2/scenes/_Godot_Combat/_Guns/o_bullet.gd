@@ -20,16 +20,18 @@ class_name B2_Bullet
 
 ## WARNING as of 20/11/25, im trying to improve performance due to issues ith slowdowns on certain situations.
 
-const O_RICOCHET = preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
+const O_RICOCHET 			:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
+const BULLET_MOTION_BLUR 	:= preload("uid://jtntp5snoywp")
+const BULLET_SUPER_TRAIL 	:= preload("uid://c83yp1523vacs")
 
-@onready var bullet_motion_blur: 		GPUParticles2D 			= $bullet_spr/bullet_motion_blur
+
 @onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
 @onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
 @onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
 @onready var bullet_life: 				Timer 					= $bullet_life
 
 var dir : Vector2
-var speed := 2000.0
+var speed := 800.0
 
 ## The gun that fired me
 var my_gun : B2_Weapon
@@ -44,8 +46,10 @@ var has_trail		:= false
 var max_ricochet	:= 3
 
 ## Bullet mods
+var specialShot			:= ""			## Bullet special effect, like "paper"
 var superShot 			:= false
 var motionBlur 			:= false
+var glowEffect 			:= false;
 var bullet_spriteTurn 	:= false
 var superTrail 			= 0;		## Trail for the periodic/super shot ##
 var matName 			= "";		## Material name for the gun ##
@@ -83,7 +87,6 @@ var bfgFiredDirection 	= 0;
 
 var image_angle ## ????
 var bulletSpin ## ????
-var specialShot ## ????
 
 var ricochetSound := "ricochet"
 
@@ -121,6 +124,8 @@ var wingSprite		:= ""
 var featherInterval := 0
 var featherNext		:= 0
 
+var drawWhiteOverlay := false # o_bullet - draw - line 141
+
 ## Godot bullet mods
 # Damage Modifiers
 var att								:= 1.0 ## Higher number = more powerful
@@ -142,6 +147,10 @@ var spr := ""
 var col := Color.WHITE
 
 var velocity : Vector2
+
+## Trail stuff
+var bullet_motion_blur : GPUParticles2D
+var bullet_super_trail : GPUParticles2D
 
 ## Gamedev is my passion...
 # here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
@@ -182,7 +191,7 @@ func _ready() -> void:
 		breakpoint
 	
 	bullet_spr.look_at( dir.normalized() )
-	bullet_spr.modulate = col
+	bullet_spr.self_modulate = col
 	
 	sprite_selection() 	## Apply some simple config related to sprites
 	bullet_setup()		## Enable / Disable bullet options based on the gun stats (trail, etc)
@@ -191,13 +200,30 @@ func _ready() -> void:
 	#bullet_spr_shadow.frame			= bullet_spr.frame
 	#bullet_spr_shadow.rotation 		= bullet_spr.rotation
 	
-	bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
+	
 	
 ## TODO
 # Remove unused nodes
 func bullet_setup() -> void:
-	pass
-
+	if glowEffect:
+		flash_bullet( true )
+		
+	if superTrail or superShot:
+		bullet_super_trail = BULLET_SUPER_TRAIL.instantiate()
+		add_child( bullet_super_trail )
+		bullet_super_trail.emitting = true
+		print( "super" )
+		
+	if motionBlur:
+		bullet_motion_blur = BULLET_MOTION_BLUR.instantiate()
+		bullet_spr.add_child( bullet_motion_blur )
+		bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
+		bullet_motion_blur.emitting = true
+		print( "motion")
+	
+	if drawWhiteOverlay:
+		pass
+	
 ## based on some settings, some sprites can change. ## o_bullet alarm 0
 # NOTE Ok, this is a mess. This function tries to emulate the original behaviour. I cant think of a better way to handle this besides a big ass match check.
 func sprite_selection() -> void:
@@ -206,7 +232,16 @@ func sprite_selection() -> void:
 		breakpoint
 		return
 		
-	var _pow := my_gun.get_pow() ## missing other stats
+	var _pow : float = 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
+						B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) + \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_CYBER ) + \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_MENTAL ) + \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) + \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_COSMIC )
+	
+	## Mat stuff
+	if matName == "Silk":
+		lobAngledSprite = true;
 	
 	match bullet_spr.animation:
 	# NORMAL BULLETS #
@@ -217,8 +252,8 @@ func sprite_selection() -> void:
 				motionBlur = true;
 			else:
 				bullet_spr.animation = "s_physShot";
-			scale.x *= 1.0#1.5;
-			scale.y *= 1.0#1.4;
+				scale.x *= 1.5;
+				scale.y *= 1.4;
 
 		#NORMAL CROSSBOWS
 		"s_bull_arrowHead":
@@ -326,7 +361,7 @@ func sprite_selection() -> void:
 			elif (_pow>12):		bullet_spr.frame = 2
 			elif (_pow>6):		bullet_spr.frame = 1
 			else: 				bullet_spr.frame = 0
-			modulate.a = 0.6
+			self_modulate.a = 0.6
 			lobAngledSprite = true;
 			if(speedBonus>1.5): speedBonus = 1.5  
 
@@ -1342,7 +1377,7 @@ func sprite_selection() -> void:
 			bullet_spriteTurn = false;
 			bullet_spr.frame = clamp(0,17,_pow/6)
 			if(_pow>3): bullet_spr.frame +=1
-			modulate.a = 0.3;
+			self_modulate.a = 0.3;
 		
 		# Untamonium
 		"s_bull_untamonium_med":
@@ -1390,6 +1425,13 @@ func _process( delta: float ) -> void:
 			
 	check_collision()
 
+func flash_bullet( state : bool ) -> void:
+	if bullet_spr:
+		bullet_spr.material.set_shader_parameter( "hit_effect", 0.6 * float(state) )
+	else:
+		# No combat weapon????
+		breakpoint
+
 func check_collision() -> void:
 	var space_state = get_world_2d().direct_space_state
 	var params = PhysicsPointQueryParameters2D.new()#.create(global_position, global_position + Vector2(0, 1))
@@ -1424,13 +1466,17 @@ func ricochet( ric_dir : Vector2 ) -> void:
 func destroy_bullet() -> void:
 	#ricochet( - dir )
 	ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
-	if smoke_trail: smoke_trail.emitting = false
-	if bullet_motion_blur: bullet_motion_blur.emitting = false
+	var t := 0.0
+	if smoke_trail: smoke_trail.emitting = false; 				t = 2.0
+	if bullet_motion_blur: bullet_motion_blur.emitting = false;	t = 2.0
+	if bullet_super_trail: bullet_super_trail.emitting = false;	t = 2.0
 	set_physics_process( false )
 	set_process( false )
-	var t := create_tween()
-	t.tween_property( self, "modulate", Color.TRANSPARENT, 0.1 )
-	t.tween_callback( queue_free )
+	var tween := create_tween()
+	#t.tween_property( bullet_spr, "self_modulate", Color.TRANSPARENT, 0.1 )
+	tween.tween_callback( bullet_spr.hide )
+	if t > 0.0: tween.tween_interval( t )
+	tween.tween_callback( queue_free )
 
 func _on_body_entered( body: Node2D ) -> void:
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://cm02gfex41gr0"]
+[gd_scene load_steps=43 format=3 uid="uid://cm02gfex41gr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_6d2l0"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_6d2l0"]
@@ -17,6 +17,7 @@
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="9_ufjxn"]
 [ext_resource type="SpriteFrames" uid="uid://ce5btxh5p4nbk" path="res://barkley2/resources/Player/combat_arm_front_normal.tres" id="10_7qowe"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="10_ac4jf"]
+[ext_resource type="Material" uid="uid://b01uytrmpw37l" path="res://barkley2/shaders/material/gun_charge_flash.tres" id="13_mcmji"]
 [ext_resource type="Texture2D" uid="uid://dp4tnuvq0yojo" path="res://barkley2/assets/b2_original/images/merged/s_GunSpark.png" id="14_jncqf"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="16_uptpk"]
 [ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="17_ph4w5"]
@@ -224,6 +225,9 @@ bus = &"Audio"
 [node name="reload_timer" type="Timer" parent="Gun_Handler™"]
 one_shot = true
 
+[node name="charge_timer" type="Timer" parent="Gun_Handler™"]
+wait_time = 0.05
+
 [node name="o_Shadow" parent="." instance=ExtResource("2_vnb8r")]
 scale = Vector2(0.4, 0.2)
 
@@ -268,7 +272,7 @@ centered = false
 offset = Vector2(-22, -41)
 
 [node name="combat_weapon" type="AnimatedSprite2D" parent="."]
-visible = false
+material = ExtResource("13_mcmji")
 position = Vector2(0, -18)
 sprite_frames = ExtResource("9_effw1")
 animation = &"s_Magnum"
@@ -362,5 +366,6 @@ one_shot = true
 [connection signal="timeout" from="Gun_Handler™/post_shooting_timer" to="Gun_Handler™" method="_on_post_shooting_timer_timeout"]
 [connection signal="finished" from="Gun_Handler™/gun_noises_stream" to="Gun_Handler™" method="_on_gun_noises_stream_finished"]
 [connection signal="timeout" from="Gun_Handler™/reload_timer" to="Gun_Handler™" method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="Gun_Handler™/charge_timer" to="Gun_Handler™" method="_on_charge_timer_timeout"]
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
 [connection signal="frame_changed" from="combat_lower_body" to="." method="_on_combat_lower_body_frame_changed"]

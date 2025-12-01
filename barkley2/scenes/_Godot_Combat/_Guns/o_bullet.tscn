@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://ds37xyh4m61b1"]
+[gd_scene load_steps=8 format=3 uid="uid://ds37xyh4m61b1"]
 
 [ext_resource type="Script" uid="uid://brdkn1jwtp53p" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.gd" id="1_aj05g"]
 [ext_resource type="SpriteFrames" uid="uid://6342huyjqpi6" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tres" id="2_6dtqo"]
-[ext_resource type="Texture2D" uid="uid://c4vso82asrusa" path="res://barkley2/assets/b2_original/images/merged/s_physShot.png" id="2_c0ser"]
 [ext_resource type="Material" uid="uid://dbpye6a26kgwt" path="res://barkley2/shaders/particles/o_bullet_smoke_trail.tres" id="3_0ronc"]
-[ext_resource type="Material" uid="uid://cv3uyb26qc5kv" path="res://barkley2/shaders/particles/o_bullet_bullet_motion_blur.tres" id="3_3rtrf"]
+[ext_resource type="Material" uid="uid://b01uytrmpw37l" path="res://barkley2/shaders/material/gun_charge_flash.tres" id="4_3rtrf"]
 [ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="188_eku8p"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4ycrq"]
@@ -29,14 +28,9 @@ lifetime = 0.5
 process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
+material = ExtResource("4_3rtrf")
 sprite_frames = ExtResource("2_6dtqo")
 animation = &"s_physShot"
-
-[node name="bullet_motion_blur" type="GPUParticles2D" parent="bullet_spr"]
-emitting = false
-texture = ExtResource("2_c0ser")
-lifetime = 0.15000000000000002
-process_material = ExtResource("3_3rtrf")
 
 [node name="bullet_sfx" type="AudioStreamPlayer2D" parent="."]
 volume_db = -60.0

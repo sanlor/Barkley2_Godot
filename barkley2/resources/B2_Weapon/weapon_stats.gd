@@ -61,7 +61,6 @@ class_name B2_WeaponStats
 @export var pBulletColor 			: String = Color.WHITE.to_html()
 @export var pBulletScale 			: float = 1;
 @export var pBulletSprite 			:= "s_bull"
-@export var pBulletBurst 			:= "s_ricochet"
 
 @export var col 					: String = Color.WHITE.to_html(); ####blend color of gun sprite in the hud
 @export var gunheldcol 				: String = Color.WHITE.to_html(); ####blend color of gun held in hoopz hands
@@ -110,7 +109,7 @@ class_name B2_WeaponStats
 @export var pGunspaceX 				: float = 0;
 @export var pGunspaceY 				: float = 0;
 
-@export var pBurstSpeed 			: float = 0;
+
 
 #### stat ratios. Modified by weapon material, type and affixes.
 @export var pPowerMod 				: float = 1;
@@ -138,9 +137,12 @@ class_name B2_WeaponStats
 											# So that the individual shots appear separate and arnt all just one blob of superposed shots if accuracy is high.
 @export var pExtraChance 			: float = 0; 	# chance to fire extra bullets
 @export var pExtraNumber 			: float = 0;	# max extra bullets fired upon chance
+
+@export var pBulletBurst 			:= "s_ricochet"
+@export var pBurstSpeed 			: float = 0;
 @export var pBurstAmount 			: float = 1; 	# Number of times shots are fired in a row in bursts automatically.
-@export var pBurstInterval 			: float = 6; 	# Interval between shots during a burst. Supercedes fire interval, which is the time BETWEEN bursts. On weapons permitting it, it is a
-											# RATIO of the actual firing interval.
+@export var pBurstInterval 			: float = 6; 	# WARNING UNUSED IN THE GAME - Interval between shots during a burst. Supercedes fire interval, which is the time BETWEEN bursts. On weapons permitting it, it is a
+													# RATIO of the actual firing interval.
 @export var pAmmoCost 				: float = 1;
 @export var pDamageMin 				: float = 10;
 @export var pDamageRand 			: float = 2;

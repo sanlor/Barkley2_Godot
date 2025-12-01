@@ -1,0 +1,931 @@
+[gd_scene load_steps=43 format=3 uid="uid://dxkvndp3me5fd"]
+
+[ext_resource type="Theme" uid="uid://c7cxu4mqaywah" path="res://barkley2/themes/combat_ui.tres" id="1_um8wu"]
+[ext_resource type="Script" uid="uid://w2dp4pc2371y" path="res://barkley2/scenes/_Godot_Combat/ui_combat_module.gd" id="2_cc2yo"]
+[ext_resource type="Script" uid="uid://r2a1yhxsmnr0" path="res://barkley2/scenes/_Godot_Combat/item_and_skill_list.gd" id="3_3m3v0"]
+[ext_resource type="Texture2D" uid="uid://t0lrplrw0ajg" path="res://barkley2/assets/b2_original/images/merged/hud_mod.png" id="4_u3lng"]
+[ext_resource type="Texture2D" uid="uid://btajekjpf64np" path="res://barkley2/assets/Border/sBorderBG_0.png" id="5_4bay8"]
+[ext_resource type="Texture2D" uid="uid://dnx018n4pgr61" path="res://barkley2/assets/b2_original/images/merged/sBorderLeftRight.png" id="6_ugf7e"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="7_8tqya"]
+[ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="8_6sc1p"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="9_m4ht2"]
+[ext_resource type="Script" uid="uid://cm5osqsux580t" path="res://barkley2/scenes/_Godot_Combat/player_controls_small.gd" id="10_3cg5m"]
+[ext_resource type="Script" uid="uid://hdtn72r3n557" path="res://barkley2/scenes/_Godot_Combat/weapon_stats_mini.gd" id="11_nynaq"]
+[ext_resource type="Texture2D" uid="uid://bby3h27kh76mu" path="res://barkley2/resources/B2_Weapon/weapon_atlas01.tres" id="12_u64us"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="13_ku0qx"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="14_bmu3f"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="15_c2hu2"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="16_yq2hy"]
+[ext_resource type="Script" uid="uid://cx688lf7k2spj" path="res://barkley2/scenes/Objects/System/_hud/battle_results.gd" id="17_itado"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="18_antq3"]
+
+[sub_resource type="Animation" id="Animation_oheky"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("top_panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_cbb32"]
+resource_name = "hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -57), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("top_panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_gwxos"]
+resource_name = "show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("top_panel:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -57)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("top_panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1pbax"]
+_data = {
+&"RESET": SubResource("Animation_oheky"),
+&"hide": SubResource("Animation_cbb32"),
+&"show": SubResource("Animation_gwxos")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umfwf"]
+atlas = ExtResource("6_ugf7e")
+region = Rect2(269, 0, 11, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py2jj"]
+atlas = ExtResource("6_ugf7e")
+region = Rect2(269, 0, 11, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_oheky"]
+font = ExtResource("7_8tqya")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_mn44q"]
+
+[sub_resource type="Animation" id="Animation_v4r6g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(217, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_4v7so"]
+resource_name = "hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [Vector2(217, 177.2), Vector2(217, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_majse"]
+resource_name = "show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [Vector2(217, 200), Vector2(217, 177.2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gwxos"]
+_data = {
+&"RESET": SubResource("Animation_v4r6g"),
+&"hide": SubResource("Animation_4v7so"),
+&"show": SubResource("Animation_majse")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4r6g"]
+atlas = ExtResource("6_ugf7e")
+region = Rect2(251, 0, 8, 32)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gwxos"]
+blend_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwxos"]
+bg_color = Color(0.5, 0.5, 0.5, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oheky"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_h7ri8"]
+ProgressBar/fonts/font = null
+ProgressBar/styles/background = SubResource("StyleBoxFlat_gwxos")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_oheky")
+
+[sub_resource type="LabelSettings" id="LabelSettings_cbb32"]
+font = ExtResource("13_ku0qx")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mn44q"]
+font = ExtResource("14_bmu3f")
+
+[sub_resource type="Animation" id="Animation_g78sf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ycyro"]
+resource_name = "hide_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -40)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_fxuxk"]
+resource_name = "show_menu"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -40), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1kavn"]
+_data = {
+&"RESET": SubResource("Animation_g78sf"),
+&"hide_menu": SubResource("Animation_ycyro"),
+&"show_menu": SubResource("Animation_fxuxk")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_fxuxk"]
+font = ExtResource("18_antq3")
+
+[node name="combat_module" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_um8wu")
+script = ExtResource("2_cc2yo")
+
+[node name="item_and_skill_list" type="Control" parent="."]
+z_index = -1
+anchors_preset = 0
+offset_top = 200.0
+offset_right = 154.0
+offset_bottom = 240.0
+script = ExtResource("3_3m3v0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="item_and_skill_list"]
+libraries = {
+&"": SubResource("AnimationLibrary_1pbax")
+}
+speed_scale = 3.0
+
+[node name="top_panel" type="NinePatchRect" parent="item_and_skill_list"]
+visible = false
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 9.0
+grow_horizontal = 2
+texture = ExtResource("4_u3lng")
+region_rect = Rect2(0, 0, 43, 9)
+patch_margin_left = 16
+patch_margin_right = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="bg_panel" type="TextureRect" parent="item_and_skill_list/top_panel"]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 9.0
+offset_right = 150.0
+offset_bottom = 57.0
+texture = ExtResource("5_4bay8")
+stretch_mode = 1
+
+[node name="left_panel" type="TextureRect" parent="item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 9.0
+offset_right = 9.0
+offset_bottom = 41.0
+texture = SubResource("AtlasTexture_umfwf")
+flip_h = true
+
+[node name="right_panel" type="TextureRect" parent="item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 142.0
+offset_top = 9.0
+offset_right = 153.0
+offset_bottom = 57.0
+texture = SubResource("AtlasTexture_py2jj")
+
+[node name="items" type="ScrollContainer" parent="item_and_skill_list/top_panel"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 142.0
+offset_bottom = 57.0
+follow_focus = true
+scroll_vertical_custom_step = 12.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+scroll_deadzone = 12
+
+[node name="item_list" type="VBoxContainer" parent="item_and_skill_list/top_panel/items"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="Button" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button2" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button3" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button4" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button5" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="Button6" type="Button" parent="item_and_skill_list/top_panel/items/item_list"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+text = "Item Test"
+
+[node name="description" type="PanelContainer" parent="item_and_skill_list/top_panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.01948
+anchor_top = 1.11111
+anchor_right = 1.01948
+anchor_bottom = 6.11111
+offset_right = 223.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="margin" type="MarginContainer" parent="item_and_skill_list/top_panel/description"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="description_text" type="Label" parent="item_and_skill_list/top_panel/description/margin"]
+custom_minimum_size = Vector2(217, 0)
+layout_mode = 2
+text = "-50 HP, +10 GLAMP for 60 seconds
+
+Exxxtreme Gamerfuel. Berzerked metabolism begins to break down all stomach contents and liver."
+label_settings = SubResource("LabelSettings_oheky")
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="player_control_weapons" type="Control" parent="."]
+material = ExtResource("8_6sc1p")
+layout_mode = 1
+anchors_preset = 0
+offset_left = 451.0
+offset_top = 125.0
+offset_right = 526.0
+offset_bottom = 200.0
+theme = ExtResource("1_um8wu")
+script = ExtResource("9_m4ht2")
+border_size = Vector2(75, 75)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="player_control_weapons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 13.0
+offset_right = -9.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_control_weapons/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="attack_btn" type="Button" parent="player_control_weapons/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../player_control_defend/MarginContainer/defend_btn")
+focus_neighbor_right = NodePath("../../../../player_control_move/MarginContainer/move_btn")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Attack"
+
+[node name="skill_btn" type="Button" parent="player_control_weapons/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../player_control_defend/MarginContainer/defend_btn")
+focus_neighbor_right = NodePath("../../../../player_control_move/MarginContainer/move_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Skill"
+
+[node name="item_btn" type="Button" parent="player_control_weapons/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../player_control_defend/MarginContainer/defend_btn")
+focus_neighbor_right = NodePath("../../../../player_control_move/MarginContainer/move_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Item"
+
+[node name="escape_btn" type="Button" parent="player_control_weapons/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../../player_control_defend/MarginContainer/defend_btn")
+focus_neighbor_right = NodePath("../../../../player_control_move/MarginContainer/move_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Escape"
+
+[node name="player_control_move" type="Control" parent="."]
+material = ExtResource("8_6sc1p")
+layout_mode = 1
+anchors_preset = 0
+offset_left = 526.0
+offset_top = 125.0
+offset_right = 561.0
+offset_bottom = 200.0
+theme = ExtResource("1_um8wu")
+script = ExtResource("9_m4ht2")
+border_size = Vector2(35, 75)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="player_control_move"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 25.0
+offset_bottom = 65.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="move_btn" type="Button" parent="player_control_move/MarginContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../player_control_weapons/MarginContainer/VBoxContainer/attack_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "M
+o
+v
+e"
+autowrap_mode = 1
+
+[node name="player_control_defend" type="Control" parent="."]
+material = ExtResource("8_6sc1p")
+layout_mode = 1
+anchors_preset = 0
+offset_left = 416.0
+offset_top = 125.0
+offset_right = 451.0
+offset_bottom = 200.0
+theme = ExtResource("1_um8wu")
+script = ExtResource("9_m4ht2")
+border_size = Vector2(35, 75)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="player_control_defend"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 25.0
+offset_bottom = 65.0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="defend_btn" type="Button" parent="player_control_defend/MarginContainer"]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../../player_control_weapons/MarginContainer/VBoxContainer/attack_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "D
+e
+f
+e
+n
+d"
+autowrap_mode = 1
+
+[node name="player_controls_new" type="Control" parent="."]
+z_index = -1
+anchors_preset = 0
+offset_left = 217.0
+offset_top = 177.2
+offset_right = 384.0
+offset_bottom = 207.2
+script = ExtResource("10_3cg5m")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="player_controls_new"]
+reset_on_save = false
+libraries = {
+&"": SubResource("AnimationLibrary_gwxos")
+}
+speed_scale = 2.0
+
+[node name="top_panel" type="NinePatchRect" parent="player_controls_new"]
+custom_minimum_size = Vector2(0, 9)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+texture = ExtResource("4_u3lng")
+region_rect = Rect2(0, 0, 43, 9)
+patch_margin_left = 16
+patch_margin_right = 16
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="bg_panel" type="TextureRect" parent="player_controls_new"]
+self_modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 9.0
+offset_right = 163.0
+offset_bottom = 46.0
+texture = ExtResource("5_4bay8")
+stretch_mode = 1
+
+[node name="left_panel" type="TextureRect" parent="player_controls_new"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 9.0
+offset_right = 9.0
+offset_bottom = 41.0
+texture = SubResource("AtlasTexture_v4r6g")
+flip_h = true
+
+[node name="right_panel" type="TextureRect" parent="player_controls_new"]
+layout_mode = 0
+offset_left = 159.0
+offset_top = 9.0
+offset_right = 167.0
+offset_bottom = 41.0
+texture = SubResource("AtlasTexture_v4r6g")
+
+[node name="menu_space" type="HBoxContainer" parent="player_controls_new"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 158.0
+offset_bottom = 22.0
+alignment = 1
+
+[node name="defend_btn" type="Button" parent="player_controls_new/menu_space"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../player_control_move/MarginContainer/move_btn")
+focus_neighbor_right = NodePath("../ScrollContainer/VBoxContainer/attack_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Def."
+
+[node name="ScrollContainer" type="ScrollContainer" parent="player_controls_new/menu_space"]
+layout_mode = 2
+size_flags_horizontal = 3
+follow_focus = true
+scroll_vertical_custom_step = 12.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+scroll_deadzone = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="player_controls_new/menu_space/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="attack_btn" type="Button" parent="player_controls_new/menu_space/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../defend_btn")
+focus_neighbor_top = NodePath("../escape_btn")
+focus_neighbor_right = NodePath("../../../move_btn")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Attack"
+
+[node name="skill_btn" type="Button" parent="player_controls_new/menu_space/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../defend_btn")
+focus_neighbor_right = NodePath("../../../move_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Skill"
+
+[node name="item_btn" type="Button" parent="player_controls_new/menu_space/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../defend_btn")
+focus_neighbor_right = NodePath("../../../move_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Item"
+
+[node name="escape_btn" type="Button" parent="player_controls_new/menu_space/ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+focus_neighbor_left = NodePath("../../../defend_btn")
+focus_neighbor_right = NodePath("../../../move_btn")
+focus_neighbor_bottom = NodePath("../attack_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Escape"
+
+[node name="move_btn" type="Button" parent="player_controls_new/menu_space"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../ScrollContainer/VBoxContainer/attack_btn")
+focus_neighbor_right = NodePath("../defend_btn")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mn44q")
+text = "Mov."
+
+[node name="weapon_stats_mini" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 166.0
+offset_right = 156.0
+offset_bottom = 199.0
+theme_override_constants/separation = 2
+script = ExtResource("11_nynaq")
+
+[node name="wpn_list" type="HBoxContainer" parent="weapon_stats_mini"]
+layout_mode = 2
+
+[node name="gun_1" type="TextureRect" parent="weapon_stats_mini/wpn_list"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("12_u64us")
+
+[node name="g1_bar" type="ProgressBar" parent="weapon_stats_mini/wpn_list/gun_1"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_gwxos")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
+
+[node name="percent" type="Label" parent="weapon_stats_mini/wpn_list/gun_1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+label_settings = SubResource("LabelSettings_cbb32")
+horizontal_alignment = 2
+
+[node name="gun_2" type="TextureRect" parent="weapon_stats_mini/wpn_list"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("12_u64us")
+
+[node name="g2_bar" type="ProgressBar" parent="weapon_stats_mini/wpn_list/gun_2"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_gwxos")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
+
+[node name="percent" type="Label" parent="weapon_stats_mini/wpn_list/gun_2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+label_settings = SubResource("LabelSettings_cbb32")
+horizontal_alignment = 2
+
+[node name="gun_3" type="TextureRect" parent="weapon_stats_mini/wpn_list"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("12_u64us")
+
+[node name="g3_bar" type="ProgressBar" parent="weapon_stats_mini/wpn_list/gun_3"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_gwxos")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_h7ri8")
+value = 75.0
+show_percentage = false
+
+[node name="percent" type="Label" parent="weapon_stats_mini/wpn_list/gun_3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "75%"
+label_settings = SubResource("LabelSettings_cbb32")
+horizontal_alignment = 2
+
+[node name="wpn_name" type="Label" parent="weapon_stats_mini"]
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_mn44q")
+vertical_alignment = 1
+
+[node name="instructions" type="RichTextLabel" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.501961)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 159.0
+offset_right = 382.0
+offset_bottom = 200.0
+theme_override_fonts/normal_font = ExtResource("15_c2hu2")
+bbcode_enabled = true
+text = "Select Enemy [color=yellow]Left[/color] or [color=yellow]Right[/color]
+Free aim [color=yellow]Up[/color] or [color=yellow]Down[/color]
+Shoot with [color=yellow]Action[/color]
+Cancel with [color=yellow]Cancel[/color]
+"
+
+[node name="slowdown_label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 99.0
+offset_bottom = 13.0
+text = "Slowdown: 0.5x"
+
+[node name="battle_results" type="Control" parent="."]
+visible = false
+material = ExtResource("8_6sc1p")
+anchors_preset = 0
+offset_top = -40.0
+offset_right = 378.0
+theme = ExtResource("16_yq2hy")
+script = ExtResource("17_itado")
+border_size = Vector2(378, 40)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="battle_results"]
+reset_on_save = false
+libraries = {
+&"": SubResource("AnimationLibrary_1kavn")
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="battle_results"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 14
+
+[node name="result_title_label" type="Label" parent="battle_results/MarginContainer"]
+layout_mode = 2
+text = "Placeholder Text"
+label_settings = SubResource("LabelSettings_fxuxk")
+horizontal_alignment = 1
+uppercase = true

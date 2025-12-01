@@ -2,6 +2,7 @@
 extends Node2D
 ## Bullet casings.
 ## NOTE Not all guns have bullet casings.
+# check combat_gunwield_attacking line 125
 
 const S_EFFECT_SLUDGE_DRIP 		= preload("uid://bnbunxj15a4q1")
 const S_PLANTAIN_PEEL 			= preload("uid://b8kyohwqvtug")
@@ -10,7 +11,10 @@ const S_PLANTAIN_PEEL 			= preload("uid://b8kyohwqvtug")
 @onready var spr_shadow: 	Sprite2D = $spr_shadow
 
 ## Sound
-var bounce_soundid := ""
+var bounce_soundid 	:= ""
+var spin			:= 1.0
+var dir				:= Vector2.UP
+var v_speed			:= 0.0
 
 var velocity 			:= Vector2()
 var angular_velocity 	:= 0.0
@@ -26,18 +30,22 @@ var is_active := true
 
 func _ready() -> void:
 	# Set the initial velocity of the bullet casing
-	velocity 			= Vector2.DOWN.rotated( randf_range(-PI/6, PI/6) ) * randf_range( 50.0, 150.0 ) ## Casings fly mostly downward
-	angular_velocity 	= randf_range(-15, 15) ## Speen
-	upward_velocity 	= randf_range(150,350) ## How high the casings initially can go.
+	#velocity 			= Vector2.DOWN.rotated( randf_range(-PI/6, PI/6) ) * randf_range( 50.0, 150.0 ) ## Casings fly mostly downward
+	velocity 			= dir.rotated( randf_range(-PI/6, PI/6) ) * randf_range( 50.0, 150.0 ) ## Casings fly mostly downward
+	angular_velocity 	= randf_range(-spin, spin) ## Speen
+	upward_velocity 	= v_speed * randf_range(10,30) ## How high the casings initially can go.
 	#position.y += 16.0
 
-func setup( _casing_name : String, _bounce_soundid : String, _scale : float, _speed : float, _color : Color ) -> void:
+func setup( _casing_name : String, _bounce_soundid : String, _scale : float, _speed : float, _color : Color, _v_speed : float, _dir : Vector2, _spin : float ) -> void:
 	if _casing_name.is_empty(): ## Should never happen.
 		breakpoint
 	bounce_soundid = _bounce_soundid
 	scale *= _scale ## 0.5 seems to be the default
 	## TODO speed
 	modulate = _color
+	spin = _spin
+	dir = _dir
+	v_speed = _v_speed
 
 func cleanup() -> void:
 	var t := create_tween()

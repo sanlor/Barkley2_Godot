@@ -95,6 +95,7 @@ var resistance_stagger  	:= 12.0
 var resistance_knockback  	:= 12.0
 
 ## Element - How is this used?
+var dmg_normal				:= 0.0
 var dmg_zauber  			:= 3.0 
 var dmg_cosmic  			:= 0.0 
 var dmg_bio  				:= 0.0
@@ -217,22 +218,29 @@ func get_base_stat( stat : String ) -> int:
 ## TODO Setup effective stats
 func get_effective_stat( stat : String ) -> int:
 	match stat:
-		"STAT_EFFECTIVE_MAX_HP":	return max_health
-		"STAT_BASE_GUTS":			return guts
-		"STAT_BASE_LUCK":			return luck
-		"STAT_BASE_AGILE":			return agile
-		"STAT_BASE_MIGHT":			return might
-		"STAT_BASE_PIETY":			return piety
-		"STAT_BASE_WEIGHT":			return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
+		STAT_EFFECTIVE_MAX_HP:		return max_health
+		STAT_BASE_GUTS:				return guts
+		STAT_BASE_LUCK:				return luck
+		STAT_BASE_AGILE:			return agile
+		STAT_BASE_MIGHT:			return might
+		STAT_BASE_PIETY:			return piety
+		STAT_BASE_WEIGHT:			return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
 		
-		"STAT_BASE_RESISTANCE_BIO":			return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
-		"STAT_BASE_RESISTANCE_COSMIC":		return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )
-		"STAT_BASE_RESISTANCE_CYBER":		return resistance_cyber 	+ int( B2_Jerkin.get_jerkin_stats()["Cyber"] )
-		"STAT_BASE_RESISTANCE_MENTAL":		return resistance_mental 	+ int( B2_Jerkin.get_jerkin_stats()["Mental"] )
-		"STAT_BASE_RESISTANCE_NORMAL":		return resistance_normal 	+ int( B2_Jerkin.get_jerkin_stats()["Normal"] )
-		"STAT_BASE_RESISTANCE_ZAUBER":		return resistance_zauber 	+ int( B2_Jerkin.get_jerkin_stats()["Zauber"] )
-		"STAT_BASE_RESISTANCE_KNOCKBACK":	return resistance_knockback
-		"STAT_BASE_RESISTANCE_STAGGER":		return resistance_stagger
+		STAT_BASE_RESISTANCE_BIO:			return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
+		STAT_BASE_RESISTANCE_COSMIC:		return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )
+		STAT_BASE_RESISTANCE_CYBER:			return resistance_cyber 	+ int( B2_Jerkin.get_jerkin_stats()["Cyber"] )
+		STAT_BASE_RESISTANCE_MENTAL:		return resistance_mental 	+ int( B2_Jerkin.get_jerkin_stats()["Mental"] )
+		STAT_BASE_RESISTANCE_NORMAL:		return resistance_normal 	+ int( B2_Jerkin.get_jerkin_stats()["Normal"] )
+		STAT_BASE_RESISTANCE_ZAUBER:		return resistance_zauber 	+ int( B2_Jerkin.get_jerkin_stats()["Zauber"] )
+		STAT_BASE_RESISTANCE_KNOCKBACK:		return resistance_knockback
+		STAT_BASE_RESISTANCE_STAGGER:		return resistance_stagger
+		
+		STAT_ATTACK_DMG_NORMAL: 			return dmg_normal
+		STAT_ATTACK_DMG_BIO: 				return dmg_bio
+		STAT_ATTACK_DMG_CYBER: 				return dmg_cyber
+		STAT_ATTACK_DMG_MENTAL: 			return dmg_mental
+		STAT_ATTACK_DMG_ZAUBER: 			return dmg_zauber
+		STAT_ATTACK_DMG_COSMIC: 			return dmg_cosmic
 			
 		_:	## No "effective" data to calculate.
 			if get( stat ) == null: 

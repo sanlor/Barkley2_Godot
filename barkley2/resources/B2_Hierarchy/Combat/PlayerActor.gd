@@ -303,7 +303,14 @@ func light_fuse() -> void:
 	if combat_weapon_fuse:
 		combat_weapon_fuse.play()
 	else: push_error( "combat_weapon_fuse -> not set." )
-			
+
+func flash_gun( state : bool ) -> void:
+	if combat_weapon:
+		combat_weapon.material.set_shader_parameter( "hit_effect", 0.6 * float(state) )
+	else:
+		# No combat weapon????
+		breakpoint
+
 ## Used to know where should a bullet spawn
 func get_muzzle_position( inverted := false, random := false ) -> Vector2:
 	var pos : Vector2

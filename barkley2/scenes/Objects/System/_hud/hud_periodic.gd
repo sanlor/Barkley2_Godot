@@ -9,23 +9,30 @@ extends ColorRect
 const LOW_GAUGE_COLOR 	:= Color("300203")
 const HIGH_GAUGE_COLOR 	:= Color("b01a1d")
 const FULL_GAUGE_COLOR 	:= Color("fb6b61")
+const CHAR_GAUGE_COLOR 	:= Color("6bfffaff")
 
 var gauge_amount 	:= 12.0 + randf_range(1.0,6.0)
 
 func _physics_process(_delta: float) -> void:
-	gauge_amount  = B2_Playerdata.player_stats.get_curr_action()
+	if B2_Gun.get_current_gun():	gauge_amount  = lerpf( gauge_amount, B2_Gun.get_current_gun().get_curr_charge() * 100.0, 0.25 )
+	else:							gauge_amount = 0.0
 	
 	## Fun animation
-	if gauge_amount < hud_periodic_amount.max_value:
-		if randf() > 0.9:
-			gauge_amount *= randf_range(0.95, 1.05)
-			
-		if randf() > 0.7:
-			## Smooth color transition.
-			hud_periodic_amount.modulate 		= LOW_GAUGE_COLOR.lerp( HIGH_GAUGE_COLOR, gauge_amount / 100.0 ) * randf_range(0.975, 1.15)
-			hud_periodic_amount.modulate.a 		= 1.0
+	#if gauge_amount < hud_periodic_amount.max_value:
+	if B2_Gun.get_current_gun():
+		if B2_Gun.get_current_gun().get_curr_charge() < 1.0:
+			if randf() > 0.9:
+				gauge_amount *= randf_range(0.95, 1.05)
+				
+			if randf() > 0.7:
+				## Smooth color transition.
+				hud_periodic_amount.modulate 		= LOW_GAUGE_COLOR.lerp( HIGH_GAUGE_COLOR, gauge_amount / 100.0 ) * randf_range(0.975, 1.15)
+				hud_periodic_amount.modulate.a 		= 1.0
+		else:
+			# Gauge Full! Blink blink
+			#hud_periodic_amount.modulate = [FULL_GAUGE_COLOR, HIGH_GAUGE_COLOR].pick_random()
+			hud_periodic_amount.modulate = CHAR_GAUGE_COLOR.lerp( Color.WHITE, randf() )
 	else:
-		# Gauge Full! Blink blink
-		hud_periodic_amount.modulate = [FULL_GAUGE_COLOR, HIGH_GAUGE_COLOR].pick_random()
+		gauge_amount = 0.0
 	
 	hud_periodic_amount.value = gauge_amount
