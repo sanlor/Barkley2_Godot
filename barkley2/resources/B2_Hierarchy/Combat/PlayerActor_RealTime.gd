@@ -134,9 +134,13 @@ func combat_walk_animation(delta : float):
 	## TODO fix the leg walking animation when aiming.
 	var input 			:= curr_input # Vector2( Input.get_axis("Left","Right"),Input.get_axis("Up","Down") )
 	
-	#print( input )
+	var speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
 	
-	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.
+	## Back-pedal -> scr_player_stance_drawing line 197
+	if curr_aim.dot(input) < 0:
+		speed_scale *= -1
+		input *= -1
+		#print( "back: ", curr_aim.dot(input) )
 	
 	if flashlight:
 		_point_flashlight( input )
@@ -147,19 +151,19 @@ func combat_walk_animation(delta : float):
 			add_smoke()
 			
 			match input.round():
-				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW)
-				Vector2.UP + Vector2.RIGHT:			combat_lower_sprite.play(WALK_NE)
-				Vector2.DOWN + Vector2.LEFT:		combat_lower_sprite.play(WALK_SW)
-				Vector2.DOWN + Vector2.RIGHT:		combat_lower_sprite.play(WALK_SE)
+				Vector2.UP + Vector2.LEFT:			combat_lower_sprite.play(WALK_NW, speed_scale)
+				Vector2.UP + Vector2.RIGHT:			combat_lower_sprite.play(WALK_NE, speed_scale)
+				Vector2.DOWN + Vector2.LEFT:		combat_lower_sprite.play(WALK_SW, speed_scale)
+				Vector2.DOWN + Vector2.RIGHT:		combat_lower_sprite.play(WALK_SE, speed_scale)
 					
-				Vector2.UP:			combat_lower_sprite.play(WALK_N)
-				Vector2.LEFT:		combat_lower_sprite.play(WALK_W)
-				Vector2.DOWN:		combat_lower_sprite.play(WALK_S)
-				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E)
+				Vector2.UP:			combat_lower_sprite.play(WALK_N, speed_scale)
+				Vector2.LEFT:		combat_lower_sprite.play(WALK_W, speed_scale)
+				Vector2.DOWN:		combat_lower_sprite.play(WALK_S, speed_scale)
+				Vector2.RIGHT:		combat_lower_sprite.play(WALK_E, speed_scale)
 				Vector2.ZERO:		pass
 				
 				_: # Catch All
-					combat_lower_sprite.play(WALK_S)
+					combat_lower_sprite.play(WALK_S, speed_scale)
 					print("Hoopz combat_walk_animation: Catch all, ", input)
 					
 	else:
@@ -167,10 +171,12 @@ func combat_walk_animation(delta : float):
 		if combat_lower_sprite.is_playing():
 			combat_lower_sprite.stop()
 		
-		var curr_direction : Vector2 = ( position - Vector2( 0, 16 ) ).direction_to( curr_aim ).round()
+		#var curr_direction : Vector2 = position.direction_to( input ).round()
 		
-		if curr_direction != combat_last_direction:
+		#if curr_direction != combat_last_direction:
+		if input != combat_last_direction:
 			turning_time = 1.0
+			#print(combat_last_direction)
 		
 		# handle the turning animation for a litle while.
 		if turning_time > 0.0:
@@ -186,7 +192,7 @@ func combat_walk_animation(delta : float):
 			is_turning = false
 		
 		combat_lower_sprite.frame = last_combat_stand_frame ## The last frame is the default.
-		
+			
 		# change the animation itself.
 		match combat_last_direction:
 			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = COMBAT_STAND_NW
@@ -206,7 +212,7 @@ func combat_walk_animation(delta : float):
 				pass
 				
 		# Update var
-		combat_last_direction = curr_direction
+		combat_last_direction = input
 		
 	# Update var
 	combat_last_input = input

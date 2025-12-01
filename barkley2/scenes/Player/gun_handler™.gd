@@ -67,6 +67,7 @@ var logWeight 		:= 1.0;
 var baseShake 		:= 1.0;
 var marksmanMod 	:= 17.5;
 
+@onready var constant_stream		: AudioStreamPlayer = $constant_stream
 @onready var gun_noises_stream		: AudioStreamPlayer = $gun_noises_stream 	## Responsible to produce gun noises (winding, for example)
 @onready var pre_shooting_timer		: Timer = $pre_shooting_timer				## Timer used when a gun need some time before firing (muskets)
 @onready var firing_rate			: Timer = $firing_rate						## Timer used to control the firing rate
@@ -372,11 +373,18 @@ func _gun_changed() -> void:
 	
 	# Stop SFX
 	gun_noises_stream.stop()
+	constant_stream.stop()
 	
 	# Stop timers
 	if curr_gun:
 		curr_gun.weapon_stats.pWindUp = 0 	## Reset minigun Winding
 		charge_timer.start() 				## Start charge timer
+		
+		# Play constant sound if specified -> combat_gunwield_attacking line 29
+		if curr_gun.weapon_stats.constantSound:
+			constant_stream.stream = B2_Sound.get_sound_stream( curr_gun.weapon_stats.constantSound )
+			constant_stream.stream.loop = true
+			constant_stream.play()
 		
 	pre_shooting_timer.stop()
 	post_shooting_timer.stop()
