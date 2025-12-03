@@ -171,18 +171,16 @@ func combat_walk_animation(delta : float):
 		if combat_lower_sprite.is_playing():
 			combat_lower_sprite.stop()
 		
-		#var curr_direction : Vector2 = position.direction_to( input ).round()
+		var standing_dir 	:= curr_aim.round()
 		
-		#if curr_direction != combat_last_direction:
-		if input != combat_last_direction:
+		if combat_last_direction != standing_dir:
 			turning_time = 1.0
-			#print(combat_last_direction)
 		
 		# handle the turning animation for a litle while.
 		if turning_time > 0.0:
 			combat_lower_sprite.animation = COMBAT_SHUFFLE
 			if not is_turning: # play step sound when you change directions, during shuffle.
-				#B2_Sound.play_pick("hoopz_footstep") ## WARNING Original game doesnt do this.
+				B2_Sound.play_pick( "hoopz_footstep", 0.0, false, 1, randf_range(0.75,1.25), 0.50 ) ## WARNING Original game doesnt do this.
 				add_smoke()
 				is_turning = true # Ensures that the SFX plays only once.
 			turning_time -= 6.0 * delta
@@ -190,11 +188,11 @@ func combat_walk_animation(delta : float):
 			combat_lower_sprite.animation = COMBAT_STAND
 			combat_lower_sprite.frame = last_combat_stand_frame
 			is_turning = false
-		
+
 		combat_lower_sprite.frame = last_combat_stand_frame ## The last frame is the default.
 			
 		# change the animation itself.
-		match combat_last_direction:
+		match standing_dir:
 			Vector2.UP + Vector2.LEFT:		combat_lower_sprite.frame = COMBAT_STAND_NW
 			Vector2.UP + Vector2.RIGHT:		combat_lower_sprite.frame = COMBAT_STAND_NE
 			Vector2.DOWN + Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_SW
@@ -204,15 +202,13 @@ func combat_walk_animation(delta : float):
 			Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_W
 			Vector2.DOWN:	combat_lower_sprite.frame = COMBAT_STAND_S
 			Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_E
-			Vector2.ZERO:	pass
+			Vector2.ZERO:	print("unh"); pass
 				
 			_: # Catch All
-				#combat_lower_sprite.frame = STAND_S
-				#print("Catch all, ", input)
-				pass
-				
+				print("Catch all, ", input)
+		
 		# Update var
-		combat_last_direction = input
+		combat_last_direction = standing_dir
 		
 	# Update var
 	combat_last_input = input
