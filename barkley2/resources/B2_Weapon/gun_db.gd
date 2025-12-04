@@ -739,12 +739,12 @@ static func generate_parent_gun( child_gun : B2_Weapon ) -> Array:
 
 # Make a very generic gun, with parents and genes.
 static func generate_generic_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
-	var my_gun := generate_gun(type, material, options)
+	#var my_gun := generate_gun(type, material, options)
 	
-	var my_parents := generate_parent_gun(my_gun) # <- [lineage_top,lineage_bot]
-	my_gun.lineage_top = gun_to_dict( my_parents[0] )
-	my_gun.lineage_bot = gun_to_dict( my_parents[1] )
-	
+	#var my_parents := generate_parent_gun(my_gun) # <- [lineage_top,lineage_bot]
+	#my_gun.lineage_top = gun_to_dict( my_parents[0] )
+	#my_gun.lineage_bot = gun_to_dict( my_parents[1] )
+	var my_gun := generate_gun_from_parents( generate_gun(type,material,options), generate_gun() )
 	return my_gun
 
 # Check Drop("generate") line 396
@@ -761,6 +761,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	wpn.weapon_stats = B2_WeaponStats.new() ## Add some default stats.
 	
 	## Pick weapon type if not specified
+	# NOTE This is different from the original game's production method. this is the "DEBUG" gun creation.
+	# the original can be found here: Drop line 397 -> line 209
+	# as of 04/12/25, luck plays no role here (it does in the OG code).
 	if type != TYPE.GUN_TYPE_NONE:
 		wpn.weapon_type = type
 	else:
@@ -773,6 +776,9 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	wpn.gunmap_pos = B2_Gunmap.get_gun_type_pos_from_map(wpn.weapon_type)
 	
 	## Pick weapon material if not specified
+	# NOTE This is different from the original game's production method. this is the "DEBUG" gun creation.
+	# the original can be found here: Drop line 402 -> line 150
+	# as of 04/12/25, luck plays no role here (it does in the OG code).
 	if material != MATERIAL.NONE:
 		wpn.weapon_material = material
 	else:
@@ -787,7 +793,7 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	
 	var affix_rand := 0
 	if options.get("add_affixes", true): ## By default, add affixes.
-		## Pick affixes
+		## Pick affixes - Drop line 406
 		affix_rand = randi_range(0,99)
 		if affix_rand < geneAffixChance:
 			wpn.prefix1 = prefix1.keys().pick_random()
@@ -815,16 +821,8 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 	apply_pat_script.apply_pattern( wpn )
 	apply_name( wpn, options )
 	
-	## NOTE Missing some stuff. check scr_combat_weapons_buildName() line 33
-		
-	## Add graphic data, textures, colors, etc.
-	# weapon_graphics( wpn ) ## DEPRECATED
-		
-	## Adjust some details
-	# check scr_combat_weapons_prepPattern()
-	## Gun firing patters
-	
 	## 18/05/25 - also add some freshly baked xXx-C0mB@7_Sk1l1zz-xXx to a weapon group.
+	## 04/12/25 - lol. disabled aaaaall of that hard work.
 	wpn.weapon_group = GROUP_LIST.get( wpn.weapon_type, GROUP.NONE ) ## Group is important for the type of fire that the weapon uses.
 	#match wpn.weapon_group:
 		#GROUP.NONE:
@@ -892,15 +890,10 @@ static func generate_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE,
 			#breakpoint
 	# Lol, look at this guy. he doesnt even know that I gave up on the turn-based combat thing. He just wasted a lot of time on that.
 	
-	## Increase max ammo as a test. FIXME
-	#wpn.max_ammo *= 3
-	#wpn.curr_ammo = wpn.max_ammo
-	
-	#print( JSON.from_native(wpn.weapon_stats, true) )
-	
 	## Apply generic genes
 	B2_Gun_Genes.apply_genes( wpn, 6 ) # <- Is this needed?
 	
+	# Jobs done.
 	return wpn
 	
 static func apply_stats( wpn : B2_Weapon, points : int, current_time : String, bonus := 10 ) -> void:

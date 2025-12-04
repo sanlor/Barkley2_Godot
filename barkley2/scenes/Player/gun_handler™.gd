@@ -208,7 +208,7 @@ func pre_attack_action( action : bool ) -> bool:
 	
 @warning_ignore("unused_parameter")
 func post_attack_action() -> void:
-	var rate := curr_gun.get_rate() / maxf( 1.0, curr_gun.weapon_stats.pBurstAmount )
+	var rate := curr_gun.get_rate() / maxf( 1.0, curr_gun.weapon_stats.pBurstAmount ) # Avoid dividing by zero.
 	post_shooting_timer.start( rate )
 	
 	## Set timer to reload gun

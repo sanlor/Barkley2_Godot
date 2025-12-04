@@ -167,7 +167,7 @@ func add_smoke(): ## TODO Web exports dont support this. Maybe fix this?
 	if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
 		for i in randi_range( 1, 4 ):
 			var rand_offset := Vector2( randf_range(-4.0,4.0), randf_range(-4.0,4.0) )
-			step_smoke.emit_particle( Transform2D( 0, step_smoke.position + rand_offset ), Vector2.ZERO, Color.WHITE, Color.WHITE, 2 )
+			step_smoke.emit_particle( Transform2D( 0, step_smoke.position + rand_offset ), Vector2( randf_range(-20,20), randf_range(0,-20) ), Color.WHITE, Color.WHITE, 2 )
 	
 func _point_flashlight( input : Vector2 ) -> void:
 	flashlight_pivot.rotation = input.angle() - PI/2
