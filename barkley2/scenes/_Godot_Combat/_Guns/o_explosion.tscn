@@ -1,4 +1,4 @@
-[gd_scene load_steps=121 format=3 uid="uid://be5ai8h7kcj7a"]
+[gd_scene load_steps=124 format=3 uid="uid://be5ai8h7kcj7a"]
 
 [ext_resource type="Texture2D" uid="uid://bgaat57c14ak8" path="res://barkley2/assets/b2_mod/vfx/explosion.png" id="1_k8pcj"]
 [ext_resource type="Texture2D" uid="uid://cqq113rnivph1" path="res://barkley2/assets/b2_original/images/merged/s_MBlast.png" id="2_crsd6"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://bl0ou6de7l04a" path="res://barkley2/assets/b2_original/images/merged/s_effect_explo_rotten.png" id="8_d3alu"]
 [ext_resource type="Texture2D" uid="uid://wvergeqikrfi" path="res://barkley2/assets/b2_original/images/merged/s_effect_franciumExplo.png" id="9_y7113"]
 [ext_resource type="Script" uid="uid://cea1yd8k4noq4" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_explosion.gd" id="10_27lp6"]
+[ext_resource type="Texture2D" uid="uid://csbe7re716n5r" path="res://barkley2/assets/b2_original/images/cc/s_effect_smog_0.png" id="11_xfid6"]
+[ext_resource type="Material" uid="uid://621y6e2ytfw1" path="res://barkley2/shaders/particles/smoke_mass.tres" id="12_e8j8l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1quw"]
 atlas = ExtResource("1_k8pcj")
@@ -822,12 +824,27 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_k8pcj"]
+
 [node name="o_explosion" type="AnimatedSprite2D"]
+z_index = 10
 sprite_frames = SubResource("SpriteFrames_b7m42")
-animation = &"s_effect_franciumExplo"
-frame = 15
-frame_progress = 1.0
+animation = &"s_effect_explo_96"
 speed_scale = 3.0
 script = ExtResource("10_27lp6")
 
 [node name="explosion_sfx" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamOggVorbis_k8pcj")
+
+[node name="explosion_smoke" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.5019608)
+emitting = false
+amount = 32
+texture = ExtResource("11_xfid6")
+one_shot = true
+explosiveness = 0.75
+randomness = 0.5
+process_material = ExtResource("12_e8j8l")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
+[connection signal="ready" from="." to="." method="_on_ready"]

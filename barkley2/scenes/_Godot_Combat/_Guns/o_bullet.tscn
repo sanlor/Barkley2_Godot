@@ -14,20 +14,21 @@ particles_anim_loop = false
 
 [node name="o_bullet" type="Node2D"]
 physics_interpolation_mode = 1
+z_index = 1
 script = ExtResource("1_aj05g")
 
 [node name="smoke_trail" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_4ycrq")
 emitting = false
-amount = 32
+amount = 16
 texture = ExtResource("188_eku8p")
-lifetime = 0.5
+lifetime = 0.25
 process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
 material = ExtResource("4_3rtrf")
 sprite_frames = ExtResource("2_6dtqo")
-animation = &"s_physShot"
+animation = &"s_bull_itanoRocket"
 
 [node name="bullet_sfx" type="AudioStreamPlayer2D" parent="."]
 volume_db = -60.0

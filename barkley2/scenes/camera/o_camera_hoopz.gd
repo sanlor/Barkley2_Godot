@@ -200,8 +200,12 @@ func set_camera_bound( _is_bound : bool ):
 		#limit_right 	=  100000
 		#limit_bottom 	=  100000
 
-## Shake functions, controls camera shake. check Shake().
+## Shake functions, controls camera shake. check Shake(). -> Full tutorial here https://www.youtube.com/watch?v=FsXzLe_NV54
 func add_shake( shakeStrength : float, shakeRadius : float, shakeX := 0.0, shakeY := 0.0, shakeTime := 0.0 ):
+	## Debug to find rogue shake requesters.
+	#print_debug( "Camera shake requested!" )
+	#print_stack()
+	
 	var index = shake_array.size()
 	var shake_data := [ shakeStrength * 0.50, shakeRadius, shakeX, shakeY, shakeTime * 1.0 ]
 	shake_array.append( shake_data )

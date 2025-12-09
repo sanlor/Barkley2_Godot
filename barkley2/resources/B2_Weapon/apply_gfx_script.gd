@@ -1646,7 +1646,7 @@ static func apply_graphic( gun : B2_Weapon ) -> void:
 	match type:
 		# Use default rocket if no special one is defined #
 		"GUN_TYPE_ROCKET":
-			if not specialRocket:
+			if specialRocket: ## NOTE check scr_combat_weapons_applyGraphic line 1806. this line seems inverted??? was "!specialRocket".
 				gun.weapon_stats.pBulletSprite = "s_bull_itanoRocket"
 				gun.weapon_stats.pBulletColor = c_white.to_html()
 			else:

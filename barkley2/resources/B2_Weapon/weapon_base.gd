@@ -146,6 +146,17 @@ func get_effective_amm() -> float:			return snappedf( get_amm() * get_amm_mod(),
 func get_effective_afx() -> float:			return snappedf( get_afx() * get_afx_mod(), 0.01 ) # FIXME return snappedf(afx * get_afx_mod(), 0.01)
 func get_effective_wgt() -> float:			return snappedf( get_wgt() * get_wgt_mod(), 0.01 ) # FIXME return snappedf(wgt * get_wgt_mod(), 0.01)
 
+## return the damage expected for the bullet
+func get_bullet_damage() -> float:			return 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
+													B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) + \
+													B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_CYBER ) + \
+													B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_MENTAL ) + \
+													B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) + \
+													B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_COSMIC )
+
+## return the damage expected for the explosion caused
+func get_explosion_damage() -> float:		return 	get_bullet_damage() * weapon_stats.bExplodeDamage * weapon_stats.bExplodeDamageMod
+
 # FIXME
 ## Get gun firerate
 func get_rate() -> float:

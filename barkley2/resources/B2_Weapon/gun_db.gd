@@ -16,6 +16,9 @@ class_name B2_Gun
 # https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=241#post495614977
 # https://forums.somethingawful.com/showthread.php?threadid=3519798&userid=0&perpage=40&pagenumber=242#post495618733
 
+## Explosion types 
+const O_EXPLOSION := "uid://be5ai8h7kcj7a"
+
 ## Skills
 enum SKILL{NONE,PRECISION_SHOT,FULL_AUTO,BURST_FIRE}
 const SKILL_LIST : Dictionary[SKILL,B2_WeaponSkill] = {
@@ -739,12 +742,12 @@ static func generate_parent_gun( child_gun : B2_Weapon ) -> Array:
 
 # Make a very generic gun, with parents and genes.
 static func generate_generic_gun( type := TYPE.GUN_TYPE_NONE, material := MATERIAL.NONE, options : Dictionary = {} ) -> B2_Weapon:
-	#var my_gun := generate_gun(type, material, options)
+	var my_gun := generate_gun(type, material, options)
 	
-	#var my_parents := generate_parent_gun(my_gun) # <- [lineage_top,lineage_bot]
-	#my_gun.lineage_top = gun_to_dict( my_parents[0] )
-	#my_gun.lineage_bot = gun_to_dict( my_parents[1] )
-	var my_gun := generate_gun_from_parents( generate_gun(type,material,options), generate_gun() )
+	var my_parents := generate_parent_gun(my_gun) # <- [lineage_top,lineage_bot]
+	my_gun.lineage_top = gun_to_dict( my_parents[0] )
+	my_gun.lineage_bot = gun_to_dict( my_parents[1] )
+	#var my_gun := generate_gun_from_parents( generate_gun(type,material,options), generate_gun() )
 	return my_gun
 
 # Check Drop("generate") line 396

@@ -30,20 +30,20 @@ const BULLET_SUPER_TRAIL 	:= preload("uid://c83yp1523vacs")
 @onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
 @onready var bullet_life: 				Timer 					= $bullet_life
 
-var dir : Vector2
-var speed := 800.0
+var dir 				: Vector2
+var speed 				:= 800.0
 
 ## The gun that fired me
-var my_gun : B2_Weapon
+var my_gun 				: B2_Weapon
 
 ## The actor that fired me
-var source_actor : B2_CombatActor
+var source_actor 		: B2_CombatActor
 
 ## Bullet trail
-var has_trail		:= false
+var has_trail			:= false
 
 ## Ricochet
-var max_ricochet	:= 3
+var max_ricochet		:= 3
 
 ## Bullet mods
 var specialShot			:= ""			## Bullet special effect, like "paper"
@@ -52,7 +52,7 @@ var motionBlur 			:= false
 var glowEffect 			:= false;
 var bullet_spriteTurn 	:= false
 var superTrail 			= 0;		## Trail for the periodic/super shot ##
-var matName 			= "";		## Material name for the gun ##
+#var matName 			= "";		## Material name for the gun ## -> replaced by "my_gun.weapon_material == B2_Gun.MATERIAL.*"
 var stoneSkipping 		= 0;		## Stone skipping movement for a bullet ## Must be init for Orichalcum
 var paintball 			= 0;		## Paintball effect when bullet impacts with a combat actor ##
 var lastDmg 			= 0;		## ??? ##
@@ -126,18 +126,66 @@ var featherNext		:= 0
 
 var drawWhiteOverlay := false # o_bullet - draw - line 141
 
+## Advanced bullet
+var enemySeek 			:= 0;
+var enemySeekCurrent 	:= 0;
+var enemyTarget 		= null
+var enemySeekRange 		:= 0;
+var enemySeekTime 		:= 0;
+var enemySeekAccel 		:= 0;
+
+var turning 			:= 0;
+var roaming				:= 0;
+var wave 				:= 0;
+var waveAmp 			:= 0;
+var enemyPierce 		:= 0;
+var enemyRicochet 		:= 0;
+var ricochetRandom 		:= 0;
+var noDestroyOnHit 		:= false;
+
+var enemyChain 			:= 0;
+var enemyChainRange 	:= 96;
+var chainLeft 			:= 0;
+
+var trailtimer 			:= 4;
+
+var ptrailed 			:= 16;
+var lobBounceCount 		:= 0;
+var lobBounce 			:= 0;
+
+var explodeObject		:= ""
+var explodeEffect 		:= ""
+var explodeOnTimeout	:= false;
+var explodeOnGround 	:= false;
+var explodeOnWall 		:= false;
+var explodeOnEnemy 		:= false;
+
+var trailObject 		:= ""
+
+var waveInterv 			:= -1;
+var waveSpd 			:= 0;
+
+var barrierDist 		:= 0;
+var barrierRotSpd 		:= 0;
+var barrierRotCount 	:= 0;
+var barrierRotTot		:= 0;
+
+var dtCount				:= 0;
+
 ## Godot bullet mods
 # Damage Modifiers
-var att								:= 1.0 ## Higher number = more powerful
-var spd								:= 1.0 ## Higher number = faster
-var acc								:= 1.0 ## Lower number = more acturate
+#var att								:= 1.0 ## Higher number = more powerful
+#var spd								:= 1.0 ## Higher number = faster
+#var acc								:= 1.0 ## Lower number = more acturate
 
 # Attribute Modifiers
-var bio_damage						:= 1.0 ## Add Bio damage type to this attack
-var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
-var mental_damage					:= 1.0 ## Add Mental damage type to this attack
-var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
-var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
+#var bio_damage						:= 1.0 ## Add Bio damage type to this attack
+#var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
+#var mental_damage					:= 1.0 ## Add Mental damage type to this attack
+#var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
+#var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
+
+var _pow : float = 0.0
 
 var final_multiplier				:= 1.0
 
@@ -165,18 +213,9 @@ func set_direction( _dir :Vector2 ) -> void:
 	dir = _dir
 
 ## Modifiers applied by skills and such
-func apply_stat_mods( _att : float, _spd : float ) -> void:
-	att = _att
-	spd = _spd
-
-## TODO add modifiers
-## Modifiers applied by skills and such
-func apply_attribute_mods( _bio_damage : float, _cyber_damage : float, _mental_damage : float, _cosmic_damage : float, _zauber_damage : float, ) -> void:
-	bio_damage = _bio_damage
-	cyber_damage = _cyber_damage
-	mental_damage = _mental_damage
-	cosmic_damage = _cosmic_damage
-	zauber_damage = _zauber_damage
+#func apply_stat_mods( _att : float, _spd : float ) -> void:
+	#att = _att
+	#spd = _spd
 	
 func _ready() -> void:
 	bullet_spr.animation = "s_bull"
@@ -195,12 +234,6 @@ func _ready() -> void:
 	
 	sprite_selection() 	## Apply some simple config related to sprites
 	bullet_setup()		## Enable / Disable bullet options based on the gun stats (trail, etc)
-	
-	#bullet_spr_shadow.animation 	= bullet_spr.animation
-	#bullet_spr_shadow.frame			= bullet_spr.frame
-	#bullet_spr_shadow.rotation 		= bullet_spr.rotation
-	
-	
 	
 ## TODO
 # Remove unused nodes
@@ -232,15 +265,19 @@ func sprite_selection() -> void:
 		breakpoint
 		return
 		
-	var _pow : float = 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
+	_pow			 = 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
 						B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) + \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_CYBER ) + \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_MENTAL ) + \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) + \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_COSMIC )
 	
+	speedBonus 	= my_gun.weapon_stats.speedBonus
+	rocketShot 	= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_ROCKET
+	bfgShot 	= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_BFG
+	
 	## Mat stuff
-	if matName == "Silk":
+	if my_gun.weapon_material == B2_Gun.MATERIAL.SILK:
 		lobAngledSprite = true;
 	
 	match bullet_spr.animation:
@@ -263,7 +300,7 @@ func sprite_selection() -> void:
 		# CANDY 
 		"s_bull_candyShot":
 			bullet_spr.frame = clamp( 0, 21, (_pow/6) - 2 + randi_range(0,4) ); ## WARNING Clamp is WRONG, should be median.
-			if speedBonus>1.5:
+			if speedBonus > 1.5:
 				speedBonus = 1
 			scale.y = [1,-1].pick_random()
 			image_angle = [0,90,180,270].pick_random()
@@ -275,9 +312,9 @@ func sprite_selection() -> void:
 		"s_bull_stone":
 			specialShot = "stone";
 
-			if _pow>32:					bullet_spr.animation = "s_bull_stone_large"
-			elif _pow>16:				bullet_spr.animation = "s_bull_stone"
-			elif _pow>8:				bullet_spr.animation = "s_bull_stone_small"
+			if 		_pow > 32:			bullet_spr.animation = "s_bull_stone_large"
+			elif 	_pow > 16:			bullet_spr.animation = "s_bull_stone"
+			elif 	_pow > 8:			bullet_spr.animation = "s_bull_stone_small"
 			else:						bullet_spr.animation = "s_bull_stone_tiny"
 			## image_angle = choose(0,90,180,270);
 			if bfgShot:
@@ -695,7 +732,7 @@ func sprite_selection() -> void:
 			scale.x = 1;
 			scale.y = 1;
 
-			if(matName=="Itano"):
+			if my_gun.weapon_material == B2_Gun.MATERIAL.ITANO:
 				if(rocketShot):
 					if(_pow<50):	bullet_spr.frame += 1
 					else: 			bullet_spr.animation = "s_bull_itanoRocket"
@@ -1412,17 +1449,12 @@ func play_sound(soundID : String, loop : bool) -> void:
 	else:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
-func _process( delta: float ) -> void:
-	velocity = dir * speed * delta
-	velocity *= spd 		## Apply speed modifier
-	position += velocity 	## TEMP
+func _physics_process(delta: float) -> void:
+	if my_gun:
+		velocity = dir * my_gun.weapon_stats.speedBonus * my_gun.weapon_stats.bSpeed * delta
+		velocity *= 13.0 # Speed mod
+	position += velocity 							## TEMP
 	
-	#if has_trail:
-	#	## Update trail
-	#	bullet_trail.add_point( global_position )
-	#	if bullet_trail.get_point_count() > trail_len:
-	#		bullet_trail.remove_point(0)
-			
 	check_collision()
 
 func flash_bullet( state : bool ) -> void:
@@ -1463,9 +1495,10 @@ func ricochet( ric_dir : Vector2 ) -> void:
 	add_sibling( rico, true )
 	rico.look_at( position + ric_dir.rotated( randf_range( -PI/8, PI/8 ) ) )
 	
-func destroy_bullet() -> void:
+func destroy_bullet( rico := true ) -> void:
 	#ricochet( - dir )
-	ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
+	if rico:
+		ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
 	var t := 0.0
 	if smoke_trail: smoke_trail.emitting = false; 				t = 2.0
 	if bullet_motion_blur: bullet_motion_blur.emitting = false;	t = 2.0
@@ -1490,20 +1523,19 @@ func _on_body_entered( body: Node2D ) -> void:
 		pass
 		
 	if body is B2_CombatActor:
+		if my_gun.weapon_stats.bExplode:
+			if my_gun.weapon_stats.bExplodeOnEnemy:
+				_make_explosion()
+				destroy_bullet( false )
+				return
+
 		if not body.is_actor_dead: ## Avoid shooting dead bodies.
 			if body.has_method("damage_actor"):
-				var my_att := my_gun.get_pow()
+				#var my_att := my_gun.get_pow()
 				
-				## Apply attack modifier
-				my_att *= att 
-				@warning_ignore("narrowing_conversion")
-				my_att = my_att / float( 1.0 ) * 0.85 ## FIXME 25/11/25 1.0 is TEMP - 15/08/25 added the 0.85 as a test. Shotgun bullets seem to be way weak.
-				@warning_ignore("narrowing_conversion")
-				my_att = clampi( my_att * final_multiplier , 1, 999 )
-				
-				body.damage_actor( my_att , velocity.normalized() * my_att * 100.0 )
+				body.damage_actor( _pow , velocity.normalized() * _pow * 100.0 )
 				#body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
-				print( "Bullet applying %s points of damage." % str(my_att) )
+				print( "Bullet applying %s points of damage." % str(_pow) )
 				
 			destroy_bullet()
 		
@@ -1516,8 +1548,21 @@ func _on_body_entered( body: Node2D ) -> void:
 		# I was running into issues with the ricochet code, mostly because of tilemap colision shapes.
 		# 21/03/25 oh shit, Godot 4.5 might acually fix this. https://github.com/godotengine/godot/pull/102662
 		# 20/11/25 Fix what?? Dont remember What i meant by that.
+		if my_gun.weapon_stats.bExplode:
+			if my_gun.weapon_stats.bExplodeOnEnemy:
+				_make_explosion()
+				destroy_bullet( false )
+				return
+		
 		source_actor = null
 		destroy_bullet() ## temp
+
+func _make_explosion() -> void:
+	var asplode 				: AnimatedSprite2D = load(B2_Gun.O_EXPLOSION).instantiate()
+	assert( is_instance_valid(asplode), "WTF is the explosion null?????" )
+	asplode.my_gun 				= my_gun
+	asplode.global_position 	= global_position
+	add_sibling( asplode, true )
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	await get_tree().create_timer(1.0).timeout

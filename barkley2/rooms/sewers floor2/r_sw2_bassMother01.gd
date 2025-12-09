@@ -22,3 +22,4 @@ func _ready() -> void:
 	#B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MUSKET, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_ROCKET, B2_Gun.MATERIAL.STEEL )
