@@ -32,6 +32,7 @@ const O_CBT_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cbt_hoopz_dia
 ## Cutscene actor
 const O_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
 const O_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
+const O_HOOPZ_UNTAMO = preload("res://barkley2/scenes/Player/o_hoopz_untamo.tscn")
 
 var o_hoopz_scene 		: PackedScene = O_HOOPZ_NORMAL
 var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
@@ -117,7 +118,7 @@ func BodySwap( costume_name : String ) -> void:
 			o_cts_hoopz_scene	= null
 			curr_BODY = BODY.GOVERNOR
 		"untamo":
-			o_hoopz_scene		= null
+			o_hoopz_scene		= O_HOOPZ_UNTAMO
 			o_cts_hoopz_scene	= null
 			curr_BODY = BODY.UNTAMO
 		"diaper":

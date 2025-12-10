@@ -1,4 +1,6 @@
+## Class used for plants that can sway when the player moves near it.
 extends AnimatedSprite2D
+class_name B2_PlantInteract
 
 ## Too lazy to make this a class.
 

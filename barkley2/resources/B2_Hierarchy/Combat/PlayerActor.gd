@@ -105,6 +105,12 @@ const DIR_RIGHT_UPISH	 	:= -0.46364760398865
 @export var flashlight_pivot 		: Marker2D
 @export var flashlight 				: PointLight2D
 
+@export_category("Scpecial cases")
+@export var combat_ready					:= true # This actor can't do battle. NOTE OO player or mathias can't do battle.
+@export var can_shuffle						:= true # This actor can shuffle its feets.
+@export var can_roll						:= true # This actor is able to roll, granted it has permission.
+@export var can_flip_sprite					:= false # This actor's sprite can be flipped.
+
 ## Sound
 var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
@@ -184,24 +190,26 @@ func _change_sprites():
 		STATE.NORMAL, STATE.ROLL, STATE.HIT:
 			hoopz_normal_body.show()
 			
-			combat_lower_sprite.hide()
-			combat_upper_sprite.hide()
-			combat_arm_back.hide()
-			combat_arm_front.hide()
-			combat_weapon.hide()
-			combat_weapon_parts.hide()
-			combat_weapon_spots.hide()
+			if combat_ready:
+				combat_lower_sprite.hide()
+				combat_upper_sprite.hide()
+				combat_arm_back.hide()
+				combat_arm_front.hide()
+				combat_weapon.hide()
+				combat_weapon_parts.hide()
+				combat_weapon_spots.hide()
 		STATE.AIM, STATE.SHOOT:
 			hoopz_normal_body.hide()
 			
-			combat_lower_sprite.show()
-			combat_upper_sprite.show()
-			combat_arm_back.show()
-			combat_arm_front.show()
-			combat_weapon.show()
-			if B2_Gun.get_current_gun():
-				combat_weapon_parts.visible 	= B2_Gun.get_current_gun().weapon_stats.displayParts
-				combat_weapon_spots.visible 	= B2_Gun.get_current_gun().weapon_stats.displaySpots
+			if combat_ready:
+				combat_lower_sprite.show()
+				combat_upper_sprite.show()
+				combat_arm_back.show()
+				combat_arm_front.show()
+				combat_weapon.show()
+				if B2_Gun.get_current_gun():
+					combat_weapon_parts.visible 	= B2_Gun.get_current_gun().weapon_stats.displayParts
+					combat_weapon_spots.visible 	= B2_Gun.get_current_gun().weapon_stats.displaySpots
 			
 func _update_held_gun() -> void:
 	if curr_STATE == STATE.AIM:
@@ -357,6 +365,9 @@ func normal_animation(delta : float):
 				_: # Catch All
 					hoopz_normal_body.play(WALK_S)
 					print("Hoopz normal_animation: input -> Catch all, ", input)
+			
+			if can_flip_sprite:
+				hoopz_normal_body.flip_h = input.x < 0
 	else:
 		# player is not moving the character anymore
 		hoopz_normal_body.stop()
@@ -374,7 +385,7 @@ func normal_animation(delta : float):
 				turning_time = 0.5
 		
 		# handle the turning animation for a litle while.
-		if turning_time > 0.0:
+		if turning_time > 0.0 and can_shuffle:
 			hoopz_normal_body.animation = SHUFFLE
 			if not is_turning: # play step sound when you change directions, during shuffle.
 				#B2_Sound.play_pick("hoopz_footstep") ## WARNING Original game doesnt do this.

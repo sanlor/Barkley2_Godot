@@ -26,7 +26,7 @@ class_name B2_Player_FreeRoam
 
 
 @export_category("Player Permission")
-@export var can_roll 		:= true
+#@export var can_roll 		:= true
 @export var can_draw_weapon := true
 @export var can_shoot		:= true
 
@@ -343,6 +343,9 @@ func set_gun_reloaded( reload_state : bool ) -> void:
 
 # Roll action
 func start_rolling( roll_dir : Vector2 ) -> void:
+	if not can_roll:
+		return
+		
 	if curr_STATE != STATE.NORMAL and curr_STATE != STATE.AIM: ## Stop rolling when not possible to roll.
 		return
 		
