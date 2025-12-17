@@ -144,7 +144,7 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 	
 	gun.favorite 						= str_to_var( gun_dict.get( "favorite", "false" ) )
 	gun.generation 						= gun_dict.get( "generation", 1 )
-	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" 	) ) # Vector2
+	gun.gunmap_pos 						= str_to_var( gun_dict.get( "gunmap_pos" ) ) # Vector2i
 		
 	gun.son								= gun_dict.get( "son", {} )
 	gun.lineage_top						= gun_dict.get( "lineage_top", {} )

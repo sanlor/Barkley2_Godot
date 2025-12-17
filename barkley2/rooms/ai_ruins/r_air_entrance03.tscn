@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=4 uid="uid://vkjgyg68ejy1"]
+[gd_scene load_steps=66 format=4 uid="uid://vkjgyg68ejy1"]
 
 [ext_resource type="Script" uid="uid://b7c15mxmjj4ld" path="res://barkley2/rooms/ai_ruins/r_air_entrance03.gd" id="1_en1eg"]
 [ext_resource type="Texture2D" uid="uid://cynvsawdmj54e" path="res://barkley2/assets/b2_original/backgrounds/tls_air_airuins01.png" id="3_armys"]
@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="24_miyxs"]
 [ext_resource type="PackedScene" uid="uid://bgh5fvxav7ccl" path="res://barkley2/scenes/_utilityStation/o_utilitystation.tscn" id="25_xdrhj"]
 [ext_resource type="PackedScene" uid="uid://kqlxhd0if7gg" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_treasuredwarf/o_Treasure.tscn" id="27_ws3dg"]
+[ext_resource type="PackedScene" uid="uid://ctl6it80qa7q" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_animeBulldog01.tscn" id="28_1i5o0"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_e2kse"]
 vertices = PackedVector2Array(678, 106, 678, 246, 663.35156, 186, 660.22656, 174.32031, 660.22656, 197.67969, 651.6797, 165.77344, 630, 106, 651.6797, 206.22656, 640, 162.64844, 448, 337.35156, 454, 335.7422, 454, 364.25, 448, 362.64844, 378, 442, 448, 409.35156, 454, 407.7422, 454, 442, 378, 662, 378, 407.7422, 384, 409.35156, 378, 364.25, 378, 335.7422, 384, 337.35156, 384, 362.64844, 454, 246, 454, 292.25, 448, 290.64844, 384, 290.64844, 378, 292.25, 378, 246, 214, 106, 262, 106, 262, 154, 203.67969, 165.77344, 378, 154, 378, 138, 394, 138, 394, 74, 438, 74, 438, 138, 454, 138, 454, 154, 570, 154, 570, 106, 618, 106, 628.3203, 165.77344, 619.77344, 174.32031, 618, 42, 630, 42, 550, 442, 550, 662, 454, 662, 454, 710, 378, 710, 282, 662, 282, 442, 436.3203, 406.22656, 395.6797, 406.22656, 427.77344, 397.6797, 404.22656, 397.6797, 424.64844, 386, 407.35156, 386, 202, 106, 202, 42, 214, 42, 616.64844, 186, 212.22656, 197.67969, 215.35156, 186, 212.22656, 174.32031, 203.67969, 206.22656, 619.77344, 197.67969, 436.3203, 334.22656, 436.3203, 365.77344, 427.77344, 374.3203, 404.22656, 374.3203, 427.77344, 325.6797, 395.6797, 365.77344, 395.6797, 334.22656, 640, 209.35156, 628.3203, 206.22656, 436.3203, 293.77344, 404.22656, 302.3203, 395.6797, 293.77344, 192, 162.64844, 154, 106, 180.32031, 165.77344, 171.77344, 174.32031, 404.22656, 325.6797, 424.64844, 314, 407.35156, 314, 427.77344, 302.3203, 154, 246, 192, 209.35156, 180.32031, 206.22656, 171.77344, 197.67969, 168.64844, 186)
@@ -1938,11 +1939,49 @@ CHOICE_2
 EXIT |"
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
+[sub_resource type="GDScript" id="GDScript_1i5o0"]
+resource_name = "anime_buldog_debug_script"
+script/source = "extends \"res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_animeBulldog01.gd\"
+
+func _ready() -> void:
+	super()
+	
+	var all_tracks := B2_Music.music_bank.keys()
+	
+	var script := B2_Script_Legacy.new()
+	script.original_script += \\
+	\"DIALOG | The Anime Bulldog | Dynamic menu selection.
+	CHOICE | Select a music track.
+	REPLY | NARYYEMIND | Keep as is.
+	REPLY | REINDEX | Force music banks re-index.\"
+	for track : String in all_tracks:
+		script.original_script += \"\\nREPLY | %s | %s\" % [track.to_upper(), track]
+	
+	script.original_script += \"\\n\\n\"
+	for track : String in all_tracks:
+		script.original_script += track.to_upper() + \"\\n\"
+		script.original_script += \"Misc | music | %s\" % track
+		script.original_script += \"\\nGOTO | BITCHIN\\n\\n\"
+	
+	script.original_script += \\
+	\"NARYYEMIND
+	EXIT
+	
+	REINDEX
+	Misc | music | asdasdjasdkjaskdga
+	GOTO | NARYYEMIND
+	
+	BITCHIN
+	DIALOG | The Anime Bulldog | Cool, right?.
+	EXIT\"
+	
+	cutscene_script = script
+"
+
 [node name="r_air_entrance03" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_e2kse")
 script = ExtResource("1_en1eg")
-preview_navigation_mesh = null
 reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer -1000000"), NodePath("layer - collision")]
 debug_create_player_scene_at_room_start = true
 debug_player_scene_pos = Vector2(315, 205)
@@ -2214,3 +2253,7 @@ cutscene_script = SubResource("Resource_ws3dg")
 
 [node name="o_Treasure" parent="." instance=ExtResource("27_ws3dg")]
 position = Vector2(480, 486)
+
+[node name="o_animeBulldog01" parent="." instance=ExtResource("28_1i5o0")]
+position = Vector2(504, 560)
+script = SubResource("GDScript_1i5o0")

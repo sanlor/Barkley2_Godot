@@ -168,6 +168,9 @@ func update_data( gun : B2_Weapon ) -> void:
 		
 	selected_gun = gun
 	
+	assert( not gun.lineage_top.is_empty(), "Gun has no top parent. This should never happen!")
+	assert( not gun.lineage_bot.is_empty(), "Gun has no bottom parent. This should never happen!")
+	
 	var parent_top := B2_Gun.dict_to_gun( gun.lineage_top )
 	var parent_bot := B2_Gun.dict_to_gun( gun.lineage_bot )
 	

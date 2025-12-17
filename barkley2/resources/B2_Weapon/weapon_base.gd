@@ -63,7 +63,7 @@ var gunmap_pos								:= Vector2i.ZERO # Used for fusing and drawing the gunmap.
 var dominant_genes							:= [] # List of all dominant genes that this gun has.
 
 #@export var normal_attack	: B2_WeaponAttack						## Normal attack
-@export var skill_list		: Dictionary[B2_Gun.SKILL, int] 		## List of attacks, with the EXP necessary to unlock it
+@export var skill_list		: Dictionary[B2_Gun.SKILL, int] 		## List of attacks, with the EXP necessary to unlock it DEPRECATED
 
 ## TODO add a custom resource or an external resource for this.
 #@export_category("Bullet settings")
