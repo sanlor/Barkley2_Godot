@@ -221,6 +221,9 @@ func setup_explode_stats() -> void:
 			att_Time = 16;
 			#move_z = 12;
 			B2_CManager.camera.add_shake(32, 220, global_position.x, global_position.y, 1.5);
+		_:
+			# Invalid type
+			breakpoint
 	
 	init_Interval = 0.5; # *= 2;
 	att_IntervalGain = 1; # = 4;
@@ -242,16 +245,14 @@ func setup_graphical_effect() -> void:
 	else:				explosion_anim = "s_effect_explo_96"; explosion_smoke.amount = 32
 	
 	## Set explosion size
-	explosion_radius = explosion_smoke.amount
+	explosion_radius = explosion_smoke.amount * 2
 	
 func damage_actors() -> void:
 	var space_state = get_world_2d().direct_space_state
-	var params = PhysicsShapeQueryParameters2D.new()#.create(global_position, global_position + Vector2(0, 1))
+	var params = PhysicsShapeQueryParameters2D.new()
 	params.collide_with_areas 	= false
 	params.collide_with_bodies 	= true
-	#params.exclude = [ get_rid(), source_actor.get_rid() ]
-	#params.exclude = [ source_actor.get_rid() ]
-	params.collision_mask 		= 1 & 3
+	#params.collision_mask 		= 1 & 2 & 3
 	params.shape	 			= explosion_shape
 	params.transform			= Transform2D(0, global_position)
 	var result : Array[Dictionary] = space_state.intersect_shape(params)
@@ -259,7 +260,7 @@ func damage_actors() -> void:
 		for r : Dictionary in result:
 			if r["collider"] is B2_CombatActor:
 				var body : B2_CombatActor = r["collider"]
-				var _pow := my_gun.get_explosion_damage()
+				var _pow := my_gun.get_explosion_damage() + randf_range( 0, att_PowRand )
 				body.damage_actor( _pow, global_position.direction_to(body.global_position) * _pow * 100.0 )
 
 func _on_animation_finished() -> void:

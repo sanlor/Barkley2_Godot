@@ -122,9 +122,9 @@ func _ready() -> void:
 		
 		dmg_value.text 		= str( int( my_gun.get_pow() ) )
 		rte_value.text		= str( int( my_gun.get_spd() ) ) ## THIS IS WRONG
-		cap_value.text		= str( my_gun.max_ammo )
+		cap_value.text		= str( my_gun.get_max_ammo() )
 		afx_value.text		= str( my_gun.get_afx_count() )
-		wgt_value.text		= str( my_gun.wgt ) + "ç"
+		wgt_value.text		= str( my_gun.get_wgt() ) + "ç"
 		
 		folded_size 	= 24
 		unfolded_size 	= 52

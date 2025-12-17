@@ -185,12 +185,12 @@ func update_data( gun : B2_Weapon ) -> void:
 	dmg_value.text 			= str( int(gun.get_pow()) )
 	rte_value.text 			= str( int(gun.get_spd()) )
 	spc_value.text 			= str( gun.get_afx_count() )
-	cap_value.text 			= "%s ( %s )" % [ str(gun.curr_ammo), str(gun.max_ammo) ]
+	cap_value.text 			= "%s ( %s )" % [ str(gun.get_curr_ammo()), str(gun.get_max_ammo()) ]
 	
 	gun_name_value.text = Text.pr( gun.weapon_name )
 	gun_texture.texture = gun.get_weapon_hud_sprite()
-	pts_value.text = str( int( gun.pts ) )
-	wgt_value.text = "%sç" % str( int( gun.wgt ) )
+	pts_value.text = str( int( gun.get_points() ) )
+	wgt_value.text = "%sç" % str( int( gun.get_wgt() ) )
 	
 	## Affix
 	if gun.prefix1:
@@ -272,7 +272,7 @@ func update_smelt_gauge() -> void:
 	if not selected_gun:
 		smelt_cost_value.text = ""
 	else:
-		smelt_cost_value.text = "+ %s" % str( selected_gun.pts ).pad_zeros(4)
+		smelt_cost_value.text = "+ %s" % str( selected_gun.get_points() ).pad_zeros(4)
 	
 var t := 0.0
 func _process(delta: float) -> void:

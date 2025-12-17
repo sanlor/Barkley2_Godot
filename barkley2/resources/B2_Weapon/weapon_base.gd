@@ -146,6 +146,9 @@ func get_effective_amm() -> float:			return snappedf( get_amm() * get_amm_mod(),
 func get_effective_afx() -> float:			return snappedf( get_afx() * get_afx_mod(), 0.01 ) # FIXME return snappedf(afx * get_afx_mod(), 0.01)
 func get_effective_wgt() -> float:			return snappedf( get_wgt() * get_wgt_mod(), 0.01 ) # FIXME return snappedf(wgt * get_wgt_mod(), 0.01)
 
+## How much points were allocated to the base stats
+func get_points() -> int: return int( get_pow() + get_spd() + get_afx() + get_amm() + get_wgt() )
+
 ## return the damage expected for the bullet
 func get_bullet_damage() -> float:			return 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
 													B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) + \

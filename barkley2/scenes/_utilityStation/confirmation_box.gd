@@ -15,6 +15,10 @@ func _ready() -> void:
 func setup_text( text : String ) -> void:
 	confirmation_dialog.text = Text.pr( text )
 
+func show_panel( _speed := 0.4 ) -> void:
+	super()
+	no_btn.grab_focus()
+
 func _on_yes_btn_pressed() -> void:
 	confirmation.emit( true )
 	B2_Sound.play( "utility_button_click" )

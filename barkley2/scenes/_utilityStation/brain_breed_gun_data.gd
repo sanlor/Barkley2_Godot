@@ -19,13 +19,13 @@ func setup( gun : B2_Weapon ) -> void:
 	dmg_value.text 			= str( int(gun.get_pow()) )
 	rte_value.text 			= str( int(gun.get_spd()) )
 	spc_value.text 			= str( gun.get_afx_count() )
-	cap_value.text 			= str(gun.max_ammo)
+	cap_value.text 			= str(gun.get_max_ammo())
 	
 	gun_prefix_1.text 		= Text.pr( gun.prefix1 )
 	gun_prefix_2.text 		= Text.pr( gun.prefix2 )
 	gun_name_value.text 	= Text.pr( gun.weapon_name )
 	gun_suffix.text 		= Text.pr( gun.suffix )
 	
-	gun_point_lbl.text 		= str( int( gun.pts ) )
-	gun_weight.text 		= str( int( gun.wgt ) ) + "ç"
+	gun_point_lbl.text 		= str( int( gun.get_points() ) )
+	gun_weight.text 		= str( int( gun.get_wgt() ) ) + "ç"
 	gen_value.text			= str( int( gun.generation ) )

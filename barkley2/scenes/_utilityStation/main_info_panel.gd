@@ -164,7 +164,7 @@ func _set_menu_values() -> void:
 	gun_name.visible			= B2_Gun.has_gun_in_bandolier()
 	
 	gun_texture.texture			= B2_Gun.get_current_gun().get_weapon_hud_sprite()
-	gun_weight.text				= str( int(B2_Gun.get_current_gun().wgt) ) + "~"
+	gun_weight.text				= str( int(B2_Gun.get_current_gun().get_wgt()) ) + "~"
 	gun_name.text				= B2_Gun.get_current_gun().get_short_name()
 
 	jerkin_value.text			= B2_Jerkin.get_current_jerkin()

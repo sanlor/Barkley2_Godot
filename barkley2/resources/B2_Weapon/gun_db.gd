@@ -996,14 +996,14 @@ static func apply_stats( wpn : B2_Weapon, points : int, current_time : String, b
 			).to_html()
 
 	# make basic stats from core stats, type and material
-	wpn.weapon_stats.pDamageMin = wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMod;
-	wpn.weapon_stats.pDamageRand = (wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMaxMod) - wpn.weapon_stats.pDamageMin
-	wpn.weapon_stats.pFireSpeed = wpn.weapon_stats.sSpeed * wpn.weapon_stats.pSpeedMod;
-	wpn.weapon_stats.pRange = (wpn.weapon_stats.sRange * wpn.weapon_stats.pRangeMod);
-	wpn.weapon_stats.pMaxAmmo = round(wpn.weapon_stats.sAmmo * wpn.weapon_stats.pAmmoMod * 1.2) + wpn.weapon_stats.pAmmoBase; # Balanced the max ammo UP to 1.2 instead of 1.0 (06/06/15)
-	wpn.weapon_stats.pCurAmmo = round(wpn.weapon_stats.pMaxAmmo); # * random_range(0.2, 0.65) is a possibility for dropped gun's...?
-	wpn.weapon_stats.pAffix = wpn.weapon_stats.sAffix * wpn.weapon_stats.pAffixMod;
-	wpn.weapon_stats.pWeight = wpn.weapon_stats.sWeight * wpn.weapon_stats.pWeightMod
+	wpn.weapon_stats.pDamageMin 	= wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMod;
+	wpn.weapon_stats.pDamageRand 	= (wpn.weapon_stats.sPower * wpn.weapon_stats.pPowerMaxMod) - wpn.weapon_stats.pDamageMin
+	wpn.weapon_stats.pFireSpeed 	= wpn.weapon_stats.sSpeed * wpn.weapon_stats.pSpeedMod;
+	wpn.weapon_stats.pRange 		= (wpn.weapon_stats.sRange * wpn.weapon_stats.pRangeMod);
+	wpn.weapon_stats.pMaxAmmo 		= round(wpn.weapon_stats.sAmmo * wpn.weapon_stats.pAmmoMod * 1.2) + wpn.weapon_stats.pAmmoBase; # Balanced the max ammo UP to 1.2 instead of 1.0 (06/06/15)
+	wpn.weapon_stats.pCurAmmo 		= round(wpn.weapon_stats.pMaxAmmo); # * random_range(0.2, 0.65) is a possibility for dropped gun's...?
+	wpn.weapon_stats.pAffix 		= wpn.weapon_stats.sAffix * wpn.weapon_stats.pAffixMod;
+	wpn.weapon_stats.pWeight 		= wpn.weapon_stats.sWeight * wpn.weapon_stats.pWeightMod
 
 	@warning_ignore("narrowing_conversion")
 	wpn.weapon_stats.numberval = wpn.weapon_stats.sPower + wpn.weapon_stats.sSpeed + wpn.weapon_stats.sAmmo + wpn.weapon_stats.sAffix
@@ -1179,12 +1179,17 @@ static func append_gun_to_gunbag( wpn : B2_Weapon ) -> void:
 		print("B2_Gun: Gunbag full, 'dropping' the oldest gun. ") ## WARNING Droping guns not enabled.
 	B2_SignalBus.gun_owned_changed.emit()
 	
-	
 ## remove specific gun from inventory
 static func remove_gun( wpn : B2_Weapon ) -> void:
 	remove_gun_from_bandolier( wpn )
 	remove_gun_from_gunbag( wpn )
 	## TODO manage bandolier and gun bag.
+
+## If you are not sure where this gun is. 
+# NOTE This is just to allow my laziness.
+static func remove_gun_from_anywhere( wpn : B2_Weapon ) -> void:
+	remove_gun_from_bandolier( wpn )
+	remove_gun_from_gunbag( wpn )
 
 static func remove_gun_from_bandolier( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.bandolier.erase( wpn )
@@ -1193,7 +1198,6 @@ static func remove_gun_from_bandolier( wpn : B2_Weapon ) -> void:
 	
 static func remove_gun_from_gunbag( wpn : B2_Weapon ) -> void:
 	B2_Playerdata.gun_bag.erase( wpn )
-	print( B2_Playerdata.gun_bag )
 	if has_gun_in_gunbag(): # Gun removed. there are any guns in the gunbag?
 		B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 	elif B2_Playerdata.gunbag_open: toggle_gunbag()
@@ -1203,6 +1207,7 @@ static func clear_guns() -> void:
 	B2_Playerdata.bandolier.clear()
 	B2_Playerdata.gun_bag.clear()
 	
+## DEPRECATED
 static func distribute_battle_exp( _exp : int ) -> void:
 	## NOTE Only guns in bando can receive XP.
 	if not get_bandolier().is_empty():
@@ -1211,6 +1216,7 @@ static func distribute_battle_exp( _exp : int ) -> void:
 		for gun : B2_Weapon in get_bandolier():
 			gun.gain_exp( per_gun_exp )
 	
+## DEPRECATED
 static func get_skill( skill : SKILL ) -> B2_WeaponSkill:
 	return SKILL_LIST.get( skill, null )
 	
@@ -1248,7 +1254,6 @@ static func select_gun_from_resource( gun_resource : B2_Weapon ) -> void:
 	else:
 		push_error( "Invalid gun selected" )
 		breakpoint
-	
 	
 static func select_band_gun( id : int ) -> void:
 	if id > B2_Playerdata.bandolier.size():

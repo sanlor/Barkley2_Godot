@@ -37,8 +37,8 @@ func _on_visibility_changed() -> void:
 	if gun:
 		gun_name_value.text = Text.pr( gun.weapon_name )
 		gun_texture.texture = gun.get_weapon_hud_sprite()
-		pts_value.text = str( int( gun.pts ) )
-		wgt_value.text = str( int( gun.wgt ) )
+		pts_value.text = str( int( gun.get_points() ) )
+		wgt_value.text = str( int( gun.get_wgt() ) )
 		
 		## Affix
 		if gun.prefix1:
