@@ -17,7 +17,7 @@ extends Control
 func setup( gun : B2_Weapon ) -> void:
 	gun_texture.texture = gun.get_weapon_hud_sprite()
 	dmg_value.text 			= str( int(gun.get_pow()) )
-	rte_value.text 			= str( int(gun.get_spd()) )
+	rte_value.text 			= str( gun.get_rate_total() ) + "/s"
 	spc_value.text 			= str( gun.get_afx_count() )
 	cap_value.text 			= str(gun.get_max_ammo())
 	

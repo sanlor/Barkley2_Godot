@@ -24,6 +24,7 @@ const O_RICOCHET 			:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricoch
 const BULLET_MOTION_BLUR 	:= preload("uid://jtntp5snoywp")
 const BULLET_SUPER_TRAIL 	:= preload("uid://c83yp1523vacs")
 
+const BULLET_GRAVITY		:= 9.8
 
 @onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
 @onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
@@ -62,7 +63,7 @@ var wallRicochet 		= 0;		## Richochet off walls ##
 var bloodTrail			:= 0
 var image_speed			:= 0.0		## Define if a bullet has a animation
 
-var shadow_visible 		:= false;
+var shadow_visible 		:= true;		## Display cool shadow.
 var show_hiteffect 		:= false;
 
 var throughWalls 		= 0;
@@ -127,6 +128,12 @@ var featherNext		:= 0
 var drawWhiteOverlay := false # o_bullet - draw - line 141
 
 ## Advanced bullet
+var enable_advanced		:= false	# Behaves lake the o_advBullet
+# Advanced bullets are affected by gravity and do a lot of weird shit. Check o_advBullet for more details.
+
+var bullet_height		:= 0.0		# How high is the bullet? The floor is at 16.0.
+var bullet_vert_speed	:= 0.0		# Bullet's vertical speed.
+
 var enemySeek 			:= 0;
 var enemySeekCurrent 	:= 0;
 var enemyTarget 		= null
@@ -171,19 +178,6 @@ var barrierRotCount 	:= 0;
 var barrierRotTot		:= 0;
 
 var dtCount				:= 0;
-
-## Godot bullet mods
-# Damage Modifiers
-#var att								:= 1.0 ## Higher number = more powerful
-#var spd								:= 1.0 ## Higher number = faster
-#var acc								:= 1.0 ## Lower number = more acturate
-
-# Attribute Modifiers
-#var bio_damage						:= 1.0 ## Add Bio damage type to this attack
-#var cyber_damage					:= 1.0 ## Add Cyber damage type to this attack
-#var mental_damage					:= 1.0 ## Add Mental damage type to this attack
-#var cosmic_damage					:= 1.0 ## Add Cosmic damage type to this attack
-#var zauber_damage					:= 1.0 ## Add Zauber damage type to this attack
 
 var _pow : float = 0.0
 
@@ -235,6 +229,9 @@ func _ready() -> void:
 	sprite_selection() 	## Apply some simple config related to sprites
 	bullet_setup()		## Enable / Disable bullet options based on the gun stats (trail, etc)
 	
+	if enable_advanced:
+		bullet_spr.offset.y = bullet_height
+		bullet_vert_speed = -5.0
 ## TODO
 # Remove unused nodes
 func bullet_setup() -> void:
@@ -978,11 +975,9 @@ func sprite_selection() -> void:
 				## TODO enemySeekRange = 64;
 				## TODO enemySeekTime = 0.5;
 				pass
-
 			#sparktrail = 3
 			if(speedBonus>1.25):speedBonus = 1
 	
-
 		#/LEAD SHOT
 		"s_bull_lead":
 			if (_pow>120):bullet_spr.frame = 14
@@ -1063,7 +1058,6 @@ func sprite_selection() -> void:
 			## TODO bfgFiredDirection = move_dir;
 			play_sound("hoopzweap_BFG_shot", false);
 		
-
 		"s_bull_adamant":
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
@@ -1199,7 +1193,6 @@ func sprite_selection() -> void:
 			## TODO 
 			pass
 		
-
 		##/BLASTER
 		"s_bull_blaster":
 			if (_pow>80):bullet_spr.frame = 9
@@ -1251,7 +1244,6 @@ func sprite_selection() -> void:
 			lobAngledSprite = true;
 			if(speedBonus>1.5):speedBonus = 1.5
 		
-
 		"s_bull_frankincense":
 			if (_pow>96):bullet_spr.frame = 12
 			elif (_pow>72):bullet_spr.frame = 11
@@ -1451,9 +1443,23 @@ func play_sound(soundID : String, loop : bool) -> void:
 
 func _physics_process(delta: float) -> void:
 	if my_gun:
-		velocity = dir * my_gun.weapon_stats.speedBonus * my_gun.weapon_stats.bSpeed * delta
+		velocity = (dir * speedBonus * my_gun.weapon_stats.bSpeed) * delta
 		velocity *= 13.0 # Speed mod
-	position += velocity 							## TEMP
+	position 	+= velocity 							## TEMP
+	smoke_trail.process_material.emission_shape_offset = Vector3(bullet_spr.offset.x,bullet_spr.offset.y,0)
+	
+	if enable_advanced:
+		bullet_spr.offset = Vector2(0,bullet_height).rotated( bullet_spr.rotation )
+		
+		bullet_height += bullet_vert_speed
+		
+		bullet_vert_speed += BULLET_GRAVITY * delta
+		
+		if bullet_height > 16.0:
+			print("Bullet hit the flooooooooooor.")
+			if my_gun.weapon_stats.bExplode:
+				_make_explosion()
+			destroy_bullet( false )
 	
 	check_collision()
 
@@ -1472,7 +1478,7 @@ func check_collision() -> void:
 	#params.exclude = [ get_rid(), source_actor.get_rid() ]
 	params.exclude = [ source_actor.get_rid() ]
 	params.collision_mask 		= 1 & 3
-	params.position 			= global_position
+	params.position 			= global_position + bullet_spr.offset
 	var result : Array[Dictionary] = space_state.intersect_point(params)
 	if result:
 		for r : Dictionary in result:
@@ -1480,23 +1486,17 @@ func check_collision() -> void:
 				_on_body_entered( r["collider"] )
 			else:
 				print( "%s: invalid collider -> %s" % [name, r] )
-		
-		
-	#if result["collider"] is StaticBody2D:
-	#var normal: Vector2 = result.normal
-	#var angle = rad_to_deg(normal.angle()) + 90
-	#print( get_overlapping_bodies() )
 
 func ricochet( ric_dir : Vector2 ) -> void:
 	var rico 			= O_RICOCHET.instantiate()
 	rico.ricochetSound 	= ricochetSound
 	rico.scale 			= scale
-	rico.position 		= position
+	rico.position 		= position + bullet_spr.offset
 	add_sibling( rico, true )
 	rico.look_at( position + ric_dir.rotated( randf_range( -PI/8, PI/8 ) ) )
 	
 func destroy_bullet( rico := true ) -> void:
-	#ricochet( - dir )
+	shadow_visible = false
 	if rico:
 		ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
 	var t := 0.0
@@ -1505,6 +1505,7 @@ func destroy_bullet( rico := true ) -> void:
 	if bullet_super_trail: bullet_super_trail.emitting = false;	t = 2.0
 	set_physics_process( false )
 	set_process( false )
+	queue_redraw() # hides shadow
 	var tween := create_tween()
 	#t.tween_property( bullet_spr, "self_modulate", Color.TRANSPARENT, 0.1 )
 	tween.tween_callback( bullet_spr.hide )
@@ -1512,7 +1513,6 @@ func destroy_bullet( rico := true ) -> void:
 	tween.tween_callback( queue_free )
 
 func _on_body_entered( body: Node2D ) -> void:
-	
 	if body == source_actor:
 		## ignore collisions with source actor (unless it ricochets)
 		return
@@ -1557,13 +1557,15 @@ func _on_body_entered( body: Node2D ) -> void:
 		source_actor = null
 		destroy_bullet() ## temp
 
+## CRITICAL ->> https://youtu.be/R22zSrpeSA4?t=44
 func _make_explosion() -> void:
 	var asplode 				: AnimatedSprite2D = load(B2_Gun.O_EXPLOSION).instantiate()
 	assert( is_instance_valid(asplode), "WTF is the explosion null?????" )
 	asplode.my_gun 				= my_gun
-	asplode.global_position 	= global_position
+	asplode.global_position 	= global_position + bullet_spr.offset
 	add_sibling( asplode, true )
 
+# Bullet is outside the screen. remove it.
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	await get_tree().create_timer(1.0).timeout
 	queue_free()
@@ -1576,3 +1578,4 @@ func _draw() -> void:
 		var bull_text := bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
 		draw_set_transform( Vector2(0,16), bullet_spr.rotation, bullet_spr.scale )
 		draw_texture( bull_text, Vector2(0,0), Color("00000080") )
+		print("bullet_shadow")

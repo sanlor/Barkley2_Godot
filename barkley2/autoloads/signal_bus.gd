@@ -24,4 +24,4 @@ signal gun_owned_changed	## Player gained or lost a gun
 signal quest_updated
 
 ## PlayerStats events (Was in B2_PlayerData)
-signal stat_updated
+signal stat_updated( stat )

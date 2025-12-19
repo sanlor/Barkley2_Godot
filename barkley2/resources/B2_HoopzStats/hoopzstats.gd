@@ -201,11 +201,13 @@ func increase_base_stat(  stat : String, value : float ) -> void:
 		STAT_BASE_PIETY:		piety 		+= value
 		STAT_BASE_LEVEL:		lvl			+= value
 		_: breakpoint
+	B2_SignalBus.stat_updated.emit( stat )
 
 func set_base_stat( stat : String, value : float ) -> void:
-	set(stat.to_lower(), value)
+	value = clamp(value, 0, 99) ## The OG game clamps this value too.
+	set( stat.to_lower(), value ) 
 	if get(stat.to_lower()) == value:
-		B2_SignalBus.stat_updated.emit()
+		B2_SignalBus.stat_updated.emit( stat )
 	else:
 		push_error( "%s is not a valid stat. %s - %s." % [stat.to_lower(), get(stat.to_lower()), value] )
 
@@ -224,7 +226,10 @@ func get_effective_stat( stat : String ) -> int:
 		STAT_BASE_AGILE:			return agile
 		STAT_BASE_MIGHT:			return might
 		STAT_BASE_PIETY:			return piety
-		STAT_BASE_WEIGHT:			return weight + int( B2_Jerkin.get_jerkin_stats()["Wgt"] )
+		STAT_BASE_WEIGHT:
+			var gun := 				B2_Gun.get_current_gun()
+			if gun:					return snappedf( weight + B2_Jerkin.get_jerkin_stats()["Wgt"] + B2_Gun.get_current_gun().get_wgt(), 0.01 )
+			else:					return snappedf( weight + B2_Jerkin.get_jerkin_stats()["Wgt"], 0.01 )
 		
 		STAT_BASE_RESISTANCE_BIO:			return resistance_bio 		+ int( B2_Jerkin.get_jerkin_stats()["Bio"] )
 		STAT_BASE_RESISTANCE_COSMIC:		return resistance_cosmic 	+ int( B2_Jerkin.get_jerkin_stats()["Kosmic"] )

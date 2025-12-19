@@ -1281,6 +1281,7 @@ static func can_add_gun_to_bando() -> bool:
 static func can_add_gun_to_gunbag() -> bool:
 	return B2_Playerdata.gun_bag.size() >= GUNBAG_SIZE
 	
+## Love this function. Returns the currently selected gun (Bando or bag). returns null if you have no weapon.
 static func get_current_gun() -> B2_Weapon:
 	B2_Playerdata.selected_gun = B2_Playerdata.selected_gun
 	if B2_Playerdata.gunbag_open:

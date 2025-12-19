@@ -636,8 +636,8 @@ func _shake_screen() -> void:
 func _create_bullet( source_pos : Vector2, dir : Vector2, bullet_type : String ) -> void: #, skill_mod : B2_WeaponSkill = null ) -> void:
 	var bullet : B2_Bullet
 	match bullet_type:
-		"o_bullet":			bullet = O_BULLET.instantiate()
-		"o_advBullet":		bullet = O_BULLET.instantiate(); push_error("Advanced gun NOT ADDED YET.")
+		"o_bullet":			bullet = O_BULLET.instantiate(); bullet.enable_advanced = false
+		"o_advBullet":		bullet = O_BULLET.instantiate(); bullet.enable_advanced = true
 		_:					breakpoint
 		
 	## Charge stuff

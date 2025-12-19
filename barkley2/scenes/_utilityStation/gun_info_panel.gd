@@ -186,7 +186,7 @@ func update_data( gun : B2_Weapon ) -> void:
 	
 	gun_bullet_text.texture.region.position.x = 15 * B2_Gun.TYPE_ICON_LIST.get( gun.weapon_type, 0 )
 	dmg_value.text 			= str( int(gun.get_pow()) )
-	rte_value.text 			= str( int(gun.get_spd()) )
+	rte_value.text 			= str( gun.get_rate_total() ) + "/s"
 	spc_value.text 			= str( gun.get_afx_count() )
 	cap_value.text 			= "%s ( %s )" % [ str(gun.get_curr_ammo()), str(gun.get_max_ammo()) ]
 	

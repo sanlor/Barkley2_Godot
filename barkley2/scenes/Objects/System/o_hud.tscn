@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene load_steps=64 format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://c2jk8sqnorpni" path="res://barkley2/assets/b2_original/images/merged/s_hud_glamp.png" id="7_u1y5o"]
 [ext_resource type="Texture2D" uid="uid://okelukclyqwk" path="res://barkley2/assets/b2_original/images/merged/s_hud_dna.png" id="8_ee7be"]
 [ext_resource type="Shader" uid="uid://1deqbr6v46tw" path="res://barkley2/shaders/shader_code/o_hud_dna_tint.gdshader" id="10_hdwur"]
+[ext_resource type="Script" uid="uid://p3ecuqgd4sts" path="res://barkley2/scenes/Objects/System/_hud/hud_glamp.gd" id="11_eg3y8"]
 [ext_resource type="Script" uid="uid://qym12j2p0s68" path="res://barkley2/scenes/Objects/System/_hud/hud_gun.gd" id="11_r2gnk"]
+[ext_resource type="Shader" uid="uid://bjc4juqu3lxfa" path="res://barkley2/shaders/shader_code/o_hud_glamp.gdshader" id="12_eg3y8"]
 [ext_resource type="Texture2D" uid="uid://c2vn88jjvm2yf" path="res://barkley2/assets/b2_original/images/merged/s_hud_gun.png" id="12_jm28t"]
 [ext_resource type="Texture2D" uid="uid://gkskr32ytvd0" path="res://barkley2/assets/b2_original/guns/FrankieGuns3.png" id="13_0aq1r"]
 [ext_resource type="Texture2D" uid="uid://dccb11avn61bl" path="res://barkley2/assets/b2_original/images/merged/s_hud_ammo.png" id="14_6r4ye"]
@@ -18,6 +20,7 @@
 [ext_resource type="FontFile" uid="uid://dbse3uht7p7mq" path="res://barkley2/resources/fonts/fn_hud.tres" id="15_7wr2q"]
 [ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="16_cf11f"]
 [ext_resource type="Texture2D" uid="uid://dn52taeasipba" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale.png" id="17_84qe1"]
+[ext_resource type="Script" uid="uid://bx5jwxhdm3qu7" path="res://barkley2/scenes/Objects/System/_hud/hud_weight.gd" id="17_u3tos"]
 [ext_resource type="Texture2D" uid="uid://di610ai1avw6p" path="res://barkley2/assets/b2_original/images/merged/s_hud_charge.png" id="18_4ys7d"]
 [ext_resource type="Script" uid="uid://by21x0io0y1lb" path="res://barkley2/scenes/Objects/System/_hud/hud_periodic.gd" id="18_mgkjs"]
 [ext_resource type="Texture2D" uid="uid://i2r5bgs7ruqd" path="res://barkley2/assets/b2_original/images/merged/s_hud_pocket.png" id="20_4bfvb"]
@@ -73,25 +76,95 @@ shader_parameter/zauber_color = Color(0, 1, 1, 1)
 shader_parameter/cosmic_color = Color(1, 0, 1, 1)
 shader_parameter/cyber_color = Color(1, 0.5, 0, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2l200"]
-atlas = ExtResource("7_u1y5o")
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_reaae"]
+load_path = "res://.godot/imported/s_hud_glamp.png-b9fb4ea923a5c6bb8bd16ec6330384df.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87fvl"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_reaae")
 region = Rect2(50, 0, 9, 18)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ryyn5"]
-atlas = ExtResource("7_u1y5o")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eg3y8"]
+resource_local_to_scene = true
+shader = ExtResource("12_eg3y8")
+shader_parameter/progress = 0.4770000226575
+shader_parameter/overlay_color = Color(0, 0, 1, 0.75)
+shader_parameter/fill_dir = Vector2(0, -1)
+shader_parameter/alpha_cutoff = 0.01
+shader_parameter/border_size = 0.10000000475
+shader_parameter/border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bb8yl"]
+load_path = "res://.godot/imported/s_hud_glamp.png-b9fb4ea923a5c6bb8bd16ec6330384df.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnn2t"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_bb8yl")
 region = Rect2(59, 0, 9, 18)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aaacs"]
-atlas = ExtResource("7_u1y5o")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xk0oe"]
+resource_local_to_scene = true
+shader = ExtResource("12_eg3y8")
+shader_parameter/progress = 0.282000013395
+shader_parameter/overlay_color = Color(0, 0, 1, 0.75)
+shader_parameter/fill_dir = Vector2(0, -1)
+shader_parameter/alpha_cutoff = 0.01
+shader_parameter/border_size = 0.10000000475
+shader_parameter/border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yscwu"]
+load_path = "res://.godot/imported/s_hud_glamp.png-b9fb4ea923a5c6bb8bd16ec6330384df.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5s87b"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_yscwu")
 region = Rect2(68, 0, 9, 18)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_l7bng"]
-atlas = ExtResource("7_u1y5o")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xl7ta"]
+resource_local_to_scene = true
+shader = ExtResource("12_eg3y8")
+shader_parameter/progress = 0.4770000226575
+shader_parameter/overlay_color = Color(0, 0, 1, 0.75)
+shader_parameter/fill_dir = Vector2(0, -1)
+shader_parameter/alpha_cutoff = 0.01
+shader_parameter/border_size = 0.10000000475
+shader_parameter/border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jb2nx"]
+load_path = "res://.godot/imported/s_hud_glamp.png-b9fb4ea923a5c6bb8bd16ec6330384df.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2g7c"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_jb2nx")
 region = Rect2(77, 0, 9, 18)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8ch75"]
-atlas = ExtResource("7_u1y5o")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_reaae"]
+resource_local_to_scene = true
+shader = ExtResource("12_eg3y8")
+shader_parameter/progress = 0.1090000051775
+shader_parameter/overlay_color = Color(0, 0, 1, 0.75)
+shader_parameter/fill_dir = Vector2(0, -1)
+shader_parameter/alpha_cutoff = 0.01
+shader_parameter/border_size = 0.10000000475
+shader_parameter/border_color = Color(1, 1, 0, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7oheu"]
+load_path = "res://.godot/imported/s_hud_glamp.png-b9fb4ea923a5c6bb8bd16ec6330384df.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cfr0"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_7oheu")
 region = Rect2(86, 0, 9, 18)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_87fvl"]
+resource_local_to_scene = true
+shader = ExtResource("12_eg3y8")
+shader_parameter/progress = 0.4770000226575
+shader_parameter/overlay_color = Color(0, 0, 1, 0.75)
+shader_parameter/fill_dir = Vector2(0, -1)
+shader_parameter/alpha_cutoff = 0.01
+shader_parameter/border_size = 0.10000000475
+shader_parameter/border_color = Color(1, 1, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aq6k1"]
 atlas = ExtResource("13_0aq1r")
@@ -254,6 +327,7 @@ offset_right = 359.0
 offset_bottom = 23.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+script = ExtResource("11_eg3y8")
 
 [node name="hud_glamp_frame" type="TextureRect" parent="hud_bar/hud_glamp"]
 layout_mode = 0
@@ -274,23 +348,78 @@ theme_override_constants/separation = 0
 
 [node name="g_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
 layout_mode = 2
-texture = SubResource("AtlasTexture_2l200")
+texture = SubResource("AtlasTexture_87fvl")
+
+[node name="g_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/g_letter"]
+material = SubResource("ShaderMaterial_eg3y8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="l_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
 layout_mode = 2
-texture = SubResource("AtlasTexture_ryyn5")
+texture = SubResource("AtlasTexture_fnn2t")
+
+[node name="l_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/l_letter"]
+material = SubResource("ShaderMaterial_xk0oe")
+layout_mode = 0
+offset_top = 2.0
+offset_right = 8.0
+offset_bottom = 16.0
 
 [node name="a_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
 layout_mode = 2
-texture = SubResource("AtlasTexture_aaacs")
+texture = SubResource("AtlasTexture_5s87b")
+
+[node name="a_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/a_letter"]
+material = SubResource("ShaderMaterial_xl7ta")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="m_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
 layout_mode = 2
-texture = SubResource("AtlasTexture_l7bng")
+texture = SubResource("AtlasTexture_k2g7c")
+
+[node name="m_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/m_letter"]
+material = SubResource("ShaderMaterial_reaae")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="p_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
 layout_mode = 2
-texture = SubResource("AtlasTexture_8ch75")
+texture = SubResource("AtlasTexture_2cfr0")
+
+[node name="p_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/p_letter"]
+material = SubResource("ShaderMaterial_87fvl")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -1.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="hud_gun" type="ColorRect" parent="hud_bar"]
 clip_contents = true
@@ -395,6 +524,7 @@ offset_top = 5.0
 offset_right = 134.0
 offset_bottom = 35.0
 mouse_filter = 2
+script = ExtResource("17_u3tos")
 
 [node name="hud_weight_number" type="TextureRect" parent="hud_bar/hud_weight"]
 modulate = Color(0, 0, 0, 1)
@@ -403,9 +533,9 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
-offset_top = -195.0
+offset_top = -203.0
 offset_right = -1.0
-offset_bottom = -5.0
+offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("16_cf11f")

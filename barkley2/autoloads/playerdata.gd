@@ -145,6 +145,28 @@ func _ready():
 	
 	#B2_Playerdata.player_stats.decrease_hp( 46 )
 	
+## INFO Helper functions
+func get_player_guts() -> int:
+	assert( player_stats, "No player stats resource loaded.")
+	if player_stats:		return player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_GUTS )
+	else:					breakpoint; return 0
+func get_player_luck() -> int:
+	assert( player_stats, "No player stats resource loaded.")
+	if player_stats:		return player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_LUCK )
+	else:					breakpoint; return 0
+func get_player_agile() -> int:
+	assert( player_stats, "No player stats resource loaded.")
+	if player_stats:		return player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_AGILE )
+	else:					breakpoint; return 0
+func get_player_might() -> int:
+	assert( player_stats, "No player stats resource loaded.")
+	if player_stats:		return player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_MIGHT )
+	else:					breakpoint; return 0
+func get_player_piety() -> int:
+	assert( player_stats, "No player stats resource loaded.")
+	if player_stats:		return player_stats.get_base_stat( B2_HoopzStats.STAT_BASE_PIETY )
+	else:					breakpoint; return 0
+	
 ## Mostly used for timed quests, curfew and such.
 func time_goes_on() -> void:
 	if B2_Playerdata.Quest("gameStart") == 2:
@@ -183,7 +205,8 @@ func SaveGame( force := false):
 	
 func Stat( stat_name : String, new_value = null ):
 	if new_value:
-		player_stats.set( stat_name, new_value )
+		player_stats.set_base_stat( stat_name, new_value )
+		B2_SignalBus.stat_updated.emit( stat_name )
 	else:
 		return player_stats.get_effective_stat( stat_name )
 	

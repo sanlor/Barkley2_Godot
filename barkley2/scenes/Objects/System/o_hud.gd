@@ -250,7 +250,6 @@ func _flash_hud() -> void:
 	gun_hud_tween.tween_property( hud_gun, "intensity", 		1.0, 0.5 )
 	gun_hud_tween.tween_property( self, "gun_hud_intensity", 	1.0, 0.5 )
 
-
 func _physics_process(_delta: float) -> void:
 	hud_gun_bag.visible = B2_Playerdata.gunbag_open
 	

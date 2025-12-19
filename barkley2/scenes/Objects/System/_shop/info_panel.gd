@@ -62,7 +62,7 @@ func _setup_menu() -> void:
 	gun_name.text 			= Text.pr( my_gun.weapon_name )
 	
 	dmg_value.text 		= str( int( my_gun.get_pow() ) )
-	rte_value.text		= str( int( my_gun.get_spd() ) ) ## THIS IS WRONG
+	rte_value.text		= str( my_gun.get_rate_total() ) + "/s"
 	cap_value.text		= str( my_gun.get_max_ammo() )
 	afx_value.text		= str( my_gun.get_afx_count() )
 	wgt_value.text		= str( my_gun.get_wgt() ) + "ç"

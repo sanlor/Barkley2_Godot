@@ -40,7 +40,7 @@ func setup_button( wpn : B2_Weapon ) -> void:
 	gun_weight.text 	= str( wpn.get_wgt() ).pad_decimals(0)
 	pts_value.text		= str( min(wpn.get_pow()  + wpn.get_spd() + wpn.get_afx() + wpn.get_amm(), 999 ) ).pad_decimals(0)
 	dmg_value.text		= str( wpn.get_damage() ).pad_decimals(0)
-	rte_value.text		= wpn.get_rate_total() # str( wpn.get_spd() ).pad_decimals(0)
+	rte_value.text		= str( wpn.get_rate_total() ) + "/s" # str( wpn.get_spd() ).pad_decimals(0)
 	spc_value.text		= str( wpn.get_afx() ).pad_decimals(0)
 	cap_value.text		= str( wpn.get_max_ammo() ).pad_decimals(0)
 
