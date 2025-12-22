@@ -1,29 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://ds37xyh4m61b1"]
+[gd_scene load_steps=4 format=3 uid="uid://ds37xyh4m61b1"]
 
 [ext_resource type="Script" uid="uid://brdkn1jwtp53p" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.gd" id="1_aj05g"]
 [ext_resource type="SpriteFrames" uid="uid://6342huyjqpi6" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_bullet.tres" id="2_6dtqo"]
-[ext_resource type="Material" uid="uid://dbpye6a26kgwt" path="res://barkley2/shaders/particles/o_bullet_smoke_trail.tres" id="3_0ronc"]
 [ext_resource type="Material" uid="uid://b01uytrmpw37l" path="res://barkley2/shaders/material/gun_charge_flash.tres" id="4_3rtrf"]
-[ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="188_eku8p"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4ycrq"]
-particles_animation = true
-particles_anim_h_frames = 3
-particles_anim_v_frames = 1
-particles_anim_loop = false
 
 [node name="o_bullet" type="Node2D"]
 physics_interpolation_mode = 1
 z_index = 1
 script = ExtResource("1_aj05g")
-
-[node name="smoke_trail" type="GPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_4ycrq")
-emitting = false
-amount = 16
-texture = ExtResource("188_eku8p")
-lifetime = 0.25
-process_material = ExtResource("3_0ronc")
 
 [node name="bullet_spr" type="AnimatedSprite2D" parent="."]
 material = ExtResource("4_3rtrf")
@@ -43,5 +27,6 @@ autostart = true
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[connection signal="frame_changed" from="bullet_spr" to="." method="_on_bullet_spr_frame_changed"]
 [connection signal="timeout" from="bullet_life" to="." method="_on_bullet_life_timeout"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

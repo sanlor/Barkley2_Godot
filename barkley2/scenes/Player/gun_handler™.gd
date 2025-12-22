@@ -622,14 +622,17 @@ func _charge_gun() -> void:
 	curr_gun.weapon_stats.pChargeCandy 		= 0;
 	
 func _shake_screen() -> void:
-	var agile = B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_AGILE )
-	var weight = B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_WEIGHT )
-	var lethargy = max( ((agile - weight) * lethargyMod), -1);
-	var speed_log = max( log(lethargy + logWeight) / log(10.0), -1) # lethargy
-	var marksmanship = abs(speed_log);
-	var shakiness = marksmanship * marksmanMod + baseShake;
-	var effectiveShake = shakiness;
-	var actor := B2_CManager.o_hoopz.global_position
+	var agile 			: float = B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_AGILE )
+	var weight 			: float = B2_Playerdata.Stat( B2_HoopzStats.STAT_BASE_WEIGHT )
+	var lethargy 		: float = maxf( ( (agile - weight) * lethargyMod ), -1)
+	var speed_log 		: float = maxf( log(lethargy + logWeight) / log(10.0), -1) # lethargy
+	var marksmanship 	: float = absf(speed_log)
+	var shakiness 		: float = marksmanship * marksmanMod + baseShake;
+	var effectiveShake 	: float = shakiness
+	var actor 			: Vector2 = B2_CManager.o_hoopz.global_position
+	
+	var shake_minimizer := 0.5 # 22/12/25 Screen shakes too violently. this multiplies should decrease the shake's strenght.
+	effectiveShake *= shake_minimizer
 	
 	B2_CManager.camera.add_shake( effectiveShake, 999, actor.x, actor.y, max(effectiveShake / 2.0, 1.0) / 10.0 )
 	

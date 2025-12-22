@@ -22,22 +22,23 @@ class_name B2_Bullet
 const O_RICOCHET 			:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
 const BULLET_MOTION_BLUR 	:= preload("uid://jtntp5snoywp")
 const BULLET_SUPER_TRAIL 	:= preload("uid://c83yp1523vacs")
+const BULLET_SMOKE_TRAIL 	:= preload("uid://cltsosas1jy2y")
 
-const DEBUG					:= true # show some debug data.
+const DEBUG					:= false # show some debug data.
 
-@onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
-@onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
-@onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
-@onready var bullet_life: 				Timer 					= $bullet_life
+const LOB_MULTIPLIER 		:= 0.035	# 22/12/25 Decreases the lob strength.
+
+@onready var bullet_spr: 	AnimatedSprite2D 		= $bullet_spr
+#@onready var smoke_trail: 	GPUParticles2D 			= $bullet_spr/smoke_trail#$smoke_trail
+#@onready var motion_blur: 	GPUParticles2D 			= $bullet_spr/motion_blur
+@onready var bullet_sfx: 	AudioStreamPlayer2D 	= $bullet_sfx
+@onready var bullet_life: 	Timer 					= $bullet_life
 
 ## The gun that fired me
 var my_gun 				: B2_Weapon
 
 ## The actor that fired me
 var source_actor 		: B2_CombatActor
-
-## Bullet trail
-var has_trail			:= false
 
 ## Ricochet
 var max_ricochet		:= 3
@@ -48,6 +49,8 @@ var superShot 			:= false
 var motionBlur 			:= false
 var glowEffect 			:= false;
 var bullet_spriteTurn 	:= false
+var has_trail			:= false	## Bullet trail TODO Not sure what this does.
+var smoke_trail			:= false	## Bullet emits smoke when fired.
 var superTrail 			= 0;		## Trail for the periodic/super shot ##
 #var matName 			= "";		## Material name for the gun ## -> replaced by "my_gun.weapon_material == B2_Gun.MATERIAL.*"
 var stoneSkipping 		= 0;		## Stone skipping movement for a bullet ## Must be init for Orichalcum
@@ -70,9 +73,11 @@ var speedBonus 			= 1; 		## For rifles -> Applies a bonus for speed, depending o
 var is_lobbed			:= false	## Bullet is shot upward. Should happen only with Flareguns and guns with the "Lobbing" affix.
 var lobDirection 		:= 0.0;		## Handles how the bullet should be "lobbed". Check combat_gunwield_shoot line 438 and 455
 var lobGravity 			:= 0.0;		## Bullet gravity being applied. Usually between 0.0 and 10.0
-var dotline 			= 0;
-var dotlineAffix 		= false;
-var spiraldir 			= 10;
+var lobBounceCount 		:= 0
+var lobBounce 			:= 0
+var dotline 			:= 0;
+var dotlineAffix 		:= false;
+var spiraldir 			:= 10;
 
 var timelife			:= 128.0		## Equivalent to "bTimeLife". Negative values means infinite. Check o_bullet create, line 77
 var distlife			:= 128.0		## Equivalent to "bDistanceLife". Negative values means infinite. Check o_bullet create, line 76
@@ -153,15 +158,17 @@ var chainLeft 			:= 0;
 var trailtimer 			:= 4;
 
 var ptrailed 			:= 16;
-var lobBounceCount 		:= 0;
-var lobBounce 			:= 0;
 
+
+## Rocket stuff
+var can_explode			:= false		# Simmilar to "my_gun.weapon_stats.bExplode", enables the bullet to explode.
 var explodeObject		:= ""
 var explodeEffect 		:= ""
 var explodeOnTimeout	:= false;
 var explodeOnGround 	:= false;
 var explodeOnWall 		:= false;
 var explodeOnEnemy 		:= false;
+var trailScale 			:= 1.0;			# Rocket exaust smoke.
 
 var trailObject 		:= ""
 
@@ -190,12 +197,13 @@ var speed 				:= 1.0		## Shoud be equivalent to "bSpeed"
 var max_speed			:= 1.0		## Shoud be equivalent to "bMaxSpeed"
 var min_speed			:= 1.0		## Shoud be equivalent to "bMinSpeed"
 var acceleration		:= 1.0		## Shoud be equivalent to "bAccel"
-var altitude			:= 12.0		## How high is the bullet. check o_bullet create "z" variable
+var altitude			:= 0.0		## How high is the bullet. check o_bullet create "z" variable
 var vertical_speed		:= 1.0		## The speed that a bullet move upward is downwards. check o_bullet create "move_z" variable
 
 ## Trail stuff
 var bullet_motion_blur : GPUParticles2D
 var bullet_super_trail : GPUParticles2D
+var bullet_smoke_trail : GPUParticles2D
 
 ## Gamedev is my passion...
 # here is the thing; this game uses too many bullet types. Making a bullet with a fuck ton of animations seems wasteful.
@@ -245,18 +253,28 @@ func bullet_setup() -> void:
 	if glowEffect:
 		flash_bullet( true )
 		
+	if has_trail:
+		## TODO Find out what this does.
+		push_warning("'has_trail' not set yet.")
+		
+	if smoke_trail:
+		bullet_smoke_trail = BULLET_SMOKE_TRAIL.instantiate()
+		bullet_spr.add_child( bullet_smoke_trail )
+		bullet_smoke_trail.emitting = true
+		bullet_smoke_trail.show_behind_parent = true
+		
 	if superTrail or superShot:
 		bullet_super_trail = BULLET_SUPER_TRAIL.instantiate()
-		add_child( bullet_super_trail )
+		bullet_spr.add_child( bullet_super_trail )
 		bullet_super_trail.emitting = true
-		#print( "super" )
+		bullet_super_trail.show_behind_parent = true
 		
 	if motionBlur:
 		bullet_motion_blur = BULLET_MOTION_BLUR.instantiate()
 		bullet_spr.add_child( bullet_motion_blur )
 		bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
 		bullet_motion_blur.emitting = true
-		#print( "motion")
+		bullet_motion_blur.show_behind_parent = true
 	
 	if drawWhiteOverlay:
 		pass
@@ -277,20 +295,34 @@ func sprite_selection() -> void:
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) 	+ \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_COSMIC )
 	
-	## Set some variables to avoid calling "my_gun.weapon_stats." all the time.
+	## Set some variables to avoid calling "my_gun.weapon_stats.my_var_example" all the time.
+	# TODO 22/12/25 Move this section to a function?
+	
+	## Bullet type vars.
 	speedBonus 		= my_gun.weapon_stats.speedBonus
 	rocketShot 		= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_ROCKET
 	bfgShot 		= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_BFG
+	
+	## Lob stuff. lobloblobloblob. lol what a weird name. Handles the bullet being thrown upwards and falling on a steep angle.
 	lobGravity 		= my_gun.weapon_stats.bLobGravity	# combat_gunwield_shoot line 435
 	lobDirection 	= my_gun.weapon_stats.bLobDirection	# combat_gunwield_shoot line 436
+	vertical_speed 	= lobDirection * LOB_MULTIPLIER ## TODO is this needed?
 	
-	vertical_speed = lobDirection ## TODO is this needed?
+	## Explosion stuff
+	can_explode			= not my_gun.weapon_stats.bExplode.is_empty()
+	explodeOnEnemy		= my_gun.weapon_stats.bExplodeOnEnemy
+	explodeOnGround 	= my_gun.weapon_stats.bExplodeOnGround
+	explodeOnTimeout	= my_gun.weapon_stats.bExplodeOnTimeout
+	explodeOnWall		= my_gun.weapon_stats.bExplodeOnWall
 	
-	bullet_spr.scale.x = my_gun.weapon_stats.pBulletScale # combat_gunwield_shoot line 348
-	bullet_spr.scale.y = my_gun.weapon_stats.pBulletScale # combat_gunwield_shoot line 349
 	
-	bullet_spr.scale.x = my_gun.weapon_stats.bulscale # combat_gunwield_shoot line 372 ## INFO This is so stupid!
-	bullet_spr.scale.y = my_gun.weapon_stats.bulscale # combat_gunwield_shoot line 373 ## INFO This is so stupid! x2
+	## Sprite scale bullshit.
+	bullet_spr.scale.x = my_gun.weapon_stats.pBulletScale 	# combat_gunwield_shoot line 348
+	bullet_spr.scale.y = my_gun.weapon_stats.pBulletScale 	# combat_gunwield_shoot line 349
+	
+	bullet_spr.scale.x = my_gun.weapon_stats.bulscale 		# combat_gunwield_shoot line 372 ## INFO This is so stupid!
+	bullet_spr.scale.y = my_gun.weapon_stats.bulscale 		# combat_gunwield_shoot line 373 ## INFO This is so stupid! x2
+	# No idea why this is setup twice. seems wrong.
 	
 	if my_gun.weapon_stats.bLongTimeOut:	## Disables bullet timeout
 		distlife = -1
@@ -323,6 +355,7 @@ func sprite_selection() -> void:
 			bullet_spr.play("s_flareshot", 2.0)
 			bullet_spr.modulate.a = 0.75
 			motionBlur 		= true;
+			smoke_trail		= true;
 			
 		# NORMAL BULLETS #
 		"s_bull":
@@ -507,7 +540,7 @@ func sprite_selection() -> void:
 			bullet_spriteTurn = false;
 			if speedBonus > 1.5: 	speedBonus = 1.5
 			#Smoke("puff",x,y,z,2+max(5,_pow));
-			smoke_trail.emitting = true
+			smoke_trail = true
 			has_trail = false
 	
 
@@ -760,19 +793,18 @@ func sprite_selection() -> void:
 	
 		#/ ITANO GUN's / ROCKET LAUNCHER
 		"s_bull_rocket":
-			var trailScale = 1;
 			#trailAngle = choose(0,90,180,270);
 			speedBonus = 1;
-			if(_pow>96):			bullet_spr.frame = 7
+			if(_pow>96):			bullet_spr.frame = 7; trailScale = 1.0
 			elif (_pow>80):			bullet_spr.frame = 6; trailScale = 0.9
 			elif (_pow>64):			bullet_spr.frame = 5; trailScale = 0.8
 			elif (_pow>48):			bullet_spr.frame = 4; trailScale = 0.6
 			elif (_pow>32):			bullet_spr.frame = 3; trailScale = 0.5
 			elif (_pow>16):			bullet_spr.frame = 2; trailScale = 0.4
 			elif (_pow>8):			bullet_spr.frame = 1; trailScale = 0.3
-			else: 					bullet_spr.frame = 0;trailScale = 0.2
-			scale.x = 1;
-			scale.y = 1;
+			else: 					bullet_spr.frame = 0; trailScale = 0.2
+			scale.x = 1.0
+			scale.y = 1.0
 
 			if my_gun.weapon_material == B2_Gun.MATERIAL.ITANO:
 				if(rocketShot):
@@ -784,6 +816,7 @@ func sprite_selection() -> void:
 			lobAngledSprite = true;
 			# Play a looping exhaust effect on rockets, create sound emitter for this.
 			play_sound( "hoopzweap_rocket_exhaust", true );
+			smoke_trail = true
 		
 		"s_bull_offal":
 			speedBonus = 1;
@@ -937,7 +970,7 @@ func sprite_selection() -> void:
 			scale.x = 1;
 			scale.y = [1,-1].pick_random()
 			## TODO 
-			smoke_trail.emitting = true
+			smoke_trail = true
 			has_trail = false
 			bullet_spriteTurn = true;
 			lobAngledSprite = true;
@@ -1311,7 +1344,7 @@ func sprite_selection() -> void:
 			steamStop = 6;
 			lobAngledSprite = true;
 			## TODO Smoke("puff",x,y,z,2+max(5,_pow));
-			smoke_trail.emitting = true
+			smoke_trail = true
 			has_trail = false
 		
 
@@ -1485,6 +1518,9 @@ func play_sound(soundID : String, loop : bool) -> void:
 	else:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
+## TODO Im yet to find the exact line of code responsible to move the bullet on the OG code.
+# Closest I got was o_bullet begin_step line 87
+# found it, its on a weirdly named function; "scr_collision_move_contact_solid"
 func _physics_process(delta: float) -> void:
 	if DEBUG: queue_redraw() ## Display debug info
 	
@@ -1492,26 +1528,26 @@ func _physics_process(delta: float) -> void:
 	var bullet_dir := dir
 	
 	if is_lobbed:
-		vertical_speed -= lobGravity * delta
-		#bullet_spr.offset = Vector2(0,bullet_height).rotated( bullet_spr.rotation )
-		#
-		#bullet_height += bullet_vert_speed
-		#
-		#bullet_vert_speed += BULLET_GRAVITY * delta
-		#
-		#if bullet_height > 16.0:
-			#print("Bullet hit the flooooooooooor.")
-			#if my_gun.weapon_stats.bExplode:
-				#_make_explosion()
-			#destroy_bullet( false )
-		
-		pass
+		## Bullet has not dropped on the ground.
+		if altitude < 12.0: # 12 is the gun's height. Positive values points downwards, negative points upwards.
+			vertical_speed -= lobGravity * delta
+			altitude -= vertical_speed
+			#bullet_spr.position = Vector2(0, altitude).rotated( bullet_spr.rotation )
+			bullet_spr.position.y = altitude
+		else: # Bullet hit the floooooor. TODO add bounces / skipping.
+			print("Bullet hit the flooooooooooor.")
+			if can_explode and explodeOnGround:
+				_make_explosion()
+			destroy_bullet( false )
+	
+	## TEMP
+	bullet_dir *= 5.0 ## Apply TEMP/DEBUG speed boost.
 	
 	## Move the bullet
 	position 	+= ( (bullet_dir * speed) * speedBonus ) * delta
 		
 	## Apply acceleration. This may speed up or speed down the bullet.
-	speed = clampf( speed + (acceleration * delta), min_speed, max_speed )
+	speed = clampf( speed + acceleration, min_speed, max_speed ) # o_bullet begin_step line 75 to 77
 	
 	## Check if the bullet collided with something.
 	check_collision()
@@ -1553,15 +1589,16 @@ func destroy_bullet( rico := true ) -> void:
 	if rico: ## 19/12/25 Ricochet sound is disabled by default.
 		ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
 	var t := 0.0
-	if smoke_trail: smoke_trail.emitting = false; 				t = 2.0
-	if bullet_motion_blur: bullet_motion_blur.emitting = false;	t = 2.0
-	if bullet_super_trail: bullet_super_trail.emitting = false;	t = 2.0
+	if smoke_trail: 		bullet_smoke_trail.emitting = false;	t = 2.0
+	if bullet_motion_blur: 	bullet_motion_blur.emitting = false;	t = 2.0
+	if bullet_super_trail: 	bullet_super_trail.emitting = false;	t = 2.0
+	if bullet_smoke_trail: 	bullet_smoke_trail.emitting = false; 	t = 2.0
 	set_physics_process( false )
 	set_process( false )
 	queue_redraw() # hides shadow
 	var tween := create_tween()
 	#t.tween_property( bullet_spr, "self_modulate", Color.TRANSPARENT, 0.1 )
-	tween.tween_callback( bullet_spr.hide )
+	tween.tween_callback( bullet_spr.set_sprite_frames.bind( SpriteFrames.new() ) ) # Set a blank spriteframe to hide the bullet.
 	if t > 0.0: tween.tween_interval( t )
 	tween.tween_callback( queue_free )
 
@@ -1570,49 +1607,52 @@ func _on_body_entered( body: Node2D ) -> void:
 		## ignore collisions with source actor (unless it ricochets)
 		return
 		
-	if body is B2_Player_TurnBased:
+	if body is B2_Player_TurnBased or body is B2_Player_FreeRoam:
 		# can hit yourself if its a ricochet
-		## TODO
+		## TODO add self harm.
 		pass
 		
 	if body is B2_CombatActor:
-		if my_gun.weapon_stats.bExplode:
-			if my_gun.weapon_stats.bExplodeOnEnemy:
-				_make_explosion()
-				destroy_bullet( false )
-				return
+		if can_explode and explodeOnEnemy: # Explosion shoudl damage the actor, not the bullet itself.
+			_make_explosion()
 
-		if not body.is_actor_dead: ## Avoid shooting dead bodies.
-			if body.has_method("damage_actor"):
-				#var my_att := my_gun.get_pow()
-				
-				body.damage_actor( _pow , dir.normalized() * _pow * 100.0 )
+		elif not body.is_actor_dead: # Avoid shooting dead bodies. 
+			if body.has_method("damage_actor"): # Make sure that the actor is a valid actor.
+				body.damage_actor( _pow , dir.normalized() * _pow * 100.0 ) # If the explosion do not occurs, damage the actor directly.
 				#body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
 				print( "Bullet applying %s points of damage." % str(_pow) )
+			else:
+				push_error("Actor %s doesnt have the expected method." % body.name)
+				breakpoint
 				
-			destroy_bullet()
+		destroy_bullet()
+		return
 		
 	if body is CollisionObject2D:
 		## TODO add damage to enemies and entities
 		destroy_bullet()
+		return
 		
 	if body is TileMapLayer:
 		## TODO add bullet ricochet
 		# I was running into issues with the ricochet code, mostly because of tilemap colision shapes.
 		# 21/03/25 oh shit, Godot 4.5 might acually fix this. https://github.com/godotengine/godot/pull/102662
 		# 20/11/25 Fix what?? Dont remember What i meant by that.
-		if my_gun.weapon_stats.bExplode:
-			if my_gun.weapon_stats.bExplodeOnEnemy:
-				_make_explosion()
-				destroy_bullet( false )
-				return
+		if can_explode and explodeOnWall:
+			_make_explosion()
 		
 		source_actor = null
-		destroy_bullet() ## temp
-
-## CRITICAL ->> https://youtu.be/R22zSrpeSA4?t=44
+		destroy_bullet() ## Add a way to ricochet the bullet
+		return
+		
+## Update the motion blur sprite, if applicable.
+func _on_bullet_spr_frame_changed() -> void:
+	if motionBlur and bullet_motion_blur:
+		bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
+		
+## Spawns the "O_EXPLOSION" scene as a sibling. Makes an explosion.
 func _make_explosion() -> void:
-	var asplode 				: AnimatedSprite2D = load(B2_Gun.O_EXPLOSION).instantiate()
+	var asplode 				: AnimatedSprite2D = load(B2_Gun.O_EXPLOSION).instantiate() ## CRITICAL ->> https://youtu.be/R22zSrpeSA4?t=44
 	assert( is_instance_valid(asplode), "WTF is the explosion null?????" )
 	asplode.my_gun 				= my_gun
 	asplode.global_position 	= global_position + bullet_spr.offset
@@ -1624,6 +1664,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 
 func _on_bullet_life_timeout() -> void:
+	if can_explode and explodeOnTimeout:
+		_make_explosion()
 	destroy_bullet()
 
 func _draw() -> void:

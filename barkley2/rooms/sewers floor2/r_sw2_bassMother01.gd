@@ -17,9 +17,13 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 	
-	#B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MINIGUN, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.clear_guns()
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_FLAREGUN, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_REVOLVER, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SHOTGUN, B2_Gun.MATERIAL.STEEL )
-	#B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL )
-	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MUSKET, B2_Gun.MATERIAL.STEEL )
-	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.MATERIAL.STEEL )
-	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_ROCKET, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE, B2_Gun.MATERIAL.STEEL )
+
+	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_MUSKET, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_ROCKET, B2_Gun.MATERIAL.STEEL )
