@@ -5,7 +5,8 @@ extends AnimatedSprite2D
 var ricochetSound = ""
 
 func _ready() -> void:
-	play_sound( ricochetSound, false )
+	if ricochetSound:
+		play_sound( ricochetSound, false )
 	speed_scale = randf_range( 0.55, 1.25 )
 	modulate.a = randf_range( 0.5, 0.95 )
 

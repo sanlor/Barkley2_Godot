@@ -638,6 +638,33 @@ const geneSecondaryValue 		:= .6;		## All penchant genes get this modifier
 const geneOtherValue 			:= .45;		## All non-penchant genes get this modifier
 # Penchant is a funny word. No idea what it means.
 
+## Affix Settings
+# Magician
+const affixMagicianDegrees 			:= 210.0 # Deviation in degrees it can shoot from barrel 
+
+# Flooding - Set the lowest bullets it can shoot and highest per shot
+const affixFloodingMin 				:= 2.0
+const affixFloodingMax 				:= 8.0
+const affixFloodingAim 				:= 20.0 # In degrees, aim penalty of flooding
+
+# NoScope360
+const affixNoScope360 				:= 8 # Number of bullets to shoot
+const affixNoScope360Distance 		:= 12.0 # Distance to generate bullets from player
+const affixNoScope360Knockback 		:= 0.0 # If 0, shooting with noscope360 has no knockback
+
+# Ghostic
+const affixGhosticDamage 			:= 0.6 # Multiplier for bullet damage, 0.6 = 60%
+
+# Gravitational
+const affixGravitationalSpeed 		:= 0.4
+const affixGravitationalSeek 		:= 64.0 # Higher number = more seeking
+const affixGravitationalSeekRange 	:= 200.0 # In pixels from bullet
+
+# Chaining
+const affixChainingRange 			:= 200.0 # Distance to next enemy to get chain
+const affixChainingEnemies 			:= 3; # How many enemies it can hit
+const affixChainingReduction 		:= 0.5; # How much to lose damage per hit, 0.5 = 50% reduce
+
 static func reset() -> void:
 	reset_bandolier()
 	reset_gunbag()

@@ -276,6 +276,7 @@ func attack_action() -> void:
 			if indicatorText != "":
 				B2_Screen.display_generic_text( source_actor, indicatorText, malfunctionCol )
 	
+	## Penalties for junk guns.
 	if curr_gun.weapon_material == B2_Gun.MATERIAL.JUNK:
 		@warning_ignore("integer_division")
 		_junkSize = randi_range(0,3) + randi_range(0, floor( int( curr_gun.get_gun_stat("pDamageMin") ) / 30 ) );

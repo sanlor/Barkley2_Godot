@@ -27,20 +27,39 @@ var old_agile 	:= INF
 var old_might 	:= INF
 var old_piety 	:= INF
 
+var t : Tween
+
 func _ready() -> void:
+	#_update_stat_display()
 	B2_SignalBus.stat_updated.connect( _update_stat_display )
-	_update_stat_display( false )
 
 func _update_stat_display( stat_name = null ) -> void:
-	var guts := float( B2_Playerdata.get_player_guts() ) / 100.0
-	var luck := float( B2_Playerdata.get_player_luck() ) / 100.0
-	var agile := float( B2_Playerdata.get_player_agile() ) / 100.0
-	var might := float( B2_Playerdata.get_player_might() ) / 100.0
-	var piety := float( B2_Playerdata.get_player_piety() ) / 100.0
+	var guts 	:= float( B2_Playerdata.get_player_guts() ) / 100.0
+	var luck 	:= float( B2_Playerdata.get_player_luck() ) / 100.0
+	var agile	:= float( B2_Playerdata.get_player_agile() ) / 100.0
+	var might 	:= float( B2_Playerdata.get_player_might() ) / 100.0
+	var piety 	:= float( B2_Playerdata.get_player_piety() ) / 100.0
 	
-	if stat_name:
-		var t := create_tween()
+	g_overlay.material.set_shader_parameter( "progress", guts )
+	l_overlay.material.set_shader_parameter( "progress", luck )
+	a_overlay.material.set_shader_parameter( "progress", agile )
+	m_overlay.material.set_shader_parameter( "progress", might )
+	p_overlay.material.set_shader_parameter( "progress", piety )
+	
+	g_letter.modulate = Color.WHITE
+	l_letter.modulate = Color.WHITE
+	a_letter.modulate = Color.WHITE
+	m_letter.modulate = Color.WHITE
+	p_letter.modulate = Color.WHITE
+	
+	## Only apply flash effect if the stat updated is relevant.
+	if stat_name in [B2_HoopzStats.STAT_BASE_GUTS, B2_HoopzStats.STAT_BASE_LUCK, B2_HoopzStats.STAT_BASE_AGILE, B2_HoopzStats.STAT_BASE_MIGHT, B2_HoopzStats.STAT_BASE_PIETY]:
+		if is_instance_valid(t): t.kill()
+		t = create_tween()
 		t.set_parallel( true )
+		
+		assert( is_instance_valid(t), "Weird issue with tweener." )
+		
 		match stat_name:
 			B2_HoopzStats.STAT_BASE_GUTS:
 				g_letter.modulate = FLASH_COLOR * 2.0
@@ -61,9 +80,7 @@ func _update_stat_display( stat_name = null ) -> void:
 			B2_HoopzStats.STAT_BASE_PIETY:
 				p_letter.modulate = FLASH_COLOR * 2.0
 				t.tween_property( p_letter, "modulate", Color.WHITE, FLASH_TIMER )
-	
-	g_overlay.material.set_shader_parameter( "progress", guts )
-	l_overlay.material.set_shader_parameter( "progress", luck )
-	a_overlay.material.set_shader_parameter( "progress", agile )
-	m_overlay.material.set_shader_parameter( "progress", might )
-	p_overlay.material.set_shader_parameter( "progress", piety )
+			_:
+				# Stat is not applicable. Should not happen normally.
+				breakpoint
+				t.kill()

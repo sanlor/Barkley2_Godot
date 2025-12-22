@@ -19,20 +19,16 @@ class_name B2_Bullet
 ## NOTE main theme for coding this section of the game: https://youtu.be/bFMWuAC5HV4
 
 ## WARNING as of 20/11/25, im trying to improve performance due to issues ith slowdowns on certain situations.
-
 const O_RICOCHET 			:= preload("res://barkley2/scenes/_Godot_Combat/_Guns/ricochet/o_ricochet.tscn")
 const BULLET_MOTION_BLUR 	:= preload("uid://jtntp5snoywp")
 const BULLET_SUPER_TRAIL 	:= preload("uid://c83yp1523vacs")
 
-const BULLET_GRAVITY		:= 9.8
+const DEBUG					:= true # show some debug data.
 
 @onready var bullet_spr: 				AnimatedSprite2D 		= $bullet_spr
 @onready var smoke_trail: 				GPUParticles2D 			= $smoke_trail
 @onready var bullet_sfx: 				AudioStreamPlayer2D 	= $bullet_sfx
 @onready var bullet_life: 				Timer 					= $bullet_life
-
-var dir 				: Vector2
-var speed 				:= 800.0
 
 ## The gun that fired me
 var my_gun 				: B2_Weapon
@@ -68,15 +64,18 @@ var show_hiteffect 		:= false;
 
 var throughWalls 		= 0;
 var rangeEndGrav 		= 0;
-var accel 				= 0;
-var maxspd 				= 48;
-var minspd 				= 6;
-var speedBonus 			= 1; 		##for rifles
-var lobDirection 		= 0;
-var lobGravity 			= 0;
+#var maxspd 				= 48;
+#var minspd 				= 6;
+var speedBonus 			= 1; 		## For rifles -> Applies a bonus for speed, depending on the type / material combination.
+var is_lobbed			:= false	## Bullet is shot upward. Should happen only with Flareguns and guns with the "Lobbing" affix.
+var lobDirection 		:= 0.0;		## Handles how the bullet should be "lobbed". Check combat_gunwield_shoot line 438 and 455
+var lobGravity 			:= 0.0;		## Bullet gravity being applied. Usually between 0.0 and 10.0
 var dotline 			= 0;
 var dotlineAffix 		= false;
 var spiraldir 			= 10;
+
+var timelife			:= 128.0		## Equivalent to "bTimeLife". Negative values means infinite. Check o_bullet create, line 77
+var distlife			:= 128.0		## Equivalent to "bDistanceLife". Negative values means infinite. Check o_bullet create, line 76
 
 var specialBFG 			= "";
 var arrowShot 			= false;
@@ -130,9 +129,6 @@ var drawWhiteOverlay := false # o_bullet - draw - line 141
 ## Advanced bullet
 var enable_advanced		:= false	# Behaves lake the o_advBullet
 # Advanced bullets are affected by gravity and do a lot of weird shit. Check o_advBullet for more details.
-
-var bullet_height		:= 0.0		# How high is the bullet? The floor is at 16.0.
-var bullet_vert_speed	:= 0.0		# Bullet's vertical speed.
 
 var enemySeek 			:= 0;
 var enemySeekCurrent 	:= 0;
@@ -188,7 +184,14 @@ var final_multiplier				:= 1.0
 var spr := ""
 var col := Color.WHITE
 
-var velocity : Vector2
+## Bullet movement code.
+var dir 				: Vector2	
+var speed 				:= 1.0		## Shoud be equivalent to "bSpeed"
+var max_speed			:= 1.0		## Shoud be equivalent to "bMaxSpeed"
+var min_speed			:= 1.0		## Shoud be equivalent to "bMinSpeed"
+var acceleration		:= 1.0		## Shoud be equivalent to "bAccel"
+var altitude			:= 12.0		## How high is the bullet. check o_bullet create "z" variable
+var vertical_speed		:= 1.0		## The speed that a bullet move upward is downwards. check o_bullet create "move_z" variable
 
 ## Trail stuff
 var bullet_motion_blur : GPUParticles2D
@@ -229,12 +232,16 @@ func _ready() -> void:
 	sprite_selection() 	## Apply some simple config related to sprites
 	bullet_setup()		## Enable / Disable bullet options based on the gun stats (trail, etc)
 	
-	if enable_advanced:
-		bullet_spr.offset.y = bullet_height
-		bullet_vert_speed = -5.0
-## TODO
-# Remove unused nodes
+	## TODO
+	#if enable_advanced:
+		#bullet_spr.offset.y = bullet_height
+		#bullet_vert_speed = -5.0
+		
 func bullet_setup() -> void:
+	## This preffix / type forces the bullet to be lobbed.
+	if my_gun.prefix1 == "Lobbing" or my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
+		is_lobbed = true
+	
 	if glowEffect:
 		flash_bullet( true )
 		
@@ -242,14 +249,14 @@ func bullet_setup() -> void:
 		bullet_super_trail = BULLET_SUPER_TRAIL.instantiate()
 		add_child( bullet_super_trail )
 		bullet_super_trail.emitting = true
-		print( "super" )
+		#print( "super" )
 		
 	if motionBlur:
 		bullet_motion_blur = BULLET_MOTION_BLUR.instantiate()
 		bullet_spr.add_child( bullet_motion_blur )
 		bullet_motion_blur.texture 		= bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
 		bullet_motion_blur.emitting = true
-		print( "motion")
+		#print( "motion")
 	
 	if drawWhiteOverlay:
 		pass
@@ -258,27 +265,66 @@ func bullet_setup() -> void:
 # NOTE Ok, this is a mess. This function tries to emulate the original behaviour. I cant think of a better way to handle this besides a big ass match check.
 func sprite_selection() -> void:
 	if not my_gun:
-		push_error("Gun resource not loaded")
+		push_error("Gun resource not loaded.")
 		breakpoint
 		return
 		
-	_pow			 = 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) + \
-						B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) + \
-						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_CYBER ) + \
-						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_MENTAL ) + \
-						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) + \
+	## Set bullet power. NOTE Besides the sprite selection, how is this used?
+	_pow			 = 	B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_NORMAL) 	+ \
+						B2_Playerdata.Stat(B2_HoopzStats.STAT_ATTACK_DMG_BIO) 		+ \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_CYBER ) 	+ \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_MENTAL ) 	+ \
+						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_ZAUBER ) 	+ \
 						B2_Playerdata.Stat( B2_HoopzStats.STAT_ATTACK_DMG_COSMIC )
 	
-	speedBonus 	= my_gun.weapon_stats.speedBonus
-	rocketShot 	= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_ROCKET
-	bfgShot 	= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_BFG
+	## Set some variables to avoid calling "my_gun.weapon_stats." all the time.
+	speedBonus 		= my_gun.weapon_stats.speedBonus
+	rocketShot 		= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_ROCKET
+	bfgShot 		= my_gun.weapon_type == B2_Gun.TYPE.GUN_TYPE_BFG
+	lobGravity 		= my_gun.weapon_stats.bLobGravity	# combat_gunwield_shoot line 435
+	lobDirection 	= my_gun.weapon_stats.bLobDirection	# combat_gunwield_shoot line 436
+	
+	vertical_speed = lobDirection ## TODO is this needed?
+	
+	bullet_spr.scale.x = my_gun.weapon_stats.pBulletScale # combat_gunwield_shoot line 348
+	bullet_spr.scale.y = my_gun.weapon_stats.pBulletScale # combat_gunwield_shoot line 349
+	
+	bullet_spr.scale.x = my_gun.weapon_stats.bulscale # combat_gunwield_shoot line 372 ## INFO This is so stupid!
+	bullet_spr.scale.y = my_gun.weapon_stats.bulscale # combat_gunwield_shoot line 373 ## INFO This is so stupid! x2
+	
+	if my_gun.weapon_stats.bLongTimeOut:	## Disables bullet timeout
+		distlife = -1
+		timelife = -1
+	else:									## Enables bullet timeout
+		if my_gun.weapon_stats.bDistanceLife > 0:
+			distlife = my_gun.weapon_stats.bDistanceLife + randf_range(0,8)
+		if my_gun.weapon_stats.bTimeLife > 0:
+			distlife = my_gun.weapon_stats.bTimeLife
+	
+	## Set speed stuff
+	speed 			= my_gun.weapon_stats.bSpeed
+	min_speed 		= my_gun.weapon_stats.bMinSpeed
+	max_speed 		= my_gun.weapon_stats.bMaxSpeed
+	acceleration	= my_gun.weapon_stats.bAccel
+	
+	if my_gun.prefix1 == "Gravitational": # combat_gunwield_shoot line 329
+		min_speed 		*= B2_Gun.affixGravitationalSpeed
+		max_speed 		*= B2_Gun.affixGravitationalSpeed
+		acceleration	*= B2_Gun.affixGravitationalSpeed
 	
 	## Mat stuff
 	if my_gun.weapon_material == B2_Gun.MATERIAL.SILK:
 		lobAngledSprite = true;
 	
+	## Apply modifier based on the bullet sprite.
 	match bullet_spr.animation:
-	# NORMAL BULLETS #
+		# Flare Shot (22/12/25 to support animation)
+		"s_flareshot","s_bull_flareshot":
+			bullet_spr.play("s_flareshot", 2.0)
+			bullet_spr.modulate.a = 0.75
+			motionBlur 		= true;
+			
+		# NORMAL BULLETS #
 		"s_bull":
 			#modulate = Color.YELLOW
 			if !superShot:
@@ -308,7 +354,6 @@ func sprite_selection() -> void:
 		# STONE
 		"s_bull_stone":
 			specialShot = "stone";
-
 			if 		_pow > 32:			bullet_spr.animation = "s_bull_stone_large"
 			elif 	_pow > 16:			bullet_spr.animation = "s_bull_stone"
 			elif 	_pow > 8:			bullet_spr.animation = "s_bull_stone_small"
@@ -1420,7 +1465,6 @@ func sprite_selection() -> void:
 			if(speedBonus>1.2):speedBonus = 1.2
 			lobAngledSprite = true;
 		
-
 		"s_bull_untamonium_bfg":
 			specialBFG = true;
 			specialShot = "goo";
@@ -1442,25 +1486,34 @@ func play_sound(soundID : String, loop : bool) -> void:
 		push_error("Invalid sound file for sound ID %s." % soundID)
 
 func _physics_process(delta: float) -> void:
-	if my_gun:
-		velocity = (dir * speedBonus * my_gun.weapon_stats.bSpeed) * delta
-		velocity *= 13.0 # Speed mod
-	position 	+= velocity 							## TEMP
-	smoke_trail.process_material.emission_shape_offset = Vector3(bullet_spr.offset.x,bullet_spr.offset.y,0)
+	if DEBUG: queue_redraw() ## Display debug info
 	
-	if enable_advanced:
-		bullet_spr.offset = Vector2(0,bullet_height).rotated( bullet_spr.rotation )
-		
-		bullet_height += bullet_vert_speed
-		
-		bullet_vert_speed += BULLET_GRAVITY * delta
-		
-		if bullet_height > 16.0:
-			print("Bullet hit the flooooooooooor.")
-			if my_gun.weapon_stats.bExplode:
-				_make_explosion()
-			destroy_bullet( false )
+	## Temp bullet direction var. Used to manipulate the bullet direction without messing with the original direction.
+	var bullet_dir := dir
 	
+	if is_lobbed:
+		vertical_speed -= lobGravity * delta
+		#bullet_spr.offset = Vector2(0,bullet_height).rotated( bullet_spr.rotation )
+		#
+		#bullet_height += bullet_vert_speed
+		#
+		#bullet_vert_speed += BULLET_GRAVITY * delta
+		#
+		#if bullet_height > 16.0:
+			#print("Bullet hit the flooooooooooor.")
+			#if my_gun.weapon_stats.bExplode:
+				#_make_explosion()
+			#destroy_bullet( false )
+		
+		pass
+	
+	## Move the bullet
+	position 	+= ( (bullet_dir * speed) * speedBonus ) * delta
+		
+	## Apply acceleration. This may speed up or speed down the bullet.
+	speed = clampf( speed + (acceleration * delta), min_speed, max_speed )
+	
+	## Check if the bullet collided with something.
 	check_collision()
 
 func flash_bullet( state : bool ) -> void:
@@ -1489,7 +1542,7 @@ func check_collision() -> void:
 
 func ricochet( ric_dir : Vector2 ) -> void:
 	var rico 			= O_RICOCHET.instantiate()
-	rico.ricochetSound 	= ricochetSound
+	#rico.ricochetSound 	= ricochetSound
 	rico.scale 			= scale
 	rico.position 		= position + bullet_spr.offset
 	add_sibling( rico, true )
@@ -1497,7 +1550,7 @@ func ricochet( ric_dir : Vector2 ) -> void:
 	
 func destroy_bullet( rico := true ) -> void:
 	shadow_visible = false
-	if rico:
+	if rico: ## 19/12/25 Ricochet sound is disabled by default.
 		ricochet( dir.rotated( randf_range(-0.3,0.3) ) )
 	var t := 0.0
 	if smoke_trail: smoke_trail.emitting = false; 				t = 2.0
@@ -1533,7 +1586,7 @@ func _on_body_entered( body: Node2D ) -> void:
 			if body.has_method("damage_actor"):
 				#var my_att := my_gun.get_pow()
 				
-				body.damage_actor( _pow , velocity.normalized() * _pow * 100.0 )
+				body.damage_actor( _pow , dir.normalized() * _pow * 100.0 )
 				#body.damage_actor( 100, 		velocity.normalized() * att * 100.0 ); push_warning("DEBUG DAMAGE") ## DEBUG
 				print( "Bullet applying %s points of damage." % str(_pow) )
 				
@@ -1578,4 +1631,11 @@ func _draw() -> void:
 		var bull_text := bullet_spr.sprite_frames.get_frame_texture( bullet_spr.animation, bullet_spr.frame )
 		draw_set_transform( Vector2(0,16), bullet_spr.rotation, bullet_spr.scale )
 		draw_texture( bull_text, Vector2(0,0), Color("00000080") )
-		print("bullet_shadow")
+	
+	if DEBUG: # Display some debug data related to the bullet.
+		const FN_SMALL = preload("uid://c5asr1c5g1w6h")
+		draw_string( FN_SMALL, Vector2(0,0), 	"speed: %s" % snappedf(speed, 0.01),							HORIZONTAL_ALIGNMENT_LEFT)
+		draw_string( FN_SMALL, Vector2(0,8), 	"accel: %s" % acceleration, 									HORIZONTAL_ALIGNMENT_LEFT)
+		draw_string( FN_SMALL, Vector2(0,16), 	"lifetime: %s" % snappedf(bullet_life.time_left, 0.01), 		HORIZONTAL_ALIGNMENT_LEFT)
+		draw_string( FN_SMALL, Vector2(0,24), 	"v_speed: %s" % vertical_speed,									HORIZONTAL_ALIGNMENT_LEFT)
+		draw_string( FN_SMALL, Vector2(0,32), 	"altitude: %s" % altitude,										HORIZONTAL_ALIGNMENT_LEFT)
