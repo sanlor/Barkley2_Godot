@@ -6,6 +6,7 @@ class_name Text
 
 # This script is pretty important. It handles text replacement for the al bhed language, variable injections and name replacement.
 # Its bitchin'.
+# ^^^ True that. This is one of the first classes I created for this port. It was before I decided to use the prefix "B2_*" for everything.
 
 # Text Colors
 const textcolorMainquest 	:= Color8(255, 190, 40);
@@ -46,68 +47,38 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 			var out_char = my_char;
 
 			match my_char:
-				"a":
-					out_char = "y";
-				"b":
-					out_char = "p";
-				"c":
-					out_char = "l";
-				"d":
-					out_char = "t";
-				"e":
-					out_char = "a";
-				"f":
-					out_char = "v";
-				"g":
-					out_char = "k";
-				"h":
-					out_char = "r";
-				"i":
-					out_char = "e";
-				"j":
-					out_char = "z";
-				"k":
-					out_char = "g";
-				"l":
-					out_char = "m";
-				"m":
-					out_char = "s";
-				"n":
-					out_char = "h";
-				"o":
-					out_char = "u";
-				"p":
-					out_char = "b";
-				"q":
-					out_char = "x";
-				"r":
-					out_char = "n";
-				"s":
-					out_char = "c";
-				"t":
-					out_char = "d";
-				"u":
-					out_char = "i";
-				"v":
-					out_char = "j";
-				"w":
-					out_char = "f";
-				"x":
-					out_char = "q";
-				"y":
-					out_char = "o";
-				"z":
-					out_char = "w";
-				_:
-					out_char = my_char
+				"a":					out_char = "y";
+				"b":					out_char = "p";
+				"c":					out_char = "l";
+				"d":					out_char = "t";
+				"e":					out_char = "a";
+				"f":					out_char = "v";
+				"g":					out_char = "k";
+				"h":					out_char = "r";
+				"i":					out_char = "e";
+				"j":					out_char = "z";
+				"k":					out_char = "g";
+				"l":					out_char = "m";
+				"m":					out_char = "s";
+				"n":					out_char = "h";
+				"o":					out_char = "u";
+				"p":					out_char = "b";
+				"q":					out_char = "x";
+				"r":					out_char = "n";
+				"s":					out_char = "c";
+				"t":					out_char = "d";
+				"u":					out_char = "i";
+				"v":					out_char = "j";
+				"w":					out_char = "f";
+				"x":					out_char = "q";
+				"y":					out_char = "o";
+				"z":					out_char = "w";
+				_:						out_char = my_char
 		
 			# Add the character to the out string.
-			if is_upper:
-				out_text += out_char.to_upper()
-			else:
-				out_text += out_char;
+			if is_upper:				out_text += out_char.to_upper()
+			else:						out_text += out_char;
 			
-
 		return out_text;
 		
 	else:
@@ -177,9 +148,9 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 			parsed_str_var = B2_CManager.cinema_player.selected_note
 			
 		elif str_var.contains("shop"):
-			pass # TODO
+			push_warning("TODO: add 'shop' variable replacement") 		# TODO
 		elif str_var.contains("gunsbag"):
-			pass # TODO
+			push_warning("TODO: add 'gunsbag' variable replacement") 	# TODO
 		elif str_var.contains("gamename"):
 			parsed_str_var = B2_Playerdata.Quest( "gamename", null, "Invalid Vidcon" )
 		else:
@@ -190,11 +161,11 @@ static func qst( text : String = "You forgot to add text, jackass." ) -> String:
 		text = text.erase( first_at, (second_at - first_at) + 1 )
 		text = text.insert( first_at, parsed_str_var )
 		## INCOMPLETE
+		# 22/12/25 What is incomplete??
 		
 	return text
 
-
-## Function return the index for each space (" ") in the text.
+## Function return the index for each space (" ") in the text. Used in the dialog system.
 static func get_delays( text : String ) -> PackedInt32Array:
 	var delay_array := PackedInt32Array()
 	var search_point := 0

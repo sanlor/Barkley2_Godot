@@ -102,6 +102,9 @@ func set_volume( raw_value : float): # 0 - 100
 func get_volume() -> float:
 	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
 
+func get_music( track_name : String ) -> String:
+	return music_bank.get( track_name, "" )
+
 ## Absolute bonkers function. Plays music based on the area that the player is right now. Someone went mental on the if/else statements.
 # 05/10/25 Sometimes, I just stare at this mess. I love it.
 func room_get( room_name : String):

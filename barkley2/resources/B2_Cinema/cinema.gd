@@ -1086,17 +1086,14 @@ func cinema_kids() -> void:
 	dslCinKid.clear()
 	return
 
+## Parses conditions for the cutscene script. Also replaces "variables" (@Lock Pick@) with real values.
 func parse_if( line : String ) -> bool:
-	## DEBUG
-	#if line.contains("katsuBall == 2"):
-	#	breakpoint
-	
 	# clean the conditions
 	## ALERT Due to messy code, sometimes Items are checked with its names (@Lock Pick@) that contain spaces.
 	line = line.trim_prefix("IF ")
 	var condidion_line := PackedStringArray() # = line.rsplit( " ", false, 2 ) # <- Fuck this.
 	condidion_line.resize(3)
-	## 15/06/25 was using rsplit. issue with jerking comparaton (Cornhusk Jerkin)
+	## 15/06/25 was using rsplit. issue with jerking comparators (Cornhusk Jerkin)
 	## 27/07/25 This is still bugged. using .split() is causing issues with items (@Fiscian Gut's@). Trying rsplit again.
 	## 05/09/25 Now rsplit is causing issues with note selection ( IF note == Wilmer's Amortization Schedule ) 
 	# Using Space as a terminator is a terrible idea.. what to do now...?
@@ -1130,7 +1127,7 @@ func parse_if( line : String ) -> bool:
 		cond_value 		 			= float( condidion_line[ 2 ] )
 	
 	## sometimes, str_var can contain @s. Why?
-	## ALERT THis means the str_var refers to an Item! check o_cornrow dialog, referencing @Fruit Basket@ which is an Item.
+	## ALERT This means the str_var refers to an Item! check o_cornrow dialog, referencing @Fruit Basket@ which is an Item.
 	## TODO Add Items.
 	
 	# this should return false (if quest var is invalid) or some value.

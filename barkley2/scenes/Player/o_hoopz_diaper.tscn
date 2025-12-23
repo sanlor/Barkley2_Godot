@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene load_steps=34 format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" uid="uid://2tpsmo6wotoo" path="res://barkley2/scenes/Player/o_hoopz_diaper.gd" id="1_3cthp"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_4umcs"]
@@ -14,6 +14,7 @@
 [ext_resource type="SpriteFrames" uid="uid://qkvh0mkp04w8" path="res://barkley2/resources/Player/combat_arm_front_diaper.tres" id="6_txjj5"]
 [ext_resource type="SpriteFrames" uid="uid://n7jvr12a1htv" path="res://barkley2/resources/Player/combat_weapon_parts.tres" id="10_t8f4j"]
 [ext_resource type="SpriteFrames" uid="uid://dvqqu8i44hek" path="res://barkley2/resources/Player/combat_weapon_spots.tres" id="11_fa877"]
+[ext_resource type="Material" uid="uid://b01uytrmpw37l" path="res://barkley2/shaders/material/gun_charge_flash.tres" id="11_frurt"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="15_ili1k"]
 [ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="16_frurt"]
 [ext_resource type="Texture2D" uid="uid://ca2uer1n2rgjh" path="res://barkley2/assets/cursor/s_curs_gunmode_2.png" id="17_d3ww1"]
@@ -131,6 +132,7 @@ step_smoke = NodePath("step_smoke")
 hit_timer = NodePath("hit_timer")
 i_frame_timer = NodePath("i_frame_timer")
 ActorCol = NodePath("hoopz_collision")
+walk_speed = 3000000
 roll_damp = 5.5
 actor_ai = NodePath("B2_AI_Player")
 
@@ -149,6 +151,18 @@ one_shot = true
 
 [node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
 one_shot = true
+
+[node name="gun_noises_stream" type="AudioStreamPlayer" parent="Gun_Handler™"]
+bus = &"Audio"
+
+[node name="constant_stream" type="AudioStreamPlayer" parent="Gun_Handler™"]
+bus = &"Audio"
+
+[node name="reload_timer" type="Timer" parent="Gun_Handler™"]
+one_shot = true
+
+[node name="charge_timer" type="Timer" parent="Gun_Handler™"]
+wait_time = 0.05
 
 [node name="o_Shadow" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 0.25)
@@ -201,6 +215,7 @@ offset = Vector2(-22, -41)
 
 [node name="combat_weapon" type="AnimatedSprite2D" parent="."]
 visible = false
+material = ExtResource("11_frurt")
 position = Vector2(0, -18)
 sprite_frames = ExtResource("6_2vbnu")
 animation = &"s_AssaultRifle"

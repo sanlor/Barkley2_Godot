@@ -16,17 +16,17 @@ var curr_MODE := MODE.FOLLOW
 
 var debug_data: Label
 
-@export var show_debug_data 	:= true
+const show_debug_data 			:= true
 
 @export var speed_slow 			:= 3.5
 @export var speed_normal 		:= 5.0
 @export var speed_fast 			:= 8.5
 @export var camera_follow_speed := 750.0 # Speed that the camera follows the mouse.
 
-var speed := speed_normal
-var is_moving := false
-var destination := Vector2.ZERO
-#var _position : Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
+var speed 			:= speed_normal
+var is_moving 		:= false
+var destination 	:= Vector2.ZERO
+#var _position 		: Vector2 # Allow int based movement. aides in the movement smoothing to avoid fittering when the camera moves.
 
 # stop wandering camera
 var is_lost := true
@@ -280,7 +280,9 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Height: " 	+ str(limit_height) 	+ "\n"
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
-func _process(delta: float) -> void:
+## NOTE I keep changing this from "_process" to "_physics_process" and back to "_process". I keep having issues with jittery movement.
+#func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if B2_Input.cutscene_is_playing:
 		camera_offset = CAMERA_CUTSCENE_OFFSET
 	else:
@@ -340,7 +342,7 @@ func _process(delta: float) -> void:
 					return
 					
 				#_position = player_node.position
-				position = position.move_toward(player_node.position, 120 * delta)
+				position = position.move_toward(player_node.position, 140.0 * delta)
 				
 				if follow_mouse:
 					var mouse_dir 	:= Vector2.ZERO
@@ -349,16 +351,16 @@ func _process(delta: float) -> void:
 						if B2_Input.is_using_gamepad():
 							var g_input := Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down") * 500.0
 							g_input.y *= 0.75 # <- to adjust for the screen ratio
-							mouse_dir 	= player_node.position.direction_to( g_input + global_position )
-							mouse_dist 	= player_node.position.distance_to( g_input + global_position )
+							mouse_dir 	= player_node.global_position.direction_to( 	g_input + player_node.global_position )
+							mouse_dist 	= player_node.global_position.distance_to( 		g_input + player_node.global_position )
 						else:
-							mouse_dir 	= player_node.position.direction_to( 	get_global_mouse_position() )
-							mouse_dist 	= player_node.position.distance_to( 	get_global_mouse_position() )
+							mouse_dir 	= player_node.global_position.direction_to( 	get_global_mouse_position() )
+							mouse_dist 	= player_node.global_position.distance_to( 		get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0, 275.0 )
 					offset = offset.move_toward( camera_offset + (mouse_dir * mouse_dist / 3.0), camera_follow_speed * delta ) + camera_shake_offset
-					#offset = offset.round() # fixes jittery movement. THIS TIME!
 				else:
 					offset = offset.move_toward( camera_offset, camera_follow_speed * delta ) + camera_shake_offset
+				#offset = offset.round() # fixes jittery movement. THIS TIME!
 					
 			else:
 				is_lost = true
@@ -377,7 +379,6 @@ func _process(delta: float) -> void:
 				## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
 				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
 				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y - hud_offset) )
-				
 		
 		MODE.COMBAT:
 			offset = offset.lerp( camera_offset, (speed / 200.0) ) + camera_shake_offset

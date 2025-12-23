@@ -30,7 +30,7 @@ var old_piety 	:= INF
 var t : Tween
 
 func _ready() -> void:
-	#_update_stat_display()
+	_update_stat_display()
 	B2_SignalBus.stat_updated.connect( _update_stat_display )
 
 func _update_stat_display( stat_name = null ) -> void:

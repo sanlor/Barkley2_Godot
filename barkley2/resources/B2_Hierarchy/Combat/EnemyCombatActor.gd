@@ -283,8 +283,8 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 		
 	## TODO apply resistances
 	#push_warning("Applying dummy resistance reduction.")
-	print("%s: Applying dummy resistance reduction. FIXME" % name)
-	damage *= 0.05
+	#print("%s: Applying dummy resistance reduction. FIXME" % name)
+	#damage *= 0.5
 	
 	print( "Damaged actor %s with %s points of damage." % [self.name, damage] ) ## DEBUG
 	

@@ -9,11 +9,9 @@ class_name B2_AudioEmitter
 
 func _ready() -> void:
 	bus = "Audio"
-	var audio_res
-	if sound.begins_with("mus"):
-		audio_res = load( B2_Music.music_bank.get(sound) )
-	else:
-		audio_res = load( B2_Sound.get_sound(sound) )
+	var audio_res : AudioStreamOggVorbis
+	if sound.begins_with("mus"):		audio_res = load( B2_Music.get_music(sound) )
+	else:								audio_res = load( B2_Sound.get_sound(sound) )
 		
 	if audio_res:
 		var audio : AudioStreamOggVorbis = audio_res
