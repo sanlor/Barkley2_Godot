@@ -1541,7 +1541,7 @@ func _physics_process(delta: float) -> void:
 			destroy_bullet( false )
 	
 	## TEMP
-	bullet_dir *= 5.0 ## Apply TEMP/DEBUG speed boost.
+	bullet_dir *= 10.0 ## Apply TEMP/DEBUG speed boost.
 	
 	## Move the bullet
 	position 	+= ( (bullet_dir * speed) * speedBonus ) * delta

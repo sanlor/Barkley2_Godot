@@ -350,8 +350,9 @@ func combat_weapon_animation() -> void:
 	new_gun_pos 	= new_gun_pos.round()
 	
 	## Decide where the muzzle is.
-	gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle )
-	gun_muzzle.position.y -= 3.0
+	var muzzle_pos 			:= B2_Gun.get_muzzle_dist()
+	gun_muzzle.position = new_gun_pos + Vector2( muzzle_pos.x, 0.0 ).rotated( target_angle )
+	gun_muzzle.position.y -= muzzle_pos.y
 	
 	combat_weapon.frame 			= s_frame
 	combat_weapon.position 			= new_gun_pos

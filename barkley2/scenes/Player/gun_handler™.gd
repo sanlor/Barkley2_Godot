@@ -146,8 +146,9 @@ func pre_attack_action( action : bool ) -> bool:
 		if pWindUp > 0.0:
 			if source_actor is B2_PlayerCombatActor:
 				if randf_range(pWindUp,100) > 85:
-					source_actor.switch_combat_weapon_anim( minigun_spin_anim.front() )
-					minigun_spin_anim.reverse()
+					source_actor.switch_combat_weapon_anim( curr_gun.get_held_sprite() )
+					#source_actor.switch_combat_weapon_anim( minigun_spin_anim.front() )
+					#minigun_spin_anim.reverse()
 		## Player is holding the trigger
 		if action:
 			## Shoot if the windup is full

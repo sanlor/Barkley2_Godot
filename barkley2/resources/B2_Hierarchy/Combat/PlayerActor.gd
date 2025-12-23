@@ -300,10 +300,12 @@ func set_gun( gun_name : String, gun_type : B2_Gun.TYPE ) -> void:
 			
 ## Minigun & Magnum spin animation
 func switch_combat_weapon_anim( anim : String ) -> void:
-	if combat_weapon.sprite_frames.has_animation(anim):
-		var last_frame := combat_weapon.frame
-		combat_weapon.animation = anim
-		combat_weapon.frame = last_frame
+	if combat_weapon.sprite_frames.has_animation(anim):						## Check if base animation exists
+		if combat_weapon.sprite_frames.has_animation(anim + "_Anim"):		## Check if the alternative animation exists (it may not, like in the 's_Mitrailleuse' case)
+			var last_frame := combat_weapon.frame							## Save current frame (direction)
+			if combat_weapon.animation == anim:		combat_weapon.animation = anim + "_Anim"	# Toggle animation
+			else:									combat_weapon.animation = anim				# Toggle animation
+			combat_weapon.frame = last_frame								## Restore current frame (direction)
 	else:
 		push_error("Invalid Animation: ", anim)
 			
@@ -337,6 +339,13 @@ func get_attack_origin() -> Vector2:
 ## Used to apply a gun offset when a shot is fired.
 func set_gun_reloaded( _reload_state : bool ) -> void:
 	pass
+
+## Return a valid aim vector (curr_aim or last_aim)
+func get_aim() -> Vector2:
+	if curr_aim:
+		return curr_aim
+	else:
+		return last_aim
 
 func normal_animation(delta : float):
 	var input := (curr_input * 2.5).normalized().round()
@@ -554,7 +563,7 @@ func throw_gun() -> void:
 			var obj := O_THROWN_OBJECT.instantiate()
 			add_sibling( obj, true )
 			obj.global_position = global_position + Vector2( 0, -8 )
-			obj.setup( global_position.direction_to( curr_aim ), B2_Gun.get_current_gun().get_weapon_hud_sprite() )
+			obj.setup( global_position.direction_to( get_aim() ), B2_Gun.get_current_gun().get_weapon_hud_sprite() )
 			obj.damage_amount = maxf( float( B2_Gun.get_current_gun().get_curr_ammo() ) / float( B2_Gun.get_current_gun().get_max_ammo() ), 0.25 )
 			B2_Gun.remove_gun_from_gunbag( B2_Gun.get_current_gun() )
 			_update_held_gun()

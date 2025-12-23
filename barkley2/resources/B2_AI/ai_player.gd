@@ -17,17 +17,23 @@ func step() -> void:
 		## Analog input processing.
 		if B2_Input.player_has_control or force_player_control:
 			## Movement input (Normalized)
-			actor.apply_curr_input( Input.get_vector("Left","Right","Up","Down") )
+			var curr_input : Vector2 = Input.get_vector("Left","Right","Up","Down")
+			actor.apply_curr_input( curr_input )
 			
 			## Aiming input (Normalized)
 			if B2_Input.is_using_gamepad():
-				g_input = g_input.slerp( Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down"), AIM_SPEED )
-				if g_input:			actor.apply_curr_aim( g_input )
-				else:				actor.apply_curr_aim( Vector2.ZERO ) ## <- Is this needed?
+				var gamepad_input := Input.get_vector("Aim_Left","Aim_Right","Aim_Up","Aim_Down")
+				if gamepad_input == Vector2.ZERO and curr_input != Vector2.ZERO:	## Check is the player is moving and not aiming.
+					g_input = g_input.slerp( curr_input, AIM_SPEED )				## Allow the movement input do influence the aiming when not aiming.
+				else:
+					g_input = g_input.slerp( gamepad_input, AIM_SPEED )				## Player is aiming, use only the aim input.
+					
+				if g_input:			actor.apply_curr_aim( (g_input * 100.0).normalized() )
+				else:				actor.apply_curr_aim( curr_input ) ## <- Is this needed? # 23/12/25 changed from Vector2.ZERO to curr_input.
 			else: # Mouse aiming requires additional processing to be normalized.
 				g_input = g_input.slerp( actor.get_aim_origin().direction_to( actor.get_global_mouse_position() ), AIM_SPEED )
 				# oooh mister fancy guy, using slerp() and shit. must be a math wizard or something.
-			actor.apply_curr_aim( g_input )
+				actor.apply_curr_aim( g_input )
 			
 		_input_process()
 

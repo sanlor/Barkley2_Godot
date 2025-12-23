@@ -160,9 +160,12 @@ static func dict_to_gun( gun_dict : Dictionary ) -> B2_Weapon:
 
 #region Position the gun on the players hand
 ## NOTE THis section was on the player script
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-static func get_muzzle_dist() -> float:
-	var heldBulletDist := 0.0
+## Values taken from "scr_player_muzzle_position". unsure how I can use this.
+## WARNING 23/12/25 "scr_player_muzzle_position" is NOT used in the final game, we shoundnt use those values. Lets fetch the values from "scr_player_getGunShifts" instead.
+static func get_muzzle_dist() -> Vector2:
+	var heldBulletDist 		: float = 16.0
+	var heldBullet_YShift 	: float = -5.0
+	
 	match B2_Gun.get_current_gun().weapon_type:
 		B2_Gun.TYPE.GUN_TYPE_MINIGUN:
 			heldBulletDist = 16.0
@@ -182,16 +185,52 @@ static func get_muzzle_dist() -> float:
 		B2_Gun.TYPE.GUN_TYPE_ROCKET:
 			heldBulletDist = 20.0
 		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_REVOLVER,B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:
-			heldBulletDist = 20.0 # was 8.0
+			heldBulletDist = 8.0
 		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:
 			heldBulletDist = 8.0
 		B2_Gun.TYPE.GUN_TYPE_BFG:
 			heldBulletDist = 16.0
-	return heldBulletDist
-	
-## Values taken from scr_player_muzzle_position. unsure how I can use this.
-static func get_muzzle_pos() -> float: ## TODO
-	return 0.0
+		_:
+			heldBulletDist = 8.0
+			
+	## 23/12/25 Motherfucher, why does it has a SECOND check???
+	match B2_Gun.get_current_gun().weapon_type:
+		# heavy weapons are held low and close, to a side
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN:  heldBullet_YShift = 0.0; heldBulletDist = 12.0 	#  -4
+		B2_Gun.TYPE.GUN_TYPE_GATLINGGUN:       heldBullet_YShift = -2.0; heldBulletDist = 26.0 	#  -10
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN:          heldBullet_YShift = 0.0; heldBulletDist = 28.0 	#  -4
+		B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:     heldBullet_YShift = -2.0; heldBulletDist = 16.0 	#  -10
+		B2_Gun.TYPE.GUN_TYPE_BFG:              heldBullet_YShift = -2.0; heldBulletDist = 26.0 	#  -10
+			
+		# Rifles are held high and close, almost centered
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE:     heldBullet_YShift = 4.0; heldBulletDist = 8.0
+		B2_Gun.TYPE.GUN_TYPE_RIFLE:            heldBullet_YShift = 6.0; heldBulletDist = 13.0
+		B2_Gun.TYPE.GUN_TYPE_MUSKET:           heldBullet_YShift = 6.0; heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE:     heldBullet_YShift = 8.0; heldBulletDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE:       heldBullet_YShift = 8.0; heldBulletDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE:      heldBullet_YShift = 8.0; heldBulletDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_CROSSBOW:         heldBullet_YShift = 8.0; heldBulletDist = 8.0
+			
+		# shotguns are held somewhat low and close, a little to a side.
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN:          heldBullet_YShift = 2.0; heldBulletDist = 12.0
+		B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN:    heldBullet_YShift = 0.0; heldBulletDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN:  heldBullet_YShift = 2.0; heldBulletDist = 8.0
+		B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN:      heldBullet_YShift = 0.0; heldBulletDist = 14.0
+		
+		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:     heldBullet_YShift = 0.0; heldBulletDist = 12.0
+			
+		# rocket launchers are on the shoulder. - was 12 - 12 but that was too high and borked it
+		B2_Gun.TYPE.GUN_TYPE_ROCKET:           heldBullet_YShift = 10.0; heldBulletDist = 4.0
+			
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL:    heldBullet_YShift = 4.0; heldBulletDist = 12.0
+		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN:    heldBullet_YShift = 4.0; heldBulletDist = 10.0
+		B2_Gun.TYPE.GUN_TYPE_REVOLVER:         heldBullet_YShift = 4.0; heldBulletDist = 14.0
+		B2_Gun.TYPE.GUN_TYPE_PISTOL:           heldBullet_YShift = 5.0; heldBulletDist = 12.0
+		B2_Gun.TYPE.GUN_TYPE_MAGNUM:           heldBullet_YShift = 4.0; heldBulletDist = 16.0
+		B2_Gun.TYPE.GUN_TYPE_FLINTLOCK:        heldBullet_YShift = 4.0; heldBulletDist = 14.0
+		
+		B2_Gun.TYPE.GUN_TYPE_FLAREGUN:         heldBullet_YShift = 8.0; heldBulletDist = 10.0
+	return Vector2(heldBulletDist, heldBullet_YShift)
 	
 ## scr_player_getGunShifts - set the offsef for the held gun
 static func get_gun_held_dist() -> float:
@@ -270,4 +309,163 @@ static func get_gun_shifts( gun_held_offset := 0.0 ) -> Vector2:
 	#heldVShift = 0 ## DEBUG
 	#return Vector2( heldHShift, heldVShift )
 	return Vector2( heldVShift + gun_held_offset, heldHShift )
+
+## scr_player_draw_setGunLayering - Define if the gun is drawn on top or behing the player.
+static func get_gun_depth( upper_sprite_frame : int ) -> int:
+	var  aArmDepth := [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	match B2_Gun.get_current_gun().weapon_type:
+		B2_Gun.TYPE.GUN_TYPE_PISTOL,B2_Gun.TYPE.GUN_TYPE_FLINTLOCK,\
+		B2_Gun.TYPE.GUN_TYPE_MACHINEPISTOL,B2_Gun.TYPE.GUN_TYPE_REVOLVER,\
+		B2_Gun.TYPE.GUN_TYPE_MAGNUM,B2_Gun.TYPE.GUN_TYPE_FLAREGUN,\
+		B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN:
+			aArmDepth[0] = 1;
+			aArmDepth[1] = 1;
+			aArmDepth[2] = 1;
+			aArmDepth[3] = 1;
+			aArmDepth[4] = 1;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 1;
+			aArmDepth[9] = 0;
+			aArmDepth[10] = 0;
+			aArmDepth[11] = 0;
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 0;
+			aArmDepth[14] = 0;
+			aArmDepth[15] = 0;
+			
+			if B2_CManager.get_BodySwap() == "diaper":
+				aArmDepth[0] = 0;
+				aArmDepth[1] = 0;
+				aArmDepth[2] = 0;
+				aArmDepth[3] = 0;
+				aArmDepth[4] = 1;
+				aArmDepth[5] = 0;
+				aArmDepth[6] = 0;
+				aArmDepth[7] = 0;
+				aArmDepth[8] = 0;
+				aArmDepth[9] = 0;
+				aArmDepth[10] = 0;
+				aArmDepth[11] = 0;
+				aArmDepth[12] = 0;
+				aArmDepth[13] = 0;
+				aArmDepth[14] = 0;
+				aArmDepth[15] = 0;
+			
+		B2_Gun.TYPE.GUN_TYPE_FLAMETHROWER:
+			aArmDepth[0] = 1;
+			aArmDepth[1] = 1;
+			aArmDepth[2] = 1;
+			aArmDepth[3] = 1;
+			aArmDepth[4] = 1;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 0;
+			aArmDepth[9] = 0;
+			aArmDepth[10] = 0;
+			aArmDepth[11] = 0;
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 0;
+			aArmDepth[14] = 0;
+			aArmDepth[15] = 0;
+			
+		B2_Gun.TYPE.GUN_TYPE_HEAVYMACHINEGUN,B2_Gun.TYPE.GUN_TYPE_GATLINGGUN,\
+		B2_Gun.TYPE.GUN_TYPE_MINIGUN,B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE:
+			aArmDepth[0] = 0;
+			aArmDepth[1] = 0;
+			aArmDepth[2] = 0;
+			aArmDepth[3] = 0;
+			aArmDepth[4] = 1;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 2; 	# 1
+			aArmDepth[9] = 2; 	# 1
+			aArmDepth[10] = 2; 	# 1
+			aArmDepth[11] = 2; 	# 1
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 0;
+			aArmDepth[14] = 0;
+			aArmDepth[15] = 0;
+
+		B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE,B2_Gun.TYPE.GUN_TYPE_RIFLE,B2_Gun.TYPE.GUN_TYPE_MUSKET,\
+		B2_Gun.TYPE.GUN_TYPE_HUNTINGRIFLE,B2_Gun.TYPE.GUN_TYPE_TRANQRIFLE,\
+		B2_Gun.TYPE.GUN_TYPE_SNIPERRIFLE,B2_Gun.TYPE.GUN_TYPE_CROSSBOW:
+			aArmDepth[0] = 0;
+			aArmDepth[1] = 0;
+			aArmDepth[2] = 0;
+			aArmDepth[3] = 0;
+			aArmDepth[4] = 1;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 2; 	# 1
+			aArmDepth[9] = 2; 	# 1
+			aArmDepth[10] = 2; 	# 1
+			aArmDepth[11] = 2; 	# 1
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 0;
+			aArmDepth[14] = 0;
+			aArmDepth[15] = 0;
+			
+		# shotguns are held somewhat low and close, a little to a side.
+		B2_Gun.TYPE.GUN_TYPE_SHOTGUN,B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN,\
+		B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN,B2_Gun.TYPE.GUN_TYPE_ELEPHANTGUN:
+			aArmDepth[0] = 0;
+			aArmDepth[1] = 0;
+			aArmDepth[2] = 0;
+			aArmDepth[3] = 0;
+			aArmDepth[4] = 0;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 2; 	# 1
+			aArmDepth[9] = 2; 	# 1
+			aArmDepth[10] = 2; 	# 1
+			aArmDepth[11] = 2; 	# 1
+			aArmDepth[12] = 0; 	# 0;
+			aArmDepth[13] = 0; 	# 0;
+			aArmDepth[14] = 0; 	# 0;
+			aArmDepth[15] = 0; 	# 0;
+			
+		# rocket launchers are on the shoulder.
+		B2_Gun.TYPE.GUN_TYPE_ROCKET:
+			aArmDepth[0] = 1;
+			aArmDepth[1] = 1;
+			aArmDepth[2] = 1;
+			aArmDepth[3] = 1;
+			aArmDepth[4] = 0;# was 0
+			aArmDepth[5] = 0;
+			aArmDepth[6] = 0;
+			aArmDepth[7] = 0;
+			aArmDepth[8] = 0;
+			aArmDepth[9] = 0;
+			aArmDepth[10] = 0;
+			aArmDepth[11] = 0;
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 1;
+			aArmDepth[14] = 1;
+			aArmDepth[15] = 1;
+			
+		_:
+			aArmDepth[0] = 0;
+			aArmDepth[1] = 0;
+			aArmDepth[2] = 0;
+			aArmDepth[3] = 0;
+			aArmDepth[4] = 1;
+			aArmDepth[5] = 1;
+			aArmDepth[6] = 1;
+			aArmDepth[7] = 1;
+			aArmDepth[8] = 1;
+			aArmDepth[9] = 1;
+			aArmDepth[10] = 1;
+			aArmDepth[11] = 1;
+			aArmDepth[12] = 0;
+			aArmDepth[13] = 0;
+			aArmDepth[14] = 0;
+			aArmDepth[15] = 0;
+	
+	return -aArmDepth[ upper_sprite_frame ]
 #endregion

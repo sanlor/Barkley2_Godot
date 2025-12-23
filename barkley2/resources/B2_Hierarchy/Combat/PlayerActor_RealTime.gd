@@ -23,8 +23,6 @@ class_name B2_Player_FreeRoam
 # Check scr_player_stance_gunmode()
 # Check scr_player_draw_walking_gunmode()
 
-
-
 @export_category("Player Permission")
 #@export var can_roll 		:= true
 @export var can_draw_weapon := true
@@ -120,9 +118,10 @@ func shoot_gun( enabled : bool ) -> void:
 				gun_handler.shoot_gun( enabled )
 				
 				## Reset vars.
-				var my_aim := Vector2.ZERO
-				if curr_aim != Vector2.ZERO:	my_aim = curr_aim
-				else: 							my_aim = last_aim
+				var my_aim := get_aim()
+				#if 		curr_aim != Vector2.ZERO:	my_aim = curr_aim
+				#elif 	last_aim != Vector2.ZERO:	my_aim = last_aim
+				#else: 								my_aim = Vector2.RIGHT # When using a gamepad, if you let go off the analog stick, this value drops to Vector2.Zero. By default, look right. NOTE maybe change this behaviour?
 				
 				#gun_handler.use_normal_attack( combat_weapon.global_position, my_aim, self ) ## TODO fix this. 
 				if enabled:
@@ -202,7 +201,7 @@ func combat_walk_animation(delta : float):
 			Vector2.LEFT:	combat_lower_sprite.frame = COMBAT_STAND_W
 			Vector2.DOWN:	combat_lower_sprite.frame = COMBAT_STAND_S
 			Vector2.RIGHT:	combat_lower_sprite.frame = COMBAT_STAND_E
-			Vector2.ZERO:	print("unh"); pass
+			Vector2.ZERO:	pass; #print("unh"); # <-  When using a gamepad, this is a valid condition. NOTE maybe it shoudnt? should I rethink the way the inputs are handled?
 				
 			_: # Catch All
 				print("Catch all, ", input)
@@ -224,9 +223,9 @@ func combat_aim_animation():
 		#var mouse_input 	:= curr_aim.snapped( Vector2(0.33,0.33) )
 		var dir_frame = combat_upper_sprite.frame
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		var target_dir 			:= curr_aim
+		var target_dir 			:= get_aim()
 		var target_angle		:= target_dir.angle()
-		var target_dir_snap 	:= curr_aim.snappedf( TAU / 16.0 )
+		var target_dir_snap 	:= target_dir.snappedf( TAU / 16.0 )
 		var target_angle_snap	:= target_dir_snap.angle()
 		
 		if flashlight:
@@ -267,9 +266,9 @@ func combat_weapon_animation() -> void:
 			pass
 			
 		# That Vector is an offset to make the calculation origin to be Hoopz torso
-		var target_dir 			:= curr_aim
+		var target_dir 			:= get_aim()
 		var target_angle		:= target_dir.angle()
-		var target_dir_snap 	:= curr_aim.snappedf( TAU / 16.0 )
+		var target_dir_snap 	:= target_dir.snappedf( TAU / 16.0 )
 		var target_angle_snap	:= target_dir_snap.angle()
 		
 		## Many Manual touch ups.
@@ -280,15 +279,15 @@ func combat_weapon_animation() -> void:
 		## This needs to be fixed. It has to be a better way to do this. TODO
 		# The way hoopz aims is not a simple 8 way direction. It's 16 way, thats why I made this mess.
 		# NOTICE Please believe me, this mess is not my fault... Ive spent so many hours trying to make this work....
-		if is_equal_approx(target_angle_snap, DIR_UP): 				s_frame = 	4;	_z_index = -1	# Up
-		elif is_equal_approx(target_angle_snap, DIR_LEFT): 			s_frame = 	8;	_z_index = -1	# Left
+		if is_equal_approx(target_angle_snap, DIR_UP): 				s_frame = 	4;					# Up
+		elif is_equal_approx(target_angle_snap, DIR_LEFT): 			s_frame = 	8;					# Left
 		elif is_equal_approx(target_angle_snap, DIR_DOWN): 			s_frame = 	12					# Down
 		elif is_equal_approx(target_angle_snap, DIR_RIGHT):	 		s_frame = 	0					# Right
 		
 		elif is_equal_approx(target_angle_snap, DIR_RIGHT_DOWN): 	s_frame = 	14					# Low Right
-		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWN): 	s_frame = 	10;#_z_index = -1 	# Low Left
-		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UP):		s_frame = 	2;_z_index = -1 	# High Right	
-		elif is_equal_approx(target_angle_snap, DIR_LEFT_UP):		s_frame = 	6;_z_index = -1		# High Left
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_DOWN): 	s_frame = 	10;				 	# Low Left
+		elif is_equal_approx(target_angle_snap, DIR_RIGHT_UP):		s_frame = 	2;				 	# High Right	
+		elif is_equal_approx(target_angle_snap, DIR_LEFT_UP):		s_frame = 	6;					# High Left
 			
 		elif is_equal_approx(target_angle_snap, DIR_DOWN_RIGHTISH): s_frame = 	13					# Down Rightish
 		elif is_equal_approx(target_angle_snap, DIR_DOWN_LEFTISH): 	s_frame = 	11					# Down Leftish
@@ -306,7 +305,9 @@ func combat_weapon_animation() -> void:
 		# NOTE 27/11/25 Fun fact: the 'My own slop.' text was written because this was my first attempt to use AI to write code, trying to translate the-
 		# GML code to Godot. It was messy and did not work. After banging my head, tryin to fix copilot's code, i gave up and came with my own solution.
 		# I try to avoid using AI as much as possible. It's fun to think on my own.
-		var new_gun_pos := target_dir_snap
+		var new_gun_pos : Vector2 = (target_dir_snap * 100.0).normalized() # When using a gamepad, this value keep floating between 0.0 and 1.0. Since the gun position depends on this, we should ensure that this value is either 0.0 or 1.0
+		if new_gun_pos == Vector2.ZERO:
+			new_gun_pos = Vector2.RIGHT # By default, look right. NOTE maybe change this behaviour?
 		
 		# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 		# took 3 days finetuning this. 11/03/25 
@@ -319,8 +320,12 @@ func combat_weapon_animation() -> void:
 		new_gun_pos 	= new_gun_pos.round()
 		
 		## Decide where the muzzle is.
-		gun_muzzle.position = new_gun_pos + Vector2( B2_Gun.get_muzzle_dist(), 0.0 ).rotated( target_angle_snap )
-		gun_muzzle.position.y -= 3.0
+		var muzzle_pos 			:= B2_Gun.get_muzzle_dist()
+		var muzzle_pos_mod 		:= 1.0		# 23/12/25 Trying to adjust the muzzle position.
+		gun_muzzle.position 	= new_gun_pos + Vector2( muzzle_pos.x * muzzle_pos_mod, 0.0 ).rotated( target_angle_snap ) # 
+		gun_muzzle.position.y 	-= muzzle_pos.y
+		
+		_z_index = B2_Gun.get_gun_depth( s_frame )
 		
 		#if combat_weapon.frame != s_frame or update_gun_position:
 		combat_weapon.frame 			= s_frame
@@ -446,24 +451,25 @@ func _on_combat_actor_entered(body: Node) -> void:
 			# body.apply_damage( 75.0 ) ## Debug setup
 			pass
 
-# handle step sounds
+
 func _on_hoopz_upper_body_frame_changed() -> void:
-	if hoopz_normal_body.animation.begins_with("walk_"):
-		# play audio only on frame 0 or 2
-		if hoopz_normal_body.frame in [0,2]:
-			if move_dist <= 0.0:
-				if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
-				elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
-				else:					B2_Sound.play_pick("hoopz_footstep")
-				move_dist = min_move_dist
-		else:
-			move_dist -= 1.0
-			
+	## NOTE This should not be here.
+	#if hoopz_normal_body.animation.begins_with("walk_"):
+		## play audio only on frame 0 or 2
+		#if hoopz_normal_body.frame in [0,2]:
+			#if move_dist <= 0.0:
+				#if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
+				#elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
+				#else:					B2_Sound.play_pick("hoopz_footstep")
+				#move_dist = min_move_dist
+		#else:
+			#move_dist -= 1.0
+	## NOTE This should not be here.
+	
 	if hoopz_normal_body.animation.begins_with("full_roll"):
-		if hoopz_normal_body.frame in [0,1,2]:
-			#hoopz_normal_body.look_at( linear_velocity )
+		if hoopz_normal_body.frame in [0,1,2]:			# Hoopz is in the air
 			pass
-		elif hoopz_normal_body.frame in [3,4,5,6]:
+		elif hoopz_normal_body.frame in [3,4,5,6]:		# Hoopz hit the floor
 			hoopz_normal_body.rotation = 0
 			if not step_smoke.emitting:
 				if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
@@ -472,25 +478,32 @@ func _on_hoopz_upper_body_frame_changed() -> void:
 			step_smoke.emitting = false
 			hoopz_normal_body.rotation = 0
 
+## Handle step sounds for "Aiming" state hoopz
+var last_step_frame := 0
 func _on_combat_lower_body_frame_changed() -> void:
 	if curr_STATE == STATE.AIM or curr_STATE == STATE.SHOOT:
 		if combat_lower_sprite.animation.begins_with("walk_"):
-			# play audio only on frame 0 or 2
-			if combat_lower_sprite.frame in [0,2]:
+			if combat_lower_sprite.frame in [0,2] and combat_lower_sprite.frame != last_step_frame: # play audio only on frame 0 or 2
 				if move_dist <= 0.0:
-					B2_Sound.play_pick("hoopz_footstep")
+					if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
+					elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
+					else:					B2_Sound.play_pick("hoopz_footstep")
 					move_dist = min_move_dist
+					last_step_frame = combat_lower_sprite.frame
 			else:
 				move_dist -= 1.0
 
-## handle step sounds for normal state hoopz
+## Handle step sounds for "Normal" state hoopz
 func _on_hoopz_normal_body_frame_changed() -> void:
 	if curr_STATE == STATE.NORMAL:
 		if hoopz_normal_body.animation.begins_with("walk_"):
-			if hoopz_normal_body.frame in [0,2]: # play audio only on frame 0 or 2
+			if hoopz_normal_body.frame in [0,2] and combat_lower_sprite.frame != last_step_frame: # play audio only on frame 0 or 2
 				if move_dist <= 0.0:
-					B2_Sound.play_pick("hoopz_footstep")
+					if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
+					elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
+					else:					B2_Sound.play_pick("hoopz_footstep")
 					move_dist = min_move_dist
+					last_step_frame = combat_lower_sprite.frame
 			else:
 				move_dist -= 1.0
 			
