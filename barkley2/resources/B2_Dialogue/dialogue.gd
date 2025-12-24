@@ -8,31 +8,31 @@ class_name B2_Dialogue
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
-const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
-const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
+const S_DIAG_FRAME 		:= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
+const S_RETURN 			:= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
 # reference script = o_dialogue
 
-const LINE_SIZE := 9
+const LINE_SIZE 		:= 9
 
 # The title of the text, defaults to an empty string.
-var _title = "";
+var _title 				:= "";
 
 ## Important
 # The full text that should be displayed.
-var _my_text = "";
+var _my_text 			:= "";
 # The x offset to draw the dialogue at, defaults to 8.
-var _draw_x = 8;
+var _draw_x 			:= 8.0
 # The y offset to draw the dialogue at, defaults to 0.
-var _draw_y = 140;
+var _draw_y 			:= 140.0
 
 # The different colors for the different texts, defaults are set below.
-var _title_color 	= Color.LIGHT_BLUE # c_ltblue;
-#var _text_color 	= Color.WHITE # c_white;
+var _title_color 		:= Color.LIGHT_BLUE
+#var _text_color 		:= Color.WHITE
 
 # The sound used whenever characters are typed.
-var _talk_sound 	= "sn_talk1";
+var _talk_sound 		:= "sn_talk1";
 # The sound used whenever a textbox is completed and the player selects to go to the next one.
-var _confirm_sound 	= "sn_talk3";
+var _confirm_sound 		:= "sn_talk3";
 
 # Draw without the dialog box
 #var _boxless = false; 				## WARNING Set this up when the time comes.
@@ -66,9 +66,9 @@ signal awnsered_question( bool )
 
 var return_sprite : Sprite2D
 
-var textbox_width 			:= 384
-var textbox_height 			:= 240
-var text_offset 			:= textbox_width - 64;
+var textbox_width 			:= 384.0
+var textbox_height 			:= 240.0
+var text_offset 			:= textbox_width - 64.0;
 
 var border_node 			: B2_Border
 var portrait_frame_node 	: TextureRect
@@ -93,7 +93,7 @@ var exclamation_pause 		:= 0.45 			#0.5 ## Added by me, not on the original.
 
 var normal_typing 			:= 0.8				#1.0
 var fast_typing 			:= 0.2
-var curr_typing_speed := normal_typing
+var curr_typing_speed 		:= normal_typing
 
 var portrait_talk_speed		:= 0.1
 var portrait_talk_time 		:= -100.0
@@ -104,7 +104,7 @@ var return_sprite_time 		:= 0.2		#0.2
 var return_sprite_cooldown 	:= 0.2		#0.2
 
 var type_timer 				:= 0.0
-var can_type := false							# <- Left like this on purpose to trigger someone's OCD.
+var can_type 		:= false			# <- Left like this on purpose to trigger someone's OCD. # 23/12/25 I tried to fix the weird spacing, then I remembered that I made it like this on purpose. It's like I'm torturing myself. Neat.
 var is_typing 				:= false
 
 var voice_sound_played 		:= false

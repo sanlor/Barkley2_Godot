@@ -6,7 +6,7 @@ extends B2_Border
 func _ready():
 	set_panel_size( 300, 220 ) # why this keeps reseting to 50x50 using the @export? had to set it manually
 	rich_text_label.grab_focus()
-
+	
 func _on_close_pressed():
 	get_parent().queue_free()
 

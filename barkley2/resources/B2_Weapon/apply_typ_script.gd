@@ -116,7 +116,6 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.soundId = ("hoopzweap_flintlock");
 			gun.weapon_stats.soundLoop = false;
 
-
 		"GUN_TYPE_FLAREGUN":
 			_pow = 2;
 			_pmx = 4;
@@ -193,7 +192,6 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 
 			gun.weapon_stats.periodic_mutlishot = 1;#4;
 
-
 		"GUN_TYPE_REVOLVER":
 			_pow = 1.45;
 			_pmx = 1.60;
@@ -231,6 +229,8 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.soundLoop = false;
 
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_medium";
+			gun.weapon_stats.MaxCasingBuffer = 8
+			gun.weapon_stats.CasingBufferReloadPenalty = 2.0
 
 		"GUN_TYPE_MAGNUM":
 			_pow = 1.6;
@@ -269,6 +269,8 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.soundLoop = false;
 
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_medium";
+			gun.weapon_stats.MaxCasingBuffer = 7
+			gun.weapon_stats.CasingBufferReloadPenalty = 2.0
 
 		"GUN_TYPE_MACHINEPISTOL":
 			_pow = 0.7;
@@ -305,8 +307,6 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.soundId = ("hoopzweap_pistol6");
 			gun.weapon_stats.soundLoop = false;
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_light";
-
-
 
 		"GUN_TYPE_SUBMACHINEGUN":
 			_pow = 0.45;
@@ -815,6 +815,8 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.periodic_mutlishot = 8;
 
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_shell";
+			gun.weapon_stats.MaxCasingBuffer = 1
+			gun.weapon_stats.CasingBufferReloadPenalty = 1.0
 
 		"GUN_TYPE_DOUBLESHOTGUN":
 			_pow = 1.6;
@@ -856,6 +858,8 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.periodic_mutlishot = 12;
 
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_shell";
+			gun.weapon_stats.MaxCasingBuffer = 2
+			gun.weapon_stats.CasingBufferReloadPenalty = 2.0
 
 		"GUN_TYPE_REVOLVERSHOTGUN":
 			_pow = 0.8;
@@ -896,6 +900,8 @@ static func apply_type( gun : B2_Weapon, type : B2_Gun.TYPE ) -> void:
 			gun.weapon_stats.periodic_mutlishot = 6;
 
 			gun.weapon_stats.casingSound = "hoopz_shellcasing_shell";
+			gun.weapon_stats.MaxCasingBuffer = 5
+			gun.weapon_stats.CasingBufferReloadPenalty = 2.0
 
 		"GUN_TYPE_ELEPHANTGUN":
 			_pow = 1.6;

@@ -24,6 +24,8 @@ func _ready() -> void:
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_SUBMACHINEGUN, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_ASSAULTRIFLE, B2_Gun.MATERIAL.STEEL )
 
+	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_REVOLVERSHOTGUN, B2_Gun.MATERIAL.STEEL )
+	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_DOUBLESHOTGUN, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_MINIGUN, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_MITRAILLEUSE, B2_Gun.MATERIAL.STEEL )
 	B2_Gun.add_gun_to_gunbag( B2_Gun.TYPE.GUN_TYPE_MUSKET, B2_Gun.MATERIAL.STEEL )

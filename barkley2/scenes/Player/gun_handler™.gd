@@ -90,6 +90,8 @@ var spinning_up			:= false	## Used to check if the Wind up or Sustain should be 
 var minigun_spin_anim	:= ["s_Minigun", "s_Minigun_Anim"]
 var magnun_spin_anim	:= ["s_Magnum", "s_Magnum_Anim"]
 
+var wind_up_shoot_threshold := 35.0
+
 func _ready() -> void:
 	pre_shooting_timer.one_shot			= true
 	firing_rate.one_shot				= true
@@ -99,10 +101,12 @@ func _ready() -> void:
 	else:									push_error( "Invalid parent: %s" % get_parent().name ); breakpoint
 		
 	_gun_changed()
-	B2_SignalBus.gun_changed.connect( _gun_changed )
-	B2_SignalBus.gun_owned_changed.connect( _gun_changed )
-	spin_up_now.connect( _spin_up_sfx_requested )
-	spin_down_now.connect( _spin_down_sfx_requested )
+	B2_SignalBus.gun_changed.connect( 				_gun_changed )
+	B2_SignalBus.gun_owned_changed.connect( 		_gun_changed )
+	B2_SignalBus.player_is_aiming.connect( 			_gun_changed )
+	B2_SignalBus.player_stopped_aiming.connect( 	_gun_changed )
+	spin_up_now.connect( 							_spin_up_sfx_requested )
+	spin_down_now.connect( 							_spin_down_sfx_requested )
 	
 #region Weapon Operation
 		
@@ -122,11 +126,6 @@ func shoot_gun( action : bool ) -> void:
 # Perform speccific checks and actions before firing a gun.
 @warning_ignore("unused_parameter")
 func pre_attack_action( action : bool ) -> bool:
-	## Delay is running
-	if not pre_shooting_timer.is_stopped():
-		return false
-	if not post_shooting_timer.is_stopped():
-		return false
 		
 	## controls the 'windup' variable. Some guns need to wind up before shooting (minigun).
 	var pWindUp 	:= curr_gun.weapon_stats.pWindUp
@@ -143,16 +142,15 @@ func pre_attack_action( action : bool ) -> bool:
 	
 	## Gun needs to wind up before shooting.
 	if curr_gun.weapon_stats.pWindUpSpeed > 0.0:
+		
 		if pWindUp > 0.0:
 			if source_actor is B2_PlayerCombatActor:
-				if randf_range(pWindUp,100) > 85:
+				if randf_range( pWindUp, 100 ) > wind_up_shoot_threshold:
 					source_actor.switch_combat_weapon_anim( curr_gun.get_held_sprite() )
-					#source_actor.switch_combat_weapon_anim( minigun_spin_anim.front() )
-					#minigun_spin_anim.reverse()
-		## Player is holding the trigger
-		if action:
-			## Shoot if the windup is full
-			can_shoot = pWindUp >= 100.0 
+		
+		if action: ## Player is holding the trigger
+			## Shoot if the windup is above the threshold. Values below 100.0 should shoot slowly. 
+			can_shoot = pWindUp >= wind_up_shoot_threshold
 			
 			## Unsure what this does. Maybe play sfx only after a certain threshold? <- Understand it now.
 			# Handles SpinUp and SpinDown sfx, based on if you are holding the trigger.
@@ -163,21 +161,23 @@ func pre_attack_action( action : bool ) -> bool:
 			
 			if pWindUp < 100.0:
 				if not windupSound.is_empty():
-					spin_up_now.emit()
+					if not _is_delay_running(): # Check needed to allow the "sustain" sfx.
+						spin_up_now.emit()
 						
 				## Wind up gun
 				# Increase the gun Windup variable. NOTE this need to be tweaked to work on this new system.
-				var godot_modifier := 10.0 # An extra modifier, since in Godot the pWindUp value increases to slowly.
+				var godot_modifier := 3.5 # An extra modifier, since in Godot the pWindUp value increases to slowly.
 				pWindUp += max( 3.0, curr_gun.weapon_stats.pWindUpSpeed / curr_gun.weapon_stats.pWeight * 0.5) * windupModifier * godot_modifier * get_physics_process_delta_time()
 				pWindUp = clamp( pWindUp, 0.0, 100.0 ) # improved version of 'pWindUp = min( 100, pWindUp )'.
 		
 		# 26/11/25 cleaned up some code not being used in the Godot version.
 		
-		## Player is NOT holding the trigger
-		else:
+		
+		else: ## Player is NOT holding the trigger
 			if pWindUp > 0.0: #60:
 				if not winddownSound.is_empty():
-					spin_down_now.emit()
+					if not _is_delay_running():
+						spin_down_now.emit()
 			# curr_gun.weapon_stats.reloaded"] = false;
 			if pWindUp > 4.0:
 				pWindUp -= 24.0 * windupModifier * get_physics_process_delta_time()
@@ -187,6 +187,10 @@ func pre_attack_action( action : bool ) -> bool:
 	
 	## Save the modified 'pWindUp' value.
 	curr_gun.weapon_stats.pWindUp = pWindUp
+	#print( pWindUp )
+	
+	# Check if any delays are running.
+	if _is_delay_running(): return false
 	
 	## delayed shot: flintlocks, etc.
 	if delayTimer > 0.0 and action:
@@ -209,12 +213,25 @@ func pre_attack_action( action : bool ) -> bool:
 	
 @warning_ignore("unused_parameter")
 func post_attack_action() -> void:
+	var rate_mod := 1.0 # Certain situations may force a fire rate modifier.
+	if curr_gun.weapon_stats.pWindUp > 0.0:
+		# While the gun is spinning up, decrease the firerate untill the gun is fulled spun up.
+		rate_mod += 1.0 - ( (curr_gun.weapon_stats.pWindUp - wind_up_shoot_threshold) / (100.0 - wind_up_shoot_threshold) ) # pWindUp max value is 100.0.
+		
+	curr_gun.weapon_stats.CasingBuffer += 1 # Add casing to the casing buffer.
+		
+	## Add a reload penalty when the casing buffer is reached.
+	if curr_gun.weapon_stats.CasingBuffer >= curr_gun.weapon_stats.MaxCasingBuffer:
+		rate_mod *= curr_gun.weapon_stats.CasingBufferReloadPenalty
+		
 	var rate := curr_gun.get_rate() / maxf( 1.0, curr_gun.weapon_stats.pBurstAmount ) # Avoid dividing by zero.
-	post_shooting_timer.start( rate )
+	rate *= rate_mod ## Apply rate modifier.
+	
+	post_shooting_timer.start( rate  )
 	
 	## Set timer to reload gun
 	if not curr_gun.weapon_stats.reloaded:
-		reload_timer.start( rate / 3.0 )
+		reload_timer.start( rate / 2.5 )
 
 ## Check combat_gunwield_shoot
 ## Check o_bullet
@@ -394,6 +411,16 @@ func _gun_changed() -> void:
 	firing_rate.stop()
 	
 	source_actor.flash_gun( false )
+	
+func _is_delay_running() -> bool:
+	## Delay is running
+	if not pre_shooting_timer.is_stopped():
+		return true
+	elif not post_shooting_timer.is_stopped():
+		return true
+	else:
+		# No delay is running.
+		return false
 	
 ## Check combat_gunwield_step
 # Handles gun charge. Motherfucker look at this function. It's madness!!
@@ -632,7 +659,7 @@ func _shake_screen() -> void:
 	var effectiveShake 	: float = shakiness
 	var actor 			: Vector2 = B2_CManager.o_hoopz.global_position
 	
-	var shake_minimizer := 0.5 # 22/12/25 Screen shakes too violently. this multiplies should decrease the shake's strenght.
+	var shake_minimizer := 0.2 # 22/12/25 Screen shakes too violently. this multiplies should decrease the shake's strenght.
 	effectiveShake *= shake_minimizer
 	
 	B2_CManager.camera.add_shake( effectiveShake, 999, actor.x, actor.y, max(effectiveShake / 2.0, 1.0) / 10.0 )
@@ -713,20 +740,28 @@ func _on_firing_rate_timeout() -> void:
 
 ## Action after the shooting timer.
 func _on_post_shooting_timer_timeout() -> void:
-	if curr_gun.weapon_stats.readyCasing > 1:
-		var casing_pos 	:= source_actor.get_attack_origin()
-		for i in curr_gun.weapon_stats.readyCasing: ## Double barrel shotgun spawn 2 casings
-			_create_casing( casing_pos )
+	## NOTE 23/12/25 The code bellow seems duplicated. Did I goof?
+	#if curr_gun.weapon_stats.readyCasing > 1:
+		#var casing_pos 	:= source_actor.get_attack_origin()
+		#for i in curr_gun.weapon_stats.readyCasing: ## Double barrel shotgun spawn 2 casings
+			#_create_casing( casing_pos )
 	source_actor.set_gun_reloaded( true )
 
 ## Reload SFX
 func _on_reload_timer_timeout() -> void:
-	if curr_gun.weapon_stats.reloadSound:
-		B2_Sound.play( curr_gun.weapon_stats.reloadSound )
-	
-	## create bullet casing
+	## Create bullet casing
 	if not curr_gun.weapon_stats.bcasing.is_empty(): # Certain guns dont produce bullet casings.
-		_create_casing( source_actor.get_attack_origin() )
+		## Gun casing buffer is used when a revolver, for example, needs to reload.
+		## Instead of dumping a casing for each shot, it waits for 6 or 7 shots before dumping the casing.
+		## Double barrel shotguns also does this.
+		if curr_gun.weapon_stats.CasingBuffer >= curr_gun.weapon_stats.MaxCasingBuffer:
+			for casing in curr_gun.weapon_stats.CasingBuffer: # Buffer reached the max, dump all casings.
+				_create_casing( source_actor.get_attack_origin() )
+			curr_gun.weapon_stats.CasingBuffer = 0 # Clear casing buffer.
+			
+			## Play reload sound effect (if aplicable).
+			if curr_gun.weapon_stats.reloadSound:
+				B2_Sound.play( curr_gun.weapon_stats.reloadSound )
 	
 	curr_gun.weapon_stats.reloaded = true
 

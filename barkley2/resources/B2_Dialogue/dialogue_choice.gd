@@ -15,27 +15,27 @@ class_name B2_DialogueChoice
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
-const S_DIAG_FRAME 		= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
-const S_RETURN 			= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
+const S_DIAG_FRAME 		:= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
+const S_RETURN 			:= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
 # reference script = o_dialogue
 
 # The title of the text, defaults to an empty string.
-var _title = "";
+var _title 				:= "";
 
 ## Important
 # The x offset to draw the dialogue at, defaults to 8.
-var _draw_x = 8;
+var _draw_x 			:= 8.0
 # The y offset to draw the dialogue at, defaults to 0.
-var _draw_y = 140;
+var _draw_y 			:= 140.0
 
 # The different colors for the different texts, defaults are set below.
-var _title_color 	= Color.LIGHT_BLUE # c_ltblue;
-#var _text_color 	= Color.WHITE # c_white;
+var _title_color 		:= Color.LIGHT_BLUE
+#var _text_color 		:= Color.WHITE
 
 # The sound used whenever characters are typed.
-var _talk_sound 	= "sn_talk1";
+var _talk_sound 		:= "sn_talk1"
 # The sound used whenever a textbox is completed and the player selects to go to the next one.
-var _confirm_sound 	= "sn_talk3";
+var _confirm_sound 		:= "sn_talk3"
 
 # Draw without the dialog box
 #var _boxless = false; 				## WARNING Set this up when the time comes.
@@ -44,21 +44,20 @@ var _confirm_sound 	= "sn_talk3";
 # Draw the mystery dialog box // Usable for Mysterious voices heard from the darkness etc.
 #var _mystery_backdrop = false; 	## WARNING Set this up when the time comes.
 
-
 var flourishFrame = 0; 				## WARNING Set this up when the time comes.
 
 ## NOTE seems interesting
-var style = 1; # 0 is old style, 1 is generated
+var style 				:= 1; # 0 is old style, 1 is generated
 
 ## GODOT specific
 signal input_pressed
 signal choice_selected( choice_id )
 
-var return_sprite : Sprite2D
+var return_sprite 			: Sprite2D
 
-var textbox_width := 384
-var textbox_height := 240
-var text_offset = textbox_width - 64;
+var textbox_width 			:= 384.0
+var textbox_height 			:= 240.0
+var text_offset 			:= textbox_width - 64.0
 
 var border_node 			: B2_Border
 var portrait_frame_node 	: TextureRect
@@ -81,14 +80,14 @@ var textbox_blink_cooldown 	:= 0.04 	#0.04;
 var is_waiting_input := false
 
 ## Textbox Screens (More than 4 lines of texts)
-var max_screens 	:= 1
-var curr_screen 	:= 1
-const max_lines		:= 4
+var max_screens 			:= 1
+var curr_screen 			:= 1
+const max_lines				:= 4
 
 ## Portrait stuff
-var blink_cooldown 	:= 0.0
-var blink_speed 	:= 5.50
-var is_talking		:= false
+var blink_cooldown 			:= 0.0
+var blink_speed 			:= 5.50
+var is_talking				:= false
 
 func _ready() -> void:
 	layer = B2_Config.DIALOG_LAYER
@@ -129,24 +128,28 @@ func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 func add_choice( choice_text : String ) -> void:
 	var my_choice_id : int 				= choice_vbox_node.get_child_count()
 	var my_selection_button 			:= Button.new()
+	
+	# Alignment options.
 	my_selection_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	my_selection_button.custom_minimum_size = Vector2( 265, 11 )
+	my_selection_button.custom_minimum_size = Vector2( 265, 11 ) # Sensitive option. Too short and the text gets cut-off. Too large and you cant read some texts.
 	#my_selection_button.autowrap_mode = TextServer.AUTOWRAP_OFF
 	my_selection_button.autowrap_mode = TextServer.AUTOWRAP_WORD # <- 17/08/25 disabled this
-	my_selection_button.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	my_selection_button.set_anchors_and_offsets_preset( Control.PRESET_FULL_RECT )
 	my_selection_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
-	my_selection_button.text = Text.pr( Text.qst( choice_text ) )
+	my_selection_button.text = Text.pr( Text.qst( choice_text ) )	# Set the option text.
 	
 	choice_vbox_node.add_child( my_selection_button, true )
-	#print(my_choice_id)
-	if my_choice_id == 0:
-		my_selection_button.call_deferred( "grab_focus" ) 
-		change_arrow_pos.call_deferred( my_selection_button )
 	
+	# Manage signals.
 	my_selection_button.mouse_entered.connect( my_selection_button.grab_focus)
 	my_selection_button.focus_entered.connect( change_arrow_pos.bind(my_selection_button) )
 	my_selection_button.pressed.connect( func(): choice_selected.emit( my_choice_id ); queue_free() )
+	
+	## Bellow does not work.
+	#if my_choice_id == 0: # If its the first button, grab focus.
+	#	my_selection_button.call_deferred( "grab_focus" ) 
+	#	change_arrow_pos.call_deferred( my_selection_button )
 
 func change_arrow_pos( button : Button ):
 	# Need to wait this long because more than 4 items cause the scrollbox to scroll, wich takes some time.
@@ -166,15 +169,21 @@ func display_choices():
 	choice_node.follow_focus 					= true
 	choice_node.scroll_vertical_custom_step 	= 24
 	choice_node.horizontal_scroll_mode 			= ScrollContainer.SCROLL_MODE_DISABLED
-	choice_node.theme 							= preload("res://barkley2/themes/dialogue_choice.tres")
+	choice_node.theme 							= preload("res://barkley2/themes/dialogue_choice.tres") # sets theme.
 	choice_node.position 						= Vector2( _draw_x + 25 + _text_offset, _draw_y + 12 + 5 + 14)
 	choice_node.size 							= Vector2( 260, 11 * 4)
+	
+	# Focus on the first option.
+	var first_choice : Button = choice_vbox_node.get_children().front()
+	first_choice.call_deferred( "grab_focus" )
+	change_arrow_pos.call_deferred( first_choice )
+	choice_node.set_deferred("scroll_vertical", 0)
 	
 # Title in this case is the question.
 func set_title( _text_title : String ) -> void:
 	title_node 	= RichTextLabel.new(); add_child(title_node, true); title_node.bbcode_enabled = true
-	title_node.autowrap_mode = TextServer.AUTOWRAP_WORD
-	title_node.theme = preload("res://barkley2/themes/dialogue.tres")
+	title_node.autowrap_mode = TextServer.AUTOWRAP_WORD # maybe disable this to avoid autowraping text unnecesseraly <- I can't english no more.
+	title_node.theme = preload("res://barkley2/themes/dialogue.tres") # sets theme.
 	_title 		= _text_title 	# whos speaking the text
 	
 	var _text_offset := 0

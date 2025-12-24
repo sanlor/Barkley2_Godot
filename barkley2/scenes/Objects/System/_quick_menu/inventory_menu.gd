@@ -32,14 +32,17 @@ func update_list() -> void:
 	
 	var player_items := B2_Item.get_items()
 	for item in player_items.keys():
-		var btn = ITEM_BTN.instantiate()
+		var btn : Button = ITEM_BTN.instantiate()
 		btn.my_item_name = item
 		btn.my_item_amount = player_items[item]
 		btn.name = item + "_btn"
 		item_list.add_child( btn, true )
+		btn.focus_neighbor_right = pg_up_btn.get_path()
 	
 	await get_tree().process_frame
 	pg_scroll.max_value = scroll_container.get_v_scroll_bar().max_value
+	if not item_list.get_children().is_empty():
+		pg_up_btn.focus_neighbor_left = item_list.get_children().front().get_path()
 	
 func _on_close_btn_pressed() -> void:
 	closed.emit()
@@ -56,3 +59,7 @@ func _on_pg_up_btn_pressed() -> void:
 
 func _on_pg_dn_btn_pressed() -> void:
 	scroll_container.scroll_vertical += 19
+
+func _on_visibility_changed() -> void:
+	if visible:
+		close_btn.grab_focus()

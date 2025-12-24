@@ -622,8 +622,6 @@ const apply_typ_script := preload("uid://bieh3fvpmvkb2")
 const apply_gfx_script := preload("uid://dmcba8gomi654")
 const apply_pat_script := preload("uid://b6biaj4onmifq")
 
-
-
 ## Gene Settings ##
 const geneAffixChance 			:= 25;	## Range = 1-100% | Rolled 3 times per gun, 1 for each affix slot.
 const geneAffixThreshold 		:= 30;	## Range = 1-100  | Value all penchants must be above for an affix to be applied.

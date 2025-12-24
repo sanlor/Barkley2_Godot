@@ -377,10 +377,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 			if parsed_line[0].begins_with("IF"):
 				
 				if parse_if( parsed_line[0] ):
-					# remove the IF command
 					## NOTE Katsu! Sometimes there are nested IF statements.
 					## Instead of continuing the script from here, run all checks again.
-					parsed_line.remove_at( 0 )
+					parsed_line.remove_at( 0 ) # remove the IF command
 					
 					## HACK Check only 3 or 4 times.
 					if parsed_line[0].strip_edges().begins_with("IF"):
@@ -398,9 +397,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 											parsed_line.remove_at( 0 )
 											## HACK ##
 											if parsed_line[0].strip_edges().begins_with("IF"):
+												## HACK ##
 												if parse_if( parsed_line[0].strip_edges() ):
 													parsed_line.remove_at( 0 )
-												else: ## KCAH ##
+												## KCAH ##
+												else:
 													curr_line += 1 # Skip this line.
 													print("+4 IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
 													continue

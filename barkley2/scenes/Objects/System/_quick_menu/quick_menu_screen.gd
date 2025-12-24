@@ -12,9 +12,15 @@ extends CanvasLayer
 ## TODO Add Candies (Bottom)
 
 ## Top
-const top_hidden_y 	:= -60.0
-const top_shown_y 	:= 0.0
-@onready var top: B2_Border = $top
+const top_hidden_y 			:= -60.0
+const top_shown_y 			:= 0.0
+@onready var top			: B2_Border 	= $top
+@onready var maps_btn		: Button 		= $top/maps_btn
+@onready var notes_btn		: Button 		= $top/notes_btn
+@onready var chat_btn		: Button 		= $top/chat_btn
+@onready var items_btn		: Button 		= $top/items_btn
+@onready var o_btn			: Button 		= $top/o_btn
+
 
 
 ## Right
@@ -50,17 +56,18 @@ const left_gun_shown_x	:= 0
 @onready var weight_stat: Label = $right/weight_stat
 
 ## Left
-const BLIP = preload("res://barkley2/resources/B2_Weapon/blip.tres")
-const GUN_BTN = preload("res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn")
-@onready var gun_list: VBoxContainer = $left/gun_list
-@onready var gunbag_list: ItemList = $left/gun_bag/gunbag_bg/gunbag_list
+const BLIP 					:= preload("res://barkley2/resources/B2_Weapon/blip.tres")
+const GUN_BTN 				:= preload("res://barkley2/scenes/Objects/System/_quick_menu/gun_btn.tscn")
+@onready var gun_list		: VBoxContainer = $left/gun_list
+@onready var gunbag_list	: ItemList = $left/gun_bag/gunbag_bg/gunbag_list
 
 ## Bottom
-const POCKET_BTN = preload("uid://bo04o61ye6eoj")
-const bottom_hidden_y 	:= 210.0
-const bottom_shown_y 	:= 140.0
-@onready var bottom: Control = $bottom
-@onready var pocket_list: HBoxContainer = $bottom/bg/pocket_list
+const POCKET_BTN 			:= preload("uid://bo04o61ye6eoj")
+const bottom_hidden_y 		:= 210.0
+const bottom_shown_y 		:= 140.0
+@onready var bottom			: Control = $bottom
+@onready var pocket_list	: HBoxContainer = $bottom/bg/pocket_list
+@onready var pocket_0		: Panel = $bottom/bg/pocket_list/pocket_0
 
 
 ## Malaises
@@ -173,18 +180,29 @@ func _on_items_btn_pressed() -> void:
 	tween.tween_callback( inventory.hide )
 	await tween.finished
 	show_menu()
+	items_btn.grab_focus()
 
 func load_left_menu() -> void:
 	for b in gun_list.get_children(): # Cleanup placeholder buttons
 		b.queue_free()
 	var id := 0
 	for gun : B2_Weapon in B2_Gun.get_bandolier():
-		var btn := GUN_BTN.instantiate()
-		btn.pressed.connect( B2_Gun.select_band_gun.bind(id) )
-		id += 1
+		var btn : Button = GUN_BTN.instantiate()
+		btn.pressed.connect( 	B2_Gun.select_band_gun.bind(id) )
+		gun_list.add_child( 	btn )
+		btn.setup_button(		gun )
 		
-		gun_list.add_child( btn )
-		btn.setup_button( gun )
+		# Set neighbour
+		btn.focus_neighbor_right = maps_btn.get_path()
+		
+		# Show gun name when in focus
+		btn.focus_entered.connect( left._on_mouse_detection_mouse_entered )
+		
+		if id == 0: 
+			btn.grab_focus()	# First option should grab focus.
+			maps_btn.focus_neighbor_left = btn.get_path() # Set neighbour back.
+			pocket_0.focus_neighbor_left = btn.get_path() # Set neighbour back.
+		id += 1
 		
 	gunbag_list.clear()
 	for i : B2_Weapon in B2_Gun.get_gunbag():
@@ -196,6 +214,8 @@ func _on_gunbag_list_item_activated(index: int) -> void:
 	B2_Gun.select_gunbag_gun( index )
 
 func load_top_menu() -> void:
+	maps_btn.focus_entered.connect( left._on_mouse_detection_mouse_exited )
+	chat_btn.focus_entered.connect( left._on_mouse_detection_mouse_exited )
 	## TODO Add Zaubers
 	pass
 
@@ -264,12 +284,21 @@ func load_bottom_menu() -> void:
 	for p : int in B2_Jerkin.pockets():
 		var pocket_item : String = B2_Jerkin.get_pocket_content( id )
 		#print(pocket_item)
-		var btn := POCKET_BTN.instantiate()
+		var btn : Panel = POCKET_BTN.instantiate()
 		pocket_list.add_child( btn, true ) ## add empty button.
 		if pocket_item: ## If player has an Item, populates the buttom with its data.
 			btn.name = pocket_item
 			btn.setup_button( pocket_item, id )
 			btn.pressed.connect( use_item.bind(id, btn) )
+		
+		btn.focus_entered.connect( left._on_mouse_detection_mouse_exited )
+		
+		## Set the neighbourhood. Gamepad friendly!
+		btn.focus_neighbor_top = chat_btn.get_path()
+		if id == 0: 
+			chat_btn.focus_neighbor_bottom 		= btn.get_path()
+			items_btn.focus_neighbor_bottom 	= btn.get_path()
+		
 		id += 1
 
 func use_item( slot : int, btn : Panel ) -> void:

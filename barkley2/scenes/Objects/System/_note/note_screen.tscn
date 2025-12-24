@@ -489,6 +489,71 @@ tracks/5/keys = {
 "values": [Vector2(142, 200), Vector2(142, 239)]
 }
 
+[sub_resource type="Animation" id="Animation_iir8f"]
+resource_name = "hide_myself_gallery"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect/exit_button:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(142, 199), Vector2(142, 239)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect/B2_Border:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-25, -25), Vector2(-25, -50)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect/gallery/sGallery:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(15, 27), Vector2(-132, 27)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ColorRect/gallery/sGallery_text:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(165, 41), Vector2(384, 41)]
+}
+
 [sub_resource type="Animation" id="Animation_r62t0"]
 resource_name = "show_myself"
 length = 0.25
@@ -631,71 +696,6 @@ tracks/4/keys = {
 "values": [Vector2(384, 41), Vector2(165, 41)]
 }
 
-[sub_resource type="Animation" id="Animation_iir8f"]
-resource_name = "hide_myself_gallery"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect/exit_button:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(142, 199), Vector2(142, 239)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ColorRect/B2_Border:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-25, -25), Vector2(-25, -50)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ColorRect:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ColorRect/gallery/sGallery:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(15, 27), Vector2(-132, 27)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("ColorRect/gallery/sGallery_text:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(165, 41), Vector2(384, 41)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_73434"]
 _data = {
 &"RESET": SubResource("Animation_7elae"),
@@ -736,15 +736,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_k33xd")
 
-[node name="note_itself" type="TextureRect" parent="ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_q5any")
-
 [node name="B2_Border" type="Control" parent="ColorRect"]
 material = ExtResource("3_gb7bn")
 anchors_preset = 0
@@ -780,6 +771,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
+
+[node name="note_itself" type="TextureRect" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_neighbor_left = NodePath("../prev_note")
+focus_neighbor_right = NodePath("../next_note")
+focus_neighbor_bottom = NodePath("../exit_button")
+focus_mode = 2
+texture = SubResource("AtlasTexture_q5any")
 
 [node name="prev_note" type="TextureButton" parent="ColorRect"]
 layout_mode = 1
@@ -878,6 +882,9 @@ offset_right = 50.0
 offset_bottom = 4.5776367e-05
 grow_horizontal = 2
 grow_vertical = 0
+focus_neighbor_left = NodePath("../prev_note")
+focus_neighbor_top = NodePath("../note_itself")
+focus_neighbor_right = NodePath("../next_note")
 texture_normal = SubResource("AtlasTexture_30sak")
 
 [node name="exit_spr" type="AnimatedSprite2D" parent="ColorRect/exit_button"]

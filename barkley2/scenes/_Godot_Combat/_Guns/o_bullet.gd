@@ -26,7 +26,7 @@ const BULLET_SMOKE_TRAIL 	:= preload("uid://cltsosas1jy2y")
 
 const DEBUG					:= false # show some debug data.
 
-const LOB_MULTIPLIER 		:= 0.035	# 22/12/25 Decreases the lob strength.
+const LOB_MULTIPLIER 		:= 0.025	# 22/12/25 Decreases the lob strength.
 
 @onready var bullet_spr: 	AnimatedSprite2D 		= $bullet_spr
 #@onready var smoke_trail: 	GPUParticles2D 			= $bullet_spr/smoke_trail#$smoke_trail
@@ -1547,7 +1547,7 @@ func _physics_process(delta: float) -> void:
 	position 	+= ( (bullet_dir * speed) * speedBonus ) * delta
 		
 	## Apply acceleration. This may speed up or speed down the bullet.
-	speed = clampf( speed + acceleration, min_speed, max_speed ) # o_bullet begin_step line 75 to 77
+	speed = clampf( speed + acceleration * 0.5, min_speed, max_speed ) # o_bullet begin_step line 75 to 77. '0.5' added for a better behaviour.
 	
 	## Check if the bullet collided with something.
 	check_collision()
@@ -1566,8 +1566,8 @@ func check_collision() -> void:
 	params.collide_with_bodies 	= true
 	#params.exclude = [ get_rid(), source_actor.get_rid() ]
 	params.exclude = [ source_actor.get_rid() ]
-	params.collision_mask 		= 1 & 3
-	params.position 			= global_position + bullet_spr.offset
+	params.collision_mask 		= 0b00000000_00000000_00000000_00000101 ## --> https://docs.godotengine.org/en/4.5/tutorials/physics/physics_introduction.html#collision-layers-and-masks
+	params.position 			= global_position + bullet_spr.position
 	var result : Array[Dictionary] = space_state.intersect_point(params)
 	if result:
 		for r : Dictionary in result:

@@ -97,6 +97,7 @@ func start_aiming() -> void:
 		B2_Screen.set_cursor_type( B2_Screen.TYPE.BULLS )
 		curr_STATE = STATE.AIM
 		B2_Sound.play_pick("hoopz_swapguns")
+		B2_SignalBus.player_is_aiming.emit()
 		if B2_Input.curr_CONTROL == B2_Input.CONTROL.GAMEPAD: ## Only show if its using a gamepad
 			aim_reticle.show()
 
@@ -104,6 +105,7 @@ func stop_aiming() -> void:
 	curr_STATE = STATE.NORMAL
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
 	B2_Sound.play_pick("hoopz_swapguns")
+	B2_SignalBus.player_stopped_aiming.emit()
 	aim_reticle.hide()
 	
 ## Debug function. Should not be used normaly.
@@ -311,6 +313,7 @@ func combat_weapon_animation() -> void:
 		
 		# adjust the gun position on hoopz hands. This is more complicated than it sounds, since each gun type has a different position and offset.
 		# took 3 days finetuning this. 11/03/25 
+		# only now Im happy with the results. 23/12/25
 		new_gun_pos 	*= B2_Gun.get_gun_held_dist()
 		
 		new_gun_pos 	-= B2_Gun.get_gun_shifts( gun_held_offset ).rotated( target_angle_snap )
@@ -322,7 +325,7 @@ func combat_weapon_animation() -> void:
 		## Decide where the muzzle is.
 		var muzzle_pos 			:= B2_Gun.get_muzzle_dist()
 		var muzzle_pos_mod 		:= 1.0		# 23/12/25 Trying to adjust the muzzle position.
-		gun_muzzle.position 	= new_gun_pos + Vector2( muzzle_pos.x * muzzle_pos_mod, 0.0 ).rotated( target_angle_snap ) # 
+		gun_muzzle.position 	= new_gun_pos + Vector2( muzzle_pos.x * muzzle_pos_mod, 0.0 ).rotated( target_angle_snap ) # This function's music track: https://www.youtube.com/watch?v=kav_sDtU4mM&list=RDkav_sDtU4mM
 		gun_muzzle.position.y 	-= muzzle_pos.y
 		
 		_z_index = B2_Gun.get_gun_depth( s_frame )

@@ -1,6 +1,10 @@
 extends Panel
-
-## TODO Actually make this work
+## Global foot head tutorial: https://www.youtube.com/watch?v=ZR6Ct_0VYfo
+# INFO gabagol
+# bagbol
+# gabol
+#
+# a
 
 signal pressed
 
@@ -21,6 +25,7 @@ func setup_button( _item_name : String, _item_slot : int ) -> void:
 	if _item_name:
 		pocket_item.show()
 		var candy : Dictionary = B2_Candy.get_candy( _item_name )
+		tooltip_text = _item_name + "\n" + candy["utility"] + "\n" + candy["flavor"]
 		pocket_item.texture.region.position.x = 16.0 * candy["sub"]
 		_on_mouse_exited()
 	else:
@@ -33,6 +38,7 @@ func _on_mouse_entered() -> void:
 	else:
 		pocket_descript_lbl.text = Text.pr("Empty")
 	modulate = Color.YELLOW
+	grab_focus()
 
 func _on_mouse_exited() -> void:
 	if item_name:
@@ -41,9 +47,15 @@ func _on_mouse_exited() -> void:
 		pocket_descript_lbl.text = Text.pr("X")
 	modulate = Color.GRAY
 
-func _on_pocket_item_gui_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if item_name: # Do nothing if no item.
 		if event is InputEventMouseButton or event is InputEventJoypadButton  or event is InputEventKey:
-			if Input.is_action_just_pressed("Action"):
+			if Input.is_action_just_pressed("Action") and has_focus():
 				#print(self, ": Button %s pressed." % str(my_slot))
 				pressed.emit()
+
+func _on_focus_entered() -> void:
+	_on_mouse_entered()
+
+func _on_focus_exited() -> void:
+	_on_mouse_exited()

@@ -94,16 +94,19 @@ class_name B2_WeaponStats
 @export var pChargeLossTime 		: float = 1.0
 
 ## Bullet casings
-@export var readyCasing 			: int = 0;
-@export var bcasing 				:= "s_casing"
-@export var bcasingDir 				: float = 240;
-@export var bcasingSpd 				: float = 12;
-@export var bcasingRot 				: float = 30;
-@export var bcasingSpin 			: float = 60;
-@export var bcasingHeight 			: float = -16;
-@export var bcasingVertSpd 			: float = -12;
-@export var bcasingScale 			: float = 0.5;
-@export var bcasingCol 				: String = Color.YELLOW.to_html()
+@export var CasingBuffer 				: int = 0		## How many casings this gun can hold before releasing them.
+@export var MaxCasingBuffer 			: int = 1		## How many casings this gun can hold before releasing them.
+@export var CasingBufferReloadPenalty	: float = 1.0	## Penalty for relading a bunch of bullets at once. 
+@export var readyCasing 				: int = 0;		
+@export var bcasing 					:= "s_casing"
+@export var bcasingDir 					: float = 240;
+@export var bcasingSpd 					: float = 12;
+@export var bcasingRot 					: float = 30;
+@export var bcasingSpin 				: float = 60;
+@export var bcasingHeight 				: float = -16;
+@export var bcasingVertSpd 				: float = -12;
+@export var bcasingScale 				: float = 0.5;
+@export var bcasingCol 					: String = Color.YELLOW.to_html()
 
 #### Position into gunspace
 @export var pGunspaceX 				: float = 0;
@@ -134,7 +137,8 @@ class_name B2_WeaponStats
 
 @export var pSpreadAmount 			: float = 0; 	# angle of shooting spread, in degrees. Low accuracy means the bullets are less predictable in the spread.
 @export var pShots 					: float = 1; 	# maximum number of shots fired at a time. They are evenly distributed on the spread amount. If more than one shot is fired, they have a random start position.
-											# So that the individual shots appear separate and arnt all just one blob of superposed shots if accuracy is high.
+													# So that the individual shots appear separate and arnt all just one blob of superposed shots if accuracy is high.
+
 @export var pExtraChance 			: float = 0; 	# chance to fire extra bullets
 @export var pExtraNumber 			: float = 0;	# max extra bullets fired upon chance
 
@@ -143,6 +147,7 @@ class_name B2_WeaponStats
 @export var pBurstAmount 			: float = 1; 	# Number of times shots are fired in a row in bursts automatically.
 @export var pBurstInterval 			: float = 6; 	# WARNING UNUSED IN THE GAME - Interval between shots during a burst. Supercedes fire interval, which is the time BETWEEN bursts. On weapons permitting it, it is a
 													# RATIO of the actual firing interval.
+													
 @export var pAmmoCost 				: float = 1;
 @export var pDamageMin 				: float = 10;
 @export var pDamageRand 			: float = 2;
@@ -164,10 +169,10 @@ class_name B2_WeaponStats
 @export var pFireTimer 				: float = 300;
 @export var pFireTimerTarget 		: float = 300;
 
-@export var pCurAmmo 				: int = 0;
-@export var pMaxAmmo 				: int = 0;
-@export var pWeight 				: float = 0;
-@export var pRatioAmmo 				: float = 1;
+@export var pCurAmmo 				: int 		= 0;
+@export var pMaxAmmo 				: int 		= 0;
+@export var pWeight 				: float 	= 0;
+@export var pRatioAmmo 				: float 	= 1;
 
 ## properties passed on to the bullets
 ## MOVEMENT PATTERNS

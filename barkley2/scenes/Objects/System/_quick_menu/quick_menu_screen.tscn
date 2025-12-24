@@ -416,6 +416,8 @@ offset_left = 13.0
 offset_top = 11.0
 offset_right = 53.0
 offset_bottom = 29.0
+focus_neighbor_right = NodePath("../o_btn")
+focus_neighbor_bottom = NodePath("../chat_btn")
 theme = ExtResource("3_fe2b4")
 alignment = 0
 
@@ -441,6 +443,8 @@ offset_left = 55.0
 offset_top = 11.0
 offset_right = 95.0
 offset_bottom = 29.0
+focus_neighbor_left = NodePath("../o_btn")
+focus_neighbor_bottom = NodePath("../items_btn")
 theme = ExtResource("3_fe2b4")
 alignment = 2
 
@@ -467,6 +471,9 @@ offset_left = 13.0
 offset_top = 31.0
 offset_right = 53.0
 offset_bottom = 49.0
+focus_neighbor_top = NodePath("../maps_btn")
+focus_neighbor_right = NodePath("../o_btn")
+focus_neighbor_bottom = NodePath("../../bottom/bg/pocket_list/pocket_0")
 theme = ExtResource("3_fe2b4")
 alignment = 0
 
@@ -492,6 +499,9 @@ offset_left = 55.0
 offset_top = 31.0
 offset_right = 95.0
 offset_bottom = 49.0
+focus_neighbor_left = NodePath("../o_btn")
+focus_neighbor_top = NodePath("../notes_btn")
+focus_neighbor_bottom = NodePath("../../bottom/bg/pocket_list/pocket_0")
 theme = ExtResource("3_fe2b4")
 alignment = 2
 
@@ -675,15 +685,23 @@ alignment = 1
 
 [node name="pocket_0" parent="bottom/bg/pocket_list" instance=ExtResource("17_ivtn4")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../top/chat_btn")
+focus_behavior_recursive = 1
 
 [node name="pocket_1" parent="bottom/bg/pocket_list" instance=ExtResource("17_ivtn4")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../top/chat_btn")
+focus_behavior_recursive = 1
 
 [node name="pocket_2" parent="bottom/bg/pocket_list" instance=ExtResource("17_ivtn4")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../top/chat_btn")
+focus_behavior_recursive = 1
 
 [node name="pocket_3" parent="bottom/bg/pocket_list" instance=ExtResource("17_ivtn4")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../top/chat_btn")
+focus_behavior_recursive = 1
 
 [node name="gun_name_panel" type="Control" parent="."]
 z_index = 10
@@ -804,6 +822,7 @@ offset_left = 320.0
 offset_top = 165.0
 offset_right = 368.0
 offset_bottom = 193.0
+focus_neighbor_left = NodePath("../pg_up_btn")
 theme = ExtResource("19_akkoy")
 text = "CLOSE"
 
@@ -813,17 +832,10 @@ offset_left = 294.0
 offset_top = 15.0
 offset_right = 314.0
 offset_bottom = 35.0
+focus_neighbor_right = NodePath("../close_btn")
+focus_neighbor_bottom = NodePath("../pg_scroll")
 theme = ExtResource("19_akkoy")
 text = "/\\"
-
-[node name="pg_dn_btn" type="Button" parent="inventory"]
-layout_mode = 0
-offset_left = 294.0
-offset_top = 157.0
-offset_right = 314.0
-offset_bottom = 177.0
-theme = ExtResource("19_akkoy")
-text = "\\/"
 
 [node name="pg_scroll" type="VScrollBar" parent="inventory"]
 layout_mode = 0
@@ -831,11 +843,25 @@ offset_left = 294.0
 offset_top = 37.0
 offset_right = 314.0
 offset_bottom = 155.0
+focus_neighbor_top = NodePath("../pg_up_btn")
+focus_neighbor_right = NodePath("../close_btn")
+focus_neighbor_bottom = NodePath("../pg_dn_btn")
 theme_override_styles/scroll = SubResource("StyleBoxFlat_oiim6")
 theme_override_styles/scroll_focus = SubResource("StyleBoxFlat_76nf2")
 theme_override_styles/grabber = SubResource("StyleBoxFlat_50q10")
 theme_override_styles/grabber_highlight = SubResource("StyleBoxFlat_3f6bx")
 theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_hoxqc")
+
+[node name="pg_dn_btn" type="Button" parent="inventory"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 157.0
+offset_right = 314.0
+offset_bottom = 177.0
+focus_neighbor_top = NodePath("../pg_scroll")
+focus_neighbor_right = NodePath("../close_btn")
+theme = ExtResource("19_akkoy")
+text = "\\/"
 
 [connection signal="pressed" from="top/maps_btn" to="." method="_on_maps_btn_pressed"]
 [connection signal="pressed" from="top/notes_btn" to="." method="_on_notes_btn_pressed"]
@@ -847,7 +873,8 @@ theme_override_styles/grabber_pressed = SubResource("StyleBoxFlat_hoxqc")
 [connection signal="item_activated" from="left/gun_bag/gunbag_bg/gunbag_list" to="." method="_on_gunbag_list_item_activated"]
 [connection signal="mouse_entered" from="gun_name_panel/mouse_detection" to="left" method="_on_mouse_detection_mouse_entered"]
 [connection signal="mouse_exited" from="gun_name_panel/mouse_detection" to="left" method="_on_mouse_detection_mouse_exited"]
+[connection signal="visibility_changed" from="inventory" to="inventory" method="_on_visibility_changed"]
 [connection signal="pressed" from="inventory/close_btn" to="inventory" method="_on_close_btn_pressed"]
 [connection signal="pressed" from="inventory/pg_up_btn" to="inventory" method="_on_pg_up_btn_pressed"]
-[connection signal="pressed" from="inventory/pg_dn_btn" to="inventory" method="_on_pg_dn_btn_pressed"]
 [connection signal="value_changed" from="inventory/pg_scroll" to="inventory" method="_on_pg_scroll_value_changed"]
+[connection signal="pressed" from="inventory/pg_dn_btn" to="inventory" method="_on_pg_dn_btn_pressed"]

@@ -5,15 +5,15 @@ var tween : Tween
 
 @export var gun_name_panel: Control
 
-@onready var ammo_title: Label = $ammo_title
-@onready var wgt_title: Label = $wgt_title
-@onready var gunbag_title: Label = $gun_bag/gunbag_title
-@onready var gun_list: VBoxContainer = $gun_list
+@onready var ammo_title		: Label 			= $ammo_title
+@onready var wgt_title		: Label 			= $wgt_title
+@onready var gunbag_title	: Label 			= $gun_bag/gunbag_title
+@onready var gun_list		: VBoxContainer 	= $gun_list
 
 
-const x_hidden 	:= -100.0
-const x_shown	:= 0.0
-const t_speed	:= 1.0
+const x_hidden 				:= -100.0
+const x_shown				:= 0.0
+const t_speed				:= 1.0
 
 func _post_ready() -> void:
 	#mouse_entered.connect(_on_mouse_entered)

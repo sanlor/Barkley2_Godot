@@ -90,13 +90,16 @@ func _ready() -> void:
 	
 	avaiable_notes = B2_Note.get_all()
 	
+	## TODO 23/12/25 add gamepad controls 
 	if mode == 0:		## Viewer
 		give_button.queue_free()
 		gallery.queue_free()
+	
 	elif mode == 1:		## Select
 		## Disable button if there are no notes.
 		give_button.disabled = avaiable_notes.is_empty()			## Show "no notes" screen and disable the "give" button.
 		gallery.queue_free()
+	
 	elif mode == 2:		## Gallery
 		## Also, check o_mg_artgallery. seems to be unused.
 		color_rect.color.a = 0.85

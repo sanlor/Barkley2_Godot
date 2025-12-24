@@ -13,12 +13,18 @@ func _ready() -> void:
 	show()
 	
 	resume.mouse_entered.connect( 	button_bg_resume.show )
+	resume.focus_entered.connect( 	button_bg_resume.show )
 	resume.mouse_exited.connect( 	button_bg_resume.hide )
+	resume.focus_exited.connect( 	button_bg_resume.hide )
 	exit.mouse_entered.connect( 	button_bg_exit.show )
+	exit.focus_entered.connect( 	button_bg_exit.show )
 	exit.mouse_exited.connect( 		button_bg_exit.hide )
+	exit.focus_exited.connect( 		button_bg_exit.hide )
 	
 	exit.pressed.connect( 		B2_Screen.return_to_title )
 	resume.pressed.connect( 	B2_Screen.hide_pause_menu )
+	
+	resume.grab_focus()
 
 func _exit_tree() -> void:
 	hide()

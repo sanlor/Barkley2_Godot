@@ -6,6 +6,8 @@ extends Node
 signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )
 signal player_input_permission_changed
+signal player_is_aiming
+signal player_stopped_aiming
 
 ## Room permisions
 signal room_permission_changed
