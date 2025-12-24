@@ -169,7 +169,7 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound := load( sound_bank[soundID] )
 	sfx.stream = sound
-	sfx.name = soundID + "_" + str(randi())
+	sfx.name = soundID + "_" + str( randi() )
 	sfx.finished.connect( finished_playing.bind(sfx) )
 	sfx.volume_db = linear_to_db( B2_Config.sfx_gain_master * volume_mod )
 	sfx.pitch_scale = pitch

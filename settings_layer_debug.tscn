@@ -1,0 +1,1159 @@
+[gd_scene load_steps=31 format=3 uid="uid://b1jqdouqv650y"]
+
+[ext_resource type="Script" uid="uid://bh6ox55v5jvef" path="res://barkley2/scenes/sTitle/settings_window.gd" id="1_movoo"]
+[ext_resource type="PackedScene" uid="uid://b3nt7m31bvw40" path="res://barkley2/scenes/border/B2_panel.tscn" id="2_6hyl7"]
+[ext_resource type="Material" uid="uid://vst2an11tomo" path="res://barkley2/resources/Border/border_material.tres" id="3_aw5qt"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="4_nd1uo"]
+[ext_resource type="Script" uid="uid://c3r1eex2cdhty" path="res://barkley2/scenes/border/B2_panel_fg.gd" id="5_o0r8t"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="6_2cebn"]
+[ext_resource type="Script" uid="uid://21bcte5vesst" path="res://barkley2/scenes/border/B2_panel_bg_button.gd" id="7_tx3tl"]
+[ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="8_rnvg0"]
+[ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="9_jweic"]
+[ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="10_b56xl"]
+[ext_resource type="Script" uid="uid://bterhox7q7sf0" path="res://barkley2/scenes/sTitle/remap_key_button.gd" id="11_48yip"]
+[ext_resource type="Texture2D" uid="uid://bum76micvbuim" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_11.png" id="12_dgch8"]
+[ext_resource type="Texture2D" uid="uid://6uu3umw2hhk2" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_10.png" id="13_j3q1h"]
+[ext_resource type="Texture2D" uid="uid://d18o3lr8ogvam" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_5.png" id="14_e80ne"]
+[ext_resource type="Texture2D" uid="uid://c8wesb0pfj4af" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_1.png" id="15_tlv3w"]
+[ext_resource type="Texture2D" uid="uid://c4034wopodaod" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_4.png" id="16_fuq7c"]
+[ext_resource type="Texture2D" uid="uid://ba2gaab04fsiv" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_3.png" id="17_2dnqm"]
+[ext_resource type="Texture2D" uid="uid://dt1gao1p1uu0d" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_15.png" id="18_dnyvf"]
+[ext_resource type="Texture2D" uid="uid://4j6nyjcjxadc" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_12.png" id="19_q7xfh"]
+[ext_resource type="Texture2D" uid="uid://dej34worj0txu" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_14.png" id="20_obqpu"]
+[ext_resource type="Texture2D" uid="uid://c03fdfeeowd50" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_2.png" id="21_oekb4"]
+[ext_resource type="Texture2D" uid="uid://cygspyk2c4uau" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_13.png" id="22_e05mt"]
+[ext_resource type="Texture2D" uid="uid://cogk11rls42cp" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_7.png" id="23_vpg02"]
+[ext_resource type="Texture2D" uid="uid://gqr2u8rlvmxd" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_6.png" id="24_ymhnl"]
+[ext_resource type="Texture2D" uid="uid://cvd42ksmkebf8" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_9.png" id="25_1fk1a"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_aahos"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_0j6i3"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_vtb8k"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_coyyu"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_u7edl"]
+
+[node name="settings_layer" type="CanvasLayer"]
+script = ExtResource("1_movoo")
+
+[node name="settings_bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="settings_panel" parent="." instance=ExtResource("2_6hyl7")]
+material = ExtResource("3_aw5qt")
+anchors_preset = -1
+offset_left = 32.0
+offset_top = 43.0
+offset_right = 360.0
+offset_bottom = 197.0
+theme = ExtResource("4_nd1uo")
+border_size = Vector2(328, 154)
+
+[node name="_Control_100" type="Control" parent="settings_panel"]
+visible = false
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="general_panel" type="Control" parent="settings_panel"]
+visible = false
+anchors_preset = 0
+offset_top = -33.0
+offset_right = 106.0
+offset_bottom = -1.0
+focus_neighbor_left = NodePath("../gamepad_panel")
+focus_neighbor_right = NodePath("../keys_panel")
+focus_neighbor_bottom = NodePath("../general/settings_name_0/music_slider")
+focus_mode = 2
+theme = ExtResource("6_2cebn")
+script = ExtResource("7_tx3tl")
+can_toggle = true
+is_pressed = true
+border_size = Vector2(106, 32)
+
+[node name="_Label_130" type="Label" parent="settings_panel/general_panel"]
+modulate = Color(1, 0.64705884, 0, 1)
+layout_mode = 0
+offset_right = 106.0
+offset_bottom = 32.0
+text = "General"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="_Control_101" type="Control" parent="settings_panel/general_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="@Control@167" type="Control" parent="settings_panel/general_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="keys_panel" type="Control" parent="settings_panel"]
+visible = false
+anchors_preset = 0
+offset_left = 111.0
+offset_top = -33.0
+offset_right = 217.0
+offset_bottom = -1.0
+focus_neighbor_left = NodePath("../general_panel")
+focus_neighbor_right = NodePath("../gamepad_panel")
+focus_mode = 2
+theme = ExtResource("6_2cebn")
+script = ExtResource("7_tx3tl")
+can_toggle = true
+border_size = Vector2(106, 32)
+
+[node name="_Label_131" type="Label" parent="settings_panel/keys_panel"]
+layout_mode = 0
+offset_right = 106.0
+offset_bottom = 32.0
+text = "Controls"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="_Control_102" type="Control" parent="settings_panel/keys_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="@Control@168" type="Control" parent="settings_panel/keys_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="gamepad_panel" type="Control" parent="settings_panel"]
+visible = false
+anchors_preset = 0
+offset_left = 222.0
+offset_top = -33.0
+offset_right = 328.0
+offset_bottom = -1.0
+focus_neighbor_left = NodePath("../keys_panel")
+focus_neighbor_right = NodePath("../general_panel")
+focus_mode = 2
+theme = ExtResource("6_2cebn")
+script = ExtResource("7_tx3tl")
+can_toggle = true
+border_size = Vector2(106, 32)
+
+[node name="_Label_132" type="Label" parent="settings_panel/gamepad_panel"]
+layout_mode = 0
+offset_right = 106.0
+offset_bottom = 32.0
+text = "Gamepad"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="_Control_103" type="Control" parent="settings_panel/gamepad_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="@Control@169" type="Control" parent="settings_panel/gamepad_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="general" type="Control" parent="settings_panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="settings_name_0" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 266.0
+offset_bottom = 81.0
+text = "Music:"
+
+[node name="minus" type="Button" parent="settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 116.0
+offset_bottom = 12.0
+text = "<"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="music_slider" type="HSlider" parent="settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 116.0
+offset_top = -4.0
+offset_right = 277.0
+offset_bottom = 13.0
+focus_neighbor_top = NodePath("../../../general_panel")
+theme = ExtResource("9_jweic")
+step = 5.0
+value = 100.0
+script = ExtResource("10_b56xl")
+linked_label = NodePath("..")
+
+[node name="plus" type="Button" parent="settings_panel/general/settings_name_0" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 276.0
+offset_top = -4.0
+offset_right = 292.0
+offset_bottom = 12.0
+text = ">"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_1" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 35.0
+offset_right = 266.0
+offset_bottom = 113.0
+text = "Sound:"
+
+[node name="minus" type="Button" parent="settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 116.0
+offset_bottom = 12.0
+text = "<"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="sound_slider" type="HSlider" parent="settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 116.0
+offset_top = -4.0
+offset_right = 277.0
+offset_bottom = 13.0
+theme = ExtResource("9_jweic")
+step = 5.0
+value = 100.0
+script = ExtResource("10_b56xl")
+linked_label = NodePath("..")
+
+[node name="plus" type="Button" parent="settings_panel/general/settings_name_1" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 276.0
+offset_top = -4.0
+offset_right = 292.0
+offset_bottom = 12.0
+text = ">"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_3" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 67.0
+offset_right = 266.0
+offset_bottom = 177.0
+text = "Filter:"
+
+[node name="crt_button" type="Button" parent="settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 163.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_aahos")
+text = "CRT"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="bloom_button" type="Button" parent="settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 164.0
+offset_top = -4.0
+offset_right = 227.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_aahos")
+text = "BLOOM"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="none_button" type="Button" parent="settings_panel/general/settings_name_3" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 228.0
+offset_top = -4.0
+offset_right = 291.0
+offset_bottom = 11.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_aahos")
+text = "NONE"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_4" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 83.0
+offset_right = 266.0
+offset_bottom = 209.0
+text = "Joke's:"
+
+[node name="joke_on_button" type="Button" parent="settings_panel/general/settings_name_4" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 195.0
+offset_bottom = 11.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_0j6i3")
+text = "ON"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="joke_off_button" type="Button" parent="settings_panel/general/settings_name_4" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 196.0
+offset_top = -4.0
+offset_right = 291.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_0j6i3")
+text = "OFF"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_5" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 99.0
+offset_right = 266.0
+offset_bottom = 241.0
+text = "Language:"
+
+[node name="english_button" type="Button" parent="settings_panel/general/settings_name_5" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 200.0
+offset_bottom = 11.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_vtb8k")
+text = "ANGLOAMERICAN"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="albhed_button" type="Button" parent="settings_panel/general/settings_name_5" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 196.0
+offset_top = -4.0
+offset_right = 291.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_vtb8k")
+text = "AL BHED"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_6" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 115.0
+offset_right = 266.0
+offset_bottom = 273.0
+text = "Fullscreen:"
+
+[node name="fullscreen_button" type="Button" parent="settings_panel/general/settings_name_6" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 195.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_coyyu")
+text = "FULLSCREEN"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="window_button" type="Button" parent="settings_panel/general/settings_name_6" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 196.0
+offset_top = -4.0
+offset_right = 291.0
+offset_bottom = 11.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_coyyu")
+text = "WINDOWED"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="settings_name_7" type="Label" parent="settings_panel/general"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 19.0
+offset_top = 131.0
+offset_right = 266.0
+offset_bottom = 305.0
+text = "Scaling:"
+
+[node name="2x_button" type="Button" parent="settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 100.0
+offset_top = -4.0
+offset_right = 163.0
+offset_bottom = 11.0
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_u7edl")
+text = "2x"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="3x_button" type="Button" parent="settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 164.0
+offset_top = -4.0
+offset_right = 227.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_u7edl")
+text = "3x"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="4x_button" type="Button" parent="settings_panel/general/settings_name_7" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 228.0
+offset_top = -4.0
+offset_right = 291.0
+offset_bottom = 11.0
+toggle_mode = true
+button_group = SubResource("ButtonGroup_u7edl")
+text = "4x"
+script = ExtResource("8_rnvg0")
+linked_label = NodePath("..")
+
+[node name="keys" type="Control" parent="settings_panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Up_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 18.0
+offset_right = 91.0
+offset_bottom = 33.0
+text = "Up"
+vertical_alignment = 1
+
+[node name="Up_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 18.0
+offset_right = 161.0
+offset_bottom = 33.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "W"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Up"
+
+[node name="Down_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 34.0
+offset_right = 91.0
+offset_bottom = 49.0
+text = "Down"
+vertical_alignment = 1
+
+[node name="Down_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 34.0
+offset_right = 161.0
+offset_bottom = 49.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "S"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Down"
+
+[node name="Left_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 50.0
+offset_right = 91.0
+offset_bottom = 65.0
+text = "Left"
+vertical_alignment = 1
+
+[node name="Left_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 50.0
+offset_right = 161.0
+offset_bottom = 65.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "A"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Left"
+
+[node name="Right_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 66.0
+offset_right = 91.0
+offset_bottom = 81.0
+text = "Right"
+vertical_alignment = 1
+
+[node name="Right_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 66.0
+offset_right = 161.0
+offset_bottom = 81.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "D"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Right"
+
+[node name="Action_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 82.0
+offset_right = 91.0
+offset_bottom = 97.0
+text = "Action"
+vertical_alignment = 1
+
+[node name="Action_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 82.0
+offset_right = 161.0
+offset_bottom = 97.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "M Left"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Action"
+
+[node name="Holster_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 98.0
+offset_right = 91.0
+offset_bottom = 113.0
+text = "Holster"
+vertical_alignment = 1
+
+[node name="Holster_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 98.0
+offset_right = 161.0
+offset_bottom = 113.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "M Right"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Holster"
+
+[node name="Roll_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 114.0
+offset_right = 91.0
+offset_bottom = 129.0
+text = "Roll"
+vertical_alignment = 1
+
+[node name="Roll_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 114.0
+offset_right = 161.0
+offset_bottom = 129.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "Space"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Roll"
+
+[node name="Weapon >_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 130.0
+offset_right = 91.0
+offset_bottom = 145.0
+text = "Weapon >"
+vertical_alignment = 1
+
+[node name="Weapon >_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 130.0
+offset_right = 161.0
+offset_bottom = 145.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "Wheel Up"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Weapon >"
+
+[node name="Weapon <_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 18.0
+offset_right = 235.0
+offset_bottom = 33.0
+text = "Weapon <"
+vertical_alignment = 1
+
+[node name="Weapon <_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 18.0
+offset_right = 305.0
+offset_bottom = 33.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "Wheel Dn"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Weapon <"
+
+[node name="Gun\'sbag_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 34.0
+offset_right = 235.0
+offset_bottom = 49.0
+text = "Gun'sbag"
+vertical_alignment = 1
+
+[node name="Gun\'sbag_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 34.0
+offset_right = 305.0
+offset_bottom = 49.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "Shift"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Gun\'sbag"
+
+[node name="Quickmenu_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 50.0
+offset_right = 235.0
+offset_bottom = 65.0
+text = "Quickmenu"
+vertical_alignment = 1
+
+[node name="Quickmenu_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 50.0
+offset_right = 305.0
+offset_bottom = 65.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "Q"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Quickmenu"
+
+[node name="Item Next_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 66.0
+offset_right = 235.0
+offset_bottom = 81.0
+text = "Item Next"
+vertical_alignment = 1
+
+[node name="Item Next_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 66.0
+offset_right = 305.0
+offset_bottom = 81.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "F"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Item Next"
+
+[node name="Item Use_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 82.0
+offset_right = 235.0
+offset_bottom = 97.0
+text = "Item Use"
+vertical_alignment = 1
+
+[node name="Item Use_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 82.0
+offset_right = 305.0
+offset_bottom = 97.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "E"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Item Use"
+
+[node name="throw_gun_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 98.0
+offset_right = 236.0
+offset_bottom = 113.0
+text = "throw_gun"
+vertical_alignment = 1
+
+[node name="throw_gun_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 98.0
+offset_right = 305.0
+offset_bottom = 113.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "C"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"throw_gun"
+
+[node name="Zauber Next_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 114.0
+offset_right = 246.0
+offset_bottom = 129.0
+text = "Zauber Next"
+vertical_alignment = 1
+
+[node name="Zauber Next_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 114.0
+offset_right = 305.0
+offset_bottom = 129.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "G"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Zauber Next"
+
+[node name="Zauber Use_label" type="Label" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 130.0
+offset_right = 239.0
+offset_bottom = 145.0
+text = "Zauber Use"
+vertical_alignment = 1
+
+[node name="Zauber Use_button" type="Button" parent="settings_panel/keys"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 130.0
+offset_right = 305.0
+offset_bottom = 145.0
+theme_type_variation = &"RemapButton"
+toggle_mode = true
+action_mode = 0
+text = "R"
+alignment = 0
+script = ExtResource("11_48yip")
+action = &"Zauber Use"
+
+[node name="gamepad" type="Control" parent="settings_panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="_TextureRect_134" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 18.0
+offset_bottom = 18.0
+texture = ExtResource("12_dgch8")
+
+[node name="_Label_135" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 18.0
+offset_right = 61.0
+offset_bottom = 18.0
+text = "Movement"
+
+[node name="_TextureRect_136" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 42.0
+offset_right = 18.0
+offset_bottom = 42.0
+texture = ExtResource("13_j3q1h")
+
+[node name="_Label_137" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 42.0
+offset_right = 61.0
+offset_bottom = 42.0
+text = "Aiming"
+
+[node name="_TextureRect_138" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 66.0
+offset_right = 18.0
+offset_bottom = 66.0
+texture = ExtResource("14_e80ne")
+
+[node name="_Label_139" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 66.0
+offset_right = 61.0
+offset_bottom = 66.0
+text = "Action"
+
+[node name="_TextureRect_140" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 82.0
+offset_right = 18.0
+offset_bottom = 82.0
+texture = ExtResource("15_tlv3w")
+
+[node name="_Label_141" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 82.0
+offset_right = 61.0
+offset_bottom = 82.0
+text = "Holster"
+
+[node name="_TextureRect_142" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 98.0
+offset_right = 18.0
+offset_bottom = 98.0
+texture = ExtResource("16_fuq7c")
+
+[node name="_Label_143" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 98.0
+offset_right = 61.0
+offset_bottom = 98.0
+text = "Roll"
+
+[node name="_TextureRect_144" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 114.0
+offset_right = 18.0
+offset_bottom = 114.0
+texture = ExtResource("17_2dnqm")
+
+[node name="_Label_145" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 114.0
+offset_right = 61.0
+offset_bottom = 114.0
+text = "Quickmenu"
+
+[node name="_TextureRect_146" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 130.0
+offset_right = 18.0
+offset_bottom = 130.0
+texture = ExtResource("18_dnyvf")
+
+[node name="_Label_147" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 61.0
+offset_top = 130.0
+offset_right = 61.0
+offset_bottom = 130.0
+text = "Weapon >"
+
+[node name="_TextureRect_148" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 18.0
+offset_right = 162.0
+offset_bottom = 18.0
+texture = ExtResource("19_q7xfh")
+
+[node name="_Label_149" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 18.0
+offset_right = 205.0
+offset_bottom = 18.0
+text = "Gun'sbag"
+
+[node name="_TextureRect_150" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 34.0
+offset_right = 162.0
+offset_bottom = 34.0
+texture = ExtResource("20_obqpu")
+
+[node name="_Label_151" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 34.0
+offset_right = 205.0
+offset_bottom = 34.0
+text = "Item Next"
+
+[node name="_TextureRect_152" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 50.0
+offset_right = 162.0
+offset_bottom = 50.0
+texture = ExtResource("21_oekb4")
+
+[node name="_Label_153" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 50.0
+offset_right = 205.0
+offset_bottom = 50.0
+text = "Item Use"
+
+[node name="_TextureRect_154" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 66.0
+offset_right = 162.0
+offset_bottom = 66.0
+texture = ExtResource("22_e05mt")
+
+[node name="_Label_155" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 66.0
+offset_right = 205.0
+offset_bottom = 66.0
+text = "Zauber Next"
+
+[node name="_TextureRect_156" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 82.0
+offset_right = 162.0
+offset_bottom = 82.0
+texture = ExtResource("23_vpg02")
+
+[node name="_Label_157" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 82.0
+offset_right = 205.0
+offset_bottom = 82.0
+text = "Zauber Use"
+
+[node name="_TextureRect_158" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 106.0
+offset_right = 162.0
+offset_bottom = 106.0
+texture = ExtResource("24_ymhnl")
+
+[node name="_Label_159" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 106.0
+offset_right = 205.0
+offset_bottom = 106.0
+text = "Free Look"
+
+[node name="_TextureRect_160" type="TextureRect" parent="settings_panel/gamepad"]
+layout_mode = 0
+offset_left = 162.0
+offset_top = 130.0
+offset_right = 162.0
+offset_bottom = 130.0
+texture = ExtResource("25_1fk1a")
+
+[node name="_Label_161" type="Label" parent="settings_panel/gamepad"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+layout_mode = 0
+offset_left = 205.0
+offset_top = 130.0
+offset_right = 205.0
+offset_bottom = 130.0
+text = "Pause"
+
+[node name="return_panel_button" type="Control" parent="settings_panel"]
+anchors_preset = 0
+offset_top = 163.0
+offset_right = 328.0
+offset_bottom = 195.0
+focus_mode = 2
+script = ExtResource("7_tx3tl")
+content_highlight_color = Color(1, 0.647059, 0, 1)
+border_size = Vector2(328, 32)
+
+[node name="_Label_133" type="Label" parent="settings_panel/return_panel_button"]
+layout_mode = 0
+offset_right = 328.0
+offset_bottom = 32.0
+text = "Return"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="_Control_104" type="Control" parent="settings_panel/return_panel_button"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="@Control@170" type="Control" parent="settings_panel/return_panel_button"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[node name="@Control@166" type="Control" parent="settings_panel"]
+z_index = 10
+use_parent_material = true
+custom_minimum_size = Vector2(3000, 3000)
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("4_nd1uo")
+script = ExtResource("5_o0r8t")
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="pressed" from="settings_panel/general/settings_name_0/minus" to="." method="_on_music_minus_pressed"]
+[connection signal="value_changed" from="settings_panel/general/settings_name_0/music_slider" to="." method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="settings_panel/general/settings_name_0/plus" to="." method="_on_music_plus_pressed"]
+[connection signal="pressed" from="settings_panel/general/settings_name_1/minus" to="." method="_on_sound_minus_pressed"]
+[connection signal="value_changed" from="settings_panel/general/settings_name_1/sound_slider" to="." method="_on_sound_slider_value_changed"]
+[connection signal="pressed" from="settings_panel/general/settings_name_1/plus" to="." method="_on_sound_plus_pressed"]
+[connection signal="button_pressed" from="settings_panel/return_panel_button" to="." method="_on_settings_return_button_pressed"]

@@ -1,10 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://ba76j0jvdbu8c"]
+[gd_scene load_steps=14 format=3 uid="uid://ba76j0jvdbu8c"]
 
 [ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="1_saogy"]
 [ext_resource type="Script" uid="uid://b37612x8edn4g" path="res://barkley2/scenes/Objects/System/pause_screen.gd" id="2_lnwyh"]
 [ext_resource type="Texture2D" uid="uid://ba7tkmx4xg5sd" path="res://barkley2/assets/b2_original/images/merged/s_pausemenu_buttonlight.png" id="3_48w6a"]
+[ext_resource type="Script" uid="uid://bh8rjp4hjx487" path="res://barkley2/scenes/Objects/System/options_pause_screen.gd" id="4_r0txh"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="5_pourm"]
+[ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="5_rige0"]
+[ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="6_pourm"]
+[ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="7_4y7kd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4y7kd"]
+font = ExtResource("5_pourm")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pourm"]
+bg_color = Color(1, 1, 1, 0.2)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_a6mvm"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_svcrn"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_i5jrc"]
 
 [node name="pause_layer" type="CanvasLayer"]
+process_mode = 3
 script = ExtResource("2_lnwyh")
 
 [node name="pause_screen" type="ColorRect" parent="."]
@@ -19,23 +37,22 @@ mouse_filter = 1
 theme = ExtResource("1_saogy")
 color = Color(0, 0, 0, 0.7)
 
-[node name="resume" type="Button" parent="pause_screen"]
-z_index = 10
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -45.0
-offset_right = 192.0
-offset_bottom = -25.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="resume" type="Button" parent="pause_screen/VBoxContainer"]
+z_index = 10
+layout_mode = 2
 text = "Resume Reality"
 
-[node name="button_bg_resume" type="TextureRect" parent="pause_screen/resume"]
+[node name="button_bg_resume" type="TextureRect" parent="pause_screen/VBoxContainer/resume"]
 visible = false
 modulate = Color(1, 1, 1, 0.65)
 z_index = -2
@@ -48,31 +65,344 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_48w6a")
 
-[node name="exit" type="Button" parent="pause_screen"]
+[node name="options" type="Button" parent="pause_screen/VBoxContainer"]
 z_index = 10
+layout_mode = 2
+text = "Assume Direct Control"
+
+[node name="button_bg_options" type="TextureRect" parent="pause_screen/VBoxContainer/options"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_48w6a")
+
+[node name="exit" type="Button" parent="pause_screen/VBoxContainer"]
+z_index = 10
+layout_mode = 2
+text = "End The Pain"
+
+[node name="button_bg_exit" type="TextureRect" parent="pause_screen/VBoxContainer/exit"]
+visible = false
+modulate = Color(1, 1, 1, 0.65)
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_48w6a")
+
+[node name="options_screen" type="Control" parent="pause_screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_r0txh")
+window_size = Vector2(200, 220)
+window_speed = 0.25
+
+[node name="window_update_timer" type="Timer" parent="pause_screen/options_screen"]
+wait_time = 0.02
+
+[node name="options_screen_bg" type="ColorRect" parent="pause_screen/options_screen"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = 15.0
-offset_right = 192.0
-offset_bottom = 35.0
+offset_left = -100.0
+offset_top = -110.0
+offset_right = 100.0
+offset_bottom = 110.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "End The Pain"
+color = Color(0, 0, 0, 0.749)
 
-[node name="button_bg_exit" type="TextureRect" parent="pause_screen/exit"]
-visible = false
-modulate = Color(1, 1, 1, 0.65)
-z_index = -2
+[node name="MarginContainer" type="MarginContainer" parent="pause_screen/options_screen/options_screen_bg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("3_48w6a")
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="title_label" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+label_settings = SubResource("LabelSettings_4y7kd")
+horizontal_alignment = 1
+
+[node name="music_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = "Music:"
+vertical_alignment = 1
+
+[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 45.0
+offset_right = 61.0
+offset_bottom = 20.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+text = "<"
+script = ExtResource("5_rige0")
+linked_label = NodePath("..")
+
+[node name="music_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 61.0
+offset_right = 166.0
+offset_bottom = 20.0
+focus_neighbor_top = NodePath("../../../general_panel")
+theme = ExtResource("6_pourm")
+step = 5.0
+value = 100.0
+script = ExtResource("7_4y7kd")
+linked_label = NodePath("..")
+
+[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 168.0
+offset_right = 184.0
+offset_bottom = 20.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+text = ">"
+script = ExtResource("5_rige0")
+linked_label = NodePath("..")
+
+[node name="sound_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = "Sound:"
+vertical_alignment = 1
+
+[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 45.0
+offset_right = 61.0
+offset_bottom = 20.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+text = "<"
+script = ExtResource("5_rige0")
+linked_label = NodePath("..")
+
+[node name="sound_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 61.0
+offset_right = 166.0
+offset_bottom = 20.0
+theme = ExtResource("6_pourm")
+step = 5.0
+value = 100.0
+script = ExtResource("7_4y7kd")
+linked_label = NodePath("..")
+
+[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+layout_mode = 0
+offset_left = 168.0
+offset_right = 184.0
+offset_bottom = 20.0
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+text = ">"
+script = ExtResource("5_rige0")
+linked_label = NodePath("..")
+
+[node name="filter_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = "Filter:"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -143.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="crt_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../none_button")
+focus_neighbor_right = NodePath("../bloom_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_a6mvm")
+text = "CRT"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="bloom_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../crt_button")
+focus_neighbor_right = NodePath("../none_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_a6mvm")
+text = "BLOOM"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="none_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(45, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../bloom_button")
+focus_neighbor_right = NodePath("../crt_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_a6mvm")
+text = "NONE"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="fullscreen_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Fullscreen:"
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option"]
+layout_mode = 0
+offset_left = 78.0
+offset_right = 184.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+
+[node name="fullscreen_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" node_paths=PackedStringArray("linked_label")]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_svcrn")
+text = "FULLSCREEN"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="window_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" node_paths=PackedStringArray("linked_label")]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_svcrn")
+text = "WINDOWED"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="scaling_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+text = "Scaling:"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = -5.0
+offset_right = 184.0
+offset_bottom = 15.0
+
+[node name="2x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(32.9, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../4x_button")
+focus_neighbor_right = NodePath("../3x_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_i5jrc")
+text = "2x"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="3x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(32.9, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../2x_button")
+focus_neighbor_right = NodePath("../4x_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_i5jrc")
+text = "3x"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="4x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+custom_minimum_size = Vector2(32.9, 0)
+layout_mode = 2
+focus_neighbor_left = NodePath("../3x_button")
+focus_neighbor_right = NodePath("../2x_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+toggle_mode = true
+button_group = SubResource("ButtonGroup_i5jrc")
+text = "4x"
+script = ExtResource("5_rige0")
+linked_label = NodePath("../..")
+
+[node name="pad" type="Control" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="exit_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
+theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
+text = "Exit"
+script = ExtResource("5_rige0")
+metadata/_custom_type_script = "uid://bh1o6t53csuwf"
+
+[connection signal="mouse_entered" from="pause_screen/VBoxContainer/resume" to="." method="_on_resume_mouse_entered"]
+[connection signal="mouse_entered" from="pause_screen/VBoxContainer/options" to="." method="_on_options_mouse_entered"]
+[connection signal="mouse_entered" from="pause_screen/VBoxContainer/exit" to="." method="_on_exit_mouse_entered"]
+[connection signal="timeout" from="pause_screen/options_screen/window_update_timer" to="pause_screen/options_screen" method="_on_timer_timeout"]
+[connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option/minus" to="pause_screen/options_screen" method="_on_music_minus_pressed"]
+[connection signal="value_changed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option/music_slider" to="pause_screen/options_screen" method="_on_music_slider_value_changed"]
+[connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option/plus" to="pause_screen/options_screen" method="_on_music_plus_pressed"]
+[connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option/minus" to="pause_screen/options_screen" method="_on_sound_minus_pressed"]
+[connection signal="value_changed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option/sound_slider" to="pause_screen/options_screen" method="_on_sound_slider_value_changed"]
+[connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option/plus" to="pause_screen/options_screen" method="_on_sound_plus_pressed"]
+[connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/exit_button" to="pause_screen/options_screen" method="_on_exit_button_pressed"]
