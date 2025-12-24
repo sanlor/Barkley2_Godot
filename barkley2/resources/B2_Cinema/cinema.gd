@@ -791,13 +791,23 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CHATROULETTE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-				"CREATE":
+				"CREATE","Create":
 					Create( parsed_line )
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
-					breakpoint ## TODO add this function
+					#breakpoint ## TODO add this function
 					# Create( parsed_line, true ) <- true should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.
-					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					# 24/12/25 Clispaeth spoke to me, and it wasnt nice. For the BootyBass club stuff, I had to change a "CREATE" action to "CREATE_WAIT".
+					var object := Create( parsed_line )
+					if is_instance_valid( object ):
+						if object.has_signal("finished"):
+							await object.finished
+						else:
+							push_error('"CREATE_WAIT": object %s doesnt have the expected signal "finished".' % object.name)
+					else:
+						push_error("invalid object. -> ", parsed_line)
+							
+					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SURPRISEAT":
 					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
 					# Check script USEAT() and SURPRISEAT.
@@ -974,8 +984,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					Misc( parsed_line )
 				"Camera":
 					Camera( parsed_line )
-				"Create":
-					Create( parsed_line )
 				"Shake":
 					Shake( parsed_line )
 				"ClockTime":
@@ -1363,7 +1371,7 @@ func Camera( parsed_line : PackedStringArray ):
 		_:
 			print("Camera() - Unknown command >" + str( parsed_line[1] ) + "<")
 		
-func Create( parsed_line : PackedStringArray ):
+func Create( parsed_line : PackedStringArray ) -> Node:
 	# Check Create() script
 	var misc_arguments := parsed_line.size() - 2
 	
@@ -1372,6 +1380,7 @@ func Create( parsed_line : PackedStringArray ):
 	var object_map := B2_CManager.get_cached_scene( parsed_line[1].strip_edges() )
 	if object_map == null:
 		push_error("object " + parsed_line[1] + " is null. fix this.")
+		breakpoint
 		return
 	
 	var obj_scene : PackedScene = object_map
@@ -1392,6 +1401,8 @@ func Create( parsed_line : PackedStringArray ):
 	
 	## Refresh array.
 	all_nodes = get_all_nodes()
+	
+	return object ## Always return a object. Mostly for the CREATE_WAIT.
 
 ## NOTE Stolen from B2_Actor
 # Check if the actor is inside a building. return false if the parent is not B2_ROOMS

@@ -118,7 +118,7 @@ func get_curr_room() -> Node2D: #B2_ROOMS:
 	if room_reference:
 		return room_reference
 	else:
-		push_error("Not in B2_ROOMS.")
+		#push_error("Not in B2_ROOMS.")
 		return get_tree().current_scene
 
 # Reset room data. is this needed?
