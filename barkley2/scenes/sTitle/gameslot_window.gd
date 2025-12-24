@@ -86,6 +86,7 @@ func load_slots():
 		slots[i].set_panel_size( 344, 66 )
 		slots[i].monitor_mouse = true
 		slots[i].set_global_position( Vector2(gameslot_x - 8, dry - 8) )
+		slots[i].set_seed( slots[i].name )
 		
 		if B2_Config.has_user_save( i ):		# this slot has saved game. get player data from the file
 			B2_Config.select_user_slot( i )
@@ -93,14 +94,14 @@ func load_slots():
 			slot_has_data[i] = true
 			var spc = 12;
 			
-			var gameslot_name = Text.pr( str( B2_Config.get_user_save_data("quest.vars.playerNameFull") ) )## string(scr_savedata_get("quest.vars.playerNameFull"));
-			var gameslot_mood = Text.pr( "Crestfallen" ); # scr_savedata_get();
-			var gameslot_level = Text.pr( "Level " + str( B2_Config.get_user_save_data("player.xp.level") ) )## string(scr_savedata_get("player.xp.level"));
-			var gameslot_chapter = Text.pr( "Chapter name" );
-			var gameslot_gormstones = 1; # scr_savedata_get("money");
-			var gameslot_gametime = Text.pr( str( B2_Config.get_user_save_data("clock.time") ) )## string(scr_savedata_get("clock.time"));
-			var gameslot_location = Text.pr( str( B2_Config.get_user_save_data("map.room") ) )## string(scr_savedata_get("map.room"));
-			var my_tim = ( 24.0 - B2_Config.get_user_save_data("clock.time", 0.0) / 3600.0) / 24.0 ## if(i == 0) tim = (24 - real(scr_savedata_get("clock.time")) / 3600)/24;
+			var gameslot_name 		:= Text.pr( str( B2_Config.get_user_save_data("quest.vars.playerNameFull") ) )## string(scr_savedata_get("quest.vars.playerNameFull"));
+			var gameslot_mood 		:= Text.pr( "Crestfallen" ); # scr_savedata_get();
+			var gameslot_level 		:= Text.pr( "Level " + str( int(B2_Config.get_user_save_data("player.xp.level", 0.0) ) ) )## string(scr_savedata_get("player.xp.level"));
+			var gameslot_chapter 	:= Text.pr( "[color=dcdcff]Chapter name[/color]: [color=red]%s[/color]" % "Not Added yet." );
+			var gameslot_gormstones := 1; # scr_savedata_get("money");
+			var gameslot_gametime 	:= B2_ClockTime.time_display() # Text.pr( str( B2_Config.get_user_save_data("clock.time") ) )
+			var gameslot_location 	:= Text.pr( str( B2_Config.get_user_save_data("map.room") ) )
+			var my_tim 				: float = ( 24.0 - B2_Config.get_user_save_data("clock.time", 0.0) / 3600.0) / 24.0 ## if(i == 0) tim = (24 - real(scr_savedata_get("clock.time")) / 3600)/24;
 			r_title.tim = max(r_title.tim, my_tim)
 			
 			## Portrait
@@ -141,22 +142,24 @@ func load_slots():
 				gorm.texture = preload("res://barkley2/assets/b2_original/images/sGormstone.png") ## Static picture. its the same on the demo, for some reason.
 				gorm.global_position = Vector2( gameslot_x + 40 + g * 12, dry + (spc * 3) )
 				
-				
 			## Chapter title
-			var pl_chapter := Label.new()
-			pl_chapter.modulate = Color8(220, 220, 255)
+			var pl_chapter := RichTextLabel.new() # Was Label
+			pl_chapter.bbcode_enabled = true
+			pl_chapter.size = Vector2(200,9)
+			#pl_chapter.modulate = Color8(220, 220, 255) # moved to bbcode
 			slots[i].add_decorations( pl_chapter )
 			pl_chapter.text = gameslot_chapter
 			pl_chapter.global_position = Vector2( gameslot_x + 120, dry + 2 + (spc * 0) )
 			#slots[i].add_child( pl_chapter )
 			
-			
 			## Time and Location
+			var non_canon_offset := 10.0 ## Improves the whay some data is displayed on the gameslot.
+			
 			var pl_time := Label.new()
 			slots[i].add_decorations( pl_time )
 			pl_time.text = gameslot_gametime
 			pl_time.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			pl_time.global_position 		= Vector2( gameslot_x + 320, dry + 20 )
+			pl_time.global_position 		= Vector2( gameslot_x + 320, dry + 20 + non_canon_offset )
 			pl_time.global_position.x 		-= pl_time.size.x
 			#slots[i].add_child( pl_time )
 			
@@ -164,7 +167,7 @@ func load_slots():
 			slots[i].add_decorations( pl_location )
 			pl_location.text = gameslot_location
 			pl_location.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-			pl_location.global_position 		= Vector2( gameslot_x + 320, dry + 4 )
+			pl_location.global_position 		= Vector2( gameslot_x + 320, dry + 04 + non_canon_offset )
 			pl_location.global_position.x 		-= pl_location.size.x
 			#slots[i].add_child( pl_location )
 			

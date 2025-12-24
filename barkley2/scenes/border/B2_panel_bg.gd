@@ -53,7 +53,7 @@ func _init():
 	add_child(b_2_panel_fg)
 
 func set_seed( _seed : String ):
-	my_seed = hash(_seed)
+	my_seed = hash( _seed )
 
 func _ready():
 	# Theme

@@ -22,6 +22,7 @@ const S_1X_1 = preload("res://barkley2/assets/b2_original/images/s1x1.png")
 	set(p):
 		is_pressed = p
 		queue_redraw()
+		
 @export var manual_decorations				: Array[Node]
 var is_highlighted := false
 

@@ -191,16 +191,21 @@ func record_curr_location() -> bool:
 	else:
 		return false
 	
+## Handles saving the game. Saving the game can be denied based on certain situations.
 func SaveGame( force := false):
-	print_rich("[color=blue]Save game requested.[/color]")
+	print_rich("[color=light_blue]Save game requested.[/color]")
 	if B2_Playerdata.Quest("saveDisabled") == 0 or force:
-		if not B2_Input.cutscene_is_playing or force: # Make sure that the game isn't saved during a cutscene.
+		if B2_RoomXY.get_curr_room() is not B2_ROOMS and not force: # Check if player is in a valid room
+			print_rich( "[color=red]Save game denied. Player is not in a B2_ROOMS. --> %s[/color]" % B2_RoomXY.get_curr_room().name )
+			
+		elif not B2_Input.cutscene_is_playing or force: # Make sure that the game isn't saved during a cutscene.
 			B2_Gun.save_guns()
 			B2_Playerdata.player_stats.save_stats()
 			B2_Config.create_user_save_data( B2_Config.selected_slot )
+			print_rich("[color=green]Save game executed.[/color]")
 		else:
 			print_rich("[color=red]Save game denied. Player is in a cutscene.[/color]")
-	else:
+	else: # Saving was disabled at some time.
 		print_rich("[color=red]Save game denied. Saving is disabled.[/color]")
 	
 func Stat( stat_name : String, new_value = null ):

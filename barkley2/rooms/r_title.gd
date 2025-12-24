@@ -141,6 +141,7 @@ var dry
 var tim := 0.0 ## important variable. controls how much ot the ziggurat is near hell. range from 0 to 1
 
 func _ready():
+	B2_Playerdata.Quest("saveDisabled", 1) # Disable saving on the title screen.
 	## Logo Flash
 	s_barkley_2_logo.modulate = Color.WHITE * 2.0
 	

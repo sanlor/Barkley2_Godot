@@ -289,8 +289,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	var room_x 		:= float( split[1] )
 	var room_y 		:= float( split[2] )
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
-	var open_sfx	:= str( split[4] ).strip_edges()
-	var close_sfx	:= str( split[5] ).strip_edges()
+	var open_sfx	:= str( split[4] ).strip_edges().replace('"', '') # removes "invalid" characters.
+	var close_sfx	:= str( split[5] ).strip_edges().replace('"', '')
 
 	var fade_modifier := 1.0
 
@@ -325,7 +325,11 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 
 	# Take away the player control.
 	B2_Input.player_has_control = false
-
+	
+	# Play opening door sfx
+	if open_sfx:
+		B2_Sound.play( open_sfx )
+	
 	if not its_the_same_room: ## Interior rooms dont need to load new rooms, since interior rooms contains all rooms in the same scene.
 		## Start to load the room in the background, during the fadeout.
 		begin_load_room_scene( room_name )
@@ -389,11 +393,17 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	else:
 		if not get_tree().current_scene.name == "r_title": # Title screen room. Used when you exit the debug room.
 			push_warning("Loaded a non B2_ROOMS scene. is this expected?")
+	
+	# Play closing door sfx
+	if close_sfx:
+		B2_Sound.play( close_sfx )
+	
 	room_finished_loading.emit()
 	room_load_lock = false
 	if print_debug_logs: print("Finished loading room %s." % room_name)
 	## NOTE 09/06/25 Deltarune ch 3 and 4 was pretty good. still need to finish the weird rounte on ch4.
 	## future me, is ch 5 and 6 any good?
+	## 24/12/25 ^^^^ Fucking neeeerd
 
 ## Begin loading level with threaded load. This should be called before the fade out effect.
 func begin_load_room_scene( room_name : String ) -> void:

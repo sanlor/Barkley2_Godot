@@ -22,20 +22,20 @@ var debug_messages := false
 @onready var audio_loop: AudioStreamPlayer = $AudioLoop
 
 ## Godot stuff
-@export var audio_folder := "res://barkley2/assets/b2_original/audio/"
+@export var audio_folder 		:= "res://barkley2/assets/b2_original/audio/"
 
-const SOUNDBANK 			:= preload("res://barkley2/resources/B2_Sound/soundbank.json")
-const SOUNDPICK 			:= preload("res://barkley2/resources/B2_Sound/soundpick.json")
+const SOUNDBANK 				:= preload("res://barkley2/resources/B2_Sound/soundbank.json")
+const SOUNDPICK 				:= preload("res://barkley2/resources/B2_Sound/soundpick.json")
 
-var sound_bank 				:= {} ## all sounds that the game has.
-var sound_pick 				:= {} ## Allow for multipls sounds for the same effect (Like footsteps having random sounds each step)
+var sound_bank 					:= {} 	## all sounds that the game has.
+var sound_pick 					:= {} 	## Allow for multiple sounds for the same effect (Like footsteps having random sounds each step)
 
-var sound_pool 				:= [] ## a whole bunch of AudioStreamPlayer
-var sound_pool_amount 		:= 50
+var sound_pool 					:= [] 	## a whole bunch of AudioStreamPlayer
+var sound_pool_amount 			:= 50	## amount of audio_stream_players. 50 is a good amount.
 
-var sound_loop				:= {} ## Keep track of the loops
+var sound_loop					:= {} ## Keep track of the loops
 
-var force_sound_bank_reindex := false
+var force_sound_bank_reindex 	:= false
 
 ## All SFX files are loaded on an array for easy lookup
 func _init_sound_banks():
@@ -165,7 +165,12 @@ func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, p
 		# This happens if a lot of SFX are playied at the same time. This should never occur.
 		# WARNING sound_pool_amount controls that amount. Dont fuck with it.
 		push_error("No audiostreeeeeeeam on the pool. This is CRITICAL!")
-		return AudioStreamPlayer.new()
+		_diagnose_audio_pool()
+		if sound_pool.is_empty():
+			push_error("CRITICAL indeed. Could not fix the issue.")
+			return AudioStreamPlayer.new()
+		else:
+			push_warning( "_diagnose_audio_pool was able to recover some audio streams (%s). Still, this should not have happened." % sound_pool.size() )
 	var sfx : AudioStreamPlayer = sound_pool.pop_back()
 	var sound := load( sound_bank[soundID] )
 	sfx.stream = sound
@@ -199,6 +204,14 @@ func set_loop_volume( volume : float ):
 	if volume > 1.0:
 		push_warning("Volume out of range - %s - careful." % volume)
 	audio_loop.volume_db = linear_to_db( volume )
+
+## When the audio pool is exausted, try to resolve the issue.
+func _diagnose_audio_pool() -> void:
+	for audio : AudioStreamPlayer in get_children():
+		if audio.name == "AudioLoop": # Never remove this one.
+			continue
+		if not audio.playing: # For some reason, the signal wasnt triggered.
+			finished_playing( audio )
 
 func finished_playing( sfx : AudioStreamPlayer ):
 	if sound_loop.has(sfx):		## Check if its looping
