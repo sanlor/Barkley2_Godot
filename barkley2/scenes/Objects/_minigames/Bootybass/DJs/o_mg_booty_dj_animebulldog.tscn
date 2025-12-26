@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dph3u1v7yplxe"]
+[gd_scene load_steps=3 format=3 uid="uid://dph3u1v7yplxe"]
 
 [ext_resource type="Script" uid="uid://bqg4y8g5lmyk" path="res://barkley2/scenes/Objects/_minigames/Bootybass/DJs/o_mg_booty_dj_animebulldog.gd" id="1_r80uv"]
 
+[sub_resource type="Curve2D" id="Curve2D_r80uv"]
+_data = {
+"points": PackedVector2Array(-172.0606, 0, 129, 0, 0, -72, 0, 0, 0, 0, 129, 0, 129, 0, -129, 0, 0, 72, 0, 0, 0, 0, -129, 0, -129, 0, 171.48126, -0.2896643, 0, -72)
+}
+point_count = 5
+
 [node name="o_mg_booty_dj_animebulldog" type="Node"]
 script = ExtResource("1_r80uv")
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(333, 220)
+curve = SubResource("Curve2D_r80uv")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -72)

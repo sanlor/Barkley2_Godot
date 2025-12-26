@@ -105,6 +105,9 @@ func get_volume() -> float:
 func get_music( track_name : String ) -> String:
 	return music_bank.get( track_name, "" )
 
+func get_music_stream( track_name : String ) -> AudioStreamOggVorbis:
+	return load( get_music(track_name) )
+
 ## Absolute bonkers function. Plays music based on the area that the player is right now. Someone went mental on the if/else statements.
 # 05/10/25 Sometimes, I just stare at this mess. I love it.
 func room_get( room_name : String):

@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://dl25qojclt5py"]
+[gd_scene load_steps=3 format=3 uid="uid://dl25qojclt5py"]
 
 [ext_resource type="Script" uid="uid://dmr0q7rg8yb4t" path="res://barkley2/scenes/Objects/_minigames/Bootybass/DJs/o_mg_booty_dj_bootyslayer.gd" id="1_bopie"]
 
+[sub_resource type="Curve2D" id="Curve2D_bopie"]
+_data = {
+"points": PackedVector2Array(-172.0606, 0, 129, 0, 0, -72, 0, 0, 0, 0, 129, 0, 129, 0, -129, 0, 0, 72, 0, 0, 0, 0, -129, 0, -129, 0, 171.48126, -0.2896643, 0, -72)
+}
+point_count = 5
+
 [node name="o_mg_booty_dj_bootyslayer" type="Node"]
 script = ExtResource("1_bopie")
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(333, 220)
+curve = SubResource("Curve2D_bopie")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -72)

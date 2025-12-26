@@ -1,0 +1,167 @@
+[gd_scene load_steps=9 format=3 uid="uid://d0ojy7kg4xcy5"]
+
+[ext_resource type="Script" uid="uid://bysirdlw2krdc" path="res://barkley2/scenes/Objects/_minigames/Bootybass/o_mg_booty_minigame.gd" id="1_6amnu"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="2_3q7im"]
+[ext_resource type="AudioStream" uid="uid://dk2mgf7ydwxuw" path="res://barkley2/assets/b2_original/audio/Music/mus_tnn_jockjam.ogg" id="2_cpwfd"]
+
+[sub_resource type="Curve" id="Curve_3q7im"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_axu2m"]
+font = ExtResource("2_3q7im")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfmuh"]
+bg_color = Color(0, 0, 0, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8rqnx"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Curve2D" id="Curve2D_6amnu"]
+_data = {
+"points": PackedVector2Array(-172.0606, 0, 129, 0, 0, -72, 0, 0, 0, 0, 129, 0, 129, 0, -129, 0, 0, 72, 0, 0, 0, 0, -129, 0, -129, 0, 171.48126, -0.2896643, 0, -72)
+}
+point_count = 5
+
+[node name="o_mg_booty_minigame" type="Node"]
+script = ExtResource("1_6amnu")
+adoration_decay_rate = SubResource("Curve_3q7im")
+
+[node name="booty_ui" type="CanvasLayer" parent="."]
+
+[node name="infobar_bg" type="ColorRect" parent="booty_ui"]
+custom_minimum_size = Vector2(0, 20)
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 382.0
+offset_bottom = 24.0
+color = Color(0, 0, 0, 0.4)
+
+[node name="public_opinion_label" type="Label" parent="booty_ui/infobar_bg"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 104.0
+offset_bottom = 20.0
+text = "Public opinion:"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="public_opinion_result_label" type="Label" parent="booty_ui/infobar_bg"]
+layout_mode = 0
+offset_left = 110.0
+offset_right = 208.0
+offset_bottom = 20.0
+text = "TEMPORARY!!!!"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="time_label" type="Label" parent="booty_ui/infobar_bg"]
+layout_mode = 0
+offset_left = 290.0
+offset_right = 388.0
+offset_bottom = 20.0
+text = "Time:"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="time_left_label" type="Label" parent="booty_ui/infobar_bg"]
+layout_mode = 0
+offset_left = 279.0
+offset_right = 377.0
+offset_bottom = 20.0
+text = "00:00"
+label_settings = SubResource("LabelSettings_axu2m")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="adoration_bg" type="ColorRect" parent="booty_ui"]
+custom_minimum_size = Vector2(0, 20)
+offset_left = 2.0
+offset_top = 28.0
+offset_right = 382.0
+offset_bottom = 48.0
+color = Color(0, 0, 0, 0.4)
+
+[node name="adoration_label" type="Label" parent="booty_ui/adoration_bg"]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 104.0
+offset_bottom = 20.0
+text = "Adoration:"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="adoration_bar" type="ProgressBar" parent="booty_ui/adoration_bg"]
+layout_mode = 0
+offset_left = 91.0
+offset_top = 2.0
+offset_right = 360.0
+offset_bottom = 18.0
+theme_override_styles/background = SubResource("StyleBoxFlat_sfmuh")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8rqnx")
+value = 40.0
+show_percentage = false
+
+[node name="adoration_bonus_label" type="Label" parent="booty_ui"]
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 106.0
+offset_bottom = 84.0
+text = "Adoration +0"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="end_game_control" type="Control" parent="booty_ui"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="press_button_label" type="Label" parent="booty_ui/end_game_control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -82.5
+offset_top = -20.0
+offset_right = 82.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Press button to continue"
+label_settings = SubResource("LabelSettings_axu2m")
+vertical_alignment = 1
+
+[node name="ready_label" type="Label" parent="booty_ui"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.5
+offset_top = -10.0
+offset_right = 82.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(82.5, 10)
+text = "3"
+label_settings = SubResource("LabelSettings_axu2m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="dj_music_track_stream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_cpwfd")
+bus = &"Audio"
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(333, 220)
+curve = SubResource("Curve2D_6amnu")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(0, -72)
+
+[connection signal="finished" from="dj_music_track_stream" to="." method="_on_dj_music_track_stream_finished"]

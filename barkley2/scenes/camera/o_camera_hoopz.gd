@@ -342,7 +342,7 @@ func _physics_process(delta: float) -> void:
 					return
 					
 				#_position = player_node.position
-				position = position.move_toward(player_node.position, 140.0 * delta)
+				global_position = position.move_toward(player_node.global_position, 140.0 * delta)
 				
 				if follow_mouse:
 					var mouse_dir 	:= Vector2.ZERO
