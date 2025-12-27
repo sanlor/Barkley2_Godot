@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://d0ojy7kg4xcy5"]
+[gd_scene load_steps=16 format=3 uid="uid://d0ojy7kg4xcy5"]
 
 [ext_resource type="Script" uid="uid://bysirdlw2krdc" path="res://barkley2/scenes/Objects/_minigames/Bootybass/o_mg_booty_minigame.gd" id="1_6amnu"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="2_3q7im"]
 [ext_resource type="AudioStream" uid="uid://dk2mgf7ydwxuw" path="res://barkley2/assets/b2_original/audio/Music/mus_tnn_jockjam.ogg" id="2_cpwfd"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_axu2m"]
+[ext_resource type="Script" uid="uid://bilq7ixdhxjau" path="res://barkley2/scenes/Objects/_minigames/Bootybass/finish_bg_sequence.gd" id="3_sfmuh"]
 
 [sub_resource type="Curve" id="Curve_3q7im"]
-_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.4, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="LabelSettings" id="LabelSettings_axu2m"]
@@ -16,6 +18,362 @@ bg_color = Color(0, 0, 0, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8rqnx"]
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_sfmuh"]
+resource_name = "finish_sequence"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("finish_label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("finish_label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("finish_label:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(4, 4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 0.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Line2D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Line2D2:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Line2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2, 2.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Line2D2:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(2, 2.2666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("result_box:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("result_box/adoration_box:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(2, 2.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("result_box/toot_box:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(2.7666667, 3.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("result_box/variety_box:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(3.5, 4.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("quot_box:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(4.25, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("quot_box:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(4.25),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_8rqnx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("finish_label:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("finish_label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("finish_label:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Line2D:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Line2D2:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Line2D:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Line2D2:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("result_box:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("result_box/adoration_box:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("result_box/toot_box:modulate")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("result_box/variety_box:modulate")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("quot_box:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("quot_box:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7dowj"]
+_data = {
+&"RESET": SubResource("Animation_8rqnx"),
+&"finish_sequence": SubResource("Animation_sfmuh")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_sfmuh"]
+font = ExtResource("3_axu2m")
+font_color = Color(1, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8rqnx"]
+font = ExtResource("3_axu2m")
 
 [sub_resource type="Curve2D" id="Curve2D_6amnu"]
 _data = {
@@ -29,7 +387,27 @@ adoration_decay_rate = SubResource("Curve_3q7im")
 
 [node name="booty_ui" type="CanvasLayer" parent="."]
 
+[node name="ready_label" type="Label" parent="booty_ui"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.5
+offset_top = -10.0
+offset_right = 82.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(82.5, 10)
+text = "3"
+label_settings = SubResource("LabelSettings_axu2m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="infobar_bg" type="ColorRect" parent="booty_ui"]
+visible = false
 custom_minimum_size = Vector2(0, 20)
 offset_left = 2.0
 offset_top = 4.0
@@ -75,6 +453,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="adoration_bg" type="ColorRect" parent="booty_ui"]
+visible = false
 custom_minimum_size = Vector2(0, 20)
 offset_left = 2.0
 offset_top = 28.0
@@ -102,24 +481,54 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_8rqnx")
 value = 40.0
 show_percentage = false
 
-[node name="adoration_bonus_label" type="Label" parent="booty_ui"]
-offset_left = 8.0
-offset_top = 64.0
-offset_right = 106.0
-offset_bottom = 84.0
+[node name="adoration_bonus_label" type="Label" parent="booty_ui/adoration_bg"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 36.0
+offset_right = 104.0
+offset_bottom = 56.0
 text = "Adoration +0"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="end_game_control" type="Control" parent="booty_ui"]
-layout_mode = 3
+[node name="finish_bg" type="ColorRect" parent="booty_ui"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 0)
+script = ExtResource("3_sfmuh")
 
-[node name="press_button_label" type="Label" parent="booty_ui/end_game_control"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="booty_ui/finish_bg"]
+libraries = {
+&"": SubResource("AnimationLibrary_7dowj")
+}
+
+[node name="finish_label" type="Label" parent="booty_ui/finish_bg"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.5
+offset_top = -11.5
+offset_right = 40.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+pivot_offset = Vector2(40.5, 11.5)
+text = "F I N I S H !"
+label_settings = SubResource("LabelSettings_sfmuh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="press_button_label" type="Label" parent="booty_ui/finish_bg"]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -135,21 +544,127 @@ text = "Press button to continue"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="ready_label" type="Label" parent="booty_ui"]
+[node name="result_box" type="VBoxContainer" parent="booty_ui/finish_bg"]
+visible = false
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -82.5
-offset_top = -10.0
-offset_right = 82.5
-offset_bottom = 10.0
+offset_left = -125.0
+offset_top = -77.0
+offset_right = 125.0
+offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(82.5, 10)
-text = "3"
-label_settings = SubResource("LabelSettings_axu2m")
+
+[node name="adoration_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="r_ado_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Adoration"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="r_ado_result_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="toot_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="r_too_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Toot Intensity"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="r_too_result_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="variety_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="r_var_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Variety"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="r_var_result_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="Line2D" type="Line2D" parent="booty_ui/finish_bg"]
+modulate = Color(1, 1, 1, 0)
+points = PackedVector2Array(48, 116, 348, 116)
+width = 1.0
+
+[node name="Line2D2" type="Line2D" parent="booty_ui/finish_bg"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, 3)
+points = PackedVector2Array(48, 116, 348, 116)
+width = 1.0
+
+[node name="quot_box" type="HBoxContainer" parent="booty_ui/finish_bg"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = 5.0
+offset_right = 125.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="r_quo_label" type="Label" parent="booty_ui/finish_bg/quot_box"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Booty Quotient"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="r_quo_result_label" type="Label" parent="booty_ui/finish_bg/quot_box"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "69"
+label_settings = SubResource("LabelSettings_8rqnx")
+
+[node name="final_result_label" type="Label" parent="booty_ui/finish_bg"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = 30.0
+offset_right = -64.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+size_flags_horizontal = 3
+text = "Toot slammer"
+label_settings = SubResource("LabelSettings_8rqnx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -164,4 +679,10 @@ curve = SubResource("Curve2D_6amnu")
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
 position = Vector2(0, -72)
 
+[node name="process_timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="animation_finished" from="booty_ui/finish_bg/AnimationPlayer" to="booty_ui/finish_bg" method="_on_animation_player_animation_finished"]
 [connection signal="finished" from="dj_music_track_stream" to="." method="_on_dj_music_track_stream_finished"]
+[connection signal="timeout" from="process_timer" to="." method="_on_process_timer_timeout"]

@@ -43,6 +43,7 @@ const ALLOWED_KEYS := [
 	KEY_A,KEY_B,KEY_C,KEY_D,KEY_E,KEY_F,KEY_G,KEY_H,KEY_I,KEY_J,KEY_K,KEY_L,KEY_M,KEY_N,KEY_O,KEY_P,KEY_Q,KEY_R,KEY_S,KEY_T,KEY_U,KEY_V,KEY_W,KEY_X,KEY_Y,KEY_Z,
 	KEY_DELETE,KEY_SPACE,KEY_KP_SUBTRACT,KEY_KP_ADD
 ]
+# There are a lot of sfx with the prefix "sn_bb_*", which was used here. maybe add a way to re-enable them? check sn_bb_hawk.ogg
 const SOUND_INDEX := [
 	"sn_enemy_cybergremlin_atk01",
 	"sn_enemy_cybergremlin_atk02",
@@ -71,7 +72,7 @@ const SOUND_INDEX := [
 	"sn_cow_moo3",
 	"sn_powerdown01",
 	"sn_bubblepop03",
-	"sn_busted03",
+	"sn_busted01", ## Was "sn_busted03", which doesnt exist.
 	"sn_godless03",
 	"sn_enemy_babyalien_swipe01",
 	"sn_utilitycursor_buttondisabled01",
@@ -99,14 +100,13 @@ const SOUND_INDEX := [
 @onready var adoration_label: Label = $booty_ui/adoration_bg/adoration_label
 @onready var adoration_bar: ProgressBar = $booty_ui/adoration_bg/adoration_bar
 
-@onready var adoration_bonus_label: Label = $booty_ui/adoration_bonus_label
-
-# End Game
-@onready var end_game_control: Control = $booty_ui/end_game_control
-@onready var press_button_label: Label = $booty_ui/end_game_control/press_button_label
+@onready var adoration_bonus_label: Label = $booty_ui/adoration_bg/adoration_bonus_label
 
 # Ready message
 @onready var ready_label: Label = $booty_ui/ready_label
+
+# Finish game screen
+@onready var finish_bg: ColorRect = $booty_ui/finish_bg
 
 @export var adoration_decay_rate : Curve # replaces "adoration_decay_timer"
 
@@ -128,8 +128,24 @@ var toot_points 	: Array[int] 	= []
 
 var minigame_is_running 	:= false
 
-var alpha_toot := 1.0
-var adoration_bonus_alpha := 1.0
+# Color for the UI #
+var red 					:= randi_range(0,150)
+var green 					:= randi_range(0,150)
+var blue 					:= randi_range(0,150)
+var goal_red 				:= 255;
+var goal_green 				:= 255;
+var goal_blue 				:= 255;
+
+var alpha_score 			:= 0.0
+var alpha_score_goal 		:= 0.0
+var alpha_text_finish 		:= 0.0
+var alpha_countdown 		:= 0.0
+var alpha_press_to_continue := 0.0
+var alpha_toot 				:= 1.0
+var adoration_bonus_alpha 	:= 1.0
+var mixed_color				:= Color.WHITE
+var mixed_color2				:= Color.WHITE
+var scale_countdown 		:= 0.8;
 
 func _ready() -> void:
 	variety.resize(40)
@@ -144,7 +160,7 @@ func _ready() -> void:
 	adoration_bonus_label.hide()
 	infobar_bg.hide()
 	adoration_bg.hide()
-	end_game_control.hide()
+	finish_bg.hide()
 	ready_label.hide()
 	super()
 	
@@ -178,6 +194,11 @@ func _on_dj_music_track_stream_finished() -> void:
 	o_animeBulldog01.cinema_set( "default" )
 	if reward_from_minigame > 128: 	B2_Playerdata.Quest("booty_just_won", 1);
 	else: 							B2_Playerdata.Quest("booty_just_lost", 1);
+	
+	finish_bg.show()
+	finish_bg.begin_sequence()
+	await finish_bg.finished
+	
 	B2_Music.play("mus_tnn_bootylectro")
 	finished.emit()
 	queue_free()
@@ -215,11 +236,34 @@ func _update_public_opinion() -> void:
 	
 func _update_time() -> void:
 	time_left_label.text = "00:" + str( int( dj_music_track_stream.stream.get_length() - dj_music_track_stream.get_playback_position() ) ).pad_zeros(2)
+	time_left_label.modulate = Color.YELLOW#Color(mixed_color, alpha_countdown)
 	
 func _update_adoration() -> void:
 	# Reduce adoration by time, using a decay rate modifier.
-	adoration = clampf( adoration - 1.0 * adoration_decay_rate.sample( adoration / 100.0 ), 0.0, 100.0) 
+	adoration = clampf( adoration - 0.25 * adoration_decay_rate.sample( adoration / 100.0 ), 0.0, 100.0) 
 	adoration_bar.value = adoration
+	adoration_bar.modulate = mixed_color
+	
+	if adoration_bonus >= 0:	adoration_bonus_label.text = Text.pr("Adoration +") 	+ str( int(adoration_bonus) )
+	else: 						adoration_bonus_label.text = Text.pr("Adoration ") 		+ str( int(adoration_bonus) )
+	adoration_bonus_label.modulate = Color(mixed_color2, adoration_bonus_alpha)
+	
+	# Values #
+	if adoration <= 20:
+		public_opinion_result_label.modulate = Color.RED
+		public_opinion_result_label.text = Text.pr("You stink!")
+	elif adoration <= 40:
+		public_opinion_result_label.modulate = Color.ORANGE
+		public_opinion_result_label.text = Text.pr("Mediocre");
+	elif adoration <= 60:
+		public_opinion_result_label.modulate = Color.YELLOW
+		public_opinion_result_label.text = Text.pr("Interesting...!");
+	elif adoration <= 80:
+		public_opinion_result_label.modulate = Color.GREEN
+		public_opinion_result_label.text = Text.pr("Whoa!!!");
+	elif adoration <= 100:
+		public_opinion_result_label.modulate = mixed_color
+		public_opinion_result_label.text = Text.pr("SUPERB!!");
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed() and minigame_is_running:
@@ -327,11 +371,54 @@ func _process_input() -> void:
 		# No more toots #
 		make_a_toot = false;
 
+func _update_colors() -> void:
+	# Countdown scale #
+	if scale_countdown < 8: scale_countdown += 0.5;
+		
+	# Alphas #
+	if alpha_score < alpha_score_goal: alpha_score += 0.1;
+	if alpha_score > alpha_score_goal: alpha_score -= 0.1;
+	if alpha_toot > 0: alpha_toot -= 0.05;
+	if alpha_countdown > 0: alpha_countdown -= 0.025;
+
+	# Color red #
+	if red < goal_red: red += 15;
+	if red > goal_red: red -= 10;
+	if red > 255: red = 255;
+	if red < 0: red = 0;
+	if red == goal_red:
+		if goal_red == 0: goal_red = 255;
+		elif goal_red == 255: goal_red = 0;
+		
+	# Color green #
+	if green < goal_green: green += 20;
+	if green > goal_green: green -= 10;
+	if green > 255: green = 255;
+	if green < 0: green = 0;
+	if green == goal_green:
+		if goal_green == 0: goal_green = 255;
+		elif goal_green == 255: goal_green = 0;
+		
+	# Color Blue #
+	if blue < goal_blue: blue += 10;
+	if blue > goal_blue: blue -= 10;
+	if blue > 255: blue = 255;
+	if blue < 0: blue = 0;
+	if blue == goal_blue:
+		if goal_blue == 0: goal_blue = 255;
+		elif goal_blue == 255: goal_blue = 0;
+		
+	# Mix colors #
+	mixed_color = Color.from_rgba8(255 -red, 255 - green, 255 - blue)
+	mixed_color2 = Color.from_rgba8(red, green, blue)
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	
+func _on_process_timer_timeout() -> void:
 	if minigame_is_running:
 		#_process_input()
 		_update_public_opinion()
 		_update_time()
 		_update_adoration()
+		_update_colors()
