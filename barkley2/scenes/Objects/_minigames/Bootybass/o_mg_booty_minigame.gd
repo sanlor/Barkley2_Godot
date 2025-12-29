@@ -186,18 +186,30 @@ func _play_minigame_music() -> void:
 	dj_music_track_stream.play()
 
 func _on_dj_music_track_stream_finished() -> void:
-	await get_tree().create_timer(1.0).timeout
+	minigame_is_running = false
+	time_left_label.text = "00:00"
 	camera_is_spining = false
+	await get_tree().create_timer(1.0).timeout
 	o_mg_booty_surface.enable_light() ## Re-enable normal lightsx
 	
 	o_bootySlayer01.cinema_set( "default" )
 	o_animeBulldog01.cinema_set( "default" )
-	if reward_from_minigame > 128: 	B2_Playerdata.Quest("booty_just_won", 1);
-	else: 							B2_Playerdata.Quest("booty_just_lost", 1);
 	
+	# tally variety -> o_mg_booty_minigame step line 346
+	variety_total = variety.count(true)
+	
+	# Hide stuff
+	infobar_bg.hide()
+	adoration_bg.hide()
+	
+	# Show finish sequence
 	finish_bg.show()
 	finish_bg.begin_sequence()
 	await finish_bg.finished
+	
+	# Decide the consequences of your actions. NOTE 'reward_from_minigame' is set by 'finish_bg'.
+	if reward_from_minigame > 128: 	B2_Playerdata.Quest("booty_just_won", 1);
+	else: 							B2_Playerdata.Quest("booty_just_lost", 1);
 	
 	B2_Music.play("mus_tnn_bootylectro")
 	finished.emit()
