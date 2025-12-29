@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=4 uid="uid://l184vft02f1o"]
+[gd_scene load_steps=107 format=4 uid="uid://l184vft02f1o"]
 
 [ext_resource type="Script" uid="uid://c6r8vxno0eooc" path="res://barkley2/rooms/tirnanog/_interiors/r_tnn_bootybass02.gd" id="1_38e3p"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="1_whfeo"]
@@ -8,6 +8,7 @@
 [ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="5_jwtrj"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="6_vxx7l"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="7_iux8e"]
+[ext_resource type="Texture2D" uid="uid://dbftuwpbfafqm" path="res://barkley2/assets/b2_original/images/merged/s_mg_booty_light_orbit.png" id="7_othqs"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="8_1eown"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="9_06bjv"]
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="10_6s4od"]
@@ -3410,7 +3411,7 @@ animations = [{
 
 [sub_resource type="Resource" id="Resource_qc0n1"]
 script = ExtResource("37_etxe0")
-original_script = "GOTO | PERFORMANCE_3 //TEMP
+original_script = "//GOTO | PERFORMANCE_3 //TEMP
 GOTO | MAIN
 
 MAIN
@@ -4388,13 +4389,36 @@ position = Vector2(333, 279)
 script = ExtResource("53_iux8e")
 
 [node name="flash_timer" type="Timer" parent="light_control"]
-wait_time = 0.25
+wait_time = 0.75
 autostart = true
 
 [node name="light_flash" parent="light_control" instance=ExtResource("54_1eown")]
 
 [node name="spot_light_spin" parent="light_control" instance=ExtResource("55_1eown")]
 position = Vector2(336, 282)
+
+[node name="slayer_spotlight" type="PointLight2D" parent="light_control"]
+position = Vector2(-100, -97)
+scale = Vector2(0.65, 0.65)
+energy = 1.5
+blend_mode = 2
+texture = ExtResource("7_othqs")
+
+[node name="anime_spotlight" type="PointLight2D" parent="light_control"]
+visible = false
+position = Vector2(-25, -97)
+scale = Vector2(0.65, 0.65)
+energy = 1.5
+blend_mode = 2
+texture = ExtResource("7_othqs")
+
+[node name="hoopz_spotlight" type="PointLight2D" parent="light_control"]
+visible = false
+position = Vector2(50, -97)
+scale = Vector2(0.65, 0.65)
+energy = 1.5
+blend_mode = 2
+texture = ExtResource("7_othqs")
 
 [node name="layer 93" type="TileMapLayer" parent="."]
 z_index = -10
@@ -4731,17 +4755,17 @@ metadata/scale = Vector2(1, 1)
 
 [node name="spotlight" parent="." instance=ExtResource("56_06bjv")]
 position = Vector2(324, 49)
-rotation = -1.5821611
-color = Color(0.80645186, 0.8704861, 0.90998733, 1)
+rotation = -1.5669467
+color = Color(0.5766928, 0.50101644, 0.4481831, 1)
 
 [node name="spotlight2" parent="." instance=ExtResource("56_06bjv")]
 position = Vector2(324, 49)
-rotation = -1.8954918
-color = Color(0.050101683, 0.22877696, 0.40281612, 1)
+rotation = -1.2349788
+color = Color(0.8241588, 0.9930036, 0.819386, 1)
 
 [node name="spotlight3" parent="." instance=ExtResource("56_06bjv")]
 position = Vector2(324, 49)
-rotation = -1.135112
-color = Color(0.5185744, 0.07349822, 0.20170553, 1)
+rotation = -1.2600281
+color = Color(0.5977926, 0.62752354, 0.40169728, 1)
 
 [connection signal="timeout" from="light_control/flash_timer" to="light_control" method="_on_flash_timer_timeout"]

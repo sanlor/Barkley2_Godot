@@ -52,8 +52,8 @@ func play_music() -> void:
 	stream.play()
 	
 func enable_dj_lights() -> void:
-	if dj == 0:	o_mg_booty_surface.bootyslayer_lights()
-	if dj == 1:	o_mg_booty_surface.animebulldog_lights()
+	if dj == 1:	o_mg_booty_surface.bootyslayer_lights()
+	if dj == 0:	o_mg_booty_surface.animebulldog_lights()
 	
 func _music_finished() -> void:
 	await get_tree().create_timer(1.0).timeout

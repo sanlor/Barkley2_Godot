@@ -3,6 +3,7 @@ extends "res://barkley2/scenes/Objects/_minigames/Bootybass/DJs/o_mg_booty_dj_se
 # https://www.youtube.com/watch?v=hgnhVcyLy1I
 
 # check o_mg_booty_effect_text
+const O_MG_BOOTY_EFFECT_TEXT = preload("uid://bbblp2kyms0wy")
 
 const ADORATION_MESSAGE := [
 	"You stink!", 
@@ -102,6 +103,12 @@ const SOUND_INDEX := [
 
 @onready var adoration_bonus_label: Label = $booty_ui/adoration_bg/adoration_bonus_label
 
+@onready var input_delay: Timer = $booty_ui/input_delay
+@onready var adoration_lights_timer: Timer = $booty_ui/adoration_lights_timer
+
+## UI
+@onready var booty_ui: CanvasLayer = $booty_ui
+
 # Ready message
 @onready var ready_label: Label = $booty_ui/ready_label
 
@@ -184,16 +191,19 @@ func _play_minigame_music() -> void:
 	minigame_is_running = true
 	dj_music_track_stream.stream = B2_Music.get_music_stream(music_track)
 	dj_music_track_stream.play()
+	adoration_lights_timer.start()
 
 func _on_dj_music_track_stream_finished() -> void:
 	minigame_is_running = false
-	time_left_label.text = "00:00"
+	time_left_label.text = "00:00" ## Avoids the timer turning to "00:64".
 	camera_is_spining = false
 	await get_tree().create_timer(1.0).timeout
 	o_mg_booty_surface.enable_light() ## Re-enable normal lightsx
 	
 	o_bootySlayer01.cinema_set( "default" )
 	o_animeBulldog01.cinema_set( "default" )
+	B2_CManager.o_cts_hoopz.cinema_set( "stand_S" )
+	B2_CManager.o_cts_hoopz.z_index = 0
 	
 	# tally variety -> o_mg_booty_minigame step line 346
 	variety_total = variety.count(true)
@@ -216,6 +226,9 @@ func _on_dj_music_track_stream_finished() -> void:
 	queue_free()
 
 func _begin_animation() -> void:
+	B2_CManager.o_cts_hoopz.cinema_set( "hoopzDJ", true ) # This shit was hidden! WTF!!! check o_mg_booty_minigame draw line 2. What a stupid way to set an animation.
+	B2_CManager.o_cts_hoopz.z_index = 100
+	
 	ready_label.show()
 	ready_label.rotation = 0
 	ready_label.scale = Vector2.ZERO
@@ -282,6 +295,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_process_input()
 
 func _process_input() -> void:
+	if not input_delay.is_stopped():
+		return
+		
 	## 26/12/25 This is a bit weird. Im not sure how this should work yet.
 	var make_a_toot 	:= false
 	var toot_index		:= 0
@@ -360,7 +376,7 @@ func _process_input() -> void:
 		alpha_toot += (adoration_bonus + 5.0) / 10.0 * 0.25; 
 
 		# Play toot #
-		B2_Sound.play( SOUND_INDEX[toot_index] )
+		B2_Sound.play( SOUND_INDEX[toot_index], 0, false, 1, randf_range( 0.75, 1.25 ), 0.5 )
 
 		# Add adoration #
 		adoration_bonus = toot_points[toot_index];
@@ -377,11 +393,18 @@ func _process_input() -> void:
 		adoration = clampf(adoration, 0.0, 100.0)
 
 		# Text popup #
-		#popup = instance_create(-100, -100, o_mg_booty_effect_text);
-		#popup.text = adoration_bonus + 5;
+		var text_opinion = TEXT_OPINION.duplicate() ## I fucked up and inverted the array. I WILL NOT FIX IT and added this botch code.
+		text_opinion.reverse()
+		var popup : Control = O_MG_BOOTY_EFFECT_TEXT.instantiate() #instance_create(-100, -100, o_mg_booty_effect_text);
+		popup.my_text = text_opinion[ adoration_bonus + 5 ]
+		popup.my_text_id = adoration_bonus + 5
+		booty_ui.add_child( popup, true )
 
 		# No more toots #
 		make_a_toot = false;
+		
+		# Avoid multiple, instant inputs (gamepad)
+		input_delay.start()
 
 func _update_colors() -> void:
 	# Countdown scale #
@@ -434,3 +457,19 @@ func _on_process_timer_timeout() -> void:
 		_update_time()
 		_update_adoration()
 		_update_colors()
+
+func _on_adoration_lights_timer_timeout() -> void:
+	if minigame_is_running:
+		if adoration <= 35:
+			for i in 4:
+				o_mg_booty_surface.light_control.create_light_flash(0, 0.5)
+		elif adoration <= 65:
+			for i in 10:
+				o_mg_booty_surface.light_control.create_light_flash(0, 0.5)
+		elif adoration <= 100:
+			for i in 16:
+				o_mg_booty_surface.light_control.create_light_flash(0, 0.5)
+		else:
+			for i in 20:
+				o_mg_booty_surface.light_control.create_light_flash(0, 0.5)
+	adoration_lights_timer.start( randf_range(0.5,2) )

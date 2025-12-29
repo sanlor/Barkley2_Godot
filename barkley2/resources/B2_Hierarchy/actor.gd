@@ -259,7 +259,7 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	#ActorAnim.frame = old_frame # <- is this needed?
 	return
 
-func cinema_set( _sprite_frame : String ):
+func cinema_set( _sprite_frame : String, force_play := false ):
 	if is_moving:
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
 		
@@ -271,6 +271,7 @@ func cinema_set( _sprite_frame : String ):
 	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
 		ActorAnim.animation = _sprite_frame
 		adjust_sprite_offset()
+		if force_play: ActorAnim.play()
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
@@ -415,6 +416,7 @@ func adjust_sprite_offset():
 	var sprite_data := get_curr_sprite_metadata(curr_anim)
 	if sprite_data.is_empty():
 		# no data
+		push_warning( "No data for the animation %s -> %s." % [curr_anim, name] )
 		return
 		
 	ActorAnim.centered = false

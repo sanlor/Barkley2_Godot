@@ -40,8 +40,16 @@ func begin_sequence() -> void:
 	animation_player.play("finish_sequence")
 
 func finish_sequence() -> void:
-	## TODO
-	push_warning("TODO")
+	var toot := func():
+		# o_mg_booty_minigame create line 58 and draw line 132
+		if reward_from_minigame <= 25:			final_result_label.text = Text.pr("Toot failure")
+		elif reward_from_minigame <= 75:		final_result_label.text = Text.pr("Toot amateur")
+		elif reward_from_minigame <= 128:		final_result_label.text = Text.pr("Toot dork")
+		elif reward_from_minigame <= 200:		final_result_label.text = Text.pr("Toot hobbyist")
+		elif reward_from_minigame <= 300:		final_result_label.text = Text.pr("Toot slammer")
+		else:									final_result_label.text = Text.pr("Tootlord")
+	
+	
 	press_button_label.modulate = Color.TRANSPARENT
 	var tween := create_tween()
 	for i in adoration:
@@ -55,21 +63,11 @@ func finish_sequence() -> void:
 	tween.tween_interval( 2.0 )
 	tween.tween_callback( press_button_label.show )
 	tween.tween_callback( final_result_label.show )
+	tween.tween_callback( toot )
+	tween.tween_callback( B2_Sound.play.bind("sn_bb_fanfare") )
 	tween.parallel().tween_property( press_button_label, "modulate", Color.WHITE, 1.0 )
 	tween.tween_callback( set.bind("is_waiting_input", true) )
 	await tween.finished
-	
-	final_result_label.show()
-	# o_mg_booty_minigame create line 58 and draw line 132
-	if reward_from_minigame <= 25:			final_result_label.text = Text.pr("Toot failure")
-	elif reward_from_minigame <= 75:		final_result_label.text = Text.pr("Toot amateur")
-	elif reward_from_minigame <= 128:		final_result_label.text = Text.pr("Toot dork")
-	elif reward_from_minigame <= 200:		final_result_label.text = Text.pr("Toot hobbyist")
-	elif reward_from_minigame <= 300:		final_result_label.text = Text.pr("Toot slammer")
-	else:									final_result_label.text = Text.pr("Tootlord")
-	
-	## Play fanfare
-	B2_Sound.play("sn_bb_fanfare")
 	
 	# Update the almighty variable, for fuck sake.
 	o_mg_booty_minigame.reward_from_minigame = reward_from_minigame
@@ -111,11 +109,3 @@ func _update_labels() -> void:
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	finish_sequence()
-
-# flash Label
-func _physics_process(_delta: float) -> void:
-	if is_waiting_input:
-		var color_offset : float = 0.1
-		final_result_label.modulate.h = clampf( final_result_label.modulate.h + color_offset * 1.00, 0.0, 1.0 )
-		#final_result_label.modulate.g = clampf( final_result_label.modulate.g + color_offset * 0.75, 0.0, 1.0 )
-		#final_result_label.modulate.b = clampf( final_result_label.modulate.b + color_offset * 0.50, 0.0, 1.0 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0ojy7kg4xcy5"]
+[gd_scene load_steps=19 format=3 uid="uid://d0ojy7kg4xcy5"]
 
 [ext_resource type="Script" uid="uid://bysirdlw2krdc" path="res://barkley2/scenes/Objects/_minigames/Bootybass/o_mg_booty_minigame.gd" id="1_6amnu"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="2_3q7im"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_axu2m"]
 [ext_resource type="Script" uid="uid://bilq7ixdhxjau" path="res://barkley2/scenes/Objects/_minigames/Bootybass/finish_bg_sequence.gd" id="3_sfmuh"]
 [ext_resource type="AudioStream" uid="uid://6ox4m4lgsc65" path="res://barkley2/assets/b2_original/audio/Bootybass/sn_bb_scoretally.ogg" id="4_8rqnx"]
+[ext_resource type="Material" uid="uid://cjwb7vqxbj06a" path="res://barkley2/shaders/material/o_mg_booty_minigame.tres" id="6_7dowj"]
 
 [sub_resource type="Curve" id="Curve_3q7im"]
 _data = [Vector2(0, 0), 0.0, 0.4, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
@@ -19,6 +20,9 @@ bg_color = Color(0, 0, 0, 0.5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8rqnx"]
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7dowj"]
+font = ExtResource("3_axu2m")
 
 [sub_resource type="Animation" id="Animation_8rqnx"]
 length = 0.001
@@ -489,7 +493,7 @@ offset_top = 36.0
 offset_right = 104.0
 offset_bottom = 56.0
 text = "Adoration +0"
-label_settings = SubResource("LabelSettings_axu2m")
+label_settings = SubResource("LabelSettings_7dowj")
 vertical_alignment = 1
 
 [node name="finish_bg" type="ColorRect" parent="booty_ui"]
@@ -654,6 +658,7 @@ text = "69"
 label_settings = SubResource("LabelSettings_8rqnx")
 
 [node name="final_result_label" type="Label" parent="booty_ui/finish_bg"]
+material = ExtResource("6_7dowj")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -673,6 +678,12 @@ label_settings = SubResource("LabelSettings_8rqnx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="input_delay" type="Timer" parent="booty_ui"]
+wait_time = 0.2
+one_shot = true
+
+[node name="adoration_lights_timer" type="Timer" parent="booty_ui"]
+
 [node name="dj_music_track_stream" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_cpwfd")
 bus = &"Audio"
@@ -689,5 +700,6 @@ wait_time = 0.1
 autostart = true
 
 [connection signal="animation_finished" from="booty_ui/finish_bg/AnimationPlayer" to="booty_ui/finish_bg" method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="booty_ui/adoration_lights_timer" to="." method="_on_adoration_lights_timer_timeout"]
 [connection signal="finished" from="dj_music_track_stream" to="." method="_on_dj_music_track_stream_finished"]
 [connection signal="timeout" from="process_timer" to="." method="_on_process_timer_timeout"]

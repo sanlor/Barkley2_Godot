@@ -14,22 +14,39 @@ func bootyslayer_lights() -> void:
 	light_control.flash_enabled = true
 	light_control.spin_enabled = false
 	light_control.set_timer( 0.125 )
+	
+	light_control.slayer_spotlight.show()
+	light_control.anime_spotlight.hide()
+	light_control.hoopz_spotlight.hide()
 
 func animebulldog_lights() -> void:
 	light_control.enabled = true
 	light_control.flash_enabled = false
 	light_control.spin_enabled = true
 	light_control.set_timer( 0.025 )
-	push_warning("MISSING VISUAL EFFECTS!!!!!")
+	
+	light_control.slayer_spotlight.hide()
+	light_control.anime_spotlight.show()
+	light_control.hoopz_spotlight.hide()
+	#push_warning("MISSING VISUAL EFFECTS!!!!!")
+
+func hoopz_lights() -> void:
+	light_control.slayer_spotlight.hide()
+	light_control.anime_spotlight.hide()
+	light_control.hoopz_spotlight.show()
 
 func enable_light() -> void:
 	spotlight.show()
 	spotlight_2.show()
 	spotlight_3.show()
 	light_control.enabled = true
-	light_control.set_timer( 0.25 )
+	light_control.set_timer( 0.75 )
 	light_control.flash_enabled = true
 	light_control.spin_enabled = true
+	
+	light_control.slayer_spotlight.hide()
+	light_control.anime_spotlight.hide()
+	light_control.hoopz_spotlight.hide()
 
 func disable_light() -> void: ## TODO
 	spotlight.hide()
