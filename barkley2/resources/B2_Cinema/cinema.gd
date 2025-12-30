@@ -1061,6 +1061,29 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					await B2_RoomXY.fadeout_finished
 				"scr_savedata_save":
 					B2_Playerdata.SaveGame()
+				"Candy": ## This is only called once in the whole game.
+					var action : String = parsed_line[1].strip_edges()
+					var candy : String = parsed_line[2].strip_edges()
+					
+					match action:
+						"recipe delete":
+							B2_Candy.remove_candy_recipe( candy )
+						_:
+							push_error( "%s: Invalid Candy action -> %s" % [name, action] )
+							breakpoint
+						
+				"MUSIC": ## added by me, on 31/12/25. Replaces MISC | music
+					var action : String = parsed_line[1].strip_edges()
+					match action:
+						"PAUSE":
+							B2_Music.store_curr_music()
+							B2_Music.stop()
+						"RESUME":
+							B2_Music.resume_stored_music()
+						"STOP":
+							B2_Music.stop()
+						"PLAY":
+							B2_Music.play( parsed_line[2].strip_edges() )
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] + " - " + str(parsed_line) )
 			

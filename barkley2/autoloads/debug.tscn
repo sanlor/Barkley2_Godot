@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=47 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/autoloads/debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -212,6 +212,16 @@ func _on_pressed() -> void:
 	B2_Sound.play_pick( B2_Gun.get_current_gun().get_swap_sound() )
 	print(\"New gun generated! - %s\" % B2_Gun.get_current_gun().get_full_name() )
 "
+
+[sub_resource type="LabelSettings" id="LabelSettings_hgrbu"]
+font = ExtResource("5_iquyo")
+font_color = Color(1, 1, 0.41568628, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_27myr"]
+font = ExtResource("7_hkl2t")
+
+[sub_resource type="LabelSettings" id="LabelSettings_qyn30"]
+font = ExtResource("7_hkl2t")
 
 [sub_resource type="LabelSettings" id="LabelSettings_2n5ny"]
 font = ExtResource("10_fcqti")
@@ -488,42 +498,73 @@ theme_override_fonts/normal_font = ExtResource("7_hgrbu")
 bbcode_enabled = true
 text = "No"
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
+[node name="quest_checker" type="AcceptDialog" parent="."]
 oversampling_override = 1.0
+title = "Quest variable checker"
 initial_position = 1
-size = Vector2i(300, 143)
+size = Vector2i(266, 208)
+ok_button_text = "Close"
 
-[node name="quest_checker" type="VBoxContainer" parent="AcceptDialog"]
+[node name="quest_checker" type="VBoxContainer" parent="quest_checker"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -142.0
-offset_top = -63.5
-offset_right = 142.0
-offset_bottom = 22.5
+offset_left = -125.0
+offset_top = -96.0
+offset_right = 125.0
+offset_bottom = 55.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 script = ExtResource("4_ecn0k")
 
-[node name="quest_check_title" type="Label" parent="AcceptDialog/quest_checker"]
+[node name="Label" type="Label" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
-text = "Quest var check"
-horizontal_alignment = 1
+text = "Use this option to check or set quest variables.
+WARNING: This is a debug tool and should not be used in the final game. This can break some quests and fuck up the entire game. 
+Use with care."
+label_settings = SubResource("LabelSettings_hgrbu")
+autowrap_mode = 2
 
-[node name="quest_request" type="LineEdit" parent="AcceptDialog/quest_checker"]
+[node name="quest_request" type="LineEdit" parent="quest_checker/quest_checker"]
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("7_hkl2t")
 placeholder_text = "Type a quest variable here"
 
-[node name="result_lbl" type="Label" parent="AcceptDialog/quest_checker"]
+[node name="HBoxContainer" type="HBoxContainer" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="quest_value_lbl" type="Label" parent="quest_checker/quest_checker/HBoxContainer"]
 modulate = Color(1, 0, 1, 1)
 layout_mode = 2
-text = "Result: NaN"
+size_flags_horizontal = 3
+text = "Result:"
+label_settings = SubResource("LabelSettings_27myr")
+
+[node name="quest_value" type="LineEdit" parent="quest_checker/quest_checker/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("7_hkl2t")
+placeholder_text = "Value"
+
+[node name="quest_value_set_btn" type="Button" parent="quest_checker/quest_checker/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_hkl2t")
+text = "Set!"
+
+[node name="quest_result_type_lbl" type="Label" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Result type"
+label_settings = SubResource("LabelSettings_qyn30")
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="teleport_window" type="ConfirmationDialog" parent="."]
 editor_description = "Test"
@@ -674,7 +715,11 @@ label_settings = SubResource("LabelSettings_uokvk")
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
 [connection signal="visibility_changed" from="gun_stats" to="gun_stats" method="_on_visibility_changed"]
 [connection signal="timeout" from="gun_stats/update_timer" to="gun_stats" method="_on_update_timer_timeout"]
-[connection signal="text_submitted" from="AcceptDialog/quest_checker/quest_request" to="AcceptDialog/quest_checker" method="_on_quest_request_text_submitted"]
+[connection signal="close_requested" from="quest_checker" to="quest_checker/quest_checker" method="_on_quest_checker_close_requested"]
+[connection signal="text_changed" from="quest_checker/quest_checker/quest_request" to="quest_checker/quest_checker" method="_on_quest_request_text_changed"]
+[connection signal="text_submitted" from="quest_checker/quest_checker/quest_request" to="quest_checker/quest_checker" method="_on_quest_request_text_submitted"]
+[connection signal="pressed" from="quest_checker/quest_checker/HBoxContainer/quest_value_set_btn" to="quest_checker/quest_checker" method="_on_quest_value_set_btn_pressed"]
+[connection signal="visibility_changed" from="quest_checker/quest_checker/quest_result_type_lbl" to="quest_checker/quest_checker" method="_on_quest_result_type_lbl_visibility_changed"]
 [connection signal="canceled" from="teleport_window" to="teleport_window" method="_on_canceled"]
 [connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]
 [connection signal="item_activated" from="teleport_window/tree_node" to="teleport_window" method="_on_tree_node_item_activated"]

@@ -204,7 +204,7 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	assert(target != null, "Null? NULL? Why null?")
 	var looking_at := movement_vector
 	var prefix := ""
-	if B2_CManager.curr_BODY == B2_CManager.BODY.DIAPER: prefix = "diaper_" ## What a mess. This is a port of the original code. not really want to change how it works.
+	if B2_CManager.curr_BODY == B2_CManager.BODY.DIAPER: prefix = "diaper_" ## What a mess. This is a port of the original code. Don't really want to change how it works.
 	var dir : Vector2
 	if target 		is String:
 		if not dir_2_vec_map.has(target): push_warning("no target called %s." % target) ## Debug
@@ -248,18 +248,24 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	# 04/11/25 Still having issues with this. Surprise at not working for some reason.
 	## 04/11/25 Alright, disabled this again. Enabling this causes issues with animations not stopping and hoopz reseting the final animation.
 	# Main issue is, I don't remember why I keep enabling this again. CRITICAL document the reason for this piece of code.
+	## 30/12/25 Well, fuck, im still having issues with this, it seems. The main issue is that, with this disabled, when the USEAT action is performed Hoopz looks to the right.
+	
 	## vvvvvv
 	#if vec_2_dir_map.has( dir ):
 	#	cinema_look( vec_2_dir_map.get( dir ) ) 
 	#else:
 	#	push_error("Invalid dir. check shit out -> %s" % dir)
 	#	cinema_look( "SOUTH" )
-	## 111111
-	# To test this, load r_air_throneRoom01 and talk with o_cuchutamo02.
+	## 
+	# To test this, load 'r_air_throneRoom01' and talk with o_cuchutamo02.
+	
+	## 30/12/25 - DEBUG - hoopz keeps looking at the wrong direction after running USEAT action.
+	ActorAnim.flip_h = false
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	return
 
+## Change current animation. NOTE This wont play an animation, will just set an animation.
 func cinema_set( _sprite_frame : String, force_play := false ):
 	if is_moving:
 		push_warning("Warning: Cant change %s´s animation while actor is moving.", name)
@@ -276,6 +282,7 @@ func cinema_set( _sprite_frame : String, force_play := false ):
 	else:
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
+## Change current to "_sprite_frame" animation and play it. After playing it, set animation to "_sprite_frame_2".
 func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true

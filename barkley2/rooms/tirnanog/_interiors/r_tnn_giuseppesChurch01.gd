@@ -12,6 +12,9 @@ func _ready() -> void:
 		# Opening scene with Giuseppe and the two Doubting Dwarfs
 		if B2_Playerdata.Quest("giuseppeScene") == 0 and B2_Playerdata.Quest("govChurch") < 2:
 			B2_CManager.play_cutscene( cutscene_script, self, [] )
+		else:
+			B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
+			
 	elif B2_RoomXY.is_room_valid():
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:

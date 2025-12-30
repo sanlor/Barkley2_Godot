@@ -12,14 +12,9 @@ extends B2_InteractiveActor
 
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
-	if B2_Playerdata.Quest("grannyIncapped") == 1:
-		ActorAnim.animation = "onground"
-	else:
-		ActorAnim.animation = "default"
-		
 	_setup_actor()
 	_setup_interactiveactor()
-
+	
 	ANIMATION_STAND 						= "default"
 	ANIMATION_SOUTH 						= ""
 	ANIMATION_SOUTHEAST 					= ""
@@ -31,3 +26,8 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	if B2_Playerdata.Quest("grannyIncapped") == 1:
+		ActorAnim.animation = "onground"
+	else:
+		ActorAnim.animation = "default"

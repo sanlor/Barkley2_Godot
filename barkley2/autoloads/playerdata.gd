@@ -179,6 +179,7 @@ func time_goes_on() -> void:
 		# Time does NOT go on during, the tutorial, title screen and CC.
 		pass
 	
+## Tries to save the player's current location (position and room name). Won't be able to if the player is in a cutscene or saving is disabled.
 func record_curr_location() -> bool:
 	if B2_Playerdata.Quest("saveDisabled") == 0: ## Save game (if possible) during exit.
 		if get_tree().current_scene is B2_ROOMS: ## Only save if the player is inside a valid room.
@@ -215,7 +216,7 @@ func Stat( stat_name : String, new_value = null ):
 	else:
 		return player_stats.get_effective_stat( stat_name )
 	
-## This func replaces the Quests script.
+## Gets or sets quest variables. Emits the signal "B2_SignalBus.quest_updated" when a value is set.
 func Quest(key : String, value = null, default = 0):
 	# if value is not found, return "default"
 	var questpath = "quest.vars." + key;
@@ -272,7 +273,7 @@ func preload_CC_save_data():
 	# QuestTracker("init");
 	## BodySwap("init"); Check B2_Playerdata.BodySwap()
 	## Note("init"); -> check B2_Note
-	# Item("reset"); 
+	## Item("reset"); -> check B2_Item
 	## Map("reset"); -> check B2_Map
 	# Cyberspear("reset");
 	

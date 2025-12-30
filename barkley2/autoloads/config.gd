@@ -192,7 +192,7 @@ func get_user_save_data( path : String, default = null ): ## return null if its 
 				push_warning( "Key ", i, " does not exist currently. Returning null" )
 			return default
 	
-func set_user_save_data( path : String, value ):
+func set_user_save_data( path : String, value ) -> void:
 	if usersavefile.is_empty():
 		#push_error("Game not loaded. No place to save. discarting data: " + str(path) + " - " + str(value) )
 		#return
@@ -231,7 +231,7 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	#var json := JSON.new()
 	savefile.store_string( JSON.stringify( usersavefile, "\t", false ) )
 	savefile.close()
-	print_rich( "[color=blue]Game savedusing slot %s.[/color]" % slot )
+	print_rich( "[color=blue]Game saved using slot [b]%s[/b].[/color]" % slot )
 	
 func delete_user_save_data( slot : int ): # Should be used on the title screen.
 	assert( slot >= 0 or slot <= 2)
@@ -268,8 +268,9 @@ func apply_config( _save := true):
 		config_save()
 
 func change_window_scale() -> void:
-	for i in DisplayServer.get_screen_count(): # debug
-		print("Screen %s is %s." % [i, DisplayServer.screen_get_size(i)])
+	print( "Primary screen is %s." % DisplayServer.get_primary_screen() )	# debug
+	for i in DisplayServer.get_screen_count(): 								# debug
+		print( "Screen %s is %s." % [i, DisplayServer.screen_get_size(i)] )	# debug
 		
 	if fullscreen == ON:
 		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_FULLSCREEN )
@@ -286,8 +287,8 @@ func change_window_scale() -> void:
 	
 
 func config_load():
-	var config = ConfigFile.new()
-	var error := config.load( configsavefolder + configsavefile )
+	var config 	:= ConfigFile.new()
+	var error 	:= config.load( configsavefolder + configsavefile )
 	
 	if error != OK:
 		push_warning("No config file exist. Creating a new one.")

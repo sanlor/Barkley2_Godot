@@ -26,7 +26,7 @@ var can_disable_player_col := false
 
 @onready var player_data: 		ScrollContainer = $player_data
 @onready var player_vars: 		ScrollContainer = $player_vars
-@onready var accept_dialog: 	AcceptDialog = $AcceptDialog
+@onready var quest_checker: 	AcceptDialog = $quest_checker
 @onready var teleport_window: 	ConfirmationDialog = $teleport_window
 @onready var gun_stats: 		MarginContainer = $gun_stats
 
@@ -77,7 +77,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			gun_stats.visible = not gun_stats.visible
 			
 		elif event.is_action_pressed("DEBUG_QUESTS"):
-			accept_dialog.visible = not accept_dialog.visible
+			quest_checker.visible = not quest_checker.visible
 			
 		#get_tree().paused = player_data.visible or player_vars.visible or accept_dialog.visible
 

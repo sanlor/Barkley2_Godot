@@ -215,11 +215,14 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 		else:
 			B2_Playerdata.Quest(qstNam, qstVal )
 			
-	else: # 16/08/25 Like always, some very specific bulshit is breaking the code. Its a GREAT idea to mix INT and FLOATS with STRINGS. FUUUUUUN!
+	else: 
+		# 16/08/25 Like always, some very specific bulshit is breaking the code. Its a GREAT idea to mix INT and FLOATS with STRINGS. FUUUUUUN!
+		# 30/12/25 Still having issues with this shit. neet to ensure that we wont try to add a String to a Int or vice-versa.
+		# Lets assume that all values are float. cant assume that values are int, because I wont be able to handle operations with float values easily.
 		if qstTyp == "+=":
-			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
+			B2_Playerdata.Quest(qstNam, float(B2_Playerdata.Quest(qstNam)) + float(qstVal) )
 		elif qstTyp == "-=":
-			B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
+			B2_Playerdata.Quest(qstNam, float(B2_Playerdata.Quest(qstNam)) - float(qstVal) )
 		else: # = or ==
 			B2_Playerdata.Quest(qstNam, str(qstVal) )
 	

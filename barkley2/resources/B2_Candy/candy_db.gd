@@ -3,6 +3,7 @@ class_name B2_Candy
 
 ## Define candies in order of weakest to strongest Drop value
 ## TODO Decide if this should be a JSON resource.
+# no, fuck JSON.
 
 enum {SUB,DROP,SMELT,MARQUEE,DESCRIPTION,FLAVOR}
 const CANDY_LIST := {

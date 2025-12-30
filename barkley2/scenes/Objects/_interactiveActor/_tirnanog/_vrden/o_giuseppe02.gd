@@ -1,7 +1,6 @@
 extends B2_InteractiveActor
 
 
-
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	B2_Playerdata.Quest("gamename", B2_Vidcon.get_vidcon_name(16) )

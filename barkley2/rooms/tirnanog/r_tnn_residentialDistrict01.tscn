@@ -1,4 +1,4 @@
-[gd_scene load_steps=373 format=4 uid="uid://d4k4y0jxw6bhw"]
+[gd_scene load_steps=372 format=4 uid="uid://d4k4y0jxw6bhw"]
 
 [ext_resource type="Script" uid="uid://cb22pdp3aws8" path="res://barkley2/rooms/tirnanog/r_tnn_residentialDistrict01.gd" id="1_nll01"]
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="2_2u6u7"]
@@ -88,7 +88,7 @@
 [ext_resource type="Texture2D" uid="uid://wyp8o2xw1m0c" path="res://barkley2/assets/b2_original/images/merged/s_tnn_puddle2.png" id="53_oh2k2"]
 [ext_resource type="PackedScene" uid="uid://wym4tuokbf73" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_rain_puddle03.tscn" id="55_se5tm"]
 [ext_resource type="Texture2D" uid="uid://bigjeushxwel2" path="res://barkley2/assets/b2_original/images/merged/s_tnn_puddle3.png" id="56_dyhl5"]
-[ext_resource type="AudioStream" uid="uid://clrcrqpp5k31q" path="res://barkley2/assets/b2_original/audio/Music/mus_tnn_guillaume.ogg" id="57_j7a4l"]
+[ext_resource type="AudioStream" uid="uid://do6ui6makq4wp" path="res://barkley2/assets/b2_original/audio/Music/mus_tnn_guillaume.ogg" id="57_j7a4l"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="60_gawh3"]
 [ext_resource type="Script" uid="uid://dh1uq5b27ucip" path="res://barkley2/resources/B2_Triggers/event_step_trigger.gd" id="63_c1pbn"]
 [ext_resource type="PackedScene" uid="uid://dgrcc73sqwfnh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_evictionTape01.tscn" id="63_hip3d"]
@@ -122,7 +122,6 @@
 [ext_resource type="PackedScene" uid="uid://cidrfmsg5kwqw" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_cornrowNote01.tscn" id="98_pw52v"]
 [ext_resource type="Texture2D" uid="uid://cvmurdsjjl1af" path="res://barkley2/assets/b2_original/images/merged/s_gbl_note01.png" id="99_mu7qh"]
 [ext_resource type="PackedScene" uid="uid://be5eg6udgf8sn" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_ropeindian01.tscn" id="100_k4ems"]
-[ext_resource type="Script" uid="uid://b150xpbc0u2iw" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_cornrow_note_01.gd" id="100_p7bnf"]
 [ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/shaders/shader_code/selected_outline.gdshader" id="111_i5vky"]
 [ext_resource type="PackedScene" uid="uid://nwabjymcirav" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_stairs_0.tscn" id="112_xy05i"]
 [ext_resource type="PackedScene" uid="uid://dfmdcfl5ec7bj" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_ladder.tscn" id="114_pn8i4"]
@@ -4814,6 +4813,12 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i40qp"]
+resource_local_to_scene = true
+rough = true
+bounce = 0.3
+absorbent = true
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mk1nb"]
 resource_local_to_scene = true
 rough = true
@@ -4839,12 +4844,6 @@ bounce = 0.3
 absorbent = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d7wgk"]
-resource_local_to_scene = true
-rough = true
-bounce = 0.3
-absorbent = true
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vcosf"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -7665,42 +7664,42 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_mk1nb")
+physics_material_override = SubResource("PhysicsMaterial_i40qp")
 metadata/code = ""
 metadata/inst_name = "inst_3825BF29"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_8ning")
+physics_material_override = SubResource("PhysicsMaterial_mk1nb")
 metadata/code = ""
 metadata/inst_name = "inst_2983683E"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_u41xi")
+physics_material_override = SubResource("PhysicsMaterial_8ning")
 metadata/code = ""
 metadata/inst_name = "inst_3E118630"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_177xt")
+physics_material_override = SubResource("PhysicsMaterial_u41xi")
 metadata/code = ""
 metadata/inst_name = "inst_865090C1"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_d7wgk")
+physics_material_override = SubResource("PhysicsMaterial_177xt")
 metadata/code = ""
 metadata/inst_name = "inst_7CE0C0C3"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_vcosf")
+physics_material_override = SubResource("PhysicsMaterial_d7wgk")
 metadata/code = ""
 metadata/inst_name = "inst_ED529BAC"
 metadata/scale = Vector2(1, 1)
@@ -8131,7 +8130,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_cornrowNote01" parent="." instance=ExtResource("98_pw52v")]
 position = Vector2(300, 848)
 sprite_frames = SubResource("SpriteFrames_gs6lv")
-script = ExtResource("100_p7bnf")
 metadata/code = ""
 metadata/inst_name = "inst_190EF4EE"
 metadata/scale = Vector2(1, 1)
@@ -8236,6 +8234,11 @@ cutscene_script = SubResource("Resource_18nfc")
 [node name="B2_QuestCleanup" type="Node" parent="o_cornrowMeet01"]
 script = ExtResource("44_ygouc")
 quest_name = "cornrowState"
+compare = 1
+
+[node name="B2_QuestCleanup2" type="Node" parent="o_cornrowMeet01"]
+script = ExtResource("44_ygouc")
+quest_name = "comServ"
 compare = 1
 
 [node name="o_cornrowMeet02" parent="." instance=ExtResource("65_pmo57")]

@@ -13,3 +13,5 @@ func _ready() -> void:
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:
 		_setup_camera( _setup_player_node() )
+	
+	#B2_Playerdata.Quest("comServ", 7)

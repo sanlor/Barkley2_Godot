@@ -7,7 +7,7 @@ class_name B2_Item
 
 ## ALERT this script works differently from the original code. THS WILL BREAK COMPATIBILITY.
 
-# item format -> "Lock Pick" : 2
+# item format -> {"Lock Pick" : 2}
 
 static func item_init() -> void:
 	B2_Config.set_user_save_data( "quest.itemsName", {} )
@@ -58,8 +58,8 @@ static func lose_item( item_name : String, amount := 1 ) -> void:
 		var i : Dictionary = B2_Config.get_user_save_data( "quest.itemsName", {} )
 		if i.has( item_name ): # check if player has the item
 			i[item_name] -= amount
-		else:
-			i[item_name] = amount
+		#else:							# 30/12/25 disabled these lines. Seems wrong. Are they adding an item if it doesnt exist?
+		#	i[item_name] = amount
 		if i[item_name] < 1:
 			i.erase(item_name)
 		B2_Config.set_user_save_data( "quest.itemsName", i )
