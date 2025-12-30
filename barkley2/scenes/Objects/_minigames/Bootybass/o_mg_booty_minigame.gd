@@ -179,6 +179,7 @@ func _ready() -> void:
 	
 	o_bootySlayer01.cinema_set( "stop" )
 	o_animeBulldog01.cinema_set( "stop" )
+	o_mg_booty_surface.hoopz_lights()
 	
 	camera_is_spining = true
 	_begin_animation()

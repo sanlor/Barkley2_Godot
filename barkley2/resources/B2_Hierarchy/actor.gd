@@ -5,7 +5,8 @@ class_name B2_Actor
 signal sprite_offset_centered
 signal sprite_collision_adjusted
 
-const O_SHADOW = preload("uid://c54kloot7bcu2")
+const O_SHADOW 				:= preload("uid://c54kloot7bcu2")
+const DEBUG_METADATA_ERRORS := false				# show metadata erros
 
 ## DEBUG
 @export_category("Debug")
@@ -416,7 +417,7 @@ func adjust_sprite_offset():
 	var sprite_data := get_curr_sprite_metadata(curr_anim)
 	if sprite_data.is_empty():
 		# no data
-		push_warning( "No data for the animation %s -> %s." % [curr_anim, name] )
+		if DEBUG_METADATA_ERRORS: push_warning( "No data for the animation %s -> %s." % [curr_anim, name] )
 		return
 		
 	ActorAnim.centered = false
