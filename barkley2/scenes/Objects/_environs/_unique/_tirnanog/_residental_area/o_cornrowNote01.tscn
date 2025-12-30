@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cidrfmsg5kwqw"]
+[gd_scene load_steps=8 format=3 uid="uid://cidrfmsg5kwqw"]
 
 [ext_resource type="Texture2D" uid="uid://cvmurdsjjl1af" path="res://barkley2/assets/b2_original/images/merged/s_gbl_note01.png" id="1_epa50"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_ruhba"]
+[ext_resource type="Script" uid="uid://b150xpbc0u2iw" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_cornrow_note_01.gd" id="2_hp4ef"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_hp4ef"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f8deb"]
 atlas = ExtResource("1_epa50")
@@ -18,12 +19,56 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_cornrowNote01" type="AnimatedSprite2D"]
+[sub_resource type="Resource" id="Resource_xnsag"]
+script = ExtResource("3_hp4ef")
+original_script = "IF body == governor | GOTO | GOVERNOR
+GOTO | COM7
+
+GOVERNOR
+DIALOG | Governor | (There's a note on the ground here! As much as I love to meddle in other people's business by reading things that don't belong to me, I feel like this is the one time I should abstain.)
+
+COM7
+DIALOG | P_NAME | Huh? Looks like Cornrow and Juicebox are gone and there's a note here. I wonder what it says...
+FRAME  | CAMERA_NORMAL | o_cinema2
+MOVETO | o_cts_hoopz | o_cinema2 | MOVE_NORMAL
+WAIT   | 0
+KNEELAT| SOUTH
+EVENT  | o_cornrowNote01 | 1
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+NOTIFY | Got Cornrow's Plea!
+NOTE   | take | Cornrow's Plea
+DIALOG | P_NAME | Hmmm... The note says there's a gun by the crate.
+FRAME  | CAMERA_NORMAL | o_cinema11
+MOVETO | o_cts_hoopz | o_cinema11 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+KNEELAT| WEST
+WAIT   | 0.25
+EVENT  | o_cornrowNote01 | 0
+NOTIFY | Got Juicebox's Gun!
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.5
+DIALOG  | P_NAME | Looks like Cornrow and Juicebox are in trouble! After all that hard work, I can't possibly just sit on my laurels while my buds are in danger! I wonder where they were taken?
+DIALOG | P_NAME | But for now, I worked up a sweat running all over town and I'm tired out, but after a hard day's work, I finally got my dues! Sure it was tough, but in the end? I think it was worth it! And hey, I even got to help the community in the process. I consider this mission accomplished!
+CREATE | o_tnn_mission_complete
+WAIT   | 15.5
+QUEST  | time += 1
+QUEST  | comServ = 8"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2y10r"]
+radius = 16.03122
+
+[node name="o_cornrowNote01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_gs6lv")
 centered = false
 offset = Vector2(-11, -9)
-script = ExtResource("2_ruhba")
-is_interactive = false
+script = ExtResource("2_hp4ef")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_xnsag")
 metadata/default = {
 "bbox_bottom": "15",
 "bbox_left": "2",
@@ -35,3 +80,8 @@ metadata/default = {
 "xorig": "11",
 "yorigin": "9"
 }
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2y10r")
