@@ -1075,7 +1075,26 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						_:
 							push_error( "%s: Invalid Candy action -> %s" % [name, action] )
 							breakpoint
-						
+				"Duergar": # Check or sets information related to Duergars. Check "Duergar".
+					var action 	: String = parsed_line[1].strip_edges()
+					var duergar : String = parsed_line[2].strip_edges()
+					match action:
+						"kill":
+							B2_Playerdata.Quest("duergar_dead_" + duergar, 1);
+						"alive":
+							if parsed_line.size() == 3: ## Check the current state of a duergar.
+								if B2_Playerdata.Quest("duergar_dead_" + duergar):
+									B2_Playerdata.Quest("duergar", "dead")
+								else:
+									B2_Playerdata.Quest("duergar", "alive")
+							else:
+								## Not sure? maybe forcefully set a state for a duergar?
+								var data : String = parsed_line[3].strip_edges()
+								B2_Playerdata.Quest( "duergar_dead_" + duergar, int(data) )
+						_:
+							## Unhandled duergar action.
+							breakpoint
+					
 				"MUSIC": ## added by me, on 30/12/25. Replaces MISC | music
 					var action : String = parsed_line[1].strip_edges()
 					match action:
@@ -1316,8 +1335,19 @@ func Misc( parsed_line :PackedStringArray ):
 			else:
 				print( "Command failed: ", parsed_line )
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-		"entity settings":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+		"entity settings": # Changes some setting for an actor. Check Misc line 20 and scr_event_entity_settings line 2
+			assert(parsed_line.size() == 6, "Invalid amount of arguments: %s" % parsed_line.size())
+			var actor 				: B2_InteractiveActor = get_node_from_name( all_nodes, parsed_line[ 2 ].strip_edges() )
+			var is_interactive 		:= bool( parsed_line[ 3 ].to_int() ) # not used anymore
+			var disable_outline 	:= not bool( parsed_line[ 3 ].to_int() )
+			var enable_collision	:= bool( parsed_line[ 4 ].to_int() )
+			var shadow_visible		:= bool( parsed_line[ 5 ].to_int() )
+			
+			actor.is_interactive = is_interactive
+			actor.enable_collision( enable_collision )
+			actor.enable_shadow( shadow_visible )
+			
+			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":
 			# I think its only this. In my implementation, the parsed_line[3] will be ignored
 			B2_Music.play( parsed_line[2] )

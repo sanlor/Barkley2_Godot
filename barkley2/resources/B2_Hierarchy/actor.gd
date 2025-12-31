@@ -146,11 +146,18 @@ func _setup_actor():
 	collision_layer 	= 5
 	collision_mask 		= 1 + 2 + 3 + 5 + 19 + 20 + 21
 		
-	if cast_shadow:
+	enable_shadow(cast_shadow)
+
+func enable_shadow( enabled : bool ) -> void:
+	if enabled:
+		if my_shadow: my_shadow.queue_free()
 		my_shadow = O_SHADOW.instantiate()
 		add_child( my_shadow, true)
+	else:
+		if my_shadow: my_shadow.queue_free()
 
-
+func enable_colision( enabled : bool ) -> void:
+	ActorCol.disabled = not enabled
 
 func play_animations():
 	if _automatic_animation:

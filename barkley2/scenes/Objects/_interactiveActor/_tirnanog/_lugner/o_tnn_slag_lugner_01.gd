@@ -8,9 +8,12 @@ const O_TNN_SLAG_LUGNER_01_REGULAR 		:= preload("uid://41o7lnuatrn5")
 
 func _ready() -> void:
 	curr_room = get_parent().get_room_name()
+	B2_SignalBus.quest_updated.connect( _update_area )
+	_update_area()
 
-## What a janky way to do this.
-func _physics_process(_delta: float) -> void:
+func _update_area() -> void:
+
+#func _physics_process(_delta: float) -> void: ## What a janky way to do this.
 	if curr_room == "r_tnn_warehouse01":
 		if B2_Playerdata.Quest("lugnerQuest") == 8:
 			# Collision near lugner
