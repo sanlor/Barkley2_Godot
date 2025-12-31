@@ -6,6 +6,9 @@ const O_TNN_SLAG_LUGNER_01_REGULAR 		:= preload("uid://41o7lnuatrn5")
 
 @export var curr_room := ""
 
+func _ready() -> void:
+	curr_room = get_parent().get_room_name()
+
 ## What a janky way to do this.
 func _physics_process(_delta: float) -> void:
 	if curr_room == "r_tnn_warehouse01":
@@ -13,6 +16,7 @@ func _physics_process(_delta: float) -> void:
 			# Collision near lugner
 			if position.y < 400:
 				if B2_Playerdata.Quest("lugnerPlea") == 0:
+					is_active = true
 					event_0()
 				else: is_active = false;
 			# Collision to exit

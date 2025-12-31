@@ -258,11 +258,12 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	## 
 	# To test this, load 'r_air_throneRoom01' and talk with o_cuchutamo02.
 	
-	## 30/12/25 - DEBUG - hoopz keeps looking at the wrong direction after running USEAT action.
-	if vec_2_dir_map.has( looking_at.round() ):
-		cinema_look( vec_2_dir_map[ looking_at.round() ] )
-	else:
-		push_error("Invalid movement vector.")
+	if force_hold_anim.is_empty():
+		## 30/12/25 - DEBUG - hoopz keeps looking at the wrong direction after running USEAT action.
+		if vec_2_dir_map.has( looking_at.round() ):
+			cinema_look( vec_2_dir_map[ looking_at.round() ] )
+		else:
+			push_error("Invalid movement vector.")
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	return

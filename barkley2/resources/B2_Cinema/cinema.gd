@@ -1076,7 +1076,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							push_error( "%s: Invalid Candy action -> %s" % [name, action] )
 							breakpoint
 						
-				"MUSIC": ## added by me, on 31/12/25. Replaces MISC | music
+				"MUSIC": ## added by me, on 30/12/25. Replaces MISC | music
 					var action : String = parsed_line[1].strip_edges()
 					match action:
 						"PAUSE":

@@ -40,16 +40,16 @@ func _ready() -> void:
 	_setup_interactiveactor()
 
 	ANIMATION_STAND 						= "s_cts_slagLOOK"
-	ANIMATION_SOUTH 						= "s_puannumSE"
-	ANIMATION_SOUTHEAST 					= "s_puannumSE"
-	ANIMATION_SOUTHWEST 					= "s_puannumSE"
-	ANIMATION_WEST 							= "s_puannumSE"
-	ANIMATION_NORTH 						= "s_puannumNE"
-	ANIMATION_NORTHEAST 					= "s_puannumNE"
-	ANIMATION_NORTHWEST 					= "s_puannumNE"
-	ANIMATION_EAST 							= "s_puannumSE"
+	ANIMATION_SOUTH 						= "s_cts_slagSE"
+	ANIMATION_SOUTHEAST 					= "s_cts_slagSE"
+	ANIMATION_SOUTHWEST 					= "s_cts_slagSW"
+	ANIMATION_WEST 							= "s_cts_slagSW"
+	ANIMATION_NORTH 						= "s_cts_slagNE"
+	ANIMATION_NORTHEAST 					= "s_cts_slagNE"
+	ANIMATION_NORTHWEST 					= "s_cts_slagNW"
+	ANIMATION_EAST 							= "s_cts_slagSE"
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 1, 1, 2, 2, 2, 3]
-	ActorAnim.animation 					= "s_cts_slagLOOK"
+	ActorAnim.animation 					= "default"
 
 	## Visibility conditions
 	if get_room_name() == "r_tnn_warehouse01":

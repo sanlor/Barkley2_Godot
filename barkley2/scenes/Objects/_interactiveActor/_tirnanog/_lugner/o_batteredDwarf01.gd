@@ -24,6 +24,8 @@ extends B2_InteractiveActor
 		#1 = Slag will chase you down
 		#2 = Slag chased you down and you got the quest
 
+const O_LUGNER_01 = preload("uid://brspu5ogsk81h")
+
 @export var o_cinema6 : B2_CinemaSpot
 
 ## Made with B2_TOOL_DWARF_CONVERTER
@@ -44,11 +46,16 @@ func _ready() -> void:
 		elif B2_Playerdata.Quest("batteredDwarfState") == 1:
 			if B2_Playerdata.Quest("lugnerQuest") > 0 && B2_Playerdata.Quest("lugnerQuest") <= 3:
 				## What a mess.
-				const O_LUGNER_01 = preload("uid://brspu5ogsk81h")
-				var lug := O_LUGNER_01.instantiate()
-				add_sibling( lug, true )
-				lug.global_position = o_cinema6.global_position
-				lug.cinema_look("SOUTHWEST")
+				await get_tree().process_frame # wait 1 frame so that the other childrens can load too.
+				if not o_cinema6:
+					push_warning("o_cinema6 not loaded. trying to find it anyway.")
+					o_cinema6 = get_parent().find_child( "o_cinema6" )
+					assert(o_cinema6, "Cant find o_cinema6.")
+				
+				var lug : B2_Duergar = O_LUGNER_01.instantiate()
+				add_sibling.call_deferred( lug, true )
+				lug.set_deferred("global_position", o_cinema6.global_position)
+				lug.call_deferred("cinema_look", "SOUTHWEST")
 		
 	_setup_actor()
 	_setup_interactiveactor()
