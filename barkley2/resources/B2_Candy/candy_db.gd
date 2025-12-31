@@ -131,20 +131,22 @@ static func add_candy_recipe( candy_name : String ) -> void:
 	if CANDY_LIST.has( candy_name ):
 		if not has_recipe( candy_name ):
 			var my_recipe : Array = list_recipes()
-			my_recipe .append( candy_name )
+			my_recipe.append( candy_name )
+			print_rich("[color=orange]Recipe %s added.[/color]")
 			B2_Config.set_user_save_data( "player.schematics.candy", my_recipe )
 		else:
-			push_error("Tried to add a recipe that was already owned.")
+			push_error("Tried to add a recipe that was already owned (%s)." % candy_name)
 	else:
-		push_error("Tried to gain an invalid recipe.")
+		push_error("Tried to gain an invalid recipe (%s)." % candy_name)
 	
 static func remove_candy_recipe( candy_name : String ) -> void:
 	if CANDY_LIST.has( candy_name ):
 		if not has_recipe( candy_name ):
 			var my_recipe : Array = list_recipes()
 			my_recipe.erase( candy_name )
+			print_rich("[color=orange]Recipe %s removed.[/color]")
 			B2_Config.set_user_save_data( "player.schematics.candy", my_recipe )
 		else:
-			push_error("Tried to remove a recipe that wasnt already owned.")
+			push_error("Tried to remove a recipe that wasnt already owned (%s)." % candy_name)
 	else:
-		push_error("Tried to remove an invalid recipe.")
+		push_error("Tried to remove an invalid recipe (%s)." % candy_name)

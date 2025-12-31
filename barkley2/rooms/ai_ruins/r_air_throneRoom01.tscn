@@ -1648,9 +1648,6 @@ DIALOG | ? ? ? = s_portrait | The game is still under development, so... This is
 WAIT   | 1.5
 DIALOG | ? ? ? = s_portrait | I wonder if I will even come close to finishing it in my lifetime.
 WAIT   | 1
-FRAME  | CAMERA_SLOW | o_doorlight
-DIALOG | ? ? ? = s_portrait | Anyway, use the (broken) door below to go back to the title screen, or hit \"End the Pain\".
-WAIT   | 0.25
 DIALOG | ? ? ? = s_portrait | See ya on the next update.
 WAIT   | 0.25
 EXIT"
@@ -1667,10 +1664,34 @@ shader_parameter/add_margins = true
 
 [sub_resource type="Resource" id="Resource_ccn3v"]
 script = ExtResource("2_1nf1v")
-original_script = "DIALOG | Debug = s_port_cuchutamo |  Hey there. Surprise Animation
-SURPRISEAT | o_cuchutamo02
-WAIT   | 0
-DIALOG | Debug = s_port_cuchutamo | Here is some random text to text the multiline text box.
+original_script = "DIALOG | Debug = s_port_cuchutamo |  Hey there. USEAT test.
+USEAT | NORTH
+WAIT | 1
+USEAT | SOUTH
+WAIT   | 1
+USEAT | EAST
+WAIT   | 1
+USEAT | WEST
+WAIT   | 1
+DIALOG | Debug = s_port_cuchutamo |  Now, SURPRISEAT test.
+SURPRISEAT | NORTH
+WAIT | 1
+SURPRISEAT | SOUTH
+WAIT   | 1
+SURPRISEAT | EAST
+WAIT   | 1
+SURPRISEAT | WEST
+WAIT   | 1
+DIALOG | Debug = s_port_cuchutamo |  ...Aaaand, KNEELAT test.
+KNEELAT | NORTH
+WAIT | 1
+KNEELAT | SOUTH
+WAIT   | 1
+KNEELAT | EAST
+WAIT   | 1
+KNEELAT | WEST
+WAIT   | 1
+DIALOG | Debug = s_port_cuchutamo | Ok. Here is some random text to text the multiline text box.
 DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
 DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
 DIALOG | Debug = s_port_cuchutamo | Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!#Lets shoot some hoops!
@@ -1910,11 +1931,23 @@ tile_set = ExtResource("4_kemnc")
 [node name="spawn_point" type="Marker2D" parent="."]
 position = Vector2(273, 272)
 
-[node name="B2_CinemaSpot" type="Marker2D" parent="."]
+[node name="o_cinema_0" type="Marker2D" parent="."]
 z_index = 4000
 position = Vector2(274, 274)
 script = ExtResource("6_m0mps")
 cinema_id = 1
+
+[node name="o_cinema_1" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(262, 303)
+script = ExtResource("6_m0mps")
+cinema_id = 2
+
+[node name="o_cinema_2" type="Marker2D" parent="."]
+z_index = 4000
+position = Vector2(298, 342)
+script = ExtResource("6_m0mps")
+cinema_id = 3
 
 [node name="o_cuchutamo01" parent="." instance=ExtResource("7_yr07f")]
 material = SubResource("ShaderMaterial_raqw7")
@@ -1922,7 +1955,6 @@ position = Vector2(176, 176)
 interactive_distance = 64
 player_can_pause = false
 cutscene_script = SubResource("Resource_6fhpj")
-can_move_around = false
 
 [node name="o_cuchutamo02" parent="." instance=ExtResource("7_yr07f")]
 material = SubResource("ShaderMaterial_53sbw")
@@ -1930,7 +1962,6 @@ position = Vector2(321, 303)
 interactive_distance = 64
 player_can_pause = false
 cutscene_script = SubResource("Resource_ccn3v")
-can_move_around = false
 
 [node name="o_cuchutamo03" parent="." instance=ExtResource("7_yr07f")]
 material = SubResource("ShaderMaterial_mk3xr")
@@ -1938,7 +1969,6 @@ position = Vector2(218, 176)
 interactive_distance = 64
 player_can_pause = false
 cutscene_script = SubResource("Resource_5egio")
-can_move_around = false
 
 [node name="o_woodBarrel" parent="." instance=ExtResource("9_8c0el")]
 position = Vector2(379, 246)

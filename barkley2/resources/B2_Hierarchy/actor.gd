@@ -202,7 +202,7 @@ func cinema_kneelat( target ):
 func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", force_speed := 1.0 ) -> void:
 	# what a mess. target can be a string or a node.
 	assert(target != null, "Null? NULL? Why null?")
-	var looking_at := movement_vector
+	var looking_at := movement_vector # reference for the current direction that the playier is looking at.
 	var prefix := ""
 	if B2_CManager.curr_BODY == B2_CManager.BODY.DIAPER: prefix = "diaper_" ## What a mess. This is a port of the original code. Don't really want to change how it works.
 	var dir : Vector2
@@ -216,7 +216,6 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 		breakpoint
 		
 	movement_vector = dir # Is this needed? Used to help flip the sprite, sometimes.
-	#print("USEAT dir: %s." % dir)
 	ActorAnim.flip_h = false
 	if not disable_auto_flip_h: 
 		if dir.x < 0: ActorAnim.flip_h = true # Flip sprite if its looking left. 
@@ -260,7 +259,10 @@ func cinema_useat( target, force_new_anim := "action_", force_hold_anim := "", f
 	# To test this, load 'r_air_throneRoom01' and talk with o_cuchutamo02.
 	
 	## 30/12/25 - DEBUG - hoopz keeps looking at the wrong direction after running USEAT action.
-	ActorAnim.flip_h = false
+	if vec_2_dir_map.has( looking_at.round() ):
+		cinema_look( vec_2_dir_map[ looking_at.round() ] )
+	else:
+		push_error("Invalid movement vector.")
 	
 	#ActorAnim.frame = old_frame # <- is this needed?
 	return

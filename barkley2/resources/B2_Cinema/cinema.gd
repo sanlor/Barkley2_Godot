@@ -25,12 +25,13 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_lookat 		:= false
 @export var debug_event 		:= false
 @export var debug_flourish 		:= false
-@export var debug_breakout		:= false
+@export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
 @export var debug_note			:= true
 @export var debug_shop			:= true
 @export var print_comments		:= false
+@export var debug_item 			:= true
 
 ## Enable this to know what script line is being executed.
 @export var print_line_report 	:= false ## details about the current script line.
@@ -544,8 +545,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						
 						if item_amount > 0:
 							B2_Item.gain_item( item_name, item_amount )
+							if debug_item: print("ITEM: gained item %s -> %s." % [item_name, item_amount] )
 						elif item_amount < 0:
-							B2_Item.lose_item( item_name, item_amount )
+							B2_Item.lose_item( item_name, absi(item_amount) )
+							if debug_item: print("ITEM: lost item %s -> %s." % [item_name, item_amount] )
 						else:
 							# huh? amount is 0?
 							breakpoint
@@ -626,11 +629,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if parsed_line[1] == "add":
 							show_breakout = true
 							if breakout_data.has("value"):
-								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
-								breakout_data["value"] = parsed_line[2]
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] 			= parsed_line[2]
 							else:
-								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2] )
-								breakout_data["value"] = parsed_line[2]
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( parsed_line[2] )
+								breakout_data["value"] 			= parsed_line[2]
 						if debug_breakout: print("Breakout: add %s." % parsed_line[2])
 						
 					elif parsed_line.size() == 4:
@@ -638,13 +641,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if parsed_line[1] == "add":
 							show_breakout = true
 							if breakout_data.has("value"):
-								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
-								breakout_data["value"] = parsed_line[2]
-								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] 			= parsed_line[2]
+								breakout_data["modifier"] 		= int( Text.qst( parsed_line[3] ) )
 							else:
-								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2]  )
-								breakout_data["value"] = parsed_line[2]
-								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( parsed_line[2]  )
+								breakout_data["value"] 			= parsed_line[2]
+								breakout_data["modifier"] 		= int( Text.qst( parsed_line[3] ) )
 						if debug_breakout: print("Breakout: add %s - %s." % [ parsed_line[2], int( Text.qst( parsed_line[3] ) ) ] )
 						breakpoint
 						
@@ -653,22 +656,21 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if parsed_line[1] == "add":
 							show_breakout = true
 							if breakout_data.has("value"):
-								breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data.get("value") )
-								breakout_data["value"] = parsed_line[2]
-								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
-								breakout_data["opt"] = int( parsed_line[4] )
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( breakout_data.get("value") )
+								breakout_data["value"] 			= parsed_line[2]
+								breakout_data["modifier"] 		= int( Text.qst( parsed_line[3] ) )
+								breakout_data["opt"] 			= int( parsed_line[4] )
 							else:
-								breakout_data["prev_value"] = B2_Playerdata.Quest( parsed_line[2] )
-								breakout_data["value"] = parsed_line[2]
-								breakout_data["modifier"] = int( Text.qst( parsed_line[3] ) )
-								breakout_data["opt"] = int( parsed_line[4] )
+								breakout_data["prev_value"] 	= B2_Playerdata.Quest( parsed_line[2] )
+								breakout_data["value"]			= parsed_line[2]
+								breakout_data["modifier"] 		= int( Text.qst( parsed_line[3] ) )
+								breakout_data["opt"] 			= int( parsed_line[4] )
 						if debug_breakout: print("Breakout: add %s - %s - %s." % [parsed_line[2], int( Text.qst( parsed_line[3] ) ), parsed_line[4]] )
 						#breakpoint
 					else:
 						# too many arguments.
 						breakpoint
 						
-					print( breakout_data )
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
 					# check scr_event_fade()
@@ -1068,6 +1070,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					match action:
 						"recipe delete":
 							B2_Candy.remove_candy_recipe( candy )
+						"recipe add":
+							B2_Candy.add_candy_recipe( candy )
 						_:
 							push_error( "%s: Invalid Candy action -> %s" % [name, action] )
 							breakpoint
@@ -1175,21 +1179,21 @@ func parse_if( line : String ) -> bool:
 	elif str_var == "time":
 		quest_var = B2_Config.get_user_save_data( "clock.time", 0.0 ) as float
 		cond_value = float( condidion_line[ 2 ] )
-		print_rich("[b]Cinema Debug[/b] - IF 'time' %s - %s." % [quest_var, cond_value])
+		print_rich("[b]Cinema Debug[/b] - IF 'time' var-> %s | value-> %s." % [quest_var, cond_value])
 	elif str_var == "clock":
 		quest_var = B2_ClockTime.time_get() as float
 		cond_value = float( condidion_line[ 2 ] )
-		print_rich("[b]Cinema Debug[/b] - IF 'clock' %s - %s." % [quest_var, cond_value])
+		print_rich("[b]Cinema Debug[/b] - IF 'clock' var-> %s | value-> %s." % [quest_var, cond_value])
 	elif str_var == "jerkin":
 		quest_var = B2_Jerkin.get_current_jerkin() as String
 		cond_value = str( condidion_line[ 2 ] ).strip_edges()
 		#push_warning("Jerking check requested, but not implemented. Bypassing.")
-		print_rich("[b]Cinema Debug[/b] - IF 'jerkin' %s - %s." % [quest_var, cond_value])
+		print_rich("[b]Cinema Debug[/b] - IF 'jerkin' var-> %s | value-> %s." % [quest_var, cond_value])
 	elif str_var == "money":
 		quest_var = B2_Playerdata.Quest("money") as int
 		cond_value = int( condidion_line[ 2 ].strip_edges() )
 		#push_warning("Money check requested, but not implemented. Bypassing.")
-		print_rich("[b]Cinema Debug[/b] - IF 'money' %s - %s." % [quest_var, cond_value])
+		print_rich("[b]Cinema Debug[/b] - IF 'money' var-> %s | value-> %s." % [quest_var, cond_value])
 	elif str_var == "area":
 		quest_var = get_room_area() as String
 		cond_value = str( condidion_line[ 2 ] ).strip_edges()

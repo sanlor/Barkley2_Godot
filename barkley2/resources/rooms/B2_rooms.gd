@@ -308,7 +308,7 @@ func _setup_player_node():
 		b2_camera.set_camera_bound( camera_bound_to_map )
 		
 	add_child( player )
-	if load_debug_save_data: B2_Playerdata.preload_skip_tutorial_save_data(); B2_Config.set_user_save_data("player.shekels", 420)
+	if load_debug_save_data: B2_Config.select_user_slot(100); B2_Playerdata.preload_skip_tutorial_save_data(); B2_Config.set_user_save_data("player.shekels", 420)
 	return player
 	
 func _setup_camera( player ):

@@ -1,6 +1,5 @@
 extends CanvasLayer
 class_name B2_Breakout
-
 ## A small textbox used to show money, resources and stuff during dialog.
 ## I think its also used to make choices, but im not sure.
 
