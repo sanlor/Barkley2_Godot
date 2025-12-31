@@ -609,7 +609,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_btefg")
 }],
-"loop": true,
+"loop": false,
 "name": &"default",
 "speed": 7.5
 }]
@@ -620,13 +620,12 @@ size = Vector2(45, 39)
 [sub_resource type="CircleShape2D" id="CircleShape2D_dyg1d"]
 radius = 85.02353
 
-[node name="o_abdul_gafur01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_abdul_gafur01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim")]
 script = ExtResource("1_eot8y")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_2fntl")
 ActorAnim = NodePath("ActorAnim")
 has_collision = false
-ActorCol = NodePath("")
 can_move_around = false
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="."]
@@ -667,7 +666,11 @@ shape = SubResource("CircleShape2D_dyg1d")
 
 [node name="ActorCol" type="CollisionShape2D" parent="."]
 
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="animation_finished" from="ActorAnim" to="." method="_on_actor_anim_animation_finished"]
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

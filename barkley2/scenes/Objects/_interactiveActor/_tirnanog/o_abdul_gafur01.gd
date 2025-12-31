@@ -2,6 +2,7 @@ extends B2_InteractiveActor
 ## NOTE This actor has a ton of unused dialog stuff.
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var timer: Timer = $Timer
 
 ## Speaking to Abdul-Gafur before Jinrich or Gumshoe Trigger
 ## usage: scr_tnn_abdul_gafur01
@@ -50,22 +51,24 @@ func _ready() -> void:
 	ActorAnim.animation 					= "default"
 	
 	ActorAnim.play()
+	timer.start( randf_range(4,8) )
 
+## Abdul stops cleaning if the player is near.timer.start( randf_range(4,8) )
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is B2_Player_FreeRoam:
+	if body is B2_Player_FreeRoam or body is B2_InteractiveActor_Player:
 		player_is_near = true
 
+## Abdul stops cleaning if the player is near.
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body is B2_Player_FreeRoam:
+	if body is B2_Player_FreeRoam or body is B2_InteractiveActor_Player:
 		player_is_near = false
 		ActorAnim.play()
 
 func _on_actor_anim_animation_finished() -> void:
 	if player_is_near:
-		if randf() > 0.5:
-			ActorAnim.play()
+		timer.start( randf_range(8,12) )
 	else:
-		ActorAnim.play()
+		timer.start( randf_range(4,8) )
 
 func _on_actor_anim_frame_changed() -> void:
 	if ActorAnim.frame >= 4 and ActorAnim.frame <= 11:
@@ -73,3 +76,6 @@ func _on_actor_anim_frame_changed() -> void:
 			return
 		else:
 			audio_stream_player_2d.play()
+
+func _on_timer_timeout() -> void:
+	ActorAnim.play()

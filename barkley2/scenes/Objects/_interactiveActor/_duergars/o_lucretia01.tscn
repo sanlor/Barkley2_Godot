@@ -1,9 +1,70 @@
-[gd_scene load_steps=20 format=3 uid="uid://43gct45hwrpb"]
+[gd_scene load_steps=22 format=3 uid="uid://43gct45hwrpb"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lucretia01.gd" id="1_d6oh0"]
+[ext_resource type="Script" uid="uid://daaxo60gsm666" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lucretia01.gd" id="1_d6oh0"]
 [ext_resource type="Texture2D" uid="uid://p7b828t8hy83" path="res://barkley2/assets/b2_original/images/merged/s_lucretia01.png" id="1_i6gn0"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_gjgfu"]
 [ext_resource type="Texture2D" uid="uid://dbag82tkecutw" path="res://barkley2/assets/b2_original/images/merged/s_lucretiaNE.png" id="2_ui8v3"]
 [ext_resource type="Texture2D" uid="uid://dovi0ak0ve8n4" path="res://barkley2/assets/b2_original/images/merged/s_lucretiaSE.png" id="3_87fw2"]
+
+[sub_resource type="Resource" id="Resource_ymows"]
+script = ExtResource("2_gjgfu")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF curfew == during | GOTO | CURFEW
+IF uschiBall == 3   | GOTO | BBALL_OPPONENT
+IF uschiBall == 4   | IF uschiLucretia == 1 | GOTO | BBALL_MATCH_AHEAD
+IF uschiBall == 4   | IF uschiLucretia == 0 | GOTO | BBALL_MATCH_AHEAD_ALT
+IF curfew == after  | GOTO | GUTTER
+IF govQuest == 6    | GOTO | GOV6
+IF curfew == after  | GOTO | CURFEW_AFTER
+GOTO | NORMAL
+
+GOVERNOR
+DIALOG | Lucretia | Standing at attention, Mr. Governor! I'm looking forward to your speech - can't wait to hear about all the ghastly torture protocols we're going to be implementing.
+
+GUTTER
+DIALOG | Lucretia | I've seen you wanderin' around real suspicious-like. You better hope you had nothin' to do with that break-in, or you're gonna be walkin' around with a new face.
+
+CURFEW
+DIALOG | Lucretia | Look at these stupid dwarfs. They can't do anything for themselves. That's the difference between us and them, they're helpless children and we're their malevolent masters. They deserve what Cuchulainn has in store for 'em.
+
+GOV6
+DIALOG | Lucretia | Well I don't know what Governor Elagabalus was thinking when he gave you permission to leave Tir na Nog. Never happened before, not on my watch. Course, we've thrown a few knuckleheads into the sewers in the past. Never heard from them again! Hahaha!!
+
+CURFEW_AFTER
+DIALOG | Lucretia | What I wouldn't give to live in the Governor's mansion. Heh heh, you wouldn't believe some of the stories I've heard about the place.
+
+NORMAL
+DIALOG | Lucretia | Mmmmm, I'm lookin' forward to the new governor coming to town. I hear he's a real hardass. Oooh, I love to watch these idiot dwarfs squirm.
+
+BBALL_MATCH_AHEAD
+DIALOG | Lucretia | When is this B-Ball match happening?
+DIALOG | P_NAME   | Soon!
+
+BBALL_MATCH_AHEAD_ALT
+DIALOG | Lucretia | Heard there is going to be a B-Ball match between the Duergars and the Dwarfs. Looking forward to the stompfest. You fuckers are about to get owned.
+
+BBALL_OPPONENT
+DIALOG | P_NAME   | (Hmm, perhaps this blue person would be a good B-Ball opponent...)
+DIALOG | Lucretia | What the flip are you up to, dwarf?
+DIALOG | P_NAME   | I'm here to make trouble. I'm a maverick!
+DIALOG | Lucretia | Oh, a tough guy, huh? You're about to get your toenails pulled off, maverick, and your toes after that!
+CHOICE | Your response?
+REPLY  | BBALL_YA | Let's play B-Ball instead!
+REPLY  | BBALL_NO | I'm sorry, mein liege!
+
+BBALL_YA
+DIALOG | P_NAME   | Hey, please don't molest my toes! Let's play some B-Ball instead.
+DIALOG | Lucretia | B-Ball? Hmm, well... I want to see your blood flowing on the streets but I can't back away from a challenge... Alright, fucker. I'll gather some fine men and meet you on the court.
+DIALOG | P_NAME   | Okay, great.
+DIALOG | Lucretia | Mmm, I can already see you and your dwarf friends crying like the little bitches you are after we slamdunk you into oblivion. Such a beautiful image. Brings a tear to my eye.
+QUEST  | uschiBall = 4
+QUEST  | uschiLucretia = 1
+
+BBALL_NO
+DIALOG | P_NAME   | Ah, I'm so sorry, mein liege!
+DIALOG | Lucretia | As well you should be! You are lucky that I'm stuck here on guard duty or else you would be feasting on Toe Soup tonight. Now fuck off!
+DIALOG | P_NAME   | Gomen nasai! "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_re1s2"]
 atlas = ExtResource("1_i6gn0")
@@ -122,6 +183,7 @@ size = Vector2(20, 36)
 script = ExtResource("1_d6oh0")
 duergar_name = "lucretia"
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_ymows")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")

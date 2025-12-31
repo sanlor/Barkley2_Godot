@@ -72,6 +72,7 @@ func _ready() -> void:
 
 # Hoopz walk backwards
 func execute_event_user_0():
+	
 	push_warning("TODO Backwards")
 	
 # Reset Hoopz walk backwards

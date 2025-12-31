@@ -32,6 +32,8 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_shop			:= true
 @export var print_comments		:= false
 @export var debug_item 			:= true
+@export var debug_glamp 		:= true
+
 
 ## Enable this to know what script line is being executed.
 @export var print_line_report 	:= false ## details about the current script line.
@@ -956,7 +958,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var new_value : int = B2_Playerdata.Stat( stat ) + value 
 					
 					B2_Playerdata.Stat( stat, new_value )
-					
+					if debug_glamp: print("GLAMP -> ", parsed_line)
 				"THROW":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 					
@@ -1344,7 +1346,7 @@ func Misc( parsed_line :PackedStringArray ):
 			var shadow_visible		:= bool( parsed_line[ 5 ].to_int() )
 			
 			actor.is_interactive = is_interactive
-			actor.enable_collision( enable_collision )
+			actor.enable_colision( enable_collision )
 			actor.enable_shadow( shadow_visible )
 			
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )

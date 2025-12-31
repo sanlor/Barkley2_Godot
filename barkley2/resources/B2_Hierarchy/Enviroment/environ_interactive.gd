@@ -41,9 +41,10 @@ func _enter_tree() -> void:
 			push_warning("Interactive element %s has no script cutscene" % name)
 			is_interactive = false
 		
-func cinema_set(anim_name : String):
+func cinema_set(anim_name : String, force_play := false ):
 	if sprite_frames.has_animation( anim_name ):
 		animation = anim_name
+		if force_play: play()
 	else:
 		push_warning( "Node %s has no animation called %s" % [name, anim_name] )
 	

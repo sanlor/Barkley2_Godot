@@ -54,8 +54,10 @@ extends B2_InteractiveActor
 func _ready() -> void:
 	# Runs off after you spook him with the Augustino Letter
 	# Doesn't show up till ClockTime 2
-	if B2_Playerdata.Quest("gelasioState") == 6 or B2_ClockTime.time_gate() < 1: queue_free()
-
+	if B2_Playerdata.Quest("gelasioState") == 6 or B2_ClockTime.time_gate() < 1: 
+		#print(B2_ClockTime.time_gate())
+		queue_free()
+	print(B2_ClockTime.time_gate())
 	## Runs off (like a bitch) ##
 	if B2_Playerdata.Quest("gelasioState") == 5:
 		B2_Playerdata.Quest("gelasioState", 6);
