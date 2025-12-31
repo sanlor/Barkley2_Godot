@@ -84,6 +84,7 @@ static var gun_type_claimed_pos		: Dictionary[B2_Gun.TYPE,Array] 	= {}		## Dicti
 static var gun_group_claimed_pos	: Dictionary[B2_Gun.GROUP,Vector2i] = {}		## Dictionary with group positions.
 static var fuckme 					: RandomNumberGenerator
 
+## Generate the current gunmap.
 static func generate_map() -> void:
 	## Set some bullshit.
 	var start_time := Time.get_ticks_msec() ## keep track of time for debug purposes.
@@ -169,6 +170,7 @@ static func generate_map() -> void:
 						continue
 	if DEBUG: print( "Gunmap Gen took %s msecs." % str( Time.get_ticks_msec() - start_time ).pad_zeros(4) )
 	
+## Get the gunbam texture.
 static func get_gun_map() -> Texture:
 	if gun_type_map.is_empty():
 		push_error("Gunmap was no generated previously. doing it now.")
@@ -210,6 +212,7 @@ static func get_gun_type_from_parent_position( top_pos : Vector2i, bottom_pos : 
 	data = [ gun_type_map[average_pos], average_pos ]
 	return data # data -> [B2_Gun.TYPE, Vector2i]
 	
+## Get a valid, in bounds, position on on the map. Used for landmass generation.
 static func get_nearest_valid_pos( pos : Vector2i ) -> Vector2i:
 	var tries := 0
 	var average_pos := pos
@@ -225,18 +228,20 @@ static func get_nearest_valid_pos( pos : Vector2i ) -> Vector2i:
 			break
 	return average_pos
 			
+## DEPRECATED HACK Used before the the gunmap was added.
 static func get_gun_map_position( dont_care := 2, wpn_name := "", size := Vector2(80,80) ) -> Vector2:
 	var fuckyou := RandomNumberGenerator.new()
 	fuckyou.seed = hash("IS THIS HAPPENING FOR REAL?????") + hash(dont_care) + hash(wpn_name) ## Make this "random" function predictive
 	@warning_ignore("narrowing_conversion")
 	return Vector2( fuckyou.randi_range(0, size.x), fuckyou.randi_range(0, size.y) )
 
+## Return the gun type using the position as a basis.
 static func get_gun_type_from_gunmap_pos( pos : Vector2i ) -> B2_Gun.TYPE:
 	if gun_type_map.get(pos,B2_Gun.TYPE.GUN_TYPE_NONE) == B2_Gun.TYPE.GUN_TYPE_NONE:
 		push_error("get_gun_type_from_gunmap_pos: invalid position %s. Returning B2_Gun.TYPE.GUN_TYPE_NONE." % pos)
 	return gun_type_map.get(pos, B2_Gun.TYPE.GUN_TYPE_NONE)
 
-## Return the rarity by type. Some guns are rarer (is that evena word?) than others.
+## Return the rarity by type. Some guns are rarer (is that even a word?) than others.
 static func get_rarity_by_type( gun_type : B2_Gun.TYPE ) -> int:
 	assert( GUNMAP_DEFINE.has(gun_type), "Invalid Gun Type." )
 	return GUNMAP_DEFINE.get( gun_type, 00 )
