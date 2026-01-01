@@ -8,6 +8,8 @@ func _enter_tree() -> void:
 	assert( is_instance_valid(col_shape), "Forgot to select the collision on node %s, buddy." % name )
 	col_shape.debug_color = Color("b6775c6b")
 	body_entered.connect( _pre_event_trigger )
+	
+	set_collision_mask_value(2, true)
 
 func _pre_event_trigger(_body : Node2D) -> void:
 	if _body is B2_PlayerCombatActor:

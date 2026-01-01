@@ -143,8 +143,16 @@ func _setup_actor():
 		push_error( "ActorCol is invalid for node %s." % name )
 		
 	## Set collision layers and masks.
-	collision_layer 	= 5
-	collision_mask 		= 1 + 2 + 3 + 5 + 19 + 20 + 21
+	set_collision_layer_value( 05, true )
+	
+	set_collision_mask_value( 01, true )
+	set_collision_mask_value( 02, true )
+	set_collision_mask_value( 03, true )
+	set_collision_mask_value( 05, true )
+	set_collision_mask_value( 06, true )
+	set_collision_mask_value( 19, true )
+	set_collision_mask_value( 20, true )
+	set_collision_mask_value( 21, true )
 		
 	enable_shadow(cast_shadow)
 

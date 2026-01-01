@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7r8j76te8s1h"]
+
+[ext_resource type="Texture2D" uid="uid://umvpyej64apf" path="res://barkley2/assets/b2_original/images/merged/s_tree_dead_water01.png" id="1_beusi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3o87k"]
+atlas = ExtResource("1_beusi")
+region = Rect2(0, 0, 102, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vuug"]
+atlas = ExtResource("1_beusi")
+region = Rect2(102, 0, 102, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5g6px"]
+atlas = ExtResource("1_beusi")
+region = Rect2(204, 0, 102, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o74px"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3o87k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vuug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5g6px")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_beusi"]
+radius = 15.132746
+
+[node name="o_tree_dead_water01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_o74px")
+centered = false
+offset = Vector2(0, -137)
+metadata/default = {
+"bbox_bottom": "137",
+"bbox_left": "32",
+"bbox_right": "74",
+"bbox_top": "108",
+"height": "144",
+"name": "s_tree_dead_water01",
+"width": "102",
+"xorig": "0",
+"yorigin": "137"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(54, -20)
+shape = SubResource("CircleShape2D_beusi")

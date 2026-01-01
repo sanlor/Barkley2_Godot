@@ -74,6 +74,14 @@ func _ready():
 	returnlabel.size = return_button.get_panel_size()
 	return_button.add_decorations(returnlabel)
 
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			if Input.is_action_just_pressed("Holster"):
+				# Improves the gamepad menu navigation
+				get_viewport().set_input_as_handled()
+				_on_return_button_button_pressed()
+
 # "basic", "settings", "keymap", "gamepad", "gameslot","destruct_confirm", "gamestart_character" ## NOTE This reeeealy should be an enum.
 func _on_return_button_button_pressed():
 	r_title.mode = "gameslot"

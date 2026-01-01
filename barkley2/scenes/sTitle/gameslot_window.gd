@@ -71,6 +71,14 @@ func _ready():
 	
 	# endregion
 
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			if Input.is_action_just_pressed("Holster"):
+				# Improves the gamepad menu navigation
+				get_viewport().set_input_as_handled()
+				_on_back_panel_button_pressed()
+
 func load_slots():
 	## Character Slots
 	var slots := [game_slot_1,game_slot_2,game_slot_3]
@@ -198,7 +206,7 @@ func show_delete_confirmation():
 	var oConfirm : B2_Confirm = preload("res://barkley2/scenes/confirm/b2_confirm.tscn").instantiate()
 	oConfirm.givTxt = Text.pr("Is this the game you want to destruct?")
 	oConfirm.option1_pressed.connect( delete_gameslot 						) # Yes
-	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false 	) # No
+	oConfirm.option2_pressed.connect( func(): r_title.mode = "gameslot"; game_slot_delete_panel.is_pressed = false; game_slot_back_panel.grab_focus() 	) # No
 	add_child( oConfirm )
 
 func delete_gameslot():

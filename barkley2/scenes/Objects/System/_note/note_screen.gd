@@ -79,6 +79,8 @@ var selected_note := 0 :
 	set(i):
 		selected_note = wrapi( i, 0, avaiable_notes.size() )
 
+var time			:= 0.0
+
 func _ready() -> void:
 	layer = B2_Config.NOTE_LAYER
 	B2_Input.ffwd( false )
@@ -141,6 +143,36 @@ func _ready() -> void:
 	else:
 		animation_player.play("show_myself")
 		audio_stream_player.play()
+		
+	# Adjust gamepad navigation:
+	if give_button:
+		exit_button.focus_neighbor_right = give_button.get_path()
+	else:
+		if next_note:
+			exit_button.focus_neighbor_right = next_note.get_path()
+		
+	exit_button.grab_focus()
+	
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			# Improves the gamepad menu navigation
+			if Input.is_action_just_pressed("Holster"):
+				get_viewport().set_input_as_handled()
+				_on_exit_button_pressed()
+		
+		if event is InputEventJoypadButton:
+			# Change notes / maps using the gamepad without focus.
+			if Input.is_action_just_pressed("Roll"): # LB
+				if prev_note:
+					get_viewport().set_input_as_handled()
+					_on_prev_map_pressed()
+					
+			if Input.is_action_just_pressed("Action"): # RB
+				if next_note:
+					get_viewport().set_input_as_handled()
+					_on_next_map_pressed()
+				
 	
 func change_note() -> void: ## CRITICAL Need to change this to support the mental way B2 handles Notes.
 	if mode == 2: ## Gallery mode.
@@ -220,6 +252,18 @@ func play_sfx() -> void:
 		
 	B2_Sound.play(sfx)
 
+func _on_prev_note_focus_exited() -> void:
+	prev_note.modulate = Color.WHITE
+
+func _on_next_note_focus_exited() -> void:
+	next_note.modulate = Color.WHITE
+
+func _on_exit_button_focus_entered() -> void:
+	_on_exit_button_mouse_entered()
+
+func _on_exit_button_focus_exited() -> void:
+	_on_exit_button_mouse_exited()
+
 func _on_exit_button_mouse_entered() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
@@ -293,6 +337,7 @@ func hide_menu():
 func _on_give_button_button_pressed() -> void:
 	give_lbl.text = Text.pr( "Would you like to give '%s' ?" % str( avaiable_notes[selected_note] ) )
 	animation_player.play("confirm_show")
+	no_btn.grab_focus()
 
 func _on_yes_btn_pressed() -> void:
 	animation_player.play("confirm_hide")
@@ -303,4 +348,17 @@ func _on_yes_btn_pressed() -> void:
 
 func _on_no_btn_pressed() -> void:
 	animation_player.play("confirm_hide")
+	exit_button.grab_focus()
 	
+func _physics_process(delta: float) -> void:
+	time += 5.0 * delta
+	
+	# Flash button when in focus
+	if prev_note:
+		if prev_note.has_focus():
+			prev_note.modulate = Color.WHITE * ( sin(time) + 2.0 )
+			
+	# Flash button when in focus
+	if next_note:
+		if next_note.has_focus():
+			next_note.modulate = Color.WHITE * ( sin(time) + 2.0 )

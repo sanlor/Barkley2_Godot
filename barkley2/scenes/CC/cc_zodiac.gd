@@ -13,6 +13,7 @@ signal zodiac_entered
 @onready var pos_clispaeth_label = $pos_clispaeth_label
 @onready var pre_clispaeth_label = $pre_clispaeth_label
 
+@onready var hotspot_day: Control = $ring_day/hotspot_day
 
 func _ready():
 	# Set the position for everything
@@ -22,10 +23,12 @@ func _ready():
 	date_birth_month_label.global_position 		= Vector2( 109 + 10, 225) - Vector2(54,0) 		#- date_birth_month_label.size / 2
 	date_birth_year_label.global_position 		= Vector2( 137 + 10 * 1, 225) - Vector2(45,0) 	#- date_birth_year_label.size / 2
 	
-	pos_clispaeth_label.global_position = Vector2(197, 206)
-	pre_clispaeth_label.global_position = Vector2(197, 225)
+	pos_clispaeth_label.global_position 		= Vector2(197, 206)
+	pre_clispaeth_label.global_position 		= Vector2(197, 225)
 	
 	finish_button.pressed_finish.connect( finish_date_input )
+	
+	hotspot_day.grab_focus()
 	
 func finish_date_input():
 	## parse data

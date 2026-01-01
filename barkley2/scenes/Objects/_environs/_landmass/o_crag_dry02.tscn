@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://dg4ohovr78juv"]
+
+[ext_resource type="Texture2D" uid="uid://djbe8w7c8n3ey" path="res://barkley2/assets/b2_original/images/merged/s_crag_dry02.png" id="1_s7d5q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eb7a3"]
+atlas = ExtResource("1_s7d5q")
+region = Rect2(0, 0, 134, 143)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xepfg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb7a3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s7d5q"]
+size = Vector2(124, 84)
+
+[node name="o_crag_dry02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_xepfg")
+centered = false
+offset = Vector2(3, -109)
+metadata/default = {
+"bbox_bottom": "139",
+"bbox_left": "11",
+"bbox_right": "84",
+"bbox_top": "86",
+"height": "143",
+"name": "s_crag_dry02",
+"width": "134",
+"xorig": "-3",
+"yorigin": "109"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(73, -12)
+shape = SubResource("RectangleShape2D_s7d5q")

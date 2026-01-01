@@ -300,7 +300,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		fade_modifier = 0.70
 
 	## Non game rooms. Mostly the title screen and CC.
-	if not room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale":
+	if not (room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale") and room_name.begins_with("r_"):
 
 		# save destination data
 		this_room 		= room_name

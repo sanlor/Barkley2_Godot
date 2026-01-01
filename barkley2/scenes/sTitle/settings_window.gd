@@ -517,6 +517,14 @@ func _ready():
 	dry += key_row;
 	#endregion
 
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			if Input.is_action_just_pressed("Holster"):
+				# Improves the gamepad menu navigation
+				get_viewport().set_input_as_handled()
+				_on_settings_return_button_pressed()
+
 func check_focus( btn_array : Array ) -> bool:
 	for btn in btn_array:
 		if btn.has_focus():

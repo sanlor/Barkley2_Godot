@@ -35,13 +35,25 @@ func _change_color():
 func _input(event):
 	if Engine.is_editor_hint():
 		return
+		
+	# 01/01/26 gamepad fix
+	var toggle := func():
+		is_selected = true
+		other_label.is_selected = false
+		queue_redraw()
+		B2_Sound.play("sn_cc_generic_button1")
+		get_viewport().set_input_as_handled()
+		
+	if event is InputEventJoypadButton:
+		if B2_Input.is_using_gamepad():
+			if Input.is_action_just_pressed("Holster"):
+				if not is_selected:
+					toggle.call()
+		
 	if event is InputEventMouseButton:
 		if Input.is_action_just_pressed("Action"):
 			if is_hovering:
-				is_selected = true
-				other_label.is_selected = false
-				queue_redraw()
-				B2_Sound.play("sn_cc_generic_button1")
+				toggle.call()
 
 func _draw():
 	pass

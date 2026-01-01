@@ -3,7 +3,7 @@
 extends Node
 class_name B2_TOOL_GML_SPRITE_CONVERTER_LITE
 
-enum TYPE{PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID,INTERACTIVE}
+enum TYPE{ANIMATEDSPRITE2D,PROP,ENVIRON,ENVIRONSOLID,ENVIRONSEMISOLID,INTERACTIVE}
 
 # How to use this:
 # Add this node to an marker
@@ -59,9 +59,11 @@ func lets_goooo():
 	## Setup nodes and important resources
 	var target_name 		:= target.name
 	
-	var object : B2_Environ
+	var object : AnimatedSprite2D
 	
 	match node_type:
+		TYPE.ANIMATEDSPRITE2D:
+			object = AnimatedSprite2D.new()
 		TYPE.PROP:
 			object = B2_EnvironProp.new()
 			#object.shape = collision_shape

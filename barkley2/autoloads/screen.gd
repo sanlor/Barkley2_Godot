@@ -105,6 +105,7 @@ func set_cursor_type( type : TYPE) -> void:
 			mouse_offset = Vector2.ZERO
 			if not trail.is_inside_tree():
 				add_child(trail)
+			trail.clear_points()
 		TYPE.HAND:
 			mouse.animation = "hand"
 			mouse.frame = 0
@@ -297,7 +298,8 @@ func _process(_delta: float) -> void:
 				if is_map_open:
 					hide_map_screen()
 				else:
-					show_map_screen()
+					if B2_Input.player_has_control: # Cannot open the menu if the player has no control.
+						show_map_screen()
 					
 		if Input.is_action_just_pressed("Note"):
 			if (not is_paused or is_notes_open) and is_instance_valid(B2_CManager.o_hoopz):
@@ -309,7 +311,8 @@ func _process(_delta: float) -> void:
 				if is_notes_open:
 					hide_note_screen()
 				else:
-					show_note_screen()
+					if B2_Input.player_has_control: # Cannot open the menu if the player has no control.
+						show_note_screen()
 					
 		if Input.is_action_just_pressed("Quickmenu"):
 			if (not is_paused or is_quickmenu_open) and is_instance_valid(B2_CManager.o_hoopz):
@@ -325,13 +328,14 @@ func _process(_delta: float) -> void:
 				if is_quickmenu_open:
 					hide_quickmenu_screen()
 				else:
-					show_quickmenu_screen()
+					if B2_Input.player_has_control: # Cannot open the menu if the player has no control.
+						show_quickmenu_screen()
 
 func _notification(what: int) -> void: ## Pause game when the windows loses focus
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		if can_pause and not is_paused:
-			# show_pause_menu() ## DEBUG
-			pass
+			show_pause_menu() ## DEBUG
+			# pass
 
 func show_defeat_screen() -> void:
 	var gameover := GAME_OVER.instantiate()

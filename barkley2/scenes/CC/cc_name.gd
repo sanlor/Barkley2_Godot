@@ -56,12 +56,17 @@ func _ready():
 			
 			var letter_btn := Button.new()
 			cc_name_box.add_child( letter_btn )
-			letter_btn.text = letters[ i + (offset * r)]
+			letter_btn.text = letters[ i + (offset * r) ]
 			letter_btn.size = Vector2( 14, 22 )
 			letter_btn.global_position = Vector2( 97 + i * offset, 70 + row_height)
 			letter_btn.pressed.connect( add_letter_to_prompt.bind( letter_btn.text ) )
 			prompt_letters.append( letter_btn )
 			#label1.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			
+			# Focus on the first letter
+			if i+r == 0:
+				letter_btn.grab_focus()
+			
 			
 	gen_btn.global_position = Vector2(156, 192) 		- (gen_btn.size / 2)
 	premade_btn.global_position = Vector2(156, 220) 	- (premade_btn.size / 2)

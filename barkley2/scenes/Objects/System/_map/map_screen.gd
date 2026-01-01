@@ -79,6 +79,27 @@ func _ready() -> void:
 		
 	animation_player.play("show_myself")
 	audio_stream_player.play()
+	exit_button.grab_focus()
+	
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			# Improves the gamepad menu navigation
+			if Input.is_action_just_pressed("Holster"):
+				get_viewport().set_input_as_handled()
+				_on_exit_button_pressed()
+		
+		if event is InputEventJoypadButton:
+			# Change notes / maps using the gamepad without focus.
+			if Input.is_action_just_pressed("Roll"): # LB
+				if prev_map:
+					get_viewport().set_input_as_handled()
+					_on_prev_map_pressed()
+					
+			if Input.is_action_just_pressed("Action"): # RB
+				if next_map:
+					get_viewport().set_input_as_handled()
+					_on_next_map_pressed()
 	
 func change_map() -> void:
 	cleanup_map_icons()
@@ -132,6 +153,18 @@ func populate_map_icons() -> void:
 			map_itself.add_child( icon_sprite )
 			
 	#breakpoint
+
+func _on_prev_map_focus_exited() -> void:
+	prev_map.modulate = Color.WHITE
+
+func _on_next_map_focus_exited() -> void:
+	next_map.modulate = Color.WHITE
+
+func _on_exit_button_focus_entered() -> void:
+	_on_exit_button_mouse_entered()
+
+func _on_exit_button_focus_exited() -> void:
+	_on_exit_button_mouse_exited()
 
 func _on_exit_button_mouse_entered() -> void:
 	if is_instance_valid(tween):
@@ -199,6 +232,16 @@ func hide_menu():
 
 func _physics_process(delta: float) -> void:
 	time += 5.0 * delta
+	
+	# Flash button when in focus
+	if prev_map:
+		if prev_map.has_focus():
+			prev_map.modulate = Color.WHITE * ( sin(time) + 2.0 )
+			
+	# Flash button when in focus
+	if next_map:
+		if next_map.has_focus():
+			next_map.modulate = Color.WHITE * ( sin(time) + 2.0 )
 	
 	if is_instance_valid(map_itself):
 		for c in map_itself.get_children():

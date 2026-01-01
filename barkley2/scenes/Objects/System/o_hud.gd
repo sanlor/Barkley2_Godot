@@ -3,6 +3,8 @@ extends B2_Hud
 ## DEBUG
 var debug_messages := true
 
+signal event_finished # Signal used the the intro.
+
 ## Check o_hud.
 # Oh boy... more work.
 
@@ -52,12 +54,14 @@ var tween : Tween
 var c_tween : Tween ## Tween used only for the combat UI.
 var gun_hud_tween : Tween
 var wait_anim := true
-signal event_finished
 
 const SHOWN_Y 	:= 200.0
 const HIDDEN_Y 	:= 241.0
 
 var hudDrawCount := 0
+
+## HUD display speed
+var hud_speed			:= 0.25
 
 ## gun ammo hud
 var pulse 				:= 0.0
@@ -111,7 +115,8 @@ func show_hud() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property( hud_bar, "position:y", SHOWN_Y, 0.05 )
+	tween.tween_property( hud_bar, "position:y", SHOWN_Y, hud_speed )
+	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
 	tween.tween_callback( event_finished.emit )
 	if debug_messages: print("o_hud: show_hud()")
 	
@@ -119,7 +124,8 @@ func hide_hud() -> void:
 	if is_instance_valid(tween):
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, 0.05 )
+	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, hud_speed )
+	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit ) # event_finished.emit
 	tween.tween_callback( event_finished.emit )
 	if debug_messages: print("o_hud: hide_hud()")
 
@@ -131,6 +137,7 @@ func fade_in( element ) -> void:
 	tween = create_tween()
 	tween.tween_property( element, "modulate:a", 1.0, 0.5 )
 	tween.tween_interval( 0.2 )
+	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
 	tween.tween_callback( event_finished.emit )
 
 func execute_event_user_0() -> void: ## Used during the intro
@@ -161,6 +168,7 @@ func execute_event_user_2() -> void: ## Used during the intro
 	hud_marquee_text.modulate.a 	= 0.0
 	hud_wifi.modulate.a 			= 0.0
 	await get_tree().process_frame
+	B2_SignalBus.hud_visibility_changed.emit()
 	event_finished.emit()
 
 func execute_event_user_3() -> void: ## Used during the intro

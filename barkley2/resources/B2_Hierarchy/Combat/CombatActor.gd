@@ -17,6 +17,7 @@ enum STATE{
 	AIM, 		## Actor is Aiming at something
 	SHOOT,		## Actor is shooting at something
 	POINT, 		## Actor is pointing at something
+	CLIMB,		## Actor is climbing a ladder
 	HIT, 		## Actor is being hit
 	JUMP, 		## Actor is jumping
 	DEFENDING, 	## Actor is defending

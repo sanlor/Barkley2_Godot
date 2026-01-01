@@ -1,6 +1,7 @@
 extends B2_AudioEmitter
 
-func _after_ready() -> void:
+func _ready() -> void:
+	super()
 	if B2_Database.time_check("tnnCurfew") == "during" or B2_Database.time_check("tnnCurfew") == "after":
 		queue_free()
 	

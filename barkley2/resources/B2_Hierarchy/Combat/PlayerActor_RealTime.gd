@@ -418,10 +418,24 @@ func _physics_process(delta: float) -> void:
 		STATE.ROLL:
 			stop_rolling()
 				
+		STATE.CLIMB:
+			# Take the input from the keyboard / Gamepag and apply directly.
+			var move := Vector2.ZERO
+			if (curr_input * 2.5).normalized().round(): ## Check to avoid moving without activating the animation.
+				move = curr_input
+			move.x = 0.0 ## INFO remove lateral speed.
+			velocity = ( walk_speed * delta ) * move
+			
+			climbing_animation( delta )
+			
+			velocity += external_velocity
+			external_velocity = Vector2.ZERO # Reset Ext velocity
+			apply_central_force( velocity / Engine.time_scale )
+				
 		STATE.NORMAL, STATE.AIM, STATE.SHOOT:
 			## Play Animations
 			if curr_STATE == STATE.NORMAL:
-				normal_animation(delta)
+				normal_animation( delta )
 				if curr_input.round() != Vector2.ZERO:
 					interaction_node.position = curr_input.round() * 32.0
 				
@@ -500,6 +514,18 @@ func _on_combat_lower_body_frame_changed() -> void:
 func _on_hoopz_normal_body_frame_changed() -> void:
 	if curr_STATE == STATE.NORMAL:
 		if hoopz_normal_body.animation.begins_with("walk_"):
+			if hoopz_normal_body.frame in [0,2]: # play audio only on frame 0 or 2
+				if move_dist <= 0.0:
+					if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
+					elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
+					else:					B2_Sound.play_pick("hoopz_footstep")
+					move_dist = min_move_dist
+					last_step_frame = combat_lower_sprite.frame
+				else:
+					move_dist -= 1.0
+				
+	elif curr_STATE == STATE.AIM:
+		if hoopz_normal_body.animation.begins_with("walk_"):
 			if hoopz_normal_body.frame in [0,2] and combat_lower_sprite.frame != last_step_frame: # play audio only on frame 0 or 2
 				if move_dist <= 0.0:
 					if is_on_a_puddle:		B2_Sound.play_pick("hoopz_puddlestep")
@@ -507,18 +533,28 @@ func _on_hoopz_normal_body_frame_changed() -> void:
 					else:					B2_Sound.play_pick("hoopz_footstep")
 					move_dist = min_move_dist
 					last_step_frame = combat_lower_sprite.frame
-			else:
-				move_dist -= 1.0
+				else:
+					move_dist -= 1.0
+				
+	## Play ladder SFX on certain frames only.
+	elif curr_STATE == STATE.CLIMB:
+		if hoopz_normal_body.animation == CLIMBING:
+			if hoopz_normal_body.frame in [3,7]:
+				B2_Sound.play_pick("ladder_other")
 			
 	if hoopz_normal_body.animation.begins_with("full_roll"):
-		if hoopz_normal_body.frame in [0,1,2]: ## Hoopz is in air, no smoke
+		if hoopz_normal_body.frame in [0,1,2,3]: ## Hoopz is in air, no smoke
 			# hoopz_normal_body.look_at( linear_velocity ) ## Test for changing roll sprite direction. need a better fix.
 			step_smoke.emitting = false
-		elif hoopz_normal_body.frame in [3,4,5,6]: ## Hoopz hits the floor and rolls, add smoke
+			set_collision_layer_value( 07, false ) # Disable collision to stairs.
+			
+		elif hoopz_normal_body.frame in [4,5,6]: ## Hoopz hits the floor and rolls, add smoke
 			hoopz_normal_body.rotation = 0
 			if not step_smoke.emitting:
 				if not is_on_a_puddle and not is_on_water:
 					step_smoke.emitting = true
+			set_collision_layer_value( 07, true ) # re-enable collision to stairs.
+			
 		else: ## Getting up, no smoke.
 			step_smoke.emitting = false
 			hoopz_normal_body.rotation = 0

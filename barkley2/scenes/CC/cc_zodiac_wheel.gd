@@ -27,7 +27,16 @@ signal activated_next_dial(node)
 @export var sfx_drag 	:= ""
 @export var display_year := false
 
-@export var is_active := false
+@export var is_active := false :
+	set(b):
+		is_active = b
+		if is_active and hotspot:
+			hotspot.focus_mode = Control.FOCUS_ALL
+			hotspot.grab_focus() # Gamepad fix
+		elif not is_active and hotspot:
+			hotspot.focus_mode = Control.FOCUS_NONE
+
+@export var hotspot	: Control
 
 var is_hovering := false
 var is_pressed := false
@@ -47,18 +56,38 @@ var drag_sfx_timeout := 0.85
 var drag_sfx_player : AudioStreamPlayer
 
 func _ready():
-	var hotspot := Control.new()
-	add_child( hotspot )
+	assert(hotspot, "No hotspot added.")
 	hotspot.size = Vector2(button_radius, button_radius)
 	hotspot.position = button_position - (hotspot.size / 2)
 	
-	hotspot.mouse_entered.connect( func(): is_hovering = true; _play_sounds() )
-	hotspot.mouse_exited.connect( func(): is_hovering = false; hover_sfx_played = false; _play_sounds() )
+	hotspot.mouse_entered.connect( _entered )
+	hotspot.mouse_exited.connect( _exited )
+	
+	hotspot.focus_entered.connect( _entered )
+	hotspot.focus_exited.connect( _exited )
+	
+	B2_Input.input_changed.connect(input_changed)
 	
 	# Debug draw
 	queue_redraw()
+	
+	## Run the set script. Trust me.
+	is_active = is_active
 
+## Gamepad fix
+func input_changed(_aaaaa) -> void:
+	_exited()
+	is_dragging = false
+	is_pressed = false
 
+func _entered() -> void:
+	is_hovering = true
+	_play_sounds()
+
+func _exited() -> void:
+	is_hovering = false
+	hover_sfx_played = false;
+	_play_sounds()
 
 func _physics_process(_delta):
 	if Engine.is_editor_hint():
@@ -66,6 +95,16 @@ func _physics_process(_delta):
 	
 	if not is_active:
 		return
+	
+	if B2_Input.is_using_gamepad():
+		if hotspot.has_focus():
+			is_hovering = true
+			
+		if Input.get_axis("Up","Down") and is_pressed and can_rotate:
+			rotation += _delta * Input.get_axis("Up","Down")
+			is_dragging = true
+		else:
+			is_dragging = false
 	
 	if Input.is_action_just_pressed("Action") and is_hovering:
 		is_pressed = true
@@ -91,8 +130,8 @@ func _physics_process(_delta):
 			frame = 2
 			update_floating_label()
 			
-				
-			if can_rotate:
+			# Mouse controls
+			if can_rotate and not B2_Input.is_using_gamepad():
 				mouse_curr_pos = get_global_mouse_position()
 				if mouse_curr_pos != mouse_last_pos:
 				#if snapped(rotation, 0.1) != snapped(global_position.angle_to_point( get_global_mouse_position() ), 0.1):

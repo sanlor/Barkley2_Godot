@@ -779,10 +779,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-focus_neighbor_left = NodePath("../prev_note")
-focus_neighbor_right = NodePath("../next_note")
-focus_neighbor_bottom = NodePath("../exit_button")
-focus_mode = 2
 texture = SubResource("AtlasTexture_q5any")
 
 [node name="prev_note" type="TextureButton" parent="ColorRect"]
@@ -882,9 +878,12 @@ offset_right = 50.0
 offset_bottom = 4.5776367e-05
 grow_horizontal = 2
 grow_vertical = 0
-focus_neighbor_left = NodePath("../prev_note")
-focus_neighbor_top = NodePath("../note_itself")
-focus_neighbor_right = NodePath("../next_note")
+focus_neighbor_left = NodePath("../give_button")
+focus_neighbor_top = NodePath("../prev_note")
+focus_neighbor_right = NodePath("../give_button")
+focus_neighbor_bottom = NodePath("../next_note")
+focus_next = NodePath("../next_note")
+focus_previous = NodePath("../prev_note")
 texture_normal = SubResource("AtlasTexture_30sak")
 
 [node name="exit_spr" type="AnimatedSprite2D" parent="ColorRect/exit_button"]
@@ -960,9 +959,13 @@ libraries = {
 &"": SubResource("AnimationLibrary_73434")
 }
 
+[connection signal="focus_exited" from="ColorRect/prev_note" to="." method="_on_prev_note_focus_exited"]
 [connection signal="pressed" from="ColorRect/prev_note" to="." method="_on_prev_map_pressed"]
+[connection signal="focus_exited" from="ColorRect/next_note" to="." method="_on_next_note_focus_exited"]
 [connection signal="pressed" from="ColorRect/next_note" to="." method="_on_next_map_pressed"]
 [connection signal="button_pressed" from="ColorRect/give_button" to="." method="_on_give_button_button_pressed"]
+[connection signal="focus_entered" from="ColorRect/exit_button" to="." method="_on_exit_button_focus_entered"]
+[connection signal="focus_exited" from="ColorRect/exit_button" to="." method="_on_exit_button_focus_exited"]
 [connection signal="mouse_entered" from="ColorRect/exit_button" to="." method="_on_exit_button_mouse_entered"]
 [connection signal="mouse_exited" from="ColorRect/exit_button" to="." method="_on_exit_button_mouse_exited"]
 [connection signal="pressed" from="ColorRect/exit_button" to="." method="_on_exit_button_pressed"]

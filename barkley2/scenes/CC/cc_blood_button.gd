@@ -11,6 +11,9 @@ func _ready():
 	mouse_entered.connect( func(): 	is_hovering = true )
 	mouse_exited.connect( func(): 	is_hovering = false )
 	
+	focus_entered.connect( func(): 	is_hovering = true )
+	focus_exited.connect( func(): 	is_hovering = false )
+	
 func _process(_delta):
 	if is_hovering and (not is_selected or can_toggle):
 		modulate.a = 0.5

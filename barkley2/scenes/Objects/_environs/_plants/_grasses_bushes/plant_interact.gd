@@ -29,6 +29,11 @@ func _ready() -> void:
 	if slow_on_collision:
 		area_2d.linear_damp_space_override = Area2D.SPACE_OVERRIDE_COMBINE
 		area_2d.linear_damp = 0.5
+		
+	area_2d.set_collision_mask_value(02,true)
+	area_2d.set_collision_mask_value(03,true)
+	area_2d.set_collision_mask_value(05,true)
+	area_2d.set_collision_mask_value(07,true)
 
 func _physics_process(_delta: float) -> void:
 	if player_contact:

@@ -155,6 +155,8 @@ var mixed_color2				:= Color.WHITE
 var scale_countdown 		:= 0.8;
 
 func _ready() -> void:
+	B2_Input.can_fast_forward = false
+	
 	variety.resize(40)
 	variety.fill(false)
 	
@@ -224,6 +226,7 @@ func _on_dj_music_track_stream_finished() -> void:
 	
 	B2_Music.play("mus_tnn_bootylectro")
 	finished.emit()
+	B2_Input.can_fast_forward = true
 	queue_free()
 
 func _begin_animation() -> void:

@@ -151,6 +151,15 @@ func add_choice( choice_text : String ) -> void:
 	#	my_selection_button.call_deferred( "grab_focus" ) 
 	#	change_arrow_pos.call_deferred( my_selection_button )
 
+## If you pause the game when a choice dialog is open, the pause menu will steal the focus. This ensures that the dialog choice menu will always have focus.
+func _input(event: InputEvent) -> void:
+	if event is InputEventJoypadButton:
+		if Input.is_action_just_pressed("ui_up") or Input.is_action_just_pressed("ui_down"):
+			var focus := get_viewport().gui_get_focus_owner()
+			if not choice_vbox_node.get_children().has( focus ):
+				choice_vbox_node.get_children().front().grab_focus()
+				get_viewport().set_input_as_handled()
+
 func change_arrow_pos( button : Button ):
 	# Need to wait this long because more than 4 items cause the scrollbox to scroll, wich takes some time.
 	# Not sure what I mean? comment one of these awaits and see for yourself.

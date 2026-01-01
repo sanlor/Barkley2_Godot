@@ -39,6 +39,7 @@ func _ready() -> void:
 	#instance_create(0, 0, o_mg_booty_camera);
 	#push_warning(">>>> %s <<<<: still INDEV." % name)
 	#spin_camera()
+	B2_Input.can_fast_forward = false
 
 func play_music() -> void:
 	var stream := AudioStreamPlayer.new()
@@ -60,6 +61,7 @@ func _music_finished() -> void:
 	camera_is_spining = false
 	o_mg_booty_surface.enable_light() ## Re-enable normal lightsx
 	finished.emit()
+	B2_Input.can_fast_forward = true
 	queue_free() # bubye
 	
 func spin_camera() -> void: # replaces 'o_mg_booty_camera'.

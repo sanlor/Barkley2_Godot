@@ -23,6 +23,14 @@ func _ready() -> void:
 	begin_label.text 	= Text.pr( begin_label.text )
 	back_label.text 	= Text.pr( back_label.text )
 	
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			if Input.is_action_just_pressed("Holster"):
+				# Improves the gamepad menu navigation
+				get_viewport().set_input_as_handled()
+				_on_back_btn_button_pressed()
+	
 func show_menu() -> void:
 	B2_Config.select_user_slot( 69 ) ## Lol
 	vr_death_counter.text = Text.pr( "Hypothetical Deaths: %s " % str( int(B2_Config.get_user_save_data( "player.deaths.total", 0 ) ) ) )

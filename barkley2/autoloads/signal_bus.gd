@@ -2,6 +2,9 @@ extends Node
 ## Autoload used to manage signals.
 # Created on 08/08/25
 
+## HUD inform nodes that the hud is shown or not
+signal hud_visibility_changed
+
 ## Player / Camera stuff (Was in B2_Input)
 signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )

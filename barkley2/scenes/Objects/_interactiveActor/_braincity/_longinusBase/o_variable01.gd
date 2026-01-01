@@ -37,7 +37,7 @@ func execute_event_user_10():
 	# /// DSL - Talk
 	push_warning("Event not set")
 
-func cinema_set( _sprite_frame : String ):
+func cinema_set( _sprite_frame : String, _force_play := false ):
 	if ActorAnim.sprite_frames.has_animation(_sprite_frame):
 		ActorAnim.animation = _sprite_frame
 		if _sprite_frame == "spanking" or _sprite_frame == "spankingHold":

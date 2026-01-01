@@ -94,6 +94,7 @@ const DIR_RIGHT_UPISH	 	:= -0.46364760398865
 @export var STAGGER					:= "stagger"
 @export var ROLL					:= "full_roll" # "diaper_gooroll"
 @export var ROLL_BACK				:= "full_roll_back" # "diaper_gooroll"
+@export var CLIMBING				:= "climbing"
 
 @export var hoopz_normal_body		: AnimatedSprite2D
 @export var step_smoke				: GPUParticles2D
@@ -116,12 +117,13 @@ var min_move_dist 	:= 1.0
 var move_dist 		:= 0.0 # Avoid issues with SFX playing too much during movement. # its a bad sollution, but ist works.
  
 # Animation
-var is_turning 					:= false # Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
+var is_turning 					:= false 	# Shuffling when turning using the mouse. # check scr_player_stance_diaper() line 142
 var turning_time 				:= 0.25
 var is_on_a_puddle				:= false
 var is_on_water					:= false
-var last_stand_frame 			:= 0	# Used to remember the last animation frame used.
-var last_combat_stand_frame 	:= 0 # Used to remember the last animation frame used. (Combat related)
+var last_stand_frame 			:= 0		# Used to remember the last animation frame used.
+var last_combat_stand_frame 	:= 0 		# Used to remember the last animation frame used. (Combat related)
+var player_is_climbing_ladder	:= false	# Check if player is currently climing a ladder. Set by "B2_Ladder".
 
 # player direction is influenced by the mouse position
 var follow_mouse := true
@@ -168,6 +170,17 @@ func toggle_collision() -> void:
 	var hoopz_collision: CollisionShape2D = $hoopz_collision
 	hoopz_collision.disabled = not hoopz_collision.disabled
 	print_rich("[color=red][b]Hoopz collision has been changed to %s. This should not happen outside of DEBUG situations.[/b][/color]" % not hoopz_collision.disabled)
+
+## Toggle state for the climbing animation.
+func toggle_actor_climb( enable ) -> void:
+	player_is_climbing_ladder = enable
+	if player_is_climbing_ladder:	curr_STATE = STATE.CLIMB
+	else:							curr_STATE = STATE.NORMAL; last_input = Vector2.INF # Need to reset the current input to yupdate some animations.
+	## Reset some stuff.
+	linear_damp = walk_damp
+	step_smoke.emitting = false
+	hoopz_normal_body.flip_h = false
+	_change_sprites()
 
 func add_smoke(): ## TODO Web exports dont support this. Maybe fix this?
 	if not is_on_a_puddle and not is_on_water: ## emit smoke on water?
@@ -347,7 +360,21 @@ func get_aim() -> Vector2:
 	else:
 		return last_aim
 
-func normal_animation(delta : float):
+func climbing_animation(_delta : float) -> void:
+	assert(hoopz_normal_body, "hoopz_normal_body not loaded.")
+	
+	## Set the animation, if its not set yet.
+	if hoopz_normal_body.get_animation() != CLIMBING:
+		hoopz_normal_body.animation = CLIMBING
+	
+	## play the animation, if its not playing yet.
+	if not hoopz_normal_body.is_playing():
+		hoopz_normal_body.play()
+		
+	## Set the animation speed according to the player's input. Negative values are expected.
+	hoopz_normal_body.speed_scale = normal_anim_speed_scale * -curr_input.y 
+
+func normal_animation(delta : float) -> void:
 	var input := (curr_input * 2.5).normalized().round()
 	
 	hoopz_normal_body.speed_scale = max( curr_input.length_squared(), 0.4 ) * normal_anim_speed_scale # Gamepad mod. Since you can move slowly using the gamepad, match the walking animation to the analog input.

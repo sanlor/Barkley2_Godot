@@ -5,11 +5,11 @@ extends Control
 
 signal accept_pressed
 
-@onready var blood_frame_bg = $blood_frame_bg
-@onready var blood_frame = $blood_frame
-@onready var accept_btn = $accept_btn
+@onready var blood_frame_bg 		:= $blood_frame_bg
+@onready var blood_frame 			:= $blood_frame
+@onready var accept_btn 			:= $accept_btn
 
-@onready var accept_btn_bg = $accept_btn_bg
+@onready var accept_btn_bg 			:= $accept_btn_bg
 
 const CC_BLOOD_BUTTON = preload("res://barkley2/scenes/CC/cc_blood_button.tscn")
 
@@ -28,8 +28,13 @@ func _ready():
 	accept_btn_bg.mouse_entered.connect( func(): accept_is_hovering = true )
 	accept_btn_bg.mouse_exited.connect( func(): accept_is_hovering = false )
 	
+	accept_btn_bg.focus_entered.connect( func(): accept_is_hovering = true )
+	accept_btn_bg.focus_exited.connect( func(): accept_is_hovering = false )
+	
 	blood_frame.global_position = Vector2(120, 24)
 	accept_btn.global_position = Vector2(192, 200) - (accept_btn.size / 2)
+	
+	var prev_btn : TextureRect
 	
 	for i in 6:
 		var label := Label.new()
@@ -37,7 +42,7 @@ func _ready():
 		label.global_position = Vector2( 169, 52 + i * 20 )
 		label.text = blood_options[i]
 		
-		var check := CC_BLOOD_BUTTON.instantiate()
+		var check : TextureRect = CC_BLOOD_BUTTON.instantiate()
 		add_child( check )
 		check.global_position = Vector2(144, 52 + i * 20)
 		check.modulate.a = 0.0
@@ -47,6 +52,19 @@ func _ready():
 		modulate.a = 0
 		var tween := create_tween()
 		tween.tween_property(self, "modulate:a", 1.0, 1.0)
+		
+		if i == 0:
+			check.grab_focus()
+		elif i == 6:
+			check.focus_neighbor_bottom 	= accept_btn_bg.get_path()
+			accept_btn_bg.focus_neighbor_top 	= check.get_path()
+		else:
+			@warning_ignore("unassigned_variable")
+			if prev_btn:
+				@warning_ignore("unassigned_variable")
+				check.focus_neighbor_top 	= prev_btn.get_path()
+		
+		prev_btn = check
 		
 func _process(_delta):
 	if accept_is_hovering:

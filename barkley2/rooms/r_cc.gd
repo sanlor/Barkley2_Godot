@@ -113,6 +113,9 @@ func _ready():
 	else:
 		push_warning("placenta_array not being shuffled.")
 		
+	## Enable FF.
+	B2_Input.can_fast_forward = true
+		
 func _process(delta):
 	textbox_wizard_cooldown -= delta
 	

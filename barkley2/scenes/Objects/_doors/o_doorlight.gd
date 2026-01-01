@@ -9,19 +9,19 @@ var show_destination := false
 
 # Base class for doorlight directions.
 @export_category("DoorLight setup")
-@export var locked				:= false
-@export var locked_msg			:= ["Locked...", "Its locked.", "It won't open...", "...?"]
-@export var enabled				:= true
-@export var editor_anim			:= "debug_icons"
-@export var editor_frame 		:= 0
-@export var running_anim 		:= ""
-@export var running_frame 		:= 0
-@export var flip_h_running_anim := false
-@export var flip_v_running_anim := false
-
-@export var show_door_light := false:
+@export var locked					:= false
+@export var locked_msg				:= ["Locked...", "Its locked.", "It won't open...", "...?"]
+@export var enabled					:= true
+@export var editor_anim				:= "debug_icons"
+@export var editor_frame 			:= 0
+@export var running_anim 			:= ""
+@export var running_frame 			:= 0
+@export var flip_h_running_anim 	:= false
+@export var flip_v_running_anim 	:= false
+@export var show_door_light			:= true		## Show the doorlight during gameplay.
+@export var editor_show_door_light 	:= false: 	## Show the real door light sprite in the editor.
 	set(b):
-		show_door_light = b
+		editor_show_door_light = b
 		if Engine.is_editor_hint():
 			_update_sprite()
 
@@ -93,8 +93,18 @@ func _ready() -> void:
 				)
 	_update_sprite()
 	
+	## Set Collision.
+	light_activation_area.set_collision_mask_value( 2, true )
+	light_activation_area.set_collision_mask_value( 7, true )
+	
+	teleport_activation_area.set_collision_mask_value( 2, true )
+	teleport_activation_area.set_collision_mask_value( 2, true )
+	
+	push_area.set_collision_mask_value( 2, true )
+	push_area.set_collision_mask_value( 2, true )
+	
 func _update_sprite():
-	if Engine.is_editor_hint() and not show_door_light:
+	if Engine.is_editor_hint() and not editor_show_door_light:
 		animation 	= editor_anim
 		frame 		= editor_frame
 		print("%s frame: " % name, frame)
@@ -130,7 +140,7 @@ func _physics_process(_delta: float) -> void:
 		
 	modulate.a = 0.0
 	
-	if light_activation_area.has_overlapping_bodies():
+	if light_activation_area.has_overlapping_bodies() and show_door_light:
 		var body : Array[Node2D] = light_activation_area.get_overlapping_bodies()
 		for b in body:
 			if b is B2_PlayerCombatActor: # or b is B2_InteractiveActor:

@@ -118,6 +118,14 @@ func hide_menu() -> void:
 	#t.tween_callback( closed.emit )
 	t.tween_callback( window_update_timer.stop )
 
+func _input(event: InputEvent) -> void:
+	if visible:
+		if event is InputEventJoypadButton or event is InputEventMouseButton:
+			if Input.is_action_just_pressed("Holster"):
+				# Improves the gamepad menu navigation
+				get_viewport().set_input_as_handled()
+				_on_exit_button_pressed()
+
 func _on_exit_button_pressed() -> void:
 	closed.emit()
 

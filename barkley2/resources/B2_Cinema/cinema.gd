@@ -62,7 +62,7 @@ signal set_interactivity(enabled : bool)
 
 var event_caller	: Node2D ## The node that called the play_cutscene() function.
 
-var camera						: Camera2D
+var camera						: B2_Camera_Hoopz
 var all_nodes					: Array[Node] = []
 var array_dirty					:= false
 
@@ -74,10 +74,10 @@ var dslCinKid := []
 ## Breakout stuff
 var show_breakout := false
 var breakout_data := {
-	"value" 		: "money", # what is shown in the breakbox
-	"prev_value" 	: 0, # what is shown in the breakbox
-	"modifier"		: 0, # preview of the pruchase (ex: item cost 10 NS, you have 100 NS, show 100 - 10 on the breakout)
-	"opt"			: 0, # I have no idea what this is.
+	"value" 		: "money", 	# what is shown in the breakbox
+	"prev_value" 	: 0, 		# what is shown in the breakbox
+	"modifier"		: 0, 		# preview of the pruchase (ex: item cost 10 NS, you have 100 NS, show 100 - 10 on the breakout)
+	"opt"			: 0, 		# I have no idea what this is.
 }
 
 ## Flourish stuff
@@ -88,12 +88,10 @@ var flourish_time 		:= 0.0
 ## Note stuff
 var selected_note : String
 
-func _ready() -> void:
-	pass
-	
 func setup_camera( _camera : Camera2D ):
 	camera = _camera
 
+## Tries to find the current camera on the scene. If none is found, make a new one and throws a warning.
 func get_camera_on_tree() -> Camera2D:
 	var nodes_in_tree = get_tree().current_scene.get_children() ## get all siblings.
 	for c in nodes_in_tree:
@@ -106,7 +104,7 @@ func get_camera_on_tree() -> Camera2D:
 	
 	# No camera loaded. Create a new one
 	#push_warning("No camera loaded on room %s. Create a new one" % name)
-	print("No camera loaded on room %s. Create a new one" % name)
+	push_warning("No camera loaded on room %s. Create a new one" % name)
 	var _cam := B2_Camera_Hoopz.new()
 	_cam.name = "cinema_created_camera"
 	B2_CManager.camera = _cam
@@ -123,6 +121,7 @@ func get_camera_on_tree() -> Camera2D:
 	get_tree().current_scene.add_child( _cam )
 	return _cam
 	
+## Update the rooms's pathfind.
 func update_pathfinding():
 	var room_node = get_parent()
 	if room_node is B2_ROOMS:
@@ -130,6 +129,7 @@ func update_pathfinding():
 	else:
 		push_warning("Who am I...? what am I...? (Meaning, the Cinema node is not where its suposed to be. Cant update pathfinding.)")
 	
+## Loads the cutscene version of Hoopz. Also, removes the Hoopz combat actor.
 func load_hoopz_actor():
 	if is_instance_valid(B2_CManager.o_cts_hoopz):
 		push_warning( "Hoopz actor already loaded." )
@@ -168,6 +168,7 @@ func load_hoopz_actor():
 		Vector2.DOWN: 		B2_CManager.o_cts_hoopz.cinema_look( "SOUTH" )
 		Vector2.RIGHT: 		B2_CManager.o_cts_hoopz.cinema_look( "EAST" )
 	
+## Loads the combat actor version of Hoopz. Also, removes the Hoopz cutscene actor.
 func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	if is_instance_valid(B2_CManager.o_hoopz):
 		push_warning( "Hoopz player is already loaded." )
@@ -225,6 +226,7 @@ func end_cutscene():
 	update_pathfinding()
 	if is_instance_valid(B2_CManager.o_hud):
 		B2_CManager.o_hud.show_hud()
+		await B2_SignalBus.hud_visibility_changed
 	
 	B2_CManager.event_ended.emit() # Peace out.
 	queue_free()
@@ -263,7 +265,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	B2_CManager.event_started.emit()
 	
-	camera.set_camera_bound( false )
+	#camera.set_camera_bound( false ) ## Disabled on 01/01/26 - maybe unneeded?
 	
 	# Chill out. Avoid loading invalid nodes.
 	await get_tree().process_frame # ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
@@ -286,6 +288,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	update_pathfinding()
 	if is_instance_valid(B2_CManager.o_hud):
 		B2_CManager.o_hud.hide_hud()
+		await B2_SignalBus.hud_visibility_changed
 	
 	# This is the script parser. It parsers scripts.
 	# Basically this emulates the Cinema("run") and Cinema("process").
