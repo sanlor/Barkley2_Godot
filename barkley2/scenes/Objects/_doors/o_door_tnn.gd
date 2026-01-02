@@ -3,6 +3,7 @@ extends B2_DOOR_PARENT
 
 @export var is_open := false
 
+
 @onready var sensor_shape: 			CollisionShape2D = $door_sensor/sensor_shape
 @onready var locked_panel: 			PanelContainer = $locked_panel
 @onready var locked_text_label: 	Label = $locked_panel/MarginContainer/locked_text
@@ -22,6 +23,8 @@ func _ready() -> void:
 		
 	door_sensor.body_entered.connect( detect_player_enter )
 	door_sensor.body_exited.connect( detect_player_exit )
+	
+
 
 func detect_player_exit( body ):
 	if body is B2_PlayerCombatActor:# or body is B2_InteractiveActor:

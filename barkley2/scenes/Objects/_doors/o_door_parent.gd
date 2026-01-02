@@ -43,6 +43,11 @@ var alpha_lock_goal 			:= 0;
 
 func _door_setup():
 	speed_scale = opening_speed
+	
+	assert(door_sensor, "door_sensor not loaded.")
+	door_sensor.set_collision_mask_value(7, true) # Player Envirm
+	door_sensor.set_collision_mask_value(5, true) # NPCs
+	door_sensor.set_collision_mask_value(2, true) # Player
 
 func door_open( _instant := false ):
 	if sprite_frames.has_animation(door_open_anim_name):

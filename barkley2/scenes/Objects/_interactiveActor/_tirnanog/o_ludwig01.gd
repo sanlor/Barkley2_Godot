@@ -1,12 +1,12 @@
 extends B2_InteractiveActor
 
+var debug_ludwig := false
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
-	if B2_Playerdata.Quest("ludwigState") >= 5 or B2_Database.time_check("tnnCurfew") == "during":
-		ActorAnim.animation = "gone"
-		is_interactive = false
-	if B2_Database.time_check("tnnCurfew") == "after":
-		queue_free()
+	if debug_ludwig:
+		print( "ludwigState: ", B2_Playerdata.Quest("ludwigState") )
+		print( "tnnCurfew: ", B2_Database.time_check("tnnCurfew") )
 		
 	_setup_actor()
 	_setup_interactiveactor()
@@ -22,6 +22,14 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	#if B2_Playerdata.Quest("ludwigState") >= 5 or B2_Database.time_check("tnnCurfew") == "during":
+	if B2_Playerdata.Quest("ludwigState") > 7 or B2_Database.time_check("tnnCurfew") == "during":
+		ActorAnim.animation = "gone"
+		is_interactive = false
+		
+	if B2_Database.time_check("tnnCurfew") == "after":
+		queue_free()
 
 func execute_event_user_0():
 	ActorAnim.animation = "gone"

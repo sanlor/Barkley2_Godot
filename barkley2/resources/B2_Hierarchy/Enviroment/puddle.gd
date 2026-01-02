@@ -12,6 +12,12 @@ func _ready() -> void:
 	
 	area_2d.body_entered.connect(	_enter_puddle	)
 	area_2d.body_exited.connect(	_exit_puddle	)
+	
+	area_2d.set_collision_layer_value(8, true)
+	
+	area_2d.set_collision_mask_value(3, true)
+	area_2d.set_collision_mask_value(5, true)
+	area_2d.set_collision_mask_value(7, true)
 
 
 func _enter_puddle( body ) -> void:
