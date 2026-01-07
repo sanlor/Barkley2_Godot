@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://se77xw1drknn"]
+
+[ext_resource type="Texture2D" uid="uid://ddcno7mdf8mqp" path="res://barkley2/assets/b2_original/images/merged/s_rock_snow02.png" id="1_p4j4c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5nrtf"]
+atlas = ExtResource("1_p4j4c")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x3lje"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5nrtf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p4j4c"]
+height = 47.944813
+
+[node name="o_rock_snow02" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_x3lje")
+centered = false
+offset = Vector2(-32, -24)
+metadata/default = {
+"bbox_bottom": "29",
+"bbox_left": "3",
+"bbox_right": "62",
+"bbox_top": "7",
+"height": "32",
+"name": "s_rock_snow02",
+"width": "64",
+"xorig": "32",
+"yorigin": "24"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-1, -9)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0.9999995, 4)
+rotation = -1.6187534
+shape = SubResource("CapsuleShape2D_p4j4c")

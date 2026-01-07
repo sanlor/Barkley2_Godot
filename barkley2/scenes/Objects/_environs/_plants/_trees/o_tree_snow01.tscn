@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://k3hcw4vp5omv"]
+
+[ext_resource type="Texture2D" uid="uid://btj0hn47sv04i" path="res://barkley2/assets/b2_original/images/merged/s_tree_snow01.png" id="1_k67o3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2t84k"]
+atlas = ExtResource("1_k67o3")
+region = Rect2(0, 0, 112, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnbxi"]
+atlas = ExtResource("1_k67o3")
+region = Rect2(112, 0, 112, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gc2nb"]
+atlas = ExtResource("1_k67o3")
+region = Rect2(224, 0, 112, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ig3hh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2t84k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnbxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gc2nb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k67o3"]
+radius = 16.763054
+
+[node name="o_tree_snow01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ig3hh")
+centered = false
+offset = Vector2(0, -143)
+metadata/default = {
+"bbox_bottom": "143",
+"bbox_left": "32",
+"bbox_right": "84",
+"bbox_top": "104",
+"height": "144",
+"name": "s_tree_snow01",
+"width": "112",
+"xorig": "0",
+"yorigin": "143"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(59, -27)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_k67o3")

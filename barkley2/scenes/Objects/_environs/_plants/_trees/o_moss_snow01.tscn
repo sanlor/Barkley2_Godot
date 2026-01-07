@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxiy5dukn5dc"]
+
+[ext_resource type="Texture2D" uid="uid://howi1qac7quy" path="res://barkley2/assets/b2_original/images/merged/s_moss_snow01.png" id="1_kc1gn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug3vh"]
+atlas = ExtResource("1_kc1gn")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l262t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ug3vh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kc1gn"]
+radius = 12.369317
+
+[node name="o_moss_snow01" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_l262t")
+centered = false
+offset = Vector2(-24, -38)
+metadata/default = {
+"bbox_bottom": "41",
+"bbox_left": "2",
+"bbox_right": "42",
+"bbox_top": "9",
+"height": "48",
+"name": "s_moss_snow01",
+"width": "48",
+"xorig": "24",
+"yorigin": "38"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-1, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_kc1gn")
