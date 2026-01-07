@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://but2j75l2xyg4"]
+
+[ext_resource type="Texture2D" uid="uid://cuacghp0ntovt" path="res://barkley2/assets/b2_original/images/merged/s_wilmerBones01.png" id="1_vocc6"]
+[ext_resource type="Script" uid="uid://cbwkva6mdbqlo" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmerBones01.gd" id="2_4bpls"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_uinpj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ngp6w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vocc6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_o5rtk"]
+script = ExtResource("3_uinpj")
+original_script = "DIALOG | P_NAME | Mr. Wilmer's bones...
+CHOICE | Take the bones?
+REPLY  | YAY | Yes...
+REPLY  | NAY | Nay...
+
+YAY
+USEAT   | o_wilmerBones01
+WAIT    | 0.10
+Destroy | o_wilmerBones01
+ITEM    | Wilmer's Bones | 1
+NOTIFY  | Unearthed Wilmer's Bones!
+WAIT    | 0.5
+DIALOG  | P_NAME | These bones are now my responsibility. Wilmer told me to take them to `kw`Gilbert's Peak,`rt` and bury them there.  
+WAIT    | 1.0
+DIALOG  | P_NAME | I won't let you down again, Mr. Wilmer...
+QUEST   | wilmerBones = 1
+
+NAY
+DIALOG | P_NAME | Nay..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fpldb"]
+radius = 24.0
+
+[node name="o_wilmerBones01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_ngp6w")
+script = ExtResource("2_4bpls")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_o5rtk")
+metadata/_custom_type_script = "uid://i1xxl3nr1n36"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_fpldb")

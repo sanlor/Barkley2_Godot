@@ -86,4 +86,5 @@ func teleport_room( room_name : String ) -> void:
 	B2_RoomXY.fancy_warp_to( room_name, 0, 0 )
 	
 func _on_canceled() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 

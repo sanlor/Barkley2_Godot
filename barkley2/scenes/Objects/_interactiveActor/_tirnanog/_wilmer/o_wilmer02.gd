@@ -22,3 +22,9 @@ func _ready() -> void:
 	ANIMATION_EAST 							= "s_constantineSE"
 	ANIMATION_STAND_SPRITE_INDEX 			= [1, 1, 0, 0, 0, 0, 0, 1]
 	ActorAnim.animation 					= "default"
+
+## New function -> hide Wilmer.
+func execute_event_user_0():
+	var t := create_tween()
+	self_modulate.a = 1.0
+	t.tween_property(self, "self_modulate:a", 0.0, 1.0)

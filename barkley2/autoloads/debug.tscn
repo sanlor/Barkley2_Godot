@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bpps4qfcgdytt"]
+[gd_scene load_steps=54 format=3 uid="uid://bpps4qfcgdytt"]
 
 [ext_resource type="Script" uid="uid://diof0frrpm0jb" path="res://barkley2/autoloads/debug.gd" id="1_jshnt"]
 [ext_resource type="Theme" uid="uid://dbeg3k6es8t46" path="res://barkley2/resources/Debug_theme.tres" id="2_pawx4"]
@@ -10,7 +10,9 @@
 [ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="7_hgrbu"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="7_hkl2t"]
 [ext_resource type="Script" uid="uid://yai8fhb612w6" path="res://barkley2/resources/B2_Debug/teleport_window.gd" id="8_ir2hf"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="8_qyn30"]
 [ext_resource type="Script" uid="uid://s0a13i5ygcc7" path="res://barkley2/resources/B2_Debug/input_checker.gd" id="9_lsfsp"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="9_x2v0w"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="10_fcqti"]
 [ext_resource type="Texture2D" uid="uid://dce28vp8s5lq0" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_0.png" id="11_hgrbu"]
 [ext_resource type="Texture2D" uid="uid://c8wesb0pfj4af" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_1.png" id="12_27myr"]
@@ -28,6 +30,8 @@
 [ext_resource type="Texture2D" uid="uid://cygspyk2c4uau" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_13.png" id="24_26ris"]
 [ext_resource type="Texture2D" uid="uid://dej34worj0txu" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_14.png" id="25_nm5g3"]
 [ext_resource type="Texture2D" uid="uid://dt1gao1p1uu0d" path="res://barkley2/assets/sTitle/gamepad/sXBOXButtons_15.png" id="26_13kru"]
+[ext_resource type="Script" uid="uid://dd4jt72j1vwhr" path="res://barkley2/resources/B2_Debug/timed_quest_editor_window.gd" id="31_x2v0w"]
+[ext_resource type="PackedScene" uid="uid://bbhdyt72nukya" path="res://barkley2/resources/B2_Debug/timed_quest_node.tscn" id="32_u28q3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ssblh"]
 bg_color = Color(0, 0, 0, 0.75)
@@ -213,6 +217,19 @@ func _on_pressed() -> void:
 	print(\"New gun generated! - %s\" % B2_Gun.get_current_gun().get_full_name() )
 "
 
+[sub_resource type="LabelSettings" id="LabelSettings_2n5ny"]
+font = ExtResource("10_fcqti")
+
+[sub_resource type="LabelSettings" id="LabelSettings_uokvk"]
+font = ExtResource("5_iquyo")
+
+[sub_resource type="LabelSettings" id="LabelSettings_u28q3"]
+font = ExtResource("10_fcqti")
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="Theme" id="Theme_38kdx"]
+Button/fonts/font = ExtResource("5_iquyo")
+
 [sub_resource type="LabelSettings" id="LabelSettings_hgrbu"]
 font = ExtResource("5_iquyo")
 font_color = Color(1, 1, 0.41568628, 1)
@@ -223,11 +240,10 @@ font = ExtResource("7_hkl2t")
 [sub_resource type="LabelSettings" id="LabelSettings_qyn30"]
 font = ExtResource("7_hkl2t")
 
-[sub_resource type="LabelSettings" id="LabelSettings_2n5ny"]
+[sub_resource type="LabelSettings" id="LabelSettings_x2v0w"]
 font = ExtResource("10_fcqti")
-
-[sub_resource type="LabelSettings" id="LabelSettings_uokvk"]
-font = ExtResource("5_iquyo")
+font_size = 32
+font_color = Color(1, 1, 0, 1)
 
 [node name="b2_debug" type="CanvasLayer"]
 process_mode = 3
@@ -236,8 +252,16 @@ script = ExtResource("1_jshnt")
 [node name="player_data" type="ScrollContainer" parent="."]
 visible = false
 custom_minimum_size = Vector2(256, 240)
-offset_right = 200.0
-offset_bottom = 240.0
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -120.0
+offset_bottom = 120.0
+grow_horizontal = 0
+grow_vertical = 2
 theme = ExtResource("2_pawx4")
 theme_override_styles/panel = SubResource("StyleBoxFlat_ssblh")
 script = ExtResource("3_vdeye")
@@ -288,10 +312,6 @@ theme_override_constants/margin_bottom = 5
 [node name="VBoxContainer" type="VBoxContainer" parent="player_vars/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 1
-
-[node name="teleport_btn" type="Button" parent="player_vars/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Teleport!"
 
 [node name="money" type="HBoxContainer" parent="player_vars/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -474,8 +494,13 @@ bandolier = false
 [node name="gun_stats" type="MarginContainer" parent="."]
 visible = false
 custom_minimum_size = Vector2(250, 0)
-offset_right = 250.0
-offset_bottom = 198.0
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+grow_horizontal = 0
+grow_vertical = 2
 mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
@@ -497,99 +522,6 @@ mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("7_hgrbu")
 bbcode_enabled = true
 text = "No"
-
-[node name="quest_checker" type="AcceptDialog" parent="."]
-oversampling_override = 1.0
-title = "Quest variable checker"
-initial_position = 1
-size = Vector2i(266, 208)
-ok_button_text = "Close"
-
-[node name="quest_checker" type="VBoxContainer" parent="quest_checker"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -125.0
-offset_top = -96.0
-offset_right = 125.0
-offset_bottom = 55.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-script = ExtResource("4_ecn0k")
-
-[node name="Label" type="Label" parent="quest_checker/quest_checker"]
-custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
-text = "Use this option to check or set quest variables.
-WARNING: This is a debug tool and should not be used in the final game. This can break some quests and fuck up the entire game. 
-Use with care."
-label_settings = SubResource("LabelSettings_hgrbu")
-autowrap_mode = 2
-
-[node name="quest_request" type="LineEdit" parent="quest_checker/quest_checker"]
-custom_minimum_size = Vector2(160, 32)
-layout_mode = 2
-theme_override_fonts/font = ExtResource("7_hkl2t")
-placeholder_text = "Type a quest variable here"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="quest_checker/quest_checker"]
-custom_minimum_size = Vector2(0, 32)
-layout_mode = 2
-
-[node name="quest_value_lbl" type="Label" parent="quest_checker/quest_checker/HBoxContainer"]
-modulate = Color(1, 0, 1, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Result:"
-label_settings = SubResource("LabelSettings_27myr")
-
-[node name="quest_value" type="LineEdit" parent="quest_checker/quest_checker/HBoxContainer"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 8
-theme_override_fonts/font = ExtResource("7_hkl2t")
-placeholder_text = "Value"
-
-[node name="quest_value_set_btn" type="Button" parent="quest_checker/quest_checker/HBoxContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("7_hkl2t")
-text = "Set!"
-
-[node name="quest_result_type_lbl" type="Label" parent="quest_checker/quest_checker"]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-text = "Result type"
-label_settings = SubResource("LabelSettings_qyn30")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="teleport_window" type="ConfirmationDialog" parent="."]
-editor_description = "Test"
-canvas_item_default_texture_filter = 0
-oversampling_override = 1.0
-title = "Teleport to..."
-initial_position = 1
-size = Vector2i(384, 240)
-exclusive = false
-extend_to_title = true
-maximize_disabled = false
-content_scale_mode = 2
-content_scale_aspect = 1
-content_scale_stretch = 1
-ok_button_text = "Teleport"
-script = ExtResource("8_ir2hf")
-
-[node name="tree_node" type="Tree" parent="teleport_window"]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 342.0
-offset_bottom = 301.0
-column_titles_visible = true
-hide_root = true
-scroll_horizontal_enabled = false
 
 [node name="input_checker" type="CenterContainer" parent="."]
 visible = false
@@ -695,8 +627,224 @@ size_flags_vertical = 10
 text = "GAMEPAD"
 label_settings = SubResource("LabelSettings_uokvk")
 
+[node name="debug_tools" type="Control" parent="."]
+custom_minimum_size = Vector2(120, 200)
+layout_mode = 3
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -100.0
+offset_right = 120.0
+offset_bottom = 100.0
+grow_vertical = 2
+theme = ExtResource("8_qyn30")
+script = ExtResource("9_x2v0w")
+border_size = Vector2(120, 200)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="debug_tools"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="debug_tools/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="debug_tools_lbl" type="Label" parent="debug_tools/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Debug Tools"
+label_settings = SubResource("LabelSettings_u28q3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="quest_checker_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Quest Checker"
+
+[node name="timed_quests_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Timed quest
+editor"
+
+[node name="player_var_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Player
+Variables"
+
+[node name="var_tools_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Variable Tools"
+
+[node name="gun_stats_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Gun Stats"
+
+[node name="teleport_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Teleport"
+
+[node name="input_checker_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Input Checker"
+
+[node name="Control" type="Control" parent="debug_tools/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="exit_btn" type="Button" parent="debug_tools/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme = SubResource("Theme_38kdx")
+text = "Exit all"
+
+[node name="quest_checker" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Quest variable checker"
+initial_position = 1
+size = Vector2i(266, 208)
+ok_button_text = "Close"
+
+[node name="quest_checker" type="VBoxContainer" parent="quest_checker"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -96.0
+offset_right = 125.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("4_ecn0k")
+
+[node name="Label" type="Label" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+text = "Use this option to check or set quest variables.
+WARNING: This is a debug tool and should not be used in the final game. This can break some quests and fuck up the entire game. 
+Use with care."
+label_settings = SubResource("LabelSettings_hgrbu")
+autowrap_mode = 2
+
+[node name="quest_request" type="LineEdit" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(160, 32)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_hkl2t")
+placeholder_text = "Type a quest variable here"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="quest_value_lbl" type="Label" parent="quest_checker/quest_checker/HBoxContainer"]
+modulate = Color(1, 0, 1, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Result:"
+label_settings = SubResource("LabelSettings_27myr")
+
+[node name="quest_value" type="LineEdit" parent="quest_checker/quest_checker/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("7_hkl2t")
+placeholder_text = "Value"
+
+[node name="quest_value_set_btn" type="Button" parent="quest_checker/quest_checker/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_hkl2t")
+text = "Set!"
+
+[node name="quest_result_type_lbl" type="Label" parent="quest_checker/quest_checker"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+text = "Result type"
+label_settings = SubResource("LabelSettings_qyn30")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="teleport_window" type="ConfirmationDialog" parent="."]
+editor_description = "Test"
+canvas_item_default_texture_filter = 0
+oversampling_override = 1.0
+title = "Teleport to..."
+initial_position = 1
+size = Vector2i(384, 240)
+exclusive = false
+extend_to_title = true
+maximize_disabled = false
+content_scale_mode = 2
+content_scale_aspect = 1
+content_scale_stretch = 1
+ok_button_text = "Teleport"
+script = ExtResource("8_ir2hf")
+
+[node name="tree_node" type="Tree" parent="teleport_window"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 376.0
+offset_bottom = 191.0
+column_titles_visible = true
+hide_root = true
+scroll_horizontal_enabled = false
+
+[node name="timed_quest_editor_window" type="AcceptDialog" parent="."]
+oversampling_override = 1.0
+title = "Timed Quest Editor"
+initial_position = 1
+size = Vector2i(400, 300)
+exclusive = false
+ok_button_text = "Close"
+script = ExtResource("31_x2v0w")
+
+[node name="MarginContainer" type="MarginContainer" parent="timed_quest_editor_window"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 251.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="timed_quest_editor_window/MarginContainer"]
+layout_mode = 2
+
+[node name="debug_tools_lbl" type="Label" parent="timed_quest_editor_window/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Debug Tools"
+label_settings = SubResource("LabelSettings_x2v0w")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="timed_quest_node" parent="timed_quest_editor_window/MarginContainer/VBoxContainer" instance=ExtResource("32_u28q3")]
+layout_mode = 2
+
 [connection signal="visibility_changed" from="player_data" to="player_data" method="_on_visibility_changed"]
-[connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/teleport_btn" to="." method="_on_button_pressed"]
 [connection signal="visibility_changed" from="player_vars/MarginContainer/VBoxContainer/money" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_visibility_changed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/plus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_plus_pressed"]
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/money/minus" to="player_vars/MarginContainer/VBoxContainer/money" method="_on_minus_pressed"]
@@ -715,6 +863,15 @@ label_settings = SubResource("LabelSettings_uokvk")
 [connection signal="pressed" from="player_vars/MarginContainer/VBoxContainer/gun_gen2" to="player_vars/MarginContainer/VBoxContainer/gun_gen2" method="_on_pressed"]
 [connection signal="visibility_changed" from="gun_stats" to="gun_stats" method="_on_visibility_changed"]
 [connection signal="timeout" from="gun_stats/update_timer" to="gun_stats" method="_on_update_timer_timeout"]
+[connection signal="visibility_changed" from="input_checker" to="input_checker" method="_on_visibility_changed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/quest_checker_btn" to="." method="_on_quest_checker_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/timed_quests_btn" to="." method="_on_timed_quests_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/player_var_btn" to="." method="_on_player_var_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/var_tools_btn" to="." method="_on_var_tools_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/gun_stats_btn" to="." method="_on_gun_stats_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/teleport_btn" to="." method="_on_teleport_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/input_checker_btn" to="." method="_on_input_checker_btn_pressed"]
+[connection signal="pressed" from="debug_tools/MarginContainer/VBoxContainer/exit_btn" to="." method="_on_exit_btn_pressed"]
 [connection signal="close_requested" from="quest_checker" to="quest_checker/quest_checker" method="_on_quest_checker_close_requested"]
 [connection signal="text_changed" from="quest_checker/quest_checker/quest_request" to="quest_checker/quest_checker" method="_on_quest_request_text_changed"]
 [connection signal="text_submitted" from="quest_checker/quest_checker/quest_request" to="quest_checker/quest_checker" method="_on_quest_request_text_submitted"]
@@ -723,4 +880,5 @@ label_settings = SubResource("LabelSettings_uokvk")
 [connection signal="canceled" from="teleport_window" to="teleport_window" method="_on_canceled"]
 [connection signal="confirmed" from="teleport_window" to="teleport_window" method="_on_confirmed"]
 [connection signal="item_activated" from="teleport_window/tree_node" to="teleport_window" method="_on_tree_node_item_activated"]
-[connection signal="visibility_changed" from="input_checker" to="input_checker" method="_on_visibility_changed"]
+[connection signal="canceled" from="timed_quest_editor_window" to="timed_quest_editor_window" method="_on_canceled"]
+[connection signal="confirmed" from="timed_quest_editor_window" to="timed_quest_editor_window" method="_on_confirmed"]

@@ -1,7 +1,189 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4nbbvg588a7r"]
+[gd_scene load_steps=9 format=3 uid="uid://b4nbbvg588a7r"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer02.gd" id="1_3ywst"]
+[ext_resource type="Script" uid="uid://bstn2ms7rq2on" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer02.gd" id="1_3ywst"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_f8cm1"]
 [ext_resource type="Texture2D" uid="uid://bagtkn052y1rh" path="res://barkley2/assets/b2_original/images/merged/s_wilmer02.png" id="2_q1faw"]
+
+[sub_resource type="Resource" id="Resource_xuklk"]
+script = ExtResource("2_f8cm1")
+original_script = "IF body = governor   | GOTO | GOVERNOR
+IF wilmerEvict == 3  | GOTO | EVICT_CHIDE
+IF wilmerEvict == 8  | GOTO | EVICT_REPEAT
+IF wilmerEvict == 9  | GOTO | WILMERDEATH
+IF wilmerEvict == 10 | GOTO | WILMER_CORPSE_REPEAT
+IF vikingstadTnn = 1 | GOTO | EVICT_KNOWN
+IF vikingstadTnn = 3 | GOTO | EVICT_WRONGPERSON
+IF wilmerEvict == 2  | GOTO | EVICT_UNKNOWN
+
+GOVERNOR
+DIALOG | Wilmer = s_port_wilmer_evict | Unh... Taffy...
+DIALOG | Governor Elagabalus          | (Oh no... Poor Mr. Wilmer is languishing in anguish on the mean streets of Tir na Nog. I've really done it this time. But maybe there's still time to help Mr. Wilmer. I am the governor after all... I need to use my political prowess to fix this epic fail.)
+
+EVICT_KNOWN
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST 
+WAIT   | 0.25
+DIALOG | P_NAME                        | M-Mr. Wilmer! I just got back from the Department of Population and Housing! They raised the cost of renewing your mortgage and-
+DIALOG | Wilmer = s_port_wilmer_evict  | Y-you - `w2`*cough* *cough*`w0` - you little brat... after all I did for you, taking you in, helping you get on your feet, setting you straight in this big ol' city... this is how you repay me... should'a known. I should'a known!
+SURPRISEAT | o_wilmer02
+DIALOG | P_NAME = s_port_hoopzSurprise | N-no, it's not like that! I... I mighta spent some of the money beforehand, but they really did raise the cost! It's not my fault!
+DIALOG | Wilmer = s_port_wilmer_evict  | You knucklehead! I told you to take the money and the paper to the mortgaging center to renew my mortgage. It was a simple job, all you had to do was stand in line and pay the fee. But you didn't do it - `w2`*cough* *cough*`w0` - and here I am in the gutter, locked out of my own house!
+DIALOG | P_NAME = s_port_hoopzSurprise | I-I'm sorry Mr. Wilmer! It was an honest mistake! It's closed now, but I can get more money and take it back as soon as it opens again!
+DIALOG | Wilmer = s_port_wilmer_evict  | Well it's too late for that! I've been evicted! Kicked out! *Wheeze* I've got nothing now, not even a single butterscotch to `w2`*cough* *cough*`w0` tide me over! It looks like this is the end of the road for ol' Wilmer. Just get out of here, P_NAME. `w1`*Cough*`w0` I'm gettin' too `w2`*cough* *cough*`w0` worked up just being around you. Just get out of here...
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzSad      | ...
+PLAYSET | o_cts_hoopz | sad2 | sad3
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+DIALOG | P_NAME = s_port_hoopzSad      | I'm sorry, Mr. Wilmer... I'll make this right... somehow...
+QUEST  | wilmerEvict = 3
+QUEST  | behaveJaded += 1
+        
+EVICT_UNKNOWN
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST 
+WAIT   | 0.25
+DIALOG | P_NAME = s_port_hoopzSurprise | M-Mr. Wilmer! What are you doing out here?! Are you okay?
+DIALOG | Wilmer = s_port_wilmer_evict  | Y-you - `w2`*cough* *cough*`w0` - you little brat... after all I did for you, taking you in, helping you get on your feet, setting you straight in this big ol' city... this is how you repay me... should'a known. I should'a known!
+SURPRISEAT | o_wilmer02
+DIALOG | P_NAME = s_port_hoopzSurprise | What are you talking about? What did I have to do with this?
+DIALOG | Wilmer = s_port_wilmer_evict  | You knucklehead! The eviction paper! The eviction paper!! I told you to take the money and the paper to the mortgaging center to renew my mortgage. It was a simple job, all you had to do was stand in line. But you didn't do it - `w2`*cough* *cough*`w0` - and here I am in the gutter, locked out of my own house!
+IF wilmerPaymentFailure != 3           | DIALOG | P_NAME = s_port_hoopzShock    | I- shoot, I forgot! I'm sorry Mr. Wilmer! I can go to do it right now, I'll be right back!
+IF wilmerPaymentFailure != 3           | DIALOG | Wilmer = s_port_wilmer_evict  | Well it's too late for that! I've been evicted! Kicked out! *Wheeze* I've got nothing now, not even a single butterscotch to `w2`*cough* *cough*`w0` tide me over! It looks like this is the end of the road for ol' Wilmer. Just get out of here, P_NAME. `w1`*Cough*`w0` I'm gettin' too `w2`*cough* *cough*`w0` worked up just being around you. Just get out of here...
+IF wilmerPaymentFailure == 3           | DIALOG | P_NAME = s_port_hoopzShock    | You got it all wrong, Mr. Wilmer! I went to the mortgage office but it was closed down. I'm sorry Mr. Wilmer!
+IF wilmerPaymentFailure == 3           | DIALOG | Wilmer = s_port_wilmer_evict  | You numbskull! I've been evicted! Kicked out! *Wheeze* I've got nothing now, not even a single butterscotch to `w2`*cough* *cough*`w0` tide me over! It looks like this is the end of the road for ol' Wilmer. Just get out of here, P_NAME. `w1`*Cough*`w0` I'm gettin' too `w2`*cough* *cough*`w0` worked up just being around you. Just get out of here...
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzSad      | ...
+PLAYSET | o_cts_hoopz | sad2 | sad3
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+DIALOG | P_NAME = s_port_hoopzSad      | I'm sorry, Mr. Wilmer... I'll make this right... somehow...
+QUEST  | wilmerEvict = 3
+QUEST  | behaveJaded += 1
+
+EVICT_CHIDE
+DIALOG | P_NAME = s_port_hoopzSad      | Mr. Wilmer, I'm so sorry...
+DIALOG | Wilmer = s_port_wilmer_evict  | Sorry's not gonna `w2`*cough* *cough*`w0` cut it, P_NAME_S. I'm out on the street. I'm history. This is the end of the road for ol' Mr. Wilmer. Just leave me alone. It was - `w2`*cough* *cough*`w0` - it was a mistake to ever try to help you. Stupid Wilmer. Stupid old man! Happens every time, you knucklehead...
+QUEST  | wilmerEvict = 8
+
+EVICT_WRONGPERSON
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTHWEST 
+WAIT   | 0.25
+DIALOG | P_NAME = s_port_hoopzSurprise | M-Mr. Wilmer! What are you doing out here?! Are you okay?
+DIALOG | Wilmer = s_port_wilmer_evict  | Y-you - `w2`*cough* *cough*`w0` - you little brat... after all I did for you, taking you in, helping you get on your feet, setting you straight in this big ol' city... this is how you repay me... should'a known. I should'a known!
+DIALOG | P_NAME = s_port_hoopzSurprise | No you got it all wrong! I was at the Housing Department and-
+DIALOG | Wilmer = s_port_wilmer_evict  | Save your breath! I told you to take the money and the paper to the mortgaging center to renew my mortgage. It was a simple job, all you had to do was stand in line. But you flubbed it up - `w2`*cough* *cough*`w0` - and here I am in the gutter, locked out of my own house!
+DIALOG | P_NAME = s_port_hoopzShock    | Look, I'll go back there right away and maybe they'll let me-
+DIALOG | Wilmer = s_port_wilmer_evict  | You bumbling dope! I've been evicted! Kicked out! *Wheeze* I've got nothing now, not even a single butterscotch to `w2`*cough* *cough*`w0` tide me over! It looks like this is the end of the road for ol' Wilmer. Just get out of here, P_NAME. `w1`*Cough*`w0` I'm gettin' too `w2`*cough* *cough*`w0` worked up just being around you. Just get out of here...
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzSad      | ...
+PLAYSET | o_cts_hoopz | sad2 | sad3
+WAIT   | 0
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | NORTHWEST
+DIALOG | P_NAME = s_port_hoopzSad      | I'm sorry, Mr. Wilmer... I'll make this right...
+QUEST  | wilmerEvict = 3
+QUEST  | behaveJaded += 1
+
+WILMERDEATH
+DIALOG | P_NAME = s_port_hoopzSurprise | M-Mr. Wilmer...?
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_FAST
+WAIT   | 0
+MOVETO | o_cts_hoopz | o_cinema4 | MOVE_FAST
+WAIT   | 0
+FRAME  | CAMERA_NORMAL | o_cinema4
+LOOKAT | o_cts_hoopz | o_wilmer02
+WAIT   | 0.4
+SET    | o_cts_hoopz | kneelHoldSW
+DIALOG | P_NAME = s_port_hoopzShock   | Oh no... Mr. Wilmer! We have to get you to the clinic!
+DIALOG | Wilmer = s_port_wilmer_evict | `w2`*cough* *cough*`w0` No use._ this is it youngster... I think they call this... exposure... `w2`*cough* *cough*`w0` death by exposure...
+DIALOG | P_NAME = s_port_hoopzSad     | Mr... Wilmer...
+DIALOG | Wilmer = s_port_wilmer_evict | You hear that `sq`Esther...`rt` this is it, Ol' Wilmers coming home... coming home to_ to that Big Sombrero In The Sky...
+WAIT   | 1.0
+Emote  | !
+WAIT   | 1.0
+SOUND  | sn_debug_seven
+CREATE | o_wilmerGhost01 | 894 | 552
+CREATE | o_wilmerBones01 | 912 | 572
+MOVETO | o_cts_hoopz | o_cinema5 | MOVE_FAST
+WAIT   | 0
+SURPRISEAT | o_wilmerGhost01
+WAIT   | 0.25
+DIALOG | P_NAME = s_port_hoopzShock    | C-Clispeath Almighty! An incorporeal spirit!
+WAIT   | 0.5
+DIALOG | Ghostic Wilm                  | Y-youngster... It is I... Wilmer...
+DIALOG | P_NAME = s_port_hoopzSurprise | Wilmer... you're a Ghostic Entity!
+DIALOG | Ghostic Wilm                  | Indeed I am... the elements were too much for my feeble constitution. But now... I exist in a realm where physicality holds no power over me. I feel as spry as my days with Esther, scaling Gilbert's Peak. I am there now. Atop the summit. I am everywhere all at once.
+DIALOG | P_NAME                        | I-_I don't understand.
+DIALOG | Ghostic Wilm                  | I asked you to pay my rent, and you failed. You said you would make it right, and again you failed. Now, I task you with making it right... Take my bones, youngster. Take my bones to the top of Gilbert's Peak... bury me with my Dear Esther. Only then will you be free from my curse...
+DIALOG | P_NAME = s_port_hoopzShock    | C-curse?!
+DIALOG | Ghostic Wilm                  | From this moment forth... Butterscotch and the family of Butterscotch Candies will torment your body and soul, causing damage instead of sustaining L_I_F_E.
+DIALOG | P_NAME = s_port_hoopzShock    | But!
+WAIT   | 1.0
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT   | 0
+DIALOG | P_NAME       | I guess that's fair...
+PLAYSET | o_cts_hoopz | sad2 | sad3
+DIALOG | Ghostic Wilm | Now! `sq`Get to the top of Gilbert's Peak!`rt` Begone!
+WAIT   | 1.0
+\" +
+//TODO: Enact Wilmer's Curse, Butterscotch and other similar candies have ill-effects
+\"
+NOTIFY | You have been cursed by Ghostic Wilm!
+WAIT   | 1.0
+EVENT  | o_wilmerGhost01 | 4
+QUEST  | wilmerEvict = 10
+
+EVICT_REPEAT
+DIALOG | P_NAME = s_port_hoopzSad     | (I really dun' goofed this time...)"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6n6im"]
 atlas = ExtResource("2_q1faw")
@@ -27,6 +209,7 @@ size = Vector2(20, 36)
 [node name="o_wilmer02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_3ywst")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_xuklk")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

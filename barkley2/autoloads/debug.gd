@@ -24,11 +24,16 @@ var debug_camera_node : B2_Camera_Debug
 ## player debug
 var can_disable_player_col := false
 
-@onready var player_data: 		ScrollContainer = $player_data
-@onready var player_vars: 		ScrollContainer = $player_vars
-@onready var quest_checker: 	AcceptDialog = $quest_checker
-@onready var teleport_window: 	ConfirmationDialog = $teleport_window
-@onready var gun_stats: 		MarginContainer = $gun_stats
+@onready var debug_tools: 		B2_Border 			= $debug_tools
+
+@onready var player_data: 					ScrollContainer 	= $player_data
+@onready var player_vars: 					ScrollContainer 	= $player_vars
+@onready var quest_checker: 				AcceptDialog 		= $quest_checker
+@onready var teleport_window: 				ConfirmationDialog 	= $teleport_window
+@onready var gun_stats: 					MarginContainer		= $gun_stats
+@onready var input_checker: 				CenterContainer 	= $input_checker
+@onready var timed_quest_editor_window: 	AcceptDialog 		= $timed_quest_editor_window
+
 
 func _ready() -> void:
 	layer = B2_Config.DEBUG_LAYER
@@ -59,29 +64,43 @@ func _unhandled_key_input(event: InputEvent) -> void:
 					B2_CManager.camera.enabled = false
 				B2_Input.player_has_control = false
 				
-		if event.is_action_pressed("DEBUG_DATA"):
-			player_data.visible = not player_data.visible
-			
-		elif event.is_action_pressed("DEBUG_FF"): ## TODO add some UI fluff
-			print_rich("[color=pink]DEBUG can FF.[/color]")
-			
-		elif event.is_action_released("DEBUG_FF"):
-			pass
-			
 		elif event.is_action_pressed("DEBUG_VARS"):
-			player_vars.visible = not player_vars.visible
-			if B2_CManager.o_hoopz:
-				B2_CManager.o_hoopz.debug_enable_collision( player_vars.visible )
+			show()
+			debug_tools.visible = not debug_tools.visible
+			
+			if not debug_tools.visible:
+				Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 				
-		elif event.is_action_pressed("DEBUG_1"):
-			gun_stats.visible = not gun_stats.visible
-			
-		elif event.is_action_pressed("DEBUG_QUESTS"):
-			quest_checker.visible = not quest_checker.visible
-			
-		#get_tree().paused = player_data.visible or player_vars.visible or accept_dialog.visible
+			if B2_CManager.o_hoopz:
+				B2_CManager.o_hoopz.debug_enable_collision( debug_tools.visible )
 
-func _on_button_pressed() -> void:
+func _on_quest_checker_btn_pressed() -> void:
+	quest_checker.visible = not quest_checker.visible
+
+func _on_player_var_btn_pressed() -> void:
+	player_data.visible = not player_data.visible
+
+func _on_var_tools_btn_pressed() -> void:
+	player_vars.visible = not player_vars.visible
+
+func _on_teleport_btn_pressed() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	player_vars.visible = false
 	teleport_window.show()
+
+func _on_input_checker_btn_pressed() -> void:
+	input_checker.visible = not input_checker.visible
+
+func _on_exit_btn_pressed() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	hide()
+	debug_tools.hide()
+	if B2_CManager.o_hoopz:
+		B2_CManager.o_hoopz.debug_enable_collision( false )
+
+func _on_gun_stats_btn_pressed() -> void:
+	gun_stats.visible = not gun_stats.visible
+
+func _on_timed_quests_btn_pressed() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	timed_quest_editor_window.visible = not timed_quest_editor_window.visible

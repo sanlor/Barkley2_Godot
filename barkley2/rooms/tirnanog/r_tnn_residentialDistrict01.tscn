@@ -1,4 +1,4 @@
-[gd_scene load_steps=372 format=4 uid="uid://d4k4y0jxw6bhw"]
+[gd_scene load_steps=371 format=4 uid="uid://d4k4y0jxw6bhw"]
 
 [ext_resource type="Script" uid="uid://cb22pdp3aws8" path="res://barkley2/rooms/tirnanog/r_tnn_residentialDistrict01.gd" id="1_nll01"]
 [ext_resource type="Texture2D" uid="uid://c2nmvhnvscpm2" path="res://barkley2/assets/b2_original/backgrounds/tls_tnn_tirnanog01.png" id="2_2u6u7"]
@@ -128,7 +128,6 @@
 [ext_resource type="PackedScene" uid="uid://dfmdcfl5ec7bj" path="res://barkley2/scenes/Objects/_map/Control Objects/o_map_ladder.tscn" id="114_pn8i4"]
 [ext_resource type="PackedScene" uid="uid://bg14at6p2nlsk" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_tnn_loudspeakerPedestrianSpot01.tscn" id="121_vcosf"]
 [ext_resource type="PackedScene" uid="uid://dq8mwxucj0btu" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_tnn_curfewSurprise01.tscn" id="124_1fgy4"]
-[ext_resource type="Script" uid="uid://bo20oebrnray3" path="res://tools/o_door_converter.gd" id="130_foxie"]
 [ext_resource type="PackedScene" uid="uid://de6ek86mag4uq" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_collisionsEtc/o_tnn_curfewAnnounce01.tscn" id="131_2nvp7"]
 [ext_resource type="PackedScene" uid="uid://7ugyu3v43oe" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_tnn_loudspeaker01.tscn" id="133_3ssx3"]
 [ext_resource type="Texture2D" uid="uid://d6sjxrmogch" path="res://barkley2/assets/b2_original/images/merged/s_tnn_loudspeaker_noise01.png" id="134_fw0jn"]
@@ -4575,6 +4574,12 @@ IF curfew == during | GOTO | AELFLEDA_CURFEW
 DIALOG | Aelfleda | Do you want the short version or the long version?
 GOTO   | STORY"
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_i40qp"]
+resource_local_to_scene = true
+rough = true
+bounce = 0.3
+absorbent = true
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mk1nb"]
 resource_local_to_scene = true
 rough = true
@@ -4600,12 +4605,6 @@ bounce = 0.3
 absorbent = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_d7wgk"]
-resource_local_to_scene = true
-rough = true
-bounce = 0.3
-absorbent = true
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_vcosf"]
 resource_local_to_scene = true
 rough = true
 bounce = 0.3
@@ -7426,42 +7425,42 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor6" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(848, 944)
-physics_material_override = SubResource("PhysicsMaterial_mk1nb")
+physics_material_override = SubResource("PhysicsMaterial_i40qp")
 metadata/code = ""
 metadata/inst_name = "inst_3825BF29"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor5" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(562, 834)
-physics_material_override = SubResource("PhysicsMaterial_8ning")
+physics_material_override = SubResource("PhysicsMaterial_mk1nb")
 metadata/code = ""
 metadata/inst_name = "inst_2983683E"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor4" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(912, 128)
-physics_material_override = SubResource("PhysicsMaterial_u41xi")
+physics_material_override = SubResource("PhysicsMaterial_8ning")
 metadata/code = ""
 metadata/inst_name = "inst_3E118630"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor3" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(184, 1136)
-physics_material_override = SubResource("PhysicsMaterial_177xt")
+physics_material_override = SubResource("PhysicsMaterial_u41xi")
 metadata/code = ""
 metadata/inst_name = "inst_865090C1"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor2" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(104, 576)
-physics_material_override = SubResource("PhysicsMaterial_d7wgk")
+physics_material_override = SubResource("PhysicsMaterial_177xt")
 metadata/code = ""
 metadata/inst_name = "inst_7CE0C0C3"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_pedestrianActor" parent="." instance=ExtResource("35_0qyds")]
 position = Vector2(512, 320)
-physics_material_override = SubResource("PhysicsMaterial_vcosf")
+physics_material_override = SubResource("PhysicsMaterial_d7wgk")
 metadata/code = ""
 metadata/inst_name = "inst_ED529BAC"
 metadata/scale = Vector2(1, 1)
@@ -8193,8 +8192,3 @@ z_index = 4000
 script = ExtResource("7_w0awa")
 notes = "Add this effect - o_rain"
 text_size = 16
-
-[node name="B2_O_DOOR_CONVERTER" type="Node" parent="."]
-script = ExtResource("130_foxie")
-simulate = false
-remove_old_doors = true

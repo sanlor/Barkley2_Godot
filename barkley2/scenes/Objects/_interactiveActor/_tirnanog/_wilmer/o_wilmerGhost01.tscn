@@ -1,0 +1,253 @@
+[gd_scene load_steps=19 format=3 uid="uid://b8p3alxbkvy80"]
+
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_1mst2"]
+[ext_resource type="Script" uid="uid://cyl4l6qo7nto5" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmerGhost01.gd" id="1_4vo2g"]
+[ext_resource type="Texture2D" uid="uid://b0odb8c8x62uo" path="res://barkley2/assets/b2_original/images/merged/s_wilmerGhost01.png" id="2_1mst2"]
+[ext_resource type="AudioStream" uid="uid://dgbc442er87sj" path="res://barkley2/assets/b2_original/audio/Minigames/Charcreate/sn_cc_grandpa_select3.ogg" id="4_v3k7s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_73pmr"]
+atlas = ExtResource("2_1mst2")
+region = Rect2(0, 0, 40, 56)
+
+[sub_resource type="Curve" id="Curve_ncfmu"]
+_data = [Vector2(0, 0.022471905), 0.0, 0.0, 0, 0, Vector2(0.469697, 0.1460675), 0.0, 0.0, 0, 0, Vector2(0.7878788, 0.6067416), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_tno5j"]
+curve = SubResource("Curve_ncfmu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4vo2g"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = -10.0
+initial_velocity_max = 10.0
+angular_velocity_min = -10.000016
+angular_velocity_max = 9.999984
+alpha_curve = SubResource("CurveTexture_tno5j")
+hue_variation_min = -0.20000002
+hue_variation_max = 0.19999997
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3k7s"]
+atlas = ExtResource("2_1mst2")
+region = Rect2(0, 0, 42, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxa0d"]
+atlas = ExtResource("2_1mst2")
+region = Rect2(42, 0, 42, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou1ef"]
+atlas = ExtResource("2_1mst2")
+region = Rect2(84, 0, 42, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rypuy"]
+atlas = ExtResource("2_1mst2")
+region = Rect2(126, 0, 42, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_73pmr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3k7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxa0d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ou1ef")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rypuy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ncfmu"]
+radius = 9.5493
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tno5j"]
+size = Vector2(34, 43)
+
+[sub_resource type="Animation" id="Animation_v3k7s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ghost emiter:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ghost emiter:process_material:initial_velocity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-10, 10)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ActorAnim:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ghost emiter:amount_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1mst2"]
+resource_name = "fly_away"
+length = 3.0
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ghost emiter:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ghost emiter:process_material:initial_velocity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-10, 10), Vector2(-10, 200)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ActorAnim:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.5), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ghost emiter:amount_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 1.5, 2, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.2, 1.0, 1.0, 0.2, 0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AudioStreamPlayer:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hxa0d"]
+_data = {
+&"RESET": SubResource("Animation_v3k7s"),
+&"fly_away": SubResource("Animation_1mst2")
+}
+
+[node name="o_wilmerGhost01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+material = ExtResource("1_1mst2")
+collision_layer = 17
+collision_mask = 1835063
+script = ExtResource("1_4vo2g")
+mouse_detection_area = NodePath("ActorInteract")
+cast_shadow = false
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+metadata/_custom_type_script = "uid://bkmmc6lng8ma"
+
+[node name="ghost emiter" type="GPUParticles2D" parent="."]
+position = Vector2(20, -13)
+amount = 128
+texture = SubResource("AtlasTexture_73pmr")
+process_material = SubResource("ParticleProcessMaterial_4vo2g")
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_73pmr")
+autoplay = "default"
+frame_progress = 0.96039194
+centered = false
+offset = Vector2(0, -41)
+
+[node name="ActorCol" type="CollisionShape2D" parent="."]
+position = Vector2(20, -6)
+shape = SubResource("CircleShape2D_ncfmu")
+
+[node name="ActorInteract" type="Area2D" parent="."]
+position = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+position = Vector2(21, -3.5)
+shape = SubResource("RectangleShape2D_tno5j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hxa0d")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_v3k7s")
+bus = &"Audio"
+
+[connection signal="animation_changed" from="ActorAnim" to="." method="_on_actor_anim_animation_changed"]
