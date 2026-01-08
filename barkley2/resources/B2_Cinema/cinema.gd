@@ -224,8 +224,8 @@ func end_cutscene():
 	
 	# actors may moved during the cutscene, update the PF.
 	update_pathfinding()
-	if is_instance_valid(B2_CManager.o_hud):
-		B2_CManager.o_hud.show_hud()
+	if is_instance_valid( B2_Screen.get_hud() ):
+		B2_Screen.get_hud().show_hud()
 		await B2_SignalBus.hud_visibility_changed
 	
 	B2_CManager.event_ended.emit() # Peace out.
@@ -292,8 +292,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	# this should be here?
 	update_pathfinding()
-	if is_instance_valid(B2_CManager.o_hud):
-		B2_CManager.o_hud.hide_hud()
+	if is_instance_valid( B2_Screen.get_hud() ):
+		B2_Screen.get_hud().hide_hud()
 		await B2_SignalBus.hud_visibility_changed
 	
 	# This is the script parser. It parsers scripts.

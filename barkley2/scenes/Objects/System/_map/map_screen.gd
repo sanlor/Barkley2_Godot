@@ -1,5 +1,6 @@
 #@tool
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 
 const MAP_ICONS := {
 	"sMapIconCyberdwarf" 	: preload("uid://c8ef176trmf7s"),
@@ -49,7 +50,7 @@ var selected_map := 0 :
 		selected_map = wrapi( i, 0, avaiable_maps.size() )
 
 func _ready() -> void:
-	layer = B2_Config.MAP_LAYER
+	#layer = B2_Config.MAP_LAYER
 	
 	no_maps_lbl.text = Text.pr("No maps available.")
 	exit_spr.frame = 0

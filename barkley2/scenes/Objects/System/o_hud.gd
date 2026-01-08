@@ -8,29 +8,29 @@ signal event_finished # Signal used the the intro.
 ## Check o_hud.
 # Oh boy... more work.
 
-@onready var hud_bar: 	TextureRect 	= $hud_bar
-@onready var hud_tv: 	Control 		= $hud_bar/hud_tv
-@onready var hud_dna: 	ColorRect 		= $hud_bar/hud_dna
+@onready var hud_bar: 		TextureRect 		= $hud_bar
+@onready var hud_tv: 		Control 			= $hud_bar/hud_tv
+@onready var hud_dna: 		ColorRect 			= $hud_bar/hud_dna
 
-@onready var hud_glamp: ColorRect 		= $hud_bar/hud_glamp
-@onready var g_letter: TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/g_letter
-@onready var l_letter: TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/l_letter
-@onready var a_letter: TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/a_letter
-@onready var m_letter: TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/m_letter
-@onready var p_letter: TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/p_letter
+@onready var hud_glamp: 	ColorRect 			= $hud_bar/hud_glamp
+@onready var g_letter: 		TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/g_letter
+@onready var l_letter: 		TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/l_letter
+@onready var a_letter: 		TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/a_letter
+@onready var m_letter: 		TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/m_letter
+@onready var p_letter: 		TextureRect 		= $hud_bar/hud_glamp/hud_glamp_container/p_letter
 
-@onready var hud_gun: ColorRect 				= $hud_bar/hud_gun
-@onready var hud_ammo: ColorRect 				= $hud_bar/hud_ammo
-@onready var hud_weight: ColorRect 				= $hud_bar/hud_weight
-@onready var hud_periodic: ColorRect 			= $hud_bar/hud_periodic
-@onready var hud_pockets: Control 				= $hud_bar/hud_pockets
+@onready var hud_gun: 		ColorRect 			= $hud_bar/hud_gun
+@onready var hud_ammo: 		ColorRect 			= $hud_bar/hud_ammo
+@onready var hud_weight: 	ColorRect 			= $hud_bar/hud_weight
+@onready var hud_periodic: 	ColorRect 			= $hud_bar/hud_periodic
+@onready var hud_pockets: 	Control 			= $hud_bar/hud_pockets
 @onready var hud_marquee_text: RichTextLabel 	= $hud_bar/hud_marquee/hud_marquee_text
-@onready var hud_wifi: ColorRect 				= $hud_bar/hud_wifi
+@onready var hud_wifi: 		ColorRect 			= $hud_bar/hud_wifi
 
 ## Ammo
-@onready var hud_gun_bag: 		TextureRect = 	$hud_bar/hud_gun/hud_gun_bag
-@onready var hud_gun_sprite: 	TextureRect = 	$hud_bar/hud_gun/hud_gun_sprite
-@onready var hud_ammo_amount: 	Label = 		$hud_bar/hud_ammo/hud_ammo_amount
+@onready var hud_gun_bag: 		TextureRect 	= 	$hud_bar/hud_gun/hud_gun_bag
+@onready var hud_gun_sprite: 	TextureRect 	= 	$hud_bar/hud_gun/hud_gun_sprite
+@onready var hud_ammo_amount: 	Label 			=	$hud_bar/hud_ammo/hud_ammo_amount
 
 ## Combat
 ## New Menu
@@ -74,7 +74,7 @@ const combat_fade_speed := 0.25
 
 func _ready() -> void:
 	if debug_messages: print("o_hud: debug messages is ON.")
-	layer = B2_Config.HUD_LAYER
+	#layer = B2_Config.HUD_LAYER
 	B2_CManager.o_hud = self
 	hud_bar.texture.region.position = Vector2( 0, 0 )
 	
@@ -86,6 +86,8 @@ func _ready() -> void:
 	if is_hud_visible: 	hud_bar.position.y = SHOWN_Y
 	else: 				hud_bar.position.y = HIDDEN_Y
 	hud_tv.change_tv_face()
+	
+	hide_hud()
 	
 	## Hide Combat UI
 	#player_control_weapons.hide()
@@ -108,6 +110,8 @@ func get_combat_module() -> B2_HudCombat:
 func _change_visibility() -> void:
 	if B2_Playerdata.Quest("hudVisible") == 0:
 		is_hud_visible = false
+	else:
+		is_hud_visible = true
 	
 func show_hud() -> void:
 	if not visible:

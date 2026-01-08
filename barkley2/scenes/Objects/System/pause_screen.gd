@@ -1,4 +1,5 @@
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 
 @onready var resume: 				Button 				= $pause_screen/VBoxContainer/resume
 @onready var button_bg_resume: 		TextureRect 		= $pause_screen/VBoxContainer/resume/button_bg_resume
@@ -15,7 +16,7 @@ var time := 0.0
 var tween : Tween
 
 func _ready() -> void:
-	layer = B2_Config.PAUSE_LAYER
+	#layer = B2_Config.PAUSE_LAYER
 	get_tree().paused = true
 	show()
 	

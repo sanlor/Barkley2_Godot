@@ -98,9 +98,10 @@ func _enter_tree() -> void:
 	else:					B2_Music.stop( 1.0 )
 	
 	if enable_hud:
-		hud_node = O_HUD.instantiate()
-		add_child( hud_node, true )
-		hud_node.call_deferred( "show_hud" )
+		#hud_node = O_HUD.instantiate()
+		#add_child( hud_node, true )
+		#hud_node.call_deferred( "show_hud" )
+		B2_Screen.show_hud()
 		
 	y_sort_enabled = true
 	ready.connect( _after_ready )
@@ -273,7 +274,7 @@ func _after_ready() -> void:
 		if not override_zone_flavor.is_empty():
 			zone.flavor = override_zone_flavor
 			
-		add_child( zone, true )
+		B2_Screen.add_child( zone, true )
 		if not B2_RoomXY.room_reference:
 			B2_RoomXY.room_reference = self
 

@@ -1,4 +1,5 @@
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 
 const CONFIRMATION_BOX = preload("uid://dkqmhxi70d2o7")
 
@@ -82,7 +83,7 @@ var selected_note := 0 :
 var time			:= 0.0
 
 func _ready() -> void:
-	layer = B2_Config.NOTE_LAYER
+	#layer = B2_Config.NOTE_LAYER
 	B2_Input.ffwd( false )
 	
 	no_notes_lbl.text 		= Text.pr("No notes available.")

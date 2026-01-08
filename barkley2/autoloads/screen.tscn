@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://dtxtruoc1y3ha"]
+[gd_scene load_steps=22 format=3 uid="uid://dtxtruoc1y3ha"]
 
 [ext_resource type="Script" uid="uid://dthcqotji4v3a" path="res://barkley2/autoloads/screen.gd" id="1_6uogh"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="2_kjkhy"]
 [ext_resource type="Shader" uid="uid://dej7d00on4usl" path="res://barkley2/shaders/shader_code/b2_crt.gdshader" id="2_rrnxs"]
+[ext_resource type="PackedScene" uid="uid://cc0u1jcebct86" path="res://barkley2/scenes/Objects/System/o_hud.tscn" id="2_xop2e"]
 [ext_resource type="Texture2D" uid="uid://dqdbba4wnsgmq" path="res://barkley2/assets/cursor/s_curs_gunmode_1.png" id="3_gsyfu"]
 [ext_resource type="Shader" uid="uid://uoy7k0yajv4a" path="res://barkley2/shaders/shader_code/b2_ff.gdshader" id="3_xop2e"]
 [ext_resource type="Texture2D" uid="uid://ca2uer1n2rgjh" path="res://barkley2/assets/cursor/s_curs_gunmode_2.png" id="4_44its"]
@@ -44,6 +45,14 @@ shader_parameter/bottom_border_thickness = 6.0
 shader_parameter/bottom_border_jitter = 6.0
 shader_parameter/noise_intensity = 0.1
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_hihsi")
+
+[sub_resource type="Curve" id="Curve_i28ai"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_fnaht"]
+offsets = PackedFloat32Array(0.175966, 0.34890965, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.20987442, 0.7792914, 0.7792914, 0.7792913, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3xx3n"]
 animations = [{
@@ -103,18 +112,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Curve" id="Curve_i28ai"]
-_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Gradient" id="Gradient_fnaht"]
-offsets = PackedFloat32Array(0.175966, 0.34890965, 1)
-colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0.20987442, 0.7792914, 0.7792914, 0.7792913, 1)
-
 [node name="screen_stuff" type="CanvasLayer"]
 process_mode = 3
 layer = 10
 script = ExtResource("1_6uogh")
+
+[node name="o_hud" parent="." instance=ExtResource("2_xop2e")]
 
 [node name="shaders" type="Control" parent="."]
 layout_mode = 3
@@ -147,15 +150,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="trail" type="Line2D" parent="."]
+top_level = true
+z_index = 4096
+width = 6.0
+width_curve = SubResource("Curve_i28ai")
+gradient = SubResource("Gradient_fnaht")
+
 [node name="mouse" type="AnimatedSprite2D" parent="."]
-z_index = 100
+z_index = 4096
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_3xx3n")
 animation = &"bulls"
 speed_scale = 3.0
-
-[node name="trail" type="Line2D" parent="."]
-top_level = true
-width = 6.0
-width_curve = SubResource("Curve_i28ai")
-gradient = SubResource("Gradient_fnaht")

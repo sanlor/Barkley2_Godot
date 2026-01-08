@@ -12,7 +12,7 @@ extends B2_Hud
 
 func _ready() -> void:
 	if debug_messages: print("o_hud: debug messages is ON.")
-	layer = B2_Config.HUD_LAYER
+	#layer = B2_Config.HUD_LAYER
 	B2_CManager.o_hud = self
 	combat_module.hide()
 

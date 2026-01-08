@@ -1,4 +1,5 @@
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 
 # check quickmenu2()
 # check q_menu_left, q_menu_right, q_menu_top, q_menu_bottom

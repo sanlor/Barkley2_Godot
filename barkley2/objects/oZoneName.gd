@@ -1,4 +1,5 @@
-extends CanvasLayer
+#extends CanvasLayer
+extends Control
 
 ## Controls the Zone Text display when changing areas
 
@@ -63,7 +64,8 @@ func _ready():
 		
 	B2_Gamedata.last_zone_name = zone
 		
-	layer = B2_Config.NOTICE_LAYER
+	#layer = B2_Config.NOTICE_LAYER
+	z_index = 4096
 		
 	# Set texts
 	zone_label.text 		= Text.pr(zone)

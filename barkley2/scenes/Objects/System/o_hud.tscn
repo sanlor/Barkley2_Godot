@@ -200,12 +200,20 @@ region = Rect2(18, 0, 18, 18)
 atlas = ExtResource("21_7gemm")
 region = Rect2(0, 0, 16, 18)
 
-[node name="o_hud" type="CanvasLayer"]
+[node name="o_hud" type="Control"]
 process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_33b6q")
 
 [node name="hud_bar" type="TextureRect" parent="."]
 z_index = 1
+layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -654,6 +662,7 @@ texture = SubResource("AtlasTexture_yk1v5")
 
 [node name="fade" type="ColorRect" parent="."]
 visible = false
+layout_mode = 0
 offset_right = 384.0
 offset_bottom = 240.0
 size_flags_horizontal = 3

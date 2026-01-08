@@ -88,14 +88,26 @@ func _ready() -> void:
 	## Set Room Index cache
 	room_index = ROOM_INDEX.data
 	
+	## Node Setup
 	room_transition_layer 	= ROOM_TRANSITION_LAYER.instantiate()
 	room_progress_bar 		= ROOM_PROGRESS_BAR.instantiate()
 	process_mode 			= ProcessMode.PROCESS_MODE_ALWAYS
-	layer 					= B2_Config.ROOMXY_LAYER
+	
+	## Set Room Layer
+	layer 					= B2_Config.ROOMXY_LAYER				
+	
 	B2_Config.title_screen_loaded.connect( _reset_data )
 
+# Reset room data. is this needed?
 func _reset_data():
 	reset_room()
+
+# Reset room data. is this needed?
+func reset_room() -> void:
+	this_room 		= ""
+	this_room_x 	= 0.0
+	this_room_y 	= 0.0
+	print_rich( "[color=yellow]B2_RoomXY: Room data reseted[/color]" )
 
 ## Check if hoopz can draw its gun in the current room.
 func can_aim_gun() -> bool:
@@ -120,13 +132,6 @@ func get_curr_room() -> Node2D: #B2_ROOMS:
 	else:
 		#push_error("Not in B2_ROOMS.")
 		return get_tree().current_scene
-
-# Reset room data. is this needed?
-func reset_room() -> void:
-	this_room 		= ""
-	this_room_x 	= 0.0
-	this_room_y 	= 0.0
-	print_rich( "[color=yellow]B2_RoomXY: Room data reseted[/color]" )
 
 ## Hoopz dies. respawn based on the RespawnLocation script data.
 func respawn( area : String, room_name : String ) -> void:
@@ -298,7 +303,10 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		print("Room_XY: Warping to the same room.")
 		its_the_same_room = true
 		fade_modifier = 0.70
-
+	
+	## Hide the HUD
+	B2_Screen.hide_hud()
+	
 	## Non game rooms. Mostly the title screen and CC.
 	if not (room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale") and room_name.begins_with("r_"):
 

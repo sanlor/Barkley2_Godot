@@ -162,7 +162,7 @@ func _ready():
 	B2_Screen.can_pause = false
 	
 	## Room teleport shenanigans
-	B2_RoomXY.reset_room()
+	#B2_RoomXY.reset_room() # 08/01/26 disabled it.
 	
 	## Music
 	await get_tree().process_frame
@@ -179,7 +179,7 @@ func _ready():
 	## 23/05/25 im bored, lets enable this for no reason.
 	#if show_stock_ticker:
 	stock_x.resize(7)
-	stock_x[0] = 20.0;
+	stock_x[0] = 020.0;
 	stock_x[1] = 100.0;
 	stock_x[2] = 180.0;
 	stock_x[3] = 260.0;
@@ -321,7 +321,7 @@ func change_menu( force_mode := ""): # "basic", "settings", "keymap", "gamepad",
 			
 		_: ## Catch all
 			push_error("Unknown mode called: ", mode)
-			
+			breakpoint
 
 func _process(_delta):
 	if B2_Config.tim_follow_mouse:
@@ -331,8 +331,6 @@ func _process(_delta):
 		for child in bg.get_children():
 			if child.has_method("apply_tim"):
 				child.apply_tim( tim )
-				
-	
 				
 	#// Stock ticker //
 	if show_stock_ticker:

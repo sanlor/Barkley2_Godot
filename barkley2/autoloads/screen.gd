@@ -1,4 +1,5 @@
 extends CanvasLayer
+#extends Control
 
 # This autoload replaces o_curs, o_screen and o_pointer objects
 # i think...
@@ -43,26 +44,27 @@ const O_EFFECT_BLOODDROP 			:= preload("res://barkley2/scenes/_Godot_Combat/_blo
 
 var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
-@onready var mouse = $mouse
-@onready var trail = $trail
+@onready var mouse 			:= $mouse
+@onready var trail 			:= $trail
+@onready var o_hud: B2_Hud = $o_hud
 
 var max_trail 		:= 6 # 3 is pretty cool
 var mouse_offset 	:= Vector2.ZERO
 
-var pause_screen: CanvasLayer
+var pause_screen: Control #CanvasLayer
 var can_pause := false # Cant pause during the title screens and certain parts.
 var is_paused := false
 
-var map_screen: CanvasLayer
+var map_screen: Control #CanvasLayer
 var is_map_open := false
 
-var note_screen: CanvasLayer
+var note_screen: Control #CanvasLayer
 var is_notes_open := false
 
-var quickmenu_screen: CanvasLayer
+var quickmenu_screen: Control #CanvasLayer
 var is_quickmenu_open := false
 
-var shop_screen: CanvasLayer
+var shop_screen: Control #CanvasLayer
 var is_shop_open := false
 
 var utility_screen: CanvasLayer
@@ -85,6 +87,15 @@ func _ready() -> void:
 	set_cursor_type( TYPE.POINT )
 	B2_Config.title_screen_loaded.connect( _reset_data )
 	B2_Input.input_changed.connect( change_input_mouse )
+
+func show_hud() -> void:
+	o_hud.show_hud()
+	
+func hide_hud() -> void:
+	o_hud.hide_hud()
+	
+func get_hud() -> B2_Hud:
+	return o_hud
 
 func _reset_data():
 	pause_screen 		= null
@@ -207,7 +218,8 @@ func show_mission_complete_screen() -> void:
 
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()
-	get_tree().current_scene.add_child( notice, true )
+	#get_tree().current_scene.add_child( notice, true )
+	add_child( notice, true )
 	await notice.show_notify_screen( text )
 	
 # check Smoke() /// Smoke("puff" / "mass", x, y, z, scl / type)
@@ -348,17 +360,18 @@ func _notification(what: int) -> void: ## Pause game when the windows loses focu
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
 		if can_pause and not is_paused:
 			show_pause_menu() ## DEBUG
-			# pass
 
 func show_defeat_screen() -> void:
 	var gameover := GAME_OVER.instantiate()
-	get_tree().current_scene.add_child( gameover )
+	#get_tree().current_scene.add_child( gameover )
+	add_child.call_deferred( gameover, true )
 
 # Show pausemenu object
 func show_pause_menu() -> void:
 	is_paused = true
 	pause_screen = PAUSE_SCREEN.instantiate()
-	get_tree().current_scene.add_child( pause_screen )
+	#get_tree().current_scene.add_child( pause_screen )
+	add_child.call_deferred( pause_screen, true )
 	B2_Music.volume_menu()
 	
 func hide_pause_menu() -> void:
@@ -375,7 +388,8 @@ func show_map_screen() -> void:
 	is_map_open = true
 	get_tree().paused = true
 	map_screen = MAP_SCREEN.instantiate()
-	get_tree().current_scene.add_child( map_screen )
+	#get_tree().current_scene.add_child( map_screen )
+	add_child.call_deferred( map_screen, true )
 	B2_Music.volume_menu()
 	
 	if is_instance_valid(B2_CManager.o_hud):
@@ -398,7 +412,8 @@ func show_shop_screen( shop_name : String ) -> void:
 	get_tree().paused = true
 	shop_screen = SHOP_SCREEN.instantiate()
 	shop_screen.my_shop_name = shop_name
-	get_tree().current_scene.add_child( shop_screen )
+	#get_tree().current_scene.add_child( shop_screen )
+	add_child.call_deferred( shop_screen, true )
 	B2_Music.volume_menu()
 	
 	#if is_instance_valid(B2_CManager.o_hud):
@@ -422,7 +437,8 @@ func show_note_screen( mode := 0 ) -> void:
 	get_tree().paused = true
 	note_screen = NOTE_SCREEN.instantiate()
 	note_screen.mode = mode
-	get_tree().current_scene.add_child( note_screen )
+	#get_tree().current_scene.add_child( note_screen )
+	add_child.call_deferred( note_screen, true )
 	B2_Music.volume_menu()
 	
 	if is_instance_valid(B2_CManager.o_hud):
@@ -445,7 +461,8 @@ func show_quickmenu_screen() -> void:
 	is_quickmenu_open = true
 	get_tree().paused = true
 	quickmenu_screen = QUICK_MENU_SCREEN.instantiate()
-	get_tree().current_scene.add_child( quickmenu_screen )
+	#get_tree().current_scene.add_child( quickmenu_screen )
+	add_child( quickmenu_screen, true )
 	B2_Music.volume_menu()
 	
 	#if is_instance_valid(B2_CManager.o_hud):
