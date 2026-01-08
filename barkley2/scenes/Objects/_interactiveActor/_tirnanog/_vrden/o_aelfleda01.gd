@@ -1,5 +1,41 @@
 extends B2_InteractiveActor
 
+#Aelfleda's Eviction Story
+# usage: event_tnn_aelfleda01();
+
+	#VARIABLES:
+		#aelfledaState
+			#0 = not talked, starting state
+			#1 = chose "neither"... she'll just ignore you now
+			#2 = chose "short" or "long"... heard her story
+			#3 = final dialogue
+			#
+		#aelfledaEvict
+			#0 = haven't heard about her eviction, OR declined to help her, can't be saved at curfew
+			#1 = have heard about her eviction and can pay money to keep her from being evicted
+			#2 = payed her rent and allowed her to get back to her house
+			#3 = Refuse to pay her mortgage in front of Vikingstad, Aelfleda is instantly taken to the Hoosegow
+			#4 = Aelfleda waits on the steps a little longer after you tell her she's paid up
+			#5 = ClockTime state that removed Aelfleda after a time, she'll end up in block house after you talk to her mattress
+		#
+		#gelasioDuergar
+			#0 = haven't learned anything about Gelasio's dealings with the Duergars
+			#1 = you've gained a little suspicion about Gelasio
+			#2 = you've gained enough suspicion to confront Gelasio (you get the other +=1 from Jindritch)  
+			#
+		#aelfledaAugustine
+			#0 = you haven't heard about Augustine
+			#1 = she mentions Augustine, but not by name
+			#2 = she mentions Augustine by name
+			#3 = Gelasio lies and shoots down you questioning about Aelfleda through character assassination
+			#4 = state that removes you questioning Augustine in his confrontation
+			#5 = the truth is out and you know that Gelasio was the guy who ratted out Augustine 
+		#
+		#Needs:
+		#1 Move to sewers, possibly.
+		#2 Return with money, possibly.
+		#3 different amounts
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	_setup_actor()
