@@ -1,7 +1,8 @@
-extends CanvasLayer
+extends Control
 class_name B2_Breakout
 ## A small textbox used to show money, resources and stuff during dialog.
 ## I think its also used to make choices, but im not sure.
+## 08/01/26 changed from Canvas Layer to Control
 
 # Icon used for Money and such
 const ICON_ATLAS = preload("res://barkley2/resources/B2_Breakout/icon_atlas.tres")
@@ -40,8 +41,8 @@ var breakout_data := {}
 var diag_box : B2_DiagBG
 
 func _ready() -> void:
-	# Make sure its on top of everything else
-	layer = B2_Config.DIALOG_LAYER
+	# ID myself
+	name = "breakout_box"
 	# Setup the static frame
 	diag_box = B2_DiagBG.new()
 	# Identify this diag box

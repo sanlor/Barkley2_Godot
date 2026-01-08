@@ -9,6 +9,8 @@ extends CanvasLayer
 signal shop_closed
 signal note_selected( note_string : String )
 
+const SHADER_DEBUG 			:= false
+
 enum TYPE{POINT, HAND, BULLS, GRAB, CURSOR}
 var curr_TYPE := TYPE.POINT
 
@@ -22,8 +24,8 @@ const NOTIFY_ITEM 			= preload("res://barkley2/scenes/Objects/System/notify_item
 const GAME_OVER 			= preload("res://barkley2/scenes/_Godot_Combat/_gameover/game_over.tscn")
 
 # Smoke Emitter
-const O_SMOKE 				= preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
-const SMOKE_MASS 			= preload("uid://621y6e2ytfw1")
+const O_SMOKE 						:= preload("res://barkley2/scenes/_utilityStation/oSmoke.tscn")
+const SMOKE_MASS 					:= preload("uid://621y6e2ytfw1")
 
 # battle related
 const DAMAGE_NUMBER 				:= preload("res://barkley2/scenes/_Godot_Combat/_Damage_numbers/damage_number.tscn")
@@ -31,13 +33,13 @@ const MISSION_COMPLETE 				:= preload("uid://chpd2adtksefl")
 const SKILL_DISPLAY 				:= preload("uid://douftxhh1k2w2")
 
 # Item efffect
-const O_ENTITY_INDICATOR_TEXT 		= preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
+const O_ENTITY_INDICATOR_TEXT 		:= preload("res://barkley2/scenes/_Godot_Combat/_combat/Indicators/o_entity_indicatorText.tscn")
 
 # explosion sfx
-const O_EFFECT_EXPLOSION 			= preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
+const O_EFFECT_EXPLOSION 			:= preload("res://barkley2/scenes/Objects/_effects/Misc/o_effect_explosion.tscn")
 
 # Bloooooood
-const O_EFFECT_BLOODDROP = preload("res://barkley2/scenes/_Godot_Combat/_blood/o_effect_blooddrop.tscn")
+const O_EFFECT_BLOODDROP 			:= preload("res://barkley2/scenes/_Godot_Combat/_blood/o_effect_blooddrop.tscn")
 
 var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
@@ -65,6 +67,17 @@ var is_shop_open := false
 
 var utility_screen: CanvasLayer
 var is_utility_open := false
+
+## Shader Stuff
+func toggle_crt_shader( state : bool ): # toggled by the game settings
+	var shader_canvas: 	ColorRect = $shaders/shader_canvas
+	shader_canvas.visible 	= state
+	if SHADER_DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"shader_canvas",state] )
+	
+func toggle_ff_shader( state : bool ): # toggled by the B2_Input autoload
+	var ff_shader: 		ColorRect = $shaders/ff_shader
+	ff_shader.visible 		= state
+	if SHADER_DEBUG: print_rich("[color=pink]%s: Shader '%s' is %s." % [name,"ff_shader",state] )
 
 func _ready() -> void:
 	layer = B2_Config.SHADER_LAYER

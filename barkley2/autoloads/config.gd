@@ -74,11 +74,11 @@ var currentFilter := FILTER.OFF :
 	set(filter):
 		currentFilter = filter
 		if currentFilter == FILTER.CRT:
-			B2_Shaders.toggle_crt_shader( true )
+			B2_Screen.toggle_crt_shader( true )
 		if currentFilter == FILTER.BLOOM:
-			B2_Shaders.toggle_crt_shader( false )
+			B2_Screen.toggle_crt_shader( false )
 		if currentFilter == FILTER.OFF:
-			B2_Shaders.toggle_crt_shader( false )
+			B2_Screen.toggle_crt_shader( false )
 			
 var scanlines := OFF ## I think its an unused variable. Since the original game saves this variable, im doing it too.
 #

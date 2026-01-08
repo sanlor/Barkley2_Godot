@@ -3882,9 +3882,7 @@ DIALOG | Lafferty   | `s1`Shut the hell up!`s0`
 DIALOG | Lafferty   | You are going to pay dearly for this!
 DIALOG | Vikingstad | We're going to hand you over to the Gank Squad! Prepare to spend the rest of your days behind bars, asshole!
 DIALOG | P_NAME = s_port_hoopzShock | N-no! This can't be happening!
-\" +
 //TODO: add in the standard \"arrest animation\" if we use it (we talked about the ELECTROSHOCK animation)
-\"
 WAIT   | 0.25
 FADE   | 1 | 2.0
 WAIT   | 3.0
@@ -3892,9 +3890,7 @@ QUEST  | govQuest = 3
 QUEST  | constantineState = 2
 QUEST  | prisonArrested = 6
 QUEST  | prisonIntro = 1
-\" +
 //TODO: the music should change to the PRISON MUSIC
-\"
 Teleport | r_pri_prisonGate01 | 464 | 1072
 
 NO
@@ -6320,8 +6316,9 @@ WAIT   | 0.5
 SURPRISEAT | NORTHEAST
 WAIT   | 0
 DIALOG | P_NAME | Oh no!
-\" + o_wilmer02.script;
-// Fix above command. Chaining Cinema scripts are not supported."
+//\" + o_wilmer02.script;
+// Fix above command. Chaining Cinema scripts are not supported.
+// 08/01/25 it is for while now."
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4qhi"]
 size = Vector2(86, 20)
@@ -8012,11 +8009,12 @@ script = ExtResource("44_ygouc")
 quest_name = "cornrowState"
 compare = 1
 
-[node name="o_tnn_wilmerEvicted01" type="Area2D" parent="." node_paths=PackedStringArray("col_shape")]
+[node name="o_tnn_wilmerEvicted01" type="Area2D" parent="." node_paths=PackedStringArray("col_shape", "cutscene_hook")]
 position = Vector2(792, 768)
 script = ExtResource("63_c1pbn")
 col_shape = NodePath("CollisionShape2D")
 cutscene_script = SubResource("Resource_40q7x")
+cutscene_hook = NodePath("../o_wilmer02")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="o_tnn_wilmerEvicted01"]
 position = Vector2(1, 0)

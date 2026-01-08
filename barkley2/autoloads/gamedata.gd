@@ -1,4 +1,5 @@
 #@tool
+## 08/01/26 Thinking about removing this
 extends Node
 
 # This is a helper autoload that holds some "static data" : like portrait maps.

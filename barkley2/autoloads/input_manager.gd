@@ -65,12 +65,12 @@ func ffwd( active : bool ):
 		if is_fastforwarding == false:
 			# emit the signal only once per change
 			fastforward_request.emit( true )
-			B2_Shaders.toggle_ff_shader( true )
+			B2_Screen.toggle_ff_shader( true )
 		is_fastforwarding = true
 	else:
 		Engine.time_scale = 1.0
 		if is_fastforwarding == true:
 			# emit the signal only once per change
 			fastforward_request.emit( false )
-			B2_Shaders.toggle_ff_shader( false )
+			B2_Screen.toggle_ff_shader( false )
 		is_fastforwarding = false

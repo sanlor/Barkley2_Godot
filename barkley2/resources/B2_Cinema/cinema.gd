@@ -244,8 +244,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
 		
+	
+		
 	assert(camera != null, "Camera not setup. Fix it.")
-	assert(cutscene_mask is Array, "Whops, outdate node called the cinema function wrong.")
+	assert(cutscene_mask is Array, "Whops, outdate node called the cinema function wrong. -> %s." % type_string(typeof(cutscene_mask)))
+	
 	## Apply mask, to replace string from the cutscene.
 	if not cutscene_mask.is_empty():
 		apply_cutscene_mask( cutscene_script, cutscene_mask )
@@ -253,6 +256,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	#print(cutscene_script.original_script)
 	event_caller = _event_caller
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+	
+	## Cutscene ID.
+	name = "cutscene_" + event_caller.name
 	
 	## lock player control
 	B2_Input.cutscene_is_playing 	= true
