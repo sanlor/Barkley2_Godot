@@ -87,11 +87,17 @@ func _ready() -> void:
 	set_cursor_type( TYPE.POINT )
 	B2_Config.title_screen_loaded.connect( _reset_data )
 	B2_Input.input_changed.connect( change_input_mouse )
+	
+	assert( is_instance_valid(o_hud), "'o_hub' not loaded.")
 
 func show_hud() -> void:
+	if not is_node_ready(): push_warning("'o_hud' not ready yet"); await ready
+	await get_tree().process_frame
 	o_hud.show_hud()
 	
 func hide_hud() -> void:
+	if not is_node_ready(): push_warning("'o_hud' not ready yet"); await ready
+	await get_tree().process_frame
 	o_hud.hide_hud()
 	
 func get_hud() -> B2_Hud:
@@ -369,6 +375,7 @@ func show_defeat_screen() -> void:
 # Show pausemenu object
 func show_pause_menu() -> void:
 	is_paused = true
+	#hide_hud()
 	pause_screen = PAUSE_SCREEN.instantiate()
 	#get_tree().current_scene.add_child( pause_screen )
 	add_child.call_deferred( pause_screen, true )
@@ -380,6 +387,7 @@ func hide_pause_menu() -> void:
 	is_paused = false
 	if not is_any_menu_open(): ## Issues with quick menu open while unpausing.
 		get_tree().paused = false
+	#show_hud()
 	B2_Sound.play_pick("pausemenu_click")
 	B2_Music.volume_menu()
 

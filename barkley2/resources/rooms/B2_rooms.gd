@@ -8,7 +8,7 @@ class_name B2_ROOMS
 
 const FOG_SHADER 				:= preload("uid://d4gjnvy7l6fkf")
 const RAIN_SHADER 				:= preload("uid://be0suyhkic6u8")
-
+const SNOW_SHADER 				:= preload("uid://luhlug07bl7o")
 
 const O_HUD 					:= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
 const O_ZONE_NAME 				:= preload("res://barkley2/objects/oZoneName.tscn")
@@ -76,6 +76,7 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var esoteric_rain_conditions := true ## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
 @export var weather_rain 	:= false
 @export var weather_fog 	:= false
+@export var weather_snow 	:= false
 
 var astar_pos_offset := Vector2i(8,8)
 
@@ -97,11 +98,7 @@ func _enter_tree() -> void:
 	if play_room_music:		ready.connect( _play_room_music )
 	else:					B2_Music.stop( 1.0 )
 	
-	if enable_hud:
-		#hud_node = O_HUD.instantiate()
-		#add_child( hud_node, true )
-		#hud_node.call_deferred( "show_hud" )
-		B2_Screen.show_hud()
+
 		
 	y_sort_enabled = true
 	ready.connect( _after_ready )
@@ -134,6 +131,9 @@ func _enter_tree() -> void:
 	if weather_fog:
 		toggle_fog_shader( weather_fog )
 	
+	if weather_snow:
+		toggle_snow_shader( weather_snow )
+	
 	if esoteric_rain_conditions and weather_rain:
 		if get_room_area() == "tnn": # TNN #
 			# Rain moves #
@@ -151,8 +151,8 @@ func _enter_tree() -> void:
 				toggle_rain_shader( false, "", false )
 		else:
 			toggle_rain_shader( weather_rain, "normal", false )
-	else:
-		toggle_rain_shader( weather_rain, "normal", false )
+	#else:
+	#	toggle_rain_shader( weather_rain, "normal", false )
 	
 func _ready() -> void:
 	push_error("Room %s not setup." % get_room_name())
@@ -168,6 +168,12 @@ func toggle_fog_shader( _weather_fog : bool ) -> void:
 	add_child( fog, true )
 	fog.toggle_fog_shader( _weather_fog )
 	fog.z_index = 4096
+
+func toggle_snow_shader( _weather_snow : bool ) -> void:
+	var snow : ColorRect = SNOW_SHADER.instantiate()
+	add_child( snow, true )
+	#snow.toggle_fog_shader( _weather_snow )
+	snow.z_index = 4096
 
 ## manually check collision againt all tilemap layers on the reference layer
 func check_tilemap_collision( pos : Vector2, collision_mask : int ) -> bool:
@@ -277,6 +283,12 @@ func _after_ready() -> void:
 		B2_Screen.add_child( zone, true )
 		if not B2_RoomXY.room_reference:
 			B2_RoomXY.room_reference = self
+			
+	if enable_hud:
+		#hud_node = O_HUD.instantiate()
+		#add_child( hud_node, true )
+		#hud_node.call_deferred( "show_hud" )
+		B2_Screen.show_hud()
 
 func update_pathfind():
 	if not is_baking():

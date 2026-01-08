@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://luhlug07bl7o"]
+
+[ext_resource type="Script" uid="uid://jcy2uui1xo7h" path="res://barkley2/scenes/Objects/_effects/Atmosphere/snow_shader.gd" id="1_j01wm"]
+[ext_resource type="Material" uid="uid://c8es8t5mpbnix" path="res://barkley2/shaders/particles/snow_shader.tres" id="2_443rf"]
+
+[node name="snow_shader" type="ColorRect"]
+z_index = 1000
+z_as_relative = false
+custom_minimum_size = Vector2(384, 240)
+mouse_filter = 2
+color = Color(1, 1, 1, 0.1)
+script = ExtResource("1_j01wm")
+
+[node name="actual_snow" type="GPUParticles2D" parent="."]
+amount = 4000
+lifetime = 16.0
+preprocess = 7.0
+randomness = 0.5
+visibility_rect = Rect2(-20, -20, 424, 280)
+process_material = ExtResource("2_443rf")

@@ -114,15 +114,16 @@ func _change_visibility() -> void:
 		is_hud_visible = true
 	
 func show_hud() -> void:
-	if not visible:
-		show()
-	if is_instance_valid(tween):
-		tween.kill()
-	tween = create_tween()
-	tween.tween_property( hud_bar, "position:y", SHOWN_Y, hud_speed )
-	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
-	tween.tween_callback( event_finished.emit )
-	if debug_messages: print("o_hud: show_hud()")
+	if B2_Playerdata.Quest("hudVisible") == 1:
+		if not visible:
+			show()
+		if is_instance_valid(tween):
+			tween.kill()
+		tween = create_tween()
+		tween.tween_property( hud_bar, "position:y", SHOWN_Y, hud_speed )
+		tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
+		tween.tween_callback( event_finished.emit )
+		if debug_messages: print("o_hud: show_hud()")
 	
 func hide_hud() -> void:
 	if is_instance_valid(tween):

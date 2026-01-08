@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://hhg2vthadjy1"]
+[gd_scene load_steps=10 format=3 uid="uid://hhg2vthadjy1"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_h7jag"]
 [ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="1_wchjm"]
 [ext_resource type="Script" uid="uid://dgjhrwfkaosr4" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_gbl_drawing_point.gd" id="2_h7jag"]
+[ext_resource type="Material" uid="uid://cnvblvkmlvxdb" path="res://barkley2/shaders/material/o_gbl_drawing_point.tres" id="4_ql8fs"]
+[ext_resource type="Material" uid="uid://gvnvp2dv1peu" path="res://barkley2/shaders/particles/o_gbl_drawing_point.tres" id="5_o3rwk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gaax3"]
 atlas = ExtResource("1_wchjm")
@@ -25,28 +27,6 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5esuf"]
-particles_animation = true
-particles_anim_h_frames = 2
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Curve" id="Curve_h7jag"]
-_data = [Vector2(0, 0.49438208), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_ql8fs"]
-curve = SubResource("Curve_h7jag")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o3rwk"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 1.0
-gravity = Vector3(0, -30, 0)
-alpha_curve = SubResource("CurveTexture_ql8fs")
-hue_variation_min = -0.100000024
-hue_variation_max = 0.09999998
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_47ym4"]
 radius = 15.0
@@ -73,11 +53,13 @@ metadata/default = {
 }
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-material = SubResource("CanvasItemMaterial_5esuf")
+material = ExtResource("4_ql8fs")
 texture = ExtResource("1_wchjm")
-process_material = SubResource("ParticleProcessMaterial_o3rwk")
+process_material = ExtResource("5_o3rwk")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_47ym4")

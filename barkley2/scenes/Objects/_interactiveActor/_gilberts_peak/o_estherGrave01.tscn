@@ -1,0 +1,113 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgc2f1bd13o3d"]
+
+[ext_resource type="Texture2D" uid="uid://bf7ixj6nn1eps" path="res://barkley2/assets/b2_original/images/merged/s_esthersGrave01.png" id="1_cwy1v"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_7d2hp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_7d2hp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enbkr"]
+atlas = ExtResource("1_cwy1v")
+region = Rect2(0, 0, 27, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7vbm"]
+atlas = ExtResource("1_cwy1v")
+region = Rect2(27, 0, 27, 30)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ncjsj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enbkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7vbm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_enbkr"]
+script = ExtResource("3_7d2hp")
+original_script = "IF wilmerBones == 1 | GOTO | BONES_1
+IF wilmerBones == 2 | GOTO | BONES_2
+GOTO | GRAVE
+
+BONES_1
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_estherGrave01
+Emote  | ?
+WAIT   | 0.5
+SURPRISEAT | o_estherGrave01
+DIALOG | P_NAME | This is...!
+WAIT   | 0.25
+LOOKAT | o_cts_hoopz | o_estherGrave01
+WAIT   | 0.25
+DIALOG | P_NAME | This is `sq`Esther's grave.`rt` Mr. Wilmer's told me about it.
+LOOKAT | o_cts_hoopz | o_estherGrave01
+WAIT   | 0.25
+KNEELAT | o_estherGrave01
+WAIT   | 0.5
+DIALOG | P_NAME | Mr. Wilmer's told me to put his bones next to this grave.
+WAIT   | 0.5
+Create | o_wilmerBones01 | 736 | 1096
+DIALOG | P_NAME | Rest in peace, Mr. Wilmer. Sorry about getting you evicted and causing you to die.
+QUEST  | wilmerBones = 2
+WAIT   | 0.5
+LOOKAT | o_cts_hoopz | o_estherGrave01
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.2
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.75
+DIALOG | P_NAME | A moment of silence please...
+WAIT   | 5
+DIALOG | P_NAME | Alright, I've done all that Mr. Wilmer asked me to.
+
+BONES_2
+DIALOG | P_NAME | Rest in peace, Mr. Wilmer.
+
+GRAVE
+DIALOG | P_NAME | Hmm, hmm, a grave, pretty good."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w7vbm"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ncjsj"]
+radius = 9.0
+
+[node name="o_estherGrave01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_ncjsj")
+centered = false
+offset = Vector2(-13, -28)
+script = ExtResource("2_7d2hp")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_enbkr")
+metadata/default = {
+"bbox_bottom": "27",
+"bbox_left": "4",
+"bbox_right": "22",
+"bbox_top": "16",
+"height": "30",
+"name": "s_esthersGrave01",
+"width": "27",
+"xorig": "13",
+"yorigin": "28"
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_w7vbm")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_ncjsj")

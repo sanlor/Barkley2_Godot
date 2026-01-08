@@ -1,33 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://be0suyhkic6u8"]
+[gd_scene load_steps=3 format=3 uid="uid://be0suyhkic6u8"]
 
+[ext_resource type="Material" uid="uid://ctie8om836rbb" path="res://barkley2/shaders/particles/rain_shader.tres" id="1_cxh34"]
 [ext_resource type="Script" uid="uid://rgs3pkq10v6a" path="res://barkley2/scenes/Objects/_effects/Atmosphere/rain_shader.gd" id="1_psrf8"]
-
-[sub_resource type="Curve" id="Curve_6vdmh"]
-_limits = [0.0, 0.5, 0.0, 1.0]
-_data = [Vector2(0, 0.06381577), 0.0, 0.2045629, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_8wv6p"]
-curve = SubResource("Curve_6vdmh")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6vdmh"]
-particle_flag_disable_z = true
-emission_shape_offset = Vector3(192, -60, 0)
-emission_shape = 3
-emission_box_extents = Vector3(384, 16, 1)
-direction = Vector3(0.15, 1, 0)
-spread = 0.0
-initial_velocity_min = 800.0
-initial_velocity_max = 1200.0
-gravity = Vector3(0, 0, 0)
-scale_min = 0.5
-scale_max = 1.5
-alpha_curve = SubResource("CurveTexture_8wv6p")
-hue_variation_min = -2.2351742e-08
-hue_variation_max = -2.2351742e-08
-turbulence_enabled = true
-turbulence_influence_min = 0.012
-turbulence_influence_max = 0.035
 
 [node name="rain_shader" type="GPUParticles2D"]
 z_index = 4096
@@ -37,7 +11,7 @@ fixed_fps = 60
 visibility_rect = Rect2(-200, -50, 400, 400)
 trail_enabled = true
 trail_lifetime = 0.02
-process_material = SubResource("ParticleProcessMaterial_6vdmh")
+process_material = ExtResource("1_cxh34")
 script = ExtResource("1_psrf8")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

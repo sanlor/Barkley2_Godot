@@ -71,6 +71,9 @@ func set_room() -> void:
 		elif l.name == "o_effect_rain":
 			get_parent().weather_rain = true
 			cleanup.append(l)
+		elif l.name == "o_effect_snow":
+			get_parent().weather_snow = true
+			cleanup.append(l)
 		elif l.name.begins_with("o_effect_"):
 			push_error("Weird effect found. doing nothing.")
 	
