@@ -192,6 +192,9 @@ func record_curr_location() -> bool:
 	else:
 		return false
 	
+func enable_save() -> void: 	B2_Playerdata.Quest("saveDisabled", 0) ## Enable the hability to save the game
+func disable_save() -> void: 	B2_Playerdata.Quest("saveDisabled", 1) ## Disable the hability to save the game
+	
 ## Handles saving the game. Saving the game can be denied based on certain situations.
 func SaveGame( force := false):
 	print_rich("[color=light_blue]Save game requested.[/color]")

@@ -1,0 +1,116 @@
+[gd_scene load_steps=18 format=3 uid="uid://wr8fubj2l0ak"]
+
+[ext_resource type="Texture2D" uid="uid://813pus82478y" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_large.png" id="1_68efo"]
+[ext_resource type="Texture2D" uid="uid://em10rjmxynec" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_small.png" id="1_v6q0o"]
+[ext_resource type="Texture2D" uid="uid://qncevfm4omya" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_medium.png" id="2_mygir"]
+[ext_resource type="Script" uid="uid://xhpsxxtwq5nb" path="res://barkley2/scenes/Objects/_minigames/Fishing/o_mg_fishing_fish.gd" id="4_72shc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07wgf"]
+atlas = ExtResource("1_68efo")
+region = Rect2(0, 0, 56, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbe2l"]
+atlas = ExtResource("1_68efo")
+region = Rect2(56, 0, 56, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qsukg"]
+atlas = ExtResource("1_68efo")
+region = Rect2(112, 0, 56, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5klk"]
+atlas = ExtResource("1_68efo")
+region = Rect2(168, 0, 56, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a755t"]
+atlas = ExtResource("2_mygir")
+region = Rect2(0, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2edu5"]
+atlas = ExtResource("2_mygir")
+region = Rect2(35, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c70lv"]
+atlas = ExtResource("2_mygir")
+region = Rect2(70, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3o4y"]
+atlas = ExtResource("2_mygir")
+region = Rect2(105, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bieo8"]
+atlas = ExtResource("1_v6q0o")
+region = Rect2(0, 0, 21, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jaq7v"]
+atlas = ExtResource("1_v6q0o")
+region = Rect2(21, 0, 21, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68efo"]
+atlas = ExtResource("1_v6q0o")
+region = Rect2(42, 0, 21, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mygir"]
+atlas = ExtResource("1_v6q0o")
+region = Rect2(63, 0, 21, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_72shc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07wgf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbe2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qsukg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5klk")
+}],
+"loop": true,
+"name": &"s_watershadow_large",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a755t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2edu5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c70lv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3o4y")
+}],
+"loop": true,
+"name": &"s_watershadow_medium",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bieo8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jaq7v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68efo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mygir")
+}],
+"loop": true,
+"name": &"s_watershadow_small",
+"speed": 5.0
+}]
+
+[node name="o_mg_fishing_fish" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_72shc")
+animation = &"s_watershadow_large"
+script = ExtResource("4_72shc")
+metadata/code = ""
+metadata/inst_name = "inst_F1AD43F2"
+metadata/scale = Vector2(1, 1)

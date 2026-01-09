@@ -1,0 +1,215 @@
+[gd_scene load_steps=12 format=3 uid="uid://cng8wmigixvhj"]
+
+[ext_resource type="Script" uid="uid://dhqsxn56xpwsl" path="res://barkley2/scenes/Objects/_minigames/Fishing/o_mg_fishing_control.gd" id="1_yvhos"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="2_4nick"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="3_pdo48"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="4_4nick"]
+[ext_resource type="Texture2D" uid="uid://c8g0mnxs0pbbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_fishing_lure.png" id="5_li4sh"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="5_tms2w"]
+[ext_resource type="FontFile" uid="uid://b42pdqd1v148m" path="res://barkley2/resources/fonts/fn_7oc.tres" id="6_li4sh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pdo48"]
+font = ExtResource("4_4nick")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_841x3"]
+atlas = ExtResource("5_li4sh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_841x3"]
+font = ExtResource("5_tms2w")
+
+[sub_resource type="LabelSettings" id="LabelSettings_lxi0d"]
+font = ExtResource("6_li4sh")
+
+[node name="o_mg_fishing_control" type="CanvasLayer"]
+script = ExtResource("1_yvhos")
+metadata/code = ""
+metadata/inst_name = "inst_B8DF8FBD"
+metadata/scale = Vector2(1, 1)
+
+[node name="gunbag_capacity_border" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -24.0
+offset_top = -28.0
+offset_right = 120.0
+offset_bottom = 35.0
+theme = ExtResource("2_4nick")
+script = ExtResource("3_pdo48")
+border_size = Vector2(144, 63)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="gunbag_capacity_border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 18
+
+[node name="gunbag_capacity_lbl" type="Label" parent="gunbag_capacity_border/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Gun'sbag capacity: 1/69"
+label_settings = SubResource("LabelSettings_pdo48")
+
+[node name="lure_data_border" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 243.0
+offset_top = 146.0
+offset_right = 403.0
+offset_bottom = 258.0
+theme = ExtResource("2_4nick")
+script = ExtResource("3_pdo48")
+border_size = Vector2(160, 112)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="lure_data_border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="lure_data_border/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="lure_data_border/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="lure_sprite_texture" type="TextureRect" parent="lure_data_border/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_841x3")
+
+[node name="lure_name_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Lure Name"
+label_settings = SubResource("LabelSettings_841x3")
+
+[node name="weight_cont" type="HBoxContainer" parent="lure_data_border/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="weight_title_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/weight_cont"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Weight:"
+label_settings = SubResource("LabelSettings_lxi0d")
+horizontal_alignment = 2
+
+[node name="weight_value_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/weight_cont"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_lxi0d")
+
+[node name="aero_cont" type="HBoxContainer" parent="lure_data_border/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="aero_title_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/aero_cont"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Aerodynamics:"
+label_settings = SubResource("LabelSettings_lxi0d")
+horizontal_alignment = 2
+
+[node name="aero_value_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/aero_cont"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_lxi0d")
+
+[node name="potential_cont" type="HBoxContainer" parent="lure_data_border/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="potential_title_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/potential_cont"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Potential:"
+label_settings = SubResource("LabelSettings_lxi0d")
+horizontal_alignment = 2
+
+[node name="potential_value_lbl" type="Label" parent="lure_data_border/MarginContainer/VBoxContainer/potential_cont"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_lxi0d")
+
+[node name="power_angle_border" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -19.0
+offset_top = 213.0
+offset_right = 125.0
+offset_bottom = 260.99994
+theme = ExtResource("2_4nick")
+script = ExtResource("3_pdo48")
+border_size = Vector2(144, 48)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="power_angle_border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 22
+
+[node name="HBoxContainer" type="HBoxContainer" parent="power_angle_border/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="power_lbl" type="Label" parent="power_angle_border/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Power: 100%"
+label_settings = SubResource("LabelSettings_pdo48")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="angle_lbl" type="Label" parent="power_angle_border/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "Angle: 15"
+label_settings = SubResource("LabelSettings_pdo48")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="fish_battle_box_border" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(40, 40)
+theme = ExtResource("2_4nick")
+script = ExtResource("3_pdo48")
+border_size = Vector2(80, 80)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
