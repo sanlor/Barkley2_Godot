@@ -331,7 +331,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 	return
 
 func cinema_lookat( target_node : Node2D ):
-	var _direction := position.direction_to( target_node.position ).round()
+	var _direction := global_position.direction_to( target_node.global_position ).round()
 	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
 	cinema_look( dir_name )
 

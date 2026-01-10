@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://bpsay54rhdcod"]
+[gd_scene load_steps=24 format=4 uid="uid://bpsay54rhdcod"]
 
 [ext_resource type="Script" uid="uid://c5633bqqm3ads" path="res://barkley2/rooms/fishing/r_fis_sewers01.gd" id="1_3qaoj"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="3_l2u1h"]
@@ -12,21 +12,47 @@
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="11_1edoj"]
 [ext_resource type="PackedScene" uid="uid://wr8fubj2l0ak" path="res://barkley2/scenes/Objects/_minigames/Fishing/o_mg_fishing_fish.tscn" id="11_nr5on"]
 [ext_resource type="PackedScene" uid="uid://c4jaagy6yu3ai" path="res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn" id="12_06wet"]
+[ext_resource type="Script" uid="uid://cq3ob5bb11hxh" path="res://barkley2/scenes/Objects/_minigames/Fishing/player_target.gd" id="12_l2u1h"]
+[ext_resource type="PackedScene" uid="uid://dwbd4v0ocowjk" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_playarea.tscn" id="14_xehlk"]
+[ext_resource type="Script" uid="uid://txh5n2lowsrt" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_playarea.gd" id="15_nr5on"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gb2yp"]
-vertices = PackedVector2Array(790, 630, 10, 630, 10, 10, 790, 10)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 640, 800, 640, 800, 0)])
 source_geometry_mode = 1
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lxlwt"]
 resource_name = "tls_ani_sewersludge01"
 texture = ExtResource("3_l2u1h")
+0:0/animation_columns = 3
+0:0/animation_speed = 2.0
+0:0/animation_frame_0/duration = 1.0
+0:0/animation_frame_1/duration = 1.0
+0:0/animation_frame_2/duration = 1.0
 0:0/0 = 0
+0:1/animation_columns = 3
+0:1/animation_speed = 2.0
+0:1/animation_frame_0/duration = 1.0
+0:1/animation_frame_1/duration = 1.0
+0:1/animation_frame_2/duration = 1.0
 0:1/0 = 0
+0:2/animation_columns = 3
+0:2/animation_speed = 2.0
+0:2/animation_frame_0/duration = 1.0
+0:2/animation_frame_1/duration = 1.0
+0:2/animation_frame_2/duration = 1.0
 0:2/0 = 0
 0:3/0 = 0
+0:4/animation_columns = 3
+0:4/animation_speed = 2.0
+0:4/animation_frame_0/duration = 1.0
+0:4/animation_frame_1/duration = 1.0
+0:4/animation_frame_2/duration = 1.0
 0:4/0 = 0
+0:5/animation_columns = 3
+0:5/animation_speed = 2.0
+0:5/animation_frame_0/duration = 1.0
+0:5/animation_frame_1/duration = 1.0
+0:5/animation_frame_2/duration = 1.0
 0:5/0 = 0
 0:6/0 = 0
 0:7/0 = 0
@@ -35,12 +61,7 @@ texture = ExtResource("3_l2u1h")
 0:10/0 = 0
 0:11/0 = 0
 0:12/0 = 0
-1:0/0 = 0
-1:1/0 = 0
-1:2/0 = 0
 1:3/0 = 0
-1:4/0 = 0
-1:5/0 = 0
 1:6/0 = 0
 1:7/0 = 0
 1:8/0 = 0
@@ -48,12 +69,7 @@ texture = ExtResource("3_l2u1h")
 1:10/0 = 0
 1:11/0 = 0
 1:12/0 = 0
-2:0/0 = 0
-2:1/0 = 0
-2:2/0 = 0
 2:3/0 = 0
-2:4/0 = 0
-2:5/0 = 0
 2:6/0 = 0
 2:7/0 = 0
 2:8/0 = 0
@@ -61,50 +77,114 @@ texture = ExtResource("3_l2u1h")
 2:10/0 = 0
 2:11/0 = 0
 2:12/0 = 0
+3:0/animation_columns = 3
+3:0/animation_speed = 2.0
+3:0/animation_frame_0/duration = 1.0
+3:0/animation_frame_1/duration = 1.0
+3:0/animation_frame_2/duration = 1.0
 3:0/0 = 0
+3:1/animation_columns = 3
+3:1/animation_speed = 2.0
+3:1/animation_frame_0/duration = 1.0
+3:1/animation_frame_1/duration = 1.0
+3:1/animation_frame_2/duration = 1.0
 3:1/0 = 0
+3:2/animation_columns = 3
+3:2/animation_speed = 2.0
+3:2/animation_frame_0/duration = 1.0
+3:2/animation_frame_1/duration = 1.0
+3:2/animation_frame_2/duration = 1.0
 3:2/0 = 0
+3:3/animation_columns = 3
+3:3/animation_speed = 2.0
+3:3/animation_frame_0/duration = 1.0
+3:3/animation_frame_1/duration = 1.0
+3:3/animation_frame_2/duration = 1.0
 3:3/0 = 0
+3:4/animation_columns = 3
+3:4/animation_speed = 2.0
+3:4/animation_frame_0/duration = 1.0
+3:4/animation_frame_1/duration = 1.0
+3:4/animation_frame_2/duration = 1.0
 3:4/0 = 0
+3:5/animation_columns = 3
+3:5/animation_speed = 2.0
+3:5/animation_frame_0/duration = 1.0
+3:5/animation_frame_1/duration = 1.0
+3:5/animation_frame_2/duration = 1.0
 3:5/0 = 0
+3:6/animation_columns = 3
+3:6/animation_speed = 2.0
+3:6/animation_frame_0/duration = 1.0
+3:6/animation_frame_1/duration = 1.0
+3:6/animation_frame_2/duration = 1.0
 3:6/0 = 0
+3:7/animation_columns = 3
+3:7/animation_speed = 2.0
+3:7/animation_frame_0/duration = 1.0
+3:7/animation_frame_1/duration = 1.0
+3:7/animation_frame_2/duration = 1.0
 3:7/0 = 0
+3:8/animation_columns = 3
+3:8/animation_speed = 2.0
+3:8/animation_frame_0/duration = 1.0
+3:8/animation_frame_1/duration = 1.0
+3:8/animation_frame_2/duration = 1.0
 3:8/0 = 0
+3:9/animation_columns = 3
+3:9/animation_speed = 2.0
+3:9/animation_frame_0/duration = 1.0
+3:9/animation_frame_1/duration = 1.0
+3:9/animation_frame_2/duration = 1.0
 3:9/0 = 0
+3:10/animation_columns = 3
+3:10/animation_speed = 2.0
+3:10/animation_frame_0/duration = 1.0
+3:10/animation_frame_1/duration = 1.0
+3:10/animation_frame_2/duration = 1.0
 3:10/0 = 0
+3:11/animation_columns = 3
+3:11/animation_speed = 2.0
+3:11/animation_frame_0/duration = 1.0
+3:11/animation_frame_1/duration = 1.0
+3:11/animation_frame_2/duration = 1.0
 3:11/0 = 0
+3:12/animation_columns = 3
+3:12/animation_speed = 2.0
+3:12/animation_frame_0/duration = 1.0
+3:12/animation_frame_1/duration = 1.0
+3:12/animation_frame_2/duration = 1.0
 3:12/0 = 0
-4:0/0 = 0
-4:1/0 = 0
-4:2/0 = 0
-4:3/0 = 0
-4:4/0 = 0
-4:5/0 = 0
-4:6/0 = 0
-4:7/0 = 0
-4:8/0 = 0
-4:9/0 = 0
-4:10/0 = 0
-4:11/0 = 0
-4:12/0 = 0
-5:0/0 = 0
-5:1/0 = 0
-5:2/0 = 0
-5:3/0 = 0
-5:4/0 = 0
-5:5/0 = 0
-5:6/0 = 0
-5:7/0 = 0
-5:8/0 = 0
-5:9/0 = 0
-5:10/0 = 0
-5:11/0 = 0
-5:12/0 = 0
+6:0/animation_columns = 3
+6:0/animation_speed = 2.0
+6:0/animation_frame_0/duration = 1.0
+6:0/animation_frame_1/duration = 1.0
+6:0/animation_frame_2/duration = 1.0
 6:0/0 = 0
+6:1/animation_columns = 3
+6:1/animation_speed = 2.0
+6:1/animation_frame_0/duration = 1.0
+6:1/animation_frame_1/duration = 1.0
+6:1/animation_frame_2/duration = 1.0
 6:1/0 = 0
+6:2/animation_columns = 3
+6:2/animation_speed = 2.0
+6:2/animation_frame_0/duration = 1.0
+6:2/animation_frame_1/duration = 1.0
+6:2/animation_frame_2/duration = 1.0
 6:2/0 = 0
+6:3/animation_columns = 3
+6:3/animation_speed = 2.0
+6:3/animation_frame_0/duration = 1.0
+6:3/animation_frame_1/duration = 1.0
+6:3/animation_frame_2/duration = 1.0
 6:3/0 = 0
 6:4/0 = 0
+6:5/animation_columns = 3
+6:5/animation_speed = 2.0
+6:5/animation_frame_0/duration = 1.0
+6:5/animation_frame_1/duration = 1.0
+6:5/animation_frame_2/duration = 1.0
 6:5/0 = 0
 6:6/0 = 0
 6:7/0 = 0
@@ -113,12 +193,7 @@ texture = ExtResource("3_l2u1h")
 6:10/0 = 0
 6:11/0 = 0
 6:12/0 = 0
-7:0/0 = 0
-7:1/0 = 0
-7:2/0 = 0
-7:3/0 = 0
 7:4/0 = 0
-7:5/0 = 0
 7:6/0 = 0
 7:7/0 = 0
 7:8/0 = 0
@@ -126,12 +201,7 @@ texture = ExtResource("3_l2u1h")
 7:10/0 = 0
 7:11/0 = 0
 7:12/0 = 0
-8:0/0 = 0
-8:1/0 = 0
-8:2/0 = 0
-8:3/0 = 0
 8:4/0 = 0
-8:5/0 = 0
 8:6/0 = 0
 8:7/0 = 0
 8:8/0 = 0
@@ -1620,6 +1690,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Curve" id="Curve_l2u1h"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.32584274), -1.6005801, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_l2u1h"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
 [node name="r_fis_sewers01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_gb2yp")
 script = ExtResource("1_3qaoj")
@@ -1675,8 +1753,6 @@ sprite_frames = SubResource("SpriteFrames_0e0sl")
 metadata/code = ""
 metadata/inst_name = "inst_EB118330"
 metadata/scale = Vector2(1, 1)
-
-[node name="o_mg_fishing_control" parent="." instance=ExtResource("10_3qaoj")]
 
 [node name="o_mg_fishing_fish" parent="." instance=ExtResource("11_nr5on")]
 position = Vector2(472, 368)
@@ -1764,5 +1840,35 @@ metadata/code = ""
 metadata/inst_name = "inst_CE78E788"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_mg_fishing_control" parent="." node_paths=PackedStringArray("minigame_camera", "minigame_lure_reticle", "minigame_player") instance=ExtResource("10_3qaoj")]
+minigame_camera = NodePath("../o_mg_fishing_camera")
+minigame_lure_reticle = NodePath("../fishing_playarea/fishing_pivot/player_target")
+minigame_player = NodePath("../o_cts_hoopz")
+
+[node name="fishing_playarea" parent="." instance=ExtResource("14_xehlk")]
+position = Vector2(278, 461)
+script = ExtResource("15_nr5on")
+play_area = Rect2(0, -400, 450, 400)
+
+[node name="fishing_pivot" type="Marker2D" parent="fishing_playarea" node_paths=PackedStringArray("play_area")]
+script = ExtResource("12_l2u1h")
+play_area = NodePath("..")
+
+[node name="player_target" type="Node2D" parent="fishing_playarea/fishing_pivot"]
+position = Vector2(0, -50)
+
+[node name="reticle" type="Line2D" parent="fishing_playarea/fishing_pivot/player_target"]
+rotation = -7842.1226
+points = PackedVector2Array(-10, 0, -7.071068, -7.071068, 4.371139e-07, -10, 7.071068, -7.071068, 10, 8.742278e-07, 7.0710683, 7.071067, -1.1924881e-07, 10, -7.0710664, 7.071069)
+width = 2.0
+width_curve = SubResource("Curve_l2u1h")
+gradient = SubResource("Gradient_l2u1h")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
 [node name="o_cts_hoopz" parent="." instance=ExtResource("12_06wet")]
-position = Vector2(276, 448)
+position = Vector2(278, 461)
+
+[node name="o_mg_fishing_camera" type="Camera2D" parent="."]
+position = Vector2(389, 395)

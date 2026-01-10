@@ -28,6 +28,9 @@ func _ready() -> void:
 	_set_afraid()
 	@warning_ignore("integer_division")
 	fish_gun = B2_Gun.generate_generic_gun(B2_Gun.TYPE.GUN_TYPE_NONE, B2_Gun.MATERIAL.NONE, { "gunsdrop": 20 + floor(value / 2) }) # check Drop line 84
+	
+	speed_scale = randf_range(1.0,2.0)
+	play()
 
 func _set_afraid() -> void:
 	# AFRAID OF LURE OR NOT #
