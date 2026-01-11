@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://bpsay54rhdcod"]
+[gd_scene load_steps=23 format=4 uid="uid://bpsay54rhdcod"]
 
 [ext_resource type="Script" uid="uid://c5633bqqm3ads" path="res://barkley2/rooms/fishing/r_fis_sewers01.gd" id="1_3qaoj"]
 [ext_resource type="Texture2D" uid="uid://by1kbfqjcjbiw" path="res://barkley2/assets/b2_original/backgrounds/tls_ani_sewersludge01.png" id="3_l2u1h"]
@@ -12,8 +12,9 @@
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="11_1edoj"]
 [ext_resource type="PackedScene" uid="uid://wr8fubj2l0ak" path="res://barkley2/scenes/Objects/_minigames/Fishing/o_mg_fishing_fish.tscn" id="11_nr5on"]
 [ext_resource type="PackedScene" uid="uid://c4jaagy6yu3ai" path="res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn" id="12_06wet"]
-[ext_resource type="Script" uid="uid://cq3ob5bb11hxh" path="res://barkley2/scenes/Objects/_minigames/Fishing/player_target.gd" id="12_l2u1h"]
+[ext_resource type="PackedScene" uid="uid://eqe2c5ic7h7f" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_pivot.tscn" id="14_5himo"]
 [ext_resource type="PackedScene" uid="uid://dwbd4v0ocowjk" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_playarea.tscn" id="14_xehlk"]
+[ext_resource type="PackedScene" uid="uid://dc817rjbg8wv3" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_lure.tscn" id="15_3ahoy"]
 [ext_resource type="Script" uid="uid://txh5n2lowsrt" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_playarea.gd" id="15_nr5on"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_gb2yp"]
@@ -1690,14 +1691,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Curve" id="Curve_l2u1h"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.32584274), -1.6005801, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Gradient" id="Gradient_l2u1h"]
-interpolation_mode = 2
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
 [node name="r_fis_sewers01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_gb2yp")
 script = ExtResource("1_3qaoj")
@@ -1840,35 +1833,31 @@ metadata/code = ""
 metadata/inst_name = "inst_CE78E788"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_fishing_control" parent="." node_paths=PackedStringArray("minigame_camera", "minigame_lure_reticle", "minigame_player") instance=ExtResource("10_3qaoj")]
+[node name="o_mg_fishing_camera" type="Camera2D" parent="."]
+position = Vector2(389, 395)
+position_smoothing_enabled = true
+
+[node name="o_mg_fishing_control" parent="." node_paths=PackedStringArray("minigame_camera", "minigame_lure_reticle", "minigame_lure_pivot", "minigame_player", "minigame_lure") instance=ExtResource("10_3qaoj")]
 minigame_camera = NodePath("../o_mg_fishing_camera")
-minigame_lure_reticle = NodePath("../fishing_playarea/fishing_pivot/player_target")
+minigame_lure_reticle = NodePath("../fishing_playarea/fishing_pivot/player_target/reticle")
+minigame_lure_pivot = NodePath("../fishing_playarea/fishing_pivot")
 minigame_player = NodePath("../o_cts_hoopz")
+minigame_lure = NodePath("../fishing_playarea/fishing_lure")
 
 [node name="fishing_playarea" parent="." instance=ExtResource("14_xehlk")]
 position = Vector2(278, 461)
 script = ExtResource("15_nr5on")
 play_area = Rect2(0, -400, 450, 400)
 
-[node name="fishing_pivot" type="Marker2D" parent="fishing_playarea" node_paths=PackedStringArray("play_area")]
-script = ExtResource("12_l2u1h")
+[node name="fishing_pivot" parent="fishing_playarea" node_paths=PackedStringArray("play_area") instance=ExtResource("14_5himo")]
 play_area = NodePath("..")
 
-[node name="player_target" type="Node2D" parent="fishing_playarea/fishing_pivot"]
-position = Vector2(0, -50)
+[node name="reticle" parent="fishing_playarea/fishing_pivot/player_target" index="0"]
+rotation = -146180.55
 
-[node name="reticle" type="Line2D" parent="fishing_playarea/fishing_pivot/player_target"]
-rotation = -7842.1226
-points = PackedVector2Array(-10, 0, -7.071068, -7.071068, 4.371139e-07, -10, 7.071068, -7.071068, 10, 8.742278e-07, 7.0710683, 7.071067, -1.1924881e-07, 10, -7.0710664, 7.071069)
-width = 2.0
-width_curve = SubResource("Curve_l2u1h")
-gradient = SubResource("Gradient_l2u1h")
-joint_mode = 2
-begin_cap_mode = 2
-end_cap_mode = 2
+[node name="fishing_lure" parent="fishing_playarea" instance=ExtResource("15_3ahoy")]
 
 [node name="o_cts_hoopz" parent="." instance=ExtResource("12_06wet")]
 position = Vector2(278, 461)
 
-[node name="o_mg_fishing_camera" type="Camera2D" parent="."]
-position = Vector2(389, 395)
+[editable path="fishing_playarea/fishing_pivot"]

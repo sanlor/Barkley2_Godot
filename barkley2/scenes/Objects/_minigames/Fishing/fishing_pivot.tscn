@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://eqe2c5ic7h7f"]
+
+[ext_resource type="Script" uid="uid://cq3ob5bb11hxh" path="res://barkley2/scenes/Objects/_minigames/Fishing/player_target.gd" id="1_4sy1f"]
+
+[sub_resource type="Curve" id="Curve_l2u1h"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.32584274), -1.6005801, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_l2u1h"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="fishing_pivot" type="Marker2D" node_paths=PackedStringArray("play_area")]
+script = ExtResource("1_4sy1f")
+play_area = NodePath("")
+
+[node name="player_target" type="Node2D" parent="."]
+position = Vector2(0, -50)
+
+[node name="reticle" type="Line2D" parent="player_target"]
+rotation = -28786.53
+points = PackedVector2Array(-10, 0, -7.071068, -7.071068, 4.371139e-07, -10, 7.071068, -7.071068, 10, 8.742278e-07, 7.0710683, 7.071067, -1.1924881e-07, 10, -7.0710664, 7.071069)
+width = 2.0
+width_curve = SubResource("Curve_l2u1h")
+gradient = SubResource("Gradient_l2u1h")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2

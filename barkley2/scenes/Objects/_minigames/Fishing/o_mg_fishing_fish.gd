@@ -15,6 +15,8 @@ var timer_trashing 			:= 5.0;
 
 var afraid_of_lure 			:= false
 
+var target_pos				:= Vector2.ZERO
+
 # SCAN #
 var alpha_scan = 0;
 var scanned = false;
@@ -31,6 +33,14 @@ func _ready() -> void:
 	
 	speed_scale = randf_range(1.0,2.0)
 	play()
+	
+	x_origin = global_position.x
+	y_origin = global_position.y
+	
+	_set_target()
+
+func _set_target() -> void:
+	target_pos = Vector2(x_origin, y_origin) + Vector2.LEFT.rotated( randf_range(0,TAU) ) * randf_range(5.0,30.0)
 
 func _set_afraid() -> void:
 	# AFRAID OF LURE OR NOT #
@@ -61,3 +71,14 @@ func _set_fish_value() -> void:
 	elif room == "r_fis_undersewer01": value = 80 + randi_range(0,19);    # Max 99
 	elif room == "r_fis_cuchu01": value = 20 + randi_range(0,79);         # Max 99
 	else: value = 10;
+
+func _physics_process(_delta: float) -> void:
+	rotation = lerpf( rotation, global_position.angle_to_point(target_pos), 0.01 )
+	
+	global_position = global_position.lerp( target_pos, 0.005 )
+	
+	if global_position.distance_to(target_pos) < 2.0:
+		_set_target()
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.

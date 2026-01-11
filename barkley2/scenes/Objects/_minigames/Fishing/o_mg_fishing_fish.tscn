@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://wr8fubj2l0ak"]
+[gd_scene load_steps=23 format=3 uid="uid://wr8fubj2l0ak"]
 
 [ext_resource type="Texture2D" uid="uid://813pus82478y" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_large.png" id="1_68efo"]
 [ext_resource type="Texture2D" uid="uid://em10rjmxynec" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_small.png" id="1_v6q0o"]
@@ -107,6 +107,35 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_68efo"]
+radius = 31.257
+
+[sub_resource type="Curve" id="Curve_68efo"]
+_data = [Vector2(0, 0), 0.0, 3.8789978, 0, 0, Vector2(0.4166667, 0.57303375), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mygir"]
+curve = SubResource("Curve_68efo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_68efo"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 24.0
+gravity = Vector3(0, -9, 0)
+color = Color(0.59350306, 0.72699594, 1, 1)
+alpha_curve = SubResource("CurveTexture_mygir")
+turbulence_enabled = true
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_72shc"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = -20.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -50, 0)
+
 [node name="o_mg_fishing_fish" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_72shc")
 animation = &"s_watershadow_large"
@@ -114,3 +143,22 @@ script = ExtResource("4_72shc")
 metadata/code = ""
 metadata/inst_name = "inst_F1AD43F2"
 metadata/scale = Vector2(1, 1)
+
+[node name="Area2D" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_68efo")
+
+[node name="bubble_emiter" type="GPUParticles2D" parent="."]
+amount = 6
+sub_emitter = NodePath("../GPUParticles2D")
+lifetime = 3.0
+process_material = SubResource("ParticleProcessMaterial_68efo")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 32
+lifetime = 0.4
+process_material = SubResource("ParticleProcessMaterial_72shc")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

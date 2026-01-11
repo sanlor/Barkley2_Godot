@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dc817rjbg8wv3"]
+
+[ext_resource type="Texture2D" uid="uid://c8g0mnxs0pbbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_fishing_lure.png" id="1_nk2l8"]
+[ext_resource type="Script" uid="uid://5t3clyaj0eit" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_lure.gd" id="2_qxdb7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxdb7"]
+atlas = ExtResource("1_nk2l8")
+region = Rect2(0, 0, 16, 16)
+
+[node name="fishing_lure" type="Marker2D"]
+script = ExtResource("2_qxdb7")
+
+[node name="shadow" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+self_modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture = SubResource("AtlasTexture_qxdb7")
+
+[node name="lure" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_qxdb7")

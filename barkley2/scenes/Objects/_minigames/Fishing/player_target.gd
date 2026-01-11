@@ -27,6 +27,10 @@ func _make_circle() -> void:
 		var angle := Vector2.LEFT.rotated( TAU * (i / POINTS) )
 		reticle.add_point( angle * 10 )
 
+func set_input( enabled : bool ) -> void:
+	set_physics_process(enabled)
+	visible = enabled
+
 func _physics_process(_delta: float) -> void:
 	reticle.rotation -= spin_speed # speen
 	
@@ -35,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 			spin_speed = move_toward(spin_speed, 0.05, 0.0125) # add a fun spin
 			
 		if Input.get_axis("Left","Right"):
-			var distance_speed_modifier := 1 - (absf(player_target.position.y) / distance_limit) # Modifier used to that the lure has the same rotational speed on every distance
+			var distance_speed_modifier := 1 - (absf(player_target.position.y) / distance_limit) # Modifier used so that the lure has the same rotational speed on every distance
 			distance_speed_modifier = clampf(distance_speed_modifier, 0.05, 1.0) # Add a limit for the modifier
 			
 			rotation = clampf( rotation + Input.get_axis("Left","Right") * (speed * distance_speed_modifier), 0.0, PI / 2.0) # Rotate the pivot
@@ -44,7 +48,7 @@ func _physics_process(_delta: float) -> void:
 			if randf() > 0.85: updated_position.emit() # Lazy way to reduce the amount of signals
 			
 		if Input.get_axis("Up","Down"):
-			player_target.position.y += Input.get_axis("Up","Down")
+			player_target.position.y += Input.get_axis("Up","Down") * 1.5
 			player_target.position.y = clampf( player_target.position.y, -distance_limit, 0.0 ) ## TODO change 400.0
 			
 			spin_speed = move_toward(spin_speed, 0.2, 0.0125) # add a fun spin
