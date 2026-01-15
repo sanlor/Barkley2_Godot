@@ -276,6 +276,7 @@ func change_window_scale() -> void:
 		DisplayServer.window_set_mode( DisplayServer.WINDOW_MODE_FULLSCREEN )
 	else:
 		var screen_pos		:= DisplayServer.screen_get_position( main_display )
+		@warning_ignore("integer_division")
 		var screen_center 	:= DisplayServer.screen_get_size( main_display ) / 2
 		var window_size		:= Vector2i(384, 240) * screen_scale
 		
@@ -283,6 +284,7 @@ func change_window_scale() -> void:
 		
 		if not Engine.is_embedded_in_editor(): ## Godot 4.4 quickfix.
 			DisplayServer.window_set_size( window_size )
+			@warning_ignore("integer_division")
 			DisplayServer.window_set_position( (screen_pos + screen_center) - window_size / 2, main_display )
 	
 

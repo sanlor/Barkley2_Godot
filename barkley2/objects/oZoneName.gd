@@ -56,6 +56,7 @@ func _ready():
 	
 	# Zone not set.
 	if zone == "" and flavor == "":
+		push_error("No zone data loaded.")
 		queue_free()
 		
 	# Do not show the same name all the time, only when changing zones or loading the game.
@@ -84,6 +85,9 @@ func _ready():
 	flavor_label.modulate.a 	= 0.0
 		
 	display_text()
+
+func has_zone_data() -> bool:
+	return not (zone == "" and flavor == "")
 
 ## DATA ## ATTENTION ## Migrate this to a JSON file or a resource.
 ## ^^^ Fuck you, can't tell me what to do!

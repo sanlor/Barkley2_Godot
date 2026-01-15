@@ -111,6 +111,7 @@ static func generate_map() -> void:
 	## set regions for gun groups, so that similar guns are spawn together.
 	for i : B2_Gun.GROUP in B2_Gun.GROUP.values():
 		var group_region_pos := Vector2i( fuckme.randi_range(-GROUP_SIZE,GROUP_SIZE), fuckme.randi_range(-GROUP_SIZE,GROUP_SIZE) )
+		@warning_ignore("integer_division")
 		gun_group_claimed_pos[i] = Vector2i(group_region_pos + SIZE / 2).clamp( Vector2.ZERO, SIZE - Vector2i.ONE )
 	
 	## create seed points

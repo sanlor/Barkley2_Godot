@@ -275,12 +275,14 @@ func _after_ready() -> void:
 	if show_zone_banner:
 		var zone := O_ZONE_NAME.instantiate()
 		zone.zone_data( name )
-		if not override_zone_name.is_empty():
-			zone.zone = override_zone_name
-		if not override_zone_flavor.is_empty():
-			zone.flavor = override_zone_flavor
-			
-		B2_Screen.add_child( zone, true )
+		if zone.has_zone_data(): # Avoid adding a invalid zone banner.
+			if not override_zone_name.is_empty():
+				zone.zone = override_zone_name
+			if not override_zone_flavor.is_empty():
+				zone.flavor = override_zone_flavor
+				
+			B2_Screen.add_child( zone, true )
+		
 		if not B2_RoomXY.room_reference:
 			B2_RoomXY.room_reference = self
 			
@@ -293,7 +295,8 @@ func _after_ready() -> void:
 func update_pathfind():
 	if not is_baking():
 		bake_navigation_polygon()
-	print( "%s: tried to update the pathfind mesh while it was already updating." % name )
+	else:
+		print( "%s: tried to update the pathfind mesh while it was already updating." % name )
 
 func set_pacify( state : bool ):
 	room_pacify = state

@@ -46,12 +46,14 @@ var curr_MODE := MODE.SETUP :
 ## Gunbag stuff
 @onready var gunbag_capacity_lbl: 	Label = $gunbag_capacity_border/MarginContainer/gunbag_capacity_lbl
 
+## UI Stuff
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 @export var minigame_camera 		:	Camera2D
 @export var minigame_lure_reticle 	: 	Node2D
 @export var minigame_lure_pivot 	: 	Node2D
 @export var minigame_player 		:	B2_InteractiveActor
 @export var minigame_lure			:	Marker2D
-
 
 # Strength and angle of your cast #
 var strengthMinimum 	: float = 25; # You must cast this %
@@ -184,6 +186,12 @@ func _focus_camera( minigame_focus : Node2D ) -> void:
 	else:
 		push_warning("Nodes not loaded.")
 
+func _show_ui() -> void:
+	animation_player.play("show_ui")
+	
+func _hide_ui() -> void:
+	animation_player.play("hide_ui")
+
 func _physics_process(_delta: float) -> void:
 	match curr_MODE:
 		MODE.SETUP:
@@ -191,6 +199,7 @@ func _physics_process(_delta: float) -> void:
 				## TODO check before casting
 				curr_MODE = MODE.THROW_BAIT
 				_throw_bait()
+				_hide_ui()
 				minigame_lure_pivot.set_input( false ) ## Disable recticle
 				return
 				
@@ -198,3 +207,25 @@ func _physics_process(_delta: float) -> void:
 			_focus_camera( minigame_lure_reticle )
 		MODE.THROW_BAIT:
 			_focus_camera( minigame_lure )
+		
+		MODE.REELING:
+			_focus_camera( minigame_lure )
+			var lure_pos := minigame_lure.global_position
+			var player_pos := minigame_player.global_position
+			var lure_dir := lure_pos.direction_to(player_pos)
+			lure_dir += (Input.get_vector("Left", "Right", "Up", "Down") * 0.75) ## Apply player influence
+			lure_dir = lure_dir.normalized()
+			minigame_lure.set_lure_rot( abs( lure_dir.angle() ), 0.025 )
+			
+			minigame_lure.global_position += lure_dir * 0.25
+			
+			if minigame_lure.global_position.distance_to(minigame_player.global_position) < 45.0:
+				# TODO check if caught something.
+				if false: 	# Caught something.
+					pass
+				else:		# Caught nothing.
+					curr_MODE = MODE.SETUP
+					minigame_lure_pivot.set_input( true )
+					minigame_lure.hide()
+					minigame_lure.global_position = player_pos
+					_show_ui()

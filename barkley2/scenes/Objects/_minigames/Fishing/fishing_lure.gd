@@ -6,9 +6,9 @@ extends Marker2D
 func set_y_offset(_offset : float) -> void:
 	lure.position.y = _offset
 
-func set_lure_rot( rot : float) -> void:
-	lure.rotation = lerp( lure.rotation, rot, 0.001 )
-	shadow.rotation = lerp( shadow.rotation, rot, 0.001 )
+func set_lure_rot( rot : float, s := 0.001) -> void:
+	lure.rotation = lerp( lure.rotation, rot, s )
+	shadow.rotation = lerp( shadow.rotation, rot, s )
 
 func enable_shadow( enabled : bool ) -> void:
 	shadow.visible = enabled
