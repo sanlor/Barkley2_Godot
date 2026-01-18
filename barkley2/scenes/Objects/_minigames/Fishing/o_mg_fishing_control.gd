@@ -1,5 +1,9 @@
 extends CanvasLayer
-# Controls the fishing minigame
+# Controls the fishing minigame. Fucking annoying.
+# NOTE Movement factorial -> https://www.youtube.com/watch?v=0QXZQjwBn68
+
+const SN_FISHINGREEL_01 		:= preload("uid://b0e7hi7otspg6")
+const SN_FISHINGREELFAST_01 	:= preload("uid://cd762s0kir751")
 
 ## Lure stats ##
 #    weight          - governs the maximum distance the lure can be cast
@@ -28,6 +32,12 @@ var curr_MODE := MODE.SETUP :
 	set(c):
 		curr_MODE = c
 		print("%s: curr_MODE changed to %s." % [ name, MODE.keys()[c] ] )
+
+## Audio Stuff
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+
+## Battle UI
+@onready var fish_battle_box_border: Control = $fish_battle_box_border
 
 ## Lure Stuff
 @onready var lure_sprite_texture: 	TextureRect = $lure_data_border/MarginContainer/VBoxContainer/HBoxContainer/lure_sprite_texture
@@ -63,6 +73,8 @@ var angle 				: float = 45;
 var fishingRoom 		:= "r_wst_wadingRace01"
 var fishingX 			: float = 100;
 var fishingY 			: float = 100;
+
+var caught_something	:= false
 
 ## Camera limits
 @export var limit_width			:= Vector2(0,800)
@@ -161,18 +173,32 @@ func _throw_bait() -> void:
 		else:
 			minigame_lure.set_lure_rot( Vector2.DOWN.angle() )
 		
+	var lure_thrown_speed := 2.0
+	caught_something = false
+		
 	_reset_bait()
+	
+	## Check o_mg_fishing_lure -> begin step
 	var t := create_tween()
 	#t.tween_property( minigame_camera, "global_position", minigame_player.global_position, 0.5 ).set_trans(Tween.TRANS_CUBIC)
+	t.tween_callback( minigame_lure.set_mod.bind( Color.WHITE ) )
 	t.tween_interval( 0.5 )
+	t.tween_callback( B2_Sound.play.bind("fishing_lure_cast") )
 	t.tween_callback( minigame_player.cinema_playset.bind("fishingCast", "fishingIdle") )
-	t.tween_interval( 0.8 )
+	t.tween_interval( 0.6 )
+	t.tween_callback( B2_Sound.play.bind("fishing_lure_fall") )
+	t.tween_callback( _hide_ui )
 	t.tween_callback( minigame_lure.show )
 	t.tween_callback( minigame_lure.enable_shadow.bind(true) )
-	t.tween_method( bait_offset, 0.0, -PI, 2.0 )
-	t.parallel().tween_property( minigame_lure, "global_position", minigame_lure_reticle.global_position, 2.0 )
-	t.tween_callback( minigame_lure.enable_shadow.bind(false) )
+	t.tween_callback( minigame_lure.set_lure_rot.bind( Vector2.UP.angle(), 1.0 ) ) # Make the lure look up when thrown.
+	t.tween_method( bait_offset, 0.0, -PI, lure_thrown_speed ) # 
+	t.parallel().tween_property( minigame_lure, "global_position", minigame_lure_reticle.global_position, lure_thrown_speed )
+	t.tween_callback( minigame_lure.enable_shadow.bind(false) ) # Lure hit the water, disable shadow and reduce the alpha.
+	t.tween_callback( minigame_lure.splash )
+	t.tween_callback( minigame_lure.set_mod.bind( Color( 0.25, 0.25, 0.25, 0.25 ) ) )
+	#t.tween_callback( B2_Sound.play.bind("splash_out") )
 	t.tween_callback( set.bind("curr_MODE", MODE.REELING) )
+	t.tween_callback( _play_sfx.bind( false ) )
 
 func _focus_camera( minigame_focus : Node2D ) -> void:
 	if minigame_camera:
@@ -192,14 +218,58 @@ func _show_ui() -> void:
 func _hide_ui() -> void:
 	animation_player.play("hide_ui")
 
+func check_fish_bait_collision() -> B2_MiniGame_Fish:
+	var lure 						:= minigame_lure
+	var room 						: B2_ROOMS = get_parent()
+	var space_state 				:= room.get_world_2d().direct_space_state
+	var params 						:= PhysicsPointQueryParameters2D.new()
+	params.collide_with_areas 		= true
+	params.collide_with_bodies 		= false
+	#params.exclude = [ source_actor.get_rid() ]
+	params.collision_mask 			= 0b00000000_00000000_00000000_00000101 ## --> https://docs.godotengine.org/en/4.5/tutorials/physics/physics_introduction.html#collision-layers-and-masks
+	params.position 				= lure.global_position
+	var result : Array[Dictionary] 	= space_state.intersect_point(params)
+	if result:
+		for r : Dictionary in result:
+			# r["collider"] is a 'Area2D'. Parent should be 'B2_MiniGame_Fish'
+			print( r["collider"].get_parent().name )
+			return r["collider"].get_parent() as B2_MiniGame_Fish
+				
+	return null
+
+func show_battle_ui() -> void:
+	fish_battle_box_border.show()
+	
+func hide_battle_ui() -> void:
+	fish_battle_box_border.hide()
+
+## If you lose the minigame and the fish gets loose.
+## NOTE 'lost_lish()' is spelled wrong, it was supposed to be 'lost_fish()'. I decided not to change it for fun.
+func lost_lish() -> void:
+	caught_something = false
+	hide_battle_ui()
+	
+## Play the reeling sfx.
+func _play_sfx( fast : bool ) -> void:
+	match curr_MODE:
+		MODE.REELING:
+			#if not audio_stream_player.playing:
+			if fast:		audio_stream_player.stream = SN_FISHINGREELFAST_01
+			else:			audio_stream_player.stream = SN_FISHINGREEL_01
+			audio_stream_player.play()
+		_:
+			#if audio_stream_player.playing:
+			audio_stream_player.stop()
+
 func _physics_process(_delta: float) -> void:
 	match curr_MODE:
 		MODE.SETUP:
 			if Input.is_action_just_pressed("Action"):
+				_play_sfx.bind( false )
+				
 				## TODO check before casting
 				curr_MODE = MODE.THROW_BAIT
 				_throw_bait()
-				_hide_ui()
 				minigame_lure_pivot.set_input( false ) ## Disable recticle
 				return
 				
@@ -213,19 +283,55 @@ func _physics_process(_delta: float) -> void:
 			var lure_pos := minigame_lure.global_position
 			var player_pos := minigame_player.global_position
 			var lure_dir := lure_pos.direction_to(player_pos)
-			lure_dir += (Input.get_vector("Left", "Right", "Up", "Down") * 0.75) ## Apply player influence
-			lure_dir = lure_dir.normalized()
-			minigame_lure.set_lure_rot( abs( lure_dir.angle() ), 0.025 )
+			if Input.is_action_pressed("Action"):
+				lure_dir *= 1.5
+				
+			## Animation stuff based on if the player is holding the button.
+			if Input.is_action_just_pressed("Action"):
+				minigame_player.cinema_set("fishingCast2")
+				_play_sfx( true )
+			elif Input.is_action_just_released("Action"):
+				minigame_player.cinema_set("fishingCast1")
+				_play_sfx( false )
+				
+			lure_dir += ( Input.get_vector( "Left", "Right", "Up", "Down" ) * float( LURE_DATA[selected_lure][LURE_AERO] ) * 0.10 ) ## Apply player influence
+			#lure_dir = lure_dir.normalized()
+			minigame_lure.set_lure_rot( abs( lure_dir.angle() ), 0.025 ) # abs to avoid backward spin bullshit
 			
 			minigame_lure.global_position += lure_dir * 0.25
 			
+			## Check of caught something
+			if not caught_something:
+				if check_fish_bait_collision():
+					caught_something = true
+					show_battle_ui()
+					print("Caught!!")
+			
+			var camera_speed := 0.1
+			
+			## Frame the battle UI
+			if caught_something:
+				minigame_camera.offset = minigame_camera.offset.lerp( Vector2(-50,0), camera_speed )
+				minigame_camera.zoom = minigame_camera.zoom.lerp( Vector2(2,2) , camera_speed )
+			else:
+				minigame_camera.offset = minigame_camera.offset.lerp( Vector2(0,0), camera_speed )
+				minigame_camera.zoom = minigame_camera.zoom.lerp( Vector2(1,1) , camera_speed )
+				
+			
 			if minigame_lure.global_position.distance_to(minigame_player.global_position) < 45.0:
 				# TODO check if caught something.
-				if false: 	# Caught something.
-					pass
+				if caught_something: 	# Caught something.
+					curr_MODE = MODE.CAUGHT
+					
 				else:		# Caught nothing.
 					curr_MODE = MODE.SETUP
 					minigame_lure_pivot.set_input( true )
 					minigame_lure.hide()
 					minigame_lure.global_position = player_pos
 					_show_ui()
+				
+				_play_sfx( false )
+				
+		## Hoopz has caught something.
+		MODE.CAUGHT:
+			pass

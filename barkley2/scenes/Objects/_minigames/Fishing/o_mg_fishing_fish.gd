@@ -1,4 +1,6 @@
+@icon("uid://codc2bcn8cjbk")
 extends AnimatedSprite2D
+class_name B2_MiniGame_Fish
 
 # Fish value
 var value := 10
@@ -73,12 +75,9 @@ func _set_fish_value() -> void:
 	else: value = 10;
 
 func _physics_process(_delta: float) -> void:
-	rotation = lerpf( rotation, global_position.angle_to_point(target_pos), 0.01 )
+	# rotation = lerpf( rotation, global_position.angle_to_point(target_pos) + 1.570, 0.01 ) # PI/2
 	
 	global_position = global_position.lerp( target_pos, 0.005 )
 	
 	if global_position.distance_to(target_pos) < 2.0:
 		_set_target()
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.

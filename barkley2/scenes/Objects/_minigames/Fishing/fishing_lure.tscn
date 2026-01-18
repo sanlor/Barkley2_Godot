@@ -1,20 +1,73 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc817rjbg8wv3"]
+[gd_scene format=3 uid="uid://dc817rjbg8wv3"]
 
 [ext_resource type="Texture2D" uid="uid://c8g0mnxs0pbbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_fishing_lure.png" id="1_nk2l8"]
 [ext_resource type="Script" uid="uid://5t3clyaj0eit" path="res://barkley2/scenes/Objects/_minigames/Fishing/fishing_lure.gd" id="2_qxdb7"]
+[ext_resource type="Texture2D" uid="uid://8207s73377l" path="res://barkley2/assets/b2_original/images/merged/s_effect_splash_small.png" id="3_htsi2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qxdb7"]
 atlas = ExtResource("1_nk2l8")
 region = Rect2(0, 0, 16, 16)
 
-[node name="fishing_lure" type="Marker2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bvvy"]
+atlas = ExtResource("3_htsi2")
+region = Rect2(0, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gwlom"]
+atlas = ExtResource("3_htsi2")
+region = Rect2(24, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86bq6"]
+atlas = ExtResource("3_htsi2")
+region = Rect2(48, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kmhs"]
+atlas = ExtResource("3_htsi2")
+region = Rect2(72, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kar0e"]
+atlas = ExtResource("3_htsi2")
+region = Rect2(96, 0, 24, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bvdg2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bvvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gwlom")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86bq6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kmhs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kar0e")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="fishing_lure" type="Marker2D" unique_id=2087001229]
 script = ExtResource("2_qxdb7")
 
-[node name="shadow" type="Sprite2D" parent="."]
+[node name="shadow" type="Sprite2D" parent="." unique_id=933285955]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture = SubResource("AtlasTexture_qxdb7")
 
-[node name="lure" type="Sprite2D" parent="."]
+[node name="lure" type="Sprite2D" parent="." unique_id=1321016582]
 texture = SubResource("AtlasTexture_qxdb7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2069452561]
+top_level = true
+sprite_frames = SubResource("SpriteFrames_bvdg2")
+frame = 4
+frame_progress = 1.0
+offset = Vector2(0, -5)
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

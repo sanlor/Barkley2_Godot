@@ -7,6 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://c8g0mnxs0pbbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_fishing_lure.png" id="5_li4sh"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="5_tms2w"]
 [ext_resource type="FontFile" uid="uid://b42pdqd1v148m" path="res://barkley2/resources/fonts/fn_7oc.tres" id="6_li4sh"]
+[ext_resource type="Script" uid="uid://dp0ytmushp4k3" path="res://barkley2/scenes/Objects/_minigames/Fishing/fish_battle_box_border.gd" id="8_47yme"]
+[ext_resource type="Texture2D" uid="uid://6nubrsagmk35" path="res://barkley2/assets/b2_original/images/merged/s_mg_fishing_battle_player.png" id="9_axp51"]
+[ext_resource type="Material" uid="uid://4g3eusf4smda" path="res://barkley2/shaders/material/selected_outline_hollow.material" id="10_lpog5"]
+[ext_resource type="Texture2D" uid="uid://gkskr32ytvd0" path="res://barkley2/assets/b2_original/guns/FrankieGuns3.png" id="11_cqq0s"]
+[ext_resource type="AudioStream" uid="uid://b0e7hi7otspg6" path="res://barkley2/assets/b2_original/audio/Minigames/Fishing/sn_fishingreel01.ogg" id="12_axp51"]
 
 [sub_resource type="Animation" id="Animation_li4sh"]
 length = 0.001
@@ -146,6 +151,64 @@ font = ExtResource("5_tms2w")
 
 [sub_resource type="LabelSettings" id="LabelSettings_lxi0d"]
 font = ExtResource("6_li4sh")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmjdx"]
+atlas = ExtResource("9_axp51")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhv46"]
+atlas = ExtResource("9_axp51")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uepyh"]
+atlas = ExtResource("9_axp51")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idwbd"]
+atlas = ExtResource("9_axp51")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggo8u"]
+atlas = ExtResource("9_axp51")
+region = Rect2(80, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1l1b"]
+atlas = ExtResource("9_axp51")
+region = Rect2(100, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1vur"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmjdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhv46")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uepyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idwbd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggo8u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1l1b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7gkua"]
+atlas = ExtResource("11_cqq0s")
+region = Rect2(294, 0, 49, 24)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ujxf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h04bb"]
 
 [node name="o_mg_fishing_control" type="CanvasLayer" unique_id=1800637820]
 script = ExtResource("1_yvhos")
@@ -325,21 +388,76 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="fish_battle_box_border" type="Control" parent="." unique_id=1401744810]
-visible = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -40.0
+offset_left = 67.0
 offset_top = -40.0
-offset_right = 40.0
+offset_right = 147.0
 offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(40, 40)
 theme = ExtResource("2_4nick")
-script = ExtResource("3_pdo48")
+script = ExtResource("8_47yme")
 border_size = Vector2(80, 80)
 metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="fish_battle_box_border" unique_id=1033074009]
+position = Vector2(39, 41)
+sprite_frames = SubResource("SpriteFrames_a1vur")
+
+[node name="hud_gun_sprite" type="TextureRect" parent="fish_battle_box_border" unique_id=632925872]
+material = ExtResource("10_lpog5")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.5
+offset_top = -12.0
+offset_right = 24.5
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+texture = SubResource("AtlasTexture_7gkua")
+
+[node name="fish_health" type="Control" parent="fish_battle_box_border" unique_id=201691064]
+anchors_preset = 0
+offset_top = 81.0
+offset_right = 80.0
+offset_bottom = 121.0
+theme = ExtResource("2_4nick")
+script = ExtResource("3_pdo48")
+border_size = Vector2(80, 40)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="ProgressBar" type="ProgressBar" parent="fish_battle_box_border/fish_health" unique_id=1313721917]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 7.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxEmpty_5ujxf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_h04bb")
+max_value = 1.0
+step = 0.005
+value = 0.455
+show_percentage = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=835226338]
+stream = ExtResource("12_axp51")
+bus = &"Audio"
+parameters/looping = true
