@@ -2,6 +2,8 @@
 extends AnimatedSprite2D
 class_name B2_MiniGame_Fish
 
+@export var fishing_lure : B2_MiniGame_Lure
+
 # Fish value
 var value := 10
 
@@ -26,6 +28,8 @@ var scanned = false;
 var fish_gun : B2_Weapon
 
 func _ready() -> void:
+	#assert(fishing_lure, "Fishing lure export not set for %s." % name)
+	
 	_set_fish_value()
 	wander_limit = 48 + randi_range(0, 24 + value);
 	_set_fish_sprite()

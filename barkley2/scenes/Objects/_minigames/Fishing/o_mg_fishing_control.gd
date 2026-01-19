@@ -75,6 +75,7 @@ var fishingX 			: float = 100;
 var fishingY 			: float = 100;
 
 var caught_something	:= false
+var hooked_fish			: B2_MiniGame_Fish
 
 ## Camera limits
 @export var limit_width			:= Vector2(0,800)
@@ -86,6 +87,7 @@ func _ready() -> void:
 	_update_gunbag_data()
 	_update_lure_data()
 	_reset_bait()
+	hide_battle_ui()
 	
 	#minigame_lure_reticle.updated_position.connect( player_look_at_lure )
 	_change_mode.call_deferred()
@@ -301,11 +303,22 @@ func _physics_process(_delta: float) -> void:
 			minigame_lure.global_position += lure_dir * 0.25
 			
 			## Check of caught something
-			if not caught_something:
-				if check_fish_bait_collision():
+			var _hooked_fish = check_fish_bait_collision()
+			if _hooked_fish:
+				if not caught_something: ## Just once, set some fish, lure and UI stuff
 					caught_something = true
+					hooked_fish = _hooked_fish
+					hooked_fish.hooked = true
 					show_battle_ui()
 					print("Caught!!")
+			else:
+				if caught_something: ## Just once, unset some fish, lure and UI stuff
+					caught_something = false
+					if hooked_fish:
+						hooked_fish.hooked = false
+						hooked_fish = null
+					hide_battle_ui()
+					print("Lost...")
 			
 			var camera_speed := 0.1
 			

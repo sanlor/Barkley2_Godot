@@ -31,6 +31,5 @@ func splash() -> void:
 	animated_sprite_2d.global_position = global_position
 	animated_sprite_2d.play("default")
 
-
 func _on_animated_sprite_2d_animation_finished() -> void:
 	animated_sprite_2d.hide()
