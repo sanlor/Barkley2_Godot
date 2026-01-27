@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://lqbyfbdek5g4"]
+[gd_scene format=3 uid="uid://lqbyfbdek5g4"]
 
 [ext_resource type="Script" uid="uid://cmbgosb1gb2wj" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_fallenGordo01.gd" id="1_yjmv3"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_1ic28"]
@@ -510,18 +510,18 @@ radius = 19.026299
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_41sm3"]
 size = Vector2(50, 66)
 
-[node name="o_fallenGordo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_fallenGordo01" type="CharacterBody2D" unique_id=549016183 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_yjmv3")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_48l2a")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1350068569]
 occluder = SubResource("OccluderPolygon2D_c8ug6")
 occluder_light_mask = 519
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=159244465]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ndca7")
 centered = false
@@ -623,15 +623,15 @@ metadata/strokeback = {
 "yorigin": "75"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1268758942]
 position = Vector2(-1, -16)
 shape = SubResource("CircleShape2D_y0qem")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=580909811]
 position = Vector2(0, -22)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1357861162]
 position = Vector2(-2, -3)
 shape = SubResource("RectangleShape2D_41sm3")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1402868881]

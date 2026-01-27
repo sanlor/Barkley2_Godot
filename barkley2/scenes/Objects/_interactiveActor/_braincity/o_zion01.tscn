@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://sxyxirpox0d0"]
+[gd_scene format=3 uid="uid://sxyxirpox0d0"]
 
 [ext_resource type="Script" uid="uid://csvfob7u08i5h" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_zion01.gd" id="1_vih5v"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hc2nk"]
@@ -75,7 +75,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5hdm8"]
 size = Vector2(39, 36)
 
-[node name="o_zion01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_zion01" type="CharacterBody2D" unique_id=589907346 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_vih5v")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_q1dxn")
@@ -83,7 +83,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1640215145]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0s27v")
 centered = false
@@ -101,16 +101,16 @@ metadata/default = {
 "yorigin": "24"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=156619275]
 shape = SubResource("CircleShape2D_uvgpe")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=801500732]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1913017065]
 position = Vector2(0.5, -9)
 shape = SubResource("RectangleShape2D_5hdm8")
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=613150559]
 z_index = 4000
 script = ExtResource("4_aj3sc")
 notes = "Manchurian Quest"

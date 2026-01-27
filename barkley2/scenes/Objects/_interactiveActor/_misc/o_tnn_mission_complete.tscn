@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b11tpxpo62oeb"]
+[gd_scene format=3 uid="uid://b11tpxpo62oeb"]
 
 [ext_resource type="Script" uid="uid://c186qsq00qdll" path="res://barkley2/scenes/Objects/_interactiveActor/_misc/o_tnn_mission_complete.gd" id="1_b4xpq"]
 [ext_resource type="FontFile" uid="uid://cyhd7mric16e1" path="res://barkley2/resources/fonts/fn2o.tres" id="2_r4erd"]
@@ -210,10 +210,10 @@ _data = {
 &"za_completion_of_the_mission": SubResource("Animation_2dvyv")
 }
 
-[node name="o_tnn_mission_complete" type="CanvasLayer"]
+[node name="o_tnn_mission_complete" type="CanvasLayer" unique_id=927077921]
 layer = 9999
 
-[node name="o_tnn_mission_complete" type="Control" parent="."]
+[node name="o_tnn_mission_complete" type="Control" parent="." unique_id=2041120948]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -222,14 +222,12 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_b4xpq")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="o_tnn_mission_complete"]
-libraries = {
-&"": SubResource("AnimationLibrary_4r5nj")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="o_tnn_mission_complete" unique_id=706661045]
+libraries/ = SubResource("AnimationLibrary_4r5nj")
 
-[node name="center" type="RichTextLabel" parent="o_tnn_mission_complete"]
+[node name="center" type="RichTextLabel" parent="o_tnn_mission_complete" unique_id=444925206]
 visible = false
-self_modulate = Color(0, 1, 0.27999902, 1)
+self_modulate = Color(1, 0.6, 0, 1)
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
 anchors_preset = 14
@@ -248,8 +246,8 @@ autowrap_trim_flags = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="h_label" type="RichTextLabel" parent="o_tnn_mission_complete"]
-self_modulate = Color(0, 1, 0.27999902, 1)
+[node name="h_label" type="RichTextLabel" parent="o_tnn_mission_complete" unique_id=608956549]
+self_modulate = Color(1, 0.6, 0, 1)
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -270,9 +268,9 @@ autowrap_trim_flags = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="v_label" type="RichTextLabel" parent="o_tnn_mission_complete"]
+[node name="v_label" type="RichTextLabel" parent="o_tnn_mission_complete" unique_id=1449772871]
 visible = false
-self_modulate = Color(0, 1, 0.27999902, 1)
+self_modulate = Color(1, 0.6, 0, 1)
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -326,7 +324,7 @@ autowrap_trim_flags = 0
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="o_tnn_mission_complete"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="o_tnn_mission_complete" unique_id=1558814326]
 stream = ExtResource("3_2dvyv")
 volume_db = -5.0
 bus = &"Music"

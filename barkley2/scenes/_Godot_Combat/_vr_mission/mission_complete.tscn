@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://chpd2adtksefl"]
+[gd_scene format=3 uid="uid://chpd2adtksefl"]
 
 [ext_resource type="Script" uid="uid://bjwn21ariksli" path="res://barkley2/scenes/_Godot_Combat/_vr_mission/mission_complete.gd" id="1_65il3"]
 [ext_resource type="AudioStream" uid="uid://botihwx6raijm" path="res://barkley2/assets/b2_original/audio/new_sfx/sonic_adv/Sonic Adventure Jingle Mission Clear! .ogg" id="2_cacks"]
@@ -97,12 +97,12 @@ font = ExtResource("3_jo10s")
 font = ExtResource("4_jkpkq")
 font_color = Color(1, 1, 0, 1)
 
-[node name="mission_complete" type="Control"]
+[node name="mission_complete" type="Control" unique_id=1583161030]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_65il3")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=388690763]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,17 +110,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_oscw2")
-}
-autoplay = "show"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=641250924]
+libraries/ = SubResource("AnimationLibrary_oscw2")
+autoplay = &"show"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=386780613]
 stream = ExtResource("2_cacks")
 bus = &"Music"
 
-[node name="mission_label" type="Label" parent="."]
+[node name="mission_label" type="Label" parent="." unique_id=1986014945]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -139,7 +137,7 @@ label_settings = SubResource("LabelSettings_w0v71")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="complete_label" type="Label" parent="."]
+[node name="complete_label" type="Label" parent="." unique_id=1806240127]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 1
 anchors_preset = -1
@@ -158,7 +156,7 @@ label_settings = SubResource("LabelSettings_w0v71")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label" type="Label" parent="complete_label"]
+[node name="Label" type="Label" parent="complete_label" unique_id=1445697258]
 layout_mode = 0
 offset_top = 23.5
 offset_right = 102.0

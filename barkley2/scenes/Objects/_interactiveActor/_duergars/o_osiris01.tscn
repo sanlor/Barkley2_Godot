@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b3dy1xa6wib8o"]
+[gd_scene format=3 uid="uid://b3dy1xa6wib8o"]
 
 [ext_resource type="Script" uid="uid://bma312wo3o28" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_osiris01.gd" id="1_hcskh"]
 [ext_resource type="Texture2D" uid="uid://b856l7vrwww70" path="res://barkley2/assets/b2_original/images/merged/s_osiris01.png" id="2_67ask"]
@@ -190,7 +190,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hn8nv"]
 size = Vector2(20, 36)
 
-[node name="o_osiris01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_osiris01" type="CharacterBody2D" unique_id=575974146 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_hcskh")
 duergar_name = "osiris"
 mouse_detection_area = NodePath("ActorInteract")
@@ -198,7 +198,7 @@ cutscene_script = SubResource("Resource_2iasg")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1831353688]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_qjhx8")
 centered = false
@@ -252,14 +252,14 @@ metadata/s_osirisSE = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=645148860]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_aa2kx")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1590404065]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1945232383]
 shape = SubResource("RectangleShape2D_hn8nv")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1143192676]

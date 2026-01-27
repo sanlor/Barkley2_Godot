@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b80c8ql127wud"]
+[gd_scene format=3 uid="uid://b80c8ql127wud"]
 
 [ext_resource type="Texture2D" uid="uid://vbnrl8wjv6as" path="res://barkley2/assets/b2_original/images/merged/s_enemy_rat_dark.png" id="1_nif6f"]
 [ext_resource type="Script" uid="uid://plr2k2lyircl" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_rat_dummy.gd" id="2_aa1h7"]
@@ -48,10 +48,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_nif6f"]
 radius = 8.0
 
-[node name="o_enemy_ratDummy" type="CharacterBody2D"]
+[node name="o_enemy_ratDummy" type="CharacterBody2D" unique_id=1585665944]
 script = ExtResource("2_aa1h7")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=260285586]
 sprite_frames = SubResource("SpriteFrames_nqga2")
 autoplay = "default"
 frame = 5
@@ -59,7 +59,7 @@ frame_progress = 1.0
 centered = false
 offset = Vector2(-18, -24)
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=811780033]
 shape = SubResource("CircleShape2D_nif6f")
 
 [connection signal="animation_finished" from="ActorAnim" to="." method="_on_animation_finished"]

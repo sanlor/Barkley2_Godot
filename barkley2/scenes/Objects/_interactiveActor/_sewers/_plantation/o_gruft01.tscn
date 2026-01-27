@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d0t3d0whjpu6q"]
+[gd_scene format=3 uid="uid://d0t3d0whjpu6q"]
 
 [ext_resource type="Script" uid="uid://bae6key4xk7oi" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_gruft01.gd" id="1_qsjej"]
 [ext_resource type="Texture2D" uid="uid://b0jj1xif1e8y5" path="res://barkley2/assets/b2_original/images/merged/s_sw1_gruft01.png" id="2_5casi"]
@@ -76,14 +76,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mr7mu"]
 size = Vector2(20, 36)
 
-[node name="o_gruft01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_gruft01" type="CharacterBody2D" unique_id=1132774485 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_qsjej")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_k3vgh")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=112460772]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_vd7pj")
 autoplay = "default"
@@ -102,13 +102,13 @@ metadata/default = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1887902343]
 shape = SubResource("CircleShape2D_aqiqx")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=377426550]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1278018845]
 shape = SubResource("RectangleShape2D_mr7mu")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=573041955]

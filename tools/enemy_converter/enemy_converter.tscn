@@ -1,10 +1,46 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpqnmjj2cjjbd"]
+[gd_scene format=3 uid="uid://dpqnmjj2cjjbd"]
 
 [ext_resource type="Script" uid="uid://deaqkuw326pcy" path="res://tools/enemy_converter/enemy_converter.gd" id="1_hewc7"]
 [ext_resource type="PackedScene" uid="uid://bw704hnw70nik" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_darkRat.tscn" id="2_hewc7"]
+[ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="3_877j8"]
 
-[node name="enemy_converter" type="Node2D"]
+[sub_resource type="Resource" id="Resource_6b8yc"]
+resource_local_to_scene = true
+resource_name = "darkRat"
+script = ExtResource("3_877j8")
+enemy_name = "Dark Rat"
+hp = 25.0
+weight = 25.0
+guts = 25.0
+luck = 25.0
+agile = 25.0
+might = 25.0
+piety = 35.0
+speed = 10.0
+resistance_mental = 100.0
+resistance_normal = 25.0
+resistance_zauber = 100.0
+resistance_cyber = 100.0
+resistance_cosmic = 100.0
+resistance_bio = 100.0
+resistance_stagger = 10.0
+resistance_knockback = 30.0
+zauber = 4.0
+bio = 1.0
+cyber = 1.0
+vuln_mental = 2.0
+vuln_zauber = 3.0
+vuln_bio = 4.0
+gunsdrop = 70.0
+generic = 2.0
+rifles = 0.0
+automatic = 5.0
+projectile = 1.0
+wtc = 10.0
+
+[node name="enemy_converter" type="Node2D" unique_id=1637805398]
 script = ExtResource("1_hewc7")
 target = "o_enemy_darkRat"
 
-[node name="o_enemy_darkRat" parent="." instance=ExtResource("2_hewc7")]
+[node name="o_enemy_darkRat" parent="." unique_id=800184576 instance=ExtResource("2_hewc7")]
+enemy_data = SubResource("Resource_6b8yc")

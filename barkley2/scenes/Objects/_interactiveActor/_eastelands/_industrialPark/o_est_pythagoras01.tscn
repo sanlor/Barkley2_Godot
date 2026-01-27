@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bjocyp4jp4mcm"]
+[gd_scene format=3 uid="uid://bjocyp4jp4mcm"]
 
 [ext_resource type="Script" uid="uid://djdvtod715e0q" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_est_pythagoras01.gd" id="1_uvvk7"]
 [ext_resource type="Texture2D" uid="uid://xvlvd2vbbe65" path="res://barkley2/assets/b2_original/images/merged/s_wst_pythagoras01.png" id="2_hy88a"]
@@ -486,7 +486,7 @@ size = Vector2(85, 41)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1mr1k"]
 size = Vector2(94, 64)
 
-[node name="o_est_pythagoras01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_est_pythagoras01" type="CharacterBody2D" unique_id=172309579 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_uvvk7")
 mouse_detection_area = NodePath("ActorInteract")
 interactive_distance = 96
@@ -495,9 +495,9 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1413755089]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1058575685]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_5wrxk")
 centered = false
@@ -551,12 +551,12 @@ metadata/dead = {
 "yorigin": "68"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1916513900]
 position = Vector2(-0.5, -23.5)
 shape = SubResource("RectangleShape2D_n1t15")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=166983160]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1270645411]
 position = Vector2(0, -29)
 shape = SubResource("RectangleShape2D_1mr1k")

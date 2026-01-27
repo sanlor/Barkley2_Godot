@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b8p3alxbkvy80"]
+[gd_scene format=3 uid="uid://b8p3alxbkvy80"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_1mst2"]
 [ext_resource type="Script" uid="uid://cyl4l6qo7nto5" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmerGhost01.gd" id="1_4vo2g"]
@@ -203,7 +203,7 @@ _data = {
 &"fly_away": SubResource("Animation_1mst2")
 }
 
-[node name="o_wilmerGhost01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_wilmerGhost01" type="CharacterBody2D" unique_id=153193888 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 material = ExtResource("1_1mst2")
 collision_layer = 17
 collision_mask = 1835063
@@ -215,13 +215,13 @@ ActorCol = NodePath("ActorCol")
 can_move_around = false
 metadata/_custom_type_script = "uid://bkmmc6lng8ma"
 
-[node name="ghost emiter" type="GPUParticles2D" parent="."]
+[node name="ghost emiter" type="GPUParticles2D" parent="." unique_id=780437762]
 position = Vector2(20, -13)
 amount = 128
 texture = SubResource("AtlasTexture_73pmr")
 process_material = SubResource("ParticleProcessMaterial_4vo2g")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=579151566]
 modulate = Color(1, 1, 1, 0.5)
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_73pmr")
@@ -230,23 +230,21 @@ frame_progress = 0.96039194
 centered = false
 offset = Vector2(0, -41)
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=721735234]
 position = Vector2(20, -6)
 shape = SubResource("CircleShape2D_ncfmu")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=312044242]
 position = Vector2(0, -15)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2095483922]
 position = Vector2(21, -3.5)
 shape = SubResource("RectangleShape2D_tno5j")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_hxa0d")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1087217068]
+libraries/ = SubResource("AnimationLibrary_hxa0d")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1602602229]
 stream = ExtResource("4_v3k7s")
 bus = &"Audio"
 

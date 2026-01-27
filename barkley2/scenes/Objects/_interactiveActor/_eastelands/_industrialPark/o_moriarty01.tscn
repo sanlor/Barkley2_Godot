@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://crenkowcnm0ft"]
+[gd_scene format=3 uid="uid://crenkowcnm0ft"]
 
 [ext_resource type="Script" uid="uid://bmmpt8v6ko2ko" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_moriarty01.gd" id="1_vjk1c"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_7238y"]
@@ -184,7 +184,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3aykv"]
 size = Vector2(20, 36)
 
-[node name="o_moriarty01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_moriarty01" type="CharacterBody2D" unique_id=113052411 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_vjk1c")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_1xywd")
@@ -192,7 +192,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=719490558]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ghrsy")
 centered = false
@@ -210,17 +210,17 @@ metadata/default = {
 "yorigin": "33"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=591363186]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_j6fv5")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1913189477]
 position = Vector2(0, -11)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=164369027]
 shape = SubResource("RectangleShape2D_3aykv")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=651691321]
 one_shot = true
 autostart = true
 

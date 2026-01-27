@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://cc0u1jcebct86"]
+[gd_scene format=3 uid="uid://cc0u1jcebct86"]
 
 [ext_resource type="Script" uid="uid://dwgtnhu5rpmf6" path="res://barkley2/scenes/Objects/System/o_hud.gd" id="1_33b6q"]
 [ext_resource type="Texture2D" uid="uid://bw6x57ghsiy41" path="res://barkley2/assets/b2_original/images/merged/s_hud_bar.png" id="2_6rw7w"]
@@ -200,7 +200,7 @@ region = Rect2(18, 0, 18, 18)
 atlas = ExtResource("21_7gemm")
 region = Rect2(0, 0, 16, 18)
 
-[node name="o_hud" type="Control"]
+[node name="o_hud" type="Control" unique_id=596012966]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -211,7 +211,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_33b6q")
 
-[node name="hud_bar" type="TextureRect" parent="."]
+[node name="hud_bar" type="TextureRect" parent="." unique_id=1591998232]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -226,7 +226,7 @@ grow_vertical = 0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_w12vp")
 
-[node name="hud_tv" type="Control" parent="hud_bar"]
+[node name="hud_tv" type="Control" parent="hud_bar" unique_id=1404726852]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -241,14 +241,14 @@ grow_vertical = 0
 mouse_filter = 2
 script = ExtResource("3_yi3d5")
 
-[node name="tv_bg1" type="TextureRect" parent="hud_bar/hud_tv"]
+[node name="tv_bg1" type="TextureRect" parent="hud_bar/hud_tv" unique_id=701480559]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_y2to2")
 
-[node name="tv_bg_red" type="TextureRect" parent="hud_bar/hud_tv"]
+[node name="tv_bg_red" type="TextureRect" parent="hud_bar/hud_tv" unique_id=774947853]
 visible = false
 layout_mode = 0
 offset_right = 40.0
@@ -256,7 +256,7 @@ offset_bottom = 40.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_8vjf5")
 
-[node name="tv_face" type="TextureRect" parent="hud_bar/hud_tv"]
+[node name="tv_face" type="TextureRect" parent="hud_bar/hud_tv" unique_id=1391909974]
 layout_mode = 0
 offset_left = 14.0
 offset_top = 4.0
@@ -265,7 +265,7 @@ offset_bottom = 34.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_1nwcc")
 
-[node name="hud_health" type="Label" parent="hud_bar/hud_tv"]
+[node name="hud_health" type="Label" parent="hud_bar/hud_tv" unique_id=1679560906]
 layout_mode = 0
 offset_left = 38.0
 offset_top = 10.0
@@ -277,14 +277,14 @@ label_settings = SubResource("LabelSettings_2wgu4")
 horizontal_alignment = 1
 script = ExtResource("6_73hlq")
 
-[node name="tv_frame" type="TextureRect" parent="hud_bar/hud_tv"]
+[node name="tv_frame" type="TextureRect" parent="hud_bar/hud_tv" unique_id=1366445450]
 layout_mode = 0
 offset_right = 70.0
 offset_bottom = 41.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_rybhr")
 
-[node name="hud_dna" type="ColorRect" parent="hud_bar"]
+[node name="hud_dna" type="ColorRect" parent="hud_bar" unique_id=853817167]
 process_mode = 1
 layout_mode = 0
 offset_left = 261.0
@@ -295,13 +295,13 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("7_c7f06")
 
-[node name="hud_dna_frame" type="TextureRect" parent="hud_bar/hud_dna"]
+[node name="hud_dna_frame" type="TextureRect" parent="hud_bar/hud_dna" unique_id=1895727059]
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 18.0
 texture = SubResource("AtlasTexture_gg2fp")
 
-[node name="hud_dna_container" type="Control" parent="hud_bar/hud_dna"]
+[node name="hud_dna_container" type="Control" parent="hud_bar/hud_dna" unique_id=2047661385]
 clip_contents = true
 anchors_preset = 0
 offset_left = 1.0
@@ -309,7 +309,7 @@ offset_top = 1.0
 offset_right = 47.0
 offset_bottom = 17.0
 
-[node name="hud_dna_strand" type="TextureRect" parent="hud_bar/hud_dna/hud_dna_container"]
+[node name="hud_dna_strand" type="TextureRect" parent="hud_bar/hud_dna/hud_dna_container" unique_id=253214948]
 layout_mode = 0
 offset_left = -30.0
 offset_top = 3.0
@@ -317,7 +317,7 @@ offset_right = 46.0
 offset_bottom = 12.0
 texture = SubResource("AtlasTexture_4vao8")
 
-[node name="hud_dna_color" type="ColorRect" parent="hud_bar/hud_dna/hud_dna_container"]
+[node name="hud_dna_color" type="ColorRect" parent="hud_bar/hud_dna/hud_dna_container" unique_id=184365765]
 material = SubResource("ShaderMaterial_c8xgj")
 layout_mode = 1
 anchors_preset = 15
@@ -326,7 +326,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="hud_glamp" type="ColorRect" parent="hud_bar"]
+[node name="hud_glamp" type="ColorRect" parent="hud_bar" unique_id=1080305992]
 layout_mode = 0
 offset_left = 311.0
 offset_top = 5.0
@@ -336,13 +336,13 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("11_eg3y8")
 
-[node name="hud_glamp_frame" type="TextureRect" parent="hud_bar/hud_glamp"]
+[node name="hud_glamp_frame" type="TextureRect" parent="hud_bar/hud_glamp" unique_id=339716643]
 layout_mode = 0
 offset_right = 48.0
 offset_bottom = 18.0
 texture = SubResource("AtlasTexture_gg2fp")
 
-[node name="hud_glamp_container" type="HBoxContainer" parent="hud_bar/hud_glamp"]
+[node name="hud_glamp_container" type="HBoxContainer" parent="hud_bar/hud_glamp" unique_id=381691868]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -353,11 +353,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="g_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
+[node name="g_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container" unique_id=2132912116]
 layout_mode = 2
 texture = SubResource("AtlasTexture_87fvl")
 
-[node name="g_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/g_letter"]
+[node name="g_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/g_letter" unique_id=1990946059]
 material = SubResource("ShaderMaterial_eg3y8")
 layout_mode = 1
 anchors_preset = 15
@@ -369,22 +369,22 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="l_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
+[node name="l_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container" unique_id=250261057]
 layout_mode = 2
 texture = SubResource("AtlasTexture_fnn2t")
 
-[node name="l_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/l_letter"]
+[node name="l_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/l_letter" unique_id=1361090579]
 material = SubResource("ShaderMaterial_xk0oe")
 layout_mode = 0
 offset_top = 2.0
 offset_right = 8.0
 offset_bottom = 16.0
 
-[node name="a_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
+[node name="a_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container" unique_id=182466777]
 layout_mode = 2
 texture = SubResource("AtlasTexture_5s87b")
 
-[node name="a_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/a_letter"]
+[node name="a_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/a_letter" unique_id=1164496152]
 material = SubResource("ShaderMaterial_xl7ta")
 layout_mode = 1
 anchors_preset = 15
@@ -396,11 +396,11 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="m_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
+[node name="m_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container" unique_id=878472065]
 layout_mode = 2
 texture = SubResource("AtlasTexture_k2g7c")
 
-[node name="m_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/m_letter"]
+[node name="m_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/m_letter" unique_id=2103591053]
 material = SubResource("ShaderMaterial_reaae")
 layout_mode = 1
 anchors_preset = 15
@@ -412,11 +412,11 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="p_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container"]
+[node name="p_letter" type="TextureRect" parent="hud_bar/hud_glamp/hud_glamp_container" unique_id=575633649]
 layout_mode = 2
 texture = SubResource("AtlasTexture_2cfr0")
 
-[node name="p_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/p_letter"]
+[node name="p_overlay" type="ColorRect" parent="hud_bar/hud_glamp/hud_glamp_container/p_letter" unique_id=1021089831]
 material = SubResource("ShaderMaterial_87fvl")
 layout_mode = 1
 anchors_preset = 15
@@ -428,7 +428,7 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="hud_gun" type="ColorRect" parent="hud_bar"]
+[node name="hud_gun" type="ColorRect" parent="hud_bar" unique_id=1682385496]
 clip_contents = true
 layout_mode = 0
 offset_left = 65.0
@@ -439,7 +439,7 @@ mouse_filter = 2
 color = Color(0.0745098, 0.0745098, 0.0980392, 1)
 script = ExtResource("11_r2gnk")
 
-[node name="hud_gun_frame" type="TextureRect" parent="hud_bar/hud_gun"]
+[node name="hud_gun_frame" type="TextureRect" parent="hud_bar/hud_gun" unique_id=1916310039]
 z_index = 1
 layout_mode = 0
 offset_right = 53.0
@@ -447,14 +447,14 @@ offset_bottom = 28.0
 mouse_filter = 2
 texture = ExtResource("12_jm28t")
 
-[node name="hud_gun_bag" type="TextureRect" parent="hud_bar/hud_gun"]
+[node name="hud_gun_bag" type="TextureRect" parent="hud_bar/hud_gun" unique_id=777941595]
 layout_mode = 0
 offset_top = -1.0
 offset_right = 52.0
 offset_bottom = 28.0
 texture = ExtResource("14_cbb32")
 
-[node name="hud_gun_sprite" type="TextureRect" parent="hud_bar/hud_gun"]
+[node name="hud_gun_sprite" type="TextureRect" parent="hud_bar/hud_gun" unique_id=2041543184]
 modulate = Color(1, 1, 1, 0.5)
 layout_mode = 1
 anchors_preset = -1
@@ -471,7 +471,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = SubResource("AtlasTexture_aq6k1")
 
-[node name="hud_ammo" type="ColorRect" parent="hud_bar"]
+[node name="hud_ammo" type="ColorRect" parent="hud_bar" unique_id=389812953]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 9.0
@@ -480,14 +480,14 @@ offset_bottom = 32.0
 mouse_filter = 2
 color = Color(0.0745098, 0.0745098, 0.0980392, 1)
 
-[node name="hud_ammo_count" type="TextureRect" parent="hud_bar/hud_ammo"]
+[node name="hud_ammo_count" type="TextureRect" parent="hud_bar/hud_ammo" unique_id=1720581597]
 layout_mode = 0
 offset_right = 57.0
 offset_bottom = 23.0
 mouse_filter = 2
 texture = ExtResource("14_6r4ye")
 
-[node name="hud_ammo_bg" type="Label" parent="hud_bar/hud_ammo"]
+[node name="hud_ammo_bg" type="Label" parent="hud_bar/hud_ammo" unique_id=339915036]
 modulate = Color(0.0745098, 0.215686, 0.215686, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -504,7 +504,7 @@ grow_vertical = 2
 text = "8888"
 label_settings = SubResource("LabelSettings_2jjtg")
 
-[node name="hud_ammo_amount" type="Label" parent="hud_bar/hud_ammo"]
+[node name="hud_ammo_amount" type="Label" parent="hud_bar/hud_ammo" unique_id=1492234548]
 modulate = Color(0.529412, 0.823529, 0.745098, 1)
 custom_minimum_size = Vector2(52, 20)
 layout_mode = 1
@@ -523,7 +523,7 @@ text = "0"
 label_settings = SubResource("LabelSettings_2jjtg")
 horizontal_alignment = 2
 
-[node name="hud_weight" type="ColorRect" parent="hud_bar"]
+[node name="hud_weight" type="ColorRect" parent="hud_bar" unique_id=131928098]
 clip_contents = true
 layout_mode = 0
 offset_left = 121.0
@@ -533,7 +533,7 @@ offset_bottom = 35.0
 mouse_filter = 2
 script = ExtResource("17_u3tos")
 
-[node name="hud_weight_number" type="TextureRect" parent="hud_bar/hud_weight"]
+[node name="hud_weight_number" type="TextureRect" parent="hud_bar/hud_weight" unique_id=1720525657]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -547,7 +547,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("16_cf11f")
 
-[node name="TextureRect" type="TextureRect" parent="hud_bar/hud_weight"]
+[node name="TextureRect" type="TextureRect" parent="hud_bar/hud_weight" unique_id=702743850]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -559,13 +559,13 @@ grow_vertical = 2
 rotation = 1.5708
 texture = SubResource("GradientTexture1D_elp5n")
 
-[node name="hud_weight_frame" type="TextureRect" parent="hud_bar/hud_weight"]
+[node name="hud_weight_frame" type="TextureRect" parent="hud_bar/hud_weight" unique_id=1609574815]
 layout_mode = 0
 offset_right = 14.0
 offset_bottom = 30.0
 texture = SubResource("AtlasTexture_wv11u")
 
-[node name="hud_periodic" type="ColorRect" parent="hud_bar"]
+[node name="hud_periodic" type="ColorRect" parent="hud_bar" unique_id=747523395]
 layout_mode = 0
 offset_left = 135.0
 offset_top = 5.0
@@ -575,7 +575,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("18_mgkjs")
 
-[node name="hud_periodic_amount" type="ProgressBar" parent="hud_bar/hud_periodic"]
+[node name="hud_periodic_amount" type="ProgressBar" parent="hud_bar/hud_periodic" unique_id=623747412]
 modulate = Color(0.983761, 0.420938, 0.379711, 1)
 layout_mode = 0
 offset_left = 1.0
@@ -587,14 +587,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_h7ri8")
 value = 50.0
 show_percentage = false
 
-[node name="hud_periodic_frame" type="TextureRect" parent="hud_bar/hud_periodic"]
+[node name="hud_periodic_frame" type="TextureRect" parent="hud_bar/hud_periodic" unique_id=1269387373]
 layout_mode = 0
 offset_right = 12.0
 offset_bottom = 30.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_6fwqh")
 
-[node name="hud_pockets" type="Control" parent="hud_bar"]
+[node name="hud_pockets" type="Control" parent="hud_bar" unique_id=1959457807]
 anchors_preset = 0
 offset_left = 221.0
 offset_top = 5.0
@@ -603,14 +603,14 @@ offset_bottom = 5.0
 mouse_filter = 2
 script = ExtResource("20_majse")
 
-[node name="hud_pocket_candy" type="TextureRect" parent="hud_bar/hud_pockets"]
+[node name="hud_pocket_candy" type="TextureRect" parent="hud_bar/hud_pockets" unique_id=1965829596]
 layout_mode = 0
 offset_right = 18.0
 offset_bottom = 18.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_ttb2t")
 
-[node name="hud_pocket_zauber" type="TextureRect" parent="hud_bar/hud_pockets"]
+[node name="hud_pocket_zauber" type="TextureRect" parent="hud_bar/hud_pockets" unique_id=1721491437]
 layout_mode = 0
 offset_left = 19.0
 offset_right = 37.0
@@ -618,7 +618,7 @@ offset_bottom = 18.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_ttb2t")
 
-[node name="hud_marquee" type="ColorRect" parent="hud_bar"]
+[node name="hud_marquee" type="ColorRect" parent="hud_bar" unique_id=120392796]
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -630,7 +630,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("21_okcn5")
 
-[node name="hud_marquee_text" type="RichTextLabel" parent="hud_bar/hud_marquee"]
+[node name="hud_marquee_text" type="RichTextLabel" parent="hud_bar/hud_marquee" unique_id=1679431993]
 layout_mode = 0
 offset_left = 226.0
 offset_top = 27.0
@@ -643,7 +643,7 @@ fit_content = true
 scroll_active = false
 autowrap_mode = 0
 
-[node name="hud_wifi" type="ColorRect" parent="hud_bar"]
+[node name="hud_wifi" type="ColorRect" parent="hud_bar" unique_id=62818355]
 layout_mode = 0
 offset_left = 361.0
 offset_top = 5.0
@@ -652,14 +652,14 @@ offset_bottom = 23.0
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="hud_wifi_signal" type="TextureRect" parent="hud_bar/hud_wifi"]
+[node name="hud_wifi_signal" type="TextureRect" parent="hud_bar/hud_wifi" unique_id=107362396]
 layout_mode = 0
 offset_right = 16.0
 offset_bottom = 18.0
 mouse_filter = 2
 texture = SubResource("AtlasTexture_yk1v5")
 
-[node name="fade" type="ColorRect" parent="."]
+[node name="fade" type="ColorRect" parent="." unique_id=1965120719]
 visible = false
 layout_mode = 0
 offset_right = 384.0

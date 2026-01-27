@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://5gab3ljcl8ya"]
+[gd_scene format=3 uid="uid://5gab3ljcl8ya"]
 
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_aua0i"]
 [ext_resource type="Script" uid="uid://d1opo8yrwsqsl" path="res://barkley2/scenes/sTitle/custom/about_menu.gd" id="1_dpin5"]
@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="4_aqa24"]
 [ext_resource type="FontFile" uid="uid://be8d8sjpqvimg" path="res://barkley2/assets/fonts/DroidSans.ttf" id="5_0srr0"]
 
-[node name="about_bg" type="ColorRect"]
+[node name="about_bg" type="ColorRect" unique_id=1299096202]
 top_level = true
 z_index = 200
 anchors_preset = 15
@@ -16,7 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="about_menu" type="Control" parent="."]
+[node name="about_menu" type="Control" parent="." unique_id=19782142]
 z_index = 200
 custom_minimum_size = Vector2(210, 220)
 layout_mode = 1
@@ -35,7 +35,7 @@ theme = ExtResource("1_aua0i")
 script = ExtResource("1_dpin5")
 border_size = Vector2(300, 220)
 
-[node name="MarginContainer" type="MarginContainer" parent="about_menu"]
+[node name="MarginContainer" type="MarginContainer" parent="about_menu" unique_id=1713160767]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,17 +47,17 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="about_menu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="about_menu/MarginContainer" unique_id=103032922]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ColorRect" type="ColorRect" parent="about_menu/MarginContainer/VBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="about_menu/MarginContainer/VBoxContainer" unique_id=2080637683]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 0.49803922)
 
-[node name="MarginContainer" type="MarginContainer" parent="about_menu/MarginContainer/VBoxContainer/ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="about_menu/MarginContainer/VBoxContainer/ColorRect" unique_id=268031015]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,7 +71,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="RichTextLabel" type="RichTextLabel" parent="about_menu/MarginContainer/VBoxContainer/ColorRect/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="about_menu/MarginContainer/VBoxContainer/ColorRect/MarginContainer" unique_id=17897902]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -128,7 +128,7 @@ Tale's of Games
 meta_underlined = false
 selection_enabled = true
 
-[node name="close" type="Button" parent="about_menu/MarginContainer/VBoxContainer"]
+[node name="close" type="Button" parent="about_menu/MarginContainer/VBoxContainer" unique_id=811027708]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 text = "Close"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cb6n5ouoqd1xe"]
+[gd_scene format=3 uid="uid://cb6n5ouoqd1xe"]
 
 [ext_resource type="Script" uid="uid://27r1qq1snviy" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_zionDJ01.gd" id="1_dgt1d"]
 [ext_resource type="Texture2D" uid="uid://c8dxiwve8wa3w" path="res://barkley2/assets/b2_original/images/merged/s_bootySlayer01.png" id="2_qdu83"]
@@ -52,14 +52,14 @@ size = Vector2(36, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4c116"]
 size = Vector2(35, 36)
 
-[node name="o_zionDJ01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_zionDJ01" type="CharacterBody2D" unique_id=236116076 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_dgt1d")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=605153419]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_gphar")
 autoplay = "default"
@@ -79,11 +79,11 @@ metadata/default = {
 "yorigin": "51"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1389156170]
 shape = SubResource("RectangleShape2D_dgt1d")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=950751475]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=734381981]
 position = Vector2(0.5, -16)
 shape = SubResource("RectangleShape2D_4c116")

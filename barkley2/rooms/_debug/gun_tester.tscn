@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7nay1t8aarj2"]
+[gd_scene format=3 uid="uid://b7nay1t8aarj2"]
 
 [ext_resource type="Script" uid="uid://v5m2bk8ak6ct" path="res://barkley2/rooms/_debug/gun_tester.gd" id="1_ra10b"]
 [ext_resource type="PackedScene" uid="uid://bustae523mxua" path="res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn" id="2_fnde3"]
@@ -9,7 +9,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5mpja"]
 radius = 13.0384
 
-[node name="GunTester" type="Control"]
+[node name="GunTester" type="Control" unique_id=882402586]
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 15
@@ -19,11 +19,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ra10b")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=252258948]
 wait_time = 0.5
 autostart = true
 
-[node name="HBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1175813309]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -32,116 +32,116 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="generate" type="Button" parent="HBoxContainer"]
+[node name="generate" type="Button" parent="HBoxContainer" unique_id=537044732]
 layout_mode = 2
 text = "Gen Gun"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer" unique_id=2114925988]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="type_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer"]
+[node name="type_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer" unique_id=86722857]
 layout_mode = 2
 
-[node name="types" type="OptionButton" parent="HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer"]
+[node name="types" type="OptionButton" parent="HBoxContainer/HBoxContainer" unique_id=40412734]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="mat_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="mats" type="OptionButton" parent="HBoxContainer/HBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer" unique_id=967301080]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer"]
+[node name="mat_btn" type="CheckButton" parent="HBoxContainer/HBoxContainer2" unique_id=332141227]
+layout_mode = 2
+
+[node name="mats" type="OptionButton" parent="HBoxContainer/HBoxContainer2" unique_id=1504689611]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer" unique_id=1536078197]
 layout_mode = 2
 alignment = 1
 
-[node name="gun_text" type="TextureRect" parent="HBoxContainer/HBoxContainer3"]
+[node name="gun_text" type="TextureRect" parent="HBoxContainer/HBoxContainer3" unique_id=205766607]
 custom_minimum_size = Vector2(49, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 texture = SubResource("PlaceholderTexture2D_ra10b")
 expand_mode = 2
 
-[node name="gun_name" type="Label" parent="HBoxContainer/HBoxContainer3"]
+[node name="gun_name" type="Label" parent="HBoxContainer/HBoxContainer3" unique_id=766620903]
 layout_mode = 2
 text = "PLACEHOLDER"
 
-[node name="pad" type="Control" parent="HBoxContainer"]
+[node name="pad" type="Control" parent="HBoxContainer" unique_id=1812743946]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="details" type="Button" parent="HBoxContainer"]
+[node name="details" type="Button" parent="HBoxContainer" unique_id=1620890489]
 layout_mode = 2
 text = "Details"
 
-[node name="AcceptDialog" type="AcceptDialog" parent="."]
+[node name="AcceptDialog" type="AcceptDialog" parent="." unique_id=761368129]
 initial_position = 1
 size = Vector2i(600, 600)
 exclusive = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="AcceptDialog"]
+[node name="ScrollContainer" type="ScrollContainer" parent="AcceptDialog" unique_id=2079421555]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 592.0
 offset_bottom = 551.0
 
-[node name="detail_text" type="Label" parent="AcceptDialog/ScrollContainer"]
+[node name="detail_text" type="Label" parent="AcceptDialog/ScrollContainer" unique_id=1445007246]
 layout_mode = 2
 text = "asdasd"
 
-[node name="playfield" type="Node2D" parent="."]
+[node name="playfield" type="Node2D" parent="." unique_id=531730794]
 
-[node name="o_cbt_hoopz" parent="." instance=ExtResource("2_fnde3")]
+[node name="o_cbt_hoopz" parent="." unique_id=184607042 instance=ExtResource("2_fnde3")]
 position = Vector2(59, 178)
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1552778740]
 position = Vector2(279, 171)
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1066824489]
 texture = ExtResource("3_2wvjq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=989123228]
 position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_5mpja")
 
-[node name="CharacterBody2D2" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D2" type="CharacterBody2D" parent="." unique_id=615358434]
 position = Vector2(307, 144)
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D2"]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D2" unique_id=1081701936]
 texture = ExtResource("3_2wvjq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D2" unique_id=1051098146]
 position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_5mpja")
 
-[node name="CharacterBody2D3" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D3" type="CharacterBody2D" parent="." unique_id=1975779943]
 position = Vector2(313, 190)
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D3"]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D3" unique_id=705563365]
 texture = ExtResource("3_2wvjq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D3" unique_id=1302920809]
 position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_5mpja")
 
-[node name="CharacterBody2D4" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D4" type="CharacterBody2D" parent="." unique_id=106968481]
 position = Vector2(330, 112)
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D4"]
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D4" unique_id=1741104257]
 texture = ExtResource("3_2wvjq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D4"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D4" unique_id=1794033011]
 position = Vector2(0, 6)
 shape = SubResource("CircleShape2D_5mpja")
 
-[node name="spin" type="Button" parent="."]
+[node name="spin" type="Button" parent="." unique_id=1158125449]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 133.0
@@ -150,7 +150,7 @@ offset_bottom = 164.0
 toggle_mode = true
 text = "Spin!"
 
-[node name="shoot_da_gun" type="Button" parent="."]
+[node name="shoot_da_gun" type="Button" parent="." unique_id=928919898]
 layout_mode = 0
 offset_left = 134.0
 offset_top = 169.0
@@ -158,7 +158,7 @@ offset_right = 180.0
 offset_bottom = 200.0
 text = "Pow!"
 
-[node name="spin_+" type="Button" parent="."]
+[node name="spin_+" type="Button" parent="." unique_id=1589178393]
 layout_mode = 0
 offset_left = 5.0
 offset_top = 168.0
@@ -166,7 +166,7 @@ offset_right = 23.0
 offset_bottom = 199.0
 text = "<"
 
-[node name="spin_-" type="Button" parent="."]
+[node name="spin_-" type="Button" parent="." unique_id=1504214738]
 layout_mode = 0
 offset_left = 109.0
 offset_top = 168.0

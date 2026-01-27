@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctl6it80qa7q"]
+[gd_scene format=3 uid="uid://ctl6it80qa7q"]
 
 [ext_resource type="Script" uid="uid://c1uw7pgr325ci" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_animeBulldog01.gd" id="1_32m2g"]
 [ext_resource type="Texture2D" uid="uid://dvalxrwtn2fkf" path="res://barkley2/assets/b2_original/images/merged/s_animeBulldog01.png" id="2_sg1p4"]
@@ -109,7 +109,7 @@ size = Vector2(36, 27)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tlg17"]
 size = Vector2(32, 36)
 
-[node name="o_animeBulldog01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_animeBulldog01" type="CharacterBody2D" unique_id=1041328159 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_32m2g")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_os6ni")
@@ -117,7 +117,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2126676952]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_wlhc4")
 autoplay = "default"
@@ -137,12 +137,12 @@ metadata/default = {
 "yorigin": "40"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1209704679]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_fr6or")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1837228182]
 position = Vector2(0, -20)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1749711285]
 shape = SubResource("RectangleShape2D_tlg17")

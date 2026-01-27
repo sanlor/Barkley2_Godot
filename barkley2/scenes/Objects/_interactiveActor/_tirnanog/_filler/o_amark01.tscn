@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://pn4n13hf010i"]
+[gd_scene format=3 uid="uid://pn4n13hf010i"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amark01.gd" id="1_3s51y"]
+[ext_resource type="Script" uid="uid://cp04y5fcxae1" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amark01.gd" id="1_3s51y"]
 [ext_resource type="Texture2D" uid="uid://cwt85rsri28bd" path="res://barkley2/assets/b2_original/images/merged/s_amark01.png" id="2_54fo6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lssbe"]
@@ -24,14 +24,14 @@ radius = 7.00282
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5jmhp"]
 size = Vector2(20, 36)
 
-[node name="o_amark01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_amark01" type="CharacterBody2D" unique_id=461390280 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_3s51y")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2136639370]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_h0byr")
 centered = false
@@ -49,11 +49,11 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=603550049]
 shape = SubResource("CircleShape2D_jsljs")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1038541554]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=304083839]
 shape = SubResource("RectangleShape2D_5jmhp")

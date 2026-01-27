@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d1dfqph086l3r"]
+[gd_scene format=3 uid="uid://d1dfqph086l3r"]
 
 [ext_resource type="Script" uid="uid://c5usuolfqlktj" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_gleb01.gd" id="1_2rs8u"]
 [ext_resource type="Texture2D" uid="uid://de6hw8vxqf6i7" path="res://barkley2/assets/b2_original/images/merged/s_glebSpin01.png" id="2_5f2pu"]
@@ -44,14 +44,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b78at"]
 size = Vector2(30, 56)
 
-[node name="o_gleb01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_gleb01" type="CharacterBody2D" unique_id=230219286 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_2rs8u")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1479769732]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_d7u6u")
 autoplay = "default"
@@ -71,13 +71,13 @@ metadata/default = {
 "yorigin": "60"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=984196780]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_2rs8u")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1425503394]
 position = Vector2(0, -33)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=708164667]
 position = Vector2(5, 10)
 shape = SubResource("RectangleShape2D_b78at")

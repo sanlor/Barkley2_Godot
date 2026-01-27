@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bnxoqmiv12gk8"]
+[gd_scene format=3 uid="uid://bnxoqmiv12gk8"]
 
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_51xds"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="2_13opw"]
@@ -104,7 +104,7 @@ size = Vector2(16, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yifqm"]
 size = Vector2(32, 4)
 
-[node name="o_doorlight_right" type="AnimatedSprite2D"]
+[node name="o_doorlight_right" type="AnimatedSprite2D" unique_id=1019232698]
 z_index = -10
 position = Vector2(-16, 0)
 sprite_frames = SubResource("SpriteFrames_0qgqf")
@@ -121,34 +121,34 @@ debug_teleport_create_o_hoopz = false
 teleport_destination = "r_invalid_room"
 teleport_create_o_hoopz = false
 
-[node name="light_activation_area" type="Area2D" parent="."]
+[node name="light_activation_area" type="Area2D" parent="." unique_id=1496597125]
 position = Vector2(8, 16)
 
-[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
+[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area" unique_id=323104944]
 shape = SubResource("CircleShape2D_x31dv")
 debug_color = Color(0, 0.6, 0.7, 0)
 
-[node name="push_area" type="Area2D" parent="."]
+[node name="push_area" type="Area2D" parent="." unique_id=641445044]
 position = Vector2(8, 16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area" unique_id=1673139187]
 shape = SubResource("RectangleShape2D_hnlim")
 debug_color = Color(2.79158e-06, 0.643728, 0.294612, 0)
 
-[node name="teleport_activation_area" type="Area2D" parent="."]
+[node name="teleport_activation_area" type="Area2D" parent="." unique_id=1212408644]
 position = Vector2(24, 16)
 linear_damp_space_override = 1
 linear_damp = 25.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area" unique_id=1575988535]
 shape = SubResource("RectangleShape2D_hnlim")
 debug_color = Color(0.963376, 0.0525709, 0.466859, 0)
 
-[node name="door_blockade" type="StaticBody2D" parent="."]
+[node name="door_blockade" type="StaticBody2D" parent="." unique_id=676179733]
 position = Vector2(30, 16)
 rotation = 1.5707964
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="door_blockade"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="door_blockade" unique_id=1567884947]
 shape = SubResource("RectangleShape2D_yifqm")
 
 [connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]

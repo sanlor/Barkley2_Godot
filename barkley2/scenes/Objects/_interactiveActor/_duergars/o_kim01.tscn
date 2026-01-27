@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cx6dbffu5rt4i"]
+[gd_scene format=3 uid="uid://cx6dbffu5rt4i"]
 
 [ext_resource type="Texture2D" uid="uid://cjp1gnua6y2iu" path="res://barkley2/assets/b2_original/images/merged/s_kim01.png" id="1_npkeh"]
 [ext_resource type="Script" uid="uid://0n1itq1sqybj" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_kim01.gd" id="1_w4wqw"]
@@ -236,7 +236,7 @@ radius = 8.91268
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x0ojs"]
 size = Vector2(20, 36)
 
-[node name="o_kim01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_kim01" type="CharacterBody2D" unique_id=1004737847 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_w4wqw")
 duergar_name = "kim"
 mouse_detection_area = NodePath("ActorInteract")
@@ -245,9 +245,9 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=662958465]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=980746887]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hi7vf")
 centered = false
@@ -349,11 +349,11 @@ metadata/s_kimSE = {
 "yorigin": "43"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1363823506]
 shape = SubResource("CircleShape2D_80ebn")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=15697088]
 position = Vector2(0, -15)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=229971672]
 shape = SubResource("RectangleShape2D_x0ojs")

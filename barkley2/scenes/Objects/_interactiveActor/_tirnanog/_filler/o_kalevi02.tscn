@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ctnhjyemlowns"]
+[gd_scene format=3 uid="uid://ctnhjyemlowns"]
 
 [ext_resource type="Script" uid="uid://clvi4y75an3qk" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_kalevi02.gd" id="1_hfi24"]
 [ext_resource type="Texture2D" uid="uid://dgqarljokumwi" path="res://barkley2/assets/b2_original/images/merged/s_kalevi02.png" id="2_jr5a8"]
@@ -90,14 +90,14 @@ radius = 20.0535
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x07xm"]
 size = Vector2(67, 56)
 
-[node name="o_kalevi02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_kalevi02" type="CharacterBody2D" unique_id=597150070 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_hfi24")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1296204795]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_mo23f")
 frame_progress = 0.666429
@@ -128,17 +128,17 @@ metadata/kaleviStanding = {
 "yorigin": "42"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=946348947]
 position = Vector2(-9, -17)
 shape = SubResource("CircleShape2D_a0uyy")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1452369143]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1410470817]
 position = Vector2(-0.5, -28)
 shape = SubResource("RectangleShape2D_x07xm")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1779025125]
 stream = ExtResource("4_ot4x1")
 bus = &"Audio"
 

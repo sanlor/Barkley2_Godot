@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://1gj0508tg4rk"]
+[gd_scene format=3 uid="uid://1gj0508tg4rk"]
 
 [ext_resource type="Script" uid="uid://s2p57uli33i8" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_stahl01.gd" id="1_vyp0b"]
 [ext_resource type="Texture2D" uid="uid://c56jgd6lurk0v" path="res://barkley2/assets/b2_original/images/merged/sPrisonStahl.png" id="2_8usjm"]
@@ -36,13 +36,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8slpt"]
 size = Vector2(20, 41)
 
-[node name="o_stahl01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_stahl01" type="CharacterBody2D" unique_id=1592959072 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_vyp0b")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1362160309]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_i4w2e")
 animation = &"sewer"
@@ -73,14 +73,14 @@ metadata/sewer = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=963716743]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_vyp0b")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=715257062]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2118478647]
 position = Vector2(0, -16.5)
 shape = SubResource("RectangleShape2D_8slpt")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1614122161]

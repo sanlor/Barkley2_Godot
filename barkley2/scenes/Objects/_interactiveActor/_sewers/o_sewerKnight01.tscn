@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://lnhbwwn7ecg4"]
+[gd_scene format=3 uid="uid://lnhbwwn7ecg4"]
 
 [ext_resource type="Script" uid="uid://dthrfh6apxxag" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/o_sewerKnight01.gd" id="1_s8nga"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_2k14u"]
@@ -66,14 +66,14 @@ radius = 13.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kmk1h"]
 size = Vector2(39, 55)
 
-[node name="o_sewerKnight01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_sewerKnight01" type="CharacterBody2D" unique_id=1693187927 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_s8nga")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_3voe1")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2120635932]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_3voe1")
 centered = false
@@ -91,14 +91,14 @@ metadata/default = {
 "yorigin": "50"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=3100989]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_kmk1h")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=850289798]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1296035122]
 position = Vector2(-0.5, -20.5)
 shape = SubResource("RectangleShape2D_kmk1h")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1862057222]

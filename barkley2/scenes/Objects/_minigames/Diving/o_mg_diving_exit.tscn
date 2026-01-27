@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://q53vqywuvs5p"]
+[gd_scene format=3 uid="uid://q53vqywuvs5p"]
 
 [ext_resource type="Texture2D" uid="uid://btio5etnmvxbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_exit.png" id="1_4mtva"]
 [ext_resource type="Script" uid="uid://cer1jnd3vulpq" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_exit.gd" id="1_6ohrm"]
@@ -21,22 +21,22 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_mg_diving_exit" type="Area2D"]
+[node name="o_mg_diving_exit" type="Area2D" unique_id=1640934307]
 gravity_space_override = 1
 gravity = 200.0
 script = ExtResource("1_6ohrm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1657460622]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_echjn")
 
-[node name="detection_area" type="Area2D" parent="."]
+[node name="detection_area" type="Area2D" parent="." unique_id=1018477381]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area" unique_id=127569217]
 position = Vector2(0, -20)
 shape = SubResource("RectangleShape2D_echjn")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1007878312]
 sprite_frames = SubResource("SpriteFrames_pr1po")
 
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://hhg2vthadjy1"]
+[gd_scene format=3 uid="uid://hhg2vthadjy1"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_h7jag"]
 [ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="1_wchjm"]
@@ -31,7 +31,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_47ym4"]
 radius = 15.0
 
-[node name="o_gbl_drawing_point" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_gbl_drawing_point" type="AnimatedSprite2D" unique_id=582503379 node_paths=PackedStringArray("mouse_detection_area")]
 modulate = Color(1, 0.78, 0.8129999, 1)
 material = ExtResource("1_h7jag")
 sprite_frames = SubResource("SpriteFrames_sneus")
@@ -52,14 +52,14 @@ metadata/default = {
 "yorigin": "8"
 }
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=555984384]
 material = ExtResource("4_ql8fs")
 texture = ExtResource("1_wchjm")
 process_material = ExtResource("5_o3rwk")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=94624633]
 collision_layer = 128
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=28727836]
 shape = SubResource("CircleShape2D_47ym4")

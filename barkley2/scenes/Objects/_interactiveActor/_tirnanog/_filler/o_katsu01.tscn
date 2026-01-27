@@ -1,6 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://bavy2dp15yej5"]
+[gd_scene format=3 uid="uid://bavy2dp15yej5"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_katsu01.gd" id="1_v04mc"]
+[ext_resource type="Script" uid="uid://cgi1ykb26p3jx" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_katsu01.gd" id="1_v04mc"]
 [ext_resource type="Texture2D" uid="uid://do02xxg4jiimv" path="res://barkley2/assets/b2_original/images/merged/sKatsuNE.png" id="2_ax1a4"]
 [ext_resource type="Texture2D" uid="uid://cq8lu2jr7tffg" path="res://barkley2/assets/b2_original/images/merged/sKatsuSE.png" id="3_gr580"]
 [ext_resource type="Texture2D" uid="uid://btqfo015nur8c" path="res://barkley2/assets/b2_original/images/merged/sKatsu.png" id="4_r04q2"]
@@ -193,13 +193,13 @@ radius = 8.59437
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_65v3n"]
 size = Vector2(20, 36)
 
-[node name="o_katsu01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_katsu01" type="CharacterBody2D" unique_id=276093012 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_v04mc")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1725006528]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_gvmnd")
 centered = false
@@ -289,13 +289,13 @@ metadata/katsuStand = {
 "yorigin": "55"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=957529319]
 shape = SubResource("CircleShape2D_57mrg")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=88840309]
 position = Vector2(0, -17)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1268808048]
 shape = SubResource("RectangleShape2D_65v3n")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1172132115]

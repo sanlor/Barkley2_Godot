@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://txp6qu4cusqf"]
+[gd_scene format=3 uid="uid://txp6qu4cusqf"]
 
 [ext_resource type="Texture2D" uid="uid://s11tdolrmons" path="res://barkley2/assets/b2_original/images/merged/s_growth_elemental01.png" id="1_l2uw6"]
 [ext_resource type="Script" uid="uid://cattjb2tnb7k0" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_growth_elemental_01.gd" id="2_fujhm"]
@@ -211,7 +211,7 @@ size = Vector2(69, 122)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyt8b"]
 radius = 31.144823
 
-[node name="o_growthElemental01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_growthElemental01" type="AnimatedSprite2D" unique_id=942836575 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_lc8dd")
 animation = &"talk"
 autoplay = "default"
@@ -219,20 +219,20 @@ frame_progress = 0.13214926
 script = ExtResource("2_fujhm")
 mouse_detection_area = NodePath("Area2D")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1851747981]
 stream = ExtResource("3_3xcfu")
 max_distance = 200.0
 bus = &"Audio"
 parameters/looping = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=835123600]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2078630566]
 position = Vector2(-1.5, -5)
 shape = SubResource("RectangleShape2D_c6bic")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1645293018]
 position = Vector2(1, 23)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2138318278]
 shape = SubResource("CircleShape2D_qyt8b")

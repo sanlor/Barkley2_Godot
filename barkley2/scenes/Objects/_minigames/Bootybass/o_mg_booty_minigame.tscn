@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d0ojy7kg4xcy5"]
+[gd_scene format=3 uid="uid://d0ojy7kg4xcy5"]
 
 [ext_resource type="Script" uid="uid://bysirdlw2krdc" path="res://barkley2/scenes/Objects/_minigames/Bootybass/o_mg_booty_minigame.gd" id="1_6amnu"]
 [ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="2_3q7im"]
@@ -386,13 +386,13 @@ _data = {
 }
 point_count = 5
 
-[node name="o_mg_booty_minigame" type="Node"]
+[node name="o_mg_booty_minigame" type="Node" unique_id=2127315899]
 script = ExtResource("1_6amnu")
 adoration_decay_rate = SubResource("Curve_3q7im")
 
-[node name="booty_ui" type="CanvasLayer" parent="."]
+[node name="booty_ui" type="CanvasLayer" parent="." unique_id=1943051558]
 
-[node name="ready_label" type="Label" parent="booty_ui"]
+[node name="ready_label" type="Label" parent="booty_ui" unique_id=268450778]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -411,7 +411,7 @@ label_settings = SubResource("LabelSettings_axu2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="infobar_bg" type="ColorRect" parent="booty_ui"]
+[node name="infobar_bg" type="ColorRect" parent="booty_ui" unique_id=2106255505]
 visible = false
 custom_minimum_size = Vector2(0, 20)
 offset_left = 2.0
@@ -420,7 +420,7 @@ offset_right = 382.0
 offset_bottom = 24.0
 color = Color(0, 0, 0, 0.4)
 
-[node name="public_opinion_label" type="Label" parent="booty_ui/infobar_bg"]
+[node name="public_opinion_label" type="Label" parent="booty_ui/infobar_bg" unique_id=311159485]
 layout_mode = 0
 offset_left = 6.0
 offset_right = 104.0
@@ -429,7 +429,7 @@ text = "Public opinion:"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="public_opinion_result_label" type="Label" parent="booty_ui/infobar_bg"]
+[node name="public_opinion_result_label" type="Label" parent="booty_ui/infobar_bg" unique_id=1859543723]
 layout_mode = 0
 offset_left = 110.0
 offset_right = 208.0
@@ -438,7 +438,7 @@ text = "TEMPORARY!!!!"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="time_label" type="Label" parent="booty_ui/infobar_bg"]
+[node name="time_label" type="Label" parent="booty_ui/infobar_bg" unique_id=1171010039]
 layout_mode = 0
 offset_left = 290.0
 offset_right = 388.0
@@ -447,7 +447,7 @@ text = "Time:"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="time_left_label" type="Label" parent="booty_ui/infobar_bg"]
+[node name="time_left_label" type="Label" parent="booty_ui/infobar_bg" unique_id=1103464537]
 layout_mode = 0
 offset_left = 279.0
 offset_right = 377.0
@@ -457,7 +457,7 @@ label_settings = SubResource("LabelSettings_axu2m")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="adoration_bg" type="ColorRect" parent="booty_ui"]
+[node name="adoration_bg" type="ColorRect" parent="booty_ui" unique_id=100267797]
 visible = false
 custom_minimum_size = Vector2(0, 20)
 offset_left = 2.0
@@ -466,7 +466,7 @@ offset_right = 382.0
 offset_bottom = 48.0
 color = Color(0, 0, 0, 0.4)
 
-[node name="adoration_label" type="Label" parent="booty_ui/adoration_bg"]
+[node name="adoration_label" type="Label" parent="booty_ui/adoration_bg" unique_id=425604585]
 layout_mode = 0
 offset_left = 6.0
 offset_right = 104.0
@@ -475,7 +475,7 @@ text = "Adoration:"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="adoration_bar" type="ProgressBar" parent="booty_ui/adoration_bg"]
+[node name="adoration_bar" type="ProgressBar" parent="booty_ui/adoration_bg" unique_id=1066371904]
 layout_mode = 0
 offset_left = 91.0
 offset_top = 2.0
@@ -486,7 +486,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_8rqnx")
 value = 40.0
 show_percentage = false
 
-[node name="adoration_bonus_label" type="Label" parent="booty_ui/adoration_bg"]
+[node name="adoration_bonus_label" type="Label" parent="booty_ui/adoration_bg" unique_id=160084863]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 36.0
@@ -496,7 +496,7 @@ text = "Adoration +0"
 label_settings = SubResource("LabelSettings_7dowj")
 vertical_alignment = 1
 
-[node name="finish_bg" type="ColorRect" parent="booty_ui"]
+[node name="finish_bg" type="ColorRect" parent="booty_ui" unique_id=1912048720]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -505,18 +505,16 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0)
 script = ExtResource("3_sfmuh")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="booty_ui/finish_bg"]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="booty_ui/finish_bg" unique_id=2065067973]
 stream = ExtResource("4_8rqnx")
 pitch_scale = 4.0
 max_polyphony = 10
 bus = &"Audio"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="booty_ui/finish_bg"]
-libraries = {
-&"": SubResource("AnimationLibrary_7dowj")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="booty_ui/finish_bg" unique_id=975194196]
+libraries/ = SubResource("AnimationLibrary_7dowj")
 
-[node name="finish_label" type="Label" parent="booty_ui/finish_bg"]
+[node name="finish_label" type="Label" parent="booty_ui/finish_bg" unique_id=768337339]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -537,7 +535,7 @@ label_settings = SubResource("LabelSettings_sfmuh")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="press_button_label" type="Label" parent="booty_ui/finish_bg"]
+[node name="press_button_label" type="Label" parent="booty_ui/finish_bg" unique_id=1552073178]
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -554,7 +552,7 @@ text = "Press button to continue"
 label_settings = SubResource("LabelSettings_axu2m")
 vertical_alignment = 1
 
-[node name="result_box" type="VBoxContainer" parent="booty_ui/finish_bg"]
+[node name="result_box" type="VBoxContainer" parent="booty_ui/finish_bg" unique_id=736868511]
 visible = false
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
@@ -570,66 +568,66 @@ offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="adoration_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+[node name="adoration_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box" unique_id=935265006]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="r_ado_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box"]
+[node name="r_ado_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box" unique_id=2081674823]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Adoration"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="r_ado_result_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box"]
+[node name="r_ado_result_label" type="Label" parent="booty_ui/finish_bg/result_box/adoration_box" unique_id=1002348403]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 text = "69"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="toot_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+[node name="toot_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box" unique_id=1232615430]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="r_too_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box"]
+[node name="r_too_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box" unique_id=2018979334]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Toot Intensity"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="r_too_result_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box"]
+[node name="r_too_result_label" type="Label" parent="booty_ui/finish_bg/result_box/toot_box" unique_id=1130784413]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 text = "69"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="variety_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box"]
+[node name="variety_box" type="HBoxContainer" parent="booty_ui/finish_bg/result_box" unique_id=944758638]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="r_var_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box"]
+[node name="r_var_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box" unique_id=1482805791]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Variety"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="r_var_result_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box"]
+[node name="r_var_result_label" type="Label" parent="booty_ui/finish_bg/result_box/variety_box" unique_id=1016522358]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 text = "69"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="Line2D" type="Line2D" parent="booty_ui/finish_bg"]
+[node name="Line2D" type="Line2D" parent="booty_ui/finish_bg" unique_id=493911415]
 modulate = Color(1, 1, 1, 0)
 points = PackedVector2Array(48, 116, 348, 116)
 width = 1.0
 
-[node name="Line2D2" type="Line2D" parent="booty_ui/finish_bg"]
+[node name="Line2D2" type="Line2D" parent="booty_ui/finish_bg" unique_id=545610639]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(0, 3)
 points = PackedVector2Array(48, 116, 348, 116)
 width = 1.0
 
-[node name="quot_box" type="HBoxContainer" parent="booty_ui/finish_bg"]
+[node name="quot_box" type="HBoxContainer" parent="booty_ui/finish_bg" unique_id=229302611]
 modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 1
@@ -645,19 +643,19 @@ offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="r_quo_label" type="Label" parent="booty_ui/finish_bg/quot_box"]
+[node name="r_quo_label" type="Label" parent="booty_ui/finish_bg/quot_box" unique_id=1676916009]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Booty Quotient"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="r_quo_result_label" type="Label" parent="booty_ui/finish_bg/quot_box"]
+[node name="r_quo_result_label" type="Label" parent="booty_ui/finish_bg/quot_box" unique_id=1525141938]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 2
 text = "69"
 label_settings = SubResource("LabelSettings_8rqnx")
 
-[node name="final_result_label" type="Label" parent="booty_ui/finish_bg"]
+[node name="final_result_label" type="Label" parent="booty_ui/finish_bg" unique_id=104043691]
 material = ExtResource("6_7dowj")
 layout_mode = 1
 anchors_preset = 8
@@ -678,24 +676,24 @@ label_settings = SubResource("LabelSettings_8rqnx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="input_delay" type="Timer" parent="booty_ui"]
+[node name="input_delay" type="Timer" parent="booty_ui" unique_id=1259622633]
 wait_time = 0.2
 one_shot = true
 
-[node name="adoration_lights_timer" type="Timer" parent="booty_ui"]
+[node name="adoration_lights_timer" type="Timer" parent="booty_ui" unique_id=453180294]
 
-[node name="dj_music_track_stream" type="AudioStreamPlayer" parent="."]
+[node name="dj_music_track_stream" type="AudioStreamPlayer" parent="." unique_id=48344237]
 stream = ExtResource("2_cpwfd")
 bus = &"Audio"
 
-[node name="Path2D" type="Path2D" parent="."]
+[node name="Path2D" type="Path2D" parent="." unique_id=1016964981]
 position = Vector2(333, 220)
 curve = SubResource("Curve2D_6amnu")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D" unique_id=668460112]
 position = Vector2(0, -72)
 
-[node name="process_timer" type="Timer" parent="."]
+[node name="process_timer" type="Timer" parent="." unique_id=462812241]
 wait_time = 0.1
 autostart = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://biuhtefvpkmgh"]
+[gd_scene format=3 uid="uid://biuhtefvpkmgh"]
 
 [ext_resource type="Texture2D" uid="uid://cncgt5y7xagix" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_playerAirgulp_prison.png" id="1_fbixb"]
 [ext_resource type="Script" uid="uid://cuv2jfhnj31qf" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_player.gd" id="1_u8q4v"]
@@ -236,7 +236,7 @@ particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[node name="o_mg_diving_player" type="RigidBody2D"]
+[node name="o_mg_diving_player" type="RigidBody2D" unique_id=1108041574]
 mass = 60.0
 physics_material_override = SubResource("PhysicsMaterial_lgayp")
 gravity_scale = 0.05
@@ -246,27 +246,27 @@ max_contacts_reported = 2
 linear_damp = 3.5
 script = ExtResource("1_u8q4v")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=582455597]
 sprite_frames = SubResource("SpriteFrames_gxok4")
 animation = &"swim_up"
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=375997955]
 shape = SubResource("CircleShape2D_helxe")
 
-[node name="radiant_light" type="PointLight2D" parent="."]
+[node name="radiant_light" type="PointLight2D" parent="." unique_id=1446847981]
 texture = SubResource("GradientTexture2D_c3rkw")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1831491696]
 occluder = SubResource("OccluderPolygon2D_uxnjm")
 
-[node name="boost_timer" type="Timer" parent="."]
+[node name="boost_timer" type="Timer" parent="." unique_id=1754682509]
 wait_time = 2.5
 one_shot = true
 
-[node name="head_position_marker" type="Marker2D" parent="."]
+[node name="head_position_marker" type="Marker2D" parent="." unique_id=1878769941]
 position = Vector2(9, 7)
 
-[node name="flashlight" type="PointLight2D" parent="head_position_marker"]
+[node name="flashlight" type="PointLight2D" parent="head_position_marker" unique_id=678771541]
 scale = Vector2(-1, 1)
 shadow_enabled = true
 shadow_item_cull_mask = 2
@@ -274,14 +274,14 @@ texture = ExtResource("3_uxnjm")
 offset = Vector2(-75, 0)
 texture_scale = 0.75
 
-[node name="bubbles" type="GPUParticles2D" parent="head_position_marker"]
+[node name="bubbles" type="GPUParticles2D" parent="head_position_marker" unique_id=601098893]
 material = SubResource("CanvasItemMaterial_4bvf6")
 amount = 3
 texture = ExtResource("4_lgayp")
 lifetime = 2.0
 process_material = ExtResource("6_uxnjm")
 
-[node name="bubbles_hurt" type="GPUParticles2D" parent="head_position_marker"]
+[node name="bubbles_hurt" type="GPUParticles2D" parent="head_position_marker" unique_id=2086157300]
 material = SubResource("CanvasItemMaterial_4bvf6")
 emitting = false
 amount = 50

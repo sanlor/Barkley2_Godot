@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bm1xjhm2iv47t"]
+[gd_scene format=3 uid="uid://bm1xjhm2iv47t"]
 
 [ext_resource type="Script" uid="uid://bxc2cmyo2aa1c" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/o_eggDrone01.gd" id="1_fgrx3"]
 [ext_resource type="Texture2D" uid="uid://cbkjvgxcnh2sc" path="res://barkley2/assets/b2_original/images/merged/s_eggDrone01.png" id="2_ef3sw"]
@@ -274,17 +274,17 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oue5x"]
 size = Vector2(32, 36)
 
-[node name="o_eggDrone01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_eggDrone01" type="CharacterBody2D" unique_id=1355211636 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_fgrx3")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=534658103]
 shape = SubResource("CircleShape2D_11kvi")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2140024621]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_kalmt")
 animation = &"computer"
@@ -357,10 +357,10 @@ metadata/s_eggDroneDOWN01 = {
 "yorigin": "50"
 }
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=534400265]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1298508552]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=200363070]
 shape = SubResource("RectangleShape2D_oue5x")

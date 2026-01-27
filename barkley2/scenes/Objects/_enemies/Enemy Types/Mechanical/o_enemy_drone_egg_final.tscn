@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://ca5m2ojpqka31"]
+[gd_scene format=3 uid="uid://ca5m2ojpqka31"]
 
 [ext_resource type="Script" uid="uid://vfshhp2o15pw" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg_final.gd" id="1_juf8c"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_53ouf"]
@@ -428,7 +428,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_enemy_drone_egg" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
+[node name="o_enemy_drone_egg" type="RigidBody2D" unique_id=789173572 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 5
 collision_mask = 1835019
 mass = 100.0
@@ -455,14 +455,14 @@ ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 actor_ai = NodePath("B2_AI_Combat_TurnBased_Normal")
 
-[node name="B2_AI_Combat_TurnBased_Normal" type="Node2D" parent="."]
+[node name="B2_AI_Combat_TurnBased_Normal" type="Node2D" parent="." unique_id=1408104124]
 script = ExtResource("4_w86x0")
 metadata/_custom_type_script = "uid://bnj0tqbocuaui"
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=223468021]
 shape = SubResource("CircleShape2D_dr833")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1361820305]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_s3is4")
 centered = false
@@ -534,13 +534,13 @@ metadata/s_eggDroneDOWN01 = {
 "yorigin": "50"
 }
 
-[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=327338493]
 max_polyphony = 5
 bus = &"Audio"
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=2130556042]
 
-[node name="smoke_emitter" type="GPUParticles2D" parent="."]
+[node name="smoke_emitter" type="GPUParticles2D" parent="." unique_id=1955000815]
 emitting = false
 amount = 32
 lifetime = 0.5
@@ -548,7 +548,7 @@ one_shot = true
 explosiveness = 0.75
 process_material = ExtResource("9_17vq5")
 
-[node name="combatant_stats" parent="." instance=ExtResource("10_6hb1w")]
+[node name="combatant_stats" parent="." unique_id=1217163301 instance=ExtResource("10_6hb1w")]
 show_action = false
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

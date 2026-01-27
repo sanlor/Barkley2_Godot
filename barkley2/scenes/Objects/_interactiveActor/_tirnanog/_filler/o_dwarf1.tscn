@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://bfwn0vjtanq1j"]
+[gd_scene format=3 uid="uid://bfwn0vjtanq1j"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_tswdu"]
 [ext_resource type="Script" uid="uid://bary2gpkiybdd" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dwarf_1.gd" id="2_s1bbk"]
@@ -287,14 +287,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_365xy"]
 radius = 6.68451
 
-[node name="o_dwarf1" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[node name="o_dwarf1" type="CharacterBody2D" unique_id=2017237474 node_paths=PackedStringArray("ActorAnim", "ActorCol")]
 material = ExtResource("1_tswdu")
 script = ExtResource("2_s1bbk")
 is_interactive = false
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1376279930]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_vso0p")
 centered = false
@@ -408,7 +408,7 @@ metadata/walk_E = {
 "yorigin": "37"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=267231808]
 shape = SubResource("CircleShape2D_365xy")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1270136840]

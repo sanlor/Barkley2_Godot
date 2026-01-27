@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://4njejlpu64xb"]
+[gd_scene format=3 uid="uid://4njejlpu64xb"]
 
 [ext_resource type="Texture2D" uid="uid://dghken2xfn3g5" path="res://barkley2/assets/b2_original/images/merged/s_manhole.png" id="1_rbey4"]
 [ext_resource type="Script" uid="uid://dfa7foid4lml3" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_manhole.gd" id="2_ub6vn"]
@@ -11,29 +11,29 @@ radius = 64.0
 radius = 14.0
 height = 34.0
 
-[node name="o_teleport_manhole" type="Sprite2D"]
+[node name="o_teleport_manhole" type="Sprite2D" unique_id=198373575]
 z_index = -5
 texture = ExtResource("1_rbey4")
 script = ExtResource("2_ub6vn")
 
-[node name="s_manhole_cover" type="Sprite2D" parent="."]
+[node name="s_manhole_cover" type="Sprite2D" parent="." unique_id=1308469574]
 texture = ExtResource("2_v5115")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1190581458]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D" unique_id=2022429831]
 polygon = PackedVector2Array(-21, -6, -21, 7, -9, 15, 9, 15, 21, 7, 21, -6, 13, -14, 13, -3, -14, -3, -14, -14)
 
-[node name="player_detection" type="Area2D" parent="."]
+[node name="player_detection" type="Area2D" parent="." unique_id=1194183132]
 
-[node name="player_detection_col" type="CollisionShape2D" parent="player_detection"]
+[node name="player_detection_col" type="CollisionShape2D" parent="player_detection" unique_id=436366498]
 shape = SubResource("CircleShape2D_uhmex")
 debug_color = Color(0.7607843, 0.44705883, 0.23137257, 0.05490196)
 
-[node name="teleport_area" type="Area2D" parent="."]
+[node name="teleport_area" type="Area2D" parent="." unique_id=1741035140]
 position = Vector2(0, -1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_area" unique_id=1372123836]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_v5115")
 debug_color = Color(0.2901961, 0.59607846, 0.2509804, 0.65882355)

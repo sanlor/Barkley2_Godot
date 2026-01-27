@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cvvhm7euw4kcm"]
+[gd_scene format=3 uid="uid://cvvhm7euw4kcm"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_juwr6"]
 [ext_resource type="Script" uid="uid://cr31fas1tc18v" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_babalugats_01.gd" id="2_v4bgg"]
@@ -298,7 +298,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0f1lg"]
 size = Vector2(20, 36)
 
-[node name="o_babalugats01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_babalugats01" type="CharacterBody2D" unique_id=1518630603 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 material = ExtResource("1_juwr6")
 script = ExtResource("2_v4bgg")
 mouse_detection_area = NodePath("ActorInteract")
@@ -307,9 +307,9 @@ flip_h = true
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=728643199]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1662134749]
 use_parent_material = true
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_hxwjb")
@@ -462,11 +462,11 @@ metadata/hurt = {
 "yorigin": "35"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1554604462]
 shape = SubResource("CircleShape2D_b0uu1")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=991369747]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=494562881]
 shape = SubResource("RectangleShape2D_0f1lg")

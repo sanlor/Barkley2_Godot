@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://1aq7m48ws8pm"]
+[gd_scene format=3 uid="uid://1aq7m48ws8pm"]
 
 [ext_resource type="Texture2D" uid="uid://bey7je8uedwn2" path="res://barkley2/assets/b2_original/images/merged/s_zaneHeadBlast01.png" id="1_6j6h7"]
 [ext_resource type="Texture2D" uid="uid://bfp63nk0mqhwp" path="res://barkley2/assets/b2_original/images/merged/s_zane01.png" id="2_8bss3"]
@@ -240,19 +240,19 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_im2do"]
 size = Vector2(20, 36)
 
-[node name="o_zane01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_zane01" type="CharacterBody2D" unique_id=502382424 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("5_tiq7o")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1517039519]
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1504928265]
 shape = SubResource("CircleShape2D_3mjok")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1880070456]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_pdvrn")
 centered = false
@@ -325,8 +325,8 @@ metadata/deadOnGround = {
 "yorigin": "55"
 }
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1252793153]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=503842435]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_im2do")

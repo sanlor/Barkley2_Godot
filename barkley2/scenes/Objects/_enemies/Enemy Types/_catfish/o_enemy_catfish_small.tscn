@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://dl0ylc1ocrp5l"]
+[gd_scene format=3 uid="uid://dl0ylc1ocrp5l"]
 
 [ext_resource type="Script" uid="uid://00fvubvbc22j" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/o_enemy_catfish_small.gd" id="1_pied4"]
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_wejwp"]
@@ -493,7 +493,7 @@ particles_anim_loop = false
 [sub_resource type="LabelSettings" id="LabelSettings_l0gdt"]
 font = ExtResource("17_hfen3")
 
-[node name="o_enemy_catfish_small" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
+[node name="o_enemy_catfish_small" type="RigidBody2D" unique_id=1739471554 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 4
 collision_mask = 1835013
 mass = 100.0
@@ -525,47 +525,47 @@ ActorCol = NodePath("ActorCol")
 walk_speed = 2500000
 actor_ai = NodePath("B2_AI_Catfish_Small")
 
-[node name="B2_AI_Player" type="Node2D" parent="."]
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=1882713632]
 script = ExtResource("5_e35da")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="B2_AI_Catfish_Small" type="Node2D" parent="."]
+[node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=222138348]
 script = ExtResource("5_pum08")
 metadata/_custom_type_script = "uid://drt6du7p7v1mk"
 
-[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small"]
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small" unique_id=546906726]
 script = ExtResource("6_sj8r4")
 enemy_detection_radius = 128.0
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
-[node name="B2_FSM_Wander" type="Node" parent="B2_AI_Catfish_Small"]
+[node name="B2_FSM_Wander" type="Node" parent="B2_AI_Catfish_Small" unique_id=2066155277]
 script = ExtResource("8_fjx5q")
 metadata/_custom_type_script = "uid://gmxq1j4sfv7d"
 
-[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small"]
+[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small" unique_id=440620528]
 script = ExtResource("7_643qn")
 enemy_attack_radius = 80.0
 enemy_de_aggro_radius = 156.0
 metadata/_custom_type_script = "uid://cby82k6m3df21"
 
-[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small"]
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1095215900]
 script = ExtResource("9_e35da")
 attack_delay = 0.0
 metadata/_custom_type_script = "uid://i6own6gfjft5"
 
-[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small"]
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1619539350]
 script = ExtResource("8_nrbbj")
 metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
-[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1918604694]
 max_distance = 350.0
 max_polyphony = 5
 bus = &"Audio"
 
-[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="."]
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=517935808]
 emitting = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1862578859]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hlfig")
 animation = &"catfish_shot_attack"
@@ -682,15 +682,15 @@ metadata/water = {
 "yorigin": "14"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=117755914]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_4duym")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1329661654]
 path_desired_distance = 2.0
 debug_enabled = true
 
-[node name="ActorBloodSpill" type="GPUParticles2D" parent="."]
+[node name="ActorBloodSpill" type="GPUParticles2D" parent="." unique_id=1196927046]
 material = SubResource("CanvasItemMaterial_r81gg")
 position = Vector2(0, -8)
 emitting = false
@@ -701,7 +701,7 @@ one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("10_p2h0x")
 
-[node name="debug_data" type="Control" parent="." node_paths=PackedStringArray("ai")]
+[node name="debug_data" type="Control" parent="." unique_id=423836138 node_paths=PackedStringArray("ai")]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -55.0
@@ -711,7 +711,7 @@ offset_bottom = -57.0
 script = ExtResource("16_fjx5q")
 ai = NodePath("../B2_AI_Catfish_Small")
 
-[node name="Label" type="Label" parent="debug_data"]
+[node name="Label" type="Label" parent="debug_data" unique_id=1099242452]
 modulate = Color(1, 0.79607844, 1, 1)
 layout_mode = 1
 anchors_preset = 15

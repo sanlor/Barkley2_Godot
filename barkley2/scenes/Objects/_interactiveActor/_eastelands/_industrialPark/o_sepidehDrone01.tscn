@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bi57a8cokjikp"]
+[gd_scene format=3 uid="uid://bi57a8cokjikp"]
 
 [ext_resource type="Script" uid="uid://d3imgfmgs82av" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_sepidehDrone01.gd" id="1_kxy4v"]
 [ext_resource type="Texture2D" uid="uid://coq6lemrphkey" path="res://barkley2/assets/b2_original/images/merged/s_sepidehDrone01.png" id="2_st6da"]
@@ -224,7 +224,7 @@ radius = 26.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h260"]
 size = Vector2(50, 63)
 
-[node name="o_sepidehDrone01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_sepidehDrone01" type="CharacterBody2D" unique_id=1389295463 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_kxy4v")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_l0lqg")
@@ -232,7 +232,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1156034108]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_n038j")
 centered = false
@@ -286,14 +286,14 @@ metadata/flight = {
 "yorigin": "54"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=5655126]
 position = Vector2(0, -12)
 shape = SubResource("CircleShape2D_j140c")
 debug_color = Color(0.9997725, 0, 0.11707086, 0.25490198)
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1742531744]
 position = Vector2(0, -28)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=788756647]
 position = Vector2(0, 9.5)
 shape = SubResource("RectangleShape2D_2h260")

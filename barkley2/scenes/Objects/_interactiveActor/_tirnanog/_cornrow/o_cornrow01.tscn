@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://dvw3bjwejtlhq"]
+[gd_scene format=3 uid="uid://dvw3bjwejtlhq"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_cornrow01.gd" id="1_y7rq7"]
+[ext_resource type="Script" uid="uid://0yrcm3ujhaw1" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_cornrow01.gd" id="1_y7rq7"]
 [ext_resource type="Texture2D" uid="uid://cskss0uwrumn8" path="res://barkley2/assets/b2_original/images/merged/s_cornrow01.png" id="2_a22a8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5jk7n"]
@@ -59,13 +59,13 @@ radius = 9.5493
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_15p5n"]
 size = Vector2(20, 36)
 
-[node name="o_cornrow01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_cornrow01" type="CharacterBody2D" unique_id=1900778713 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_y7rq7")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2067001784]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_1lue7")
 centered = false
@@ -83,18 +83,18 @@ metadata/default = {
 "yorigin": "36"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=665481328]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_bhiwh")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2078677582]
 position = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=938963486]
 shape = SubResource("RectangleShape2D_15p5n")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1140106051]
 
-[node name="EyeTimer" type="Timer" parent="."]
+[node name="EyeTimer" type="Timer" parent="." unique_id=1949615569]
 
 [connection signal="timeout" from="EyeTimer" to="." method="_on_eye_timer_timeout"]

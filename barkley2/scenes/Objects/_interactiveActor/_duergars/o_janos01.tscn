@@ -1,6 +1,6 @@
-[gd_scene load_steps=25 format=3 uid="uid://bxx07rjc2ieu7"]
+[gd_scene format=3 uid="uid://bxx07rjc2ieu7"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_janos01.gd" id="1_rm8rl"]
+[ext_resource type="Script" uid="uid://buci5d4b62nxm" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_janos01.gd" id="1_rm8rl"]
 [ext_resource type="Texture2D" uid="uid://cytthrobvp4q" path="res://barkley2/assets/b2_original/images/merged/s_janos01.png" id="2_ese17"]
 [ext_resource type="Texture2D" uid="uid://crp25ykecrp7p" path="res://barkley2/assets/b2_original/images/merged/s_janosNE.png" id="3_pl6ox"]
 [ext_resource type="Texture2D" uid="uid://35le6omq8dx0" path="res://barkley2/assets/b2_original/images/merged/s_janosSE.png" id="4_lsi2a"]
@@ -157,7 +157,7 @@ radius = 11.4592
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0rs4f"]
 size = Vector2(20, 36)
 
-[node name="o_janos01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_janos01" type="CharacterBody2D" unique_id=1387289864 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_rm8rl")
 duergar_name = "janos"
 mouse_detection_area = NodePath("ActorInteract")
@@ -165,9 +165,9 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1902683602]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1214391649]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hobak")
 centered = false
@@ -245,10 +245,10 @@ metadata/s_janosSE = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1006324288]
 shape = SubResource("CircleShape2D_flwpy")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1461330066]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1752461393]
 shape = SubResource("RectangleShape2D_0rs4f")

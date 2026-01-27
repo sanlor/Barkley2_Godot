@@ -1,16 +1,16 @@
-[gd_scene load_steps=37 format=3 uid="uid://cy0i246c8od23"]
+[gd_scene format=3 uid="uid://cy0i246c8od23"]
 
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_e5jew"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_hand_scanner.gd" id="1_xhxjc"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_transition_scanner.gd" id="2_rej5h"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_togtech_cranial.gd" id="4_fajub"]
+[ext_resource type="Script" uid="uid://bghqqyhflvjcy" path="res://barkley2/scenes/CC/cc_hand_scanner.gd" id="1_xhxjc"]
+[ext_resource type="Script" uid="uid://c2ae5lr8fkfkf" path="res://barkley2/scenes/CC/cc_transition_scanner.gd" id="2_rej5h"]
+[ext_resource type="Script" uid="uid://bbapbflcrvhfe" path="res://barkley2/scenes/CC/cc_togtech_cranial.gd" id="4_fajub"]
 [ext_resource type="Texture2D" uid="uid://ccwv3dhhc3aw4" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_0.png" id="5_7d4m6"]
 [ext_resource type="Texture2D" uid="uid://byk3lvvo3d800" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_1.png" id="6_r31pi"]
 [ext_resource type="Texture2D" uid="uid://ceo685rosqppd" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_2.png" id="7_35pe2"]
 [ext_resource type="Texture2D" uid="uid://vw8v4plw7w6w" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_3.png" id="8_i3wbe"]
 [ext_resource type="Texture2D" uid="uid://cyqomkqtjtxu7" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_4.png" id="9_ro4ox"]
 [ext_resource type="Texture2D" uid="uid://bthxasuas5fod" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_wait_5.png" id="10_imipp"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/hand_scanner_device.gd" id="11_751aw"]
+[ext_resource type="Script" uid="uid://dkedt5e0gqmtb" path="res://barkley2/scenes/CC/hand_scanner_device.gd" id="11_751aw"]
 [ext_resource type="Texture2D" uid="uid://bxec6wiwvfp3i" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_0.png" id="11_iy1q6"]
 [ext_resource type="Texture2D" uid="uid://bwrumv5r8ibmr" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_1.png" id="12_kj2fv"]
 [ext_resource type="Texture2D" uid="uid://bdimcu4re7pjv" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_grid_2.png" id="13_4pe0s"]
@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bqwnbyuilb1st" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_0.png" id="21_fj5o8"]
 [ext_resource type="Texture2D" uid="uid://bkvj0368l1nud" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_beam_0.png" id="22_5il5b"]
 [ext_resource type="Texture2D" uid="uid://d2hdw1p0k6pmo" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_machine_1.png" id="22_nbiai"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/hand_scanner_results.gd" id="25_kghhj"]
+[ext_resource type="Script" uid="uid://d0vur4ddxdh44" path="res://barkley2/scenes/CC/hand_scanner_results.gd" id="25_kghhj"]
 [ext_resource type="Texture2D" uid="uid://cuv5b2doqsrxh" path="res://barkley2/assets/b2_original/images/cc/s_cc_hand_scanner_logo_0.png" id="26_ffxy7"]
 
 [sub_resource type="Animation" id="Animation_4j1px"]
@@ -487,12 +487,12 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_62fqv"]
 _data = {
-"RESET": SubResource("Animation_4j1px"),
-"cranial_scan": SubResource("Animation_v42f0"),
-"handscan_scan": SubResource("Animation_gfuvc"),
-"hide_handscanner": SubResource("Animation_grwl2"),
-"send_data": SubResource("Animation_1o3o7"),
-"show_handscanner": SubResource("Animation_bse6d")
+&"RESET": SubResource("Animation_4j1px"),
+&"cranial_scan": SubResource("Animation_v42f0"),
+&"handscan_scan": SubResource("Animation_gfuvc"),
+&"hide_handscanner": SubResource("Animation_grwl2"),
+&"send_data": SubResource("Animation_1o3o7"),
+&"show_handscanner": SubResource("Animation_bse6d")
 }
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3coyc"]
@@ -597,7 +597,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="cc_hand_scanner" type="Control"]
+[node name="cc_hand_scanner" type="Control" unique_id=2139535417]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -609,18 +609,16 @@ size_flags_vertical = 3
 theme = ExtResource("1_e5jew")
 script = ExtResource("1_xhxjc")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_62fqv")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1240147296]
+libraries/ = SubResource("AnimationLibrary_62fqv")
 
-[node name="cc_transition_scanner" type="Control" parent="."]
+[node name="cc_transition_scanner" type="Control" parent="." unique_id=309656]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_rej5h")
 
-[node name="togtech_cranial" type="ColorRect" parent="."]
+[node name="togtech_cranial" type="ColorRect" parent="." unique_id=1294592158]
 visible = false
 clip_contents = true
 layout_mode = 0
@@ -630,7 +628,7 @@ offset_bottom = 200.0
 color = Color(0, 0, 0, 1)
 script = ExtResource("4_fajub")
 
-[node name="togtech_text" type="Label" parent="togtech_cranial"]
+[node name="togtech_text" type="Label" parent="togtech_cranial" unique_id=1638143571]
 layout_mode = 0
 offset_top = 124.0
 offset_right = 384.0
@@ -638,12 +636,12 @@ offset_bottom = 149.0
 text = "TEXT I GUESS"
 horizontal_alignment = 1
 
-[node name="togtech_anim" type="AnimatedSprite2D" parent="togtech_cranial"]
+[node name="togtech_anim" type="AnimatedSprite2D" parent="togtech_cranial" unique_id=729312034]
 position = Vector2(192, 154)
 sprite_frames = SubResource("SpriteFrames_3coyc")
 frame_progress = 0.800141
 
-[node name="hand_scanner_device" type="Control" parent="."]
+[node name="hand_scanner_device" type="Control" parent="." unique_id=847425341]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -654,7 +652,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("11_751aw")
 
-[node name="hand_bg" type="ColorRect" parent="hand_scanner_device"]
+[node name="hand_bg" type="ColorRect" parent="hand_scanner_device" unique_id=1586617373]
 visible = false
 layout_mode = 0
 offset_left = -87.0
@@ -663,30 +661,30 @@ offset_right = 93.0
 offset_bottom = 82.0
 color = Color(0, 0, 0, 1)
 
-[node name="hand_left_bg" type="AnimatedSprite2D" parent="hand_scanner_device"]
+[node name="hand_left_bg" type="AnimatedSprite2D" parent="hand_scanner_device" unique_id=1010293137]
 modulate = Color(1, 1, 1, 0.75)
 position = Vector2(-236, -7)
 sprite_frames = SubResource("SpriteFrames_ohwpl")
 
-[node name="hand_right_bg" type="AnimatedSprite2D" parent="hand_scanner_device"]
+[node name="hand_right_bg" type="AnimatedSprite2D" parent="hand_scanner_device" unique_id=935053222]
 modulate = Color(1, 1, 1, 0.75)
 position = Vector2(236, -7)
 sprite_frames = SubResource("SpriteFrames_obi1v")
 
-[node name="beam" type="Sprite2D" parent="hand_scanner_device"]
+[node name="beam" type="Sprite2D" parent="hand_scanner_device" unique_id=1983862667]
 visible = false
 position = Vector2(0, -100)
 texture = ExtResource("22_5il5b")
 
-[node name="hand_left" type="Sprite2D" parent="hand_scanner_device"]
+[node name="hand_left" type="Sprite2D" parent="hand_scanner_device" unique_id=1163834065]
 position = Vector2(-194, 0)
 texture = ExtResource("21_fj5o8")
 
-[node name="hand_right" type="Sprite2D" parent="hand_scanner_device"]
+[node name="hand_right" type="Sprite2D" parent="hand_scanner_device" unique_id=1292907355]
 position = Vector2(190, 0)
 texture = ExtResource("22_nbiai")
 
-[node name="end_scan_message" type="Label" parent="hand_scanner_device"]
+[node name="end_scan_message" type="Label" parent="hand_scanner_device" unique_id=942345588]
 visible = false
 layout_mode = 0
 offset_right = 60.0
@@ -698,7 +696,7 @@ TO
 CONTINUE"
 horizontal_alignment = 1
 
-[node name="hand_scanner_results" type="Control" parent="."]
+[node name="hand_scanner_results" type="Control" parent="." unique_id=1812125359]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -709,7 +707,7 @@ grow_vertical = 2
 theme = ExtResource("1_e5jew")
 script = ExtResource("25_kghhj")
 
-[node name="bg" type="ColorRect" parent="hand_scanner_results"]
+[node name="bg" type="ColorRect" parent="hand_scanner_results" unique_id=531633478]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -718,14 +716,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.5)
 
-[node name="bottom_bar" type="ColorRect" parent="hand_scanner_results"]
+[node name="bottom_bar" type="ColorRect" parent="hand_scanner_results" unique_id=760258014]
 layout_mode = 0
 offset_top = 220.0
 offset_right = 384.0
 offset_bottom = 240.0
 color = Color(0.0784314, 0.27451, 0.392157, 1)
 
-[node name="bottom_text" type="Label" parent="hand_scanner_results/bottom_bar"]
+[node name="bottom_text" type="Label" parent="hand_scanner_results/bottom_bar" unique_id=920195034]
 layout_mode = 0
 offset_right = 384.0
 offset_bottom = 20.0
@@ -733,11 +731,11 @@ text = "Page NAN out of 3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="text_stuff" type="Control" parent="hand_scanner_results"]
+[node name="text_stuff" type="Control" parent="hand_scanner_results" unique_id=422102720]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="logo" type="Sprite2D" parent="hand_scanner_results"]
+[node name="logo" type="Sprite2D" parent="hand_scanner_results" unique_id=1053654024]
 position = Vector2(192, 60)
 texture = ExtResource("26_ffxy7")

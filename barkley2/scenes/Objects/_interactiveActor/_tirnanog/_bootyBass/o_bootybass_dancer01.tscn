@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c2ngddxqy7t84"]
+[gd_scene format=3 uid="uid://c2ngddxqy7t84"]
 
 [ext_resource type="Script" uid="uid://chsd6uxvlsmul" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_bootybass_dancer01.gd" id="1_xnti1"]
 [ext_resource type="Texture2D" uid="uid://dggahe61i5ryl" path="res://barkley2/assets/b2_original/images/merged/s_bootybass_dancer01.png" id="2_mha4a"]
@@ -76,14 +76,14 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xnti1"]
 
-[node name="o_bootybass_dancer01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol")]
+[node name="o_bootybass_dancer01" type="CharacterBody2D" unique_id=1870478319 node_paths=PackedStringArray("ActorAnim", "ActorCol")]
 script = ExtResource("1_xnti1")
 is_interactive = false
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1274968537]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0av3q")
 autoplay = "default"
@@ -103,5 +103,5 @@ metadata/default = {
 "yorigin": "51"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2063867009]
 shape = SubResource("CircleShape2D_xnti1")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6pifolg23jew"]
+[gd_scene format=3 uid="uid://c6pifolg23jew"]
 
 [ext_resource type="Script" uid="uid://dh44wyq7p8l6h" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_govinda01.gd" id="1_ich2r"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_cliht"]
@@ -41,14 +41,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4gr40"]
 size = Vector2(20, 36)
 
-[node name="o_govinda01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_govinda01" type="CharacterBody2D" unique_id=515752454 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_ich2r")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_4gr40")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2107449294]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_jm7uo")
 centered = false
@@ -66,19 +66,19 @@ metadata/default = {
 "yorigin": "41"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1915790719]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_8ow6g")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=182286016]
 position = Vector2(0, -17)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=353866598]
 shape = SubResource("RectangleShape2D_4gr40")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=51689605]
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=1761806046]
 z_index = 4000
 script = ExtResource("4_jm7uo")
 notes = "Manchurian Quest"

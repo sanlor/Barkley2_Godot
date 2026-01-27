@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cbg4l0soxttx6"]
+[gd_scene format=3 uid="uid://cbg4l0soxttx6"]
 
 [ext_resource type="Script" uid="uid://cljf48v8201su" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_zhang01.gd" id="1_by474"]
 [ext_resource type="Texture2D" uid="uid://btnjb6yinrhi6" path="res://barkley2/assets/b2_original/images/merged/s_tnn_zhang01.png" id="2_7d8yb"]
@@ -91,7 +91,7 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[node name="o_zhang01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_zhang01" type="CharacterBody2D" unique_id=352789902 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_by474")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_ktr56")
@@ -99,7 +99,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=203393442]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_2jqnt")
 centered = false
@@ -117,20 +117,20 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=784946951]
 shape = SubResource("CircleShape2D_cbg41")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2076484795]
 position = Vector2(0, -17)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=489927840]
 shape = SubResource("RectangleShape2D_x7f7y")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1388762698]
 stream = ExtResource("4_73pla")
 bus = &"Audio"
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=619596282]
 material = SubResource("CanvasItemMaterial_75hlb")
 position = Vector2(0, -19)
 emitting = false
@@ -140,6 +140,6 @@ one_shot = true
 explosiveness = 0.8
 process_material = ExtResource("6_0rnar")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=21105084]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

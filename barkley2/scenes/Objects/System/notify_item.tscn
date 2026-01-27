@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxcyiwmc3jcbj"]
+[gd_scene format=3 uid="uid://dxcyiwmc3jcbj"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/System/notify_item.gd" id="1_qjjv0"]
+[ext_resource type="Script" uid="uid://yyhjcfhv18c2" path="res://barkley2/scenes/Objects/System/notify_item.gd" id="1_qjjv0"]
 [ext_resource type="Texture2D" uid="uid://2f8cr6uarncg" path="res://barkley2/assets/b2_original/images/merged/s_diag_bg.png" id="2_h3d36"]
 [ext_resource type="Theme" uid="uid://1ob2eclhl3at" path="res://barkley2/resources/misc/notify_theme.tres" id="2_i40xj"]
 [ext_resource type="Texture2D" uid="uid://bu7c45dom4m8l" path="res://barkley2/assets/b2_original/images/merged/s_return.png" id="3_g363w"]
@@ -16,10 +16,10 @@ func _physics_process(delta: float) -> void:
 	modulate.a = curve
 "
 
-[node name="notify_layer" type="CanvasLayer"]
+[node name="notify_layer" type="CanvasLayer" unique_id=163465434]
 script = ExtResource("1_qjjv0")
 
-[node name="notify_item" type="ColorRect" parent="."]
+[node name="notify_item" type="ColorRect" parent="." unique_id=137657815]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -28,7 +28,7 @@ grow_vertical = 2
 theme = ExtResource("2_i40xj")
 color = Color(0, 0, 0, 0.15)
 
-[node name="dialog" type="TextureRect" parent="notify_item"]
+[node name="dialog" type="TextureRect" parent="notify_item" unique_id=656513434]
 modulate = Color(1, 1, 1, 0.75)
 layout_mode = 1
 anchors_preset = 14
@@ -42,7 +42,7 @@ grow_vertical = 2
 texture = ExtResource("2_h3d36")
 stretch_mode = 1
 
-[node name="dialog_text" type="Label" parent="notify_item/dialog"]
+[node name="dialog_text" type="Label" parent="notify_item/dialog" unique_id=378955311]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -60,7 +60,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="return" type="TextureRect" parent="notify_item/dialog"]
+[node name="return" type="TextureRect" parent="notify_item/dialog" unique_id=1802261403]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3ewjgn1eocen"]
+[gd_scene format=3 uid="uid://d3ewjgn1eocen"]
 
 [ext_resource type="Script" uid="uid://3woefn66x557" path="res://barkley2/rooms/r_shader_loader.gd" id="1_cg64c"]
 [ext_resource type="Texture2D" uid="uid://p1fyr4oxbcub" path="res://barkley2/assets/b2_original/images/merged/s_bball.png" id="2_3m7pj"]
@@ -9,7 +9,7 @@
 font = ExtResource("4_sgs1q")
 font_color = Color(0.07683588, 0.0768358, 0.0768358, 1)
 
-[node name="r_shader_loader" type="Control"]
+[node name="r_shader_loader" type="Control" unique_id=541369900]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_cg64c")
 
-[node name="cuck_box" type="Control" parent="."]
+[node name="cuck_box" type="Control" parent="." unique_id=1191289120]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,7 +26,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="bg" type="ColorRect" parent="."]
+[node name="bg" type="ColorRect" parent="." unique_id=1665258401]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,11 +35,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="ball_sprite" type="Sprite2D" parent="."]
+[node name="ball_sprite" type="Sprite2D" parent="." unique_id=331003692]
 position = Vector2(218, 211)
 texture = ExtResource("2_3m7pj")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1527029190]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,7 +51,7 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="loading_lbl" type="RichTextLabel" parent="MarginContainer"]
+[node name="loading_lbl" type="RichTextLabel" parent="MarginContainer" unique_id=1658541638]
 custom_minimum_size = Vector2(150, 32)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -59,7 +59,7 @@ size_flags_vertical = 8
 theme_override_fonts/normal_font = ExtResource("3_3m7pj")
 text = "Now Loading..."
 
-[node name="loading_detail_lbl" type="Label" parent="MarginContainer"]
+[node name="loading_detail_lbl" type="Label" parent="MarginContainer" unique_id=1926872266]
 custom_minimum_size = Vector2(150, 10)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -67,7 +67,7 @@ size_flags_vertical = 8
 text = "PLACEHOLDER"
 label_settings = SubResource("LabelSettings_xy27y")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1251270300]
 wait_time = 0.25
 autostart = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cx2bfqr3jw6c4"]
+[gd_scene format=3 uid="uid://cx2bfqr3jw6c4"]
 
 [ext_resource type="Script" uid="uid://chtru86qauj0a" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_observatory/o_pelekryte01.gd" id="1_6rh6p"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4dd4h"]
@@ -46,14 +46,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_86fvw"]
 size = Vector2(20, 36)
 
-[node name="o_pelekryte01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_pelekryte01" type="CharacterBody2D" unique_id=950876816 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_6rh6p")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_2s55h")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=494603918]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_2s55h")
 centered = false
@@ -71,14 +71,14 @@ metadata/default = {
 "yorigin": "56"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1699729036]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_86fvw")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=511169592]
 position = Vector2(0, -18)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=926656616]
 shape = SubResource("RectangleShape2D_86fvw")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=83273432]

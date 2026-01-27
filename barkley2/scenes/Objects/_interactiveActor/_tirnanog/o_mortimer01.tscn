@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://r75tawnpu4nc"]
+[gd_scene format=3 uid="uid://r75tawnpu4nc"]
 
 [ext_resource type="Script" uid="uid://c4aned1tpcekl" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_mortimer01.gd" id="1_b15al"]
 [ext_resource type="Texture2D" uid="uid://t3ut7x4vr5kw" path="res://barkley2/assets/b2_original/images/merged/s_mortimer01.png" id="2_41u35"]
@@ -432,7 +432,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lv76h"]
 size = Vector2(33, 32)
 
-[node name="o_mortimer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim")]
+[node name="o_mortimer01" type="CharacterBody2D" unique_id=251956391 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim")]
 script = ExtResource("1_b15al")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_0jj5a")
@@ -440,7 +440,7 @@ ActorAnim = NodePath("ActorAnim")
 has_collision = false
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=57485948]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_g0n1w")
 autoplay = "default"
@@ -484,16 +484,16 @@ metadata/scared2 = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1827555696]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=770844408]
 position = Vector2(-1, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1104298879]
 position = Vector2(-1.5, -2)
 shape = SubResource("RectangleShape2D_lv76h")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1350278721]
 stream = ExtResource("5_yokt6")
 max_distance = 400.0
 bus = &"Audio"

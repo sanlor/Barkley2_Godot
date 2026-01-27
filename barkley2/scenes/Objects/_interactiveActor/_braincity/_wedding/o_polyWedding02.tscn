@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://detl2nnfkoeqa"]
+[gd_scene format=3 uid="uid://detl2nnfkoeqa"]
 
 [ext_resource type="Script" uid="uid://bikhkx3du5u2w" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_polyWedding02.gd" id="1_7fpdr"]
 [ext_resource type="Texture2D" uid="uid://s60nk8s0yg7u" path="res://barkley2/assets/b2_original/images/merged/s_polyPlay01.png" id="2_xcgh4"]
@@ -115,14 +115,14 @@ radius = 22.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rx0mm"]
 size = Vector2(40, 70)
 
-[node name="o_polyWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_polyWedding02" type="CharacterBody2D" unique_id=1333380285 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_7fpdr")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1314769495]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_yvlml")
 centered = false
@@ -140,12 +140,12 @@ metadata/default = {
 "yorigin": "59"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=731455883]
 position = Vector2(0, -11)
 shape = SubResource("CircleShape2D_7fpdr")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1833210184]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1363366814]
 position = Vector2(18, -25)
 shape = SubResource("RectangleShape2D_rx0mm")

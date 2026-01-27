@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cndavc75druhm"]
+[gd_scene format=3 uid="uid://cndavc75druhm"]
 
 [ext_resource type="Script" uid="uid://d10oss3gkavqu" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_cgrem_henchman01.gd" id="1_wyyyq"]
 [ext_resource type="Texture2D" uid="uid://omeraxbekxj1" path="res://barkley2/assets/b2_original/images/merged/s_cgrem_henchman01_NE.png" id="2_i2w63"]
@@ -131,14 +131,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gtx1w"]
 size = Vector2(20, 36)
 
-[node name="o_cgrem_henchman01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_cgrem_henchman01" type="CharacterBody2D" unique_id=1342249504 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_wyyyq")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1381963341]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_v7qj3")
 centered = false
@@ -168,14 +168,14 @@ metadata/s_cgrem_henchman01_stand = {
 "yorigin": "35"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1283282922]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_wyyyq")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1216532734]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1152134392]
 shape = SubResource("RectangleShape2D_gtx1w")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=239437947]

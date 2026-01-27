@@ -1,10 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://ccahdrbrqls64"]
+[gd_scene format=3 uid="uid://ccahdrbrqls64"]
 
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_06h8d"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_alignment.gd" id="2_yyg3a"]
+[ext_resource type="Script" uid="uid://1fiuyj6pxsxu" path="res://barkley2/scenes/CC/cc_alignment.gd" id="2_yyg3a"]
 [ext_resource type="Texture2D" uid="uid://gane0l35seai" path="res://barkley2/assets/b2_original/images/cc/s_cc_alignment_grid_0.png" id="3_cmwwu"]
 [ext_resource type="Texture2D" uid="uid://c0adw3hj2sncm" path="res://barkley2/assets/b2_original/images/cc/s_cc_alignment_trail_0.png" id="4_3lnqh"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/piece_highlight.gd" id="5_5aw0d"]
+[ext_resource type="Script" uid="uid://drs8gmlrduwqf" path="res://barkley2/scenes/CC/piece_highlight.gd" id="5_5aw0d"]
 [ext_resource type="Texture2D" uid="uid://8wu366h62tal" path="res://barkley2/assets/b2_original/images/cc/s_cc_alignment_piece_0.png" id="6_drv7s"]
 [ext_resource type="Texture2D" uid="uid://dq1tqvlhwhi4y" path="res://barkley2/assets/b2_original/images/cc/s_cc_alignment_quiz_0.png" id="7_acslm"]
 
@@ -85,26 +85,26 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xd4pm"]
 _data = {
-"RESET": SubResource("Animation_cvbw7"),
-"end_animation": SubResource("Animation_m0vbg"),
-"move_to_grid": SubResource("Animation_d4w6q"),
-"move_to_quiz": SubResource("Animation_v2pnc")
+&"RESET": SubResource("Animation_cvbw7"),
+&"end_animation": SubResource("Animation_m0vbg"),
+&"move_to_grid": SubResource("Animation_d4w6q"),
+&"move_to_quiz": SubResource("Animation_v2pnc")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_yjhb7"]
 line_spacing = 8.0
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_78048"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2k0f"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cvel4"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dvgyp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3kxas"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dvgyp"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cvel4"]
 
-[node name="cc_alignment" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2k0f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_78048"]
+
+[node name="cc_alignment" type="Control" unique_id=932979044]
 material = SubResource("CanvasItemMaterial_db6mq")
 layout_mode = 3
 anchors_preset = 15
@@ -115,7 +115,7 @@ grow_vertical = 2
 theme = ExtResource("1_06h8d")
 script = ExtResource("2_yyg3a")
 
-[node name="alignment_bg" type="ColorRect" parent="."]
+[node name="alignment_bg" type="ColorRect" parent="." unique_id=1589110018]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,12 +124,10 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_xd4pm")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=968675251]
+libraries/ = SubResource("AnimationLibrary_xd4pm")
 
-[node name="alignment_grid" type="Control" parent="."]
+[node name="alignment_grid" type="Control" parent="." unique_id=1170309140]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -140,7 +138,7 @@ offset_bottom = 4560.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="grid" type="TextureRect" parent="alignment_grid"]
+[node name="grid" type="TextureRect" parent="alignment_grid" unique_id=707135277]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -155,7 +153,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_cmwwu")
 
-[node name="piece_highlight" type="Sprite2D" parent="alignment_grid" node_paths=PackedStringArray("follow_piece")]
+[node name="piece_highlight" type="Sprite2D" parent="alignment_grid" unique_id=250368709 node_paths=PackedStringArray("follow_piece")]
 modulate = Color(1, 1, 1, 0.5)
 position = Vector2(320, 192)
 texture = ExtResource("4_3lnqh")
@@ -163,15 +161,15 @@ centered = false
 script = ExtResource("5_5aw0d")
 follow_piece = NodePath("../piece")
 
-[node name="piece" type="Sprite2D" parent="alignment_grid"]
+[node name="piece" type="Sprite2D" parent="alignment_grid" unique_id=1332971946]
 position = Vector2(327, 197)
 texture = ExtResource("6_drv7s")
 offset = Vector2(16, -8)
 
-[node name="position_helper" type="Marker2D" parent="alignment_grid"]
+[node name="position_helper" type="Marker2D" parent="alignment_grid" unique_id=1099209981]
 position = Vector2(321, 59)
 
-[node name="click_label" type="Label" parent="alignment_grid"]
+[node name="click_label" type="Label" parent="alignment_grid" unique_id=1067039117]
 visible = false
 modulate = Color(1, 1, 0, 1)
 layout_mode = 0
@@ -181,7 +179,7 @@ offset_right = 288.0
 offset_bottom = 232.0
 text = "Click the screen to continue"
 
-[node name="alignment_questions" type="Control" parent="."]
+[node name="alignment_questions" type="Control" parent="." unique_id=44145511]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -191,7 +189,7 @@ offset_bottom = 4800.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="alignment_paper" type="TextureRect" parent="alignment_questions"]
+[node name="alignment_paper" type="TextureRect" parent="alignment_questions" unique_id=1934237558]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -206,7 +204,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_acslm")
 
-[node name="statement_title" type="Label" parent="alignment_questions"]
+[node name="statement_title" type="Label" parent="alignment_questions" unique_id=1322328350]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 0
 offset_left = 67.0
@@ -214,7 +212,7 @@ offset_top = 36.0
 offset_right = 132.0
 offset_bottom = 59.0
 
-[node name="statement_content" type="Label" parent="alignment_questions"]
+[node name="statement_content" type="Label" parent="alignment_questions" unique_id=376409964]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 53.0
@@ -223,7 +221,7 @@ offset_bottom = 61.0
 label_settings = SubResource("LabelSettings_yjhb7")
 autowrap_mode = 2
 
-[node name="awnser_title" type="Label" parent="alignment_questions"]
+[node name="awnser_title" type="Label" parent="alignment_questions" unique_id=747754773]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 0
 offset_left = 67.0
@@ -231,92 +229,92 @@ offset_top = 117.0
 offset_right = 114.0
 offset_bottom = 140.0
 
-[node name="strongly_agree_btn" type="Button" parent="alignment_questions"]
+[node name="strongly_agree_btn" type="Button" parent="alignment_questions" unique_id=1121491071]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 133.0
 offset_right = 323.0
 offset_bottom = 141.0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
 theme_override_colors/font_color = Color(1, 0.705882, 0, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dvgyp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
 alignment = 0
 
-[node name="agree_btn" type="Button" parent="alignment_questions"]
+[node name="agree_btn" type="Button" parent="alignment_questions" unique_id=536555553]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 149.0
 offset_right = 323.0
 offset_bottom = 157.0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
 theme_override_colors/font_color = Color(1, 0.705882, 0, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dvgyp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
 alignment = 0
 
-[node name="neutral_btn" type="Button" parent="alignment_questions"]
+[node name="neutral_btn" type="Button" parent="alignment_questions" unique_id=947988676]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 165.0
 offset_right = 323.0
 offset_bottom = 173.0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
 theme_override_colors/font_color = Color(1, 0.705882, 0, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dvgyp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
 alignment = 0
 
-[node name="disagree_btn" type="Button" parent="alignment_questions"]
+[node name="disagree_btn" type="Button" parent="alignment_questions" unique_id=630548557]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 181.0
 offset_right = 323.0
 offset_bottom = 189.0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
 theme_override_colors/font_color = Color(1, 0.705882, 0, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dvgyp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
 alignment = 0
 
-[node name="strongly_disagree_btn" type="Button" parent="alignment_questions"]
+[node name="strongly_disagree_btn" type="Button" parent="alignment_questions" unique_id=639914251]
 layout_mode = 0
 offset_left = 67.0
 offset_top = 197.0
 offset_right = 323.0
 offset_bottom = 205.0
-theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
 theme_override_colors/font_color = Color(1, 0.705882, 0, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
-theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
-theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_colors/font_focus_color = Color(1, 0.705882, 0, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 0, 1)
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dvgyp")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3kxas")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cvel4")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_l2k0f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_78048")
 alignment = 0

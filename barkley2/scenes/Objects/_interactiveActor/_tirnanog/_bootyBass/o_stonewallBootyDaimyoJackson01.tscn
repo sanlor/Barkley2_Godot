@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://xjy2idn2m6ab"]
+[gd_scene format=3 uid="uid://xjy2idn2m6ab"]
 
 [ext_resource type="Script" uid="uid://77i3kxo64kra" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_stonewallBootyDaimyoJackson01.gd" id="1_0grow"]
 [ext_resource type="Texture2D" uid="uid://bxxjubaw3rjl5" path="res://barkley2/assets/b2_original/images/merged/s_stonewallBootyDaimyoJackson01.png" id="2_3omut"]
@@ -586,7 +586,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c62n5"]
 size = Vector2(20, 36)
 
-[node name="o_stonewallBootyDaimyoJackson01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_stonewallBootyDaimyoJackson01" type="CharacterBody2D" unique_id=1309693760 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0grow")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_qc0n1")
@@ -594,7 +594,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=701334360]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_s04p4")
 centered = false
@@ -612,11 +612,11 @@ metadata/default = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1219547302]
 shape = SubResource("CircleShape2D_on5hq")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=12740225]
 position = Vector2(0, -7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=174436072]
 shape = SubResource("RectangleShape2D_c62n5")

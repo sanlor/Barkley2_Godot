@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cs6e2v3qews85"]
+[gd_scene format=3 uid="uid://cs6e2v3qews85"]
 
 [ext_resource type="Texture2D" uid="uid://3ixyofqm3fpf" path="res://barkley2/assets/b2_original/images/merged/sPrisonGenericToilet.png" id="1_sclys"]
 [ext_resource type="Script" uid="uid://cwpyjts6vppp3" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_prison_generic_toilet.gd" id="2_lg4k8"]
@@ -218,21 +218,23 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="oPrisonGenericToilet" type="AnimatedSprite2D"]
+[node name="oPrisonGenericToilet" type="AnimatedSprite2D" unique_id=547529960]
 sprite_frames = SubResource("SpriteFrames_rrg3p")
 script = ExtResource("2_lg4k8")
 
-[node name="sPrisonHead" type="AnimatedSprite2D" parent="."]
+[node name="sPrisonHead" type="AnimatedSprite2D" parent="." unique_id=629816414]
 position = Vector2(2, -12)
 sprite_frames = SubResource("SpriteFrames_r44s0")
+frame = 8
 flip_h = true
 
-[node name="sPrisonFace" type="AnimatedSprite2D" parent="sPrisonHead"]
+[node name="sPrisonFace" type="AnimatedSprite2D" parent="sPrisonHead" unique_id=1576670866]
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_b6ild")
+frame = 1
 flip_h = true
 
-[node name="censor_bar_timer" type="Timer" parent="."]
+[node name="censor_bar_timer" type="Timer" parent="." unique_id=187213572]
 wait_time = 0.1
 autostart = true
 

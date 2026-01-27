@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b2otmm8u46uk4"]
+[gd_scene format=3 uid="uid://b2otmm8u46uk4"]
 
 [ext_resource type="Script" uid="uid://bu1yilbppymym" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_amalberga01.gd" id="1_twvs6"]
 [ext_resource type="Texture2D" uid="uid://buujcwuw2507u" path="res://barkley2/assets/b2_original/images/merged/s_amalberga01.png" id="2_84ak8"]
@@ -66,14 +66,14 @@ radius = 6.68451
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mjbv4"]
 size = Vector2(20, 36)
 
-[node name="o_amalberga01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_amalberga01" type="CharacterBody2D" unique_id=1327651454 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_twvs6")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_t41tx")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=9152642]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_lfgvg")
 centered = false
@@ -103,13 +103,13 @@ metadata/inside = {
 "yorigin": "39"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1545742593]
 shape = SubResource("CircleShape2D_5gb0i")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2141302974]
 position = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2003770051]
 shape = SubResource("RectangleShape2D_mjbv4")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1036132222]

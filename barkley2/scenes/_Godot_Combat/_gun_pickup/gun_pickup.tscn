@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dw2s64ww53llb"]
+[gd_scene format=3 uid="uid://dw2s64ww53llb"]
 
 [ext_resource type="Script" uid="uid://dpaaodfwipb88" path="res://barkley2/scenes/_Godot_Combat/_gun_pickup/gun_pickup.gd" id="1_jmpys"]
 [ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="2_lqvtt"]
@@ -14,20 +14,20 @@ font = ExtResource("3_6xt8f")
 [sub_resource type="CircleShape2D" id="CircleShape2D_odawf"]
 radius = 6.0
 
-[node name="gun_pickup" type="Area2D"]
+[node name="gun_pickup" type="Area2D" unique_id=1490284646]
 script = ExtResource("1_jmpys")
 
-[node name="gun_sprite_shadow" type="Sprite2D" parent="."]
+[node name="gun_sprite_shadow" type="Sprite2D" parent="." unique_id=791157615]
 modulate = Color(0, 0, 0, 0.75)
 scale = Vector2(0.75, 0.75)
 texture = SubResource("AtlasTexture_frtqm")
 
-[node name="gun_sprite" type="Sprite2D" parent="."]
+[node name="gun_sprite" type="Sprite2D" parent="." unique_id=28331718]
 position = Vector2(0, -8)
 scale = Vector2(0.75, 0.75)
 texture = SubResource("AtlasTexture_frtqm")
 
-[node name="gun_name" type="Label" parent="."]
+[node name="gun_name" type="Label" parent="." unique_id=1635277201]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,7 +45,7 @@ label_settings = SubResource("LabelSettings_gy400")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=687958686]
 shape = SubResource("CircleShape2D_odawf")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

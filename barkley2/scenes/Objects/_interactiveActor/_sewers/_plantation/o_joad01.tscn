@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bfliclunwoq20"]
+[gd_scene format=3 uid="uid://bfliclunwoq20"]
 
 [ext_resource type="Script" uid="uid://dgpfmeni8ck0i" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_joad01.gd" id="1_gds3r"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_avgr7"]
@@ -347,14 +347,14 @@ radius = 14.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t1o5l"]
 size = Vector2(39, 37)
 
-[node name="o_joad01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_joad01" type="CharacterBody2D" unique_id=858606975 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_gds3r")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_rj3vk")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1876777636]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_6orqr")
 animation = &"cough"
@@ -409,14 +409,14 @@ metadata/dead = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=233053556]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_romqi")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=602971065]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=917165667]
 position = Vector2(-2.5, -11.5)
 shape = SubResource("RectangleShape2D_t1o5l")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=517619254]

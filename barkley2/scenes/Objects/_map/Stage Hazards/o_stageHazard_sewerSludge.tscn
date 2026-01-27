@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cifjdailrohp8"]
+[gd_scene format=3 uid="uid://cifjdailrohp8"]
 
 [ext_resource type="Texture2D" uid="uid://dng20n2wrbo3o" path="res://barkley2/assets/b2_original/images/merged/s_stageHazard_sewerSludge.png" id="1_uu7vq"]
 [ext_resource type="Script" uid="uid://68pid3fy0qiy" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stage_hazard_sewer_sludge.gd" id="2_frb53"]
@@ -6,19 +6,19 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_y17rx"]
 radius = 16.0
 
-[node name="o_stageHazard_sewerSludge" type="Sprite2D"]
+[node name="o_stageHazard_sewerSludge" type="Sprite2D" unique_id=643086704]
 texture = ExtResource("1_uu7vq")
 script = ExtResource("2_frb53")
 
-[node name="hit_cooldown" type="Timer" parent="."]
+[node name="hit_cooldown" type="Timer" parent="." unique_id=1562302333]
 autostart = true
 
-[node name="contact_area" type="Area2D" parent="."]
+[node name="contact_area" type="Area2D" parent="." unique_id=1680246927]
 monitorable = false
 linear_damp_space_override = 1
 linear_damp = 50.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="contact_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="contact_area" unique_id=1257070919]
 shape = SubResource("CircleShape2D_y17rx")
 
 [connection signal="timeout" from="hit_cooldown" to="." method="_on_hit_cooldown_timeout"]

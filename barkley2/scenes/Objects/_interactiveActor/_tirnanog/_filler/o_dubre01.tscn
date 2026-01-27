@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7tx07n60et1w"]
+[gd_scene format=3 uid="uid://c7tx07n60et1w"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dubre01.gd" id="1_pu6p8"]
+[ext_resource type="Script" uid="uid://cxbv7nquuqr02" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dubre01.gd" id="1_pu6p8"]
 [ext_resource type="Texture2D" uid="uid://0ydpfuty2k0p" path="res://barkley2/assets/b2_original/images/merged/s_dubre01.png" id="2_jpx7v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yyndb"]
@@ -24,14 +24,14 @@ radius = 7.63944
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1v1g1"]
 size = Vector2(20, 36)
 
-[node name="o_dubre01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_dubre01" type="CharacterBody2D" unique_id=13033924 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_pu6p8")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=162855433]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_5wdvd")
 centered = false
@@ -49,13 +49,13 @@ metadata/default = {
 "yorigin": "42"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1337055468]
 shape = SubResource("CircleShape2D_x7jxm")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1998412785]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1194454345]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1828912699]
 position = Vector2(1, -17)
 shape = SubResource("RectangleShape2D_1v1g1")

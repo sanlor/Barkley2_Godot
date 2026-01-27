@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bw704hnw70nik"]
+[gd_scene format=3 uid="uid://bw704hnw70nik"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dce3stj7lmyqf" path="res://barkley2/resources/B2_Enemies/enemy_physics_material.tres" id="1_e52ma"]
 [ext_resource type="Script" uid="uid://b27os8s1rafsy" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_dark_rat.gd" id="2_fhxio"]
@@ -174,7 +174,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_48n6s"]
 radius = 8.0
 
-[node name="o_enemy_darkRat" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
+[node name="o_enemy_darkRat" type="RigidBody2D" unique_id=1431254995 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 4
 collision_mask = 1835019
 mass = 20.0
@@ -204,41 +204,41 @@ ActorCol = NodePath("ActorCol")
 walk_speed = 650000
 actor_ai = NodePath("B2_AI_DarkRat")
 
-[node name="B2_AI_Player" type="Node2D" parent="."]
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=1070536660]
 script = ExtResource("5_dqcrk")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="B2_AI_DarkRat" type="Node2D" parent="."]
+[node name="B2_AI_DarkRat" type="Node2D" parent="." unique_id=1058837464]
 script = ExtResource("7_ybsmp")
 metadata/_custom_type_script = "uid://dqye8jmfdc363"
 
-[node name="B2_FSM_Chase_DarkRat" type="Node" parent="B2_AI_DarkRat"]
+[node name="B2_FSM_Chase_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1374160425]
 script = ExtResource("9_dqcrk")
 enemy_de_aggro_radius = 9999.0
 metadata/_custom_type_script = "uid://deosdbb00y8mo"
 
-[node name="B2_FSM_Stop_DarkRat" type="Node" parent="B2_AI_DarkRat"]
+[node name="B2_FSM_Stop_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1354385162]
 script = ExtResource("10_ybsmp")
 metadata/_custom_type_script = "uid://chow46e26r30e"
 
-[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_DarkRat"]
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=2013501678]
 script = ExtResource("10_gdpyp")
 attack_delay = 0.0
 metadata/_custom_type_script = "uid://i6own6gfjft5"
 
-[node name="B2_FSM_Attack" type="Node" parent="B2_AI_DarkRat"]
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=1878505650]
 script = ExtResource("11_t6k6t")
 state_after_attack = 2
 max_attack_wait_time = null
 metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
-[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1418442753]
 max_distance = 350.0
 bus = &"Audio"
 
-[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="."]
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=832950876]
 
-[node name="ActorBloodSpill" type="GPUParticles2D" parent="."]
+[node name="ActorBloodSpill" type="GPUParticles2D" parent="." unique_id=1306523700]
 material = SubResource("CanvasItemMaterial_8qs7v")
 position = Vector2(0, -8)
 emitting = false
@@ -248,7 +248,7 @@ one_shot = true
 explosiveness = 0.85
 process_material = ExtResource("6_8k41c")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1037123390]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_48n6s")
 animation = &"stand"
@@ -268,10 +268,10 @@ metadata/default = {
 "yorigin": "24"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2048410321]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_48n6s")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=2064064859]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

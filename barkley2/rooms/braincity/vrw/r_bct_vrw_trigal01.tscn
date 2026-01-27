@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://cgi133iktt7es"]
+[gd_scene format=4 uid="uid://cgi133iktt7es"]
 
 [ext_resource type="Script" uid="uid://c56ux0luua20x" path="res://barkley2/rooms/braincity/vrw/r_bct_vrw_trigal01.gd" id="1_yix4e"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_otkb2"]
@@ -819,7 +819,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("9_56d6e")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_n0h88"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_c0j66"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1007,7 +1007,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6tkli"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihi38"]
 resource_local_to_scene = true
 shader = ExtResource("24_qy074")
 shader_parameter/enable = false
@@ -1022,7 +1022,7 @@ script = ExtResource("26_7fhg4")
 original_script = "DIALOG | ? ? ? = s_portrait | Hey there.
 EXIT"
 
-[node name="r_bct_vrw_trigal01" type="NavigationRegion2D" node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
+[node name="r_bct_vrw_trigal01" type="NavigationRegion2D" unique_id=2120526720 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_q0bw4")
 script = ExtResource("1_yix4e")
 reference_layer = [NodePath("layer 93"), NodePath("layer - wading"), NodePath("layer - collision 2"), NodePath("layer - collision")]
@@ -1040,7 +1040,7 @@ room_player_can_roll = false
 show_zone_banner = false
 camera_bound_to_map = true
 
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="."]
+[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=1432794848]
 script = ExtResource("2_otkb2")
 convert_cinema_spots = false
 convert_door_light = false
@@ -1048,36 +1048,36 @@ convert_door = false
 create_room_script = false
 convert_collision = false
 
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="."]
+[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." unique_id=154422661]
 script = ExtResource("3_4l156")
 
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="."]
+[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="." unique_id=662984149]
 script = ExtResource("4_hgckx")
 
-[node name="layer 93" type="TileMapLayer" parent="."]
+[node name="layer 93" type="TileMapLayer" parent="." unique_id=767498790]
 z_index = -10
 tile_map_data = PackedByteArray("AAAAAAAAAAAJABkAAAAAAAEAAAAJABoAAAAAAAIAAAAJABsAAAAAAAMAAAAJABwAAAABAAAAAAAKABkAAAABAAEAAAAKABoAAAABAAIAAAAKABsAAAABAAMAAAAKABwAAAACAAAAAAALABkAAAACAAEAAAALABoAAAACAAIAAAALABsAAAACAAMAAAALABwAAAADAAAAAAAMABkAAAADAAEAAAAMABoAAAADAAIAAAAMABsAAAADAAMAAAAMABwAAAAEAAAAAAANABkAAAAEAAEAAAANABoAAAAEAAIAAAANABsAAAAEAAMAAAANABwAAAAFAAAAAAAOABkAAAAFAAEAAAAOABoAAAAFAAIAAAAOABsAAAAFAAMAAAAOABwAAAAGAAAAAAAPABkAAAAGAAEAAAAPABoAAAAGAAIAAAAPABsAAAAGAAMAAAAPABwAAAAHAAAAAAAQABkAAAAHAAEAAAAQABoAAAAHAAIAAAAQABsAAAAHAAMAAAAQABwAAAAIAAAAAAAJABkAAAAIAAEAAAAJABoAAAAIAAIAAAAJABsAAAAIAAMAAAAJABwAAAAJAAAAAAAKABkAAAAJAAEAAAAKABoAAAAJAAIAAAAKABsAAAAJAAMAAAAKABwAAAAKAAAAAAALABkAAAAKAAEAAAALABoAAAAKAAIAAAALABsAAAAKAAMAAAALABwAAAALAAAAAAAMABkAAAALAAEAAAAMABoAAAALAAIAAAAMABsAAAALAAMAAAAMABwAAAAMAAAAAAANABkAAAAMAAEAAAANABoAAAAMAAIAAAANABsAAAAMAAMAAAANABwAAAANAAAAAAAOABkAAAANAAEAAAAOABoAAAANAAIAAAAOABsAAAANAAMAAAAOABwAAAAOAAAAAAAPABkAAAAOAAEAAAAPABoAAAAOAAIAAAAPABsAAAAOAAMAAAAPABwAAAAPAAAAAAAQABkAAAAPAAEAAAAQABoAAAAPAAIAAAAQABsAAAAPAAMAAAAQABwAAAAQAAAAAAAJABkAAAAQAAEAAAAJABoAAAAQAAIAAAAJABsAAAAQAAMAAAAJABwAAAARAAAAAAAKABkAAAARAAEAAAAKABoAAAARAAIAAAAKABsAAAARAAMAAAAKABwAAAASAAAAAAALABkAAAASAAEAAAALABoAAAASAAIAAAALABsAAAASAAMAAAALABwAAAATAAAAAAAMABkAAAATAAEAAAAMABoAAAATAAIAAAAMABsAAAATAAMAAAAMABwAAAAUAAAAAAANABkAAAAUAAEAAAANABoAAAAUAAIAAAANABsAAAAUAAMAAAANABwAAAAVAAAAAAAOABkAAAAVAAEAAAAOABoAAAAVAAIAAAAOABsAAAAVAAMAAAAOABwAAAAWAAAAAAAPABkAAAAWAAEAAAAPABoAAAAWAAIAAAAPABsAAAAWAAMAAAAPABwAAAAXAAAAAAAQABkAAAAXAAEAAAAQABoAAAAXAAIAAAAQABsAAAAXAAMAAAAQABwAAAAYAAAAAAAJABkAAAAYAAEAAAAJABoAAAAYAAIAAAAJABsAAAAYAAMAAAAJABwAAAAZAAAAAAAKABkAAAAZAAEAAAAKABoAAAAZAAIAAAAKABsAAAAZAAMAAAAKABwAAAAaAAAAAAALABkAAAAaAAEAAAALABoAAAAaAAIAAAALABsAAAAaAAMAAAALABwAAAAAAAQAAAARABkAAAAAAAUAAAARABoAAAAAAAYAAAARABsAAAAAAAcAAAARABwAAAABAAQAAAASABkAAAABAAUAAAASABoAAAABAAYAAAASABsAAAABAAcAAAASABwAAAACAAQAAAATABkAAAACAAUAAAATABoAAAACAAYAAAATABsAAAACAAcAAAATABwAAAADAAQAAAAUABkAAAADAAUAAAAUABoAAAADAAYAAAAUABsAAAADAAcAAAAUABwAAAAEAAQAAAAVABkAAAAEAAUAAAAVABoAAAAEAAYAAAAVABsAAAAEAAcAAAAVABwAAAAFAAQAAAAWABkAAAAFAAUAAAAWABoAAAAFAAYAAAAWABsAAAAFAAcAAAAWABwAAAAGAAQAAAAXABkAAAAGAAUAAAAXABoAAAAGAAYAAAAXABsAAAAGAAcAAAAXABwAAAAHAAQAAAAYABkAAAAHAAUAAAAYABoAAAAHAAYAAAAYABsAAAAHAAcAAAAYABwAAAAIAAQAAAARABkAAAAIAAUAAAARABoAAAAIAAYAAAARABsAAAAIAAcAAAARABwAAAAJAAQAAAASABkAAAAJAAUAAAASABoAAAAJAAYAAAASABsAAAAJAAcAAAASABwAAAAKAAQAAAATABkAAAAKAAUAAAATABoAAAAKAAYAAAATABsAAAAKAAcAAAATABwAAAALAAQAAAAUABkAAAALAAUAAAAUABoAAAALAAYAAAAUABsAAAALAAcAAAAUABwAAAAMAAQAAAAVABkAAAAMAAUAAAAVABoAAAAMAAYAAAAVABsAAAAMAAcAAAAVABwAAAANAAQAAAAWABkAAAANAAUAAAAWABoAAAANAAYAAAAWABsAAAANAAcAAAAWABwAAAAOAAQAAAAXABkAAAAOAAUAAAAXABoAAAAOAAYAAAAXABsAAAAOAAcAAAAXABwAAAAPAAQAAAAYABkAAAAPAAUAAAAYABoAAAAPAAYAAAAYABsAAAAPAAcAAAAYABwAAAAQAAQAAAARABkAAAAQAAUAAAARABoAAAAQAAYAAAARABsAAAAQAAcAAAARABwAAAARAAQAAAASABkAAAARAAUAAAASABoAAAARAAYAAAASABsAAAARAAcAAAASABwAAAASAAQAAAATABkAAAASAAUAAAATABoAAAASAAYAAAATABsAAAASAAcAAAATABwAAAATAAQAAAAUABkAAAATAAUAAAAUABoAAAATAAYAAAAUABsAAAATAAcAAAAUABwAAAAUAAQAAAAVABkAAAAUAAUAAAAVABoAAAAUAAYAAAAVABsAAAAUAAcAAAAVABwAAAAVAAQAAAAWABkAAAAVAAUAAAAWABoAAAAVAAYAAAAWABsAAAAVAAcAAAAWABwAAAAWAAQAAAAXABkAAAAWAAUAAAAXABoAAAAWAAYAAAAXABsAAAAWAAcAAAAXABwAAAAXAAQAAAAYABkAAAAXAAUAAAAYABoAAAAXAAYAAAAYABsAAAAXAAcAAAAYABwAAAAYAAQAAAARABkAAAAYAAUAAAARABoAAAAYAAYAAAARABsAAAAYAAcAAAARABwAAAAZAAQAAAASABkAAAAZAAUAAAASABoAAAAZAAYAAAASABsAAAAZAAcAAAASABwAAAAaAAQAAAATABkAAAAaAAUAAAATABoAAAAaAAYAAAATABsAAAAaAAcAAAATABwAAAAAAAgAAAANABwAAAABAAgAAAAKABkAAAABAAkAAAAKABoAAAABAAoAAAAKABsAAAACAAgAAAALABkAAAACAAkAAAALABoAAAACAAoAAAALABsAAAADAAgAAAAMABkAAAADAAkAAAAMABoAAAADAAoAAAAMABsAAAAEAAgAAAANABkAAAAEAAkAAAANABoAAAAEAAoAAAANABsAAAAFAAgAAAAOABkAAAAFAAkAAAAOABoAAAAFAAoAAAAOABsAAAAGAAgAAAAPABkAAAAGAAkAAAAPABoAAAAGAAoAAAAPABsAAAAHAAgAAAAQABkAAAAHAAkAAAAQABoAAAAHAAoAAAAQABsAAAAIAAgAAAAJABkAAAAIAAkAAAAJABoAAAAIAAoAAAAJABsAAAAIAAsAAAAJABwAAAAJAAgAAAAKABkAAAAJAAkAAAAKABoAAAAJAAoAAAAKABsAAAAJAAsAAAAKABwAAAAKAAgAAAALABkAAAAKAAkAAAALABoAAAAKAAoAAAALABsAAAAKAAsAAAALABwAAAALAAgAAAAMABkAAAALAAkAAAAMABoAAAALAAoAAAAMABsAAAALAAsAAAAMABwAAAAMAAgAAAANABkAAAAMAAkAAAANABoAAAAMAAoAAAANABsAAAAMAAsAAAANABwAAAANAAgAAAAOABkAAAANAAkAAAAOABoAAAANAAoAAAAOABsAAAANAAsAAAAOABwAAAAOAAgAAAAPABkAAAAOAAkAAAAPABoAAAAOAAoAAAAPABsAAAAOAAsAAAAPABwAAAAPAAgAAAAQABkAAAAPAAkAAAAQABoAAAAPAAoAAAAQABsAAAAPAAsAAAAQABwAAAAQAAgAAAAJABkAAAAQAAkAAAAJABoAAAAQAAoAAAAJABsAAAAQAAsAAAAJABwAAAARAAgAAAAKABkAAAARAAkAAAAKABoAAAARAAoAAAAKABsAAAARAAsAAAAKABwAAAASAAgAAAALABkAAAASAAkAAAALABoAAAASAAoAAAALABsAAAASAAsAAAALABwAAAATAAgAAAAMABkAAAATAAkAAAAMABoAAAATAAoAAAAMABsAAAATAAsAAAAMABwAAAAUAAgAAAANABkAAAAUAAkAAAANABoAAAAUAAoAAAANABsAAAAUAAsAAAANABwAAAAVAAgAAAAOABkAAAAVAAkAAAAOABoAAAAVAAoAAAAOABsAAAAVAAsAAAAOABwAAAAWAAgAAAAPABkAAAAWAAkAAAAPABoAAAAWAAoAAAAPABsAAAAWAAsAAAAPABwAAAAXAAgAAAAQABkAAAAXAAkAAAAQABoAAAAXAAoAAAAQABsAAAAXAAsAAAAQABwAAAAYAAgAAAAJABkAAAAYAAkAAAAJABoAAAAYAAoAAAAJABsAAAAYAAsAAAAJABwAAAAZAAgAAAAKABkAAAAZAAkAAAAKABoAAAAZAAoAAAAKABsAAAAZAAsAAAAKABwAAAAaAAgAAAALABkAAAAaAAkAAAALABoAAAAaAAoAAAALABsAAAAaAAsAAAALABwAAAAAAAkAAAAJABoAAAAAAAoAAAAJABsAAAAAAAsAAAAJABwAAAABAAsAAAAKABwAAAACAAsAAAALABwAAAADAAsAAAAMABwAAAAEAAsAAAAVABwAAAAFAAsAAAAOABwAAAAGAAsAAAAPABwAAAAHAAsAAAAQABwAAAAAAAwAAAARABkAAAAAAA0AAAARABoAAAAAAA4AAAARABsAAAAAAA8AAAARABwAAAABAAwAAAASABkAAAABAA0AAAASABoAAAABAA4AAAASABsAAAABAA8AAAASABwAAAACAAwAAAATABkAAAACAA0AAAATABoAAAACAA4AAAATABsAAAACAA8AAAATABwAAAADAAwAAAAUABkAAAADAA0AAAAUABoAAAADAA4AAAAUABsAAAADAA8AAAAUABwAAAAEAAwAAAAVABkAAAAEAA0AAAAVABoAAAAEAA4AAAAVABsAAAAEAA8AAAAVABwAAAAFAAwAAAAWABkAAAAFAA0AAAAWABoAAAAFAA4AAAAWABsAAAAFAA8AAAAWABwAAAAGAAwAAAAXABkAAAAGAA0AAAAXABoAAAAGAA4AAAAXABsAAAAGAA8AAAAXABwAAAAHAAwAAAAYABkAAAAHAA0AAAAYABoAAAAHAA4AAAAYABsAAAAHAA8AAAAYABwAAAAIAAwAAAARABkAAAAIAA0AAAARABoAAAAIAA4AAAARABsAAAAIAA8AAAARABwAAAAJAAwAAAASABkAAAAJAA0AAAASABoAAAAJAA4AAAASABsAAAAJAA8AAAASABwAAAAKAAwAAAATABkAAAAKAA0AAAATABoAAAAKAA4AAAATABsAAAAKAA8AAAATABwAAAALAAwAAAAUABkAAAALAA0AAAAUABoAAAALAA4AAAAUABsAAAALAA8AAAAUABwAAAAMAAwAAAAVABkAAAAMAA0AAAAVABoAAAAMAA4AAAAVABsAAAAMAA8AAAAVABwAAAANAAwAAAAWABkAAAANAA0AAAAWABoAAAANAA4AAAAWABsAAAANAA8AAAAWABwAAAAOAAwAAAAXABkAAAAOAA0AAAAXABoAAAAOAA4AAAAXABsAAAAOAA8AAAAXABwAAAAPAAwAAAAYABkAAAAPAA0AAAAYABoAAAAPAA4AAAAYABsAAAAPAA8AAAAYABwAAAAQAAwAAAARABkAAAAQAA0AAAARABoAAAAQAA4AAAARABsAAAAQAA8AAAARABwAAAARAAwAAAASABkAAAARAA0AAAASABoAAAARAA4AAAASABsAAAARAA8AAAASABwAAAASAAwAAAATABkAAAASAA0AAAATABoAAAASAA4AAAATABsAAAASAA8AAAATABwAAAATAAwAAAAUABkAAAATAA0AAAAUABoAAAATAA4AAAAUABsAAAATAA8AAAAUABwAAAAUAAwAAAAVABkAAAAUAA0AAAAVABoAAAAUAA4AAAAVABsAAAAUAA8AAAAVABwAAAAVAAwAAAAWABkAAAAVAA0AAAAWABoAAAAVAA4AAAAWABsAAAAVAA8AAAAWABwAAAAWAAwAAAAXABkAAAAWAA0AAAAXABoAAAAWAA4AAAAXABsAAAAWAA8AAAAXABwAAAAXAAwAAAAYABkAAAAXAA0AAAAYABoAAAAXAA4AAAAYABsAAAAXAA8AAAAYABwAAAAYAAwAAAARABkAAAAYAA0AAAARABoAAAAYAA4AAAARABsAAAAYAA8AAAARABwAAAAZAAwAAAASABkAAAAZAA0AAAASABoAAAAZAA4AAAASABsAAAAZAA8AAAASABwAAAAaAAwAAAATABkAAAAaAA0AAAATABoAAAAaAA4AAAATABsAAAAaAA8AAAATABwAAAAAABAAAAAJABkAAAAAABEAAAAJABoAAAAAABIAAAAJABsAAAAAABMAAAAJABwAAAABABAAAAAKABkAAAABABEAAAAKABoAAAABABIAAAAKABsAAAABABMAAAAKABwAAAACABAAAAALABkAAAACABEAAAALABoAAAACABIAAAALABsAAAACABMAAAALABwAAAADABAAAAAMABkAAAADABEAAAAMABoAAAADABIAAAAMABsAAAADABMAAAAMABwAAAAEABAAAAANABkAAAAEABEAAAANABoAAAAEABIAAAANABsAAAAEABMAAAANABwAAAAFABAAAAAOABkAAAAFABEAAAAOABoAAAAFABIAAAAOABsAAAAFABMAAAAOABwAAAAGABAAAAAPABkAAAAGABEAAAAPABoAAAAGABIAAAAPABsAAAAGABMAAAAPABwAAAAHABAAAAAQABkAAAAHABEAAAAQABoAAAAHABIAAAAQABsAAAAHABMAAAAQABwAAAAIABAAAAAJABkAAAAIABEAAAAJABoAAAAIABIAAAAJABsAAAAIABMAAAAJABwAAAAJABAAAAAKABkAAAAJABEAAAAKABoAAAAJABIAAAAKABsAAAAJABMAAAAKABwAAAAKABAAAAALABkAAAAKABEAAAALABoAAAAKABIAAAALABsAAAAKABMAAAALABwAAAALABAAAAAMABkAAAALABEAAAAMABoAAAALABIAAAAMABsAAAALABMAAAAMABwAAAAMABAAAAANABkAAAAMABEAAAANABoAAAAMABIAAAANABsAAAAMABMAAAANABwAAAANABAAAAAOABkAAAANABEAAAAOABoAAAANABIAAAAOABsAAAANABMAAAAOABwAAAAOABAAAAAPABkAAAAOABEAAAAPABoAAAAOABIAAAAPABsAAAAOABMAAAAPABwAAAAPABAAAAAQABkAAAAPABEAAAAQABoAAAAPABIAAAAQABsAAAAPABMAAAAQABwAAAAQABAAAAAJABkAAAAQABEAAAAJABoAAAAQABIAAAAJABsAAAAQABMAAAAJABwAAAARABAAAAAKABkAAAARABEAAAAKABoAAAARABIAAAAKABsAAAARABMAAAAKABwAAAASABAAAAALABkAAAASABEAAAALABoAAAASABIAAAALABsAAAASABMAAAALABwAAAATABAAAAAMABkAAAATABEAAAAMABoAAAATABIAAAAMABsAAAATABMAAAAMABwAAAAUABAAAAANABkAAAAUABEAAAANABoAAAAUABIAAAANABsAAAAUABMAAAANABwAAAAVABAAAAAOABkAAAAVABEAAAAOABoAAAAVABIAAAAOABsAAAAVABMAAAAOABwAAAAWABAAAAAPABkAAAAWABEAAAAPABoAAAAWABIAAAAPABsAAAAWABMAAAAPABwAAAAXABAAAAAQABkAAAAXABEAAAAQABoAAAAXABIAAAAQABsAAAAXABMAAAAQABwAAAAYABAAAAAJABkAAAAYABEAAAAJABoAAAAYABIAAAAJABsAAAAYABMAAAAJABwAAAAZABAAAAAKABkAAAAZABEAAAAKABoAAAAZABIAAAAKABsAAAAZABMAAAAKABwAAAAaABAAAAALABkAAAAaABEAAAALABoAAAAaABIAAAALABsAAAAaABMAAAALABwAAAAAABQAAAARABkAAAAAABUAAAARABoAAAAAABYAAAARABsAAAAAABcAAAARABwAAAABABQAAAASABkAAAABABUAAAASABoAAAABABYAAAASABsAAAABABcAAAASABwAAAACABQAAAATABkAAAACABUAAAATABoAAAACABYAAAATABsAAAACABcAAAATABwAAAADABQAAAAUABkAAAADABUAAAAUABoAAAADABYAAAAUABsAAAADABcAAAAUABwAAAAEABQAAAAVABkAAAAEABUAAAAVABoAAAAEABYAAAAVABsAAAAEABcAAAAVABwAAAAFABQAAAAWABkAAAAFABUAAAAWABoAAAAFABYAAAAWABsAAAAFABcAAAAWABwAAAAGABQAAAAXABkAAAAGABUAAAAXABoAAAAGABYAAAAXABsAAAAGABcAAAAXABwAAAAHABQAAAAYABkAAAAHABUAAAAYABoAAAAHABYAAAAYABsAAAAHABcAAAAYABwAAAAIABQAAAARABkAAAAIABUAAAARABoAAAAIABYAAAARABsAAAAIABcAAAARABwAAAAJABQAAAASABkAAAAJABUAAAASABoAAAAJABYAAAASABsAAAAJABcAAAASABwAAAAKABQAAAATABkAAAAKABUAAAATABoAAAAKABYAAAATABsAAAAKABcAAAATABwAAAALABQAAAAUABkAAAALABUAAAAUABoAAAALABYAAAAUABsAAAALABcAAAAUABwAAAAMABQAAAAVABkAAAAMABUAAAAVABoAAAAMABYAAAAVABsAAAAMABcAAAAVABwAAAANABQAAAAWABkAAAANABUAAAAWABoAAAANABYAAAAWABsAAAANABcAAAAWABwAAAAOABQAAAAXABkAAAAOABUAAAAXABoAAAAOABYAAAAXABsAAAAOABcAAAAXABwAAAAPABQAAAAYABkAAAAPABUAAAAYABoAAAAPABYAAAAYABsAAAAPABcAAAAYABwAAAAQABQAAAARABkAAAAQABUAAAARABoAAAAQABYAAAARABsAAAAQABcAAAARABwAAAARABQAAAASABkAAAARABUAAAASABoAAAARABYAAAASABsAAAARABcAAAASABwAAAASABQAAAATABkAAAASABUAAAATABoAAAASABYAAAATABsAAAASABcAAAATABwAAAATABQAAAAUABkAAAATABUAAAAUABoAAAATABYAAAAUABsAAAATABcAAAAUABwAAAAUABQAAAAVABkAAAAUABUAAAAVABoAAAAUABYAAAAVABsAAAAUABcAAAAVABwAAAAVABQAAAAWABkAAAAVABUAAAAWABoAAAAVABYAAAAWABsAAAAVABcAAAAWABwAAAAWABQAAAAXABkAAAAWABUAAAAXABoAAAAWABYAAAAXABsAAAAWABcAAAAXABwAAAAXABQAAAAYABkAAAAXABUAAAAYABoAAAAXABYAAAAYABsAAAAXABcAAAAYABwAAAAYABQAAAARABkAAAAYABUAAAARABoAAAAYABYAAAARABsAAAAYABcAAAARABwAAAAZABQAAAASABkAAAAZABUAAAASABoAAAAZABYAAAASABsAAAAZABcAAAASABwAAAAaABQAAAATABkAAAAaABUAAAATABoAAAAaABYAAAATABsAAAAaABcAAAATABwAAAAAABgAAAAJABkAAAAAABkAAAAJABoAAAAAABoAAAAJABsAAAABABgAAAAKABkAAAABABkAAAAKABoAAAABABoAAAAKABsAAAACABgAAAALABkAAAACABkAAAALABoAAAACABoAAAALABsAAAADABgAAAAMABkAAAADABkAAAAMABoAAAADABoAAAAMABsAAAAEABgAAAANABkAAAAEABkAAAANABoAAAAEABoAAAANABsAAAAFABgAAAAOABkAAAAFABkAAAAOABoAAAAFABoAAAAOABsAAAAGABgAAAAPABkAAAAGABkAAAAPABoAAAAGABoAAAAPABsAAAAHABgAAAAQABkAAAAHABkAAAAQABoAAAAHABoAAAAQABsAAAAIABgAAAAJABkAAAAIABkAAAAJABoAAAAIABoAAAAJABsAAAAJABgAAAAKABkAAAAJABkAAAAKABoAAAAJABoAAAAKABsAAAAKABgAAAALABkAAAAKABkAAAALABoAAAAKABoAAAALABsAAAALABgAAAAMABkAAAALABkAAAAMABoAAAALABoAAAAMABsAAAAMABgAAAANABkAAAAMABkAAAANABoAAAAMABoAAAANABsAAAANABgAAAAOABkAAAANABkAAAAOABoAAAANABoAAAAOABsAAAAOABgAAAAPABkAAAAOABkAAAAPABoAAAAOABoAAAAPABsAAAAPABgAAAAQABkAAAAPABkAAAAQABoAAAAPABoAAAAQABsAAAAQABgAAAAJABkAAAAQABkAAAAJABoAAAAQABoAAAAJABsAAAARABgAAAAKABkAAAARABkAAAAKABoAAAARABoAAAAKABsAAAASABgAAAALABkAAAASABkAAAALABoAAAASABoAAAALABsAAAATABgAAAAMABkAAAATABkAAAAMABoAAAATABoAAAAMABsAAAAUABgAAAANABkAAAAUABkAAAANABoAAAAUABoAAAANABsAAAAVABgAAAAOABkAAAAVABkAAAAOABoAAAAVABoAAAAOABsAAAAWABgAAAAPABkAAAAWABkAAAAPABoAAAAWABoAAAAPABsAAAAXABgAAAAQABkAAAAXABkAAAAQABoAAAAXABoAAAAQABsAAAAYABgAAAAJABkAAAAYABkAAAAJABoAAAAYABoAAAAJABsAAAAZABgAAAAKABkAAAAZABkAAAAKABoAAAAZABoAAAAKABsAAAAaABgAAAALABkAAAAaABkAAAALABoAAAAaABoAAAALABsAAAA=")
 tile_set = SubResource("TileSet_wvysv")
 
-[node name="layer - wading" type="TileMapLayer" parent="."]
+[node name="layer - wading" type="TileMapLayer" parent="." unique_id=1716092972]
 visible = false
 z_index = 100
 tile_set = ExtResource("11_156jb")
 
-[node name="layer - collision 2" type="TileMapLayer" parent="."]
+[node name="layer - collision 2" type="TileMapLayer" parent="." unique_id=1147655636]
 visible = false
 z_index = 100
 tile_map_data = PackedByteArray("AAAAAAAAGQACAAIAAAAAAAEAGQACAAIAAAABAAAAGQACAAIAAAABAAEAGQACAAIAAAACAAAAGQACAAIAAAACAAEAGQACAAIAAAADAAAAGQACAAIAAAADAAEAGQACAAIAAAAEAAAAGQACAAIAAAAEAAEAGQACAAIAAAAFAAAAGQACAAIAAAAFAAEAGQACAAIAAAAGAAAAGQACAAIAAAAGAAEAGQACAAIAAAAHAAAAGQACAAIAAAAHAAEAGQACAAIAAAAIAAAAGQACAAIAAAAIAAEAGQACAAIAAAAJAAAAGQACAAIAAAAJAAEAGQACAAIAAAAKAAAAGQACAAIAAAAKAAEAGQACAAIAAAALAAAAGQACAAIAAAALAAEAGQACAAIAAAAMAAAAGQACAAIAAAAMAAEAGQACAAIAAAANAAAAGQACAAIAAAANAAEAGQACAAIAAAAOAAAAGQACAAIAAAAOAAEAGQACAAIAAAAPAAAAGQACAAIAAAAPAAEAGQACAAIAAAAQAAAAGQACAAIAAAAQAAEAGQACAAIAAAARAAAAGQACAAIAAAARAAEAGQACAAIAAAASAAAAGQACAAIAAAASAAEAGQACAAIAAAATAAAAGQACAAIAAAATAAEAGQACAAIAAAAUAAAAGQACAAIAAAAUAAEAGQACAAIAAAAVAAAAGQACAAIAAAAVAAEAGQACAAIAAAAWAAAAGQACAAIAAAAWAAEAGQACAAIAAAAXAAAAGQACAAIAAAAXAAEAGQACAAIAAAAYAAAAGQACAAIAAAAYAAEAGQACAAIAAAAAAAIAGQACAAIAAAAAAAMAGQACAAIAAAAAAAQAGQACAAIAAAAAAAUAGQACAAIAAAAAAAYAGQACAAIAAAAAAAcAGQACAAIAAAAAAAgAGQACAAIAAAAAAAkAGQACAAIAAAAAAAoAGQACAAIAAAAAAAsAGQACAAIAAAAAAAwAGQACAAIAAAAAAA0AGQACAAIAAAAAAA4AGQACAAIAAAAAAA8AGQACAAIAAAAAABAAGQACAAIAAAAAABEAGQACAAIAAAAAABIAGQACAAIAAAAAABMAGQACAAIAAAAAABQAGQACAAIAAAAAABUAGQACAAIAAAAAABYAGQACAAIAAAAAABcAGQACAAIAAAABAAIAGQACAAIAAAABAAMAGQACAAIAAAABAAQAGQACAAIAAAABAAUAGQACAAIAAAABAAYAGQACAAIAAAABAAcAGQACAAIAAAABAAgAGQACAAIAAAABAAkAGQACAAIAAAABAAoAGQACAAIAAAABAAsAGQACAAIAAAABAAwAGQACAAIAAAABAA0AGQACAAIAAAABAA4AGQACAAIAAAABAA8AGQACAAIAAAABABAAGQACAAIAAAABABEAGQACAAIAAAABABIAGQACAAIAAAABABMAGQACAAIAAAABABQAGQACAAIAAAABABUAGQACAAIAAAABABYAGQACAAIAAAABABcAGQACAAIAAAAAABgAGQACAAIAAAAAABkAGQACAAIAAAAAABoAGQACAAIAAAABABgAGQACAAIAAAABABkAGQACAAIAAAABABoAGQACAAIAAAACABgAGQACAAIAAAACABkAGQACAAIAAAACABoAGQACAAIAAAADABgAGQACAAIAAAADABkAGQACAAIAAAADABoAGQACAAIAAAAEABgAGQACAAIAAAAEABkAGQACAAIAAAAEABoAGQACAAIAAAAFABgAGQACAAIAAAAFABkAGQACAAIAAAAFABoAGQACAAIAAAAGABgAGQACAAIAAAAGABkAGQACAAIAAAAGABoAGQACAAIAAAAHABgAGQACAAIAAAAHABkAGQACAAIAAAAHABoAGQACAAIAAAAIABgAGQACAAIAAAAIABkAGQACAAIAAAAIABoAGQACAAIAAAAJABgAGQACAAIAAAAJABkAGQACAAIAAAAJABoAGQACAAIAAAAKABgAGQACAAIAAAAKABkAGQACAAIAAAAKABoAGQACAAIAAAALABgAGQACAAIAAAALABkAGQACAAIAAAALABoAGQACAAIAAAAMABoAGQACAAIAAAANABoAGQACAAIAAAAOABgAGQACAAIAAAAOABkAGQACAAIAAAAOABoAGQACAAIAAAAPABgAGQACAAIAAAAPABkAGQACAAIAAAAPABoAGQACAAIAAAAQABgAGQACAAIAAAAQABkAGQACAAIAAAAQABoAGQACAAIAAAARABgAGQACAAIAAAARABkAGQACAAIAAAARABoAGQACAAIAAAASABgAGQACAAIAAAASABkAGQACAAIAAAASABoAGQACAAIAAAATABgAGQACAAIAAAATABkAGQACAAIAAAATABoAGQACAAIAAAAUABgAGQACAAIAAAAUABkAGQACAAIAAAAUABoAGQACAAIAAAAVABgAGQACAAIAAAAVABkAGQACAAIAAAAVABoAGQACAAIAAAAWABgAGQACAAIAAAAWABkAGQACAAIAAAAWABoAGQACAAIAAAAXABgAGQACAAIAAAAXABkAGQACAAIAAAAXABoAGQACAAIAAAAYABgAGQACAAIAAAAYABkAGQACAAIAAAAYABoAGQACAAIAAAAZABgAGQACAAIAAAAZABkAGQACAAIAAAAZABoAGQACAAIAAAAaABgAGQACAAIAAAAaABkAGQACAAIAAAAaABoAGQACAAIAAAAZAAAAGQACAAIAAAAZAAEAGQACAAIAAAAZAAIAGQACAAIAAAAZAAMAGQACAAIAAAAZAAQAGQACAAIAAAAZAAUAGQACAAIAAAAZAAYAGQACAAIAAAAZAAcAGQACAAIAAAAZAAgAGQACAAIAAAAZAAkAGQACAAIAAAAZAAoAGQACAAIAAAAZAAsAGQACAAIAAAAZAAwAGQACAAIAAAAZAA0AGQACAAIAAAAZAA4AGQACAAIAAAAZAA8AGQACAAIAAAAZABAAGQACAAIAAAAZABEAGQACAAIAAAAZABIAGQACAAIAAAAZABMAGQACAAIAAAAZABQAGQACAAIAAAAZABUAGQACAAIAAAAZABYAGQACAAIAAAAZABcAGQACAAIAAAAaAAAAGQACAAIAAAAaAAEAGQACAAIAAAAaAAIAGQACAAIAAAAaAAMAGQACAAIAAAAaAAQAGQACAAIAAAAaAAUAGQACAAIAAAAaAAYAGQACAAIAAAAaAAcAGQACAAIAAAAaAAgAGQACAAIAAAAaAAkAGQACAAIAAAAaAAoAGQACAAIAAAAaAAsAGQACAAIAAAAaAAwAGQACAAIAAAAaAA0AGQACAAIAAAAaAA4AGQACAAIAAAAaAA8AGQACAAIAAAAaABAAGQACAAIAAAAaABEAGQACAAIAAAAaABIAGQACAAIAAAAaABMAGQACAAIAAAAaABQAGQACAAIAAAAaABUAGQACAAIAAAAaABYAGQACAAIAAAAaABcAGQACAAIAAAA=")
 tile_set = ExtResource("12_3tyj6")
 
-[node name="layer - collision" type="TileMapLayer" parent="."]
+[node name="layer - collision" type="TileMapLayer" parent="." unique_id=887056125]
 visible = false
 z_index = 100
 tile_set = ExtResource("13_dpqgn")
 
-[node name="o_doorlight_down" parent="." instance=ExtResource("3_d643q")]
+[node name="o_doorlight_down" parent="." unique_id=1832488632 instance=ExtResource("3_d643q")]
 position = Vector2(192, 384)
-sprite_frames = SubResource("SpriteFrames_n0h88")
+sprite_frames = SubResource("SpriteFrames_c0j66")
 teleport_destination = "r_bct_vrw_town02, 240, 152);
 pushTime = 0.1; // In seconds how long you need to hold
 pushResist = 70; // Pushing resist, higher is more pusback
@@ -1089,2059 +1089,2059 @@ pushResist = 70; // Pushing resist, higher is more pusback
 metadata/inst_name = "inst_7FA0EF91"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_trigalTree01" parent="." instance=ExtResource("17_64cfm")]
+[node name="o_trigalTree01" parent="." unique_id=153150217 instance=ExtResource("17_64cfm")]
 position = Vector2(312, 128)
 metadata/code = ""
 metadata/inst_name = "inst_CFD87713"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_trigalPool01" parent="." instance=ExtResource("18_tgwl5")]
+[node name="o_trigalPool01" parent="." unique_id=275338637 instance=ExtResource("18_tgwl5")]
 position = Vector2(192, 240)
 metadata/code = ""
 metadata/inst_name = "inst_C74BE87D"
 metadata/scale = Vector2(1, 1)
 
-[node name="props" type="Node2D" parent="."]
+[node name="props" type="Node2D" parent="." unique_id=1518920260]
 y_sort_enabled = true
 
-[node name="o_wheat01" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat01" parent="props" unique_id=1864350028 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 63)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000002"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat02" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat02" parent="props" unique_id=2083025205 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000003"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat03" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat03" parent="props" unique_id=1315060703 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000004"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat04" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat04" parent="props" unique_id=975296656 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000008"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat05" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat05" parent="props" unique_id=28915563 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000229"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat06" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat06" parent="props" unique_id=1259192880 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000230"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat07" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat07" parent="props" unique_id=1804488190 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 167)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000232"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat08" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat08" parent="props" unique_id=365912072 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 199)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000233"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat09" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat09" parent="props" unique_id=1418759983 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 199)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000234"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat10" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat10" parent="props" unique_id=33015463 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 183)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000235"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat11" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat11" parent="props" unique_id=1108044851 instance=ExtResource("19_wkfju")]
 position = Vector2(104, 159)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000236"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat12" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat12" parent="props" unique_id=104100470 instance=ExtResource("19_wkfju")]
 position = Vector2(120, 231)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000239"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat13" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat13" parent="props" unique_id=152144689 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000240"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat14" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat14" parent="props" unique_id=1183842741 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000241"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat15" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat15" parent="props" unique_id=1465096454 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000244"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat16" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat16" parent="props" unique_id=1988198113 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000246"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat17" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat17" parent="props" unique_id=1944379120 instance=ExtResource("19_wkfju")]
 position = Vector2(104, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000247"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat18" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat18" parent="props" unique_id=1893029845 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000248"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat19" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat19" parent="props" unique_id=237716618 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 231)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000249"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat20" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat20" parent="props" unique_id=1020174193 instance=ExtResource("19_wkfju")]
 position = Vector2(64, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000250"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat21" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat21" parent="props" unique_id=1821207578 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 207)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000251"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat22" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat22" parent="props" unique_id=930049616 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 199)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000252"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat23" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat23" parent="props" unique_id=524906670 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 175)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000253"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat24" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat24" parent="props" unique_id=199226303 instance=ExtResource("19_wkfju")]
 position = Vector2(72, 183)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000254"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat25" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat25" parent="props" unique_id=130496989 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 183)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000255"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat26" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat26" parent="props" unique_id=1425351529 instance=ExtResource("19_wkfju")]
 position = Vector2(64, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000256"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat27" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat27" parent="props" unique_id=981992936 instance=ExtResource("19_wkfju")]
 position = Vector2(72, 135)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000257"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat28" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat28" parent="props" unique_id=462122437 instance=ExtResource("19_wkfju")]
 position = Vector2(104, 127)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000258"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat29" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat29" parent="props" unique_id=350244760 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 111)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000259"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat30" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat30" parent="props" unique_id=1455316884 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000268"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat31" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat31" parent="props" unique_id=355900758 instance=ExtResource("19_wkfju")]
 position = Vector2(240, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000277"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat32" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat32" parent="props" unique_id=172109789 instance=ExtResource("19_wkfju")]
 position = Vector2(320, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000298"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat33" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat33" parent="props" unique_id=2083206139 instance=ExtResource("19_wkfju")]
 position = Vector2(344, 295)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000299"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat34" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat34" parent="props" unique_id=1127467335 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 279)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000304"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat35" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat35" parent="props" unique_id=2022168236 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 279)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000310"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat36" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat36" parent="props" unique_id=864345785 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000323"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat37" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat37" parent="props" unique_id=326128731 instance=ExtResource("19_wkfju")]
 position = Vector2(208, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000328"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat38" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat38" parent="props" unique_id=1381713556 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000329"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat39" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat39" parent="props" unique_id=727696086 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000330"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat40" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat40" parent="props" unique_id=1275568116 instance=ExtResource("19_wkfju")]
 position = Vector2(128, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000331"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat41" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat41" parent="props" unique_id=1038911151 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000332"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat42" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat42" parent="props" unique_id=571223582 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000333"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat43" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat43" parent="props" unique_id=1455302486 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000334"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat44" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat44" parent="props" unique_id=1484908044 instance=ExtResource("19_wkfju")]
 position = Vector2(120, 279)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000335"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat45" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat45" parent="props" unique_id=564087188 instance=ExtResource("19_wkfju")]
 position = Vector2(120, 263)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000336"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat46" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat46" parent="props" unique_id=1687116292 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000337"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat47" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat47" parent="props" unique_id=346585043 instance=ExtResource("19_wkfju")]
 position = Vector2(72, 279)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000338"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat48" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat48" parent="props" unique_id=996068632 instance=ExtResource("19_wkfju")]
 position = Vector2(72, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000339"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat49" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat49" parent="props" unique_id=1187731812 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000340"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat50" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat50" parent="props" unique_id=1219267052 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 295)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000341"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat51" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat51" parent="props" unique_id=2053865625 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 279)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000342"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat52" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat52" parent="props" unique_id=823939055 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 247)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000343"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat53" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat53" parent="props" unique_id=105309078 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000344"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat54" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat54" parent="props" unique_id=992399555 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 223)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000345"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat55" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat55" parent="props" unique_id=1183023563 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000346"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat56" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat56" parent="props" unique_id=1761788269 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000347"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat57" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat57" parent="props" unique_id=1508592017 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000348"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat58" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat58" parent="props" unique_id=740427528 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000349"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat59" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat59" parent="props" unique_id=336839804 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 47)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000350"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat60" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat60" parent="props" unique_id=468793750 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 55)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000351"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat61" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat61" parent="props" unique_id=905971363 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000352"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat62" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat62" parent="props" unique_id=869110125 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 31)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000353"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat63" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat63" parent="props" unique_id=1722246431 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000354"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat64" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat64" parent="props" unique_id=1835081245 instance=ExtResource("19_wkfju")]
 position = Vector2(128, 63)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000357"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat65" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat65" parent="props" unique_id=1878930723 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000358"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat66" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat66" parent="props" unique_id=1253395682 instance=ExtResource("19_wkfju")]
 position = Vector2(120, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000359"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat67" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat67" parent="props" unique_id=1997809754 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 55)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000369"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat68" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat68" parent="props" unique_id=486141210 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000371"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat69" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat69" parent="props" unique_id=1085753413 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 175)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000376"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat70" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat70" parent="props" unique_id=465007609 instance=ExtResource("19_wkfju")]
 position = Vector2(240, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000395"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat71" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat71" parent="props" unique_id=1608659288 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000401"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat72" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat72" parent="props" unique_id=1503016939 instance=ExtResource("19_wkfju")]
 position = Vector2(104, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000402"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat73" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat73" parent="props" unique_id=234301994 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000403"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat74" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat74" parent="props" unique_id=922387768 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000404"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat75" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat75" parent="props" unique_id=1608683757 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000405"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat76" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat76" parent="props" unique_id=1340766803 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000406"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat77" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat77" parent="props" unique_id=2061284759 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000407"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat78" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat78" parent="props" unique_id=584578901 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000408"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat79" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat79" parent="props" unique_id=313131336 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000409"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat80" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat80" parent="props" unique_id=708657156 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 367)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000410"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat81" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat81" parent="props" unique_id=554937626 instance=ExtResource("19_wkfju")]
 position = Vector2(64, 367)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000411"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat82" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat82" parent="props" unique_id=2041137112 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000412"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat83" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat83" parent="props" unique_id=1956455219 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000413"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat84" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat84" parent="props" unique_id=1226491108 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000414"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat85" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat85" parent="props" unique_id=2083600710 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000415"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat86" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat86" parent="props" unique_id=1205678321 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 223)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000416"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat87" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat87" parent="props" unique_id=1578320451 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 223)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000418"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat88" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat88" parent="props" unique_id=1394032170 instance=ExtResource("19_wkfju")]
 position = Vector2(400, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000431"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat89" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat89" parent="props" unique_id=569563027 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 183)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000011"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat90" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat90" parent="props" unique_id=286593078 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 231)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000017"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat91" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat91" parent="props" unique_id=88214699 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 223)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000018"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat92" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat92" parent="props" unique_id=1720527465 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 207)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000022"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat93" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat93" parent="props" unique_id=1919451044 instance=ExtResource("19_wkfju")]
 position = Vector2(160, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000025"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat94" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat94" parent="props" unique_id=1359528378 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 127)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000040"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat95" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat95" parent="props" unique_id=1117755738 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 111)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000041"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat96" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat96" parent="props" unique_id=1060366575 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000043"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat97" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat97" parent="props" unique_id=1655656784 instance=ExtResource("19_wkfju")]
 position = Vector2(216, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000044"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat98" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat98" parent="props" unique_id=242068240 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000045"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat99" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat99" parent="props" unique_id=1124828761 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000046"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat100" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat100" parent="props" unique_id=707450112 instance=ExtResource("19_wkfju")]
 position = Vector2(184, 159)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000047"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat101" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat101" parent="props" unique_id=959610263 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 159)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000048"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat102" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat102" parent="props" unique_id=118817450 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 135)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000049"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat103" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat103" parent="props" unique_id=1906748340 instance=ExtResource("19_wkfju")]
 position = Vector2(200, 127)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000050"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat104" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat104" parent="props" unique_id=1374786546 instance=ExtResource("19_wkfju")]
 position = Vector2(200, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000051"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat105" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat105" parent="props" unique_id=1648116027 instance=ExtResource("19_wkfju")]
 position = Vector2(199, 164)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000052"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat106" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat106" parent="props" unique_id=1139936440 instance=ExtResource("19_wkfju")]
 position = Vector2(282, 178)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000053"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat107" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat107" parent="props" unique_id=636567815 instance=ExtResource("19_wkfju")]
 position = Vector2(178, 181)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000054"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat108" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat108" parent="props" unique_id=1159357761 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000055"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat109" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat109" parent="props" unique_id=606368178 instance=ExtResource("19_wkfju")]
 position = Vector2(248, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000056"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat110" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat110" parent="props" unique_id=1676478334 instance=ExtResource("19_wkfju")]
 position = Vector2(240, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000057"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat111" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat111" parent="props" unique_id=1137730726 instance=ExtResource("19_wkfju")]
 position = Vector2(256, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000058"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat112" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat112" parent="props" unique_id=604772676 instance=ExtResource("19_wkfju")]
 position = Vector2(256, 159)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000059"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat113" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat113" parent="props" unique_id=1989507837 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000060"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat114" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat114" parent="props" unique_id=477658328 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000061"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat115" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat115" parent="props" unique_id=1007083856 instance=ExtResource("19_wkfju")]
 position = Vector2(320, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000062"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat116" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat116" parent="props" unique_id=1015650454 instance=ExtResource("19_wkfju")]
 position = Vector2(336, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000063"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat117" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat117" parent="props" unique_id=456733102 instance=ExtResource("19_wkfju")]
 position = Vector2(344, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000064"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat118" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat118" parent="props" unique_id=1274759051 instance=ExtResource("19_wkfju")]
 position = Vector2(352, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000065"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat119" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat119" parent="props" unique_id=262137854 instance=ExtResource("19_wkfju")]
 position = Vector2(368, 175)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000066"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat120" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat120" parent="props" unique_id=851688856 instance=ExtResource("19_wkfju")]
 position = Vector2(368, 199)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000067"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat121" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat121" parent="props" unique_id=760267391 instance=ExtResource("19_wkfju")]
 position = Vector2(368, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000069"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat122" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat122" parent="props" unique_id=645785864 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000070"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat123" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat123" parent="props" unique_id=1429879110 instance=ExtResource("19_wkfju")]
 position = Vector2(336, 391)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000071"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat124" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat124" parent="props" unique_id=130363903 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000072"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat125" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat125" parent="props" unique_id=1255937388 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000073"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat126" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat126" parent="props" unique_id=2056322780 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000074"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat127" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat127" parent="props" unique_id=542290718 instance=ExtResource("19_wkfju")]
 position = Vector2(320, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000075"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat128" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat128" parent="props" unique_id=194269273 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000076"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat129" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat129" parent="props" unique_id=1002084194 instance=ExtResource("19_wkfju")]
 position = Vector2(320, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000077"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat130" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat130" parent="props" unique_id=1677513560 instance=ExtResource("19_wkfju")]
 position = Vector2(344, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000078"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat131" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat131" parent="props" unique_id=1364172447 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000079"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat132" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat132" parent="props" unique_id=249830753 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 383)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000080"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat133" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat133" parent="props" unique_id=576171658 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000081"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat134" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat134" parent="props" unique_id=1581955400 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000082"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat135" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat135" parent="props" unique_id=1970022288 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000083"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat136" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat136" parent="props" unique_id=1041616046 instance=ExtResource("19_wkfju")]
 position = Vector2(288, 303)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000084"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat137" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat137" parent="props" unique_id=989919469 instance=ExtResource("19_wkfju")]
 position = Vector2(248, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000085"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat138" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat138" parent="props" unique_id=1366566812 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000086"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat139" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat139" parent="props" unique_id=253590160 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 47)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000087"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat140" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat140" parent="props" unique_id=1322231001 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000088"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat141" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat141" parent="props" unique_id=2002552671 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000089"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat142" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat142" parent="props" unique_id=965118289 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000090"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat143" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat143" parent="props" unique_id=49750903 instance=ExtResource("19_wkfju")]
 position = Vector2(184, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000091"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat144" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat144" parent="props" unique_id=106396531 instance=ExtResource("19_wkfju")]
 position = Vector2(224, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000092"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat145" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat145" parent="props" unique_id=353359066 instance=ExtResource("19_wkfju")]
 position = Vector2(240, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000093"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat146" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat146" parent="props" unique_id=1639815006 instance=ExtResource("19_wkfju")]
 position = Vector2(248, 367)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000094"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat147" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat147" parent="props" unique_id=1153858926 instance=ExtResource("19_wkfju")]
 position = Vector2(232, 71)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000096"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat148" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat148" parent="props" unique_id=1806902944 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 391)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000097"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat149" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat149" parent="props" unique_id=1540065230 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000098"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat150" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat150" parent="props" unique_id=1248993825 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000099"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat151" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat151" parent="props" unique_id=2068480963 instance=ExtResource("19_wkfju")]
 position = Vector2(144, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000100"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat152" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat152" parent="props" unique_id=1909744561 instance=ExtResource("19_wkfju")]
 position = Vector2(184, 71)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000128"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat153" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat153" parent="props" unique_id=1993307767 instance=ExtResource("19_wkfju")]
 position = Vector2(200, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000129"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat154" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat154" parent="props" unique_id=271281216 instance=ExtResource("19_wkfju")]
 position = Vector2(288, 55)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000134"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat155" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat155" parent="props" unique_id=23442996 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000135"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat156" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat156" parent="props" unique_id=76417067 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000136"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat157" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat157" parent="props" unique_id=756959470 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000137"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat158" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat158" parent="props" unique_id=176305077 instance=ExtResource("19_wkfju")]
 position = Vector2(352, 71)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000138"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat159" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat159" parent="props" unique_id=974237791 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000139"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat160" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat160" parent="props" unique_id=857185422 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000140"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat161" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat161" parent="props" unique_id=624213212 instance=ExtResource("19_wkfju")]
 position = Vector2(400, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000141"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat162" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat162" parent="props" unique_id=82550931 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000142"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat163" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat163" parent="props" unique_id=1178156175 instance=ExtResource("19_wkfju")]
 position = Vector2(400, 151)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000143"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat164" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat164" parent="props" unique_id=2145801070 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 135)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000144"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat165" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat165" parent="props" unique_id=798287734 instance=ExtResource("19_wkfju")]
 position = Vector2(368, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000145"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat166" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat166" parent="props" unique_id=1159778895 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000146"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat167" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat167" parent="props" unique_id=1960359404 instance=ExtResource("19_wkfju")]
 position = Vector2(400, 175)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000148"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat168" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat168" parent="props" unique_id=1442878445 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 215)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000149"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat169" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat169" parent="props" unique_id=66648068 instance=ExtResource("19_wkfju")]
 position = Vector2(304, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000152"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat170" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat170" parent="props" unique_id=412701192 instance=ExtResource("19_wkfju")]
 position = Vector2(232, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000153"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat171" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat171" parent="props" unique_id=1111885000 instance=ExtResource("19_wkfju")]
 position = Vector2(200, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000154"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat172" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat172" parent="props" unique_id=70089716 instance=ExtResource("19_wkfju")]
 position = Vector2(192, 255)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000155"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat173" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat173" parent="props" unique_id=486746351 instance=ExtResource("19_wkfju")]
 position = Vector2(192, 247)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000156"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat174" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat174" parent="props" unique_id=849432126 instance=ExtResource("19_wkfju")]
 position = Vector2(208, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000157"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat175" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat175" parent="props" unique_id=442960924 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000158"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat176" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat176" parent="props" unique_id=1812596615 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 319)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000159"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat177" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat177" parent="props" unique_id=1762809769 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000160"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat178" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat178" parent="props" unique_id=1825868780 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000161"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat179" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat179" parent="props" unique_id=746779551 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000162"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat180" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat180" parent="props" unique_id=997556420 instance=ExtResource("19_wkfju")]
 position = Vector2(344, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000163"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat181" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat181" parent="props" unique_id=199235887 instance=ExtResource("19_wkfju")]
 position = Vector2(304, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000164"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat182" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat182" parent="props" unique_id=231380759 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 415)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000165"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat183" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat183" parent="props" unique_id=1189754528 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000166"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat184" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat184" parent="props" unique_id=260932317 instance=ExtResource("19_wkfju")]
 position = Vector2(160, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000167"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat185" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat185" parent="props" unique_id=1524081425 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000168"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat186" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat186" parent="props" unique_id=374026722 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000169"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat187" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat187" parent="props" unique_id=1272723385 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 311)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000170"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat188" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat188" parent="props" unique_id=350425309 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 263)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000186"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat189" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat189" parent="props" unique_id=360811838 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 263)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000187"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat190" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat190" parent="props" unique_id=776194981 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 295)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000188"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat191" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat191" parent="props" unique_id=1064731178 instance=ExtResource("19_wkfju")]
 position = Vector2(336, 295)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000190"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat192" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat192" parent="props" unique_id=1283142136 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 223)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000191"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat193" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat193" parent="props" unique_id=349624169 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 199)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000192"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat194" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat194" parent="props" unique_id=537216682 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000193"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat195" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat195" parent="props" unique_id=1410728199 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 255)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000194"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat196" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat196" parent="props" unique_id=795895746 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 295)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000195"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat197" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat197" parent="props" unique_id=1741818190 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000196"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat198" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat198" parent="props" unique_id=2030981175 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 263)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000197"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat199" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat199" parent="props" unique_id=955408876 instance=ExtResource("19_wkfju")]
 position = Vector2(400, 343)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000198"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat200" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat200" parent="props" unique_id=723028685 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 351)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000199"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat201" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat201" parent="props" unique_id=840241163 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 335)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000200"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat202" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat202" parent="props" unique_id=2005399388 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 271)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000202"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat203" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat203" parent="props" unique_id=901064157 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000204"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat204" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat204" parent="props" unique_id=1509774510 instance=ExtResource("19_wkfju")]
 position = Vector2(304, 79)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000205"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat205" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat205" parent="props" unique_id=235852688 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000206"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat206" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat206" parent="props" unique_id=1851555565 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000207"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat207" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat207" parent="props" unique_id=1834756280 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 119)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000208"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat208" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat208" parent="props" unique_id=1989781046 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 127)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000209"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat209" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat209" parent="props" unique_id=1061040751 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 159)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000210"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat210" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat210" parent="props" unique_id=1644429103 instance=ExtResource("19_wkfju")]
 position = Vector2(432, 103)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000211"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat211" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat211" parent="props" unique_id=2041232483 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 207)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000212"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat212" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat212" parent="props" unique_id=837418841 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 239)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000213"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat213" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat213" parent="props" unique_id=1309949919 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000214"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat214" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat214" parent="props" unique_id=1772792096 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000215"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat215" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat215" parent="props" unique_id=2146648177 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 367)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000216"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat216" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat216" parent="props" unique_id=484849230 instance=ExtResource("19_wkfju")]
 position = Vector2(392, 391)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000217"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat217" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat217" parent="props" unique_id=1179925279 instance=ExtResource("19_wkfju")]
 position = Vector2(352, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000218"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat218" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat218" parent="props" unique_id=565176459 instance=ExtResource("19_wkfju")]
 position = Vector2(312, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000219"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat219" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat219" parent="props" unique_id=1044150025 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000220"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat220" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat220" parent="props" unique_id=1147604783 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 431)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000221"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat221" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat221" parent="props" unique_id=2115954603 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000222"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat222" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat222" parent="props" unique_id=1097068066 instance=ExtResource("19_wkfju")]
 position = Vector2(64, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000223"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat223" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat223" parent="props" unique_id=447138753 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000224"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat224" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat224" parent="props" unique_id=976203779 instance=ExtResource("19_wkfju")]
 position = Vector2(88, 439)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000225"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat225" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat225" parent="props" unique_id=932822527 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 439)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000226"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat226" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat226" parent="props" unique_id=181322383 instance=ExtResource("19_wkfju")]
 position = Vector2(176, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000227"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat227" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat227" parent="props" unique_id=1228070639 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 431)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000228"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat228" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat228" parent="props" unique_id=1966021607 instance=ExtResource("19_wkfju")]
 position = Vector2(168, 415)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000442"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat229" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat229" parent="props" unique_id=1100008861 instance=ExtResource("19_wkfju")]
 position = Vector2(184, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000443"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat230" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat230" parent="props" unique_id=1393125841 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 383)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000445"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat231" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat231" parent="props" unique_id=1706084661 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000446"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat232" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat232" parent="props" unique_id=917613044 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000447"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat233" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat233" parent="props" unique_id=1856513195 instance=ExtResource("19_wkfju")]
 position = Vector2(288, 439)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000448"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat234" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat234" parent="props" unique_id=1519067095 instance=ExtResource("19_wkfju")]
 position = Vector2(280, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000449"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat235" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat235" parent="props" unique_id=1938681413 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000454"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat236" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat236" parent="props" unique_id=217338426 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000455"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat237" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat237" parent="props" unique_id=1772146767 instance=ExtResource("19_wkfju")]
 position = Vector2(272, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000456"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat238" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat238" parent="props" unique_id=1073334093 instance=ExtResource("19_wkfju")]
 position = Vector2(264, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000457"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat239" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat239" parent="props" unique_id=293442351 instance=ExtResource("19_wkfju")]
 position = Vector2(112, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000458"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat240" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat240" parent="props" unique_id=785240170 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 383)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000459"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat241" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat241" parent="props" unique_id=755229905 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000460"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat242" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat242" parent="props" unique_id=2062188992 instance=ExtResource("19_wkfju")]
 position = Vector2(136, 367)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000461"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat243" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat243" parent="props" unique_id=250507783 instance=ExtResource("19_wkfju")]
 position = Vector2(64, 383)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000462"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat244" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat244" parent="props" unique_id=753692097 instance=ExtResource("19_wkfju")]
 position = Vector2(80, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000463"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat245" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat245" parent="props" unique_id=142771853 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 431)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000464"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat246" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat246" parent="props" unique_id=167470078 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000465"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat247" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat247" parent="props" unique_id=226856946 instance=ExtResource("19_wkfju")]
 position = Vector2(104, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000466"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat248" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat248" parent="props" unique_id=1955547832 instance=ExtResource("19_wkfju")]
 position = Vector2(376, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000467"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat249" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat249" parent="props" unique_id=374296037 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000468"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat250" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat250" parent="props" unique_id=347199786 instance=ExtResource("19_wkfju")]
 position = Vector2(368, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000469"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat251" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat251" parent="props" unique_id=278665586 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000470"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat252" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat252" parent="props" unique_id=602656181 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 439)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000471"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat253" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat253" parent="props" unique_id=100343612 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 463)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000472"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat254" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat254" parent="props" unique_id=1260915918 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 407)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000473"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat255" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat255" parent="props" unique_id=1912286598 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 399)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000474"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat256" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat256" parent="props" unique_id=1650005364 instance=ExtResource("19_wkfju")]
 position = Vector2(408, 415)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000475"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat257" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat257" parent="props" unique_id=226611311 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000476"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat258" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat258" parent="props" unique_id=243379526 instance=ExtResource("19_wkfju")]
 position = Vector2(352, 463)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000477"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat259" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat259" parent="props" unique_id=132260854 instance=ExtResource("19_wkfju")]
 position = Vector2(384, 431)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000478"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat260" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat260" parent="props" unique_id=1170769070 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000479"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat261" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat261" parent="props" unique_id=1748532330 instance=ExtResource("19_wkfju")]
 position = Vector2(296, 127)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000480"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat262" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat262" parent="props" unique_id=2053114791 instance=ExtResource("19_wkfju")]
 position = Vector2(160, 87)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000481"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat263" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat263" parent="props" unique_id=2112059060 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 95)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000482"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat264" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat264" parent="props" unique_id=168802729 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 143)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000483"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat265" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat265" parent="props" unique_id=603199935 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 191)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000484"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat266" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat266" parent="props" unique_id=1877466122 instance=ExtResource("19_wkfju")]
 position = Vector2(440, 231)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000485"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat267" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat267" parent="props" unique_id=1026644855 instance=ExtResource("19_wkfju")]
 position = Vector2(440, 287)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000486"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat268" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat268" parent="props" unique_id=23039692 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000487"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat269" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat269" parent="props" unique_id=1906243799 instance=ExtResource("19_wkfju")]
 position = Vector2(440, 359)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000488"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat270" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat270" parent="props" unique_id=315765053 instance=ExtResource("19_wkfju")]
 position = Vector2(432, 383)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000489"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat271" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat271" parent="props" unique_id=1586161311 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000490"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat272" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat272" parent="props" unique_id=560757634 instance=ExtResource("19_wkfju")]
 position = Vector2(448, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000491"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat273" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat273" parent="props" unique_id=2135658934 instance=ExtResource("19_wkfju")]
 position = Vector2(416, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000492"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat274" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat274" parent="props" unique_id=808840265 instance=ExtResource("19_wkfju")]
 position = Vector2(120, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000493"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat275" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat275" parent="props" unique_id=269684152 instance=ExtResource("19_wkfju")]
 position = Vector2(160, 471)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000494"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat276" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat276" parent="props" unique_id=2136554077 instance=ExtResource("19_wkfju")]
 position = Vector2(128, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000495"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat277" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat277" parent="props" unique_id=1059748886 instance=ExtResource("19_wkfju")]
 position = Vector2(96, 423)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000496"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat278" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat278" parent="props" unique_id=846519652 instance=ExtResource("19_wkfju")]
 position = Vector2(56, 463)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000497"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat279" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat279" parent="props" unique_id=826410455 instance=ExtResource("19_wkfju")]
 position = Vector2(32, 455)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000498"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat280" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat280" parent="props" unique_id=408815648 instance=ExtResource("19_wkfju")]
 position = Vector2(40, 391)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000499"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat281" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat281" parent="props" unique_id=1768883820 instance=ExtResource("19_wkfju")]
 position = Vector2(48, 375)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000500"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat282" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat282" parent="props" unique_id=1559614783 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 135)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000501"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat283" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat283" parent="props" unique_id=471162222 instance=ExtResource("19_wkfju")]
 position = Vector2(152, 63)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000502"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat284" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat284" parent="props" unique_id=425776800 instance=ExtResource("19_wkfju")]
 position = Vector2(208, 55)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000503"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat285" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat285" parent="props" unique_id=955571483 instance=ExtResource("19_wkfju")]
 position = Vector2(248, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000504"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat286" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat286" parent="props" unique_id=1937711314 instance=ExtResource("19_wkfju")]
 position = Vector2(328, 55)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000505"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat287" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat287" parent="props" unique_id=153304748 instance=ExtResource("19_wkfju")]
 position = Vector2(360, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000506"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat288" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat288" parent="props" unique_id=224649099 instance=ExtResource("19_wkfju")]
 position = Vector2(424, 63)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000508"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat289" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat289" parent="props" unique_id=1726721769 instance=ExtResource("19_wkfju")]
 position = Vector2(456, 39)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000509"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat290" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat290" parent="props" unique_id=1109314164 instance=ExtResource("19_wkfju")]
 position = Vector2(440, 71)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000510"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_wheat291" parent="props" instance=ExtResource("19_wkfju")]
+[node name="o_wheat291" parent="props" unique_id=476524147 instance=ExtResource("19_wkfju")]
 position = Vector2(440, 327)
 sprite_frames = SubResource("SpriteFrames_gjmsb")
 metadata/code = ""
 metadata/inst_name = "inst_00000511"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cinema0" type="Marker2D" parent="."]
+[node name="o_cinema0" type="Marker2D" parent="." unique_id=1083019324]
 z_index = 4000
 position = Vector2(224, 160)
 script = ExtResource("22_cv75i")
@@ -3149,7 +3149,7 @@ metadata/code = ""
 metadata/inst_name = "inst_F255743E"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cinema1" type="Marker2D" parent="."]
+[node name="o_cinema1" type="Marker2D" parent="." unique_id=339071880]
 z_index = 4000
 position = Vector2(224, 144)
 script = ExtResource("22_cv75i")
@@ -3158,7 +3158,7 @@ metadata/code = ""
 metadata/inst_name = "inst_065F35A1"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cinema2" type="Marker2D" parent="."]
+[node name="o_cinema2" type="Marker2D" parent="." unique_id=1359873413]
 z_index = 4000
 position = Vector2(224, 96)
 script = ExtResource("22_cv75i")
@@ -3167,27 +3167,27 @@ metadata/code = ""
 metadata/inst_name = "inst_242B295C"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cuchutamo01" parent="." instance=ExtResource("23_a5v3h")]
-material = SubResource("ShaderMaterial_6tkli")
+[node name="o_cuchutamo01" parent="." unique_id=490749701 instance=ExtResource("23_a5v3h")]
+material = SubResource("ShaderMaterial_ihi38")
 position = Vector2(224, 104)
 cutscene_script = SubResource("Resource_ccuft")
 metadata/code = ""
 metadata/inst_name = "inst_55515070"
 metadata/scale = Vector2(1, 1)
 
-[node name="P0 - o_room_cdwarf" type="Marker2D" parent="."]
+[node name="P0 - o_room_cdwarf" type="Marker2D" parent="." unique_id=1114083690]
 position = Vector2(-120, 0)
 metadata/code = ""
 metadata/inst_name = "inst_462161F8"
 metadata/scale = Vector2(1, 1)
 
-[node name="P304 - o_hud_stealther" type="Marker2D" parent="."]
+[node name="P304 - o_hud_stealther" type="Marker2D" parent="." unique_id=870168247]
 position = Vector2(-120, 32)
 metadata/code = ""
 metadata/inst_name = "inst_A659F93F"
 metadata/scale = Vector2(1, 1)
 
-[node name="P305 - o_mg_vrw_control" type="Marker2D" parent="."]
+[node name="P305 - o_mg_vrw_control" type="Marker2D" parent="." unique_id=1993831784]
 position = Vector2(-119, 63)
 metadata/code = ""
 metadata/inst_name = "inst_4BDF04CA"

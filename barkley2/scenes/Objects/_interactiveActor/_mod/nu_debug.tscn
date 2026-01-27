@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ikgvq4vy4orr"]
+[gd_scene format=3 uid="uid://ikgvq4vy4orr"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_caek7"]
 [ext_resource type="Script" uid="uid://dkkgsx8q3kxdi" path="res://barkley2/scenes/Objects/_interactiveActor/_mod/nu_debug.gd" id="1_ob3yu"]
@@ -149,7 +149,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_pbmey"]
 radius = 14.0
 
-[node name="o_nu_debug" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_nu_debug" type="CharacterBody2D" unique_id=747696511 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 material = ExtResource("1_caek7")
 script = ExtResource("1_ob3yu")
 mouse_detection_area = NodePath("ActorInteract")
@@ -157,19 +157,19 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1740705797]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1818911742]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_nwisa")
 offset = Vector2(4, -8)
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=10044343]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_jjacx")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1328341228]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1296971433]
 position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_pbmey")

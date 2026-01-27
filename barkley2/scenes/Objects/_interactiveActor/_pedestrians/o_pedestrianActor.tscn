@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyaef4swi5cr0"]
+[gd_scene format=3 uid="uid://dyaef4swi5cr0"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://c867wmwr40tww" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianActor.tres" id="1_grovo"]
 [ext_resource type="Script" uid="uid://dslo48loth1uf" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_actor.gd" id="1_r6qoy"]
@@ -7,7 +7,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ju1ko"]
 radius = 4.0
 
-[node name="o_pedestrianActor" type="RigidBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_pedestrianActor" type="RigidBody2D" unique_id=499349939 node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
 collision_layer = 16
 collision_mask = 34
 mass = 250.0
@@ -24,23 +24,23 @@ ActorNav = NodePath("ActorNav")
 path_desired_distance = 10.0
 target_desired_distance = 10.0
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=940141704]
 sprite_frames = ExtResource("3_d7gs5")
 animation = &"stand"
 offset = Vector2(0, -20)
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=491690713]
 path_postprocessing = 1
 simplify_path = true
 radius = 8.0
 max_speed = 1000.0
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=48693345]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_ju1ko")
 debug_color = Color(0.915, 0.023, 0.707, 0.022)
 
-[node name="GossipTimer" type="Timer" parent="."]
+[node name="GossipTimer" type="Timer" parent="." unique_id=1394879903]
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

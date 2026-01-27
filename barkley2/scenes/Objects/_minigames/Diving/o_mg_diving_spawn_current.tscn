@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj1sc1fyr0uiq"]
+[gd_scene format=3 uid="uid://dj1sc1fyr0uiq"]
 
 [ext_resource type="Texture2D" uid="uid://dbftuwpbfafqm" path="res://barkley2/assets/b2_original/images/merged/s_mg_booty_light_orbit.png" id="1_ppdir"]
 [ext_resource type="Material" uid="uid://dnvx5hnhppyxo" path="res://barkley2/shaders/particles/o_mg_diving_spawn_current_light.tres" id="2_hhkkd"]
@@ -6,17 +6,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_echjn"]
 size = Vector2(36, 39)
 
-[node name="o_mg_diving_spawn_current" type="Area2D"]
+[node name="o_mg_diving_spawn_current" type="Area2D" unique_id=1837146078]
 gravity_space_override = 1
 gravity = 15000.0
 linear_damp_space_override = 3
 linear_damp = 10.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1723732334]
 position = Vector2(0, 19.5)
 shape = SubResource("RectangleShape2D_echjn")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1469608927]
 amount = 64
 texture = ExtResource("1_ppdir")
 process_material = ExtResource("2_hhkkd")

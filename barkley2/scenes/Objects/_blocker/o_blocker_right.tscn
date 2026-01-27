@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://lpp3i8tjsn7n"]
+[gd_scene format=3 uid="uid://lpp3i8tjsn7n"]
 
 [ext_resource type="Texture2D" uid="uid://4roe1askwdwp" path="res://barkley2/assets/b2_original/images/merged/s_blocker_left.png" id="1_ttbfy"]
 [ext_resource type="Texture2D" uid="uid://c85uwb71oo356" path="res://barkley2/assets/b2_original/images/merged/s_blocker_down.png" id="2_x2xwx"]
@@ -109,7 +109,7 @@ size = Vector2(16, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_10h3h"]
 size = Vector2(16, 32)
 
-[node name="o_blocker_right" type="AnimatedSprite2D"]
+[node name="o_blocker_right" type="AnimatedSprite2D" unique_id=1879834806]
 material = SubResource("CanvasItemMaterial_bhxic")
 sprite_frames = SubResource("SpriteFrames_m1yss")
 animation = &"debug_icons"
@@ -120,14 +120,14 @@ push_vector = Vector2(1, 0)
 working_anim = &"s_doorlight_lr"
 working_frame = 3
 
-[node name="push_area" type="Area2D" parent="."]
+[node name="push_area" type="Area2D" parent="." unique_id=666879247]
 
-[node name="area_collision" type="CollisionShape2D" parent="push_area"]
+[node name="area_collision" type="CollisionShape2D" parent="push_area" unique_id=1526898869]
 position = Vector2(8, 16)
 shape = SubResource("RectangleShape2D_2n0g8")
 
-[node name="actor_blocker" type="StaticBody2D" parent="."]
+[node name="actor_blocker" type="StaticBody2D" parent="." unique_id=344185054]
 position = Vector2(24, 16)
 
-[node name="blocker_collision" type="CollisionShape2D" parent="actor_blocker"]
+[node name="blocker_collision" type="CollisionShape2D" parent="actor_blocker" unique_id=1259465733]
 shape = SubResource("RectangleShape2D_10h3h")

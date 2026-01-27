@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://byc0nl6mp3iyo"]
+[gd_scene format=3 uid="uid://byc0nl6mp3iyo"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://qn3epboss6av" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_mortageProle.tres" id="1_8bvm7"]
 [ext_resource type="Script" uid="uid://jfvo2jkr16td" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_mortage_prole.gd" id="2_8bvm7"]
@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ju1ko"]
 radius = 8.0
 
-[node name="o_mortageProle" type="RigidBody2D" node_paths=PackedStringArray("my_shadow", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_mortageProle" type="RigidBody2D" unique_id=1744341318 node_paths=PackedStringArray("my_shadow", "ActorAnim", "ActorCol", "ActorNav")]
 collision_mask = 2
 mass = 300.0
 physics_material_override = ExtResource("1_8bvm7")
@@ -26,24 +26,24 @@ ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 speed_normal = 100.0
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2036139079]
 position = Vector2(1, 0)
 sprite_frames = ExtResource("3_47v4b")
 animation = &"stand"
 offset = Vector2(0, -20)
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1615406096]
 path_desired_distance = 5.0
 target_desired_distance = 5.0
 neighbor_distance = 10.0
 max_speed = 10000000.0
 debug_enabled = true
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2107865478]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_ju1ko")
 debug_color = Color(0.915, 0.023, 0.707, 0.022)
 
-[node name="o_Shadow" parent="." instance=ExtResource("4_a8yk4")]
+[node name="o_Shadow" parent="." unique_id=979104274 instance=ExtResource("4_a8yk4")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

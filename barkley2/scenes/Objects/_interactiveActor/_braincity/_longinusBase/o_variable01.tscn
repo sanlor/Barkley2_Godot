@@ -1,10 +1,10 @@
-[gd_scene load_steps=55 format=3 uid="uid://c5oxmo4xn6bwt"]
+[gd_scene format=3 uid="uid://c5oxmo4xn6bwt"]
 
 [ext_resource type="Texture2D" uid="uid://b3favlhdhipaj" path="res://barkley2/assets/b2_original/images/merged/s_variableBrandish01.png" id="1_e7w8o"]
 [ext_resource type="Texture2D" uid="uid://cmr2i1m0ryoim" path="res://barkley2/assets/b2_original/images/merged/s_variable01.png" id="2_hnx2p"]
 [ext_resource type="Texture2D" uid="uid://b7ldq5r4uj75x" path="res://barkley2/assets/b2_original/images/merged/s_variableDown01.png" id="3_7x8q1"]
 [ext_resource type="Texture2D" uid="uid://dxd0hvokjb7m4" path="res://barkley2/assets/b2_original/images/merged/s_variableSpank.png" id="4_1ghud"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_variable01.gd" id="5_tk5tk"]
+[ext_resource type="Script" uid="uid://cnfc51bhxvcdq" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_variable01.gd" id="5_tk5tk"]
 [ext_resource type="Texture2D" uid="uid://b2adg6admvahq" path="res://barkley2/assets/b2_original/images/merged/s_variableHandSpank.png" id="6_knpwc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0ey6b"]
@@ -392,20 +392,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n2l7u"]
 size = Vector2(20, 36)
 
-[node name="o_variable01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim_hands", "mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_variable01" type="CharacterBody2D" unique_id=638120967 node_paths=PackedStringArray("ActorAnim_hands", "mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("5_tk5tk")
 ActorAnim_hands = NodePath("ActorAnim_hands")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=2062080459]
 debug_enabled = true
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1218747225]
 shape = SubResource("CircleShape2D_0ey6b")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1602170553]
 sprite_frames = SubResource("SpriteFrames_6jg8v")
 centered = false
 offset = Vector2(-12, -45)
@@ -510,7 +510,7 @@ metadata/brandishHold = {
 "yorigin": "45"
 }
 
-[node name="ActorAnim_hands" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim_hands" type="AnimatedSprite2D" parent="." unique_id=344839323]
 visible = false
 z_index = 10
 sprite_frames = SubResource("SpriteFrames_t270i")
@@ -519,9 +519,9 @@ centered = false
 offset = Vector2(-5, -44)
 flip_h = true
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=228621955]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1199276048]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_n2l7u")

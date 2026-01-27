@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpu5rea4avi56"]
+[gd_scene format=3 uid="uid://dpu5rea4avi56"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_babo01.gd" id="1_dkkqe"]
+[ext_resource type="Script" uid="uid://bckdkcwgpyeui" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_babo01.gd" id="1_dkkqe"]
 [ext_resource type="Texture2D" uid="uid://bc0dsdtam7lpo" path="res://barkley2/assets/b2_original/images/merged/s_babo01.png" id="2_55856"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_levs7"]
@@ -24,14 +24,14 @@ radius = 7.95775
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5o1tv"]
 size = Vector2(20, 36)
 
-[node name="o_babo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_babo01" type="CharacterBody2D" unique_id=316999259 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_dkkqe")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=434334834]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_bb64l")
 centered = false
@@ -49,11 +49,11 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1176494413]
 shape = SubResource("CircleShape2D_l4jhk")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=597788390]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1823734212]
 shape = SubResource("RectangleShape2D_5o1tv")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://xowxayc4v63k"]
+[gd_scene format=3 uid="uid://xowxayc4v63k"]
 
 [ext_resource type="Script" uid="uid://2tpsmo6wotoo" path="res://barkley2/scenes/Player/o_hoopz_diaper.gd" id="1_3cthp"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_4umcs"]
@@ -104,7 +104,7 @@ size = Vector2(4, 4)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4umcs"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorCol", "actor_ai")]
+[node name="o_hoopz" type="RigidBody2D" unique_id=1684911858 node_paths=PackedStringArray("combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorCol", "actor_ai")]
 collision_layer = 3
 collision_mask = 1572885
 mass = 70.0
@@ -136,54 +136,54 @@ walk_speed = 3000000
 roll_damp = 5.5
 actor_ai = NodePath("B2_AI_Player")
 
-[node name="B2_AI_Player" type="Node2D" parent="."]
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=1069187012]
 script = ExtResource("2_4umcs")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="Gun_Handler™" type="Node" parent="."]
+[node name="Gun_Handler™" type="Node" parent="." unique_id=211917176]
 script = ExtResource("3_acr08")
 
-[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™"]
+[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™" unique_id=705059238]
 one_shot = true
 
-[node name="firing_rate" type="Timer" parent="Gun_Handler™"]
+[node name="firing_rate" type="Timer" parent="Gun_Handler™" unique_id=2016975540]
 one_shot = true
 
-[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™"]
+[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™" unique_id=2012517734]
 one_shot = true
 
-[node name="gun_noises_stream" type="AudioStreamPlayer" parent="Gun_Handler™"]
+[node name="gun_noises_stream" type="AudioStreamPlayer" parent="Gun_Handler™" unique_id=1244555607]
 bus = &"Audio"
 
-[node name="constant_stream" type="AudioStreamPlayer" parent="Gun_Handler™"]
+[node name="constant_stream" type="AudioStreamPlayer" parent="Gun_Handler™" unique_id=1654898748]
 bus = &"Audio"
 
-[node name="reload_timer" type="Timer" parent="Gun_Handler™"]
+[node name="reload_timer" type="Timer" parent="Gun_Handler™" unique_id=1608656263]
 one_shot = true
 
-[node name="charge_timer" type="Timer" parent="Gun_Handler™"]
+[node name="charge_timer" type="Timer" parent="Gun_Handler™" unique_id=1031324645]
 wait_time = 0.05
 
-[node name="o_Shadow" type="Sprite2D" parent="."]
+[node name="o_Shadow" type="Sprite2D" parent="." unique_id=61317201]
 modulate = Color(0, 0, 0, 0.25)
 scale = Vector2(0.5, 0.25)
 texture = ExtResource("2_cx2lw")
 script = ExtResource("3_a06su")
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=461654058]
 occluder = SubResource("OccluderPolygon2D_b6ns7")
 sdf_collision = false
 occluder_light_mask = 3
 
-[node name="hoopz_collision" type="CollisionShape2D" parent="."]
+[node name="hoopz_collision" type="CollisionShape2D" parent="." unique_id=1816440916]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_aubae")
 
-[node name="step_smoke" parent="." instance=ExtResource("4_0p8gy")]
+[node name="step_smoke" parent="." unique_id=309526083 instance=ExtResource("4_0p8gy")]
 position = Vector2(0, -1)
 amount = 30
 
-[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
+[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="." unique_id=843201994]
 y_sort_enabled = true
 sprite_frames = ExtResource("2_5da33")
 animation = &"diaper_gooroll"
@@ -191,20 +191,20 @@ speed_scale = 2.0
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
+[node name="combat_lower_body" type="AnimatedSprite2D" parent="." unique_id=1068682792]
 visible = false
 sprite_frames = ExtResource("3_4wjkq")
 animation = &"aim_shuffle"
 centered = false
 offset = Vector2(-22, -42)
 
-[node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
+[node name="combat_arm_back" type="AnimatedSprite2D" parent="." unique_id=209645283]
 visible = false
 sprite_frames = ExtResource("5_68psw")
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+[node name="combat_upper_body" type="AnimatedSprite2D" parent="." unique_id=166021796]
 visible = false
 sprite_frames = ExtResource("4_qwl6u")
 animation = &"aim"
@@ -213,38 +213,38 @@ frame_progress = 0.554661
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_weapon" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon" type="AnimatedSprite2D" parent="." unique_id=1142315580]
 visible = false
 material = ExtResource("11_frurt")
 position = Vector2(0, -18)
 sprite_frames = ExtResource("6_2vbnu")
 animation = &"s_AssaultRifle"
 
-[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="." unique_id=2132733144]
 visible = false
 position = Vector2(0, -18)
 sprite_frames = ExtResource("10_t8f4j")
 animation = &"s_TranqRifle"
 
-[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="." unique_id=66041682]
 visible = false
 position = Vector2(0, -18)
 sprite_frames = ExtResource("11_fa877")
 animation = &"s_Smg"
 
-[node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
+[node name="combat_arm_front" type="AnimatedSprite2D" parent="." unique_id=1258077377]
 visible = false
 sprite_frames = ExtResource("6_txjj5")
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=180405999]
 current = true
 
-[node name="aim_origin" type="Marker2D" parent="."]
+[node name="aim_origin" type="Marker2D" parent="." unique_id=1530076758]
 position = Vector2(0, -16)
 
-[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin"]
+[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin" unique_id=511682442]
 visible = false
 z_index = 100
 z_as_relative = false
@@ -252,7 +252,7 @@ sprite_frames = SubResource("SpriteFrames_t4t1f")
 animation = &"bulls"
 autoplay = "bulls"
 
-[node name="interaction_node" type="Area2D" parent="aim_origin"]
+[node name="interaction_node" type="Area2D" parent="aim_origin" unique_id=1480558568]
 editor_description = "Previously called \"Large dong of interaction\".
 Used for Gamepad interactions with other actors."
 collision_layer = 1048595
@@ -260,25 +260,25 @@ collision_mask = 17
 monitoring = false
 script = ExtResource("25_f217f")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node" unique_id=1419093187]
 shape = SubResource("CircleShape2D_c5a02")
 debug_color = Color(0.99460953, 0, 0.226715, 0.25490198)
 
-[node name="debug_text" type="Sprite2D" parent="aim_origin/interaction_node"]
+[node name="debug_text" type="Sprite2D" parent="aim_origin/interaction_node" unique_id=969224367]
 visible = false
 texture = SubResource("PlaceholderTexture2D_6tlak")
 
-[node name="gun_muzzle" type="Marker2D" parent="."]
+[node name="gun_muzzle" type="Marker2D" parent="." unique_id=599538604]
 
-[node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
+[node name="debug_text" type="Sprite2D" parent="gun_muzzle" unique_id=2012702266]
 visible = false
 texture = SubResource("PlaceholderTexture2D_4umcs")
 
-[node name="hit_timer" type="Timer" parent="."]
+[node name="hit_timer" type="Timer" parent="." unique_id=119382959]
 wait_time = 0.5
 one_shot = true
 
-[node name="i_frame_timer" type="Timer" parent="."]
+[node name="i_frame_timer" type="Timer" parent="." unique_id=1275283742]
 one_shot = true
 
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]

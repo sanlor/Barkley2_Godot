@@ -1,7 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://cn1hgnkv4ewam"]
+[gd_scene format=3 uid="uid://cn1hgnkv4ewam"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_crosswordguys01.gd" id="1_gl0ny"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_haglh"]
+[ext_resource type="Script" uid="uid://c57kvjmw1f0rs" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_crosswordguys01.gd" id="1_gl0ny"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_haglh"]
 [ext_resource type="Texture2D" uid="uid://w26hd7hw248w" path="res://barkley2/assets/b2_original/images/merged/s_crosswordguys01.png" id="2_oqcej"]
 [ext_resource type="AudioStream" uid="uid://rcnnmwccxs5a" path="res://barkley2/assets/b2_original/audio/NPC/sn_altijd_pencil1.ogg" id="4_68k7v"]
 
@@ -345,14 +345,14 @@ radius = 17.1887
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ggttu"]
 size = Vector2(59, 49)
 
-[node name="o_crosswordguys01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_crosswordguys01" type="CharacterBody2D" unique_id=205456995 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_gl0ny")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_ukbvg")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1301864675]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_drj56")
 centered = false
@@ -370,20 +370,20 @@ metadata/default = {
 "yorigin": "42"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2068977598]
 position = Vector2(2, -7)
 shape = SubResource("CircleShape2D_1djf3")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=668635466]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1965497112]
 position = Vector2(7.5, -14.5)
 shape = SubResource("RectangleShape2D_ggttu")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=499571494]
 stream = ExtResource("4_68k7v")
 bus = &"Audio"
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=94272711]
 
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

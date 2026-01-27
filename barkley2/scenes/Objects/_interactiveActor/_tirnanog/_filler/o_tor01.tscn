@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bchctdf6m6yr4"]
+[gd_scene format=3 uid="uid://bchctdf6m6yr4"]
 
 [ext_resource type="Script" uid="uid://dq3k4vhbq6vmv" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_tor01.gd" id="1_kpjur"]
 [ext_resource type="Texture2D" uid="uid://c4kqlqdlm0j7p" path="res://barkley2/assets/b2_original/images/merged/s_tor01.png" id="2_6o8mj"]
@@ -24,14 +24,14 @@ radius = 7.32113
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sy5la"]
 size = Vector2(20, 36)
 
-[node name="o_tor01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_tor01" type="CharacterBody2D" unique_id=504111843 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_kpjur")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=720168381]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_rccdp")
 centered = false
@@ -49,11 +49,11 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1209615849]
 shape = SubResource("CircleShape2D_413xs")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1601422353]
 position = Vector2(0, -15)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=398902479]
 shape = SubResource("RectangleShape2D_sy5la")

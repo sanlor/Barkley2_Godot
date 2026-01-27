@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://fc7wclswdtji"]
+[gd_scene format=3 uid="uid://fc7wclswdtji"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_lottery.gd" id="1_l6p5s"]
+[ext_resource type="Script" uid="uid://cnakg7unsn0su" path="res://barkley2/scenes/CC/cc_lottery.gd" id="1_l6p5s"]
 [ext_resource type="Texture2D" uid="uid://ihdvet33tf7y" path="res://barkley2/assets/b2_original/images/cc/s_cc_lottery_ticket_0.png" id="2_8mp7d"]
 
 [sub_resource type="Animation" id="Animation_ugmdb"]
@@ -64,12 +64,12 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j46nl"]
 _data = {
-"RESET": SubResource("Animation_ugmdb"),
-"hide": SubResource("Animation_q8nnl"),
-"show": SubResource("Animation_et37c")
+&"RESET": SubResource("Animation_ugmdb"),
+&"hide": SubResource("Animation_q8nnl"),
+&"show": SubResource("Animation_et37c")
 }
 
-[node name="cc_lottery" type="Control"]
+[node name="cc_lottery" type="Control" unique_id=1406236304]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +78,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_l6p5s")
 
-[node name="lottery_bg" type="ColorRect" parent="."]
+[node name="lottery_bg" type="ColorRect" parent="." unique_id=1387725118]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,11 +87,11 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
-[node name="lottery_card" type="Sprite2D" parent="."]
+[node name="lottery_card" type="Sprite2D" parent="." unique_id=1200143950]
 position = Vector2(192, -120)
 texture = ExtResource("2_8mp7d")
 
-[node name="done_button" type="Button" parent="."]
+[node name="done_button" type="Button" parent="." unique_id=1824513382]
 layout_mode = 0
 offset_left = 83.0
 offset_top = 190.0
@@ -99,9 +99,7 @@ offset_right = 147.0
 offset_bottom = 206.0
 flat = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_j46nl")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2084364778]
+libraries/ = SubResource("AnimationLibrary_j46nl")
 
 [connection signal="button_down" from="done_button" to="." method="_on_done_button_button_down"]

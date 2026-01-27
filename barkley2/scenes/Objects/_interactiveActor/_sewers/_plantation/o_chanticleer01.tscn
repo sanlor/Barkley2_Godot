@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bthgcd24ru2ar"]
+[gd_scene format=3 uid="uid://bthgcd24ru2ar"]
 
 [ext_resource type="Script" uid="uid://160h4nllm8f2" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_chanticleer01.gd" id="1_ywb0g"]
 [ext_resource type="Texture2D" uid="uid://drsv3lb878x6b" path="res://barkley2/assets/b2_original/images/merged/s_chanticleer01.png" id="2_2dm6m"]
@@ -319,14 +319,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jy7iv"]
 size = Vector2(20, 36)
 
-[node name="o_chanticleer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_chanticleer01" type="CharacterBody2D" unique_id=1760752637 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_ywb0g")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_hrpim")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=966565523]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hrpim")
 centered = false
@@ -344,19 +344,19 @@ metadata/default = {
 "yorigin": "46"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1732818176]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_jy7iv")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=288948164]
 position = Vector2(0, -14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1514954700]
 shape = SubResource("RectangleShape2D_jy7iv")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1531349657]
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=865092367]
 z_index = 4000
 script = ExtResource("4_8nvlc")
 notes = "Missing a \"Movie Watch\" minigame. Maybe implement my idea to watch youtube videos?"

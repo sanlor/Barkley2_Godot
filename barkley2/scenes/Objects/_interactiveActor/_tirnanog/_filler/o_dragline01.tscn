@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://do4cdr7lmyorx"]
+[gd_scene format=3 uid="uid://do4cdr7lmyorx"]
 
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="1_75kxc"]
 [ext_resource type="Script" uid="uid://dk88sctbwhwsq" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dragline_01.gd" id="2_sn01g"]
@@ -201,7 +201,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gpbnh"]
 size = Vector2(20, 36)
 
-[node name="o_dragline01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_dragline01" type="CharacterBody2D" unique_id=412115053 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 material = ExtResource("1_75kxc")
 script = ExtResource("2_sn01g")
 mouse_detection_area = NodePath("ActorInteract")
@@ -209,7 +209,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=470441984]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hjmr4")
 animation = &"s_dragline01"
@@ -324,13 +324,13 @@ metadata/walk_E = {
 "yorigin": "38"
 }
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1841392449]
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1877601117]
 shape = SubResource("CircleShape2D_320me")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2013315078]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1578885190]
 shape = SubResource("RectangleShape2D_gpbnh")

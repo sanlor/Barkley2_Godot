@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bcuhs4kis38a0"]
+[gd_scene format=3 uid="uid://bcuhs4kis38a0"]
 
 [ext_resource type="Script" uid="uid://beli2fdc6mrsb" path="res://barkley2/scenes/Objects/_interactiveActor/_global/o_ooze01.gd" id="1_v5p6s"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_b10jn"]
@@ -418,14 +418,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enkf6"]
 size = Vector2(20, 36)
 
-[node name="o_ooze01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_ooze01" type="CharacterBody2D" unique_id=1184501787 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_v5p6s")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_618i8")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2093373830]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_wi5m5")
 frame_progress = 0.7567946
@@ -444,15 +444,15 @@ metadata/default = {
 "yorigin": "49"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1231287728]
 shape = SubResource("CircleShape2D_2grgs")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1763071169]
 position = Vector2(0, -17)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1556117164]
 shape = SubResource("RectangleShape2D_enkf6")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1482420515]
 
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

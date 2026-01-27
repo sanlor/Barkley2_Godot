@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c0lu2mi230i77"]
+[gd_scene format=3 uid="uid://c0lu2mi230i77"]
 
 [ext_resource type="Script" uid="uid://dbuojxjxvel4s" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hildeberga01.gd" id="1_0eg3w"]
 [ext_resource type="Texture2D" uid="uid://cget40cbh3so4" path="res://barkley2/assets/b2_original/images/merged/s_hildeberga01.png" id="2_0qik5"]
@@ -203,14 +203,14 @@ radius = 9.86761
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0xsv"]
 size = Vector2(20, 36)
 
-[node name="o_hildeberga01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_hildeberga01" type="CharacterBody2D" unique_id=1869565787 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0eg3w")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_xpdis")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1433829801]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ixqaj")
 centered = false
@@ -240,17 +240,17 @@ metadata/hildeSleeping = {
 "yorigin": "25"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=446855781]
 shape = SubResource("CircleShape2D_75ys8")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=540036559]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=957797033]
 shape = SubResource("RectangleShape2D_r0xsv")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1465661808]
 
-[node name="sound_emiter" type="AudioStreamPlayer2D" parent="."]
+[node name="sound_emiter" type="AudioStreamPlayer2D" parent="." unique_id=371870090]
 max_distance = 350.0
 bus = &"Audio"
 

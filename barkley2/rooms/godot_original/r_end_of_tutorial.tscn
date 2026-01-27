@@ -1,11 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://r16vdgj2g4o5"]
+[gd_scene format=3 uid="uid://r16vdgj2g4o5"]
 
-[ext_resource type="Script" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gd" id="1_0ah04"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_a6h8s"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/o_cinema.gd" id="3_oivgq"]
-[ext_resource type="Shader" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gdshader" id="4_5wqqp"]
+[ext_resource type="Script" uid="uid://bkmfmjaxpux1e" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gd" id="1_0ah04"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_a6h8s"]
+[ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="3_oivgq"]
+[ext_resource type="Shader" uid="uid://dg1sde3qc0305" path="res://barkley2/rooms/godot_original/r_end_of_tutorial.gdshader" id="4_5wqqp"]
 [ext_resource type="Texture2D" uid="uid://suidyhf17mns" path="res://barkley2/assets/b2_original/images/merged/s_barkley2_logo.png" id="4_a4yhn"]
-[ext_resource type="Script" path="res://barkley2/rooms/godot_original/barkley_logo.gd" id="5_vxush"]
+[ext_resource type="Script" uid="uid://crrx4go66104d" path="res://barkley2/rooms/godot_original/barkley_logo.gd" id="5_vxush"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_f3jfw"]
 
@@ -34,18 +34,18 @@ Teleport | r_air_entrance03 | 417 | 615"
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l8pmg"]
 shader = ExtResource("4_5wqqp")
 
-[node name="r_end_of_tutorial" type="NavigationRegion2D"]
+[node name="r_end_of_tutorial" type="NavigationRegion2D" unique_id=729445527]
 navigation_polygon = SubResource("NavigationPolygon_f3jfw")
 script = ExtResource("1_0ah04")
 enable_hud = false
 cutscene_script = SubResource("Resource_5ep5e")
 
-[node name="cinema_0" type="Marker2D" parent="."]
+[node name="cinema_0" type="Marker2D" parent="." unique_id=2053368916]
 z_index = 4000
 position = Vector2(192, 120)
 script = ExtResource("3_oivgq")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=937424651]
 custom_minimum_size = Vector2(384, 240)
 layout_mode = 3
 anchors_preset = 15
@@ -56,7 +56,8 @@ offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="barkley_logo" type="TextureRect" parent="Control"]
+[node name="barkley_logo" type="TextureRect" parent="Control" unique_id=1255902682]
+modulate = Color(1, 1, 1, 0.13268451)
 material = SubResource("ShaderMaterial_l8pmg")
 layout_mode = 1
 anchors_preset = 8

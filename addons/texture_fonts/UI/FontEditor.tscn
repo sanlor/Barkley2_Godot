@@ -1,13 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://b5gbh4n4b3ocd"]
+[gd_scene format=3 uid="uid://b5gbh4n4b3ocd"]
 
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/font_editor.gd" id="1_c336f"]
+[ext_resource type="Script" uid="uid://633cedkc7tjb" path="res://addons/texture_fonts/UI/font_editor.gd" id="1_c336f"]
 [ext_resource type="Texture2D" uid="uid://sanipjn5peiu" path="res://addons/texture_fonts/Assets/ExternalLink.svg" id="2"]
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/mapping_list.gd" id="2_cpen6"]
+[ext_resource type="Script" uid="uid://clw0lu7tsxf7i" path="res://addons/texture_fonts/UI/mapping_list.gd" id="2_cpen6"]
 [ext_resource type="PackedScene" uid="uid://ud2mcabp2mg0" path="res://addons/texture_fonts/UI/Mapping.tscn" id="3_ewae4"]
 [ext_resource type="PackedScene" uid="uid://drm7k5iue6ov4" path="res://addons/texture_fonts/UI/Settings.tscn" id="4_3ba0m"]
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/help_button.gd" id="5_tnrwx"]
+[ext_resource type="Script" uid="uid://4ao0w51bc84l" path="res://addons/texture_fonts/UI/help_button.gd" id="5_tnrwx"]
 
-[node name="FontEditor" type="MarginContainer" node_paths=PackedStringArray("file_list", "file_dialog", "mapping_settings", "no_selection_overlay", "font_settings")]
+[node name="FontEditor" type="MarginContainer" unique_id=1989159325 node_paths=PackedStringArray("file_list", "file_dialog", "mapping_settings", "no_selection_overlay", "font_settings")]
 custom_minimum_size = Vector2(0, 280)
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,85 +20,88 @@ mapping_settings = NodePath("TabContainer/Mapping/MappingSettings")
 no_selection_overlay = NodePath("TabContainer/Mapping/MappingSettings/NoSelectionOverlay")
 font_settings = NodePath("TabContainer/Settings")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=550217219]
 layout_mode = 2
 size_flags_horizontal = 3
+current_tab = 0
 
-[node name="Mapping" type="HSplitContainer" parent="TabContainer"]
+[node name="Mapping" type="HSplitContainer" parent="TabContainer" unique_id=39860308]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+metadata/_tab_index = 0
 
-[node name="TextureList" type="VBoxContainer" parent="TabContainer/Mapping"]
+[node name="TextureList" type="VBoxContainer" parent="TabContainer/Mapping" unique_id=1157103420]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("2_cpen6")
 
-[node name="HeadingBox" type="HBoxContainer" parent="TabContainer/Mapping/TextureList"]
+[node name="HeadingBox" type="HBoxContainer" parent="TabContainer/Mapping/TextureList" unique_id=1407739414]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="TabContainer/Mapping/TextureList/HeadingBox"]
+[node name="Label" type="Label" parent="TabContainer/Mapping/TextureList/HeadingBox" unique_id=1965675394]
 layout_mode = 2
 text = "Textures"
 
-[node name="HSeparator" type="HSeparator" parent="TabContainer/Mapping/TextureList/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Mapping/TextureList/HeadingBox" unique_id=1310252544]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddTextureButton" type="Button" parent="TabContainer/Mapping/TextureList/HeadingBox"]
+[node name="AddTextureButton" type="Button" parent="TabContainer/Mapping/TextureList/HeadingBox" unique_id=2074625755]
 layout_mode = 2
 text = "Add"
 
-[node name="FileDialog" type="FileDialog" parent="TabContainer/Mapping/TextureList/HeadingBox/AddTextureButton"]
+[node name="FileDialog" type="FileDialog" parent="TabContainer/Mapping/TextureList/HeadingBox/AddTextureButton" unique_id=1148036729]
 title = "Open a File"
 size = Vector2i(312, 280)
 ok_button_text = "Open"
 file_mode = 0
 filters = PackedStringArray("*.png, *.bmp, *.dds, *.exr, *.hdr, *.jpg, *.jpeg, *.tga, *.svg, *.svgz, *.webp; Textures")
 
-[node name="Panel" type="Panel" parent="TabContainer/Mapping/TextureList"]
+[node name="Panel" type="Panel" parent="TabContainer/Mapping/TextureList" unique_id=398096884]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Mapping/TextureList/Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Mapping/TextureList/Panel" unique_id=1420444321]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FileList" type="VBoxContainer" parent="TabContainer/Mapping/TextureList/Panel/ScrollContainer"]
+[node name="FileList" type="VBoxContainer" parent="TabContainer/Mapping/TextureList/Panel/ScrollContainer" unique_id=749701947]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MappingSettings" parent="TabContainer/Mapping" instance=ExtResource("3_ewae4")]
+[node name="MappingSettings" parent="TabContainer/Mapping" unique_id=1122550041 instance=ExtResource("3_ewae4")]
 layout_mode = 2
 
-[node name="NoSelectionOverlay" type="ColorRect" parent="TabContainer/Mapping/MappingSettings"]
+[node name="NoSelectionOverlay" type="ColorRect" parent="TabContainer/Mapping/MappingSettings" unique_id=1837721485]
 visible = false
 layout_mode = 2
 color = Color(0.14902, 0.172549, 0.231373, 0.784314)
 
-[node name="Label" type="Label" parent="TabContainer/Mapping/MappingSettings/NoSelectionOverlay"]
+[node name="Label" type="Label" parent="TabContainer/Mapping/MappingSettings/NoSelectionOverlay" unique_id=377456615]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 text = "Add or Select a Texture"
 
-[node name="Settings" parent="TabContainer" instance=ExtResource("4_3ba0m")]
+[node name="Settings" parent="TabContainer" unique_id=622773303 instance=ExtResource("4_3ba0m")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
-[node name="Others" type="Control" parent="."]
+[node name="Others" type="Control" parent="." unique_id=127714714]
 layout_mode = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="HelpButton" type="Button" parent="Others"]
+[node name="HelpButton" type="Button" parent="Others" unique_id=1575338958]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

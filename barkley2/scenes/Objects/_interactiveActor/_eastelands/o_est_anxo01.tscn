@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dky157k0yqtsu"]
+[gd_scene format=3 uid="uid://dky157k0yqtsu"]
 
 [ext_resource type="Script" uid="uid://br4sh5genk7jn" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/o_est_anxo01.gd" id="1_gha6l"]
 [ext_resource type="Texture2D" uid="uid://b50brjmiemq1t" path="res://barkley2/assets/b2_original/images/merged/s_anxo01.png" id="2_7poqy"]
@@ -79,14 +79,14 @@ radius = 13.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6m2mp"]
 size = Vector2(34, 48)
 
-[node name="o_est_anxo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_est_anxo01" type="CharacterBody2D" unique_id=2076867754 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_gha6l")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_h4175")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=18777233]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_12ncn")
 centered = false
@@ -104,14 +104,14 @@ metadata/default = {
 "yorigin": "31"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2092198555]
 position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_gha6l")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1226502722]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=380607352]
 position = Vector2(0, -21)
 shape = SubResource("RectangleShape2D_6m2mp")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1812197713]

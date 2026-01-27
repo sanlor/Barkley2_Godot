@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://43gct45hwrpb"]
+[gd_scene format=3 uid="uid://43gct45hwrpb"]
 
 [ext_resource type="Script" uid="uid://daaxo60gsm666" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lucretia01.gd" id="1_d6oh0"]
 [ext_resource type="Texture2D" uid="uid://p7b828t8hy83" path="res://barkley2/assets/b2_original/images/merged/s_lucretia01.png" id="1_i6gn0"]
@@ -179,7 +179,7 @@ radius = 8.91268
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oxteu"]
 size = Vector2(20, 36)
 
-[node name="o_lucretia01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_lucretia01" type="CharacterBody2D" unique_id=971877021 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_d6oh0")
 duergar_name = "lucretia"
 mouse_detection_area = NodePath("ActorInteract")
@@ -188,9 +188,9 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=171873035]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=180828248]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_wun17")
 centered = false
@@ -244,10 +244,10 @@ metadata/s_lucretiaSE = {
 "yorigin": "37"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1739275618]
 shape = SubResource("CircleShape2D_mm5la")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2033976612]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2133570066]
 shape = SubResource("RectangleShape2D_oxteu")

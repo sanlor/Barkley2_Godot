@@ -1,11 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://cfpa5rqd5rr8"]
+[gd_scene format=3 uid="uid://cfpa5rqd5rr8"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_palm_reading.gd" id="1_nq6bj"]
+[ext_resource type="Script" uid="uid://dn08qsn44w8mh" path="res://barkley2/scenes/CC/cc_palm_reading.gd" id="1_nq6bj"]
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="2_1bhdf"]
 [ext_resource type="PackedScene" uid="uid://17ju2lwljq2s" path="res://barkley2/scenes/CC/cc_particle_1.tscn" id="2_8v1lw"]
 [ext_resource type="Texture2D" uid="uid://u0ix2kypjcec" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_0.png" id="3_x3vmc"]
 [ext_resource type="Texture2D" uid="uid://cap6bp38hxsiv" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_0.png" id="4_7gbs8"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_palm_reading_area.gd" id="5_4yko8"]
+[ext_resource type="Script" uid="uid://dgof26ktwgp0s" path="res://barkley2/scenes/CC/cc_palm_reading_area.gd" id="5_4yko8"]
 [ext_resource type="Texture2D" uid="uid://b34rg0b4f521c" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_1.png" id="5_oa7j0"]
 [ext_resource type="Texture2D" uid="uid://brmbfc225hp1y" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_2.png" id="6_6gbuu"]
 [ext_resource type="Texture2D" uid="uid://3g03nawgn3ek" path="res://barkley2/assets/b2_original/images/cc/s_cc_palm_hand_area_3.png" id="7_5n22h"]
@@ -153,12 +153,12 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_20fnw"]
 _data = {
-"RESET": SubResource("Animation_q4gil"),
-"hand_in": SubResource("Animation_1o66a"),
-"hand_out": SubResource("Animation_hxmgl")
+&"RESET": SubResource("Animation_q4gil"),
+&"hand_in": SubResource("Animation_1o66a"),
+&"hand_out": SubResource("Animation_hxmgl")
 }
 
-[node name="cc_palm_reading" type="Control"]
+[node name="cc_palm_reading" type="Control" unique_id=1321905134]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -167,32 +167,30 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nq6bj")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_20fnw")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=966070467]
+libraries/ = SubResource("AnimationLibrary_20fnw")
 
-[node name="Particle_1" parent="." instance=ExtResource("2_8v1lw")]
+[node name="Particle_1" parent="." unique_id=507778173 instance=ExtResource("2_8v1lw")]
 modulate = Color(1, 1, 1, 0.5)
 
-[node name="cc_palm_reading_area" type="Control" parent="."]
+[node name="cc_palm_reading_area" type="Control" parent="." unique_id=1133249800]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="s_cc_palm_hand" type="Sprite2D" parent="."]
+[node name="s_cc_palm_hand" type="Sprite2D" parent="." unique_id=2044700227]
 position = Vector2(192, 120)
 texture = ExtResource("3_x3vmc")
 
-[node name="s_cc_palm_hand_area" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="s_cc_palm_hand_area" type="Sprite2D" parent="s_cc_palm_hand" unique_id=56046561]
 texture = ExtResource("4_7gbs8")
 
-[node name="SCcPalmHandArea1" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea1" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1944820897]
 use_parent_material = true
 texture = ExtResource("5_oa7j0")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea1"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea1" unique_id=1510451731]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 53.0
@@ -201,13 +199,13 @@ offset_right = 78.0
 offset_bottom = 23.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea2" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea2" type="Sprite2D" parent="s_cc_palm_hand" unique_id=107554053]
 visible = false
 use_parent_material = true
 texture = ExtResource("6_6gbuu")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea2"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea2" unique_id=237404165]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -106.0
@@ -216,13 +214,13 @@ offset_right = -81.0
 offset_bottom = 51.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea3" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea3" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1512182016]
 visible = false
 use_parent_material = true
 texture = ExtResource("7_5n22h")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea3"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea3" unique_id=407840320]
 layout_mode = 3
 anchor_left = -0.0158103
 anchor_right = -0.0158103
@@ -232,13 +230,13 @@ offset_right = -36.0
 offset_bottom = 82.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea4" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea4" type="Sprite2D" parent="s_cc_palm_hand" unique_id=712838324]
 visible = false
 use_parent_material = true
 texture = ExtResource("8_2go7x")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea4"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea4" unique_id=1037138121]
 layout_mode = 3
 anchor_top = -0.0185874
 anchor_right = 0.237154
@@ -249,13 +247,13 @@ offset_right = -20.0
 offset_bottom = 47.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea5" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea5" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1685026987]
 visible = false
 use_parent_material = true
 texture = ExtResource("9_qpwfp")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea5"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea5" unique_id=778100016]
 layout_mode = 3
 anchor_bottom = 0.126394
 offset_left = -13.0
@@ -264,13 +262,13 @@ offset_right = 12.0
 offset_bottom = 90.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea6" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea6" type="Sprite2D" parent="s_cc_palm_hand" unique_id=2107401476]
 visible = false
 use_parent_material = true
 texture = ExtResource("10_fa7nt")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea6"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea6" unique_id=1875926334]
 layout_mode = 3
 anchor_left = -0.0434783
 anchor_right = -0.0434783
@@ -281,13 +279,13 @@ offset_right = 45.0
 offset_bottom = 105.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea7" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea7" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1639932570]
 visible = false
 use_parent_material = true
 texture = ExtResource("11_nblhr")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea7"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea7" unique_id=1205991309]
 layout_mode = 3
 anchor_left = 0.0395257
 anchor_right = 0.0395257
@@ -297,13 +295,13 @@ offset_right = 70.0
 offset_bottom = 74.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea8" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea8" type="Sprite2D" parent="s_cc_palm_hand" unique_id=741417210]
 visible = false
 use_parent_material = true
 texture = ExtResource("12_xh34o")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea8"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea8" unique_id=1337240685]
 layout_mode = 3
 anchor_top = -0.0371747
 anchor_bottom = -0.0371747
@@ -313,13 +311,13 @@ offset_right = 101.0
 offset_bottom = 71.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea9" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea9" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1731196384]
 visible = false
 use_parent_material = true
 texture = ExtResource("13_tfca8")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea9"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea9" unique_id=706564187]
 layout_mode = 3
 anchor_bottom = 0.0520446
 offset_left = 99.0
@@ -328,13 +326,13 @@ offset_right = 124.0
 offset_bottom = 24.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea10" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea10" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1994776622]
 visible = false
 use_parent_material = true
 texture = ExtResource("14_vg7xl")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea10"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea10" unique_id=453861490]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 71.0
@@ -343,13 +341,13 @@ offset_right = 96.0
 offset_bottom = -16.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea11" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea11" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1808596345]
 visible = false
 use_parent_material = true
 texture = ExtResource("15_r85yk")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea11"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea11" unique_id=1566349809]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 93.0
@@ -358,13 +356,13 @@ offset_right = 118.0
 offset_bottom = -52.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea12" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea12" type="Sprite2D" parent="s_cc_palm_hand" unique_id=700543438]
 visible = false
 use_parent_material = true
 texture = ExtResource("16_5esaa")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea12"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea12" unique_id=1566969395]
 layout_mode = 3
 anchor_top = -0.0334572
 anchor_bottom = -0.0334572
@@ -374,13 +372,13 @@ offset_right = 54.0
 offset_bottom = -53.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea13" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea13" type="Sprite2D" parent="s_cc_palm_hand" unique_id=879052343]
 visible = false
 use_parent_material = true
 texture = ExtResource("17_lvctr")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea13"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea13" unique_id=632401841]
 layout_mode = 3
 anchor_top = -0.0148699
 anchor_right = 0.0395257
@@ -391,13 +389,13 @@ offset_right = 42.0
 offset_bottom = -8.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea14" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea14" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1090064915]
 visible = false
 use_parent_material = true
 texture = ExtResource("18_8mcla")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea14"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea14" unique_id=2015682565]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -23.0
@@ -406,13 +404,13 @@ offset_right = 2.0
 offset_bottom = 15.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea15" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea15" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1054788503]
 visible = false
 use_parent_material = true
 texture = ExtResource("19_ajp3j")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea15"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea15" unique_id=605118117]
 layout_mode = 3
 anchor_top = -0.0408922
 anchor_bottom = -0.0408922
@@ -422,13 +420,13 @@ offset_right = 8.0
 offset_bottom = -33.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea16" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea16" type="Sprite2D" parent="s_cc_palm_hand" unique_id=275549011]
 visible = false
 use_parent_material = true
 texture = ExtResource("20_wdfp7")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea16"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea16" unique_id=1866248769]
 layout_mode = 3
 anchor_top = -0.0483271
 anchor_bottom = -0.0483271
@@ -438,13 +436,13 @@ offset_right = 5.0
 offset_bottom = -64.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea17" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea17" type="Sprite2D" parent="s_cc_palm_hand" unique_id=655978111]
 visible = false
 use_parent_material = true
 texture = ExtResource("21_dcelr")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea17"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea17" unique_id=2109906756]
 layout_mode = 3
 anchor_top = -0.0446097
 anchor_bottom = -0.0446097
@@ -454,13 +452,13 @@ offset_right = -31.0
 offset_bottom = -16.0
 metadata/_edit_use_anchors_ = true
 
-[node name="SCcPalmHandArea18" type="Sprite2D" parent="s_cc_palm_hand"]
+[node name="SCcPalmHandArea18" type="Sprite2D" parent="s_cc_palm_hand" unique_id=1177510675]
 visible = false
 use_parent_material = true
 texture = ExtResource("22_8fw8y")
 script = ExtResource("5_4yko8")
 
-[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea18"]
+[node name="mouse_area" type="Control" parent="s_cc_palm_hand/SCcPalmHandArea18" unique_id=1628471614]
 layout_mode = 3
 anchor_top = -0.0408922
 anchor_bottom = -0.0408922
@@ -470,7 +468,7 @@ offset_right = -39.0
 offset_bottom = -42.0
 metadata/_edit_use_anchors_ = true
 
-[node name="banner" type="ColorRect" parent="."]
+[node name="banner" type="ColorRect" parent="." unique_id=1086718541]
 visible = false
 layout_mode = 0
 offset_top = 102.0
@@ -478,7 +476,7 @@ offset_right = 384.0
 offset_bottom = 134.0
 color = Color(0, 0, 0, 0.8)
 
-[node name="question_banner" type="Label" parent="banner"]
+[node name="question_banner" type="Label" parent="banner" unique_id=497828321]
 modulate = Color(1, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 8

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6nirs1xixqys"]
+[gd_scene format=3 uid="uid://b6nirs1xixqys"]
 
 [ext_resource type="Script" uid="uid://c21i7tcw2842w" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_guilderbergs/o_jadwiga01.gd" id="1_gv1ik"]
 [ext_resource type="Texture2D" uid="uid://c1455x4qcw5f0" path="res://barkley2/assets/b2_original/images/merged/s_jadwiga01.png" id="2_ppk10"]
@@ -30,7 +30,7 @@ radius = 16.03122
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h1085"]
 size = Vector2(44, 56)
 
-[node name="o_jadwiga01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_jadwiga01" type="CharacterBody2D" unique_id=534990246 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_gv1ik")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_hd3la")
@@ -38,7 +38,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=379440228]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hd3la")
 centered = false
@@ -56,13 +56,13 @@ metadata/default = {
 "yorigin": "48"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1686207132]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_h1085")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=44518442]
 position = Vector2(0, -6)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1915716735]
 position = Vector2(2, -10)
 shape = SubResource("RectangleShape2D_h1085")

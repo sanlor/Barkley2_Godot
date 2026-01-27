@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bouc7ex0shw0p"]
+[gd_scene format=3 uid="uid://bouc7ex0shw0p"]
 
 [ext_resource type="Script" uid="uid://oksvmdx2ifu4" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_kunigunde01.gd" id="1_8djp1"]
 [ext_resource type="Texture2D" uid="uid://csdkxhurj7d0s" path="res://barkley2/assets/b2_original/images/merged/s_kunigunde01.png" id="2_0jx1g"]
@@ -307,7 +307,7 @@ size = Vector2(28, 46)
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jx1g"]
 radius = 90.27181
 
-[node name="o_kunigunde01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_kunigunde01" type="CharacterBody2D" unique_id=956408744 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_8djp1")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_1ygmd")
@@ -315,7 +315,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=108119845]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_2rk7l")
 animation = &"bow"
@@ -334,24 +334,24 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1041576097]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_8djp1")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=922392475]
 position = Vector2(0, -28)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1353731216]
 position = Vector2(2, 5)
 shape = SubResource("RectangleShape2D_t1ac3")
 
-[node name="timer" type="Timer" parent="."]
+[node name="timer" type="Timer" parent="." unique_id=565169352]
 one_shot = true
 autostart = true
 
-[node name="player_detection" type="Area2D" parent="."]
+[node name="player_detection" type="Area2D" parent="." unique_id=1236554534]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_detection"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player_detection" unique_id=572408474]
 shape = SubResource("CircleShape2D_0jx1g")
 
 [connection signal="animation_finished" from="ActorAnim" to="." method="_on_actor_anim_animation_finished"]

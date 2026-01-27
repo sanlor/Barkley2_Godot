@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://46bp40tv516h"]
+[gd_scene format=3 uid="uid://46bp40tv516h"]
 
 [ext_resource type="Script" uid="uid://bovw1hvicfvm1" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_cgrem_henchman03.gd" id="1_2iqxw"]
 [ext_resource type="Texture2D" uid="uid://2riabnyrhlxf" path="res://barkley2/assets/b2_original/images/merged/s_cgrem_henchman03_NE.png" id="2_kmrr8"]
@@ -117,14 +117,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_31frc"]
 size = Vector2(20, 36)
 
-[node name="o_cgrem_henchman03" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_cgrem_henchman03" type="CharacterBody2D" unique_id=1806337380 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_2iqxw")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=511226879]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_opeg3")
 centered = false
@@ -154,14 +154,14 @@ metadata/s_cgrem_henchman03_stand = {
 "yorigin": "35"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=909099714]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_2iqxw")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=897903782]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1162318987]
 shape = SubResource("RectangleShape2D_31frc")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1904239492]

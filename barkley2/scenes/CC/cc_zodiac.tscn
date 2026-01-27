@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://d35quas7pn3kd"]
+[gd_scene format=3 uid="uid://d35quas7pn3kd"]
 
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="1_236kq"]
 [ext_resource type="Script" uid="uid://c4i2grwjmy36s" path="res://barkley2/scenes/CC/cc_zodiac.gd" id="2_8yl10"]
@@ -153,7 +153,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="cc_zodiac" type="Control"]
+[node name="cc_zodiac" type="Control" unique_id=829472991]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -161,7 +161,7 @@ offset_bottom = 40.0
 theme = ExtResource("1_236kq")
 script = ExtResource("2_8yl10")
 
-[node name="backdrop" type="TextureRect" parent="."]
+[node name="backdrop" type="TextureRect" parent="." unique_id=1406569838]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -176,7 +176,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_k0oe0")
 
-[node name="ring_day" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
+[node name="ring_day" type="AnimatedSprite2D" parent="." unique_id=1427133982 node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
 position = Vector2(192, 105)
 sprite_frames = SubResource("SpriteFrames_ky50d")
 script = ExtResource("8_b1074")
@@ -192,18 +192,18 @@ sfx_drag = "sn_cc_stonewheel1"
 is_active = true
 hotspot = NodePath("hotspot_day")
 
-[node name="hotspot_day" type="Control" parent="ring_day"]
+[node name="hotspot_day" type="Control" parent="ring_day" unique_id=32676671]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 75.0
-offset_top = -5.0
-offset_right = 85.0
-offset_bottom = 5.0
+offset_left = 74.5
+offset_top = -5.5
+offset_right = 85.5
+offset_bottom = 5.5
 focus_neighbor_left = NodePath("../../ring_month/hotspot_month")
 focus_mode = 2
 
-[node name="ring_month" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
+[node name="ring_month" type="AnimatedSprite2D" parent="." unique_id=1542865726 node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
 position = Vector2(192, 105)
 sprite_frames = SubResource("SpriteFrames_ibakg")
 frame = 3
@@ -219,19 +219,19 @@ sfx_click = "sn_cc_click_jewel1"
 sfx_drag = "sn_cc_stonewheel2"
 hotspot = NodePath("hotspot_month")
 
-[node name="hotspot_month" type="Control" parent="ring_month"]
+[node name="hotspot_month" type="Control" parent="ring_month" unique_id=1296881268]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 75.0
-offset_top = -5.0
-offset_right = 85.0
-offset_bottom = 5.0
+offset_left = 54.5
+offset_top = -5.5
+offset_right = 65.5
+offset_bottom = 5.5
 focus_neighbor_left = NodePath("../../ring_year/hotspot_year")
 focus_neighbor_right = NodePath("../../ring_day/hotspot_day")
 focus_mode = 2
 
-[node name="ring_year" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
+[node name="ring_year" type="AnimatedSprite2D" parent="." unique_id=179284256 node_paths=PackedStringArray("downstream_dial", "connected_display_label", "hotspot")]
 position = Vector2(192, 105)
 sprite_frames = SubResource("SpriteFrames_8x43w")
 frame = 3
@@ -249,19 +249,19 @@ sfx_drag = "sn_cc_stonewheel3"
 display_year = true
 hotspot = NodePath("hotspot_year")
 
-[node name="hotspot_year" type="Control" parent="ring_year"]
+[node name="hotspot_year" type="Control" parent="ring_year" unique_id=965157578]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 75.0
-offset_top = -5.0
-offset_right = 85.0
-offset_bottom = 5.0
+offset_left = 34.5
+offset_top = -5.5
+offset_right = 45.5
+offset_bottom = 5.5
 focus_neighbor_left = NodePath("../../finish_button/hotspot_finish")
 focus_neighbor_right = NodePath("../../ring_month/hotspot_month")
 focus_mode = 2
 
-[node name="finish_button" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("hotspot")]
+[node name="finish_button" type="AnimatedSprite2D" parent="." unique_id=408579476 node_paths=PackedStringArray("hotspot")]
 position = Vector2(192, 105)
 sprite_frames = SubResource("SpriteFrames_dnuls")
 frame = 3
@@ -273,18 +273,18 @@ sfx_hover = "sn_cc_hover_jewel2"
 sfx_click = "sn_cc_click_jewel2"
 hotspot = NodePath("hotspot_finish")
 
-[node name="hotspot_finish" type="Control" parent="finish_button"]
+[node name="hotspot_finish" type="Control" parent="finish_button" unique_id=210025989]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 3
 anchors_preset = 0
-offset_left = 75.0
-offset_top = -5.0
-offset_right = 85.0
-offset_bottom = 5.0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
 focus_neighbor_right = NodePath("../../ring_year/hotspot_year")
 focus_mode = 2
 
-[node name="jewel_shine" type="GPUParticles2D" parent="."]
+[node name="jewel_shine" type="GPUParticles2D" parent="." unique_id=1553602668]
 material = SubResource("CanvasItemMaterial_bjjxm")
 position = Vector2(192, 105)
 amount = 20
@@ -292,7 +292,7 @@ texture = ExtResource("21_31kcn")
 process_material = SubResource("ParticleProcessMaterial_arqkj")
 script = ExtResource("22_yckqj")
 
-[node name="date_birth_label" type="Label" parent="."]
+[node name="date_birth_label" type="Label" parent="." unique_id=798666872]
 layout_mode = 0
 offset_left = 74.0
 offset_top = 206.0
@@ -302,7 +302,7 @@ theme_override_fonts/font = ExtResource("23_2te1p")
 text = "Date of birth"
 horizontal_alignment = 1
 
-[node name="date_birth_day_label" type="Label" parent="."]
+[node name="date_birth_day_label" type="Label" parent="." unique_id=854584406]
 layout_mode = 0
 offset_left = 38.0
 offset_top = 225.0
@@ -313,7 +313,7 @@ theme_override_fonts/font = ExtResource("23_2te1p")
 text = "00"
 horizontal_alignment = 1
 
-[node name="date_birth_month_label" type="Label" parent="."]
+[node name="date_birth_month_label" type="Label" parent="." unique_id=365614052]
 layout_mode = 0
 offset_left = 65.0
 offset_top = 225.0
@@ -324,7 +324,7 @@ theme_override_fonts/font = ExtResource("23_2te1p")
 text = "00"
 horizontal_alignment = 1
 
-[node name="date_birth_year_label" type="Label" parent="."]
+[node name="date_birth_year_label" type="Label" parent="." unique_id=249624309]
 layout_mode = 0
 offset_left = 102.0
 offset_top = 225.0
@@ -335,7 +335,7 @@ theme_override_fonts/font = ExtResource("23_2te1p")
 text = "0000"
 horizontal_alignment = 1
 
-[node name="pos_clispaeth_label" type="Label" parent="." node_paths=PackedStringArray("other_label")]
+[node name="pos_clispaeth_label" type="Label" parent="." unique_id=933390229 node_paths=PackedStringArray("other_label")]
 layout_mode = 0
 offset_left = 197.0
 offset_top = 206.0
@@ -348,13 +348,13 @@ script = ExtResource("24_itn2h")
 whoami = 1
 other_label = NodePath("../pre_clispaeth_label")
 
-[node name="check" type="AnimatedSprite2D" parent="pos_clispaeth_label"]
+[node name="check" type="AnimatedSprite2D" parent="pos_clispaeth_label" unique_id=1479431161]
 visible = false
 position = Vector2(-14, 4)
 sprite_frames = SubResource("SpriteFrames_0p8c8")
-frame_progress = 0.9380934
+frame_progress = 0.46559846
 
-[node name="pre_clispaeth_label" type="Label" parent="." node_paths=PackedStringArray("other_label")]
+[node name="pre_clispaeth_label" type="Label" parent="." unique_id=1481935995 node_paths=PackedStringArray("other_label")]
 layout_mode = 0
 offset_left = 197.0
 offset_top = 225.0
@@ -366,8 +366,8 @@ text = "Before Clispaeth"
 script = ExtResource("24_itn2h")
 other_label = NodePath("../pos_clispaeth_label")
 
-[node name="check" type="AnimatedSprite2D" parent="pre_clispaeth_label"]
+[node name="check" type="AnimatedSprite2D" parent="pre_clispaeth_label" unique_id=1019376677]
 visible = false
 position = Vector2(-14, 4)
 sprite_frames = SubResource("SpriteFrames_0p8c8")
-frame_progress = 0.9380934
+frame_progress = 0.46559846

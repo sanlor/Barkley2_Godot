@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jlolk2pxejh6"]
+[gd_scene format=3 uid="uid://jlolk2pxejh6"]
 
 [ext_resource type="Texture2D" uid="uid://dnx4tj6h184cj" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_bubble_big.png" id="1_a4b17"]
 [ext_resource type="Script" uid="uid://f22lnshdjysa" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_bubble_big.gd" id="1_j2s5m"]
@@ -99,17 +99,17 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ivnj6"]
 radius = 7.0
 
-[node name="o_mg_diving_bubble_big" type="Area2D"]
+[node name="o_mg_diving_bubble_big" type="Area2D" unique_id=739371396]
 script = ExtResource("1_j2s5m")
 
-[node name="s_mg_diving_bubble_big" type="AnimatedSprite2D" parent="."]
+[node name="s_mg_diving_bubble_big" type="AnimatedSprite2D" parent="." unique_id=1391355109]
 sprite_frames = SubResource("SpriteFrames_motro")
 autoplay = "default"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=899360029]
 shape = SubResource("CircleShape2D_ivnj6")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=507614780]
 wait_time = 5.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://drm7k5iue6ov4"]
+[gd_scene format=3 uid="uid://drm7k5iue6ov4"]
 
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/settings.gd" id="1_7tp4l"]
+[ext_resource type="Script" uid="uid://3kksumhao7mm" path="res://addons/texture_fonts/UI/settings.gd" id="1_7tp4l"]
 [ext_resource type="PackedScene" uid="uid://cf8py46vfqbf4" path="res://addons/texture_fonts/UI/Components/Vector2Edit.tscn" id="2_bji2q"]
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/settings_preview.gd" id="3_giqhg"]
+[ext_resource type="Script" uid="uid://bwhcr43jn2o4k" path="res://addons/texture_fonts/UI/settings_preview.gd" id="3_giqhg"]
 
 [sub_resource type="StyleBoxFlat" id="3"]
 resource_local_to_scene = true
@@ -12,7 +12,7 @@ bg_color = Color(0.100392, 0.112941, 0.153726, 1)
 resource_local_to_scene = true
 bg_color = Color(0.12549, 0.141176, 0.192157, 1)
 
-[node name="Font Settings" type="HSplitContainer" node_paths=PackedStringArray("char_setting_list", "kerning_pair_list", "descent", "ascent", "gap", "alignment", "monospace", "preview", "preview_textbox")]
+[node name="Font Settings" type="HSplitContainer" unique_id=746095 node_paths=PackedStringArray("char_setting_list", "kerning_pair_list", "descent", "ascent", "gap", "alignment", "monospace", "preview", "preview_textbox")]
 script = ExtResource("1_7tp4l")
 char_setting_list = NodePath("HSplitContainer/ListSettings/VSplitContainer/CharSettings/MarginContainer/ScrollContainer/CharSettingList")
 kerning_pair_list = NodePath("HSplitContainer/ListSettings/VSplitContainer/Kerning/MarginContainer/ScrollContainer/KerningList")
@@ -24,28 +24,28 @@ monospace = NodePath("HSplitContainer/Settings/MarginContainer/Vbox/MonospacedHB
 preview = NodePath("Preview")
 preview_textbox = NodePath("Preview/MarginContainer/TextBox")
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="HSplitContainer" type="HSplitContainer" parent="." unique_id=1118891355]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="Settings" type="VBoxContainer" parent="HSplitContainer"]
+[node name="Settings" type="VBoxContainer" parent="HSplitContainer" unique_id=1369902972]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/Settings"]
+[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/Settings" unique_id=1139159940]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/HeadingBox"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/HeadingBox" unique_id=496496961]
 layout_mode = 2
 text = "Font Settings"
 
-[node name="HSeparator" type="HSeparator" parent="HSplitContainer/Settings/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/Settings/HeadingBox" unique_id=321382497]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/Settings"]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/Settings" unique_id=684104264]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -54,100 +54,100 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Vbox" type="VBoxContainer" parent="HSplitContainer/Settings/MarginContainer"]
+[node name="Vbox" type="VBoxContainer" parent="HSplitContainer/Settings/MarginContainer" unique_id=1939675260]
 layout_mode = 2
 
-[node name="AscentHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox"]
+[node name="AscentHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox" unique_id=886994401]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/AscentHBox"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/AscentHBox" unique_id=302324231]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Ascent:"
 
-[node name="Ascent" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/AscentHBox"]
+[node name="Ascent" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/AscentHBox" unique_id=1541742577]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 4096.0
 
-[node name="DescentHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox"]
+[node name="DescentHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox" unique_id=2071657059]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/DescentHBox"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/DescentHBox" unique_id=33818632]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Descent:"
 
-[node name="Descent" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/DescentHBox"]
+[node name="Descent" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/DescentHBox" unique_id=1846636336]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
 max_value = 4096.0
 value = 1.0
 
-[node name="GapHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox"]
+[node name="GapHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox" unique_id=1784098417]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/GapHBox"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/GapHBox" unique_id=741201242]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Gap:"
 
-[node name="Gap" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/GapHBox"]
+[node name="Gap" type="SpinBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/GapHBox" unique_id=748745984]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = -4096.0
 max_value = 4096.0
 
-[node name="MonospacedHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox"]
+[node name="MonospacedHBox" type="HBoxContainer" parent="HSplitContainer/Settings/MarginContainer/Vbox" unique_id=1819066781]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/MonospacedHBox"]
+[node name="Label" type="Label" parent="HSplitContainer/Settings/MarginContainer/Vbox/MonospacedHBox" unique_id=1188431212]
 layout_mode = 2
 text = "Monospaced:"
 
-[node name="Monospaced" type="CheckBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/MonospacedHBox"]
+[node name="Monospaced" type="CheckBox" parent="HSplitContainer/Settings/MarginContainer/Vbox/MonospacedHBox" unique_id=1666834149]
 layout_mode = 2
 
-[node name="Alignment" parent="HSplitContainer/Settings/MarginContainer/Vbox" instance=ExtResource("2_bji2q")]
+[node name="Alignment" parent="HSplitContainer/Settings/MarginContainer/Vbox" unique_id=467046880 instance=ExtResource("2_bji2q")]
 layout_mode = 2
 min_value = Vector2(-256, -256)
 max_value = Vector2(256, 256)
 label = "Alignment:"
 hide_separator = true
 
-[node name="ListSettings" type="VBoxContainer" parent="HSplitContainer"]
+[node name="ListSettings" type="VBoxContainer" parent="HSplitContainer" unique_id=1989391724]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/ListSettings"]
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer/ListSettings" unique_id=480755070]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Kerning" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer"]
+[node name="Kerning" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer" unique_id=93557900]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning"]
+[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning" unique_id=1903498237]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="KerningLabel" type="Label" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox"]
+[node name="KerningLabel" type="Label" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox" unique_id=1530089928]
 layout_mode = 2
 text = "Kerning Pairs"
 
-[node name="HSeparator" type="HSeparator" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox" unique_id=773007101]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddKerningButton" type="Button" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox"]
+[node name="AddKerningButton" type="Button" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/HeadingBox" unique_id=421272614]
 layout_mode = 2
 text = "Add"
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning"]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning" unique_id=1115281257]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -156,36 +156,36 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/MarginContainer" unique_id=309689546]
 layout_mode = 2
 
-[node name="KerningList" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/MarginContainer/ScrollContainer"]
+[node name="KerningList" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/Kerning/MarginContainer/ScrollContainer" unique_id=249846117]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CharSettings" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer"]
+[node name="CharSettings" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer" unique_id=1300420857]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
 
-[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings"]
+[node name="HeadingBox" type="HBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings" unique_id=1029377423]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox"]
+[node name="Label" type="Label" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox" unique_id=229806987]
 layout_mode = 2
 text = "Char Setting"
 
-[node name="HSeparator" type="HSeparator" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox" unique_id=1983536149]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddCharSettingButton" type="Button" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox"]
+[node name="AddCharSettingButton" type="Button" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/HeadingBox" unique_id=303834675]
 layout_mode = 2
 text = "Add"
 
-[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings"]
+[node name="MarginContainer" type="MarginContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings" unique_id=1549178257]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -194,53 +194,52 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/MarginContainer" unique_id=2018274715]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="CharSettingList" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/MarginContainer/ScrollContainer"]
+[node name="CharSettingList" type="VBoxContainer" parent="HSplitContainer/ListSettings/VSplitContainer/CharSettings/MarginContainer/ScrollContainer" unique_id=1243046221]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Preview" type="VBoxContainer" parent="."]
+[node name="Preview" type="VBoxContainer" parent="." unique_id=1431096027]
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_giqhg")
 
-[node name="HeadingBox" type="HBoxContainer" parent="Preview"]
+[node name="HeadingBox" type="HBoxContainer" parent="Preview" unique_id=1452330561]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Label" type="Label" parent="Preview/HeadingBox"]
+[node name="Label" type="Label" parent="Preview/HeadingBox" unique_id=388771533]
 layout_mode = 2
 text = "Preview"
 
-[node name="HSeparator" type="HSeparator" parent="Preview/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="Preview/HeadingBox" unique_id=1608021963]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Scale" type="SpinBox" parent="Preview/HeadingBox"]
+[node name="Scale" type="SpinBox" parent="Preview/HeadingBox" unique_id=760850376]
 layout_mode = 2
 min_value = 100.0
 max_value = 1000.0
 step = 10.0
 value = 100.0
-exp_edit = true
 suffix = "%"
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="Preview/HeadingBox"]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Preview/HeadingBox" unique_id=188014319]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 color = Color(0.12549, 0.141176, 0.192157, 1)
 
-[node name="MarginContainer" type="ScrollContainer" parent="Preview"]
+[node name="MarginContainer" type="ScrollContainer" parent="Preview" unique_id=1781343154]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="TextBox" type="TextEdit" parent="Preview/MarginContainer"]
+[node name="TextBox" type="TextEdit" parent="Preview/MarginContainer" unique_id=1923014270]
 texture_filter = 1
 clip_contents = true
 layout_mode = 2

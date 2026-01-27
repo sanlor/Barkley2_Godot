@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cxfqkt7hnrbyk"]
+[gd_scene format=3 uid="uid://cxfqkt7hnrbyk"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_1uskp"]
 [ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_f8m4e"]
@@ -92,7 +92,7 @@ radius = 4.0
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ufjxn"]
 size = Vector2(4, 4)
 
-[node name="o_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorCol", "actor_ai")]
+[node name="o_hoopz" type="RigidBody2D" unique_id=720077824 node_paths=PackedStringArray("hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorCol", "actor_ai")]
 collision_layer = 3
 collision_mask = 1572885
 mass = 70.0
@@ -117,7 +117,7 @@ ActorCol = NodePath("hoopz_collision")
 walk_speed = 4000000
 actor_ai = NodePath("B2_AI_Player")
 
-[node name="debug_data" type="Control" parent="."]
+[node name="debug_data" type="Control" parent="." unique_id=686548418]
 visible = false
 layout_mode = 3
 anchors_preset = 0
@@ -127,7 +127,7 @@ offset_right = 60.0
 offset_bottom = -57.0
 script = ExtResource("3_tafda")
 
-[node name="Label" type="Label" parent="debug_data"]
+[node name="Label" type="Label" parent="debug_data" unique_id=1710811383]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -139,17 +139,17 @@ label_settings = SubResource("LabelSettings_mcmji")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="B2_AI_Player" type="Node2D" parent="."]
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=1807880465]
 script = ExtResource("5_6o0dm")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1853035012]
 scale = Vector2(0.5, 0.5)
 occluder = SubResource("OccluderPolygon2D_ufjxn")
 sdf_collision = false
 occluder_light_mask = 3
 
-[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
+[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="." unique_id=2007892735]
 y_sort_enabled = true
 sprite_frames = ExtResource("8_lm6kb")
 animation = &"stand"
@@ -157,22 +157,22 @@ speed_scale = 2.0
 centered = false
 offset = Vector2(-16, -26)
 
-[node name="step_smoke" parent="." instance=ExtResource("8_e4o36")]
+[node name="step_smoke" parent="." unique_id=1987033333 instance=ExtResource("8_e4o36")]
 modulate = Color(1, 1, 1, 0.39215687)
 position = Vector2(0, 4)
 amount = 30
 
-[node name="hoopz_collision" type="CollisionShape2D" parent="."]
+[node name="hoopz_collision" type="CollisionShape2D" parent="." unique_id=1745290195]
 position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_8osng")
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1049264994]
 current = true
 
-[node name="aim_origin" type="Marker2D" parent="."]
+[node name="aim_origin" type="Marker2D" parent="." unique_id=167843922]
 position = Vector2(0, -7)
 
-[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin"]
+[node name="aim_reticle" type="AnimatedSprite2D" parent="aim_origin" unique_id=1809641663]
 visible = false
 z_index = 100
 z_as_relative = false
@@ -180,25 +180,25 @@ sprite_frames = SubResource("SpriteFrames_5m4dk")
 animation = &"bulls"
 autoplay = "bulls"
 
-[node name="interaction_node" type="Area2D" parent="aim_origin"]
+[node name="interaction_node" type="Area2D" parent="aim_origin" unique_id=1646953896]
 editor_description = "Previously called \"Large dong of interaction\".
 Used for Gamepad interactions with other actors."
 monitoring = false
 script = ExtResource("30_ubk2l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="aim_origin/interaction_node" unique_id=260496578]
 shape = SubResource("CircleShape2D_uptpk")
 debug_color = Color(0.99460953, 0, 0.226715, 0.25490198)
 
-[node name="debug_text" type="Sprite2D" parent="aim_origin/interaction_node"]
+[node name="debug_text" type="Sprite2D" parent="aim_origin/interaction_node" unique_id=715648657]
 visible = false
 texture = SubResource("PlaceholderTexture2D_ufjxn")
 
-[node name="hit_timer" type="Timer" parent="."]
+[node name="hit_timer" type="Timer" parent="." unique_id=1818758049]
 wait_time = 0.5
 one_shot = true
 
-[node name="i_frame_timer" type="Timer" parent="."]
+[node name="i_frame_timer" type="Timer" parent="." unique_id=1444493881]
 one_shot = true
 
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]

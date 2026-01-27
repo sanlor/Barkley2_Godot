@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://c2cdmxlwn8v6m"]
+[gd_scene format=3 uid="uid://c2cdmxlwn8v6m"]
 
 [ext_resource type="Theme" uid="uid://bcvvqrqeokira" path="res://barkley2/themes/cc.tres" id="1_cbg5l"]
-[ext_resource type="Script" path="res://barkley2/scenes/CC/cc_multiple.gd" id="1_r1m4r"]
+[ext_resource type="Script" uid="uid://cukump7aeo4fy" path="res://barkley2/scenes/CC/cc_multiple.gd" id="1_r1m4r"]
 [ext_resource type="Texture2D" uid="uid://csj7oqqn47y7n" path="res://barkley2/assets/b2_original/images/cc/s_cc_multiple_frames_0.png" id="2_ol3r8"]
 [ext_resource type="Texture2D" uid="uid://x4m2lv7q03jl" path="res://barkley2/assets/b2_original/images/cc/s_cc_multiple_button_0.png" id="3_2x3ad"]
 [ext_resource type="Texture2D" uid="uid://bftbew48i8tfl" path="res://barkley2/assets/b2_original/images/cc/s_cc_multiple_button_8.png" id="4_2jfsu"]
@@ -19,13 +19,13 @@
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_d4ib5"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewfnr"]
-bg_color = Color(0.157, 0.784, 0.667, 0.5)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgxnp"]
 bg_color = Color(0.933333, 0, 0, 0.501961)
 
-[node name="cc_multiple" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ewfnr"]
+bg_color = Color(0.157, 0.784, 0.667, 0.5)
+
+[node name="cc_multiple" type="Control" unique_id=1016325825]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -35,7 +35,7 @@ grow_vertical = 2
 theme = ExtResource("1_cbg5l")
 script = ExtResource("1_r1m4r")
 
-[node name="bg_multiple" type="ColorRect" parent="."]
+[node name="bg_multiple" type="ColorRect" parent="." unique_id=26669587]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +48,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.235294, 0, 0.352941, 0.501961)
 
-[node name="multiple_frame" type="TextureRect" parent="."]
+[node name="multiple_frame" type="TextureRect" parent="." unique_id=883496117]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -57,7 +57,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_ol3r8")
 
-[node name="quiz_text" type="Label" parent="multiple_frame"]
+[node name="quiz_text" type="Label" parent="multiple_frame" unique_id=963685754]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
@@ -69,7 +69,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="option1" type="TextureButton" parent="multiple_frame"]
+[node name="option1" type="TextureButton" parent="multiple_frame" unique_id=2103173303]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 176.0
@@ -83,7 +83,7 @@ texture_pressed = ExtResource("4_2jfsu")
 texture_hover = ExtResource("5_mdbbp")
 texture_focused = ExtResource("4_2jfsu")
 
-[node name="option2" type="TextureButton" parent="multiple_frame"]
+[node name="option2" type="TextureButton" parent="multiple_frame" unique_id=1062082086]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 190.0
@@ -96,7 +96,7 @@ texture_pressed = ExtResource("7_8alig")
 texture_hover = ExtResource("8_qyo0j")
 texture_focused = ExtResource("7_8alig")
 
-[node name="option3" type="TextureButton" parent="multiple_frame"]
+[node name="option3" type="TextureButton" parent="multiple_frame" unique_id=904576522]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 204.0
@@ -109,7 +109,7 @@ texture_pressed = ExtResource("10_aja5k")
 texture_hover = ExtResource("11_w33om")
 texture_focused = ExtResource("10_aja5k")
 
-[node name="option4" type="TextureButton" parent="multiple_frame"]
+[node name="option4" type="TextureButton" parent="multiple_frame" unique_id=250886089]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 218.0
@@ -122,23 +122,23 @@ texture_pressed = ExtResource("13_fn3m4")
 texture_hover = ExtResource("14_lnoqs")
 texture_focused = ExtResource("13_fn3m4")
 
-[node name="selection" type="Button" parent="multiple_frame"]
+[node name="selection" type="Button" parent="multiple_frame" unique_id=392370331]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 174.0
 offset_right = 376.0
 offset_bottom = 232.0
 theme = ExtResource("16_384ca")
-theme_override_colors/font_hover_pressed_color = Color(0.156863, 0.784314, 0.666667, 1)
-theme_override_colors/font_hover_color = Color(0.156863, 0.784314, 0.666667, 1)
-theme_override_colors/font_pressed_color = Color(0.156863, 0.784314, 0.666667, 1)
-theme_override_colors/font_focus_color = Color(0.156863, 0.784314, 0.666667, 1)
 theme_override_colors/font_color = Color(0.156863, 0.784314, 0.666667, 1)
-theme_override_styles/hover = SubResource("StyleBoxFlat_ewfnr")
+theme_override_colors/font_focus_color = Color(0.156863, 0.784314, 0.666667, 1)
+theme_override_colors/font_pressed_color = Color(0.156863, 0.784314, 0.666667, 1)
+theme_override_colors/font_hover_color = Color(0.156863, 0.784314, 0.666667, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.156863, 0.784314, 0.666667, 1)
 theme_override_styles/pressed = SubResource("StyleBoxFlat_fgxnp")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ewfnr")
 text_overrun_behavior = 3
 
-[node name="selection_text" type="Label" parent="multiple_frame/selection"]
+[node name="selection_text" type="Label" parent="multiple_frame/selection" unique_id=711259900]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

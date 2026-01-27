@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b408woyvd6k12"]
+[gd_scene format=3 uid="uid://b408woyvd6k12"]
 
 [ext_resource type="Script" uid="uid://bskl14nf2sld6" path="res://barkley2/scenes/_Godot_Combat/_ammo_pickup/ammo_pickup.gd" id="1_5u8nk"]
 [ext_resource type="Texture2D" uid="uid://cevhagfkrk6co" path="res://barkley2/assets/b2_original/images/merged/sAmmo.png" id="2_5u8nk"]
@@ -18,18 +18,18 @@ font = ExtResource("3_fqknh")
 [sub_resource type="CircleShape2D" id="CircleShape2D_odawf"]
 radius = 6.0
 
-[node name="ammo_pickup" type="Area2D"]
+[node name="ammo_pickup" type="Area2D" unique_id=244434669]
 script = ExtResource("1_5u8nk")
 
-[node name="ammo_sprite_shadow" type="Sprite2D" parent="."]
+[node name="ammo_sprite_shadow" type="Sprite2D" parent="." unique_id=2134460505]
 modulate = Color(0, 0, 0, 0.75)
 texture = SubResource("AtlasTexture_43m3r")
 
-[node name="ammo_sprite" type="Sprite2D" parent="."]
+[node name="ammo_sprite" type="Sprite2D" parent="." unique_id=148940744]
 position = Vector2(0, -8)
 texture = SubResource("AtlasTexture_8e4h0")
 
-[node name="ammo_name" type="Label" parent="."]
+[node name="ammo_name" type="Label" parent="." unique_id=1566679536]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -47,7 +47,7 @@ label_settings = SubResource("LabelSettings_gy400")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1685530347]
 shape = SubResource("CircleShape2D_odawf")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

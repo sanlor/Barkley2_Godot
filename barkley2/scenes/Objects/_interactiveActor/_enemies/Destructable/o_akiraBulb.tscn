@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bj15lfjd77t4"]
+[gd_scene format=3 uid="uid://bj15lfjd77t4"]
 
 [ext_resource type="Script" uid="uid://cruul8q7s8w4h" path="res://barkley2/scenes/Objects/_interactiveActor/_enemies/Destructable/o_akiraBulb.gd" id="1_ls3ps"]
 [ext_resource type="Texture2D" uid="uid://caubnih3c0ej7" path="res://barkley2/assets/b2_original/images/merged/s_fct_akiraTube01.png" id="2_bv55y"]
@@ -47,7 +47,7 @@ size = Vector2(6, 80)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gkttn"]
 size = Vector2(12, 59)
 
-[node name="o_akiraBulb" type="RigidBody2D" node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
+[node name="o_akiraBulb" type="RigidBody2D" unique_id=58791884 node_paths=PackedStringArray("anim", "collision", "sound_emiter", "smoke_emiter")]
 collision_layer = 1048576
 collision_priority = 10.0
 mass = 1000000.0
@@ -66,17 +66,17 @@ sound_emiter = NodePath("AudioStreamPlayer2D")
 emit_smoke = true
 smoke_emiter = NodePath("GPUParticles2D")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=304916227]
 sprite_frames = SubResource("SpriteFrames_mpcq8")
 centered = false
 offset = Vector2(-3, -28)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=839682073]
 shape = SubResource("RectangleShape2D_lugn5")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1854265135]
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1005600013]
 emitting = false
 amount = 32
 texture = ExtResource("3_sxkjc")
@@ -84,9 +84,9 @@ lifetime = 0.5
 one_shot = true
 process_material = ExtResource("4_i0qyu")
 
-[node name="col_predictor" type="Area2D" parent="."]
+[node name="col_predictor" type="Area2D" parent="." unique_id=1384274550]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="col_predictor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="col_predictor" unique_id=1191281865]
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_gkttn")
 

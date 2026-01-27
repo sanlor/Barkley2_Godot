@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7e8kw0fjeef2"]
+[gd_scene format=3 uid="uid://c7e8kw0fjeef2"]
 
 [ext_resource type="Script" uid="uid://cin87r1trcn7x" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_naoko01.gd" id="1_u8yd2"]
 [ext_resource type="Texture2D" uid="uid://nws6kgnqej7" path="res://barkley2/assets/b2_original/images/merged/s_naoko01.png" id="2_ls224"]
@@ -161,7 +161,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_81wwd"]
 size = Vector2(20, 36)
 
-[node name="o_naoko01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_naoko01" type="CharacterBody2D" unique_id=63567116 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_u8yd2")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_xu8jl")
@@ -169,7 +169,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=313453848]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_vq3nm")
 animation = &"pri_pause"
@@ -188,17 +188,17 @@ metadata/default = {
 "yorigin": "36"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1528082059]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_u8yd2")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=222320118]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=238224662]
 shape = SubResource("RectangleShape2D_81wwd")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=553184746]
 one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

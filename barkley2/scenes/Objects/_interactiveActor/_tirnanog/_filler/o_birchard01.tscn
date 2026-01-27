@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctko80vhrfdqv"]
+[gd_scene format=3 uid="uid://ctko80vhrfdqv"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_birchard01.gd" id="1_uekg0"]
+[ext_resource type="Script" uid="uid://xyn5ot1pkijw" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_birchard01.gd" id="1_uekg0"]
 [ext_resource type="Texture2D" uid="uid://c4uov8q6kanwk" path="res://barkley2/assets/b2_original/images/merged/s_birchard01.png" id="2_yyiw6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7t6ua"]
@@ -24,13 +24,13 @@ radius = 9.23099
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lrjm"]
 size = Vector2(28, 44)
 
-[node name="o_birchard01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_birchard01" type="CharacterBody2D" unique_id=1613952691 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_uekg0")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=357179929]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_n32wb")
 centered = false
@@ -48,12 +48,12 @@ metadata/default = {
 "yorigin": "40"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1186990529]
 shape = SubResource("CircleShape2D_0bad0")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=670259602]
 position = Vector2(-2, -14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1855380136]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_1lrjm")

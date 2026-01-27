@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://begbi13xwhd5f"]
+[gd_scene format=3 uid="uid://begbi13xwhd5f"]
 
 [ext_resource type="Script" uid="uid://cyt51q23eq0bs" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_garciaWedding02.gd" id="1_15v15"]
 [ext_resource type="Texture2D" uid="uid://diebs3ocfhrq1" path="res://barkley2/assets/b2_original/images/merged/s_garciaPlay01.png" id="2_bp5tn"]
@@ -73,14 +73,14 @@ radius = 15.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s4b0b"]
 size = Vector2(32, 61)
 
-[node name="o_garciaWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_garciaWedding02" type="CharacterBody2D" unique_id=1030280424 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_15v15")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=990404904]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_kbrly")
 autoplay = "default"
@@ -100,11 +100,11 @@ metadata/default = {
 "yorigin": "53"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=524012]
 shape = SubResource("CircleShape2D_15v15")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1513900892]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=500460533]
 position = Vector2(1, -22.5)
 shape = SubResource("RectangleShape2D_s4b0b")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c7ywdmpshijwy"]
+[gd_scene format=3 uid="uid://c7ywdmpshijwy"]
 
 [ext_resource type="Script" uid="uid://ry47me22p2l8" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_babbySystem01.gd" id="1_pxllc"]
 [ext_resource type="Texture2D" uid="uid://hpr82atdu7ad" path="res://barkley2/assets/b2_original/images/merged/s_babbySystem.png" id="1_v42r5"]
@@ -120,14 +120,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fekky"]
 size = Vector2(26, 45)
 
-[node name="o_babbySystem01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_babbySystem01" type="CharacterBody2D" unique_id=2064297152 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_pxllc")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_exad3")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=729497651]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hm331")
 animation = &"awaken"
@@ -146,20 +146,20 @@ metadata/default = {
 "yorigin": "45"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1881202418]
 position = Vector2(-2, -6)
 shape = SubResource("CircleShape2D_0vsbk")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1383929509]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1496007196]
 position = Vector2(-3, -4.5)
 shape = SubResource("RectangleShape2D_fekky")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=2102425983]
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=853665468]
 z_index = 4000
 script = ExtResource("4_defpn")
 title_color = Color(1, 0, 0, 1)

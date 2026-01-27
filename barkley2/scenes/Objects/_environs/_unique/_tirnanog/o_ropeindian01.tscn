@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://be5eg6udgf8sn"]
+[gd_scene format=3 uid="uid://be5eg6udgf8sn"]
 
 [ext_resource type="Texture2D" uid="uid://dkga7hyqa825u" path="res://barkley2/assets/b2_original/images/merged/sRopeVase.png" id="1_1hmo3"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_ropeindian_01.gd" id="2_5y3ii"]
+[ext_resource type="Script" uid="uid://bpr443jbgbyum" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/o_ropeindian_01.gd" id="2_5y3ii"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kdhxq"]
 atlas = ExtResource("1_1hmo3")
@@ -42,15 +42,15 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_swrj0"]
 radius = 16.0312
 
-[node name="o_ropeindian01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_ropeindian01" type="AnimatedSprite2D" unique_id=1695489669 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_4xyry")
 centered = false
 offset = Vector2(-11, -20)
 script = ExtResource("2_5y3ii")
 mouse_detection_area = NodePath("Area2D")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=473324080]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1735994022]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_swrj0")

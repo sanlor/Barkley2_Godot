@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ch51f30ptj32v"]
+[gd_scene format=3 uid="uid://ch51f30ptj32v"]
 
 [ext_resource type="Script" uid="uid://cotknscgvx4yf" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_guillaumeWedding02.gd" id="1_hjw7t"]
 [ext_resource type="Texture2D" uid="uid://cxugglht241fe" path="res://barkley2/assets/b2_original/images/merged/s_guillaume01.png" id="2_tswot"]
@@ -100,14 +100,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_633ua"]
 size = Vector2(20, 36)
 
-[node name="o_guillaumeWedding02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_guillaumeWedding02" type="CharacterBody2D" unique_id=1124477464 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_hjw7t")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1440878515]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0wdai")
 autoplay = "default"
@@ -127,12 +127,12 @@ metadata/default = {
 "yorigin": "40"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=635349408]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_hjw7t")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=404694543]
 position = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1993971375]
 shape = SubResource("RectangleShape2D_633ua")

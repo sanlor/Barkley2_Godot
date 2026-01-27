@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://jxmbmjb2s1xl"]
+[gd_scene format=3 uid="uid://jxmbmjb2s1xl"]
 
 [ext_resource type="Script" uid="uid://chsjmlf4p87ws" path="res://barkley2/scenes/Objects/_interactiveActor/_global/_wedding_quest/o_boris01.gd" id="1_4qs4t"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_8mdm5"]
@@ -217,7 +217,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fdjbr"]
 size = Vector2(20, 36)
 
-[node name="o_boris01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_boris01" type="CharacterBody2D" unique_id=1931367626 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_4qs4t")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_heq3t")
@@ -225,7 +225,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=805192174]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_tnokr")
 animation = &"prison"
@@ -244,12 +244,12 @@ metadata/default = {
 "yorigin": "33"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1972790255]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_fait3")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=413652449]
 position = Vector2(0, -14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1186156547]
 shape = SubResource("RectangleShape2D_fdjbr")

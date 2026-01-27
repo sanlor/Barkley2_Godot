@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://ds5ypmjtea3lb"]
+[gd_scene format=3 uid="uid://ds5ypmjtea3lb"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hapsburg01.gd" id="1_2uoka"]
+[ext_resource type="Script" uid="uid://24nhher1pbld" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_hapsburg01.gd" id="1_2uoka"]
 [ext_resource type="Texture2D" uid="uid://vn6wth5ecnum" path="res://barkley2/assets/b2_original/images/merged/s_hapsburg01.png" id="2_hkkpy"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_p12yp"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_p12yp"]
 
 [sub_resource type="Resource" id="Resource_8dcam"]
 script = ExtResource("2_p12yp")
@@ -29,14 +29,14 @@ radius = 7.32113
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3w35"]
 size = Vector2(20, 36)
 
-[node name="o_hapsburg01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_hapsburg01" type="CharacterBody2D" unique_id=85614453 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_2uoka")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_8dcam")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=619818009]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_w37g0")
 centered = false
@@ -54,12 +54,12 @@ metadata/default = {
 "yorigin": "33"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=571436809]
 shape = SubResource("CircleShape2D_jgca3")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=247645370]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1447061858]
 shape = SubResource("RectangleShape2D_n3w35")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=762865576]

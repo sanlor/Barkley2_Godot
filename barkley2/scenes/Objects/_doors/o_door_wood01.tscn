@@ -1,7 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://dr5afr87g3tec"]
+[gd_scene format=3 uid="uid://dr5afr87g3tec"]
 
 [ext_resource type="Texture2D" uid="uid://dip7cbuv8c85a" path="res://barkley2/assets/b2_original/images/merged/s_door_wood01.png" id="1_vn24o"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_door_tech_01.gd" id="2_xa4na"]
+[ext_resource type="Script" uid="uid://divg3shd63gof" path="res://barkley2/scenes/Objects/_doors/o_door_tech_01.gd" id="2_xa4na"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="3_2q8x2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_adeji"]
@@ -101,7 +101,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 anti_aliasing = false
 
-[node name="o_door_wood01" type="AnimatedSprite2D" node_paths=PackedStringArray("door_block", "door_sensor", "sound_emiter")]
+[node name="o_door_wood01" type="AnimatedSprite2D" unique_id=1643886771 node_paths=PackedStringArray("door_block", "door_sensor", "sound_emiter")]
 z_index = -5
 sprite_frames = SubResource("SpriteFrames_rjstm")
 animation = &"door_close"
@@ -114,19 +114,19 @@ sound_emiter = NodePath("AudioStreamPlayer2D")
 sfx_open = "door_open_wood"
 sfx_close = "door_close_wood"
 
-[node name="door_block" type="StaticBody2D" parent="."]
+[node name="door_block" type="StaticBody2D" parent="." unique_id=2008552847]
 
-[node name="block_shape" type="CollisionShape2D" parent="door_block"]
+[node name="block_shape" type="CollisionShape2D" parent="door_block" unique_id=323191151]
 position = Vector2(24.5, -9.5)
 shape = SubResource("RectangleShape2D_1dp3k")
 
-[node name="door_sensor" type="Area2D" parent="."]
+[node name="door_sensor" type="Area2D" parent="." unique_id=548294144]
 
-[node name="sensor_shape" type="CollisionShape2D" parent="door_sensor"]
+[node name="sensor_shape" type="CollisionShape2D" parent="door_sensor" unique_id=992745579]
 position = Vector2(24.5, -9.5)
 shape = SubResource("RectangleShape2D_at0fl")
 
-[node name="locked_panel" type="PanelContainer" parent="."]
+[node name="locked_panel" type="PanelContainer" parent="." unique_id=435468749]
 custom_minimum_size = Vector2(72, 16)
 offset_left = -12.0
 offset_top = -36.0
@@ -135,18 +135,18 @@ offset_bottom = -20.0
 theme = ExtResource("3_2q8x2")
 theme_override_styles/panel = SubResource("StyleBoxFlat_4q0mk")
 
-[node name="MarginContainer" type="MarginContainer" parent="locked_panel"]
+[node name="MarginContainer" type="MarginContainer" parent="locked_panel" unique_id=104585748]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="locked_text" type="Label" parent="locked_panel/MarginContainer"]
+[node name="locked_text" type="Label" parent="locked_panel/MarginContainer" unique_id=750466079]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Locked"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1213776811]

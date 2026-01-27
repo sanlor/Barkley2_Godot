@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://diimuyjmngb27"]
+[gd_scene format=3 uid="uid://diimuyjmngb27"]
 
 [ext_resource type="Script" uid="uid://wojxeulk16jn" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_stonewallBootyDaimyoJackson02.gd" id="1_qprl7"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_j556h"]
@@ -173,7 +173,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dbmd0"]
 size = Vector2(20, 36)
 
-[node name="o_stonewallBootyDaimyoJackson02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_stonewallBootyDaimyoJackson02" type="CharacterBody2D" unique_id=52147220 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_qprl7")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_eq8yg")
@@ -181,7 +181,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=170751701]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_5odsr")
 centered = false
@@ -199,12 +199,12 @@ metadata/default = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1612766604]
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_6rnbj")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=248868933]
 position = Vector2(0, -7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=179728686]
 shape = SubResource("RectangleShape2D_dbmd0")

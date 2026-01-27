@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://v6auj1w4yjwp"]
+[gd_scene format=3 uid="uid://v6auj1w4yjwp"]
 
 [ext_resource type="Texture2D" uid="uid://bv4hac5uqjgih" path="res://barkley2/assets/b2_original/images/merged/s_chocoCrates01.png" id="1_jdvx8"]
 [ext_resource type="Script" uid="uid://cj4bxcp1kf3nr" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_choco_crates_01.gd" id="2_davd7"]
@@ -216,12 +216,11 @@ size = Vector2(63, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xb4de"]
 size = Vector2(63, 25)
 
-[node name="o_chocoCrates01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_chocoCrates01" type="AnimatedSprite2D" unique_id=754777789 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_odgpn")
 centered = false
 offset = Vector2(-32, -32)
 script = ExtResource("2_davd7")
-interactive_shader = "uid://cf0ojjtgkt2y8"
 mouse_detection_area = NodePath("Area2D")
 cutscene_script = SubResource("Resource_njn5n")
 metadata/default = {
@@ -236,14 +235,14 @@ metadata/default = {
 "yorigin": "32"
 }
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1624901807]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=19196340]
 position = Vector2(-0.5, -14)
 shape = SubResource("RectangleShape2D_davd7")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1247984628]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2114238135]
 position = Vector2(-0.5, 2.5)
 shape = SubResource("RectangleShape2D_xb4de")

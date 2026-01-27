@@ -1,4 +1,4 @@
-[gd_scene load_steps=124 format=3 uid="uid://be5ai8h7kcj7a"]
+[gd_scene format=3 uid="uid://be5ai8h7kcj7a"]
 
 [ext_resource type="Texture2D" uid="uid://bgaat57c14ak8" path="res://barkley2/assets/b2_mod/vfx/explosion.png" id="1_k8pcj"]
 [ext_resource type="Texture2D" uid="uid://cqq113rnivph1" path="res://barkley2/assets/b2_original/images/merged/s_MBlast.png" id="2_crsd6"]
@@ -826,17 +826,17 @@ animations = [{
 
 [sub_resource type="AudioStreamOggVorbis" id="AudioStreamOggVorbis_k8pcj"]
 
-[node name="o_explosion" type="AnimatedSprite2D"]
+[node name="o_explosion" type="AnimatedSprite2D" unique_id=510900961]
 z_index = 10
 sprite_frames = SubResource("SpriteFrames_b7m42")
 animation = &"s_effect_explo_96"
 speed_scale = 3.0
 script = ExtResource("10_27lp6")
 
-[node name="explosion_sfx" type="AudioStreamPlayer2D" parent="."]
+[node name="explosion_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1483973012]
 stream = SubResource("AudioStreamOggVorbis_k8pcj")
 
-[node name="explosion_smoke" type="GPUParticles2D" parent="."]
+[node name="explosion_smoke" type="GPUParticles2D" parent="." unique_id=494830628]
 modulate = Color(1, 1, 1, 0.5019608)
 z_index = -1
 emitting = false

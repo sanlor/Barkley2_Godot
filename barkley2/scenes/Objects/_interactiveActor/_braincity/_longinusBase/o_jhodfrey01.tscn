@@ -1,9 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://dcxil7hm04e2y"]
+[gd_scene format=3 uid="uid://dcxil7hm04e2y"]
 
 [ext_resource type="Texture2D" uid="uid://cnxfvcgfkpuoc" path="res://barkley2/assets/b2_original/images/merged/s_jhodfrey01.png" id="1_j32uk"]
 [ext_resource type="Texture2D" uid="uid://bm0i1rc6inagf" path="res://barkley2/assets/b2_original/images/merged/s_cts_jhodfreyNE.png" id="2_oo61d"]
 [ext_resource type="Texture2D" uid="uid://cuv1fk0och83k" path="res://barkley2/assets/b2_original/images/merged/s_cts_jhodfreySE.png" id="3_0wry4"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_jhodfrey01.gd" id="4_yst63"]
+[ext_resource type="Script" uid="uid://bkh2sp4bpj5l6" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_jhodfrey01.gd" id="4_yst63"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_spxca"]
 
@@ -98,20 +98,20 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tmjur"]
 size = Vector2(25, 43)
 
-[node name="o_jhodfrey01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_jhodfrey01" type="CharacterBody2D" unique_id=1494315605 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("4_yst63")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1798970042]
 debug_enabled = true
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=473285104]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_spxca")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=886749295]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_rj5y1")
 centered = false
@@ -150,9 +150,9 @@ metadata/s_cts_jhodfreySE = {
 "yorigin": "48"
 }
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=51032404]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1126916979]
 position = Vector2(0.5, -21.5)
 shape = SubResource("RectangleShape2D_tmjur")

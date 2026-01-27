@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b8tookyovydy"]
+[gd_scene format=3 uid="uid://b8tookyovydy"]
 
 [ext_resource type="Script" uid="uid://cjcw583hd1p2h" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_vancleefSit01.gd" id="1_0b0l8"]
 [ext_resource type="Texture2D" uid="uid://roxcp5yvj5oh" path="res://barkley2/assets/b2_original/images/merged/s_vancleefSit01.png" id="2_6jbxy"]
@@ -215,7 +215,7 @@ radius = 12.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s1cge"]
 size = Vector2(36, 44)
 
-[node name="o_vancleefSit01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_vancleefSit01" type="CharacterBody2D" unique_id=772893022 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_0b0l8")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_b1661")
@@ -223,7 +223,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1896254680]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ko81p")
 autoplay = "default"
@@ -244,11 +244,11 @@ metadata/default = {
 "yorigin": "35"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=577214048]
 shape = SubResource("CircleShape2D_jt1nm")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=155521539]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1481024947]
 position = Vector2(-4, -12)
 shape = SubResource("RectangleShape2D_s1cge")

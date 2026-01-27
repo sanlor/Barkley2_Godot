@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn5bnnmrf3fnt"]
+[gd_scene format=3 uid="uid://dn5bnnmrf3fnt"]
 
 [ext_resource type="Script" uid="uid://bdpg8qwkqgha6" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_moriarty_prison.gd" id="1_rtapt"]
 [ext_resource type="Texture2D" uid="uid://beew5bgglhpp7" path="res://barkley2/assets/b2_original/images/merged/s_moriarty_prison.png" id="2_iylyu"]
@@ -21,14 +21,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aoujm"]
 size = Vector2(20, 36)
 
-[node name="o_moriarty_prison" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_moriarty_prison" type="CharacterBody2D" unique_id=608849242 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_rtapt")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=190741631]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_82rrm")
 centered = false
@@ -46,9 +46,9 @@ metadata/default = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1447721045]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=897038485]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=659247787]
 shape = SubResource("RectangleShape2D_aoujm")

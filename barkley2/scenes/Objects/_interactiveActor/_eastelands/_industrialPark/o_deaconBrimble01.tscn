@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bka22ak4k721p"]
+[gd_scene format=3 uid="uid://bka22ak4k721p"]
 
 [ext_resource type="Script" uid="uid://v5qf3jklj88n" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_deaconBrimble01.gd" id="1_xux78"]
 [ext_resource type="Texture2D" uid="uid://ddbj7hhdvpi0l" path="res://barkley2/assets/b2_original/images/merged/s_deaconBrimble01.png" id="2_hk8dr"]
@@ -98,7 +98,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k7iqh"]
 size = Vector2(20, 36)
 
-[node name="o_deaconBrimble01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_deaconBrimble01" type="CharacterBody2D" unique_id=426459425 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_xux78")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_em25y")
@@ -106,7 +106,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1570628005]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_em25y")
 centered = false
@@ -124,12 +124,12 @@ metadata/default = {
 "yorigin": "36"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1465152459]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_k7iqh")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1801751644]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1276675212]
 shape = SubResource("RectangleShape2D_k7iqh")

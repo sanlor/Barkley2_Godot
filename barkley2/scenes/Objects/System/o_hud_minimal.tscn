@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://cyaw4x2juog4u"]
+[gd_scene format=3 uid="uid://cyaw4x2juog4u"]
 
 [ext_resource type="Script" uid="uid://2dxxk5eg0ks5" path="res://barkley2/scenes/Objects/System/o_hud_minimal.gd" id="1_75hyb"]
 [ext_resource type="Script" uid="uid://d2pqd3n8yanel" path="res://barkley2/scenes/Objects/System/minimal_combat_module.gd" id="2_3opby"]
@@ -388,16 +388,14 @@ _data = {
 [sub_resource type="LabelSettings" id="LabelSettings_yt2hp"]
 font = ExtResource("23_x0nn2")
 
-[node name="o_hud_minimal" type="CanvasLayer"]
+[node name="o_hud_minimal" type="CanvasLayer" unique_id=1770011659]
 script = ExtResource("1_75hyb")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1235196685]
 reset_on_save = false
-libraries = {
-&"": SubResource("AnimationLibrary_htdpj")
-}
+libraries/ = SubResource("AnimationLibrary_htdpj")
 
-[node name="combat_module" type="Control" parent="."]
+[node name="combat_module" type="Control" parent="." unique_id=1756592167]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -407,7 +405,7 @@ grow_vertical = 2
 theme = ExtResource("2_t5p5n")
 script = ExtResource("2_3opby")
 
-[node name="attack_btn" type="TextureButton" parent="combat_module"]
+[node name="attack_btn" type="TextureButton" parent="combat_module" unique_id=1162547137]
 layout_mode = 0
 offset_left = 311.0
 offset_top = 173.0
@@ -420,7 +418,7 @@ texture_hover = ExtResource("4_vc3pw")
 texture_disabled = ExtResource("2_lpas3")
 texture_focused = ExtResource("3_3opby")
 
-[node name="item_btn" type="TextureButton" parent="combat_module"]
+[node name="item_btn" type="TextureButton" parent="combat_module" unique_id=532898882]
 layout_mode = 0
 offset_left = 334.0
 offset_top = 173.0
@@ -434,7 +432,7 @@ texture_hover = ExtResource("7_63xqi")
 texture_disabled = ExtResource("5_r1ewr")
 texture_focused = ExtResource("6_t5p5n")
 
-[node name="escape_btn" type="TextureButton" parent="combat_module"]
+[node name="escape_btn" type="TextureButton" parent="combat_module" unique_id=641097436]
 layout_mode = 0
 offset_left = 311.0
 offset_top = 196.0
@@ -448,7 +446,7 @@ texture_hover = ExtResource("10_xwlel")
 texture_disabled = ExtResource("8_htdpj")
 texture_focused = ExtResource("9_x0nn2")
 
-[node name="defend_btn" type="TextureButton" parent="combat_module"]
+[node name="defend_btn" type="TextureButton" parent="combat_module" unique_id=1525544947]
 layout_mode = 0
 offset_left = 311.0
 offset_top = 150.0
@@ -462,7 +460,7 @@ texture_hover = ExtResource("13_3u53f")
 texture_disabled = ExtResource("11_yt2hp")
 texture_focused = ExtResource("12_1rlk0")
 
-[node name="move_btn" type="TextureButton" parent="combat_module"]
+[node name="move_btn" type="TextureButton" parent="combat_module" unique_id=2037116930]
 layout_mode = 0
 offset_left = 288.0
 offset_top = 173.0
@@ -475,7 +473,7 @@ texture_hover = ExtResource("16_ksyt8")
 texture_disabled = ExtResource("14_0pw4b")
 texture_focused = ExtResource("15_b52p3")
 
-[node name="weapon_stats_mini" type="VBoxContainer" parent="combat_module"]
+[node name="weapon_stats_mini" type="VBoxContainer" parent="combat_module" unique_id=705828973]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 206.0
@@ -484,16 +482,16 @@ offset_bottom = 239.0
 theme_override_constants/separation = 2
 script = ExtResource("18_r1ewr")
 
-[node name="wpn_list" type="HBoxContainer" parent="combat_module/weapon_stats_mini"]
+[node name="wpn_list" type="HBoxContainer" parent="combat_module/weapon_stats_mini" unique_id=1366588726]
 layout_mode = 2
 
-[node name="gun_1" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+[node name="gun_1" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list" unique_id=1433274262]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("19_t5p5n")
 
-[node name="g1_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_1"]
+[node name="g1_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_1" unique_id=930435061]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -504,7 +502,7 @@ theme = SubResource("Theme_htdpj")
 value = 75.0
 show_percentage = false
 
-[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_1"]
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_1" unique_id=158561566]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -516,13 +514,13 @@ grow_vertical = 0
 text = "75%"
 horizontal_alignment = 2
 
-[node name="gun_2" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+[node name="gun_2" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list" unique_id=426313041]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("19_t5p5n")
 
-[node name="g2_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_2"]
+[node name="g2_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_2" unique_id=1016104017]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -533,7 +531,7 @@ theme = SubResource("Theme_htdpj")
 value = 75.0
 show_percentage = false
 
-[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_2"]
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_2" unique_id=1095288560]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -545,13 +543,13 @@ grow_vertical = 0
 text = "75%"
 horizontal_alignment = 2
 
-[node name="gun_3" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list"]
+[node name="gun_3" type="TextureRect" parent="combat_module/weapon_stats_mini/wpn_list" unique_id=510857513]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 texture = ExtResource("19_t5p5n")
 
-[node name="g3_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_3"]
+[node name="g3_bar" type="ProgressBar" parent="combat_module/weapon_stats_mini/wpn_list/gun_3" unique_id=1566395185]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -562,7 +560,7 @@ theme = SubResource("Theme_htdpj")
 value = 75.0
 show_percentage = false
 
-[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_3"]
+[node name="percent" type="Label" parent="combat_module/weapon_stats_mini/wpn_list/gun_3" unique_id=1667037765]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -574,13 +572,13 @@ grow_vertical = 0
 text = "75%"
 horizontal_alignment = 2
 
-[node name="wpn_name" type="Label" parent="combat_module/weapon_stats_mini"]
+[node name="wpn_name" type="Label" parent="combat_module/weapon_stats_mini" unique_id=819119987]
 layout_mode = 2
 text = "PLACEHOLDER"
 label_settings = SubResource("LabelSettings_x0nn2")
 vertical_alignment = 1
 
-[node name="battle_results" type="NinePatchRect" parent="."]
+[node name="battle_results" type="NinePatchRect" parent="." unique_id=411118177]
 visible = false
 custom_minimum_size = Vector2(0, 32)
 anchors_preset = 10
@@ -596,13 +594,11 @@ patch_margin_right = 6
 patch_margin_bottom = 6
 script = SubResource("GDScript_xwlel")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="battle_results"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="battle_results" unique_id=1186375495]
 reset_on_save = false
-libraries = {
-&"": SubResource("AnimationLibrary_1kavn")
-}
+libraries/ = SubResource("AnimationLibrary_1kavn")
 
-[node name="MarginContainer" type="MarginContainer" parent="battle_results"]
+[node name="MarginContainer" type="MarginContainer" parent="battle_results" unique_id=568846193]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -614,7 +610,7 @@ theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="result_title_label" type="Label" parent="battle_results/MarginContainer"]
+[node name="result_title_label" type="Label" parent="battle_results/MarginContainer" unique_id=1331002361]
 layout_mode = 2
 text = "Placeholder Text"
 label_settings = SubResource("LabelSettings_yt2hp")
@@ -622,7 +618,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
 
-[node name="mini_tutorial" type="RichTextLabel" parent="."]
+[node name="mini_tutorial" type="RichTextLabel" parent="." unique_id=1744779147]
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 203.0

@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://clyrf2cdn6lhw"]
+[gd_scene format=3 uid="uid://clyrf2cdn6lhw"]
 
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="1_mpsk3"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="1_mpsk3"]
 [ext_resource type="Texture2D" uid="uid://ormg5h30ev31" path="res://barkley2/assets/b2_original/images/merged/s_tv_anim.png" id="1_q7fcd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0fi3u"]
@@ -78,7 +78,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cor8x"]
 size = Vector2(48, 76)
 
-[node name="o_tv" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_tv" type="AnimatedSprite2D" unique_id=1783010081 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_jjucp")
 animation = &"beach"
 centered = false
@@ -87,8 +87,8 @@ script = ExtResource("1_mpsk3")
 is_interactive = false
 mouse_detection_area = NodePath("ActorInteract")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=663962944]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=25628981]
 position = Vector2(2, -38)
 shape = SubResource("RectangleShape2D_cor8x")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://buhv1mth1kb2l"]
+[gd_scene format=3 uid="uid://buhv1mth1kb2l"]
 
 [ext_resource type="Texture2D" uid="uid://c77qkj3udepoe" path="res://barkley2/assets/b2_original/images/merged/s_mg_diving_mine.png" id="1_fbmj0"]
 [ext_resource type="Script" uid="uid://k5wbej7o76y1" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_mine.gd" id="1_n8itn"]
@@ -84,10 +84,10 @@ fill_to = Vector2(0, 0)
 [sub_resource type="CircleShape2D" id="CircleShape2D_n8itn"]
 radius = 9.0
 
-[node name="o_mg_diving_danger_mine" type="Area2D"]
+[node name="o_mg_diving_danger_mine" type="Area2D" unique_id=1560515308]
 script = ExtResource("1_n8itn")
 
-[node name="s_mg_diving_mine_chain2" type="TextureRect" parent="."]
+[node name="s_mg_diving_mine_chain2" type="TextureRect" parent="." unique_id=1357750455]
 offset_left = -8.0
 offset_top = 18.0
 offset_right = 8.0
@@ -96,7 +96,7 @@ texture = SubResource("AtlasTexture_n8itn")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="s_mg_diving_mine_chain3" type="TextureRect" parent="."]
+[node name="s_mg_diving_mine_chain3" type="TextureRect" parent="." unique_id=1942495390]
 offset_left = -8.0
 offset_top = 34.0
 offset_right = 8.0
@@ -105,7 +105,7 @@ texture = SubResource("AtlasTexture_n8itn")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="s_mg_diving_mine_chain" type="TextureRect" parent="."]
+[node name="s_mg_diving_mine_chain" type="TextureRect" parent="." unique_id=2098379852]
 offset_left = -8.0
 offset_top = 2.0
 offset_right = 8.0
@@ -114,16 +114,16 @@ texture = SubResource("AtlasTexture_n8itn")
 expand_mode = 1
 stretch_mode = 1
 
-[node name="s_mg_diving_mine" type="AnimatedSprite2D" parent="."]
+[node name="s_mg_diving_mine" type="AnimatedSprite2D" parent="." unique_id=291991228]
 sprite_frames = SubResource("SpriteFrames_7rjne")
 autoplay = "default"
 frame_progress = 0.85014963
 
-[node name="flash" type="PointLight2D" parent="."]
+[node name="flash" type="PointLight2D" parent="." unique_id=669051961]
 energy = 0.1
 texture = SubResource("GradientTexture2D_gdtcc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=752275245]
 shape = SubResource("CircleShape2D_n8itn")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

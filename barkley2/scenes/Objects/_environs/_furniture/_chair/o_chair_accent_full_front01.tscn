@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://brck78oki8428"]
+[gd_scene format=3 uid="uid://brck78oki8428"]
 
 [ext_resource type="Texture2D" uid="uid://c38esi6ccl27m" path="res://barkley2/assets/b2_original/images/merged/s_chair_accent_full_front01.png" id="1_vjlcn"]
 [ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_kchu0"]
@@ -21,14 +21,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3grge"]
 size = Vector2(31.2, 29.2)
 
-[node name="o_chair_accent_full_front01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+[node name="o_chair_accent_full_front01" type="AnimatedSprite2D" unique_id=391614333 node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_bx6fe")
 centered = false
 offset = Vector2(0, -50)
 script = ExtResource("2_kchu0")
 EnvCol = NodePath("StaticBody2D")
 change_frame_at_sudo_random = false
-shape = 1
 metadata/default = {
 "bbox_bottom": "50",
 "bbox_left": "0",
@@ -41,8 +40,8 @@ metadata/default = {
 "yorigin": "50"
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1220849431]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=468761732]
 position = Vector2(24, -15.4)
 shape = SubResource("RectangleShape2D_3grge")

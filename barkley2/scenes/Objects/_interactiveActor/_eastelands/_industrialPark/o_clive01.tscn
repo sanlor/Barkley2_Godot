@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://4lyo6qqdy6gc"]
+[gd_scene format=3 uid="uid://4lyo6qqdy6gc"]
 
 [ext_resource type="Script" uid="uid://dox6hvpdoc2cm" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_clive01.gd" id="1_od2tp"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_if1ya"]
@@ -785,7 +785,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pt7oe"]
 size = Vector2(20, 36)
 
-[node name="o_clive01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_clive01" type="CharacterBody2D" unique_id=1841579306 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_od2tp")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_w1qty")
@@ -793,7 +793,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1152108587]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_4wb8r")
 animation = &"unhooded"
@@ -812,17 +812,17 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=772112546]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_xnqll")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1558221868]
 position = Vector2(0, -15)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=281415355]
 shape = SubResource("RectangleShape2D_pt7oe")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1812921946]
 one_shot = true
 autostart = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://c5res6h6tp7na"]
+[gd_scene format=3 uid="uid://c5res6h6tp7na"]
 
 [ext_resource type="Script" uid="uid://cahxlhc66m2qh" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_puannum01.gd" id="1_t22nm"]
 [ext_resource type="Texture2D" uid="uid://bl5n3stj05ug4" path="res://barkley2/assets/b2_original/images/merged/s_puannum01.png" id="2_l5vju"]
@@ -117,14 +117,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75tay"]
 size = Vector2(20, 36)
 
-[node name="o_puannum01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_puannum01" type="CharacterBody2D" unique_id=1947887104 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_t22nm")
 duergar_name = "puannum"
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=883637190]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_h7vwv")
 centered = false
@@ -178,13 +178,13 @@ metadata/s_puannumSE = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1793071076]
 shape = SubResource("CircleShape2D_t22nm")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1033700446]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=891865588]
 shape = SubResource("RectangleShape2D_75tay")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=921933253]

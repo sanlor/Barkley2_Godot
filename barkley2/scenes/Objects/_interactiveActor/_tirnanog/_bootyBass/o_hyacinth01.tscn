@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://2wd64jhdxcjp"]
+[gd_scene format=3 uid="uid://2wd64jhdxcjp"]
 
 [ext_resource type="Script" uid="uid://bbmjf06qw18v5" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_bootyBass/o_hyacinth01.gd" id="1_vylay"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_72shs"]
@@ -133,6 +133,45 @@ HYACINTH1
 DIALOG | Hyacinth | When I dance, I let my mind go and I don't care about anything else. Life just takes you away sometimes. That's what I like about it."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
+[sub_resource type="Animation" id="Animation_d6ytj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ActorAnim:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("light_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(11, -33)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("light_left:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7, -34)]
+}
+
 [sub_resource type="Animation" id="Animation_mx7e5"]
 resource_name = "boogie"
 length = 0.5
@@ -172,45 +211,6 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-7, -34), Vector2(-7, -29), Vector2(-17, -8), Vector2(-16, -2), Vector2(-16, 0), Vector2(-19, -5), Vector2(-19, -19), Vector2(-12, -31)]
-}
-
-[sub_resource type="Animation" id="Animation_d6ytj"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ActorAnim:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("light_right:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(11, -33)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("light_left:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-7, -34)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lda4c"]
@@ -296,7 +296,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 1)
 
-[node name="o_hyacinth01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_hyacinth01" type="CharacterBody2D" unique_id=1171379453 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_vylay")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_3lcub")
@@ -304,13 +304,11 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_lda4c")
-}
-autoplay = "boogie"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=355617361]
+libraries/ = SubResource("AnimationLibrary_lda4c")
+autoplay = &"boogie"
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1726797511]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_m58m2")
 centered = false
@@ -328,22 +326,22 @@ metadata/default = {
 "yorigin": "39"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=145041127]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=884144857]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=89956027]
 shape = SubResource("RectangleShape2D_ybk68")
 
-[node name="light_left" type="PointLight2D" parent="."]
+[node name="light_left" type="PointLight2D" parent="." unique_id=619178156]
 position = Vector2(-7, -34)
 color = Color(0, 1, 0, 1)
 shadow_enabled = true
 shadow_filter = 1
 texture = SubResource("GradientTexture2D_yb3fo")
 
-[node name="light_right" type="PointLight2D" parent="."]
+[node name="light_right" type="PointLight2D" parent="." unique_id=935276267]
 position = Vector2(11, -33)
 color = Color(0, 1, 0, 1)
 texture = SubResource("GradientTexture2D_yb3fo")

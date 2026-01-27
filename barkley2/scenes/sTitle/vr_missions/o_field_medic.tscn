@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://djy06cuntq3p7"]
+[gd_scene format=3 uid="uid://djy06cuntq3p7"]
 
 [ext_resource type="Script" uid="uid://cgb0w8tbb0sco" path="res://barkley2/scenes/sTitle/vr_missions/o_field_medic.gd" id="1_t6snh"]
 [ext_resource type="PackedScene" uid="uid://bcbxf4scjowqy" path="res://barkley2/scenes/_utilityStation/oStep_Smoke.tscn" id="3_afnus"]
@@ -60,7 +60,7 @@ radius = 7.07107
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7sr6w"]
 size = Vector2(23, 24)
 
-[node name="o_field_medic" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_field_medic" type="CharacterBody2D" unique_id=957135435 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_t6snh")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
@@ -68,26 +68,26 @@ ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 metadata/_custom_type_script = "uid://bkmmc6lng8ma"
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1413140567]
 sprite_frames = SubResource("SpriteFrames_6tpds")
 offset = Vector2(0, -10)
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=750787075]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_ki4pa")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=445346838]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=796588985]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=10753557]
 position = Vector2(0.5, 3)
 shape = SubResource("RectangleShape2D_7sr6w")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1109664850]
 
-[node name="step_smoke" parent="." instance=ExtResource("3_afnus")]
+[node name="step_smoke" parent="." unique_id=2146669159 instance=ExtResource("3_afnus")]
 z_index = 1
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]

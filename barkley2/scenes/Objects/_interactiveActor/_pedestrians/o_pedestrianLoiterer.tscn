@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cu6sas5er0ifn"]
+[gd_scene format=3 uid="uid://cu6sas5er0ifn"]
 
 [ext_resource type="Texture2D" uid="uid://2siv56qv56ha" path="res://barkley2/assets/b2_original/images/merged/s_pedestrianLoiterStand.png" id="1_lh6ph"]
 [ext_resource type="Script" uid="uid://cgpi0byjqddkc" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrian_loiterer.gd" id="2_xg1j2"]
@@ -112,34 +112,34 @@ bounce = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_nueek"]
 radius = 4.0
 
-[node name="o_pedestrianLoiterer" type="AnimatedSprite2D"]
+[node name="o_pedestrianLoiterer" type="AnimatedSprite2D" unique_id=1110071988]
 sprite_frames = SubResource("SpriteFrames_cwtei")
 centered = false
 offset = Vector2(-15, -50)
 script = ExtResource("2_xg1j2")
 
-[node name="gossip_detection" type="Area2D" parent="."]
+[node name="gossip_detection" type="Area2D" parent="." unique_id=766867732]
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="gossip_detection"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gossip_detection" unique_id=861201629]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_6qloa")
 debug_color = Color(0.79, 0.431077, 0.0474, 0.0196078)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1577375670]
 position = Vector2(0, -2)
 physics_material_override = SubResource("PhysicsMaterial_pho6t")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=954731574]
 shape = SubResource("CircleShape2D_nueek")
 debug_color = Color(0.83, 0.249, 0.74285, 0.027451)
 
-[node name="o_Shadow" parent="." instance=ExtResource("3_vcs1l")]
+[node name="o_Shadow" parent="." unique_id=1507122793 instance=ExtResource("3_vcs1l")]
 
-[node name="GossipTimer" type="Timer" parent="."]
+[node name="GossipTimer" type="Timer" parent="." unique_id=1304020580]
 one_shot = true
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=1232019239]
 position = Vector2(0, -2)
 radius = 5.0
 affect_navigation_mesh = true

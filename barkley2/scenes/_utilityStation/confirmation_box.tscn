@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://r50un5br5e4w"]
+[gd_scene format=3 uid="uid://r50un5br5e4w"]
 
 [ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_rtblj"]
 [ext_resource type="Script" uid="uid://c6nh8273almss" path="res://barkley2/scenes/_utilityStation/confirmation_box.gd" id="2_1ooco"]
@@ -8,7 +8,7 @@
 line_spacing = 0.0
 font = ExtResource("3_2nvl6")
 
-[node name="confirmation_box" type="Control"]
+[node name="confirmation_box" type="Control" unique_id=670194068]
 z_index = 100
 layout_mode = 3
 anchors_preset = 15
@@ -20,7 +20,7 @@ theme = ExtResource("1_rtblj")
 script = ExtResource("2_1ooco")
 metadata/_custom_type_script = "uid://eir54p1frfp7"
 
-[node name="bg" type="ColorRect" parent="."]
+[node name="bg" type="ColorRect" parent="." unique_id=370722258]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.9)
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=307242393]
 custom_minimum_size = Vector2(250, 100)
 layout_mode = 1
 anchors_preset = 8
@@ -44,7 +44,7 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="confirmation_dialog" type="Label" parent="Panel"]
+[node name="confirmation_dialog" type="Label" parent="Panel" unique_id=469552035]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 7.0
@@ -56,7 +56,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=361751268]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -68,7 +68,7 @@ grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 
-[node name="yes_btn" type="Button" parent="Panel/HBoxContainer"]
+[node name="yes_btn" type="Button" parent="Panel/HBoxContainer" unique_id=719072235]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../no_btn")
@@ -79,7 +79,7 @@ focus_next = NodePath("../no_btn")
 focus_previous = NodePath("../no_btn")
 text = "Yes"
 
-[node name="no_btn" type="Button" parent="Panel/HBoxContainer"]
+[node name="no_btn" type="Button" parent="Panel/HBoxContainer" unique_id=542608154]
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../yes_btn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cm7ri5gt23nu6"]
+[gd_scene format=3 uid="uid://cm7ri5gt23nu6"]
 
 [ext_resource type="Script" uid="uid://hkkejf5mpoxh" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_industrialPark/o_waldo01.gd" id="1_ceqpb"]
 [ext_resource type="Texture2D" uid="uid://b3jccn8frsvl4" path="res://barkley2/assets/b2_original/images/merged/s_waldo01.png" id="2_8osvp"]
@@ -66,7 +66,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_47j3y"]
 size = Vector2(20, 36)
 
-[node name="o_waldo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_waldo01" type="CharacterBody2D" unique_id=1599782624 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_ceqpb")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_0em7v")
@@ -74,7 +74,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=728445709]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0em7v")
 centered = false
@@ -92,12 +92,12 @@ metadata/default = {
 "yorigin": "35"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1489333331]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_47j3y")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1777380254]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=518773334]
 shape = SubResource("RectangleShape2D_47j3y")

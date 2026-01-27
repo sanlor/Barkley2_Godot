@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://b5g16pdck5s53"]
+[gd_scene format=3 uid="uid://b5g16pdck5s53"]
 
 [ext_resource type="Texture2D" uid="uid://bkreoy61tc4qd" path="res://barkley2/assets/b2_original/images/merged/s_plantingSpot01.png" id="1_d88r2"]
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="2_jacfx"]
@@ -281,7 +281,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_wl1rv"]
 radius = 7.0
 
-[node name="o_plantingSpot01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_plantingSpot01" type="AnimatedSprite2D" unique_id=1582758737 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_id57g")
 autoplay = "default"
 centered = false
@@ -300,9 +300,9 @@ metadata/default = {
 "yorigin": "7"
 }
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1756899403]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=395400029]
 shape = SubResource("CircleShape2D_wl1rv")
 
 [connection signal="animation_changed" from="." to="." method="_on_animation_changed"]

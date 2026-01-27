@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cvnllj5usau7f"]
+[gd_scene format=3 uid="uid://cvnllj5usau7f"]
 
 [ext_resource type="Script" uid="uid://dffmgdysrql41" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_pelekrytePrison01.gd" id="1_vyrgn"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4xq6x"]
@@ -187,7 +187,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iu3ki"]
 size = Vector2(20, 36)
 
-[node name="o_pelekrytePrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_pelekrytePrison01" type="CharacterBody2D" unique_id=100670387 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_vyrgn")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_5sh72")
@@ -195,7 +195,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1873142921]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_5sh72")
 centered = false
@@ -213,12 +213,12 @@ metadata/default = {
 "yorigin": "51"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2127238025]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_iu3ki")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=276909468]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1800885609]
 shape = SubResource("RectangleShape2D_iu3ki")

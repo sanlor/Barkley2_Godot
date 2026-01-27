@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dnge06eq5a6kc"]
+[gd_scene format=3 uid="uid://dnge06eq5a6kc"]
 
 [ext_resource type="Script" uid="uid://dv183j6fdnwfs" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_eric01.gd" id="1_u64ox"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_v1834"]
@@ -468,14 +468,14 @@ radius = 8.91268
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vfrye"]
 size = Vector2(20, 36)
 
-[node name="o_eric01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_eric01" type="CharacterBody2D" unique_id=1716185509 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_u64ox")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_470bc")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=523213430]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_pfx1n")
 centered = false
@@ -493,21 +493,21 @@ metadata/default = {
 "yorigin": "63"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1560032928]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_p3tdx")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1210583985]
 position = Vector2(0, -18)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1864280408]
 shape = SubResource("RectangleShape2D_vfrye")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=649548210]
 
-[node name="flies" type="Node2D" parent="."]
+[node name="flies" type="Node2D" parent="." unique_id=364689879]
 
-[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="."]
+[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="." unique_id=1380927624]
 max_distance = 500.0
 bus = &"Audio"
 script = ExtResource("3_wkxy5")

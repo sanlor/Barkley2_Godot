@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bvvf2wrmrpwjo"]
+[gd_scene format=3 uid="uid://bvvf2wrmrpwjo"]
 
 [ext_resource type="Script" uid="uid://bo67h4su6pj55" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_deveraux01.gd" id="1_8uknu"]
 [ext_resource type="Texture2D" uid="uid://8fph8ctor6s3" path="res://barkley2/assets/b2_original/images/merged/s_deveraux01.png" id="2_7tmt5"]
@@ -161,7 +161,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhbta"]
 size = Vector2(20, 36)
 
-[node name="o_deveraux01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_deveraux01" type="CharacterBody2D" unique_id=637948121 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_8uknu")
 duergar_name = "deveraux"
 mouse_detection_area = NodePath("ActorInteract")
@@ -169,7 +169,7 @@ cutscene_script = SubResource("Resource_akk4p")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=740131468]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_mow45")
 centered = false
@@ -223,14 +223,14 @@ metadata/s_deverauxSE = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=56774807]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_o4dtk")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=38449087]
 position = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=201725016]
 shape = SubResource("RectangleShape2D_qhbta")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1894477616]

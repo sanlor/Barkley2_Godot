@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgrcc73sqwfnh"]
+[gd_scene format=3 uid="uid://dgrcc73sqwfnh"]
 
 [ext_resource type="Texture2D" uid="uid://esy1teevawfw" path="res://barkley2/assets/b2_original/images/merged/s_tnn_evictionTape01.png" id="1_3vd7p"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_eviction_tape_01.gd" id="2_jae2v"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_82sxf"]
+[ext_resource type="Script" uid="uid://d1kl1g278xncd" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_scenery/o_tnn_eviction_tape_01.gd" id="2_jae2v"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_82sxf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5c3kh"]
 atlas = ExtResource("1_3vd7p")
@@ -31,7 +31,7 @@ IF random == 4 | DIALOG | P_NAME | Take nothing for granted._._._"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cnc0n"]
 size = Vector2(34, 50)
 
-[node name="o_tnn_evictionTape01" type="AnimatedSprite2D" node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_tnn_evictionTape01" type="AnimatedSprite2D" unique_id=250142418 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_4bnma")
 centered = false
 offset = Vector2(-16, -54)
@@ -39,14 +39,14 @@ script = ExtResource("2_jae2v")
 mouse_detection_area = NodePath("Area2D")
 cutscene_script = SubResource("Resource_08ylt")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=518876591]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1113569733]
 position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_cnc0n")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=955923624]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1005747913]
 position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_cnc0n")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://is4vndtwjx2"]
+[gd_scene format=3 uid="uid://is4vndtwjx2"]
 
 [ext_resource type="Script" uid="uid://546ugy8o1mub" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_arcade/o_susannah01.gd" id="1_a81fg"]
 [ext_resource type="Texture2D" uid="uid://brey4d6r1p7k1" path="res://barkley2/assets/b2_original/images/merged/s_susannahStand01.png" id="2_2vq7f"]
@@ -31,14 +31,14 @@ radius = 14.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l2mnj"]
 size = Vector2(41, 52)
 
-[node name="o_susannah01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_susannah01" type="CharacterBody2D" unique_id=699474799 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_a81fg")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=243085183]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ixwe1")
 centered = false
@@ -56,13 +56,13 @@ metadata/default = {
 "yorigin": "55"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2080188037]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_a81fg")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1858385499]
 position = Vector2(0, -17)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1426633284]
 position = Vector2(0.5, -8)
 shape = SubResource("RectangleShape2D_l2mnj")

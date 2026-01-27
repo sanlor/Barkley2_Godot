@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://da7tj140jfeq4"]
+[gd_scene format=3 uid="uid://da7tj140jfeq4"]
 
 [ext_resource type="Script" uid="uid://b0celjbt425d3" path="res://barkley2/scenes/Objects/_interactiveActor/_global/o_slag01.gd" id="1_1ei8w"]
 [ext_resource type="Texture2D" uid="uid://vausvhjgyxua" path="res://barkley2/assets/b2_original/images/merged/s_slag_idle01.png" id="2_a234k"]
@@ -530,7 +530,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_050sr"]
 size = Vector2(20, 36)
 
-[node name="o_slag01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_slag01" type="CharacterBody2D" unique_id=1819333202 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_1ei8w")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = ExtResource("2_v1utg")
@@ -538,7 +538,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 disable_auto_flip_h = true
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1780718938]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_08hlh")
 animation = &"stand_SE"
@@ -618,13 +618,13 @@ metadata/s_cts_slagLOOK = {
 "yorigin": "44"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=883826352]
 shape = SubResource("CircleShape2D_ua402")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1549351472]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1406926660]
 shape = SubResource("RectangleShape2D_050sr")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=17560810]

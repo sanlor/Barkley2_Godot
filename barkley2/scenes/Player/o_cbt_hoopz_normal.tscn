@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bustae523mxua"]
+[gd_scene format=3 uid="uid://bustae523mxua"]
 
 [ext_resource type="Script" uid="uid://dlobmj20yhk1f" path="res://barkley2/scenes/Player/PlayerActor_TurnBased.gd" id="1_kxy2o"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_Shadow.tscn" id="2_6c22w"]
@@ -123,7 +123,7 @@ func start_loading( speed := 1.0 ) -> void:
 	tween.tween_callback( hide )
 "
 
-[node name="o_cbt_hoopz" type="RigidBody2D" node_paths=PackedStringArray("hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "combat_shield", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorNav", "ActorCol")]
+[node name="o_cbt_hoopz" type="RigidBody2D" unique_id=1010858166 node_paths=PackedStringArray("hoopz_roll_direction", "combat_upper_sprite", "combat_lower_sprite", "combat_arm_back", "combat_arm_front", "combat_weapon", "combat_weapon_parts", "combat_weapon_spots", "combat_shield", "gun_muzzle", "gun_handler", "hoopz_normal_body", "step_smoke", "hit_timer", "i_frame_timer", "ActorNav", "ActorCol")]
 collision_layer = 3
 collision_mask = 1835029
 mass = 100.0
@@ -156,37 +156,37 @@ roll_impulse = 80000
 walk_damp = 14.0
 roll_damp = 3.5
 
-[node name="Gun_Handler™_TurnBased_Edition" type="Node" parent="."]
+[node name="Gun_Handler™_TurnBased_Edition" type="Node" parent="." unique_id=188437014]
 script = ExtResource("2_wsajw")
 
-[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
+[node name="pre_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition" unique_id=1278766110]
 one_shot = true
 
-[node name="firing_rate" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
+[node name="firing_rate" type="Timer" parent="Gun_Handler™_TurnBased_Edition" unique_id=133538611]
 one_shot = true
 
-[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition"]
+[node name="post_shooting_timer" type="Timer" parent="Gun_Handler™_TurnBased_Edition" unique_id=521347625]
 wait_time = 0.5
 one_shot = true
 
-[node name="o_Shadow" parent="." instance=ExtResource("2_6c22w")]
+[node name="o_Shadow" parent="." unique_id=897784766 instance=ExtResource("2_6c22w")]
 
-[node name="hoopz_collision" type="CollisionShape2D" parent="."]
+[node name="hoopz_collision" type="CollisionShape2D" parent="." unique_id=1463685210]
 position = Vector2(0, -8)
 shape = SubResource("CircleShape2D_aubae")
 
-[node name="step_smoke" parent="." instance=ExtResource("3_dl1mb")]
+[node name="step_smoke" parent="." unique_id=1982633919 instance=ExtResource("3_dl1mb")]
 position = Vector2(0, -1)
 amount = 30
 
-[node name="hoopz_roll_direction" type="Line2D" parent="."]
-modulate = Color(1, 1, 1, 1.4622779)
+[node name="hoopz_roll_direction" type="Line2D" parent="." unique_id=338153796]
+modulate = Color(1, 1, 1, 1.2720106)
 points = PackedVector2Array(12, 0, 24, 0)
 width_curve = SubResource("Curve_qfgrm")
 gradient = SubResource("Gradient_wsajw")
 script = SubResource("GDScript_qkpq4")
 
-[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="."]
+[node name="hoopz_normal_body" type="AnimatedSprite2D" parent="." unique_id=96825056]
 process_priority = -1
 y_sort_enabled = true
 sprite_frames = ExtResource("4_yeelg")
@@ -195,70 +195,70 @@ speed_scale = 1.5
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_shield" type="AnimatedSprite2D" parent="."]
+[node name="combat_shield" type="AnimatedSprite2D" parent="." unique_id=938185841]
 visible = false
 sprite_frames = SubResource("SpriteFrames_v2nav")
 animation = &"s_duergar_shield"
 offset = Vector2(0, -14)
 
-[node name="aim_origin" type="Marker2D" parent="."]
+[node name="aim_origin" type="Marker2D" parent="." unique_id=891491710]
 position = Vector2(0, -16)
 
-[node name="combat_lower_body" type="AnimatedSprite2D" parent="."]
+[node name="combat_lower_body" type="AnimatedSprite2D" parent="." unique_id=4364773]
 visible = false
 sprite_frames = ExtResource("5_xt58p")
 animation = &"aim_shuffle"
 centered = false
 offset = Vector2(-22, -42)
 
-[node name="combat_upper_body" type="AnimatedSprite2D" parent="."]
+[node name="combat_upper_body" type="AnimatedSprite2D" parent="." unique_id=897008929]
 visible = false
 sprite_frames = ExtResource("7_ksmw3")
 animation = &"s_HoopzTorso_Armless"
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_arm_back" type="AnimatedSprite2D" parent="."]
+[node name="combat_arm_back" type="AnimatedSprite2D" parent="." unique_id=521376959]
 visible = false
 sprite_frames = ExtResource("6_xhkf0")
 animation = &"s_HoopzTorso_Heavy"
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="combat_weapon" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon" type="AnimatedSprite2D" parent="." unique_id=998414671]
 visible = false
 sprite_frames = ExtResource("8_fw1v2")
 animation = &"s_Pistol"
 
-[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon_parts" type="AnimatedSprite2D" parent="." unique_id=1841215283]
 visible = false
 sprite_frames = ExtResource("9_ty5ks")
 animation = &"s_AssaultRifle"
 
-[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="."]
+[node name="combat_weapon_spots" type="AnimatedSprite2D" parent="." unique_id=158636709]
 visible = false
 sprite_frames = ExtResource("10_47sbk")
 animation = &"s_AssaultRifle"
 
-[node name="combat_arm_front" type="AnimatedSprite2D" parent="."]
+[node name="combat_arm_front" type="AnimatedSprite2D" parent="." unique_id=575278360]
 visible = false
 sprite_frames = ExtResource("9_7ql2g")
 animation = &"s_HoopzTorso_Rifle"
 centered = false
 offset = Vector2(-22, -41)
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=257796127]
 current = true
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1845803694]
 
-[node name="gun_muzzle" type="Marker2D" parent="."]
+[node name="gun_muzzle" type="Marker2D" parent="." unique_id=1085480107]
 visible = false
 
-[node name="debug_text" type="Sprite2D" parent="gun_muzzle"]
+[node name="debug_text" type="Sprite2D" parent="gun_muzzle" unique_id=20533887]
 texture = SubResource("PlaceholderTexture2D_ty5ks")
 
-[node name="ready_label" type="RichTextLabel" parent="."]
+[node name="ready_label" type="RichTextLabel" parent="." unique_id=57837950]
 material = SubResource("ShaderMaterial_qfgrm")
 anchors_preset = 8
 anchor_left = 0.5
@@ -282,11 +282,11 @@ visible_characters = 0
 visible_ratio = 0.0
 script = SubResource("GDScript_47sbk")
 
-[node name="hit_timer" type="Timer" parent="."]
+[node name="hit_timer" type="Timer" parent="." unique_id=657776453]
 wait_time = 0.5
 one_shot = true
 
-[node name="i_frame_timer" type="Timer" parent="."]
+[node name="i_frame_timer" type="Timer" parent="." unique_id=79763917]
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_combat_actor_entered"]

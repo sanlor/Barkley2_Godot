@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmaoa6upq7prl"]
+[gd_scene format=3 uid="uid://cmaoa6upq7prl"]
 
 [ext_resource type="Script" uid="uid://dmy5d2ub7ns" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_drLiuCaptured01.gd" id="1_rthkq"]
 [ext_resource type="Texture2D" uid="uid://crx4pavagmkat" path="res://barkley2/assets/b2_original/images/merged/s_drLiuCaptured01.png" id="2_t3c8u"]
@@ -21,14 +21,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0nut"]
 size = Vector2(20, 36)
 
-[node name="o_drLiuCaptured01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_drLiuCaptured01" type="CharacterBody2D" unique_id=1587255278 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_rthkq")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1545957074]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_umrvj")
 centered = false
@@ -46,9 +46,9 @@ metadata/default = {
 "yorigin": "20"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=975419911]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2011573504]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1101509312]
 shape = SubResource("RectangleShape2D_p0nut")

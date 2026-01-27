@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dohdpwun75id6"]
+[gd_scene format=3 uid="uid://dohdpwun75id6"]
 
 [ext_resource type="Script" uid="uid://b7mkej0fa6shd" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_absalom01.gd" id="1_hlxe4"]
 [ext_resource type="Texture2D" uid="uid://dy5uxqia4ouft" path="res://barkley2/assets/b2_original/images/merged/s_absalom01.png" id="2_f4tmi"]
@@ -511,7 +511,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7fa8q"]
 size = Vector2(35, 36)
 
-[node name="o_absalom01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_absalom01" type="CharacterBody2D" unique_id=1403327614 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_hlxe4")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_3801k")
@@ -519,7 +519,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1760578923]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_gra50")
 animation = &"typing"
@@ -600,18 +600,18 @@ metadata/return = {
 "yorigin": "52"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1359225854]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_7mvu0")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=690628389]
 position = Vector2(0, -20)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1450175415]
 position = Vector2(-2.5, 0)
 shape = SubResource("RectangleShape2D_7fa8q")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1528123402]
 stream = ExtResource("4_h3rw1")
 max_distance = 500.0
 bus = &"Audio"

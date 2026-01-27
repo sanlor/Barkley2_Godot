@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dub5rkm2jj582"]
+[gd_scene format=3 uid="uid://dub5rkm2jj582"]
 
 [ext_resource type="Script" uid="uid://cv1rxyavtdvkp" path="res://barkley2/scenes/Objects/System/_map/map_screen.gd" id="1_a461x"]
 [ext_resource type="Theme" uid="uid://dmi5aktus8lnp" path="res://barkley2/resources/misc/map.tres" id="2_rnkuq"]
@@ -306,7 +306,7 @@ _data = {
 &"show_myself": SubResource("Animation_r62t0")
 }
 
-[node name="map_screen" type="Control"]
+[node name="map_screen" type="Control" unique_id=256837093]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -316,7 +316,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a461x")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1238363617]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -326,7 +326,7 @@ grow_vertical = 2
 theme = ExtResource("2_rnkuq")
 color = Color(0, 0, 0, 0.75)
 
-[node name="no_maps_lbl" type="Label" parent="ColorRect"]
+[node name="no_maps_lbl" type="Label" parent="ColorRect" unique_id=491077345]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -341,7 +341,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_rnkuq")
 
-[node name="B2_Border" type="Control" parent="ColorRect"]
+[node name="B2_Border" type="Control" parent="ColorRect" unique_id=1267508344]
 material = ExtResource("3_ccjc7")
 anchors_preset = 0
 offset_left = -25.0
@@ -351,7 +351,7 @@ theme = ExtResource("3_oopl1")
 script = ExtResource("4_q5os8")
 border_size = Vector2(434, 50)
 
-[node name="map_name" type="Label" parent="ColorRect/B2_Border"]
+[node name="map_name" type="Label" parent="ColorRect/B2_Border" unique_id=1078894608]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -366,7 +366,7 @@ text = "PLACEHOLDER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="map_itself" type="TextureRect" parent="ColorRect"]
+[node name="map_itself" type="TextureRect" parent="ColorRect" unique_id=1582867982]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -381,7 +381,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_w4y1s")
 
-[node name="fade_effect" type="ColorRect" parent="ColorRect"]
+[node name="fade_effect" type="ColorRect" parent="ColorRect" unique_id=635685776]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
@@ -391,7 +391,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="prev_map" type="TextureButton" parent="ColorRect"]
+[node name="prev_map" type="TextureButton" parent="ColorRect" unique_id=815484061]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -409,7 +409,7 @@ texture_pressed = SubResource("AtlasTexture_pwl8d")
 texture_hover = SubResource("AtlasTexture_8fjao")
 flip_h = true
 
-[node name="next_map" type="TextureButton" parent="ColorRect"]
+[node name="next_map" type="TextureButton" parent="ColorRect" unique_id=1280983649]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -429,7 +429,7 @@ texture_normal = SubResource("AtlasTexture_knjcf")
 texture_pressed = SubResource("AtlasTexture_fg52d")
 texture_hover = SubResource("AtlasTexture_vklxe")
 
-[node name="exit_button" type="TextureButton" parent="ColorRect"]
+[node name="exit_button" type="TextureButton" parent="ColorRect" unique_id=1661214576]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -450,19 +450,17 @@ focus_next = NodePath("../next_map")
 focus_previous = NodePath("../prev_map")
 texture_normal = SubResource("AtlasTexture_30sak")
 
-[node name="exit_spr" type="AnimatedSprite2D" parent="ColorRect/exit_button"]
+[node name="exit_spr" type="AnimatedSprite2D" parent="ColorRect/exit_button" unique_id=98378944]
 sprite_frames = SubResource("SpriteFrames_dkmn1")
 centered = false
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1839898671]
 stream = ExtResource("9_ds52b")
 bus = &"Audio"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1985431861]
 reset_on_save = false
-libraries = {
-&"": SubResource("AnimationLibrary_73434")
-}
+libraries/ = SubResource("AnimationLibrary_73434")
 
 [connection signal="focus_exited" from="ColorRect/prev_map" to="." method="_on_prev_map_focus_exited"]
 [connection signal="pressed" from="ColorRect/prev_map" to="." method="_on_prev_map_pressed"]

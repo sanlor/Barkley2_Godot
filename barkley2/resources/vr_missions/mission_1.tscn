@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://by4ybeytmn3yi"]
+[gd_scene format=3 uid="uid://by4ybeytmn3yi"]
 
 [ext_resource type="Script" uid="uid://dnobq75g8svot" path="res://barkley2/resources/vr_missions/mission_1.gd" id="1_jkj14"]
 [ext_resource type="PackedScene" uid="uid://74tkdn6wv67c" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_rat/o_enemy_ratNest.tscn" id="2_sl356"]
@@ -27,46 +27,44 @@ region = Rect2(0, 0, 36, 31)
 [sub_resource type="LabelSettings" id="LabelSettings_bxqo7"]
 font = ExtResource("5_xeugt")
 
-[node name="mission_1" type="Node2D"]
+[node name="mission_1" type="Node2D" unique_id=1877537517]
 script = ExtResource("1_jkj14")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=791972150]
 position = Vector2(400, 369)
 enabled = false
 
-[node name="mission_ticker" type="Timer" parent="."]
+[node name="mission_ticker" type="Timer" parent="." unique_id=1146814340]
 
-[node name="mission_timer" type="Timer" parent="."]
+[node name="mission_timer" type="Timer" parent="." unique_id=1272350736]
 wait_time = 120.0
 one_shot = true
 
-[node name="nest_bg" type="TextureRect" parent="."]
-anchors_preset = -1
+[node name="nest_bg" type="TextureRect" parent="." unique_id=1823623127]
 offset_left = 499.0
 offset_top = 332.0
 offset_right = 540.0
 offset_bottom = 373.0
 texture = SubResource("GradientTexture2D_mj6vg")
 
-[node name="nest_bg2" type="TextureRect" parent="."]
-anchors_preset = -1
+[node name="nest_bg2" type="TextureRect" parent="." unique_id=479432585]
 offset_left = 300.0
 offset_top = 171.0
 offset_right = 341.0
 offset_bottom = 212.0
 texture = SubResource("GradientTexture2D_mj6vg")
 
-[node name="o_enemy_ratNest" parent="." instance=ExtResource("2_sl356")]
+[node name="o_enemy_ratNest" parent="." unique_id=505093137 instance=ExtResource("2_sl356")]
 position = Vector2(320, 204)
 spawn_cooldown_time = 2.5
 
-[node name="o_enemy_ratNest2" parent="." instance=ExtResource("2_sl356")]
+[node name="o_enemy_ratNest2" parent="." unique_id=886846040 instance=ExtResource("2_sl356")]
 position = Vector2(520, 365)
 spawn_cooldown_time = 2.5
 
-[node name="mission_ui" type="CanvasLayer" parent="."]
+[node name="mission_ui" type="CanvasLayer" parent="." unique_id=1404523843]
 
-[node name="screen" type="MarginContainer" parent="mission_ui"]
+[node name="screen" type="MarginContainer" parent="mission_ui" unique_id=69406042]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,7 +76,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="mission_timer_label" type="Label" parent="mission_ui/screen"]
+[node name="mission_timer_label" type="Label" parent="mission_ui/screen" unique_id=183590744]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -88,16 +86,16 @@ label_settings = SubResource("LabelSettings_mj6vg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="enemy_hbox" type="HBoxContainer" parent="mission_ui/screen"]
+[node name="enemy_hbox" type="HBoxContainer" parent="mission_ui/screen" unique_id=1960645875]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="enemy_texture" type="TextureRect" parent="mission_ui/screen/enemy_hbox"]
+[node name="enemy_texture" type="TextureRect" parent="mission_ui/screen/enemy_hbox" unique_id=134573905]
 layout_mode = 2
 texture = SubResource("AtlasTexture_vwjay")
 
-[node name="enemy_count_lbl" type="Label" parent="mission_ui/screen/enemy_hbox"]
+[node name="enemy_count_lbl" type="Label" parent="mission_ui/screen/enemy_hbox" unique_id=276124962]
 custom_minimum_size = Vector2(30, 20)
 layout_mode = 2
 text = "x00"

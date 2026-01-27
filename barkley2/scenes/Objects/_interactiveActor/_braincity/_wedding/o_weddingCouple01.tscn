@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dycoovom8s2l6"]
+[gd_scene format=3 uid="uid://dycoovom8s2l6"]
 
 [ext_resource type="Script" uid="uid://44wk6473xeix" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_wedding/o_weddingCouple01.gd" id="1_ikivj"]
 [ext_resource type="Texture2D" uid="uid://b4ldcrjsyp4xn" path="res://barkley2/assets/b2_original/images/merged/s_weddingCouple01.png" id="2_1han6"]
@@ -185,7 +185,7 @@ height = 48.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t4iel"]
 size = Vector2(54, 64)
 
-[node name="o_weddingCouple01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_weddingCouple01" type="CharacterBody2D" unique_id=38885445 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_ikivj")
 is_interactive = false
 mouse_detection_area = NodePath("ActorInteract")
@@ -193,7 +193,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=410709872]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_b1r82")
 autoplay = "default"
@@ -213,13 +213,13 @@ metadata/default = {
 "yorigin": "56"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=372521428]
 position = Vector2(3, -2)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_etwa3")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=825606602]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1453499465]
 position = Vector2(1, -22)
 shape = SubResource("RectangleShape2D_t4iel")

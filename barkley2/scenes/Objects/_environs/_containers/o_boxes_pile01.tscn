@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://d0e73vts2lga0"]
+[gd_scene format=3 uid="uid://d0e73vts2lga0"]
 
 [ext_resource type="Texture2D" uid="uid://ccokdpnsk8vl0" path="res://barkley2/assets/b2_original/images/merged/s_boxes_pile01.png" id="1_2lgys"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_ftwcy"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_ftwcy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n4waw"]
 atlas = ExtResource("1_2lgys")
@@ -56,11 +56,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_kfox6"]
 radius = 15.0
 
-[node name="o_boxes_pile01" type="AnimatedSprite2D"]
+[node name="o_boxes_pile01" type="AnimatedSprite2D" unique_id=1810259006]
 sprite_frames = SubResource("SpriteFrames_dqsoy")
+frame = 5
 script = ExtResource("2_ftwcy")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1409451015]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1247481866]
 shape = SubResource("CircleShape2D_kfox6")

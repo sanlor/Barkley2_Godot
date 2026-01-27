@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://ud2mcabp2mg0"]
+[gd_scene format=3 uid="uid://ud2mcabp2mg0"]
 
-[ext_resource type="Script" path="res://addons/texture_fonts/UI/mapping.gd" id="1_uoe0t"]
+[ext_resource type="Script" uid="uid://chcs36p6kf4y3" path="res://addons/texture_fonts/UI/mapping.gd" id="1_uoe0t"]
 [ext_resource type="PackedScene" uid="uid://cf8py46vfqbf4" path="res://addons/texture_fonts/UI/Components/Vector2Edit.tscn" id="2_mp5wm"]
 [ext_resource type="FontFile" uid="uid://vxqsbmlofgoq" path="res://addons/texture_fonts/Assets/Fonts/RobotoMono-Medium.ttf" id="3_hh27p"]
 [ext_resource type="PackedScene" uid="uid://cjca34ig077sx" path="res://addons/texture_fonts/UI/Components/TextureViewer/TextureViewer.tscn" id="4_ubswt"]
 
-[node name="MappingSettings" type="MarginContainer" node_paths=PackedStringArray("size_edit", "gap", "offset", "chars", "texture_viewer")]
+[node name="MappingSettings" type="MarginContainer" unique_id=2019634370 node_paths=PackedStringArray("size_edit", "gap", "offset", "chars", "texture_viewer")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
@@ -16,16 +16,16 @@ offset = NodePath("VBoxContainer/RectSettings/Offset")
 chars = NodePath("VBoxContainer/HSplitContainer/HBoxContainer/TextEdit")
 texture_viewer = NodePath("VBoxContainer/HSplitContainer/TextureViewer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1921413893]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="RectSettings" type="HBoxContainer" parent="VBoxContainer"]
+[node name="RectSettings" type="HBoxContainer" parent="VBoxContainer" unique_id=1172443088]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Size" parent="VBoxContainer/RectSettings" instance=ExtResource("2_mp5wm")]
+[node name="Size" parent="VBoxContainer/RectSettings" unique_id=966357112 instance=ExtResource("2_mp5wm")]
 layout_mode = 2
 tooltip_text = "The width and height of every character in the texture."
 mouse_default_cursor_shape = 16
@@ -33,14 +33,14 @@ min_value = Vector2(1, 1)
 value = Vector2(1, 1)
 label = "Rectangle Size"
 
-[node name="Gap" parent="VBoxContainer/RectSettings" instance=ExtResource("2_mp5wm")]
+[node name="Gap" parent="VBoxContainer/RectSettings" unique_id=1725890803 instance=ExtResource("2_mp5wm")]
 layout_mode = 2
 tooltip_text = "Additional gap between every character in the texture."
 mouse_default_cursor_shape = 16
 min_value = Vector2(0, 0)
 label = "Rectangle Gap"
 
-[node name="Offset" parent="VBoxContainer/RectSettings" instance=ExtResource("2_mp5wm")]
+[node name="Offset" parent="VBoxContainer/RectSettings" unique_id=1899756680 instance=ExtResource("2_mp5wm")]
 layout_mode = 2
 tooltip_text = "Offset from the top-left in pixels, applied before the first characters in the texture."
 mouse_default_cursor_shape = 16
@@ -48,11 +48,11 @@ min_value = Vector2(0, 0)
 max_value = Vector2(0, 0)
 label = "Start Offset"
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer" unique_id=671989424]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer" unique_id=1593752878]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -60,19 +60,19 @@ tooltip_text = "The characters represented in the texture, arranged in a grid.
 Hover your mouse over the View Texture section to see what character corresponds to what."
 mouse_default_cursor_shape = 16
 
-[node name="HeadingBox" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/HBoxContainer"]
+[node name="HeadingBox" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/HBoxContainer" unique_id=1335561652]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CharactersLabel" type="Label" parent="VBoxContainer/HSplitContainer/HBoxContainer/HeadingBox"]
+[node name="CharactersLabel" type="Label" parent="VBoxContainer/HSplitContainer/HBoxContainer/HeadingBox" unique_id=817870522]
 layout_mode = 2
 text = "Characters"
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/HBoxContainer/HeadingBox"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer/HSplitContainer/HBoxContainer/HeadingBox" unique_id=211888705]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextEdit" type="TextEdit" parent="VBoxContainer/HSplitContainer/HBoxContainer"]
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/HSplitContainer/HBoxContainer" unique_id=1236467697]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 7
@@ -83,7 +83,7 @@ ijklmnop
 draw_tabs = true
 draw_spaces = true
 
-[node name="TextureViewer" parent="VBoxContainer/HSplitContainer" instance=ExtResource("4_ubswt")]
+[node name="TextureViewer" parent="VBoxContainer/HSplitContainer" unique_id=2038402113 instance=ExtResource("4_ubswt")]
 layout_mode = 2
 
 [connection signal="value_changed" from="VBoxContainer/RectSettings/Size" to="." method="_on_Size_value_changed"]

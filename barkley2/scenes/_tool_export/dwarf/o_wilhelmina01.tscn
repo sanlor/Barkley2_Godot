@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dhwvtc3xiqnor"]
+[gd_scene format=3 uid="uid://dhwvtc3xiqnor"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/_tool_export/dwarf/o_wilhelmina01.gd" id="1_yig7h"]
+[ext_resource type="Script" uid="uid://dcd5j8jt0snrq" path="res://barkley2/scenes/_tool_export/dwarf/o_wilhelmina01.gd" id="1_yig7h"]
 [ext_resource type="Texture2D" uid="uid://kdf0qtb0wqlb" path="res://barkley2/assets/b2_original/images/merged/s_wilhelmina01.png" id="2_40wni"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0bom3"]
@@ -24,13 +24,13 @@ radius = 5.41127
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gw50v"]
 size = Vector2(20, 36)
 
-[node name="o_wilhelmina01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_wilhelmina01" type="CharacterBody2D" unique_id=1944723834 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_yig7h")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1835265049]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_c8ya1")
 centered = false
@@ -48,14 +48,14 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1829651812]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_murgr")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=72620931]
 position = Vector2(0, -18)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=171749819]
 shape = SubResource("RectangleShape2D_gw50v")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1887900525]

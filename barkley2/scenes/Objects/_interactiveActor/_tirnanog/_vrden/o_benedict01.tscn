@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://hmcs7vfx21fe"]
+[gd_scene format=3 uid="uid://hmcs7vfx21fe"]
 
 [ext_resource type="Script" uid="uid://crc023io3a582" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_benedict01.gd" id="1_1jj7h"]
 [ext_resource type="Texture2D" uid="uid://dgo2ses715v1v" path="res://barkley2/assets/b2_original/images/merged/s_benedict01.png" id="2_18iku"]
@@ -256,14 +256,14 @@ radius = 8.06226
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3elr7"]
 size = Vector2(20, 36)
 
-[node name="o_benedict01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_benedict01" type="CharacterBody2D" unique_id=1677279116 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_1jj7h")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_hunav")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1250635180]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_kpx88")
 centered = false
@@ -281,14 +281,14 @@ metadata/default = {
 "yorigin": "36"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1948850846]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_66trl")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=291594167]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=816127126]
 position = Vector2(0, -13)
 shape = SubResource("RectangleShape2D_3elr7")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1483288527]

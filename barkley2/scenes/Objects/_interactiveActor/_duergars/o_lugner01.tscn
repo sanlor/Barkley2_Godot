@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://brspu5ogsk81h"]
+[gd_scene format=3 uid="uid://brspu5ogsk81h"]
 
 [ext_resource type="Script" uid="uid://bblk5d1n55kuk" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lugner01.gd" id="1_7wyo1"]
 [ext_resource type="Texture2D" uid="uid://b7xtcils1lio5" path="res://barkley2/assets/b2_original/images/merged/s_lugner01.png" id="2_x831r"]
@@ -315,7 +315,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ngo3"]
 size = Vector2(20, 36)
 
-[node name="o_lugner01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_lugner01" type="CharacterBody2D" unique_id=879954482 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_7wyo1")
 duergar_name = "lugner"
 mouse_detection_area = NodePath("ActorInteract")
@@ -323,7 +323,7 @@ cutscene_script = SubResource("Resource_5kqdc")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=32563337]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_blk1v")
 animation = &"s_lugnerSE"
@@ -426,13 +426,13 @@ metadata/s_lugnerSE = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1974638211]
 shape = SubResource("CircleShape2D_01803")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1183016215]
 position = Vector2(0, -12)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1804879072]
 shape = SubResource("RectangleShape2D_0ngo3")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=217664381]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://r0fatladb67q"]
+[gd_scene format=3 uid="uid://r0fatladb67q"]
 
 [ext_resource type="Script" uid="uid://bbqpp54ctkf8a" path="res://barkley2/scenes/Objects/_interactiveActor/_eastelands/_cgrem/o_rumi01.gd" id="1_e8a11"]
 [ext_resource type="Texture2D" uid="uid://wla7ovep72ma" path="res://barkley2/assets/b2_original/images/merged/s_rumi01.png" id="2_456df"]
@@ -322,7 +322,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_80x7b"]
 size = Vector2(20, 36)
 
-[node name="o_rumi01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_rumi01" type="CharacterBody2D" unique_id=1358112029 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_e8a11")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_keorl")
@@ -330,7 +330,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=583461822]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_tb0k8")
 centered = false
@@ -348,12 +348,12 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1428705984]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_nvwte")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2124129485]
 position = Vector2(0, -14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=790101653]
 shape = SubResource("RectangleShape2D_80x7b")

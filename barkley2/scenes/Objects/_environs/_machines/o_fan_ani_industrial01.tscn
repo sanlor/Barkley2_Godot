@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://g4vcohcgks2r"]
+[gd_scene format=3 uid="uid://g4vcohcgks2r"]
 
 [ext_resource type="Texture2D" uid="uid://f5ca7vs338t4" path="res://barkley2/assets/b2_original/images/merged/s_fan_ani_industrial01.png" id="1_71qw4"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_environs/_machines/o_fan_ani_industrial_01.gd" id="2_42bf7"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Emiters/audio_emiter.gd" id="3_2r05b"]
+[ext_resource type="Script" uid="uid://b142p080vvrqt" path="res://barkley2/scenes/Objects/_environs/_machines/o_fan_ani_industrial_01.gd" id="2_42bf7"]
+[ext_resource type="Script" uid="uid://d062abqfon718" path="res://barkley2/resources/B2_Hierarchy/Emiters/audio_emiter.gd" id="3_2r05b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dvqm4"]
 atlas = ExtResource("1_71qw4")
@@ -33,7 +33,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_fan_ani_industrial01" type="AnimatedSprite2D"]
+[node name="o_fan_ani_industrial01" type="AnimatedSprite2D" unique_id=658859047]
 sprite_frames = SubResource("SpriteFrames_d4vuw")
 centered = false
 offset = Vector2(0, -47)
@@ -50,14 +50,14 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="."]
+[node name="B2_AudioEmitter" type="AudioStreamPlayer2D" parent="." unique_id=899791864]
 autoplay = true
 bus = &"Audio"
 script = ExtResource("3_2r05b")
 sound = "sn_industrialfan1"
 soundVolume = 0.25
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1016002889]
 wait_time = 5.0
 autostart = true
 

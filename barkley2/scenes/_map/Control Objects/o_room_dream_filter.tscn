@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://drxfl81qdglq8"]
+[gd_scene format=3 uid="uid://drxfl81qdglq8"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.gd" id="1_ptidt"]
+[ext_resource type="Script" uid="uid://d1wuxhaj0b77s" path="res://barkley2/scenes/_map/Control Objects/o_room_dream_filter.gd" id="1_ptidt"]
 [ext_resource type="Texture2D" uid="uid://c7k2wq2nrltgq" path="res://barkley2/assets/b2_original/images/merged/s_goofControl.png" id="2_l17u0"]
 [ext_resource type="Texture2D" uid="uid://bwgoergg2mw33" path="res://barkley2/assets/b2_original/images/merged/s_effect_eye_blink_filler.png" id="3_77bm2"]
 [ext_resource type="Texture2D" uid="uid://sf4hovlo6bou" path="res://barkley2/assets/b2_original/images/merged/s_effect_eye_blink.png" id="4_3ti3h"]
@@ -351,31 +351,29 @@ tracks/13/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ghu70"]
 _data = {
-"RESET": SubResource("Animation_tpgnl"),
-"blink": SubResource("Animation_swfn3")
+&"RESET": SubResource("Animation_tpgnl"),
+&"blink": SubResource("Animation_swfn3")
 }
 
-[node name="o_room_dream_filter" type="CanvasLayer"]
+[node name="o_room_dream_filter" type="CanvasLayer" unique_id=586915993]
 script = ExtResource("1_ptidt")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_ghu70")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=879517488]
+libraries/ = SubResource("AnimationLibrary_ghu70")
 
-[node name="filter_logo" type="Sprite2D" parent="."]
+[node name="filter_logo" type="Sprite2D" parent="." unique_id=424835706]
 position = Vector2(-116, 0)
 texture = ExtResource("2_l17u0")
 centered = false
 
-[node name="eyelid_filler_left" type="Sprite2D" parent="."]
+[node name="eyelid_filler_left" type="Sprite2D" parent="." unique_id=1739713505]
 visible = false
 position = Vector2(1, 120)
 texture = ExtResource("3_77bm2")
 centered = false
 hframes = 2
 
-[node name="eyelid_filler_right" type="Sprite2D" parent="."]
+[node name="eyelid_filler_right" type="Sprite2D" parent="." unique_id=1391641408]
 visible = false
 position = Vector2(351, 56)
 texture = ExtResource("3_77bm2")
@@ -383,19 +381,19 @@ centered = false
 hframes = 2
 frame = 1
 
-[node name="top_eyelid" type="Sprite2D" parent="."]
+[node name="top_eyelid" type="Sprite2D" parent="." unique_id=2033197162]
 visible = false
 position = Vector2(0, 64)
 texture = ExtResource("4_3ti3h")
 centered = false
 hframes = 3
 
-[node name="filler" type="ColorRect" parent="top_eyelid"]
+[node name="filler" type="ColorRect" parent="top_eyelid" unique_id=631461163]
 offset_top = -120.0
 offset_right = 384.0
 color = Color(0, 0, 0, 1)
 
-[node name="botton_eyelid" type="Sprite2D" parent="."]
+[node name="botton_eyelid" type="Sprite2D" parent="." unique_id=1676366610]
 visible = false
 position = Vector2(0, -64)
 texture = ExtResource("4_3ti3h")
@@ -403,31 +401,31 @@ centered = false
 hframes = 3
 frame = 1
 
-[node name="filler" type="ColorRect" parent="botton_eyelid"]
+[node name="filler" type="ColorRect" parent="botton_eyelid" unique_id=1062108534]
 offset_top = 240.0
 offset_right = 384.0
 offset_bottom = 360.0
 color = Color(0, 0, 0, 1)
 
-[node name="dream_filter" type="Sprite2D" parent="."]
+[node name="dream_filter" type="Sprite2D" parent="." unique_id=739131421]
 visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(192, 120)
 texture = ExtResource("5_rtdlw")
 
-[node name="dream_filter2" type="Sprite2D" parent="."]
+[node name="dream_filter2" type="Sprite2D" parent="." unique_id=1317420333]
 visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(192, 120)
 texture = ExtResource("5_rtdlw")
 
-[node name="dream_filter3" type="Sprite2D" parent="."]
+[node name="dream_filter3" type="Sprite2D" parent="." unique_id=1757340261]
 visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(192, 120)
 texture = ExtResource("5_rtdlw")
 
-[node name="dream_filter4" type="Sprite2D" parent="."]
+[node name="dream_filter4" type="Sprite2D" parent="." unique_id=1379945048]
 visible = false
 modulate = Color(0, 0, 0, 1)
 position = Vector2(192, 120)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dthbvjfwhktqf"]
+[gd_scene format=3 uid="uid://dthbvjfwhktqf"]
 
 [ext_resource type="Script" uid="uid://b76c2mdtq6wmb" path="res://barkley2/scenes/Objects/_interactiveActor/_rebelBase/o_gormlaith01.gd" id="1_622id"]
 [ext_resource type="Texture2D" uid="uid://ce1oejgkgp355" path="res://barkley2/assets/b2_original/images/merged/s_gormlaith01.png" id="2_i31hr"]
@@ -314,7 +314,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qswsu"]
 size = Vector2(20, 36)
 
-[node name="o_gormlaith01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_gormlaith01" type="CharacterBody2D" unique_id=1876976048 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_622id")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_ijlqc")
@@ -322,7 +322,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=935802669]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_u40yc")
 animation = &"pause"
@@ -341,15 +341,15 @@ metadata/default = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=287342740]
 position = Vector2(-4, -8)
 shape = SubResource("CircleShape2D_sqbpt")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=870029547]
 position = Vector2(0, -14)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1659812859]
 shape = SubResource("RectangleShape2D_qswsu")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1275515333]
 one_shot = true

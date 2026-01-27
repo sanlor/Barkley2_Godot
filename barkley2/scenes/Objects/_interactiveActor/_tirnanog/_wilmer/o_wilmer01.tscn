@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dxy1w2aee32mc"]
+[gd_scene format=3 uid="uid://dxy1w2aee32mc"]
 
 [ext_resource type="Script" uid="uid://3kjs0g1q5kyr" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_wilmer/o_wilmer_01.gd" id="1_4jxh3"]
 [ext_resource type="Texture2D" uid="uid://b0odb8c8x62uo" path="res://barkley2/assets/b2_original/images/merged/s_wilmerGhost01.png" id="4_fmil3"]
@@ -201,18 +201,18 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y05wj"]
 size = Vector2(39, 43)
 
-[node name="o_wilmer01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_wilmer01" type="CharacterBody2D" unique_id=1504694625 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_4jxh3")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=2106128661]
 shape = SubResource("CircleShape2D_ufntu")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=221596728]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_lbc4v")
 animation = &"snooze"
@@ -275,21 +275,21 @@ metadata/ghost = {
 "yorigin": "41"
 }
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1923785629]
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1071035666]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2057533666]
 position = Vector2(-1.5, -16.5)
 shape = SubResource("RectangleShape2D_y05wj")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
-[node name="snooze_timer" type="Timer" parent="."]
+[node name="snooze_timer" type="Timer" parent="." unique_id=660641809]
 wait_time = 4.0
 one_shot = true
 
-[node name="snooze_origin" type="Marker2D" parent="."]
+[node name="snooze_origin" type="Marker2D" parent="." unique_id=1909757715]
 position = Vector2(-6, -21)
 
 [connection signal="timeout" from="snooze_timer" to="." method="_on_snooze_timer_timeout"]

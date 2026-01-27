@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://1ovtntw854ku"]
+[gd_scene format=3 uid="uid://1ovtntw854ku"]
 
 [ext_resource type="Script" uid="uid://bpghslmqb3bl7" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_turald01.gd" id="1_cro0t"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4v8uc"]
@@ -887,7 +887,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dodg3"]
 size = Vector2(29, 37)
 
-[node name="o_turald01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_turald01" type="CharacterBody2D" unique_id=443137294 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_cro0t")
 mouse_detection_area = NodePath("ActorInteract")
 interactive_distance = 85
@@ -895,7 +895,7 @@ cutscene_script = SubResource("Resource_sx8xe")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=2042275535]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_rino0")
 centered = false
@@ -985,14 +985,14 @@ metadata/pulledLast = {
 "yorigin": "42"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1202946143]
 position = Vector2(-2, -6)
 shape = SubResource("CircleShape2D_bmb7i")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=781726145]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=891821839]
 position = Vector2(-4.5, -12.5)
 shape = SubResource("RectangleShape2D_dodg3")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1414544848]

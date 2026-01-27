@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ckuran6ntn1r1"]
+[gd_scene format=3 uid="uid://ckuran6ntn1r1"]
 
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="1_ljkjq"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="1_v17eb"]
@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="3_5cs2o"]
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="4_ciw2o"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="5_affpk"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_doors/o_doorlight_original.gd" id="7_t317t"]
+[ext_resource type="Script" uid="uid://kqrla5hjxb61" path="res://barkley2/scenes/Objects/_doors/o_doorlight_original.gd" id="7_t317t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c72ah"]
 atlas = ExtResource("5_affpk")
@@ -100,7 +100,7 @@ radius = 64.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnlim"]
 size = Vector2(32, 16)
 
-[node name="o_doorlight" type="AnimatedSprite2D" groups=["delete"]]
+[node name="o_doorlight" type="AnimatedSprite2D" unique_id=1484029388 groups=["delete"]]
 z_index = -10
 sprite_frames = SubResource("SpriteFrames_qubxx")
 animation = &"debug_icons"
@@ -115,22 +115,22 @@ debug_teleport_create_o_hoopz = false
 teleport_destination = "r_invalid_room"
 teleport_create_o_hoopz = false
 
-[node name="light_activation_area" type="Area2D" parent="."]
+[node name="light_activation_area" type="Area2D" parent="." unique_id=486704347]
 position = Vector2(16, 8)
 
-[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area"]
+[node name="light_activation_shape" type="CollisionShape2D" parent="light_activation_area" unique_id=1800015203]
 shape = SubResource("CircleShape2D_x31dv")
 
-[node name="push_area" type="Area2D" parent="."]
+[node name="push_area" type="Area2D" parent="." unique_id=66830852]
 position = Vector2(16, 8)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="push_area" unique_id=382188970]
 shape = SubResource("RectangleShape2D_hnlim")
 
-[node name="teleport_activation_area" type="Area2D" parent="."]
+[node name="teleport_activation_area" type="Area2D" parent="." unique_id=2056124194]
 position = Vector2(16, 24)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teleport_activation_area" unique_id=603998147]
 shape = SubResource("RectangleShape2D_hnlim")
 
 [connection signal="body_entered" from="teleport_activation_area" to="." method="_on_teleport_activation_area_body_entered"]

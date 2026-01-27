@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cq1opf8daykui"]
+[gd_scene format=3 uid="uid://cq1opf8daykui"]
 
 [ext_resource type="Texture2D" uid="uid://defyb60ssev6j" path="res://barkley2/assets/b2_original/images/merged/s_fct_gurney01.png" id="1_22cd7"]
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_gurney01.gd" id="1_vgg46"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3gc2v"]
+[ext_resource type="Script" uid="uid://dibdqbctvhvr7" path="res://barkley2/scenes/Objects/_interactiveActor/_factory/_cafe/o_fct_gurney01.gd" id="1_vgg46"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3gc2v"]
 
 [sub_resource type="Resource" id="Resource_miknh"]
 script = ExtResource("2_3gc2v")
@@ -29,7 +29,7 @@ radius = 19.105
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpxc3"]
 size = Vector2(50, 50)
 
-[node name="o_fct_gurney01" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim")]
+[node name="o_fct_gurney01" type="CharacterBody2D" unique_id=638171844 node_paths=PackedStringArray("ActorAnim")]
 motion_mode = 1
 script = ExtResource("1_vgg46")
 is_interactive = false
@@ -37,7 +37,7 @@ cutscene_script = SubResource("Resource_miknh")
 ActorAnim = NodePath("ActorAnim")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1621571435]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_5wxkt")
 centered = false
@@ -54,11 +54,11 @@ metadata/default = {
 "yorigin": "34"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1964639922]
 shape = SubResource("CircleShape2D_4xp6l")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1930521801]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=736412713]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_vpxc3")

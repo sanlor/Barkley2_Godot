@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ubxvkr2io2ix"]
+[gd_scene format=3 uid="uid://ubxvkr2io2ix"]
 
 [ext_resource type="Script" uid="uid://cq3rcnkbedo8i" path="res://barkley2/scenes/_Godot_Combat/_Guns/o_thrown_object.gd" id="1_7f0d0"]
 [ext_resource type="PackedScene" uid="uid://c54kloot7bcu2" path="res://barkley2/scenes/Objects/System/o_Shadow.tscn" id="2_lvjtv"]
@@ -11,19 +11,19 @@ region = Rect2(0, 144, 49, 24)
 [sub_resource type="CircleShape2D" id="CircleShape2D_uhp8n"]
 radius = 7.0
 
-[node name="o_thrown_object" type="Area2D"]
+[node name="o_thrown_object" type="Area2D" unique_id=692739932]
 collision_layer = 2
 collision_mask = 21
 monitorable = false
 script = ExtResource("1_7f0d0")
 
-[node name="o_Shadow" parent="." instance=ExtResource("2_lvjtv")]
+[node name="o_Shadow" parent="." unique_id=138670850 instance=ExtResource("2_lvjtv")]
 
-[node name="object_sprite" type="Sprite2D" parent="."]
+[node name="object_sprite" type="Sprite2D" parent="." unique_id=2139268254]
 scale = Vector2(0.5, 0.5)
 texture = SubResource("AtlasTexture_nlj4d")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=889534675]
 shape = SubResource("CircleShape2D_uhp8n")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

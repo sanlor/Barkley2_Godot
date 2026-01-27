@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://iam5tx1aqj5b"]
+[gd_scene format=3 uid="uid://iam5tx1aqj5b"]
 
 [ext_resource type="Script" uid="uid://b84at8yhd7k8f" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/o_kelpster01.gd" id="1_c285k"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_ejmeb"]
@@ -228,7 +228,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c4hd1"]
 size = Vector2(20, 36)
 
-[node name="o_kelpster01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_kelpster01" type="CharacterBody2D" unique_id=432527143 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_c285k")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_ky7pc")
@@ -236,10 +236,10 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=1415927846]
 occluder = SubResource("OccluderPolygon2D_quxu4")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1299733406]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0kkv4")
 centered = false
@@ -257,12 +257,12 @@ metadata/default = {
 "yorigin": "32"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=26734274]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_ixip3")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=2087269692]
 position = Vector2(0, -13)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=524875161]
 shape = SubResource("RectangleShape2D_c4hd1")

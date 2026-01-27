@@ -1,23 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://selrjrfve7c1"]
+[gd_scene format=3 uid="uid://selrjrfve7c1"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Player/o_cts_hoopz_diaper.gd" id="1_b2wiy"]
+[ext_resource type="Script" uid="uid://bt46tsisfo23" path="res://barkley2/scenes/Player/o_cts_hoopz_diaper.gd" id="1_b2wiy"]
 [ext_resource type="SpriteFrames" uid="uid://bhqoc1e28686u" path="res://barkley2/scenes/Player/o_cts_hoopz_diaper.tres" id="2_mi34e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoe7m"]
 
-[node name="o_cts_hoopz" type="CharacterBody2D" node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_cts_hoopz" type="CharacterBody2D" unique_id=762349427 node_paths=PackedStringArray("ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_b2wiy")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 disable_auto_flip_h = true
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=132963864]
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=987990237]
 shape = SubResource("CircleShape2D_xoe7m")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=378552669]
 use_parent_material = true
 sprite_frames = ExtResource("2_mi34e")
 animation = &"diaper_surpriseW"

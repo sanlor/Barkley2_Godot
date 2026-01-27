@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ba76j0jvdbu8c"]
+[gd_scene format=3 uid="uid://ba76j0jvdbu8c"]
 
 [ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="1_saogy"]
 [ext_resource type="Script" uid="uid://b37612x8edn4g" path="res://barkley2/scenes/Objects/System/pause_screen.gd" id="2_lnwyh"]
@@ -21,7 +21,7 @@ bg_color = Color(1, 1, 1, 0.2)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_i5jrc"]
 
-[node name="pause_layer" type="Control"]
+[node name="pause_layer" type="Control" unique_id=168369509]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -31,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_lnwyh")
 
-[node name="pause_screen" type="ColorRect" parent="."]
+[node name="pause_screen" type="ColorRect" parent="." unique_id=823652919]
 process_mode = 3
 layout_mode = 1
 anchors_preset = 15
@@ -43,7 +43,7 @@ mouse_filter = 1
 theme = ExtResource("1_saogy")
 color = Color(0, 0, 0, 0.7)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen"]
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen" unique_id=1695941085]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,12 +53,12 @@ grow_vertical = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="resume" type="Button" parent="pause_screen/VBoxContainer"]
+[node name="resume" type="Button" parent="pause_screen/VBoxContainer" unique_id=1374830156]
 z_index = 10
 layout_mode = 2
 text = "Resume Reality"
 
-[node name="button_bg_resume" type="TextureRect" parent="pause_screen/VBoxContainer/resume"]
+[node name="button_bg_resume" type="TextureRect" parent="pause_screen/VBoxContainer/resume" unique_id=2122491633]
 visible = false
 modulate = Color(1, 1, 1, 0.65)
 z_index = -2
@@ -71,12 +71,12 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_48w6a")
 
-[node name="options" type="Button" parent="pause_screen/VBoxContainer"]
+[node name="options" type="Button" parent="pause_screen/VBoxContainer" unique_id=424510212]
 z_index = 10
 layout_mode = 2
 text = "Assume Direct Control"
 
-[node name="button_bg_options" type="TextureRect" parent="pause_screen/VBoxContainer/options"]
+[node name="button_bg_options" type="TextureRect" parent="pause_screen/VBoxContainer/options" unique_id=1626717090]
 visible = false
 modulate = Color(1, 1, 1, 0.65)
 z_index = -2
@@ -89,12 +89,12 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_48w6a")
 
-[node name="exit" type="Button" parent="pause_screen/VBoxContainer"]
+[node name="exit" type="Button" parent="pause_screen/VBoxContainer" unique_id=30757258]
 z_index = 10
 layout_mode = 2
 text = "End The Pain"
 
-[node name="button_bg_exit" type="TextureRect" parent="pause_screen/VBoxContainer/exit"]
+[node name="button_bg_exit" type="TextureRect" parent="pause_screen/VBoxContainer/exit" unique_id=1445748265]
 visible = false
 modulate = Color(1, 1, 1, 0.65)
 z_index = -2
@@ -107,7 +107,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("3_48w6a")
 
-[node name="options_screen" type="Control" parent="pause_screen"]
+[node name="options_screen" type="Control" parent="pause_screen" unique_id=2077590692]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -119,10 +119,10 @@ script = ExtResource("4_r0txh")
 window_size = Vector2(200, 220)
 window_speed = 0.25
 
-[node name="window_update_timer" type="Timer" parent="pause_screen/options_screen"]
+[node name="window_update_timer" type="Timer" parent="pause_screen/options_screen" unique_id=534853683]
 wait_time = 0.02
 
-[node name="options_screen_bg" type="ColorRect" parent="pause_screen/options_screen"]
+[node name="options_screen_bg" type="ColorRect" parent="pause_screen/options_screen" unique_id=875956622]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -137,7 +137,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.749)
 
-[node name="MarginContainer" type="MarginContainer" parent="pause_screen/options_screen/options_screen_bg"]
+[node name="MarginContainer" type="MarginContainer" parent="pause_screen/options_screen/options_screen_bg" unique_id=1286637643]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,25 +149,25 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer" unique_id=793468319]
 layout_mode = 2
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="title_label" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="title_label" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=1344239568]
 layout_mode = 2
 text = "Options"
 label_settings = SubResource("LabelSettings_4y7kd")
 horizontal_alignment = 1
 
-[node name="music_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="music_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=588421999]
 self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Music:"
 vertical_alignment = 1
 
-[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" unique_id=1113103829 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 45.0
 offset_right = 61.0
@@ -178,7 +178,7 @@ text = "<"
 script = ExtResource("5_rige0")
 linked_label = NodePath("..")
 
-[node name="music_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+[node name="music_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" unique_id=2119671266 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 61.0
 offset_right = 166.0
@@ -190,7 +190,7 @@ value = 100.0
 script = ExtResource("7_4y7kd")
 linked_label = NodePath("..")
 
-[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" node_paths=PackedStringArray("linked_label")]
+[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/music_option" unique_id=319365258 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 168.0
 offset_right = 184.0
@@ -201,14 +201,14 @@ text = ">"
 script = ExtResource("5_rige0")
 linked_label = NodePath("..")
 
-[node name="sound_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="sound_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=5596064]
 self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Sound:"
 vertical_alignment = 1
 
-[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+[node name="minus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" unique_id=890338686 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 45.0
 offset_right = 61.0
@@ -219,7 +219,7 @@ text = "<"
 script = ExtResource("5_rige0")
 linked_label = NodePath("..")
 
-[node name="sound_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+[node name="sound_slider" type="HSlider" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" unique_id=1654786522 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 61.0
 offset_right = 166.0
@@ -230,7 +230,7 @@ value = 100.0
 script = ExtResource("7_4y7kd")
 linked_label = NodePath("..")
 
-[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" node_paths=PackedStringArray("linked_label")]
+[node name="plus" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option" unique_id=897580348 node_paths=PackedStringArray("linked_label")]
 layout_mode = 0
 offset_left = 168.0
 offset_right = 184.0
@@ -241,14 +241,14 @@ text = ">"
 script = ExtResource("5_rige0")
 linked_label = NodePath("..")
 
-[node name="filter_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="filter_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=2057856116]
 self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Filter:"
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option"]
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option" unique_id=1158424933]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -261,7 +261,7 @@ offset_bottom = 10.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="crt_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="crt_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" unique_id=19741246 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../none_button")
@@ -274,7 +274,7 @@ text = "CRT"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="bloom_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="bloom_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" unique_id=1677216744 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../crt_button")
@@ -287,7 +287,7 @@ text = "BLOOM"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="none_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="none_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/filter_option/HBoxContainer" unique_id=1471772068 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(45, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../bloom_button")
@@ -301,21 +301,21 @@ text = "NONE"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="fullscreen_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="fullscreen_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=941513857]
 self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Fullscreen:"
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option"]
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option" unique_id=1928386635]
 layout_mode = 0
 offset_left = 78.0
 offset_right = 184.0
 offset_bottom = 40.0
 theme_override_constants/separation = 0
 
-[node name="fullscreen_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="fullscreen_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" unique_id=1815494414 node_paths=PackedStringArray("linked_label")]
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
 theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
@@ -325,7 +325,7 @@ text = "FULLSCREEN"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="window_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="window_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/fullscreen_option/VBoxContainer" unique_id=253457627 node_paths=PackedStringArray("linked_label")]
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
 theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")
@@ -336,20 +336,20 @@ text = "WINDOWED"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="scaling_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="scaling_option" type="Label" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=974046]
 self_modulate = Color(0.6627451, 0.6627451, 0.6627451, 1)
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 text = "Scaling:"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option"]
+[node name="HBoxContainer" type="HBoxContainer" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option" unique_id=633835354]
 layout_mode = 0
 offset_left = 78.0
 offset_top = -5.0
 offset_right = 184.0
 offset_bottom = 15.0
 
-[node name="2x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="2x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" unique_id=1025527698 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(32.9, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../4x_button")
@@ -363,7 +363,7 @@ text = "2x"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="3x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="3x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" unique_id=254788344 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(32.9, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../2x_button")
@@ -376,7 +376,7 @@ text = "3x"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="4x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" node_paths=PackedStringArray("linked_label")]
+[node name="4x_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/scaling_option/HBoxContainer" unique_id=1666213988 node_paths=PackedStringArray("linked_label")]
 custom_minimum_size = Vector2(32.9, 0)
 layout_mode = 2
 focus_neighbor_left = NodePath("../3x_button")
@@ -389,11 +389,11 @@ text = "4x"
 script = ExtResource("5_rige0")
 linked_label = NodePath("../..")
 
-[node name="pad" type="Control" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="pad" type="Control" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=1523642525]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="exit_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer"]
+[node name="exit_button" type="Button" parent="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer" unique_id=823740754]
 layout_mode = 2
 theme_override_styles/hover = SubResource("StyleBoxFlat_pourm")
 theme_override_styles/focus = SubResource("StyleBoxFlat_pourm")

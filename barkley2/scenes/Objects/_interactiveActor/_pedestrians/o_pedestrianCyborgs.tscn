@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bgeriaq8q5hwh"]
+[gd_scene format=3 uid="uid://bgeriaq8q5hwh"]
 
 [ext_resource type="Texture2D" uid="uid://cx6e5gssp0u67" path="res://barkley2/assets/b2_original/images/merged/s_pedestrianLoiterCyborgs.png" id="1_mrjpq"]
 [ext_resource type="Texture2D" uid="uid://2siv56qv56ha" path="res://barkley2/assets/b2_original/images/merged/s_pedestrianLoiterStand.png" id="1_q1sb4"]
@@ -175,7 +175,7 @@ bounce = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_nueek"]
 radius = 8.0
 
-[node name="o_pedestrianCyborgs" type="AnimatedSprite2D"]
+[node name="o_pedestrianCyborgs" type="AnimatedSprite2D" unique_id=1237325495]
 sprite_frames = SubResource("SpriteFrames_cwtei")
 animation = &"cyborg"
 frame = 5
@@ -184,28 +184,28 @@ offset = Vector2(-20, -57)
 script = ExtResource("2_mrjpq")
 is_cyborg = true
 
-[node name="gossip_detection" type="Area2D" parent="."]
+[node name="gossip_detection" type="Area2D" parent="." unique_id=468517574]
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="gossip_detection"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gossip_detection" unique_id=1469055965]
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_6qloa")
 debug_color = Color(0.79, 0.431077, 0.0474, 0.0196078)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=671626734]
 position = Vector2(0, -4)
 physics_material_override = SubResource("PhysicsMaterial_pho6t")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=15816186]
 shape = SubResource("CircleShape2D_nueek")
 debug_color = Color(0.83, 0.249, 0.74285, 0.027451)
 
-[node name="o_Shadow" parent="." instance=ExtResource("3_jdv0m")]
+[node name="o_Shadow" parent="." unique_id=258228091 instance=ExtResource("3_jdv0m")]
 
-[node name="GossipTimer" type="Timer" parent="."]
+[node name="GossipTimer" type="Timer" parent="." unique_id=1890821834]
 one_shot = true
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=792479853]
 position = Vector2(0, -2)
 radius = 5.0
 affect_navigation_mesh = true

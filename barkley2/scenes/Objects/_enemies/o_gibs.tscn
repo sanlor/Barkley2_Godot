@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://cmrcb5f88q7ln"]
+[gd_scene format=3 uid="uid://cmrcb5f88q7ln"]
 
 [ext_resource type="Script" uid="uid://cunoqsqhikrem" path="res://barkley2/scenes/Objects/_enemies/o_gibs.gd" id="1_ujp5s"]
 [ext_resource type="Texture2D" uid="uid://ola3qd4svq40" path="res://barkley2/assets/b2_original/images/merged/s_enemyDeath_parts.png" id="2_utepj"]
@@ -698,20 +698,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_gibs" type="Node2D"]
+[node name="o_gibs" type="Node2D" unique_id=1940155690]
 script = ExtResource("1_ujp5s")
 
-[node name="o_Shadow" parent="." instance=ExtResource("2_ycp8u")]
+[node name="o_Shadow" parent="." unique_id=1566651081 instance=ExtResource("2_ycp8u")]
 scale = Vector2(0.25, 0.125)
 
-[node name="part_sprite" type="AnimatedSprite2D" parent="."]
+[node name="part_sprite" type="AnimatedSprite2D" parent="." unique_id=291742942]
 sprite_frames = SubResource("SpriteFrames_p462t")
 animation = &"s_enemy_rat_bones"
 
-[node name="gib_life_timer" type="Timer" parent="."]
+[node name="gib_life_timer" type="Timer" parent="." unique_id=636683378]
 wait_time = 10.0
 autostart = true
 
-[node name="gib_sfx" type="AudioStreamPlayer2D" parent="."]
+[node name="gib_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1761595308]
 max_distance = 500.0
 bus = &"Audio"

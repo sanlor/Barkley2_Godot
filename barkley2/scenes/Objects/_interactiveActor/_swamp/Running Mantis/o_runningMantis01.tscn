@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bu7akupuv18cr"]
+[gd_scene format=3 uid="uid://bu7akupuv18cr"]
 
 [ext_resource type="Script" uid="uid://e8hxjc7mybtl" path="res://barkley2/scenes/Objects/_interactiveActor/_swamp/Running Mantis/o_running_mantis_01.gd" id="1_vqtja"]
 [ext_resource type="Texture2D" uid="uid://cmhfggpm5edmx" path="res://barkley2/assets/b2_original/images/merged/s_running_mantis.png" id="2_vqtja"]
@@ -283,14 +283,14 @@ radius = 11.1803
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wbvg3"]
 size = Vector2(20, 36)
 
-[node name="o_runningMantis01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_runningMantis01" type="CharacterBody2D" unique_id=1892198073 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_vqtja")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1570392144]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_8rahq")
 animation = &"stand"
@@ -321,13 +321,13 @@ metadata/stand = {
 "yorigin": "50"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1098500340]
 shape = SubResource("CircleShape2D_7d1vo")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=898572856]
 position = Vector2(0, -7)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=633205975]
 shape = SubResource("RectangleShape2D_wbvg3")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=780195200]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://s7vkb38vjeab"]
+[gd_scene format=3 uid="uid://s7vkb38vjeab"]
 
 [ext_resource type="Script" uid="uid://bf8mb35vv7fmb" path="res://barkley2/scenes/Objects/_minigames/Diving/o_mg_diving_danger_explosion.gd" id="1_yywtf"]
 [ext_resource type="Texture2D" uid="uid://dsiueknaqtagf" path="res://barkley2/assets/b2_original/images/merged/s_effect_explo_48.png" id="2_ath27"]
@@ -110,16 +110,16 @@ fill = 1
 fill_from = Vector2(0.4957265, 0.52991456)
 fill_to = Vector2(0, 0)
 
-[node name="o_mg_diving_danger_explosion" type="Area2D"]
+[node name="o_mg_diving_danger_explosion" type="Area2D" unique_id=1219551449]
 script = ExtResource("1_yywtf")
 
-[node name="s_effect_explo_48" type="AnimatedSprite2D" parent="."]
+[node name="s_effect_explo_48" type="AnimatedSprite2D" parent="." unique_id=874244601]
 sprite_frames = SubResource("SpriteFrames_wmwqn")
 autoplay = "default"
 frame = 11
 frame_progress = 1.0
 
-[node name="o_mg_diving_spawn_bubbles" parent="." instance=ExtResource("3_61dvn")]
+[node name="o_mg_diving_spawn_bubbles" parent="." unique_id=1037756449 instance=ExtResource("3_61dvn")]
 emitting = false
 amount = 128
 lifetime = 1.5
@@ -128,15 +128,15 @@ explosiveness = 1.0
 process_material = ExtResource("4_tdgu8")
 script = null
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1585747468]
 shape = SubResource("CircleShape2D_1cfqx")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1082699684]
 energy = 5.0
 texture = SubResource("GradientTexture2D_ath27")
 texture_scale = 4.0
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=509398132]
 max_distance = 400.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

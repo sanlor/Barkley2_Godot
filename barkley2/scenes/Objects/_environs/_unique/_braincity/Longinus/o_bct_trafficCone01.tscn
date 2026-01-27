@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bp50lh8v15d2e"]
+[gd_scene format=3 uid="uid://bp50lh8v15d2e"]
 
 [ext_resource type="Texture2D" uid="uid://du2mdhdsn5xuc" path="res://barkley2/assets/b2_original/images/merged/s_bct_trafficCone01.png" id="1_yfepm"]
 [ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_cncd0"]
@@ -22,7 +22,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_l1rra"]
 radius = 8.0
 
-[node name="o_bct_trafficCone01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+[node name="o_bct_trafficCone01" type="AnimatedSprite2D" unique_id=218465058 node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_8wbjw")
 centered = false
 offset = Vector2(-15, -21)
@@ -40,13 +40,12 @@ metadata/default = {
 "yorigin": "21"
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1179320149]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1671547803]
 position = Vector2(1, -1)
 shape = SubResource("CircleShape2D_l1rra")
 
-[node name="o_Shadow" parent="." instance=ExtResource("3_cncd0")]
-z_index = -1
+[node name="o_Shadow" parent="." unique_id=547003001 instance=ExtResource("3_cncd0")]
 position = Vector2(1, 1)
 scale = Vector2(0.3, 0.15)

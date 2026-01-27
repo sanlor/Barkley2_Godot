@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://xs8wmu8s3bh6"]
+[gd_scene format=3 uid="uid://xs8wmu8s3bh6"]
 
 [ext_resource type="Script" uid="uid://bdy0qugaop5r5" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_lafferty01.gd" id="1_7rt47"]
 [ext_resource type="Texture2D" uid="uid://c3nc53v8x7tyd" path="res://barkley2/assets/b2_original/images/merged/s_lafferty01.png" id="1_8tmy5"]
@@ -288,7 +288,7 @@ radius = 9.23099
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5dx0g"]
 size = Vector2(20, 36)
 
-[node name="o_lafferty01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
+[node name="o_lafferty01" type="CharacterBody2D" unique_id=948403755 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_7rt47")
 duergar_name = "lafferty"
 mouse_detection_area = NodePath("ActorInteract")
@@ -296,9 +296,9 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=236066189]
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1014982472]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ajo0p")
 centered = false
@@ -388,16 +388,16 @@ metadata/s_laffertySE = {
 "yorigin": "33"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1934669033]
 shape = SubResource("CircleShape2D_uhag4")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1543269769]
 position = Vector2(0, -11)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1496248040]
 shape = SubResource("RectangleShape2D_5dx0g")
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=534535231]
 z_index = 4000
 script = ExtResource("6_j0ic6")
 notes = "Usual Duergar stuff and Mortgage"

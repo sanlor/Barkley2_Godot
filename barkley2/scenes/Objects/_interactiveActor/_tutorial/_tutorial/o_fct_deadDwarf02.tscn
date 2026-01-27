@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3pbu6hnh6au4"]
+[gd_scene format=3 uid="uid://b3pbu6hnh6au4"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_dead_dwarf.gd" id="1_uwjiw"]
+[ext_resource type="Script" uid="uid://c2w721dh526b8" path="res://barkley2/scenes/Objects/_interactiveActor/_tutorial/_tutorial/o_fct_dead_dwarf.gd" id="1_uwjiw"]
 [ext_resource type="Texture2D" uid="uid://douhorufklcxy" path="res://barkley2/assets/b2_original/images/merged/s_fct_deadDwarf02.png" id="4_4a7a5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_px117"]
@@ -24,22 +24,22 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="o_fct_deadDwarf02" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_fct_deadDwarf02" type="CharacterBody2D" unique_id=2045114028 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_uwjiw")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1535651446]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=5866905]
 shape = SubResource("RectangleShape2D_px117")
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=776611981]
 shape = SubResource("CircleShape2D_my8nk")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1559654634]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_ud35p")
 centered = false

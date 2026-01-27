@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://0ko8dmrlobil"]
+[gd_scene format=3 uid="uid://0ko8dmrlobil"]
 
 [ext_resource type="Texture2D" uid="uid://c572ng2aljb4j" path="res://barkley2/assets/b2_original/images/merged/s_drum_open01.png" id="1_ijqhd"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_y4w6h"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_y4w6h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
 atlas = ExtResource("1_ijqhd")
@@ -28,13 +28,14 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_msd8c"]
 radius = 7.0
 
-[node name="o_drum_open01" type="AnimatedSprite2D"]
+[node name="o_drum_open01" type="AnimatedSprite2D" unique_id=1402338826]
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 1
 centered = false
 offset = Vector2(-8, -22)
 script = ExtResource("2_y4w6h")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=805977346]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=647368560]
 shape = SubResource("CircleShape2D_msd8c")

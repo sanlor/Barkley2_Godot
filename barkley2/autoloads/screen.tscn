@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dtxtruoc1y3ha"]
+[gd_scene format=3 uid="uid://dtxtruoc1y3ha"]
 
 [ext_resource type="Script" uid="uid://dthcqotji4v3a" path="res://barkley2/autoloads/screen.gd" id="1_6uogh"]
 [ext_resource type="Texture2D" uid="uid://dbmn754wm5tb7" path="res://barkley2/assets/cursor/s_curs_gunmode_0.png" id="2_kjkhy"]
@@ -112,14 +112,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="screen_stuff" type="CanvasLayer"]
+[node name="screen_stuff" type="CanvasLayer" unique_id=1643641329]
 process_mode = 3
 layer = 10
 script = ExtResource("1_6uogh")
 
-[node name="o_hud" parent="." instance=ExtResource("2_xop2e")]
+[node name="o_hud" parent="." unique_id=1889098828 instance=ExtResource("2_xop2e")]
 
-[node name="shaders" type="Control" parent="."]
+[node name="shaders" type="Control" parent="." unique_id=1746668010]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -128,7 +128,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="shader_canvas" type="ColorRect" parent="shaders"]
+[node name="shader_canvas" type="ColorRect" parent="shaders" unique_id=2128149671]
 visible = false
 material = SubResource("ShaderMaterial_5b5c4")
 layout_mode = 1
@@ -139,7 +139,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ff_shader" type="ColorRect" parent="shaders"]
+[node name="ff_shader" type="ColorRect" parent="shaders" unique_id=1187297098]
 visible = false
 material = SubResource("ShaderMaterial_4g7jd")
 layout_mode = 1
@@ -150,14 +150,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="trail" type="Line2D" parent="."]
+[node name="trail" type="Line2D" parent="." unique_id=1992146915]
 top_level = true
 z_index = 4096
 width = 6.0
 width_curve = SubResource("Curve_i28ai")
 gradient = SubResource("Gradient_fnaht")
 
-[node name="mouse" type="AnimatedSprite2D" parent="."]
+[node name="mouse" type="AnimatedSprite2D" parent="." unique_id=521845391]
 z_index = 4096
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_3xx3n")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bon7jbw3v5c2p"]
+[gd_scene format=3 uid="uid://bon7jbw3v5c2p"]
 
 [ext_resource type="Script" uid="uid://c7wvtd1a2c1kl" path="res://barkley2/scenes/Objects/_enemies/Destructibles/o_woodBarrel.gd" id="1_gf45x"]
 [ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="2_b33hw"]
@@ -130,7 +130,7 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e26sp"]
 
-[node name="o_woodBarrel" type="RigidBody2D" node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
+[node name="o_woodBarrel" type="RigidBody2D" unique_id=1968605158 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol")]
 mass = 300.0
 physics_material_override = SubResource("PhysicsMaterial_eva7e")
 gravity_scale = 0.0
@@ -152,26 +152,25 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("")
 
-[node name="B2_AI_Dummy" type="Node2D" parent="."]
+[node name="B2_AI_Dummy" type="Node2D" parent="." unique_id=341771041]
 script = ExtResource("3_ktpca")
 metadata/_custom_type_script = "uid://c37s6nxxyegmw"
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=21427686]
 sprite_frames = SubResource("SpriteFrames_eweig")
 centered = false
 offset = Vector2(-21, -38)
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1239902482]
 position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_e26sp")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=864721012]
 
-[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1586404801]
 
-[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="."]
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=141228315]
 position = Vector2(0, -3.29898)
 emitting = false
 amount = 32

@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bji5q0ktyammi"]
+[gd_scene format=3 uid="uid://bji5q0ktyammi"]
 
 [ext_resource type="Texture2D" uid="uid://ncnhbs2bmqni" path="res://barkley2/assets/b2_original/images/merged/s_table_circle_setting01.png" id="1_eqm51"]
-[ext_resource type="Script" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_04g0s"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_04g0s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nhnlf"]
 atlas = ExtResource("1_eqm51")
@@ -21,13 +21,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_dg4m8"]
 radius = 21.0238
 
-[node name="o_table_circle_setting01" type="AnimatedSprite2D" node_paths=PackedStringArray("EnvCol")]
+[node name="o_table_circle_setting01" type="AnimatedSprite2D" unique_id=257553036 node_paths=PackedStringArray("EnvCol")]
 sprite_frames = SubResource("SpriteFrames_yfmtm")
 centered = false
 offset = Vector2(0, -45)
 script = ExtResource("2_04g0s")
 EnvCol = NodePath("StaticBody2D")
-shape = 1
 metadata/default = {
 "bbox_bottom": "42",
 "bbox_left": "16",
@@ -40,9 +39,9 @@ metadata/default = {
 "yorigin": "45"
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=363620427]
 position = Vector2(29, -23)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1465595589]
 position = Vector2(-1, 2)
 shape = SubResource("CircleShape2D_dg4m8")

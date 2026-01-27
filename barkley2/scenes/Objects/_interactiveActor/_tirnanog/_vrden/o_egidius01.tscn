@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://bea7oxayjixxg"]
+[gd_scene format=3 uid="uid://bea7oxayjixxg"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_egidius01.gd" id="1_p28dd"]
+[ext_resource type="Script" uid="uid://crw71qb68yaxu" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_egidius01.gd" id="1_p28dd"]
 [ext_resource type="Texture2D" uid="uid://o550otax6ree" path="res://barkley2/assets/b2_original/images/merged/s_egidius_table01.png" id="2_c5vw0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3ey0"]
@@ -108,13 +108,13 @@ size = Vector2(63, 25)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvqf8"]
 size = Vector2(64, 52)
 
-[node name="o_egidius01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_egidius01" type="CharacterBody2D" unique_id=79376006 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_p28dd")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1598235954]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_dspky")
 centered = false
@@ -132,16 +132,16 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1369373218]
 position = Vector2(-0.5, -4.5)
 shape = SubResource("RectangleShape2D_kjj4k")
 debug_color = Color(0, 0.61, 0.599833, 0.658824)
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1563887425]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=878060986]
 position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_xvqf8")
 debug_color = Color(0.634872, 0.497067, 0.487628, 0.42)
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1683539465]

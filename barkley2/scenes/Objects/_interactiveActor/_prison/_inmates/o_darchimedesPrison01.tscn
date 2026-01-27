@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cxp8egrmyxhht"]
+[gd_scene format=3 uid="uid://cxp8egrmyxhht"]
 
 [ext_resource type="Script" uid="uid://cg2mhwx4ekc4p" path="res://barkley2/scenes/Objects/_interactiveActor/_prison/_inmates/o_darchimedesPrison01.gd" id="1_uqkcl"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_brvy2"]
@@ -471,7 +471,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0ufl"]
 size = Vector2(20, 36)
 
-[node name="o_darchimedesPrison01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_darchimedesPrison01" type="CharacterBody2D" unique_id=278695747 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_uqkcl")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_era7l")
@@ -479,7 +479,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1908903614]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_era7l")
 autoplay = "shankStart"
@@ -498,12 +498,12 @@ metadata/default = {
 "yorigin": "38"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=719618170]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_36hur")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1496204475]
 position = Vector2(0, -16)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=585516170]
 shape = SubResource("RectangleShape2D_r0ufl")

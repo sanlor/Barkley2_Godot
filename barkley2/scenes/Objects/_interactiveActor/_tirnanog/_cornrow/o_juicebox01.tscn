@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://biu2ajddy5x5d"]
+[gd_scene format=3 uid="uid://biu2ajddy5x5d"]
 
-[ext_resource type="Script" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_juicebox01.gd" id="1_5rqgb"]
+[ext_resource type="Script" uid="uid://bm5u6o3v5wcxh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_juicebox01.gd" id="1_5rqgb"]
 [ext_resource type="Texture2D" uid="uid://w63v7ulmc863" path="res://barkley2/assets/b2_original/images/merged/s_juicebox01.png" id="2_xlsi2"]
 [ext_resource type="AudioStream" uid="uid://mvtkrhnl7n5j" path="res://barkley2/assets/b2_original/audio/NPC/sn_juicebox_coinflip.ogg" id="3_yiict"]
 
@@ -102,13 +102,13 @@ radius = 8.27606
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r7ntr"]
 size = Vector2(20, 36)
 
-[node name="o_juicebox01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_juicebox01" type="CharacterBody2D" unique_id=355289357 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_5rqgb")
 mouse_detection_area = NodePath("ActorInteract")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1063671334]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0yb4q")
 centered = false
@@ -126,20 +126,20 @@ metadata/default = {
 "yorigin": "41"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1682409889]
 shape = SubResource("CircleShape2D_lbngu")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=61729180]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=137778550]
 shape = SubResource("RectangleShape2D_r7ntr")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=720825996]
 
-[node name="JuiceCoinToss" type="AudioStreamPlayer2D" parent="."]
+[node name="JuiceCoinToss" type="AudioStreamPlayer2D" parent="." unique_id=787469742]
 stream = ExtResource("3_yiict")
 bus = &"Audio"
 
-[node name="JuiceTimer" type="Timer" parent="."]
+[node name="JuiceTimer" type="Timer" parent="." unique_id=1224138045]
 
 [connection signal="timeout" from="JuiceTimer" to="." method="_on_juice_timer_timeout"]

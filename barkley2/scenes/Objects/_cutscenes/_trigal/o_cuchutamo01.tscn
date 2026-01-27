@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://vxi1ah884s7t"]
+[gd_scene format=3 uid="uid://vxi1ah884s7t"]
 
 [ext_resource type="Script" uid="uid://4prv2uxuucyu" path="res://barkley2/scenes/Objects/_cutscenes/_trigal/o_cuchutamo_01.gd" id="1_ri0vl"]
 [ext_resource type="Texture2D" uid="uid://dt17ee6ikltar" path="res://barkley2/assets/b2_original/images/merged/s_cuchutamo_cast01.png" id="2_kyo0b"]
@@ -230,7 +230,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uluvt"]
 size = Vector2(20, 36)
 
-[node name="o_cuchutamo01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_cuchutamo01" type="CharacterBody2D" unique_id=789566333 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 material = ExtResource("2_uf7hu")
 script = ExtResource("1_ri0vl")
 mouse_detection_area = NodePath("ActorInteract")
@@ -241,10 +241,10 @@ ActorCol = NodePath("ActorCol")
 can_move_around = false
 _automatic_animation = true
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=255470607]
 shape = SubResource("RectangleShape2D_f8l8h")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=122382687]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0s61e")
 frame_progress = 0.199343
@@ -295,9 +295,9 @@ metadata/cast = {
 "yorigin": "23"
 }
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=746547182]
 monitoring = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=2036231463]
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_uluvt")

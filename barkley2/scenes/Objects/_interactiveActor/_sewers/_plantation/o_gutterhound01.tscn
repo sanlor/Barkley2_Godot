@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://0se1amggwmco"]
+[gd_scene format=3 uid="uid://0se1amggwmco"]
 
 [ext_resource type="Script" uid="uid://byw4hcwqh10pj" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/o_gutterhound01.gd" id="1_xpm3l"]
 [ext_resource type="Texture2D" uid="uid://day3cm6fdda8o" path="res://barkley2/assets/b2_original/images/merged/s_gutterhound01.png" id="2_1grvf"]
@@ -284,14 +284,14 @@ radius = 13.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f1urj"]
 size = Vector2(60, 42)
 
-[node name="o_gutterhound01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_gutterhound01" type="CharacterBody2D" unique_id=9394490 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_xpm3l")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_hugp2")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=131755195]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_msrxs")
 centered = false
@@ -309,19 +309,19 @@ metadata/default = {
 "yorigin": "47"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=975713174]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_1suvk")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1250509332]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1959579771]
 position = Vector2(8, -16)
 shape = SubResource("RectangleShape2D_f1urj")
 
-[node name="ActorNav" type="NavigationAgent2D" parent="."]
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1443403194]
 
-[node name="B2_PendingWork" type="Node2D" parent="."]
+[node name="B2_PendingWork" type="Node2D" parent="." unique_id=1608222589]
 z_index = 4000
 script = ExtResource("4_4gfh8")
 title_color = Color(1, 0.47079715, 0, 1)

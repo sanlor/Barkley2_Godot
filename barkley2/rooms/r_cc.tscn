@@ -1,6 +1,6 @@
-[gd_scene load_steps=30 format=3 uid="uid://chautipuptxsr"]
+[gd_scene format=3 uid="uid://chautipuptxsr"]
 
-[ext_resource type="Script" path="res://barkley2/rooms/r_cc.gd" id="1_p1egg"]
+[ext_resource type="Script" uid="uid://r2qiv0vsr5bi" path="res://barkley2/rooms/r_cc.gd" id="1_p1egg"]
 [ext_resource type="Texture2D" uid="uid://co16r0idpm456" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_0.png" id="2_w2hsl"]
 [ext_resource type="Texture2D" uid="uid://dgcwh0q0qhpbo" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_1.png" id="3_n05hd"]
 [ext_resource type="Texture2D" uid="uid://cil7i7fabngg7" path="res://barkley2/assets/b2_original/images/cc/s_cc_wizard_base_2.png" id="4_danrs"]
@@ -77,8 +77,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8q3bw"]
 _data = {
-"RESET": SubResource("Animation_udt4g"),
-"wizard_intro": SubResource("Animation_ug17v")
+&"RESET": SubResource("Animation_udt4g"),
+&"wizard_intro": SubResource("Animation_ug17v")
 }
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_j2u3l"]
@@ -155,7 +155,7 @@ colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0.811765, 0.811765, 0.811765, 
 gradient = SubResource("Gradient_abx13")
 
 [sub_resource type="Curve" id="Curve_ixo6u"]
-max_value = 3.0
+_limits = [0.0, 3.0, 0.0, 1.0]
 _data = [Vector2(0, 0.462518), 0.0, 0.0, 0, 0, Vector2(1, 2.97242), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -171,7 +171,7 @@ gravity = Vector3(0, -3, 0)
 scale_curve = SubResource("CurveTexture_7pj5b")
 color_ramp = SubResource("GradientTexture1D_dpijd")
 
-[node name="r_cc" type="Control"]
+[node name="r_cc" type="Control" unique_id=592226047]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -180,34 +180,32 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_p1egg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_8q3bw")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=396496507]
+libraries/ = SubResource("AnimationLibrary_8q3bw")
 
-[node name="cc_wizard_base" type="AnimatedSprite2D" parent="."]
+[node name="cc_wizard_base" type="AnimatedSprite2D" parent="." unique_id=579859960]
 sprite_frames = SubResource("SpriteFrames_j2u3l")
 offset = Vector2(192, 120)
 
-[node name="cc_wizard_emote" type="AnimatedSprite2D" parent="."]
+[node name="cc_wizard_emote" type="AnimatedSprite2D" parent="." unique_id=1780715371]
 visible = false
 position = Vector2(193, 77)
 sprite_frames = SubResource("SpriteFrames_wkbug")
 
-[node name="cc_wizard_talk" type="AnimatedSprite2D" parent="."]
+[node name="cc_wizard_talk" type="AnimatedSprite2D" parent="." unique_id=1466591193]
 visible = false
 position = Vector2(193, 93)
 sprite_frames = SubResource("SpriteFrames_lo7fh")
 
-[node name="cc_effect_crystal" type="GPUParticles2D" parent="."]
+[node name="cc_effect_crystal" type="GPUParticles2D" parent="." unique_id=330708337]
 modulate = Color(1, 1, 1, 0.25)
 position = Vector2(194, 190)
-process_material = SubResource("ParticleProcessMaterial_ummrq")
 texture = ExtResource("16_pogbg")
 lifetime = 3.0
 speed_scale = 0.5
+process_material = SubResource("ParticleProcessMaterial_ummrq")
 
-[node name="cc_textbox" parent="." node_paths=PackedStringArray("wizard_cc") instance=ExtResource("17_vgl63")]
+[node name="cc_textbox" parent="." unique_id=1564241236 node_paths=PackedStringArray("wizard_cc") instance=ExtResource("17_vgl63")]
 layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0
@@ -223,7 +221,7 @@ grow_vertical = 1
 mouse_filter = 2
 wizard_cc = NodePath("..")
 
-[node name="fade_texture" type="ColorRect" parent="."]
+[node name="fade_texture" type="ColorRect" parent="." unique_id=1907134111]
 visible = false
 z_index = 100
 layout_mode = 1
@@ -235,7 +233,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="cc_finish_message" type="Label" parent="."]
+[node name="cc_finish_message" type="Label" parent="." unique_id=1447517607]
 visible = false
 z_index = 100
 layout_mode = 1

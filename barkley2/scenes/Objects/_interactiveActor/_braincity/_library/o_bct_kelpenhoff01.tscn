@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cokd26wt1rgv8"]
+[gd_scene format=3 uid="uid://cokd26wt1rgv8"]
 
 [ext_resource type="Script" uid="uid://b0b8u2lmfunsy" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_library/o_bct_kelpenhoff01.gd" id="1_8gvt1"]
 [ext_resource type="Texture2D" uid="uid://cjbjqc8lknl0h" path="res://barkley2/assets/b2_original/images/merged/s_bct_kelpenhoff01.png" id="2_2cdq8"]
@@ -56,7 +56,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rt10j"]
 size = Vector2(38, 48)
 
-[node name="o_bct_kelpenhoff01" type="CharacterBody2D" node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+[node name="o_bct_kelpenhoff01" type="CharacterBody2D" unique_id=803039818 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_8gvt1")
 mouse_detection_area = NodePath("ActorInteract")
 cutscene_script = SubResource("Resource_0vtpc")
@@ -64,7 +64,7 @@ ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false
 
-[node name="ActorAnim" type="AnimatedSprite2D" parent="."]
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=170541163]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_0vtpc")
 centered = false
@@ -82,13 +82,13 @@ metadata/default = {
 "yorigin": "44"
 }
 
-[node name="ActorCol" type="CollisionShape2D" parent="."]
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=778124548]
 position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_rt10j")
 
-[node name="ActorInteract" type="Area2D" parent="."]
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1625491263]
 position = Vector2(0, -26)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1938530824]
 position = Vector2(-2, 6)
 shape = SubResource("RectangleShape2D_rt10j")
