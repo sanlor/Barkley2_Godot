@@ -974,10 +974,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"UTILITYSTATION":
 					print_rich("[color=pink]Utility Station initiated.[/color]")
 					
-					var utility := UTILITYSTATION_SCREEN.instantiate()
-					get_tree().current_scene.add_child( utility )
-					await utility.unpluged_from_station
-					
+					B2_Screen.show_utility_screen()
+					await B2_SignalBus.unpluged_from_station
 					
 				"Destroy":
 					# Remove actor. simple.

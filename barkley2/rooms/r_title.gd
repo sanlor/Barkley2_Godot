@@ -193,12 +193,10 @@ func _ready():
 	
 	## Decorations
 	# Barkley logo
-	#draw_sprite(s_jankyDemo01, 0, SCREEN_WIDTH/1.5, SCREEN_HEIGHT/2 - 20);
 	s_janky_demo_01.global_position = Vector2(get_viewport_rect().end.x / 1.5, get_viewport_rect().end.y /2 - 20) - (s_janky_demo_01.size / 2)
 	s_janky_demo_01.visible = show_janky_logo ## Hide the logo if you want.
 	
 	## Create Panels / Borders
-	# Border("generate", 0, 100 + 16, 60 + 16 - 1); // Title Box
 	title_panel.set_panel_size( 100 + 16, 60 + 16 - 1 )
 	title_panel.global_position = Vector2( title_x - 8, title_y - 15 )
 	for i in range( title_buttons.size() ): # Set the button positions
@@ -209,6 +207,9 @@ func _ready():
 	
 	## Set game version.
 	game_version_lbl.text = str( ProjectSettings.get_setting("application/config/version") )
+	
+	## Load finished, emit signal
+	B2_SignalBus.title_screen_loaded.emit()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventJoypadButton or event is InputEventKey:

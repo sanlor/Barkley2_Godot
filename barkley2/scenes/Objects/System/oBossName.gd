@@ -1,5 +1,5 @@
-extends CanvasLayer
-
+@icon("uid://bku22hq88cmu2")
+extends Control
 @onready var zone_container: 	PanelContainer = $boss_name/zone_container
 @onready var zone_label: 		Label = $boss_name/zone_container/zone_label
 @onready var bossname_label: 	Label = $boss_name/bossname_label

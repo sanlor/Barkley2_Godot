@@ -46,7 +46,7 @@ var title_screen_file := "res://barkley2/rooms/r_title.tscn"
 
 @onready var mouse 			:= $mouse
 @onready var trail 			:= $trail
-@onready var o_hud: B2_Hud = $o_hud
+@onready var o_hud			: B2_Hud = $o_hud
 
 var max_trail 		:= 6 # 3 is pretty cool
 var mouse_offset 	:= Vector2.ZERO
@@ -87,22 +87,33 @@ func _ready() -> void:
 	set_cursor_type( TYPE.POINT )
 	B2_Config.title_screen_loaded.connect( _reset_data )
 	B2_Input.input_changed.connect( change_input_mouse )
-	
+	B2_SignalBus.title_screen_loaded.connect( _hide_all_menus )
 	assert( is_instance_valid(o_hud), "'o_hub' not loaded.")
 
-func show_hud() -> void:
+# Check for all open menus, close all of them
+func _hide_all_menus() -> void:
+	if is_map_open: 		hide_map_screen()
+	if is_notes_open: 		hide_note_screen()
+	if is_paused: 			hide_pause_menu()
+	if is_shop_open:		hide_shop_screen()
+	if is_utility_open:		breakpoint
+	if is_quickmenu_open: 	hide_quickmenu_screen()
+
+func show_hud( instant := false ) -> void:
 	if not is_node_ready(): push_warning("'o_hud' not ready yet"); await ready
 	await get_tree().process_frame
-	o_hud.show_hud()
+	o_hud.show_hud(instant)
 	
-func hide_hud() -> void:
+func hide_hud( instant := false ) -> void:
 	if not is_node_ready(): push_warning("'o_hud' not ready yet"); await ready
 	await get_tree().process_frame
-	o_hud.hide_hud()
+	o_hud.hide_hud(instant)
 	
+# Return the o_hud object
 func get_hud() -> B2_Hud:
 	return o_hud
 
+## Reset them vars
 func _reset_data():
 	pause_screen 		= null
 	can_pause 			= false
@@ -116,7 +127,14 @@ func _reset_data():
 
 	quickmenu_screen 	= null
 	is_quickmenu_open 	= false
+	
+	shop_screen			= null
+	is_shop_open		= false
+	
+	utility_screen		= null
+	is_utility_open		= false
 
+# When using a gamepad, hide the mouse cursor.
 func change_input_mouse( control_type : B2_Input.CONTROL ) -> void:
 	if B2_Input.CONTROL.GAMEPAD == control_type:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -125,6 +143,7 @@ func change_input_mouse( control_type : B2_Input.CONTROL ) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		mouse.show()
 
+# Change the cursor type
 func set_cursor_type( type : TYPE) -> void:
 	mouse.stop()
 	match type:
@@ -169,19 +188,25 @@ func set_cursor_type( type : TYPE) -> void:
 	curr_TYPE = type
 	mouse.modulate.a = 1.0
 			
+# Used when shooting
 func pulse_cursor() -> void:
 	if curr_TYPE == TYPE.BULLS:
 		mouse.play_backwards("bulls")
 
+# Easy (and messy) way to check if any menu is currently open.
 func is_any_menu_open() -> bool:
-	return B2_Screen.is_map_open or B2_Screen.is_notes_open or B2_Screen.is_shop_open or B2_Screen.is_quickmenu_open
+	return B2_Screen.is_map_open or B2_Screen.is_notes_open \
+	or B2_Screen.is_shop_open or B2_Screen.is_quickmenu_open \
+	or B2_Screen.is_utility_open or B2_Screen.is_paused
 
+# Make a temp label to say something
 func display_generic_text( caller_node : Node, text : String, color : Color, linger_time := 2.0, force := 50.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
 	d.setup(caller_node, text, linger_time, force)
 	d.modulate = color
 	caller_node.add_sibling(d)
 
+# Make a temp label to say how much damage was applied
 func display_damage_number( caller_node : Node, damage, color := Color.WHITE, linger_time := 2.0, force := 50.0 ) -> void:
 	var d = DAMAGE_NUMBER.instantiate()
 	d.setup(caller_node, damage, linger_time, force)
@@ -215,6 +240,7 @@ func show_skill_name( skill_name : String ) -> void:
 	add_child( skill, true )
 	skill.set_skill_name( skill_name )
 
+# Used for V.R. Missions
 func show_mission_complete_screen() -> void:
 	var mission := MISSION_COMPLETE.instantiate()
 	add_child( mission, true )
@@ -222,6 +248,7 @@ func show_mission_complete_screen() -> void:
 	await mission.animation_finished
 	B2_Input.player_has_control = true
 
+## Notifies when you get something new. Used for cinema scripts.
 func show_notify_screen( text : String ) -> void:
 	var notice = NOTIFY_ITEM.instantiate()
 	#get_tree().current_scene.add_child( notice, true )
@@ -285,6 +312,7 @@ func make_blood_drop( pos : Vector2, amount : int, color := Color.RED, velocity_
 		#for ii in randi_range(0,5): ## Random delay.
 		#	await get_tree().process_frame
 
+# Make the cursor trail.
 func _physics_process(_delta: float) -> void:
 	if trail.is_inside_tree():
 		trail.modulate.a = mouse.modulate.a
@@ -292,6 +320,7 @@ func _physics_process(_delta: float) -> void:
 		if trail.get_point_count() > max_trail:
 			trail.remove_point( 0 )
 			
+## Move the cursor around and listen for inputs.
 func _process(_delta: float) -> void:
 	## Mouse stuff
 	mouse.position = get_viewport().get_mouse_position().round() + mouse_offset
@@ -464,6 +493,24 @@ func hide_note_screen() -> void:
 		if is_instance_valid(B2_CManager.o_hud):
 			B2_CManager.o_hud.show_hud()
 
+func show_utility_screen() -> void:
+	if is_instance_valid(utility_screen):
+		utility_screen.queue_free()
+	is_utility_open = true
+	utility_screen = UTILITYSTATION_SCREEN.instantiate()
+	add_child.call_deferred(utility_screen, true)
+	B2_Music.volume_menu()
+
+func hide_utility_screen() -> void:
+	if is_instance_valid(utility_screen): # Debug errors
+		utility_screen.queue_free()
+	is_utility_open = false
+	B2_Music.volume_menu()
+	
+	if not B2_Input.cutscene_is_playing:
+		if is_instance_valid(B2_CManager.o_hud):
+			B2_CManager.o_hud.show_hud()
+
 ## Quick Menu
 func show_quickmenu_screen() -> void:
 	is_quickmenu_open = true
@@ -490,6 +537,11 @@ func hide_quickmenu_screen( unpause := false ) -> void:
 func return_to_title():
 	if B2_Playerdata.record_curr_location():
 		B2_Playerdata.SaveGame() ## Do the saving bit.
+	
+	## UI fixes.
+	hide_pause_menu()
+	hide_hud( true )
+	await get_tree().process_frame
 	
 	B2_Sound.stop_loop()
 	get_tree().change_scene_to_file( title_screen_file )

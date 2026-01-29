@@ -238,7 +238,6 @@ fractal_gain = 100.0
 font = ExtResource("9_rf8p1")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_82xl0"]
-viewport_path = NodePath("frame/main_info_panel/trans/trans/SubViewport")
 
 [sub_resource type="LabelSettings" id="LabelSettings_xscvq"]
 font = ExtResource("10_rf8p1")
@@ -457,12 +456,18 @@ region = Rect2(0, 0, 24, 24)
 [sub_resource type="LabelSettings" id="LabelSettings_wwfm3"]
 font = ExtResource("6_inixc")
 
-[node name="utilitystation_screen" type="CanvasLayer" unique_id=526962800]
+[node name="utilitystation_screen" type="Control" unique_id=173808904]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_6lm85")
 
 [node name="bg" type="Control" parent="." unique_id=1779003366]
 z_index = -999
-layout_mode = 3
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -474,6 +479,7 @@ move_dir = Vector2(-1, -1)
 move_speed = 5.0
 
 [node name="frame" type="TextureRect" parent="." unique_id=1422638948]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -5557,10 +5563,10 @@ autowrap_mode = 1
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_acro_btn" to="frame/brain_vidcon_levelup_panel" method="_on_brain_levelup_acro_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_might_btn" to="frame/brain_vidcon_levelup_panel" method="_on_brain_levelup_might_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_piety_btn" to="frame/brain_vidcon_levelup_panel" method="_on_brain_levelup_piety_btn_pressed"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_confirm_btn" to="." method="_on_brain_levelup_confirm_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_confirm_btn" to="frame/brain_vidcon_levelup_panel" method="_on_brain_levelup_confirm_btn_pressed"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_confirm_btn" to="." method="_on_brain_levelup_confirm_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="frame/equipment_panel" method="_on_equip_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_btn" to="." method="_on_equip_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_helmet_btn" to="frame/equipment_panel" method="_on_equip_helmet_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn" to="frame/equipment_panel" method="_on_equip_jerkin_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/equip_menu/equip_equip_btn" to="frame/equipment_panel" method="_on_equip_equip_btn_pressed"]

@@ -5,6 +5,13 @@ extends Node
 ## HUD inform nodes that the hud is shown or not
 signal hud_visibility_changed
 
+## Title screen. Notify a few nodes that the title screen is currently loaded.
+# Very useful when quitting the game
+signal title_screen_loaded
+
+## Utility Station stuff
+signal unpluged_from_station
+
 ## Player / Camera stuff (Was in B2_Input)
 signal player_follow_mouse( enabled : bool )
 signal camera_follow_mouse( enabled : bool )

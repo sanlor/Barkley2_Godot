@@ -1,4 +1,6 @@
-extends CanvasLayer
+@icon("uid://5gsghtba1b41")
+#extends CanvasLayer
+extends Control # 29/01/26 migrated to control node
 ## Handles the UI for the Utility Station.
 # Check ustation, Utility and o_utilitystation
 ## NOTE I think this is the largest scene I ever created.
@@ -21,10 +23,10 @@ const SETTINGUTILITYALPHABORDER 	:= 0.15 		# Alpha of foreground grids, lines, e
 const SETTINGUTILITYMONO 			:= 0.15 		# How colorful the menu is, 0 being more B&W 1 being full color
 const UTILITYALPHA 					:= 0
 
-const DNET_SCREEN = preload("res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.tscn")
+const DNET_SCREEN 					:= preload("res://barkley2/scenes/_utilityStation/dwarfnet/dnet_screen.tscn")
 
-var style_box_utility = preload("res://barkley2/themes/style_box_utility.tres")
-const UTILITY_STATION = preload("res://barkley2/themes/utility_station.tres")
+var style_box_utility 				:= preload("res://barkley2/themes/style_box_utility.tres")
+const UTILITY_STATION 				:= preload("res://barkley2/themes/utility_station.tres")
 
 ## DEBUG
 @export var enable_debug_loadout := false
@@ -168,11 +170,6 @@ var fg_tween : Tween
 
 var intensity := 1.0
 
-func _init() -> void:
-	B2_Screen.utility_screen 	= self
-	B2_Screen.is_utility_open 	= true
-	#push_error("DEBUG")
-	
 func _ready() -> void:
 	if enable_debug_loadout:
 		## Debug Stuff
@@ -204,8 +201,7 @@ func _ready() -> void:
 			B2_Item.gain_item( item, randi_range(1,99) )
 			if B2_Item.get_items().size() > 20:
 				break
-			
-	layer = B2_Config.UTIL_LAYER
+	#layer = B2_Config.UTIL_LAYER
 	
 	style_box_utility.bg_color 		= Color(grid_color, intensity * 0.125)
 	style_box_utility.border_color 	= Color(grid_color, intensity * 0.500)
@@ -650,10 +646,7 @@ func _on_dwarf_connect_btn_pressed() -> void:
 
 func _on_unplug_btn_pressed() -> void:
 	print("Exit from Utility Station.")
-	B2_Screen.utility_screen 	= null
-	B2_Screen.is_utility_open 	= false
-	unpluged_from_station.emit()
-	queue_free()
+	B2_SignalBus.unpluged_from_station.emit()
 
 func _on_brain_levelup_confirm_btn_pressed() -> void:
 	_on_brain_btn_pressed()
