@@ -1,0 +1,1404 @@
+[gd_scene format=3 uid="uid://4mhuit4wdogr"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_66c7q"]
+[ext_resource type="Script" uid="uid://bpcje0kucp3t" path="res://barkley2/scenes/_utilityStation/main_info_panel.gd" id="2_fa4al"]
+[ext_resource type="Shader" uid="uid://cufayi31b8vmx" path="res://barkley2/shaders/shader_code/square.gdshader" id="3_50djq"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_rqtie"]
+[ext_resource type="Texture2D" uid="uid://dyg64vycb2d3c" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityFaces.png" id="5_676ra"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="6_12o34"]
+[ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="7_8267u"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="8_7gxww"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="9_383d1"]
+[ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="10_btfk4"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="11_b8pvq"]
+[ext_resource type="PackedScene" uid="uid://uu4ij08ndvs5" path="res://barkley2/scenes/_utilityStation/dna_balls_utility.tscn" id="12_45xrj"]
+[ext_resource type="Texture2D" uid="uid://5gsghtba1b41" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityDefense.png" id="13_umjjl"]
+[ext_resource type="Texture2D" uid="uid://bhctrianm3xu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityResistanceBlip.png" id="14_q8r3v"]
+[ext_resource type="Texture2D" uid="uid://co7bnjgmckp8e" path="res://barkley2/assets/b2_original/guns/FrankieGuns.png" id="15_che2e"]
+[ext_resource type="Script" uid="uid://bx5jwxhdm3qu7" path="res://barkley2/scenes/Objects/System/_hud/hud_weight.gd" id="16_wg3nc"]
+[ext_resource type="Texture2D" uid="uid://cv8jfvnfhghr7" path="res://barkley2/assets/b2_original/images/merged/s_hud_scale_numbers.png" id="17_mhi1v"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8sg6d"]
+noise_type = 2
+frequency = 0.0106
+fractal_type = 3
+fractal_octaves = 1
+cellular_distance_function = 3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tq0ww"]
+shader = ExtResource("3_50djq")
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v4t6"]
+line_spacing = 0.0
+font = ExtResource("4_rqtie")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rf8p1"]
+atlas = ExtResource("5_676ra")
+region = Rect2(0, 0, 64, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tq0ww"]
+line_spacing = 0.0
+font = ExtResource("4_rqtie")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rf8p1"]
+line_spacing = 0.0
+font = ExtResource("4_rqtie")
+
+[sub_resource type="LabelSettings" id="LabelSettings_2fwod"]
+line_spacing = 0.0
+font = ExtResource("6_12o34")
+
+[sub_resource type="LabelSettings" id="LabelSettings_etmwp"]
+line_spacing = 0.0
+font = ExtResource("7_8267u")
+
+[sub_resource type="LabelSettings" id="LabelSettings_gpxvf"]
+font = ExtResource("8_7gxww")
+
+[sub_resource type="LabelSettings" id="LabelSettings_2kqn3"]
+font = ExtResource("8_7gxww")
+
+[sub_resource type="LabelSettings" id="LabelSettings_de10n"]
+font = ExtResource("4_rqtie")
+
+[sub_resource type="LabelSettings" id="LabelSettings_nsxts"]
+font = ExtResource("9_383d1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8sg6d"]
+line_spacing = 0.0
+font = ExtResource("4_rqtie")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8kpvu"]
+line_spacing = 0.0
+font = ExtResource("10_btfk4")
+
+[sub_resource type="GDScript" id="GDScript_yj7y8"]
+resource_name = "poise"
+script/source = "extends Panel
+
+## No idea what \"poise\" is. I'm making something up.
+
+var t := 0.0
+var line_points := []
+@export var noise := FastNoiseLite.new() ## Add a fun pattern to the sinewave
+var timer := 0
+
+func _physics_process(_delta: float) -> void:
+	queue_redraw()
+
+func _draw() -> void:
+	## fun fun fun
+	draw_line( Vector2(4,15),Vector2(44,15), Color( Color.WHITE, 0.25 ), 0.45, true )
+	
+	var x := 0
+	var p_i := 0
+	if not line_points.is_empty():
+		p_i = line_points.front()
+	var l := Vector2.ZERO
+	for i : float in line_points: ## Draw the sinewave
+		x += 1
+		l =  Vector2( 4 + x - 1, 15 + i )
+		draw_line( Vector2( 4 + x - 1, 15 + p_i ), l, Color.SKY_BLUE, 0.45, true )
+		@warning_ignore(\"narrowing_conversion\")
+		p_i = i
+	## Draw the point
+	draw_circle( l, 0.5, Color(Color.HOT_PINK, 0.50), true, -1, true )
+	draw_circle( l, 1.5, Color(Color.HOT_PINK, 0.25), true, -1, true )
+	
+	## Add the scrolling effect
+	if timer <= 0:
+		t += 20 * get_physics_process_delta_time()
+		line_points.append( sin(t) * 6.0 * noise.get_noise_1d( t ) )
+		if line_points.size() > 40: line_points.pop_front()
+		timer = 6
+		# print( noise.get_noise_1d( t ) )
+	else:
+		timer -= 1
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8kpvu"]
+noise_type = 3
+frequency = 0.0047
+fractal_type = 3
+fractal_octaves = 2
+fractal_lacunarity = 10.0
+fractal_gain = 100.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_yj7y8"]
+font = ExtResource("7_8267u")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_82xl0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xscvq"]
+font = ExtResource("8_7gxww")
+
+[sub_resource type="GDScript" id="GDScript_jigd8"]
+resource_name = "res_graph"
+script/source = "@tool
+extends Panel
+const MULTI	:= 15.0
+@export var triangle_offset := 0.7
+var TRIANGLE : PackedVector2Array = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
+const COLORS_BG	:= Color( Color.GRAY, 0.5 )
+var COLORS	: PackedColorArray = [
+	Color( B2_Gamedata.c_cosmic, 	0.5 ),
+	Color( B2_Gamedata.c_mental, 	0.5 ),
+	Color( B2_Gamedata.c_cyber, 	0.5 ),
+	Color( B2_Gamedata.c_bio, 		0.5 ),
+	Color( B2_Gamedata.c_zauber, 	0.5 ),
+	]
+var stats := [
+	B2_HoopzStats.STAT_BASE_RESISTANCE_COSMIC,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_MENTAL,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_CYBER,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_BIO,
+	B2_HoopzStats.STAT_BASE_RESISTANCE_ZAUBER,
+]
+@export var rot_offset := 2.6
+
+func _draw() -> void:
+	for i in 5:
+		#TRIANGLE = [ Vector2(0, 0) * MULTI, Vector2(triangle_offset, 1) * MULTI, Vector2(-triangle_offset, 1) * MULTI ]
+		draw_set_transform( Vector2(size / 2).round(), ( ( PI / rot_offset ) * float(i) ) )
+		draw_colored_polygon( TRIANGLE, COLORS_BG )
+		draw_colored_polygon( PackedVector2Array( [
+			TRIANGLE[0] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			TRIANGLE[1] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			TRIANGLE[2] * 0.5 * ( B2_Playerdata.player_stats.get_effective_stat( stats[i] ) + 100 ) / 100,
+			]), COLORS[i] )
+		draw_polyline( TRIANGLE, Color.DIM_GRAY, 1.0 )
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_jigd8"]
+font = ExtResource("4_rqtie")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8sg6d"]
+atlas = ExtResource("15_che2e")
+region = Rect2(2107, 192, 49, 24)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hqon2"]
+font = ExtResource("10_btfk4")
+
+[sub_resource type="LabelSettings" id="LabelSettings_llltk"]
+font = ExtResource("7_8267u")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mfdu4"]
+font = ExtResource("9_383d1")
+
+[sub_resource type="Gradient" id="Gradient_d7cl6"]
+offsets = PackedFloat32Array(0.0538244, 0.518414, 0.951841)
+colors = PackedColorArray(0, 0, 0, 1, 0.588235, 0.588235, 0.588235, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8kpvu"]
+gradient = SubResource("Gradient_d7cl6")
+width = 30
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yj7y8"]
+load_path = "res://.godot/imported/s_hud_scale.png-303b5385a997204d00ada54fe19d4534.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xscvq"]
+atlas = SubResource("CompressedTexture2D_yj7y8")
+region = Rect2(0, 0, 28, 30)
+
+[node name="main_info_panel" type="Control" unique_id=502966505]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 12.0
+offset_right = 299.0
+offset_bottom = 228.0
+theme = ExtResource("1_66c7q")
+script = ExtResource("2_fa4al")
+bullshit_noise = SubResource("FastNoiseLite_8sg6d")
+
+[node name="status" type="Control" parent="." unique_id=1765227347]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = 46.0
+offset_bottom = 45.0
+
+[node name="name" type="Panel" parent="status" unique_id=1034210611]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_top = -1.0
+offset_right = 45.0
+offset_bottom = 8.0
+
+[node name="name_value" type="Label" parent="status/name" unique_id=490456489]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X114JAM9"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="portrait" type="Panel" parent="status" unique_id=1023906428]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 58.0
+
+[node name="portrait_text" type="TextureRect" parent="status/portrait" unique_id=312570274]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 32.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_rf8p1")
+
+[node name="vitals" type="Panel" parent="status" unique_id=340581629]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -1.0
+offset_right = 104.0
+offset_bottom = 8.0
+
+[node name="vitals_title" type="Label" parent="status/vitals" unique_id=145496220]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 40.0
+offset_bottom = 10.0
+text = "VITALS"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="hp" type="Panel" parent="status" unique_id=1214927660]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 23.0
+
+[node name="hp_title" type="Label" parent="status/hp" unique_id=224524099]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 9.0
+text = "HP"
+label_settings = SubResource("LabelSettings_rf8p1")
+
+[node name="hp_value" type="Label" parent="status/hp" unique_id=735581002]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 40.0
+offset_bottom = 14.0
+text = "87"
+label_settings = SubResource("LabelSettings_2fwod")
+horizontal_alignment = 1
+
+[node name="level" type="Panel" parent="status" unique_id=963090594]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 23.0
+offset_right = 104.0
+offset_bottom = 47.0
+
+[node name="level_title" type="Label" parent="status/level" unique_id=556513363]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 9.0
+text = "LEVEL"
+label_settings = SubResource("LabelSettings_rf8p1")
+
+[node name="level_value" type="Label" parent="status/level" unique_id=2000810922]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 40.0
+offset_bottom = 24.0
+size_flags_vertical = 3
+text = "12"
+label_settings = SubResource("LabelSettings_etmwp")
+horizontal_alignment = 1
+
+[node name="glamp" type="Control" parent="." unique_id=851566768]
+anchors_preset = 0
+offset_left = 118.0
+offset_top = 4.0
+offset_right = 278.0
+offset_bottom = 44.0
+
+[node name="g" type="Panel" parent="glamp" unique_id=1712459500]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 40.0
+
+[node name="g_title" type="Label" parent="glamp/g" unique_id=984341910]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 23.0
+text = "G"
+label_settings = SubResource("LabelSettings_gpxvf")
+
+[node name="g_value" type="Label" parent="glamp/g" unique_id=1494885321]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 35.0
+text = "10"
+label_settings = SubResource("LabelSettings_2kqn3")
+
+[node name="g_sub" type="Label" parent="glamp/g" unique_id=472193707]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 25.0
+offset_bottom = 40.0
+text = "GUTS"
+label_settings = SubResource("LabelSettings_de10n")
+
+[node name="l" type="Panel" parent="glamp" unique_id=493160447]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 64.0
+offset_bottom = 40.0
+
+[node name="l_title" type="Label" parent="glamp/l" unique_id=631116442]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 23.0
+text = "L"
+label_settings = SubResource("LabelSettings_gpxvf")
+
+[node name="l_value" type="Label" parent="glamp/l" unique_id=1550950548]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 35.0
+text = "10"
+label_settings = SubResource("LabelSettings_2kqn3")
+
+[node name="l_sub" type="Label" parent="glamp/l" unique_id=695528063]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 25.0
+offset_bottom = 40.0
+text = "LUCK"
+label_settings = SubResource("LabelSettings_de10n")
+
+[node name="a" type="Panel" parent="glamp" unique_id=1066591668]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 96.0
+offset_bottom = 40.0
+
+[node name="a_title" type="Label" parent="glamp/a" unique_id=1355928333]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 23.0
+text = "A"
+label_settings = SubResource("LabelSettings_gpxvf")
+
+[node name="a_value" type="Label" parent="glamp/a" unique_id=928627020]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 35.0
+text = "10"
+label_settings = SubResource("LabelSettings_2kqn3")
+
+[node name="a_sub" type="Label" parent="glamp/a" unique_id=1854844378]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 25.0
+offset_bottom = 40.0
+text = "ACRO"
+label_settings = SubResource("LabelSettings_de10n")
+
+[node name="m" type="Panel" parent="glamp" unique_id=134164785]
+layout_mode = 0
+offset_left = 96.0
+offset_right = 128.0
+offset_bottom = 40.0
+
+[node name="m_title" type="Label" parent="glamp/m" unique_id=499770576]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 23.0
+text = "M"
+label_settings = SubResource("LabelSettings_gpxvf")
+
+[node name="m_value" type="Label" parent="glamp/m" unique_id=779288973]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 35.0
+text = "10"
+label_settings = SubResource("LabelSettings_2kqn3")
+
+[node name="m_sub" type="Label" parent="glamp/m" unique_id=629598]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 31.0
+offset_bottom = 40.0
+text = "MIGHT"
+label_settings = SubResource("LabelSettings_de10n")
+
+[node name="p" type="Panel" parent="glamp" unique_id=1075399912]
+layout_mode = 0
+offset_left = 128.0
+offset_right = 160.0
+offset_bottom = 40.0
+
+[node name="p_title" type="Label" parent="glamp/p" unique_id=756114053]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 4.0
+offset_right = 44.0
+offset_bottom = 23.0
+text = "P"
+label_settings = SubResource("LabelSettings_gpxvf")
+
+[node name="p_value" type="Label" parent="glamp/p" unique_id=187882747]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 15.0
+offset_right = 36.0
+offset_bottom = 35.0
+text = "10"
+label_settings = SubResource("LabelSettings_2kqn3")
+
+[node name="p_sub" type="Label" parent="glamp/p" unique_id=564745603]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 33.0
+offset_right = 31.0
+offset_bottom = 40.0
+text = "PIETY"
+label_settings = SubResource("LabelSettings_de10n")
+
+[node name="tab_name" type="Panel" parent="glamp" unique_id=202523512]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 112.0
+offset_top = 40.0
+offset_right = 160.0
+offset_bottom = 49.0
+
+[node name="tab_label" type="Label" parent="glamp/tab_name" unique_id=872556825]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "STATS"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="personae" type="Control" parent="." unique_id=1468924806]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 69.0
+offset_right = 149.0
+offset_bottom = 109.0
+
+[node name="personae" type="Panel" parent="personae" unique_id=272134190]
+layout_mode = 0
+offset_right = 136.0
+offset_bottom = 16.0
+
+[node name="personae_value" type="Label" parent="personae/personae" unique_id=1885829926]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Forlorn Youngster"
+label_settings = SubResource("LabelSettings_nsxts")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="tab_name" type="Panel" parent="personae" unique_id=606492723]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 88.0
+offset_top = -9.0
+offset_right = 136.0
+
+[node name="tab_label" type="Label" parent="personae/tab_name" unique_id=1068720308]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PERSONAE"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="datum" type="Control" parent="." unique_id=43102717]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 93.0
+offset_right = 46.0
+offset_bottom = 133.0
+
+[node name="tab_name" type="Panel" parent="datum" unique_id=947913056]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 87.0
+offset_top = 56.0
+offset_right = 136.0
+offset_bottom = 65.0
+
+[node name="tab_label" type="Label" parent="datum/tab_name" unique_id=1610705759]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DATUM"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gumption" type="Panel" parent="datum" unique_id=183887280]
+layout_mode = 0
+offset_right = 47.0
+offset_bottom = 16.0
+
+[node name="gumption_title" type="Label" parent="datum/gumption" unique_id=7757133]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 2.0
+offset_right = 51.0
+offset_bottom = 9.0
+text = "GUMPTION"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="gumption_value" type="Label" parent="datum/gumption" unique_id=1386344026]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 9.0
+offset_right = 46.0
+offset_bottom = 16.0
+text = "75%"
+label_settings = SubResource("LabelSettings_8sg6d")
+horizontal_alignment = 2
+
+[node name="gumshoe" type="Panel" parent="datum" unique_id=1433019170]
+layout_mode = 0
+offset_left = 47.0
+offset_right = 87.0
+offset_bottom = 16.0
+
+[node name="gumshoe_title" type="Label" parent="datum/gumshoe" unique_id=1249572221]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 9.0
+text = "GUMSHOE
+LVL"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="gumshoe_value" type="Label" parent="datum/gumshoe" unique_id=678402910]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 9.0
+offset_right = 38.0
+offset_bottom = 16.0
+text = "1"
+label_settings = SubResource("LabelSettings_8sg6d")
+horizontal_alignment = 2
+
+[node name="beard" type="Panel" parent="datum" unique_id=1070559786]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 39.0
+offset_right = 136.0
+offset_bottom = 56.0
+
+[node name="beard_title" type="Label" parent="datum/beard" unique_id=533216369]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 48.0
+offset_bottom = 9.0
+text = "BEARDSTATE"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="beard_value" type="Label" parent="datum/beard" unique_id=1226571016]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 9.0
+offset_right = 47.0
+offset_bottom = 16.0
+text = "FOLLICLED"
+label_settings = SubResource("LabelSettings_8sg6d")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="free_will" type="Panel" parent="datum" unique_id=8539086]
+layout_mode = 0
+offset_left = 87.0
+offset_right = 136.0
+offset_bottom = 16.0
+
+[node name="freewill_title" type="Label" parent="datum/free_will" unique_id=1124914017]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 9.0
+text = "FREE
+WILL"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="freewill_value" type="Label" parent="datum/free_will" unique_id=1395686501]
+layout_mode = 0
+offset_left = 27.0
+offset_top = -1.0
+offset_right = 46.0
+offset_bottom = 17.0
+text = "OFF"
+label_settings = SubResource("LabelSettings_8kpvu")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="mood" type="Panel" parent="datum" unique_id=1929583530]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 87.0
+offset_bottom = 56.0
+
+[node name="mood_title" type="Label" parent="datum/mood" unique_id=897061806]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 14.0
+offset_top = 3.0
+offset_right = 73.0
+offset_bottom = 10.0
+text = "CURRENT MOOD"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="mood_value" type="Label" parent="datum/mood" unique_id=1231645808]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 11.0
+offset_right = 78.0
+offset_bottom = 29.0
+text = "CRESTFALLEN"
+label_settings = SubResource("LabelSettings_8kpvu")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="poise" type="Panel" parent="datum" unique_id=796923137]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 16.0
+offset_right = 136.0
+offset_bottom = 39.0
+script = SubResource("GDScript_yj7y8")
+noise = SubResource("FastNoiseLite_8kpvu")
+
+[node name="poise_title" type="Label" parent="datum/poise" unique_id=1553390322]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 16.0
+text = "POISE"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="no_idea" type="Panel" parent="datum" unique_id=1370945483]
+layout_mode = 0
+offset_left = 136.0
+offset_right = 216.0
+offset_bottom = 32.0
+
+[node name="important_stuff" type="Label" parent="datum/no_idea" unique_id=2040446046]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "??? ???"
+label_settings = SubResource("LabelSettings_yj7y8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="energy" type="Panel" parent="datum" unique_id=664458679]
+layout_mode = 0
+offset_left = 216.0
+offset_right = 272.0
+offset_bottom = 32.0
+
+[node name="voltage_title" type="Label" parent="datum/energy" unique_id=101968091]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 16.0
+text = "VOLTAGE"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="voltage_value" type="Label" parent="datum/energy" unique_id=1460626437]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 9.0
+offset_right = 55.0
+offset_bottom = 23.0
+text = "15.1V"
+label_settings = SubResource("LabelSettings_8sg6d")
+horizontal_alignment = 2
+
+[node name="amp_title" type="Label" parent="datum/energy" unique_id=987489341]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 3.0
+offset_top = 17.0
+offset_right = 42.0
+offset_bottom = 31.0
+text = "AMPERAGE"
+label_settings = SubResource("LabelSettings_8sg6d")
+
+[node name="amp_value" type="Label" parent="datum/energy" unique_id=232838021]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 24.0
+offset_right = 54.0
+offset_bottom = 38.0
+text = "11A"
+label_settings = SubResource("LabelSettings_8sg6d")
+horizontal_alignment = 2
+
+[node name="trans" type="Control" parent="." unique_id=851009825]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 60.0
+offset_right = 277.0
+offset_bottom = 84.0
+
+[node name="trans" type="Panel" parent="trans" unique_id=1153446825]
+clip_contents = true
+layout_mode = 0
+offset_left = 1.0
+offset_right = 129.0
+offset_bottom = 26.0
+
+[node name="madness_text3" type="RichTextLabel" parent="trans/trans" unique_id=1814868612]
+visible = false
+modulate = Color(1, 1, 1, 0.25)
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("11_b8pvq")
+bbcode_enabled = true
+text = "[wave amp=10.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utility[/color] line 2397.[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="madness_text2" type="RichTextLabel" parent="trans/trans" unique_id=1773040138]
+visible = false
+modulate = Color(1, 1, 1, 0.5)
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("11_b8pvq")
+bbcode_enabled = true
+text = "[wave amp=30.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utility[/color] line 2397.[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="madness_text1" type="RichTextLabel" parent="trans/trans" unique_id=1712591919]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 26.0
+theme_override_fonts/normal_font = ExtResource("11_b8pvq")
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=5.0 connected=1]Fuck This. Check [color=yellow]Utility[/color] line 2397.[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="spinning_dna" type="TextureRect" parent="trans/trans" unique_id=434778584]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -32.0
+offset_right = 64.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_82xl0")
+
+[node name="SubViewport" type="SubViewport" parent="trans/trans" unique_id=2118415538]
+transparent_bg = true
+size = Vector2i(128, 64)
+
+[node name="balls_utility" parent="trans/trans/SubViewport" unique_id=2021192928 instance=ExtResource("12_45xrj")]
+
+[node name="tab_name" type="Panel" parent="trans" unique_id=1145329919]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 1.0
+offset_top = -9.0
+offset_right = 72.0
+
+[node name="tab_label" type="Label" parent="trans/tab_name" unique_id=374549844]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "TRANSHUMANISM"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="resistances" type="Control" parent="." unique_id=1243538652]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 164.0
+offset_right = 46.0
+offset_bottom = 204.0
+
+[node name="tab_name" type="Panel" parent="resistances" unique_id=70380227]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_top = -9.0
+offset_right = 55.0
+
+[node name="tab_label" type="Label" parent="resistances/tab_name" unique_id=2060469749]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "RESISTANCES"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="defense" type="Panel" parent="resistances" unique_id=1124455531]
+layout_mode = 0
+offset_right = 55.0
+offset_bottom = 48.0
+
+[node name="SMenuUtilityDefense" type="TextureRect" parent="resistances/defense" unique_id=837461897]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_umjjl")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="defense_value" type="Label" parent="resistances/defense" unique_id=1573963981]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 7.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "20"
+label_settings = SubResource("LabelSettings_xscvq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="res_graph" type="Panel" parent="resistances" unique_id=1654384438]
+layout_mode = 0
+offset_left = 55.0
+offset_right = 103.0
+offset_bottom = 48.0
+script = SubResource("GDScript_jigd8")
+triangle_offset = 0.75
+rot_offset = 2.5
+
+[node name="res_blip" type="TextureRect" parent="resistances/res_graph" unique_id=95579018]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -20.0
+offset_right = -11.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_blip2" type="TextureRect" parent="resistances/res_graph" unique_id=302072313]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -20.0
+offset_right = 14.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_blip3" type="TextureRect" parent="resistances/res_graph" unique_id=642942801]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 9.0
+offset_right = -16.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_blip4" type="TextureRect" parent="resistances/res_graph" unique_id=107805288]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 21.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_blip5" type="TextureRect" parent="resistances/res_graph" unique_id=137571522]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = 17.0
+offset_right = 1.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_list" type="Panel" parent="resistances" unique_id=1696577566]
+layout_mode = 0
+offset_left = 103.0
+offset_right = 136.0
+offset_bottom = 41.0
+
+[node name="res_cosmic" type="TextureRect" parent="resistances/res_list" unique_id=543065178]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -17.5
+offset_right = -9.5
+offset_bottom = -13.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_cosmic_value" type="Label" parent="resistances/res_list" unique_id=1791627331]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 2.0
+offset_right = 29.0
+offset_bottom = 25.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_mental" type="TextureRect" parent="resistances/res_list" unique_id=1084297919]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -9.5
+offset_right = -9.5
+offset_bottom = -5.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_mental_value" type="Label" parent="resistances/res_list" unique_id=776942357]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 10.0
+offset_right = 29.0
+offset_bottom = 33.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_cyber" type="TextureRect" parent="resistances/res_list" unique_id=29460011]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -1.5
+offset_right = -9.5
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_cyber_value" type="Label" parent="resistances/res_list" unique_id=1986124975]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 18.0
+offset_right = 29.0
+offset_bottom = 41.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_bio" type="TextureRect" parent="resistances/res_list" unique_id=1040723372]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = 6.5
+offset_right = -9.5
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_bio_value" type="Label" parent="resistances/res_list" unique_id=315753633]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 26.0
+offset_right = 29.0
+offset_bottom = 49.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="res_zauber" type="TextureRect" parent="resistances/res_list" unique_id=730851862]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = 14.5
+offset_right = -9.5
+offset_bottom = 18.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_q8r3v")
+stretch_mode = 2
+
+[node name="res_zauber_value" type="Label" parent="resistances/res_list" unique_id=1923545392]
+layout_mode = 0
+offset_left = -11.0
+offset_top = 34.0
+offset_right = 29.0
+offset_bottom = 57.0
+text = "99"
+label_settings = SubResource("LabelSettings_jigd8")
+horizontal_alignment = 2
+
+[node name="equipment" type="Control" parent="." unique_id=431502175]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 133.0
+offset_right = 189.0
+offset_bottom = 173.0
+
+[node name="tab_name" type="Panel" parent="equipment" unique_id=1097577329]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_left = 1.0
+offset_top = -1.0
+offset_right = 56.0
+offset_bottom = 8.0
+
+[node name="tab_label" type="Label" parent="equipment/tab_name" unique_id=1935423259]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EQUIPMENT"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gun" type="Panel" parent="equipment" unique_id=1910582784]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 32.0
+
+[node name="gun_texture" type="TextureRect" parent="equipment/gun" unique_id=1909275942]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 50.0
+offset_bottom = 24.0
+texture = SubResource("AtlasTexture_8sg6d")
+
+[node name="gun_weight" type="Label" parent="equipment/gun" unique_id=1967000852]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 11.0
+offset_right = 68.0
+offset_bottom = 21.0
+text = "10~"
+label_settings = SubResource("LabelSettings_hqon2")
+
+[node name="gun_name" type="Label" parent="equipment/gun" unique_id=1603154587]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 23.0
+text = "NAME"
+label_settings = SubResource("LabelSettings_llltk")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="jerkin" type="Panel" parent="equipment" unique_id=1264567333]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 32.0
+offset_right = 104.0
+offset_bottom = 48.0
+
+[node name="jerkin_value" type="Label" parent="equipment/jerkin" unique_id=408168845]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_mfdu4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="helm" type="Panel" parent="equipment" unique_id=475003447]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 48.0
+offset_right = 104.0
+offset_bottom = 64.0
+
+[node name="helm_value" type="Label" parent="equipment/helm" unique_id=1127129241]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Placeholder"
+label_settings = SubResource("LabelSettings_mfdu4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="nothing" type="Panel" parent="equipment" unique_id=1865408795]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 64.0
+offset_right = 104.0
+offset_bottom = 80.0
+
+[node name="weight" type="Control" parent="." unique_id=1399614148]
+anchors_preset = 0
+offset_left = 253.0
+offset_top = 165.0
+offset_right = 293.0
+offset_bottom = 205.0
+
+[node name="weight" type="Panel" parent="weight" unique_id=442115733]
+layout_mode = 0
+offset_right = 25.0
+offset_bottom = 39.0
+
+[node name="hud_weight" type="ColorRect" parent="weight/weight" unique_id=299113348]
+clip_contents = true
+layout_mode = 0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 20.0
+offset_bottom = 35.0
+mouse_filter = 2
+script = ExtResource("16_wg3nc")
+
+[node name="hud_weight_number" type="TextureRect" parent="weight/weight/hud_weight" unique_id=94451127]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -195.0
+offset_right = -1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_mhi1v")
+
+[node name="TextureRect" type="TextureRect" parent="weight/weight/hud_weight" unique_id=568509196]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_right = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+texture = SubResource("GradientTexture1D_8kpvu")
+
+[node name="hud_weight_frame" type="TextureRect" parent="weight/weight/hud_weight" unique_id=127190980]
+layout_mode = 0
+offset_right = 14.0
+offset_bottom = 30.0
+texture = SubResource("AtlasTexture_xscvq")
+
+[node name="tab_name" type="Panel" parent="weight" unique_id=1115988368]
+material = SubResource("ShaderMaterial_tq0ww")
+layout_mode = 0
+offset_top = 39.0
+offset_right = 25.0
+offset_bottom = 48.0
+
+[node name="tab_label" type="Label" parent="weight/tab_name" unique_id=1429902601]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WGT"
+label_settings = SubResource("LabelSettings_2v4t6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

@@ -1,0 +1,419 @@
+[gd_scene format=3 uid="uid://dy4qs8y417chx"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_j1pq0"]
+[ext_resource type="Script" uid="uid://ctmkrq484it1o" path="res://barkley2/scenes/_utilityStation/brain_vidcon_panel.gd" id="2_etf7u"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_iaqax"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_sjf1k"]
+[ext_resource type="PackedScene" uid="uid://colhhenxr2rpu" path="res://barkley2/scenes/_utilityStation/vidcon_slot.tscn" id="5_7bk8a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qcuev"]
+font = ExtResource("3_iaqax")
+
+[sub_resource type="LabelSettings" id="LabelSettings_sf8h1"]
+font = ExtResource("4_sjf1k")
+
+[sub_resource type="LabelSettings" id="LabelSettings_tq0ww"]
+line_spacing = 0.0
+font = ExtResource("4_sjf1k")
+
+[node name="brain_vidcon_panel" type="Control" unique_id=1935260503 node_paths=PackedStringArray("unbox_btn")]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("1_j1pq0")
+script = ExtResource("2_etf7u")
+unbox_btn = NodePath("")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="gamerscore" type="Control" parent="." unique_id=1518176699]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 45.0
+offset_bottom = 44.0
+
+[node name="main" type="Panel" parent="gamerscore" unique_id=281496934]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 24.0
+
+[node name="gs_value" type="Label" parent="gamerscore/main" unique_id=464489602]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 41.0
+offset_bottom = 22.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="gs_title" type="Label" parent="gamerscore/main" unique_id=280062344]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 2.0
+offset_right = 126.0
+offset_bottom = 22.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gs" type="Panel" parent="gamerscore" unique_id=1590681644]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 56.0
+offset_bottom = 32.0
+
+[node name="gs_title" type="Label" parent="gamerscore/gs" unique_id=1427047700]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "GAMERSCORE"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="collection" type="Control" parent="." unique_id=1506975800]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 44.0
+offset_right = 45.0
+offset_bottom = 84.0
+
+[node name="opened" type="Panel" parent="collection" unique_id=673390003]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 24.0
+
+[node name="open_value" type="Label" parent="collection/opened" unique_id=579115502]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 23.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="open_title" type="Label" parent="collection/opened" unique_id=340504259]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 39.0
+offset_bottom = 23.0
+text = "OPENED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="sealed" type="Panel" parent="collection" unique_id=1106254806]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 128.0
+offset_bottom = 24.0
+
+[node name="sealed_value" type="Label" parent="collection/sealed" unique_id=555677537]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 23.0
+text = "69"
+label_settings = SubResource("LabelSettings_qcuev")
+horizontal_alignment = 1
+
+[node name="sealed_title" type="Label" parent="collection/sealed" unique_id=1530472299]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 39.0
+offset_bottom = 23.0
+text = "SEALED"
+label_settings = SubResource("LabelSettings_sf8h1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="coll" type="Panel" parent="collection" unique_id=2004304353]
+layout_mode = 0
+offset_left = 72.0
+offset_top = -8.0
+offset_right = 128.0
+
+[node name="coll_title" type="Label" parent="collection/coll" unique_id=935522760]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "COLLECTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="description" type="Control" parent="." unique_id=2135695789]
+anchors_preset = 0
+offset_left = 141.0
+offset_top = 12.0
+offset_right = 181.0
+offset_bottom = 52.0
+
+[node name="main" type="Panel" parent="description" unique_id=2019446981]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 56.0
+
+[node name="description_value" type="Label" parent="description/main" unique_id=1396361686]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_tq0ww")
+autowrap_mode = 2
+
+[node name="description" type="Panel" parent="description" unique_id=1709537216]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 56.0
+
+[node name="description_title" type="Label" parent="description/description" unique_id=223266750]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "DESCRIPTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcons" type="Control" parent="." unique_id=1826796222]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 84.0
+offset_right = 285.0
+offset_bottom = 204.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="vidcons" unique_id=850804127]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+scroll_vertical_custom_step = 24.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="vidcons/ScrollContainer" unique_id=2009862024]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="vidcon_slot_01" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=6039855 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_02" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1638518004 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_03" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=526137163 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_04" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1833355489 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_05" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1762333866 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_06" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=146309453 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_07" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=537769989 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_08" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=501903658 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_09" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=738852886 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_10" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1576970869 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_11" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=285619549 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_12" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1517526044 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_13" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=367477760 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_14" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1725620780 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_15" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1231961960 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_16" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1801087796 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_17" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=922234839 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_18" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=368818815 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_19" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=116058563 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_20" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1196763238 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_21" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=2057205188 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_22" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1856019570 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_23" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=956346296 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_24" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1816252801 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_25" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=208455439 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_26" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1477047349 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_27" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1665817074 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_28" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=272372438 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_29" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=693179285 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_30" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=347887056 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_31" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=893898753 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_32" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=216112291 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_33" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=262456502 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_34" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=873623900 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_35" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=2044857803 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_36" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1940054041 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_37" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=375669789 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_38" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=2064012870 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_39" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=353621695 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_40" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1336407408 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_41" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=597296771 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_42" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=147893959 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_43" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=735486288 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_44" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1876297251 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_45" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=902802988 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_46" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1740879235 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_47" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=54248921 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_48" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1928949404 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_49" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1931505987 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_50" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=1610904347 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_51" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=2001468540 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="vidcon_slot_52" parent="vidcons/ScrollContainer/VBoxContainer" unique_id=549657316 instance=ExtResource("5_7bk8a")]
+layout_mode = 2
+
+[node name="page_up" type="Panel" parent="vidcons" unique_id=2099862420]
+layout_mode = 0
+offset_left = 224.0
+offset_top = -8.0
+offset_right = 280.0
+
+[node name="description_title" type="Label" parent="vidcons/page_up" unique_id=926644467]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE UP"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="page_down" type="Panel" parent="vidcons" unique_id=41562505]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 120.0
+offset_right = 280.0
+offset_bottom = 128.0
+
+[node name="description_title" type="Label" parent="vidcons/page_down" unique_id=975652875]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE DOWN"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

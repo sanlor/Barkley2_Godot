@@ -1,0 +1,146 @@
+[gd_scene format=3 uid="uid://dbboxs8bnjdgh"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_yok33"]
+[ext_resource type="Script" uid="uid://btok3t5yp0xmp" path="res://barkley2/scenes/_utilityStation/utility_menus/inventory_panel.gd" id="2_anunu"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="3_akt2k"]
+[ext_resource type="PackedScene" uid="uid://bhg1cljv7fj0p" path="res://barkley2/scenes/_utilityStation/inv_item_selection.tscn" id="4_oktwo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tq0ww"]
+line_spacing = 0.0
+font = ExtResource("3_akt2k")
+
+[node name="inventory_panel" type="Control" unique_id=1963833063]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("1_yok33")
+script = ExtResource("2_anunu")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="description" type="Control" parent="." unique_id=1196735238]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 44.0
+
+[node name="descr" type="Panel" parent="description" unique_id=317799612]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 280.0
+offset_bottom = 40.0
+
+[node name="descr_value" type="Label" parent="description/descr" unique_id=775721089]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLACEHOLDER"
+autowrap_mode = 2
+
+[node name="descr" type="Panel" parent="description/descr" unique_id=2129897176]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 56.0
+
+[node name="descr_title" type="Label" parent="description/descr/descr" unique_id=10336505]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "DESCRIPTION"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="items" type="Control" parent="." unique_id=159738312]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 61.0
+offset_right = 285.0
+offset_bottom = 204.0
+
+[node name="items" type="Panel" parent="items" unique_id=646170296]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 143.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="items/items" unique_id=527766622]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="item_list" type="VBoxContainer" parent="items/items/ScrollContainer" unique_id=1694883111]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="inv_item_selection" parent="items/items/ScrollContainer/item_list" unique_id=307525916 instance=ExtResource("4_oktwo")]
+layout_mode = 2
+
+[node name="page_down" type="Panel" parent="items" unique_id=210959221]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 143.0
+offset_right = 280.0
+offset_bottom = 151.0
+
+[node name="pdown_title" type="Label" parent="items/page_down" unique_id=1630872902]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE DOWN"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="item" type="Panel" parent="items" unique_id=281811248]
+layout_mode = 0
+offset_top = -8.0
+offset_right = 40.0
+
+[node name="item_title" type="Label" parent="items/item" unique_id=2001724431]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 39.0
+offset_bottom = 8.0
+text = "ITEM"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="page_up" type="Panel" parent="items" unique_id=881439859]
+layout_mode = 0
+offset_left = 224.0
+offset_top = -8.0
+offset_right = 280.0
+
+[node name="pup_title" type="Label" parent="items/page_up" unique_id=130337394]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 55.0
+offset_bottom = 8.0
+text = "PAGE UP"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

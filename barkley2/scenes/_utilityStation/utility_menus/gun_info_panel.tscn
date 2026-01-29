@@ -1,0 +1,159 @@
+[gd_scene format=3 uid="uid://ch06rr2kobkfb"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_bcfpb"]
+[ext_resource type="Script" uid="uid://bdyubothpfv07" path="res://barkley2/scenes/_utilityStation/gun_summary_panel.gd" id="2_yoppy"]
+[ext_resource type="PackedScene" uid="uid://hu558507fw2t" path="res://barkley2/scenes/_utilityStation/gun_info_slot.tscn" id="3_nh3t6"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="4_a5mxu"]
+[ext_resource type="Texture2D" uid="uid://cho745tea50kq" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityGunsbag.png" id="5_da48r"]
+[ext_resource type="Texture2D" uid="uid://iw7nigjpkcvt" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilitySmelt.png" id="6_io5k2"]
+[ext_resource type="Texture2D" uid="uid://clxa0bsdrci0" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilitySmeltText.png" id="7_fmdpb"]
+[ext_resource type="FontFile" uid="uid://0wckh5gc5ai6" path="res://barkley2/resources/fonts/smelt.tres" id="8_wqg2h"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="9_jhe3a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iyqur"]
+font = ExtResource("4_a5mxu")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6w61b"]
+atlas = ExtResource("6_io5k2")
+region = Rect2(0, 0, 176, 35)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8we6v"]
+font = ExtResource("8_wqg2h")
+
+[sub_resource type="LabelSettings" id="LabelSettings_t58kc"]
+font = ExtResource("9_jhe3a")
+
+[node name="gun_info_panel" type="Control" unique_id=1950432417]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("1_bcfpb")
+script = ExtResource("2_yoppy")
+
+[node name="gun_slots" type="VBoxContainer" parent="." unique_id=89337827]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 156.0
+theme_override_constants/separation = 8
+
+[node name="gun_1" parent="gun_slots" unique_id=1039606036 instance=ExtResource("3_nh3t6")]
+layout_mode = 2
+
+[node name="gun_2" parent="gun_slots" unique_id=1598786029 instance=ExtResource("3_nh3t6")]
+layout_mode = 2
+
+[node name="gun_3" parent="gun_slots" unique_id=384401418 instance=ExtResource("3_nh3t6")]
+layout_mode = 2
+
+[node name="gunbag" type="Panel" parent="." unique_id=1935029375]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 164.0
+offset_right = 85.0
+offset_bottom = 212.0
+
+[node name="gunbag_title" type="Label" parent="gunbag" unique_id=1700989100]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+text = "Gun'sbag"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="gunbag_value" type="Label" parent="gunbag" unique_id=1575277995]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -21.0
+offset_right = 47.0
+offset_bottom = -1.0
+grow_vertical = 0
+text = "5 (20)"
+label_settings = SubResource("LabelSettings_iyqur")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="gunbag" unique_id=1189305301]
+layout_mode = 0
+offset_left = 49.0
+offset_top = 24.0
+offset_right = 79.0
+offset_bottom = 47.0
+texture = ExtResource("5_da48r")
+
+[node name="smelt" type="Control" parent="." unique_id=1574979479]
+anchors_preset = 0
+offset_left = 93.0
+offset_top = 172.0
+offset_right = 133.0
+offset_bottom = 212.0
+
+[node name="smelt_panel" type="Panel" parent="smelt" unique_id=801524759]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 40.0
+
+[node name="smelt_gauge" type="TextureRect" parent="smelt/smelt_panel" unique_id=1434444697]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.0
+offset_top = -18.0
+offset_right = 88.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_6w61b")
+
+[node name="smelt_title" type="TextureRect" parent="smelt/smelt_panel" unique_id=1924844346]
+layout_mode = 0
+offset_left = 101.0
+offset_top = 22.0
+offset_right = 145.0
+offset_bottom = 37.0
+texture = ExtResource("7_fmdpb")
+
+[node name="smelt_value" type="Label" parent="smelt/smelt_panel" unique_id=1879847041]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 22.0
+offset_right = 99.0
+offset_bottom = 36.0
+text = "420"
+label_settings = SubResource("LabelSettings_8we6v")
+horizontal_alignment = 2
+
+[node name="smelt_title" type="Panel" parent="smelt" unique_id=1553397699]
+layout_mode = 0
+offset_left = 152.0
+offset_top = -8.0
+offset_right = 192.0
+
+[node name="smelt_title" type="Label" parent="smelt/smelt_title" unique_id=552437485]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SMELT"
+label_settings = SubResource("LabelSettings_t58kc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

@@ -28,6 +28,15 @@ const DNET_SCREEN 					:= preload("res://barkley2/scenes/_utilityStation/dwarfne
 var style_box_utility 				:= preload("res://barkley2/themes/style_box_utility.tres")
 const UTILITY_STATION 				:= preload("res://barkley2/themes/utility_station.tres")
 
+# Menu scenes
+const BRAIN_INFO_PANEL = preload("uid://brg38jf5pceon")
+const BRAIN_VIDCON_PANEL = preload("uid://dy4qs8y417chx")
+const DWARFNET_PANEL = preload("uid://2u3sqikbbnx2")
+const GUN_INFO_BREED_PANEL = preload("uid://ctcfj2lxiyt2s")
+const GUN_INFO_PANEL = preload("uid://ch06rr2kobkfb")
+const MAIN_INFO_PANEL = preload("uid://4mhuit4wdogr")
+
+
 ## DEBUG
 @export var enable_debug_loadout := false
 

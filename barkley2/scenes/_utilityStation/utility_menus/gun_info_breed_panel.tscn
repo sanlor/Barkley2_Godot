@@ -1,0 +1,639 @@
+[gd_scene format=3 uid="uid://ctcfj2lxiyt2s"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_dd0ki"]
+[ext_resource type="Script" uid="uid://cmuijiberhj6u" path="res://barkley2/scenes/_utilityStation/gun_info_breed_panel.gd" id="2_ov181"]
+[ext_resource type="PackedScene" uid="uid://6w6xa8eigkmh" path="res://barkley2/scenes/_utilityStation/gun_info_panel.tscn" id="3_b7eso"]
+[ext_resource type="Script" uid="uid://eir54p1frfp7" path="res://barkley2/scenes/_utilityStation/utility_panel.gd" id="4_2fgnv"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="5_4m21w"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="6_5bdyp"]
+[ext_resource type="PackedScene" uid="uid://cd83ow7166hs3" path="res://barkley2/scenes/_utilityStation/brain_breed_gun_data.tscn" id="7_fcv4v"]
+[ext_resource type="Script" uid="uid://dcbs831yctk1o" path="res://barkley2/scenes/_utilityStation/gun_breed_gene.gd" id="8_7sioh"]
+[ext_resource type="Script" uid="uid://cebnlffspc4lj" path="res://barkley2/scenes/_utilityStation/brain_gene_bar_thingy.gd" id="9_46ifo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g7bq3"]
+font = ExtResource("5_4m21w")
+
+[sub_resource type="LabelSettings" id="LabelSettings_psrdb"]
+font = ExtResource("6_5bdyp")
+
+[sub_resource type="LabelSettings" id="LabelSettings_305tp"]
+font = ExtResource("5_4m21w")
+
+[sub_resource type="GDScript" id="GDScript_fp4ov"]
+resource_name = "compatibility_graph"
+script/source = "@tool
+extends Control
+
+@export var COLUMN 		:= 13
+@export var ROW			:= 2
+@export var CELL_SIZE 	:= Vector2(10,10)
+
+var tween 	: Tween
+var my_seed 	:= 0
+var ratio 	:= 0.0
+
+@export_tool_button(\"update\") var _u : Callable = queue_redraw
+
+
+func populate_graph( _seed : int, _ratio : float ) -> void:
+	my_seed = _seed
+	ratio = _ratio
+	queue_redraw()
+	
+func _draw() -> void:
+	var x := 0
+	var y := 0
+	var r := Rect2( Vector2(0, 0), CELL_SIZE )
+	var rand := RandomNumberGenerator.new()
+	rand.seed = my_seed
+	for i in (COLUMN * ROW):
+		draw_set_transform( Vector2(x * CELL_SIZE.x, y * CELL_SIZE.y) + Vector2( x * 1.0, y * 1.0 ) )
+		var n := rand.randf()
+		#print(ratio)
+		if n >= ratio:
+			## Compatible
+			draw_rect( r, Color( Color.GREEN.lerp(Color.RED, 0.2 * rand.randf()), 0.25 ) )
+		else:
+			## Incompatible
+			draw_rect( r, Color( Color.RED.lerp(Color.GREEN, 0.2 * rand.randf()), 0.25 ) )
+		x += 1
+		if x >= COLUMN:
+			x = 0
+			y += 1
+		
+		
+		
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_fp4ov"]
+font = ExtResource("5_4m21w")
+
+[node name="gun_info_breed_panel" type="Control" unique_id=1879809997]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("1_dd0ki")
+script = ExtResource("2_ov181")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="gun_info_panel" parent="." unique_id=1498747308 instance=ExtResource("3_b7eso")]
+visible = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 285.0
+offset_bottom = 212.0
+
+[node name="breed_data" type="Control" parent="." unique_id=911990590]
+anchors_preset = 0
+offset_right = 289.0
+offset_bottom = 216.0
+script = ExtResource("4_2fgnv")
+metadata/_custom_type_script = "uid://eir54p1frfp7"
+
+[node name="top_gun" type="Control" parent="breed_data" unique_id=1327911771]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 205.0
+offset_bottom = 84.0
+
+[node name="title_panel" type="Panel" parent="breed_data/top_gun" unique_id=614995217]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 8.0
+
+[node name="title_lbl" type="Label" parent="breed_data/top_gun/title_panel" unique_id=54136656]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "TOP"
+label_settings = SubResource("LabelSettings_g7bq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="top_gun_panel" type="Panel" parent="breed_data/top_gun" unique_id=1840407840]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 208.0
+offset_bottom = 80.0
+
+[node name="no_gun_selected_lbl" type="Label" parent="breed_data/top_gun/top_gun_panel" unique_id=653421413]
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 3.0
+offset_right = 88.0
+offset_bottom = 23.0
+text = "Select a gun."
+label_settings = SubResource("LabelSettings_psrdb")
+
+[node name="brain_breed_gun_data" parent="breed_data/top_gun/top_gun_panel" unique_id=836039629 instance=ExtResource("7_fcv4v")]
+layout_mode = 1
+anchors_preset = -1
+
+[node name="top_gene" type="Control" parent="breed_data" unique_id=1592313864 node_paths=PackedStringArray("dna_bullshit")]
+anchors_preset = 0
+offset_left = 213.0
+offset_top = 4.0
+offset_right = 253.0
+offset_bottom = 84.0
+script = ExtResource("8_7sioh")
+dna_bullshit = NodePath("top_gene_panel/dna_bullshit")
+
+[node name="title_panel" type="Panel" parent="breed_data/top_gene" unique_id=410568011]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 8.0
+
+[node name="title_lbl" type="Label" parent="breed_data/top_gene/title_panel" unique_id=114911908]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GENE'S"
+label_settings = SubResource("LabelSettings_g7bq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="top_gene_panel" type="Panel" parent="breed_data/top_gene" unique_id=1042046084]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 32.0
+offset_bottom = 72.0
+
+[node name="dna_bullshit" type="GridContainer" parent="breed_data/top_gene/top_gene_panel" unique_id=844893246]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -28.0
+offset_right = 15.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 4
+
+[node name="Label" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=43263392]
+layout_mode = 2
+text = "Z"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label2" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=559434107]
+layout_mode = 2
+text = "L"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label3" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=160118583]
+layout_mode = 2
+text = "I"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label4" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1085263452]
+layout_mode = 2
+text = "O"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label5" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1415951544]
+layout_mode = 2
+text = "X"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label6" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=31694054]
+layout_mode = 2
+text = "E"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label7" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1401118379]
+layout_mode = 2
+text = "5"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label8" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1017771506]
+layout_mode = 2
+text = "l"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label9" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=430217824]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "P"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label10" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1771206830]
+layout_mode = 2
+text = "6"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label11" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=117113253]
+layout_mode = 2
+text = "7"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label12" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=808530127]
+layout_mode = 2
+text = "g"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label13" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=2040689806]
+layout_mode = 2
+text = "h"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label14" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1917599717]
+layout_mode = 2
+text = "7"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label15" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1738696267]
+layout_mode = 2
+text = "7"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label16" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1938236407]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = ">"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label17" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1572844703]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label18" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1749749213]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "A"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label19" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=763173192]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "l"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label20" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=665730532]
+layout_mode = 2
+text = "X"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label21" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=209716067]
+layout_mode = 2
+text = "x"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label22" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=489440772]
+layout_mode = 2
+text = "J"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label23" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=1324047445]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label24" type="Label" parent="breed_data/top_gene/top_gene_panel/dna_bullshit" unique_id=385065449]
+layout_mode = 2
+text = "8"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="bottom_gun" type="Control" parent="breed_data" unique_id=2084714813]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 92.0
+offset_right = 213.0
+offset_bottom = 172.0
+
+[node name="title_panel" type="Panel" parent="breed_data/bottom_gun" unique_id=199826432]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 40.0
+offset_bottom = 88.0
+
+[node name="title_lbl" type="Label" parent="breed_data/bottom_gun/title_panel" unique_id=2053760276]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "BOTTOM"
+label_settings = SubResource("LabelSettings_g7bq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bottom_gun_panel" type="Panel" parent="breed_data/bottom_gun" unique_id=1657361908]
+layout_mode = 0
+offset_top = 8.0
+offset_right = 208.0
+offset_bottom = 80.0
+
+[node name="no_gun_selected_lbl" type="Label" parent="breed_data/bottom_gun/bottom_gun_panel" unique_id=173548557]
+visible = false
+layout_mode = 0
+offset_left = 8.0
+offset_top = 3.0
+offset_right = 88.0
+offset_bottom = 23.0
+text = "Select a gun."
+label_settings = SubResource("LabelSettings_psrdb")
+
+[node name="brain_breed_gun_data" parent="breed_data/bottom_gun/bottom_gun_panel" unique_id=1178627212 instance=ExtResource("7_fcv4v")]
+layout_mode = 1
+anchors_preset = -1
+
+[node name="bottom_gene" type="Control" parent="breed_data" unique_id=769533200 node_paths=PackedStringArray("dna_bullshit")]
+anchors_preset = 0
+offset_left = 213.0
+offset_top = 92.0
+offset_right = 253.0
+offset_bottom = 180.0
+script = ExtResource("8_7sioh")
+dna_bullshit = NodePath("bottom_gene_panel/dna_bullshit")
+
+[node name="title_panel" type="Panel" parent="breed_data/bottom_gene" unique_id=2028681715]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 32.0
+offset_bottom = 88.0
+
+[node name="title_lbl" type="Label" parent="breed_data/bottom_gene/title_panel" unique_id=313123560]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GENE'S"
+label_settings = SubResource("LabelSettings_g7bq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bottom_gene_panel" type="Panel" parent="breed_data/bottom_gene" unique_id=292555403]
+layout_mode = 0
+offset_top = 16.0
+offset_right = 32.0
+offset_bottom = 80.0
+
+[node name="dna_bullshit" type="GridContainer" parent="breed_data/bottom_gene/bottom_gene_panel" unique_id=1517113948]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -14.0
+offset_top = -28.0
+offset_right = 15.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 4
+
+[node name="Label" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=962918726]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "o"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label2" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1373052014]
+layout_mode = 2
+text = "V"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label3" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=72575865]
+layout_mode = 2
+text = "X"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label4" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1074446551]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "o"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label5" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=236880176]
+layout_mode = 2
+text = "d"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label6" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1618606101]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "u"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label7" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1748239222]
+layout_mode = 2
+text = "F"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label8" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=691812660]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "u"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label9" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=349062070]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "s"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label10" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1447129809]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "I"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label11" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=529550725]
+layout_mode = 2
+text = "O"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label12" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1550924777]
+layout_mode = 2
+text = "i"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label13" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=208142844]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label14" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=266317773]
+layout_mode = 2
+text = "M"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label15" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1460394836]
+layout_mode = 2
+text = "q"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label16" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=138894444]
+layout_mode = 2
+text = "6"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label17" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=252114703]
+layout_mode = 2
+text = "5"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label18" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1337960337]
+layout_mode = 2
+text = "f"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label19" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=387815092]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label20" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=260701254]
+layout_mode = 2
+text = "q"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label21" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=551779265]
+layout_mode = 2
+text = "C"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label22" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1839207447]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+text = "E"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label23" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=2109982360]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="Label24" type="Label" parent="breed_data/bottom_gene/bottom_gene_panel/dna_bullshit" unique_id=1085424242]
+layout_mode = 2
+text = "r"
+label_settings = SubResource("LabelSettings_305tp")
+
+[node name="compatibility" type="Control" parent="breed_data" unique_id=1722476983]
+anchors_preset = 0
+offset_left = 53.0
+offset_top = 180.0
+offset_right = 253.0
+offset_bottom = 260.0
+
+[node name="title_panel" type="Panel" parent="breed_data/compatibility" unique_id=1267446226]
+layout_mode = 0
+offset_top = 24.0
+offset_right = 72.0
+offset_bottom = 32.0
+
+[node name="title_lbl" type="Label" parent="breed_data/compatibility/title_panel" unique_id=2124184794]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.5
+offset_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "COMPATIBILITY"
+label_settings = SubResource("LabelSettings_g7bq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bottom_gun_panel" type="Panel" parent="breed_data/compatibility" unique_id=477411648]
+layout_mode = 0
+offset_right = 144.0
+offset_bottom = 24.0
+
+[node name="compatibility_graph" type="Control" parent="breed_data/compatibility/bottom_gun_panel" unique_id=723260139]
+anchors_preset = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 143.0
+offset_bottom = 23.0
+script = SubResource("GDScript_fp4ov")
+
+[node name="some_gay_shit" type="Control" parent="breed_data" unique_id=1488426631]
+anchors_preset = 0
+offset_left = 245.0
+offset_top = 12.0
+offset_right = 285.0
+offset_bottom = 172.0
+script = ExtResource("9_46ifo")
+
+[node name="main_panel" type="Panel" parent="breed_data/some_gay_shit" unique_id=1767808891]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 160.0
+
+[node name="i_dont_fucking_know" type="Panel" parent="breed_data/some_gay_shit/main_panel" unique_id=1849855262]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 16.0
+offset_right = 32.0
+offset_bottom = 144.0
+
+[node name="the_bar_tm" type="ColorRect" parent="breed_data/some_gay_shit/main_panel/i_dont_fucking_know" unique_id=714933031]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 24.0
+offset_bottom = 68.0
+color = Color(1, 0.647, 0, 0.25)
+
+[node name="top_title" type="Label" parent="breed_data/some_gay_shit/main_panel" unique_id=993510953]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_top = 7.0
+offset_right = 40.0
+offset_bottom = 16.0
+text = "TOP"
+label_settings = SubResource("LabelSettings_fp4ov")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bottom_title" type="Label" parent="breed_data/some_gay_shit/main_panel" unique_id=1799774698]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_top = 145.0
+offset_right = 40.0
+offset_bottom = 154.0
+text = "BOTTOM"
+label_settings = SubResource("LabelSettings_fp4ov")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
+[connection signal="visibility_changed" from="breed_data/some_gay_shit" to="breed_data/some_gay_shit" method="_on_visibility_changed"]

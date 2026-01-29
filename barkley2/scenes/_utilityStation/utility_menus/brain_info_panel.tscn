@@ -1,0 +1,543 @@
+[gd_scene format=3 uid="uid://brg38jf5pceon"]
+
+[ext_resource type="Theme" uid="uid://ccbn336iigwja" path="res://barkley2/themes/utility_station.tres" id="1_l2t6g"]
+[ext_resource type="Script" uid="uid://dwijp1il04skr" path="res://barkley2/scenes/_utilityStation/brain_info_panel.gd" id="2_djmsr"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="3_okhlq"]
+[ext_resource type="Texture2D" uid="uid://cppc2xuv4caoq" path="res://barkley2/assets/b2_original/images/merged/sMenuBrain.png" id="4_sg1or"]
+[ext_resource type="Shader" uid="uid://d4hnqlrxkxuj3" path="res://barkley2/shaders/shader_code/utilitystation_brain.gdshader" id="5_1tv48"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="6_kmxmn"]
+[ext_resource type="Texture2D" uid="uid://comd5tp605hpu" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityLevelUp.png" id="7_t8dlr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x3iuf"]
+font = ExtResource("3_okhlq")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46cem"]
+atlas = ExtResource("4_sg1or")
+region = Rect2(0, 0, 120, 136)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4w3xs"]
+shader = ExtResource("5_1tv48")
+shader_parameter/progress = 0.85
+shader_parameter/frequency = 0.025
+shader_parameter/speed = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r7ck"]
+atlas = ExtResource("4_sg1or")
+region = Rect2(120, 0, 120, 136)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hpkte"]
+shader = ExtResource("5_1tv48")
+shader_parameter/progress = 0.85
+shader_parameter/frequency = 0.025
+shader_parameter/speed = 5.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_giw0b"]
+atlas = ExtResource("4_sg1or")
+region = Rect2(240, 0, 120, 136)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tq0ww"]
+line_spacing = 0.0
+font = ExtResource("3_okhlq")
+
+[sub_resource type="LabelSettings" id="LabelSettings_46cem"]
+font = ExtResource("6_kmxmn")
+
+[sub_resource type="LabelSettings" id="LabelSettings_6r7ck"]
+font = ExtResource("3_okhlq")
+
+[node name="brain_info_panel" type="Control" unique_id=1525267039]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 300.0
+offset_bottom = 228.0
+theme = ExtResource("1_l2t6g")
+script = ExtResource("2_djmsr")
+
+[node name="big_brain" type="Control" parent="." unique_id=332385334]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="large_spaghetti" type="Panel" parent="big_brain" unique_id=185124653]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 12.0
+offset_right = 141.0
+offset_bottom = 196.0
+
+[node name="play_title" type="Label" parent="big_brain/large_spaghetti" unique_id=865775483]
+layout_mode = 0
+offset_left = 74.0
+offset_top = 19.0
+offset_right = 107.0
+offset_bottom = 31.0
+text = "PLAY"
+label_settings = SubResource("LabelSettings_x3iuf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work_title" type="Label" parent="big_brain/large_spaghetti" unique_id=1926603009]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 161.0
+offset_right = 54.0
+offset_bottom = 173.0
+text = "WORK"
+label_settings = SubResource("LabelSettings_x3iuf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="main_brain" type="TextureRect" parent="big_brain/large_spaghetti" unique_id=2007007256]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_46cem")
+
+[node name="left_brain" type="TextureRect" parent="big_brain/large_spaghetti" unique_id=711160739]
+material = SubResource("ShaderMaterial_4w3xs")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_6r7ck")
+
+[node name="right_brain" type="TextureRect" parent="big_brain/large_spaghetti" unique_id=1166535266]
+material = SubResource("ShaderMaterial_hpkte")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -68.0
+offset_right = 60.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_giw0b")
+
+[node name="brain" type="Panel" parent="big_brain" unique_id=1855543653]
+layout_mode = 0
+offset_left = 101.0
+offset_top = 196.0
+offset_right = 141.0
+offset_bottom = 205.0
+
+[node name="brain_title" type="Label" parent="big_brain/brain" unique_id=870711944]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 2.0
+offset_right = 40.0
+offset_bottom = 10.0
+text = "BRAIN"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+
+[node name="exp" type="Control" parent="." unique_id=22820504]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 12.0
+offset_right = 189.0
+offset_bottom = 52.0
+
+[node name="main_exp" type="Panel" parent="exp" unique_id=947984015]
+layout_mode = 0
+offset_right = 48.0
+offset_bottom = 32.0
+
+[node name="main_exp_value" type="Label" parent="exp/main_exp" unique_id=1261174365]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp" type="Panel" parent="exp" unique_id=1262485219]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 41.0
+
+[node name="exp_title" type="Label" parent="exp/exp" unique_id=1756066252]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "EXPERIENCE"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="next_lvl" type="Control" parent="." unique_id=1857977680]
+anchors_preset = 0
+offset_left = 205.0
+offset_top = 12.0
+offset_right = 245.0
+offset_bottom = 52.0
+
+[node name="next_lvl" type="Panel" parent="next_lvl" unique_id=1449449197]
+layout_mode = 0
+offset_right = 24.0
+offset_bottom = 32.0
+
+[node name="next_exp_value" type="Label" parent="next_lvl/next_lvl" unique_id=1497356821]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="next" type="Panel" parent="next_lvl" unique_id=175547131]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 24.0
+offset_bottom = 41.0
+
+[node name="next_title" type="Label" parent="next_lvl/next" unique_id=2132705777]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "NEXT"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="curr_lvl" type="Control" parent="." unique_id=1110672128]
+anchors_preset = 0
+offset_left = 237.0
+offset_top = 12.0
+offset_right = 277.0
+offset_bottom = 52.0
+
+[node name="curr_lvl" type="Panel" parent="curr_lvl" unique_id=292830455]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 32.0
+
+[node name="curr_lvl_value" type="Label" parent="curr_lvl/curr_lvl" unique_id=1915172980]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -18.0
+offset_top = -10.0
+offset_right = 3.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "099"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="level_up_text" type="TextureRect" parent="curr_lvl/curr_lvl" unique_id=20024924]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -9.0
+offset_right = 20.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_t8dlr")
+
+[node name="curr" type="Panel" parent="curr_lvl" unique_id=902145465]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 40.0
+offset_bottom = 41.0
+
+[node name="curr_title" type="Label" parent="curr_lvl/curr" unique_id=226061793]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "LEVEL"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work_side" type="Control" parent="." unique_id=1758115830]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 60.0
+offset_right = 189.0
+offset_bottom = 100.0
+
+[node name="helper" type="Panel" parent="work_side" unique_id=1190373713]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+
+[node name="helper_title" type="Label" parent="work_side/helper" unique_id=650696304]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 89.0
+offset_bottom = 21.0
+text = "HELPER QUOTIENT"
+label_settings = SubResource("LabelSettings_6r7ck")
+
+[node name="helper_value" type="Label" parent="work_side/helper" unique_id=1513739568]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 32.0
+offset_top = -9.0
+offset_right = 56.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0.99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp_gained" type="Panel" parent="work_side" unique_id=1607085639]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 64.0
+
+[node name="exp_gained_title" type="Label" parent="work_side/exp_gained" unique_id=1204925433]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 14.0
+offset_right = 124.0
+offset_bottom = 21.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 2
+
+[node name="exp_gained_value" type="Label" parent="work_side/exp_gained" unique_id=1938554537]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -10.0
+offset_right = -30.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="work" type="Panel" parent="work_side" unique_id=1370890178]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 64.0
+offset_right = 128.0
+offset_bottom = 73.0
+
+[node name="work_title" type="Label" parent="work_side/work" unique_id=326420358]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "WORK"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="play_side" type="Control" parent="." unique_id=235837060]
+anchors_preset = 0
+offset_left = 149.0
+offset_top = 141.0
+offset_right = 189.0
+offset_bottom = 181.0
+
+[node name="vidcons" type="Panel" parent="play_side" unique_id=222942301]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+
+[node name="vidcon_title" type="Label" parent="play_side/vidcons" unique_id=1140920247]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 89.0
+offset_bottom = 21.0
+text = "VIDCONS"
+label_settings = SubResource("LabelSettings_6r7ck")
+
+[node name="vidcon_owned_title" type="Label" parent="play_side/vidcons" unique_id=1985042785]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 36.0
+offset_top = 24.0
+offset_right = 81.0
+offset_bottom = 31.0
+text = "OWNED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_unboxed_title" type="Label" parent="play_side/vidcons" unique_id=219194914]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 78.0
+offset_top = 24.0
+offset_right = 128.0
+offset_bottom = 31.0
+text = "UNBOXED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_owned_value" type="Label" parent="play_side/vidcons" unique_id=927391270]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -12.0
+offset_right = 5.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="vidcon_unboxed_value" type="Label" parent="play_side/vidcons" unique_id=1245886188]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 28.0
+offset_top = -12.0
+offset_right = 50.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="exp_gained" type="Panel" parent="play_side" unique_id=1153263538]
+layout_mode = 0
+offset_top = 32.0
+offset_right = 128.0
+offset_bottom = 64.0
+
+[node name="exp_gained_title" type="Label" parent="play_side/exp_gained" unique_id=281144249]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 0
+offset_left = 40.0
+offset_top = 14.0
+offset_right = 124.0
+offset_bottom = 21.0
+text = "EXPERIENCE GAINED"
+label_settings = SubResource("LabelSettings_6r7ck")
+horizontal_alignment = 2
+
+[node name="exp_gained_value" type="Label" parent="play_side/exp_gained" unique_id=2132870640]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -10.0
+offset_right = -30.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "99"
+label_settings = SubResource("LabelSettings_46cem")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="play" type="Panel" parent="play_side" unique_id=394102489]
+layout_mode = 0
+offset_top = -9.0
+offset_right = 40.0
+
+[node name="play_title" type="Label" parent="play_side/play" unique_id=1414861775]
+modulate = Color(0.745098, 0.745098, 0.745098, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLAY"
+label_settings = SubResource("LabelSettings_tq0ww")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
