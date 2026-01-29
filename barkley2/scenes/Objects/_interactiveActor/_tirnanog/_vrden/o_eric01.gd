@@ -1,5 +1,18 @@
 extends B2_InteractiveActor
 
+## Eric, hopeful Pet Shop Applicant
+	#ericQuest
+		#0 is Eric hasn't been spoken to.
+		#1 is Eric's quest has been rejected.
+		#2 is Eric's quest has been accepted.
+		#3 is you've found the pet store and talked to the owner.
+		#4 is you've told Eric about the resume but still need to do it.
+		#5 is you've finished the resume.
+		#6 is cuthbert hated your resume.
+		#7 is cuthbert liked the resume a little.
+		#8 is cuthbert liked the resume a lot.
+		#9 is you've completed the quest and gotten your reward, eric moves to the shop
+
 const O_ERICFLY = preload("res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_ericfly.tscn")
 
 @onready var audio_emitter: B2_AudioEmitter = $B2_AudioEmitter

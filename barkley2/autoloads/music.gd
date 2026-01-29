@@ -23,6 +23,8 @@ const END_BATTLE_MUSIC := [
 	"shitworld",
 ]
 
+const MUSIC_BUS := 01
+
 ## The star of the show. Plays the music.
 @onready var audio_stream_player : AudioStreamPlayer = $AudioStreamPlayer
 
@@ -84,10 +86,18 @@ func _enter_tree() -> void:
 	music_bank = MUSICBANK.data
 
 func _ready():
-	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
+	volume_menu() # Reset volume
+	_volume( linear_to_db( get_volume() ) )
 	music_bank_dirty.connect( _reindex_musicbank )
 
-# used to change the volume based on the menu open
+func is_player_in_a_interior() -> bool:
+	if B2_RoomXY.room_reference:
+		return B2_RoomXY.room_reference.is_interior
+	else:
+		push_error("Room not valid for sound check: %s" % B2_RoomXY.room_reference.name)
+		return false
+
+# used to change the volume based on the menu open. NOTE this should overide the volume set on the audiobus.
 func volume_menu( force := false ):
 	if B2_Screen.is_any_menu_open() or force:		audio_stream_player.volume_db = linear_to_db( get_volume() * 0.45 )
 	elif B2_Screen.is_paused:						audio_stream_player.volume_db = -100.0
@@ -96,8 +106,7 @@ func volume_menu( force := false ):
 	
 func set_volume( raw_value : float): # 0 - 100
 	B2_Config.bgm_gain_master = raw_value / 100
-	audio_stream_player.volume_db = linear_to_db( B2_Config.bgm_gain_master )
-	audio_stream_player.volume_db *= volume_mod
+	_volume( linear_to_db( B2_Config.bgm_gain_master * volume_mod ) )
 	
 func get_volume() -> float:
 	return B2_Config.bgm_gain_master #db_to_linear(B2_Config.bgm_gain_master)
@@ -287,11 +296,7 @@ func stop( speed := 0.25 ):
 		return
 		
 	if audio_stream_player.playing:
-		if tween != null:
-			tween.kill()
-		tween = create_tween()
-		tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
-		await tween.finished
+		await music_fade_out( speed )
 		curr_playing_track = ""
 		audio_stream_player.stop()
 	else:
@@ -321,22 +326,39 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := t
 	## Fade out the currennt music track
 	if audio_stream_player.playing:
 		if speed != 0.0: # fade in music
-			tween = create_tween()
-			tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
-			await tween.finished
+			await music_fade_out( speed )
 		audio_stream_player.stop()
 		
 	## Load stream file and play the damn music.
 	audio_stream_player.stream = next_music
 	audio_stream_player.play( track_position )
-	audio_stream_player.volume_db = linear_to_db(0.0)
+	_volume( linear_to_db(0.0) )
+	volume_menu() ## Reset menu volume mod if necessary
 	
 	## Fade in the new music track
 	if speed != 0.0: # fade in music
-		tween = create_tween()
-		tween.tween_property( audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed).from( 0.0 )
-		await tween.finished
+		await music_fade_in( speed )
 	else: # instant music
-		audio_stream_player.volume_db = linear_to_db(B2_Config.bgm_gain_master * volume_mod)
+		_volume( linear_to_db(B2_Config.bgm_gain_master * volume_mod) )
 	
 	bgm_music = track_name # argument[1];
+
+# func used by the volume tweener. NOTE should be in DB, not raw float. Use 'linear_to_db()'.
+func _volume( value : float ) -> void:
+	AudioServer.set_bus_volume_db( MUSIC_BUS, value )
+
+# Rev up a tweener to fade in the music
+func music_fade_in( speed : float ) -> void:
+	if tween: tween.kill()
+	tween = create_tween()
+	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed).from( 0.0 )
+	tween.tween_method( _volume, 0.0, linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed )
+	await tween.finished
+	
+# Rev up a tweener to fade out the music
+func music_fade_out( speed : float ) -> void:
+	if tween: tween.kill()
+	tween = create_tween()
+	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
+	tween.tween_method( _volume, linear_to_db(B2_Config.bgm_gain_master * volume_mod ), 0.0, speed )
+	await tween.finished

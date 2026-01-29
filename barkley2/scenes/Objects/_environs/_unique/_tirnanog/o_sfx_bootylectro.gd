@@ -1,3 +1,4 @@
+@tool
 extends B2_AudioEmitter
 
 func _ready() -> void:

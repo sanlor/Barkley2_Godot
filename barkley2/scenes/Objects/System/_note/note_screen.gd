@@ -44,8 +44,8 @@ var verbose_prints := false
 @onready var no_btn: 				Button = $confirm_bg/dialog/VBoxContainer/HBoxContainer/no_btn
 
 @onready var gallery: 				Control = $ColorRect/gallery
-@onready var s_gallery: TextureRect = $ColorRect/gallery/sGallery
-@onready var s_gallery_text: Label = $ColorRect/gallery/sGallery_text
+@onready var s_gallery: 			TextureRect = $ColorRect/gallery/sGallery
+@onready var s_gallery_text: 		Label = $ColorRect/gallery/sGallery_text
 
 
 const text_size := 9216.0
@@ -183,6 +183,7 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 		note_name.text = Text.pr( B2_Note.gallery_name )
 		s_gallery_text.text = Text.pr( art[1] )
 		return
+		
 	# get note name from the directory
 	note_name.text = Text.pr( avaiable_notes[selected_note] )
 	if note_itself:
@@ -199,7 +200,11 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 	# TITLE # "Wilmer's Amortization Schedule", 
 	# SFX # "sn_mnu_noteFlipLight01", 
 	# DATA # "BAK|s_tnn_papers|15~STR|By Holy Supreme\nand Regnant Decree\nof Lord Emperor\nCuchulainn|-23|-84|3|3355344|1~STR|It is hereby known to\nDwarfkin and Duergar alike\n\nThat        \n\nof         ,\nis duly charged with\nremittance to The\nResplendent Coffers of\nPresident Cuchulainn,\nthe value of\n\n      Cuchu-Bucks\nor current equivalent\nneuroshekels.\n\nDue upon the reading\nof this decree.|-69|-48|3|0|1~STR|Mr. Wilmer|-41|-27|3|509|1~STR|Tir na nOg|-54|-13|3|254|1~STR|180,348|-68|36|3|509|1");
-	if B2_Note.has_note_in_db( avaiable_notes[selected_note] ):
+	if avaiable_notes[selected_note] == "Pet Shop Application":		## Special case, draw some dynamic data.
+		draw_resume()
+	elif avaiable_notes[selected_note] == "Completed Application":	## Special case, draw some dynamic data.
+		draw_resume()
+	elif B2_Note.has_note_in_db( avaiable_notes[selected_note] ):
 		parse_data( B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_data"] )
 	else:
 		push_error("Invalid DATA for note %s." % avaiable_notes[selected_note])
@@ -212,6 +217,8 @@ func parse_data( data : String ) -> void:
 		var header_data := split_data[0].split("|") 
 		# WARNING ^^^^^this contains information about the texture and BG. Will go unused on this port.
 		# Example: BAK|s_tnn_papers|15 - What is BAK? no idea. It goes unused in the code, i think.
+		# Sometimes, there is a ~ along the last number. No idea what it does, also: BAK|s_tnn_papers|11~STR 
+		# Oh, got it. STR means String. It just marks the start of each String line.
 		for i : int in range( split_data.size() ):
 			if i == 0: # skip the header.
 				continue
@@ -219,6 +226,7 @@ func parse_data( data : String ) -> void:
 			var text_data := split_data[i].split("|") 
 			# 0 = STR| 1 = Text| 2 = x| 3 = y| 4 = font| 5 = col| 6 = alp
 			# NOTE ^^^ What is STR?
+			# It's a 'header', marks the start of the string data.
 			var label := Label.new()
 			label.label_settings = LabelSettings.new()
 			label.label_settings.line_spacing = 0
@@ -240,6 +248,10 @@ func parse_data( data : String ) -> void:
 				)
 	else:
 		push_warning("NOTE: No data to parse. Is this normal?")
+	pass
+
+## Draw eric's resume
+func draw_resume() -> void:
 	pass
 
 func play_sfx() -> void:
