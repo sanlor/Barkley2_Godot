@@ -2,6 +2,90 @@
 
 [ext_resource type="Script" uid="uid://c5usuolfqlktj" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_gleb01.gd" id="1_2rs8u"]
 [ext_resource type="Texture2D" uid="uid://de6hw8vxqf6i7" path="res://barkley2/assets/b2_original/images/merged/s_glebSpin01.png" id="2_5f2pu"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_ktt77"]
+
+[sub_resource type="Resource" id="Resource_3xwpy"]
+script = ExtResource("2_ktt77")
+original_script = "IF glebState == 0 | GOTO | DANCE_EARLY
+IF glebState == 1 | GOTO | DANCE_EARLY_SPIN
+IF glebState == 2 | GOTO | DANCE_EARLY_SPIN_AGAIN
+IF glebOffer == 3 | GOTO | LEAVE_HOME
+IF time == 15 | GOTO | PUKING
+ 
+DANCE_EARLY
+DIALOG | Gleb | Dance?
+DIALOG | P_NAME = s_port_hoopz | Me? Um... I'm not much of a dancer.
+DIALOG | Gleb | You must dance! Also, I will dance. For now I stretch. I wait for /'club energy/'... then I spin...
+DIALOG | P_NAME = s_port_hoopz | Spin?
+DIALOG | Gleb | Yes, spin. I wait for /'club energy/'... then I spin. Please, return to see my spin!
+QUEST | glebState = 1
+QUEST | glebTime = time
+EXIT | 
+
+DANCE_EARLY_SPIN
+DIALOG | P_NAME = s_port_hoopz | Whoa, look at this guy go!
+DIALOG | Gleb | I... feel... this... rhythm... I... am... spinning...!
+DIALOG | Gleb | Spinning... spinning... I... spin... to... rhythm... I... spin... to... dance...
+DIALOG | P_NAME = s_port_hoopz | You sure do spin... you spin like nobody's business!
+DIALOG | Gleb | I... spin... and... thank... you...
+QUEST | glebState = 2
+EXIT
+
+DANCE_EARLY_SPIN_AGAIN
+DIALOG | Gleb = glebport | Spin... is... the... dance... for... me...
+EXIT
+
+LEAVE_HOME
+DIALOG | Gleb = glebport | Need to get my bearings, then I'm off to my home... and spinning...!
+EXIT |
+
+MOVE_IN
+CHOICE | Offer a room
+REPLY | OFFER_ROOM | 
+REPLY | DONT_OFFER_ROOM | 
+
+OFFER_ROOM
+DIALOG | P_NAME = s_port_hoopz | Hey, Gleb, I was wondering, since you can't dance in Dwarf Zion anymore, would you be interested in renting a room from me?
+EXIT | 
+
+DONT_OFFER_ROOM
+EXIT |
+
+PUKING
+IF glebState == 0 | GOTO | PUKE_UNKNOWN
+IF glebState == 1 | GOTO | PUKE_KNOWN
+
+PUKE_UNKNOWN
+DIALOG | P_NAME = s_port_hoopz | Hey, are you okay?
+DIALOG | Gleb = glebport | N... no... not okay. Spun too fast... banned from Dwarf Zion. No place to go... no club energy...
+
+PUKE_KNOWN
+IF glebTime <= 5 | GOTO | PUKE_KNOWN_EARLY
+IF glebTime <= 12 | GOTO | PUKE_KNOWN_MIDDLE
+IF glebTime == 13 | GOTO | PUKE_KNOWN_COLLAPSE
+DIALOG | Gleb = glebport | No club... no club energy... no Dwarf Zion... no place to spin...
+
+PUKE_KNOWN_EARLY
+DIALOG | P_NAME = s_port_hoopz | Hey, are you okay? You're that dancing guy from before... what happened?
+DIALOG | Gleb = glebport | N... no... not okay. I danced... I was spinning... you should have seen me... spinning.
+DIALOG | P_NAME = s_port_hoopz | Did you spin too much?
+DIALOG | Gleb = glebport | Yes... I was spinning too much... much too fast... I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...
+
+PUKE_KNOWN_MIDDLE
+DIALOG | P_NAME = s_port_hoopz | Gleb! What happened? Are you okay?
+DIALOG | Gleb = glebport | I was spinning... I was spinning well... it was my best dancing... then I started spinning faster... much faster.
+DIALOG | P_NAME = s_port_hoopz | Oh no!
+DIALOG | Gleb = glebport | Now I know... there is such thing as too much spinning... too fast of spinning... I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...
+
+PUKE_KNOWN_COLLAPSE
+DIALOG | P_NAME = s_port_hoopz | Gleb! Are you okay? What happened? I don't wanna say I told-
+DIALOG | Gleb = glebport | Spinning. I was... spinning... too fast...
+DIALOG | P_NAME = s_port_hoopz | Aw, poor Gleb! I tried to warn you!
+DIALOG | Gleb = glebport | I know... now I know. I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...
+
+
+"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ktt77"]
 atlas = ExtResource("2_5f2pu")
@@ -47,6 +131,7 @@ size = Vector2(30, 56)
 [node name="o_gleb01" type="CharacterBody2D" unique_id=230219286 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_2rs8u")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_3xwpy")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 can_move_around = false

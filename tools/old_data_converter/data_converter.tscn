@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dinf0ob4yu8xl"]
+
+[ext_resource type="Script" uid="uid://ckmpcmmgu4cwu" path="res://tools/old_data_converter/data_converter.gd" id="1_n1tmr"]
+
+[node name="data_converter" type="Node2D" unique_id=581778485]
+script = ExtResource("1_n1tmr")
+file_name = "event_bct_brainfanTwo01"
+old_data_text = "if (argument0 == SCRIPT_INTERACT) {
+    var brainfanOne = id;
+    var event = scr_event_create_main();
+    
+    with event {
+        // brain defeated, chaiyaporn lost powers
+        if (scr_quest_get_state(\"chaiyapornPowers\") == 1) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"\");
+        }
+        // chaiyaporn exploded
+        else if (scr_quest_get_state(\"chaiyapornExplode\") == 1) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"\");
+        }
+        // chaiyaporn is resting
+        else if (scr_quest_get_state(\"chaiyapornTime\") == 1) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"\");
+        }
+        // talked, asked question
+        else if (scr_quest_get_state(\"chaiyapornState\") == 2) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"Like I said... there's no subject on which Gehirnkind can't inform you. It's unreal!\");
+        }
+        // talked, asked no questions
+        else if (scr_quest_get_state(\"chaiyapornState\") == 1) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"I thought I was smart, until I met Gehirnkind. Now I'm ashamed of my puny brain... but it's worth it. He's just so amazing!\");
+        }
+        // haven't yet talked
+        if (scr_quest_get_state(\"chaiyapornState\") == 0) {
+            scr_event_build_dialogue(\"Brainfan Two\", NULL, \"\");
+        }
+    }
+    scr_event_advance(event);"

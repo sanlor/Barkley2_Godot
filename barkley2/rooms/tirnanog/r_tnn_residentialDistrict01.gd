@@ -14,4 +14,8 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 	
-	#B2_Playerdata.Quest("comServ", 7)
+	#push_error("Debug Stuff... for Eric's quest")
+	#B2_Note.take_note("Pet Shop Application")
+	#B2_Note.take_note("Completed Application")
+	#B2_Note.take_note("Pet Manifesto")
+	#B2_Note.take_note("Pet Apocrypha")

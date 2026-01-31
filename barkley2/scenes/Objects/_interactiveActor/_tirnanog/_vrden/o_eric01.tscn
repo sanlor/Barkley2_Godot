@@ -24,7 +24,9 @@ QUEST  | petshopApplicationQuality = 0
 QUEST  | ericTolerance = 0
 DIALOG | P_NAME | Yeah, I think so. Lemme take a look at this application...
 DIALOG | Eric   | By all means, take your time. It's not like I was preoccupied with far more important things.
-Create | o_tnn_resume // Slide up resume
+Create | o_tnn_resume
+// 30/01/26 changed how this node works.
+EVENT  | o_tnn_resume | 1
 WAIT   | 2.5
 DIALOG | P_NAME | Hmm, so the application has a list of criteria we need to fill out. It looks like there are only five: Bio, References, Previous Work Experience, Qualifications, and Skills. This sounds pretty easy, all we need to do is give stock, professional-sounding answers and you'll definitely get the job.
 DIALOG | Eric   | NO! I REFUSE to betray the Pet Manifesto and my core values for the sake of your precious /'capitalism/'. I will veto ANY answer that requires me to forgo Pet Decency. Know this well, P_NAME.
@@ -32,23 +34,23 @@ DIALOG | P_NAME | Sigh... we'll just have to find some middle ground that casts 
 DIALOG | Eric   | As much as it pains me to suffer your presence, I will agree to your terms.
 DIALOG | P_NAME | This first part seems simple enough. Do you have a photo laying around?
 DIALOG | Eric   | No, I don't have a photo /'laying around/'. However, I do have a photo on my person, yes. Ask the right question next time and you'll make less of an ape of yourself.
-EVENT  | o_tnn_resume | 0
+EVENT  | o_tnn_resume | 0 // Photo
 WAIT   | 1.01
 DIALOG | P_NAME | Your full name?
 DIALOG | Eric   | Are you deaf in addition to being incredibly thick? It's Eric. E-r-i-c. Capice?
-EVENT  | o_tnn_resume | 0
+EVENT  | o_tnn_resume | 0 // Name
 WAIT   | 1.01
 DIALOG | P_NAME | ...Okay. How old are you?
 DIALOG | Eric   | Unknown.
 DIALOG | P_NAME | Unknown?
-EVENT  | o_tnn_resume | 0
+EVENT  | o_tnn_resume | 0 // Age
 WAIT   | 1.01
 DIALOG | Eric   | Ugh, get on with it already! Time might mean nothing to YOU, but it's of the essence to those of us who have better things to do with it. There's a whole RANGE of incubators eagerly awaiting my e-review.
 DIALOG | P_NAME | This part seems a bit trickier... It's a personal quote that tells a bit about yourself.
 DIALOG | Eric   | There are far too many quotes and credos that resonate with me, and choosing one is like choosing my favorite lizard subspeci-
 DIALOG | P_NAME | Any quote will do.
 DIALOG | Eric   | /'No gods, no masters. Only pets./'
-EVENT  | o_tnn_resume | 0
+EVENT  | o_tnn_resume | 0 // Quote
 WAIT   | 1.01
 DIALOG | P_NAME | Okay. So the next field is for references... I think that's like people who can back up your work or something? I guess you don't really have any references, do you, Eric...?
 CHOICE | What do we fill in for references?
@@ -290,7 +292,7 @@ DIALOG | Eric   | What are you blathering about? I've cooperated with this inani
 DIALOG | P_NAME | It... it says we need a cover letter. You know, it's like... I-...  I- can't do this. A cover letter's like an essay about why you want the job. We're gonna have to write whole paragraphs... together... I, mean, I... ugh. Eric I just can't. I can't do it.
 DIALOG | Eric   | An essay about pets? Has absolutely none of my tutelage wormed its way into that vast, empty cavern you call a skull? I am the author of the Pet Manifesto! T-h-e P-e-t M-a-n-i-f-e-s-t-o. Is that a spark I see? Is your shriveled, worm-like brain-stem sparking in recognition of who you are talking to and just what I have accomplished? Sigh... Pet Reality is fully beyond your mental grasp, it seems.
 DIALOG | P_NAME | You know, that's probably true. Give me your manifesto. I can't imagine there is anything in here that will ingratiate you with an employer. Or anyone, anyone at all. I'm gonna go deliver your application to Cuthbert at the pet shop. I'll be back, I guess. Who knows. Who knows! Who even cares!
-EVENT  | o_tnn_resume | 0
+EVENT  | o_tnn_resume | 2
 WAIT   | 2.50
 NOTE   | give | Pet Shop Application
 NOTE   | take | Completed Application
@@ -442,7 +444,13 @@ QUEST  | time += 1
 QUEST  | ericQuest = 9
 FADE   | 1 | 2
 WAIT   | 2
-Teleport | \" + string(room) + \" | \" + string(x + 24) + \" | \" + string(y) + \" | 2 | 2
+//Teleport | \" + string(room) + \" | \" + string(x + 24) + \" | \" + string(y) + \" | 2 | 2
+// 30/01/26 Disabled the command above. This port can handle removing actors on the fly,
+WAIT   | 0.5
+Destroy | o_eric01
+WAIT   | 0.5
+FADE   | 0 | 2
+WAIT   | 2
 
 ERIC_FAILED
 DIALOG | Eric   | I have learned a valuable lesson from our partnership, P_NAME. Trust only pets. We have nothing more to speak of. Leave."

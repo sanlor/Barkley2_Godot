@@ -5564,16 +5564,16 @@ script/source = "extends \"res://barkley2/scenes/Objects/_interactiveActor/_tirn
  ## Pet store ##
 func evict_check() -> bool:
 	## Time based events not implemented
-	#if ClockTime() <= 7 then scr_event_interactive_deactivate(); 
-	if B2_Playerdata.Quest(\"ericQuest\") < 7:
+	if B2_ClockTime.time_gate() <= 7:
+		return true
+		
+	elif B2_Playerdata.Quest(\"ericQuest\") >= 7:
 		return true
 		
 	else: ## Closed since Eric wasn't hired
 		#dny = 16;   
 		## Door creation code for cuthbert has lock code
-		pass
-		
-	return false
+		return false
 "
 
 [sub_resource type="Resource" id="Resource_cex1x"]
@@ -6485,7 +6485,6 @@ y_sort_enabled = true
 [node name="o_drum_open08" parent="props" unique_id=1626379840 instance=ExtResource("13_j1u5v")]
 position = Vector2(888, 51)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000189"
 metadata/scale = Vector2(1, 1)
@@ -6493,6 +6492,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open07" parent="props" unique_id=34349805 instance=ExtResource("13_j1u5v")]
 position = Vector2(896, 35)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000170"
 metadata/scale = Vector2(1, 1)
@@ -6500,7 +6500,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open06" parent="props" unique_id=1482760950 instance=ExtResource("13_j1u5v")]
 position = Vector2(872, 43)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000169"
 metadata/scale = Vector2(1, 1)
@@ -6508,7 +6507,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open05" parent="props" unique_id=600355127 instance=ExtResource("13_j1u5v")]
 position = Vector2(328, 1315)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000168"
 metadata/scale = Vector2(1, 1)
@@ -6516,6 +6514,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open04" parent="props" unique_id=2080072877 instance=ExtResource("13_j1u5v")]
 position = Vector2(1176, 1235)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000167"
 metadata/scale = Vector2(1, 1)
@@ -6523,7 +6522,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open03" parent="props" unique_id=971453239 instance=ExtResource("13_j1u5v")]
 position = Vector2(1008, 1315)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000166"
 metadata/scale = Vector2(1, 1)
@@ -6531,7 +6529,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open02" parent="props" unique_id=955936128 instance=ExtResource("13_j1u5v")]
 position = Vector2(592, 1331)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000165"
 metadata/scale = Vector2(1, 1)
@@ -6539,7 +6536,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open01" parent="props" unique_id=1583829817 instance=ExtResource("13_j1u5v")]
 position = Vector2(600, 1315)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000164"
 metadata/scale = Vector2(1, 1)
@@ -6716,6 +6712,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_poster_tnn01" parent="props" unique_id=1256207553 instance=ExtResource("27_y3tj4")]
 position = Vector2(608, 816)
 sprite_frames = SubResource("SpriteFrames_qxb8f")
+frame = 0
 metadata/code = "dsl_tnn_poster01(\"chocomallow\");
 "
 metadata/inst_name = "inst_019365E9"
@@ -7754,9 +7751,11 @@ if ClockTime() > 7 and Quest(\"ericQuest\") <= 6 then event_user(0);
 metadata/inst_name = "inst_47858D6E"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_tnn_evictionTape_petshop" parent="." unique_id=2084206928 instance=ExtResource("63_hip3d")]
+[node name="o_tnn_evictionTape_petshop" parent="." unique_id=2084206928 node_paths=PackedStringArray("disable_door", "disable_doorlight") instance=ExtResource("63_hip3d")]
 position = Vector2(520, 1100)
 script = SubResource("GDScript_ewxq6")
+disable_door = NodePath("../o_door_tnn_stairs_petstore")
+disable_doorlight = NodePath("../o_doorlight_up_petstore")
 cutscene_script = SubResource("Resource_cex1x")
 metadata/code = "name = \"cuthbertTape\";"
 metadata/inst_name = "inst_B501BC7F"

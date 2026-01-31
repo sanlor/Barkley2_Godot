@@ -33,7 +33,8 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
-
+	
+	execute_event_user_10()
 
 ## NOTE Its missing a lot of stuff.
 ## check user event 10, pretty important
@@ -105,3 +106,56 @@ func execute_event_user_6():
 		if qal == 0: B2_Playerdata.Quest("redfieldShop50Empty", 1)
 		if qal == 1: B2_Playerdata.Quest("redfieldShop70Empty", 1)
 		if qal == 2: B2_Playerdata.Quest("redfieldShop90Empty", 1)
+
+# Placement system
+func execute_event_user_10() -> void:
+	var time 		:= B2_ClockTime.time_get()
+	var newArea 	:= "";
+	var oldArea 	: String = B2_Playerdata.Quest("redfieldLastArea", null, "");
+
+	# The first area is 0 - 30 minutes in, second area is 30-60 minutes in, etc
+	var dslArea := []
+	dslArea.append("r_tnn_warehouseDistrict01");
+	dslArea.append("r_tnn_residentialDistrict01");
+	dslArea.append("r_sw1_descent01"); #r_tnn_marketDistrict01);
+	dslArea.append("r_sw1_descent01"); #r_tnn_maingate02);
+	dslArea.append("r_sw1_descent01"); #r_tnn_businessDistrict01);
+	dslArea.append("r_sw1_descent01"); #r_tnn_bballcourt02);
+	dslArea.append("r_tnn_bballcourt_transition01");
+	dslArea.append("r_tnn_boardinghouse01"); #3;30
+	dslArea.append("r_sw1_manholeWest01");
+	dslArea.append("r_sw1_manholeEast01");
+	dslArea.append("r_sw1_respawn01");
+	dslArea.append("r_sw1_floor2Access01");
+	
+	for i in dslArea:
+		var are = dslArea[i]
+		if (time < (i + 1) * 0.5): 
+			newArea = are
+			break
+
+	if (get_room_name() == "r_tnn_marketDistrict01"): 				ActorAnim.flip_h = true
+	elif (get_room_name() == "r_tnn_maingate02"): 					ActorAnim.flip_h = true
+	elif (get_room_name() == "r_tnn_bballcourt02"): 				ActorAnim.flip_h = true
+	elif (get_room_name() == "r_tnn_bballcourt_transition01"): 		ActorAnim.flip_h = true
+	elif (get_room_name() == "r_sw1_manholeEast01"): 				ActorAnim.flip_h = true
+	elif (get_room_name() == "r_sw1_respawn01"): 					ActorAnim.flip_h = true
+	elif (get_room_name() == "r_sw1_floor2Access01"): 				ActorAnim.flip_h = true
+	elif (get_room_name() == "r_sw1_descent01"): 					ActorAnim.flip_h = true
+	else: 															ActorAnim.flip_h = false
+
+	## NOTE bellow seems to be some patchwork code. I wonder if it works as the old devs expected.
+	#show_debug_message("Redfield - " + room_get_name(newArea) + " - OLD = " + room_get_name(oldArea));
+	if get_room_name() == newArea:
+		if true: #newArea != oldArea)
+			B2_Playerdata.Quest("redfieldLastArea", newArea);
+			B2_Playerdata.Quest("redfieldTalked", 0);
+			B2_Playerdata.Quest("redfieldShop50Empty", 0);
+			B2_Playerdata.Quest("redfieldShop70Empty", 0);
+			## NOTE disabled the condition below on a whim. No idea what its supposed to do.
+			#if newArea == "r_tnn_boardinghouse01":
+			#	with (o_door_parent)
+			#		if (name == "redfield")
+			#			event_user(1);
+	else:
+		queue_free()

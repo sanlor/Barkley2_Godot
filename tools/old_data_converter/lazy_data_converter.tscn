@@ -1,0 +1,320 @@
+[gd_scene format=3 uid="uid://bwjsmrsrtliwq"]
+
+[ext_resource type="Script" uid="uid://50eejkcdyfmm" path="res://tools/old_data_converter/lazy_data_converter.gd" id="1_8w1wf"]
+
+[node name="lazy_data_converter" type="Node2D" unique_id=1624503780]
+script = ExtResource("1_8w1wf")
+file_name = "asd"
+old_data_text = "event_inherited();
+
+scr_event_hook_onCommon(event_cinema);
+
+// event_bct_gleb01
+
+/*if (argument0 == SCRIPT_START) {
+    var gleb_early = 5;
+    var gleb_collapse = 13;
+    var gleb_middle = gleb_collapse - 1;
+    
+    var gleb_late = 18;
+    
+    // if gleb is in the dilapidated zone
+    if (scr_quest_get_state(\"glebOffer\") == 3) {
+        scr_event_interactive_deactivate();
+        scr_actor_unsetRigid(id);
+    }
+/*
+    // if already collapsed
+    else if (room == r_bct_dwarfZion01) && (scr_time_get() > gleb_collapse) {
+        scr_event_interactive_deactivate();
+        scr_actor_unsetRigid(id);
+    }
+    // if not yet collapsed
+    else if (room == r_bct_dwarfZionAlley01) && (scr_time_get() <= gleb_collapse) {
+        scr_event_interactive_deactivate();
+        scr_actor_unsetRigid(id);
+    }
+*/
+    
+    // reset glebState 2 to 1, if the situation has changed
+/*    if (scr_quest_get_state(\"glebState\") == 2) {
+        if (scr_quest_get_state(\"glebTime\") <= gleb_early) && (scr_time_get() > gleb_early) {
+            Quest(\"glebState\", 1);
+        }
+        else if (scr_quest_get_state(\"glebTime\") <= gleb_middle) && (scr_time_get() > gleb_middle) {
+            Quest(\"glebState\", 1);
+        }
+        else if (scr_quest_get_state(\"glebTime\") == gleb_collapse) && (scr_time_get() > gleb_collapse) {
+            Quest(\"glebState\", 1);
+        }
+        else if (scr_quest_get_state(\"glebCollapse\") == 0) {
+            if (scr_time_get() >= 2 + scr_quest_get_state(\"glebTime\")) && (scr_quest_get_state(\"glebTime\") > gleb_early) {
+                Quest(\"glebState\", 1);
+            }
+        }
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var gleb = id;
+    
+    // portrait
+    var glebport = NULL;
+    
+    // time variables
+    var gleb_early = 5;
+    var gleb_collapse = 13;
+    var gleb_middle = gleb_collapse - 1;
+    var gleb_late = 18;
+    
+    // load supergrid
+    if (scr_savedata_contains(\"supergrid\")) {
+        global.supergrid = scr_savedata_get(\"supergrid\");
+    }
+    // gleb's required value to move in
+    var gleb_req = 50;
+    // gleb's rent
+    var gleb_rent = 15;
+    
+    var event = scr_event_create_main();
+    var move_in_snippet = scr_event_create_child(event);
+    
+    //------------------------------------------------------------------------------------------
+    // move_in_snippet
+    //------------------------------------------------------------------------------------------
+    with (move_in_snippet) {
+        Breakout(\"build\", \"add\", \"superEmpty\");
+        // CHOICE: offer a room?
+        var rent_choice = scr_event_build_choice(\"Offer a room?\", s_port_hoopz);
+        var rent_yes = scr_event_build_add_choice(rent_choice, \"Yes, offer Gleb a room.\");
+        
+        // choice1: yes, offer the room
+        with (rent_yes) {
+            // first attempt
+            if (scr_quest_get_state(\"glebOffer\") == 0) { scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Hey, Gleb, I was wondering, since you can't dance in Dwarf Zion anymore, would you be interested in renting a room from me?\"); }
+            // already offered and reneged, or offered and rejected because of value
+            else { scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Hey Gleb, about that room...\"); }
+            // value is high enough!
+            if (scr_quest_get_state(\"superApparent\") > gleb_req) {
+                // first attempt
+                if (scr_quest_get_state(\"glebOffer\") == 0) { scr_event_build_dialogue(\"Gleb\", glebport, \"Oh, you run the new apartment complex, yes? Seems like a fine place to spin. I will love to move in and spin there. I can pay \" + string(gleb_rent) + \" rent? Deal?\"); }
+                // 2+ attempts, not enough money last time
+                else if (scr_quest_get_state(\"glebOffer\") == 1) { scr_event_build_dialogue(\"Gleb\", glebport, \"Oh yes, the room! I hear it is much nicer now. So what do you think? I will love to move in and spin there. I can pay \" + string(gleb_rent) + \" rent? Deal?\"); }
+                // 2+ attempts, changed mind last time
+                else if (scr_quest_get_state(\"glebOffer\") == 2) { scr_event_build_dialogue(\"Gleb\", glebport, \"You change your mind? Then I want to spin in this new home! I can pay \" + string(gleb_rent) + \" rent? Deal?\"); }
+                // CHOICE: confirm offer?
+                var confirm_choice = scr_event_build_choice(\"Rent room to Gleb for \" + string(gleb_rent) + \" N.S.?\", s_port_hoopz);
+                // choice1: yes, confirm rental
+                var confirm_yes = scr_event_build_add_choice(confirm_choice, \"Yes, rent the room!\");
+                with (confirm_yes) {
+                    // have enough rooms
+                    if (scr_quest_get_state(\"superEmpty\") >= 1) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Sounds like a deal to me!\");
+                        scr_event_build_dilapidated_rent(\"Gleb\");
+                        scr_event_build_dialogue(\"\", NULL, \"Rented a room to Gleb!\");
+                        Breakout(\"build\", \"clear\");
+                        scr_event_build_dialogue(\"Gleb\", glebport, \"Wonderful! I'll go soon. Clean myself up... maybe take a break.. maybe start spinning...!\");
+                        // reset glebState for tenant stuff
+                        scr_event_build_quest_state(\"glebState\", 0);
+                        scr_event_build_quest_state(\"glebOffer\", 3);
+                    }
+                    // not enough rooms
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Ummm, I actually realized I don't have any vacancies right now...\");
+                        scr_event_build_dialogue(\"Gleb\", glebport, \"Aw, too bad! I was looking forward to having a nice spot to spin. Let me know if it changes, please!\");
+                        scr_event_build_quest_state(\"glebOffer\", 2);
+                    }
+                }
+                // choice2: no, don't rent
+                var confirm_no = scr_event_build_add_choice(confirm_choice, \"No, don't rent!\");
+                with (confirm_no) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Umm, lemme think about it!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"Okay. I'll be here, for awhile I think... still not feeling good. Not in a spinning state...\");
+                    scr_event_build_quest_state(\"glebOffer\", 2);
+                }
+            }
+            // value is too low!
+            else {
+                // first attempt
+                if (scr_quest_get_state(\"glebOffer\") == 0) { scr_event_build_dialogue(\"Gleb\", glebport, \"Oh, you run the new apartment complex, yes? Sorry, not nice enough. Give it some work, make it nice, then I rent and spin all the time!\"); }
+                // 2+ attempts, not enough money last time
+                else if (scr_quest_get_state(\"glebOffer\") == 1) { scr_event_build_dialogue(\"Gleb\", glebport, \"No, no, no! Make the apartment nicer! I want to spin in a great place... with good energy! Just a little nicer, a little work! Then I spin!\"); }
+                // 2+ attempts, changed mind last time
+                else if (scr_quest_get_state(\"glebOffer\") == 2) { scr_event_build_dialogue(\"Gleb\", glebport, \"What happened? Your apartment was nice, now it is worse! It looked like a nice place to spin, but I have only heard bad things... nothing good for spinning. Get it together... then I'll spin!\"); }
+                scr_event_build_quest_state(\"glebOffer\", 1);
+            }
+        }
+        
+        // choice2: no, don't offer
+        var rent_no = scr_event_build_add_choice(rent_choice, \"No, don't offer the room.\");
+        with (rent_no) {
+            scr_event_build_end();
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // main event
+    //------------------------------------------------------------------------------------------
+    with (event) {
+/*
+        //----------------------------
+        // late game, spinning again?
+        //----------------------------
+        if (scr_time_get() > gleb_late) {
+        
+        }
+*/
+        //-------------------------------------------------------
+        //  just recruited
+        //-------------------------------------------------------
+/*        if (scr_quest_get_state(\"glebOffer\") == 3) {
+            scr_event_build_dialogue(\"Gleb\", glebport, \"Need to get my bearings, then I'm off to my home... and spinning...!\");
+            scr_event_build_end();
+        }
+        //-------------------------------------------------------
+        // mid game, puking
+        //-------------------------------------------------------
+        else if (scr_time_get() > gleb_collapse) {
+            // increase gleb state
+            scr_event_build_quest_state(\"glebState\", 2);
+            // first time talking
+            if (scr_quest_get_state(\"glebState\") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Hey, are you okay?\");
+                scr_event_build_dialogue(\"Gleb\", glebport, \"N... no... not okay. Spun too fast... banned from Dwarf Zion. No place to go... no club energy...\");
+            }
+            // 2+ times
+            else if (scr_quest_get_state(\"glebState\") == 1) {
+                // previous talk was before spinning
+                if (scr_quest_get_state(\"glebTime\") <= gleb_early) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Hey, are you okay? You're that dancing guy from before... what happened?\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"N... no... not okay. I danced... I was spinning... you should have seen me... spinning.\");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Did you spin too much?\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"Yes... I was spinning too much... much too fast... I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...\");
+                }
+                // previous talk was after spinning
+                else if (scr_quest_get_state(\"glebTime\") <= gleb_middle) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Gleb! What happened? Are you okay?\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"I was spinning... I was spinning well... it was my best dancing... then I started spinning faster... much faster.\");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Oh no!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"Now I know... there is such thing as too much spinning... too fast of spinning... I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...\");
+                
+                }
+                // previous talk was at collapse
+                else if (scr_quest_get_state(\"glebTime\") == gleb_collapse){
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Gleb! Are you okay? What happened? I don't wanna say I told-\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"Spinning. I was... spinning... too fast...\");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Aw, poor Gleb! I tried to warn you!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"I know... now I know. I made a scene, they say. I got sick... banned from Dwarf Zion. No place to go... no club energy...\");
+                
+                }
+            }
+            // all for this time unit
+            else {
+                scr_event_build_dialogue(\"Gleb\", glebport, \"No club... no club energy... no Dwarf Zion... no place to spin...\");
+            }
+            // in all cases, go to apartment snippet if available
+            if (scr_quest_get_state(\"superOn\") == 1) {
+                scr_event_build_event_snippet(move_in_snippet);
+            }
+        }
+        
+        //-------------------------------------------------------
+        // gleb is near-collapse
+        //-------------------------------------------------------
+        else if (scr_time_get() == gleb_collapse) || (scr_quest_get_state(\"glebCollapse\") == 1) || ( (scr_time_get() >= 2 + scr_quest_get_state(\"glebTime\")) && (scr_quest_get_state(\"glebTime\") > gleb_early ) ) {
+            scr_event_build_quest_state(\"glebCollapse\", 1);
+            // first time talking
+            if (scr_quest_get_state(\"glebState\") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Whoa, man! Your spinning is out of control!\");
+                scr_event_build_dialogue(\"Gleb\", glebport, \"No... I... am... perfect... spinning... with... club... spirit...\");
+            }
+            // 2+ times
+            else if (scr_quest_get_state(\"glebState\") == 1) {
+                // previous talk was before spinning
+                if (scr_quest_get_state(\"glebTime\") <= gleb_early) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Whoa! You're out of control! Take it easy, dude!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"No... I... am... perfect... spinning... with... club... spirit...\");
+                }
+                // previous talk was after spinning
+                else if (scr_quest_get_state(\"glebTime\") <= gleb_middle) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Whoa! Gleb, slow down! You're out of control!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"No... I... am... perfect... spinning... with... club... spirit...\");
+                }
+                // previous talk was at collapse (current state)
+                else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Gleb... you're spinning too fast!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"No... no... no... this... is... my... true... spin! ... this... is... my... dance!\");
+                }
+            }
+            // all for this time unit
+            else {
+                scr_event_build_dialogue(\"Gleb\", glebport, \"Please... dance... with... me...\");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Gleb... I'm scared...\");
+            }
+        }
+        
+        //-------------------------------------------------------
+        // early, spinning
+        //-------------------------------------------------------
+        else if (scr_time_get() > gleb_early) {
+            // first time talking
+            if (scr_quest_get_state(\"glebState\") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Whoa, look at this guy go!\");
+                scr_event_build_dialogue(\"Gleb\", glebport, \"I... feel... this... rhythm... I... am... spinning...!\");
+            }
+            // 2+ times
+            else if (scr_quest_get_state(\"glebState\") == 1) {
+                // previous talk was before spinning
+                if (scr_quest_get_state(\"glebTime\") <= gleb_early) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Whoa, you really are spinning!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"I... feel... this... rhythm... I... am... spinning...!\");
+                }
+                // previous talk was after spinning (current state)
+                else {
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"Spinning... spinning... I... spin... to... rhythm... I... spin... to... dance...\");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, \"You sure do spin... you spin like nobody's business!\");
+                    scr_event_build_dialogue(\"Gleb\", glebport, \"I... spin... and... thank... you...\");
+                    scr_event_build_quest_state(\"glebState\", 2);
+                }
+            }
+            // all for this time unit
+            else {
+                scr_event_build_dialogue(\"Gleb\", glebport, \"Spin... is... the... dance... for... me...\");
+            }
+        }
+        
+        
+        //-------------------------------------------------------
+        // very early, warming up
+        //-------------------------------------------------------
+        else {
+            // first time talking
+            if (scr_quest_get_state(\"glebState\") == 0) {
+                scr_event_build_dialogue(\"Gleb\", glebport, \"Dance?\");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Me? Um... I'm not much of a dancer.\");
+                scr_event_build_dialogue(\"Gleb\", glebport, \"You must dance! Also, I will dance. For now I stretch. I wait for /'club energy/'... then I spin...\");
+            }
+            // 2+ times
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, \"Spin?\");
+                scr_event_build_dialogue(\"Gleb\", glebport, \"Yes, spin. I wait for /'club energy/'... then I spin. Please, return to see my spin!\");
+            }
+        }
+        
+        //----------------------------
+        // shared by all
+        //----------------------------
+        
+        // add to state variable
+        if (scr_quest_get_state(\"glebState\") == 0) {
+            scr_event_build_quest_state(\"glebState\", 1);
+        }
+        // set the previous talk time
+        scr_event_build_quest_state(\"glebTime\", scr_time_get());
+        
+    }
+    scr_event_advance(event);  
+}"

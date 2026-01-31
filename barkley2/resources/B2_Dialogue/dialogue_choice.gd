@@ -1,5 +1,5 @@
 @tool
-extends CanvasLayer
+extends Control
 class_name B2_DialogueChoice
 
 # Dialog box variant for CHOICE command
@@ -10,7 +10,7 @@ class_name B2_DialogueChoice
 #	
 
 # DEBUG
-@export var debug := false
+var debug := false
 
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
@@ -90,7 +90,7 @@ var blink_speed 			:= 5.50
 var is_talking				:= false
 
 func _ready() -> void:
-	layer = B2_Config.DIALOG_LAYER
+	#layer = B2_Config.DIALOG_LAYER
 	_draw_y = B2_Config.dialogY
 	
 	# Setup the dinamic frame
@@ -109,13 +109,15 @@ func _ready() -> void:
 	choice_group 		= ButtonGroup.new()
 	choice_node 		= ScrollContainer.new()
 	choice_vbox_node 	= VBoxContainer.new()
-	choice_node.add_child( choice_vbox_node )
+	choice_node.add_child( choice_vbox_node, true )
 	choice_vbox_node.set_anchors_preset( Control.PRESET_FULL_RECT)
 	
 	# Arrow
 	selection_arrow = preload("res://barkley2/resources/B2_Dialogue/dialog_choice_arrow.tscn").instantiate()
-	add_child( selection_arrow )
+	add_child( selection_arrow, true )
 	
+	## Allows it to be paused.
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 func fastforward_control( active : bool ):
 	auto_skipping = active
@@ -202,7 +204,7 @@ func set_title( _text_title : String ) -> void:
 	
 	title_node.name 		= "Title_text"
 	title_node.position 	= Vector2( _draw_x + 30 + _text_offset, _draw_y + 12 + 5 )
-	title_node.size 		= Vector2( 280, 12 )
+	title_node.size 		= Vector2( 280, 16 )
 
 	title_node.push_color( _title_color )
 	title_node.append_text( Text.pr( Text.qst( _title ) ) )

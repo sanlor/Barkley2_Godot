@@ -19,7 +19,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5any"]
 atlas = ExtResource("7_oq4l8")
-region = Rect2(4224, 0, 384, 240)
+region = Rect2(3456, 0, 384, 240)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ayilk"]
 atlas = ExtResource("8_25toe")
@@ -718,6 +718,7 @@ grow_vertical = 2
 script = ExtResource("1_7b5k1")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1926066299]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -746,9 +747,8 @@ theme = ExtResource("2_k33xd")
 material = ExtResource("3_gb7bn")
 anchors_preset = 0
 offset_left = -25.0
-offset_top = -25.0
+offset_top = -50.0
 offset_right = 409.0
-offset_bottom = 25.0
 theme = ExtResource("4_gxy4n")
 script = ExtResource("5_nsqon")
 border_size = Vector2(434, 50)
@@ -768,16 +768,6 @@ text = "PLACEHOLDER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="fade_effect" type="ColorRect" parent="ColorRect" unique_id=376649241]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.75)
-
 [node name="note_itself" type="TextureRect" parent="ColorRect" unique_id=973069720]
 layout_mode = 1
 anchors_preset = 15
@@ -787,13 +777,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_q5any")
 
+[node name="fade_effect" type="ColorRect" parent="ColorRect" unique_id=376649241]
+modulate = Color(1, 1, 1, 0)
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
 [node name="prev_note" type="TextureButton" parent="ColorRect" unique_id=1348208541]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
+offset_left = -30.0
 offset_top = -14.5
-offset_right = 30.0
 offset_bottom = 14.5
 grow_vertical = 2
 texture_normal = SubResource("AtlasTexture_ayilk")
@@ -808,8 +809,8 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -30.0
 offset_top = -14.5
+offset_right = 30.0
 offset_bottom = 14.5
 grow_horizontal = 0
 grow_vertical = 2
@@ -846,6 +847,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="give_button" type="Control" parent="ColorRect" unique_id=1977491819]
+z_index = 10
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -873,6 +875,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="exit_button" type="TextureButton" parent="ColorRect" unique_id=864769701]
+z_index = 10
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -880,9 +883,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -50.0
-offset_top = -41.0
+offset_top = -1.0
 offset_right = 50.0
-offset_bottom = 4.5776367e-05
+offset_bottom = 40.00006
 grow_horizontal = 2
 grow_vertical = 0
 focus_neighbor_left = NodePath("../give_button")
@@ -899,7 +902,7 @@ centered = false
 
 [node name="confirm_bg" type="ColorRect" parent="." unique_id=2038170103]
 modulate = Color(1, 1, 1, 0)
-z_index = 4096
+z_index = 1000
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

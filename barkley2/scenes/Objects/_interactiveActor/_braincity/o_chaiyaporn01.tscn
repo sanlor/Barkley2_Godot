@@ -2,6 +2,231 @@
 
 [ext_resource type="Script" uid="uid://bdue3ojm4ctir" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/o_chaiyaporn01.gd" id="1_k8663"]
 [ext_resource type="Texture2D" uid="uid://dy2tmese3xoh0" path="res://barkley2/assets/b2_original/images/merged/s_placeholder.png" id="2_dgm0m"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_jm4w0"]
+
+[sub_resource type="Resource" id="Resource_r7816"]
+script = ExtResource("2_jm4w0")
+original_script = "IF chaiyapornTime == 1 | GOTO | TIMEOUT
+IF chaiyapornLoop == 1 | GOTO | LOOP
+IF chaiyapornCount == 5 | GOTO | MANY_QUESTIONS
+IF chaiyapornState == 2 | GOTO | TALK_AGAIN
+IF chaiyapornState == 1 | GOTO | TALK_AGAIN_NO_GUESS
+GOTO | FIRST_TALK
+
+TIMEOUT
+DIALOG | Brainfan One | Hey creep, get lost! Leave the man alone!
+DIALOG | Brainfan Two | Yeah, he said give him a break! Give the man a break for awhile!
+DIALOG | Brainfan One | ... But then come back later and let him blow your mind!
+
+LOOP
+IF chaiyapornState == 2 | LOOP_RANDOM
+DIALOG | P_NAME = s_port_hoopzShock | What! Get out of town! ... and get out of my head!
+DIALOG | Brainfan One | Thought you could stump him? You thought wrong!
+DIALOG | Brainfan Two | We told ya! He's unbelievable!
+DIALOG | Brainfan One | Do you dare try again! Go on, see if there's something he doesn't know!
+QUEST | chaiyapornState = 2
+
+LOOP_RANDOM
+RANDOM_LINE | 5
+DIALOG | P_NAME = s_port_hoopzShock | (Wha... what kind of brain power is this!?)
+DIALOG | P_NAME = s_port_hoopzShock | (He truly knows everything... how terrible!)
+DIALOG | P_NAME = s_port_hoopzShock | (Holy... this guy's off the deep end...)
+DIALOG | P_NAME = s_port_hoopzShock | (H-... how did you...?)
+DIALOG | P_NAME = s_port_hoopzShock | (I don't believe it... I don't believe a lick of it!)
+DIALOG | Brainfan One | Ohhhhhh! Ohhhhhh!
+DIALOG | Brainfan Two | Go again, go again!
+
+MANY_QUESTIONS
+DIALOG | Chaiyaporn = gehirnport | All right, all right, I think that's enough. I gotta take care of my 'pan. Can't waste it on such amateur questions!
+DIALOG | Brainfan One | Yeah, get lost!... for awhile, then come back later so he can trounce you again!
+DIALOG | Brainfan Two | Yep, we're gonna need your sorry questions at a later date... and only at a later date!
+QUEST | chaiyapornTime = 1
+QUEST | chaiyapornCount = 0
+QUEST | chaiyapornLoop = 0
+
+TALK_AGAIN
+DIALOG | Chaiyaporn = gehirnport | Look who's back! Looks like it's time for my to flex my matter once again...
+DIALOG | Brainfan One | Doubting his uncanny brainpower?
+DIALOG | Brainfan Two | Go on, just TRY to get one past him!
+GOTO | QUESTION_LIST
+
+TALK_AGAIN_NO_GUESS
+DIALOG | Chaiyaporn = gehirnport | So you've returned!
+DIALOG | Brainfan One | You're back! Gonna chicken out again? Come on, ask him a question!
+DIALOG | Brainfan Two | Yeah, give it a shot. You'll be blown away!
+GOTO | QUESTION_LIST
+
+FIRST_TALK
+DIALOG | P_NAME = s_port_hoopz | Excuse me...
+DIALOG | Chaiyaporn = gehirnport | Yes? Hey guys... I /'wonder/' what this youngster wants!
+DIALOG | Brainfan One | Ha ha ha, I get it, /'wonder/'!
+DIALOG | Brainfan Two | Oh Chaiyaporn, you're so wise, and funny too!
+DIALOG | Chaiyaporn = gehirnport | Thank you, thank you! You're both too kind. So, kid, I know why you're here. You want to ask a question of the great Chaiyaporn!
+DIALOG | Brainfan One | Go on, ask! There's nothing he can't tell you! Let him trounce you with his knowledge!
+DIALOG | Brainfan Two | He knows everything! It's incredible! There's nothing outside of his purview!
+DIALOG | P_NAME = s_port_hoopz | Is that true? You know everything?
+DIALOG | Chaiyaporn = gehirnport | Let me think... OF COURSE! Go ahead, just try me! Ask me anything you want to know!
+QUEST | chaiyapornState = 1
+GOTO | QUESTION_LIST
+
+// This question only appears if you have not met Cyberdwarf yet.
+// It causes Chaiyaporn's head to explode!!!
+// From now on there is a corpse and spot of blood.
+// Or until they get it cleaned up
+QUESTION_WHO_AM_I
+DIALOG | Chaiyaporn = gehirnport | Who are you? You're... you're...
+WAIT | 2
+DIALOG | Chaiyaporn = gehirnport | Scanning memory banks... calculating possibilities... widening perception...
+WAIT | 1.5
+DIALOG | bort | Things go bad here. A cool sfx plays, and his head starts to shake...
+DIALOG | Chaiyaporn = gehirnport | ... sorting knowledge banks... synchronizing cortical grid... all lobes are go...
+WAIT | 1.5
+DIALOG | bort | Things go bad here. A cool sfx plays, and his head starts to shake...
+DIALOG | Brainfan Two | He's really going for it! He's got the motherlode of knowledge in his sights!
+DIALOG | Brainfan One | Chaiyaporn? Chaiyaporn? Are you-
+DIALOG | bort | Chaiyaporn's head fucking explodes!
+WAIT | 3
+DIALOG | Brainfan One | Chaiyaporn... you...
+DIALOG | Brainfan Two | Why... why!
+QUEST | chaiyapornExplode = 1
+EXIT
+
+ASK_LONGINUS
+DIALOG | P_NAME = s_port_hoopz | Where is L.O.N.G.I.N.U.S.? I'm looking for them.
+DIALOG | Chaiyaporn = gehirnport | L.O.N.G.I.N.U.S. is... behind a locked door in Brain City. You'll have to do some knocking. NEXT!
+QUEST | longinusDoorKnown = 1
+EVENT | o_chaiyaporn01 | 1
+GOTO | QUESTION_LIST
+
+ASK_CYBERDWARF
+DIALOG | P_NAME = s_port_hoopz | Do you know where the Cyberdwarf is? I'm on a mission to find him.
+DIALOG | Chaiyaporn = gehirnport | Cyberdwarf, Cyberdwarf, Cyberdwarf... try checking that L.O.N.G.I.N.U.S. place I told you about. Remember? Locked door? Knocking? Ring a bell at all? Do that!
+QUEST | chaiyapornCyberdwarf = 1
+EVENT | o_chaiyaporn01 | 1
+GOTO | QUESTION_LIST
+
+ASK_BRAINCITY
+IF brainCityTime <= 0 | DIALOG | P_NAME = s_port_hoopz | I'm really new here. What is there to do in Brain City?
+IF brainCityTime <= 5 | DIALOG | P_NAME = s_port_hoopz | Do you have any tips on what is there to do in Brain City?
+DIALOG | P_NAME = s_port_hoopz | I think I know it pretty well, but do you have any favorite Brain City spots?
+DIALOG | Chaiyaporn = gehirnport | Brain City spots? Check out that humongous flippin' Brain in the center. I feel... drawn to it. I also like logging in to Oligarchy Online. I can plug in and give this big ol' thing a rest!
+QUEST | chaiyapornWorld = 1
+EVENT | o_chaiyaporn01 | 1
+GOTO | QUESTION_LIST
+
+ASK_TIME
+DIALOG | P_NAME = s_port_hoopz | What time is it? I bet I'm late... for something anyway.
+DIALOG | Chaiyaporn = gehirnport | It's  ?? : ?? ... but you had to ask me for that? Come on!
+EVENT | o_chaiyaporn01 | 1
+GOTO | QUESTION_LIST
+
+ASK_ABOUT
+DIALOG | P_NAME = s_port_hoopz | Who are you?
+EVENT | o_chaiyaporn01 | 1
+DIALOG | Chaiyaporn = gehirnport | I'm the famous Chaiyaporn. I'm blessed with a powerful intellect, and an extremely heavy brain. It's huge. It's so big it's coming out of my skull. Aside from my brain and brain power I'm not really noteworthy, just a dwarf like any other.
+QUEST | chaiyapornAbout = 1
+GOTO | QUESTION_LIST
+
+ASK_BRAIN
+DIALOG | P_NAME = s_port_hoopz | How did your brain get so big?
+EVENT | o_chaiyaporn01 | 1
+DIALOG | Chaiyaporn = gehirnport | Proximity to that HUGE WHOPPING BRAIN in the center of the city might have something to do with it, don't you think?
+QUEST | chaiyapornAbout = 2
+GOTO | QUESTION_LIST
+
+ASK_DOESNT_KNOW
+DIALOG | P_NAME = s_port_hoopz | You're really smart, but, is there anything you don't know?
+EVENT | o_chaiyaporn01 | 1
+DIALOG | Chaiyaporn = gehirnport | If I didn't know everything, what would this brain be good for? Most dwarfs find it intimidating... or they laugh. But in fact, I know precisely how much I know. Everything.
+QUEST | chaiyapornAbout = 0
+GOTO | QUESTION_LIST
+
+ASK_THINKING
+DIALOG | P_NAME = s_port_hoopz | What am I thinking about right now?
+EVENT | o_chaiyaporn01 | 1
+DIALOG | Chaiyaporn = gehirnport | RM.
+// TODO: RoundMound shit goes here.
+DIALOG | bort | Roundmound stuff goes here.
+QUEST | chaiyapornSelf = 1
+GOTO | QUESTION_LIST
+
+ASK_WHOIAM
+QUEST | chaiyapornSelf = 2
+GOTO | QUESTION_WHO_AM_I
+
+ASK_BATTLE
+DIALOG | P_NAME = s_port_hoopz | Okay, tell me about my battling!
+DIALOG | bort | This stuff needs 2 work.
+RANDOM_LINE | 4
+case 0: battle_text = \"destroyed \" + string(scr_quest_get_state(\"statKilledEnemies\")) + \" enemies so far!\"; break;
+case 1: battle_text = \"cast a total of \" + string(scr_quest_get_state(\"statZaubersCast\")) + \" zaubers so far!\"; break;
+case 2: battle_text = \"taken \" + string(scr_quest_get_state(\"statDamageTaken\")) + \" damage so far!\"; break;
+case 3: battle_text = \"dealt \" + string(scr_quest_get_state(\"statDamageDealt\")) + \" damage so far!\"; break;
+EVENT | o_chaiyaporn01 | 1
+DIALOG | Chaiyaporn = gehirnport | Battling? Well... you've  + string(battle_text)
+GOTO | QUESTION_LIST
+
+ASK_GUNS
+DIALOG | P_NAME = s_port_hoopz | How are my gun's?
+EVENT | o_chaiyaporn01 | 1
+DIALOG | bort | need 2 display some info here!
+DIALOG | Chaiyaporn = gehirnport | gun's
+QUEST | chaiyapornBattle = 2
+GOTO | QUESTION_LIST
+
+ASK_PHYSIQUE
+DIALOG | P_NAME = s_port_hoopz | How's my physique?
+DIALOG | bort | need 2 display some info here!
+DIALOG | Chaiyaporn = gehirnport | physique
+QUEST | chaiyapornBattle = 3
+GOTO | QUESTION_LIST
+
+ASK_STRATEGY
+DIALOG | P_NAME = s_port_hoopz | What's a good strategy?
+DIALOG | bort | need 2 display some info here!
+DIALOG | Chaiyaporn = gehirnport | strat
+QUEST | chaiyapornBattle = 0
+GOTO | QUESTION_LIST
+
+ASK_NOMORE
+DIALOG | P_NAME = s_port_hoopz | That's all, no questions from me.
+IF chaiyapornState == 1 | GOTO | ASK_FEW_MORE
+EXIT |
+
+ASK_FEW_MORE
+DIALOG | Brainfan One | Boo! Boo! Ask some questions!
+DIALOG | Brainfan Two | He already knows everything about us!
+DIALOG | Brainfan One | We. Want. More. Feats!
+QUEST | chaiyapornLoop = 0
+GOTO | QUESTION_LIST
+
+// The question snippet is looped through multiple times.
+// There are 4 categories of question:
+// * About World - contains L.O.N.G.I.N.U.S. question, and stops when \"What time is it?\" remains
+// * About Chaiyaporn - loops through the 3 available questions
+// * About Self - goes away when all the questions are asked, leads to \"whoami\" snippet & chaiyaporn's death
+// * About Battle - loops through, multiple answers for each question
+// * Exit Questioning
+QUESTION_LIST
+QUEST | chaiyapornLoop = 1
+CHOICE | Ask...
+IF longinusDoorKnown == 0 | REPLY | ASK_LONGINUS | Where is L.O.N.G.I.N.U.S.?
+IF longinusTalked == 0 | IF chaiyapornCyberdwarf == 0 | REPLY | ASK_CYBERDWARF | Where is the Cyberdwarf?
+IF chaiyapornWorld == 0 | REPLY | ASK_BRAINCITY | What can I do in Brain City?
+IF chaiyapornWorld == 1 | REPLY | ASK_TIME | What time is it?
+IF chaiyapornAbout == 0 | REPLY | ASK_ABOUT | Who are you?
+IF chaiyapornAbout == 1 | REPLY | ASK_BRAIN | How did your brain get so big?
+IF chaiyapornAbout == 2 | REPLY | ASK_DOESNT_KNOW | Is there anything you don't know?
+IF chaiyapornSelf == 0 | REPLY | ASK_THINKING | What am I thinking about?
+IF chaiyapornSelf == 1 | IF playerX1 == 1 | REPLY | ASK_WHOIAM | Who am I?
+IF chaiyapornBattle == 0 | REPLY | ASK_BATTLE | How's my battling?
+IF chaiyapornBattle == 1 | REPLY | ASK_GUNS | How are my gun's?
+IF chaiyapornBattle == 2 | REPLY | ASK_PHYSIQUE | How's my physique?
+IF chaiyapornBattle == 2 | REPLY | ASK_STRATEGY | What's a good strategy?
+REPLY | ASK_NOMORE | That's all, no questions.
+
+TEMP"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jm4w0"]
 atlas = ExtResource("2_dgm0m")
@@ -68,6 +293,7 @@ size = Vector2(35, 35)
 [node name="o_chaiyaporn01" type="CharacterBody2D" unique_id=1718596792 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_k8663")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_r7816")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

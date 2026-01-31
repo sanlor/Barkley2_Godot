@@ -1,9 +1,8 @@
-@tool
-extends CanvasLayer
+extends Control
 class_name B2_Dialogue
 
 # DEBUG
-@export var debug := false
+var debug := false
 
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
@@ -95,7 +94,7 @@ var normal_typing 			:= 0.8				#1.0
 var fast_typing 			:= 0.2
 var curr_typing_speed 		:= normal_typing
 
-var portrait_talk_speed		:= 0.1
+var portrait_talk_speed		:= 0.15
 var portrait_talk_time 		:= -100.0
 
 var portrait_talk_frame		:= 0 		# Animation frame for the protrait
@@ -104,7 +103,7 @@ var return_sprite_time 		:= 0.2		#0.2
 var return_sprite_cooldown 	:= 0.2		#0.2
 
 var type_timer 				:= 0.0
-var can_type 		:= false			# <- Left like this on purpose to trigger someone's OCD. # 23/12/25 I tried to fix the weird spacing, then I remembered that I made it like this on purpose. It's like I'm torturing myself. Neat.
+var can_type 		:= false			# <- Left like this on purpose to trigger someone's OCD. # 23/12/25 I tried to fix the weird spacing, then I remembered that I made it like this on purpose. It's like I'm torturing myself. Neat. # 30/01/26 Lol, I did it again! amazing!
 var is_typing 				:= false
 
 var voice_sound_played 		:= false
@@ -124,7 +123,7 @@ var is_talking				:= false
 
 func _ready() -> void:
 	if debug: print_debug("DEBUG enabled.")
-	layer = B2_Config.DIALOG_LAYER
+	#layer = B2_Config.DIALOG_LAYER
 	_draw_y = B2_Config.dialogY # set the diag box on top or on the bottom. almost always, its on the bottom.
 	
 	# Setup the dinamic frame
@@ -151,6 +150,9 @@ func _ready() -> void:
 	
 	fastforward_control( B2_Input.is_fastforwarding )
 	B2_Input.fastforward_request.connect( fastforward_control )
+	
+	## Allows it to be paused.
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 func fastforward_control( active : bool ):
 	auto_skipping = active

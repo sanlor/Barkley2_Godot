@@ -26,6 +26,6 @@ func execute_event_user_1() -> void:
 	B2_Playerdata.Quest("random", randi_range(0, 4) )
 
 
-## Check for quest variable.
+## Check for quest variable. return 'false' to disable and 'true' to enable the eviction tape.
 func evict_check() -> bool:
 	return false

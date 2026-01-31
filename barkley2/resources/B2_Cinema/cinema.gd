@@ -13,7 +13,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 ## DEBUG
 @export_category("Debug Stuff")
 @export var debug_goto		 	:= false
-@export var debug_comments 		:= false
+@export var debug_comments 		:= true
 @export var debug_dialog 		:= false
 @export var debug_wait 			:= false
 @export var debug_fade 			:= false
@@ -23,13 +23,13 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_quest 		:= false
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
-@export var debug_event 		:= false
+@export var debug_event 		:= true
 @export var debug_flourish 		:= false
-@export var debug_breakout		:= true
+@export var debug_breakout		:= false
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
 @export var debug_note			:= true
-@export var debug_shop			:= true
+@export var debug_shop			:= false
 @export var print_comments		:= false
 @export var debug_item 			:= true
 @export var debug_glamp 		:= true
@@ -334,7 +334,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				## ^^^^ No its not always, smartass. CHOICE and REPLY expect the empty line no show the question.
 				if is_selecting_choices:
 					var dialogue_choice = B2_DialogueChoice.new()
-					add_child( dialogue_choice )
+					B2_Screen.add_child( dialogue_choice, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					#var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
 					var choice_portrait = B2_Gamedata.get_hoopz_portrait() ## Is this correct? Is the protrait always hoopz?
 					
@@ -496,7 +496,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"DIALOG", "MYSTERY":
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
-					add_child( dialogue, true )
+					B2_Screen.add_child( dialogue, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					
 					# Setup flourish
 					dialogue.flourish_enabled 	= flourish_enabled
@@ -587,43 +587,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_set: print("SET: ", parsed_line[1], " - ", str(parsed_line[ 2 ]) )
 				"QUEST":
 					B2_CManager.cinema_quest( parsed_line, debug_quest )
-					#region Deprecated code
-					#
-					## this is confusing. This can set quest states, change states, like quest += 1 and fuck arounf with monei and time. weird
-					#var quest_stuff := parsed_line[ 1 ].split(" ", false)
-					#var qstNam = quest_stuff[0]
-					#var qstTyp = quest_stuff[1]
-					#var qstVal = quest_stuff[2]
-					#
-					#if qstVal.contains("@"): ## Not sure how this is used.
-						## if (string_pos("@", qstVal) > 0) qstVal = Cinema("parse", qstVal);
-						### Now I know! Its a variable injection, to add arbitrary values to quest variables.
-						## What a beautifull mess.
-						#
-						#qstVal = qstVal.replace("@", "")
-						#if qstVal.begins_with("money_"):
-							#qstVal = qstVal.trim_prefix("money_")
-							#if not B2_Database.money.has(qstVal):
-								#push_error("B2_Database.money doesn have the data regarding the variable %s." % qstVal)
-							#qstVal = B2_Database.money.get(qstVal, "69420666")
-						#elif qstVal.begins_with("time_"):
-							#qstVal = qstVal.trim_prefix("time_")
-							#push_warning("Time function is not implemented.")
-						#else:
-							#breakpoint
-					#else:
-						#qstVal = float( qstVal )
-						#
-					#if qstTyp == "+=":
-						#B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) + qstVal )
-					#elif qstTyp == "-=":
-						#B2_Playerdata.Quest(qstNam, B2_Playerdata.Quest(qstNam) - qstVal )
-					#else:
-						#B2_Playerdata.Quest(qstNam, float(qstVal) )
-					#
-					#if debug_quest: print( "Quest: ", quest_stuff )
-					#
-					#endregion
 				
 				"BREAKOUT","Breakout":
 					# This is a small Info box above the dialog box, showing money or stuff like that
@@ -724,9 +687,15 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects with the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
 					# basically, this just executes funcions on the fly.
-					var event_object = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
+					var event_object : Node = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
 					if event_object != null:
 						var event_id := int(parsed_line[2]) # had some issues with empty spaces here. Now, string > int > string
+						
+						## Check if node is ready to receive events.
+						if not event_object.is_node_ready():
+							push_warning("Node %s was not ready to receive an event. Waiting..." % event_object.name)
+							await event_object.ready
+						
 						if not event_object.has_method( "execute_event_user_%s" % event_id ):
 							# node has no execute_event_user_n method. remember to add it
 							push_error( "Node %s has no 'execute_event_user_%s' method. remember to add it" % [ parsed_line[1], event_id ] )

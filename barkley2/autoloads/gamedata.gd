@@ -10,7 +10,6 @@ var portrait_map := {
 }
 # check Portrait("db")
 const portrait_from_name := {
-	"Nu" : "s_port_nu", ## Debug
 	"Zane" : "s_port_zane",
 	"Zane Brain" : "s_port_zaneBrain",
 	"Egg Drone" : "s_port_eggDrone",
@@ -282,6 +281,12 @@ const portrait_from_name := {
 	"Inmate Pelekryte" : "s_port_pelekryteJail",
 	"Cherlindria" : "s_port_cherlindria",
 	"Inmate Absalom" : "s_port_absalomInmate",
+	
+	# Old Data
+	"Gleb" : "s_port_gleb",
+	
+	# Debug
+	"Nu" : "s_port_nu", 
 	}
 
 # Gamemaker Color list. check https://manual.gamemaker.io/lts/en/GameMaker_Language/GML_Reference/Drawing/Colour_And_Alpha/Colour_And_Alpha.htm

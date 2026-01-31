@@ -1,7 +1,8 @@
 #extends CanvasLayer
 extends Control
 
-const CONFIRMATION_BOX = preload("uid://dkqmhxi70d2o7")
+const O_TNN_RESUME 		:= preload("uid://cm2sd4s6v5g7y")	# Eric's resume scene.
+const CONFIRMATION_BOX 	:= preload("uid://dkqmhxi70d2o7")
 
 const ART_DATA : Dictionary[String, Array]= {
 ##	NAME				ID		DESCRIPTION
@@ -47,10 +48,11 @@ var verbose_prints := false
 @onready var s_gallery: 			TextureRect = $ColorRect/gallery/sGallery
 @onready var s_gallery_text: 		Label = $ColorRect/gallery/sGallery_text
 
-
 const text_size := 9216.0
 const map_size := 384.0
 const map_speed := 0.15
+
+var eric_resume	: Control # Used for the petshop application.
 var tween : Tween
 
 var avaiable_notes := []
@@ -201,9 +203,9 @@ func change_note() -> void: ## CRITICAL Need to change this to support the menta
 	# SFX # "sn_mnu_noteFlipLight01", 
 	# DATA # "BAK|s_tnn_papers|15~STR|By Holy Supreme\nand Regnant Decree\nof Lord Emperor\nCuchulainn|-23|-84|3|3355344|1~STR|It is hereby known to\nDwarfkin and Duergar alike\n\nThat        \n\nof         ,\nis duly charged with\nremittance to The\nResplendent Coffers of\nPresident Cuchulainn,\nthe value of\n\n      Cuchu-Bucks\nor current equivalent\nneuroshekels.\n\nDue upon the reading\nof this decree.|-69|-48|3|0|1~STR|Mr. Wilmer|-41|-27|3|509|1~STR|Tir na nOg|-54|-13|3|254|1~STR|180,348|-68|36|3|509|1");
 	if avaiable_notes[selected_note] == "Pet Shop Application":		## Special case, draw some dynamic data.
-		draw_resume()
+		draw_resume( false )
 	elif avaiable_notes[selected_note] == "Completed Application":	## Special case, draw some dynamic data.
-		draw_resume()
+		draw_resume( true )
 	elif B2_Note.has_note_in_db( avaiable_notes[selected_note] ):
 		parse_data( B2_Note.get_note_from_db( avaiable_notes[selected_note] )["note_data"] )
 	else:
@@ -251,8 +253,15 @@ func parse_data( data : String ) -> void:
 	pass
 
 ## Draw eric's resume
-func draw_resume() -> void:
-	pass
+func draw_resume( complete : bool ) -> void:
+	if eric_resume:
+		eric_resume.queue_free()
+	eric_resume = O_TNN_RESUME.instantiate()
+	note_itself.add_child( eric_resume, true )
+	if complete:
+		eric_resume.fill_resume()
+	else:
+		eric_resume.reset_resume()
 
 func play_sfx() -> void:
 	var sfx : String
