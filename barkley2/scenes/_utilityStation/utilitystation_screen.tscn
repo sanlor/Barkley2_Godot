@@ -119,71 +119,22 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_yaeih")
 
-[node name="main_info_panel" parent="frame" unique_id=502966505 instance=ExtResource("3_8kpvu")]
-visible = false
-layout_mode = 0
-offset_left = 11.0
-offset_right = 300.0
-
-[node name="gun_info_panel" parent="frame" unique_id=1950432417 instance=ExtResource("4_yj7y8")]
-visible = false
-layout_mode = 0
-
-[node name="gun_info_bando_panel" parent="frame" unique_id=1926844211 instance=ExtResource("24_qcuev")]
-visible = false
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 296.0
-offset_bottom = 224.0
-show_gunbag_guns = false
-
-[node name="gun_info_bando_rename_panel" parent="frame" unique_id=1176113599 node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
-visible = false
-layout_mode = 0
+[node name="left_panel" type="Control" parent="frame" unique_id=833234666]
+anchors_preset = 0
 offset_left = 11.0
 offset_top = 12.0
 offset_right = 300.0
 offset_bottom = 228.0
-gun_info_panel = NodePath("../gun_info_bando_panel")
 
-[node name="gun_info_bag_panel" parent="frame" unique_id=1762592417 node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
+[node name="main_info_panel" parent="frame/left_panel" unique_id=502966505 instance=ExtResource("3_8kpvu")]
 visible = false
 layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 296.0
-offset_bottom = 224.0
-script = ExtResource("32_4w3xs")
-default_button = NodePath("../right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn")
-show_bandolier_guns = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
-[node name="gun_info_bag_rename_panel" parent="frame" unique_id=1594204304 node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
-visible = false
-layout_mode = 0
-offset_left = 11.0
-offset_top = 12.0
-offset_right = 300.0
-offset_bottom = 228.0
-gun_info_panel = NodePath("../gun_info_bag_panel")
-
-[node name="gun_info_smelt_panel" parent="frame" unique_id=1018658264 node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
-visible = false
-layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 296.0
-offset_bottom = 224.0
-script = ExtResource("32_sf8h1")
-default_button = NodePath("../right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn")
-show_lineage = false
-show_smelt = true
-
-[node name="gun_info_breed_panel" parent="frame" unique_id=1879809997 instance=ExtResource("9_xscvq")]
-visible = false
-layout_mode = 0
-
-[node name="gun_info_breed_animation_panel" parent="frame" unique_id=2043675104 instance=ExtResource("33_305tp")]
+[node name="gun_info_panel" parent="frame/left_panel" unique_id=1950432417 instance=ExtResource("4_yj7y8")]
 visible = false
 layout_mode = 0
 offset_left = 0.0
@@ -191,26 +142,101 @@ offset_top = 0.0
 offset_right = 289.0
 offset_bottom = 216.0
 
-[node name="candy_panel" parent="frame" unique_id=1432501346 instance=ExtResource("11_jigd8")]
-layout_mode = 0
-
-[node name="brain_info_panel" parent="frame" unique_id=1525267039 instance=ExtResource("12_mfdu4")]
-layout_mode = 0
-
-[node name="brain_vidcon_panel" parent="frame" unique_id=1935260503 instance=ExtResource("13_hqon2")]
-layout_mode = 0
-
-[node name="brain_vidcon_levelup_panel" parent="frame" unique_id=172342373 instance=ExtResource("14_llltk")]
-layout_mode = 0
-
-[node name="equipment_panel" parent="frame" unique_id=39097689 instance=ExtResource("15_x3iuf")]
-layout_mode = 1
-
-[node name="inventory_panel" parent="frame" unique_id=1963833063 instance=ExtResource("16_46cem")]
+[node name="gun_info_bando_panel" parent="frame/left_panel" unique_id=1926844211 instance=ExtResource("24_qcuev")]
 visible = false
 layout_mode = 0
+show_gunbag_guns = false
 
-[node name="dwarfnet_panel" parent="frame" unique_id=1609685635 instance=ExtResource("17_6r7ck")]
+[node name="gun_info_bando_rename_panel" parent="frame/left_panel" unique_id=1176113599 node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
+visible = false
+layout_mode = 0
+gun_info_panel = NodePath("../gun_info_bando_panel")
+
+[node name="gun_info_bag_panel" parent="frame/left_panel" unique_id=1762592417 node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
+visible = false
+layout_mode = 0
+script = ExtResource("32_4w3xs")
+default_button = NodePath("../../right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn")
+show_bandolier_guns = false
+
+[node name="gun_info_bag_rename_panel" parent="frame/left_panel" unique_id=1594204304 node_paths=PackedStringArray("gun_info_panel") instance=ExtResource("25_iyqur")]
+visible = false
+layout_mode = 0
+gun_info_panel = NodePath("../gun_info_bag_panel")
+
+[node name="gun_info_smelt_panel" parent="frame/left_panel" unique_id=1018658264 node_paths=PackedStringArray("default_button") instance=ExtResource("24_qcuev")]
+visible = false
+layout_mode = 0
+script = ExtResource("32_sf8h1")
+default_button = NodePath("../../right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn")
+show_lineage = false
+show_smelt = true
+
+[node name="gun_info_breed_panel" parent="frame/left_panel" unique_id=1879809997 instance=ExtResource("9_xscvq")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="gun_info_breed_animation_panel" parent="frame/left_panel" unique_id=2043675104 instance=ExtResource("33_305tp")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="candy_panel" parent="frame/left_panel" unique_id=1432501346 instance=ExtResource("11_jigd8")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="brain_info_panel" parent="frame/left_panel" unique_id=1525267039 instance=ExtResource("12_mfdu4")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="brain_vidcon_panel" parent="frame/left_panel" unique_id=1935260503 instance=ExtResource("13_hqon2")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="brain_vidcon_levelup_panel" parent="frame/left_panel" unique_id=172342373 instance=ExtResource("14_llltk")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="equipment_panel" parent="frame/left_panel" unique_id=39097689 instance=ExtResource("15_x3iuf")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = -95.0
+offset_bottom = -24.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="inventory_panel" parent="frame/left_panel" unique_id=1963833063 instance=ExtResource("16_46cem")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 289.0
+offset_bottom = 216.0
+
+[node name="dwarfnet_panel" parent="frame/left_panel" unique_id=1609685635 instance=ExtResource("17_6r7ck")]
 layout_mode = 0
 offset_left = 0.0
 offset_top = 0.0
@@ -476,29 +502,29 @@ size_flags_vertical = 4
 text = "Unplug"
 autowrap_mode = 1
 
-[connection signal="renamed_gun" from="frame/gun_info_bando_rename_panel" to="." method="_on_gun_info_bando_rename_panel_renamed_gun"]
-[connection signal="renamed_gun" from="frame/gun_info_bag_rename_panel" to="." method="_on_gun_info_bag_rename_panel_renamed_gun"]
-[connection signal="changed_window_state" from="frame/gun_info_smelt_panel" to="." method="_control_btn_state"]
+[connection signal="renamed_gun" from="frame/left_panel/gun_info_bando_rename_panel" to="." method="_on_gun_info_bando_rename_panel_renamed_gun"]
+[connection signal="renamed_gun" from="frame/left_panel/gun_info_bag_rename_panel" to="." method="_on_gun_info_bag_rename_panel_renamed_gun"]
+[connection signal="changed_window_state" from="frame/left_panel/gun_info_smelt_panel" to="." method="_control_btn_state"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/main_btn" to="." method="_on_main_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_btn" to="." method="_on_gun_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bando_btn" to="." method="_on_gun_bando_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bando_menu/gun_bando_rename_btn" to="." method="_on_gun_bando_rename_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bag_btn" to="." method="_on_gun_bag_btn_pressed"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn" to="frame/gun_info_bag_panel" method="_on_gun_bag_fave_btn_pressed"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_fave_btn" to="frame/left_panel/gun_info_bag_panel" method="_on_gun_bag_fave_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_bag_menu/gun_bag_promote_btn" to="." method="_on_gun_bag_promote_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_btn" to="." method="_on_gun_smelt_btn_pressed"]
-[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_focus_entered"]
-[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_mouse_entered"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_pressed"]
-[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_focus_entered"]
-[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_mouse_entered"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_pressed"]
-[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_focus_entered"]
-[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_mouse_entered"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_pressed"]
-[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_focus_entered"]
-[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_mouse_entered"]
-[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_pressed"]
+[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_focus_entered"]
+[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_mouse_entered"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_current_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_current_btn_pressed"]
+[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_focus_entered"]
+[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_mouse_entered"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_empty_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_empty_btn_pressed"]
+[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_focus_entered"]
+[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_mouse_entered"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_unfaves_btn_pressed"]
+[connection signal="focus_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_focus_entered"]
+[connection signal="mouse_entered" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_mouse_entered"]
+[connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn" to="frame/left_panel/gun_info_smelt_panel" method="_on_gun_smelt_inbag_btn_pressed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_reload_btn" to="." method="_on_gun_reload_btn_pressed"]
 [connection signal="visibility_changed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_reload_menu" to="frame/right_panel/right_panel_vbox/gun_menu/gun_reload_menu" method="_on_visibility_changed"]
 [connection signal="pressed" from="frame/right_panel/right_panel_vbox/gun_menu/gun_breed_btn" to="." method="_on_gun_breed_btn_pressed"]

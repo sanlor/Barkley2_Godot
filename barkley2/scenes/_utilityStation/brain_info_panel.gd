@@ -1,21 +1,21 @@
 extends B2_UtilityPanel
 
-@onready var main_exp_value: 		Label = $exp/main_exp/main_exp_value
-@onready var next_exp_value: 		Label = $next_lvl/next_lvl/next_exp_value
-@onready var curr_lvl_value: 		Label = $curr_lvl/curr_lvl/curr_lvl_value
-@onready var level_up_text: 		TextureRect = $curr_lvl/curr_lvl/level_up_text
+@onready var main_exp_value: 			Label = $exp/main_exp/main_exp_value
+@onready var next_exp_value: 			Label = $next_lvl/next_lvl/next_exp_value
+@onready var curr_lvl_value: 			Label = $curr_lvl/curr_lvl/curr_lvl_value
+@onready var level_up_text: 			TextureRect = $curr_lvl/curr_lvl/level_up_text
 
-@onready var helper_value: 			Label = $work_side/helper/helper_value
-@onready var exp_gained_value: 		Label = $work_side/exp_gained/exp_gained_value
+@onready var helper_value: 				Label = $work_side/helper/helper_value
+@onready var exp_gained_value: 			Label = $work_side/exp_gained/exp_gained_value
 
 @onready var vidcon_owned_value: 		Label = $play_side/vidcons/vidcon_owned_value
 @onready var vidcon_unboxed_value: 		Label = $play_side/vidcons/vidcon_unboxed_value
 @onready var vidcon_exp_gained_value: 	Label = $play_side/exp_gained/exp_gained_value
 
-@onready var left_brain: TextureRect = $big_brain/large_spaghetti/left_brain
-@onready var right_brain: TextureRect = $big_brain/large_spaghetti/right_brain
+@onready var left_brain: 				TextureRect = $big_brain/large_spaghetti/left_brain
+@onready var right_brain: 				TextureRect = $big_brain/large_spaghetti/right_brain
 
-@onready var brain_levelup_btn: Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_btn"
+@onready var brain_levelup_btn: 		Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_btn"
 
 var pulse_level := false
 

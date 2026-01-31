@@ -1,7 +1,293 @@
 [gd_scene format=3 uid="uid://c7tx07n60et1w"]
 
 [ext_resource type="Script" uid="uid://cxbv7nquuqr02" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_dubre01.gd" id="1_pu6p8"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_iulv3"]
 [ext_resource type="Texture2D" uid="uid://0ydpfuty2k0p" path="res://barkley2/assets/b2_original/images/merged/s_dubre01.png" id="2_jpx7v"]
+
+[sub_resource type="Resource" id="Resource_pexxj"]
+script = ExtResource("2_iulv3")
+original_script = "IF body == governor | GOTO | GOVQUEST5
+IF curfew == after  | GOTO | DUBRE2
+IF dubreState == 1  | GOTO | DUBRE1
+GOTO | DUBRE0
+
+GOVQUEST5
+DIALOG | Dubre  | Hi! Welcome to our city! I am Dubre! I will be your guide through our glorious streets! I know everything there is to know about this town.
+DIALOG | Dubre  | Ask me any question about our wonderful city, and I will answer it for you!
+DIALOG | Governor Elagabalus | Ah, yes, our city. I am the governor so I am committed to questions about our wonderful city. Greetings and welcome.
+DIALOG | Dubre  | Wow! A governor, huh? I don't know what that is, but that just sounds swell.
+
+DUBRE2
+DIALOG | Dubre  | Hi! The curfew is over and now I can help more. Let me help you! I'm Dubre the Obliging!
+GOTO   | GREET_GET
+
+DUBRE0
+DIALOG | Dubre  | Hi! Welcome to our city! I am Dubre, Dubre the Obliging! I will be your guide through our glorious city! I know everything there is to know about this place.
+DIALOG | Dubre  | Ask me any question about our wonderful city, and I will answer it for you! For free!
+QUEST  | dubreState = 1
+GOTO   | GREET_GET
+
+DUBRE1
+IF curfew == during | DIALOG | Dubre  | Hi! Just cause everyone is inside doesn't mean we can't have fun out here. How can I help?
+IF curfew != during | DIALOG | Dubre  | Hi you must need more help. How can I help you?
+IF curfew != during | QUEST  | dubreState = 1
+GOTO   | GREET_GET
+
+GREET_GET
+IF curfew == during | GOTO | GREET_CURFEW
+GOTO   | GREET
+
+GREET
+CHOICE | Ask Dubre the Obliging any question.
+IF dubreMap == 2      | REPLY | HAVE_MAP02     | About that map...
+IF dubreMap == 1      | REPLY | HAVE_MAP01     | Got a map?
+IF dubreLeader == 0   | REPLY | WHERE_LEADER   | Who is in charge of this town?
+IF dubreMeet == 0     | REPLY | WHERE_TOGO     | Where should I go to meet new people?
+IF wilmerEvict == 1   | REPLY | WHERE_MORTGAGE | Know where the Mortgage Office is?
+IF dubreGuns == 0     | REPLY | WHERE_GUNS     | Where should I go to buy gun's?
+IF dubreCandy == 0    | REPLY | WHERE_CANDY    | Where should I go to buy candy?
+IF dubreBball == 0    | REPLY | WHERE_BBALL    | Where should I go to play BBALL?
+IF time >= 2          | REPLY | WHY_UNHAPPY    | Why is everyone so unhappy?
+IF dubreBathroom == 0 | REPLY | WHERE_BATHROOM | I need to use the bathroom...
+REPLY  | NO | No thanks.
+
+HAVE_MAP02
+DIALOG | P_NAME | How much for that map again?
+DIALOG | Dubre  | The map? Oh yeah it was... `w1`ummm._._._`w0` Oh yeah! I remember it was `kw`@money_dubreMap02@`rt` for sure.
+DIALOG | P_NAME | Uh...
+IF money < @money_dubreMap02@  | GOTO | CANT_AFFORD
+IF money >= @money_dubreMap02@ | GOTO | MAP_OFFER02
+
+HAVE_MAP01
+DIALOG | P_NAME | Maybe you could just show me on a map instead of telling me?
+DIALOG | Dubre  | Sure! I have a map! I don't really need it anymore since I have it perfectly memorized. Do you want it? I'll sell it to you for `w1`ummm._._._`w0` `kw`@money_dubreMap01@ neuroshekels!`rt`
+IF money < @money_dubreMap02@  | GOTO | CANT_AFFORD
+IF money >= @money_dubreMap02@ | GOTO | MAP_OFFER01
+
+CANT_AFFORD
+DIALOG | P_NAME | Oh, umm... I can't actually afford that right now.
+DIALOG | Dubre  | Wow, really? I can't afford many things either. I love being poor!
+DIALOG | Dubre  | Is there anything else I can do for you?
+GOTO   | GREET
+
+MAP_OFFER02
+BREAKOUT | add       | money | -@money_dubreMap02@ | 0
+DIALOG   | Dubre     | What do you say?
+CHOICE   | Buy the map?
+REPLY    | YES_BUY02 | I'll take it.
+REPLY    | NO_BUY    | I'll keep my sheks.
+
+YES_BUY02
+QUEST    | money -= @money_dubreMap01@
+DIALOG   | P_NAME = s_port_hoopzHappy | Okay, I'll take it!
+BREAKOUT | clear
+GOTO     | GET_MAP
+
+MAP_OFFER01
+BREAKOUT | add | money
+DIALOG   | Dubre | What do you say?
+QUEST    | dubreMap = 2
+BREAKOUT | clear
+Breakout | add | money | -@money_dubreMap01@ | 0
+CHOICE   | Buy the map?
+REPLY    | YES_BUY01 | I'll take it.
+REPLY    | NO_BUY    | I'll keep my sheks.
+
+YES_BUY01
+QUEST    | money -= @money_dubreMap01@
+DIALOG   | P_NAME = s_port_hoopzHappy | Okay, I'll take it!
+BREAKOUT | clear
+GOTO     | GET_MAP
+
+NO_BUY
+DIALOG   | P_NAME | I think I'm okay for now, thanks though.
+BREAKOUT | clear
+DIALOG   | Dubre  | That's okay... if you come back that `kw`exact offer`rt` will still be on the table!
+
+GET_MAP
+DIALOG | Dubre | Here you are!
+USEAT  | o_dubre01
+Map    | gain | Tir na Nog
+NOTIFY | Got the Tir na nOg Map!
+QUEST  | dubreMap = 3
+DIALOG | Dubre | Anything else?
+GOTO   | GREET
+
+WHERE_LEADER
+DIALOG | P_NAME | Who's pulling the strings here?
+DIALOG | Dubre  | Uh... hmm...
+DIALOG | Dubre  | I'm not sure! There are lots of people here! Maybe one of them is in charge of this town.
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreLeader = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+
+WHERE_TOGO
+DIALOG | P_NAME | Where should I go to meet new people? Should I go into one of these apartment buildings?
+DIALOG | Dubre  | Yeah! You should definitely make sure to check out all of them! I think you will not regret it! They're all just so great! There's stuff in all of them, I think! I'm not really sure, I have never been inside any of the buildings! I just like the outsides so much!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreMeet = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+
+WHERE_MORTGAGE
+DIALOG | P_NAME | I gotta pay the rent, know where I do that?
+DIALOG | Dubre  | The rent huh? Yeah I know the place for that! You see that oildrum over there, the one with the red marking on it?
+LOOKAT | o_cts_hoopz | o_drum_marked01
+FRAME  | CAMERA_NORMAL | o_drum_marked01
+WAIT   | 2
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_dubre01
+WAIT   | 0.5
+LOOKAT | o_cts_hoopz | o_dubre01
+WAIT   | 1.5 
+DIALOG | P_NAME | Yeah, I see it. What about it?
+DIALOG | Dubre  | Okay so first you go past that drum and keep on walking west until you see these stairs. Don't go up the stairs! Go down south. Keep going south until you can see the wall. You know the wall right? When you are there don't turn back! Keep going forward past the stores. You'll reach a dead end soon enough. Don't go into the dead end! Instead follow the path that goes up and then there you go. There's the rent place, you can't miss it!
+DIALOG | P_NAME | Alright I think I got it. Thanks.
+DIALOG | Dubre  | No problem! Is there anything else you want to know?!
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+
+WHERE_GUNS
+DIALOG | P_NAME | If I was looking for a handy brastcannon, where would I go to buy one?
+DIALOG | Dubre  | Hmm, you probably want a store that sells gun's then.
+DIALOG | Dubre  | I don't know where that is! There might be one though! There also might not be! It's like a mystery!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreGuns = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+
+WHERE_CANDY
+DIALOG | P_NAME | Where is the candy store! I need somethin' sweet!
+DIALOG | Dubre  | Whoa!! Take it easy! Ok, the candy store...
+DIALOG | Dubre  | Hmm... I'm not sure if there is one! I've never been there! Candy is not good for my goiter...
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreCandy = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+
+WHERE_BBALL 
+DIALOG | P_NAME | I have an immense desire to `w1`SLAM,`w0` possibly `w2`JAM.`w0` Where would I go to fill this need?
+DIALOG | Dubre  | Oh... yes, yes... definitely...
+DIALOG | Dubre  | I don't know what you are saying to me.
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreBball = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+        
+WHY_UNHAPPY
+DIALOG | P_NAME | What's the deal with this town? Everybody looks sick and unhappy....
+DIALOG | Dubre  | I don't know what you mean! They look pretty swell to me!
+DIALOG | Dubre  | Maybe you are looking at the wrong people? Try looking away from all the people who are miserable and dying and pay more attention to the people who are happy to be here! We're the ones who count!
+DIALOG | Dubre  | Is there anything else you want to know?!
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+        
+WHERE_BATHROOM
+DIALOG | P_NAME | I need to use the bathroom...
+DIALOG | Dubre  | Really? That's great! I need to use the bathroom all the time, too! More than most, even, like continuously!
+DIALOG | Dubre  | Well... since that Duergar is still using that one, let me think where the nearest one is..._
+DIALOG | Dubre  | Oh, I know!_ See that oildrum over there?
+LOOKAT | o_cts_hoopz | o_drum_marked01
+FRAME  | CAMERA_NORMAL | o_drum_marked01
+WAIT   | 2
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_dubre01
+WAIT   | 0.5
+LOOKAT | o_cts_hoopz | o_dubre01
+WAIT   | 1.5 
+DIALOG | P_NAME | Yes, I... I do see it.
+DIALOG | Dubre  | Okay! So what you have to do is, you have to head down from here, past that oildrum. Then you will come to a dead end and a wall. Don't stop there! Instead turn left and keep going. Go all the way to the other end of that little street. Right at the end is this big thing with fans on it. Don't try to touch the blades! You'll hurt yourself! Okay, so from there go a bit more north and you'll see some stairs. Don't go up the stairs! Instead start going to the right and soon enough you'll see a bathroom you can use.
+DIALOG | P_NAME | Okay. Thanks.
+DIALOG | Dubre  | Anything else before you go to the bathroom?
+QUEST  | dubreBathroom = 1
+IF dubreMap == 0 | QUEST | dubreMap = 1
+GOTO   | GREET
+        
+NO
+DIALOG | P_NAME | No thanks. I'll figure it out on my own.
+DIALOG | Dubre  | Wow! Good luck!
+
+GREET_CURFEW
+CHOICE | Ask Dubre the Obliging any question.
+IF dubreEverybody == 0 | REPLY  | WHERE_EVERYONE | Where did everyone go?
+IF dubreSafe == 0      | REPLY  | IS_IT_SAFE     | Is it safe to be out here?
+IF dubreDuergars == 0  | REPLY  | WHY_MEAN       | Why are the duergars so mean?
+IF dubreCurfew == 0    | REPLY  | WHAT_CURFEW    | What should I do during the curfew?
+IF dubreTrain == 0     | IF knowTNNTrain == 1    | REPLY | WHERE_TRAIN | Where is the train station?
+IF dubreCuchu == 0     | REPLY  | WHO_CUCHU      | Who is Cuchulainn?
+IF dubreClispaeth == 0 | IF knowClispaeth == 1   | REPLY | WHO_CLISP   | What do you know about Clispaeth?
+REPLY  | NARY          | Nary ye mind.
+
+WHERE_EVERYONE
+DIALOG | P_NAME | Where did everybody go?
+DIALOG | Dubre  | Hmmm, that's a really good question! Sometimes dwarfs just go somewhere. You never know where that could be. It could be anywhere.
+DIALOG | Dubre  | Maybe you could go look for them? Try starting at that drum over there.
+LOOKAT | o_cts_hoopz | o_drum_marked01
+FRAME  | CAMERA_NORMAL | o_drum_marked01
+WAIT   | 2
+FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_dubre01
+WAIT   | 1
+LOOKAT | o_cts_hoopz | o_dubre01
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreEverybody = 1
+GOTO   | GREET_CURFEW
+
+IS_IT_SAFE
+DIALOG | P_NAME | Is it safe to be out here?
+DIALOG | Dubre  | Of course! This town is perfectly, 110% safe! There's no way you're going to get hurt in this town! Just no way at all!
+DIALOG | Dubre  | Just make sure you don't fall down or scratch yourself! But as long as you watch where you're going, you should be fine!
+DIALOG | P_NAME | Yeah but I think if those duergars see you out you might get in trouble.
+DIALOG | Dubre  | Not if I help them first! I can't wait to help the duergars, whoever they are.
+DIALOG | P_NAME | Suit yourself, but it looks sketchy as huck out here!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreSafe = 1
+GOTO   | GREET_CURFEW
+    
+WHY_MEAN
+DIALOG | P_NAME | Why are the duergars so mean to everybody?
+DIALOG | Dubre  | Hmmm, duergars, huh? I guess they're pretty mean if what you say is true.
+DIALOG | Dubre  | But I don't really know what a duergar is! I've never seen one! I hope I never see one if they're as mean as you say. That would just be no good at all!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreDuergars = 1
+GOTO   | GREET_CURFEW
+
+WHAT_CURFEW
+DIALOG | P_NAME | What is there to do when the town is like this?
+DIALOG | Dubre  | Hey, you're really getting into the spirit of our town now! That's great!
+DIALOG | Dubre  | There's probably lots of fun stuff to do around town if you go and look for it. I pretty much just stand here and tell people everything I know about the town, so I don't have time to find other things to do.
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreCurfew = 1
+GOTO   | GREET_CURFEW
+
+WHERE_TRAIN
+DIALOG | P_NAME | Where would I find the train station?
+DIALOG | Dubre  | Oh! You're looking to catch a train, huh? I don't know why you'd ever want to leave, this town has everything!
+DIALOG | Dubre  | That's probably the best way to find a train station. If you find a train, you're just one step closer to finding a train station!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreTrain = 1
+GOTO   | GREET_CURFEW
+            
+WHO_CUCHU
+DIALOG | P_NAME | What do you think about this Cuchulainn guy?
+DIALOG | Dubre  | Wow! You really ask some tricky questions!
+DIALOG | Dubre  | I don't know this Cuchulainn guy! I meet all kinds of people standing here but I've never met anybody named Cuchulainn! But if he's a friend of yours, I bet he's a really swell person.
+DIALOG | Dubre  | Hey wait, I know! If there's something you want to know about Cuchulainn, maybe you should find him and ask! He'd probably tell you everything you want to know! Maybe he's even a town greeter like me! He'll tell you all sorts of things!!
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreCuchu = 1
+GOTO   | GREET_CURFEW
+
+WHO_CLISP
+DIALOG | P_NAME | Have you opened your heart to Clispaeth?
+DIALOG | Dubre  | Oooh, what a mysterious question! I feel like I'm being interrogated! This is so exciting!
+DIALOG | Dubre  | So I think Clispaeth is a really important guy! Just super important.
+DIALOG | Dubre  | I don't know who he is or anything about him but I don't think you'd be asking if he wasn't a really important person!! You've said it all, I think!! Maybe there's nothing even more to know about him, I don't know!
+DIALOG | P_NAME | ._._._
+DIALOG | Dubre  | Is there anything else you want to know?!
+QUEST  | dubreClispaeth = 1
+GOTO   | GREET_CURFEW
+            
+NARY
+DIALOG | P_NAME | Nary ye mind. I'll figure it out on my own.
+DIALOG | Dubre  | Wow! Good luck!!"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yyndb"]
 atlas = ExtResource("2_jpx7v")
@@ -27,6 +313,7 @@ size = Vector2(20, 36)
 [node name="o_dubre01" type="CharacterBody2D" unique_id=13033924 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol", "ActorNav")]
 script = ExtResource("1_pu6p8")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_pexxj")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")

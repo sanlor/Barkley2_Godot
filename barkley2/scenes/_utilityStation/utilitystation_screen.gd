@@ -29,12 +29,12 @@ var style_box_utility 				:= preload("res://barkley2/themes/style_box_utility.tr
 const UTILITY_STATION 				:= preload("res://barkley2/themes/utility_station.tres")
 
 # Menu scenes
-const BRAIN_INFO_PANEL = preload("uid://brg38jf5pceon")
-const BRAIN_VIDCON_PANEL = preload("uid://dy4qs8y417chx")
-const DWARFNET_PANEL = preload("uid://2u3sqikbbnx2")
-const GUN_INFO_BREED_PANEL = preload("uid://ctcfj2lxiyt2s")
-const GUN_INFO_PANEL = preload("uid://ch06rr2kobkfb")
-const MAIN_INFO_PANEL = preload("uid://4mhuit4wdogr")
+const BRAIN_INFO_PANEL 				:= preload("uid://brg38jf5pceon")
+const BRAIN_VIDCON_PANEL 			:= preload("uid://dy4qs8y417chx")
+const DWARFNET_PANEL 				:= preload("uid://2u3sqikbbnx2")
+const GUN_INFO_BREED_PANEL 			:= preload("uid://ctcfj2lxiyt2s")
+const GUN_INFO_PANEL 				:= preload("uid://ch06rr2kobkfb")
+const MAIN_INFO_PANEL 				:= preload("uid://4mhuit4wdogr")
 
 
 ## DEBUG
@@ -61,59 +61,59 @@ const MAIN_INFO_PANEL = preload("uid://4mhuit4wdogr")
 @onready var gun_smelt_unfaves_btn: 	Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_unfaves_btn
 @onready var gun_smelt_inbag_btn: 		Button 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_smelt_menu/gun_smelt_inbag_btn
 
-@onready var gun_reload_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_btn
-@onready var gun_reload_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_menu
+@onready var gun_reload_btn: 	Button 				= $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_btn
+@onready var gun_reload_menu: 	VBoxContainer 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_reload_menu
 
-@onready var gun_breed_btn: 	Button = $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_btn
-@onready var gun_breed_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_menu
-
-
-@onready var candy_btn: 		Button = $frame/right_panel/right_panel_vbox/candy_btn
-@onready var candy_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/candy_menu
-@onready var candy_make_btn: 	Button = $frame/right_panel/right_panel_vbox/candy_menu/make_btn
-
-@onready var brain_btn: 				Button = $frame/right_panel/right_panel_vbox/brain_btn
-@onready var brain_menu: 				VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu
-@onready var brain_vidcon_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
-@onready var brain_vidcon_unbox_btn: 			Button = $frame/right_panel/right_panel_vbox/brain_menu/unbox_btn
-@onready var brain_levelup_btn: 		Button = $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_btn
-@onready var brain_levelup_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu
-
-@onready var equip_btn: 		Button = $frame/right_panel/right_panel_vbox/equip_btn
-@onready var equip_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/equip_menu
-@onready var equip_helmet_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_helmet_btn
-@onready var equip_jerkin_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn
-@onready var equip_equip_btn: 				Button = $frame/right_panel/right_panel_vbox/equip_menu/equip_equip_btn
+@onready var gun_breed_btn: 	Button 				= $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_btn
+@onready var gun_breed_menu: 	VBoxContainer 		= $frame/right_panel/right_panel_vbox/gun_menu/gun_breed_menu
 
 
-@onready var inventory_btn: 	Button = $frame/right_panel/right_panel_vbox/inventory_btn
-@onready var inventory_menu: 	VBoxContainer = $frame/right_panel/right_panel_vbox/inventory_menu
+@onready var candy_btn: 		Button 				= $frame/right_panel/right_panel_vbox/candy_btn
+@onready var candy_menu: 		VBoxContainer 		= $frame/right_panel/right_panel_vbox/candy_menu
+@onready var candy_make_btn: 	Button 				= $frame/right_panel/right_panel_vbox/candy_menu/make_btn
 
-@onready var dwarf_btn: 		Button = $frame/right_panel/right_panel_vbox/dwarf_btn
-@onready var dwarf_menu: 		VBoxContainer = $frame/right_panel/right_panel_vbox/dwarf_menu
-@onready var dwarf_connect_btn: 			Button = $frame/right_panel/right_panel_vbox/dwarf_menu/dwarf_connect_btn
+@onready var brain_btn: 				Button 			= $frame/right_panel/right_panel_vbox/brain_btn
+@onready var brain_menu: 				VBoxContainer 	= $frame/right_panel/right_panel_vbox/brain_menu
+@onready var brain_vidcon_btn: 			Button 			= $frame/right_panel/right_panel_vbox/brain_menu/vidcon_btn
+@onready var brain_vidcon_unbox_btn: 			Button 	= $frame/right_panel/right_panel_vbox/brain_menu/unbox_btn
+@onready var brain_levelup_btn: 		Button 			= $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_btn
+@onready var brain_levelup_menu: 		VBoxContainer 	= $frame/right_panel/right_panel_vbox/brain_menu/brain_levelup_menu
+
+@onready var equip_btn: 		Button 					= $frame/right_panel/right_panel_vbox/equip_btn
+@onready var equip_menu: 		VBoxContainer 			= $frame/right_panel/right_panel_vbox/equip_menu
+@onready var equip_helmet_btn: 				Button 		= $frame/right_panel/right_panel_vbox/equip_menu/equip_helmet_btn
+@onready var equip_jerkin_btn: 				Button 		= $frame/right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn
+@onready var equip_equip_btn: 				Button 		= $frame/right_panel/right_panel_vbox/equip_menu/equip_equip_btn
 
 
-@onready var unplug_btn: 		Button = $frame/right_panel/right_panel_vbox/unplug_btn
+@onready var inventory_btn: 	Button 					= $frame/right_panel/right_panel_vbox/inventory_btn
+@onready var inventory_menu: 	VBoxContainer 			= $frame/right_panel/right_panel_vbox/inventory_menu
 
-@onready var right_panel: ScrollContainer = $frame/right_panel
+@onready var dwarf_btn: 		Button 					= $frame/right_panel/right_panel_vbox/dwarf_btn
+@onready var dwarf_menu: 		VBoxContainer 			= $frame/right_panel/right_panel_vbox/dwarf_menu
+@onready var dwarf_connect_btn: 			Button 		= $frame/right_panel/right_panel_vbox/dwarf_menu/dwarf_connect_btn
+
+
+@onready var unplug_btn: 		Button 					= $frame/right_panel/right_panel_vbox/unplug_btn
+
+@onready var right_panel: ScrollContainer 				= $frame/right_panel
 
 ## Left Info panel
-@onready var main_info_panel: 				B2_UtilityPanel = $frame/main_info_panel
-@onready var gun_info_panel: 				B2_UtilityPanel = $frame/gun_info_panel
-@onready var gun_info_bando_panel: 			B2_UtilityPanel = $frame/gun_info_bando_panel
-@onready var gun_info_bando_rename_panel: 	B2_UtilityPanel = $frame/gun_info_bando_rename_panel
-@onready var gun_info_bag_panel: 			B2_UtilityPanel = $frame/gun_info_bag_panel
-@onready var gun_info_bag_rename_panel: 	B2_UtilityPanel = $frame/gun_info_bag_rename_panel
-@onready var gun_info_smelt_panel: 			B2_UtilityPanel = $frame/gun_info_smelt_panel
-@onready var candy_panel: 					B2_UtilityPanel = $frame/candy_panel
-@onready var brain_info_panel: 				B2_UtilityPanel = $frame/brain_info_panel
-@onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/brain_vidcon_panel
-@onready var brain_vidcon_levelup_panel: 	B2_UtilityPanel = $frame/brain_vidcon_levelup_panel
-@onready var inventory_panel: 				B2_UtilityPanel = $frame/inventory_panel
-@onready var dwarfnet_panel: 				B2_UtilityPanel = $frame/dwarfnet_panel
-@onready var equipment_panel: 				B2_UtilityPanel = $frame/equipment_panel
-@onready var gun_info_breed_panel: 			B2_UtilityPanel = $frame/gun_info_breed_panel
+@onready var main_info_panel: 				B2_UtilityPanel = $frame/left_panel/main_info_panel
+@onready var gun_info_panel: 				B2_UtilityPanel = $frame/left_panel/gun_info_panel
+@onready var gun_info_bando_panel: 			B2_UtilityPanel = $frame/left_panel/gun_info_bando_panel
+@onready var gun_info_bando_rename_panel: 	B2_UtilityPanel = $frame/left_panel/gun_info_bando_rename_panel
+@onready var gun_info_bag_panel: 			B2_UtilityPanel = $frame/left_panel/gun_info_bag_panel
+@onready var gun_info_bag_rename_panel: 	B2_UtilityPanel = $frame/left_panel/gun_info_bag_rename_panel
+@onready var gun_info_smelt_panel: 			B2_UtilityPanel = $frame/left_panel/gun_info_smelt_panel
+@onready var candy_panel: 					B2_UtilityPanel = $frame/left_panel/candy_panel
+@onready var brain_info_panel: 				B2_UtilityPanel = $frame/left_panel/brain_info_panel
+@onready var brain_vidcon_panel: 			B2_UtilityPanel = $frame/left_panel/brain_vidcon_panel
+@onready var brain_vidcon_levelup_panel: 	B2_UtilityPanel = $frame/left_panel/brain_vidcon_levelup_panel
+@onready var inventory_panel: 				B2_UtilityPanel = $frame/left_panel/inventory_panel
+@onready var dwarfnet_panel: 				B2_UtilityPanel = $frame/left_panel/dwarfnet_panel
+@onready var equipment_panel: 				B2_UtilityPanel = $frame/left_panel/equipment_panel
+@onready var gun_info_breed_panel: 			B2_UtilityPanel = $frame/left_panel/gun_info_breed_panel
 
 ## Menu control
 enum {
@@ -656,6 +656,7 @@ func _on_dwarf_connect_btn_pressed() -> void:
 func _on_unplug_btn_pressed() -> void:
 	print("Exit from Utility Station.")
 	B2_SignalBus.unpluged_from_station.emit()
+	B2_Screen.hide_utility_screen()
 
 func _on_brain_levelup_confirm_btn_pressed() -> void:
 	_on_brain_btn_pressed()

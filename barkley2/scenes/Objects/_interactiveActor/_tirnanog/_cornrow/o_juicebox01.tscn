@@ -1,8 +1,32 @@
 [gd_scene format=3 uid="uid://biu2ajddy5x5d"]
 
 [ext_resource type="Script" uid="uid://bm5u6o3v5wcxh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_cornrow/o_juicebox01.gd" id="1_5rqgb"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_nqbfv"]
 [ext_resource type="Texture2D" uid="uid://w63v7ulmc863" path="res://barkley2/assets/b2_original/images/merged/s_juicebox01.png" id="2_xlsi2"]
 [ext_resource type="AudioStream" uid="uid://mvtkrhnl7n5j" path="res://barkley2/assets/b2_original/audio/NPC/sn_juicebox_coinflip.ogg" id="3_yiict"]
+
+[sub_resource type="Resource" id="Resource_2eq3a"]
+script = ExtResource("2_nqbfv")
+original_script = "IF body == governor | GOTO | GOVERNOR
+IF comServ == 2     | GOTO | COM2
+IF comServ == 4     | GOTO | COM4
+IF comServ == 6     | GOTO | COM6
+GOTO | NORMAL
+
+GOVERNOR
+DIALOG | Juicebox | Heh heh... Evening, Mr. Governor...
+
+COM6
+DIALOG | Juicebox | Granny uhh... Forgot her medicine.
+
+COM4
+DIALOG | Juicebox | Hey kid. Cornrow's teaching me about uh, numbers and stuff.
+
+COM2
+DIALOG | Juicebox | Cornrow's teaching me to read, uh, words.
+
+NORMAL
+DIALOG | Juicebox | Uhh, hey kid."
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ws6fi"]
 atlas = ExtResource("2_xlsi2")
@@ -105,6 +129,7 @@ size = Vector2(20, 36)
 [node name="o_juicebox01" type="CharacterBody2D" unique_id=355289357 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_5rqgb")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_2eq3a")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

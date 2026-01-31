@@ -2,8 +2,109 @@
 
 [ext_resource type="Script" uid="uid://cupgdp313oeis" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_ox01.gd" id="1_i7k1b"]
 [ext_resource type="Texture2D" uid="uid://dax4dcqe2y7vo" path="res://barkley2/assets/b2_original/images/merged/s_ox01.png" id="1_ldlrf"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_7ys7f"]
 [ext_resource type="Texture2D" uid="uid://krjtfqbaa0ta" path="res://barkley2/assets/b2_original/images/merged/s_oxNE.png" id="2_sijf6"]
 [ext_resource type="Texture2D" uid="uid://bdn444nbsgwyu" path="res://barkley2/assets/b2_original/images/merged/s_oxSE.png" id="3_an385"]
+
+[sub_resource type="Resource" id="Resource_uvu1h"]
+script = ExtResource("2_7ys7f")
+original_script = "IF body == governor | GOTO | GOVNA
+IF uschiBall == 4 | IF uschiOx == 1 | GOTO | OXBALL
+IF uschiBall == 4 | IF uschiOx == 0 | GOTO | OXBALL_ALT
+IF uschiBall == 3 | GOTO | OXBALL_OPPONENT
+IF oxRage == 1  | GOTO | OX02
+IF oxState == 2 | GOTO | OX02
+IF oxState == 1 | GOTO | OX01
+IF oxState == 0 | GOTO | OX00
+
+GOVNA
+DIALOG | Ox                  | M-my liege! What brings you to the `kw`Residential District?`rt`
+DIALOG | Governor Elagabalus | Uh, as the governor I go where I please. Carry on, soldier.
+
+OXBALL
+DIALOG | Ox     | When is this game happenin'?
+DIALOG | P_NAME | Oh right, yeah, let me get over to the court now.
+DIALOG | Ox     | I can almost taste your defeat._ Tastes good.
+QUEST  | uschiOx = 1
+
+OXBALL_ALT
+DIALOG | Ox     | Heh, there is a B-Ball match coming up soon. Duergars vs. Dwarfs. I love a good bloodbath.
+
+OXBALL_OPPONENT
+DIALOG | P_NAME = s_port_hoopzSmirk | (Hmm, this blue doofus looks like he would make a good B-Ball opponent...)
+DIALOG | Ox     | What the colon are you looking at?
+DIALOG | P_NAME | Oh, uh, I was just looking at your_ `w1`dumb face,`w0` uh,_ `w1`dummy.`w0`
+GOTO   | OXRAGE
+
+OXRAGE
+DIALOG | Ox | Oh I'm chompin' at the bit to bite into your lanky dwarf ass. Please tell me you'll walk around when a curfew is in effect. Please tell me I oiled up my blunderbraster for a reason this morning.
+CHOICE | Start somethin'?
+REPLY  | STARTAFIGHT | Start a fight.
+REPLY  | COWERAWAY   | Back down.
+
+STARTAFIGHT
+DIALOG | P_NAME 	| The only place that blunderbrast is going... is up your `w1`heinie.`w0` So- uh, good thing it's oiled.
+DIALOG | Ox     		| What the `s1`F_U_C_K`s0` was that you little bitch?!
+DIALOG | P_NAME 	| I-_ I said that I'm gonna-
+DIALOG | Ox     		| You're gonna die is what you are gonna do!
+IF uschiBall == 3		| GOTO | OFFERBBALL // Fix later
+QUEST  	| oxRage = 1
+Duergar| aggro 		| ox | 1
+DIALOG | Dev     		| `s1`Ox should become agressive here, but that is not implemented yet. Remove this message later.`s0`
+EVENT  	| o_ox01 	| 1
+
+COWERAWAY
+DIALOG | P_NAME = s_port_hoopzSurprise | Yeep! Apologies!
+EXIT |
+
+OFFERBBALL
+SURPRISEAT      | o_ox01
+DIALOG | P_NAME = s_port_hoopzSurprise | Whoah whoah! Let's be reasonable, how about a game of bball instead of resorting to violence?
+DIALOG | Ox     | B-ball you say?
+DIALOG | P_NAME | Yeah I think it's...
+IF knowBullying >= 2 | GOTO | CANDOR
+DIALOG | P_NAME | /;The Sport of the Godz./' You want to be closer to the Godz don't you?
+DIALOG | Ox     | Cuchulainn promised me a seat next to the Godz when we get to The Prize. And I'm gonna take that seat right after I dunk on your sorry ass.
+DIALOG | P_NAME = s_port_hoopzSmirk | We'll see about that, see you on the court!
+DIALOG | Ox     | Bring your Trapper Keeper chump, cause school's in session.
+QUEST  | uschiBall = 4
+QUEST  | uschiOx = 1
+
+CANDOR
+DIALOG | P_NAME = s_port_hoopzSmirk | Time to stop the slander and increase the candor.
+WAIT   | 1.0
+DIALOG | Ox     | You're lucky that I never back down from a challenge, wimp._ Alright you have yourself a deal. I'll get two of my comrades and we'll meet your on the court. Where the only candor you'll experience is the open dialogue between your teeth and the blacktop!
+DIALOG | P_NAME | Yikes, that's a little graphic, but... okay I'll see you there.
+QUEST  | uschiBall = 4
+QUEST  | uschiOx = 1
+
+OX02
+DIALOG | Ox     | Eyes down, keep walking.
+
+OX01
+DIALOG | Ox     | I know I'm pretty but twerps like you should keep their eyes on the ground. Your little beady dwarf eyes make me want to take a dump in them.
+WAIT   | 0.5
+DIALOG | P_NAME | (Eww...)
+QUEST  | oxState = 2
+
+OX00
+DIALOG | Ox     | What are you looking at, freak?
+QUEST  | oxState = 1
+CHOICE | You gonna take that?
+REPLY  | RUDE   | You don't have to be so rude!
+REPLY  | SUBMIT | Apologies, blue master.
+
+RUDE
+DIALOG | P_NAME = s_port_hoopzAngry | Why do you duergars always have to be so mean?
+DIALOG | Ox | Scuze me?! Who the hell do you think you are? How dare you talk back to your superior! You are lucky I'm on pacification duty, if we were in curfew I'd be painting the town yellow with your pansy-ass guts! Now get your skinny ass out of my pretty face.
+DIALOG | P_NAME = s_port_hoopzSurprise | Sorry! I thought you were someone else, gotta go!
+QUEST  | oxRage == 1
+EXIT |
+
+SUBMIT
+DIALOG | P_NAME | Oh sorry, uh ._._._ ma'am? I was just walking through.
+DIALOG | Ox     | You're damn straight you were just passing through. Get moving and I'll let that wandering eye of yours get a free pass today.
+DIALOG | P_NAME | Thank you... (Yowsers, he's scary!)"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wba3h"]
 atlas = ExtResource("1_ldlrf")
@@ -122,6 +223,7 @@ size = Vector2(20, 36)
 script = ExtResource("1_i7k1b")
 duergar_name = "ox"
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_uvu1h")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 ActorNav = NodePath("ActorNav")

@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://7dgycu7r34ud"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_o8mr4"]
+
+[resource]
+script = ExtResource("1_o8mr4")
+original_script = "IF body == governor | IF govKalevi == 0 | GOTO | GOVNAH0
+IF body == governor | GOTO | GOVNAH1
+IF wilmerEvict == 1 | IF kaleviHousingDept == 0 | GOTO | ASKHOUSING1
+IF wilmerEvict == 1 | IF kaleviHousingDept == 1 | GOTO | ASKHOUSING2
+IF ericQuest == 2 | IF kaleviJobSearch == 0 | GOTO | ERICJOB
+IF govKalevi == 0 | IF kaleviTalked == 0 | IF curfew != during | GOTO | ANVIL1
+IF govKalevi == 0 | IF kaleviTalked == 1 | IF curfew == before | IF kaleviGun1Given == 0 | GOTO | GUNGIVE
+IF govKalevi == 0 | IF kaleviTalked == 1 | IF curfew != during | GOTO | ANVIL2
+IF govKalevi == 0 | IF kaleviState == 0 | IF curfew == during | GOTO | TNNSUCKS1
+IF govKalevi == 0 | IF kaleviState == 1 | IF curfew == during | GOTO | TNNSUCKS2
+IF govKalevi == 1 | GOTO | DESIRE
+IF govKalevi == 2 | IF curfew == during | GOTO | MINESPACKING
+IF govKalevi == 2 | IF curfew == after | GOTO | MINESFINISH
+IF govKalevi == 3 | GOTO | MINESFAREELL
+
+GOVNAH0
+DIALOG | Kalevi | Eh, you're the new Governor then, are you? Askin' humbly, sir... I don't mind making nails and pipes for the Duergars, but what I wouldn't give to work on gun's again...
+QUEST  | govKalevi = 1
+
+GOVNAH1
+DIALOG | Kalevi | Yes sir, I'm the blacksmith around here. Actually, I'm a trained gun'ssmith but the old Governor didn't let me work my craft, at least not for dwarfs. Been doing this for all my life and I learned from the gun'ssmithing masters themselves. What I wouldn't give to work on 'zook's again, to feel molten Damascus steel bending under the blows of my hammer just one last time...
+
+ASKHOUSING1
+DIALOG | Kalevi | Season's Greeting's youngster. What can I do for you?
+DIALOG | P_NAME | I'm actually looking for the Housing Department.
+DIALOG | Kalevi | Ha! Good luck if you can stand the wait. It's over in the Warehouse District, pretty much on the other side of the Governor's Mansion in the center of town. Probably should hurry though, their hours are less than accomodating and their late fees hit harder than my hammer.
+DIALOG | P_NAME | Oh that's really good to know, thanks!
+QUEST  | kaleviHousingDept = 1
+
+ASKHOUSING2
+DIALOG | Kalevi | Watch your step, youngster. I'm about to blast the heck out of this pipe.
+
+ERICJOB
+CHOICE | Hey mister Kalevi...
+REPLY  | GOTJOB | Any jobs available?
+REPLY  | NARY   | Nary ye mind...
+
+GOTJOB
+DIALOG | P_NAME | Excuse me, do you have any jobs available?
+DIALOG | Kalevi | Think you can pound molten steel with a 20 pound hammer in front of a raging furnace all day long?
+DIALOG | P_NAME | Oh, I'm looking for a friend, not me.
+DIALOG | Kalevi | Well can your friend do it?
+DIALOG | P_NAME | Mmm... no, definitely not... one hundred percent definitely not.
+DIALOG | Kalevi | Nope. No jobs.
+DIALOG | P_NAME | Oh, okay then. Thanks anyway!
+QUEST  | kaleviJobSearch = 1
+     
+NARY            
+DIALOG | P_NAME | Nary ye mind, maybe some other time.
+
+ANVIL1
+DIALOG | Kalevi | Sure these are just sewage pipes I'm repairing, but with a hot enough flame and a true enough anvil, I could forge a 'zook that would clear a Duergar's arse.
+DIALOG | P_NAME | Such raw power... and zook's are...?
+DIALOG | Kalevi | Ah, and here I thought the little tyke was a 'braster. Bazookas my boy! I make the finest pop launchers this side of Brain City. But city ordinance keeps me from pounding that ordnance. New rules state that gun's need to be bred, no straight smithing, this keeps us dwarfs from using our true talents. It's a scam. I'm just a glorified plumber while I'm in this dump.
+QUEST  | kaleviTalked = 1
+
+GUNGIVE
+DIALOG | P_NAME | Gosh Kalevi, it's tough going through life brasting without a trusty 'zook.
+DIALOG | Kalevi | Fat chance, kid. I'm not stamping my passport to the labor mines just to break out the 'good stuff'. The only way I'm ending up in the mines is on smithin' contract.
+WAIT   | 1
+DIALOG | Kalevi | But you know what? I don't think there is much in the rules about givin' away ALREADY SMITHED gun's. Look, I was gonna drop this old pop gun into this sewer pipe once I was done shapin' it, so you might as well take it.
+NOTIFY | Got the gun KALE! // TODO: need to get gun added properly
+EVENT  | o_kalevi02 | 0
+DIALOG | P_NAME | Oh wow I wasn't expecting this! Thanks a lot!
+DIALOG | Kalevi | For what, kid? I didn't give you anything. I don't deal in gun's. I'm a straight shooter. That gun you just happened to find though, is anything but straight.
+DIALOG | P_NAME | Oh... oh! Right! No thanks to you then... got it!
+QUEST  | kaleviGun1Given = 1
+
+ANVIL2
+DIALOG | Kalevi | Anvil's hot.
+
+TNNSUCKS1
+DIALOG | Kalevi | Hey, I can't say it too loud but... this curfew is just stupid. Why shouldn't I be allowed to work when I want to? I think the Duergars just get off on bossing us around, that's what I think.
+QUEST  | govKalevi = 1
+QUEST  | kaleviState = 1
+
+TNNSUCKS2
+DIALOG | Kalevi | Sigh... what I wouldn't give to get outta this place. To work on gun's again, to have my own schedule, to be my own boss. You know, Tir na Nog sucks.
+QUEST  | govKalevi = 1
+
+DESIRE
+DIALOG | Kalevi | Yep, I'm the blacksmith around here. Actually, I'm a trained gun'ssmith but the Duergars don't let me work my craft, at least not for dwarfs. Been doing this for all my life and I learned from the gun'ssmithing masters themselves. What I wouldn't give to work on 'zook's again, to feel molten Damascus steel bending under the blows of my hammer just one last time...
+
+MINESPACKING
+DIALOG | Kalevi | Sorry, kid, can't talk. I'm packing up my things 'cuz I'm getting transferred to the Duergar Mines, where I'm actually gonna be allowed to work on weapons. You know, they say life at the Mines is pretty rough but I honestly can't wait to work on weapons again. Making these crummy trinkets and tools was driving me crazy.
+
+MINESFINISH
+DIALOG | Kalevi | Sorry, kid, can't talk. I'm finishing up my last orders 'cuz I'm getting transferred to the Duergar Mines, where I'm actually gonna be allowed to work on weapons. You know, they say life at the Mines is pretty rough but I honestly can't wait to work on weapons again. Making these crummy trinkets and tools was driving me crazy.
+
+MINESFAREWELL
+DIALOG | Kalevi | If you ever end up in the Mines, hit me up. I'll forge you the most hellzapoppin' 'zook's you ever laid eyes on. That's my specialty, bazookas. You can tell I'm serious about bazookas because I have the word /'bazooka/' tattooed to my inner thigh."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

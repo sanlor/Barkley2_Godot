@@ -3,6 +3,8 @@ extends "res://barkley2/scenes/_utilityStation/gun_info_panel.gd"
 
 const CONFIRMATION_BOX = preload("res://barkley2/scenes/_utilityStation/confirmation_box.tscn")
 
+@onready var utilitystation_screen: Control = $"../../.."
+
 ## Current
 func _on_gun_smelt_current_btn_pressed() -> void:
 	if not B2_Gun.has_any_guns():
@@ -15,7 +17,7 @@ func _on_gun_smelt_current_btn_pressed() -> void:
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
 	#get_tree().current_scene.add_child(confirm, true)
-	add_sibling(confirm, true)
+	utilitystation_screen.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt your current gun '%s' ?" % selected_gun.get_short_name() ) )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation
@@ -40,7 +42,7 @@ func _on_gun_smelt_empty_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	add_sibling(confirm, true)
+	utilitystation_screen.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt every gun out of ammo?" ) )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation
@@ -77,7 +79,7 @@ func _on_gun_smelt_unfaves_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	get_tree().current_scene.add_child(confirm, true)
+	utilitystation_screen.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt every unfavorite guns?" ) )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation
@@ -114,7 +116,7 @@ func _on_gun_smelt_inbag_btn_pressed() -> void:
 		return
 		
 	var confirm := CONFIRMATION_BOX.instantiate()
-	get_tree().current_scene.add_child(confirm, true)
+	utilitystation_screen.add_child(confirm, true)
 	confirm.setup_text( Text.pr( "Are you sure you want to smelt all Gun'sbag guns?") )
 	confirm.show_panel()
 	var choice : bool = await confirm.confirmation

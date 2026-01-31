@@ -21,7 +21,11 @@ signal action_pressed
 
 # FFWD Stuff
 var ff_time_scale			:= 6.5		# FFWD time scale, duh. Higher is faster. 10.0 is overkill.
-var can_fast_forward		:= false 	# Set to true during cutscenes and conversations
+var can_fast_forward		:= false :	# Set to true during cutscenes and conversations
+	set(ff): # Reset FFWD
+		if not ff:
+			ffwd(false)
+		can_fast_forward = ff
 var is_fastforwarding		:= false 	# Set to true when you are FFWD
 var can_switch_guns			:= true	# if the player can swap guns (Should be disabled in menus)
 

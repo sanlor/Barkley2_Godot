@@ -22,10 +22,10 @@ const EQUIP_NO_EQUIP 			= preload("res://barkley2/scenes/_utilityStation/equip_n
 @onready var kosmic_res_value: 		Label = $resistances/kosmic_panel/vbox/res_value
 @onready var zauber_res_value: 		Label = $resistances/zauber_panel/vbox/res_value
 
-@onready var equip_btn: 			Button = $"../right_panel/right_panel_vbox/equip_btn"
-@onready var equip_helmet_btn: 		Button = $"../right_panel/right_panel_vbox/equip_menu/equip_helmet_btn"
-@onready var equip_jerkin_btn: 		Button = $"../right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn"
-@onready var equip_equip_btn: 		Button = $"../right_panel/right_panel_vbox/equip_menu/equip_equip_btn"
+@onready var equip_btn: 			Button = $"../../right_panel/right_panel_vbox/equip_btn"
+@onready var equip_helmet_btn: 		Button = $"../../right_panel/right_panel_vbox/equip_menu/equip_helmet_btn"
+@onready var equip_jerkin_btn: 		Button = $"../../right_panel/right_panel_vbox/equip_menu/equip_jerkin_btn"
+@onready var equip_equip_btn: 		Button = $"../../right_panel/right_panel_vbox/equip_menu/equip_equip_btn"
 
 @onready var helm: 					Control = $helm
 @onready var jerkin: 				Control = $jerkin
@@ -36,6 +36,17 @@ const EQUIP_NO_EQUIP 			= preload("res://barkley2/scenes/_utilityStation/equip_n
 var selected_type					:= EQUIP.HELM
 var selected_helm					:= ""
 var selected_jerkin					:= ""
+
+## After the tree is ready, I think.
+func _on_ready() -> void:
+	assert( equip_helmet_btn )
+	assert( equip_jerkin_btn )
+	assert( equip_equip_btn )
+	assert( equip_btn )
+	equip_helmet_btn.pressed.connect( _on_equip_helmet_btn_pressed )
+	equip_jerkin_btn.pressed.connect( _on_equip_jerkin_btn_pressed )
+	equip_equip_btn.pressed.connect( _on_equip_equip_btn_pressed )
+	equip_btn.pressed.connect( _on_equip_btn_pressed )
 
 func _on_visibility_changed() -> void:
 	if is_node_ready() and visible:

@@ -2,16 +2,16 @@ extends B2_UtilityPanel
 
 const GUN_INFO_BREED_ANIMATION_PANEL = preload("res://barkley2/scenes/_utilityStation/gun_info_breed_animation_panel.tscn")
 
-@onready var utilitystation_screen: CanvasLayer = $"../.."
-@onready var some_gay_shit: Control = $breed_data/some_gay_shit
+@onready var utilitystation_screen: 	Control 			= $"../.."
+@onready var some_gay_shit: 			Control 			= $breed_data/some_gay_shit
 
-@onready var utility_bg: 			Control = $"../../bg"
-@onready var right_panel: ScrollContainer = $"../right_panel"
+@onready var utility_bg: 				Control 			= $"../../../bg"
+@onready var right_panel: 				ScrollContainer 	= $"../../right_panel"
 
-@onready var gun_breed_gun_1_btn: 		Button = $"../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_gun1_btn"
-@onready var gun_breed_gun_2_btn: 		Button = $"../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_gun2_btn"
-@onready var gun_breed_commence_btn: 	Button = $"../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_commence_btn"
-@onready var gun_breed_select_btn: 		Button = $"../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_select_btn"
+@onready var gun_breed_gun_1_btn: 		Button = $"../../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_gun1_btn"
+@onready var gun_breed_gun_2_btn: 		Button = $"../../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_gun2_btn"
+@onready var gun_breed_commence_btn: 	Button = $"../../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_commence_btn"
+@onready var gun_breed_select_btn: 		Button = $"../../right_panel/right_panel_vbox/gun_menu/gun_breed_menu/gun_breed_select_btn"
 
 @onready var no_gun_1_selected_lbl: 	Label = $breed_data/top_gun/top_gun_panel/no_gun_selected_lbl
 @onready var no_gun_2_selected_lbl: 	Label = $breed_data/bottom_gun/bottom_gun_panel/no_gun_selected_lbl
@@ -107,7 +107,7 @@ func _on_gun_breed_commence_btn_pressed() -> void:
 	B2_Sound.play( "utility_button_analogclick" )
 	
 	gun_info_breed_animation_panel = GUN_INFO_BREED_ANIMATION_PANEL.instantiate()
-	add_sibling( gun_info_breed_animation_panel, true )
+	utilitystation_screen.add_child( gun_info_breed_animation_panel, true )
 	gun_info_breed_animation_panel.hide()
 	gun_info_breed_animation_panel.finished_breeding.connect( _on_gun_info_breed_animation_panel_finished_breeding )
 	

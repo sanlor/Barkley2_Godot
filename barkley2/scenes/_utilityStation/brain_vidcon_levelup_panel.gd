@@ -21,12 +21,12 @@ extends B2_UtilityPanel
 @onready var brain_level_up_might: HBoxContainer = $levelup_display/brain_level_up_might
 @onready var brain_level_up_piety: HBoxContainer = $levelup_display/brain_level_up_piety
 
-@onready var brain_levelup_guts_btn: 	Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_guts_btn"
-@onready var brain_levelup_luck_btn: 	Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_luck_btn"
-@onready var brain_levelup_acro_btn: 	Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_acro_btn"
-@onready var brain_levelup_might_btn: 	Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_might_btn"
-@onready var brain_levelup_piety_btn: 	Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_piety_btn"
-@onready var brain_levelup_confirm_btn: Button = $"../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_confirm_btn"
+@onready var brain_levelup_guts_btn: 	Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_guts_btn"
+@onready var brain_levelup_luck_btn: 	Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_luck_btn"
+@onready var brain_levelup_acro_btn: 	Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_acro_btn"
+@onready var brain_levelup_might_btn: 	Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_might_btn"
+@onready var brain_levelup_piety_btn: 	Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_piety_btn"
+@onready var brain_levelup_confirm_btn: Button = $"../../right_panel/right_panel_vbox/brain_menu/brain_levelup_menu/brain_levelup_confirm_btn"
 
 
 var bandwidth 	:= 3

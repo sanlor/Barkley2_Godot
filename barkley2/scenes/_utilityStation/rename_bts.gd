@@ -4,7 +4,7 @@ extends Control
 @onready var gun_info_rename_panel: 			Control = $".."
 @onready var new_name: 							Label = $new_name
 @onready var buttons: 							GridContainer = $buttons
-@onready var utilitystation_screen: 			CanvasLayer = $"../../.."
+@onready var utilitystation_screen: 			Control = $"../../.."
 
 @export_tool_button("Make keyboard") var aaa := _aaa
 

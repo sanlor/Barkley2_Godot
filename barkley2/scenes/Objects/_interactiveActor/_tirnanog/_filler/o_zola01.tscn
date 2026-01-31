@@ -157,8 +157,8 @@ PAPER_HEARHEADLINES
 DIALOG | P_NAME | Hmm... what else you got?
 IF zolaNews == 10 | DIALOG | Zola | Annual crime report: `kw`The Efficacy of Torture on Dwarf Control Found to Be 100%!`rt`
 IF zolaNews == 9  | DIALOG | Zola | Gubernatorial Proclamation: `kw`Poverty Level Upgraded to Red.`rt` That's right, our good Governor Elagabalus is planning new confiscations!
-IF zolaNews == 8 && uschiBall == 0 | DIALOG | Zola | Sports! I'm talking `w1`SPORTS!`w0` ... hm, seems like no games have been played for awhile.
-IF zolaNews == 8 && uschiBall >= 1 | DIALOG | Zola | Sports! I'm talking `w1`SPORTS!`w0` ... B-ball season just started here in Tir na Nog!
+IF zolaNews == 8 | IF uschiBall == 0 | DIALOG | Zola | Sports! I'm talking `w1`SPORTS!`w0` ... hm, seems like no games have been played for awhile.
+IF zolaNews == 8 | IF uschiBall >= 1 | DIALOG | Zola | Sports! I'm talking `w1`SPORTS!`w0` ... B-ball season just started here in Tir na Nog!
 IF zolaNews == 7  | DIALOG | Zola | New fiction and poetry! `kw`An Ode on Cuchulainn's Visag`rt`... `kw`An Ode on Cuchulainn's Physique`rt`... `kw`An Ode on Cuchulainn's Prowess`rt`... and more!
 IF zolaNews == 6  | DIALOG | Zola | A pop-sci column that debunks urban legends... `kw`Dwarf Rebellion? Just An Old Dwarf's Tale`rt` is the current article.
 IF zolaNews == 5  | DIALOG | Zola | Coupons! That's right, can't-miss coupons! Buy-one-get-one-0.001-neuro-shekels-off fruit deals!
@@ -278,7 +278,6 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_txlnp"]
-radius = 11.7775
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsero"]
 size = Vector2(20, 36)
@@ -310,6 +309,11 @@ metadata/default = {
 }
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1669489802]
+position = Vector2(-5, -6)
+shape = SubResource("CircleShape2D_txlnp")
+
+[node name="ActorCol2" type="CollisionShape2D" parent="." unique_id=35239989]
+position = Vector2(13, -1)
 shape = SubResource("CircleShape2D_txlnp")
 
 [node name="ActorInteract" type="Area2D" parent="." unique_id=1114513511]

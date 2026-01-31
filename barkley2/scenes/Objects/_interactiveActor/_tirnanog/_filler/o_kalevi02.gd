@@ -2,6 +2,9 @@ extends B2_InteractiveActor
 
 @onready var audio_stream_player_2d: 	AudioStreamPlayer2D = $AudioStreamPlayer2D
 
+const O_KALEVI_02_TNN = preload("uid://7dgycu7r34ud")
+const O_KALEVI_02_MIN = preload("uid://dr7gmm47hc5dt")
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	_setup_actor()
@@ -38,6 +41,18 @@ func _ready() -> void:
 		else:
 			ActorAnim.animation = "default"
 			ActorAnim.play()
+			
+	# Either TNN or Mines interaction
+	if get_room_name() == "r_min_kaleviCave01":
+		execute_event_user_2()
+	else:
+		execute_event_user_1()
+
+func execute_event_user_2():
+	cutscene_script = O_KALEVI_02_TNN
+	
+func execute_event_user_1():
+	cutscene_script = O_KALEVI_02_MIN
 
 func _on_actor_anim_frame_changed() -> void:
 	match ActorAnim.frame:

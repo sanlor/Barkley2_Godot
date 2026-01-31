@@ -67,7 +67,7 @@ var is_quickmenu_open := false
 var shop_screen: Control #CanvasLayer
 var is_shop_open := false
 
-var utility_screen: CanvasLayer
+var utility_screen: Control #CanvasLayer
 var is_utility_open := false
 
 ## Shader Stuff
@@ -502,7 +502,7 @@ func show_utility_screen() -> void:
 	B2_Music.volume_menu()
 
 func hide_utility_screen() -> void:
-	if is_instance_valid(utility_screen): # Debug errors
+	if is_instance_valid( utility_screen ): # Debug errors
 		utility_screen.queue_free()
 	is_utility_open = false
 	B2_Music.volume_menu()
@@ -537,12 +537,24 @@ func hide_quickmenu_screen( unpause := false ) -> void:
 func return_to_title():
 	if B2_Playerdata.record_curr_location():
 		B2_Playerdata.SaveGame() ## Do the saving bit.
-	
+		
 	## UI fixes.
 	hide_pause_menu()
 	hide_hud( true )
 	await get_tree().process_frame
 	
+	for child in get_children():
+		match child.name:
+			## Safe nodes
+			"o_hud", "shaders", "trail", "mouse":
+				pass
+				
+			## Stuff that shoudnt be here during the start screen.
+			_:
+				child.queue_free()
+	
 	B2_Sound.stop_loop()
+	B2_Music.stop(0.0)
+	
 	get_tree().change_scene_to_file( title_screen_file )
 	get_tree().paused = false

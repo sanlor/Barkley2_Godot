@@ -2,6 +2,74 @@
 
 [ext_resource type="Script" uid="uid://dcd5j8jt0snrq" path="res://barkley2/scenes/_tool_export/dwarf/o_wilhelmina01.gd" id="1_yig7h"]
 [ext_resource type="Texture2D" uid="uid://kdf0qtb0wqlb" path="res://barkley2/assets/b2_original/images/merged/s_wilhelmina01.png" id="2_40wni"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_xvwcu"]
+
+[sub_resource type="Resource" id="Resource_la3v0"]
+script = ExtResource("2_xvwcu")
+original_script = "IF body == governor | GOTO | GOVNA
+IF curfew == true | GOTO | CURFEW
+IF wilhelminaState == 1  | GOTO | TIP
+IF wilhelminaState == 2  | GOTO | AFTER
+IF wilhelminaJerkin == 0 | GOTO | CORNHUSK
+IF wilhelminaJerkin == 1 | GOTO | BOOTY
+IF wilhelminaJerkin == 2 | GOTO | BOTTLECAP
+IF wilhelminaJerkin == 3 | GOTO | EGGCRATE
+IF wilhelminaJerkin == 4 | GOTO | MONO
+IF wilhelminaJerkin == 5 | GOTO | VESTAL
+
+GOVNA
+DIALOG | Wilhelmina | Evening, Mr. Governor...
+
+CURFEW
+DIALOG | Wilhelmina | I'm not super upset about the curfew or anything. It gives me some downtime to work on making my jerkins. 
+DIALOG | Wilhelmina | One day I'm gonna be a legendary jerkswoman making jerkins out of materials that few dare to name... and even fewer dare to jerk. But for now, I guess I've gotta practice with these ratty leather jerkins.
+
+AFTER
+DIALOG | Wilhelmina | Sewer jerkins, varsity jerkins, faberge jerkins... it's a world of jerkins!
+
+TIP
+DIALOG | Wilhelmina | That jerkin you are wearing looks nice and sturdy. Not bad, not bad at all. I'd look into `kw`Studded Leather`rt` if you want more protection in a run-in with `sq`Cuchulainn's Bainshees,`rt` or maybe a `kw`Sod Jerkin`rt` if you want the versatility and `kw`candy-storage`rt` its extra pockets provide. 
+DIALOG | Wilhelmina | `kw`A Faberge Jerkin`rt` exchanges durability for a lightweight, elegant fit. I think you'd look cutest in a `kw`Letterman's Jerkin`rt` though.
+DIALOG | P_NAME     | Gee, thanks for the advice. I'll take your word for it.
+QUEST  | wilhelminaState = 2
+
+CORNHUSK
+DIALOG | Wilhelmina | Lookin good in that jerkin, hon. What's that made out of?
+DIALOG | P_NAME     | C-cornhusk.
+DIALOG | Wilhelmina | Cornhusk, huh... haven't seen anyone wearing that in ages, but you're pulling it off.
+QUEST  | wilhelminaState = 1
+
+BOOTY
+DIALOG | Wilhelmina | `w1`Whoa, whoa, whoa!`w0`_ Hold on now!_ Where did you get that jerkin? It's so... so...
+DIALOG | P_NAME     | This? It's a `sq`Booty Jerkin.`rt` They gave it to me in that garage for being the `kw`Baron of Booty.`rt`
+DIALOG | Wilhelmina | ... so... globular! A Booty Jerkin, you say? That's seriously cutting edge. I've just gotta cop one myself. Guess it's barony for me...
+QUEST  | wilhelminaState = 1
+
+BOTTLECAP
+DIALOG | Wilhelmina | Take a look at that. That is one handsome jerkin you got on you. What's it made of?
+DIALOG | P_NAME     | My jerkin? It's made out of bottlecaps. It's a bit uncomfortable at times, but I like it overall. I give it seven bottlecaps out of ten.
+DIALOG | Wilhelmina | I love the `w1`shine and shimmer.`w0` Don't think I've ever seen anything like it before. It looks good on you.                    
+QUEST  | wilhelminaState = 1
+
+EGGCRATE
+DIALOG | Wilhelmina | Wow, that jerkin is something else. What is that?
+DIALOG | P_NAME     | It's an `kw`Eggcrate Jerkin.`rt` 
+DIALOG | Wilhelmina | Cool. I'm glad to see people are still keeping The Four R's alive and well.                    
+DIALOG | P_NAME     | The what? 
+DIALOG | Wilhelmina | You know, The Four R's. `kw`Reduce, Recycle, Reuse, Rethink.`rt` 
+DIALOG | Wilhelmina | I love The Four R's as well. All those piles or garbage just outside the walls? Treasure waiting to be discovered...                   
+QUEST  | wilhelminaState = 1
+
+MONO
+DIALOG | Wilhelmina | Huh? Your jerkin... Actually I really don't have anything to say about it. Nary ye mind...
+DIALOG | P_NAME     | (Hmm, what was all that about?)
+QUEST  | wilhelminaState = 1
+
+VESTAL
+DIALOG | Wilhelmina | Hey, that's a good looking jerkin you got there.
+DIALOG | P_NAME     | Uh, thanks. It's a `kw`Vestal Jerkin.`rt`
+DIALOG | Wilhelmina | Vestal, huh? Interesting choice, youngster...                   
+QUEST  | wilhelminaState = 1"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0bom3"]
 atlas = ExtResource("2_40wni")
@@ -27,6 +95,7 @@ size = Vector2(20, 36)
 [node name="o_wilhelmina01" type="CharacterBody2D" unique_id=1944723834 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_yig7h")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_la3v0")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

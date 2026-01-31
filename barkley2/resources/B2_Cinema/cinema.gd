@@ -388,6 +388,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 			# Check for conditions.
 			if parsed_line[0].begins_with("IF"):
 				
+				## Fixes Weird Zola IF conddition -> ' IF zolaNews == 8 && uschiBall == 0 '
+				parsed_line[0].replace("&&", "| IF")
+				
 				if parse_if( parsed_line[0] ):
 					## NOTE Katsu! Sometimes there are nested IF statements.
 					## Instead of continuing the script from here, run all checks again.
@@ -942,9 +945,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				"UTILITYSTATION":
 					print_rich("[color=pink]Utility Station initiated.[/color]")
-					
+					B2_Input.can_fast_forward = false
 					B2_Screen.show_utility_screen()
 					await B2_SignalBus.unpluged_from_station
+					B2_Input.can_fast_forward = true
 					
 				"Destroy":
 					# Remove actor. simple.
@@ -1229,6 +1233,10 @@ func parse_if( line : String ) -> bool:
 		# 30/01/26 Motherfucker, these issues dont stop!!!
 		# Zola, IF zolaNews == 8 && uschiBall == 0 causes issues. Need to handle the "&&" before comparing.
 		## CRITICAL FIXME FIX THIS
+		# So... here is the thing. This is the first time I got this issue. I COULD spend a few ours changing the system, possibly introducing a few new bugs to handle this situation
+		# Or I could just change the "&&" for "| IF" and avoid this issue.
+		# Guess what I chose.
+		assert( not line.contains(" && "), "Invalid String %s" % line )
 		match comparator:
 			"==","=":			return quest_var == cond_value
 			"!=":				return quest_var != cond_value

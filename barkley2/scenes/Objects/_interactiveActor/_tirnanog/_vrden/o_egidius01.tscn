@@ -1,7 +1,320 @@
 [gd_scene format=3 uid="uid://bea7oxayjixxg"]
 
 [ext_resource type="Script" uid="uid://crw71qb68yaxu" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_vrden/o_egidius01.gd" id="1_p28dd"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_3ttw2"]
 [ext_resource type="Texture2D" uid="uid://o550otax6ree" path="res://barkley2/assets/b2_original/images/merged/s_egidius_table01.png" id="2_c5vw0"]
+
+[sub_resource type="Resource" id="Resource_8wrfu"]
+script = ExtResource("2_3ttw2")
+original_script = "QUEST  | egidiusTalking = 1
+IF body == governor | IF egidiusGovernor == 1 | GOTO | GOV01
+IF body == governor | GOTO | GOV00
+IF egidiusState == 2 | GOTO | EGIDIUS02
+IF egidiusState == 1 | GOTO | EGIDIUS01
+IF egidiusState == 0 | GOTO | EGIDIUS00
+
+EGIDIUS02
+DIALOG | Egidius | Why if it isn't my tallest customer, how may I help you?
+GOTO   | SHOPMENU
+
+SHOPMENU
+EVENT  | o_egidius01 | 1
+CHOICE | What to do?
+IF egidiusStocks >= 1 | REPLY | SHOP_OPEN | Peruse your wares.
+IF egidiusStocks >= 1 | IF egidiusRental == 1 | REPLY | RENTALCOLLATERAL | Can I rent a jerkin?
+IF egidiusStocks >= 1 | IF egidiusRental == 3 | REPLY | RENTAL_COLLATERAL_DRAGON_CHOOSE_PRE | I'd like to rent a jerkin.
+IF egidiusRental == 2 | REPLY | RENTALRETURN | I'm returning my rented jerkin.
+IF egidiusJerkinInfo == 0 | REPLY | JERKININFO_LONG | How do jerkins work?
+IF egidiusJerkinInfo == 1 | REPLY | JERKININFO_SHORT | Can I ask about jerkins again?
+IF egidiusShopped == 1 | IF egidiusRental == 0 | REPLY | PRICEY | These jerkin prices are a bit high...
+REPLY  | LEAVE | That's it, thank you.
+
+JERKININFO_LONG
+DIALOG | P_NAME  | I'd love to hear more about how jerkins work. Well besides the obvious /'its a short close-fitting jacket, made usually of light-coloured leather, and often without sleeves, worn over the doublet./'
+DIALOG | Egidius | Ah yes... an educated consumer is my best customer. Allow me to explain...
+DIALOG | Egidius | You can use one of the many `mq`Utility Stations`rt` spread all across Necron 7 to equip, unequip and re-equip the jerkin of your choice.
+DIALOG | Egidius | Equipping jerkins will allow you to take additional beatings from friends and foes before you inevitably kick the bucket. 
+DIALOG | Egidius | Basically, jerkins boost your `kw`Elemental resistances`rt` and `kw`Ballistics,`rt` both of which reduce the damage you will receive.
+DIALOG | Egidius | Wearing jerkins also allows you the ability to utilize `kw`pockets.`rt` Pockets are perfect for holding candy that you can manufact within an Utility Station.
+DIALOG | P_NAME  | Hmmm... Sounds simple enough. You'd have to be a total idiot to not understand jerkins.
+DIALOG | Egidius | Hahaha, I agree, youngster.
+QUEST  | egidiusJerkinInfo = 1
+DIALOG | Egidius | Anything else?
+GOTO   | SHOPMENU
+
+JERKININFO_SHORT
+DIALOG | P_NAME  | Can you give me that jerkin rundown again?
+DIALOG | Egidius | But of course...
+DIALOG | Egidius | You can use one of the many `mq`Utility Stations`rt` spread all across Necron 7 to equip, unequip and re-equip the jerkin of your choice.
+DIALOG | Egidius | Equipping jerkins will allow you to take additional beatings from friends and foes before you inevitably kick the bucket. 
+DIALOG | Egidius | Basically, jerkins boost your `kw`Elemental resistances`rt` and `kw`Ballistics,`rt` both of which reduce the damage you will receive.
+DIALOG | Egidius | Wearing jerkins also allows you the ability to utilize `kw`pockets.`rt` Pockets are perfect for holding candy that you can manufact within an Utility Station.
+DIALOG | P_NAME  | Hmmm... Sounds simple enough. You'd have to be a total idiot to not understand jerkins.
+DIALOG | Egidius | Hahaha, I agree, youngster.
+DIALOG | Egidius | Anything else?
+GOTO   | SHOPMENU
+
+SHOP_OPEN
+SHOP   | open | Egidius' Jerkinry
+QUEST  | egidiusShopped = 1
+EVENT  | o_egidius01 | 1 // Get stocks
+IF egidiusStocks == 0 | GOTO | BOUGHT_ALL
+IF shop == exit | DIALOG | P_NAME | Maybe I'll buy something another time...
+IF shop == bought | DIALOG | Egidius | Thank you for your patronage.
+DIALOG | Egidius | Anything else?
+GOTO   | SHOPMENU
+
+BOUGHT_ALL
+DIALOG | Egidius | `w1`My word...`w0` You've cleaned out my stock! Your patronage will never be forgotten, youngster.
+DIALOG | Egidius | Is there anything else I can do to assist you?
+GOTO   | SHOPMENU
+
+PRICEY
+DIALOG | P_NAME | Hmmm, all these jerkins are a little pricey... I don't know if I can afford these.
+DIALOG | Egidius | Oh, then no matter! Financial security is hard to come by in Tir na Nog. I've worked out a try-before-you-buy program before with some previous clients. Put simply, with a small deposit and `w1`sufficient collateral`w0`, I can let you try on a new jerkin, wear it around, see how it fits. Let me know if that would work better for you.
+QUEST  | egidiusRental = 1 //initiate rental+shop
+QUEST  | egidiusRentalJerkin = null
+CHOICE | Interested in rentals?
+REPLY  | RENTALCOLLATERAL | How do rentals work exactly?
+REPLY  | LEAVERENT | I'll be on my way.
+
+LEAVERENT
+DIALOG | P_NAME | Renting sounds really interesting, but I'll have to check it out later.
+DIALOG | Egidius | Of course, fare thee well, youngster.
+
+LEAVE
+DIALOG | P_NAME | That's all for now, thanks!
+DIALOG | Egidius | Fare thee well, youngster.
+
+RENTALCOLLATERAL
+DIALOG | P_NAME | How do rentals work exactly?
+DIALOG | Egidius | If you can provide an item of `w1`sufficient collateral`w0`, I would happily rent you the jerkin of your choice.
+DIALOG | P_NAME = s_port_hoopzSmirk | (Sufficient collateral, huh...)
+GOTO   | RENTAL_COLLATERAL_ITEMS
+
+RENTAL_COLLATERAL_ITEMS
+CHOICE | What do I have of sufficient value?
+IF @Dragon Lord Gemstone@ >= 1 | REPLY | RENTAL_COLLATERAL_DRAGON | I have this Dragon Lord Gemstone.
+IF @Duergar Urine@ >= 1 | REPLY | RENTAL_COLLATERAL_URINE | I have some Duergar Urine.
+IF @Bomb@ >= 1 | REPLY | RENTAL_COLLATERAL_BOMB | I have a bomb.
+REPLY  | RENTAL_COLLATERAL_NEVERMIND | Nary ye mind.
+
+RENTAL_COLLATERAL_BOMB
+DIALOG | P_NAME | I have a bomb. Is that sufficient collateral?
+DIALOG | Egidius | I'm not a mining dwarf, I have no use for such a crude tool.
+GOTO   | RENTAL_COLLATERAL_ITEMS
+
+RENTAL_COLLATERAL_URINE
+DIALOG | P_NAME | I have some Duergar Urine. Is that sufficient collateral?
+DIALOG | Egidius | Contrary to popular Dwarf belief, Duergar urine does not contain gold. So I will kindly decline. Do you have something else?
+GOTO   | RENTAL_COLLATERAL_ITEMS
+
+RENTAL_COLLATERAL_DRAGON
+DIALOG | P_NAME | I have this Dragon Lord Gemstone. Is that sufficient collateral?
+DIALOG | Egidius | Allow me to take a closer look.
+WAIT   | 1.0
+DIALOG | Egidius | Hmmmmm...
+WAIT   | 1.0
+DIALOG | Egidius | Yes, this is certainly an item of `w1`sufficient collateral`w0`. Would you like to use it for a jerkin rental?
+QUEST  | egidiusRental = 3
+GOTO   | RENTAL_COLLATERAL_DRAGON_CHOOSE
+
+RENTAL_COLLATERAL_DRAGON_CHOOSE_PRE
+DIALOG | P_NAME | I'd like to rent a jerkin.
+DIALOG | Egidius | Certainly. I'll need your Dragon Lord Gemstone as collateral, as previously discussed.
+GOTO   | RENTAL_COLLATERAL_DRAGON_CHOOSE
+
+RENTAL_COLLATERAL_DRAGON_CHOOSE
+CHOICE | Hand over the Dragon Lord Gemstone?
+REPLY  | RENTAL_COLLATERAL_DRAGON_CHOOSE_YES | I'll do it...
+REPLY  | RENTAL_COLLATERAL_DRAGON_CHOOSE_NO  | I'd rather hold on to the stone.
+
+RENTAL_COLLATERAL_DRAGON_CHOOSE_YES
+DIALOG | P_NAME | I'll do it, but I'd like to see your jerkins.
+DIALOG | Egidius | Of course!
+EVENT  | o_egidius01 | 2
+QUEST  | egidiusRentalInProgress = 1
+SHOP   | open | Egidius' Jerkinry
+QUEST  | egidiusRentalInProgress = 0
+IF shop == exit | GOTO | RENTAL_ABSTAIN
+QUEST  | egidiusRental = 2
+EVENT  | o_egidius01 | 3 // Calculate money spent
+DIALOG | Egidius | Excellent choice. I'll also need the Dragon Lord Gemstone.
+USEAT  | o_egidius01
+NOTIFY | Gave Egidius the Dragon Lord Gemstone.
+Item   | Dragon Lord Gemstone | -1
+DIALOG | Egidius | And here is your @egidiusRentalJerkin@... Remember that you need to `sq`equip it at a Utility Station`rt` for the effects to apply.
+GOTO   | SHOPMENU
+
+RENTAL_ABSTAIN
+DIALOG | P_NAME | On second thought, I'll hold onto the stone.
+DIALOG | Egidius | Suit yourself.
+GOTO   | SHOPMENU
+
+RENTAL_COLLATERAL_DRAGON_CHOOSE_NO
+DIALOG | P_NAME | I'd rather hold on to the stone.
+DIALOG | Egidius | Very well.
+GOTO   | SHOPMENU
+
+RENTAL_COLLATERAL_NEVERMIND
+DIALOG | P_NAME | Nary ye mind.
+GOTO   | SHOPMENU
+
+RENTALRETURN
+DIALOG | P_NAME | I'm done with my rental jerkin. I'd like to return it.
+DIALOG | Egidius | Certainly. Here's your deposit and collateral back.
+NOTIFY | Got back the Dragon Lord Gemstone and @egidiusRentalMoney@ neuroshekels.
+QUEST  | money += @egidiusRentalMoney@
+Item   | Dragon Lord Gemstone | 1
+DIALOG | Egidius | If you could hand back the jerkin...
+USEAT  | o_egidius01
+NOTIFY | Gave Egidius the @egidiusRentalJerkin@.
+Jerkin | lose | @egidiusRentalJerkin@
+EVENT  | o_egidius01 | 4 // Unequip if you had it equipped
+QUEST  | egidiusRental = 3
+GOTO   | SHOPMENU
+
+GOV01
+DIALOG | Egidius | Yes... yes...! Thank you, sir!
+
+GOV00
+DIALOG | Egidius | Greetings, Sir Governor! You're looking splendid in that uniform... I see it when I look at you... the vision of power! I hope it's satisfying you in every possible way. I hope your fitting was thorough enough. Does it require any alterations? Anything for you, sir! We in Tir na Nog, myself especially, are so grateful we may bask in Cuchulainn's glory for yet another day.
+QUEST  | egidiusGovernor = 1
+//IF milagrosChip == 1 | GOTO | GOVCHIP
+DIALOG | Governor Elagabalus | Yes of course, as your duly appointed Governor I declare this Jerkinry Among the City's Best.
+GOTO   | GOV01
+
+#GOVCHIP
+#DIALOG | Egidius | Why, sir Governor! Another day in paradise. Thank you! Thank you, sir! Thank you for your leadership and mercy! Please, #take this offering. See? Contraband cyberware... I... I found it in a pocket, I was just about to report it.
+#ITEM | Cu-tel Basilard HD 488x90 with QRI-3 | 1
+#NOTIFY | Got the Cu-tel Basilard HD 488x90 with QRI-3!
+#DIALOG | Governor Elagabalus | A computer chip? Much appreciated, um... good citizen!
+#DIALOG | Egidius | Yes... yes...! Thank you! Thank you, sir! Thank you for your mercy!
+#EXIT |
+
+EGIDIUS01
+DIALOG | Egidius | Ahem... hello there youngster. What brings you back to my humble jerkinry?
+DIALOG | P_NAME | I guess I blew up on you back there... you know... the whole jerkin thing... but I guess I'll see what you've got.
+DIALOG | Egidius | Excellent! ... and my apologies, once again. I would hope you would find my jerkins pleasing to you. Unfortunately I have very little in your size, but while I look through my inventory, tell me... what are you looking for in a jerkin?
+QUEST  | egidiusState = 2
+GOTO   | JERKINDESIRES
+
+EGIDIUS00
+DIALOG | Egidius | Welcome, welcome! My, you may be one of the taller dwarfs I've seen. No matter, I'm sure I have something... perhaps in the duergar sizes... ah, forgive me! I have not introduced myself. I am Egidius - proprietor of the Tir na Nog Jerkinry. How may I assist you? Let's see what you're wearing...
+WAIT   | 1.0
+IF jerkin == Cornhusk Jerkin | GOTO | CORNHUSKREACT
+IF jerkin == Booty Jerkin | GOTO | BOOTYREACT
+
+CORNHUSKREACT
+DIALOG | Egidius | *Gasp* A... a Cornhusk Jerkin? How hideously out of fashion! Dwarfs haven't worn cornhusk for four millennia, at least! We're looking for timeless for you, not ancient! It's the 667th century after all! Surely we can get you out of that and into some more modern garb!
+GOTO   | LIKEHOWYOULOOK
+
+BOOTYREACT
+DIALOG | Egidius | *Gasp* A... a Booty Jerkin? Really? Well... such a compressed look may be popular with these /'booty youths/' nowadays, but I'm sure you'd look far more dapper in a traditional cut. Far less... ahem... G_L_U_T_E_A_L_. Surely we can get you out of that and into some more modest garb!
+GOTO   | LIKEHOWYOULOOK
+
+LIKEHOWYOULOOK
+CHOICE | Do you like the way you look?
+REPLY  | OLDJERKIN | I like the way I look!
+REPLY  | NEWJERKIN | Maybe I could use a new jerkin...
+
+OLDJERKIN
+IF jerkin == Cornhusk Jerkin | DIALOG | P_NAME | Well, Mr. Egidius... I happen to like the way I look! Maybe you're not with it, but Cornhusk is back! But maybe you've seen enough of it the first time around, you old coot! Fashion-shame someone else, I'm proud!
+IF jerkin == Booty Jerkin | DIALOG | P_NAME | Well, Mr. Egidius... I happen to like the way I look! Booty's big... booty's back... and booty will keep rocking long after you're history, old-timer! Get with the program or stay lost!
+DIALOG | Egidius | My, my... I suppose fashion is a young dwarf's game after all. What's the saying... /'Wovon Zwerg nicht tragen kann.../' I'll withdraw my foot from my mouth now, and offer a mere practical suggestion... if you're ever desirous of a more protective jerkin, or one with a more utilitarian pocket array, just return here.
+DIALOG | P_NAME | Got it, old man. See you around.
+QUEST  | egidiusState = 1
+
+NEWJERKIN
+IF jerkin == Cornhusk Jerkin | DIALOG | P_NAME | You know... maybe I could use something a little more in vogue. What do you got?
+IF jerkin == Booty Jerkin | DIALOG | P_NAME | You know... maybe I could use something a little more conservative. What do you got?
+DIALOG | Egidius | Hm, splendid! Well, I'm afraid I may not have much in your size, but while I look through my inventory, tell me... what is it you are looking for in a jerkin?
+QUEST  | egidiusState = 2
+GOTO   | JERKINDESIRES
+
+JERKINDESIRES
+CHOICE | Looking for...
+REPLY  | PROTECT | Protection.
+REPLY  | MOBILITY | Mobility.
+REPLY  | POCKETS | Pockets.
+REPLY  | STYLE | Style.
+
+PROTECT
+DIALOG | P_NAME | I'm looking for protection. I'll need it if I'm gonna make it to the Cyberdwarf in one piece. Wherever he is...
+QUEST  | rmTab += 1
+QUEST  | rmVengeance += 1
+GOTO   | VERYGOOD
+
+MOBILITY
+DIALOG | P_NAME | I'm looking for something lightweight. I gotta stay mobile when I'm brasting out there.
+DIALOG | Egidius | Hmm? A gun'sbraster, are you? You want to be the most powerful one in Tir na Nog?
+CHOICE | You a Gun'sbraster?
+REPLY  | WHOOP | Yeah! I'll be the one to whoop them all.
+REPLY  | GUMPTION | I brast just enough to get by.
+REPLY  | BBALL | No way... it's for my b-ball game!
+
+WHOOP
+DIALOG | P_NAME | Yep, that's right... you said it! I'll be strong! I'll be the one to whoop all comers!
+QUEST  | rmTab += 1
+QUEST  | rmVengeance += 1
+GOTO   | VERYGOOD
+
+GUMPTION
+DIALOG | P_NAME | Nope, power is overrated. I just wanna get by on my gumption, and get the heck outta here.
+QUEST  | rmTab += 1
+QUEST  | rmVengeance += 1
+GOTO   | VERYGOOD
+
+BBALL
+DIALOG | P_NAME | No way! I'm not trying to brast! I mean, maybe if I gotta... I'm just trying to stay lightweight on the blacktop, man! I can't afford to slow down when I'm clutching the orb!
+QUEST  | rmTab += 1
+QUEST  | rmBball += 1
+GOTO   | VERYGOOD
+
+POCKETS
+DIALOG | P_NAME | I'm looking for a jerkin with pockets! I need room for my stash!
+DIALOG | Egidius | Hmm, pockets is it? For candy, I presume?
+CHOICE | Collecting candy?
+REPLY  | CANDY_ALL | Yep... I want all the candy.
+REPLY  | CANDY_RARE | Yep... only the best candy.
+REPLY  | CANDY_ZAUBER | Nope... something more mysterious.
+
+CANDY_ALL
+DIALOG | P_NAME | Yep... I want my jerkin and my belly to be stuffed to the brim with sweets!
+QUEST  | rmTab += 1
+QUEST  | rmCandy += 1
+GOTO   | VERYGOOD
+
+CANDY_RARE
+DIALOG | P_NAME | Yep... but not just any candy. Gourmands like me only want the best!
+QUEST  | rmTab += 1
+QUEST  | rmCandy += 1
+GOTO   | VERYGOOD
+
+CANDY_ZAUBER
+DIALOG | P_NAME | Nope... I want 'em for um... something more mysterious...
+QUEST  | rmTab += 1
+QUEST  | rmVengeance += 1
+GOTO   | VERYGOOD
+
+STYLE
+DIALOG | P_NAME | I'm looking for something stylish.
+DIALOG | Egidius | Hmm? Is there a dwarf in particular you want to impress?
+CHOICE | Who do you want to impress?
+REPLY  | IMPRESS | All of 'em. I'm new here, I need to look good!
+REPLY  | NOTIMPRESS | No way! I don't need to impress any dwarfs!
+
+IMPRESS
+DIALOG | P_NAME | All of 'em. I'm still pretty new... I bet if I'm more fashionable I'll make some more friends.
+GOTO   | VERYGOOD
+
+NOTIMPRESS
+DIALOG | P_NAME | No way! I don't need to impress any dwarfs! It's MY self-image I wear my clothes for, okay?
+GOTO   | VERYGOOD
+
+VERYGOOD
+DIALOG | Egidius | Very good, sir. A dwarf with a mission sees the world like a jerkin,_ with the sleeves off. Now please, how can help you?
+GOTO   | SHOPMENU"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3ey0"]
 atlas = ExtResource("2_c5vw0")
@@ -111,6 +424,7 @@ size = Vector2(64, 52)
 [node name="o_egidius01" type="CharacterBody2D" unique_id=79376006 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
 script = ExtResource("1_p28dd")
 mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_8wrfu")
 ActorAnim = NodePath("ActorAnim")
 ActorCol = NodePath("ActorCol")
 

@@ -41,7 +41,8 @@ func _unbox_vidcon() -> void:
 		if unbox_btn: unbox_btn.disabled = true
 		
 		var confirm := CONFIRMATION_BOX.instantiate()
-		get_tree().current_scene.add_child(confirm, true)
+		#get_tree().current_scene.add_child(confirm, true)
+		add_sibling(confirm, true)
 		confirm.setup_text( Text.pr( "Are you sure you want to unbox '%s' ?" % B2_Vidcon.get_vidcon_name(selected_vidcon) ) )
 		confirm.show_panel()
 		var choice : bool = await confirm.confirmation

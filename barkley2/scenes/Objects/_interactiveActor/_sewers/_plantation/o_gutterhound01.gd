@@ -1,6 +1,20 @@
 extends B2_InteractiveActor
 ## 16/08/25 Bank breaking is probably broken. still need to figure a way to inject data into cutscene scripts.
 
+## Intial Meeting with Gutterhound
+
+#Variable
+	#gutterhoundQuest 
+		#0 = Gutterhound hasn't been spoken to.
+		#1 = You talked to him but haven't listened to Gutterhound's scheme.
+		#2 = You refuse Gutterhound's offer.
+		#3 = You've refused Gutterhound's offer twice. Can't get it again.
+		#4 = Gutterhound's quest has been accepted.  Gutterhound and Marquee will remind Hoopz to get back to talk to Gutterhound
+		#5 = You've nominated to hide in the safe house
+		#6 = You've nominated to forgoe the safehouse
+		#7 = Gutterhound has robbed the bank with you
+		#8 = Gutterhound robbed the bank without you
+		
 const O_GUTTERHOUND_01_INITIAL = preload("uid://degbu30jeb7dm")
 
 @export var o_tnn_BankSign : Node2D
@@ -31,6 +45,8 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	execute_event_user_0()
 
 func execute_event_user_0():
 	cutscene_script = O_GUTTERHOUND_01_INITIAL
