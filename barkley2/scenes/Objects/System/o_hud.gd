@@ -1,3 +1,4 @@
+@icon("uid://ccs5bqveqnt2j")
 extends B2_Hud
 
 ## DEBUG

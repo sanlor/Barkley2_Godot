@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends Control
 ## Shop Menu. Buy a bunch of type of items.
 # Check Shop and oShop
 

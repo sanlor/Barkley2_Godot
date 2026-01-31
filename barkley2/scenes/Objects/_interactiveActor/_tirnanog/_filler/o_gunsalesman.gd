@@ -128,7 +128,7 @@ func execute_event_user_10() -> void:
 	dslArea.append("r_sw1_respawn01");
 	dslArea.append("r_sw1_floor2Access01");
 	
-	for i in dslArea:
+	for i in dslArea.size() - 1:
 		var are = dslArea[i]
 		if (time < (i + 1) * 0.5): 
 			newArea = are

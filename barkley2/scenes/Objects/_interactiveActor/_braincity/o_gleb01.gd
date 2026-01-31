@@ -58,3 +58,14 @@ func _ready() -> void:
 	elif B2_Playerdata.Quest("glebCollapse") == 0:
 		if B2_ClockTime.time_gate() >= 2 + B2_Playerdata.Quest("glebTime") and B2_Playerdata.Quest("glebTime") > gleb_early:
 			B2_Playerdata.Quest("glebState", 1);
+	
+	# Spin speed
+	if B2_Playerdata.Quest("glebState") == 0:
+		ActorAnim.stop()
+		ActorAnim.frame = 0
+	elif B2_Playerdata.Quest("glebState") == 2:
+		ActorAnim.play()
+		ActorAnim.speed_scale = 1.00
+	elif B2_Playerdata.Quest("glebState") == 4:
+		ActorAnim.play()
+		ActorAnim.speed_scale = 2.00

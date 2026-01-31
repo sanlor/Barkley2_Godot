@@ -1226,6 +1226,9 @@ func parse_if( line : String ) -> bool:
 			#print("aa")
 			return false
 			
+		# 30/01/26 Motherfucker, these issues dont stop!!!
+		# Zola, IF zolaNews == 8 && uschiBall == 0 causes issues. Need to handle the "&&" before comparing.
+		## CRITICAL FIXME FIX THIS
 		match comparator:
 			"==","=":			return quest_var == cond_value
 			"!=":				return quest_var != cond_value

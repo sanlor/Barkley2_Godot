@@ -7,8 +7,11 @@
 [sub_resource type="Resource" id="Resource_3xwpy"]
 script = ExtResource("2_ktt77")
 original_script = "IF glebState == 0 | GOTO | DANCE_EARLY
-IF glebState == 1 | GOTO | DANCE_EARLY_SPIN
-IF glebState == 2 | GOTO | DANCE_EARLY_SPIN_AGAIN
+IF glebState == 1 | GOTO | DANCE_AGAIN
+IF glebState == 2 | GOTO | DANCE_EARLY_SPIN
+IF glebState == 3 | GOTO | DANCE_EARLY_SPIN_AGAIN
+IF glebState == 4 | GOTO | DANCE_SPIN_FAST
+IF glebState == 5 | GOTO | DANCE_SPIN_FAST_AGAIN
 IF glebOffer == 3 | GOTO | LEAVE_HOME
 IF time == 15 | GOTO | PUKING
  
@@ -16,9 +19,11 @@ DANCE_EARLY
 DIALOG | Gleb | Dance?
 DIALOG | P_NAME = s_port_hoopz | Me? Um... I'm not much of a dancer.
 DIALOG | Gleb | You must dance! Also, I will dance. For now I stretch. I wait for /'club energy/'... then I spin...
+QUEST | glebState = 1
+
+DANCE_AGAIN
 DIALOG | P_NAME = s_port_hoopz | Spin?
 DIALOG | Gleb | Yes, spin. I wait for /'club energy/'... then I spin. Please, return to see my spin!
-QUEST | glebState = 1
 QUEST | glebTime = time
 EXIT | 
 
@@ -28,12 +33,21 @@ DIALOG | Gleb | I... feel... this... rhythm... I... am... spinning...!
 DIALOG | Gleb | Spinning... spinning... I... spin... to... rhythm... I... spin... to... dance...
 DIALOG | P_NAME = s_port_hoopz | You sure do spin... you spin like nobody's business!
 DIALOG | Gleb | I... spin... and... thank... you...
-QUEST | glebState = 2
+QUEST | glebState = 3
 EXIT
 
 DANCE_EARLY_SPIN_AGAIN
 DIALOG | Gleb = glebport | Spin... is... the... dance... for... me...
 EXIT
+
+DANCE_SPIN_FAST
+DIALOG | P_NAME = s_port_hoopz | Whoa! You're out of control! Take it easy, dude!
+DIALOG | Gleb = glebport | No... I... am... perfect... spinning... with... club... spirit...
+QUEST | glebState = 5
+
+DANCE_SPIN_FAST_AGAIN
+DIALOG | Gleb = glebport | Please... dance... with... me...
+DIALOG | P_NAME = s_port_hoopz | Gleb... I'm scared...
 
 LEAVE_HOME
 DIALOG | Gleb = glebport | Need to get my bearings, then I'm off to my home... and spinning...!
