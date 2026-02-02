@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://d1yqqgrjketkt"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_ldo4u"]
+
+[resource]
+script = ExtResource("1_ldo4u")
+original_script = "IF tuberPeel == 3   | GOTO | TUBER_COMPLETE
+IF wiglafState == 1 | GOTO | WIGLAF_1
+IF wiglafState == 2 | GOTO | WIGLAF_2
+IF wiglafState == 3 | GOTO | WIGLAF_3
+
+CUCHU_KILLED
+DIALOG | P_NAME      | Wait... are you serious? You want me to take out Cuchulainn? I already did! And I kicked his ass.
+DIALOG | Lft. Wiglaf | Already beat him, huh? Proactive thinking, sprout! I like your moxie! I don't usually do this, but I'm willing to overlook your exceptionally poor tuber peeling performance just this once. I'm giving you a field promotion. Congratulations, Private First Class P_NAME!
+GOTO   | GAMESMASTER
+
+CUCHU_FIGHT
+DIALOG | P_NAME      | Wait... are you serious? You want me to take out Cuchulainn? I've already fought him and it's a suicide mission!
+DIALOG | Lft. Wiglaf | Already fought him, huh? Proactive thinking, sprout! I like your moxie, forget about the mission. I don't usually do this, but I'm giving you a field promotion. Congratulations, Private First Class P_NAME!
+GOTO   | GAMESMASTER
+
+CUCHU_FAILED
+DIALOG | P_NAME      | Wait... are you serious? You want me to take out Cuchulainn? I got to his lair already, but he bopped me pretty bad...
+DIALOG | Lft. Wiglaf | Already poked around up there, huh?? Proactive thinking, sprout! I like your moxie, forget about the mission. I don't usually do this, but I'm giving you a field promotion. Congratulations, Private First Class  P_NAME!
+GOTO   | GAMESMASTER
+
+GAMESMASTER
+DIALOG | P_NAME      | Private First Class? I've never gotten a promotion before...
+DIALOG | Lft. Wiglaf | Tell you what, you want to see the Cyberdwarf? You've earned it. Jhodfrey, boot up Benevolent A.I. OS!
+DIALOG | Jhodfrey    | Yes, sir! Parsing RAM as we speak.
+DIALOG | Lft. Wiglaf | Private First Class P_NAME, you're free to see the Cyberdwarf. Go right through that door.
+QUEST  | wiglafMission = 4
+
+WIGLAF_1
+DIALOG | Lft. Wiglaf | Private P_NAME! Why in the name of Clispaeth are you sitting around like a sack of wet tubers when you're on Cuchulainn duty? Get out there and shut this malevolent AI down, private! Jhodfrey gave you the OP specs, didn't he? Get moving!
+
+WIGLAF_2
+IF cuchuRespawn == 2   | GOTO | MISSION_CUCHU_FIGHT
+IF crustDead >= 1      | GOTO | MISSION_CUCHU_KILLED
+IF crustFightAny >= 1  | GOTO | MISSION_CUCHU_FIGHT
+IF cuchuLairDeath >= 1 | GOTO | MISSION_CUCHU_FIGHT
+DIALOG | Lft. Wiglaf   | Private P_NAME! Why in the name of Clispaeth are you sitting around like a sack of wet tubers when you're on Cuchulainn duty? Get out there and shut this malevolent AI down, private! Jhodfrey will give you the OP specs.
+
+MISSION_CUCHU_KILLED
+DIALOG | P_NAME      | Private P_NAME reporting for duty! Target Malevolent AI Cuchulainn has been eliminated!
+DIALOG | Lft. Wiglaf | Eliminated, huh? Not bad, kid. I liked the cut of your jib the moment you walked in here... scrappy, resilient! You could really teach these good-for-nothings a thing or two about duty and respect! You remind me of a younger Wiglaf... I don't usually do this, but I'm giving you a field promotion. Congratulations, Private First Class P_NAME!
+DIALOG | P_NAME      | Private First Class? I've never gotten a promotion before...
+DIALOG | Lft. Wiglaf | You did a great job out there, sprout. Tell you what, enjoy your leave. You've earned it. Jhodfrey, boot up Benevolent A.I. OS!
+GOTO   | MISSION_COMPLETE
+
+MISSION_CUCHU_FIGHT
+DIALOG | P_NAME = s_port_hoopzAngry | Take him out? `s1`Take him out!?`s0` `s2`What the heck was that!?`s0`
+DIALOG | Lft. Wiglaf | Well, well, well, look who came crawling back. You survived, Private! Or I should say, Private First Class. I don't usually do this, but you've got moxie, so I'm giving you a field promotion.
+CHOICE | How should I respond?
+REPLY  | SUICIDE | That was suicide!
+REPLY  | PROMOTE | I've never gotten a promotion...
+
+SUICIDE
+DIALOG | P_NAME = s_port_hoopzAngry | Are you outta your flippin' gourd? That was suicide! I could've gotten killed! I almost did get killed!
+DIALOG | Lft. Wiglaf | Nonsense! You did a great job out there, sprout. Tell you what, enjoy your leave. You've earned it. Jhodfrey, boot up `mq`Benevolent A.I. OS!`rt`
+GOTO   | MISSION_COMPLETE
+
+PROMOTE
+DIALOG | P_NAME      | Private First Class? I've never gotten a promotion before...
+DIALOG | Lft. Wiglaf | You did a great job out there, sprout. Tell you what, enjoy your leave. You've earned it. Jhodfrey, boot up Benevolent A.I. OS!
+GOTO   | MISSION_COMPLETE
+
+MISSION_COMPLETE
+DIALOG | Jhodfrey    | Yes, sir! Parsing RAM as we speak.
+DIALOG | Lft. Wiglaf | Private First Class P_NAME, you're free to see the `mq`Cyberdwarf.`rt` Go right through that door when you're ready.
+PLAYSET | o_bct_cdwarfDoor01 | open | opened
+DIALOG | P_NAME      | Sir! Yes sir!
+DIALOG | P_NAME = s_port_hoopzHappy | (Finally! Cyberdwarf... I'm coming!)
+QUEST  | cdwarfCinema = 1
+QUEST  | wiglafState = 3
+QUEST  | wiglafMission = 4
+
+WIGLAF_3
+DIALOG | Lft. Wiglaf | Private First Class P_NAME! You here to peel tubers or see the Cyberdwarf? Walk right on through that door, sprout!"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

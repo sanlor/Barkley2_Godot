@@ -1,0 +1,87 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://bm75h3dgwmr6o"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_qwnpf"]
+
+[resource]
+script = ExtResource("1_qwnpf")
+original_script = "TUBER_COMPLETE
+QUEST  | tuberPeel = 4
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+WAIT   |
+USEAT  | SOUTHEAST
+WAIT   | o.1
+CREATE | o_peeledTubers | 248 | 592
+//TODO: remove tubers from inventory
+LOOKAT | o_cts_hoopz | o_wiglaf01
+DIALOG | P_NAME | Sir! Tubers have been peeled, sir!
+DIALOG | Lft. Wiglaf | Well, well, time for a debriefing... let me see them tubers...
+WAIT   | 1.5
+Emote  | ! | o_wiglaf01
+DIALOG | Lft. Wiglaf | What in the name of Clispaeth is going on here? I didn't serve four tours of duty to see tubers this poorly peeled.
+DIALOG | P_NAME = s_port_hoopzSad | It-it..._ was my first time peeling tubers...
+DIALOG | Lft. Wiglaf | It won't be the last, Private. Practice makes perfect. Get back down to the Rootstock and peel them again!
+GOTO   | COURAGEBUILDER
+
+COURAGEBUILDER
+//TODO: stop the music
+Emote  | ! | o_cts_hoopz
+SURPRISEAT | o_wiglaf01
+WAIT   | 2.0
+CHOICE | Stand up or stand down?
+REPLY  | STAND_UP   | Stand up in pertinacity.
+REPLY  | STAND_DOWN | Stand down in capitulation. 
+
+STAND_DOWN
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+WAIT   | 0
+DIALOG | P_NAME = s_port_hoopzSad | (Daggone, I have `sq`peel tubers`rt` all over again??)
+//TODO: CRESTFALL EVENT IF wiglafCrestfall == 0
+QUEST  | wiglafCrestfall = 1
+WAIT   | 4
+DIALOG | Lft. Wiglaf | `s1`Well, Private?`s1`
+GOTO   | COURAGEBUILDER
+
+STAND_UP
+DIALOG | P_NAME = s_port_hoopzAngry | I'm not going to peel any more tubers, sir.
+DIALOG | Lft. Wiglaf | What are you saying to a superior officer, Private?!
+DIALOG | P_NAME      | I'm not here to peel any tubers, sir. My name is P_NAME, I was rescued by L.O.N.G.I.N.U.S. members, and they mentioned that the whole operation was ordered by `mq`The Cyberdwarf.`rt`
+DIALOG | Lft. Wiglaf | Private P_NAME, huh? I have no idea what you are talking about. 
+DIALOG | Lft. Wiglaf | You want to meet `mq`The Cyberdwarf?`rt` Not with a `sq`rank like that,`rt` you won't. But three more sorties and you get your `kw`promotion.`rt` 
+DIALOG | Lft. Wiglaf | Ready for your mission briefing, Private?
+DIALOG | P_NAME      | Yes sir, Lft. Wiglaf!
+DIALOG | Lft. Wiglaf | Okay, here it is. We've been receiving reports of a `sq`Malevolent AI,`rt` one `sq`Cuchulainn`rt` terrorizing L.O.N.G.I.N.U.S. members and dwarf civilians. Your first task... take him out, and rid the `kw`Necron 7`rt` of his tyranny!
+IF crustDead >= 1      | GOTO | CUCHU_KILLED
+IF crustFightAny >= 1  | GOTO | CUCHU_FIGHT
+IF cuchuLairDeath >= 1 | GOTO | CUCHU_FAILED
+DIALOG | P_NAME      | Um, don't you think...
+DIALOG | Lft. Wiglaf | That's right, _I_ think! And you act!
+DIALOG | P_NAME      | Sir, yes sir!
+DIALOG | Lft. Wiglaf | Now then Private, our most current intelligence puts `kw`Cuchulainn,`rt` henceforth known as `kw`/'Big Boy/'`rt` at approximately Level 666 of Necron 7, codenamed `mq`/'The Hen House/'.`rt` The only known incursion route? Well that's the `kw`Express Elevator`rt` in the bog. Your mission is this:
+DIALOG | Lft. Wiglaf | Under codename `sq`/'Knife/'`rt`, rendezvous with operative `kw`/'Variable/'`rt` and infiltrate `kw`/'The Hen House/'`rt` and take out `kw`/'Big Boy./'`rt`
+DIALOG | P_NAME      | Knife, Variable, Hen House, Big Boy...
+DIALOG | P_NAME = s_port_hoopzSmirk | GOT IT!
+DIALOG | Lft. Wiglaf | What was that Private?
+DIALOG | P_NAME      | Sir, Mission Accepted sir!
+DIALOG | Lft. Wiglaf | That's what I thought, Private. Now, Jhodfrey will give you the OP specs. Pull this one off and you'll be wearing some shiny brass in no time.
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | WEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.25
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.25
+PLAYSET | o_cts_hoopz | sad0 | sad1
+DIALOG | P_NAME = s_port_hoopzSad | Cyberdwarf... 
+WAIT   | 1.0
+LOOKAT | o_cts_hoopz | SOUTH
+DIALOG | P_NAME = s_port_hoopzHappy | `mq`I'm coming!`rt`
+QUEST  | wiglafMission = 1
+EXIT   |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

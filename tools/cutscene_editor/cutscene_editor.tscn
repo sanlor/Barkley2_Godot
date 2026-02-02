@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://d37ibjvqiqp00"]
+
+[ext_resource type="Script" uid="uid://c6juhr7lh7bpo" path="res://tools/cutscene_editor/cutscene_editor.gd" id="1_hmmc0"]
+[ext_resource type="Resource" uid="uid://cmybx6y3g26gk" path="res://tools/cutscene_editor/test_cutscene.tres" id="2_6oavl"]
+[ext_resource type="Script" uid="uid://cu4s23tgvftw2" path="res://tools/cutscene_editor/raw_cutscene_dialog.gd" id="2_nhswm"]
+[ext_resource type="FontFile" uid="uid://b6ag0xl5d2ibh" path="res://barkley2/resources/fonts/fn2c.tres" id="3_hlico"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fuq3n"]
+font = ExtResource("3_hlico")
+
+[node name="cutscene_editor" type="Control" unique_id=1774567371]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hmmc0")
+cutscene_script = ExtResource("2_6oavl")
+
+[node name="show_raw_cutscene_dialog_btn" type="Button" parent="." unique_id=29160526]
+layout_mode = 0
+offset_right = 158.0
+offset_bottom = 18.0
+theme_override_fonts/font = ExtResource("3_hlico")
+text = "Show raw cutscene dialog"
+
+[node name="Label" type="Label" parent="." unique_id=1754445741]
+layout_mode = 0
+offset_top = -133.0
+offset_right = 40.0
+offset_bottom = -110.0
+text = "This node is used to creade and edit the Cutscene script.
+Additional notes will be here."
+label_settings = SubResource("LabelSettings_fuq3n")
+
+[node name="raw_cutscene_dialog" type="AcceptDialog" parent="." unique_id=1228233176]
+oversampling_override = 1.0
+title = "Raw Cinema Script"
+initial_position = 1
+size = Vector2i(600, 600)
+exclusive = false
+ok_button_text = "Close"
+script = ExtResource("2_nhswm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="raw_cutscene_dialog" unique_id=527787416]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 592.0
+offset_bottom = 551.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="raw_cutscene_dialog/VBoxContainer" unique_id=252187789]
+layout_mode = 2
+
+[node name="save_btn" type="Button" parent="raw_cutscene_dialog/VBoxContainer/HBoxContainer" unique_id=2094759201]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save script"
+
+[node name="reload_btn" type="Button" parent="raw_cutscene_dialog/VBoxContainer/HBoxContainer" unique_id=53361815]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reload script"
+
+[node name="TextEdit" type="TextEdit" parent="raw_cutscene_dialog/VBoxContainer" unique_id=1797887267]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="pressed" from="show_raw_cutscene_dialog_btn" to="." method="_on_show_raw_cutscene_dialog_btn_pressed"]
+[connection signal="pressed" from="raw_cutscene_dialog/VBoxContainer/HBoxContainer/save_btn" to="raw_cutscene_dialog" method="_on_save_btn_pressed"]
+[connection signal="pressed" from="raw_cutscene_dialog/VBoxContainer/HBoxContainer/reload_btn" to="raw_cutscene_dialog" method="_on_reload_btn_pressed"]
+[connection signal="text_changed" from="raw_cutscene_dialog/VBoxContainer/TextEdit" to="raw_cutscene_dialog" method="_on_text_edit_text_changed"]

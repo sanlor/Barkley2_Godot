@@ -1,5 +1,8 @@
 extends B2_InteractiveActor
 
+const O_WIGLAF_01_0 = preload("uid://d1yqqgrjketkt")
+const O_WIGLAF_01_1 = preload("uid://bm75h3dgwmr6o")
+
 ## DSL - Brain City
 
 #wiglafState = 0 - Wiglaf hasn't been spoken to (this triggers on script start)
@@ -38,3 +41,8 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	if B2_Playerdata.Quest("wiglafState") == 0 || B2_Playerdata.Quest("tuberPeel") == 2:
+		cutscene_script = O_WIGLAF_01_0
+	else:
+		cutscene_script = O_WIGLAF_01_1

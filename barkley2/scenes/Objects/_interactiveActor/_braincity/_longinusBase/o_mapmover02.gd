@@ -1,5 +1,7 @@
 extends B2_InteractiveActor
 
+@onready var timer: Timer = $Timer
+
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
 	_setup_actor()
@@ -16,3 +18,9 @@ func _ready() -> void:
 	ANIMATION_EAST 							= ""
 	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
 	ActorAnim.animation 					= "default"
+	
+	timer.start( randf_range(2.0, 20.0) )
+
+func _on_timer_timeout() -> void:
+	timer.start( randf_range(7.0, 20.0) )
+	ActorAnim.play("move", randf_range(0.75,1.25))

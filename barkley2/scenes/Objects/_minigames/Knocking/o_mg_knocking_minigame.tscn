@@ -1,0 +1,376 @@
+[gd_scene format=3 uid="uid://bhxokjpydfvdb"]
+
+[ext_resource type="Script" uid="uid://d4hsr3835ovi1" path="res://barkley2/scenes/Objects/_minigames/Knocking/o_mg_knocking_minigame.gd" id="1_v8ud8"]
+[ext_resource type="Texture2D" uid="uid://7vsehx78hr0k" path="res://barkley2/assets/b2_original/images/merged/s_mg_knocking_sheet.png" id="2_g3ewj"]
+[ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="3_l5ieh"]
+[ext_resource type="Texture2D" uid="uid://wr755b47hsu4" path="res://barkley2/assets/b2_original/images/merged/s_mg_knocking_arrow.png" id="4_iqmka"]
+[ext_resource type="Script" uid="uid://c6idqoe0k8sd4" path="res://barkley2/scenes/Objects/_minigames/Knocking/input_script.gd" id="4_l5ieh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ar42l"]
+font = ExtResource("3_l5ieh")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3ewj"]
+resource_local_to_scene = true
+atlas = ExtResource("4_iqmka")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkmh6"]
+resource_local_to_scene = true
+atlas = ExtResource("4_iqmka")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5ieh"]
+resource_local_to_scene = true
+atlas = ExtResource("4_iqmka")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqmka"]
+resource_local_to_scene = true
+atlas = ExtResource("4_iqmka")
+region = Rect2(48, 0, 16, 16)
+
+[node name="o_mg_knocking_minigame" type="Control" unique_id=1214083058]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v8ud8")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=472835023]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -72.0
+offset_right = 192.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_g3ewj")
+
+[node name="pre_message_lbl" type="Label" parent="TextureRect" unique_id=510639449]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 10.0
+offset_right = 158.0
+offset_bottom = 33.0
+text = "INPUT:"
+label_settings = SubResource("LabelSettings_ar42l")
+
+[node name="message_lbl" type="Label" parent="TextureRect" unique_id=1653826833]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 162.0
+offset_top = 10.0
+offset_right = 271.0
+offset_bottom = 33.0
+text = "The secret knock"
+label_settings = SubResource("LabelSettings_ar42l")
+
+[node name="each_input" type="HBoxContainer" parent="TextureRect" unique_id=1418714751]
+layout_mode = 0
+offset_left = 65.0
+offset_top = 52.0
+offset_right = 335.0
+offset_bottom = 117.0
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="input1" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1303334125]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=552567458]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=136055592]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=1352373359]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=641214885]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input2" type="VBoxContainer" parent="TextureRect/each_input" unique_id=85865408]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=220667217]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=350432086]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=1485489891]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=2024948036]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input3" type="VBoxContainer" parent="TextureRect/each_input" unique_id=866436933]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=527790978]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1799854957]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1750147242]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1236659521]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input4" type="VBoxContainer" parent="TextureRect/each_input" unique_id=10931888]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=694524607]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=73066285]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=331964937]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=172893284]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input5" type="VBoxContainer" parent="TextureRect/each_input" unique_id=2029127055]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=251360448]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=614800454]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=2113165476]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=1816219209]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input6" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1937019071]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=739914788]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=1097096433]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=672326496]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=1788541141]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input7" type="VBoxContainer" parent="TextureRect/each_input" unique_id=848996320]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=300714863]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1778934254]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1603425390]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1522017309]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input8" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1783063972]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=2135939776]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=848007222]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=1954334056]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=1712110386]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input9" type="VBoxContainer" parent="TextureRect/each_input" unique_id=722150104]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=174623244]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=1631290175]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=102181086]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=391220285]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="input10" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1635470831]
+custom_minimum_size = Vector2(16, 65)
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("4_l5ieh")
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=1353189097]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=2092627040]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=427427260]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=1380501802]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")
+
+[node name="ColorRect" type="ColorRect" parent="TextureRect" unique_id=835006596]
+layout_mode = 0
+offset_left = 66.0
+offset_top = 120.0
+offset_right = 332.0
+offset_bottom = 136.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/ColorRect" unique_id=721725949]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="right_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1999077465]
+layout_mode = 2
+texture = SubResource("AtlasTexture_g3ewj")
+
+[node name="up_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1095135766]
+layout_mode = 2
+texture = SubResource("AtlasTexture_jkmh6")
+
+[node name="left_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=565353375]
+layout_mode = 2
+texture = SubResource("AtlasTexture_l5ieh")
+
+[node name="down_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1868265206]
+layout_mode = 2
+texture = SubResource("AtlasTexture_iqmka")

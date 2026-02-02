@@ -7,10 +7,10 @@ extends B2_EnvironInteractive
 func _ready() -> void:
 	if B2_Playerdata.Quest("wiglafMission") >= 4:
 		play("open")
-		static_body_2d.queue_free()
-		is_interactive = false
+		execute_event_user_2()
 	else:
 		animation = "locked"
 
 func execute_event_user_2():
 	static_body_2d.queue_free()
+	is_interactive = false
