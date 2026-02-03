@@ -231,6 +231,10 @@ func room_get( room_name : String):
 		play("mus_AIRuins_powerbadboy") 	## Normal music
 		#play("mus_swp_accousticarea", "")	## My Debug music
 		
+	### 03-02-26 Undersewer. No music set ##
+	elif room_name.contains("_usw_"):
+		play("fire")
+		
 	### Swamps ##
 	elif room_name.contains("_swp_"):
 		play("mus_carpfrug")

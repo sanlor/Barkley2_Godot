@@ -152,6 +152,9 @@ func zone_data( room_name : String):
 			"ice":
 				zone = "Frigid Inskirts";
 				flavor = "Don't catch a cold...";
+			"usw": # 03-02-26 Need to add a flavor text for this.
+				zone = "The Undersewers";
+				flavor = "Add a valid flavor text here -> %s" % name;
 			## DEBUG
 			"air":
 				zone = "A.I. Ruins";

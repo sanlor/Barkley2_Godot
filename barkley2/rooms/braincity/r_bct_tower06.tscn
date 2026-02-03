@@ -1858,164 +1858,6 @@ DIALOG | Jhodfrey | You're not better than me.
 DIALOG | P_NAME   | ..."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
-[sub_resource type="Resource" id="Resource_71jp5"]
-script = ExtResource("72_bu2xj")
-original_script = "IF wiglafState == 0 | GOTO | JOIN_LONGINUS
-
-JOIN_LONGINUS
-QUEST  | mainQuest = 4
-QUEST  | wiglafState = 1
-QUEST  | tuberPeel = 1
-LOOK   | o_cts_hoopz | SOUTH
-Misc   | flip | o_wiglaf01 | -1
-FRAME  | CAMERA_NORMAL | o_wiglaf01
-WAIT   | 0
-FRAMEFOLLOW | CAMERA_NORMAL | o_wiglaf01
-LOOK   | o_cts_hoopz   | SOUTHEAST
-DIALOG | Lft. Wiglaf   | Listen up, maggots. We ain't at the school dance, we ain't staring at our targets from across the gym. This is war, you `s1`yellow-bellied,`s0` `w1`lily-livered,`w0` `s1`wet-behind-the-ear weenies!`s0` This is about territory. Half a league onward!
-MOVETO | o_cts_hoopz   | o_cinema0 | MOVE_NORMAL
-WAIT   | 0
-LOOKAT | o_cts_hoopz   | o_wiglaf01
-Emote  | ?
-FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_wiglaf01
-MOVETO | o_jhodfrey01  | o_cinema1 | MOVE_NORMAL
-WAIT   | 1.0
-Misc   | flip | o_wiglaf01 | 1
-DIALOG | P_NAME       | Um, ahem excuse me sir.
-LOOK   | o_jhodfrey01 | NORTHWEST
-Emote  | ? | o_wiglaf01
-WAIT   | 1
-DIALOG | Lft. Wiglaf  | Huh, what is it civvy? Who let you in here?
-DIALOG | P_NAME       | I'm looking for the Cy-
-DIALOG | Lft. Wiglaf  | Well I'm looking for a few good dwarfs, and your face looks as purty and clean as the shine on those boots of yours.
-Emote  | ?
-WAIT   | 1
-DIALOG | P_NAME       | My kicks?
-DIALOG | Lft. Wiglaf  | The color is way off regulation but I like the sheen. And I doubt that 'do is high enough or tight enough.
-DIALOG | P_NAME = s_port_hoopzSad | My hair? This is just how it grows...
-DIALOG | Lft. Wiglaf  | And this is just how I boot a civvy out of my command center. Jhodfrey, get this `kw`noncombatant`rt` out of my line of sight! Double-time!
-FRAME  | CAMERA_NORMAL | o_jhodfrey01
-WAIT   | 0 
-DIALOG | Jhodfrey     | Sir! Yes sir!
-FRAME  | CAMERA_NORMAL | o_cts_hoopz | o_wiglaf01
-WAIT   | 0
-DIALOG | P_NAME       | No wait!
-MOVETO | o_jhodfrey01 | o_cinema2 | MOVE_FAST
-WAIT   | 0
-LOOK   | o_jhodfrey01 | NORTHWEST
-DIALOG | Lft. Wiglaf  | Rules of engagement, tyke. I ain't runnin' a daycare, here.
-Misc   | backwards    | o_cts_hoopz | 1
-MOVE   | o_jhodfrey01 | 0 | -8 | MOVE_FAST
-MOVE   | o_cts_hoopz  | 0 | -8 | MOVE_NORMAL
-LOOKAT | o_jhodfrey01 | o_cts_hoopz
-WAIT   | 0
-DIALOG | Jhodfrey     | Let's go, out this way. You heard the commander.
-DIALOG | P_NAME       | But I'm supposed to be here!
-MOVE   | o_jhodfrey01 | 0 | -8 | MOVE_FAST
-MOVE   | o_cts_hoopz  | 0 | -8 | MOVE_NORMAL
-LOOKAT | o_jhodfrey01 | o_cts_hoopz
-WAIT   | 0
-Misc   | flip | o_wiglaf01 | -1
-DIALOG | Lft. Wiglaf  | Alright maggots, no more distractions. Back to war.
-DIALOG | P_NAME       | No, you can't throw me out!
-MOVE   | o_jhodfrey01 | 0 | -16 | MOVE_FAST
-MOVE   | o_cts_hoopz  | 0 | -16 | MOVE_NORMAL
-LOOKAT | o_jhodfrey01 | o_cts_hoopz
-WAIT   | 0
-WAIT   | 1.5
-Misc   | music  | mus_blankTEMP | 1
-DIALOG | P_NAME | ...Into the jaws of death, SIR!
-WAIT   | 0.4
-Misc   | flip | o_wiglaf01 | 1
-Emote  | ! | o_wiglaf01
-WAIT   | 1.5
-Misc   | music | mus_rebelbase | 1
-DIALOG | Lft. Wiglaf  | ... Are my old ears playing tricks on me or does it sound like we have a `kw`new recruit`rt` in our ranks?
-Misc   | backwards    | o_cts_hoopz | 0
-MOVETO | o_jhodfrey01 | o_cinema1 | MOVE_FAST
-WAIT   | 0.2
-MOVETO | o_cts_hoopz  | o_cinema3 | MOVE_FAST
-WAIT   | 0
-LOOKAT | o_jhodfrey01 | o_cts_hoopz
-FRAME  | CAMERA_FAST  | o_cts_hoopz | o_wiglaf01
-DIALOG | P_NAME       | Sir! I'm here to enlist!
-DIALOG | Lft. Wiglaf  | Love to hear it, but don't just think you can start right at the top. No, private. `mq`You're on tuber duty!`rt`
-SURPRISEAT | o_wiglaf01
-DIALOG | P_NAME = s_port_hoopzSurprise | `s1`Gulp!`s0` What's a tuber?!
-DIALOG | Lft. Wiglaf | If you don't know what tubers are now you are certainly going to know them after `mq`tuber duty`rt`. Food is the back bone of any fighting force! Now `mq`get below deck and get on those `kw`roots`rt` and `kw`radicles,`rt` pronto. They ain't gonna peel themselves, grunt!
-WAIT   | 0.25
-LOOK   | o_cts_hoopz | SOUTHEAST
-WAIT   | 0.25
-LOOK   | o_cts_hoopz | SOUTH
-WAIT   | 0.25
-PLAYSET | o_cts_hoopz | sad0 | sad1
-WAIT   | 0
-DIALOG | P_NAME = s_port_hoopzSad | (Durnit. Looks like I'll have to work my way up_ `kw`the chain of command.`rt`)
-WAIT   | 0.5
-LOOKAT | o_cts_hoopz | o_wiglaf01
-DIALOG | P_NAME      | Where are the tubers, sir?
-DIALOG | Lft. Wiglaf | That's the spirit! Jhodfrey, show the new Private how to get to `kw`The Rootstock.`rt`
-DIALOG | Jhodfrey    | Right away, sir. 
-FADE   | 1 | 1.5
-WAIT   | 1.5
-SET    | o_bct_barracksDoor01 | opened
-Misc   | set | o_cts_hoopz  | o_cinema5
-Misc   | set | o_jhodfrey01 | o_cinema4
-LOOK   | o_cts_hoopz  | NORTHEAST
-LOOK   | o_jhodfrey01 | SOUTHWEST
-FRAME  | CAMERA_FAST | o_cts_hoopz | o_jhodfrey01
-WAIT   | 2
-FADE   | 0 | 1.5
-WAIT   | 2
-DIALOG | Jhodfrey | Listen up, private. You have been tasked by the commander to travel to `kw`The Rootstock`rt` and peel a day's worth of tubers.
-DIALOG | P_NAME   | The Rootstock? What is-
-DIALOG | Jhodfrey | Zip it, private! Do not talk back to your superiors unless explicitly asked to.
-DIALOG | P_NAME   | Sorry, sir.
-DIALOG | Jhodfrey | Now then, you are going to need this...
-DIALOG | Jhodfrey | It's the map of `kw`The Undersewers`rt` with the location of `sq`The Rootstock`rt` marked on it. 
-USEAT  | o_jhodfrey01
-NOTIFY | Got the Path the to Rootstock Map
-GOTO   | BRIEFING
-
-BRIEFING
-DIALOG | Jhodfrey | The Rootstock, one of our underground outposts, is governed by a man called `mq`Chandragupta.`rt`
-DIALOG | Jhodfrey | Find your way to the Rootstock ASAP, and `mq`make contact with Chandragupta.`rt` He'll fill you in with the tuber details.
-DIALOG | Jhodfrey | I've opened this previously locked door to our barracks for you. From there you can gain quick access to The Undersewers, which is where The Rootstock is located. You could also just ignore the route I've laid out for you and get yourself killed trying to get down there on your own.
-DIALOG | Jhodfrey | Whatever route you take to The Rootstock is up to you. Weapons and equipment are OSP. You have until midnight to peel the tubers and return them here, to L.O.N.G.I.N.U.S. HQ.
-DIALOG | Jhodfrey | You got all that, private?
-GOTO   | MISSION_QUESTIONS
-
-MISSION_QUESTIONS
-CHOICE | Any questions?
-REPLY  | MISSION_REPEAT | Uh... Could you repeat all that?
-REPLY  | MISSION_READY  | Ready to commence the mission, sir!
-REPLY  | MISSION_YOU    | Haven't I seen you somewhere before?
-
-MISSION_REPEAT
-DIALOG | P_NAME   | Uh... Could you repeat all that?
-DIALOG | Jhodfrey | Clispaeth... Alright, I'll say it again.
-GOTO   | BRIEFING
-
-MISSION_READY
-DIALOG | P_NAME   | Ready to commence the mission, sir!
-DIALOG | Jhodfrey | Yeah, yeah. Don't think you're hot shit just because you got assigned to tuber duty. That's exactly where every newbie starts.
-DIALOG | Jhodfrey | Now, if you'll excuse me, I have places to be, people to see. /'Good luck/', newbie.
-MOVETO | o_jhodfrey01 | o_cinema6 | MOVE_NORMAL
-WAIT   | 1
-LOOK   | o_cts_hoopz | EAST
-WAIT   | 0
-Destroy | o_jhodfrey01
-DIALOG | P_NAME   | Hmm... I don't think that guy likes me much._ But that's not important right now. I've got a mission to complete.
-EVENT  | o_bct_barracksDoor01 | 1
-
-MISSION_YOU
-DIALOG | P_NAME   | Haven't I seen you somewhere before?
-DIALOG | Jhodfrey | Hah! Unlikely. Do you think I would ever debase myself to your level, newbie? You're just another dime-a-dozen upstart who's going to be maggot food in a week.
-DIALOG | Jhodfrey | Me? I'm the commander's right-hand man. A man of integrity. A man of honor. So no, you have NOT seen me anywhere before, and if it were up to me, you would never see me again either.
-DIALOG | Jhodfrey | Now, are you clear on your mission, private?
-GOTO   | MISSION_QUESTIONS"
-metadata/_custom_type_script = "uid://brqjwvhoi8eux"
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_t5i5j"]
 atlas = ExtResource("50_lfon0")
 region = Rect2(0, 0, 64, 89)
@@ -2880,7 +2722,6 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_wiglaf_meet" parent="." unique_id=97225298 instance=ExtResource("72_p8qxo")]
 position = Vector2(161, 552)
-cutscene_script = SubResource("Resource_71jp5")
 metadata/code = ""
 metadata/inst_name = "inst_3454A33C"
 metadata/scale = Vector2(1, 0)
@@ -2907,6 +2748,8 @@ metadata/scale = Vector2(1, 1)
 visible = false
 position = Vector2(160, 1320)
 rotation = 3.1415927
+is_open = true
+silent = true
 teleport_room_string = "r_usw_ladderRebel01, 240, 112"
 metadata/code = "RoomXY(r_usw_ladderRebel01, 240, 112);
 visible = false;

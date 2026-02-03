@@ -1,8 +1,6 @@
 [gd_scene format=4 uid="uid://dhkgso5scb0df"]
 
-[ext_resource type="Script" uid="uid://cltm5dpc2cnfm" path="res://barkley2/rooms/undersewers/r_usw_ruins_junction_01.gd" id="1_mjos1"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_fo3d4"]
-[ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="3_doro5"]
+[ext_resource type="Script" uid="uid://cltm5dpc2cnfm" path="res://barkley2/rooms/undersewers/r_usw_ruinsJunction01.gd" id="1_mjos1"]
 [ext_resource type="Texture2D" uid="uid://ragji5gbfp64" path="res://barkley2/assets/b2_original/backgrounds/tls_sw2_undersewers01.png" id="5_3mb30"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="5_7c7si"]
 [ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="6_gwgqi"]
@@ -14,8 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="12_e8ixu"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="13_om3df"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="14_p0pul"]
+[ext_resource type="PackedScene" uid="uid://cgjfb2cxwlwoa" path="res://barkley2/scenes/Objects/_environs/_trash/o_trash_bag01.tscn" id="16_fkrpj"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="16_uorio"]
+[ext_resource type="Texture2D" uid="uid://c42cymhqpmi1i" path="res://barkley2/assets/b2_original/images/merged/s_trash_bag01.png" id="17_u0ges"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="18_2qnnl"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="18_hie6c"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="20_vaytq"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nbhim"]
@@ -3423,7 +3424,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_p0pul")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_wmrcp"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_vr65s"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3510,7 +3511,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_p0pul")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fkrpj"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_wmrcp"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3597,7 +3598,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_p0pul")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_u0ges"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_fkrpj"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3684,7 +3685,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_p0pul")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_hie6c"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_u0ges"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3739,6 +3740,70 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2llvp"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(0, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n5jq"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(26, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nm1j0"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(52, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5jyo"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(78, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkws0"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(104, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hyj8"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(130, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jpmgu"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(156, 0, 26, 29)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7bnj"]
+atlas = ExtResource("17_u0ges")
+region = Rect2(182, 0, 26, 29)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fh1bm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2llvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n5jq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nm1j0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5jyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkws0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hyj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jpmgu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7bnj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="r_usw_ruinsJunction01" type="NavigationRegion2D" unique_id=151190770 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_nbhim")
 script = ExtResource("1_mjos1")
@@ -3749,16 +3814,6 @@ collision_layer_wade = NodePath("layer - wading")
 is_interior = true
 camera_bound_to_map = true
 is_this_room_dark = true
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=640739107]
-script = ExtResource("2_fo3d4")
-convert_cinema_spots = false
-convert_door_light = false
-convert_door = false
-convert_collision = false
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." unique_id=920663432]
-script = ExtResource("3_doro5")
 
 [node name="layer 93" type="TileMapLayer" parent="." unique_id=1709110291]
 z_index = -10
@@ -3804,7 +3859,7 @@ tile_set = ExtResource("7_3cq0b")
 
 [node name="o_doorlight_right" parent="." unique_id=732727073 instance=ExtResource("8_mpkyv")]
 position = Vector2(1264, 224)
-sprite_frames = SubResource("SpriteFrames_wmrcp")
+sprite_frames = SubResource("SpriteFrames_vr65s")
 teleport_destination = "r_usw_rebelJunction01, 16, 248"
 metadata/code = "RoomXY(r_usw_rebelJunction01, 16, 248);"
 metadata/inst_name = "inst_2981C155"
@@ -3812,7 +3867,7 @@ metadata/scale = Vector2(1, 2)
 
 [node name="o_doorlight_down" parent="." unique_id=2118275718 instance=ExtResource("16_uorio")]
 position = Vector2(928, 448)
-sprite_frames = SubResource("SpriteFrames_fkrpj")
+sprite_frames = SubResource("SpriteFrames_wmrcp")
 teleport_destination = "r_usw_ladderCuchu01, 208, 184);
 "
 metadata/code = "RoomXY(r_usw_ladderCuchu01, 208, 184);
@@ -3822,7 +3877,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_left" parent="." unique_id=763377873 instance=ExtResource("18_2qnnl")]
 position = Vector2(0, 224)
-sprite_frames = SubResource("SpriteFrames_u0ges")
+sprite_frames = SubResource("SpriteFrames_fkrpj")
 teleport_destination = "r_usw_braincityAccess01, 464, 416);
 "
 metadata/code = "RoomXY(r_usw_braincityAccess01, 464, 416);
@@ -3832,32 +3887,100 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=816983633 instance=ExtResource("20_vaytq")]
 position = Vector2(720, 80)
-sprite_frames = SubResource("SpriteFrames_hie6c")
+sprite_frames = SubResource("SpriteFrames_u0ges")
 teleport_destination = "r_usw_ruinsWifi01, 144, 304"
 metadata/code = "RoomXY(r_usw_ruinsWifi01, 144, 304);"
 metadata/inst_name = "inst_38D56E55"
 metadata/scale = Vector2(1, 1)
 
-[node name="P14 - o_trash_bag01" type="Marker2D" parent="." unique_id=911264544]
+[node name="o_trash_bag01" type="AnimatedSprite2D" parent="." unique_id=980817753 node_paths=PackedStringArray("EnvCol") instance=ExtResource("16_fkrpj")]
 position = Vector2(941, 288)
+sprite_frames = SubResource("SpriteFrames_fh1bm")
+frame = 6
+centered = false
+offset = Vector2(-13, -16)
+script = ExtResource("18_hie6c")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "3",
+"bbox_right": "21",
+"bbox_top": "18",
+"height": "29",
+"name": "s_trash_bag01",
+"width": "26",
+"xorig": "13",
+"yorigin": "16"
+}
 metadata/code = ""
 metadata/inst_name = "inst_00000015"
 metadata/scale = Vector2(1, 1)
 
-[node name="P15 - o_trash_bag01" type="Marker2D" parent="." unique_id=868236821]
+[node name="o_trash_bag02" type="AnimatedSprite2D" parent="." unique_id=692503435 node_paths=PackedStringArray("EnvCol") instance=ExtResource("16_fkrpj")]
 position = Vector2(917, 296)
+sprite_frames = SubResource("SpriteFrames_fh1bm")
+frame = 4
+centered = false
+offset = Vector2(-13, -16)
+script = ExtResource("18_hie6c")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "3",
+"bbox_right": "21",
+"bbox_top": "18",
+"height": "29",
+"name": "s_trash_bag01",
+"width": "26",
+"xorig": "13",
+"yorigin": "16"
+}
 metadata/code = ""
 metadata/inst_name = "inst_00000016"
 metadata/scale = Vector2(1, 1)
 
-[node name="P16 - o_trash_bag01" type="Marker2D" parent="." unique_id=1290835357]
+[node name="o_trash_bag03" type="AnimatedSprite2D" parent="." unique_id=1927720816 node_paths=PackedStringArray("EnvCol") instance=ExtResource("16_fkrpj")]
 position = Vector2(1069, 240)
+sprite_frames = SubResource("SpriteFrames_fh1bm")
+frame = 7
+centered = false
+offset = Vector2(-13, -16)
+script = ExtResource("18_hie6c")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "3",
+"bbox_right": "21",
+"bbox_top": "18",
+"height": "29",
+"name": "s_trash_bag01",
+"width": "26",
+"xorig": "13",
+"yorigin": "16"
+}
 metadata/code = ""
 metadata/inst_name = "inst_00000017"
 metadata/scale = Vector2(1, 1)
 
-[node name="P17 - o_trash_bag01" type="Marker2D" parent="." unique_id=1599578876]
+[node name="o_trash_bag04" type="AnimatedSprite2D" parent="." unique_id=404785338 node_paths=PackedStringArray("EnvCol") instance=ExtResource("16_fkrpj")]
 position = Vector2(469, 224)
+sprite_frames = SubResource("SpriteFrames_fh1bm")
+frame = 5
+centered = false
+offset = Vector2(-13, -16)
+script = ExtResource("18_hie6c")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "28",
+"bbox_left": "3",
+"bbox_right": "21",
+"bbox_top": "18",
+"height": "29",
+"name": "s_trash_bag01",
+"width": "26",
+"xorig": "13",
+"yorigin": "16"
+}
 metadata/code = ""
 metadata/inst_name = "inst_00000018"
 metadata/scale = Vector2(1, 1)

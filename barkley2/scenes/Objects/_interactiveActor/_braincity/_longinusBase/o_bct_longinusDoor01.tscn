@@ -196,7 +196,11 @@ LOOK | o_cts_hoopz | NORTH
 IF longinusDoorOpen == 2 | DIALOG | P_NAME | Now how did it go again?
 IF neneKnock == 1        | DIALOG | P_NAME | Okay... here goes...
 DIALOG | DEBUG | Left, Up, Left, Left, Up, Left, Down, Down, Down, Right
-Create | o_mg_knocking_minigame
+CREATE_WAIT | o_mg_knocking_minigame
+// 03-02-26 changed Create to CREATE_WAIT
+// 03-02-26 Also added the if conditions bellow
+IF longinusDoorOpen == 3  | GOTO | SUCCESS
+IF longinusDoorOpen == 1  | GOTO | FAILED
 
 AFTER_BELAY
 DIALOG | P_NAME      | I wonder what will happen if I just... don't knock.

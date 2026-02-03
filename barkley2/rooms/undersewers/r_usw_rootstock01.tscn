@@ -1,9 +1,7 @@
 [gd_scene format=4 uid="uid://ujr2eufhmajx"]
 
-[ext_resource type="Script" uid="uid://bvfigbkdlawg1" path="res://barkley2/resources/rooms/B2_rooms.gd" id="1_1urgf"]
+[ext_resource type="Script" uid="uid://fbn7u7crduyi" path="res://barkley2/rooms/undersewers/r_usw_rootstock01.gd" id="1_ftixw"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_0ktdb"]
-[ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="3_uw10d"]
-[ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="4_y7jgc"]
 [ext_resource type="Texture2D" uid="uid://ragji5gbfp64" path="res://barkley2/assets/b2_original/backgrounds/tls_sw2_undersewers01.png" id="5_kwwpf"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="6_tipmx"]
 [ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="7_3oarw"]
@@ -3421,7 +3419,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("15_ohtxt")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_wea0y"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ut534"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3491,11 +3489,19 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_usw_rootstock01" type="NavigationRegion2D" unique_id=697505461]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftixw"]
+size = Vector2(130, 32)
+
+[node name="r_usw_rootstock01" type="NavigationRegion2D" unique_id=697505461 node_paths=PackedStringArray("collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_s3oh0")
-script = ExtResource("1_1urgf")
+script = ExtResource("1_ftixw")
+debug_create_player_scene_at_room_start = true
+debug_player_scene_pos = Vector2(750, 300)
+load_debug_save_data = true
+collision_layer = NodePath("layer - collision")
+collision_layer_semi = NodePath("layer - collision 2")
+collision_layer_wade = NodePath("layer - wading")
 is_interior = true
-camera_bound_to_map = true
 is_this_room_dark = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=883771566]
@@ -3503,13 +3509,8 @@ script = ExtResource("2_0ktdb")
 convert_cinema_spots = false
 convert_door_light = false
 convert_door = false
+create_room_script = false
 convert_collision = false
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." unique_id=2012443340]
-script = ExtResource("3_uw10d")
-
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="." unique_id=216356903]
-script = ExtResource("4_y7jgc")
 
 [node name="layer 93" type="TileMapLayer" parent="." unique_id=1190699699]
 z_index = -10
@@ -3547,24 +3548,12 @@ tile_set = ExtResource("8_scupw")
 
 [node name="o_doorlight_down" parent="." unique_id=163978582 instance=ExtResource("9_gwhic")]
 position = Vector2(704, 400)
-sprite_frames = SubResource("SpriteFrames_wea0y")
+sprite_frames = SubResource("SpriteFrames_ut534")
 teleport_destination = "r_usw_klatch01, 720, 208);
 "
 metadata/code = "RoomXY(r_usw_klatch01, 720, 208);
 "
 metadata/inst_name = "inst_EAEB4083"
-metadata/scale = Vector2(1, 1)
-
-[node name="P20 - o_peeledTubers" type="Marker2D" parent="." unique_id=358274933]
-position = Vector2(866, 335)
-metadata/code = ""
-metadata/inst_name = "inst_FF56B7A4"
-metadata/scale = Vector2(1, 1)
-
-[node name="P21 - o_tuberPile" type="Marker2D" parent="." unique_id=1512399648]
-position = Vector2(828, 312)
-metadata/code = ""
-metadata/inst_name = "inst_E9865A7E"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_cinema10" type="Marker2D" parent="." unique_id=1496349744]
@@ -3583,6 +3572,18 @@ script = ExtResource("17_mjxl7")
 cinema_id = 11
 metadata/code = ""
 metadata/inst_name = "inst_A0958992"
+metadata/scale = Vector2(1, 1)
+
+[node name="P20 - o_peeledTubers" type="Marker2D" parent="." unique_id=358274933]
+position = Vector2(866, 335)
+metadata/code = ""
+metadata/inst_name = "inst_FF56B7A4"
+metadata/scale = Vector2(1, 1)
+
+[node name="P21 - o_tuberPile" type="Marker2D" parent="." unique_id=1512399648]
+position = Vector2(828, 312)
+metadata/code = ""
+metadata/inst_name = "inst_E9865A7E"
 metadata/scale = Vector2(1, 1)
 
 [node name="P24 - o_chandragupta01" type="Marker2D" parent="." unique_id=711619257]
@@ -3615,6 +3616,12 @@ metadata/code = ""
 metadata/inst_name = "inst_154F5663"
 metadata/scale = Vector2(1, 1)
 
+[node name="P31 - o_chair_potato01" type="Marker2D" parent="." unique_id=2003048442]
+position = Vector2(849, 327)
+metadata/code = ""
+metadata/inst_name = "inst_174BB558"
+metadata/scale = Vector2(1, 1)
+
 [node name="o_teleport_mark" parent="." unique_id=1133908447 instance=ExtResource("18_o2d5a")]
 position = Vector2(720, 330)
 sprite_frames = SubResource("SpriteFrames_0e0sl")
@@ -3622,15 +3629,15 @@ metadata/code = ""
 metadata/inst_name = "inst_F0628F12"
 metadata/scale = Vector2(1, 1)
 
-[node name="P31 - o_chair_potato01" type="Marker2D" parent="." unique_id=2003048442]
-position = Vector2(849, 327)
-metadata/code = ""
-metadata/inst_name = "inst_174BB558"
-metadata/scale = Vector2(1, 1)
-
 [node name="o_map_stairs_0" parent="." unique_id=53119118 instance=ExtResource("21_4en4i")]
 position = Vector2(671, 239)
+collision_mask = 86
 linear_damp = 10.0
 metadata/code = ""
 metadata/inst_name = "inst_DDC37785"
 metadata/scale = Vector2(4, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_stairs_0" unique_id=874013753]
+position = Vector2(65, 16)
+shape = SubResource("RectangleShape2D_ftixw")
+debug_color = Color(0.6261703, 0.52417725, 0.25915623, 0.25490198)

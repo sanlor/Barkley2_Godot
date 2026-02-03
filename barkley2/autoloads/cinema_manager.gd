@@ -100,6 +100,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	get_tree().current_scene.add_child( cinema_player, true )
 	cinema_player.play_cutscene( cutscene_script, _event_caller, cutscene_mask )
 
+## DEPRECATED used in the old turnbased compat system
 func start_combat( combat_script : B2_Script_Combat, enemies : Array[B2_EnemyCombatActor] ) -> void:
 	combat_cinema_player 		= B2_Combat_CinemaPlayer.new()
 	combat_cinema_player.name 	= "combat_cinema_player"

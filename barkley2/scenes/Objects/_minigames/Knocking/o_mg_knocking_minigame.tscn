@@ -29,7 +29,11 @@ resource_local_to_scene = true
 atlas = ExtResource("4_iqmka")
 region = Rect2(48, 0, 16, 16)
 
+[sub_resource type="LabelSettings" id="LabelSettings_l5ieh"]
+font = ExtResource("3_l5ieh")
+
 [node name="o_mg_knocking_minigame" type="Control" unique_id=1214083058]
+z_index = 1000
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,6 +41,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v8ud8")
+set_quest_variables = true
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=472835023]
 layout_mode = 1
@@ -81,264 +86,404 @@ offset_bottom = 117.0
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="input1" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1303334125]
+[node name="input1" type="Control" parent="TextureRect/each_input" unique_id=456708198]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=552567458]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=136055592]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=1352373359]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input1" unique_id=641214885]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input2" type="VBoxContainer" parent="TextureRect/each_input" unique_id=85865408]
+[node name="input2" type="Control" parent="TextureRect/each_input" unique_id=1665793754]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=220667217]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=350432086]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=1485489891]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input2" unique_id=2024948036]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input3" type="VBoxContainer" parent="TextureRect/each_input" unique_id=866436933]
+[node name="input3" type="Control" parent="TextureRect/each_input" unique_id=1973637105]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=527790978]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1799854957]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1750147242]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input3" unique_id=1236659521]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input4" type="VBoxContainer" parent="TextureRect/each_input" unique_id=10931888]
+[node name="input4" type="Control" parent="TextureRect/each_input" unique_id=690253357]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=694524607]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=73066285]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=331964937]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input4" unique_id=172893284]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input5" type="VBoxContainer" parent="TextureRect/each_input" unique_id=2029127055]
+[node name="input5" type="Control" parent="TextureRect/each_input" unique_id=253250934]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=251360448]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=614800454]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=2113165476]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input5" unique_id=1816219209]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input6" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1937019071]
+[node name="input6" type="Control" parent="TextureRect/each_input" unique_id=490063476]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=739914788]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=1097096433]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=672326496]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input6" unique_id=1788541141]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input7" type="VBoxContainer" parent="TextureRect/each_input" unique_id=848996320]
+[node name="input7" type="Control" parent="TextureRect/each_input" unique_id=508555288]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=300714863]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1778934254]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1603425390]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input7" unique_id=1522017309]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input8" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1783063972]
+[node name="input8" type="Control" parent="TextureRect/each_input" unique_id=1593488856]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=2135939776]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=848007222]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=1954334056]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input8" unique_id=1712110386]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input9" type="VBoxContainer" parent="TextureRect/each_input" unique_id=722150104]
+[node name="input9" type="Control" parent="TextureRect/each_input" unique_id=847353939]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=174623244]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=1631290175]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=102181086]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input9" unique_id=391220285]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
-[node name="input10" type="VBoxContainer" parent="TextureRect/each_input" unique_id=1635470831]
+[node name="input10" type="Control" parent="TextureRect/each_input" unique_id=827438156]
 custom_minimum_size = Vector2(16, 65)
 layout_mode = 2
-theme_override_constants/separation = 0
 script = ExtResource("4_l5ieh")
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=1353189097]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=2092627040]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 32.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=427427260]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 32.0
+offset_right = 16.0
+offset_bottom = 48.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/each_input/input10" unique_id=1380501802]
 custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
+layout_mode = 0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
 
 [node name="ColorRect" type="ColorRect" parent="TextureRect" unique_id=835006596]
@@ -349,28 +494,58 @@ offset_right = 332.0
 offset_bottom = 136.0
 color = Color(0, 0, 0, 0.5)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect/ColorRect" unique_id=721725949]
+[node name="HBoxContainer" type="Control" parent="TextureRect/ColorRect" unique_id=1011337826]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
-alignment = 1
 
 [node name="right_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1999077465]
-layout_mode = 2
+layout_mode = 0
+offset_left = 77.0
+offset_right = 93.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_g3ewj")
 
 [node name="up_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1095135766]
-layout_mode = 2
+layout_mode = 0
+offset_left = 109.0
+offset_right = 125.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_jkmh6")
 
 [node name="left_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=565353375]
-layout_mode = 2
+layout_mode = 0
+offset_left = 141.0
+offset_right = 157.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_l5ieh")
 
 [node name="down_arrow_text" type="TextureRect" parent="TextureRect/ColorRect/HBoxContainer" unique_id=1868265206]
-layout_mode = 2
+layout_mode = 0
+offset_left = 173.0
+offset_right = 189.0
+offset_bottom = 16.0
+pivot_offset = Vector2(8, 8)
 texture = SubResource("AtlasTexture_iqmka")
+
+[node name="Label" type="Label" parent="." unique_id=1730106550]
+visible = false
+layout_mode = 0
+offset_left = 30.0
+offset_top = 210.0
+offset_right = 367.0
+offset_bottom = 233.0
+text = "Left, Up, Left, Left, Up, Left, Down, Down, Down, Right"
+label_settings = SubResource("LabelSettings_l5ieh")
+
+[node name="Timer" type="Timer" parent="." unique_id=424552211]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

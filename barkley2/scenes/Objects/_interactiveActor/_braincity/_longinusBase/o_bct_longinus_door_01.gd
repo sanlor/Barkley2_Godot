@@ -7,10 +7,10 @@ extends B2_EnvironInteractive
 func _ready() -> void:
 	if B2_Playerdata.Quest("longinusDoorOpen") >= 4:
 		play("open")
-		static_body_2d.queue_free()
-		is_interactive = false
+		execute_event_user_1()
 	else:
 		animation = "locked"
 
 func execute_event_user_1():
+	is_interactive = false
 	static_body_2d.queue_free()

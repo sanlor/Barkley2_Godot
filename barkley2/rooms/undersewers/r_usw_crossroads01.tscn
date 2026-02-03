@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://b186jrfasg5iy"]
 
-[ext_resource type="Script" uid="uid://oidcyj8hdcrl" path="res://barkley2/rooms/undersewers/r_usw_crossroads_01.gd" id="1_hsi4j"]
+[ext_resource type="Script" uid="uid://oidcyj8hdcrl" path="res://barkley2/rooms/undersewers/r_usw_crossroads01.gd" id="1_hsi4j"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="3_r3ttl"]
 [ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="4_a7aru"]
 [ext_resource type="Texture2D" uid="uid://ragji5gbfp64" path="res://barkley2/assets/b2_original/backgrounds/tls_sw2_undersewers01.png" id="5_5sluk"]
@@ -3655,50 +3655,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_84d13"]
-atlas = ExtResource("19_28kpu")
-region = Rect2(0, 0, 36, 38)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3durl"]
-atlas = ExtResource("19_28kpu")
-region = Rect2(36, 0, 36, 38)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_dbw3r"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_84d13")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3durl")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
-atlas = ExtResource("22_3piv1")
-region = Rect2(0, 0, 16, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u75by"]
-atlas = ExtResource("22_3piv1")
-region = Rect2(16, 0, 16, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_esvbv"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dkqsc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u75by")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwtwi"]
 atlas = ExtResource("24_y4qos")
 region = Rect2(192, 0, 48, 64)
@@ -3782,6 +3738,50 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_84d13"]
+atlas = ExtResource("19_28kpu")
+region = Rect2(0, 0, 36, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3durl"]
+atlas = ExtResource("19_28kpu")
+region = Rect2(36, 0, 36, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dbw3r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84d13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3durl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkqsc"]
+atlas = ExtResource("22_3piv1")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u75by"]
+atlas = ExtResource("22_3piv1")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_esvbv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkqsc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u75by")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="r_usw_crossroads01" type="NavigationRegion2D" unique_id=819204944 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_3xllp")
 script = ExtResource("1_hsi4j")
@@ -3862,77 +3862,77 @@ metadata/code = "RoomXY(r_usw_pool01, 1264, 400);
 metadata/inst_name = "inst_D9D3BDC8"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cart_shopping01" parent="." unique_id=225147263 instance=ExtResource("18_dwwb3")]
+[node name="o_door_undersewer02" parent="." unique_id=1557466527 instance=ExtResource("23_uw3sg")]
+position = Vector2(312, 160)
+sprite_frames = SubResource("SpriteFrames_vcae1")
+metadata/code = ""
+metadata/inst_name = "inst_7B6C089D"
+metadata/scale = Vector2(1, 1)
+
+[node name="props" type="Node2D" parent="." unique_id=951809207]
+y_sort_enabled = true
+
+[node name="o_cart_shopping01" parent="props" unique_id=225147263 instance=ExtResource("18_dwwb3")]
 position = Vector2(280, 301)
 sprite_frames = SubResource("SpriteFrames_dbw3r")
 metadata/code = ""
 metadata/inst_name = "inst_00000001"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_cart_shopping02" parent="." unique_id=1173104692 instance=ExtResource("18_dwwb3")]
+[node name="o_cart_shopping02" parent="props" unique_id=1173104692 instance=ExtResource("18_dwwb3")]
 position = Vector2(264, 325)
 sprite_frames = SubResource("SpriteFrames_dbw3r")
 metadata/code = ""
 metadata/inst_name = "inst_00000002"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open01" parent="." unique_id=569442388 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open01" parent="props" unique_id=569442388 instance=ExtResource("21_msvfy")]
 position = Vector2(256, 299)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000003"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open02" parent="." unique_id=700755346 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open02" parent="props" unique_id=700755346 instance=ExtResource("21_msvfy")]
 position = Vector2(296, 331)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000004"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open03" parent="." unique_id=928524745 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open03" parent="props" unique_id=928524745 instance=ExtResource("21_msvfy")]
 position = Vector2(272, 339)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000005"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open04" parent="." unique_id=423123733 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open04" parent="props" unique_id=423123733 instance=ExtResource("21_msvfy")]
 position = Vector2(288, 347)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000006"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open05" parent="." unique_id=620563932 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open05" parent="props" unique_id=620563932 instance=ExtResource("21_msvfy")]
 position = Vector2(248, 187)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000007"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open06" parent="." unique_id=1031025471 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open06" parent="props" unique_id=1031025471 instance=ExtResource("21_msvfy")]
 position = Vector2(272, 435)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000008"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_drum_open07" parent="." unique_id=1078960371 instance=ExtResource("21_msvfy")]
+[node name="o_drum_open07" parent="props" unique_id=1078960371 instance=ExtResource("21_msvfy")]
 position = Vector2(288, 443)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000009"
-metadata/scale = Vector2(1, 1)
-
-[node name="o_door_undersewer02" parent="." unique_id=1557466527 instance=ExtResource("23_uw3sg")]
-position = Vector2(312, 160)
-sprite_frames = SubResource("SpriteFrames_vcae1")
-metadata/code = ""
-metadata/inst_name = "inst_7B6C089D"
 metadata/scale = Vector2(1, 1)
