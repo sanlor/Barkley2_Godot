@@ -49,7 +49,7 @@ var _confirm_sound 		:= "sn_talk3";
 # var flourishFrame = 0; 				## WARNING Set this up when the time comes.
 ## NOTE The time has come - 26/07/25
 
-## Flourish stuff
+## Flourish stuff - Special portraits
 var flourish_enabled 	:= false
 var flourish_portrait 	:= ""
 var flourish_time 		:= 0.0
