@@ -301,7 +301,7 @@ func cinema_set( _sprite_frame : String, force_play := false ):
 		push_error("Actor " + str(self) + ": cinema_set() " + _sprite_frame + " not found" )
 
 ## Change current to "_sprite_frame" animation and play it. After playing it, set animation to "_sprite_frame_2".
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 7.5, _dis_flip := false ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame

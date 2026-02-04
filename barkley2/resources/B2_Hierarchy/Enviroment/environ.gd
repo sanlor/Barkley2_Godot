@@ -13,7 +13,7 @@ func cinema_set(anim_name : String):
 	else:
 		push_warning( "Node %s has no animation called %s" % [name, anim_name] )
 		
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 15.0 ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 7.5 ): ## NOTE Not sure how to deal with this?
 	if sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		animation = _sprite_frame

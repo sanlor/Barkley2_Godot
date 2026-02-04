@@ -17,6 +17,11 @@ const SCENE_INDEX = preload("res://barkley2/resources/B2_CManager/scene_index.js
 ## Cutscene scenes.
 var scene_index	: Dictionary = Dictionary()
 
+## Set the style for the dialog boxes
+enum DIAG_BOX{NORMAL,RETRO,VRW}
+var curr_DIAG_BOX := DIAG_BOX.NORMAL
+# check -> DialogSprites(s_diag_frame_vrw, s_diag_corner_vrw, s_return_vrw, s_diag_edge_vrw, s_diag_bg_vrw);
+
 ## Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
