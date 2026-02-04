@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cgn8o6dtxhtku"]
+
+[ext_resource type="Texture2D" uid="uid://d4l78bp0p0bh0" path="res://barkley2/assets/b2_original/images/merged/s_chair_potato01.png" id="1_wop3j"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_lc3gj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nic0f"]
+atlas = ExtResource("1_wop3j")
+region = Rect2(0, 0, 19, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ktt2u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nic0f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wop3j"]
+radius = 7.0
+
+[node name="o_chair_potato01" type="AnimatedSprite2D" unique_id=1971184482 node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_ktt2u")
+centered = false
+offset = Vector2(-8, -19)
+script = ExtResource("2_lc3gj")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "20",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "10",
+"height": "27",
+"name": "s_chair_potato01",
+"width": "19",
+"xorig": "8",
+"yorigin": "19"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1149119984]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1976204300]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_wop3j")

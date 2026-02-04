@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://b8k3ln3jg1vmm"]
+
+[ext_resource type="Texture2D" uid="uid://duhhwyqjjdem0" path="res://barkley2/assets/b2_original/images/merged/s_crate_wooden_greens01.png" id="1_23p3u"]
+[ext_resource type="Script" uid="uid://cxtq7luv5tk70" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_props.gd" id="2_acx81"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4uovo"]
+atlas = ExtResource("1_23p3u")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rgp4r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4uovo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0asla"]
+size = Vector2(32, 20)
+
+[node name="o_crate_wooden_greens01" type="AnimatedSprite2D" unique_id=1473870732 node_paths=PackedStringArray("EnvCol")]
+sprite_frames = SubResource("SpriteFrames_rgp4r")
+centered = false
+offset = Vector2(0, -47)
+script = ExtResource("2_acx81")
+EnvCol = NodePath("StaticBody2D")
+metadata/default = {
+"bbox_bottom": "47",
+"bbox_left": "0",
+"bbox_right": "31",
+"bbox_top": "28",
+"height": "48",
+"name": "s_crate_wooden_greens01",
+"width": "32",
+"xorig": "0",
+"yorigin": "47"
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=804012833]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=606358966]
+position = Vector2(16, -10)
+shape = SubResource("RectangleShape2D_0asla")
