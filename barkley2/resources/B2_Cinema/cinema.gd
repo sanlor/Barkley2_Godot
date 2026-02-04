@@ -313,6 +313,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		var choices_labels					:= []
 		var choices_strings					:= []
 		
+		## Used for the GOTO and RETURN commands. THis is a new feature on the Godot port. Allows to GOTO a label and RETURN to the original GOTO command
+		var stack_pointer					:= 0
+		
 		## El biggo loopo.
 		while loop_finished or curr_line == script_size:
 			if curr_line >= script_size:
@@ -453,6 +456,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							continue
 						var possible_label : String = B2_CManager.cleanup_line( new_line ) [0] # Labels are always on the front
 						if target_label == possible_label.get_slice("//", 0).strip_edges(): ## KATSU! Remove inline comments from labels.
+							stack_pointer = curr_line
 							# found the "label". jump to that line
 							curr_line = j # REMEMBER: Empty lines are skipped.
 							found_label = true
@@ -462,6 +466,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if not found_label:
 						# "label" not found. push error
 						push_error("GOTO: label " + target_label + " not found.")
+				"RETURN":
+					assert( stack_pointer != 0, "Invalid Stack Pointer.")
+					curr_line = stack_pointer
+					stack_pointer = 0
 					
 				"REPLY":
 					choices_labels.append( 	parsed_line[1].strip_edges(true,true) )

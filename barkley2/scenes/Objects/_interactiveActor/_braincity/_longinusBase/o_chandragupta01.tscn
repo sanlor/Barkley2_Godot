@@ -1,0 +1,172 @@
+[gd_scene format=3 uid="uid://bfo6s6wsdb8r1"]
+
+[ext_resource type="Script" uid="uid://bok7s8u655af7" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_longinusBase/o_chandragupta01.gd" id="1_o6mp3"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_4hw05"]
+[ext_resource type="Texture2D" uid="uid://bpck6kg81w22n" path="res://barkley2/assets/b2_original/images/merged/s_chandragupta01.png" id="2_nwtnr"]
+
+[sub_resource type="Resource" id="Resource_tspra"]
+script = ExtResource("2_4hw05")
+original_script = "IF falseFlagWedding == 1 | GOTO | FLAG_WEDDING
+IF falseFlag == 1 | GOTO | FALSEFLAG_1
+IF falseFlag == 2 | GOTO | FLAG_CALCULATE
+IF tuberPeel = 2  | GOTO | TUBERS_WAIT 
+GOTO | DEFAULT
+
+FLAG_CALCULATE
+QUEST  | temp = 0
+QUEST  | temp += @clock@
+QUEST  | temp -= @flagTimer@
+IF temp >= 20 | GOTO | FLAG_5
+IF temp >= 14 | GOTO | FLAG_4
+IF temp >= 9 | GOTO | FLAG_3
+IF temp >= 6 | GOTO | FLAG_2
+IF temp >= 3 | GOTO | FLAG_1
+GOTO | FLAG_0
+
+FLAG_5
+DIALOG | Chandragupta | Mhm hm hm hm hm.......... checkmate.
+DIALOG | P_NAME | (..............teny.)
+
+FLAG_4
+DIALOG | Chandragupta | The king is in check, surrounded on all sides by knights, rooks, bishops. They couldn't possibly have predicted this, not with the masterful series of false flags you've planted. And the best part? They will never know. Mhm hm hm hm hm. They will never know...
+DIALOG | P_NAME | (...................teny.)
+
+FLAG_3
+DIALOG | Chandragupta | They've taken the bait. Their queen is in danger. One more false flag and our most dangerous foe will be an unpleasant memory. Our little game is getting quite interesting, indeed.
+DIALOG | P_NAME | (..............teny.)
+
+FLAG_2
+DIALOG | Chandragupta | Interesting... a bishop retreats. A rook advances. Turmoil spreads as the enemy loses sight of your next move. Very interesting, indeed...
+DIALOG | P_NAME | (..............teny.)
+
+FLAG_1
+DIALOG | Chandragupta | Impressive... impressive. The invisible hand of your false flags move pieces into position and nobody knows the better. Your craft is subtle... subtle but potent. Operation: Covert Stratagem is getting interesting...
+DIALOG | P_NAME | (............teny.)
+
+FLAG_0
+DIALOG | Chandragupta | I can't tell you when or where to do false flags, but trust me - you will know. And remember: the codeword is /'teny/'.
+DIALOG | P_NAME | (Teny...)
+
+FALSEFLAG_1
+DIALOG | Chandragupta | 3... 2... 1... ah, you're right on time, precisely when I predicted. I assume you're here to talk about Operation: Covert Stratagem. Have you... rethought your role in the game? Or are you going to continue to allow yourself to be controlled by players beyond your reckoning?
+CHOICE | Am I in?
+REPLY  | IM_IN    | ... I'm in.
+IF tuberPeel == 1 | REPLY | TUBERS | I'm just here to peel some tubers. 
+REPLY  | REJECT_1 | I want to keep being controlled by players beyond my reckoning.
+
+IM_IN
+DIALOG | P_NAME       | ...I'm in.
+DIALOG | Chandragupta | Heh. So you've taken Kasparov's gambit. Just as I predicted. Your mission is simple. Destroy the enemy's ability to obtain and process information by any means necessary: deception, manipulation, betrayal, disinformation.
+DIALOG | P_NAME       | So what exactly am I doing and how am I doing it?
+DIALOG | Chandragupta | False flags, my friend. False flags. I can't tell you how to do it. I can only tell you this: when the opportunity to spread chaos presents itself, you. Will. Know. Live life exactly as you would. Go about your business. Act like this conversation never happened. But when the crack in the armor presents itself, twist the dagger in and watch the fools squirm.
+DIALOG | P_NAME       | Okay, I think I've got it. So I'm just gonna keep doing what I'm doing... with a twist.
+DIALOG | Chandragupta | One last thing. The codeword is /'teny/'. Good luck out there, operative. You'll know when to plant false flags. And remember: we've never met.
+DIALOG | P_NAME       | ... teny.
+QUEST  | falseFlag = 2
+QUEST  | flagTimer = @clock@
+WAIT   | 4
+DIALOG | P_NAME | Oh also, I'm here for the tubers.
+DIALOG | Chandragupta | Oh yeah they are right over there...
+DIALOG | P_NAME | Thanks...
+QUEST  | tuberPeel = 2
+EXIT   | 
+
+REJECT_0
+DIALOG | P_NAME | I'm a pawn in a game beyond my understanding. Sorry, Chandragupta.
+DIALOG | Chandragupta | Heh. Just as I predicted. All according to plan. All according to plan...
+QUEST  | falseFlag = 1
+
+REJECT_1
+DIALOG | P_NAME       | No thanks. I want to keep being controlled by players beyond my reckoning. Thanks for the offer though.
+DIALOG | Chandragupta | Mhm hm hm hm hm. Of course, of course. Keep telling yourself that. They may have less control over you than realize. One day you will. And that realization... will change everything.
+
+FLAG_WEDDING
+DIALOG | Chandragupta | Mhm hm hm hm. The wedding band? A masterstroke. Nobody - NOBODY suspected it was a false flag. Your cunning far surpasses my initial expectations. Perhaps I will have to recalculate...
+DIALOG | P_NAME       | (.................. teny.)
+QUEST  | falseFlagWedding = 2
+
+DEFAULT
+DIALOG | Chandragupta | So you must be the new recruit, eh? Commander Wiglaf phoned me up and told me that you'd be coming over. 
+DIALOG | Chandragupta | Welcome to L.O.N.G.I.N.U.S. - 'oorah and all that military grandstanding.
+DIALOG | P_NAME       | You don't sound that impressed with L.O.N.G.I.N.U.S. What's your beef?
+DIALOG | Chandragupta | Heh, don't get me wrong, I recognize the role my colleagues play in this little game. They're the soldiers, the frontline fighters._ `w1`The pawns.`w0`
+DIALOG | Chandragupta | To quote myself, /'every king needs an army./' But it is not pawns that win this game we play. My colleagues? They fight with bombs, with gun's,_ with brutality. Me? My methods are a little more... let's say /'cerebral/'. Social engineering. Psy ops. Hacktivism. Subterfuge. I find and exploit my enemies' weaknesses, sowing seeds of chaos and strife in my wake.
+DIALOG | P_NAME       | So you're like the intelligence guy, huh?
+DIALOG | Chandragupta | You catch on quickly. I like that. Perhaps you will have some use to me after all... Name's Chandragupta but people here call me... 
+DIALOG | Chandragupta | `w1`The Chess Master.`w0`
+DIALOG | Chandragupta | I'd advise you to do the same. I've been working on a project, a little experiment I like to call /'`sq`Operation:`rt` `kw`Covert Stratagem/'.`rt` The goal? Complete Global intelligence network meltdown. The means? `sq`False flags.`rt` The target? Mhm hm hm hm hm... `w1`ev_er_y_one.`w0` I need an operative with the cunning to move all the pieces into place and the nuance to evade detection. Someone I can trust not to go rogue. Someone like you. The next move is yours. Will you be my knight, or are you just another pawn in a game far beyond your understanding?
+CHOICE | Am I in?
+REPLY  | IM_IN    | ... I'm in.
+REPLY  | REJECT_0 | I'm a pawn in a game beyond my understanding.
+REPLY  | TUBERS   | I'm just here to peel some tubers. 
+
+TUBERS
+QUEST  | tuberPeel = 2
+DIALOG | P_NAME       | Maybe some other time, Mr. Chess Master. I'm here on orders from the commander to peel some tubers.
+DIALOG | Chandragupta | `s1`Mhm hm hm hm hm.`s0` Of course, of course. Follow the commands of your superiors like a good little pawn. The tubers are in that little alcove over there. Help yourself. I know I do. `s1`Mhm hm hm hm hm...`s0`
+EXIT   |
+
+TUBERS_WAIT 
+DIALOG | P_NAME       | (I'll talk to this guy later. Right now I have some tubers to contend with.)
+
+NULL
+EXIT | "
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hw05"]
+atlas = ExtResource("2_nwtnr")
+region = Rect2(0, 0, 42, 63)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tspra"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hw05")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_o6mp3"]
+radius = 13.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3xw3h"]
+size = Vector2(36, 54)
+
+[node name="o_chandragupta01" type="CharacterBody2D" unique_id=927658196 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_o6mp3")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_tspra")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1247164736]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_tspra")
+centered = false
+offset = Vector2(-20, -55)
+metadata/default = {
+"bbox_bottom": "61",
+"bbox_left": "1",
+"bbox_right": "39",
+"bbox_top": "41",
+"frames": ["images\\s_chandragupta01_0.png"],
+"height": "63",
+"name": "s_chandragupta01",
+"width": "42",
+"xorig": "20",
+"yorigin": "55"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1714865540]
+position = Vector2(0, -9)
+shape = SubResource("CircleShape2D_o6mp3")
+
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1521732424]
+position = Vector2(0, -31)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1027802598]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_3xw3h")

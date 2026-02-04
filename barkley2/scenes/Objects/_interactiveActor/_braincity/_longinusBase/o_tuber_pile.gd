@@ -16,7 +16,8 @@ extends B2_EnvironInteractive
 func _ready() -> void:
 	## Set light
 	#Light("set", 0.33);
-
+	frame = 0
+	
 	if B2_Playerdata.Quest("tuberPeel") >= 3:
 		is_interactive = false
 
