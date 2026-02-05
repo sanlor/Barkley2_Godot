@@ -33,6 +33,7 @@ func _ready():
 		
 	size = border_size
 	b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
+	_set_background()
 	
 	if monitor_mouse:
 		mouse_entered.connect( 	func(): is_highlighted = true; 		queue_redraw() )
@@ -56,7 +57,7 @@ func _draw():
 	## BG
 	var bg_rect := Rect2( Vector2(4,4), border_size - Vector2(8,8) ) # Small offset to hide the BG
 	if not disable_bg:
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, 0.65), false ) ## Checkered BG
+		draw_texture_rect( curr_BG, bg_rect, true, Color(1, 1, 1, 0.65), false ) ## Checkered BG
 	
 	if is_highlighted or has_focus():
 		draw_texture_rect( S_1X_1, bg_rect, true, Color(bg_highlight_color, 0.15), false )

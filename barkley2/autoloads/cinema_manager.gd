@@ -18,7 +18,12 @@ const SCENE_INDEX = preload("res://barkley2/resources/B2_CManager/scene_index.js
 var scene_index	: Dictionary = Dictionary()
 
 ## Set the style for the dialog boxes
-enum DIAG_BOX{NORMAL,RETRO,VRW}
+enum DIAG_BOX{
+	NORMAL, 	## Regular old box.
+	ALT,		## LOL, dunno yet.
+	RETRO, 		## TODO similar to the boxes used in Barkley 1
+	VRW 		## Used on Oligarchy Online (O.O.)
+	}
 var curr_DIAG_BOX := DIAG_BOX.NORMAL
 # check -> DialogSprites(s_diag_frame_vrw, s_diag_corner_vrw, s_return_vrw, s_diag_edge_vrw, s_diag_bg_vrw);
 

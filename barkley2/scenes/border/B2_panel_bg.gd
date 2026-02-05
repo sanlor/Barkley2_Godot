@@ -7,7 +7,11 @@ class_name B2_Border
 ## NOTE I was forced to change some stuff. This is mostly original code.
 ## Some files (corners) needed to me modified.
 
-const S_BORDER_BG_0 = preload("res://barkley2/assets/Border/sBorderBG_0.png")
+#const S_BORDER_BG_0 = preload("res://barkley2/assets/Border/sBorderBG_0.png")
+const S_DIAG_BG 	= preload("uid://2f8cr6uarncg")
+const S_DIAG_BG_ALT = preload("uid://crkdlu0l4wtt0")
+const S_DIAG_BG_VRW = preload("uid://c151lqsnt1efg")
+var curr_BG			:= S_DIAG_BG
 
 @onready var b_2_panel_fg : B2_Border_Foreground# $B2_panel_fg
 
@@ -36,6 +40,15 @@ var bg_opacity := 0.65
 
 @onready var my_seed := hash( randi() )
 
+@export_category("Style")
+@export var force_style := false
+@export var forced_style := B2_CManager.DIAG_BOX.NORMAL
+@export_tool_button("Update Styling") var _a : Callable = _set_background
+
+@export_category("Borders")
+@export var randomized_edges := true
+
+@export_category("Sizing")
 @export var resize := false:
 	set(a):
 		queue_redraw()
@@ -46,6 +59,8 @@ var bg_opacity := 0.65
 		queue_redraw()
 
 @export_tool_button("Update Border") var update_border := _ready
+
+var style : B2_CManager.DIAG_BOX
 
 func _init():
 	b_2_panel_fg = B2_Border_Foreground.new()
@@ -79,10 +94,29 @@ func _ready():
 	if is_invisible:
 		self_modulate.a = 0.0
 		b_2_panel_fg.self_modulate.a = 0.0
+	_set_background()
 	_post_ready()
 	
 func _post_ready() -> void:
 	pass
+
+func _set_background() -> void:
+	if not Engine.is_editor_hint(): style = B2_CManager.curr_DIAG_BOX
+	if force_style:
+		style = forced_style
+		
+	match style:
+		B2_CManager.DIAG_BOX.NORMAL:
+			curr_BG = S_DIAG_BG
+		B2_CManager.DIAG_BOX.VRW:
+			curr_BG = S_DIAG_BG_VRW
+		B2_CManager.DIAG_BOX.ALT:
+			curr_BG = S_DIAG_BG_ALT
+		B2_CManager.DIAG_BOX.RETRO:
+			breakpoint
+		_:
+			breakpoint
+	queue_redraw()
 
 # Decorations are children that this node can control, change color and such.
 func add_decorations(node : Node, _is_centered := false, add_node := true ): ## TODO _is_centered <- In the end, i never TODIDIT...
@@ -106,7 +140,7 @@ func _draw():
 	## BG
 	var bg_rect := Rect2( Vector2(4,4), border_size - Vector2(8,8) ) # Small offset to hide the BG
 	if not disable_bg:
-		draw_texture_rect( S_BORDER_BG_0, bg_rect, true, Color(1, 1, 1, bg_opacity), false )
+		draw_texture_rect( curr_BG, bg_rect, true, Color(1, 1, 1, bg_opacity), false )
 	
 	if is_first_draw: ## avoid updating the border decorations
 		b_2_panel_fg.set_panel_size(border_size.x, border_size.y)

@@ -5,18 +5,34 @@ class_name B2_Border_Foreground
 ## This node is part of the translation of the Border() script.
 # This one handles the actual rrandom borders that each panel gets.
 
-const S_BORDER_CORNERS = 		preload("res://barkley2/resources/Border/sBorderCorners.tres")
-const S_BORDER_LEFT_RIGHT = 	preload("res://barkley2/resources/Border/sBorderLeftRight.tres")
-const S_BORDER_TOP_BOTTOM = 	preload("res://barkley2/resources/Border/sBorderTopBottom.tres")
+# Normal corners / edges
+const S_BORDER_CORNERS 				:= preload("uid://dequiy8mu77u2")
+const S_BORDER_LEFT_RIGHT 			:= preload("uid://dfcmdetivg7rl")
+const S_BORDER_TOP_BOTTOM 			:= preload("uid://dux5axp1t4ca4")
+const DYNAMIC_CORNER_SPRITE_SIZE 	:= Vector2(25,25)
+const DYNAMIC_BORDER_H_TILE_SIZE 	:= Vector2(10,8)
+const DYNAMIC_BORDER_V_TILE_SIZE 	:= Vector2(8,10)
 
-var corner_sprite_size := Vector2(25,25)
+# Static, different corners / edges
+# Normal
+const S_BORDER_CORNERS_STATIC 		:= preload("uid://byokb6crxxxbi")
+const S_BORDER_EDGES_STATIC 		:= preload("uid://clq116vun41xa")
+# VRW / O.O.
+const S_BORDER_CORNERS_VRW 			:= preload("uid://ybqj1e6nf256")
+const S_BORDER_EDGES_VRW 			:= preload("uid://040qgvjlhyri")
+const STATIC_CORNER_SPRITE_SIZE 	:= Vector2(32,32)
+const STATIC_BORDER_H_TILE_SIZE 	:= Vector2(16,16)
+const STATIC_BORDER_V_TILE_SIZE 	:= Vector2(16,16)
 
-var border_h_tile_size := Vector2(10,8)
+var border_corners					:= S_BORDER_CORNERS
+var border_top_bottom				:= S_BORDER_TOP_BOTTOM
+var border_left_right				:= S_BORDER_LEFT_RIGHT
+var corner_sprite_size 				:= DYNAMIC_CORNER_SPRITE_SIZE
+var border_h_tile_size 				:= DYNAMIC_BORDER_H_TILE_SIZE
+var border_v_tile_size 				:= DYNAMIC_BORDER_V_TILE_SIZE
+var border_size 					: Vector2 = Vector2(50,50)
 
-var border_v_tile_size := Vector2(8,10)
-
-var border_size : Vector2 = Vector2(50,50)
-
+@export_category("Debug Stuff")
 @export var disable_top_left_corner 		:= false
 @export var disable_top_right_corner 		:= false
 @export var disable_bottom_left_corner 		:= false
@@ -26,13 +42,11 @@ var border_size : Vector2 = Vector2(50,50)
 @export var disable_bottom_side 			:= false
 @export var disable_upper_side 				:= false
 
-#@export var disable_sides := false
-#@export var disable_bottom := false
-#@export var disable_corner := false
-
-@onready var parent = get_parent()
+@onready var parent : B2_Border = get_parent()
 
 @onready var rng := RandomNumberGenerator.new()
+
+var style : B2_CManager.DIAG_BOX
 
 func _ready():
 	# Theme
@@ -45,12 +59,53 @@ func _ready():
 	custom_minimum_size = Vector2(3000,3000)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	use_parent_material = true
+	_update_borders()
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
 	queue_redraw()
 
+func _update_borders() -> void:
+	## Set style
+	if not Engine.is_editor_hint(): style = B2_CManager.curr_DIAG_BOX
+	if parent.force_style:
+		style = parent.forced_style
+		
+	match style:
+		B2_CManager.DIAG_BOX.VRW:
+			corner_sprite_size 	= STATIC_CORNER_SPRITE_SIZE
+			border_h_tile_size 	= STATIC_BORDER_H_TILE_SIZE
+			border_v_tile_size 	= STATIC_BORDER_V_TILE_SIZE
+			border_left_right 	= S_BORDER_EDGES_VRW
+			border_top_bottom 	= S_BORDER_EDGES_VRW
+			border_corners 		= S_BORDER_CORNERS_VRW
+		B2_CManager.DIAG_BOX.RETRO:
+			corner_sprite_size 	= STATIC_CORNER_SPRITE_SIZE
+			border_h_tile_size 	= STATIC_BORDER_H_TILE_SIZE
+			border_v_tile_size 	= STATIC_BORDER_V_TILE_SIZE
+			border_left_right 	= S_BORDER_EDGES_STATIC
+			border_top_bottom 	= S_BORDER_EDGES_STATIC
+			border_corners 		= S_BORDER_CORNERS_STATIC
+		B2_CManager.DIAG_BOX.ALT:
+			corner_sprite_size 	= STATIC_CORNER_SPRITE_SIZE
+			border_h_tile_size 	= STATIC_BORDER_H_TILE_SIZE
+			border_v_tile_size 	= STATIC_BORDER_V_TILE_SIZE
+			border_left_right 	= S_BORDER_EDGES_STATIC
+			border_top_bottom 	= S_BORDER_EDGES_STATIC
+			border_corners 		= S_BORDER_CORNERS_STATIC
+		B2_CManager.DIAG_BOX.NORMAL:
+			corner_sprite_size 	= DYNAMIC_CORNER_SPRITE_SIZE
+			border_h_tile_size 	= DYNAMIC_BORDER_H_TILE_SIZE
+			border_v_tile_size 	= DYNAMIC_BORDER_V_TILE_SIZE
+			border_left_right 	= S_BORDER_LEFT_RIGHT
+			border_top_bottom 	= S_BORDER_TOP_BOTTOM
+			border_corners 		= S_BORDER_CORNERS
+
+	queue_redraw()
+	
 func _draw():
+	
+			
 	## Make weights
 	## 8 = 1, 16 = 4, 24 = 4, 32 = 4, 48 = 1      - 14 total
 	if border_size < corner_sprite_size * 2:
@@ -79,19 +134,28 @@ func _draw():
 		
 		while avaiable_left_v_space > 0: ######################### LEFT
 			if avaiable_left_v_space <= 8:
-				var v_corner_left : AtlasTexture = 				S_BORDER_LEFT_RIGHT.duplicate()
-				v_corner_left.region.size =						border_h_tile_size
-				v_corner_left.region.position = 				Vector2.ZERO
-				draw_texture( v_corner_left, Vector2( 0, 		left_start_pos						), Color.WHITE )
+				var v_edge_left : AtlasTexture = 			border_left_right.duplicate()
+				if style != B2_CManager.DIAG_BOX.NORMAL:
+					v_edge_left.region.size =				border_h_tile_size
+					v_edge_left.region.position = 			Vector2( border_h_tile_size.x * 2, 		0)
+				else:
+					v_edge_left.region.size =				border_h_tile_size
+					v_edge_left.region.position = 			Vector2.ZERO
+				draw_texture( v_edge_left, Vector2( 0, 		left_start_pos						), Color.WHITE )
 				break
 			else:
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
+				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var height := left_piece_height[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_left_v_space - height >= 0:
-					var v_corner_left : AtlasTexture = 			S_BORDER_LEFT_RIGHT.duplicate()
-					v_corner_left.region.size =					Vector2( border_h_tile_size.x,		height)
-					v_corner_left.region.position = 			Vector2( r * border_h_tile_size.x, 	0)
-					draw_texture( v_corner_left, Vector2( 0, 	left_start_pos						), Color.WHITE )
+					var v_edge_left : AtlasTexture = 		border_left_right.duplicate()
+					if style != B2_CManager.DIAG_BOX.NORMAL:
+						v_edge_left.region.size =			border_h_tile_size
+						v_edge_left.region.position = 		Vector2( border_h_tile_size.x * 2, 		0)
+					else:
+						v_edge_left.region.size =			Vector2( border_h_tile_size.x,		height)
+						v_edge_left.region.position = 		Vector2( r * border_h_tile_size.x, 	0)
+					draw_texture( v_edge_left, Vector2( 0, 	left_start_pos						), Color.WHITE )
 					
 					avaiable_left_v_space 	-= height
 					left_start_pos 			+= height
@@ -103,19 +167,28 @@ func _draw():
 		
 		while avaiable_right_v_space > 0: ######################### RIGHT
 			if avaiable_right_v_space <= 8:
-				var v_corner_right : AtlasTexture = 				S_BORDER_LEFT_RIGHT.duplicate()
-				v_corner_right.region.size =						border_h_tile_size
-				v_corner_right.region.position = 					Vector2(140, 0)
-				draw_texture( v_corner_right, Vector2( border_size.x - border_h_tile_size.x, 			right_start_pos), Color.WHITE )
+				var v_edge_right : AtlasTexture = 				border_left_right.duplicate()
+				if style != B2_CManager.DIAG_BOX.NORMAL:
+					v_edge_right.region.size =					border_h_tile_size
+					v_edge_right.region.position = 				Vector2( border_h_tile_size.x * 0, 		0)
+				else:
+					v_edge_right.region.size =					border_h_tile_size
+					v_edge_right.region.position = 				Vector2(140, 0)
+				draw_texture( v_edge_right, Vector2( border_size.x - border_h_tile_size.x, 			right_start_pos), Color.WHITE )
 				break
 			else:
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
+				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var height := right_piece_height[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_right_v_space - height >= 0:
-					var v_corner_right : AtlasTexture = 			S_BORDER_LEFT_RIGHT.duplicate()
-					v_corner_right.region.size =					Vector2( border_h_tile_size.x,		height)
-					v_corner_right.region.position = 				Vector2( r * border_h_tile_size.x + 140, 	0) ## 140 is the offset for the right side of the tilemap
-					draw_texture( v_corner_right, Vector2( border_size.x - border_h_tile_size.x, 		right_start_pos), Color.WHITE )
+					var v_edge_right : AtlasTexture = 			border_left_right.duplicate()
+					if style != B2_CManager.DIAG_BOX.NORMAL:
+						v_edge_right.region.size =					border_h_tile_size
+						v_edge_right.region.position = 				Vector2( border_h_tile_size.x * 0, 		0)
+					else:
+						v_edge_right.region.size =					Vector2( border_h_tile_size.x,		height)
+						v_edge_right.region.position = 				Vector2( r * border_h_tile_size.x + 140, 	0) ## 140 is the offset for the right side of the tilemap
+					draw_texture( v_edge_right, Vector2( border_size.x - border_h_tile_size.x, 		right_start_pos), Color.WHITE )
 					
 					avaiable_right_v_space 		-= height
 					right_start_pos 			+= height
@@ -128,19 +201,28 @@ func _draw():
 		
 		while avaiable_top_v_space > 0: ######################### TOP
 			if avaiable_top_v_space <= 8:
-				var v_corner_top : AtlasTexture = 				S_BORDER_TOP_BOTTOM.duplicate()
-				v_corner_top.region.size =						border_v_tile_size
-				v_corner_top.region.position = 					Vector2.ZERO
-				draw_texture( v_corner_top, Vector2( top_start_pos, 0), Color.WHITE )
+				var v_edge_top : AtlasTexture = 				border_top_bottom.duplicate()
+				if style != B2_CManager.DIAG_BOX.NORMAL:
+					v_edge_top.region.size =					border_v_tile_size
+					v_edge_top.region.position = 				Vector2( border_h_tile_size.x * 1, 		0)
+				else:
+					v_edge_top.region.size =						border_v_tile_size
+					v_edge_top.region.position = 					Vector2.ZERO
+				draw_texture( v_edge_top, Vector2( top_start_pos, 0), Color.WHITE )
 				break
 			else:
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
+				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var width := top_piece_width[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_top_v_space - width >= 0:
-					var v_corner_top : AtlasTexture = 			S_BORDER_TOP_BOTTOM.duplicate()
-					v_corner_top.region.size =					Vector2(width, 			border_v_tile_size.y)
-					v_corner_top.region.position = 				Vector2( r * 48, 		0)
-					draw_texture( v_corner_top, Vector2( top_start_pos, 0), Color.WHITE )
+					var v_edge_top : AtlasTexture = 			border_top_bottom.duplicate()
+					if style != B2_CManager.DIAG_BOX.NORMAL:
+						v_edge_top.region.size =					border_v_tile_size
+						v_edge_top.region.position = 				Vector2( border_h_tile_size.x * 1, 		0)
+					else:
+						v_edge_top.region.size =					Vector2(width, 			border_v_tile_size.y)
+						v_edge_top.region.position = 				Vector2( r * 48, 		0)
+					draw_texture( v_edge_top, Vector2( top_start_pos, 0), Color.WHITE )
 					
 					avaiable_top_v_space 	-= width
 					top_start_pos 			+= width
@@ -152,41 +234,58 @@ func _draw():
 		
 		while avaiable_bottom_v_space > 0: ######################### BOTTOM
 			if avaiable_bottom_v_space <= 8:
-				var v_corner_bottom : AtlasTexture = 		S_BORDER_TOP_BOTTOM.duplicate()
-				v_corner_bottom.region.size =				border_v_tile_size
-				v_corner_bottom.region.position = 			Vector2(0, border_v_tile_size.y)
-				draw_texture( v_corner_bottom, Vector2( bottom_start_pos, border_size.y - border_v_tile_size.y), Color.WHITE ) ## The plus 1 is used on the original code
+				var v_edge_bottom : AtlasTexture = 		border_top_bottom.duplicate()
+				if style != B2_CManager.DIAG_BOX.NORMAL:
+					v_edge_bottom.region.size =					border_v_tile_size
+					v_edge_bottom.region.position = 			Vector2( border_h_tile_size.x * 3, 		0)
+				else:
+					v_edge_bottom.region.size =					border_v_tile_size
+					v_edge_bottom.region.position = 			Vector2(0, border_v_tile_size.y)
+				draw_texture( v_edge_bottom, Vector2( bottom_start_pos, border_size.y - border_v_tile_size.y), Color.WHITE ) ## The plus 1 is used on the original code
 				break
 			else:
 				var r := rng.randi_range(0,13) 				# iii = floor(random(14));
+				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var width := bottom_piece_width[ r ] 	# siz = global.borderSize[iii];
 				if avaiable_bottom_v_space - width >= 0:
-					var v_corner_bottom : AtlasTexture = 			S_BORDER_TOP_BOTTOM.duplicate()
-					v_corner_bottom.region.size =					Vector2(width, 		border_v_tile_size.y)
-					v_corner_bottom.region.position = 				Vector2( r * 48, 	border_v_tile_size.y)
+					var v_corner_bottom : AtlasTexture = 			border_top_bottom.duplicate()
+					if style != B2_CManager.DIAG_BOX.NORMAL:
+						v_corner_bottom.region.size =				border_v_tile_size
+						v_corner_bottom.region.position = 			Vector2( border_h_tile_size.x * 3, 		0)
+					else:
+						v_corner_bottom.region.size =				Vector2(width, 		border_v_tile_size.y)
+						v_corner_bottom.region.position = 			Vector2( r * 48, 	border_v_tile_size.y)
 					draw_texture( v_corner_bottom, Vector2( bottom_start_pos, border_size.y - border_v_tile_size.y ), Color.WHITE ) ## The plus 1 is used on the original code
 					
 					avaiable_bottom_v_space 	-= width
 					bottom_start_pos 			+= width
 	
 	## Corners
-	var transp := 1.0#0.25
+	var transp := 1.0 # 0.25
 	if not disable_top_left_corner:
-		var corner_top_left : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
+		var corner_top_left : AtlasTexture = 			border_corners.duplicate()
 		corner_top_left.region.position 		+= Vector2( rng.randi_range(0,3), 0 ) * corner_sprite_size
+		if style != B2_CManager.DIAG_BOX.NORMAL:
+			corner_top_left.region.position 		= Vector2( 1, 0 ) * corner_sprite_size
 		draw_texture( corner_top_left, 		Vector2.ZERO, 												Color(Color.WHITE, transp))
 		
 	if not disable_top_right_corner:
-		var corner_top_right : AtlasTexture = 			S_BORDER_CORNERS.duplicate()
+		var corner_top_right : AtlasTexture = 			border_corners.duplicate()
 		corner_top_right.region.position 		+= Vector2( rng.randi_range(0,3) + 12, 0 ) * corner_sprite_size
+		if style != B2_CManager.DIAG_BOX.NORMAL:
+			corner_top_right.region.position 		= Vector2( 0, 0 ) * corner_sprite_size
 		draw_texture( corner_top_right, 	Vector2(border_size.x - corner_sprite_size.x, 0) , 			Color(Color.WHITE, transp))
 		
 	if not disable_bottom_left_corner:
-		var corner_bottom_left : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
+		var corner_bottom_left : AtlasTexture = 		border_corners.duplicate()
 		corner_bottom_left.region.position 		+= Vector2( rng.randi_range(0,3) + 4, 0 ) * corner_sprite_size
+		if style != B2_CManager.DIAG_BOX.NORMAL:
+			corner_bottom_left.region.position 		= Vector2( 2, 0 ) * corner_sprite_size
 		draw_texture( corner_bottom_left, 	Vector2(0, border_size.y - corner_sprite_size.y), 			Color(Color.WHITE, transp))
 		
 	if not disable_bottom_right_corner:
-		var corner_bottom_right : AtlasTexture = 		S_BORDER_CORNERS.duplicate()
+		var corner_bottom_right : AtlasTexture = 		border_corners.duplicate()
 		corner_bottom_right.region.position 	+= Vector2( rng.randi_range(0,3) + 8, 0 ) * corner_sprite_size
+		if style != B2_CManager.DIAG_BOX.NORMAL:
+			corner_bottom_right.region.position 	= Vector2( 3, 0 ) * corner_sprite_size
 		draw_texture( corner_bottom_right, 	border_size - corner_sprite_size, 							Color(Color.WHITE, transp))
