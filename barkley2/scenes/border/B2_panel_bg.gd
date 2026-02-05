@@ -38,15 +38,12 @@ var is_invisible := false
 
 var bg_opacity := 0.65
 
-@onready var my_seed := hash( randi() )
+@onready var my_seed := hash( name ) # hash( randi() )
 
 @export_category("Style")
 @export var force_style := false
 @export var forced_style := B2_CManager.DIAG_BOX.NORMAL
 @export_tool_button("Update Styling") var _a : Callable = _set_background
-
-@export_category("Borders")
-@export var randomized_edges := true
 
 @export_category("Sizing")
 @export var resize := false:
@@ -88,6 +85,10 @@ func _ready():
 	b_2_panel_fg.disable_bottom_side 			= disable_bottom_side
 	b_2_panel_fg.disable_upper_side 			= disable_upper_side
 	
+	## RNG for the borders
+	set_seed( name )
+	b_2_panel_fg.set_seed( name )
+	
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)
 	#b_2_panel_fg.set_panel_size(border_size.x, border_size.y)
@@ -113,9 +114,11 @@ func _set_background() -> void:
 		B2_CManager.DIAG_BOX.ALT:
 			curr_BG = S_DIAG_BG_ALT
 		B2_CManager.DIAG_BOX.RETRO:
-			breakpoint
+			print("%s: Not supported" % name)
+			#breakpoint
 		_:
-			breakpoint
+			print("%s: Not supported" % name)
+			#breakpoint
 	queue_redraw()
 
 # Decorations are children that this node can control, change color and such.

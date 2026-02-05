@@ -51,7 +51,6 @@ var style : B2_CManager.DIAG_BOX
 func _ready():
 	# Theme
 	theme = preload("res://barkley2/themes/dialogue.tres")
-	rng.seed = get_parent().my_seed
 	z_index = 10
 	
 	# Weird behaviour!
@@ -63,6 +62,10 @@ func _ready():
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
+	queue_redraw()
+
+func set_seed( _seed : String ):
+	rng.seed = hash( _seed )
 	queue_redraw()
 
 func _update_borders() -> void:
@@ -104,8 +107,6 @@ func _update_borders() -> void:
 	queue_redraw()
 	
 func _draw():
-	
-			
 	## Make weights
 	## 8 = 1, 16 = 4, 24 = 4, 32 = 4, 48 = 1      - 14 total
 	if border_size < corner_sprite_size * 2:
@@ -130,9 +131,14 @@ func _draw():
 		## Horizontal
 		var avaiable_left_v_space 		:= border_size.y - start_pos * 2	# (corner_sprite_size.y * 2)	## h = wid - 48;
 		var left_start_pos				:= start_pos	#corner_sprite_size.y							## xxx = 24;
-		var left_piece_height 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
+		var left_piece_height 			: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
+		var failsafe 					:= 250
 		
 		while avaiable_left_v_space > 0: ######################### LEFT
+			failsafe -= 1 ## Avoid cases where an infinite loop happens
+			if failsafe < 0:
+				push_error("Border LEFT is looping eternally!!!! %s fix this." % avaiable_left_v_space); break
+			## Check if there are any small gap. if there is, add a small final tile.
 			if avaiable_left_v_space <= 8:
 				var v_edge_left : AtlasTexture = 			border_left_right.duplicate()
 				if style != B2_CManager.DIAG_BOX.NORMAL:
@@ -142,12 +148,13 @@ func _draw():
 					v_edge_left.region.size =				border_h_tile_size
 					v_edge_left.region.position = 			Vector2.ZERO
 				draw_texture( v_edge_left, Vector2( 0, 		left_start_pos						), Color.WHITE )
+				avaiable_left_v_space = -INF
 				break
-			else:
+			else: ## There is plenty os space, add a normal tile.
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
-				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
+				if style != B2_CManager.DIAG_BOX.NORMAL: 	r = 1
 				var height := left_piece_height[ r ] 	# siz = global.borderSize[iii];
-				if avaiable_left_v_space - height >= 0:
+				if avaiable_left_v_space - height >= 0 or style != B2_CManager.DIAG_BOX.NORMAL: ## Check if the selected tile can fit the avaiable space.
 					var v_edge_left : AtlasTexture = 		border_left_right.duplicate()
 					if style != B2_CManager.DIAG_BOX.NORMAL:
 						v_edge_left.region.size =			border_h_tile_size
@@ -164,8 +171,13 @@ func _draw():
 		var avaiable_right_v_space 		:= border_size.y - start_pos * 2 # (corner_sprite_size.y * 2)	## h = wid - 48;
 		var right_start_pos				:= start_pos # corner_sprite_size.y							## xxx = 24;
 		var right_piece_height 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
+		var failsafe := 250
 		
 		while avaiable_right_v_space > 0: ######################### RIGHT
+			failsafe -= 1
+			if failsafe < 0:
+				push_error("Border RIGHT is looping eternally!!!! %s fix this." % avaiable_right_v_space); break
+			## Check if there are any small gap. if there is, add a small final tile.
 			if avaiable_right_v_space <= 8:
 				var v_edge_right : AtlasTexture = 				border_left_right.duplicate()
 				if style != B2_CManager.DIAG_BOX.NORMAL:
@@ -175,12 +187,13 @@ func _draw():
 					v_edge_right.region.size =					border_h_tile_size
 					v_edge_right.region.position = 				Vector2(140, 0)
 				draw_texture( v_edge_right, Vector2( border_size.x - border_h_tile_size.x, 			right_start_pos), Color.WHITE )
+				avaiable_right_v_space = -INF
 				break
-			else:
+			else: ## There is plenty os space, add a normal tile.
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
 				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var height := right_piece_height[ r ] 	# siz = global.borderSize[iii];
-				if avaiable_right_v_space - height >= 0:
+				if avaiable_right_v_space - height >= 0 or style != B2_CManager.DIAG_BOX.NORMAL: ## Check if the selected tile can fit the avaiable space.
 					var v_edge_right : AtlasTexture = 			border_left_right.duplicate()
 					if style != B2_CManager.DIAG_BOX.NORMAL:
 						v_edge_right.region.size =					border_h_tile_size
@@ -198,8 +211,12 @@ func _draw():
 		var avaiable_top_v_space 		:= border_size.x - start_pos * 2 # (corner_sprite_size.x * 2)	## h = wid - 48;
 		var top_start_pos				:= start_pos # corner_sprite_size.x						## xxx = 24;
 		var top_piece_width 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
-		
+		var failsafe := 250
+		## Check if there are any small gap. if there is, add a small final tile.
 		while avaiable_top_v_space > 0: ######################### TOP
+			failsafe -= 1
+			if failsafe < 0:
+				push_error("Border TOP is looping eternally!!!! %s fix this." % avaiable_top_v_space); break
 			if avaiable_top_v_space <= 8:
 				var v_edge_top : AtlasTexture = 				border_top_bottom.duplicate()
 				if style != B2_CManager.DIAG_BOX.NORMAL:
@@ -209,12 +226,13 @@ func _draw():
 					v_edge_top.region.size =						border_v_tile_size
 					v_edge_top.region.position = 					Vector2.ZERO
 				draw_texture( v_edge_top, Vector2( top_start_pos, 0), Color.WHITE )
+				avaiable_top_v_space = -INF
 				break
-			else:
+			else: ## There is plenty os space, add a normal tile.
 				var r := rng.randi_range(0,13) 			# iii = floor(random(14));
 				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var width := top_piece_width[ r ] 	# siz = global.borderSize[iii];
-				if avaiable_top_v_space - width >= 0:
+				if avaiable_top_v_space - width >= 0 or style != B2_CManager.DIAG_BOX.NORMAL: ## Check if the selected tile can fit the avaiable space.
 					var v_edge_top : AtlasTexture = 			border_top_bottom.duplicate()
 					if style != B2_CManager.DIAG_BOX.NORMAL:
 						v_edge_top.region.size =					border_v_tile_size
@@ -231,8 +249,12 @@ func _draw():
 		var avaiable_bottom_v_space 			:= border_size.x - start_pos * 2 # (corner_sprite_size.x * 2) 	## h = wid - 48;
 		var bottom_start_pos					:= start_pos # corner_sprite_size.x						## xxx = 24;
 		var bottom_piece_width	: Array[int] = [8, 16,16,16,16, 24,24,24,24, 32,32,32,32, 48]
-		
+		var failsafe := 250
+		## Check if there are any small gap. if there is, add a small final tile.
 		while avaiable_bottom_v_space > 0: ######################### BOTTOM
+			failsafe -= 1
+			if failsafe < 0:
+				push_error("Border BOTTOM is looping eternally!!!! %s fix this." % avaiable_bottom_v_space); break
 			if avaiable_bottom_v_space <= 8:
 				var v_edge_bottom : AtlasTexture = 		border_top_bottom.duplicate()
 				if style != B2_CManager.DIAG_BOX.NORMAL:
@@ -242,12 +264,13 @@ func _draw():
 					v_edge_bottom.region.size =					border_v_tile_size
 					v_edge_bottom.region.position = 			Vector2(0, border_v_tile_size.y)
 				draw_texture( v_edge_bottom, Vector2( bottom_start_pos, border_size.y - border_v_tile_size.y), Color.WHITE ) ## The plus 1 is used on the original code
+				avaiable_bottom_v_space = -INF
 				break
-			else:
+			else: ## There is plenty os space, add a normal tile.
 				var r := rng.randi_range(0,13) 				# iii = floor(random(14));
 				if style != B2_CManager.DIAG_BOX.NORMAL: r = 1
 				var width := bottom_piece_width[ r ] 	# siz = global.borderSize[iii];
-				if avaiable_bottom_v_space - width >= 0:
+				if avaiable_bottom_v_space - width >= 0 or style != B2_CManager.DIAG_BOX.NORMAL: ## Check if the selected tile can fit the avaiable space.
 					var v_corner_bottom : AtlasTexture = 			border_top_bottom.duplicate()
 					if style != B2_CManager.DIAG_BOX.NORMAL:
 						v_corner_bottom.region.size =				border_v_tile_size
@@ -259,6 +282,7 @@ func _draw():
 					
 					avaiable_bottom_v_space 	-= width
 					bottom_start_pos 			+= width
+
 	
 	## Corners
 	var transp := 1.0 # 0.25
