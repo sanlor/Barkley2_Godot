@@ -126,6 +126,8 @@ func _draw():
 	
 	#randomize()
 	var start_pos := 24
+	if style != B2_CManager.DIAG_BOX.NORMAL:
+		start_pos = 8
 	
 	if not disable_left_side:
 		## Horizontal
@@ -170,7 +172,7 @@ func _draw():
 	if not disable_right_side:
 		var avaiable_right_v_space 		:= border_size.y - start_pos * 2 # (corner_sprite_size.y * 2)	## h = wid - 48;
 		var right_start_pos				:= start_pos # corner_sprite_size.y							## xxx = 24;
-		var right_piece_height 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
+		var right_piece_height 			: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
 		var failsafe := 250
 		
 		while avaiable_right_v_space > 0: ######################### RIGHT
@@ -210,7 +212,7 @@ func _draw():
 		## Vertical
 		var avaiable_top_v_space 		:= border_size.x - start_pos * 2 # (corner_sprite_size.x * 2)	## h = wid - 48;
 		var top_start_pos				:= start_pos # corner_sprite_size.x						## xxx = 24;
-		var top_piece_width 	: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
+		var top_piece_width 			: Array[int] = [8,16,16,16,16,24,24,24,24,32,32,32,32,48]
 		var failsafe := 250
 		## Check if there are any small gap. if there is, add a small final tile.
 		while avaiable_top_v_space > 0: ######################### TOP
