@@ -54,6 +54,7 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var override_zone_name			:= "" 		## Allow custom zone name (upper text)
 @export var override_zone_flavor		:= "" 		## Allow custom zone flavor (bottom text)
 @export var camera_bound_to_map			:= false 	## Camera cannot see outside the map.
+@export var force_map_rect				:= Rect2()	## Force a map rect, useful for non standard maps with 'camera_bound_to_map' set to true.
 
 @export_category("Room light")
 @export var is_this_room_dark			:= false	## Adds a canvas modulate to the scene, to simulate a dark room
@@ -237,9 +238,13 @@ func _set_region():
 	_hide_collision_layer()
 	
 	## Check the size of all Tilemaplayers to get its real Rect2.
-	for l : TileMapLayer in reference_layer:
-		assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
-		map_rect = map_rect.merge( l.get_used_rect() )
+	if force_map_rect:
+		map_rect = force_map_rect
+		map_rect.size = map_rect.size / 16.0
+	else:
+		for l : TileMapLayer in reference_layer:
+			assert( is_instance_valid(l), "No reference avaiable for the pathfinding stuff" )
+			map_rect = map_rect.merge( l.get_used_rect() )
 		
 	room_size = map_rect.size * 16 ## <- important for B2_EffectAtmo
 	

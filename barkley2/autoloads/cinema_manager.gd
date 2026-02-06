@@ -37,6 +37,7 @@ const O_CTS_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cts_hoopz_nor
 ## Combat actor
 const O_CBT_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
 const O_CBT_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
+const O_CTS_HOOPZ_UNTAMO = preload("uid://b2vvn25wmj64t")
 
 ## Cutscene actor
 const O_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
@@ -122,14 +123,17 @@ func BodySwap( costume_name : String ) -> void:
 		"matthias":
 			o_hoopz_scene		= null
 			o_cts_hoopz_scene	= null
+			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.MATTHIAS
 		"governor":
 			o_hoopz_scene		= null
 			o_cts_hoopz_scene	= null
+			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.GOVERNOR
 		"untamo":
 			o_hoopz_scene		= O_HOOPZ_UNTAMO
-			o_cts_hoopz_scene	= null
+			o_cts_hoopz_scene	= O_CTS_HOOPZ_UNTAMO
+			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.UNTAMO
 		"diaper":
 			o_hoopz_scene		= O_HOOPZ_DIAPER
@@ -139,6 +143,7 @@ func BodySwap( costume_name : String ) -> void:
 		"prison":
 			o_hoopz_scene		= null
 			o_cts_hoopz_scene	= null
+			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.PRISON
 		# Else, You Are Hoopz.
 		_:

@@ -799,7 +799,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if object.has_signal("finished"):
 							await object.finished
 						else:
-							push_error('"CREATE_WAIT": object %s doesnt have the expected signal "finished". Fix this!' % object.name)
+							push_error('"CREATE_WAIT": object %s doesnt have the expected signal "finished". Fix this!git' % object.name)
 					else:
 						push_error("invalid object. -> ", parsed_line)
 							
