@@ -9,3 +9,7 @@ func _ready() -> void:
 func execute_event_user_0():
 	if B2_CManager.o_cts_hoopz:
 		B2_CManager.o_cts_hoopz.hide()
+
+## Not used in the Godot port
+func execute_event_user_1():
+	pass

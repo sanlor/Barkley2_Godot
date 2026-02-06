@@ -386,6 +386,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				line = line.get_slice("//", 0)
 				pass
 				
+			## A 'PackedStringArray' with the cutscene script split up.
 			var parsed_line : PackedStringArray = B2_CManager.cleanup_line( line )
 				
 			# Check for conditions.
@@ -466,8 +467,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if not found_label:
 						# "label" not found. push error
 						push_error("GOTO: label " + target_label + " not found.")
-				"RETURN":
-					assert( stack_pointer != 0, "Invalid Stack Pointer.")
+				"RETURN": ## After a GOTO, you may need to go back to the line that you were before the GOTO action.
+					assert( stack_pointer != 0, "Invalid Stack Pointer. Going back to the top of the script.")
 					curr_line = stack_pointer
 					stack_pointer = 0
 					
@@ -479,6 +480,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					choice_question = parsed_line[1].strip_edges(true,true) as String
 				"WAIT":
 					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
+					## ^^^ this means: if 'WAIT | 0' is called, wait for the previous action to finish.
 					# check Cinema()
 					# check o_wait
 					## Goddamit wilmer! sometimes "wait" doesnt have a time attached. assume it means 0.0
@@ -504,7 +506,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					print("EXIT at line %s." % curr_line)
 					loop_finished = true
 					break # exit the loop
-				"DIALOG", "MYSTERY":
+				"DIALOG", "MYSTERY": # Make a dialog box. Simple AF.
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
 					B2_Screen.add_child( dialogue, true ) # 30/01/26 moved to B2_Screen and set as Control node.
@@ -519,6 +521,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					flourish_portrait 		= ""
 					flourish_time 			= 0.0
 					
+					## If breakout was enabled previously, show it now.
 					if show_breakout:
 						var brk := B2_Breakout.new()
 						brk.breakout_data = breakout_data.duplicate()
@@ -576,10 +579,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							breakpoint
 						
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
-				"NOTIFY":
+				"NOTIFY": 
 					var text := parsed_line[ 1 ] as String
 					await B2_Screen.show_notify_screen( Text.qst( Text.pr(text) ) )
-					
 				"NOTIFYALT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"PLAYSET":
@@ -590,12 +592,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					cinema_kid( actor ) ## Used to wait for animations to finish
 					
 				"SET":
-					await get_tree().process_frame ## Wait to avoid issues with adding hoops to the tree with "call_defered"
+					await get_tree().process_frame ## Wait to avoid issues with adding 'Hoopzes' to the tree with "call_defered"
+					# NOTE I don't know how to spell "defered".
 					var actor 		= get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					var anim_name 	:= str( parsed_line[ 2 ] )
 					actor.cinema_set( anim_name )
-					if debug_set: print("SET: ", parsed_line[1], " - ", str(parsed_line[ 2 ]) )
+					if debug_set: print("SET: ", parsed_line[ 1 ], " - ", str(parsed_line[ 2 ]) )
 				"QUEST":
 					B2_CManager.cinema_quest( parsed_line, debug_quest )
 				
@@ -685,13 +688,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"SOUND":
 					B2_CManager.cinema_sound( parsed_line, debug_sound )
 					#region Deprecated code
-					if parsed_line.size() > 2:
-						# Loops
-						B2_Sound.play( parsed_line[1], 0.0, false, int( parsed_line[2] ) )
-						if debug_sound: print(parsed_line[1], " with %s loops" % parsed_line[2])
-					else:
-						B2_Sound.play( parsed_line[1], 0.0, false )
-						if debug_sound: print(parsed_line[1])
+					#if parsed_line.size() > 2:
+						## Loops
+						#B2_Sound.play( parsed_line[1], 0.0, false, int( parsed_line[2] ) )
+						#if debug_sound: print(parsed_line[1], " with %s loops" % parsed_line[2])
+					#else:
+						#B2_Sound.play( parsed_line[1], 0.0, false )
+						#if debug_sound: print(parsed_line[1])
 					#endregion
 						
 				"EVENT":
@@ -789,14 +792,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"CREATE_WAIT":
 					#breakpoint ## TODO add this function
-					# Create( parsed_line, true ) <- true should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.
+					# Create( parsed_line, true ) <- 'true' should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.
 					# 24/12/25 Clispaeth spoke to me, and it wasnt nice. For the BootyBass club stuff, I had to change a "CREATE" action to "CREATE_WAIT".
 					var object := Create( parsed_line )
 					if is_instance_valid( object ):
 						if object.has_signal("finished"):
 							await object.finished
 						else:
-							push_error('"CREATE_WAIT": object %s doesnt have the expected signal "finished".' % object.name)
+							push_error('"CREATE_WAIT": object %s doesnt have the expected signal "finished". Fix this!' % object.name)
 					else:
 						push_error("invalid object. -> ", parsed_line)
 							
@@ -1094,7 +1097,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						"RESUME":
 							B2_Music.resume_stored_music()
 						"STOP":
-							B2_Music.stop()
+							var speed := 0.25
+							if parsed_line.size() >= 3:
+								speed = float( parsed_line[2] )
+							B2_Music.stop(speed)
 						"PLAY":
 							B2_Music.play( parsed_line[2].strip_edges() )
 				_:

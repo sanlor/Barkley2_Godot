@@ -520,7 +520,7 @@ func _on_hoopz_normal_body_frame_changed() -> void:
 					elif is_on_water:		B2_Sound.play_pick("hoopz_wadestep")
 					else:					B2_Sound.play_pick("hoopz_footstep")
 					move_dist = min_move_dist
-					last_step_frame = combat_lower_sprite.frame
+					last_step_frame = hoopz_normal_body.frame
 				else:
 					move_dist -= 1.0
 				

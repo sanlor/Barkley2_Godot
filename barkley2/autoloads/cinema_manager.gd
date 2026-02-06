@@ -1,5 +1,4 @@
 extends Node
-
 ## B2 Cinema Manager
 ## Keeps track of CinemaScript running on the scene, also handles some of the Combatscript stuff.
 
@@ -154,6 +153,7 @@ func BodySwap( costume_name : String ) -> void:
 func get_BodySwap() -> String:
 	return B2_Config.get_user_save_data( "player.body", "hoopz" )
 	
+## Splits the cutscene script, removes comments and trailing spaces. Returns a clean 'PackedStringArray' with the cutscene script.
 func cleanup_line( line : String ) -> PackedStringArray:
 	var parsed_line : PackedStringArray = line.split( "|", false )
 	# Cleanup
@@ -166,6 +166,7 @@ func cleanup_line( line : String ) -> PackedStringArray:
 		parsed_line[i] = parsed_line[i].strip_edges() 		## cleanup for empty spaces
 	return parsed_line
 	
+## Looks for a 'B2_ROOMS' child with the requested name. If it doesn't find one, it may be a normal situation. Check USEAT actions in the 'B2_Actor' class.
 func get_node_from_name( _name ) -> Object:
 	var node : Object
 	var all_nodes := get_tree().current_scene.get_children()
@@ -214,8 +215,6 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 		# qstVal = float( qstVal ) # 27/07/25 disabled this. having issues with adding strings values to quests.
 		pass
 		
-	
-		
 	if qstVal is String:
 		if qstVal.is_valid_int() or qstVal.is_valid_float():
 			qstVal = float( qstVal )
@@ -228,7 +227,7 @@ func cinema_quest( parsed_line : PackedStringArray, debug := false ) -> void:
 			
 	else: 
 		# 16/08/25 Like always, some very specific bulshit is breaking the code. Its a GREAT idea to mix INT and FLOATS with STRINGS. FUUUUUUN!
-		# 30/12/25 Still having issues with this shit. neet to ensure that we wont try to add a String to a Int or vice-versa.
+		# 30/12/25 Still having issues with this shit. Need to ensure that we wont try to add a String to a Int or vice-versa.
 		# Lets assume that all values are float. cant assume that values are int, because I wont be able to handle operations with float values easily.
 		if qstTyp == "+=":
 			B2_Playerdata.Quest(qstNam, float(B2_Playerdata.Quest(qstNam)) + float(qstVal) )
@@ -248,7 +247,7 @@ func cinema_sound( parsed_line : PackedStringArray, debug := false ) -> void:
 		B2_Sound.play( parsed_line[1], 0.0, false )
 		if debug: print( parsed_line )
 
-## Moves the camera torward a node *OR* torward the average portition of a group of nodes.
+## Moves the camera torward a node *OR* torward the average position of a group of nodes.
 func cinema_frame( parsed_line : PackedStringArray, source, _debug := false ) -> void:
 	var move_points := parsed_line.size() - 2 # first 2 are the action and speed.
 	var move_array : Array[Node2D] = []

@@ -1,16 +1,27 @@
 [gd_scene format=3 uid="uid://b5evdjjapm3in"]
 
 [ext_resource type="Texture2D" uid="uid://crup8fn4c8qef" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_oli_bg1.png" id="1_gra7o"]
+[ext_resource type="Script" uid="uid://drrakp2cyg2nh" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_title.gd" id="1_jj31y"]
 [ext_resource type="Shader" uid="uid://cvrypy5esocos" path="res://barkley2/shaders/shader_code/outline.gdshader" id="2_1t5g8"]
 [ext_resource type="Texture2D" uid="uid://butwk5j6j4sol" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_oli_version.png" id="2_coe5j"]
+[ext_resource type="FontFile" uid="uid://cbgm2fhhwo0ld" path="res://barkley2/resources/fonts/fn2.tres" id="2_tnkbg"]
 [ext_resource type="Texture2D" uid="uid://xgdaskropono" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_oli_text.png" id="3_1t5g8"]
 [ext_resource type="Script" uid="uid://2lhbi3m6h6k1" path="res://barkley2/scenes/Objects/_minigames/VRW/s_mg_vrw_oli_text.gd" id="3_coe5j"]
 [ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="6_mpm7f"]
 [ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="7_s1t6d"]
 [ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="8_ewrcn"]
 [ext_resource type="FontFile" uid="uid://bmt3s8i84e3xl" path="res://barkley2/resources/fonts/fn1.tres" id="9_ewrcn"]
+[ext_resource type="Script" uid="uid://dnt81fs4cait3" path="res://barkley2/scenes/Objects/_minigames/VRW/server_list_border.gd" id="9_jj31y"]
+[ext_resource type="Script" uid="uid://e8ie8wi5ukmm" path="res://barkley2/scenes/Objects/_minigames/VRW/btn_icon.gd" id="10_3jpux"]
 [ext_resource type="Texture2D" uid="uid://f2ctkhhk53i4" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_player_rot.png" id="10_gkw8c"]
+[ext_resource type="Texture2D" uid="uid://dmmw366rffska" path="res://barkley2/assets/b2_original/images/merged/s_return_vrw.png" id="10_olmcm"]
 [ext_resource type="Script" uid="uid://befbdbo87dou7" path="res://barkley2/scenes/Objects/_minigames/VRW/player_avatar_spr.gd" id="11_heysc"]
+[ext_resource type="Script" uid="uid://2t7rya2q308g" path="res://barkley2/scenes/Objects/_minigames/VRW/list_slot_icon.gd" id="13_6f1hp"]
+[ext_resource type="Shader" uid="uid://d1min16et2ge1" path="res://barkley2/shaders/shader_code/b2_outline.gdshader" id="14_8eiht"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_olmcm"]
+font = ExtResource("2_tnkbg")
+font_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ao64"]
 shader = ExtResource("2_1t5g8")
@@ -135,6 +146,18 @@ animations = [{
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_drbu2"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_3jpux"]
+font = ExtResource("2_tnkbg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w2hga"]
+shader = ExtResource("14_8eiht")
+shader_parameter/outline_width = 0.0
+shader_parameter/outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6f1hp"]
+font = ExtResource("2_tnkbg")
+font_color = Color(1, 1, 0, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_low4q"]
 atlas = ExtResource("10_gkw8c")
 region = Rect2(0, 0, 22, 25)
@@ -195,6 +218,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_jj31y")
 
 [node name="bg1" type="TextureRect" parent="." unique_id=814589732]
 modulate = Color(1, 0.40000004, 0, 1)
@@ -219,6 +243,51 @@ texture = ExtResource("1_gra7o")
 stretch_mode = 1
 flip_h = true
 
+[node name="align_title_lbl" type="Label" parent="." unique_id=1965857679]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 37.0
+offset_right = 99.0
+offset_bottom = 60.0
+text = "Alignment"
+label_settings = SubResource("LabelSettings_olmcm")
+
+[node name="class_title_lbl" type="Label" parent="." unique_id=1135032551]
+layout_mode = 0
+offset_left = 305.0
+offset_top = 37.0
+offset_right = 369.0
+offset_bottom = 60.0
+text = "Class"
+label_settings = SubResource("LabelSettings_olmcm")
+
+[node name="server_title_lbl" type="Label" parent="." unique_id=1740173583]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 130.0
+offset_right = 91.0
+offset_bottom = 153.0
+text = "Server"
+label_settings = SubResource("LabelSettings_olmcm")
+
+[node name="players_title_lbl" type="Label" parent="." unique_id=49686949]
+layout_mode = 0
+offset_left = 209.0
+offset_top = 130.0
+offset_right = 273.0
+offset_bottom = 153.0
+text = "Players"
+label_settings = SubResource("LabelSettings_olmcm")
+
+[node name="ping_title_lbl" type="Label" parent="." unique_id=57573755]
+layout_mode = 0
+offset_left = 324.0
+offset_top = 130.0
+offset_right = 388.0
+offset_bottom = 153.0
+text = "Ping"
+label_settings = SubResource("LabelSettings_olmcm")
+
 [node name="SMgVrwOliVersion" type="Sprite2D" parent="." unique_id=1516702230]
 modulate = Color(0.74509805, 0.74509805, 0.74509805, 1)
 material = SubResource("ShaderMaterial_7ao64")
@@ -230,91 +299,91 @@ position = Vector2(105, 20)
 script = ExtResource("3_coe5j")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1751120783]
-self_modulate = Color(0, 0.99999905, 1, 1)
-position = Vector2(0, 2.5288525)
+self_modulate = Color(1, 0.30001116, 0, 1)
+position = Vector2(0, 2.8906426)
 sprite_frames = SubResource("SpriteFrames_low4q")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=364477252]
-self_modulate = Color(0, 0.3899989, 1, 1)
-position = Vector2(15, 1.4454974)
+self_modulate = Color(1, 0.9100113, 0, 1)
+position = Vector2(15, 2.1519852)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 1
 
 [node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=105464151]
-self_modulate = Color(0.22000122, 0, 1, 1)
-position = Vector2(20, 0.008234166)
+self_modulate = Color(0.47998857, 1, 0, 1)
+position = Vector2(20, 0.88644665)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 2
 
 [node name="AnimatedSprite2D4" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1162979588]
-self_modulate = Color(0.8300009, 0, 1, 1)
-position = Vector2(25, -1.431045)
+self_modulate = Color(0, 1, 0.13001156, 1)
+position = Vector2(25, -0.5961249)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 3
 
 [node name="AnimatedSprite2D5" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1441152566]
-self_modulate = Color(1, 0, 0.5599985, 1)
-position = Vector2(40, -2.5199544)
+self_modulate = Color(0, 1, 0.7400112, 1)
+position = Vector2(40, -1.9327443)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 4
 
 [node name="AnimatedSprite2D6" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1239689673]
-self_modulate = Color(1, 0.050001144, 0, 1)
-position = Vector2(55, -2.9918911)
+self_modulate = Color(0, 0.6499882, 1, 1)
+position = Vector2(55, -2.7961605)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 5
 
 [node name="AnimatedSprite2D7" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1119907503]
-self_modulate = Color(1, 0.6600008, 0, 1)
-position = Vector2(70, -2.7313087)
+self_modulate = Color(0, 0.039988518, 1, 1)
+position = Vector2(70, -2.9749792)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 6
 
 [node name="AnimatedSprite2D8" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=991010273]
-self_modulate = Color(0.72999907, 1, 0, 1)
-position = Vector2(85, -1.8020064)
+self_modulate = Color(0.57001114, 0, 1, 1)
+position = Vector2(85, -2.425419)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 7
 
 [node name="AnimatedSprite2D9" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=1665996037]
-self_modulate = Color(0.11999893, 1, 0, 1)
-position = Vector2(100, -0.43151018)
+self_modulate = Color(1, 0, 0.81998825, 1)
+position = Vector2(100, -1.2820318)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 8
 
 [node name="AnimatedSprite2D10" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=996872291]
-self_modulate = Color(0, 1, 0.49000168, 1)
-position = Vector2(121, 1.0446348)
+self_modulate = Color(1, 0, 0.2099886, 1)
+position = Vector2(121, 0.1752415)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 9
 
 [node name="AnimatedSprite2D11" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=28467523]
-self_modulate = Color(0, 0.89999866, 1, 1)
-position = Vector2(136, 2.2650168)
+self_modulate = Color(1, 0.40001106, 0, 1)
+position = Vector2(136, 1.5896096)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 10
 
 [node name="AnimatedSprite2D12" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=792586423]
-self_modulate = Color(0, 0.289999, 1, 1)
-position = Vector2(151, 2.9308436)
+self_modulate = Color(0.9899883, 1, 0, 1)
+position = Vector2(151, 2.6147857)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 11
 
 [node name="AnimatedSprite2D13" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=723531950]
-self_modulate = Color(0.32000065, 0, 1, 1)
-position = Vector2(156, 2.8790977)
+self_modulate = Color(0.37998867, 1, 0, 1)
+position = Vector2(156, 2.9997714)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 12
 
 [node name="AnimatedSprite2D14" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=718279210]
-self_modulate = Color(0.93000126, 0, 1, 1)
-position = Vector2(161, 2.1224482)
+self_modulate = Color(0, 1, 0.23001099, 1)
+position = Vector2(161, 2.6503081)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 13
 
 [node name="AnimatedSprite2D15" type="AnimatedSprite2D" parent="s_mg_vrw_oli_text" unique_id=450229598]
-self_modulate = Color(1, 0, 0.45999908, 1)
-position = Vector2(176, 0.84614956)
+self_modulate = Color(0, 1, 0.8400116, 1)
+position = Vector2(176, 1.651957)
 sprite_frames = SubResource("SpriteFrames_low4q")
 frame = 14
 
@@ -349,32 +418,88 @@ alignment = 1
 
 [node name="alignment_holy_btn" type="Button" parent="alignment_border/MarginContainer/VBoxContainer" unique_id=1096868580]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_ewrcn")
 text = "Holy"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="alignment_border/MarginContainer/VBoxContainer/alignment_holy_btn" unique_id=830236198]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="alignment_dogood_btn" type="Button" parent="alignment_border/MarginContainer/VBoxContainer" unique_id=1999701462]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ewrcn")
 text = "DoGood"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="alignment_border/MarginContainer/VBoxContainer/alignment_dogood_btn" unique_id=1181161827]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="alignment_venga_btn" type="Button" parent="alignment_border/MarginContainer/VBoxContainer" unique_id=560465939]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ewrcn")
 text = "Vengeful"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="alignment_border/MarginContainer/VBoxContainer/alignment_venga_btn" unique_id=1833072788]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="alignment_wicked_btn" type="Button" parent="alignment_border/MarginContainer/VBoxContainer" unique_id=1259082950]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_ewrcn")
 text = "W.I.C.K.E.D"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="alignment_border/MarginContainer/VBoxContainer/alignment_wicked_btn" unique_id=835005476]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="job_border" type="Control" parent="." unique_id=1649384712]
 anchors_preset = 0
@@ -407,32 +532,88 @@ alignment = 1
 
 [node name="job_croupier_btn" type="Button" parent="job_border/MarginContainer/VBoxContainer" unique_id=1595646350]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_drbu2")
 text = "Croupier"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="job_border/MarginContainer/VBoxContainer/job_croupier_btn" unique_id=1850717225]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="job_jobber_btn" type="Button" parent="job_border/MarginContainer/VBoxContainer" unique_id=1404787940]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_drbu2")
 text = "Jobber"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="job_border/MarginContainer/VBoxContainer/job_jobber_btn" unique_id=401208481]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="job_cobbler_btn" type="Button" parent="job_border/MarginContainer/VBoxContainer" unique_id=1719747619]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_drbu2")
 text = "Cobbler"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="job_border/MarginContainer/VBoxContainer/job_cobbler_btn" unique_id=1564570951]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="job_roofer_btn" type="Button" parent="job_border/MarginContainer/VBoxContainer" unique_id=2062231103]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 toggle_mode = true
 button_group = SubResource("ButtonGroup_drbu2")
 text = "Roofer"
 alignment = 0
+script = ExtResource("10_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="job_border/MarginContainer/VBoxContainer/job_roofer_btn" unique_id=1768600033]
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
 
 [node name="server_list_border" type="Control" parent="." unique_id=1318652109]
 anchors_preset = 0
@@ -441,11 +622,225 @@ offset_top = 140.0
 offset_right = 380.0
 offset_bottom = 215.0
 theme = ExtResource("6_mpm7f")
-script = ExtResource("7_s1t6d")
+script = ExtResource("9_jj31y")
 force_style = true
 forced_style = 3
 border_size = Vector2(376, 75)
 metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="server_list_border" unique_id=1453049513]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="server_list_border/MarginContainer" unique_id=406579160]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="list_refresh_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=84885367]
+visible = false
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "Refresh for servers."
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="list_slot_1" type="HBoxContainer" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=1878392492]
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+script = ExtResource("13_6f1hp")
+
+[node name="list_players_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_1" unique_id=398950231]
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_1/list_players_lbl" unique_id=243979589]
+material = SubResource("ShaderMaterial_w2hga")
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
+
+[node name="list_server_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_1" unique_id=1067098404]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "3/16"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="padding" type="Control" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_1" unique_id=311195769]
+custom_minimum_size = Vector2(30.45, 0)
+layout_mode = 2
+
+[node name="list_ping_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_1" unique_id=1917705622]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "9999"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="list_slot_2" type="HBoxContainer" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=1967336412]
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+script = ExtResource("13_6f1hp")
+
+[node name="list_players_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_2" unique_id=1753321369]
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_2/list_players_lbl" unique_id=1957886172]
+material = SubResource("ShaderMaterial_w2hga")
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
+
+[node name="list_server_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_2" unique_id=1363838127]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "7000/7000"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="padding" type="Control" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_2" unique_id=54127605]
+custom_minimum_size = Vector2(30.45, 0)
+layout_mode = 2
+
+[node name="list_ping_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_2" unique_id=1194331728]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "57"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="list_slot_3" type="HBoxContainer" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=1487081092]
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+script = ExtResource("13_6f1hp")
+
+[node name="list_players_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_3" unique_id=1965533929]
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_3/list_players_lbl" unique_id=244377533]
+material = SubResource("ShaderMaterial_w2hga")
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
+
+[node name="list_server_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_3" unique_id=656539037]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "660/800"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="padding" type="Control" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_3" unique_id=272274563]
+custom_minimum_size = Vector2(30.45, 0)
+layout_mode = 2
+
+[node name="list_ping_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_3" unique_id=333732141]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "156"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="list_slot_4" type="HBoxContainer" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=118963370]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+script = ExtResource("13_6f1hp")
+
+[node name="list_players_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_4" unique_id=1305110668]
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_4/list_players_lbl" unique_id=1764161410]
+material = SubResource("ShaderMaterial_w2hga")
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
+
+[node name="list_server_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_4" unique_id=1038841983]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "25/50"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="padding" type="Control" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_4" unique_id=2004870101]
+custom_minimum_size = Vector2(30.45, 0)
+layout_mode = 2
+
+[node name="list_ping_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_4" unique_id=1843031588]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "29"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="list_slot_5" type="HBoxContainer" parent="server_list_border/MarginContainer/VBoxContainer" unique_id=1033097429]
+layout_mode = 2
+focus_mode = 2
+mouse_filter = 0
+script = ExtResource("13_6f1hp")
+
+[node name="list_players_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_5" unique_id=688517643]
+custom_minimum_size = Vector2(163, 0)
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = SubResource("LabelSettings_3jpux")
+
+[node name="SReturnVrw" type="TextureRect" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_5/list_players_lbl" unique_id=825913994]
+material = SubResource("ShaderMaterial_w2hga")
+layout_mode = 0
+offset_left = -12.0
+offset_top = -2.0
+offset_bottom = 12.0
+texture = ExtResource("10_olmcm")
+
+[node name="list_server_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_5" unique_id=1251579242]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "25/50"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
+
+[node name="padding" type="Control" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_5" unique_id=706915524]
+custom_minimum_size = Vector2(30.45, 0)
+layout_mode = 2
+
+[node name="list_ping_lbl" type="Label" parent="server_list_border/MarginContainer/VBoxContainer/list_slot_5" unique_id=1181844370]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "29"
+label_settings = SubResource("LabelSettings_3jpux")
+horizontal_alignment = 1
 
 [node name="server_controls" type="HBoxContainer" parent="." unique_id=146388468]
 layout_mode = 1
@@ -463,26 +858,84 @@ alignment = 1
 [node name="refresh_btn" type="Button" parent="server_controls" unique_id=1751073366]
 custom_minimum_size = Vector2(64, 22)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 theme_override_fonts/font = ExtResource("9_ewrcn")
 text = "Refresh"
 
 [node name="update_btn" type="Button" parent="server_controls" unique_id=644939956]
 custom_minimum_size = Vector2(64, 22)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 theme_override_fonts/font = ExtResource("9_ewrcn")
 text = "Update"
 
 [node name="jack_in_btn" type="Button" parent="server_controls" unique_id=2062308732]
 custom_minimum_size = Vector2(64, 22)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 theme_override_fonts/font = ExtResource("9_ewrcn")
 text = "Jack In"
 
 [node name="jack_out_btn" type="Button" parent="server_controls" unique_id=525098666]
 custom_minimum_size = Vector2(64, 22)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 1, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.74509805, 0.74509805, 0.74509805, 1)
 theme_override_fonts/font = ExtResource("9_ewrcn")
 text = "Jack Out"
+
+[node name="player_name_lbl" type="Label" parent="." unique_id=815193850]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.5
+offset_top = -80.0
+offset_right = 55.5
+offset_bottom = -57.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Klaaust Mitsugiri"
+label_settings = SubResource("LabelSettings_6f1hp")
+horizontal_alignment = 1
+
+[node name="player_class_lbl" type="Label" parent="." unique_id=1929642976]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.5
+offset_top = -9.0
+offset_right = 55.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Dick Sucker"
+label_settings = SubResource("LabelSettings_6f1hp")
+horizontal_alignment = 1
 
 [node name="player_avatar_spr" type="AnimatedSprite2D" parent="." unique_id=130005949]
 position = Vector2(195, 81)
@@ -494,4 +947,55 @@ script = ExtResource("11_heysc")
 wait_time = 0.5
 autostart = true
 
+[node name="window_bg" type="ColorRect" parent="." unique_id=282925120]
+visible = false
+z_index = 1000
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75000006)
+
+[node name="window_border" type="Control" parent="window_bg" unique_id=603097877]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -29.0
+offset_right = 100.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_mpm7f")
+script = ExtResource("7_s1t6d")
+force_style = true
+forced_style = 3
+border_size = Vector2(200, 58)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="window_msg_lbl" type="Label" parent="window_bg/window_border" unique_id=1357003740]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -4.5
+offset_right = 20.0
+offset_bottom = 4.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "PLACEHOLDER"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="server_controls/refresh_btn" to="." method="_on_refresh_btn_pressed"]
+[connection signal="pressed" from="server_controls/update_btn" to="." method="_on_update_btn_pressed"]
+[connection signal="pressed" from="server_controls/jack_in_btn" to="." method="_on_jack_in_btn_pressed"]
+[connection signal="pressed" from="server_controls/jack_out_btn" to="." method="_on_jack_out_btn_pressed"]
 [connection signal="timeout" from="player_avatar_spr/Timer" to="player_avatar_spr" method="_on_timer_timeout"]
