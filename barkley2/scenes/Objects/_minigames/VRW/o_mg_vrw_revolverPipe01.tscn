@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://c33cs54jhwe6r"]
+
+[ext_resource type="Texture2D" uid="uid://cw5giyheu0vr4" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_revolverPipe01.png" id="1_any53"]
+[ext_resource type="Script" uid="uid://bkv2ov681dihu" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_revolver_pipe_01.gd" id="2_8w8ih"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8w8ih"]
+atlas = ExtResource("1_any53")
+region = Rect2(0, 0, 16, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtv4s"]
+atlas = ExtResource("1_any53")
+region = Rect2(16, 0, 16, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fe7ih"]
+atlas = ExtResource("1_any53")
+region = Rect2(32, 0, 16, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmmfw"]
+atlas = ExtResource("1_any53")
+region = Rect2(48, 0, 16, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_adkqj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8w8ih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtv4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fe7ih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmmfw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8w8ih"]
+radius = 6.0
+
+[node name="o_mg_vrw_revolverPipe01" type="AnimatedSprite2D" unique_id=2048533938]
+sprite_frames = SubResource("SpriteFrames_adkqj")
+centered = false
+offset = Vector2(0, -33)
+script = ExtResource("2_8w8ih")
+metadata/default = {
+"bbox_bottom": "37",
+"bbox_left": "0",
+"bbox_right": "15",
+"bbox_top": "26",
+"height": "38",
+"name": "s_mg_vrw_revolverPipe01",
+"width": "16",
+"xorig": "0",
+"yorigin": "33"
+}
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=284242312]
+position = Vector2(8, -14)
+sprite_frames = SubResource("SpriteFrames_adkqj")
+frame = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1021824827]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2079179466]
+position = Vector2(8, -2)
+shape = SubResource("CircleShape2D_8w8ih")

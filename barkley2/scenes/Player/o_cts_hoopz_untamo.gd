@@ -6,7 +6,7 @@ func _ready() -> void:
 	_setup_interactiveactor()
 	
 	disable_auto_flip_h 		= true
-	ANIMATION_STAND 						= "s_cts_hoopz_stand"
+	ANIMATION_STAND 						= "stand"
 	ANIMATION_SOUTH 						= "walk_S"
 	ANIMATION_SOUTHEAST 					= "walk_SE"
 	ANIMATION_SOUTHWEST 					= "walk_SW"
@@ -16,7 +16,7 @@ func _ready() -> void:
 	ANIMATION_NORTHWEST 					= "walk_NW"
 	ANIMATION_EAST 							= "walk_E"
 	ANIMATION_STAND_SPRITE_INDEX 			= [2, 1, 0, 7, 6, 5, 4, 3]
-	ActorAnim.animation						= "s_cts_hoopz_stand"
+	ActorAnim.animation						= "stand"
 	
 	## USEAT Animations
 	useat_map[Vector2.DOWN] =  					"S"

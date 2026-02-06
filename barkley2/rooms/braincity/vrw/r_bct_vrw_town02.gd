@@ -15,7 +15,7 @@ func _ready() -> void:
 	B2_CManager.BodySwap("untamo");
 	B2_CManager.curr_DIAG_BOX = B2_CManager.DIAG_BOX.VRW
 	
-	B2_Screen.hide_hud( true )
+	
 	
 	## Visited VRW at least once ##
 	B2_Playerdata.Quest("vrwLoggedIn", 1);
@@ -39,17 +39,23 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 		
+	## Hide hud
+	B2_Playerdata.Quest("hudVisible", 0)
+	B2_Screen.hide_hud( true )
+		
 	## Disable camera offset
+	B2_Playerdata.Quest("FollowMouseDisabled", 1)
 	B2_CManager.camera.follow_mouse = false
 
 func _physics_process(_delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-		
+	#print( B2_Playerdata.Quest("hudVisible" ) )
 	if B2_CManager.o_hoopz: ## Map Wrap around
 		if B2_CManager.o_hoopz.position.x <= 192:
 			B2_CManager.o_hoopz.position.x += force_map_rect.size.x - 384;
 			B2_CManager.camera.global_position = B2_CManager.o_hoopz.position
+			
 		if B2_CManager.o_hoopz.position.x + 192 >= force_map_rect.size.x:
 			B2_CManager.o_hoopz.position.x -= force_map_rect.size.x - 384;
 			B2_CManager.camera.global_position = B2_CManager.o_hoopz.position
@@ -57,5 +63,7 @@ func _physics_process(_delta: float) -> void:
 func _on_tree_exiting() -> void:
 	## Change to default dialog skin and BodySwap Hoopz
 	B2_CManager.BodySwap("hoopz");
+	B2_Playerdata.Quest("FollowMouseDisabled", 0)
+	B2_Playerdata.Quest("hudVisible", 1)
 	B2_CManager.curr_DIAG_BOX = B2_CManager.DIAG_BOX.NORMAL
 	B2_CManager.camera.follow_mouse = true

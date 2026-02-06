@@ -39,7 +39,11 @@ var limit_width 	:= Vector2.ZERO
 
 # camera position is influenced by the mouse position
 @export var follow_mouse_overide := false
-var follow_mouse := false
+var follow_mouse := false :# Also check B2_Playerdata.Quest("FollowMouseDisabled")
+	set(f):
+		follow_mouse = false
+		if B2_Playerdata.Quest("FollowMouseDisabled") == 0 and f:
+			follow_mouse = f
 
 @export var player_node_overide : Node2D
 var player_node : Node2D
@@ -280,6 +284,19 @@ func _update_debug_data():
 	debug_data.text += 	"Limit Height: " 	+ str(limit_height) 	+ "\n"
 	debug_data.text += 	"Limit Hidth: " 	+ str(limit_width)
 	
+func bind_camera_to_map() -> void:
+	## When the HUD is open, it messes the camera bounding when the player leaves via a door to the south.
+	## Add a offset to account for that.
+	var hud_offset := 0.0
+	if B2_CManager.o_hud:
+		if B2_CManager.o_hud.visible:
+			hud_offset = 40.0
+			
+	## Avoid seeing outside the map.
+	## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
+	offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
+	offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y - hud_offset) )
+	
 ## NOTE I keep changing this from "_process" to "_physics_process" and back to "_process". I keep having issues with jittery movement.
 #func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
@@ -318,6 +335,8 @@ func _physics_process(delta: float) -> void:
 			
 			offset 		= offset.move_toward( camera_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
 			#offset 		= offset.lerp( camera_normal_offset, 0.125 * camera_follow_speed * delta ) + camera_shake_offset
+			if camera_bound_to_map:
+				bind_camera_to_map()
 			
 		MODE.CINEMA:
 			if is_moving:
@@ -331,6 +350,8 @@ func _physics_process(delta: float) -> void:
 			#position = _position.floor()
 			offset	= offset.move_toward(camera_offset, camera_follow_speed * delta) + camera_shake_offset
 			#position = _position
+			if camera_bound_to_map:
+				bind_camera_to_map()
 			
 		MODE.FOLLOW:
 			if is_instance_valid( player_node ):
@@ -368,18 +389,8 @@ func _physics_process(delta: float) -> void:
 				offset = offset.lerp( camera_offset + camera_shake_offset, 0.05 )
 			
 			if camera_bound_to_map:
-				## When the HUD is open, it messes the camera bounding when the player leaves via a door to the south.
-				## Add a offset to account for that.
-				var hud_offset := 0.0
-				if B2_CManager.o_hud:
-					if B2_CManager.o_hud.visible:
-						hud_offset = 40.0
-						
-				## Avoid seeing outside the map.
-				## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
-				offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
-				offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y - hud_offset) )
-		
+				bind_camera_to_map()
+				
 		MODE.COMBAT:
 			offset = offset.lerp( camera_offset, (speed / 200.0) ) + camera_shake_offset
 			position = position.lerp( focus, (speed / 200.0) )

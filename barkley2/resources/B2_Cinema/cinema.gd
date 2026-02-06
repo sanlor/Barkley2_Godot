@@ -224,7 +224,7 @@ func end_cutscene():
 	
 	# actors may moved during the cutscene, update the PF.
 	update_pathfinding()
-	if is_instance_valid( B2_Screen.get_hud() ):
+	if is_instance_valid( B2_Screen.get_hud() ) and B2_Playerdata.Quest("hudVisible") == 1:
 		B2_Screen.get_hud().show_hud()
 		await B2_SignalBus.hud_visibility_changed
 	
