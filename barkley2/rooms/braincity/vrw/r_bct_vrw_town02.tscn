@@ -36,6 +36,8 @@
 [ext_resource type="PackedScene" uid="uid://daj48javx3oy7" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_statue.tscn" id="28_7ju4w"]
 [ext_resource type="Texture2D" uid="uid://bgf80yrcch4gr" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_milk.png" id="28_oy0sn"]
 [ext_resource type="PackedScene" uid="uid://dnbmflp2m8h0w" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_spin.tscn" id="28_wjgyx"]
+[ext_resource type="PackedScene" uid="uid://cha0jq6pwx8kp" path="res://barkley2/scenes/Objects/_minigames/VRW/chat_messages.tscn" id="37_h83h8"]
+[ext_resource type="PackedScene" uid="uid://dg8gf6r7b0xvi" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_untamo_spawner.tscn" id="37_wxuus"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tla5x"]
 vertices = PackedVector2Array(353, 145, 353, 129, 383, 129, 383, 145, 545, 145, 545, 129, 575, 129, 575, 145, 721, 145, 721, 129, 751, 129, 751, 145, 929, 145, 929, 129, 959, 129, 959, 145, 1281, 145, 1281, 129, 1311, 129, 1311, 145, 1409, 145, 1409, 129, 1439, 129, 1439, 244, 1, 244, 255, 145, 1, 145, 225, 145, 255, 129, 225, 129)
@@ -834,7 +836,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_wjgyx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ke3a3"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_pun5p"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -889,7 +891,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_prdgb"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_3pjga"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1486,7 +1488,7 @@ tile_set = ExtResource("7_sjdcy")
 
 [node name="o_doorlight_up2" parent="." unique_id=1280128190 instance=ExtResource("8_l4ve0")]
 position = Vector2(224, 128)
-sprite_frames = SubResource("SpriteFrames_ke3a3")
+sprite_frames = SubResource("SpriteFrames_pun5p")
 teleport_destination = "r_bct_vrw_trigal01, 200, 376);
 visible = false;
 pushTime = 0.1; // In seconds how long you need to hold
@@ -1502,7 +1504,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=1124100964 instance=ExtResource("8_l4ve0")]
 position = Vector2(352, 128)
-sprite_frames = SubResource("SpriteFrames_prdgb")
+sprite_frames = SubResource("SpriteFrames_3pjga")
 teleport_destination = "r_bct_vrw_milkbar01, 224, 216);
 visible = false;
 pushTime = 0.1; // In seconds how long you need to hold
@@ -1514,44 +1516,18 @@ pushResist = 70; // Pushing resist, higher is more pusback"
 metadata/inst_name = "inst_600F7E2D"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_vrw_gulag" type="AnimatedSprite2D" parent="." unique_id=50121668 instance=ExtResource("17_t1vyh")]
+[node name="o_mg_vrw_gulag" parent="." unique_id=50121668 instance=ExtResource("17_t1vyh")]
 position = Vector2(768, 112)
 sprite_frames = SubResource("SpriteFrames_73aak")
-autoplay = "default"
-frame_progress = 0.5857041
-centered = false
-metadata/default = {
-"bbox_bottom": "15",
-"bbox_left": "0",
-"bbox_right": "63",
-"bbox_top": "0",
-"height": "16",
-"name": "s_mg_vrw_gulag",
-"width": "64",
-"xorig": "0",
-"yorigin": "0"
-}
+frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_7850956B"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_vrw_primogorm" type="AnimatedSprite2D" parent="." unique_id=754416704 instance=ExtResource("19_h83h8")]
+[node name="o_mg_vrw_primogorm" parent="." unique_id=754416704 instance=ExtResource("19_h83h8")]
 position = Vector2(464, 112)
 sprite_frames = SubResource("SpriteFrames_gmicx")
-autoplay = "default"
-frame_progress = 0.9235911
-centered = false
-metadata/default = {
-"bbox_bottom": "15",
-"bbox_left": "0",
-"bbox_right": "63",
-"bbox_top": "3",
-"height": "16",
-"name": "s_mg_vrw_primogorm",
-"width": "64",
-"xorig": "0",
-"yorigin": "0"
-}
+frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_4FACC348"
 metadata/scale = Vector2(1, 1)
@@ -1765,24 +1741,10 @@ metadata/code = ""
 metadata/inst_name = "inst_E2478586"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_mg_vrw_milk" type="AnimatedSprite2D" parent="." unique_id=471486814 instance=ExtResource("27_3pjga")]
+[node name="o_mg_vrw_milk" parent="." unique_id=471486814 instance=ExtResource("27_3pjga")]
 position = Vector2(368, 77)
 sprite_frames = SubResource("SpriteFrames_xk7qp")
-autoplay = "default"
-frame_progress = 0.94621456
-centered = false
-offset = Vector2(-14, -6)
-metadata/default = {
-"bbox_bottom": "12",
-"bbox_left": "0",
-"bbox_right": "27",
-"bbox_top": "0",
-"height": "13",
-"name": "s_mg_vrw_milk",
-"width": "28",
-"xorig": "14",
-"yorigin": "6"
-}
+frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_70A9E793"
 metadata/scale = Vector2(1, 1)
@@ -1799,11 +1761,10 @@ metadata/code = ""
 metadata/inst_name = "inst_2DB65BA3"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_mg_vrw_untamo_spawner" type="Marker2D" parent="." unique_id=345892082]
+[node name="chat_messages" parent="." unique_id=1143811239 instance=ExtResource("37_h83h8")]
+
+[node name="o_mg_vrw_untamo_spawner" parent="." unique_id=657205048 instance=ExtResource("37_wxuus")]
 position = Vector2(-128, 0)
-metadata/code = ""
-metadata/inst_name = "inst_E7918570"
-metadata/scale = Vector2(1, 1)
 
 [node name="P12 - o_hud_stealther" type="Marker2D" parent="." unique_id=1074734]
 position = Vector2(-128, 32)
