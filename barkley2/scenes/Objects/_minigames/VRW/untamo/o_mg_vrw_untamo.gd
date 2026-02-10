@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends CollisionShape2D
 
 @onready var untamo_body: 	AnimatedSprite2D = $untamo_body
 @onready var untamo_head: 	AnimatedSprite2D = $untamo_head
