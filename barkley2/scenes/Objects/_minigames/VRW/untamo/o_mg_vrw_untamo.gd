@@ -1,4 +1,5 @@
 extends CollisionShape2D
+class_name B2_Minigame_VRW_Untamo
 
 @onready var untamo_body: 	AnimatedSprite2D = $untamo_body
 @onready var untamo_head: 	AnimatedSprite2D = $untamo_head

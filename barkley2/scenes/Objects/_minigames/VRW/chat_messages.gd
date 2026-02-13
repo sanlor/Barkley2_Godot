@@ -1,4 +1,5 @@
 extends VBoxContainer
+class_name B2_Minigame_VRW_Messages
 
 @onready var timer: Timer = $Timer
 
@@ -65,13 +66,13 @@ func scr_vrw_message() -> String:
 	var ped_messages : String = [
 		["Hi", "Hey", "Hello", "Sup", "Selam", "Greets", "Meets", "Salutations", "hell;o[", "ho", "hep", "hep ho"].pick_random(),
 		["argh popper ruin my score", "i slayed " + num + " popper", "I kill Popper's with great ease.", "popper dead", "popper down", "bap popper now", "Time to Bap some Popper's..."].pick_random(),
-		["where " + str(loc).to_lower(), "how to goto " + str( loc ).to_lower(), "Where is " + str( loc ) + "?", "I found " + str( loc ) + "!"].pick_random(),
+		["where " + str( loc ).to_lower(), "how to goto " + str( loc ).to_lower(), "Where is " + str( loc ) + "?", "I found " + str( loc ) + "!"].pick_random(),
 		["i hat u", "i hate you", "gor to hell", "get out of here", "Go away!", "Scram you whelp!", "I dislike you strongly."].pick_random(),
 		["tx", "thx", "thnks", "thanx", "thanks", "Thanks.", "Thank you!", "Wow, thanks so much!"].pick_random(),
 		["mub boot?", "ne1 hav mud boot?", "Anyone have mud boots?"].pick_random(),
 		["bonus time?", "where is does bonus", "When does the bonus start?"].pick_random(),
 		["trade " + str( it0 ).to_lower() + " for " + str( it1 ).to_lower() + "?", "where to get " + [it0, it1].pick_random() + "?", "Anyone have " + str( it0 ).to_lower()+ "?"].pick_random(),
-		["team up " + str(tea).to_lower() + "?", "any " + str( tea ).to_lower() + " to raid?", "Looking for a " + str( tea ) + "."],
+		["team up " + str( tea ).to_lower() + "?", "any " + str( tea ).to_lower() + " to raid?", "Looking for a " + str( tea ) + "."],
 		["milk bar = scam", "wow!!! milk bar rip me off!!!", "The Milk Bar is a rip-off!"].pick_random(),
 		["GO TO ******.** AND SIGN UP", "visit my page *****.***.**", "Here's my page: ******.***"].pick_random(),
 		["WHERE IS " + scr_vrw_username() + "!", "where did " + scr_vrw_username() + " go", "Hey, does anyone know " + scr_vrw_username() + "?"].pick_random(),
@@ -80,8 +81,8 @@ func scr_vrw_message() -> String:
 	
 	return [ped_messages, ped_messages.to_lower(), ped_messages.to_upper()].pick_random()
 
-func _ready() -> void:
-	## Cleanup
-	for i in message_array:
-		i.queue_free()
-	timer
+#func _ready() -> void:
+	### Cleanup
+	#for i in message_array:
+		#i.queue_free()
+	#timer
