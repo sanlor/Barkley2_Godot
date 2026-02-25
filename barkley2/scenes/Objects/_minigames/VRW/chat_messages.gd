@@ -5,7 +5,8 @@ class_name B2_Minigame_VRW_Messages
 
 var message_array := [$message_lbl_1,$message_lbl_2,$message_lbl_3,$message_lbl_4,$message_lbl_5,]
 
-func scr_vrw_username() -> String:
+## Generate a sudo-random username
+static func scr_vrw_username() -> String:
 	var nam : String = ["Garth", "Wendy", "Dundit", "Perry", "Tony", "Samson", "Babs", "Zorb", "Mandy", "Paula", "Sandra"].pick_random()
 	var ggg := randi_range(0,2);
 	match ggg:
@@ -45,6 +46,7 @@ func scr_vrw_username() -> String:
 	var fir : String = [adj, ali].pick_random()
 	var sec : String = [cla, nam].pick_random()
 	ggg = randi_range(0,9);
+	
 	if ggg <= 7:
 		return flo + fir + sec + num + flo;
 	elif ggg == 8:
@@ -52,7 +54,8 @@ func scr_vrw_username() -> String:
 	else:
 		return flo + "-" + fir + "-" + sec + "-" + num + "-" + flo;
 	
-func scr_vrw_message() -> String:
+## Generate a sudo-random chat message
+static func scr_vrw_message() -> String:
 	## scr_vrw_message()
 	# Generates a message for VRW
 	var ali : String = ["Holy", "DoGood", "Vengeful", "Wicked"].pick_random()
@@ -62,7 +65,8 @@ func scr_vrw_message() -> String:
 	var it1 : String = ["mud boot", "wap bap", "leather", "tin can"].pick_random()
 	var loc : String = ["Tomb of Gorfald", "Popper's Burrow", "Mud Mountain", "Easy Street", "The Grapevine"].pick_random()
 	var num : String = str( randi_range(0,50) )
-
+	
+	## Can't be a CONST, since we need to do some random checks.
 	var ped_messages : String = [
 		["Hi", "Hey", "Hello", "Sup", "Selam", "Greets", "Meets", "Salutations", "hell;o[", "ho", "hep", "hep ho"].pick_random(),
 		["argh popper ruin my score", "i slayed " + num + " popper", "I kill Popper's with great ease.", "popper dead", "popper down", "bap popper now", "Time to Bap some Popper's..."].pick_random(),

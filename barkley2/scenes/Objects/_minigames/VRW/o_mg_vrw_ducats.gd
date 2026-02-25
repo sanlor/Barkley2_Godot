@@ -1,4 +1,8 @@
 extends B2_EnvironInteractive
+class_name B2_Minigame_VRW_Ducats
+
+var clones : Array[Node2D]
+var rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	var cutscene := B2_Script_Legacy.new()
@@ -9,7 +13,7 @@ func _ready() -> void:
 	EVENT   | %s | 0" % name
 	cutscene_script = cutscene
 	
-	speed_scale = randf_range(0.8,1.2)
+	speed_scale = rng.randf_range(0.8,1.2)
 	
 func execute_event_user_0():
 	is_interactive = false

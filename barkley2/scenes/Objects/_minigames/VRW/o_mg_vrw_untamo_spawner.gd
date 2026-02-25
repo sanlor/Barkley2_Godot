@@ -11,7 +11,7 @@ func _ready() -> void:
 	var rand_untamos := randi_range(15, 25)
 	untamo.resize( rand_untamos )
 	
-	for i : int in randi_range(15, 25):
+	for i : int in rand_untamos:
 		var _untamo := O_MG_VRW_OBJECT.instantiate()
 		
 		## Starting position ##
