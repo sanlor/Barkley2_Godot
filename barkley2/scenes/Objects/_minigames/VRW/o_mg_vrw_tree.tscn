@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bbrucamnchn4b"]
 
 [ext_resource type="Texture2D" uid="uid://2jgnril1fd7h" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_tree.png" id="1_0xtlp"]
+[ext_resource type="Script" uid="uid://cex23piehm3mw" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_tree_base.gd" id="1_ygkod"]
 [ext_resource type="Script" uid="uid://dg2mg5tjw3r53" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_tree.gd" id="2_dsewo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dsewo"]
@@ -56,7 +57,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ygkod"]
 radius = 5.0990195
 
-[node name="o_mg_vrw_tree" type="AnimatedSprite2D" unique_id=1488653255]
+[node name="o_mg_vrw_tree_base" type="Node2D" unique_id=1819765455]
+script = ExtResource("1_ygkod")
+
+[node name="o_mg_vrw_tree" type="AnimatedSprite2D" parent="." unique_id=1488653255]
 sprite_frames = SubResource("SpriteFrames_g7c3u")
 centered = false
 offset = Vector2(-11, -31)
@@ -73,8 +77,8 @@ metadata/default = {
 "yorigin": "31"
 }
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=41948556]
+[node name="StaticBody2D" type="StaticBody2D" parent="o_mg_vrw_tree" unique_id=41948556]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1927480533]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_mg_vrw_tree/StaticBody2D" unique_id=1927480533]
 position = Vector2(8, 5)
 shape = SubResource("CircleShape2D_ygkod")

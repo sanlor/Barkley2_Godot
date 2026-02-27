@@ -17,22 +17,25 @@ var usrCol := Color.HOT_PINK
 var my_identity := 0
 
 func _ready() -> void:
-	var index_head := randi_range(0,7);
-	var index_eyes := randi_range(0,14);
-	var index_hair := randi_range(0,14);
-	var index_mouth := randi_range(0,14);
-	var index_nose := randi_range(0,14);
-	var bodCol := Color.from_hsv(randf(), 1.0, 1.0);
-	var heaCol := Color.from_hsv(randf(), 1.0, 1.0);
-	var haiCol := Color.from_hsv(randf(), 1.0, 1.0);
+	var index_head 	:= randi_range( 0,7		);
+	var index_eyes 	:= randi_range( 0,14	);
+	var index_hair 	:= randi_range( 0,14	);
+	var index_mouth := randi_range( 0,14	);
+	var index_nose 	:= randi_range( 0,14	);
+	var bodCol 		:= Color.from_hsv(randf(), 1.0, 1.0);
+	var heaCol 		:= Color.from_hsv(randf(), 1.0, 1.0);
+	var haiCol 		:= Color.from_hsv(randf(), 1.0, 1.0);
 	
-	usrCol = Color.from_hsv(randf(), 1.0, 1.0);
-	var children := get_children()
-	assert( children.size() == 1, "More than one child is not expected. Check this shit out, homie." )
-	o_mg_vrw_untamo_body = B2_Minigame_VRW_Object.dew_it( children.front() )
+	usrCol = Color.from_hsv( randf(), 1.0, 1.0 );
 	
-	if messages:
-		usrNam = messages.scr_vrw_username()
+	## Clone object
+	var child : B2_Minigame_VRW_Untamo_Body = get_children().front()
+	assert( child, "More than one child is not expected. Check this shit out, homie." )
+	o_mg_vrw_untamo_body = B2_Minigame_VRW_Object.dew_it( child )
+	o_mg_vrw_untamo_body.append( child )
+	
+	## Set username for this ped.
+	usrNam = B2_Minigame_VRW_Messages.scr_vrw_username()
 		
 	await get_tree().process_frame
 	for body : B2_Minigame_VRW_Untamo_Body in o_mg_vrw_untamo_body:

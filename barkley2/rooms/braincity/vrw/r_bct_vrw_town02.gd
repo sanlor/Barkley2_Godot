@@ -15,13 +15,6 @@ func _ready() -> void:
 	B2_CManager.BodySwap("untamo");
 	B2_CManager.curr_DIAG_BOX = B2_CManager.DIAG_BOX.VRW
 	
-	for i in get_children():
-		if i is B2_Minigame_VRW_Ducats or i is B2_Minigame_VRW_Spin or i is B2_Minigame_VRW_Tree:
-			i.rng.seed = randi()
-			i.clones = B2_Minigame_VRW_Object.dew_it( i )
-			for ii in i.clones:
-				ii.request_ready()
-	
 	## Visited VRW at least once ##
 	B2_Playerdata.Quest("vrwLoggedIn", 1);
 	

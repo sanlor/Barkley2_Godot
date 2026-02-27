@@ -3,7 +3,7 @@ class_name B2_Minigame_VRW_Messages
 
 @onready var timer: Timer = $Timer
 
-var message_array := [$message_lbl_1,$message_lbl_2,$message_lbl_3,$message_lbl_4,$message_lbl_5,]
+#var message_array := [$message_lbl_1,$message_lbl_2,$message_lbl_3,$message_lbl_4,$message_lbl_5,]
 
 ## Generate a sudo-random username
 static func scr_vrw_username() -> String:

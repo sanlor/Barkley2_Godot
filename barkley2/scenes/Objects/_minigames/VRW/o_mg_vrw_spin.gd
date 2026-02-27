@@ -8,11 +8,13 @@ class_name B2_Minigame_VRW_Spin
 
 var t : Tween
 var rng := RandomNumberGenerator.new()
-var clones : Array[Node2D]
 
 func _ready() -> void:
 	frame = 1
-	timer.stop()
+	o_mg_vrw_spin.position.y = 40.0
+
+func begin() -> void:
+	frame = 1
 	timer.start( rng.randf_range(1.5,3.5) )
 	o_mg_vrw_spin.play()
 

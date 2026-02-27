@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dnbmflp2m8h0w"]
 
 [ext_resource type="Texture2D" uid="uid://xe2v1yg0k0hf" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_spin.png" id="1_8tdm8"]
+[ext_resource type="Script" uid="uid://crnqeesjuscsv" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_spin_dupe.gd" id="1_gp5gy"]
 [ext_resource type="Texture2D" uid="uid://blsec7j3kgorp" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_spinbase.png" id="1_t6no5"]
 [ext_resource type="Script" uid="uid://crh26id7f1mqq" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_spin.gd" id="2_kjdur"]
 [ext_resource type="AudioStream" uid="uid://de2ww6la8g1na" path="res://barkley2/assets/b2_original/audio/Cutscenes/sn_camera_snap01.ogg" id="4_kjdur"]
@@ -175,13 +176,16 @@ animations = [{
 "speed": 7.5
 }]
 
-[node name="s_mg_vrw_spinbase" type="AnimatedSprite2D" unique_id=507810836]
+[node name="o_mg_vrw_spin_dupe" type="Node2D" unique_id=1726969191]
+script = ExtResource("1_gp5gy")
+
+[node name="s_mg_vrw_spinbase" type="AnimatedSprite2D" parent="." unique_id=507810836]
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_2uhkg")
 frame = 1
 script = ExtResource("2_kjdur")
 
-[node name="clipper" type="Control" parent="." unique_id=1933284287]
+[node name="clipper" type="Control" parent="s_mg_vrw_spinbase" unique_id=1933284287]
 clip_contents = true
 layout_mode = 3
 anchors_preset = 0
@@ -190,12 +194,12 @@ offset_top = -37.0
 offset_right = 5.0
 offset_bottom = 3.0
 
-[node name="o_mg_vrw_spin" type="AnimatedSprite2D" parent="clipper" unique_id=1613137151]
-modulate = Color(0.9538593, 0, 1, 1)
-position = Vector2(0, 40)
+[node name="o_mg_vrw_spin" type="AnimatedSprite2D" parent="s_mg_vrw_spinbase/clipper" unique_id=1613137151]
+modulate = Color(0.56904113, 1, 0, 1)
+position = Vector2(0, 17.310045)
 sprite_frames = SubResource("SpriteFrames_w8njf")
-frame_progress = 0.21745205
-speed_scale = 7.111115
+frame_progress = 0.11487592
+speed_scale = 6.5230603
 centered = false
 metadata/default = {
 "bbox_bottom": "25",
@@ -209,17 +213,17 @@ metadata/default = {
 "yorigin": "0"
 }
 
-[node name="s_mg_vrw_spinbase_top" type="AnimatedSprite2D" parent="." unique_id=689934852]
+[node name="s_mg_vrw_spinbase_top" type="AnimatedSprite2D" parent="s_mg_vrw_spinbase" unique_id=689934852]
 sprite_frames = SubResource("SpriteFrames_2uhkg")
 
-[node name="Timer" type="Timer" parent="." unique_id=743518184]
-wait_time = 2.446744795779709
+[node name="Timer" type="Timer" parent="s_mg_vrw_spinbase" unique_id=743518184]
+wait_time = 1.6972455
 one_shot = true
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=134242328]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="s_mg_vrw_spinbase" unique_id=134242328]
 stream = ExtResource("4_kjdur")
 pitch_scale = 0.9215895
 max_distance = 500.0
 bus = &"Audio"
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="s_mg_vrw_spinbase/Timer" to="s_mg_vrw_spinbase" method="_on_timer_timeout"]

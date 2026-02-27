@@ -5,5 +5,5 @@ var clones : Array[Node2D]
 
 var rng := RandomNumberGenerator.new()
 
-func _ready() -> void:
+func begin() -> void:
 	frame = rng.randi_range(0,5)

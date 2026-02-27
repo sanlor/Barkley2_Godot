@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://lu5466wjjr06"]
 
+[ext_resource type="Script" uid="uid://bynhhmqqkpafs" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_ducats_dupe.gd" id="1_a6lxl"]
 [ext_resource type="Texture2D" uid="uid://becoocfcrfvcy" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_ducats.png" id="1_e5f6s"]
 [ext_resource type="Script" uid="uid://bcdn4aidn8igv" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_ducats.gd" id="2_a6lxl"]
 [ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_xikkn"]
@@ -163,7 +164,10 @@ metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 [sub_resource type="CircleShape2D" id="CircleShape2D_4w0uh"]
 radius = 16.03122
 
-[node name="o_mg_vrw_ducats" type="AnimatedSprite2D" unique_id=1077942712 node_paths=PackedStringArray("mouse_detection_area")]
+[node name="o_mg_vrw_ducats_dupe" type="Node2D" unique_id=1622000066]
+script = ExtResource("1_a6lxl")
+
+[node name="o_mg_vrw_ducats" type="AnimatedSprite2D" parent="." unique_id=1077942712 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_x3a8w")
 autoplay = "default"
 frame_progress = 0.5720822
@@ -184,9 +188,9 @@ metadata/default = {
 "yorigin": "13"
 }
 
-[node name="Area2D" type="Area2D" parent="." unique_id=560378366]
+[node name="Area2D" type="Area2D" parent="o_mg_vrw_ducats" unique_id=560378366]
 collision_layer = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1633745189]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_mg_vrw_ducats/Area2D" unique_id=1633745189]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_4w0uh")
