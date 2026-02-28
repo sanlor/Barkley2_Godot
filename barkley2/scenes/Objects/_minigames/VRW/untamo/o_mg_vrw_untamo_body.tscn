@@ -17,6 +17,14 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ecgo1"]
 radius = 5.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jjjp"]
+atlas = ExtResource("3_wl3q7")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcqxe"]
+atlas = ExtResource("3_wl3q7")
+region = Rect2(160, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_rymc7"]
 atlas = ExtResource("3_wl3q7")
 region = Rect2(0, 0, 32, 32)
@@ -33,20 +41,28 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("3_wl3q7")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2jjjp"]
-atlas = ExtResource("3_wl3q7")
-region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bcqxe"]
-atlas = ExtResource("3_wl3q7")
-region = Rect2(160, 0, 32, 32)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_hmqrn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rymc7")
+"texture": SubResource("AtlasTexture_2jjjp")
 }, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcqxe")
+}],
+"loop": true,
+"name": &"emote",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rymc7")
+}],
+"loop": true,
+"name": &"stand",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6jeou")
 }, {
@@ -55,15 +71,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m16wy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2jjjp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bcqxe")
 }],
 "loop": true,
-"name": &"default",
+"name": &"walk",
 "speed": 5.0
 }]
 
@@ -713,6 +723,9 @@ texture = ExtResource("2_1ylck")
 [node name="untamo_body" type="AnimatedSprite2D" parent="." unique_id=1919971054]
 position = Vector2(0, -10)
 sprite_frames = SubResource("SpriteFrames_hmqrn")
+animation = &"stand"
+frame_progress = 0.21288793
+speed_scale = 2.0
 
 [node name="untamo_head" type="AnimatedSprite2D" parent="." unique_id=1493241830]
 position = Vector2(0, -13)

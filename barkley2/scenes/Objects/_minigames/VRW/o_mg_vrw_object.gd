@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends CharacterBody2D
 class_name B2_Minigame_VRW_Object
 
 const ROOM_WIDTH := 1440.0

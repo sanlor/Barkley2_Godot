@@ -3,9 +3,29 @@
 [ext_resource type="Script" uid="uid://blrxmxolsws31" path="res://barkley2/scenes/Objects/_minigames/VRW/untamo/o_mg_vrw_untamo.gd" id="1_rs1ct"]
 [ext_resource type="PackedScene" uid="uid://dhjor6bbrq710" path="res://barkley2/scenes/Objects/_minigames/VRW/untamo/o_mg_vrw_untamo_body.tscn" id="2_6fjri"]
 
-[node name="o_mg_vrw_untamo" type="RigidBody2D" unique_id=520902013]
-mass = 999.0
-gravity_scale = 0.0
+[node name="o_mg_vrw_untamo" type="CharacterBody2D" unique_id=1361061623]
+collision_layer = 0
+collision_mask = 144
 script = ExtResource("1_rs1ct")
 
 [node name="o_mg_vrw_untamo_body" parent="." unique_id=525711498 instance=ExtResource("2_6fjri")]
+
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=107506067]
+avoidance_enabled = true
+radius = 6.0
+neighbor_distance = 64.0
+time_horizon_agents = 4.0
+
+[node name="move_timer" type="Timer" parent="." unique_id=1042082750]
+one_shot = true
+
+[node name="lag_timer" type="Timer" parent="." unique_id=1590588630]
+one_shot = true
+
+[node name="chat_timer" type="Timer" parent="." unique_id=1615169630]
+one_shot = true
+
+[connection signal="velocity_computed" from="ActorNav" to="." method="_on_actor_nav_velocity_computed"]
+[connection signal="timeout" from="move_timer" to="." method="_on_move_timer_timeout"]
+[connection signal="timeout" from="lag_timer" to="." method="_on_lag_timer_timeout"]
+[connection signal="timeout" from="chat_timer" to="." method="_on_chat_timer_timeout"]

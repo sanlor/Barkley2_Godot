@@ -252,21 +252,21 @@ func _set_region():
 	if not is_instance_valid(navigation_polygon):
 		navigation_polygon = NavigationPolygon.new()
 	
-	## NavigationRegion setup.
-	var poly := PackedVector2Array( [
-		Vector2(0,0),
-		Vector2(0,map_rect.end.y * 16),
-		Vector2(map_rect.end.x * 16,map_rect.end.y * 16),
-		Vector2(map_rect.end.x * 16,0),
-		] )
-		
-	navigation_polygon.clear_outlines()
-	navigation_polygon.add_outline( poly )
-	navigation_polygon.agent_radius = agent_radius
-	navigation_polygon.cell_size = cell_size
-	navigation_polygon.source_geometry_mode = source_geometry_mode
-	navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
-	NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
+		## NavigationRegion setup.
+		var poly := PackedVector2Array( [
+			Vector2(0,0),
+			Vector2(0,map_rect.end.y * 16),
+			Vector2(map_rect.end.x * 16,map_rect.end.y * 16),
+			Vector2(map_rect.end.x * 16,0),
+			] )
+			
+		navigation_polygon.clear_outlines()
+		navigation_polygon.add_outline( poly )
+		navigation_polygon.agent_radius = agent_radius
+		navigation_polygon.cell_size = cell_size
+		navigation_polygon.source_geometry_mode = source_geometry_mode
+		navigation_polygon.source_geometry_group_name = "navigation_polygon_source_geometry_group"
+		NavigationServer2D.bake_from_source_geometry_data( navigation_polygon, NavigationMeshSourceGeometryData2D.new() )
 	
 	bake_navigation_polygon()
 

@@ -1,9 +1,12 @@
 @tool
 extends B2_ROOMS
 
-const O_MG_VRW_TITLE = preload("uid://b5evdjjapm3in")
+const O_MG_VRW_TITLE 	:= preload("uid://b5evdjjapm3in")
+const CHAT_MESSAGES 	:= preload("uid://cha0jq6pwx8kp")
 
 @export var skip_title := false
+
+var chat_messages : B2_Minigame_VRW_Messages
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
@@ -28,6 +31,10 @@ func _ready() -> void:
 	
 	## Business as usual.
 	B2_Music.play("mus_OligarchyOnline", 0.0)
+	
+	## Register chat screen
+	chat_messages = CHAT_MESSAGES.instantiate()
+	B2_Screen.add_child( chat_messages, true )
 	
 	await get_tree().process_frame
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
@@ -59,6 +66,9 @@ func _physics_process(_delta: float) -> void:
 			B2_CManager.camera.global_position = B2_CManager.o_hoopz.position
 
 func _on_tree_exiting() -> void:
+	## Remove chat messages.
+	chat_messages.queue_free()
+	
 	## Change to default dialog skin and BodySwap Hoopz
 	B2_CManager.BodySwap("hoopz");
 	B2_Playerdata.Quest("FollowMouseDisabled", 0)

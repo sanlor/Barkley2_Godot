@@ -195,11 +195,11 @@ offset_right = 5.0
 offset_bottom = 3.0
 
 [node name="o_mg_vrw_spin" type="AnimatedSprite2D" parent="s_mg_vrw_spinbase/clipper" unique_id=1613137151]
-modulate = Color(0.56904113, 1, 0, 1)
-position = Vector2(0, 17.310045)
+modulate = Color(1, 0, 0.8263898, 1)
+position = Vector2(0, 21.81476)
 sprite_frames = SubResource("SpriteFrames_w8njf")
-frame_progress = 0.11487592
-speed_scale = 6.5230603
+frame_progress = 0.22791031
+speed_scale = 10.596945
 centered = false
 metadata/default = {
 "bbox_bottom": "25",
@@ -217,7 +217,7 @@ metadata/default = {
 sprite_frames = SubResource("SpriteFrames_2uhkg")
 
 [node name="Timer" type="Timer" parent="s_mg_vrw_spinbase" unique_id=743518184]
-wait_time = 1.6972455
+wait_time = 2.4825983
 one_shot = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="s_mg_vrw_spinbase" unique_id=134242328]
@@ -225,5 +225,9 @@ stream = ExtResource("4_kjdur")
 pitch_scale = 0.9215895
 max_distance = 500.0
 bus = &"Audio"
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="s_mg_vrw_spinbase" unique_id=1476521831 groups=["navigation_polygon_source_geometry_group"]]
+radius = 8.0
+carve_navigation_mesh = true
 
 [connection signal="timeout" from="s_mg_vrw_spinbase/Timer" to="s_mg_vrw_spinbase" method="_on_timer_timeout"]
