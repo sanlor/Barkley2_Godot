@@ -19,8 +19,8 @@ func flip( state : bool ) -> void:
 	untamo_nose.flip_h 		= state
 	untamo_hair.flip_h 		= state
 
-func play_anim() -> void:
-	untamo_body.play("walk")
+func play_anim( anim := "walk" ) -> void:
+	untamo_body.play(anim)
 	
 func stop_anim() -> void:
 	untamo_body.play("stand")

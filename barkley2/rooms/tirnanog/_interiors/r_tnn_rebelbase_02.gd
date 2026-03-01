@@ -58,3 +58,9 @@ func _ready() -> void:
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:
 		_setup_camera( _setup_player_node() )
+	
+	# Bodyswaps #
+	if B2_Playerdata.Quest("govTransfer") == 2:
+		B2_CManager.BodySwap("governor");
+	if B2_Playerdata.Quest("govFinishInitiate") == 1:
+		B2_CManager.BodySwap("hoopz");

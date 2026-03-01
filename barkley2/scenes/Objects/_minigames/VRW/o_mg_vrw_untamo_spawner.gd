@@ -3,12 +3,11 @@ extends Marker2D
 
 const O_MG_VRW_OBJECT 		:= preload("uid://5w6yk4d6sf0j")
 
-@onready var chat_messages: B2_Minigame_VRW_Messages = $"../chat_messages"
-
 var untamo := []
+var chat_messages : B2_Minigame_VRW_Messages
 
-func _ready() -> void:
-	var rand_untamos := randi_range(15, 25)
+func populate_untamos() -> void:
+	var rand_untamos := randi_range(15, 45) # was randi_range(15, 25)
 	untamo.resize( rand_untamos )
 	
 	for i : int in rand_untamos:
@@ -21,6 +20,7 @@ func _ready() -> void:
 		## Creation and ID ##
 		untamo[i] = O_MG_VRW_OBJECT.instantiate()
 		untamo[i].position = Vector2(random_x, random_y)
+		untamo[i].chat_messages = chat_messages
 		untamo[i].my_identity = i;
 		
 		add_sibling.call_deferred( untamo[i], true )

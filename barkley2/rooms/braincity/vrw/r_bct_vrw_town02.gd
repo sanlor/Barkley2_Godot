@@ -4,6 +4,8 @@ extends B2_ROOMS
 const O_MG_VRW_TITLE 	:= preload("uid://b5evdjjapm3in")
 const CHAT_MESSAGES 	:= preload("uid://cha0jq6pwx8kp")
 
+@onready var o_mg_vrw_untamo_spawner: Marker2D = $o_mg_vrw_untamo_spawner
+
 @export var skip_title := false
 
 var chat_messages : B2_Minigame_VRW_Messages
@@ -35,6 +37,12 @@ func _ready() -> void:
 	## Register chat screen
 	chat_messages = CHAT_MESSAGES.instantiate()
 	B2_Screen.add_child( chat_messages, true )
+	
+	# Add a reference, used for Untamos to send messages
+	o_mg_vrw_untamo_spawner.chat_messages = chat_messages
+	
+	# Add them untamos, dawg.
+	o_mg_vrw_untamo_spawner.populate_untamos()
 	
 	await get_tree().process_frame
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):

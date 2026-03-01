@@ -1,9 +1,11 @@
 extends VBoxContainer
 class_name B2_Minigame_VRW_Messages
+# Check o_mg_vrw_untamo
 
-@onready var timer: Timer = $Timer
+# Label settings
+const LABEL_FN_2 	:= preload("uid://b38457p3a0dym")
 
-#var message_array := [$message_lbl_1,$message_lbl_2,$message_lbl_3,$message_lbl_4,$message_lbl_5,]
+const MAX_MESSAGES := 5
 
 ## Generate a sudo-random username
 static func scr_vrw_username() -> String:
@@ -75,8 +77,8 @@ static func scr_vrw_message() -> String:
 		["tx", "thx", "thnks", "thanx", "thanks", "Thanks.", "Thank you!", "Wow, thanks so much!"].pick_random(),
 		["mub boot?", "ne1 hav mud boot?", "Anyone have mud boots?"].pick_random(),
 		["bonus time?", "where is does bonus", "When does the bonus start?"].pick_random(),
-		["trade " + str( it0 ).to_lower() + " for " + str( it1 ).to_lower() + "?", "where to get " + [it0, it1].pick_random() + "?", "Anyone have " + str( it0 ).to_lower()+ "?"].pick_random(),
-		["team up " + str( tea ).to_lower() + "?", "any " + str( tea ).to_lower() + " to raid?", "Looking for a " + str( tea ) + "."],
+		["trade " + str( it0 ).to_lower() + " for " + str( it1 ).to_lower() + "?", "where to get " + [it0, it1].pick_random() + "?", "Anyone have " + str( it0 ).to_lower() + "?"].pick_random(),
+		["team up " + str( tea ).to_lower() + "?", "any " + str( tea ).to_lower() + " to raid?", "Looking for a " + str( tea ) + "."].pick_random(),
 		["milk bar = scam", "wow!!! milk bar rip me off!!!", "The Milk Bar is a rip-off!"].pick_random(),
 		["GO TO ******.** AND SIGN UP", "visit my page *****.***.**", "Here's my page: ******.***"].pick_random(),
 		["WHERE IS " + scr_vrw_username() + "!", "where did " + scr_vrw_username() + " go", "Hey, does anyone know " + scr_vrw_username() + "?"].pick_random(),
@@ -90,3 +92,28 @@ static func scr_vrw_message() -> String:
 	#for i in message_array:
 		#i.queue_free()
 	#timer
+
+func _ready() -> void:
+	reset_messages()
+
+func reset_messages() -> void:
+	for i in get_children():
+		if i is Label:
+			i.queue_free()
+
+func post_message( username : String, color : Color ) -> void:
+	var chat_message := username + "> " + scr_vrw_message()
+	
+	## Setup label
+	var label := Label.new()
+	label.text = chat_message
+	label.modulate = color
+	label.label_settings = LABEL_FN_2
+	
+	## Add label to the list, removing the overflow.
+	while get_children().size() >= MAX_MESSAGES:
+		get_children().front().queue_free()
+		await get_tree().process_frame
+		
+	add_child( label, true )
+	

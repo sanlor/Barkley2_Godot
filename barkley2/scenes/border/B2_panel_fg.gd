@@ -46,26 +46,27 @@ var border_size 					: Vector2 = Vector2(50,50)
 
 @onready var rng := RandomNumberGenerator.new()
 
-var style : B2_CManager.DIAG_BOX
+var style 	: B2_CManager.DIAG_BOX
+var my_seed := randi()
 
 func _ready():
 	# Theme
-	theme = preload("res://barkley2/themes/dialogue.tres")
-	z_index = 10
+	theme 					= preload("res://barkley2/themes/dialogue.tres")
+	z_index 				= 10
 	
 	# Weird behaviour!
 	## https://www.reddit.com/r/godot/comments/15lpudk/can_you_configure_draw_to_still_draw_outside_the/
-	custom_minimum_size = Vector2(3000,3000)
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	use_parent_material = true
+	custom_minimum_size 	= Vector2(3000,3000)
+	mouse_filter 			= Control.MOUSE_FILTER_IGNORE
+	use_parent_material 	= true
 	_update_borders()
 	
 func set_panel_size(x, y):
 	border_size = Vector2(x,y).round()
 	queue_redraw()
 
-func set_seed( _seed : String ):
-	rng.seed = hash( _seed )
+func set_seed( _seed : int ):
+	my_seed = _seed
 	queue_redraw()
 
 func _update_borders() -> void:
@@ -124,7 +125,9 @@ func _draw():
 	
 	# I tried to add my own modification and improvements to the code, but it didnt work well, so I just copy/pasted code and it worked.
 	
-	#randomize()
+	## Allow a predictable randomization.
+	rng.seed = my_seed
+	
 	var start_pos := 24
 	if style != B2_CManager.DIAG_BOX.NORMAL:
 		start_pos = 8
@@ -284,7 +287,6 @@ func _draw():
 					
 					avaiable_bottom_v_space 	-= width
 					bottom_start_pos 			+= width
-
 	
 	## Corners
 	var transp := 1.0 # 0.25

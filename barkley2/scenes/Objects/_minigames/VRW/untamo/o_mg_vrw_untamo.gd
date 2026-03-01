@@ -28,7 +28,8 @@ const BASE_SPEED := 100.0
 # Check 'o_mg_vrw_object' draw event.
 var o_mg_vrw_untamo_body : Array[Node2D]
 
-@export var messages : B2_Minigame_VRW_Messages
+## Setup by the untamo spawner
+var chat_messages : B2_Minigame_VRW_Messages
 
 var usrNam := "PLACEHOLDER"
 var usrCol := Color.HOT_PINK
@@ -117,7 +118,7 @@ func animations() -> void:
 func _physics_process(_delta: float) -> void:
 	match curr_STATE:
 		STATE.LAG:
-			modulate.a = randi_range(0,1)
+			modulate.a = randf_range(0.75,1.0)
 			
 		STATE.WALK:
 			# Do not query when the map has never synchronized and is empty.
@@ -134,6 +135,10 @@ func _physics_process(_delta: float) -> void:
 			
 			if ActorNav.avoidance_enabled:			ActorNav.set_velocity(new_velocity)
 			else:									_on_actor_nav_velocity_computed(new_velocity)
+			
+			## Randomly, lag out.
+			if randf() > 0.999:
+				lag_out()
 			
 			## Randomly, stop moving and do something else.
 			if randf() > 0.995:
@@ -155,6 +160,7 @@ func type_message() -> void:
 func emote() -> void:
 	change_STATE(STATE.CHAT)
 	for body : B2_Minigame_VRW_Untamo_Body in o_mg_vrw_untamo_body:
+		body.play_anim("emote")
 		body.show_emote( 	[
 								B2_Minigame_VRW_Untamo_Body.EMOTE.SMILEY,
 								B2_Minigame_VRW_Untamo_Body.EMOTE.HEART,
@@ -165,7 +171,10 @@ func emote() -> void:
 	
 func lag_out() -> void:
 	change_STATE(STATE.LAG)
-	lag_timer.start( randf_range(0.5, 10.0) )
+	if randf() < 0.5:								## random chance of being a quick lag
+		lag_timer.start( randf_range(0.1, 1.0) )
+	else:											## random chance of being a long lag
+		lag_timer.start( randf_range(0.1, 5.0) )
 
 ## The untamo reached its target. What now:
 func target_reached() -> void:
@@ -187,6 +196,10 @@ func _on_actor_nav_velocity_computed(safe_velocity: Vector2) -> void:
 			move_and_slide()
 
 func _on_chat_timer_timeout() -> void:
+	if chat_messages:
+		chat_messages.post_message( usrNam, usrCol )
+	else:
+		push_error("Message system is borked. fix this. -> " + name)
 	target_reached()
 
 func _on_lag_timer_timeout() -> void:

@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://e0ie8fqew71k"]
+
+[ext_resource type="Script" uid="uid://d2h360d47lppf" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_vrw_bartender01.gd" id="1_wog6r"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_6bgli"]
+[ext_resource type="Texture2D" uid="uid://c6drl5k12ye0e" path="res://barkley2/assets/b2_original/images/merged/s_vrw_bartender01.png" id="3_3eltx"]
+
+[sub_resource type="Resource" id="Resource_nx6ks"]
+script = ExtResource("2_6bgli")
+original_script = "DIALOG | Mario | Yeah, I used to be a pretty big player in the gaming scene. Nowadays I just clean these virtual counters. There's something so... therapeutic about it."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r0giq"]
+atlas = ExtResource("3_3eltx")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_341lw"]
+atlas = ExtResource("3_3eltx")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3eltx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r0giq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_341lw")
+}],
+"loop": true,
+"name": &"bar",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nx6ks"]
+size = Vector2(26, 39)
+
+[node name="o_vrw_bartender01" type="CharacterBody2D" unique_id=452056271 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_wog6r")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_nx6ks")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1203072540]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_3eltx")
+animation = &"bar"
+autoplay = "bar"
+frame_progress = 0.005610405
+centered = false
+offset = Vector2(-13, -23)
+metadata/default = {
+"bbox_bottom": "26",
+"bbox_left": "0",
+"bbox_right": "24",
+"bbox_top": "0",
+"frames": ["images\\s_nene01_0.png", "images\\s_nene01_1.png"],
+"height": "27",
+"name": "s_nene01",
+"width": "25",
+"xorig": "13",
+"yorigin": "23"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=917736620]
+position = Vector2(4, 5)
+
+[node name="ActorInteract" type="Area2D" parent="." unique_id=909201190]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1225672204]
+position = Vector2(3, 1.5)
+shape = SubResource("RectangleShape2D_nx6ks")

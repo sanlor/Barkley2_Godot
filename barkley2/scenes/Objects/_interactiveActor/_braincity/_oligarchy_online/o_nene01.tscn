@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://dsi7dns2f5kem"]
+
+[ext_resource type="Script" uid="uid://ctnon38iq4i5c" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_nene01.gd" id="1_61v8k"]
+[ext_resource type="Texture2D" uid="uid://dqkb14biofjsc" path="res://barkley2/assets/b2_original/images/merged/s_nene01.png" id="2_37jmd"]
+[ext_resource type="Resource" uid="uid://d1pvdydhsxdky" path="res://barkley2/resources/cutscenes/o_nene01_dialog.tres" id="2_w158h"]
+[ext_resource type="Texture2D" uid="uid://7qrdw5s8qsbi" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_untamo_drink.png" id="4_w158h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w158h"]
+atlas = ExtResource("2_37jmd")
+region = Rect2(0, 0, 25, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b40lx"]
+atlas = ExtResource("2_37jmd")
+region = Rect2(25, 0, 25, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bq25n"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w158h")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b40lx")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_61v8k"]
+radius = 9.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxvj2"]
+size = Vector2(28, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bq25n"]
+atlas = ExtResource("4_w158h")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxvj2"]
+atlas = ExtResource("4_w158h")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7hbg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bq25n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxvj2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="o_nene01" type="CharacterBody2D" unique_id=1508420182 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol")]
+script = ExtResource("1_61v8k")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = ExtResource("2_w158h")
+cast_shadow = false
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1267657854]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_bq25n")
+animation = &"sleep"
+centered = false
+offset = Vector2(-13, -23)
+metadata/default = {
+"bbox_bottom": "26",
+"bbox_left": "0",
+"bbox_right": "24",
+"bbox_top": "0",
+"frames": ["images\\s_nene01_0.png", "images\\s_nene01_1.png"],
+"height": "27",
+"name": "s_nene01",
+"width": "25",
+"xorig": "13",
+"yorigin": "23"
+}
+metadata/sleep = {
+"bbox_bottom": "26",
+"bbox_left": "0",
+"bbox_right": "24",
+"bbox_top": "0",
+"frames": ["images\\s_nene01_0.png", "images\\s_nene01_1.png"],
+"height": "27",
+"name": "s_nene01",
+"width": "25",
+"xorig": "13",
+"yorigin": "23"
+}
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1349448246]
+position = Vector2(-1, -3)
+shape = SubResource("CircleShape2D_61v8k")
+
+[node name="ActorInteract" type="Area2D" parent="." unique_id=1938297909]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=230679660]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_wxvj2")
+
+[node name="drink_emote" type="AnimatedSprite2D" parent="." unique_id=1502017694]
+position = Vector2(0, -13)
+sprite_frames = SubResource("SpriteFrames_j7hbg")
+autoplay = "default"
+frame_progress = 0.49984995
+
+[connection signal="animation_changed" from="ActorAnim" to="." method="_on_actor_anim_animation_changed"]

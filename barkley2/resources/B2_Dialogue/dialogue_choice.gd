@@ -15,8 +15,8 @@ var debug := false
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
-const S_DIAG_FRAME 		:= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
-const S_RETURN 			:= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
+const S_DIAG_FRAME_VRW 	:= preload("uid://dfji5d2eosspl")
+const S_DIAG_FRAME 		:= preload("uid://cph4fl4lnsekc")
 # reference script = o_dialogue
 
 # The title of the text, defaults to an empty string.
@@ -89,6 +89,9 @@ var blink_cooldown 			:= 0.0
 var blink_speed 			:= 5.50
 var is_talking				:= false
 
+## Seed for the randomization used on the dialogue boxes.
+var border_seed := randi()
+
 func _ready() -> void:
 	#layer = B2_Config.DIALOG_LAYER
 	_draw_y = B2_Config.dialogY
@@ -96,7 +99,7 @@ func _ready() -> void:
 	# Setup the dinamic frame
 	border_node = B2_Border.new()
 	border_node.bg_opacity = 0.85
-	border_node.set_seed( get_tree().root.get_child(0).name )
+	border_node.set_seed( border_seed )
 	
 	add_child( border_node )
 	border_node.name = "Dialog_Frame"
@@ -217,7 +220,10 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 	# Add the frame to the tree
 	portrait_frame_node = TextureRect.new(); add_child( portrait_frame_node, true ) 
 	
-	portrait_frame_node.texture = S_DIAG_FRAME
+	if B2_CManager.curr_DIAG_BOX == B2_CManager.DIAG_BOX.VRW:
+		portrait_frame_node.texture = S_DIAG_FRAME_VRW
+	else:
+		portrait_frame_node.texture = S_DIAG_FRAME
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
 	
 	if from_name:

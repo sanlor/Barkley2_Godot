@@ -38,7 +38,7 @@ var is_invisible := false
 
 var bg_opacity := 0.65
 
-@onready var my_seed := hash( name ) # hash( randi() )
+var my_seed 			:= hash( "placeholder" ) # hash( randi() )
 
 @export_category("Style")
 @export var force_style := false
@@ -64,8 +64,8 @@ func _init():
 	#mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(b_2_panel_fg)
 
-func set_seed( _seed : String ):
-	my_seed = hash( _seed )
+func set_seed( _seed : int ):
+	my_seed = _seed
 
 func _ready():
 	# Theme
@@ -86,8 +86,8 @@ func _ready():
 	b_2_panel_fg.disable_upper_side 			= disable_upper_side
 	
 	## RNG for the borders
-	set_seed( name )
-	b_2_panel_fg.set_seed( name )
+	#set_seed( get_parent().name )
+	b_2_panel_fg.set_seed( my_seed )
 	
 	#size = border_size
 	set_panel_size(border_size.x, border_size.y)

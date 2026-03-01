@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cxfqkt7hnrbyk"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dym3u238p6a81" path="res://barkley2/scenes/Player/o_hoopz_physics_material.tres" id="1_1uskp"]
-[ext_resource type="Script" uid="uid://fv07ud5nbmwf" path="res://barkley2/resources/B2_Hierarchy/Combat/PlayerActor_RealTime.gd" id="2_f8m4e"]
+[ext_resource type="Script" uid="uid://c0vj27wrl7kc" path="res://barkley2/scenes/Player/o_hoopz_untamo.gd" id="2_8osng"]
 [ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="3_tafda"]
 [ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="4_5f6sr"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="5_6o0dm"]
@@ -102,7 +102,7 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 2
 linear_damp = 10.0
-script = ExtResource("2_f8m4e")
+script = ExtResource("2_8osng")
 can_draw_weapon = false
 can_shoot = false
 hoopz_normal_body = NodePath("hoopz_normal_body")
@@ -201,4 +201,8 @@ one_shot = true
 [node name="i_frame_timer" type="Timer" parent="." unique_id=1444493881]
 one_shot = true
 
+[node name="lag_timer" type="Timer" parent="." unique_id=894598772]
+one_shot = true
+
 [connection signal="frame_changed" from="hoopz_normal_body" to="." method="_on_hoopz_normal_body_frame_changed"]
+[connection signal="timeout" from="lag_timer" to="." method="_on_lag_timer_timeout"]

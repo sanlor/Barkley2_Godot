@@ -117,7 +117,7 @@ func set_values():
 					new_value += breakout_data.get( "modifier", 0 )
 					value_color = Color.RED
 				
-			"ducats":
+			"ducats","digiducats":
 				icon_id = 8
 			"hp":
 				icon_id = 2

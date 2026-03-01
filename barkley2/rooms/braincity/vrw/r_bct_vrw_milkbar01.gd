@@ -1,20 +1,9 @@
 @tool
 extends B2_ROOMS
 
-## Conditional User Events During "Runaway" Sequence
-# cdwarfCinema
-#    0 = Can't see CDwarf
-#    1 = Permission to see CDwarf
-#    2 = You've talked to Cyberdwarf
-#    3 = First forlorn run, outside LONGINUS HQ
-#    4 = ***not used***
-#    5 = Second forlorn run, outside guilderbergs
-#    6 = Third forlorn run, to O.O. chair
-#    7 = ***not used***
-#    8 = Trigal Scene Has Played
-#    9 = you've chosed your identity
-
-const O_ROOM_CDWARF_TRIGAL_SCENES 			:= preload("uid://xlsebofrhjh2")
+## NOTE this room had a cutscene called "event_bct_trigal01". This cutscene doesnt exist anymore, but is referenced by the "script_purgatory" folder.
+# https://github.com/sanlor/Barkley2_Original/blob/91b27766d4cc32912342564aa35ab94992d9a8ce/barkley_2/script_purgatory/event_bct_trigal01.txt#L2
+# https://github.com/sanlor/Barkley2_Original/blob/91b27766d4cc32912342564aa35ab94992d9a8ce/barkley_2/Design/script_conversion/locations.txt#L438
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
@@ -29,14 +18,12 @@ func _ready() -> void:
 	## Visited VRW at least once ##
 	B2_Playerdata.Quest("vrwLoggedIn", 1);
 	
-	## o_room_cdwarf
-	# Running away
-	if B2_Playerdata.Quest("cdwarfCinema") 	== 2: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
-	if B2_Playerdata.Quest("cdwarfCinema") 	== 3: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
-	if B2_Playerdata.Quest("cdwarfCinema") 	== 4: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
-	if B2_Playerdata.Quest("cdwarfCinema") 	== 5: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
-	if B2_Playerdata.Quest("cdwarfCinema") 	== 6: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
-	if B2_Playerdata.Quest("trigalScene") 	== 1: 	cutscene_script = O_ROOM_CDWARF_TRIGAL_SCENES
+	## Business as usual.
+	#B2_Music.play("mus_OligarchyOnline", 0.0)
+	
+	## DEBUG
+	B2_Playerdata.Quest("longinusDoorState", 1)
+	push_warning("DEBUG Variable set.")
 	
 	await get_tree().process_frame
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):

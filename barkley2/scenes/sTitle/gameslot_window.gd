@@ -94,7 +94,7 @@ func load_slots():
 		slots[i].set_panel_size( 344, 66 )
 		slots[i].monitor_mouse = true
 		slots[i].set_global_position( Vector2(gameslot_x - 8, dry - 8) )
-		slots[i].set_seed( slots[i].name )
+		slots[i].set_seed( hash(slots[i].name) )
 		
 		if B2_Config.has_user_save( i ):		# this slot has saved game. get player data from the file
 			B2_Config.select_user_slot( i )

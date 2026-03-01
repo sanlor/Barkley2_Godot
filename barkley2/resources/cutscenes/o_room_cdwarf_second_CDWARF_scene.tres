@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://bi3kqt8g68etn"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_2w0el"]
+
+[resource]
+script = ExtResource("1_2w0el")
+original_script = "QUEST  | cdwarfCinema = 9
+Misc   | alpha | o_cdwarfHead01 | 0.66 | 5
+Camera | snap | o_cinema8
+Misc   | set | o_cts_hoopz | o_cinema8
+Misc   | music | mus_blankTEMP | 1
+FADE   | 1 | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 1.0
+EVENT  | o_room_cdwarf | 0 // 4 lights
+WAIT   | 0
+FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
+FADE   | 0 | 5
+WAIT   | 3.0
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | NORTH
+WAIT   | 1
+FRAME  | CAMERA_SLOW | o_cinema11
+DIALOG | Determined Youngster = s_port_hoopzAngry | Listen, Cyberdwarf. I don't know who I am or why I'm here, but I know this: if I don't stop Cuchulainn, I and every dwarf on this ship are getting a one-way ticket to Hec-... to Hell.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | I see. Cuchulainn has made his intentions apparent to you. Without you, we are all doomed. But you are wrong about one thing...
+SET    | o_cdwarfHead01 | idle
+DIALOG | Determined Youngster = s_port_hoopzAngry | Huh?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | You DO know who you are. Tell me, child... who are you?
+SET    | o_cdwarfHead01 | idle
+NOTE   | identity
+IF note == Hoopz | GOTO | HOOPZ
+GOTO | STEVE
+
+HOOPZ
+DIALOG | P_NAME | My name is Hoopz Barkley... I am he and he is I. What you say is true, Cyberdwarf.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | Hoopz Barkley... the words I have waited eons to hear from your very lips, youngster. Finally, the prophecy is ready to be fulfilled. We must make haste to defeat Cuchulainn, my child.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_2
+
+STEVE
+QUEST  | playerNameShort = Steve
+QUEST  | playerName = Steve Bompo
+QUEST  | playerNameFull = Steve Bompo
+DIALOG | P_NAME | My name is P_NAME... no, I AM P_NAME!... and P_NAME is me. I've always known in my heart that P_NAME is who I've always been, and yet also that P_NAME is who I was born to become. I've never been more certain of anything, Cyberdwarf.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | So it seems. You truly are P_NAME. Then it is you who shall have to fulfil the prophecy. I knew my faith in you was not misplaced. And now, my child, we must make haste to defeat Cuchulainn.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_2
+
+PART_2
+IF crustDead == 1 | GOTO | CUCHU_KILLED
+IF crustFightAny == 1 | GOTO | CUCHU_FIGHT
+GOTO | CUCHU_ATTEMPT
+
+CUCHU_KILLED
+DIALOG | P_NAME | But Cyberdwarf, when I confronted Cuchulainn, I wiped the floor with him. It was a tough fight, but I mean, c'mon, he didn't REALLY stand a chance.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | That is true, P_NAME, you handily defeated his first form and for that I commend you. But it was merely his weakest manifestation and Cuchulainn remains vigilant. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to forever defeat Cuchulainn: the Cyberspear of Destiny.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_3
+
+CUCHU_FIGHT
+DIALOG | P_NAME | But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. I didn't even come close to beating him.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | It's true, P_NAME, you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the Cyberspear of Destiny.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_3
+
+CUCHU_ATTEMPT
+DIALOG | P_NAME | But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. Or, his dungeon did anyway. I didn't even come close...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | It's true, P_NAME, you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the Cyberspear of Destiny.
+SET    | o_cdwarfHead01 | idle
+GOTO   | PART_3
+
+PART_3
+DIALOG | P_NAME | The Cyberspear of Destiny? What's that?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | The Gae Bolg, Ascalon, the Lance of Longinus... the Cyberspear of Destiny, the ancient javelin of monumental power once wielded by Cuchulainn himself. Since the time of my imprisonment on Necron 7, I have tasked L.O.N.G.I.N.U.S. with keeping three things safe. My potent kernel, the location of the Cyberspear, and the life of you - the one F.A.T.E.d to wield it.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME | Okay. Where can we find it?
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | It has been kept from Cuchulainn and his dreaded Bainshees in the AI Ruins, an elephant graveyard of artificial intelligence modules long forgotten. His minions haven't yet looked there, perhaps because of the perils they present.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME | I'm not afraid. Just tell me how to get there.
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | You must temper your bravado with caution, child! To reach the AI Ruins is no easy feat, and to survive them is an even greater task. They can be reached through the Undersewer tunnels that sprawl beneath the whole of the Necron 7. But there are other ways as well...
+SET    | o_cdwarfHead01 | idle
+WAIT | 0.5
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | Speak to those hapless rebels outside. I will instruct that miserable Jodfrey to give you a map. Follow it to the AI Ruins and there I will meet you there.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME | Okay!_ Wait, how will you meet me there if you are in that tube?_ Does that mean...
+DIALOG | P_NAME = s_port_hoopzHappy | ARE YOU COMING WITH ME?!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | What?_ No. Stay your insolence and let me explain.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSad | Oh...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | Cuchulainn's Cronies scour the entirety of Necron 7 looking for both of us. They search not only the floor, but the airwaves as well. Communication of the dwarfs has gone_ LOW TECH.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzHappy | Like MORSE CODE?!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | Hush, Your unfledged ponderings belong only in your private mind and not on your public tongue. Listen, P_NAME_S. L_i_s_t_e_n.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSad | Oh, sorry...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | The technology was called /'Wi-Fi,/' also known as the /'Wilfred Fidelis Protocols./' Used at the time of the first Cyberpocalypse... Cuchulainn was imprisoned at the time and is unaware of Wi-Fi's shadowy existence.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME = s_port_hoopzSurprise | Wow... arcane tech...
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | We will use these Wi-Fi Protocols for encrypted communications... I instructed Variable to install routers, devices necessary for our desired communications. For some reason they do not work but you must find them and complete their installation. Only then will you gain the power of the ancient Wi-Fi Communication Arts.
+SET    | o_cdwarfHead01 | idle
+DIALOG | P_NAME | I-_I won't let you down Cyberdwarf!
+SET    | o_cdwarfHead01 | talk
+DIALOG | Cyberdwarf | Child... I know... I know... Now make haste to Jhodfrey, get the map and find the router of the Undersewers!
+SET    | o_cdwarfHead01 | idle
+//TODO: have cyberdwarf fade away"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

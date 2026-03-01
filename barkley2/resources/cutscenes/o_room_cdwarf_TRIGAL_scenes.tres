@@ -1,0 +1,170 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://xlsebofrhjh2"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_vv2up"]
+
+[resource]
+script = ExtResource("1_vv2up")
+original_script = "IF trigalScene == 1  | GOTO | TRIGAL_AFTER
+IF cdwarfCinema == 2 | GOTO | RUN_2
+IF cdwarfCinema == 3 | GOTO | RUN_3
+IF cdwarfCinema == 5 | GOTO | RUN_5
+GOTO | TRIGAL
+
+RUN_2
+QUEST  | cdwarfCinema = 3
+Misc   | set | o_cts_hoopz | o_cinema8
+WAIT   | 0.1
+Camera | snap | o_cts_hoopz
+WAIT   | 0.1
+MOVETO | o_cts_hoopz | o_cinema9 | MOVE_FAST
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+WAIT   | 0.5
+DIALOG | Oldster? | `mq`You heard what I said...`rt`
+DIALOG | Youngster? | `sq`But I don't wanna practice pick and rolls!`rt`
+//TODO: is there a way to make these dialogues auto-scroll?
+WAIT   | 0
+FADE   | 1 | 2
+WAIT   | 2
+Teleport | r_bct_tower05 | 0 | 0
+
+RUN_3
+QUEST  | cdwarfCinema = 5
+Misc   | set | o_cts_hoopz | o_cinema10
+WAIT   | 0.1
+Camera | snap | o_cts_hoopz
+WAIT   | 0.1
+MOVETO | o_cts_hoopz | o_cinema11 | MOVE_FAST
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+WAIT   | 0.5
+DIALOG | Oldster? | `mq`I didn't raise `w1`no gatdam weeb!`w0` 1,000 layups, start!`rt`
+DIALOG | Youngster? | `sq`Just one more episode, Dad!`rt`
+//TODO: is there a way to make these dialogues auto-scroll as above
+WAIT   | 0
+FADE   | 1 | 2
+WAIT   | 2
+Teleport | r_bct_tower04 | 0 | 0
+
+RUN_4
+//NOTE: add this as a further \"Barkley Scold\" moment if we need it
+EXIT |
+
+RUN_5
+QUEST  | cdwarfCinema = 6
+Misc   | set | o_cts_hoopz | o_cinema8
+Camera | snap | o_cts_hoopz
+MOVETO | o_cts_hoopz | o_cinema9 | MOVE_FAST
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz
+DIALOG | Oldster? | `mq`For the last time, there's no anime allowed in this house,`rt` `kw``s1`Hoopz!`s0``rt`
+EVENT  | o_vrchair01 | 1
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_FAST
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTHWEST
+FRAME  | CAMERA_NORMAL | o_vrchair01
+WAIT   | 0.5
+EVENT  | o_vrchair01 | 0
+PLAYSET| o_vrchair01 | jackin | jackinLast
+WAIT   | 0
+FADE   | 1 | 2
+WAIT   | 2
+//TODO: add in the link to the Trigal Scene, if done here, if not, delete this note and check TRIGAL label below
+Teleport | r_bct_vrw_trigal01 | 168 | 160
+
+TRIGAL
+//TODO: change hoopz to untamo
+QUEST  | trigalScene = 1
+QUEST  | cdwarfCinema = 8
+Misc   | set | o_cts_hoopz | o_cinema0
+Camera | snap | o_cts_hoopz
+//TODO: the portraits for here should be the individual untamo sprites
+WAIT   | 1
+//TODO: add in Trigal Scene Exe...
+DIALOG | Bhroom | This is where the Trigal Song and 3D Music Video Plays. It fades out and fades back in onto Hoopz Untamo looking into the water.
+WAIT   |  1
+FRAME  | CAMERA_NORMAL  | o_cts_hoopz
+DIALOG | Forlorn Avatar | No, it's not true... I... I don't believe him! I'm not who he says I am!
+DIALOG | Forlorn Avatar | I just want to be me... Why can't I just be me!?
+WAIT   | 2
+//TODO: SOUND | cuchu's laugh
+DIALOG | ? ? ? = s_portrait | `w1`Ko...`w0`
+//TODO: SOUND | cuchu's laugh
+DIALOG | ? ? ? = s_portrait | `w1`Koko...`w0`
+EMOTE  | ?
+DIALOG | Forlorn Avatar | Huh?
+//TODO: SOUND | cuchu's laugh
+DIALOG | ? ? ? = s_portrait | `w1`Kokokoko!`w0`
+Smoke  | puff | 216 | 96 | 16 | 4
+//TODO: the smoke comman above doesn't work, help Dr. Beach!
+WAIT   | 0.5
+Misc   | set | o_cuchutamo01 | o_cinema2
+//TODO: play cuchu's theme song
+DIALOG | ? ? ? = s_port_cuchutamo | What do we have here... a forlorn youngster weeping alone in a field. What happened, little one, did you lose a kid to the Underworld?
+DIALOG | Forlorn Avatar | Who... who are you?
+DIALOG | ? ? ? = s_port_cuchutamo | Who am I? `s1`Who am I?!`w0``s0` I am known by many names... but it is not what they call me that stikes terror in the heart of every pitiful dwarf. No... they fear what_ I_ A_M.
+DIALOG | Forlorn Avatar | Huh-?
+DIALOG | ? ? ? = s_port_cuchutamo | I_ AM_ the end-all-be-all of Dwarfal Existence. I_ AM_ the reason little babes sleep with the lights on, and the reason their parents wake up in a cold sweat. I AM the `s1`Coach of your Death!_ I'm demented!`s0`
+DIALOG | ? ? ? = s_port_cuchutamo | `s1`I AM the TAINTED KING!`s0`
+WAIT   | 0.5
+DIALOG | Cu = s_port_cuchutamo | `mq`CU-`rt`
+DIALOG | Cuchu = s_port_cuchutamo | `mq`-CHU-`rt`
+DIALOG | Cuchulainn = s_port_cuchutamo | `mq``s1`-LAINN.`rt``s0`
+DIALOG | Forlorn Avatar | `w2`CUCHULAINN!!`w0`
+DIALOG | Cuchulainn = s_port_cuchutamo | In the virtual flesh!
+WAIT   | 0.5
+DIALOG | Cuchulainn = s_port_cuchutamo | I heard you took a ride to the six hundred and sixtieth floor. I hope you found my penthouse and it's denizens... accomodating. `w1`Bohohoho!`w0`
+//TODO: SOUND | cuchu's laugh
+PLAYSET | o_cuchutamo01 | giggle | hover
+DIALOG | Forlorn Avatar | I was looking for you, to end your sufferable reign! I may not know my name or who I am, but I know you're really_ peevin' me off!
+DIALOG | Cuchulainn = s_port_cuchutamo | `w1`Guggleguggleguggle! `w0`I know why you are here, braster... I've been watching you for a while now.
+Emote  | ? | o_cts_hoopz | 0 | 16
+DIALOG | Cuchulainn = s_port_cuchutamo | What? Did you think you were all alone after those idiots you broke out of `w1`my`w0` Power Egg? Did you think I couldn't keep tabs on you while you were aboard `w1`MY`w0` Space Ziggurat!
+//TODO: SOUND | cuchu's laugh
+PLAYSET | o_cuchutamo01 | giggle | hover
+DIALOG | Cuchulainn = s_port_cuchutamo | I swear you should have never gotten out of that thing, we would already be there by now.
+DIALOG | Forlorn Avatar | Already be where?
+WAIT   | 1
+DIALOG | Cuchulainn = s_port_cuchutamo | `w1`Kreekreekreekree!`w0`
+DIALOG | Cuchulainn = s_port_cuchutamo | You fool, don't you realize what's happening! It's hopeless! The Necron 7 is on a collision course with the inescapable region beyond the known Multiverse. The vast expanse known as Hell!
+DIALOG | Cuchulainn = s_port_cuchutamo | In \" + string(ClockTime(\"get\")) + \" hours, you, the Cyberdwarf, and every dwarf in the galaxy will be shuttled into an eternity of torment! The prophecy of Clispaeth will never come to pass! `w1`Bwahahahaha!`w0`
+DIALOG | Cuchulainn = s_port_cuchutamo | Here. A taste of what lies ahead!
+//TODO: PLAYSET | cuchulainn casts fire spell
+//TODO: add in the fire DESTRUCTION!!
+//TODO: PLAYSET | untamo surprise as fire rages
+FADE   | 1 | 2
+WAIT   | 2
+Teleport | r_bct_tower06 | 0 | 0
+
+TRIGAL_AFTER
+WAIT   | 0.1
+Misc   | set | o_cts_hoopz | o_cinema16
+WAIT   | 0.1
+Camera | snap | o_cts_hoopz
+QUEST  | trigalScene = 2
+WAIT   | 0.1
+KNEELAT | SOUTHWEST
+DIALOG | Bhroom | This is after the FIRE Sequence from Cuchu in O.O.
+//TODO: add a classic \"Hoopz in bed\" thing like wilmer's room at start of game.
+DIALOG | Forlorn Youngster | Ugh... ugh...
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTHWEST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTH
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | NORTHEAST
+WAIT   | 1.5
+DIALOG | Forlorn Youngster | I'm back in L.O.N.G.I.N.U.S...
+WAIT   | 0.5
+LOOK   | o_cts_hoopz | EAST
+WAIT   | 0.15
+LOOK   | o_cts_hoopz | SOUTHEAST
+WAIT   | 1.0
+DIALOG | Forlorn Youngster | Cy-_Cy-..._ Cyberdwarf...
+DIALOG | Forlorn Youngster | De-_De-..._ Destiny..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

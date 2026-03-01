@@ -97,9 +97,7 @@ func _enter_tree() -> void:
 	B2_Screen.can_pause = player_can_pause
 	_hide_collision_layer()
 	if play_room_music:		ready.connect( _play_room_music )
-	else:					B2_Music.stop( 1.0 )
-	
-
+	else:					B2_Music.stop( 0.0 )
 		
 	y_sort_enabled = true
 	ready.connect( _after_ready )

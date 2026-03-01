@@ -1,0 +1,192 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://d1pvdydhsxdky"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_js65f"]
+
+[resource]
+script = ExtResource("1_js65f")
+original_script = "IF neneJustKnocked == 1   | GOTO | SNIP_POSTKNOCK
+IF neneJustKnocked == 2   | GOTO | SNIP_POSTLEARN
+IF neneState == 5         | GOTO | NENE_5
+IF neneState == 4         | GOTO | NENE_4
+IF neneState == 3         | GOTO | NENE_3
+IF neneState == 2         | GOTO | NENE_2
+IF longinusDoorState == 1 | GOTO | NENE_DOOR
+IF neneState == 1         | GOTO | NENE_1
+GOTO   | NENE_0
+
+SNIP_POSTKNOCK
+QUEST  | longinusDoorOpen = 2
+QUEST  | neneState = 5
+QUEST  | neneKnock = 1
+DIALOG | Klaaust Mitsugiri | Was... was that it? Was that `mq`the knock!?`rt`
+QUEST  | neneJustKnocked = 2
+Create | o_mg_knocking_minigame
+EVENT  | o_mg_knocking_minigame | 0
+
+SNIP_POSTLEARN
+DIALOG | Klaaust Mitsugiri | `w1`Ooooooh man,`w0` I hope that was it! Thank you, Nene!!! Thank you!!
+KNOW   | knowNene | 3
+QUEST  | neneJustKnocked = 0
+
+SNIP_CHOICE3
+Breakout | add | digiducats | -@money_neneTab@
+CHOICE | Pay Nene's @money_neneTab@ DD tab?
+REPLY  | PAY3 | Ugh! I'll pay your tab.
+REPLY  | NO3  | Get your own milk, chump.
+
+PAY3
+IF digiducats >= @money_neneTab@ | GOTO | PAID3
+GOTO   | FAIL3
+
+PAID3
+QUEST  | digiducats -= @money_neneTab@
+SOUND  | hoopz_pickupMoney
+DIALOG | Klaaust Mitsugiri | Clispaeth Christ... yeah, okay Nene. I'll pay the tab. Here's the ducats, just... now you gotta show me the knock.
+Breakout | clear
+DIALOG | Nene              | `w1`Ooooh man,`w0` I'm getting dizzy... I'm... I think I had too much `w1`*hic*`w0`
+DIALOG | Klaaust Mitsugiri | `s1`Nooo,`s0` Nene, no! Don't pass out, please! You gotta show me the knock!
+DIALOG | Nene              | `w1`Zzzzzzz...`w0`
+SET    | o_nene01 | sleep
+SOUND  | sn_heavymass01
+WAIT   | 2
+DIALOG | Klaaust Mitsugiri | `s1`Nooooooo!`s0` Nene, c'mon! Wake up! Wake up, Nene! You gotta show me the knock!
+DIALOG | Bartender         | Yep. He's out cold. That's just how he gets, you're not gonna wake him up.
+DIALOG | Klaaust Mitsugiri | How is that even possible? This is virtual reality! C'mon, Nene! Wake up! `s1`Wake up!!!!`s0`
+Create | o_mg_knocking_nene
+
+FAIL3
+Breakout | clear
+QUEST  | neneState = 3
+DIALOG | Klaaust Mitsugiri | Dad fruggit, I don't have enough digi-ducats in my virtual pockets. Hold on, let me go get some cash, Nene.
+DIALOG | Nene              | I'll be `w1`*hic*`w0` right here. Don't you forget about me!
+
+NO3
+Breakout | clear
+QUEST  | neneState = 3
+DIALOG | Klaaust Mitsugiri | Cram it, `kw`milkcraver!`rt` Quit yanking me around and get your own flubbin' milk. Take some personal responsibility for yourself and do your job. Jeez.
+DIALOG | Nene              | I... I just wanted more milk...
+
+SNIP_CHOICE2
+Breakout | add | digiducats | -@money_neneMilk2@
+CHOICE | Buy Nene some more milk for @money_neneMilk2@ DD?
+REPLY  | PAY2 | Sure, I can get you some more milk.
+REPLY  | NO2  | Get your own milk, chump.
+
+PAY2
+IF digiducats >= @money_neneMilk2@ | GOTO | PAID2
+GOTO   | FAIL2
+
+PAID2
+QUEST  | digiducats -= @money_neneMilk2@
+SOUND  | hoopz_pickupMoney
+DIALOG | Klaaust Mitsugiri | Ugh, sure, what the heck...
+Breakout | clear
+SOUND  | sn_juicechug01
+EVENT  | o_nene01 | 0
+WAIT   | 3
+EVENT  | o_nene01 | 1
+DIALOG | Nene              | Heeeeey, thanks Clarence. This `kw`2%...`rt` this is some damn good milk `w1`*hic*.`w0` So hey, buddy, what were you talking about just a minute ago?
+DIALOG | Klaaust Mitsugiri | The knock, remember? The knock you've gotta do to get into L.O.N.G.I.N.U.S. I'm the, umm, new guy and I forgot the knock. That's why I'm asking you, remember?
+DIALOG | Nene              | Yeeeeah, yeah `w1`*hic*,`w0` I remember now. Hey, buddy... Clyde... lemme tell you something... I always liked you. You're... you're a good friend.
+DIALOG | Klaaust Mitsugiri | Yeah, you too Nene... so hey, you think you could show me the `mq`secret knock`rt` now?
+DIALOG | Nene              | Chad, I gotta tell you somethin'... you've always been there for me... been there when I `w1`*hic*`w0` needed it... I'm down in the dumps now and there's nothin' I can do about it...
+DIALOG | Klaaust Mitsugiri | Okay, where's this going, Nene?
+DIALOG | Bartender         | He's got a `kw`@money_neneTab@ digi-ducat`rt` tab.
+DIALOG | Klaaust Mitsugiri | Holy Clispaeth, Nene!
+DIALOG | Nene              | You've... you've always been such a good friend... you think... you think you could help `w1`*hic*`w0` me out this one last time?
+GOTO   | SNIP_CHOICE3
+
+FAIL2
+Breakout | clear
+QUEST  | neneState = 3
+DIALOG | Klaaust Mitsugiri | Dad fruggit, I don't have `kw`@money_neneMilk2@ digi-ducats.`rt` Hold on, let me go get some cash, Nene.
+DIALOG | Nene | I'll be `w1`*hic*`w0` right here. Don't you forget about me!
+
+NO2
+Breakout | clear
+QUEST  | neneState = 3
+DIALOG | Klaaust Mitsugiri | Cram it, milkcraver! Quit yanking me around and get your own flubbin' milk. Take some personal responsibility for yourself and do your job. Jeez.
+DIALOG | Nene | I... I just wanted more milk...
+
+SNIP_CHOICE1
+Breakout | add | digiducats | -@money_neneMilk1@
+CHOICE | Pay @money_neneMilk1@ DD for Nene's milk?
+REPLY  | PAY1 | Sure, I'll pay.
+REPLY  | NO1  | Pay for your own milk.
+
+PAY1
+IF digiducats >= @money_neneMilk1@ | GOTO | PAID1
+GOTO   | FAIL1
+
+PAID1
+QUEST  | digiducats -= @money_neneMilk1@
+SOUND  | hoopz_pickupMoney
+DIALOG | Klaaust Mitsugiri | Sure, what's a few `kw`digi-ducats`rt` between friends? Bartender! Get my pal Nene a milk... on the rocks.
+Breakout | clear
+SOUND  | sn_juicechug01
+EVENT  | o_nene01 | 0
+WAIT   | 3
+EVENT  | o_nene01 | 1
+DIALOG | Nene              | Hey Ky- `w1`*hic*`w0` hey you - I like you. You're a good kid. You're gonna fit right in, that's `w1`*hic*`w0` what I think.
+DIALOG | Klaaust Mitsugiri | Hey, so speaking of fitting right in, I can't get inside the L.O.N.G.I.N.U.S. base. I forgot the `mq`secret knock.`rt`
+DIALOG | Nene              | `mq`Secret knock?`rt` Did you say secret `w1`*hic*`w0` knock? Hey buddy... keep it down... `w1`*hic*`w0` it's a good thing you asked me about that thing, because I know aaaaaaaaall about it. That thing you `w1`*hic*`w0` asked me about... *wink* I know it.
+DIALOG | Klaaust Mitsugiri | Hey Nene, now that we're best friends, you think can you show me the `mq`secret knock?`rt` I've gotta report in a few minutes for a top secret briefing.
+DIALOG | Nene              | Whoaaa mama! This is a DANG good `w1`*hic*`w0` milk.
+DIALOG | Klaaust Mitsugiri | I always preferred Hawaiian Punch... so hey, about that secret knock...
+DIALOG | Nene              | Hey..._ Hey..._ I'm still pretty `w1`*hic*`w0` I'm still pretty thirsty... think you could spot me `kw`@money_neneMilk2@ digi-ducats`rt` to get some 2%, buddy?
+DIALOG | Klaaust Mitsugiri | Ugh...
+GOTO   | SNIP_CHOICE2
+
+FAIL1
+Breakout | clear
+QUEST  | neneState = 2
+DIALOG | Klaaust Mitsugiri | Shag juggit, I'm outta cash. Think you can wait for me to round some up some digi-ducats, pal?
+DIALOG | Nene              | M-me? I'll be here all day. I'm just soakin' up the `w1`*hic*`w0` ambiance.
+
+NO1
+Breakout | clear
+QUEST  | neneState = 2
+DIALOG | Klaaust Mitsugiri | Are you flubbin' me? Pay for your own milk! I'm not an ATM!
+DIALOG | Nene | I'm... I'm so thirsty...
+
+NENE_5
+DIALOG | Nene | No... no more milk._._._ `w1`*hic*`w0`
+Create | o_mg_knocking_nene
+
+NENE_4
+DIALOG | Nene              | Heyyyyyy... I know you! Whatchu say your name was again... Cll... Clarence? 'eyyyyy, Clarence. I'm gettin' kinda tipsy here... I'm uh... I'm gettin' pretty milked up.
+DIALOG | Klaaust Mitsugiri | It's, uh, Klaaust Mitsugiri. So Nene, about that L.O.N.G.I.N.U.S. `mq`secret knock...`rt`
+DIALOG | Nene              | Yeah, yeah... `w1`*hic*`w0` I know the knock... everyone in L.O.N.G.I.N.U.S. knows the knock. Course I know the knock! Hey, hey, Clarence... hey, pal... look, I'm in a hard spot right now. I'm in a bad place. I know it's askin' a lot `w1`*hic*`w0` but... but buddy... look... I've got this tab.
+DIALOG | Klaaust Mitsugiri | Buy you a milk, huh...
+GOTO   | SNIP_CHOICE3
+
+NENE_3
+DIALOG | Nene              | Hey, it's my new buddy... what `w1`*hic*`w0` what did you say your name was again, pal?
+DIALOG | Klaaust Mitsugiri | It's uh... Klaaust Mitsugiri.
+DIALOG | Nene              | Hey... hey... that's a mouthful... hey, what were we talking about again? The secret L.O.N.G.I.N.U.S. `w1`*hic*`w0` knock? Yeah pal... I know `w1`*hic*`w0` aaaaaall about that. Hey, I like you... whaddaya say you buy me a milk, huh?
+DIALOG | Klaaust Mitsugiri | You want another milk, huh...
+GOTO   | SNIP_CHOICE2
+
+NENE_2
+DIALOG | Nene              | Hey, it's my new L.O.N.G.I.N.U.S. buddy uh... `w1`*hic*...`w0` K... Krump... Kloyd...
+DIALOG | Klaaust Mitsugiri | Uh... Klaaust Mitsugiri...
+DIALOG | Nene              | Yeaaaaaaah, Kyyyyyyyle. Hey, hey buddy... I `w1`*hic*`w0` I remember you. Hey, weren't we talkin' about something? Weren't we talkin' about L.O.N.G.I.N.U.S. `w1`*hic*`w0` or somethin'? Listen buddy... I like you... I like `w1`*hic*`w0` I like you bub. Whaddaya say about buyin' me a milk? Huh?
+DIALOG | Klaaust Mitsugiri | Buy you a milk, huh...
+GOTO   | SNIP_CHOICE1
+
+NENE_DOOR
+DIALOG | Nene              | The boys back at L.O.N.G.I.N.U.S. `w1`*hic*`w0` the boys... `w1`*hic*...`w0` the boys don't know what they're `w1`*hic*`w0` missing...
+DIALOG | Klaaust Mitsugiri | Hey, did you just say L.O.N.G.I.N.U.S.? Are you Nene?
+DIALOG | Nene              | Y- `w1`*hic*`w0` Yeah! I'm Nene. Whattaya `w1`*hic*`w0` whattaya want? You tryin' to drag me back to base? I don't give two rat dips about Cuchoo... Cuchoo... I'm `w1`*hic*`w0` not goin'!
+DIALOG | Klaaust Mitsugiri | I'm, um, Klaaust Mitsugiri, the new transfer? Just thought I'd meet some of the L.O.N.G.I.N.U.S. crew. How's it going, Nene?
+DIALOG | Nene              | Heyyyyyyy, Kyyyyyle... I think I heard'aya `w1`*hic*`w0` think I heard'aya you... 'ey bartender! Get a milk for me and my new friend! 'ey Kyle, this one's on you, I'm runnin' low on `w1`*hic*`w0` `kw`dubloons,`rt` pal.
+DIALOG | Klaaust Mitsugiri | Uh, you want me to pay for your milk...?
+GOTO   | SNIP_CHOICE1
+
+NENE_1
+DIALOG | Nene | That Lft. Wiglaf down at L.O.N.G.I.N.U.S. thinks he `w1`*hic*`w0` thinks he knows `w1`*hic*`w0` that Lft. Wiglaf thinks he knows `w1`*hic*`w0` about things...
+
+NENE_0
+DIALOG | Nene | Tell the `w1`*hic*`w0` tell the boys back at `w1`*hic*`w0` L.O.N.G.I.N.U.S... tell 'em `w1`*hic*...`w0` tell 'em something...
+QUEST  | neneState = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

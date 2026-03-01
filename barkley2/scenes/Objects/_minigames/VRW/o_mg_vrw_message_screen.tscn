@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://c5v4xji5k56as"]
+
+[ext_resource type="Script" uid="uid://llri0f3pwcav" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_message_screen.gd" id="1_bdfu2"]
+[ext_resource type="Theme" uid="uid://wdp4l5rs0tuh" path="res://barkley2/themes/dialogue.tres" id="1_bqke7"]
+[ext_resource type="Script" uid="uid://cr5icxx3wijsf" path="res://barkley2/scenes/border/B2_panel_bg.gd" id="2_aehpg"]
+[ext_resource type="Texture2D" uid="uid://dqktio2sgpsw" path="res://barkley2/assets/b2_original/images/merged/s_mg_vrw_quest.png" id="3_bdfu2"]
+[ext_resource type="LabelSettings" uid="uid://b38457p3a0dym" path="res://barkley2/resources/label_fn2.tres" id="4_aehpg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kw70y"]
+atlas = ExtResource("3_bdfu2")
+region = Rect2(0, 0, 19, 29)
+
+[node name="o_mg_vrw_message_screen" type="Control" unique_id=1717938712]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_bdfu2")
+
+[node name="message_bg" type="ColorRect" parent="." unique_id=1011318043]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.75000006)
+
+[node name="main_border" type="Control" parent="." unique_id=804079619]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -32.0
+offset_right = 80.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_bqke7")
+script = ExtResource("2_aehpg")
+force_style = true
+forced_style = 3
+border_size = Vector2(160, 64)
+metadata/_custom_type_script = "uid://cr5icxx3wijsf"
+
+[node name="MarginContainer" type="MarginContainer" parent="main_border" unique_id=998610773]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="main_border/MarginContainer" unique_id=1980280703]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="s_mg_vrw_quest" type="TextureRect" parent="main_border/MarginContainer/VBoxContainer" unique_id=762506627]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_kw70y")
+stretch_mode = 2
+
+[node name="s_mg_vrw_quest_lbl" type="Label" parent="main_border/MarginContainer/VBoxContainer" unique_id=165204325]
+layout_mode = 2
+text = "PLACEHOLDER"
+label_settings = ExtResource("4_aehpg")
+horizontal_alignment = 1

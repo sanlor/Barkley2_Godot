@@ -7,8 +7,10 @@ var debug := false
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
-const S_DIAG_FRAME 		:= preload("res://barkley2/assets/b2_original/images/merged/s_diag_frame.png")
-const S_RETURN 			:= preload("res://barkley2/assets/b2_original/images/merged/s_return.png")
+const S_DIAG_FRAME_VRW 	:= preload("uid://dfji5d2eosspl")
+const S_DIAG_FRAME 		:= preload("uid://cph4fl4lnsekc")
+const S_RETURN_VRW 		:= preload("uid://dmmw366rffska")
+const S_RETURN 			:= preload("uid://bu7c45dom4m8l")
 # reference script = o_dialogue
 
 const LINE_SIZE 		:= 9
@@ -121,18 +123,21 @@ var blink_cooldown 			:= 0.0
 var blink_speed 			:= 5.50
 var is_talking				:= false
 
+## Seed for the randomization used on the dialogue boxes.
+var border_seed := randi()
+
 func _ready() -> void:
 	if debug: print_debug("DEBUG enabled.")
 	#layer = B2_Config.DIALOG_LAYER
 	_draw_y = B2_Config.dialogY # set the diag box on top or on the bottom. almost always, its on the bottom.
 	
 	# Setup the dinamic frame
-	border_node = B2_Border.new()
-	border_node.bg_opacity = 0.85
-	border_node.set_seed( get_tree().root.get_child(0).name ) # This ensures that the border is random, but doesnt change all the time.
+	border_node 				= B2_Border.new()
+	border_node.bg_opacity 		= 0.85
+	border_node.set_seed( border_seed ) # This ensures that the border is random, but doesnt change all the time.
 	
 	# Identify this diag box
-	name = "Dialog_box"
+	#name = "Dialog_box"
 	
 	add_child( border_node )
 	border_node.name = "Dialog_Frame"
@@ -141,10 +146,13 @@ func _ready() -> void:
 	
 	input_pressed.connect( handle_input )
 	
-	# Setup the return sprite (the one that blinks while waiting input
+	# Setup the return sprite (the one that blinks while waiting input)
 	return_sprite = Sprite2D.new()
 	return_sprite.centered 		= false
-	return_sprite.texture 		= S_RETURN
+	if B2_CManager.curr_DIAG_BOX == B2_CManager.DIAG_BOX.VRW:
+		return_sprite.texture 		= S_RETURN_VRW
+	else:
+		return_sprite.texture 		= S_RETURN
 	border_node.add_child( return_sprite, true )
 	return_sprite.position 		= border_node.size - Vector2(24,24)
 	
@@ -189,7 +197,10 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 		# Add the frame to the tree
 		portrait_frame_node = TextureRect.new(); 
 		add_child( portrait_frame_node, true ) 
-		portrait_frame_node.texture = S_DIAG_FRAME
+		if B2_CManager.curr_DIAG_BOX == B2_CManager.DIAG_BOX.VRW:
+			portrait_frame_node.texture = S_DIAG_FRAME_VRW
+		else:
+			portrait_frame_node.texture = S_DIAG_FRAME
 		portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
 	
 		portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 

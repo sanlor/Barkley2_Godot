@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dpgm6vo430tpp"]
+
+[ext_resource type="Script" uid="uid://b3ojwxo4gmf0n" path="res://barkley2/scenes/Objects/_minigames/VRW/o_mg_vrw_message.gd" id="1_xqmav"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hjeh5"]
+size = Vector2(32, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qeh2b"]
+size = Vector2(32, 16)
+
+[node name="o_mg_vrw_message" type="Area2D" unique_id=341311172]
+collision_mask = 2
+script = ExtResource("1_xqmav")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1590030796]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1371261806]
+position = Vector2(16, 4)
+shape = SubResource("RectangleShape2D_hjeh5")
+debug_color = Color(0.20784314, 0.6392157, 0, 0.68235296)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1046600011]
+position = Vector2(16, 8)
+shape = SubResource("RectangleShape2D_qeh2b")
+debug_color = Color(0.8627451, 0.35686275, 0.92156863, 0.25490198)
+
+[node name="message_timer" type="Timer" parent="." unique_id=2129369914]
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

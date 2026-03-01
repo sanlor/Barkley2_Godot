@@ -244,8 +244,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	if not is_instance_valid(camera):
 		camera = get_camera_on_tree()
 		
-	
-		
 	assert(camera != null, "Camera not setup. Fix it.")
 	assert(cutscene_mask is Array, "Whops, outdate node called the cinema function wrong. -> %s." % type_string(typeof(cutscene_mask)))
 	
@@ -259,6 +257,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	## Cutscene ID.
 	name = "cutscene_" + event_caller.name
+	
+	## Seed for the randomization used on the dialogue boxes.
+	# With this, dialog boxes have a predictable border, while individual borders will be completely random.
+	var border_seed := randi()
 	
 	## lock player control
 	B2_Input.cutscene_is_playing 	= true
@@ -274,8 +276,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	#camera.set_camera_bound( false ) ## Disabled on 01/01/26 - maybe unneeded?
 	
 	# Chill out. Avoid loading invalid nodes.
-	await get_tree().process_frame # ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
+	# ^^ fuck you, I will chill out when I die. Also, avoid a single frame with a wrong sprite from the actor.
+	# Actually, I will chill out. To be honest, I don't really remember why do I need to chill.
+	await get_tree().process_frame 
 	
+	# Replace the Hoopz player with Hoopz actor.
 	load_hoopz_actor()
 	
 	#room = B2_RoomXY.get_current_room()
@@ -292,6 +297,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	
 	# this should be here?
 	update_pathfinding()
+	
+	## Hide the HUD, if its out.
 	if is_instance_valid( B2_Screen.get_hud() ):
 		B2_Screen.get_hud().hide_hud()
 		await B2_SignalBus.hud_visibility_changed
@@ -301,7 +308,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	if cutscene_script is B2_Script_Legacy:
 		print_rich("[color=pink]Started Cinema() Script.[/color]")
 		# Split the script into separate lines
-		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", true )
+		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", true ) ## Takes the whole script and split each line on an array.
 		var script_size 	:= split_script.size()
 		var curr_line 		:= 0
 		var loop_finished 	:= true
@@ -323,6 +330,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				loop_finished = true
 				break # exit the loop
 				
+			## The raw line text.
 			var line : String = split_script[ curr_line ]
 			
 			if print_line_report:
@@ -336,7 +344,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				## ^^^^ Yes, it is.
 				## ^^^^ No its not always, smartass. CHOICE and REPLY expect the empty line no show the question.
 				if is_selecting_choices:
+					# The script excepts a choice selection.
 					var dialogue_choice = B2_DialogueChoice.new()
+					dialogue_choice.name = "dialogue_" + event_caller.name
+					dialogue_choice.border_seed = border_seed
 					B2_Screen.add_child( dialogue_choice, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					#var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
 					var choice_portrait = B2_Gamedata.get_hoopz_portrait() ## Is this correct? Is the protrait always hoopz?
@@ -358,18 +369,21 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					choices_labels					= []
 					choices_strings					= []
 				else:
+					# Script finished without an EXIT command. Print data and quit the script.
 					loop_finished = true
 					print_rich("[color=red]CINEMA: Empty line reached (%s), this is not good. Aborting script.[/color]" % curr_line )
 					if curr_line > 0:
 						print_rich("[color=red]CINEMA: Previous line was: %s[/color]" % split_script[ curr_line - 1] )
 					break # exit the loop
 			
+			## Garbage stuff from the original code.
 			if line.begins_with('"'):
 				# skip legacy "stuff"
 				# Jump to next line
 				curr_line += 1
 				continue
 				
+			## Comment from the original code
 			if line.begins_with("//"):
 				if print_comments:
 					print_rich( str(curr_line) + ": [color=yellow]" + line + "[/color]" )
@@ -384,7 +398,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				if print_comments:
 					print_rich( str(curr_line) + ": [color=yellow]" + comment + "[/color]" )
 				line = line.get_slice("//", 0)
-				pass
 				
 			## A 'PackedStringArray' with the cutscene script split up.
 			var parsed_line : PackedStringArray = B2_CManager.cleanup_line( line )
@@ -395,11 +408,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				## Fixes Weird Zola IF conddition -> ' IF zolaNews == 8 && uschiBall == 0 '
 				parsed_line[0].replace("&&", "| IF")
 				
+				## Check if condition is true.
 				if parse_if( parsed_line[0] ):
 					## NOTE Katsu! Sometimes there are nested IF statements.
 					## Instead of continuing the script from here, run all checks again.
 					parsed_line.remove_at( 0 ) # remove the IF command
 					
+					## WARNING get ready for a nice example of a working hack. I could fix it, but I wont. It works and it looks terrible. I love it!
 					## HACK Check only 3 or 4 times.
 					if parsed_line[0].strip_edges().begins_with("IF"):
 						#print( "+1 " + parsed_line[0] ) ## DEBUG
@@ -445,10 +460,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					print("IF: Condition failed. cool. hope this is expected. -> " + parsed_line[0])
 					continue
 				
+			## Check for the command on this line.
 			match parsed_line[0]:
 				"GOTO":
+					## Go to a specific "label".
 					# loop the whole script trying to find the "label".
-					var target_label : String = parsed_line[1] ## 1 is WRONG!
+					var target_label : String = parsed_line[1] ## 1 is WRONG! # 28/02/26 is it really? Why is it working then?
 					var found_label := false
 					for j in script_size:
 						var new_line : String = split_script[ j ]
@@ -467,6 +484,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if not found_label:
 						# "label" not found. push error
 						push_error("GOTO: label " + target_label + " not found.")
+						
 				"RETURN": ## After a GOTO, you may need to go back to the line that you were before the GOTO action.
 					assert( stack_pointer != 0, "Invalid Stack Pointer. Going back to the top of the script.")
 					curr_line = stack_pointer
@@ -475,9 +493,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"REPLY":
 					choices_labels.append( 	parsed_line[1].strip_edges(true,true) )
 					choices_strings.append( parsed_line[2].strip_edges(true,true) )
+				
 				"CHOICE":
 					is_selecting_choices = true
 					choice_question = parsed_line[1].strip_edges(true,true) as String
+					
 				"WAIT":
 					## Holy shit. it took me 3 months to figure this out. WAIT | 0 sets the Async actions. I think...
 					## ^^^ this means: if 'WAIT | 0' is called, wait for the previous action to finish.
@@ -502,13 +522,18 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if debug_wait: print( "Wait: KID WAIT : %s nodes." % dslCinKid.size()  )
 						await cinema_kids()
 						if debug_wait: print( "Wait: KID WAIT Finished" )
+						
 				"EXIT":
+					## Cinema script exited gracefully. Doesn't happen often enough.
 					print("EXIT at line %s." % curr_line)
 					loop_finished = true
 					break # exit the loop
+					
 				"DIALOG", "MYSTERY": # Make a dialog box. Simple AF.
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
+					dialogue.name = "dialogue_" + event_caller.name
+					dialogue.border_seed = border_seed
 					B2_Screen.add_child( dialogue, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					
 					# Setup flourish
@@ -558,8 +583,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 												
 					await dialogue.display_dialog()
 					dialogue.queue_free()
+					
 				"SHAKE":
 					if debug_unhandled: print_rich( "[color=red]Unhandled mode: %s[/color]" % parsed_line )
+					
 				"ITEM", "Item":
 					if parsed_line[ 1 ].strip_edges() == "gain": # Weird edge case, only 1 script use this.
 						B2_Item.gain_item( parsed_line[ 2 ].strip_edges() )
@@ -578,12 +605,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							# huh? amount is 0?
 							breakpoint
 						
-					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"NOTIFY": 
 					var text := parsed_line[ 1 ] as String
 					await B2_Screen.show_notify_screen( Text.qst( Text.pr(text) ) )
+					
 				"NOTIFYALT":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
 				"PLAYSET":
 					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
@@ -599,6 +627,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var anim_name 	:= str( parsed_line[ 2 ] )
 					actor.cinema_set( anim_name )
 					if debug_set: print("SET: ", parsed_line[ 1 ], " - ", str(parsed_line[ 2 ]) )
+					
 				"QUEST":
 					B2_CManager.cinema_quest( parsed_line, debug_quest )
 				
@@ -637,7 +666,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 								breakout_data["value"] 			= parsed_line[2]
 								breakout_data["modifier"] 		= int( Text.qst( parsed_line[3] ) )
 						if debug_breakout: print("Breakout: add %s - %s." % [ parsed_line[2], int( Text.qst( parsed_line[3] ) ) ] )
-						breakpoint
+						#breakpoint
+						# 28/02/26 its used on the VRW (Nene stuff)
 						
 					elif parsed_line.size() == 5:
 						# argument not implemented.
@@ -659,7 +689,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						# too many arguments.
 						breakpoint
 						
-					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"FADE":
 					# check scr_event_fade()
 					# parsed_line[ 1 ] is type: 		// 1 is fade in, 0 is fade out. Fade in is black to transparent.
@@ -685,6 +714,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					#add_sibling( o_fade, true )
 					if debug_fade: 
 						print( "Fade: ", str(curr_line), " - ", parsed_line )
+						
 				"SOUND":
 					B2_CManager.cinema_sound( parsed_line, debug_sound )
 					#region Deprecated code
@@ -727,6 +757,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					if debug_event: 
 						print( "Executed EVENT: ", parsed_line )
+						
 				"NOTE":
 					if parsed_line[1].strip_edges() == "take": # as in, hoopz gains a new note.
 						B2_Note.take_note( Text.pr( parsed_line[2].strip_edges() ) )
@@ -783,13 +814,16 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						breakpoint
 						
 					if debug_shop: print_rich("[color=yellow]Shop %s closed![/color]" % shop_name )
+					
 				"LOCKPICK":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
 				"CHATROULETTE":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+					
 				"CREATE","Create":
 					Create( parsed_line )
-					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+
 				"CREATE_WAIT":
 					#breakpoint ## TODO add this function
 					# Create( parsed_line, true ) <- 'true' should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.
@@ -803,7 +837,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					else:
 						push_error("invalid object. -> ", parsed_line)
 							
-					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+
 				"SURPRISEAT":
 					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
 					# Check script USEAT() and SURPRISEAT.
@@ -814,6 +848,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( str(parsed_line[ 1 ]).strip_edges() ) 	# its a direction, like NORTH.
+						
 				"USEAT":
 					# Check script USEAT().
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
@@ -823,6 +858,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_useat( str(parsed_line[ 1 ] ).strip_edges() ) 	# its a direction, like NORTH.
+						
 				"KNEELAT":
 					## Similar to SURPRISEAT, but kneeling
 					# USEAT(argument[0], "kneelHold", "kneelHold", 1);
@@ -833,6 +869,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						await B2_CManager.o_cts_hoopz.cinema_kneelat( subject ) 		# its a node.
 					else:
 						await B2_CManager.o_cts_hoopz.cinema_kneelat( str(parsed_line[ 1 ]).strip_edges() ) 	# its a direction, like NORTH.
+						
 				"FOLLOWFRAME":
 					var speed 			: String = parsed_line[ 1 ]
 					var follow_array 	: Array = Array()
@@ -862,6 +899,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						cinema_kid( camera )
 					else:
 						if debug_moveto: print("FRAME: destination_object is invalid: ", move_array )
+						
 				"LOOKAT":
 					# Look torward someone.
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
@@ -874,6 +912,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							push_error( "Actor %s is not valid. Can't look at invalid objects, dumbass." % parsed_line[2] )
 					else:
 						push_error( "Actor %s is not valid. Invalid objects can't look at anything, dumbass." % parsed_line[1] )
+						
 				"LOOK":
 					# Look torward a direction.
 					## NOTE Im not sure if this is working
@@ -882,6 +921,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						actor.cinema_look( parsed_line[2] )
 					else:
 						push_error("Actor %s not found in the current tree." % parsed_line[1])
+						
 				"MOVETO":
 					# oh, what the fuck. The original game has pathfinding in the movement system.
 					# check scr_event_action_move_to_point and o_move.
@@ -915,6 +955,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if debug_moveto: print("MOVETO: actor is invalid: ",parsed_line[1])
 						
 					if debug_moveto: print("MOVETO: ", parsed_line[1], " - ", parsed_line[2] )
+					
 				"MOVE":
 					var target_x					= float(parsed_line[2])
 					var target_y					= float(parsed_line[3])
@@ -925,9 +966,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					actor.cinema_moveto( target_pos, speed ) 		## Async movement
 					cinema_kid( actor )
 					
-					#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 				"SOUNDSTOP":
 					B2_Sound.stop_loop() ## CRITICAL current implementation ignores the actual sound name.
+					
 				"KNOW":
 					# Looks like this handles what the player knows. used during dialog.
 					# Its a pretty kool feature!
@@ -951,6 +992,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					B2_Playerdata.Stat( stat, new_value )
 					if debug_glamp: print("GLAMP -> ", parsed_line)
+					
 				"THROW":
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 					
@@ -975,12 +1017,16 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						B2_Map.gain_map( Text.pr( parsed_line[2].strip_edges() ) )
 					else:
 						push_error("Unrecognized Map command: " + str(parsed_line) )
+						
 				"Misc":
 					Misc( parsed_line )
+					
 				"Camera":
 					Camera( parsed_line )
+					
 				"Shake":
 					Shake( parsed_line )
+					
 				"ClockTime":
 					## Set timed quest variables.
 					if parsed_line[1].strip_edges() == "event":
@@ -1005,6 +1051,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						
 					else:
 						push_error("Unrecognized ClockTime command: " + str(parsed_line) )
+						
 				"Flourish":
 					# The Original code doesnt describe this function. of course.
 					# It SEEMS that all it does is override the current portrait during dialog, with some animation that doesnt follow the "talk" and "blink" commands.
@@ -1013,6 +1060,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					flourish_portrait = str( parsed_line[1] )
 					flourish_time = float( parsed_line[0] ) ## <- No idea wha this does. this is never decreased on the original code. -1 seems to be "disabled". What 0 and 1 means?
 					if debug_flourish: print( "Flourish called: %s" % flourish_portrait )
+					
 				"Emote":
 					## Emote(emotetype, target object?, xoffset?, yoffset?)
 					## Create an emote at a specific place.
@@ -1045,8 +1093,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					emote_node.offset	+= Vector2( xoffset, yoffset )
 					emote_node.position = ( emote_target.position ) - Vector2( 0, 10 )
 					get_tree().current_scene.add_child( emote_node, true )
+					
 				"BodySwap":
 					B2_CManager.BodySwap( str( parsed_line[1] ).strip_edges() )
+					
 				"Teleport":
 					var room_string := ""
 					for _str : String in parsed_line:
@@ -1054,8 +1104,10 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
 					B2_RoomXY.warp_to( room_string, 0.0, false )
 					await B2_RoomXY.fadeout_finished
+					
 				"scr_savedata_save":
 					B2_Playerdata.SaveGame()
+					
 				"Candy": ## This is only called once in the whole game.
 					var action : String = parsed_line[1].strip_edges()
 					var candy : String = parsed_line[2].strip_edges()
@@ -1068,6 +1120,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						_:
 							push_error( "%s: Invalid Candy action -> %s" % [name, action] )
 							breakpoint
+							
 				"Duergar": # Check or sets information related to Duergars. Check "Duergar".
 					var action 	: String = parsed_line[1].strip_edges()
 					var duergar : String = parsed_line[2].strip_edges()
@@ -1103,6 +1156,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 							B2_Music.stop(speed)
 						"PLAY":
 							B2_Music.play( parsed_line[2].strip_edges() )
+							
 				_:
 					if debug_unhandled: print( "Unhandled text: ", parsed_line[0] + " - " + str(parsed_line) )
 			
@@ -1110,12 +1164,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 			curr_line += 1
 				
 			if array_dirty:
-				# some invalid node was foing in the array
+				# some invalid node was found in the array
 				all_nodes.clear()
 				all_nodes = get_all_nodes()
 				
+		## Cleanup script to end the cutscene.
 		end_cutscene()
 		
+	## Why true? Why does it return true???? WHYYYYYYY??
 	return true
 
 func get_all_nodes() -> Array[Node]:
