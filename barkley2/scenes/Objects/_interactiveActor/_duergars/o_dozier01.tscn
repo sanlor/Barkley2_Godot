@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://dxsh06hbptuqg"]
+
+[ext_resource type="Script" uid="uid://c6kptk26hj8fm" path="res://barkley2/scenes/Objects/_interactiveActor/_duergars/o_dozier_01.gd" id="1_7obf1"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="2_hy7ny"]
+[ext_resource type="Texture2D" uid="uid://dmah8t2rn0h20" path="res://barkley2/assets/b2_original/images/merged/s_dozier01.png" id="3_5ewa4"]
+[ext_resource type="Texture2D" uid="uid://cgcdp0hpdo2iy" path="res://barkley2/assets/b2_original/images/merged/s_dozierNE.png" id="4_c2o2r"]
+[ext_resource type="Texture2D" uid="uid://defqfg2vbp7yp" path="res://barkley2/assets/b2_original/images/merged/s_dozierSE.png" id="5_uobsk"]
+
+[sub_resource type="Resource" id="Resource_d5ar8"]
+script = ExtResource("2_hy7ny")
+original_script = "DIALOG | Dozier | `s1`Scram, perp!`s0`
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbhiy"]
+atlas = ExtResource("3_5ewa4")
+region = Rect2(0, 0, 30, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dq0wa"]
+atlas = ExtResource("3_5ewa4")
+region = Rect2(30, 0, 30, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byqix"]
+atlas = ExtResource("4_c2o2r")
+region = Rect2(0, 0, 34, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vff5y"]
+atlas = ExtResource("4_c2o2r")
+region = Rect2(34, 0, 34, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rq3if"]
+atlas = ExtResource("4_c2o2r")
+region = Rect2(68, 0, 34, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1ex7"]
+atlas = ExtResource("4_c2o2r")
+region = Rect2(102, 0, 34, 41)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yadx"]
+atlas = ExtResource("5_uobsk")
+region = Rect2(0, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkp4j"]
+atlas = ExtResource("5_uobsk")
+region = Rect2(33, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_us0l5"]
+atlas = ExtResource("5_uobsk")
+region = Rect2(66, 0, 33, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i53xu"]
+atlas = ExtResource("5_uobsk")
+region = Rect2(99, 0, 33, 42)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hy7ny"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbhiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dq0wa")
+}],
+"loop": true,
+"name": &"s_dozier01",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byqix")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vff5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rq3if")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1ex7")
+}],
+"loop": true,
+"name": &"s_dozierNE",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yadx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkp4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_us0l5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i53xu")
+}],
+"loop": true,
+"name": &"s_dozierSE",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c4ujo"]
+size = Vector2(27, 39)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nfa3t"]
+
+[node name="o_dozier01" type="CharacterBody2D" unique_id=814936462]
+script = ExtResource("1_7obf1")
+duergar_name = "dozier"
+cutscene_script = SubResource("Resource_d5ar8")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=181663274]
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=53623374]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_hy7ny")
+animation = &"s_dozier01"
+centered = false
+offset = Vector2(-16, -32)
+
+[node name="ActorInteract" type="Area2D" parent="." unique_id=428111856]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActorInteract" unique_id=1631856100]
+position = Vector2(-0.5, -12.5)
+shape = SubResource("RectangleShape2D_c4ujo")
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=919389607]
+shape = SubResource("CircleShape2D_nfa3t")

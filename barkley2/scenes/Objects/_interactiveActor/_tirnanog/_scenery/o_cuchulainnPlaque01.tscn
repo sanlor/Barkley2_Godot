@@ -97,9 +97,9 @@ WAIT   | 0.25
 LOOK   | o_cts_hoopz | NORTH
 WAIT   | 1
 DIALOG | P_NAME         | (What the heck! It's like it's welded on!)
-CREATE | o_lafferty01   | 88 | 376
-CREATE | o_dozier01     | 544 | 312
-CREATE | o_vikingstad01 | 568 | 512
+CREATE | o_lafferty01   | o_cinema1
+CREATE | o_dozier01     | o_cinema2
+CREATE | o_vikingstad01 | o_cinema3 
 LOOK   | o_lafferty01   | SOUTHEAST
 LOOK   | o_dozier01     | SOUTHWEST
 LOOK   | o_vikingstad01 | NORTHWEST
@@ -116,9 +116,7 @@ SURPRISEAT | o_lafferty01
 DIALOG | P_NAME = s_port_hoopzSurprise | H-huh!? Oh no...!
 MOVETO | o_lafferty01   | o_cinema4 | MOVE_NORMAL
 MOVETO | o_dozier01     | o_cinema5 | MOVE_NORMAL
-\" +
 //TODO: check the duergars and edit these properly
-\"
 SURPRISEAT | o_dozier01
 MOVETO | o_vikingstad01 | o_cinema6 | MOVE_FAST
 WAIT   | 0
@@ -150,18 +148,14 @@ DIALOG | Dozier  | How stupid can you be? You've been ratted out! One of your do
 DIALOG | Dozier | `sq`You're under arrest!`rt`
 DIALOG | P_NAME = s_port_hoopzShock | Wh-what!? Nein... Nein!
 DIALOG | Dozier  | Conspiracy, vandalism, treason, and an attempted act of terror... That's enough to lock you up for life ten times over. `w1`Bwahahaha!`w0` 
-\" +
 //TODO: add in the standard \"arrest animation\" if we use it (we talked about the ELECTROSHOCK animation)
-\"
 QUEST  | govQuest = 7
 WAIT   | 0.25
 FADE   | 1 | 2.0
 WAIT   | 3.0
 QUEST  | prisonArrested = 2
 QUEST  | prisonIntro = 1
-\" +
 //TODO: the music should change to the PRISON MUSIC
-\"
 Teleport | r_pri_prisonGate01 | 464 | 1072
 
 SPARE_IT
@@ -173,7 +167,7 @@ size = Vector2(31, 31)
 [node name="o_cuchulainnPlaque01" type="AnimatedSprite2D" unique_id=716108047 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_xon2c")
 centered = false
-offset = Vector2(-16, -28)
+offset = Vector2(-16, -41.48)
 script = ExtResource("2_vxy8h")
 mouse_detection_area = NodePath("Area2D")
 cutscene_script = SubResource("Resource_pvshe")
@@ -190,6 +184,7 @@ metadata/default = {
 }
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1118031503]
+position = Vector2(0, -13)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=707298191]
 position = Vector2(-0.5, -12.5)
