@@ -6,12 +6,17 @@ extends Node
 var debug := true
 
 signal fastforward_request( is_active : bool )
-signal input_changed(CONTROL)
+signal input_changed( CONTROL )
 
+## Keeps track of which input method is being used.
 enum CONTROL{KEYBOARD, GAMEPAD}
 var curr_CONTROL := CONTROL.KEYBOARD
 
-var cutscene_is_playing 	:= false # Set to true during cutscenes and conversations
+var cutscene_is_playing 	:= false :# Set to true during cutscenes and conversations
+	set(c):
+		cutscene_is_playing = c
+		#print_rich( "[bgcolor=red][color=black]%s DEBUG: cutscene_is_playing set to %s.[/color][/bgcolor]" % [name, c] )
+		#print_stack()
 var player_has_control 		:= true :# Set to false during cutscenes and conversations
 	set(p):
 		player_has_control = p
@@ -41,15 +46,18 @@ func _physics_process(_delta: float) -> void:
 		
 func _input(event: InputEvent) -> void:
 	## Allow the detection of which input is the player using. Gamepad or keyboard?
+	# Keyboard check
 	if event is InputEventMouseButton or event is InputEventKey: ## NOTE Mouse movement does not change the input.
 		if curr_CONTROL != CONTROL.KEYBOARD:
 			curr_CONTROL = CONTROL.KEYBOARD
 			input_changed.emit(CONTROL.KEYBOARD)
+	# Gamepad check
 	elif event is InputEventJoypadButton or event is InputEventJoypadMotion:
 		if curr_CONTROL != CONTROL.GAMEPAD:
 			curr_CONTROL = CONTROL.GAMEPAD
 			input_changed.emit(CONTROL.GAMEPAD)
 		
+	# Fast forward check.
 	if Input.is_action_pressed("Holster") or Input.is_action_just_released("Holster"):
 		if (can_fast_forward and cutscene_is_playing) or Input.is_action_pressed("DEBUG_FF") or B2_Debug.ENABLE_FREE_FFWD: ## DEBUG
 			if Input.is_action_pressed("Holster"):

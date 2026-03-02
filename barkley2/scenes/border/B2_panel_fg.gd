@@ -59,6 +59,9 @@ func _ready():
 	custom_minimum_size 	= Vector2(3000,3000)
 	mouse_filter 			= Control.MOUSE_FILTER_IGNORE
 	use_parent_material 	= true
+	
+	name = "border_frame_fg"
+	
 	_update_borders()
 	
 func set_panel_size(x, y):

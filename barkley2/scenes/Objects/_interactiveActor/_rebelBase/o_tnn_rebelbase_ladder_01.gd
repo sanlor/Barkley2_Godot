@@ -27,8 +27,10 @@ func _extend_ladder() -> void:
 	var move_tween := create_tween()
 	move_tween.tween_property( ladder, "position:y", extended, 0.5).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	if ladder_blocker: ladder_blocker.disabled = true
+	ladder.z_index = 0
 	
 func _retract_ladder() -> void:
+	ladder.z_index = 100
 	is_interactive = true
 	ladder.position.y = retracted
 	if ladder_blocker: ladder_blocker.disabled = false

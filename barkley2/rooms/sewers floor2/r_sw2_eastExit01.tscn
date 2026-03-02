@@ -1523,7 +1523,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_u004n")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_umkfm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_0jou2"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1610,7 +1610,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_u004n")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_qv6w4"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_umkfm"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1664,6 +1664,9 @@ animations = [{
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qv6w4"]
+size = Vector2(31, 77)
 
 [sub_resource type="Resource" id="Resource_2s55h"]
 script = ExtResource("24_xe0s2")
@@ -1773,7 +1776,7 @@ tile_set = ExtResource("6_xyv6t")
 [node name="o_doorlight_left" parent="." unique_id=1965201564 instance=ExtResource("7_vhs6a")]
 position = Vector2(0, 160)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_umkfm")
+sprite_frames = SubResource("SpriteFrames_0jou2")
 teleport_destination = "r_sw2_steam02, 704, 304);
 "
 metadata/code = "RoomXY(r_sw2_steam02, 704, 304);
@@ -1783,7 +1786,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=1354025665 instance=ExtResource("15_kenyv")]
 position = Vector2(272, 112)
-sprite_frames = SubResource("SpriteFrames_qv6w4")
+sprite_frames = SubResource("SpriteFrames_umkfm")
 teleport_destination = "r_sw1_manholeEast01, 224, 200);
 pushResist = 0;
 pushTime = 0.1;"
@@ -1798,6 +1801,11 @@ position = Vector2(272, 112)
 metadata/code = ""
 metadata/inst_name = "inst_62E17E52"
 metadata/scale = Vector2(1, 2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_ladder" unique_id=720656915]
+position = Vector2(15.5, 36.5)
+shape = SubResource("RectangleShape2D_qv6w4")
+debug_color = Color(0.95483, 0.21530041, 5.7756904e-07, 0.25490198)
 
 [node name="o_zsurvey" parent="." unique_id=895410748 instance=ExtResource("19_26f4p")]
 position = Vector2(256, 272)

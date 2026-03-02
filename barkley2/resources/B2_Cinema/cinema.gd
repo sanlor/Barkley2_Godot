@@ -88,6 +88,9 @@ var flourish_time 		:= 0.0
 ## Note stuff
 var selected_note : String
 
+## Cutscene script teleports somewhere. Skip stuff.
+var skip_formalities := false
+
 func setup_camera( _camera : Camera2D ):
 	camera = _camera
 
@@ -199,8 +202,9 @@ func end_cutscene():
 		await B2_CManager.release_event_lock
 		B2_CManager.event_lock = false
 		
-	#await get_tree().process_frame
-	load_hoopz_player()
+	## No need to load freeroaming player if 'skip_formalities' is set to true.
+	if not skip_formalities:
+		load_hoopz_player()
 	
 	all_nodes.clear()
 	
@@ -218,7 +222,10 @@ func end_cutscene():
 	else:
 		camera.set_camera_bound( false )
 		
-	camera.follow_player( B2_CManager.o_hoopz )
+	## No need to load freeroaming player's camera if 'skip_formalities' is set to true.
+	if not skip_formalities:
+		camera.follow_player( B2_CManager.o_hoopz )
+		
 	B2_SignalBus.player_follow_mouse.emit( true )
 	B2_SignalBus.camera_follow_mouse.emit( true )
 	
@@ -254,6 +261,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	#print(cutscene_script.original_script)
 	event_caller = _event_caller
 	B2_Screen.set_cursor_type( B2_Screen.TYPE.POINT )
+	
+	## Check for duplicated cutscenes.
+	var possible_cutscene : Node2D = get_parent().find_child("cutscene_", false)
+	if possible_cutscene:
+		push_error("%s: Duplicated cutscene found. This should never happen bitch!" % possible_cutscene.name)
+		breakpoint
 	
 	## Cutscene ID.
 	name = "cutscene_" + event_caller.name
@@ -1098,12 +1111,14 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					B2_CManager.BodySwap( str( parsed_line[1] ).strip_edges() )
 					
 				"Teleport":
+					skip_formalities = true
 					var room_string := ""
 					for _str : String in parsed_line:
 						if _str == "Teleport": continue # Lazy way to skip the first line.
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
 					B2_RoomXY.warp_to( room_string, 0.0, false )
 					await B2_RoomXY.fadeout_finished
+					break
 					
 				"scr_savedata_save":
 					B2_Playerdata.SaveGame()
@@ -1168,6 +1183,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				all_nodes.clear()
 				all_nodes = get_all_nodes()
 				
+				
+		
 		## Cleanup script to end the cutscene.
 		end_cutscene()
 		

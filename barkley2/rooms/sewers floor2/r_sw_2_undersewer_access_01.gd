@@ -4,6 +4,7 @@ extends B2_ROOMS
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
+	# o_room_variable
 	if B2_Playerdata.Quest("escapedFromTNN") == 1: B2_Playerdata.Quest("escapedFromTNN", 2);
 	
 	_set_region()

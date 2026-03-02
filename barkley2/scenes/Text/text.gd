@@ -92,14 +92,14 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		new_text = new_text.replacen("tir na nog", "Tír na nÓg") # Name fixer
 		new_text = new_text.replacen("Tir na nOg", "Tír na nÓg") # Name fixer
 		
+		new_text = new_text.replace("`w0`", "[/wave]")
+		new_text = new_text.replace("`w1`", "[wave amp=30.0 freq=5.0 connected=0]")
+		new_text = new_text.replace("`w2`", "[wave amp=50.0 freq=10.0 connected=0]")
+		
 		new_text = new_text.replace("`mq`", "[color=#%s]" % textcolorMainquest.to_html() )
 		new_text = new_text.replace("`sq`", "[color=#%s]" % textcolorSidequest.to_html() )
 		new_text = new_text.replace("`kw`", "[color=#%s]" % textcolorKeyword.to_html() )
 		new_text = new_text.replace("`rt`", "[/color]")
-		
-		new_text = new_text.replace("`w0`", "[/wave]")
-		new_text = new_text.replace("`w1`", "[wave amp=30.0 freq=5.0 connected=0]")
-		new_text = new_text.replace("`w2`", "[wave amp=50.0 freq=10.0 connected=0]")
 		
 		new_text = new_text.replace("`s0`", "[/shake]")
 		new_text = new_text.replace("`s1`", "[shake rate=20.0 level=8 connected=1]") # The level requires some adjustments.

@@ -140,7 +140,7 @@ func _ready() -> void:
 	#name = "Dialog_box"
 	
 	add_child( border_node )
-	border_node.name = "Dialog_Frame"
+	#border_node.name = "Dialog_Frame"
 	border_node.position = Vector2( _draw_x, _draw_y )
 	border_node.set_panel_size( textbox_width - _draw_x * 2, 48 + 44 )
 	
@@ -176,11 +176,13 @@ func set_textbox_pos( _pos : Vector2, _size := Vector2.ZERO ) -> void:
 func set_text( _text : String, _text_title := "" ) -> void:
 	if not _text_title.is_empty():
 		title_node 	= RichTextLabel.new(); add_child(title_node, true); title_node.bbcode_enabled = true
+		title_node.name = "title_label"
 		title_node.theme = preload("res://barkley2/themes/dialogue_game.tres")
 		_title 		= _text_title 	# whos speaking the text
 		
 	# Setup Text RTL
 	text_node 	= RichTextLabel.new(); add_child(text_node); text_node.bbcode_enabled = true; text_node.scroll_active = false; text_node.visible_characters_behavior = TextServer.VC_CHARS_AFTER_SHAPING; text_node.clip_contents = false
+	text_node.name = "text_label"
 	text_node.theme = preload("res://barkley2/themes/dialogue_game.tres")
 	_my_text 	= _text 		# text dialog
 	
@@ -196,6 +198,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 	if not port_load_failed:
 		# Add the frame to the tree
 		portrait_frame_node = TextureRect.new(); 
+		portrait_frame_node.name = "potrait_frame_texture_%s" % portrait_name
 		add_child( portrait_frame_node, true ) 
 		if B2_CManager.curr_DIAG_BOX == B2_CManager.DIAG_BOX.VRW:
 			portrait_frame_node.texture = S_DIAG_FRAME_VRW
@@ -289,6 +292,7 @@ func _load_portrait( portrait_name : String, flourish := false ):
 	
 	# Setup node
 	portrait_img_node = AnimatedSprite2D.new()
+	portrait_img_node.name = "portrait_img_node"
 	portrait_img_node.centered = false
 	portrait_img_node.offset = Vector2(8, 10) # trial and error
 	
@@ -314,12 +318,16 @@ func _load_portrait( portrait_name : String, flourish := false ):
 		if flourish:
 			anim_frames.add_frame("flourish", frame_tex )
 		else:
-			if f == 0:
+			# s_port_putty.png only have one frame. All animations should be the same image.
+			if n_frames == 1:
 				anim_frames.add_frame("blink", frame_tex )
-			if f > 0 and f < n_frames - 1:
 				anim_frames.add_frame("talk", frame_tex )
-			if f == n_frames - 1:
 				anim_frames.add_frame("blink", frame_tex )
+			
+			else:
+				if f == 0:						anim_frames.add_frame("blink", frame_tex )
+				if f > 0 and f < n_frames - 1:	anim_frames.add_frame("talk", frame_tex )
+				if f == n_frames - 1:			anim_frames.add_frame("blink", frame_tex )
 			
 	portrait_img_node.sprite_frames = anim_frames
 	

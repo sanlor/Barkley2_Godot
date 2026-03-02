@@ -24,7 +24,7 @@ var debug_camera_node : B2_Camera_Debug
 ## player debug
 var can_disable_player_col := false
 
-@onready var debug_tools: 		B2_Border 			= $debug_tools
+@onready var debug_tools: 					B2_Border 			= $debug_tools
 
 @onready var player_data: 					ScrollContainer 	= $player_data
 @onready var player_vars: 					ScrollContainer 	= $player_vars

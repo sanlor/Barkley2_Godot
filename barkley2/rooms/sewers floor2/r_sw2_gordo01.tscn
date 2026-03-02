@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cj225paf1khvu" path="res://barkley2/rooms/sewers floor2/r_sw_2_gordo_01.gd" id="1_db1ct"]
 [ext_resource type="Texture2D" uid="uid://b57cettf1x1em" path="res://barkley2/assets/b2_original/backgrounds/tls_sw2_sewers01.png" id="2_6s63e"]
-[ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_kw3in"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="3_uh4vg"]
 [ext_resource type="PackedScene" uid="uid://cbmtyg7r5msha" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_plantation/wall_light.tscn" id="4_e6g17"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="4_mwd2i"]
@@ -1539,7 +1538,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("9_m218k")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4t3oy"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_mwd2i"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1594,14 +1593,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_exad3"]
-script = ExtResource("17_kd8nk")
-original_script = "DIALOG | P_NAME | (Frightening armaments.)"
-metadata/_custom_type_script = "uid://brqjwvhoi8eux"
-
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uh4vg"]
-closed = false
-polygon = PackedVector2Array(-4, 2, -9, -1, -13, -10, -11, -17, -5, -24, 3, -24, 10, -19, 10, -9, 8, -1, 3, 2)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4t3oy"]
+size = Vector2(32, 39.034203)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bhxic"]
 blend_mode = 1
@@ -1849,6 +1842,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Resource" id="Resource_exad3"]
+script = ExtResource("17_kd8nk")
+original_script = "DIALOG | P_NAME | (Frightening armaments.)"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_uh4vg"]
+closed = false
+polygon = PackedVector2Array(-4, 2, -9, -1, -13, -10, -11, -17, -5, -24, 3, -24, 10, -19, 10, -9, 8, -1, 3, 2)
+
 [node name="r_sw2_gordo01" type="NavigationRegion2D" unique_id=1538500206 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi")]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_11j6p")
@@ -1861,14 +1863,6 @@ collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
 is_this_room_dark = true
-
-[node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=841653260]
-script = ExtResource("2_kw3in")
-convert_cinema_spots = false
-convert_door_light = false
-convert_door = false
-convert_collision = false
-metadata/_custom_type_script = "uid://c6pcaqs62oxp5"
 
 [node name="wall_light" parent="." unique_id=1281772377 instance=ExtResource("4_e6g17")]
 position = Vector2(384, 136)
@@ -1913,7 +1907,7 @@ tile_set = ExtResource("11_ag5i1")
 
 [node name="o_doorlight_up" parent="." unique_id=52753215 instance=ExtResource("3_uh4vg")]
 position = Vector2(112, 80)
-sprite_frames = SubResource("SpriteFrames_4t3oy")
+sprite_frames = SubResource("SpriteFrames_mwd2i")
 teleport_destination = "r_sw1_plantation02, 312, 280);
 pushResist = 0;
 pushTime = 0.1;
@@ -1932,22 +1926,10 @@ metadata/code = ""
 metadata/inst_name = "inst_82B57F6E"
 metadata/scale = Vector2(1, 2)
 
-[node name="o_fallenGordo01" parent="." unique_id=1476399358 instance=ExtResource("14_qjajr")]
-position = Vector2(624, 208)
-metadata/code = ""
-metadata/inst_name = "inst_B4417AB7"
-metadata/scale = Vector2(1, 1)
-
-[node name="o_babbySystem01" parent="." unique_id=622844926 instance=ExtResource("15_wlkj4")]
-position = Vector2(256, 176)
-cutscene_script = SubResource("Resource_exad3")
-metadata/code = ""
-metadata/inst_name = "inst_4A166183"
-metadata/scale = Vector2(1, 1)
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="o_babbySystem01" unique_id=2025748438]
-occluder = SubResource("OccluderPolygon2D_uh4vg")
-occluder_light_mask = 3
+[node name="CollisionShape2D" type="CollisionShape2D" parent="o_map_ladder" unique_id=1718976956]
+position = Vector2(16, 11.066399)
+shape = SubResource("RectangleShape2D_4t3oy")
+debug_color = Color(0.9744579, 0, 0.43007573, 0.25490198)
 
 [node name="o_cinema0" type="Marker2D" parent="." unique_id=1786736238]
 z_index = 4000
@@ -2045,7 +2027,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open01" parent="." unique_id=2073606054 instance=ExtResource("27_jckmk")]
 position = Vector2(384, 275)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000017"
 metadata/scale = Vector2(1, 1)
@@ -2053,6 +2034,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open02" parent="." unique_id=363477547 instance=ExtResource("27_jckmk")]
 position = Vector2(400, 267)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000018"
 metadata/scale = Vector2(1, 1)
@@ -2060,6 +2042,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open03" parent="." unique_id=498316128 instance=ExtResource("27_jckmk")]
 position = Vector2(360, 355)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000019"
 metadata/scale = Vector2(1, 1)
@@ -2080,10 +2063,21 @@ metadata/code = ""
 metadata/inst_name = "inst_A41E478D"
 metadata/scale = Vector2(1, 1)
 
-[node name="P4 - o_room_unbound" type="Marker2D" parent="." unique_id=26339684]
-position = Vector2(-120, 0)
+[node name="o_fallenGordo01" parent="." unique_id=1476399358 instance=ExtResource("14_qjajr")]
+position = Vector2(624, 208)
 metadata/code = ""
-metadata/inst_name = "inst_DF5A4B0F"
+metadata/inst_name = "inst_B4417AB7"
 metadata/scale = Vector2(1, 1)
+
+[node name="o_babbySystem01" parent="." unique_id=622844926 instance=ExtResource("15_wlkj4")]
+position = Vector2(256, 176)
+cutscene_script = SubResource("Resource_exad3")
+metadata/code = ""
+metadata/inst_name = "inst_4A166183"
+metadata/scale = Vector2(1, 1)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="o_babbySystem01" unique_id=2025748438]
+occluder = SubResource("OccluderPolygon2D_uh4vg")
+occluder_light_mask = 3
 
 [editable path="o_mg_booty_tv"]

@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="B2_Script_Legacy" format=3 uid="uid://4yjmngl512ex"]
+
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="1_43w11"]
+
+[resource]
+script = ExtResource("1_43w11")
+original_script = "EVENT  | o_baldomero01 | 10 // Reset the fake death timer
+IF baldoState == 5 | GOTO | BALDO_05
+IF baldoState == 4 | GOTO | BALDO_04
+IF baldoState == 3 | GOTO | BALDO_03
+IF baldoState == 2 | GOTO | BALDO_02
+IF baldoState == 1 | GOTO | BALDO_01
+IF baldoState == 0 | GOTO | BALDO_00
+
+BALDO_05
+DIALOG | ??? = s_port_baldomero | ...
+
+BALDO_04
+DIALOG | Augustine = s_port_baldomero | ...
+
+BALDO_03
+DIALOG | P_NAME = s_port_hoopzAngry | ...
+
+BALDO_02
+DIALOG | P_NAME | Er, hello?
+WAIT   | 0.3
+DIALOG | P_NAME = s_port_hoopzAngry | ._._._ what a weirdo.
+QUEST  | baldoState = 3
+
+BALDO_01
+DIALOG | P_NAME | (I can't see his face but his skin looks like a wet marshmallow... This is weird, do really I have to examine him?)
+CHOICE | Rummage the oddbody?
+REPLY  | RUMMAGEFORK | Rummage.
+REPLY  | RUMMAGENO | Have some decency.
+
+RUMMAGEFORK
+IF baldoLetterDropped == 1 | GOTO | RUMMAGENONE
+GOTO | RUMMAGEYES
+
+RUMMAGENONE
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_SLOW
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_cinema10
+WAIT   | 0.5
+USEAT  | o_baldomero01
+WAIT   | 0.5
+DIALOG | P_NAME | Other than his gooped up clothes, there's nothing on him. I guess I defiled this corpse for no good reason...
+
+RUMMAGEYES
+MOVETO | o_cts_hoopz | o_cinema0 | MOVE_SLOW
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_cinema10
+WAIT   | 0.5
+USEAT  | o_baldomero01
+WAIT   | 0.5
+DIALOG | P_NAME | (I don't know what, but something's wrong with this guy and he gives me the creeps... wait, what's this? A piece of paper?)
+WAIT   | 0.25
+DIALOG | P_NAME | Hmm... nothing on it. Totally blank... (Is it even worth taking?)
+QUEST  | baldoState = 2
+GOTO   | PAPERCHOICE
+
+RUMMAGENO
+DIALOG | P_NAME | I think I should leave this weirdo alone.
+GOTO   | END
+
+PAPERCHOICE
+CHOICE | Take the Blank Paper?
+REPLY  | TAKEYES | Take it.
+REPLY  | TAKENO | Leave it.
+
+TAKEYES
+DIALOG | P_NAME | Hey, um... if you can hear me, I hope you don't mind that I take this. You sorta seem like you're dead. I'm really sorry if you're not... and if you are too, I guess. Sorry.
+NOTIFY | Got the piece of Blank Paper!
+NOTE   | take | Blank Paper
+WAIT   | 0.2
+DIALOG | P_NAME | Well..._ I'll be going now...
+QUEST  | baldoTimerAllow = 1
+QUEST  | baldoBlank = 1
+GOTO   | END
+
+TAKENO
+DIALOG | P_NAME | I'll just leave this here. Something about this whole thing weirds me out.
+GOTO   | END
+
+BALDO_00
+DIALOG | P_NAME | Hey, what are you doing all the way down here?
+WAIT   | 0.3
+DIALOG | P_NAME | Are you awake?
+WAIT   | 0.3
+DIALOG | P_NAME | Are you alive?
+WAIT   | 0.3
+DIALOG | P_NAME | Okay, well... I don't feel comfortable here, so I'm going to go. I'm leaving now, okay?
+WAIT   | 0.3
+DIALOG | P_NAME = s_port_hoopzAngry | (Is he just laying there, lying about being dead?)
+QUEST  | baldoState = 1
+GOTO   | END
+
+END
+EXIT |"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"

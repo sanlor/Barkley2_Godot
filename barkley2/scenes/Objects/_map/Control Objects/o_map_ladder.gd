@@ -25,6 +25,8 @@ func _ready() -> void:
 		icon.queue_free()
 	else:
 		icon.scale = stretch
+	if get_child_count() == 0:
+		push_warning( "My man, node %s has no kids, so the ladder effect does not work. It should have a CollisionShape2D. Check it out! (room %s)." % [name, get_parent().name] )
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is B2_PlayerCombatActor:

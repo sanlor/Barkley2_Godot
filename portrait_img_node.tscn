@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dg3uq33x7hwns"]
+
+[ext_resource type="Texture2D" uid="uid://bvdj5s1u108j5" path="res://barkley2/assets/b2_original/portraits/s_port_putty.png" id="1_2vms3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yjae7"]
+atlas = ExtResource("1_2vms3")
+region = Rect2(0, 0, 34, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vfo5g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yjae7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yjae7")
+}],
+"loop": true,
+"name": &"blink",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"talk",
+"speed": 5.0
+}]
+
+[node name="portrait_img_node" type="AnimatedSprite2D" unique_id=1799023282]
+sprite_frames = SubResource("SpriteFrames_vfo5g")
+animation = &"talk"
+centered = false
+offset = Vector2(8, 10)

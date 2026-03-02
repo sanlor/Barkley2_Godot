@@ -19,6 +19,7 @@ extends Sprite2D
 var tween : Tween
 
 var cutscene_script : B2_Script_Legacy
+var disabled		:= false
 
 func _ready() -> void:
 	player_detection_col.shape.radius = detection_distance
@@ -41,7 +42,6 @@ func open_manhole( body : Node2D ) -> void:
 	tween = create_tween()
 	tween.tween_property( s_manhole_cover, "position", open_direction * open_distance, 0.5 ).set_ease(Tween.EASE_OUT_IN)
 	
-	
 func close_manhole( body : Node2D ) -> void:
 	if not draw_cover:
 		return
@@ -56,23 +56,28 @@ func close_manhole( body : Node2D ) -> void:
 	tween.tween_property( s_manhole_cover, "position", Vector2.ZERO, 0.5 ).set_ease(Tween.EASE_IN_OUT)
 
 func teleport_to_room( body : Node2D ) -> void:
-	if not body is B2_PlayerCombatActor:
+	if not body is B2_Player_FreeRoam:	## Disabled activatin by random actors.
 		return
+		
+	if B2_Input.cutscene_is_playing or disabled:		## Disable duplicated cutscenes.
+		return
+		
+	disabled = true
 	_make_cinema_script()
 	B2_CManager.play_cutscene( cutscene_script, self, [] )
 	
 func _make_cinema_script() -> void:
 	var scr := B2_Script_Legacy.new()
 	var my_script := \
-	"LOOK   | o_cts_hoopz | SOUTHEAST
-	WAIT   | 0.25
-	PLAYSET| o_cts_hoopz | kneelDown | kneel
-	WAIT   | 0
-	Misc   | alpha | o_cts_hoopz | 0 | 1
-	WAIT   | 1.0
-	WAIT   | 0.75
-	FADE   | 1 | 0.5
-	WAIT   | 0.5
+	"LOOK    | o_cts_hoopz | SOUTHEAST
+	WAIT     | 0.25
+	PLAYSET  | o_cts_hoopz | kneelDown | kneel
+	WAIT     | 0
+	Misc     | alpha | o_cts_hoopz | 0 | 1
+	WAIT     | 1.0
+	WAIT     | 0.75
+	FADE     | 1 | 0.5
+	WAIT     | 0.5
 	Teleport | %s | %s | %s | 0.5" % [ teleport_room_string.get_slice( ",", 0 ), teleport_room_string.get_slice( ",", 1 ), teleport_room_string.get_slice( ",", 2 ) ]
 	scr.original_script = my_script
 	cutscene_script = scr

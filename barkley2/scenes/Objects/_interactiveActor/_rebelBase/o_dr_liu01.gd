@@ -150,7 +150,7 @@ func _ready() -> void:
 		DIALOG | P_NAME  | Oh... I see... well, thanks anyway...
 		LOOK   | o_cts_hoopz | SOUTH
 		WAIT   | 0.25
-		DIALOG | Dr. Liu | `w1`Wait a second!`rt`
+		DIALOG | Dr. Liu | `w1`Wait a second!`w0`
 		LOOKAT | o_cts_hoopz | o_dr_liu01 | 
 		DIALOG | Dr. Liu | You're a pretty resourceful kid. You made it to our hideout in one piece, maybe you could help us out with a mission and we could, in turn, help you with yours?
 		QUEST  | liuState = 1
@@ -200,14 +200,14 @@ func _ready() -> void:
 		DIALOG | P_NAME  | Yeah, but_ why?
 		DIALOG | Dr. Liu | So we're a fledgling branch of L.O.N.G.I.N.U.S. here in Tir na nog. I just recently started to get our `kw`carrier rats`rt` trained enough to carry on proper comms with Headquarters.
 		DIALOG | P_NAME | And?
-		DIALOG | Dr. Liu | Well I was set to receive a `sq`Top Secret Dossier`rt containing instructions to initiate a hush-hush, need-to-know operation known as `kw`Operation: Reverse Dunkirk.`rt`
+		DIALOG | Dr. Liu | Well I was set to receive a `sq`Top Secret Dossier`rt` containing instructions to initiate a hush-hush, need-to-know operation known as `kw`Operation: Reverse Dunkirk.`rt`
 		DIALOG | P_NAME  | Dunkirk?
 		DIALOG | Dr. Liu | All I know is the codename. The rest of the mission briefing was `sq`contained in a sealed, Top Secret Document sent directly from LONGINUS Headquarters.`rt` Unfortunately and need I say, `w1`depressingly,`w0` the dosser was confiscated by Duergar Censors on it's way into Tir na Nog circulation.
 		DIALOG |  P_NAME | Maybe you shouldn't have mailed it?
 		DIALOG | Dr. Liu | Well you see, just recently, a golden opportunity came up: the last governor got transferred. There were `kw`explicit reasons why,`rt` but we don't have to get into them. Whenever a new governor comes in, all heck kind of breaks loose in here and we thought that would allow the mail to at least slip through the Duergar Censors.
 		WAIT   | 0.1
 		DIALOG | Dr. Liu | We were wrong. Now, `sq`we have to impersonate the incoming Governor and use his status to enter the Governor's Mansion,`rt` where my Dossier is being held. 
-		DIALOG | P_NAME  | Okay so it's... `w1`a heist?`rt`
+		DIALOG | P_NAME  | Okay so it's... `w1``kw`a heist?`rt``w0`
 		DIALOG | Dr. Liu | More or less,_ yes.
 		WAIT   | 0.33
 		DIALOG | Dr. Liu | So, are you in?

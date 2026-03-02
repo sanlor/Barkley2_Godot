@@ -98,6 +98,9 @@ func _ready():
 	_set_background()
 	_post_ready()
 	
+	
+	#name = "border_frame_bg"
+	
 func _post_ready() -> void:
 	pass
 

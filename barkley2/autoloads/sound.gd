@@ -136,6 +136,10 @@ func stop(sfx : AudioStreamPlayer, fade := false, fade_time := 0.0):
 		sfx.finished.emit()
 
 func play_pick(soundID : String, start_at := 0.0, priority := false, loops := 1, pitch := 1.0, volume_mod := 1.0) -> AudioStreamPlayer:
+	if soundID.contains(")") or soundID.contains("(") or soundID.contains("="):
+		push_warning("SoundID %s is dirty. Fix the string.")
+		print_stack()
+		
 	if sound_pick.has(soundID):
 		assert( not sound_pick[soundID].is_empty(), "It should not be empty, i think." )
 		var soundVal : String = sound_pick[soundID].pick_random() # <- Important
@@ -157,7 +161,7 @@ func play(soundID : String, start_at := 0.0, priority := false, loops := 1, pitc
 		
 	else: ## Invalid sound
 		if soundID.is_empty():			push_warning("B2_Sound: Empty SoundID called.")
-		else:							push_warning("Invalid SoundID: ", soundID); sound_bank_dirty.emit()
+		else:							push_warning("Invalid SoundID: ", soundID); sound_bank_dirty.emit(); breakpoint
 		return AudioStreamPlayer.new()
 
 func queue( soundID : String, start_at := 0.0, _priority := false, loops := 1, pitch := 1.0, volume_mod := 1.0 ) -> AudioStreamPlayer:

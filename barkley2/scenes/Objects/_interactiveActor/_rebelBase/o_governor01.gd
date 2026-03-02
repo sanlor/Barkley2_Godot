@@ -2,6 +2,8 @@ extends B2_InteractiveActor
 
 ## Made with B2_TOOL_DWARF_CONVERTER
 func _ready() -> void:
+	visible = false
+	
 	_setup_actor()
 	_setup_interactiveactor()
 
