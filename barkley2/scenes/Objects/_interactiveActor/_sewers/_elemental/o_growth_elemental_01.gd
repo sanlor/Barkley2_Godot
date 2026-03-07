@@ -347,6 +347,7 @@ func _talk_script() -> void:
 	DIALOG | P_NAME    | Look, I appreciate the warning but if using zaubers turns you into a shrubbery then I don't want to go anywhere near them.  
 	DIALOG | Gerz-Nutz | I can tell you are wise beyond your years, youngster. But you need not be alarmed by the power of the zaubers. `kw`Each time you tap into their power your GLAMP gets demolished,`rt` that is true, but this effect is `kw`only temporary.`rt` Use zaubers sparingly, and no harm will come to you.
 	DIALOG | P_NAME    | Hmm... Very interesting...
+	GOTO   | ZAUBER_CHOICE // added this on 06-03-26
 
 	ZAUBER_LEAVE
 	DIALOG | P_NAME    | I gots to go now.

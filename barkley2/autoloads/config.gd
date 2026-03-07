@@ -98,9 +98,14 @@ var configsavefolder 	:= "user://_resources/"
 var configsavefile 		:= "settings.ini"
 
 ## User Profile
-var selected_slot 		:= 0
-var usersavefile 		: Dictionary
-var usersavefolder 		:= "user://"
+var legitime_slot_loaded 	:= false		## Set to true when you load a slot from the title screen
+var selected_slot 			:= 0:			## Game slot. The legitime save slots are 0, 1 and 2.
+	set(s):
+		selected_slot = s
+		legitime_slot_loaded = s == 0 or s == 1 or s == 2
+			
+var usersavefile 			: Dictionary	## Use save file. a bigass dictonary.
+var usersavefolder 			:= "user://"	## Path to the save folder
 
 ## Main menu stuff
 var tim_follow_mouse := false
@@ -145,9 +150,13 @@ func has_user_save( slot ): # slot -> 0 to 2
 	else:
 		return false
 	
-func select_user_slot( slot ):
+func select_user_slot( slot ) -> bool:
 	assert( slot >= 0 or slot <= 2 or slot == 100 or slot == 69) ## slot 100 is the debug slot. slot 69 is used for VR missions. lol.
 	# slot 100 is for debug purposes
+	if ( slot == 100 or slot == 69 ) and legitime_slot_loaded:
+		push_error("Tried to load a illegitime slot while 'legitime_slot_loaded' is set to true.")
+		return false
+	
 	selected_slot = slot
 	
 	usersavefile.clear()
@@ -167,7 +176,8 @@ func select_user_slot( slot ):
 			B2_Playerdata.player_stats.load_stats()
 		else:
 			push_error( "cant load save file:", parse_error )
-
+	
+	return true
 	
 # scr_savedata_put()
 func get_user_save_data( path : String, default = null ): ## return null if its invalid

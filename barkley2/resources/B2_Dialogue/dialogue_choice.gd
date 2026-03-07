@@ -15,9 +15,12 @@ var debug := false
 ## Auto Skip
 var auto_skipping := false # Should be false from the start. enabled only when the player holds the action key.
 
-const S_DIAG_FRAME_VRW 	:= preload("uid://dfji5d2eosspl")
-const S_DIAG_FRAME 		:= preload("uid://cph4fl4lnsekc")
+const S_DIAG_FRAME_VRW 		:= preload("uid://dfji5d2eosspl")
+const S_DIAG_FRAME 			:= preload("uid://cph4fl4lnsekc")
 # reference script = o_dialogue
+
+const DIALOGUE_CHOICE_RTL 	:= preload("uid://rox14ythmul4")
+
 
 # The title of the text, defaults to an empty string.
 var _title 				:= "";
@@ -142,9 +145,21 @@ func add_choice( choice_text : String ) -> void:
 	my_selection_button.set_anchors_and_offsets_preset( Control.PRESET_FULL_RECT )
 	my_selection_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	
-	my_selection_button.text = Text.pr( Text.qst( choice_text ) )	# Set the option text.
+	## 06-03-26 disabled this.
+	## 06-03-26 re-enabled this. Its hard to add this effect on the existing system.
+	my_selection_button.text = Text.pr( Text.qst( Text.strip_flourish(choice_text) ) )	# Set the option text.
+	
+	## 06-03-26 Added bbcode support.
+	#var rich_label := DIALOGUE_CHOICE_RTL.instantiate()
+	#rich_label.text = Text.pr( Text.qst( choice_text ) )	# Set the option text.
+	#my_selection_button.add_child( rich_label, true )
 	
 	choice_vbox_node.add_child( my_selection_button, true )
+	
+#	       ______  
+#		^..^     \9
+#		(oo)_____/ 
+#  		  WW  WW
 	
 	# Manage signals.
 	my_selection_button.mouse_entered.connect( my_selection_button.grab_focus)

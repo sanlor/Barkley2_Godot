@@ -225,7 +225,7 @@ func start_saved_game():
 	fade_out.modulate.a = 0.0
 	
 	var saved_room = str( B2_Config.get_user_save_data("map.room") )
-	B2_Music.stop( 0.25 )
+	B2_Music.stop( 0.1 )
 	## DEBUG Stuff.
 	#if saved_room == "r_fct_eggRooms01": # this is the only room ready.
 	#	B2_RoomXY.warp_to( saved_room, 1.0 )

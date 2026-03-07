@@ -14,7 +14,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export_category("Debug Stuff")
 @export var debug_goto		 	:= false
 @export var debug_comments 		:= true
-@export var debug_dialog 		:= false
+@export var debug_dialog 		:= true
 @export var debug_wait 			:= false
 @export var debug_fade 			:= false
 @export var debug_sound 		:= false
@@ -545,7 +545,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"DIALOG", "MYSTERY": # Make a dialog box. Simple AF.
 					if debug_dialog: print( parsed_line[1], " ", parsed_line[2])
 					var dialogue := B2_Dialogue.new()
-					dialogue.name = "dialogue_" + event_caller.name
+					if event_caller: # Sometimes, the event caller might be queued free during the cutscene.
+						dialogue.name = "dialogue_" + event_caller.name
+					else:
+						dialogue.name = "dialogue_orphan_" + str(randi())
+						
+						
 					dialogue.border_seed = border_seed
 					B2_Screen.add_child( dialogue, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					
@@ -1343,6 +1348,11 @@ func Cinema_process():
 	pass
 	
 func get_node_from_name( _array, _name, warn := true ) -> Object:
+	# Check if name is a direction instead of an object name. I know, its stupid, but thats how the original game handles it.
+	# Believe me, this is the "improved" version of this method.
+	if _name in ["NORTH","SOUTH","WEST","EAST","NORTHEAST","SOUTHEAST","NORTHWEST","SOUTHWEST"]:
+		return null
+		
 	var node : Object
 	for item in _array:
 		if is_instance_valid(item):
@@ -1511,9 +1521,9 @@ func Create( parsed_line : PackedStringArray ) -> Node:
 	#print("Create: %s arguments." % str(misc_arguments) )
 	#print( parsed_line )
 	var object_map := B2_CManager.get_cached_scene( parsed_line[1].strip_edges() )
-	if object_map == null:
-		push_error("object " + parsed_line[1] + " is null. fix this.")
-		breakpoint
+	if object_map == null: 
+		assert( object_map, "Object " + parsed_line[1] + " is null. fix this." )
+		breakpoint ## This error usualli means that the object necessary wasnt ported yet.
 		return
 	
 	var obj_scene : PackedScene = object_map

@@ -16,6 +16,22 @@ extends B2_InteractiveActor
 func _ready() -> void:
 	B2_Playerdata.Quest( "gamename", B2_Vidcon.get_vidcon_name(18) )
 	
+	## Regular actor stuff
+	_setup_actor()
+	_setup_interactiveactor()
+
+	ANIMATION_STAND 						= "default"
+	ANIMATION_SOUTH 						= ""
+	ANIMATION_SOUTHEAST 					= ""
+	ANIMATION_SOUTHWEST 					= ""
+	ANIMATION_WEST 							= ""
+	ANIMATION_NORTH 						= ""
+	ANIMATION_NORTHEAST 					= ""
+	ANIMATION_NORTHWEST 					= ""
+	ANIMATION_EAST 							= ""
+	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
+	ActorAnim.animation 					= "default"
+	
 	## Set collision to a circle in the IRT room ##
 	#if get_room_name() == "r_sw2_indianRopeTrick01" then scr_entity_setMovementCollisionShape_circle(1);
 
@@ -90,21 +106,7 @@ func _ready() -> void:
 	if get_room_area() == "sw1" or get_room_area() == "sw2": _sewer_script()
 	if get_room_area() == "bct": _brain_script()
 	
-	## Regular actor stuff
-	_setup_actor()
-	_setup_interactiveactor()
-
-	ANIMATION_STAND 						= "default"
-	ANIMATION_SOUTH 						= ""
-	ANIMATION_SOUTHEAST 					= ""
-	ANIMATION_SOUTHWEST 					= ""
-	ANIMATION_WEST 							= ""
-	ANIMATION_NORTH 						= ""
-	ANIMATION_NORTHEAST 					= ""
-	ANIMATION_NORTHWEST 					= ""
-	ANIMATION_EAST 							= ""
-	ANIMATION_STAND_SPRITE_INDEX 			= [0, 0, 0, 0, 0, 0, 0, 0]
-	ActorAnim.animation 					= "default"
+	
 
 func _tnn_script() -> void:
 	var scr := B2_Script_Legacy.new()
@@ -209,7 +211,6 @@ func _sewer_script() -> void:
 	IF room == r_sw1_tnnShortcut01  | DIALOG | Dr. Pelekryte | It looksh like this ladder leadsh back to Tir na Nog. But that ish not our goal. Our goal ish to get out of Tir na Nog.
 	IF room == r_sw1_plantation02   | DIALOG | Dr. Pelekryte | Ah, it ish good to shee all theshe dwarfsh finding employment. Perhapsh the duergarsh aren't all bad...
 	IF room == r_sw1_baldomero01    | DIALOG | Dr. Pelekryte | I shpy with my little eye shomething that ish amissh...
-
 	IF room == r_sw2_utility01      | DIALOG | Dr. Pelekryte | Hmm, I'm shure the shervice tunnel ish shomewhere nearby.
 	IF room == r_sw2_start01        | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. The firsht floor ish done and dushted.
 	IF room == r_sw2_eastExit01     | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. We no longer need to go back to the firsht floor.

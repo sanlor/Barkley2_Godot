@@ -2,7 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://bkreoy61tc4qd" path="res://barkley2/assets/b2_original/images/merged/s_plantingSpot01.png" id="1_d88r2"]
 [ext_resource type="Texture2D" uid="uid://dx5tiaf2mr8yr" path="res://barkley2/assets/b2_original/images/merged/s_growth_sprout01.png" id="2_jacfx"]
-[ext_resource type="Script" uid="uid://fbpeyyfjkt4p" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_planting_spot_01.gd" id="3_1i4sd"]
+[ext_resource type="Script" uid="uid://fbpeyyfjkt4p" path="res://barkley2/scenes/Objects/_interactiveActor/_sewers/_elemental/o_plantingSpot01.gd" id="3_1i4sd"]
+[ext_resource type="Texture2D" uid="uid://delsibv5e8oi8" path="res://barkley2/assets/b2_original/images/merged/s_effect_affix_blink.png" id="4_1i4sd"]
+[ext_resource type="Material" uid="uid://bm58ofafkm3oh" path="res://barkley2/shaders/particles/poof.tres" id="5_bx1bd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1i4sd"]
 atlas = ExtResource("1_d88r2")
@@ -281,8 +283,15 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_wl1rv"]
 radius = 7.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bx1bd"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [node name="o_plantingSpot01" type="AnimatedSprite2D" unique_id=1582758737 node_paths=PackedStringArray("mouse_detection_area")]
 sprite_frames = SubResource("SpriteFrames_id57g")
+animation = &"gaze"
 autoplay = "default"
 centered = false
 offset = Vector2(-7, -7)
@@ -304,5 +313,14 @@ metadata/default = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=395400029]
 shape = SubResource("CircleShape2D_wl1rv")
+
+[node name="poof" type="GPUParticles2D" parent="." unique_id=2121074808]
+material = SubResource("CanvasItemMaterial_bx1bd")
+emitting = false
+amount = 16
+texture = ExtResource("4_1i4sd")
+one_shot = true
+explosiveness = 0.8
+process_material = ExtResource("5_bx1bd")
 
 [connection signal="animation_changed" from="." to="." method="_on_animation_changed"]

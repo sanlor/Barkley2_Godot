@@ -4,6 +4,8 @@ extends B2_ROOMS
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
+	##Unlock the Gutterdoor access to the Warehouse
+	B2_Playerdata.Quest("gutterDoorTNN", 1);
 	_set_region()
 	
 	await get_tree().process_frame

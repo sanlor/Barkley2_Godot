@@ -16,20 +16,20 @@ func toggle_rain_shader( state : bool, rain_type : String, thunder : bool, inter
 		match rain_type:
 			"light":		
 				amount = 200; 
-				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_light_indoors_01") ); 
-				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_light_01") )
+				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_light_indoors01") ); 
+				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_light01") )
 			"normal":		
 				amount = 400
-				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_indoors_01") ); 
-				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_01") )
+				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_indoors01") ); 
+				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal01") )
 			"heavy":		
 				amount = 800
-				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_heavy_indoors_01") ); 
-				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_heavy_01") )
+				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_heavy_indoors01") ); 
+				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_heavy01") )
 			_:				
 				amount = 200
-				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_indoors_01") ); 
-				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_01") )
+				if interior: 	_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal_indoors01") ); 
+				else: 			_setup_audio( B2_Sound.get_sound_stream("sn_rain_normal01") )
 				
 		if thunder: push_error("Thunder not implemented yet.")
 	

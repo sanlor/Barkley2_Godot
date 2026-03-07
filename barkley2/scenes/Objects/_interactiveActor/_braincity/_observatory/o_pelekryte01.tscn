@@ -10,11 +10,10 @@ original_script = "IF room == r_sw1_fishersCreek01 | DIALOG | Dr. Pelekryte | Al
 IF room == r_sw1_joad01         | DIALOG | Dr. Pelekryte | Yipesh... That poor dwarf there ish exactly what we'll end up like if we don't get out of Tir na N0g. Come on, let'sh go. The tunnel ish on the floor below ush.
 IF room == r_sw1_utility01      | DIALOG | Dr. Pelekryte | Have you gathered your bearingsh yet? If sho then we'd better get moving. We need to find our way to the floor below.
 IF room == r_sw1_tnnShortcut01  | DIALOG | Dr. Pelekryte | It looksh like this ladder leadsh back to Tir na Nog. But that ish not our goal. Our goal ish to get out of Tir na Nog.
-IF room == r_sw1_plantation02   | DIALOG | Dr. Pelekryte | Ah, it ish good to shee all theshe dwarfsh finding employment. Perhapsh the duergarsh aren't all bad...
+IF room == r_sw1_plantation02     | DIALOG | Dr. Pelekryte | Ah, it ish good to shee all theshe dwarfsh finding employment. Perhapsh the duergarsh aren't all bad...
 IF room == r_sw1_baldomero01    | DIALOG | Dr. Pelekryte | I shpy with my little eye shomething that ish amissh...
-
-IF room == r_sw2_utility01      | DIALOG | Dr. Pelekryte | Hmm, I'm shure the shervice tunnel ish shomewhere nearby.
-IF room == r_sw2_start01        | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. The firsht floor ish done and dushted.
+IF room == r_sw2_utility01     		  | DIALOG | Dr. Pelekryte | Hmm, I'm shure the shervice tunnel ish shomewhere nearby.
+IF room == r_sw2_start01      		  | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. The firsht floor ish done and dushted.
 IF room == r_sw2_eastExit01     | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. We no longer need to go back to the firsht floor.
 IF room == r_sw2_end01          | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here, sho let'sh not go back to the firsht floor.
 IF room == r_sw2_hermitPass01   | GOTO | UNDERSEWER
@@ -42,6 +41,9 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_86fvw"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_emwpi"]
+polygon = PackedVector2Array(-3, -3, -8, -8, -8, -15, -3, -21, 3, -21, 8, -15, 8, -7, 3, -3)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_86fvw"]
 size = Vector2(20, 36)
@@ -74,6 +76,10 @@ metadata/default = {
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=1699729036]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_86fvw")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ActorCol" unique_id=882304606]
+position = Vector2(0, 7)
+occluder = SubResource("OccluderPolygon2D_emwpi")
 
 [node name="ActorInteract" type="Area2D" parent="." unique_id=511169592]
 position = Vector2(0, -18)

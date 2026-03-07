@@ -75,13 +75,13 @@ func _on_confirmed() -> void:
 
 func teleport_room( room_name : String ) -> void:
 	push_warning("Teleporting to a room with some Temp stats")
-	B2_Config.select_user_slot( 100 )
-	B2_Playerdata.preload_skip_tutorial_save_data()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Gun.add_gun_to_gunbag()
-	B2_Music.stop( 2.0 )
+	#B2_Config.select_user_slot( 100 )
+	#B2_Playerdata.preload_skip_tutorial_save_data()
+	#B2_Gun.add_gun_to_gunbag()
+	#B2_Gun.add_gun_to_gunbag()
+	#B2_Gun.add_gun_to_gunbag()
+	#B2_Gun.add_gun_to_gunbag()
+	#B2_Music.stop( 2.0 )
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN) 
 	B2_RoomXY.fancy_warp_to( room_name, 0, 0 )
 	

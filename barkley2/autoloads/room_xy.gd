@@ -427,11 +427,15 @@ func begin_load_room_scene( room_name : String ) -> void:
 		#var error = await room_loaded
 
 ## Finish loading a new level. Should be run after the fadeout. NOTE ResourceLoader.load_threaded_get() locks the main thread.
-func finish_loading_room_scene( room_name ) -> void:
+func finish_loading_room_scene( room_name : String ) -> void:
 	room_scene = ResourceLoader.load_threaded_get( path_loading_room ) as PackedScene
 	
 	## Room scene not valid, load debug room.
 	if not room_scene:
+		assert( not room_name.is_empty(), "Room name is empty. Fuck." )
+		if room_name.is_empty():
+			room_name = "[blank]"
+
 		push_error( "B2_RoomXY: Room %s not indexed." % room_name )
 		room_index_dirty.emit()
 		room_is_invalid = true
@@ -439,6 +443,7 @@ func finish_loading_room_scene( room_name ) -> void:
 		this_room_y 	= 0
 		push_error( "B2_RoomXY: Room %s failed to load. Falling back to %s." % [room_name, invalid_room] )
 		print_rich( "[color=pink]Loading debug save data...[/color]")
+		B2_Config.legitime_slot_loaded = false
 		B2_Config.select_user_slot( 100 ) ## Debug Save slot
 		room_scene = ResourceLoader.load( invalid_room, "PackedScene", cachemode ) as PackedScene
 		

@@ -1526,7 +1526,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("11_hks4j")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_x0c7u"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_k42jf"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1613,7 +1613,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("11_hks4j")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fxxtw"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_x0c7u"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1751,7 +1751,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kddbr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fxxtw"]
 resource_local_to_scene = true
 shader = ExtResource("19_dsbgs")
 shader_parameter/enable = false
@@ -1760,28 +1760,6 @@ shader_parameter/width = 1.0000000475000002
 shader_parameter/pattern = 0
 shader_parameter/inside = true
 shader_parameter/add_margins = false
-
-[sub_resource type="Resource" id="Resource_2s55h"]
-script = ExtResource("25_53d5n")
-original_script = "IF room == r_sw1_fishersCreek01 | DIALOG | Dr. Pelekryte | Alright, our goal is to reach the shecond floor of the shewersh and then find the shervice tunnel. Let's get moving.
-IF room == r_sw1_joad01         | DIALOG | Dr. Pelekryte | Yipesh... That poor dwarf there ish exactly what we'll end up like if we don't get out of Tir na N0g. Come on, let'sh go. The tunnel ish on the floor below ush.
-IF room == r_sw1_utility01      | DIALOG | Dr. Pelekryte | Have you gathered your bearingsh yet? If sho then we'd better get moving. We need to find our way to the floor below.
-IF room == r_sw1_tnnShortcut01  | DIALOG | Dr. Pelekryte | It looksh like this ladder leadsh back to Tir na Nog. But that ish not our goal. Our goal ish to get out of Tir na Nog.
-IF room == r_sw1_plantation02   | DIALOG | Dr. Pelekryte | Ah, it ish good to shee all theshe dwarfsh finding employment. Perhapsh the duergarsh aren't all bad...
-IF room == r_sw1_baldomero01    | DIALOG | Dr. Pelekryte | I shpy with my little eye shomething that ish amissh...
-
-IF room == r_sw2_utility01      | DIALOG | Dr. Pelekryte | Hmm, I'm shure the shervice tunnel ish shomewhere nearby.
-IF room == r_sw2_start01        | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. The firsht floor ish done and dushted.
-IF room == r_sw2_eastExit01     | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here. We no longer need to go back to the firsht floor.
-IF room == r_sw2_end01          | DIALOG | Dr. Pelekryte | Thish ish the shecond floor of the shewersh. The shervice tunnel is shomewhere down here, sho let'sh not go back to the firsht floor.
-IF room == r_sw2_hermitPass01   | GOTO | UNDERSEWER
-
-UNDERSEWER
-DIALOG | Dr. Pelekryte | Even here, in the darkesht of depthsh, nature findsh a way... 
-DIALOG | P_NAME        | Apparently so.
-DIALOG | Dr. Pelekryte | Youngshter, thish sheemsh like a nice place to resht your feet for a moment. *Shniff* *Shniff* Hmm... That shmell. It shmellsh like gun'sh-fish. I think there might be a fishing shpot in here.
-DIALOG | P_NAME        | Hmm..."
-metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
 [sub_resource type="Resource" id="Resource_3voe1"]
 script = ExtResource("25_53d5n")
@@ -1873,6 +1851,7 @@ load_debug_save_data = true
 collision_layer = NodePath("layer - collision")
 collision_layer_semi = NodePath("layer - collision 2")
 is_interior = true
+camera_bound_to_map = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=212834293]
 script = ExtResource("2_2wcdl")
@@ -1916,7 +1895,7 @@ tile_set = ExtResource("4_ub6c2")
 [node name="o_doorlight_right" parent="." unique_id=1641418702 instance=ExtResource("5_nslpx")]
 position = Vector2(496, 176)
 scale = Vector2(1, 2)
-sprite_frames = SubResource("SpriteFrames_x0c7u")
+sprite_frames = SubResource("SpriteFrames_k42jf")
 teleport_destination = "r_sw2_bridges01, 16, 576"
 metadata/code = "RoomXY(r_sw2_bridges01, 16, 576);"
 metadata/inst_name = "inst_8E3391A3"
@@ -1924,7 +1903,7 @@ metadata/scale = Vector2(1, 2)
 
 [node name="o_doorlight_up" parent="." unique_id=845295791 instance=ExtResource("13_4bnme")]
 position = Vector2(288, 152)
-sprite_frames = SubResource("SpriteFrames_fxxtw")
+sprite_frames = SubResource("SpriteFrames_x0c7u")
 teleport_destination = "r_sw2_crossing01, 608, 704"
 metadata/code = "RoomXY(r_sw2_crossing01, 608, 704);"
 metadata/inst_name = "inst_27D5030A"
@@ -1938,13 +1917,12 @@ metadata/inst_name = "inst_5D60E497"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_utilitystation" parent="." unique_id=131623124 instance=ExtResource("18_kgx11")]
-material = SubResource("ShaderMaterial_kddbr")
+material = SubResource("ShaderMaterial_fxxtw")
 position = Vector2(168, 184)
 metadata/inst_name = "inst_0E16999A"
 
 [node name="o_pelekryte01" parent="." unique_id=540083859 instance=ExtResource("23_f3gv0")]
 position = Vector2(112, 216)
-cutscene_script = SubResource("Resource_2s55h")
 metadata/code = ""
 metadata/inst_name = "inst_FDF78862"
 metadata/scale = Vector2(1, 1)

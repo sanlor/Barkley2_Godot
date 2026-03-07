@@ -112,6 +112,10 @@ static func pr( text : String = "You forgot to add text, jackass." ) -> String:
 		
 		return new_text
 
+## Remove the special effects from the string
+static func strip_flourish( text : String ) -> String:
+	return text.replace("`w0`", "").replace("`w1`", "").replace("`w2`", "").replace("`mq`", "").replace("`sq`", "").replace("`kw`", "").replace("`rt`", "").replace("`s0`", "").replace("`s1`", "")
+
 ## Man, this game gives me no breaks, huh.
 ## sometimes, text have secret "variables" inside the text. this check replaces the "@variable@" with the actual variable.
 # check Cinema() line 663

@@ -33,8 +33,6 @@ func _begin_attack() -> void:
 	attack_tween.tween_callback( play_temp_local_sound.bind( "catfishsmall_attack") )
 	attack_tween.tween_callback( _finish_attack )
 	
-
-	
 func _finish_attack() -> void:
 	destroy_actor()
 	var damage := randf_range(1.0,10.0)
@@ -159,7 +157,7 @@ func spawn_gibs() -> void:
 
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.
-	if actor_ai:
+	if actor_ai and not is_actor_dead:
 		actor_ai.step()
 		
 	match curr_STATE:

@@ -2,7 +2,14 @@ extends B2_EnvironInteractive
 
 @export var seedName := "sewerSeed0"
 
+@onready var poof: GPUParticles2D = $poof
+
 func _ready() -> void:
+	if str( B2_Playerdata.Quest(seedName) ) == "1":
+		execute_event_user_2()
+	
+	assert( seedName != "sewerSeed0", "%s: Plant name %s in room %s is wrong. Fix this." % [name, get_parent().name, seedName] )
+	
 	_make_cinema_script()
 	
 func _make_cinema_script() -> void:
@@ -42,6 +49,10 @@ func _make_cinema_script() -> void:
 	DIALOG  | P_NAME  | This looks like a good spot to sow something. But I have nothing to sow." % [seedName, seedName]
 	scr.original_script = my_script
 	cutscene_script = scr
+	
+# Poof effect
+func execute_event_user_0():
+	poof.emitting = true
 	
 func execute_event_user_2() -> void:
 	play("gaze")
