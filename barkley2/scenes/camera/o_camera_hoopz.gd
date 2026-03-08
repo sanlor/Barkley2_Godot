@@ -290,12 +290,12 @@ func bind_camera_to_map() -> void:
 	var hud_offset := 0.0
 	if B2_CManager.o_hud:
 		if B2_CManager.o_hud.visible:
-			hud_offset = 40.0
+			hud_offset = B2_CManager.o_hud.current_hud_bar_position ## change the offset based on the hud position. This fixes an issue where part of the map can be seen when the hud is being shown / hidden.
 			
 	## Avoid seeing outside the map.
 	## NOTE THis was a huge pain to deal with, because of the way the camera follows the mouse (using offsets).
 	offset.x = clamp( offset.x, limit_width.x + (384.0/2.0 - position.x), limit_width.y - (384.0/2.0 + position.x) )
-	offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y - hud_offset) )
+	offset.y = clamp( offset.y, limit_height.x + (240.0/2.0 - position.y), limit_height.y - (240.0/2.0 + position.y + hud_offset) )
 	
 ## NOTE I keep changing this from "_process" to "_physics_process" and back to "_process". I keep having issues with jittery movement.
 #func _process(delta: float) -> void:

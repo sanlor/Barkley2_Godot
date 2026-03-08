@@ -23,10 +23,9 @@
 [ext_resource type="Texture2D" uid="uid://lulocnw1elck" path="res://barkley2/assets/b2_original/images/merged/s_enemy_ratNest.png" id="22_mpn7o"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="23_nledp"]
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="24_81f4c"]
+[ext_resource type="PackedScene" uid="uid://celcyhixcrejv" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/oSewerBridge0lr.tscn" id="26_apntb"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="26_l3ewv"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="27_wxqdl"]
-[ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="29_cboy0"]
-[ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="30_jqdpm"]
 [ext_resource type="PackedScene" uid="uid://drtuadiywuwke" path="res://barkley2/scenes/Objects/_map/Control Objects/o_teleport_mark.tscn" id="31_j8o6u"]
 [ext_resource type="Texture2D" uid="uid://v5cq0dt6obso" path="res://barkley2/assets/b2_original/images/merged/s_teleport_mark.png" id="32_7ieon"]
 [ext_resource type="PackedScene" uid="uid://dkmludo2tseai" path="res://barkley2/scenes/Objects/_effects/Sewers/o_pipesludge01.tscn" id="34_cnngl"]
@@ -448,13 +447,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_au85l"]
-atlas = ExtResource("29_cboy0")
-region = Rect2(98, 0, 49, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b12q8"]
-size = Vector2(32, 108.125)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_bec86"]
 atlas = ExtResource("32_7ieon")
 region = Rect2(0, 0, 16, 16)
@@ -741,6 +733,7 @@ metadata/scale = Vector2(2, 1)
 [node name="o_drum_open01" parent="." unique_id=2090030213 instance=ExtResource("18_vqytd")]
 position = Vector2(616, 195)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000010"
 metadata/scale = Vector2(1, 1)
@@ -748,6 +741,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open02" parent="." unique_id=1405713154 instance=ExtResource("18_vqytd")]
 position = Vector2(712, 195)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000011"
 metadata/scale = Vector2(1, 1)
@@ -804,6 +798,12 @@ metadata/code = ""
 metadata/inst_name = "inst_0D6220B2"
 metadata/scale = Vector2(1, 1)
 
+[node name="o_zsurvey4" parent="." unique_id=2024207067 instance=ExtResource("23_nledp")]
+position = Vector2(152, 624)
+metadata/code = ""
+metadata/inst_name = "inst_CCFBBC35"
+metadata/scale = Vector2(1, 1)
+
 [node name="o_sewer_switch01" parent="." unique_id=433817000 node_paths=PackedStringArray("oBridge") instance=ExtResource("26_l3ewv")]
 material = ExtResource("24_81f4c")
 position = Vector2(568, 424)
@@ -816,33 +816,19 @@ event_user(1);
 metadata/inst_name = "inst_3698E495"
 metadata/scale = Vector2(1, 1)
 
-[node name="o_zsurvey4" parent="." unique_id=2024207067 instance=ExtResource("23_nledp")]
-position = Vector2(152, 624)
-metadata/code = ""
-metadata/inst_name = "inst_CCFBBC35"
-metadata/scale = Vector2(1, 1)
-
-[node name="oSewerBridge0lr" type="TextureRect" parent="." unique_id=1029702652]
-z_index = -5
-clip_contents = true
+[node name="oSewerBridge0lr" parent="." unique_id=260826970 instance=ExtResource("26_apntb")]
 offset_left = 624.0
-offset_top = 552.0
-offset_right = 673.0
-offset_bottom = 647.9859
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_au85l")
-expand_mode = 1
-stretch_mode = 2
-script = ExtResource("30_jqdpm")
-metadata/code = ""
-metadata/inst_name = "inst_9D15BFF7"
-metadata/scale = Vector2(7, 1)
+offset_top = 503.0
+offset_right = 720.0
+offset_bottom = 544.0
 
-[node name="blocker" type="StaticBody2D" parent="oSewerBridge0lr" unique_id=2003646619]
+[node name="CollisionShape2D" parent="oSewerBridge0lr/blocker" parent_id_path=PackedInt32Array(260826970, 312740849) index="0" unique_id=1023972738]
+position = Vector2(24, 40.179688)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="oSewerBridge0lr/blocker" unique_id=2106316719]
-position = Vector2(24, 41.9375)
-shape = SubResource("RectangleShape2D_b12q8")
+[node name="oSewerBridge0_texture" parent="oSewerBridge0lr" index="2" unique_id=1206937273]
+offset_left = 0.0
+offset_right = 49.0
+offset_bottom = 144.83722
 
 [node name="o_zsurvey5" parent="." unique_id=1063437369 instance=ExtResource("23_nledp")]
 position = Vector2(656, 472)
@@ -879,6 +865,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open03" parent="." unique_id=1614012911 instance=ExtResource("18_vqytd")]
 position = Vector2(512, 499)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000048"
 metadata/scale = Vector2(1, 1)
@@ -886,6 +873,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open04" parent="." unique_id=1612184596 instance=ExtResource("18_vqytd")]
 position = Vector2(488, 507)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000049"
 metadata/scale = Vector2(1, 1)
@@ -893,7 +881,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open05" parent="." unique_id=546306862 instance=ExtResource("18_vqytd")]
 position = Vector2(504, 523)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000050"
 metadata/scale = Vector2(1, 1)
@@ -901,7 +888,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open06" parent="." unique_id=1207453019 instance=ExtResource("18_vqytd")]
 position = Vector2(520, 515)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000053"
 metadata/scale = Vector2(1, 1)
@@ -911,3 +897,5 @@ position = Vector2(-120, 0)
 metadata/code = ""
 metadata/inst_name = "inst_3E1A95F5"
 metadata/scale = Vector2(1, 1)
+
+[editable path="oSewerBridge0lr"]

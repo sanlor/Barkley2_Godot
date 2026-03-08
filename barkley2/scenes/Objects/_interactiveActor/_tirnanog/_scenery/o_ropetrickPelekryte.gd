@@ -64,6 +64,7 @@ func _ready() -> void:
 			t.tween_property(actor_anim, "modulate", Color.TRANSPARENT, 1.5)
 		index += 1
 		await get_tree().physics_frame
+		#await get_tree().physics_frame
 	
 	var index_2 := points.size()
 	for i in points:

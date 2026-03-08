@@ -841,7 +841,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				"CREATE","Create":
 					Create( parsed_line )
-
+				
+				"DESTROY":
+					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					assert(subject, "Cant destroy the object %s, Could'nt find it. Bummer...." % parsed_line[ 1 ])
+					if subject:
+						subject.queue_free()
+				
 				"CREATE_WAIT":
 					#breakpoint ## TODO add this function
 					# Create( parsed_line, true ) <- 'true' should enable the "wait" in create_wait. What is it waiting for? Only Clispaeth knows.

@@ -64,6 +64,9 @@ var hudDrawCount := 0
 ## HUD display speed
 var hud_speed			:= 0.25
 
+## HUD data
+var current_hud_bar_position := 0.0 ## Used by the camera, when bound by the map.
+
 ## gun ammo hud
 var pulse 				:= 0.0
 var t					:= 0.0
@@ -150,7 +153,7 @@ func fade_in( element ) -> void:
 		tween.kill()
 	tween = create_tween()
 	tween.tween_property( element, "modulate:a", 1.0, 0.5 )
-	tween.tween_interval( 0.2 )
+	tween.tween_interval( 0.2 ) # NOTE why is this here??
 	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
 	tween.tween_callback( event_finished.emit )
 
@@ -166,17 +169,17 @@ func execute_event_user_1() -> void: ## Used during the intro
 
 func execute_event_user_2() -> void: ## Used during the intro
 	# hide hud_elements
-	hudDrawCount = 0
+	hudDrawCount 					= 0
 	hud_bar.texture.region.position = Vector2( 384, 0 )
-	hud_dna.modulate.a 		= 0.0
-	hud_glamp.modulate.a 	= 0.0
-	l_letter.modulate.a 	= 0.0
-	a_letter.modulate.a 	= 0.0
-	m_letter.modulate.a 	= 0.0
-	p_letter.modulate.a 	= 0.0
-	hud_gun.modulate.a 		= 0.0
-	hud_weight.modulate.a 	= 0.0
-	hud_ammo.modulate.a 	= 0.0
+	hud_dna.modulate.a 				= 0.0
+	hud_glamp.modulate.a 			= 0.0
+	l_letter.modulate.a 			= 0.0
+	a_letter.modulate.a 			= 0.0
+	m_letter.modulate.a 			= 0.0
+	p_letter.modulate.a 			= 0.0
+	hud_gun.modulate.a 				= 0.0
+	hud_weight.modulate.a 			= 0.0
+	hud_ammo.modulate.a 			= 0.0
 	hud_periodic.modulate.a 		= 0.0
 	hud_pockets.modulate.a 			= 0.0
 	hud_marquee_text.modulate.a 	= 0.0
@@ -290,5 +293,8 @@ func _physics_process(_delta: float) -> void:
 	
 	if not B2_Playerdata.is_holding_gun:		hud_gun_sprite.modulate.a 	= 0.55
 	else:										hud_gun_sprite.modulate.a 	= 0.85
+	
+	# Update hud position
+	if hud_bar: current_hud_bar_position = hud_bar.position.y - 240.0
 	
 	hud_gun.queue_redraw()

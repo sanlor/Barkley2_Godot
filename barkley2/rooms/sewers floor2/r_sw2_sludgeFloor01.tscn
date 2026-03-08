@@ -19,9 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://bnxoqmiv12gk8" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn" id="18_j00dk"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="20_lebis"]
 [ext_resource type="PackedScene" uid="uid://cifjdailrohp8" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stageHazard_sewerSludge.tscn" id="23_ecpvd"]
+[ext_resource type="PackedScene" uid="uid://celcyhixcrejv" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/oSewerBridge0lr.tscn" id="23_itumy"]
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="23_ow2ve"]
-[ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="28_gi16i"]
-[ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="29_dichj"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="30_pj8lh"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="31_xoml7"]
 [ext_resource type="PackedScene" uid="uid://dkmludo2tseai" path="res://barkley2/scenes/Objects/_effects/Sewers/o_pipesludge01.tscn" id="33_l8pyg"]
@@ -295,13 +294,6 @@ animations = [{
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_au85l"]
-atlas = ExtResource("28_gi16i")
-region = Rect2(98, 0, 49, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0lq7x"]
-size = Vector2(32, 106.125)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8h1jm"]
 atlas = ExtResource("31_xoml7")
@@ -652,28 +644,6 @@ metadata/code = "initial_height = -32;"
 metadata/inst_name = "inst_A4A03B15"
 metadata/scale = Vector2(1, 1)
 
-[node name="oSewerBridge0lr" type="TextureRect" parent="." unique_id=1515484923]
-z_index = -5
-clip_contents = true
-offset_left = 546.0
-offset_top = 216.0
-offset_right = 595.0
-offset_bottom = 310.35077
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_au85l")
-expand_mode = 1
-stretch_mode = 2
-script = ExtResource("29_dichj")
-metadata/code = ""
-metadata/inst_name = "inst_61FA0E16"
-metadata/scale = Vector2(7, 1)
-
-[node name="blocker" type="StaticBody2D" parent="oSewerBridge0lr" unique_id=1224078045]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="oSewerBridge0lr/blocker" unique_id=183051650]
-position = Vector2(24, 40.9375)
-shape = SubResource("RectangleShape2D_0lq7x")
-
 [node name="o_sewer_switch01" parent="." unique_id=105973850 node_paths=PackedStringArray("oBridge") instance=ExtResource("30_pj8lh")]
 material = ExtResource("23_ow2ve")
 position = Vector2(488, 104)
@@ -685,6 +655,17 @@ event_user(1);
 "
 metadata/inst_name = "inst_6ACCAC3B"
 metadata/scale = Vector2(1, 1)
+
+[node name="oSewerBridge0lr" parent="." unique_id=260826970 instance=ExtResource("23_itumy")]
+offset_left = 546.0
+offset_top = 167.0
+offset_right = 640.0
+offset_bottom = 208.0
+
+[node name="oSewerBridge0_texture" parent="oSewerBridge0lr" index="2" unique_id=1206937273]
+offset_left = 0.0
+offset_right = 49.0
+offset_bottom = 142.85834
 
 [node name="o_pipesludge01" parent="." unique_id=1515820868 instance=ExtResource("33_l8pyg")]
 position = Vector2(592, 167)
@@ -714,3 +695,5 @@ position = Vector2(-120, 0)
 metadata/code = ""
 metadata/inst_name = "inst_3C04D459"
 metadata/scale = Vector2(1, 1)
+
+[editable path="oSewerBridge0lr"]

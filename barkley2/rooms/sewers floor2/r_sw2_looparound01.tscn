@@ -17,10 +17,9 @@
 [ext_resource type="PackedScene" uid="uid://bnxoqmiv12gk8" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn" id="15_fnyjq"]
 [ext_resource type="PackedScene" uid="uid://cifjdailrohp8" path="res://barkley2/scenes/Objects/_map/Stage Hazards/o_stageHazard_sewerSludge.tscn" id="17_hvobd"]
 [ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="18_j6m5x"]
+[ext_resource type="PackedScene" uid="uid://celcyhixcrejv" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/oSewerBridge0lr.tscn" id="20_11l1u"]
 [ext_resource type="PackedScene" uid="uid://thle60ca12ly" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_switch01.tscn" id="20_u1x2t"]
 [ext_resource type="Texture2D" uid="uid://cdo2xmeytfvtu" path="res://barkley2/assets/b2_original/images/merged/s_sewer_switch01.png" id="21_cycim"]
-[ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="23_gha0w"]
-[ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="24_8u0gk"]
 [ext_resource type="PackedScene" uid="uid://0ko8dmrlobil" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum_open01.tscn" id="25_j6m5x"]
 [ext_resource type="PackedScene" uid="uid://dogf4uxjwu8dg" path="res://barkley2/scenes/Objects/_environs/_containers/o_drum01.tscn" id="26_22muw"]
 [ext_resource type="PackedScene" uid="uid://dqtcrbubwyrq4" path="res://barkley2/scenes/Objects/_map/Z Height/o_zsurvey.tscn" id="27_4sjms"]
@@ -293,13 +292,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_au85l"]
-atlas = ExtResource("23_gha0w")
-region = Rect2(98, 0, 49, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8avuy"]
-size = Vector2(32, 107.125)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_e7rcl"]
 atlas = ExtResource("31_sgs8v")
 region = Rect2(0, 0, 32, 32)
@@ -491,27 +483,16 @@ event_user(1);
 metadata/inst_name = "inst_C3803E17"
 metadata/scale = Vector2(1, 1)
 
-[node name="oSewerBridge0lr" type="TextureRect" parent="." unique_id=1475275795]
-z_index = -5
-clip_contents = true
+[node name="oSewerBridge0lr" parent="." unique_id=260826970 instance=ExtResource("20_11l1u")]
 offset_left = 418.0
-offset_top = 232.0
-offset_right = 467.0
-offset_bottom = 326.6778
-rotation = -1.5707964
-texture = SubResource("AtlasTexture_au85l")
-expand_mode = 1
-stretch_mode = 2
-script = ExtResource("24_8u0gk")
-metadata/code = ""
-metadata/inst_name = "inst_288F2CAA"
-metadata/scale = Vector2(7, 1)
+offset_top = 183.0
+offset_right = 512.0
+offset_bottom = 224.0
 
-[node name="blocker" type="StaticBody2D" parent="oSewerBridge0lr" unique_id=89968664]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="oSewerBridge0lr/blocker" unique_id=763583066]
-position = Vector2(24, 41.4375)
-shape = SubResource("RectangleShape2D_8avuy")
+[node name="oSewerBridge0_texture" parent="oSewerBridge0lr" index="2" unique_id=1206937273]
+offset_left = 0.0
+offset_right = 49.0
+offset_bottom = 142.97925
 
 [node name="o_zsurvey" parent="." unique_id=2017494545 instance=ExtResource("27_4sjms")]
 position = Vector2(272, 207)
@@ -548,14 +529,13 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_drum_open01" parent="." unique_id=365459104 instance=ExtResource("25_j6m5x")]
 position = Vector2(788, 155)
+frame = 0
 
 [node name="o_drum_open02" parent="." unique_id=1025486769 instance=ExtResource("25_j6m5x")]
 position = Vector2(771, 151)
-frame = 1
 
 [node name="o_drum_open03" parent="." unique_id=1518110267 instance=ExtResource("25_j6m5x")]
 position = Vector2(777, 167)
-frame = 1
 
 [node name="o_drum01" parent="." unique_id=1513712808 instance=ExtResource("26_22muw")]
 position = Vector2(739, 156)
@@ -566,3 +546,5 @@ position = Vector2(657, 154)
 [node name="o_boxes_single01" parent="." unique_id=1190061059 instance=ExtResource("27_7wjij")]
 position = Vector2(535, 147)
 frame = 2
+
+[editable path="oSewerBridge0lr"]
