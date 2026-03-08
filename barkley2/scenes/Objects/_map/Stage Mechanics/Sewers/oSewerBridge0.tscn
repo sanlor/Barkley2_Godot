@@ -3,25 +3,92 @@
 [ext_resource type="Texture2D" uid="uid://diapcv0viv5o8" path="res://barkley2/assets/b2_original/images/merged/sSewerBridge0.png" id="1_klsim"]
 [ext_resource type="Script" uid="uid://dtqp8jykb68y1" path="res://barkley2/scenes/Objects/_map/Stage Mechanics/Sewers/o_sewer_bridge_0.gd" id="2_lp73p"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lp73p"]
-atlas = ExtResource("1_klsim")
-region = Rect2(98, 0, 49, 128)
+[sub_resource type="Animation" id="Animation_lp73p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b12q8"]
+resource_name = "close"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -78)]
+}
+
+[sub_resource type="Animation" id="Animation_ykq44"]
+resource_name = "open"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -78), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rl42f"]
+_data = {
+&"RESET": SubResource("Animation_lp73p"),
+&"close": SubResource("Animation_b12q8"),
+&"open": SubResource("Animation_ykq44")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b12q8"]
 size = Vector2(32, 80)
 
-[node name="oSewerBridge0" type="TextureRect" unique_id=161222419]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lp73p"]
+atlas = ExtResource("1_klsim")
+region = Rect2(98, 0, 49, 128)
+
+[node name="oSewerBridge0" type="Control" unique_id=3344195]
 clip_contents = true
+layout_mode = 3
+anchors_preset = 0
 offset_top = 10.0
-offset_right = 49.0
+offset_right = 40.0
 offset_bottom = 88.0
-texture = SubResource("AtlasTexture_lp73p")
-expand_mode = 1
-stretch_mode = 2
 script = ExtResource("2_lp73p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=184616805]
+root_node = NodePath("../oSewerBridge0_texture")
+libraries/ = SubResource("AnimationLibrary_rl42f")
 
 [node name="blocker" type="StaticBody2D" parent="." unique_id=801707992]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="blocker" unique_id=1321763352]
 position = Vector2(24, 39)
 shape = SubResource("RectangleShape2D_b12q8")
+
+[node name="oSewerBridge0_texture" type="TextureRect" parent="." unique_id=161222419]
+clip_contents = true
+layout_mode = 0
+offset_right = 49.0
+offset_bottom = 78.0
+texture = SubResource("AtlasTexture_lp73p")
+expand_mode = 1
+stretch_mode = 2

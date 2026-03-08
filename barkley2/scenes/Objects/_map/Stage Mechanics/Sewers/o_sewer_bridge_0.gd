@@ -1,7 +1,9 @@
-extends TextureRect
+extends Control
 
-@onready var blocker: StaticBody2D = $blocker
-@onready var collision_shape_2d: CollisionShape2D = $blocker/CollisionShape2D
+@onready var o_sewer_bridge_0_texture: 	TextureRect 		= $oSewerBridge0_texture
+@onready var blocker: 					StaticBody2D 		= $blocker
+@onready var collision_shape_2d: 		CollisionShape2D 	= $blocker/CollisionShape2D
+@onready var animation_player: 			AnimationPlayer 	= $AnimationPlayer
 
 @export var start_open := false
 
@@ -15,9 +17,10 @@ func _ready() -> void:
 
 ## open bridge
 func execute_event_user_1() -> void:
-	show()
+	animation_player.play("open")
 	collision_shape_2d.disabled = true
 	
+## close bridge
 func execute_event_user_0() -> void:
-	hide()
+	animation_player.play("close")
 	collision_shape_2d.disabled = false

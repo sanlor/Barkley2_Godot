@@ -27,6 +27,7 @@ func _ready() -> void:
 		execute_event_user_1()
 	
 func execute_event_user_1() -> void:
+	assert(switchName, "switchName not set for %s" % name)
 	var scr := B2_Script_Legacy.new()
 	var my_script := \
 	"MOVETO  | o_cts_hoopz | %s | MOVE_NORMAL
@@ -46,6 +47,9 @@ func execute_event_user_2():
 		oBridge.execute_event_user_1()
 		animation = "flipped"
 		is_interactive = false
+	else:
+		push_error( "oBridge node not set for switch %s. Fix this." % name )
+		breakpoint
 		
 func execute_event_user_10() -> void:
 	pass

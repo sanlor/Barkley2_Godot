@@ -12,11 +12,11 @@ func _ready() -> void:
 	debug_lbl.text 					= Text.pr(debug_lbl.text)
 	save_game_btn.tooltip_text 		= Text.pr(save_game_btn.tooltip_text)
 	export_btn.text 				= Text.pr(export_btn.tooltip_text)
+	save_game_btn.disabled = B2_Input.cutscene_is_playing
 	_on_timer_timeout()
 
 func _physics_process(_delta: float) -> void:
 	if visible:
-		save_game_btn.disabled = B2_Input.cutscene_is_playing
 		queue_redraw()
 
 func _draw() -> void:
@@ -36,8 +36,8 @@ func _on_export_btn_pressed() -> void:
 	timer.start()
 
 func _on_timer_timeout() -> void:
-	save_game_btn.disabled = false
-	export_btn.disabled = false
-	save_game_btn.text = Text.pr(save_game_btn_text)
-	export_btn.text = Text.pr(export_btn_text)
+	save_game_btn.disabled 	= B2_Input.cutscene_is_playing
+	export_btn.disabled 	= false
+	save_game_btn.text 		= Text.pr(save_game_btn_text)
+	export_btn.text 		= Text.pr(export_btn_text)
 	

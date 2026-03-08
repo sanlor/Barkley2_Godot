@@ -14,7 +14,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export_category("Debug Stuff")
 @export var debug_goto		 	:= false
 @export var debug_comments 		:= true
-@export var debug_dialog 		:= true
+@export var debug_dialog 		:= false
 @export var debug_wait 			:= false
 @export var debug_fade 			:= false
 @export var debug_sound 		:= false
