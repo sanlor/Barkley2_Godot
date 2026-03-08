@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://yaavk7gujw0f"]
+
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="1_37bc8"]
+[ext_resource type="Script" uid="uid://bhbpaxcpse7y" path="res://barkley2/scenes/sTitle/save_load_options.gd" id="2_21yyo"]
+[ext_resource type="FontFile" uid="uid://bq5ct8srd86o6" path="res://barkley2/resources/fonts/fn5o.tres" id="3_yur1h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yur1h"]
+bg_color = Color(0.60038817, 0.60038817, 0.60038817, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.011764706, 0.14509805, 0.03529412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tw4ca"]
+bg_color = Color(1, 0.647, 0, 0.25)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.011764706, 0.14509805, 0.03529412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eoui0"]
+bg_color = Color(0.23921569, 0.7647059, 0, 0.019607844)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.011764706, 0.14509805, 0.03529412, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0d04i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g6xkk"]
+bg_color = Color(1, 1, 1, 0.0980392)
+
+[node name="save_load_options" type="Control" unique_id=111510401]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_37bc8")
+script = ExtResource("2_21yyo")
+
+[node name="import_btn" type="Button" parent="." unique_id=1489765915]
+custom_minimum_size = Vector2(66, 16)
+layout_mode = 0
+offset_left = -16.0
+offset_top = 66.0
+offset_right = 50.0
+offset_bottom = 82.0
+rotation = -1.5707964
+tooltip_text = "Imports the save file string 
+from your clipboard to the 
+game. Cannot be imported in
+existing slots. Remove the old
+one before importing."
+theme_override_fonts/font = ExtResource("3_yur1h")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yur1h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tw4ca")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eoui0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0d04i")
+theme_override_styles/focus = SubResource("StyleBoxFlat_g6xkk")
+text = "Import"
+
+[node name="export_btn" type="Button" parent="." unique_id=606819327]
+custom_minimum_size = Vector2(66, 16)
+layout_mode = 0
+offset_left = 359.0
+offset_right = 425.0
+offset_bottom = 16.283539
+rotation = 1.5707964
+tooltip_text = "Export the saved game to a 
+string in your clipboard. 
+Paste it somewhere or 
+share it around!
+Cannot export empty slots."
+theme_override_fonts/font = ExtResource("3_yur1h")
+theme_override_styles/normal = SubResource("StyleBoxFlat_yur1h")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tw4ca")
+theme_override_styles/hover = SubResource("StyleBoxFlat_eoui0")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_0d04i")
+theme_override_styles/focus = SubResource("StyleBoxFlat_g6xkk")
+text = "Export"
+
+[node name="Timer" type="Timer" parent="." unique_id=120749306]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="pressed" from="import_btn" to="." method="_on_import_btn_pressed"]
+[connection signal="pressed" from="export_btn" to="." method="_on_export_btn_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -99,7 +99,7 @@ var configsavefile 		:= "settings.ini"
 
 ## User Profile
 var legitime_slot_loaded 	:= false		## Set to true when you load a slot from the title screen
-var selected_slot 			:= 0:			## Game slot. The legitime save slots are 0, 1 and 2.
+var selected_slot 			:= 100:			## Game slot. The legitime save slots are 0, 1 and 2. 69 and 100 are debug slots.
 	set(s):
 		selected_slot = s
 		legitime_slot_loaded = s == 0 or s == 1 or s == 2
@@ -138,6 +138,57 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		if B2_Playerdata.record_curr_location():
 			B2_Playerdata.SaveGame() ## Do the saving bit.
+
+func decode_string_to_save_slot( save_text : String, save_slot := selected_slot ) -> bool:
+	if save_text:
+		var base_64_raw := Marshalls.base64_to_raw( save_text )
+		if base_64_raw:
+			var save_data = bytes_to_var(base_64_raw)
+			if save_data is Dictionary:
+				B2_Config.set_save_slot_data( save_slot, save_data )
+				print_rich("[bgcolor=blue][color=green]Save slot %s Imported.[/color][/bgcolor]" % save_slot)
+				return true
+			else:
+				push_warning("Variable not valid.")
+				return false
+		else:
+			push_warning("Base64 text not valid.")
+			return false
+	else:
+		push_warning("Clipboard text not valid.")
+		return false
+		
+func encode_save_slot_to_string( save_slot := selected_slot ) -> String:
+	var save_data := B2_Config.get_save_slot_data( save_slot )
+	var save_bytes := var_to_bytes(save_data)
+	return Marshalls.raw_to_base64(save_bytes)
+
+func set_save_slot_data( slot : int, data : Dictionary ) -> void:
+	assert( slot >= 0 or slot <= 2)
+	var file := "save%s.b2" % str( slot )
+	var savefile := FileAccess.open( usersavefolder + file, FileAccess.WRITE )
+	savefile.store_string( JSON.stringify( data, "\t", false ) )
+	savefile.close()
+	B2_SignalBus.save_slot_data_changed.emit()
+
+func get_save_slot_data( slot : int ) -> Dictionary:
+	if has_user_save( slot ):
+		var file := "save%s.b2" % str( slot )
+		if FileAccess.file_exists( usersavefolder + file ):
+			var savefile := FileAccess.open( usersavefolder + file, FileAccess.READ )
+			var json := JSON.new()
+			var parse_error := json.parse( savefile.get_as_text() )
+			if parse_error == OK:
+				return json.get_data()
+			else:
+				push_warning("Invalid save data (json)")
+				return Dictionary()
+		else:
+			push_warning("Invalid save data")
+			return Dictionary()
+	else:
+		push_warning("Invalid save data")
+		return Dictionary()
 
 func get_current_save_slot() -> int:
 	return selected_slot
@@ -228,6 +279,7 @@ func set_user_save_data( path : String, value ) -> void:
 			#push_warning( "invalid key: ", i, " - Valid keys are: ", temp_dict.keys() )
 	#print("Debug: save game is ", usersavefile)
 			
+## Create a new save file (on disk) or update the existing one.
 func create_user_save_data( slot : int ): # Should be used on the title screen, que a new game on a empty slot is created. for CC, only create save game at the end.
 	assert( slot >= 0 or slot <= 2) ## Useless assert. Its funny, so im keeping it.
 	var file := "save%s.b2" % str( slot )
@@ -243,6 +295,7 @@ func create_user_save_data( slot : int ): # Should be used on the title screen, 
 	savefile.close()
 	print_rich( "[color=blue]Game saved using slot [b]%s[/b].[/color]" % slot )
 	
+## remove a save file from disk
 func delete_user_save_data( slot : int ): # Should be used on the title screen.
 	assert( slot >= 0 or slot <= 2)
 	var file := "save%s.b2" % str( slot )

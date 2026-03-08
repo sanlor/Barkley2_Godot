@@ -3,11 +3,14 @@
 [ext_resource type="Theme" uid="uid://ch0qvwhfesyka" path="res://barkley2/themes/main2.tres" id="1_saogy"]
 [ext_resource type="Script" uid="uid://b37612x8edn4g" path="res://barkley2/scenes/Objects/System/pause_screen.gd" id="2_lnwyh"]
 [ext_resource type="Texture2D" uid="uid://ba7tkmx4xg5sd" path="res://barkley2/assets/b2_original/images/merged/s_pausemenu_buttonlight.png" id="3_48w6a"]
+[ext_resource type="Script" uid="uid://ga172spllnwa" path="res://barkley2/scenes/Objects/System/debug_options.gd" id="3_a6mvm"]
 [ext_resource type="Script" uid="uid://bh8rjp4hjx487" path="res://barkley2/scenes/Objects/System/options_pause_screen.gd" id="4_r0txh"]
+[ext_resource type="FontFile" uid="uid://dre1af5ictbg8" path="res://barkley2/resources/fonts/fn_7ocs.tres" id="4_svcrn"]
 [ext_resource type="FontFile" uid="uid://drr75gc00ws56" path="res://barkley2/resources/fonts/fn1b.tres" id="5_pourm"]
 [ext_resource type="Script" uid="uid://bh1o6t53csuwf" path="res://barkley2/scenes/button/B2_Button.gd" id="5_rige0"]
 [ext_resource type="Theme" uid="uid://cediqa06asd4y" path="res://barkley2/themes/cc_like_favorites.tres" id="6_pourm"]
 [ext_resource type="Script" uid="uid://dlydmhfcm6h7b" path="res://barkley2/scenes/audio_slider/B2_Audio_Slider.gd" id="7_4y7kd"]
+[ext_resource type="Theme" uid="uid://dgl808q5lpydb" path="res://barkley2/themes/main.tres" id="9_svcrn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4y7kd"]
 font = ExtResource("5_pourm")
@@ -20,6 +23,8 @@ bg_color = Color(1, 1, 1, 0.2)
 [sub_resource type="ButtonGroup" id="ButtonGroup_svcrn"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_i5jrc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i5jrc"]
 
 [node name="pause_layer" type="Control" unique_id=168369509]
 process_mode = 3
@@ -402,6 +407,60 @@ text = "Exit"
 script = ExtResource("5_rige0")
 metadata/_custom_type_script = "uid://bh1o6t53csuwf"
 
+[node name="debug_options" type="ColorRect" parent="pause_screen" unique_id=1912178057]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 178.0
+offset_right = 82.0
+offset_bottom = 236.0
+theme = ExtResource("9_svcrn")
+color = Color(0, 0.24313726, 0, 0.039215688)
+script = ExtResource("3_a6mvm")
+
+[node name="MarginContainer" type="MarginContainer" parent="pause_screen/debug_options" unique_id=1231157465]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="pause_screen/debug_options/MarginContainer" unique_id=1029086088]
+layout_mode = 2
+
+[node name="debug_lbl" type="Label" parent="pause_screen/debug_options/MarginContainer/VBoxContainer" unique_id=1835183457]
+layout_mode = 2
+text = "Debug
+Stuff"
+label_settings = SubResource("LabelSettings_i5jrc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="save_game_btn" type="Button" parent="pause_screen/debug_options/MarginContainer/VBoxContainer" unique_id=328264036]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+tooltip_text = "Saves the game.
+(Disabled during
+cutscenes)"
+theme_override_fonts/font = ExtResource("4_svcrn")
+text = "Save game"
+
+[node name="export_btn" type="Button" parent="pause_screen/debug_options/MarginContainer/VBoxContainer" unique_id=2114716791]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+tooltip_text = "Export the saved game to a 
+string in your clipboard. "
+theme_override_fonts/font = ExtResource("4_svcrn")
+text = "Export save slot"
+
+[node name="Timer" type="Timer" parent="pause_screen/debug_options" unique_id=125886501]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="mouse_entered" from="pause_screen/VBoxContainer/resume" to="." method="_on_resume_mouse_entered"]
 [connection signal="mouse_entered" from="pause_screen/VBoxContainer/options" to="." method="_on_options_mouse_entered"]
 [connection signal="mouse_entered" from="pause_screen/VBoxContainer/exit" to="." method="_on_exit_mouse_entered"]
@@ -413,3 +472,6 @@ metadata/_custom_type_script = "uid://bh1o6t53csuwf"
 [connection signal="value_changed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option/sound_slider" to="pause_screen/options_screen" method="_on_sound_slider_value_changed"]
 [connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/sound_option/plus" to="pause_screen/options_screen" method="_on_sound_plus_pressed"]
 [connection signal="pressed" from="pause_screen/options_screen/options_screen_bg/MarginContainer/VBoxContainer/exit_button" to="pause_screen/options_screen" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="pause_screen/debug_options/MarginContainer/VBoxContainer/save_game_btn" to="pause_screen/debug_options" method="_on_save_game_btn_pressed"]
+[connection signal="pressed" from="pause_screen/debug_options/MarginContainer/VBoxContainer/export_btn" to="pause_screen/debug_options" method="_on_export_btn_pressed"]
+[connection signal="timeout" from="pause_screen/debug_options/Timer" to="pause_screen/debug_options" method="_on_timer_timeout"]

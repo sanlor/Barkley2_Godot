@@ -8,6 +8,7 @@ signal hud_visibility_changed
 ## Title screen. Notify a few nodes that the title screen is currently loaded.
 # Very useful when quitting the game
 signal title_screen_loaded
+signal save_slot_data_changed # Used to reload the save slot data
 
 ## Utility Station stuff
 signal unpluged_from_station

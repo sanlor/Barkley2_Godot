@@ -1,6 +1,8 @@
 @tool
 extends Node2D
 
+signal finished
+
 @onready var path_2d: Path2D = $Path2D
 @onready var rope_line: Line2D = $rope_line
 @onready var actor_anim: AnimatedSprite2D = $ActorAnim
@@ -46,7 +48,10 @@ func _a():
 	for i in pRopePelekryte:
 		path_2d.curve.add_point(i)
 		
+#Lazy implementation
 func _ready() -> void:
+	if Engine.is_editor_hint(): return
+	
 	rope_line.clear_points()
 	var points := path_2d.curve.get_baked_points()
 	var index := 0
@@ -54,6 +59,9 @@ func _ready() -> void:
 		rope_line.add_point( i, 0 )
 		if index > 50:
 			actor_anim.position = Vector2( 243.0, 215.0 ) + i
+		if index == 270:
+			var t := create_tween()
+			t.tween_property(actor_anim, "modulate", Color.TRANSPARENT, 1.5)
 		index += 1
 		await get_tree().physics_frame
 	
@@ -62,3 +70,5 @@ func _ready() -> void:
 		index_2 -= 1
 		rope_line.remove_point( index_2 )
 		await get_tree().physics_frame
+		
+	finished.emit()

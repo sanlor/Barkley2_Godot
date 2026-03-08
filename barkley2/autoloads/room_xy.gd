@@ -295,10 +295,14 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	var room_y 		:= float( split[2] )
 	var slide_dir	:= int( split[3] ) ## No idea what this is.
 	var open_sfx	:= str( split[4] ).strip_edges().replace('"', '') # removes "invalid" characters.
-	var close_sfx	:= str( split[5] ).strip_edges().replace('"', '')
+	var close_sfx	:= str( split[5] ).strip_edges().replace('"', '') # removes "invalid" characters.
+	
+	## Fix some edge cases where garbage characters are set.
+	close_sfx = close_sfx.replace(');', '')
 
 	var fade_modifier := 1.0
-
+	
+	## Players is warping to the same room. No not load a new map, just move the player around.
 	if room_name == this_room:
 		print("Room_XY: Warping to the same room.")
 		its_the_same_room = true
@@ -311,6 +315,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if not (room_name == "r_title" or room_name == "r_cc" or room_name == "r_scale") and room_name.begins_with("r_"):
 
 		# save destination data
+		#assert( this_room, "Invalid room name" )
 		this_room 		= room_name
 		this_room_x 	= room_x
 		this_room_y 	= room_y

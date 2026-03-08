@@ -86,16 +86,20 @@ func _index_scenes():
 			var s_name = s.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
 			scene_index[s_name] = s.trim_suffix(".remap")
 	print_rich("[color=web_purple]Index rooms ended: ", Time.get_ticks_msec(), " msecs. - ", scene_index.size(), " room_index key entries[/color]")
-	_save_sceneindex_to_disk()
+	_save_scene_index_to_disk()
 
 ## This writes the Sound list to disk to avoid unecessary lookups during boot.
-func _save_sceneindex_to_disk() -> void:
+func _save_scene_index_to_disk() -> void:
 	print_rich("[color=cyan]WARNING: Saving SceneIndex to disk.[/color]")
 	var file = FileAccess.open( "res://barkley2/resources/B2_CManager/scene_index.json", FileAccess.WRITE )
 	file.store_string( JSON.stringify(scene_index, "\t") )
 
 func _ready() -> void:
 	scene_index = SCENE_INDEX.data
+	
+	if OS.is_debug_build():
+		print_rich("[color=red]%s: Debug Build Detected, re-indexing cache.[/color]" % name)
+		_index_scenes()
 
 func get_cached_scene( scene_name : String ) -> PackedScene:
 	if scene_index.has(scene_name):

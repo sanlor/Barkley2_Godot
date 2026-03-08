@@ -206,6 +206,7 @@ func SaveGame( force := false):
 			B2_Gun.save_guns()
 			B2_Playerdata.player_stats.save_stats()
 			B2_Config.create_user_save_data( B2_Config.selected_slot )
+			if force: print_rich("[color=green]Save game forced.[/color]")
 			print_rich("[color=green]Save game executed.[/color]")
 		else:
 			print_rich("[color=red]Save game denied. Player is in a cutscene.[/color]")

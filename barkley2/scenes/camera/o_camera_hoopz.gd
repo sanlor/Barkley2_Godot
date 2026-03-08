@@ -362,8 +362,8 @@ func _physics_process(delta: float) -> void:
 					is_lost = false
 					return
 					
-				#_position = player_node.position
-				global_position = position.move_toward(player_node.global_position, 140.0 * delta)
+				global_position = global_position.move_toward( player_node.global_position, 200.0 * delta )	# Smoothly follows the player
+				#global_position = player_node.global_position												# Snaps to the player position
 				
 				if follow_mouse:
 					var mouse_dir 	:= Vector2.ZERO
@@ -378,9 +378,11 @@ func _physics_process(delta: float) -> void:
 							mouse_dir 	= player_node.global_position.direction_to( 	get_global_mouse_position() )
 							mouse_dist 	= player_node.global_position.distance_to( 		get_global_mouse_position() )
 					mouse_dist = clampf( mouse_dist, 0.0, 275.0 )
-					offset = offset.move_toward( camera_offset + (mouse_dir * mouse_dist / 3.0), camera_follow_speed * delta ) + camera_shake_offset
+					# 08/03/26 round the 'move_toward' method bellow fixes the janky/jittery camera, when hoopz is moving. Ie been fighing this issue since the begining.
+					# This was not the first time I "fixed" this issues and, I think, its not going to be the last.
+					offset = offset.move_toward( camera_offset + (mouse_dir * mouse_dist / 3.0), camera_follow_speed * delta ).round() + camera_shake_offset
 				else:
-					offset = offset.move_toward( camera_offset, camera_follow_speed * delta ) + camera_shake_offset
+					offset = offset.move_toward( camera_offset, camera_follow_speed * delta ).round() + camera_shake_offset
 				#offset = offset.round() # fixes jittery movement. THIS TIME!
 					
 			else:

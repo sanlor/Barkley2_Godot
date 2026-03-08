@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const SAVE_LOAD_OPTIONS = preload("uid://yaavk7gujw0f")
+
 @onready var r_title = get_parent()
 
 @onready var game_slot_1 				: B2_Border_Button = $game_slot_1
@@ -68,6 +70,7 @@ func _ready():
 	game_slot_delete_panel.content_highlight_color = Color.RED
 	
 	load_slots()
+	B2_SignalBus.save_slot_data_changed.connect( load_slots )
 	
 	# endregion
 
@@ -95,6 +98,11 @@ func load_slots():
 		slots[i].monitor_mouse = true
 		slots[i].set_global_position( Vector2(gameslot_x - 8, dry - 8) )
 		slots[i].set_seed( hash(slots[i].name) )
+		
+		# Save import / export function
+		var save_load := SAVE_LOAD_OPTIONS.instantiate()
+		save_load.save_slot = i
+		slots[i].add_child( save_load, true )
 		
 		if B2_Config.has_user_save( i ):		# this slot has saved game. get player data from the file
 			B2_Config.select_user_slot( i )
