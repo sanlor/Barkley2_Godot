@@ -129,11 +129,13 @@ func BodySwap( costume_name : String ) -> void:
 			o_cts_hoopz_scene	= null
 			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.MATTHIAS
+			push_warning("Costume '%s' not implemented yet." % costume_name)
 		"governor":
 			o_hoopz_scene		= null
 			o_cts_hoopz_scene	= null
 			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.GOVERNOR
+			push_warning("Costume '%s' not implemented yet." % costume_name)
 		"untamo":
 			o_hoopz_scene		= O_HOOPZ_UNTAMO
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_UNTAMO
@@ -149,6 +151,7 @@ func BodySwap( costume_name : String ) -> void:
 			o_cts_hoopz_scene	= null
 			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.PRISON
+			push_warning("Costume '%s' not implemented yet." % costume_name)
 		# Else, You Are Hoopz.
 		_:
 			o_hoopz_scene		= O_HOOPZ_NORMAL

@@ -160,6 +160,8 @@ func load_slots():
 				
 			## Chapter title
 			var pl_chapter := RichTextLabel.new() # Was Label
+			pl_chapter.focus_mode = Control.FOCUS_NONE
+			pl_chapter.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			pl_chapter.bbcode_enabled = true
 			pl_chapter.size = Vector2(200,9)
 			#pl_chapter.modulate = Color8(220, 220, 255) # moved to bbcode

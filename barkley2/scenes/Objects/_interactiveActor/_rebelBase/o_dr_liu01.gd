@@ -321,7 +321,7 @@ func _ready() -> void:
 		MOVETO | o_cts_hoopz | o_cinema6 | MOVE_FAST
 		WAIT   | 0
 		LOOK   | o_cts_hoopz | NORTH
-		DIALOG | Governor Elagabalus | `s1`What the FUCK?!`rt`
+		DIALOG | Governor Elagabalus | `s1`What the FUCK?!`s0`
 		DIALOG | Governor Elagabalus | Lemme outta here! Let me the hell outta here! `s1`I'll dash your gourd upon the rocks!`s0` Do you have any idea who I am? I'm `kw`Governor Elagabalus`rt` and `s1`I own you all!`s0` If you don't let me out of here at once, I'll `s1`burn`s0` you and this whole city to the ground! Where's my `s1`fuckin' fiddle?`s0`
 		FRAME  | CAMERA_FAST | o_ritkonen01
 		WAIT   | 0
@@ -403,3 +403,11 @@ func execute_event_user_10():
 		## TODO What are these???
 		# scr_savedata_put("clock.time", (24 - 5.5) * 60 * 60);
 		# ClockTime("process", 0); 
+
+# /// Turn on chair solid //
+func execute_event_user_14():
+	pass # Not used in the godot port
+	
+# /// Turn off chair solid
+func execute_event_user_15():
+	pass # Not used in the godot port

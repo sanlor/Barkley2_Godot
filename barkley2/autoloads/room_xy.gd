@@ -376,11 +376,19 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 
 		await get_tree().process_frame
 	else:
+		if room_reference:
+			room_reference.request_ready()
+		else:
+			# What happened?
+			breakpoint
+		
 		if is_instance_valid( B2_CManager.o_hoopz ):
 			B2_CManager.o_hoopz.position = Vector2( room_x, room_y )
 		else:
 			# What happened?
-			breakpoint
+			# 08-03-26 Governor bodyswitching hits this breakpoint.
+			#breakpoint
+			push_warning("B2_CManager.o_hoopz not found. This is abnormal when you are teleporting to the same room. Please, check this.")
 
 		if is_instance_valid( B2_CManager.camera ):
 			B2_CManager.camera.position = Vector2( room_x, room_y )
@@ -417,6 +425,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	## NOTE 09/06/25 Deltarune ch 3 and 4 was pretty good. still need to finish the weird rounte on ch4.
 	## future me, is ch 5 and 6 any good?
 	## 24/12/25 ^^^^ Fucking neeeerd
+	## 08/03/26 Lol, forgot I wrote this.
 
 ## Begin loading level with threaded load. This should be called before the fade out effect.
 func begin_load_room_scene( room_name : String ) -> void:

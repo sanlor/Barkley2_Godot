@@ -488,6 +488,9 @@ func execute_event_user_10(): 	push_warning("%s: Event not set" % name)
 
 func set_movement_target(movement_target: Vector2):
 	ActorNav.set_target_position(movement_target)
+	if not ActorNav.is_target_reachable():
+		push_error( "Movement target for actor %s is not reachable." % name )
+		breakpoint
 
 ## Function checks if the node is doing anything
 ## Return void right awai if its idle. Await for a signal if its busy.

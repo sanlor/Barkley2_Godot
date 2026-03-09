@@ -1042,7 +1042,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					else:
 						push_error("Unrecognized Map command: " + str(parsed_line) )
 						
-				"Misc":
+				"MISC","Misc":
 					Misc( parsed_line )
 					
 				"Camera":
@@ -1429,15 +1429,16 @@ func Misc( parsed_line :PackedStringArray ):
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"entity settings": # Changes some setting for an actor. Check Misc line 20 and scr_event_entity_settings line 2
 			assert(parsed_line.size() == 6, "Invalid amount of arguments: %s" % parsed_line.size())
-			var actor 				: B2_InteractiveActor = get_node_from_name( all_nodes, parsed_line[ 2 ].strip_edges() )
+			var actor 				: Node2D = get_node_from_name( all_nodes, parsed_line[ 2 ].strip_edges() )
 			var is_interactive 		:= bool( parsed_line[ 3 ].to_int() ) # not used anymore
 			var disable_outline 	:= not bool( parsed_line[ 3 ].to_int() )
 			var enable_collision	:= bool( parsed_line[ 4 ].to_int() )
 			var shadow_visible		:= bool( parsed_line[ 5 ].to_int() )
 			
 			actor.is_interactive = is_interactive
-			actor.enable_colision( enable_collision )
-			actor.enable_shadow( shadow_visible )
+			if actor is B2_InteractiveActor:
+				actor.enable_colision( enable_collision )
+				actor.enable_shadow( shadow_visible )
 			
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":
@@ -1445,7 +1446,9 @@ func Misc( parsed_line :PackedStringArray ):
 			B2_Music.play( parsed_line[2] )
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"automatic animation":
-			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
+			# Unhandled mode: ["Misc", "automatic animation", "o_governor01", "true"]
+			# 08-03-26 Not sure how this is handled.
+			if debug_unhandled: print( "Unhandled MISC mode: ", parsed_line )
 		"flip":
 			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
 			if is_instance_valid(subject):

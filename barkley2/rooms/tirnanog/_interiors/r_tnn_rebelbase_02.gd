@@ -49,7 +49,14 @@ func _ready() -> void:
 		o_gormlaith_01.queue_free()
 		o_absalom_01.queue_free()
 	
+	if not is_node_ready(): breakpoint
 	_set_region()
+	
+	# Bodyswaps #
+	if B2_Playerdata.Quest("govTransfer") == 2:
+		B2_CManager.BodySwap("governor");
+	if B2_Playerdata.Quest("govFinishInitiate") == 1:
+		B2_CManager.BodySwap("hoopz");
 	
 	await get_tree().process_frame
 	if play_cinema_at_room_start and is_instance_valid( cutscene_script ):
@@ -58,9 +65,3 @@ func _ready() -> void:
 		B2_RoomXY.add_player_to_room( B2_RoomXY.get_room_pos(), true )
 	else:
 		_setup_camera( _setup_player_node() )
-	
-	# Bodyswaps #
-	if B2_Playerdata.Quest("govTransfer") == 2:
-		B2_CManager.BodySwap("governor");
-	if B2_Playerdata.Quest("govFinishInitiate") == 1:
-		B2_CManager.BodySwap("hoopz");
