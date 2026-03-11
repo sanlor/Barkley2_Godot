@@ -30,19 +30,21 @@ var curr_DIAG_BOX := DIAG_BOX.NORMAL
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
 var curr_BODY := BODY.HOOPZ
 
-## Normal, player controlable node
-const O_CTS_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
-const O_CTS_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
+## Cutscene actor
+const O_CTS_HOOPZ_DIAPER 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
+const O_CTS_HOOPZ_NORMAL 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
+const O_CTS_HOOPZ_GOVERNOR 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_governor.tscn")
 
 ## Combat actor
-const O_CBT_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
-const O_CBT_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
-const O_CTS_HOOPZ_UNTAMO = preload("uid://b2vvn25wmj64t")
+const O_CBT_HOOPZ_NORMAL 	:= preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
+const O_CBT_HOOPZ_DIAPER 	:= preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
+const O_CTS_HOOPZ_UNTAMO 	:= preload("uid://b2vvn25wmj64t")
 
-## Cutscene actor
-const O_HOOPZ_DIAPER = preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
-const O_HOOPZ_NORMAL = preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
-const O_HOOPZ_UNTAMO = preload("res://barkley2/scenes/Player/o_hoopz_untamo.tscn")
+## Normal, player controlable actor
+const O_HOOPZ_DIAPER 		:= preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
+const O_HOOPZ_NORMAL 		:= preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
+const O_HOOPZ_UNTAMO 		:= preload("res://barkley2/scenes/Player/o_hoopz_untamo.tscn")
+const O_HOOPZ_GOVERNOR 		:= preload("res://barkley2/scenes/Player/o_hoopz_governor.tscn")
 
 var o_hoopz_scene 		: PackedScene = O_HOOPZ_NORMAL
 var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
@@ -131,11 +133,10 @@ func BodySwap( costume_name : String ) -> void:
 			curr_BODY = BODY.MATTHIAS
 			push_warning("Costume '%s' not implemented yet." % costume_name)
 		"governor":
-			o_hoopz_scene		= null
-			o_cts_hoopz_scene	= null
+			o_hoopz_scene		= O_CTS_HOOPZ_GOVERNOR
+			o_cts_hoopz_scene	= O_CTS_HOOPZ_GOVERNOR
 			o_cbt_hoopz_scene	= null
 			curr_BODY = BODY.GOVERNOR
-			push_warning("Costume '%s' not implemented yet." % costume_name)
 		"untamo":
 			o_hoopz_scene		= O_HOOPZ_UNTAMO
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_UNTAMO

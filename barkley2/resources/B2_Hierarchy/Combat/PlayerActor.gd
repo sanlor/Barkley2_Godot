@@ -6,6 +6,7 @@ class_name B2_PlayerCombatActor
 ## WARNING Class incomplete. Its missing a lot of things.
 
 ## Check B2_Player for the movement code and aiming, damage and such.
+## 11/03/26 B2_Player was replaced a long time ago. Check "B2_Player_FreeRoam" for combat functions.
 
 # Non combat related animations
 const SHUFFLE 		:= "shuffle"
@@ -50,22 +51,22 @@ const COMBAT_WALK_S			:= "walk_S"
 const COMBAT_WALK_SE		:= "walk_SE"
 
 # Used on the tutorial
-const DIAPER_GROUND 	:= "diaper_ground"
-const DIAPER_SPANK 		:= "diaper_spank"
-const DIAPER_GETUP 		:= "diaper_getup"
-const DIAPER_GOOROLL 	:= "diaper_gooroll"
-const DIAPER_SPANKCRY 	:= "diaper_spankcry"
+const DIAPER_GROUND 		:= "diaper_ground"
+const DIAPER_SPANK 			:= "diaper_spank"
+const DIAPER_GETUP 			:= "diaper_getup"
+const DIAPER_GOOROLL 		:= "diaper_gooroll"
+const DIAPER_SPANKCRY 		:= "diaper_spankcry"
 
 ## Used to calculate aim, look and move direction
-const DIR_RIGHT				:= 0.0
-const DIR_RIGHT_DOWNISH 	:= 0.46364760398865
-const DIR_RIGHT_DOWN		:= 0.78539818525314
-const DIR_DOWN_RIGHTISH		:= 1.10714876651764
-const DIR_DOWN				:= 1.57079637050629
-const DIR_DOWN_LEFTISH		:= 2.03444385528564
-const DIR_LEFT_DOWN			:= 2.35619449615479
-const DIR_LEFT_DOWNISH		:= 2.67794513702393
-const DIR_LEFT				:= 3.14159274101257
+const DIR_RIGHT				:= 00.00000000000000
+const DIR_RIGHT_DOWNISH 	:= 00.46364760398865
+const DIR_RIGHT_DOWN		:= 00.78539818525314
+const DIR_DOWN_RIGHTISH		:= 01.10714876651764
+const DIR_DOWN				:= 01.57079637050629
+const DIR_DOWN_LEFTISH		:= 02.03444385528564
+const DIR_LEFT_DOWN			:= 02.35619449615479
+const DIR_LEFT_DOWNISH		:= 02.67794513702393
+const DIR_LEFT				:= 03.14159274101257
 const DIR_LEFT_UPISH		:= -2.67794513702393
 const DIR_LEFT_UP			:= -2.35619449615479
 const DIR_UP_LEFTISH		:= -2.03444385528564
@@ -87,7 +88,7 @@ const DIR_RIGHT_UPISH	 	:= -0.46364760398865
 @export var gun_muzzle				: Marker2D
 
 @export_category("Gun Handler")
-@export var gun_handler				: Node
+@export var gun_handler				: Node				# Gun_Handler™ node, used for combat_ready actors.
 
 @export_category("Animation")
 @export var normal_anim_speed_scale	:= 2.0
@@ -102,15 +103,15 @@ const DIR_RIGHT_UPISH	 	:= -0.46364760398865
 @export var i_frame_timer			: Timer
 
 @export_category("Light Stuff")
-@export var flashlight_enabled 		:= true
-@export var flashlight_pivot 		: Marker2D
-@export var flashlight 				: PointLight2D
+@export var flashlight_enabled 		:= true				# Character can use a flashlight.
+@export var flashlight_pivot 		: Marker2D			# The pivot used by the flashlight.
+@export var flashlight 				: PointLight2D		# The flashlight itself.
 
 @export_category("Scpecial cases")
-@export var combat_ready					:= true # This actor can't do battle. NOTE OO player or mathias can't do battle.
-@export var can_shuffle						:= true # This actor can shuffle its feets.
-@export var can_roll						:= true # This actor is able to roll, granted it has permission.
-@export var can_flip_sprite					:= false # This actor's sprite can be flipped.
+@export var combat_ready					:= true 	# This actor can't do battle. NOTE OO player or mathias can't do battle.
+@export var can_shuffle						:= true 	# This actor can shuffle its feets.
+@export var can_roll						:= true 	# This actor is able to roll, granted it has permission.
+@export var can_flip_sprite					:= false 	# This actor's sprite can be flipped.
 
 ## Sound
 var min_move_dist 	:= 1.0
