@@ -273,7 +273,7 @@ func fancy_warp_to( respawnRoom : String, respawnX : float, respawnY : float ):
 	warp_to( respawnRoom + "," + str(respawnX) + "," + str(respawnY) )
 	
 ## Compatibility with old GML transport string.
-func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false ):
+func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := false, force_room_load := false ):
 	if room_load_lock:
 		push_warning("Tried to load new room %s before the current one (%s) finishes." % [ room_transition_string, this_room ])
 		return
@@ -343,8 +343,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	if open_sfx:
 		B2_Sound.play( open_sfx )
 	
-	if not its_the_same_room: ## Interior rooms dont need to load new rooms, since interior rooms contains all rooms in the same scene.
+	if not its_the_same_room or force_room_load: ## Interior rooms dont need to load new rooms, since interior rooms contains all rooms in the same scene.
 		## Start to load the room in the background, during the fadeout.
+		# force_room_load forces the room to load, regardless where its called.
 		begin_load_room_scene( room_name )
 
 	var tween : Tween
@@ -365,7 +366,7 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		room_transition_layer.modulate.a = 1.0
 		await get_tree().process_frame
 
-	if not its_the_same_room:
+	if not its_the_same_room or force_room_load:
 		## Wait for the room to finish loading.
 		finish_loading_room_scene( room_name ) 				# Load the next room
 		get_tree().change_scene_to_packed( room_scene )		# change the current room
@@ -387,8 +388,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		else:
 			# What happened?
 			# 08-03-26 Governor bodyswitching hits this breakpoint.
-			#breakpoint
 			push_warning("B2_CManager.o_hoopz not found. This is abnormal when you are teleporting to the same room. Please, check this.")
+			breakpoint
 
 		if is_instance_valid( B2_CManager.camera ):
 			B2_CManager.camera.position = Vector2( room_x, room_y )

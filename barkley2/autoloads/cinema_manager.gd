@@ -28,37 +28,43 @@ var curr_DIAG_BOX := DIAG_BOX.NORMAL
 
 ## Handle costume / body changes
 enum BODY{HOOPZ,MATTHIAS,GOVERNOR,UNTAMO,DIAPER,PRISON}
-var curr_BODY := BODY.HOOPZ
+var curr_BODY := BODY.HOOPZ :
+	set(c):
+		curr_BODY = c
+		print( "%s: Costume set to %s" % [name, BODY.keys()[c]] )
 
 ## Cutscene actor
-const O_CTS_HOOPZ_DIAPER 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
-const O_CTS_HOOPZ_NORMAL 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
-const O_CTS_HOOPZ_GOVERNOR 	:= preload("res://barkley2/scenes/Player/o_cts_hoopz_governor.tscn")
+const O_CTS_HOOPZ_DIAPER 	= preload("res://barkley2/scenes/Player/o_cts_hoopz_diaper.tscn")
+const O_CTS_HOOPZ_NORMAL 	= preload("res://barkley2/scenes/Player/o_cts_hoopz_normal.tscn")
+const O_CTS_HOOPZ_GOVERNOR 	= preload("res://barkley2/scenes/Player/o_cts_hoopz_governor.tscn")
+const O_CTS_HOOPZ_PRISON 	= preload("res://barkley2/scenes/Player/o_cts_hoopz_prison.tscn")	# Incomplete
+const O_CTS_HOOPZ_UNTAMO 	= preload("res://barkley2/scenes/Player/o_cts_hoopz_untamo.tscn")
 
 ## Combat actor
-const O_CBT_HOOPZ_NORMAL 	:= preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
-const O_CBT_HOOPZ_DIAPER 	:= preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
-const O_CTS_HOOPZ_UNTAMO 	:= preload("uid://b2vvn25wmj64t")
+const O_CBT_HOOPZ_NORMAL 	= preload("res://barkley2/scenes/Player/o_cbt_hoopz_normal.tscn")
+const O_CBT_HOOPZ_DIAPER 	= preload("res://barkley2/scenes/Player/o_cbt_hoopz_diaper.tscn")
 
 ## Normal, player controlable actor
-const O_HOOPZ_DIAPER 		:= preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
-const O_HOOPZ_NORMAL 		:= preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
-const O_HOOPZ_UNTAMO 		:= preload("res://barkley2/scenes/Player/o_hoopz_untamo.tscn")
-const O_HOOPZ_GOVERNOR 		:= preload("res://barkley2/scenes/Player/o_hoopz_governor.tscn")
+const O_HOOPZ_DIAPER 		= preload("res://barkley2/scenes/Player/o_hoopz_diaper.tscn")
+const O_HOOPZ_NORMAL 		= preload("res://barkley2/scenes/Player/o_hoopz_normal.tscn")
+const O_HOOPZ_UNTAMO 		= preload("res://barkley2/scenes/Player/o_hoopz_untamo.tscn")
+const O_HOOPZ_GOVERNOR 		= preload("res://barkley2/scenes/Player/o_hoopz_governor.tscn")
 
 var o_hoopz_scene 		: PackedScene = O_HOOPZ_NORMAL
 var o_cts_hoopz_scene 	: PackedScene = O_CTS_HOOPZ_NORMAL
-var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL
+var o_cbt_hoopz_scene 	: PackedScene = O_CBT_HOOPZ_NORMAL	## DEPRECATED Used for the turnbased combat actors.
 
 # Loaded actors, part of the original scr_event_hoopz_switch_cutscene() script.
 var o_cts_hoopz 	: B2_Actor 								= null :## Cutscene Hoopz
 	set(h):
 		o_cts_hoopz = h
 		o_cts_hoopz_changed.emit()
-var o_hoopz 		: B2_Player_FreeRoam		 			= null :## PLayer controlled Hoopz
+		#print(o_cts_hoopz)
+var o_hoopz 		: B2_Player_FreeRoam		 			= null :## Player controlled Hoopz
 	set(h):
 		o_hoopz = h
 		o_hoopz_changed.emit()
+		print(o_hoopz)
 var o_hud			: B2_Hud								= null ## Main HUD, with combat attachments.
 var camera			: B2_Camera_Hoopz #Camera2D
 var cinema_player 	: B2_CinemaPlayer
@@ -102,6 +108,20 @@ func _ready() -> void:
 	if OS.is_debug_build():
 		print_rich("[color=red]%s: Debug Build Detected, re-indexing cache.[/color]" % name)
 		_index_scenes()
+		
+	B2_Config.title_screen_loaded.connect( _reset_data )
+	#B2_SignalBus.save_slot_loaded.connect( _load_costume )
+	B2_RoomXY.started_loading.connect( _load_costume )
+
+func _load_costume() -> void:
+	var costume : String = B2_Config.get_user_save_data( "player.body", "hoopz" )
+	BodySwap( costume )
+
+func _reset_data() -> void:
+	o_hoopz_scene		= O_HOOPZ_NORMAL
+	o_cts_hoopz_scene	= O_CTS_HOOPZ_NORMAL
+	o_cbt_hoopz_scene	= O_CBT_HOOPZ_NORMAL
+	curr_BODY 			= BODY.HOOPZ
 
 func get_cached_scene( scene_name : String ) -> PackedScene:
 	if scene_index.has(scene_name):
@@ -130,38 +150,38 @@ func BodySwap( costume_name : String ) -> void:
 			o_hoopz_scene		= null
 			o_cts_hoopz_scene	= null
 			o_cbt_hoopz_scene	= null
-			curr_BODY = BODY.MATTHIAS
+			curr_BODY 			= BODY.MATTHIAS
 			push_warning("Costume '%s' not implemented yet." % costume_name)
 		"governor":
-			o_hoopz_scene		= O_CTS_HOOPZ_GOVERNOR
+			o_hoopz_scene		= O_HOOPZ_GOVERNOR
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_GOVERNOR
 			o_cbt_hoopz_scene	= null
-			curr_BODY = BODY.GOVERNOR
+			curr_BODY 			= BODY.GOVERNOR
 		"untamo":
 			o_hoopz_scene		= O_HOOPZ_UNTAMO
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_UNTAMO
 			o_cbt_hoopz_scene	= null
-			curr_BODY = BODY.UNTAMO
+			curr_BODY 			= BODY.UNTAMO
 		"diaper":
 			o_hoopz_scene		= O_HOOPZ_DIAPER
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_DIAPER
 			o_cbt_hoopz_scene	= O_CBT_HOOPZ_DIAPER
-			curr_BODY = BODY.DIAPER
+			curr_BODY 			= BODY.DIAPER
 		"prison":
 			o_hoopz_scene		= null
-			o_cts_hoopz_scene	= null
+			o_cts_hoopz_scene	= O_CTS_HOOPZ_PRISON
 			o_cbt_hoopz_scene	= null
-			curr_BODY = BODY.PRISON
+			curr_BODY 			= BODY.PRISON
 			push_warning("Costume '%s' not implemented yet." % costume_name)
 		# Else, You Are Hoopz.
 		_:
 			o_hoopz_scene		= O_HOOPZ_NORMAL
 			o_cts_hoopz_scene	= O_CTS_HOOPZ_NORMAL
 			o_cbt_hoopz_scene	= O_CBT_HOOPZ_NORMAL
-			curr_BODY = BODY.HOOPZ
+			curr_BODY 			= BODY.HOOPZ
 			
 	B2_Config.set_user_save_data( "player.body", costume_name )
-	print("Costume changed to %s." % costume_name)
+	print("%s ---->>>>> Costume changed to '%s'." % [name, costume_name])
 	
 func get_BodySwap() -> String:
 	return B2_Config.get_user_save_data( "player.body", "hoopz" )

@@ -9,6 +9,7 @@ signal hud_visibility_changed
 # Very useful when quitting the game
 signal title_screen_loaded
 signal save_slot_data_changed # Used to reload the save slot data
+signal save_slot_loaded
 
 ## Utility Station stuff
 signal unpluged_from_station

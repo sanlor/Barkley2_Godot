@@ -137,13 +137,19 @@ func load_hoopz_actor():
 	if is_instance_valid(B2_CManager.o_cts_hoopz):
 		push_warning( "Hoopz actor already loaded." )
 		return
-		
+	
+	## Freeroam actor last direction.
+	var last_direction := Vector2.ZERO
+	
 	var hoopz_lookup := get_tree().current_scene.get_children()
 	for n in hoopz_lookup:
 		if n.name == "o_hoopz":
+			last_direction = n.last_direction
 			n.queue_free()
+			break
+			
 	# if real is loaded, load fake hoopz.
-	var hoopz := B2_CManager.o_cts_hoopz_scene.instantiate()
+	var hoopz : B2_InteractiveActor_Player = B2_CManager.o_cts_hoopz_scene.instantiate()
 	if not B2_CManager.o_cts_hoopz: 
 		B2_CManager.o_cts_hoopz = hoopz
 		
@@ -155,6 +161,7 @@ func load_hoopz_actor():
 		B2_CManager.o_cts_hoopz.position.y 	= B2_RoomXY.this_room_y
 	
 	get_tree().current_scene.add_child( hoopz, true )
+	#hoopz.cinema_look_vector( last_direction )
 	#get_tree().current_scene.call_deferred("add_child", B2_CManager.o_cts_hoopz, true )
 	
 	
@@ -176,16 +183,19 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 	if is_instance_valid(B2_CManager.o_hoopz):
 		push_warning( "Hoopz player is already loaded." )
 		return
+		
 	var hoopz_lookup := get_tree().current_scene.get_children()
 	for n in hoopz_lookup:
 		if n.name == "o_cts_hoopz":
 			n.queue_free()
 			
 	# if fake is loaded, load real hoopz.
-	if not is_instance_valid(B2_CManager.o_hoopz):
+	#if not is_instance_valid(B2_CManager.o_hoopz):
+	if not B2_CManager.o_hoopz:
 		B2_CManager.o_hoopz = B2_CManager.o_hoopz_scene.instantiate() as B2_Player_FreeRoam
 		
 	if is_instance_valid(B2_CManager.o_cts_hoopz):
+		assert( is_instance_valid( B2_CManager.o_hoopz ), "o_hoopz is not valid, for some reason.")
 		B2_CManager.o_hoopz.position = B2_CManager.o_cts_hoopz.position
 		B2_CManager.o_cts_hoopz.queue_free()
 	else:
@@ -1127,7 +1137,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					for _str : String in parsed_line:
 						if _str == "Teleport": continue # Lazy way to skip the first line.
 						room_string += _str + "," # Should make a string like this: r_fct_reroute01,544,368,1
-					B2_RoomXY.warp_to( room_string, 0.0, false )
+					B2_RoomXY.warp_to( room_string, 0.0, false, true )
 					await B2_RoomXY.fadeout_finished
 					break
 					
@@ -1270,7 +1280,8 @@ func parse_if( line : String ) -> bool:
 	
 	## Overides - chheck Cinema() line 705 and line 730
 	if str_var == "body":
-		quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" ) as String
+		#quest_var = B2_Playerdata.Quest( str_var, null, "hoopz" ) as String
+		quest_var = B2_Config.get_user_save_data( "player.body", "hoopz" )
 		cond_value = str( condidion_line[ 2 ] ).strip_edges()
 	elif str_var == "curfew":
 		quest_var = B2_Database.time_check("tnnCurfew") as String

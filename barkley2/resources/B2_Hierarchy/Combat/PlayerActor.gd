@@ -455,6 +455,9 @@ func normal_animation(delta : float) -> void:
 		if hoopz_normal_body.frame != last_stand_frame:
 			last_stand_frame = hoopz_normal_body.frame
 		
+		if can_flip_sprite:
+			hoopz_normal_body.flip_h = curr_direction.x < 0
+		
 		# Update var
 		last_direction = curr_direction
 		

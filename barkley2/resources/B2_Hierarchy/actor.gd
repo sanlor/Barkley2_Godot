@@ -330,6 +330,11 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 		set_played.emit() 						# Emit signals to avoid deadlocking the script.
 	return
 
+func cinema_look_vector( _direction : Vector2 ) -> void:
+	#assert( vec_2_dir_map.has( _direction.round() ), "Invalid Vector: %s" % _direction )
+	var dir_name := vec_2_dir_map.get( _direction.round(), "SOUTH" ) as String
+	cinema_look( dir_name )
+
 func cinema_lookat( target_node : Node2D ):
 	var _direction := global_position.direction_to( target_node.global_position ).round()
 	var dir_name := vec_2_dir_map.get( _direction, "SOUTH" ) as String
@@ -357,7 +362,8 @@ func cinema_look( _direction : String ):
 	movement_vector =  real_movement_vector.round()
 	
 	ActorAnim.flip_h = false
-	if not disable_auto_flip_h: flip_sprite()
+	if not disable_auto_flip_h:
+		flip_sprite()
 	adjust_sprite_offset()
 	
 func cinema_moveto( _target_spot, _speed : String ):
