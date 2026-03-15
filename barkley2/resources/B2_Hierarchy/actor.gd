@@ -197,6 +197,21 @@ func get_room_area() -> String:
 	push_warning("Parent is not a B2_ROOMS.")
 	return "unknown"
 	
+## Find a sibling inside a B2_ROOMS
+func get_sibling( sibling_name : String ) -> Object:
+	var room := get_parent()
+	if room is B2_ROOMS:
+		var sib := room.find_child(sibling_name)
+		if sib:
+			return sib
+		else:
+			push_warning( "%s: Sibling %s not found." % [name, sibling_name] )
+			return null
+	else:
+		push_error( "%s: Not inside a B2_ROOM." % name )
+		return null
+		
+	
 # Get the room name. return "unknow" if the parent is not B2_ROOMS
 func get_room_name() -> String:
 	if get_parent() is B2_ROOMS:

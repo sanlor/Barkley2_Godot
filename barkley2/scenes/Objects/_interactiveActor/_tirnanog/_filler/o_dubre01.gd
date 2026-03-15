@@ -20,6 +20,7 @@ func _ready() -> void:
 	## Move slightly during curfew ##
 	if B2_Database.time_check("tnnCurfew") != "before":
 		position = Vector2(768, 768)
+		flip_h = true
 		ActorAnim.flip_h = true
 		
 	if B2_Playerdata.Quest("gutterEscape") == 1:

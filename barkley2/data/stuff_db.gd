@@ -476,22 +476,17 @@ static func time_check( period : String ) -> String:
 		var start 	: float = time[period]["start"]
 		var end 	: float = time[period]["end"]
 		
-		var curr_time := 12.0 ## ALERT Time management not created yet. 12.0 is WIP!
+		#var curr_time := 12.0 ## ALERT Time management not created yet. 12.0 is WIP!
+		var curr_time := B2_ClockTime.time_get() # 14/03/26 Wow, I forgot about this placeholder time thingy.
 		
 		if period == "tnnCurfew":
-			if B2_Playerdata.Quest("tnnCurfew") == 2:
-				return "after"
-			elif B2_Playerdata.Quest("tnnCurfew") == 1:
-				return "during"
-			else:
-				return "before";
+			if B2_Playerdata.Quest("tnnCurfew") == 2:		return "after"
+			elif B2_Playerdata.Quest("tnnCurfew") == 1:		return "during"
+			else:											return "before";
 				
-		if curr_time < start:
-			return "before"
-		elif curr_time >= end:
-			return "after"
-		else:
-			return "during"
+		if curr_time < start:			return "before"
+		elif curr_time >= end:			return "after"
+		else:							return "during"
 			
 	else:
 		push_error("B2_Database - Event %s not found. Returned invalid." % period)

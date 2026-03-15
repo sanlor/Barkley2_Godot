@@ -49,6 +49,7 @@
 [ext_resource type="PackedScene" uid="uid://dr1xblyg5d8pg" path="res://barkley2/scenes/Objects/_doors/o_door_tnn_stairs01.tscn" id="50_cld4f"]
 [ext_resource type="Script" uid="uid://dbmgavebrdlf5" path="res://barkley2/resources/door_locker.gd" id="50_gd5fp"]
 [ext_resource type="Texture2D" uid="uid://bol26kg35unpx" path="res://barkley2/assets/b2_original/images/merged/s_door_tnn_stairs01.png" id="51_ejhfg"]
+[ext_resource type="Script" uid="uid://c2axuqitkqkhe" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up_booty.gd" id="52_0r3n5"]
 [ext_resource type="PackedScene" uid="uid://cu6sas5er0ifn" path="res://barkley2/scenes/Objects/_interactiveActor/_pedestrians/o_pedestrianLoiterer.tscn" id="52_m0jlo"]
 [ext_resource type="Texture2D" uid="uid://2siv56qv56ha" path="res://barkley2/assets/b2_original/images/merged/s_pedestrianLoiterStand.png" id="53_gfqyo"]
 [ext_resource type="PackedScene" uid="uid://cg2l2wqfcuwfh" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_filler/o_gunsalesman.tscn" id="55_rixwk"]
@@ -4529,10 +4530,20 @@ metadata/code = "RoomXY(r_tnn_warehouse01, 616, 472);
 metadata/inst_name = "inst_7CEC6348"
 metadata/scale = Vector2(2, 1)
 
+[node name="o_door_garage01" parent="." unique_id=821366319 instance=ExtResource("70_sl8u6")]
+position = Vector2(784, 511)
+script = ExtResource("71_hb5sf")
+
+[node name="o_bootybassdoor01" parent="." unique_id=1563693371 instance=ExtResource("80_rwu0c")]
+position = Vector2(784, 448)
+animation = &"debug_icons"
+frame_progress = 0.0
+
 [node name="o_doorlight_up_booty" parent="." unique_id=1711049936 instance=ExtResource("36_oanju")]
 position = Vector2(790, 508)
 scale = Vector2(2.15625, 1)
 sprite_frames = SubResource("SpriteFrames_qrtcw")
+script = ExtResource("52_0r3n5")
 show_door_light = false
 teleport_destination = "r_tnn_bootybass02, 128, 408"
 metadata/code = "light = 0;
@@ -4788,13 +4799,6 @@ cutscene_script = SubResource("Resource_3maf0")
 position = Vector2(-0.5, -6.5)
 shape = SubResource("RectangleShape2D_bh8ns")
 debug_color = Color(0.848579, 0.373724, 0.0556411, 0.254)
-
-[node name="o_bootybassdoor01" parent="." unique_id=1563693371 instance=ExtResource("80_rwu0c")]
-position = Vector2(784, 448)
-
-[node name="o_door_garage01" parent="." unique_id=821366319 instance=ExtResource("70_sl8u6")]
-position = Vector2(784, 511)
-script = ExtResource("71_hb5sf")
 
 [node name="o_warehousedoor01" type="AnimatedSprite2D" parent="." unique_id=1327257901]
 position = Vector2(432, 576)

@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c0ejfgh152xya"]
+
+[ext_resource type="Texture2D" uid="uid://yr5bkll4bs0v" path="res://barkley2/assets/b2_original/images/merged/s_tnn_mailBag01.png" id="1_oavso"]
+[ext_resource type="Script" uid="uid://i1xxl3nr1n36" path="res://barkley2/resources/B2_Hierarchy/Enviroment/environ_interactive.gd" id="2_choae"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_choae"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gmtp3"]
+atlas = ExtResource("1_oavso")
+region = Rect2(0, 0, 60, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s5xgj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gmtp3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_gmtp3"]
+script = ExtResource("3_choae")
+original_script = "DIALOG | Governor Elagabalus | `s1`What, ho?_`s0` All this unanswered mail... someone should really help these letters find their destinations..."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s5xgj"]
+radius = 29.15476
+
+[node name="o_tnn_mailBag01" type="AnimatedSprite2D" unique_id=724412897 node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_s5xgj")
+centered = false
+offset = Vector2(-29, -28)
+script = ExtResource("2_choae")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_gmtp3")
+metadata/default = {
+"bbox_bottom": "39",
+"bbox_left": "8",
+"bbox_right": "56",
+"bbox_top": "16",
+"height": "45",
+"name": "s_tnn_mailBag01",
+"width": "60",
+"xorig": "29",
+"yorigin": "28"
+}
+
+[node name="Area2D" type="Area2D" parent="." unique_id=463642956]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=148845552]
+shape = SubResource("CircleShape2D_s5xgj")

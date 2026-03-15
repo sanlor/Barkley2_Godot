@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://c4hycjyihlsyt"]
+
+[ext_resource type="Texture2D" uid="uid://cno2trfrc0r8h" path="res://barkley2/assets/b2_original/images/merged/s_dossier01.png" id="1_0wpyw"]
+[ext_resource type="Script" uid="uid://ov6i1syaxx8n" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_govBalcony/o_dossier_01.gd" id="2_0wpyw"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_g6xv7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pu3av"]
+atlas = ExtResource("1_0wpyw")
+region = Rect2(0, 0, 29, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jmq28"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pu3av")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_pu3av"]
+script = ExtResource("3_g6xv7")
+original_script = "FRAME  | CAMERA_NORMAL | o_dossier01 | o_cinema10
+MOVETO | o_cts_hoopz | o_cinema10 | MOVE_NORMAL
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_dossier01
+WAIT   | 0.25
+DIALOG | Governor Elagabalus | I wonder if this is `kw`Dr. Liu's Top Secret Dossier!`rt`
+Misc   | visible | o_dossier01 | 0 // Make sprite invisible
+NOTIFY | Procured the Sealed Secret Dossier!
+NOTE   | take | Sealed Secret Dossier
+Create | o_onslow01 | o_cinema0
+LOOKAT | o_onslow01 | NORTHWEST
+WAIT   | 0.1
+MOVETO | o_onslow01 | o_cinema1 | MOVE_NORMAL
+WAIT   | 0.75
+DIALOG | Governor Elagabalus | Wow this envelop must be chock full of confidential matters. `w1`Can't wait to see what's inside!`w0`
+WAIT   | 0
+LOOKAT | o_onslow01 | o_cts_hoopz
+DIALOG | Onslow | Ahem, Mr. Governor sir!
+Emote  | ! | o_cts_hoopz | 0 | 0
+WAIT   | 0.25
+FOLLOWFRAME | CAMERA_FAST | o_cts_hoopz | o_onslow01
+LOOKAT | o_cts_hoopz | o_onslow01
+DIALOG | Governor Elagabalus | Just going through the confistacted articles! Nothing to see here!
+DIALOG | Onslow              | But sir, the confiscation room is at the disposal of the Governor, you can do what you wish. Those dirty dwarfs won't be needing any of this anymore!
+DIALOG | Governor Elagabalus | Yes, yes of course... all mine...
+DIALOG | Onslow              | All arrangements have been made - are you ready to give your speech?
+DIALOG | Governor Elagabalus | `w1`(Gulp...)`w0` Speech? Now?
+CHOICE | Ready to give the speech?
+REPLY  | READY     | I guess I'm ready...
+REPLY  | NOT_READY | I'm not ready yet!
+
+READY
+DIALOG | Governor Elagabalus | Yes, yes, I believe it is time for me to give my address! What do I have to do?
+DIALOG | Onslow              | Excellent, Mr. Governor, sir!
+DIALOG | Governor Elagabalus | (Keep cool, P_NAME_S!)
+GOTO   | WALKTOSPEECH
+
+NOT_READY
+DIALOG | Governor Elagabalus | Very good, uh... captain? I'm not quite ready to give my address, I need to, uh, stretch my legs for a little bit!
+DIALOG | Onslow              | Nonsense, Governor, sir. Yourn legs look as limber as a point guard! Please, will you follow me? A crowd has amassed and `sq`they desire to know more about the future of Tir na nog!`rt`
+DIALOG | Governor Elagabalus | (What have I gotten myself into now?!)
+GOTO   | WALKTOSPEECH
+
+WALKTOSPEECH
+MOVETO | o_onslow01  | o_cinema2 | MOVE_NORMAL 
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_NORMAL 
+WAIT   | 0
+MOVETO | o_onslow01  | o_cinema2 | MOVE_NORMAL 
+MOVETO | o_cts_hoopz | o_cinema3 | MOVE_NORMAL 
+WAIT   | 0
+LOOKAT | o_onslow01  | o_cts_hoopz
+WAIT   | 0
+LOOKAT | o_cts_hoopz | o_onslow01
+DIALOG | Onslow              | You'll be giving your address from the balcony of the palace. `sq`Select the policies that most support your agenda`rt` - may I suggest an expanded torture regime and mandatory starvation cycles? 
+DIALOG | Onslow              | Now, right this way, Mr. Governor, sir...
+DIALOG | Governor Elagabalus | (Here goes nothin'...)
+MOVETO | o_onslow01  | o_cinema4 | MOVE_SLOW 
+MOVETO | o_cts_hoopz | o_cinema5 | MOVE_SLOW 
+EVENT  | o_onslow01 | 0
+WAIT   | 0.5
+QUEST  | govSpeechInitiate = 2
+FADE   | 1 | 3
+WAIT   | 3
+Teleport | r_tnn_maingate02 | 368 | 192 | 3"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g6xv7"]
+radius = 19.026299
+
+[node name="o_dossier01" type="AnimatedSprite2D" unique_id=229482467 node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_jmq28")
+centered = false
+offset = Vector2(0, -18)
+script = ExtResource("2_0wpyw")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_pu3av")
+metadata/default = {
+"bbox_bottom": "25",
+"bbox_left": "0",
+"bbox_right": "28",
+"bbox_top": "0",
+"height": "26",
+"name": "s_dossier01",
+"width": "29",
+"xorig": "0",
+"yorigin": "18"
+}
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1555185637]
+position = Vector2(14, -6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=842089748]
+shape = SubResource("CircleShape2D_g6xv7")

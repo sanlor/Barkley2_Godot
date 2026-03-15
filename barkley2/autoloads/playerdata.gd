@@ -227,10 +227,8 @@ func Quest(key : String, value = null, default = 0):
 	
 	if value == null:
 		var _key_value = B2_Config.get_user_save_data(questpath)
-		if _key_value == null:
-			return default
-		else:
-			return _key_value
+		if _key_value == null:		return default
+		else:						return _key_value
 	else:
 		B2_Config.set_user_save_data(questpath, value)
 		B2_SignalBus.quest_updated.emit()
@@ -246,10 +244,8 @@ func Note(key : String, value = null, default = 0):
 	
 	if value == null:
 		var _key_value = B2_Config.get_user_save_data(questpath)
-		if _key_value == null:
-			return default
-		else:
-			return _key_value
+		if _key_value == null:		return default
+		else:						return _key_value
 	else:
 		B2_Config.set_user_save_data(questpath, value)
 		return true

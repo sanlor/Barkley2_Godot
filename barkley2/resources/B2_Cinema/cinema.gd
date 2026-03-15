@@ -938,10 +938,13 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# Look torward someone.
 					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
 					var actor2					= get_node_from_name( all_nodes,	parsed_line[2] )
+					var direction 				:= parsed_line[2].strip_edges()
 					
 					if is_instance_valid(actor):
-						if is_instance_valid(actor2):
+						if is_instance_valid( actor2 ):
 							actor.cinema_lookat( actor2 )
+						elif is_a_direction( direction ):
+							actor.cinema_lookat( direction )
 						else:
 							push_error( "Actor %s is not valid. Can't look at invalid objects, dumbass." % parsed_line[2] )
 					else:
@@ -1364,10 +1367,16 @@ func Cinema_run():
 func Cinema_process():
 	pass
 	
+## Check if an actor is actually an direction instead of a node. It may happen sometimes.
+func is_a_direction( _name : String ) -> bool:
+	return _name in ["NORTH","SOUTH","WEST","EAST","NORTHEAST","SOUTHEAST","NORTHWEST","SOUTHWEST"]
+	
+## TODO use "find_child()" instead.
+# Looks for a node with that same name on the current scene / room.
 func get_node_from_name( _array, _name, warn := true ) -> Object:
 	# Check if name is a direction instead of an object name. I know, its stupid, but thats how the original game handles it.
 	# Believe me, this is the "improved" version of this method.
-	if _name in ["NORTH","SOUTH","WEST","EAST","NORTHEAST","SOUTHEAST","NORTHWEST","SOUTHWEST"]:
+	if is_a_direction( _name ):
 		return null
 		
 	var node : Object
@@ -1543,7 +1552,7 @@ func Create( parsed_line : PackedStringArray ) -> Node:
 	var object_map := B2_CManager.get_cached_scene( parsed_line[1].strip_edges() )
 	if object_map == null: 
 		assert( object_map, "Object " + parsed_line[1] + " is null. fix this." )
-		breakpoint ## This error usualli means that the object necessary wasnt ported yet.
+		breakpoint ## This error usually\zddqsa means that the object necessary wasnt ported yet.
 		return
 	
 	var obj_scene : PackedScene = object_map

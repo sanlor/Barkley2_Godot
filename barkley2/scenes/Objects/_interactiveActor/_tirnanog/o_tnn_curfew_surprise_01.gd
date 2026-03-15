@@ -7,3 +7,5 @@ func _ready() -> void:
 		pass
 	else:
 		queue_free()
+	
+	push_error("DEBUG - Curfew trigger auto-removed. Fix this."); queue_free()

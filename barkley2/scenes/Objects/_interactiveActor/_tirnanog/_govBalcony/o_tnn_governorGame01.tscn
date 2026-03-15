@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://bjdp8jnbbs0c8"]
+
+[ext_resource type="Texture2D" uid="uid://bgr2n0hlmp87k" path="res://barkley2/assets/b2_original/images/merged/sMenuUtilityVidcon.png" id="1_1cv3n"]
+[ext_resource type="Script" uid="uid://jxxg88jgkyip" path="res://barkley2/scenes/Objects/_interactiveActor/_tirnanog/_govBalcony/o_tnn_governor_game_01.gd" id="2_tux5c"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="3_7rksk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rksk"]
+atlas = ExtResource("1_1cv3n")
+region = Rect2(0, 0, 15, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q47ej"]
+atlas = ExtResource("1_1cv3n")
+region = Rect2(15, 0, 15, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qfs57"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rksk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q47ej")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Resource" id="Resource_q47ej"]
+script = ExtResource("3_7rksk")
+original_script = "IF governorGame = 0 | GOTO | GAME0
+
+GAME0
+DIALOG | Governor Elagabalus | (Good grapes! A vidcon!)
+NOTIFY | Found the vidcon @gamename@!
+EVENT  | o_tnn_governorGame01 | 0
+QUEST  | governorGame = 1"
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qfs57"]
+radius = 21.0
+
+[node name="o_tnn_governorGame01" type="AnimatedSprite2D" unique_id=735686494 node_paths=PackedStringArray("mouse_detection_area")]
+sprite_frames = SubResource("SpriteFrames_qfs57")
+frame = 1
+centered = false
+script = ExtResource("2_tux5c")
+mouse_detection_area = NodePath("Area2D")
+cutscene_script = SubResource("Resource_q47ej")
+metadata/default = {
+"bbox_bottom": "21",
+"bbox_left": "0",
+"bbox_right": "14",
+"bbox_top": "2",
+"height": "23",
+"name": "sMenuUtilityVidcon",
+"width": "15",
+"xorig": "0",
+"yorigin": "0"
+}
+
+[node name="Area2D" type="Area2D" parent="." unique_id=744638054]
+position = Vector2(7, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=191057757]
+shape = SubResource("CircleShape2D_qfs57")
