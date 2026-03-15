@@ -944,7 +944,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						if is_instance_valid( actor2 ):
 							actor.cinema_lookat( actor2 )
 						elif is_a_direction( direction ):
-							actor.cinema_lookat( direction )
+							actor.cinema_look( direction )
 						else:
 							push_error( "Actor %s is not valid. Can't look at invalid objects, dumbass." % parsed_line[2] )
 					else:
@@ -1425,10 +1425,13 @@ func Misc( parsed_line :PackedStringArray ):
 			var obj1 = get_node_from_name( all_nodes, str(parsed_line[2]) )
 			var obj2 = get_node_from_name( all_nodes, str(parsed_line[3]) )
 			
+			assert( obj1, "obj1 is not valid.")
+			
 			if parsed_line.size() > 4: ## Its a direct position
 				obj1.position = Vector2( float(parsed_line[3]), float(parsed_line[4]) )
 				
 			elif all_nodes.has(obj1): ## Its an object
+				assert(obj2, "obj2 is not valid.")
 				if all_nodes.has(obj2):
 					obj1.position = obj2.position
 				else:
