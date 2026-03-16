@@ -31,10 +31,10 @@ signal set_played
 # The animation to use if automatic animation isn't true. 
 @export var _current_animation 		:= "default" ## What animation should blay at room load? ## CRITICAL ## it overrides any animations set on _ready().
 
-var my_shadow 		: Sprite2D
+var my_shadow 				: Sprite2D
 
-var is_moving 		:= false
-var is_playingset 	:= false
+var is_moving 				:= false
+var is_playingset 			:= false
 
 var destination 			:= Vector2.ZERO
 var destination_path 		:= PackedVector2Array()
@@ -48,21 +48,20 @@ var movement_vector 		:= Vector2.ZERO :
 var real_movement_vector 	:= Vector2.ZERO
 var last_movement_vector 	:= Vector2.ZERO
 
-@export_category("Movement Stuff")
 ## Speed stuff
-var speed_multiplier 	:= 20.0
-var speed_slow 			:= 1.0 * speed_multiplier # was 1.5
-var speed_normal 		:= 2.0 * speed_multiplier # was 2.5
-var speed_fast 			:= 4.0 * speed_multiplier # was 5.0
-var speed 				:= speed_normal
+const SPEED_MULTIPLIER 		:= 20.0
+const SPEED_SLOW 			:= 1.5 * SPEED_MULTIPLIER # was 1.5
+const SPEED_NORMAL 			:= 2.5 * SPEED_MULTIPLIER # was 2.5
+const SPEED_FAST 			:= 4.5 * SPEED_MULTIPLIER # was 5.0
+var speed 					:= SPEED_NORMAL
 
 @export_category("Pathfinding")
 @export var path_desired_distance 	= 4.0
 @export var target_desired_distance = 4.0
 
 @export_category("Animation")
-@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
-@export var disable_auto_flip_h	:= false		## Hoopz actor has 8 different directions, it should not mirror
+@export var animation_speed 		:= 1.5			## Multiplier used on playset animations
+@export var disable_auto_flip_h		:= false		## Hoopz actor has 8 different directions, it should not mirror
 ## Animation
 var ANIMATION_STAND 				:= "PLACEHOLDER - %s" % self
 var ANIMATION_SOUTH 				:= "PLACEHOLDER - %s" % self
@@ -189,7 +188,7 @@ func get_room_area() -> String:
 	if get_parent() is B2_ROOMS:
 		var room_name : String = get_parent().name
 		if room_name.begins_with("r_") and room_name.count("_", 0, 6) >= 2:
-			var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > tnn
+			var area := room_name.get_slice( "_", 1 ) # r_tnn_residentialDistrict01 > returns 'tnn'
 			return area
 		else:
 			push_warning("Room name is not standard. fix this.")
@@ -212,7 +211,7 @@ func get_sibling( sibling_name : String ) -> Object:
 		return null
 		
 	
-# Get the room name. return "unknow" if the parent is not B2_ROOMS
+# Get the room name. return "unknown" if the parent is not B2_ROOMS
 func get_room_name() -> String:
 	if get_parent() is B2_ROOMS:
 		return get_parent().name
@@ -386,9 +385,9 @@ func cinema_moveto( _target_spot, _speed : String ):
 	
 	# Default behaviour
 	match _speed:
-		"MOVE_FAST": speed = speed_fast
-		"MOVE_SLOW": speed = speed_slow
-		"MOVE_NORMAL": speed = speed_normal
+		"MOVE_FAST": 	speed = SPEED_FAST
+		"MOVE_SLOW": 	speed = SPEED_SLOW
+		"MOVE_NORMAL": 	speed = SPEED_NORMAL
 	
 	if _target_spot == null:
 		push_error(name, ": node is invalid. ", _target_spot, ".")

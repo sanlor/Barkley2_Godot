@@ -91,6 +91,11 @@ var selected_note : String
 ## Cutscene script teleports somewhere. Skip stuff.
 var skip_formalities := false
 
+## References for debugging purposes
+var _split_script 					: PackedStringArray
+var _current_cutscene_line 			: String
+var _current_cutscene_line_count 	: int
+
 func setup_camera( _camera : Camera2D ):
 	camera = _camera
 
@@ -203,7 +208,6 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 		B2_CManager.o_hoopz.position.y = B2_RoomXY.this_room_y
 		
 	get_tree().current_scene.add_child( B2_CManager.o_hoopz, true )
-	
 	
 func end_cutscene():
 	## Some scenes may want to prevent the cutscene to finish.
@@ -330,11 +334,15 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 	# Basically this emulates the Cinema("run") and Cinema("process").
 	if cutscene_script is B2_Script_Legacy:
 		print_rich("[color=pink]Started Cinema() Script.[/color]")
+		
 		# Split the script into separate lines
 		var split_script 	: PackedStringArray = cutscene_script.original_script.split( "\n", true ) ## Takes the whole script and split each line on an array.
 		var script_size 	:= split_script.size()
 		var curr_line 		:= 0
 		var loop_finished 	:= true
+		
+		# Save reference for debugging
+		_split_script = split_script
 		
 		## Data for CHOICE and REPLY
 		var last_talker_portrait			:= ""
@@ -352,6 +360,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				# push_warning("Cinema script exited unexpectedly. It should always finish with the EXIT command.")
 				loop_finished = true
 				break # exit the loop
+				
+			# Save reference for debugging
+			_current_cutscene_line_count = curr_line
 				
 			## The raw line text.
 			var line : String = split_script[ curr_line ]
@@ -421,6 +432,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				if print_comments:
 					print_rich( str(curr_line) + ": [color=yellow]" + comment + "[/color]" )
 				line = line.get_slice("//", 0)
+				
+			# Save reference for debugging
+			_current_cutscene_line = line
 				
 			## A 'PackedStringArray' with the cutscene script split up.
 			var parsed_line : PackedStringArray = B2_CManager.cleanup_line( line )
@@ -1002,6 +1016,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var target_pos : Vector2 = actor.position + Vector2( target_x, target_y )
 					actor.cinema_moveto( target_pos, speed ) 		## Async movement
 					cinema_kid( actor )
+					
+				"SOUNDLOOP":
+					B2_Sound.play_loop( parsed_line[1].strip_edges() )
 					
 				"SOUNDSTOP":
 					B2_Sound.stop_loop() ## CRITICAL current implementation ignores the actual sound name.

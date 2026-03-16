@@ -21,7 +21,7 @@ const show_debug_data 			:= true
 @export var speed_slow 			:= 3.5
 @export var speed_normal 		:= 5.0
 @export var speed_fast 			:= 8.5
-@export var camera_follow_speed := 750.0 # Speed that the camera follows the mouse.
+@export var camera_follow_speed := 850.0 # Speed that the camera follows the mouse.
 
 var speed 			:= speed_normal
 var is_moving 		:= false
@@ -330,7 +330,7 @@ func _physics_process(delta: float) -> void:
 			avg_pos /= arr_size
 			
 			## NOTE What feels better? Lerp of move_torward?
-			position 	= position.move_toward( avg_pos, (speed * 20) * delta )
+			position 	= position.move_toward( avg_pos, (speed * 40) * delta )
 			#position 	= position.lerp( avg_pos, (speed * 10) * delta )
 			
 			offset 		= offset.move_toward( camera_offset, 0.25 * camera_follow_speed * delta ) + camera_shake_offset
@@ -340,7 +340,7 @@ func _physics_process(delta: float) -> void:
 			
 		MODE.CINEMA:
 			if is_moving:
-				position = position.move_toward(destination, (speed * 30) * delta)
+				position = position.move_toward(destination, (speed * 40) * delta)
 				
 				if position.is_equal_approx(destination):
 					is_moving = false

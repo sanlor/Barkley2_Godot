@@ -154,7 +154,7 @@ func _physics_process(delta: float) -> void:
 	for i in objAmt:
 		if objShkDisY[i] > 0:
 			#obj[i].y = obj[i].ystart + min(0, lengthdir_y(objShkDisY[i], objShkDirY[i]));
-			obj[i].ActorAnim.y = minf( 0, objShkDisY[i] ) #lengthdir_y(objShkDisY[i], objShkDirY[i]));
+			obj[i].ActorAnim.position.y = minf( 0, objShkDisY[i] ) #lengthdir_y(objShkDisY[i], objShkDirY[i]));
 			#obj[i].shadow_sprite_offset_y = abs(min(0, lengthdir_y(objShkDisY[i], objShkDirY[i])));
 			objShkDirY[i] += objShkSpdY[i] * delta;
 			if objShkDirY[i] > 360 || objShkDirY[i] < -360:
@@ -162,15 +162,15 @@ func _physics_process(delta: float) -> void:
 				else: objShkDirY[i] += 360;
 				objShkDisY[i] -= objShkFrcY[i];
 				objShkFrcY[i] *= 2;
-		else: obj[i].y = obj[i].ystart;
+		else: obj[i].ActorAnim.position.y = 0 #obj[i].ystart;
 		
 		if objShkDisX[i] > 0:
 			#obj[i].x = obj[i].xstart + lengthdir_y(objShkDisX[i], objShkDirX[i]);
-			obj[i].ActorAnim.y = minf( 0, objShkDisX[i] ) #lengthdir_y(objShkDisY[i], objShkDirY[i]));
+			obj[i].ActorAnim.position.y = minf( 0, objShkDisX[i] ) #lengthdir_y(objShkDisY[i], objShkDirY[i]));
 			objShkDirX[i] += objShkSpdX[i] * delta;
 			if objShkDirX[i] > 360 || objShkDirX[i] < -360:
 				if objShkDirX[i] > 360: objShkDirX[i] -= 360;
 				else: objShkDirX[i] += 360;
 				objShkDisX[i] -= objShkFrcX[i];
 				objShkFrcX[i] *= 2;
-		else: obj[i].x = obj[i].xstart;
+		else: obj[i].ActorAnim.position.x = 0 #obj[i].xstart;
