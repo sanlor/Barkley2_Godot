@@ -21,6 +21,10 @@ signal player_input_permission_changed
 signal player_is_aiming
 signal player_stopped_aiming
 
+## Pedestrian stuff
+signal pedestrian_disabled		## Pedestrian disabled
+signal pedestrian_enabled		## Pedestrian enabled
+
 ## Room permisions
 signal room_permission_changed
 signal room_pacify_changed( activated : bool )

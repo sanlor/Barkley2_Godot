@@ -33,7 +33,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var print_comments		:= false
 @export var debug_item 			:= true
 @export var debug_glamp 		:= true
-
+@export var debug_pedestrian	:= true
 
 ## Enable this to know what script line is being executed.
 @export var print_line_report 	:= false ## details about the current script line.
@@ -378,6 +378,9 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				## ^^^^ Yes, it is.
 				## ^^^^ No its not always, smartass. CHOICE and REPLY expect the empty line no show the question.
 				if is_selecting_choices:
+					B2_Input.can_fast_forward = false ## Disable FFWD
+					B2_Input.ffwd( false )
+					
 					# The script excepts a choice selection.
 					var dialogue_choice = B2_DialogueChoice.new()
 					dialogue_choice.name = "dialogue_" + event_caller.name
@@ -408,6 +411,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					choice_question					= ""
 					choices_labels					= []
 					choices_strings					= []
+					B2_Input.can_fast_forward 		= true ## Re-enable FFWD
 				else:
 					# Script finished without an EXIT command. Print data and quit the script.
 					loop_finished = true
@@ -652,7 +656,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 					
 				"PLAYSET":
-					var actor = get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					var actor = get_node_from_name( parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					actor.cinema_playset( str(parsed_line[ 2 ]), str(parsed_line[ 3 ]) )
 					
@@ -661,7 +665,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"SET":
 					await get_tree().process_frame ## Wait to avoid issues with adding 'Hoopzes' to the tree with "call_defered"
 					# NOTE I don't know how to spell "defered".
-					var actor 		= get_node_from_name( all_nodes, parsed_line[ 1 ] )
+					var actor 		= get_node_from_name( parsed_line[ 1 ] )
 					assert( is_instance_valid(actor), "No actor named %s on the tree. remember to add it." % parsed_line[ 1 ] )
 					var anim_name 	:= str( parsed_line[ 2 ] )
 					actor.cinema_set( anim_name )
@@ -770,7 +774,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# now, this is what i call JaNkYH! Basically, it looks for all loaded objects with the name "parsed_line[1]" and runs the "User Defined" function "parsed_line[2]"
 					# thing is, how the fuck im going to make this work on godot? I cant change the original script.
 					# basically, this just executes funcions on the fly.
-					var event_object : Node = get_node_from_name(all_nodes, parsed_line[1]) # This can be a Node or an CanvasLayer
+					var event_object : Node = get_node_from_name( parsed_line[1]) # This can be a Node or an CanvasLayer
 					if event_object != null:
 						var event_id := int(parsed_line[2]) # had some issues with empty spaces here. Now, string > int > string
 						
@@ -864,7 +868,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					Create( parsed_line )
 				
 				"DESTROY":
-					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					var subject = get_node_from_name(  parsed_line[ 1 ], false )
 					assert(subject, "Cant destroy the object %s, Could'nt find it. Bummer...." % parsed_line[ 1 ])
 					if subject:
 						subject.queue_free()
@@ -887,7 +891,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					# USEAT(argument[0], "surprise", "surpriseHold", 1.25);
 					# Check script USEAT() and SURPRISEAT.
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF².
-					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					var subject = get_node_from_name(  parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_surpriseat( subject ) 		# its a node.
@@ -897,7 +901,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"USEAT":
 					# Check script USEAT().
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF.
-					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					var subject = get_node_from_name(  parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_useat( subject ) 		# its a node.
@@ -908,7 +912,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					## Similar to SURPRISEAT, but kneeling
 					# USEAT(argument[0], "kneelHold", "kneelHold", 1);
 					# the parsed_line[ 1 ] can be either a destination or a string. WTF³.
-					var subject = get_node_from_name( all_nodes, parsed_line[ 1 ], false )
+					var subject = get_node_from_name(  parsed_line[ 1 ], false )
 					
 					if is_instance_valid( subject ): ## WARNING Need to check if the cinema script ways for the anim to finish.
 						await B2_CManager.o_cts_hoopz.cinema_kneelat( subject ) 		# its a node.
@@ -921,7 +925,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var args := parsed_line.size() - 2 # parsed_line[ 1 ] and [ 2 ] should be ignored.
 					
 					for i : int in args:
-						follow_array.append( get_node_from_name( all_nodes, parsed_line[ 2 + i ], false ) )
+						follow_array.append( get_node_from_name(  parsed_line[ 2 + i ], false ) )
 					
 					camera.follow_actor( follow_array, speed )
 					
@@ -931,7 +935,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					var move_array : Array[Node2D] = []
 					
 					for point in move_points:
-						var dest := get_node_from_name( all_nodes, parsed_line[ 2 + point ] )
+						var dest := get_node_from_name(  parsed_line[ 2 + point ] )
 						if dest == null:
 							if debug_moveto: print("FRAME: destination_object is invalid: ", dest, " - ", parsed_line[ 2 + point ] )
 						move_array.append( dest )
@@ -947,8 +951,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						
 				"LOOKAT":
 					# Look torward someone.
-					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
-					var actor2					= get_node_from_name( all_nodes,	parsed_line[2] )
+					var actor 					= get_node_from_name( parsed_line[1] )
+					var actor2					= get_node_from_name( parsed_line[2] )
 					var direction 				:= parsed_line[2].strip_edges()
 					
 					if is_instance_valid(actor):
@@ -964,7 +968,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"LOOK":
 					# Look torward a direction.
 					## NOTE Im not sure if this is working
-					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
+					var actor 					= get_node_from_name( 	parsed_line[1] )
 					if actor != null:
 						actor.cinema_look( parsed_line[2] )
 					else:
@@ -978,8 +982,8 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					## NOTE Fuck this, lets learn how to use NavAgents.
 					
 					var target					= parsed_line[2].strip_edges()
-					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] )
-					var destination_object 		= get_node_from_name( all_nodes, 	target )
+					var actor 					= get_node_from_name( 	parsed_line[1] )
+					var destination_object 		= get_node_from_name(  	target )
 					
 					# Make sure that the actors and cinemaspots exists
 					# NOTE the destination object may not exist, sometimes a position can be placed here (680 550 for example)
@@ -1007,7 +1011,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"MOVE":
 					var target_x					= float(parsed_line[2])
 					var target_y					= float(parsed_line[3])
-					var actor 					= get_node_from_name( all_nodes,	parsed_line[1] ) as Node2D
+					var actor 					= get_node_from_name( 	parsed_line[1] ) as Node2D
 					
 					var speed 					= parsed_line[4]
 					var target_pos : Vector2 = actor.position + Vector2( target_x, target_y )
@@ -1056,7 +1060,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				"Destroy":
 					# Remove actor. simple.
-					var actor = get_node_from_name( all_nodes,	parsed_line[1] )
+					var actor = get_node_from_name( 	parsed_line[1] )
 					actor.queue_free()
 					array_dirty = true
 					
@@ -1077,7 +1081,11 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 				"Shake":
 					Shake( parsed_line )
-					
+				"PEDESTRIAN":
+					match parsed_line[1].strip_edges().to_lower():
+						"off":			B2_SignalBus.pedestrian_disabled.emit()
+						"on":			B2_SignalBus.pedestrian_enabled.emit()
+					if debug_pedestrian: print( "Pedestrian: %s" % parsed_line[1] )
 				"ClockTime":
 					## Set timed quest variables.
 					if parsed_line[1].strip_edges() == "event":
@@ -1132,7 +1140,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					assert( is_instance_valid(emote_target), "Invalid node. Check %s." % parsed_line )
 					
-					if parsed_line.size() > 2: emote_target = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
+					if parsed_line.size() > 2: emote_target = get_node_from_name(  parsed_line[2].strip_edges() )
 					if parsed_line.size() > 3: xoffset = float( parsed_line[3] )
 					if parsed_line.size() > 4: xoffset = float( parsed_line[4] )
 					
@@ -1399,32 +1407,37 @@ func Cinema_process():
 func is_a_direction( _name : String ) -> bool:
 	return _name in ["NORTH","SOUTH","WEST","EAST","NORTHEAST","SOUTHEAST","NORTHWEST","SOUTHWEST"]
 	
-## TODO use "find_child()" instead.
+## INFO use "find_child()" instead.
+## FIXME use "find_child()" instead.
+## CRITICAL use "find_child()" instead.
 # Looks for a node with that same name on the current scene / room.
-func get_node_from_name( _array, _name, warn := true ) -> Object:
+func get_node_from_name( _name, warn := true ) -> Object:
 	# Check if name is a direction instead of an object name. I know, its stupid, but thats how the original game handles it.
 	# Believe me, this is the "improved" version of this method.
 	if is_a_direction( _name ):
 		return null
 		
-	var node : Object
-	for item in _array:
-		if is_instance_valid(item):
-			if item is Object:
-				if item.name == _name:
-					#print(item.name)				## DEBUG
-					#print(item.get_class())		## DEBUG
-					node = item
-					break
-		else:
-			if warn: # sometimes a warning is not needed.
-				#push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
-				array_dirty = true
+	## NOTE 28/03/26 use "find_child()" instead.
+	assert( get_parent() is B2_ROOMS, "Cinema script called on a invalid room.")
+	var node : Object = get_parent().get_node( str(_name) )
+	#for item in _array:
+		#if is_instance_valid(item):
+			#if item is Object:
+				#if item.name == _name:
+					##print(item.name)				## DEBUG
+					##print(item.get_class())		## DEBUG
+					#node = item
+					#break
+		#else:
+			#if warn: # sometimes a warning is not needed.
+				##push_warning( "Ops, invalid node on the array. -> ", item, "  _  ", _name)
+				#array_dirty = true
+				
 	if not is_instance_valid(node):
-		#if warn:
-		#push_warning("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
-		print_debug("Target %s not found. Bummer. This is normal with the USEAT action." % _name)
-		pass ## Too many warnings
+		if warn:
+			#push_warning("Target '%s' not found. Bummer. This is normal with the USEAT action." % _name)
+			print_debug("Target '%s' not found. Bummer. This is normal with the USEAT action." % _name)
+		
 	return node
 	
 func Shake( parsed_line :PackedStringArray ):
@@ -1450,8 +1463,8 @@ func Misc( parsed_line :PackedStringArray ):
 	match parsed_line[1]:
 		## What a mess.
 		"set": ## 1 = object | 2 = object / x | 3 = y
-			var obj1 = get_node_from_name( all_nodes, str(parsed_line[2]) )
-			var obj2 = get_node_from_name( all_nodes, str(parsed_line[3]) )
+			var obj1 = get_node_from_name(  str(parsed_line[2]) )
+			var obj2 = get_node_from_name(  str(parsed_line[3]) )
 			
 			assert( obj1, "obj1 is not valid.")
 			
@@ -1469,7 +1482,7 @@ func Misc( parsed_line :PackedStringArray ):
 		"shadow":
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"visible":
-			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			var subject = get_node_from_name(  parsed_line[ 2 ], false )
 			if is_instance_valid(subject):
 				if int( parsed_line[ 3 ] ) == 0:
 					subject.visible = false
@@ -1480,7 +1493,7 @@ func Misc( parsed_line :PackedStringArray ):
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"entity settings": # Changes some setting for an actor. Check Misc line 20 and scr_event_entity_settings line 2
 			assert(parsed_line.size() == 6, "Invalid amount of arguments: %s" % parsed_line.size())
-			var actor 				: Node2D = get_node_from_name( all_nodes, parsed_line[ 2 ].strip_edges() )
+			var actor 				: Node2D = get_node_from_name(  parsed_line[ 2 ].strip_edges() )
 			var is_interactive 		:= bool( parsed_line[ 3 ].to_int() ) # not used anymore
 			var disable_outline 	:= not bool( parsed_line[ 3 ].to_int() )
 			var enable_collision	:= bool( parsed_line[ 4 ].to_int() )
@@ -1501,7 +1514,7 @@ func Misc( parsed_line :PackedStringArray ):
 			# 08-03-26 Not sure how this is handled.
 			if debug_unhandled: print( "Unhandled MISC mode: ", parsed_line )
 		"flip":
-			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			var subject = get_node_from_name( parsed_line[ 2 ], false )
 			if is_instance_valid(subject):
 				# -1 means flip. 1 means normal.
 				var flip : bool = str( parsed_line[ 2 ] ).strip_edges() == "-1" # true if line == -1
@@ -1512,7 +1525,7 @@ func Misc( parsed_line :PackedStringArray ):
 		"flipx": ## Special case for walking interactive actors
 			if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"alpha": ## 1 = object | 2 = alpha | 3 = time
-			var subject = get_node_from_name( all_nodes, parsed_line[ 2 ], false )
+			var subject = get_node_from_name(  parsed_line[ 2 ], false )
 			var alpha 	:= float(parsed_line[ 3 ])
 			var time 	:= float(parsed_line[ 4 ])
 			var tween := create_tween()
@@ -1558,7 +1571,7 @@ func Camera( parsed_line : PackedStringArray ):
 		## Camera("snap", object) - Instantly moves camera to spot
 		## Camera("snap", x, y) - Instantly moves camera to spot
 		"snap":
-			var dest := get_node_from_name( all_nodes, parsed_line[ 2 ] )
+			var dest := get_node_from_name(  parsed_line[ 2 ] )
 			if is_instance_valid(dest):
 				if dest is Node2D:
 					camera.cinema_snap( dest.position )
@@ -1593,7 +1606,7 @@ func Create( parsed_line : PackedStringArray ) -> Node:
 		if misc_arguments >= 1:
 			#if parsed_line[2].contains("o_cinema"): ## 07/10/25 Added suport for objects in this section. The old code had to fuck around with variable injection on the script itself. Suboptimal.
 			if not parsed_line[2].is_valid_float() or not parsed_line[2].is_valid_int(): ## 11/10/25 Had to fix the code above. the object is not always a cinema spot.
-				var dest_object : Node2D = get_node_from_name( all_nodes, parsed_line[2].strip_edges() )
+				var dest_object : Node2D = get_node_from_name(  parsed_line[2].strip_edges() )
 				object.position = dest_object.position
 			else:
 				object.position.x = float( parsed_line[2] )

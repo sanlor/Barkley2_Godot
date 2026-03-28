@@ -69,6 +69,5 @@ func _ready() -> void:
 	else:
 		_setup_camera( _setup_player_node() )
 
-
 ## CRITICAL
 #A lot of stuff is missing, like pedestrians and such. Im ignoring them to be able to finish the tutorial quickly.

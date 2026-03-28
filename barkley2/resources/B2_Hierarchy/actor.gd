@@ -563,7 +563,7 @@ func _physics_process( _delta: float ) -> void:
 		
 		#print( speed * speed_multiplier / Engine.time_scale )
 		var next_path_position: Vector2 = ActorNav.get_next_path_position()
-		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / lerpf(1.0, Engine.time_scale, 0.25) ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
+		var new_velocity: Vector2 = global_position.direction_to( next_path_position ) * ( speed / lerpf(1.0, Engine.time_scale, 0.75) ) # This "Engine.time_scale" is used when the game is FFWDing. Actors used to have issues reaching the waypoint without this.
 		
 		## Update movement vector for animation purposes.
 		real_movement_vector 	= position.direction_to( next_path_position )

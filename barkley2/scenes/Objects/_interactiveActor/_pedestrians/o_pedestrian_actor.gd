@@ -42,6 +42,7 @@ const PED_SPRITES := [
 @export var debug_check_movement_vector 	:= false ## Draw lines to show the current movement vector.
 
 ## Pedestrian stuff
+var is_active 		:= true
 var ped_exits 		:= []
 var ped_entrances 	:= []
 var ped_waypoints 	:= []
@@ -220,6 +221,23 @@ func _ready() -> void:
 	change_costume()
 	is_moving = true
 	heading_to_waypoint = true
+	is_active = true
+	pedestrians_destiny()
+	
+	B2_SignalBus.pedestrian_disabled.connect( disable_ped )
+	B2_SignalBus.pedestrian_enabled.connect( enable_ped )
+	
+func disable_ped() -> void:
+	is_active = false
+	is_moving = false
+	heading_to_waypoint = false
+	pedestrians_destiny()
+
+func enable_ped() -> void:
+	position = ped_exits.pick_random().position
+	is_active = true
+	is_moving = true
+	heading_to_waypoint = true
 	pedestrians_destiny()
 	
 ## Stolen from B2_Actor script.
@@ -343,8 +361,11 @@ func ped_animation(): # Apply animation when the character is moved by a cinema 
 	if playing_animation != _dir:
 		ActorAnim.play(_dir, animation_speed)
 		playing_animation = _dir
-		
+	
 func _physics_process(_delta: float) -> void:
+	if not is_active:
+		return
+		
 	if not gossip_timer.is_stopped() or not is_moving:
 		return
 		
@@ -378,7 +399,7 @@ func _physics_process(_delta: float) -> void:
 		ActorNav.set_velocity( new_velocity )
 	else:
 		_on_velocity_computed( new_velocity )
-			
+	
 func _draw() -> void:
 	if debug_check_movement_vector or B2_Debug.ENABLE_MOVEMENT_VECTOR_VISUALIZE:
 		draw_line(Vector2.ZERO, real_movement_vector * 32, Color.HOT_PINK)
@@ -391,7 +412,6 @@ func _on_velocity_computed(safe_velocity: Vector2):
 	movement_vector 		= velocity.normalized().round()
 	ped_animation()
 	last_movement_vector 	= movement_vector
-
 
 func _on_body_entered(body: Node) -> void:
 	if gossip_timer.is_stopped():

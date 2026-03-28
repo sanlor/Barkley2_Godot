@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cicnxt8ps0n5y"]
+
+[ext_resource type="Texture2D" uid="uid://delsibv5e8oi8" path="res://barkley2/assets/b2_original/images/merged/s_effect_affix_blink.png" id="1_y0ylr"]
+[ext_resource type="Material" uid="uid://7ksejqij7mob" path="res://barkley2/shaders/particles/o_zhang01_confetti.tres" id="2_rwbde"]
+[ext_resource type="Script" uid="uid://wbno1uc832yq" path="res://barkley2/scenes/Objects/_effects/o_effect_zhang_confetti_blast.gd" id="3_rwbde"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_75hlb"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="o_effect_zhangConfettiBlast" type="GPUParticles2D" unique_id=965176612]
+material = SubResource("CanvasItemMaterial_75hlb")
+emitting = false
+amount = 16
+texture = ExtResource("1_y0ylr")
+one_shot = true
+explosiveness = 0.8
+process_material = ExtResource("2_rwbde")
+script = ExtResource("3_rwbde")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
