@@ -21,7 +21,8 @@ static func have_item( item_name : String ) -> bool:
 				return true
 		return false
 	else:
-		push_error( "Invalid item %s." % item_name )
+		#push_error( "Invalid item %s." % item_name )
+		## Message not needed. Sometimes its needed to check if a string is an item or a quest flag.
 		return false
 		
 ## Get a list of hoopz items

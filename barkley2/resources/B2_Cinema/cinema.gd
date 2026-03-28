@@ -25,7 +25,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_lookat 		:= false
 @export var debug_event 		:= true
 @export var debug_flourish 		:= false
-@export var debug_breakout		:= false
+@export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
 @export var debug_know			:= true
 @export var debug_note			:= true
@@ -391,6 +391,12 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					for question : String in choices_strings:
 						dialogue_choice.add_choice( question ) ## Add choices
 					dialogue_choice.display_choices()
+					
+					## If breakout was enabled previously, show it now.
+					if show_breakout:
+						set_breakout( dialogue_choice )
+					
+					## Wait for the player to select something.
 					var choice_selected : int = await dialogue_choice.choice_selected
 					
 					# override LINE
@@ -590,16 +596,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					
 					## If breakout was enabled previously, show it now.
 					if show_breakout:
-						var brk := B2_Breakout.new()
-						brk.breakout_data = breakout_data.duplicate()
-						breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data["value"] )
-						dialogue.add_child(brk, true)
-						
-						# Reset mods and opts.
-						breakout_data["modifier"] = 0
-						breakout_data["opt"] = 0
-						
-						if debug_breakout: print("Breakout: show %s with %s." % [breakout_data["value"], B2_Playerdata.Quest( breakout_data["value"] ) ] )
+						set_breakout( dialogue )
 						
 					# parse talker´s name
 					if parsed_line[1].contains("="):
@@ -1231,6 +1228,20 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 		
 	## Why true? Why does it return true???? WHYYYYYYY??
 	return true
+
+## Moved this to its own function. Both 'dialogue' and 'dialogue_choice' should use a breakout box.
+func set_breakout( dialogue : Control ) -> void:
+	var brk := B2_Breakout.new()
+	breakout_data["prev_value"] = B2_Playerdata.Quest( breakout_data["value"] )
+	brk.breakout_data = breakout_data.duplicate()
+	dialogue.add_child(brk, true)
+	
+	# Reset mods and opts.
+	breakout_data["modifier"] = 0
+	breakout_data["opt"] = 0
+	
+	if debug_breakout: print("Breakout: show %s with %s." % [breakout_data["value"], B2_Playerdata.Quest( breakout_data["value"] ) ] )
+	
 
 func get_all_nodes() -> Array[Node]:
 	if get_tree().current_scene != null:

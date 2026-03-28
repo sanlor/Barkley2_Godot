@@ -293,7 +293,9 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	var room_name 	:= str( split[0] ).strip_edges()
 	var room_x 		:= float( split[1] )
 	var room_y 		:= float( split[2] )
-	var slide_dir	:= int( split[3] ) ## No idea what this is.
+	var fade_timer	:= int( split[3] ) ## No idea what this is.
+	# ^ 28/03/26 OK, according to the original 'Teleport()' script, this is a fade delay. its the amount of seconds that the fade in/out occurs.
+	# 'slide_dir' is the incorrect name for this. renaming it to fade_timer
 	var open_sfx	:= str( split[4] ).strip_edges().replace('"', '') # removes "invalid" characters.
 	var close_sfx	:= str( split[5] ).strip_edges().replace('"', '') # removes "invalid" characters.
 	
@@ -351,21 +353,25 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 	var tween : Tween
 	
 	if not skip_fade_out:
+		# Screen goes black.
 		tween = create_tween()
-		tween.tween_property( room_transition_layer, "modulate:a", 1.0, fade_time_out * fade_modifier )
+		tween.tween_property( room_transition_layer, "modulate:a", 1.0, max(fade_timer, fade_time_out) * fade_modifier )
 		await tween.finished
 		fadeout_finished.emit()
 
 		# set the delay before loading the room.
-		if _delay > 0.0:
-			await get_tree().create_timer( _delay ).timeout
-		else:
-			await get_tree().create_timer( fade_delay * fade_modifier ).timeout
+		## NOTE Should we wait BEFORE loading the room? 
+		#if _delay > 0.0:
+		#	await get_tree().create_timer( _delay ).timeout
+		#else:
+		#	await get_tree().create_timer( fade_delay * fade_modifier ).timeout
 
 	else:
+		# Screen fade skipped.
 		room_transition_layer.modulate.a = 1.0
 		await get_tree().process_frame
-
+	
+	## Its not the same room, do a full room change.
 	if not its_the_same_room or force_room_load:
 		## Wait for the room to finish loading.
 		finish_loading_room_scene( room_name ) 				# Load the next room
@@ -374,8 +380,13 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 			#  <C++ Error>   Condition "!E" is true. Returning: 0
 			#  <C++ Source>  scene/resources/sprite_frames.cpp:71 @ get_frame_count()
 			#  <Stack Trace> room_xy.gd:354 @ warp_to()
-
-		await get_tree().process_frame
+		
+		## Delay after loading the room.
+		if _delay > 0.0:	await get_tree().create_timer( _delay ).timeout
+		else:				await get_tree().create_timer( fade_delay * fade_modifier ).timeout
+		#await get_tree().process_frame
+	
+	## Its the same room. Soft reload the room.
 	else:
 		if room_reference:
 			room_reference.request_ready()
@@ -396,12 +407,18 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		else:
 			# What happened?
 			breakpoint
-	
+		
+		## Delay after loading the room.
+		if _delay > 0.0:	await get_tree().create_timer( _delay ).timeout
+		else:				await get_tree().create_timer( fade_delay * fade_modifier ).timeout
+		
 	## Gives control back
 	B2_Input.player_has_control = true
-
+	
+	# Screen goes from black to normal.
+	# Should do nothing if the fade skip was set.
 	tween = create_tween()
-	tween.tween_property( room_transition_layer, "modulate:a", 0.0, fade_time_in * fade_modifier )
+	tween.tween_property( room_transition_layer, "modulate:a", 0.0, max(fade_timer, fade_time_in) * fade_modifier )
 
 	## Cleanup
 	tween.tween_callback( remove_child.bind( room_transition_layer ) )

@@ -5,11 +5,12 @@ class_name B2_Breakout
 ## 08/01/26 changed from Canvas Layer to Control
 
 # Icon used for Money and such
-const ICON_ATLAS = preload("res://barkley2/resources/B2_Breakout/icon_atlas.tres")
+const ICON_ATLAS 	= preload("res://barkley2/resources/B2_Breakout/icon_atlas.tres")
+const FN_2 			= preload("uid://cbgm2fhhwo0ld")
 
 # minimum breakout height
 var breakoutYSpc 	:= 42
-var breakoutXSpc 	:= 32 * 4
+var breakoutXSpc 	:= 32 * 2
 
 # icon size
 var icon_size 		:= 16
@@ -29,31 +30,39 @@ var txt_node 		: Label
 var icon_node 		: TextureRect
 var value_node 		: Label
 
-var breakout_size 	:= Vector2.ZERO
+var breakout_size 	:= Vector2.ZERO # WARNING is this ever used correcly?
 
 # breakout position
 var breakoutX 		:= 384 - 8; #Breakout on right side
 var breakoutY 		:= 92 + 4;
 
 # What to show on the breakout
-var breakout_data := {}
+var breakout_data 	:= {}
 
-var diag_box : B2_DiagBG
+var diag_box 		: B2_DiagBG
+var hbox 			: HBoxContainer
+
+var smooth_value_change := false ## Should be true with money. Smoothly decrease or increase the money count.
 
 func _ready() -> void:
+	hide() # While the box is being set up, hide itself
+	
 	# ID myself
 	name = "breakout_box"
+	
 	# Setup the static frame
 	diag_box = B2_DiagBG.new()
+	
 	# Identify this diag box
 	diag_box.name = "breakout_frame"
+	
 	#Diag box setup
 	diag_box.theme = preload("res://barkley2/themes/dialogue.tres")
 	add_child( diag_box, true )
 	
 	set_values()
 	
-	var hbox := HBoxContainer.new()
+	hbox = HBoxContainer.new()
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset( Control.PRESET_FULL_RECT )
 	margin.add_child( hbox, true )
@@ -63,6 +72,7 @@ func _ready() -> void:
 		# Add Icon only
 		icon_node = TextureRect.new()
 		icon_node.texture = ICON_ATLAS
+		icon_node.custom_minimum_size.x = 16.0
 		icon_node.texture.region.position.x *= icon_id
 		icon_node.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 		hbox.add_child( icon_node, true )
@@ -70,40 +80,56 @@ func _ready() -> void:
 		# Add text only
 		txt_node = Label.new()
 		txt_node.text = txt + " " # add a space to make sure it looks good.
-		#txt_node.custom_minimum_size = Vector2(36, 0)
+		txt_node.custom_minimum_size = FN_2.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT)
 		txt_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		txt_node.set_anchors_preset(Control.PRESET_FULL_RECT)
 		hbox.add_child( txt_node, true )
 	#else:
 		# weird situation. someone fucked up.
 		# either and invalid id is set or something wasn't set properly.
-	#	breakpoint
+		# breakpoint
 	
-		# Add text value
+	# Add text value
 	value_node = Label.new()
 	value_node.text = str( old_value ) 
-	value_node.custom_minimum_size = Vector2(24, 0)
+	value_node.custom_minimum_size = Vector2(16, 0)
 	value_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	value_node.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hbox.add_child(value_node,true)
 	
 	# Diagbox sizing
+	#await get_tree().process_frame
+	var value_size 		:= int(value_node.custom_minimum_size.x)
+	var silly_offset 	:= 28
+	breakoutXSpc = int( FN_2.get_string_size(txt + " ", HORIZONTAL_ALIGNMENT_LEFT).x ) + value_size + silly_offset # silly_offset is a small buffer for the 'Border' borders.
+	
 	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )
 	diag_box.set_panel_size( max(breakout_size.x, breakoutXSpc), max(breakout_size.y, breakoutYSpc) )
-	
-	#await get_tree().process_frame # The size propriety is avaiable only after a process frame.
-	breakout_size = hbox.size
-	breakout_size.x += 32 # small buffer
 	
 	hbox.set_anchors_preset(Control.PRESET_FULL_RECT)
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	
-	fancy_value_change()
+	show() # Bot setup is done. Show itself.
+	if smooth_value_change:
+		fancy_value_change()
 	
 ## Does some setup for the variables.
 # check Breakout line 28
 func set_values():
 	if breakout_data.has("value"):
+		## Need to fix these later.
+		## 27-03-26 neet to fix this now. Now, where can I find this piece of code...
+		# Hint: https://www.youtube.com/watch?v=j65_4Yzy6xc&t=23047s
+		## Its on Breakout() line 70
+		
+		## Pre-set the value.
+		if B2_Item.have_item( breakout_data["value"] ): 	value = B2_Item.count_item( 	breakout_data["value"] ) ## If it's an item get item count
+		else: 												value = B2_Playerdata.Quest( 	breakout_data["value"] ) ## If it's a quest get quest state
+		
+		## Change the icon id or text.
 		match breakout_data["value"]:
 			"money":
+				smooth_value_change = true
 				icon_id 	= 0
 				old_value 	= breakout_data.get( "prev_value", 0 )
 				new_value 	= B2_Playerdata.Quest( breakout_data["value"] )
@@ -119,8 +145,10 @@ func set_values():
 				
 			"ducats","digiducats":
 				icon_id = 8
+				value = B2_Playerdata.Quest( breakout_data["value"] )
 			"hp":
 				icon_id = 2
+				value = B2_Playerdata.player_stats.get_effective_stat( B2_HoopzStats.STAT_CURRENT_HP )
 			"arrows":
 				icon_id = 1
 			"batteries":
@@ -132,6 +160,7 @@ func set_values():
 			"Bomb":
 				icon_id = 4
 			"dwarfCustody":
+				smooth_value_change = true
 				txt = "Dwarves:"
 				old_value 	= breakout_data.get( "prev_value", 0 )
 				new_value 	= B2_Playerdata.Quest( breakout_data["value"] )
@@ -152,15 +181,13 @@ func set_values():
 				txt = "Influence Ovums:"
 			_:
 				txt = "INVALID"
+				value = 69
 				breakpoint
 		
-		## Need to fix these later.
-		#if (argument[1] == "money") _val = scr_money_count();
-		#else if (argument[1] == "hp") _val = scr_stats_getCurrentStat(o_hoopz, STAT_CURRENT_HP);
-		#else if (Item("index", argument[1]) >= 0) _val = Item("count", argument[1]); //If it's an item get item count
-		#else _val = scr_quest_get_state(argument[1]); //If it's a quest get quest state
-	#pass
+		# fard
+		# jonathron -> john-tron??? do more research.
 	
+# Fancily increase or decrease the value counter.
 func fancy_value_change():
 	var tween := create_tween()
 	tween.tween_interval(0.5)
