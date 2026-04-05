@@ -9,6 +9,12 @@ var flavor 		:= ""
 var color 		:= Color.WHITE
 
 func _ready() -> void:
+	# Reposition self on the correct layer
+	if get_parent() is B2_ROOMS:
+		get_parent().remove_child( self )
+		B2_Screen.add_child( self, true)
+		#return
+		
 	zone 	= B2_Playerdata.Quest("bossName", null, 			"Undefined");
 	flavor 	= B2_Playerdata.Quest("bossDescription", null, 		"Undefined");
 	color 	= B2_Playerdata.Quest("bossColor", null, 			Color.WHITE);
@@ -27,6 +33,7 @@ func _ready() -> void:
 	zone_label.modulate 		= color
 	zone_container.modulate.a 	= 0.0
 	bossname_label.modulate.a 	= 0.0
+	
 	show_boss_name()
 
 func show_boss_name():

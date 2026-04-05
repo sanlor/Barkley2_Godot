@@ -170,7 +170,9 @@ func cinema_moveto( _destinations : Array, _speed : String ):
 		_destinations.erase(null)
 			
 	for node in _destinations:
-		destination += node.position
+		assert(node, "Node is not valid.")
+		if node: # Check if node is valid.
+			destination += node.position
 	
 	destination = destination / _destinations.size()
 	is_moving = true
@@ -258,7 +260,8 @@ func _process_shake(delta: float) -> void:
 				shakeStrength = lerpf( shakeStrength, 0.0, 4.0 * delta )
 				shake_data[0] = shakeStrength
 			else:
-				shake_data[4] -= ( Engine.get_frames_per_second() * 10) * delta 	# time
+				var time_mult := 1.0
+				shake_data[4] -= 1.0 * time_mult * delta # time
 			shake_effect += rand_offset
 		else:
 			shake_cleanup = true

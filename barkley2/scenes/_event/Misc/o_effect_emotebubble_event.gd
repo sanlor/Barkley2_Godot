@@ -3,6 +3,7 @@ extends AnimatedSprite2D
 var lifespan 		:= 0.35
 var type 			:= ""
 var initial_scale 	:= Vector2(1.5, 0.5)
+var tween : Tween
 
 func _ready() -> void:
 	if type.is_empty():
@@ -18,7 +19,7 @@ func _ready() -> void:
 	scale 			= initial_scale
 	modulate.a 		= 0
 	
-	var tween := create_tween()
+	tween = create_tween()
 	tween.parallel().tween_property(self, "modulate:a", 	1.0, 			0.25)
 	tween.parallel().tween_property(self, "scale", 			Vector2.ONE, 	0.25)
 	tween.tween_property(self, "position:y", position.y - 16, 				0.25).set_trans(Tween.TRANS_ELASTIC)
@@ -26,4 +27,6 @@ func _ready() -> void:
 	tween.tween_property(self, "modulate:a", 	0.0, 			0.5)
 	tween.tween_callback( queue_free )
 	
-	
+func check_actor_activity() -> void:
+	if tween:
+		await tween.finished

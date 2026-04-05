@@ -154,7 +154,7 @@ func _enter_tree() -> void:
 	#	toggle_rain_shader( weather_rain, "normal", false )
 	
 func _ready() -> void:
-	push_error("Room %s not setup." % get_room_name())
+	push_error("Room %s not setup. Don't forget to extend this script and make it your own." % get_room_name())
 
 func toggle_rain_shader( state : bool, rain_type : String, thunder : bool ) -> void: # toggled by the current room settings
 	var rain : GPUParticles2D = RAIN_SHADER.instantiate()

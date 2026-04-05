@@ -164,6 +164,7 @@ func execute_event_user_0() -> void: ## Used during the intro
 
 func execute_event_user_1() -> void: ## Used during the intro
 	# show naked hud during tutorial
+	B2_Playerdata.Quest("hudVisible", 1)
 	show_hud()
 	if debug_messages: print("o_hud: execute_event_user_1()")
 

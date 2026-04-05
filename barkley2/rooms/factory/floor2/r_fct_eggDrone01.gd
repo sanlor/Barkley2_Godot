@@ -1,4 +1,4 @@
-#@tool
+@tool
 extends B2_ROOMS
 
 #const O_ENEMY_DRONE_EGG 		= preload("res://barkley2/scenes/Objects/_enemies/Enemy Types/Mechanical/o_enemy_drone_egg.tscn")
@@ -36,6 +36,7 @@ func _ready() -> void:
 	#B2_Gun.add_gun_to_bandolier()
 	#B2_Gun.add_gun_to_bandolier()
 	#B2_CManager.BodySwap("diaper");
+	#B2_Playerdata.Quest("tutorialProgress", 8)
 	#B2_Playerdata.Quest("hudVisible", 		0);
 	#B2_Playerdata.Quest("zoneVisible", 		0);
 	#B2_Playerdata.Quest("dropEnabled", 		0);

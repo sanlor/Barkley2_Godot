@@ -349,20 +349,23 @@ func queue( track_name : String, speed := 0.25, track_position := 0.0, loop := t
 
 # func used by the volume tweener. NOTE should be in DB, not raw float. Use 'linear_to_db()'.
 func _volume( value : float ) -> void:
-	AudioServer.set_bus_volume_db( MUSIC_BUS, value )
+	AudioServer.set_bus_volume_db( MUSIC_BUS, linear_to_db(value) )
+	#print(value)
 
 # Rev up a tweener to fade in the music
 func music_fade_in( speed : float ) -> void:
 	if tween: tween.kill()
 	tween = create_tween()
+	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed)
 	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed).from( 0.0 )
-	tween.tween_method( _volume, 0.0, linear_to_db(B2_Config.bgm_gain_master * volume_mod ), speed )
+	tween.tween_method( _volume, 0.0, B2_Config.bgm_gain_master * volume_mod, speed )
 	await tween.finished
 	
 # Rev up a tweener to fade out the music
 func music_fade_out( speed : float ) -> void:
 	if tween: tween.kill()
 	tween = create_tween()
+	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed )
 	#tween.tween_property( audio_stream_player, "volume_db", linear_to_db(0.0), speed ).from( linear_to_db(B2_Config.bgm_gain_master * volume_mod ) )
-	tween.tween_method( _volume, linear_to_db(B2_Config.bgm_gain_master * volume_mod ), 0.0, speed )
+	tween.tween_method( _volume, B2_Config.bgm_gain_master * volume_mod, 0.0, speed )
 	await tween.finished

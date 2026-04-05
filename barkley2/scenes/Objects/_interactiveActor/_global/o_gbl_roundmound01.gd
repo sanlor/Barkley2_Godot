@@ -11,6 +11,8 @@ func event_trigger( _node ):
 func check_status() -> void:
 	is_active = B2_Playerdata.Quest("roundmoundInitiate") == 0
 
+## Unsure what this does.
 func execute_event_user_0():
 	## TODO
-	breakpoint
+	# with o_sfx_audio_emitter_parent timer_remove = irandom(3) + 1;
+	push_error("TODO: set event 0 for %s" % self)

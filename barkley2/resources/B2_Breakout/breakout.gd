@@ -102,6 +102,8 @@ func _ready() -> void:
 	var value_size 		:= int(value_node.custom_minimum_size.x)
 	var silly_offset 	:= 28
 	breakoutXSpc = int( FN_2.get_string_size(txt + " ", HORIZONTAL_ALIGNMENT_LEFT).x ) + value_size + silly_offset # silly_offset is a small buffer for the 'Border' borders.
+	breakoutXSpc += int( FN_2.get_string_size( str(value).pad_decimals(3), HORIZONTAL_ALIGNMENT_LEFT).x )
+	breakoutXSpc = max( 64.0, breakoutXSpc )
 	
 	diag_box.global_position = Vector2( breakoutX - max(breakout_size.x, breakoutXSpc), breakoutY )
 	diag_box.set_panel_size( max(breakout_size.x, breakoutXSpc), max(breakout_size.y, breakoutYSpc) )

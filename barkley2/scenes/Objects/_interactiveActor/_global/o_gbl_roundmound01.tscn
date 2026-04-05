@@ -7,7 +7,7 @@
 script = ExtResource("2_laj71")
 original_script = "//QUEST | rmVengeanceQualify = 1
 //QUEST | rmCandyQualify = 1
-//QUEST | rmReasonCuchu = 1
+//QUEST | rmReasonCuchu = 1 // This is needed for this quest to work
 //TODO: remove the above  // removed on 01/01/26
 QUEST | rmVengeanceQualify = 0
 QUEST | rmCandyQualify = 0    
@@ -21,7 +21,7 @@ IF rmVidcon >= 10    | QUEST | rmVidconQualify = 1
 IF rmBball >= 10     | QUEST | rmBballQualify = 1     
 IF rmClispaeth >= 10 | QUEST | rmClispaethQualify = 1 
 IF rmBrast >= 10     | QUEST | rmBrastQualify = 1     
-Misc   | music | mus_blankTEMP | 1
+Misc   | music | mus_blankTEMP | 3 //04-04-26 was 1
 EVENT  | o_gbl_roundmound01 | 0
 QUEST  | roundmoundInitiate = 1
 WAIT   | 0.25
@@ -31,7 +31,7 @@ FRAME  | CAMERA_NORMAL | o_roundmound_bball01
 WAIT   | 0
 Emote  | !
 WAIT   | 1.25
-FRAME  | CAMERA_NORMAL | cts_hoopz
+FRAME  | CAMERA_NORMAL | o_cts_hoopz // was cts_hoopz before. Is this a bug?
 WAIT   | 0
 DIALOG | P_NAME = s_port_hoopzSurprise | Huh, is that a... bball?
 FOLLOWFRAME | CAMERA_NORMAL | o_cts_hoopz
@@ -68,6 +68,8 @@ IF rmReasonPower == 1  | GOTO | REASON_POWER
 IF rmReasonQuest == 1  | GOTO | REASON_QUEST
 IF rmReasonCuchu == 1  | GOTO | REASON_CUCHU
 IF rmReasonTime == 1   | GOTO | REASON_TIME
+DIALOG  | DEBUG  | 04-04-26 Catch all condition triggered. It seems that this interaction wasnt finished, so REASON_CUCHU is the default (and only) choice here. Jumping to there...
+GOTO | REASON_CUCHU
 
 REASON_SUMMON
 DIALOG | ? ? ?  | I know you have been calling out, searching for something. The path of the seeker is not a route to a destination, but a lifelong duty. You know your destiny, as do I. But what you are looking for, I cannot say. You will, soon.
@@ -154,15 +156,15 @@ DIALOG | ? ? ? | My time here expires. Soon, I will be gone again, watching and 
 DIALOG | ? ? ? | Your destiny becomes your densetsu!
 //TODO: new BGM should play now!
 DIALOG | ? ? ? | Now, child, tell me. What does your soul fight for? Gaze upon my shape, gaze into yourself, and CHOOSE!
-
 CHOICE | What do you fight for?
 REPLY | ALIGN_VENGEANCE | I'll get my revenge on Cuchulainn!
+//TODO: complete the Alignment Choices (endings of the game)
 IF rmCandyQualify == 1     | REPLY | ALIGN_CANDY     | I never want to grow up!
 IF rmVidconQualify == 1    | REPLY | ALIGN_VIDCON    | I aim to be The Vidcon Master!
 IF rmBballQualify == 1     | REPLY | ALIGN_BBALL     | I claim my destiny on the bball court!
 IF rmClispaethQualify == 1 | REPLY | ALIGN_CLISPAETH | I answer the Call of Clispaeth!
 IF rmBrastQualify == 1     | REPLY | ALIGN_BRAST     | I'll be known as The Last Braster!
-//TODO: complete the Alignment Choices (endings of the game)
+
 ALIGN_BBALL
 DIALOG | P_NAME | There is only one place for me... the bball court.
 DIALOG | P_NAME | Pass me the rock!

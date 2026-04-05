@@ -36,6 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://l32ssb1jxi4g" path="res://barkley2/assets/b2_original/images/merged/s_blocker_ud.png" id="42_431yi"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kjx8d"]
+vertices = PackedVector2Array(890, 410, 890, 150, 966, 10, 966, 1702, 10, 10, 694, 150, 10, 1702, 694, 410)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(3, 6, 7, 0)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 0, 1712, 976, 1712, 976, 0)])
 source_geometry_mode = 1
 
@@ -3008,6 +3010,10 @@ func _ready() -> void:
 
 func event_trigger( _node ):
 	if is_instance_valid(cutscene_script):
+		B2_Playerdata.Quest(\"bossColor\", B2_Gamedata.c_cyber);
+		B2_Playerdata.Quest(\"bossName\", \"Egg Drone\");
+		B2_Playerdata.Quest(\"bossDescription\", \"Cybernetic Egg Servant\");
+	
 		B2_CManager.play_cutscene( cutscene_script, self )
 		
 		await B2_CManager.event_ended # wait for the cutscene to end, then sea side.

@@ -330,6 +330,8 @@ func warp_to( room_transition_string : String, _delay := 0.0, skip_fade_out := f
 		# Save game during room transition
 		if B2_Playerdata.Quest("saveDisabled") == 0: # scr_map_roomstart() line 108
 			B2_Playerdata.SaveGame()
+		else:
+			print("%s: Save game denied by a quest variable -> saveDisabled" % name)
 
 	if print_debug_logs: print("B2_RoomXY: Started loading room %s." % room_name)
 	

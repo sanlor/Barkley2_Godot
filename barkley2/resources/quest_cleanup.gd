@@ -12,6 +12,9 @@ enum ACT{DESTROY, LOG, DESTROY_AND_LOG}
 @export_multiline var comments : String
 
 func _ready() -> void:
+	# Wait a frame before checking.
+	await get_tree().process_frame
+	
 	if enabled:
 		var q = B2_Playerdata.Quest(quest_name, null, 0)
 		var m := false

@@ -23,7 +23,7 @@ const UTILITYSTATION_SCREEN = preload("res://barkley2/scenes/_utilityStation/uti
 @export var debug_quest 		:= false
 @export var debug_look	 		:= false
 @export var debug_lookat 		:= false
-@export var debug_event 		:= true
+@export var debug_event 		:= false
 @export var debug_flourish 		:= false
 @export var debug_breakout		:= true
 @export var debug_unhandled 	:= true
@@ -191,8 +191,9 @@ func load_hoopz_player(): #  Cinema() else if (argument[0] == "exit")
 		
 	var hoopz_lookup := get_tree().current_scene.get_children()
 	for n in hoopz_lookup:
-		if n.name == "o_cts_hoopz":
-			n.queue_free()
+		if not is_queued_for_deletion():
+			if n.name == "o_cts_hoopz":
+				n.queue_free()
 			
 	# if fake is loaded, load real hoopz.
 	#if not is_instance_valid(B2_CManager.o_hoopz):
@@ -626,9 +627,6 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 												
 					await dialogue.display_dialog()
 					dialogue.queue_free()
-					
-				"SHAKE":
-					if debug_unhandled: print_rich( "[color=red]Unhandled mode: %s[/color]" % parsed_line )
 					
 				"ITEM", "Item":
 					if parsed_line[ 1 ].strip_edges() == "gain": # Weird edge case, only 1 script use this.
@@ -1079,7 +1077,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 				"Camera":
 					Camera( parsed_line )
 					
-				"Shake":
+				"Shake","SHAKE":
 					Shake( parsed_line )
 				"PEDESTRIAN":
 					match parsed_line[1].strip_edges().to_lower():
@@ -1152,6 +1150,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					emote_node.offset	+= Vector2( xoffset, yoffset )
 					emote_node.position = ( emote_target.position ) - Vector2( 0, 10 )
 					get_tree().current_scene.add_child( emote_node, true )
+					cinema_kid( emote_node )
 					
 				"BodySwap":
 					B2_CManager.BodySwap( str( parsed_line[1] ).strip_edges() )
@@ -1417,6 +1416,11 @@ func get_node_from_name( _name, warn := true ) -> Object:
 	if is_a_direction( _name ):
 		return null
 		
+	## Exceptions
+	if _name == "o_hud":
+		assert( B2_CManager.o_hud, "o_hud called, but its not loaded.")
+		return B2_CManager.o_hud
+		
 	## NOTE 28/03/26 use "find_child()" instead.
 	assert( get_parent() is B2_ROOMS, "Cinema script called on a invalid room.")
 	var node : Object = get_parent().get_node( str(_name) )
@@ -1449,11 +1453,11 @@ func Shake( parsed_line :PackedStringArray ):
 			else:
 				camera.add_shake( float(parsed_line[2]), float(parsed_line[3]), float(parsed_line[4]), float(parsed_line[5]), float(parsed_line[6]) )
 		"remove":
-			pass
+			breakpoint
 		"edit":
-			pass
+			breakpoint
 		"clear":
-			pass
+			breakpoint
 	
 func Misc( parsed_line :PackedStringArray ):
 	# Check Misc() script.
@@ -1507,7 +1511,13 @@ func Misc( parsed_line :PackedStringArray ):
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"music":
 			# I think its only this. In my implementation, the parsed_line[3] will be ignored
-			B2_Music.play( parsed_line[2] )
+			# fuck you, round mound forced me to add the parsed_line[3]  argument
+			if parsed_line.size() == 3:
+				B2_Music.play( parsed_line[2] )
+			elif parsed_line.size() == 4:
+				B2_Music.play( parsed_line[2], float( parsed_line[3] ) )
+			else:
+				breakpoint
 			#if debug_unhandled: print( "Unhandled mode: ", parsed_line )
 		"automatic animation":
 			# Unhandled mode: ["Misc", "automatic animation", "o_governor01", "true"]

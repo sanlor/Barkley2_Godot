@@ -3322,6 +3322,10 @@ func event_trigger( _node ):
 	if B2_Playerdata.Quest(\"zaneState\", null, 0) < 7:
 		if is_instance_valid(cutscene_script):
 			B2_CManager.play_cutscene( cutscene_script, o_zane_01 )
+			await B2_CManager.event_ended
+			await get_tree().process_frame
+			if cutscene_hook:
+				B2_CManager.play_cutscene( cutscene_hook.cutscene_script, self, cutscene_hook.cutscene_script_mask )
 		else:
 			# Script unloaded for some reason
 			breakpoint
