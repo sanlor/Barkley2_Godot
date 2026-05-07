@@ -11,11 +11,6 @@ const O_ENEMY_ATTACK_BLOWDART = preload("uid://bqoqnwresdv00")
 
 func _ready() -> void:
 	super()
-	assert( is_instance_valid(actor_ai), "No valid AI found." )
-	assert( enemy_data, "No enemy data ")
-	enemy_data.resource_local_to_scene = true
-	actor_ai.actor = self
-	_connect_ai_signals()
 
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:
@@ -88,43 +83,6 @@ func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 
 func get_aim_origin() -> Vector2:
 	return global_position + Vector2(0,-12)
-
-## Handle the most basic animations
-func normal_animation(_delta : float):
-	var input := curr_input
-	
-	if input != Vector2.ZERO: # AI is moving the Actor
-		if last_input != input:
-			## Flip sprite if needed.
-			ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
-			if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
-				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
-				ActorAnim.flip_h = not ActorAnim.flip_h
-			
-			match input.round():
-				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
-				Vector2.UP + Vector2.RIGHT:			ActorAnim.play( actor_animations.ANIMATION_NORTHEAST )
-				Vector2.DOWN + Vector2.LEFT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHWEST )
-				Vector2.DOWN + Vector2.RIGHT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHEAST )
-					
-				Vector2.UP:							ActorAnim.play( actor_animations.ANIMATION_NORTH )
-				Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
-				Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
-				Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
-				Vector2.ZERO:						pass
-				_: # Catch All
-					print("Catch all 'input' for %s -> %s " % [name, input])
-	else:
-		# AI is not moving the actor anymore
-		ActorAnim.play( actor_animations.ANIMATION_STAND )
-		
-		var curr_direction : Vector2 = input
-	
-		# Update var
-		last_direction = curr_direction
-		
-	# Update var
-	last_input = input
 
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.

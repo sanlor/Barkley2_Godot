@@ -141,7 +141,7 @@ func apply_curr_input( dir : Vector2 ) -> void:
 	
 func apply_curr_aim( dir : Vector2 ) -> void:
 	curr_aim = dir
-	#print(curr_aim)
+	print(curr_aim)
 
 ## TODO
 func _connect_ai_signals() -> void:

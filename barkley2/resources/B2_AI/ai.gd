@@ -4,6 +4,8 @@
 @icon("uid://doli655kh53ie")
 extends Node2D
 class_name B2_AI
+
+
 # https://shaggydev.com/2023/10/08/godot-4-state-machines/
 # https://www.sandromaglione.com/articles/how-to-implement-state-machine-pattern-in-godot
 # https://gdscript.com/solutions/godot-state-machine/

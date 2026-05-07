@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cbkjvgxcnh2sc" path="res://barkley2/assets/b2_original/images/merged/s_eggDrone01.png" id="2_hswbj"]
 [ext_resource type="Script" uid="uid://bjvxvbk26rsxa" path="res://barkley2/resources/B2_Enemies/enemy_data.gd" id="3_17vq5"]
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="4_6hb1w"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
-[ext_resource type="Script" uid="uid://bnj0tqbocuaui" path="res://barkley2/resources/B2_AI/ai_combat_normal.gd" id="4_w86x0"]
 [ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
 [ext_resource type="PackedScene" uid="uid://ip8ryvrniime" path="res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn" id="10_6hb1w"]
 
@@ -439,7 +439,6 @@ contact_monitor = true
 max_contacts_reported = 5
 linear_damp = 10.0
 script = ExtResource("1_juf8c")
-curr_MODE = 0
 shadow_scale = 1.5
 ActorSmokeEmitter = NodePath("smoke_emitter")
 actor_animations = SubResource("Resource_riqe7")
@@ -453,11 +452,11 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Combat_TurnBased_Normal")
+actor_ai = NodePath("B2_AI_Player")
 
-[node name="B2_AI_Combat_TurnBased_Normal" type="Node2D" parent="." unique_id=1408104124]
-script = ExtResource("4_w86x0")
-metadata/_custom_type_script = "uid://bnj0tqbocuaui"
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=724948043]
+script = ExtResource("4_6hb1w")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=223468021]
 shape = SubResource("CircleShape2D_dr833")

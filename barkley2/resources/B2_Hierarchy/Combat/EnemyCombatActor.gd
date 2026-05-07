@@ -77,6 +77,13 @@ func _fetch_enemy_data() -> void:
 func _ready() -> void:
 	_setup_enemy()
 	
+	## AI Setup
+	assert( is_instance_valid(actor_ai), "No valid AI found." )
+	assert( enemy_data, "No enemy data ")
+	enemy_data.resource_local_to_scene = true
+	actor_ai.actor = self
+	_connect_ai_signals()
+	
 func _setup_enemy() -> void:
 	if not is_instance_valid( ActorAnim ):
 		ActorAnim 			= get_node( "ActorAnim" )
@@ -114,57 +121,96 @@ func _setup_enemy() -> void:
 	#enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
 	#set_mode( MODE.INACTIVE )
 	
+## Handle the most basic animations
+func normal_animation(_delta : float):
+	var input := curr_input
+	
+	if input != Vector2.ZERO: # AI is moving the Actor
+		if last_input != input:
+			## Flip sprite if needed.
+			ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
+			if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
+				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
+				ActorAnim.flip_h = not ActorAnim.flip_h
+			
+			match input.round():
+				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
+				Vector2.UP + Vector2.RIGHT:			ActorAnim.play( actor_animations.ANIMATION_NORTHEAST )
+				Vector2.DOWN + Vector2.LEFT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHWEST )
+				Vector2.DOWN + Vector2.RIGHT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHEAST )
+					
+				Vector2.UP:							ActorAnim.play( actor_animations.ANIMATION_NORTH )
+				Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
+				Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
+				Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
+				Vector2.ZERO:						pass
+				_: # Catch All
+					print("Catch all 'input' for %s -> %s " % [name, input])
+	else:
+		# AI is not moving the actor anymore
+		ActorAnim.play( actor_animations.ANIMATION_STAND )
+		
+		var curr_direction : Vector2 = input
+	
+		# Update var
+		last_direction = curr_direction
+		
+	# Update var
+	last_input = input
+	
 func _emote( type : String ) -> void:
 	var emote = O_EFFECT_EMOTEBUBBLE_EVENT.instantiate()
 	emote.type = "!"
 	emote.position  = position + Vector2( 0, -20 )
 	add_sibling( emote )
 
-func _animations() -> void:
-	if is_instance_valid( actor_animations ):
-		if is_moving:
-			var _dir := "default"
-					
-			match movement_vector:
-				Vector2.UP + Vector2.LEFT: 		_dir = actor_animations.ANIMATION_NORTHWEST
-				Vector2.UP + Vector2.RIGHT: 	_dir = actor_animations.ANIMATION_NORTHEAST
-				Vector2.DOWN + Vector2.LEFT: 	_dir = actor_animations.ANIMATION_SOUTHWEST
-				Vector2.DOWN + Vector2.RIGHT: 	_dir = actor_animations.ANIMATION_SOUTHEAST
-						
-				Vector2.UP: 		_dir = actor_animations.ANIMATION_NORTH
-				Vector2.LEFT: 		_dir = actor_animations.ANIMATION_WEST
-				Vector2.DOWN: 		_dir = actor_animations.ANIMATION_SOUTH
-				Vector2.RIGHT: 		_dir = actor_animations.ANIMATION_EAST
-			
-			if playing_animation != _dir:
-				ActorAnim.play(_dir, animation_speed)
-				playing_animation = _dir
-				
-		else: ## is stopped
-			ActorAnim.stop()
-			ActorAnim.animation 	= actor_animations.ANIMATION_STAND
-			playing_animation 		= actor_animations.ANIMATION_STAND
-			
-			match movement_vector:
-				Vector2.UP + Vector2.LEFT: 		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 7 ]
-				Vector2.UP + Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 1 ]
-				Vector2.DOWN + Vector2.LEFT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 5 ]
-				Vector2.DOWN + Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 3 ]
-						
-				Vector2.UP: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 0 ]
-				Vector2.LEFT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 6 ]
-				Vector2.DOWN: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 4 ]
-				Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 2 ]
-				
-		## Flip sprite, if necessary
+## 06/05/26 Disabled this
+#func _animations() -> void:
+	#if is_instance_valid( actor_animations ):
 		#if is_moving:
-		if movement_vector.x < 0:
-			ActorAnim.flip_h = true
-		else:
-			ActorAnim.flip_h = false
+			#var _dir := "default"
+					#
+			#match movement_vector:
+				#Vector2.UP + Vector2.LEFT: 		_dir = actor_animations.ANIMATION_NORTHWEST
+				#Vector2.UP + Vector2.RIGHT: 	_dir = actor_animations.ANIMATION_NORTHEAST
+				#Vector2.DOWN + Vector2.LEFT: 	_dir = actor_animations.ANIMATION_SOUTHWEST
+				#Vector2.DOWN + Vector2.RIGHT: 	_dir = actor_animations.ANIMATION_SOUTHEAST
+						#
+				#Vector2.UP: 		_dir = actor_animations.ANIMATION_NORTH
+				#Vector2.LEFT: 		_dir = actor_animations.ANIMATION_WEST
+				#Vector2.DOWN: 		_dir = actor_animations.ANIMATION_SOUTH
+				#Vector2.RIGHT: 		_dir = actor_animations.ANIMATION_EAST
+			#
+			#if playing_animation != _dir:
+				#ActorAnim.play(_dir, animation_speed)
+				#playing_animation = _dir
+				#
+		#else: ## is stopped
+			#ActorAnim.stop()
+			#ActorAnim.animation 	= actor_animations.ANIMATION_STAND
+			#playing_animation 		= actor_animations.ANIMATION_STAND
+			#
+			#match movement_vector:
+				#Vector2.UP + Vector2.LEFT: 		ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 7 ]
+				#Vector2.UP + Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 1 ]
+				#Vector2.DOWN + Vector2.LEFT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 5 ]
+				#Vector2.DOWN + Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 3 ]
+						#
+				#Vector2.UP: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 0 ]
+				#Vector2.LEFT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 6 ]
+				#Vector2.DOWN: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 4 ]
+				#Vector2.RIGHT: 	ActorAnim.frame = actor_animations.ANIMATION_STAND_SPRITE_INDEX[ 2 ]
+				#
+		### Flip sprite, if necessary
+		##if is_moving:
+		#if movement_vector.x < 0:
+			#ActorAnim.flip_h = true
+		#else:
+			#ActorAnim.flip_h = false
 		
-func get_ai_turnbased() -> B2_AI_Combat:
-	return actor_ai
+## DEPRECATED 06/05/26 Disabled THIS
+#func get_ai_turnbased() -> B2_AI_Combat:
+	#return actor_ai
 		
 func play_idle_anim() -> void:
 	if not actor_animations.ANIMATION_IDLE.is_empty():
@@ -178,39 +224,18 @@ func set_mode( mode : MODE ) -> void:
 	#if curr_MODE == MODE.INACTIVE: 	set_inactive_ai(); 	speed = speed_slow
 	#if curr_MODE == MODE.COMBAT: 	set_combat_ai(); 	speed = speed_normal
 	
+## TODO Fix this
 func _physics_process( delta: float ) -> void:
 	if Engine.is_editor_hint():
 		return
 		
-	match curr_MODE:
-		MODE.INACTIVE:
-			#if inactive_ai:
-			#	inactive_ai.step()
-			_animations()
-			
-		MODE.COMBAT:
-			if is_changing_states:
-				return
-			_animations()
-			
-		MODE.DEATH:
-			if is_changing_states:
-				return
-			pass
-			
-		MODE.CHARGING:
-			if is_changing_states:
-				return
-				
-			if global_position.distance_to( charge_target ) > 10.0 and not charge_stopping:
-				apply_central_force( global_position.direction_to( charge_target ) * charge_speed )
-			else:
-				charge_stopping = true
-				
-			if linear_velocity.length() < 1.0 and charge_stopping:
-				linear_damp = 10.0
-				finished_charge_action.emit()
-				curr_MODE = MODE.COMBAT
+	## Makers the AI think.
+	if actor_ai:
+		actor_ai.step()
+		
+	match curr_STATE:
+		STATE.NORMAL:			normal_animation(delta)
+		_:						breakpoint ## TODO Set default states
 		
 	## Anim stuff
 	last_movement_vector 	= movement_vector
