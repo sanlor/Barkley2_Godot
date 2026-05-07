@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://nxvlwwnlkvvi" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneDOWN01.png" id="3_u5lu7"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="4_6hb1w"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
+[ext_resource type="Script" uid="uid://d35v3iegfogfg" path="res://barkley2/resources/B2_AI/EggDrone/ai_eggdrone.gd" id="5_mk5b1"]
+[ext_resource type="Script" uid="uid://1dtm67vjxqh8" path="res://barkley2/resources/B2_FSM/fsm_go_near_player.gd" id="6_rgkdl"]
 [ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
 [ext_resource type="PackedScene" uid="uid://ip8ryvrniime" path="res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn" id="10_6hb1w"]
 
@@ -452,11 +454,19 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Player")
+actor_ai = NodePath("B2_AI_EggDrone")
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=724948043]
 script = ExtResource("4_6hb1w")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_EggDrone" type="Node2D" parent="." unique_id=2100460550]
+script = ExtResource("5_mk5b1")
+metadata/_custom_type_script = "uid://d35v3iegfogfg"
+
+[node name="B2_FSM_GO_NEAR_PLAYER" type="Node" parent="B2_AI_EggDrone" unique_id=1312624070]
+script = ExtResource("6_rgkdl")
+metadata/_custom_type_script = "uid://1dtm67vjxqh8"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=223468021]
 shape = SubResource("CircleShape2D_dr833")

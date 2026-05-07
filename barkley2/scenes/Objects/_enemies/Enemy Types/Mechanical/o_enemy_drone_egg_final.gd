@@ -5,6 +5,10 @@ class_name B2_Enemy_EggDrone
 func _ready() -> void:
 	super()
 
+func _after_damage() -> void:
+	## TODO
+	pass
+
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.
 	if actor_ai:

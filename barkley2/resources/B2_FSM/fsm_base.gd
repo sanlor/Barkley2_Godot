@@ -18,7 +18,7 @@ func _init() -> void:
 	breakpoint
 
 func _ready() -> void:
-	B2_CManager.o_hoopz_changed.connect( func(): enemy_actor = B2_CManager.o_hoopz )
+	B2_CManager.o_hoopz_changed.connect( func(): enemy_actor = B2_CManager.o_hoopz ) # Update target IF hoopz changes costumes during combat.
 
 func _has_enemy_actor() -> bool:
 	if B2_CManager.o_hoopz and not enemy_actor:

@@ -6,15 +6,17 @@ class_name B2_EnemyCombatActor
 const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
 
+## NOTICE https://www.youtube.com/watch?v=1gN0lWXyrz0
 signal aim_target_changed
 signal move_target_changed
 signal finished_attack_action
 signal finished_charge_action	## Actor is done with its charge/rush action.
 signal enemy_was_defeated
 
-enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}		## TODO check if this is still used.
-@export var curr_MODE := MODE.INACTIVE						## TODO check if this is still used.
-var is_changing_states := false								## TODO check if this is still used.
+## 07/05/26 Disabled all of this. It should not be used anymore.
+#enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}		## TODO check if this is still used.
+#@export var curr_MODE := MODE.INACTIVE						## TODO check if this is still used.
+#var is_changing_states := false								## TODO check if this is still used.
 
 @export_category("Enemy stuff")
 @export var my_nest					: Area2D
@@ -76,10 +78,13 @@ func _fetch_enemy_data() -> void:
 
 func _ready() -> void:
 	_setup_enemy()
+	_setup_ai()
 	
+func _setup_ai() -> void:
 	## AI Setup
-	assert( is_instance_valid(actor_ai), "No valid AI found." )
-	assert( enemy_data, "No enemy data ")
+	assert( is_instance_valid(actor_ai), "No valid AI found for actor '%s'." % name )
+	assert( enemy_data, "No enemy data for actor '%s'." % name)
+	if randf() < 0.01: for i in randf_range(0,99): print("Fuck you!") ## CRITICAL NEVER remove this. Won't explain why.
 	enemy_data.resource_local_to_scene = true
 	actor_ai.actor = self
 	_connect_ai_signals()
@@ -93,9 +98,17 @@ func _setup_enemy() -> void:
 		ActorAudioPlayer 	= get_node( "ActorAudioPlayer" )
 	if not is_instance_valid( ActorSmokeEmitter ):
 		ActorSmokeEmitter 	= get_node( "ActorSmokeEmitter" )
+	if not is_instance_valid( ActorNav ):
+		ActorNav			= get_node( "ActorNav" )
+	if not actor_animations:
+		push_warning("Actor '%s' has no 'actor_animations' resource. Is this expected?" % name)
+	
+	if ActorNav:	ActorNav.velocity_computed.connect( _on_velocity_computed )
+	else:			push_warning("No ActorNav for '%s'. Is this expected?" % name)
 		
 	## A.I.
 	## Disabled this on 31/07/25 fix this later.
+	## 07/05/26 Working on this right now.
 	#if not disable_ai:
 		#if not is_instance_valid( inactive_ai ):
 			#push_error("%s: inactive_ai not set." % name)
@@ -148,7 +161,8 @@ func normal_animation(_delta : float):
 					print("Catch all 'input' for %s -> %s " % [name, input])
 	else:
 		# AI is not moving the actor anymore
-		ActorAnim.play( actor_animations.ANIMATION_STAND )
+		if actor_animations:
+			ActorAnim.play( actor_animations.ANIMATION_STAND )
 		
 		var curr_direction : Vector2 = input
 	
@@ -218,8 +232,8 @@ func play_idle_anim() -> void:
 	else:
 		push_warning( name, ": No Idle animations.")
 	
-func set_mode( mode : MODE ) -> void:
-	curr_MODE = mode
+#func set_mode( mode : MODE ) -> void:
+	#curr_MODE = mode
 	## Disabled this on 31/07/25 fix this later
 	#if curr_MODE == MODE.INACTIVE: 	set_inactive_ai(); 	speed = speed_slow
 	#if curr_MODE == MODE.COMBAT: 	set_combat_ai(); 	speed = speed_normal
@@ -257,19 +271,21 @@ func _cinema_jump( times := 1 ) -> void:
 	ActorAnim.position.y = 0.0
 	return
 	
+## DEPRECATED function. THis was part of the old AI system (turn based)
 func cinema_charge_telegraph( target_dir : Vector2 ) -> void:
 	## TODO add charging animation
-	curr_MODE = MODE.AIMING
+	#curr_MODE = MODE.AIMING
 	if target_dir.y >= 0:		ActorAnim.play( actor_animations.CHARGE_DOWN )
 	else:						ActorAnim.play( actor_animations.CHARGE_UP )
 	ActorAnim.flip_h = target_dir.x < 0
 	return
 	
+## DEPRECATED function. THis was part of the old AI system (turn based)
 func cinema_charge_at( _charge_target : Vector2, _charge_speed : float ) -> void:
 	## TODO add charging action
 	charge_target 	= _charge_target
 	charge_speed 	= _charge_speed
-	curr_MODE 		= MODE.CHARGING
+	#curr_MODE 		= MODE.CHARGING
 	charge_stopping = false
 	var my_dir := global_position.direction_to( charge_target )
 	linear_damp = 5.0
@@ -400,13 +416,14 @@ func destroy_actor() -> void:
 	enemy_was_defeated.emit()
 	_after_death()
 
-func _on_body_entered(body: Node) -> void:
-	if curr_MODE == MODE.CHARGING:
-		if body is B2_CombatActor:
-			body.damage_actor( 
-				( enemy_data.weight * randf() ) * B2_Config.ENEMY_MELEE_DAMAGE_MULTIPLIER, 
-				body.global_position.direction_to( global_position ) 
-				) ## TEMP
-			finished_charge_action.emit()
-			linear_damp = 10.0
-			curr_MODE = MODE.COMBAT
+## DEPRECATED function. THis was part of the old AI system (turn based)
+#func _on_body_entered(body: Node) -> void:
+	#if curr_MODE == MODE.CHARGING:
+		#if body is B2_CombatActor:
+			#body.damage_actor( 
+				#( enemy_data.weight * randf() ) * B2_Config.ENEMY_MELEE_DAMAGE_MULTIPLIER, 
+				#body.global_position.direction_to( global_position ) 
+				#) ## TEMP
+			#finished_charge_action.emit()
+			#linear_damp = 10.0
+			#curr_MODE = MODE.COMBAT

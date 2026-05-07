@@ -141,9 +141,10 @@ func apply_curr_input( dir : Vector2 ) -> void:
 	
 func apply_curr_aim( dir : Vector2 ) -> void:
 	curr_aim = dir
-	print(curr_aim)
+	#print(curr_aim)
 
 ## TODO
+# NOTE This is a important function. Without running it, AIs cant control the actor.
 func _connect_ai_signals() -> void:
 	if actor_ai:
 		actor_ai.aim_trigger.connect( _ai_aim_ranged )
@@ -155,26 +156,13 @@ func _connect_ai_signals() -> void:
 	else:
 		push_error("Actor AI not loaded on node %s." % name)
 
-func _ai_ranged_attack( _enabled : bool ) -> void:
-	pass
-	
-func _ai_melee_attack( _enabled : bool ) -> void:
-	pass
-	
-func _ai_aim_ranged( _enabled : bool ) -> void:
-	pass
-	
-func _ai_charge_at( _enabled : bool ) -> void:
-	pass
-	
-func _ai_roll_at( _enabled : bool ) -> void:
-	pass
-	
-func _ai_jump( _enabled : bool ) -> void:
-	pass
-
-func get_aim_origin() -> Vector2:
-	return Vector2.ZERO
+func _ai_ranged_attack( _enabled : bool ) -> void:	pass
+func _ai_melee_attack( _enabled : bool ) -> void:	pass
+func _ai_aim_ranged( _enabled : bool ) -> void:		pass
+func _ai_charge_at( _enabled : bool ) -> void:		pass
+func _ai_roll_at( _enabled : bool ) -> void:		pass
+func _ai_jump( _enabled : bool ) -> void:			pass
+func get_aim_origin() -> Vector2:					return Vector2.ZERO
 
 ## Handle the most basic animations
 func normal_animation(_delta : float):
@@ -197,21 +185,15 @@ func normal_animation(_delta : float):
 				_: # Catch All
 					print("Catch all, ", input)
 	else:
-		# AI is not moving the actor anymore
-		pass
+		last_direction = input # Save current input as the last direction (inportant for animations).
 		
-		var curr_direction : Vector2 = input
-	
-		# Update var
-		last_direction = curr_direction
-		
-	# Update var
-	last_input = input
+	last_input = input #  # Save current input as the last input (inportant for animations).
 
 ## Used for pathfinding to a specific location
 func set_movement_target(movement_target: Vector2):
 	ActorNav.set_target_position(movement_target)
 
+## Basic ass animation for jumping. It looks bad and it should feel bad.
 func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 	if jump_tween: jump_tween.kill()
 	jump_tween = create_tween()
@@ -273,7 +255,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 	return
 
 ## Function checks if the node is doing anything
-## Return void right awai if its idle. Await for a signal if its busy.
+## Return void right away if its idle. Await for a signal if its busy.
 func check_actor_activity() -> void:
 	if is_moving:
 		# is moving toward something.
@@ -288,24 +270,26 @@ func check_actor_activity() -> void:
 		return
 
 ## Combat stuff
-
 func damage_actor( _damage : float, _force : Vector2 ) -> void:
 	push_warning("Damage behaviour not set for actor %s. Doing nothing." % self.name )
 	_after_damage()
 
 func _after_damage() -> void:
-	pass
+	push_warning("After damage behaviour not set for actor %s. Doing nothing." % self.name )
 
 func destroy_actor() -> void:
 	push_warning("Death behaviour not set for actor %s. Doing nothing." % self.name )
 	_before_death()
+	## Do something before actually dying
 	_after_death()
 
+## Used to change variables and stuff before killing the actor
 func _before_death() -> void:
-	pass
+	push_warning("Before death behaviour not set for actor %s. Doing nothing." % self.name )
 
+## Used to run cleanp code after killing the node ( like queue_free() )
 func _after_death() -> void:
-	pass
+	push_warning("After death behaviour not set for actor %s. Doing nothing." % self.name )
 
 func _on_velocity_computed( safe_velocity: Vector2 ):
 	apply_central_force( safe_velocity )
