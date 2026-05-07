@@ -1,3 +1,4 @@
+## Actor moves torward the target and changes state after reaching a certain distance.
 @icon("uid://dadcamgwa58ra")
 extends B2_FSM
 class_name B2_FSM_GO_NEAR_PLAYER
