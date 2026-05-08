@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 			pass
 			
 		STATE.NORMAL:
-			normal_animation(delta)
+			_normal_animation(delta)
 			var move := curr_input # Take the input from the keyboard / Gamepag and apply directly.
 			velocity = ( walk_speed * delta ) * move
 			

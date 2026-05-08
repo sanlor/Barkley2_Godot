@@ -3,16 +3,19 @@ extends B2_FSM
 class_name B2_FSM_Chase
 
 @export var enemy_attack_radius 	:= 32.0
+@export var attack_state : B2_FSM
 @export var enemy_de_aggro_radius 	:= 48.0
+@export var deaggro_state : B2_FSM
 
-func _init() -> void:
-	my_STATE = B2_AI.STATE.CHASE
+func _ready() -> void:
+	assert(attack_state)
+	assert(deaggro_state)
 
 func _target_reached() -> void:
-	my_ai.state_transition( my_STATE, B2_AI.STATE.READY_ATTACK )
+	my_ai.state_transition( self, attack_state )
 	
 func _target_far() -> void:
-	my_ai.state_transition( my_STATE, B2_AI.STATE.IDLE )
+	my_ai.state_transition( self, deaggro_state )
 
 func step() -> void:
 	if _has_enemy_actor():

@@ -1,10 +1,11 @@
-## Player AI. Receives user inputs and puppeters the parent node (o_hoopz).
 extends B2_AI
 class_name B2_AI_Player
+## Player AI. Receives user inputs and puppeters the parent node (o_hoopz).
+# NOTE This can also be used to playtest enemies. -> https://www.youtube.com/watch?v=RWXyr2PoO0k
 
-const AIM_SPEED := 0.1
+const AIM_SPEED := 0.1 # Modifier used to lerp the aiming direction. Increase this for a quicker aiming speed... I think?
 
-@export var force_player_control := false
+@export var force_player_control := false # Allows control even during cutscenes or in situations that the control is taken from you.
 
 var g_input := Vector2.ZERO
 

@@ -5,14 +5,15 @@ func _init() -> void:
 	ready.connect( func() -> void: _register_states(); _state_setup() )
 	#state_changed.connect( state_transition )
 	
+## DEPRECATED on 07/05/26
+## DEDEPRECATED on 08/05/26
 ## After the ready function, register all curr states, look for duplicates and shiet.
 func _register_states() -> void:
 	for child in get_children():
 		if child is B2_FSM:
-			assert(child.my_STATE != STATE.NONE, "Invalid FSM state for %s!" % child.name)
-			if my_states.has( child.my_STATE ): push_error("Duplicated AI State: %s - %s - %s" % [child.name, get_parent().name, my_states.keys()]); continue
-			my_states[ child.my_STATE ] = child
-			child.my_actor = get_parent()
+			child.my_actor 		= get_parent()
+			child.my_ai 		= self
+			child.enemy_actor 	= B2_CManager.o_hoopz
 		else:
 			push_error("Invalid AI State: %s - %s" % [child.name, get_parent().name]); continue
 	#print( my_states )
@@ -20,7 +21,7 @@ func _register_states() -> void:
 ## Step function, executed on every process frame
 func step() -> void:
 	if curr_STATE:
-		my_states[curr_STATE].step()
+		curr_STATE.step()
 	
 	if debug_visualization: queue_redraw()
 

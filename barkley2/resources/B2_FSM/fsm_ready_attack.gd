@@ -3,10 +3,11 @@ extends B2_FSM
 class_name B2_FSM_Ready_Attack
 
 @export var attack_delay := 20.0
+@export var attack_state : B2_FSM
 var curr_attack_delay := 0.0
 
-func _init() -> void:
-	my_STATE = B2_AI.STATE.READY_ATTACK
+func _ready() -> void:
+	assert(attack_state)
 
 func enter() -> void:
 	super() ## 28/10/25 Cool, first time using "super"
@@ -21,6 +22,6 @@ func step() -> void:
 			print(curr_attack_delay)
 			print(my_actor.curr_aim)
 		else:
-			my_ai.state_transition( my_STATE, B2_AI.STATE.ATTACK )
+			my_ai.state_transition( self, attack_state )
 		
 	my_actor.curr_input = Vector2.ZERO

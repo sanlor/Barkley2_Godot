@@ -4,13 +4,16 @@ class_name B2_FSM_Idle
 
 @export_category("Enemy detection")
 @export var enemy_detection_radius := 32.0
+@export var detected_state : B2_FSM
 
 @export_category("Time to Wander")
 @export var wander_time := 400.0
 var curr_wander_time := 0.0
+@export var wander_state : B2_FSM
 
-func _init() -> void:
-	my_STATE = B2_AI.STATE.IDLE
+func _ready() -> void:
+	assert( detected_state, "'detected_state' not set.")
+	assert( wander_state, "'wander_state' not set.")
 
 func enter() -> void:
 	super()
@@ -19,11 +22,11 @@ func enter() -> void:
 func step() -> void:
 	if _has_enemy_actor():
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) < enemy_detection_radius:
-			my_ai.state_transition( my_STATE, B2_AI.STATE.CHASE )
+			my_ai.state_transition( self, detected_state )
 	
 	curr_wander_time -= TIME_DECREASE
 	if curr_wander_time < 0.0:
-		my_ai.state_transition( my_STATE, B2_AI.STATE.WANDER )
+		my_ai.state_transition( self, wander_state )
 	
 	my_actor.curr_input 	= my_actor.curr_input.move_toward(Vector2.ZERO,0.1)
 	my_actor.curr_aim 		= my_actor.curr_aim.move_toward(Vector2.ZERO,0.1)

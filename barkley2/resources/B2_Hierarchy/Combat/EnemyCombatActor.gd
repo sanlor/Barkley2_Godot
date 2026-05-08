@@ -19,7 +19,7 @@ signal enemy_was_defeated
 #var is_changing_states := false								## TODO check if this is still used.
 
 @export_category("Enemy stuff")
-@export var my_nest					: Area2D
+#@export var my_nest					: Area2D
 @export var show_life_bar			:= true			## During the tutorial, some stuff dont really need it.
 
 @export_category("Actor Stuff")
@@ -36,11 +36,12 @@ var my_shadow 		: Sprite2D
 var playing_animation 			:= "stand"
 
 @export_category("Animation")
-#@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
-@export var actor_animations 	: B2_Actor_Animations
-@export var animation_attack 	:= ""
-@export var animation_jump 		:= ""
-@export var animation_stagger 	:= ""
+#@export var animation_speed 			:= 1.5			## Multiplier used on playset animations
+@export var actor_animations 			: B2_Actor_Animations
+@export var animation_attack 			:= ""
+@export var animation_jump 				:= ""
+@export var animation_stagger 			:= ""
+@export var invert_north_facing_sprite 	:= false		## Some Sprites have the upward animation inverted. Bitchass.
 
 @export_category("Sounds")
 @export var sound_alert			:= ""
@@ -135,7 +136,7 @@ func _setup_enemy() -> void:
 	#set_mode( MODE.INACTIVE )
 	
 ## Handle the most basic animations
-func normal_animation(_delta : float):
+func _normal_animation(_delta : float):
 	var input := curr_input
 	
 	if input != Vector2.ZERO: # AI is moving the Actor
@@ -145,6 +146,9 @@ func normal_animation(_delta : float):
 			if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
 				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
 				ActorAnim.flip_h = not ActorAnim.flip_h
+				
+				# Yeah, just invert it again.
+				if invert_north_facing_sprite: ActorAnim.flip_h = not ActorAnim.flip_h
 			
 			match input.round():
 				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
@@ -248,7 +252,7 @@ func _physics_process( delta: float ) -> void:
 		actor_ai.step()
 		
 	match curr_STATE:
-		STATE.NORMAL:			normal_animation(delta)
+		STATE.NORMAL:			_normal_animation(delta)
 		_:						breakpoint ## TODO Set default states
 		
 	## Anim stuff

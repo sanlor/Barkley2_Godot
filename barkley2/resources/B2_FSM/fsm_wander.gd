@@ -7,12 +7,15 @@ var my_target						:= Vector2.INF ## Global coordinates
 
 @export_category("Enemy detection")
 @export var enemy_detection_radius 	:= 64.0
+@export var detected_state : B2_FSM
 
 @export var wander_timeout 			:= 500.0 ## Make sure that the actor doesnt get stuck in this statevar 
 var curr_wander_timeout				:= 0.0
+@export var idle_state : B2_FSM
 
-func _init() -> void:
-	my_STATE = B2_AI.STATE.WANDER
+func _ready() -> void:
+	assert( detected_state, "'detected_state' not set.")
+	assert( idle_state, "'idle_state' not set.")
 
 func enter() -> void:
 	super()
@@ -37,7 +40,7 @@ func step() -> void:
 	## Enemiy detection
 	if _has_enemy_actor():
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) < enemy_detection_radius:
-			my_ai.state_transition( my_STATE, B2_AI.STATE.CHASE )
+			my_ai.state_transition( self, detected_state )
 			
 	if my_target != Vector2.INF:
 		## Wander movement
@@ -47,9 +50,9 @@ func step() -> void:
 		my_actor.curr_input = my_actor.global_position.direction_to( ActorNav.get_next_path_position() )
 		#print(my_target)
 		if my_actor.global_position.distance_to( my_target ) < 12.0:
-			my_ai.state_transition( my_STATE, B2_AI.STATE.IDLE )
+			my_ai.state_transition( self, idle_state )
 	
 	curr_wander_timeout -= TIME_DECREASE
 	if curr_wander_timeout < 0:
 		push_error("Wander timeout reached for %s. fix this." % my_actor.name)
-		my_ai.state_transition( my_STATE, B2_AI.STATE.IDLE )
+		my_ai.state_transition( self, idle_state )

@@ -1,8 +1,8 @@
 @tool
 extends B2_ROOMS
-
 ## Cool area
 # 27/10/25 using it as a debug combat area. Developing AI right now.
+# 08/05/26 Still Developing AI. 6 months went by just like that, huh?
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP

@@ -103,7 +103,7 @@ var gun_bag 	: Array[B2_Weapon] ## Trash weapons
 ## NOTE should store dictionaries like this: { "Butterscotch": 5 } -> {"Item": amount}
 # Yes, items can stack in this. max of 5 items or something.
 var jerkin_pockets : Array[ Dictionary ] = []
-
+# ^ is this even used?
 
 func _ready():
 	character_inkblots.resize( 16 )

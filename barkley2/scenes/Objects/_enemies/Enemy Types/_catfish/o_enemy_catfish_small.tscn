@@ -529,32 +529,40 @@ actor_ai = NodePath("B2_AI_Catfish_Small")
 script = ExtResource("5_e35da")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=222138348]
+[node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=222138348 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("5_pum08")
+curr_STATE = NodePath("B2_FSM_Idle")
 metadata/_custom_type_script = "uid://drt6du7p7v1mk"
 
-[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small" unique_id=546906726]
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small" unique_id=546906726 node_paths=PackedStringArray("detected_state", "wander_state")]
 script = ExtResource("6_sj8r4")
 enemy_detection_radius = 128.0
+detected_state = NodePath("../B2_FSM_Chase")
+wander_state = NodePath("../B2_FSM_Wander")
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
-[node name="B2_FSM_Wander" type="Node" parent="B2_AI_Catfish_Small" unique_id=2066155277]
+[node name="B2_FSM_Wander" type="Node" parent="B2_AI_Catfish_Small" unique_id=2066155277 node_paths=PackedStringArray("detected_state", "idle_state")]
 script = ExtResource("8_fjx5q")
+detected_state = NodePath("../B2_FSM_Chase")
+idle_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://gmxq1j4sfv7d"
 
-[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small" unique_id=440620528]
+[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small" unique_id=440620528 node_paths=PackedStringArray("attack_state", "deaggro_state")]
 script = ExtResource("7_643qn")
 enemy_attack_radius = 80.0
+attack_state = NodePath("../B2_FSM_Ready_Attack")
 enemy_de_aggro_radius = 156.0
+deaggro_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://cby82k6m3df21"
 
-[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1095215900]
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1095215900 node_paths=PackedStringArray("attack_state")]
 script = ExtResource("9_e35da")
-attack_delay = 0.0
+attack_state = NodePath("../B2_FSM_Attack")
 metadata/_custom_type_script = "uid://i6own6gfjft5"
 
-[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1619539350]
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1619539350 node_paths=PackedStringArray("after_attack_state")]
 script = ExtResource("8_nrbbj")
+after_attack_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1918604694]

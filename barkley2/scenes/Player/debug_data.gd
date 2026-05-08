@@ -15,4 +15,5 @@ func _physics_process(_delta: float) -> void:
 	label.text += "AX: %s, AY: %s\n" % [ str( snapped(get_parent().curr_aim.x,0.01) ).pad_decimals(2), str( snapped(get_parent().curr_aim.y,0.01) ).pad_decimals(2) ]
 	
 	if ai:
-		label.text += "AI State: %s\n" % ai.STATE.keys()[ai.curr_STATE]
+		if ai.curr_STATE:
+			label.text += "AI State: %s\n" % ai.curr_STATE.name

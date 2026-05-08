@@ -165,7 +165,7 @@ func _ai_jump( _enabled : bool ) -> void:			pass
 func get_aim_origin() -> Vector2:					return Vector2.ZERO
 
 ## Handle the most basic animations
-func normal_animation(_delta : float):
+func _normal_animation(_delta : float):
 	var input := curr_input
 	
 	if input != Vector2.ZERO: # AI is moving the Actor

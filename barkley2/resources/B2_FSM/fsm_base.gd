@@ -7,15 +7,12 @@ class_name B2_FSM
 
 const TIME_DECREASE := 1.0
 
-var my_STATE 		:= B2_AI.STATE.NONE
+## DEPRECATED on 08/05/26
+#var my_STATE 		:= B2_AI.STATE.NONE
 
 var my_ai			: B2_AI
 var my_actor 		: B2_CombatActor
 var enemy_actor 	: B2_CombatActor
-
-func _init() -> void:
-	## Need to overide this function.
-	breakpoint
 
 func _ready() -> void:
 	B2_CManager.o_hoopz_changed.connect( func(): enemy_actor = B2_CManager.o_hoopz ) # Update target IF hoopz changes costumes during combat.
@@ -23,10 +20,11 @@ func _ready() -> void:
 func _has_enemy_actor() -> bool:
 	if B2_CManager.o_hoopz and not enemy_actor:
 		## Issue with enemy_actor definition. this should never occur.
-		breakpoint
+		enemy_actor = B2_CManager.o_hoopz
+		#breakpoint
 		
 	if enemy_actor:									return not enemy_actor.is_actor_dead
-	elif B2_CManager.o_hoopz:						return not B2_CManager.o_hoopz.is_actor_dead
+	#elif B2_CManager.o_hoopz:						return not B2_CManager.o_hoopz.is_actor_dead
 	else:											return false
 
 func register_my_actor( _my_actor : B2_CombatActor ) -> void:

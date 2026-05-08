@@ -2,14 +2,11 @@
 extends B2_FSM
 class_name B2_FSM_Attack
 
-@export var state_after_attack		:= B2_AI.STATE.IDLE
+@export var after_attack_state		: B2_FSM
 @export var max_attack_wait_time 	:= 1000.0
 var curr_max_attack_wait_time 		:= 0.0
 
 var has_attacked := false
-
-func _init() -> void:
-	my_STATE = B2_AI.STATE.ATTACK
 
 func enter() -> void:
 	super()
@@ -31,8 +28,7 @@ func step() -> void:
 		curr_max_attack_wait_time -= 1.0
 	else:
 		push_error("%s: Attack animation timeout. this is bad and should not happen." % my_actor.name)
-		my_ai.state_transition( my_STATE, state_after_attack )
+		my_ai.state_transition( self, after_attack_state )
 		
-
 func _attack_finished():
-	my_ai.state_transition( my_STATE, state_after_attack )
+	my_ai.state_transition( self, after_attack_state )
