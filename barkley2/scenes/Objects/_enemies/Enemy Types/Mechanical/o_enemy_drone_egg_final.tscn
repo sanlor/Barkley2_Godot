@@ -8,11 +8,14 @@
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="4_6hb1w"]
 [ext_resource type="Texture2D" uid="uid://cxyrxw83eut45" path="res://barkley2/assets/b2_original/images/merged/s_eggDroneUP01.png" id="4_p0dw7"]
 [ext_resource type="Script" uid="uid://d35v3iegfogfg" path="res://barkley2/resources/B2_AI/EggDrone/ai_eggdrone.gd" id="5_mk5b1"]
-[ext_resource type="Script" uid="uid://1dtm67vjxqh8" path="res://barkley2/resources/B2_FSM/fsm_go_near_player.gd" id="6_rgkdl"]
+[ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/fsm_chase.gd" id="6_8im5l"]
 [ext_resource type="Script" uid="uid://cejqufkudkpoc" path="res://barkley2/resources/B2_FSM/fsm_orbit_player.gd" id="7_rgkdl"]
 [ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="8_8im5l"]
 [ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
+[ext_resource type="Script" uid="uid://rr7pd6f37ryu" path="res://barkley2/resources/B2_FSM/fsm_dash.gd" id="9_lmksp"]
 [ext_resource type="PackedScene" uid="uid://ip8ryvrniime" path="res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn" id="10_6hb1w"]
+[ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="14_yh3yc"]
+[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="15_lmksp"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.45
@@ -432,6 +435,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="LabelSettings" id="LabelSettings_js432"]
+font = ExtResource("15_lmksp")
+
 [node name="o_enemy_drone_egg" type="RigidBody2D" unique_id=789173572 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 5
 collision_mask = 1835019
@@ -457,7 +463,8 @@ ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Player")
+walk_speed = 3500000
+actor_ai = NodePath("B2_AI_EggDrone")
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=724948043]
 script = ExtResource("4_6hb1w")
@@ -465,25 +472,32 @@ metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
 [node name="B2_AI_EggDrone" type="Node2D" parent="." unique_id=2100460550 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("5_mk5b1")
-curr_STATE = NodePath("B2_FSM_Go_Near_Player")
+curr_STATE = NodePath("B2_FSM_Chase")
 metadata/_custom_type_script = "uid://d35v3iegfogfg"
 
-[node name="B2_FSM_Go_Near_Player" type="Node" parent="B2_AI_EggDrone" unique_id=1312624070 node_paths=PackedStringArray("reached_player_state")]
-script = ExtResource("6_rgkdl")
-reached_player_state = NodePath("../B2_FSM_Orbit_Player")
-metadata/_custom_type_script = "uid://1dtm67vjxqh8"
+[node name="B2_FSM_Chase" type="Node" parent="B2_AI_EggDrone" unique_id=1155254441 node_paths=PackedStringArray("near_state", "far_state")]
+script = ExtResource("6_8im5l")
+near_state = NodePath("../B2_FSM_Orbit_Player")
+enemy_far_radius = 99999.0
+far_state = NodePath(".")
+metadata/_custom_type_script = "uid://cby82k6m3df21"
 
 [node name="B2_FSM_Orbit_Player" type="Node" parent="B2_AI_EggDrone" unique_id=1294099183 node_paths=PackedStringArray("orbit_action_state", "deaggro_state")]
 script = ExtResource("7_rgkdl")
-orbit_action_state = NodePath("../B2_FSM_Idle")
+orbit_action_state = NodePath("../B2_FSM_Dash")
 deaggro_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://cejqufkudkpoc"
 
 [node name="B2_FSM_Idle" type="Node" parent="B2_AI_EggDrone" unique_id=1897894477 node_paths=PackedStringArray("detected_state", "wander_state")]
 script = ExtResource("8_8im5l")
-detected_state = NodePath("../B2_FSM_Go_Near_Player")
-wander_state = NodePath("../B2_FSM_Go_Near_Player")
+enemy_detection_radius = 0.0
+detected_state = NodePath(".")
+wander_state = NodePath(".")
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
+
+[node name="B2_FSM_Dash" type="Node" parent="B2_AI_EggDrone" unique_id=1041941545]
+script = ExtResource("9_lmksp")
+metadata/_custom_type_script = "uid://rr7pd6f37ryu"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=223468021]
 shape = SubResource("CircleShape2D_dr833")
@@ -576,5 +590,28 @@ process_material = ExtResource("9_17vq5")
 
 [node name="combatant_stats" parent="." unique_id=1217163301 instance=ExtResource("10_6hb1w")]
 show_action = false
+
+[node name="debug_data" type="Control" parent="." unique_id=22392622 node_paths=PackedStringArray("ai")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -55.0
+offset_top = -73.0
+offset_right = 60.0
+offset_bottom = -57.0
+script = ExtResource("14_yh3yc")
+ai = NodePath("../B2_AI_EggDrone")
+
+[node name="Label" type="Label" parent="debug_data" unique_id=802172818]
+modulate = Color(1, 0.79607844, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "placeholder"
+label_settings = SubResource("LabelSettings_js432")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

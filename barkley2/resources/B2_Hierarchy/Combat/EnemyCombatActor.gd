@@ -350,8 +350,8 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 			if hit_tween:
 				hit_tween.kill()
 			hit_tween = create_tween()
-			modulate = Color.WHITE * 5.0
-			hit_tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+			ActorAnim.modulate = Color.WHITE * 5.0
+			hit_tween.tween_property( ActorAnim, "modulate", Color.WHITE, 0.1 )
 			
 	else: push_warning("Enemy data not loaded for %s." % name )
 	_after_damage()
@@ -373,6 +373,10 @@ func destroy_actor() -> void:
 		#return
 		pass
 		
+	## Disable the loops.
+	set_process( false )
+	set_physics_process( false )
+	
 	is_actor_dead 	= true
 	if my_shadow: my_shadow.hide()
 	_before_death()
@@ -380,7 +384,7 @@ func destroy_actor() -> void:
 	if ActorCol: ActorCol.queue_free()
 	else: push_warning("Collision was previously removed. Why it was removed? issue is with %s actor." % name) # Was having issues with the collision being removed twice. No idea why.
 	#B2_Sound.play( sound_death )
-	play_local_sound( sound_death )
+	play_local_sound( sound_death ) # Better for 2D sound emission.
 	
 	## If TurnBased combat is active, let the system know that the enemy was defeated.
 	B2_CombatManager.enemy_defeated(self)
@@ -399,8 +403,8 @@ func destroy_actor() -> void:
 		spawn_gibs()
 		
 	if death_animation:
-		ActorAnim.sprite_frames.set_animation_loop(death_animation, false)
-		ActorAnim.play(death_animation)
+		ActorAnim.sprite_frames.set_animation_loop( death_animation, false )
+		ActorAnim.play( death_animation )
 	
 	if stay_after_death:
 		#ActorCol.disabled = true
@@ -420,7 +424,7 @@ func destroy_actor() -> void:
 	enemy_was_defeated.emit()
 	_after_death()
 
-## DEPRECATED function. THis was part of the old AI system (turn based)
+## DEPRECATED function. This was part of the old AI system (turn based)
 #func _on_body_entered(body: Node) -> void:
 	#if curr_MODE == MODE.CHARGING:
 		#if body is B2_CombatActor:
