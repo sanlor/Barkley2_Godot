@@ -4,9 +4,32 @@
 extends Node2D
 class_name B2_Enemy_Spawner
 
+const SPAWNER_POINT = preload("uid://cfcctssodib1c")
+
 @export_category("Direct import data")
 @export_file() var enemy_spawner_data := "res://barkley2/resources/B2_Enemy_Spawner/spawn_point_location.json"
 @export_tool_button("Import now!") var import_data : Callable = _import
 
+var spawn_data : Dictionary
+var my_room_data : Dictionary
+
+func _load_json() -> bool:
+	var json_file := FileAccess.get_file_as_string( enemy_spawner_data )
+	spawn_data = JSON.parse_string( json_file )
+	return not spawn_data.is_empty()
+		
+
 func _import() -> void:
-	pass
+	var my_room := get_parent().name
+	
+	if not _load_json():
+		push_error("Issue loading the json file")
+		return
+	
+	if not spawn_data.has( my_room ):
+		push_error("Room '%s' not found inside the spawn data." % my_room)
+		return
+	
+	my_room_data = spawn_data.get( my_room )
+	
+	print( my_room_data )
