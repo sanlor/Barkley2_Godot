@@ -19,8 +19,8 @@ func step() -> void:
 			curr_attack_delay -= TIME_DECREASE
 			if enemy_actor:
 				my_actor.curr_aim = my_actor.curr_aim.lerp( my_actor.global_position.direction_to(enemy_actor.global_position), 0.1 )
-			print(curr_attack_delay)
-			print(my_actor.curr_aim)
+			#print(curr_attack_delay)
+			#print(my_actor.curr_aim)
 		else:
 			my_ai.state_transition( self, attack_state )
 		

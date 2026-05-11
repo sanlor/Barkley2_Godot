@@ -64,10 +64,11 @@ var velocity			:= Vector2.ZERO
 @export var target_desired_distance = 4.0
 
 @export_category("Animation")
-@export var animation_speed 	:= 1.5			## Multiplier used on playset animations
+@export var animation_speed 			:= 1.5			## Multiplier used on playset animations
+@export var invert_north_facing_sprite 	:= false		## Some Sprites have the upward animation inverted. Bitchass.
 
 var is_moving 		:= false ## The actor is moving somewhere.
-var is_playingset 	:= false ## The actor is playing some animation.
+var is_playingset 	:= false ## The actor is playing some animation. Se to true to lock normal animations.
 
 var facing_vector			:= Vector2.DOWN ## Where the actor should look at
 
@@ -143,6 +144,22 @@ func apply_curr_aim( dir : Vector2 ) -> void:
 	curr_aim = dir
 	#print(curr_aim)
 
+## Correcly flip the 'ActorAnim' according to the input.
+func flip_sprite( input_override := Vector2.ZERO ) -> void:
+	var input := curr_input
+	if curr_aim:
+		input = curr_aim
+	if input_override:
+		input = input_override
+		
+	ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
+	if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
+		# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
+		ActorAnim.flip_h = not ActorAnim.flip_h
+		
+		# Yeah, just invert it again.
+		if invert_north_facing_sprite: ActorAnim.flip_h = not ActorAnim.flip_h
+
 ## TODO
 # NOTE This is a important function. Without running it, AIs cant control the actor.
 func _connect_ai_signals() -> void:
@@ -159,13 +176,16 @@ func _connect_ai_signals() -> void:
 func _ai_ranged_attack( _enabled : bool ) -> void:	pass
 func _ai_melee_attack( _enabled : bool ) -> void:	pass
 func _ai_aim_ranged( _enabled : bool ) -> void:		pass
-func _ai_charge_at( _enabled : bool ) -> void:		pass
+func _ai_charge_at( _enabled : bool ) -> void:		pass ## TODO Add this funcion.
 func _ai_roll_at( _enabled : bool ) -> void:		pass
 func _ai_jump( _enabled : bool ) -> void:			pass
 func get_aim_origin() -> Vector2:					return Vector2.ZERO
 
 ## Handle the most basic animations
 func _normal_animation(_delta : float):
+	if is_playingset: # Stop normal animations when a cinema_playset is playing.
+		return
+		
 	var input := curr_input
 	
 	if input != Vector2.ZERO: # AI is moving the Actor

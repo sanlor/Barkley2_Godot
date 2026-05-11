@@ -1507,6 +1507,8 @@ func sprite_selection() -> void:
 			scale.x = scl;
 			scale.y = scl;
 			specialBFG = true;
+		_:
+			push_error("%s: Invalid bullet sprite" % name)
 
 func play_sound(soundID : String, loop : bool) -> void:
 	var sound_file = load( B2_Sound.get_sound(soundID) )

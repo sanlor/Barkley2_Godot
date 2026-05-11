@@ -10,12 +10,12 @@
 [ext_resource type="Script" uid="uid://d35v3iegfogfg" path="res://barkley2/resources/B2_AI/EggDrone/ai_eggdrone.gd" id="5_mk5b1"]
 [ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/fsm_chase.gd" id="6_8im5l"]
 [ext_resource type="Script" uid="uid://cejqufkudkpoc" path="res://barkley2/resources/B2_FSM/fsm_orbit_player.gd" id="7_rgkdl"]
-[ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="8_8im5l"]
+[ext_resource type="Script" uid="uid://bqxerfb144ept" path="res://barkley2/resources/B2_FSM/egg_drone/fsm_idle_drone.gd" id="8_js432"]
 [ext_resource type="Material" uid="uid://durpi04ueyrkc" path="res://barkley2/shaders/particles/o_enemy_drone_egg_smoke.tres" id="9_17vq5"]
-[ext_resource type="Script" uid="uid://rr7pd6f37ryu" path="res://barkley2/resources/B2_FSM/fsm_dash.gd" id="9_lmksp"]
-[ext_resource type="PackedScene" uid="uid://ip8ryvrniime" path="res://barkley2/scenes/_Godot_Combat/enemy_stats.tscn" id="10_6hb1w"]
-[ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="14_yh3yc"]
-[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="15_lmksp"]
+[ext_resource type="Script" uid="uid://c7w3kw0j50e07" path="res://barkley2/resources/B2_FSM/egg_drone/fsm_dash_drone.gd" id="9_js432"]
+[ext_resource type="Texture2D" uid="uid://dqo821oifgjia" path="res://barkley2/assets/b2_original/images/merged/s_effect_shitsmoke.png" id="10_lmksp"]
+[ext_resource type="Texture2D" uid="uid://bqyibnklfqovb" path="res://barkley2/assets/b2_original/images/merged/sEnemyDroneEgg.png" id="11_js432"]
+[ext_resource type="AudioStream" uid="uid://cp8vy83gypsbb" path="res://barkley2/assets/b2_original/audio/new_sfx/sonic2/sonic-spindash.ogg" id="16_js432"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
 bounce = 0.45
@@ -59,6 +59,53 @@ rifles = 0.0
 wtc = 10.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dr833"]
+radius = 12.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pwqol"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhf8t"]
+atlas = ExtResource("11_js432")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6krtj"]
+atlas = ExtResource("11_js432")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6e381"]
+atlas = ExtResource("11_js432")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbytt"]
+atlas = ExtResource("11_js432")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jvmf"]
+atlas = ExtResource("11_js432")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ghx4"]
+atlas = ExtResource("11_js432")
+region = Rect2(896, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vjnh"]
+atlas = ExtResource("11_js432")
+region = Rect2(960, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a85hm"]
+atlas = ExtResource("11_js432")
+region = Rect2(1024, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xulqn"]
+atlas = ExtResource("11_js432")
+region = Rect2(1088, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu3t7"]
+atlas = ExtResource("11_js432")
+region = Rect2(1152, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_og0bc"]
 atlas = ExtResource("2_hswbj")
@@ -196,43 +243,103 @@ region = Rect2(192, 0, 64, 64)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_og0bc")
+"texture": SubResource("AtlasTexture_dhf8t")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kqek0")
+"texture": SubResource("AtlasTexture_6krtj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uxjci")
+"texture": SubResource("AtlasTexture_6e381")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4ogab")
+"texture": SubResource("AtlasTexture_dbytt")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8c4qg")
+"texture": SubResource("AtlasTexture_1jvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhf8t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6krtj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6e381")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbytt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6krtj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6e381")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbytt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jvmf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6krtj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhf8t")
 }],
 "loop": true,
 "name": &"CHARGE_DOWN",
-"speed": 15.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ffefo")
+"texture": SubResource("AtlasTexture_1ghx4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wg3q4")
+"texture": SubResource("AtlasTexture_7vjnh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rvqc5")
+"texture": SubResource("AtlasTexture_a85hm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3la1d")
+"texture": SubResource("AtlasTexture_xulqn")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_m0n4l")
+"texture": SubResource("AtlasTexture_cu3t7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ghx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vjnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a85hm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xulqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ghx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vjnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a85hm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xulqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ghx4")
 }],
 "loop": true,
 "name": &"CHARGE_UP",
-"speed": 15.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -292,6 +399,11 @@ animations = [{
 }],
 "loop": false,
 "name": &"IDLE3",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"charge",
 "speed": 5.0
 }, {
 "frames": [{
@@ -435,8 +547,23 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_js432"]
-font = ExtResource("15_lmksp")
+[sub_resource type="Curve" id="Curve_js432"]
+_data = [Vector2(0, 0.021970749), 0.0, 4.569907, 0, 0, Vector2(0.38157892, 0.9913448), 0.0, 0.0, 0, 0, Vector2(0.99999994, 0.004660487), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_pwqol"]
+curve = SubResource("Curve_js432")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6krtj"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 16.0
+gravity = Vector3(0, -98, 0)
+color = Color(0.556953, 0.556953, 0.556953, 1)
+alpha_curve = SubResource("CurveTexture_pwqol")
+turbulence_enabled = true
+turbulence_noise_strength = 0.5
+turbulence_noise_scale = 4.5
 
 [node name="o_enemy_drone_egg" type="RigidBody2D" unique_id=789173572 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 5
@@ -447,12 +574,11 @@ gravity_scale = 0.0
 lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 5
-linear_damp = 10.0
+linear_damp = 5.0
 script = ExtResource("1_juf8c")
 shadow_scale = 1.5
 ActorSmokeEmitter = NodePath("smoke_emitter")
 actor_animations = SubResource("Resource_riqe7")
-invert_north_facing_sprite = true
 sound_alert = "junkbot_alert"
 sound_damage = "junkbot_hurt"
 sound_death = "junkbot_death"
@@ -464,7 +590,9 @@ ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 walk_speed = 3500000
+walk_damp = 5.0
 actor_ai = NodePath("B2_AI_EggDrone")
+invert_north_facing_sprite = true
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=724948043]
 script = ExtResource("4_6hb1w")
@@ -477,6 +605,7 @@ metadata/_custom_type_script = "uid://d35v3iegfogfg"
 
 [node name="B2_FSM_Chase" type="Node" parent="B2_AI_EggDrone" unique_id=1155254441 node_paths=PackedStringArray("near_state", "far_state")]
 script = ExtResource("6_8im5l")
+enemy_near_radius = 64.0
 near_state = NodePath("../B2_FSM_Orbit_Player")
 enemy_far_radius = 99999.0
 far_state = NodePath(".")
@@ -484,27 +613,44 @@ metadata/_custom_type_script = "uid://cby82k6m3df21"
 
 [node name="B2_FSM_Orbit_Player" type="Node" parent="B2_AI_EggDrone" unique_id=1294099183 node_paths=PackedStringArray("orbit_action_state", "deaggro_state")]
 script = ExtResource("7_rgkdl")
-orbit_action_state = NodePath("../B2_FSM_Dash")
-deaggro_state = NodePath("../B2_FSM_Idle")
+orbit_action_state = NodePath("../B2_FSM_Dash_Drone")
+deaggro_state = NodePath("../B2_FSM_Idle_Drone")
+always_face_the_enemy = true
 metadata/_custom_type_script = "uid://cejqufkudkpoc"
 
-[node name="B2_FSM_Idle" type="Node" parent="B2_AI_EggDrone" unique_id=1897894477 node_paths=PackedStringArray("detected_state", "wander_state")]
-script = ExtResource("8_8im5l")
+[node name="B2_FSM_Idle_Drone" type="Node" parent="B2_AI_EggDrone" unique_id=1897894477 node_paths=PackedStringArray("overheat_emitter", "detected_state", "wander_state")]
+script = ExtResource("8_js432")
+overheat_emitter = NodePath("../../overheat_emitter")
 enemy_detection_radius = 0.0
 detected_state = NodePath(".")
-wander_state = NodePath(".")
+wander_state = NodePath("../B2_FSM_Chase")
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
-[node name="B2_FSM_Dash" type="Node" parent="B2_AI_EggDrone" unique_id=1041941545]
-script = ExtResource("9_lmksp")
+[node name="B2_FSM_Dash_Drone" type="Node" parent="B2_AI_EggDrone" unique_id=1041941545 node_paths=PackedStringArray("delay_smoke_emitter", "dash_smoke_emitter", "after_dash_state")]
+script = ExtResource("9_js432")
+dash_delay = 1.0
+dash_delay_variation = 0.0
+delay_smoke_emitter = NodePath("../../smoke_emitter")
+dash_smoke_emitter = NodePath("../../smoke_emitter")
+after_dash_state = NodePath("../B2_FSM_Idle_Drone")
+always_face_the_enemy = true
 metadata/_custom_type_script = "uid://rr7pd6f37ryu"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=223468021]
+position = Vector2(0, -3)
 shape = SubResource("CircleShape2D_dr833")
+
+[node name="smoke_emitter" type="GPUParticles2D" parent="." unique_id=1955000815]
+material = SubResource("CanvasItemMaterial_pwqol")
+emitting = false
+amount = 128
+texture = ExtResource("10_lmksp")
+process_material = ExtResource("9_17vq5")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1361820305]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_s3is4")
+animation = &"CHARGE_UP"
 centered = false
 offset = Vector2(-29, -50)
 metadata/facing = {
@@ -574,44 +720,18 @@ metadata/s_eggDroneDOWN01 = {
 "yorigin": "50"
 }
 
+[node name="overheat_emitter" type="GPUParticles2D" parent="." unique_id=1833537575]
+position = Vector2(0, -11)
+emitting = false
+amount = 64
+lifetime = 2.0
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_6krtj")
+
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=327338493]
+stream = ExtResource("16_js432")
+max_distance = 200.0
 max_polyphony = 5
 bus = &"Audio"
 
 [node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=2130556042]
-
-[node name="smoke_emitter" type="GPUParticles2D" parent="." unique_id=1955000815]
-emitting = false
-amount = 32
-lifetime = 0.5
-one_shot = true
-explosiveness = 0.75
-process_material = ExtResource("9_17vq5")
-
-[node name="combatant_stats" parent="." unique_id=1217163301 instance=ExtResource("10_6hb1w")]
-show_action = false
-
-[node name="debug_data" type="Control" parent="." unique_id=22392622 node_paths=PackedStringArray("ai")]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -55.0
-offset_top = -73.0
-offset_right = 60.0
-offset_bottom = -57.0
-script = ExtResource("14_yh3yc")
-ai = NodePath("../B2_AI_EggDrone")
-
-[node name="Label" type="Label" parent="debug_data" unique_id=802172818]
-modulate = Color(1, 0.79607844, 1, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "placeholder"
-label_settings = SubResource("LabelSettings_js432")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

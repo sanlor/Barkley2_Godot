@@ -43,6 +43,12 @@ var astar_valid_tiles := Array() # used for debug
 @export var collision_layer_abyss 	: TileMapLayer	## The tilemap that handles colision for bottomless pits (casing and bullets disappear)
 var collision_array 				: Array[TileMapLayer] = []
 
+@export_category("Enemies Spawner")
+@export var spawn_enemies_on_land		:= false
+@export var land_enemy_list				: Dictionary[PackedScene, int] # Enemy scene with its probability to spawn (0 - 100)
+@export var spawn_enemies_on_water		:= false
+@export var water_enemy_list			: Dictionary[PackedScene, int] # Enemy scene with its probability to spawn (0 - 100)
+
 @export_category("Room Options")
 @export var enable_hud					:= true		## Allow the hud to show up
 @export var is_interior					:= false 	## lowers the music volume of the music 

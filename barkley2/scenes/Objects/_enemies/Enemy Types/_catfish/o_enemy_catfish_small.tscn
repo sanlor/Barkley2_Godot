@@ -14,9 +14,8 @@
 [ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/fsm_attack.gd" id="8_nrbbj"]
 [ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/fsm_ready_attack.gd" id="9_e35da"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
+[ext_resource type="Script" uid="uid://c462tqotcvtw6" path="res://barkley2/resources/B2_FSM/fsm_keep_distance.gd" id="9_siqo5"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
-[ext_resource type="Script" uid="uid://otk7jk2eyl55" path="res://barkley2/scenes/Player/debug_data.gd" id="16_fjx5q"]
-[ext_resource type="FontFile" uid="uid://c5asr1c5g1w6h" path="res://barkley2/resources/fonts/fn_small.tres" id="17_hfen3"]
 
 [sub_resource type="Resource" id="Resource_bsxaw"]
 script = ExtResource("2_wejwp")
@@ -30,6 +29,23 @@ ANIMATION_NORTHEAST = "catfish_walk_north"
 ANIMATION_NORTHWEST = "catfish_walk_north"
 ANIMATION_EAST = "catfish_walk"
 metadata/_custom_type_script = "uid://j3rexlxomei3"
+
+[sub_resource type="Curve" id="Curve_siqo5"]
+_data = [Vector2(0, 0.88748336), 0.0, 0.0, 0, 0, Vector2(0.993421, 0), -2.9684808, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjx5q"]
+curve = SubResource("Curve_siqo5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hfen3"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 30.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_fjx5q")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mc11s"]
 atlas = ExtResource("2_mkogk")
@@ -490,9 +506,6 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="LabelSettings" id="LabelSettings_l0gdt"]
-font = ExtResource("17_hfen3")
-
 [node name="o_enemy_catfish_small" type="RigidBody2D" unique_id=1739471554 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 4
 collision_mask = 1835013
@@ -537,7 +550,7 @@ metadata/_custom_type_script = "uid://drt6du7p7v1mk"
 [node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small" unique_id=546906726 node_paths=PackedStringArray("detected_state", "wander_state")]
 script = ExtResource("6_sj8r4")
 enemy_detection_radius = 128.0
-detected_state = NodePath("../B2_FSM_Chase")
+detected_state = NodePath("../B2_FSM_Keep_Distance")
 wander_state = NodePath("../B2_FSM_Wander")
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
@@ -547,22 +560,29 @@ detected_state = NodePath("../B2_FSM_Chase")
 idle_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://gmxq1j4sfv7d"
 
-[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small" unique_id=440620528 node_paths=PackedStringArray("attack_state", "deaggro_state")]
+[node name="B2_FSM_Keep_Distance" type="Node" parent="B2_AI_Catfish_Small" unique_id=313052120 node_paths=PackedStringArray("next_action_state")]
+script = ExtResource("9_siqo5")
+next_action_state = NodePath("../B2_FSM_Ready_Attack")
+metadata/_custom_type_script = "uid://c462tqotcvtw6"
+
+[node name="B2_FSM_Chase" type="Node" parent="B2_AI_Catfish_Small" unique_id=440620528 node_paths=PackedStringArray("near_state", "far_state")]
 script = ExtResource("7_643qn")
-enemy_attack_radius = 80.0
-attack_state = NodePath("../B2_FSM_Ready_Attack")
-enemy_de_aggro_radius = 156.0
-deaggro_state = NodePath("../B2_FSM_Idle")
+near_state = NodePath("../B2_FSM_Keep_Distance")
+far_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://cby82k6m3df21"
 
 [node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1095215900 node_paths=PackedStringArray("attack_state")]
 script = ExtResource("9_e35da")
 attack_state = NodePath("../B2_FSM_Attack")
+always_face_the_enemy = true
 metadata/_custom_type_script = "uid://i6own6gfjft5"
 
-[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1619539350 node_paths=PackedStringArray("after_attack_state")]
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_Catfish_Small" unique_id=1619539350 node_paths=PackedStringArray("attack_again_state", "after_attack_state")]
 script = ExtResource("8_nrbbj")
+attack_again_state = NodePath("../B2_FSM_Ready_Attack")
 after_attack_state = NodePath("../B2_FSM_Idle")
+randomly_attack_again = true
+always_face_the_enemy = true
 metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1918604694]
@@ -572,6 +592,11 @@ bus = &"Audio"
 
 [node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=517935808]
 emitting = false
+amount = 64
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_hfen3")
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1862578859]
 use_parent_material = true
@@ -708,28 +733,5 @@ lifetime = 0.5
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("10_p2h0x")
-
-[node name="debug_data" type="Control" parent="." unique_id=423836138 node_paths=PackedStringArray("ai")]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -55.0
-offset_top = -73.0
-offset_right = 60.0
-offset_bottom = -57.0
-script = ExtResource("16_fjx5q")
-ai = NodePath("../B2_AI_Catfish_Small")
-
-[node name="Label" type="Label" parent="debug_data" unique_id=1099242452]
-modulate = Color(1, 0.79607844, 1, 1)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "placeholder"
-label_settings = SubResource("LabelSettings_l0gdt")
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [connection signal="frame_changed" from="ActorAnim" to="." method="_on_actor_anim_frame_changed"]

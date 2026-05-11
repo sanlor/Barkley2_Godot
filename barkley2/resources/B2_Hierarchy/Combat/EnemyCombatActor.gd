@@ -5,6 +5,8 @@ class_name B2_EnemyCombatActor
 
 const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
+const COMBAT_DEBUG_DATA 			= preload("uid://dst4q8st6lgtm")
+const ENEMY_STATS 					= preload("uid://ip8ryvrniime")
 
 ## NOTICE https://www.youtube.com/watch?v=1gN0lWXyrz0
 signal aim_target_changed
@@ -12,15 +14,18 @@ signal move_target_changed
 signal finished_attack_action
 signal finished_charge_action	## Actor is done with its charge/rush action.
 signal enemy_was_defeated
+signal enemy_was_damaged
 
 ## 07/05/26 Disabled all of this. It should not be used anymore.
-#enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}		## TODO check if this is still used.
-#@export var curr_MODE := MODE.INACTIVE						## TODO check if this is still used.
+#enum MODE{NONE,INACTIVE,COMBAT,AIMING,CHARGING,DEATH}			## TODO check if this is still used.
+#@export var curr_MODE := MODE.INACTIVE							## TODO check if this is still used.
 #var is_changing_states := false								## TODO check if this is still used.
 
 @export_category("Enemy stuff")
 #@export var my_nest					: Area2D
-@export var show_life_bar			:= true			## During the tutorial, some stuff dont really need it.
+@export var show_life_bar				:= true			## During the tutorial, some stuff dont really need it.
+@export var show_combat_debug_data		:= false
+@export var damage_player_on_contact	:= false
 
 @export_category("Actor Stuff")
 @export var cast_shadow			:= true
@@ -41,7 +46,6 @@ var playing_animation 			:= "stand"
 @export var animation_attack 			:= ""
 @export var animation_jump 				:= ""
 @export var animation_stagger 			:= ""
-@export var invert_north_facing_sprite 	:= false		## Some Sprites have the upward animation inverted. Bitchass.
 
 @export_category("Sounds")
 @export var sound_alert			:= ""
@@ -131,24 +135,38 @@ func _setup_enemy() -> void:
 			enemy_data = B2_EnemyData.new()
 			enemy_data.apply_stats( enemy_name )
 			enemy_data.resource_local_to_scene = true
-		
+	
+	if show_combat_debug_data:
+		add_child( COMBAT_DEBUG_DATA.instantiate(), true )
+	
+	if show_life_bar:
+		add_child( ENEMY_STATS.instantiate(), true )
+	
+	## Used for charging/dashing enemies
+	if not contact_monitor:
+		contact_monitor = true
+		max_contacts_reported = 5
+	body_entered.connect( _on_body_entered )
+	
 	#enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
 	#set_mode( MODE.INACTIVE )
 	
 ## Handle the most basic animations
 func _normal_animation(_delta : float):
-	var input := curr_input
+	if is_playingset: # Stop normal animations when a cinema_playset is playing.
+		return
+		
+	var input 	:= curr_input
+	var aim		:= curr_aim
+	
+	## Overide input with aim, it the actor is aiming at something.
+	if curr_aim != Vector2.ZERO:
+		input = curr_aim
 	
 	if input != Vector2.ZERO: # AI is moving the Actor
 		if last_input != input:
 			## Flip sprite if needed.
-			ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
-			if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
-				# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
-				ActorAnim.flip_h = not ActorAnim.flip_h
-				
-				# Yeah, just invert it again.
-				if invert_north_facing_sprite: ActorAnim.flip_h = not ActorAnim.flip_h
+			flip_sprite( input )
 			
 			match input.round():
 				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
@@ -347,6 +365,7 @@ func damage_actor( damage : float, force : Vector2 ) -> void:
 			actor_died.emit()
 			destroy_actor()
 		else:
+			enemy_was_damaged.emit()
 			if hit_tween:
 				hit_tween.kill()
 			hit_tween = create_tween()
@@ -376,6 +395,7 @@ func destroy_actor() -> void:
 	## Disable the loops.
 	set_process( false )
 	set_physics_process( false )
+	actor_ai.queue_free() # Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI 
 	
 	is_actor_dead 	= true
 	if my_shadow: my_shadow.hide()
@@ -411,7 +431,9 @@ func destroy_actor() -> void:
 		pass
 	else:
 		var t := create_tween()
-		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.1 ) )
+		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.05, 0.25 ) )
+		#t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.25 ) )
+		
 		## Disabled 21-04-25
 		#if is_instance_valid(B2_CManager.combat_manager):
 			#t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
@@ -425,7 +447,16 @@ func destroy_actor() -> void:
 	_after_death()
 
 ## DEPRECATED function. This was part of the old AI system (turn based)
-#func _on_body_entered(body: Node) -> void:
+## NOTE Not so DEPRECATED anymore, We can still use it for the new AI System.
+func _on_body_entered(body: Node) -> void:
+	if body is B2_CombatActor:
+		if damage_player_on_contact:
+			assert( body.has_method("damage_actor"), "%s: Something is very wrong here..." % name )
+			body.damage_actor( 
+				( enemy_data.weight * randf_range(0.5,1.5) ) * B2_Config.ENEMY_MELEE_DAMAGE_MULTIPLIER * linear_velocity.length(), 
+				body.global_position.direction_to( global_position ) * 10.0
+				)
+			
 	#if curr_MODE == MODE.CHARGING:
 		#if body is B2_CombatActor:
 			#body.damage_actor( 

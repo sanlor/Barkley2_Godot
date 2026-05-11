@@ -25,6 +25,9 @@ func step() -> void:
 		ActorNav.set_target_position( target.global_position )
 		my_actor.curr_input = my_actor.global_position.direction_to( ActorNav.get_next_path_position() )
 		
+		if always_face_the_enemy:
+			my_actor.curr_aim = my_actor.global_position.direction_to( target.global_position )
+			
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) > enemy_far_radius:
 			_target_far()
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) < enemy_near_radius:

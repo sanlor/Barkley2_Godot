@@ -5,7 +5,6 @@
 extends Node2D
 class_name B2_AI
 
-
 # https://shaggydev.com/2023/10/08/godot-4-state-machines/
 # https://www.sandromaglione.com/articles/how-to-implement-state-machine-pattern-in-godot
 # https://gdscript.com/solutions/godot-state-machine/
@@ -24,6 +23,7 @@ signal jump_trigger(			active : bool ) ## Actor is Jumping
 # Signals used to control the behaviour for the FSM.
 signal state_changed( state : B2_FSM )
 
+#region old stuff
 ## DEPRECATED on  08/05/26
 ## All states an AI can have
 #enum STATE{
@@ -37,6 +37,7 @@ signal state_changed( state : B2_FSM )
 	#DYING,			## Its dying, emitting particles, gibs and such. cant be removed yet.
 	#DEAD			## Its dead. NOTE should last 1 frame most of the time.
 	#}
+#endregion
 
 @export_category("Debug Stuff")
 @export var debug_visualization := true

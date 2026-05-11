@@ -9,19 +9,24 @@ curve = SubResource("Curve_p3mjv")
 
 [sub_resource type="Curve" id="Curve_4kpmn"]
 _limits = [0.0, 5.0, 0.0, 1.0]
-_data = [Vector2(0, 0), 0.0, 7.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
-point_count = 2
+_data = [Vector2(0, 1.278296), 0.0, 7.0, 0, 0, Vector2(0.51644737, 3.9181094), 0.0, 0.0, 0, 0, Vector2(0.9967105, 2.3601868), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_4jtvp"]
 curve = SubResource("Curve_4kpmn")
 
 [resource]
 particle_flag_disable_z = true
+emission_shape_offset = Vector3(16, 0, 0)
 emission_shape = 1
-emission_sphere_radius = 4.0
+emission_sphere_radius = 8.0
 inherit_velocity_ratio = 0.25
-initial_velocity_min = 30.0
-initial_velocity_max = 75.0
-gravity = Vector3(0, -78, 0)
+spread = 15.0
+initial_velocity_min = 45.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, -65, 0)
+damping_min = 45.000004
+damping_max = 80.0
 scale_curve = SubResource("CurveTexture_4jtvp")
 alpha_curve = SubResource("CurveTexture_h5xhx")
+anim_speed_max = 1.0

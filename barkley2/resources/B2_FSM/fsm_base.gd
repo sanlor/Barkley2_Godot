@@ -7,6 +7,9 @@ class_name B2_FSM
 
 const TIME_DECREASE := 1.0
 
+@export_category("Global stuff")
+@export var always_face_the_enemy := false
+
 ## DEPRECATED on 08/05/26
 #var my_STATE 		:= B2_AI.STATE.NONE
 
@@ -16,6 +19,20 @@ var enemy_actor 	: B2_CombatActor	# The enemy to target.
 
 func _ready() -> void:
 	B2_CManager.o_hoopz_changed.connect( func(): enemy_actor = B2_CManager.o_hoopz ) # Update target IF hoopz changes costumes during combat.
+
+# Helper function to create a timer easily.
+func _create_timer( timeout_callback_function : Callable ) -> Timer:
+	var timer := Timer.new()
+	add_child( timer, true )
+	timer.one_shot = true
+	timer.connect( "timeout", timeout_callback_function )
+	return timer 
+
+# Helper funcion to remove a timer easily.
+func _timer_cleanup( timer : Timer, timeout_callback_function : Callable ) -> void:
+	timer.disconnect( "timeout", timeout_callback_function )
+	timer.stop()
+	timer.queue_free()
 
 ## Check if you have an enemy registered.
 func _has_enemy_actor() -> bool:
@@ -44,7 +61,8 @@ func enter() -> void:
 
 ## AI exited a state.
 func exit() -> void:
-	pass
+	my_actor.curr_input = Vector2.ZERO
+	my_actor.curr_aim = Vector2.ZERO
 
 ## Step function, executed on every process frame.
 func step() -> void:

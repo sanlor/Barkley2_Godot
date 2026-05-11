@@ -6,7 +6,7 @@ func _init() -> void:
 	#state_changed.connect( state_transition )
 	
 ## DEPRECATED on 07/05/26
-## DEDEPRECATED on 08/05/26
+## DE-DEPRECATED on 08/05/26
 ## After the ready function, register all curr states, look for duplicates and shiet.
 func _register_states() -> void:
 	for child in get_children():
@@ -16,7 +16,6 @@ func _register_states() -> void:
 			child.enemy_actor 	= B2_CManager.o_hoopz
 		else:
 			push_error("Invalid AI State: %s - %s" % [child.name, get_parent().name]); continue
-	#print( my_states )
 
 ## Step function, executed on every process frame
 func step() -> void:
@@ -24,9 +23,3 @@ func step() -> void:
 		curr_STATE.step()
 	
 	if debug_visualization: queue_redraw()
-
-func _draw() -> void:
-	#draw_circle( Vector2.ZERO, 128, Color.PINK )
-	pass
-	
-	

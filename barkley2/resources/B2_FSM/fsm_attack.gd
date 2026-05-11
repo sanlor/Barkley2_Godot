@@ -2,8 +2,10 @@
 extends B2_FSM
 class_name B2_FSM_Attack
 
+@export var attack_again_state		: B2_FSM
 @export var after_attack_state		: B2_FSM
 @export var max_attack_wait_time 	:= 1000.0
+@export var randomly_attack_again	:= false
 var curr_max_attack_wait_time 		:= 0.0
 
 var has_attacked := false
@@ -24,11 +26,9 @@ func step() -> void:
 		my_actor.curr_aim 		= my_actor.global_position.direction_to( enemy_actor.global_position )
 		my_ai.ranged_attack_trigger.emit( true )
 		has_attacked = true
-	if curr_max_attack_wait_time > 0.0: 
-		curr_max_attack_wait_time -= 1.0
-	else:
-		push_error("%s: Attack animation timeout. this is bad and should not happen." % my_actor.name)
-		my_ai.state_transition( self, after_attack_state )
 		
 func _attack_finished():
-	my_ai.state_transition( self, after_attack_state )
+	if randomly_attack_again and randf() > 0.5:
+		my_ai.state_transition( self, attack_again_state )
+	else:
+		my_ai.state_transition( self, after_attack_state )
