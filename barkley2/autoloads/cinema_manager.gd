@@ -1,3 +1,4 @@
+@tool
 extends Node
 ## B2 Cinema Manager
 ## Keeps track of CinemaScript running on the scene, also handles some of the Combatscript stuff.
