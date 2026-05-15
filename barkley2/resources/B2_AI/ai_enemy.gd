@@ -1,5 +1,6 @@
 extends B2_AI
 class_name B2_AI_Enemy
+## AI for enemies. Duh.
 
 func _init() -> void:
 	ready.connect( func() -> void: _register_states(); _state_setup() )
@@ -13,7 +14,8 @@ func _register_states() -> void:
 		if child is B2_FSM:
 			child.my_actor 		= get_parent()
 			child.my_ai 		= self
-			child.enemy_actor 	= B2_CManager.o_hoopz
+			if B2_CManager.o_hoopz:
+				child.enemy_actor 	= B2_CManager.o_hoopz
 		else:
 			push_error("Invalid AI State: %s - %s" % [child.name, get_parent().name]); continue
 
@@ -21,5 +23,13 @@ func _register_states() -> void:
 func step() -> void:
 	if curr_STATE:
 		curr_STATE.step()
+	else:
+		if get_children().is_empty():
+			push_error("%s: No FSM detected. Bitch, you fucked up! Removing the actor %s from this dimension, fix this mess!!!" % [self.name, get_parent().name])
+			breakpoint
+			get_parent().queue_free()
+		else:
+			push_error("%s: curr_STATE not set for actor %s! Picking the first one I see... Which iiiiiiis... %s." % [self.name, get_parent().name, get_children().front().name])
+			curr_STATE = get_children().front()
 	
 	if debug_visualization: queue_redraw()

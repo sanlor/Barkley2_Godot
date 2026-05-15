@@ -15,7 +15,7 @@ func _ready() -> void:
 	assert( enemy_data, "No enemy data ")
 	enemy_data.resource_local_to_scene = true
 	actor_ai.actor = self
-	_connect_ai_signals()
+	#_connect_ai_signals()
 
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:

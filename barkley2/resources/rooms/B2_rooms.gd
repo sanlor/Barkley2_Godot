@@ -10,12 +10,12 @@ const FOG_SHADER 				:= preload("uid://d4gjnvy7l6fkf")
 const RAIN_SHADER 				:= preload("uid://be0suyhkic6u8")
 const SNOW_SHADER 				:= preload("uid://luhlug07bl7o")
 
-const O_HUD 					:= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
-const O_ZONE_NAME 				:= preload("res://barkley2/objects/oZoneName.tscn")
-const COLLISION_WADING_TILESET 	:= preload("uid://m673wsth5kja")
-const COLLISION_ABYSS_TILESET 	:= preload("uid://snddsm584j8b")
-const COLLISION_2_TILESET 		:= preload("uid://cbgwi3h47ghpg")
-const COLLISION_TILESET 		:= preload("uid://n70843ohvm84")
+const O_HUD 						:= preload("res://barkley2/scenes/Objects/System/o_hud.tscn")
+const O_ZONE_NAME 					:= preload("res://barkley2/objects/oZoneName.tscn")
+const COLLISION_WADING_TILESET 		:= preload("uid://m673wsth5kja")
+const COLLISION_ABYSS_TILESET 		:= preload("uid://snddsm584j8b")
+const COLLISION_TILESET_SEMISOLID 	:= preload("uid://dn6tjl44tglla")	## Semisolid
+const COLLISION_TILESET 			:= preload("uid://n70843ohvm84")	## Solid
 
 
 @export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
@@ -29,6 +29,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var debug_create_player_scene_at_room_start 		:= false		## create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO ## if you run this individual scene, where hoopz will be created.
 @export var load_debug_save_data							:= false		## Pretty self explanatory
+@export var notify_enemies_spawn							:= true		## Pretty self explanatory
 
 @export var teleport_spot		:= false			## In Certain situations, hoopz can teleport to a room. This enables that function
 @export var teleport_node		: B2_Teleport_Mark	## The room have a "o_teleport_mark" node to mark the spot
@@ -44,10 +45,7 @@ var astar_valid_tiles := Array() # used for debug
 var collision_array 				: Array[TileMapLayer] = []
 
 @export_category("Enemies Spawner")
-@export var spawn_enemies_on_land		:= false
-@export var land_enemy_list				: Dictionary[PackedScene, int] # Enemy scene with its probability to spawn (0 - 100)
-@export var spawn_enemies_on_water		:= false
-@export var water_enemy_list			: Dictionary[PackedScene, int] # Enemy scene with its probability to spawn (0 - 100)
+@export var spawn_enemies				:= true
 
 @export_category("Room Options")
 @export var enable_hud					:= true		## Allow the hud to show up
@@ -133,29 +131,19 @@ func _enter_tree() -> void:
 				sound_node.play()
 	
 	## Applies weather.
-	if weather_fog:
-		toggle_fog_shader( weather_fog )
-	
-	if weather_snow:
-		toggle_snow_shader( weather_snow )
+	if weather_fog:		toggle_fog_shader( weather_fog )
+	if weather_snow:	toggle_snow_shader( weather_snow )
 	
 	if esoteric_rain_conditions and weather_rain:
 		if get_room_area() == "tnn": # TNN #
 			# Rain moves #
-			if B2_ClockTime.time_gate() >= 5 and B2_ClockTime.time_gate() < 6: 
-				toggle_rain_shader( true, "light", false )
-			elif B2_ClockTime.time_gate() >= 6 and B2_ClockTime.time_gate() < 7:
-				toggle_rain_shader( true, "normal", true )
-			elif B2_ClockTime.time_gate() >= 7 and B2_ClockTime.time_gate() < 8:
-				toggle_rain_shader( true, "heavy", true )
-			elif B2_ClockTime.time_gate() >= 9 and B2_ClockTime.time_gate() < 10:
-				toggle_rain_shader( true, "normal", false )
-			elif B2_ClockTime.time_gate() >= 11 and B2_ClockTime.time_gate() < 12:
-				toggle_rain_shader( true, "light", false )
-			else:
-				toggle_rain_shader( false, "", false )
-		else:
-			toggle_rain_shader( weather_rain, "normal", false )
+			if B2_ClockTime.time_gate() >= 5 and B2_ClockTime.time_gate() < 6: 			toggle_rain_shader( true, "light", false )
+			elif B2_ClockTime.time_gate() >= 6 and B2_ClockTime.time_gate() < 7:		toggle_rain_shader( true, "normal", true )
+			elif B2_ClockTime.time_gate() >= 7 and B2_ClockTime.time_gate() < 8:		toggle_rain_shader( true, "heavy", true )
+			elif B2_ClockTime.time_gate() >= 9 and B2_ClockTime.time_gate() < 10:		toggle_rain_shader( true, "normal", false )
+			elif B2_ClockTime.time_gate() >= 11 and B2_ClockTime.time_gate() < 12:		toggle_rain_shader( true, "light", false )
+			else:																		toggle_rain_shader( false, "", false )
+		else:																		toggle_rain_shader( weather_rain, "normal", false )
 	#else:
 	#	toggle_rain_shader( weather_rain, "normal", false )
 	
@@ -193,14 +181,10 @@ func check_tilemap_collision( pos : Vector2, collision_mask : int ) -> bool:
 	return false
 
 func _hide_collision_layer() -> void:
-	if is_instance_valid(collision_layer):
-		collision_layer.hide()
-	if is_instance_valid(collision_layer_semi):
-		collision_layer_semi.hide()
-	if is_instance_valid(collision_layer_wade):
-		collision_layer_wade.hide()
-	if is_instance_valid(collision_layer_abyss):
-		collision_layer_abyss.hide()
+	if is_instance_valid(collision_layer):			collision_layer.hide()
+	if is_instance_valid(collision_layer_semi):		collision_layer_semi.hide()
+	if is_instance_valid(collision_layer_wade):		collision_layer_wade.hide()
+	if is_instance_valid(collision_layer_abyss):	collision_layer_abyss.hide()
 		
 func _set_region():
 	if populate_reference_layer:
@@ -216,19 +200,22 @@ func _set_region():
 				## Set stuff in case you forgot to do it manually
 				if c.name == "layer - collision":
 					if not is_instance_valid( collision_layer ):
-						collision_layer = c
+						if not collision_layer.name == "layer - collision":
+							collision_layer = c
 					collision_layer.tile_set = COLLISION_TILESET
 					collision_array.append(c)
 					
 				if c.name == "layer - collision 2":
 					if not is_instance_valid( collision_layer_semi ):
-						collision_layer_semi = c
-					collision_layer_semi.tile_set = COLLISION_2_TILESET
+						if not collision_layer_semi.name == "layer - collision 2":
+							collision_layer_semi = c
+					collision_layer_semi.tile_set = COLLISION_TILESET_SEMISOLID
 					collision_array.append(c)
 					
 				if c.name == "layer - wading":
 					if not is_instance_valid( collision_layer_wade ):
-						collision_layer_wade = c
+						if not collision_layer_wade.name == "layer - wading":
+							collision_layer_wade = c
 					collision_layer_wade.tile_set = COLLISION_WADING_TILESET
 					collision_array.append(c)
 					
@@ -276,19 +263,15 @@ func _set_region():
 
 func _after_ready() -> void:
 	## add interior effects
-	if is_interior:
-		B2_Music.volume_mod = 0.75 
-	else:
-		B2_Music.volume_mod = 1.00
+	if is_interior:		B2_Music.volume_mod = 0.75 
+	else:				B2_Music.volume_mod = 1.00
 		
 	if show_zone_banner:
 		var zone := O_ZONE_NAME.instantiate()
 		zone.zone_data( name )
 		if zone.has_zone_data(): # Avoid adding a invalid zone banner.
-			if not override_zone_name.is_empty():
-				zone.zone = override_zone_name
-			if not override_zone_flavor.is_empty():
-				zone.flavor = override_zone_flavor
+			if not override_zone_name.is_empty():				zone.zone = override_zone_name
+			if not override_zone_flavor.is_empty():				zone.flavor = override_zone_flavor
 				
 			B2_Screen.add_child( zone, true )
 		
@@ -300,12 +283,29 @@ func _after_ready() -> void:
 		#add_child( hud_node, true )
 		#hud_node.call_deferred( "show_hud" )
 		B2_Screen.show_hud()
+		
+	## Check if player can attack
+	if not room_pacify:
+		# If players can attack, enemies can spawn.
+		if spawn_enemies:
+			for i in get_parent().get_children():
+				if is_instance_valid(i):
+					if i.name.begins_with("spawnpoint_"):
+						i.queue_free()
+			
+			var _log := []
+			## Make spawns to the map.
+			for i in B2_Enemy_Spawner.import( name ):
+				add_sibling.call_deferred( i, true )
+				#i.owner = get_parent()
+				_log.append( i.name )
+				
+			if notify_enemies_spawn:
+				print( "Enemy Spawns created: ", _log )
 
 func update_pathfind():
-	if not is_baking():
-		bake_navigation_polygon()
-	else:
-		print( "%s: tried to update the pathfind mesh while it was already updating." % name )
+	if not is_baking():		bake_navigation_polygon()
+	else:					print( "%s: tried to update the pathfind mesh while it was already updating." % name )
 
 func set_pacify( state : bool ):
 	room_pacify = state
@@ -317,10 +317,8 @@ func set_roll( state : bool ):
 	B2_SignalBus.room_permission_changed.emit()
 
 func _play_room_music():
-	if room_music_name.is_empty():
-		B2_Music.room_get( name )
-	else:
-		B2_Music.play( room_music_name )
+	if room_music_name.is_empty():		B2_Music.room_get( name )
+	else:								B2_Music.play( room_music_name )
 
 ## Room setup
 func _setup_player_node():

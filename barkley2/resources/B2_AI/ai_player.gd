@@ -1,6 +1,6 @@
 extends B2_AI
 class_name B2_AI_Player
-## Player AI. Receives user inputs and puppeters the parent node (o_hoopz).
+## Player AI. Receives user inputs and puppeters the parent node (o_hoopz usually).
 # NOTE This can also be used to playtest enemies. -> https://www.youtube.com/watch?v=RWXyr2PoO0k
 
 const AIM_SPEED := 0.1 # Modifier used to lerp the aiming direction. Increase this for a quicker aiming speed... I think?

@@ -95,19 +95,17 @@ func _setup_ai() -> void:
 	_connect_ai_signals()
 	
 func _setup_enemy() -> void:
-	if not is_instance_valid( ActorAnim ):
-		ActorAnim 			= get_node( "ActorAnim" )
-	if not is_instance_valid( ActorCol ):
-		ActorCol 			= get_node( "ActorCol" )
-	if not is_instance_valid( ActorAudioPlayer ):
-		ActorAudioPlayer 	= get_node( "ActorAudioPlayer" )
-	if not is_instance_valid( ActorSmokeEmitter ):
-		ActorSmokeEmitter 	= get_node( "ActorSmokeEmitter" )
-	if not is_instance_valid( ActorNav ):
-		ActorNav			= get_node( "ActorNav" )
-	if not actor_animations:
-		push_warning("Actor '%s' has no 'actor_animations' resource. Is this expected?" % name)
+	## Check for nodes not being set correctly
+	if not is_instance_valid( ActorAnim ):				ActorAnim 			= get_node( "ActorAnim" )
+	if not is_instance_valid( ActorCol ):				ActorCol 			= get_node( "ActorCol" )
+	if not is_instance_valid( ActorAudioPlayer ):		ActorAudioPlayer 	= get_node( "ActorAudioPlayer" )
+	if not is_instance_valid( ActorSmokeEmitter ):		ActorSmokeEmitter 	= get_node( "ActorSmokeEmitter" )
+	if not is_instance_valid( ActorNav ):				ActorNav			= get_node( "ActorNav" )
 	
+	## Check for the animations resource
+	if not actor_animations:						push_warning("Actor '%s' has no 'actor_animations' resource. Is this expected?" % name)
+	
+	## Setup navigation stuff
 	if ActorNav:	ActorNav.velocity_computed.connect( _on_velocity_computed )
 	else:			push_warning("No ActorNav for '%s'. Is this expected?" % name)
 		
@@ -125,20 +123,24 @@ func _setup_enemy() -> void:
 		#if not is_instance_valid( combat_ai ):
 			#push_error("%s: combat_ai not set." % name)
 		
+	## Enable or disable shadows
 	if cast_shadow:
 		my_shadow = O_SHADOW.instantiate()
 		my_shadow.scale *= shadow_scale
 		add_child( my_shadow, true)
 		
+	## Setup enemy stats
 	if enemy_name:
 		if not enemy_data:
 			enemy_data = B2_EnemyData.new()
 			enemy_data.apply_stats( enemy_name )
 			enemy_data.resource_local_to_scene = true
 	
+	## Debug stuff
 	if show_combat_debug_data:
 		add_child( COMBAT_DEBUG_DATA.instantiate(), true )
 	
+	## Duh.
 	if show_life_bar:
 		add_child( ENEMY_STATS.instantiate(), true )
 	
@@ -146,7 +148,11 @@ func _setup_enemy() -> void:
 	if not contact_monitor:
 		contact_monitor = true
 		max_contacts_reported = 5
-	body_entered.connect( _on_body_entered )
+	
+	## Avoid countless warnings.
+	if not body_entered.is_connected( _on_body_entered ):
+		## Connect signal do be able to charge at things.
+		body_entered.connect( _on_body_entered )
 	
 	#enemy_ranged = B2_Gun.generate_gun( enemy_weapon_type, enemy_weapon_material )
 	#set_mode( MODE.INACTIVE )
@@ -262,12 +268,10 @@ func play_idle_anim() -> void:
 	
 ## TODO Fix this
 func _physics_process( delta: float ) -> void:
-	if Engine.is_editor_hint():
-		return
+	if Engine.is_editor_hint():	return
 		
 	## Makers the AI think.
-	if actor_ai:
-		actor_ai.step()
+	if actor_ai: actor_ai.step()
 		
 	match curr_STATE:
 		STATE.NORMAL:			_normal_animation(delta)

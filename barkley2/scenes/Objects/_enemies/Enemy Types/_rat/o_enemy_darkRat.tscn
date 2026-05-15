@@ -9,9 +9,9 @@
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="6_8k41c"]
 [ext_resource type="Texture2D" uid="uid://boo8ilhgasala" path="res://barkley2/assets/b2_original/images/merged/s_fx_bloodBurst.png" id="6_48n6s"]
 [ext_resource type="Script" uid="uid://dqye8jmfdc363" path="res://barkley2/resources/B2_AI/Rato/ai_darkrat.gd" id="7_ybsmp"]
-[ext_resource type="Script" uid="uid://deosdbb00y8mo" path="res://barkley2/resources/B2_FSM/fsm_chase_darkrat.gd" id="9_dqcrk"]
+[ext_resource type="Script" uid="uid://deosdbb00y8mo" path="res://barkley2/resources/B2_FSM/darkrat/fsm_chase_darkrat.gd" id="9_dqcrk"]
 [ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/fsm_ready_attack.gd" id="10_gdpyp"]
-[ext_resource type="Script" uid="uid://chow46e26r30e" path="res://barkley2/resources/B2_FSM/fsm_stop_darkrat.gd" id="10_ybsmp"]
+[ext_resource type="Script" uid="uid://chow46e26r30e" path="res://barkley2/resources/B2_FSM/darkrat/fsm_stop_darkrat.gd" id="10_ybsmp"]
 [ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/fsm_attack.gd" id="11_t6k6t"]
 
 [sub_resource type="Resource" id="Resource_8qs7v"]
@@ -208,27 +208,32 @@ actor_ai = NodePath("B2_AI_DarkRat")
 script = ExtResource("5_dqcrk")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="B2_AI_DarkRat" type="Node2D" parent="." unique_id=1058837464]
+[node name="B2_AI_DarkRat" type="Node2D" parent="." unique_id=1058837464 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("7_ybsmp")
+curr_STATE = NodePath("B2_FSM_Chase_DarkRat")
 metadata/_custom_type_script = "uid://dqye8jmfdc363"
 
-[node name="B2_FSM_Chase_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1374160425]
+[node name="B2_FSM_Chase_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1374160425 node_paths=PackedStringArray("stop_state", "near_state", "far_state")]
 script = ExtResource("9_dqcrk")
-enemy_de_aggro_radius = 9999.0
+stop_state = NodePath("../B2_FSM_Stop_DarkRat")
+near_state = NodePath("../B2_FSM_Ready_Attack")
+far_state = NodePath("../B2_FSM_Stop_DarkRat")
 metadata/_custom_type_script = "uid://deosdbb00y8mo"
 
-[node name="B2_FSM_Stop_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1354385162]
+[node name="B2_FSM_Stop_DarkRat" type="Node" parent="B2_AI_DarkRat" unique_id=1354385162 node_paths=PackedStringArray("chase_state")]
 script = ExtResource("10_ybsmp")
+chase_state = NodePath("../B2_FSM_Chase_DarkRat")
 metadata/_custom_type_script = "uid://chow46e26r30e"
 
-[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=2013501678]
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=2013501678 node_paths=PackedStringArray("attack_state")]
 script = ExtResource("10_gdpyp")
 attack_delay = 0.0
+attack_state = NodePath("../B2_FSM_Attack")
 metadata/_custom_type_script = "uid://i6own6gfjft5"
 
-[node name="B2_FSM_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=1878505650]
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_DarkRat" unique_id=1878505650 node_paths=PackedStringArray("after_attack_state")]
 script = ExtResource("11_t6k6t")
-state_after_attack = 2
+after_attack_state = NodePath("../B2_FSM_Chase_DarkRat")
 max_attack_wait_time = null
 metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 

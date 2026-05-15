@@ -11,8 +11,10 @@
 [ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="6_sj8r4"]
 [ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/fsm_chase.gd" id="7_643qn"]
 [ext_resource type="Script" uid="uid://gmxq1j4sfv7d" path="res://barkley2/resources/B2_FSM/fsm_wander.gd" id="8_fjx5q"]
+[ext_resource type="Script" uid="uid://yxxhul8s0hir" path="res://barkley2/resources/B2_FSM/catfish/fsm_jump_toward_player_catfish.gd" id="8_hfen3"]
 [ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/fsm_attack.gd" id="8_nrbbj"]
 [ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/fsm_ready_attack.gd" id="9_e35da"]
+[ext_resource type="Script" uid="uid://bfiniwj7y5f57" path="res://barkley2/resources/B2_FSM/fsm_change_ai.gd" id="9_hfen3"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
 [ext_resource type="Script" uid="uid://c462tqotcvtw6" path="res://barkley2/resources/B2_FSM/fsm_keep_distance.gd" id="9_siqo5"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
@@ -508,7 +510,7 @@ particles_anim_loop = false
 
 [node name="o_enemy_catfish_small" type="RigidBody2D" unique_id=1739471554 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 collision_layer = 4
-collision_mask = 1835013
+collision_mask = 262151
 mass = 100.0
 physics_material_override = ExtResource("1_wejwp")
 gravity_scale = 0.0
@@ -541,6 +543,29 @@ actor_ai = NodePath("B2_AI_Catfish_Small")
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=1882713632]
 script = ExtResource("5_e35da")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_Catfish_Small_Wading" type="Node2D" parent="." unique_id=856299624 node_paths=PackedStringArray("curr_STATE")]
+script = ExtResource("5_pum08")
+curr_STATE = NodePath("B2_FSM_Idle")
+metadata/_custom_type_script = "uid://drt6du7p7v1mk"
+
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=1042281469 node_paths=PackedStringArray("detected_state", "wander_state")]
+script = ExtResource("6_sj8r4")
+enemy_detection_radius = 96.0
+detected_state = NodePath("../B2_FSM_Jump_Toward_Player")
+wander_time = inf
+wander_state = NodePath("../B2_FSM_Jump_Toward_Player")
+metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
+
+[node name="B2_FSM_Jump_Toward_Player" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=131508442 node_paths=PackedStringArray("landed_state")]
+script = ExtResource("8_hfen3")
+landed_state = NodePath("../B2_FSM_Change_AI")
+metadata/_custom_type_script = "uid://cex41d0ihv462"
+
+[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=960564490 node_paths=PackedStringArray("new_ai")]
+script = ExtResource("9_hfen3")
+new_ai = NodePath("../../B2_AI_Catfish_Small")
+metadata/_custom_type_script = "uid://bfiniwj7y5f57"
 
 [node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=222138348 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("5_pum08")
@@ -601,9 +626,7 @@ process_material = SubResource("ParticleProcessMaterial_hfen3")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1862578859]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_hlfig")
-animation = &"catfish_shot_attack"
-frame = 7
-frame_progress = 1.0
+animation = &"catfish_stagger"
 centered = false
 offset = Vector2(-24, -37)
 metadata/default = {

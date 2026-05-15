@@ -21,6 +21,7 @@ enum STATE{
 	HIT, 		## Actor is being hit
 	JUMP, 		## Actor is jumping
 	DEFENDING, 	## Actor is defending
+	WADING, 	## Actor is wading
 	VICTORY, 	## Turn-based Combat - Actor Won
 	DEFEAT		## Turn-based Combat - Actor lost
 	}
@@ -90,7 +91,7 @@ var actor_is_dying 	:= false
 var is_actor_dead	:= false
 
 ## Jump
-var jump_tween : Tween
+var jump_tween 	: Tween
 var jump_height := 32.0
 var jump_speed	:= 0.35
 var jump_target := Vector2.ZERO
@@ -104,6 +105,12 @@ func is_inside_room() -> bool:
 		return get_parent().is_interior
 	else:
 		return false
+		
+func get_room_node() -> B2_ROOMS:
+	if get_parent() is B2_ROOMS:
+		return get_parent()
+	else:
+		return null
 		
 # Get the room area. return "unknow" if the parent is not B2_ROOMS
 func get_room_area() -> String:
@@ -137,6 +144,14 @@ func get_room_pacify() -> bool:
 func get_attack_origin() -> Vector2:
 	return Vector2.ZERO
 
+## Check if actor is "colliding" with some tilemap.
+# Wading 0b0001_0100
+func check_for_water() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 20 ) ## 20 is wading
+	return true
+	
 func apply_curr_input( dir : Vector2 ) -> void:
 	curr_input = dir
 	

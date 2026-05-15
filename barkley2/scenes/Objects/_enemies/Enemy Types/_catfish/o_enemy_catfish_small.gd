@@ -4,13 +4,32 @@ class_name B2_Enemy_CatFish
 
 ## Check o_enemygroup_catfish
 ## Parent class for all Catfish enemies, since they all behave in a similar way.
+# Fish fellas can wade, meaning they can enter bodies of water and jump out.
 
-const O_ENEMY_ATTACK_BLOWDART = preload("uid://bqoqnwresdv00")
+var is_wading := false
+
+const O_SPLASH 					= preload("uid://dgxwfaoi5p3x1")
+const O_ENEMY_ATTACK_BLOWDART 	= preload("uid://bqoqnwresdv00")
 
 @onready var actor_blood_spill: 			GPUParticles2D = $ActorBloodSpill
+@onready var ai_catfish_small_wading: 		B2_AI_Catfish_Small_Wading = $B2_AI_Catfish_Small_Wading
+@onready var ai_catfish_small: 				B2_AI_Catfish_Small_Wading = $B2_AI_Catfish_Small
 
 func _ready() -> void:
 	super()
+	ready.connect( _to_wade_or_not_to_wade ) # <- this is the question.
+	
+func _to_wade_or_not_to_wade() -> void:
+	if not check_for_water():
+		actor_ai = ai_catfish_small_wading
+		curr_STATE = STATE.WADING
+		ActorAnim.play( "water" )
+		my_shadow.hide()
+	else:
+		actor_ai = ai_catfish_small
+		my_shadow.show()
+		curr_STATE = B2_CombatActor.STATE.NORMAL
+	
 
 func _ai_ranged_attack( enabled : bool ) -> void:
 	if enabled:
@@ -93,6 +112,9 @@ func _physics_process(delta: float) -> void:
 		STATE.JUMP:
 			velocity = position.direction_to( jump_target ) * position.distance_squared_to( jump_target ) * 10.0
 			apply_central_force( velocity / Engine.time_scale )
+			
+		STATE.WADING:
+			pass
 			
 		STATE.NORMAL:
 			_normal_animation(delta)
