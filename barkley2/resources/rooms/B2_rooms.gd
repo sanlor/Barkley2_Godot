@@ -296,7 +296,7 @@ func _after_ready() -> void:
 			var _log := []
 			## Make spawns to the map.
 			for i in B2_Enemy_Spawner.import( name ):
-				add_sibling.call_deferred( i, true )
+				add_child.call_deferred( i, true )
 				#i.owner = get_parent()
 				_log.append( i.name )
 				

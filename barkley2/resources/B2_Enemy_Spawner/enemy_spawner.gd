@@ -45,21 +45,22 @@ static func import( my_room : String ) -> Array:
 	
 	var spawn_point_array := []
 	
-	for element : String in my_room_data:
-		if element.contains("_palette"): # Ignore palettes
-			continue
-		elif my_room_data[element]["uuid"].contains("_palette"): # Ignore palettes
-			breakpoint
-			continue
-		else:
-			var pos := Vector2( my_room_data[element]["x"], my_room_data[element]["y"] )
-			var point := SPAWNER_POINT.instantiate()
-			point.load_from_dict( my_room_data[element] )
-			point.global_position = pos
-			point.name = "spawnpoint_" + str( my_room_data[element]["uuid"] )
-			#add_sibling( point, true)
-			#point.owner = get_parent()
-			spawn_point_array.append( point )
+	if my_room_data:
+		for element : String in my_room_data:
+			if element.contains("_palette"): # Ignore palettes
+				continue
+			elif my_room_data[element]["uuid"].contains("_palette"): # Ignore palettes
+				breakpoint
+				continue
+			else:
+				var pos := Vector2( my_room_data[element]["x"], my_room_data[element]["y"] )
+				var point := SPAWNER_POINT.instantiate()
+				point.load_from_dict( my_room_data[element] )
+				point.global_position = pos
+				point.name = "spawnpoint_" + str( my_room_data[element]["uuid"] )
+				#add_sibling( point, true)
+				#point.owner = get_parent()
+				spawn_point_array.append( point )
 	
 	return spawn_point_array
 

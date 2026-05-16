@@ -118,6 +118,7 @@ func _load_costume() -> void:
 	var costume : String = B2_Config.get_user_save_data( "player.body", "hoopz" )
 	BodySwap( costume )
 
+# Set some defualt data. Used when you quit the game to the main menu, mainly.
 func _reset_data() -> void:
 	o_hoopz_scene		= O_HOOPZ_NORMAL
 	o_cts_hoopz_scene	= O_CTS_HOOPZ_NORMAL

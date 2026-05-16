@@ -189,3 +189,4 @@ func _on_body_entered( body : Node ) -> void:
 
 func _before_death() -> void:
 	actor_blood_spill.emitting = true
+	ActorSmokeEmitter.emitting = false

@@ -7,4 +7,4 @@ class_name B2_FSM_Change_AI
 func enter() -> void:
 	super()
 	my_actor.actor_ai = new_ai
-	push_warning("%s: Change AI" % my_actor.name)
+	#push_warning("%s: Change AI" % my_actor.name)

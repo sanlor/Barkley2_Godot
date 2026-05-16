@@ -29,7 +29,7 @@ func load_from_dict( dict : Dictionary ) -> void:
 		y			= dict.get("y")
 		objectName	= dict.get("objectName")
 		level		= dict.get("level")
-		_update_visualization()
+		#_update_visualization()
 	else:
 		push_error("Spawner invalid.")
 		queue_free()
@@ -47,10 +47,8 @@ func save_to_dict() -> Dictionary:
 	return dict
 
 func _ready() -> void:
-	if Engine.is_editor_hint():
-		_update_visualization()
-	else:
-		_spawn_enemy()
+	if Engine.is_editor_hint():		_update_visualization()
+	else:							_spawn_enemy()
 
 func _get_enemy_scene() -> PackedScene:
 	if objectName.is_empty():
