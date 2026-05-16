@@ -10,10 +10,10 @@ extends Control
 ## TODO Add a way to "remember" the bridge state
 
 func _ready() -> void:
-	if start_open:
-		execute_event_user_1()
-	else:
-		execute_event_user_0()
+	blocker.collision_layer 	= 21
+	blocker.collision_mask 		= 21
+	if start_open:		execute_event_user_1()
+	else:				execute_event_user_0()
 
 ## open bridge
 func execute_event_user_1() -> void:

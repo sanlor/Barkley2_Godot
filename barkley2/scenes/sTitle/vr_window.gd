@@ -7,7 +7,7 @@ const VRDATA = preload("res://barkley2/scenes/sTitle/vr_missions/vr_data.gd")
 @onready var mission_container: 	VBoxContainer 		= $mission_list/MarginContainer/ScrollContainer/VBoxContainer
 @onready var mission_color_panel: 	ColorRect 			= $mission_desc
 
-@onready var vr_death_counter: Label = $vr_death_counter
+@onready var vr_death_counter: 		Label 				= $vr_death_counter
 
 @onready var begin_label: 			Label 				= $begin_btn/begin_label
 @onready var back_label: 			Label 				= $back_btn/back_label
@@ -33,10 +33,10 @@ func _input(event: InputEvent) -> void:
 	
 func show_menu() -> void:
 	B2_Config.select_user_slot( 69 ) ## Lol
-	vr_death_counter.text = Text.pr( "Hypothetical Deaths: %s " % str( int(B2_Config.get_user_save_data( "player.deaths.total", 0 ) ) ) )
+	vr_death_counter.text = Text.pr( "Hypothetical Deaths: %s " % str( int( B2_Config.get_user_save_data( "player.deaths.total", 0 ) ) ) )
 	for i in 6: ## reset mission select variable.
-		if B2_Playerdata.Quest("vr_mission_%s" % str(i) ) == 1:
-			B2_Playerdata.Quest("vr_mission_%s" % str(i), 0 )
+		if B2_Playerdata.Quest( "vr_mission_%s" % str(i) ) == 1:
+			B2_Playerdata.Quest( "vr_mission_%s" % str(i), 0 )
 			
 	B2_Music.volume_menu( true )
 	B2_Sound.play("sn_mgs_open")
@@ -53,10 +53,8 @@ func _update_description( id : int ) -> void:
 	var mission_description := VRDATA.get_description( id )
 	if mission_description:
 		mission_desc.text = Text.pr( mission_description )
-		if B2_Playerdata.Quest("vr_mission_%s_complete" % str(id) ) == 1:
-			mission_desc.text += "\n" + Text.pr( "(Completed)" )
-		elif B2_Playerdata.Quest("vr_mission_%s" % str(id) ) == 2:
-			mission_desc.text += "\n" + Text.pr( "(Unfinished)" )
+		if B2_Playerdata.Quest("vr_mission_%s_complete" % str(id) ) == 1:			mission_desc.text += "\n" + Text.pr( "(Completed)" )
+		elif B2_Playerdata.Quest("vr_mission_%s" % str(id) ) == 2:					mission_desc.text += "\n" + Text.pr( "(Unfinished)" )
 	else:
 		mission_desc.text = Text.pr( "Invalid mission description." )
 
@@ -84,9 +82,9 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.Quest( "vr_mission_0", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
 			
-			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
-			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
-			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
+			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", 	"???" ); 	# constant P_NAME_S
 			
 			B2_Jerkin.reset()
 			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
@@ -114,9 +112,9 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.Quest( "vr_mission_1", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
 			
-			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
-			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
-			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
+			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", 	"???" ); 	# constant P_NAME_S
 			
 			B2_Jerkin.reset()
 			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )
@@ -144,9 +142,9 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.Quest( "vr_mission_2", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
 			
-			B2_Playerdata.Quest( "playerName", "???" ); 		# constant P_NAME
-			B2_Playerdata.Quest( "playerNameFull", "???" ); 	# constant P_NAME_F
-			B2_Playerdata.Quest( "playerNameShort", "???" ); 	# constant P_NAME_S
+			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
+			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F
+			B2_Playerdata.Quest( "playerNameShort", 	"???" ); 	# constant P_NAME_S
 			
 			B2_Jerkin.reset()
 			B2_Jerkin.gain_jerkin( "Cornhusk Jerkin" )

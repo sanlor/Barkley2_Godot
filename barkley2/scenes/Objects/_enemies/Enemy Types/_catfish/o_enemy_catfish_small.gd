@@ -87,6 +87,12 @@ func _before_death() -> void:
 	actor_blood_spill.emitting = true
 	set_physics_process( false ) # Also stops the AI.
 
+func damage_actor( damage : float, force : Vector2 ) -> void:
+	if curr_STATE == STATE.WADING:
+		return
+	else:
+		super(damage, force)
+
 ## DEBUG jump
 func cinema_jump( jump_offset := Vector2.ZERO ) -> void:
 	if jump_tween: jump_tween.kill()

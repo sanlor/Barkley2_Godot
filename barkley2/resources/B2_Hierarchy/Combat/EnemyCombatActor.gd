@@ -435,7 +435,7 @@ func destroy_actor() -> void:
 		pass
 	else:
 		var t := create_tween()
-		t.tween_property( ActorAnim, "modulate", Color.TRANSPARENT, randf_range( 0.05, 0.25 ) )
+		t.tween_property( ActorAnim, "self_modulate", Color.TRANSPARENT, randf_range( 0.05, 0.25 ) )
 		#t.tween_property( self, "modulate", Color.TRANSPARENT, randf_range( 0.1, 0.25 ) )
 		
 		## Disabled 21-04-25
@@ -443,6 +443,7 @@ func destroy_actor() -> void:
 			#t.tween_callback( B2_CManager.combat_manager.enemy_defeated.bind(self) )
 		#else:
 			#push_warning( "Combat manager not loaded" )
+			
 		t.tween_interval( 5.0 ) ## Add a small delay to wait on some animations to finish.
 		t.tween_callback( get_parent().remove_child.bind(self) )
 	

@@ -1,3 +1,4 @@
+## DEPRECATED
 @tool
 @icon("res://barkley2/assets/b2_original/images/merged/sBCTWarpE.png")
 extends Area2D
@@ -67,8 +68,8 @@ func _make_enemies() -> void:
 
 func begin_battle() -> void:
 	_pre_battle_start()
-	for e : B2_EnemyCombatActor in my_enemies:
-		e.set_mode( B2_EnemyCombatActor.MODE.COMBAT )
+	#for e : B2_EnemyCombatActor in my_enemies:
+	#	e.set_mode( B2_EnemyCombatActor.MODE.COMBAT )
 		
 	B2_CManager.cinema_caller = self
 	B2_CManager.start_combat( combat_script, my_enemies )
