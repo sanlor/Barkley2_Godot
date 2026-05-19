@@ -1,0 +1,437 @@
+[gd_scene format=3 uid="uid://b2w2xeosky5a3"]
+
+[ext_resource type="Script" uid="uid://2qfoqautdnav" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Sewer Beast/o_enemy_sewer_beast_young.gd" id="1_wplwc"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_5hp1v"]
+[ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_wplwc"]
+[ext_resource type="Resource" uid="uid://pwt1kw4evjyt" path="res://barkley2/resources/B2_EnemyData/sewerBeast_young.tres" id="3_bc70v"]
+[ext_resource type="Texture2D" uid="uid://ci5kfimgastu6" path="res://barkley2/assets/b2_original/images/merged/s_sewerBeast_young.png" id="3_vbw3a"]
+[ext_resource type="AudioStream" uid="uid://cp8vy83gypsbb" path="res://barkley2/assets/b2_original/audio/new_sfx/sonic2/sonic-spindash.ogg" id="4_wplwc"]
+[ext_resource type="Script" uid="uid://drt6du7p7v1mk" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small.gd" id="5_52lok"]
+[ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="6_4amar"]
+[ext_resource type="Script" uid="uid://yxxhul8s0hir" path="res://barkley2/resources/B2_FSM/catfish/fsm_jump_toward_player_catfish.gd" id="7_afiqh"]
+[ext_resource type="Script" uid="uid://bfiniwj7y5f57" path="res://barkley2/resources/B2_FSM/fsm_change_ai.gd" id="8_78git"]
+[ext_resource type="Script" uid="uid://fjoqd0h0ftr5" path="res://barkley2/resources/B2_AI/SewerBeast/ai_sewerbeast_young.gd" id="9_4amar"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wplwc"]
+friction = 0.25
+bounce = 0.25
+absorbent = true
+
+[sub_resource type="Resource" id="Resource_1dlb8"]
+script = ExtResource("2_wplwc")
+ANIMATION_STAND = "beast_stand"
+ANIMATION_SOUTH = "beast_stand"
+ANIMATION_SOUTHEAST = "beast_stand"
+ANIMATION_SOUTHWEST = "beast_stand"
+ANIMATION_WEST = "beast_stand"
+ANIMATION_NORTH = "beast_stand_up"
+ANIMATION_NORTHEAST = "beast_stand_up"
+ANIMATION_NORTHWEST = "beast_stand_up"
+ANIMATION_EAST = "beast_stand"
+ANIMATION_STAND_SPRITE_INDEX = [0, 0, 0, 0, 0, 0, 0, 0]
+metadata/_custom_type_script = "uid://j3rexlxomei3"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bc70v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dlb8"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quhfh"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52lok"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4amar"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_afiqh"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78git"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1ko6"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_506w1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dlb8")
+}],
+"loop": true,
+"name": &"beast_hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_quhfh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52lok")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4amar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52lok")
+}],
+"loop": true,
+"name": &"beast_wiggle",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_afiqh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78git")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1ko6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78git")
+}],
+"loop": true,
+"name": &"beast_wiggle_up",
+"speed": 7.5
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pn3wo"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fofol"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o4hei"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkbt1"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwm12"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mq6kc"]
+atlas = ExtResource("3_vbw3a")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6o1qf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pn3wo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fofol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o4hei")
+}],
+"loop": false,
+"name": &"beast_shoot",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkbt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwm12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mq6kc")
+}],
+"loop": false,
+"name": &"beast_shoot_up",
+"speed": 7.5
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pn3wo")
+}],
+"loop": true,
+"name": &"beast_stand",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkbt1")
+}],
+"loop": true,
+"name": &"beast_stand_up",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_quhfh"]
+_data = [Vector2(0, 0.88748336), 0.0, 0.0, 0, 0, Vector2(0.993421, 0), -2.9684808, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjx5q"]
+curve = SubResource("Curve_quhfh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_52lok"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 30.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_fjx5q")
+
+[node name="o_enemy_sewerBeast_young" type="RigidBody2D" unique_id=683507623 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
+mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_wplwc")
+gravity_scale = 0.0
+script = ExtResource("1_wplwc")
+show_life_bar = null
+show_combat_debug_data = null
+damage_player_on_contact = null
+cast_shadow = null
+shadow_scale = null
+ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
+has_collision = null
+actor_animations = SubResource("Resource_1dlb8")
+animation_attack = "beast_shoot"
+animation_jump = null
+animation_stagger = null
+sound_alert = "sewerbeastJr_alert"
+sound_damage = "sewerbeastJr_hit"
+sound_death = "sewerbeastJr_death"
+sound_charge = null
+make_gibs = null
+gib_sprite = null
+splatSound = null
+bloodburst = null
+explode_on_death = null
+stay_after_death = null
+death_animation = null
+enemy_name = "Sewer Beast (Young)"
+enemy_data = ExtResource("3_bc70v")
+ActorAnim = NodePath("ActorAnim")
+ActorAudioPlayer = NodePath("ActorAudioPlayer")
+ActorNav = NodePath("ActorNav")
+ActorCol = NodePath("ActorCol")
+walk_speed = null
+roll_impulse = null
+walk_damp = null
+roll_damp = null
+actor_ai = NodePath("B2_AI_Player")
+path_desired_distance = null
+target_desired_distance = null
+animation_speed = null
+invert_north_facing_sprite = null
+metadata/_custom_type_script = "uid://ceqeseg77uiw"
+
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=1545595664]
+script = ExtResource("2_5hp1v")
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_Wading" type="Node2D" parent="." unique_id=2022279419 node_paths=PackedStringArray("curr_STATE")]
+script = ExtResource("5_52lok")
+curr_STATE = NodePath("B2_FSM_Idle")
+metadata/_custom_type_script = "uid://drt6du7p7v1mk"
+
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Wading" unique_id=1540623239 node_paths=PackedStringArray("detected_state", "wander_state")]
+script = ExtResource("6_4amar")
+enemy_detection_radius = 96.0
+detected_state = NodePath("../B2_FSM_Jump_Toward_Player")
+wander_time = inf
+wander_state = NodePath("../B2_FSM_Jump_Toward_Player")
+metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
+
+[node name="B2_FSM_Jump_Toward_Player" type="Node" parent="B2_AI_Wading" unique_id=960980924 node_paths=PackedStringArray("landed_state")]
+script = ExtResource("7_afiqh")
+landed_state = NodePath("../B2_FSM_Change_AI")
+metadata/_custom_type_script = "uid://cex41d0ihv462"
+
+[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Wading" unique_id=670667208 node_paths=PackedStringArray("new_ai")]
+script = ExtResource("8_78git")
+new_ai = NodePath("")
+metadata/_custom_type_script = "uid://bfiniwj7y5f57"
+
+[node name="B2_AI_SewerBeast_Young" type="Node2D" parent="." unique_id=1509264843]
+script = ExtResource("9_4amar")
+metadata/_custom_type_script = "uid://fjoqd0h0ftr5"
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=673196727]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_bc70v")
+
+[node name="ActorAnimLower" type="AnimatedSprite2D" parent="." unique_id=1998002053]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_506w1")
+animation = &"beast_wiggle_up"
+frame_progress = 0.38237616
+centered = false
+offset = Vector2(-29, -50)
+metadata/facing = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/computer = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/tendEggDOWN = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDrone01 = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDroneUP01 = {
+"bbox_bottom": "58",
+"bbox_left": "13",
+"bbox_right": "43",
+"bbox_top": "17",
+"height": "64",
+"name": "s_eggDroneUP01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDroneDOWN01 = {
+"bbox_bottom": "58",
+"bbox_left": "14",
+"bbox_right": "51",
+"bbox_top": "18",
+"height": "64",
+"name": "s_eggDroneDOWN01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=835294482]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_6o1qf")
+animation = &"beast_shoot"
+centered = false
+offset = Vector2(-29, -50)
+metadata/facing = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/computer = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/tendEggDOWN = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDrone01 = {
+"bbox_bottom": "63",
+"bbox_left": "0",
+"bbox_right": "63",
+"bbox_top": "0",
+"height": "64",
+"name": "s_eggDrone01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDroneUP01 = {
+"bbox_bottom": "58",
+"bbox_left": "13",
+"bbox_right": "43",
+"bbox_top": "17",
+"height": "64",
+"name": "s_eggDroneUP01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+metadata/s_eggDroneDOWN01 = {
+"bbox_bottom": "58",
+"bbox_left": "14",
+"bbox_right": "51",
+"bbox_top": "18",
+"height": "64",
+"name": "s_eggDroneDOWN01",
+"width": "64",
+"xorig": "29",
+"yorigin": "50"
+}
+
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=1504337078]
+emitting = false
+amount = 64
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_52lok")
+
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=31265203]
+stream = ExtResource("4_wplwc")
+max_distance = 200.0
+max_polyphony = 5
+bus = &"Audio"
+
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=855149546]

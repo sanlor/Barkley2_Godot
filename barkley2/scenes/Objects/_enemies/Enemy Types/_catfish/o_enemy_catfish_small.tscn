@@ -93,12 +93,12 @@ actor_ai = NodePath("B2_AI_Catfish_Small")
 script = ExtResource("5_e35da")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
-[node name="B2_AI_Catfish_Small_Wading" type="Node2D" parent="." unique_id=856299624 node_paths=PackedStringArray("curr_STATE")]
+[node name="B2_AI_Wading" type="Node2D" parent="." unique_id=856299624 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("5_pum08")
 curr_STATE = NodePath("B2_FSM_Idle")
 metadata/_custom_type_script = "uid://drt6du7p7v1mk"
 
-[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=1042281469 node_paths=PackedStringArray("detected_state", "wander_state")]
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_Wading" unique_id=1042281469 node_paths=PackedStringArray("detected_state", "wander_state")]
 script = ExtResource("6_sj8r4")
 enemy_detection_radius = 96.0
 detected_state = NodePath("../B2_FSM_Jump_Toward_Player")
@@ -106,12 +106,12 @@ wander_time = inf
 wander_state = NodePath("../B2_FSM_Jump_Toward_Player")
 metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 
-[node name="B2_FSM_Jump_Toward_Player" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=131508442 node_paths=PackedStringArray("landed_state")]
+[node name="B2_FSM_Jump_Toward_Player" type="Node" parent="B2_AI_Wading" unique_id=131508442 node_paths=PackedStringArray("landed_state")]
 script = ExtResource("8_hfen3")
 landed_state = NodePath("../B2_FSM_Change_AI")
 metadata/_custom_type_script = "uid://cex41d0ihv462"
 
-[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Catfish_Small_Wading" unique_id=960564490 node_paths=PackedStringArray("new_ai")]
+[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Wading" unique_id=960564490 node_paths=PackedStringArray("new_ai")]
 script = ExtResource("9_hfen3")
 new_ai = NodePath("../../B2_AI_Catfish_Small")
 metadata/_custom_type_script = "uid://bfiniwj7y5f57"
@@ -177,6 +177,7 @@ process_material = SubResource("ParticleProcessMaterial_hfen3")
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1862578859]
 use_parent_material = true
 sprite_frames = ExtResource("15_fjx5q")
+animation = &"catfish_stand"
 centered = false
 offset = Vector2(-24, -37)
 metadata/default = {

@@ -5,6 +5,12 @@ class_name B2_Enemy_EggDrone
 func _ready() -> void:
 	super()
 
+func _before_death() -> void:
+	ActorSmokeEmitter.emitting = false
+
+func _after_death() -> void:
+	pass
+
 func _after_damage() -> void:
 	## TODO
 	pass

@@ -1,3 +1,4 @@
+@icon("uid://ccijfmcdrqc32")
 extends B2_AI
 class_name B2_AI_Player
 ## Player AI. Receives user inputs and puppeters the parent node (o_hoopz usually).

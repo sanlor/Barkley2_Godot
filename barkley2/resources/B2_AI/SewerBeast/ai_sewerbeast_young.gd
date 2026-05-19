@@ -1,0 +1,2 @@
+extends B2_AI_SewerBeast
+class_name B2_AI_SewerBeast_Young
