@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b2w2xeosky5a3"]
 
-[ext_resource type="Script" uid="uid://2qfoqautdnav" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Sewer Beast/o_enemy_sewer_beast_young.gd" id="1_wplwc"]
+[ext_resource type="Script" uid="uid://2qfoqautdnav" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/Sewer Beast/o_enemy_sewerBeast_young.gd" id="1_wplwc"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_5hp1v"]
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_wplwc"]
 [ext_resource type="Resource" uid="uid://pwt1kw4evjyt" path="res://barkley2/resources/B2_EnemyData/sewerBeast_young.tres" id="3_bc70v"]
@@ -9,8 +9,13 @@
 [ext_resource type="Script" uid="uid://drt6du7p7v1mk" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small.gd" id="5_52lok"]
 [ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="6_4amar"]
 [ext_resource type="Script" uid="uid://yxxhul8s0hir" path="res://barkley2/resources/B2_FSM/catfish/fsm_jump_toward_player_catfish.gd" id="7_afiqh"]
+[ext_resource type="Script" uid="uid://gmxq1j4sfv7d" path="res://barkley2/resources/B2_FSM/fsm_wander.gd" id="7_pn3wo"]
 [ext_resource type="Script" uid="uid://bfiniwj7y5f57" path="res://barkley2/resources/B2_FSM/fsm_change_ai.gd" id="8_78git"]
+[ext_resource type="Script" uid="uid://c462tqotcvtw6" path="res://barkley2/resources/B2_FSM/fsm_keep_distance.gd" id="8_fofol"]
 [ext_resource type="Script" uid="uid://fjoqd0h0ftr5" path="res://barkley2/resources/B2_AI/SewerBeast/ai_sewerbeast_young.gd" id="9_4amar"]
+[ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/fsm_ready_attack.gd" id="10_pkbt1"]
+[ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/fsm_attack.gd" id="11_nwm12"]
+[ext_resource type="Texture2D" uid="uid://qncevfm4omya" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_medium.png" id="15_pn3wo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wplwc"]
 friction = 0.25
@@ -130,6 +135,22 @@ region = Rect2(256, 0, 64, 64)
 atlas = ExtResource("3_vbw3a")
 region = Rect2(320, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sgdn"]
+atlas = ExtResource("15_pn3wo")
+region = Rect2(0, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj202"]
+atlas = ExtResource("15_pn3wo")
+region = Rect2(35, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5rpg3"]
+atlas = ExtResource("15_pn3wo")
+region = Rect2(70, 0, 35, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pq8a"]
+atlas = ExtResource("15_pn3wo")
+region = Rect2(105, 0, 35, 25)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_6o1qf"]
 animations = [{
 "frames": [{
@@ -175,6 +196,23 @@ animations = [{
 "loop": true,
 "name": &"beast_stand_up",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sgdn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj202")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rpg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pq8a")
+}],
+"loop": true,
+"name": &"water",
+"speed": 5.0
 }]
 
 [sub_resource type="Curve" id="Curve_quhfh"]
@@ -198,49 +236,71 @@ alpha_curve = SubResource("CurveTexture_fjx5q")
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wplwc")
 gravity_scale = 0.0
+lock_rotation = true
+contact_monitor = true
+max_contacts_reported = 5
+linear_damp = 7.0
 script = ExtResource("1_wplwc")
-show_life_bar = null
-show_combat_debug_data = null
-damage_player_on_contact = null
-cast_shadow = null
-shadow_scale = null
+show_combat_debug_data = true
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
-has_collision = null
 actor_animations = SubResource("Resource_1dlb8")
 animation_attack = "beast_shoot"
-animation_jump = null
-animation_stagger = null
 sound_alert = "sewerbeastJr_alert"
 sound_damage = "sewerbeastJr_hit"
 sound_death = "sewerbeastJr_death"
-sound_charge = null
-make_gibs = null
-gib_sprite = null
-splatSound = null
-bloodburst = null
-explode_on_death = null
-stay_after_death = null
-death_animation = null
 enemy_name = "Sewer Beast (Young)"
 enemy_data = ExtResource("3_bc70v")
 ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-walk_speed = null
-roll_impulse = null
-walk_damp = null
-roll_damp = null
+walk_speed = 3000000
+print_ai_changes = true
 actor_ai = NodePath("B2_AI_Player")
-path_desired_distance = null
-target_desired_distance = null
-animation_speed = null
-invert_north_facing_sprite = null
 metadata/_custom_type_script = "uid://ceqeseg77uiw"
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=1545595664]
 script = ExtResource("2_5hp1v")
 metadata/_custom_type_script = "uid://cfxucydrvtfvi"
+
+[node name="B2_AI_SewerBeast_Young" type="Node2D" parent="." unique_id=1509264843 node_paths=PackedStringArray("curr_STATE")]
+script = ExtResource("9_4amar")
+curr_STATE = NodePath("B2_FSM_Idle")
+metadata/_custom_type_script = "uid://fjoqd0h0ftr5"
+
+[node name="B2_FSM_Idle" type="Node" parent="B2_AI_SewerBeast_Young" unique_id=759724550 node_paths=PackedStringArray("detected_state", "wander_state")]
+script = ExtResource("6_4amar")
+enemy_detection_radius = 128.0
+detected_state = NodePath("../B2_FSM_Keep_Distance")
+wander_state = NodePath("../B2_FSM_Wander")
+metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
+
+[node name="B2_FSM_Wander" type="Node" parent="B2_AI_SewerBeast_Young" unique_id=1811674000 node_paths=PackedStringArray("detected_state", "idle_state")]
+script = ExtResource("7_pn3wo")
+detected_state = NodePath("../B2_FSM_Keep_Distance")
+idle_state = NodePath("../B2_FSM_Idle")
+metadata/_custom_type_script = "uid://gmxq1j4sfv7d"
+
+[node name="B2_FSM_Keep_Distance" type="Node" parent="B2_AI_SewerBeast_Young" unique_id=1987305892 node_paths=PackedStringArray("next_action_state")]
+script = ExtResource("8_fofol")
+next_action_timer = 2.0
+next_action_timer_variation = 3.0
+next_action_state = NodePath("../B2_FSM_Ready_Attack")
+metadata/_custom_type_script = "uid://c462tqotcvtw6"
+
+[node name="B2_FSM_Ready_Attack" type="Node" parent="B2_AI_SewerBeast_Young" unique_id=644628080 node_paths=PackedStringArray("attack_state")]
+script = ExtResource("10_pkbt1")
+attack_state = NodePath("../B2_FSM_Attack")
+always_face_the_enemy = true
+metadata/_custom_type_script = "uid://i6own6gfjft5"
+
+[node name="B2_FSM_Attack" type="Node" parent="B2_AI_SewerBeast_Young" unique_id=1943225899 node_paths=PackedStringArray("attack_again_state", "after_attack_state")]
+script = ExtResource("11_nwm12")
+attack_again_state = NodePath("../B2_FSM_Ready_Attack")
+after_attack_state = NodePath("../B2_FSM_Keep_Distance")
+randomly_attack_again = true
+always_face_the_enemy = true
+metadata/_custom_type_script = "uid://4y3kx18rxbj5"
 
 [node name="B2_AI_Wading" type="Node2D" parent="." unique_id=2022279419 node_paths=PackedStringArray("curr_STATE")]
 script = ExtResource("5_52lok")
@@ -260,14 +320,9 @@ script = ExtResource("7_afiqh")
 landed_state = NodePath("../B2_FSM_Change_AI")
 metadata/_custom_type_script = "uid://cex41d0ihv462"
 
-[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Wading" unique_id=670667208 node_paths=PackedStringArray("new_ai")]
+[node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Wading" unique_id=670667208]
 script = ExtResource("8_78git")
-new_ai = NodePath("")
 metadata/_custom_type_script = "uid://bfiniwj7y5f57"
-
-[node name="B2_AI_SewerBeast_Young" type="Node2D" parent="." unique_id=1509264843]
-script = ExtResource("9_4amar")
-metadata/_custom_type_script = "uid://fjoqd0h0ftr5"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=673196727]
 position = Vector2(0, -3)
@@ -276,8 +331,7 @@ shape = SubResource("CircleShape2D_bc70v")
 [node name="ActorAnimLower" type="AnimatedSprite2D" parent="." unique_id=1998002053]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_506w1")
-animation = &"beast_wiggle_up"
-frame_progress = 0.38237616
+animation = &"beast_hurt"
 centered = false
 offset = Vector2(-29, -50)
 metadata/facing = {

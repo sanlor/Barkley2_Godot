@@ -275,7 +275,7 @@ func _physics_process( delta: float ) -> void:
 		
 	match curr_STATE:
 		STATE.NORMAL:			_normal_animation(delta)
-		_:						breakpoint ## TODO Set default states
+		_:						pass # breakpoint ## TODO Set default states
 		
 	## Anim stuff
 	last_movement_vector 	= movement_vector

@@ -58,7 +58,13 @@ var velocity			:= Vector2.ZERO
 
 ## Sets the actor AI. Hoopz should use a special "player" AI that handles user inputs.
 @export_category("A.I") ## Artificial... Inteligence... -Neil Breen
-@export var actor_ai 		: B2_AI
+@export var print_ai_changes 	:= false
+@export var actor_ai 			: B2_AI :
+	set(ai):
+		if print_ai_changes:
+			if actor_ai:			print("%s: Changing AI from %s to %s." %[name, actor_ai.name, ai.name])
+			else:					print("%s: Changing AI from 'null' to %s." %[name, ai.name])
+		actor_ai = ai
 
 @export_category("Pathfinding")
 @export var path_desired_distance 	= 4.0
@@ -160,20 +166,20 @@ func apply_curr_aim( dir : Vector2 ) -> void:
 	#print(curr_aim)
 
 ## Correcly flip the 'ActorAnim' according to the input.
-func flip_sprite( input_override := Vector2.ZERO ) -> void:
+func flip_sprite( input_override := Vector2.ZERO, sprite := ActorAnim ) -> void:
 	var input := curr_input
 	if curr_aim:
 		input = curr_aim
 	if input_override:
 		input = input_override
 		
-	ActorAnim.flip_h = input.x < 0.0 ## If going left, flip the sprite
+	sprite.flip_h = input.x < 0.0 ## If going left, flip the sprite
 	if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
 		# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
-		ActorAnim.flip_h = not ActorAnim.flip_h
+		sprite.flip_h = not ActorAnim.flip_h
 		
 		# Yeah, just invert it again.
-		if invert_north_facing_sprite: ActorAnim.flip_h = not ActorAnim.flip_h
+		if invert_north_facing_sprite: sprite.flip_h = not sprite.flip_h
 
 ## TODO
 # NOTE This is a important function. Without running it, AIs cant control the actor.
