@@ -16,6 +16,8 @@
 [ext_resource type="Script" uid="uid://i6own6gfjft5" path="res://barkley2/resources/B2_FSM/fsm_ready_attack.gd" id="10_pkbt1"]
 [ext_resource type="Script" uid="uid://4y3kx18rxbj5" path="res://barkley2/resources/B2_FSM/fsm_attack.gd" id="11_nwm12"]
 [ext_resource type="Texture2D" uid="uid://qncevfm4omya" path="res://barkley2/assets/b2_original/images/merged/s_watershadow_medium.png" id="15_pn3wo"]
+[ext_resource type="Texture2D" uid="uid://boo8ilhgasala" path="res://barkley2/assets/b2_original/images/merged/s_fx_bloodBurst.png" id="16_o4hei"]
+[ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="17_pkbt1"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wplwc"]
 friction = 0.25
@@ -232,6 +234,12 @@ initial_velocity_max = 100.0
 gravity = Vector3(0, 98, 0)
 alpha_curve = SubResource("CurveTexture_fjx5q")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nwm12"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [node name="o_enemy_sewerBeast_young" type="RigidBody2D" unique_id=683507623 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 100.0
 physics_material_override = SubResource("PhysicsMaterial_wplwc")
@@ -248,6 +256,7 @@ animation_attack = "beast_shoot"
 sound_alert = "sewerbeastJr_alert"
 sound_damage = "sewerbeastJr_hit"
 sound_death = "sewerbeastJr_death"
+splatSound = "kobold_splatter"
 enemy_name = "Sewer Beast (Young)"
 enemy_data = ExtResource("3_bc70v")
 ActorAnim = NodePath("ActorAnim")
@@ -256,7 +265,7 @@ ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 walk_speed = 3000000
 print_ai_changes = true
-actor_ai = NodePath("B2_AI_Player")
+actor_ai = NodePath("B2_AI_SewerBeast_Young")
 metadata/_custom_type_script = "uid://ceqeseg77uiw"
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=1545595664]
@@ -481,6 +490,16 @@ lifetime = 1.5
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_52lok")
+
+[node name="ActorBloodSpill" type="GPUParticles2D" parent="." unique_id=1363587283]
+material = SubResource("CanvasItemMaterial_nwm12")
+position = Vector2(0, -8)
+emitting = false
+amount = 4
+texture = ExtResource("16_o4hei")
+one_shot = true
+explosiveness = 0.85
+process_material = ExtResource("17_pkbt1")
 
 [node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=31265203]
 stream = ExtResource("4_wplwc")

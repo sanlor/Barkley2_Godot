@@ -10,6 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://c630n0bav6d0u" path="res://barkley2/assets/b2_original/images/merged/s_cgremlin_small_gibs.png" id="6_wgs0q"]
 [ext_resource type="Texture2D" uid="uid://dqw7kc1xjhpd4" path="res://barkley2/assets/b2_original/images/merged/s_koboldLarge_gibs.png" id="9_14s8l"]
 [ext_resource type="Texture2D" uid="uid://ddsvvhtnxj1ex" path="res://barkley2/assets/b2_original/images/merged/s_koboldMed_gibs.png" id="10_qucee"]
+[ext_resource type="Texture2D" uid="uid://boo8ilhgasala" path="res://barkley2/assets/b2_original/images/merged/s_fx_bloodBurst.png" id="11_5ry1k"]
+[ext_resource type="Texture2D" uid="uid://ci5kfimgastu6" path="res://barkley2/assets/b2_original/images/merged/s_sewerBeast_young.png" id="11_wgs0q"]
+[ext_resource type="Material" uid="uid://blqto5mhnvmvc" path="res://barkley2/shaders/particles/o_gibs_blood.tres" id="12_wgs0q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0jqbp"]
 atlas = ExtResource("3_pvkl8")
@@ -379,6 +382,58 @@ region = Rect2(96, 0, 16, 16)
 atlas = ExtResource("10_qucee")
 region = Rect2(112, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pybbm"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30aq5"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vf4h"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdxgx"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvmqr"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fb5ck"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu4v0"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hda24"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kr5aq"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_me5ul"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skrhy"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkbml"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be4ko"]
+atlas = ExtResource("11_wgs0q")
+region = Rect2(768, 0, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_p462t"]
 animations = [{
 "frames": [{
@@ -696,7 +751,57 @@ animations = [{
 "loop": true,
 "name": &"s_koboldMed_gibs",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pybbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30aq5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vf4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdxgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvmqr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fb5ck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu4v0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hda24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kr5aq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_me5ul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skrhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkbml")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_be4ko")
+}],
+"loop": true,
+"name": &"s_sewerBeast_young",
+"speed": 5.0
 }]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_14s8l"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
 [node name="o_gibs" type="Node2D" unique_id=1940155690]
 script = ExtResource("1_ujp5s")
@@ -706,7 +811,7 @@ scale = Vector2(0.25, 0.125)
 
 [node name="part_sprite" type="AnimatedSprite2D" parent="." unique_id=291742942]
 sprite_frames = SubResource("SpriteFrames_p462t")
-animation = &"s_enemy_rat_bones"
+animation = &"s_catfish_gibs"
 
 [node name="gib_life_timer" type="Timer" parent="." unique_id=636683378]
 wait_time = 10.0
@@ -715,3 +820,11 @@ autostart = true
 [node name="gib_sfx" type="AudioStreamPlayer2D" parent="." unique_id=1761595308]
 max_distance = 500.0
 bus = &"Audio"
+
+[node name="blood_burst" type="GPUParticles2D" parent="." unique_id=780164153]
+material = SubResource("CanvasItemMaterial_14s8l")
+emitting = false
+amount = 32
+texture = ExtResource("11_5ry1k")
+one_shot = true
+process_material = ExtResource("12_wgs0q")

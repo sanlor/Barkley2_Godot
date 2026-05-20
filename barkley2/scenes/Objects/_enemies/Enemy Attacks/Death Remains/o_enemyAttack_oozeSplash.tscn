@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://b38k1jre2818k"]
+
+[ext_resource type="Script" uid="uid://ctjy3upckvoah" path="res://barkley2/scenes/Objects/_enemies/Enemy Attacks/Death Remains/o_enemyAttack_oozeSplash.gd" id="1_ems76"]
+[ext_resource type="Texture2D" uid="uid://d2ahuyjlu2ifg" path="res://barkley2/assets/b2_original/images/merged/s_proj_bioSplash.png" id="2_vbstg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0jg6"]
+atlas = ExtResource("2_vbstg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsy8x"]
+atlas = ExtResource("2_vbstg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j65d3"]
+atlas = ExtResource("2_vbstg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oq58u"]
+atlas = ExtResource("2_vbstg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_av1ln"]
+atlas = ExtResource("2_vbstg")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0u8ed"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0jg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsy8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j65d3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oq58u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_av1ln")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u87ng"]
+
+[node name="o_enemyAttack_oozeSplash" type="Area2D" unique_id=2096824846]
+z_index = -1
+linear_damp_space_override = 1
+linear_damp = 5.0
+script = ExtResource("1_ems76")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=731513745]
+sprite_frames = SubResource("SpriteFrames_0u8ed")
+autoplay = "default"
+frame_progress = 0.78595495
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=743757990]
+shape = SubResource("CircleShape2D_u87ng")
+disabled = true
+
+[node name="hit_timer" type="Timer" parent="." unique_id=1926920102]
+wait_time = 0.5
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=932850394]
+max_distance = 500.0
+bus = &"Audio"
+
+[connection signal="timeout" from="hit_timer" to="." method="_on_hit_timer_timeout"]

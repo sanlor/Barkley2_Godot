@@ -1,4 +1,5 @@
 extends Node2D
+class_name B2_Gibs
 ## Generic Gibs object for defeated enemies.
 
 const S_EFFECT_SLUDGE_DRIP = preload("uid://bnbunxj15a4q1")
@@ -6,19 +7,22 @@ const S_EFFECT_SLUDGE_DRIP = preload("uid://bnbunxj15a4q1")
 @onready var part_sprite		: AnimatedSprite2D 		= $part_sprite
 @onready var gib_life_timer		: Timer 				= $gib_life_timer
 @onready var gib_sfx			: AudioStreamPlayer2D 	= $gib_sfx
+@onready var blood_burst		: GPUParticles2D = $blood_burst
 
 var dir := Vector2.RIGHT.rotated( randf_range( -PI, PI ) )
 
 ## sound used when the gib bonces on the ground or the wall.
-var splatSound := ""
-var gib_sprite := ""
-var sprite_set := 0
+var splatSound 			:= ""
+var gib_sprite 			:= ""
+var sprite_set 			:= 0
+var sprite_frame 		:= -1 		## Set a speccific sprite frame
 
 ## how many times the gib can bounce on the ground.
 var bounces = [1,2,2,3,3,3].pick_random()
 
 ## ??????
-var bloodburst = "s_fx_bloodBurst"
+var enable_bloodburst 	:= false
+var bloodburst 			:= "s_fx_bloodBurst"
 
 ## Code stolen from o_casing
 var velocity 			:= Vector2()
@@ -42,10 +46,16 @@ func _ready() -> void:
 	gib_life_timer.start( gib_life_timer.wait_time * randf_range( 0.6, 2.0 ) )
 	gib_life_timer.timeout.connect( cleanup )
 	
+	if enable_bloodburst:
+		blood_burst.emitting = true
+	
 	## set a random sprite
 	if gib_sprite:
 		part_sprite.animation = gib_sprite
-		part_sprite.frame = randi_range( 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
+		if sprite_frame >= 0:
+			part_sprite.frame = clampi( sprite_frame, 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
+		else:
+			part_sprite.frame = randi_range( 0, part_sprite.sprite_frames.get_frame_count( part_sprite.animation ) )
 	
 	if splatSound: gib_sfx.stream = load( B2_Sound.get_sound( splatSound ) )
 

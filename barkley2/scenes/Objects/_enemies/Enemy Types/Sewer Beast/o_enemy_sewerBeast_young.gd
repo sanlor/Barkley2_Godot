@@ -4,11 +4,13 @@ class_name B2_Enemy_SewerBeast
 var is_wading := false
 
 const O_SPLASH:													= preload("uid://dgxwfaoi5p3x1")
+const O_ENEMY_ATTACK_BULLET_OOZE_SPIT 							= preload("uid://c36knm16d25gp")
 
 @onready var ai_wading: 				B2_AI_Wading 			= $B2_AI_Wading
 @onready var ai_sewer_beast_young: 		B2_AI_SewerBeast_Young 	= $B2_AI_SewerBeast_Young
 
-@onready var ActorAnimLower: AnimatedSprite2D = $ActorAnimLower
+@onready var ActorAnimLower: 			AnimatedSprite2D 		= $ActorAnimLower
+@onready var actor_blood_spill: 		GPUParticles2D 			= $ActorBloodSpill
 
 func _ready() -> void:
 	super()
@@ -31,6 +33,31 @@ func _ai_ranged_attack( enabled : bool ) -> void:
 		if curr_STATE == STATE.NORMAL:
 			_begin_attack()
 			
+## Special gibbing
+func spawn_gibs() -> void:
+	const O_GIBS = preload("res://barkley2/scenes/Objects/_enemies/o_gibs.tscn")
+	
+	var gimme_gibs := func() -> B2_Gibs:
+		var gib : B2_Gibs = O_GIBS.instantiate()
+		gib.global_position = global_position + Vector2( randf_range(-16,16), randf_range(-16,16) )
+		gib.gib_sprite = gib_sprite
+		gib.splatSound = splatSound
+		gib.bloodburst = bloodburst
+		gib.enable_bloodburst = true
+		return gib
+	
+	var head_gib : B2_Gibs = gimme_gibs.call()
+	head_gib.gib_sprite = "s_sewerBeast_young"
+	head_gib.sprite_frame = randi_range(0,5)
+	add_sibling( head_gib, true )
+	
+	for i in randi_range(2,8) + 2:
+		var gib : B2_Gibs = gimme_gibs.call()
+		gib.gib_sprite = "s_catfish_gibs"
+		gib.sprite_frame = [0,1,3,4,8,11,10].pick_random()
+		add_sibling( gib, true )
+		for p in randf_range(0,10): ## add some random delays
+			await get_tree().process_frame
 	
 func _ai_jump( enabled : bool ) -> void:
 	if enabled:
@@ -38,16 +65,16 @@ func _ai_jump( enabled : bool ) -> void:
 			cinema_jump( curr_input * 200.0 ) ## Debug direction
 
 func _shoot_projectile() -> void:
-	var proj : PackedScene= null
+	var proj : Node2D = O_ENEMY_ATTACK_BULLET_OOZE_SPIT.instantiate()
 	
 	## TODO vvvv
-	#if B2_CManager.o_hoopz:		proj.set_target( B2_CManager.o_hoopz.global_position + Vector2(0,-4) )
-	#else:						proj.set_target( get_global_mouse_position() ); push_error("ERROR: No hoopz to target")
+	if B2_CManager.o_hoopz:		proj.set_target( B2_CManager.o_hoopz.global_position + Vector2(0,-4) )
+	else:						proj.set_target( get_global_mouse_position() ); push_error("ERROR: No hoopz to target")
 	#play_temp_local_sound("catfishsmall_shoot")
-	#proj.my_shooter = self
-	#proj.global_position = get_aim_origin()
-	#proj.global_position += curr_aim * 12.0 # small offset to avoid creating the arrow on the enemy's center
-	#add_sibling( proj, true )
+	proj.my_shooter = self
+	proj.global_position = get_aim_origin()
+	proj.global_position += curr_aim * 12.0 # small offset to avoid creating the arrow on the enemy's center
+	add_sibling( proj, true )
 
 func _begin_attack() -> void:
 	if not animation_attack:
@@ -66,7 +93,7 @@ func _begin_attack() -> void:
 	attack_tween.tween_property( ActorAnim, "frame", 5, 0.25 )
 	attack_tween.tween_interval( 0.35 )
 	attack_tween.tween_callback( _shoot_projectile )
-	attack_tween.tween_callback( play_temp_local_sound.bind( "catfishsmall_spits") )
+	attack_tween.tween_callback( play_temp_local_sound.bind( "sewerbeastJr_spit") )
 	#attack_tween.tween_interval( 0.15 )
 	attack_tween.tween_property( ActorAnim, "frame", 7, 0.15 )
 	attack_tween.tween_interval( 0.15 )
@@ -78,9 +105,14 @@ func _finish_attack() -> void:
 	curr_STATE = STATE.NORMAL
 
 func _before_death() -> void:
+	actor_blood_spill.emitting = true
 	if my_shadow: my_shadow.hide()
 	set_physics_process( false ) # Also stops the AI.
-
+	if randf() > 0.85:
+		ActorAnimLower.animation = "hurt"
+	else:
+		ActorAnimLower.hide()
+	
 func damage_actor( damage : float, force : Vector2 ) -> void:
 	if curr_STATE == STATE.WADING:
 		return

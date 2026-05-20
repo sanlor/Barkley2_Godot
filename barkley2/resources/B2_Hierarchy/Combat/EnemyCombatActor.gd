@@ -28,12 +28,12 @@ signal enemy_was_damaged
 @export var damage_player_on_contact	:= false
 
 @export_category("Actor Stuff")
-@export var cast_shadow			:= true
-@export var shadow_scale		:= 1.0
+@export var cast_shadow					:= true
+@export var shadow_scale				:= 1.0
 
-@export var ActorSmokeEmitter		: GPUParticles2D
-@export var has_collision 		:= true
-#@export var ActorCol 			: CollisionShape2D
+@export var ActorSmokeEmitter			: GPUParticles2D
+@export var has_collision 				:= true
+#@export var ActorCol 					: CollisionShape2D
 
 var my_shadow 		: Sprite2D
 
@@ -174,19 +174,20 @@ func _normal_animation(_delta : float):
 			## Flip sprite if needed.
 			flip_sprite( input )
 			
-			match input.round():
-				Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
-				Vector2.UP + Vector2.RIGHT:			ActorAnim.play( actor_animations.ANIMATION_NORTHEAST )
-				Vector2.DOWN + Vector2.LEFT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHWEST )
-				Vector2.DOWN + Vector2.RIGHT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHEAST )
-					
-				Vector2.UP:							ActorAnim.play( actor_animations.ANIMATION_NORTH )
-				Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
-				Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
-				Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
-				Vector2.ZERO:						pass
-				_: # Catch All
-					print("Catch all 'input' for %s -> %s " % [name, input])
+			if ActorAnim: # Safety check. Thanks CyberGremlin!
+				match input.round():
+					Vector2.UP + Vector2.LEFT:			ActorAnim.play( actor_animations.ANIMATION_NORTHWEST )
+					Vector2.UP + Vector2.RIGHT:			ActorAnim.play( actor_animations.ANIMATION_NORTHEAST )
+					Vector2.DOWN + Vector2.LEFT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHWEST )
+					Vector2.DOWN + Vector2.RIGHT:		ActorAnim.play( actor_animations.ANIMATION_SOUTHEAST )
+						
+					Vector2.UP:							ActorAnim.play( actor_animations.ANIMATION_NORTH )
+					Vector2.LEFT:						ActorAnim.play( actor_animations.ANIMATION_WEST )
+					Vector2.DOWN:						ActorAnim.play( actor_animations.ANIMATION_SOUTH )
+					Vector2.RIGHT:						ActorAnim.play( actor_animations.ANIMATION_EAST )
+					Vector2.ZERO:						pass
+					_: # Catch All
+						print("Catch all 'input' for %s -> %s " % [name, input])
 	else:
 		# AI is not moving the actor anymore
 		if actor_animations:

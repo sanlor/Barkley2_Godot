@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://c36knm16d25gp"]
+
+[ext_resource type="Script" uid="uid://c5sanus1m36ey" path="res://barkley2/scenes/Objects/_enemies/Enemy Attacks/Bullets/o_enemyAttack_bullet_ooze_spit.gd" id="1_yor4y"]
+[ext_resource type="Texture2D" uid="uid://cqbhivhr6nmnb" path="res://barkley2/assets/b2_original/images/merged/s_proj_bioSpit.png" id="2_6a5jg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rxv3y"]
+atlas = ExtResource("2_6a5jg")
+region = Rect2(0, 0, 28, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rokn"]
+atlas = ExtResource("2_6a5jg")
+region = Rect2(28, 0, 28, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkrn4"]
+atlas = ExtResource("2_6a5jg")
+region = Rect2(56, 0, 28, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob5vd"]
+atlas = ExtResource("2_6a5jg")
+region = Rect2(84, 0, 28, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_07rog"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rxv3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rokn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nkrn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob5vd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.5
+}]
+
+[node name="o_enemyAttack_bullet_oozeSpit" type="Node2D" unique_id=362485557]
+script = ExtResource("1_yor4y")
+
+[node name="ooze" type="AnimatedSprite2D" parent="." unique_id=1619714881]
+sprite_frames = SubResource("SpriteFrames_07rog")
+autoplay = "default"
+frame_progress = 0.3175203

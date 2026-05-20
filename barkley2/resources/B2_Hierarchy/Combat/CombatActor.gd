@@ -167,6 +167,8 @@ func apply_curr_aim( dir : Vector2 ) -> void:
 
 ## Correcly flip the 'ActorAnim' according to the input.
 func flip_sprite( input_override := Vector2.ZERO, sprite := ActorAnim ) -> void:
+	if not sprite: return ## Safety check
+	
 	var input := curr_input
 	if curr_aim:
 		input = curr_aim
