@@ -25,6 +25,10 @@ const RIGHT_ARM_ANIM_FRAME_STAND 			:= 0		# The sprite frame used for standing
 const RIGHT_ARM_ANIM_FRAME_HURT 			:= 1		# The sprite frame used for hurting
 const RIGHT_ARM_ANIM_FRAME_UP_OFFSET		:= 10		# The amount of offset needed to reach the "up" animations
 
+const sprite_offset_head					:= {
+	
+}
+
 @onready var actor_anim_head: 		AnimatedSprite2D = $ActorAnimHead
 @onready var actor_anim_weapon: 	AnimatedSprite2D = $ActorAnimWeapon
 @onready var actor_anim_arm_r: 		AnimatedSprite2D = $ActorAnimArmR
@@ -82,9 +86,9 @@ func _body_setup() -> void:
 	## Set walking animation (up and down)
 	actor_anim_body.sprite_frames.add_animation("south")
 	actor_anim_body.sprite_frames.add_animation("north")
-	for i : int in BODY_ANIM_FRAME_WALK_RANGE:
+	for i : int in BODY_ANIM_FRAME_WALK_RANGE - 1: # The animation is a bit weird here, need to add a few specific offsets.
 		var south := actor_anim_body.sprite_frames.get_frame_texture("default", BODY_ANIM_FRAME_WALK + i + pType)
-		var north := actor_anim_body.sprite_frames.get_frame_texture("default", BODY_ANIM_FRAME_WALK + BODY_ANIM_FRAME_TYPE_OFFSET + i + pType)
+		var north := actor_anim_body.sprite_frames.get_frame_texture("default", BODY_ANIM_FRAME_UP_OFFSET + 1 + i + pType)
 		actor_anim_body.sprite_frames.add_frame("south", south)
 		actor_anim_body.sprite_frames.add_frame("north", north)
 
@@ -99,8 +103,8 @@ func _normal_animation(_delta : float) -> void:
 	var aim		:= curr_aim
 	
 	## Overide input with aim, it the actor is aiming at something.
-	if curr_aim != Vector2.ZERO:
-		input = curr_aim
+	#if curr_aim != Vector2.ZERO: input = curr_aim
+	#print(input)
 	
 	if input != Vector2.ZERO: # AI is moving the Actor
 		if last_input != input:
@@ -110,16 +114,41 @@ func _normal_animation(_delta : float) -> void:
 			
 			if actor_anim_body: # Safety check. Thanks CyberGremlin!
 				match input.round():
-					Vector2.UP + Vector2.LEFT:			actor_anim_body.play( actor_animations.ANIMATION_NORTHWEST )
-					Vector2.UP + Vector2.RIGHT:			actor_anim_body.play( actor_animations.ANIMATION_NORTHEAST )
-					Vector2.DOWN + Vector2.LEFT:		actor_anim_body.play( actor_animations.ANIMATION_SOUTHWEST )
-					Vector2.DOWN + Vector2.RIGHT:		actor_anim_body.play( actor_animations.ANIMATION_SOUTHEAST )
+					Vector2.UP + Vector2.LEFT:			
+						actor_anim_body.play( actor_animations.ANIMATION_NORTHWEST ); 
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 1
+					Vector2.UP + Vector2.RIGHT:			
+						actor_anim_body.play( actor_animations.ANIMATION_NORTHEAST )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 1
+					Vector2.DOWN + Vector2.LEFT:		
+						actor_anim_body.play( actor_animations.ANIMATION_SOUTHWEST )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 0
+					Vector2.DOWN + Vector2.RIGHT:		
+						actor_anim_body.play( actor_animations.ANIMATION_SOUTHEAST )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 0
 						
-					Vector2.UP:							actor_anim_body.play( actor_animations.ANIMATION_NORTH )
-					Vector2.LEFT:						actor_anim_body.play( actor_animations.ANIMATION_WEST )
-					Vector2.DOWN:						actor_anim_body.play( actor_animations.ANIMATION_SOUTH )
-					Vector2.RIGHT:						actor_anim_body.play( actor_animations.ANIMATION_EAST )
-					Vector2.ZERO:						pass
+					Vector2.UP:							
+						actor_anim_body.play( actor_animations.ANIMATION_NORTH )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 1
+					Vector2.LEFT:						
+						actor_anim_body.play( actor_animations.ANIMATION_WEST )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 0
+					Vector2.DOWN:						
+						actor_anim_body.play( actor_animations.ANIMATION_SOUTH )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 0
+					Vector2.RIGHT:						
+						actor_anim_body.play( actor_animations.ANIMATION_EAST )
+						actor_anim_head.animation = "normal"
+						actor_anim_head.frame = 0
+					Vector2.ZERO:						
+						pass
 					_: # Catch All
 						print("Catch all 'input' for %s -> %s " % [name, input])
 	else:
@@ -127,7 +156,12 @@ func _normal_animation(_delta : float) -> void:
 		if actor_animations:
 			if actor_anim_body.is_playing():
 				actor_anim_body.stop()
+			# Head sprite
+			actor_anim_head.animation = "normal"
+			actor_anim_head.frame = 0
+			# Body sprite
 			actor_anim_body.animation = actor_animations.ANIMATION_STAND
+			actor_anim_body.frame = 0
 		
 		var curr_direction : Vector2 = input
 	
@@ -136,6 +170,26 @@ func _normal_animation(_delta : float) -> void:
 		
 	# Update var
 	last_input = input
+
+## Correcly flip the 'ActorAnim' according to the input.
+## NOTE This flips the scale instead of just flipping the sprite normally
+func flip_sprite( input_override := Vector2.ZERO, sprite := ActorAnim ) -> void:
+	if not sprite: return ## Safety check
+	
+	var input := 			curr_input					## Use the current input
+	if curr_aim:			input = curr_aim			## Use current aim
+	if input_override:		input = input_override		## Use input override
+		
+	sprite.scale.x = roundf(input.x) ## If going left, flip the sprite
+	if roundf(input.x) == 0.0: sprite.scale.x = 1.0 # Avoid 0.0 values.
+		
+	if roundf(input.y) < 0.0: # needs to be rounded, or else it will flip all the time.
+		# If going up, toggle the sprite flip. This is because of how the sprites were created. Check the ActorAnim node.
+		sprite.scale.x *= -1.0
+		
+		# Yeah, just invert it again.
+		if invert_north_facing_sprite: 
+			sprite.scale.x *= -1.0
 
 func _physics_process(delta: float) -> void:
 	## Makers the AI think.
