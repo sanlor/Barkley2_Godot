@@ -32,6 +32,7 @@ func _physics_process(_delta: float) -> void:
 	var space	:= get_world_2d().direct_space_state
 	var query 	:= PhysicsPointQueryParameters2D.new()
 	query.position = global_position
+	query.collision_mask 		= 0b00000000_00000000_00000000_00001111
 	var coll 	:= space.intersect_point( query )
 	if coll:
 		for body_dict in coll:
@@ -40,6 +41,7 @@ func _physics_process(_delta: float) -> void:
 				print("hit %s" % body.name)
 				_hit( body )
 				break
+				
 			elif body is TileMap:
 				_hit()
 				
