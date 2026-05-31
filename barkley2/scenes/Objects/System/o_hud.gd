@@ -132,6 +132,8 @@ func show_hud( instant := false ) -> void:
 		tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
 		tween.tween_callback( event_finished.emit )
 		if debug_messages: print("o_hud: show_hud()")
+	else:
+		if debug_messages: print("o_hud: tried to 'show_hud()', but quest var 'hudVisible' is set to false.")
 	
 func hide_hud( instant := false ) -> void:
 	if is_instance_valid(tween):

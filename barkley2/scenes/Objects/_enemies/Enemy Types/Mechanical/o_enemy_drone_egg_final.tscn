@@ -18,7 +18,8 @@
 [ext_resource type="AudioStream" uid="uid://cp8vy83gypsbb" path="res://barkley2/assets/b2_original/audio/new_sfx/sonic2/sonic-spindash.ogg" id="16_js432"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wqgut"]
-bounce = 0.45
+friction = 0.75
+bounce = 0.75
 
 [sub_resource type="Resource" id="Resource_riqe7"]
 script = ExtResource("2_53ouf")
@@ -605,7 +606,7 @@ metadata/_custom_type_script = "uid://d35v3iegfogfg"
 
 [node name="B2_FSM_Chase" type="Node" parent="B2_AI_EggDrone" unique_id=1155254441 node_paths=PackedStringArray("near_state", "far_state")]
 script = ExtResource("6_8im5l")
-enemy_near_radius = 64.0
+enemy_near_radius = 128.0
 near_state = NodePath("../B2_FSM_Orbit_Player")
 enemy_far_radius = 99999.0
 far_state = NodePath(".")
@@ -614,6 +615,7 @@ metadata/_custom_type_script = "uid://cby82k6m3df21"
 [node name="B2_FSM_Orbit_Player" type="Node" parent="B2_AI_EggDrone" unique_id=1294099183 node_paths=PackedStringArray("orbit_action_state", "deaggro_state")]
 script = ExtResource("7_rgkdl")
 orbit_action_state = NodePath("../B2_FSM_Dash_Drone")
+deaggro_distance = 256.0
 deaggro_state = NodePath("../B2_FSM_Idle_Drone")
 always_face_the_enemy = true
 metadata/_custom_type_script = "uid://cejqufkudkpoc"

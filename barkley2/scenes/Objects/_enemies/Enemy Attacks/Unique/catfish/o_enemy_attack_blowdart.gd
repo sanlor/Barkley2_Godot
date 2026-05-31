@@ -2,6 +2,8 @@
 # A cheap version of a bullet.
 extends Node2D
 
+const S_EFFECT_SLUDGE_DRIP 		= preload("uid://bnbunxj15a4q1")
+
 var gravity 		:= 0.025
 var inaccuracy		:= 8.0
 
@@ -40,6 +42,21 @@ func _physics_process(_delta: float) -> void:
 				break
 			elif body is TileMap:
 				_hit()
+				
+				## Handle the dart jitting on different surfaces
+				if not check_for_water():
+					# fell in water
+					var drip = S_EFFECT_SLUDGE_DRIP.instantiate()
+					add_sibling( drip, true )
+					drip.global_position = global_position
+					set_physics_process(false)
+					queue_free()
+					return
+				elif not check_for_abyss():
+					set_physics_process(false)
+					queue_free()
+					return
+					
 				break
 			else:
 				print( body)
@@ -47,6 +64,18 @@ func _physics_process(_delta: float) -> void:
 	
 	if position.distance_to(my_target) < 05.0:
 		_hit()
+
+func check_for_water() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 20 ) ## 20 is wading
+	return true
+	
+func check_for_abyss() -> bool:
+	if get_parent() is B2_ROOMS:
+		var room : B2_ROOMS = get_parent()
+		return not room.check_tilemap_collision( global_position, 19 ) ## 19 is abyss
+	return true
 
 func _hit( body : B2_CombatActor = null ) -> void:
 	if body:

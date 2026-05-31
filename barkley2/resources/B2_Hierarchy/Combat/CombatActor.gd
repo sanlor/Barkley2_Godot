@@ -61,10 +61,11 @@ var velocity			:= Vector2.ZERO
 @export var print_ai_changes 	:= false
 @export var actor_ai 			: B2_AI :
 	set(ai):
-		if print_ai_changes:
-			if actor_ai:			print("%s: Changing AI from %s to %s." %[name, actor_ai.name, ai.name])
-			else:					print("%s: Changing AI from 'null' to %s." %[name, ai.name])
-		actor_ai = ai
+		if ai:
+			if print_ai_changes:
+				if actor_ai:			print("%s: Changing AI from %s to %s." %[name, actor_ai.name, ai.name])
+				else:					print("%s: Changing AI from 'null' to %s." %[name, ai.name])
+			actor_ai = ai
 
 @export_category("Pathfinding")
 @export var path_desired_distance 	= 4.0

@@ -14,6 +14,10 @@ func _ready() -> void:
 	@warning_ignore("narrowing_conversion")
 	mission_timer_label.text = convert_seconds( mission_timer.wait_time )
 	screen.modulate = Color.TRANSPARENT
+	
+	o_enemy_rat_nest.reparent( get_parent() )
+	o_enemy_rat_nest_2.reparent( get_parent() )
+	
 	o_enemy_rat_nest.enable_full_auto( false )
 	o_enemy_rat_nest_2.enable_full_auto( false )
 
@@ -34,7 +38,7 @@ func enable_hoopz_control() -> void:
 
 func count_enemies() -> void:
 	var c := 0
-	for child in get_children():
+	for child in get_parent().get_children():
 		if child is B2_EnemyCombatActor:
 			if not child.is_actor_dead:
 				c += 1

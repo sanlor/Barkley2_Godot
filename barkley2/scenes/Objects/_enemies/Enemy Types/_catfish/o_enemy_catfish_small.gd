@@ -11,9 +11,9 @@ var is_wading := false
 const O_SPLASH 					= preload("uid://dgxwfaoi5p3x1")
 const O_ENEMY_ATTACK_BLOWDART 	= preload("uid://bqoqnwresdv00")
 
-@onready var actor_blood_spill: 			GPUParticles2D = $ActorBloodSpill
-@onready var ai_catfish_small_wading: 		B2_AI_Wading = $B2_AI_Wading
-@onready var ai_catfish_small: 				B2_AI_Wading = $B2_AI_Catfish_Small
+@onready var actor_blood_spill: 			GPUParticles2D 			= $ActorBloodSpill
+@onready var ai_catfish_small_wading: 		B2_AI_Wading 			= $B2_AI_Wading
+@onready var ai_catfish_small: 				B2_AI_Catfish_Small 	= $B2_AI_Catfish_Small
 
 func _ready() -> void:
 	super()

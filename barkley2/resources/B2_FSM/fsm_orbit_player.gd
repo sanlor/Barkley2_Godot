@@ -4,7 +4,7 @@ class_name B2_FSM_Orbit_Player
 
 @export_category("Orbit")
 @export var orbit_distance 			:= 64.0
-@export var orbit_speed 			:= 48.0
+@export var orbit_speed 			:= 48.0 * 0.025
 @export var orbit_timer 			:= 4.0 # In seconds
 @export var orbit_timer_variation 	:= 2.0 # Add a modifier to the 'orbit_timer' -> orbit_timer + randf_range( 0.0, orbit_timer_variation )
 @export var orbit_action_state		: B2_FSM # Action after the timer elapses.
@@ -50,7 +50,8 @@ func _trigger_timer() -> void:
 	my_ai.state_transition( self, orbit_action_state )
 
 func step() -> void:
-	angle_progress = wrapf( angle_progress + orbit_speed * get_process_delta_time(), 0.0, TAU )
+	angle_progress = wrapf( angle_progress + orbit_speed * get_physics_process_delta_time(), 0.0, TAU )
+	#print( "%s: %s" % [name, angle_progress] )
 	
 	if enemy_actor:
 		var angle := (Vector2.RIGHT * orbit_distance).rotated( angle_progress * angular_direction )

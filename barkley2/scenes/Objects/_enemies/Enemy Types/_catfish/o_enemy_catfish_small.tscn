@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://j3rexlxomei3" path="res://barkley2/resources/B2_Hierarchy/actor_animation_resource.gd" id="2_wejwp"]
 [ext_resource type="Resource" uid="uid://clqikgufvlq0d" path="res://barkley2/resources/B2_EnemyData/catfish_small.tres" id="4_jd0uj"]
 [ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="5_e35da"]
-[ext_resource type="Script" uid="uid://drt6du7p7v1mk" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small.gd" id="5_pum08"]
+[ext_resource type="Script" uid="uid://drt6du7p7v1mk" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small_wading.gd" id="5_pum08"]
 [ext_resource type="Script" uid="uid://bj6lo8uo0omlp" path="res://barkley2/resources/B2_FSM/fsm_idle.gd" id="6_sj8r4"]
 [ext_resource type="Script" uid="uid://cby82k6m3df21" path="res://barkley2/resources/B2_FSM/fsm_chase.gd" id="7_643qn"]
 [ext_resource type="Script" uid="uid://gmxq1j4sfv7d" path="res://barkley2/resources/B2_FSM/fsm_wander.gd" id="8_fjx5q"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://bfiniwj7y5f57" path="res://barkley2/resources/B2_FSM/fsm_change_ai.gd" id="9_hfen3"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="9_iwhau"]
 [ext_resource type="Script" uid="uid://c462tqotcvtw6" path="res://barkley2/resources/B2_FSM/fsm_keep_distance.gd" id="9_siqo5"]
+[ext_resource type="Script" uid="uid://cr3rv46y8li5m" path="res://barkley2/resources/B2_AI/CatFish/ai_catfish_small.gd" id="10_hfen3"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="10_p2h0x"]
 [ext_resource type="SpriteFrames" uid="uid://cy2jicl2y4seg" path="res://barkley2/scenes/Objects/_enemies/Enemy Types/_catfish/catfish_sprite_frames.tres" id="15_fjx5q"]
 
@@ -66,6 +67,7 @@ gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 10.0
 script = ExtResource("1_pied4")
+show_combat_debug_data = true
 shadow_scale = 0.75
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
 actor_animations = SubResource("Resource_bsxaw")
@@ -86,6 +88,7 @@ ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 walk_speed = 2500000
+print_ai_changes = true
 actor_ai = NodePath("B2_AI_Catfish_Small")
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=1882713632]
@@ -112,13 +115,13 @@ metadata/_custom_type_script = "uid://cex41d0ihv462"
 
 [node name="B2_FSM_Change_AI" type="Node" parent="B2_AI_Wading" unique_id=960564490 node_paths=PackedStringArray("new_ai")]
 script = ExtResource("9_hfen3")
-new_ai = NodePath("../../B2_AI_Catfish_Small")
+new_ai = NodePath("")
 metadata/_custom_type_script = "uid://bfiniwj7y5f57"
 
-[node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=222138348 node_paths=PackedStringArray("curr_STATE")]
-script = ExtResource("5_pum08")
+[node name="B2_AI_Catfish_Small" type="Node2D" parent="." unique_id=1935123017 node_paths=PackedStringArray("curr_STATE")]
+script = ExtResource("10_hfen3")
 curr_STATE = NodePath("B2_FSM_Idle")
-metadata/_custom_type_script = "uid://drt6du7p7v1mk"
+metadata/_custom_type_script = "uid://cr3rv46y8li5m"
 
 [node name="B2_FSM_Idle" type="Node" parent="B2_AI_Catfish_Small" unique_id=546906726 node_paths=PackedStringArray("detected_state", "wander_state")]
 script = ExtResource("6_sj8r4")
@@ -130,6 +133,7 @@ metadata/_custom_type_script = "uid://bj6lo8uo0omlp"
 [node name="B2_FSM_Wander" type="Node" parent="B2_AI_Catfish_Small" unique_id=2066155277 node_paths=PackedStringArray("detected_state", "idle_state")]
 script = ExtResource("8_fjx5q")
 detected_state = NodePath("../B2_FSM_Chase")
+wander_timeout = 5.0
 idle_state = NodePath("../B2_FSM_Idle")
 metadata/_custom_type_script = "uid://gmxq1j4sfv7d"
 

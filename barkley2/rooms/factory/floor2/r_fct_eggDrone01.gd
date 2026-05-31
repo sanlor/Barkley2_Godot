@@ -31,16 +31,16 @@ func _ready() -> void:
 	RenderingServer.set_default_clear_color( Color.BLACK ) ## TEMP
 	
 	## Debug
-	#B2_Playerdata.preload_CC_save_data()
-	#B2_Gun.add_gun_to_bandolier()
-	#B2_Gun.add_gun_to_bandolier()
-	#B2_Gun.add_gun_to_bandolier()
-	#B2_CManager.BodySwap("diaper");
-	#B2_Playerdata.Quest("tutorialProgress", 8)
-	#B2_Playerdata.Quest("hudVisible", 		0);
-	#B2_Playerdata.Quest("zoneVisible", 		0);
-	#B2_Playerdata.Quest("dropEnabled", 		0);
-	#B2_Playerdata.Quest("infiniteAmmo", 	1);
+	var load_debug := false
+	if load_debug and OS.is_debug_build():
+		B2_Playerdata.preload_CC_save_data()
+		B2_Gun.add_gun_to_bandolier( B2_Gun.TYPE.GUN_TYPE_PISTOL, B2_Gun.MATERIAL.STEEL )
+		B2_CManager.BodySwap("diaper");
+		B2_Playerdata.Quest("tutorialProgress", 8)
+		B2_Playerdata.Quest("hudVisible", 		0);
+		B2_Playerdata.Quest("zoneVisible", 		0);
+		B2_Playerdata.Quest("dropEnabled", 		0);
+		B2_Playerdata.Quest("infiniteAmmo", 	1);
 	
 	_set_region()
 	

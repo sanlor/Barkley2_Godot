@@ -400,7 +400,9 @@ func destroy_actor() -> void:
 	## Disable the loops.
 	set_process( false )
 	set_physics_process( false )
-	actor_ai.queue_free() # Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI 
+	if actor_ai:
+		if not actor_ai.is_queued_for_deletion():
+			actor_ai.queue_free() # Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI Kill AI 
 	
 	is_actor_dead 	= true
 	if my_shadow: my_shadow.hide()

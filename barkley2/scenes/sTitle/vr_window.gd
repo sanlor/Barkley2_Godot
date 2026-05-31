@@ -81,6 +81,7 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
 			B2_Playerdata.Quest( "vr_mission_0", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
+			B2_Playerdata.Quest( "hudVisible", 			1 )
 			
 			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
 			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F
@@ -111,6 +112,7 @@ func _on_begin_btn_button_pressed() -> void:
 			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
 			B2_Playerdata.Quest( "vr_mission_1", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
+			B2_Playerdata.Quest( "hudVisible", 			1 )
 			
 			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
 			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F
@@ -136,11 +138,12 @@ func _on_begin_btn_button_pressed() -> void:
 		2:
 			## Mission 03
 			B2_CManager.BodySwap("hoopz") 				## Hoopz - Normal
-			B2_Playerdata.Quest( "infiniteAmmo", 		0 ) ## No infinite ammo.
+			B2_Playerdata.Quest( "infiniteAmmo", 		1 ) ## No infinite ammo.
 			B2_Playerdata.Quest( "dropEnabled", 		1 ) ## 0 = Gun, Candy or Ammo drop disabled. 
 			B2_Playerdata.Quest( "dropTable", 			0 ) ## 0 = regular, 1 = boss
 			B2_Playerdata.Quest( "vr_mission_2", 		1 )
 			B2_Playerdata.Quest( "escape_disabled", 	1 )
+			B2_Playerdata.Quest( "hudVisible", 			1 )
 			
 			B2_Playerdata.Quest( "playerName", 			"???" ); 	# constant P_NAME
 			B2_Playerdata.Quest( "playerNameFull", 		"???" ); 	# constant P_NAME_F

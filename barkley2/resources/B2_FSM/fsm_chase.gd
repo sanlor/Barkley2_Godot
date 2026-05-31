@@ -28,6 +28,7 @@ func step() -> void:
 		if always_face_the_enemy:
 			my_actor.curr_aim = my_actor.global_position.direction_to( target.global_position )
 			
+		#print( my_actor.global_position.distance_to( enemy_actor.global_position ) )
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) > enemy_far_radius:
 			_target_far()
 		if my_actor.global_position.distance_to( enemy_actor.global_position ) < enemy_near_radius:
