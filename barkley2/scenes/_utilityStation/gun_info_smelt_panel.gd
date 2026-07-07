@@ -1,4 +1,4 @@
-extends "res://barkley2/scenes/_utilityStation/gun_info_panel.gd"
+extends "res://barkley2/scenes/_utilityStation/gun_info_status_panel.gd"
 #extends Control
 
 const CONFIRMATION_BOX = preload("res://barkley2/scenes/_utilityStation/confirmation_box.tscn")

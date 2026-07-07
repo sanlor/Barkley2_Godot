@@ -1,5 +1,6 @@
 ## This is a VERY BAD resource. Is so messy and I keep forgeting what it even does.
 # FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
+## 07/07/26 Its been about 30 since I last touched this project. What the fuck does this resource do actually?
 
 extends Resource
 class_name B2_Database

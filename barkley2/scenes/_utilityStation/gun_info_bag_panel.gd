@@ -1,4 +1,4 @@
-extends "res://barkley2/scenes/_utilityStation/gun_info_panel.gd"
+extends "res://barkley2/scenes/_utilityStation/gun_info_status_panel.gd"
 
 func _on_gun_bag_fave_btn_pressed() -> void:
 	if selected_gun:

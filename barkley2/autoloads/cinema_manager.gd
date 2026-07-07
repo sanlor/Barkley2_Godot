@@ -90,9 +90,13 @@ func _index_scenes():
 	for s : String in scene_array:
 		if 	s.ends_with(".tscn"):			## <- used in the godot editor
 			var s_name = s.rsplit("/", true, 1)[1].trim_suffix(".tscn")
+			# Check for duplicated scene names
+			if scene_index.has(s_name): push_warning( "%s: Scene name %s is duplicated. One is at %s and the other is at %s. Be careful next time." % [ name, s_name, s, scene_index[s_name] ] )
 			scene_index[s_name] = s
 		elif s.ends_with(".tscn.remap"):	## <- used in the exported project
 			var s_name = s.rsplit("/", true, 1)[1].trim_suffix(".tscn.remap")
+			# Check for duplicated scene names
+			if scene_index.has(s_name): push_warning( "%s: Scene name %s is duplicated. One is at %s and the other is at %s. Be careful next time." % [ name, s_name, s.trim_suffix(".remap"), scene_index[s_name] ] )
 			scene_index[s_name] = s.trim_suffix(".remap")
 	print_rich("[color=web_purple]Index rooms ended: ", Time.get_ticks_msec(), " msecs. - ", scene_index.size(), " room_index key entries[/color]")
 	_save_scene_index_to_disk()
