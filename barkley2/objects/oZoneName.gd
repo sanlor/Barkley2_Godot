@@ -60,10 +60,10 @@ func _ready():
 		queue_free()
 		
 	# Do not show the same name all the time, only when changing zones or loading the game.
-	if zone == B2_Gamedata.last_zone_name:
+	if zone == B2_Playerdata.last_zone_name:
 		queue_free()
 		
-	B2_Gamedata.last_zone_name = zone
+	B2_Playerdata.last_zone_name = zone
 		
 	#layer = B2_Config.NOTICE_LAYER
 	z_index = 4096

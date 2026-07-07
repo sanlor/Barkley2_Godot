@@ -12,11 +12,11 @@ var my_equip_name := ""
 func _ready() -> void:
 	match resistance:
 		RES.NORMAL:			pass
-		RES.BIO:			res_tex.modulate = B2_Gamedata.c_bio
-		RES.CYBER:			res_tex.modulate = B2_Gamedata.c_cyber
-		RES.MENTAL:			res_tex.modulate = B2_Gamedata.c_mental
-		RES.COSMIC:			res_tex.modulate = B2_Gamedata.c_cosmic
-		RES.ZAUBER:			res_tex.modulate = B2_Gamedata.c_zauber
+		RES.BIO:			res_tex.modulate = B2_Color.C_BIO
+		RES.CYBER:			res_tex.modulate = B2_Color.C_CYBER
+		RES.MENTAL:			res_tex.modulate = B2_Color.C_MENTAL
+		RES.COSMIC:			res_tex.modulate = B2_Color.C_COSMIC
+		RES.ZAUBER:			res_tex.modulate = B2_Color.C_ZAUBER
 	update_data()
 	
 func update_data() -> void:

@@ -51,7 +51,7 @@ const affixChainingReduction 		:= 0.5; ## How much to lose damage per hit, 0.5 =
 
 ## Power
 const powerMinesLight 				:= 0.5; ## Darkness in mines
-const colorGuilderberg 				:= B2_Gamedata.c_cosmic;
+const colorGuilderberg 				:= B2_Color.C_COSMIC;
 
 ## Gun balance
 const windupModifier 				:= 2; ## 1 = 100% speed, 1.5 = 150% speed, etc

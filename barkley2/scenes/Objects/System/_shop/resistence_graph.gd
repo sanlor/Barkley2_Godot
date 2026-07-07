@@ -20,20 +20,20 @@ func _update_graph() -> void:
 	
 func _draw() -> void:
 	var x_off := 1
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Gamedata.c_bio, 0.125 ), 2, false )
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( bio_res / 200.0 ) ), B2_Gamedata.c_bio, 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Color.C_BIO, 0.125 ), 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( bio_res / 200.0 ) ), B2_Color.C_BIO, 2, false )
 	x_off += 4
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Gamedata.c_cyber, 0.125 ), 2, false )
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( cyber_res / 200.0 ) ), B2_Gamedata.c_cyber, 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Color.C_CYBER, 0.125 ), 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( cyber_res / 200.0 ) ), B2_Color.C_CYBER, 2, false )
 	x_off += 4
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Gamedata.c_mental, 0.125 ), 2, false )
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( mental_res / 200.0 ) ), B2_Gamedata.c_mental, 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Color.C_MENTAL, 0.125 ), 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( mental_res / 200.0 ) ), B2_Color.C_MENTAL, 2, false )
 	x_off += 4
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Gamedata.c_cosmic, 0.125 ), 2, false )
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( cosmic_res / 200.0 ) ), B2_Gamedata.c_cosmic, 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Color.C_COSMIC, 0.125 ), 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( cosmic_res / 200.0 ) ), B2_Color.C_COSMIC, 2, false )
 	x_off += 4
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Gamedata.c_zauber, 0.125 ), 2, false )
-	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( zauber_res / 200.0 ) ), B2_Gamedata.c_zauber, 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( B2_Color.C_ZAUBER, 0.125 ), 2, false )
+	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( zauber_res / 200.0 ) ), B2_Color.C_ZAUBER, 2, false )
 	x_off += 4
 	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, 0.0 ), Color( Color.WHITE, 0.125 ), 2, false )
 	draw_line( Vector2( x_off, MY_SIZE.y ), Vector2( x_off, MY_SIZE.y * ( generic_res / 200.0 ) ), Color.WHITE, 2, false )

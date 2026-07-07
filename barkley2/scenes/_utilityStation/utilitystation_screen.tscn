@@ -81,11 +81,11 @@ func _draw() -> void:
 	draw_rect( Rect2( Vector2.ZERO, size ), Color.BLACK )
 	
 	@warning_ignore(\"integer_division\")
-	for w in B2_Gamedata.SCREEN_WIDTH / 8:
-		draw_line( Vector2(w * 8 + move_offset.x, 0), Vector2(w * 8 + move_offset.x, B2_Gamedata.SCREEN_HEIGHT), Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
+	for w in get_viewport().size.x / 8:
+		draw_line( Vector2(w * 8 + move_offset.x, 0), Vector2(w * 8 + move_offset.x, get_viewport().size.y), Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
 	@warning_ignore(\"integer_division\")
-	for h in B2_Gamedata.SCREEN_HEIGHT / 8:
-		draw_line( Vector2(0, h * 8 + move_offset.y), Vector2(B2_Gamedata.SCREEN_WIDTH, h * 8 + move_offset.y),Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
+	for h in get_viewport().size.y / 8:
+		draw_line( Vector2(0, h * 8 + move_offset.y), Vector2(get_viewport().size.x, h * 8 + move_offset.y),Color(my_color, flick * intensity * intensity_mod * 0.5), line_width )
 "
 
 [node name="utilitystation_screen" type="Control" unique_id=173808904]

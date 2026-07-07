@@ -236,7 +236,7 @@ func parse_data( data : String ) -> void:
 			if verbose_prints: 
 				print(name + ": loaded font %s - %s." % [ int( text_data[4] ), label.label_settings.font.resource_name ] )
 			label.text = Text.pr( text_data[1] )
-			label.modulate = B2_Gamedata.just_convert_gamemaker_color_to_hex_already( int( text_data[5] ) )
+			label.modulate = B2_Color.just_convert_gamemaker_color_to_hex_already( int( text_data[5] ) )
 			label.modulate.a = float( text_data[6] )
 			# NOTE Bitch, this wasnt supposed to be hard. GameMaker uses a stupid int based color ( draw_set_color(real(arrSub[5])) ). Its not hex. How can I convert it to something I can understand?
 			# check https://marketplace.gamemaker.io/assets/2074/number-conversion-and-other

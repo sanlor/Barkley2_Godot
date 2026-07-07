@@ -388,7 +388,7 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 					dialogue_choice.border_seed = border_seed
 					B2_Screen.add_child( dialogue_choice, true ) # 30/01/26 moved to B2_Screen and set as Control node.
 					#var choice_portrait = "Mysteriouse Youngster" ## last_talker_portrait  ## DEBUG
-					var choice_portrait = B2_Gamedata.get_hoopz_portrait() ## Is this correct? Is the protrait always hoopz?
+					var choice_portrait = B2_Portrait.get_hoopz_portrait() ## Is this correct? Is the protrait always hoopz?
 					
 					dialogue_choice.set_portrait( choice_portrait, false ) ## Is this correct? Is the protrait always hoopz?
 					dialogue_choice.set_title( choice_question ) ## Add the question itself
@@ -610,18 +610,18 @@ func play_cutscene( cutscene_script : B2_Script, _event_caller : Node2D, cutscen
 						var talker_port := talker_split[1].strip_edges(true,true)
 						if talker_port == "P_NAME": 
 							talker_port = "s_port_hoopz" ## TEMP HACK
-							last_talker_portrait = B2_Gamedata.get_hoopz_portrait() # Maybe unnecessary?
+							last_talker_portrait = B2_Portrait.get_hoopz_portrait() # Maybe unnecessary?
 						dialogue.set_portrait(talker_port, false)
 						# Set the dialogue, with the variable injection
 						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_name )
 					else:
 						var talker_port := parsed_line[1].strip_edges(true,true)
 	
-						if B2_Gamedata.portrait_from_name.has( talker_port ):
+						if B2_Portrait.PORTRAIT_NAME_INDEX.has( talker_port ):
 							dialogue.set_portrait( talker_port, true )
 						if talker_port == "P_NAME":  ## TEMP HACK
 							dialogue.set_portrait( "s_port_hoopz", false )
-							last_talker_portrait = B2_Gamedata.get_hoopz_portrait() # Maybe unnecessary?
+							last_talker_portrait = B2_Portrait.get_hoopz_portrait() # Maybe unnecessary?
 							# Set the dialogue, with the variable injection
 						dialogue.set_text( Text.qst( parsed_line[2].strip_edges(true,true) ), talker_port )
 												

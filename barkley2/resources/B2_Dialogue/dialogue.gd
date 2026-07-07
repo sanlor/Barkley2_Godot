@@ -191,7 +191,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 		# disregard everything, setup flourish.
 		_load_portrait( flourish_portrait, true )
 	elif from_name:
-		_load_portrait( B2_Gamedata.portrait_from_name.get(portrait_name, "s_portrait") ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
+		_load_portrait( B2_Portrait.get_actor_portrait(portrait_name) ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
 		
@@ -268,7 +268,7 @@ func display_dialog( _is_boxless := false ):
 
 ## Manually add the character portraits and setup the AnimatedSprite2D
 func _load_portrait( portrait_name : String, flourish := false ):
-	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
+	var file_name : String = B2_Portrait.get_portrait_file_path( portrait_name )
 	var spritesheet : Texture2D
 	
 	if file_name.is_empty():
@@ -279,9 +279,9 @@ func _load_portrait( portrait_name : String, flourish := false ):
 	
 	if not file_name.is_valid_filename():
 		push_warning("Weird, filename ' %s ' doesnt seem valid. Trying to fix it... ' %s '." % [file_name, portrait_name] )
-		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name + ".png")
+		spritesheet = ResourceLoader.load( B2_Portrait.PORTRAIT_PATH + file_name + ".png")
 	else:
-		spritesheet = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
+		spritesheet = ResourceLoader.load( B2_Portrait.PORTRAIT_PATH + file_name )
 		
 	@warning_ignore("integer_division")
 	var n_frames := int( spritesheet.get_width() / 34 ) ## This should return the correct amount of frames.

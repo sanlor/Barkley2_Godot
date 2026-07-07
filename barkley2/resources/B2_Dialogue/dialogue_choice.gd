@@ -242,7 +242,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 	portrait_frame_node.position = Vector2( _draw_x + 15, _draw_y + 8 + 5 )
 	
 	if from_name:
-		_load_portrait( B2_Gamedata.portrait_from_name.get( portrait_name, "s_portrait" ) ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
+		_load_portrait( B2_Portrait.get_actor_portrait( portrait_name ) ) # load the talker´s picture from its name. If the name is invalid, load a temp picture
 	else:
 		_load_portrait( portrait_name ) # load the talker´s picture
 	portrait_frame_node.add_child( portrait_img_node ) # add the actual portrait 
@@ -251,7 +251,7 @@ func set_portrait( portrait_name : String, from_name := true ) -> void:
 
 ## Manually add the character portraits and setup the AnimatedSprite2D
 func _load_portrait( portrait_name : String ):
-	var file_name : String = B2_Gamedata.portrait_map.get( portrait_name, "" )
+	var file_name : String = B2_Portrait.get_portrait_file_path( portrait_name )
 	
 	assert( not file_name.is_empty(), "File could not be found." )
 	assert( file_name.find("_strip") >= 0, "Weird file. Unexpected.")
@@ -270,7 +270,7 @@ func _load_portrait( portrait_name : String ):
 	anim_frames.add_animation( "blink" )
 	anim_frames.add_animation( "talk" )
 	
-	var spritesheet : Texture2D = ResourceLoader.load( B2_Gamedata.PORTRAIT_PATH + file_name )
+	var spritesheet : Texture2D = ResourceLoader.load( B2_Portrait.PORTRAIT_PATH + file_name )
 	
 	@warning_ignore("integer_division")
 	var d_offset := int( spritesheet.get_width() / n_frames )

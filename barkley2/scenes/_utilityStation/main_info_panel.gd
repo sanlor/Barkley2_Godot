@@ -93,7 +93,7 @@ func update_menu() -> void:
 func _pr( node : Label ) -> void:
 	node.text = Text.pr(node.text)
 
-## This is very important. not habing the correct al-bhed translation is game breaking.
+## This is very important. not having the correct al-bhed translation is game breaking.
 func _set_title_name() -> void:
 	_pr(name_title)
 	_pr(vitals_title)
@@ -122,17 +122,17 @@ func _set_title_name() -> void:
 	_pr(tab_trans)
 	_pr(tab_res)
 
-	res_blip.modulate = B2_Gamedata.c_cosmic
-	res_blip_2.modulate = B2_Gamedata.c_mental
-	res_blip_3.modulate = B2_Gamedata.c_cyber
-	res_blip_4.modulate = B2_Gamedata.c_bio
-	res_blip_5.modulate = B2_Gamedata.c_zauber
+	res_blip.modulate 		= B2_Color.C_COSMIC
+	res_blip_2.modulate 	= B2_Color.C_MENTAL
+	res_blip_3.modulate 	= B2_Color.C_CYBER
+	res_blip_4.modulate 	= B2_Color.C_BIO
+	res_blip_5.modulate 	= B2_Color.C_ZAUBER
 
-	res_cosmic.modulate = B2_Gamedata.c_cosmic
-	res_mental.modulate = B2_Gamedata.c_mental
-	res_cyber.modulate = B2_Gamedata.c_cyber
-	res_bio.modulate = B2_Gamedata.c_bio
-	res_zauber.modulate = B2_Gamedata.c_zauber
+	res_cosmic.modulate 	= B2_Color.C_COSMIC
+	res_mental.modulate 	= B2_Color.C_MENTAL
+	res_cyber.modulate 		= B2_Color.C_CYBER
+	res_bio.modulate 		= B2_Color.C_BIO
+	res_zauber.modulate 	= B2_Color.C_ZAUBER
 
 	_pr(tab_equip)
 	

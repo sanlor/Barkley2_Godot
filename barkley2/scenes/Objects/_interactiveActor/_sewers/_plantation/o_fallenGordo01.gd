@@ -17,7 +17,7 @@ func _ready() -> void:
 	if B2_Playerdata.Quest("gordoState") == 2:
 		ActorAnim.animation = "dead"
 		
-	B2_Playerdata.Quest("bossColor", B2_Gamedata.c_cyber);
+	B2_Playerdata.Quest("bossColor", B2_Color.C_CYBER);
 	B2_Playerdata.Quest("bossName", "B.A.B.B.Y. System");
 	B2_Playerdata.Quest("bossDescription", "Gerder of Gordo");
 		

@@ -105,6 +105,9 @@ var gun_bag 	: Array[B2_Weapon] ## Trash weapons
 var jerkin_pockets : Array[ Dictionary ] = []
 # ^ is this even used?
 
+## Holds a reference for the last zone name. Used by oZoneName.
+var last_zone_name := ""
+
 func _ready():
 	character_inkblots.resize( 16 )
 	character_scanner.resize( 10 )
