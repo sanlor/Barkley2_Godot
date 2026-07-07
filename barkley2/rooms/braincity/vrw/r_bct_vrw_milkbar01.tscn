@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dau16mq0jxujg" path="res://barkley2/rooms/braincity/vrw/flickery_light.gd" id="4_2048y"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="5_4kc60"]
 [ext_resource type="Texture2D" uid="uid://dkbd44ncjy75n" path="res://barkley2/assets/b2_original/backgrounds/tls_oo01.png" id="5_74p3u"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="6_ux5n7"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_wox4m"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="7_1hvo4"]
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="8_ayng0"]
@@ -13,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="10_5pqmc"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="11_vo3ib"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="13_eilwj"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="14_udctm"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="15_eoiuq"]
 [ext_resource type="PackedScene" uid="uid://dsi7dns2f5kem" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_nene01.tscn" id="15_wox4m"]
 [ext_resource type="PackedScene" uid="uid://e0ie8fqew71k" path="res://barkley2/scenes/Objects/_interactiveActor/_braincity/_oligarchy_online/o_vrw_bartender01.tscn" id="17_ayng0"]
@@ -811,7 +811,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("11_vo3ib")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4kc60"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_2048y"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -827,7 +827,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_7rfnr")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -844,7 +844,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -861,7 +861,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -921,7 +921,7 @@ tile_set = ExtResource("13_eilwj")
 visible = false
 z_index = 100
 tile_map_data = PackedByteArray("AAAPAAcAGQACAAIAAAAPAAgAGQACAAIAAAAPAAkAGQACAAIAAAAPAAoAGQACAAIAAAAQAAoAGQACAAIAAAARAAoAGQACAAIAAAASAAoAGQACAAIAAAATAAoAGQACAAIAAAAUAAoAGQACAAIAAAAVAAoAGQACAAIAAAAVAAcAGQACAAIAAAAVAAgAGQACAAIAAAAVAAkAGQACAAIAAAA=")
-tile_set = ExtResource("14_udctm")
+tile_set = ExtResource("6_ux5n7")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=1619005892]
 visible = false
@@ -951,7 +951,7 @@ tile_set = SubResource("TileSet_ngqg0")
 
 [node name="o_doorlight_down" parent="." unique_id=180054563 instance=ExtResource("5_4kc60")]
 position = Vector2(208, 224)
-sprite_frames = SubResource("SpriteFrames_4kc60")
+sprite_frames = SubResource("SpriteFrames_2048y")
 teleport_destination = "r_bct_vrw_town02, 368, 152);
 pushTime = 0.1; // In seconds how long you need to hold
 pushResist = 70; // Pushing resist, higher is more pusback

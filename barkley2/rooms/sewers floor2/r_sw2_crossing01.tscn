@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://c8fgtcjbkxxv2" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_sewers_drip.ogg" id="4_e4pgk"]
 [ext_resource type="TileSet" uid="uid://3dkm6rp2k422" path="res://barkley2/resources/tileset/sw2_01.tres" id="6_4pod4"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="7_cfrfr"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="7_mptl1"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="7_mptl1"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="8_v66ly"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="9_e3yju"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="9_ucmwl"]
@@ -71,7 +71,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_yaaq8")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_mptl1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_e3yju"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -87,7 +87,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_r8coo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -104,7 +104,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2776r")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -121,7 +121,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cs15g")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -158,7 +158,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_yaaq8")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_e3yju"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_jq3e3"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -174,7 +174,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_r8coo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -191,7 +191,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -208,7 +208,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -271,7 +271,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oa276")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_close",
 "speed": 5.0
 }, {
@@ -291,7 +291,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0dcut")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_open",
 "speed": 10.0
 }]
@@ -313,14 +313,10 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u75by")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lp73p"]
-atlas = ExtResource("28_ne0ml")
-region = Rect2(98, 0, 49, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_au85l"]
 atlas = ExtResource("28_ne0ml")
@@ -339,7 +335,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bec86")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -368,7 +364,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_32f1k")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -459,7 +455,7 @@ tile_set = ExtResource("9_e3yju")
 
 [node name="o_doorlight_up" parent="." unique_id=499599984 instance=ExtResource("8_v66ly")]
 position = Vector2(240, 152)
-sprite_frames = SubResource("SpriteFrames_mptl1")
+sprite_frames = SubResource("SpriteFrames_e3yju")
 teleport_destination = "r_sw2_crossroad01, 256, 320);
 "
 metadata/code = "RoomXY(r_sw2_crossroad01, 256, 320);
@@ -469,7 +465,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_down" parent="." unique_id=699997875 instance=ExtResource("16_betyd")]
 position = Vector2(592, 704)
-sprite_frames = SubResource("SpriteFrames_e3yju")
+sprite_frames = SubResource("SpriteFrames_jq3e3")
 teleport_destination = "r_sw2_utility01, 304, 168);
 "
 metadata/code = "RoomXY(r_sw2_utility01, 304, 168);
@@ -505,7 +501,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open01" parent="." unique_id=1746641124 instance=ExtResource("24_ov4qo")]
 position = Vector2(104, 179)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000028"
 metadata/scale = Vector2(1, 1)
@@ -513,7 +508,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open02" parent="." unique_id=840046522 instance=ExtResource("24_ov4qo")]
 position = Vector2(96, 195)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000029"
 metadata/scale = Vector2(1, 1)
@@ -521,7 +515,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open03" parent="." unique_id=483547114 instance=ExtResource("24_ov4qo")]
 position = Vector2(120, 227)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000030"
 metadata/scale = Vector2(1, 1)
@@ -529,6 +522,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open04" parent="." unique_id=60707433 instance=ExtResource("24_ov4qo")]
 position = Vector2(96, 307)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000031"
 metadata/scale = Vector2(1, 1)
@@ -536,7 +530,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open05" parent="." unique_id=1869694570 instance=ExtResource("24_ov4qo")]
 position = Vector2(112, 307)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000033"
 metadata/scale = Vector2(1, 1)
@@ -544,7 +537,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open06" parent="." unique_id=1585867880 instance=ExtResource("24_ov4qo")]
 position = Vector2(104, 323)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000036"
 metadata/scale = Vector2(1, 1)
@@ -552,7 +544,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open07" parent="." unique_id=1420073000 instance=ExtResource("24_ov4qo")]
 position = Vector2(128, 243)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000038"
 metadata/scale = Vector2(1, 1)
@@ -560,7 +551,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open08" parent="." unique_id=1074853883 instance=ExtResource("24_ov4qo")]
 position = Vector2(288, 179)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000039"
 metadata/scale = Vector2(1, 1)
@@ -568,6 +558,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open09" parent="." unique_id=1180189790 instance=ExtResource("24_ov4qo")]
 position = Vector2(464, 179)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000042"
 metadata/scale = Vector2(1, 1)
@@ -575,7 +566,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open10" parent="." unique_id=113470937 instance=ExtResource("24_ov4qo")]
 position = Vector2(424, 211)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000049"
 metadata/scale = Vector2(1, 1)
@@ -583,7 +573,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open11" parent="." unique_id=354635993 instance=ExtResource("24_ov4qo")]
 position = Vector2(416, 227)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000050"
 metadata/scale = Vector2(1, 1)
@@ -593,7 +582,6 @@ offset_left = 184.0
 offset_top = 450.0
 offset_right = 233.0
 offset_bottom = 528.0
-texture = SubResource("AtlasTexture_lp73p")
 start_open = true
 metadata/code = ""
 metadata/inst_name = "inst_C89A3774"
@@ -720,6 +708,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open12" parent="." unique_id=1666055881 instance=ExtResource("24_ov4qo")]
 position = Vector2(480, 179)
 sprite_frames = SubResource("SpriteFrames_esvbv")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000063"
 metadata/scale = Vector2(1, 1)
@@ -741,7 +730,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open13" parent="." unique_id=2025305820 instance=ExtResource("24_ov4qo")]
 position = Vector2(120, 659)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000070"
 metadata/scale = Vector2(1, 1)
@@ -749,7 +737,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open14" parent="." unique_id=1392400717 instance=ExtResource("24_ov4qo")]
 position = Vector2(136, 667)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000071"
 metadata/scale = Vector2(1, 1)
@@ -757,7 +744,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_drum_open15" parent="." unique_id=130621676 instance=ExtResource("24_ov4qo")]
 position = Vector2(112, 675)
 sprite_frames = SubResource("SpriteFrames_esvbv")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000074"
 metadata/scale = Vector2(1, 1)

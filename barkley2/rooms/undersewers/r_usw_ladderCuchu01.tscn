@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://cp7psh0ckjcn6"]
 
 [ext_resource type="Script" uid="uid://jhivoxred2ll" path="res://barkley2/rooms/undersewers/r_usw_ladderCuchu01.gd" id="1_qol1b"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="4_lmr84"]
 [ext_resource type="Texture2D" uid="uid://ragji5gbfp64" path="res://barkley2/assets/b2_original/backgrounds/tls_sw2_undersewers01.png" id="5_b4kc5"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="5_fum2e"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="6_fa813"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="7_i3i34"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="8_14g4s"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="9_4bnrc"]
@@ -3425,61 +3425,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_lqkgk")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_lmr84"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("9_4bnrc")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_i6au3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_oyk4s")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_bhfqd")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_qol1b"]
 resource_local_to_scene = true
 animations = [{
@@ -3496,7 +3441,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_bhfqd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3513,7 +3458,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idcrh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3530,7 +3475,62 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_706hu")
 }],
-"loop": true,
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r7a3x"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_4bnrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_i6au3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_oyk4s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_bhfqd")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3593,7 +3593,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nkloo")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_close",
 "speed": 5.0
 }, {
@@ -3613,7 +3613,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x146k")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_open",
 "speed": 10.0
 }]
@@ -3680,7 +3680,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_q7bnj")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -3695,7 +3695,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bec86")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -3740,7 +3740,7 @@ tile_set = ExtResource("5_fum2e")
 visible = false
 z_index = 100
 tile_map_data = PackedByteArray("AAAKABIAGQACAAIAAAAKABMAGQACAAIAAAAKABQAGQACAAIAAAALABIAGQACAAIAAAALABMAGQACAAIAAAALABQAGQACAAIAAAAMABIAGQACAAIAAAAMABMAGQACAAIAAAAMABQAGQACAAIAAAANABIAGQACAAIAAAANABMAGQACAAIAAAANABQAGQACAAIAAAA=")
-tile_set = ExtResource("6_fa813")
+tile_set = ExtResource("4_lmr84")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=282735974]
 visible = false
@@ -3750,7 +3750,7 @@ tile_set = ExtResource("7_i3i34")
 
 [node name="o_doorlight_up2" parent="." unique_id=313342678 instance=ExtResource("8_14g4s")]
 position = Vector2(320, 96)
-sprite_frames = SubResource("SpriteFrames_lmr84")
+sprite_frames = SubResource("SpriteFrames_qol1b")
 teleport_destination = "r_swp_cuchu1_01, 440, 160);
 
 "
@@ -3762,7 +3762,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=503876842 instance=ExtResource("8_14g4s")]
 position = Vector2(192, 168)
-sprite_frames = SubResource("SpriteFrames_qol1b")
+sprite_frames = SubResource("SpriteFrames_r7a3x")
 teleport_destination = "r_usw_ruinsJunction01, 944, 448"
 metadata/code = "RoomXY(r_usw_ruinsJunction01, 944, 448);"
 metadata/inst_name = "inst_244FECD3"

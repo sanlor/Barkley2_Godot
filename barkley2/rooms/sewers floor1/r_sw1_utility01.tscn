@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bnvkmf007uafi" path="res://barkley2/rooms/sewers floor1/r_sw_1_utility_01.gd" id="1_epqop"]
 [ext_resource type="TileSet" uid="uid://biess00p5nt6w" path="res://barkley2/resources/tileset/sw2_02.tres" id="3_bxrr7"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="4_baelr"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="5_d488f"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="5_d488f"]
 [ext_resource type="PackedScene" uid="uid://bgh5fvxav7ccl" path="res://barkley2/scenes/_utilityStation/o_utilitystation.tscn" id="5_pkd35"]
 [ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/shaders/shader_code/selected_outline.gdshader" id="6_d1ohw"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="6_d488f"]
@@ -59,7 +59,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("11_baelr")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_d488f"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_tseqp"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -75,7 +75,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_bo31i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -92,7 +92,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -109,12 +109,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tseqp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6fxvh"]
 resource_local_to_scene = true
 shader = ExtResource("6_d1ohw")
 shader_parameter/enable = false
@@ -137,7 +137,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2jxwy")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -256,7 +256,7 @@ tile_set = ExtResource("6_tseqp")
 
 [node name="o_doorlight_down" parent="." unique_id=359308126 instance=ExtResource("17_1mmdh")]
 position = Vector2(208, 304)
-sprite_frames = SubResource("SpriteFrames_d488f")
+sprite_frames = SubResource("SpriteFrames_tseqp")
 teleport_destination = "r_sw1_foyer01, 816, 632);
 
 "
@@ -267,7 +267,7 @@ metadata/inst_name = "inst_F3C015F7"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_utilitystation" parent="." unique_id=965639839 instance=ExtResource("5_pkd35")]
-material = SubResource("ShaderMaterial_tseqp")
+material = SubResource("ShaderMaterial_6fxvh")
 position = Vector2(160, 224)
 metadata/inst_name = "inst_E61F9C02"
 

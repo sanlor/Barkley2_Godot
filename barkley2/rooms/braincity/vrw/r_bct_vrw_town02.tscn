@@ -8,9 +8,9 @@
 [ext_resource type="Material" uid="uid://bxlrh226xk1c4" path="res://barkley2/shaders/material/gradient_corners.tres" id="5_svdl3"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="5_totxm"]
 [ext_resource type="Texture2D" uid="uid://dkbd44ncjy75n" path="res://barkley2/assets/b2_original/backgrounds/tls_oo01.png" id="5_wpjt4"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="6_svdl3"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="7_sjdcy"]
 [ext_resource type="PackedScene" uid="uid://btnwdfafi0o3i" path="res://barkley2/scenes/Objects/_doors/o_doorlight_up.tscn" id="8_l4ve0"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="8_tla5x"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="9_p3gpg"]
 [ext_resource type="Texture2D" uid="uid://dqfl2flyew5ch" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_down.png" id="10_g2mku"]
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="11_4a7yi"]
@@ -829,61 +829,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("14_wjgyx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_tla5x"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("9_p3gpg")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_g2mku")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_4a7yi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_fgncp")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_yexxy"]
 resource_local_to_scene = true
 animations = [{
@@ -900,7 +845,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_fgncp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -917,7 +862,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idcrh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -934,7 +879,62 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_706hu")
 }],
-"loop": true,
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3tqyr"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_p3gpg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_g2mku")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4a7yi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_fgncp")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -984,7 +984,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_35qdf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1006,7 +1006,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_53w6x")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1021,7 +1021,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bec86")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1036,7 +1036,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1aw8s")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1072,7 +1072,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hmmfw")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1108,7 +1108,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wrr5u")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 7.5
 }]
@@ -1247,7 +1247,7 @@ tile_set = ExtResource("5_totxm")
 [node name="layer - collision 2" type="TileMapLayer" parent="." unique_id=1227265337]
 visible = false
 z_index = 100
-tile_set = ExtResource("6_svdl3")
+tile_set = ExtResource("8_tla5x")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=1829029461]
 visible = false
@@ -1257,7 +1257,7 @@ tile_set = ExtResource("7_sjdcy")
 
 [node name="o_doorlight_up2" parent="." unique_id=1280128190 instance=ExtResource("8_l4ve0")]
 position = Vector2(224, 128)
-sprite_frames = SubResource("SpriteFrames_tla5x")
+sprite_frames = SubResource("SpriteFrames_yexxy")
 teleport_destination = "r_bct_vrw_trigal01, 200, 376);
 visible = false;
 pushTime = 0.1; // In seconds how long you need to hold
@@ -1273,7 +1273,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=1124100964 instance=ExtResource("8_l4ve0")]
 position = Vector2(352, 128)
-sprite_frames = SubResource("SpriteFrames_yexxy")
+sprite_frames = SubResource("SpriteFrames_3tqyr")
 teleport_destination = "r_bct_vrw_milkbar01, 224, 216);
 visible = false;
 pushTime = 0.1; // In seconds how long you need to hold

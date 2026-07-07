@@ -1,9 +1,9 @@
 [gd_scene format=4 uid="uid://bc5q1ywx5cd5o"]
 
 [ext_resource type="Script" uid="uid://p3dodafb8oup" path="res://barkley2/rooms/the_eastelands/r_est_mountainBase01.gd" id="1_rck7f"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="4_h5lak"]
 [ext_resource type="Texture2D" uid="uid://b268uenaqggca" path="res://barkley2/assets/b2_original/backgrounds/tls_wst_wasteland01.png" id="5_smxv4"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="6_p7ra4"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="7_x0vat"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="8_mv8r8"]
 [ext_resource type="PackedScene" uid="uid://bnxoqmiv12gk8" path="res://barkley2/scenes/Objects/_doors/o_doorlight_right.tscn" id="9_q38kw"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="10_xk23m"]
@@ -15,8 +15,8 @@
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="15_vnmoy"]
 [ext_resource type="Texture2D" uid="uid://dip71mcff4egg" path="res://barkley2/assets/b2_original/images/merged/s_crucified_goon01.png" id="16_leceo"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="17_2enlr"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="17_51e3w"]
 [ext_resource type="PackedScene" uid="uid://hhg2vthadjy1" path="res://barkley2/scenes/Objects/_environs/_unique/_tirnanog/_residental_area/o_gbl_drawing_point.tscn" id="19_xrro7"]
-[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/shaders/shader_code/selected_outline.gdshader" id="20_4d6xw"]
 [ext_resource type="Texture2D" uid="uid://gsg4fvav163f" path="res://barkley2/assets/b2_original/images/merged/s_drawing_point.png" id="21_26686"]
 [ext_resource type="PackedScene" uid="uid://bsierd7e26klr" path="res://barkley2/scenes/Objects/_environs/o_tree_live_dummy01.tscn" id="23_72roq"]
 [ext_resource type="Texture2D" uid="uid://enmys3c782k4" path="res://barkley2/assets/b2_original/images/merged/s_tree_live_dummy01.png" id="24_rke7a"]
@@ -1850,7 +1850,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("15_vnmoy")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_h5lak"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ubtla"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1866,7 +1866,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_jyths")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -1883,7 +1883,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2yyxo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -1900,12 +1900,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t4s45")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_51e3w"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_leceo"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -1921,7 +1921,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_jyths")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -1938,7 +1938,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2yyxo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -1955,7 +1955,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t4s45")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -1992,116 +1992,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("15_vnmoy")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ubtla"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("10_xk23m")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_7cfa3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_jyyah")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_jyths")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_leceo"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("10_xk23m")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_7cfa3")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_jyyah")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_jyths")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_gmj3g"]
 resource_local_to_scene = true
 animations = [{
@@ -2118,7 +2008,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("13_jyths")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -2135,7 +2025,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idcrh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -2152,7 +2042,117 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_706hu")
 }],
-"loop": true,
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rck7f"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_xk23m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_7cfa3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_jyyah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_jyths")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p7ra4"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_xk23m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_7cfa3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_jyyah")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_jyths")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -2195,20 +2195,10 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rxo81")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rck7f"]
-resource_local_to_scene = true
-shader = ExtResource("20_4d6xw")
-shader_parameter/enable = false
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0000000475000002
-shader_parameter/pattern = 0
-shader_parameter/inside = true
-shader_parameter/add_margins = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gaax3"]
 atlas = ExtResource("21_26686")
@@ -2227,7 +2217,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xo8by")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2242,7 +2232,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qb25o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2271,7 +2261,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5ia40")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2293,7 +2283,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p153d")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2315,7 +2305,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oriqc")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2342,7 +2332,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_4tb2s")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2435,7 +2425,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hkc4u")
 }],
-"loop": true,
+"loop": 1,
 "name": &"base",
 "speed": 5.0
 }, {
@@ -2464,7 +2454,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ut7tt")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -2472,7 +2462,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lb1cu")
 }],
-"loop": true,
+"loop": 1,
 "name": &"shadow",
 "speed": 5.0
 }]
@@ -2494,7 +2484,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3mglx")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2548,7 +2538,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xx1be")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -2556,7 +2546,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rt4xp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"shadow",
 "speed": 5.0
 }]
@@ -2638,7 +2628,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_f23hk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"base",
 "speed": 5.0
 }, {
@@ -2664,7 +2654,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wpioe")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -2672,7 +2662,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ibovd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"shadow",
 "speed": 5.0
 }]
@@ -2754,7 +2744,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7y53x")
 }],
-"loop": true,
+"loop": 1,
 "name": &"base",
 "speed": 5.0
 }, {
@@ -2780,7 +2770,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vmfb5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -2788,7 +2778,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_h6gi1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"shadow",
 "speed": 5.0
 }]
@@ -2803,7 +2793,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_47lik")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2818,7 +2808,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y28ro")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2833,7 +2823,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kmdla")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2878,7 +2868,7 @@ tile_set = ExtResource("6_p7ra4")
 visible = false
 z_index = 100
 tile_map_data = PackedByteArray("AAADAB0AGQACAAIAAAADAB4AGQACAAIAAAADAB8AGQACAAIAAAAEAB0AGQACAAIAAAAEAB4AGQACAAIAAAAEAB8AGQACAAIAAAAFAB4AGQACAAIAAAAFAB8AGQACAAIAAAAGAB4AGQACAAIAAAAGAB8AGQACAAIAAAAHAB4AGQACAAIAAAAHAB8AGQACAAIAAAAIAB4AGQACAAIAAAAIAB8AGQACAAIAAAAJAB4AGQACAAIAAAAJAB8AGQACAAIAAAALAB0AGQACAAIAAAALAB4AGQACAAIAAAAMAB0AGQACAAIAAAAMAB4AGQACAAIAAAANAB0AGQACAAIAAAANAB4AGQACAAIAAAAOAB0AGQACAAIAAAAOAB4AGQACAAIAAAARABsAGQACAAIAAAAcAEsAGQACAAIAAAAcAEwAGQACAAIAAAAcAE0AGQACAAIAAAAcAE4AGQACAAIAAAAcAE8AGQACAAIAAAAdAEsAGQACAAIAAAAdAEwAGQACAAIAAAAdAE0AGQACAAIAAAAdAE4AGQACAAIAAAAdAE8AGQACAAIAAAAeAEsAGQACAAIAAAAeAEwAGQACAAIAAAAeAE0AGQACAAIAAAAeAE4AGQACAAIAAAAeAE8AGQACAAIAAAAfAEsAGQACAAIAAAAfAEwAGQACAAIAAAAfAE0AGQACAAIAAAAfAE4AGQACAAIAAAAfAE8AGQACAAIAAAAAAHUAGQACAAIAAAAAAHYAGQACAAIAAAAAAHcAGQACAAIAAAAAAHgAGQACAAIAAAAAAHkAGQACAAIAAAAAAHoAGQACAAIAAAAAAHsAGQACAAIAAAAAAHwAGQACAAIAAAAAAH0AGQACAAIAAAAAAH4AGQACAAIAAAAAAH8AGQACAAIAAAAAAIAAGQACAAIAAAAAAIEAGQACAAIAAAAAAIIAGQACAAIAAAABAHUAGQACAAIAAAABAHYAGQACAAIAAAABAHcAGQACAAIAAAABAHgAGQACAAIAAAABAHkAGQACAAIAAAABAHoAGQACAAIAAAABAHsAGQACAAIAAAABAHwAGQACAAIAAAABAH0AGQACAAIAAAABAH4AGQACAAIAAAABAH8AGQACAAIAAAABAIAAGQACAAIAAAABAIEAGQACAAIAAAABAIIAGQACAAIAAAACAHUAGQACAAIAAAACAHYAGQACAAIAAAACAHcAGQACAAIAAAACAHgAGQACAAIAAAACAHkAGQACAAIAAAACAHoAGQACAAIAAAACAHsAGQACAAIAAAACAHwAGQACAAIAAAACAH0AGQACAAIAAAACAH4AGQACAAIAAAACAH8AGQACAAIAAAACAIAAGQACAAIAAAACAIEAGQACAAIAAAACAIIAGQACAAIAAAADAHUAGQACAAIAAAADAHYAGQACAAIAAAADAHcAGQACAAIAAAADAHgAGQACAAIAAAADAHkAGQACAAIAAAADAHoAGQACAAIAAAADAHsAGQACAAIAAAADAHwAGQACAAIAAAADAH0AGQACAAIAAAADAH4AGQACAAIAAAADAH8AGQACAAIAAAADAIAAGQACAAIAAAADAIEAGQACAAIAAAADAIIAGQACAAIAAAAEAHUAGQACAAIAAAAEAHYAGQACAAIAAAAEAHcAGQACAAIAAAAEAHgAGQACAAIAAAAEAHkAGQACAAIAAAAEAHoAGQACAAIAAAAEAHsAGQACAAIAAAAEAHwAGQACAAIAAAAEAH0AGQACAAIAAAAEAH4AGQACAAIAAAAEAH8AGQACAAIAAAAEAIAAGQACAAIAAAAEAIEAGQACAAIAAAAEAIIAGQACAAIAAAAFAHUAGQACAAIAAAAFAHYAGQACAAIAAAAFAHcAGQACAAIAAAAFAHgAGQACAAIAAAAFAHkAGQACAAIAAAAFAHoAGQACAAIAAAAFAHsAGQACAAIAAAAFAHwAGQACAAIAAAAFAH0AGQACAAIAAAAFAH4AGQACAAIAAAAFAH8AGQACAAIAAAAFAIAAGQACAAIAAAAFAIEAGQACAAIAAAAFAIIAGQACAAIAAAAGAHUAGQACAAIAAAAGAHYAGQACAAIAAAAGAHcAGQACAAIAAAAGAHgAGQACAAIAAAAGAHkAGQACAAIAAAAGAHoAGQACAAIAAAAGAHsAGQACAAIAAAAGAHwAGQACAAIAAAAGAH0AGQACAAIAAAAGAH4AGQACAAIAAAAGAH8AGQACAAIAAAAGAIAAGQACAAIAAAAGAIEAGQACAAIAAAAGAIIAGQACAAIAAAAHAHUAGQACAAIAAAAHAHYAGQACAAIAAAAHAHcAGQACAAIAAAAHAHgAGQACAAIAAAAHAHkAGQACAAIAAAAHAHoAGQACAAIAAAAHAHsAGQACAAIAAAAHAHwAGQACAAIAAAAHAH0AGQACAAIAAAAHAH4AGQACAAIAAAAHAH8AGQACAAIAAAAHAIAAGQACAAIAAAAHAIEAGQACAAIAAAAHAIIAGQACAAIAAAAIAHUAGQACAAIAAAAIAHYAGQACAAIAAAAIAHcAGQACAAIAAAAIAHgAGQACAAIAAAAIAHkAGQACAAIAAAAIAHoAGQACAAIAAAAIAHsAGQACAAIAAAAIAHwAGQACAAIAAAAIAH0AGQACAAIAAAAIAH4AGQACAAIAAAAIAH8AGQACAAIAAAAIAIAAGQACAAIAAAAIAIEAGQACAAIAAAAIAIIAGQACAAIAAAAJAHUAGQACAAIAAAAJAHYAGQACAAIAAAAJAHcAGQACAAIAAAAJAHgAGQACAAIAAAAJAHkAGQACAAIAAAAJAHoAGQACAAIAAAAJAHsAGQACAAIAAAAJAHwAGQACAAIAAAAJAH0AGQACAAIAAAAJAH4AGQACAAIAAAAJAH8AGQACAAIAAAAJAIAAGQACAAIAAAAJAIEAGQACAAIAAAAJAIIAGQACAAIAAAAKAHUAGQACAAIAAAAKAHYAGQACAAIAAAAKAHcAGQACAAIAAAAKAHgAGQACAAIAAAAKAHkAGQACAAIAAAAKAHoAGQACAAIAAAAKAHsAGQACAAIAAAAKAHwAGQACAAIAAAAKAH0AGQACAAIAAAAKAH4AGQACAAIAAAAKAH8AGQACAAIAAAAKAIAAGQACAAIAAAAKAIEAGQACAAIAAAAKAIIAGQACAAIAAAALAHUAGQACAAIAAAALAHYAGQACAAIAAAALAHcAGQACAAIAAAALAHgAGQACAAIAAAALAHkAGQACAAIAAAALAHoAGQACAAIAAAALAHsAGQACAAIAAAALAHwAGQACAAIAAAALAH0AGQACAAIAAAALAH4AGQACAAIAAAALAH8AGQACAAIAAAALAIAAGQACAAIAAAALAIEAGQACAAIAAAALAIIAGQACAAIAAAAAAEsAGQACAAIAAAAAAEwAGQACAAIAAAAAAE0AGQACAAIAAAAAAE4AGQACAAIAAAAAAE8AGQACAAIAAAAAAFAAGQACAAIAAAAAAFEAGQACAAIAAAAAAFIAGQACAAIAAAABAEsAGQACAAIAAAABAEwAGQACAAIAAAABAE0AGQACAAIAAAABAE4AGQACAAIAAAABAE8AGQACAAIAAAABAFAAGQACAAIAAAABAFEAGQACAAIAAAABAFIAGQACAAIAAAACAEsAGQACAAIAAAACAEwAGQACAAIAAAACAE0AGQACAAIAAAACAE4AGQACAAIAAAACAE8AGQACAAIAAAACAFAAGQACAAIAAAACAFEAGQACAAIAAAACAFIAGQACAAIAAAADAEsAGQACAAIAAAADAEwAGQACAAIAAAADAE0AGQACAAIAAAADAE4AGQACAAIAAAADAE8AGQACAAIAAAADAFAAGQACAAIAAAADAFEAGQACAAIAAAADAFIAGQACAAIAAAAEAEsAGQACAAIAAAAEAEwAGQACAAIAAAAEAE0AGQACAAIAAAAEAE4AGQACAAIAAAAEAE8AGQACAAIAAAAEAFAAGQACAAIAAAAEAFEAGQACAAIAAAAEAFIAGQACAAIAAAAFAEsAGQACAAIAAAAFAEwAGQACAAIAAAAFAE0AGQACAAIAAAAFAE4AGQACAAIAAAAFAE8AGQACAAIAAAAFAFAAGQACAAIAAAAFAFEAGQACAAIAAAAFAFIAGQACAAIAAAAGAEsAGQACAAIAAAAGAEwAGQACAAIAAAAGAE0AGQACAAIAAAAGAE4AGQACAAIAAAAGAE8AGQACAAIAAAAGAFAAGQACAAIAAAAGAFEAGQACAAIAAAAGAFIAGQACAAIAAAAHAEsAGQACAAIAAAAHAEwAGQACAAIAAAAHAE0AGQACAAIAAAAHAE4AGQACAAIAAAAHAE8AGQACAAIAAAAHAFAAGQACAAIAAAAHAFEAGQACAAIAAAAHAFIAGQACAAIAAAAIAEsAGQACAAIAAAAIAEwAGQACAAIAAAAIAE0AGQACAAIAAAAIAE4AGQACAAIAAAAIAE8AGQACAAIAAAAIAFAAGQACAAIAAAAIAFEAGQACAAIAAAAIAFIAGQACAAIAAAAJAEsAGQACAAIAAAAJAEwAGQACAAIAAAAJAE0AGQACAAIAAAAJAE4AGQACAAIAAAAJAE8AGQACAAIAAAAJAFAAGQACAAIAAAAJAFEAGQACAAIAAAAJAFIAGQACAAIAAAAKAEsAGQACAAIAAAAKAEwAGQACAAIAAAAKAE0AGQACAAIAAAAKAE4AGQACAAIAAAAKAE8AGQACAAIAAAAKAFAAGQACAAIAAAAKAFEAGQACAAIAAAAKAFIAGQACAAIAAAALAEsAGQACAAIAAAALAEwAGQACAAIAAAALAE0AGQACAAIAAAALAE4AGQACAAIAAAALAE8AGQACAAIAAAALAFAAGQACAAIAAAALAFEAGQACAAIAAAALAFIAGQACAAIAAAAMAEsAGQACAAIAAAAMAEwAGQACAAIAAAAMAE0AGQACAAIAAAAMAE4AGQACAAIAAAAMAE8AGQACAAIAAAAMAFAAGQACAAIAAAAMAFEAGQACAAIAAAAMAFIAGQACAAIAAAANAEsAGQACAAIAAAANAEwAGQACAAIAAAANAE0AGQACAAIAAAANAE4AGQACAAIAAAANAE8AGQACAAIAAAANAFAAGQACAAIAAAANAFEAGQACAAIAAAANAFIAGQACAAIAAAAOAEsAGQACAAIAAAAOAEwAGQACAAIAAAAOAE0AGQACAAIAAAAOAE4AGQACAAIAAAAOAE8AGQACAAIAAAAOAFAAGQACAAIAAAAOAFEAGQACAAIAAAAOAFIAGQACAAIAAAAPAEsAGQACAAIAAAAPAEwAGQACAAIAAAAPAE0AGQACAAIAAAAPAE4AGQACAAIAAAAPAE8AGQACAAIAAAAPAFAAGQACAAIAAAAPAFEAGQACAAIAAAAPAFIAGQACAAIAAAAQAEsAGQACAAIAAAAQAEwAGQACAAIAAAAQAE0AGQACAAIAAAAQAE4AGQACAAIAAAAQAE8AGQACAAIAAAAQAFAAGQACAAIAAAAQAFEAGQACAAIAAAAQAFIAGQACAAIAAAARAEsAGQACAAIAAAARAEwAGQACAAIAAAARAE0AGQACAAIAAAARAE4AGQACAAIAAAARAE8AGQACAAIAAAARAFAAGQACAAIAAAARAFEAGQACAAIAAAARAFIAGQACAAIAAAARAFMAGQACAAIAAAARAFQAGQACAAIAAAASAEsAGQACAAIAAAASAEwAGQACAAIAAAASAE0AGQACAAIAAAASAE4AGQACAAIAAAASAE8AGQACAAIAAAASAFAAGQACAAIAAAASAFEAGQACAAIAAAASAFIAGQACAAIAAAASAFMAGQACAAIAAAASAFQAGQACAAIAAAATAFAAGQACAAIAAAATAFEAGQACAAIAAAATAFIAGQACAAIAAAATAFMAGQACAAIAAAATAFQAGQACAAIAAAAUAFAAGQACAAIAAAAUAFEAGQACAAIAAAAUAFIAGQACAAIAAAAUAFMAGQACAAIAAAAUAFQAGQACAAIAAAAVAFAAGQACAAIAAAAVAFEAGQACAAIAAAAVAFIAGQACAAIAAAAVAFMAGQACAAIAAAAVAFQAGQACAAIAAAAWAFAAGQACAAIAAAAWAFEAGQACAAIAAAAWAFIAGQACAAIAAAAWAFMAGQACAAIAAAAWAFQAGQACAAIAAAAXAFAAGQACAAIAAAAXAFEAGQACAAIAAAAXAFIAGQACAAIAAAAXAFMAGQACAAIAAAAXAFQAGQACAAIAAAAYAFAAGQACAAIAAAAYAFEAGQACAAIAAAAYAFIAGQACAAIAAAAYAFMAGQACAAIAAAAYAFQAGQACAAIAAAAYAFUAGQACAAIAAAAZAFAAGQACAAIAAAAZAFEAGQACAAIAAAAZAFIAGQACAAIAAAAZAFMAGQACAAIAAAAZAFQAGQACAAIAAAAZAFUAGQACAAIAAAAaAFAAGQACAAIAAAAaAFEAGQACAAIAAAAaAFIAGQACAAIAAAAaAFMAGQACAAIAAAAaAFQAGQACAAIAAAAaAFUAGQACAAIAAAAbAFAAGQACAAIAAAAbAFEAGQACAAIAAAAbAFIAGQACAAIAAAAbAFMAGQACAAIAAAAbAFQAGQACAAIAAAAbAFUAGQACAAIAAAAcAFAAGQACAAIAAAAcAFEAGQACAAIAAAAcAFIAGQACAAIAAAAcAFMAGQACAAIAAAAcAFQAGQACAAIAAAAcAFUAGQACAAIAAAAdAFAAGQACAAIAAAAdAFEAGQACAAIAAAAdAFIAGQACAAIAAAAdAFMAGQACAAIAAAAdAFQAGQACAAIAAAAdAFUAGQACAAIAAAAeAFAAGQACAAIAAAAeAFEAGQACAAIAAAAeAFIAGQACAAIAAAAeAFMAGQACAAIAAAAeAFQAGQACAAIAAAAeAFUAGQACAAIAAAAfAFAAGQACAAIAAAAfAFEAGQACAAIAAAAfAFIAGQACAAIAAAAfAFMAGQACAAIAAAAfAFQAGQACAAIAAAAfAFUAGQACAAIAAAAKAB4AGQACAAIAAAAPAB0AGQACAAIAAAAQABwAGQACAAIAAAAKAB0AGQADAAIAAAAPABwAGQADAAIAAAAQABsAGQADAAIAAAARABoAGQADAAIAAAAQAB0AGQAEAAMAAAAPAB4AGQAEAAMAAAA=")
-tile_set = ExtResource("7_x0vat")
+tile_set = ExtResource("4_h5lak")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=2013914337]
 visible = false
@@ -2889,7 +2879,7 @@ tile_set = ExtResource("8_mv8r8")
 [node name="o_doorlight_right2" parent="." unique_id=1970370561 instance=ExtResource("9_q38kw")]
 position = Vector2(496, 1841)
 scale = Vector2(1, 2.4687517)
-sprite_frames = SubResource("SpriteFrames_h5lak")
+sprite_frames = SubResource("SpriteFrames_ubtla")
 teleport_destination = "r_est_mountainPath01, 16, 1224);
 "
 metadata/code = "RoomXY(r_est_mountainPath01, 16, 1224);
@@ -2900,7 +2890,7 @@ metadata/scale = Vector2(1, 2)
 [node name="o_doorlight_right" parent="." unique_id=1712583734 instance=ExtResource("9_q38kw")]
 position = Vector2(496, 1024)
 scale = Vector2(1, 1.96875)
-sprite_frames = SubResource("SpriteFrames_51e3w")
+sprite_frames = SubResource("SpriteFrames_leceo")
 teleport_destination = "r_est_mountainPath01, 16, 400);
 "
 metadata/code = "RoomXY(r_est_mountainPath01, 16, 400);
@@ -2911,7 +2901,7 @@ metadata/scale = Vector2(1, 2)
 [node name="o_doorlight_left3" parent="." unique_id=215663556 instance=ExtResource("17_2enlr")]
 position = Vector2(0, 352)
 scale = Vector2(1, 3.0000005)
-sprite_frames = SubResource("SpriteFrames_ubtla")
+sprite_frames = SubResource("SpriteFrames_gmj3g")
 teleport_destination = "r_est_factoryChicane01, 1264, 416);
 
 "
@@ -2924,7 +2914,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_doorlight_left2" parent="." unique_id=1232582244 instance=ExtResource("17_2enlr")]
 position = Vector2(0, 1328)
 scale = Vector2(1, 2.5)
-sprite_frames = SubResource("SpriteFrames_leceo")
+sprite_frames = SubResource("SpriteFrames_rck7f")
 teleport_destination = "r_est_industrialRock01, 1264, 816);
 
 "
@@ -2937,7 +2927,7 @@ metadata/scale = Vector2(1, 2)
 [node name="o_doorlight_left" parent="." unique_id=1295644596 instance=ExtResource("17_2enlr")]
 position = Vector2(0, 1664.0001)
 scale = Vector2(1, 2.9999971)
-sprite_frames = SubResource("SpriteFrames_gmj3g")
+sprite_frames = SubResource("SpriteFrames_p7ra4")
 teleport_destination = "r_est_junkworms01, 1264, 120);
 
 "
@@ -2955,9 +2945,10 @@ metadata/inst_name = "inst_00000270"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_gbl_drawing_point" parent="." unique_id=1806244745 instance=ExtResource("19_xrro7")]
-material = SubResource("ShaderMaterial_rck7f")
+material = ExtResource("17_51e3w")
 position = Vector2(376, 1904)
 sprite_frames = SubResource("SpriteFrames_sneus")
+is_interactive = false
 metadata/code = ""
 metadata/inst_name = "inst_987127D4"
 metadata/scale = Vector2(1, 1)
@@ -2968,7 +2959,6 @@ y_sort_enabled = true
 [node name="o_tree_live_dummy01" parent="props" unique_id=968747783 instance=ExtResource("23_72roq")]
 position = Vector2(-32, 2151)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000317"
 metadata/scale = Vector2(1, 1)
@@ -2976,7 +2966,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy02" parent="props" unique_id=621879951 instance=ExtResource("23_72roq")]
 position = Vector2(72, 2167)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000318"
 metadata/scale = Vector2(1, 1)
@@ -2984,7 +2973,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy03" parent="props" unique_id=1609047500 instance=ExtResource("23_72roq")]
 position = Vector2(176, 2151)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000319"
 metadata/scale = Vector2(1, 1)
@@ -2992,7 +2980,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy04" parent="props" unique_id=1990717198 instance=ExtResource("23_72roq")]
 position = Vector2(256, 2167)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000321"
 metadata/scale = Vector2(1, 1)
@@ -3000,7 +2987,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy05" parent="props" unique_id=1424841351 instance=ExtResource("23_72roq")]
 position = Vector2(320, 2135)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000322"
 metadata/scale = Vector2(1, 1)
@@ -3008,7 +2994,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy06" parent="props" unique_id=856061514 instance=ExtResource("23_72roq")]
 position = Vector2(392, 2167)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000328"
 metadata/scale = Vector2(1, 1)
@@ -3016,7 +3001,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy07" parent="props" unique_id=1811779805 instance=ExtResource("23_72roq")]
 position = Vector2(456, 2207)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000329"
 metadata/scale = Vector2(1, 1)
@@ -3024,7 +3008,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy08" parent="props" unique_id=147106468 instance=ExtResource("23_72roq")]
 position = Vector2(24, 2215)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000336"
 metadata/scale = Vector2(1, 1)
@@ -3032,7 +3015,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy09" parent="props" unique_id=1312819310 instance=ExtResource("23_72roq")]
 position = Vector2(152, 2215)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000346"
 metadata/scale = Vector2(1, 1)
@@ -3040,7 +3022,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy10" parent="props" unique_id=2120180512 instance=ExtResource("23_72roq")]
 position = Vector2(336, 2207)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000348"
 metadata/scale = Vector2(1, 1)
@@ -3088,7 +3069,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_tree_live_dummy11" parent="props" unique_id=168628533 instance=ExtResource("23_72roq")]
 position = Vector2(8, 2071)
 sprite_frames = SubResource("SpriteFrames_q41tx")
-frame_progress = 0.0
 metadata/code = ""
 metadata/inst_name = "inst_00000365"
 metadata/scale = Vector2(1, 1)
@@ -3104,7 +3084,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big44" parent="props" unique_id=1198503979 instance=ExtResource("30_lgcg4")]
 position = Vector2(132, 874)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000376"
@@ -3113,7 +3092,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big45" parent="props" unique_id=18205620 instance=ExtResource("30_lgcg4")]
 position = Vector2(148, 890)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000381"
@@ -3122,7 +3100,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big46" parent="props" unique_id=1563367091 instance=ExtResource("30_lgcg4")]
 position = Vector2(124, 842)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000382"
@@ -3131,7 +3108,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big47" parent="props" unique_id=2107454361 instance=ExtResource("30_lgcg4")]
 position = Vector2(116, 794)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000384"
@@ -3140,7 +3116,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big48" parent="props" unique_id=2015819105 instance=ExtResource("30_lgcg4")]
 position = Vector2(124, 642)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000385"
@@ -3149,7 +3124,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big49" parent="props" unique_id=996614346 instance=ExtResource("30_lgcg4")]
 position = Vector2(60, 682)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000386"
@@ -3158,6 +3132,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big50" parent="props" unique_id=330933499 instance=ExtResource("30_lgcg4")]
 position = Vector2(324, 946)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000387"
@@ -3166,7 +3141,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big51" parent="props" unique_id=1784336339 instance=ExtResource("30_lgcg4")]
 position = Vector2(428, 1066)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000388"
@@ -3175,6 +3149,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big52" parent="props" unique_id=879759155 instance=ExtResource("30_lgcg4")]
 position = Vector2(452, 1074)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000389"
@@ -3183,6 +3158,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big53" parent="props" unique_id=88775968 instance=ExtResource("30_lgcg4")]
 position = Vector2(140, 346)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000390"
@@ -3191,7 +3167,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big54" parent="props" unique_id=760574424 instance=ExtResource("30_lgcg4")]
 position = Vector2(84, 434)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000392"
@@ -3200,7 +3175,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big55" parent="props" unique_id=420057886 instance=ExtResource("30_lgcg4")]
 position = Vector2(100, 450)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000394"
@@ -3209,7 +3183,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big56" parent="props" unique_id=121797817 instance=ExtResource("30_lgcg4")]
 position = Vector2(348, 162)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000395"
@@ -3218,6 +3191,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big57" parent="props" unique_id=482906962 instance=ExtResource("30_lgcg4")]
 position = Vector2(276, 186)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000396"
@@ -3226,7 +3200,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big58" parent="props" unique_id=496947558 instance=ExtResource("30_lgcg4")]
 position = Vector2(300, 194)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000397"
@@ -3249,6 +3222,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big59" parent="props" unique_id=1756014899 instance=ExtResource("30_lgcg4")]
 position = Vector2(116, 1426)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000403"
@@ -3281,6 +3255,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big21" parent="props" unique_id=1448799061 instance=ExtResource("30_lgcg4")]
 position = Vector2(404, 1146)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000109"
@@ -3289,6 +3264,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen15" parent="props" unique_id=1436172326 instance=ExtResource("36_mg5ir")]
 position = Vector2(370, 1135)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000110"
 metadata/scale = Vector2(1, 1)
@@ -3311,6 +3287,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen17" parent="props" unique_id=457846316 instance=ExtResource("36_mg5ir")]
 position = Vector2(234, 1247)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000161"
 metadata/scale = Vector2(1, 1)
@@ -3318,7 +3295,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big22" parent="props" unique_id=1707985210 instance=ExtResource("30_lgcg4")]
 position = Vector2(164, 1202)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000162"
@@ -3350,7 +3326,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big23" parent="props" unique_id=1405019657 instance=ExtResource("30_lgcg4")]
 position = Vector2(124, 1266)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000180"
@@ -3359,7 +3334,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big24" parent="props" unique_id=1494385843 instance=ExtResource("30_lgcg4")]
 position = Vector2(12, 1138)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000181"
@@ -3368,7 +3342,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big25" parent="props" unique_id=892261829 instance=ExtResource("30_lgcg4")]
 position = Vector2(20, 1162)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000182"
@@ -3377,6 +3350,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big26" parent="props" unique_id=734207844 instance=ExtResource("30_lgcg4")]
 position = Vector2(500, 1370)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000194"
@@ -3385,7 +3359,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big27" parent="props" unique_id=2080886190 instance=ExtResource("30_lgcg4")]
 position = Vector2(92, 1066)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000195"
@@ -3394,7 +3367,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big28" parent="props" unique_id=1942321192 instance=ExtResource("30_lgcg4")]
 position = Vector2(76, 1082)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000200"
@@ -3403,7 +3375,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big29" parent="props" unique_id=250908942 instance=ExtResource("30_lgcg4")]
 position = Vector2(100, 1098)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000208"
@@ -3412,6 +3383,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big30" parent="props" unique_id=594057000 instance=ExtResource("30_lgcg4")]
 position = Vector2(380, 1154)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000209"
@@ -3420,7 +3392,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big31" parent="props" unique_id=929770627 instance=ExtResource("30_lgcg4")]
 position = Vector2(84, 1250)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000215"
@@ -3429,7 +3400,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen18" parent="props" unique_id=865266235 instance=ExtResource("36_mg5ir")]
 position = Vector2(50, 1247)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000216"
 metadata/scale = Vector2(1, 1)
@@ -3437,7 +3407,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen19" parent="props" unique_id=2012631803 instance=ExtResource("36_mg5ir")]
 position = Vector2(202, 1319)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000217"
 metadata/scale = Vector2(1, 1)
@@ -3445,6 +3414,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big32" parent="props" unique_id=896822470 instance=ExtResource("30_lgcg4")]
 position = Vector2(220, 1330)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000224"
@@ -3453,7 +3423,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big33" parent="props" unique_id=607969782 instance=ExtResource("30_lgcg4")]
 position = Vector2(196, 1338)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000225"
@@ -3462,6 +3431,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big34" parent="props" unique_id=294808013 instance=ExtResource("30_lgcg4")]
 position = Vector2(100, 1202)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000226"
@@ -3470,7 +3440,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big35" parent="props" unique_id=1635151264 instance=ExtResource("30_lgcg4")]
 position = Vector2(124, 1218)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000227"
@@ -3479,7 +3448,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big36" parent="props" unique_id=386497517 instance=ExtResource("30_lgcg4")]
 position = Vector2(108, 1234)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000228"
@@ -3488,6 +3456,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big37" parent="props" unique_id=1249162227 instance=ExtResource("30_lgcg4")]
 position = Vector2(276, 1202)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000240"
@@ -3496,7 +3465,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big38" parent="props" unique_id=283053747 instance=ExtResource("30_lgcg4")]
 position = Vector2(180, 1066)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000241"
@@ -3505,7 +3473,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big39" parent="props" unique_id=890221346 instance=ExtResource("30_lgcg4")]
 position = Vector2(204, 1058)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000242"
@@ -3514,7 +3481,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big40" parent="props" unique_id=1792746905 instance=ExtResource("30_lgcg4")]
 position = Vector2(228, 1066)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000243"
@@ -3523,6 +3489,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big41" parent="props" unique_id=35024571 instance=ExtResource("30_lgcg4")]
 position = Vector2(100, 170)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000244"
@@ -3531,7 +3498,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big42" parent="props" unique_id=520463609 instance=ExtResource("30_lgcg4")]
 position = Vector2(52, 130)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000245"
@@ -3540,6 +3506,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big43" parent="props" unique_id=1304958151 instance=ExtResource("30_lgcg4")]
 position = Vector2(76, 146)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000246"
@@ -3587,7 +3554,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen21" parent="props" unique_id=407998962 instance=ExtResource("36_mg5ir")]
 position = Vector2(130, 159)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000277"
 metadata/scale = Vector2(1, 1)
@@ -3595,7 +3561,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen22" parent="props" unique_id=1171210997 instance=ExtResource("36_mg5ir")]
 position = Vector2(66, 215)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000278"
 metadata/scale = Vector2(1, 1)
@@ -3603,6 +3568,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen23" parent="props" unique_id=1378943940 instance=ExtResource("36_mg5ir")]
 position = Vector2(178, 127)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000334"
 metadata/scale = Vector2(1, 1)
@@ -3677,6 +3643,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small30" parent="props" unique_id=266083812 instance=ExtResource("38_1ghcm")]
 position = Vector2(160, 1812)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000091"
 metadata/scale = Vector2(1, 1)
@@ -3684,7 +3651,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen10" parent="props" unique_id=171989951 instance=ExtResource("36_mg5ir")]
 position = Vector2(410, 575)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000120"
 metadata/scale = Vector2(1, 1)
@@ -3692,7 +3658,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big09" parent="props" unique_id=2130064143 instance=ExtResource("30_lgcg4")]
 position = Vector2(420, 1698)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000252"
@@ -3701,6 +3666,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big10" parent="props" unique_id=1142248492 instance=ExtResource("30_lgcg4")]
 position = Vector2(444, 1706)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000260"
@@ -3709,6 +3675,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big11" parent="props" unique_id=1310850972 instance=ExtResource("30_lgcg4")]
 position = Vector2(484, 1714)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000264"
@@ -3717,6 +3684,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big12" parent="props" unique_id=1097459821 instance=ExtResource("30_lgcg4")]
 position = Vector2(364, 1714)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000288"
@@ -3725,7 +3693,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big13" parent="props" unique_id=1222687966 instance=ExtResource("30_lgcg4")]
 position = Vector2(164, 1842)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000289"
@@ -3734,6 +3701,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big14" parent="props" unique_id=1442126263 instance=ExtResource("30_lgcg4")]
 position = Vector2(108, 1794)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000290"
@@ -3742,6 +3710,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big15" parent="props" unique_id=377370957 instance=ExtResource("30_lgcg4")]
 position = Vector2(148, 1674)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000291"
@@ -3750,7 +3719,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big16" parent="props" unique_id=2115386117 instance=ExtResource("30_lgcg4")]
 position = Vector2(372, 1842)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000292"
@@ -3759,7 +3727,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big17" parent="props" unique_id=895950575 instance=ExtResource("30_lgcg4")]
 position = Vector2(388, 1858)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000293"
@@ -3768,6 +3735,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big18" parent="props" unique_id=1145690542 instance=ExtResource("30_lgcg4")]
 position = Vector2(404, 1842)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000294"
@@ -3776,6 +3744,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big19" parent="props" unique_id=1193853630 instance=ExtResource("30_lgcg4")]
 position = Vector2(260, 1938)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000295"
@@ -3784,7 +3753,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big20" parent="props" unique_id=1793373877 instance=ExtResource("30_lgcg4")]
 position = Vector2(284, 1946)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000296"
@@ -3823,7 +3791,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small01" parent="props" unique_id=1931418638 instance=ExtResource("38_1ghcm")]
 position = Vector2(8, 1092)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000335"
 metadata/scale = Vector2(1, 1)
@@ -3839,6 +3806,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small03" parent="props" unique_id=925432048 instance=ExtResource("38_1ghcm")]
 position = Vector2(152, 28)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000378"
 metadata/scale = Vector2(1, 1)
@@ -3956,7 +3924,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_average01" parent="props" unique_id=1687137234 instance=ExtResource("34_17ggu")]
 position = Vector2(-72, 278)
 sprite_frames = SubResource("SpriteFrames_fyn3j")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000489"
 metadata/scale = Vector2(1, 1)
@@ -4020,6 +3987,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_average09" parent="props" unique_id=2145415749 instance=ExtResource("34_17ggu")]
 position = Vector2(8, 846)
 sprite_frames = SubResource("SpriteFrames_fyn3j")
+frame = 6
 metadata/code = ""
 metadata/inst_name = "inst_00000500"
 metadata/scale = Vector2(1, 1)
@@ -4091,6 +4059,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small06" parent="props" unique_id=1136118687 instance=ExtResource("38_1ghcm")]
 position = Vector2(0, 156)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000526"
 metadata/scale = Vector2(1, 1)
@@ -4106,7 +4075,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small08" parent="props" unique_id=1716422532 instance=ExtResource("38_1ghcm")]
 position = Vector2(56, 92)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000528"
 metadata/scale = Vector2(1, 1)
@@ -4146,6 +4114,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small13" parent="props" unique_id=1380411401 instance=ExtResource("38_1ghcm")]
 position = Vector2(384, 1500)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000542"
 metadata/scale = Vector2(1, 1)
@@ -4153,6 +4122,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_average15" parent="props" unique_id=238911216 instance=ExtResource("34_17ggu")]
 position = Vector2(344, 1462)
 sprite_frames = SubResource("SpriteFrames_fyn3j")
+frame = 6
 metadata/code = ""
 metadata/inst_name = "inst_00000546"
 metadata/scale = Vector2(1, 1)
@@ -4168,6 +4138,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small15" parent="props" unique_id=1692733698 instance=ExtResource("38_1ghcm")]
 position = Vector2(32, 1836)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000550"
 metadata/scale = Vector2(1, 1)
@@ -4191,6 +4162,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small18" parent="props" unique_id=435560762 instance=ExtResource("38_1ghcm")]
 position = Vector2(128, 1644)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000553"
 metadata/scale = Vector2(1, 1)
@@ -4222,7 +4194,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small22" parent="props" unique_id=496824741 instance=ExtResource("38_1ghcm")]
 position = Vector2(40, 1308)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000558"
 metadata/scale = Vector2(1, 1)
@@ -4230,7 +4201,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small23" parent="props" unique_id=179131950 instance=ExtResource("38_1ghcm")]
 position = Vector2(-24, 1012)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000559"
 metadata/scale = Vector2(1, 1)
@@ -4238,7 +4208,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small24" parent="props" unique_id=370272464 instance=ExtResource("38_1ghcm")]
 position = Vector2(8, 716)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000562"
 metadata/scale = Vector2(1, 1)
@@ -4254,6 +4223,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small26" parent="props" unique_id=1602777292 instance=ExtResource("38_1ghcm")]
 position = Vector2(48, 788)
 sprite_frames = SubResource("SpriteFrames_evxg7")
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000564"
 metadata/scale = Vector2(1, 1)
@@ -4261,7 +4231,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_junkpile_small27" parent="props" unique_id=2083734325 instance=ExtResource("38_1ghcm")]
 position = Vector2(0, 540)
 sprite_frames = SubResource("SpriteFrames_evxg7")
-frame = 2
 metadata/code = ""
 metadata/inst_name = "inst_00000565"
 metadata/scale = Vector2(1, 1)
@@ -4409,7 +4378,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big01" parent="props" unique_id=1674370018 instance=ExtResource("30_lgcg4")]
 position = Vector2(140, 202)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000187"
@@ -4418,7 +4386,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big02" parent="props" unique_id=1166553462 instance=ExtResource("30_lgcg4")]
 position = Vector2(84, 122)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000188"
@@ -4427,7 +4394,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big03" parent="props" unique_id=716538320 instance=ExtResource("30_lgcg4")]
 position = Vector2(372, 402)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000191"
@@ -4436,6 +4402,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big04" parent="props" unique_id=38227047 instance=ExtResource("30_lgcg4")]
 position = Vector2(124, 522)
 sprite_frames = SubResource("SpriteFrames_lymiq")
+frame = 0
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000192"
@@ -4444,7 +4411,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big05" parent="props" unique_id=21392574 instance=ExtResource("30_lgcg4")]
 position = Vector2(284, 466)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000193"
@@ -4453,7 +4419,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen01" parent="props" unique_id=1616717950 instance=ExtResource("36_mg5ir")]
 position = Vector2(162, 927)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000198"
 metadata/scale = Vector2(1, 1)
@@ -4461,7 +4426,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen07" parent="props" unique_id=204208849 instance=ExtResource("36_mg5ir")]
 position = Vector2(314, 1367)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000199"
 metadata/scale = Vector2(1, 1)
@@ -4506,7 +4470,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big_fallen08" parent="props" unique_id=5532419 instance=ExtResource("36_mg5ir")]
 position = Vector2(386, 767)
 sprite_frames = SubResource("SpriteFrames_6b2eh")
-frame = 1
 metadata/code = ""
 metadata/inst_name = "inst_00000253"
 metadata/scale = Vector2(1, 1)
@@ -4521,7 +4484,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big06" parent="props" unique_id=1617139640 instance=ExtResource("30_lgcg4")]
 position = Vector2(380, 802)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000255"
@@ -4530,7 +4492,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big07" parent="props" unique_id=470216648 instance=ExtResource("30_lgcg4")]
 position = Vector2(404, 810)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000256"
@@ -4539,7 +4500,6 @@ metadata/scale = Vector2(1, 1)
 [node name="o_barrel_big08" parent="props" unique_id=1626923994 instance=ExtResource("30_lgcg4")]
 position = Vector2(484, 890)
 sprite_frames = SubResource("SpriteFrames_lymiq")
-frame = 1
 script = SubResource("GDScript_r5lum")
 metadata/code = ""
 metadata/inst_name = "inst_00000257"

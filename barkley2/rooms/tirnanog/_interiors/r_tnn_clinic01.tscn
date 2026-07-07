@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_b42wt"]
 [ext_resource type="Script" uid="uid://8gyk7lcowpky" path="res://barkley2/scenes/Objects/System/pending_work.gd" id="2_drwn2"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="4_drwn2"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="5_blg7v"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="6_marok"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="6_vhdkr"]
 [ext_resource type="PackedScene" uid="uid://chrgy7qi1depa" path="res://barkley2/scenes/Objects/_doors/o_doorlight_left.tscn" id="7_rb71u"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="8_3as07"]
@@ -3351,61 +3351,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_0vjtx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_marok"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("8_3as07")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_flur5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_jtwxi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_n7r5o")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c72ah")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wtbkh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dycko")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_idcrh")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sv4nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nfe2s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ovvij")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_706hu")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_ei3l0"]
 resource_local_to_scene = true
 animations = [{
@@ -3422,7 +3367,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3439,7 +3384,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idcrh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3456,7 +3401,62 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_706hu")
 }],
-"loop": true,
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mgxy2"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3as07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_flur5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jtwxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_n7r5o")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c72ah")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtbkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dycko")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idcrh")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv4nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nfe2s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovvij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_706hu")
+}],
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3493,61 +3493,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_0vjtx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_mgxy2"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("8_3as07")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_flur5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_jtwxi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_n7r5o")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vuyeb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l5x3j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7gcqd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2yyxo")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xbpv0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gxvqx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0gm7q")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t4s45")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_j20a7"]
 resource_local_to_scene = true
 animations = [{
@@ -3564,7 +3509,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3581,7 +3526,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2yyxo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3598,7 +3543,62 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t4s45")
 }],
-"loop": true,
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_drwn2"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3as07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_flur5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jtwxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_n7r5o")
+}],
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vuyeb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5x3j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7gcqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yyxo")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xbpv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxvqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0gm7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4s45")
+}],
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3635,7 +3635,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_0vjtx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_drwn2"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_blg7v"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3651,7 +3651,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3668,7 +3668,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sssg3")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3685,7 +3685,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cdlhs")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3722,61 +3722,6 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_0vjtx")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_blg7v"]
-resource_local_to_scene = true
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("8_3as07")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_flur5")
-}, {
-"duration": 1.0,
-"texture": ExtResource("10_jtwxi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("11_n7r5o")
-}],
-"loop": true,
-"name": &"debug_icons",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_at73p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g8oxr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kqada")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i5eu6")
-}],
-"loop": true,
-"name": &"s_doorlight_lr",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wpofb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0u080")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cx3h6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_28uhq")
-}],
-"loop": true,
-"name": &"s_doorlight_ud",
-"speed": 5.0
-}]
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_vhdkr"]
 resource_local_to_scene = true
 animations = [{
@@ -3793,7 +3738,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3810,7 +3755,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3827,7 +3772,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3848,41 +3793,41 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6fg78")
+"texture": SubResource("AtlasTexture_at73p")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3nb1q")
+"texture": SubResource("AtlasTexture_g8oxr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i4j36")
+"texture": SubResource("AtlasTexture_kqada")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sssg3")
+"texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x85dk")
+"texture": SubResource("AtlasTexture_wpofb")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ck74n")
+"texture": SubResource("AtlasTexture_0u080")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jxjww")
+"texture": SubResource("AtlasTexture_cx3h6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_cdlhs")
+"texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -3903,7 +3848,62 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_n7r5o")
 }],
-"loop": true,
+"loop": 1,
+"name": &"debug_icons",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fg78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3nb1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i4j36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sssg3")
+}],
+"loop": 1,
+"name": &"s_doorlight_lr",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x85dk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck74n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxjww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cdlhs")
+}],
+"loop": 1,
+"name": &"s_doorlight_ud",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_flur5"]
+resource_local_to_scene = true
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_3as07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_flur5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_jtwxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_n7r5o")
+}],
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -3920,7 +3920,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -3937,7 +3937,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -4000,7 +4000,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rd71e")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_close",
 "speed": 5.0
 }, {
@@ -4020,7 +4020,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gf4s1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_open",
 "speed": 10.0
 }]
@@ -4035,7 +4035,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_a84xi")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4050,7 +4050,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ca6b5")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4065,7 +4065,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gu8yb")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4087,7 +4087,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xd3w1")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4102,7 +4102,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nfldo")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4117,7 +4117,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b7e5i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4132,7 +4132,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cl7a6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4147,7 +4147,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rj45k")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4162,7 +4162,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u3iyf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4177,7 +4177,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_06eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4192,7 +4192,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_askvi")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4207,7 +4207,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_w1s0y")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4855,7 +4855,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bec86")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -4917,7 +4917,7 @@ tile_set = ExtResource("4_drwn2")
 [node name="layer - collision 2" type="TileMapLayer" parent="." unique_id=1380076950]
 visible = false
 z_index = 100
-tile_set = ExtResource("5_blg7v")
+tile_set = ExtResource("6_marok")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=1047409648]
 visible = false
@@ -4928,7 +4928,7 @@ tile_set = ExtResource("6_vhdkr")
 [node name="o_doorlight_left2" parent="." unique_id=1130939582 instance=ExtResource("7_rb71u")]
 position = Vector2(112, 1712)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_marok")
+sprite_frames = SubResource("SpriteFrames_ei3l0")
 teleport_destination = "r_tnn_clinic01, 384, 1280, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_clinic01, 384, 1280, \"door_open_wood\", \"door_close_wood\");
 "
@@ -4938,7 +4938,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_doorlight_left" parent="." unique_id=1951643643 instance=ExtResource("7_rb71u")]
 position = Vector2(112, 1584)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_ei3l0")
+sprite_frames = SubResource("SpriteFrames_mgxy2")
 teleport_destination = "r_tnn_clinic01, 384, 1152, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_clinic01, 384, 1152, \"door_open_wood\", \"door_close_wood\");
 "
@@ -4948,7 +4948,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_doorlight_right2" parent="." unique_id=366694441 instance=ExtResource("15_gtn2i")]
 position = Vector2(384, 1136)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_mgxy2")
+sprite_frames = SubResource("SpriteFrames_j20a7")
 teleport_destination = "r_tnn_clinic01, 128, 1600, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_clinic01, 128, 1600, \"door_open_wood\", \"door_close_wood\");
 "
@@ -4958,7 +4958,7 @@ metadata/scale = Vector2(1, 1)
 [node name="o_doorlight_right" parent="." unique_id=12620638 instance=ExtResource("15_gtn2i")]
 position = Vector2(384, 1264)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_j20a7")
+sprite_frames = SubResource("SpriteFrames_drwn2")
 teleport_destination = "r_tnn_clinic01, 128, 1728, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_clinic01, 128, 1728, \"door_open_wood\", \"door_close_wood\");
 "
@@ -4967,7 +4967,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up2" parent="." unique_id=1055216470 instance=ExtResource("17_kle0i")]
 position = Vector2(128, 160)
-sprite_frames = SubResource("SpriteFrames_drwn2")
+sprite_frames = SubResource("SpriteFrames_blg7v")
 teleport_destination = "r_tnn_clinic01, 224, 1192"
 metadata/code = "RoomXY(r_tnn_clinic01, 224, 1192);
 "
@@ -4976,7 +4976,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_down3" parent="." unique_id=587896114 instance=ExtResource("19_aamp4")]
 position = Vector2(208, 1200)
-sprite_frames = SubResource("SpriteFrames_blg7v")
+sprite_frames = SubResource("SpriteFrames_vhdkr")
 teleport_destination = "r_tnn_clinic01, 144, 200"
 metadata/code = "RoomXY(r_tnn_clinic01, 144, 200);
 "
@@ -4985,7 +4985,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_down2" parent="." unique_id=433942937 instance=ExtResource("19_aamp4")]
 position = Vector2(400, 784)
-sprite_frames = SubResource("SpriteFrames_vhdkr")
+sprite_frames = SubResource("SpriteFrames_rb71u")
 teleport_destination = "r_tnn_clinic01, 408, 296, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_clinic01, 408, 296, \"door_open_wood\", \"door_close_wood\");
 "
@@ -4994,7 +4994,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=746259714 instance=ExtResource("17_kle0i")]
 position = Vector2(392, 280)
-sprite_frames = SubResource("SpriteFrames_rb71u")
+sprite_frames = SubResource("SpriteFrames_3as07")
 teleport_destination = "r_tnn_clinic01, 416, 784"
 metadata/code = "RoomXY(r_tnn_clinic01, 416, 784);
 "
@@ -5003,7 +5003,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_down" parent="." unique_id=1897635137 instance=ExtResource("19_aamp4")]
 position = Vector2(144, 336)
-sprite_frames = SubResource("SpriteFrames_3as07")
+sprite_frames = SubResource("SpriteFrames_flur5")
 teleport_destination = "r_tnn_marketDistrict01, 1112, 616, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_tnn_marketDistrict01, 1112, 616, \"door_open_wood\", \"door_close_wood\");"
 metadata/inst_name = "inst_3ED62F94"
@@ -5114,7 +5114,6 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_boxes_pile03" parent="props" unique_id=1743037573 instance=ExtResource("44_u6a06")]
 position = Vector2(320, 1184)
-frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000063"
 metadata/scale = Vector2(1, 1)
@@ -5182,6 +5181,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_boxes_pile05" parent="props" unique_id=1718820885 instance=ExtResource("44_u6a06")]
 position = Vector2(192, 1584)
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000086"
 metadata/scale = Vector2(1, 1)
@@ -5209,6 +5209,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_boxes_pile06" parent="props" unique_id=274168548 instance=ExtResource("44_u6a06")]
 position = Vector2(424, 1752)
+frame = 0
 metadata/code = ""
 metadata/inst_name = "inst_00000090"
 metadata/scale = Vector2(1, 1)
@@ -5298,7 +5299,6 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_boxes_pile02" parent="props" unique_id=1887694537 instance=ExtResource("44_u6a06")]
 position = Vector2(296, 1336)
-frame = 5
 metadata/code = ""
 metadata/inst_name = "inst_00000079"
 metadata/scale = Vector2(1, 1)

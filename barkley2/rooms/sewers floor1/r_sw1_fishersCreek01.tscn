@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://c7u6lycjxww5l" path="res://barkley2/assets/b2_original/audio/Environment/Sewers/sn_env_waterRushing01.ogg" id="4_gpoe1"]
 [ext_resource type="TileSet" uid="uid://3dkm6rp2k422" path="res://barkley2/resources/tileset/sw2_01.tres" id="5_agfjd"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="5_dq0p1"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="6_fg53i"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="6_fg53i"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="6_gpoe1"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="8_dq0p1"]
 [ext_resource type="Texture2D" uid="uid://exehq87yocxy" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_up.png" id="11_y17ah"]
@@ -70,7 +70,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("16_gpoe1")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fg53i"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_dq0p1"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -86,7 +86,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("14_fg53i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -103,7 +103,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -120,7 +120,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -157,7 +157,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("16_gpoe1")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_dq0p1"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_gpoe1"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -173,7 +173,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("14_fg53i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -190,7 +190,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idcrh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -207,7 +207,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_706hu")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -222,7 +222,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bec86")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -285,7 +285,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oa276")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_close",
 "speed": 5.0
 }, {
@@ -305,7 +305,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_0dcut")
 }],
-"loop": false,
+"loop": 0,
 "name": &"door_open",
 "speed": 10.0
 }]
@@ -327,7 +327,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3durl")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -364,7 +364,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wtqp8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -864,7 +864,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nt8hd")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -1037,7 +1037,7 @@ tile_set = ExtResource("8_dq0p1")
 
 [node name="o_doorlight_down" parent="." unique_id=1493463545 instance=ExtResource("6_gpoe1")]
 position = Vector2(144, 304)
-sprite_frames = SubResource("SpriteFrames_fg53i")
+sprite_frames = SubResource("SpriteFrames_dq0p1")
 teleport_destination = "r_sw1_foyer01, 640, 168, \"door_open_wood\", \"door_close_wood\""
 metadata/code = "RoomXY(r_sw1_foyer01, 640, 168, \"door_open_wood\", \"door_close_wood\");
 "
@@ -1046,7 +1046,7 @@ metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_up" parent="." unique_id=1968380862 instance=ExtResource("14_1mfr8")]
 position = Vector2(144, 136)
-sprite_frames = SubResource("SpriteFrames_dq0p1")
+sprite_frames = SubResource("SpriteFrames_gpoe1")
 teleport_destination = "r_sw1_descent01, 448, 720);
 "
 metadata/code = "RoomXY(r_sw1_descent01, 448, 720);

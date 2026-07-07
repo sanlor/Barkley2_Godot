@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://co2d3xvdeq7lv" path="res://barkley2/rooms/gilbert's peak/r_pea_snowTop01.gd" id="1_47mnt"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_vfnwr"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="4_ljdc7"]
-[ext_resource type="TileSet" uid="uid://cbgwi3h47ghpg" path="res://barkley2/resources/rooms/collision_2_tileset.tres" id="5_5oemy"]
+[ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="5_6p0ra"]
 [ext_resource type="Texture2D" uid="uid://bhliyvnmi8hbh" path="res://barkley2/assets/b2_original/backgrounds/tls_mtn_mountainpass01.png" id="5_ppvcs"]
 [ext_resource type="TileSet" uid="uid://n70843ohvm84" path="res://barkley2/resources/rooms/collision_tileset.tres" id="6_iwk5g"]
 [ext_resource type="PackedScene" uid="uid://dfyatvtkcx00k" path="res://barkley2/scenes/Objects/_doors/o_doorlight_down.tscn" id="7_uxc5e"]
@@ -25,8 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://k3hcw4vp5omv" path="res://barkley2/scenes/Objects/_environs/_plants/_trees/o_tree_snow01.tscn" id="26_6p0ra"]
 [ext_resource type="PackedScene" uid="uid://d1kwtt8hcnein" path="res://barkley2/scenes/Objects/_environs/_plants/_trees/o_tree_snow02.tscn" id="27_2awtc"]
 [ext_resource type="Texture2D" uid="uid://bf7ixj6nn1eps" path="res://barkley2/assets/b2_original/images/merged/s_esthersGrave01.png" id="27_760gg"]
-[ext_resource type="Shader" uid="uid://dc0krb6trqk1c" path="res://barkley2/shaders/shader_code/selected_outline.gdshader" id="27_uxc5e"]
 [ext_resource type="PackedScene" uid="uid://gsf06fhu8emj" path="res://barkley2/scenes/Objects/_environs/_plants/_trees/o_tree_stump_snow01.tscn" id="28_760gg"]
+[ext_resource type="Material" uid="uid://cf0ojjtgkt2y8" path="res://barkley2/shaders/material/selected_outline.material" id="29_2awtc"]
 [ext_resource type="PackedScene" uid="uid://se77xw1drknn" path="res://barkley2/scenes/Objects/_environs/_rocks/o_rock_snow02.tscn" id="29_eigrq"]
 [ext_resource type="PackedScene" uid="uid://cgc2f1bd13o3d" path="res://barkley2/scenes/Objects/_interactiveActor/_gilberts_peak/o_estherGrave01.tscn" id="30_2awtc"]
 [ext_resource type="PackedScene" uid="uid://dfwapum0gu2v2" path="res://barkley2/scenes/Objects/_environs/_rocks/o_rock_snow01.tscn" id="30_8yf05"]
@@ -2812,7 +2812,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("13_8yf05")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_6p0ra"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_760gg"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -2828,7 +2828,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("11_760gg")
 }],
-"loop": true,
+"loop": 1,
 "name": &"debug_icons",
 "speed": 5.0
 }, {
@@ -2845,7 +2845,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_i5eu6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_lr",
 "speed": 5.0
 }, {
@@ -2862,7 +2862,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_28uhq")
 }],
-"loop": true,
+"loop": 1,
 "name": &"s_doorlight_ud",
 "speed": 5.0
 }]
@@ -2877,7 +2877,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ug3vh")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2897,7 +2897,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("18_ch72b")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2942,7 +2942,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_w7vbm")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -2996,16 +2996,6 @@ GRAVE
 DIALOG | P_NAME | Hmm, hmm, a grave, pretty good."
 metadata/_custom_type_script = "uid://brqjwvhoi8eux"
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2awtc"]
-resource_local_to_scene = true
-shader = ExtResource("27_uxc5e")
-shader_parameter/enable = false
-shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0000000475000002
-shader_parameter/pattern = 0
-shader_parameter/inside = true
-shader_parameter/add_margins = false
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_gaax3"]
 atlas = ExtResource("23_2l1si")
 region = Rect2(0, 0, 24, 16)
@@ -3023,7 +3013,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xo8by")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -3078,7 +3068,7 @@ tile_set = ExtResource("4_ljdc7")
 [node name="layer - collision 2" type="TileMapLayer" parent="." unique_id=236650991]
 visible = false
 z_index = 100
-tile_set = ExtResource("5_5oemy")
+tile_set = ExtResource("5_6p0ra")
 
 [node name="layer - collision" type="TileMapLayer" parent="." unique_id=1518730252]
 visible = false
@@ -3089,7 +3079,7 @@ tile_set = ExtResource("6_iwk5g")
 [node name="o_doorlight_down" parent="." unique_id=250815900 instance=ExtResource("7_uxc5e")]
 position = Vector2(432, 1264)
 scale = Vector2(6.5000005, 1)
-sprite_frames = SubResource("SpriteFrames_6p0ra")
+sprite_frames = SubResource("SpriteFrames_760gg")
 teleport_destination = "r_pea_snowForest01, 520, 32);
 "
 metadata/code = "RoomXY(r_pea_snowForest01, 520, 32);
@@ -3717,9 +3707,10 @@ metadata/inst_name = "inst_36BB06CD"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_gbl_drawing_point" parent="." unique_id=499072099 instance=ExtResource("21_es0ff")]
-material = SubResource("ShaderMaterial_2awtc")
+material = ExtResource("29_2awtc")
 position = Vector2(740, 1176)
 sprite_frames = SubResource("SpriteFrames_sneus")
+is_interactive = false
 metadata/code = ""
 metadata/inst_name = "inst_ABC1E018"
 metadata/scale = Vector2(1, 1)
