@@ -25,6 +25,7 @@ const CACHE := ResourceLoader.CACHE_MODE_REUSE
 #		Like CACHE_MODE_REPLACE, but propagated recursively down the tree of dependencies (external resources).
 
 @onready var ball_sprite: 			Sprite2D 				= $ball_sprite
+@onready var margin_container: 		MarginContainer 		= $MarginContainer
 @onready var loading_lbl: 			RichTextLabel 			= $MarginContainer/loading_lbl
 @onready var loading_detail_lbl: 	Label 					= $MarginContainer/loading_detail_lbl
 @onready var cuck_box: 				Control 				= $cuck_box
@@ -34,29 +35,39 @@ var curr_dots 		:= 0
 var t 				:= 0.0
 
 func _ready() -> void:
+	## Reset Label
 	loading_detail_lbl.text = ""
-	await get_tree().create_timer(0.5).timeout
+	
+	## Load Particles
+	await get_tree().create_timer(0.25).timeout
 	loading_detail_lbl.text = Text.pr("Loading particles...")
 	print("%s: Loading particles... %s" % [name, Time.get_time_string_from_system() ])
 	await get_tree().process_frame
 	_load_particles()
 	
-	await get_tree().create_timer(0.1).timeout
+	## Load Materials
+	await get_tree().create_timer(0.25).timeout
 	loading_detail_lbl.text = Text.pr("Loading materials...")
 	print("%s: Loading materials... %s" % [name, Time.get_time_string_from_system() ])
 	await get_tree().process_frame
 	_load_materials()
 	
-	await get_tree().create_timer(0.1).timeout
+	## Load Shaders
+	await get_tree().create_timer(0.25).timeout
 	loading_detail_lbl.text = Text.pr("Loading shaders...")
 	print("%s: Loading shaders... %s" % [name, Time.get_time_string_from_system() ])
 	await get_tree().process_frame
 	_load_gdshader()
 	
+	## Aaaaand...
 	print("%s: Finished! %s" % [name, Time.get_time_string_from_system() ])
-	await get_tree().create_timer(0.5).timeout
 	
-	get_tree().change_scene_to_packed( R_TITLE )
+	## Finish loading.
+	var tween := create_tween()
+	tween.tween_property( ball_sprite, 		"self_modulate", Color.TRANSPARENT, 0.25 )
+	tween.tween_property( margin_container, 	"self_modulate", Color.TRANSPARENT, 0.25 )
+	tween.tween_interval( 0.5 )
+	tween.tween_callback( get_tree().change_scene_to_packed.bind( R_TITLE ) )
 
 func _load_gdshader() -> void:
 	var files := DirAccess.get_files_at( SHADER_CODE )
@@ -67,7 +78,6 @@ func _load_gdshader() -> void:
 			part.material = ShaderMaterial.new()
 			part.material.shader = ResourceLoader.load( SHADER_CODE + "/" + file, "", CACHE )
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 
 func _load_materials() -> void:
 	var files := DirAccess.get_files_at( MATERIAL_FOLDER )
@@ -77,7 +87,6 @@ func _load_materials() -> void:
 			part.size = Vector2(50,50)
 			part.material = ResourceLoader.load( MATERIAL_FOLDER + "/" + file, "", CACHE )
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 
 func _load_particles() -> void:
 	var files := DirAccess.get_files_at( PARTICLES_FOLDER )
@@ -88,7 +97,6 @@ func _load_particles() -> void:
 			part.process_material = ResourceLoader.load( PARTICLES_FOLDER + "/" + file, "", CACHE )
 			part.emitting = true
 			cuck_box.add_child( part )
-			await get_tree().process_frame
 		
 func _physics_process(delta: float) -> void:
 	t += 10.0 * delta

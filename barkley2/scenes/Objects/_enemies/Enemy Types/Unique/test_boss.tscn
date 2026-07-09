@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://2ic7axqc0rkb"]
+
+[ext_resource type="Script" uid="uid://d2vrkq1oq4okj" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyBoss.gd" id="1_kuqe2"]
+[ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="2_au5vn"]
+[ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="3_bxrsd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_neye5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6gg6r"]
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_vadmr"]
+_data = [Vector2(0, 0.88748336), 0.0, 0.0, 0, 0, Vector2(0.993421, 0), -2.9684808, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_fjx5q"]
+curve = SubResource("Curve_vadmr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c1wqv"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 30.0
+initial_velocity_min = 75.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+alpha_curve = SubResource("CurveTexture_fjx5q")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xre7n"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="test_boss" type="RigidBody2D" unique_id=1680766231]
+script = ExtResource("1_kuqe2")
+metadata/_custom_type_script = "uid://d2vrkq1oq4okj"
+
+[node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1553484299]
+sprite_frames = SubResource("SpriteFrames_neye5")
+
+[node name="ActorCol" type="CollisionShape2D" parent="." unique_id=583651671]
+shape = SubResource("CircleShape2D_6gg6r")
+
+[node name="ActorAudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1721122555]
+max_distance = 350.0
+max_polyphony = 5
+bus = &"Audio"
+
+[node name="ActorSmokeEmitter" type="GPUParticles2D" parent="." unique_id=1678947431]
+emitting = false
+amount = 64
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_c1wqv")
+
+[node name="ActorNav" type="NavigationAgent2D" parent="." unique_id=1803613166]
+path_desired_distance = 2.0
+debug_enabled = true
+
+[node name="ActorBloodSpill" type="GPUParticles2D" parent="." unique_id=1222200895]
+material = SubResource("CanvasItemMaterial_xre7n")
+position = Vector2(0, -8)
+emitting = false
+amount = 4
+texture = ExtResource("2_au5vn")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("3_bxrsd")

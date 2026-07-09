@@ -29,7 +29,7 @@ var astar_valid_tiles := Array() # used for debug
 @export var debug_create_player_scene_at_room_start 		:= false		## create player if you run this scene independetly
 @export var debug_player_scene_pos 							:= Vector2.ZERO ## if you run this individual scene, where hoopz will be created.
 @export var load_debug_save_data							:= false		## Pretty self explanatory
-@export var notify_enemies_spawn							:= true		## Pretty self explanatory
+@export var notify_enemies_spawn							:= true			## Pretty self explanatory ## 09/07/26 Motherfucker, what does this does?
 
 @export var teleport_spot		:= false			## In Certain situations, hoopz can teleport to a room. This enables that function
 @export var teleport_node		: B2_Teleport_Mark	## The room have a "o_teleport_mark" node to mark the spot
@@ -78,10 +78,10 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 @export_category("Weather")
-@export var esoteric_rain_conditions := true ## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
-@export var weather_rain 	:= false
-@export var weather_fog 	:= false
-@export var weather_snow 	:= false
+@export var esoteric_rain_conditions 	:= true ## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
+@export var weather_rain 				:= false
+@export var weather_fog 				:= false
+@export var weather_snow 				:= false
 
 var astar_pos_offset := Vector2i(8,8)
 
