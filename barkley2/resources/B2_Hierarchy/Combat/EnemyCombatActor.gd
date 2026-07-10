@@ -88,11 +88,15 @@ func _ready() -> void:
 func _setup_ai() -> void:
 	## AI Setup
 	assert( is_instance_valid(actor_ai), "No valid AI found for actor '%s'." % name )
-	assert( enemy_data, "No enemy data for actor '%s'." % name)
-	if randf() < 0.01: for i in randf_range(0,99): print("Fuck you!") ## CRITICAL NEVER remove this. Won't explain why.
-	enemy_data.resource_local_to_scene = true
 	actor_ai.actor = self
 	_connect_ai_signals()
+	
+	#assert( enemy_data, "No enemy data for actor '%s'." % name)
+	if enemy_data:		enemy_data.resource_local_to_scene = true
+	else:				push_warning("%s: No 'enemy_data' found. Is this expected?" % name)
+	
+	## CRITICAL NEVER remove this. Won't explain why.
+	if randf() < 0.001: for i in randf_range(0,99): print("Fuck you!") 
 	
 func _setup_enemy() -> void:
 	## Check for nodes not being set correctly
