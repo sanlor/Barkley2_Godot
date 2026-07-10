@@ -1,9 +1,7 @@
 [gd_scene format=4 uid="uid://mt2rbyqu0eqe"]
 
-[ext_resource type="Script" uid="uid://mp35hwcnjjj6" path="res://barkley2/rooms/cuchu's lair/r_chu_crust_door_01.gd" id="1_ihct7"]
+[ext_resource type="Script" uid="uid://gf7agvati04r" path="res://barkley2/rooms/cuchu's lair/r_chu_crustDoor01.gd" id="1_c4gmc"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_43hfo"]
-[ext_resource type="Script" uid="uid://c27swp8gt5woq" path="res://tools/sprite_converter/gml_sprite_converter_lite.gd" id="3_ncgh0"]
-[ext_resource type="Script" uid="uid://bjj6h5usin15g" path="res://tools/dwarf_converter/dwarf_converter.gd" id="4_dol6g"]
 [ext_resource type="Texture2D" uid="uid://dh45qpeh6r8ad" path="res://barkley2/assets/b2_original/backgrounds/tls_gbl_interiors01.png" id="5_evn4i"]
 [ext_resource type="TileSet" uid="uid://m673wsth5kja" path="res://barkley2/resources/rooms/collision_wading_tileset.tres" id="6_ye0xn"]
 [ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="7_iom0d"]
@@ -14,8 +12,14 @@
 [ext_resource type="Texture2D" uid="uid://d1u3fjd5i2y4s" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_left.png" id="12_cqd2r"]
 [ext_resource type="Texture2D" uid="uid://dlbu4xq8na5j1" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_right.png" id="13_786yx"]
 [ext_resource type="Texture2D" uid="uid://c4roiv72yuhwf" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_lr.png" id="14_58s82"]
+[ext_resource type="PackedScene" uid="uid://pc1rncygg630" path="res://barkley2/scenes/Objects/_debug/oDougBeach.tscn" id="14_lqm6w"]
 [ext_resource type="Texture2D" uid="uid://crorsvokjs0k3" path="res://barkley2/assets/b2_original/images/merged/s_doorlight_ud.png" id="15_0gleq"]
+[ext_resource type="Script" uid="uid://b03mmdxquruog" path="res://barkley2/scenes/Objects/_debug/oDougBeach.gd" id="15_j565w"]
+[ext_resource type="Script" uid="uid://brqjwvhoi8eux" path="res://barkley2/resources/B2_Cinema/B2_Script_Legacy.gd" id="16_vf5p6"]
 [ext_resource type="Script" uid="uid://cfuqh2kvag8tk" path="res://barkley2/scenes/Objects/o_cinema.gd" id="17_p4d0c"]
+[ext_resource type="PackedScene" uid="uid://b853315o1wese" path="res://barkley2/scenes/Objects/_interactiveActor/_cuchulainsLair/Crustacea/o_chu_cyberspear.tscn" id="18_cqd2r"]
+[ext_resource type="Texture2D" uid="uid://cb450gipxy07q" path="res://barkley2/assets/b2_original/images/merged/s_cyberspearPieces01.png" id="19_786yx"]
+[ext_resource type="Script" uid="uid://cktt7cj3xpv5" path="res://barkley2/scenes/Objects/_interactiveActor/_cuchulainsLair/Crustacea/o_chu_cyberspear.gd" id="20_58s82"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_kbvrt"]
 vertices = PackedVector2Array(326, 262, 10, 262, 10, 234, 106, 234, 326, 122, 106, 122)
@@ -3311,7 +3315,7 @@ region = Rect2(160, 0, 80, 60)
 atlas = ExtResource("15_0gleq")
 region = Rect2(240, 0, 80, 60)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ihct7"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_0gleq"]
 resource_local_to_scene = true
 animations = [{
 "frames": [{
@@ -3366,26 +3370,90 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="r_chu_crustDoor01" type="NavigationRegion2D" unique_id=580800643 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
+[sub_resource type="Resource" id="Resource_p1gej"]
+script = ExtResource("16_vf5p6")
+original_script = "DIALOG | doug beach | there is no debug for this room... or is there???
+CHOICE | what to do???
+REPLY  | DINAH | Talk to Dinah.
+REPLY  | POLY  | Talk to Poly.
+
+DINAH
+DIALOG | Dinah | Testing Dinah's portrait. Hello. helop. helllllloooooo. Hello. helop. helllllloooooo. Hello. helop. helllllloooooo. Hello. helop. helllllloooooo.
+
+POLY
+DIALOG | Poly | Testing Poly's portrait. Hello. helop. helllllloooooo."
+metadata/_custom_type_script = "uid://brqjwvhoi8eux"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fmh2"]
+atlas = ExtResource("19_786yx")
+region = Rect2(0, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j4ftx"]
+atlas = ExtResource("19_786yx")
+region = Rect2(80, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vra8r"]
+atlas = ExtResource("19_786yx")
+region = Rect2(160, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iksd1"]
+atlas = ExtResource("19_786yx")
+region = Rect2(240, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjwrp"]
+atlas = ExtResource("19_786yx")
+region = Rect2(320, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kctsl"]
+atlas = ExtResource("19_786yx")
+region = Rect2(400, 0, 80, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8qpn"]
+atlas = ExtResource("19_786yx")
+region = Rect2(480, 0, 80, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_q1y3g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fmh2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j4ftx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vra8r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iksd1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjwrp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kctsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8qpn")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="r_chu_crustDoor01" type="NavigationRegion2D" unique_id=580800643]
 navigation_polygon = SubResource("NavigationPolygon_kbvrt")
-script = ExtResource("1_ihct7")
-reference_layer = [NodePath("layer 10"), NodePath("layer -1999999"), NodePath("layer - wading"), NodePath("layer - collision 2"), NodePath("layer - collision")]
-collision_layer = NodePath("layer - collision")
-collision_layer_semi = NodePath("layer - collision 2")
-collision_layer_wade = NodePath("layer - wading")
+script = ExtResource("1_c4gmc")
+is_interior = true
+camera_bound_to_map = true
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=719424838]
 script = ExtResource("2_43hfo")
 convert_cinema_spots = false
 convert_door_light = false
 convert_door = false
+create_room_script = false
 convert_collision = false
-
-[node name="B2_TOOL_GML_SPRITE_CONVERTER_LITE" type="Node" parent="." unique_id=1279236164]
-script = ExtResource("3_ncgh0")
-
-[node name="B2_TOOL_DWARF_CONVERTER" type="Node" parent="." unique_id=1538727374]
-script = ExtResource("4_dol6g")
 
 [node name="layer 10" type="TileMapLayer" parent="." unique_id=1379443978]
 z_index = -10
@@ -3417,7 +3485,7 @@ tile_set = ExtResource("8_c4gmc")
 [node name="o_doorlight_left" parent="." unique_id=291951343 instance=ExtResource("9_lqm6w")]
 position = Vector2(0, 224)
 scale = Vector2(1, 1.5)
-sprite_frames = SubResource("SpriteFrames_ihct7")
+sprite_frames = SubResource("SpriteFrames_0gleq")
 teleport_destination = "r_chu_vestibule01, 424, 240"
 metadata/code = "RoomXY(r_chu_vestibule01, 424, 240);"
 metadata/inst_name = "inst_E475A32C"
@@ -3429,8 +3497,14 @@ metadata/code = ""
 metadata/inst_name = "inst_4EAAD7C3"
 metadata/scale = Vector2(1, 1)
 
-[node name="P5 - oDougBeach" type="Marker2D" parent="." unique_id=142505933]
+[node name="oDougBeach" type="CharacterBody2D" parent="." unique_id=35916634 node_paths=PackedStringArray("mouse_detection_area", "ActorAnim", "ActorCol") instance=ExtResource("14_lqm6w")]
 position = Vector2(304, 160)
+script = ExtResource("15_j565w")
+mouse_detection_area = NodePath("ActorInteract")
+cutscene_script = SubResource("Resource_p1gej")
+ActorAnim = NodePath("ActorAnim")
+ActorCol = NodePath("ActorCol")
+can_move_around = false
 metadata/code = ""
 metadata/inst_name = "inst_350F5F33"
 metadata/scale = Vector2(1, 1)
@@ -3467,8 +3541,12 @@ metadata/code = ""
 metadata/inst_name = "inst_35AE4A24"
 metadata/scale = Vector2(1, 1)
 
-[node name="P11 - o_chu_cyberspear" type="Marker2D" parent="." unique_id=209460502]
+[node name="o_chu_cyberspear" type="AnimatedSprite2D" parent="." unique_id=672085332 instance=ExtResource("18_cqd2r")]
+z_index = 10
 position = Vector2(128, 160)
+sprite_frames = SubResource("SpriteFrames_q1y3g")
+frame = 4
+script = ExtResource("20_58s82")
 metadata/code = ""
 metadata/inst_name = "inst_8600334B"
 metadata/scale = Vector2(1, 1)

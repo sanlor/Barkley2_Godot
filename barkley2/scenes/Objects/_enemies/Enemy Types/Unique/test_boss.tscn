@@ -2,9 +2,16 @@
 
 [ext_resource type="Script" uid="uid://d2vrkq1oq4okj" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyBoss.gd" id="1_kuqe2"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="2_au5vn"]
+[ext_resource type="Script" uid="uid://c37s6nxxyegmw" path="res://barkley2/resources/B2_AI/ai_dummy.gd" id="2_bxrsd"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="3_bxrsd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_neye5"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"new_animation",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6gg6r"]
 radius = 5.0
@@ -32,12 +39,22 @@ particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[node name="test_boss" type="RigidBody2D" unique_id=1680766231]
+[node name="test_boss" type="RigidBody2D" unique_id=1680766231 node_paths=PackedStringArray("ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 script = ExtResource("1_kuqe2")
+ActorAnim = NodePath("ActorAnim")
+ActorAudioPlayer = NodePath("ActorAudioPlayer")
+ActorNav = NodePath("ActorNav")
+ActorCol = NodePath("ActorCol")
+actor_ai = NodePath("B2_AI_Dummy")
 metadata/_custom_type_script = "uid://d2vrkq1oq4okj"
+
+[node name="B2_AI_Dummy" type="Node2D" parent="." unique_id=1907324525]
+script = ExtResource("2_bxrsd")
+metadata/_custom_type_script = "uid://c37s6nxxyegmw"
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1553484299]
 sprite_frames = SubResource("SpriteFrames_neye5")
+animation = &"new_animation"
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=583651671]
 shape = SubResource("CircleShape2D_6gg6r")

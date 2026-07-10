@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://drthf07h5t3y1"]
 
-[ext_resource type="Script" uid="uid://bmb0hpcj27vuj" path="res://barkley2/rooms/braincity/r_bct_tower06.gd" id="1_5vmt5"]
+[ext_resource type="Script" uid="uid://b6ly2kvdhqo68" path="res://barkley2/rooms/braincity/r_bct_tower_06.gd" id="1_6ytf2"]
 [ext_resource type="Script" uid="uid://c6pcaqs62oxp5" path="res://tools/b2_tool_room_converter.gd" id="2_rfj8g"]
 [ext_resource type="TileSet" uid="uid://dn6tjl44tglla" path="res://barkley2/resources/rooms/collision_tileset_semisolid.tres" id="5_6ytf2"]
 [ext_resource type="Texture2D" uid="uid://cqjn10be8pmwb" path="res://barkley2/assets/b2_original/backgrounds/tls_bct_braincity01.png" id="5_magnm"]
@@ -1991,7 +1991,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Resource" id="Resource_bj1uh"]
+[sub_resource type="Resource" id="Resource_6ytf2"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 352.0 1330.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2008,7 +2008,7 @@ original_script = "MOVETO | o_cts_hoopz | 352.0 1330.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[sub_resource type="Resource" id="Resource_5vmt5"]
+[sub_resource type="Resource" id="Resource_bhrgc"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 160.0 933.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2025,7 +2025,7 @@ original_script = "MOVETO | o_cts_hoopz | 160.0 933.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[sub_resource type="Resource" id="Resource_gvhvu"]
+[sub_resource type="Resource" id="Resource_rui2p"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 352.0 932.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2042,7 +2042,7 @@ original_script = "MOVETO | o_cts_hoopz | 352.0 932.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[sub_resource type="Resource" id="Resource_176ka"]
+[sub_resource type="Resource" id="Resource_bj1uh"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 160.0 533.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2059,7 +2059,7 @@ original_script = "MOVETO | o_cts_hoopz | 160.0 533.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[sub_resource type="Resource" id="Resource_6ce7e"]
+[sub_resource type="Resource" id="Resource_5vmt5"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 352.0 532.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2076,7 +2076,7 @@ original_script = "MOVETO | o_cts_hoopz | 352.0 532.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[sub_resource type="Resource" id="Resource_q7mc5"]
+[sub_resource type="Resource" id="Resource_gvhvu"]
 script = ExtResource("72_bu2xj")
 original_script = "MOVETO | o_cts_hoopz | 160.0 133.0 | MOVE_NORMAL
 			WAIT   | 0
@@ -2093,17 +2093,10 @@ original_script = "MOVETO | o_cts_hoopz | 160.0 133.0 | MOVE_NORMAL
 			LOOK   | o_cts_hoopz | SOUTH
 			WAIT   | 0"
 
-[node name="r_bct_tower06" type="NavigationRegion2D" unique_id=483439911 node_paths=PackedStringArray("reference_layer", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
+[node name="r_bct_tower06" type="NavigationRegion2D" unique_id=483439911]
 y_sort_enabled = true
 navigation_polygon = SubResource("NavigationPolygon_vtb0t")
-script = ExtResource("1_5vmt5")
-reference_layer = [NodePath("layer 93"), NodePath("layer 92"), NodePath("layer 91"), NodePath("layer -1000000"), NodePath("layer - wading"), NodePath("layer - collision 2"), NodePath("layer - collision")]
-debug_create_player_scene_at_room_start = true
-debug_player_scene_pos = Vector2(200, 1000)
-load_debug_save_data = true
-collision_layer = NodePath("layer - collision")
-collision_layer_semi = NodePath("layer - collision 2")
-collision_layer_wade = NodePath("layer - wading")
+script = ExtResource("1_6ytf2")
 
 [node name="B2_TOOL_ROOM_CONVERTER" type="Node" parent="." unique_id=82188103]
 script = ExtResource("2_rfj8g")
@@ -2148,6 +2141,24 @@ tile_set = ExtResource("5_6ytf2")
 visible = false
 z_index = 100
 tile_set = ExtResource("8_v2crd")
+
+[node name="P6 - o_room_cdwarf" type="Marker2D" parent="." unique_id=996648002]
+position = Vector2(-120, 32)
+metadata/code = ""
+metadata/inst_name = "inst_F9F62F60"
+metadata/scale = Vector2(1, 1)
+
+[node name="P19 - o_room_bridge" type="Marker2D" parent="." unique_id=554380072]
+position = Vector2(-120, 64)
+metadata/code = ""
+metadata/inst_name = "inst_6A5F9E6B"
+metadata/scale = Vector2(1, 1)
+
+[node name="P8 - o_cdwarftube" type="Marker2D" parent="." unique_id=359765476]
+position = Vector2(245, 82)
+metadata/code = ""
+metadata/inst_name = "inst_FB82314F"
+metadata/scale = Vector2(1, 1)
 
 [node name="o_doorlight_right" parent="." unique_id=1922312185 instance=ExtResource("9_atp1q")]
 position = Vector2(496, 1008)
@@ -2614,12 +2625,6 @@ metadata/code = ""
 metadata/inst_name = "inst_7D3E96DB"
 metadata/scale = Vector2(1, 1)
 
-[node name="P8 - o_cdwarftube" type="Marker2D" parent="." unique_id=359765476]
-position = Vector2(245, 82)
-metadata/code = ""
-metadata/inst_name = "inst_FB82314F"
-metadata/scale = Vector2(1, 1)
-
 [node name="o_cdwarfMachine01" parent="." unique_id=1507732473 instance=ExtResource("18_tj5pv")]
 position = Vector2(278, 181)
 sprite_frames = SubResource("SpriteFrames_7ma2y")
@@ -2712,12 +2717,6 @@ position = Vector2(304, 664)
 cutscene_script = SubResource("Resource_8cay8")
 metadata/code = ""
 metadata/inst_name = "inst_B4CD110A"
-metadata/scale = Vector2(1, 1)
-
-[node name="P19 - o_room_bridge" type="Marker2D" parent="." unique_id=554380072]
-position = Vector2(-120, 64)
-metadata/code = ""
-metadata/inst_name = "inst_6A5F9E6B"
 metadata/scale = Vector2(1, 1)
 
 [node name="o_wiglaf_meet" parent="." unique_id=97225298 instance=ExtResource("72_p8qxo")]
@@ -2910,41 +2909,35 @@ metadata/code = ""
 metadata/inst_name = "inst_725D73F6"
 metadata/scale = Vector2(1, 1)
 
-[node name="P6 - o_room_cdwarf" type="Marker2D" parent="." unique_id=996648002]
-position = Vector2(-120, 32)
-metadata/code = ""
-metadata/inst_name = "inst_F9F62F60"
-metadata/scale = Vector2(1, 1)
-
 [node name="o_bct_warp_bsm_up" parent="." unique_id=1881378326 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(352, 1330)
 warp_destination = NodePath("../o_bct_warp_grd_down")
 stair_direction = 0
-cutscene_script = SubResource("Resource_bj1uh")
+cutscene_script = SubResource("Resource_6ytf2")
 
 [node name="o_bct_warp_grd_down" parent="." unique_id=356453132 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(160, 933)
 warp_destination = NodePath("../o_bct_warp_bsm_up")
-cutscene_script = SubResource("Resource_5vmt5")
+cutscene_script = SubResource("Resource_bhrgc")
 
 [node name="o_bct_warp_grd_up" parent="." unique_id=484790703 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(352, 932)
 warp_destination = NodePath("../o_bct_warp_1_down")
 stair_direction = 0
-cutscene_script = SubResource("Resource_gvhvu")
+cutscene_script = SubResource("Resource_rui2p")
 
 [node name="o_bct_warp_1_down" parent="." unique_id=191620138 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(160, 533)
 warp_destination = NodePath("../o_bct_warp_grd_up")
-cutscene_script = SubResource("Resource_176ka")
+cutscene_script = SubResource("Resource_bj1uh")
 
 [node name="o_bct_warp_1_up" parent="." unique_id=41737827 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(352, 532)
 warp_destination = NodePath("../o_bct_warp_2_down")
 stair_direction = 0
-cutscene_script = SubResource("Resource_6ce7e")
+cutscene_script = SubResource("Resource_5vmt5")
 
 [node name="o_bct_warp_2_down" parent="." unique_id=1111201679 node_paths=PackedStringArray("warp_destination") instance=ExtResource("71_kq31k")]
 position = Vector2(160, 133)
 warp_destination = NodePath("../o_bct_warp_1_up")
-cutscene_script = SubResource("Resource_q7mc5")
+cutscene_script = SubResource("Resource_gvhvu")
