@@ -1,8 +1,9 @@
 @tool
 extends Sprite2D
 
-var timer := 1.0
-var speed := 2.0
+var timer 	:= 1.0
+var speed 	:= 2.0
+var dir		:= Vector2.ZERO
 
 func _ready() -> void:
 	var t := create_tween()
@@ -10,4 +11,4 @@ func _ready() -> void:
 	t.tween_callback( queue_free )
 
 func _physics_process(_delta: float) -> void:
-	position.x += speed
+	position -= dir * speed

@@ -343,6 +343,7 @@ func _physics_process(delta: float) -> void:
 		return
 	_process_movement( delta )
 	
+## This only works for scripted movement, using path finding. Real ass enemies dont use this.
 func _process_movement( _delta : float ) -> void:
 	## NOTE 27/02/25 Copied this from the B2_Actor script, with small changes.
 		

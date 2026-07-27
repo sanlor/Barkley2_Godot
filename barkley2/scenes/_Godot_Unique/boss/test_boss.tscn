@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://2ic7axqc0rkb"]
 
 [ext_resource type="Script" uid="uid://d2vrkq1oq4okj" path="res://barkley2/resources/B2_Hierarchy/Combat/EnemyBoss.gd" id="1_kuqe2"]
+[ext_resource type="Script" uid="uid://cfxucydrvtfvi" path="res://barkley2/resources/B2_AI/ai_player.gd" id="2_44qf2"]
 [ext_resource type="Texture2D" uid="uid://caceqsm4iapro" path="res://barkley2/assets/b2_original/images/merged/s_catfish_blood.png" id="2_au5vn"]
 [ext_resource type="Script" uid="uid://c37s6nxxyegmw" path="res://barkley2/resources/B2_AI/ai_dummy.gd" id="2_bxrsd"]
 [ext_resource type="Material" uid="uid://lwbweh0b2aa0" path="res://barkley2/shaders/particles/catfish_small_blood.tres" id="3_bxrsd"]
@@ -37,15 +38,23 @@ particles_anim_loop = false
 [node name="test_boss" type="RigidBody2D" unique_id=1680766231 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 100.0
 gravity_scale = 0.0
+linear_damp = 4.0
 script = ExtResource("1_kuqe2")
+show_combat_debug_data = true
 cast_shadow = false
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
 ActorAnim = NodePath("ActorAnim")
 ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
-actor_ai = NodePath("B2_AI_Dummy")
+print_ai_changes = true
+actor_ai = NodePath("B2_AI_Player")
 metadata/_custom_type_script = "uid://d2vrkq1oq4okj"
+
+[node name="B2_AI_Player" type="Node2D" parent="." unique_id=275332004]
+script = ExtResource("2_44qf2")
+force_player_control = true
+metadata/_custom_type_script = "uid://cfxucydrvtfvi"
 
 [node name="B2_AI_Dummy" type="Node2D" parent="." unique_id=1907324525]
 script = ExtResource("2_bxrsd")
@@ -53,10 +62,9 @@ metadata/_custom_type_script = "uid://c37s6nxxyegmw"
 
 [node name="ActorAnim" type="AnimatedSprite2D" parent="." unique_id=1553484299]
 sprite_frames = ExtResource("3_xre7n")
-animation = &"spr_roaringknight_front_flourish"
-frame_progress = 0.8600807
+animation = &"spr_roaringknight_idle"
 centered = false
-offset = Vector2(-35, -41)
+offset = Vector2(-65, -82)
 script = ExtResource("14_bsl5j")
 animation_data = Dictionary[String, Vector2i]({
 "spr_roaringknight_attack_ol": Vector2i(58, 57),
@@ -76,8 +84,8 @@ animation_data = Dictionary[String, Vector2i]({
 wait_time = 0.15
 autostart = true
 script = ExtResource("5_xre7n")
-fade_timer = 2.0
-fade_speed = 1.0
+fade_timer = 0.75
+fade_speed = 1.5
 
 [node name="ActorCol" type="CollisionShape2D" parent="." unique_id=583651671]
 shape = SubResource("CircleShape2D_6gg6r")
