@@ -1,7 +1,7 @@
 @icon("res://barkley2/assets/b2_original/images/merged/icon_parent_3.png")
 extends B2_CombatActor
 class_name B2_EnemyCombatActor
-## Base class for all Combat enemies o_enemy_drone_egg
+## Base class for all combat enemies, like 'o_enemy_drone_egg'
 
 const O_SHADOW 						= preload("uid://c54kloot7bcu2")
 const O_EFFECT_EMOTEBUBBLE_EVENT 	= preload("res://barkley2/scenes/_event/Misc/o_effect_emotebubble_event.tscn")
@@ -24,7 +24,8 @@ signal enemy_was_damaged
 @export_category("Enemy stuff")
 #@export var my_nest					: Area2D
 @export var show_life_bar				:= true			## During the tutorial, some stuff dont really need it.
-@export var show_combat_debug_data		:= false
+@export var life_bar_offset				:= Vector2.ZERO ## Depending on the size of the enemy, the life bar may need to be offseted.
+@export var show_combat_debug_data		:= false		## Show some debug data on top of the enemy.
 @export var damage_player_on_contact	:= false
 
 @export_category("Actor Stuff")
@@ -144,9 +145,11 @@ func _setup_enemy() -> void:
 	if show_combat_debug_data:
 		add_child( COMBAT_DEBUG_DATA.instantiate(), true )
 	
-	## Duh.
+	## Duh. add the lifebar and set its offset
 	if show_life_bar:
-		add_child( ENEMY_STATS.instantiate(), true )
+		var stat := ENEMY_STATS.instantiate()
+		stat.position = life_bar_offset
+		add_child( stat, true )
 	
 	## Used for charging/dashing enemies
 	if not contact_monitor:

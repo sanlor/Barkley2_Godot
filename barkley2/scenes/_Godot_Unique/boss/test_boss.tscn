@@ -9,6 +9,10 @@
 [ext_resource type="Script" uid="uid://c6jcgil7eunbg" path="res://barkley2/scenes/_Godot_Unique/boss/trail_spawner.gd" id="5_xre7n"]
 [ext_resource type="Script" uid="uid://dvaegwkcitlua" path="res://barkley2/resources/B2_AnimatedSprite2D/animated_sprite.gd" id="14_bsl5j"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_44qf2"]
+bounce = 0.5
+absorbent = true
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_6gg6r"]
 radius = 5.0
 
@@ -37,9 +41,12 @@ particles_anim_loop = false
 
 [node name="test_boss" type="RigidBody2D" unique_id=1680766231 node_paths=PackedStringArray("ActorSmokeEmitter", "ActorAnim", "ActorAudioPlayer", "ActorNav", "ActorCol", "actor_ai")]
 mass = 100.0
+physics_material_override = SubResource("PhysicsMaterial_44qf2")
 gravity_scale = 0.0
+lock_rotation = true
 linear_damp = 4.0
 script = ExtResource("1_kuqe2")
+life_bar_offset = Vector2(0, 32)
 show_combat_debug_data = true
 cast_shadow = false
 ActorSmokeEmitter = NodePath("ActorSmokeEmitter")
@@ -48,7 +55,7 @@ ActorAudioPlayer = NodePath("ActorAudioPlayer")
 ActorNav = NodePath("ActorNav")
 ActorCol = NodePath("ActorCol")
 print_ai_changes = true
-actor_ai = NodePath("B2_AI_Player")
+actor_ai = NodePath("B2_AI_Dummy")
 metadata/_custom_type_script = "uid://d2vrkq1oq4okj"
 
 [node name="B2_AI_Player" type="Node2D" parent="." unique_id=275332004]

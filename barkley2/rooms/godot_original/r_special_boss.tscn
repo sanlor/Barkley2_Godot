@@ -1717,6 +1717,15 @@ animations = [{
 script = ExtResource("15_juyuv")
 metadata/_custom_type_script = "uid://bjvxvbk26rsxa"
 
+[sub_resource type="Gradient" id="Gradient_xl7in"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g4v7s"]
+gradient = SubResource("Gradient_xl7in")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 0)
+
 [node name="r_special_boss" type="NavigationRegion2D" unique_id=1442219680 node_paths=PackedStringArray("reference_layer", "teleport_node", "collision_layer", "collision_layer_semi", "collision_layer_wade")]
 navigation_polygon = SubResource("NavigationPolygon_6gg6r")
 script = ExtResource("1_gh6ey")
@@ -1784,6 +1793,11 @@ sprite_frames = SubResource("SpriteFrames_juyuv")
 [node name="test_boss" parent="." unique_id=1680766231 instance=ExtResource("14_ah0qm")]
 position = Vector2(539, 402)
 enemy_data = SubResource("Resource_vadmr")
+
+[node name="PointLight2D" type="PointLight2D" parent="test_boss" unique_id=1931561699]
+texture = SubResource("GradientTexture2D_g4v7s")
+offset = Vector2(0, -16)
+texture_scale = 1.5
 
 [node name="ceiling_lights" type="Node2D" parent="." unique_id=163565860]
 
