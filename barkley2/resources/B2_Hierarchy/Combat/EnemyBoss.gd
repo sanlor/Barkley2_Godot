@@ -7,6 +7,13 @@ class_name B2_EnemyBoss
 var time 			:= 0.0
 var sprite_wave 	:= 0.0
 
+func _ready() -> void:
+	# Anim test
+	cinema_playset("spr_roaringknight_front_flourish", "spr_roaringknight_front_roar")
+	await set_played
+	await get_tree().create_timer(3.0).timeout
+	cinema_playset("spr_roaringknight_front_slash", "spr_roaringknight_front_slash")
+
 func _before_death() -> void:
 	trail_spawner.queue_free()
 
@@ -25,6 +32,7 @@ func _look_at_player() -> void:
 
 func get_aim_origin() -> Vector2: return global_position
 
+# Bob the sprite up and down
 func _wave_sprite() -> void:
 	ActorAnim.offset.y = -ActorAnim.animation_data.get( ActorAnim.animation, Vector2(0,0) ).y + sprite_wave
 

@@ -273,24 +273,26 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed :=
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
 		ActorAnim.animation = _sprite_frame
-		#flip_sprite()
-		ActorAnim.sprite_frames.set_animation_loop( _sprite_frame, false )
+		ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame, SpriteFrames.LOOP_NONE )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
 		ActorAnim.play( _sprite_frame )
 		await ActorAnim.animation_finished # Play set and wait for the animation to finish
 	else:
-		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame + " not found" )
+		push_error( "Actor %s: cinema_playset() '%s' not found" % [name,_sprite_frame] )
+		is_playingset = false
 		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
 		set_played.emit() 						# Emit signals to avoid deadlocking the script.
 		
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame_2 ):
 		ActorAnim.stop()
 		ActorAnim.animation = _sprite_frame_2
-		#flip_sprite()
+		ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame_2, SpriteFrames.LOOP_LINEAR )
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, _speed )
+		ActorAnim.play( _sprite_frame_2 )
 		is_playingset = false
 		set_played.emit()
 	else:
-		push_error("Actor " + str(self) + ": cinema_playset() " + _sprite_frame_2 + " not found" )
+		push_error( "Actor %s: cinema_playset() '%s' not found" % [name,_sprite_frame_2] )
 		is_playingset = false
 		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
 		set_played.emit() 						# Emit signals to avoid deadlocking the script.
