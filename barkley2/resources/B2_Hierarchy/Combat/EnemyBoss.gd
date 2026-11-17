@@ -9,10 +9,14 @@ var sprite_wave 	:= 0.0
 
 func _ready() -> void:
 	# Anim test
-	cinema_playset("spr_roaringknight_front_flourish", "spr_roaringknight_front_roar")
-	await set_played
+	cinema_playset("spr_roaringknight_idle")
 	await get_tree().create_timer(3.0).timeout
-	cinema_playset("spr_roaringknight_front_slash", "spr_roaringknight_front_slash")
+	cinema_playset("spr_roaringknight_point_ol")
+	await get_tree().create_timer(3.0).timeout
+	cinema_playset("spr_roaringknight_point_ol", "", -10)
+	await get_tree().create_timer(3.0).timeout
+	cinema_playset("spr_roaringknight_front_slash", "spr_roaringknight_idle")
+	await set_played
 
 func _before_death() -> void:
 	trail_spawner.queue_free()

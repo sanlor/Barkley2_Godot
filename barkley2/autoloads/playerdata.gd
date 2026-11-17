@@ -233,6 +233,7 @@ func Quest(key : String, value = null, default = 0):
 		if _key_value == null:		return default
 		else:						return _key_value
 	else:
+		# if key == "hudVisible": print_rich("[color=red]%s set to %s" % [key,value]) ## DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG
 		B2_Config.set_user_save_data(questpath, value)
 		B2_SignalBus.quest_updated.emit()
 		return true

@@ -100,7 +100,9 @@ func _hide_all_menus() -> void:
 	if is_quickmenu_open: 	hide_quickmenu_screen()
 
 func show_hud( instant := false ) -> void:
-	if B2_Playerdata.Quest("hudVisible") == 0: return
+	if B2_Playerdata.Quest("hudVisible") == 0:
+		push_warning("Tried to 'show_hud' while quest var 'hudVisible' is set to false.")
+		return
 	if not is_node_ready(): push_warning("'o_hud' not ready yet"); await ready
 	await get_tree().process_frame
 	o_hud.show_hud(instant)

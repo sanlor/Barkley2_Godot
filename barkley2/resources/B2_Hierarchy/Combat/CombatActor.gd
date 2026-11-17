@@ -269,33 +269,50 @@ func cinema_moveto( _target_spot : Vector2, _speed : String ) -> void:
 		movement_vector 		= real_movement_vector.round()
 		ActorCol.call_deferred("set_disabled", true) # Disable collision while moving
 
-func cinema_playset( _sprite_frame : String, _sprite_frame_2 : String, _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
+func cinema_playset( _sprite_frame : String, _sprite_frame_2 := "", _speed := 10.0, _dis_flip := false ): ## NOTE Not sure how to deal with this?
 	if ActorAnim.sprite_frames.has_animation( _sprite_frame ):
 		is_playingset = true
+		ActorAnim.stop()
 		ActorAnim.animation = _sprite_frame
 		ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame, SpriteFrames.LOOP_NONE )
-		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, _speed )
-		ActorAnim.play( _sprite_frame )
-		await ActorAnim.animation_finished # Play set and wait for the animation to finish
+		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, abs(_speed) )
+		if _speed > 0:		ActorAnim.play( _sprite_frame )
+		if _speed < 0:		ActorAnim.play_backwards( _sprite_frame )
+		else:
+			push_error("%s: animations speed set to 0. Fix this! Using default speed." % name)
+			ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 10 )
+			ActorAnim.play( _sprite_frame )
+			
+		await ActorAnim.animation_finished 				# Play set and wait for the animation to finish
+		if _sprite_frame_2.is_empty():					# If only one animation is set, play only one.
+			set_played.emit() 							# Emit signals to avoid deadlocking the script.
+			return
 	else:
 		push_error( "Actor %s: cinema_playset() '%s' not found" % [name,_sprite_frame] )
 		is_playingset = false
 		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
 		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+		return
 		
-	if ActorAnim.sprite_frames.has_animation( _sprite_frame_2 ):
-		ActorAnim.stop()
-		ActorAnim.animation = _sprite_frame_2
-		ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame_2, SpriteFrames.LOOP_LINEAR )
-		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, _speed )
-		ActorAnim.play( _sprite_frame_2 )
-		is_playingset = false
-		set_played.emit()
-	else:
-		push_error( "Actor %s: cinema_playset() '%s' not found" % [name,_sprite_frame_2] )
-		is_playingset = false
-		ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
-		set_played.emit() 						# Emit signals to avoid deadlocking the script.
+	if not _sprite_frame_2.is_empty():			# Cool, a second animation is set.
+		if ActorAnim.sprite_frames.has_animation( _sprite_frame_2 ):
+			ActorAnim.stop()
+			ActorAnim.animation = _sprite_frame_2
+			ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame_2, SpriteFrames.LOOP_LINEAR )
+			ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, abs(_speed) )
+			if _speed > 0:		ActorAnim.play( _sprite_frame_2 )
+			if _speed < 0:		ActorAnim.play_backwards( _sprite_frame_2 )
+			else:
+				push_error("%s: animations speed set to 0. Fix this! Using default speed." % name)
+				ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, 10 )
+				ActorAnim.play( _sprite_frame_2 )
+			is_playingset = false
+			set_played.emit()
+		else:
+			push_error( "Actor %s: cinema_playset() '%s' not found" % [name,_sprite_frame_2] )
+			is_playingset = false
+			ActorAnim.animation_finished.emit() 	# Emit signals to avoid deadlocking the script.
+			set_played.emit() 						# Emit signals to avoid deadlocking the script.
 	return
 
 ## Function checks if the node is doing anything

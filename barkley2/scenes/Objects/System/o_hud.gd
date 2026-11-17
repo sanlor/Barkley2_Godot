@@ -114,8 +114,10 @@ func get_combat_module() -> B2_HudCombat:
 func _change_visibility() -> void:
 	if B2_Playerdata.Quest("hudVisible") == 0:
 		is_hud_visible = false
+		hide_hud()
 	else:
 		is_hud_visible = true
+		show_hud()
 	
 func show_hud( instant := false ) -> void:
 	if B2_Playerdata.Quest("hudVisible") == 1:
@@ -131,7 +133,8 @@ func show_hud( instant := false ) -> void:
 		tween.tween_property( hud_bar, "position:y", SHOWN_Y, _hud_speed )
 		tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit )
 		tween.tween_callback( event_finished.emit )
-		if debug_messages: print("o_hud: show_hud()")
+		#if debug_messages: print("o_hud: show_hud() called by %s" % str( get_stack() ) )
+		if debug_messages: print("o_hud: show_hud()" )
 	else:
 		if debug_messages: print("o_hud: tried to 'show_hud()', but quest var 'hudVisible' is set to false.")
 	
@@ -146,6 +149,7 @@ func hide_hud( instant := false ) -> void:
 	tween.tween_property( hud_bar, "position:y", HIDDEN_Y, _hud_speed )
 	tween.tween_callback( B2_SignalBus.hud_visibility_changed.emit ) # event_finished.emit
 	tween.tween_callback( event_finished.emit )
+	#if debug_messages: print("o_hud: hide_hud() called by %s" % str( get_stack() ) )
 	if debug_messages: print("o_hud: hide_hud()")
 
 func fade_in( element ) -> void:

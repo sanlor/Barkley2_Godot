@@ -5,6 +5,7 @@ class_name B2_ROOMS
 
 ## WARNING Pathfinding sucks. it has many issues related to the starting and finish positions.
 ## Maybe improve AstarGrid2D resolution?
+## Astar solutions were dropped ages ago...
 
 const FOG_SHADER 				:= preload("uid://d4gjnvy7l6fkf")
 const RAIN_SHADER 				:= preload("uid://be0suyhkic6u8")
@@ -20,10 +21,6 @@ const COLLISION_TILESET 			:= preload("uid://n70843ohvm84")	## Solid
 
 @export var populate_reference_layer 	:= true 			## Automatically try to populate "reference_layer" with TileMapLayers
 @export var reference_layer : Array[TileMapLayer]
-@onready var astar : AStarGrid2D ## DEPRECATED
-
-var astar_solid_tiles := Array() # used for debug
-var astar_valid_tiles := Array() # used for debug
 
 @export_category("DEBUG")
 @export var debug_create_player_scene_at_room_start 		:= false		## create player if you run this scene independetly
@@ -42,10 +39,10 @@ var astar_valid_tiles := Array() # used for debug
 @export var collision_layer_semi 	: TileMapLayer	## The tilemap that handles colision for somethings (like actors, but not for bullets)
 @export var collision_layer_wade 	: TileMapLayer	## The tilemap that handles colision for water (casing and bullets falling in the water)
 @export var collision_layer_abyss 	: TileMapLayer	## The tilemap that handles colision for bottomless pits (casing and bullets disappear)
-var collision_array 				: Array[TileMapLayer] = []
+var collision_array 				: Array[TileMapLayer] = [] ## Array of collision layers, mostly used to "guess" the map size.
 
 @export_category("Enemies Spawner")
-@export var spawn_enemies				:= true
+@export var spawn_enemies				:= true		## Can enemies spawn?
 
 @export_category("Room Options")
 @export var enable_hud					:= true		## Allow the hud to show up
@@ -60,6 +57,7 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var camera_bound_to_map			:= false 	## Camera cannot see outside the map.
 @export var force_map_rect				:= Rect2()	## Force a map rect, useful for non standard maps with 'camera_bound_to_map' set to true.
 
+## NOTE This is very limited. Used for simple dark rooms. For a more complex beraviour, use a canvas modulate node.
 @export_category("Room light")
 @export var is_this_room_dark			:= false	## Adds a canvas modulate to the scene, to simulate a dark room
 @export var room_darkness_color			:= Color(0.5, 0.5, 0.5, 1.0)
@@ -70,27 +68,23 @@ var collision_array 				: Array[TileMapLayer] = []
 @export var cell_size					:= 01.0
 
 @export_category("Cinematics")
-@export var player_can_pause			:= true		## Player can pause in this room
-@export var play_cinema_at_room_start 	:= true		## Play some cutscene when the player loads this room.
+@export var player_can_pause			:= true					## Player can pause in this room
+@export var play_cinema_at_room_start 	:= true					## Play some cutscene when the player loads this room.
 #@export var swap_with_hoopz_actor		:= true ## Temporarely remove o_hoopz and replace it with o_cts_hoopz
-@export var cutscene_script 			: B2_Script ## Used for cutscenes and dialog.
-@export var cutscene_script2 			: B2_Script ## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
+@export var cutscene_script 			: B2_Script 			## Used for cutscenes and dialog.
+@export var cutscene_script2 			: B2_Script 			## Used for cutscenes and dialog. ## NOTE This is only used for 2 or 3 objects on the whole game.
 @export var cutscene_script_mask		: Array[B2_Script_Mask] ## Mask allows you to replace variables in the B2_Script
 
 @export_category("Weather")
-@export var esoteric_rain_conditions 	:= true ## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
-@export var weather_rain 				:= false
-@export var weather_fog 				:= false
-@export var weather_snow 				:= false
+@export var esoteric_rain_conditions 	:= true		## Check o_effect_rain create event. Uses a bunch of time related conditions to activate rain.
+@export var weather_rain 				:= false	## Enable Rain effect.
+@export var weather_fog 				:= false	## Guess.
+@export var weather_snow 				:= false	## Guess again.
 
-var astar_pos_offset := Vector2i(8,8)
-
+## The room's generated camera. No idea why its a global var.
 var b2_camera : B2_Camera_Hoopz
 
-var obstacles 			:= []
-
 var room_size := Vector2.ZERO
-var hud_node
 
 var map_rect := Rect2() ## Map boundaries. Used by the pathfinding and camera limits.
 
@@ -279,9 +273,6 @@ func _after_ready() -> void:
 			B2_RoomXY.room_reference = self
 			
 	if enable_hud:
-		#hud_node = O_HUD.instantiate()
-		#add_child( hud_node, true )
-		#hud_node.call_deferred( "show_hud" )
 		B2_Screen.show_hud()
 		
 	## Check if player can attack
@@ -332,7 +323,11 @@ func _setup_player_node():
 		
 	add_child( player )
 	if load_debug_save_data: 
-		if B2_Config.select_user_slot(100): B2_Playerdata.preload_skip_tutorial_save_data(); B2_Config.set_user_save_data("player.shekels", 420)
+		if B2_Config.select_user_slot(100): 
+			B2_Playerdata.preload_skip_tutorial_save_data(); 
+			B2_Config.set_user_save_data("player.shekels", 420)
+			B2_Playerdata.Quest("hudVisible", 			1);
+			B2_Playerdata.Quest("zoneVisible", 			1);
 	return player
 	
 func _setup_camera( player ):

@@ -338,7 +338,7 @@ func play_local_sound( sound_name : String ) -> void:
 			ActorAudioPlayer.max_distance 	= 300.0
 			ActorAudioPlayer.play()
 		else:
-			push_warning("Invalid sound name: ", sound_name, " - ", sfx, ".")
+			push_warning("Invalid sound name for actor %s: %s - %s." % [name,sound_name,sfx])
 	else:
 		push_error("ActorAudioPlayer for actor %s not setup, dumbass." % name)
 		
