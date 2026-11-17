@@ -277,7 +277,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 := "", _speed := 10
 		ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame, SpriteFrames.LOOP_NONE )
 		ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, abs(_speed) )
 		if _speed > 0:		ActorAnim.play( _sprite_frame )
-		if _speed < 0:		ActorAnim.play_backwards( _sprite_frame )
+		elif _speed < 0:		ActorAnim.play_backwards( _sprite_frame )
 		else:
 			push_error("%s: animations speed set to 0. Fix this! Using default speed." % name)
 			ActorAnim.sprite_frames.set_animation_speed( _sprite_frame, 10 )
@@ -301,7 +301,7 @@ func cinema_playset( _sprite_frame : String, _sprite_frame_2 := "", _speed := 10
 			ActorAnim.sprite_frames.set_animation_loop_mode( _sprite_frame_2, SpriteFrames.LOOP_LINEAR )
 			ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, abs(_speed) )
 			if _speed > 0:		ActorAnim.play( _sprite_frame_2 )
-			if _speed < 0:		ActorAnim.play_backwards( _sprite_frame_2 )
+			elif _speed < 0:		ActorAnim.play_backwards( _sprite_frame_2 )
 			else:
 				push_error("%s: animations speed set to 0. Fix this! Using default speed." % name)
 				ActorAnim.sprite_frames.set_animation_speed( _sprite_frame_2, 10 )
